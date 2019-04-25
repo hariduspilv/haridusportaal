@@ -41,12 +41,11 @@ The simplest configuration that allows Monolog to log to a rotating file might b
 parameters:
   monolog.channel_handlers:
     default: ['rotating_file']
-  monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer']
 
 services:
   monolog.handler.rotating_file:
     class: Monolog\Handler\RotatingFileHandler
-    arguments: ['private://logs/debug.log', 10, 'monolog.level.debug']
+    arguments: ['private://logs/debug.log', 10, '%monolog.level.debug%']
 ```
 
 This configuration will log every message with a log level greater (or equal) than *debug* to a file called
@@ -75,15 +74,14 @@ parameters:
   monolog.channel_handlers:
     php: ['rotating_file_php']
     default: ['rotating_file_all']
-  monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer']
 
 services:
   monolog.handler.rotating_file_php:
     class: Monolog\Handler\RotatingFileHandler
-    arguments: ['private://logs/php.log', 10, 'monolog.level.debug']
+    arguments: ['private://logs/php.log', 10, '%monolog.level.debug%']
   monolog.handler.rotating_file_all:
     class: Monolog\Handler\RotatingFileHandler
-    arguments: ['private://logs/debug.log', 10, 'monolog.level.debug']
+    arguments: ['private://logs/debug.log', 10, '%monolog.level.debug%']
 ```
 
 The following method:
@@ -103,11 +101,26 @@ of already defined processors to add information like the current user, the requ
 Processors are defined as services under the *monolog.processor.* namespace.
 We suggest you to use the [Devel module](https://www.drupal.org/project/devel) or [Drupal Console](https://drupalconsole.com) to find all of them.
 
+To edit the list of used processors you need to override the *monolog.processors* parameter in
+`sites/default/monolog.services.yml` and set the ones you need:
+
+```
+parameters:
+  monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer', 'filter_backtrace']
+```
+
+
 Log to database
 --------
 
 The Monolog module automatically register an handler for every enabled Drupal logger. To log to the standard
-watchdog table it is possible to enable the Database Logging module and use *drupal.dblog* as handler.
+watchdog table it is possible to enable the Database Logging module and use *drupal.dblog* as handler:
+
+```
+parameters:
+  monolog.channel_handlers:
+    default: ['drupal.dblog']
+```
 
 Examples
 --------
@@ -116,14 +129,22 @@ Examples
 ```
   monolog.handler.rotating_file_debug:
     class: Monolog\Handler\RotatingFileHandler
-    arguments: ['public://logs/debug.log', 10, 'monolog.level.debug']
+    arguments: ['public://logs/debug.log', 10, '%monolog.level.debug%']
 ```
 
 * SlackHandler: logs to a Slack channel
 ```
   monolog.handler.slack:
     class: Monolog\Handler\SlackHandler
-    arguments: ['slack-token', 'monolog', 'Drupal', true, null, 'monolog.level.error']
+    arguments: ['slack-token', 'monolog', 'Drupal', true, null, '%monolog.level.error%']
+```
+
+* DrupalMailHandler: sends log by mail (use this instead of the Monolog SwiftMailerHandler)
+```
+  monolog.handler.mail:
+    class: Drupal\monolog\Logger\Handler\DrupalMailHandler
+    arguments: ['mail@example.com', 'monolog.level.debug']
+
 ```
 
 * [FingersCrossedHandler](https://github.com/Seldaek/monolog/blob/master/doc/02-handlers-formatters-processors.md#wrappers--special-handlers)

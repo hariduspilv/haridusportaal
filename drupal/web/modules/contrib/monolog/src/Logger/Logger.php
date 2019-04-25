@@ -2,8 +2,12 @@
 
 namespace Drupal\monolog\Logger;
 
+use Drupal\Core\Logger\LoggerChannelInterface;
 use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\Core\Session\AccountInterface;
 use Monolog\Logger as BaseLogger;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
  * Logger class for the Drupal Monolog module.
@@ -13,7 +17,7 @@ use Monolog\Logger as BaseLogger;
  * the Monolog library and how the watchdog type relates to the logging
  * facility.
  */
-class Logger extends BaseLogger {
+class Logger extends BaseLogger implements LoggerChannelInterface {
 
   /**
    * Map of RFC 5424 log constants to Monolog log constants.
@@ -31,6 +35,9 @@ class Logger extends BaseLogger {
     RfcLogLevel::DEBUG => MonologLogLevel::DEBUG,
   );
 
+  /**
+   * {@inheritdoc}
+   */
   public function addRecord($level, $message, array $context = array()) {
     if (array_key_exists($level, $this->levelTranslation)) {
       $level = $this->levelTranslation[$level];
@@ -38,4 +45,33 @@ class Logger extends BaseLogger {
 
     parent::addRecord($level, $message, $context);
   }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setRequestStack(RequestStack $requestStack = NULL) {
+    // Do nothing, use a handler for this.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setCurrentUser(AccountInterface $current_user = NULL) {
+    // Do nothing, use a handler for this.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setLoggers(array $loggers) {
+    // Do nothing.
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function addLogger(LoggerInterface $logger, $priority = 0) {
+    // Do nothing.
+  }
+
 }

@@ -34,6 +34,12 @@ class MessagePlaceholderProcessor {
     $message_placeholders = $this->parser->parseMessagePlaceholders($record['message'], $record['context']);
     $record['message'] = empty($message_placeholders) ? $record['message'] : strtr($record['message'], $message_placeholders);
 
+    // Remove the replaced placeholders from the context to prevent logging the
+    // same information twice.
+    foreach (array_keys($message_placeholders) as $placeholder) {
+      unset($record['context'][$placeholder]);
+    }
+
     return $record;
   }
 

@@ -6,7 +6,7 @@ parameters:
     # Log php channel to web server's error log.
     php: ['error_log']
   # Enabled processors.
-  monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer']
+  monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer', 'filter_backtrace']
   # Logger levels.
   monolog.level.emergency: '600'
   monolog.level.alert: '550'
@@ -49,6 +49,9 @@ services:
   monolog.processor.message_placeholder:
     class: Drupal\monolog\Logger\Processor\MessagePlaceholderProcessor
     arguments: ['@logger.log_message_parser']
+  monolog.processor.filter_backtrace:
+    class: Drupal\monolog\Logger\Processor\ContextKeyFilterProcessor
+    arguments: [['backtrace']]
   monolog.processor.git:
     class: Monolog\Processor\GitProcessor
   monolog.processor.introspection:

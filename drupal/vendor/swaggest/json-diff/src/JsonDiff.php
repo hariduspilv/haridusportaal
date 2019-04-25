@@ -35,6 +35,17 @@ class JsonDiff
      */
     const SKIP_JSON_MERGE_PATCH = 16;
 
+    /**
+     * TOLERATE_ASSOCIATIVE_ARRAYS is an option to allow associative arrays to mimic JSON objects (not recommended)
+     */
+    const TOLERATE_ASSOCIATIVE_ARRAYS = 32;
+
+    /**
+     * COLLECT_MODIFIED_DIFF is an option to enable getModifiedDiff.
+     */
+    const COLLECT_MODIFIED_DIFF = 64;
+
+
     private $options = 0;
     private $original;
     private $new;
@@ -56,6 +67,10 @@ class JsonDiff
     private $modifiedNew;
     private $modifiedCnt = 0;
     private $modifiedPaths = array();
+    /**
+     * @var ModifiedPathDiff[]
+     */
+    private $modifiedDiff = array();
 
     private $path = '';
     private $pathItems = array();
@@ -191,6 +206,15 @@ class JsonDiff
     }
 
     /**
+     * Returns list of paths with original and new values.
+     * @return ModifiedPathDiff[]
+     */
+    public function getModifiedDiff()
+    {
+        return $this->modifiedDiff;
+    }
+
+    /**
      * Returns new value, rearranged with original order.
      * @return array|object
      */
@@ -236,6 +260,16 @@ class JsonDiff
     {
         $merge = !($this->options & self::SKIP_JSON_MERGE_PATCH);
 
+        if ($this->options & self::TOLERATE_ASSOCIATIVE_ARRAYS) {
+            if (is_array($original) && !empty($original) && !array_key_exists(0, $original)) {
+                $original = (object)$original;
+            }
+
+            if (is_array($new) && !empty($new) && !array_key_exists(0, $new)) {
+                $new = (object)$new;
+            }
+        }
+
         if (
             (!$original instanceof \stdClass && !is_array($original))
             || (!$new instanceof \stdClass && !is_array($new))
@@ -258,6 +292,10 @@ class JsonDiff
                 if ($merge) {
                     JsonPointer::add($this->merge, $this->pathItems, $new, JsonPointer::RECURSIVE_KEY_CREATION);
                 }
+
+                if ($this->options & self::COLLECT_MODIFIED_DIFF) {
+                    $this->modifiedDiff[] = new ModifiedPathDiff($this->path, $original, $new);
+                }
             }
             return $new;
         }
@@ -279,7 +317,7 @@ class JsonDiff
         if ($merge && is_array($new) && !is_array($original)) {
             $merge = false;
             JsonPointer::add($this->merge, $this->pathItems, $new);
-        } elseif ($merge  && $new instanceof \stdClass && !$original instanceof \stdClass) {
+        } elseif ($merge && $new instanceof \stdClass && !$original instanceof \stdClass) {
             $merge = false;
             JsonPointer::add($this->merge, $this->pathItems, $new);
         }

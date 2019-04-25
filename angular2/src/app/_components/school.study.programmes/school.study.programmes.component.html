@@ -1,5 +1,4 @@
-<mat-spinner *ngIf="loading" diameter="100" style="margin:0 auto;"></mat-spinner>
-<div *ngIf="!loading && programmes.length > 0" class="block snackBar" id="school-study-programmes">
+<div *ngIf="programmes && programmes.length > 0" class="block snackBar" id="school-study-programmes">
   <div class="block-title">{{'studyProgramme.label' | translate}}</div>
   <div *ngFor="let programme of programmes;let first = first;let last = last;" [class.sm-top]="first" [class.lg-bottom]="last" class="programme">
     <div class="programme-header">
@@ -23,3 +22,8 @@
     </div>
   </div>
 </div>
+
+<mat-spinner *ngIf="loading" diameter="40" style="margin:0 auto;"></mat-spinner>
+<div class="button-wrapper">
+  <button mat-raised-button color="primary" (click)="getData()"  *ngIf="!listEnd && !loading">{{ 'button.load_more' | translate }}</button>
+</div><!--/button-wrapper-->

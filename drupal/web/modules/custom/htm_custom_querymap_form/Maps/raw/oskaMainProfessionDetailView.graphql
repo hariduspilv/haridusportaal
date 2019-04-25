@@ -32,7 +32,7 @@ query oskaMainProfessionDetailView($path: String!) {
           }
           fieldIntroduction
           fieldMainProfessionPicture {
-            derivative(style: CROP_LARGE) {
+            derivative(style: CROPLARGE) {
               url
               __typename
             }

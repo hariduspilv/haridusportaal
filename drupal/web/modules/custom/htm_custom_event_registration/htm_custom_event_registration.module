@@ -87,7 +87,7 @@ function htm_custom_event_registration_entity_insert(Drupal\Core\Entity\EntityIn
 		// Now send to organizer aswell
 		$to = NULL;
 		if($translated_reference_event->field_entry_type->value === 'register'){
-			$to = $translated_reference_event->field_registration_date->entity->field_registration_notification_->value;
+			$to = $translated_reference_event->field_registration_date->entity->field_notification_email->value;
 		}
 		if($to){
 			$params['subject'] = $config->get('emails.email_event_registration.organizer_email_subject');
@@ -155,7 +155,7 @@ function _get_event_dates($event){
 	#dump($event);
 	$last_event_date = 0;
 	$first_event_date = strtotime('now');
-	foreach($event->field_event_date as $event_date){
+	foreach($event->field_event_date->getValue() as $event_date){
 		$unix_event_date = strtotime($event_date->entity->field_event_date->value);
 		$last_event_date = ($unix_event_date >= $last_event_date)
 			? $unix_event_date

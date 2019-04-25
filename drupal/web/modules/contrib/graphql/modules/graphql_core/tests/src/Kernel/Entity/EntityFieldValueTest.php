@@ -66,12 +66,6 @@ GQL;
 
     $metadata = $this->defaultCacheMetaData();
 
-
-    $metadata->addCacheTags([
-      'config:field.storage.node.field_boolean',
-      'entity_field_info',
-    ]);
-
     $this->assertResults($query, [], [
       'node' => [
         'fieldBoolean' => TRUE,
@@ -91,10 +85,10 @@ GQL;
     ]);
 
     $this->assertGraphQLFields([
-      ['NodeTest', 'fieldText', 'FieldNodeFieldText'],
-      ['FieldNodeFieldText', 'value', 'String'],
-      ['FieldNodeFieldText', 'processed', 'String'],
-      ['FieldNodeFieldText', 'format', 'String'],
+      ['NodeTest', 'fieldText', 'FieldNodeTestFieldText'],
+      ['FieldNodeTestFieldText', 'value', 'String'],
+      ['FieldNodeTestFieldText', 'processed', 'String'],
+      ['FieldNodeTestFieldText', 'format', 'String'],
     ]);
 
     $query = <<<GQL
@@ -110,10 +104,6 @@ query {
 GQL;
 
     $metadata = $this->defaultCacheMetaData();
-    $metadata->addCacheTags([
-      'config:field.storage.node.field_text',
-      'entity_field_info',
-    ]);
 
     $this->assertResults($query, [], [
       'node' => [
@@ -139,12 +129,12 @@ GQL;
     ]);
 
     $this->assertGraphQLFields([
-      ['NodeTest', 'body', 'FieldNodeBody'],
-      ['FieldNodeBody', 'format', 'String'],
-      ['FieldNodeBody', 'value', 'String'],
-      ['FieldNodeBody', 'processed', 'String'],
-      ['FieldNodeBody', 'summary', 'String'],
-      ['FieldNodeBody', 'summaryProcessed', 'String'],
+      ['NodeTest', 'body', 'FieldNodeTestBody'],
+      ['FieldNodeTestBody', 'format', 'String'],
+      ['FieldNodeTestBody', 'value', 'String'],
+      ['FieldNodeTestBody', 'processed', 'String'],
+      ['FieldNodeTestBody', 'summary', 'String'],
+      ['FieldNodeTestBody', 'summaryProcessed', 'String'],
     ]);
 
     $query = <<<GQL
@@ -161,10 +151,6 @@ query {
 GQL;
 
     $metadata = $this->defaultCacheMetaData();
-    $metadata->addCacheTags([
-      'config:field.storage.node.body',
-      'entity_field_info',
-    ]);
 
     $this->assertResults($query, [], [
       'node' => [
@@ -253,22 +239,8 @@ GQL;
 
     $metadata = $this->defaultCacheMetaData();
     $metadata->addCacheTags([
-      'config:field.storage.node.body',
-      'config:field.storage.node.field_text',
-      'config:field.storage.node.field_boolean',
-      'config:field.storage.node.field_datetime',
-      'config:field.storage.node.field_decimal',
-      'config:field.storage.node.field_email',
-      'config:field.storage.node.field_float',
-      'config:field.storage.node.field_file',
-      'config:field.storage.node.field_image',
-      'config:field.storage.node.field_integer',
-      'config:field.storage.node.field_link',
-      'config:field.storage.node.field_string',
-      'config:field.storage.node.field_timestamp',
-      'config:field.storage.node.field_reference',
-      'entity_field_info',
       'node:1',
+      'user:0',
       'file:1',
       'file:2',
     ]);
@@ -355,7 +327,9 @@ GQL;
       ],
       'uid' => [
         'targetId' => 0,
-        'entity' => NULL,
+        'entity' => [
+          'name' => '',
+        ],
       ],
       'title' => 'Test',
       'status' => TRUE,
