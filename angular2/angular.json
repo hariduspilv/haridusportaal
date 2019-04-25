@@ -33,6 +33,7 @@
             ]
           },
           "configurations": {
+            "prelive": {},
             "production": {
               "optimization": true,
               "outputHashing": "all",
