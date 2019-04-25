@@ -97,6 +97,8 @@ class EntityReferenceQueryDeriver extends DeriverBase implements ContainerDerive
         }
         else {
           $parents = [];
+          dump($entityTypeId);
+          dump($fieldName);
           foreach ($fieldMap[$entityTypeId][$fieldName]['bundles'] as $bundle) {
             $parents[] = StringHelper::camelCase($entityTypeId . '_' . $bundle);
           }
