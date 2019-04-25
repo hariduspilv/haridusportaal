@@ -21,11 +21,11 @@ class Formatter extends BaseGenerator {
    * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
-    $questions = Utils::defaultPluginQuestions();
+    $questions = Utils::moduleQuestions();
+    $questions += Utils::pluginQuestions('Formatter');
     $questions['configurable'] = new ConfirmationQuestion('Make the formatter configurable?', FALSE);
 
-    $vars = &$this->collectVars($input, $output, $questions);
-    $vars['class'] = Utils::camelize($vars['plugin_label']) . 'Formatter';
+    $vars = $this->collectVars($input, $output, $questions);
 
     $this->addFile()
       ->path('src/Plugin/Field/FieldFormatter/{class}.php')

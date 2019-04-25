@@ -21,10 +21,10 @@ class RestResource extends BaseGenerator {
    * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
-    $questions = Utils::defaultPluginQuestions();
+    $questions = Utils::moduleQuestions();
+    $questions += Utils::pluginQuestions('Resource');
 
-    $vars = &$this->collectVars($input, $output, $questions);
-    $vars['class'] = Utils::camelize($vars['plugin_label']) . 'Resource';
+    $this->collectVars($input, $output, $questions);
 
     $this->addFile()
       ->path('src/Plugin/rest/resource/{class}.php')

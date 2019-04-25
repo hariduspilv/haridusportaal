@@ -21,13 +21,13 @@ class Type extends BaseGenerator {
    * {@inheritdoc}
    */
   protected function interact(InputInterface $input, OutputInterface $output) {
-    $questions = Utils::defaultPluginQuestions();
+    $questions = Utils::moduleQuestions();
+    $questions += Utils::pluginQuestions('Item');
 
     $questions['configurable_storage'] = new ConfirmationQuestion('Make the field storage configurable?', FALSE);
     $questions['configurable_instance'] = new ConfirmationQuestion('Make the field instance configurable?', FALSE);
 
-    $vars = &$this->collectVars($input, $output, $questions);
-    $vars['class'] = Utils::camelize($vars['plugin_label']) . 'Item';
+    $this->collectVars($input, $output, $questions);
 
     $this->addFile()
       ->path('src/Plugin/Field/FieldType/{class}.php')

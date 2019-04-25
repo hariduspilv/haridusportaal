@@ -62,6 +62,8 @@ Available options:
  * `JSON_URI_FRAGMENT_ID` is an option to use URI Fragment Identifier Representation (example: "#/c%25d"). If not set default JSON String Representation (example: "/c%d").
  * `SKIP_JSON_PATCH` is an option to improve performance by not building JsonPatch for this diff.
  * `SKIP_JSON_MERGE_PATCH` is an option to improve performance by not building JSON Merge Patch value for this diff.
+ * `TOLERATE_ASSOCIATIVE_ARRAYS` is an option to allow associative arrays to mimic JSON objects (not recommended).
+ * `COLLECT_MODIFIED_DIFF` is an option to enable [getModifiedDiff](#getmodifieddiff).
 
 Options can be combined, e.g. `JsonDiff::REARRANGE_ARRAYS + JsonDiff::STOP_ON_DIFF`.
 
@@ -100,6 +102,11 @@ Returns modifications as partial value of original.
 #### `getModifiedNew`
 Returns modifications as partial value of new.
 
+#### `getModifiedDiff`
+Returns list of [`ModifiedPathDiff`](src/ModifiedPathDiff.php) containing paths with original and new values.
+
+Not collected by default, requires `JsonDiff::COLLECT_MODIFIED_DIFF` option.
+
 #### `getModifiedPaths`
 Returns list of `JSON` paths that were modified from original to new.
 
@@ -123,9 +130,10 @@ Applies patch to `JSON`-decoded data.
 #### `setFlags`
 Alters default behavior.
 
-Available flag:
+Available flags:
 
 * `JsonPatch::STRICT_MODE` Disallow converting empty array to object for key creation.
+* `JsonPatch::TOLERATE_ASSOCIATIVE_ARRAYS` Allow associative arrays to mimic JSON objects (not recommended).
 
 ### `JsonPointer`
 
@@ -230,6 +238,12 @@ $patch = JsonPatch::import(json_decode($patchJson));
 $patch->apply($original);
 $this->assertEquals($diff->getRearranged(), $original);
 ```
+
+## PHP Classes as JSON objects
+
+Due to magical methods and other restrictions PHP classes can not be reliably mapped to/from JSON objects.
+There is support for objects of PHP classes in `JsonPointer` with limitations:
+* `null` is equal to non-existent
 
 ## CLI tool
 

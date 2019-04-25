@@ -3,14 +3,14 @@
 namespace Drupal\monolog\Logger\Handler;
 
 use Drupal\Core\Logger\RfcLogLevel;
-use Monolog\Handler\AbstractHandler;
+use Monolog\Handler\AbstractProcessingHandler;
 use Monolog\Logger;
 use Psr\Log\LoggerInterface;
 
 /**
  * Forwards logs to a Drupal logger.
  */
-class DrupalHandler extends AbstractHandler {
+class DrupalHandler extends AbstractProcessingHandler {
 
   private $logger;
 
@@ -41,7 +41,7 @@ class DrupalHandler extends AbstractHandler {
   /**
    * {@inheritdoc}
    */
-  public function handle(array $record) {
+  public function write(array $record) {
     // Set up context with the data Drupal loggers expect.
     // @see Drupal\Core\Logger\LoggerChannel::log()
     $context = $record['context'] + [
