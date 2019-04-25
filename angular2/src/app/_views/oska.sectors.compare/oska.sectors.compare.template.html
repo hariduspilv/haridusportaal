@@ -4,7 +4,7 @@
     <div class="sectors__head">
       <h1 aria-live="polite" class="sectors__title text-left">{{ 'oskaProfessions.fieldsCompare' | translate | uppercase }}</h1>
       <div class="button-list">
-        <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.grid' | translate }} {{ 'oska.view' | translate}}" tabindex="0" [class.active]="view === 'list'">
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.grid' | translate }} {{ 'oska.view' | translate}}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">apps</span>
           <div aria-hidden="true" class="title" >{{ 'oska.grid' | translate }}</div>
         </div>
@@ -30,7 +30,7 @@
     </ng-container>
     
   </div>
-  <div class="sectors__list-body" *ngIf="errMessage && !comparisonData">
+  <div class="sectors__list-body" *ngIf="errMessage && !data">
     <div class="text-center actions__error">
       <p role="alert">{{ 'errors.request' | translate }}</p>
     </div>
