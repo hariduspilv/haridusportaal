@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_event_registration\Plugin\GraphQL\Mutations;
 
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Render\RendererInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
 use Drupal\graphql_core\Plugin\GraphQL\Mutations\Entity\CreateEntityBase;
@@ -56,7 +57,8 @@ class CreateEventRegistration extends CreateEntityBase{
 			$pluginDefinition,
 			$container->get('entity_type.manager'),
 			$container->get('htm_custom_graphql_functions.language_negotiator'),
-			$container->get('language_manager'));
+			$container->get('language_manager'),
+            $container->get('renderer'));
 	}
 
 	/**
@@ -68,9 +70,10 @@ class CreateEventRegistration extends CreateEntityBase{
 		$pluginDefinition,
 		EntityTypeManagerInterface $entityTypeManager,
 		CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
-		LanguageManager $languageManager)
+		LanguageManager $languageManager,
+        RendererInterface $renderer)
 	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
+		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager, $renderer);
 		$this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
 		$this->languageManager = $languageManager;
 	}
