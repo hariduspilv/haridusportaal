@@ -90,9 +90,12 @@
                     <td>{{ data.fieldPracticalTrainingAmount }} {{ data.fieldAmountUnit }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldDurationYears">
+                  <tr *ngIf="data.fieldDurationYears || data.fieldDurationMonths">
                     <td>Nominaalkestus</td>
-                    <td>{{ data.fieldDurationYears }} aastat <ng-container *ngIf="data.fieldDurationMonths && data.fieldDurationMonths !== 0">{{ data.fieldDurationMonths }} kuud</ng-container></td>
+                    <td>
+                      <ng-container *ngIf="data.fieldDurationYears && data.fieldDurationYears !== 0">{{ data.fieldDurationYears }} aastat </ng-container>
+                      <ng-container *ngIf="data.fieldDurationMonths && data.fieldDurationMonths !== 0">{{ data.fieldDurationMonths }} kuud</ng-container>
+                    </td>
                   </tr>
 
                   <tr *ngIf="data.fieldAdmissionStatus">
