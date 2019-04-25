@@ -30,12 +30,9 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   public limit: number = 100;
   public offset: number = 0;
   private dataSub: Subscription;
-  public comparisonData: any = false;
-  public view: string = 'list';
   private modal:any = false;
   private colsPerRow = 4;
   private lastWidth = 0;
-  public paramsSub: Subscription;
 
   constructor(
     private http: HttpService,
@@ -155,6 +152,10 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
 
   }
 
+  changeView() {
+    this.router.navigate(['valdkonnad/andmed']);
+  }
+
   getData () {
     this.loading = true;
     this.errMessage = false;
@@ -180,56 +181,14 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     })
   }
 
-  changeView(view: any){
-    this.view = view;
-    this.router.navigate([], {
-      queryParams: {
-        view
-      },
-      queryParamsHandling: 'merge',
-      replaceUrl: true
-    });
-    if (view === 'list') {
-      this.comparisonData = false;
-    }
-    if (view === 'compare'){
-      this.getComparisonPageData();
-    }
-
-  }
-
-  getComparisonPageData () {
-    this.loading = true;
-    const sub = this.http.get('oskaFieldComparisonPage',
-      {
-        params: {
-          lang: this.lang.toUpperCase()
-        }
-      }
-    ).subscribe((res:any) => {
-      this.comparisonData = res.data.nodeQuery.entities;
-      this.loading = false;
-      sub.unsubscribe();
-    })
-  }
-
-  watchParams () {
-    this.paramsSub = this.route.queryParams.subscribe((params: ActivatedRoute) => {
-      if (params['view']) {
-        this.changeView(params['view']);
-      }
-    });
-  }
-
   ngOnInit () {
 
     this.calculateColsPerRow();
     this.lang = this.rootScope.get("lang");
-    this.getData()
-    this.watchParams();
+    this.getData();
   }
   
   ngOnDestroy () {
-    this.paramsSub.unsubscribe();
+
   }
 }
