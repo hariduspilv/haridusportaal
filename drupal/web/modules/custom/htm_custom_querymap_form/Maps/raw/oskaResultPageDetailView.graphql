@@ -20,7 +20,7 @@ query oskaResultPageDetailView($path: String!) {
             value
           }
           fieldResultPagePicture {
-            derivative(style: CROP_LARGE) {
+            derivative(style: CROPLARGE) {
               url
               __typename
             }
