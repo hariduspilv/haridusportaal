@@ -68,13 +68,16 @@
           <button role="link" routerLink="/oska-tulemused/ettepanekute-elluviimine" attr.aria-label="{{ 'oska.see_proposals' | translate }}" mat-raised-button color="primary">{{ 'oska.see_proposals' | translate }}</button>
         </div>
         
-        <feedback [nid]="data.nid"></feedback>
+        <feedback class="sm-hide" [nid]="data.nid"></feedback>
 
       </div><!--/block-->
 
     </div><!--/col-8-->
     <div class="col-4 sm-12" *ngIf="sidebarData">
       <oska-areas-sidebar [sidebar]="sidebarData" [viewType]="viewType"></oska-areas-sidebar>
+    </div><!--/col-4-->
+    <div class="col-4 sm-12 sm-show">
+      <feedback class="feedback--sm" [nid]="data.nid"></feedback>
     </div><!--/col-4-->
   </div><!--/row-->
 </div><!--/main-container-->
