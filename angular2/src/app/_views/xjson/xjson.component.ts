@@ -730,7 +730,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       if (!this.data_elements) {
         const payload = { form_name: this.form_name, form_info: xjson };
-
         if (this.test === true) {
           this.promptDebugDialog(payload)
         } else {
