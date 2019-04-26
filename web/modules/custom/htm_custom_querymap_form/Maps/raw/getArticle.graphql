@@ -20,7 +20,7 @@ query getArticle($path: String!) {
           }
           fieldBodySummary
           fieldImage {
-            derivative(style:CROPLARGE){
+            derivative(style:CROP_LARGE){
               url
             }
             targetId

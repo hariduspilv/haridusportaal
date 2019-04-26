@@ -10,7 +10,7 @@ query oskaFieldListView($nid: [String], $nidEnabled: Boolean, $lang: LanguageId!
           path
         }
         fieldOskaFieldPicture {
-          derivative(style: CROPLARGE) {
+          derivative(style: CROP_LARGE) {
             url
             __typename
           }
