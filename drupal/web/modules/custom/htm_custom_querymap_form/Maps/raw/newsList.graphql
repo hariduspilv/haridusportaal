@@ -35,7 +35,7 @@ $limit: Int ) {
                 fieldShortDescription
                 fieldAuthor
                 fieldIntroductionImage {
-                    derivative(style:CROPSMALL){
+                    derivative(style:CROP_SMALL){
                         url
                     }
                     alt

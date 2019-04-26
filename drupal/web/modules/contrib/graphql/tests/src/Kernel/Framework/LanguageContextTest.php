@@ -10,8 +10,6 @@ use Drupal\Tests\graphql\Kernel\GraphQLTestBase;
 
 /**
  * Test contextual language negotiation.
- *
- * @group graphql
  */
 class LanguageContextTest extends GraphQLTestBase {
 

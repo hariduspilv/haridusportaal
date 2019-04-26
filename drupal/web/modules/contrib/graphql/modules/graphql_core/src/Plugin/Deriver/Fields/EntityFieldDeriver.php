@@ -2,9 +2,8 @@
 
 namespace Drupal\graphql_core\Plugin\Deriver\Fields;
 
-use Drupal\Core\Field\FieldDefinitionInterface;
-use Drupal\Core\TypedData\ComplexDataDefinitionInterface;
-use Drupal\Core\TypedData\ListDataDefinitionInterface;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\field\FieldStorageConfigInterface;
 use Drupal\graphql\Utility\StringHelper;
 use Drupal\graphql_core\Plugin\Deriver\EntityFieldDeriverBase;
 
@@ -13,9 +12,13 @@ class EntityFieldDeriver extends EntityFieldDeriverBase {
   /**
    * {@inheritdoc}
    */
-  protected function getDerivativeDefinitionsFromFieldDefinition(FieldDefinitionInterface $fieldDefinition, array $basePluginDefinition) {
-    $itemDefinition = $fieldDefinition->getItemDefinition();
-    if (!($itemDefinition instanceof ComplexDataDefinitionInterface) || !$propertyDefinitions = $itemDefinition->getPropertyDefinitions()) {
+  protected function getDerivativeDefinitionsFromFieldDefinition($entityTypeId, FieldStorageDefinitionInterface $fieldDefinition, array $basePluginDefinition) {
+    if (!$propertyDefinitions = $fieldDefinition->getPropertyDefinitions()) {
+      return [];
+    }
+
+    $fieldName = $fieldDefinition->getName();
+    if (!$parents = $this->getParentsForField($entityTypeId, $fieldDefinition)) {
       return [];
     }
 
@@ -23,37 +26,63 @@ class EntityFieldDeriver extends EntityFieldDeriverBase {
     $maxAge = $fieldDefinition->getCacheMaxAge();
     $contexts = $fieldDefinition->getCacheContexts();
 
-    $entityTypeId = $fieldDefinition->getTargetEntityTypeId();
-    $entityType = $this->entityTypeManager->getDefinition($entityTypeId);
-    $supportsBundles = $entityType->hasKey('bundle');
-    $fieldName = $fieldDefinition->getName();
-    $fieldBundle = $fieldDefinition->getTargetBundle() ?: '';
-
     $derivative = [
-      'parents' => [StringHelper::camelCase($entityTypeId, $supportsBundles ? $fieldBundle : '')],
+      'parents' => $parents,
       'name' => StringHelper::propCase($fieldName),
       'description' => $fieldDefinition->getDescription(),
       'field' => $fieldName,
       'schema_cache_tags' => $tags,
       'schema_cache_contexts' => $contexts,
       'schema_cache_max_age' => $maxAge,
+      'response_cache_tags' => $tags,
+      'response_cache_contexts' => $contexts,
+      'response_cache_max_age' => $maxAge,
     ] + $basePluginDefinition;
 
     if (count($propertyDefinitions) === 1) {
-      $propertyDefinition = reset($propertyDefinitions);
-      $derivative['type'] = $propertyDefinition->getDataType();
+      // Flatten the structure for single-property fields.
+      $derivative['type'] = reset($propertyDefinitions)->getDataType();
       $derivative['property'] = key($propertyDefinitions);
     }
     else {
-      $derivative['type'] = StringHelper::camelCase('field', $entityTypeId, $supportsBundles ? $fieldBundle : '', $fieldName);
+      $derivative['type'] = StringHelper::camelCase('field', $entityTypeId, $fieldName);
     }
 
-    // Fields are usually multi-value. Simplify them for the schema if they are
-    // configured for cardinality 1 (only works for configured fields).
-    if (!(($storageDefinition = $fieldDefinition->getFieldStorageDefinition()) && !$storageDefinition->isMultiple())) {
+    if ($fieldDefinition->isMultiple()) {
       $derivative['type'] = StringHelper::listType($derivative['type']);
     }
 
-    return ["$entityTypeId-$fieldName-$fieldBundle" => $derivative];
+    return ["$entityTypeId-$fieldName" => $derivative];
+  }
+
+  /**
+   * Determines the parent types for a field.
+   *
+   * @param string $entityTypeId
+   *   The entity type id of the field.
+   * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $fieldDefinition
+   *   The field storage definition.
+   *
+   * @return array
+   *   The pareants of the field.
+   */
+  protected function getParentsForField($entityTypeId, FieldStorageDefinitionInterface $fieldDefinition) {
+    if ($fieldDefinition->isBaseField()) {
+      return [StringHelper::camelCase($entityTypeId)];
+    }
+
+    if ($fieldDefinition instanceof FieldStorageConfigInterface) {
+      $targetType = $this->entityTypeManager->getDefinition($fieldDefinition->getTargetEntityTypeId());
+      if ($targetType->hasKey('bundle')) {
+        return array_values(array_map(function ($bundleId) use ($entityTypeId) {
+          return StringHelper::camelCase($entityTypeId, $bundleId);
+        }, $fieldDefinition->getBundles()));
+      }
+      else {
+        return [StringHelper::camelCase($entityTypeId)];
+      }
+    }
+
+    return [];
   }
 }

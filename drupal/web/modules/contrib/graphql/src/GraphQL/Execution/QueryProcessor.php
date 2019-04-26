@@ -183,8 +183,7 @@ class QueryProcessor {
         return $adapter->createFulfilled(new QueryResult(NULL, $errors));
       }
 
-      $persisted = isset($params->queryId);
-      $document = $persisted ? $this->loadPersistedQuery($config, $params) : $params->query;
+      $document = $params->queryId ? $this->loadPersistedQuery($config, $params) : $params->query;
       if (!$document instanceof DocumentNode) {
         $document = Parser::parse($document);
       }
@@ -198,12 +197,18 @@ class QueryProcessor {
         throw new RequestError('GET requests are only supported for query operations.');
       }
 
-      // Only queries can be cached (mutations and subscriptions can't).
-      if ($type === 'query') {
-        return $this->executeCacheableOperation($adapter, $config, $params, $document, !$persisted);
+      // If one of the validation rules found any problems, do not resolve the
+      // query and bail out early instead.
+      if ($errors = $this->validateOperation($config, $params, $document)) {
+        return $adapter->createFulfilled(new QueryResult(NULL, $errors));
       }
 
-      return $this->executeUncachableOperation($adapter, $config, $params, $document, !$persisted);
+      // Only queries can be cached (mutations and subscriptions can't).
+      if ($type === 'query') {
+        return $this->executeCacheableOperation($adapter, $config, $params, $document);
+      }
+
+      return $this->executeUncachableOperation($adapter, $config, $params, $document);
     }
     catch (CacheableRequestError $exception) {
       return $adapter->createFulfilled(
@@ -223,11 +228,10 @@ class QueryProcessor {
    * @param \GraphQL\Server\ServerConfig $config
    * @param \GraphQL\Server\OperationParams $params
    * @param \GraphQL\Language\AST\DocumentNode $document
-   * @param bool $validate
    *
    * @return \GraphQL\Executor\Promise\Promise|mixed
    */
-  protected function executeCacheableOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document, $validate = TRUE) {
+  protected function executeCacheableOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document) {
     $contextCacheId = 'ccid:' . $this->cacheIdentifier($params, $document);
     if (!$config->getDebug() && $contextCache = $this->cacheBackend->get($contextCacheId)) {
       $contexts = $contextCache->data ?: [];
@@ -237,7 +241,7 @@ class QueryProcessor {
       }
     }
 
-    $result = $this->doExecuteOperation($adapter, $config, $params, $document, $validate);
+    $result = $this->doExecuteOperation($adapter, $config, $params, $document);
     return $result->then(function (QueryResult $result) use ($contextCacheId, $params, $document) {
       // Write this query into the cache if it is cacheable.
       if ($result->getCacheMaxAge() !== 0) {
@@ -258,12 +262,11 @@ class QueryProcessor {
    * @param \GraphQL\Server\ServerConfig $config
    * @param \GraphQL\Server\OperationParams $params
    * @param \GraphQL\Language\AST\DocumentNode $document
-   * @param bool $validate
    *
    * @return \GraphQL\Executor\Promise\Promise
    */
-  protected function executeUncachableOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document, $validate = TRUE) {
-    $result = $this->doExecuteOperation($adapter, $config, $params, $document, $validate);
+  protected function executeUncachableOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document) {
+    $result = $this->doExecuteOperation($adapter, $config, $params, $document);
     return $result->then(function (QueryResult $result) {
       // Mark the query result as uncacheable.
       $result->mergeCacheMaxAge(0);
@@ -276,17 +279,10 @@ class QueryProcessor {
    * @param \GraphQL\Server\ServerConfig $config
    * @param \GraphQL\Server\OperationParams $params
    * @param \GraphQL\Language\AST\DocumentNode $document
-   * @param bool $validate
    *
    * @return \GraphQL\Executor\Promise\Promise
    */
-  protected function doExecuteOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document, $validate = TRUE) {
-    // If one of the validation rules found any problems, do not resolve the
-    // query and bail out early instead.
-    if ($validate && $errors = $this->validateOperation($config, $params, $document)) {
-      return $adapter->createFulfilled(new QueryResult(NULL, $errors));
-    }
-
+  protected function doExecuteOperation(PromiseAdapter $adapter, ServerConfig $config, OperationParams $params, DocumentNode $document) {
     $operation = $params->operation;
     $variables = $params->variables;
     $context = $this->resolveContextValue($config, $params, $document, $operation);
