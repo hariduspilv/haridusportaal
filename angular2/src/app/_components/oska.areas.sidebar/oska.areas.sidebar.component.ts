@@ -94,23 +94,23 @@ export class OskaAreasSidebarComponent implements OnInit {
       }
   
       if (this.viewType === 'field') {
-        this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession.length > this.limits['professions'];
-        this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind'];
-        this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages.length > this.limits['relatedPages'];
+        this.typeStatus['professions'] = this.sidebar.fieldOskaMainProfession && (this.sidebar.fieldOskaMainProfession.length > this.limits['professions']);
+        this.typeStatus['quickFind'] = this.sidebar.fieldOskaFieldQuickFind && (this.sidebar.fieldOskaFieldQuickFind.length > this.limits['quickFind']);
+        this.typeStatus['relatedPages'] = this.sidebar.fieldRelatedPages && (this.sidebar.fieldRelatedPages.length > this.limits['relatedPages']);
         this.numberEmployed(this.sidebar.fieldNumberEmployed, 'filledNumberEmployed', 'outlinedNumberEmployed')
       } else if (this.viewType === 'mainProfession') {
-        this.typeStatus['fields'] = this.sidebar.fieldOskaField.length > this.limits['fields'];
-        this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities.length > this.limits['opportunities'];
-        this.typeStatus['qualification'] = this.sidebar.fieldQualificationStandard.length > this.limits['qualification'];
-        this.typeStatus['profQuickFind'] = this.sidebar.fieldQuickFind.length > this.limits['profQuickFind'];
-        this.typeStatus['jobs'] = this.sidebar.fieldJobs.length > this.limits['jobs'];
+        this.typeStatus['fields'] = this.sidebar.fieldOskaField && (this.sidebar.fieldOskaField.length > this.limits['fields']);
+        this.typeStatus['opportunities'] = this.sidebar.fieldJobOpportunities && (this.sidebar.fieldJobOpportunities.length > this.limits['opportunities']);
+        this.typeStatus['qualification'] = this.sidebar.fieldQualificationStandard && (this.sidebar.fieldQualificationStandard.length > this.limits['qualification']);
+        this.typeStatus['profQuickFind'] = this.sidebar.fieldQuickFind && (this.sidebar.fieldQuickFind.length > this.limits['profQuickFind']);
+        this.typeStatus['jobs'] = this.sidebar.fieldJobs && (this.sidebar.fieldJobs.length > this.limits['jobs']);
         this.numberEmployed(this.sidebar.fieldNumberEmployed, 'factsFilledNumber', 'factsOutlinedNumber')
         if (this.indicators) {
           this.indicators.entities.sort((a, b) => a.oskaId - b.oskaId);
         }
       } else {
-        this.typeStatus['resultHyperlinks'] = this.sidebar.fieldHyperlinks.length > this.limits['resultHyperlinks'];
-        this.typeStatus['resultRelatedArticle'] = this.sidebar.fieldRelatedArticle.length > this.limits['resultRelatedArticle'];
+        this.typeStatus['resultHyperlinks'] = this.sidebar.fieldHyperlinks && (this.sidebar.fieldHyperlinks.length > this.limits['resultHyperlinks']);
+        this.typeStatus['resultRelatedArticle'] = this.sidebar.fieldRelatedArticle && (this.sidebar.fieldRelatedArticle.length > this.limits['resultRelatedArticle']);
       }
 
       if(this.sidebar.fieldJobs) {

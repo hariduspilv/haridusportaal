@@ -14,7 +14,10 @@
       </div>
     </div>
     <div class="inline__items sm-hide">
-      <span class="item" *ngIf="programme.fieldDurationYears">{{ programme.fieldDurationYears }} aastat <ng-container *ngIf="programme.fieldDurationMonths && programme.fieldDurationMonths !== 0">{{ programme.fieldDurationMonths }} kuud</ng-container></span>
+      <span class="item" *ngIf="programme.fieldDurationYears">
+        <ng-container *ngIf="programme.fieldDurationYears && programme.fieldDurationYears !== 0">{{ programme.fieldDurationYears }} aasta<span *ngIf="programme.fieldDurationYears > 1">t</span>  </ng-container>
+        <ng-container *ngIf="programme.fieldDurationMonths && programme.fieldDurationMonths !== 0">{{ programme.fieldDurationMonths }} kuud</ng-container>
+      </span>
       <span class="bar" *ngIf="programme.fieldDurationYears && programme.fieldTeachingLanguage">|</span>
       <span class="item" *ngIf="programme.fieldTeachingLanguage">
         <ng-container *ngFor="let item of programme.fieldTeachingLanguage; let i = index;"><ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.name | titleCase }}</ng-container>  
