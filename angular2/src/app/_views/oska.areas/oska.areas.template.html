@@ -244,7 +244,7 @@
           </div><!--/tags-->
         </ng-container>
         
-        <feedback [nid]="data.nid"></feedback>
+        <feedback class="sm-hide" [nid]="data.nid"></feedback>
 
       </div><!--/block-->
     </div><!--/col-8-->
@@ -257,5 +257,8 @@
         [viewType]="viewType">
       </oska-areas-sidebar>
     </div><!--/col-4-->
+    <div class="sm-12 sm-show">
+      <feedback class="feedback--sm" [nid]="data.nid"></feedback>
+    </div>
   </div><!--/row-->
 </div><!--/main-container-->

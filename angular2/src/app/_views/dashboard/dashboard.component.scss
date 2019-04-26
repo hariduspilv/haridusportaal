@@ -9,7 +9,7 @@
   }
   &__username{width:100%; color:$blue; font-size:1.5rem; line-height:2rem; font-weight: 500;
     a {text-decoration: underline;
-      &:hover, &:focus {text-decoration: none;}
+      &:hover {text-decoration: none;}
     }
   }
   @include break-on(sm, min) {margin-top: .5rem;}
