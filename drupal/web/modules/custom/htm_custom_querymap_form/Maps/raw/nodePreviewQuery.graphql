@@ -22,7 +22,7 @@ fragment oskaResult on NodeOskaResultPage {
         value
     }
     fieldResultPagePicture {
-        derivative(style: CROPLARGE) {
+        derivative(style: CROP_LARGE) {
             url
             __typename
         }
@@ -130,7 +130,7 @@ fragment oskaSurveyPage on NodeOskaSurveyPage {
     entityLabel
     fieldSurveyPageIntroduction
     fieldSurveyPagePicture {
-        derivative(style: CROPLARGE) {
+        derivative(style: CROP_LARGE) {
             url
             __typename
         }
@@ -252,7 +252,7 @@ fragment oskaMainProfession on NodeOskaMainProfessionPage {
     fieldFixedLabel
     fieldIntroduction
     fieldMainProfessionPicture {
-        derivative(style: CROPLARGE) {
+        derivative(style: CROP_LARGE) {
             url
             __typename
         }
@@ -567,7 +567,7 @@ fragment oskaDetail on NodeOskaFieldPage {
     entityLabel
     fieldIntroduction
     fieldOskaFieldPicture {
-        derivative(style: CROPLARGE) {
+        derivative(style: CROP_LARGE) {
             url
             __typename
         }
@@ -697,7 +697,7 @@ fragment event on NodeEvent {
     RegistrationCount
     fieldMaxNumberOfParticipants
     fieldPicture {
-        derivative(style: CROPLARGE) {
+        derivative(style: CROP_LARGE) {
             url
         }
         width
@@ -823,14 +823,14 @@ fragment news on NodeNews {
     }
     fieldShortDescription
     fieldIntroductionImage {
-        derivative(style: CROPLARGE) {
+        derivative(style: CROP_LARGE) {
             url
         }
         alt
         title
     }
     fieldAdditionalImages {
-        derivative(style: CROPLARGE) {
+        derivative(style: CROP_LARGE) {
             url
         }
         alt
@@ -875,7 +875,7 @@ fragment article on NodeArticle {
     }
     fieldBodySummary
     fieldImage {
-        derivative(style: CROPLARGE) {
+        derivative(style: CROP_LARGE) {
             url
         }
         targetId

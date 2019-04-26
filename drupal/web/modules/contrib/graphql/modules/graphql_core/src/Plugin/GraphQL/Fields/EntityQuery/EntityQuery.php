@@ -255,8 +255,7 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
     if (!empty($sort) && is_array($sort)) {
       foreach ($sort as $item) {
         $direction = !empty($item['direction']) ? $item['direction'] : 'DESC';
-        $language = !empty($item['language']) ? $item['language'] : null;
-        $query->sort($item['field'], $direction, $language);
+        $query->sort($item['field'], $direction);
       }
     }
 
@@ -283,7 +282,7 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
       $filterConditions = $this->buildFilterConditions($query, $filter);
       if (count($filterConditions->conditions())) {
         $query->condition($filterConditions);
-      }
+      }      
     }
 
     return $query;
@@ -314,7 +313,7 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
       if (isset($condition['enabled']) && empty($condition['enabled'])) {
         continue;
       }
-
+      
       $field = $condition['field'];
       $value = !empty($condition['value']) ? $condition['value'] : NULL;
       $operator = !empty($condition['operator']) ? $condition['operator'] : NULL;
@@ -365,7 +364,7 @@ class EntityQuery extends FieldPluginBase implements ContainerFactoryPluginInter
       $filterConditions = $this->buildFilterConditions($query, $args);
       if (count($filterConditions->conditions())) {
         $group->condition($filterConditions);
-      }
+      }      
     }
 
     return $group;

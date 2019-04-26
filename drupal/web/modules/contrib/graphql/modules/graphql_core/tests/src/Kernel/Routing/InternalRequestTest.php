@@ -28,7 +28,9 @@ class InternalRequestTest extends GraphQLCoreTestBase {
    * Test internal requests.
    */
   public function testInternalRequests() {
+    // TODO: Check cache metadata.
     $metadata = $this->defaultCacheMetaData();
+    $metadata->setCacheTags(array_diff($metadata->getCacheTags(), ['entity_bundles']));
 
     $this->assertResults($this->getQueryFromFile('internal_requests.gql'), [], [
       'ok' => [
