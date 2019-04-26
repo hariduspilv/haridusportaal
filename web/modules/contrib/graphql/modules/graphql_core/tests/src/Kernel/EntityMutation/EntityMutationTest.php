@@ -52,7 +52,6 @@ class EntityMutationTest extends GraphQLContentTestBase {
         $definition['id'],
         $definition,
         $this->container->get('entity_type.manager'),
-        $this->container->get('renderer'),
       ])
       ->setMethods([
         'extractEntityInput',

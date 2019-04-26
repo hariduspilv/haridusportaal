@@ -11,8 +11,8 @@ dependencies:
   - system
   - text
 
-# Information added by Drupal.org packaging script on 2019-04-13
-version: '8.x-3.0-rc3'
+# Information added by Drupal.org packaging script on 2018-09-20
+version: '8.x-3.0-rc2'
 core: '8.x'
 project: 'graphql'
-datestamp: 1555138086
+datestamp: 1537443786

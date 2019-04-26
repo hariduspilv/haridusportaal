@@ -8,8 +8,6 @@ use GraphQL\Type\Definition\ResolveInfo;
 
 /**
  * Test contextual arguments in fields.
- *
- * @group graphql
  */
 class ResolveContextTest extends GraphQLTestBase {
 

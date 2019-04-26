@@ -5,7 +5,6 @@ namespace Drupal\graphql_core\Plugin\GraphQL\Enums\Images;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\Plugin\GraphQL\Enums\EnumPluginBase;
-use Drupal\graphql\Utility\StringHelper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -61,7 +60,13 @@ class ImageStyleId extends EnumPluginBase implements ContainerFactoryPluginInter
 
     $storage = $this->entityTypeManager->getStorage('image_style');
     foreach ($storage->loadMultiple() as $imageStyle) {
-      $items[StringHelper::upperCase($imageStyle->id())] = [
+      $id = $imageStyle->id();
+      // Add underscore prefix to numeric image styles.
+      if (is_numeric($id[0])) {
+        $id = "_$id";
+      }
+
+      $items[strtoupper($id)] = [
         'value' => $imageStyle->id(),
         'description' => $imageStyle->label(),
       ];
