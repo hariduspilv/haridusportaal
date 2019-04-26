@@ -53,6 +53,7 @@
             </li>
           </ul>
 
+          <ng-container *ngIf="!empty_data">
           <!-- STEP BODY -->
           <div class="row button-list button-list-top">
             <ng-container *ngFor="let activity of activityButtons['primary']">
@@ -644,6 +645,7 @@
               </div> <!-- /row button-list -->
             </ng-container>
           </div> <!-- /row button-list -->
+          </ng-container> <!-- /if !empty_data-->
         </ng-container> <!-- /if data-->
       </div>
       <!--/block border-blue-->
