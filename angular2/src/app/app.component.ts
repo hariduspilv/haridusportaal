@@ -120,7 +120,7 @@ export class AppComponent implements OnInit {
   }
   
   showChat(){
-    if (window.location.host !== 'haridusportaal.edu.ee' && window.location.host !== 'edu.ee') {
+    if (window.location.host !== 'haridusportaal.edu.ee' && window.location.host !== 'test.edu.ee') {
       window['__lc'] = window['__lc'] || {};
       // Initial api-key: 10492167
       window['__lc'].license = 10834647;
