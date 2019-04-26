@@ -72,6 +72,7 @@ abstract class GraphQLTestBase extends KernelTestBase {
    */
   protected function defaultCacheTags() {
     return [
+      'graphql_response',
       'graphql',
     ];
   }

@@ -17,7 +17,11 @@ class Map extends ScalarPluginBase {
    * {@inheritdoc}
    */
   public static function serialize($value) {
-    return $value;
+    if (is_array($value)) {
+      return json_encode($value);
+    }
+
+    return NULL;
   }
 
   /**

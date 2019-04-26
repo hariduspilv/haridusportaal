@@ -11,7 +11,7 @@ use GraphQL\Type\Definition\ResolveInfo;
  * @GraphQLField(
  *   id = "entity_reference_query",
  *   secure = true,
- *   type = "EntityQueryResult",
+ *   type = "EntityQueryResult!",
  *   arguments = {
  *     "filter" = "EntityQueryFilterInput",
  *     "sort" = "[EntityQuerySortInput]",
@@ -40,37 +40,22 @@ class EntityReferenceQuery extends EntityQuery {
     if ($value instanceof ContentEntityInterface) {
       $query = parent::getBaseQuery($value, $args, $context, $info);
 
-      $metadata = $query->getMetadata('graphql_context');
-      $ids = $metadata['ids'];
+      // Add the target field condition to the query.
+      $definition = $this->getPluginDefinition();
+      $key = $definition['entity_key'];
+      $field = $definition['field'];
+      $ids = array_map(function ($item) {
+        return $item['target_id'];
+      }, $value->get($field)->getValue());
+
       if (empty($ids)) {
         return NULL;
       }
 
-      $definition = $this->getPluginDefinition();
-      $key = $definition['entity_key'];
-      $operator = is_array($ids) ? 'IN' : '=';
-      $query->condition($key, $ids, $operator);
+      $query->condition($key, $ids);
 
       return $query;
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  protected function getQueryContext($value, array $args, ResolveContext $context, ResolveInfo $info) {
-    $context = parent::getQueryContext($value, $args, $context, $info);
-
-    // Add the target field condition to the query.
-    $definition = $this->getPluginDefinition();
-    $field = $definition['field'];
-    $ids = array_map(function ($item) {
-      return $item['target_id'];
-    }, $value->get($field)->getValue());
-
-    return [
-      'ids' => $ids,
-    ] + $context;
   }
 
 }

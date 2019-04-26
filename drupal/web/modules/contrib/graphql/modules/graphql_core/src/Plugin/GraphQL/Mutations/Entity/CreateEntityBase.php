@@ -7,8 +7,6 @@ use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\Core\Render\RenderContext;
-use Drupal\Core\Render\RendererInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql_core\GraphQL\EntityCrudOutputWrapper;
@@ -28,13 +26,6 @@ abstract class CreateEntityBase extends MutationPluginBase implements ContainerF
   protected $entityTypeManager;
 
   /**
-   * The renderer service.
-   *
-   * @var \Drupal\Core\Render\RendererInterface
-   */
-  protected $renderer;
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container, array $configuration, $pluginId, $pluginDefinition) {
@@ -42,8 +33,7 @@ abstract class CreateEntityBase extends MutationPluginBase implements ContainerF
       $configuration,
       $pluginId,
       $pluginDefinition,
-      $container->get('entity_type.manager'),
-      $container->get('renderer')
+      $container->get('entity_type.manager')
     );
   }
 
@@ -58,45 +48,35 @@ abstract class CreateEntityBase extends MutationPluginBase implements ContainerF
    *   The plugin definition array.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entityTypeManager
    *   The entity type manager service.
-   * @param \Drupal\Core\Render\RendererInterface $renderer
-   *   The renderer service.
    */
-  public function __construct(array $configuration, $pluginId, $pluginDefinition, EntityTypeManagerInterface $entityTypeManager, RendererInterface $renderer) {
+  public function __construct(array $configuration, $pluginId, $pluginDefinition, EntityTypeManagerInterface $entityTypeManager) {
     parent::__construct($configuration, $pluginId, $pluginDefinition);
     $this->entityTypeManager = $entityTypeManager;
-    $this->renderer = $renderer;
   }
 
   /**
    * {@inheritdoc}
    */
   public function resolve($value, array $args, ResolveContext $context, ResolveInfo $info) {
-    // There are cases where the Drupal entity API calls emit the cache metadata
-    // in the current render context. In such cases
-    // EarlyRenderingControllerWrapperSubscriber throws the leaked cache
-    // metadata exception. To avoid this, wrap the execution in its own render
-    // context.
-    return $this->renderer->executeInRenderContext(new RenderContext(), function () use ($value, $args, $context, $info) {
-      $entityTypeId = $this->pluginDefinition['entity_type'];
+    $entityTypeId = $this->pluginDefinition['entity_type'];
 
-      // The raw input needs to be converted to use the proper field and property
-      // keys because we usually convert them to camel case when adding them to
-      // the schema.
-      $input = $this->extractEntityInput($value, $args, $context, $info);
+    // The raw input needs to be converted to use the proper field and property
+    // keys because we usually convert them to camel case when adding them to
+    // the schema.
+    $input = $this->extractEntityInput($value, $args, $context, $info);
 
-      $entityDefinition = $this->entityTypeManager->getDefinition($entityTypeId);
-      if ($entityDefinition->hasKey('bundle')) {
-        $bundleName = $this->pluginDefinition['entity_bundle'];
-        $bundleKey = $entityDefinition->getKey('bundle');
+    $entityDefinition = $this->entityTypeManager->getDefinition($entityTypeId);
+    if ($entityDefinition->hasKey('bundle')) {
+      $bundleName = $this->pluginDefinition['entity_bundle'];
+      $bundleKey = $entityDefinition->getKey('bundle');
 
-        // Add the entity's bundle with the correct key.
-        $input[$bundleKey] = $bundleName;
-      }
+      // Add the entity's bundle with the correct key.
+      $input[$bundleKey] = $bundleName;
+    }
 
-      $storage = $this->entityTypeManager->getStorage($entityTypeId);
-      $entity = $storage->create($input);
-      return $this->resolveOutput($entity, $args, $info);
-    });
+    $storage = $this->entityTypeManager->getStorage($entityTypeId);
+    $entity = $storage->create($input);
+    return $this->resolveOutput($entity, $args, $info);
   }
 
   /**
