@@ -4,13 +4,13 @@
     <div class="sectors__head">
       <h1 class="sectors__title text-left">{{ 'oskaProfessions.fields' | translate | uppercase }}</h1>
       <div class="button-list">
-        <div class="view-item pointer active" attr.aria-label="{{ 'oska.grid' | translate }}" tabindex="0">
+        <div class="view-item pointer active" role="tab" attr.aria-label="{{ 'oska.grid' | translate }}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">apps</span>
-          <div class="title" >{{ 'oska.grid' | translate }}</div>
+          <div aria-hidden="true"class="title" >{{ 'oska.grid' | translate }}</div>
         </div>
-        <div class="view-item pointer" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.data' | translate }}" tabindex="0">
+        <div class="view-item pointer" role="tab"  (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.data' | translate }}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">compare_arrows</span>
-          <div class="title">{{ 'oska.data' | translate }}</div>
+          <div aria-hidden="true"class="title">{{ 'oska.data' | translate }}</div>
         </div>
       </div>
     </div>
