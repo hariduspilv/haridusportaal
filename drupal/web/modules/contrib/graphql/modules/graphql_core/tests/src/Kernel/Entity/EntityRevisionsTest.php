@@ -7,8 +7,6 @@ use Drupal\Tests\graphql_core\Kernel\GraphQLContentTestBase;
 
 /**
  * Fetch node revisions.
- *
- * @group graphql_core
  */
 class EntityRevisionsTest extends GraphQLContentTestBase {
 

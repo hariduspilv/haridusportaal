@@ -7,8 +7,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Invalid payloads should not trigger a PHP error, but be handled as empty.
- *
- * @group graphql
  */
 class InvalidPayloadTest extends GraphQLTestBase {
 
