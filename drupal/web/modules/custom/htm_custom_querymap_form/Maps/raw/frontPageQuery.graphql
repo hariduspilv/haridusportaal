@@ -33,7 +33,7 @@ query frontPageQuery($lang: LanguageId!) {
                     fieldAuthor
                     created
                     fieldIntroductionImage {
-                      derivative(style: CROPLARGE) {
+                      derivative(style: CROP_LARGE) {
                         url
                       }
                       targetId
