@@ -15,10 +15,6 @@ architecture and the provided plugin implementations form the sub-module.
 
 For ease of development, it includes the [GraphiQL](https://github.com/graphql/graphiql/) interface at`/graphql/explorer`.
 
-## Installation
-
-This module requires composer for installation. To install, simply run ``composer require drupal/graphql``.
-
 ## Quickstart
 
 To get a quick overview from the __query__ part of GraphQL in action watch the following video's.
@@ -66,5 +62,3 @@ as well as other other contributed modules supporting it:
   > Allows you to inject data into Twig templates by simply adding a GraphQL query.
 * GraphQL Views [https://github.com/drupal-graphql/graphql-views](https://github.com/drupal-graphql/graphql-views)
   > Adds support for views to GraphQL.
-* GraphQL Entity Definitions [https://www.drupal.org/project/graphql_entity_definitions](https://www.drupal.org/project/graphql_entity_definitions)
-  > Adds structural entity information to GraphQL.

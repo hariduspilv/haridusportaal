@@ -10,8 +10,6 @@ use Drupal\Tests\graphql_core\Kernel\GraphQLContentTestBase;
  * Tests for bundle-less entities.
  *
  * Test edge cases of entities without bundles (e.g. the user entity).
- *
- * @group graphql_core
  */
 class BundleLessEntityTest extends GraphQLContentTestBase {
 

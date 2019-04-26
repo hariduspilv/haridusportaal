@@ -38,7 +38,7 @@
         "drupal/externalauth": "^1.1",
         "drupal/filelog": "^1.0",
         "drupal/google_map_field": "^1.5",
-        "drupal/graphql": "^3.0@beta",
+        "drupal/graphql": "3.0-rc2",
         "drupal/graphql_metatag": "1.x-dev",
         "drupal/hms_field": "^1.0",
         "drupal/http_cache_control": "^1.0",

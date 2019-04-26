@@ -7,7 +7,6 @@ use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\FieldableEntityInterface;
-use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\Core\Plugin\Discovery\ContainerDeriverInterface;
 use Drupal\Core\Entity\EntityFieldManagerInterface;
@@ -22,7 +21,9 @@ abstract class EntityFieldDeriverBase extends DeriverBase implements ContainerDe
   /**
    * Provides plugin definition values from fields.
    *
-   * @param \Drupal\Core\Field\FieldDefinitionInterface $fieldDefinition
+   * @param string $entityTypeId
+   *   The host entity type.
+   * @param \Drupal\Core\Field\FieldStorageDefinitionInterface $fieldDefinition
    *   Field definition object.
    * @param array $basePluginDefinition
    *   Base definition array.
@@ -30,7 +31,7 @@ abstract class EntityFieldDeriverBase extends DeriverBase implements ContainerDe
    * @return array
    *   The derived plugin definitions for the given field.
    */
-  abstract protected function getDerivativeDefinitionsFromFieldDefinition(FieldDefinitionInterface $fieldDefinition, array $basePluginDefinition);
+  abstract protected function getDerivativeDefinitionsFromFieldDefinition($entityTypeId, FieldStorageDefinitionInterface $fieldDefinition, array $basePluginDefinition);
 
   /**
    * The entity type manager.
@@ -105,17 +106,9 @@ abstract class EntityFieldDeriverBase extends DeriverBase implements ContainerDe
         continue;
       }
 
-      foreach ($this->entityFieldManager->getBaseFieldDefinitions($entityTypeId) as $fieldDefinition) {
-        if ($derivatives = $this->getDerivativeDefinitionsFromFieldDefinition($fieldDefinition, $basePluginDefinition)) {
+      foreach ($this->entityFieldManager->getFieldStorageDefinitions($entityTypeId) as $fieldStorageDefinition) {
+        if ($derivatives = $this->getDerivativeDefinitionsFromFieldDefinition($entityTypeId, $fieldStorageDefinition, $basePluginDefinition)) {
           $this->derivatives = array_merge($this->derivatives, $derivatives);
-        }
-      }
-
-      foreach ($this->entityBundleInfo->getBundleInfo($entityTypeId) as $bundleId => $bundleInfo) {
-        foreach ($this->entityFieldManager->getFieldDefinitions($entityTypeId, $bundleId) as $fieldDefinition) {
-          if ($derivatives = $this->getDerivativeDefinitionsFromFieldDefinition($fieldDefinition, $basePluginDefinition)) {
-            $this->derivatives = array_merge($this->derivatives, $derivatives);
-          }
         }
       }
     }
