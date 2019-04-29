@@ -50,4 +50,7 @@ query oskaFieldListView($nid: [String], $nidEnabled: Boolean, $lang: LanguageId!
     }
     __typename
   }
+  comparisonPage:nodeQuery(limit:1,sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "oska_field_comparison_page", language: $lang}}) {
+    count
+  }
 }
