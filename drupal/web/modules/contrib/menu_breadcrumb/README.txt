@@ -30,6 +30,15 @@ along with other site dependencies (as well as Drupal Core itself):
 
 https://www.drupal.org/docs/develop/using-composer/using-composer-to-manage-drupal-site-dependencies
 
+IF YOU SEE AN ERROR PAGE similar to the following after up- or down-grading the module:
+
+TypeError: Argument <X> passed to Drupal\menu_breadcrumb\MenuBasedBreadcrumbBuilder::__construct() ...
+
+... you probably just need to rebuild the cache between two versions that use
+different argument lists (i.e. system services).  See here for how to rebuild cache:
+
+https://www.drupal.org/docs/user_guide/en/prevent-cache-clear.html
+
 Installation & Upgrading - without Composer
 -------------------------------------------
 
@@ -45,9 +54,7 @@ Recommended: install drush and run "drush up"
 Manually: replace the older menu_breadcrumb folder with the newer version;
 then run "update.php" if present (to install any configuration changes).
 
-NOTES if you have installed a Drupal 8 development version:
-If upgrading from the Alpha to the Beta version of the module, or to a
-newer Beta, if option settings are not producing the desired effect:
+Since different versions of the module may use different services, if you see errors:
 
 - Try clearing the cache, which fixes breacrumb on taxonomy pages (since this
   module's breadcrumb builder needs to be acknolwedged as higher priority).

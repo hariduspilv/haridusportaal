@@ -71,12 +71,13 @@ export class LoginModal {
       this.authMethods.mobile_id = true;
     }
     if( this.settings.url == "https://apitest.hp.edu.ee" ){
+      this.authMethods.basic = true;
       this.authMethods.mobile_id = true;
     }
     this.http.get(`${this.settings.url}/auth_methods?_format=json`).subscribe((response) => {
       this.authMethods = Object.assign({}, this.authMethods, {...response['auth_methods']});
       this.availableAuthMethods = Object.entries(this.authMethods).filter(method => method[1] == true);
-      if(!this.availableAuthMethods.length) this.notificationService.error('login.unavailable', 'login', false);
+      if(!this.availableAuthMethods.length) this.notificationService.info('login.unavailable', 'login', false);
     }, (response) => {
       this.notificationService.error(response.error.message, 'login', false);
     }, () => {

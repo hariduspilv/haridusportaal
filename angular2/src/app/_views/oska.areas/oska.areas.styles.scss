@@ -62,7 +62,7 @@
   &:hover {text-decoration: underline;}
 }
 ::ng-deep .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after, ::ng-deep .graphText a[target="_blank"]:after {
-  font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;
+  font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;display: inline-block;
 }
 
 .tags{padding-left:0;padding-top: 0;margin-bottom:-0.5rem;
@@ -115,7 +115,6 @@ h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;}
     th{background:$light-gray; background:$light-gray; font-size:0.875rem; font-weight: 500;}
   }
 }
-
 @include break-on(sm, max) {
   .padding-block{
     .article-image{margin-left:-1.5rem; margin-right:-1.5rem;}

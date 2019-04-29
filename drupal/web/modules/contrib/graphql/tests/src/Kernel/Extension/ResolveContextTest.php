@@ -6,13 +6,11 @@ use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\Tests\graphql\Kernel\GraphQLTestBase;
 use GraphQL\Type\Definition\ResolveInfo;
 
-
 /**
- * Test contextual arguments in fields.	 * Test contextual arguments in fields.
- *
- * @group graphql
+ * Test contextual arguments in fields.
  */
 class ResolveContextTest extends GraphQLTestBase {
+
   /**
    * Test manual context handling.
    */

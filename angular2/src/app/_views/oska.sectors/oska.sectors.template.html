@@ -4,21 +4,21 @@
     <div class="sectors__head">
       <h1 class="sectors__title text-left">{{ 'oskaProfessions.fields' | translate | uppercase }}</h1>
       <div class="button-list">
-        <div class="view-item pointer" (keyup.enter)="changeView('list')" (click)="changeView('list')" attr.aria-label="{{ 'event.list' | translate }}" tabindex="0" [class.active]="view === 'list'">
-          <span class="htm-icon">apps</span>
-          <div class="title" >{{ 'oska.grid' | translate }}</div>
+        <div class="view-item pointer active" role="tab" attr.aria-label="{{ 'oska.grid' | translate }}" tabindex="0">
+          <span aria-hidden="true" class="htm-icon">apps</span>
+          <div aria-hidden="true"class="title" >{{ 'oska.grid' | translate }}</div>
         </div>
-        <div class="view-item pointer" (keyup.enter)="changeView('compare')" (click)="changeView('compare')" attr.aria-label="{{ 'event.calendar' | translate }}" tabindex="0" [class.active]="view === 'compare'">
-          <span class="htm-icon">compare_arrows</span>
-          <div class="title">{{ 'oska.data' | translate }}</div>
+        <div class="view-item pointer" role="tab"  (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.data' | translate }}" tabindex="0">
+          <span aria-hidden="true" class="htm-icon">compare_arrows</span>
+          <div aria-hidden="true"class="title">{{ 'oska.data' | translate }}</div>
         </div>
       </div>
     </div>
   </div><!--/row-->
-  <div class="sectors__list-body" *ngIf="loading && (!data || !comparisonData)">
+  <div class="sectors__list-body" *ngIf="loading && !data">
     <mat-spinner></mat-spinner>
   </div>
-  <div class="sectors__list-body" *ngIf="data && view === 'list'" areaModal>
+  <div class="sectors__list-body" *ngIf="data" areaModal>
     <div class="row sectors--row" *ngIf="data.length">
       <ng-container *ngFor="let elem of data; let i = index;">
         <div class="col-3 md-4 xs-6 sectors--col">
@@ -92,17 +92,6 @@
         </div>
       </ng-container>
     </div>
-  </div>
-  <div class="sectors__list-body sectors__list-body--comparison" *ngIf="comparisonData && view === 'compare'">
-    <ng-container *ngFor="let item of comparisonData">
-      <div class="row">
-        <div class="col-12">
-          <h1 class="main-title" *ngIf="item.fieldIntroduction">{{item.fieldIntroduction}}</h1>
-          <chart class="sector-comparison-chart" *ngIf="item.fieldDynamicGraph" [data]="item.fieldDynamicGraph" type="filter" height='700' wide='true'></chart>
-        </div>
-      </div>
-    </ng-container>
-    
   </div>
   <div class="sectors__list-body" *ngIf="errMessage && !data">
     <div class="text-center actions__error">

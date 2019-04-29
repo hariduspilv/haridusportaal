@@ -21,6 +21,11 @@ class JsonPointer
     const SKIP_IF_ISSET = 4;
 
     /**
+     * Allow associative arrays to mimic JSON objects (not recommended)
+     */
+    const TOLERATE_ASSOCIATIVE_ARRAYS = 8;
+
+    /**
      * @param string $key
      * @param bool $isURIFragmentId
      * @return string
@@ -98,7 +103,7 @@ class JsonPointer
     {
         $ref = &$holder;
         while (null !== $key = array_shift($pathItems)) {
-            if ($ref instanceof \stdClass) {
+            if ($ref instanceof \stdClass || is_object($ref)) {
                 if (PHP_VERSION_ID < 71000 && '' === $key) {
                     throw new Exception('Empty property name is not supported by PHP <7.1',
                         Exception::EMPTY_PROPERTY_NAME_UNSUPPORTED);
@@ -135,12 +140,18 @@ class JsonPointer
                             array_splice($ref, $key, 0, array($value));
                         }
                         if (false === $intKey) {
-                            throw new Exception('Invalid key for array operation');
+                            if (0 === ($flags & self::TOLERATE_ASSOCIATIVE_ARRAYS)) {
+                                throw new Exception('Invalid key for array operation');
+                            }
+                            $ref = &$ref[$key];
+                            continue;
                         }
-                        if ($intKey > count($ref) && 0 === ($flags & self::RECURSIVE_KEY_CREATION)) {
-                            throw new Exception('Index is greater than number of items in array');
-                        } elseif ($intKey < 0) {
-                            throw new Exception('Negative index');
+                        if (0 === ($flags & self::TOLERATE_ASSOCIATIVE_ARRAYS)) {
+                            if ($intKey > count($ref) && 0 === ($flags & self::RECURSIVE_KEY_CREATION)) {
+                                throw new Exception('Index is greater than number of items in array');
+                            } elseif ($intKey < 0) {
+                                throw new Exception('Negative index');
+                            }
                         }
 
                         $ref = &$ref[$intKey];
@@ -208,6 +219,12 @@ class JsonPointer
                 } else {
                     throw new Exception('Key not found: ' . $key);
                 }
+            } elseif (is_object($ref)) {
+                if (isset($ref->$key)) {
+                    $ref = $ref->$key;
+                } else {
+                    throw new Exception('Key not found: ' . $key);
+                }
             } else {
                 throw new Exception('Key not found: ' . $key);
             }
@@ -229,10 +246,11 @@ class JsonPointer
     /**
      * @param mixed $holder
      * @param string[] $pathItems
+     * @param int $flags
      * @return mixed
      * @throws Exception
      */
-    public static function remove(&$holder, $pathItems)
+    public static function remove(&$holder, $pathItems, $flags = 0)
     {
         $ref = &$holder;
         while (null !== $key = array_shift($pathItems)) {
@@ -240,6 +258,12 @@ class JsonPointer
             $refKey = $key;
             if ($ref instanceof \stdClass) {
                 if (property_exists($ref, $key)) {
+                    $ref = &$ref->$key;
+                } else {
+                    throw new Exception('Key not found: ' . $key);
+                }
+            } elseif (is_object($ref)) {
+                if (isset($ref->$key)) {
                     $ref = &$ref->$key;
                 } else {
                     throw new Exception('Key not found: ' . $key);
@@ -254,15 +278,29 @@ class JsonPointer
         }
 
         if (isset($parent) && isset($refKey)) {
-            if ($parent instanceof \stdClass) {
+            if ($parent instanceof \stdClass || is_object($parent)) {
                 unset($parent->$refKey);
             } else {
+                $isAssociative = false;
+                $ff = $flags & self::TOLERATE_ASSOCIATIVE_ARRAYS;
+                if ($flags & self::TOLERATE_ASSOCIATIVE_ARRAYS) {
+                    $i = 0;
+                    foreach ($parent as $index => $value) {
+                        if ($i !== $index) {
+                            $isAssociative = true;
+                            break;
+                        }
+                    }
+                }
+
                 unset($parent[$refKey]);
-                if ($refKey !== count($parent)) {
+                if (!$isAssociative && (int)$refKey !== count($parent)) {
                     $parent = array_values($parent);
                 }
             }
         }
+
         return $ref;
     }
+
 }

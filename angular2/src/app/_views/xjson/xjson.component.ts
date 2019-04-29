@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
@@ -34,8 +34,8 @@ const XJSON_DATEPICKER_FORMAT = {
   templateUrl: './xjson.template.html',
   styleUrls: ['./xjson.styles.scss'],
   providers: [
-    {provide: DateAdapter, useClass: MomentDateAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT},
+    { provide: DateAdapter, useClass: MomentDateAdapter },
+    { provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT },
   ]
 })
 export class XjsonComponent implements OnInit, OnDestroy {
@@ -58,6 +58,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public datepickerFocus = false;
   public temporaryModel = {};
   public data;
+  public empty_data = false;
   public opened_step;
   public max_step;
   public current_acceptable_activity: string[];
@@ -84,7 +85,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private router: Router,
     private tableService: TableService,
     public settings: SettingsService
-  ) {}
+  ) { }
 
   pathWatcher() {
     const params = this.route.params.subscribe(
@@ -95,11 +96,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     );
     const strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
-        this.test = (strings['test'] == 'true');
-        if (strings['draft'] == 'true') { this.queryStrings['status'] = 'draft' }
-        if (strings['existing'] == 'true') { this.queryStrings['status'] = 'submitted'; }
+        this.test = (strings['test'] === 'true');
+        if (strings['draft'] === 'true') { this.queryStrings['status'] = 'draft'; }
+        if (strings['existing'] === 'true') { this.queryStrings['status'] = 'submitted'; }
         if (this.form_name && this.form_name.includes('MTSYS') && strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutions_id'] = strings['educationalInstitutions_id']; }
-        if (strings['identifier'] != undefined ) { this.queryStrings['id'] = Number(strings['identifier']); }
+        if (strings['identifier'] !== undefined) { this.queryStrings['id'] = Number(strings['identifier']); }
       }
     );
 
@@ -139,12 +140,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   addressAutocompleteSelectionValidation(element) {
-    if (this.autoCompleteContainer[element] ===  undefined) {
+    if (this.autoCompleteContainer[element] === undefined) {
       return this.temporaryModel[element] = null;
     }
 
     const match = this.autoCompleteContainer[element].find(address => {
-      return address.addressHumanReadable == this.temporaryModel[element];
+      return address.addressHumanReadable === this.temporaryModel[element];
     });
 
     if (!match) {
@@ -162,23 +163,23 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
 
 
-    if (this.autocompleteDebouncer[element]) { clearTimeout(this.autocompleteDebouncer[element]) }
+    if (this.autocompleteDebouncer[element]) { clearTimeout(this.autocompleteDebouncer[element]); }
 
     if (this.autocompleteSubscription[element] !== undefined) {
       this.autocompleteSubscription[element].unsubscribe();
     }
 
     const _this = this;
-    const limit = this.data_elements[element].results || 10;
+    const limit = this.data_elements[element].results || 10;
     const ihist = this.data_elements[element].ihist || 0;
     const apartment = this.data_elements[element].appartment || 0;
 
-    this.autocompleteDebouncer[element] = setTimeout(function() {
+    this.autocompleteDebouncer[element] = setTimeout(function () {
       _this.autocompleteLoader = true;
       const url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist=' + ihist + '&appartment=' + apartment + '&address=' + searchText + '&results=' + limit + '&callback=JSONP_CALLBACK';
-      const jsonp = _this._jsonp.get(url).map(function(res) {
+      const jsonp = _this._jsonp.get(url).map(function (res) {
         return res.json() || {};
-      }).catch(function(error: any) {return throwError(error);});
+      }).catch(function (error: any) { return throwError(error); });
 
       _this.autocompleteSubscription[element] = jsonp.subscribe(data => {
         if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
@@ -201,7 +202,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
 
         _this.autocompleteSubscription[element].unsubscribe();
-      });  
+      });
 
     }, debounceTime);
 
@@ -211,35 +212,35 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (address.apartment != undefined) { return address; }
 
     return {
-      'adr_id' : address.adr_id,
-      'ads_oid' : address.ads_oid,
-      'addressCoded' : address.koodaadress,
-      'county' : address.maakond,
-      'countyEHAK' : address.ehakmk,
-      'localGovernment' : address.omavalitsus,
-      'localGovernmentEHAK' : address.ehakov,
-      'settlementUnit' : address.asustusyksus,
-      'settlementUnitEHAK' : address.ehak,
-      'address' : address.aadresstekst,
-      'apartment' : address.kort_nr,
-      'addressHumanReadable' : address.addressHumanReadable
-      };
+      'adr_id': address.adr_id,
+      'ads_oid': address.ads_oid,
+      'addressCoded': address.koodaadress,
+      'county': address.maakond,
+      'countyEHAK': address.ehakmk,
+      'localGovernment': address.omavalitsus,
+      'localGovernmentEHAK': address.ehakov,
+      'settlementUnit': address.asustusyksus,
+      'settlementUnitEHAK': address.ehak,
+      'address': address.aadresstekst,
+      'apartment': address.kort_nr,
+      'addressHumanReadable': address.addressHumanReadable
+    };
   }
 
   scrollPositionController() {
     const _opened_step = this.opened_step;
     if (_opened_step) {
-      setTimeout(function() {
-        let step_navigation_container = document.getElementById('stepNavigation');
-        let opened_step_element = document.getElementById(_opened_step);
+      setTimeout(function () {
+        const step_navigation_container = document.getElementById('stepNavigation');
+        const opened_step_element = document.getElementById(_opened_step);
 
         const parent_center = step_navigation_container.offsetWidth / 2;
         const button_center = opened_step_element.offsetWidth / 2;
-        let position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
+        const position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
 
         if (window.pageYOffset > 0) {
           try {
-            window.scrollTo({left: 0, top: 0, behavior: 'smooth' });
+            window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
           } catch (e) {
             window.scrollTo(0, 0);
           }
@@ -250,7 +251,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
         function navScroller() {
           try {
-            step_navigation_container.scrollTo({left: position_left,  behavior: 'smooth' });
+            step_navigation_container.scrollTo({ left: position_left, behavior: 'smooth' });
           } catch (e) {
             step_navigation_container.scrollTo(position_left, 0);
           }
@@ -318,7 +319,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (!list) {
       return '*/*';
     } else {
-      return list.map(extentsion => '.' + extentsion).join(','); 
+      return list.map(extentsion => '.' + extentsion).join(',');
     }
   }
 
@@ -337,7 +338,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   canUploadFile(element): boolean {
 
-    let singeFileRestrictionApplies = (element.multiple === false && element.value.length > 0);
+    const singeFileRestrictionApplies = (element.multiple === false && element.value.length > 0);
 
     if (this.isFieldDisabled(element.readonly)) {
       return false;
@@ -389,7 +390,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   tableColumnAttribute(element, index, attribute) {
-    return this.data_elements[element].table_columns[ this.tableColumnName(element, index) ][attribute];
+    return this.data_elements[element].table_columns[this.tableColumnName(element, index)][attribute];
   }
 
   tableAddRow(element): void {
@@ -410,37 +411,36 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   tableDeleteRow(element, rowIndex) {
     this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
-     data: {
-       title: this.translate.get('xjson.table_delete_row_confirm_modal_title')['value'],
-       content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
-       confirm: this.translate.get('button.yes_delete')['value'],
-       cancel: this.translate.get('button.cancel')['value'],
-     }
-   });
-   this.dialogRef.afterClosed().subscribe(result => {
-     if (result === true) {
-      this.data_elements[element].value.splice(rowIndex, 1);
-     }
-     this.dialogRef = null;
-   });
+      data: {
+        title: this.translate.get('xjson.table_delete_row_confirm_modal_title')['value'],
+        content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
+        confirm: this.translate.get('button.yes_delete')['value'],
+        cancel: this.translate.get('button.cancel')['value'],
+      }
+    });
+    this.dialogRef.afterClosed().subscribe(result => {
+      if (result === true) {
+        this.data_elements[element].value.splice(rowIndex, 1);
+      }
+      this.dialogRef = null;
+    });
   }
 
   promptEditConfirmation() {
-		 this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
-		  data: {
+    this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
+      data: {
         title: this.translate.get('xjson.edit_step_confirm_modal_title')['value'],
         content: this.translate.get('xjson.edit_step_confirm_modal_content')['value'],
         confirm: this.translate.get('button.yes_change')['value'],
         cancel: this.translate.get('button.cancel')['value'],
-		  }
+      }
     });
     this.dialogRef.afterClosed().subscribe(result => {
       if (result == true) {
         this.data.header.current_step = this.opened_step;
         this.data.header['activity'] = 'SAVE';
-        const payload = {form_name: this.form_name, form_info: this.data};
-        if (this.test === true) { this.promptDebugDialog(payload) }
-        else { this.getData(payload); }
+        const payload = { form_name: this.form_name, form_info: this.data };
+        if (this.test === true) { this.promptDebugDialog(payload); } else { this.getData(payload); }
       }
       this.dialogRef = null;
     });
@@ -451,8 +451,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   selectLanguage(obj: object) {
-    if (obj[this.lang]) { return obj[this.lang]; }
-    else { return obj['et']; }
+    if (obj[this.lang]) { return obj[this.lang]; } else { return obj['et']; }
   }
 
   setNavigationLinks(list, opened): {}[] {
@@ -462,13 +461,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (list[0] != opened) {
       const previous = list[list.indexOf(opened) - 1];
       if (this.isStepDisabled(previous) === false) {
-        output.push({label: 'button.previous', step: previous, 'type': 'link'});
+        output.push({ label: 'button.previous', step: previous, 'type': 'link' });
       }
     }
     if (list[list.length - 1] != opened) {
       const next = list[list.indexOf(opened) + 1];
       if (this.isStepDisabled(next) === false) {
-        output.push({label: 'button.next', step: next, 'type': 'link'});
+        output.push({ label: 'button.next', step: next, 'type': 'link' });
       }
     }
     return output;
@@ -492,48 +491,48 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (field.value === undefined || field.value === null) { return {valid: false, message: this.translate.get('xjson.missing_required_value')['value']} }
+      if (field.value === undefined || field.value === null) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }; }
     }
     if (typeof field.value !== 'undefined') {
       // check for minlength
       if (field.minlength !== undefined && field.value !== '') {
-        if (field.value.length < field.minlength) { return {valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength } }
+        if (field.value.length < field.minlength) { return { valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }; }
       }
       // check for maxlength
       if (field.maxlength !== undefined && field.value !== '') {
-        if (field.value.length > field.maxlength) { return {valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength } }
+        if (field.value.length > field.maxlength) { return { valid: false, message: this.translate.get('xjson.value_max_length_is')['value'] + ' ' + field.maxlength }; }
       }
       // check for min
       if (field.min !== undefined) {
         if (field.type === 'date') {
           if (moment(field.value).isBefore(field.min)) {
-            return {valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') };
+            return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') };
           }
         } else if (field.value < field.min) {
-          return {valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min };
+          return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min };
         }
       }
       // check for max
       if (field.max !== undefined) {
         if (field.type === 'date') {
           if (moment(field.value).isAfter(field.max)) {
-            return {valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') };
+            return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') };
           }
         } else if (field.value > field.max) {
-          return {valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max };
+          return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max };
         }
       }
       // check for email format
       if (field.type === 'email') {
-          const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-          if (reg.test(field.value) === false) { return {valid: false, message: this.translate.get('xjson.enter_valid_email')['value']  } }
+        const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_email')['value'] }; }
       }
     }
     return { valid: true, message: 'valid' };
   }
   tableValidation(table) {
-    if (!table.value || !table.value.length) {
-      return { valid: true, message: 'valid'};
+    if (!table.value || !table.value.length) {
+      return { valid: true, message: 'valid' };
     }
     for (const row of table.value) {
       for (const col of Object.keys(row)) {
@@ -544,12 +543,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (validation.valid != true) {
           validation['row'] = table.value.indexOf(row);
           validation['column'] = col;
-         return validation;
+          return validation;
         }
       }
     }
 
-    return {valid: true, message: 'valid'};
+    return { valid: true, message: 'valid' };
   }
 
   validateForm(elements): void {
@@ -563,7 +562,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.error[field] = validation;
           break;
         }
-      }  else if (!NOT_FOR_VALIDATION.includes(element.type)) {
+      } else if (!NOT_FOR_VALIDATION.includes(element.type)) {
         const validation = this.isValidField(element);
         if (validation.valid !== true) {
           this.error[field] = validation;
@@ -583,7 +582,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       if (Object.keys(this.error).length == 0) {
         this.data.header['activity'] = activity;
-        const payload = {form_name: this.form_name, form_info: this.data};
+        const payload = { form_name: this.form_name, form_info: this.data };
         if (this.test === true) {
           this.promptDebugDialog(payload);
         } else {
@@ -597,7 +596,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     console.log('DEBUG_ERROR: ', message);
   }
 
-  closeMessage( i ) {
+  closeMessage(i) {
     this.data_messages.splice(i, 1);
   }
 
@@ -618,7 +617,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
     if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence) {
       const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-      if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }) }
+      if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }); }
 
     } else {
       activities.forEach(activity => {
@@ -671,14 +670,18 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
 
     if (this.queryStrings) {
-      data = {...data , ... this.queryStrings};
+      data = { ...data, ... this.queryStrings };
     }
 
-    const subscription = this.http.post('/xjson_service?_format=json', data ).subscribe(response => {
+    const subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
 
       if (!response['header']) { return this.errorHandler('Missing header from response'); }
       if (!response['body']) { return this.errorHandler('Missing body from response'); }
       if (!response['body']['steps']) { return this.errorHandler('Missing body.steps from response'); }
+
+      if(response['body']['steps'].length === 0){
+        this.empty_data = true;
+      }
 
       if (response['header']['current_step']) {
         this.setMaxStep(response);
@@ -717,48 +720,44 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.tableOverflown = {};
     this.elemAtStart = {};
     this.data = xjson;
-    this.data_elements = this.data.body.steps[this.opened_step].data_elements;
-
-    // Concat. all message arrays and display them at all times
-    this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
-
-    if (!this.data_elements) {
-      const payload = {form_name: this.form_name, form_info: xjson};
-
-      if (this.test === true) { this.promptDebugDialog(payload) }
-      else { this.getData(payload) }
-
+    if (typeof this.opened_step !== 'undefined') {
+      this.data_elements = this.data.body.steps[this.opened_step].data_elements;
+      // Concat. all message arrays and display them at all times
+      this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
     } else {
-
-      // Count table elements and set initial settings
-      Object.values(this.data_elements).forEach((elem, index) => {
-        if (elem['type'] === 'table') { this.tableIndexes.push(index); }
-      });
-      this.tableIndexes.forEach((elem) => {
-        this.elemAtStart[elem] = true;
-        this.tableOverflown[elem] = true;
-      });
-
-      this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
-
-      this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
-
-      this.fillAddressFieldsTemporaryModel(this.data_elements);
-
-      this.scrollPositionController();
+      this.data_messages = this.data.body.messages;
     }
+
+      if (this.data_elements) {
+        // Count table elements and set initial settings
+        Object.values(this.data_elements).forEach((elem, index) => {
+          if (elem['type'] === 'table') { this.tableIndexes.push(index); }
+        });
+        this.tableIndexes.forEach((elem) => {
+          this.elemAtStart[elem] = true;
+          this.tableOverflown[elem] = true;
+        });
+
+        this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
+
+        this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
+
+        this.fillAddressFieldsTemporaryModel(this.data_elements);
+
+        this.scrollPositionController();
+
+      }
   }
 
   ngOnInit() {
     this.pathWatcher();
-    const payload = {form_name: this.form_name};
+    const payload = { form_name: this.form_name };
 
     if (this.test === true) {
       this.promptDebugDialog(payload);
     } else {
       // TODO: create catcher to prevent endless loop requests...
       this.getData(payload);
-      console.log(this.data);
     }
   }
 
