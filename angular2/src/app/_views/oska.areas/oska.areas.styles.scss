@@ -115,7 +115,6 @@ h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;}
     th{background:$light-gray; background:$light-gray; font-size:0.875rem; font-weight: 500;}
   }
 }
-
 @include break-on(sm, max) {
   .padding-block{
     .article-image{margin-left:-1.5rem; margin-right:-1.5rem;}
