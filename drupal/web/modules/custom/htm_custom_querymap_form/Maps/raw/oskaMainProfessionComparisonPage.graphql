@@ -1,5 +1,5 @@
 query oskaMainProfessionComparisonPageQuery($lang: LanguageId!) {
-  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "main_profession_comparison_page", language: $lang}}) {
+  nodeQuery(limit:1,sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "main_profession_comparison_page", language: $lang}}) {
     entities(language: $lang) {
       ... on NodeMainProfessionComparisonPage {
         title
