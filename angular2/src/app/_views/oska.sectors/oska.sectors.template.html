@@ -2,16 +2,16 @@
 <div class="sectors main-container">
   <div class="sectors__list-head">
     <div class="sectors__head">
-      <h1 class="sectors__title text-left">{{ 'oskaProfessions.fields' | translate | uppercase }}</h1>
+      <h1 aria-hidden="true" class="sectors__title text-left">{{ 'oskaProfessions.fields' | translate | uppercase }}</h1>
       <div class="button-list">
-        <div class="view-item pointer active" role="tab" attr.aria-label="{{ 'oska.grid' | translate }}" tabindex="0">
+        <div class="view-item pointer active" id="heading" attr.aria-label="{{ 'oskaProfessions.fields' | translate }}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">apps</span>
-          <div aria-hidden="true"class="title" >{{ 'oska.grid' | translate }}</div>
+          <div aria-hidden="true" class="title">{{ 'oska.grid' | translate }}</div>
         </div>
-        <div class="view-item pointer" role="tab"  (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.data' | translate }}" tabindex="0">
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.data' | translate }}  {{ 'oska.view' | translate}}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">compare_arrows</span>
           <div aria-hidden="true"class="title">{{ 'oska.data' | translate }}</div>
-        </div>
+        </div>  
       </div>
     </div>
   </div><!--/row-->
