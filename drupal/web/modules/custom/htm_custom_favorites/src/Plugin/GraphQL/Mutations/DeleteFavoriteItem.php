@@ -50,8 +50,7 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 				$pluginId,
 				$pluginDefinition,
 				$container->get('entity_type.manager'),
-				$container->get('current_user'),
-                $container->get('renderer')
+				$container->get('current_user')
 		);
 	}
 
@@ -63,10 +62,9 @@ class DeleteFavoriteItem extends DeleteEntityBase {
 			$pluginId,
 			$pluginDefinition,
 			EntityTypeManagerInterface $entityTypeManager,
-			AccountInterface $currentUser,
-            RendererInterface $renderer)
+			AccountInterface $currentUser)
 	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager, $renderer);
+		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
 		$this->currentUser = $currentUser;
 	}
 
