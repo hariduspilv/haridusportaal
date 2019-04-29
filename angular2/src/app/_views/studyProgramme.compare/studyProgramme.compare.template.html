@@ -7,12 +7,12 @@
       <div class="block">
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>
         <div class="row">
-          <div class="col-10 flex">
+          <div class="col-12 flex">
             <h1 class="block-heading">{{ 'studyProgramme.compare_modal_title' | translate | titleCase }}</h1>
           </div>
-          <div class="col-2 flex action--back">
+          <!-- <div class="col-2 flex action--back">
             <a href="javascript:void(0)" [routerLink]="back()">{{ 'button.back' | translate }}</a>
-          </div>
+          </div> -->
         </div>
         <div class="scrollable">
           <div class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart" 
@@ -110,8 +110,9 @@
                 <tr>
                   <td>{{ 'studyProgramme.nominal_time' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
-                    {{ item.durationYears }} aastat 
-
+                    <ng-container *ngIf="item.durationYears && item.durationYears !== 0">
+                      {{ item.durationYears }} aasta<span *ngIf="item.durationYears > 1">t</span>
+                    </ng-container>
                     <ng-container *ngIf="item.durationMonths && item.durationMonths !== 0">
                       {{ item.durationMonths }} kuud
                     </ng-container>

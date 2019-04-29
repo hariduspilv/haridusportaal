@@ -73,12 +73,13 @@
               </div><!--/col-10-->
           </div><!--/row-->
 
-          <feedback [nid]="content.nid"></feedback>
+          <feedback class="sm-hide" [nid]="content.nid"></feedback>
         </article>
       </div>
     </div><!--/col-8-->
     <div class="col-4 sm-12">
       <recent-news [nid]="content.nid"></recent-news>
+      <feedback class="feedback--sm sm-show" [nid]="content.nid"></feedback>
     </div><!--/col-4-->
   </div><!--/row-->
   <!-- <div class="row mb-20 sm-show">
