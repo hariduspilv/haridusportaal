@@ -49,7 +49,7 @@
             </div><!--/col-10-->
           </div><!--/row-->
 
-          <feedback [nid]="content.entity.nid"></feedback>
+          <feedback class="sm-hide" [nid]="content.entity.nid"></feedback>
 
         </article>
       </div>
@@ -60,6 +60,7 @@
     </div><!--/col-8-->
     <div class="col-4 sm-12">
       <recent-events (viewChange)="onViewChange($event)" [map]="map" [nid]="content.entity.nid" [content]="content"></recent-events>
+      <feedback class="feedback--sm sm-show" [nid]="content.entity.nid"></feedback>
     </div><!--/col-4-->
     <div class="col-8 sm-12 sm-show">
       <div class="events__list" *ngIf="content.entity.fieldEventGroup">

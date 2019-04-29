@@ -20,7 +20,7 @@ tips:
     body: 'If the index is attached to a server, this server is listed here.'
   search-api-index-server-index-status:
     label: 'Server index status'
-    body: 'For enabled indexes, the number of items that can actually be retrieved from the server is listed here. For reasons why this number might differ from the number under "Index status", <a href="https://www.drupal.org/node/2009804#server-index-status">see the module''s documentation</a>.'
+    body: 'For enabled indexes, the number of items that can actually be retrieved from the server is listed here. For reasons why this number might differ from the number under "Index status", <a href="https://www.drupal.org/docs/8/modules/search-api/getting-started/frequently-asked-questions#server-index-status">see the module''s documentation</a>.'
   search-api-index-cron-batch-size:
     label: 'Cron batch size'
     body: 'The number of items that will be indexed at once during cron runs.'

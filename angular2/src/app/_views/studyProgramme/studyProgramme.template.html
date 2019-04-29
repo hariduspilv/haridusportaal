@@ -208,8 +208,8 @@
             <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactEmail">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactEmail }}</span>
             <span class="bar" *ngIf="item.fieldDurationYears || item.fieldDurationMonths">|</span>
             <span class="item" *ngIf="item.fieldDurationYears || item.fieldDurationMonths">
-              <ng-container *ngIf="item.fieldDurationYears && item.fieldDurationYears !== 0">{{ item.fieldDurationYears }} aastat </ng-container>
-              <ng-container *ngIf="item.fieldDurationMonths && item.fieldDurationMonths !== 0">{{ item.fieldDurationMonths }} kuud</ng-container>
+              <ng-container *ngIf="item.fieldDurationYears && item.fieldDurationYears !== 0">{{ item.fieldDurationYears }} aasta<span *ngIf="item.fieldDurationYears > 1">t</span> </ng-container>
+              <ng-container *ngIf="item.fieldDurationMonths && item.fieldDurationMonths !== 0"> {{ item.fieldDurationMonths }} kuud</ng-container>
             </span>
             <span class="bar" *ngIf="item.fieldTeachingLanguage">|</span>
             <span class="item" *ngIf="item.fieldTeachingLanguage">

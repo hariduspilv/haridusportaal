@@ -95,19 +95,20 @@
           </div>
         </div>
 
-        <feedback [nid]="data.nid"></feedback>
+        <feedback class="sm-hide" [nid]="data.nid"></feedback>
         
       </div>
       <div class="orange-container" id="contacts-mobile">
         <ng-container *ngTemplateOutlet="contacts"></ng-container>
       </div>
       <school-study-programmes [schoolName]="data.title" [schoolId]="data.nid"></school-study-programmes>
-
-      
     </div>
     <!-- /col-8 -->
     <div class="col-4 right-col" id="contacts">
       <ng-container *ngTemplateOutlet="contacts"></ng-container>
+    </div>
+    <div class="col-4 sm-12">
+      <feedback class="feedback--sm sm-show" [nid]="data.nid"></feedback>
     </div>
     <!-- /col-4 -->
   </div>
