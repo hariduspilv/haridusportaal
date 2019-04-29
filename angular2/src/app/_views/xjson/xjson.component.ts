@@ -728,16 +728,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.data_messages = this.data.body.messages;
     }
 
-      if (!this.data_elements) {
-        const payload = { form_name: this.form_name, form_info: xjson };
-        if (this.test === true) {
-          this.promptDebugDialog(payload)
-        } else {
-          this.getData(payload)
-        }
-
-      } else {
-
+      if (this.data_elements) {
         // Count table elements and set initial settings
         Object.values(this.data_elements).forEach((elem, index) => {
           if (elem['type'] === 'table') { this.tableIndexes.push(index); }
@@ -750,13 +741,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
 
         this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
-        console.log('teres');
 
         this.fillAddressFieldsTemporaryModel(this.data_elements);
 
         this.scrollPositionController();
-      }
 
+      }
   }
 
   ngOnInit() {

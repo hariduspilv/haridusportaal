@@ -1,5 +1,5 @@
 @import "../../../assets/styles/typography.scss";
-:host{margin-bottom: 4.5rem; display: block;
+:host{display: block;
   @include break-on(sm, min) {margin-bottom: 5.25rem;}
 }
 

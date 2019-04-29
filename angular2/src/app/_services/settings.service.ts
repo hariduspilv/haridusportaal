@@ -12,7 +12,7 @@ export class SettingsService {
   url = "";
 
   urlTemplates = {
-    "192.168.6.219": "http://test-htm.wiseman.ee:30000",
+    "192.168.6.193": "http://test-htm.wiseman.ee:30000",
     "localhost": "http://test-htm.wiseman.ee:30000",
     "htm.twn.ee": "http://test-htm.wiseman.ee:30000",
     "edu.ee": "https://api.hp.edu.ee",
