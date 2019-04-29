@@ -175,6 +175,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
       }
       this.data = response['data']['nodeQuery']['entities'];
       this.loading = false;
+      document.getElementById('heading').focus();
     }, (err) => {
       this.errMessage = true
       this.loading = false;
