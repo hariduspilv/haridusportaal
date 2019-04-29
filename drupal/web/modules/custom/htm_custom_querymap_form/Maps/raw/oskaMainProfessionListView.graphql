@@ -90,7 +90,7 @@ $fillingBarFilterEnabled: Boolean) {
     }
     __typename
   }
-  comparisonPage:nodeQuery(limit:1,sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "main_profession_comparison_page", language: $lang}}) {
+  comparisonPage:nodeQuery(limit:1,sort: {field: "changed", direction: DESC}, filter: {conditions: [{field: "type", value: "main_profession_comparison_page", language: $lang}, {field: "status", value: "1"}]}) {
     count
   }
 }
