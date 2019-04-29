@@ -9,7 +9,11 @@
       }
     }
   }
-  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%; font-weight: normal;}
+  &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%; font-weight: normal;
+    @include break-on(sm, max){
+      text-align: center;
+    }
+  }
   &__list-head {margin-top: 0;}
   &__list-body {padding: 1.5rem 0 3rem;
     @include break-on(sm, min) {padding: 1rem 1.5rem 3rem;}
