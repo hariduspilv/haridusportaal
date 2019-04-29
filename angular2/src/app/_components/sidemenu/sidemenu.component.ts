@@ -16,8 +16,6 @@ export class SideMenuComponent implements OnInit {
   public version: any = false;
   subscription: any;
 
-  debounce: any;
-
   constructor(
     private sidemenuService: SideMenuService,
     private router: Router,
@@ -42,21 +40,18 @@ export class SideMenuComponent implements OnInit {
   }
 
   getData(){
-    clearTimeout( this.debounce );
-    this.debounce = setTimeout( () => {
-      let lang = this.rootScope.get("lang");
-      
-      let variables = {
-        language: lang.toUpperCase()
-      };
+    let lang = this.rootScope.get("lang");
+    
+    let variables = {
+      language: lang.toUpperCase()
+    };
 
-      
-      let subscription = this.http.get('getMenu', { params: variables} ).subscribe( (response) => {
-        let data = response['data'];
-        this.data = data['menu']['links'];
-        subscription.unsubscribe();
-      });
-    }, 300);
+    
+    let subscription = this.http.get('getMenu', { params: variables} ).subscribe( (response) => {
+      let data = response['data'];
+      this.data = data['menu']['links'];
+      subscription.unsubscribe();
+    });
     
   }
   ngOnInit() {

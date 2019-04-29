@@ -1,7 +1,7 @@
 @import "../../../assets/styles/typography.scss"; 
 @import "../../../assets/styles/layout.scss"; 
 
-:host{position:fixed; bottom:0; left:0; width:100%; z-index: 9999999999; font-family:Rubik;
+:host{position:fixed; bottom:0; left:0; width:100%; z-index: 9999; font-family:Rubik;
   .inline{max-width:1280px; margin:0 auto; border:#c7c7c9 1px solid; border-radius:4px; background:#eeeeee; padding:1.4375rem 4.75rem; display:flex; position:relative;
     @include break-on(sm, max) { padding:1.4375rem 2rem;  flex-wrap: wrap; }
   }
