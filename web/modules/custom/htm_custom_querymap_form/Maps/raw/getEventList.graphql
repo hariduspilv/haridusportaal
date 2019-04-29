@@ -59,7 +59,7 @@ query getEventList($tagsValue: [String], $tagsEnabled: Boolean, $typesValue: [St
   }
 }
 
-fragment eventdates on FieldNodeEventFieldEventDate {
+fragment eventdates on FieldNodeFieldEventDate {
   entity {
     ... on ParagraphEventDate {
       fieldEventDate:fieldEventAdditionalDate{
@@ -73,7 +73,7 @@ fragment eventdates on FieldNodeEventFieldEventDate {
   }
 }
 
-fragment registrationdates on FieldNodeEventFieldRegistrationDate {
+fragment registrationdates on FieldNodeFieldRegistrationDate {
   entity {
     ... on ParagraphRegistrationPeriod {
       fieldRegistrationFirstDate {
