@@ -105,6 +105,8 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
             }
         }
 
+        dump($highlights);
+        die();
         $this->getAutocompleteValues($highlights);
 
         if(count($this->autocomplete_values) > 0){
@@ -160,7 +162,7 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                 ]
             ],
             'rescore' => [
-                'window_size' => 100,
+                'window_size' => 150,
                 'query' => [
                     'rescore_query' => [
                         'match_phrase' => [
@@ -247,6 +249,9 @@ class ElasticAutocompleteQuery extends FieldPluginBase implements ContainerFacto
                         array_splice($array_locations, $this->autocomplete_limit);
                     }
 
+                    dump($array_locations);
+                    dump($item);
+                    die();
                     #clean values for output and extract only values, that are needed for output
                     foreach($array_locations as $location){
                         if(isset($item[$location])){
