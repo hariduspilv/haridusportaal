@@ -57,8 +57,7 @@ class CreateEventRegistration extends CreateEntityBase{
 			$pluginDefinition,
 			$container->get('entity_type.manager'),
 			$container->get('htm_custom_graphql_functions.language_negotiator'),
-			$container->get('language_manager'),
-            $container->get('renderer'));
+			$container->get('language_manager'));
 	}
 
 	/**
@@ -70,10 +69,9 @@ class CreateEventRegistration extends CreateEntityBase{
 		$pluginDefinition,
 		EntityTypeManagerInterface $entityTypeManager,
 		CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
-		LanguageManager $languageManager,
-        RendererInterface $renderer)
+		LanguageManager $languageManager)
 	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager, $renderer);
+		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
 		$this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
 		$this->languageManager = $languageManager;
 	}
@@ -146,9 +144,12 @@ class CreateEventRegistration extends CreateEntityBase{
 	protected function canRegister($input, EntityStorageInterface $storage){
 		$node = Node::load($input['event_reference']);
 		$registration_count = (int) $node->get('field_max_number_of_participants')->value;
-		$registred = count($storage->loadByProperties(['event_reference' => $input['event_reference']]));
-		return ($registred >= $registration_count) ? FALSE : TRUE;
-
+		if($registration_count > 0){
+            $registred = count($storage->loadByProperties(['event_reference' => $input['event_reference']]));
+            return ($registred >= $registration_count) ? FALSE : TRUE;
+        }else{
+		    return TRUE;
+        }
 	}
 
 }
