@@ -128,7 +128,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     this.modal.index = index;
 
     if( this.modal.fieldOskaVideo ){
-      this.modal.videoUrl = 'http://www.youtube.com/embed/'+this.modal.fieldOskaVideo.videoId;
+      this.modal.videoUrl = `${window.location.protocol}//www.youtube.com/embed/${this.modal.fieldOskaVideo.videoId}`;
     }
 
     try{
