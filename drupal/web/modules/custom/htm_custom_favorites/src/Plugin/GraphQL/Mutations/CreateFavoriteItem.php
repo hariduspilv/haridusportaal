@@ -68,8 +68,7 @@ class CreateFavoriteItem extends CreateEntityBase{
 				$container->get('entity_type.manager'),
 				$container->get('htm_custom_graphql_functions.language_negotiator'),
 				$container->get('current_user'),
-				$container->get('language_manager'),
-                $container->get('renderer'));
+				$container->get('language_manager'));
 	}
 
 	/**
@@ -82,10 +81,9 @@ class CreateFavoriteItem extends CreateEntityBase{
 			EntityTypeManagerInterface $entityTypeManager,
 			CustomGraphqlLanguageNegotiator $CustomGraphqlLanguageNegotiator,
 			AccountInterface $currentUser,
-			LanguageManager $languageManager,
-            RendererInterface $renderer)
+			LanguageManager $languageManager)
 	{
-		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager, $renderer);
+		parent::__construct($configuration, $pluginId, $pluginDefinition, $entityTypeManager);
 		$this->CustomGraphqlLanguageNegotiator = $CustomGraphqlLanguageNegotiator;
 		$this->languageManager = $languageManager;
 		$this->currentUser = $currentUser;
