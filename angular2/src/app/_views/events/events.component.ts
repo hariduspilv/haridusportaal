@@ -50,6 +50,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   eventsTags: any;
   eventsTagsObs: any;
 
+  loadFlag: boolean = false;
+
   eventsTypes: any;
   eventsTypesObs: any;
 
@@ -228,6 +230,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   }
 
   loadMore() {
+
+    this.loadFlag = true;
+
     this.eventsConfig.offset = this.eventListRaw.length;
   
     let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
@@ -236,6 +241,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     
     let subscriber = this.http.get('getEventList', {params: variables}).subscribe((response) => {
       
+      this.loadFlag = false;
       let data = response['data'];
 
       this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
