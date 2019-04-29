@@ -236,6 +236,10 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     return '';
   }
  
+  changeView() {
+    this.router.navigate(['ametialad/andmed'])
+  }
+
   ngOnInit () {
     this.showFilter = this.deviceService.isDesktop();
     this.filterFull = this.deviceService.isMobile() || this.deviceService.isTablet();

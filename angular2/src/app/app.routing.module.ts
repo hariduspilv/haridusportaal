@@ -28,7 +28,8 @@ import {
   OskaResultsComponent,
   OskaResultsTableComponent,
   CertificateCheckComponent,
-  OskaSectorsCompareComponent
+  OskaSectorsCompareComponent,
+  OskaMainProfessionCompareComponent
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
@@ -80,6 +81,7 @@ const appRoutes: Routes = [
   { path: 'login/cancel', redirectTo: '' },
   { path: 'ametialad/võrdlus', component: OskaProfessionsCompareComponent},
   { path: 'ametialad', component: OskaProfessionsComponent},
+  { path: 'ametialad/andmed', component: OskaMainProfessionCompareComponent},
   { path: 'valdkonnad', component: OskaSectorsComponent},
   { path: 'valdkonnad/andmed', component: OskaSectorsCompareComponent},
   { path: 'ametialad/:id', component: OskaAreasComponent},
@@ -143,6 +145,7 @@ export const routedComponents = [
   OskaAreasComponent,
   OskaProfessionsComponent,
   OskaProfessionsCompareComponent,
+  OskaMainProfessionCompareComponent,
   OskaSectorsComponent,
   OskaSectorsCompareComponent,
   OskaResultsComponent,
@@ -155,6 +158,6 @@ export const routedComponents = [
   TeachingsComponent,
   PreviewComponent,
   CertificateCheckComponent,
-  VariablesComponent
+  VariablesComponent,
 ];
 
