@@ -34,7 +34,6 @@ export class AppComponent implements OnInit {
   isSidenavCloseDisabled: boolean;
   routeSub: any;
   wasClicked: boolean = false;
-  routeName: string;
 
   constructor(
     private sidemenu: SideMenuService,
@@ -67,7 +66,6 @@ export class AppComponent implements OnInit {
     router.events.subscribe( (event: Event) => {
 
       if (event instanceof RoutesRecognized) {
-        this.routeName = event.state.root.firstChild.component['name'];
         let params = event.state.root.firstChild.params;
         this.isLandingPage = (event.url === '/oska' || event.url === '/');
         if (params && params.lang && (params.lang === 'et' || params.lang === 'en')) {
