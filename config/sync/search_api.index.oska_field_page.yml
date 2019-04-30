@@ -2,20 +2,20 @@ uuid: 8287e370-d803-4cb1-b0b3-a1b286de0936
 langcode: et
 status: true
 dependencies:
-  module:
-    - node
-    - paragraphs
-    - search_api
   config:
     - field.storage.node.field_oska_field_accordion
-    - field.storage.paragraph.field_body
     - field.storage.paragraph.field_title
+    - field.storage.paragraph.field_body
     - field.storage.node.body
     - field.storage.node.field_introduction
     - field.storage.node.field_oska_field_sidebar
     - field.storage.paragraph.field_oska_field_cons
     - field.storage.paragraph.field_oska_field_pros
     - search_api.server.elasticsearch_server
+  module:
+    - paragraphs
+    - node
+    - search_api
 id: oska_field_page
 name: 'OSKA Field Page'
 description: ''
