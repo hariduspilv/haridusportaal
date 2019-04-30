@@ -10,7 +10,7 @@
     }
   }
   &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%; font-weight: normal;
-    @include break-on(sm, max){
+    @include break-on(xs, max){
       text-align: center;
     }
   }
