@@ -35,7 +35,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   private oskaFixedLabels: any = [];
   private oskaFixedLabelsObs: any = [];
   private fillingBarValues = [1, 2, 3, 4, 5];
-  private hasComparisonPage = false;
+  public hasComparisonPage = false;
   private sortedBy: Array<Object> = [
     { name: 'Brutopalga järgi kasvavalt', id: 'field_bruto-asc', modifier: 'ASC' },
     { name: 'Brutopalga järgi kahanevalt', id: 'field_bruto-desc', modifier: 'DESC' },

@@ -33,7 +33,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   private modal:any = false;
   private colsPerRow = 4;
   private lastWidth = 0;
-  private hasComparisonPage: boolean = false;
+  public hasComparisonPage: boolean = false;
 
   constructor(
     private http: HttpService,
