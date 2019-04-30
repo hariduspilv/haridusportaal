@@ -33,6 +33,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   private modal:any = false;
   private colsPerRow = 4;
   private lastWidth = 0;
+  private hasComparisonPage: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -168,11 +169,12 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
       limit: this.limit,
       nidEnabled: false
     };
-    this.dataSub = this.http.get('oskaFieldListView', {params:variables}).subscribe(response => {
+    this.dataSub = this.http.get('oskaFieldListView', {params:variables}).subscribe((response: any) => {
       if (response['errors']) {
         this.loading = false;
         this.errMessage = true;
       }
+      this.hasComparisonPage = response.data.comparisonPage.count;
       this.data = response['data']['nodeQuery']['entities'];
       this.loading = false;
       document.getElementById('heading').focus();

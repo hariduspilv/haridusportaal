@@ -126,7 +126,7 @@
           <span aria-hidden="true" class="htm-icon">apps</span>
           <div aria-hidden="true" class="title" >{{ 'oskaProfessions.label' | translate }}</div>
         </div>
-        <div role="tab" class="view-item pointer" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.data' | translate }} {{ 'oska.view' | translate }}" tabindex="0"> 
+        <div *ngIf="hasComparisonPage" role="tab" class="view-item pointer" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.data' | translate }} {{ 'oska.view' | translate }}" tabindex="0"> 
           <span aria-hidden="true" class="htm-icon">compare_arrows</span>
           <div aria-hidden="true" class="title">{{ 'oska.data' | translate }}</div>
         </div>

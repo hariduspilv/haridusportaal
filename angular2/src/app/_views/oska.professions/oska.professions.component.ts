@@ -35,6 +35,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   private oskaFixedLabels: any = [];
   private oskaFixedLabelsObs: any = [];
   private fillingBarValues = [1, 2, 3, 4, 5];
+  private hasComparisonPage = false;
   private sortedBy: Array<Object> = [
     { name: 'Brutopalga järgi kasvavalt', id: 'field_bruto-asc', modifier: 'ASC' },
     { name: 'Brutopalga järgi kahanevalt', id: 'field_bruto-desc', modifier: 'DESC' },
@@ -178,7 +179,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       sortDirection: this.params['sortedBy'] ? this.params['sortedBy'].split('-')[1].toUpperCase() : 'ASC',
       indicatorSort: this.params['sortedBy'] ? true : false,
     };
-    this.dataSub = this.http.get('oskaMainProfessionListView', {params:variables}).subscribe(response => {
+    this.dataSub = this.http.get('oskaMainProfessionListView', {params:variables}).subscribe((response: any) => {
       let responseVal: any = response['data']['nodeQuery'];
       this.loading = false;
       if (response['errors']) {
@@ -186,6 +187,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
         this.data = [];
         this.errMessage = response['errors'][0]['message'];
       }
+      this.hasComparisonPage = response.data.comparisonPage.count;
       this.data = this.data && this.data.length ? [...this.data, ...responseVal['entities']] : responseVal['entities'];
       if( responseVal.count <= this.listLimit ){ 
         this.listEnd = true;
