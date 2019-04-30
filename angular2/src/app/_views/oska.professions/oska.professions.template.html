@@ -121,7 +121,7 @@
   <div class="studyProgramme__list-head">
     <div class="studyProgramme__head" id="searchHead">
       <div class="studyProgramme__title text-left">{{ 'oskaProfessions.label' | translate | uppercase }}</div>
-      <div class="button-list">
+      <div *ngIf="hasComparisonPage" class="button-list">
         <div role="tab" class="view-item pointer active" attr.aria-label="{{ 'oskaProfessions.label' | translate }} {{ 'oska.view' | translate }}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">apps</span>
           <div aria-hidden="true" class="title" >{{ 'oskaProfessions.label' | translate }}</div>

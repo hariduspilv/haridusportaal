@@ -231,19 +231,23 @@
   </div>
   <!-- / sidebar.fieldJobs / -->
   <!-- sidebar.fieldQuickFind -->
-  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldQuickFind && sidebar.fieldQuickFind.length">
+  <div class="block border-orange padding-block sm-top" *ngIf="viewType === 'mainProfession'">
     <h1 class="medium">{{ 'sidebar.find_quick' | translate }}</h1>
     <div class="padding-block--content">
       <ul class="link-list mt-0 mb-0">
-        <ng-container *ngFor="let item of sidebar.fieldQuickFind; let ind = index;">
-          <li *ngIf="ind < limits['profQuickFind']">
-            <a href="{{item.url.path}}" attr.id="fieldQuickFind_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
-              <span>
-                <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
-                <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
-              </span>
-            </a>
-          </li>
+        <li><a href="/ametialad"><span class="htm-icon">link</span><span class="label">{{ 'oskaProfessions.professions_all' | translate}}</span></a></li>
+        <li><a href="/ametialad/andmed"><span class="htm-icon">link</span><span class="label">{{ 'oskaProfessions.data' | translate }}</span></a></li>
+        <ng-container *ngIf="sidebar.fieldQuickFind && sidebar.fieldQuickFind.length">
+          <ng-container *ngFor="let item of sidebar.fieldQuickFind; let ind = index;">
+            <li *ngIf="ind < limits['profQuickFind']">
+              <a href="{{item.url.path}}" attr.id="fieldQuickFind_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{item.title}}" class="link">
+                <span>
+                  <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
+                  <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
+                </span>
+              </a>
+            </li>
+          </ng-container>
         </ng-container>
       </ul>
       <ng-container *ngIf="typeStatus['profQuickFind']">
@@ -252,7 +256,7 @@
           <a role="button" href="javascript:void(0)" (click)="showMore('profQuickFind', 'fieldQuickFind')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldQuickFind.length - limits['profQuickFind']}})</span></a>
         </div>
       </ng-container>
-      <ng-container *ngIf="!typeStatus['profQuickFind'] && sidebar.fieldQuickFind.length > generalLimiter" >
+      <ng-container *ngIf="!typeStatus['profQuickFind'] && sidebar.fieldQuickFind && sidebar.fieldQuickFind.length > generalLimiter" >
         <hr aria-hidden="true">
         <div class="showMore">
           <a role="button" href="javascript:void(0)" (click)="hideExtra('profQuickFind', 'fieldQuickFind')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldQuickFind.length - generalLimiter}})</span></a>
@@ -343,19 +347,23 @@
   </div>
   <!-- / sidebar.fieldOskaMainProfession / -->
   <!-- sidebar.fieldOskaFieldQuickFind -->
-  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldOskaFieldQuickFind && sidebar.fieldOskaFieldQuickFind.length">
+  <div class="block border-orange padding-block sm-top" *ngIf="viewType == 'field'">
     <h1 class="medium">{{ 'sidebar.find_quick' | translate }}</h1>
     <div class="padding-block--content">
       <ul class="link-list mt-0 mb-0">
-        <ng-container *ngFor="let item of sidebar.fieldOskaFieldQuickFind; let ind = index;">
-          <li *ngIf="ind < limits['quickFind']">
-            <a href="{{item.url.path}}" attr.id="fieldOskaFieldQuickFind_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link">
-              <span>
-                <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
-                <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
-              </span>
-            </a>
-          </li>
+        <li><a href="/valdkonnad"><span class="htm-icon">link</span><span class="label">{{'oskaProfessions.fields_all' | translate}}</span></a></li>
+        <li><a href="/valdkonnad/andmed"><span class="htm-icon">link</span><span class="label">{{'oskaProfessions.fieldsCompare' | translate}}</span></a></li>
+        <ng-container *ngIf="sidebar.fieldOskaFieldQuickFind && sidebar.fieldOskaFieldQuickFind.length">
+          <ng-container *ngFor="let item of sidebar.fieldOskaFieldQuickFind; let ind = index;">
+            <li *ngIf="ind < limits['quickFind']">
+              <a href="{{item.url.path}}" attr.id="fieldOskaFieldQuickFind_{{ind}}" [attr.target]="!item.url.routed ? '_blank' : ''" attr.aria-label="{{'link.outer' | translate}}" class="link">
+                <span>
+                  <ng-container *ngIf="item.url.routed"><span class="htm-icon">link</span><span class="label">{{item.title}}</span></ng-container>
+                  <ng-container *ngIf="!item.url.routed"><span class="htm-icon">launch</span><span class="label">{{item.title}}</span></ng-container>
+                </span>
+              </a>
+            </li>
+          </ng-container>
         </ng-container>
       </ul>
       <ng-container *ngIf="typeStatus['quickFind']">
@@ -364,7 +372,7 @@
           <a role="button" href="javascript:void(0)" (click)="showMore('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.show_more' | translate}}">+ {{'button.show_more' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - limits['quickFind']}})</span></a>
         </div>
       </ng-container>
-      <ng-container *ngIf="!typeStatus['quickFind'] && sidebar.fieldOskaFieldQuickFind.length > generalLimiter" >
+      <ng-container *ngIf="!typeStatus['quickFind'] && sidebar.fieldOskaFieldQuickFind && sidebar.fieldOskaFieldQuickFind.length > generalLimiter" >
         <hr aria-hidden="true">
         <div class="showMore">
           <a role="button" href="javascript:void(0)" (click)="hideExtra('quickFind', 'fieldOskaFieldQuickFind')" attr.aria-label="{{'button.hide_extra' | translate}}">- {{'button.hide_extra' | translate}} <span>({{sidebar.fieldOskaFieldQuickFind.length - generalLimiter}})</span></a>
