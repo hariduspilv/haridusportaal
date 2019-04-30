@@ -8,24 +8,24 @@ dependencies:
     - node
     - search_api
   config:
-    - field.storage.node.body
     - field.storage.node.field_accordion_section
+    - field.storage.paragraph.field_survey_accordion_title
     - field.storage.paragraph.field_body
     - field.storage.node.field_author
-    - field.storage.node.field_body
-    - field.storage.node.field_body_summary
+    - field.storage.node.body
+    - field.storage.node.field_organizer
     - field.storage.node.field_oska_field_sidebar
     - field.storage.paragraph.field_cons
-    - field.storage.node.field_event_type
-    - field.storage.node.field_introduction
-    - field.storage.node.field_organizer
     - field.storage.paragraph.field_oska_field_cons
     - field.storage.paragraph.field_oska_field_pros
     - field.storage.paragraph.field_pros
     - field.storage.node.field_registration_code
-    - field.storage.node.field_short_description
-    - field.storage.paragraph.field_survey_accordion_title
     - field.storage.node.field_tag
+    - field.storage.node.field_introduction
+    - field.storage.node.field_body_summary
+    - field.storage.node.field_short_description
+    - field.storage.node.field_body
+    - field.storage.node.field_event_type
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:
