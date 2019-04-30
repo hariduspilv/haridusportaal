@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, HostListener, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from './_services';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized, GuardsCheckStart } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
@@ -34,6 +34,7 @@ export class AppComponent implements OnInit {
   isSidenavCloseDisabled: boolean;
   routeSub: any;
   wasClicked: boolean = false;
+  routeName: string;
 
   constructor(
     private sidemenu: SideMenuService,
@@ -66,6 +67,7 @@ export class AppComponent implements OnInit {
     router.events.subscribe( (event: Event) => {
 
       if (event instanceof RoutesRecognized) {
+        this.routeName = event.state.root.firstChild.component['name'];
         let params = event.state.root.firstChild.params;
         this.isLandingPage = (event.url === '/oska' || event.url === '/');
         if (params && params.lang && (params.lang === 'et' || params.lang === 'en')) {
@@ -76,7 +78,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationStart) {
         this.menuStyle();
       }
-
+      
       if (event instanceof NavigationEnd) {
           // Hide loading indicator
         //this.sidemenu.triggerLang();
@@ -85,7 +87,6 @@ export class AppComponent implements OnInit {
 
       if (event instanceof NavigationError) {
         console.log('NavigationError: Previous route doesn`t exist or is broken. Look into the code inside ngOnDestroy. Might be a logic error. Did you unsubscribe on something there wasnt a subscription?');
-        // this.router.navigateByUrl(`/404`, {replaceUrl: true});
       }
         
     });
