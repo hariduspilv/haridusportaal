@@ -437,8 +437,8 @@ frontpage:
     en: 'Maht ENG'
   message:
     translation_type: textarea
-    et: 'Oi oi'
-    en: Ups
+    et: Oi-oi
+    en: 'Oh noes'
   eksamiNimetus:
     translation_type: textarea
     et: 'Eksami nimetus'
@@ -1257,6 +1257,10 @@ school:
     translation_type: textarea
     et: 'Haldusüksuste piirjoonte allikas Maa-amet, andmed seisuga'
     en: 'Subsidy project source Maa-amet, data created in'
+  maps:
+    translation_type: textarea
+    et: Koolikaart
+    en: Schools
 studyProgramme:
   label:
     translation_type: textarea
@@ -2237,6 +2241,18 @@ oskaProfessions:
     translation_type: textarea
     et: 'Valdkondade andmed'
     en: 'Valdkondade andmed-eng'
+  data:
+    translation_type: textarea
+    et: 'Ametialade andmed'
+    en: 'Ametialade andmed-eng'
+  fields_all:
+    translation_type: textarea
+    et: 'Kõik valdkonnad'
+    en: 'Kõik valdkonnad-eng'
+  professions_all:
+    translation_type: textarea
+    et: 'Kõik ametialad'
+    en: 'Kõik ametialad- eng'
 fieldFixedLabel:
   label:
     translation_type: textarea

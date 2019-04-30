@@ -70,9 +70,9 @@ export class OskaAreasSidebarComponent implements OnInit {
 	constructor(private rootScope: RootScopeService, private route: ActivatedRoute) {}
   
   ngOnInit() {
-    if (this.viewType === 'field' && this.fieldName) {
-      this.fieldQuery = {field: this.fieldName};
-    }
+    // if (this.viewType === 'field' && this.fieldName) {
+    //   this.fieldQuery = {field: this.fieldName};
+    // }
     if (this.viewType === 'mainProfession' && this.fillingbar[0] && this.fillingbar[0].value) {
       this.competitionLevel = parseInt(this.fillingbar[0].value, 10);
       this.competitionLabel = this.competitionLabels[this.competitionLevel - 1];
