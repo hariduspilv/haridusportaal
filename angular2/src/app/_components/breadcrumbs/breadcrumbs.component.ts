@@ -42,6 +42,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
       
       if( !data['route'] ){
         this.router.navigateByUrl(`/404`, { skipLocationChange: true });
+        return;
       }
       this.metaTags.set(data['route']['entity']['entityMetatags']);
       this.breadcrumb = data['route']['breadcrumb'];
