@@ -112,7 +112,9 @@ export class ArticleComponent implements OnInit, OnDestroy{
           .subscribe( (response) => {
             this.userLoggedOut = this.user.getData()['isExpired'];
             let data = response['data']['route'];
-            this.parseData( data );
+            if (data) {
+              this.parseData( data );
+            }
           });
         }
       )
