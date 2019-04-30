@@ -6,8 +6,7 @@
 <app-header [wasClicked]="wasClicked"></app-header>
 
 <div class="inline" style="height: 100%;" keystrokes>
-	<mat-sidenav-container class="example-container"  style="min-height:100%;" [class.landing]="isLandingPage"
-		[ngClass]="{ 'notfound': routeName === 'NotFoundComponent', 'landing': isLandingPage }">
+	<mat-sidenav-container class="example-container"  style="min-height:100%;" [ngClass]="{ 'landing': isLandingPage }">
 		<mat-sidenav #sidenav mode="{{mode}}" (openedStart)="wasClicked=true" (closedStart)="wasClicked=false" [(opened)]="opened" [disableClose]="isSidenavCloseDisabled" fixedInViewport="true">
 			<app-side-menu attr.aria-label="{{'frontpage.main_menu' | translate}}"></app-side-menu>
 		</mat-sidenav>

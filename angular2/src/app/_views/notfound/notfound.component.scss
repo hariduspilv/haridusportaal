@@ -1,6 +1,6 @@
 @import "../../../assets/styles/typography.scss";
-.notFound {background-color: $blue;height: calc(100vh - 4rem);
-  @include break-on(sm, min) {margin-top: -$small;}
+.notFound {background-color: $blue;height: calc(100vh - 4rem);margin-bottom: -10rem;
+  @include break-on(sm, min) {margin-top: -$small;margin-bottom: -4rem;}
 }
 .flex {flex-wrap: wrap;
   [class^='error'],[class*='error'] {justify-content: center;flex: 1 0 100%;}
