@@ -43,7 +43,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   private FilterOptions: object = {};
   private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed'];
-  private isceList: object = {};
+  private isceList: any = {};
   
   constructor (
     private rootScope: RootScopeService,
@@ -104,6 +104,40 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         }
         this.entityLabelSort(false, this.filterOptionKeys[i]);
       }
+      //don't judge
+      //if detailed exists but no narrow, reverse search narrow and broad
+      if(this.filterFormItems.iscedf_detailed && !this.filterFormItems.iscedf_narrow) {
+        const iscedfDetailedFull = this.isceList['iscedf_detailed'].filter((e) => {
+          return this.filterFormItems['iscedf_detailed'].find(x => x === e.entityId);
+        });
+        const filteredNarrows = iscedfDetailedFull.map((detailed) => {
+          return this.isceList['iscedf_narrow'].find(x => parseInt(x.entityId) === detailed.parentId);
+        });
+        const filteredBroads = filteredNarrows.map((narrow) => {
+          return this.isceList['iscedf_broad'].find(x => parseInt(x.entityId) === narrow.parentId);
+        });
+        this.filterFormItems['iscedf_broad'] = filteredBroads.map(e => e.entityId);
+        this.FilterOptions['iscedf_narrow'] = filteredNarrows;
+        this.filterFormItems['iscedf_narrow'] = filteredNarrows.map(e => e.entityId);
+        this.FilterOptions['iscedf_detailed'] = iscedfDetailedFull;
+      }
+      //if narrow exists but no broad, reverse search broad
+      if(this.filterFormItems.iscedf_narrow && !this.filterFormItems.iscedf_broad) {
+        const iscedfNarrowFull = this.isceList['iscedf_narrow'].filter((narrow) => {
+          return this.filterFormItems['iscedf_narrow'].find(x => x === narrow.entityId);
+        });
+        const filteredBroads = iscedfNarrowFull.map((narrow) => {
+          return this.isceList['iscedf_broad'].find(x => parseInt(x.entityId) === narrow.parentId);
+        });
+        this.filterFormItems['iscedf_broad'] = filteredBroads.map(e => e.entityId);
+        this.FilterOptions['iscedf_narrow'] = iscedfNarrowFull;
+        this.filterFormItems['iscedf_narrow'] = iscedfNarrowFull.map(e => e.entityId);
+        this.FilterOptions['iscedf_detailed'] = this.isceList['iscedf_detailed'].filter(e => {
+          return this.filterFormItems['iscedf_narrow'].find(x => {
+            return e.parentId === parseInt(x)
+          });
+        });
+      }
       //Determine whether to open detailed filter view or not based on what URL params we have
       if(this.device.isDesktop()){
         this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
@@ -123,7 +157,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     if(!e) {
       let sortedSelected = [];
       let otherValues = [];
-      if(this.filterFormItems[prop]){
+      if(this.filterFormItems[prop] && this.FilterOptions[prop]){
         sortedSelected = this.FilterOptions[prop].filter(el => this.filterFormItems[prop].find(value => parseInt(value) === parseInt(el.tid || el.entityId))).sort((a, b) => {
           if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
             return -1;
