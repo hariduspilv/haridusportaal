@@ -225,15 +225,23 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         this.lang = this.rootScope.get("lang");
       }
     );
-
     this.subscriptions = [...this.subscriptions, subscribe];
   }
   watchSearch() {
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
+      const paramsKeys = Object.keys(params);
+      const newParams = {};
+      paramsKeys.forEach((e) => {
+        if(this.params[e] instanceof Array) {
+          newParams[e] = this.params[e].join();
+        } else {
+          newParams[e] = this.params[e];
+        }
+      })
+      this.params = newParams;
       this.reset();
     });
-
     this.filterRetrieveParams( this.params );
 
     // Add subscription to main array for destroying
