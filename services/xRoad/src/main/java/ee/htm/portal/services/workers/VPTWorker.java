@@ -492,7 +492,7 @@ public class VPTWorker extends Worker {
         if (stepTwoDataElements.get("family_members_income_proof").get("required").asBoolean()
             && stepTwoDataElements.get("family_members_income_proof").get("value").size() == 0) {
           returnToStepTwo = true;
-          ((ArrayNode) jsonNode.get("body").get("steps").get("step_1").get("messages"))
+          ((ArrayNode) jsonNode.get("body").get("steps").get("step_2").get("messages"))
               .add("family_members_income_proof_validation_error");
           ((ObjectNode) jsonNode.get("messages"))
               .putObject("family_members_income_proof_validation_error")
@@ -505,7 +505,7 @@ public class VPTWorker extends Worker {
             stepTwoDataElements.get("family_members_nonresident_income_proof")
                 .get("value").size() == 0) {
           returnToStepTwo = true;
-          ((ArrayNode) jsonNode.get("body").get("steps").get("step_1").get("messages"))
+          ((ArrayNode) jsonNode.get("body").get("steps").get("step_2").get("messages"))
               .add("family_members_nonresident_income_proof_validation_error");
           ((ObjectNode) jsonNode.get("messages"))
               .putObject("family_members_nonresident_income_proof_validation_error")
