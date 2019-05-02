@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
@@ -50,6 +51,7 @@ public class VPTWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EHIS - VpTaotlusOpingud.v1");
+    logForDrupal.setSeverity("notice");
 
     documentsResponse.putArray("documents");
     documentsResponse.putArray("acceptable_forms");
@@ -100,6 +102,7 @@ public class VPTWorker extends Worker {
     LOGGER.info(logForDrupal);
 
     redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
   }
 
   public ObjectNode getDocument(String formName, String identifier) {
@@ -139,6 +142,7 @@ public class VPTWorker extends Worker {
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(applicantPersonalCode);
+    logForDrupal.setSeverity("notice");
 
     List<String> acceptableActivity = new ArrayList<>();
     jsonNode.get("header").get("acceptable_activity")
@@ -657,6 +661,7 @@ public class VPTWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EHIS - vpTaotlusDokument.v1");
+    logForDrupal.setSeverity("notice");
 
     try {
       documentId = documentId.replace("VPT_", "");
@@ -678,6 +683,7 @@ public class VPTWorker extends Worker {
 
       documentResponse.put("fileName", response.getFilename()).put("size", response.getSize())
           .put("mediaType", response.getMediatype()).put("value", response.getByteArrayValue());
+
       logForDrupal.setMessage("EHIS - vpTaotlusDokument.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
       LOGGER.error(e, e);
