@@ -599,7 +599,7 @@ $grid-columns: 12;
     .mat-chip{ margin:0 $half-gutter;pointer-events: none;
       &.mat-standard-chip::after {background: $white;}
     }
-    .mat-chip-list-wrapper{margin-bottom:-.625rem; display: inline;
+    .mat-chip-list-wrapper{margin: 0;margin-bottom:-.625rem; display: inline;
       .mat-chip-wrapper{margin-bottom:.625rem !important; overflow: hidden;}
     }
   }
