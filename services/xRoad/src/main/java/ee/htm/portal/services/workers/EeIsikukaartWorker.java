@@ -6,6 +6,7 @@ import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
 import java.sql.Timestamp;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class EeIsikukaartWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EHIS - eeIsikukaart.v1");
+    logForDrupal.setSeverity("notice");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
         .put("key", "eeIsikukaart");
@@ -263,18 +265,10 @@ public class EeIsikukaartWorker extends Worker {
           && ((XRoadServiceConsumptionException) e).getFaultString() != null) {
         responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
             .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
+        responseNode.remove("value");
       } else {
-        LOGGER.error(e, e);
-
-        logForDrupal.setSeverity("ERROR");
-        logForDrupal.setMessage(e.getMessage());
-
-        redisTemplate.opsForHash().put(personalCode, "eeIsikukaart", "Tehniline viga!");
-
-        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
-            .put("et", "Tehniline viga!");
+        setError(LOGGER, responseNode, e);
       }
-      responseNode.remove("value");
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -283,6 +277,7 @@ public class EeIsikukaartWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "eeIsikukaart", responseNode);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
 
     return responseNode;
   }

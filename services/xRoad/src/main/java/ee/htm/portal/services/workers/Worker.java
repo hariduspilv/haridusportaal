@@ -36,4 +36,15 @@ public class Worker {
     ((ObjectNode) jsonNode.get("messages")).putObject("error_" + timestamp)
         .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
   }
+
+  protected void setError(Logger logger, ObjectNode jsonNode, Exception e) {
+    logger.error(e, e);
+
+    logForDrupal.setSeverity("ERROR");
+    logForDrupal.setMessage(e.getMessage());
+
+    jsonNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
+        .put("et", "Tehniline viga!");
+    jsonNode.remove("value");
+  }
 }

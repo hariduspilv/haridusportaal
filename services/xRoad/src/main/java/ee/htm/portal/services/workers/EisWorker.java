@@ -17,6 +17,7 @@ import java.math.BigInteger;
 import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlBase64Binary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ public class EisWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EIS - testsessioonid_kod.v1");
+    logForDrupal.setSeverity("notice");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
         .put("key", "testsessioonidKod");
@@ -57,17 +59,9 @@ public class EisWorker extends Worker {
         );
       }
 
+      logForDrupal.setMessage("EIS - testsessioonid_kod.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
-
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
-
-      redisTemplate.opsForHash().put(personalCode, "testsessioonidKod", "Tehniline viga!");
-
-      responseNode.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
-      responseNode.remove("value");
+      setError(LOGGER, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -76,6 +70,7 @@ public class EisWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "testsessioonidKod", responseNode);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
 
     return responseNode;
   }
@@ -86,6 +81,7 @@ public class EisWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EIS - testid_kod.v1");
+    logForDrupal.setSeverity("notice");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
         .put("key", "testidKod_" + testSessionId);
@@ -128,17 +124,9 @@ public class EisWorker extends Worker {
         ((ArrayNode) responseNode.get("value").get("testid_kod_jada")).add(testNode);
       }
 
+      logForDrupal.setMessage("EIS - testid_kod.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
-
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
-
-      redisTemplate.opsForHash().put(personalCode, "testidKod_" + testSessionId, "Tehniline viga!");
-
-      responseNode.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
-      responseNode.remove("value");
+      setError(LOGGER, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -147,6 +135,7 @@ public class EisWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "testidKod_" + testSessionId, responseNode);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
 
     return responseNode;
   }
@@ -157,6 +146,7 @@ public class EisWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EIS - e_tunnistus_kod.v1");
+    logForDrupal.setSeverity("notice");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
         .put("key", "eTunnistusKod_" + tunnistusId);
@@ -176,18 +166,9 @@ public class EisWorker extends Worker {
 
       getAttachment(responseNode, response.xgetTunnistus(), responseXRoadMessage.getAttachments());
 
+      logForDrupal.setMessage("EIS - e_tunnistus_kod.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
-
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
-
-      redisTemplate.opsForHash()
-          .put(personalCode, "eTunnistusKod_" + tunnistusId, "Tehniline viga!");
-
-      responseNode.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
-      responseNode.remove("value");
+      setError(LOGGER, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -196,6 +177,7 @@ public class EisWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "eTunnistusKod_" + tunnistusId, responseNode);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
 
     return responseNode;
   }
@@ -206,6 +188,7 @@ public class EisWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EIS - e_tunnistus_kehtivus.v1");
+    logForDrupal.setSeverity("notice");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
         .put("key", "eTunnistusKehtivus_" + tunnistusNr);
@@ -235,18 +218,9 @@ public class EisWorker extends Worker {
 
       getAttachment(responseNode, response.xgetTunnistus(), responseXRoadMessage.getAttachments());
 
+      logForDrupal.setMessage("EIS - e_tunnistus_kehtivus.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
-
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
-
-      redisTemplate.opsForHash()
-          .put(personalCode, "eTunnistusKehtivus_" + tunnistusNr, "Tehniline viga!");
-
-      responseNode.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
-      responseNode.remove("value");
+      setError(LOGGER, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -255,6 +229,7 @@ public class EisWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "eTunnistusKehtivus_" + tunnistusNr, responseNode);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
 
     return responseNode;
   }

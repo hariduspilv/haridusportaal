@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.client.AriregXRoadService;
 import ee.htm.portal.services.types.eu.x_road.arireg.producer.EsindusV1Response;
 import java.sql.Timestamp;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ public class AriregWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("ARIREG - esindus_v1.v1");
+    logForDrupal.setSeverity("notice");
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
         .put("key", "esindusOigus");
@@ -85,17 +87,9 @@ public class AriregWorker extends Worker {
                 .put("oiguslik_vorm_tekstina", ettevote.getOiguslikVormTekstina());
           });
 
+      logForDrupal.setMessage("ARIREG - esindus.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
-
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
-
-      redisTemplate.opsForHash().put(personalCode, "esindusOigus", "Tehniline viga!");
-
-      responseNode.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
-      responseNode.remove("value");
+      setError(LOGGER, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -104,6 +98,7 @@ public class AriregWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "esindusOigus", responseNode);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
 
     return responseNode;
   }

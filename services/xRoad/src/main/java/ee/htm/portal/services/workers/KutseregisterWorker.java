@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.client.KutseregisterXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.kutseregister.producers.producer.kutseregister.KodanikKutsetunnistusVastusDocument.KodanikKutsetunnistusVastus;
 import java.sql.Timestamp;
+import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,7 @@ public class KutseregisterWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("Kutseregister - kodanikKutsetunnistus.V2");
+    logForDrupal.setSeverity("notice");
 
     responseNode.put("request_timestamp", timestamp)
         .put("response_timestamp", "")
@@ -114,16 +116,7 @@ public class KutseregisterWorker extends Worker {
       logForDrupal.setMessage(
           "Kutseregister - kodanikKutsetunnistus.V2 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
-
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
-
-      redisTemplate.opsForHash().put(personalCode, "kodanikKutsetunnistus", "Tehniline viga!");
-
-      responseNode.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
-      responseNode.remove("value");
+      setError(LOGGER, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -132,6 +125,7 @@ public class KutseregisterWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "kodanikKutsetunnistus", responseNode);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
 
     return responseNode;
   }
