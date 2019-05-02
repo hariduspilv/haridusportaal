@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   isSidenavCloseDisabled: boolean;
   routeSub: any;
   wasClicked: boolean = false;
-
+  
   constructor(
     private sidemenu: SideMenuService,
     private router: Router,
@@ -46,6 +46,13 @@ export class AppComponent implements OnInit {
     private settings: SettingsService,
     private cookies: CookieService
   ) {
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        (<any>window).ga('set', 'page', event.urlAfterRedirects);
+        (<any>window).ga('send', 'pageview');
+      }
+    });
 
     this.http.xcsrf().subscribe(data => {
       sessionStorage.setItem('xcsrfToken', data);
