@@ -1,7 +1,6 @@
 package ee.htm.portal.services;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.nortal.jroad.client.service.configuration.provider.PropertiesBasedXRoadServiceConfigurationProvider;
 import com.nortal.jroad.client.service.configuration.provider.XRoadServiceConfigurationProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -24,7 +23,7 @@ public class HTMServicesApplication {
 
   @Bean("XRoadServiceConfigurationProvider")
   public XRoadServiceConfigurationProvider xRoadServiceConfigurationProvider() {
-    return new PropertiesBasedXRoadServiceConfigurationProvider();
+    return new HTMPropertiesBasedXRoadServiceConfigurationProvider();
   }
 
   @Value("${spring.redis.host}")
