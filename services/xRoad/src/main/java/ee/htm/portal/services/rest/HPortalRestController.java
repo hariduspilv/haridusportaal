@@ -76,18 +76,27 @@ public class HPortalRestController {
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusNaitaja(formName, Long.valueOf(identifier.get()), personalCode),
+          mtsysWorker
+              .getMtsysTegevusNaitaja(formName, Long.valueOf(identifier.get()), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier.get()), personalCode),
+          mtsysWorker
+              .getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier.get()), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_ARUANNE")) {
       return new ResponseEntity<>(mtsysWorker
           .getMtsysTegevusNaitajaTaotlus(formName,
-              identifier.isPresent() && NumberUtils.isDigits(identifier.get()) ? Long.valueOf(identifier.get()) : null,
+              identifier.isPresent() && NumberUtils.isDigits(identifier.get()) ? Long
+                  .valueOf(identifier.get()) : null,
               year.isPresent() ? year.get() : null,
               educationalInstitutionsId.get(), personalCode), HttpStatus.OK);
+    } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS")
+        || formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS")
+        || formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS")) {
+      return new ResponseEntity<>(mtsysWorker
+          .getMtsysEsitaTegevusluba(formName, Long.valueOf(identifier.get()), personalCode),
+          HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request formName - " + formName);
@@ -107,6 +116,14 @@ public class HPortalRestController {
     } else if (requestJson.get("header").get("form_name").asText()
         .equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_ARUANNE")) {
       return new ResponseEntity<>(mtsysWorker.postMtysTegevusNaitaja(requestJson), HttpStatus.OK);
+    } else if (requestJson.get("header").get("form_name").asText()
+        .equalsIgnoreCase("MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS")
+        || requestJson.get("header").get("form_name").asText()
+        .equalsIgnoreCase("MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS")
+        || requestJson.get("header").get("form_name").asText()
+        .equalsIgnoreCase("MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS")) {
+      return new ResponseEntity<>(mtsysWorker.postMtsysEsitaTegevusluba(requestJson),
+          HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request JSON - " + requestJson);

@@ -47,6 +47,7 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
@@ -201,7 +202,6 @@ public class MtsysWorker extends Worker {
 
     try {
       ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid");
-//      ObjectNode oppekavaStaatusedNode = getKlfNode("oppekavaStaatused");
 
       MtsysTegevusloadResponse response = ehisXRoadService.mtsysTegevusload(identifier, null);
 
@@ -260,6 +260,14 @@ public class MtsysWorker extends Worker {
 
               if (item.isSetTegevusload()) {
                 item.getTegevusload().getTegevuslubaList().forEach(tegevusluba -> {
+                  String description = tegevusloaLiigidNode.get(tegevusluba.getLiik())
+                      .get("et").asText() + " number " + tegevusluba.getLoaNumber() +
+                      " kehtivusega alates " + tegevusluba.getKehtivAlates();
+                  description += tegevusluba.isSetKehtivKuni() ?
+                      " kuni " + tegevusluba.getKehtivKuni() : "";
+                  description += tegevusluba.isSetTyhistamiseKp() ?
+                      " tühistatud " + tegevusluba.getTyhistamiseKp() : "";
+
                   if (tegevusluba.getLiik().equalsIgnoreCase("18098")) {
                     if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Sisestamisel") ||
                         tegevusluba.getMenetlusStaatus()
@@ -272,15 +280,6 @@ public class MtsysWorker extends Worker {
                           .put("description", tegevusloaLiigidNode.get(tegevusluba.getLiik())
                               .get("et").asText());
                     } else {
-                      String description = tegevusloaLiigidNode.get(tegevusluba.getLiik())
-                          .get("et").asText() +
-                          " number " + tegevusluba.getLoaNumber() +
-                          " kehtivusega alates " + tegevusluba.getKehtivAlates() +
-                          " kuni " + tegevusluba.getKehtivKuni();
-                      if (tegevusluba.isSetTyhistamiseKp()) {
-                        description += " tühistatud " + tegevusluba.getTyhistamiseKp();
-                      }
-
                       ((ArrayNode) itemNode.get("documents")).addObject()
                           .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE")
                           .put("id", tegevusluba.getId().intValue())
@@ -300,15 +299,6 @@ public class MtsysWorker extends Worker {
                           .put("description", tegevusloaLiigidNode.get(tegevusluba.getLiik())
                               .get("et").asText());
                     } else {
-                      String description = tegevusloaLiigidNode.get(tegevusluba.getLiik())
-                          .get("et").asText() +
-                          " number " + tegevusluba.getLoaNumber() +
-                          " kehtivusega alates " + tegevusluba.getKehtivAlates() +
-                          " kuni " + tegevusluba.getKehtivKuni();
-                      if (tegevusluba.isSetTyhistamiseKp()) {
-                        description += " tühistatud " + tegevusluba.getTyhistamiseKp();
-                      }
-
                       ((ArrayNode) itemNode.get("documents")).addObject()
                           .put("form_name", "MTSYS_TEGEVUSLUBA")
                           .put("id", tegevusluba.getId().intValue())
@@ -316,6 +306,40 @@ public class MtsysWorker extends Worker {
                           .put("status", tegevusluba.getMenetlusStaatus())
                           .put("description", description);
                     }
+                  }
+
+                  if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Registreeritud")
+                      && !(tegevusluba.getLiik().equalsIgnoreCase("18057")
+                      || tegevusluba.getLiik().equalsIgnoreCase("18058")
+                      || tegevusluba.getLiik().equalsIgnoreCase("18102"))) {
+                    ((ArrayNode) itemNode.get("acceptable_forms")).addObject()
+                        .put("form_name", "MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS")
+                        .put("id", tegevusluba.getId().intValue())
+                        .put("document_date", tegevusluba.getKehtivAlates())
+                        .put("status", tegevusluba.getMenetlusStaatus())
+                        .put("description", description);
+                  }
+
+                  if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Registreeritud")
+                      && (tegevusluba.getLiik().equalsIgnoreCase("18057")
+                      || tegevusluba.getLiik().equalsIgnoreCase("18058")
+                      || tegevusluba.getLiik().equalsIgnoreCase("18102"))) {
+                    ((ArrayNode) itemNode.get("acceptable_forms")).addObject()
+                        .put("form_name", "MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS")
+                        .put("id", tegevusluba.getId().intValue())
+                        .put("document_date", tegevusluba.getKehtivAlates())
+                        .put("status", tegevusluba.getMenetlusStaatus())
+                        .put("description", description);
+                  }
+
+                  if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Esitatud")
+                      && tegevusluba.getLiik().equalsIgnoreCase("18098")) {
+                    ((ArrayNode) itemNode.get("acceptable_forms")).addObject()
+                        .put("form_name", "MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS")
+                        .put("id", tegevusluba.getId().intValue())
+                        .put("document_date", tegevusluba.getKehtivAlates())
+                        .put("status", tegevusluba.getMenetlusStaatus())
+                        .put("description", description);
                   }
                 });
               }
@@ -903,6 +927,98 @@ public class MtsysWorker extends Worker {
 
     ((ObjectNode) jsonNode.get("header"))
         .put("identifier", response.getTaotlusId().longValue());
+  }
+
+  public ObjectNode getMtsysEsitaTegevusluba(String formName, Long identifier,
+      String personalCode) {
+    ObjectNode jsonNode = nodeFactory.objectNode();
+
+    jsonNode.putObject("header")
+        .put("endpoint", "EHIS")
+        .put("form_name", formName)
+        .put("current_step", "step_0")
+        .put("identifier", identifier)
+        .putArray("acceptable_activity").add("SUBMIT");
+
+    ((ObjectNode) jsonNode.get("header")).putArray("agents").addObject()
+        .put("person_id", personalCode)
+        .putNull("role")
+        .putNull("owner_id")
+        .putNull("educationalInstitutions_id");
+
+    jsonNode.putObject("body").putObject("steps").putObject("step_0").putObject("data_elements");
+    ((ObjectNode) jsonNode.get("body")).putArray("messages");
+    jsonNode.putObject("messages");
+
+    if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS")) {
+      ((ObjectNode) jsonNode.get("body").get("steps").get("step_0").get("data_elements"))
+          .putObject("menetlusKommentaar").putNull("value");
+    }
+
+    return jsonNode;
+  }
+
+  public ObjectNode postMtsysEsitaTegevusluba(ObjectNode jsonNode) {
+    String formName = jsonNode.get("header").get("form_name").asText();
+    String applicantPersonalCode = jsonNode.get("header").get("agents").get(0).get("person_id")
+        .asText();
+
+    List<String> acceptableActivity = new ArrayList<>();
+    jsonNode.get("header").get("acceptable_activity")
+        .forEach(i -> acceptableActivity.add(i.asText()));
+
+    if (acceptableActivity.contains("VIEW")) {
+      return jsonNode;
+    }
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(applicantPersonalCode);
+    logForDrupal.setType("EHIS - mtsysEsitaTegevusluba.v1");
+    logForDrupal.setSeverity("notice");
+
+    try {
+      MtsysEsitaTegevusluba request = MtsysEsitaTegevusluba.Factory.newInstance();
+
+      if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS")) {
+        request.setOperatsioon("LOPETAMINE");
+      } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS")) {
+        request.setOperatsioon("MUUTMINE");
+        String menetlusKommentaar = jsonNode.get("body").get("steps").get("step_0")
+            .get("data_elements").get("menetlusKommentaar").get("value").asText();
+        if (StringUtils.isNotBlank(menetlusKommentaar) && !menetlusKommentaar
+            .equalsIgnoreCase("null")) {
+          request.setMenetlusKommentaar(menetlusKommentaar);
+        }
+      } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS")) {
+        request.setOperatsioon("SULGEMINE");
+      }
+      request.setId(jsonNode.get("header").get("identifier").asInt());
+      request.setAlgusKp(Calendar.getInstance());
+      request.setLoppKp(Calendar.getInstance());
+
+      MtsysEsitaTegevuslubaResponse response = ehisXRoadService
+          .mtsysEsitaTegevusluba(request, applicantPersonalCode);
+
+      if (response.isSetInfotekst()) {
+        ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_1")
+            .putObject("data_elements").putObject("infotekst")
+            .put("value", response.getInfotekst());
+      }
+
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+      ((ObjectNode) jsonNode.get("header")).put("current_step", "step_1");
+
+      logForDrupal
+          .setMessage("EHIS - mtsysEsitaTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
+
+    } catch (Exception e) {
+      setXdzeisonError(LOGGER, jsonNode, e);
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
+
+    return jsonNode;
   }
 
   public ObjectNode getMtsysOppeasutus(Long identifier, String institutionId,
