@@ -187,7 +187,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         _this.autocompleteLoader = false;
         _this.autoCompleteContainer[element] = data['addresses'] || [];
 
-        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 != '0000' || address.kood7 != '0000'));
+        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
 
         _this.autoCompleteContainer[element].forEach(address => {
           if (address.kort_nr) {
@@ -209,7 +209,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   inAdsFormatValue(address) {
-    if (address.apartment != undefined) { return address; }
+    if (address.apartment !== undefined) { return address; }
 
     return {
       'adr_id': address.adr_id,
@@ -265,11 +265,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     if (this.datepickerFocus === false) {
 
-      if (rowindex == undefined || col == undefined) {
+      if (rowindex === undefined || col === undefined) {
         if (event instanceof FocusEvent) {
           const string = JSON.parse(JSON.stringify(event.target['value']));
           const date = moment(string.split('.').reverse().join('-')).format('YYYY-MM-DD');
-          if (date == 'Invalid date') {
+          if (date === 'Invalid date') {
             this.data_elements[element].value = null;
             event.target['value'] = null;
           } else {
@@ -290,7 +290,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
   getDatepickerValue(element, rowindex, col) {
-    if (rowindex == undefined || col == undefined) {
+    if (rowindex === undefined || col === undefined) {
       return this.data_elements[element].value;
     } else {
       return this.data_elements[element].value[rowindex][col];
@@ -298,13 +298,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
   selectListCompare(a, b) {
-    return a && b ? a == b : a == b;
+    return a && b ? a === b : a === b;
   }
   isFieldDisabled(readonly): boolean {
     if (readonly === true) {
       return true;
 
-    } else if (this.max_step != this.opened_step) {
+    } else if (this.max_step !== this.opened_step) {
       return true;
 
     } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE'].includes(key))) {
@@ -399,7 +399,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     for (const col in table.table_columns) {
       const column = table.table_columns[col];
-      if (column.default_value != undefined) {
+      if (column.default_value !== undefined) {
         newRow[col] = column.default_value;
       } else {
         newRow[col] = null;
@@ -436,7 +436,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
     });
     this.dialogRef.afterClosed().subscribe(result => {
-      if (result == true) {
+      if (result === true) {
         this.data.header.current_step = this.opened_step;
         this.data.header['activity'] = 'SAVE';
         const payload = { form_name: this.form_name, form_info: this.data };
@@ -447,7 +447,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   isItemExisting(list, target): boolean {
-    return list.some(item => item == target);
+    return list.some(item => item === target);
   }
 
   selectLanguage(obj: object) {
@@ -455,16 +455,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   setNavigationLinks(list, opened): {}[] {
-    if (list.length == 0) { return []; }
+    if (list.length === 0) { return []; }
     const output: {}[] = [];
 
-    if (list[0] != opened) {
+    if (list[0] !== opened) {
       const previous = list[list.indexOf(opened) - 1];
       if (this.isStepDisabled(previous) === false) {
         output.push({ label: 'button.previous', step: previous, 'type': 'link' });
       }
     }
-    if (list[list.length - 1] != opened) {
+    if (list[list.length - 1] !== opened) {
       const next = list[list.indexOf(opened) + 1];
       if (this.isStepDisabled(next) === false) {
         output.push({ label: 'button.next', step: next, 'type': 'link' });
@@ -540,7 +540,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         column_properties.value = row[col];
 
         const validation = this.isValidField(column_properties);
-        if (validation.valid != true) {
+        if (validation.valid !== true) {
           validation['row'] = table.value.indexOf(row);
           validation['column'] = col;
           return validation;
@@ -556,7 +556,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     for (const field in elements) {
       const element = elements[field];
-      if (element.type == 'table') {
+      if (element.type === 'table') {
         const validation = this.tableValidation(element);
         if (validation.valid !== true) {
           this.error[field] = validation;
@@ -575,12 +575,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   submitForm(activity: string) {
     this.error = {};
 
-    if (activity == 'EDIT') {
+    if (activity === 'EDIT') {
       this.promptEditConfirmation();
     } else {
       this.validateForm(this.data_elements);
 
-      if (Object.keys(this.error).length == 0) {
+      if (Object.keys(this.error).length === 0) {
         this.data.header['activity'] = activity;
         const payload = { form_name: this.form_name, form_info: this.data };
         if (this.test === true) {
@@ -612,13 +612,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  editableStep(){
+  editableStep() {
     Object.values(this.data_elements).forEach((elem) => {
-      if(elem['type'] !== 'table' && elem['readonly'] === false){
+      if (elem['type'] !== 'table' && elem['readonly'] === false) {
         return true;
-      } else if(elem['type'] === 'table'){
+      } else if (elem['type'] === 'table') {
         Object.values(elem['table_columns']).forEach((tabelem) => {
-          if(tabelem['readonly'] === false){
+          if (tabelem['readonly'] === false) {
             return true;
           }
         });
@@ -631,7 +631,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const output = { primary: [], secondary: [] };
     const editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
     if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence) {
-      if(this.editableStep()){
+      if (this.editableStep()) {
         const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
         if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }); }
       }
@@ -660,7 +660,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
     });
     this.dialogRef.afterClosed().subscribe(result => {
-      if (result == true) {
+      if (result === true) {
 
         this.getData(data);
       }
@@ -672,7 +672,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   setMaxStep(xjson) {
     if (!Object.keys(xjson['body']['steps']).length) {
       return this.errorHandler('No steps available');
-    } else if (Object.keys(xjson['body']['steps']).some(step => step == xjson['header']['current_step']) == false) {
+    } else if (Object.keys(xjson['body']['steps']).some(step => step === xjson['header']['current_step']) === false) {
       this.max_step = Object.keys(xjson['body']['steps'])[0];
     } else {
       this.max_step = xjson['header']['current_step'];
@@ -695,7 +695,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (!response['body']) { return this.errorHandler('Missing body from response'); }
       if (!response['body']['steps']) { return this.errorHandler('Missing body.steps from response'); }
 
-      if(response['body']['steps'].length === 0){
+      if (response['body']['steps'].length === 0) {
         this.empty_data = true;
       }
 
