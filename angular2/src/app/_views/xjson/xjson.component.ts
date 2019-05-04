@@ -612,13 +612,29 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
+  editableStep(){
+    Object.values(this.data_elements).forEach((elem) => {
+      if(elem['type'] !== 'table' && elem['readonly'] === false){
+        return true;
+      } else if(elem['type'] === 'table'){
+        Object.values(elem['table_columns']).forEach((tabelem) => {
+          if(tabelem['readonly'] === false){
+            return true;
+          }
+        });
+      }
+    });
+    return false;
+  }
+
   setActivityButtons(activities: string[]) {
     const output = { primary: [], secondary: [] };
     const editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
     if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence) {
-      const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-      if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }); }
-
+      if(this.editableStep()){
+        const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
+        if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }); }
+      }
     } else {
       activities.forEach(activity => {
         if (editableActivities.includes(activity)) {
