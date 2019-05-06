@@ -3,7 +3,7 @@
   <div class="sectors__list-head">
     <div class="sectors__head">
       <h1 class="sectors__title text-left" aria-hidden="true">{{ 'oskaProfessions.data' | translate | uppercase }}</h1>
-      <div class="button-list">
+      <div class="button-list" *ngIf="data && data.length !== 0">
         <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oskaProfessions.label' | translate }} {{ 'oska.view' | translate}}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">apps</span>
           <div aria-hidden="true" class="title" >{{ 'oskaProfessions.label' | translate }}</div>
@@ -18,7 +18,8 @@
   <div class="sectors__list-body" *ngIf="loading && !data">
     <mat-spinner></mat-spinner>
   </div>
-  <div class="sectors__list-body sectors__list-body--comparison" *ngIf="data">
+  <h1 class="no-data" *ngIf="!loading && data.length === 0">{{'oska.no_data_yet' | translate}}</h1>
+  <div class="sectors__list-body sectors__list-body--comparison" *ngIf="data && data.length !== 0 && !loading">
     <ng-container *ngFor="let item of data">
       <div class="row">
         <div class="col-12">
