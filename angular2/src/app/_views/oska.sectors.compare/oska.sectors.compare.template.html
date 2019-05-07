@@ -2,23 +2,24 @@
 <div class="sectors main-container">
   <div class="sectors__list-head">
     <div class="sectors__head">
-      <h1 aria-live="assertive" class="sectors__title text-left">{{ 'oskaProfessions.fieldsCompare' | translate | uppercase }}</h1>
-      <div class="button-list">
+      <h1 class="sectors__title text-left" aria-hidden="true">{{ 'oskaProfessions.fieldsCompare' | translate | uppercase }}</h1>
+      <div class="button-list" *ngIf="data && data.length !== 0">
         <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.grid' | translate }} {{ 'oska.view' | translate}}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">apps</span>
-          <div aria-hidden="true" class="title" >{{ 'oska.grid' | translate }}</div>
+          <div aria-hidden="true" class="title" >{{ 'oskaProfessions.fields' | translate }}</div>
         </div>
-        <div class="view-item pointer active" role="tab" attr.aria-label="{{ 'oska.data' | translate }} {{ 'oska.view' | translate }}" tabindex="0">
+        <div class="view-item pointer active" id="heading" attr.aria-label="{{ 'oskaProfessions.fieldsCompare' | translate }}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">compare_arrows</span>
           <div aria-hidden="true" class="title">{{ 'oska.data' | translate }}</div>
         </div>
-      </div>
+      </div>  
     </div>
   </div><!--/row-->
   <div class="sectors__list-body" *ngIf="loading && !data">
     <mat-spinner></mat-spinner>
   </div>
-  <div class="sectors__list-body sectors__list-body--comparison" *ngIf="data">
+  <h1 class="no-data" *ngIf="!loading && data.length === 0">{{'oska.no_data_yet' | translate}}</h1>
+  <div class="sectors__list-body sectors__list-body--comparison" *ngIf="data && data.length !== 0 && !loading">
     <ng-container *ngFor="let item of data">
       <div class="row">
         <div class="col-12">
@@ -28,7 +29,6 @@
         </div>
       </div>
     </ng-container>
-    
   </div>
   <div class="sectors__list-body" *ngIf="errMessage && !data">
     <div class="text-center actions__error">
@@ -36,5 +36,3 @@
     </div>
   </div>
 </div>
-
-
