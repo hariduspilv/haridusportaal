@@ -615,10 +615,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   editableStep() {
     Object.values(this.data_elements).forEach((elem) => {
       if (elem['type'] !== 'table' && elem['readonly'] === false) {
-        return true;
+        if (elem['readonly'] === false || elem['readonly'] === undefined) {
+          return true;
+        }
       } else if (elem['type'] === 'table') {
         Object.values(elem['table_columns']).forEach((tabelem) => {
-          if (tabelem['readonly'] === false) {
+          if (tabelem['readonly'] === false || tabelem['readonly'] === undefined) {
             return true;
           }
         });
