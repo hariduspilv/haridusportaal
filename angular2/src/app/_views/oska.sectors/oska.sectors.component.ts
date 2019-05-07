@@ -33,6 +33,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   private modal:any = false;
   private colsPerRow = 4;
   private lastWidth = 0;
+  public hasComparisonPage: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -128,7 +129,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     this.modal.index = index;
 
     if( this.modal.fieldOskaVideo ){
-      this.modal.videoUrl = 'http://www.youtube.com/embed/'+this.modal.fieldOskaVideo.videoId;
+      this.modal.videoUrl = `${window.location.protocol}//www.youtube.com/embed/${this.modal.fieldOskaVideo.videoId}`;
     }
 
     try{
@@ -168,13 +169,15 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
       limit: this.limit,
       nidEnabled: false
     };
-    this.dataSub = this.http.get('oskaFieldListView', {params:variables}).subscribe(response => {
+    this.dataSub = this.http.get('oskaFieldListView', {params:variables}).subscribe((response: any) => {
       if (response['errors']) {
         this.loading = false;
         this.errMessage = true;
       }
+      this.hasComparisonPage = response.data.comparisonPage.count;
       this.data = response['data']['nodeQuery']['entities'];
       this.loading = false;
+      document.getElementById('heading').focus();
     }, (err) => {
       this.errMessage = true
       this.loading = false;

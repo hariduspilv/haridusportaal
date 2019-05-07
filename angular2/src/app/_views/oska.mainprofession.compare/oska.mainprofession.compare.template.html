@@ -1,0 +1,38 @@
+<div><breadcrumbs></breadcrumbs></div>
+<div class="sectors main-container">
+  <div class="sectors__list-head">
+    <div class="sectors__head">
+      <h1 class="sectors__title text-left" aria-hidden="true">{{ 'oskaProfessions.data' | translate | uppercase }}</h1>
+      <div class="button-list" *ngIf="data && data.length !== 0">
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oskaProfessions.label' | translate }} {{ 'oska.view' | translate}}" tabindex="0">
+          <span aria-hidden="true" class="htm-icon">apps</span>
+          <div aria-hidden="true" class="title" >{{ 'oskaProfessions.label' | translate }}</div>
+        </div>
+        <div class="view-item pointer active" id="heading" attr.aria-label="{{ 'oska.data' | translate }} {{ 'oska.view' | translate }}" tabindex="0">
+          <span aria-hidden="true" class="htm-icon">compare_arrows</span>
+          <div aria-hidden="true" class="title">{{ 'oska.data' | translate }}</div>
+        </div>
+      </div>
+    </div>
+  </div><!--/row-->
+  <div class="sectors__list-body" *ngIf="loading && !data">
+    <mat-spinner></mat-spinner>
+  </div>
+  <h1 class="no-data" *ngIf="!loading && data.length === 0">{{'oska.no_data_yet' | translate}}</h1>
+  <div class="sectors__list-body sectors__list-body--comparison" *ngIf="data && data.length !== 0 && !loading">
+    <ng-container *ngFor="let item of data">
+      <div class="row">
+        <div class="col-12">
+          <h1 class="main-title" *ngIf="item.title">{{item.title}}</h1>
+          <p *ngIf="item.fieldIntroduction">{{item.fieldIntroduction}}</p>
+          <chart class="sector-comparison-chart" *ngIf="item.fieldDynamicGraph" [data]="item.fieldDynamicGraph" type="filter" height='700' wide='true'></chart>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="sectors__list-body" *ngIf="errMessage && !data">
+    <div class="text-center actions__error">
+      <p role="alert">{{ 'errors.request' | translate }}</p>
+    </div>
+  </div>
+</div>

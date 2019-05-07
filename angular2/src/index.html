@@ -30,80 +30,45 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <style>
   body{background:#FAFAFA;}
-
   .loader {
-    position: relative;
-    margin: 0 auto;
-    width: 100px;
-    height:100px;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px;
   }
-  .loader:before {
-    content: '';
-    display: block;
-    padding-top: 100%;
+  .loader--page {
+    height:100vh;
+    width:100vw;
+    position:absolute;
+    left:0;
+    top:0;
   }
-
-  .circular {
-    animation: rotate 2s linear infinite;
-    height: 100%;
-    transform-origin: center center;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
+  .loader > svg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height:50px;
+    width:50px;
+    will-change: transforn;
+    animation: loaderRotate 2.4s cubic-bezier(0.77, 0, 0.175, 1) 0s infinite normal forwards;
   }
-
-  .path {
-    stroke-dasharray: 1, 200;
-    stroke-dashoffset: 0;
-    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
-    stroke-linecap: round;
-  }
-
-  @keyframes rotate {
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-
-  @keyframes dash {
+  @keyframes loaderRotate {
     0% {
-      stroke-dasharray: 1, 200;
-      stroke-dashoffset: 0;
-    }
-    50% {
-      stroke-dasharray: 89, 200;
-      stroke-dashoffset: -35px;
+      transform:rotateZ(0deg);
     }
     100% {
-      stroke-dasharray: 89, 200;
-      stroke-dashoffset: -124px;
+      transform:rotateZ(360deg);
     }
   }
-
-  @keyframes color {
-    100%,
-    0% {
-      stroke: #d62d20;
-    }
-    40% {
-      stroke: #0057e7;
-    }
-    66% {
-      stroke: #008744;
-    }
-    80%,
-    90% {
-      stroke: #ffa700;
-    }
-  }
-
-
 </style>
 
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-139356334-1', 'auto');
+</script>
 
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <!--<link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">-->
@@ -119,10 +84,14 @@
 </head>
 <body>
   <app-root>
-    <div class="loader">
-      <svg class="circular" viewBox="25 25 50 50">
-        <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-      </svg>
+    <div class="loader loader--page">
+      <svg viewBox="0 0 109 103" xmlns="http://www.w3.org/2000/svg">
+         <g>
+          <path fill="#F8B243" d="m16.402533,32.598156c9.018882,0 16.330172,-7.290305 16.330172,-16.2833c0,-8.992995 -7.31129,-16.2833 -16.330172,-16.2833c-9.018882,0 -16.330172,7.290305 -16.330172,16.2833c0,8.992995 7.31129,16.2833 16.330172,16.2833z"/>
+          <path fill="#D5401A" d="m49.062876,103.159124c12.024994,0 21.773562,-9.720588 21.773562,-21.711067c0,-11.99048 -9.748568,-21.711067 -21.773562,-21.711067c-12.025212,0 -21.773562,9.720588 -21.773562,21.711067c0,11.99048 9.74835,21.711067 21.773562,21.711067z"/>
+          <path fill="#15ADC2" d="m92.61,48.881457c9.019154,0 16.330172,-7.290034 16.330172,-16.2833c0,-8.992995 -7.311018,-16.2833 -16.330172,-16.2833c-9.019154,0 -16.330172,7.290305 -16.330172,16.2833c0,8.993267 7.311018,16.2833 16.330172,16.2833z"/>
+         </g>
+       </svg>
     </div>
   </app-root>
 </body>

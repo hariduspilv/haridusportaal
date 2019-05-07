@@ -1,7 +1,7 @@
 import { Component, ViewChild, OnInit, HostListener, ViewEncapsulation } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { SideMenuService, RootScopeService } from './_services';
-import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { Router, Event, NavigationStart, NavigationEnd, NavigationError, ActivatedRoute, RoutesRecognized, GuardsCheckStart } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
   isSidenavCloseDisabled: boolean;
   routeSub: any;
   wasClicked: boolean = false;
-
+  
   constructor(
     private sidemenu: SideMenuService,
     private router: Router,
@@ -46,6 +46,13 @@ export class AppComponent implements OnInit {
     private settings: SettingsService,
     private cookies: CookieService
   ) {
+
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        (<any>window).ga('set', 'page', event.urlAfterRedirects);
+        (<any>window).ga('send', 'pageview');
+      }
+    });
 
     this.http.xcsrf().subscribe(data => {
       sessionStorage.setItem('xcsrfToken', data);
@@ -76,7 +83,7 @@ export class AppComponent implements OnInit {
       if (event instanceof NavigationStart) {
         this.menuStyle();
       }
-
+      
       if (event instanceof NavigationEnd) {
           // Hide loading indicator
         //this.sidemenu.triggerLang();
@@ -85,7 +92,6 @@ export class AppComponent implements OnInit {
 
       if (event instanceof NavigationError) {
         console.log('NavigationError: Previous route doesn`t exist or is broken. Look into the code inside ngOnDestroy. Might be a logic error. Did you unsubscribe on something there wasnt a subscription?');
-        // this.router.navigateByUrl(`/404`, {replaceUrl: true});
       }
         
     });

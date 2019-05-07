@@ -6,7 +6,10 @@
 @import "../assets/styles/layout.scss";
 @import "../assets/styles/htm-icon.scss";
 
-.mat-drawer-container.landing {background-color: $white;}
+.mat-drawer-container {
+  &.landing {background-color: $white;}
+  &.notfound .mat-drawer-content {padding-bottom:0 !important;}
+}
 
 article table, .accordion table{width: 100%;border-collapse: collapse; margin:$small 0 0 0;
   th {background: $light-gray;
@@ -596,7 +599,7 @@ $grid-columns: 12;
     .mat-chip{ margin:0 $half-gutter;pointer-events: none;
       &.mat-standard-chip::after {background: $white;}
     }
-    .mat-chip-list-wrapper{margin-bottom:-.625rem; display: inline;
+    .mat-chip-list-wrapper{margin: 0;margin-bottom:-.625rem; display: inline;
       .mat-chip-wrapper{margin-bottom:.625rem !important; overflow: hidden;}
     }
   }
