@@ -229,7 +229,7 @@ class xJsonService implements xJsonServiceInterface {
 
         if ($response_header) $return['header'] = $response_header;
 
-        if($response_messages > 0){
+        if(count($response_messages) > 0){
             $return['messages'] += $response_messages;
         }
 
