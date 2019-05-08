@@ -1,8 +1,8 @@
 
 <div><breadcrumbs></breadcrumbs></div>
 <div class="main-container">
-  <mat-spinner *ngIf="!list && error"></mat-spinner>
-  <div class="row" *ngIf="list">
+  <mat-spinner *ngIf="!list && loader"></mat-spinner>
+  <div class="row" *ngIf="list && !loader">
     <div class="col-12 sm-12">
       <div class="block">
         <div class="block-title">{{ 'studyProgramme.label' | translate }}</div>

@@ -16,11 +16,11 @@ import { HttpService } from '@app/_services/httpService';
 
 export class StudyProgrammeCompareComponent extends CompareComponent implements OnInit, AfterViewChecked, OnDestroy {
   public compare = JSON.parse(sessionStorage.getItem('studyProgramme.compare')) || [];
-  public error;
   private url;
   private lang: string;
   private path: string;
   public list: any = false;
+  public loader: boolean = false;
   private subscriptions: Subscription[] = [];
   tableOverflown: boolean = false;
   elemAtStart: boolean = true;
@@ -63,7 +63,7 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     if(!this.list.length) this.rerouteToParent();
   }
   getData(){
-
+    this.loader = true;
     let variables = {
       lang: this.lang.toUpperCase(),
       nidValues: '[' + this.compare.map(id => '"'+id+'"') + ']'
@@ -71,8 +71,9 @@ export class StudyProgrammeCompareComponent extends CompareComponent implements 
     
     this.http.get('studyProgrammeComparison', {params:variables}).subscribe(response => {
       this.list = response['data'].nodeQuery.entities;
+      this.loader = false;
       if(!this.list.length) this.rerouteToParent();
-    });
+    }, (err) => {this.loader = false});
   }
  
   ngOnInit() {
