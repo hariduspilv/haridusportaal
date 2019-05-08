@@ -223,12 +223,15 @@ class xJsonService implements xJsonServiceInterface {
         $definition = $this->getEntityJsonObject($form_name);
         $definition_body = $definition['body'];
 
-        if(isset($definition['messages'])){
+        if(isset($definition['messages']) && count($definition['messages'] > 0)){
             $return['messages'] = $definition['messages'];
         }
 
         if ($response_header) $return['header'] = $response_header;
-        if ($response_messages) $return['messages'] += $response_messages;
+
+        if($response_messages > 0){
+            $return['messages'] += $response_messages;
+        }
 
         if ($response_body && !empty($response_body['steps'])) {
             foreach ($definition_body['steps'] as $step_key => $step) {
