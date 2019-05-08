@@ -10,6 +10,8 @@ use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationP
 use Drupal\openid_connect\Claims;
 use Drupal\openid_connect\Controller\RedirectController;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
+use Drupal\openid_connect\StateToken;
+use Drupal\Core\Access\AccessResult;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
@@ -36,6 +38,26 @@ class TaraRedirectController extends RedirectController{
 		);
 
 	}
+
+    /**
+     * Access callback: Redirect page.
+     *
+     * @return bool
+     *   Whether the state token matches the previously created one that is stored
+     *   in the session.
+     */
+    public function access() {
+        // Confirm anti-forgery state token. This round-trip verification helps to
+        // ensure that the user, not a malicious script, is making the request.
+        $query = $this->requestStack->getCurrentRequest()->query;
+        $state_token = $query->get('state');
+        dump($state_token);
+        dump(StateToken::confirm($state_token));
+        if ($state_token && StateToken::confirm($state_token)) {
+            return AccessResult::allowed();
+        }
+        return AccessResult::forbidden();
+    }
 
 	public function authenticate ($client_name) {
 		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
