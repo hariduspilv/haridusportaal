@@ -90,8 +90,6 @@ class RedirectController extends ControllerBase implements AccessInterface {
     // ensure that the user, not a malicious script, is making the request.
     $query = $this->requestStack->getCurrentRequest()->query;
     $state_token = $query->get('state');
-    dump($state_token);
-    dump(StateToken::confirm($state_token));
     if ($state_token && StateToken::confirm($state_token)) {
       return AccessResult::allowed();
     }
@@ -112,6 +110,7 @@ class RedirectController extends ControllerBase implements AccessInterface {
 
     // Delete the state token, since it's already been confirmed.
     unset($_SESSION['openid_connect_state']);
+    dump($_SESSION);
 
     // Get parameters from the session, and then clean up.
     $parameters = [

@@ -20,7 +20,6 @@ class StateToken {
   public static function create() {
     $state = Crypt::randomBytesBase64();
     $_SESSION['openid_connect_state'] = $state;
-    dump($_SESSION);
     return $state;
   }
 
@@ -35,7 +34,6 @@ class StateToken {
    *   in the session.
    */
   public static function confirm($state_token) {
-      dump($_SESSION);
     return isset($_SESSION['openid_connect_state']) &&
       $state_token == $_SESSION['openid_connect_state'];
   }
