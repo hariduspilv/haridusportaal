@@ -2,7 +2,7 @@
 <div class="block padding-block sm-top gutter-bottom border-orange">
   <div class="block-title-big" role="list">{{ 'frontpage.favourites_list_label' | translate }}</div>
   <div *ngIf="loading">
-    <mat-spinner diameter="60"></mat-spinner>
+    <loader></loader>
   </div>
   <ng-container *ngIf="!loading">
     <p *ngIf="!existingFavouriteItems.length" class="explain">{{ 'frontpage.favourites_list_none_message' | translate }}</p>

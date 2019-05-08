@@ -5,6 +5,7 @@ import { MaterialModule } from '@app/_core/material.module';
 import { AppPipes } from '@app/_pipes';
 import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from '@app/_core/shared.module';
+import { LoaderModule } from '@app/_components/loader/loader.module';
 
 @NgModule({
   imports: [
@@ -12,7 +13,8 @@ import { SharedModule } from '@app/_core/shared.module';
     MaterialModule,
     AppPipes,
     RouterModule,
-    SharedModule
+    SharedModule,
+    LoaderModule
   ],
   declarations: [
     RecentNewsComponent

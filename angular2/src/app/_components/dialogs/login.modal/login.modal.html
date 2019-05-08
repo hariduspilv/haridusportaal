@@ -10,11 +10,7 @@
     </div>
   </div>
   <notifications class="notifications notifications--small" id="login"></notifications>
-  <div class="loader" *ngIf="loader">
-    <svg class="circular" viewBox="25 25 50 50">
-      <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10"/>
-    </svg>
-  </div>
+  <loader *ngIf="loader"></loader>
   <div class="dialog-content" *ngIf="!loader">
     <div class="login-methods" *ngIf="!mobileValidation.handshake">
       <ng-container *ngFor="let authMethod of availableAuthMethods; let i = index">

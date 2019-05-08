@@ -1,6 +1,6 @@
 <div><breadcrumbs *ngIf="!inputData"></breadcrumbs></div>
 <div class="main-container">
-  <mat-spinner *ngIf="!content && !error"></mat-spinner>
+  <loader *ngIf="!content && !error"></loader>
   <div class="row news-single" *ngIf="content">
     <div class="col-8 sm-12">
       <div class="news-list">
