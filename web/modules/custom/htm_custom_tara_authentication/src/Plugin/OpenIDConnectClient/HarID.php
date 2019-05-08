@@ -46,6 +46,8 @@ class HarID extends Generic {
 			],
 		];
 
+        dump($url_options['query']['state']);
+
         \Drupal::logger('htm_custom_tara_authentication')->notice('jou1'.json_encode($url_options));
 
 		$endpoints = $this->getEndpoints();
