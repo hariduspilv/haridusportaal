@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class NotFoundComponent {
 
   viewTranslations: any;
-  loaded: boolean = false;
   translatedLinks: object = {
     school: {et: '/kool'},
     events: {et: '/sündmused'},
@@ -27,7 +26,7 @@ export class NotFoundComponent {
   
   ngOnInit() {
     this.sidemenu.triggerLang(true);
-    this.loaded = true;
+    document.getElementById('toFront').focus();
   }
 
   getLang() {

@@ -13,7 +13,7 @@
       @include break-on(sm, min) {font-size: $medium;line-height: 1.25;padding-top: $large;}
     }
     &__button {padding-top: 2.25rem;text-align: center;
-      button {width: auto; color: $black; background-color: $white;
+      button {width: auto; color: $black; background-color: $white;font-weight: 400;
         &:hover {
           background-color: $aqua;
         }
