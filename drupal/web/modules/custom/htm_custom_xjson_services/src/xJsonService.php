@@ -86,15 +86,6 @@ class xJsonService implements xJsonServiceInterface {
                     'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
                 ];
 
-            /*TODO fix empty arrays*/
-            $baseJson['body'] = [
-                'steps' => ['empty' => 'empty'],
-                'messages' => []
-            ];
-
-            /*TODO fix empty arrays*/
-            $baseJson['messages'] = [];
-
         } elseif (!empty($response_info) && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
             $baseJson = $response_info;
             unset($baseJson['header']['first']);
