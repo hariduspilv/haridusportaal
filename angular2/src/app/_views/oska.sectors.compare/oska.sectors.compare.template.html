@@ -16,7 +16,7 @@
     </div>
   </div><!--/row-->
   <div class="sectors__list-body" *ngIf="loading && !data">
-    <mat-spinner></mat-spinner>
+    <loader></loader>
   </div>
   <h1 class="no-data" *ngIf="!loading && data.length === 0">{{'oska.no_data_yet' | translate}}</h1>
   <div class="sectors__list-body sectors__list-body--comparison" *ngIf="data && data.length !== 0 && !loading">

@@ -1,5 +1,5 @@
 <div class="block" id="blockTop" tabindex="0">
-  <mat-spinner *ngIf="!data && !subscribedStatus"></mat-spinner>
+  <loader *ngIf="!data && !subscribedStatus"></loader>
   <div class="block__content" *ngIf="data">
     <div class="block__content--header">
       <h1>{{ 'newsletter.title' | translate }}</h1>

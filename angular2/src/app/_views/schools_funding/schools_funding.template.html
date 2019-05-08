@@ -79,7 +79,7 @@
 
         <div class="map-wrapper" [class.polygonMap]="polygons">
           <div class="map-loader" *ngIf="loading" >
-            <mat-spinner diameter="60"></mat-spinner>
+            <loader></loader>
           </div><!--/map-loader-->
           <agm-map (mapReady)="mapReady($event)" maxZoom="16" [styles]="mapOptions.styles">
             <agm-marker-cluster [styles]="mapOptions.clusterStyles" maxZoom="15" *ngIf="data">

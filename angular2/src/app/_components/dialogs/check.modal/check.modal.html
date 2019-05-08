@@ -10,7 +10,7 @@
     </div>
   </div>
   <div class="dialog__success--modal dialog__success--modal--noTop dialog__success--modal--table">
-    <mat-spinner *ngIf="loading && !error"></mat-spinner>
+    <loader *ngIf="loading && !error"></loader>
     <div class="dialog__success--content dialog__success--content--table" *ngIf="!loading && content">
     <!-- *ngIf="!loading && content && !error" -->
       <h1 class="mt-0 mb-0" >{{ data.title | titleCase }}</h1>

@@ -1,4 +1,4 @@
-<mat-spinner *ngIf="!events || !news || !generalData" ></mat-spinner>
+<loader *ngIf="!events || !news || !generalData"></loader>
 <div *ngIf="(events && news && generalData && generalData[0]) || (events && news)" class="main-container">
   <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="topLeft"></triangles>
 </div>

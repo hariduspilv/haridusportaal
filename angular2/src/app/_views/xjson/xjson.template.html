@@ -26,7 +26,7 @@
         </div>
         <!--/block__hed-->
 
-        <mat-spinner *ngIf="!data"></mat-spinner>
+        <loader *ngIf="!data"></loader>
 
         <ng-container *ngIf="data && view == 'document'">
 
