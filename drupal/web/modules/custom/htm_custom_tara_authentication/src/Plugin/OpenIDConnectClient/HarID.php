@@ -46,7 +46,7 @@ class HarID extends Generic {
 			],
 		];
 
-        \Drupal::logger('htm_custom_tara_authentication')->notice('jou1'.$url_options);
+        \Drupal::logger('htm_custom_tara_authentication')->notice('jou1'.json_encode($url_options));
 
 		$endpoints = $this->getEndpoints();
 		// Clear _GET['destination'] because we need to override it.
@@ -110,7 +110,7 @@ class HarID extends Generic {
 			if (array_key_exists('refresh_token', $response_data)) {
 				$tokens['refresh_token'] = $response_data['refresh_token'];
 			}
-            \Drupal::logger('htm_custom_tara_authentication')->notice('jou2'.$tokens);
+            \Drupal::logger('htm_custom_tara_authentication')->notice('jou2'.json_encode($tokens));
 			return $tokens;
 		}
 		catch (Exception $e) {
