@@ -45,6 +45,7 @@ class HarID extends Generic {
 				'state' => StateToken::create(),
 			],
 		];
+        dump($url_options);
 
 		$endpoints = $this->getEndpoints();
 		// Clear _GET['destination'] because we need to override it.
