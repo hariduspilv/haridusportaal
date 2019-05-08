@@ -89,11 +89,11 @@ class xJsonService implements xJsonServiceInterface {
             /*TODO fix empty arrays*/
             $baseJson['body'] = [
                 'steps' => ['empty' => 'empty'],
-                'messages' => []
+                'messages' => json_decode ("{}")
             ];
 
             /*TODO fix empty arrays*/
-            $baseJson['messages'] = ['empty' => 'empty'];
+            $baseJson['messages'] = json_decode ("{}");
 
         } elseif (!empty($response_info) && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
             $baseJson = $response_info;
@@ -232,7 +232,7 @@ class xJsonService implements xJsonServiceInterface {
         $definition = $this->getEntityJsonObject($form_name);
         $definition_body = $definition['body'];
 
-        $return['messages'] = (isset($definition['messages'])) ? $definition['messages'] : [];
+        $return['messages'] = (isset($definition['messages'])) ? $definition['messages'] : json_decode ("{}");
 
         if ($response_header) $return['header'] = $response_header;
         if ($response_messages) $return['messages'] += $response_messages;
@@ -269,7 +269,7 @@ class xJsonService implements xJsonServiceInterface {
             if (isset($response_body['messages']) && count($response_body['messages'] > 0)) {
                 $return['body']['messages'] = $response_body['messages'];
             } else {
-                $return['body']['messages'] = (object)[];
+                $return['body']['messages'] = json_decode("{}");
             }
         } else {
             $return['body'] = $response_body;
