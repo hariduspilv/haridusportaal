@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_tara_authentication\Controller;
 
+use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Session\AccountInterface;
@@ -10,6 +11,7 @@ use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationP
 use Drupal\openid_connect\Claims;
 use Drupal\openid_connect\Controller\RedirectController;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
+use Drupal\openid_connect\StateToken;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
