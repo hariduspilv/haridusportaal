@@ -85,7 +85,6 @@ class LoginBlock extends BlockBase implements ContainerFactoryPluginInterface {
           'user.roles:anonymous',
         ]);
     }
-    dump('jou');
     return AccessResult::forbidden();
   }
 
