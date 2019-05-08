@@ -86,6 +86,15 @@ class xJsonService implements xJsonServiceInterface {
                     'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
                 ];
 
+            /*TODO fix empty arrays*/
+            $baseJson['body'] = [
+                'steps' => ['empty' => 'empty'],
+                'messages' => []
+            ];
+
+            /*TODO fix empty arrays*/
+            $baseJson['messages'] = ['empty' => 'empty'];
+
         } elseif (!empty($response_info) && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
             $baseJson = $response_info;
             unset($baseJson['header']['first']);
@@ -223,15 +232,10 @@ class xJsonService implements xJsonServiceInterface {
         $definition = $this->getEntityJsonObject($form_name);
         $definition_body = $definition['body'];
 
-        if(isset($definition['messages']) && count($definition['messages'] > 0)){
-            $return['messages'] = $definition['messages'];
-        }
+        $return['messages'] = (isset($definition['messages'])) ? $definition['messages'] : [];
 
         if ($response_header) $return['header'] = $response_header;
-
-        if(count($response_messages) > 0){
-            $return['messages'] += $response_messages;
-        }
+        if ($response_messages) $return['messages'] += $response_messages;
 
         if ($response_body && !empty($response_body['steps'])) {
             foreach ($definition_body['steps'] as $step_key => $step) {
@@ -262,8 +266,10 @@ class xJsonService implements xJsonServiceInterface {
                     $return['body']['steps'][$step_key]['title'] = $step['title'];
                 }
             }
-            if (isset($response_body['messages']) && count($response_body['messages'] > 0)) {
+            if (isset($response_body['messages'])) {
                 $return['body']['messages'] = $response_body['messages'];
+            } else {
+                $return['body']['messages'] = [];
             }
         } else {
             $return['body'] = $response_body;
@@ -277,7 +283,6 @@ class xJsonService implements xJsonServiceInterface {
             $return = $this->checkAcceptableForms($return);
         }
 
-        dump($return);
         return $return;
     }
 
