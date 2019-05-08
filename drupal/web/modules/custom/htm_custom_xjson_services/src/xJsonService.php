@@ -89,7 +89,7 @@ class xJsonService implements xJsonServiceInterface {
             /*TODO fix empty arrays*/
             $baseJson['body'] = [
                 'steps' => ['empty' => 'empty'],
-                'messages' => []
+                'messages' => (object)[]
             ];
 
             /*TODO fix empty arrays*/
