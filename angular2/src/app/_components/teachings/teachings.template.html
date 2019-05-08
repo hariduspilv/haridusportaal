@@ -1,7 +1,7 @@
 
 <div class="accordion">
   <h2 class="section--header">{{ 'frontpage.teachings_data' | translate }}</h2>
-  <mat-spinner *ngIf="loading && !error"></mat-spinner>
+  <loader *ngIf="loading && !error"></loader>
   <!-- <div class="error" *ngIf="error" role="alert">
     <span *ngIf="dataErr">{{ 'errors.teachings_data_missing' | translate }}</span>
     <span *ngIf="requestErr">{{ 'errors.teachings_data_request' | translate }}</span>

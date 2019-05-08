@@ -23,7 +23,7 @@
 <div><breadcrumbs *ngIf="!inputData"></breadcrumbs></div>
 <div class="main-container">
 
-  <mat-spinner *ngIf="loading"></mat-spinner>
+  <loader *ngIf="loading"></loader>
   <div *ngIf="!loading" class="row" id="schools-single">
     <div class="col-8 sm-12 left-col">
       <div class="block padding-block lg-bottom--extra sm-top">

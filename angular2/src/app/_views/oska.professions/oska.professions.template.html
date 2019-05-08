@@ -134,7 +134,7 @@
     </div>
   </div><!--/studyProgramme__list-head-->
 
-  <div class="spinner-wrapper" *ngIf="!data"><mat-spinner></mat-spinner></div>
+  <div class="spinner-wrapper" *ngIf="!data"><loader></loader></div>
 
   <div role="alert" *ngIf="data && data.length == 0" class="no-results">
     {{ errMessage ? errMessage : 'news.no_results' | translate }}
@@ -196,7 +196,7 @@
   
 <div class="text-center actions snackBar">
   <ng-container *ngIf="!listEnd && data && data.length">
-    <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
+    <loader *ngIf="loading"></loader>
     <button role="button" mat-raised-button color="primary" (click)="loadMore()" *ngIf="!loading" attr.aria-label="{{'button.load_more' | translate}}">
       {{ "button.load_more" | translate }}
     </button>

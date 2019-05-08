@@ -1,7 +1,7 @@
 
 <div class="block padding-block gutter-bottom sm-top border-orange" *ngIf="loading">
   <div *ngIf="loading">
-    <mat-spinner diameter="60"></mat-spinner>
+    <loader></loader>
   </div>
 </div>
 <div class="block padding-block gutter-bottom sm-top border-orange" *ngIf="!loading && events && events.length">

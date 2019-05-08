@@ -1,7 +1,7 @@
 
 <div><breadcrumbs></breadcrumbs></div>
 <div class="main-container">
-  <mat-spinner *ngIf="!list && loading"></mat-spinner>
+  <loader *ngIf="!list && loading"></loader>
   <div class="row" *ngIf="list && !loading">
     <div class="col-12 sm-12">
       <div class="block">
