@@ -29,6 +29,7 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { LoaderModule } from './_components/loader/loader.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -93,5 +94,6 @@ export const AppImports = [
   TextareaAutosizeModule,
   RecaptchaModule.forRoot(),
   RecaptchaFormsModule,
-  DeviceDetectorModule.forRoot()
+  DeviceDetectorModule.forRoot(),
+  LoaderModule
 ]

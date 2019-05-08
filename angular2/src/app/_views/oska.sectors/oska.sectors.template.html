@@ -16,7 +16,7 @@
     </div>
   </div><!--/row-->
   <div class="sectors__list-body" *ngIf="loading && !data">
-    <mat-spinner></mat-spinner>
+    <loader></loader>
   </div>
   <div class="sectors__list-body" *ngIf="data" areaModal>
     <div class="row sectors--row" *ngIf="data.length">

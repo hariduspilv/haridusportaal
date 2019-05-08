@@ -41,7 +41,7 @@
 
           <ng-container *ngIf="filtersData[item.id]">
             <div class="chart-wrapper__loader" *ngIf="filtersData[item.id].loading">
-              <mat-spinner diameter="20" style="margin:0 auto;"></mat-spinner>  
+              <loader></loader>
             </div><!--/chart-wrapper__loader-->
             
             <google-chart [data]="filtersData[item.id]" *ngIf="filtersData[item.id].dataTable"></google-chart>

@@ -109,8 +109,7 @@
       </div><!--/row-->
     </div>
   </form>
-
-  <mat-spinner *ngIf="!list"></mat-spinner>
+  <loader *ngIf="!list"></loader>
   <div class="news-list main-container" *ngIf="list">
     <div class="news-component__head">
       <div class="news-title">{{ 'news.label' | translate | uppercase }}</div>
@@ -146,7 +145,7 @@
     </div><!--ngFor-->
 
     <div class="text-center actions" *ngIf="!listEnd">
-      <mat-spinner *ngIf="loading" diameter="20" style="margin:0 auto;"></mat-spinner>
+      <loader *ngIf="loading"></loader>
       <button mat-raised-button color="primary" (click)="loadMore()" role="button" *ngIf="!loading">
         {{ "button.load_more" | translate }}
       </button>

@@ -48,6 +48,7 @@
 
 
 .map-wrapper{position: relative; 
+	min-height:200px;
 	.sebm-google-map-container{height:100%; position:absolute; top:0; left:0; right:0;}
 	@include break-on(sm, max){text-align:center;
 		margin:0 -1.5rem;

@@ -10,7 +10,7 @@
       </div>
     </div>
   </div>
-  <mat-spinner *ngIf="!data && !error"></mat-spinner>
+  <loader *ngIf="!data && !error"></loader>
   <div class="row wrapper__row" *ngIf="data">
     <div class="col-8 sm-12">
       <div class="block border-blue padding-block">

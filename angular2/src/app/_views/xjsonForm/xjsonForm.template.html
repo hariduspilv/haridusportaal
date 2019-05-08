@@ -10,7 +10,7 @@
           siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="add($event);"></re-captcha>
       </ng-container>
 
-      <mat-spinner *ngIf="!data && !loginError"></mat-spinner>
+      <loader *ngIf="!data && !loginError"></loader>
       <notifications [id]="'xjsonForm'" class="notifications notifications--small"></notifications>
       <ng-container *ngIf="data">
 
