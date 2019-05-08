@@ -25,7 +25,8 @@ query schoolMapQuery (
     	{operator: IN, field:"field_teaching_language_id", value: $language, enabled:$languageEnabled },
     	{operator: IN, field:"field_ownership_type_id", value: $ownership, enabled:$ownershipEnabled },
     	{operator: EQUAL, field:"field_special_class", value: [$specialClass], enabled:$specialClassEnabled }
-    	{operator: EQUAL, field:"field_student_home", value: [$studentHome], enabled:$studentHomeEnabled }
+    	{operator: EQUAL, field:"field_student_home", value: [$studentHome], enabled:$studentHomeEnabled },
+    	{operator: EQUAL, field:"status", value: "1" }
     ]})
   {
     Nid
