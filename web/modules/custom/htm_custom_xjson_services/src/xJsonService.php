@@ -89,7 +89,7 @@ class xJsonService implements xJsonServiceInterface {
             /*TODO fix empty arrays*/
             $baseJson['body'] = [
                 'steps' => ['empty' => 'empty'],
-                'messages' => (object)[]
+                'messages' => []
             ];
 
             /*TODO fix empty arrays*/
@@ -269,7 +269,7 @@ class xJsonService implements xJsonServiceInterface {
             if (isset($response_body['messages'])) {
                 $return['body']['messages'] = $response_body['messages'];
             } else {
-                $return['body']['messages'] = [];
+                $return['body']['messages'] = (object)[];
             }
         } else {
             $return['body'] = $response_body;
