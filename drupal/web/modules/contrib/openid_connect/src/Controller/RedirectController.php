@@ -110,7 +110,6 @@ class RedirectController extends ControllerBase implements AccessInterface {
 
     // Delete the state token, since it's already been confirmed.
     unset($_SESSION['openid_connect_state']);
-    dump($_SESSION);
 
     // Get parameters from the session, and then clean up.
     $parameters = [
