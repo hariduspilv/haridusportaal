@@ -87,20 +87,34 @@
         <div class="ng-select__wrapper__mt">
           <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'event.filter_types' | translate}}</span>
           <ng-select
-          tabindex="0"
-          role="select"
-          attr.aria-label="{{'filter.select' | translate}}"
-          [class.exists]="filterFormItems.types && filterFormItems.types.length"
-          [items]="eventsTypesObs | async"
-          [multiple]="true"
-          [loading]="loading"
-          bindLabel="name"
-          [notFoundText]="'events.no_results' | translate"
-          name="types"
-          [(ngModel)]="filterFormItems.types"
-          placeholder="{{ 'event.filter_types' | translate }}"
-          (clear)="clearField('types')"
-          [dropdownPosition]="'bottom'"></ng-select>      
+            tabindex="0"
+            role="select"
+            attr.aria-label="{{'filter.select' | translate}}"
+            [class.exists]="filterFormItems.types && filterFormItems.types.length"
+            [items]="eventsTypesObs | async"
+            [multiple]="true"
+            [loading]="loading"
+            bindLabel="name"
+            name="types"
+            [notFoundText]="'events.no_results' | translate"
+            placeholder="{{ 'event.filter_types' | translate }}"
+            [(ngModel)]="filterFormItems.types"
+            (clear)="clearField('types')"
+            [closeOnSelect]="false"
+            (close)="typesDropdownSort()"
+            class="mat-primary ng-select-searchable--clearChips"
+          >
+            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span>{{item.name}},</span>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+              <div id="item-{{index}}"
+              class="mat-option-pseudo-checkbox mat-pseudo-checkbox"
+              [class.mat-pseudo-checkbox-checked]="item$.selected"
+              ></div>
+              <span>{{item.name}}</span>
+            </ng-template>
+          </ng-select>
         </div>
         
       </div>
@@ -110,20 +124,34 @@
         <div class="ng-select__wrapper__mt">
           <span class="ng-select__title"  [class.exists]="filterFormItems.tags && filterFormItems.tags.length">{{ 'event.filter_tags' | translate}}</span>
           <ng-select
-          tabindex="0"
-          role="select"
-           attr.aria-label="{{'filter.select' | translate}}"
-          [class.exists]="filterFormItems.tags && filterFormItems.tags.length"
-          [items]="eventsTagsObs | async"
-          [multiple]="true"
-          [loading]="loading"
-          bindLabel="name"
-          [notFoundText]="'events.no_results' | translate"
-          placeholder="{{ 'event.filter_tags' | translate }}"
-          (clear)="clearField('tags')"
-          [(ngModel)]="filterFormItems.tags"
-          name="labels"
-          [dropdownPosition]="'bottom'"></ng-select>
+            tabindex="0"
+            role="select"
+            attr.aria-label="{{'filter.select' | translate}}"
+            [class.exists]="filterFormItems.tags && filterFormItems.tags.length"
+            [items]="eventsTagsObs | async"
+            [multiple]="true"
+            [loading]="loading"
+            bindLabel="name"
+            name="labels"
+            [notFoundText]="'events.no_results' | translate"
+            placeholder="{{ 'event.filter_tags' | translate }}"
+            [(ngModel)]="filterFormItems.tags"
+            (clear)="clearField('tags')"
+            [closeOnSelect]="false"
+            (close)="tagsDropdownSort()"
+            class="mat-primary ng-select-searchable--clearChips"
+          >
+            <ng-template ng-label-tmp let-item="item" let-clear="clear">
+                <span>{{item.name}},</span>
+            </ng-template>
+            <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+              <div id="item-{{index}}"
+              class="mat-option-pseudo-checkbox mat-pseudo-checkbox"
+              [class.mat-pseudo-checkbox-checked]="item$.selected"
+              ></div>
+              <span>{{item.name}}</span>
+            </ng-template>
+          </ng-select>
         </div>
       </div>
       <div class="col-3 align-end text-right sm-12 inline-flex form-col">
