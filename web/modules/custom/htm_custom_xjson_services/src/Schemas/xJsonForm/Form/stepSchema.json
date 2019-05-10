@@ -37,6 +37,6 @@
       }
     }
   },
-  "required": ["title", "data_elements"],
+  "required": ["title", "data_elements", "editable", "sequence"],
   "additionalProperties": false
 }
