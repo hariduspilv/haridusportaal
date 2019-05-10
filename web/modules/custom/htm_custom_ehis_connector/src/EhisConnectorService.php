@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_ehis_connector;
 use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Site\Settings;
 use Drupal\redis\ClientFactory;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -14,11 +15,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
  */
 class EhisConnectorService {
 
-	/**
-	 * Service default endpoint
-	 */
-	const LOIME_DEFAULT_URL = 'test-htm.wiseman.ee:30080/api/';
-
+	protected $loime_url;
 	/**
 	 * Drupal\Core\Session\AccountProxyInterface definition.
 	 *
@@ -64,6 +61,7 @@ class EhisConnectorService {
 		$this->client = $client_factory->getClient();
 		$this->logger = $logger->get('ehis_connector_service');
 		$this->currentRole = \Drupal::service('current_user.role_switcher')->getCurrentRole();
+		$this->loime_url = settings::get('loime_default_url');
 	}
 
 	/**
@@ -110,9 +108,9 @@ class EhisConnectorService {
 		try {
 			/*TODO make post URL configurable*/
 			if($type === 'get'){
-				$response = $client->get(self::LOIME_DEFAULT_URL.$service_name . '/' . implode($params['url'], '/'));
+				$response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
 			}elseif($type === 'post'){
-				$response = $client->post(self::LOIME_DEFAULT_URL.$service_name, $params);
+				$response = $client->post($this->loime_url.$service_name, $params);
 			}else{
 				//TODO throw error
 			}
