@@ -4,9 +4,6 @@
     "sequence": {
       "type": "integer"
     },
-    "editable": {
-      "type": "boolean"
-    },
     "title": {
       "type": "object",
       "properties": {
@@ -37,6 +34,6 @@
       }
     }
   },
-  "required": ["title", "data_elements", "editable", "sequence"],
+  "required": ["title", "data_elements", "sequence"],
   "additionalProperties": false
 }
