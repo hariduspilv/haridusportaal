@@ -613,21 +613,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   editableStep() {
-    let editable = false;
-    Object.values(this.data_elements).forEach((elem) => {
-      if (elem['type'] !== 'table') {
-        if (elem['readonly'] === false || elem['readonly'] === undefined) {
-          editable = true;
-        }
-      } else if (elem['type'] === 'table') {
-        Object.values(elem['table_columns']).forEach((tabelem) => {
-          if (tabelem['readonly'] === false || tabelem['readonly'] === undefined) {
-            editable = true;
-          }
-        });
-      }
-    });
-    return editable;
+    return this.data.body.steps[this.opened_step].editable;
   }
 
   setActivityButtons(activities: string[]) {
