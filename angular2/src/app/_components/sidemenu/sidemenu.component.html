@@ -1,7 +1,7 @@
 <aside *ngIf="!data" class="side-manu-wrapper">
   <loader></loader>
 </aside>
-<aside role="navigation" attr.aria-label="{{'frontpage.main_menu' | translate}}" *ngIf="data && false" class="side-menu-wrapper">
+<aside role="navigation" attr.aria-label="{{'frontpage.main_menu' | translate}}" *ngIf="data" class="side-menu-wrapper">
   
   <!-- FOR MENU CLASSES INCLUSION-->
   <mat-menu style="display:none;">
