@@ -4,6 +4,9 @@
     "sequence": {
       "type": "integer"
     },
+    "editable": {
+      "type": "boolean"
+    },
     "title": {
       "type": "object",
       "properties": {
