@@ -1,5 +1,5 @@
-query similarStudyProgrammes($nid: Int!, $address: String) {
-  CustomStudyProgrammeElasticQuery(filter: {nid: $nid, school_address: $address}) {
+query similarStudyProgrammes($nid: Int!, $address: String, $offset: Int, $limit: Int) {
+  CustomStudyProgrammeElasticQuery(offset:$offset, limit:$limit, filter: {nid: $nid, school_address: $address}) {
     Nid
     Name
     FieldSchoolName

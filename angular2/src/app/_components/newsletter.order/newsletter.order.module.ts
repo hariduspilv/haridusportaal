@@ -5,6 +5,7 @@ import { AppPipes } from '../../_pipes';
 import { SharedModule } from '../../_core/shared.module';
 import { NewsletterOrderComponent } from './newsletter.order.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
+import { LoaderModule } from '../loader/loader.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -12,10 +13,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'
     SharedModule,
     MaterialModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    LoaderModule
   ],
   declarations: [
-    NewsletterOrderComponent
+    NewsletterOrderComponent,
   ],
   exports: [
     NewsletterOrderComponent

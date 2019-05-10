@@ -85,7 +85,7 @@
       </div>
     </div>
   </div>
-  <mat-spinner *ngIf="!tableData && !error"></mat-spinner>
+  <loader *ngIf="!tableData && !error"></loader>
   <div class="row wrapper__row" *ngIf="tableData">
     <div class="col-12">
       <div class="block border-blue padding-block lg-bottom" id="tableElem" *ngIf="filteredTableData && tableData && tableData.length">

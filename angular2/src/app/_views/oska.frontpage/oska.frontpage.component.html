@@ -13,7 +13,7 @@
     <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="top"></triangles>
   </div>
   <breadcrumbs></breadcrumbs>
-  <mat-spinner *ngIf="!generalData" ></mat-spinner>
+  <loader *ngIf="!generalData"></loader>
   <div class="frontpage" *ngIf="generalData && generalData.length && fieldsData">
     <div class="frontpage__section--short main-container">
       <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{'frontpage.oska_lead_title_wcag' | translate}}">

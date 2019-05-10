@@ -17,7 +17,7 @@
       </div><!--/col-3-->
     </div><!--/row-->
   </form>
-
+  <loader *ngIf="!list"></loader>
   <div *ngIf="list && list.length == 0" class="no-results">
       {{ 'studyProgramme.related_no_results' | translate }}
   </div>

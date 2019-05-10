@@ -29,6 +29,7 @@ import {HttpClientModule, HttpClient} from '@angular/common/http';
 import { TranslateModule, TranslateLoader, TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+import { LoaderModule } from './_components/loader/loader.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -38,8 +39,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     "localhost": ["http://test-htm.wiseman.ee:30000/translations?_format=json&lang=", ""],
     // "localhost": ["https://api.hp.edu.ee/translations?_format=json&lang=", ""],
     // "htm.twn.ee": ["/assets/", ".json"],
-    "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/translations?_format=json&lang=", ""],
-    // "htm.twn.ee": ["https://htm.wiseman.ee/translations?_format=json&lang=", ""],
+    // "htm.twn.ee": ["http://test-htm.wiseman.ee:30000/translations?_format=json&lang=", ""],
+    "htm.twn.ee": ["https://htm.wiseman.ee/translations?_format=json&lang=", ""],
     "edu.ee": ["https://api.hp.edu.ee/translations?_format=json&lang=", ""],
     "www.edu.ee": ["https://api.hp.edu.ee/translations?_format=json&lang=", ""],
     "test.edu.ee": ["https://apitest.hp.edu.ee/translations?_format=json&lang=", ""],
@@ -93,5 +94,6 @@ export const AppImports = [
   TextareaAutosizeModule,
   RecaptchaModule.forRoot(),
   RecaptchaFormsModule,
-  DeviceDetectorModule.forRoot()
+  DeviceDetectorModule.forRoot(),
+  LoaderModule
 ]

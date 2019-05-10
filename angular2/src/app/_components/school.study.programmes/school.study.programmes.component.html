@@ -25,8 +25,7 @@
     </div>
   </div>
 </div>
-
-<mat-spinner *ngIf="loading" diameter="40" style="margin:0 auto;"></mat-spinner>
+<loader *ngIf="loading"></loader>
 <div class="button-wrapper">
   <button mat-raised-button color="primary" (click)="getData()"  *ngIf="!listEnd && !loading">{{ 'button.load_more' | translate }}</button>
 </div><!--/button-wrapper-->

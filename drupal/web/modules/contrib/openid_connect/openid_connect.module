@@ -405,9 +405,9 @@ function openid_connect_extract_sub(array $user_data, array $userinfo) {
  *   TRUE on success, FALSE on failure.
  */
 function openid_connect_complete_authorization($client, array $tokens, &$destination) {
-  if (\Drupal::currentUser()->isAuthenticated()) {
-    throw new \RuntimeException('User already logged in');
-  }
+  //if (\Drupal::currentUser()->isAuthenticated()) {
+  //  throw new \RuntimeException('User already logged in');
+  //}
 
   /* @var \Drupal\openid_connect\Authmap $authmap */
   $authmap = \Drupal::service('openid_connect.authmap');
