@@ -48,6 +48,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   loadingCalendar: boolean = false;
   calendarDataEntries: any;
   eventsTags: any;
+  eventsTagsSet: any;
   eventsTagsObs: any;
 
   loadFlag: boolean = false;
@@ -301,7 +302,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     this.getTypes();
 
     this.filterRetrieveParams( this.params );
-
     //this.getData();
   }
   sort(prop:any, arr:any) {
@@ -431,7 +431,61 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }
 
   }
-
+  typesDropdownSort() {
+    //wtf, too many different ways one set of data can be presented
+    let selected = [];
+    if(this.filterFormItems.types) {
+      const sortedSelected = this.filterFormItems.types.sort((a:any, b:any) => {
+        if(a.name.toUpperCase() > b.name.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      });
+      selected = [...sortedSelected];
+    }
+    let otherValues = this.eventsTypes.filter(type => {
+        return !selected.find(value => {
+          return type.tid === parseInt(value.id)
+        });
+      }
+    ).map(e => {
+      return {
+        name: e.name,
+        id: `${e.tid}`
+      }
+    }).sort((a:any, b:any) => {
+      if(a.name.toUpperCase() > b.name.toUpperCase()) {
+        return 1;
+      }
+      return -1;
+    });
+    this.filterFormItems.types = [...selected];
+    this.eventsTypesObs = of([...selected, ...otherValues]);
+  }
+  //every day we fall further from god's light
+  tagsDropdownSort() {
+    let selected = [];
+    if(this.filterFormItems.tags) {
+      //for some reason have to dedupe the arr
+      //what is up with this data
+      const dedupedSelected = Array.from(new Set(this.filterFormItems.tags));
+      const sortedSelected = dedupedSelected.sort((a:any, b:any) => {
+        if(a.name.toUpperCase() > b.name.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      });
+      selected = [...sortedSelected];
+    }
+    const otherValues = this.eventsTagsSet.filter(e => !selected.find(x => x.id === e.id)).sort((a:any, b:any) => {
+      if(a.name.toUpperCase() > b.name.toUpperCase()) {
+        return 1;
+      }
+      return -1;
+    })
+    this.filterFormItems.tags = selected;
+    this.eventsTagsObs = of([...selected, ...otherValues]);
+  }
   getData() {
     
         this.eventsConfig = new EventsConfig();
@@ -594,8 +648,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         t.id === thing.id && t.name === thing.name
       )))
       this.eventsTypesObs = of(newsTidArr).pipe(delay(500));
+      this.typesDropdownSort();
     });
-
     this.subscriptions = [...this.subscriptions, typesSubscription];
 
   }
@@ -637,12 +691,13 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           }
         }
       }
-
       newsTagArr = newsTagArr.filter((thing, index, self) =>
       index === self.findIndex((t) => (
         t.id === thing.id && t.name === thing.name
       )))
+      this.eventsTagsSet = [...newsTagArr];
       this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
+      this.tagsDropdownSort();
       
     });
 
