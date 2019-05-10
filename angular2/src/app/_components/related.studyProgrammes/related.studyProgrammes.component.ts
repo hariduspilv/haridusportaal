@@ -20,6 +20,9 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   private requestSub: Subscription;
   private params: object;
 
+  private limit: number = 24;
+  private loading: boolean = true;
+  
   public list: any = false;
   public search_address;
   
@@ -52,7 +55,8 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     if(this.params && !this.params['displayRelated']) return;
     let variables = {
       lang: this.lang.toUpperCase(),
-      nid: this.studyProgrammeId.toString()
+      nid: this.studyProgrammeId.toString(),
+      limit: this.limit
     }
     if(this.params['location']) variables['address'] = this.params['location'];
     if(this.requestSub !== undefined) {
@@ -70,7 +74,9 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
         //convert string to number
         programme.Nid = parseInt(programme.Nid);
         //Split CSV of teaching languages to an array
-        programme.FieldTeachingLanguage = programme.FieldTeachingLanguage.split(',');
+        if( programme.FieldTeachingLanguage ){
+          programme.FieldTeachingLanguage = programme.FieldTeachingLanguage.split(',');
+        }
       })
       this.requestSub.unsubscribe();
     });
