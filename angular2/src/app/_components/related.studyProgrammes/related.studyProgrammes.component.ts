@@ -22,7 +22,8 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
 
   private limit: number = 24;
   private loading: boolean = true;
-  
+  private listEnd: boolean = false;
+
   public list: any = false;
   public search_address;
   
@@ -56,21 +57,27 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     let variables = {
       lang: this.lang.toUpperCase(),
       nid: this.studyProgrammeId.toString(),
-      limit: this.limit
+      limit: this.limit,
+      offset: this.list ? this.list.length : 0
     }
+
+    this.loading = true;
+
     if(this.params['location']) variables['address'] = this.params['location'];
     if(this.requestSub !== undefined) {
       this.requestSub.unsubscribe();
     }
     this.requestSub = this.http.get('similarStudyProgrammes', { params: variables } ).subscribe(response => {
 
-      this.list = response['data']['CustomStudyProgrammeElasticQuery'];
+      this.loading = false;
 
-      if (response['errors'] && this.list === null) {
-        this.list = [];
+      let tmpList = response['data']['CustomStudyProgrammeElasticQuery'];
+
+      if (response['errors'] && tmpList === null) {
+        tmpList = [];
       }
 
-      this.list.forEach(programme => {
+      tmpList.forEach(programme => {
         //convert string to number
         programme.Nid = parseInt(programme.Nid);
         //Split CSV of teaching languages to an array
@@ -78,6 +85,19 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
           programme.FieldTeachingLanguage = programme.FieldTeachingLanguage.split(',');
         }
       })
+
+      console.log(tmpList.length);
+
+      if( tmpList.length < this.limit ){
+        this.listEnd = true;
+      }
+
+      if( this.list ){
+        this.list = [ ... this.list, ...tmpList ];
+      }else{
+        this.list = tmpList;
+      }
+
       this.requestSub.unsubscribe();
     });
   }

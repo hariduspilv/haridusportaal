@@ -1,12 +1,12 @@
 
 @import "../../../assets/styles/typography.scss";
 
+:host{ display:block; margin-bottom: 4.5rem;
+  @include break-on(sm, min) {margin-bottom: 5.25rem;}
+}
 .block{border-top-color:#15adc2;
   &-title {line-height: 2rem;padding: $small $medium;margin: 0;}
   &-form {padding: 0 $medium $medium $medium;}
-  &.snackBar {margin-bottom: 4.5rem;
-    @include break-on(sm, min) {margin-bottom: 5.25rem;}
-  }
 }
 .studyProgramme {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium;padding-bottom: 0; padding-bottom: $medium;}
@@ -66,3 +66,4 @@
   .full { padding-right: 0px; }
   }    
 }
+.button-wrapper{text-align:center;}
