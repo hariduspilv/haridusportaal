@@ -34,6 +34,6 @@
       }
     }
   },
-  "required": ["title", "data_elements"],
+  "required": ["title", "data_elements", "sequence"],
   "additionalProperties": false
 }

@@ -40,7 +40,7 @@
         <div class="block__notice">
           <notifications class="notifications notifications--small" id="general"></notifications>
         </div>
-        <mat-spinner *ngIf="loader"></mat-spinner>
+        <loader *ngIf="loader"></loader>
         <div class="block__body" *ngIf="certificateData && !loader">
           <h2 role="alert">{{'certificate.data' | translate}}</h2>
           <div class="scrollable scrollable__unpadded">

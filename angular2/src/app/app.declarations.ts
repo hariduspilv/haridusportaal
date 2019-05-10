@@ -40,6 +40,7 @@ import { LoginModal } from './_components/dialogs/login.modal/login.modal';
 import { SearchModal } from './_components/dialogs/search.modal/search.modal'; 
 import { NotificationComponent } from './_components/notifications/notification.component';
 
+
 export const AppDeclarations = [
   routedComponents,
   EventsRegistratonDialog,
@@ -81,7 +82,7 @@ export const AppDeclarations = [
   FeedbackComponent,
   LoginModal,
   SearchModal,
-  NotificationComponent
+  NotificationComponent,
 ];
 
 export const AppEntryComponents = [
@@ -96,5 +97,5 @@ export const AppEntryComponents = [
   StudyProgrammeCompareComponent,
   ConfirmPopupDialog,
   LoginModal,
-  SearchModal
+  SearchModal,
 ]
