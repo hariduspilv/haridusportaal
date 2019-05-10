@@ -22,6 +22,8 @@ use Drupal\graphql\Utility\StringHelper;
  *   response_cache_contexts = {"languages:language_url"},
  *   arguments = {
  *     "filter" = "CustomStudyProgrammeElasticFilterInput",
+ *     "limit" = "Int",
+ *     "offset" = "Int"
  *   }
  * )
  */
@@ -94,20 +96,24 @@ class StudyProgrammeElasticQuery extends FieldPluginBase implements ContainerFac
         }else{
             $response = $client->search($params);
 
-            while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+            if($args['offset'] == null && $args['limit'] == null){
+                while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
+                    $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
+
+                    // When done, get the new scroll_id
+                    // You must always refresh your _scroll_id!  It can change sometimes
+                    $scroll_id = $response['_scroll_id'];
+
+                    // Execute a Scroll request and repeat
+                    $response = $client->scroll([
+                            "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
+                            "scroll" => "30s"           // and the same timeout window
+                        ]
+                    );
+                }
+            }else{
                 $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
-
-                // When done, get the new scroll_id
-                // You must always refresh your _scroll_id!  It can change sometimes
-                $scroll_id = $response['_scroll_id'];
-
-                // Execute a Scroll request and repeat
-                $response = $client->scroll([
-                        "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
-                        "scroll" => "30s"           // and the same timeout window
-                    ]
-                );
             }
 
             foreach($responsevalues as $value){
@@ -134,11 +140,20 @@ class StudyProgrammeElasticQuery extends FieldPluginBase implements ContainerFac
     }
 
     protected function getElasticQuery($args){
-        $params = [
-            'scroll' => '30s',
-            'size' => 50,
-            'index' => 'elasticsearch_index_drupaldb_study_programmes'
-        ];
+
+        if(is_null($args['offset']) && is_null($args['limit'])){
+            $params = [
+                'scroll' => '30s',
+                'size' => 50,
+                'index' => 'elasticsearch_index_drupaldb_study_programmes'
+            ];
+        }else{
+            $params = [
+                'from' => $args['offset'],
+                'size' => $args['limit'],
+                'index' => 'elasticsearch_index_drupaldb_study_programmes'
+            ];
+        }
 
         $studyprogramme = \Drupal::entityTypeManager()->getStorage('node')->load($args['filter']['nid'])->toArray();
         $studyprogrammename = $studyprogramme['title'][0]['value'];
