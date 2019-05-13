@@ -2503,6 +2503,10 @@ oska:
     translation_type: textarea
     et: Andmed
     en: Andmed-eng
+  no_data_yet:
+    translation_type: textarea
+    et: 'Hea kasutaja! Andmed on sisestamisel, avaldame need peatselt!'
+    en: 'Hea kasutaja! Andmed on sisestamisel, avaldame need peatselt!-eng'
 oskaProfession:
   view_field_info:
     translation_type: textarea
