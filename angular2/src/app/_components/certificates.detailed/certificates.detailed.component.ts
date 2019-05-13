@@ -6,6 +6,7 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 import { UserService } from '@app/_services/userService';
 import { TableService } from '@app/_services/tableService';
 import { SettingsService } from '@app/_services/settings.service';
+import { NotificationService } from '@app/_services';
 
 @Component({
   selector: 'certificates-detailed',
@@ -43,7 +44,8 @@ export class CertificatesDetailedComponent implements OnInit{
     public http: HttpService,
     private route: ActivatedRoute,
     private router: Router,
-    private settings: SettingsService
+    private settings: SettingsService,
+    private notificationService: NotificationService
   ) {}
 
   pathWatcher() { 
@@ -56,13 +58,11 @@ export class CertificatesDetailedComponent implements OnInit{
     this.subscriptions = [...this.subscriptions, subscribe];
   }
   loadCertificate() {
-
     this.loading = true;
 
-    let sub = this.http.get('/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe(response => {
+    let sub = this.http.get('/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe((response:any) => {
       this.loading = false;
-
-      if(response['value']['teade']){
+      if(response.value){
         this.router.navigateByUrl( this.dashboardLink );
       } else {
         this.professionalCertificates = response['value']['kutsetunnistused']
@@ -89,7 +89,11 @@ export class CertificatesDetailedComponent implements OnInit{
 
     this.loading = true;
 
-    let sub = this.http.get("/state-exams/" + id + "?_format=json").subscribe(response => {
+    let sub = this.http.get("/state-exams/" + id + "?_format=json").subscribe((response: any) => {
+      if(response.error) {
+        this.loading = false;
+        this.notificationService.error('errors.examinations_data_request', 'certificates', false);
+      }
       if(response['value']['teade'] || response['value']['testid_kod_jada'] === []){
         this.router.navigateByUrl( this.dashboardLink );
       } else {
