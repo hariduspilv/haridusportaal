@@ -22,8 +22,7 @@
               "src/auth.html",
               "src/manifest.json",
               "src/redirect.php",
-              "src/.htaccess",
-              "package.json"
+              "src/.htaccess"
             ],
             "styles": [
               "src/styles.css",
