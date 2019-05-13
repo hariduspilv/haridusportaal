@@ -20,9 +20,9 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   private requestSub: Subscription;
   private params: object;
 
-  private limit: number = 24;
-  private loading: boolean = true;
-  private listEnd: boolean = false;
+  public limit: number = 24;
+  public loading: boolean = true;
+  public listEnd: boolean = false;
 
   public list: any = false;
   public search_address;
