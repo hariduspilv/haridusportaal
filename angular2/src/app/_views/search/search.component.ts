@@ -23,8 +23,8 @@ export class SearchComponent {
   public loading: boolean = true;
   public allFilters: boolean = true;
   public viewChecked: boolean = false;
-  public listLimit: number = 5;
-  public listStep: number = 5;
+  public listLimit: number = 24;
+  public listStep: number = 24;
   public listLength: number;
   public initialCrumbs: any = {
     'et': [{"text": "Avaleht", "url": "/"}]

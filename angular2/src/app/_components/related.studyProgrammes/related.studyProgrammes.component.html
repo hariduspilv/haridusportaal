@@ -1,4 +1,4 @@
-<div class="block snackBar">
+<div class="block snackBar" *ngIf="list">
   
   <div class="block-title">{{ 'studyProgramme.related_label' | translate | uppercase }}</div>
 
@@ -17,7 +17,7 @@
       </div><!--/col-3-->
     </div><!--/row-->
   </form>
-  <loader *ngIf="!list"></loader>
+
   <div *ngIf="list && list.length == 0" class="no-results">
       {{ 'studyProgramme.related_no_results' | translate }}
   </div>
@@ -59,3 +59,8 @@
   </div>
   <!--/list-->
 </div>
+
+<loader *ngIf="loading"></loader>
+<div class="button-wrapper">
+  <button mat-raised-button color="primary" (click)="getData()"  *ngIf="!listEnd && !loading">{{ 'button.load_more' | translate }}</button>
+</div><!--/button-wrapper-->

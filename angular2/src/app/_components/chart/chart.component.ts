@@ -36,6 +36,10 @@ export class ChartComponent implements OnInit{
 
     return {
       height: this.height,
+      chartArea: {
+        top: 75,
+        bottom: 75
+      },
       pieSliceTextStyle: {
         "color": '#ffffff'
       },
@@ -107,6 +111,40 @@ export class ChartComponent implements OnInit{
     }
 
     return tmp;
+  }
+
+  getGraphHeight(value, type) {
+    if( !value[0] || !value[1] ){
+      return this.height;
+    }
+    else if( type !== 'stacked bar 100' && type !== 'clustered bar'){
+      return this.height;
+    }
+
+    const rows = value.length-1;
+    const cols = value[1].length-1;
+    let height;
+
+    if( type == 'clustered bar' ){
+      height = rows * cols * 20;
+    }else{
+      height = rows * 28;
+    }
+
+
+    if( type == 'clustered bar' ){
+      height+= (rows-1)*40;
+    }
+
+    //height = height / 0.75;
+    height+= 150; //graph legend & title space
+
+    if( height < 300 ){
+      height = 300;
+    }
+
+    return height;
+
   }
 
   compileData(inputData:any = false) {
@@ -191,6 +229,8 @@ export class ChartComponent implements OnInit{
         dataTable: value,
         options: this.getGraphOptions()
       }
+
+      tmp.options.height = this.getGraphHeight(value, current.graphType);
 
       tmp.options['isStacked'] = isStacked;
 
