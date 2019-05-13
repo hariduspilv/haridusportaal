@@ -99,7 +99,12 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
       }
 
       this.requestSub.unsubscribe();
-    });
+    },
+      error => {
+        this.loading = false;
+        this.listEnd = true;
+      }
+    );
   }
   ngOnInit() {
 
