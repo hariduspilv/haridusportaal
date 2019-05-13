@@ -32,7 +32,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   polygonLayer: String = "county";
   polygonData:any;
 
-  heatMapColors = ["#fbe5c4", "#fbd291", "#f8b243", "#f89229", "#e2770d", "#d5401a", "#8b2f17"];
+  heatMapColors = ["#C54279","#AD4CA3","#824CAD","#62339D","#4C53AD","#293193","#161B5B"];
   heatMapRanges: Array<Object> = [];
 
   infoWindowFunding:any = false;

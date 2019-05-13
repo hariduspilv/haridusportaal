@@ -1,4 +1,4 @@
-<aside *ngIf="!data" class="side-manu-wrapper">
+<aside *ngIf="!data" class="side-menu-wrapper">
   <loader></loader>
 </aside>
 <aside role="navigation" attr.aria-label="{{'frontpage.main_menu' | translate}}" *ngIf="data" class="side-menu-wrapper">
@@ -66,7 +66,7 @@
     </li>
   </ul>
   <div class="app__info">
-    <div *ngIf="version" class="version">{{ 'frontpage.version' | translate }} {{version}}</div>
+    <div class="version">{{ 'frontpage.version' | translate }} {{version}}</div>
     <div class="support" innerHtml="{{ 'sidemenu.support_text' | translate }}"></div>
   </div>
 </aside>
