@@ -58,6 +58,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public datepickerFocus = false;
   public temporaryModel = {};
   public data;
+  public edit_step = false;
   public empty_data = false;
   public opened_step;
   public max_step;
@@ -304,7 +305,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (readonly === true) {
       return true;
 
-    } else if (this.max_step !== this.opened_step) {
+    }
+    else if (this.max_step !== this.opened_step && this.edit_step === false) {
       return true;
 
     } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE'].includes(key))) {
@@ -437,10 +439,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     });
     this.dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
+        this.edit_step = true;
         this.data.header.current_step = this.opened_step;
         this.data.header['activity'] = 'SAVE';
         const payload = { form_name: this.form_name, form_info: this.data };
-        if (this.test === true) { this.promptDebugDialog(payload); } else { this.getData(payload); }
+        if (this.test === true) { this.promptDebugDialog(payload); } else { this.viewController(this.data); }
       }
       this.dialogRef = null;
     });
@@ -574,10 +577,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   submitForm(activity: string) {
     this.error = {};
-
+    
     if (activity === 'EDIT') {
       this.promptEditConfirmation();
     } else {
+      this.edit_step = false;
       this.validateForm(this.data_elements);
 
       if (Object.keys(this.error).length === 0) {
@@ -619,7 +623,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   setActivityButtons(activities: string[]) {
     const output = { primary: [], secondary: [] };
     const editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
-    if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence) {
+    if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence && this.edit_step === false) {
       if (this.editableStep()) {
         const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
         if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }); }
