@@ -13,7 +13,7 @@
   &-spacing {margin: 0 0 $half-gutter 0;}
   &-header { height: auto !important; padding: 0.5rem 1.25rem; background:$aqua !important;
     &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
-    &.mat-expanded { margin-top: 0;font-weight: 500;white-space: normal; background:$white !important;}
+    &.mat-expanded { margin-top: 0;font-weight: 500;white-space: normal; background:#8ad6e0 !important; border-radius:0;}
   }
   &:hover {
     border-left: .1875rem solid $light-blue;
