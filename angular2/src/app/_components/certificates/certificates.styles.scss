@@ -183,6 +183,10 @@ table p { margin: 0; font-weight: 400; }
     li {
       line-height: 1.57;
     }
+    dl {
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
     dt, dd {
       display: inline-block;
       font-size: 14px;
