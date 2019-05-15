@@ -156,7 +156,7 @@ public class VPTWorker extends Worker {
       if (currentStep == null) {
         jsonNode.putObject("body").putObject("steps");
         ((ObjectNode) jsonNode.get("body")).putArray("messages");
-        jsonNode.putObject("messages");
+        jsonNode.putObject("messages").put("defualt", "default");
 
 //region NULL
         VpTaotlusOpingudResponse response = ehisXRoadService
@@ -279,7 +279,7 @@ public class VPTWorker extends Worker {
 
         ObjectNode stepOneDataElements = ((ObjectNode) jsonNode.get("body").get("steps"))
             .putObject("step_1").putObject("data_elements");
-        stepOneDataElements.put("custody", response.getHoolealuneKuva());
+        stepOneDataElements.putObject("custody").put("value", response.getHoolealuneKuva());
         ArrayNode familyMembersPopulationRegister = stepOneDataElements
             .putObject("family_members_population_register").putArray("value");
         ArrayNode familyMembersEntered = stepOneDataElements.putObject("family_members_entered")
@@ -319,11 +319,11 @@ public class VPTWorker extends Worker {
 
         stepOneDataElements.putObject("custody_proof")
             .put("required", response.getHoolealuneKuva())
-            .put("hidden", !response.getHoolealuneKuva())
+//            .put("hidden", !response.getHoolealuneKuva())
             .putArray("value");
         stepOneDataElements.putObject("family_members_proof")
             .put("required", isSetFamilyMembersEntered.get())
-            .put("hidden", !isSetFamilyMembersEntered.get())
+//            .put("hidden", !isSetFamilyMembersEntered.get())
             .putArray("value");
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_1")).putArray("messages");
@@ -347,10 +347,10 @@ public class VPTWorker extends Worker {
 //region STEP_1 custody and entered family members proof validations
         boolean returnStepOne = false;
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_1")).putArray("messages");
-        ((ObjectNode) jsonNode.get("messages")).remove("custody_proof_validation_error");
-        ((ObjectNode) jsonNode.get("messages")).remove("family_members_proof_error");
+//        ((ObjectNode) jsonNode.get("messages")).remove("custody_proof_validation_error");
+//        ((ObjectNode) jsonNode.get("messages")).remove("family_members_proof_error");
 
-        if (stepOneDataElements.get("custody").asBoolean()
+        if (stepOneDataElements.get("custody").get("value").asBoolean()
             && stepOneDataElements.get("custody_proof").get("value").size() == 0) {
           returnStepOne = true;
           ((ArrayNode) jsonNode.get("body").get("steps").get("step_1").get("messages"))
@@ -377,7 +377,7 @@ public class VPTWorker extends Worker {
         VpTaotlusSissetulekud request = VpTaotlusSissetulekud.Factory.newInstance();
         request.setTaotlejaIsikukood(applicantPersonalCode);
         request.setTaotluseId(applicationId);
-        request.setHoolealune(stepOneDataElements.get("custody").asBoolean());
+        request.setHoolealune(stepOneDataElements.get("custody").get("value").asBoolean());
 
         if (stepOneDataElements.get("custody_proof").get("value").size() > 0) {
           List<FailInfoDto> custodyFiles = new ArrayList<>();
@@ -453,7 +453,7 @@ public class VPTWorker extends Worker {
             .put("hidden", !isSetDataMissing.get());
         stepTwoDataElements.putObject("family_members_income_proof")
             .put("required", isSetDataMissing.get())
-            .put("hidden", !isSetDataMissing.get())
+//            .put("hidden", !isSetDataMissing.get())
             .putArray("value");
 
         stepTwoDataElements.putObject("family_members_nonresident_income")
@@ -464,7 +464,7 @@ public class VPTWorker extends Worker {
             .put("hidden", !isSetNonresident.get());
         stepTwoDataElements.putObject("family_members_nonresident_income_proof")
             .put("required", isSetNonresident.get())
-            .put("hidden", !isSetNonresident.get())
+//            .put("hidden", !isSetNonresident.get())
             .putArray("value");
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_2")).putArray("messages");
@@ -488,10 +488,10 @@ public class VPTWorker extends Worker {
 //region STEP_2 validations
         boolean returnToStepTwo = false;
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_2")).putArray("messages");
-        ((ObjectNode) jsonNode.get("messages"))
-            .remove("family_members_income_proof_validation_error");
-        ((ObjectNode) jsonNode.get("messages"))
-            .remove("family_members_nonresident_income_proof_validation_error");
+//        ((ObjectNode) jsonNode.get("messages"))
+//            .remove("family_members_income_proof_validation_error");
+//        ((ObjectNode) jsonNode.get("messages"))
+//            .remove("family_members_nonresident_income_proof_validation_error");
 
         if (stepTwoDataElements.get("family_members_income_proof").get("required").asBoolean()
             && stepTwoDataElements.get("family_members_income_proof").get("value").size() == 0) {
