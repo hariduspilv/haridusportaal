@@ -19,7 +19,7 @@
 
       <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper">
-          <mat-form-field *ngIf="FilterOptions.oskaFieldValue">
+          <mat-form-field>
             <mat-select [multiple]="true" placeholder="{{ 'frontpage.dashboard_tabs_certificates_field' | translate }}" [(ngModel)]='filterFormItems.oskaFieldValue' name="type" (openedChange)="oskaFieldValueSort($event)">
               <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
               <mat-option *ngFor="let type of FilterOptions.oskaFieldValue" [value]="type.nid">
@@ -72,7 +72,7 @@
         <div class="col-9 sm-12 form-col">
           <div class="round-input__wrapper">
             <mat-form-field *ngIf="FilterOptions" >
-              <mat-select (openedChange)='oskaFixedLabelsSort($event)'[multiple]='true' placeholder="{{ 'oskaProfessions.tags' | translate }}" [(ngModel)]='filterFormItems.oskaFixedLabels' name="sortedBy">
+              <mat-select (openedChange)='oskaFixedLabelsSort($event)'[multiple]='true' placeholder="{{ 'oskaProfessions.tags' | translate }}" [(ngModel)]='filterFormItems.oskaFixedLabels' name="fixedLabels">
                 <mat-option  *ngFor="let label of FilterOptions.oskaFixedLabels" [value]="label.entityId">
                   {{label.entityLabel}}
                 </mat-option>

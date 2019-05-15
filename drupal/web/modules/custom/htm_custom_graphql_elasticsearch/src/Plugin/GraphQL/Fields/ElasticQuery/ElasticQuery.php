@@ -6,6 +6,7 @@ use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\graphql\GraphQL\Execution\ResolveContext;
 use Drupal\graphql\Plugin\GraphQL\Fields\FieldPluginBase;
+use Elasticsearch\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use GraphQL\Type\Definition\ResolveInfo;
 use Elasticsearch\ClientBuilder;
@@ -93,11 +94,12 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         ];
 
         $client = ClientBuilder::create()->setSSLVerification(false)->setHosts($hosts)->build();
-
+        if(isset($args['sort'])) $args = $this->parseElasticSort($args, $client);
         $params = $this->getElasticQuery($args);
+        // add sort if set
 
         $response = $client->search($params);
-
+        #dump($response);
         if($args['offset'] == null && $args['limit'] == null){
             while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
@@ -257,13 +259,47 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
                             $elastic_must_filters
                         )
                     )
-                )
+                ),
             );
+            if($args['sort']){
+                $query['sort'] = $args['sort'];
+            }
         }
+        #dump($query);
 
         $params['body'] = $query;
-
         return $params;
+    }
+
+    protected function parseElasticSort($args, Client $client){
+        $index = reset($args['elasticsearch_index']);
+        $sort_params = $args['sort'];
+        $params = ['index' => $index];
+
+        foreach($sort_params as $param){
+            $params['field'][] = $param['field'];
+        }
+
+        $mapping = $client->indices()->getFieldMapping($params);
+        $mapping_arr = reset($mapping[$index]['mappings']);
+        $changed = false;
+
+        $parsed_params = [];
+        foreach($sort_params as &$sort_param){
+            if(isset($mapping_arr[$sort_param['field']])){
+                $sort_field = $sort_param['field'];
+                $field_mapping = $mapping_arr[$sort_field];
+                $key = $sort_param['field'];
+                if(isset($field_mapping['mapping'][$sort_field]['fields']['keyword'])){
+                    $key = $sort_param['field'] . '.keyword';
+                }
+                $parsed_params[$key] = ($sort_param['direction']) ? $sort_param['direction'] : 'ASC';
+                $changed = true;
+            }
+        }
+        $args['sort'] = ($changed) ? $parsed_params : [];
+
+        return $args;
     }
 
 }
