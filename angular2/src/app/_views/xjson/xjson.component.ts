@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
@@ -69,6 +70,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public subButtons;
   public activityButtons;
   public error = {};
+  public redirect_url;
 
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
@@ -84,6 +86,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private _jsonp: Jsonp,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private tableService: TableService,
     public settings: SettingsService
   ) { }
@@ -161,7 +164,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false) {
     if (searchText.length < 3) { return; }
-
 
 
     if (this.autocompleteDebouncer[element]) { clearTimeout(this.autocompleteDebouncer[element]); }
@@ -555,7 +557,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   validateForm(elements): void {
-    const NOT_FOR_VALIDATION = ['heading', 'helpertext', ];
+    const NOT_FOR_VALIDATION = ['heading', 'helpertext',];
 
     for (const field in elements) {
       const element = elements[field];
@@ -577,7 +579,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   submitForm(activity: string) {
     this.error = {};
-    
+
     if (activity === 'EDIT') {
       this.promptEditConfirmation();
     } else {
@@ -636,6 +638,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       });
     }
     return output;
+  }
+
+  returnToPreviousUrl() {
+    this.location.back();
   }
 
   promptDebugDialog(data) {
@@ -737,25 +743,25 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.data_messages = this.data.body.messages;
     }
 
-      if (this.data_elements) {
-        // Count table elements and set initial settings
-        Object.values(this.data_elements).forEach((elem, index) => {
-          if (elem['type'] === 'table') { this.tableIndexes.push(index); }
-        });
-        this.tableIndexes.forEach((elem) => {
-          this.elemAtStart[elem] = true;
-          this.tableOverflown[elem] = true;
-        });
+    if (this.data_elements) {
+      // Count table elements and set initial settings
+      Object.values(this.data_elements).forEach((elem, index) => {
+        if (elem['type'] === 'table') { this.tableIndexes.push(index); }
+      });
+      this.tableIndexes.forEach((elem) => {
+        this.elemAtStart[elem] = true;
+        this.tableOverflown[elem] = true;
+      });
 
-        this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
+      this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
 
-        this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
+      this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
 
-        this.fillAddressFieldsTemporaryModel(this.data_elements);
+      this.fillAddressFieldsTemporaryModel(this.data_elements);
 
-        this.scrollPositionController();
+      this.scrollPositionController();
 
-      }
+    }
   }
 
   ngOnInit() {
