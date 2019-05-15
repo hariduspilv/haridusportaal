@@ -167,8 +167,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   addressAutocompleteSelectionValidation(element) {
 
-    console.log(this.autoCompleteContainer);
-
     if (this.autoCompleteContainer[element] === undefined) {
       return this.temporaryModel[element] = null;
     }
