@@ -120,7 +120,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     Object.keys(data_elements).forEach(element => {
 
       if (data_elements[element].type === 'address' && data_elements[element].value) {
-
         if (typeof data_elements[element].value === 'object') {
           if (data_elements[element].value.addressHumanReadable) {
             this.autoCompleteContainer[element] = [data_elements[element].value];
@@ -133,6 +132,23 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value));
           this.addressAutocomplete(data_elements[element].value, 0, element, true);
         }
+      } else if (data_elements[element].type === 'table'){
+        Object.keys(data_elements[element].table_columns).forEach(tableElement => {
+          if(data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value){
+            if (typeof data_elements[element].table_columns[tableElement].value === 'object') {
+              if (data_elements[element].table_columns[tableElement].value.addressHumanReadable) {
+                this.autoCompleteContainer[element][tableElement] = [data_elements[element].table_columns[tableElement].value];
+                this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value.addressHumanReadable));
+    
+              } else {
+                data_elements[element].table_columns[tableElement].value = null;
+              }
+            } else if (typeof data_elements[element].table_columns[tableElement].value === 'string') {
+              this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value));
+              this.addressAutocomplete(data_elements[element].table_columns[tableElement].value, 0, tableElement, true);
+            }
+          }
+        })
       }
     });
   }
@@ -143,7 +159,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
+  validateInAdsFieldTable(element) {
+    if (this.addressFieldFocus === false) {
+      this.addressAutocompleteSelectionValidationTable(element);
+    }
+  }
+
   addressAutocompleteSelectionValidation(element) {
+
+    console.log(this.autoCompleteContainer);
+
     if (this.autoCompleteContainer[element] === undefined) {
       return this.temporaryModel[element] = null;
     }
@@ -162,10 +187,78 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
+  addressAutocompleteSelectionValidationTable(element) {
+
+    if (this.autoCompleteContainer[element] === undefined) {
+      return this.temporaryModel[element] = null;
+    }
+
+    const match = this.autoCompleteContainer[element].find(address => {
+      return address.addressHumanReadable === this.temporaryModel[element];
+    });
+
+    if (!match) {
+      this.autoCompleteContainer[element] = null;
+      this.temporaryModel[element] = null;
+      this.data_elements[element].value = null;
+    } else {
+      this.data_elements[element].value = this.inAdsFormatValue(match);
+    }
+
+  }
+
+  addressAutocompleteTable(searchText: string, debounceTime: number = 300, element, col, row, autoselectOnMatch: boolean = false){
+    if (searchText.length < 3) { return; }
+
+    const index = Array.prototype.join.call(element, col, row);
+
+    if (this.autocompleteDebouncer[index]) { clearTimeout(this.autocompleteDebouncer[index]); }
+
+    if (this.autocompleteSubscription[index] !== undefined) {
+      this.autocompleteSubscription[index].unsubscribe();
+    }
+    const _this = this;
+    const limit = this.data_elements[element].value[row][col].results || 10;
+    const ihist = this.data_elements[element].value[row][col].ihist || 0;
+    const apartment = this.data_elements[element].value[row][col].appartment || 0;
+
+    this.autocompleteDebouncer[index] = setTimeout(function () {
+      _this.autocompleteLoader = true;
+      const url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist=' + ihist + '&appartment=' + apartment + '&address=' + searchText + '&results=' + limit + '&callback=JSONP_CALLBACK';
+      const jsonp = _this._jsonp.get(url).map(function (res) {
+        return res.json() || {};
+      }).catch(function (error: any) { return throwError(error); });
+
+      _this.autocompleteSubscription[index] = jsonp.subscribe(data => {
+        if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
+
+        _this.autocompleteLoader = false;
+
+        _this.autoCompleteContainer[element] = data['addresses'] || [];
+
+        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
+
+        _this.autoCompleteContainer[element].forEach(address => {
+          if (address.kort_nr) {
+            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
+          } else {
+            address.addressHumanReadable = address.pikkaadress;
+          }
+        });
+
+        if (autoselectOnMatch === true) {
+          _this.addressAutocompleteSelectionValidation(element);
+        }
+
+        _this.autocompleteSubscription[index].unsubscribe();
+      });
+
+    }, debounceTime);
+  }
+
   addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false) {
 
     if (searchText.length < 3) { return; }
-
 
     if (this.autocompleteDebouncer[element]) { clearTimeout(this.autocompleteDebouncer[element]); }
 
@@ -308,8 +401,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (readonly === true) {
       return true;
 
-    }
-    else if (this.max_step !== this.opened_step && this.edit_step === false) {
+    } else if (this.max_step !== this.opened_step && this.edit_step === false) {
       return true;
 
     } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE'].includes(key))) {
