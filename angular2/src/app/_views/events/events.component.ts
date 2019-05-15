@@ -444,6 +444,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           return -1;
         });
         selected = [...sortedSelected];
+        this.filterFull = true;
       }
       let otherValues = this.eventsTypes.filter(type => {
           return !selected.find(value => {
@@ -482,6 +483,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
           return -1;
         });
         selected = [...sortedSelected];
+        this.filterFull = true;
       }
       const otherValues = this.eventsTagsSet.filter(e => !selected.find(x => x.id === e.id)).sort((a:any, b:any) => {
         if(a.name.toUpperCase() > b.name.toUpperCase()) {
