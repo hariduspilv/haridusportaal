@@ -6,8 +6,8 @@ dependencies:
     - node
     - search_api
   config:
-    - field.storage.node.field_result_page_introduction
     - field.storage.node.body
+    - field.storage.node.field_result_page_introduction
     - search_api.server.elasticsearch_server
 id: oska_result_page
 name: 'OSKA Result Page'
