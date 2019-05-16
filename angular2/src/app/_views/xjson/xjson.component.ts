@@ -205,20 +205,21 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  addressAutocompleteTable(searchText: string, debounceTime: number = 300, element, col, row, autoselectOnMatch: boolean = false){
+  addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false, col: string = '', row: number = 0, table: boolean = false) {
+
     if (searchText.length < 3) { return; }
 
-    const index = Array.prototype.join.call(element, col, row);
+    const index = table ? Array.prototype.join.call(element, col, row) : element;
 
     if (this.autocompleteDebouncer[index]) { clearTimeout(this.autocompleteDebouncer[index]); }
 
-    if (this.autocompleteSubscription[index] !== undefined) {
-      this.autocompleteSubscription[index].unsubscribe();
-    }
+    if (this.autocompleteSubscription[index] !== undefined) { this.autocompleteSubscription[index].unsubscribe(); }
+
     const _this = this;
-    const limit = this.data_elements[element].value[row][col].results || 10;
-    const ihist = this.data_elements[element].value[row][col].ihist || 0;
-    const apartment = this.data_elements[element].value[row][col].appartment || 0;
+
+    const limit = table ? this.data_elements[element].value[row][col].results || 10 : this.data_elements[element].results || 10;
+    const ihist = table ? this.data_elements[element].value[row][col].ihist || 0 : this.data_elements[element].ihist || 0;
+    const apartment = table ? this.data_elements[element].value[row][col].appartment || 0 : this.data_elements[element].appartment || 0;
 
     this.autocompleteDebouncer[index] = setTimeout(function () {
       _this.autocompleteLoader = true;
@@ -231,7 +232,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
 
         _this.autocompleteLoader = false;
-
         _this.autoCompleteContainer[element] = data['addresses'] || [];
 
         _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
@@ -249,54 +249,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
 
         _this.autocompleteSubscription[index].unsubscribe();
-      });
-
-    }, debounceTime);
-  }
-
-  addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false) {
-
-    if (searchText.length < 3) { return; }
-
-    if (this.autocompleteDebouncer[element]) { clearTimeout(this.autocompleteDebouncer[element]); }
-
-    if (this.autocompleteSubscription[element] !== undefined) {
-      this.autocompleteSubscription[element].unsubscribe();
-    }
-
-    const _this = this;
-    const limit = this.data_elements[element].results || 10;
-    const ihist = this.data_elements[element].ihist || 0;
-    const apartment = this.data_elements[element].appartment || 0;
-
-    this.autocompleteDebouncer[element] = setTimeout(function () {
-      _this.autocompleteLoader = true;
-      const url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist=' + ihist + '&appartment=' + apartment + '&address=' + searchText + '&results=' + limit + '&callback=JSONP_CALLBACK';
-      const jsonp = _this._jsonp.get(url).map(function (res) {
-        return res.json() || {};
-      }).catch(function (error: any) { return throwError(error); });
-
-      _this.autocompleteSubscription[element] = jsonp.subscribe(data => {
-        if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
-
-        _this.autocompleteLoader = false;
-        _this.autoCompleteContainer[element] = data['addresses'] || [];
-
-        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
-
-        _this.autoCompleteContainer[element].forEach(address => {
-          if (address.kort_nr) {
-            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
-          } else {
-            address.addressHumanReadable = address.pikkaadress;
-          }
-        });
-
-        if (autoselectOnMatch === true) {
-          _this.addressAutocompleteSelectionValidation(element);
-        }
-
-        _this.autocompleteSubscription[element].unsubscribe();
       });
 
     }, debounceTime);

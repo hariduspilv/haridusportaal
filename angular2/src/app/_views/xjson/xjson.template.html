@@ -492,7 +492,7 @@
                                               [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
                                               [(ngModel)]="row[col]" [name]="element + '_' + rowIndex + '_' + colIndex"
-                                              (ngModelChange)="addressAutocompleteTable(row[col], 300, element, col, rowIndex)"
+                                              (ngModelChange)="addressAutocomplete(row[col], 300, element, false, col, rowIndex, true)"
                                               (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(row[col])"
                                               [matAutocomplete]="autoAddress">
                                             <mat-autocomplete #autoAddress="matAutocomplete"
