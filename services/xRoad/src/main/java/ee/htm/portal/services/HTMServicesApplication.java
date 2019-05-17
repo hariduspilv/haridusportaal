@@ -47,4 +47,15 @@ public class HTMServicesApplication {
     redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(ObjectNode.class));
     return redisTemplate;
   }
+
+  @Bean(name = "redisFileTemplate")
+  RedisTemplate<String, String> redisFileTemplate() {
+    RedisTemplate<String, String> redisFileTemplate = new RedisTemplate<>();
+    redisFileTemplate.setConnectionFactory(redisConnectionFactory());
+    redisFileTemplate.setKeySerializer(new StringRedisSerializer());
+    redisFileTemplate.setValueSerializer(new StringRedisSerializer());
+    redisFileTemplate.setHashKeySerializer(new StringRedisSerializer());
+    redisFileTemplate.setHashValueSerializer(new StringRedisSerializer());
+    return redisFileTemplate;
+  }
 }
