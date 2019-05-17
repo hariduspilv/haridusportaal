@@ -1,6 +1,6 @@
 package ee.htm.portal.services;
 
-import com.nortal.jroad.client.service.configuration.provider.PropertiesBasedXRoadServiceConfigurationProvider;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nortal.jroad.client.service.configuration.provider.XRoadServiceConfigurationProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
+import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @SpringBootApplication
@@ -23,7 +23,7 @@ public class HTMServicesApplication {
 
   @Bean("XRoadServiceConfigurationProvider")
   public XRoadServiceConfigurationProvider xRoadServiceConfigurationProvider() {
-    return new PropertiesBasedXRoadServiceConfigurationProvider();
+    return new HTMPropertiesBasedXRoadServiceConfigurationProvider();
   }
 
   @Value("${spring.redis.host}")
@@ -39,12 +39,23 @@ public class HTMServicesApplication {
 
   @Bean(name = "redisTemplate")
   RedisTemplate<String, Object> redisTemplate() {
-    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<String, Object>();
+    RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
     redisTemplate.setConnectionFactory(redisConnectionFactory());
     redisTemplate.setKeySerializer(new StringRedisSerializer());
     redisTemplate.setValueSerializer(new StringRedisSerializer());
     redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-    redisTemplate.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+    redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(ObjectNode.class));
     return redisTemplate;
+  }
+
+  @Bean(name = "redisFileTemplate")
+  RedisTemplate<String, String> redisFileTemplate() {
+    RedisTemplate<String, String> redisFileTemplate = new RedisTemplate<>();
+    redisFileTemplate.setConnectionFactory(redisConnectionFactory());
+    redisFileTemplate.setKeySerializer(new StringRedisSerializer());
+    redisFileTemplate.setValueSerializer(new StringRedisSerializer());
+    redisFileTemplate.setHashKeySerializer(new StringRedisSerializer());
+    redisFileTemplate.setHashValueSerializer(new StringRedisSerializer());
+    return redisFileTemplate;
   }
 }

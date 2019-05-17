@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+                      http://www.springframework.org/schema/beans/spring-beans.xsd
+	                    http://www.springframework.org/schema/context
+	                    http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+  <context:annotation-config/>
+
+  <context:component-scan base-package="ee.htm.portal.services, com.nortal.jroad"/>
+
+  <!-- X-road client configuration -->
+
+  <!-- Spring webservice template which is needed by X-road services consumer -->
+  <!--<bean id="webServiceTemplate" class="org.springframework.ws.client.core.WebServiceTemplate"/>-->
+
+  <!-- X-road services consumer which prepares and processes service consumption -->
+  <!--<bean id="xRoadConsumer" class="com.nortal.jroad.client.service.consumer.StandardXRoadConsumer">-->
+    <!--<property name="webServiceTemplate" ref="webServiceTemplate"/>-->
+  <!--</bean>-->
+
+  <!-- X-road services configuration -->
+  <!--<bean id="xRoadServiceConfigurationProvider"-->
+    <!--class="com.nortal.jroad.client.service.configuration.provider.PropertiesBasedXRoadServiceConfigurationProvider"/>-->
+  <!--<property name="resource" value="xroad.properties" />-->
+  <!--</bean>-->
+
+  <!-- Generated X-road database services implementation with minimal implementation -->
+  <!--<bean id="ehisXRoadDatabase" class="ee.htm.portal.services.database.EhisXRoadDatabaseImpl" />-->
+
+  <!-- X-road services implementation - usually services wrap generated database implementation -->
+  <!--<bean id="ehisXRoadService" class="ee.htm.portal.services.client.EhisXRoadServiceImpl/>-->
+</beans>
