@@ -10,7 +10,7 @@
 
 	<name>HTM portal micro services</name>
 	<description>HTM portal micro services for relaying xRoad massages.
-    Using Kafka or REST to get request and to response, using kafka to relay log eatery's.
+    Using REST to get request and to response.
   </description>
 	
 	<parent>
@@ -46,17 +46,6 @@
       <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.springframework.kafka/ -->
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.kafka</groupId>
-			<artifactId>spring-kafka-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-oxm -->
 		<!-- needed because com.nortal.jroad/xtee-client-transport -->
     <dependency>
@@ -65,10 +54,31 @@
       <version>4.0.5.RELEASE</version>
     </dependency>
 
-		<!-- JRoad -->
+		<!-- JRoad EHIS Client-->
 		<dependency>
 			<groupId>ee.htm.portal.services</groupId>
-			<artifactId>jRoad_Clients</artifactId>
+			<artifactId>jRoad_EHIS_Client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- JRoad EIS Client-->
+		<dependency>
+			<groupId>ee.htm.portal.services</groupId>
+			<artifactId>jRoad_EIS_Client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- JRoad ARIREG Client-->
+		<dependency>
+			<groupId>ee.htm.portal.services</groupId>
+			<artifactId>jRoad_ARIREG_Client</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<!-- JRoad KUTSEREGISTER Client-->
+		<dependency>
+			<groupId>ee.htm.portal.services</groupId>
+			<artifactId>jRoad_KUTSEREGISTER_Client</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 
@@ -78,21 +88,59 @@
       <artifactId>log4j</artifactId>
       <version>1.2.17</version>
     </dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.awaitility/awaitility -->
-    <dependency>
-      <groupId>org.awaitility</groupId>
-      <artifactId>awaitility</artifactId>
-      <version>3.0.0</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+		<!-- https://mvnrepository.com/artifact/log4j/apache-log4j-extras -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>apache-log4j-extras</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*.properties</exclude>
+					</excludes>
+					<archive>
+						<manifestEntries>
+							<Class-Path>conf/</Class-Path>
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<phase>install</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/conf</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<includes>
+										<include>**/*.properties</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
