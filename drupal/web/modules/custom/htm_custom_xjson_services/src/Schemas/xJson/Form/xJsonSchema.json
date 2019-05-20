@@ -14,6 +14,12 @@
         },
         "number_of_steps": {
           "type": "integer"
+        },
+        "acceptable_forms": {
+          "type": "array"
+        },
+        "references": {
+          "type": "array"
         }
       },
       "required": ["endpoint", "form_name", "number_of_steps"],

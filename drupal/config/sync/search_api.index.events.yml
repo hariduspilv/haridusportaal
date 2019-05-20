@@ -8,11 +8,11 @@ dependencies:
     - taxonomy
     - search_api
   config:
+    - field.storage.node.field_description_summary
     - field.storage.node.field_description
+    - field.storage.node.field_event_type
     - field.storage.node.field_organizer
     - field.storage.node.field_tag
-    - field.storage.node.field_description_summary
-    - field.storage.node.field_event_type
     - search_api.server.elasticsearch_server
 third_party_settings:
   elasticsearch_connector:

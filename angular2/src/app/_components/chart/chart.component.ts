@@ -139,8 +139,8 @@ export class ChartComponent implements OnInit{
     //height = height / 0.75;
     height+= 150; //graph legend & title space
 
-    if( height < 300 ){
-      height = 300;
+    if( height < 400 ){
+      height = 400;
     }
 
     return height;

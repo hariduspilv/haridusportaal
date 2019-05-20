@@ -310,7 +310,7 @@
                               (focus)="addressFieldFocus = true" (blur)="validateInAdsField(element)" [name]="element"
                               [matAutocomplete]="autoAddress">
                             <mat-autocomplete #autoAddress="matAutocomplete"
-                              (optionSelected)="addressFieldFocus = false" [(ngModel)]="temporaryModel[element]">
+                              (optionSelected)="addressFieldFocus = false">
                               <ng-container *ngIf="autocompleteLoader">
                                 <mat-option [value]="" disabled="true">
                                   <span>{{'xjson.searching_please_wait' | translate }}</span>
@@ -487,6 +487,35 @@
                                         [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
                                     </ng-container> <!-- /TEXT -->
 
+                                    <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
+                                            <input class="contnent-input" type="text" matInput
+                                              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                                              [(ngModel)]="row[col]" [name]="element + '_' + rowIndex + '_' + colIndex"
+                                              (ngModelChange)="addressAutocomplete(row[col], 300, element, false, col, rowIndex, true)"
+                                              (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(row[col])"
+                                              [matAutocomplete]="autoAddress">
+                                            <mat-autocomplete #autoAddress="matAutocomplete"
+                                              (optionSelected)="addressFieldFocus = false" >
+                                              <ng-container *ngIf="autocompleteLoader">
+                                                <mat-option [value]="" disabled="true">
+                                                  <span>{{'xjson.searching_please_wait' | translate }}</span>
+                                                </mat-option>
+                                              </ng-container>
+                                              <ng-container *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
+                                                <mat-option *ngIf="!autoCompleteContainer[element].length" [value]="" disabled="true">
+                                                  <span>{{'xjson.address_not_found' | translate }}</span>
+                                                </mat-option>
+                                                <ng-container *ngIf="autoCompleteContainer[element].length > 0">
+                                                  <mat-option *ngFor="let address of autoCompleteContainer[element]"
+                                                    [value]="address.addressHumanReadable">
+                                                    <span>{{ address.addressHumanReadable }}</span>
+                                                  </mat-option>
+                                                </ng-container>
+                                              </ng-container>
+                                            </mat-autocomplete>
+                                    </ng-container> <!-- /ADDRESS -->
+
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
                                       <input class="contnent-input" type="email"
                                         [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
@@ -635,6 +664,10 @@
                   <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button
                     [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
                 </ng-container>
+                <button type="submit" role="button" mat-raised-button
+                color="primary" (click)="returnToPreviousUrl()">
+                {{ 'button.cancel' | translate }}
+              </button>
                 <ng-container *ngFor="let activity of activityButtons['primary']">
                   <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button
                     [color]="[activity.style]" (click)="submitForm(activity.action)">

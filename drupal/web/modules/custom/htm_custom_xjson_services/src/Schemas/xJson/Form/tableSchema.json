@@ -36,6 +36,9 @@
     },
     "required": {
       "type": "object"
+    },
+    "hidden": {
+      "type": "boolean"
     }
   },
   "required": [ "type", "title", "table_columns" ],

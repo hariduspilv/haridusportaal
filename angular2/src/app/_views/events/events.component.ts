@@ -54,6 +54,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   loadFlag: boolean = false;
 
   eventsTypes: any;
+  eventsTypesSet: any;
   eventsTypesObs: any;
 
   eventsConfig: EventsConfig = new EventsConfig();
@@ -431,60 +432,68 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }
 
   }
-  typesDropdownSort() {
+  typesDropdownSort(e) {
+    if(!e) {
     //wtf, too many different ways one set of data can be presented
-    let selected = [];
-    if(this.filterFormItems.types) {
-      const sortedSelected = this.filterFormItems.types.sort((a:any, b:any) => {
+      let selected = [];
+      if(this.filterFormItems.types) {
+        const sortedSelected = this.filterFormItems.types.sort((a:any, b:any) => {
+          if(a.name.toUpperCase() > b.name.toUpperCase()) {
+            return 1;
+          }
+          return -1;
+        });
+        selected = [...sortedSelected];
+        this.filterFull = true;
+      }
+      let otherValues = this.eventsTypes.filter(type => {
+          return !selected.find(value => {
+            return type.tid === parseInt(value.id)
+          });
+        }
+      ).map(e => {
+        return {
+          name: e.name,
+          id: `${e.tid}`
+        }
+      }).sort((a:any, b:any) => {
         if(a.name.toUpperCase() > b.name.toUpperCase()) {
           return 1;
         }
         return -1;
       });
-      selected = [...sortedSelected];
+      this.filterFormItems.types = [...selected];
+      this.eventsTypesSet = [...selected, ...otherValues];
     }
-    let otherValues = this.eventsTypes.filter(type => {
-        return !selected.find(value => {
-          return type.tid === parseInt(value.id)
-        });
-      }
-    ).map(e => {
-      return {
-        name: e.name,
-        id: `${e.tid}`
-      }
-    }).sort((a:any, b:any) => {
-      if(a.name.toUpperCase() > b.name.toUpperCase()) {
-        return 1;
-      }
-      return -1;
-    });
-    this.filterFormItems.types = [...selected];
-    this.eventsTypesObs = of([...selected, ...otherValues]);
   }
   //every day we fall further from god's light
-  tagsDropdownSort() {
-    let selected = [];
-    if(this.filterFormItems.tags) {
-      //for some reason have to dedupe the arr
-      //what is up with this data
-      const dedupedSelected = Array.from(new Set(this.filterFormItems.tags));
-      const sortedSelected = dedupedSelected.sort((a:any, b:any) => {
+  tagsDropdownSort(e) {
+    if(!e) {
+      let selected = [];
+      if(this.filterFormItems.tags) {
+        //for some reason have to dedupe the arr
+        //what is up with this data
+        //i want to die
+        const dedupedSelectedIds = Array.from(new Set(this.filterFormItems.tags.map(e => e.id)));
+        const normalizedSelectedTags = dedupedSelectedIds.map(e => this.eventsTagsSet.find(x => e === x.id));
+        const sortedSelected = normalizedSelectedTags.sort((a:any, b:any) => {
+          if(a.name.toUpperCase() > b.name.toUpperCase()) {
+            return 1;
+          }
+          return -1;
+        });
+        selected = [...sortedSelected];
+        this.filterFull = true;
+      }
+      const otherValues = this.eventsTagsSet.filter(e => !selected.find(x => x.id === e.id)).sort((a:any, b:any) => {
         if(a.name.toUpperCase() > b.name.toUpperCase()) {
           return 1;
         }
         return -1;
-      });
-      selected = [...sortedSelected];
+      })
+      this.filterFormItems.tags = [...selected];
+      this.eventsTagsSet = [...selected, ...otherValues];
     }
-    const otherValues = this.eventsTagsSet.filter(e => !selected.find(x => x.id === e.id)).sort((a:any, b:any) => {
-      if(a.name.toUpperCase() > b.name.toUpperCase()) {
-        return 1;
-      }
-      return -1;
-    })
-    this.filterFormItems.tags = selected;
-    this.eventsTagsObs = of([...selected, ...otherValues]);
   }
   getData() {
     
@@ -647,8 +656,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       index === self.findIndex((t) => (
         t.id === thing.id && t.name === thing.name
       )))
-      this.eventsTypesObs = of(newsTidArr).pipe(delay(500));
-      this.typesDropdownSort();
+      this.eventsTypesSet = [...newsTidArr];
+      this.typesDropdownSort(false);
     });
     this.subscriptions = [...this.subscriptions, typesSubscription];
 
@@ -697,7 +706,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       )))
       this.eventsTagsSet = [...newsTagArr];
       this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
-      this.tagsDropdownSort();
+      this.tagsDropdownSort(false);
       
     });
 

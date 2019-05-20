@@ -4,6 +4,7 @@ import { Router, RoutesRecognized, ActivatedRoute, Params } from '@angular/route
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { RootScopeService } from '@app/_services/rootScopeService';
+import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-side-menu',
   templateUrl: './sidemenu.component.html'
@@ -13,7 +14,7 @@ export class SideMenuComponent implements OnInit {
 
   data: any;
   public isMobile: boolean = false;
-  public version: any = false;
+  public version: any = environment.VERSION;
   subscription: any;
 
   constructor(
