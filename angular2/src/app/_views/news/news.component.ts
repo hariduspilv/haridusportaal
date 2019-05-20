@@ -55,6 +55,31 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     super(null, null);
   }
 
+  typesDropdownSort(e) {
+    if(!e) {
+      let selected = []
+      if(this.filterFormItems.types) {
+        selected = this.filterFormItems.types.sort((a,b) => {
+          if(a.name.toUpperCase() > b.name.toUpperCase()) {
+            return 1;
+          }
+          return -1;
+        })
+      }
+      let otherValues = this.tags.filter((e) => {
+        return !selected.find((x) => {
+          return e.id === x.id
+        })
+      }).sort((a,b) => {
+        if(a.name.toUpperCase() > b.name.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      })
+      this.tags = [...selected, ...otherValues];
+    }
+  }
+
   pathWatcher() { 
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
@@ -110,8 +135,8 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
         }
       }
 
-      this.tags = of(tags).pipe(delay(500));
-
+      this.tags = tags;
+      this.typesDropdownSort(false);
       subscribe.unsubscribe();
     });
 
