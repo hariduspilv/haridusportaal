@@ -3,15 +3,15 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.storage.node.body
     - field.storage.node.field_survey_page_accordion
     - field.storage.paragraph.field_survey_accordion_content
     - field.storage.paragraph.field_survey_accordion_title
     - field.storage.node.field_survey_page_introduction
-    - field.storage.node.body
     - search_api.server.elasticsearch_server
   module:
-    - paragraphs
     - node
+    - paragraphs
     - search_api
 id: oska_survey_page
 name: 'OSKA Survey Page'
