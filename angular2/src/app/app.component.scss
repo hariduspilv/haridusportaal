@@ -739,7 +739,7 @@ $grid-columns: 12;
   &-spacing {margin: 0 0 $half-gutter 0;}
   &-header { height: 2.5rem !important;padding: 0 1.25rem;
     &:focus { outline: rgb(59, 153, 252) 5px auto!important; }
-    &.mat-expanded { height: 2.5rem!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0 1.25rem; }
+    &.mat-expanded { height: 2.5rem!important;margin-top: 0;font-weight: 500;white-space: normal; padding: 0 1.25rem;  background:#8ad6e0 !important; border-radius:0; }
   }
 }
 mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
@@ -767,10 +767,6 @@ mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
   width: 100%;
   box-sizing: border-box;
   background: $light-orange!important;
-}
-
-.mat-expansion-panel-header.mat-expanded { 
-  background: transparent!important;
 }
 
 
