@@ -14,7 +14,7 @@ h4.title-lg-padding { margin-bottom: 1rem; }
     @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
     @include break-on(sm, min) {span {overflow: hidden;text-overflow: ellipsis;}}
   }
-  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2;
+  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2; 
     mat-panel-title {white-space: normal; color: $black; font-weight: 500;
       @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
     }
