@@ -88,7 +88,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
               break;
             case 'oskaFixedLabels':
               this.filterFormItems.oskaFixedLabels = this.params.oskaFixedLabels.split(',');
-              this.oskaFixedLabelsSort();
+              this.oskaFixedLabelsSort(false);
               break;
             default:
               this.filterFormItems[this.filterOptionKeys[i]] = this.params[this.filterOptionKeys[i]];
@@ -132,19 +132,21 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     }
   }
 
-  oskaFixedLabelsSort() {
-    if(this.filterFormItems.oskaFixedLabels) {
-      const sortedSelected = this.FilterOptions.oskaFixedLabels.filter(el => this.filterFormItems.oskaFixedLabels.find(value => value === el.entityId)).sort((a, b) => {
-      if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
-        return -1;
+  oskaFixedLabelsSort(e) {
+    if(!e) {
+      let sortedSelected = []
+      if(this.filterFormItems.oskaFixedLabels) {
+        sortedSelected = this.FilterOptions.oskaFixedLabels.filter(el => this.filterFormItems.oskaFixedLabels.find(value => value === el.entityId)).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() < b.entityLabel.toUpperCase()) {
+          return -1;
+        }
+        return 1;
+      });
+      const otherValues = this.FilterOptions.oskaFixedLabels.filter(el => !sortedSelected.find(value => value.entityId === el.entityId));
+      this.filterFormItems.oskaFixedLabels = sortedSelected.map(el => el.entityId);
+      this.FilterOptions.oskaFixedLabels = [...sortedSelected, ...otherValues];
       }
-      return 1;
-    });
-    const otherValues = this.FilterOptions.oskaFixedLabels.filter(el => !sortedSelected.find(value => value.entityId === el.entityId));
-    this.filterFormItems.oskaFixedLabels = sortedSelected.map(el => el.entityId);
-    this.FilterOptions.oskaFixedLabels = [...sortedSelected, ...otherValues];
-    this.oskaFixedLabelsObs = of(this.FilterOptions.oskaFixedLabels);
-    }
+    } 
   }
 
   reset() {
@@ -246,15 +248,14 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     this.showFilter = this.deviceService.isDesktop();
     this.filterFull = this.deviceService.isMobile() || this.deviceService.isTablet();
 
-    console.log(this.deviceService.isDesktop(), this.deviceService.isTablet(), this.deviceService.isMobile());
     this.lang = this.rootScope.get("lang");
 
     this.watchParams();
     this.populateFilterOptions();
     this.filterSubmit();
-    // if (this.deviceService.isDesktop()) {
-    //   this.filterFull = this.params['oskaFixedLabels'] || this.params['sortedBy'] || this.params['fillingBarValues'];
-    // }
+    if (this.deviceService.isDesktop()) {
+      this.filterFull = this.params['oskaFixedLabels'] || this.params['sortedBy'] || this.params['fillingBarValues'];
+    }
   }
   
   ngOnDestroy () {

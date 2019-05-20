@@ -19,7 +19,7 @@
 
       <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper">
-          <mat-form-field *ngIf="FilterOptions.oskaFieldValue">
+          <mat-form-field>
             <mat-select [multiple]="true" placeholder="{{ 'frontpage.dashboard_tabs_certificates_field' | translate }}" [(ngModel)]='filterFormItems.oskaFieldValue' name="type" (openedChange)="oskaFieldValueSort($event)">
               <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
               <mat-option *ngFor="let type of FilterOptions.oskaFieldValue" [value]="type.nid">
@@ -70,37 +70,14 @@
       </div>
       <div class="row form-additional-row" *ngIf="filterFull && FilterOptions.oskaFixedLabels">
         <div class="col-9 sm-12 form-col">
-          <div class="ng-select__wrapper__mt">
-            <span class="ng-select__title"  [class.exists]="filterFormItems.oskaFixedLabels && filterFormItems.oskaFixedLabels.length">{{ 'oskaProfessions.tags' | translate}}</span>
-            <ng-select
-              tabindex="0"
-              role="select"
-              attr.aria-label="{{'filter.select' | translate}}"
-              [class.exists]="filterFormItems.oskaFixedLabels && filterFormItems.oskaFixedLabels.length"
-              [items]="oskaFixedLabelsObs | async"
-              [multiple]="true"
-              bindLabel="entityLabel"
-              bindValue="entityId"
-              [notFoundText]="'events.no_results' | translate"
-              placeholder="{{ 'oskaProfessions.tags' | translate }}"
-              [(ngModel)]='filterFormItems.oskaFixedLabels'
-              name="labels"
-              [dropdownPosition]="'bottom'"
-              [closeOnSelect]="false"
-              class="mat-primary ng-select-searchable--clearChips"
-              (close)="oskaFixedLabelsSort()"
-            >
-              <ng-template ng-label-tmp let-item="item" let-clear="clear">
-                  <span>{{item.entityLabel}},</span>
-              </ng-template>
-              <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-                <div id="item-{{index}}"
-                class="mat-option-pseudo-checkbox mat-pseudo-checkbox"
-                [class.mat-pseudo-checkbox-checked]="item$.selected"
-                ></div>
-                <span>{{item.entityLabel}}</span>
-              </ng-template>
-            </ng-select>
+          <div class="round-input__wrapper">
+            <mat-form-field *ngIf="FilterOptions" >
+              <mat-select (openedChange)='oskaFixedLabelsSort($event)'[multiple]='true' placeholder="{{ 'oskaProfessions.tags' | translate }}" [(ngModel)]='filterFormItems.oskaFixedLabels' name="fixedLabels">
+                <mat-option  *ngFor="let label of FilterOptions.oskaFixedLabels" [value]="label.entityId">
+                  {{label.entityLabel}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
         <div class="col-3 align-end text-right sm-12 inline-flex form-col">

@@ -2,7 +2,8 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
@@ -58,6 +59,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public datepickerFocus = false;
   public temporaryModel = {};
   public data;
+  public edit_step = false;
   public empty_data = false;
   public opened_step;
   public max_step;
@@ -68,6 +70,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public subButtons;
   public activityButtons;
   public error = {};
+  public redirect_url;
 
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
@@ -83,6 +86,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private _jsonp: Jsonp,
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private tableService: TableService,
     public settings: SettingsService
   ) { }
@@ -116,7 +120,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     Object.keys(data_elements).forEach(element => {
 
       if (data_elements[element].type === 'address' && data_elements[element].value) {
-
         if (typeof data_elements[element].value === 'object') {
           if (data_elements[element].value.addressHumanReadable) {
             this.autoCompleteContainer[element] = [data_elements[element].value];
@@ -129,6 +132,23 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value));
           this.addressAutocomplete(data_elements[element].value, 0, element, true);
         }
+      } else if (data_elements[element].type === 'table'){
+        Object.keys(data_elements[element].table_columns).forEach(tableElement => {
+          if(data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value){
+            if (typeof data_elements[element].table_columns[tableElement].value === 'object') {
+              if (data_elements[element].table_columns[tableElement].value.addressHumanReadable) {
+                this.autoCompleteContainer[element][tableElement] = [data_elements[element].table_columns[tableElement].value];
+                this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value.addressHumanReadable));
+    
+              } else {
+                data_elements[element].table_columns[tableElement].value = null;
+              }
+            } else if (typeof data_elements[element].table_columns[tableElement].value === 'string') {
+              this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value));
+              this.addressAutocomplete(data_elements[element].table_columns[tableElement].value, 0, tableElement, true);
+            }
+          }
+        })
       }
     });
   }
@@ -139,7 +159,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
+  validateInAdsFieldTable(element) {
+    if (this.addressFieldFocus === false) {
+      this.addressAutocompleteSelectionValidationTable(element);
+    }
+  }
+
   addressAutocompleteSelectionValidation(element) {
+
     if (this.autoCompleteContainer[element] === undefined) {
       return this.temporaryModel[element] = null;
     }
@@ -158,30 +185,50 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false) {
-    if (searchText.length < 3) { return; }
+  addressAutocompleteSelectionValidationTable(element) {
 
-
-
-    if (this.autocompleteDebouncer[element]) { clearTimeout(this.autocompleteDebouncer[element]); }
-
-    if (this.autocompleteSubscription[element] !== undefined) {
-      this.autocompleteSubscription[element].unsubscribe();
+    if (this.autoCompleteContainer[element] === undefined) {
+      return this.temporaryModel[element] = null;
     }
 
-    const _this = this;
-    const limit = this.data_elements[element].results || 10;
-    const ihist = this.data_elements[element].ihist || 0;
-    const apartment = this.data_elements[element].appartment || 0;
+    const match = this.autoCompleteContainer[element].find(address => {
+      return address.addressHumanReadable === this.temporaryModel[element];
+    });
 
-    this.autocompleteDebouncer[element] = setTimeout(function () {
+    if (!match) {
+      this.autoCompleteContainer[element] = null;
+      this.temporaryModel[element] = null;
+      this.data_elements[element].value = null;
+    } else {
+      this.data_elements[element].value = this.inAdsFormatValue(match);
+    }
+
+  }
+
+  addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false, col: string = '', row: number = 0, table: boolean = false) {
+
+    if (searchText.length < 3) { return; }
+
+    const index = table ? Array.prototype.join.call(element, col, row) : element;
+
+    if (this.autocompleteDebouncer[index]) { clearTimeout(this.autocompleteDebouncer[index]); }
+
+    if (this.autocompleteSubscription[index] !== undefined) { this.autocompleteSubscription[index].unsubscribe(); }
+
+    const _this = this;
+
+    const limit = table ? this.data_elements[element].value[row][col].results || 10 : this.data_elements[element].results || 10;
+    const ihist = table ? this.data_elements[element].value[row][col].ihist || 0 : this.data_elements[element].ihist || 0;
+    const apartment = table ? this.data_elements[element].value[row][col].appartment || 0 : this.data_elements[element].appartment || 0;
+
+    this.autocompleteDebouncer[index] = setTimeout(function () {
       _this.autocompleteLoader = true;
       const url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist=' + ihist + '&appartment=' + apartment + '&address=' + searchText + '&results=' + limit + '&callback=JSONP_CALLBACK';
       const jsonp = _this._jsonp.get(url).map(function (res) {
         return res.json() || {};
       }).catch(function (error: any) { return throwError(error); });
 
-      _this.autocompleteSubscription[element] = jsonp.subscribe(data => {
+      _this.autocompleteSubscription[index] = jsonp.subscribe(data => {
         if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
 
         _this.autocompleteLoader = false;
@@ -201,7 +248,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           _this.addressAutocompleteSelectionValidation(element);
         }
 
-        _this.autocompleteSubscription[element].unsubscribe();
+        _this.autocompleteSubscription[index].unsubscribe();
       });
 
     }, debounceTime);
@@ -304,7 +351,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (readonly === true) {
       return true;
 
-    } else if (this.max_step !== this.opened_step) {
+    } else if (this.max_step !== this.opened_step && this.edit_step === false) {
       return true;
 
     } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE'].includes(key))) {
@@ -437,10 +484,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     });
     this.dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
+        this.edit_step = true;
         this.data.header.current_step = this.opened_step;
         this.data.header['activity'] = 'SAVE';
         const payload = { form_name: this.form_name, form_info: this.data };
-        if (this.test === true) { this.promptDebugDialog(payload); } else { this.getData(payload); }
+        if (this.test === true) { this.promptDebugDialog(payload); } else { this.viewController(this.data); }
       }
       this.dialogRef = null;
     });
@@ -552,7 +600,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   validateForm(elements): void {
-    const NOT_FOR_VALIDATION = ['heading', 'helpertext', ];
+    const NOT_FOR_VALIDATION = ['heading', 'helpertext',];
 
     for (const field in elements) {
       const element = elements[field];
@@ -578,6 +626,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (activity === 'EDIT') {
       this.promptEditConfirmation();
     } else {
+      this.edit_step = false;
       this.validateForm(this.data_elements);
 
       if (Object.keys(this.error).length === 0) {
@@ -619,7 +668,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   setActivityButtons(activities: string[]) {
     const output = { primary: [], secondary: [] };
     const editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
-    if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence) {
+    if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence && this.edit_step === false) {
       if (this.editableStep()) {
         const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
         if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }); }
@@ -632,6 +681,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       });
     }
     return output;
+  }
+
+  returnToPreviousUrl() {
+    this.location.back();
   }
 
   promptDebugDialog(data) {
@@ -733,25 +786,25 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.data_messages = this.data.body.messages;
     }
 
-      if (this.data_elements) {
-        // Count table elements and set initial settings
-        Object.values(this.data_elements).forEach((elem, index) => {
-          if (elem['type'] === 'table') { this.tableIndexes.push(index); }
-        });
-        this.tableIndexes.forEach((elem) => {
-          this.elemAtStart[elem] = true;
-          this.tableOverflown[elem] = true;
-        });
+    if (this.data_elements) {
+      // Count table elements and set initial settings
+      Object.values(this.data_elements).forEach((elem, index) => {
+        if (elem['type'] === 'table') { this.tableIndexes.push(index); }
+      });
+      this.tableIndexes.forEach((elem) => {
+        this.elemAtStart[elem] = true;
+        this.tableOverflown[elem] = true;
+      });
 
-        this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
+      this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
 
-        this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
+      this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
 
-        this.fillAddressFieldsTemporaryModel(this.data_elements);
+      this.fillAddressFieldsTemporaryModel(this.data_elements);
 
-        this.scrollPositionController();
+      this.scrollPositionController();
 
-      }
+    }
   }
 
   ngOnInit() {

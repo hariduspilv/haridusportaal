@@ -26,10 +26,13 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -42,20 +45,27 @@ public class VPTWorker extends Worker {
   @Resource
   private EhisXRoadService ehisXRoadService;
 
+  @Autowired
+  protected RedisTemplate<String, String> redisFileTemplate;
+
   public void getDocuments(String personalCode) {
     ObjectNode documentsResponse = nodeFactory.objectNode();
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EHIS - VpTaotlusOpingud.v1");
+    logForDrupal.setSeverity("notice");
+
+    documentsResponse.putArray("documents");
+    documentsResponse.putArray("acceptable_forms");
+    documentsResponse.putArray("drafts");
 
     try {
       VpTaotlusOpingudResponse response = ehisXRoadService
           .vptOpingud(personalCode, null, personalCode);
 
-      ArrayNode documentsArrayNode = documentsResponse.putArray("documents");
       response.getTaotluseAjaluguList().forEach(
-          ajalugu -> documentsArrayNode.addObject()
+          ajalugu -> ((ArrayNode) documentsResponse.get("documents")).addObject()
               .put("form_name",
                   ajalugu.getOlek().equalsIgnoreCase("Menetluses") ?
                       "VPT_ESITATUD_TAOTLUS"
@@ -71,11 +81,11 @@ public class VPTWorker extends Worker {
       if (response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
         if (response.isSetTaotluseId() && response.getTaotluseId() != null
             && !response.getTaotluseId().equals("")) {
-          documentsResponse.putArray("drafts").addObject()
+          ((ArrayNode) documentsResponse.get("drafts")).addObject()
               .put("form_name", "VPT_TAOTLUS")
               .put("identifier", (Long) response.getTaotluseId());
         } else {
-          documentsResponse.putArray("acceptable_forms").addObject()
+          ((ArrayNode) documentsResponse.get("acceptable_forms")).addObject()
               .put("form_name", "VPT_TAOTLUS");
         }
       }
@@ -92,9 +102,10 @@ public class VPTWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlusOpingud.v1");
+    LOGGER.info(logForDrupal);
 
     redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
+    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
   }
 
   public ObjectNode getDocument(String formName, String identifier) {
@@ -134,12 +145,21 @@ public class VPTWorker extends Worker {
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(applicantPersonalCode);
+    logForDrupal.setSeverity("notice");
+
+    List<String> acceptableActivity = new ArrayList<>();
+    jsonNode.get("header").get("acceptable_activity")
+        .forEach(i -> acceptableActivity.add(i.asText()));
+
+    if (acceptableActivity.contains("VIEW")) {
+      return jsonNode;
+    }
 
     try {
       if (currentStep == null) {
         jsonNode.putObject("body").putObject("steps");
         ((ObjectNode) jsonNode.get("body")).putArray("messages");
-        jsonNode.putObject("messages");
+        jsonNode.putObject("messages").put("defualt", "default");
 
 //region NULL
         VpTaotlusOpingudResponse response = ehisXRoadService
@@ -262,7 +282,7 @@ public class VPTWorker extends Worker {
 
         ObjectNode stepOneDataElements = ((ObjectNode) jsonNode.get("body").get("steps"))
             .putObject("step_1").putObject("data_elements");
-        stepOneDataElements.put("custody", response.getHoolealuneKuva());
+        stepOneDataElements.putObject("custody").put("value", response.getHoolealuneKuva());
         ArrayNode familyMembersPopulationRegister = stepOneDataElements
             .putObject("family_members_population_register").putArray("value");
         ArrayNode familyMembersEntered = stepOneDataElements.putObject("family_members_entered")
@@ -302,11 +322,11 @@ public class VPTWorker extends Worker {
 
         stepOneDataElements.putObject("custody_proof")
             .put("required", response.getHoolealuneKuva())
-            .put("hidden", !response.getHoolealuneKuva())
+//            .put("hidden", !response.getHoolealuneKuva())
             .putArray("value");
         stepOneDataElements.putObject("family_members_proof")
             .put("required", isSetFamilyMembersEntered.get())
-            .put("hidden", !isSetFamilyMembersEntered.get())
+//            .put("hidden", !isSetFamilyMembersEntered.get())
             .putArray("value");
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_1")).putArray("messages");
@@ -330,10 +350,10 @@ public class VPTWorker extends Worker {
 //region STEP_1 custody and entered family members proof validations
         boolean returnStepOne = false;
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_1")).putArray("messages");
-        ((ObjectNode) jsonNode.get("messages")).remove("custody_proof_validation_error");
-        ((ObjectNode) jsonNode.get("messages")).remove("family_members_proof_error");
+//        ((ObjectNode) jsonNode.get("messages")).remove("custody_proof_validation_error");
+//        ((ObjectNode) jsonNode.get("messages")).remove("family_members_proof_error");
 
-        if (stepOneDataElements.get("custody").asBoolean()
+        if (stepOneDataElements.get("custody").get("value").asBoolean()
             && stepOneDataElements.get("custody_proof").get("value").size() == 0) {
           returnStepOne = true;
           ((ArrayNode) jsonNode.get("body").get("steps").get("step_1").get("messages"))
@@ -360,13 +380,13 @@ public class VPTWorker extends Worker {
         VpTaotlusSissetulekud request = VpTaotlusSissetulekud.Factory.newInstance();
         request.setTaotlejaIsikukood(applicantPersonalCode);
         request.setTaotluseId(applicationId);
-        request.setHoolealune(stepOneDataElements.get("custody").asBoolean());
+        request.setHoolealune(stepOneDataElements.get("custody").get("value").asBoolean());
 
         if (stepOneDataElements.get("custody_proof").get("value").size() > 0) {
           List<FailInfoDto> custodyFiles = new ArrayList<>();
           stepOneDataElements.get("custody_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisFileTemplate.opsForHash()
                 .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             custodyFiles.add(failInfoDto);
@@ -377,7 +397,7 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> personFailInfoDtoList = new ArrayList<>();
           stepOneDataElements.get("family_members_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisFileTemplate.opsForHash()
                 .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             personFailInfoDtoList.add(failInfoDto);
@@ -432,7 +452,7 @@ public class VPTWorker extends Worker {
             .put("hidden", !isSetDataMissing.get());
         stepTwoDataElements.putObject("family_members_income_proof")
             .put("required", isSetDataMissing.get())
-            .put("hidden", !isSetDataMissing.get())
+//            .put("hidden", !isSetDataMissing.get())
             .putArray("value");
 
         stepTwoDataElements.putObject("family_members_nonresident_income")
@@ -443,7 +463,7 @@ public class VPTWorker extends Worker {
             .put("hidden", !isSetNonresident.get());
         stepTwoDataElements.putObject("family_members_nonresident_income_proof")
             .put("required", isSetNonresident.get())
-            .put("hidden", !isSetNonresident.get())
+//            .put("hidden", !isSetNonresident.get())
             .putArray("value");
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_2")).putArray("messages");
@@ -467,15 +487,15 @@ public class VPTWorker extends Worker {
 //region STEP_2 validations
         boolean returnToStepTwo = false;
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_2")).putArray("messages");
-        ((ObjectNode) jsonNode.get("messages"))
-            .remove("family_members_income_proof_validation_error");
-        ((ObjectNode) jsonNode.get("messages"))
-            .remove("family_members_nonresident_income_proof_validation_error");
+//        ((ObjectNode) jsonNode.get("messages"))
+//            .remove("family_members_income_proof_validation_error");
+//        ((ObjectNode) jsonNode.get("messages"))
+//            .remove("family_members_nonresident_income_proof_validation_error");
 
         if (stepTwoDataElements.get("family_members_income_proof").get("required").asBoolean()
             && stepTwoDataElements.get("family_members_income_proof").get("value").size() == 0) {
           returnToStepTwo = true;
-          ((ArrayNode) jsonNode.get("body").get("steps").get("step_1").get("messages"))
+          ((ArrayNode) jsonNode.get("body").get("steps").get("step_2").get("messages"))
               .add("family_members_income_proof_validation_error");
           ((ObjectNode) jsonNode.get("messages"))
               .putObject("family_members_income_proof_validation_error")
@@ -488,7 +508,7 @@ public class VPTWorker extends Worker {
             stepTwoDataElements.get("family_members_nonresident_income_proof")
                 .get("value").size() == 0) {
           returnToStepTwo = true;
-          ((ArrayNode) jsonNode.get("body").get("steps").get("step_1").get("messages"))
+          ((ArrayNode) jsonNode.get("body").get("steps").get("step_2").get("messages"))
               .add("family_members_nonresident_income_proof_validation_error");
           ((ObjectNode) jsonNode.get("messages"))
               .putObject("family_members_nonresident_income_proof_validation_error")
@@ -518,7 +538,7 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> addedFiles = new ArrayList<>();
           stepTwoDataElements.get("family_members_income_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisFileTemplate.opsForHash()
                 .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             addedFiles.add(failInfoDto);
@@ -531,7 +551,7 @@ public class VPTWorker extends Worker {
           stepTwoDataElements.get("family_members_nonresident_income_proof")
               .get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisTemplate.opsForHash()
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisFileTemplate.opsForHash()
                 .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             nonResidentFiles.add(failInfoDto);
@@ -619,21 +639,11 @@ public class VPTWorker extends Worker {
 //endregion;
       }
     } catch (Exception e) {
-      LOGGER.error(e, e);
-
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
-
-      Long timestamp = System.currentTimeMillis();
-
-      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
-      ((ArrayNode) jsonNode.get("body").get("messages")).add("error_" + timestamp);
-      ((ObjectNode) jsonNode.get("messages")).putObject("error_" + timestamp)
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+      super.setXdzeisonError(LOGGER, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlus... .v1");
+    LOGGER.info(logForDrupal);
 
     return jsonNode;
   }
@@ -646,6 +656,7 @@ public class VPTWorker extends Worker {
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
     logForDrupal.setType("EHIS - vpTaotlusDokument.v1");
+    logForDrupal.setSeverity("notice");
 
     try {
       documentId = documentId.replace("VPT_", "");
@@ -667,6 +678,7 @@ public class VPTWorker extends Worker {
 
       documentResponse.put("fileName", response.getFilename()).put("size", response.getSize())
           .put("mediaType", response.getMediatype()).put("value", response.getByteArrayValue());
+
       logForDrupal.setMessage("EHIS - vpTaotlusDokument.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
       LOGGER.error(e, e);
@@ -679,7 +691,7 @@ public class VPTWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    sender.send(logsTopic, null, logForDrupal, "ehis.vpTaotlusDokument.v1");
+    LOGGER.info(logForDrupal);
 
     return documentResponse;
   }

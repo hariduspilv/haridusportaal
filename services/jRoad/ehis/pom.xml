@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>ee.htm.portal.services</groupId>
+  <artifactId>jRoad_EHIS_Client</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>jar</packaging>
+
+  <name>jRoad_EHIS_Client</name>
+
+  <parent>
+    <groupId>com.nortal.jroad</groupId>
+    <artifactId>xtee-root</artifactId>
+    <version>4.2.5</version>
+  </parent>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <java.version>1.8</java.version>
+    <jroad.version>4.2.5</jroad.version>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.nortal.jroad</groupId>
+      <artifactId>xtee-client-transport</artifactId>
+      <version>${jroad.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.nortal.jroad</groupId>
+      <artifactId>xtee-typegen</artifactId>
+      <version>${jroad.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.nortal.jroad</groupId>
+      <artifactId>xtee-client-test</artifactId>
+      <version>${jroad.version}</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>1.6.0</version>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <configuration>
+              <mainClass>com.nortal.jroad.typegen.TypeGen</mainClass>
+              <arguments>
+                <argument>wsdldir=${basedir}/src/main/resources</argument>
+                <argument>sourcedir=${basedir}/src/main/java</argument>
+                <argument>xsbdir=${basedir}/target/classes</argument>
+                <argument>basepackage=ee.htm.portal.services.types</argument>
+                <argument>dbclassespackage=ee.htm.portal.services.database</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-clean-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src/main/java/ee/htm/portal/services/types</directory>
+            </fileset>
+            <fileset>
+              <directory>src/main/java/ee/htm/portal/services/database</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>package</phase>
+            <configuration>
+              <excludes>
+                <exclude>*.wsdl</exclude>
+              </excludes>
+            </configuration>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>
