@@ -425,7 +425,7 @@ export class ChartComponent implements OnInit{
           if( tmp.length > 0 ){
             tmpFilters.push({
               key: 'näitaja2',
-              multiple: multipleIndicators,
+              multiple: false,
               options: tmp
             });
             this.filters[ item.id ]['näitaja2'] = tmp[0];
@@ -476,7 +476,7 @@ export class ChartComponent implements OnInit{
         
         item.filters.splice( splicePos, 0, {
           key: 'näitaja',
-          multiple: multipleIndicators,
+          multiple: false,
           options: options
         });
 

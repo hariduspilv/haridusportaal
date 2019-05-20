@@ -91,8 +91,6 @@ export class ArticleComponent implements OnInit, OnDestroy{
   }
   ngOnInit() {
 
-    //this.route.data.subscribe(v => console.log(v));
-
     if( this.inputData ){
       this.parseData( this.inputData );
     }else{
