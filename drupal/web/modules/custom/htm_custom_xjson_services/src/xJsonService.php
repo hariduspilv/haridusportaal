@@ -129,9 +129,7 @@ class xJsonService implements xJsonServiceInterface {
         if(isset($baseJson['header']['references'])){
             $baseJson = $this->checkReferences($baseJson);
         }
-
-        dump($baseJson);
-
+        
         return $baseJson;
     }
 
@@ -170,7 +168,7 @@ class xJsonService implements xJsonServiceInterface {
             $checkJson['header']['references'][$key] = $form_data;
         }
 
-        return checkJson;
+        return $checkJson;
     }
 
     /**
