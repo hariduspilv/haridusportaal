@@ -32,10 +32,9 @@ const XJSON_DATEPICKER_FORMAT = {
   }
 };
 @Component({
-  templateUrl: './xjson.template.html',
-  styleUrls: ['./xjson.styles.scss'],
+  templateUrl: 'xjson.template.html',
+  styleUrls: ['../xjson/xjson.styles.scss'],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT },
   ]
 })
@@ -57,10 +56,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
   public datepickerFocus = false;
+  public acceptable_forms_list_restricted = true;
   public temporaryModel = {};
   public data;
   public edit_step = false;
   public empty_data = false;
+  public acceptable_forms = [];
+  public acceptable_forms_limit = 4;
   public opened_step;
   public max_step;
   public current_acceptable_activity: string[];
@@ -309,41 +311,22 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   setDatepickerValue(event, element, rowindex, col) {
-
     if (this.datepickerFocus === false) {
-
-      if (rowindex === undefined || col === undefined) {
-        if (event instanceof FocusEvent) {
-          const string = JSON.parse(JSON.stringify(event.target['value']));
-          const date = moment(string.split('.').reverse().join('-')).format('YYYY-MM-DD');
-          if (date === 'Invalid date') {
-            this.data_elements[element].value = null;
-            event.target['value'] = null;
-          } else {
-            this.data_elements[element].value = JSON.parse(JSON.stringify(date));
-          }
-        } else {
-          this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-        }
+      if (event instanceof FocusEvent) {
+          const date = moment(event.target['value']).format('L');
+          rowindex === undefined || col === undefined
+          ? this.data_elements[element].value = date
+          : this.data_elements[element].value[rowindex][col] = date;
       } else {
-        if (event instanceof FocusEvent) {
-          const string = JSON.parse(JSON.stringify(event.target['value']));
-          const date = moment(string).format('DD.MM.YYYY');
-          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
-        } else {
-          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-        }
+        const date = moment(event.value).format('L');
+        rowindex === undefined || col === undefined
+        ? this.data_elements[element].value = date
+        : this.data_elements[element].value[rowindex][col] = date;
       }
     }
   }
-  getDatepickerValue(element, rowindex, col) {
-    if (rowindex === undefined || col === undefined) {
-      return this.data_elements[element].value;
-    } else {
-      return this.data_elements[element].value[rowindex][col];
-    }
 
-  }
+
   selectListCompare(a, b) {
     return a && b ? a === b : a === b;
   }
@@ -687,6 +670,22 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
+  compileAcceptableFormList() {
+
+    this.acceptable_forms = this.acceptable_forms_list_restricted ?
+    this.data.header.references.slice(0, this.acceptable_forms_limit) :
+    this.data.header.references;
+
+    this.acceptable_forms.forEach((elem, index) => {
+      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
+    });
+  }
+
+  toggleAcceptableFormList(){
+    this.acceptable_forms_list_restricted = this.acceptable_forms_list_restricted ? false : true;
+    this.compileAcceptableFormList();
+  }
+
   promptDebugDialog(data) {
 
     if (this.test === false) {
@@ -759,6 +758,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE');
         }
       }
+
       this.stepController(response);
 
       subscription.unsubscribe();
@@ -773,38 +773,43 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
 
   viewController(xjson) {
-    this.tableCountPerStep = 0;
-    this.tableIndexes = [];
-    this.tableOverflown = {};
-    this.elemAtStart = {};
-    this.data = xjson;
-    if (typeof this.opened_step !== 'undefined') {
-      this.data_elements = this.data.body.steps[this.opened_step].data_elements;
-      // Concat. all message arrays and display them at all times
-      this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
-    } else {
-      this.data_messages = this.data.body.messages;
-    }
+      this.tableCountPerStep = 0;
+      this.tableIndexes = [];
+      this.tableOverflown = {};
+      this.elemAtStart = {};
+      this.data = xjson;
+      if (typeof this.opened_step !== 'undefined') {
+        this.data_elements = this.data.body.steps[this.opened_step].data_elements;
+        // Concat. all message arrays and display them at all times
+        this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
+      } else {
+        this.data_messages = this.data.body.messages;
+      }
+  
+      if (this.data_elements) {
+        // Count table elements and set initial settings
+        Object.values(this.data_elements).forEach((elem, index) => {
+          if (elem['type'] === 'table') { this.tableIndexes.push(index); }
+        });
+        this.tableIndexes.forEach((elem) => {
+          this.elemAtStart[elem] = true;
+          this.tableOverflown[elem] = true;
+        });
+  
+        this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
+  
+        this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
+  
+        this.fillAddressFieldsTemporaryModel(this.data_elements);
 
-    if (this.data_elements) {
-      // Count table elements and set initial settings
-      Object.values(this.data_elements).forEach((elem, index) => {
-        if (elem['type'] === 'table') { this.tableIndexes.push(index); }
-      });
-      this.tableIndexes.forEach((elem) => {
-        this.elemAtStart[elem] = true;
-        this.tableOverflown[elem] = true;
-      });
+        this.compileAcceptableFormList();
+  
+        this.scrollPositionController();
 
-      this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
-
-      this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
-
-      this.fillAddressFieldsTemporaryModel(this.data_elements);
-
-      this.scrollPositionController();
-
-    }
+        console.log(this.data);
+  
+      }
+      
   }
 
   ngOnInit() {
