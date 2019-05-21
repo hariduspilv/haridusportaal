@@ -168,7 +168,7 @@ class xJsonService implements xJsonServiceInterface {
             $checkJson['header']['references'][$key] = $form_data;
         }
 
-        return checkJson;
+        return $checkJson;
     }
 
     /**
