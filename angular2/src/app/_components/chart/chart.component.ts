@@ -126,7 +126,10 @@ export class ChartComponent implements OnInit{
     let height;
 
     if( type == 'clustered bar' ){
-      height = rows * cols * 20;
+      height = rows * cols * 10;
+    }
+    else if( type == 'stacked bar 100' ){
+      height = rows * 48;
     }else{
       height = rows * 28;
     }
