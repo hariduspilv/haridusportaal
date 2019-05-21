@@ -126,7 +126,10 @@ export class ChartComponent implements OnInit{
     let height;
 
     if( type == 'clustered bar' ){
-      height = rows * cols * 20;
+      height = rows * cols * 10;
+    }
+    else if( type == 'stacked bar 100' ){
+      height = rows * 48;
     }else{
       height = rows * 28;
     }
@@ -425,7 +428,7 @@ export class ChartComponent implements OnInit{
           if( tmp.length > 0 ){
             tmpFilters.push({
               key: 'näitaja2',
-              multiple: multipleIndicators,
+              multiple: false,
               options: tmp
             });
             this.filters[ item.id ]['näitaja2'] = tmp[0];
@@ -476,7 +479,7 @@ export class ChartComponent implements OnInit{
         
         item.filters.splice( splicePos, 0, {
           key: 'näitaja',
-          multiple: multipleIndicators,
+          multiple: false,
           options: options
         });
 
