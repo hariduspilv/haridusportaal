@@ -351,7 +351,6 @@
                             <input class="round-input__field" matInput [matDatepicker]="picker"
                               [disabled]="isFieldDisabled(data_elements[element].readonly)"
                               placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
-                              [value]="getDatepickerValue(element, element)"
                               (dateInput)="setDatepickerValue($event, element)"
                               (dateChange)="setDatepickerValue($event, element)" (focus)="datepickerFocus = true"
                               (blur)="datepickerFocus = false; setDatepickerValue($event, element)" name="{{element}}">
@@ -488,32 +487,34 @@
                                     </ng-container> <!-- /TEXT -->
 
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
-                                            <input class="contnent-input" type="text" matInput
-                                              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                              [(ngModel)]="row[col]" [name]="element + '_' + rowIndex + '_' + colIndex"
-                                              (ngModelChange)="addressAutocomplete(row[col], 300, element, false, col, rowIndex, true)"
-                                              (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(row[col])"
-                                              [matAutocomplete]="autoAddress">
-                                            <mat-autocomplete #autoAddress="matAutocomplete"
-                                              (optionSelected)="addressFieldFocus = false" >
-                                              <ng-container *ngIf="autocompleteLoader">
-                                                <mat-option [value]="" disabled="true">
-                                                  <span>{{'xjson.searching_please_wait' | translate }}</span>
-                                                </mat-option>
-                                              </ng-container>
-                                              <ng-container *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
-                                                <mat-option *ngIf="!autoCompleteContainer[element].length" [value]="" disabled="true">
-                                                  <span>{{'xjson.address_not_found' | translate }}</span>
-                                                </mat-option>
-                                                <ng-container *ngIf="autoCompleteContainer[element].length > 0">
-                                                  <mat-option *ngFor="let address of autoCompleteContainer[element]"
-                                                    [value]="address.addressHumanReadable">
-                                                    <span>{{ address.addressHumanReadable }}</span>
-                                                  </mat-option>
-                                                </ng-container>
-                                              </ng-container>
-                                            </mat-autocomplete>
+                                      <input class="contnent-input" type="text" matInput
+                                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                        placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                                        [(ngModel)]="row[col]" [name]="element + '_' + rowIndex + '_' + colIndex"
+                                        (ngModelChange)="addressAutocomplete(row[col], 300, element, false, col, rowIndex, true)"
+                                        (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(row[col])"
+                                        [matAutocomplete]="autoAddress">
+                                      <mat-autocomplete #autoAddress="matAutocomplete"
+                                        (optionSelected)="addressFieldFocus = false">
+                                        <ng-container *ngIf="autocompleteLoader">
+                                          <mat-option [value]="" disabled="true">
+                                            <span>{{'xjson.searching_please_wait' | translate }}</span>
+                                          </mat-option>
+                                        </ng-container>
+                                        <ng-container
+                                          *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
+                                          <mat-option *ngIf="!autoCompleteContainer[element].length" [value]=""
+                                            disabled="true">
+                                            <span>{{'xjson.address_not_found' | translate }}</span>
+                                          </mat-option>
+                                          <ng-container *ngIf="autoCompleteContainer[element].length > 0">
+                                            <mat-option *ngFor="let address of autoCompleteContainer[element]"
+                                              [value]="address.addressHumanReadable">
+                                              <span>{{ address.addressHumanReadable }}</span>
+                                            </mat-option>
+                                          </ng-container>
+                                        </ng-container>
+                                      </mat-autocomplete>
                                     </ng-container> <!-- /ADDRESS -->
 
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
@@ -533,25 +534,15 @@
                                     </ng-container> <!-- /NUMBER -->
 
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-                                      <ng-container
-                                        *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) == false; else readonlyDisplay">
-                                        <div class="round-input__wrapper"
-                                          [class.complete]="data_elements[element].picker || opened_step != this.max_step">
-                                          <div class="round-input__field-wrapper">
-                                            <input matInput class="round-input__field" [matDatepicker]="picker"
-                                              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                              [value]="getDatepickerValue(element, rowIndex, col)"
-                                              (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
-                                              (focus)="datepickerFocus = true;"
-                                              (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)"
-                                              name="{{element +_+ rowIndex + '_' + colIndex}}">
-                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                            <mat-datepicker #picker
-                                              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
-                                            </mat-datepicker>
-                                          </div>
+                                      <div class="round-input__wrapper">
+                                        <div class="round-input__field-wrapper">
+                                          <input matInput class="round-input__field" [matDatepicker]="picker"
+                                            [(ngModel)]="row[col]"
+                                            name="{{element +_+ rowIndex + '_' + colIndex}}">
+                                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                          <mat-datepicker #picker></mat-datepicker>
                                         </div>
-                                      </ng-container>
+                                      </div>
                                     </ng-container> <!-- /DATE -->
 
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
@@ -664,10 +655,9 @@
                   <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button
                     [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
                 </ng-container>
-                <button type="submit" role="button" mat-raised-button
-                color="primary" (click)="returnToPreviousUrl()">
-                {{ 'button.cancel' | translate }}
-              </button>
+                <button type="submit" role="button" mat-raised-button color="primary" (click)="returnToPreviousUrl()">
+                  {{ 'button.cancel' | translate }}
+                </button>
                 <ng-container *ngFor="let activity of activityButtons['primary']">
                   <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button
                     [color]="[activity.style]" (click)="submitForm(activity.action)">
@@ -685,6 +675,37 @@
             </div> <!-- /row button-list -->
           </ng-container> <!-- /if !empty_data-->
         </ng-container> <!-- /if data-->
+        <ng-container *ngIf="data && view == 'related_documents'">
+          <div class="xjson__title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
+          <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
+
+          <ng-container *ngIf="acceptable_forms.length">
+            <div class="grid-box">
+              <ng-container *ngFor="let form of acceptable_forms">
+                <a [href]="form.link" class="grid-item">
+                  <span class="grid-link">{{ form.form_name }}</span>
+                </a>
+              </ng-container>
+            </div>
+
+            <ng-container
+              *ngIf="data.header.acceptable_forms.length > acceptable_forms_limit && acceptable_forms_list_restricted == true">
+              <div class="grid-load">
+                <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">+
+                  {{ 'button.show_more' | translate }}
+                  ({{ data.header.acceptable_forms.length - acceptable_forms_limit }})</a>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="acceptable_forms_list_restricted == false">
+              <div class="grid-load">
+                <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">-
+                  {{ 'button.show_less' | translate }}</a>
+              </div>
+            </ng-container>
+
+
+          </ng-container>
+        </ng-container>
       </div>
       <!--/block border-blue-->
     </div>
