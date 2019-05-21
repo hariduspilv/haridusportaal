@@ -52,6 +52,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   languageOptions = [];
   ownershipOptions = [];
   typeOptions = [];
+  subtypeOptions = [];
   institutionTypes = [];
 
   map: any;
@@ -96,6 +97,47 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     super(null, null);
   }
   //why
+  //this is not DRY for reasons, identical functions currently for separation of concerns
+  //problem is that i couldnt trust the data while these parts were developed
+  //other filters have similar(but not identical, maybe) functions that should be lifted up into filters service
+  //these tickets were not all made at the same time
+  //TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+  //REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR
+  languageDropdownSort(e) {
+    if(!e) {
+      let selected = [];
+      if(this.filterFormItems.language){
+        selected = this.languageOptions.filter(e => this.filterFormItems.language.find(x => x === e.entityId)).sort((a,b) => { 
+          if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()){
+            return 1;
+          }
+          return -1;
+        });
+      }
+      const otherValues = this.languageOptions.filter(e => !selected.find(x => x.entityId === e.entityId));
+      this.languageOptions = [...selected, ...otherValues];
+    }
+  }
+  ownershipDropdownSort(e){
+    if(!e) {
+      let selected = [];
+      if(this.filterFormItems.ownership){
+        selected = this.ownershipOptions.filter(e => this.filterFormItems.ownership.find(x => x === e.entityId)).sort((a,b) => {
+          if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+            return 1;
+          }
+          return -1;
+        })
+      }
+      const otherValues = this.ownershipOptions.filter(e => !selected.find(x => x.entityId === e.entityId)).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      });
+      this.ownershipOptions = [...selected, ...otherValues];
+    }
+  } 
   typesDropdownSort(e) {
     if(!e) {
       let selected = [];
@@ -113,6 +155,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
         }
         return -1;
       });
+      this.getSubTypes(true);
       this.validateSubtypes();
       if(selected.length === 0) {
         this.filterFormItems.subtype = '';
@@ -120,8 +163,14 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       this.typeOptions = [...selected, ...otherValues];
     }
   }
-  getSubTypes(){
+  subtypesDropdownSort(e) {
+    if(!e) {
+      this.getSubTypes(true);
+    }
+  }
+  getSubTypes(closedDropdown = false){
     let output = [];
+    let selected = [];
     if(this.filterFormItems.type) {
       output = this.typeOptions.filter(e => {
         return this.filterFormItems.type.find(x => {
@@ -129,10 +178,24 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
         });
       });
     }
+    if(this.filterFormItems.subtype && closedDropdown) {
+      selected = output.filter(e => this.filterFormItems.subtype.find(x => e.entityId === x)).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      });
+    }
+    const otherValues = output.filter(e => !selected.find(x => x.entityId === e.entityId)).sort((a, b) => {
+      if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+        return 1
+      }
+      return -1;
+    });
     if(output.length === 0) {
       this.params['subtype'] = [];
     }
-    return output;
+    this.subtypeOptions = [...selected, ...otherValues];
   }
   validateSubtypes() {
     if(this.filterFormItems.subtype) {
@@ -419,6 +482,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.filterFormItems.ownership = this.params['ownership'] || '';
     this.fillTypesBySubtype();
     this.typesDropdownSort(false);
+    this.languageDropdownSort(false);
+    this.ownershipDropdownSort(false);
   }
 
   ngOnInit() {
