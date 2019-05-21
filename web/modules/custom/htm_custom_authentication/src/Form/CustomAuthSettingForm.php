@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_authentication\Form;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 
@@ -89,6 +90,8 @@ class CustomAuthSettingForm extends ConfigFormBase {
             ->set('auth_methods.tara', $form_state->getValue('tara'))
             ->set('auth_methods.mobile_id', $form_state->getValue('mobile_id'))
             ->save();
+
+        Cache::invalidateTags(['config:htm_custom_authentication.customauthsetting']);
     }
 
 }
