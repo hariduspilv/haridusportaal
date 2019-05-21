@@ -152,7 +152,7 @@ export class LoginModal {
 
       this.user = this.userService.storeData(data['token']);
       
-      let redirectUrl = '/töölaud/tunnistused';
+      let redirectUrl = '/töölaud/taotlused';
       let lang = this.rootScope.get("lang");
       
       this.router.navigateByUrl("/", {skipLocationChange: true}).then( () => {
