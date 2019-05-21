@@ -212,20 +212,21 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
       subscribe.unsubscribe();
     });
-
   }
 
   ngOnInit() {
+    if (window.innerWidth <= 1024) {
+      this.filterFull = true;
+      this.showFilter = false;
+    }
 
     this.pathWatcher();
     
     this.getTags();
 
     this.watchSearch();
-
-    if (window.innerWidth <= 1024) {
+    if(this.params.types) {
       this.filterFull = true;
-      this.showFilter = false;
     }
   }
 

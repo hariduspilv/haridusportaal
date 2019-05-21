@@ -796,7 +796,7 @@ news:
     en: 'Latest News'
   filter_name:
     translation_type: textarea
-    et: 'Sisesta uudise nimi'
+    et: 'Sisesta märksõna'
     en: 'Enter news name'
   filter_tag:
     translation_type: textarea
@@ -998,7 +998,7 @@ event:
     en: 'View the list of participants'
   filter_name:
     translation_type: textarea
-    et: 'Otsi sündmuste nime järgi'
+    et: 'Sisesta märksõna'
     en: 'Search by event name'
   filter_tags:
     translation_type: textarea
