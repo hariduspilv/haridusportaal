@@ -2,13 +2,8 @@ import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
-import { delay } from 'rxjs/operators/delay';
-
-import { of } from 'rxjs/observable/of';
 
 import 'rxjs/add/operator/map';
-
-import { Observable } from 'rxjs/Observable';
 
 import { RootScopeService } from '@app/_services/rootScopeService';
 
@@ -17,13 +12,11 @@ import { HttpService } from '@app/_services/httpService';
 /* Datepicker Imports */
 import * as _moment from 'moment';
 const moment = _moment;
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
-import { AgmCoreModule } from '@agm/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from '@app/_services/settings.service';
-
 
 @Component({
   templateUrl: './schools.template.html',
@@ -102,20 +95,60 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   ) {
     super(null, null);
   }
-
-  getSubTypes(key:any){
-    let output = [];
-    
-    if( this.filterFormItems[key] && this.filterFormItems[key] !== "" ){
-      for( let i in this.typeOptions ){
-        if( this.typeOptions[i].parentId == this.filterFormItems[key] ){
-          output.push( this.typeOptions[i] );
-        }
+  //why
+  typesDropdownSort(e) {
+    if(!e) {
+      let selected = [];
+      if(this.filterFormItems.type) {
+        selected = this.typeOptions.filter(e => this.filterFormItems.type.find(x => e.entityId === x)).sort((a, b) => {
+          if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+            return 1;
+          }
+          return -1;
+        });
       }
+      let otherValues = this.typeOptions.filter(e => !selected.find(x => e.entityId === x.entityId)).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      });
+      this.validateSubtypes();
+      if(selected.length === 0) {
+        this.filterFormItems.subtype = '';
+      }
+      this.typeOptions = [...selected, ...otherValues];
     }
-
+  }
+  getSubTypes(){
+    let output = [];
+    if(this.filterFormItems.type) {
+      output = this.typeOptions.filter(e => {
+        return this.filterFormItems.type.find(x => {
+          return e.parentId === parseInt(x);
+        });
+      });
+    }
+    if(output.length === 0) {
+      this.params['subtype'] = [];
+    }
     return output;
   }
+  validateSubtypes() {
+    if(this.filterFormItems.subtype) {
+      const fullSelectedSubtypes = this.typeOptions.filter(e => this.filterFormItems.subtype.find(x => e.entityId === x));
+      const validFilteredSubtypes = fullSelectedSubtypes.filter(e => this.filterFormItems.type.find(x => e.parentId === parseInt(x)));
+      this.filterFormItems.subtype = this.filterFormItems.subtype.filter(e => validFilteredSubtypes.find(x => parseInt(e) === parseInt(x.entityId)));
+    }
+  }
+  fillTypesBySubtype() {
+    if(this.params['subtype']) {
+      const fullSelectedSubtypes = this.typeOptions.filter(e => this.filterFormItems.subtype.find(x => e.entityId === x));;
+      const typesOfSelectedSubtypes = this.typeOptions.filter(e => fullSelectedSubtypes.find(x => parseInt(e.entityId) === x.parentId));
+      this.filterFormItems.type = typesOfSelectedSubtypes.map(e => e.entityId);
+    }
+  }
+  //why
   mapReady(map){
 
     let that = this;
@@ -212,12 +245,25 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   watchSearch() {
 
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
-      this.params = params;
+      const paramsKeys = Object.keys(params);
+      let newParams = {};
+      paramsKeys.forEach((e) => {
+        switch (e) {
+          case 'ownership':
+          case 'language':
+          case 'type':
+          case 'subtype':
+            newParams[e] = params[e].split(',');
+            break;
+          default:
+            newParams[e] = params[e];
+            break;
+        }
+      })
+      this.params = newParams;
       this.reset();
     });
-
     this.filterRetrieveParams( this.params );
-
     // Add subscription to main array for destroying
     this.subscriptions = [ ...this.subscriptions, subscribe];
   }
@@ -258,14 +304,29 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       this.dataSubscription.unsubscribe();
     }
     
-    let types = [];
-    if( this.params['type'] ){
-      types = this.params['type'].split(",");
-      if( this.params['subtype'] ){
-        types.push(this.params['subtype'].split(",")[0]);
-      }
-    }
+    // let types = [];
+    // if( this.params['type'] ){
+    //   types = [...this.params['type']];
+    //   console.log(this.typeOptions);
+    //   console.log(this.params['type']);
+    //   if( this.params['subtype'] ){
+    //     console.log(this.params['subtype']);
+    //     types = [...types, ...this.params['subtype']];
+    //   }
+    // }
 
+    //do some reverse search magic
+    this.filterFull = this.params['subtype'] || this.params['type'] || this.params['ownership'] || this.params['specialClass'] || this.params['studentHome'] || this.params['language'];
+    this.validateSubtypes();
+    let types = [];
+    if(this.params['subtype'] && this.params['type']) {
+      const fullSubtypes = this.typeOptions.filter(e => this.params['subtype'].find(x => x === e.entityId));
+      const cleanedTypes = this.params['type'].filter(e => !fullSubtypes.find(x => x.parentId === parseInt(e)));
+      types = [...cleanedTypes, ...this.params['subtype']];
+    } else if(this.params['type']){
+      types = this.params['type'];
+    }
+    //fuck me
     let variables = {
       lang: this.lang.toUpperCase(),
       offset: this.offset,
@@ -278,11 +339,11 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       maxLon: this.bounds.maxLon,
       location: this.params['location'] ? ""+this.params['location']+"" : "",
       locationEnabled: this.params['location'] ? true : false,
-      type: this.params['type'] ? types :  [],
+      type: types.length ? types :  [],
       typeEnabled: this.params['type'] ? true : false,
-      language: this.params['language'] ? this.params['language'].split(",") :  [],
+      language: this.params['language'] ? this.params['language']:  [],
       languageEnabled: this.params['language'] ? true : false,
-      ownership: this.params['ownership'] ? this.params['ownership'].split(",") :  [],
+      ownership: this.params['ownership'] ? this.params['ownership']:  [],
       ownershipEnabled: this.params['ownership'] ? true : false,
       specialClass: this.params['specialClass'] ? "1" :  "",
       specialClassEnabled: this.params['specialClass'] ? true : false,
@@ -352,10 +413,12 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.languageOptions = options.reverseFieldTeachingLanguageNode;
     this.ownershipOptions = options.reverseFieldOwnershipTypeNode;
     this.typeOptions = options.reverseFieldEducationalInstitutionTyNode;
-
+    this.watchSearch();
     this.filterFormItems.languages = this.params['languages'] || '';
     this.filterFormItems.types = this.params['types'] || '';
     this.filterFormItems.ownership = this.params['ownership'] || '';
+    this.fillTypesBySubtype();
+    this.typesDropdownSort(false);
   }
 
   ngOnInit() {
@@ -370,9 +433,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.filterFull = window.innerWidth < 1024;
 
     this.pathWatcher();
-    this.watchSearch();
     this.getOptions();
-
   }
   
   ngOnDestroy() {
