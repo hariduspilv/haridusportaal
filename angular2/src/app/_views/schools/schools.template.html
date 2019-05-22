@@ -58,7 +58,7 @@
       <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper" [class.disabled]="subtypeOptions.length == 0">
           <mat-form-field>
-            <mat-select multiple='true' (openedChange)="subtypesDropdownSort($event)" [placeholder]="subtypeOptions.length !== 0 ? translate.get('school.institution_sublevel')['value'] : translate.get('school.institution_select_type')['value']" [(ngModel)]="filterFormItems.subtype" name="subtype">
+            <mat-select multiple='true' (openedChange)="subtypesDropdownSort($event)" [placeholder]="subtypePlaceholder()" [(ngModel)]="filterFormItems.subtype" name="subtype">
               <mat-option *ngFor="let item of subtypeOptions" [value]="item.entityId">
                 {{ item.entityLabel }}
               </mat-option>
