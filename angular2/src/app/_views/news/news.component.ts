@@ -91,38 +91,20 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, subscribe];
   }
 
-  processTags(tags: Array<object>) {
-    //Process tags JSON for ng-select
-    let output = [];
-    
-    for( let i in tags ){
-      let current = tags[i];
-      if( current['Tag'] && current['Tag'].length == 0 ){ continue; }
-
-      for( let ii in current['Tag'] ){
-        if (current['Tag'][ii]['entity']) {
-          output.push({
-            id: current['Tag'][ii]['entity']['entityId'],
-            name: current['Tag'][ii]['entity']['entityLabel']
-          });
-        }
-      }
-    }
-
-    return output;
-  }
-
   getTags() {
 
     let variables = {
       lang: this.lang.toUpperCase()
     };
     
-    let subscribe = this.http.get('getNewsTags', {params:variables}).subscribe( (response) => {
-      let data = response['data'];
-      let entities = data['nodeQuery']['entities'];
-      let tags = this.processTags( entities );
-
+    let subscribe = this.http.get('getNewsTags', {params:variables}).subscribe( (response:any) => {
+      let data = response.data.taxonomyTermQuery.tags;
+      let tags = data.map((el) => {
+        return {
+          id: el.entityId,
+          name: el.entityLabel
+        }
+      })
       if( this.params.types !== undefined ){
         let splitParams = this.params.types.split(",");
 
@@ -165,7 +147,9 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   }
 
   getData() {
-
+    if(this.params.types) {
+      this.filterFull = true;
+    }
     if( this.params.dateFrom ){
       let splitDate = this.params.dateFrom.split("-");
       var dateFromUnix:any = new Date(splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0] + "T00:00:00Z").getTime()/1000;
@@ -209,7 +193,6 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
         this.list = data['nodeQuery']['entities'];
       }
 
-
       subscribe.unsubscribe();
     });
   }
@@ -225,9 +208,6 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     this.getTags();
 
     this.watchSearch();
-    if(this.params.types) {
-      this.filterFull = true;
-    }
   }
 
   ngOnDestroy() {
