@@ -114,7 +114,12 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
           return -1;
         });
       }
-      const otherValues = this.languageOptions.filter(e => !selected.find(x => x.entityId === e.entityId));
+      const otherValues = this.languageOptions.filter(e => !selected.find(x => x.entityId === e.entityId)).sort((a,b) => { 
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()){
+          return 1;
+        }
+        return -1;
+      });;
       this.languageOptions = [...selected, ...otherValues];
     }
   }
@@ -193,7 +198,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       return -1;
     });
     if(output.length === 0) {
-      this.params['subtype'] = [];
+      delete this.params['subtype'];
     }
     this.subtypeOptions = [...selected, ...otherValues];
   }
@@ -212,6 +217,15 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     }
   }
   //why
+  subtypePlaceholder() {
+    if(this.subtypeOptions.length > 0) {
+      return this.translate.get('school.institution_sublevel')['value']
+    }
+    if(this.filterFormItems.type.length > 0 && this.subtypeOptions.length === 0) {
+      return this.translate.get('school.no_subtype')['value'];
+    }
+    return this.translate.get('school.institution_select_type')['value'];
+  }
   mapReady(map){
 
     let that = this;
@@ -303,6 +317,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.view = view;
     sessionStorage.setItem("schools.view", view.toString());
     this.reset();
+    
   }
 
   watchSearch() {
@@ -366,21 +381,9 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
-    
-    // let types = [];
-    // if( this.params['type'] ){
-    //   types = [...this.params['type']];
-    //   console.log(this.typeOptions);
-    //   console.log(this.params['type']);
-    //   if( this.params['subtype'] ){
-    //     console.log(this.params['subtype']);
-    //     types = [...types, ...this.params['subtype']];
-    //   }
-    // }
-
-    //do some reverse search magic
-    this.filterFull = this.params['subtype'] || this.params['type'] || this.params['ownership'] || this.params['specialClass'] || this.params['studentHome'] || this.params['language'];
+    this.filterFull = !!this.params['subtype'] || !!this.params['type'] || !!this.params['ownership'] || !!this.params['specialClass'] || !!this.params['studentHome'] || !!this.params['language'];
     this.validateSubtypes();
+    //do some reverse search magic
     let types = [];
     if(this.params['subtype'] && this.params['type']) {
       const fullSubtypes = this.typeOptions.filter(e => this.params['subtype'].find(x => x === e.entityId));
