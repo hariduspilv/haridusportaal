@@ -68,7 +68,7 @@
               {{selectLanguage(data.body.steps[opened_step].introduction) }}
             </div>
 
-            <form [class.disabled-step]="opened_step != this.max_step" (submit)="submitForm()"
+            <form [class.disabled-step]="opened_step != this.max_step && !edit_step" (submit)="submitForm()"
               *ngIf="objectKeys(data_elements).length > 0">
 
               <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
@@ -340,6 +340,8 @@
                       </div>
                     </ng-container> <!-- /ADDRESS -->
 
+
+
                     <ng-container *ngIf="data_elements[element].type == 'date'">
                       <div class="round-input__outer-wrapper date-wrapper">
                         <div class="round-input__wrapper"
@@ -349,13 +351,12 @@
                           </span>
                           <div class="round-input__field-wrapper">
                             <input class="round-input__field" matInput [matDatepicker]="picker"
-                              [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                              placeholder="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
+                              [value]="getDatepickerValue(element)" readonly="true"
+                              [(ngModel)]="data_elements[element].value" name="{{element}}"
                               (dateInput)="setDatepickerValue($event, element)"
                               (dateChange)="setDatepickerValue($event, element)" (focus)="datepickerFocus = true"
-                              (blur)="datepickerFocus = false; setDatepickerValue($event, element)" name="{{element}}">
-                            <mat-datepicker-toggle class="round-input__clear" matSuffix [for]="picker">
-                            </mat-datepicker-toggle>
+                              (blur)="datepickerFocus = false; setDatepickerValue($event, element)">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                           </div>
                         </div>
@@ -533,17 +534,30 @@
                                         [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
                                     </ng-container> <!-- /NUMBER -->
 
-                                    <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
+                                    <ng-container
+                                      *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date' && !isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
                                       <div class="round-input__wrapper">
                                         <div class="round-input__field-wrapper">
-                                          <input matInput class="round-input__field" [matDatepicker]="picker"
-                                            [(ngModel)]="row[col]"
-                                            name="{{element +_+ rowIndex + '_' + colIndex}}">
+                                          <input class="round-input__field" matInput [matDatepicker]="picker"
+                                            [value]="getDatepickerValue(element, rowIndex, col)" readonly="true"
+                                            [(ngModel)]='data_elements[element].value[rowIndex][col]'
+                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
+                                            (dateChange)="setDatepickerValue($event, element, rowIndex, col)"
+                                            (focus)="datepickerFocus = true"
+                                            (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)">
                                           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                           <mat-datepicker #picker></mat-datepicker>
                                         </div>
                                       </div>
-                                    </ng-container> <!-- /DATE -->
+                                    </ng-container>
+
+                                    <ng-container
+                                      *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date' && isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
+                                      <input class="contnent-input" type="text"
+                                        [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
+                                        [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
+                                    </ng-container><!-- /DATE -->
 
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
                                       <div class="custom-checkbox">
