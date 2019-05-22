@@ -221,7 +221,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     if(this.subtypeOptions.length > 0) {
       return this.translate.get('school.institution_sublevel')['value']
     }
-    if(this.filterFormItems.type.length > 0 && this.subtypeOptions.length === 0) {
+    if(this.filterFormItems.type && this.filterFormItems.type.length > 0 && this.subtypeOptions.length === 0) {
       return this.translate.get('school.no_subtype')['value'];
     }
     return this.translate.get('school.institution_select_type')['value'];
