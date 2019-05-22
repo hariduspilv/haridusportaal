@@ -1,14 +1,13 @@
-query getNewsTags2($lang: LanguageId!) {
-    nodeQuery(filter: {conditions: [{operator: EQUAL, field: "type", value: ["news"], language: $lang}]}) {
-        entities(language: $lang) {
-            ... on NodeNews {
-                Tag: fieldTag {
-                    entity {
-                        entityId
-                        entityLabel
-                    }
-                }
-            }
+query taxonomyQuery($lang: LanguageId!){
+  taxonomyTermQuery(limit: 0, filter:{conditions:[{field:"vid", value:"tags", language:$lang}]}){
+    tags: entities{
+       ... on TaxonomyTerm {
+        entityLabel
+        entityId
+        referencedNodes: reverseFieldTagNode(filter:{conditions:[{field:"type", value:"news", language:$lang}, {field:"status", value:"1"}]}){
+          count
         }
+      }
     }
+  }
 }
