@@ -134,14 +134,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value));
           this.addressAutocomplete(data_elements[element].value, 0, element, true);
         }
-      } else if (data_elements[element].type === 'table'){
+      } else if (data_elements[element].type === 'table') {
         Object.keys(data_elements[element].table_columns).forEach(tableElement => {
-          if(data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value){
+          if (data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value) {
             if (typeof data_elements[element].table_columns[tableElement].value === 'object') {
               if (data_elements[element].table_columns[tableElement].value.addressHumanReadable) {
                 this.autoCompleteContainer[element][tableElement] = [data_elements[element].table_columns[tableElement].value];
                 this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value.addressHumanReadable));
-    
+
               } else {
                 data_elements[element].table_columns[tableElement].value = null;
               }
@@ -312,17 +312,24 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   setDatepickerValue(event, element, rowindex, col) {
     if (this.datepickerFocus === false) {
-      if (event instanceof FocusEvent) {
-          const date = moment(event.target['value']).format('L');
-          rowindex === undefined || col === undefined
-          ? this.data_elements[element].value = date
-          : this.data_elements[element].value[rowindex][col] = date;
-      } else {
-        const date = moment(event.value).format('L');
+      if (!(event instanceof FocusEvent)) {
+        const dateval = event.value.format('L');
         rowindex === undefined || col === undefined
-        ? this.data_elements[element].value = date
-        : this.data_elements[element].value[rowindex][col] = date;
+          ? this.data_elements[element].value = dateval
+          : this.data_elements[element].value[rowindex][col] = dateval;
       }
+    }
+  }
+
+  getDatepickerValue(element, rowindex, col) {
+    const date = rowindex === undefined || col === undefined
+      ? this.data_elements[element].value
+      : this.data_elements[element].value[rowindex][col];
+
+    if (date) {
+      return moment((String(date).split('.')).reverse().join('-'));
+    } else {
+      return false;
     }
   }
 
@@ -673,15 +680,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
   compileAcceptableFormList() {
 
     this.acceptable_forms = this.acceptable_forms_list_restricted ?
-    this.data.header.references.slice(0, this.acceptable_forms_limit) :
-    this.data.header.references;
+      this.data.header.references.slice(0, this.acceptable_forms_limit) :
+      this.data.header.references;
 
     this.acceptable_forms.forEach((elem, index) => {
       this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
     });
   }
 
-  toggleAcceptableFormList(){
+  toggleAcceptableFormList() {
     this.acceptable_forms_list_restricted = this.acceptable_forms_list_restricted ? false : true;
     this.compileAcceptableFormList();
   }
@@ -773,43 +780,41 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
 
   viewController(xjson) {
-      this.tableCountPerStep = 0;
-      this.tableIndexes = [];
-      this.tableOverflown = {};
-      this.elemAtStart = {};
-      this.data = xjson;
-      if (typeof this.opened_step !== 'undefined') {
-        this.data_elements = this.data.body.steps[this.opened_step].data_elements;
-        // Concat. all message arrays and display them at all times
-        this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
-      } else {
-        this.data_messages = this.data.body.messages;
-      }
-  
-      if (this.data_elements) {
-        // Count table elements and set initial settings
-        Object.values(this.data_elements).forEach((elem, index) => {
-          if (elem['type'] === 'table') { this.tableIndexes.push(index); }
-        });
-        this.tableIndexes.forEach((elem) => {
-          this.elemAtStart[elem] = true;
-          this.tableOverflown[elem] = true;
-        });
-  
-        this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
-  
-        this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
-  
-        this.fillAddressFieldsTemporaryModel(this.data_elements);
+    this.tableCountPerStep = 0;
+    this.tableIndexes = [];
+    this.tableOverflown = {};
+    this.elemAtStart = {};
+    this.data = xjson;
+    if (typeof this.opened_step !== 'undefined') {
+      this.data_elements = this.data.body.steps[this.opened_step].data_elements;
+      // Concat. all message arrays and display them at all times
+      this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
+    } else {
+      this.data_messages = this.data.body.messages;
+    }
 
-        this.compileAcceptableFormList();
-  
-        this.scrollPositionController();
+    if (this.data_elements) {
+      // Count table elements and set initial settings
+      Object.values(this.data_elements).forEach((elem, index) => {
+        if (elem['type'] === 'table') { this.tableIndexes.push(index); }
+      });
+      this.tableIndexes.forEach((elem) => {
+        this.elemAtStart[elem] = true;
+        this.tableOverflown[elem] = true;
+      });
 
-        console.log(this.data);
-  
-      }
-      
+      this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
+
+      this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
+
+      this.fillAddressFieldsTemporaryModel(this.data_elements);
+
+      this.compileAcceptableFormList();
+
+      this.scrollPositionController();
+
+    }
+
   }
 
   ngOnInit() {
