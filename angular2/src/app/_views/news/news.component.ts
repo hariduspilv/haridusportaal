@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { HostListener, Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute, Event, NavigationStart } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
 import { delay } from 'rxjs/operators/delay';
@@ -19,6 +19,7 @@ import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } fro
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { HttpService } from '@app/_services/httpService';
+import { ScrollRestorationService } from '@app/_services';
 
 @Component({
   templateUrl: './news.component.html',
@@ -30,6 +31,7 @@ import { HttpService } from '@app/_services/httpService';
 })
 
 export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
+  @ViewChild('content') content: ElementRef;
 
   subscriptions: Subscription[] = [];
 
@@ -45,12 +47,14 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   dataSubscription: any;
   loading = false;
   showFilter = true;
+  public scrollPositionSet: boolean = false;
 
   constructor(
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute,
-    private http: HttpService
+    private http: HttpService,
+    public scrollRestoration: ScrollRestorationService
   ) {
     super(null, null);
   }
@@ -120,7 +124,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     
     let subscribe = this.http.get('getNewsTags', {params:variables}).subscribe( (response) => {
       let data = response['data'];
-      let entities = data['nodeQuery']['entities'];
+      let entities = (data['nodeQuery'] && data['nodeQuery']['entities']) || []
       let tags = this.processTags( entities );
 
       if( this.params.types !== undefined ){
@@ -189,6 +193,8 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       offset: this.offset,
       limit: this.limit
     };
+
+    this.initialScrollRestorationSetup(variables);
     
     let subscribe = this.http.get('newsList', {params:variables}).subscribe( (response) => {
       let data = response['data'];
@@ -232,6 +238,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     /* Clear all subscriptions */
+    this.scrollRestoration.setRouteKey('limit', this.limit + this.offset);
     for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
@@ -239,4 +246,31 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     }
   }
 
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(window.location.pathname);
+    if (this.scrollRestoration.currentIsIncluded && scrollData && this.rootScope.get('scrollRestorationState')) {
+      this.offset = !this.list && this.scrollRestoration.getRouteKey('limit') ? this.scrollRestoration.getRouteKey('limit') - this.limit : this.offset;
+      hash['offset'] = !this.list ? 0 : this.offset;
+      hash['limit'] = (!this.list && this.scrollRestoration.getRouteKey('limit')) ? this.scrollRestoration.getRouteKey('limit') : this.limit;
+    }
+  }
+
+  setScroll() {
+    let scrollData = this.scrollRestoration.getRoute(window.location.pathname);
+    if (scrollData && this.rootScope.get('scrollRestorationState')) {
+      window.scrollTo(0, scrollData.position);
+      this.scrollPositionSet = true;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+      this.setScroll()
+    }
+  }
+
+  @HostListener("window:scroll", [])
+  onWindowScroll() {
+    if (!window.scrollY) {window.scrollTo(0, 1)}
+  }
 }
