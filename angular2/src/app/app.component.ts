@@ -85,9 +85,8 @@ export class AppComponent implements OnInit {
       }
       
       if (event instanceof NavigationEnd) {
-          // Hide loading indicator
+        // Hide loading indicator
         //this.sidemenu.triggerLang();
-        window.scrollTo(0, 0);
       }
 
       if (event instanceof NavigationError) {

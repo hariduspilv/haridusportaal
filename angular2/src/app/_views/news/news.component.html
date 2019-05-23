@@ -102,7 +102,7 @@
     </div>
   </form>
   <loader *ngIf="!list"></loader>
-  <div class="news-list main-container" *ngIf="list">
+  <div #content class="news-list main-container" *ngIf="list">
     <div class="news-component__head">
       <div class="news-title">{{ 'news.label' | translate | uppercase }}</div>
     </div>
