@@ -162,7 +162,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
         }
         return -1;
       });
-      this.getSubTypes(true);
       this.validateSubtypes();
       if(selected.length === 0) {
         this.filterFormItems.subtype = '';
