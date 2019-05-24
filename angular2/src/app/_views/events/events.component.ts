@@ -1,12 +1,12 @@
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Component, OnDestroy, ViewChild, OnInit, HostListener } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { EventsConfig } from './events-config.model';
-import { RootScopeService } from '@app/_services';
+import { RootScopeService, ScrollRestorationService } from '@app/_services';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
@@ -32,6 +32,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 })
 
 export class EventsComponent extends FiltersService implements OnInit, OnDestroy{
+  @ViewChild('content') content: ElementRef;
 
   objectKeys = Object.keys;
   parseInt = parseInt;
@@ -70,12 +71,15 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   current: object;
 
   visibleEntries = 3;
+
+  scrollPositionSet: boolean = false;
   
   constructor(
     public router: Router,
     public route: ActivatedRoute,
     private rootScope: RootScopeService,
-    private http: HttpService
+    private http: HttpService,
+    public scrollRestoration: ScrollRestorationService
   ) {
     super(null, null);
   }
@@ -741,5 +745,15 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   trapFocus(id) {
     document.getElementById(id).focus();
+  }
+
+  initialScrollRestorationSetup(hash) {}
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.scrollRestoration.reset();
+    }
   }
 }

@@ -1,39 +1,47 @@
-import { Injectable, HostListener } from '@angular/core';
-import { Router, RoutesRecognized, NavigationStart, Event } from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router';
 import { RootScopeService } from './rootScopeService';
+import { Subscription } from 'rxjs';
 
 @Injectable()
 export class ScrollRestorationService {
   
-  public scrollableRoutes: Array<String> = ['/uudised'];
-  public currentIsIncluded: boolean = false;
+  public scrollableRoutes: Array<String> = ['/uudised', '/sündmused'];
   public currentRoute: string = '';
+  public previousRoute: string = '';
   public data: Object = {};
+  public routerSub: Subscription;
 
-  constructor(router: Router, rootScope: RootScopeService) {
-    this.routeIncluded(window.location.pathname);
-    if (this.currentIsIncluded) {
-      let data = {
-        state: false,
-        url: this.currentRoute,
-        position: window.scrollY
-      };
-      this.setRouteData(data);
-    }
-
-    router.events.subscribe( (event: Event) => {
-      if (event instanceof RoutesRecognized) {
-        this.routeIncluded(event.url.split('?')[0]);
-      }
+  constructor(private router: Router, private rootScope: RootScopeService) {
+    this.routerSub = this.router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
-        if (this.currentIsIncluded) {
+        this.currentRoute = decodeURI(window.location.pathname);
+        // Initialize current active scrollable route data;
+        if (this.currentRoute !== decodeURI(event.url) && this.scrollableRoutes.includes(decodeURI(event.url))) {
+          this.currentRoute = decodeURI(event.url);
           let data = {
-            state: rootScope.get('scrollRestorationState'),
+            state: false,
             url: this.currentRoute,
-            position: window.scrollY ? window.scrollY : this.data[this.currentRoute].position
+            position: 0
           };
           this.setRouteData(data);
         }
+        // Set current active scrollable route data if routed away from list(list is previous)
+        if (decodeURI(event.url).includes(this.currentRoute) && this.previousRoute === this.currentRoute) {
+          let data = {
+            state: rootScope.get('scrollRestorationState'),
+            url: this.currentRoute,
+            position: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+          };
+          this.setRouteData(data);
+          console.log(this.currentRoute, this.data);
+        // Reset data on imperative navigation
+        } else if (event.navigationTrigger !== 'popstate' && this.scrollableRoutes.includes(this.currentRoute) && this.previousRoute.includes(this.currentRoute)) {
+          this.reset();
+        }
+      }
+      if (event instanceof NavigationEnd) {
+        this.previousRoute = decodeURI(event.url);
       }
     });
 
@@ -64,11 +72,18 @@ export class ScrollRestorationService {
     }
   }
 
-  routeIncluded(route) {
-    this.currentIsIncluded = this.scrollableRoutes.includes(route);
-    if (this.currentIsIncluded) {
-      this.currentRoute = route;
+  setScroll() {
+    let scrollData = this.getRoute(this.currentRoute);
+    if (scrollData && this.rootScope.get('scrollRestorationState')) {
+      window.scrollTo(0, scrollData.position);
     }
+  }
+  
+  reset() {
+    this.data[this.currentRoute].limit = 24;
+    this.data[this.currentRoute].position = 0;
+    this.data[this.currentRoute].state = false;
+    this.rootScope.set('scrollRestorationState', false);
   }
 
 }

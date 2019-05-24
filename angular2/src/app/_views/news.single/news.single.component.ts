@@ -54,7 +54,6 @@ export class NewsSingleComponent implements OnInit {
 
   }
   ngOnInit() {
-    this.rootScope.set('scrollRestorationState', false);
     if( this.inputData ){
       this.handleData({
         route: {entity: this.inputData}

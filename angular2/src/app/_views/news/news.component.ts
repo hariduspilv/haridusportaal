@@ -1,21 +1,15 @@
-import { HostListener, Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute, Event, NavigationStart } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
-import { delay } from 'rxjs/operators/delay';
-
-import { of } from 'rxjs/observable/of';
 
 import 'rxjs/add/operator/map';
-
-import { Observable } from 'rxjs/Observable';
 
 import { RootScopeService } from '@app/_services/rootScopeService';
 
 /* Datepicker Imports */
 import * as _moment from 'moment';
-const moment = _moment;
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { HttpService } from '@app/_services/httpService';
@@ -238,39 +232,30 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
   ngOnDestroy() {
     /* Clear all subscriptions */
-    this.scrollRestoration.setRouteKey('limit', this.limit + this.offset);
     for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
     }
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.limit + this.offset)
+    }
   }
 
   initialScrollRestorationSetup(hash) {
     let scrollData = this.scrollRestoration.getRoute(window.location.pathname);
-    if (this.scrollRestoration.currentIsIncluded && scrollData && this.rootScope.get('scrollRestorationState')) {
+    if (scrollData && this.rootScope.get('scrollRestorationState')) {
       this.offset = !this.list && this.scrollRestoration.getRouteKey('limit') ? this.scrollRestoration.getRouteKey('limit') - this.limit : this.offset;
       hash['offset'] = !this.list ? 0 : this.offset;
       hash['limit'] = (!this.list && this.scrollRestoration.getRouteKey('limit')) ? this.scrollRestoration.getRouteKey('limit') : this.limit;
     }
   }
 
-  setScroll() {
-    let scrollData = this.scrollRestoration.getRoute(window.location.pathname);
-    if (scrollData && this.rootScope.get('scrollRestorationState')) {
-      window.scrollTo(0, scrollData.position);
-      this.scrollPositionSet = true;
-    }
-  }
-
   ngAfterViewChecked() {
     if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
-      this.setScroll()
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.rootScope.set('scrollRestorationState', false);
     }
-  }
-
-  @HostListener("window:scroll", [])
-  onWindowScroll() {
-    if (!window.scrollY) {window.scrollTo(0, 1)}
   }
 }
