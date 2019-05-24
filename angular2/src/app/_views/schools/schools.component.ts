@@ -17,6 +17,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from '@app/_services/settings.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   templateUrl: './schools.template.html',
@@ -93,6 +94,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     private http: HttpService,
     private settings: SettingsService,
     private translate: TranslateService,
+    private deviceDetector: DeviceDetectorService
   ) {
     super(null, null);
   }
@@ -381,7 +383,9 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
-    this.filterFull = !!this.params['subtype'] || !!this.params['type'] || !!this.params['ownership'] || !!this.params['specialClass'] || !!this.params['studentHome'] || !!this.params['language'];
+    if(this.params['subtype'] || this.params['type'] || this.params['ownership'] || this.params['specialClass'] || this.params['studentHome'] || this.params['language']) {
+      this.filterFull = true;
+    }
     this.validateSubtypes();
     //do some reverse search magic
     let types = [];
@@ -497,8 +501,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
     this.mapOptions.styles = this.rootScope.get("mapStyles");
     
-    this.showFilter = window.innerWidth > 1024;
-    this.filterFull = window.innerWidth < 1024;
+    this.showFilter = this.deviceDetector.isDesktop();
+    this.filterFull = this.deviceDetector.isMobile() || this.deviceDetector.isTablet();
 
     this.pathWatcher();
     this.getOptions();
