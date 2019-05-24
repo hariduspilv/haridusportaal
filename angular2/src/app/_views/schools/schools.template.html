@@ -43,7 +43,7 @@
       <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
-            <mat-select (openedChange)="typesDropdownSort($event)" multiple='true' placeholder="{{ 'school.institution_type' | translate }}" [(ngModel)]="filterFormItems.type" name="type">
+            <mat-select (selectionChange)="getSubTypes(true)" (openedChange)="typesDropdownSort($event)" multiple='true' placeholder="{{ 'school.institution_type' | translate }}" [(ngModel)]="filterFormItems.type" name="type">
               <ng-container *ngFor="let item of typeOptions">
                 <mat-option *ngIf="item.parentId == null" [value]="item.entityId">
                   {{ item.entityLabel }}
