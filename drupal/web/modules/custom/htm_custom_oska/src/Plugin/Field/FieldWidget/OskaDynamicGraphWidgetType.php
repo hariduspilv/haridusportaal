@@ -29,7 +29,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
         $field_name = $this->fieldDefinition->getName();
         $csv_location = $this->fieldDefinition->getSettings()['csv_location'];
-        $data = isset($items[$delta]->filter_values) ? json_decode($items[$delta]->filter_values, true)['graph_options'] : NULL;
+        $data = isset($items[$delta]->filter_values) ? json_decode($items[$delta]->filter_values, true)['graph_options'] : FALSE;
         $fields = [];
 
         $oska_filters = [
@@ -144,7 +144,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 }else if(isset($data['indicator_count'])){
                     $indicator_count = $data['indicator_count'];
                 }else{
-                    $indicator_count = [];
+                    $indicator_count = 0;
                 }
 
                 for($i = 0; $i < $indicator_count; $i++){
@@ -237,7 +237,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 }
             }
 
-            $graph_indicator = $secondary_graph_indicator != null ? array_unique(array_merge($graph_indicator, $secondary_graph_indicator)) : $graph_indicator;
+            $graph_indicator = !empty($secondary_graph_indicator) ? array_unique(array_merge($graph_indicator, $secondary_graph_indicator)) : $graph_indicator;
 
             foreach($fields as $key => $field){
 
