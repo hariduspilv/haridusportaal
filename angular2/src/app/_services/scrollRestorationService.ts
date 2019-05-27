@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 @Injectable()
 export class ScrollRestorationService {
   
-  public scrollableRoutes: Array<String> = ['/uudised', '/sündmused'];
+  public scrollableRoutes: Array<String> = ['/uudised', '/sündmused', '/erialad'];
   public currentRoute: string = '';
   public previousRoute: string = '';
   public data: Object = {};
