@@ -1,7 +1,7 @@
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Component, OnDestroy, ViewChild, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -10,7 +10,7 @@ import { RootScopeService } from '@app/_services';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { delay, map } from 'rxjs/operators';
+import { delay, map, filter } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 
@@ -78,6 +78,16 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     private http: HttpService
   ) {
     super(null, null);
+    let subscription = router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if((/^\/sündmused\/kalender/g).test(decodeURI(event.url)) && window.innerWidth > 1024) {
+        this.changeView('calendar', false);
+      } else {
+        this.changeView('list', false);
+      }
+    });
+    this.subscriptions = [...this.subscriptions, subscription];
   }
   
   date: any = new Date();
