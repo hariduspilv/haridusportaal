@@ -103,20 +103,85 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             $group_by_options = $fields;
             $group_by_options['naitaja'] = $this->t('indicator');
 
-            $element['graph_options']['graph_indicator'] = [
-                '#title' => $this->t('OSKA indicator'),
-                '#type' => 'select',
-                '#options' => $indicator_options,
-                '#multiple' => TRUE,
-                '#required' => FALSE,
-                '#default_value' => isset($data['graph_indicator']) ? $data['graph_indicator'] : NULL,
-                '#ajax' => [
-                    'callback' => [$this,'ajax_dependent_graph_filters_callback'],
-                    'wrapper' => 'dynamic_graph_filter_set'.$delta,
-                ],
-                '#element_validate' => array(array($this, 'validateChartInput')),
-                '#delta' => $delta,
-            ];
+            if($graph_type === 'line'){
+                $element['graph_options']['graph_indicator'] = [
+                    '#title' => $this->t('OSKA indicator'),
+                    '#type' => 'select',
+                    '#options' => $indicator_options,
+                    '#multiple' => TRUE,
+                    '#required' => FALSE,
+                    '#default_value' => isset($data['graph_indicator']) ? $data['graph_indicator'] : NULL,
+                    '#ajax' => [
+                        'callback' => [$this,'ajax_dependent_graph_filters_callback'],
+                        'wrapper' => 'dynamic_graph_filter_set'.$delta,
+                    ],
+                    '#element_validate' => array(array($this, 'validateChartInput')),
+                    '#delta' => $delta,
+                ];
+            }else{
+                $element['graph_options']['indicator_count'] = [
+                    '#type' => 'number',
+                    '#title' => $this->t('Indicator count'),
+                    '#default_value' => isset($data['indicator_count']) ? $data['indicator_count'] : 0,
+                    '#min' => 0,
+                    '#ajax' => [
+                        'event' => 'input',
+                        'callback' => [$this,'ajax_dependent_indicator_callback'],
+                        'wrapper' => 'graph_indicators'.$delta
+                    ],
+                    '#delta' => $delta
+                ];
+
+                $element['graph_options']['indicators'] = [
+                    '#type' => 'fieldset',
+                    '#title' => $this->t('Indicators'),
+                    '#prefix' => '<div id="graph_indicators'.$delta.'">',
+                    '#suffix' => '</div>',
+                ];
+
+                if(isset($form_state->getUserInput()[$field_name])){
+                    $indicator_count = $form_state->getUserInput()[$field_name][$delta]['graph_options']['indicator_count'];
+                }else if(isset($data['indicator_count'])){
+                    $indicator_count = $data['indicator_count'];
+                }else{
+                    $indicator_count = [];
+                }
+
+                for($i = 0; $i < $indicator_count; $i++){
+                    $element['graph_options']['indicators'][$i]['indicator_set'] = [
+                        '#type' => 'fieldset'
+                    ];
+
+                    $element['graph_options']['indicators'][$i]['indicator_set']['graph_indicator'] = [
+                        '#title' => $this->t('OSKA indicator'),
+                        '#type' => 'select',
+                        '#options' => $indicator_options,
+                        '#multiple' => FALSE,
+                        '#required' => FALSE,
+                        '#default_value' => isset($data['indicators'][$i]['indicator_set']['graph_indicator']) ? $data['indicators'][$i]['indicator_set']['graph_indicator'] : NULL,
+                        '#ajax' => [
+                            'callback' => [$this,'ajax_dependent_graph_filters_callback'],
+                            'wrapper' => 'dynamic_graph_filter_set'.$delta,
+                        ],
+                        '#element_validate' => array(array($this, 'validateChartInput')),
+                        '#delta' => $delta,
+                    ];
+
+                    $element['graph_options']['indicators'][$i]['indicator_set']['secondary_graph_indicator'] = [
+                        '#title' => $this->t('Secondary OSKA indicator'),
+                        '#type' => 'select',
+                        '#options' => $indicator_options,
+                        '#multiple' => TRUE,
+                        '#required' => FALSE,
+                        '#default_value' => isset($data['indicators'][$i]['indicator_set']['secondary_graph_indicator']) ? $data['indicators'][$i]['indicator_set']['secondary_graph_indicator'] : NULL,
+                        '#ajax' => [
+                            'callback' => [$this, 'ajax_dependent_graph_filters_callback'],
+                            'wrapper' => 'dynamic_graph_filter_set' . $delta,
+                        ],
+                        '#delta' => $delta,
+                    ];
+                }
+            }
 
             $element['graph_options']['graph_v_axis'] = [
                 '#title' => $this->t('Graph v-axis'),
@@ -149,20 +214,28 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
             foreach($fields as $key => $field){
 
-                if(isset($form_state->getUserInput()[$field_name])){
-                    $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
-                }else if(isset($data['graph_indicator'])){
-                    $graph_indicator = $data['graph_indicator'];
-                }else{
-                    $graph_indicator = [];
-                }
+                if($graph_type === 'line'){
+                    if(isset($form_state->getUserInput()[$field_name])){
+                        $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
+                    }else if(isset($data['graph_indicator'])){
+                        $graph_indicator = $data['graph_indicator'];
+                    }else{
+                        $graph_indicator = [];
+                    }
 
-                if(isset($form_state->getUserInput()[$field_name])){
-                    $secondary_graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['secondary_graph_indicator'];
-                }else if(isset($data['secondary_graph_indicator'])){
-                    $secondary_graph_indicator = $data['secondary_graph_indicator'];
+                    if(isset($form_state->getUserInput()[$field_name])){
+                        $secondary_graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['secondary_graph_indicator'];
+                    }else if(isset($data['secondary_graph_indicator'])){
+                        $secondary_graph_indicator = $data['secondary_graph_indicator'];
+                    }else{
+                        $secondary_graph_indicator = [];
+                    }
                 }else{
                     $secondary_graph_indicator = [];
+                    foreach($form_state->getUserInput()[$field_name][$delta]['graph_options']['indicators'] as $indicator_input){
+                        $graph_indicator[] =  $indicator_input['indicator_set']['graph_indicator'];
+                        $secondary_graph_indicator = array_merge($secondary_graph_indicator, $indicator_input['indicator_set']['secondary_graph_indicator']);
+                    }
                 }
 
                 $graph_indicator = $secondary_graph_indicator != null ? array_unique(array_merge($graph_indicator, $secondary_graph_indicator)) : $graph_indicator;
@@ -221,20 +294,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#required' => FALSE,
                     '#delta' => $delta,
                 ];
-
-                $element['graph_options']['secondary_graph_indicator'] = [
-                    '#title' => $this->t('Secondary OSKA indicator'),
-                    '#type' => 'select',
-                    '#options' => $indicator_options,
-                    '#multiple' => TRUE,
-                    '#required' => FALSE,
-                    '#default_value' => isset($data['secondary_graph_indicator']) ? $data['secondary_graph_indicator'] : NULL,
-                    '#ajax' => [
-                        'callback' => [$this,'ajax_dependent_graph_filters_callback'],
-                        'wrapper' => 'dynamic_graph_filter_set'.$delta,
-                    ],
-                    '#delta' => $delta,
-                ];
             }
 
             $element['graph_options']['graph_y_unit'] = [
@@ -281,6 +340,13 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         $trigger_element = $form_state->getTriggeringElement();
 
         return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['graph_filters'];
+    }
+
+    public function ajax_dependent_indicator_callback(array &$form, FormStateInterface $form_state){
+        $field_name = $this->fieldDefinition->getName();
+        $trigger_element = $form_state->getTriggeringElement();
+
+        return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options']['indicators'];
     }
 
     public function extractFormValues(FieldItemListInterface $items, array $form, FormStateInterface $form_state)
@@ -369,6 +435,18 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         }
 
         return isset($new_values) ? $new_values : $values;
+    }
+
+    public function array_key_last( $array ) {
+        $key = NULL;
+
+        if ( is_array( $array ) ) {
+
+            end( $array );
+            $key = key( $array );
+        }
+
+        return $key;
     }
 
     /**
