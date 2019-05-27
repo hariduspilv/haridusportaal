@@ -32,10 +32,9 @@ const XJSON_DATEPICKER_FORMAT = {
   }
 };
 @Component({
-  templateUrl: './xjson.template.html',
-  styleUrls: ['./xjson.styles.scss'],
+  templateUrl: 'xjson.template.html',
+  styleUrls: ['../xjson/xjson.styles.scss'],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT },
   ]
 })
@@ -57,10 +56,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
   public datepickerFocus = false;
+  public acceptable_forms_list_restricted = true;
   public temporaryModel = {};
   public data;
   public edit_step = false;
   public empty_data = false;
+  public acceptable_forms = [];
+  public acceptable_forms_limit = 4;
   public opened_step;
   public max_step;
   public current_acceptable_activity: string[];
@@ -132,14 +134,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value));
           this.addressAutocomplete(data_elements[element].value, 0, element, true);
         }
-      } else if (data_elements[element].type === 'table'){
+      } else if (data_elements[element].type === 'table') {
         Object.keys(data_elements[element].table_columns).forEach(tableElement => {
-          if(data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value){
+          if (data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value) {
             if (typeof data_elements[element].table_columns[tableElement].value === 'object') {
               if (data_elements[element].table_columns[tableElement].value.addressHumanReadable) {
                 this.autoCompleteContainer[element][tableElement] = [data_elements[element].table_columns[tableElement].value];
                 this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value.addressHumanReadable));
-    
+
               } else {
                 data_elements[element].table_columns[tableElement].value = null;
               }
@@ -309,41 +311,29 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   setDatepickerValue(event, element, rowindex, col) {
-
     if (this.datepickerFocus === false) {
-
-      if (rowindex === undefined || col === undefined) {
-        if (event instanceof FocusEvent) {
-          const string = JSON.parse(JSON.stringify(event.target['value']));
-          const date = moment(string.split('.').reverse().join('-')).format('YYYY-MM-DD');
-          if (date === 'Invalid date') {
-            this.data_elements[element].value = null;
-            event.target['value'] = null;
-          } else {
-            this.data_elements[element].value = JSON.parse(JSON.stringify(date));
-          }
-        } else {
-          this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-        }
-      } else {
-        if (event instanceof FocusEvent) {
-          const string = JSON.parse(JSON.stringify(event.target['value']));
-          const date = moment(string).format('DD.MM.YYYY');
-          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
-        } else {
-          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-        }
+      if (!(event instanceof FocusEvent)) {
+        const dateval = event.value.format('L');
+        rowindex === undefined || col === undefined
+          ? this.data_elements[element].value = dateval
+          : this.data_elements[element].value[rowindex][col] = dateval;
       }
     }
   }
-  getDatepickerValue(element, rowindex, col) {
-    if (rowindex === undefined || col === undefined) {
-      return this.data_elements[element].value;
-    } else {
-      return this.data_elements[element].value[rowindex][col];
-    }
 
+  getDatepickerValue(element, rowindex, col) {
+    const date = rowindex === undefined || col === undefined
+      ? this.data_elements[element].value
+      : this.data_elements[element].value[rowindex][col];
+
+    if (date) {
+      return moment((String(date).split('.')).reverse().join('-'));
+    } else {
+      return false;
+    }
   }
+
+
   selectListCompare(a, b) {
     return a && b ? a === b : a === b;
   }
@@ -687,6 +677,22 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
+  compileAcceptableFormList() {
+
+    this.acceptable_forms = this.acceptable_forms_list_restricted ?
+      this.data.header.references.slice(0, this.acceptable_forms_limit) :
+      this.data.header.references;
+
+    this.acceptable_forms.forEach((elem, index) => {
+      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
+    });
+  }
+
+  toggleAcceptableFormList() {
+    this.acceptable_forms_list_restricted = this.acceptable_forms_list_restricted ? false : true;
+    this.compileAcceptableFormList();
+  }
+
   promptDebugDialog(data) {
 
     if (this.test === false) {
@@ -759,6 +765,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE');
         }
       }
+
       this.stepController(response);
 
       subscription.unsubscribe();
@@ -802,9 +809,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       this.fillAddressFieldsTemporaryModel(this.data_elements);
 
+      this.compileAcceptableFormList();
+
       this.scrollPositionController();
 
     }
+
   }
 
   ngOnInit() {

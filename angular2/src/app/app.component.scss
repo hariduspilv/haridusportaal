@@ -362,6 +362,8 @@ $grid-columns: 12;
     }
     input {
       font-size: 0.875rem;
+      color: #333;
+      font-weight: normal;
       &::placeholder { font-size: 0.875rem; }
     }
   }
