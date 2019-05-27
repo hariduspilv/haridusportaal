@@ -49,7 +49,7 @@ frontpage:
     en: Certificates
   dashboard_tabs_studies:
     translation_type: textarea
-    et: Õpin
+    et: Õpingud
     en: Studies
   dashboard_tabs_teachings:
     translation_type: textarea
@@ -201,7 +201,7 @@ frontpage:
     en: Õppeasutus-ENG
   haridustase:
     translation_type: textarea
-    et: Haridustase
+    et: 'Kõrgeim haridustase'
     en: Haridustase-ENG
   oppekava:
     translation_type: textarea
@@ -229,7 +229,7 @@ frontpage:
     en: Kooliaste-ENG
   oppAlgus:
     translation_type: textarea
-    et: 'Õppimise alguse'
+    et: 'Õppimise algus'
     en: 'Õppimise alguse-ENG'
   oppLopp:
     translation_type: textarea
@@ -253,7 +253,7 @@ frontpage:
     en: Õppekoormus-ENG
   kestus:
     translation_type: textarea
-    et: 'Õppekava järgne nominaalkestus'
+    et: 'Õppekava nominaalkestus'
     en: 'Õppekava järgne nominaalkestus-ENG'
   ryhmaLiik:
     translation_type: textarea
@@ -285,7 +285,7 @@ frontpage:
     en: 'Põhjuseta puudumised eelmisel õppeveerandil (%)-ENG'
   kutseKoolitus:
     translation_type: textarea
-    et: 'Kutsealane eelkoolitus'
+    et: 'Kutseõpe põhikoolis ja gümnaasiumis'
     en: 'Kutsealane eelkoolitus-ENG'
   oppekavaKood:
     translation_type: textarea
@@ -305,7 +305,7 @@ frontpage:
     en: Alguskuupäev-ENG
   loppKp:
     translation_type: textarea
-    et: Lõppkuupäev
+    et: 'Lõpu kuupäev'
     en: Lõppkuupäev-ENG
   tootamine:
     translation_type: textarea
@@ -796,7 +796,7 @@ news:
     en: 'Latest News'
   filter_name:
     translation_type: textarea
-    et: 'Sisesta märksõna'
+    et: 'Sisesta uudise nimi'
     en: 'Enter news name'
   filter_tag:
     translation_type: textarea
@@ -998,7 +998,7 @@ event:
     en: 'View the list of participants'
   filter_name:
     translation_type: textarea
-    et: 'Sisesta märksõna'
+    et: 'Otsi sündmuste nime järgi'
     en: 'Search by event name'
   filter_tags:
     translation_type: textarea
@@ -2650,7 +2650,7 @@ feedback_send:
   en: Send
 login_tara:
   translation_type: textarea
-  et: 'Sisene TARA-ga'
+  et: 'Riigi autentimisteenus'
   en: 'Login with TARA'
 login_harid:
   translation_type: textarea
