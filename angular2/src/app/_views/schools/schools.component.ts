@@ -36,7 +36,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   limit: Number = 24;
   mapLimit: Number = 3000;
 
-  params: object;
+  params: object = {};
   offset: Number;
   list: any;
   listEnd: boolean;
@@ -46,7 +46,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   public production: boolean = true;
   boundsEnabled: boolean = false;
 
-  view: any = sessionStorage.getItem("schools.view") || "list";
+  view: any = "list";
 
   loading: boolean = true;
 
@@ -294,7 +294,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
         this.lang = this.rootScope.get("lang");
       }
     );
-
     this.subscriptions = [...this.subscriptions, subscribe];
   }
   
@@ -318,7 +317,15 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.view = view;
     sessionStorage.setItem("schools.view", view.toString());
     this.reset();
-    
+    switch(view) {
+      case 'map':
+        this.router.navigate(['/kool/kaart'], {queryParamsHandling: "preserve"});
+        break;
+      case 'list':
+        this.router.navigate(['/kool'], {queryParamsHandling: "preserve"});
+      default:
+        break;
+    }
   }
 
   watchSearch() {
@@ -382,7 +389,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
-    if(this.params['subtype'] || this.params['type'] || this.params['ownership'] || this.params['specialClass'] || this.params['studentHome'] || this.params['language']) {
+    if(this.params !== undefined && this.params['subtype'] || this.params['type'] || this.params['ownership'] || this.params['specialClass'] || this.params['studentHome'] || this.params['language']) {
       this.filterFull = true;
     }
     this.validateSubtypes();
@@ -505,6 +512,13 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
     this.pathWatcher();
     this.getOptions();
+    //as the spaniards say - lo haré mañana
+    //TODO - more bulletproof solution for this
+    if((/^\/kool\/kaart/g).test(this.path)) {
+      this.changeView('map');
+    } else {
+      this.changeView(this.view);
+    }
   }
   
   ngOnDestroy() {
