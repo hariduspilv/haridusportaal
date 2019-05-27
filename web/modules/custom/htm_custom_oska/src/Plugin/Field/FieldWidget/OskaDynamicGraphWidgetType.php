@@ -234,6 +234,11 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         $graph_indicator[] =  $indicator_input['indicator_set']['graph_indicator'];
                         $secondary_graph_indicator = array_merge($secondary_graph_indicator, $indicator_input['indicator_set']['secondary_graph_indicator']);
                     }
+                }else if(isset($data['indicators'])){
+                    foreach($data['indicators'] as $indicator_input){
+                        $graph_indicator[] =  $indicator_input['indicator_set']['graph_indicator'];
+                        $secondary_graph_indicator = array_merge($secondary_graph_indicator, $indicator_input['indicator_set']['secondary_graph_indicator']);
+                    }
                 }
             }
 
