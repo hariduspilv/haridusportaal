@@ -245,9 +245,9 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   initialScrollRestorationSetup(hash) {
     let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
     if (scrollData && this.rootScope.get('scrollRestorationState')) {
-      this.offset = !this.list && this.scrollRestoration.getRouteKey('limit') ? this.scrollRestoration.getRouteKey('limit') - this.limit : this.offset;
+      this.offset = !this.list && scrollData.limit ? scrollData.limit - this.limit : this.offset;
       hash['offset'] = !this.list ? 0 : this.offset;
-      hash['limit'] = (!this.list && this.scrollRestoration.getRouteKey('limit')) ? this.scrollRestoration.getRouteKey('limit') : this.limit;
+      hash['limit'] = (!this.list && scrollData.limit) ? scrollData.limit : this.limit;
     }
   }
 

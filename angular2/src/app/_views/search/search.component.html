@@ -71,7 +71,7 @@
   <div class="search" [class.with-results]="filteredResults && filteredResults.length">
     <div class="search__body">
       <div class="search__title">{{ 'search.results' | translate | uppercase }}</div>
-      <div *ngIf="filteredResults && filteredResults.length" class="search__title--filter">{{ 'search.filter_results' | translate }}:</div>
+      <div #content *ngIf="filteredResults && filteredResults.length" class="search__title--filter">{{ 'search.filter_results' | translate }}:</div>
       <ng-container *ngIf="filteredResults && filteredResults.length">
         <div class="search__chips" role="group" attr.aria-label="Search filter">
           <a role="alert" id="initial" (keyup.enter)="filterAll()" (click)="filterAll()" *ngIf="results && results.length" href="javascript:void(0)" attr.aria-label="{{'button.all' | translate}} {{'search.results' | translate}}, status: {{allFilters ? 'On': 'Off'}}, count: {{ results.length }}" class="search__chips--chip pointer" [class.selected]="allFilters">{{'button.all' | translate}} <span>({{results.length}})</span></a>
