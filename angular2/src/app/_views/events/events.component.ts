@@ -222,7 +222,15 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }
 
     sessionStorage.setItem("events.view", view);
-
+    switch(view) {
+      case 'calendar':
+        this.router.navigate(['/sündmused/kalender'], {queryParamsHandling: "preserve"});
+        break;
+      case 'list':
+        this.router.navigate(['/sündmused'], {queryParamsHandling: "preserve"});
+      default:
+        break;
+    }
     if( update ){
       this.status = false;
       this.eventList = false;
@@ -258,11 +266,21 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     this.loadingCalendar = true;
+    //kui jegorr teeb õhtusöögiks 5 kilo spagette, siis sul ei jää muud üle kui hommikusöögiks veel spagette süüa
     if( sessionStorage.getItem("events.view") ){
-      this.changeView(sessionStorage.getItem("events.view"), false);
+      if(window.innerWidth > 1024) {
+        this.changeView(sessionStorage.getItem("events.view"), false);
+      } else {
+        this.changeView('list')
+      }
     }else{
-      this.changeView("list", false);
+      if((/^\/sündmused\/kalender/g).test(this.path) && window.innerWidth > 1024) {
+        this.changeView('calendar');
+      } else {
+        this.changeView('list');
+      }
     }
+    
     if (window.innerWidth <= 1024) {
       this.filterFull = true;
       this.showFilter = false;
@@ -287,7 +305,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         this.path = this.router.url;
       }
     );
-
+  
     this.route.queryParams.subscribe( (params: Params) => {
       this.params = params;
       this.eventList = false;

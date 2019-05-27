@@ -26,7 +26,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   data:any;
   filterData: any = {};
 
-  params:any;
+  params:any = {};
+  path: string;
 
   polygons: any;
   polygonLayer: String = "county";
@@ -120,8 +121,15 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.view = view;
     this.sumWindowStatus = false;
     sessionStorage.setItem("schools_funding.view", view.toString() );
-    //this.map.setZoom(this.mapOptions.zoom);
-    //this.map.setCenter(this.mapOptions.center);
+    switch(view) {
+      case 'areas':
+        this.router.navigate(['/koolide-rahastus/haldusüksused'], {queryParamsHandling: "preserve"});
+        break;
+      case 'schools':
+        this.router.navigate(['/koolide-rahastus'], {queryParamsHandling: "preserve"});
+      default:
+        break;
+    }
     this.getData();
   }
   
@@ -414,15 +422,31 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.getData();
   }
 
+  pathWatcher() { 
+    let subscribe = this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.path = this.router.url;
+        this.lang = this.rootScope.get("lang");
+      }
+    );
+    this.subscriptions = [...this.subscriptions, subscribe];
+  }
+
   ngOnInit() {
 
-    this.lang = this.rootScope.get("lang");
+    this.pathWatcher();
 
     this.mapOptions.styles = this.rootScope.get("mapStyles");
     this.getFilters();
     this.watchSearch();
-    
-    
+
+    //as the spaniards say - lo haré mañana
+    //TODO - more bulletproof solution for this
+    if((/^\/koolide-rahastus\/haldusüksused/g).test(this.path)) {
+      this.changeView('areas');
+    } else {
+      this.changeView(this.view);
+    }
   }
 
   ngOnDestroy() {
