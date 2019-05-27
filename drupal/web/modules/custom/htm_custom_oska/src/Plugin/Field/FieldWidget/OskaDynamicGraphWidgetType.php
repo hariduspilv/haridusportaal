@@ -212,33 +212,34 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#suffix' => '</div>',
             ];
 
-            foreach($fields as $key => $field){
 
-                if($graph_type === 'line'){
-                    if(isset($form_state->getUserInput()[$field_name])){
-                        $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
-                    }else if(isset($data['graph_indicator'])){
-                        $graph_indicator = $data['graph_indicator'];
-                    }else{
-                        $graph_indicator = [];
-                    }
+            $graph_indicator = [];
+            $secondary_graph_indicator = [];
 
-                    if(isset($form_state->getUserInput()[$field_name])){
-                        $secondary_graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['secondary_graph_indicator'];
-                    }else if(isset($data['secondary_graph_indicator'])){
-                        $secondary_graph_indicator = $data['secondary_graph_indicator'];
-                    }else{
-                        $secondary_graph_indicator = [];
-                    }
-                }else{
-                    $secondary_graph_indicator = [];
+            if($graph_type === 'line'){
+                if(isset($form_state->getUserInput()[$field_name])){
+                    $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
+                }else if(isset($data['graph_indicator'])){
+                    $graph_indicator = $data['graph_indicator'];
+                }
+
+                if(isset($form_state->getUserInput()[$field_name])){
+                    $secondary_graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['secondary_graph_indicator'];
+                }else if(isset($data['secondary_graph_indicator'])){
+                    $secondary_graph_indicator = $data['secondary_graph_indicator'];
+                }
+            }else{
+                if(isset($form_state->getUserInput()[$field_name][$delta]['graph_options']['indicators'])){
                     foreach($form_state->getUserInput()[$field_name][$delta]['graph_options']['indicators'] as $indicator_input){
                         $graph_indicator[] =  $indicator_input['indicator_set']['graph_indicator'];
                         $secondary_graph_indicator = array_merge($secondary_graph_indicator, $indicator_input['indicator_set']['secondary_graph_indicator']);
                     }
                 }
+            }
 
-                $graph_indicator = $secondary_graph_indicator != null ? array_unique(array_merge($graph_indicator, $secondary_graph_indicator)) : $graph_indicator;
+            $graph_indicator = $secondary_graph_indicator != null ? array_unique(array_merge($graph_indicator, $secondary_graph_indicator)) : $graph_indicator;
+
+            foreach($fields as $key => $field){
 
                 $selection_data = json_decode(file_get_contents($oska_filters_path.$key), TRUE);
                 $selection = [];
