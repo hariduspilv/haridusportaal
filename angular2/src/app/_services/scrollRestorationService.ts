@@ -16,9 +16,10 @@ export class ScrollRestorationService {
     this.routerSub = this.router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
         this.currentRoute = decodeURI(window.location.pathname);
+        const pathName = event.url.split('?')[0];
         // Initialize current active scrollable route data;
-        if (this.currentRoute !== decodeURI(event.url) && this.scrollableRoutes.includes(decodeURI(event.url))) {
-          this.currentRoute = decodeURI(event.url);
+        if (this.currentRoute !== decodeURI(pathName) && this.scrollableRoutes.includes(decodeURI(pathName))) {
+          this.currentRoute = decodeURI(pathName);
           let data = {
             state: false,
             url: this.currentRoute,
@@ -27,21 +28,21 @@ export class ScrollRestorationService {
           this.setRouteData(data);
         }
         // Set current active scrollable route data if routed away from list(list is previous)
-        if (decodeURI(event.url).includes(this.currentRoute) && this.previousRoute === this.currentRoute) {
+        if (decodeURI(pathName).includes(this.currentRoute) && this.previousRoute === this.currentRoute) {
           let data = {
             state: rootScope.get('scrollRestorationState'),
             url: this.currentRoute,
             position: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
           };
           this.setRouteData(data);
-          console.log(this.currentRoute, this.data);
         // Reset data on imperative navigation
         } else if (event.navigationTrigger !== 'popstate' && this.scrollableRoutes.includes(this.currentRoute) && this.previousRoute.includes(this.currentRoute)) {
           this.reset();
         }
       }
       if (event instanceof NavigationEnd) {
-        this.previousRoute = decodeURI(event.url);
+        const pathName = event.url.split('?')[0];
+        this.previousRoute = decodeURI(pathName);
       }
     });
 
@@ -80,10 +81,12 @@ export class ScrollRestorationService {
   }
   
   reset() {
-    this.data[this.currentRoute].limit = 24;
-    this.data[this.currentRoute].position = 0;
-    this.data[this.currentRoute].state = false;
-    this.rootScope.set('scrollRestorationState', false);
+    if (this.data[this.currentRoute]) {
+      this.data[this.currentRoute].limit = 24;
+      this.data[this.currentRoute].position = 0;
+      this.data[this.currentRoute].state = false;
+      this.rootScope.set('scrollRestorationState', false);
+    }
   }
 
 }

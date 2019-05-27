@@ -583,6 +583,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
         this.calendarDataEntries = "none";
 
+        this.initialScrollRestorationSetup(variables);
+
         this.dataSubscription = this.http.get('getEventList', {params: variables}).subscribe((response) => {
 
           let data = response['data'];
@@ -723,6 +725,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         sub.unsubscribe();
       }
     }
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.eventsConfig.limit + this.eventsConfig.offset)
+    }
   }
   
   parseIntoReadableTime(milliseconds){
@@ -747,10 +752,17 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     document.getElementById(id).focus();
   }
 
-  initialScrollRestorationSetup(hash) {}
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
+    if (scrollData && this.rootScope.get('scrollRestorationState') && this.view === "list") {
+      this.eventsConfig.offset = !this.eventList && this.scrollRestoration.getRouteKey('limit') ? this.scrollRestoration.getRouteKey('limit') - this.eventsConfig.limit : this.eventsConfig.offset;
+      hash['offset'] = !this.eventList ? 0 : this.eventsConfig.offset;
+      hash['limit'] = (!this.eventList && this.scrollRestoration.getRouteKey('limit')) ? this.scrollRestoration.getRouteKey('limit') : this.eventsConfig.limit;
+    }
+  }
 
   ngAfterViewChecked() {
-    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null && this.view === 'list') {
       this.scrollRestoration.setScroll();
       this.scrollPositionSet = true;
       this.scrollRestoration.reset();
