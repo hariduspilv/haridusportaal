@@ -62,7 +62,7 @@ export class CertificatesDetailedComponent implements OnInit{
 
     let sub = this.http.get('/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe((response:any) => {
       this.loading = false;
-      if(response.value){
+      if(!response.value){
         this.router.navigateByUrl( this.dashboardLink );
       } else {
         this.professionalCertificates = response['value']['kutsetunnistused']

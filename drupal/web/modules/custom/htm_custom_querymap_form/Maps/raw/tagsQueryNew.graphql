@@ -1,10 +1,10 @@
-query taxonomyQuery($lang: LanguageId!){
+query taxonomyQuery($lang: LanguageId!, $type: String!){
   taxonomyTermQuery(limit: 0, filter:{conditions:[{field:"vid", value:"tags", language:$lang}]}){
     tags: entities{
        ... on TaxonomyTerm {
         entityLabel
         entityId
-        referencedNodes: reverseFieldTagNode(filter:{conditions:[{field:"type", value:"news", language:$lang}, {field:"status", value:"1"}]}){
+        referencedNodes: reverseFieldTagNode(filter:{conditions:[{field:"type", value:[$type], language:$lang, operator:EQUAL}, {field:"status", value:"1"}]}){
           count
         }
       }
