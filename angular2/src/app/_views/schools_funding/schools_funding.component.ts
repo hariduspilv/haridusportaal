@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { HttpService } from '@app/_services/httpService';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationStart, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
+import { filter } from 'rxjs/operators';
 
 @Component({
   templateUrl: "schools_funding.template.html",
@@ -11,7 +12,7 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 })
 
 export class SchoolsFundingComponent extends FiltersService implements OnInit, OnDestroy {
-  lang: string;
+  lang: string = this.rootScope.get("lang");
   subscriptions: Subscription[] = [];
   parseFloat = parseFloat;
   toString = toString;
@@ -66,6 +67,16 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super(null, null);
+    let subscription = router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if((/^\/koolide-rahastus\/haldusüksused/g).test(decodeURI(event.url))) {
+        this.changeView('areas');
+      } else {
+        this.changeView('schools');
+      }
+    });
+    this.subscriptions = [...this.subscriptions, subscription];
   }
 
   showFunding(year, infoWindow:any = false ){
@@ -426,7 +437,6 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = this.rootScope.get("lang");
       }
     );
     this.subscriptions = [...this.subscriptions, subscribe];
@@ -435,11 +445,6 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   ngOnInit() {
 
     this.pathWatcher();
-
-    this.mapOptions.styles = this.rootScope.get("mapStyles");
-    this.getFilters();
-    this.watchSearch();
-
     //as the spaniards say - lo haré mañana
     //TODO - more bulletproof solution for this
     if((/^\/koolide-rahastus\/haldusüksused/g).test(decodeURI(this.path))) {
@@ -447,6 +452,9 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     } else {
       this.changeView(this.view);
     }
+    this.mapOptions.styles = this.rootScope.get("mapStyles");
+    this.getFilters();
+    this.watchSearch();
   }
 
   ngOnDestroy() {
