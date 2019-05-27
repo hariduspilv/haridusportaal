@@ -305,7 +305,7 @@ frontpage:
     en: Alguskuupäev-ENG
   loppKp:
     translation_type: textarea
-    et: Lõppkuupäev
+    et: 'Lõpu kuupäev'
     en: Lõppkuupäev-ENG
   tootamine:
     translation_type: textarea
@@ -796,7 +796,7 @@ news:
     en: 'Latest News'
   filter_name:
     translation_type: textarea
-    et: 'Sisesta märksõna'
+    et: 'Sisesta uudise nimi'
     en: 'Enter news name'
   filter_tag:
     translation_type: textarea
@@ -998,7 +998,7 @@ event:
     en: 'View the list of participants'
   filter_name:
     translation_type: textarea
-    et: 'Sisesta märksõna'
+    et: 'Otsi sündmuste nime järgi'
     en: 'Search by event name'
   filter_tags:
     translation_type: textarea
@@ -2654,7 +2654,7 @@ feedback_send:
   en: Send
 login_tara:
   translation_type: textarea
-  et: 'Sisene TARA-ga'
+  et: 'Riigi autentimisteenus'
   en: 'Login with TARA'
 login_harid:
   translation_type: textarea
