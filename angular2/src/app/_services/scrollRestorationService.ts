@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs';
 @Injectable()
 export class ScrollRestorationService {
   
-  public scrollableRoutes: Array<String> = ['/uudised', '/sündmused', '/erialad'];
+  public scrollableRoutes: Array<String> = ['/uudised', '/sündmused', '/erialad', '/kool', '/ametialad', '/valdkonnad', '/otsing'];
   public currentRoute: string = '';
   public previousRoute: string = '';
   public data: Object = {};
@@ -31,6 +31,14 @@ export class ScrollRestorationService {
         if (decodeURI(pathName).includes(this.currentRoute) && this.previousRoute === this.currentRoute) {
           let data = {
             state: rootScope.get('scrollRestorationState'),
+            url: this.currentRoute,
+            position: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
+          };
+          this.setRouteData(data);
+        // Set current active scrollable route data if routed away from search (special case);
+        } else if (this.previousRoute === '/otsing' && this.previousRoute === this.currentRoute) {
+          let data = {
+            state: false,
             url: this.currentRoute,
             position: window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0
           };

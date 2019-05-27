@@ -755,9 +755,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   initialScrollRestorationSetup(hash) {
     let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
     if (scrollData && this.rootScope.get('scrollRestorationState') && this.view === "list") {
-      this.eventsConfig.offset = !this.eventList && this.scrollRestoration.getRouteKey('limit') ? this.scrollRestoration.getRouteKey('limit') - this.eventsConfig.limit : this.eventsConfig.offset;
+      this.eventsConfig.offset = !this.eventList && scrollData.limit ? scrollData.limit - this.eventsConfig.limit : this.eventsConfig.offset;
       hash['offset'] = !this.eventList ? 0 : this.eventsConfig.offset;
-      hash['limit'] = (!this.eventList && this.scrollRestoration.getRouteKey('limit')) ? this.scrollRestoration.getRouteKey('limit') : this.eventsConfig.limit;
+      hash['limit'] = (!this.eventList && scrollData.limit) ? scrollData.limit : this.eventsConfig.limit;
     }
   }
 
