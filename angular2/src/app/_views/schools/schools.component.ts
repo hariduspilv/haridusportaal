@@ -46,7 +46,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   public production: boolean = true;
   boundsEnabled: boolean = false;
 
-  view: any = sessionStorage.getItem("schools.view") || "list";
+  view: any = "list";
 
   loading: boolean = true;
 

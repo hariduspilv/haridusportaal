@@ -266,19 +266,17 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     this.loadingCalendar = true;
+    // SUBSCRIBE TO QUERY PARAMS
+    this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.path = this.router.url;
+      }
+    );
     //kui jegorr teeb õhtusöögiks 5 kilo spagette, siis sul ei jää muud üle kui hommikusöögiks veel spagette süüa
-    if( sessionStorage.getItem("events.view") ){
-      if(window.innerWidth > 1024) {
-        this.changeView(sessionStorage.getItem("events.view"), false);
-      } else {
-        this.changeView('list')
-      }
-    }else{
-      if((/^\/sündmused\/kalender/g).test(this.path) && window.innerWidth > 1024) {
-        this.changeView('calendar');
-      } else {
-        this.changeView('list');
-      }
+    if((/^\/sündmused\/kalender/g).test(decodeURI(this.path)) && window.innerWidth > 1024) {
+      this.changeView('calendar', false);
+    } else {
+      this.changeView('list', false);
     }
     
     if (window.innerWidth <= 1024) {
@@ -299,12 +297,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     this.lang = this.rootScope.get("lang");
     
-    // SUBSCRIBE TO QUERY PARAMS
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-      }
-    );
+
   
     this.route.queryParams.subscribe( (params: Params) => {
       this.params = params;

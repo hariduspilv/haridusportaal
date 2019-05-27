@@ -18,7 +18,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
   showFilter: boolean;
 
-  view: String = sessionStorage.getItem("schools_funding.view") || "schools";
+  view: String = "schools";
 
   loading: boolean;
 
@@ -442,7 +442,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
     //as the spaniards say - lo haré mañana
     //TODO - more bulletproof solution for this
-    if((/^\/koolide-rahastus\/haldusüksused/g).test(this.path)) {
+    if((/^\/koolide-rahastus\/haldusüksused/g).test(decodeURI(this.path))) {
       this.changeView('areas');
     } else {
       this.changeView(this.view);
