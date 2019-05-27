@@ -222,7 +222,15 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }
 
     sessionStorage.setItem("events.view", view);
-
+    switch(view) {
+      case 'calendar':
+        this.router.navigate(['/sündmused/kalender'], {queryParamsHandling: "preserve"});
+        break;
+      case 'list':
+        this.router.navigate(['/sündmused'], {queryParamsHandling: "preserve"});
+      default:
+        break;
+    }
     if( update ){
       this.status = false;
       this.eventList = false;
@@ -258,11 +266,19 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     this.loadingCalendar = true;
-    if( sessionStorage.getItem("events.view") ){
-      this.changeView(sessionStorage.getItem("events.view"), false);
-    }else{
-      this.changeView("list", false);
+    // SUBSCRIBE TO QUERY PARAMS
+    this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.path = this.router.url;
+      }
+    );
+    //kui jegorr teeb õhtusöögiks 5 kilo spagette, siis sul ei jää muud üle kui hommikusöögiks veel spagette süüa
+    if((/^\/sündmused\/kalender/g).test(decodeURI(this.path)) && window.innerWidth > 1024) {
+      this.changeView('calendar', false);
+    } else {
+      this.changeView('list', false);
     }
+    
     if (window.innerWidth <= 1024) {
       this.filterFull = true;
       this.showFilter = false;
@@ -281,13 +297,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
     this.lang = this.rootScope.get("lang");
     
-    // SUBSCRIBE TO QUERY PARAMS
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-      }
-    );
 
+  
     this.route.queryParams.subscribe( (params: Params) => {
       this.params = params;
       this.eventList = false;
