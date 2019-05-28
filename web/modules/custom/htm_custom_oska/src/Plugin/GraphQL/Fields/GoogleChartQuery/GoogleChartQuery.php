@@ -197,7 +197,7 @@ class GoogleChartQuery extends FieldPluginBase {
                 foreach($labelsums as $label => $value){
                     $data_array[0][] = (string)$label;
                     foreach($value as $key => $val){
-                        $data_array[$key][] = is_string($val) ? $val : round($val);
+                        $data_array[$key][] = is_string($val) || $val === null ? $val : round($val, 2);
                     }
                 }
                 $data_array = array_values($data_array);
@@ -210,7 +210,7 @@ class GoogleChartQuery extends FieldPluginBase {
     public function fillEmptyFields($labelsums, $xlabelval){
         foreach($labelsums as $key => $label){
             if(!isset($label[$xlabelval])){
-                $labelsums[$key][$xlabelval] = 0;
+                $labelsums[$key][$xlabelval] = json_decode('null');
             }
         }
 
