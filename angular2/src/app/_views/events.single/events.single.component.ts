@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked, Input } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit, AfterViewChecked, Input, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService, MetaTagsService } from '@app/_services';
@@ -249,6 +249,11 @@ export class EventsSingleComponent implements AfterViewChecked {
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
       this.initialized = true;
     }
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    this.rootScope.set('scrollRestorationState', true);
   }
 
 }

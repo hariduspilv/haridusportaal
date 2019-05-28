@@ -12,7 +12,7 @@
     </h1>
     <inline-links
       identifier="header"
-      [content]="generalData[0].fieldTopics"
+      [content]="generalData && generalData.length ? generalData[0].fieldTopics : []"
       [contentLabels]="fieldTopicLabels"
       [externalImage]="fieldTopicImage"
       externalLink="button.read_more"

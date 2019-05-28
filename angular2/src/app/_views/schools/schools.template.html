@@ -43,8 +43,7 @@
       <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
-            <mat-select placeholder="{{ 'school.institution_type' | translate }}" [(ngModel)]="filterFormItems.type" name="type">
-              <mat-option>{{ 'button.all' | translate }}</mat-option>
+            <mat-select (selectionChange)="getSubTypes(true)" (openedChange)="typesDropdownSort($event)" multiple='true' placeholder="{{ 'school.institution_type' | translate }}" [(ngModel)]="filterFormItems.type" name="type">
               <ng-container *ngFor="let item of typeOptions">
                 <mat-option *ngIf="item.parentId == null" [value]="item.entityId">
                   {{ item.entityLabel }}
@@ -57,11 +56,10 @@
       </div>
 
       <div class="col-5 sm-12 form-col">
-        <div class="round-input__wrapper" [class.disabled]="getSubTypes('type').length == 0">
+        <div class="round-input__wrapper" [class.disabled]="subtypeOptions.length == 0">
           <mat-form-field>
-            <mat-select [placeholder]="getSubTypes('type').length !== 0 ? translate.get('school.institution_sublevel')['value'] : translate.get('school.institution_select_type')['value']" [(ngModel)]="filterFormItems.subtype" name="subtype">
-              <mat-option *ngIf="getSubTypes('type').length !== 0">{{ 'button.all' | translate }}</mat-option>
-              <mat-option *ngFor="let item of getSubTypes('type')" [value]="item.entityId">
+            <mat-select multiple='true' [disabled]="subtypeOptions.length === 0" (openedChange)="subtypesDropdownSort($event)" [placeholder]="subtypePlaceholder()" [(ngModel)]="filterFormItems.subtype" name="subtype">
+              <mat-option *ngFor="let item of subtypeOptions" [value]="item.entityId">
                 {{ item.entityLabel }}
               </mat-option>
 
@@ -74,8 +72,7 @@
       <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
-            <mat-select placeholder="{{ 'school.language' | translate }}" [(ngModel)]="filterFormItems.language" name="language">
-              <mat-option>{{ 'button.all' | translate }}</mat-option>
+            <mat-select multiple='true' (openedChange)="languageDropdownSort($event)" placeholder="{{ 'school.language' | translate }}" [(ngModel)]="filterFormItems.language" name="language">
               <mat-option *ngFor="let item of languageOptions" [value]="item.entityId">
                 {{ item.entityLabel }}
               </mat-option>
@@ -87,8 +84,7 @@
       <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field>
-            <mat-select placeholder="{{ 'school.ownership' | translate }}" [(ngModel)]="filterFormItems.ownership" name="ownership">
-              <mat-option>{{ 'button.all' | translate }}</mat-option>
+            <mat-select multiple='true' (openedChange)="ownershipDropdownSort($event)" placeholder="{{ 'school.ownership' | translate }}" [(ngModel)]="filterFormItems.ownership" name="ownership">
               <mat-option *ngFor="let item of ownershipOptions" [value]="item.entityId">
                 {{ item.entityLabel }}
               </mat-option>
@@ -157,7 +153,7 @@
     {{ 'school.no_results' | translate }}
   </div>
 
-  <div *ngIf="list && list.length > 0 && view == 'list'">
+  <div #content *ngIf="list && list.length > 0 && view == 'list'">
     <ng-container *ngFor="let item of list">
       <div class="schools__item">
           <div class="schools__item__head sm-hide" *ngIf="item.FieldEducationalInstitutionTy">{{ item.FieldEducationalInstitutionTy }}</div>

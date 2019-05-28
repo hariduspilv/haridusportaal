@@ -1,14 +1,9 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
-import { delay } from 'rxjs/operators/delay';
-
-import { of } from 'rxjs/observable/of';
 
 import 'rxjs/add/operator/map';
-
-import { Observable } from 'rxjs/Observable';
 
 import { RootScopeService } from '@app/_services/rootScopeService';
 
@@ -17,13 +12,14 @@ import { HttpService } from '@app/_services/httpService';
 /* Datepicker Imports */
 import * as _moment from 'moment';
 const moment = _moment;
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
-import { AgmCoreModule } from '@agm/core';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from '@app/_services/settings.service';
-
+import { ScrollRestorationService } from '@app/_services';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { filter } from 'rxjs/operators';
 
 @Component({
   templateUrl: './schools.template.html',
@@ -35,30 +31,32 @@ import { SettingsService } from '@app/_services/settings.service';
 })
 
 export class SchoolsComponent extends FiltersService implements OnInit, OnDestroy{
+  @ViewChild('content') content: ElementRef;
 
   dataSubscription: Subscription;
   parseFloat = parseFloat;
   showFilter: boolean;
-  limit: Number = 24;
-  mapLimit: Number = 3000;
+  limit: number = 24;
+  mapLimit: number = 3000;
 
-  params: object;
-  offset: Number;
+  params: object = {};
+  offset: number;
   list: any;
   listEnd: boolean;
   path: any;
-  lang: any;
+  lang: any = this.rootScope.get('lang');
 
   public production: boolean = true;
   boundsEnabled: boolean = false;
 
-  view: any = sessionStorage.getItem("schools.view") || "list";
+  view: any = "list";
 
   loading: boolean = true;
 
   languageOptions = [];
   ownershipOptions = [];
   typeOptions = [];
+  subtypeOptions = [];
   institutionTypes = [];
 
   map: any;
@@ -90,6 +88,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   subscriptions: Subscription[] = [];
 
   latlngBounds: any;
+  public scrollPositionSet: boolean = false;
 
   constructor(
     private rootScope: RootScopeService,
@@ -99,22 +98,149 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     private http: HttpService,
     private settings: SettingsService,
     private translate: TranslateService,
+    private scrollRestoration: ScrollRestorationService,
+    private deviceDetector: DeviceDetectorService
   ) {
     super(null, null);
-  }
-
-  getSubTypes(key:any){
-    let output = [];
-    
-    if( this.filterFormItems[key] && this.filterFormItems[key] !== "" ){
-      for( let i in this.typeOptions ){
-        if( this.typeOptions[i].parentId == this.filterFormItems[key] ){
-          output.push( this.typeOptions[i] );
-        }
+    let subscription = router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if((/^\/kool\/kaart/g).test(decodeURI(event.url))) {
+        this.changeView('map');
+      } else {
+        this.changeView('list');
       }
+    });
+    this.subscriptions = [...this.subscriptions, subscription];
+  }
+  //why
+  //this is not DRY for reasons, identical functions currently for separation of concerns
+  //problem is that i couldnt trust the data while these parts were developed
+  //other filters have similar(but not identical, maybe) functions that should be lifted up into filters service
+  //these tickets were not all made at the same time
+  //TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO TODO
+  //REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR REFACTOR
+  languageDropdownSort(e) {
+    if(!e) {
+      let selected = [];
+      if(this.filterFormItems.language){
+        selected = this.languageOptions.filter(e => this.filterFormItems.language.find(x => x === e.entityId)).sort((a,b) => { 
+          if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()){
+            return 1;
+          }
+          return -1;
+        });
+      }
+      const otherValues = this.languageOptions.filter(e => !selected.find(x => x.entityId === e.entityId)).sort((a,b) => { 
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()){
+          return 1;
+        }
+        return -1;
+      });;
+      this.languageOptions = [...selected, ...otherValues];
     }
-
-    return output;
+  }
+  ownershipDropdownSort(e){
+    if(!e) {
+      let selected = [];
+      if(this.filterFormItems.ownership){
+        selected = this.ownershipOptions.filter(e => this.filterFormItems.ownership.find(x => x === e.entityId)).sort((a,b) => {
+          if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+            return 1;
+          }
+          return -1;
+        })
+      }
+      const otherValues = this.ownershipOptions.filter(e => !selected.find(x => x.entityId === e.entityId)).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      });
+      this.ownershipOptions = [...selected, ...otherValues];
+    }
+  } 
+  typesDropdownSort(e) {
+    if(!e) {
+      let selected = [];
+      if(this.filterFormItems.type) {
+        selected = this.typeOptions.filter(e => this.filterFormItems.type.find(x => e.entityId === x)).sort((a, b) => {
+          if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+            return 1;
+          }
+          return -1;
+        });
+      }
+      let otherValues = this.typeOptions.filter(e => !selected.find(x => e.entityId === x.entityId)).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      });
+      this.validateSubtypes();
+      if(selected.length === 0) {
+        this.filterFormItems.subtype = '';
+      }
+      this.typeOptions = [...selected, ...otherValues];
+    }
+  }
+  subtypesDropdownSort(e) {
+    if(!e) {
+      this.getSubTypes(true);
+    }
+  }
+  getSubTypes(closedDropdown = false){
+    let output = [];
+    let selected = [];
+    if(this.filterFormItems.type) {
+      output = this.typeOptions.filter(e => {
+        return this.filterFormItems.type.find(x => {
+          return e.parentId === parseInt(x);
+        });
+      });
+    }
+    if(this.filterFormItems.subtype && closedDropdown) {
+      selected = output.filter(e => this.filterFormItems.subtype.find(x => e.entityId === x)).sort((a, b) => {
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      });
+    }
+    const otherValues = output.filter(e => !selected.find(x => x.entityId === e.entityId)).sort((a, b) => {
+      if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
+        return 1
+      }
+      return -1;
+    });
+    if(output.length === 0) {
+      delete this.params['subtype'];
+    }
+    this.subtypeOptions = [...selected, ...otherValues];
+  }
+  validateSubtypes() {
+    if(this.filterFormItems.subtype) {
+      const fullSelectedSubtypes = this.typeOptions.filter(e => this.filterFormItems.subtype.find(x => e.entityId === x));
+      const validFilteredSubtypes = fullSelectedSubtypes.filter(e => this.filterFormItems.type.find(x => e.parentId === parseInt(x)));
+      this.filterFormItems.subtype = this.filterFormItems.subtype.filter(e => validFilteredSubtypes.find(x => parseInt(e) === parseInt(x.entityId)));
+    }
+  }
+  fillTypesBySubtype() {
+    if(this.params['subtype']) {
+      const fullSelectedSubtypes = this.typeOptions.filter(e => this.filterFormItems.subtype.find(x => e.entityId === x));;
+      const typesOfSelectedSubtypes = this.typeOptions.filter(e => fullSelectedSubtypes.find(x => parseInt(e.entityId) === x.parentId));
+      this.filterFormItems.type = typesOfSelectedSubtypes.map(e => e.entityId);
+    }
+  }
+  //why
+  subtypePlaceholder() {
+    if(this.subtypeOptions.length > 0) {
+      return this.translate.get('school.institution_sublevel')['value']
+    }
+    if(this.filterFormItems.type && this.filterFormItems.type.length > 0 && this.subtypeOptions.length === 0) {
+      return this.translate.get('school.no_subtype')['value'];
+    }
+    return this.translate.get('school.institution_select_type')['value'];
   }
   mapReady(map){
 
@@ -180,10 +306,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = this.rootScope.get("lang");
       }
     );
-
     this.subscriptions = [...this.subscriptions, subscribe];
   }
   
@@ -207,17 +331,39 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.view = view;
     sessionStorage.setItem("schools.view", view.toString());
     this.reset();
+    switch(view) {
+      case 'map':
+        this.router.navigate(['/kool/kaart'], {queryParamsHandling: "preserve"});
+        break;
+      case 'list':
+        this.router.navigate(['/kool'], {queryParamsHandling: "preserve"});
+      default:
+        break;
+    }
   }
 
   watchSearch() {
 
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
-      this.params = params;
+      const paramsKeys = Object.keys(params);
+      let newParams = {};
+      paramsKeys.forEach((e) => {
+        switch (e) {
+          case 'ownership':
+          case 'language':
+          case 'type':
+          case 'subtype':
+            newParams[e] = params[e].split(',');
+            break;
+          default:
+            newParams[e] = params[e];
+            break;
+        }
+      })
+      this.params = newParams;
       this.reset();
     });
-
     this.filterRetrieveParams( this.params );
-
     // Add subscription to main array for destroying
     this.subscriptions = [ ...this.subscriptions, subscribe];
   }
@@ -257,15 +403,20 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
-    
-    let types = [];
-    if( this.params['type'] ){
-      types = this.params['type'].split(",");
-      if( this.params['subtype'] ){
-        types.push(this.params['subtype'].split(",")[0]);
-      }
+    if(this.params !== undefined && this.params['subtype'] || this.params['type'] || this.params['ownership'] || this.params['specialClass'] || this.params['studentHome'] || this.params['language']) {
+      this.filterFull = true;
     }
-
+    this.validateSubtypes();
+    //do some reverse search magic
+    let types = [];
+    if(this.params['subtype'] && this.params['type']) {
+      const fullSubtypes = this.typeOptions.filter(e => this.params['subtype'].find(x => x === e.entityId));
+      const cleanedTypes = this.params['type'].filter(e => !fullSubtypes.find(x => x.parentId === parseInt(e)));
+      types = [...cleanedTypes, ...this.params['subtype']];
+    } else if(this.params['type']){
+      types = this.params['type'];
+    }
+    //fuck me
     let variables = {
       lang: this.lang.toUpperCase(),
       offset: this.offset,
@@ -278,11 +429,11 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       maxLon: this.bounds.maxLon,
       location: this.params['location'] ? ""+this.params['location']+"" : "",
       locationEnabled: this.params['location'] ? true : false,
-      type: this.params['type'] ? types :  [],
+      type: types.length ? types :  [],
       typeEnabled: this.params['type'] ? true : false,
-      language: this.params['language'] ? this.params['language'].split(",") :  [],
+      language: this.params['language'] ? this.params['language']:  [],
       languageEnabled: this.params['language'] ? true : false,
-      ownership: this.params['ownership'] ? this.params['ownership'].split(",") :  [],
+      ownership: this.params['ownership'] ? this.params['ownership']:  [],
       ownershipEnabled: this.params['ownership'] ? true : false,
       specialClass: this.params['specialClass'] ? "1" :  "",
       specialClassEnabled: this.params['specialClass'] ? true : false,
@@ -290,6 +441,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       studentHomeEnabled: this.params['studentHome'] ? true : false,
     }
 
+    this.initialScrollRestorationSetup(variables);
+    
     this.dataSubscription = this.http.get('schoolMapQuery', { params: variables }).subscribe(data => {
 
       let entities = data['data']['CustomElasticQuery'];
@@ -352,13 +505,21 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.languageOptions = options.reverseFieldTeachingLanguageNode;
     this.ownershipOptions = options.reverseFieldOwnershipTypeNode;
     this.typeOptions = options.reverseFieldEducationalInstitutionTyNode;
-
+    this.watchSearch();
     this.filterFormItems.languages = this.params['languages'] || '';
     this.filterFormItems.types = this.params['types'] || '';
     this.filterFormItems.ownership = this.params['ownership'] || '';
+    this.fillTypesBySubtype();
+    this.typesDropdownSort(false);
+    this.subtypesDropdownSort(false);
+    this.languageDropdownSort(false);
+    this.ownershipDropdownSort(false);
   }
 
   ngOnInit() {
+    this.lang = this.rootScope.get("lang");
+
+    this.pathWatcher();
 
     if( this.settings.url == "https://htm.wiseman.ee" || this.settings.url == "http://test-htm.wiseman.ee:30000" ){
       this.production = false;
@@ -366,13 +527,17 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
 
     this.mapOptions.styles = this.rootScope.get("mapStyles");
     
-    this.showFilter = window.innerWidth > 1024;
-    this.filterFull = window.innerWidth < 1024;
+    this.showFilter = this.deviceDetector.isDesktop();
+    this.filterFull = this.deviceDetector.isMobile() || this.deviceDetector.isTablet();
 
-    this.pathWatcher();
-    this.watchSearch();
     this.getOptions();
-
+    //as the spaniards say - lo haré mañana
+    //TODO - more bulletproof solution for this
+    if((/^\/kool\/kaart/g).test(this.path)) {
+      this.changeView('map');
+    } else {
+      this.changeView(this.view);
+    }
   }
   
   ngOnDestroy() {
@@ -381,6 +546,26 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
+    }
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.limit + this.offset)
+    }
+  }
+
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
+    if (scrollData && this.rootScope.get('scrollRestorationState') && this.view === 'list') {
+      this.offset = !this.list && scrollData.limit ? scrollData.limit - this.limit : this.offset;
+      hash['offset'] = !this.list ? 0 : this.offset;
+      hash['limit'] = (!this.list && scrollData.limit) ? scrollData.limit : this.limit;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null && this.view === 'list') {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.rootScope.set('scrollRestorationState', false);
     }
   }
 }

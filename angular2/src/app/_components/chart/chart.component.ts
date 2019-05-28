@@ -7,24 +7,25 @@ import { HttpService } from '@app/_services/httpService';
   styleUrls: ["chart.styles.scss"]
 })
 
-export class ChartComponent implements OnInit{
+export class ChartComponent implements OnInit {
   @Input() data;
-  @Input () type = 'default';
+  @Input() type = 'default';
   @Input() height = 500;
   @Input() wide = false;
 
-  chartData:any = [];
+  chartData: any = [];
 
   objectKeys = Object.keys;
 
-  filters:any = {};
+  filters: any = {};
+  unselectableFilters: any = {};
 
-  filtersData:any = {};
+  filtersData: any = {};
 
   requestDebounce = {};
   requestSubscription = {};
 
-  initiallyFilledSelects = ['näitaja', 'valdkond', 'näitaja2'];
+  initiallyFilledSelects = ['näitaja', 'valdkond'];
 
   constructor(
     private http: HttpService
@@ -32,7 +33,7 @@ export class ChartComponent implements OnInit{
 
   }
 
-  getGraphOptions()  {
+  getGraphOptions() {
 
     return {
       height: this.height,
@@ -41,16 +42,16 @@ export class ChartComponent implements OnInit{
         bottom: 75
       },
       pieSliceTextStyle: {
-        "color": '#ffffff'
+        'color': '#ffffff'
       },
       curveType: "function",
       lineWidth: 3,
       pointsVisible: true,
       pointSize: 10,
       legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
-      colors: ['#161B5B','#293193','#4C53AD','#824CAD','#AD4CA3'],
+      colors: ['#161B5B', '#293193', '#4C53AD', '#824CAD', '#AD4CA3'],
 
-      animation:{
+      animation: {
         duration: 1000,
         easing: 'out',
         startup: true
@@ -58,13 +59,13 @@ export class ChartComponent implements OnInit{
     }
   }
 
-  capitalize = function(input) {
+  capitalize = function (input) {
     return input.charAt(0).toUpperCase() + input.slice(1);
   }
 
-  getFormat( unit ){
+  getFormat(unit) {
     let format;
-    switch( unit ){
+    switch (unit) {
       case '%': {
         format = 'percent';
         break;
@@ -80,33 +81,33 @@ export class ChartComponent implements OnInit{
     return format;
   }
 
-  dividePercentage( value ){
-    try{
-      return value = value.map( item => {
-        return item.map( col => {
-          if( !isNaN( col ) && typeof col == 'number' ){
-            return col/100;
-          }else{
+  dividePercentage(value) {
+    try {
+      return value = value.map(item => {
+        return item.map(col => {
+          if (!isNaN(col) && typeof col == 'number') {
+            return col / 100;
+          } else {
             return col;
           }
         });
       });
-    }catch(err){
+    } catch (err) {
       return value;
     }
   }
 
   formatRangeValue(primaryFormat, value) {
 
-    if( !value ){
+    if (!value) {
       return 0;
     }
     let tmp;
-    if( primaryFormat == '#€' ){
-      tmp = parseInt(value)+"€";
-    }else if( primaryFormat == 'percent'){
-      tmp = (parseInt(value) )/100;
-    }else{
+    if (primaryFormat == '#€') {
+      tmp = parseInt(value) + "€";
+    } else if (primaryFormat == 'percent') {
+      tmp = (parseInt(value)) / 100;
+    } else {
       tmp = parseInt(value);
     }
 
@@ -114,32 +115,35 @@ export class ChartComponent implements OnInit{
   }
 
   getGraphHeight(value, type) {
-    if( !value[0] || !value[1] ){
+    if (!value[0] || !value[1]) {
       return this.height;
     }
-    else if( type !== 'stacked bar 100' && type !== 'clustered bar'){
+    else if (type !== 'stacked bar 100' && type !== 'clustered bar') {
       return this.height;
     }
 
-    const rows = value.length-1;
-    const cols = value[1].length-1;
+    const rows = value.length - 1;
+    const cols = value[1].length - 1;
     let height;
 
-    if( type == 'clustered bar' ){
-      height = rows * cols * 20;
-    }else{
+    if (type == 'clustered bar') {
+      height = rows * cols * 10;
+    }
+    else if (type == 'stacked bar 100') {
+      height = rows * 48;
+    } else {
       height = rows * 28;
     }
 
 
-    if( type == 'clustered bar' ){
-      height+= (rows-1)*40;
+    if (type == 'clustered bar') {
+      height += (rows - 1) * 40;
     }
 
     //height = height / 0.75;
-    height+= 150; //graph legend & title space
+    height += 150; //graph legend & title space
 
-    if( height < 400 ){
+    if (height < 400) {
       height = 400;
     }
 
@@ -147,59 +151,59 @@ export class ChartComponent implements OnInit{
 
   }
 
-  compileData(inputData:any = false) {
+  compileData(inputData: any = false) {
 
     var output = [];
 
     let data = inputData || this.data;
 
-    for( let i in data ){
+    for (let i in data) {
       let current = data[i];
-      let value = JSON.parse( current.value );
+      let value = JSON.parse(current.value);
       let graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       let graphIndicator = current.graphIndicator;
       let graphTitle = current.graphTitle;
       let secondaryGraphType = current.secondaryGraphType;
-      let isStacked:any = false;
-      let seriesType:any = false;
+      let isStacked: any = false;
+      let seriesType: any = false;
       let primaryFormat;
 
-      if( chartType == "Doughnut" ){
+      if (chartType == "Doughnut") {
         chartType = "Pie";
       }
-      
-      if( current.options.graph_y_unit ){
+
+      if (current.options.graph_y_unit) {
         primaryFormat = this.getFormat(current.options.graph_y_unit);
       }
 
-      switch( chartType.toLowerCase() ){
-        case 'clustered bar' : {
+      switch (chartType.toLowerCase()) {
+        case 'clustered bar': {
           isStacked = false;
           chartType = "Bar";
           seriesType = 'bars';
           break;
         }
-        case 'clustered column' : {
+        case 'clustered column': {
           isStacked = false;
           chartType = "Column";
           seriesType = 'bars';
           break;
         }
-        case 'stacked bar' : {
+        case 'stacked bar': {
           isStacked = true;
           chartType = "Bar";
           seriesType = 'bars';
           break;
         }
-        case 'stacked bar 100' : {
+        case 'stacked bar 100': {
           isStacked = 'percent';
           chartType = "Bar";
           seriesType = 'bars';
           primaryFormat = 'percent';
           break;
         }
-        case 'stacked column 100' : {
+        case 'stacked column 100': {
           isStacked = 'percent';
           chartType = "Column";
           seriesType = 'columns';
@@ -213,13 +217,13 @@ export class ChartComponent implements OnInit{
         }
       }
 
-      if( primaryFormat == 'percent' ){
+      if (primaryFormat == 'percent') {
         //value = this.dividePercentage( value );
       }
 
-      let graphName = chartType+"Chart";
+      let graphName = chartType + "Chart";
 
-      if( chartType && secondaryGraphType ){
+      if (chartType && secondaryGraphType) {
         graphName = "ComboChart"
       }
 
@@ -240,11 +244,11 @@ export class ChartComponent implements OnInit{
         format: primaryFormat
       };
 
-      if( current.options.graph_y_min ){
+      if (current.options.graph_y_min) {
         tmp.options['vAxis']['minValue'] = this.formatRangeValue(primaryFormat, current.options.graph_y_min);
       }
 
-      if( isStacked == 'percent'){
+      if (isStacked == 'percent') {
         tmp.options['vAxis']['minValue'] = 0;
       }
 
@@ -252,41 +256,41 @@ export class ChartComponent implements OnInit{
         format: '####'
       };
 
-      if( chartType == 'Bar' && isStacked == 'percent' ){
+      if (chartType == 'Bar' && isStacked == 'percent') {
         tmp.options['hAxis'] = {
           format: primaryFormat
         };
       }
 
       let filters = false;
-      if( current.id ){
+      if (current.id) {
         filters = this.filters[current.id];
       }
 
-      if( graphName == "BarChart" ){
+      if (graphName == "BarChart") {
 
-        if( current.graphIndicator || current.secondaryGraphIndicator){
+        if (current.graphIndicator || current.secondaryGraphIndicator) {
           tmp['options']['hAxes'] = {};
-          if( current.graphIndicator ){
+          if (current.graphIndicator) {
             tmp['options']['hAxes'][0] = {
               title: current.graphIndicator
             };
           }
-          if( current.secondaryGraphIndicator ){
+          if (current.secondaryGraphIndicator) {
             tmp['options']['hAxes'][1] = {
               title: current.secondaryGraphIndicator
             };
           }
         }
-      }else{
-        if( current.graphIndicator || current.secondaryGraphIndicator){
+      } else {
+        if (current.graphIndicator || current.secondaryGraphIndicator) {
           tmp['options']['vAxes'] = {};
-          if( current.graphIndicator ){
+          if (current.graphIndicator) {
             tmp['options']['vAxes'][0] = {
               title: current.graphIndicator
             };
           }
-          if( current.secondaryGraphIndicator ){
+          if (current.secondaryGraphIndicator) {
             tmp['options']['vAxes'][1] = {
               title: current.secondaryGraphIndicator
             };
@@ -294,28 +298,28 @@ export class ChartComponent implements OnInit{
         }
       }
 
-      if( current.graphType == "doughnut" ){
+      if (current.graphType == "doughnut") {
         tmp.options['pieHole'] = 0.4;
       }
 
-      if( chartType && secondaryGraphType ){
+      if (chartType && secondaryGraphType) {
 
-        let newType = seriesType  || chartType;
+        let newType = seriesType || chartType;
 
-        if( newType == "Bar" ){
+        if (newType == "Bar") {
           newType = "bars";
-        }else if( newType == "column" ){
+        } else if (newType == "column") {
           newType = "bars";
         }
 
-        if( secondaryGraphType == "bar" ){
+        if (secondaryGraphType == "bar") {
           secondaryGraphType = "bars";
         }
 
-        if( secondaryGraphType == "column" ){
+        if (secondaryGraphType == "column") {
           secondaryGraphType = "columns";
         }
-        
+
         tmp.options['seriesType'] = newType;
 
         tmp.options['series'] = {
@@ -324,16 +328,16 @@ export class ChartComponent implements OnInit{
           }
         }
 
-        if( filters && filters['näitaja2'] && filters['näitaja2'].length > 0 ){
+        if (filters && filters['näitaja2'] && filters['näitaja2'].length > 0) {
           let lineColors = ['#FFE7C1', '#BEE3E8'];
           let colorCounter = 0;
 
-          for( let i in filters['näitaja2'] ){
+          for (let i in filters['näitaja2']) {
 
             let index = value[0].indexOf(filters['näitaja2'][i]);
 
-            tmp.options.colors[index-1] = lineColors[colorCounter];
-            tmp.options['series'][index-1] = {
+            tmp.options.colors[index - 1] = lineColors[colorCounter];
+            tmp.options['series'][index - 1] = {
               type: secondaryGraphType,
               targetAxisIndex: 1,
               viewWindow: {
@@ -341,37 +345,41 @@ export class ChartComponent implements OnInit{
               }
             };
             colorCounter++;
-            if( colorCounter > lineColors.length ){ colorCounter = 0; }
+            if (colorCounter > lineColors.length-1) { colorCounter = 0; }
           }
         }
 
       }
-      
+
       output.push(tmp);
+      output[0].dataTable[2][1] = null;
+      output[0].dataTable[2][2] = null;
+      output[0].dataTable[6][2] = null;
+      console.log(output[0].dataTable);
 
     }
 
-    if( inputData ){
+    if (inputData) {
       return output[0];
-    }else{
+    } else {
       this.chartData = output;
     }
 
   }
 
-  generateID( length = 10 ) {
+  generateID(length = 10) {
     let str = '';
-    for( let i = 0; i < length; i++ ){
-      str+= (Math.random() * 36).toString(36).substr(2,1);
+    for (let i = 0; i < length; i++) {
+      str += (Math.random() * 36).toString(36).substr(2, 1);
     }
     return str;
   }
 
   parseData() {
 
-    this.data = this.data.map( ( item ) => {
+    this.data = this.data.map((item) => {
 
-      item.filterValues = JSON.parse( item.filterValues );
+      item.filterValues = JSON.parse(item.filterValues);
 
       item.id = this.generateID();
 
@@ -379,29 +387,29 @@ export class ChartComponent implements OnInit{
       item.graph_v_axis = item.filterValues.graph_options.graph_v_axis;
       item.secondaryGraphType = item.filterValues.graph_options.secondary_graph_type;
 
-      this.filters[ item.id ] = {};
+      this.filters[item.id] = {};
 
       let multipleIndicators = true;
 
-      try{
+      try {
 
-        if( item.filterValues.graph_options.secondary_graph_indicator ){
+        if (item.filterValues.graph_options.secondary_graph_indicator) {
           let secondaryGraphIndicator = item.filterValues.graph_options.secondary_graph_indicator;
-          item.secondaryGraphIndicator = secondaryGraphIndicator[ Object.keys(secondaryGraphIndicator)[0] ];
+          item.secondaryGraphIndicator = secondaryGraphIndicator[Object.keys(secondaryGraphIndicator)[0]];
         }
 
         let tmpFilters = [];
-        
-        for( let i in item.filterValues.graph_options.graph_filters ){
+
+        for (let i in item.filterValues.graph_options.graph_filters) {
           let current = item.filterValues.graph_options.graph_filters[i];
 
           let options = [];
 
-          for( let o in current ){
+          for (let o in current) {
             options.push(current[o]);
           };
 
-          if( (i == 'valdkond' || i == 'ametiala' || i == 'alavaldkond') && options.length > 1 ){
+          if ((i == 'valdkond' || i == 'ametiala' || i == 'alavaldkond') && options.length > 1) {
             multipleIndicators = false;
           }
 
@@ -412,36 +420,30 @@ export class ChartComponent implements OnInit{
               options: options
             }
           );
-          
+
         }
 
-        try{
-          let indicator = item.filterValues.graph_options.secondary_graph_indicator;
-          let tmp = [];
-          for( let i in indicator ){
-            tmp.push(indicator[i]);
-          }
+        try {
+          let secondaryIndicators = [];
 
-          if( tmp.length > 0 ){
-            tmpFilters.push({
-              key: 'näitaja2',
-              multiple: multipleIndicators,
-              options: tmp
-            });
-            this.filters[ item.id ]['näitaja2'] = tmp[0];
-          }
-          
-        }catch(err){}
+          let indicator = item.filterValues.graph_options.indicators;
+            for (let i in indicator) {
+              let indicatorValue = Object.keys(indicator[i].indicator_set.secondary_graph_indicator);
+              secondaryIndicators[i] = indicatorValue;
+            }
+            this.unselectableFilters.näitaja2 = secondaryIndicators;
+
+        } catch (err) { }
 
         item.filters = tmpFilters;
 
-      }catch(err){
+      } catch (err) {
         console.error("Couldn't parse filters!");
       }
-      
+
       let hasGroups = false;
 
-      try{
+      try {
 
         let groupBy = {
           key: 'groupBy',
@@ -449,44 +451,50 @@ export class ChartComponent implements OnInit{
           options: []
         };
 
-        for( let i in item.graph_group_by ){
+        for (let i in item.graph_group_by) {
           groupBy.options.push(item.graph_group_by[i]);
         }
 
-        this.filters[ item.id ]['groupBy'] = groupBy.options[0];
-        
+        this.filters[item.id]['groupBy'] = groupBy.options[0];
+
         item.filters.unshift(groupBy);
 
         hasGroups = true;
 
-      }catch(err){}
+      } catch (err) { }
 
-      try{
+      try {
         let options = [];
 
-        for( let i in item.filterValues.graph_options.graph_indicator ){
-          options.push(item.filterValues.graph_options.graph_indicator[i]);
+        if (item.graphType === 'line') {
+          for (let i in item.filterValues.graph_options.graph_indicator) {
+            options.push(item.filterValues.graph_options.graph_indicator[i]);
+          }
+        } else {
+          for (let i in item.filterValues.graph_options.indicators) {
+            options[i] = item.filterValues.graph_options.indicators[i].indicator_set.graph_indicator;
+          }
         }
 
         let splicePos = 0;
 
-        if( hasGroups ){
+        if (hasGroups) {
           splicePos = 1;
         }
-        
-        item.filters.splice( splicePos, 0, {
+
+        item.filters.splice(splicePos, 0, {
           key: 'näitaja',
-          multiple: multipleIndicators,
+          multiple: false,
           options: options
         });
 
-      }catch(err){
+      } catch (err) {
         console.error("Couldn't parse indicators!");
       }
 
-      this.setInitialValues( item.id );
+      this.setInitialValues(item.id);
 
-      this.getGraphData( item.id );
+      this.getGraphData(item.id);
 
       return item;
 
@@ -496,19 +504,19 @@ export class ChartComponent implements OnInit{
 
   setInitialValues(id) {
 
-    let item = this.data.filter( entry => {
-      if( entry.id == id ){ return entry; }
+    let item = this.data.filter(entry => {
+      if (entry.id == id) { return entry; }
     })[0];
 
-    for( let i in item.filters ){
+    for (let i in item.filters) {
       let current = item.filters[i];
       let options = current.options;
 
-      if( current.multiple ){
+      if (current.multiple) {
         this.filters[item.id][current.key] = options;
       }
-      else if( options.length > 0 ){
-        if( this.initiallyFilledSelects.indexOf( current.key ) !== -1 ){
+      else if (options.length > 0) {
+        if (this.initiallyFilledSelects.indexOf(current.key) !== -1) {
           this.filters[item.id][current.key] = current.multiple ? [options[0]] : options[0];
         }
       }
@@ -517,56 +525,61 @@ export class ChartComponent implements OnInit{
 
   }
 
-  getGraphData( id ) {
+  getGraphData(id) {
 
-    clearTimeout( this.requestDebounce[id] );
+    clearTimeout(this.requestDebounce[id]);
 
-    this.requestDebounce[id] = setTimeout( () => {
+    this.requestDebounce[id] = setTimeout(() => {
 
-      if( this.requestSubscription[id] ){
+      if (this.requestSubscription[id]) {
         this.requestSubscription[id].unsubscribe();
       }
-      
-      let current = this.data.filter( (item) => {
-        if( id == item.id ){
+
+      let current = this.data.filter((item) => {
+        if (id == item.id) {
           return item;
         }
       })[0];
-  
+
       let filters = this.filters[current.id];
-  
-      if( !this.filtersData[current.id] ){ this.filtersData[current.id] = {}; }
+      let unselectableFilters = this.unselectableFilters;
+
+      if (!this.filtersData[current.id]) { this.filtersData[current.id] = {}; }
 
       this.filtersData[current.id].loading = true;
 
-      let professionList = current.filters.filter( x => x.key == 'ametiala' ).map( y => y.options)[0];
-      let subFieldList = current.filters.filter( x => x.key == 'alavaldkond' ).map( y => y.options)[0];
-      let fieldList = current.filters.filter( x => x.key == 'valdkond' ).map( y => y.options)[0];
-      let secondaryIndicatorList = current.filters.filter( x => x.key == 'näitaja2' ).map( y => y.options)[0];
+      let professionList = current.filters.filter(x => x.key === 'ametiala').map(y => y.options)[0];
+      let subFieldList = current.filters.filter(x => x.key === 'alavaldkond').map(y => y.options)[0];
+      let fieldList = current.filters.filter(x => x.key === 'valdkond').map(y => y.options)[0];
 
-      if( !secondaryIndicatorList || secondaryIndicatorList.length == 0 ){
-        secondaryIndicatorList = '';
+      const secondaryIndicatorList = '';
+      if (typeof unselectableFilters['näitaja2'] !== 'undefined') {
+        current.filters.filter(obj => {
+          if (obj.key === 'näitaja') {
+            filters['näitaja2'] = unselectableFilters['näitaja2'][obj.options.indexOf(filters['näitaja'])];
+          }
+        });
       }
 
-      if( !professionList || professionList.length == 0 ){
+      if (!professionList || professionList.length == 0) {
         professionList = '';
       }
 
-      if( !subFieldList || subFieldList.length == 0 ){
+      if (!subFieldList || subFieldList.length == 0) {
         subFieldList = '';
       }
 
-      if( !fieldList || fieldList.length == 0 ){
+      if (!fieldList || fieldList.length == 0) {
         fieldList = '';
       }
 
       let variables = {
         graphType: current['graphType'],
         secondaryGraphType: current.secondaryGraphType,
-        secondaryGraphIndicator:  filters['näitaja2'] && filters['näitaja2'].length > 0  ? filters['näitaja2'] : secondaryIndicatorList,
+        secondaryGraphIndicator: filters['näitaja2'] && filters['näitaja2'].length > 0 ? filters['näitaja2'] : secondaryIndicatorList,
         indicator: filters['näitaja'].length > 0 ? filters['näitaja'] : false,
-        oskaField: filters.valdkond && filters.valdkond.length > 0  ? filters.valdkond : fieldList,
-        oskaSubField: filters.alavaldkond && filters.alavaldkond.length > 0  ? filters.alavaldkond : subFieldList,
+        oskaField: filters.valdkond && filters.valdkond.length > 0 ? filters.valdkond : fieldList,
+        oskaSubField: filters.alavaldkond && filters.alavaldkond.length > 0 ? filters.alavaldkond : subFieldList,
         oskaMainProfession: filters.ametiala && filters.ametiala.length > 0 ? filters.ametiala : professionList,
         period: filters.periood || '',
         label: filters.silt || '',
@@ -574,30 +587,30 @@ export class ChartComponent implements OnInit{
         graphVAxis: current['graph_v_axis']
       }
 
-      if( !variables.indicator ){
-        try{
+      if (!variables.indicator) {
+        try {
           let tmpIndicators = [];
-          for( let i in current.filterValues.graph_options.graph_indicator ){
+          for (let i in current.filterValues.graph_options.graph_indicator) {
             tmpIndicators.push(i);
           }
           variables.indicator = tmpIndicators;
-        }catch(err){
+        } catch (err) {
 
         }
       }
 
 
       let tmpVariables = {};
-  
-      for( let i in variables ){
-        if( variables[i] !== ''){
+
+      for (let i in variables) {
+        if (variables[i] !== '') {
           tmpVariables[i] = variables[i];
         }
       }
-  
-      this.requestSubscription[id] = this.http.get('googleChartData', { params: tmpVariables} ).subscribe( (response) => {
 
-        let data = response['data'].GoogleChartQuery.map( (item) => {
+      this.requestSubscription[id] = this.http.get('googleChartData', { params: tmpVariables }).subscribe((response) => {
+
+        let data = response['data'].GoogleChartQuery.map((item) => {
 
           let type = variables['graphType'];
 
@@ -606,40 +619,40 @@ export class ChartComponent implements OnInit{
             /*graphIndicator: 'Mis ma siia panen? :O',*/
             graphTitle: current.graphTitle,
             value: item.ChartValue,
-            secondaryGraphType:	variables['secondaryGraphType'],
-            secondaryGraphIndicator:	null,
+            secondaryGraphType: variables['secondaryGraphType'],
+            secondaryGraphIndicator: null,
             options: current['filterValues']['graph_options'],
             id: current['id']
           }
         });
 
-        this.filtersData[current.id] = this.compileData( data );
+        this.filtersData[current.id] = this.compileData(data);
 
         this.filtersData[current.id].loading = false;
 
         this.requestSubscription[id].unsubscribe();
         this.requestSubscription[id] = false;
 
-      }, (err) =>{
+      }, (err) => {
         this.filtersData[current.id].loading = false;
       });
     }, 300);
-    
+
   }
 
   ngOnInit() {
 
-    switch( this.type ){
+    switch (this.type) {
       case 'filter': {
-        try{
+        try {
           this.parseData();
-        }catch(err){}
+        } catch (err) { }
         break;
       }
       default: {
-        try{
+        try {
           this.compileData();
-        }catch(err){}
+        } catch (err) { }
       }
     }
   }

@@ -32,10 +32,9 @@ const XJSON_DATEPICKER_FORMAT = {
   }
 };
 @Component({
-  templateUrl: './xjson.template.html',
-  styleUrls: ['./xjson.styles.scss'],
+  templateUrl: 'xjson.template.html',
+  styleUrls: ['../xjson/xjson.styles.scss'],
   providers: [
-    { provide: DateAdapter, useClass: MomentDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT },
   ]
 })
@@ -57,10 +56,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
   public datepickerFocus = false;
+  public acceptable_forms_list_restricted = true;
   public temporaryModel = {};
   public data;
   public edit_step = false;
   public empty_data = false;
+  public acceptable_forms = [];
+  public acceptable_forms_limit = 4;
   public opened_step;
   public max_step;
   public current_acceptable_activity: string[];
@@ -132,14 +134,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value));
           this.addressAutocomplete(data_elements[element].value, 0, element, true);
         }
-      } else if (data_elements[element].type === 'table'){
+      } else if (data_elements[element].type === 'table') {
         Object.keys(data_elements[element].table_columns).forEach(tableElement => {
-          if(data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value){
+          if (data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value) {
             if (typeof data_elements[element].table_columns[tableElement].value === 'object') {
               if (data_elements[element].table_columns[tableElement].value.addressHumanReadable) {
                 this.autoCompleteContainer[element][tableElement] = [data_elements[element].table_columns[tableElement].value];
                 this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value.addressHumanReadable));
-    
+
               } else {
                 data_elements[element].table_columns[tableElement].value = null;
               }
@@ -166,8 +168,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   addressAutocompleteSelectionValidation(element) {
-
-    console.log(this.autoCompleteContainer);
 
     if (this.autoCompleteContainer[element] === undefined) {
       return this.temporaryModel[element] = null;
@@ -207,20 +207,21 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  addressAutocompleteTable(searchText: string, debounceTime: number = 300, element, col, row, autoselectOnMatch: boolean = false){
+  addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false, col: string = '', row: number = 0, table: boolean = false) {
+
     if (searchText.length < 3) { return; }
 
-    const index = Array.prototype.join.call(element, col, row);
+    const index = table ? Array.prototype.join.call(element, col, row) : element;
 
     if (this.autocompleteDebouncer[index]) { clearTimeout(this.autocompleteDebouncer[index]); }
 
-    if (this.autocompleteSubscription[index] !== undefined) {
-      this.autocompleteSubscription[index].unsubscribe();
-    }
+    if (this.autocompleteSubscription[index] !== undefined) { this.autocompleteSubscription[index].unsubscribe(); }
+
     const _this = this;
-    const limit = this.data_elements[element].value[row][col].results || 10;
-    const ihist = this.data_elements[element].value[row][col].ihist || 0;
-    const apartment = this.data_elements[element].value[row][col].appartment || 0;
+
+    const limit = table ? this.data_elements[element].value[row][col].results || 10 : this.data_elements[element].results || 10;
+    const ihist = table ? this.data_elements[element].value[row][col].ihist || 0 : this.data_elements[element].ihist || 0;
+    const apartment = table ? this.data_elements[element].value[row][col].appartment || 0 : this.data_elements[element].appartment || 0;
 
     this.autocompleteDebouncer[index] = setTimeout(function () {
       _this.autocompleteLoader = true;
@@ -233,7 +234,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
 
         _this.autocompleteLoader = false;
-
         _this.autoCompleteContainer[element] = data['addresses'] || [];
 
         _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
@@ -251,54 +251,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
 
         _this.autocompleteSubscription[index].unsubscribe();
-      });
-
-    }, debounceTime);
-  }
-
-  addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false) {
-
-    if (searchText.length < 3) { return; }
-
-    if (this.autocompleteDebouncer[element]) { clearTimeout(this.autocompleteDebouncer[element]); }
-
-    if (this.autocompleteSubscription[element] !== undefined) {
-      this.autocompleteSubscription[element].unsubscribe();
-    }
-
-    const _this = this;
-    const limit = this.data_elements[element].results || 10;
-    const ihist = this.data_elements[element].ihist || 0;
-    const apartment = this.data_elements[element].appartment || 0;
-
-    this.autocompleteDebouncer[element] = setTimeout(function () {
-      _this.autocompleteLoader = true;
-      const url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist=' + ihist + '&appartment=' + apartment + '&address=' + searchText + '&results=' + limit + '&callback=JSONP_CALLBACK';
-      const jsonp = _this._jsonp.get(url).map(function (res) {
-        return res.json() || {};
-      }).catch(function (error: any) { return throwError(error); });
-
-      _this.autocompleteSubscription[element] = jsonp.subscribe(data => {
-        if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
-
-        _this.autocompleteLoader = false;
-        _this.autoCompleteContainer[element] = data['addresses'] || [];
-
-        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
-
-        _this.autoCompleteContainer[element].forEach(address => {
-          if (address.kort_nr) {
-            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
-          } else {
-            address.addressHumanReadable = address.pikkaadress;
-          }
-        });
-
-        if (autoselectOnMatch === true) {
-          _this.addressAutocompleteSelectionValidation(element);
-        }
-
-        _this.autocompleteSubscription[element].unsubscribe();
       });
 
     }, debounceTime);
@@ -359,41 +311,29 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   setDatepickerValue(event, element, rowindex, col) {
-
     if (this.datepickerFocus === false) {
-
-      if (rowindex === undefined || col === undefined) {
-        if (event instanceof FocusEvent) {
-          const string = JSON.parse(JSON.stringify(event.target['value']));
-          const date = moment(string.split('.').reverse().join('-')).format('YYYY-MM-DD');
-          if (date === 'Invalid date') {
-            this.data_elements[element].value = null;
-            event.target['value'] = null;
-          } else {
-            this.data_elements[element].value = JSON.parse(JSON.stringify(date));
-          }
-        } else {
-          this.data_elements[element].value = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-        }
-      } else {
-        if (event instanceof FocusEvent) {
-          const string = JSON.parse(JSON.stringify(event.target['value']));
-          const date = moment(string).format('DD.MM.YYYY');
-          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(moment(date).format('YYYY-MM-DD')));
-        } else {
-          this.data_elements[element].value[rowindex][col] = JSON.parse(JSON.stringify(event.value.format('YYYY-MM-DD')));
-        }
+      if (!(event instanceof FocusEvent)) {
+        const dateval = event.value.format('L');
+        rowindex === undefined || col === undefined
+          ? this.data_elements[element].value = dateval
+          : this.data_elements[element].value[rowindex][col] = dateval;
       }
     }
   }
-  getDatepickerValue(element, rowindex, col) {
-    if (rowindex === undefined || col === undefined) {
-      return this.data_elements[element].value;
-    } else {
-      return this.data_elements[element].value[rowindex][col];
-    }
 
+  getDatepickerValue(element, rowindex, col) {
+    const date = rowindex === undefined || col === undefined
+      ? this.data_elements[element].value
+      : this.data_elements[element].value[rowindex][col];
+
+    if (date) {
+      return moment((String(date).split('.')).reverse().join('-'));
+    } else {
+      return false;
+    }
   }
+
+
   selectListCompare(a, b) {
     return a && b ? a === b : a === b;
   }
@@ -589,7 +529,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (field.value === undefined || field.value === null) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }; }
+      if (!field.value) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }; }
     }
     if (typeof field.value !== 'undefined') {
       // check for minlength
@@ -737,6 +677,22 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.location.back();
   }
 
+  compileAcceptableFormList() {
+
+    this.acceptable_forms = this.acceptable_forms_list_restricted ?
+      this.data.header.references.slice(0, this.acceptable_forms_limit) :
+      this.data.header.references;
+
+    this.acceptable_forms.forEach((elem, index) => {
+      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
+    });
+  }
+
+  toggleAcceptableFormList() {
+    this.acceptable_forms_list_restricted = this.acceptable_forms_list_restricted ? false : true;
+    this.compileAcceptableFormList();
+  }
+
   promptDebugDialog(data) {
 
     if (this.test === false) {
@@ -809,6 +765,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE');
         }
       }
+
       this.stepController(response);
 
       subscription.unsubscribe();
@@ -852,9 +809,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       this.fillAddressFieldsTemporaryModel(this.data_elements);
 
+      this.compileAcceptableFormList();
+
       this.scrollPositionController();
 
     }
+
   }
 
   ngOnInit() {

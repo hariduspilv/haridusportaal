@@ -47,12 +47,26 @@ const appRoutes: Routes = [
   { path: 'artiklid/:id', component: ArticleComponent },
   { path: 'uudised', component: NewsComponent },
   { path: 'uudised/:id', component: NewsSingleComponent },
-  { path: 'sündmused', component: EventsComponent },
+  { path: 'sündmused', component: EventsComponent, children: [
+    {
+      path: 'kalender', component: EventsComponent
+    }
+  ] },
   { path: 'sündmused/:id', component: EventsSingleComponent },
-  { path: 'kool', component: SchoolsComponent },
+  { path: 'kool', component: SchoolsComponent, children: [
+    {
+      path: 'kaart', component: SchoolsComponent
+    }
+  ] },
   { path: 'kool/:id', component: SchoolsSingleComponent },
 
-  { path: 'koolide-rahastus', component: SchoolsFundingComponent },
+  { path: 'koolide-rahastus', component: SchoolsFundingComponent,
+    children: [
+      {
+        path: 'haldusüksused', component: SchoolsFundingComponent
+      }
+    ]
+  },
 
   { path: 'erialad/võrdlus', component: StudyProgrammeCompareComponent},
 
@@ -68,12 +82,11 @@ const appRoutes: Routes = [
   { path: 'töölaud/taotlused/:form_name', component: XjsonComponent},
   { path: 'töölaud', component: DashboardComponent,
     children: [
-      // { path: 'taotlused', component: ApplicationsComponent},
+      { path: 'taotlused', component: ApplicationsComponent},
       { path: 'tunnistused', component: CertificatesComponent},
       { path: 'õpingud', component: StudiesComponent},
       { path: 'õpetan', component: TeachingsComponent},
-      { path: 'taotlused', redirectTo: 'tunnistused', pathMatch: 'full' },
-      { path: '', redirectTo: 'tunnistused', pathMatch: 'full' },
+      { path: '', redirectTo: 'taotlused', pathMatch: 'full' },
       { path: '**', redirectTo: '404', pathMatch: 'full' }
     ]
   },

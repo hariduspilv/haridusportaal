@@ -1,24 +1,19 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Component, OnDestroy, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
-import { delay } from 'rxjs/operators/delay';
-
-import { of } from 'rxjs/observable/of';
 
 import 'rxjs/add/operator/map';
-
-import { Observable } from 'rxjs/Observable';
 
 import { RootScopeService } from '@app/_services/rootScopeService';
 
 /* Datepicker Imports */
 import * as _moment from 'moment';
-const moment = _moment;
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { HttpService } from '@app/_services/httpService';
+import { ScrollRestorationService } from '@app/_services';
 
 @Component({
   templateUrl: './news.component.html',
@@ -30,6 +25,7 @@ import { HttpService } from '@app/_services/httpService';
 })
 
 export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
+  @ViewChild('content') content: ElementRef;
 
   subscriptions: Subscription[] = [];
 
@@ -45,14 +41,41 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   dataSubscription: any;
   loading = false;
   showFilter = true;
+  public scrollPositionSet: boolean = false;
 
   constructor(
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute,
-    private http: HttpService
+    private http: HttpService,
+    public scrollRestoration: ScrollRestorationService
   ) {
     super(null, null);
+  }
+
+  typesDropdownSort(e) {
+    if(!e) {
+      let selected = []
+      if(this.filterFormItems.types) {
+        selected = this.filterFormItems.types.sort((a,b) => {
+          if(a.name.toUpperCase() > b.name.toUpperCase()) {
+            return 1;
+          }
+          return -1;
+        })
+      }
+      let otherValues = this.tags.filter((e) => {
+        return !selected.find((x) => {
+          return e.id === x.id
+        })
+      }).sort((a,b) => {
+        if(a.name.toUpperCase() > b.name.toUpperCase()) {
+          return 1;
+        }
+        return -1;
+      })
+      this.tags = [...selected, ...otherValues];
+    }
   }
 
   pathWatcher() { 
@@ -66,38 +89,20 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     this.subscriptions = [...this.subscriptions, subscribe];
   }
 
-  processTags(tags: Array<object>) {
-    //Process tags JSON for ng-select
-    let output = [];
-    
-    for( let i in tags ){
-      let current = tags[i];
-      if( current['Tag'] && current['Tag'].length == 0 ){ continue; }
-
-      for( let ii in current['Tag'] ){
-        if (current['Tag'][ii]['entity']) {
-          output.push({
-            id: current['Tag'][ii]['entity']['entityId'],
-            name: current['Tag'][ii]['entity']['entityLabel']
-          });
-        }
-      }
-    }
-
-    return output;
-  }
-
   getTags() {
 
     let variables = {
       lang: this.lang.toUpperCase()
     };
     
-    let subscribe = this.http.get('getNewsTags', {params:variables}).subscribe( (response) => {
-      let data = response['data'];
-      let entities = data['nodeQuery']['entities'];
-      let tags = this.processTags( entities );
-
+    let subscribe = this.http.get('getNewsTags', {params:variables}).subscribe( (response:any) => {
+      let data = response.data.taxonomyTermQuery.tags;
+      let tags = data.map((el) => {
+        return {
+          id: el.entityId,
+          name: el.entityLabel
+        }
+      })
       if( this.params.types !== undefined ){
         let splitParams = this.params.types.split(",");
 
@@ -110,8 +115,8 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
         }
       }
 
-      this.tags = of(tags).pipe(delay(500));
-
+      this.tags = tags;
+      this.typesDropdownSort(false);
       subscribe.unsubscribe();
     });
 
@@ -140,7 +145,9 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   }
 
   getData() {
-
+    if(this.params.types) {
+      this.filterFull = true;
+    }
     if( this.params.dateFrom ){
       let splitDate = this.params.dateFrom.split("-");
       var dateFromUnix:any = new Date(splitDate[2] + "-" + splitDate[1] + "-" + splitDate[0] + "T00:00:00Z").getTime()/1000;
@@ -164,6 +171,8 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       offset: this.offset,
       limit: this.limit
     };
+
+    this.initialScrollRestorationSetup(variables);
     
     let subscribe = this.http.get('newsList', {params:variables}).subscribe( (response) => {
       let data = response['data'];
@@ -184,24 +193,21 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
         this.list = data['nodeQuery']['entities'];
       }
 
-
       subscribe.unsubscribe();
     });
-
   }
 
   ngOnInit() {
+    if (window.innerWidth <= 1024) {
+      this.filterFull = true;
+      this.showFilter = false;
+    }
 
     this.pathWatcher();
     
     this.getTags();
 
     this.watchSearch();
-
-    if (window.innerWidth <= 1024) {
-      this.filterFull = true;
-      this.showFilter = false;
-    }
   }
 
   ngOnDestroy() {
@@ -211,6 +217,25 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
         sub.unsubscribe();
       }
     }
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.limit + this.offset)
+    }
   }
 
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
+    if (scrollData && this.rootScope.get('scrollRestorationState')) {
+      this.offset = !this.list && scrollData.limit ? scrollData.limit - this.limit : this.offset;
+      hash['offset'] = !this.list ? 0 : this.offset;
+      hash['limit'] = (!this.list && scrollData.limit) ? scrollData.limit : this.limit;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.rootScope.set('scrollRestorationState', false);
+    }
+  }
 }
