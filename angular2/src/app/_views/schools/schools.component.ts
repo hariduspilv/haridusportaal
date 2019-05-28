@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -19,6 +19,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from '@app/_services/settings.service';
 import { ScrollRestorationService } from '@app/_services';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { filter } from 'rxjs/operators';
 
 @Component({
   templateUrl: './schools.template.html',
@@ -43,7 +44,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   list: any;
   listEnd: boolean;
   path: any;
-  lang: any;
+  lang: any = this.rootScope.get('lang');
 
   public production: boolean = true;
   boundsEnabled: boolean = false;
@@ -101,6 +102,16 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     private deviceDetector: DeviceDetectorService
   ) {
     super(null, null);
+    let subscription = router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if((/^\/kool\/kaart/g).test(decodeURI(event.url))) {
+        this.changeView('map');
+      } else {
+        this.changeView('list');
+      }
+    });
+    this.subscriptions = [...this.subscriptions, subscription];
   }
   //why
   //this is not DRY for reasons, identical functions currently for separation of concerns
@@ -295,7 +306,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     let subscribe = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.path = this.router.url;
-        this.lang = this.rootScope.get("lang");
       }
     );
     this.subscriptions = [...this.subscriptions, subscribe];
@@ -506,6 +516,9 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   }
 
   ngOnInit() {
+    this.lang = this.rootScope.get("lang");
+
+    this.pathWatcher();
 
     if( this.settings.url == "https://htm.wiseman.ee" || this.settings.url == "http://test-htm.wiseman.ee:30000" ){
       this.production = false;
@@ -516,7 +529,6 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.showFilter = this.deviceDetector.isDesktop();
     this.filterFull = this.deviceDetector.isMobile() || this.deviceDetector.isTablet();
 
-    this.pathWatcher();
     this.getOptions();
     //as the spaniards say - lo haré mañana
     //TODO - more bulletproof solution for this

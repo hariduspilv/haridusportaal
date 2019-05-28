@@ -25,7 +25,7 @@ export class ChartComponent implements OnInit {
   requestDebounce = {};
   requestSubscription = {};
 
-  initiallyFilledSelects = ['näitaja', 'valdkond', 'näitaja2'];
+  initiallyFilledSelects = ['näitaja', 'valdkond'];
 
   constructor(
     private http: HttpService
@@ -42,7 +42,7 @@ export class ChartComponent implements OnInit {
         bottom: 75
       },
       pieSliceTextStyle: {
-        "color": '#ffffff'
+        'color': '#ffffff'
       },
       curveType: "function",
       lineWidth: 3,
@@ -345,13 +345,17 @@ export class ChartComponent implements OnInit {
               }
             };
             colorCounter++;
-            if (colorCounter > lineColors.length) { colorCounter = 0; }
+            if (colorCounter > lineColors.length-1) { colorCounter = 0; }
           }
         }
 
       }
 
       output.push(tmp);
+      output[0].dataTable[2][1] = null;
+      output[0].dataTable[2][2] = null;
+      output[0].dataTable[6][2] = null;
+      console.log(output[0].dataTable);
 
     }
 
