@@ -117,7 +117,7 @@
     {{ errMessage ? errMessage : 'news.no_results' | translate }}
   </div>
 
-  <div *ngIf="data && data.length > 0">
+  <div #content *ngIf="data && data.length > 0">
   
     <ng-container *ngFor="let item of data; let i = index">
       <div class="studyProgramme__item" *ngIf="i < listLimit">

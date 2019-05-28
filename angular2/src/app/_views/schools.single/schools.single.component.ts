@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewChecked, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewChecked, Input, HostListener } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -115,6 +115,11 @@ export class SchoolsSingleComponent implements OnInit, OnDestroy, AfterViewCheck
       this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
       this.initialized = true;
     }
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    this.rootScope.set('scrollRestorationState', true);
   }
 
 }
