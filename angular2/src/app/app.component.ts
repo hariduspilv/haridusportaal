@@ -47,6 +47,10 @@ export class AppComponent implements OnInit {
     private cookies: CookieService
   ) {
 
+    if ('scrollRestoration' in history) {
+      history.scrollRestoration = 'manual';
+    }
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         (<any>window).ga('set', 'page', event.urlAfterRedirects);
@@ -85,9 +89,8 @@ export class AppComponent implements OnInit {
       }
       
       if (event instanceof NavigationEnd) {
-          // Hide loading indicator
+        // Hide loading indicator
         //this.sidemenu.triggerLang();
-        window.scrollTo(0, 0);
       }
 
       if (event instanceof NavigationError) {
@@ -98,7 +101,7 @@ export class AppComponent implements OnInit {
 
 
   }
-
+  
   subscription: Subscription;
 
   showCookieNotification = false;

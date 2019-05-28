@@ -1,4 +1,4 @@
-<div class="flex flex-justify-center origin" [ngClass]="{ 'row origin--column': columnLayout }">
+<div class="flex flex-justify-center origin" [ngClass]="{ 'row origin--column': columnLayout }" *ngIf="content && content.length">
   <div class="origin__child" [ngClass]="{ 'col-3 sm-6 xxs-12': columnLayout }" *ngFor="let item of content; let i = index; let last = last;" [class.origin__child--last]="last" [class.origin__child--secondLast]="columnLayout && i === 2">
     <a *ngIf="item[contentLabels.url] && item[contentLabels.url].routed"
     attr.aria-label="{{item[contentLabels.title] || ''}}: {{item[contentLabels.description] || ''}}{{ item[contentLabels.description] ? ',' : ''}} {{item[contentLabels.link] || ''}}"

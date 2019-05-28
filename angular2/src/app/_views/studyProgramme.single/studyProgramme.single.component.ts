@@ -1,10 +1,12 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FiltersService } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
 import { UserService } from '@app/_services/userService';
 
 import { HttpService } from '@app/_services/httpService';
+import { RootScopeService } from '@app/_services';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: "study-programme-component",
@@ -25,12 +27,15 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   private subscriptions: Subscription[] = [];
   private params: object;
   private userLoggedOut: boolean = false;
+  private desktopView: boolean;
 
   constructor(
     public router: Router,
     public route: ActivatedRoute,
     private user: UserService,
-    private http: HttpService
+    private http: HttpService,
+    private rootScope: RootScopeService,
+    private device: DeviceDetectorService
   ){
     super(null,null)
   }
@@ -71,6 +76,7 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   }
 
   ngOnInit() {
+    this.desktopView = this.device.isDesktop();
     this.watchSearch();
     
     this.route.params.subscribe( params => {
@@ -92,4 +98,8 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
      }
    }
  }
+ @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    this.rootScope.set('scrollRestorationState', true);
+  }
 }

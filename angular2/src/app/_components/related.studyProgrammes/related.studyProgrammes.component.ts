@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, OnDestroy} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SettingsService } from '@app/_services/settings.service';
 import { Subscription } from 'rxjs/Subscription';
 import { FiltersService } from '@app/_services/filtersService';
 import { HttpService } from '@app/_services/httpService';
+import { ScrollRestorationService } from '@app/_services';
 @Component({
   selector: "related-studyprogrammes",
   templateUrl: "related.studyProgrammes.component.html",
@@ -12,6 +13,7 @@ import { HttpService } from '@app/_services/httpService';
 })
 
 export class RelatedStudyProgrammesComponent extends FiltersService implements OnInit, OnDestroy {
+  @ViewChild('content') content: ElementRef;
   
   @Input() studyProgrammeId: number;
   private url;
@@ -21,11 +23,13 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   private params: object;
 
   public limit: number = 24;
+  public offset: number = 0;
   public loading: boolean = true;
   public listEnd: boolean = false;
 
   public list: any = false;
   public search_address;
+  public scrollPositionSet: boolean = false;
   
 
   constructor (
@@ -33,7 +37,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     public router: Router,
     private http: HttpService,
     public rootScope: RootScopeService,
-    private settings: SettingsService
+    private scrollRestoration: ScrollRestorationService
   ) { 
     super(null, null)
   }
@@ -60,6 +64,8 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
       limit: this.limit,
       offset: this.list ? this.list.length : 0
     }
+
+    this.initialScrollRestorationSetup(variables);
 
     this.loading = true;
 
@@ -113,15 +119,36 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     //make sure related study programmes are opened when user returns to this url via browser back button/link share
     this.filterFormItems['displayRelated'] = true;
     this.filterSubmit();
-    
     this.watchSearch();
   }
   ngOnDestroy(){
-     /* Clear all subscriptions */
-     this.requestSub.unsubscribe();
-     for (let sub of this.subscriptions) {
+    /* Clear all subscriptions */
+    this.requestSub.unsubscribe();
+    for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
+      }
+    }
+    if (this.scrollRestoration.hashRoute) {
+      this.scrollRestoration.setRouteKey('limit', this.list.length)
+    }
+  }
+
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.search));
+    if (scrollData && this.rootScope.get('scrollRestorationState')) {
+      this.offset = !this.list && scrollData.limit ? scrollData.limit - this.limit : (this.list && this.list.length || 0);
+      hash['offset'] = !this.list ? 0 : this.offset;
+      hash['limit'] = (!this.list && scrollData.limit) ? scrollData.limit : this.limit;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+      if (this.scrollRestoration.currentRoute === decodeURI(window.location.pathname)) {
+        this.scrollRestoration.setScroll();
+        this.scrollPositionSet = true;
+        this.rootScope.set('scrollRestorationState', false);
       }
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, ViewChild, OnInit, Input } from '@angular/core';
+import { HostListener, Component, OnDestroy, ViewChild, OnInit, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { RootScopeService } from '@app/_services';
@@ -100,5 +100,10 @@ export class NewsSingleComponent implements OnInit {
         alt: this.content.fieldIntroductionImage.alt
       }
     });
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    this.rootScope.set('scrollRestorationState', true);
   }
 }

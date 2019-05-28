@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
@@ -17,6 +17,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from '@app/_services/settings.service';
+import { ScrollRestorationService } from '@app/_services';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { filter } from 'rxjs/operators';
 
@@ -30,15 +31,16 @@ import { filter } from 'rxjs/operators';
 })
 
 export class SchoolsComponent extends FiltersService implements OnInit, OnDestroy{
+  @ViewChild('content') content: ElementRef;
 
   dataSubscription: Subscription;
   parseFloat = parseFloat;
   showFilter: boolean;
-  limit: Number = 24;
-  mapLimit: Number = 3000;
+  limit: number = 24;
+  mapLimit: number = 3000;
 
   params: object = {};
-  offset: Number;
+  offset: number;
   list: any;
   listEnd: boolean;
   path: any;
@@ -86,6 +88,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
   subscriptions: Subscription[] = [];
 
   latlngBounds: any;
+  public scrollPositionSet: boolean = false;
 
   constructor(
     private rootScope: RootScopeService,
@@ -95,6 +98,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     private http: HttpService,
     private settings: SettingsService,
     private translate: TranslateService,
+    private scrollRestoration: ScrollRestorationService,
     private deviceDetector: DeviceDetectorService
   ) {
     super(null, null);
@@ -437,6 +441,8 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       studentHomeEnabled: this.params['studentHome'] ? true : false,
     }
 
+    this.initialScrollRestorationSetup(variables);
+    
     this.dataSubscription = this.http.get('schoolMapQuery', { params: variables }).subscribe(data => {
 
       let entities = data['data']['CustomElasticQuery'];
@@ -539,6 +545,26 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
+    }
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.limit + this.offset)
+    }
+  }
+
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
+    if (scrollData && this.rootScope.get('scrollRestorationState') && this.view === 'list') {
+      this.offset = !this.list && scrollData.limit ? scrollData.limit - this.limit : this.offset;
+      hash['offset'] = !this.list ? 0 : this.offset;
+      hash['limit'] = (!this.list && scrollData.limit) ? scrollData.limit : this.limit;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null && this.view === 'list') {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.rootScope.set('scrollRestorationState', false);
     }
   }
 }

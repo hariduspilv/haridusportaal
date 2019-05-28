@@ -1,5 +1,5 @@
 import { APP_INITIALIZER, Injector, LOCALE_ID } from '@angular/core';
-import { RootScopeService, MetaTagsService, TableService, AddressService } from '@app/_services';
+import { RootScopeService, ScrollRestorationService, MetaTagsService, TableService, AddressService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { SettingsService } from './_services/settings.service';
 import { HttpService } from '@app/_services/httpService';
@@ -44,6 +44,7 @@ export function SettingsProviderFactory(provider: SettingsService) {
 }
 
 export const AppProviders = [
+  ScrollRestorationService,
   RootScopeService,
   MetaTagsService,
   SettingsService,

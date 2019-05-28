@@ -138,7 +138,7 @@
 
   <loader *ngIf="!eventList && !error && view !== 'calendar'"></loader>
 
-  <div class="events__list-body" *ngIf="eventList && view == 'list' ">
+  <div class="events__list-body" #content *ngIf="eventList && view == 'list' ">
   
     <ng-container *ngFor="let yearKey of objectKeys(eventList)">
       <ng-container *ngFor="let monthKey of objectKeys(eventList[yearKey])">
