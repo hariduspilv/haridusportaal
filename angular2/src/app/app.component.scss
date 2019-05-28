@@ -42,6 +42,9 @@ input[type=number] {
 
 .accordion{
   ul, ol{margin-left:0; padding-left:1rem;}
+  &__links ul {
+    padding-left: 0;
+  }
 }
 .app__info {padding: 1.5rem;text-align: center;color: $dark-gray;font-size: .875rem;font-weight: 300;
   .version {margin-top: .25rem;padding-bottom: 1.5rem;line-height: 1;}
