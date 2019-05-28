@@ -1,7 +1,7 @@
 import { NgSelectModule } from '@ng-select/ng-select';
 import { Component, OnDestroy, ViewChild, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -10,7 +10,7 @@ import { RootScopeService } from '@app/_services';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { delay, map } from 'rxjs/operators';
+import { delay, map, filter } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 
@@ -40,7 +40,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   // ALL PAGE CONFIG
   path: string;
-  lang: string;
+  lang: string = this.rootScope.get("lang");;
   eventList: any = false;
   eventListRaw: any;
   view: string;
@@ -78,6 +78,16 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     private http: HttpService
   ) {
     super(null, null);
+    let subscription = router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if((/^\/sündmused\/kalender/g).test(decodeURI(event.url)) && window.innerWidth > 1024) {
+        this.changeView('calendar', true);
+      } else {
+        this.changeView('list', true);
+      }
+    });
+    this.subscriptions = [...this.subscriptions, subscription];
   }
   
   date: any = new Date();
@@ -86,7 +96,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   monthName: string = moment(this.date).format('MMMM');
   popup: number = null;
   morePopup: number = null;
-  params: any;
+  params: any = {};
   
 
   togglePopup(i) {
@@ -212,16 +222,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   changeView(view: any, update: boolean = true){
     this.view = view;
-    
-    if( view == "calendar" ){
-      this.loadingCalendar = true;
-      this.eventsConfig.limit = 9999;
-      this.generateCalendar(true);
-    }else{
-      this.eventsConfig.limit = 24;
-    }
-
-    sessionStorage.setItem("events.view", view);
+        sessionStorage.setItem("events.view", view);
     switch(view) {
       case 'calendar':
         this.router.navigate(['/sündmused/kalender'], {queryParamsHandling: "preserve"});
@@ -230,6 +231,13 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         this.router.navigate(['/sündmused'], {queryParamsHandling: "preserve"});
       default:
         break;
+    }
+    if( view == "calendar" ){
+      this.loadingCalendar = true;
+      this.eventsConfig.limit = 9999;
+      this.generateCalendar(true);
+    }else{
+      this.eventsConfig.limit = 24;
     }
     if( update ){
       this.status = false;
@@ -293,12 +301,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       dayString: moment().format("DD"),
       month: month,
       year: parseInt(moment().format("YYYY"))
-    }
-
-    this.lang = this.rootScope.get("lang");
-    
-
-  
+    }  
     this.route.queryParams.subscribe( (params: Params) => {
       this.params = params;
       this.eventList = false;
