@@ -342,7 +342,8 @@
 
 
 
-                    <ng-container *ngIf="data_elements[element].type == 'date'">
+                    <ng-container
+                      *ngIf="data_elements[element].type == 'date' && !isFieldDisabled(data_elements[element].readonly)">
                       <div class="round-input__outer-wrapper date-wrapper">
                         <div class="round-input__wrapper"
                           [class.complete]="data_elements[element].value || opened_step != this.max_step">
@@ -369,6 +370,31 @@
                         </div>
                       </div>
                     </ng-container> <!-- /DATE -->
+
+                    <ng-container
+                      *ngIf="data_elements[element].type == 'date' && isFieldDisabled(data_elements[element].readonly)">
+                      <div class="round-input__outer-wrapper">
+                        <div class="round-input__wrapper"
+                        [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                          <span class="round-input__title">
+                            {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
+                          </span>
+                          <div class="round-input__field-wrapper">
+                          <input class="round-input__field" type="text"
+                          placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                            [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
+                            [(ngModel)]="data_elements[element].value" name="{{element}}" />
+                            </div>
+                        </div>
+                      <div class="helper-wrapper">
+                        <ng-container *ngIf="data_elements[element].helpertext">
+                          <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
+                            matTooltipPosition="above">
+                          </span>
+                        </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </div>
+                    </div>
+                    </ng-container><!-- /DATE -->
 
                     <ng-container *ngIf="data_elements[element].type == 'file'">
 
@@ -550,7 +576,7 @@
                                           <mat-datepicker #picker></mat-datepicker>
                                         </div>
                                       </div>
-                                    </ng-container>
+                                    </ng-container><!-- /DATE -->
 
                                     <ng-container
                                       *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date' && isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">

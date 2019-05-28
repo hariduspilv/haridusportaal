@@ -529,7 +529,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (field.value === undefined || field.value === null) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }; }
+      if (!field.value) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }; }
     }
     if (typeof field.value !== 'undefined') {
       // check for minlength
