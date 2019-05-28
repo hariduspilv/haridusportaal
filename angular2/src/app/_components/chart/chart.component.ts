@@ -352,6 +352,10 @@ export class ChartComponent implements OnInit {
       }
 
       output.push(tmp);
+      output[0].dataTable[2][1] = null;
+      output[0].dataTable[2][2] = null;
+      output[0].dataTable[6][2] = null;
+      console.log(output[0].dataTable);
 
     }
 
