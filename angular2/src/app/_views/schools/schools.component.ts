@@ -511,6 +511,7 @@ export class SchoolsComponent extends FiltersService implements OnInit, OnDestro
     this.filterFormItems.ownership = this.params['ownership'] || '';
     this.fillTypesBySubtype();
     this.typesDropdownSort(false);
+    this.subtypesDropdownSort(false);
     this.languageDropdownSort(false);
     this.ownershipDropdownSort(false);
   }
