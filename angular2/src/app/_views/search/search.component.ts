@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RootScopeService } from '@app/_services';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+import { RootScopeService, ScrollRestorationService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Subscription } from 'rxjs/Subscription';
@@ -10,7 +10,8 @@ import { SettingsService } from '@app/_services/settings.service';
 })
 
 export class SearchComponent {
-  
+  @ViewChild('content') content: ElementRef;
+
   public results: any = false;
   public filteredResults: any = false;
   public dataSubscription: Subscription;
@@ -46,13 +47,15 @@ export class SearchComponent {
   public suggestionList: any = false;
   public debouncer: any;
   public autocompleteLoader: boolean = false;
+  public scrollPositionSet: boolean = false;
   
   constructor (
     private rootScope:RootScopeService,
     private router: Router,
     private route: ActivatedRoute,
     private http: HttpService,
-    private settings: SettingsService
+    private scrollRestoration: ScrollRestorationService,
+    private settings: SettingsService,
   ) {}
 
   ngOnInit() {
@@ -105,6 +108,9 @@ export class SearchComponent {
       lang: this.rootScope.get('lang').toUpperCase(),
       search_term: term
     }
+
+    this.initialScrollRestorationSetup();
+
     this.dataSubscription = this.http.get('homeSearch', {params:variables}).subscribe(data => {
       this.updateParams('type', type.length ? type : null);
       this.results = this.filteredResults = data['data']['CustomElasticQuery'];
@@ -141,10 +147,18 @@ export class SearchComponent {
       document.getElementById('initial').focus();
       this.viewChecked = true;
     }
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.rootScope.set('scrollRestorationState', false);
+    }
   }  
 
   ngOnDestroy() {
     this.paramSubscription.unsubscribe();
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.listLimit)
+    }
   }
 
   setFocus(id) {
@@ -226,4 +240,12 @@ export class SearchComponent {
 
     }, debounceTime)
   }
+  
+  initialScrollRestorationSetup() {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
+    if (scrollData && this.rootScope.get('scrollRestorationState')) {
+      this.listLimit = scrollData.limit || this.listLimit;
+    }
+  }
+
 }

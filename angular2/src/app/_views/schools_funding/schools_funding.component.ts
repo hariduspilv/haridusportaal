@@ -1,9 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { FiltersService, DATEPICKER_FORMAT } from '@app/_services/filtersService';
 import { HttpService } from '@app/_services/httpService';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationStart, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
+import { filter } from 'rxjs/operators';
 
 @Component({
   templateUrl: "schools_funding.template.html",
@@ -11,14 +12,14 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 })
 
 export class SchoolsFundingComponent extends FiltersService implements OnInit, OnDestroy {
-  lang: string;
+  lang: string = this.rootScope.get("lang");
   subscriptions: Subscription[] = [];
   parseFloat = parseFloat;
   toString = toString;
 
   showFilter: boolean;
 
-  view: String = sessionStorage.getItem("schools_funding.view") || "schools";
+  view: String = "schools";
 
   loading: boolean;
 
@@ -26,7 +27,8 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   data:any;
   filterData: any = {};
 
-  params:any;
+  params:any = {};
+  path: string;
 
   polygons: any;
   polygonLayer: String = "county";
@@ -65,6 +67,16 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     private changeDetectorRef: ChangeDetectorRef
   ) {
     super(null, null);
+    let subscription = router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if((/^\/koolide-rahastus\/haldusüksused/g).test(decodeURI(event.url))) {
+        this.changeView('areas');
+      } else {
+        this.changeView('schools');
+      }
+    });
+    this.subscriptions = [...this.subscriptions, subscription];
   }
 
   showFunding(year, infoWindow:any = false ){
@@ -120,8 +132,15 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.view = view;
     this.sumWindowStatus = false;
     sessionStorage.setItem("schools_funding.view", view.toString() );
-    //this.map.setZoom(this.mapOptions.zoom);
-    //this.map.setCenter(this.mapOptions.center);
+    switch(view) {
+      case 'areas':
+        this.router.navigate(['/koolide-rahastus/haldusüksused'], {queryParamsHandling: "preserve"});
+        break;
+      case 'schools':
+        this.router.navigate(['/koolide-rahastus'], {queryParamsHandling: "preserve"});
+      default:
+        break;
+    }
     this.getData();
   }
   
@@ -414,15 +433,28 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.getData();
   }
 
+  pathWatcher() { 
+    let subscribe = this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.path = this.router.url;
+      }
+    );
+    this.subscriptions = [...this.subscriptions, subscribe];
+  }
+
   ngOnInit() {
 
-    this.lang = this.rootScope.get("lang");
-
+    this.pathWatcher();
+    //as the spaniards say - lo haré mañana
+    //TODO - more bulletproof solution for this
+    if((/^\/koolide-rahastus\/haldusüksused/g).test(decodeURI(this.path))) {
+      this.changeView('areas');
+    } else {
+      this.changeView(this.view);
+    }
     this.mapOptions.styles = this.rootScope.get("mapStyles");
     this.getFilters();
     this.watchSearch();
-    
-    
   }
 
   ngOnDestroy() {

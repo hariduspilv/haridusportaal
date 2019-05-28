@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef  } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { FiltersService } from '@app/_services/filtersService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { RootScopeService } from '@app/_services';
+import { RootScopeService, ScrollRestorationService } from '@app/_services';
 import { TranslateService } from '@ngx-translate/core';
 import { of } from 'rxjs';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -14,6 +14,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 
 export class OskaProfessionsComponent extends FiltersService implements OnInit, OnDestroy {
+  @ViewChild('content') content: ElementRef;
 
   public data: any = false;
   public loading: boolean = false;
@@ -47,6 +48,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     { name: 'Hõive muutuse järgi kahanevalt', id: 'field_change_in_employment-desc', modifier: 'DESC' }
   ];
   private isFirstLoad = true;
+  public scrollPositionSet: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -54,7 +56,8 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     public route: ActivatedRoute,
     public rootScope: RootScopeService,
     public translate: TranslateService,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    private scrollRestoration: ScrollRestorationService
   ) {
     super(null, null);
   }
@@ -181,6 +184,9 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
       sortDirection: this.params['sortedBy'] ? this.params['sortedBy'].split('-')[1].toUpperCase() : 'ASC',
       indicatorSort: this.params['sortedBy'] ? true : false,
     };
+
+    this.initialScrollRestorationSetup(variables);
+
     this.dataSub = this.http.get('oskaMainProfessionListView', {params:variables}).subscribe((response: any) => {
       let responseVal: any = response['data']['nodeQuery'];
       this.loading = false;
@@ -260,5 +266,26 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   
   ngOnDestroy () {
     this.paramsSub.unsubscribe();
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.listLimit);
+    }
+  }
+
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
+    if (scrollData && this.rootScope.get('scrollRestorationState')) {
+      let step = !this.data && scrollData.limit ? 0 : this.step;
+      this.listLimit = !this.data && scrollData.limit ? scrollData.limit : this.listLimit;
+      hash['offset'] = !this.data && scrollData.limit ? 0 : this.listLimit - step;
+      hash['limit'] = !this.data && scrollData.limit ? this.listLimit : step;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.rootScope.set('scrollRestorationState', false);
+    }
   }
 }

@@ -1,16 +1,16 @@
 import { NgSelectModule } from '@ng-select/ng-select';
-import { Component, OnDestroy, ViewChild, OnInit, HostListener } from '@angular/core';
+import { Component, OnDestroy, ViewChild, OnInit, HostListener, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import { EventsConfig } from './events-config.model';
-import { RootScopeService } from '@app/_services';
+import { RootScopeService, ScrollRestorationService } from '@app/_services';
 
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
-import { delay, map } from 'rxjs/operators';
+import { delay, map, filter } from 'rxjs/operators';
 import { of } from 'rxjs/observable/of';
 import 'rxjs/add/observable/of';
 
@@ -32,6 +32,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 })
 
 export class EventsComponent extends FiltersService implements OnInit, OnDestroy{
+  @ViewChild('content') content: ElementRef;
 
   objectKeys = Object.keys;
   parseInt = parseInt;
@@ -40,7 +41,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   // ALL PAGE CONFIG
   path: string;
-  lang: string;
+  lang: string = this.rootScope.get("lang");;
   eventList: any = false;
   eventListRaw: any;
   view: string;
@@ -70,14 +71,27 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   current: object;
 
   visibleEntries = 3;
+
+  scrollPositionSet: boolean = false;
   
   constructor(
     public router: Router,
     public route: ActivatedRoute,
     private rootScope: RootScopeService,
-    private http: HttpService
+    private http: HttpService,
+    public scrollRestoration: ScrollRestorationService
   ) {
     super(null, null);
+    let subscription = router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      if((/^\/sündmused\/kalender/g).test(decodeURI(event.url)) && window.innerWidth > 1024) {
+        this.changeView('calendar', true);
+      } else {
+        this.changeView('list', true);
+      }
+    });
+    this.subscriptions = [...this.subscriptions, subscription];
   }
   
   date: any = new Date();
@@ -86,7 +100,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   monthName: string = moment(this.date).format('MMMM');
   popup: number = null;
   morePopup: number = null;
-  params: any;
+  params: any = {};
   
 
   togglePopup(i) {
@@ -212,7 +226,16 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   changeView(view: any, update: boolean = true){
     this.view = view;
-    
+        sessionStorage.setItem("events.view", view);
+    switch(view) {
+      case 'calendar':
+        this.router.navigate(['/sündmused/kalender'], {queryParamsHandling: "preserve"});
+        break;
+      case 'list':
+        this.router.navigate(['/sündmused'], {queryParamsHandling: "preserve"});
+      default:
+        break;
+    }
     if( view == "calendar" ){
       this.loadingCalendar = true;
       this.eventsConfig.limit = 9999;
@@ -220,9 +243,6 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }else{
       this.eventsConfig.limit = 24;
     }
-
-    sessionStorage.setItem("events.view", view);
-
     if( update ){
       this.status = false;
       this.eventList = false;
@@ -258,11 +278,19 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   
   ngOnInit() {
     this.loadingCalendar = true;
-    if( sessionStorage.getItem("events.view") ){
-      this.changeView(sessionStorage.getItem("events.view"), false);
-    }else{
-      this.changeView("list", false);
+    // SUBSCRIBE TO QUERY PARAMS
+    this.route.params.subscribe(
+      (params: ActivatedRoute) => {
+        this.path = this.router.url;
+      }
+    );
+    //kui jegorr teeb õhtusöögiks 5 kilo spagette, siis sul ei jää muud üle kui hommikusöögiks veel spagette süüa
+    if((/^\/sündmused\/kalender/g).test(decodeURI(this.path)) && window.innerWidth > 1024) {
+      this.changeView('calendar', false);
+    } else {
+      this.changeView('list', false);
     }
+    
     if (window.innerWidth <= 1024) {
       this.filterFull = true;
       this.showFilter = false;
@@ -277,17 +305,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       dayString: moment().format("DD"),
       month: month,
       year: parseInt(moment().format("YYYY"))
-    }
-
-    this.lang = this.rootScope.get("lang");
-    
-    // SUBSCRIBE TO QUERY PARAMS
-    this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.path = this.router.url;
-      }
-    );
-
+    }  
     this.route.queryParams.subscribe( (params: Params) => {
       this.params = params;
       this.eventList = false;
@@ -579,6 +597,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
         this.calendarDataEntries = "none";
 
+        this.initialScrollRestorationSetup(variables);
+
         this.dataSubscription = this.http.get('getEventList', {params: variables}).subscribe((response) => {
 
           let data = response['data'];
@@ -719,6 +739,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         sub.unsubscribe();
       }
     }
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.eventsConfig.limit + this.eventsConfig.offset)
+    }
   }
   
   parseIntoReadableTime(milliseconds){
@@ -741,5 +764,22 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   trapFocus(id) {
     document.getElementById(id).focus();
+  }
+
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
+    if (scrollData && this.rootScope.get('scrollRestorationState') && this.view === "list") {
+      this.eventsConfig.offset = !this.eventList && scrollData.limit ? scrollData.limit - this.eventsConfig.limit : this.eventsConfig.offset;
+      hash['offset'] = !this.eventList ? 0 : this.eventsConfig.offset;
+      hash['limit'] = (!this.eventList && scrollData.limit) ? scrollData.limit : this.eventsConfig.limit;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null && this.view === 'list') {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.scrollRestoration.reset();
+    }
   }
 }

@@ -17,6 +17,9 @@
         },
         "acceptable_forms": {
           "type": "array"
+        },
+        "references": {
+          "type": "array"
         }
       },
       "required": ["endpoint", "form_name", "number_of_steps"],

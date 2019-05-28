@@ -21,7 +21,7 @@
   <div class="sectors__list-body" *ngIf="data" areaModal>
     <div class="row sectors--row" *ngIf="data.length">
       <ng-container *ngFor="let elem of data; let i = index;">
-        <div class="col-3 md-4 xs-6 sectors--col">
+        <div #content class="col-3 md-4 xs-6 sectors--col">
           <div class="sector__wrapper" (click)="modalOpen(i)" [class.active]="i == modal.index" [id]="'block_'+i">
             <span class="sector__wrapper--pic">
               <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.derivative && elem.fieldOskaFieldPicture.derivative.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url" />

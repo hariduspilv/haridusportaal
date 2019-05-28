@@ -76,25 +76,17 @@
     
       <div class="row form-additional-row" *ngIf="filterFull">
         <div class="col-9 sm-12 form-col">
-    
-          <div class="ng-select__wrapper__mt">
-            <span class="ng-select__title" [class.exists]="filterFormItems.types && filterFormItems.types.length">{{ 'news.filter_tag' | translate }}</span>
-            <ng-select
-            tabindex="0"
-            role="select"
-          attr.aria-label="{{'filter.select' | translate}}"
-            [class.exists]="filterFormItems.types && filterFormItems.types.length"
-            [items]="tags | async"
-            [multiple]="true"
-            [loading]="loading"
-            bindLabel="name"
-            name="types"
-            [(ngModel)]="filterFormItems.types"
-            placeholder="{{ 'news.tag' | translate }}"
-            (clear)="clearField('types')"
-            [dropdownPosition]="'bottom'"></ng-select>      
-          </div>
-          
+          <div class="round-input__wrapper">
+            <mat-form-field>
+              <mat-select (openedChange)="typesDropdownSort($event)" multiple='true' placeholder="{{ 'news.filter_tag' | translate }}" [(ngModel)]="filterFormItems.types" name="type">
+                <ng-container *ngFor="let tag of tags">
+                  <mat-option [value]="tag">
+                    {{ tag.name }}
+                  </mat-option>
+                </ng-container>
+              </mat-select>
+            </mat-form-field>
+          </div><!--/round-input__wrapper-->
         </div>
         <div class="col-3 align-end text-right sm-12 inline-flex form-col">
           <div class="align-center filter-state sm-hide">       
@@ -110,7 +102,7 @@
     </div>
   </form>
   <loader *ngIf="!list"></loader>
-  <div class="news-list main-container" *ngIf="list">
+  <div #content class="news-list main-container" *ngIf="list">
     <div class="news-component__head">
       <div class="news-title">{{ 'news.label' | translate | uppercase }}</div>
     </div>

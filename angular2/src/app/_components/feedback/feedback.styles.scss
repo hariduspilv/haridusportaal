@@ -10,8 +10,8 @@
   .options{display:flex; justify-content: center; flex-wrap: wrap; margin-bottom:-1rem; margin-left:-1.5rem; margin-right:-1.5rem;
     button{margin-left:2.25rem; margin-right:2.25rem; appearance:none; padding:0; background:none; border:none; text-decoration: underline; color:$blue; font-size:1rem; line-height:2.5rem; margin-bottom:1rem;
       &:hover{text-decoration: none;}
-      span{display:inline-block; width:2.5rem !important; height:2.5rem !important; line-height:2.375rem !important; text-align: center; color:#008d53; border:#008d53 1px solid; background:#e6f5ef; margin-right:8px; vertical-align: middle; border-radius:4px;
-        &.negative{color:#d0021b; border-color:#d0021b; background:#fdf3f4;}
+      span{display:inline-block; width:2.5rem !important; height:2.5rem !important; line-height:2.375rem !important; text-align: center; color:#008d53; background-color: #eeeeee; border-radius: 50%; margin-right:8px; vertical-align: middle;
+        &.negative{color:#d0021b;}
       }
 
     }

@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener, ElementRef } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
-import { RootScopeService } from '@app/_services';
+import { RootScopeService, ScrollRestorationService } from '@app/_services';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -11,7 +11,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
   styleUrls: ["oska.sectors.styles.scss"]
 })
 
-export class OskaSectorsComponent implements OnInit, OnDestroy {
+export class OskaSectorsComponent implements OnInit {
+  @ViewChild('content') content: ElementRef;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -34,6 +35,7 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
   private colsPerRow = 4;
   private lastWidth = 0;
   public hasComparisonPage: boolean = false;
+  public scrollPositionSet: boolean = false;
 
   constructor(
     private http: HttpService,
@@ -41,7 +43,8 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public rootScope: RootScopeService,
     private sanitizer: DomSanitizer,
-    private device: DeviceDetectorService
+    private device: DeviceDetectorService,
+    private scrollRestoration: ScrollRestorationService
   ) {}
 
   calculateColsPerRow() {
@@ -177,7 +180,9 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
       this.hasComparisonPage = response.data.comparisonPage.count;
       this.data = response['data']['nodeQuery']['entities'];
       this.loading = false;
-      document.getElementById('heading').focus();
+      if (document.getElementById('heading')) {
+        document.getElementById('heading').focus();
+      }
     }, (err) => {
       this.errMessage = true
       this.loading = false;
@@ -190,8 +195,12 @@ export class OskaSectorsComponent implements OnInit, OnDestroy {
     this.lang = this.rootScope.get("lang");
     this.getData();
   }
-  
-  ngOnDestroy () {
 
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.rootScope.set('scrollRestorationState', false);
+    }
   }
 }
