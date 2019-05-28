@@ -6,6 +6,7 @@ import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
 import java.sql.Timestamp;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
@@ -38,8 +39,9 @@ public class EeIsikukaartWorker extends Worker {
 
       ObjectNode isikukandmedNode = valueNode.putObject("isikuandmed");
       isikukandmedNode.put("isikukood", response.getIsikukaart().getIsikuandmed().getIsikukood());
-      isikukandmedNode.put("synniKp", simpleDateFormat
-          .format(response.getIsikukaart().getIsikuandmed().getSynniKp().getTime()));
+      Calendar cal = response.getIsikukaart().getIsikuandmed().getSynniKp();
+      cal.set(Calendar.HOUR, 12);
+      isikukandmedNode.put("synniKp", simpleDateFormat.format(cal.getTime()));
       isikukandmedNode.put("eesnimi", response.getIsikukaart().getIsikuandmed().getEesnimi());
       isikukandmedNode.put("perenimi", response.getIsikukaart().getIsikuandmed().getPerenimi());
       isikukandmedNode.put("elukohamaa",
