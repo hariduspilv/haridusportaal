@@ -12,7 +12,7 @@
     <li class="subcategory" *ngIf="item.url.path && item.url.path !== '#category' && item.url.path !== '#nocategory'" [class.has-children]="item.links.length > 0">
       <a href="javascript:void(0);"  mat-menu-item *ngIf="item.links && item.links.length > 0" (keyup.esc)="closeParentNode($event)" appToggleClass="menu-open">
         <span>{{ item.label }}</span>
-        <span class="htm-icon" aria-hidden="true" *ngIf="item.links && item.links.length > 0">chevron_right</span>
+        <span class="htm-icon" aria-hidden="true" *ngIf="item.links && item.links.length > 0">keyboard_arrow_down</span>
       </a>
       
       <a href="javascript:void(0);" [routerLink]="[item.url.path]" (click)="(isMobile && (item.url.path === router.url)) && sidemenuService.sendMessage()" [class.isActive]="routeIncludes(item.url.path)" routerLinkActive="mat-menu-item-active" [routerLinkActiveOptions]="{exact: true}" mat-menu-item *ngIf="item.links.length == 0 && item.url.path !== '#nolink'">
@@ -23,7 +23,7 @@
           <!-- Dropdown link -->
           <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" (keyup.esc)="closeParentNode($event)" appToggleClass="menu-open">
             <span>{{ item2.label }}</span>
-            <span class="htm-icon" aria-hidden="true" *ngIf="item2.links && item2.links.length > 0">chevron_right</span>
+            <span class="htm-icon" aria-hidden="true" *ngIf="item2.links && item2.links.length > 0">keyboard_arrow_down</span>
           </a>
 
           <!-- Internal link -->
@@ -40,7 +40,7 @@
           <!-- Dropdown link -->
           <a href="javascript:void(0);"  mat-menu-item *ngIf="item2.links && item2.links.length > 0" (keyup.esc)="closeParentNode($event)" appToggleClass="menu-open"  role="link">
             <span>{{ item2.label }}</span>
-            <span class="htm-icon" aria-hidden="true" *ngIf="item2.links && item2.links.length > 0">chevron_right</span>
+            <span class="htm-icon" aria-hidden="true" *ngIf="item2.links && item2.links.length > 0">keyboard_arrow_down</span>
           </a>
 
           <!-- Internal link -->

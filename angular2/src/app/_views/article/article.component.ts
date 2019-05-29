@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Input } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpHeaders } from '@angular/common/http';
 import { Params, Router, ActivatedRoute } from '@angular/router';
@@ -126,4 +126,8 @@ export class ArticleComponent implements OnInit, OnDestroy{
     }
   }
   
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    this.rootScope.set('scrollRestorationState', true);
+  }
 }
