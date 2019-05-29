@@ -9,6 +9,7 @@ use Drupal\Core\Config\Config;
 use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Lock\LockBackendInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\file\Entity\File;
 use Drupal\file\FileInterface;
 use Drupal\htm_custom_ehis_connector\Base64Image;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
@@ -157,6 +158,20 @@ class xJsonFile2RestResource extends ResourceBase {
             throw new HttpException(503, sprintf('File "%s" is already locked for writing'), NULL, ['Retry-After' => 1]);
         }
 
+        // Begin building file entity.
+        $file = File::create([]);
+        $file->setOwnerId($this->currentUser->id());
+        $file->setFilename($prepared_filename);
+        $file->setMimeType($this->mimeTypeGuesser->guess($prepared_filename));
+        $file->setFileUri($file_uri);
+        // Set the size. This is done in File::preSave() but we validate the file
+        // before it is saved.
+        $file->setSize(@filesize($temp_file_path));
+
+        $this->validate($file, $validators);
+
+
+        // now make our own file for xjson
         $file = new Base64Image($temp_file_path, $filename);
 
         if(!$this->ehisService->saveFileToRedis($file, 'VPT_documents')){
