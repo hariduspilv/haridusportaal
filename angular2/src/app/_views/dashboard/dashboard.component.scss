@@ -35,9 +35,8 @@
 .button-list .view-item .htm-icon { color: $blue; }
 .button-list .view-item {
 	&:hover {
-		.htm-icon, .title {color: rgb(153, 160, 161);}
+		.htm-icon, .title  { color: #0F7B8A;}
 	}
-
 }
 .button-list .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $blue; margin-bottom: .75rem; }
 
