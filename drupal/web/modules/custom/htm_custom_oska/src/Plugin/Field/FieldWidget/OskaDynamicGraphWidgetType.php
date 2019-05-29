@@ -199,7 +199,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#title' => $this->t('Group results'),
                 '#size' => 256,
                 '#type' => 'select',
-                '#multiple' => FALSE,
+                '#multiple' => TRUE,
                 '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
                 '#options' =>  $group_by_options,
                 '#empty_option'  => '-',
