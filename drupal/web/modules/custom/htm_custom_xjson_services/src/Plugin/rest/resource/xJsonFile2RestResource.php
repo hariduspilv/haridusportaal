@@ -22,6 +22,7 @@ use Hshn\Base64EncodedFile\HttpFoundation\File\Base64EncodedFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\File\MimeType\MimeTypeGuesserInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -78,7 +79,9 @@ class xJsonFile2RestResource extends ResourceBase {
 
     protected $currentUser;
 
-    public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, FileSystemInterface $file_system, xJsonService $xJsonService, EhisConnectorService $ehisConnectorService, Token $token, LockBackendInterface $lock, Config $system_file_config, AccountInterface $current_user)
+    protected $mimeTypeGuesser;
+
+    public function __construct(array $configuration, $plugin_id, $plugin_definition, array $serializer_formats, LoggerInterface $logger, FileSystemInterface $file_system, xJsonService $xJsonService, EhisConnectorService $ehisConnectorService, Token $token, LockBackendInterface $lock, Config $system_file_config, AccountInterface $current_user, MimeTypeGuesserInterface $mime_type_guesser)
     {
         parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
         $this->fileSystem = $file_system;
@@ -88,6 +91,7 @@ class xJsonFile2RestResource extends ResourceBase {
         $this->lock = $lock;
         $this->systemFileConfig = $system_file_config;
         $this->currentUser = $current_user;
+        $this->mimeTypeGuesser = $mime_type_guesser;
     }
 
 
@@ -104,7 +108,8 @@ class xJsonFile2RestResource extends ResourceBase {
             $container->get('token'),
             $container->get('lock'),
             $container->get('config.factory')->get('system.file'),
-            $container->get('current_user')
+            $container->get('current_user'),
+            $container->get('file.mime_type.guesser')
         );
     }
 
