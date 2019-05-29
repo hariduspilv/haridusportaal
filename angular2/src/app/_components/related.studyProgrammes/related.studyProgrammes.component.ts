@@ -129,8 +129,8 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
         sub.unsubscribe();
       }
     }
-    if (this.scrollRestoration.hashRoute) {
-      this.scrollRestoration.setRouteKey('limit', this.list.length)
+    if (this.scrollRestoration.hashRoute && !this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.list.length);
     }
   }
 
