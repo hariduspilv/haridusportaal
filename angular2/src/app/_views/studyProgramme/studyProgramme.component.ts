@@ -342,7 +342,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
       this.scrollRestoration.setScroll();
       this.scrollPositionSet = true;
-      this.scrollRestoration.reset();
     }
   }
 }
