@@ -12,14 +12,14 @@ query (
   	score: {search_value: $search_term, conditions:[
       {field:"title", weight:5},
       {field:"field_body_summary", weight:2},
-      {field:"field_body", weight:1},
-      {field:"field_accordion_body", weight:1},
+      {field:"field_body", weight:2},
+      {field:"field_accordion_body", weight:2},
       {field:"field_accordion_title", weight:2},
-      {field:"field_event_type", weight:1},
-      {field:"field_description", weight:1},
+      {field:"field_event_type", weight:2},
+      {field:"field_description", weight:2},
       {field:"field_tag", weight:2},
-      {field:"field_organizer", weight:1},
-      {field:"field_author", weight:1},
+      {field:"field_organizer", weight:2},
+      {field:"field_author", weight:2},
       {field:"field_short_description", weight: 2},
       {field:"field_registration_code", weight:5}
     ]}) {
