@@ -115,7 +115,7 @@ export class ChartComponent implements OnInit {
   }
 
   getGraphHeight(value, type) {
-    if (!value[0] || !value[1]) {
+    if (!value || !value[0] || !value[1]) {
       return this.height;
     }
     else if (type !== 'stacked bar 100' && type !== 'clustered bar') {
@@ -352,10 +352,6 @@ export class ChartComponent implements OnInit {
       }
 
       output.push(tmp);
-      output[0].dataTable[2][1] = null;
-      output[0].dataTable[2][2] = null;
-      output[0].dataTable[6][2] = null;
-      console.log(output[0].dataTable);
 
     }
 
