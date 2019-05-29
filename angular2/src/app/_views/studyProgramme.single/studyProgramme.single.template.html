@@ -125,7 +125,7 @@
         <feedback class="sm-hide" [nid]="data.nid" *ngIf="data"></feedback>
       </div><!--/block-->
 
-      <ng-container>
+      <ng-container *ngIf="desktopView">
         <div class="text-center actions snackBar sm-hide" *ngIf="!displayRelatedStudyProgrammes">
           <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true" >Vaata sarnaseid erialasid</button>
         </div><!--/text-center-->
@@ -154,7 +154,7 @@
           <p>{{ item.entity.fieldAddress | titleCase }}</p>
         </div><!--/block-->
       </ng-container>
-      <ng-container>
+      <ng-container *ngIf="!desktopView">
         <div class="text-center actions snackBar sm-show" *ngIf="!displayRelatedStudyProgrammes">
           <button role="button" mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true">Vaata sarnaseid erialasid</button>
         </div><!--/text-center-->

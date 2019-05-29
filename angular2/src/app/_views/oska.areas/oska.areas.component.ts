@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { HttpService } from 'app/_services/httpService';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RootScopeService } from 'app/_services/rootScopeService';
@@ -181,5 +181,10 @@ export class OskaAreasComponent implements OnInit{
   ngOnInit() {
     this.userLoggedOut = this.user.getData()['isExpired'];
     this.getData();
+  }
+
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    this.rootScope.set('scrollRestorationState', true);
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -11,6 +11,7 @@ import { HttpService} from '@app/_services/httpService';
 
 import * as _moment from 'moment';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { ScrollRestorationService } from '@app/_services';
 const moment = _moment;
 
 @Component({
@@ -19,6 +20,7 @@ const moment = _moment;
 })
 
 export class StudyProgrammeComponent extends FiltersService implements OnInit, OnDestroy{
+  @ViewChild('content') content: ElementRef;
 
   private today = moment().format('YYYY-MM-DD');
   public list:any = false;
@@ -44,13 +46,15 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private FilterOptions: object = {};
   private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed'];
   private isceList: any = {};
+  public scrollPositionSet: boolean = false;
   
   constructor (
     private rootScope: RootScopeService,
     public router: Router,
     public route: ActivatedRoute, 
     private http: HttpService,
-    private device: DeviceDetectorService
+    private device: DeviceDetectorService,
+    public scrollRestoration: ScrollRestorationService
   ) {
     super(null, null);
   }
@@ -280,6 +284,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       queryVars[key + "Enabled"] = this.params[key] ? true : false
     }
     let variables = queryVars;
+    this.initialScrollRestorationSetup(variables);
     
     this.dataSubscription = this.http.get('studyProgrammeList', {params:variables}).subscribe( (response) => {
       let data = response['data'];
@@ -319,6 +324,25 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         sub.unsubscribe();
       }
     }
+    if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.limit + this.offset)
+    }
   }
   
+  initialScrollRestorationSetup(hash) {
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
+    if (scrollData && this.rootScope.get('scrollRestorationState')) {
+      this.offset = !this.list && scrollData.limit ? scrollData.limit - this.limit : this.offset;
+      hash['offset'] = !this.list ? 0 : this.offset;
+      hash['limit'] = (!this.list && scrollData.limit) ? scrollData.limit : this.limit;
+    }
+  }
+
+  ngAfterViewChecked() {
+    if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
+      this.scrollRestoration.setScroll();
+      this.scrollPositionSet = true;
+      this.scrollRestoration.reset();
+    }
+  }
 }
