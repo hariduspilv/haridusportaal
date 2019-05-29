@@ -44,7 +44,7 @@
       &--noTop {margin-top: 0;}
     }
   }
-  @include break-on(sm, min) {width:68vw;max-width: 54.375rem;}
+  @include break-on(sm, min) {width:68vw;max-width: 43.75rem;}
   @include break-on(sm, min) {
     &.narrow {width:32vw;max-width: 54.375rem;}
   }

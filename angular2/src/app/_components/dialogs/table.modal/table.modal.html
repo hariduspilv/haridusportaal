@@ -1,6 +1,6 @@
 <div class="dialog" cdkTrapFocus>
   <div class="row">
-    <div class="col-12" style="position: relative;">
+    <div class="col-12 mb-0 pb-0" style="position: relative;">
       <span class="dialog__text--medium">{{ data.pretitle | uppercase }}</span>
       <div class="pull-right" attr.aria-label="{{'modal.info | translate'}}" role="close">
         <span class="htm-icon">close
@@ -9,7 +9,7 @@
       </div>
     </div>
   </div>
-  <notifications id="personal_data" class="notifications notifications--small"></notifications>
+  <notifications id="personal_data" class="notifications notifications--small" style="padding-top: 1.5rem"></notifications>
   <loader *ngIf="loading && !error"></loader>
   <div class="dialog__success--modal--table" *ngIf="!loading && content && !error">
     <div class="dialog__success--content dialog__success--content--table">
