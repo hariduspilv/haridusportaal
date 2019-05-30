@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef} from '@angular/core';
+import { Component, Input, Output, OnInit, OnDestroy, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { SettingsService } from '@app/_services/settings.service';
@@ -16,6 +16,8 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   @ViewChild('content') content: ElementRef;
   
   @Input() studyProgrammeId: number;
+  @Output() initialized = new EventEmitter<boolean>();
+
   private url;
   private lang: string;
   private subscriptions: Subscription[] = [];
@@ -92,8 +94,6 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
         }
       })
 
-      console.log(tmpList.length);
-
       if( tmpList.length < this.limit ){
         this.listEnd = true;
       }
@@ -105,10 +105,12 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
       }
 
       this.requestSub.unsubscribe();
+      this.initialized.emit(true);
     },
       error => {
         this.loading = false;
         this.listEnd = true;
+        this.initialized.emit(true);
       }
     );
   }
@@ -129,7 +131,9 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
         sub.unsubscribe();
       }
     }
-    if (this.scrollRestoration.hashRoute && !this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+    if (this.scrollRestoration.hashRoute 
+      && !this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute) 
+      && this.scrollRestoration.currentRoute !== decodeURI(window.location.pathname)) {
       this.scrollRestoration.setRouteKey('limit', this.list.length);
     }
   }
