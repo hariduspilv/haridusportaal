@@ -788,8 +788,16 @@ font-family: 'Rubik', sans-serif!important;
       &:first-child{margin-top:0;}
       &:last-child{margin-bottom:0;}
     }
-    .title{margin-top:0; font-weight: bold; font-size:20px; color:#333; font-family: 'Rubik', sans-serif!important; font-weight: 500; }
-    .si-content{max-width:100% !important; max-height:99999px !important; overflow: visible !important; font-family: 'Rubik', sans-serif!important;}
+    .title{margin-top:0; font-weight: bold; font-size:20px; color:#333; font-family: 'Rubik', sans-serif!important; font-weight: 500; border-bottom: #c7c7c9 1px solid; margin-left: -24px; margin-right: -24px; padding-left: 24px; margin-bottom: 16px; padding-bottom: 16px;}
+    .si-content{max-width:100% !important; max-height:99999px !important; overflow: visible !important; font-family: 'Rubik', sans-serif!important;
+      p:not(.title) {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      p:last-child {
+        margin-bottom: 20px;
+      }
+    }
     .button{ font-family: 'Rubik', sans-serif!important; height:62px; line-height:62px; margin:0 -24px -24px -24px; text-align: center; display: block; border-top:#c7c7c9 1px solid; font-size:16px;}
   }
   .snazzy-scrollarea{max-height:200px; overflow: auto; font-family: 'Rubik', sans-serif!important;
@@ -804,6 +812,7 @@ font-family: 'Rubik', sans-serif!important;
       &:hover{color:$blue; border-color:$blue;}
     }
   }
+
 }
 
 .grecaptcha-badge{z-index:9999;}

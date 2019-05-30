@@ -27,6 +27,9 @@
     p:last-child{margin-bottom:0;}
     h1 {width: 100%;}
     @include break-on(sm, min) {padding:$small $medium $small $medium;}
+    &.no-border {
+      border-bottom: 0;
+    }
   }
   .spinner-wrapper{padding-bottom:1.25rem;}
 }

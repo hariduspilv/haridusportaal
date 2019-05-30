@@ -46,7 +46,7 @@
           </span>
           <span class="bar" *ngIf="item.FieldDurationYears">|</span>
           <span class="item" *ngIf="item.FieldDurationYears || item.FieldDurationMonths">
-            <ng-container *ngIf="item.FieldDurationYears && item.FieldDurationYears !== 0">{{ item.FieldDurationYears }} aasta<span *ngIf="item.FieldDurationYears > 1">t</span> </ng-container>
+            <ng-container *ngIf="item.FieldDurationYears && item.FieldDurationYears !== 0">{{ item.FieldDurationYears }} aasta<span *ngIf="item.FieldDurationYears > 1">t </span> </ng-container>
             <ng-container *ngIf="item.FieldDurationMonths && item.FieldDurationMonths !== 0"> {{ item.FieldDurationMonths }} kuud</ng-container>
           </span>
           <span class="bar" *ngIf="item.FieldTeachingLanguage">|</span>
