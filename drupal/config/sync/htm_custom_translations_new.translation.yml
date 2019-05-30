@@ -1687,7 +1687,7 @@ button:
     en: 'Search people'
   load_more:
     translation_type: textarea
-    et: 'Lae rohkem'
+    et: 'Laadi rohkem'
     en: 'Load more'
   read_more:
     translation_type: textarea
@@ -2511,6 +2511,10 @@ oska:
     translation_type: textarea
     et: 'Hea kasutaja! Andmed on sisestamisel, avaldame need peatselt!'
     en: 'Hea kasutaja! Andmed on sisestamisel, avaldame need peatselt!-eng'
+  compared_to_other_fields:
+    translation_type: textarea
+    et: 'võrreldes teiste valdkondadega'
+    en: 'compared to other fields'
 oskaProfession:
   view_field_info:
     translation_type: textarea
