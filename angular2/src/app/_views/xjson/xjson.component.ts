@@ -370,7 +370,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   fileDownloadlink(id) {
     const token = sessionStorage.getItem('token');
-    return this.settings.url + '/xjson_service/documentFile/' + id + '?jwt_token=' + token;
+    return this.settings.url + '/xjson_service/documentFile2/' + id + '?jwt_token=' + token;
   }
 
   canUploadFile(element): boolean {
@@ -407,7 +407,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
             form_name: this.form_name,
             data_element: element
           };
-          const subscription = this.http.fileUpload('/xjson_service/documentFile', payload).subscribe(response => {
+          const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
+          const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
 
             const new_file = {
               file_name: file.name,

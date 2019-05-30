@@ -121,11 +121,13 @@ export class HttpService {
     });
   }
 
-  fileUpload(url, data){
+  fileUpload(url, data, filename){
     url = this.parseUrl(url);
     let headers = this.createAuthorizationHeader();
     headers = headers.append('Accept', 'application/json');
-
+    headers = headers.append('Content-Type', 'application/octet-stream');
+    headers = headers.append('Content-Disposition', 'file; filename="'.concat(filename, '"'));
+    
     return this.http.post(url, data, {
       headers: headers
     });
