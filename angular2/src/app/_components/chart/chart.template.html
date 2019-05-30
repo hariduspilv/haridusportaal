@@ -1,6 +1,7 @@
 <ng-container [ngSwitch]="type">
   <ng-container *ngSwitchCase="'default'">
     <ng-container *ngFor="let item of chartData">
+      <h2>{{ item.graphTitle | titleCase }}</h2>
       <google-chart [data]="item"></google-chart>
     </ng-container>
   </ng-container>
@@ -8,6 +9,7 @@
   <ng-container *ngSwitchCase="'filter'">
     <ng-container *ngFor="let item of data">
       
+      <h2>{{ item.graphTitle | titleCase }}</h2>
       <div class="graphText" [innerHTML]="item.graphText"></div>
 
       <ng-container *ngIf="item.filters">
