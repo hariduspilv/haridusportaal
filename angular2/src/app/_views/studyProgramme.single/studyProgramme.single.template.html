@@ -1,9 +1,9 @@
 <div><breadcrumbs *ngIf="!inputData"></breadcrumbs></div>
 
 <div class="main-container">
-  <loader *ngIf="!data && !error"></loader>
+  <loader *ngIf="!data || !relatedInitialized"></loader>
 
-  <div class="row" *ngIf="data">
+  <div class="row" *ngIf="data" [style.visibility]="relatedInitialized ? 'visible' : 'hidden'">
     <div class="col-8 sm-12">
       <div class="block padding-block lg-bottom--extra">
 
@@ -129,7 +129,7 @@
         <div class="text-center actions snackBar sm-hide" *ngIf="!displayRelatedStudyProgrammes">
           <button mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true" >Vaata sarnaseid erialasid</button>
         </div><!--/text-center-->
-        <related-studyprogrammes class="sm-hide" *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
+        <related-studyprogrammes (initialized)="onInitialized($event)" class="sm-hide" *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
       </ng-container>
       
     </div><!--/col-8-->
@@ -158,7 +158,7 @@
         <div class="text-center actions snackBar sm-show" *ngIf="!displayRelatedStudyProgrammes">
           <button role="button" mat-raised-button color="primary" (click)="displayRelatedStudyProgrammes = true">Vaata sarnaseid erialasid</button>
         </div><!--/text-center-->
-        <related-studyprogrammes class="sm-show" *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
+        <related-studyprogrammes (initialized)="onInitialized($event)" class="sm-show" *ngIf="displayRelatedStudyProgrammes" [studyProgrammeId]="data.nid"></related-studyprogrammes>
       </ng-container>
       <feedback class="feedback--sm sm-show" [nid]="data.nid" *ngIf="data"></feedback>
     </div><!--/col-4-->
