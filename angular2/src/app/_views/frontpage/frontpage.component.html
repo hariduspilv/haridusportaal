@@ -10,9 +10,9 @@
       <span aria-hidden="true" class="sm-show sm text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
       <span aria-hidden="true" class="sm-hide text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
     </h1>
-    <inline-links
+    <inline-links *ngIf="generalData && generalData.length"
       identifier="header"
-      [content]="generalData && generalData.length ? generalData[0].fieldTopics : []"
+      [content]="generalData[0].fieldTopics"
       [contentLabels]="fieldTopicLabels"
       [externalImage]="fieldTopicImage"
       externalLink="button.read_more"
