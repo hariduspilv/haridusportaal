@@ -18,7 +18,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;table-layout: fixed;
   }
   th, td {line-height: 1.38rem;font-size: .875rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray; text-align: left;
     &.highlighted {font-weight: 500;}
-    &.groupCell {border-bottom: .0625rem solid $white;}
+    &.groupCell {padding-top: 0; border-bottom: .0625rem solid $white;}
     &.firstCell {padding-top: 1rem;}
     &.centered {text-align: center;}
     &.bold {font-weight: 500;}
@@ -37,6 +37,9 @@ table {width: 100%;border-collapse: collapse; margin: 0;table-layout: fixed;
     }
     &.firstSlim td {padding-top: 1rem;}
     td.another {padding-top: 1.125rem;}
+    .groupCell {
+      padding-top: 0;
+    }
   }
   td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:$gutter;}
   th.hidden {text-align: center;border-bottom: none;}

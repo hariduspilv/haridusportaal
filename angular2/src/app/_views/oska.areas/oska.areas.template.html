@@ -113,7 +113,7 @@
           <chart [data]="data.fieldMainProfessionGraph || data.fieldSurveyPageGraph	|| data.fieldFieldPageGraph"></chart>
         </ng-container>
 
-        <ng-container *ngIf="data.fieldDynamicGraph">
+        <ng-container *ngIf="data.fieldDynamicGraph && data.fieldDynamicGraph.length > 0">
           <chart [data]="data.fieldDynamicGraph"  type="filter"></chart>
         </ng-container>
 
