@@ -149,11 +149,11 @@ export class OskaSectorsComponent implements OnInit {
       let top = elem.getBoundingClientRect().top + window.scrollY - header['offsetHeight'] - 24;
       if( !this.device.isDesktop() ){
         window.scrollTo({top:top});
+        this.lastOpenedPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       }else{
         window.scrollTo({behavior: 'smooth', top:top});
         document.getElementById("modal").focus();
       }
-      this.lastOpenedPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     }, 0);
 
   }
@@ -198,7 +198,7 @@ export class OskaSectorsComponent implements OnInit {
   }
 
   ngOnDestroy () {
-    if(this.modal) {
+    if(this.modal && this.lastOpenedPosition) {
       this.scrollRestoration.setRouteKey('position', this.lastOpenedPosition);
     }
   }
