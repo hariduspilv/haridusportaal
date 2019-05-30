@@ -170,6 +170,9 @@ export class ChartComponent implements OnInit {
     for (let i in data) {
       let current = data[i];
       let value = JSON.parse(current.value);
+      let titleCaseValues = value ? value.map(single => {
+        return single.map(field => (typeof field === 'string' && field.length) ? this.capitalize(field) : field);
+      }) : value;
       let graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       let graphIndicator = current.graphIndicator;
@@ -240,11 +243,11 @@ export class ChartComponent implements OnInit {
 
       let tmp = {
         chartType: graphName,
-        dataTable: value,
+        dataTable: titleCaseValues,
         options: this.getGraphOptions()
       }
 
-      tmp.options.height = this.getGraphHeight(value, current.graphType);
+      tmp.options.height = this.getGraphHeight(titleCaseValues, current.graphType);
 
       tmp.options['isStacked'] = isStacked;
 
@@ -348,7 +351,7 @@ export class ChartComponent implements OnInit {
 
           for (let i in filters['näitaja2']) {
 
-            let index = value[0].indexOf(filters['näitaja2'][i]);
+            let index = titleCaseValues[0].indexOf(filters['näitaja2'][i]);
 
             tmp.options.colors[index - 1] = lineColors[colorCounter];
             tmp.options['series'][index - 1] = {
