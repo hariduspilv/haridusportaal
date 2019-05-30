@@ -27,6 +27,8 @@ export class ChartComponent implements OnInit {
 
   initiallyFilledSelects = ['näitaja', 'valdkond'];
 
+  wideChartTypesToFormat: Array<Object> = ['bar', 'column'];
+
   constructor(
     private http: HttpService
   ) {
@@ -36,9 +38,10 @@ export class ChartComponent implements OnInit {
   getGraphOptions() {
 
     return {
+      titlePosition: 'none',
       height: this.height,
       chartArea: {
-        top: 75,
+        top: 24,
         bottom: 75
       },
       pieSliceTextStyle: {
@@ -49,6 +52,7 @@ export class ChartComponent implements OnInit {
       pointsVisible: true,
       pointSize: 10,
       legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
+      tooltip: {},
       colors: ['#161B5B', '#293193', '#4C53AD', '#824CAD', '#AD4CA3'],
 
       animation: {
@@ -163,7 +167,7 @@ export class ChartComponent implements OnInit {
       let graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       let graphIndicator = current.graphIndicator;
-      let graphTitle = current.graphTitle;
+      let graphTitle = this.capitalize(current.graphTitle);
       let secondaryGraphType = current.secondaryGraphType;
       let isStacked: any = false;
       let seriesType: any = false;
@@ -260,6 +264,10 @@ export class ChartComponent implements OnInit {
         tmp.options['hAxis'] = {
           format: primaryFormat
         };
+      }
+
+      if (this.wide && this.wideChartTypesToFormat.includes(chartType.toLowerCase())) {
+        this.formatWideGraphTypes(tmp.options);
       }
 
       let filters = false;
@@ -446,9 +454,12 @@ export class ChartComponent implements OnInit {
           multiple: false,
           options: []
         };
-
-        for (let i in item.graph_group_by) {
-          groupBy.options.push(item.graph_group_by[i]);
+        if (item.graph_group_by instanceof Object && Object.values(item.graph_group_by).length) {
+          for (let i in item.graph_group_by) {
+            groupBy.options.push(item.graph_group_by[i]);
+          }
+        } else {
+          groupBy.options.push(item.graph_group_by);
         }
 
         this.filters[item.id]['groupBy'] = groupBy.options[0];
@@ -573,7 +584,7 @@ export class ChartComponent implements OnInit {
         graphType: current['graphType'],
         secondaryGraphType: current.secondaryGraphType,
         secondaryGraphIndicator: filters['näitaja2'] && filters['näitaja2'].length > 0 ? filters['näitaja2'] : secondaryIndicatorList,
-        indicator: filters['näitaja'].length > 0 ? filters['näitaja'] : false,
+        indicator: filters['näitaja'] && filters['näitaja'].length > 0 ? filters['näitaja'] : false,
         oskaField: filters.valdkond && filters.valdkond.length > 0 ? filters.valdkond : fieldList,
         oskaSubField: filters.alavaldkond && filters.alavaldkond.length > 0 ? filters.alavaldkond : subFieldList,
         oskaMainProfession: filters.ametiala && filters.ametiala.length > 0 ? filters.ametiala : professionList,
@@ -609,7 +620,7 @@ export class ChartComponent implements OnInit {
         let data = response['data'].GoogleChartQuery.map((item) => {
 
           let type = variables['graphType'];
-
+          
           return {
             graphType: type,
             /*graphIndicator: 'Mis ma siia panen? :O',*/
@@ -636,8 +647,19 @@ export class ChartComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  formatWideGraphTypes (options) {
+    let locations = ['hAxis', 'vAxis', 'legend', 'tooltip'];
+    locations.forEach(elem => options[elem]['textStyle'] = { fontSize: 14 });
+    options['titleTextStyle'] = { fontSize: 16 };
+    options['chartArea'] = {
+      width: "66.6%",
+      top: 24,
+      bottom: 75,
+      right: 24,
+    };
+  }
 
+  ngOnInit() {
     switch (this.type) {
       case 'filter': {
         try {
