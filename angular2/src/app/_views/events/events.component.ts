@@ -73,6 +73,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   visibleEntries = 3;
 
   scrollPositionSet: boolean = false;
+  count: number = 0;
   
   constructor(
     public router: Router,
@@ -266,10 +267,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
       this.loadFlag = false;
       let data = response['data'];
 
+      this.count = data['nodeQuery']['count'];
       this.eventListRaw = this.eventListRaw.concat(data['nodeQuery']['entities']);
       this.eventList = this.organizeList( this.eventListRaw );
 
-      if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
+      // if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
+      //   this.listEnd = true;
+      // }
+      if (this.eventListRaw && this.eventListRaw.length === this.count) {
         this.listEnd = true;
       }
       subscriber.unsubscribe();
@@ -609,11 +614,15 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
           if( this.view == "list" ){
 
+            this.count = data['nodeQuery']['count'];
             this.eventListRaw = data['nodeQuery']['entities'];
             
             this.eventList = this.organizeList( this.eventListRaw );
             
-            if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
+            // if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
+            //   this.listEnd = true;
+            // }
+            if (this.eventListRaw && this.eventListRaw.length === this.count) {
               this.listEnd = true;
             }
           }else{
