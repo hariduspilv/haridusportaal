@@ -38,10 +38,12 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
   list: any = false;
   offset: number = 0;
   listEnd: boolean = false;
+  public count: number = 0;
   dataSubscription: any;
   loading = false;
   showFilter = true;
   public scrollPositionSet: boolean = false;
+  public lastImgSrc: string = '';
 
   constructor(
     private rootScope: RootScopeService,
@@ -176,6 +178,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     
     let subscribe = this.http.get('newsList', {params:variables}).subscribe( (response) => {
       let data = response['data'];
+      this.count = data['nodeQuery']['count'] || this.limit;
       this.loading = false;
       if( data['nodeQuery']['entities'].length == 0 ){
         if( !this.list || this.list.length == 0 ){
@@ -192,6 +195,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
       else{
         this.list = data['nodeQuery']['entities'];
       }
+      if( this.list.length === this.count ){ this.listEnd = true; }
 
       subscribe.unsubscribe();
     });
@@ -233,9 +237,15 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
 
   ngAfterViewChecked() {
     if (!this.scrollPositionSet && this.content && this.content.nativeElement.offsetParent != null) {
-      this.scrollRestoration.setScroll();
-      this.scrollPositionSet = true;
-      this.rootScope.set('scrollRestorationState', false);
+      this.lastImgSrc = document.querySelector(".lastImg").getAttribute('src');
+      let image = new Image();
+      image.onload = () => {
+        this.scrollRestoration.setScroll();
+        this.scrollPositionSet = true;
+        this.rootScope.set('scrollRestorationState', false);
+      }
+      image.onerror = () => {console.log('Error')}
+      image.src = this.lastImgSrc;
     }
   }
 }

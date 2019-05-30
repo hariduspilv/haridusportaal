@@ -129,13 +129,13 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
         sub.unsubscribe();
       }
     }
-    if (this.scrollRestoration.hashRoute) {
-      this.scrollRestoration.setRouteKey('limit', this.list.length)
+    if (this.scrollRestoration.hashRoute && !this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
+      this.scrollRestoration.setRouteKey('limit', this.list.length);
     }
   }
 
   initialScrollRestorationSetup(hash) {
-    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.search));
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
     if (scrollData && this.rootScope.get('scrollRestorationState')) {
       this.offset = !this.list && scrollData.limit ? scrollData.limit - this.limit : (this.list && this.list.length || 0);
       hash['offset'] = !this.list ? 0 : this.offset;
