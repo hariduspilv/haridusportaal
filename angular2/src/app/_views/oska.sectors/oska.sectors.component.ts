@@ -36,6 +36,7 @@ export class OskaSectorsComponent implements OnInit {
   private lastWidth = 0;
   public hasComparisonPage: boolean = false;
   public scrollPositionSet: boolean = false;
+  public lastOpenedPosition: number = 0;
 
   constructor(
     private http: HttpService,
@@ -148,6 +149,7 @@ export class OskaSectorsComponent implements OnInit {
       let top = elem.getBoundingClientRect().top + window.scrollY - header['offsetHeight'] - 24;
       if( !this.device.isDesktop() ){
         window.scrollTo({top:top});
+        this.lastOpenedPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       }else{
         window.scrollTo({behavior: 'smooth', top:top});
         document.getElementById("modal").focus();
@@ -190,10 +192,15 @@ export class OskaSectorsComponent implements OnInit {
   }
 
   ngOnInit () {
-
     this.calculateColsPerRow();
     this.lang = this.rootScope.get("lang");
     this.getData();
+  }
+
+  ngOnDestroy () {
+    if(this.modal && this.lastOpenedPosition) {
+      this.scrollRestoration.setRouteKey('position', this.lastOpenedPosition);
+    }
   }
 
   ngAfterViewChecked() {
