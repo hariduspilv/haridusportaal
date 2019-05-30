@@ -135,7 +135,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   }
 
   initialScrollRestorationSetup(hash) {
-    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.search));
+    let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
     if (scrollData && this.rootScope.get('scrollRestorationState')) {
       this.offset = !this.list && scrollData.limit ? scrollData.limit - this.limit : (this.list && this.list.length || 0);
       hash['offset'] = !this.list ? 0 : this.offset;
