@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { HttpService } from '@app/_services/httpService';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: "chart",
@@ -30,7 +31,8 @@ export class ChartComponent implements OnInit {
   wideChartTypesToFormat: Array<Object> = ['bar', 'column'];
 
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private device: DeviceDetectorService,
   ) {
 
   }
@@ -134,7 +136,11 @@ export class ChartComponent implements OnInit {
       height = rows * cols * 10;
     }
     else if (type == 'stacked bar 100') {
-      height = rows * 48;
+      if (this.device.isMobile()) {
+        height = rows * 72;
+      } else {
+        height = rows * 48;
+      }
     } else {
       height = rows * 28;
     }
