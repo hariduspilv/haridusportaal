@@ -28,7 +28,7 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   private recentUrl: string = '';
   private userLoggedOut: boolean = false;
   private desktopView: boolean;
-  private relatedInitialized: boolean = false;
+  public relatedInitialized: boolean = false;
 
   constructor(
     public router: Router,
