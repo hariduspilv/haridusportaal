@@ -116,24 +116,22 @@ class StudyProgrammeElasticQuery extends FieldPluginBase implements ContainerFac
                 $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
             }
 
+            $test = 0;
             foreach($responsevalues as $value){
-                if($value['_source']['nid'][0] != $args['filter']['nid']){
-                    foreach($value['_source'] as $key => $keyvalue){
-                        if($key === 'field_teaching_language'){
-                            $langterms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple($keyvalue);
-                            unset($keyvalue);
-                            foreach($langterms as $term){
-                                if($term){
-                                    $keyvalue[] = $term->label();
-                                }
+                foreach($value['_source'] as $key => $keyvalue){
+                    if($key === 'field_teaching_language'){
+                        $langterms = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple($keyvalue);
+                        unset($keyvalue);
+                        foreach($langterms as $term){
+                            if($term){
+                                $keyvalue[] = $term->label();
                             }
                         }
-                        $value['_source'][StringHelper::camelCase($key)] = $keyvalue;
-                        unset($value['_source'][$key]);
                     }
-
-                    yield $value['_source'];
+                    $value['_source'][StringHelper::camelCase($key)] = $keyvalue;
+                    unset($value['_source'][$key]);
                 }
+                yield $value['_source'];
             }
         }
         //yield $this->getQuery($value, $args, $context, $info);
@@ -329,6 +327,7 @@ class StudyProgrammeElasticQuery extends FieldPluginBase implements ContainerFac
                 )
             );
         }
+
         if(isset($location)){
             $values = explode(" ", $location);
             foreach($conditions as $key => $condition){
@@ -348,7 +347,12 @@ class StudyProgrammeElasticQuery extends FieldPluginBase implements ContainerFac
                 'function_score' => array(
                     'query' => array(
                         'bool' => array(
-                            'should' => $conditions
+                            'should' => $conditions,
+                            'must_not' => [
+                                'match' => [
+                                    'nid' => $args['filter']['nid']
+                                ]
+                            ]
                         )
                     ),
                     'boost' => '1',
