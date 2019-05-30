@@ -1,0 +1,19 @@
+uuid: 278c2357-843f-465c-9c3e-a2561327469d
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_xjson_services
+    - jwt
+    - serialization
+id: x_json_file2rest_resource
+plugin_id: x_json_file2rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+  formats:
+    - json
+  authentication:
+    - jwt_auth

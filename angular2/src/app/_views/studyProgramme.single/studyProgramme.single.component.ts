@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, HostListener } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, Event, NavigationStart } from '@angular/router';
 import { FiltersService } from '@app/_services/filtersService';
 import { Subscription } from 'rxjs/Subscription';
 import { UserService } from '@app/_services/userService';
@@ -17,7 +17,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 export class StudyProgrammeSingleComponent extends FiltersService implements OnInit{
 
   @Input() inputData;
-
   parseFloat = parseFloat;
   path: any;
   data: any;
@@ -26,8 +25,10 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   displayRelatedStudyProgrammes: boolean;
   private subscriptions: Subscription[] = [];
   private params: object;
+  private recentUrl: string = '';
   private userLoggedOut: boolean = false;
   private desktopView: boolean;
+  public relatedInitialized: boolean = false;
 
   constructor(
     public router: Router,
@@ -42,13 +43,26 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   watchSearch() {
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
-      if(this.params['displayRelated']) this.toggleDisplayRelatedStudyProgrammes(true);
+      if(this.params['displayRelated']) {
+        this.toggleDisplayRelatedStudyProgrammes(true);
+      } else {
+        this.relatedInitialized = true;
+      }
     });
+
+    let routerSub = this.router.events.subscribe((event: Event) => { 
+      if (event instanceof NavigationStart) {
+        if (event.url.split('?')[0] !== this.recentUrl && this.recentUrl) {
+          this.relatedInitialized = false;
+        }
+        this.recentUrl = event.url.split('?')[0];
+      }
+    })
 
     this.filterRetrieveParams( this.params );
 
     // Add subscription to main array for destroying
-    this.subscriptions = [ ...this.subscriptions, subscribe];
+    this.subscriptions = [ ...this.subscriptions, subscribe, routerSub];
   }
   toggleDisplayRelatedStudyProgrammes(value){
     this.displayRelatedStudyProgrammes = value;
@@ -74,17 +88,23 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
     }
 
   }
+  onInitialized() {
+    this.relatedInitialized = true;
+  }
 
   ngOnInit() {
     this.desktopView = this.device.isDesktop();
     this.watchSearch();
-    
     this.route.params.subscribe( params => {
       
       if(this.path !== this.router.url ){
         this.path = this.router.url;
         this.getData();
-        if(this.params['displayRelated']) this.toggleDisplayRelatedStudyProgrammes(true);
+        if(this.params['displayRelated']) {
+          this.toggleDisplayRelatedStudyProgrammes(true);
+        } else {
+          this.relatedInitialized = true;
+        }
         window.scrollTo(0, 0);
       }
       this.userLoggedOut = this.user.getData()['isExpired'];
@@ -93,10 +113,11 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   ngOnDestroy(){
     /* Clear all subscriptions */
     for (let sub of this.subscriptions) {
-     if (sub && sub.unsubscribe) {
-       sub.unsubscribe();
-     }
-   }
+      if (sub && sub.unsubscribe) {
+        sub.unsubscribe();
+      }
+    }
+    this.relatedInitialized = false;
  }
  @HostListener('window:popstate', ['$event'])
   onPopState() {

@@ -213,6 +213,7 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  entity_status: {  }
   html_filter:
     all_fields: true
     fields:
@@ -245,30 +246,12 @@ processor_settings:
       preprocess_index: -15
       preprocess_query: -15
   ignore_character:
-    all_fields: true
-    fields:
-      - body
-      - field_accordion_body
-      - field_author
-      - field_body
-      - field_body_summary
-      - field_cons
-      - field_event_type
-      - field_introduction
-      - field_organizer
-      - field_oska_field_cons
-      - field_oska_field_pros
-      - field_pros
-      - field_registration_code
-      - field_short_description
-      - field_survey_accordion_title
-      - field_tag
-      - title
     ignorable: '[()''¿¡!?,.:;]'
+    ignorable_classes: {  }
+    all_fields: false
     weights:
       preprocess_index: -10
       preprocess_query: -10
-    ignorable_classes: {  }
   rendered_item: {  }
 tracker_settings:
   default:
