@@ -12,6 +12,7 @@ export class ScrollRestorationService {
   public currentRoute: string = '';
   public previousRoute: string = '';
   public previousRouteHash: string = '';
+  public navigationWasPopstate: boolean = false;
   public initialOffset = 0;
   public data: Object = {};
   public routerSub: Subscription;
@@ -22,9 +23,11 @@ export class ScrollRestorationService {
 
     this.routerSub = this.router.events.subscribe( (event: Event) => {
       if (event instanceof NavigationStart) {
+        this.navigationWasPopstate = event.navigationTrigger === 'popstate';
         let prevHash = this.previousRouteHash || window.location.search;
         this.hashRoute = this.scrollableRoutesByHash.includes(prevHash);
-        this.currentRoute = !this.hashRoute ? decodeURI(window.location.pathname) : prevHash;
+        // this.currentRoute = !this.hashRoute ? decodeURI(window.location.pathname) : prevHash;
+        this.currentRoute = decodeURI(window.location.pathname);
         const pathName = event.url.split('?')[0];
         // Initialize current scrollable route data;
         if (this.currentRoute !== decodeURI(pathName) && this.scrollableRoutes.includes(decodeURI(pathName))) {
@@ -43,7 +46,7 @@ export class ScrollRestorationService {
           };
           this.setRouteData(data);
         // Set current scrollable route data if hash included && not popstate navigation
-        } else if (this.hashRoute && event.navigationTrigger !== 'popstate') {
+        } else if (this.hashRoute && !this.navigationWasPopstate) {
           let data = {
             state: rootScope.get('scrollRestorationState'),
             url: this.previousRoute,
@@ -51,7 +54,7 @@ export class ScrollRestorationService {
           };
           this.setRouteData(data);
         // Reset data on imperative navigation
-        } else if (event.navigationTrigger !== 'popstate' && this.scrollableRoutes.includes(this.currentRoute) && this.previousRoute.includes(this.currentRoute)) {
+        } else if (!this.navigationWasPopstate && this.scrollableRoutes.includes(this.currentRoute) && this.previousRoute.includes(this.currentRoute)) {
           this.reset();
         }
       }
