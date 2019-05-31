@@ -4,7 +4,7 @@
     && this.fillingbar[0] && this.fillingbar[0].value && this.fillingbar[0].value > 0 && this.fillingbar[0].value < 6">
     <h1 class="medium">{{ 'oska.competition' | translate }}</h1>
     <div class="padding-block--content">
-      <div innerHtml="{{'oska.competition_introduction_label' | translate}}"></div>
+      <div class="pb-3" innerHtml="{{'oska.competition_introduction_label' | translate}}"></div>
       <progress-bar id="1" [level]="competitionLevel" [status]="competitionLabel" labelStart="{{'oska.simple' | translate}}" labelEnd="{{'oska.difficult' | translate}}"></progress-bar>
     </div>
   </div>

@@ -154,8 +154,8 @@
   </div>
 
   <div #content *ngIf="list && list.length > 0 && view == 'list'">
-    <ng-container *ngFor="let item of list">
-      <div class="schools__item">
+    <ng-container *ngFor="let item of list; let last = last">
+      <div class="schools__item" [class.no-border]="last">
           <div class="schools__item__head sm-hide" *ngIf="item.FieldEducationalInstitutionTy">{{ item.FieldEducationalInstitutionTy }}</div>
           <a href="javascript:void();" [routerLink]="item.EntityPath" class="schools__item__title"><h1>{{ item.FieldSchoolName }}</h1></a>
           <div class="inline__items sm-hide">
@@ -188,7 +188,7 @@
                 <p *ngIf="marker.FieldEducationalInstitutionTy">{{ 'school.institution_type' | translate }}: <b>{{ marker.FieldEducationalInstitutionTy }}</b></p>
                 <p *ngIf="marker.FieldSchoolContactPhone || marker.FieldSchoolContactEmail" >{{ 'school.contact_info' | translate }}: <b *ngIf="marker.FieldSchoolContactPhone">{{ marker.FieldSchoolContactPhone }}</b><span *ngIf="marker.FieldSchoolContactPhone && marker.FieldSchoolContactEmail">,</span> <a *ngIf="marker.FieldSchoolContactEmail" href="mailto:{{ marker.FieldSchoolContactEmail}}"><b>{{ marker.FieldSchoolContactEmail}}</b></a></p>
 
-                <p *ngIf="marker.FieldSchoolWebpageAddress">{{ 'school.website' | translate }}: <a href="{{ marker.FieldSchoolWebpageAddress | url }}" target="_blank"><b>{{ marker.FieldSchoolWebpageAddress | removeProtocol }}</b></a></p>
+                <p style="margin-bottom: 20px;" *ngIf="marker.FieldSchoolWebpageAddress">{{ 'school.website' | translate }}: <a href="{{ marker.FieldSchoolWebpageAddress | url }}" target="_blank"><b>{{ marker.FieldSchoolWebpageAddress | removeProtocol }}</b></a></p>
                 <a [routerLink]="marker.EntityPath" class="button">{{ 'button.view_more' | translate }}</a>
               </ng-template>
             </agm-snazzy-info-window>

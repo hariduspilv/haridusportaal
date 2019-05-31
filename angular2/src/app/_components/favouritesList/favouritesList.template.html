@@ -1,5 +1,5 @@
 
-<div class="block padding-block sm-top gutter-bottom border-orange">
+<div class="block padding-block sm-top border-orange" [class.gutter-bottom]="existingFavouriteItems === true">
   <div class="block-title-big" role="list">{{ 'frontpage.favourites_list_label' | translate }}</div>
   <div *ngIf="loading">
     <loader></loader>

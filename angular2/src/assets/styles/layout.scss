@@ -117,7 +117,7 @@
   }
   &--content {
     padding-top: .5rem;line-height: 1.375rem;
-    hr {margin: 1rem -1.5rem;border: solid 1px $light-gray;}
+    hr {margin: 1rem -1.5rem; height: 1px; background-color: #eee; border: 0}
   }
   .block__footer {padding-bottom: .5rem;}
 }

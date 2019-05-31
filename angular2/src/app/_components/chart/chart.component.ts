@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { HttpService } from '@app/_services/httpService';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: "chart",
@@ -27,8 +28,11 @@ export class ChartComponent implements OnInit {
 
   initiallyFilledSelects = ['näitaja', 'valdkond'];
 
+  wideChartTypesToFormat: Array<Object> = ['bar', 'column'];
+
   constructor(
-    private http: HttpService
+    private http: HttpService,
+    private device: DeviceDetectorService,
   ) {
 
   }
@@ -36,9 +40,10 @@ export class ChartComponent implements OnInit {
   getGraphOptions() {
 
     return {
+      titlePosition: 'none',
       height: this.height,
       chartArea: {
-        top: 75,
+        top: 24,
         bottom: 75
       },
       pieSliceTextStyle: {
@@ -49,6 +54,7 @@ export class ChartComponent implements OnInit {
       pointsVisible: true,
       pointSize: 10,
       legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
+      tooltip: {},
       colors: ['#161B5B', '#293193', '#4C53AD', '#824CAD', '#AD4CA3'],
 
       animation: {
@@ -130,7 +136,11 @@ export class ChartComponent implements OnInit {
       height = rows * cols * 10;
     }
     else if (type == 'stacked bar 100') {
-      height = rows * 48;
+      if (this.device.isMobile()) {
+        height = rows * 72;
+      } else {
+        height = rows * 48;
+      }
     } else {
       height = rows * 28;
     }
@@ -160,10 +170,13 @@ export class ChartComponent implements OnInit {
     for (let i in data) {
       let current = data[i];
       let value = JSON.parse(current.value);
+      let titleCaseValues = value ? value.map(single => {
+        return single.map(field => (typeof field === 'string' && field.length) ? this.capitalize(field) : field);
+      }) : value;
       let graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       let graphIndicator = current.graphIndicator;
-      let graphTitle = current.graphTitle;
+      let graphTitle = this.capitalize(current.graphTitle);
       let secondaryGraphType = current.secondaryGraphType;
       let isStacked: any = false;
       let seriesType: any = false;
@@ -230,11 +243,11 @@ export class ChartComponent implements OnInit {
 
       let tmp = {
         chartType: graphName,
-        dataTable: value,
+        dataTable: titleCaseValues,
         options: this.getGraphOptions()
       }
 
-      tmp.options.height = this.getGraphHeight(value, current.graphType);
+      tmp.options.height = this.getGraphHeight(titleCaseValues, current.graphType);
 
       tmp.options['isStacked'] = isStacked;
 
@@ -260,6 +273,10 @@ export class ChartComponent implements OnInit {
         tmp.options['hAxis'] = {
           format: primaryFormat
         };
+      }
+      // Wide chart check or nah?  // this.wide &&
+      if (this.wideChartTypesToFormat.includes(chartType.toLowerCase())) {
+        this.formatWideGraphTypes(tmp.options);
       }
 
       let filters = false;
@@ -334,7 +351,7 @@ export class ChartComponent implements OnInit {
 
           for (let i in filters['näitaja2']) {
 
-            let index = value[0].indexOf(filters['näitaja2'][i]);
+            let index = titleCaseValues[0].indexOf(filters['näitaja2'][i]);
 
             tmp.options.colors[index - 1] = lineColors[colorCounter];
             tmp.options['series'][index - 1] = {
@@ -446,9 +463,12 @@ export class ChartComponent implements OnInit {
           multiple: false,
           options: []
         };
-
-        for (let i in item.graph_group_by) {
-          groupBy.options.push(item.graph_group_by[i]);
+        if (item.graph_group_by instanceof Object && Object.values(item.graph_group_by).length) {
+          for (let i in item.graph_group_by) {
+            groupBy.options.push(item.graph_group_by[i]);
+          }
+        } else {
+          groupBy.options.push(item.graph_group_by);
         }
 
         this.filters[item.id]['groupBy'] = groupBy.options[0];
@@ -573,7 +593,7 @@ export class ChartComponent implements OnInit {
         graphType: current['graphType'],
         secondaryGraphType: current.secondaryGraphType,
         secondaryGraphIndicator: filters['näitaja2'] && filters['näitaja2'].length > 0 ? filters['näitaja2'] : secondaryIndicatorList,
-        indicator: filters['näitaja'].length > 0 ? filters['näitaja'] : false,
+        indicator: filters['näitaja'] && filters['näitaja'].length > 0 ? filters['näitaja'] : false,
         oskaField: filters.valdkond && filters.valdkond.length > 0 ? filters.valdkond : fieldList,
         oskaSubField: filters.alavaldkond && filters.alavaldkond.length > 0 ? filters.alavaldkond : subFieldList,
         oskaMainProfession: filters.ametiala && filters.ametiala.length > 0 ? filters.ametiala : professionList,
@@ -609,7 +629,7 @@ export class ChartComponent implements OnInit {
         let data = response['data'].GoogleChartQuery.map((item) => {
 
           let type = variables['graphType'];
-
+          
           return {
             graphType: type,
             /*graphIndicator: 'Mis ma siia panen? :O',*/
@@ -636,8 +656,19 @@ export class ChartComponent implements OnInit {
 
   }
 
-  ngOnInit() {
+  formatWideGraphTypes (options) {
+    let locations = ['hAxis', 'vAxis', 'legend', 'tooltip'];
+    locations.forEach(elem => options[elem]['textStyle'] = { fontSize: 14 });
+    options['titleTextStyle'] = { fontSize: 16 };
+    options['chartArea'] = {
+      width: "66.6%",
+      top: 56,
+      bottom: 75,
+      right: 24,
+    };
+  }
 
+  ngOnInit() {
     switch (this.type) {
       case 'filter': {
         try {

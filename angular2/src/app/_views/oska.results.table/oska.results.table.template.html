@@ -193,9 +193,11 @@
                     <!-- <div *ngIf="item.proposalStatus">{{item.proposalStatus}}</div> -->
                     <div class="flex centered">
                       <div class="icon-wrapper"
-                        [class.stagnant]="item.proposalStatus == 'Töös'"
-                        [class.top]="item.proposalStatus == 'Tehtud'"
-                        [class.bottom]="item.proposalStatus == 'Tegemata'">
+                        [class.top]="item.proposalStatus == 'Plaanis rakendada'"
+                        [class.bottom]="item.proposalStatus == 'Ei rakenda'"
+                        [class.positive]="item.proposalStatus == 'Tehtud'"
+                        [class.topmost]="item.proposalStatus == 'Töös'"
+                        [class.lowest]="item.proposalStatus == 'Tagasiside kogumisel'">
                         <span class="icon" aria-hidden="true"></span>
                       </div>
                       <div class="flex-text"><span role="text" attr.aria-label="{{item.proposalStatus}}">{{item.proposalStatus}}</span></div>

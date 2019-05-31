@@ -13,12 +13,12 @@
   .author {padding: $half-gutter $medium $gutter $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;
     @include break-on(sm, min) {padding: 0; padding-top: $gutter; padding-bottom: $small;}
   }
-  .description {padding-top: $small;font-size: $small;max-height: 3.5rem;overflow: hidden;}
+  .description {font-size: $small;max-height: 3.5rem;overflow: hidden;}
 }
 .news-list {border-top: $gutter solid $light-blue;background: $white;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;}
 }
-.tags {padding: 0;}
+.tags {padding: 0; padding-bottom: $small;}
 .mat-card {box-shadow: none !important;padding: $medium;
   @include break-on(sm, max) {padding: 0 !important;}
 }
