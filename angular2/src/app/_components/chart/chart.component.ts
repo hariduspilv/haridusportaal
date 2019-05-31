@@ -274,8 +274,8 @@ export class ChartComponent implements OnInit {
           format: primaryFormat
         };
       }
-
-      if (this.wide && this.wideChartTypesToFormat.includes(chartType.toLowerCase())) {
+      // Wide chart check or nah?  // this.wide &&
+      if (this.wideChartTypesToFormat.includes(chartType.toLowerCase())) {
         this.formatWideGraphTypes(tmp.options);
       }
 
@@ -662,7 +662,7 @@ export class ChartComponent implements OnInit {
     options['titleTextStyle'] = { fontSize: 16 };
     options['chartArea'] = {
       width: "66.6%",
-      top: 24,
+      top: 56,
       bottom: 75,
       right: 24,
     };
