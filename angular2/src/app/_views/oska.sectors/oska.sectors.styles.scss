@@ -100,8 +100,8 @@
         @include break-on(xs, max) {align-items: flex-start; padding-top:18px !important;}
       }
     }
-    h2{margin:0; font-size:1.5rem; line-height:100%; padding:1rem 0; overflow: hidden; text-overflow: ellipsis;
-      a{text-decoration: underline; color:$black;
+    h2{margin:0; font-size:1.5rem; line-height:100%; padding:1rem 0; text-overflow: ellipsis;
+      a{text-decoration: underline; color:$blue;
         &:hover{text-decoration: none;}
       }
       &+a{margin:0 0 1.4375rem 0; width:100%;}
@@ -121,7 +121,7 @@
     iframe{position: absolute; top:0; left:0; width:100%; height:100%;}
   }
 
-  hr{margin:1.5rem 0; border:none; height:2px; background:$white; overflow: hidden;
+  hr{margin:1.5rem 0; border:none; height:1px; background:$white; overflow: hidden;
     &.xs-show{margin-top:0.5rem;}
   }
 
@@ -130,7 +130,7 @@
   }
 
   [class*='col']{position:relative;}
-  .separator{position:absolute; top:0.5rem; left:0; width:2px; bottom:0.5rem; background:$white;}
+  .separator{position:absolute; top:0.5rem; left:0; width:1px; bottom:0.5rem; background:$white;}
   ul{list-style:none; margin:0; padding:0; display:flex; flex-wrap: wrap;
     li{width:100%; margin:5px 0; padding-right:1rem; box-sizing: border-box;
       @include break-on(xs, min) {width:50%;}

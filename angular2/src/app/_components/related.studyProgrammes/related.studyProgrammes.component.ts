@@ -133,7 +133,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     }
     if (this.scrollRestoration.hashRoute 
       && !this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute) 
-      && this.scrollRestoration.currentRoute !== window.location.pathname) {
+      && this.scrollRestoration.currentRoute !== decodeURI(window.location.pathname)) {
       this.scrollRestoration.setRouteKey('limit', this.list.length);
     }
   }

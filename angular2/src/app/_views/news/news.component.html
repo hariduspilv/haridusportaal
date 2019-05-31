@@ -114,7 +114,8 @@
               <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }} </h1></a></div>
               
               <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
-              <div class="tags" *ngIf="item.fieldTag">
+              <!-- good luck lol -->
+              <div class="tags" *ngIf="item.fieldTag && !(item.fieldTag.length === 1 && item.fieldTag[0].entity === null)">
                 <mat-chip-list>
                     <span *ngFor="let tag of item.fieldTag" class="mat-chip-wrapper">
                       <mat-chip *ngIf="tag.entity">{{ tag.entity.entityLabel }}</mat-chip>
