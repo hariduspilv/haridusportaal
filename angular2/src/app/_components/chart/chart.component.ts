@@ -401,6 +401,7 @@ export class ChartComponent implements OnInit {
       item.secondaryGraphType = item.filterValues.graph_options.secondary_graph_type;
 
       this.filters[item.id] = {};
+      this.unselectableFilters[item.id] = {};
 
       let multipleIndicators = true;
 
@@ -444,7 +445,7 @@ export class ChartComponent implements OnInit {
               let indicatorValue = Object.keys(indicator[i].indicator_set.secondary_graph_indicator);
               secondaryIndicators[i] = indicatorValue;
             }
-            this.unselectableFilters.näitaja2 = secondaryIndicators;
+            this.unselectableFilters[item.id].näitaja2 = secondaryIndicators;
 
         } catch (err) { }
 
@@ -558,7 +559,7 @@ export class ChartComponent implements OnInit {
       })[0];
 
       let filters = this.filters[current.id];
-      let unselectableFilters = this.unselectableFilters;
+      let unselectableFilters = this.unselectableFilters[current.id];
 
       if (!this.filtersData[current.id]) { this.filtersData[current.id] = {}; }
 
