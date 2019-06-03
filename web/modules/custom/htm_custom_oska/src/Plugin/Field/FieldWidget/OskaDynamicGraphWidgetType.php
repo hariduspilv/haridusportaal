@@ -37,7 +37,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         ];
         $oska_filters_path = '/app/drupal/web/sites/default/files/private/oska_filters/';
 
-        $basic_graph_types = ['line', 'pie', 'donut'];
+        $basic_graph_types = ['line', 'pie', 'doughnut'];
 
         $element += [
             '#type' => 'fieldset',
