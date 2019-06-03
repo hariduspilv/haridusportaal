@@ -91,10 +91,10 @@
       </ng-container>
     </div><!--/search__body-->
     <div class="text-center actions__error" *ngIf="!loading && filteredResults !== null && filteredResults.length === 0">
-      <div class="alert" role="alert">{{'search.no_results_start' | translate}} <span *ngIf="route.snapshot.queryParams['term']">"{{route.snapshot.queryParams['term']}}" </span><span innerHtml="{{'search.no_results_end' | translate}}"></span></div>
+      <div class="alert text-center" role="alert">{{'search.no_results_start' | translate}} <span *ngIf="route.snapshot.queryParams['term']">"{{route.snapshot.queryParams['term']}}" </span><span innerHtml="{{'search.no_results_end' | translate}}"></span></div>
     </div><!--/text-center-->
     <div class="text-center actions__error" *ngIf="!loading && !filteredResults">
-      <div class="alert" role="alert">{{ 'news.no_results' | translate }}</div>
+      <div class="alert text-center" role="alert">{{ 'news.no_results' | translate }}</div>
     </div><!--/text-center-->
   </div>
   <div class="text-center actions" *ngIf="listLength > listLimit && filteredResults && filteredResults.length">
