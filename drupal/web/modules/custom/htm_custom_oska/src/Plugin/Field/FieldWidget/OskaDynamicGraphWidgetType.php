@@ -52,7 +52,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             '#options' => [
                 'line' => $this->t('line'),
                 'pie' => $this->t('pie'),
-                'donut' => $this->t('donut'),
+                'doughnut' => $this->t('doughnut'),
                 'clustered column' => $this->t('clustered column'),
                 'stacked column' => $this->t('stacked column'),
                 'stacked column 100' => $this->t('stacked column 100%'),
