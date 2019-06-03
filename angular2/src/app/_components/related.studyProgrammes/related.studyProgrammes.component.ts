@@ -26,6 +26,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
 
   public limit: number = 24;
   public offset: number = 0;
+  public listCount: number = 0;
   public loading: boolean = true;
   public listEnd: boolean = false;
 
@@ -75,11 +76,12 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     if(this.requestSub !== undefined) {
       this.requestSub.unsubscribe();
     }
-    this.requestSub = this.http.get('similarStudyProgrammes', { params: variables } ).subscribe(response => {
+    this.requestSub = this.http.get('similarStudyProgrammes2', { params: variables } ).subscribe(response => {
 
       this.loading = false;
 
-      let tmpList = response['data']['CustomStudyProgrammeElasticQuery'];
+      this.listCount = response['data']['CustomStudyProgrammeElasticQuery2']['count'];
+      let tmpList = response['data']['CustomStudyProgrammeElasticQuery2']['entities'];
 
       if (response['errors'] && tmpList === null) {
         tmpList = [];
@@ -102,6 +104,10 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
         this.list = [ ... this.list, ...tmpList ];
       }else{
         this.list = tmpList;
+      }
+
+      if (this.listCount === this.list.length) {
+        this.listEnd = true;
       }
 
       this.requestSub.unsubscribe();
