@@ -37,6 +37,8 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         ];
         $oska_filters_path = '/app/drupal/web/sites/default/files/private/oska_filters/';
 
+        $basic_graph_types = ['line', 'pie', 'doughnut'];
+
         $element += [
             '#type' => 'fieldset',
             '#title' => $this->t('Graph'),
@@ -49,6 +51,8 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             '#default_value' => isset($items[$delta]->graph_type) ? $items[$delta]->graph_type : NULL,
             '#options' => [
                 'line' => $this->t('line'),
+                'pie' => $this->t('pie'),
+                'doughnut' => $this->t('doughnut'),
                 'clustered column' => $this->t('clustered column'),
                 'stacked column' => $this->t('stacked column'),
                 'stacked column 100' => $this->t('stacked column 100%'),
@@ -103,7 +107,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             $group_by_options = $fields;
             $group_by_options['naitaja'] = $this->t('indicator');
 
-            if($graph_type === 'line'){
+            if(in_array($graph_type, $basic_graph_types)){
                 $element['graph_options']['graph_indicator'] = [
                     '#title' => $this->t('OSKA indicator'),
                     '#type' => 'select',
@@ -158,6 +162,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         '#options' => $indicator_options,
                         '#multiple' => FALSE,
                         '#required' => FALSE,
+                        '#empty_option'  => '-',
                         '#default_value' => isset($data['indicators'][$i]['indicator_set']['graph_indicator']) ? $data['indicators'][$i]['indicator_set']['graph_indicator'] : NULL,
                         '#ajax' => [
                             'callback' => [$this,'ajax_dependent_graph_filters_callback'],
@@ -199,7 +204,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#title' => $this->t('Group results'),
                 '#size' => 256,
                 '#type' => 'select',
-                '#multiple' => FALSE,
+                '#multiple' => TRUE,
                 '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
                 '#options' =>  $group_by_options,
                 '#empty_option'  => '-',
@@ -216,7 +221,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             $graph_indicator = [];
             $secondary_graph_indicator = [];
 
-            if($graph_type === 'line'){
+            if(in_array($graph_type, $basic_graph_types)){
                 if(isset($form_state->getUserInput()[$field_name])){
                     $graph_indicator = $form_state->getUserInput()[$field_name][$delta]['graph_options']['graph_indicator'];
                 }else if(isset($data['graph_indicator'])){
@@ -277,7 +282,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#delta' => $delta,
             ];
 
-            if($graph_type != 'line'){
+            if(!in_array($graph_type, $basic_graph_types)){
 
                 $element['graph_options']['secondary_graph_y_min'] = [
                     '#title' => $this->t('Secondary minimum Y'),
