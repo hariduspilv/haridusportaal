@@ -11,7 +11,11 @@
     .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
     @include break-on(xs, max){text-align:center;display: block;
       .button-list{border-top:$gray 1px solid; border-bottom:$gray 1px solid; width:100%;
-        .view-item{width:50%; padding-top:0.56rem; padding-bottom:0.56rem;}
+        .view-item{width:50%; padding-top:0.56rem; padding-bottom:0.56rem;
+          &:first-child {
+            border-left: 0;
+          }
+        }
       }
     }
   }

@@ -5,7 +5,28 @@
   .months {margin-top: $medium;
     @include break-on(sm, min) {margin-top:-$medium;}
   }
-  &__head {display: flex; border-bottom: .0625rem solid $gray;}
+  &__head {display: flex;border-bottom: .0625rem solid $gray;
+    .button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
+    @include break-on(xs, max){text-align:center;display: block;
+      .button-list{border-top:$gray 1px solid; border-bottom:$gray 1px solid; width:100%; border-left:0;
+        .view-item{width:50%; padding-top:0.56rem; padding-bottom:0.56rem;
+        &:first-child{
+          border-left:0;
+        }}
+      }
+    }
+  }
+  .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;color:$blue;
+    .title { font-size: 0.875rem; }
+    .htm-icon{margin-top: 0.5rem;
+      display: inline-block;
+      fill: currentColor;
+    }
+    h1 {font-size: .875rem;}
+    &.active {color: $black;pointer-events: none;cursor: initial;
+      &:after {content: '';height: .1875rem;background-color: $dark-orange;display: block;position: relative;top: .625rem;}
+    }
+  }
   &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;}
   .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;cursor:pointer;color:$blue;
     .htm-icon{margin-top: 0.5rem;}
@@ -33,7 +54,6 @@
   }
   .spinner-wrapper{padding-bottom:1.25rem;}
 }
-.button-list {display: flex;flex-basis: 50%;justify-content: flex-end;}
 .actions{margin-bottom:$xxl; padding:0 1.5rem;margin-top: -$medium;
   @include break-on(sm, min) {margin-top: 0;}
 }

@@ -45,7 +45,7 @@
       &--title {margin: auto 0;padding: .5rem;display: flex !important;align-items: center;min-height: 2.25rem;width: 100%;justify-content: center;  appearance: none; background:none; border:none;
         &:focus{border-radius:0;}
         .sector__title {line-height: 1.125rem;font-weight: 300;font-size: .875rem;color: $white;text-align: center;;
-          text-decoration: underline;padding: 0 .5rem;overflow: hidden;text-overflow: ellipsis;
+          text-decoration: underline;padding: 0 .5rem;overflow: hidden;text-overflow: ellipsis;word-break: break-word;hyphens: auto;
         }
       }
       &--pic {position: relative; width:100%;
@@ -100,7 +100,7 @@
         @include break-on(xs, max) {align-items: flex-start; padding-top:18px !important;}
       }
     }
-    h2{margin:0; font-size:1.5rem; line-height:100%; padding:1rem 0; text-overflow: ellipsis;
+    h2{margin:0; font-size:1.5rem; line-height:100%; padding:1rem 0; text-overflow: ellipsis; word-break: break-word; hyphens: auto;
       a{text-decoration: underline; color:$blue;
         &:hover{text-decoration: none;}
       }
