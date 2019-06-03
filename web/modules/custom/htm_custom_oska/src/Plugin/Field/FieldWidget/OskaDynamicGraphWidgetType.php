@@ -158,6 +158,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         '#options' => $indicator_options,
                         '#multiple' => FALSE,
                         '#required' => FALSE,
+                        '#empty_option'  => '-',
                         '#default_value' => isset($data['indicators'][$i]['indicator_set']['graph_indicator']) ? $data['indicators'][$i]['indicator_set']['graph_indicator'] : NULL,
                         '#ajax' => [
                             'callback' => [$this,'ajax_dependent_graph_filters_callback'],
@@ -199,7 +200,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#title' => $this->t('Group results'),
                 '#size' => 256,
                 '#type' => 'select',
-                '#multiple' => FALSE,
+                '#multiple' => TRUE,
                 '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
                 '#options' =>  $group_by_options,
                 '#empty_option'  => '-',
