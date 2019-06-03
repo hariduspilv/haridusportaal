@@ -131,18 +131,43 @@ class GoogleChartQuery extends FieldPluginBase {
         if($label_field && $value_field){
             $labelsums = [];
             $xlabels = [];
+            $rule_levels = [];
+
+            $skip_rule_levels = [
+                'valdkond',
+                'alavaldkond',
+                'ametiala'
+            ];
+            $rule_check = [
+                $label_field,
+                $indicator_field
+            ];
+            foreach($rule_check as $value){
+                $result = array_search($value, $skip_rule_levels);
+                if(!result){
+                    $rule_levels[] = $result;
+                }
+            }
+            $rule_level = max($rule_levels);
 
             #get value for each label, sum reoccurring labels
             foreach($records as $record){
 
-                if($indicator_field === 'valdkond' || $label_field === 'valdkond'){
-                    if(empty($record['valdkond']) || !empty($record['alavaldkond']) || !empty($record['ametiala'])){
-                        continue;
+                if($rule_level){
+                    if($rule_level === 0){
+                        if(empty($record['valdkond']) || !empty($record['alavaldkond']) || !empty($record['ametiala'])){
+                            continue;
+                        }
                     }
-                }
-                if($indicator_field === 'alavaldkond' || $label_field === 'alavaldkond'){
-                    if(empty($record['valdkond']) || empty($record['alavaldkond']) || !empty($record['ametiala'])){
-                        continue;
+                    if($rule_level === 1){
+                        if(empty($record['valdkond']) || empty($record['alavaldkond']) || !empty($record['ametiala'])){
+                            continue;
+                        }
+                    }
+                    if($rule_level === 2){
+                        if(empty($record['valdkond']) || empty($record['alavaldkond']) || empty($record['ametiala'])){
+                            continue;
+                        }
                     }
                 }
 
