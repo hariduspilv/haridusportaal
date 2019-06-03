@@ -203,12 +203,12 @@ class StudyProgrammeElasticQuery extends FieldPluginBase implements ContainerFac
                                         'name' => $studyprogrammename
                                     )
                                 ),
-                                array(
-                                    // get only published programmes
-                                    'match' => array(
-                                        'status' => 1
-                                    )
-                                )
+                               # array(
+                               #     // get only published programmes
+                               #     'match' => array(
+                               #         'status' => 1
+                               #     )
+                               # )
                             )
                         )
                     )
