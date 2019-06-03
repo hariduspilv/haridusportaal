@@ -20,7 +20,7 @@
   &.with-results {padding-bottom: $medium;
     @include break-on(sm, min) {padding-bottom: $xxl}
   }
-  .alert {padding: $large $medium;font-size: $medium;line-height: $large;color: $black;}
+  .alert {padding: $large $medium;font-size: $medium;line-height: $large;color: $black; font-weight: 500;}
 }
 .actions {margin-bottom: $xxl;margin-left: $medium; margin-right: $medium;
   @include break-on(sm, min) {margin-left: 0; margin-right: 0;}
