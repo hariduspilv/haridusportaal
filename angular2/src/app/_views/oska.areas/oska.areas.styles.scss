@@ -25,7 +25,7 @@
   }
 }
   mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
-  .accordion {padding: 0;
+  .accordion {padding: 0; padding-bottom: 1rem;
     &--list {
       ::ng-deep .mat-expansion-panel-body { padding: 0 !important; }
       ::ng-deep .mat-expansion-panel-content {padding: 0;}
