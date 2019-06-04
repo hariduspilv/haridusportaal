@@ -322,6 +322,7 @@ class EhisConnectorService {
 
 			return (isset($return[$params['hash']])) ? $return[$params['hash']] : [];
 		}
+		unset($return['redis_hit']);
 		return $return;
 	}
 
