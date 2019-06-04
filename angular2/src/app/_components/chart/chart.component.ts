@@ -275,7 +275,7 @@ export class ChartComponent implements OnInit {
         };
       }
       // Wide chart check or nah?  // this.wide &&
-      if (this.wideChartTypesToFormat.includes(chartType.toLowerCase()) && !current.secondaryGraphType) {
+      if (this.wide && this.wideChartTypesToFormat.includes(chartType.toLowerCase()) && !current.secondaryGraphType) {
         this.formatWideGraphTypes(tmp.options);
       }
 
@@ -427,10 +427,11 @@ export class ChartComponent implements OnInit {
             multipleIndicators = false;
           }
 
+          // Use multipleIndicators for wide views
           tmpFilters.push(
             {
               key: i,
-              multiple: true,
+              multiple: this.wide ? multipleIndicators : true,
               options: options
             }
           );
