@@ -344,7 +344,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     } else if (this.max_step !== this.opened_step && this.edit_step === false) {
       return true;
 
-    } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE'].includes(key))) {
+    } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key))) {
       return false;
 
     } else {
@@ -809,7 +809,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       this.fillAddressFieldsTemporaryModel(this.data_elements);
 
-      this.compileAcceptableFormList();
+      //this.compileAcceptableFormList();
 
       this.scrollPositionController();
 
