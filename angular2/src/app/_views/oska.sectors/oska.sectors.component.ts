@@ -158,8 +158,8 @@ export class OskaSectorsComponent implements OnInit {
 
   }
 
-  changeView() {
-    this.router.navigate(['valdkonnad/andmed']);
+  changeView(url) {
+    this.router.navigate([url]);
   }
 
   getData () {

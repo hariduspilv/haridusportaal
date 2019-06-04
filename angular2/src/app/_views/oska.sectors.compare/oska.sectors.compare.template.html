@@ -4,13 +4,17 @@
     <div class="sectors__head">
       <h1 class="sectors__title text-left" aria-hidden="true">{{ 'oskaProfessions.fieldsCompare' | translate | uppercase }}</h1>
       <div class="button-list" *ngIf="data && data.length !== 0">
-        <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.grid' | translate }} {{ 'oska.view' | translate}}" tabindex="0">
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView('/valdkonnad')" (click)="changeView('/valdkonnad')" attr.aria-label="{{ 'oska.grid' | translate }} {{ 'oska.view' | translate}}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">apps</span>
           <div aria-hidden="true" class="title" >{{ 'oskaProfessions.fields' | translate }}</div>
         </div>
         <div class="view-item pointer active" id="heading" attr.aria-label="{{ 'oskaProfessions.fieldsCompare' | translate }}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">compare_arrows</span>
           <div aria-hidden="true" class="title">{{ 'oska.data' | translate }}</div>
+        </div>
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView('/valdkonnad/kaart')" (click)="changeView('/valdkonnad/kaart')" attr.aria-label="{{ 'oskaProfessions.map' | translate }}" tabindex="0">
+          <span aria-hidden="true" class="htm-icon">location_on</span>
+          <div aria-hidden="true" class="title">{{ 'oskaProfessions.map' | translate }}</div>
         </div>
       </div>  
     </div>
