@@ -188,9 +188,9 @@ class GoogleChartQuery extends FieldPluginBase {
 
                 $labelsums[$ylabel][$xlabel] = $xlabel;
                 if(!isset($labelsums[$value_label][$xlabel])){
-                    $labelsums[$value_label][$xlabel] = floatval(str_replace(",",".", $val));
+                    $labelsums[$value_label][$xlabel] = empty($val) ? null : floatval(str_replace(",",".", $val));
                 }else{
-                    $labelsums[$value_label][$xlabel] += floatval(str_replace(",",".", $val));
+                    $labelsums[$value_label][$xlabel] += empty($val) ? null : floatval(str_replace(",",".", $val));
                 }
                 if(!in_array($xlabel, $xlabels)){
                     $xlabels[] = $xlabel;
