@@ -20,19 +20,20 @@
 }
 .tags {padding: 0; padding-bottom: $small;}
 .mat-card {box-shadow: none !important;padding: $medium;
-  @include break-on(sm, max) {padding: 0 !important;}
+  @include break-on(xs, max) {padding: 0 !important;}
 }
-.news-item {padding-top: $xxl;
-  &:first-child {padding-top: 0.375rem;}
+.news-item {
   &:first-child {.mat-card {padding-top: 0;}}
-  @include break-on(sm, min) {padding-top: 0; border-top: solid .0625rem $gray;
+  @include break-on(xs, max) {padding-bottom: $xxl;}
+  @include break-on(xs, min) {padding-top: 0; border-top: solid .0625rem $gray;
     &:first-child { border-top: none; }
   }
   &:hover {
     a {text-decoration: none;}
   }
 }
-.actions {padding-top: $medium;
+
+.actions {
   button { margin: 0 $medium; width: stretch;}
   @include break-on(sm, min) {background: $light-gray;
     button { margin: 0 $medium; width: auto;}
