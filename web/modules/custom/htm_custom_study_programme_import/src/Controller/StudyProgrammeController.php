@@ -215,13 +215,16 @@ class StudyProgrammeController extends ControllerBase {
                 $programmenode['programme_field']['field_practical_training_amount'] = $programme->praktikaMaht;
             }
 
+            $duration_values = [];
             if(isset($programme->nominaalKestusAastad)){
-                $programmenode['programme_field']['field_duration_years'] = $programme->nominaalKestusAastad;
+                $duration_values[] = $programme->nominaalKestusAastad*12;
             }
 
             if(isset($programme->nominaalKestusKuud)){
-                $programmenode['programme_field']['field_duration_months'] = $programme->nominaalKestusKuud;
+                $duration_values[] = $programme->nominaalKestusKuud;
             }
+            $programmenode['programme_field']['field_duration'] = array_sum($duration_values);
+
 
             if(isset($programme->vastuvott)){
                 $programmenode['programme_field']['field_admission_status'] = $programme->vastuvott;
