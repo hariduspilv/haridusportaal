@@ -707,6 +707,10 @@ frontpage:
     translation_type: textarea
     et: seisuga
     en: seisuga-eng
+  certificates_data:
+    translation_type: textarea
+    et: 'Tunnistuste andmed'
+    en: 'Tunnistuste andmed-eng'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -2257,6 +2261,10 @@ oskaProfessions:
     translation_type: textarea
     et: 'Kõik ametialad'
     en: 'Kõik ametialad- eng'
+  map:
+    translation_type: textarea
+    et: Kaart
+    en: Map
 fieldFixedLabel:
   label:
     translation_type: textarea
@@ -2515,6 +2523,14 @@ oska:
     translation_type: textarea
     et: 'võrreldes teiste valdkondadega'
     en: 'compared to other fields'
+  fields_data_on_map:
+    translation_type: textarea
+    et: 'Valdkonade andmed Eesti kaardil'
+    en: 'Fields map'
+  field_map_introduction:
+    translation_type: textarea
+    et: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest.'
+    en: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest.'
 oskaProfession:
   view_field_info:
     translation_type: textarea
