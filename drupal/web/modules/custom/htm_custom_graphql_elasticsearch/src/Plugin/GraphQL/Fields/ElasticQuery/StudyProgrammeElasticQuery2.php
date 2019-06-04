@@ -331,8 +331,9 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
                         'bool' => array(
                             'should' => $conditions,
                             'must_not' => [
-                                'term' => ['nid' => $args['filter']['nid']],
-                                'term' => ['status' => 0]
+                                'match' => [
+                                    'nid' => $args['filter']['nid']
+                                ]
                             ]
                         )
                     ),
