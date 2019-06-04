@@ -275,7 +275,7 @@ export class ChartComponent implements OnInit {
         };
       }
       // Wide chart check or nah?  // this.wide &&
-      if (this.wideChartTypesToFormat.includes(chartType.toLowerCase())) {
+      if (this.wideChartTypesToFormat.includes(chartType.toLowerCase()) && !current.secondaryGraphType) {
         this.formatWideGraphTypes(tmp.options);
       }
 
