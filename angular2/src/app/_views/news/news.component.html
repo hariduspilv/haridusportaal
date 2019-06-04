@@ -110,7 +110,7 @@
       <mat-card>
         <mat-card-content>
           <div class="row news-row">
-            <div class="col-8 sm-hide">
+            <div class="col-8 xs-hide">
               <div class="mt-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }} </h1></a></div>
               
               <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
@@ -125,11 +125,11 @@
               
               <div class="description">{{ item.fieldShortDescription }}</div>
             </div>
-            <div class="col-4 sm-12 pointer" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
+            <div class="col-4 xs-12 pointer" *ngIf="item.fieldIntroductionImage" [routerLink]="[item.entityUrl.path]">
               <img [class.lastImg]="last" src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
             </div>
           </div>
-          <div class="sm-show col-12">
+          <div class="xs-show col-12">
             <div class="mb-0 title"><a href="javascript:void();" class="normal-text" [routerLink]="[item.entityUrl.path]"><h1> {{ item.entityLabel }} </h1></a></div>
             <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
           </div><!--/col-12-->

@@ -37,7 +37,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         ];
         $oska_filters_path = '/app/drupal/web/sites/default/files/private/oska_filters/';
 
-        $basic_graph_types = ['line', 'pie', 'donut'];
+        $basic_graph_types = ['line', 'pie', 'doughnut'];
 
         $element += [
             '#type' => 'fieldset',
@@ -52,7 +52,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             '#options' => [
                 'line' => $this->t('line'),
                 'pie' => $this->t('pie'),
-                'donut' => $this->t('donut'),
+                'doughnut' => $this->t('doughnut'),
                 'clustered column' => $this->t('clustered column'),
                 'stacked column' => $this->t('stacked column'),
                 'stacked column 100' => $this->t('stacked column 100%'),
