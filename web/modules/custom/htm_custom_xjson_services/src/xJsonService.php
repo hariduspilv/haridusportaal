@@ -243,8 +243,8 @@ class xJsonService implements xJsonServiceInterface {
                     foreach ($definition_body['steps'][$step_key]['data_elements'] as $element_key => $element) {
                         $return_element = $element;
 
-                        if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
-                            $response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
+                        if(isset($response_body['steps'][$step_key][$element_key])){
+                            $response_element = $response_body['steps'][$step_key][$element_key];
                             if (!empty($this->mergeElementValue($element, $response_element))) {
                                 $return_element = $this->mergeElementValue($element, $response_element);
                             }
