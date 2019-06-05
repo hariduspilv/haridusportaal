@@ -16,7 +16,10 @@
       <div *ngFor="let indicator of indicators.entities; let last = last;">
         <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
           <h2 class="medium" attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">{{ 'oska.fieldNumberEmployed' | translate }}: {{ formatNumber(indicator.value, 'et') }}</h2>
-          <div attr.aria.hidden="true">{{ 'oska.compared_to_other_fields' | translate }}</div>
+          <div attr.aria.hidden="true">
+            <span *ngIf="viewType === 'mainProfession'">{{ 'oska.compared_to_other_professions' | translate }}</span>
+            <span *ngIf="viewType === 'field'">{{ 'oska.compared_to_other_fields' | translate }}</span>
+          </div>
           <div class="padding-block--content">
             <div class="flex">
               <div class="flex--single padded" *ngFor="let item of arrayOfLength(indicator.icon)" aria-hidden="true"><img alt="icon" src="/assets/img/person_filled.svg"/></div>

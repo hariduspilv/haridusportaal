@@ -243,8 +243,8 @@ class xJsonService implements xJsonServiceInterface {
                     foreach ($definition_body['steps'][$step_key]['data_elements'] as $element_key => $element) {
                         $return_element = $element;
 
-                        if(isset($response_body['steps'][$step_key][$element_key])){
-                            $response_element = $response_body['steps'][$step_key][$element_key];
+                        if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
+                            $response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
                             if (!empty($this->mergeElementValue($element, $response_element))) {
                                 $return_element = $this->mergeElementValue($element, $response_element);
                             }
@@ -313,6 +313,9 @@ class xJsonService implements xJsonServiceInterface {
             foreach ($value['value'] as $item) {
                 foreach ($item as $table_key => $element) {
                     if (!in_array($table_key, $element_column_keys)) {
+                        dump($element_def);
+                        dump($table_key);
+                        dump($element_column_keys);
                         throw new HttpException('400', "$table_key missing from table definition");
                     }
                 }
