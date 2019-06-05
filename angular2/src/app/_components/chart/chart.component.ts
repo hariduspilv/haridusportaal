@@ -415,6 +415,7 @@ export class ChartComponent implements OnInit {
         let tmpFilters = [];
 
         for (let i in item.filterValues.graph_options.graph_filters) {
+          multipleIndicators = true;
           let current = item.filterValues.graph_options.graph_filters[i];
 
           let options = [];
@@ -431,7 +432,7 @@ export class ChartComponent implements OnInit {
           tmpFilters.push(
             {
               key: i,
-              multiple: this.wide ? multipleIndicators : true,
+              multiple: multipleIndicators,
               options: options
             }
           );
