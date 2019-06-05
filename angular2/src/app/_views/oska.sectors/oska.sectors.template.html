@@ -8,10 +8,14 @@
           <span aria-hidden="true" class="htm-icon">apps</span>
           <div aria-hidden="true" class="title">{{ 'oskaProfessions.fields' | translate }}</div>
         </div>
-        <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.data' | translate }}  {{ 'oska.view' | translate}}" tabindex="0">
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView('/valdkonnad/andmed')" (click)="changeView('/valdkonnad/andmed')" attr.aria-label="{{ 'oska.data' | translate }}  {{ 'oska.view' | translate}}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">compare_arrows</span>
           <div aria-hidden="true"class="title">{{ 'oska.data' | translate }}</div>
-        </div>  
+        </div> 
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView('/valdkonnad/kaart')" (click)="changeView('/valdkonnad/kaart')" attr.aria-label="{{ 'oskaProfessions.map' | translate }}" tabindex="0">
+          <span aria-hidden="true" class="htm-icon">location_on</span>
+          <div aria-hidden="true" class="title">{{ 'oskaProfessions.map' | translate }}</div>
+        </div> 
       </div>
     </div>
   </div><!--/row-->

@@ -39,6 +39,7 @@ import { StudiesComponent } from '@app/_components/studies/studies.component';
 import { TeachingsComponent } from '@app/_components/teachings/teachings.component';
 import { PreviewComponent } from '@app/_views/preview/preview.component';
 import { VariablesComponent } from './_views/variables/variables.component';
+import { OskaSectorsMapComponent } from './_views/oska.sectors.map/oska.sectors.map';
 const appRoutes: Routes = [
 
   { path: '', component: FrontpageComponent },
@@ -97,6 +98,7 @@ const appRoutes: Routes = [
   { path: 'ametialad/andmed', component: OskaMainProfessionCompareComponent},
   { path: 'valdkonnad', component: OskaSectorsComponent},
   { path: 'valdkonnad/andmed', component: OskaSectorsCompareComponent},
+  { path: 'valdkonnad/kaart', component: OskaSectorsMapComponent},
   { path: 'ametialad/:id', component: OskaAreasComponent},
   { path: 'valdkonnad/:id', component: OskaAreasComponent},
   { path: 'oska-tulemused/ettepanekute-elluviimine', component: OskaResultsTableComponent},
@@ -161,6 +163,7 @@ export const routedComponents = [
   OskaMainProfessionCompareComponent,
   OskaSectorsComponent,
   OskaSectorsCompareComponent,
+  OskaSectorsMapComponent,
   OskaResultsComponent,
   OskaResultsTableComponent,
   CertificatesDetailedComponent,
