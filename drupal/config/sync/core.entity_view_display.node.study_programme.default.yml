@@ -10,8 +10,7 @@ dependencies:
     - field.field.node.study_programme.field_amount_unit
     - field.field.node.study_programme.field_created_from_ehis_datetime
     - field.field.node.study_programme.field_degree_or_diploma_awarded
-    - field.field.node.study_programme.field_duration_months
-    - field.field.node.study_programme.field_duration_years
+    - field.field.node.study_programme.field_duration
     - field.field.node.study_programme.field_educational_institution
     - field.field.node.study_programme.field_ehis_id
     - field.field.node.study_programme.field_iscedf_board
@@ -100,17 +99,8 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
-  field_duration_months:
-    weight: 118
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: number_integer
-    region: content
-  field_duration_years:
-    weight: 117
+  field_duration:
+    weight: 131
     label: above
     settings:
       thousand_separator: ''
