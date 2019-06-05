@@ -29,8 +29,7 @@ query studyProgrammeComparison($nidValues: [String], $lang: LanguageId!) {
           }
         }
         practicalTrainingAmount: fieldPracticalTrainingAmount
-        durationYears: fieldDurationYears
-        durationMonths: fieldDurationMonths
+        duration: fieldDuration
         admissionStatus: fieldAdmissionStatus
         accreditationStatus: fieldAccreditationStatus
         accreditationValidUntil: fieldAccreditationValidUntil {
