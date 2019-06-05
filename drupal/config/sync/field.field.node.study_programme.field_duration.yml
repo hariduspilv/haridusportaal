@@ -1,22 +1,22 @@
-uuid: 48f83664-c3f0-4c94-a04c-108c81d0f1ec
+uuid: 4f52f895-450e-4644-b315-ad22d2e0b3c2
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_duration_years
+    - field.storage.node.field_duration
     - node.type.study_programme
-id: node.study_programme.field_duration_years
-field_name: field_duration_years
+id: node.study_programme.field_duration
+field_name: field_duration
 entity_type: node
 bundle: study_programme
-label: 'Nominaalkestus (aastad)'
+label: 'Nominaalkestus (kuud)'
 description: ''
 required: false
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
-  min: null
+  min: 0
   max: null
   prefix: ''
   suffix: ''
