@@ -27,5 +27,8 @@ query (
     Nid
     Title
     EntityPath
+    FieldStudyProgrammeLevel
+    FieldSchoolName
+    FieldDuration
   }
 }
