@@ -308,8 +308,7 @@ class xJsonService implements xJsonServiceInterface {
     public function mergeElementValue ($element_def, $value) {
         $element_type = $element_def['type'];
 
-        if ($element_type === 'table') {
-            dump($value);
+        if ($element_type === 'table' && !empty($value['value'])) {
             $element_column_keys = array_keys($element_def['table_columns']);
             foreach ($value['value'] as $item) {
                 foreach ($item as $table_key => $element) {
