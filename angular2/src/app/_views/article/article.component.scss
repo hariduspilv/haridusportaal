@@ -85,7 +85,7 @@ article {padding-bottom: $small;
     mat-panel-title {font-size: $small; text-decoration: none; color: $black;
     }
     .accordion {padding: 0; padding-top: $large; padding: 0 1.5rem 1.5rem 1.5rem; 
-      @include break-on(sm, max) {padding: 0 0rem 1.5rem 0rem;}
+      @include break-on(xs, max) {padding: 0 0rem 1.5rem 0rem;}
     }
     ::ng-deep .accordion__body {line-height: 1.375rem;font-size: $small;padding-top: $gutter;
       p {margin:1rem 0;

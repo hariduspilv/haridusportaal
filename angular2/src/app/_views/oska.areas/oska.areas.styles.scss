@@ -117,8 +117,13 @@ h1{color:$black; font-size:1.5rem; line-height:125%; margin:0;word-break: break-
 @include break-on(sm, max) {
   .padding-block{
     .article-image{margin-left:-1.5rem; margin-right:-1.5rem;}
+  }
+@include break-on(xs, max) {
+  .pattind-block {
     .accordion{margin-left:-1.5rem; margin-right:-1.5rem;}
   }
+}
+
 
 }
 .studyProgramme__item {padding: .5rem .75rem; border-bottom: solid .0625rem $gray; display:flex; flex-wrap: wrap;
