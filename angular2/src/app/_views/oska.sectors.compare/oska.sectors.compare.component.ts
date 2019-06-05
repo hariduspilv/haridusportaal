@@ -26,8 +26,9 @@ export class OskaSectorsCompareComponent implements OnInit {
     public rootScope: RootScopeService,
   ) {}
 
-  changeView() {
-    this.router.navigate(['valdkonnad']);
+
+  changeView(url) {
+    this.router.navigate([url]);
   }
 
   getData () {
