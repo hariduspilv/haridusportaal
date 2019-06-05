@@ -711,16 +711,16 @@ public class MtsysWorker extends Worker {
       jsonNode.putObject("messages");
 
       ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_liik")
-          .putObject("tegevusloaLiik").putNull("value");
+          .putObject("data_elements").putObject("tegevusloaLiik").putNull("value");
 
       ((ObjectNode) jsonNode.get("header")).put("current_step", "step_liik");
       ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("CONTINUE");
 
       logForDrupal.setMessage("psotMtsysTegevusluba step_liik json loodud");
     } else if (currentStep.equalsIgnoreCase("step_liik")) {
-      getTegevuslubaXJSON(jsonNode,
-          jsonNode.get("body").get("steps").get("step_liik").get("tegevusloaLiik").get("value")
-              .asLong(), getKlfNode("failiTyybid"));
+      getTegevuslubaXJSON(jsonNode, jsonNode.get("body").get("steps").get("step_liik")
+          .get("data_elements").get("tegevusloaLiik").get("value").asLong(),
+          getKlfNode("failiTyybid"));
 
       ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
       ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll()
@@ -1562,8 +1562,7 @@ public class MtsysWorker extends Worker {
   }
 
   private void saveMtsysTegevusNaitaja(ObjectNode jsonNode, Long identifier,
-      String applicantPersonalCode)
-      throws ParseException, XRoadServiceConsumptionException {
+      String applicantPersonalCode) throws ParseException, XRoadServiceConsumptionException {
     MtsysLaeTegevusnaitajad request = MtsysLaeTegevusnaitajad.Factory.newInstance();
     ObjectNode dataElementNode = (ObjectNode) jsonNode.get("body").get("steps")
         .get("step_aruanne").get("data_elements");
