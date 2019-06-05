@@ -3,7 +3,6 @@ import { RootScopeService, ScrollRestorationService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Subscription } from 'rxjs/Subscription';
-import { SettingsService } from '@app/_services/settings.service';
 @Component({
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.scss']
@@ -54,8 +53,7 @@ export class SearchComponent {
     private router: Router,
     private route: ActivatedRoute,
     private http: HttpService,
-    private scrollRestoration: ScrollRestorationService,
-    private settings: SettingsService,
+    private scrollRestoration: ScrollRestorationService
   ) {}
 
   ngOnInit() {

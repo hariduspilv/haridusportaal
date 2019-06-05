@@ -84,7 +84,7 @@
             <ng-template>
               <b>{{ infoLayer.name }}</b><br />
               <span *ngIf="infoLayer.field">{{ infoLayer.field }}<br /></span>
-              {{ infoLayer.value }}{{ infoLayer.value > 0 ? '%' : '' }}
+              {{ infoLayer.value }}{{ infoLayer.value >= 0 ? '%' : '' }}
             </ng-template>
           </agm-snazzy-info-window>
         </ng-container>
