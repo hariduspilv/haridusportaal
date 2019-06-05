@@ -4,6 +4,7 @@ import { HttpService } from '@app/_services/httpService';
 import { Router, ActivatedRoute, Params, NavigationStart, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   templateUrl: "oska.sectors.map.html",
@@ -60,13 +61,13 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     public router: Router,
     public route: ActivatedRoute,
     public rootScope: RootScopeService,
-    private changeDetectorRef: ChangeDetectorRef
+    private changeDetectorRef: ChangeDetectorRef,
+    private translate: TranslateService
   ) {
     super(null, null);
   }
 
-  changeView(extra) {
-    let url = extra ? `valdkonnad${extra}` : 'valdkonnad';
+  changeView(url) {
     this.router.navigate([url]);
   }
 
@@ -75,6 +76,11 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
       this.filterRetrieveParams( params );
+      if (!this.filterFormItems['OSKAField'] || !this.filterFormItems['mapIndicator']) {
+        if (!this.filterFormItems['OSKAField'] && this.filterData['OSKAField'].length) this.filterFormItems['OSKAField'] = this.filterData['OSKAField'][0];
+        if (!this.filterFormItems['mapIndicator'] && this.filterData['mapIndicator'].length) this.filterFormItems['mapIndicator'] = this.filterData['mapIndicator'][0];
+        this.filterSubmit(); 
+      }
       this.filterGivenData(true);
     });
 
@@ -104,35 +110,32 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   setRelatedFilter(current, sibling) {
     if (this.data && this.data.length) {
-      this.filterData[sibling] = this.filterFormItems[sibling] ? [this.filterFormItems[sibling]] : [];
+      this.filterData[sibling] = [];
       this.data.forEach((obj) => {
         if (current && obj[current] === this.filterFormItems[current] && obj[sibling] && !this.filterData[sibling].includes(obj[sibling])) {
           this.filterData[sibling].push(obj[sibling]);
         }
       });
-      console.log(this.filterData);
     }
   }
 
   filterGivenData(mapRefresh) {
     if (this.data && this.data.length) {
-      console.log(this.filterFormItems);
+      if(this.map){
+        this.sumWindowStatus = false;
+      }
+      this.loading = true;
       this.polygonData = this.data.filter(elem => {
         if (this.filterFormItems['mapIndicator'] && this.filterFormItems['OSKAField']) return elem.mapIndicator === this.filterFormItems['mapIndicator'] && elem.OSKAField === this.filterFormItems['OSKAField']; 
         if (this.filterFormItems['mapIndicator']) return elem.mapIndicator === this.filterFormItems['mapIndicator']; 
         if (this.filterFormItems['OSKAField']) return elem.OSKAField === this.filterFormItems['OSKAField'];
         return true; 
       });
-      this.generateHeatmapColors();
       this.getPolygons();
     }
   }
 
   getData() {
-
-    if(this.map){
-      this.sumWindowStatus = false;
-    }
 
     this.loading = true;
     this.mapLabelSwitcher();
@@ -156,11 +159,9 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       });
       rawData.shift();
       this.getUniqueFilters(rawData);
-      console.log(rawData);
       this.data = this.polygonData = rawData;
       this.generateHeatmapColors();
-      this.getPolygons();
-    
+      this.watchSearch();
       subscription.unsubscribe();
     });
   }
@@ -178,29 +179,18 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     });
     this.filterData['OSKAField'] = field;
     this.filterData['mapIndicator'] = indicator;
-    console.log(this.filterData);
   }
-
-  // setCorrespondingFilters(arr, elem, prop, propValue) {
-    // this.filterData[elem] = [];
-    // arr.forEach((obj) => {
-    //   if (obj[prop] === propValue) {
-    //     this.filterData[elem].push()
-    //   }
-    // });
-    // console.log(this.filterData);
-  // }
 
   generateHeatmapColors() {
     let maxSum = 0;
 
     for( let i in this.polygonData ){
-      if( this.polygonData[i]['value'] > maxSum ){
-        maxSum = this.polygonData[i]['value'];
+      if( this.polygonData[i]['division'] > maxSum ){
+        maxSum = this.polygonData[i]['division'];
       }
     }
 
-    if( maxSum < 1 ){ maxSum = 100; }
+    if( maxSum < 1 ){ maxSum = 7; }
 
     let sumPartial = maxSum / this.heatMapColors.length;
 
@@ -209,13 +199,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     for( var i in this.heatMapColors ){
       let multiplier:number = parseFloat(i)+1;
       let tmpArray = {
-        maxAmount: multiplier * sumPartial
-      }
-
-      if( multiplier !== 1 ){
-        tmpArray['minAmount'] = parseFloat(i) * sumPartial;
-      }else{
-        tmpArray['minAmount'] = 1;
+        amount: multiplier * sumPartial
       }
 
       tmpArray['color'] = this.heatMapColors[i];
@@ -244,19 +228,20 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       let name = properties['NIMI'].toLowerCase();
 
       var match:any = false;
-      
+
       for( let o in this.polygonData ){
         if( name == this.polygonData[o]['county'].toLowerCase() ){
           match = this.polygonData[o];
         }
       }
       
+      
       let color = this.heatMapColors[0];
-
       for( let o in this.heatMapRanges ){
-        if( !match.value ) {
+        if( !match.division ) {
           color = "#cfcfcf";
-        } else if( (match.value * 100) >= this.heatMapRanges[o]['minAmount'] && (match.value * 100) <= this.heatMapRanges[o]['maxAmount'] ){
+          properties['value'] = this.translate.get('errors.data_missing')['value'];
+        } else if( match.division === this.heatMapRanges[o]['amount'] ){
           color = this.heatMapRanges[o]['color'];
           properties['value'] = match.value * 100;
           properties['field'] = match.OSKAField;
@@ -312,14 +297,10 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     this.infoLayer = {
       left: mouse['clientX']+"px",
       top: mouse['clientY']+"px",
-      value: $event.feature.getProperty('value'),
+      value: $event.feature.getProperty('value') > 0 ? parseInt($event.feature.getProperty('value'), 10) : $event.feature.getProperty('value'),
       name: $event.feature.getProperty('NIMI'),
       field: $event.feature.getProperty('field'),
     };
-
-    if( !this.infoLayer.value ){
-      this.infoLayer.value = 0;
-    }
 
     this.sumWindowLat = $event.latLng.lat();
     this.sumWindowLon = $event.latLng.lng();
@@ -333,20 +314,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     this.changeDetectorRef.detectChanges();
   }
 
-  // pathWatcher() { 
-  //   let subscribe = this.route.params.subscribe(
-  //     (params: ActivatedRoute) => {
-  //       this.path = this.router.url;
-  //     }
-  //   );
-  //   this.subscriptions = [...this.subscriptions, subscribe];
-  // }
-
   ngOnInit() {
-
-    // this.pathWatcher();
     this.mapOptions.styles = this.rootScope.get("mapStyles");
-    this.watchSearch();
     this.getData();
   }
 

@@ -11,8 +11,7 @@
       <div class="col-4 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.mapIndicator">
           <mat-form-field>
-            <mat-select (selectionChange)="setRelatedFilter('mapIndicator', 'OSKAField')" placeholder="{{ 'oskaProfessions.indicator' | translate }}" [(ngModel)]="filterFormItems.mapIndicator" name="mapIndicator">
-              <mat-option value="">{{ 'button.all' | translate }}</mat-option>
+            <mat-select (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')" placeholder="{{ 'oskaProfessions.indicator' | translate }}" [(ngModel)]="filterFormItems.mapIndicator" name="mapIndicator">
               <ng-container  *ngIf="filterData && filterData.mapIndicator">
                 <ng-container *ngFor="let item of filterData.mapIndicator">
                   <mat-option [value]="item">
@@ -27,8 +26,7 @@
       <div class="col-6 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.OSKAField">
           <mat-form-field>
-            <mat-select (selectionChange)="setRelatedFilter('OSKAField', 'mapIndicator')" placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.OSKAField" name="OSKAField">
-              <mat-option value="">{{ 'button.all' | translate }}</mat-option>
+            <mat-select (openedChange)="setRelatedFilter('OSKAField', 'mapIndicator')" placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.OSKAField" name="OSKAField">
               <ng-container  *ngIf="filterData && filterData.OSKAField">
                 <ng-container *ngFor="let item of filterData.OSKAField">
                   <mat-option [value]="item">
@@ -55,11 +53,11 @@
     <div class="sectors__head">
       <h1 class="sectors__title text-left" aria-hidden="true">{{ 'oska.fields_data_on_map' | translate | uppercase }}</h1>
       <div class="button-list">
-        <div class="view-item pointer" role="tab" (keyup.enter)="changeView()" (click)="changeView()" attr.aria-label="{{ 'oska.grid' | translate }} {{ 'oska.view' | translate}}" tabindex="0">
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView('/valdkonnad')" (click)="changeView('/valdkonnad')" attr.aria-label="{{ 'oska.grid' | translate }} {{ 'oska.view' | translate}}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">apps</span>
           <div aria-hidden="true" class="title" >{{ 'oskaProfessions.fields' | translate }}</div>
         </div>
-        <div class="view-item pointer" role="tab" (keyup.enter)="changeView('/andmed')" (click)="changeView('/andmed')" attr.aria-label="{{ 'oskaProfessions.fieldsCompare' | translate }}" tabindex="0">
+        <div class="view-item pointer" role="tab" (keyup.enter)="changeView('/valdkonnad/andmed')" (click)="changeView('/valdkonnad/andmed')" attr.aria-label="{{ 'oskaProfessions.fieldsCompare' | translate }}" tabindex="0">
           <span aria-hidden="true" class="htm-icon">compare_arrows</span>
           <div aria-hidden="true" class="title">{{ 'oska.data' | translate }}</div>
         </div>
@@ -85,8 +83,8 @@
           <agm-snazzy-info-window [closeWhenOthersOpen]="true" #sumLayer isOpen="sumWindowStatus" [latitude]="sumWindowLat" [longitude]="sumWindowLon" (isOpenChange)="kmlClickStatus($event)" >
             <ng-template>
               <b>{{ infoLayer.name }}</b><br />
-              {{ infoLayer.field }}<br />
-              {{ infoLayer.value }}%
+              <span *ngIf="infoLayer.field">{{ infoLayer.field }}<br /></span>
+              {{ infoLayer.value }}{{ infoLayer.value > 0 ? '%' : '' }}
             </ng-template>
           </agm-snazzy-info-window>
         </ng-container>
@@ -102,12 +100,12 @@
       <div class="mapLegend">
         <div class="mapLegend__block" *ngFor="let item of heatMapRanges">
           <div class="mapLegend__color" [style.background-color]="item.color"></div>
-          {{ item.minAmount | number: '1.1-1' }} - {{ item.maxAmount | number: '1.1-1' }} %
+          {{ item.amount | number }}
         </div>
       </div>
     </ng-container>
   
-    <!-- <div class="map-created" *ngIf="polygons">{{ 'school.map_created' | translate }} 06.09.2018</div> -->
+    <!-- <div class="map-created" *ngIf="polygons">{{ filterData }}</div> -->
   </div>
 
 </div>
