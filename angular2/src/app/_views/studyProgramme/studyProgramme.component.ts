@@ -274,7 +274,8 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       location: this.params['location'] ? "%"+this.params['location']+"%" : "%%",
       locationEnabled: this.params['location'] ? true: false,
       onlyOpenAdmission: this.params['open_admission'] ? true: false,
-  
+      sortField: 'title',
+      sortDirection: 'ASC',
     }
     
     for(let i in this.filterOptionKeys){
