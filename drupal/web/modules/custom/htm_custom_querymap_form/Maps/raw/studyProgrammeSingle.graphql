@@ -67,8 +67,7 @@ query ($path: String!) {
                     }
                     fieldAmount
                     fieldPracticalTrainingAmount
-                    fieldDurationYears
-                    fieldDurationMonths
+                    fieldDuration
                     fieldAdmissionStatus
                     fieldAccreditationStatus
                     fieldAccreditationValidUntil {
