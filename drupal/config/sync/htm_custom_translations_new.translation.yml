@@ -2531,6 +2531,10 @@ oska:
     translation_type: textarea
     et: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest.'
     en: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest.'
+  compared_to_other_professions:
+    translation_type: textarea
+    et: 'võrreldes teiste ametialadega'
+    en: 'compared to other professions'
 oskaProfession:
   view_field_info:
     translation_type: textarea
