@@ -1,11 +1,11 @@
-uuid: d6002512-64cc-4b7a-a06d-a7c66f320be8
+uuid: 84956b83-5090-4d38-b25c-10c59b1e4aa0
 langcode: et
 status: true
 dependencies:
   module:
     - node
-id: node.field_duration_months
-field_name: field_duration_months
+id: node.field_duration
+field_name: field_duration
 entity_type: node
 type: integer
 settings:
