@@ -424,11 +424,11 @@ export class ChartComponent implements OnInit {
             options.push(current[o]);
           };
 
-          if ((i == 'valdkond' || i == 'ametiala' || i == 'alavaldkond') && options.length > 1) {
+          // Disable multiple selection for wide views on following cases
+          if ((i == 'valdkond' || i == 'ametiala' || i == 'alavaldkond') && options.length > 1 && this.wide) {
             multipleIndicators = false;
           }
 
-          // Use multipleIndicators for wide views
           tmpFilters.push(
             {
               key: i,
