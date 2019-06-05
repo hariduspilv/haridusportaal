@@ -309,6 +309,7 @@ class xJsonService implements xJsonServiceInterface {
         $element_type = $element_def['type'];
 
         if ($element_type === 'table') {
+            dump($value);
             $element_column_keys = array_keys($element_def['table_columns']);
             foreach ($value['value'] as $item) {
                 foreach ($item as $table_key => $element) {
