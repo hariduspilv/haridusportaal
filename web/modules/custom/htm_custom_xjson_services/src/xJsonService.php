@@ -313,6 +313,9 @@ class xJsonService implements xJsonServiceInterface {
             foreach ($value['value'] as $item) {
                 foreach ($item as $table_key => $element) {
                     if (!in_array($table_key, $element_column_keys)) {
+                        dump($element_def);
+                        dump($table_key);
+                        dump($element_column_keys);
                         throw new HttpException('400', "$table_key missing from table definition");
                     }
                 }
