@@ -74,10 +74,14 @@
       <div class="map-loader" *ngIf="loading" >
         <loader></loader>
       </div><!--/map-loader-->
-      <agm-map (mapReady)="mapReady($event)" maxZoom="16" style="height:525px" [styles]="mapOptions.styles">
+      <agm-map (zoomChange)="zoomChange($event)" (mapReady)="mapReady($event)" maxZoom="16" style="height:525px" [styles]="mapOptions.styles">
   
         <agm-data-layer *ngIf="polygons" [geoJson]="polygons" [style]="polygonStyles" (layerClick)="kmlClick($event)">
         </agm-data-layer>
+        
+        <ng-container *ngIf="polygons && polygons.features && polygonLabels && polygonLabels.length">
+          <agm-marker *ngFor="let item of polygonLabels" [iconUrl]="icon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
+        </ng-container>
   
         <ng-container *ngIf="sumWindowStatus">
           <agm-snazzy-info-window [closeWhenOthersOpen]="true" #sumLayer isOpen="sumWindowStatus" [latitude]="sumWindowLat" [longitude]="sumWindowLon" (isOpenChange)="kmlClickStatus($event)" >

@@ -28,6 +28,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   path: string;
 
   polygons: any;
+  polygonLabels: Array<Object> = [];
   polygonLayer: String = "county";
   polygonData:any;
 
@@ -35,8 +36,20 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   heatMapRanges: Array<Object> = [];
 
   infoWindowFunding:any = false;
-  
   infoLayer:any = false;
+
+  labelOptions = {
+    color: 'black',
+    fontSize: '10px',
+    fontWeight: 'regular',
+  }
+  icon = {
+    url: '',
+    scaledSize: {
+      width: 0,
+      height: 0
+    }
+  }
 
   mapOptions = {
     center: {
@@ -44,11 +57,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       lng: 24.7065513
     },
     zoom: 7.2,
-    icon: "/assets/marker.png",
     clusterStyles: [
       {
-          textColor: "#FFFFFF",
-          url: "/assets/cluster.svg",
           height: 50,
           width: 28
       }
@@ -92,6 +102,19 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     this.map = map;
     this.map.setZoom(this.mapOptions.zoom);
     this.map.setCenter(this.mapOptions.center);
+  }
+
+  zoomChange($event) {
+    console.log($event);
+    // if ($event < 8) {
+    //   console.log('setting 8');
+    //   this.polygonLabels.map(elem => elem['labelOptions'].fontSize = '7px')
+    // } else {
+    //   console.log('setting 10');
+    //   this.polygonLabels.map(elem => elem['labelOptions'].fontSize = '10px')
+    // }
+    // console.log(this.polygonLabels);
+    // this.changeDetectorRef.detectChanges();
   }
 
   mapLabelSwitcher() {
@@ -216,17 +239,20 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     let subscription = this.http.get(url).subscribe( data => {
       this.polygons = this.assignPolygonsColors(data);
       this.loading = false;
+      if (data['features'] && !this.polygonLabels || (this.polygonLabels && !this.polygonLabels.length)) {
+        this.polygonLabels = data['features'].map(county => {
+          return this.getPolygonCenter(county.geometry, county.properties.NIMI);
+        })
+      }
       subscription.unsubscribe();
     });
   }
 
   assignPolygonsColors( data ) {
-
     for( let i in data['features'] ){
       let current = data['features'][i];
       let properties = current['properties'];
       let name = properties['NIMI'].toLowerCase();
-
       var match:any = false;
 
       for( let o in this.polygonData ){
@@ -254,12 +280,44 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       
       
     }
-
     return data;
   }
 
-  polygonStyles(feature) {
+  getPolygonCenter(geometry, county) {
+    // 17293 pairs of polygon coordinates to go through to get the center points of 15 counties... Good idea? 
+    let centerCountys = {
+      labelOptions: {
+        color: this.labelOptions.color,
+        fontSize: this.labelOptions.fontSize,
+        fontWeight: this.labelOptions.fontWeight,
+        text: county /** .replace(' maakond', 'maa') */
+      }
+    }
+    let coords = [];
+    let latitudes = [];
+    let longitudes = [];
 
+    if (geometry.type === 'Polygon') {
+      coords = geometry.coordinates[0];
+    } else {
+      let merged = [].concat.apply([], geometry.coordinates);
+      let another = [].concat.apply([], merged);
+      coords = another;
+    }
+    console.log(coords.length);
+    coords.forEach((latLng) => {
+      latitudes.push(latLng[1]);
+      longitudes.push(latLng[0]);
+    })
+    const latitudeAverage = latitudes.reduce((a,b) => parseFloat(a) + parseFloat(b), 0) / latitudes.length
+    const longitudeAverage = longitudes.reduce((c,d) => parseFloat(c) + parseFloat(d), 0) / longitudes.length
+
+    centerCountys['latitude'] = latitudeAverage;
+    centerCountys['longitude'] = longitudeAverage;
+    return centerCountys;
+  }
+
+  polygonStyles(feature) {
     let color = "#cfcfcf";
     let keys = Object.keys(feature).join(",").split(",");
 
