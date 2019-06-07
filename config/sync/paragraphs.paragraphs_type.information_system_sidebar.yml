@@ -1,0 +1,9 @@
+uuid: c9ee08d5-69d4-476d-8ee3-519a2e861d28
+langcode: et
+status: true
+dependencies: {  }
+id: information_system_sidebar
+label: 'Infosüsteemi parem veerg'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }
