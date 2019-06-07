@@ -1,0 +1,23 @@
+uuid: 767d34e9-1c20-4401-9b9c-983ee516df2f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_links
+    - paragraphs.paragraphs_type.information_system_accordion
+  module:
+    - link
+id: paragraph.information_system_accordion.field_links
+field_name: field_links
+entity_type: paragraph
+bundle: information_system_accordion
+label: Lingid
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link
