@@ -1,0 +1,9 @@
+uuid: 5c341093-f74d-4f89-afe3-819c75eb9382
+langcode: et
+status: true
+dependencies: {  }
+id: information_system_accordion
+label: 'Infosüsteemi akordion'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

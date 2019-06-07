@@ -1,0 +1,27 @@
+uuid: 45a283ed-19de-46ef-a7a5-2c1babb02b68
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.information_system_page.field_introduction_text
+    - field.field.node.information_system_page.field_logo
+    - field.field.node.information_system_page.field_subtitle
+    - node.type.information_system_page
+  module:
+    - user
+id: node.information_system_page.teaser
+targetEntityType: node
+bundle: information_system_page
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_introduction_text: true
+  field_logo: true
+  field_subtitle: true
+  langcode: true
