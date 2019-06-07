@@ -30,13 +30,10 @@
         </div>
       </div><!--/col-4-->
 
-      <div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
-        <div class="align-center filter-state sm-hide">       
-          <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="false">
-            <span >Täpsem otsing</span>
-  
-          </a>
-        </div>
+      <div class="col-3 text-right sm-12 filter-button-row" *ngIf="!filterFull">
+          <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="false">
+            <span>Täpsem otsing</span>
+          </button>
         <div class="button-row">
           <button role="button" mat-raised-button color="primary">Otsi</button>
         </div>
@@ -148,21 +145,46 @@
             </div><!--/round-inpuit__wrapper-->
         </div>
         <div class="col-5 sm-12">
+          <div class="round-input__wrapper">
+            <mat-form-field *ngIf="FilterOptions">
+              <mat-select
+                placeholder="{{ 'button.sort' | translate }}"
+                [(ngModel)]='filterFormItems.sortDirection' name="sortDirection"
+              >
+                <mat-option value="">
+                  {{ 'button.all' | translate }}
+                </mat-option>
+                <mat-option value="ASC">
+                  {{ 'studyProgramme.sortby_duration_asc' | translate }}
+                </mat-option>
+                <mat-option value="DESC">
+                  {{ 'studyProgramme.sortby_duration_desc' | translate }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div><!--/row-->
+      <div class="row">
+        <div class="col-4 sm-12">
           <div class="custom-checkbox">
               <mat-checkbox [(ngModel)]="filterFormItems.open_admission" name="open_admission"> {{ 'studyProgramme.filter_open_admission' | translate }}</mat-checkbox>
           </div>
         </div>
-        <div class="col-3 align-end text-right sm-12 inline-flex">
-          <div class="align-center filter-state sm-hide">       
-            <a role="button" href="javascript:void(0);" (click)="filterFull = !filterFull" aria-expanded="true">
-              <span>{{ 'button.search_brief' | translate }}</span>
-            </a>
-          </div>
-          <div class="button-row">
-            <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
-          </div>
+      </div>
+      <div class="row flex flex-justify-end">
+        <div class="col-12 text-right sm-12 filter-button-row">
+          <button (click)="clearForm()" class="btn-link btn-link--withIcon">
+              <div class="htm-icon">close-1</div>
+              <span>Tühjenda väljad</span>
+            </button>
+          <span class="bar sm-hide">|</span>       
+          <button class="btn-link sm-hide" (click)="filterFull = !filterFull" aria-expanded="true">
+            <span>{{ 'button.search_brief' | translate }}</span>
+          </button>
+          <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
         </div><!--/col-3-->
-      </div><!--/row-->
+      </div>
     </ng-container>
   </div>
 </form>
@@ -206,11 +228,8 @@
             <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactPhone">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactPhone }}</span>
             <span class="bar" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactEmail">|</span>
             <span class="item" *ngIf="item.fieldEducationalInstitution.entity.fieldSchoolContactEmail">{{ item.fieldEducationalInstitution.entity.fieldSchoolContactEmail }}</span>
-            <span class="bar" *ngIf="item.fieldDurationYears || item.fieldDurationMonths">|</span>
-            <span class="item" *ngIf="item.fieldDurationYears || item.fieldDurationMonths">
-              <ng-container *ngIf="item.fieldDurationYears && item.fieldDurationYears !== 0">{{ item.fieldDurationYears }} aasta<span *ngIf="item.fieldDurationYears > 1">t</span> </ng-container>
-              <ng-container *ngIf="item.fieldDurationMonths && item.fieldDurationMonths !== 0"> {{ item.fieldDurationMonths }} kuud</ng-container>
-            </span>
+            <span class="bar" *ngIf="item.fieldDuration">|</span>
+            <span class="item" *ngIf="item.fieldDuration">{{item.fieldDuration | monthsToYears}}</span>
             <span class="bar" *ngIf="item.fieldTeachingLanguage">|</span>
             <span class="item" *ngIf="item.fieldTeachingLanguage">
               <ng-container *ngFor="let item of item.fieldTeachingLanguage; let i = index;">

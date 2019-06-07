@@ -1,0 +1,57 @@
+uuid: 671aa736-452a-4df8-85cc-4e4ab5714a33
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.information_system_accordion.field_accordion_title
+    - field.field.paragraph.information_system_accordion.field_attachment_file
+    - field.field.paragraph.information_system_accordion.field_body
+    - field.field.paragraph.information_system_accordion.field_links
+    - paragraphs.paragraphs_type.information_system_accordion
+  module:
+    - file
+    - link
+    - maxlength
+    - text
+id: paragraph.information_system_accordion.default
+targetEntityType: paragraph
+bundle: information_system_accordion
+mode: default
+content:
+  field_accordion_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_attachment_file:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_body:
+    weight: 3
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_links:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  status: true
