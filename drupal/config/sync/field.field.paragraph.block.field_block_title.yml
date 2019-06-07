@@ -1,0 +1,19 @@
+uuid: 787dbf7a-2954-40f1-bdd7-98e937c13108
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_block_title
+    - paragraphs.paragraphs_type.block
+id: paragraph.block.field_block_title
+field_name: field_block_title
+entity_type: paragraph
+bundle: block
+label: 'Teemaploki nimetus'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
