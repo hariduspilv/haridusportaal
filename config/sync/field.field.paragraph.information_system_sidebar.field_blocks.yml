@@ -1,0 +1,88 @@
+uuid: f0aa1a0a-069c-46e8-9707-a625a5b55c46
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_blocks
+    - paragraphs.paragraphs_type.block
+    - paragraphs.paragraphs_type.information_system_sidebar
+  module:
+    - entity_reference_revisions
+id: paragraph.information_system_sidebar.field_blocks
+field_name: field_blocks
+entity_type: paragraph
+bundle: information_system_sidebar
+label: Teemaplokid
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      block: block
+    target_bundles_drag_drop:
+      block:
+        enabled: true
+        weight: 21
+      accordion:
+        weight: 22
+        enabled: false
+      additional_section:
+        weight: 23
+        enabled: false
+      contact_section:
+        weight: 24
+        enabled: false
+      event_date:
+        weight: 25
+        enabled: false
+      favorite_item:
+        weight: 26
+        enabled: false
+      homepage_topics:
+        weight: 27
+        enabled: false
+      information_system_accordion:
+        weight: 28
+        enabled: false
+      information_system_sidebar:
+        weight: 29
+        enabled: false
+      iscedf_search:
+        weight: 30
+        enabled: false
+      job:
+        weight: 31
+        enabled: false
+      link:
+        weight: 32
+        enabled: false
+      main_profession_accordion:
+        weight: 33
+        enabled: false
+      main_profession_sidebar:
+        weight: 34
+        enabled: false
+      oska_field_sidebar:
+        weight: 35
+        enabled: false
+      registration_period:
+        weight: 36
+        enabled: false
+      right_sidebar_section_info:
+        weight: 37
+        enabled: false
+      school_location:
+        weight: 38
+        enabled: false
+      supernews:
+        weight: 39
+        enabled: false
+      survey_page_accordion:
+        weight: 40
+        enabled: false
+field_type: entity_reference_revisions
