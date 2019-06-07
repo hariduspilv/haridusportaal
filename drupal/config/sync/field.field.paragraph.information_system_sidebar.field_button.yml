@@ -1,0 +1,23 @@
+uuid: cdfa082a-bbeb-4057-a15f-6ca00819b10f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_button
+    - paragraphs.paragraphs_type.information_system_sidebar
+  module:
+    - link
+id: paragraph.information_system_sidebar.field_button
+field_name: field_button
+entity_type: paragraph
+bundle: information_system_sidebar
+label: Nupud
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link
