@@ -1,0 +1,19 @@
+uuid: 0910aaeb-8685-4281-ba2c-427eeea6693f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_introduction_text
+    - node.type.information_system_page
+id: node.information_system_page.field_introduction_text
+field_name: field_introduction_text
+entity_type: node
+bundle: information_system_page
+label: 'Sissejuhatav tekst'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

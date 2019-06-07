@@ -1414,6 +1414,14 @@ studyProgramme:
     translation_type: textarea
     et: 'Eriala(d) on võrdluses'
     en: 'Programme are in comparison'
+  sortby_duration_asc:
+    translation_type: textarea
+    et: 'Kestuse järgi kasvavalt'
+    en: 'Kestuse järgi kasvavalt-eng'
+  sortby_duration_desc:
+    translation_type: textarea
+    et: 'Kestuse järgi kahanevalt'
+    en: 'Kestuse järgi kahanevalt-eng'
 login:
   username:
     translation_type: textarea
