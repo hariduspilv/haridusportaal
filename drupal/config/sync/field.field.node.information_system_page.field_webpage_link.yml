@@ -1,0 +1,23 @@
+uuid: 940f44b1-7311-4c92-9991-bd904af1215b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_webpage_link
+    - node.type.information_system_page
+  module:
+    - link
+id: node.information_system_page.field_webpage_link
+field_name: field_webpage_link
+entity_type: node
+bundle: information_system_page
+label: Link
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

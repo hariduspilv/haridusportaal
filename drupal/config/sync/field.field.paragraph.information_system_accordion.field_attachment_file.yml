@@ -1,0 +1,27 @@
+uuid: 78e898d9-860c-4657-981d-c14aa70c5b6c
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_attachment_file
+    - paragraphs.paragraphs_type.information_system_accordion
+  module:
+    - file
+id: paragraph.information_system_accordion.field_attachment_file
+field_name: field_attachment_file
+entity_type: paragraph
+bundle: information_system_accordion
+label: Fail
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf docx'
+  max_filesize: ''
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

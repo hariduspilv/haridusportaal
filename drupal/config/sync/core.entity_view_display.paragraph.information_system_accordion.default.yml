@@ -1,0 +1,55 @@
+uuid: eecd219e-13a1-4665-90ad-3f971c4904c6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.information_system_accordion.field_accordion_title
+    - field.field.paragraph.information_system_accordion.field_attachment_file
+    - field.field.paragraph.information_system_accordion.field_body
+    - field.field.paragraph.information_system_accordion.field_links
+    - paragraphs.paragraphs_type.information_system_accordion
+  module:
+    - file
+    - link
+    - text
+id: paragraph.information_system_accordion.default
+targetEntityType: paragraph
+bundle: information_system_accordion
+mode: default
+content:
+  field_accordion_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_attachment_file:
+    weight: 1
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_body:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_links:
+    weight: 2
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+hidden: {  }
