@@ -1658,7 +1658,7 @@ public class MtsysWorker extends Worker {
         .get("step_andmed")).putObject("data_elements");
 
     stepAndmedDataElements.putObject("tegevusloaLiik")
-        .put("value", klOkLiik);
+        .put("value", klOkLiik.toString());
     stepAndmedDataElements.putObject("oppekavaNimetus")
         .putNull("value")
         .put("required",
@@ -1754,8 +1754,8 @@ public class MtsysWorker extends Worker {
               .put("liik", fileType.getValue().get("required").asBoolean() ?
                   fileType.getValue().get("et").asText() + " (Kohustuslik)" :
                   fileType.getValue().get("et").asText())
-              .put("klLiik", Long.valueOf(fileType.getKey()))
-              .put("required", fileType.getValue().get("required").asBoolean());
+              .put("klLiik", Long.valueOf(fileType.getKey()));
+//              .put("required", fileType.getValue().get("required").asBoolean());
         }
       }
     } else {
