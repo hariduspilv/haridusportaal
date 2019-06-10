@@ -1,0 +1,38 @@
+uuid: b19e4142-86ee-4b10-a993-71cd6892421e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.block.field_block_title
+    - field.field.paragraph.block.field_links
+    - paragraphs.paragraphs_type.block
+  module:
+    - link
+    - maxlength
+id: paragraph.block.default
+targetEntityType: paragraph
+bundle: block
+mode: default
+content:
+  field_block_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_links:
+    weight: 1
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  status: true

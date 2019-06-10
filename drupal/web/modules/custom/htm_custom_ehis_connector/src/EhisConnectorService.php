@@ -164,6 +164,15 @@ class EhisConnectorService {
 		}
 	}
 
+    public function getCurrentUserName(){
+        #dump($this->currentRole);
+        if($this->useReg()){
+            return $this->currentRole['current_role']['data']['nimi'];
+        }else{
+            return null;
+        }
+    }
+
 	/**
 	 * @return bool
 	 */

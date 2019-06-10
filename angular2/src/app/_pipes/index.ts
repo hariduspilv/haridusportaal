@@ -15,6 +15,7 @@ import { EuroCurrencyPipe } from './euroCurrency';
 import { CapitalizePipe } from './capitalize.pipe';
 import { IframePipe } from './iframe.pipe';
 import { LocaleNumberPipe } from './localeNumber.pipe';
+import { MonthsToYearsPipe } from './monthsToYears.pipe';
 
 @NgModule({
   declarations:[
@@ -31,7 +32,8 @@ import { LocaleNumberPipe } from './localeNumber.pipe';
     EuroCurrencyPipe,
     CapitalizePipe,
     IframePipe,
-    LocaleNumberPipe
+    LocaleNumberPipe,
+    MonthsToYearsPipe
   ],
   imports:[CommonModule],
   exports:[
@@ -48,7 +50,8 @@ import { LocaleNumberPipe } from './localeNumber.pipe';
     EuroCurrencyPipe,
     CapitalizePipe,
     IframePipe,
-    LocaleNumberPipe
+    LocaleNumberPipe,
+    MonthsToYearsPipe
   ]
 })
 

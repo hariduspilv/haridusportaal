@@ -1,0 +1,48 @@
+uuid: 422b7655-537a-4246-98b0-4b1198433d14
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.information_system_sidebar.field_blocks
+    - field.field.paragraph.information_system_sidebar.field_button
+    - field.field.paragraph.information_system_sidebar.field_legislation_block
+    - paragraphs.paragraphs_type.information_system_sidebar
+  module:
+    - link
+    - paragraphs
+id: paragraph.information_system_sidebar.default
+targetEntityType: paragraph
+bundle: information_system_sidebar
+mode: default
+content:
+  field_blocks:
+    type: entity_reference_paragraphs
+    weight: 3
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
+    third_party_settings: {  }
+    region: content
+  field_button:
+    weight: 4
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_legislation_block:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  status: true

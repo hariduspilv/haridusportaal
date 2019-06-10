@@ -1,0 +1,19 @@
+uuid: 4fb716ca-7bf7-4a4e-8326-a57022f846a8
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_accordion_title
+    - paragraphs.paragraphs_type.information_system_accordion
+id: paragraph.information_system_accordion.field_accordion_title
+field_name: field_accordion_title
+entity_type: paragraph
+bundle: information_system_accordion
+label: Pealkiri
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
