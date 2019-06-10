@@ -81,6 +81,7 @@ class xJsonService implements xJsonServiceInterface {
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
                             'educationalInstitutions_id' => isset($this->currentRequestContent->educationalInstitutions_id) ? $this->currentRequestContent->educationalInstitutions_id : null,
+                            'educationalInstitutions_name' => isset($this->currentRequestContent->educationalInstitutions_name) ? $this->currentRequestContent->educationalInstitutions_name : null,
                         ]
                     ],
                     'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
