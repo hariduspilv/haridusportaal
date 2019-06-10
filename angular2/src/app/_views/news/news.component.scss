@@ -8,10 +8,10 @@
   }
   .news-title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem $medium;}
   .title {padding: $small $medium 0 $medium;
-    @include break-on(sm, min) {padding: 0;}
+    @include break-on(xs, min) {padding: 0;}
   }
   .author {padding: $half-gutter $medium $gutter $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;
-    @include break-on(sm, min) {padding: 0; padding-top: $gutter; padding-bottom: $small;}
+    @include break-on(xs, min) {padding: 0; padding-top: $gutter; padding-bottom: $small;}
   }
   .description {font-size: $small;max-height: 3.5rem;overflow: hidden;}
 }
