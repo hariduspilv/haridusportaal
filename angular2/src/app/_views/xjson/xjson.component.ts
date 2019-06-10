@@ -42,6 +42,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   public view = 'document';
 
+  console = console;
+
   public tableOverflown: any = {};
   public elemAtStart: any = {};
   public tableCountPerStep = 0;
@@ -680,8 +682,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
   compileAcceptableFormList() {
 
     this.acceptable_forms = this.acceptable_forms_list_restricted ?
-      this.data.header.references.slice(0, this.acceptable_forms_limit) :
-      this.data.header.references;
+      this.data.header.acceptable_forms.slice(0, this.acceptable_forms_limit) :
+      this.data.header.acceptable_forms;
 
     this.acceptable_forms.forEach((elem, index) => {
       this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
@@ -809,7 +811,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       this.fillAddressFieldsTemporaryModel(this.data_elements);
 
-      //this.compileAcceptableFormList();
+      if (typeof this.data.header.acceptable_forms !== 'undefined') {
+        this.compileAcceptableFormList();
+      }
 
       this.scrollPositionController();
 
