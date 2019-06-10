@@ -108,7 +108,9 @@ class xJsonService implements xJsonServiceInterface {
                             'role' => 'TAOTLEJA',
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
+                            'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
                             'educationalInstitutions_id' => ($this->currentRequestContent->educationalInstitutions_id) ?: null,
+                            'educationalInstitutions_name' => 'safdgsaf'
                         ]
                     ]
                 ] + $baseJson['header'];
