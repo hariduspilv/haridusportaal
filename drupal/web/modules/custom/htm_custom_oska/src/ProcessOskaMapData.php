@@ -46,7 +46,7 @@ class ProcessOskaMapData {
             $object['valdkond'] = $item['valdkond'];
             $object['maakond'] = $item['maakond'];
             $object['valdlinn'] = $item['valdlinn'];
-            $object['vaartus'] = $item['vaartus'] != '' ? floatval(str_replace(',','.', $item['vaartus'])) : FALSE;
+            $object['vaartus'] = $item['vaartus'];
             $object['jaotus'] = $item['jaotus'] >= 1 && $item['jaotus'] <= 7 ? $item['jaotus'] : FALSE;
             if(
                 !$object['naitaja']

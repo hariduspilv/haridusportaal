@@ -34,7 +34,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private limit: number = 24;
   private offset: number = 0;
 
-  private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed']
+  private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed', 'sortBy']
 
   filterFull: boolean = true;
   showFilter: boolean = true;
@@ -44,7 +44,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private subscriptions: Subscription[] = [];
 
   private FilterOptions: object = {};
-  private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed'];
+  private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed', 'sortBy'];
   private isceList: any = {};
   public scrollPositionSet: boolean = false;
   
@@ -54,7 +54,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     public route: ActivatedRoute, 
     private http: HttpService,
     private device: DeviceDetectorService,
-    public scrollRestoration: ScrollRestorationService
+    public scrollRestoration: ScrollRestorationService,
   ) {
     super(null, null);
   }
@@ -217,6 +217,14 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     }
   }
 
+  clearForm() {
+    Object.keys(this.filterFormItems).forEach(e => {
+      this.clearField(e);
+      this.params[e] = '';
+      this.router.navigate([]);
+    })
+  }
+
   reset() {
     this.offset = 0;
     this.list = false;
@@ -274,8 +282,8 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       location: this.params['location'] ? "%"+this.params['location']+"%" : "%%",
       locationEnabled: this.params['location'] ? true: false,
       onlyOpenAdmission: this.params['open_admission'] ? true: false,
-      sortField: 'title',
-      sortDirection: 'ASC',
+      sortField: this.params['sortDirection'] ? 'field_duration' : 'title',
+      sortDirection: this.params['sortDirection'] ? this.params['sortDirection'] : 'ASC',
     }
     
     for(let i in this.filterOptionKeys){
@@ -303,8 +311,8 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
-    this.showFilter = window.innerWidth > 1024;
-    this.filterFull = window.innerWidth < 1024;
+    this.showFilter = this.device.isDesktop();
+    this.filterFull = this.device.isTablet() || this.device.isMobile();
     this.pathWatcher();
     this.watchSearch();
     this.populateFilterOptions();

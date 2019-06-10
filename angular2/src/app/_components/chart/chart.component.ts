@@ -275,7 +275,7 @@ export class ChartComponent implements OnInit {
         };
       }
       // Wide chart check or nah?  // this.wide &&
-      if (this.wide && this.wideChartTypesToFormat.includes(chartType.toLowerCase()) && !current.secondaryGraphType) {
+      if (this.wideChartTypesToFormat.includes(chartType.toLowerCase()) && !current.secondaryGraphType) {
         this.formatWideGraphTypes(tmp.options);
       }
 
@@ -351,7 +351,7 @@ export class ChartComponent implements OnInit {
 
           for (let i in filters['näitaja2']) {
 
-            let index = titleCaseValues[0].indexOf(filters['näitaja2'][i]);
+            let index = titleCaseValues[0].findIndex(item => filters['näitaja2'][i].toLowerCase() === item.toLowerCase());
 
             tmp.options.colors[index - 1] = lineColors[colorCounter];
             tmp.options['series'][index - 1] = {

@@ -195,8 +195,7 @@
                       <div class="icon-wrapper"
                         [class.top]="item.proposalStatus == 'Plaanis rakendada'"
                         [class.bottom]="item.proposalStatus == 'Ei rakenda'"
-                        [class.positive]="item.proposalStatus == 'Tehtud'"
-                        [class.topmost]="item.proposalStatus == 'Töös'"
+                        [class.positive]="item.proposalStatus == 'Tehtud' || item.proposalStatus == 'Töös'"
                         [class.lowest]="item.proposalStatus == 'Tagasiside kogumisel'">
                         <span class="icon" aria-hidden="true"></span>
                       </div>

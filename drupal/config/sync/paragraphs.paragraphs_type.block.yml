@@ -1,0 +1,9 @@
+uuid: d0ec4db1-ea2c-47d9-bb08-53ca72a8f9e6
+langcode: et
+status: true
+dependencies: {  }
+id: block
+label: Teemaplokid
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

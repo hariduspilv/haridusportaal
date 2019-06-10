@@ -1,0 +1,88 @@
+uuid: 27f84dec-c81d-418c-9c82-a3cd92e7ff41
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_infosystem_accordion
+    - node.type.information_system_page
+    - paragraphs.paragraphs_type.information_system_accordion
+  module:
+    - entity_reference_revisions
+id: node.information_system_page.field_infosystem_accordion
+field_name: field_infosystem_accordion
+entity_type: node
+bundle: information_system_page
+label: Akordion
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      information_system_accordion: information_system_accordion
+    target_bundles_drag_drop:
+      block:
+        weight: 21
+        enabled: false
+      accordion:
+        weight: 22
+        enabled: false
+      additional_section:
+        weight: 23
+        enabled: false
+      contact_section:
+        weight: 24
+        enabled: false
+      event_date:
+        weight: 25
+        enabled: false
+      favorite_item:
+        weight: 26
+        enabled: false
+      homepage_topics:
+        weight: 27
+        enabled: false
+      information_system_accordion:
+        enabled: true
+        weight: 28
+      information_system_sidebar:
+        weight: 29
+        enabled: false
+      iscedf_search:
+        weight: 30
+        enabled: false
+      job:
+        weight: 31
+        enabled: false
+      link:
+        weight: 32
+        enabled: false
+      main_profession_accordion:
+        weight: 33
+        enabled: false
+      main_profession_sidebar:
+        weight: 34
+        enabled: false
+      oska_field_sidebar:
+        weight: 35
+        enabled: false
+      registration_period:
+        weight: 36
+        enabled: false
+      right_sidebar_section_info:
+        weight: 37
+        enabled: false
+      school_location:
+        weight: 38
+        enabled: false
+      supernews:
+        weight: 39
+        enabled: false
+      survey_page_accordion:
+        weight: 40
+        enabled: false
+field_type: entity_reference_revisions
