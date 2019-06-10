@@ -70,7 +70,7 @@ class xJsonService implements xJsonServiceInterface {
         #dump($this->currentRequestContent->educationalInstitutions_id);
         if ($first && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
             $definition_header = $this->getxJsonHeader();
-            dump($this->currentRequestContent);
+            dump($this->ehisconnector);
             $baseJson['header'] = $definition_header + [
                     'first' => true,
                     'current_step' => null,
@@ -82,6 +82,7 @@ class xJsonService implements xJsonServiceInterface {
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
                             'educationalInstitutions_id' => isset($this->currentRequestContent->educationalInstitutions_id) ? $this->currentRequestContent->educationalInstitutions_id : null,
+                            'educationalInstitutions_name' => isset($this->currentRequestContent->educationalInstitutions_name) ? $this->currentRequestContent->educationalInstitutions_name : null,
                         ]
                     ],
                     'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
