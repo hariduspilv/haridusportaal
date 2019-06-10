@@ -37,6 +37,7 @@ class CustomRoleSwitcher {
 		$d = array_column($roles, 'ettevotted', 'ariregistri_kood');
 		$d = reset($d);
 		foreach($d as $da){
+		    dump($da);
 			if(array_search($id, $da, true)){
 				$this->setUserData([
 					'type' => 'juridical_person',
