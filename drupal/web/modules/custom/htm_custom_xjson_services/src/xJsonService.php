@@ -69,7 +69,7 @@ class xJsonService implements xJsonServiceInterface {
         $entity_type = 'x_json_entity';
         #dump($this->currentRequestContent->educationalInstitutions_id);
         if ($first && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
-            $tere = $this->ehisconnector->getEducationalInstitution();
+            $tere = $this->ehisconnector->getOptionsTaxonomy();
             dump($tere);
             $definition_header = $this->getxJsonHeader();
             $baseJson['header'] = $definition_header + [
