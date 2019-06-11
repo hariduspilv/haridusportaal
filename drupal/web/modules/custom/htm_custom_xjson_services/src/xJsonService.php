@@ -67,11 +67,14 @@ class xJsonService implements xJsonServiceInterface {
         $baseJson = [];
 
         $entity_type = 'x_json_entity';
-        #dump($this->currentRequestContent->educationalInstitutions_id);
+
+        if(isset($this->currentRequestContent->educationalInstitutions_id)){
+            $educationalInstitutions_id = $this->currentRequestContent->educationalInstitutions_id;
+            $params = ['id' => $this->currentRequestContent->educationalInstitutions_id];
+            $educationalInstitutions_name = $this->ehisconnector->getEducationalInstitution($params);
+        }
+        
         if ($first && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
-            $testparams = ['id' => $this->currentRequestContent->educationalInstitutions_id];
-            $tere = $this->ehisconnector->getEducationalInstitution($testparams);
-            dump($tere);
             $definition_header = $this->getxJsonHeader();
             $baseJson['header'] = $definition_header + [
                     'first' => true,
@@ -84,8 +87,8 @@ class xJsonService implements xJsonServiceInterface {
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
                             'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
-                            'educationalInstitutions_id' => isset($this->currentRequestContent->educationalInstitutions_id) ? $this->currentRequestContent->educationalInstitutions_id : null,
-                            #'educationalInstitutions_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getEducationalInstitutionName() : null,
+                            'educationalInstitutions_id' => isset($educationalInstitutions_id) ? $educationalInstitutions_id : null,
+                            'educationalInstitutions_name' => isset($educationalInstitutions_name) ? $educationalInstitutions_name : null,
                         ]
                     ],
                     'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
@@ -112,8 +115,8 @@ class xJsonService implements xJsonServiceInterface {
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
                             'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
-                            'educationalInstitutions_id' => ($this->currentRequestContent->educationalInstitutions_id) ?: null,
-                            #'educationalInstitutions_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getEducationalInstitutionName() : null,
+                            'educationalInstitutions_id' => isset($educationalInstitutions_id) ? $educationalInstitutions_id : null,
+                            'educationalInstitutions_name' => isset($educationalInstitutions_name) ? $educationalInstitutions_name : null,
                         ]
                     ]
                 ] + $baseJson['header'];
