@@ -533,7 +533,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (field.required === true) {
       if (!field.value) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }; }
     }
-    if (typeof field.value !== 'undefined') {
+    if (typeof field.value !== 'undefined' && field.value !== null) {
       // check for minlength
       if (field.minlength !== undefined && field.value !== '') {
         if (field.value.length < field.minlength) { return { valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }; }
@@ -620,6 +620,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     } else {
       this.edit_step = false;
       this.validateForm(this.data_elements);
+
+      console.log(this.error);
 
       if (Object.keys(this.error).length === 0) {
         this.data.header['activity'] = activity;

@@ -320,6 +320,21 @@ class EhisConnectorService {
 		return $this->invokeWithRedis('esindusOigus', $params, FALSE);
 	}
 
+    /**
+     * @param array $params
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface
+     */
+    public function getEducationalInstitutionName(array $params = []){
+        $params['key'] = 'klassifikaator';
+        $return = $this->invokeWithRedis('mtsysKlfTeenus', $params, FALSE);
+        if(!$return['redis_hit']){
+
+            return (isset($return[$params['hash']])) ? $return[$params['hash']] : [];
+        }
+        unset($return['redis_hit']);
+        return $return;
+    }
+
 	/**
 	 * @param array $params
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
