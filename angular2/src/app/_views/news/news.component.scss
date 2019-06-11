@@ -35,7 +35,9 @@
 
 .actions {
   button { margin: 0 $medium; width: stretch;}
-  @include break-on(sm, min) {background: $light-gray;
+  @include break-on(sm, min) {
+    background: $light-gray;
+    padding-top: 1.5rem;
     button { margin: 0 $medium; width: auto;}
   }
   &__error {padding-bottom: $small;}
