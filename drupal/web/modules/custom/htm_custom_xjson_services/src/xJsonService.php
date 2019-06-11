@@ -69,6 +69,8 @@ class xJsonService implements xJsonServiceInterface {
         $entity_type = 'x_json_entity';
         #dump($this->currentRequestContent->educationalInstitutions_id);
         if ($first && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
+            $tere = $this->ehisconnector->getEducationalInstitution();
+            dump($tere);
             $definition_header = $this->getxJsonHeader();
             $baseJson['header'] = $definition_header + [
                     'first' => true,
@@ -82,7 +84,7 @@ class xJsonService implements xJsonServiceInterface {
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
                             'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
                             'educationalInstitutions_id' => isset($this->currentRequestContent->educationalInstitutions_id) ? $this->currentRequestContent->educationalInstitutions_id : null,
-                            'educationalInstitutions_name' => 'safdgsaf'
+                            #'educationalInstitutions_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getEducationalInstitutionName() : null,
                         ]
                     ],
                     'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
@@ -110,7 +112,7 @@ class xJsonService implements xJsonServiceInterface {
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
                             'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
                             'educationalInstitutions_id' => ($this->currentRequestContent->educationalInstitutions_id) ?: null,
-                            'educationalInstitutions_name' => 'safdgsaf'
+                            #'educationalInstitutions_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getEducationalInstitutionName() : null,
                         ]
                     ]
                 ] + $baseJson['header'];
