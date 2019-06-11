@@ -80,7 +80,9 @@ class xJsonService implements xJsonServiceInterface {
                             'role' => 'TAOTLEJA',
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
+                            'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
                             'educationalInstitutions_id' => isset($this->currentRequestContent->educationalInstitutions_id) ? $this->currentRequestContent->educationalInstitutions_id : null,
+                            'educationalInstitutions_name' => 'safdgsaf'
                         ]
                     ],
                     'parameters' => isset($this->currentRequestContent->additional_parameters) ? $this->currentRequestContent->additional_parameters : null,
@@ -106,7 +108,9 @@ class xJsonService implements xJsonServiceInterface {
                             'role' => 'TAOTLEJA',
                             'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
                             'owner_id' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
+                            'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
                             'educationalInstitutions_id' => ($this->currentRequestContent->educationalInstitutions_id) ?: null,
+                            'educationalInstitutions_name' => 'safdgsaf'
                         ]
                     ]
                 ] + $baseJson['header'];
@@ -313,7 +317,6 @@ class xJsonService implements xJsonServiceInterface {
             foreach ($value['value'] as $item) {
                 foreach ($item as $table_key => $element) {
                     if (!in_array($table_key, $element_column_keys)) {
-                        dump($value);
                         throw new HttpException('400', "$table_key missing from table definition");
                     }
                 }
