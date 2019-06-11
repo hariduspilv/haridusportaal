@@ -462,7 +462,7 @@ export class ChartComponent implements OnInit {
       try {
 
         let groupBy = {
-          key: 'groupBy',
+          key: 'grupeeri',
           multiple: false,
           options: []
         };
@@ -474,7 +474,7 @@ export class ChartComponent implements OnInit {
           groupBy.options.push(item.graph_group_by);
         }
 
-        this.filters[item.id]['groupBy'] = groupBy.options[0];
+        this.filters[item.id]['grupeeri'] = groupBy.options[0];
 
         item.filters.unshift(groupBy);
 
@@ -602,7 +602,7 @@ export class ChartComponent implements OnInit {
         oskaMainProfession: filters.ametiala && filters.ametiala.length > 0 ? filters.ametiala : professionList,
         period: filters.periood || '',
         label: filters.silt || '',
-        graphGroupBy: filters['groupBy'] || '',
+        graphGroupBy: filters['grupeeri'] || '',
         graphVAxis: current['graph_v_axis']
       }
 
