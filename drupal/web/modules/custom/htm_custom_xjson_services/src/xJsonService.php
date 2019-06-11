@@ -73,7 +73,7 @@ class xJsonService implements xJsonServiceInterface {
             $params = ['id' => $this->currentRequestContent->educationalInstitutions_id];
             $educationalInstitution = $this->ehisconnector->getEducationalInstitution($params);
             if($educationalInstitution){
-                $educationalInstitutions_name = $educationalInstitution->generalData->name;
+                $educationalInstitutions_name = $educationalInstitution['generalData']['name'];
             }
         }
 
