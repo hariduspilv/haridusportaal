@@ -351,8 +351,16 @@ $grid-columns: 12;
 .capitalize {text-transform: capitalize;}
 .inline-flex {display: inline-flex;justify-content: flex-end;}
 
-.btn-link { color: $blue; background-color: $white; border: transparent 0px solid; text-decoration: underline; 
+.btn-link { 
+  color: $blue;
+  background-color: $white;
+  border: transparent 0px solid;
+  text-decoration: underline;
   font-size: 1rem; 
+  padding: 0;
+  &:active {
+    padding: 0;
+  }
   &:hover {
     text-decoration: none;
   }

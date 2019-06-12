@@ -6,6 +6,7 @@
   </a> 
 </div>
 <form (submit)="filterSubmit($event)" class="filter-wrapper" *ngIf="showFilter">
+  <button style="display:none" tabindex="-1" aria-hidden="true" type="submit" mat-raised-button color="primary"></button>
   <div class="main-container">
     <div class="row form-first-row" [class.short-filter]="!filterFull">
       <div class="col-4 sm-12">
@@ -174,20 +175,24 @@
       </div>
       <div class="row flex flex-justify-end">
         <div class="col-12 text-right sm-12 filter-button-row">
-          <button (click)="clearForm()" class="btn-link btn-link--withIcon">
-              <div class="htm-icon">close-1</div>
-              <span>Tühjenda väljad</span>
+          <button (click)="clearForm()" class="btn-link btn-link--withIcon" attr.aria-label="{{'button.clear_fields_label' | translate}}">
+              <div aria-hidden="true" class="htm-icon">close-1</div>
+              <span>{{'button.clear_fields' | translate}}</span>
             </button>
           <span class="bar sm-hide">|</span>       
           <button class="btn-link sm-hide" (click)="filterFull = !filterFull" aria-expanded="true">
             <span>{{ 'button.search_brief' | translate }}</span>
           </button>
-          <button role="button" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
+          <button type="submit" mat-raised-button color="primary">{{ 'button.search' | translate}}</button>
         </div><!--/col-3-->
       </div>
     </ng-container>
   </div>
 </form>
+
+<p role="alert" *ngIf="areFiltersCleared" style="position:absolute; left:-100000px">
+  Filtrite valikud tühjendatud ja algne erialade nimekiri taastatud
+</p>
 
 <div class="studyProgramme main-container">
   <div class="studyProgramme__list-head">
