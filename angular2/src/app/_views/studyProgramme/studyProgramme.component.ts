@@ -47,6 +47,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed', 'sortBy'];
   private isceList: any = {};
   public scrollPositionSet: boolean = false;
+  public areFiltersCleared: boolean = false;
   
   constructor (
     private rootScope: RootScopeService,
@@ -223,6 +224,10 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       this.params[e] = '';
       this.router.navigate([]);
     })
+    this.areFiltersCleared = true;
+    setTimeout(() => {
+      this.areFiltersCleared = false;
+    }, 1000)
   }
 
   reset() {
