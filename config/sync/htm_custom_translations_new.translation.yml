@@ -2533,11 +2533,11 @@ oska:
     en: 'compared to other fields'
   fields_data_on_map:
     translation_type: textarea
-    et: 'Valdkonade andmed Eesti kaardil'
+    et: 'Valdkondade andmed Eesti kaardil'
     en: 'Fields map'
   field_map_introduction:
     translation_type: textarea
-    et: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest.'
+    et: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest. '
     en: 'Siin saab võrrelda OSKA tuleviku tööjõu- ja oskuste uuringute andmeid. Peamiselt saab kõrvutada eri valdkondade töötajate paiknemist maakonniti, näiteks ühe valdkonna töötajate osakaal kõigist maakonna töötajatest.'
   compared_to_other_professions:
     translation_type: textarea
