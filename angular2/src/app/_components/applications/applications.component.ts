@@ -123,6 +123,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
   }
 
   fetchData(update){
+    console.log('tere');
     let request_boolean = this.loading['initial'] === true ? 1 : 0;
    
     let subscription = this.http.get('/dashboard/applications/'+ request_boolean +'?_format=json').subscribe(response => {

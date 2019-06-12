@@ -368,6 +368,8 @@ export class ChartComponent implements OnInit {
 
       }
 
+      tmp.dataTable['2']['2'] = 58;
+
       output.push(tmp);
 
     }

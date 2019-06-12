@@ -531,7 +531,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (!field.value) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }; }
+      if (field.value === undefined || field.value === null) {
+        return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
+      }
     }
     if (typeof field.value !== 'undefined' && field.value !== null) {
       // check for minlength
@@ -591,6 +593,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return { valid: true, message: 'valid' };
   }
 
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+  }
+
   validateForm(elements): void {
     const NOT_FOR_VALIDATION = ['heading', 'helpertext',];
 
@@ -620,8 +626,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     } else {
       this.edit_step = false;
       this.validateForm(this.data_elements);
-
-      console.log(this.error);
 
       if (Object.keys(this.error).length === 0) {
         this.data.header['activity'] = activity;
