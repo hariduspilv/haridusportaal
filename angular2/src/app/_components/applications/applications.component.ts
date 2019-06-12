@@ -140,8 +140,15 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         
         this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms); 
       } else {
-        if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(response['educationalInstitutions'])) {
-          this.data.educationalInstitutions = response['educationalInstitutions']; 
+        // let keysToSort = [ 'documents', 'acceptable_forms', 'drafts' ];
+        let responseData = response['educationalInstitutions'].map(elem => {
+          elem.documents = this.sortList(elem.documents, 'date');
+          elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
+          elem.drafts = this.sortList(elem.drafts, 'title');
+          return elem;
+        })
+        if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
+          this.data.educationalInstitutions = responseData;
           // && response['educationalInstitutions'].length ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
           if (response['message']) {
             this.notificationService.info(response['message'], 'general', false);
