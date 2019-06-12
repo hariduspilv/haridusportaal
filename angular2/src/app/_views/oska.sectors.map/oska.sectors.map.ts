@@ -28,7 +28,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   path: string;
 
   polygons: any;
-  polygonLabels: Array<Object> = [];
+  polygonLabels: any;
+  polygonValueLabels: any;
   polygonLayer: String = "county";
   polygonData:any;
 
@@ -37,6 +38,13 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   infoWindowFunding:any = false;
   infoLayer:any = false;
+
+  activeFontSize: string = '';
+  fontSizes: Object = {
+    sm: '6px',
+    md: '10px',
+    lg: '18px',
+  }
 
   labelOptions = {
     color: 'black',
@@ -105,16 +113,17 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   }
 
   zoomChange($event) {
-    console.log($event);
-    // if ($event < 8) {
-    //   console.log('setting 8');
-    //   this.polygonLabels.map(elem => elem['labelOptions'].fontSize = '7px')
-    // } else {
-    //   console.log('setting 10');
-    //   this.polygonLabels.map(elem => elem['labelOptions'].fontSize = '10px')
-    // }
-    // console.log(this.polygonLabels);
-    // this.changeDetectorRef.detectChanges();
+    const { polygonValueLabels, fontSizes, activeFontSize } = this;
+    if (!polygonValueLabels) {
+      return;
+    }
+    if ($event <= 6 && activeFontSize !== fontSizes['sm']) {
+      this.getPolygonCenterCoords(fontSizes['sm'], polygonValueLabels);
+    } else if ($event > 6 && $event < 9 && activeFontSize !== fontSizes['md']) {
+      this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels);
+    } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
+      this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels);
+    }
   }
 
   mapLabelSwitcher() {
@@ -237,18 +246,15 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   getPolygons() {
     let url = "/assets/polygons/"+this.polygonLayer+".json";
     let subscription = this.http.get(url).subscribe( data => {
+      this.polygonValueLabels = false;
       this.polygons = this.assignPolygonsColors(data);
       this.loading = false;
-      if (data['features'] && !this.polygonLabels || (this.polygonLabels && !this.polygonLabels.length)) {
-        this.polygonLabels = data['features'].map(county => {
-          return this.getPolygonCenter(county.geometry, county.properties.NIMI);
-        })
-      }
       subscription.unsubscribe();
     });
   }
 
   assignPolygonsColors( data ) {
+    this.polygonValueLabels = {};
     for( let i in data['features'] ){
       let current = data['features'][i];
       let properties = current['properties'];
@@ -258,6 +264,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       for( let o in this.polygonData ){
         if( name == this.polygonData[o]['county'].toLowerCase() ){
           match = this.polygonData[o];
+          this.polygonValueLabels[properties['NIMI']] = match.value * 100
         }
       }
       
@@ -280,41 +287,36 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       
       
     }
+    this.getPolygonCenterCoords('', this.polygonValueLabels);
     return data;
   }
 
-  getPolygonCenter(geometry, county) {
-    // 17293 pairs of polygon coordinates to go through to get the center points of 15 counties... Good idea? 
-    let centerCountys = {
-      labelOptions: {
+  getPolygonCenterCoords(fontSize, polygons) {
+    if (this.polygonLabels) {
+      this.mapPolyLabels(fontSize, polygons);
+      return;
+    }
+
+    let url = "/assets/polygons/countyCenters.json";
+    let subscription = this.http.get(url).subscribe( data => {
+      this.polygonLabels = data;
+      this.mapPolyLabels(fontSize, polygons);
+      subscription.unsubscribe();
+    });
+  }
+
+  mapPolyLabels (fontSize, polygons) {
+    this.activeFontSize = fontSize || this.labelOptions.fontSize;
+    this.polygonLabels.map(elem => {
+      let match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
+      let textLabel = match ? `${elem.label} ${match}` : elem.label;
+      elem['labelOptions'] = {
         color: this.labelOptions.color,
-        fontSize: this.labelOptions.fontSize,
+        fontSize: fontSize || this.labelOptions.fontSize,
         fontWeight: this.labelOptions.fontWeight,
-        text: county /** .replace(' maakond', 'maa') */
+        text: textLabel
       }
-    }
-    let coords = [];
-    let latitudes = [];
-    let longitudes = [];
-
-    if (geometry.type === 'Polygon') {
-      coords = geometry.coordinates[0];
-    } else {
-      let merged = [].concat.apply([], geometry.coordinates);
-      let another = [].concat.apply([], merged);
-      coords = another;
-    }
-    console.log(coords.length);
-    coords.forEach((latLng) => {
-      latitudes.push(latLng[1]);
-      longitudes.push(latLng[0]);
-    })
-    const latitudeAverage = latitudes.reduce((a,b) => parseFloat(a) + parseFloat(b), 0) / latitudes.length
-    const longitudeAverage = longitudes.reduce((c,d) => parseFloat(c) + parseFloat(d), 0) / longitudes.length
-
-    centerCountys['latitude'] = latitudeAverage;
-    centerCountys['longitude'] = longitudeAverage;
-    return centerCountys;
+    });
   }
 
   polygonStyles(feature) {
