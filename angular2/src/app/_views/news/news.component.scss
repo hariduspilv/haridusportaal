@@ -13,7 +13,7 @@
   .author {padding: $half-gutter $medium $gutter $medium;font-size: 0.875rem;line-height: 1.43;color: $dark-gray;
     @include break-on(xs, min) {padding: 0; padding-top: $gutter; padding-bottom: $small;}
   }
-  .description {font-size: $small;max-height: 3.5rem;overflow: hidden;}
+  .description {font-size: $small;@include multiLineEllipsis($lineHeight: 1.2rem, $lineCount: 3, $bgColor: $white); }
 }
 .news-list {border-top: $gutter solid $light-blue;background: $white;
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;}
@@ -35,7 +35,9 @@
 
 .actions {
   button { margin: 0 $medium; width: stretch;}
-  @include break-on(sm, min) {background: $light-gray;
+  @include break-on(sm, min) {
+    background: $light-gray;
+    padding-top: 1.5rem;
     button { margin: 0 $medium; width: auto;}
   }
   &__error {padding-bottom: $small;}

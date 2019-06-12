@@ -30,7 +30,9 @@ class ProcessOskaMapData {
             'maakond' => false,
             'valdlinn' => false,
             'vaartus' => false,
-            'jaotus' => false
+            'jaotus' => false,
+            'algus' => false,
+            'lopp' => false
         ];
 
         foreach ($items as $index => $item){
@@ -46,14 +48,20 @@ class ProcessOskaMapData {
             $object['valdkond'] = $item['valdkond'];
             $object['maakond'] = $item['maakond'];
             $object['valdlinn'] = $item['valdlinn'];
-            $object['vaartus'] = $item['vaartus'];
+            $object['vaartus'] = $item['vaartus'] != '' ? $item['vaartus'] : FALSE;
             $object['jaotus'] = $item['jaotus'] >= 1 && $item['jaotus'] <= 7 ? $item['jaotus'] : FALSE;
+            $object['algus'] = $item['algus'] != '' ? $item['algus'] : FALSE;
+            $object['lopp'] = $item['lopp'] != '' ? $item['lopp'] : FALSE;
             if(
                 !$object['naitaja']
                 ||
-                $object['vaartus'] === FALSE
+                !$object['vaartus']
                 ||
-                !$object['jaotus']){
+                !$object['jaotus']
+                ||
+                !$object['algus']
+                ||
+                !$object['lopp']){
 
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
@@ -78,7 +86,7 @@ class ProcessOskaMapData {
             if(!file_exists($logpath)) mkdir($logpath, 0744, true);
             $writer = Writer::createFromPath('/app/drupal/web/sites/default/files/private/oska_csv/oska_map_csv.csv', 'w+');
             $writer->setDelimiter(';');
-            $writer->insertOne(['naitaja', 'valdkond', 'maakond', 'valdlinn', 'väärtus', 'jaotus']);
+            $writer->insertOne(['naitaja', 'valdkond', 'maakond', 'valdlinn', 'väärtus', 'jaotus', 'algus', 'lopp']);
             $writer->insertAll($results);
             $context['results']['processed'] = $results;
         }
