@@ -136,11 +136,7 @@ export class ChartComponent implements OnInit {
       height = rows * cols * 10;
     }
     else if (type == 'stacked bar 100') {
-      if (this.device.isMobile()) {
-        height = rows * 72;
-      } else {
-        height = rows * 48;
-      }
+      height = rows * 72;
     } else {
       height = rows * 28;
     }
