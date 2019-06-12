@@ -11,8 +11,7 @@
       <div class="col-4 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.mapIndicator">
           <mat-form-field>
-            <!-- (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')" -->
-            <mat-select placeholder="{{ 'oskaProfessions.indicator' | translate }}" [(ngModel)]="filterFormItems.mapIndicator" name="mapIndicator">
+            <mat-select (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')" placeholder="{{ 'oskaProfessions.indicator' | translate }}" [(ngModel)]="filterFormItems.mapIndicator" name="mapIndicator">
               <ng-container  *ngIf="filterData && filterData.mapIndicator">
                 <ng-container *ngFor="let item of filterData.mapIndicator">
                   <mat-option [value]="item">
@@ -92,7 +91,7 @@
             <ng-template>
               <b>{{ infoLayer.name }}</b><br />
               <span *ngIf="infoLayer.field">{{ infoLayer.field }}<br /></span>
-              {{ infoLayer.value }}{{ infoLayer.value >= 0 ? '%' : '' }}
+              {{ infoLayer.value }}
             </ng-template>
           </agm-snazzy-info-window>
         </ng-container>
