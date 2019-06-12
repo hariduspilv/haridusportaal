@@ -11,7 +11,8 @@
       <div class="col-4 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.mapIndicator">
           <mat-form-field>
-            <mat-select (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')" placeholder="{{ 'oskaProfessions.indicator' | translate }}" [(ngModel)]="filterFormItems.mapIndicator" name="mapIndicator">
+            <!-- (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')" -->
+            <mat-select placeholder="{{ 'oskaProfessions.indicator' | translate }}" [(ngModel)]="filterFormItems.mapIndicator" name="mapIndicator">
               <ng-container  *ngIf="filterData && filterData.mapIndicator">
                 <ng-container *ngFor="let item of filterData.mapIndicator">
                   <mat-option [value]="item">
@@ -26,7 +27,7 @@
       <div class="col-6 sm-12">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.OSKAField">
           <mat-form-field>
-            <mat-select (openedChange)="setRelatedFilter('OSKAField', 'mapIndicator')" placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.OSKAField" name="OSKAField">
+            <mat-select (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')" placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.OSKAField" name="OSKAField">
               <ng-container  *ngIf="filterData && filterData.OSKAField">
                 <ng-container *ngFor="let item of filterData.OSKAField">
                   <mat-option [value]="item">
@@ -67,6 +68,9 @@
         </div>
       </div>  
     </div>
+  </div>
+  <div class="sectors__list-body" *ngIf="!polygonData">
+    <loader></loader>
   </div>
   <div class="sectors__list-body" *ngIf="polygonData && polygonData.length">
     <h2>{{ 'oska.field_map_introduction' | translate }}</h2>
