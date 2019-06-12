@@ -88,15 +88,12 @@
           <a tabindex="0" id="{{i}}" href="javascript:void(0)" *ngIf="i < listLimit" class="search__sub pointer" [routerLink]="[item.EntityPath]">  
             <div class="search__sub--category" aria-hidden="true">{{ item.ContentType }}</div>
             <div class="search__sub--title" attr.aria-label="{{ item.ContentType }}{{ item.ContentType !== 'Õppekava' ? ':' : '' }} {{ item.Title }}{{ item.ContentType === 'Õppekava' ? ':' : '' }}"><h1>{{ item.Title }}</h1></div>
-            <div class="inline__items" *ngIf="item.ContentType === 'Õppekava'">
-              <span class="item" *ngIf="item.FieldSchoolName">{{ item.FieldSchoolName }}</span>
+            <div class="inline__items" *ngIf="item.ContentType === 'Õppekava'" attr.aria-label="{{ item.FieldSchoolName }} {{ item.FieldStudyProgrammeLevel }} {{ item.FieldDuration | monthsToYears }}">
+              <span class="item" *ngIf="item.FieldSchoolName" aria-hidden="true">{{ item.FieldSchoolName }}</span>
               <span class="bar" *ngIf="item.FieldSchoolName && item.FieldStudyProgrammeLevel" aria-hidden="true">|</span>
-              <span class="item" *ngIf="item.FieldStudyProgrammeLevel">{{ item.FieldStudyProgrammeLevel }}</span>
+              <span class="item" *ngIf="item.FieldStudyProgrammeLevel" aria-hidden="true">{{ item.FieldStudyProgrammeLevel }}</span>
               <span class="bar" *ngIf="(item.FieldStudyProgrammeLevel || item.FieldSchoolName) && item.FieldDuration" aria-hidden="true">|</span>
-              <span class="item" *ngIf="item.FieldDuration">
-                <span *ngIf="item.FieldDuration >= 12">{{ (item.FieldDuration - (item.FieldDuration % 12)) / 12 }} <span>{{ item.FieldDuration >= 24 ? 'aastat' : 'aasta' }}</span></span>
-                <span *ngIf="item.FieldDuration > 0 && item.FieldDuration % 12 > 0"> {{ item.FieldDuration % 12 }} <span>{{ item.FieldDuration % 12 >= 2 ? 'kuud' : 'kuu' }}</span></span>
-              </span>
+              <span class="item" *ngIf="item.FieldDuration" aria-hidden="true">{{ item.FieldDuration | monthsToYears }}</span>
             </div>
           </a><!--ngFor-->
         </ng-container>

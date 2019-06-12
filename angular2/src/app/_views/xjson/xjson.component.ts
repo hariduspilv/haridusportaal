@@ -531,9 +531,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (!field.value) { return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] }; }
+      if (field.value === undefined || field.value === null) {
+        return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
+      }
     }
-    if (typeof field.value !== 'undefined') {
+    if (typeof field.value !== 'undefined' && field.value !== null) {
       // check for minlength
       if (field.minlength !== undefined && field.value !== '') {
         if (field.value.length < field.minlength) { return { valid: false, message: this.translate.get('xjson.value_min_length_is')['value'] + ' ' + field.minlength }; }
@@ -589,6 +591,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
 
     return { valid: true, message: 'valid' };
+  }
+
+  isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
   validateForm(elements): void {
