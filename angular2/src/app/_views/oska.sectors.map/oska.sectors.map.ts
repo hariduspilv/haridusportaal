@@ -113,12 +113,11 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       this.params = params;
       this.filterRetrieveParams( params );
       if (!this.filterFormItems['OSKAField'] || !this.filterFormItems['mapIndicator']) {
+        if (!this.filterFormItems['mapIndicator'] && this.filterData['mapIndicator'].length) this.filterFormItems['mapIndicator'] = this.filterData['mapIndicator'][0];
         if (!this.filterFormItems['OSKAField'] && this.filterData['OSKAField'].length) {
           this.setRelatedFilter('mapIndicator', 'OSKAField');
           this.filterFormItems['OSKAField'] = this.filterData['OSKAField'][0];
         }
-        this.filterFormItems['OSKAField'] = this.filterData['OSKAField'][0];
-        if (!this.filterFormItems['mapIndicator'] && this.filterData['mapIndicator'].length) this.filterFormItems['mapIndicator'] = this.filterData['mapIndicator'][0];
         this.filterSubmit(); 
       }
       this.filterGivenData(true);
@@ -149,17 +148,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   }
 
   mapLabelSwitcher() {
-    this.mapOptions.styles.push({
-      "elementType": "labels",
-      "stylers": [
-          {
-              "visibility": "off"
-          },
-          {
-              "color": "#f49f53"
-          }
-      ]
-    });
+    this.mapOptions.styles = [];
+    this.mapOptions.styles = [ { "elementType": "labels", "stylers": [{"visibility": "off"},{"color": "#f49f53"}] }, ...this.rootScope.get("mapStyles") ];
   }
 
   setRelatedFilter(current, sibling) {
