@@ -264,7 +264,11 @@ public class EeIsikukaartWorker extends Worker {
       logForDrupal.setMessage("EHIS - eeIsikukaart.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
       if (e instanceof XRoadServiceConsumptionException
-          && ((XRoadServiceConsumptionException) e).getFaultString() != null) {
+          && ((XRoadServiceConsumptionException) e).getFaultString() != null
+          && (((XRoadServiceConsumptionException) e).getFaultString()
+              .equalsIgnoreCase("Paring ei ole lubatud")
+            || ((XRoadServiceConsumptionException) e).getFaultString()
+              .equalsIgnoreCase("Isiku kohta andmeid ei leitud."))) {
         responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
             .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
         responseNode.remove("value");
