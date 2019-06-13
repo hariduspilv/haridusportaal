@@ -1,11 +1,8 @@
 <div>
   <breadcrumbs></breadcrumbs>
 </div>
-<div class="main-container">
-  <div class="row xjson-wrapper">
-    <div class="col-8 sm-12">
+<div class="xjson main-container">
       <div class="block padding-block border-blue">
-
         <div class="block__head">
           <div class="block__head__title">{{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}</div>
           <div class="block__head__buttons">
@@ -30,7 +27,7 @@
 
         <ng-container *ngIf="data && view == 'document'">
 
-          <div class="xjson__title" *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</div>
+          <h1 *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</h1>
           <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
 
           <ng-container *ngIf="data_messages">
@@ -54,6 +51,8 @@
           </ul>
 
           <ng-container *ngIf="!empty_data">
+            <div>{{ 'xjson.required_fields_infotext' | translate }}</div>
+
             <!-- STEP BODY -->
             <div class="row button-list button-list-top">
               <ng-container *ngFor="let activity of activityButtons['primary']">
@@ -749,9 +748,5 @@
         </ng-container>
       </div>
       <!--/block border-blue-->
-    </div>
-    <!--/col-8-->
-  </div>
-  <!--/row-->
 </div>
 <!--/main-container-->
