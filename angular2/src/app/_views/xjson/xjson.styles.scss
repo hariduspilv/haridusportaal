@@ -3,16 +3,11 @@
 
 input { font-size: 0.875rem; }
 
-.main-container{
-  @include break-on(sm, min) { margin:0 1.5rem;}
-}
-
 .xjson-wrapper { padding: 0.5rem 0;
   @include break-on(sm, max) { padding: 0rem; }
 }
 
 .xjson{
-  &__title{width:100%; color:$black; font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; margin-bottom: 1rem;}
   &__step-title{width:100%; color:$black; font-size:1rem; line-height:1.375rem; text-decoration: none; font-weight: 500; margin-bottom: 0.5rem; }
   &__introduction { font-weight: 500; margin-top: 0; }
   &__step-introduction{ margin-top: 0rem; margin-bottom: 1rem; width:100%; font-size:1rem; line-height:1.5rem; text-decoration: none; font-size: 500; }
@@ -21,6 +16,7 @@ input { font-size: 0.875rem; }
   &__navigation{ list-style-type: none; padding-left: 1.5rem; padding-right: 1.5rem; margin-left: -1.5rem; margin-right: -1.5rem; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-x: auto; padding-bottom: 2rem; margin-bottom: 0px;
     @include break-on(sm, max) { justify-content: flex-start; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem; padding-right: 1.5rem; }
   }
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium; margin-top: .5rem;}
 }
 .xjson__navigation__step.disabled { 
   &:after {
