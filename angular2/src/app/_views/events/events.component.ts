@@ -74,7 +74,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
 
   scrollPositionSet: boolean = false;
   count: number = 0;
-  
+  private filterFullProperties: any = ['tags', 'types'];
   constructor(
     public router: Router,
     public route: ActivatedRoute,
@@ -519,6 +519,7 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }
   }
   getData() {
+        this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined );
     
         this.eventsConfig = new EventsConfig();
 
