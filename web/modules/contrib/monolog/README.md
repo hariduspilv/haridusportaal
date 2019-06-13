@@ -1,12 +1,12 @@
 Monolog for Drupal 8
-=======
+====================
 
 Overview
--------
+--------
 This module integrates Drupal with the fantastic [Monolog library by Seldaek](https://github.com/Seldaek/monolog) to provide a better logging solution. Some of the benefits of using this module are as follows:
 
 - Configurable logging levels
-- A multitude of handlers
+- A multitude of handlers, formatters and processors
 - All the power and flexibility of Monolog
 
 The Drupal Monolog module also has full watchdog integration, so it works with core and contributed modules out of the box.
@@ -60,7 +60,7 @@ Handlers
 
 Handlers are registered as services in the [Drupal Service Container](https://www.drupal.org/docs/8/api/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8).
 You can define as many handlers as you need.
-Each handler has a name (that should be under the *monolog.handler.* namespace), an implementing class and a list of arguments.
+Each handler has a name (that must be under the *monolog.handler.* namespace), an implementing class and a list of arguments.
 
 Mapping among logger channels and Monolog handlers is done defining parameters.
 Under the *monolog.channel_handlers* parameter it is possible to define where to send logs from a specific channel.
@@ -84,13 +84,13 @@ services:
     arguments: ['private://logs/debug.log', 10, '%monolog.level.debug%']
 ```
 
-The following method:
+The following code:
 
 ```
 \Drupal::logger('php')->debug('debug message');
 ```
 
-will write the corresponding message to the *private://logs/php.log* file.
+will write a message to the *private://logs/php.log* file.
 
 Processors
 ----------
@@ -109,9 +109,37 @@ parameters:
   monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer', 'filter_backtrace']
 ```
 
+Formatters
+----------
+
+Monolog can alter the format of the message using *formatters*. A formatter needs to be registered as services in the
+[Drupal Service Container](https://www.drupal.org/docs/8/api/services-and-dependency-injection/services-and-dependency-injection-in-drupal-8).
+The module provides a set of already defined formatters like line formatter and json formatter. We suggest you to use the [Devel module](https://www.drupal.org/project/devel) or [Drupal Console](https://drupalconsole.com) to find all of them.
+
+The following example will send all PHP specific logs to a separate file in the logstash format:
+
+```
+parameters:
+  monolog.channel_handlers:
+    php:
+      handlers: ['rotating_file_php']
+      formatter: 'logstash'
+    default: ['rotating_file_all']
+  monolog.processors: ['message_placeholder', 'current_user', 'request_uri', 'ip', 'referer']
+
+services:
+  monolog.handler.rotating_file_php:
+    class: Monolog\Handler\RotatingFileHandler
+    arguments: ['private://logs/php.log', 10, 'monolog.level.debug']
+  monolog.handler.rotating_file_all:
+    class: Monolog\Handler\RotatingFileHandler
+    arguments: ['private://logs/debug.log', 10, 'monolog.level.debug']
+```
+
+If no formatter is specified the module will fallback to line formatter.
 
 Log to database
---------
+---------------
 
 The Monolog module automatically register an handler for every enabled Drupal logger. To log to the standard
 watchdog table it is possible to enable the Database Logging module and use *drupal.dblog* as handler:
@@ -154,7 +182,7 @@ Examples
     arguments: ['@monolog.handler.slack', null, 100]
 ```
 
-You can find the complete list of Processors/Handlers [here](https://github.com/Seldaek/monolog/blob/master/doc/02-handlers-formatters-processors.md#handlers).
+You can find the complete list of Processors/Handlers/Formatters [here](https://github.com/Seldaek/monolog/blob/master/doc/02-handlers-formatters-processors.md#handlers).
 
 Extending Monolog
 --------

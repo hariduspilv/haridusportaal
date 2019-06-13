@@ -103,7 +103,9 @@ class IgnoreCharacters extends FieldsProcessorPluginBase {
    * {@inheritdoc}
    */
   public function submitConfigurationForm(array &$form, FormStateInterface $form_state) {
-    $config['ignorable'] = $form_state->getValue('ignorable');
+    $config = $form_state->getValues();
+    unset($config['strip']);
+    // Get our own version of 'ignorable_classes' from form values.
     $classes = $form_state->getValue(['strip', 'character_sets'], []);
     $config['ignorable_classes'] = array_values(array_filter($classes));
     $this->setConfiguration($config);

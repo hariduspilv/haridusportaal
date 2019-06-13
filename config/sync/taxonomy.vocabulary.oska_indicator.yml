@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'OSKA infograafika näitaja'
 vid: oska_indicator
 description: ''
-hierarchy: 0
 weight: 0

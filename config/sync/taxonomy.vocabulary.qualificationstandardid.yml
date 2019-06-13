@@ -5,5 +5,4 @@ dependencies: {  }
 name: qualificationStandardId
 vid: qualificationstandardid
 description: ''
-hierarchy: 0
 weight: 0
