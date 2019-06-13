@@ -11,11 +11,11 @@ use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\PluginDependencyTrait;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\TypedData\TypedDataManager;
-use Drupal\node\Entity\Node;
+use Drupal\entity_embed\Entity\EntityEmbedFakeEntity;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- *
+ * Base class for field formatter display plugins.
  */
 abstract class FieldFormatterEntityEmbedDisplayBase extends EntityEmbedDisplayBase {
   use PluginDependencyTrait;
@@ -51,6 +51,12 @@ abstract class FieldFormatterEntityEmbedDisplayBase extends EntityEmbedDisplayBa
   /**
    * Constructs a FieldFormatterEntityEmbedDisplayBase object.
    *
+   * @param array $configuration
+   *   A configuration array containing information about the plugin instance.
+   * @param string $plugin_id
+   *   The plugin_id for the plugin instance.
+   * @param mixed $plugin_definition
+   *   The plugin implementation definition.
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
    *   The entity type manager service.
    * @param \Drupal\Core\Field\FormatterPluginManager $formatter_plugin_manager
@@ -142,9 +148,9 @@ abstract class FieldFormatterEntityEmbedDisplayBase extends EntityEmbedDisplayBa
    * {@inheritdoc}
    */
   public function build() {
-    // Create a temporary node object to which our fake field value can be
+    // Create a temporary entity to which our fake field value can be
     // added.
-    $node = Node::create(array('type' => '_entity_embed'));
+    $fakeEntity = EntityEmbedFakeEntity::create(['type' => '_entity_embed']);
 
     $definition = $this->getFieldDefinition();
 
@@ -156,12 +162,12 @@ abstract class FieldFormatterEntityEmbedDisplayBase extends EntityEmbedDisplayBa
       $definition,
       $this->getFieldValue($definition),
       $definition->getName(),
-      $node->getTypedData()
+      $fakeEntity->getTypedData()
     );
 
     // Prepare, expects an array of items, keyed by parent entity ID.
     $formatter = $this->getFieldFormatter();
-    $formatter->prepareView(array($node->id() => $items));
+    $formatter->prepareView([$fakeEntity->id() => $items]);
     $build = $formatter->viewElements($items, $this->getLangcode());
     // For some reason $build[0]['#printed'] is TRUE, which means it will fail
     // to render later. So for now we manually fix that.
@@ -192,20 +198,20 @@ abstract class FieldFormatterEntityEmbedDisplayBase extends EntityEmbedDisplayBa
    */
   public function getFieldFormatter() {
     if (!isset($this->fieldFormatter)) {
-      $display = array(
+      $display = [
         'type' => $this->getFieldFormatterId(),
         'settings' => $this->getConfiguration(),
         'label' => 'hidden',
-      );
+      ];
 
       // Create the formatter plugin. Will use the default formatter for that
       // field type if none is passed.
       $this->fieldFormatter = $this->formatterPluginManager->getInstance(
-        array(
+        [
           'field_definition' => $this->getFieldDefinition(),
           'view_mode' => '_entity_embed',
           'configuration' => $display,
-        )
+        ]
       );
     }
 

@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'ISCO Occupation'
 vid: isco_occupation
 description: ''
-hierarchy: 0
 weight: 0

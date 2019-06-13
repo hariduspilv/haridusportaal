@@ -1,3 +1,20 @@
+Search API 1.13 (2019-05-07):
+-----------------------------
+- #3043930 by kfritsche, drunken monkey, borisson_: Fixed issue with nested
+  Drush batch operations.
+- #3049801 by drunken monkey, borisson_: Cleaned up some minor code style
+  issues.
+- #3049777 by drunken monkey: Fixed test fails for Drupal 8.7 HEAD.
+- #3039142 by drunken monkey, ali-3a, LaravZ: Fixed all results returned when
+  query has keywords but no fulltext fields.
+- #3045396 by drunken monkey: Adapted to PHPCS changes in Core.
+- #3044867 by drunken monkey, borisson_: Fixed namespace of
+  TaxonomyTermArgumentTest.
+- #3041144 by jonnyeom, drunken monkey, LaravZ: Fixed the form submission logic
+  of the "Ignore Characters" processor.
+- #2867479 by drunken monkey, odavydyuk, VitaliyB98, idebr, borisson_: Removed
+  the "Search API Taxonomy Term Handlers" module.
+
 Search API 1.12 (2019-03-11):
 -----------------------------
 - #3037972 by ifrik, borisson_, drunken monkey: Added facets support for Views
