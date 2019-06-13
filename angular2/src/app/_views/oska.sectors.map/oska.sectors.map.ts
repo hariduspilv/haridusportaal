@@ -379,9 +379,9 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
         mouse = $event[i];
       }
     }
-    
+
     let val = $event.feature.getProperty('value');
-    let textLabel = val && val.length && !val.includes('%') ? new LocaleNumberPipe('et').transform(val) : val;
+    let textLabel = val && val.length && parseFloat(val) && !val.includes('%') ? new LocaleNumberPipe('et').transform(val) : val;
 
     this.infoLayer = {
       left: mouse['clientX']+"px",
