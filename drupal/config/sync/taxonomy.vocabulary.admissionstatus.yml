@@ -5,5 +5,4 @@ dependencies: {  }
 name: AdmissionStatus
 vid: admissionstatus
 description: ''
-hierarchy: 0
 weight: 0

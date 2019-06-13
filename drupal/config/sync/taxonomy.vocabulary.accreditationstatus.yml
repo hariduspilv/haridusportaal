@@ -5,5 +5,4 @@ dependencies: {  }
 name: AccreditationStatus
 vid: accreditationstatus
 description: ''
-hierarchy: 0
 weight: 0

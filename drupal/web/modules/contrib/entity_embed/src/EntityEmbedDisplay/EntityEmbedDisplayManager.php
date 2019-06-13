@@ -7,6 +7,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Component\Plugin\Exception\PluginException;
+use Drupal\entity_embed\Plugin\entity_embed\EntityEmbedDisplay\MediaImageDecorator;
 
 /**
  * Provides an Entity Embed display plugin manager.
@@ -32,20 +33,8 @@ class EntityEmbedDisplayManager extends DefaultPluginManager {
   public function __construct(\Traversable $namespaces, CacheBackendInterface $cache_backend, ModuleHandlerInterface $module_handler) {
     parent::__construct('Plugin/entity_embed/EntityEmbedDisplay', $namespaces, $module_handler, 'Drupal\entity_embed\EntityEmbedDisplay\EntityEmbedDisplayInterface', 'Drupal\entity_embed\Annotation\EntityEmbedDisplay');
     $this->alterInfo('entity_embed_display_plugins');
-    $this->setCacheBackend($cache_backend, 'entity_embed_display_plugins');
-  }
-
-  /**
-   * Overrides DefaultPluginManager::processDefinition().
-   */
-  public function processDefinition(&$definition, $plugin_id) {
-    $definition += array(
-      'entity_types' => FALSE,
-    );
-
-    if ($definition['entity_types'] !== FALSE && !is_array($definition['entity_types'])) {
-      $definition['entity_types'] = array($definition['entity_types']);
-    }
+    // @todo Move the cache tag to the derivers once https://www.drupal.org/node/3001284 lands.
+    $this->setCacheBackend($cache_backend, 'entity_embed_display_plugins', ['config:entity_view_mode_list']);
   }
 
   /**
@@ -61,8 +50,22 @@ class EntityEmbedDisplayManager extends DefaultPluginManager {
    *
    * @see https://drupal.org/node/2277981
    */
-  public function getDefinitionsForContexts(array $contexts = array()) {
+  public function getDefinitionsForContexts(array $contexts = []) {
     $definitions = $this->getDefinitions();
+
+    if (!empty($contexts['embed_button'])) {
+      $button_plugins = $contexts['embed_button']->getTypeSetting('display_plugins');
+      if (!empty($button_plugins)) {
+        $allowed_definitions = [];
+        foreach ($button_plugins as $plugin_id) {
+          if (!empty($definitions[$plugin_id])) {
+            $allowed_definitions[$plugin_id] = $definitions[$plugin_id];
+          }
+        }
+        $definitions = $allowed_definitions;
+      }
+    }
+
     $valid_ids = array_filter(array_keys($definitions), function ($id) use ($contexts) {
       try {
         $display = $this->createInstance($id);
@@ -83,6 +86,35 @@ class EntityEmbedDisplayManager extends DefaultPluginManager {
   }
 
   /**
+   * Gets definition options for context.
+   *
+   * Provides a list of plugins that can be used for a certain context and
+   * filters out plugins that should be hidden in the UI.
+   *
+   * @param array $context
+   *   An array of context options; possible keys are 'entity', 'entity_type'
+   *   and 'embed_button'.
+   *
+   * @return string[]
+   *   An array of valid plugin labels, keyed by plugin ID.
+   */
+  public function getDefinitionOptionsForContext(array $context) {
+    $values = [
+      'entity' => TRUE,
+      'entity_type' => TRUE,
+      'embed_button' => TRUE,
+    ];
+    assert(empty(array_diff_key($context, $values)));
+    $definitions = $this->getDefinitionsForContexts($context);
+    $definitions = $this->filterExposedDefinitions($definitions);
+    $options = array_map(function ($definition) {
+      return (string) $definition['label'];
+    }, $definitions);
+    natsort($options);
+    return $options;
+  }
+
+  /**
    * Gets definition options for entity.
    *
    * Provides a list of plugins that can be used for a certain entity and
@@ -95,7 +127,7 @@ class EntityEmbedDisplayManager extends DefaultPluginManager {
    *   An array of valid plugin labels, keyed by plugin ID.
    */
   public function getDefinitionOptionsForEntity(EntityInterface $entity) {
-    $definitions = $this->getDefinitionsForContexts(array('entity' => $entity, 'entity_type' => $entity->getEntityTypeId()));
+    $definitions = $this->getDefinitionsForContexts(['entity' => $entity, 'entity_type' => $entity->getEntityTypeId()]);
     $definitions = $this->filterExposedDefinitions($definitions);
     return array_map(function ($definition) {
       return (string) $definition['label'];
@@ -112,7 +144,7 @@ class EntityEmbedDisplayManager extends DefaultPluginManager {
    *   Returns plugin definitions that should be displayed in the UI.
    */
   protected function filterExposedDefinitions(array $definitions) {
-    return array_filter($definitions, function($definition) {
+    return array_filter($definitions, function ($definition) {
       return empty($definition['no_ui']);
     });
   }
@@ -130,11 +162,28 @@ class EntityEmbedDisplayManager extends DefaultPluginManager {
    *   An array of valid plugin labels, keyed by plugin ID.
    */
   public function getDefinitionOptionsForEntityType($entity_type) {
-    $definitions = $this->getDefinitionsForContexts(array('entity_type' => $entity_type));
+    $definitions = $this->getDefinitionsForContexts(['entity_type' => $entity_type]);
     $definitions = $this->filterExposedDefinitions($definitions);
     return array_map(function ($definition) {
       return (string) $definition['label'];
     }, $definitions);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function createInstance($plugin_id, array $configuration = []) {
+    $instance = parent::createInstance($plugin_id, $configuration);
+    $definition = $instance->getPluginDefinition();
+
+    if (empty($definition['supports_image_alt_and_title'])) {
+      return $instance;
+    }
+    else {
+      // Use decorator pattern to add alt and title fields to dialog when
+      // embedding media with image source.
+      return new MediaImageDecorator($instance);
+    }
   }
 
 }
