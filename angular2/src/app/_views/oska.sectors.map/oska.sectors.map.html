@@ -24,9 +24,13 @@
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
       <div class="col-6 sm-12">
-        <div class="round-input__wrapper" [class.complete]="filterFormItems.OSKAField">
+        <div class="round-input__wrapper" [class.complete]="filterFormItems.OSKAField" [class.disabled]="filterData.OSKAField && !filterData.OSKAField.length">
           <mat-form-field>
-            <mat-select (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')" placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.OSKAField" name="OSKAField">
+            <mat-select [disabled]="filterData.OSKAField && !filterData.OSKAField.length" 
+              (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')"
+              [placeholder]="fieldPlaceholder()" 
+              [(ngModel)]="filterFormItems.OSKAField"
+              name="OSKAField">
               <ng-container  *ngIf="filterData && filterData.OSKAField">
                 <ng-container *ngFor="let item of filterData.OSKAField">
                   <mat-option [value]="item">
