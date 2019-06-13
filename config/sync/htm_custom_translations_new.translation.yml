@@ -1917,6 +1917,14 @@ button:
     translation_type: textarea
     et: 'Veerg suletud'
     en: 'Column closed'
+  clear_fields:
+    translation_type: textarea
+    et: 'Tühjenda väljad'
+    en: 'Tühjenda väljad - eng'
+  clear_fields_label:
+    translation_type: textarea
+    et: 'Tühjenda filtrites tehtud valikud'
+    en: 'Tühjenda filtrites tehtud valikud-eng'
 tooltip:
   share:
     translation_type: textarea
@@ -2802,3 +2810,4 @@ sidemenu:
     en:
       value: "<p>Lehte haldab</p>\r\n\r\n<p>Haridus- ja Teadusministeerium</p>\r\n\r\n<p>koos partneritega</p>\r\n"
       format: custom_editor
+filters: {  }
