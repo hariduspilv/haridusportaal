@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params, NavigationStart, NavigationEnd } from '
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { filter } from 'rxjs/operators';
+import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency';
 
 @Component({
   templateUrl: "schools_funding.template.html",
@@ -25,6 +26,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
   map: any;
   data:any;
+  polygonLabels: any;
   filterData: any = {};
 
   params:any = {};
@@ -34,14 +36,51 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   polygonLayer: String = "county";
   polygonData:any;
 
-  heatMapColors = ["#C54279","#AD4CA3","#824CAD","#62339D","#4C53AD","#293193","#161B5B"];
+  shortMonthLabels: Object = {
+    'tartu maakond': 'Tartumaa',
+    'saare maakond': 'Saaremaa',
+    'hiiu maakond': 'Hiiumaa',
+    'harju maakond': 'Harjumaa',
+    'ida-viru maakond': 'Ida-Virumaa',
+    'rapla maakond': 'Raplamaa',
+    'järva maakond': 'Järvamaa',
+    'lääne-viru maakond': 'Lääne-Virumaa',
+    'võru maakond': 'Võrumaa',
+    'pärnu maakond': 'Pärnumaa',
+    'viljandi maakond': 'Viljandimaa',
+    'valga maakond': 'Valgamaa',
+    'põlva maakond': 'Põlvamaa',
+    'lääne maakond': 'Läänemaa',
+    'jõgeva maakond': 'Jõgevamaa'
+  }
+  polygonValueLabels: any;
+  activeFontSize: string = '';
+  fontSizes: Object = {
+    sm: '6px',
+    md: '10px',
+    lg: '18px',
+  }
+  labelOptions = {
+    color: 'black',
+    fontSize: '10px',
+    fontWeight: 'regular',
+  }
+  icon = {
+    url: '',
+    scaledSize: {
+      width: 0,
+      height: 0
+    }
+  }
+
+  heatMapColors = ["#FBE5C4","#FBD291","#F8B243","#F89229","#E2770D","#D5401A","#8B2F17"];
   heatMapRanges: Array<Object> = [];
 
   infoWindowFunding:any = false;
   
   infoLayer:any = false;
 
-  mapOptions = {
+  mapOptions: any = {
     center: {
       lat: 58.5822061,
       lng: 24.7065513
@@ -150,6 +189,20 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     this.map.setCenter(this.mapOptions.center);
   }
 
+  zoomChange($event) {
+    const { polygonValueLabels, fontSizes, activeFontSize } = this;
+    if (!polygonValueLabels) {
+      return;
+    }
+    if ($event <= 6 && activeFontSize !== fontSizes['sm']) {
+      this.getPolygonCenterCoords(fontSizes['sm'], polygonValueLabels);
+    } else if ($event > 6 && $event < 9 && activeFontSize !== fontSizes['md']) {
+      this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels);
+    } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
+      this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels);
+    }
+  }
+
   fixCoordinates(entities) {
 
     let coordinates = [];
@@ -206,31 +259,11 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
 
   mapLabelSwitcher() {
-    //TODO: Not detecting changs
-    return false;
-    var deleteId;
-    for( var i in this.mapOptions.styles ){
-      if( this.mapOptions.styles[i].elementType =="labels" ){
-        deleteId = i;
-      }
-    }
-
-    if( deleteId ){
-      delete this.mapOptions.styles[deleteId];
-    }
-
+    this.mapOptions.styles = [];
     if( this.view == "areas" ){
-      this.mapOptions.styles.push({
-        "elementType": "labels",
-        "stylers": [
-            {
-                "visibility": "off"
-            },
-            {
-                "color": "#f49f53"
-            }
-        ]
-      });
+      this.mapOptions.styles = [ { "elementType": "labels", "stylers": [{"visibility": "off"}] }, ...this.rootScope.get("mapStyles") ];
+    } else { 
+      this.mapOptions.styles = [ { "elementType": "labels", "stylers": [{"visibility": "on"}] }, ...this.rootScope.get("mapStyles") ];
     }
   }
 
@@ -328,7 +361,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
 
   assignPolygonsColors( data ) {
-
+    this.polygonValueLabels = {};
     for( let i in data['features'] ){
       let current = data['features'][i];
       let properties = current['properties'];
@@ -339,6 +372,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       for( let o in this.polygonData ){
         if( name == this.polygonData[o].investmentLocation.toLowerCase() ){
           match = this.polygonData[o];
+          this.polygonValueLabels[properties['NIMI']] = match.investmentAmountSum;
         }
       }
 
@@ -361,8 +395,36 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       
       
     }
-
+    this.getPolygonCenterCoords('', this.polygonValueLabels);
     return data;
+  }
+
+  getPolygonCenterCoords(fontSize, polygons) {
+    if (this.polygonLabels) {
+      this.mapPolyLabels(fontSize, polygons);
+      return;
+    }
+
+    let url = "/assets/polygons/countyCenters.json";
+    let subscription = this.http.get(url).subscribe( data => {
+      this.polygonLabels = data;
+      this.mapPolyLabels(fontSize, polygons);
+      subscription.unsubscribe();
+    });
+  }
+
+  mapPolyLabels (fontSize, polygons) {
+    this.activeFontSize = fontSize || this.labelOptions.fontSize;
+    this.polygonLabels.map(elem => {
+      let match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
+      let textLabel = match ? `${elem.label}\n${new EuroCurrencyPipe().transform(match)}` : elem.label;
+      elem['labelOptions'] = {
+        color: this.labelOptions.color,
+        fontSize: fontSize || this.labelOptions.fontSize,
+        fontWeight: this.labelOptions.fontWeight,
+        text: textLabel
+      }
+    });
   }
 
   polygonStyles(feature) {

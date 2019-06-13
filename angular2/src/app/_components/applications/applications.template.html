@@ -269,7 +269,7 @@
             
             <ng-container *ngIf="school.acceptable_forms.length">
               <div class="grid-box">
-                <ng-container *ngFor="let form of sortList(school.acceptable_forms, 'title'); let index = index;">
+                <ng-container *ngFor="let form of school.acceptable_forms; let index = index;">
                   <ng-container *ngIf="index < acceptableFormsLimiter">
                     <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{educationalInstitutions_id: school.id}" class="grid-item">
                       <span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }} {{ form.description }}</span>
@@ -332,7 +332,7 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <ng-container *ngFor="let form of sortList(school.drafts, 'title')">
+                    <ng-container *ngFor="let form of school.drafts">
                       <tr [class.description]="form.description">
                         <td>
                           <ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}</ng-container>

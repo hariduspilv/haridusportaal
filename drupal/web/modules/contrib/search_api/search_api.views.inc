@@ -220,7 +220,7 @@ function _search_api_views_get_handlers(FieldInterface $field) {
 function _search_api_views_handler_mapping() {
   $mapping = &drupal_static(__FUNCTION__);
 
-  if (!isset($mapping)) {
+  if ($mapping === NULL) {
     $mapping = [
       'boolean' => [
         'argument' => [
@@ -825,7 +825,7 @@ function _search_api_views_get_field_handler_for_property(DataDefinitionInterfac
 function _search_api_views_get_field_handler_mapping() {
   $mappings = &drupal_static(__FUNCTION__);
 
-  if (!isset($mappings)) {
+  if ($mappings === NULL) {
     // First create a plain mapping and pass it to the alter hook.
     $plain_mapping = [];
 
