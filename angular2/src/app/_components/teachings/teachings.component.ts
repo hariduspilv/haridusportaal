@@ -31,7 +31,7 @@ export class TeachingsComponent{
         this.error = true;
         this.requestErr = true;
         const currentLang = this.rootScope.get('lang');
-        this.notificationService.error(response.error.message_text[currentLang], 'teachings', false);
+        this.notificationService.info(response.error.message_text[currentLang], 'teachings', false);
       } else {
         try{
           this.content = response['value'];
