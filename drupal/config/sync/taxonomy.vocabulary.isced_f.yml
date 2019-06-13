@@ -5,5 +5,4 @@ dependencies: {  }
 name: ISCED-F
 vid: isced_f
 description: ''
-hierarchy: 0
 weight: 0

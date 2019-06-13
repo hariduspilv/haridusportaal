@@ -5,6 +5,8 @@
  * Contains install and update functions for Entity Embed.
  */
 
+use Drupal\Core\Entity\ContentEntityType;
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Drupal\embed\Entity\EmbedButton;
 use Drupal\Core\Utility\UpdateException;
 
@@ -55,8 +57,7 @@ function entity_embed_update_8002() {
 }
 
 /**
- * Updates allowed HTML for all filter format config entities that have an
- * Entity Embed button.
+ * Updates allowed HTML for all filter configs that have an Entity Embed button.
  */
 function entity_embed_update_8003() {
   $buttons = \Drupal::entityTypeManager()->getStorage('embed_button')->loadMultiple();
@@ -84,4 +85,17 @@ function entity_embed_update_8003() {
       }
     }
   }
+}
+
+/**
+ * Installs the fake entity type.
+ */
+function entity_embed_update_8004() {
+  \Drupal::entityDefinitionUpdateManager()->installEntityType(new ContentEntityType([
+    'id' => 'entity_embed_fake_entity',
+    'label' => new TranslatableMarkup('Fake entity type'),
+    'handlers' => [
+      'storage' => 'Drupal\\Core\\Entity\\ContentEntityNullStorage',
+    ],
+  ]));
 }

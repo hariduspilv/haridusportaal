@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\restui\Functional;
 
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\rest\RestResourceConfigInterface;
 
 /**
@@ -10,7 +10,7 @@ use Drupal\rest\RestResourceConfigInterface;
  *
  * @group restui
  */
-class RestUITest extends JavascriptTestBase {
+class RestUITest extends WebDriverTestBase {
 
   /**
    * {@inheritdoc}
@@ -40,7 +40,7 @@ class RestUITest extends JavascriptTestBase {
   public function testConsumers() {
     // Check that user can access the administration interface.
     $this->drupalGet('admin/config/services/rest');
-    $this->assertEquals(200, $this->getSession()->getStatusCode());
+    $this->assertSession()->elementExists('css', 'div.rest-ui-list-section');
 
     // Get configuration page for Node resource.
     $this->drupalGet('admin/config/services/rest/resource/entity%3Anode/edit');
