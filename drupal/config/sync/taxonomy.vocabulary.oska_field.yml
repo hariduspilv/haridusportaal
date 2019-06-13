@@ -5,5 +5,4 @@ dependencies: {  }
 name: 'OSKA valdkond ja alavaldkond'
 vid: oska_field
 description: ''
-hierarchy: 0
 weight: 0

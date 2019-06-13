@@ -5,5 +5,4 @@ dependencies: {  }
 name: DegreeOrDiploma
 vid: degreeordiploma
 description: ''
-hierarchy: 0
 weight: 0
