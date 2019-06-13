@@ -78,10 +78,26 @@ class MonologLoggerChannelFactory implements LoggerChannelFactoryInterface, Cont
 
     $logger = new Logger($channel_name);
     $parameters = $this->container->getParameter('monolog.channel_handlers');
-    $handlers = array_key_exists($channel_name, $parameters) ? $parameters[$channel_name] : $parameters['default'];
+    $config = array_key_exists($channel_name, $parameters) ? $parameters[$channel_name] : $parameters['default'];
+
+    $formatter = NULL;
+    $handlers = $config;
+    if (array_key_exists('handlers', $config)) {
+      $formatter = $config['formatter'];
+      $handlers = $config['handlers'];
+    }
 
     foreach ($handlers as $handler) {
-      $logger->pushHandler($this->container->get('monolog.handler.' . $handler));
+      /** @var \Monolog\Handler\HandlerInterface $h */
+      $h = $this->container->get('monolog.handler.' . $handler);
+
+      if ($formatter && $this->container->has('monolog.formatter.' . $formatter)) {
+        /** @var \Monolog\Formatter\FormatterInterface $f */
+        $f = $this->container->get('monolog.formatter.' . $formatter);
+        $h->setFormatter($f);
+      }
+
+      $logger->pushHandler($h);
     }
 
     foreach ($this->container->getParameter('monolog.processors') as $processor) {

@@ -34,7 +34,7 @@
  * https://www.drupal.org/docs/8/theming
  *
  * For further Twig documentation see
- * http://twig.sensiolabs.org/doc/templates.html
+ * https://twig.symfony.com/doc/1.x/templates.html
  *
  * @section sec_theme_hooks Theme Hooks
  * The theme system is invoked in \Drupal\Core\Render\Renderer::doRender() by
@@ -715,7 +715,7 @@ function hook_theme_suggestions_alter(array &$suggestions, array $variables, $ho
  */
 function hook_theme_suggestions_HOOK_alter(array &$suggestions, array $variables) {
   if (empty($variables['header'])) {
-    $suggestions[] = 'hookname__' . 'no_header';
+    $suggestions[] = 'hookname__no_header';
   }
 }
 

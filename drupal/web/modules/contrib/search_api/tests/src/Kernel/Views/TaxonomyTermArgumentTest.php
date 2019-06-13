@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\tests\search_api\Kernel\Views;
+namespace Drupal\Tests\search_api\Kernel\Views;
 
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\search_api\Plugin\views\argument\SearchApiTerm;
@@ -18,7 +18,12 @@ class TaxonomyTermArgumentTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected static $modules = ['taxonomy', 'filter', 'text'];
+  protected static $modules = [
+    'filter',
+    'taxonomy',
+    'text',
+    'user',
+  ];
 
   /**
    * The test vocabulary.
@@ -32,6 +37,7 @@ class TaxonomyTermArgumentTest extends KernelTestBase {
    */
   public function setUp() {
     parent::setUp();
+
     $this->vocabulary = $this->createVocabulary();
     $this->installEntitySchema('taxonomy_term');
     $this->installConfig(['filter']);
