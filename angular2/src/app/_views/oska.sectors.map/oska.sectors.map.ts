@@ -192,7 +192,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
     let subscription = this.http.get('oskaMapData', {params:variables}).subscribe( data => {
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);
-      rawData = rawData.map(elem => elem.join('').split(';')).map(item => {
+      // Extra mapping for floating point numbers
+      rawData = rawData.map(elem => [elem.join()]).map(elem => elem.join('').split(';')).map(item => {
         return { 
           mapIndicator: item[0],
           OSKAField: item[7].replace(/"/g, ''),
@@ -332,6 +333,12 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
         text: textLabel
       }
     });
+  }
+
+  fieldPlaceholder() {
+    return this.filterData.OSKAField && !this.filterData.OSKAField.length ?
+    this.translate.get('errors.data_missing')['value'] :
+    this.translate.get('oska.title_field')['value'];
   }
 
   polygonStyles(feature) {
