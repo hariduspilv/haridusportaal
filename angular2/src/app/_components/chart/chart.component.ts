@@ -123,8 +123,7 @@ export class ChartComponent implements OnInit {
   getGraphHeight(value, type) {
     if (!value || !value[0] || !value[1]) {
       return this.height;
-    }
-    else if (type !== 'stacked bar 100' && type !== 'clustered bar') {
+    } else if (type !== 'stacked bar 100' && type !== 'clustered bar' && type !== 'stacked bar') {
       return this.height;
     }
 
@@ -132,23 +131,19 @@ export class ChartComponent implements OnInit {
     const cols = value[1].length - 1;
     let height;
 
-    if (type == 'clustered bar') {
-      height = rows * cols * 10;
-    }
-    else if (type == 'stacked bar 100') {
-      if (this.device.isMobile()) {
-        height = rows * 72;
-      } else {
-        height = rows * 48;
-      }
+    // if (type == 'clustered bar') {
+    //   height = rows * cols * 10;
+    // } else
+    if (type == 'stacked bar 100' || type == 'stacked bar' || type == 'clustered bar') {
+      height = rows * 64;
     } else {
       height = rows * 28;
     }
 
 
-    if (type == 'clustered bar') {
-      height += (rows - 1) * 40;
-    }
+    // if (type == 'clustered bar') {
+    //   height += (rows - 1) * 40;
+    // }
 
     //height = height / 0.75;
     height += 150; //graph legend & title space
@@ -367,6 +362,8 @@ export class ChartComponent implements OnInit {
         }
 
       }
+
+      tmp.dataTable['2']['2'] = 58;
 
       output.push(tmp);
 

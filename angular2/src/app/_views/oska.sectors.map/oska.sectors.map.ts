@@ -28,15 +28,54 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   path: string;
 
   polygons: any;
+  polygonLabels: any;
+  polygonValueLabels: any;
   polygonLayer: String = "county";
   polygonData:any;
+
+  shortMonthLabels: Object = {
+    'tartu maakond': 'Tartumaa',
+    'saare maakond': 'Saaremaa',
+    'hiiu maakond': 'Hiiumaa',
+    'harju maakond': 'Harjumaa',
+    'ida-viru maakond': 'Ida-Virumaa',
+    'rapla maakond': 'Raplamaa',
+    'järva maakond': 'Järvamaa',
+    'lääne-viru maakond': 'Lääne-Virumaa',
+    'võru maakond': 'Võrumaa',
+    'pärnu maakond': 'Pärnumaa',
+    'viljandi maakond': 'Viljandimaa',
+    'valga maakond': 'Valgamaa',
+    'põlva maakond': 'Põlvamaa',
+    'lääne maakond': 'Läänemaa',
+    'jõgeva maakond': 'Jõgevamaa'
+  }
 
   heatMapColors = ["#FBE5C4","#FBD291","#F8B243","#F89229","#E2770D","#D5401A","#8B2F17"];
   heatMapRanges: Array<Object> = [];
 
   infoWindowFunding:any = false;
-  
   infoLayer:any = false;
+
+  activeFontSize: string = '';
+  fontSizes: Object = {
+    sm: '6px',
+    md: '10px',
+    lg: '18px',
+  }
+
+  labelOptions = {
+    color: 'black',
+    fontSize: '10px',
+    fontWeight: 'regular',
+  }
+  icon = {
+    url: '',
+    scaledSize: {
+      width: 0,
+      height: 0
+    }
+  }
 
   mapOptions = {
     center: {
@@ -44,11 +83,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       lng: 24.7065513
     },
     zoom: 7.2,
-    icon: "/assets/marker.png",
     clusterStyles: [
       {
-          textColor: "#FFFFFF",
-          url: "/assets/cluster.svg",
           height: 50,
           width: 28
       }
@@ -77,8 +113,11 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       this.params = params;
       this.filterRetrieveParams( params );
       if (!this.filterFormItems['OSKAField'] || !this.filterFormItems['mapIndicator']) {
-        if (!this.filterFormItems['OSKAField'] && this.filterData['OSKAField'].length) this.filterFormItems['OSKAField'] = this.filterData['OSKAField'][0];
         if (!this.filterFormItems['mapIndicator'] && this.filterData['mapIndicator'].length) this.filterFormItems['mapIndicator'] = this.filterData['mapIndicator'][0];
+        if (!this.filterFormItems['OSKAField'] && this.filterData['OSKAField'].length) {
+          this.setRelatedFilter('mapIndicator', 'OSKAField');
+          this.filterFormItems['OSKAField'] = this.filterData['OSKAField'][0];
+        }
         this.filterSubmit(); 
       }
       this.filterGivenData(true);
@@ -94,18 +133,23 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     this.map.setCenter(this.mapOptions.center);
   }
 
+  zoomChange($event) {
+    const { polygonValueLabels, fontSizes, activeFontSize } = this;
+    if (!polygonValueLabels) {
+      return;
+    }
+    if ($event <= 6 && activeFontSize !== fontSizes['sm']) {
+      this.getPolygonCenterCoords(fontSizes['sm'], polygonValueLabels);
+    } else if ($event > 6 && $event < 9 && activeFontSize !== fontSizes['md']) {
+      this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels);
+    } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
+      this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels);
+    }
+  }
+
   mapLabelSwitcher() {
-    this.mapOptions.styles.push({
-      "elementType": "labels",
-      "stylers": [
-          {
-              "visibility": "off"
-          },
-          {
-              "color": "#f49f53"
-          }
-      ]
-    });
+    this.mapOptions.styles = [];
+    this.mapOptions.styles = [ { "elementType": "labels", "stylers": [{"visibility": "off"},{"color": "#f49f53"}] }, ...this.rootScope.get("mapStyles") ];
   }
 
   setRelatedFilter(current, sibling) {
@@ -116,6 +160,11 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
           this.filterData[sibling].push(obj[sibling]);
         }
       });
+      if (!this.filterData[sibling].length) {
+        this.filterFormItems[sibling] = '';
+      } else if (this.filterData[sibling].length && !this.filterFormItems[sibling]) {
+        this.filterFormItems[sibling] = this.filterData[sibling][0];
+      }
     }
   }
 
@@ -141,20 +190,18 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     this.mapLabelSwitcher();
     let variables = {};
 
-    // if( this.polygonLayer == "kov" ){
-    //   variables.levelOfDetail = 2;
-    // }
-
     let subscription = this.http.get('oskaMapData', {params:variables}).subscribe( data => {
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);
       rawData = rawData.map(elem => elem.join('').split(';')).map(item => {
         return { 
           mapIndicator: item[0],
-          OSKAField: item[5].replace(/"/g, ''),
+          OSKAField: item[7].replace(/"/g, ''),
           county: item[1].replace(/"/g, ''),
           localGovernment: item[2],
-          value: parseFloat(item[3]),
-          division: parseInt(item[4], 10)
+          value: item[3],
+          division: parseInt(item[4], 10),
+          endLabel: item[6].replace(/"/g, ''),
+          startLabel: item[5].replace(/"/g, '')
         }
       });
       rawData.shift();
@@ -214,6 +261,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   getPolygons() {
     let url = "/assets/polygons/"+this.polygonLayer+".json";
     let subscription = this.http.get(url).subscribe( data => {
+      this.polygonValueLabels = false;
       this.polygons = this.assignPolygonsColors(data);
       this.loading = false;
       subscription.unsubscribe();
@@ -221,17 +269,17 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   }
 
   assignPolygonsColors( data ) {
-
+    this.polygonValueLabels = {};
     for( let i in data['features'] ){
       let current = data['features'][i];
       let properties = current['properties'];
       let name = properties['NIMI'].toLowerCase();
-
       var match:any = false;
 
       for( let o in this.polygonData ){
-        if( name == this.polygonData[o]['county'].toLowerCase() ){
+        if( this.shortMonthLabels[name] == this.polygonData[o]['county'] ) {
           match = this.polygonData[o];
+          this.polygonValueLabels[properties['NIMI']] = match.value;
         }
       }
       
@@ -243,7 +291,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
           properties['value'] = this.translate.get('errors.data_missing')['value'];
         } else if( match.division === this.heatMapRanges[o]['amount'] ){
           color = this.heatMapRanges[o]['color'];
-          properties['value'] = match.value * 100;
+          properties['value'] = match.value;
           properties['field'] = match.OSKAField;
           break;
         }
@@ -254,12 +302,39 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       
       
     }
-
+    this.getPolygonCenterCoords('', this.polygonValueLabels);
     return data;
   }
 
-  polygonStyles(feature) {
+  getPolygonCenterCoords(fontSize, polygons) {
+    if (this.polygonLabels) {
+      this.mapPolyLabels(fontSize, polygons);
+      return;
+    }
 
+    let url = "/assets/polygons/countyCenters.json";
+    let subscription = this.http.get(url).subscribe( data => {
+      this.polygonLabels = data;
+      this.mapPolyLabels(fontSize, polygons);
+      subscription.unsubscribe();
+    });
+  }
+
+  mapPolyLabels (fontSize, polygons) {
+    this.activeFontSize = fontSize || this.labelOptions.fontSize;
+    this.polygonLabels.map(elem => {
+      let match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
+      let textLabel = match ? `${elem.label} ${match}` : elem.label;
+      elem['labelOptions'] = {
+        color: this.labelOptions.color,
+        fontSize: fontSize || this.labelOptions.fontSize,
+        fontWeight: this.labelOptions.fontWeight,
+        text: textLabel
+      }
+    });
+  }
+
+  polygonStyles(feature) {
     let color = "#cfcfcf";
     let keys = Object.keys(feature).join(",").split(",");
 
@@ -297,8 +372,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     this.infoLayer = {
       left: mouse['clientX']+"px",
       top: mouse['clientY']+"px",
-      value: $event.feature.getProperty('value') > 0 ? parseInt($event.feature.getProperty('value'), 10) : $event.feature.getProperty('value'),
-      name: $event.feature.getProperty('NIMI'),
+      value: $event.feature.getProperty('value'),
+      name: this.shortMonthLabels[$event.feature.getProperty('NIMI').toLowerCase()],
       field: $event.feature.getProperty('field'),
     };
 

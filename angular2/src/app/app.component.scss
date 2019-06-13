@@ -54,9 +54,9 @@ input[type=number] {
 body{margin:0; padding:0; padding-top:4rem; background: $light-gray;
   -webkit-tap-highlight-color: rgba(0,0,0,0);
 }
-body::-webkit-scrollbar { display: none; }
-html, body { -ms-overflow-style: none; }
-html{overflow-y:scroll;}
+
+html, body { overflow-y:auto; }
+
 /* Google maps */
 .gm-style-cc { display:none; }
 .sebm-google-map-container{height:12.5rem;}
@@ -351,8 +351,16 @@ $grid-columns: 12;
 .capitalize {text-transform: capitalize;}
 .inline-flex {display: inline-flex;justify-content: flex-end;}
 
-.btn-link { color: $blue; background-color: $white; border: transparent 0px solid; text-decoration: underline; 
+.btn-link { 
+  color: $blue;
+  background-color: $white;
+  border: transparent 0px solid;
+  text-decoration: underline;
   font-size: 1rem; 
+  padding: 0;
+  &:active {
+    padding: 0;
+  }
   &:hover {
     text-decoration: none;
   }
