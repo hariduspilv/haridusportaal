@@ -30,6 +30,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
   private FilterOptions: any = {};
   private filterOptionKeys = ['oskaFieldValue', 'sortedBy', 'fixedLabelValue', 'oskaFixedLabels', 'fillingBarValues'];
   public competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
+  private filterFullProperties: any = ['sortField', 'fillingBarValues', 'sortedBy', 'oskaFixedLabels'];
   private paramsSub: Subscription;
   private dataSub: Subscription;
   private filterSub: Subscription;
@@ -165,6 +166,7 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     if (this.dataSub) {
       this.dataSub.unsubscribe();
     }
+    this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
     this.filterFormItems = !Object.keys(this.params).length ? {} : this.filterFormItems;
     let variables = {
       lang: this.lang.toUpperCase(),
