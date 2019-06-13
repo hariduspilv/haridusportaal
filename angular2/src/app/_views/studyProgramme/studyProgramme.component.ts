@@ -34,7 +34,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private limit: number = 24;
   private offset: number = 0;
 
-  private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed', 'sortBy']
+  private filterFullProperties = ['location', 'language', 'level', 'school', 'iscedf_broad','iscedf_narrow','iscedf_detailed', 'sortDirection']
 
   filterFull: boolean = true;
   showFilter: boolean = true;
@@ -44,7 +44,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private subscriptions: Subscription[] = [];
 
   private FilterOptions: object = {};
-  private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed', 'sortBy'];
+  private filterOptionKeys = ['type','level','language','iscedf_broad','iscedf_narrow','iscedf_detailed'];
   private isceList: any = {};
   public scrollPositionSet: boolean = false;
   public areFiltersCleared: boolean = false;
@@ -275,6 +275,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
+    this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined );
     //todo: automate searchParams injection
     let queryVars = {
       lang: this.lang.toUpperCase(),
