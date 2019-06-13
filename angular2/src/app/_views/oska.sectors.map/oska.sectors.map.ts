@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, Params, NavigationStart, NavigationEnd } from '
 import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { TranslateService } from '@ngx-translate/core';
+import { LocaleNumberPipe } from '@app/_pipes/localeNumber.pipe';
 
 @Component({
   templateUrl: "oska.sectors.map.html",
@@ -325,6 +326,9 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     this.activeFontSize = fontSize || this.labelOptions.fontSize;
     this.polygonLabels.map(elem => {
       let match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
+      if (match && match.length && !match.includes('%')) {
+        match = new LocaleNumberPipe('et').transform(match);
+      }
       let textLabel = match ? `${elem.label} ${match}` : elem.label;
       elem['labelOptions'] = {
         color: this.labelOptions.color,
@@ -376,10 +380,13 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       }
     }
 
+    let val = $event.feature.getProperty('value');
+    let textLabel = val && val.length && parseFloat(val) && !val.includes('%') ? new LocaleNumberPipe('et').transform(val) : val;
+
     this.infoLayer = {
       left: mouse['clientX']+"px",
       top: mouse['clientY']+"px",
-      value: $event.feature.getProperty('value'),
+      value: textLabel,
       name: this.shortMonthLabels[$event.feature.getProperty('NIMI').toLowerCase()],
       field: $event.feature.getProperty('field'),
     };

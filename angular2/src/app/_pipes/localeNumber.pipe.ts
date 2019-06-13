@@ -10,8 +10,8 @@ export class LocaleNumberPipe implements PipeTransform {
   ) { }
 
   transform(value: string): any {
-
-    return parseInt(value).toLocaleString(this.locale);
+    value = value.includes(',') ? value.replace(/,/g, '.') : value;
+    return parseFloat(value).toLocaleString(this.locale);
 
   }
 
