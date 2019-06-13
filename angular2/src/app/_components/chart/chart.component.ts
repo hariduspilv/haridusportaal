@@ -28,7 +28,7 @@ export class ChartComponent implements OnInit {
 
   initiallyFilledSelects = ['näitaja', 'valdkond'];
 
-  singleIndicatorCharts = ['line', 'pie', 'donut'];
+  singleIndicatorCharts = ['line', 'pie', 'doughnut'];
 
   wideChartTypesToFormat: Array<Object> = ['bar', 'column'];
 
