@@ -32,9 +32,9 @@ class EntityEmbedDisplay extends Plugin {
   /**
    * The human-readable name of the Entity Embed Display plugin.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
    */
   public $label = '';
 
@@ -54,5 +54,15 @@ class EntityEmbedDisplay extends Plugin {
    * @var bool
    */
   public $no_ui = FALSE;
+
+  /**
+   * Alt and title access.
+   *
+   * Whether the plugin supports per-embed alt and title overrides for media
+   * entities with an image source.
+   *
+   * @var bool
+   */
+  public $supports_image_alt_and_title = FALSE;
 
 }

@@ -31,7 +31,7 @@ export class StudiesComponent{
         this.error = true;
         this.requestErr = true;
         const currentLang = this.rootScope.get('lang')
-        this.notificationService.error(response.error.message_text[currentLang], 'studies', false);
+        this.notificationService.info(response.error.message_text[currentLang], 'studies', false);
       } else {
         let resultData = response['value']['oping'];
         this.content = resultData.sort((a, b) => {
