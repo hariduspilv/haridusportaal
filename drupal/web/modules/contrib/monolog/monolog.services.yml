@@ -33,7 +33,7 @@ services:
   monolog.handler.null:
     class: Monolog\Handler\NullHandler
 
-  # Monolog processors
+  # Monolog processors.
   monolog.processor.current_user:
     class: Drupal\monolog\Logger\Processor\CurrentUserProcessor
     arguments: ['@current_user']
@@ -52,16 +52,47 @@ services:
   monolog.processor.filter_backtrace:
     class: Drupal\monolog\Logger\Processor\ContextKeyFilterProcessor
     arguments: [['backtrace']]
+  monolog.processor.introspection:
+    class: Drupal\monolog\Logger\Processor\IntrospectionProcessor
   monolog.processor.git:
     class: Monolog\Processor\GitProcessor
-  monolog.processor.introspection:
-    class: Monolog\Processor\IntrospectionProcessor
   monolog.processor.memory_usage:
     class: Monolog\Processor\MemoryUsageProcessor
   monolog.processor.memory_peak_usage:
     class: Monolog\Processor\MemoryPeakUsageProcessor
   monolog.processor.process_id:
     class: Monolog\Processor\ProcessIdProcessor
+
+  # Monolog formatters.
+  monolog.formatter.chrome_php:
+    class: Monolog\Formatter\ChromePHPFormatter
+  monolog.formatter.elastica:
+    class: Monolog\Formatter\ElasticaFormatter
+  monolog.formatter.flowdock:
+    class: Monolog\Formatter\FlowdockFormatter
+  monolog.formatter.fluentd:
+    class: Monolog\Formatter\FluentdFormatter
+  monolog.formatter.gelf:
+    class: Monolog\Formatter\GelfMessageFormatter
+  monolog.formatter.html:
+    class: Monolog\Formatter\HtmlFormatter
+  monolog.formatter.json:
+    class: Monolog\Formatter\JsonFormatter
+  monolog.formatter.line:
+    class: Monolog\Formatter\LineFormatter
+  monolog.formatter.loggly:
+    class: Monolog\Formatter\LogglyFormatter
+  monolog.formatter.logstash:
+    class: Monolog\Formatter\LogstashFormatter
+  monolog.formatter.mongodb:
+    class: Monolog\Formatter\MongoDBFormatter
+  monolog.formatter.normalizer:
+    class: Monolog\Formatter\NormalizerFormatter
+  monolog.formatter.scalar:
+    class: Monolog\Formatter\ScalarFormatter
+  monolog.formatter.wildfire:
+    class: Monolog\Formatter\WildfireFormatter
+
   # Should not be needed.
   monolog.processor.psr_log_message:
     class: Monolog\Processor\PsrLogMessageProcessor

@@ -85,7 +85,7 @@ class FieldLink extends ProcessPluginBase {
       $anchor = "(?:#[a-z0-9" . $link_ichars . "_\-\.~+%=&,$'():;*@\[\]\/\?]*)";
 
       // The rest of the path for a standard URL.
-      $end = $directories . '?' . $query . '?' . $anchor . '?' . '$/i';
+      $end = $directories . '?' . $query . '?' . $anchor . '?$/i';
 
       if (!preg_match($internal_pattern . $end, $uri)) {
         $link_domains = '[a-z][a-z0-9-]{1,62}';
@@ -119,7 +119,9 @@ class FieldLink extends ProcessPluginBase {
       $attributes = unserialize($attributes);
     }
 
-    if (!$attributes) {
+    // In rare cases Drupal 6/7 link attributes are triple serialized. To avoid
+    // further problems with them we set them to an empty array in this case.
+    if (!is_array($attributes)) {
       $attributes = [];
     }
 

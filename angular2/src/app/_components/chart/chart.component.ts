@@ -28,6 +28,8 @@ export class ChartComponent implements OnInit {
 
   initiallyFilledSelects = ['näitaja', 'valdkond'];
 
+  singleIndicatorCharts = ['line', 'pie', 'donut'];
+
   wideChartTypesToFormat: Array<Object> = ['bar', 'column'];
 
   constructor(
@@ -482,7 +484,7 @@ export class ChartComponent implements OnInit {
       try {
         let options = [];
 
-        if (item.graphType === 'line') {
+        if (this.singleIndicatorCharts.includes(item.graphType)) {
           for (let i in item.filterValues.graph_options.graph_indicator) {
             options.push(item.filterValues.graph_options.graph_indicator[i]);
           }

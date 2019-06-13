@@ -7,5 +7,4 @@ _core:
 name: Sildid
 vid: tags
 description: 'Sarnaseid teemasid käsitlevate artiklite kategoriseerimiseks kasuta silte.'
-hierarchy: 0
 weight: -4
