@@ -16,6 +16,7 @@ export class StudiesComponent{
   error: boolean = false;
   requestErr: boolean = false;
   dataErr: boolean = false;
+  oppelaenOigus: any = false;
    
   constructor(
     private http: HttpService,
@@ -33,6 +34,9 @@ export class StudiesComponent{
         const currentLang = this.rootScope.get('lang')
         this.notificationService.info(response.error.message_text[currentLang], 'studies', false);
       } else {
+        if (response['value'] && response['value']['isikuandmed']) {
+          this.oppelaenOigus = response['value']['isikuandmed']['oppelaenOigus'];
+        }
         let resultData = response['value']['oping'];
         this.content = resultData.sort((a, b) => {
           let arrA = a.oppAlgus.split('.');

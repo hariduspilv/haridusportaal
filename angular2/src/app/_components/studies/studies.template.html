@@ -1,5 +1,23 @@
 
 <div class="accordion">
+  <ng-container *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
+    <h2 class="section--header">{{ 'frontpage.oppelaenOigus' | translate }}</h2>
+    <table class="dashboard-table dashboard-table--equalCells mb-2">
+      <tbody>
+        <tr [class.extraRow]="oppelaenOigus.oigus === 'Ei'" *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
+          <td colspan="3">{{ 'frontpage.oppelaenOigus' | translate }}</td>
+          <td colspan="3">{{ oppelaenOigus.oigus }}</td>
+        </tr>
+        <tr *ngIf="oppelaenOigus && oppelaenOigus.pohjus && oppelaenOigus.pohjus.length > 0">
+          <td class="regular" colspan="100%">
+            <ng-container *ngFor="let reason of oppelaenOigus.pohjus; let secondIndex = index; let last = last;">
+              <div [class.mb]="!last">{{ parseTypeTranslation(reason) }}</div>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
   <h2 class="section--header">{{ 'frontpage.studies_data' | translate }}</h2>
   <loader *ngIf="loading && !error"></loader>
   <!-- <div role="alert" class="ERROR" *ngIf="error && requestErr">{{ 'errors.studies_data_request' | translate }}</div>
@@ -58,7 +76,7 @@
             <td class="normal">{{ 'frontpage.kestus' | translate }}</td>
             <td class="normal">{{ item.kestus }}</td>
           </tr>
-          <tr *ngIf="item.oppevorm && item.oppevorm.length && item.staatus && item.staatus === 'OPIB_HETKEL' && item.haridustase !== 'YLIKOOL' && item.haridustase !== 'KUTSEKOOL'"><!-- Õppevorm -->
+          <tr *ngIf="item.oppevorm && item.oppevorm.length && !item.oppLopp && item.haridustase !== 'YLIKOOL' && item.haridustase !== 'KUTSEKOOL'"><!-- Õppevorm -->
             <td class="normal">{{ 'frontpage.oppevorm' | translate }}</td>
             <td class="normal">
               <div *ngFor="let elem of item.oppevorm; let secondIndex = index;">
@@ -77,7 +95,7 @@
             <td class="normal">{{ 'frontpage.oppLopp' | translate }}</td>
             <td class="normal">{{ item.oppLopp }}</td>
           </tr>
-          <tr *ngIf="item.oppevorm && item.oppevorm.length && item.staatus && item.staatus === 'OPIB_HETKEL' && (item.haridustase === 'YLIKOOL' || item.haridustase === 'KUTSEKOOL')"><!-- Õppevorm -->
+          <tr *ngIf="item.oppevorm && item.oppevorm.length && !item.oppLopp && (item.haridustase === 'YLIKOOL' || item.haridustase === 'KUTSEKOOL')"><!-- Õppevorm -->
             <td class="normal">{{ 'frontpage.oppevorm' | translate }}</td>
             <td class="normal">
               <div *ngFor="let elem of item.oppevorm; let secondIndex = index;">
@@ -88,7 +106,7 @@
               </div>
             </td>
           </tr><!-- Õppevorm -->
-          <tr *ngIf="item.koormus && item.koormus.length && item.staatus && item.staatus === 'OPIB_HETKEL'"><!-- Koormus -->
+          <tr *ngIf="item.koormus && item.koormus.length && !item.oppLopp"><!-- Koormus -->
             <td class="normal">{{ 'frontpage.koormus' | translate }}</td>
             <td class="normal">
               <ng-container *ngFor="let elem of item.koormus; let secondIndex = index; let last = last;">
@@ -130,7 +148,7 @@
               <td colspan="100%">{{ 'frontpage.finAllikas' | translate }}</td>
             </tr>
             <ng-container *ngFor="let elem of item.finAllikas; let secondIndex = index; let last = last;">
-              <ng-container *ngIf="(item.staatus && item.staatus === 'OPIB_HETKEL' && secondIndex === 0) || (item.staatus && item.staatus !== 'OPIB_HETKEL')">
+              <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
                 <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
                   <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
                   <td class="normal multi--bordered">{{ elem.nimetus }}</td>
@@ -150,7 +168,7 @@
               <td colspan="100%">{{ 'frontpage.akadPuhkus' | translate }}</td>
             </tr>
             <ng-container *ngFor="let elem of item.akadPuhkus; let secondIndex = index; let last = last;">
-              <ng-container *ngIf="(item.staatus && item.staatus === 'OPIB_HETKEL' && secondIndex === 0) || (item.staatus && item.staatus !== 'OPIB_HETKEL')">
+              <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
                 <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
                   <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
                   <td class="normal multi--bordered">{{ parseTypeTranslation(elem.nimetus) }}</td>
@@ -170,7 +188,7 @@
               <td colspan="100%">{{ 'frontpage.ennistamine' | translate }}</td>
             </tr>
             <ng-container *ngFor="let elem of item.ennistamine; let secondIndex = index; let last = last;">
-              <ng-container *ngIf="(item.staatus && item.staatus === 'OPIB_HETKEL' && secondIndex === 0) || (item.staatus && item.staatus !== 'OPIB_HETKEL')">
+              <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
                 <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
                   <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
                   <td class="normal multi--bordered">{{ elem.nimetus }}</td>
