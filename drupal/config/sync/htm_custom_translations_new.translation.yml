@@ -201,7 +201,7 @@ frontpage:
     en: Õppeasutus-ENG
   haridustase:
     translation_type: textarea
-    et: 'Kõrgeim haridustase'
+    et: Haridustase
     en: Haridustase-ENG
   oppekava:
     translation_type: textarea
@@ -711,6 +711,18 @@ frontpage:
     translation_type: textarea
     et: 'Tunnistuste andmed'
     en: 'Tunnistuste andmed-eng'
+  period:
+    translation_type: textarea
+    et: Periood
+    en: Period
+  ope:
+    translation_type: textarea
+    et: Õpe
+    en: Classification
+  klass:
+    translation_type: textarea
+    et: Klass
+    en: Classification
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -768,6 +780,10 @@ xjson:
     translation_type: textarea
     et: 'Seda vormi saab täita ainult sisse logitud kasutaja. Palun logige sisse.'
     en: 'You must be logged in to see this form.'
+  required_fields_infotext:
+    translation_type: textarea
+    et: '* märgitud väljad on kohustuslikud'
+    en: '* fields are required'
 article:
   label:
     translation_type: textarea
