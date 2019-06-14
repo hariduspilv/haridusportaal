@@ -13,6 +13,7 @@ import { SettingsService } from '@app/_services/settings.service';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -72,6 +73,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public data_messages;
   public navigationLinks;
   public subButtons;
+  public stepperControl: FormGroup;
   public activityButtons;
   public error = {};
   public redirect_url;
@@ -88,6 +90,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private rootScope: RootScopeService,
     private http: HttpService,
     private _jsonp: Jsonp,
+    private _formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -828,6 +831,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.stepperControl = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
     this.pathWatcher();
     const payload = { form_name: this.form_name };
 

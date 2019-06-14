@@ -4,7 +4,7 @@ import { AgmKmlLayer } from '@agm/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from './_core/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material';
+import { MatSnackBarModule,  MatStepperModule } from '@angular/material';
 
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
@@ -83,6 +83,7 @@ export const AppImports = [
   ReactiveFormsModule,
   AppPipes,
   MatSnackBarModule,
+  MatStepperModule,
   AgmJsMarkerClustererModule,
   AgmCoreModule.forRoot({
     apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E'
