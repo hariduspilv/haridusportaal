@@ -110,3 +110,5 @@ export class TeachingsComponent{
     this.rootScope.set('teachingsAccordion', this.accordionStates);
   }
 }
+
+//TEGIN HÄSTI PALJU MUUDATUSI
