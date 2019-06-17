@@ -1,5 +1,23 @@
 
 <div class="accordion">
+  <ng-container *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
+    <h2 class="section--header">{{ 'frontpage.oppelaenOigus' | translate }}</h2>
+    <table class="dashboard-table dashboard-table--equalCells mb-2">
+      <tbody>
+        <tr [class.extraRow]="oppelaenOigus.oigus === 'Ei'" *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
+          <td colspan="3">{{ 'frontpage.oppelaenOigus' | translate }}</td>
+          <td colspan="3">{{ oppelaenOigus.oigus }}</td>
+        </tr>
+        <tr *ngIf="oppelaenOigus && oppelaenOigus.pohjus && oppelaenOigus.pohjus.length > 0">
+          <td class="regular" colspan="100%">
+            <ng-container *ngFor="let reason of oppelaenOigus.pohjus; let secondIndex = index; let last = last;">
+              <div [class.mb]="!last">{{ parseTypeTranslation(reason) }}</div>
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </ng-container>
   <h2 class="section--header">{{ 'frontpage.studies_data' | translate }}</h2>
   <loader *ngIf="loading && !error"></loader>
   <!-- <div role="alert" class="ERROR" *ngIf="error && requestErr">{{ 'errors.studies_data_request' | translate }}</div>
@@ -14,72 +32,53 @@
         <!-- <mat-panel-description></mat-panel-description> -->
       </mat-expansion-panel-header>
 
-      <table class="dashboard-table" *ngIf="!error && content">
+      <table class="dashboard-table dashboard-table--equalCells" *ngIf="!error && content">
         <tbody>
           <tr *ngIf="item.haridustase">
-            <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
-            <td class="normal" colspan="2">{{ parseTypeTranslation(item.haridustase) }}</td>
+            <td class="normal">{{ 'frontpage.haridustase' | translate }}</td>
+            <td class="normal">{{ parseTypeTranslation(item.haridustase) }}</td>
           </tr>
           <ng-container *ngIf="item.oppekava && item.oppekava.length"><!--Oppekavad-->
             <tr class="extraRow">
-              <td colspan="5">{{ 'frontpage.oppekava' | translate }}</td>
+              <td colspan="100%">{{ 'frontpage.oppekava' | translate }}</td>
             </tr>
             <ng-container *ngFor="let elem of item.oppekava; let secondIndex = index;let last = last;">
-              <tr *ngIf="elem.oppekavaKood">
-                <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
-                <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.oppekavaKood' | translate }} </td>
-                <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.oppekavaKood }}</td>
+              <tr *ngIf="elem.oppekavaKood" [class.extraBottom]="!elem.oppekavaNimetus">
+                <td class="additional multi--bordered">{{ 'frontpage.oppekavaKood' | translate }} </td>
+                <td class="additional multi--bordered">{{ elem.oppekavaKood }}</td>
               </tr>
-              <tr *ngIf="elem.oppekavaNimetus" [class.extraBottom]="last">
-                <td class="additional additional--1" colspan="1"><span *ngIf="!elem.oppekavaKood">{{ secondIndex + 1 }}</span></td>
-                <td class="additional additional--2" colspan="2">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
-                <td class="additional additional--3" colspan="2">{{ elem.oppekavaNimetus }}</td>
+              <tr *ngIf="elem.oppekavaNimetus" [class.extraBottom]="elem.oppekavaNimetus">
+                <td class="additional">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
+                <td class="additional">{{ elem.oppekavaNimetus }}</td>
               </tr>
             </ng-container>
           </ng-container><!--Oppekavad-->
           <tr *ngIf="item.oppekeel">
-            <td class="normal" colspan="3">{{ 'frontpage.oppekeel' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.oppekeel }}</td>
+            <td class="normal">{{ 'frontpage.oppekeel' | translate }}</td>
+            <td class="normal">{{ item.oppekeel }}</td>
           </tr>
           <tr *ngIf="item.opeklass">
-            <td class="normal" colspan="3">{{ 'frontpage.opeklass' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.opeklass }}</td>
-          </tr>
-          <tr *ngIf="item.opeParallel">
-            <td class="normal" colspan="3">{{ 'frontpage.opeParallel' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.opeParallel }}</td>
+            <td class="normal">
+              <span *ngIf="item.haridustase === 'POHIKOOL'">{{ 'frontpage.klass' | translate }}</span>
+              <span *ngIf="item.haridustase !== 'POHIKOOL'">{{ 'frontpage.ope' | translate }}</span>
+            </td>
+            <td class="normal">{{ item.opeklass }} <span *ngIf="item.opeParallel && item.haridustase === 'POHIKOOL'">{{ item.opeParallel }}</span></td>
           </tr>
           <tr *ngIf="item.klassiLiik">
-            <td class="normal" colspan="3">{{ 'frontpage.klassiLiik' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.klassiLiik }}</td>
+            <td class="normal">{{ 'frontpage.klassiLiik' | translate }}</td>
+            <td class="normal">{{ item.klassiLiik }}</td>
           </tr>
           <tr *ngIf="item.klassAste">
-            <td class="normal" colspan="3">{{ 'frontpage.klassAste' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.klassAste }}</td>
+            <td class="normal">{{ 'frontpage.klassAste' | translate }}</td>
+            <td class="normal">{{ item.klassAste }}</td>
           </tr>
-          <tr *ngIf="item.oppAlgus">
-            <td class="normal" colspan="3">{{ 'frontpage.oppAlgus' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.oppAlgus }}</td>
+          <tr *ngIf="item.kestus">
+            <td class="normal">{{ 'frontpage.kestus' | translate }}</td>
+            <td class="normal">{{ item.kestus }}</td>
           </tr>
-          <tr *ngIf="item.oppLopp">
-            <td class="normal" colspan="3">{{ 'frontpage.oppLopp' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.oppLopp }}</td>
-          </tr>
-          <tr *ngIf="item.staatus">
-            <td class="normal" colspan="3">{{ 'frontpage.staatus' | translate }}</td>
-            <td class="normal" colspan="2">{{ parseTypeTranslation(item.staatus) }}</td>
-          </tr>
-          <tr *ngIf="item.oppekavataitine && item.oppekavataitine.length !== 0">
-            <td class="normal" colspan="3">{{ 'frontpage.oppekavataitmine' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.oppekavataitine.protsent }}% ({{ item.oppekavataitine.otsusKp}} {{ 'frontpage.seisuga' | translate }})</td>
-          </tr>
-          <tr *ngIf="item.tunnistusDiplom">
-            <td class="normal" colspan="3">{{ 'frontpage.tunnistusDiplom' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.tunnistusDiplom }}</td>
-          </tr>
-          <tr *ngIf="item.oppevorm && item.oppevorm.length && item.staatus && item.staatus === 'OPIB_HETKEL'"><!-- Õppevorm -->
-            <td class="normal" colspan="3">{{ 'frontpage.oppevorm' | translate }}</td>
-            <td class="normal" colspan="2">
+          <tr *ngIf="item.oppevorm && item.oppevorm.length && !item.oppLopp && item.haridustase !== 'YLIKOOL' && item.haridustase !== 'KUTSEKOOL'"><!-- Õppevorm -->
+            <td class="normal">{{ 'frontpage.oppevorm' | translate }}</td>
+            <td class="normal">
               <div *ngFor="let elem of item.oppevorm; let secondIndex = index;">
                 <span>{{ parseTypeTranslation(elem.nimetus) | titleCase }}
                   <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}</ng-container>
@@ -88,9 +87,28 @@
               </div>
             </td>
           </tr><!-- Õppevorm -->
-          <tr *ngIf="item.koormus && item.koormus.length && item.staatus && item.staatus === 'OPIB_HETKEL'"><!-- Koormus -->
-            <td class="normal" colspan="3">{{ 'frontpage.koormus' | translate }}</td>
-            <td class="normal" colspan="2">
+          <tr *ngIf="item.oppAlgus">
+            <td class="normal">{{ 'frontpage.oppAlgus' | translate }}</td>
+            <td class="normal">{{ item.oppAlgus }}</td>
+          </tr>
+          <tr *ngIf="item.oppLopp">
+            <td class="normal">{{ 'frontpage.oppLopp' | translate }}</td>
+            <td class="normal">{{ item.oppLopp }}</td>
+          </tr>
+          <tr *ngIf="item.oppevorm && item.oppevorm.length && !item.oppLopp && (item.haridustase === 'YLIKOOL' || item.haridustase === 'KUTSEKOOL')"><!-- Õppevorm -->
+            <td class="normal">{{ 'frontpage.oppevorm' | translate }}</td>
+            <td class="normal">
+              <div *ngFor="let elem of item.oppevorm; let secondIndex = index;">
+                <span>{{ parseTypeTranslation(elem.nimetus) | titleCase }}
+                  <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}</ng-container>
+                  <ng-container *ngIf="elem.loppKp"> {{ 'time.to' | translate | lowercase }} {{ elem.loppKp }}</ng-container>
+                </span><br>
+              </div>
+            </td>
+          </tr><!-- Õppevorm -->
+          <tr *ngIf="item.koormus && item.koormus.length && !item.oppLopp"><!-- Koormus -->
+            <td class="normal">{{ 'frontpage.koormus' | translate }}</td>
+            <td class="normal">
               <ng-container *ngFor="let elem of item.koormus; let secondIndex = index; let last = last;">
                 <div *ngIf="(secondIndex === 0 && last) || (secondIndex !== 0 && last)">
                   <span>{{ parseTypeTranslation(elem.nimetus) | titleCase }}
@@ -101,111 +119,110 @@
               </ng-container>
             </td>
           </tr><!-- Koormus -->
-          <tr *ngIf="item.kestus">
-            <td class="normal" colspan="3">{{ 'frontpage.kestus' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.kestus }}</td>
+          <tr *ngIf="item.oppekavataitine && item.oppekavataitine.length !== 0">
+            <td class="normal">{{ 'frontpage.oppekavataitmine' | translate }}</td>
+            <td class="normal">{{ item.oppekavataitine.protsent }}% ({{ item.oppekavataitine.otsusKp}} {{ 'frontpage.seisuga' | translate }})</td>
+          </tr>
+          <tr *ngIf="item.staatus">
+            <td class="normal">{{ 'frontpage.staatus' | translate }}</td>
+            <td class="normal">{{ parseTypeTranslation(item.staatus) }}</td>
+          </tr>
+          <tr *ngIf="item.tunnistusDiplom">
+            <td class="normal">{{ 'frontpage.tunnistusDiplom' | translate }}</td>
+            <td class="normal">{{ item.tunnistusDiplom }}</td>
           </tr>
           <tr *ngIf="item.ryhmaLiik">
-            <td class="normal" colspan="3">{{ 'frontpage.ryhmaLiik' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.ryhmaLiik }}</td>
+            <td class="normal">{{ 'frontpage.ryhmaLiik' | translate }}</td>
+            <td class="normal">{{ item.ryhmaLiik }}</td>
           </tr>
           <tr *ngIf="item.nimetus">
-            <td class="normal" colspan="3">{{ 'frontpage.ryhmaNimetus' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.nimetus }}</td>
+            <td class="normal">{{ 'frontpage.ryhmaNimetus' | translate }}</td>
+            <td class="normal">{{ item.nimetus }}</td>
           </tr>
           <tr *ngIf="item.koht">
-            <td class="normal" colspan="3">{{ 'frontpage.koht' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.koht }}</td>
+            <td class="normal">{{ 'frontpage.koht' | translate }}</td>
+            <td class="normal">{{ item.koht }}</td>
           </tr>
           <ng-container *ngIf="item.finAllikas && item.finAllikas.length"><!--finAllikas-->
             <tr class="extraRow">
-              <td colspan="5">{{ 'frontpage.finAllikas' | translate }}</td>
+              <td colspan="100%">{{ 'frontpage.finAllikas' | translate }}</td>
             </tr>
             <ng-container *ngFor="let elem of item.finAllikas; let secondIndex = index; let last = last;">
-              <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
-                <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
-                <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.nimetus' | translate }} </td>
-                <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.nimetus }}</td>
-              </tr>
-              <tr *ngIf="elem.algusKp" [class.extraBottom]="last && !elem.loppKp">
-                <td class="additional additional--1" [class.multi]="elem.loppKp" colspan="1"></td>
-                <td class="additional additional--2" [class.multi--bordered]="elem.loppKp" colspan="2">{{ 'frontpage.algusKp' | translate }} </td>
-                <td class="additional additional--3" [class.multi--bordered]="elem.loppKp" colspan="2">{{ elem.algusKp }}</td>
-              </tr>
-              <tr *ngIf="elem.loppKp" [class.extraBottom]="last">
-                <td class="additional additional--1" colspan="1"></td>
-                <td class="additional additional--2" colspan="2">{{ 'frontpage.loppKp' | translate }} </td>
-                <td class="additional additional--3" colspan="2">{{ elem.loppKp }}</td>
-              </tr>
+              <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
+                <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
+                  <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
+                  <td class="normal multi--bordered">{{ elem.nimetus }}</td>
+                </tr>
+                <tr [class.extraBottom]="elem.algusKp || elem.loppKp" *ngIf="elem.algusKp || elem.loppKp">
+                  <td class="normal">{{ 'frontpage.period' | translate }} </td>
+                  <td class="normal">
+                    <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}</ng-container>
+                    <ng-container *ngIf="elem.loppKp"> {{ 'time.to' | translate | lowercase }} {{ elem.loppKp }}</ng-container>
+                  </td>
+                </tr>
+              </ng-container>
             </ng-container>
           </ng-container><!--finAllikas-->
           <ng-container *ngIf="item.akadPuhkus && item.akadPuhkus.length"><!--akadPuhkus-->
             <tr class="extraRow">
-              <td colspan="5">{{ 'frontpage.akadPuhkus' | translate }}</td>
+              <td colspan="100%">{{ 'frontpage.akadPuhkus' | translate }}</td>
             </tr>
             <ng-container *ngFor="let elem of item.akadPuhkus; let secondIndex = index; let last = last;">
-              <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
-                <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
-                <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.nimetus' | translate }} </td>
-                <td class="additional additional--3 multi--bordered" colspan="2">{{ parseTypeTranslation(elem.nimetus) }}</td>
-              </tr>
-              <tr *ngIf="elem.algusKp" [class.extraBottom]="last && !elem.loppKp">
-                <td class="additional additional--1" [class.multi]="elem.loppKp" colspan="1"></td>
-                <td class="additional additional--2" [class.multi--bordered]="elem.loppKp" colspan="2">{{ 'frontpage.algusKp' | translate }} </td>
-                <td class="additional additional--3" [class.multi--bordered]="elem.loppKp" colspan="2">{{ elem.algusKp }}</td>
-              </tr>
-              <tr *ngIf="elem.loppKp" [class.extraBottom]="last">
-                <td class="additional additional--1" colspan="1"></td>
-                <td class="additional additional--2" colspan="2">{{ 'frontpage.loppKp' | translate }} </td>
-                <td class="additional additional--3" colspan="2">{{ elem.loppKp }}</td>
-              </tr>
+              <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
+                <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
+                  <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
+                  <td class="normal multi--bordered">{{ parseTypeTranslation(elem.nimetus) }}</td>
+                </tr>
+                <tr [class.extraBottom]="elem.algusKp || elem.loppKp" *ngIf="elem.algusKp || elem.loppKp">
+                  <td class="normal">{{ 'frontpage.period' | translate }} </td>
+                  <td class="normal">
+                    <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}</ng-container>
+                    <ng-container *ngIf="elem.loppKp"> {{ 'time.to' | translate | lowercase }} {{ elem.loppKp }}</ng-container>
+                  </td>
+                </tr>
+              </ng-container>
             </ng-container>
           </ng-container><!--akadPuhkus-->
           <ng-container *ngIf="item.ennistamine && item.ennistamine.length"><!--ennistamine-->
             <tr class="extraRow">
-              <td colspan="5">{{ 'frontpage.ennistamine' | translate }}</td>
+              <td colspan="100%">{{ 'frontpage.ennistamine' | translate }}</td>
             </tr>
             <ng-container *ngFor="let elem of item.ennistamine; let secondIndex = index; let last = last;">
-              <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
-                <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
-                <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.nimetus' | translate }} </td>
-                <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.nimetus }}</td>
-              </tr>
-              <tr *ngIf="elem.algusKp" [class.extraBottom]="last && !elem.loppKp">
-                <td class="additional additional--1" [class.multi]="elem.loppKp" colspan="1"></td>
-                <td class="additional additional--2" [class.multi--bordered]="elem.loppKp" colspan="2">{{ 'frontpage.algusKp' | translate }} </td>
-                <td class="additional additional--3" [class.multi--bordered]="elem.loppKp" colspan="2">{{ elem.algusKp }}</td>
-              </tr>
-              <tr *ngIf="elem.loppKp" [class.extraBottom]="last">
-                <td class="additional additional--1" colspan="1"></td>
-                <td class="additional additional--2" colspan="2">{{ 'frontpage.loppKp' | translate }} </td>
-                <td class="additional additional--3" colspan="2">{{ elem.loppKp }}</td>
-              </tr>
+              <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
+                <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
+                  <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
+                  <td class="normal multi--bordered">{{ elem.nimetus }}</td>
+                </tr>
+                <tr [class.extraBottom]="elem.algusKp || elem.loppKp" *ngIf="elem.algusKp || elem.loppKp">
+                  <td class="normal">{{ 'frontpage.period' | translate }} </td>
+                  <td class="normal">
+                    <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}</ng-container>
+                    <ng-container *ngIf="elem.loppKp"> {{ 'time.to' | translate | lowercase }} {{ elem.loppKp }}</ng-container>
+                  </td>
+                </tr>
+              </ng-container>
             </ng-container>
           </ng-container><!--ennistamine-->
           <tr *ngIf="item.puudumised">
-            <td class="normal" colspan="3">{{ 'frontpage.puudumised' | translate }}</td>
-            <td class="normal" colspan="2">{{ item.puudumised }}</td>
+            <td class="normal">{{ 'frontpage.puudumised' | translate }}</td>
+            <td class="normal">{{ item.puudumised }}</td>
           </tr>
           <ng-container *ngIf="item.kutseKoolitus && item.kutseKoolitus.length"><!--kutseKoolitus-->
             <tr class="extraRow">
-              <td colspan="5">{{ 'frontpage.kutseKoolitus' | translate }}</td>
+              <td colspan="100%">{{ 'frontpage.kutseKoolitus' | translate }}</td>
             </tr>
             <ng-container *ngFor="let elem of item.kutseKoolitus; let secondIndex = index;let last = last;">
               <tr [class.extraBottom]="last && !elem.algusKp && !elem.oppekava">
-                <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
-                <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.oppeasutus' | translate }} </td>
-                <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.oppeasutus }}</td>
+                <td class="additional multi--bordered">{{ 'frontpage.oppeasutus' | translate }} </td>
+                <td class="additional multi--bordered">{{ elem.oppeasutus }}</td>
               </tr>
               <tr *ngIf="elem.algusKp" [class.extraBottom]="last && !elem.oppekava">
-                <td class="additional additional--1" [class.multi]="elem.oppekava" colspan="1"></td>
-                <td class="additional additional--2" [class.multi--bordered]="elem.oppekava" colspan="2">{{ 'frontpage.algusKp' | translate }} </td>
-                <td class="additional additional--3" [class.multi--bordered]="elem.oppekava" colspan="2">{{ elem.algusKp }}</td>
+                <td class="additional" [class.multi--bordered]="elem.oppekava">{{ 'frontpage.algusKp' | translate }} </td>
+                <td class="additional" [class.multi--bordered]="elem.oppekava">{{ elem.algusKp }}</td>
               </tr>
               <tr *ngIf="elem.oppekava" [class.extraBottom]="last">
-                <td class="additional additional--1" colspan="1"></td>
-                <td class="additional additional--2" colspan="2">{{ 'frontpage.oppekava' | translate }} </td>
-                <td class="additional additional--3" colspan="2">{{ elem.oppekava.oppekavaNimetus }}</td>
+                <td class="additional">{{ 'frontpage.oppekava' | translate }} </td>
+                <td class="additional">{{ elem.oppekava.oppekavaNimetus }}</td>
               </tr>
             </ng-container>
           </ng-container><!--kutseKoolitus-->

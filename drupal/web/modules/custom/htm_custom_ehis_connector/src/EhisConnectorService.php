@@ -110,6 +110,9 @@ class EhisConnectorService {
 			if($type === 'get'){
 				$response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
 			}elseif($type === 'post'){
+			    $params['headers'] = [
+			        'Content-Type' => 'application/json'
+                ];
 				$response = $client->post($this->loime_url.$service_name, $params);
 			}else{
 				//TODO throw error
@@ -419,7 +422,7 @@ class EhisConnectorService {
 	private function filterPersonalCard($input, $tab){
 		switch ($tab){
 			case 'studies':
-				$keys = ['oping'];
+				$keys = ['oping', 'isikuandmed'];
 				break;
 			case 'teachings':
 				$keys = ['tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon'];
