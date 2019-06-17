@@ -61,29 +61,26 @@ export class SearchComponent {
     this.lang = this.rootScope.get("lang");
 
     this.paramSubscription = this.route.queryParams.subscribe( params => {
-      
       this.types = this.typesByLang[this.lang];
       if(this.route.snapshot.queryParams['term'] !== this.param && this.param.length) {
-        this.param = this.route.snapshot.queryParams['term'];
-        var queryTypes = this.route.snapshot.queryParams['type'];
+        let queryTypes = this.route.snapshot.queryParams['type'];
         if (queryTypes && queryTypes instanceof Array) {
           this.typeArr = queryTypes;
         } else if (queryTypes) {
           this.typeArr.push(queryTypes);
         }
-        this.getResults(this.param, this.typeArr);
-      }
+        this.getResults(this.route.snapshot.queryParams['term'], this.typeArr);
+      } 
     });
 
-    if (this.route.snapshot.queryParams['term']) {
-      this.param = this.route.snapshot.queryParams['term'];
-      var queryTypes = this.route.snapshot.queryParams['type'];
+    if (this.route.snapshot.queryParams['term'] && !this.filteredResults) {
+      let queryTypes = this.route.snapshot.queryParams['type'];
       if (queryTypes && queryTypes instanceof Array) {
         this.typeArr = queryTypes;
       } else if (queryTypes) {
         this.typeArr.push(queryTypes);
       }
-      this.getResults(this.param, this.typeArr);
+      this.getResults(this.route.snapshot.queryParams['term'], this.typeArr);
     } else {
       this.loading = false;
     }
@@ -100,6 +97,7 @@ export class SearchComponent {
     this.results = false;
     this.loading = true;
     this.listLimit = this.listStep;
+    this.param = term;
     this.updateParams('term', term);
 
     let variables = {
