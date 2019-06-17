@@ -48,7 +48,7 @@ export class StudiesComponent{
         if (!this.content.length) {
           this.error = true;
           this.dataErr = true;
-          this.notificationService.error('errors.studies_data_missing', 'studies', false);
+          this.notificationService.info('errors.studies_data_missing', 'studies', false);
         }
       }
       sub.unsubscribe();

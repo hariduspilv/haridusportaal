@@ -70,7 +70,7 @@ export class TeachingsComponent{
           }
         }catch(err){
           console.log(err);
-          this.notificationService.error('errors.teachings_data_missing', 'teachings', false);
+          this.notificationService.info('errors.teachings_data_missing', 'teachings', false);
 
         }
       }
