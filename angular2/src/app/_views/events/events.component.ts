@@ -21,6 +21,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material";
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   templateUrl: './events.component.html',
@@ -80,7 +81,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     public route: ActivatedRoute,
     private rootScope: RootScopeService,
     private http: HttpService,
-    public scrollRestoration: ScrollRestorationService
+    public scrollRestoration: ScrollRestorationService,
+    public device: DeviceDetectorService
   ) {
     super(null, null);
     let subscription = router.events.pipe(
@@ -295,11 +297,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     } else {
       this.changeView('list', false);
     }
-    
-    if (window.innerWidth <= 1024) {
-      this.filterFull = true;
-      this.showFilter = false;
-    }
+
+    this.showFilter = this.device.isDesktop();
+    this.filterFull = this.device.isTablet() || this.device.isMobile();
     
     var currMonthName  = moment().format('MMMM');
 
@@ -519,8 +519,9 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     }
   }
   getData() {
-        this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined );
-    
+        if(!this.filterFull) {
+          this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined );
+        }    
         this.eventsConfig = new EventsConfig();
 
         // TITLE
