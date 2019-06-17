@@ -117,7 +117,7 @@ class xJsonRestResource extends ResourceBase {
                     throw new AccessDeniedHttpException();
                 }
 
-                if (isset($data['id'])) {
+                if (isset($data['id']) && !isset($data['form_info'])) {
                     if (isset($data['status']) && ($data['status'] === 'draft' || $data['status'] === 'submitted')) {
                         return $this->returnExistingDzeison($data);
                     } else {
