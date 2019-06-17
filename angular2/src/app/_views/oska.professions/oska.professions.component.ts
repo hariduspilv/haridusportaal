@@ -166,7 +166,9 @@ export class OskaProfessionsComponent extends FiltersService implements OnInit, 
     if (this.dataSub) {
       this.dataSub.unsubscribe();
     }
-    this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
+    if(!this.filterFull) {
+      this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
+    }
     this.filterFormItems = !Object.keys(this.params).length ? {} : this.filterFormItems;
     let variables = {
       lang: this.lang.toUpperCase(),
