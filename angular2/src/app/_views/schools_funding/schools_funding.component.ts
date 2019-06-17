@@ -61,6 +61,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     lg: '18px',
   }
   labelOptions = {
+    fontFamily: "'Rubik', sans-serif",
     color: 'black',
     fontSize: '10px',
     fontWeight: 'regular',

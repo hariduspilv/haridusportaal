@@ -4,7 +4,7 @@
     <h2 class="section--header">{{ 'frontpage.oppelaenOigus' | translate }}</h2>
     <table class="dashboard-table dashboard-table--equalCells mb-2">
       <tbody>
-        <tr [class.extraRow]="oppelaenOigus.oigus === 'Ei'" *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
+        <tr *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
           <td colspan="3">{{ 'frontpage.oppelaenOigus' | translate }}</td>
           <td colspan="3">{{ oppelaenOigus.oigus }}</td>
         </tr>
@@ -149,11 +149,11 @@
             </tr>
             <ng-container *ngFor="let elem of item.finAllikas; let secondIndex = index; let last = last;">
               <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
-                <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
+                <tr [class.extraBottom]="!last && !item.oppLopp && !elem.algusKp && !elem.loppKp">
                   <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
                   <td class="normal multi--bordered">{{ elem.nimetus }}</td>
                 </tr>
-                <tr [class.extraBottom]="elem.algusKp || elem.loppKp" *ngIf="elem.algusKp || elem.loppKp">
+                <tr [class.extraBottom]="!last && !item.oppLopp && (elem.algusKp || elem.loppKp)" *ngIf="elem.algusKp || elem.loppKp">
                   <td class="normal">{{ 'frontpage.period' | translate }} </td>
                   <td class="normal">
                     <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}</ng-container>
@@ -169,11 +169,11 @@
             </tr>
             <ng-container *ngFor="let elem of item.akadPuhkus; let secondIndex = index; let last = last;">
               <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
-                <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
+                <tr [class.extraBottom]="!last && !item.oppLopp && !elem.algusKp && !elem.loppKp">
                   <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
                   <td class="normal multi--bordered">{{ parseTypeTranslation(elem.nimetus) }}</td>
                 </tr>
-                <tr [class.extraBottom]="elem.algusKp || elem.loppKp" *ngIf="elem.algusKp || elem.loppKp">
+                <tr [class.extraBottom]="!last && !item.oppLopp && (elem.algusKp || elem.loppKp)" *ngIf="elem.algusKp || elem.loppKp">
                   <td class="normal">{{ 'frontpage.period' | translate }} </td>
                   <td class="normal">
                     <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}</ng-container>
@@ -189,11 +189,11 @@
             </tr>
             <ng-container *ngFor="let elem of item.ennistamine; let secondIndex = index; let last = last;">
               <ng-container *ngIf="(item.oppLopp && secondIndex === 0) || !item.oppLopp">
-                <tr [class.extraBottom]="last && !elem.algusKp && !elem.loppKp">
+                <tr [class.extraBottom]="!last && !item.oppLopp && (!elem.algusKp && !elem.loppKp)">
                   <td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
                   <td class="normal multi--bordered">{{ elem.nimetus }}</td>
                 </tr>
-                <tr [class.extraBottom]="elem.algusKp || elem.loppKp" *ngIf="elem.algusKp || elem.loppKp">
+                <tr [class.extraBottom]="!last && !item.oppLopp && (elem.algusKp || elem.loppKp)" *ngIf="elem.algusKp || elem.loppKp">
                   <td class="normal">{{ 'frontpage.period' | translate }} </td>
                   <td class="normal">
                     <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}</ng-container>
