@@ -112,3 +112,5 @@ export class TeachingsComponent{
 }
 
 //TEGIN HÄSTI PALJU MUUDATUSI
+
+//TEGIN VEEL MUUDATUSI
