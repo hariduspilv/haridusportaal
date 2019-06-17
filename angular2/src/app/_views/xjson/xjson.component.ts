@@ -13,6 +13,7 @@ import { SettingsService } from '@app/_services/settings.service';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -72,6 +73,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public data_messages;
   public navigationLinks;
   public subButtons;
+  public stepperControl: FormGroup;
   public activityButtons;
   public error = {};
   public redirect_url;
@@ -88,6 +90,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private rootScope: RootScopeService,
     private http: HttpService,
     private _jsonp: Jsonp,
+    private _formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
@@ -372,7 +375,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   fileDownloadlink(id) {
     const token = sessionStorage.getItem('token');
-    return this.settings.url + '/xjson_service/documentFile/' + id + '?jwt_token=' + token;
+    return this.settings.url + '/xjson_service/documentFile2/' + id + '?jwt_token=' + token;
   }
 
   canUploadFile(element): boolean {
@@ -404,12 +407,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
         reader.readAsDataURL(file);
         reader.onload = () => {
+
+          const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
           const payload = {
             file: reader.result.toString().split(',')[1],
             form_name: this.form_name,
             data_element: element
           };
-          const subscription = this.http.fileUpload('/xjson_service/documentFile', payload).subscribe(response => {
+          const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
 
             const new_file = {
               file_name: file.name,
@@ -828,6 +833,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.stepperControl = this._formBuilder.group({
+      firstCtrl: ['', Validators.required]
+    });
     this.pathWatcher();
     const payload = { form_name: this.form_name };
 

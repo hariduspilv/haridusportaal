@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { JwtHelperService } from '@auth0/angular-jwt';
+import { JwtHelperService, JwtModule } from '@auth0/angular-jwt';
 import { SettingsService } from '@app/_services/settings.service';
 
 import { Observable } from 'rxjs/Observable';
@@ -121,10 +121,12 @@ export class HttpService {
     });
   }
 
-  fileUpload(url, data){
+  fileUpload(url, data, filename){
     url = this.parseUrl(url);
     let headers = this.createAuthorizationHeader();
     headers = headers.append('Accept', 'application/json');
+    headers = headers.append('Content-Type', 'application/octet-stream');
+    headers = headers.append('Content-Disposition', 'file; filename="'.concat(filename, '"'));
 
     return this.http.post(url, data, {
       headers: headers
