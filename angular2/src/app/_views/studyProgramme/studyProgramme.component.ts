@@ -275,7 +275,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     if( this.dataSubscription !== undefined ){
       this.dataSubscription.unsubscribe();
     }
-    this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined );
+    if(!this.filterFull) {
+      this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined );
+    }
     //todo: automate searchParams injection
     let queryVars = {
       lang: this.lang.toUpperCase(),
