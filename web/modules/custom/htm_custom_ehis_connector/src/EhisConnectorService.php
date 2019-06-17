@@ -307,7 +307,6 @@ class EhisConnectorService {
 	 */
 	public function getDocumentFile(array $params = []){
 		$params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode(TRUE)];
-		dump($params);
 		return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
 	}
 
