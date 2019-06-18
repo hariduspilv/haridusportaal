@@ -68,7 +68,6 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
     }
 }
 
-
 /**
  * Event admin form event submit
  * @param                    $form
@@ -76,7 +75,13 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
  */
 function submit_event_form(&$form, FormStateInterface $form_state){
     if($form_state->getValue('field_entry_type')[0]['value'] != 'register'){
-        $form_state->unsetValue('field_registration_date');
+        $paragraph_container = $form_state->getStorage()['field_storage']['#parents']['#fields']['field_registration_date'];
+        if(isset($paragraph_container['paragraphs'])){
+            $paragraph = $paragraph_container['paragraphs'][0]['entity'];
+        }
+        if(isset($paragraph)){
+            $paragraph->delete();
+        }
     }
 }
 
