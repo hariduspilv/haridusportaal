@@ -14,8 +14,14 @@ class StudyProgrammeController extends ControllerBase {
     public function import() {
 
         $client = \Drupal::httpClient();
-        $response = $client->request('GET', 'http://classifiers.app.ehis2.dev.tes.ee/classifiers/hello');
-        kint($response);
+
+        try{
+            $response = $client->request('GET', 'http://classifiers.app.ehis2.dev.tes.ee/classifiers/hello');
+            kint($response);
+        }
+        catch(RequestException $e){
+            kint($e);
+        }
         die();
 
 
