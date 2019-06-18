@@ -11,11 +11,11 @@ dependencies:
     - field.field.node.information_system_page.field_logo
     - field.field.node.information_system_page.field_subtitle
     - field.field.node.information_system_page.field_webpage_link
-    - image.style.thumbnail
+    - image.style.crop_result_thumb
     - node.type.information_system_page
   module:
     - file
-    - image
+    - image_widget_crop
     - link
     - maxlength
     - paragraphs
@@ -57,7 +57,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: _none
     third_party_settings: {  }
     region: content
   field_infosystem_sidebar:
@@ -69,7 +69,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: _none
     third_party_settings: {  }
     region: content
   field_introduction_text:
@@ -88,10 +88,17 @@ content:
   field_logo:
     weight: 13
     settings:
+      show_crop_area: true
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: crop_result_thumb
+      crop_preview_image_style: crop_thumbnail
+      crop_list:
+        - 16_9_large
       progress_indicator: throbber
-      preview_image_style: thumbnail
+      crop_types_required: {  }
     third_party_settings: {  }
-    type: image_image
+    type: image_widget_crop
     region: content
   field_subtitle:
     weight: 12
