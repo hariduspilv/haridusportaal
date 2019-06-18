@@ -13,6 +13,15 @@ class StudyProgrammeController extends ControllerBase {
 
     public function import() {
 
+        $client = \Drupal::httpClient();
+        $response = $client->request('GET', 'http://classifiers.app.ehis2.dev.tes.ee/classifiers/hello');
+        kint($response);
+        die();
+
+
+
+
+
         $schools = $this->get_existing_schools();
         $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
         $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
