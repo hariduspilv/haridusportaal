@@ -1,0 +1,110 @@
+query infoSystemPage($lang: LanguageId!) {
+  nodeQuery(limit: 1, sort: {field: "changed", direction: DESC}, filter: {conditions: [{field: "type", value: "information_system_page", language: $lang}, {field: "status", value: "1"}]}) {
+    entities(language: $lang) {
+      ... on NodeInformationSystemPage {
+        title
+        fieldSubtitle
+        fieldLogo {
+          derivative(style: CROP_LARGE) {
+            url
+          }
+          targetId
+          alt
+          title
+        }
+        fieldIntroductionText
+        fieldContentText {
+          value
+          format
+          processed
+        }
+        fieldWebpageLink {
+          url {
+            routed
+            path
+          }
+          title
+        }
+        fieldAttachmentFile {
+          description
+          entity {
+            entityLabel
+            entityType
+            entityChanged
+            entityBundle
+            entityCreated
+            url
+            filename
+            filemime
+          }
+        }
+        fieldInfosystemAccordion {
+          entity {
+            ... on ParagraphInformationSystemAccordion {
+              fieldAccordionTitle
+              fieldAttachmentFile {
+                description
+                entity {
+                  entityLabel
+                  entityType
+                  entityChanged
+                  entityBundle
+                  entityCreated
+                  url
+                  filename
+                  filemime
+                }
+              }
+              fieldLinks {
+                url {
+                  routed
+                  path
+                }
+                title
+              }
+              fieldBody {
+                value
+                format
+                processed
+              }
+            }
+          }
+        }
+        fieldInfosystemSidebar {
+          entity {
+            ... on ParagraphInformationSystemSidebar {
+              fieldLegislationBlock {
+                url {
+                  routed
+                  path
+                }
+                title
+              }
+              fieldBlocks {
+                entity {
+                  ... on ParagraphBlock {
+                    fieldLinks {
+                      url {
+                        routed
+                        path
+                      }
+                      title
+                    }
+                    fieldBlockTitle
+                  }
+                }
+              }
+              fieldButton {
+                url {
+                  routed
+                  path
+                }
+                title
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
