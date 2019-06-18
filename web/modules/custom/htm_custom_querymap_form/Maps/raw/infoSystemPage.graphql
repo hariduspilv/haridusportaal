@@ -1,105 +1,120 @@
-query infoSystemPage($lang: LanguageId!) {
-  nodeQuery(limit: 1, sort: {field: "changed", direction: DESC}, filter: {conditions: [{field: "type", value: "information_system_page", language: $lang}, {field: "status", value: "1"}]}) {
-    entities(language: $lang) {
-      ... on NodeInformationSystemPage {
+query infoSystemPage($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
         title
-        fieldSubtitle
-        fieldLogo {
-          derivative(style: CROP_LARGE) {
-            url
-          }
-          targetId
-          alt
+        language {
+          id
+        }
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+      entity {
+        ... on NodeInformationSystemPage {
           title
-        }
-        fieldIntroductionText
-        fieldContentText {
-          value
-          format
-          processed
-        }
-        fieldWebpageLink {
-          url {
-            routed
-            path
+          fieldSubtitle
+          fieldLogo {
+            derivative(style: CROP_LARGE) {
+              url
+            }
+            targetId
+            alt
+            title
           }
-          title
-        }
-        fieldAttachmentFile {
-          description
-          entity {
-            entityLabel
-            entityType
-            entityChanged
-            entityBundle
-            entityCreated
-            url
-            filename
-            filemime
+          fieldIntroductionText
+          fieldContentText {
+            value
+            format
+            processed
           }
-        }
-        fieldInfosystemAccordion {
-          entity {
-            ... on ParagraphInformationSystemAccordion {
-              fieldAccordionTitle
-              fieldAttachmentFile {
-                description
-                entity {
-                  entityLabel
-                  entityType
-                  entityChanged
-                  entityBundle
-                  entityCreated
-                  url
-                  filename
-                  filemime
+          fieldWebpageLink {
+            url {
+              routed
+              path
+            }
+            title
+          }
+          fieldAttachmentFile {
+            description
+            entity {
+              entityLabel
+              entityType
+              entityChanged
+              entityBundle
+              entityCreated
+              url
+              filename
+              filemime
+            }
+          }
+          fieldInfosystemAccordion {
+            entity {
+              ... on ParagraphInformationSystemAccordion {
+                fieldAccordionTitle
+                fieldAttachmentFile {
+                  description
+                  entity {
+                    entityLabel
+                    entityType
+                    entityChanged
+                    entityBundle
+                    entityCreated
+                    url
+                    filename
+                    filemime
+                  }
                 }
-              }
-              fieldLinks {
-                url {
-                  routed
-                  path
+                fieldLinks {
+                  url {
+                    routed
+                    path
+                  }
+                  title
                 }
-                title
-              }
-              fieldBody {
-                value
-                format
-                processed
+                fieldBody {
+                  value
+                  format
+                  processed
+                }
               }
             }
           }
-        }
-        fieldInfosystemSidebar {
-          entity {
-            ... on ParagraphInformationSystemSidebar {
-              fieldLegislationBlock {
-                url {
-                  routed
-                  path
+          fieldInfosystemSidebar {
+            entity {
+              ... on ParagraphInformationSystemSidebar {
+                fieldLegislationBlock {
+                  url {
+                    routed
+                    path
+                  }
+                  title
                 }
-                title
-              }
-              fieldBlocks {
-                entity {
-                  ... on ParagraphBlock {
-                    fieldLinks {
-                      url {
-                        routed
-                        path
+                fieldBlocks {
+                  entity {
+                    ... on ParagraphBlock {
+                      fieldLinks {
+                        url {
+                          routed
+                          path
+                        }
+                        title
                       }
-                      title
+                      fieldBlockTitle
                     }
-                    fieldBlockTitle
                   }
                 }
-              }
-              fieldButton {
-                url {
-                  routed
-                  path
+                fieldButton {
+                  url {
+                    routed
+                    path
+                  }
+                  title
                 }
-                title
               }
             }
           }
