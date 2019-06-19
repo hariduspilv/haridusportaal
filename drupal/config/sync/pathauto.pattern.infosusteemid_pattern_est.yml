@@ -1,0 +1,33 @@
+uuid: 74f895c4-6bdf-458a-8eb2-4e5cd9e25bca
+langcode: et
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: infosusteemid_pattern_est
+label: 'Infosüsteemid pattern EST'
+type: 'canonical_entities:node'
+pattern: 'infosüsteemid/[node:title]'
+selection_criteria:
+  8e2d528a-9955-47ac-82c7-da507643c894:
+    id: node_type
+    bundles:
+      information_system_page: information_system_page
+    negate: false
+    context_mapping:
+      node: node
+    uuid: 8e2d528a-9955-47ac-82c7-da507643c894
+  41dea75b-6949-4750-8ef8-f90859423022:
+    id: language
+    langcodes:
+      et: et
+    negate: false
+    context_mapping:
+      language: 'node:langcode:language'
+    uuid: 41dea75b-6949-4750-8ef8-f90859423022
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Keel
