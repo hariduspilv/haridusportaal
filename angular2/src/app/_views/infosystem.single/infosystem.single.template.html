@@ -1,0 +1,114 @@
+<div class="main-container">
+  <div class="row wrapper__row">
+    <div class="col-8">
+      <div class="block border-blue padding-block">
+        <div class="block__head no-border">
+          <div class="block__head__title">
+            INFOSÜSTEEMID
+          </div>
+        </div>
+        <loader *ngIf="loading"></loader>
+        <ng-container *ngIf="!loading">
+          <h1>{{data.title}}</h1>
+          <div class="button-list">
+            <a class="view-item text-center" [class.mat-menu-item-active]="view === 'details'"  (click)="changeView('details')">
+              <span class="htm-icon">description</span>
+              <div class="title">
+                Üldandmed
+              </div>
+            </a>
+            <a class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
+              <span class="htm-icon">description</span>
+              <div class="title">
+                Juhendid
+              </div>
+            </a>
+          </div>
+          <ng-container *ngIf="view === 'details'">
+              <div class="logo">
+                <img src="{{data.fieldLogo.derivative.url}}" alt="{{data.fieldLogo.alt}}">
+              </div>
+              <h2 class="intro">{{data.fieldIntroductionText}}</h2>
+              <div class="description" [innerHTML]="data.fieldContentText.processed"></div>
+          </ng-container>
+          <ng-container *ngIf="view === 'guides'">
+              <div class="accordion">
+                  <mat-accordion multi>
+                      <ng-container *ngFor="let accordion of data.fieldInfosystemAccordion; let ind = index">
+                        <mat-expansion-panel id="{{ind}}">
+                          <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                            <mat-panel-title>
+                              {{ accordion.entity.fieldAccordionTitle }}
+                            </mat-panel-title>
+                          </mat-expansion-panel-header>
+                          <div class="accordion__body">
+                            <div class="description" [innerHTML]="accordion.entity.fieldBody.processed"></div>
+                            <ul class="link-list mt-2 mb-0">
+                              <li *ngFor="let file of accordion.entity.fieldAttachmentFile">
+                                <a href="{{file.entity.url}}" target="_blank" attr.aria-label="{{file.description}}" class="link">
+                                  {{file.description}}
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </mat-expansion-panel>
+                      </ng-container>
+                    </mat-accordion>
+              </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-4" *ngIf="!loading">
+      <div class="block border-orange padding-block sm-top" *ngIf="data.fieldInfosystemSidebar.entity.fieldLegislationBlock">
+        <h1 class="medium">Õigusaktid</h1>
+        <div class="padding-block--content">
+          <ul class="link-list mt-0 mb-0">
+            <ng-container *ngFor="let link of data.fieldInfosystemSidebar.entity.fieldLegislationBlock;let ind = index;">
+              <li>
+                <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
+                  <span>
+                    <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
+                    <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
+                  </span>
+                </a>
+              </li>
+            </ng-container>
+          </ul>
+        </div>
+      </div>
+      <div class="block border-orange padding-block sm-top" *ngIf="data.fieldInfosystemSidebar.entity.fieldButton">
+          <div class="padding-block--content">
+            <ul class="mt-0 mb-0">
+              <ng-container *ngFor="let link of data.fieldInfosystemSidebar.entity.fieldButton;let ind = index;">
+                <li>
+                  <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="mat-raised-button mat-primary">
+                    <span class="mat-button-wrapper">{{link.title}}</span>
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+      </div>
+      <ng-container *ngIf="data.fieldInfosystemSidebar.entity.fieldBlocks">
+        <div class="block border-orange padding-block sm-top" *ngFor="let block of data.fieldInfosystemSidebar.entity.fieldBlocks">
+          <h1 class="medium">{{block.entity.fieldBlockTitle}}</h1>
+          <div class="padding-block--content">
+            <ul class="link-list mt-0 mb-0">
+              <ng-container *ngFor="let link of block.entity.fieldLinks;let ind = index;">
+                <li>
+                  <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
+                    <span>
+                      <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
+                      <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
+                    </span>
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
