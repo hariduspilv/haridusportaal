@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
@@ -13,7 +13,7 @@ import { SettingsService } from '@app/_services/settings.service';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { throwError } from 'rxjs';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import * as _moment from 'moment';
 const moment = _moment;
@@ -43,8 +43,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   public view = 'document';
 
-  console = console;
-
   public tableOverflown: any = {};
   public elemAtStart: any = {};
   public tableCountPerStep = 0;
@@ -73,7 +71,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public data_messages;
   public navigationLinks;
   public subButtons;
-  public stepperControl: FormGroup;
   public activityButtons;
   public error = {};
   public redirect_url;
@@ -833,9 +830,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.stepperControl = this._formBuilder.group({
-      firstCtrl: ['', Validators.required]
-    });
+
     this.pathWatcher();
     const payload = { form_name: this.form_name };
 
