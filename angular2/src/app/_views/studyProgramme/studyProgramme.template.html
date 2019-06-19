@@ -20,11 +20,11 @@
 
       <div class="col-5 sm-12">
         <div class="round-input__wrapper">
-          <mat-form-field>
-            <mat-select [multiple]='true' placeholder="{{ 'studyProgramme.filter_type' | translate }}" [(ngModel)]='filterFormItems.type' name="type" (openedChange)="entityLabelSort($event, 'type')">
+          <mat-form-field role="button" attr.aria-label="{{ 'studyProgramme.filter_type' | translate }} rippmenüü" (click)="openDropdown('elem_list')" aria-haspopup="listbox" id="list_button">
+            <mat-select id="elem_list" tabindex="-1" role="listbox" [multiple]='true' placeholder="{{ 'studyProgramme.filter_type' | translate }}" [(ngModel)]='filterFormItems.type' name="type" (openedChange)="entityLabelSort($event, 'type')">
               <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
-              <mat-option *ngFor="let type of FilterOptions.type" [value]="type.tid">
-                {{type.entityLabel}}
+              <mat-option tabindex="-1" attr.aria-label="{{ type.entityLabel }} {{ (filterFormItems.type && filterFormItems.type.includes(type.tid)) ? 'checked' : 'unchecked' }}" attr.aria-selected="filterFormItems.type.includes(type.tid)" attr.id="elem_option_{{ind}}" role="option" *ngFor="let type of FilterOptions.type; let ind = index;" [value]="type.tid">
+                <span aria-hidden="true">{{type.entityLabel}}</span>
               </mat-option>
             </mat-select>
           </mat-form-field>

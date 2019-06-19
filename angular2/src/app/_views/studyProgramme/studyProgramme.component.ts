@@ -158,6 +158,10 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   }
 
+  openDropdown(elem) {
+    document.getElementById(elem).click();
+  }
+
   entityLabelSort(e, prop) {
     if(!e) {
       let sortedSelected = [];
