@@ -4,7 +4,7 @@ import { AgmKmlLayer } from '@agm/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from './_core/material.module';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
-import { MatSnackBarModule,  MatStepperModule } from '@angular/material';
+import { MatSnackBarModule,  MatStepperModule, MatHorizontalStepper } from '@angular/material';
 
 import { RecaptchaModule } from 'ng-recaptcha';
 import { RecaptchaFormsModule } from 'ng-recaptcha/forms';
