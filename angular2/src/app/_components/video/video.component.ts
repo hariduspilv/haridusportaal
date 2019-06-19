@@ -20,18 +20,13 @@ export class VideoComponent {
     try {
       return this.videos.forEach((vid) => {
         return this.embeddedInputs.push(this.embedService.embed(vid.input))
-      })
+      });
     } catch {
+      this.videos = this.videos.map((vid) => {
+        vid.finalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(`${window.location.protocol}//www.youtube.com/embed/${vid.videoId}`);
+        return vid;
+      });
       this.embedFailed = true;
-    }
-  }
-
-  fallbackUrl(domain, id) {
-    switch (domain) {
-      case 'youtube.com':
-        return "https://www.youtube.com/embed/" + id;
-      default:
-        return null
     }
   }
 }
