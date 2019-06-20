@@ -12,18 +12,6 @@ use Drupal\taxonomy\Entity\Term;
 class StudyProgrammeController extends ControllerBase {
 
     public function import() {
-
-        $client = \Drupal::httpClient();
-
-        try{
-            $response = $client->request('GET', 'http://classifiers.app.ehis2.dev.tes.ee/classifiers/hello');
-            kint($response);
-        }
-        catch(RequestException $e){
-            kint($e);
-        }
-        die();
-
         $schools = $this->get_existing_schools();
         $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
         $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
