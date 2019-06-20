@@ -569,12 +569,12 @@ $grid-columns: 12;
     &.scrollable__unpadded {padding: 0;}
     @include break-on(sm, min) {position: relative;}
     &__table {overflow:hidden;}
-    &__rectangle {width: 3.125rem;height: 100%;background-color: #bee3e8;position: absolute;z-index: 5;user-select: none;
+    &__rectangle {width: 3.125rem;right:0;height: 100%;background-color: #bee3e8;position: absolute;z-index: 5;user-select: none;
       .htm-icon {position: relative;top: 0.4rem;left: 0.4rem;font-size: 2.5rem;color: #2e3374;}
-      &--left {left: $small;
-        @include break-on(sm, min) {left: $small;}
+      &--left {left: 0;
+        @include break-on(sm, min) {left: 0;}
       }
-      @include break-on(sm, min) {right: $small;}
+      @include break-on(sm, min) {right: 0;}
       &.withState {opacity: 0;pointer-events: none;
         &--active {opacity: 1;pointer-events: auto;}
       }
