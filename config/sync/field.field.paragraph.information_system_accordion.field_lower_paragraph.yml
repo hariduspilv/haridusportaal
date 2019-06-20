@@ -1,0 +1,91 @@
+uuid: f59a6523-6761-4501-afb7-4989c1429e5b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_lower_paragraph
+    - paragraphs.paragraphs_type.information_system_accordion
+    - paragraphs.paragraphs_type.information_system_lower
+  module:
+    - entity_reference_revisions
+id: paragraph.information_system_accordion.field_lower_paragraph
+field_name: field_lower_paragraph
+entity_type: paragraph
+bundle: information_system_accordion
+label: 'Juhendid alamosa'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      information_system_lower: information_system_lower
+    target_bundles_drag_drop:
+      accordion:
+        weight: 22
+        enabled: false
+      additional_section:
+        weight: 23
+        enabled: false
+      block:
+        weight: 24
+        enabled: false
+      contact_section:
+        weight: 25
+        enabled: false
+      event_date:
+        weight: 26
+        enabled: false
+      favorite_item:
+        weight: 27
+        enabled: false
+      homepage_topics:
+        weight: 28
+        enabled: false
+      information_system_accordion:
+        weight: 29
+        enabled: false
+      information_system_lower:
+        enabled: true
+        weight: 30
+      information_system_sidebar:
+        weight: 31
+        enabled: false
+      iscedf_search:
+        weight: 32
+        enabled: false
+      job:
+        weight: 33
+        enabled: false
+      link:
+        weight: 34
+        enabled: false
+      main_profession_accordion:
+        weight: 35
+        enabled: false
+      main_profession_sidebar:
+        weight: 36
+        enabled: false
+      oska_field_sidebar:
+        weight: 37
+        enabled: false
+      registration_period:
+        weight: 38
+        enabled: false
+      right_sidebar_section_info:
+        weight: 39
+        enabled: false
+      school_location:
+        weight: 40
+        enabled: false
+      supernews:
+        weight: 41
+        enabled: false
+      survey_page_accordion:
+        weight: 42
+        enabled: false
+field_type: entity_reference_revisions

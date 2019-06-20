@@ -1,0 +1,23 @@
+uuid: 0ddedf39-bb10-41c6-9e5e-c4950c924fda
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_link
+    - paragraphs.paragraphs_type.information_system_lower
+  module:
+    - link
+id: paragraph.information_system_lower.field_paragraph_link
+field_name: field_paragraph_link
+entity_type: paragraph
+bundle: information_system_lower
+label: Link
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link
