@@ -1,3 +1,4 @@
+
 <div>
   <breadcrumbs></breadcrumbs>
 </div>
@@ -466,7 +467,9 @@
 
 
                       <div class="scrollable">
-                        <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer"
+                        <div class="scrollable__table" [attr.id]="'xjsonTable_' + index"
+                          (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
+                          <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer"
                           *ngIf="!elemAtStart[index]" (touchstart)="tableService.scrollStart('xjsonTable_'+index)"
                           (mousedown)="tableService.scrollStart('xjsonTable_'+index)"
                           (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
@@ -479,9 +482,6 @@
                           (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
                           <span class="htm-icon">keyboard_arrow_right</span>
                         </div>
-                        <div class="scrollable__table" [attr.id]="'xjsonTable_' + index"
-                          (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
-
                           <table class="scrollableTable">
                             <thead>
                               <tr>
