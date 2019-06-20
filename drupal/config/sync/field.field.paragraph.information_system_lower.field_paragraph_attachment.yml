@@ -1,16 +1,16 @@
-uuid: 78e898d9-860c-4657-981d-c14aa70c5b6c
+uuid: 080aec82-d212-41bf-82e2-5146f313dffe
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_attachment_file
-    - paragraphs.paragraphs_type.information_system_accordion
+    - field.storage.paragraph.field_paragraph_attachment
+    - paragraphs.paragraphs_type.information_system_lower
   module:
     - file
-id: paragraph.information_system_accordion.field_attachment_file
-field_name: field_attachment_file
+id: paragraph.information_system_lower.field_paragraph_attachment
+field_name: field_paragraph_attachment
 entity_type: paragraph
-bundle: information_system_accordion
+bundle: information_system_lower
 label: Fail
 description: ''
 required: false
