@@ -38,7 +38,7 @@
   {
     "NIMI": "Lääne-Viru maakond",
     "label": "Lääne-Virumaa",
-    "latitude": 59.233991917484024,
+    "latitude": 59.253991917484024,
     "longitude": 26.26183525127057
   },
   {
@@ -80,8 +80,8 @@
   {
     "NIMI": "Lääne maakond",
     "label": "Läänemaa",
-    "latitude": 58.96646306253273,
-    "longitude": 23.66873359936321
+    "latitude": 59.0546306253273,
+    "longitude": 23.75873359936321
   },
   {
     "NIMI": "Saare maakond",
