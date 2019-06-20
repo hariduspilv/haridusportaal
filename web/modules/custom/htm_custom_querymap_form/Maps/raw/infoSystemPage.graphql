@@ -81,6 +81,38 @@ query infoSystemPage($path: String!) {
                   format
                   processed
                 }
+                fieldLowerParagraph {
+                  entity {
+                    ... on ParagraphInformationSystemLower {
+                      fieldParagraphTitle
+                      fieldParagraphAttachment {
+                        description
+                        entity {
+                          entityLabel
+                          entityType
+                          entityChanged
+                          entityBundle
+                          entityCreated
+                          url
+                          filename
+                          filemime
+                        }
+                      }
+                      fieldParagraphLink {
+                        url {
+                          routed
+                          path
+                        }
+                        title
+                      }
+                      fieldParagraphContent {
+                        value
+                        format
+                        processed
+                      }
+                    }
+                  }
+                }
               }
             }
           }
