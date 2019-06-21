@@ -10,7 +10,6 @@ dependencies:
     - field.field.paragraph.information_system_accordion.field_lower_paragraph
     - paragraphs.paragraphs_type.information_system_accordion
   module:
-    - file
     - link
     - maxlength
     - paragraphs
@@ -32,11 +31,16 @@ content:
     type: string_textfield
     region: content
   field_attachment_file:
+    type: entity_reference_paragraphs
     weight: 2
     settings:
-      progress_indicator: throbber
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
     third_party_settings: {  }
-    type: file_generic
     region: content
   field_body:
     weight: 1
