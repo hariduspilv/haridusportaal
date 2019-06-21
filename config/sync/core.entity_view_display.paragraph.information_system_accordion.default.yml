@@ -11,7 +11,6 @@ dependencies:
     - paragraphs.paragraphs_type.information_system_accordion
   module:
     - entity_reference_revisions
-    - file
     - link
     - text
 id: paragraph.information_system_accordion.default
@@ -28,12 +27,13 @@ content:
     type: string
     region: content
   field_attachment_file:
-    weight: 1
+    type: entity_reference_revisions_entity_view
+    weight: 5
     label: above
     settings:
-      use_description_as_link_text: true
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: file_default
     region: content
   field_body:
     weight: 3

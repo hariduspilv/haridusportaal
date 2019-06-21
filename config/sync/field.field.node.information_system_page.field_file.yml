@@ -1,18 +1,18 @@
-uuid: 4b025623-c1d4-4c30-b50b-8c7adc41cfcb
+uuid: 9ccedafb-31b3-4f96-9b68-a8c747774b83
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_attachment_file
+    - field.storage.node.field_file
+    - node.type.information_system_page
     - paragraphs.paragraphs_type.file_mandatory_description
-    - paragraphs.paragraphs_type.information_system_accordion
   module:
     - entity_reference_revisions
-id: paragraph.information_system_accordion.field_attachment_file
-field_name: field_attachment_file
-entity_type: paragraph
-bundle: information_system_accordion
-label: Fail
+id: node.information_system_page.field_file
+field_name: field_file
+entity_type: node
+bundle: information_system_page
+label: Failimanus
 description: ''
 required: false
 translatable: false
@@ -25,27 +25,27 @@ settings:
     target_bundles:
       file_mandatory_description: file_mandatory_description
     target_bundles_drag_drop:
-      accordion:
-        weight: 23
-        enabled: false
-      additional_section:
-        weight: 24
-        enabled: false
-      block:
-        weight: 25
-        enabled: false
-      contact_section:
-        weight: 26
-        enabled: false
-      event_date:
-        weight: 27
-        enabled: false
-      favorite_item:
-        weight: 28
-        enabled: false
       file_mandatory_description:
         enabled: true
+        weight: 23
+      accordion:
+        weight: 24
+        enabled: false
+      additional_section:
+        weight: 25
+        enabled: false
+      block:
+        weight: 26
+        enabled: false
+      contact_section:
+        weight: 27
+        enabled: false
+      event_date:
+        weight: 28
+        enabled: false
+      favorite_item:
         weight: 29
+        enabled: false
       homepage_topics:
         weight: 30
         enabled: false
