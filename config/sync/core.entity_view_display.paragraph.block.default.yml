@@ -3,16 +3,25 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.block.field_block_links
     - field.field.paragraph.block.field_block_title
-    - field.field.paragraph.block.field_links
     - paragraphs.paragraphs_type.block
   module:
-    - link
+    - entity_reference_revisions
 id: paragraph.block.default
 targetEntityType: paragraph
 bundle: block
 mode: default
 content:
+  field_block_links:
+    type: entity_reference_revisions_entity_view
+    weight: 1
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
   field_block_title:
     weight: 0
     label: above
@@ -20,17 +29,5 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
-    region: content
-  field_links:
-    weight: 1
-    label: above
-    settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
-    third_party_settings: {  }
-    type: link
     region: content
 hidden: {  }

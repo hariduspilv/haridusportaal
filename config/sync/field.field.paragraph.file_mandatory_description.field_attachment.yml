@@ -1,0 +1,27 @@
+uuid: 270f76b9-2d58-4cd0-85f3-e44637cb55bd
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_attachment
+    - paragraphs.paragraphs_type.file_mandatory_description
+  module:
+    - file
+id: paragraph.file_mandatory_description.field_attachment
+field_name: field_attachment
+entity_type: paragraph
+bundle: file_mandatory_description
+label: Fail
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf docx xlsx csv'
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file
