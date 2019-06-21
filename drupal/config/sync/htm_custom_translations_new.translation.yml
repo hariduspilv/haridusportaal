@@ -2794,6 +2794,14 @@ label:
     translation_type: textarea
     et: 'Eesti keskmine'
     en: 'Eesti keskmine'
+  dropdown:
+    translation_type: textarea
+    et: rippmenüü
+    en: dropdown
+  dropdown_multiple:
+    translation_type: textarea
+    et: 'Mitmikvalik rippmenüü'
+    en: 'multiple selection dropdown'
 login_mobile:
   translation_type: textarea
   et: 'Sisene Mobiil ID-ga'

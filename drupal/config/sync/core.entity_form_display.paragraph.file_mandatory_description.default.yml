@@ -1,0 +1,33 @@
+uuid: 44aa760d-d59b-42d3-9a17-20ae97855864
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.file_mandatory_description.field_attachment
+    - field.field.paragraph.file_mandatory_description.field_name
+    - paragraphs.paragraphs_type.file_mandatory_description
+  module:
+    - file
+id: paragraph.file_mandatory_description.default
+targetEntityType: paragraph
+bundle: file_mandatory_description
+mode: default
+content:
+  field_attachment:
+    weight: 0
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_name:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,9 @@
+uuid: 29d0e80c-918a-4355-af62-ba23b6cd548e
+langcode: et
+status: true
+dependencies: {  }
+id: file_mandatory_description
+label: Failimanus
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

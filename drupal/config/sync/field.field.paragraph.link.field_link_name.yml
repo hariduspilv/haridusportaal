@@ -1,0 +1,19 @@
+uuid: ce662726-1662-46af-acce-2625b3780bf6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_link_name
+    - paragraphs.paragraphs_type.link
+id: paragraph.link.field_link_name
+field_name: field_link_name
+entity_type: paragraph
+bundle: link
+label: Nimetus
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
