@@ -25,35 +25,52 @@
             </a>
           </div>
           <ng-container *ngIf="view === 'details'">
-              <div class="logo">
-                <img src="{{data.fieldLogo.derivative.url}}" alt="{{data.fieldLogo.alt}}">
-              </div>
-              <h2 class="intro">{{data.fieldIntroductionText}}</h2>
-              <div class="description" [innerHTML]="data.fieldContentText.processed"></div>
+            <div class="logo">
+              <img src="{{data.fieldLogo.derivative.url}}" alt="{{data.fieldLogo.alt}}">
+            </div>
+            <h2 class="intro">{{data.fieldIntroductionText}}</h2>
+            <div class="description" [innerHTML]="data.fieldContentText.processed"></div>
+            <ul class="link-list mt-0 mb-0">
+              <ng-container *ngFor="let link of data.fieldWebpageLink;let ind = index;">
+                <li>
+                  <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
+                    <span>
+                      <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
+                      <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
+                    </span>
+                  </a>
+                </li>
+              </ng-container>
+              <ng-container *ngFor="let file of data.fieldAttachmentFile;let ind = index;">
+                <li>
+                  <a href="{{file.entity.url}}" target="_blank" attr.aria-label="{{file.description}}" class="link">
+                    <span class="htm-icon">file_copy</span><span class="label">{{file.description}}</span>
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
           </ng-container>
           <ng-container *ngIf="view === 'guides'">
               <div class="accordion">
-                  <mat-accordion multi>
-                      <ng-container *ngFor="let accordion of data.fieldInfosystemAccordion; let ind = index">
-                        <mat-expansion-panel id="{{ind}}">
-                          <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
-                            <mat-panel-title>
-                              {{ accordion.entity.fieldAccordionTitle }}
-                            </mat-panel-title>
-                          </mat-expansion-panel-header>
-                          <div class="accordion__body">
-                            <div class="description" [innerHTML]="accordion.entity.fieldBody.processed"></div>
-                            <ul class="link-list mt-2 mb-0">
-                              <li *ngFor="let file of accordion.entity.fieldAttachmentFile">
-                                <a href="{{file.entity.url}}" target="_blank" attr.aria-label="{{file.description}}" class="link">
-                                  {{file.description}}
-                                </a>
-                              </li>
-                            </ul>
-                          </div>
-                        </mat-expansion-panel>
-                      </ng-container>
-                    </mat-accordion>
+                <mat-accordion multi>
+                  <mat-expansion-panel id="{{ind}}">
+                    <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                      <mat-panel-title>
+                        {{ data.fieldInfosystemAccordion.entity.fieldAccordionTitle }}
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div class="accordion__body">
+                      <div class="description" [innerHTML]="data.fieldInfosystemAccordion.entity.fieldBody.processed"></div>
+                      <ul class="link-list mt-2 mb-0">
+                        <li *ngFor="let file of data.fieldInfosystemAccordion.entity.fieldAttachmentFile">
+                          <a href="{{file.entity.url}}" target="_blank" attr.aria-label="{{file.description}}" class="link">
+                            <span class="htm-icon">file_copy</span><span class="label">{{file.description}}</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
               </div>
           </ng-container>
         </ng-container>
