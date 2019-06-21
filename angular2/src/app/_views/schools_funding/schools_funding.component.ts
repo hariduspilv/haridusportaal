@@ -54,14 +54,16 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     'jõgeva maakond': 'Jõgevamaa'
   }
   polygonValueLabels: any;
+  polygonValueColors: any;
+  lastHeatMapRange: {} = {}
   activeFontSize: string = '';
   fontSizes: Object = {
-    sm: '6px',
     md: '10px',
     lg: '18px',
   }
   labelOptions = {
     fontFamily: "'Rubik', sans-serif",
+    lightColor: 'white',
     color: 'black',
     fontSize: '10px',
     fontWeight: 'regular',
@@ -86,7 +88,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       lat: 58.5822061,
       lng: 24.7065513
     },
-    zoom: 7.2,
+    zoom: 7.4,
     icon: "/assets/marker.png",
     clusterStyles: [
       {
@@ -191,16 +193,14 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
 
   zoomChange($event) {
-    const { polygonValueLabels, fontSizes, activeFontSize } = this;
+    const { polygonValueLabels, polygonValueColors, fontSizes, activeFontSize } = this;
     if (!polygonValueLabels) {
       return;
     }
-    if ($event <= 6 && activeFontSize !== fontSizes['sm']) {
-      this.getPolygonCenterCoords(fontSizes['sm'], polygonValueLabels);
-    } else if ($event > 6 && $event < 9 && activeFontSize !== fontSizes['md']) {
-      this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels);
+    if ($event < 9 && activeFontSize !== fontSizes['md']) {
+      this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels, polygonValueColors);
     } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
-      this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels);
+      this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels, polygonValueColors);
     }
   }
 
@@ -329,6 +329,11 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
     let sumPartial = maxSum / this.heatMapColors.length;
 
+    this.lastHeatMapRange = {
+      maxSum: maxSum,
+      minSum: maxSum - sumPartial
+    }
+
     let sumArray = [];
 
     for( var i in this.heatMapColors ){
@@ -363,6 +368,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
 
   assignPolygonsColors( data ) {
     this.polygonValueLabels = {};
+    this.polygonValueColors = {};
     for( let i in data['features'] ){
       let current = data['features'][i];
       let properties = current['properties'];
@@ -374,6 +380,9 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
         if( name == this.polygonData[o].investmentLocation.toLowerCase() ){
           match = this.polygonData[o];
           this.polygonValueLabels[properties['NIMI']] = match.investmentAmountSum;
+          if (match.investmentAmountSum >= this.lastHeatMapRange['minSum'] && match.investmentAmountSum <= this.lastHeatMapRange['maxSum']) {
+            this.polygonValueColors[properties['NIMI']] = true;
+          }
         }
       }
 
@@ -396,31 +405,31 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       
       
     }
-    this.getPolygonCenterCoords('', this.polygonValueLabels);
+    this.getPolygonCenterCoords('', this.polygonValueLabels, this.polygonValueColors);
     return data;
   }
 
-  getPolygonCenterCoords(fontSize, polygons) {
+  getPolygonCenterCoords(fontSize, polygons, polygonColors) {
     if (this.polygonLabels) {
-      this.mapPolyLabels(fontSize, polygons);
+      this.mapPolyLabels(fontSize, polygons, polygonColors);
       return;
     }
 
     let url = "/assets/polygons/countyCenters.json";
     let subscription = this.http.get(url).subscribe( data => {
       this.polygonLabels = data;
-      this.mapPolyLabels(fontSize, polygons);
+      this.mapPolyLabels(fontSize, polygons, polygonColors);
       subscription.unsubscribe();
     });
   }
 
-  mapPolyLabels (fontSize, polygons) {
+  mapPolyLabels (fontSize, polygons, polygonColors) {
     this.activeFontSize = fontSize || this.labelOptions.fontSize;
     this.polygonLabels.map(elem => {
       let match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
       let textLabel = match ? `${elem.label}\n${new EuroCurrencyPipe().transform(match)}` : elem.label;
       elem['labelOptions'] = {
-        color: this.labelOptions.color,
+        color: polygonColors[elem.NIMI] ? this.labelOptions.lightColor : this.labelOptions.color,
         fontSize: fontSize || this.labelOptions.fontSize,
         fontWeight: this.labelOptions.fontWeight,
         text: textLabel

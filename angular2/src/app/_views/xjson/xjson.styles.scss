@@ -122,7 +122,7 @@ a {
     button {margin-bottom: 0;}
   }
   
-  table { width: 100%;border-collapse: collapse; margin: 0;
+  table { width: 100%;border-collapse: collapse; margin: 0; border: 0.0625rem solid $gray;
     thead {background: $light-gray;
       .sortable {&:hover { color: $dark-gray;}}
       .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
@@ -131,7 +131,7 @@ a {
       font-size: 0.875rem;font-weight: 500;color: $black; 
     }
     
-    th, td {line-height: 1.38rem;font-size: 0.875rem;padding: $gutter 1rem;text-align:left;border: .0625rem solid $gray;
+    th, td {line-height: 1.38rem;font-size: 0.875rem;padding: $gutter 1rem;text-align:left;border: 0rem;
       &.highlighted {font-weight: 500;}
     }
     td.hidden, th.hidden {min-width:1.5rem; width: 1.5rem; background: $light-gray;padding:$gutter;}
@@ -292,7 +292,6 @@ a {
   .scrollableTable th { padding: $gutter $small; }
   input.contnent-input { height: 1.875rem; border-radius: 0.25rem; background-color: $white; border: solid 0.0625rem $gray; padding: 0rem 0.375rem; color: $black; font-family: 'Rubik', sans-serif; }
   .xjson__component ::ng-deep input.contnent-input:disabled { border: 0px solid transparent!important; min-width: 100%; }
-  .scrollable { padding: $small 0 $gutter 0; }
   .mat-input-element:disabled { color: $dark-gray; }
   .table-link { white-space: nowrap; padding: 0.5rem 1rem; }
   

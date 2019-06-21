@@ -12,7 +12,7 @@ id: node.information_system_page.field_infosystem_accordion
 field_name: field_infosystem_accordion
 entity_type: node
 bundle: information_system_page
-label: Akordion
+label: Juhendid
 description: ''
 required: false
 translatable: false

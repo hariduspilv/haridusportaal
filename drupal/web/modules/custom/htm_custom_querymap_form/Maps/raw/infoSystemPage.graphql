@@ -39,24 +39,10 @@ query infoSystemPage($path: String!) {
             }
             title
           }
-          fieldAttachmentFile {
-            description
+          fieldFile {
             entity {
-              entityLabel
-              entityType
-              entityChanged
-              entityBundle
-              entityCreated
-              url
-              filename
-              filemime
-            }
-          }
-          fieldInfosystemAccordion {
-            entity {
-              ... on ParagraphInformationSystemAccordion {
-                fieldAccordionTitle
-                fieldAttachmentFile {
+              ... on ParagraphFileMandatoryDescription {
+                fieldAttachment {
                   description
                   entity {
                     entityLabel
@@ -67,6 +53,34 @@ query infoSystemPage($path: String!) {
                     url
                     filename
                     filemime
+                  }
+                }
+                fieldName
+              }
+            }
+          }
+          fieldInfosystemAccordion {
+            entity {
+              ... on ParagraphInformationSystemAccordion {
+                fieldAccordionTitle
+                fieldAttachmentFile {
+                  entity {
+                    ... on ParagraphFileMandatoryDescription {
+                      fieldAttachment {
+                        description
+                        entity {
+                          entityLabel
+                          entityType
+                          entityChanged
+                          entityBundle
+                          entityCreated
+                          url
+                          filename
+                          filemime
+                        }
+                      }
+                      fieldName
+                    }
                   }
                 }
                 fieldLinks {
@@ -80,6 +94,38 @@ query infoSystemPage($path: String!) {
                   value
                   format
                   processed
+                }
+                fieldLowerParagraph {
+                  entity {
+                    ... on ParagraphInformationSystemLower {
+                      fieldParagraphTitle
+                      fieldParagraphAttachment {
+                        description
+                        entity {
+                          entityLabel
+                          entityType
+                          entityChanged
+                          entityBundle
+                          entityCreated
+                          url
+                          filename
+                          filemime
+                        }
+                      }
+                      fieldParagraphLink {
+                        url {
+                          routed
+                          path
+                        }
+                        title
+                      }
+                      fieldParagraphContent {
+                        value
+                        format
+                        processed
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -97,14 +143,20 @@ query infoSystemPage($path: String!) {
                 fieldBlocks {
                   entity {
                     ... on ParagraphBlock {
-                      fieldLinks {
-                        url {
+                      fieldBlockTitle
+                      fieldBlockLinks{
+                        entity {
+                          ... on ParagraphLink{
+                            fieldWebpageLink{
+                              url {
                           routed
                           path
                         }
-                        title
+                            }
+                            fieldLinkName
+                          }
+                        }
                       }
-                      fieldBlockTitle
                     }
                   }
                 }

@@ -1,0 +1,27 @@
+uuid: 080aec82-d212-41bf-82e2-5146f313dffe
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_paragraph_attachment
+    - paragraphs.paragraphs_type.information_system_lower
+  module:
+    - file
+id: paragraph.information_system_lower.field_paragraph_attachment
+field_name: field_paragraph_attachment
+entity_type: paragraph
+bundle: information_system_lower
+label: Fail
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'txt pdf docx xlsx csv'
+  max_filesize: ''
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

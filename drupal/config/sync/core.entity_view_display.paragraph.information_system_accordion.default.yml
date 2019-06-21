@@ -7,9 +7,10 @@ dependencies:
     - field.field.paragraph.information_system_accordion.field_attachment_file
     - field.field.paragraph.information_system_accordion.field_body
     - field.field.paragraph.information_system_accordion.field_links
+    - field.field.paragraph.information_system_accordion.field_lower_paragraph
     - paragraphs.paragraphs_type.information_system_accordion
   module:
-    - file
+    - entity_reference_revisions
     - link
     - text
 id: paragraph.information_system_accordion.default
@@ -26,12 +27,13 @@ content:
     type: string
     region: content
   field_attachment_file:
-    weight: 1
+    type: entity_reference_revisions_entity_view
+    weight: 5
     label: above
     settings:
-      use_description_as_link_text: true
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: file_default
     region: content
   field_body:
     weight: 3
@@ -51,5 +53,14 @@ content:
       target: ''
     third_party_settings: {  }
     type: link
+    region: content
+  field_lower_paragraph:
+    type: entity_reference_revisions_entity_view
+    weight: 4
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
     region: content
 hidden: {  }

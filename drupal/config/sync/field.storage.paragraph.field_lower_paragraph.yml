@@ -1,0 +1,20 @@
+uuid: 202ec15d-773e-4e1d-90ae-5690d83320a0
+langcode: et
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - paragraphs
+id: paragraph.field_lower_paragraph
+field_name: field_lower_paragraph
+entity_type: paragraph
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

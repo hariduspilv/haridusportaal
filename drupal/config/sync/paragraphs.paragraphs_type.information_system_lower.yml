@@ -1,0 +1,9 @@
+uuid: cdc5100d-1c44-4ca1-9262-b83549c2607e
+langcode: et
+status: true
+dependencies: {  }
+id: information_system_lower
+label: 'Infosüsteemi juhendid alamosa'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

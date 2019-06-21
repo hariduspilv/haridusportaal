@@ -68,7 +68,6 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
     }
 }
 
-
 /**
  * Event admin form event submit
  * @param                    $form
