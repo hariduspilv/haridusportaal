@@ -9,9 +9,9 @@ dependencies:
     - field.field.paragraph.information_system_lower.field_paragraph_title
     - paragraphs.paragraphs_type.information_system_lower
   module:
-    - file
     - link
     - maxlength
+    - paragraphs
     - text
 id: paragraph.information_system_lower.default
 targetEntityType: paragraph
@@ -19,11 +19,16 @@ bundle: information_system_lower
 mode: default
 content:
   field_paragraph_attachment:
+    type: entity_reference_paragraphs
     weight: 1
     settings:
-      progress_indicator: throbber
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: file_generic
     region: content
   field_paragraph_content:
     weight: 3
