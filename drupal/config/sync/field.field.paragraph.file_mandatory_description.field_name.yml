@@ -1,0 +1,19 @@
+uuid: 41629bdf-296a-43f3-aaef-29c8483b5c6b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_name
+    - paragraphs.paragraphs_type.file_mandatory_description
+id: paragraph.file_mandatory_description.field_name
+field_name: field_name
+entity_type: paragraph
+bundle: file_mandatory_description
+label: Nimetus
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
