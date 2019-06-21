@@ -81,7 +81,7 @@
           <div class="map-loader" *ngIf="loading" >
             <loader></loader>
           </div><!--/map-loader-->
-          <agm-map (zoomChange)="zoomChange($event)" (mapReady)="mapReady($event)" maxZoom="16" style="height:525px" [styles]="mapOptions.styles">
+          <agm-map (zoomChange)="zoomChange($event)" (mapReady)="mapReady($event)" minZoom="7.4" maxZoom="16" style="height:525px" [styles]="mapOptions.styles">
             <agm-marker-cluster [styles]="mapOptions.clusterStyles" maxZoom="15" *ngIf="data">
               <agm-marker [iconUrl]="mapOptions.icon" *ngFor="let marker of data" [latitude]="parseFloat(marker.lat)"  [longitude]="parseFloat(marker.lon)" >
                 <agm-snazzy-info-window [closeWhenOthersOpen]="true" (afterClose)="showFunding(false)" #infoWindow maxHeight="99999">

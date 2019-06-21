@@ -81,7 +81,7 @@
       <div class="map-loader" *ngIf="loading" >
         <loader></loader>
       </div><!--/map-loader-->
-      <agm-map (zoomChange)="zoomChange($event)" (mapReady)="mapReady($event)" maxZoom="16" style="height:525px" [styles]="mapOptions.styles">
+      <agm-map (zoomChange)="zoomChange($event)" (mapReady)="mapReady($event)" minZoom="7.4" maxZoom="10" style="height:525px" [styles]="mapOptions.styles">
   
         <agm-data-layer *ngIf="polygons" [geoJson]="polygons" [style]="polygonStyles" (layerClick)="kmlClick($event)">
         </agm-data-layer>
