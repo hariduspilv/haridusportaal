@@ -3,8 +3,8 @@ langcode: et
 status: true
 dependencies:
   config:
-    - field.field.node.information_system_page.field_attachment_file
     - field.field.node.information_system_page.field_content_text
+    - field.field.node.information_system_page.field_file
     - field.field.node.information_system_page.field_infosystem_accordion
     - field.field.node.information_system_page.field_infosystem_sidebar
     - field.field.node.information_system_page.field_introduction_text
@@ -14,7 +14,6 @@ dependencies:
     - image.style.crop_result_thumb
     - node.type.information_system_page
   module:
-    - file
     - image_widget_crop
     - link
     - maxlength
@@ -33,24 +32,29 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
-  field_attachment_file:
-    weight: 28
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: file_generic
-    region: content
   field_content_text:
-    weight: 26
+    weight: 15
     settings:
       rows: 5
       placeholder: ''
     third_party_settings: {  }
     type: text_textarea
     region: content
+  field_file:
+    type: entity_reference_paragraphs
+    weight: 17
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: _none
+    third_party_settings: {  }
+    region: content
   field_infosystem_accordion:
     type: entity_reference_paragraphs
-    weight: 29
+    weight: 18
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -62,7 +66,7 @@ content:
     region: content
   field_infosystem_sidebar:
     type: entity_reference_paragraphs
-    weight: 30
+    weight: 19
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -112,7 +116,7 @@ content:
     type: string_textfield
     region: content
   field_webpage_link:
-    weight: 27
+    weight: 16
     settings:
       placeholder_url: ''
       placeholder_title: ''

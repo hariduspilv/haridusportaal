@@ -1,0 +1,32 @@
+uuid: b3208418-fb1e-41ca-9735-513a95088697
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.file_mandatory_description.field_attachment
+    - field.field.paragraph.file_mandatory_description.field_name
+    - paragraphs.paragraphs_type.file_mandatory_description
+  module:
+    - file
+id: paragraph.file_mandatory_description.default
+targetEntityType: paragraph
+bundle: file_mandatory_description
+mode: default
+content:
+  field_attachment:
+    weight: 0
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_name:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden: {  }
