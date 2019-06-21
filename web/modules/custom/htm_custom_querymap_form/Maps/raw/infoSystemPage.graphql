@@ -100,16 +100,23 @@ query infoSystemPage($path: String!) {
                     ... on ParagraphInformationSystemLower {
                       fieldParagraphTitle
                       fieldParagraphAttachment {
-                        description
                         entity {
-                          entityLabel
-                          entityType
-                          entityChanged
-                          entityBundle
-                          entityCreated
-                          url
-                          filename
-                          filemime
+                          ... on ParagraphFileMandatoryDescription {
+                            fieldAttachment {
+                              description
+                              entity {
+                                entityLabel
+                                entityType
+                                entityChanged
+                                entityBundle
+                                entityCreated
+                                url
+                                filename
+                                filemime
+                              }
+                            }
+                            fieldName
+                          }
                         }
                       }
                       fieldParagraphLink {
@@ -144,14 +151,14 @@ query infoSystemPage($path: String!) {
                   entity {
                     ... on ParagraphBlock {
                       fieldBlockTitle
-                      fieldBlockLinks{
+                      fieldBlockLinks {
                         entity {
-                          ... on ParagraphLink{
-                            fieldWebpageLink{
+                          ... on ParagraphLink {
+                            fieldWebpageLink {
                               url {
-                          routed
-                          path
-                        }
+                                routed
+                                path
+                              }
                             }
                             fieldLinkName
                           }
