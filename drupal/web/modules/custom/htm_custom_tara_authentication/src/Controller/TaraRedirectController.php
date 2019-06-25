@@ -49,6 +49,7 @@ class TaraRedirectController extends RedirectController{
 		// Delete the state token, since it's already been confirmed.
 		unset($_SESSION['openid_connect_state']);
 
+		dump($_SESSION);
 		// Get parameters from the session, and then clean up.
 		$parameters = [
 			'destination' => $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url'),
@@ -59,6 +60,8 @@ class TaraRedirectController extends RedirectController{
 			unset($_SESSION['openid_connect_' . $key]);
 		}
 		$destination = $parameters['destination'];
+		dump($parameters);
+		die();
 
 		$configuration = $this->config('openid_connect.settings.' . $client_name)
 			->get('settings');
