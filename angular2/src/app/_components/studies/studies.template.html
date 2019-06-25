@@ -49,7 +49,7 @@
               </tr>
               <tr *ngIf="elem.oppekavaNimetus" [class.extraBottom]="elem.oppekavaNimetus">
                 <td class="additional">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
-                <td class="additional">{{ elem.oppekavaNimetus }}</td>
+                <td class="additional">{{ parseTypeTranslation(elem.oppekavaNimetus) }}</td>
               </tr>
             </ng-container>
           </ng-container><!--Oppekavad-->
