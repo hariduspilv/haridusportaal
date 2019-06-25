@@ -22,7 +22,7 @@
           </div>
           <!--/block__head__buttons-->
         </div>
-        <!--/block__hed-->
+        <!--/block__head-->
 
         <loader *ngIf="!data"></loader>
 
@@ -53,6 +53,8 @@
 
           <ng-container *ngIf="!empty_data">
             <span>{{ 'xjson.required_fields_infotext' | translate }}</span>
+
+            <hr class="divider">
 
             <!-- STEP BODY -->
             <div class="row button-list button-list-top">
@@ -453,9 +455,9 @@
 
                     <ng-container *ngIf="data_elements[element].type == 'table'">
                       <div class="round-input__outer-wrapper table-wrapper">
-                        <div class="xjson__heading table-heading" *ngIf="data_elements[element].title">
-                          {{ selectLanguage(data_elements[element].title) }}
-                        </div>
+                        <h1 *ngIf="data_elements[element].title">
+                            {{ selectLanguage(data_elements[element].title) }}
+                        </h1>
                         <div class="helper-wrapper">
                           <ng-container *ngIf="data_elements[element].helpertext">
                             <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
@@ -502,6 +504,11 @@
                               </tr>
                             </thead>
                             <tbody>
+                              <tr *ngIf="!data_elements[element].value || !data_elements[element].value.length">
+                              <td [attr.colspan]="objectKeys(data_elements[element].table_columns).length">
+                                {{'xjson.data_missing' | translate }}
+                              </td>
+                            </tr>
                               <tr *ngFor="let row of data_elements[element].value; let rowIndex = index;">
                                 <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
@@ -654,7 +661,7 @@
                         </div>
                       </div>
 
-                      <div
+                      <div class="add-row"
                         *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
                         <div>
                           <a class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
@@ -677,7 +684,9 @@
               </ng-container>
             </form>
 
-            <div class="row button-list">
+            <hr class="divider">
+
+            <div [class]="navigationLinks.length > 0 ? 'row button-list separate' : 'row button-list'">
               <ng-container *ngFor="let activity of activityButtons['primary']">
                 <div class="subrow">
                   <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button
@@ -688,29 +697,32 @@
               </ng-container>
 
 
-              <div class="button-switch">
+              <div *ngIf="navigationLinks.length > 0" class="secondary-buttons">
                 <ng-container *ngFor="let link of navigationLinks">
                   <a *ngIf="link.type === 'link'" href="javascript:void(0);"
                     (click)="selectStep(link.step)">{{ link.label | translate }}</a>
                   <button *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button
                     [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
                 </ng-container>
-                <button type="submit" role="button" mat-raised-button color="primary" (click)="returnToPreviousUrl()">
-                  {{ 'button.cancel' | translate }}
-                </button>
-                <ng-container *ngFor="let activity of activityButtons['primary']">
-                  <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button
-                    [color]="[activity.style]" (click)="submitForm(activity.action)">
-                    {{ activity.label | translate }}
-                  </button>
-                </ng-container>
-              </div>
+                </div>
+
+                <div class="primary-buttons">
+                    <button type="submit" role="button" mat-raised-button [color]="['alternative']" (click)="returnToPreviousUrl()">
+                        {{ 'button.cancel' | translate }}
+                      </button>
+                      <ng-container *ngFor="let activity of activityButtons['primary']">
+                        <button *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button
+                          [color]="[activity.style]" (click)="submitForm(activity.action)">
+                          {{ activity.label | translate }}
+                        </button>
+                      </ng-container>
+                </div>
 
               <ng-container *ngFor="let activity of activityButtons['secondary']">
-                <div class="subrow" *ngIf="activityButtons['secondary'].length">
-                  <a href="javascript:void(0);"
-                    (click)="submitForm(activity.action)">{{ activity.label | translate }}</a>
-                </div> <!-- /row button-list -->
+                    <div class="subrow" *ngIf="activityButtons['secondary'].length">
+                        <a href="javascript:void(0);"
+                          (click)="submitForm(activity.action)">{{ activity.label | translate }}</a>
+                      </div> <!-- /row button-list -->
               </ng-container>
             </div> <!-- /row button-list -->
           </ng-container> <!-- /if !empty_data-->
