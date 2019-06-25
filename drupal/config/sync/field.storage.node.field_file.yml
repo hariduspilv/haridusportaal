@@ -1,13 +1,14 @@
-uuid: a0d8d58f-7140-413d-ad29-209b008b3c50
+uuid: ec256be9-c8c6-49e0-91da-62b7841c428e
 langcode: et
 status: true
 dependencies:
   module:
     - entity_reference_revisions
+    - node
     - paragraphs
-id: paragraph.field_attachment_file
-field_name: field_attachment_file
-entity_type: paragraph
+id: node.field_file
+field_name: field_file
+entity_type: node
 type: entity_reference_revisions
 settings:
   target_type: paragraph
