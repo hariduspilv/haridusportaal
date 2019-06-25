@@ -293,10 +293,10 @@
             <span class="item" *ngIf="item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity">{{ item.fieldEducationalInstitution.entity.entityLabel }}</span>
             <span class="bar" *ngIf="item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity && item.fieldDuration">|</span>
             <span class="item" *ngIf="item.fieldDuration">{{item.fieldDuration | monthsToYears}}</span>
-            <span class="bar" *ngIf="item.fieldTeachingLanguage && ((item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity) || item.fieldDuration)">|</span>
-            <span class="item" *ngIf="item.fieldTeachingLanguage">
+            <span class="bar" *ngIf="(item.fieldTeachingLanguage && item.fieldTeachingLanguage.length) && ((item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity) || item.fieldDuration)">|</span>
+            <span class="item" *ngIf="item.fieldTeachingLanguage && item.fieldTeachingLanguage.length">
               <ng-container *ngFor="let item of item.fieldTeachingLanguage; let i = index;">
-                <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.entityLabel | titleCase }}
+                <span><span *ngIf="i > 0">, </span>{{ item.entity.entityLabel | titleCase }}</span>
               </ng-container>  
             </span>
           </div>
