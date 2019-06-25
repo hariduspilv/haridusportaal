@@ -565,11 +565,11 @@ $grid-columns: 12;
     }
     .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
   }
-  .scrollable {position: relative; padding: $small 0 0 0; overflow: hidden;
+  .scrollable {position: relative; margin-top: $small; overflow: hidden;
     &.scrollable__unpadded {padding: 0;}
     @include break-on(sm, min) {position: relative;}
     &__table {overflow:hidden;}
-    &__rectangle {width: 3.125rem;right:0;height: 100%;background-color: #bee3e8;position: absolute;z-index: 5;user-select: none;
+    &__rectangle {width: 2.5rem;right:0;height: 100%;background-color: #bee3e8;position: absolute;top: 50%;transform: translateY(-50%);z-index: 5;user-select: none;
       .htm-icon {position: relative;top: 0.4rem;left: 0.4rem;font-size: 2.5rem;color: #2e3374;}
       &--left {left: 0;
         @include break-on(sm, min) {left: 0;}
@@ -619,12 +619,21 @@ $grid-columns: 12;
   .mat-sidenav .mat-menu-item span{ line-height: inherit; font-size: 0.8125rem;}
   .mat-sidenav .mat-menu-item span.htm-icon{ font-size: 1.5rem!important; }
   .mat-sidenav .isActive { font-weight: 500!important; }
-  .mat-raised-button.mat-primary { font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
-    &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
-    &:hover {background-color: #454B92;}
-    &:focus {background-color: $blue; color: $white; box-shadow: 0 0.0625rem 0.1875rem 0 rgba(60,64,67,0.302), 0 0.25rem 0.5rem 0.1875rem rgba(60,64,67,0.149); }
-    @include break-on(sm, min) {width: auto;}
+  .mat-raised-button{
+    &.mat-primary{ font-size: 1rem; border-radius: 1.25rem; background-color: $blue; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
+      &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
+      &:hover {background-color: #454B92;}
+      &:focus {background-color: $blue; color: $white; box-shadow: 0 0.0625rem 0.1875rem 0 rgba(60,64,67,0.302), 0 0.25rem 0.5rem 0.1875rem rgba(60,64,67,0.149); }
+      @include break-on(sm, min) {width: auto;}
+    }
+    &.mat-alternative{ font-size: 1rem; color: $blue; border-radius: 1.25rem; border: solid 1px $blue; background-color: $white; font-weight: 300; height: 2.5rem; width: 100%; padding: 0rem 2.5rem;
+        &:disabled, &[disabled] {color: $black !important;background-color: $gray !important;}
+        &:hover {background-color: $light-gray;}
+        &:focus {background-color: $blue; color: $white; box-shadow: 0 0.0625rem 0.1875rem 0 rgba(60,64,67,0.302), 0 0.25rem 0.5rem 0.1875rem rgba(60,64,67,0.149); }
+        @include break-on(sm, min) {width: auto;}
+    }
   }
+
   .mat-card{
     &.article-image{margin:$small 0; max-width: 100%; box-sizing: border-box;
       .mat-card img{width:100%;}
