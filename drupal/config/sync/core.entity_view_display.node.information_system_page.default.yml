@@ -3,8 +3,8 @@ langcode: et
 status: true
 dependencies:
   config:
-    - field.field.node.information_system_page.field_attachment_file
     - field.field.node.information_system_page.field_content_text
+    - field.field.node.information_system_page.field_file
     - field.field.node.information_system_page.field_infosystem_accordion
     - field.field.node.information_system_page.field_infosystem_sidebar
     - field.field.node.information_system_page.field_introduction_text
@@ -14,7 +14,6 @@ dependencies:
     - node.type.information_system_page
   module:
     - entity_reference_revisions
-    - file
     - image
     - link
     - text
@@ -24,20 +23,21 @@ targetEntityType: node
 bundle: information_system_page
 mode: default
 content:
-  field_attachment_file:
-    weight: 107
-    label: above
-    settings:
-      use_description_as_link_text: true
-    third_party_settings: {  }
-    type: file_default
-    region: content
   field_content_text:
     weight: 105
     label: above
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_file:
+    type: entity_reference_revisions_entity_view
+    weight: 110
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
     region: content
   field_infosystem_accordion:
     type: entity_reference_revisions_entity_view

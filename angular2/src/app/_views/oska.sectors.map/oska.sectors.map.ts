@@ -31,6 +31,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   polygons: any;
   polygonLabels: any;
   polygonValueLabels: any;
+  polygonValueColors: any;
   polygonLayer: String = "county";
   polygonData:any;
 
@@ -60,14 +61,14 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   activeFontSize: string = '';
   fontSizes: Object = {
-    sm: '6px',
-    md: '10px',
+    md: '9px',
     lg: '18px',
   }
 
   labelOptions = {
+    lightColor: 'white',
     color: 'black',
-    fontSize: '10px',
+    fontSize: '9px',
     fontWeight: 'regular',
   }
   icon = {
@@ -83,7 +84,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       lat: 58.5822061,
       lng: 24.7065513
     },
-    zoom: 7.2,
+    zoom: 7.4,
     clusterStyles: [
       {
           height: 50,
@@ -135,16 +136,14 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   }
 
   zoomChange($event) {
-    const { polygonValueLabels, fontSizes, activeFontSize } = this;
+    const { polygonValueLabels, polygonValueColors, fontSizes, activeFontSize } = this;
     if (!polygonValueLabels) {
       return;
     }
-    if ($event <= 6 && activeFontSize !== fontSizes['sm']) {
-      this.getPolygonCenterCoords(fontSizes['sm'], polygonValueLabels);
-    } else if ($event > 6 && $event < 9 && activeFontSize !== fontSizes['md']) {
-      this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels);
+    if ($event < 9 && activeFontSize !== fontSizes['md']) {
+      this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels, polygonValueColors);
     } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
-      this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels);
+      this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels, polygonValueColors);
     }
   }
 
@@ -272,6 +271,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   assignPolygonsColors( data ) {
     this.polygonValueLabels = {};
+    this.polygonValueColors = {};
     for( let i in data['features'] ){
       let current = data['features'][i];
       let properties = current['properties'];
@@ -282,6 +282,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
         if( this.shortMonthLabels[name] == this.polygonData[o]['county'] ) {
           match = this.polygonData[o];
           this.polygonValueLabels[properties['NIMI']] = match.value;
+          this.polygonValueColors[properties['NIMI']] = match.division;
         }
       }
       
@@ -304,25 +305,25 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       
       
     }
-    this.getPolygonCenterCoords('', this.polygonValueLabels);
+    this.getPolygonCenterCoords('', this.polygonValueLabels, this.polygonValueColors);
     return data;
   }
 
-  getPolygonCenterCoords(fontSize, polygons) {
+  getPolygonCenterCoords(fontSize, polygons, polygonColors) {
     if (this.polygonLabels) {
-      this.mapPolyLabels(fontSize, polygons);
+      this.mapPolyLabels(fontSize, polygons, polygonColors);
       return;
     }
 
     let url = "/assets/polygons/countyCenters.json";
     let subscription = this.http.get(url).subscribe( data => {
       this.polygonLabels = data;
-      this.mapPolyLabels(fontSize, polygons);
+      this.mapPolyLabels(fontSize, polygons, polygonColors);
       subscription.unsubscribe();
     });
   }
 
-  mapPolyLabels (fontSize, polygons) {
+  mapPolyLabels (fontSize, polygons, polygonColors) {
     this.activeFontSize = fontSize || this.labelOptions.fontSize;
     this.polygonLabels.map(elem => {
       let match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
@@ -331,7 +332,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       }
       let textLabel = match ? `${elem.label} ${match}` : elem.label;
       elem['labelOptions'] = {
-        color: this.labelOptions.color,
+        color: polygonColors[elem.NIMI] === 7 ? this.labelOptions.lightColor : this.labelOptions.color,
         fontSize: fontSize || this.labelOptions.fontSize,
         fontWeight: this.labelOptions.fontWeight,
         text: textLabel

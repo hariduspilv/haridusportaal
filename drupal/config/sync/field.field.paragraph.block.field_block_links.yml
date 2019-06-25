@@ -1,18 +1,18 @@
-uuid: 871edb53-acaf-4300-8f5e-71a3aa950a6f
+uuid: e7ff6ef2-a0ee-4cbc-8fd7-92d12ee177b1
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_paragraph_attachment
-    - paragraphs.paragraphs_type.file_mandatory_description
-    - paragraphs.paragraphs_type.information_system_lower
+    - field.storage.paragraph.field_block_links
+    - paragraphs.paragraphs_type.block
+    - paragraphs.paragraphs_type.link
   module:
     - entity_reference_revisions
-id: paragraph.information_system_lower.field_paragraph_attachment
-field_name: field_paragraph_attachment
+id: paragraph.block.field_block_links
+field_name: field_block_links
 entity_type: paragraph
-bundle: information_system_lower
-label: Fail
+bundle: block
+label: Lingid
 description: ''
 required: false
 translatable: false
@@ -23,7 +23,7 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      file_mandatory_description: file_mandatory_description
+      link: link
     target_bundles_drag_drop:
       accordion:
         weight: 23
@@ -44,8 +44,8 @@ settings:
         weight: 28
         enabled: false
       file_mandatory_description:
-        enabled: true
         weight: 29
+        enabled: false
       homepage_topics:
         weight: 30
         enabled: false
@@ -65,8 +65,8 @@ settings:
         weight: 35
         enabled: false
       link:
+        enabled: true
         weight: 36
-        enabled: false
       main_profession_accordion:
         weight: 37
         enabled: false
