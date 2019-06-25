@@ -49,6 +49,8 @@ class TaraRedirectController extends RedirectController{
 		// Delete the state token, since it's already been confirmed.
 		unset($_SESSION['openid_connect_state']);
 
+		dump($query);
+		die();
 		// Get parameters from the session, and then clean up.
 		$parameters = [
 			'destination' => $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url'),
