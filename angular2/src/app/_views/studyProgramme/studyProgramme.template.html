@@ -282,7 +282,7 @@
               <div class="studyProgramme__item__head" *ngIf="item.fieldStudyProgrammeLevel && item.fieldStudyProgrammeLevel.entity">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
               <div class="flex flex-center">
                 <a href="javascript:void();" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.entityLabel }}</h1></a>
-                <span href="javascript:void();" class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</span>
+                <span href="javascript:void();" class="nonActive--blue xxs-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</span>
               </div>
             </div><!--col-9-->
             <div class="col xxs-hide">
