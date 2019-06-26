@@ -16,6 +16,7 @@ export class CertificatesComponent implements OnInit{
   public professionalCertificates: any;
   public examResults: any;
   public examResultsErr: string;
+  public certificateErr: any;
   public errData: boolean;
   public errRequest: boolean;
   public accordionStates: Array<Boolean>;
@@ -49,7 +50,8 @@ export class CertificatesComponent implements OnInit{
     let sub = this.http.get('/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe(response => {
       this.loading[_id] = false;
 
-      if(response['error']){
+      if(response['error']){ 
+        this.certificateErr = (response['error'] && response['error']['message_text'] && response['error']['message_text']['et']) ? response['error']['message_text']['et'] : false;
         this.error = true;
       } else {
         this.professionalCertificates = response['value']['kutsetunnistused'];
@@ -77,8 +79,9 @@ export class CertificatesComponent implements OnInit{
   getExamResults(_id){
     this.loading[_id] = true;
     let sub = this.http.get('/dashboard/certificates/getTestSessions?_format=json').subscribe(response => {
-      if(response['value']['teade'] || response['value']['testsessioonid_kod_jada'] === []){
-        this.examResultsErr = response['value']['teade'];
+      if((response['value'] && response['value']['teade']) || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et']) || response['value']['testsessioonid_kod_jada'] === []){
+        let message = (response['error'] && response['error']['message_text']) ? response['error']['message_text']['et'] : response['value']['teade'];
+        this.examResultsErr = message;
       } else {
         this.examResults = response['value']['testsessioonid_kod_jada'].sort((a, b) => b.oppeaasta - a.oppeaasta);
       };
