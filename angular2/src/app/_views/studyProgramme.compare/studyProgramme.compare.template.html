@@ -78,10 +78,13 @@
                 <tr >
                   <td>{{ 'studyProgramme.languages' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list;">
-                    <ng-container *ngFor="let lang of item.teachingLanguage; let last = last;">
-                      <span *ngIf="!last">{{ lang.entity.name | titleCase }}, </span>
-                      <span *ngIf="last">{{ lang.entity.name | titleCase }}</span>
+                    <ng-container *ngIf="item.teachingLanguage && item.teachingLanguage.length">
+                      <ng-container *ngFor="let lang of item.teachingLanguage; let last = last;">
+                        <span *ngIf="!last">{{ lang.entity.name | titleCase }}, </span>
+                        <span *ngIf="last">{{ lang.entity.name | titleCase }}</span>
+                      </ng-container>
                     </ng-container>
+                    <ng-container *ngIf="!item.teachingLanguage || (item.teachingLanguage && !item.teachingLanguage.length)">-</ng-container>
                   </td>
                 </tr>
 
