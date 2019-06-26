@@ -1,17 +1,17 @@
 @import "../../../assets/styles/typography.scss"; 
 @import "../../../assets/styles/layout.scss"; 
+@import "../article/article.component.scss";
 
 .logo {
   margin-bottom: 1.5rem;
   img {
     width: 100%;
+    max-width: 200px;
+    height: auto;
   }
 }
 .intro, .description {
   margin-bottom: 1rem;
-}
- .accordion__body a[target="_blank"]:after, ::ng-deep .description a[target="_blank"]:after, ::ng-deep .short a[target="_blank"]:after {
-  font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';content: 'launch' !important;position: relative;top: .125rem;left:.125rem;display: inline-block;
 }
 
 .button-list {display: flex;flex-basis: 100%;justify-content: flex-start; margin-top: 1rem; border-bottom: 0.1875rem solid $light-gray;margin-bottom: 1.5rem;
@@ -36,50 +36,25 @@
     &.left-align {margin: 0;}
   }
 }
-
-.mat-expansion-panel {margin-bottom: .25rem;border: .0625rem solid #bee3e8;border-left: .1875rem solid #bee3e8;
-  mat-panel-title { white-space: nowrap;overflow: hidden;text-overflow: ellipsis;
-    @include break-on(sm, max) {text-overflow: ellipsis;overflow: hidden;white-space: nowrap;}
-    @include break-on(sm, min) {span {overflow: hidden;text-overflow: ellipsis;}}
-  }
-  &.mat-expanded { border: .0625rem solid $gray; border-left: .1875rem solid #15adc2; 
-    mat-panel-title {white-space: normal; color: $black; font-weight: 500;
-      @include break-on(sm, min) {text-overflow: initial;overflow: auto;white-space: normal;}
-    }
-  }
-  &-body { padding: 0 $medium !important;}
-  &-spacing {margin: 0 0 $half-gutter 0;}
-  &-header {height: 2.5rem !important;padding-right:1.25rem; padding-left:1.25rem;background: #bee3e8!important; border-radius: 0;
-    &.mat-expanded {height: auto !important;padding-top: .5rem; padding-bottom: .5rem;margin-top: 0;font-weight: 500;white-space: normal;background:#8ad6e0 !important;
-      .text--substrong--head {
-        font-weight: 500;
-      }
-    }
-  }
-  &:hover {
-    border-left: .1875rem solid #15adc2;
-    ::ng-deep .mat-expansion-indicator{ background: $blue;
-      &:after {
-        color: $white;
-      }
-    }
-  }
-  @include break-on(lg, min) {
-    border-left: .3125rem solid #bee3e8;
-    &.mat-expanded {border-left: .3125rem solid #15adc2;}
-    &:hover {border-left: .3125rem solid #15adc2;}
+.description, .accordion {
+  padding: 0;
+}
+.mat-raised-button.mat-primary {
+  width: 100%;
+  @include break-on(md, min) {
+    width:100%;
   }
 }
-
-::ng-deep .mat-expansion-indicator::after {font-feature-settings: 'liga';-ms-font-feature-settings: 'liga';font-family: 'htm-icon';
-  content: 'keyboard_arrow_down' !important;border: none !important;transform: none !important;padding: 0 !important;
-  position: relative;text-align: center;width: $medium;color: $blue;
-  height: $medium;-webkit-animation: rotating 2s linear infinite;animation: rotating 2s linear infinite; 
-}
-::ng-deep .mat-expansion-panel-content {padding: 0 $half-gutter; background: $white!important; }
-::ng-deep .mat-expansion-indicator {background: $white; font-size: 1.25rem;border-radius: 50%;width: $medium;height: $medium;border: 0rem solid $gray;}
-::ng-deep .mat-expanded .mat-expansion-indicator::after {color: $white;-webkit-animation: rotating .25s linear infinite; animation: rotating .25s linear infinite; }
-::ng-deep .mat-expanded .mat-expansion-indicator {background: $blue; border: 0rem solid $blue;}
-.accordion {padding: 0; padding-top: $large;   
-  @include break-on(sm, max) { margin: 0 -1.5rem; }
+.link-list {
+  &--buttons {
+    li {
+      margin-bottom:1rem;
+    }
+    .mat-raised-button.mat-primary {
+      padding:0 1rem;
+      white-space: pre-wrap;
+      min-height: 40px;
+      height: auto;
+    }
+  }
 }

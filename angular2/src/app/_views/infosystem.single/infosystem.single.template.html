@@ -1,6 +1,7 @@
+<div><breadcrumbs></breadcrumbs></div>
 <div class="main-container">
   <div class="row wrapper__row">
-    <div class="col-8 xs-12">
+    <div class="col-8 sm-12">
       <div class="block border-blue padding-block">
         <div class="block__head no-border">
           <div class="block__head__title">
@@ -61,9 +62,9 @@
                           {{ accordion.entity.fieldParagraphTitle }}
                         </mat-panel-title>
                       </mat-expansion-panel-header>
-                      <div class="accordion__body">
-                        <div *ngIf="accordion.entity.fieldParagraphContent" class="description" [innerHTML]="accordion.entity.fieldParagraphContent.processed"></div>
-                        <ul class="link-list mt-2 mb-0" *ngIf="accordion.entity.fieldParagraphLink">
+                      <div class="accordion__body" *ngIf="accordion.entity.fieldParagraphContent" [innerHTML]="accordion.entity.fieldParagraphContent.processed"></div>
+                      <div class="accordion__links" *ngIf="accordion.entity.fieldParagraphLink">
+                        <ul class="link-list mt-2 mb-0" >
                           <li *ngFor="let link of accordion.entity.fieldParagraphLink">
                             <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
                               <span>
@@ -82,16 +83,21 @@
         </ng-container>
       </div>
     </div>
-    <div class="col-4 xs-12" *ngIf="!loading">
-      <!-- <div class="block border-orange padding-block sm-top" *ngIf="data.fieldInfosystemSidebar.entity.fieldButton">
+    <div class="col-4 sm-12" *ngIf="!loading">
+      <div class="block border-orange padding-block sm-top" *ngIf="data.fieldInfosystemSidebar.entity.fieldButton">
         <div class="padding-block--content">
-          <ul class="link-list mt-0 mb-0">
+          <ul class="link-list link-list--buttons mt-0 mb-0">
             <li *ngFor="let link of data.fieldInfosystemSidebar.entity.fieldButton;let ind = index;">
-              <a mat-raised-button color="primary">{{link.title}}</a>
+                <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
+                    <span>
+                      <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
+                      <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
+                    </span>
+                  </a>
             </li>
           </ul>
         </div>
-      </div> -->
+      </div>
       <div class="block border-orange padding-block sm-top" *ngIf="data.fieldInfosystemSidebar.entity.fieldLegislationBlock">
         <h1 class="medium">Õigusaktid</h1>
         <div class="padding-block--content">

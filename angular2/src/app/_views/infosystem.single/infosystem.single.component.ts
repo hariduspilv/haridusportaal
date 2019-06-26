@@ -20,7 +20,7 @@ export class InfosystemSingle implements OnInit, OnDestroy {
     private rootScope: RootScopeService,
     private router: Router
   ) {
-
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
   }
   
   changeView(view) {
@@ -29,17 +29,19 @@ export class InfosystemSingle implements OnInit, OnDestroy {
     }
   }
 
-  getData() {
+  async getData() {
     const params = {
       path: this.router.url
     }
-    this.http.get('infoSystemPage', { params }).subscribe((res:any) => {
+    const sub = await this.http.get('infoSystemPage', { params }).subscribe((res:any) => {
       this.loading = false;
       this.data = res.data.route.entity;
       console.log(this.data);
     }, (err) => {
       console.log(err);
       this.loading = false;
+    }, () => {
+      sub.unsubscribe();
     });
   }
 
