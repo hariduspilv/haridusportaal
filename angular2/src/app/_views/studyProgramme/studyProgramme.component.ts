@@ -147,6 +147,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       if(this.device.isDesktop()){
         this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined )
       }
+      if (this.rootScope.get('scrollRestorationState') && Object.keys(this.filterFormItems).length === 0) {
+        this.filterFull = true;
+      }
 
       function allocateIsceOptions (parent, list){
        if(!parent) return list.filter(entity => entity.parentId == null);
@@ -329,7 +332,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     this.watchSearch();
     this.populateFilterOptions();
     // if no selections made
-    if(Object.keys(this.filterFormItems).length === 0) {
+    if(Object.keys(this.filterFormItems).length === 0 && !this.rootScope.get('scrollRestorationState')) {
       this.filterFormItems.open_admission = true; //default
     }
     if(typeof this.filterFormItems.type === "string") {
