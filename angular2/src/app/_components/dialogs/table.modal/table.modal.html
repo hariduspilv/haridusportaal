@@ -9,7 +9,7 @@
       </div>
     </div>
   </div>
-  <notifications [ngStyle]="{display: error ? block : none}" style="margin-top: 1.5rem" id="personal_data" class="notifications notifications--small"></notifications>
+  <notifications [ngStyle]="{display: error ? 'block' : 'none'}" style="margin-top: 1.5rem" id="personal_data" class="notifications notifications--small"></notifications>
   <loader *ngIf="loading && !error"></loader>
   <div class="dialog__success--modal--table" *ngIf="!loading && content && !error">
     <div class="dialog__success--content dialog__success--content--table">
