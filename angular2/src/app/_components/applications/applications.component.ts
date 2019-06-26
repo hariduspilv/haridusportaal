@@ -85,7 +85,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
 
   sortList(list, method){
     const ACCEPTED = ['title', 'date'];
-    if(!list.length || !ACCEPTED.includes(method)) return list;
+    if(!list || (list && !list.length) || !ACCEPTED.includes(method)) return list;
 
     let self = this;
     function compareTitle(a,b) {
