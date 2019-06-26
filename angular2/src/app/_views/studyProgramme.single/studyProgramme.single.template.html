@@ -70,7 +70,7 @@
                     <td>{{ data.fieldShortDescription | titleCase }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldTeachingLanguage">
+                  <tr *ngIf="data.fieldTeachingLanguage && data.fieldTeachingLanguage.length">
                     <td>Õppekeel(ed)</td>
                     <td>
                       <ng-container *ngFor="let item of data.fieldTeachingLanguage; let i = index;">

@@ -1,4 +1,4 @@
-<div class="notifications__list" *ngIf="notifications">
+<div class="notifications__list" *ngIf="notifications && notifications.length > 0">
   <ng-container *ngFor="let notification of notifications">
       <div [ngClass]="'notification notification--' + notification.type" role="alert" aria-label="alert"> 
         <div class="notification__icon">
