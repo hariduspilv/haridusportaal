@@ -29,7 +29,7 @@ table {width: 100%;border-collapse: collapse; margin: 0;table-layout: fixed;
     &.xHidden {overflow-x: hidden;}
     &.groupHead {border-bottom: .0625rem solid $light-gray;}
     &.borderless {border-bottom: .0625rem solid $white;}
-    .important-pill {margin: 0; border:$gray 1px solid;white-space: nowrap;}
+    .important-pill {margin: 0; white-space: nowrap;}
   }
   tr.slim {
     td {padding: .375rem 1rem;

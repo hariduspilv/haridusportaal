@@ -1,17 +1,11 @@
-query getEventsTags( $lang: LanguageId!){
-  nodeQuery(limit:2000, filter: {conditions: [
-    {operator: EQUAL, field: "type", value: ["event"], language: $lang},
-    {operator: EQUAL, field: "status", value: "1", language: $lang}
-  ]}) {
-    entities(language: $lang) {
-      ... on NodeEvent{
-        Tag: fieldTag {
-          entity {
-            entityLabel
-            entityId
-            uuid
-            name
-          }
+query taxonomyQuery($lang: LanguageId!){
+  taxonomyTermQuery(limit: 0, filter:{conditions:[{field:"vid", value:"tags", language:$lang}]}){
+    tags: entities{
+       ... on TaxonomyTerm {
+        entityLabel
+        entityId
+        referencedNodes: reverseFieldTagNode(filter:{conditions:[{field:"type", value:"event", language:$lang}, {field:"status", value:"1"}]}){
+          count
         }
       }
     }
