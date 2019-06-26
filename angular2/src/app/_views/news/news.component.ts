@@ -99,7 +99,9 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
     
     let subscribe = this.http.get('getNewsTags', {params:variables}).subscribe( (response:any) => {
       let data = response.data.taxonomyTermQuery.tags;
-      let tags = data.map((el) => {
+      //TODO: do this in an Array.reduce for maximum cool points
+      let sortedTags = data.filter((el) => el.referencedNodes.count > 0); 
+      let tags = sortedTags.map((el) => {
         return {
           id: el.entityId,
           name: el.entityLabel
@@ -116,7 +118,7 @@ export class NewsComponent extends FiltersService implements OnInit, OnDestroy{
           }
         }
       }
-
+      console.log(tags);
       this.tags = tags;
       this.typesDropdownSort(false);
       subscribe.unsubscribe();

@@ -494,13 +494,8 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
     if(!e) {
       let selected = [];
       if(this.filterFormItems.tags) {
-        //for some reason have to dedupe the arr
-        //what is up with this data
-        //i want to die
-        const dedupedSelectedIds = Array.from(new Set(this.filterFormItems.tags.map(e => e.id)));
-        const normalizedSelectedTags = dedupedSelectedIds.map(e => this.eventsTagsSet.find(x => e === x.id));
-        const sortedSelected = normalizedSelectedTags.sort((a:any, b:any) => {
-          if(a.name.toUpperCase() > b.name.toUpperCase()) {
+        const sortedSelected = this.eventsTags.filter(tag => this.filterFormItems.tags.find(selectedTag => tag.entityId === selectedTag)).sort((a:any, b:any) => {
+          if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
             return 1;
           }
           return -1;
@@ -508,14 +503,14 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
         selected = [...sortedSelected];
         this.filterFull = true;
       }
-      const otherValues = this.eventsTagsSet.filter(e => !selected.find(x => x.id === e.id)).sort((a:any, b:any) => {
-        if(a.name.toUpperCase() > b.name.toUpperCase()) {
+      const otherValues = this.eventsTags.filter(e => !selected.find(x => x.entityId === e.entityId)).sort((a:any, b:any) => {
+        if(a.entityLabel.toUpperCase() > b.entityLabel.toUpperCase()) {
           return 1;
         }
         return -1;
       })
-      this.filterFormItems.tags = [...selected];
-      this.eventsTagsSet = [...selected, ...otherValues];
+      this.filterFormItems.tags = selected.map(e => e.entityId);;
+      this.eventsTags = [...selected, ...otherValues];
     }
   }
   getData() {
@@ -695,52 +690,15 @@ export class EventsComponent extends FiltersService implements OnInit, OnDestroy
   }
 
   getTags() {
-
     let variables = {
       lang: this.lang.toUpperCase()
     };
-
-    let tagSubscription = this.http.get('getEventTags', {params:variables}).subscribe((response) => {
-      
-      let data = response['data'];
-
-      this.eventsTags = data['nodeQuery']['entities'];
-      
-      let newsTagArr = [];
-
-      this.eventsTags.map((tag)=>{
-        tag['Tag'].filter((tagItem, index, array) => {
-          if( tagItem['entity'] ){
-            let tmp = {
-              id: tagItem['entity']['entityId'],
-              name: tagItem['entity']['entityLabel'],
-            };
-            newsTagArr.push(tmp);
-          }
-        });
-      });
-
-      if( this.params.tags !== undefined ){
-        let splitParams = this.params.tags.split(",");
-
-        this.filterFormItems['tags'] = [];
-
-        for( let i in newsTagArr ){
-          if( splitParams.indexOf(newsTagArr[i]['id']) !== -1 ){
-            this.filterFormItems['tags'].push(newsTagArr[i]);
-          }
-        }
-      }
-      newsTagArr = newsTagArr.filter((thing, index, self) =>
-      index === self.findIndex((t) => (
-        t.id === thing.id && t.name === thing.name
-      )))
-      this.eventsTagsSet = [...newsTagArr];
-      this.eventsTagsObs = of(newsTagArr).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
+    let tagSubscription = this.http.get('getEventTags', {params:variables}).subscribe((response: any) => {
+      const data = response.data.taxonomyTermQuery.tags;
+      this.eventsTags = data.filter((e) => e.referencedNodes.count > 0);
+      this.eventsTagsObs = of(this.eventsTags).pipe(delay(500)); // create an Observable OF current array delay  http://reactivex.io/documentation/observable.html try to make it different
       this.tagsDropdownSort(false);
-      
     });
-
     this.subscriptions = [...this.subscriptions, tagSubscription];
   }
   
