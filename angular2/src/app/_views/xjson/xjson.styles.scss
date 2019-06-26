@@ -18,6 +18,25 @@ input { font-size: 0.875rem; }
   }
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium; margin-top: .5rem;}
 }
+
+
+.xjson__scrollable {position: relative; margin-top: $small; overflow: hidden;
+  &.scrollable__unpadded {padding: 0;}
+  @include break-on(sm, min) {position: relative;}
+  &__table {overflow:hidden;}
+  &__rectangle {width: 2.5rem;right:0;height: 100%;background-color: #bee3e8;position: absolute;top: 50%;transform: translateY(-50%);z-index: 5;user-select: none;
+    .htm-icon {top: 50%; margin-top: -1.25rem; line-height: 2.5rem;left: 0; position: relative;font-size: 2.5rem;color: #2e3374;}
+    &--left {left: 0;
+      @include break-on(sm, min) {left: 0;}
+    }
+    @include break-on(sm, min) {right: 0;}
+    &.withState {opacity: 0;pointer-events: none;
+      &--active {opacity: 1;pointer-events: auto;}
+    }
+  }
+  &.padded {padding: 0;padding-top: 1rem;}
+}
+
 .xjson__navigation__step.disabled { 
   &:after {
     content: "";
@@ -119,6 +138,9 @@ a {
   .button-list.separate{
     justify-content: space-between;
   }
+  .secondary-buttons{
+    justify-content: space-between;
+  }
 
   .button-switch { display: flex; align-items: center; justify-content: flex-end;
     @include break-on(sm, max) { display: flex; flex-direction: column-reverse; width: 100%; }
@@ -209,6 +231,8 @@ a {
   input::placeholder {
     font-size: 0.875rem; color: $dark-gray;
   }
+
+  .squared-input__field { background: transparent; }
   
   
  .disabled-step input::placeholder {
@@ -240,6 +264,28 @@ a {
     }
   }
   .round-input__wrapper { width: 100%; margin-bottom: 0.5rem; }
+
+  .squared-input__outer-wrapper {
+    display: flex;
+    &.date-wrapper {
+      .tooltip { margin-right: -0.125rem; margin-top: .625rem;}
+      .round-input__field { line-height: 1; }
+    }
+    &.checkbox-wrapper {
+      .tooltip { margin-top: 0; }
+    }
+    &.dropzone-wrapper {
+      .tooltip { margin-top: .875rem; }
+    }
+    &.multiselect-wrapper { 
+      .tooltip { margin-top: 0.5rem; }
+    }
+    &.table-wrapper { 
+      .xjson__heading { margin-bottom: 0rem; }
+      .tooltip { margin-top: .75rem; }
+    }
+  }
+  .squared-input__wrapper { width: 100%; margin-bottom: 0.5rem; }
 
   
   
