@@ -39,6 +39,7 @@ import { FeedbackComponent } from './_components/feedback/feedback.component';
 import { LoginModal } from './_components/dialogs/login.modal/login.modal'; 
 import { SearchModal } from './_components/dialogs/search.modal/search.modal'; 
 import { NotificationComponent } from './_components/notifications/notification.component';
+import { InfosystemSingle } from './_views/infosystem.single/infosystem.single.component';
 
 
 export const AppDeclarations = [
@@ -83,6 +84,7 @@ export const AppDeclarations = [
   LoginModal,
   SearchModal,
   NotificationComponent,
+  InfosystemSingle
 ];
 
 export const AppEntryComponents = [
