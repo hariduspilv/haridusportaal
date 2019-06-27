@@ -23,7 +23,7 @@
             <tbody>
               <tr *ngFor="let work of content[type];">
                 <td>
-                  <span>{{ work.oppeasutus }}</span><span *ngIf="work.ametikohtLopp">, {{ 'frontpage.lopetatud' | translate }} {{ work.ametikohtLopp }}</span>
+                  <span>{{ work.oppeasutus }}</span><span *ngIf="work.ametikohtLopp && !compareDate(work.ametikohtLopp)">, {{ 'frontpage.lopetatud' | translate }} {{ work.ametikohtLopp }}</span>
                 </td>
                 <td class="text-center"><a href="javascript:void(0)" (click)="setTeachingsDetail(work, type)">{{ 'button.view_more' | translate }}</a></td>
               </tr>

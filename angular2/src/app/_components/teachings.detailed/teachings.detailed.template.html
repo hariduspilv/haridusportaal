@@ -45,7 +45,7 @@
                       <td class="normal" colspan="2">{{ content.ametikohtLopp }}</td>
                     </tr>
                   </ng-container>
-                  <ng-container *ngIf="content.liik !== 'YLIKOOL' || (content.liik !== 'YLIKOOL' && content.liik !== 'HUVIKOOL')">
+                  <ng-container *ngIf="content.liik === 'YLIKOOL' || (content.liik !== 'YLIKOOL' && content.liik !== 'HUVIKOOL')">
                     <tr *ngIf="content.liik">
                       <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
                       <td class="normal" colspan="2">{{ parseTypeTranslation(content.liik) }}</td>

@@ -19,6 +19,7 @@ export class TeachingsComponent{
   error: boolean = false;
   dataErr: boolean = false;
   requestErr: boolean = false;
+  public currentDate: Date = new Date();
   contentTypes = ['tootamine', 'kvalifikatsioonid', 'taiendkoolitus'];
   accordionStates: Array<Boolean> = [false, false, false, false];
    
@@ -105,6 +106,10 @@ export class TeachingsComponent{
   setTeachingsDetail(work, route) {
     this.rootScope.set('teachingsDetail', work);
     this.router.navigateByUrl(this.router.url + "/" + route)
+  }
+
+  compareDate(date) {
+    return new Date(date).getTime() >= this.currentDate.getTime()
   }
 
   ngOnDestroy() {
