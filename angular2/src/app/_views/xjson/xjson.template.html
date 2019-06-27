@@ -75,7 +75,7 @@
 
               <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 
-                <div class="row" *ngIf="!data_elements[element].hidden">
+                <div [class]="data_elements[element].type != 'file' ? 'row' : 'file-row'" *ngIf="!data_elements[element].hidden">
                   <!-- Form elements -->
 
                   <div class="col-12 xjson__component">
@@ -419,14 +419,14 @@
                         <ng-container *ngIf="data_elements[element].value">
                           <ng-container *ngFor="let file of data_elements[element].value">
                             <div class="uploaded-file">
-                              <a class="file-name" [href]="fileDownloadlink(file.file_identifier)" target="_blank">
-                                {{ file.file_name }}
+                              <a class="file-icon" [href]="fileDownloadlink(file.file_identifier)" target="_blank">
+                                <span class="file-name">{{ file.file_name }}</span>
                               </a>
                               <a class="close-icn" href="javascript:void(0)"
                                 *ngIf="!isFieldDisabled(data_elements[element].readonly)"
                                 [class.disabled]="isFieldDisabled(data_elements[element].readonly)"
                                 (click)="fileDelete(file.file_identifier, data_elements[element])"><span
-                                  class="htm-icon">close</span></a>
+                                  class="htm-icon">close</span>{{ 'xjson.delete_file' | translate }}</a>
                             </div>
                           </ng-container>
                         </ng-container>
