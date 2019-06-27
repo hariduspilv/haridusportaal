@@ -77,11 +77,14 @@
                 
                 <tr >
                   <td>{{ 'studyProgramme.languages' | translate }}</td>
-                  <td class="highlighted" *ngFor="let item of list">
-                    <ng-container *ngFor="let lang of item.teachingLanguage; let last">
-                      <ng-container *ngIf="!last">{{ lang.entity.name | titleCase }}, </ng-container>
-                      <ng-container *ngIf="last">{{ lang.entity.name | titleCase }}</ng-container>
+                  <td class="highlighted" *ngFor="let item of list;">
+                    <ng-container *ngIf="item.teachingLanguage && item.teachingLanguage.length">
+                      <ng-container *ngFor="let lang of item.teachingLanguage; let last = last;">
+                        <span *ngIf="!last">{{ lang.entity.name | titleCase }}, </span>
+                        <span *ngIf="last">{{ lang.entity.name | titleCase }}</span>
+                      </ng-container>
                     </ng-container>
+                    <ng-container *ngIf="!item.teachingLanguage || (item.teachingLanguage && !item.teachingLanguage.length)">-</ng-container>
                   </td>
                 </tr>
 
@@ -110,12 +113,7 @@
                 <tr>
                   <td>{{ 'studyProgramme.nominal_time' | translate }}</td>
                   <td class="highlighted" *ngFor="let item of list">
-                    <ng-container *ngIf="item.durationYears && item.durationYears !== 0">
-                      {{ item.durationYears }} aasta<span *ngIf="item.durationYears > 1">t</span>
-                    </ng-container>
-                    <ng-container *ngIf="item.durationMonths && item.durationMonths !== 0">
-                      {{ item.durationMonths }} kuud
-                    </ng-container>
+                    {{ item.duration | monthsToYears }}
                   </td>
                 </tr>
                 

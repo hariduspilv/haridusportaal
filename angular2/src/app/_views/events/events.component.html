@@ -99,8 +99,8 @@
         <div class="round-input__wrapper">
           <mat-form-field>
             <mat-select (openedChange)="tagsDropdownSort($event)" [multiple]='true' placeholder="{{ 'event.filter_tags' | translate}}" [(ngModel)]='filterFormItems.tags' name="tags">
-              <mat-option *ngFor="let tag of eventsTagsSet" [value]="tag">
-                {{tag.name}}
+              <mat-option *ngFor="let tag of eventsTags" [value]="tag.entityId">
+                {{tag.entityLabel}}
               </mat-option>
             </mat-select>
           </mat-form-field>

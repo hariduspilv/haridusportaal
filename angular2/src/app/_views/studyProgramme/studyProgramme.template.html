@@ -245,7 +245,7 @@
               <div aria-hidden="true" class="htm-icon">close-1</div>
               <span>{{'button.clear_fields' | translate}}</span>
             </button>
-          <span class="bar sm-hide">|</span>       
+          <span aria-hidden="true" class="bar sm-hide">|</span>       
           <button class="btn-link sm-hide" (click)="filterFull = !filterFull" aria-expanded="true">
             <span>{{ 'button.search_brief' | translate }}</span>
           </button>
@@ -282,7 +282,7 @@
               <div class="studyProgramme__item__head" *ngIf="item.fieldStudyProgrammeLevel && item.fieldStudyProgrammeLevel.entity">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
               <div class="flex flex-center">
                 <a href="javascript:void();" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.entityLabel }}</h1></a>
-                <span href="javascript:void();" class="nonActive--blue sm-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</span>
+                <span href="javascript:void();" class="nonActive--blue xxs-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</span>
               </div>
             </div><!--col-9-->
             <div class="col xxs-hide">
@@ -291,9 +291,9 @@
           </div>
           <div class="inline__items">
             <span class="item" *ngIf="item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity">{{ item.fieldEducationalInstitution.entity.entityLabel }}</span>
-            <span class="bar" *ngIf="item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity && item.fieldDuration">|</span>
+            <span role="separator" aria-label=", " class="bar" *ngIf="item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity && item.fieldDuration">|</span>
             <span class="item" *ngIf="item.fieldDuration">{{item.fieldDuration | monthsToYears}}</span>
-            <span class="bar" *ngIf="(item.fieldTeachingLanguage && item.fieldTeachingLanguage.length) && ((item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity) || item.fieldDuration)">|</span>
+            <span role="separator" aria-label=", " class="bar" *ngIf="(item.fieldTeachingLanguage && item.fieldTeachingLanguage.length) && ((item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity) || item.fieldDuration)">|</span>
             <span class="item" *ngIf="item.fieldTeachingLanguage && item.fieldTeachingLanguage.length">
               <ng-container *ngFor="let item of item.fieldTeachingLanguage; let i = index;">
                 <span><span *ngIf="i > 0">, </span>{{ item.entity.entityLabel | titleCase }}</span>
