@@ -603,7 +603,7 @@
                                             </div>
                                           </ng-container> <!-- /CHECKBOX -->
                                           <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox' && isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
-                                              <p>{{ (row[col] ? 'true' : 'false') | translate }}</p>
+                                              <span class="contnent-input">{{ (row[col] ? 'true' : 'false') | translate }}</span>
                                             </ng-container> <!-- /CHECKBOX DISABLED -->
       
                                           <ng-container
