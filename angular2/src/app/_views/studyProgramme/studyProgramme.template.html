@@ -280,9 +280,9 @@
           <div class="studyProgramme__item__titlebox">
             <div class="col-grow">
               <div class="studyProgramme__item__head" *ngIf="item.fieldStudyProgrammeLevel && item.fieldStudyProgrammeLevel.entity">{{ item.fieldStudyProgrammeLevel.entity.entityLabel }}</div>
-              <div class="flex flex-center">
+              <div class="flex flex-center flex-wrap">
                 <a href="javascript:void();" [routerLink]="item.entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.entityLabel }}</h1></a>
-                <span href="javascript:void();" class="nonActive--blue xxs-hide" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</span>
+                <div href="javascript:void();" class="nonActive--blue" *ngIf="item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</div>
               </div>
             </div><!--col-9-->
             <div class="col xxs-hide">
@@ -291,9 +291,9 @@
           </div>
           <div class="inline__items">
             <span class="item" *ngIf="item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity">{{ item.fieldEducationalInstitution.entity.entityLabel }}</span>
-            <span role="separator" aria-label=", " class="bar" *ngIf="item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity && item.fieldDuration">|</span>
+            <span role="separator" class="bar" *ngIf="item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity && item.fieldDuration">|</span>
             <span class="item" *ngIf="item.fieldDuration">{{item.fieldDuration | monthsToYears}}</span>
-            <span role="separator" aria-label=", " class="bar" *ngIf="(item.fieldTeachingLanguage && item.fieldTeachingLanguage.length) && ((item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity) || item.fieldDuration)">|</span>
+            <span role="separator" class="bar" *ngIf="(item.fieldTeachingLanguage && item.fieldTeachingLanguage.length) && ((item.fieldEducationalInstitution && item.fieldEducationalInstitution.entity) || item.fieldDuration)">|</span>
             <span class="item" *ngIf="item.fieldTeachingLanguage && item.fieldTeachingLanguage.length">
               <ng-container *ngFor="let item of item.fieldTeachingLanguage; let i = index;">
                 <span><span *ngIf="i > 0">, </span>{{ item.entity.entityLabel | titleCase }}</span>
