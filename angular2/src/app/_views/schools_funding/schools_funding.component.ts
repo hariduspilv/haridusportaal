@@ -15,6 +15,7 @@ import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency';
 export class SchoolsFundingComponent extends FiltersService implements OnInit, OnDestroy {
   lang: string = this.rootScope.get("lang");
   subscriptions: Subscription[] = [];
+  subscription: Subscription;
   parseFloat = parseFloat;
   toString = toString;
 
@@ -269,6 +270,10 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   }
 
   getData() {
+    
+    if (this.subscription) {
+      this.subscription.unsubscribe();
+    }
 
     if(this.map){
       this.sumWindowStatus = false;
@@ -298,7 +303,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
       variables.levelOfDetail = 2;
     }
 
-    let subscription = this.http.get(url, {params:variables}).subscribe( data => {
+    this.subscription = this.http.get(url, {params:variables}).subscribe( data => {
 
       if( this.view == "schools" ){
         this.polygons = false;
@@ -312,7 +317,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
         this.getPolygons();
       }
       
-      subscription.unsubscribe();
+      this.subscription.unsubscribe();
     });
   }
 
