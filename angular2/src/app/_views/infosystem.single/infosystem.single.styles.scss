@@ -1,0 +1,60 @@
+@import "../../../assets/styles/typography.scss"; 
+@import "../../../assets/styles/layout.scss"; 
+@import "../article/article.component.scss";
+
+.logo {
+  margin-bottom: 1.5rem;
+  img {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+  }
+}
+.intro, .description {
+  margin-bottom: 1rem;
+}
+
+.button-list {display: flex;flex-basis: 100%;justify-content: flex-start; margin-top: 1rem; border-bottom: 0.1875rem solid $light-gray;margin-bottom: 1.5rem;
+  a {text-decoration: none;}
+  @include break-on(sm, max) {margin-left: -1.5rem;margin-right: -1.5rem;}
+  &.left-align {justify-content: flex-start;}
+  .view-item {width: 25%; margin: 0;
+    .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $blue; margin-bottom: .75rem; }
+    &:hover {
+      .htm-icon, .title  { color: #0F7B8A;}
+      cursor: pointer;
+    }
+    .htm-icon {margin: 1rem 0; color: $blue;
+      @include break-on(xxs, min) {margin: 1rem 0 .5rem;}
+    }
+    &.mat-menu-item-active { border-bottom: .1875rem solid $dark-orange;pointer-events: none;cursor: initial; margin-bottom: -0.1875rem; 
+      .htm-icon, .title {color: $black; }
+      &:hover { 
+        .htm-icon, .title {color: $black; }
+      }
+    }
+    &.left-align {margin: 0;}
+  }
+}
+.description, .accordion {
+  padding: 0;
+}
+.mat-raised-button.mat-primary {
+  width: 100%;
+  @include break-on(md, min) {
+    width:100%;
+  }
+}
+.link-list {
+  &--buttons {
+    li {
+      margin-bottom:1rem;
+    }
+    .mat-raised-button.mat-primary {
+      padding:0 1rem;
+      white-space: pre-wrap;
+      min-height: 40px;
+      height: auto;
+    }
+  }
+}
