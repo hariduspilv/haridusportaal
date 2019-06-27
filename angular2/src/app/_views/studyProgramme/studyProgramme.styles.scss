@@ -1,7 +1,7 @@
 @import "../../../assets/styles/typography.scss";
 
 .studyProgramme {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
-  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium; padding-bottom: $medium;}
+  @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium;margin-bottom: $medium; padding-bottom: 0;}
   .months {margin-top: $medium;
     @include break-on(sm, min) {
       margin-top:-$medium;
@@ -18,9 +18,7 @@
 
   &__item {padding: $small $medium; border-bottom: solid 0.0625rem $gray; display:flex; flex-wrap: wrap;
     // &:first-child{padding-top:0;}
-    @include break-on(sm, min) {
-      &:last-child{border-bottom:0;}
-    }
+    &:last-child{border-bottom:0;}
     &__title{font-size:1.5rem; line-height:2rem; text-decoration: none; font-weight: 500; color:$blue; margin-right: 1rem;
       @include break-on(sm, min) {margin-bottom:0.23rem; }
       &:hover{text-decoration: none;}

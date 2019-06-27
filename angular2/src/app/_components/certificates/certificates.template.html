@@ -17,9 +17,10 @@
         <ng-container *ngIf="!loading[accordionItem._id]">
 
           <ng-container *ngIf="accordionItem._id === 'professional-certificates'">
-            <p class="text-center text--substrong--head mb-0" *ngIf="error">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</p>
-            <p *ngIf="professionalCertificates.length < 1" class="text-center text--substrong--head mb-0">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</p>
-            <table class="dashboard-table" *ngIf="!error && professionalCertificates.length > 0">
+            <p class="text-center text--substrong--head mb-0" *ngIf="error && !certificateErr">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</p>
+            <p class="text-center text--substrong--head mb-0" *ngIf="error && certificateErr">{{ certificateErr }}</p>
+            <p *ngIf="professionalCertificates && professionalCertificates.length < 1" class="text-center text--substrong--head mb-0">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</p>
+            <table class="dashboard-table" *ngIf="!error && professionalCertificates && professionalCertificates.length > 0">
               <tbody>
                   <tr *ngFor="let certificate of professionalCertificates">
                     <td>{{ certificate.nimi }}</td>
