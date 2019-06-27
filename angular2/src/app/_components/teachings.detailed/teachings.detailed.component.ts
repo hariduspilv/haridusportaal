@@ -20,6 +20,7 @@ export class TeachingsDetailedComponent implements OnInit{
   public breadcrumbs: any = false;
   public viewChecked: boolean = false;
   public loading: boolean;
+  public currentDate: Date = new Date();
   subscribe: Subscription;
   initialCrumbs = {
     'et': [{"text": "Avaleht", "url": "/"}, {"text": "Õpetan", "url": "/töölaud/õpetan"}]
@@ -41,6 +42,10 @@ export class TeachingsDetailedComponent implements OnInit{
         this.dashboardLink = decodeURIComponent(this.path.split("/" + this.type)[0]);
       }
     );
+  }
+
+  compareDate(date) {
+    return new Date(date).getTime() >= this.currentDate.getTime()
   }
 
   ngOnInit() {

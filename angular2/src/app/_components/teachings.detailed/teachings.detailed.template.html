@@ -23,122 +23,125 @@
             <table class="dashboard-table" *ngIf="!error && content">
               <tbody>
                 <ng-container *ngIf="type === 'tootamine'">
-                  <tr *ngIf="content.liik">
-                    <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
-                    <td class="normal" colspan="2">{{ parseTypeTranslation(content.liik) }}</td>
-                  </tr>
-                  <tr *ngIf="content.ametikoht">
-                    <td class="normal" colspan="3">{{ 'frontpage.ametikoht' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.ametikoht }}</td>
-                  </tr>
-                  <tr *ngIf="content.ametikohtAlgus">
-                    <td class="normal" colspan="3">{{ 'frontpage.ametikohtAlgus' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.ametikohtAlgus }}</td>
-                  </tr>
-                  <tr *ngIf="content.ametikohtLopp">
-                    <td class="normal" colspan="3">{{ 'frontpage.ametikohtLopp' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.ametikohtLopp }}</td>
-                  </tr>
-                  <tr *ngIf="content.ametikohtKoormus">
-                    <td class="normal" colspan="3">{{ 'frontpage.ametikohtKoormus' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.ametikohtKoormus }}</td>
-                  </tr>
-                  <tr *ngIf="content.ametikohtKvalVastavus">
-                    <td class="normal" colspan="3">{{ 'frontpage.ametikohtKvalVastavus' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.ametikohtKvalVastavus }}</td>
-                  </tr>
-                  <tr *ngIf="content.taitmiseViis">
-                    <td class="normal" colspan="3">{{ 'frontpage.taitmiseViis' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.taitmiseViis }}</td>
-                  </tr>
-                  <tr *ngIf="content.tooleping">
-                    <td class="normal" colspan="3">{{ 'frontpage.tooleping' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.tooleping }}</td>
-                  </tr>
-                  <tr *ngIf="content.ametijark">
-                    <td class="normal" colspan="3">{{ 'frontpage.ametijark' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.ametijark }}</td>
-                  </tr>
-                  <!--oppekava-->
-                  <ng-container *ngIf="content.oppekava && content.oppekava.length">
-                    <tr class="extraRow">
-                      <td colspan="5">{{ 'frontpage.oppekava' | translate }}</td>
+                  <ng-container *ngIf="content.liik === 'HUVIKOOL'">
+                    <tr *ngIf="content.liik">
+                      <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
+                      <td class="normal" colspan="2">{{ parseTypeTranslation(content.liik) }}</td>
                     </tr>
-                    <ng-container *ngFor="let elem of content.oppekava; let secondIndex = index;let last = last;">
-                      <tr *ngIf="elem.oppekavaKood">
-                        <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
-                        <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.oppekavaKood' | translate }} </td>
-                        <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.oppekavaKood }}</td>
-                      </tr>
-                      <tr *ngIf="elem.oppekavaNimetus" [class.extraBottom]="last">
-                        <td class="additional additional--1" colspan="1"><span *ngIf="!elem.oppekavaKood">{{ secondIndex + 1 }}</span></td>
-                        <td class="additional additional--2" colspan="2">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
-                        <td class="additional additional--3" colspan="2">{{ elem.oppekavaNimetus }}</td>
-                      </tr>
-                    </ng-container>
-                  </ng-container>
-                  <!--oppekava-->
-                  <!--oppeaine-->
-                  <ng-container *ngIf="content.oppeaine && content.oppeaine.length">
-                    <tr class="extraRow">
-                      <td colspan="5">{{ 'frontpage.oppeaine' | translate }}</td>
+                    <tr *ngIf="content.ametikoht">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametikoht' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametikoht }}</td>
                     </tr>
-                    <ng-container *ngFor="let elem of content.oppeaine; let secondIndex = index; let last = last;">
-                      <tr [class.extraBottom]="last && !elem.kooliaste && !elem.maht && !elem.kvalVastavus">
-                        <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
-                        <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.oppeaine' | translate }} </td>
-                        <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.oppeaine }}</td>
-                      </tr>
-                      <tr *ngIf="elem.kooliaste" [class.extraBottom]="last && !elem.maht && !elem.kvalVastavus">
-                        <td class="additional additional--1" [class.multi]="elem.maht" colspan="1"></td>
-                        <td class="additional additional--2" [class.multi--bordered]="elem.maht" colspan="2">{{ 'frontpage.klassAste' | translate }} </td>
-                        <td class="additional additional--3" [class.multi--bordered]="elem.maht" colspan="2">{{ elem.kooliaste }}</td>
-                      </tr>
-                      <tr *ngIf="elem.maht" [class.extraBottom]="last && !elem.kvalVastavus">
-                        <td class="additional additional--1" [class.multi]="elem.kvalVastavus" colspan="1"></td>
-                        <td class="additional additional--2" [class.multi--bordered]="elem.kvalVastavus" colspan="2">{{ 'frontpage.maht' | translate }} </td>
-                        <td class="additional additional--3" [class.multi--bordered]="elem.kvalVastavus" colspan="2">{{ elem.maht }}</td>
-                      </tr>
-                      <tr *ngIf="elem.kvalVastavus" [class.extraBottom]="last">
-                        <td class="additional additional--1" colspan="1"></td>
-                        <td class="additional additional--2" colspan="2">{{ 'frontpage.kvalVastavus' | translate }} </td>
-                        <td class="additional additional--3" colspan="2">{{ elem.kvalVastavus }}</td>
-                      </tr>
-                    </ng-container>
+                    <tr *ngIf="content.haridustase">
+                      <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.haridustase }}</td>
+                    </tr>
+                    <tr *ngIf="content.ametikohtAlgus">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametikohtAlgus' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametikohtAlgus }}</td>
+                    </tr>
+                    <tr *ngIf="content.ametikohtLopp">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametikohtLopp' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametikohtLopp }}</td>
+                    </tr>
                   </ng-container>
-                  <!--oppeaine-->
-                  <tr *ngIf="content.haridustase">
-                    <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.haridustase }}</td>
-                  </tr>
-                  <tr *ngIf="content.lapsehooldusPuhkus">
-                    <td class="normal" colspan="3">{{ 'frontpage.lapsehooldusPuhkus' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.lapsehooldusPuhkus }}</td>
-                  </tr>
+                  <ng-container *ngIf="content.liik !== 'YLIKOOL' || (content.liik !== 'YLIKOOL' && content.liik !== 'HUVIKOOL')">
+                    <tr *ngIf="content.liik">
+                      <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
+                      <td class="normal" colspan="2">{{ parseTypeTranslation(content.liik) }}</td>
+                    </tr>
+                    <tr *ngIf="content.ametikoht">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametikoht' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametikoht }}</td>
+                    </tr>
+                    <tr *ngIf="content.tooleping && !content.ametikohtLopp">
+                      <td class="normal" colspan="3">{{ 'frontpage.tooleping' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.tooleping }}</td>
+                    </tr>
+                    <tr *ngIf="content.taitmiseViis && content.liik === 'YLIKOOL'
+                      && (!content.ametikohtLopp || compareDate(content.ametikohtLopp))">
+                      <td class="normal" colspan="3">{{ 'frontpage.taitmiseViis' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.taitmiseViis }}</td>
+                    </tr>
+                    <tr *ngIf="content.ametikohtAlgus">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametikohtAlgus' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametikohtAlgus }}</td>
+                    </tr>
+                    <tr *ngIf="content.ametikohtLopp">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametikohtLopp' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametikohtLopp }}</td>
+                    </tr>
+                    <tr *ngIf="content.ametikohtKoormus && !content.ametikohtLopp">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametikohtKoormus' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametikohtKoormus }}</td>
+                    </tr>
+                    <tr *ngIf="content.ametikohtKvalVastavus && !content.ametikohtLopp">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametikohtKvalVastavus' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametikohtKvalVastavus }}</td>
+                    </tr>
+                    <tr *ngIf="content.lapsehooldusPuhkus && !content.ametikohtLopp">
+                      <td class="normal" colspan="3">{{ 'frontpage.lapsehooldusPuhkus' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.lapsehooldusPuhkus }}</td>
+                    </tr>
+                    <tr *ngIf="content.ametijark && !content.ametikohtLopp">
+                      <td class="normal" colspan="3">{{ 'frontpage.ametijark' | translate }}</td>
+                      <td class="normal" colspan="2">{{ content.ametijark }}</td>
+                    </tr>
+                  </ng-container>
+                  <!-- Hidden for now -->
+
+                    <!--oppekava-->
+                    <!-- <ng-container *ngIf="content.oppekava && content.oppekava.length">
+                      <tr class="extraRow">
+                        <td colspan="5">{{ 'frontpage.oppekava' | translate }}</td>
+                      </tr>
+                      <ng-container *ngFor="let elem of content.oppekava; let secondIndex = index;let last = last;">
+                        <tr *ngIf="elem.oppekavaKood">
+                          <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
+                          <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.oppekavaKood' | translate }} </td>
+                          <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.oppekavaKood }}</td>
+                        </tr>
+                        <tr *ngIf="elem.oppekavaNimetus" [class.extraBottom]="last">
+                          <td class="additional additional--1" colspan="1"><span *ngIf="!elem.oppekavaKood">{{ secondIndex + 1 }}</span></td>
+                          <td class="additional additional--2" colspan="2">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
+                          <td class="additional additional--3" colspan="2">{{ elem.oppekavaNimetus }}</td>
+                        </tr>
+                      </ng-container>
+                    </ng-container> -->
+                    <!--oppekava-->
+                    <!--oppeaine-->
+                    <!-- <ng-container *ngIf="content.oppeaine && content.oppeaine.length">
+                      <tr class="extraRow">
+                        <td colspan="5">{{ 'frontpage.oppeaine' | translate }}</td>
+                      </tr>
+                      <ng-container *ngFor="let elem of content.oppeaine; let secondIndex = index; let last = last;">
+                        <tr [class.extraBottom]="last && !elem.kooliaste && !elem.maht && !elem.kvalVastavus">
+                          <td class="additional additional--1 multi" colspan="1">{{ secondIndex + 1 }}</td>
+                          <td class="additional additional--2 multi--bordered" colspan="2">{{ 'frontpage.oppeaine' | translate }} </td>
+                          <td class="additional additional--3 multi--bordered" colspan="2">{{ elem.oppeaine }}</td>
+                        </tr>
+                        <tr *ngIf="elem.kooliaste" [class.extraBottom]="last && !elem.maht && !elem.kvalVastavus">
+                          <td class="additional additional--1" [class.multi]="elem.maht" colspan="1"></td>
+                          <td class="additional additional--2" [class.multi--bordered]="elem.maht" colspan="2">{{ 'frontpage.klassAste' | translate }} </td>
+                          <td class="additional additional--3" [class.multi--bordered]="elem.maht" colspan="2">{{ elem.kooliaste }}</td>
+                        </tr>
+                        <tr *ngIf="elem.maht" [class.extraBottom]="last && !elem.kvalVastavus">
+                          <td class="additional additional--1" [class.multi]="elem.kvalVastavus" colspan="1"></td>
+                          <td class="additional additional--2" [class.multi--bordered]="elem.kvalVastavus" colspan="2">{{ 'frontpage.maht' | translate }} </td>
+                          <td class="additional additional--3" [class.multi--bordered]="elem.kvalVastavus" colspan="2">{{ elem.maht }}</td>
+                        </tr>
+                        <tr *ngIf="elem.kvalVastavus" [class.extraBottom]="last">
+                          <td class="additional additional--1" colspan="1"></td>
+                          <td class="additional additional--2" colspan="2">{{ 'frontpage.kvalVastavus' | translate }} </td>
+                          <td class="additional additional--3" colspan="2">{{ elem.kvalVastavus }}</td>
+                        </tr>
+                      </ng-container>
+                    </ng-container> -->
+                    <!--oppeaine-->
+
+                  <!-- Hidden for now -->
                 </ng-container><!--type -->
-                <ng-container *ngIf="type === 'kvalifikatsioon'">
-                  <tr *ngIf="content.dokument">
-                    <td class="normal" colspan="3">{{ 'frontpage.dokument' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.dokument }}</td>
-                  </tr>
-                  <tr *ngIf="content.nimetus">
-                    <td class="normal" colspan="3">{{ 'frontpage.kraadNimetus' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.nimetus }}</td>
-                  </tr>
-                  <tr *ngIf="content.vastavus">
-                    <td class="normal" colspan="3">{{ 'frontpage.kvalifikatsioonVastavus' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.vastavus }}</td>
-                  </tr>
-                  <tr *ngIf="content.aasta">
-                    <td class="normal" colspan="3">{{ 'frontpage.aasta' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.aasta }}</td>
-                  </tr>
-                  <tr *ngIf="content.riik">
-                    <td class="normal" colspan="3">{{ 'frontpage.riik' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.riik }}</td>
-                  </tr>
-                </ng-container><!--type -->
-                <ng-container *ngIf="type === 'tasemeharidus'">
+                <ng-container *ngIf="type === 'kvalifikatsioonid'">
                   <tr *ngIf="content.kvalDokument">
                     <td class="normal" colspan="3">{{ 'frontpage.kvalDokument' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.kvalDokument }}</td>
@@ -146,6 +149,10 @@
                   <tr *ngIf="content.kvalVastavus">
                     <td class="normal" colspan="3">{{ 'frontpage.kvalVastavus' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.kvalVastavus }}</td>
+                  </tr>
+                  <tr *ngIf="content.nimetus">
+                    <td class="normal" colspan="3">{{ 'frontpage.kraadNimetus' | translate }}</td>
+                    <td class="normal" colspan="2">{{ content.nimetus }}</td>
                   </tr>
                   <tr *ngIf="content.erialaOppekava">
                     <td class="normal" colspan="3">{{ 'frontpage.erialaOppekava' | translate }}</td>
@@ -158,6 +165,10 @@
                   <tr *ngIf="content.dokument">
                     <td class="normal" colspan="3">{{ 'frontpage.dokumentNr' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.dokument }}</td>
+                  </tr>
+                  <tr *ngIf="content.riik">
+                    <td class="normal" colspan="3">{{ 'frontpage.riik' | translate }}</td>
+                    <td class="normal" colspan="2">{{ content.riik }}</td>
                   </tr>
                 </ng-container><!--type -->
                 <ng-container *ngIf="type === 'taiendkoolitus'">
