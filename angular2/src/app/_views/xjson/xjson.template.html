@@ -81,15 +81,15 @@
                   <div class="col-12 xjson__component">
 
                     <ng-container *ngIf="data_elements[element].type == 'helpertext'">
-                      <div class="xjson__heading" *ngIf="data_elements[element].title">
+                      <p *ngIf="data_elements[element].title">
                         {{ selectLanguage(data_elements[element].title) }}
-                      </div>
+                      </p>
                     </ng-container> <!-- /HELPERTEXT (heading) -->
 
                     <ng-container *ngIf="data_elements[element].type == 'heading'">
-                      <div class="xjson__heading" *ngIf="data_elements[element].title">
+                      <h1 class="xjson__heading" *ngIf="data_elements[element].title">
                         {{ selectLanguage(data_elements[element].title) }}
-                      </div>
+                      </h1>
                     </ng-container> <!-- /HEADING -->
 
                     <ng-container *ngIf="data_elements[element].type == 'text'">
@@ -432,8 +432,9 @@
                         </ng-container>
                       </div>
 
+                      <loader *ngIf="fileLoading[element]"></loader>
                       <div class="dropzone" (drop)="fileEventHandler($event, element)"
-                        (dragover)="$event.preventDefault()" *ngIf="canUploadFile(data_elements[element])">
+                        (dragover)="$event.preventDefault()" *ngIf="canUploadFile(data_elements[element]) && !fileLoading[element]">
                         <div class="dropzone-text">
                           <span class="dropzone-title">
                             {{ 'xjson.drag_files_here_or' | translate }}
@@ -455,7 +456,7 @@
 
                     <ng-container *ngIf="data_elements[element].type == 'table'">
                       <div class="round-input__outer-wrapper table-wrapper">
-                        <h1 *ngIf="data_elements[element].title">
+                        <h1 class="xjson__heading" *ngIf="data_elements[element].title">
                             {{ selectLanguage(data_elements[element].title) }}
                         </h1>
                         <div class="helper-wrapper">
