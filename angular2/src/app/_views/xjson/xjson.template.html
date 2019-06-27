@@ -24,9 +24,9 @@
         </div>
         <!--/block__head-->
 
-        <loader *ngIf="!data"></loader>
+        <loader *ngIf="!data || formLoading"></loader>
 
-        <ng-container *ngIf="data && view == 'document'">
+        <ng-container *ngIf="data && view == 'document' && !formLoading">
 
           <h1 *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</h1>
           <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
