@@ -20,7 +20,7 @@ input { font-size: 0.875rem; }
 }
 
 
-.xjson__scrollable {position: relative; margin-top: $small; overflow: hidden;
+.xjson__scrollable {position: relative; margin-top: 0.5rem; overflow: hidden;
   &.scrollable__unpadded {padding: 0;}
   @include break-on(sm, min) {position: relative;}
   &__table {overflow:hidden;}

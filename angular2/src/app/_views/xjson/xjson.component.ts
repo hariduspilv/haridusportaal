@@ -51,6 +51,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public objectKeys = Object.keys;
   public test: boolean;
   public queryStrings = {};
+  public fileLoading = {};
 
   public lang: string;
   public form_name: string;
@@ -394,9 +395,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   fileEventHandler(e, element) {
+    this.fileLoading[element] = true;
     e.preventDefault();
     const files = e.target.files || e.dataTransfer.files;
     const model = this.data_elements[element];
+    console.log(element);
 
     if (files && files.length > 0) {
       for (const file of files) {
@@ -418,6 +421,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
               file_identifier: response['id']
             };
             model.value.push(new_file);
+
+            this.fileLoading[element] = false;
 
             subscription.unsubscribe();
           });
