@@ -610,7 +610,13 @@ $grid-columns: 12;
   .bar {padding: 0 .375rem;}
   .nonActive {padding: $half-gutter $quarter;border-radius: $quarter;font-size: .875rem;line-height: 1.125rem;white-space: nowrap;
     width: fit-content;display: inline;position: relative;bottom: .125rem;
-    &--blue {@extend .nonActive;background-color: #bee3e8;}
+    &--blue {
+      @extend .nonActive;
+      background-color: #bee3e8;
+      @include break-on(sm, max) {
+        margin-top: .25rem;
+      }
+    }
   }
   /* Material design overrides and styles */
   .disabled {
