@@ -592,9 +592,9 @@
                                             <input class="contnent-input" type="text"
                                               [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
                                               [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
-                                          </ng-container><!-- /DATE -->
+                                          </ng-container><!-- /DATE DISABLED-->
       
-                                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
+                                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox' && !isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
                                             <div class="custom-checkbox">
                                               <mat-checkbox [(ngModel)]="row[col]"
                                                 name="{{element + '_' + rowIndex + '_' + colIndex}}"
@@ -602,6 +602,9 @@
                                               </mat-checkbox>
                                             </div>
                                           </ng-container> <!-- /CHECKBOX -->
+                                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox' && isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
+                                              <p>{{ (row[col] ? 'true' : 'false') | translate }}</p>
+                                            </ng-container> <!-- /CHECKBOX DISABLED -->
       
                                           <ng-container
                                             *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
