@@ -52,6 +52,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public test: boolean;
   public queryStrings = {};
   public fileLoading = {};
+  public formLoading = false;
 
   public lang: string;
   public form_name: string;
@@ -626,6 +627,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   submitForm(activity: string) {
+    this.formLoading = true;
     this.error = {};
 
     if (activity === 'EDIT') {
@@ -782,6 +784,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
 
       this.stepController(response);
+
+      this.formLoading = false;
 
       subscription.unsubscribe();
     });

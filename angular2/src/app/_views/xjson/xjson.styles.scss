@@ -140,6 +140,9 @@ a {
   }
   .secondary-buttons{
     justify-content: space-between;
+    a{
+      margin-right: 1rem;
+    }
   }
 
   .button-switch { display: flex; align-items: center; justify-content: flex-end;
