@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
     <script>
@@ -22,7 +23,7 @@
 
       if( token ){
         sessionStorage.setItem("token", token);
-        window.location = decodeURIComponent("/töölaud/taotlused");
+        window.location = "/töölaud/taotlused";
       }else{
         sessionStorage.setItem("token", "");
         window.location = "/";
