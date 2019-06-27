@@ -14,7 +14,7 @@
       <mat-expansion-panel id="{{ind}}" [expanded]="accordionStates[ind]" *ngIf="content[type] && content[type].length">
         <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'" (click)="accordionStates[ind] = !accordionStates[ind]">
           <mat-panel-title>
-            {{ parseTypeTranslation(type) | translate }}
+            {{ parseTypeTranslation(type) | translate | titleCase }}
           </mat-panel-title>
         </mat-expansion-panel-header>
   
@@ -22,7 +22,9 @@
           <table class="dashboard-table dashboard-table--equalCells" *ngIf="!error">
             <tbody>
               <tr *ngFor="let work of content[type];">
-                <td>{{ work.oppeasutus }}</td>
+                <td>
+                  <span>{{ work.oppeasutus }}</span><span *ngIf="work.ametikohtLopp">, {{ 'frontpage.lopetatud' | translate }} {{ work.ametikohtLopp }}</span>
+                </td>
                 <td class="text-center"><a href="javascript:void(0)" (click)="setTeachingsDetail(work, type)">{{ 'button.view_more' | translate }}</a></td>
               </tr>
             </tbody>
