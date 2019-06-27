@@ -22,11 +22,11 @@
 
       if( token ){
         sessionStorage.setItem("token", token);
+        window.location = decodeURIComponent("/töölaud/taotlused");
       }else{
         sessionStorage.setItem("token", "");
+        window.location = "/";
       }
-      
-      window.location = "/";
     
     </script>
   </body>
