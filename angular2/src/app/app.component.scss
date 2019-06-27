@@ -97,11 +97,20 @@ body{height: calc(100% - 4rem);}
 /* Grid definition */
 
 .grid{margin:0 -$gutter;}
-.row{display: flex; width: auto;
+.row{display: flex; width: auto; margin-top: 1.5rem;
   &.wrapper__row{
     @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
     @include break-on(lg, min) {padding-left: 0;padding-right: 0;}
   }
+}
+.file-row{display: flex; width: auto; margin-top: 1.5rem; background-color: $light-gray;
+  &.wrapper__row{
+    @include break-on(sm, min) {padding: $gutter $medium $medium $medium;}
+    @include break-on(lg, min) {padding-left: 0;padding-right: 0;}
+  }
+}
+.file-row .xjson__component{
+    margin:0rem 1.5rem; width: 100%;
 }
 .row .col{flex-grow: 1; padding:$gutter;}
 .row .col .mat-card{width:100%; box-sizing: border-box; margin:0; float:none; max-width: 9999px;}
@@ -565,16 +574,17 @@ $grid-columns: 12;
     }
     .separator {padding: 0;min-width: .125rem;width: .125rem;background: #fff;border:none;}
   }
-  .scrollable {position: relative; margin-top: $small; overflow: hidden;
+  .scrollable {position: relative; padding: $small 0 0 0;
     &.scrollable__unpadded {padding: 0;}
-    @include break-on(sm, min) {position: relative;}
-    &__table {overflow:hidden;}
-    &__rectangle {width: 2.5rem;right:0;height: 100%;background-color: #bee3e8;position: absolute;top: 50%;transform: translateY(-50%);z-index: 5;user-select: none;
-      .htm-icon {position: relative;top: 0.4rem;left: 0.4rem;font-size: 2.5rem;color: #2e3374;}
-      &--left {left: 0;
-        @include break-on(sm, min) {left: 0;}
+    @include break-on(sm, min) {position: relative;padding-right: $small;padding-left: $small;}
+    &__table {overflow:auto;}
+    &__rectangle {width: 3.125rem;height: 3.125rem;border-radius: 50%;background-color: $dark-gray;position: absolute;right: $small;top: 50%;z-index: 5;user-select: none;
+      box-shadow: 0 .125rem .125rem 0 rgba(0, 0, 0, 0.24), 0 0 0.125rem 0 rgba(0, 0, 0, 0.12);
+      .htm-icon {position: relative;top: 0.4rem;left: 0.4rem;font-size: 2.5rem;color: $white;}
+      &--left {left: $small;
+        @include break-on(sm, min) {left: $small;}
       }
-      @include break-on(sm, min) {right: 0;}
+      @include break-on(sm, min) {right: $small;}
       &.withState {opacity: 0;pointer-events: none;
         &--active {opacity: 1;pointer-events: auto;}
       }
@@ -633,7 +643,6 @@ $grid-columns: 12;
         @include break-on(sm, min) {width: auto;}
     }
   }
-
   .mat-card{
     &.article-image{margin:$small 0; max-width: 100%; box-sizing: border-box;
       .mat-card img{width:100%;}
