@@ -19,8 +19,8 @@ export class TeachingsComponent{
   error: boolean = false;
   dataErr: boolean = false;
   requestErr: boolean = false;
-  contentTypes = ['tootamine', 'kvalifikatsioon', 'tasemeharidus', 'taiendkoolitus'];
-  accordionStates: Array<Boolean> = [true, false, false, false];
+  contentTypes = ['tootamine', 'kvalifikatsioonid', 'taiendkoolitus'];
+  accordionStates: Array<Boolean> = [false, false, false, false];
    
   constructor(private http: HttpService, private rootScope: RootScopeService, private router: Router, private notificationService: NotificationService, private translate: TranslateService) {}
 
@@ -64,6 +64,7 @@ export class TeachingsComponent{
             }catch(err){}
               
             this.content.kvalifikatsioon.sort((a, b) => b.aasta - a.aasta);
+            this.content.kvalifikatsioonid = [...this.content.kvalifikatsioon, ...this.content.tasemeharidus];
           }
           if(errorVal) {
             throw new Error();
@@ -75,7 +76,7 @@ export class TeachingsComponent{
         }
       }
       sub.unsubscribe();
-      this.accordionStates = this.rootScope.get('teachingsAccordion') || [true, false, false, false];
+      this.accordionStates = this.rootScope.get('teachingsAccordion') || [false, false, false, false];
       this.loading = false;
     }, error => {
       this.loading = false;
