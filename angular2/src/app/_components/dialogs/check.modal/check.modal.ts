@@ -45,7 +45,7 @@ export class CheckModal {
         this.loading = false;
         this.error = true;
         if (response['error']['message_text']) {
-          this.errorMessage = response['error']['message_text'];
+          this.errorMessage = response['error']['message_text']['et'];
         }
       } else {
         this.content = response['value']['ettevotted'];

@@ -1,0 +1,137 @@
+<div><breadcrumbs></breadcrumbs></div>
+<div class="main-container">
+  <div class="row wrapper__row">
+    <div class="col-8 sm-12">
+      <div class="block border-blue padding-block">
+        <div class="block__head no-border">
+          <div class="block__head__title">
+            INFOSÜSTEEMID
+          </div>
+        </div>
+        <loader *ngIf="loading"></loader>
+        <ng-container *ngIf="!loading">
+          <h1>{{data.title}}</h1>
+          <div class="button-list">
+            <a class="view-item text-center" [class.mat-menu-item-active]="view === 'details'"  (click)="changeView('details')">
+              <span class="htm-icon">description</span>
+              <div class="title">
+                {{data.fieldSubtitle}}
+              </div>
+            </a>
+            <a class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
+              <span class="htm-icon">description</span>
+              <div class="title">
+                {{data.fieldInfosystemAccordion.entity.fieldAccordionTitle}}
+              </div>
+            </a>
+          </div>
+          <ng-container *ngIf="view === 'details'">
+            <div class="logo" *ngIf="data.fieldLogo">
+              <img src="{{data.fieldLogo.derivative.url}}" alt="{{data.fieldLogo.alt}}">
+            </div>
+            <h2 class="intro" *ngIf="data.fieldIntroductionText">{{data.fieldIntroductionText}}</h2>
+            <div class="description" *ngIf="data.fieldContentText" [innerHTML]="data.fieldContentText.processed"></div>
+            <ul class="link-list mt-0 mb-0">
+              <ng-container *ngIf="data.fieldWebpageLink">
+                <li *ngFor="let link of data.fieldWebpageLink;let ind = index;">
+                  <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
+                    <span>
+                      <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
+                      <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
+                    </span>
+                  </a>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="data.fieldAttachmentFile">
+                <li *ngFor="let file of data.fieldAttachmentFile;let ind = index;">
+                  <a href="{{file.entity.url}}" target="_blank" attr.aria-label="{{file.description}}" class="link">
+                    <span class="htm-icon">file_copy</span><span class="label">{{file.description}}</span>
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+          </ng-container>
+          <ng-container *ngIf="view === 'guides'">
+              <div *ngIf="data.fieldInfosystemAccordion" class="description" [innerHTML]="data.fieldInfosystemAccordion.entity.fieldBody.processed"></div>
+              <div class="accordion">
+                <mat-accordion multi>
+                  <ng-container *ngFor="let accordion of data.fieldInfosystemAccordion.entity.fieldLowerParagraph; let ind = index">
+                    <mat-expansion-panel id="{{ind}}" >
+                      <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
+                        <mat-panel-title>
+                          {{ accordion.entity.fieldParagraphTitle }}
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="accordion__body" *ngIf="accordion.entity.fieldParagraphContent" [innerHTML]="accordion.entity.fieldParagraphContent.processed"></div>
+                      <div class="accordion__links" *ngIf="accordion.entity.fieldParagraphLink">
+                        <ul class="link-list mt-2 mb-0" >
+                          <li *ngFor="let link of accordion.entity.fieldParagraphLink">
+                            <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
+                              <span>
+                                <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
+                                <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
+                              </span>
+                            </a>
+                          </li>
+                        </ul>
+                      </div>
+                    </mat-expansion-panel>
+                  </ng-container>                  
+                </mat-accordion>
+              </div>
+          </ng-container>
+        </ng-container>
+      </div>
+    </div>
+    <div class="col-4 sm-12" *ngIf="!loading">
+      <div class="block border-orange padding-block sm-top" *ngIf="data.fieldInfosystemSidebar.entity.fieldButton">
+        <div class="padding-block--content">
+          <ul class="link-list link-list--buttons mt-0 mb-0">
+            <li *ngFor="let link of data.fieldInfosystemSidebar.entity.fieldButton;let ind = index;">
+                <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
+                    <span>
+                      <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
+                      <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
+                    </span>
+                  </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="block border-orange padding-block sm-top" *ngIf="data.fieldInfosystemSidebar.entity.fieldLegislationBlock">
+        <h1 class="medium">Õigusaktid</h1>
+        <div class="padding-block--content">
+          <ul class="link-list mt-0 mb-0">
+            <li *ngFor="let link of data.fieldInfosystemSidebar.entity.fieldLegislationBlock;let ind = index;">
+              <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
+                <span>
+                  <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
+                  <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
+                </span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <ng-container *ngIf="data.fieldInfosystemSidebar.entity.fieldBlocks">
+        <div class="block border-orange padding-block sm-top" *ngFor="let block of data.fieldInfosystemSidebar.entity.fieldBlocks">
+          <h1 class="medium">{{block.entity.fieldBlockTitle}}</h1>
+          <div class="padding-block--content">
+            <ul class="link-list mt-0 mb-0" *ngIf="block.entity.fieldBlockLinks">
+              <ng-container *ngFor="let link of block.entity.fieldBlockLinks;let ind = index;">
+                <li>
+                  <a href="{{link.entity.fieldWebpageLink.url.path}}" [attr.target]="!link.entity.fieldWebpageLink.url.routed ? '_blank' : ''" attr.aria-label="{{link.entity.fieldLinkName}}" class="link">
+                    <span>
+                      <ng-container *ngIf="link.entity.fieldWebpageLink.url.routed"><span class="htm-icon">link</span><span class="label">{{link.entity.fieldLinkName}}</span></ng-container>
+                      <ng-container *ngIf="!link.entity.fieldWebpageLink.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.entity.fieldLinkName}}</span></ng-container>
+                    </span>
+                  </a>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

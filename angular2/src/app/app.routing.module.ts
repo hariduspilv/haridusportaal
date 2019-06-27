@@ -29,7 +29,8 @@ import {
   OskaResultsTableComponent,
   CertificateCheckComponent,
   OskaSectorsCompareComponent,
-  OskaMainProfessionCompareComponent
+  OskaMainProfessionCompareComponent,
+  InfosystemSingle
 } from './_views';
 import { CertificatesDetailedComponent } from '@app/_components/certificates.detailed/certificates.detailed.component';
 import { TeachingsDetailedComponent } from '@app/_components/teachings.detailed/teachings.detailed.component';
@@ -110,6 +111,8 @@ const appRoutes: Routes = [
 
   { path: 'isikukaart', component: PersonalDataComponent },
   { path: 'variables', component: VariablesComponent },
+
+  { path: 'infosüsteemid/:id', component: InfosystemSingle },
 
   { path: 'preview/:id', component: PreviewComponent },
   { path: '404', component: NotFoundComponent },
