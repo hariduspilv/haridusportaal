@@ -126,46 +126,52 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     let request_boolean = this.loading['initial'] === true ? 1 : 0;
    
     let subscription = this.http.get('/dashboard/applications/'+ request_boolean +'?_format=json').subscribe(response => {
-      if (this.currentRole === 'natural_person') {
-        this.data.acceptable_forms = response['acceptable_forms']; 
-        // dummyData[this.dummyDataVersion].acceptable_forms || 
-        this.data.drafts = response['drafts'];
-        // dummyData[this.dummyDataVersion].drafts || 
-        this.data.documents = response['documents'];
-        // dummyData[this.dummyDataVersion].documents ||
-        this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
-        this.data.drafts = this.sortList(this.data.drafts, 'title');
-        this.data.documents = this.sortList(this.data.documents, 'date');
-        
-        this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms); 
+      if (response && response['found'] === null) {
+        console.log('skip');
       } else {
-        // let keysToSort = [ 'documents', 'acceptable_forms', 'drafts' ];
-        let responseData = response['educationalInstitutions'].map(elem => {
-          elem.documents = this.sortList(elem.documents, 'date');
-          elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
-          elem.drafts = this.sortList(elem.drafts, 'title');
-          return elem;
-        })
-        if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
-          this.data.educationalInstitutions = responseData;
-          // && response['educationalInstitutions'].length ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
-          if (response['message']) {
-            this.notificationService.info(response['message'], 'general', false);
-          }
-          // || juridicalDummyData[this.dummyDataVersion].message;
-          // this.data.educationalInstitutions = juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
-          // this.data.message = juridicalDummyData[this.dummyDataVersion].message || response['message'];
-          if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
-            this.data.educationalInstitutions.forEach((elem, index) => {
-              this.tableOverflown[index] = {0: false, 1: false, 2: false};
-              this.elemAtStart[index] = {0: true, 1: true, 2: true};
-              this.initialized[index] = {0: false, 1: false, 2: false};
-            })
+        if (response['error'] && response['error']['message_text']) {
+          this.notificationService.info(response['error']['message_text']['et'], 'general', false);
+        } else if (this.currentRole === 'natural_person') {
+          this.data.acceptable_forms = response['acceptable_forms']; 
+          // dummyData[this.dummyDataVersion].acceptable_forms || 
+          this.data.drafts = response['drafts'];
+          // dummyData[this.dummyDataVersion].drafts || 
+          this.data.documents = response['documents'];
+          // dummyData[this.dummyDataVersion].documents ||
+          this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
+          this.data.drafts = this.sortList(this.data.drafts, 'title');
+          this.data.documents = this.sortList(this.data.documents, 'date');
+          
+          this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms); 
+        } else {
+          // let keysToSort = [ 'documents', 'acceptable_forms', 'drafts' ];
+          let responseData = response['educationalInstitutions'].map(elem => {
+            elem.documents = this.sortList(elem.documents, 'date');
+            elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
+            elem.drafts = this.sortList(elem.drafts, 'title');
+            return elem;
+          })
+          if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
+            this.data.educationalInstitutions = responseData;
+            // && response['educationalInstitutions'].length ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
+            if (response['message']) {
+              this.notificationService.info(response['message'], 'general', false);
+            }
+            // || juridicalDummyData[this.dummyDataVersion].message;
+            // this.data.educationalInstitutions = juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
+            // this.data.message = juridicalDummyData[this.dummyDataVersion].message || response['message'];
+            if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
+              this.data.educationalInstitutions.forEach((elem, index) => {
+                this.tableOverflown[index] = {0: false, 1: false, 2: false};
+                this.elemAtStart[index] = {0: true, 1: true, 2: true};
+                this.initialized[index] = {0: false, 1: false, 2: false};
+              })
+            }
           }
         }
       }
       
-      if (this.loading.initial === true && !update) {
+      if (this.loading.initial === true && !update && !(response && response['found'] === null)) {
         this.loading.initial = false;
       }
       subscription.unsubscribe();
