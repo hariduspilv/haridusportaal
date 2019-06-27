@@ -136,7 +136,7 @@ a {
       font-size: 0.875rem;font-weight: 500;color: $black; 
     }
     
-    th, td {line-height: 1.38rem;font-size: 0.875rem;padding: $gutter 1rem;text-align:left;border: 0rem;
+    th, td {line-height: 1.38rem;font-size: 0.875rem;padding: .75rem 1rem;text-align:left;border: 0rem;
       &.highlighted {font-weight: 500;}
     }
     td.hidden, th.hidden {min-width:1.5rem; width: 1.5rem; background: $light-gray;padding:$gutter;}
