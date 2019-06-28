@@ -12,6 +12,18 @@ use Drupal\taxonomy\Entity\Term;
 class StudyProgrammeController extends ControllerBase {
 
     public function import() {
+
+        $nids = \Drupal::entityQuery('node')
+            ->condition('type', 'study_programme')
+            ->execute();
+
+        foreach($nids as $nid)
+        {
+            $node = Node::load($nid);
+            $node->delete();
+        }
+        die();
+
         $schools = $this->get_existing_schools();
         $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
         $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
@@ -223,7 +235,6 @@ class StudyProgrammeController extends ControllerBase {
                 $duration_values[] = $programme->nominaalKestusKuud;
             }
             $programmenode['programme_field']['field_duration'] = array_sum($duration_values);
-
 
             if(isset($programme->vastuvott)){
                 $programmenode['programme_field']['field_admission_status'] = $programme->vastuvott;
