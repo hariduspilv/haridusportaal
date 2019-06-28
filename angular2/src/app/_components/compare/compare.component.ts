@@ -19,15 +19,6 @@ export class CompareComponent implements OnInit, OnDestroy{
 
   keydown: boolean = false;
 
-  keyDownEvent = (event) => {
-    if (event.ctrlKey || event.metaKey) {
-      this.keydown = true;
-    }
-  }
-  keyUpEvent = (event) => {
-    this.keydown = false;
-  }
-
   compareViewLink: string;
   compareViewLinkOptions = {
     "studyProgramme.compare":{
@@ -163,9 +154,6 @@ export class CompareComponent implements OnInit, OnDestroy{
     }
   }
   ngOnInit() {
-    document.addEventListener('keydown', this.keyDownEvent);
-
-    document.addEventListener('keyup', this.keyUpEvent);
 
     this.compare = this.readFromLocalStorage(this.sessionStorageKey);
   
@@ -186,8 +174,6 @@ export class CompareComponent implements OnInit, OnDestroy{
   }
 
   ngOnDestroy() {
-    document.removeEventListener("keydown", this.keyDownEvent);
-    document.removeEventListener("keyup", this.keyUpEvent);
     this.sessionStorageSubscription.unsubscribe();
     this.snackbar.dismiss()
     this.snackBarOpen = false;
