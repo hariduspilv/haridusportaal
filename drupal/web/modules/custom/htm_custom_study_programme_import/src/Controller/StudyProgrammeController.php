@@ -14,12 +14,9 @@ class StudyProgrammeController extends ControllerBase {
     public function import() {
 
         $nids = \Drupal::entityQuery('node')
-            ->condition('type', 'study_programme')
+            ->condition('type', 'school')
             ->execute();
-
-        kint($nids);
-        die();
-
+        
         foreach($nids as $nid)
         {
             $node = Node::load($nid);
