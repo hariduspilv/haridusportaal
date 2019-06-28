@@ -17,6 +17,9 @@ class StudyProgrammeController extends ControllerBase {
             ->condition('type', 'study_programme')
             ->execute();
 
+        kint($nids);
+        die();
+
         foreach($nids as $nid)
         {
             $node = Node::load($nid);
