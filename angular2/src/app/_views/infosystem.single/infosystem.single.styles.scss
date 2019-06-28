@@ -19,6 +19,9 @@
   @include break-on(sm, max) {margin-left: -1.5rem;margin-right: -1.5rem;}
   &.left-align {justify-content: flex-start;}
   .view-item {width: 25%; margin: 0;
+    @include break-on(md, max) {
+      width: 50%;
+    }
     .title { font-weight: 300; font-size: .875rem; line-height: 1.71; color: $blue; margin-bottom: .75rem; }
     &:hover {
       .htm-icon, .title  { color: #0F7B8A;}
@@ -51,10 +54,14 @@
       margin-bottom:1rem;
     }
     .mat-raised-button.mat-primary {
-      padding:0 1rem;
-      white-space: pre-wrap;
-      min-height: 40px;
-      height: auto;
+      color: #fff;
+      text-decoration: none;
+      display:flex;
+      align-items: center;
+      justify-content: center;
+      &:visited {
+        color: #fff !important;
+      }
     }
   }
 }
