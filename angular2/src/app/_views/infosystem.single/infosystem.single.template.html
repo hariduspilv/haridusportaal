@@ -12,13 +12,13 @@
         <ng-container *ngIf="!loading">
           <h1>{{data.title}}</h1>
           <div class="button-list">
-            <a href="javascript:void(0)" class="view-item text-center" [class.mat-menu-item-active]="view === 'details'"  (click)="changeView('details')">
+            <a href="javascript:void(0)" role="tab" class="view-item text-center" [class.mat-menu-item-active]="view === 'details'"  (click)="changeView('details')">
               <span aria-hidden="true" class="htm-icon">description</span>
               <div class="title">
                 {{data.fieldSubtitle}}
               </div>
             </a>
-            <a href="javascript:void(0)" class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
+            <a href="javascript:void(0)" role="tab" class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
               <span aria-hidden="true" class="htm-icon">description</span>
               <div class="title">
                 {{data.fieldInfosystemAccordion.entity.fieldAccordionTitle}}
