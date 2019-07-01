@@ -41,11 +41,19 @@
 }
 .description, .accordion {
   padding: 0;
+  ::ng-deep .accordion__body p:last-child() {
+    margin-bottom: 0;
+  }
 }
 .mat-raised-button.mat-primary {
   width: 100%;
   @include break-on(md, min) {
     width:100%;
+  }
+  ::ng-deep span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 .link-list {
