@@ -13,17 +13,6 @@ class StudyProgrammeController extends ControllerBase {
 
     public function import() {
 
-        $nids = \Drupal::entityQuery('node')
-            ->condition('type', 'school')
-            ->execute();
-        
-        foreach($nids as $nid)
-        {
-            $node = Node::load($nid);
-            $node->delete();
-        }
-        die();
-
         $schools = $this->get_existing_schools();
         $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
         $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
