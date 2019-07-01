@@ -145,10 +145,10 @@
       </div>
       <ng-container *ngIf="data.fieldInfosystemSidebar.entity.fieldBlocks">
         <ng-container *ngFor="let block of data.fieldInfosystemSidebar.entity.fieldBlocks">
-          <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="block.entity">
+          <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="block.entity && block.entity.fieldBlockLinks && block.entity.fieldBlockLinks.length">
             <h1 class="medium">{{block.entity.fieldBlockTitle}}</h1>
             <div class="padding-block--content">
-              <ul class="link-list mt-0 mb-0" *ngIf="block.entity.fieldBlockLinks">
+              <ul class="link-list mt-0 mb-0">
                 <ng-container *ngFor="let link of block.entity.fieldBlockLinks;let ind = index;">
                   <li>
                     <a href="{{link.entity.fieldWebpageLink.url.path}}" [attr.target]="!link.entity.fieldWebpageLink.url.routed ? '_blank' : ''" attr.aria-label="{{link.entity.fieldLinkName}}" class="link">
