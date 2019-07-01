@@ -12,14 +12,14 @@
         <ng-container *ngIf="!loading">
           <h1>{{data.title}}</h1>
           <div class="button-list">
-            <a class="view-item text-center" [class.mat-menu-item-active]="view === 'details'"  (click)="changeView('details')">
-              <span class="htm-icon">description</span>
+            <a href="javascript:void(0)" class="view-item text-center" [class.mat-menu-item-active]="view === 'details'"  (click)="changeView('details')">
+              <span aria-hidden="true" class="htm-icon">description</span>
               <div class="title">
                 {{data.fieldSubtitle}}
               </div>
             </a>
-            <a class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
-              <span class="htm-icon">description</span>
+            <a href="javascript:void(0)" class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
+              <span aria-hidden="true" class="htm-icon">description</span>
               <div class="title">
                 {{data.fieldInfosystemAccordion.entity.fieldAccordionTitle}}
               </div>
@@ -88,11 +88,12 @@
         <div class="padding-block--content">
           <ul class="link-list link-list--buttons mt-0 mb-0">
             <li *ngFor="let link of data.fieldInfosystemSidebar.entity.fieldButton;let ind = index;">
-                <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
-                    <span>
+                <a mat-raised-button color="primary" href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}">
+                    <!-- <span>
                       <ng-container *ngIf="link.url.routed"><span class="htm-icon">link</span><span class="label">{{link.title}}</span></ng-container>
                       <ng-container *ngIf="!link.url.routed"><span class="htm-icon">launch</span><span class="label">{{link.title}}</span></ng-container>
-                    </span>
+                    </span> -->
+                    {{link.title}}
                   </a>
             </li>
           </ul>
