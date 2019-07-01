@@ -79,10 +79,11 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     this.requestSub = this.http.get('similarStudyProgrammes2', { params: variables } ).subscribe(response => {
 
       this.loading = false;
-
-      this.listCount = response['data']['CustomStudyProgrammeElasticQuery2']['count'];
-      let tmpList = response['data']['CustomStudyProgrammeElasticQuery2']['entities'];
-
+      let tmpList: any = null;
+      if (response['data']['CustomStudyProgrammeElasticQuery2']) {
+        this.listCount = response['data']['CustomStudyProgrammeElasticQuery2']['count'];
+        tmpList = response['data']['CustomStudyProgrammeElasticQuery2']['entities'];
+      }
       if (response['errors'] && tmpList === null) {
         tmpList = [];
       }
@@ -131,7 +132,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   }
   ngOnDestroy(){
     /* Clear all subscriptions */
-    this.requestSub.unsubscribe();
+    if (this.requestSub) this.requestSub.unsubscribe();
     for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
