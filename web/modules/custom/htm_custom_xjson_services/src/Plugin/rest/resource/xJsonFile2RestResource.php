@@ -177,7 +177,7 @@ class xJsonFile2RestResource extends ResourceBase {
 
 
         // now make our own file for xjson
-        $file = new Base64Image($file, $temp_file_path, $filename);
+        $file = new Base64Image(base64_encode($file), $temp_file_path, $filename);
 
         if(!$this->ehisService->saveFileToRedis($file, 'VPT_documents')){
             return new ModifiedResourceResponse('Failed to save', 400);
