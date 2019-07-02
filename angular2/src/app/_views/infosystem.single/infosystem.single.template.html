@@ -1,4 +1,4 @@
-<div><breadcrumbs></breadcrumbs></div>
+<div><breadcrumbs *ngIf="!inputData"></breadcrumbs></div>
 <div class="main-container">
   <div class="row wrapper__row">
     <div class="col-8 sm-12">
@@ -18,7 +18,7 @@
                 {{data.fieldSubtitle}}
               </div>
             </a>
-            <a href="javascript:void(0)" role="tab" class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
+            <a *ngIf="data.fieldInfosystemAccordion" href="javascript:void(0)" role="tab" class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
               <span aria-hidden="true" class="htm-icon">description</span>
               <div class="title">
                 {{data.fieldInfosystemAccordion.entity.fieldAccordionTitle}}
@@ -52,8 +52,8 @@
             </ul>
           </ng-container>
           <ng-container *ngIf="view === 'guides'">
-              <div *ngIf="data.fieldInfosystemAccordion" class="description" [innerHTML]="data.fieldInfosystemAccordion.entity.fieldBody.processed"></div>
-              <ul class="link-list mt-0" *ngIf="data.fieldInfosystemAccordion.entity && (data.fieldInfosystemAccordion.entity.fieldLinks || data.fieldInfosystemAccordion.entity.fieldAttachmentFile)">
+              <div *ngIf="data.fieldInfosystemAccordion && data.fieldInfosystemAccordion.entity && data.fieldInfosystemAccordion.entity.fieldBody" class="description" [innerHTML]="data.fieldInfosystemAccordion.entity.fieldBody.processed"></div>
+              <ul class="link-list mt-0" *ngIf="data.fieldInfosystemAccordion && data.fieldInfosystemAccordion.entity && (data.fieldInfosystemAccordion.entity.fieldLinks || data.fieldInfosystemAccordion.entity.fieldAttachmentFile)">
                 <ng-container *ngIf="data.fieldInfosystemAccordion.entity.fieldLinks">
                   <li *ngFor="let link of data.fieldInfosystemAccordion.entity.fieldLinks;let ind = index;">
                     <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}" class="link">
@@ -72,8 +72,8 @@
                   </li>
                 </ng-container>
               </ul>
-              <h2 class="pb-3 pt-3 mb-0" *ngIf="data.fieldInfosystemAccordion && data.fieldInfosystemAccordion.entity.fieldLowerParagraph">Andmete laadimise juhendid</h2>
-              <div class="accordion">
+              <!-- <h2 class="pb-3 pt-3 mb-0" *ngIf="data.fieldInfosystemAccordion && data.fieldInfosystemAccordion.entity.fieldLowerParagraph">Andmete laadimise juhendid</h2> -->
+              <div class="accordion" *ngIf="data.fieldInfosystemAccordion && data.fieldInfosystemAccordion.entity">
                 <mat-accordion multi>
                   <ng-container *ngFor="let accordion of data.fieldInfosystemAccordion.entity.fieldLowerParagraph; let ind = index">
                     <mat-expansion-panel id="{{ind}}" >
@@ -113,7 +113,7 @@
       </div>
     </div>
     <div class="col-4 sm-12" *ngIf="!loading">
-      <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="data.fieldInfosystemSidebar.entity.fieldButton">
+      <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="data.fieldInfosystemSidebar && data.fieldInfosystemSidebar.entity && data.fieldInfosystemSidebar.entity.fieldButton">
         <div class="padding-block--content">
           <ul class="link-list link-list--buttons mt-0 mb-0">
             <li *ngFor="let link of data.fieldInfosystemSidebar.entity.fieldButton;let ind = index;">
@@ -128,7 +128,7 @@
           </ul>
         </div>
       </div>
-      <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="data.fieldInfosystemSidebar.entity.fieldLegislationBlock">
+      <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="data.fieldInfosystemSidebar && data.fieldInfosystemSidebar.entity && data.fieldInfosystemSidebar.entity.fieldLegislationBlock">
         <h1 class="medium">Õigusaktid</h1>
         <div class="padding-block--content">
           <ul class="link-list mt-0 mb-0">
@@ -143,7 +143,7 @@
           </ul>
         </div>
       </div>
-      <ng-container *ngIf="data.fieldInfosystemSidebar.entity.fieldBlocks">
+      <ng-container *ngIf="data.fieldInfosystemSidebar && data.fieldInfosystemSidebar.entity && data.fieldInfosystemSidebar.entity.fieldBlocks">
         <ng-container *ngFor="let block of data.fieldInfosystemSidebar.entity.fieldBlocks">
           <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="block.entity && block.entity.fieldBlockLinks && block.entity.fieldBlockLinks.length">
             <h1 class="medium">{{block.entity.fieldBlockTitle}}</h1>
