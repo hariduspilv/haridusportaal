@@ -1,0 +1,7 @@
+htm_custom_elasticsearch_reindex.elasticsearch_reindex_indexes_form:
+  path: '/admin/config/search/elasticsearch/reindex'
+  defaults:
+    _form: '\Drupal\htm_custom_elasticsearch_reindex\Form\IndexesForm'
+    _title: 'IndexesForm'
+  requirements:
+    _access: 'TRUE'

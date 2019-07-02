@@ -320,10 +320,7 @@ class ContentTranslationTest extends EntityEmbedTestBase {
     $source->setValue(Html::serialize($dom));
 
     // Exit "source" mode.
-    $this->assertSession()
-      ->waitForElementVisible('css', 'a.cke_button__source')
-      ->click();
-
+    $this->pressEditorButton('source');
     $this->assignNameToCkeditorIframe();
     $this->getSession()->switchToIFrame('ckeditor');
 

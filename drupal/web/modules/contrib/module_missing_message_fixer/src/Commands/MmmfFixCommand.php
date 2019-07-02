@@ -117,7 +117,7 @@ class MmmfFixCommand extends DrushCommands {
       $query->condition('name', $modules, 'IN');
       $query->execute();
 
-      if (drush_get_option('all') !== NULL) {
+      if ($options['all'] !== NULL) {
         $this->output()->writeln(dt('All missing references have been removed.'), 'success');
       }
       elseif ($name !== NULL) {

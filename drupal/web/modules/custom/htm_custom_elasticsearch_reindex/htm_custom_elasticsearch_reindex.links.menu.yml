@@ -1,0 +1,5 @@
+htm_custom_elasticsearch_reindex.elasticsearch_reindex_indexes_form:
+  title: Rebuild Elasticsearch Indexes
+  description: 'Easily rebuild Elasticsearch indexes.'
+  route_name: htm_custom_elasticsearch_reindex.elasticsearch_reindex_indexes_form
+  parent: system.admin_config_search
