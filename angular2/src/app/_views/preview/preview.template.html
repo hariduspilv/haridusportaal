@@ -8,6 +8,7 @@
 
 <ng-container *ngIf="data">
   <article-component *ngIf="data.entityBundle == 'article'" [inputData]="data"></article-component>
+  <infosystem *ngIf="data.entityBundle == 'information_system_page'" [inputData]="data"></infosystem>
   <event-component *ngIf="data.entityBundle == 'event'" [inputData]="data"></event-component>
   <news-component *ngIf="data.entityBundle == 'news'" [inputData]="data"></news-component>
   <schools-component *ngIf="data.entityBundle == 'school'" [inputData]="data"></schools-component>

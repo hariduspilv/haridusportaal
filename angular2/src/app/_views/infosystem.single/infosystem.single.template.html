@@ -18,7 +18,7 @@
                 {{data.fieldSubtitle}}
               </div>
             </a>
-            <a href="javascript:void(0)" role="tab" class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
+            <a *ngIf="data.fieldInfosystemAccordion" href="javascript:void(0)" role="tab" class="view-item text-center" [class.mat-menu-item-active]="view === 'guides'" (click)="changeView('guides')">
               <span aria-hidden="true" class="htm-icon">description</span>
               <div class="title">
                 {{data.fieldInfosystemAccordion.entity.fieldAccordionTitle}}
@@ -72,7 +72,7 @@
                   </li>
                 </ng-container>
               </ul>
-              <h2 class="pb-3 pt-3 mb-0" *ngIf="data.fieldInfosystemAccordion && data.fieldInfosystemAccordion.entity.fieldLowerParagraph">Andmete laadimise juhendid</h2>
+              <!-- <h2 class="pb-3 pt-3 mb-0" *ngIf="data.fieldInfosystemAccordion && data.fieldInfosystemAccordion.entity.fieldLowerParagraph">Andmete laadimise juhendid</h2> -->
               <div class="accordion">
                 <mat-accordion multi>
                   <ng-container *ngFor="let accordion of data.fieldInfosystemAccordion.entity.fieldLowerParagraph; let ind = index">
