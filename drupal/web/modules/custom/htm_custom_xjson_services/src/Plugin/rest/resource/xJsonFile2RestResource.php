@@ -176,6 +176,9 @@ class xJsonFile2RestResource extends ResourceBase {
         $this->validate($file, $validators);
 
 
+        dump($file);
+        dump(base64_encode($file));
+        die();
         // now make our own file for xjson
         $file = new Base64Image(base64_encode($file), $temp_file_path, $filename);
 
