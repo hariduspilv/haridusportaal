@@ -103,6 +103,15 @@ function entity_embed_form_filter_format_edit_form_alter(array &$form, FormState
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function entity_embed_form_filter_format_add_form_alter(array &$form, FormStateInterface $form_state, $form_id) {
+  // Add an additional validate callback so we can ensure the order of filters
+  // is correct.
+  $form['#validate'][] = 'entity_embed_filter_format_edit_form_validate';
+}
+
+/**
  * Validate callback to ensure filter order and allowed_html are compatible.
  */
 function entity_embed_filter_format_edit_form_validate($form, FormStateInterface $form_state) {
@@ -131,7 +140,19 @@ function entity_embed_filter_format_edit_form_validate($form, FormStateInterface
     'settings',
   ];
 
-  if ($allowed_html = $form_state->getValue($allowed_html_path)) {
+  $filter_html_enabled = $form_state->getValue([
+    'filters',
+    'filter_html',
+    'status',
+  ]);
+
+  $entity_embed_enabled = $form_state->getValue([
+    'filters',
+    'entity_embed',
+    'status',
+  ]);
+
+  if ($entity_embed_enabled && $filter_html_enabled && $allowed_html = $form_state->getValue($allowed_html_path)) {
     if ($button_groups = $form_state->getValue($button_group_path)) {
       $buttons = [];
       $button_groups = json_decode($button_groups, TRUE);
@@ -157,11 +178,11 @@ function entity_embed_filter_format_edit_form_validate($form, FormStateInterface
 
       /** @var \Drupal\embed\Entity\EmbedButton $embed */
       foreach ($embeds as $embed) {
-        if ($embed->getTypeId() != 'entity') {
+        if ($embed->getTypeId() !== 'entity') {
           continue;
         }
-        // Require `<drupal-entity>` HTML tag.
-        if (empty($allowed['drupal-entity'])) {
+        // Require `<drupal-entity>` HTML tag if filter_html is enabled.
+        if (!isset($allowed['drupal-entity'])) {
           $form_state->setError($form['filters']['settings']['filter_html']['allowed_html'], t('The %embed button requires <code>&lt;drupal-entity&gt;</code> among the allowed HTML tags.', [
             '%embed' => $embed->label(),
           ]));
@@ -180,7 +201,16 @@ function entity_embed_filter_format_edit_form_validate($form, FormStateInterface
             'title',
           ];
 
-          if ($missing_attributes = array_diff($required_attributes, array_keys($allowed['drupal-entity']))) {
+          // If there are no attributes, the allowed item is set to FALSE,
+          // otherwise, it is set to an array.
+          if ($allowed['drupal-entity'] === FALSE) {
+            $missing_attributes = $required_attributes;
+          }
+          else {
+            $missing_attributes = array_diff($required_attributes, array_keys($allowed['drupal-entity']));
+          }
+
+          if ($missing_attributes) {
             $form_state->setError($form['filters']['settings']['filter_html']['allowed_html'], t('The <code>&lt;drupal-entity&gt;</code> tag in the allowed HTML tags is missing the following attributes: <code>%list</code>.', [
               '%list' => implode(', ', $missing_attributes),
             ]));
@@ -199,7 +229,7 @@ function entity_embed_filter_format_edit_form_validate($form, FormStateInterface
 
   // The "entity_embed" filter must run after "filter_align", "filter_caption",
   // and "filter_html_image_secure".
-  if (!empty($filters['entity_embed']['status'])) {
+  if ($entity_embed_enabled) {
     $precedents = [
       'filter_align',
       'filter_caption',
@@ -253,12 +283,4 @@ function entity_embed_field_widget_form_alter(&$element, FormStateInterface $for
       }
     }
   }
-}
-
-/**
- * Implements hook_ckeditor_css_alter().
- */
-function entity_embed_ckeditor_css_alter(array &$css) {
-  $css[] = drupal_get_path('module', 'system') . '/css/components/hidden.module.css';
-  $css[] = drupal_get_path('module', 'entity_embed') . '/css/entity_embed.editor.css';
 }

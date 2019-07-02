@@ -7,12 +7,21 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Path\PathValidatorInterface;
+use Drupal\Core\Render\RendererInterface;
+use Drupal\seckit\SeckitInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Implements a form to collect security check configuration.
  */
 class SecKitSettingsForm extends ConfigFormBase {
+
+  /**
+   * The renderer.
+   *
+   * @var \Drupal\Core\Render\RendererInterface
+   */
+  protected $renderer;
 
   /**
    * The path validator.
@@ -28,11 +37,13 @@ class SecKitSettingsForm extends ConfigFormBase {
    *   The factory for configuration objects.
    * @param \Drupal\Core\Path\PathValidatorInterface $path_validator
    *   The path validator.
+   * @param \Drupal\Core\Render\RendererInterface $renderer
+   *   The renderer.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, PathValidatorInterface $path_validator) {
+  public function __construct(ConfigFactoryInterface $config_factory, PathValidatorInterface $path_validator, RendererInterface $renderer) {
     parent::__construct($config_factory);
-
     $this->pathValidator = $path_validator;
+    $this->renderer = $renderer;
   }
 
   /**
@@ -41,7 +52,8 @@ class SecKitSettingsForm extends ConfigFormBase {
   public static function create(ContainerInterface $container) {
     return new static(
       $container->get('config.factory'),
-      $container->get('path.validator')
+      $container->get('path.validator'),
+      $container->get('renderer')
     );
   }
 
@@ -63,10 +75,9 @@ class SecKitSettingsForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $module_path = drupal_get_path('module', 'seckit');
     $form['#attached']['library'][] = 'seckit/listener';
 
-    $config = \Drupal::config('seckit.settings');
+    $config = $this->config('seckit.settings');
 
     // Main description.
     $args = [
@@ -91,6 +102,8 @@ class SecKitSettingsForm extends ConfigFormBase {
     $args = [
       ':wiki' => 'https://wiki.mozilla.org/Security/CSP',
       '@wiki' => 'Mozilla Wiki',
+      ':caniuse' => 'https://caniuse.com/#feat=contentsecuritypolicy',
+      '@caniuse' => 'Can I use'
     ];
 
     $form['seckit_xss']['csp'] = [
@@ -107,7 +120,37 @@ class SecKitSettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('seckit_xss.csp.checkbox'),
       '#title' => $this->t('Send HTTP response header'),
       '#return_value' => 1,
-      '#description' => $this->t('Send Content-Security-Policy (official), X-Content-Security-Policy (supported by Mozilla Firefox and IE10) and X-WebKit-CSP (supported by Google Chrome and Safari) HTTP response headers with the list of Content Security Policy directives.'),
+      '#description' => $this->t('Send Content-Security-Policy HTTP response header with the list of Content Security Policy directives.'),
+    ];
+    $form['seckit_xss']['csp']['vendor-prefix'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Vendor Prefixed CSP headers'),
+      '#collapsible' => TRUE,
+      '#tree' => TRUE,
+      '#open' => !empty($config->get('seckit_xss.csp.vendor-prefix.x')) || !empty($config->get('seckit_xss.csp.vendor-prefix.webkit')),
+      '#description' => $this->t('Support for legacy vendor-prefixed CSP headers. Details at <a href=":caniuse">@caniuse</a>.', $args),
+    ];
+    $form['seckit_xss']['csp']['vendor-prefix']['x'] = [
+      '#type' => 'checkbox',
+      '#default_value' => $config->get('seckit_xss.csp.vendor-prefix.x'),
+      '#title' => $this->t('Send X-Content-Security-Policy HTTP response header'),
+      '#return_value' => 1,
+      '#description' => $this->t('Send vendor-prefixed X-Content-Security-Policy HTTP response headers with the list of Content Security Policy directives.'),
+    ];
+    $form['seckit_xss']['csp']['vendor-prefix']['webkit'] = [
+      '#type' => 'checkbox',
+      '#default_value' => $config->get('seckit_xss.csp.vendor-prefix.webkit'),
+      '#title' => $this->t('Send X-WebKit-CSP HTTP response header'),
+      '#return_value' => 1,
+      '#description' => $this->t('Send vendor-prefixed X-WebKit-CSP HTTP response headers with the list of Content Security Policy directives.'),
+    ];
+    // CSP Upgrade Insecure Requests
+    $form['seckit_xss']['csp']['upgrade-req'] = [
+      '#type' => 'checkbox',
+      '#default_value' => $config->get('seckit_xss.csp.upgrade-req'),
+      '#title' => $this->t('Enable Upgrade Insecure Requests'),
+      '#return_value' => 1,
+      '#description' => $this->t('Upgrade Insecure Requests (upgrade-insecure-requests) instructs user agents to rewrite URL schemes, changing HTTP to HTTPS. This directive is used to protect your visitors from insecure content or for websites with large numbers of old URL\'s that need to be rewritten.'),
     ];
     // CSP report-only mode.
     $form['seckit_xss']['csp']['report-only'] = [
@@ -128,7 +171,7 @@ class SecKitSettingsForm extends ConfigFormBase {
     $wildcards = [
       '* - load content from any source',
       '*.example.com - load content from example.com and all its subdomains',
-      'example.com:* - load content from example.com via any port.  Otherwise, it will use your website default port',
+      'example.com:* - load content from example.com via any port. Otherwise, it will use your website default port',
     ];
 
     $args = [
@@ -139,7 +182,7 @@ class SecKitSettingsForm extends ConfigFormBase {
     ];
 
     $description = '<strong>' . $this->t('Directives') . '</strong><br />';
-    $description .= $this->t('Set up security policy for different types of content. Don\'t use www prefix. Keywords are: @keywords Wildcards (*) are allowed: @wildcards More information is available at <a href=":spec">@spec</a>.', $args);
+    $description .= $this->t('Set up security policy for different types of content. Don\'t use www prefix. Keywords (which must be surrounded by single quotes) are: @keywords Wildcards (*) are allowed: @wildcards More information is available at <a href=":spec">@spec</a>.', $args);
     $form['seckit_xss']['csp']['description'] = [
       '#markup' => $description,
     ];
@@ -205,7 +248,7 @@ class SecKitSettingsForm extends ConfigFormBase {
       '#maxlength' => 1024,
       '#default_value' => $config->get('seckit_xss.csp.frame-ancestors'),
       '#title' => 'frame-ancestors',
-      '#description' => t('Specify trustworthy hosts which are allowed to embed this site\'s resources via &lt;iframe&gt;, &lt;frame&gt;, &lt;object&gt;, &lt;embed&gt; and &lt;applet&gt; elements.'),
+      '#description' => $this->t("Specify trustworthy hosts which are allowed to embed this site's resources via &lt;iframe&gt;, &lt;frame&gt;, &lt;object&gt;, &lt;embed&gt; and &lt;applet&gt; elements."),
     ];
     // CSP child-src directive.
     $form['seckit_xss']['csp']['child-src'] = [
@@ -231,15 +274,13 @@ class SecKitSettingsForm extends ConfigFormBase {
       '#title' => 'connect-src',
       '#description' => $this->t('Specify trustworthy sources for XMLHttpRequest, WebSocket and EventSource connections.'),
     ];
-
-    $report_default = !empty($config->get('seckit_xss.csp.report-uri')) ? $config->get('seckit_xss.csp.report-uri') : SECKIT_CSP_REPORT_URL;
     // CSP report-uri directive.
     $form['seckit_xss']['csp']['report-uri'] = [
       '#type' => 'textfield',
       '#maxlength' => 1024,
-      '#default_value' => $report_default,
+      '#default_value' => $config->get('seckit_xss.csp.report-uri'),
       '#title' => 'report-uri',
-      '#description' => $this->t('Specify a URL (can be relative to the Drupal root, or absolute) to which user-agents will report CSP violations. Use the default value, unless you have set up an alternative handler for these reports. Note that if you specify a custom relative path, it should typically be accessible by all users (including anonymous). Defaults to <code>@report-url</code> which logs the report data.', ['@report-url' => SECKIT_CSP_REPORT_URL]),
+      '#description' => $this->t('Specify a URL (can be relative to the Drupal root, or absolute) to which user-agents will report CSP violations. Use the default value, unless you have set up an alternative handler for these reports. Note that if you specify a custom relative path, it should typically be accessible by all users (including anonymous). Defaults to <code>@report-url</code> which logs the report data.', ['@report-url' => SeckitInterface::CSP_REPORT_URL]),
     ];
     // CSP policy-uri directive.
     $form['seckit_xss']['csp']['policy-uri'] = [
@@ -256,15 +297,15 @@ class SecKitSettingsForm extends ConfigFormBase {
       '#title' => $this->t('X-XSS-Protection header'),
       '#collapsible' => TRUE,
       '#tree' => TRUE,
-      '#open' => $config->get('seckit_xss.x_xss.select') != SECKIT_X_XSS_DISABLE,
+      '#open' => $config->get('seckit_xss.x_xss.select') != SeckitInterface::X_XSS_DISABLE,
       '#description' => $this->t('X-XSS-Protection HTTP response header controls Microsoft Internet Explorer, Google Chrome and Apple Safari internal XSS filters.'),
     ];
     // Options for X-XSS-Protection.
     $x_xss_protection_options = [
-      SECKIT_X_XSS_DISABLE => $config->get('seckit_xss.x_xss.seckit_x_xss_option_disable', $this->t('Disabled')),
-      SECKIT_X_XSS_0 => $config->get('seckit_xss.x_xss.seckit_x_xss_option_0', '0'),
-      SECKIT_X_XSS_1 => $config->get('seckit_xss.x_xss.seckit_x_xss_option_1', '1;'),
-      SECKIT_X_XSS_1_BLOCK => $config->get('seckit_xss.x_xss.seckit_x_xss_option_1_block', '1; mode=block'),
+      SeckitInterface::X_XSS_DISABLE => $config->get('seckit_xss.x_xss.seckit_x_xss_option_disable', $this->t('Disabled')),
+      SeckitInterface::X_XSS_0 => $config->get('seckit_xss.x_xss.seckit_x_xss_option_0', '0'),
+      SeckitInterface::X_XSS_1 => $config->get('seckit_xss.x_xss.seckit_x_xss_option_1', '1;'),
+      SeckitInterface::X_XSS_1_BLOCK => $config->get('seckit_xss.x_xss.seckit_x_xss_option_1_block', '1; mode=block'),
     ];
     // Configure X-XSS-Protection.
     $args = [
@@ -331,17 +372,17 @@ class SecKitSettingsForm extends ConfigFormBase {
       '#type' => 'details',
       '#title' => $this->t('X-Frame-Options header'),
       '#collapsible' => TRUE,
-      '#collapsed' => ($config->get('seckit_clickjacking.x_frame') != SECKIT_X_FRAME_DISABLE),
+      '#collapsed' => ($config->get('seckit_clickjacking.x_frame') != SeckitInterface::X_FRAME_DISABLE),
       '#tree' => FALSE,
       '#description' => $this->t('Configure the X-Frame-Options HTTP header'),
     ];
 
     // Options for X-Frame-Options.
     $x_frame_options = [
-      SECKIT_X_FRAME_DISABLE => $this->t('Disabled'),
-      SECKIT_X_FRAME_SAMEORIGIN => 'SAMEORIGIN',
-      SECKIT_X_FRAME_DENY => 'DENY',
-      SECKIT_X_FRAME_ALLOW_FROM => 'ALLOW-FROM',
+      SeckitInterface::X_FRAME_DISABLE => $this->t('Disabled'),
+      SeckitInterface::X_FRAME_SAMEORIGIN => 'SAMEORIGIN',
+      SeckitInterface::X_FRAME_DENY => 'DENY',
+      SeckitInterface::X_FRAME_ALLOW_FROM => 'ALLOW-FROM',
     ];
     // Configure X-Frame-Options.
     $items = [
@@ -371,15 +412,15 @@ class SecKitSettingsForm extends ConfigFormBase {
       ],
     ];
 
-    // Origin value for "Allow-From" option.
+    // Origin value for "ALLOW-FROM" option.
     $form['seckit_clickjacking']['x_frame_options']['x_frame_allow_from'] = [
       '#type' => 'textarea',
-      '#title' => $this->t('Allow-From'),
+      '#title' => $this->t('ALLOW-FROM'),
       '#default_value' => $config->get('seckit_clickjacking.x_frame_allow_from'),
-      '#description' => $this->t('Origin URIs (as specified by RFC 6454) for the "X-Frame-Options: Allow-From" value. One per line. If the request does not contain a matching Origin header, the last value will be used. Example, http://domain.com'),
+      '#description' => $this->t('Origin URIs (as specified by RFC 6454) for the "X-Frame-Options: ALLOW-FROM" value. One per line. If the request does not contain a matching Origin header, the last value will be used. Example, http://domain.com'),
       '#states' => [
         'required' => [
-          'select[name="seckit_clickjacking[x_frame]"]' => ['value' => SECKIT_X_FRAME_ALLOW_FROM],
+          'select[name="seckit_clickjacking[x_frame]"]' => ['value' => SeckitInterface::X_FRAME_ALLOW_FROM],
         ],
       ],
       // Non-tree (we skip a parent).
@@ -548,6 +589,37 @@ class SecKitSettingsForm extends ConfigFormBase {
       '#description' => $this->t('Enforce the Certificate Transparency policy.'),
     ];
 
+    $args = [
+      ':feature-policy_docs' => 'https://developers.google.com/web/updates/2018/06/feature-policy',
+      '@feature-policy_docs' => "Google's developer documentation",
+    ];
+
+    // Main fieldset for Feature-Policy.
+    $form['seckit_fp'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Feature policy'),
+      '#collapsible' => TRUE,
+      '#tree' => TRUE,
+      '#open' => !empty($config->get('seckit_fp.feature_policy')),
+      '#description' => $this->t('Allows configuration of the Feature-Policy header to selectively enable, disable, and modify the behavior of certain APIs and web features in the browser. See <a href=":feature-policy_docs">@feature-policy_docs</a>.', $args),
+    ];
+
+    $form['seckit_fp']['feature_policy'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Feature policy'),
+      '#default_value' => $config->get('seckit_fp.feature_policy'),
+      '#description' => $this->t('Enable the Feature-Policy header.'),
+    ];
+
+    $form['seckit_fp']['feature_policy_policy'] = [
+      '#type' => 'textfield',
+      '#title' => $this->t('Policy'),
+      '#default_value' => $config->get('seckit_fp.feature_policy_policy'),
+      '#size' => 90,
+      '#maxlength' => 255,
+      '#description' => $this->t('Specify the policy to be sent out with Feature-Policy headers.'),
+    ];
+
     // Main fieldset for various.
     $form['seckit_various'] = [
       '#type' => 'details',
@@ -625,11 +697,12 @@ class SecKitSettingsForm extends ConfigFormBase {
       'no-referrer' => 'no-referrer',
       'no-referrer-when-downgrade' => 'no-referrer-when-downgrade',
       'same-origin' => 'same-origin',
+      'origin' => 'origin',
       'strict-origin' => 'strict-origin',
       'origin-when-cross-origin' => 'origin-when-cross-origin',
       'strict-origin-when-cross-origin' => 'strict-origin-when-cross-origin',
       'unsafe-url' => 'unsafe-url',
-      'empty' => $this->t('"" (empty string)'),
+      '""' => $this->t('"" (empty string)'),
     ];
     $form['seckit_various']['referrer_policy_policy'] = [
       '#type' => 'select',
@@ -665,12 +738,12 @@ class SecKitSettingsForm extends ConfigFormBase {
     if ($from_origin_enable && !$from_origin_destination) {
       $form_state->setErrorByName('seckit_various][from_origin_destination', $this->t('You have to set up trustworthy destination for From-Origin HTTP response header. Default is same.'));
     }
-    // If X-Frame-Options is set to Allow-From, it should be explicitly set.
+    // If X-Frame-Options is set to ALLOW-FROM, it should be explicitly set.
     $x_frame_value = $form_state->getValue(['seckit_clickjacking', 'x_frame']);
-    if ($x_frame_value == SECKIT_X_FRAME_ALLOW_FROM) {
+    if ($x_frame_value == SeckitInterface::X_FRAME_ALLOW_FROM) {
       $x_frame_allow_from = $form_state->getValue(['seckit_clickjacking', 'x_frame_allow_from']);
       if (!$this->seckitExplodeValue($x_frame_allow_from)) {
-        $form_state->setErrorByName('seckit_clickjacking][x_frame_allow_from', $this->t('You must specify a trusted Origin for the Allow-From value of the X-Frame-Options HTTP response header.'));
+        $form_state->setErrorByName('seckit_clickjacking][x_frame_allow_from', $this->t('You must specify a trusted Origin for the ALLOW-FROM value of the X-Frame-Options HTTP response header.'));
       }
     }
     // If HTTP Strict Transport Security is enabled, max-age must be specified.
@@ -717,19 +790,10 @@ class SecKitSettingsForm extends ConfigFormBase {
     $list = [];
     $this->buildAttributeList($list, $form_state->getValues());
     $config = $this->config('seckit.settings');
-
     foreach ($list as $key => $value) {
       $config->set($key, $value);
     }
-
     $config->save();
-
-    $from_origin_enable = $form_state->getValue('seckit_various', 'from_origin');
-    $file_system = file_default_scheme();
-    if ($from_origin_enable && ($file_system == 'public')) {
-      $msg = $this->t('From-Origin HTTP response header will not be served for files because of public file system. It is recommended to enable private file system to ensure provided by From-Origin security.');
-      drupal_set_message($msg, 'warning');
-    }
 
     parent::submitForm($form, $form_state);
   }
@@ -742,7 +806,7 @@ class SecKitSettingsForm extends ConfigFormBase {
       '#theme' => 'item_list',
       '#items' => $items,
     ];
-    return drupal_render($list);
+    return $this->renderer->render($list);
   }
 
   /**

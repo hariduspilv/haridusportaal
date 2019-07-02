@@ -10,9 +10,7 @@ use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 abstract class EntityEmbedTestBase extends WebDriverTestBase {
 
   /**
-   * Modules to enable.
-   *
-   * @var array
+   * {@inheritdoc}
    */
   protected static $modules = [
     'entity_embed',
@@ -36,6 +34,19 @@ JS;
   }
 
   /**
+   * Clicks a CKEditor button.
+   *
+   * @param string $name
+   *   The name of the button, such as drupalink, source, etc.
+   */
+  protected function pressEditorButton($name) {
+    $this->getSession()->switchToIFrame();
+    $this->assertSession()
+      ->waitForElementVisible('css', 'a.cke_button__' . $name)
+      ->click();
+  }
+
+  /**
    * Waits for CKEditor to initialize.
    *
    * @param string $instance_id
@@ -55,6 +66,37 @@ JS;
 JS;
 
     $this->getSession()->wait($timeout, $condition);
+  }
+
+  /**
+   * Helper function to reopen EntityEmbedDialog for first embed.
+   */
+  protected function reopenDialog() {
+    $this->getSession()->switchToIFrame();
+    $select_and_edit_embed = <<<JS
+var editor = CKEDITOR.instances['edit-body-0-value'];
+var entityEmbed = editor.widgets.getByElement(editor.editable().findOne('div'));
+entityEmbed.focus();
+editor.execCommand('editdrupalentity');
+JS;
+    $this->getSession()->executeScript($select_and_edit_embed);
+    $this->assertSession()->assertWaitOnAjaxRequest();
+    $this->assertSession()->waitForElementVisible('css', 'form.entity-embed-dialog-step--embed');
+  }
+
+  /**
+   * Show visually hidden fields.
+   */
+  protected function showHiddenFields() {
+    $script = <<<JS
+      var hidden_fields = document.querySelectorAll(".visually-hidden");
+
+      [].forEach.call(hidden_fields, function(el) {
+        el.classList.remove("visually-hidden");
+      });
+JS;
+
+    $this->getSession()->executeScript($script);
   }
 
 }

@@ -54,8 +54,8 @@ class ModuleMissingMessageFixerForm extends FormBase {
    *   The config factory.
    * @param \Drupal\Core\Messenger\MessengerInterface $messenger
    *   The messenger service.
-   * @param \Drupal\module_missing_message_fixer\ModuleMissingMessageFixer
-   *   The mmmf service
+   * @param \Drupal\module_missing_message_fixer\ModuleMissingMessageFixer $mmmf
+   *   The mmmf service.
    */
   public function __construct(Connection $connection, ConfigFactoryInterface $config_factory, MessengerInterface $messenger, ModuleMissingMessageFixer $mmmf) {
     $this->connection = $connection;
