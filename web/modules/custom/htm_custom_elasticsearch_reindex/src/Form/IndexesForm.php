@@ -76,23 +76,14 @@ class IndexesForm extends FormBase {
             }
         }
 
-        $batch = [
-            'title' => t('Rebuilding indexes ....--'),
-            'operations' => [
-                [
-                    '\Drupal\htm_custom_elasticsearch_reindex\ProcessIndexes::ResaveIndexes',
-                    [$user_input]
-                ],
-                #[
-                #    '\Drupal\htm_custom_elasticsearch_reindex\ProcessIndexes::RebuildIndexes',
-                #    [$user_input]
-                #]
-            ],
-            'error_message' => t('The rebuilding process has encountered an error.'),
-            'finished' => '\Drupal\htm_custom_elasticsearch_reindex\ProcessIndexes::ProcessIndexesFinishedCallback'
-        ];
+        $server_storage = \Drupal::entityTypeManager()->getStorage('search_api_server')->loadMultiple();
 
-        batch_set($batch);
-
+        foreach($user_input as $server => $indexes){
+            $loaded_indexes = $server_storage[$server]->getIndexes(['id' => $indexes]);
+            foreach($loaded_indexes as $index){
+                $index->save();
+                $index->reindex();
+            }
+        }
     }
 }
