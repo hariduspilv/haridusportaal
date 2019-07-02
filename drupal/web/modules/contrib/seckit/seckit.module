@@ -8,27 +8,6 @@
 use Drupal\Core\Form\FormStateInterface;
 
 /**
- * Necessary constants.
- */
-// Disable X-XSS-Protection HTTP header.
-define('SECKIT_X_XSS_DISABLE', 0);
-// Set X-XSS-Protection HTTP header to 0.
-define('SECKIT_X_XSS_0', 1);
-// Set X-XSS-Protection HTTP header to 1; mode=block.
-define('SECKIT_X_XSS_1_BLOCK', 2);
-// Set X-XSS-Protection HTTP header to 1.
-define('SECKIT_X_XSS_1', 3);
-// Disable X-Frame-Options HTTP header.
-define('SECKIT_X_FRAME_DISABLE', 0);
-// Set X-Frame-Options HTTP header to SAMEORIGIN.
-define('SECKIT_X_FRAME_SAMEORIGIN', 1);
-// Set X-Frame-Options HTTP header to DENY.
-define('SECKIT_X_FRAME_DENY', 2);
-// Set X-Frame-Options HTTP header to ALLOW-FROM.
-define('SECKIT_X_FRAME_ALLOW_FROM', 3);
-define('SECKIT_CSP_REPORT_URL', 'report-csp-violation');
-
-/**
  * Implements hook_form_FORM_ID_alter().
  */
 function seckit_form_user_login_form_alter(&$form, FormStateInterface &$form_state) {

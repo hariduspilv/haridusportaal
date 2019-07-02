@@ -433,7 +433,7 @@ frontpage:
     en: 'Liik ENG'
   maht:
     translation_type: textarea
-    et: Maht
+    et: 'Maht tundides'
     en: 'Maht ENG'
   message:
     translation_type: textarea
@@ -723,6 +723,18 @@ frontpage:
     translation_type: textarea
     et: Klass
     en: Classification
+  RÕK:
+    translation_type: textarea
+    et: 'Riiklik õppekava'
+    en: 'Riiklik õppekava'
+  kvalifikatsioonid:
+    translation_type: textarea
+    et: Kvalifikatsioonid
+    en: ''
+  lopetatud:
+    translation_type: textarea
+    et: lõpetatud
+    en: ''
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -784,6 +796,14 @@ xjson:
     translation_type: textarea
     et: '* märgitud väljad on kohustuslikud'
     en: '* fields are required'
+  data_missing:
+    translation_type: textarea
+    et: 'Andmed puuduvad'
+    en: 'Data is missing'
+  delete_file:
+    translation_type: textarea
+    et: Kustuta
+    en: Delete
 article:
   label:
     translation_type: textarea
@@ -2835,3 +2855,8 @@ sidemenu:
       value: "<p>Lehte haldab</p>\r\n\r\n<p>Haridus- ja Teadusministeerium</p>\r\n\r\n<p>koos partneritega</p>\r\n"
       format: custom_editor
 filters: {  }
+date:
+  format:
+    translation_type: textarea
+    et: pp.kk.aaaa
+    en: dd.mm.yyyy
