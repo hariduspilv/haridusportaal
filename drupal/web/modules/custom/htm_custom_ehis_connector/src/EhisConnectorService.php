@@ -143,6 +143,10 @@ class EhisConnectorService {
 	 * @return bool|int
 	 */
 	public function saveFileToRedis(Base64Image $img, $key){
+	    dump($key);
+	    dump($img->getFileIdentifier());
+	    dump($img->getRawData());
+	    die();
 		return $this->client->hset($key, $img->getFileIdentifier(), $img->getRawData());
 	}
 
