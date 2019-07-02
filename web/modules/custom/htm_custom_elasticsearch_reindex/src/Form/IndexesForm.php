@@ -55,7 +55,7 @@ class IndexesForm extends FormBase {
 
         $form['submit'] = [
             '#type' => 'submit',
-            '#value' => $this->t('Import'),
+            '#value' => $this->t('Rebuild'),
         ];
 
         return $form;
