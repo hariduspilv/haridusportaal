@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_elasticsearch_reindex.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function htm_custom_elasticsearch_reindex_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the htm_custom_elasticsearch_reindex module.
+    case 'help.page.htm_custom_elasticsearch_reindex':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for reindexing all Elasticsearch data') . '</p>';
+      return $output;
+
+    default:
+  }
+}

@@ -27,7 +27,7 @@ class Base64Image{
 	}
 
 	public function getRawData(){
-		return file_get_contents($this->filePath);
+		return $this->base64Image;
 	}
 
 	public function getMimeType(){
