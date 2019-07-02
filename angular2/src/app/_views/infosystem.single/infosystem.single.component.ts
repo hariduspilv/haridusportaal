@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, Input } from '@angular/core';
 import { HttpService } from '@app/_services/httpService';
 import { RootScopeService } from '@app/_services';
 import { Router } from '@angular/router';
@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 
 export class InfosystemSingle implements OnInit, OnDestroy {
+
+  @Input() inputData: any;
 
   public data: any = {}
   public loading: boolean = true;
@@ -46,7 +48,11 @@ export class InfosystemSingle implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.getData();
+    if (this.inputData) {
+      this.data = this.inputData;
+    } else {
+      this.getData();
+    }
   }
   ngOnDestroy() {
 
