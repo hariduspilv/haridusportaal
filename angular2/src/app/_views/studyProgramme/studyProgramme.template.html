@@ -9,7 +9,7 @@
   <button style="display:none" tabindex="-1" aria-hidden="true" type="submit" mat-raised-button color="primary"></button>
   <div class="main-container">
     <div class="row form-first-row" [class.short-filter]="!filterFull">
-      <div class="col-4 sm-12">
+      <div class="col-4 sm-12 form-col">
         <div class="round-input__wrapper" [class.complete]="filterFormItems.title">
           <span class="round-input__title">{{ 'studyProgramme.filter_title' | translate }}</span>
           <div class="round-input__field-wrapper">
@@ -18,7 +18,7 @@
         </div><!--/round-inpuit__wrapper-->
       </div><!--/col-4-->
 
-      <div class="col-5 sm-12">
+      <div class="col-5 sm-12 form-col">
         <div class="round-input__wrapper">
           <mat-form-field
             role="button"
@@ -42,8 +42,8 @@
         </div>
       </div><!--/col-4-->
 
-      <div class="col-3 text-right sm-12 filter-button-row" *ngIf="!filterFull">
-          <button class="btn-link" (click)="filterFull = !filterFull" aria-expanded="false">
+      <div class="col-3 text-right sm-12 filter-button-row form-col" *ngIf="!filterFull">
+          <button class="btn-link" (click)="filterFull = !filterFull; setFocus('first_field')" aria-expanded="false">
             <span>Täpsem otsing</span>
           </button>
         <div class="button-row">
@@ -51,162 +51,151 @@
         </div>
       </div><!--/col-3-->
     </div><!--/row-->
+    <a role="presentation" attr.aria-label="{{ 'Täpsemad filtrid' }}{{ !filterFull ? ' peidus' : '' }}" id="first_field" tabindex="-1"></a>
     <ng-container *ngIf="filterFull">
-      <div class="row">
-        <div class="col-4 sm-12">
-          <div class="row form-additional-row">
-            <div class="col-12">
-              <div class="round-input__wrapper">
-                <mat-form-field
-                  *ngIf="FilterOptions"
-                  role="button"
-                  attr.aria-label="{{ 'studyProgramme.level' | translate }} {{ 'label.dropdown_multiple' | translate }}"
-                  (click)="openDropdown('elem_list_2')"
-                  aria-haspopup="listbox">
-                  <mat-select
-                    id="elem_list_2"
-                    role="listbox"
-                    (openedChange)="entityLabelSort($event, 'level')"
-                    [multiple]='true' 
-                    placeholder="{{ 'studyProgramme.level' | translate }}" 
-                    [(ngModel)]='filterFormItems.level' 
-                    name="level">
-                    <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
-                    <mat-option role="option" *ngFor="let level of FilterOptions.level" [value]="level.tid">
-                      {{level.entityLabel}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-          <div class="row form-additional-row">
-            <div class="col-12">
-              <div class="round-input__wrapper">
-                <mat-form-field
-                  *ngIf="FilterOptions"
-                  role="button"
-                  attr.aria-label="{{ 'studyProgramme.filter_language' | translate }} {{ 'label.dropdown_multiple' | translate }}"
-                  (click)="openDropdown('elem_list_3')"
-                  aria-haspopup="listbox">
-                  <mat-select 
-                    id="elem_list_3"
-                    role="listbox"
-                    (openedChange)="entityLabelSort($event, 'language')" 
-                    [multiple]='true'
-                    placeholder="{{ 'studyProgramme.filter_language' | translate }}"
-                    [(ngModel)]='filterFormItems.language'
-                    name="language">
-                    <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
-                    <mat-option role="option" *ngFor="let language of FilterOptions.language" [value]="language.tid">
-                      {{language.entityLabel}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-          <div class="row form-additional-row no-margin">
-            <div class="col-12 pb-0">
-              <div class="round-input__wrapper" [class.complete]="filterFormItems.school">
-                <span class="round-input__title">{{ 'studyProgramme.filter_school' | translate }}</span>
-                <div class="round-input__field-wrapper">
-                  <input class="round-input__field" placeholder="{{ 'studyProgramme.filter_school' | translate }} " [(ngModel)]='filterFormItems.school' name="school" />
-                </div>
-              </div><!--round-inpuit__wrapper-->
-            </div>
+      <div class="row form-additional-row no-margin">
+        <div class="col-4 sm-12 form-col">
+          <div class="round-input__wrapper">
+            <mat-form-field
+              *ngIf="FilterOptions"
+              role="button"
+              attr.aria-label="{{ 'studyProgramme.level' | translate }} {{ 'label.dropdown_multiple' | translate }}"
+              (click)="openDropdown('elem_list_2')"
+              aria-haspopup="listbox">
+              <mat-select
+                id="elem_list_2"
+                role="listbox"
+                (openedChange)="entityLabelSort($event, 'level')"
+                [multiple]='true' 
+                placeholder="{{ 'studyProgramme.level' | translate }}" 
+                [(ngModel)]='filterFormItems.level' 
+                name="level">
+                <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
+                <mat-option role="option" *ngFor="let level of FilterOptions.level" [value]="level.tid">
+                  {{level.entityLabel}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
-        <div class="col-5 sm-12">
-          <div class="row form-additional-row">
-            <div class="col-12">
-              <div class="round-input__wrapper">
-                <mat-form-field
-                  *ngIf="FilterOptions"
-                  role="button"
-                  attr.aria-label="{{ 'studyProgramme.filter_iscedf_broad' | translate }} {{ 'label.dropdown_multiple' | translate }}"
-                  (click)="openDropdown('elem_list_4')"
-                  aria-haspopup="listbox">
-                  <mat-select
-                    id="elem_list_4"
-                    role="listbox"
-                    (openedChange)="entityLabelSort($event, 'iscedf_broad')"
-                    [multiple]='true'
-                    placeholder="{{ 'studyProgramme.filter_iscedf_broad' | translate }}"
-                    (selectionChange)="isceChange(filterFormItems.iscedf_broad, 'iscedf_broad')"
-                    [(ngModel)]='filterFormItems.iscedf_broad'
-                    name="iscedf_broad">
-                    <mat-option role="option" *ngFor="let iscedf_broad of FilterOptions.iscedf_broad" [value]="iscedf_broad.entityId">
-                      {{iscedf_broad.entityLabel}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
+        <div class="col-5 sm-12 form-col">
+          <div class="round-input__wrapper">
+            <mat-form-field
+              *ngIf="FilterOptions"
+              role="button"
+              attr.aria-label="{{ 'studyProgramme.filter_iscedf_broad' | translate }} {{ 'label.dropdown_multiple' | translate }}"
+              (click)="openDropdown('elem_list_4')"
+              aria-haspopup="listbox">
+              <mat-select
+                id="elem_list_4"
+                role="listbox"
+                (openedChange)="entityLabelSort($event, 'iscedf_broad')"
+                [multiple]='true'
+                placeholder="{{ 'studyProgramme.filter_iscedf_broad' | translate }}"
+                (selectionChange)="isceChange(filterFormItems.iscedf_broad, 'iscedf_broad')"
+                [(ngModel)]='filterFormItems.iscedf_broad'
+                name="iscedf_broad">
+                <mat-option role="option" *ngFor="let iscedf_broad of FilterOptions.iscedf_broad" [value]="iscedf_broad.entityId">
+                  {{iscedf_broad.entityLabel}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
-          <div class="row form-additional-row">
-            <div class="col-12">
-              <div class="round-input__wrapper" [class.disabled]="filterFormItems.iscedf_broad == undefined || !filterFormItems.iscedf_broad.length">
-                <mat-form-field
-                  *ngIf="FilterOptions"
-                  role="button"
-                  attr.aria-disabled="{{ filterFormItems.iscedf_broad == undefined || !filterFormItems.iscedf_broad.length }}"
-                  attr.aria-label="{{ 'studyProgramme.filter_iscedf_narrow' | translate }} {{ 'label.dropdown_multiple' | translate }}"
-                  (click)="openDropdown('elem_list_5')"
-                  aria-haspopup="listbox">
-                  <mat-select
-                    id="elem_list_5"
-                    role="listbox"
-                    (openedChange)="entityLabelSort($event, 'iscedf_narrow')"
-                    [multiple]='true'
-                    [disabled]="!filterFormItems.iscedf_broad"
-                    placeholder="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}"
-                    (selectionChange)="isceChange(filterFormItems.iscedf_narrow, 'iscedf_narrow')"
-                    [(ngModel)]='filterFormItems.iscedf_narrow'
-                    name="iscedf_narrow">
-                    <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
-                    <mat-option role="option" *ngFor="let iscedf_narrow of FilterOptions.iscedf_narrow" [value]="iscedf_narrow.entityId">
-                      {{iscedf_narrow.entityLabel}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
-            </div>
+        </div>
+      </div>
+      <div class="row form-additional-row no-margin">
+        <div class="col-4 sm-12 form-col">
+          <div class="round-input__wrapper">
+            <mat-form-field
+              *ngIf="FilterOptions"
+              role="button"
+              attr.aria-label="{{ 'studyProgramme.filter_language' | translate }} {{ 'label.dropdown_multiple' | translate }}"
+              (click)="openDropdown('elem_list_3')"
+              aria-haspopup="listbox">
+              <mat-select 
+                id="elem_list_3"
+                role="listbox"
+                (openedChange)="entityLabelSort($event, 'language')" 
+                [multiple]='true'
+                placeholder="{{ 'studyProgramme.filter_language' | translate }}"
+                [(ngModel)]='filterFormItems.language'
+                name="language">
+                <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
+                <mat-option role="option" *ngFor="let language of FilterOptions.language" [value]="language.tid">
+                  {{language.entityLabel}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
-          <div class="row form-additional-row no-margin">
-            <div class="col-12 pb-0">
-              <div class="round-input__wrapper"
-                [class.disabled]="filterFormItems.iscedf_narrow == undefined || !filterFormItems.iscedf_narrow.length">
-                <mat-form-field
-                  *ngIf="FilterOptions"
-                  role="button" 
-                  attr.aria-disabled="{{ filterFormItems.iscedf_narrow == undefined || !filterFormItems.iscedf_narrow.length }}"
-                  attr.aria-label="{{ 'studyProgramme.filter_iscedf_detailed' | translate }} {{ 'label.dropdown_multiple' | translate }}"
-                  (click)="openDropdown('elem_list_6')"
-                  aria-haspopup="listbox">
-                  <mat-select
-                    id="elem_list_6"
-                    role="listbox" 
-                    (openedChange)="entityLabelSort($event, 'iscedf_detailed')"
-                    [multiple]='true'
-                    [disabled]="!filterFormItems.iscedf_narrow"
-                    placeholder="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}"
-                    (selectionChange)="isceChange(filterFormItems.iscedf_detailed, 'iscedf_detailed')"
-                    [(ngModel)]='filterFormItems.iscedf_detailed'
-                    name="iscedf_detailed">
-                    <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
-                    <mat-option role="option" *ngFor="let iscedf_detailed of FilterOptions.iscedf_detailed" [value]="iscedf_detailed.entityId">
-                      {{iscedf_detailed.entityLabel}}
-                    </mat-option>
-                  </mat-select>
-                </mat-form-field>
-              </div>
+        </div>
+        <div class="col-5 sm-12 form-col">
+          <div class="round-input__wrapper" [class.disabled]="filterFormItems.iscedf_broad == undefined || !filterFormItems.iscedf_broad.length">
+            <mat-form-field
+              *ngIf="FilterOptions"
+              role="button"
+              attr.aria-disabled="{{ filterFormItems.iscedf_broad == undefined || !filterFormItems.iscedf_broad.length }}"
+              attr.aria-label="{{ 'studyProgramme.filter_iscedf_narrow' | translate }} {{ 'label.dropdown_multiple' | translate }}"
+              (click)="openDropdown('elem_list_5')"
+              aria-haspopup="listbox">
+              <mat-select
+                id="elem_list_5"
+                role="listbox"
+                (openedChange)="entityLabelSort($event, 'iscedf_narrow')"
+                [multiple]='true'
+                [disabled]="!filterFormItems.iscedf_broad"
+                placeholder="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}"
+                (selectionChange)="isceChange(filterFormItems.iscedf_narrow, 'iscedf_narrow')"
+                [(ngModel)]='filterFormItems.iscedf_narrow'
+                name="iscedf_narrow">
+                <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
+                <mat-option role="option" *ngFor="let iscedf_narrow of FilterOptions.iscedf_narrow" [value]="iscedf_narrow.entityId">
+                  {{iscedf_narrow.entityLabel}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row form-additional-row no-margin">
+        <div class="col-4 sm-12 form-col">
+          <div class="round-input__wrapper" [class.complete]="filterFormItems.school">
+            <span class="round-input__title">{{ 'studyProgramme.filter_school' | translate }}</span>
+            <div class="round-input__field-wrapper">
+              <input class="round-input__field" placeholder="{{ 'studyProgramme.filter_school' | translate }} " [(ngModel)]='filterFormItems.school' name="school" />
             </div>
+          </div><!--round-inpuit__wrapper-->
+        </div>
+        <div class="col-5 sm-12 form-col">
+          <div class="round-input__wrapper"
+            [class.disabled]="filterFormItems.iscedf_narrow == undefined || !filterFormItems.iscedf_narrow.length">
+            <mat-form-field
+              *ngIf="FilterOptions"
+              role="button" 
+              attr.aria-disabled="{{ filterFormItems.iscedf_narrow == undefined || !filterFormItems.iscedf_narrow.length }}"
+              attr.aria-label="{{ 'studyProgramme.filter_iscedf_detailed' | translate }} {{ 'label.dropdown_multiple' | translate }}"
+              (click)="openDropdown('elem_list_6')"
+              aria-haspopup="listbox">
+              <mat-select
+                id="elem_list_6"
+                role="listbox" 
+                (openedChange)="entityLabelSort($event, 'iscedf_detailed')"
+                [multiple]='true'
+                [disabled]="!filterFormItems.iscedf_narrow"
+                placeholder="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}"
+                (selectionChange)="isceChange(filterFormItems.iscedf_detailed, 'iscedf_detailed')"
+                [(ngModel)]='filterFormItems.iscedf_detailed'
+                name="iscedf_detailed">
+                <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
+                <mat-option role="option" *ngFor="let iscedf_detailed of FilterOptions.iscedf_detailed" [value]="iscedf_detailed.entityId">
+                  {{iscedf_detailed.entityLabel}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </div>
         </div>
       </div>
       <div class="row pt-1">
-        <div class="col-4 sm-12">
+        <div class="col-4 sm-12 form-col">
           <div class="round-input__wrapper" [class.complete]="filterFormItems.location">
               <span class="round-input__title">{{ 'studyProgramme.filter_location' | translate }}</span>
               <div class="round-input__field-wrapper">
@@ -214,7 +203,7 @@
               </div>
             </div><!--/round-inpuit__wrapper-->
         </div>
-        <div class="col-5 sm-12">
+        <div class="col-5 sm-12 form-col">
           <div class="round-input__wrapper">
             <mat-form-field *ngIf="FilterOptions">
               <mat-select
@@ -236,14 +225,14 @@
         </div>
       </div><!--/row-->
       <div class="row">
-        <div class="col-4 sm-12">
+        <div class="col-4 sm-12 form-col">
           <div class="custom-checkbox">
               <mat-checkbox [(ngModel)]="filterFormItems.open_admission" name="open_admission"> {{ 'studyProgramme.filter_open_admission' | translate }}</mat-checkbox>
           </div>
         </div>
       </div>
       <div class="row flex flex-justify-end">
-        <div class="col-12 text-right sm-12 filter-button-row">
+        <div class="col-12 text-right sm-12 form-col filter-button-row">
           <button (click)="clearForm()" class="btn-link btn-link--withIcon" attr.aria-label="{{'button.clear_fields_label' | translate}}">
               <div aria-hidden="true" class="htm-icon">close-1</div>
               <span>{{'button.clear_fields' | translate}}</span>
