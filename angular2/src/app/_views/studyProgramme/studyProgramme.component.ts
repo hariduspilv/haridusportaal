@@ -353,6 +353,9 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     }
   }
   
+  setFocus(id) {
+    document.getElementById(id).focus();
+  }
   initialScrollRestorationSetup(hash) {
     let scrollData = this.scrollRestoration.getRoute(decodeURI(window.location.pathname));
     if (scrollData && this.rootScope.get('scrollRestorationState')) {
