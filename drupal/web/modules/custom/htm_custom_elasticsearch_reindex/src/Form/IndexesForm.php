@@ -41,7 +41,7 @@ class IndexesForm extends FormBase {
         $radio_fields = [];
 
         foreach($indexes as $index){
-            
+
             $tracker = $index->getTrackerInstance();
             $args = [
                 '@indexed' => $tracker->getIndexedItemsCount(),
