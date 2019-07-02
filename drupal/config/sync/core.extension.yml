@@ -49,6 +49,7 @@ module:
   htm_custom_content_preview: 0
   htm_custom_datetime_unix: 0
   htm_custom_ehis_connector: 0
+  htm_custom_elasticsearch_reindex: 0
   htm_custom_event_registration: 0
   htm_custom_exports: 0
   htm_custom_favorites: 0

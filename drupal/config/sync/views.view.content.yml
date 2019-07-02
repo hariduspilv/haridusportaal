@@ -2,8 +2,6 @@ uuid: 8dbb7659-3d7a-4f96-a228-0332d8e7b2fd
 langcode: et
 status: true
 dependencies:
-  config:
-    - system.menu.admin
   module:
     - node
     - user
