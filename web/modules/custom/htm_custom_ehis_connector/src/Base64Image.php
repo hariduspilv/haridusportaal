@@ -14,8 +14,9 @@ class Base64Image{
 	protected $fileIdentifier;
 	protected $extensions;
 
-	public function __construct($file_path, $fileName)
+	public function __construct($base64Image, $file_path, $fileName)
 	{
+	    $this->base64Image = $base64Image;
 		$this->filePath = $file_path;
         $this->fileName = $fileName;
         $this->mimeType = $this->setMimeType();
