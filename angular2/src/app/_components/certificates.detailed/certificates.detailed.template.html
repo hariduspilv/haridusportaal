@@ -113,7 +113,7 @@
               <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
                 <mat-panel-title>
                   <!-- <div *ngIf="!opened[ind]">{{item.test_nimi}}&nbsp;<span *ngIf="item.tulemus">|</span>&nbsp;{{item.tulemus}}</div> -->
-                  <div class="text--substrong--head">{{'frontpage.test_nimi' | translate}}:&nbsp;<span>{{item.test_nimi}}</span></div>
+                  <div class="text--substrong--head"><span>{{item.test_nimi}}<span *ngIf="item.tulemus">&nbsp;|&nbsp;{{ item.tulemus }}</span></span></div>
                 </mat-panel-title>
               </mat-expansion-panel-header>
               <!-- <div class="text--substrong" *ngIf="item.tulemus">{{'frontpage.tulemus' | translate}}:&nbsp;<span>{{item.tulemus}}</span></div> -->
