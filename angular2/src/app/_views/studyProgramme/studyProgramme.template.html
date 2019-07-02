@@ -63,11 +63,12 @@
                   attr.aria-label="{{ 'studyProgramme.level' | translate }} {{ 'label.dropdown_multiple' | translate }}"
                   (click)="openDropdown('elem_list_2')"
                   aria-haspopup="listbox">
-                  <mat-select 
+                  <mat-select
                     id="elem_list_2"
                     role="listbox"
                     (openedChange)="entityLabelSort($event, 'level')"
-                    [multiple]='true' placeholder="{{ 'studyProgramme.level' | translate }}" 
+                    [multiple]='true' 
+                    placeholder="{{ 'studyProgramme.level' | translate }}" 
                     [(ngModel)]='filterFormItems.level' 
                     name="level">
                     <!-- <mat-option>{{ 'button.all' | translate }}</mat-option> -->
@@ -149,6 +150,7 @@
                 <mat-form-field
                   *ngIf="FilterOptions"
                   role="button"
+                  attr.aria-disabled="{{ filterFormItems.iscedf_broad == undefined || !filterFormItems.iscedf_broad.length }}"
                   attr.aria-label="{{ 'studyProgramme.filter_iscedf_narrow' | translate }} {{ 'label.dropdown_multiple' | translate }}"
                   (click)="openDropdown('elem_list_5')"
                   aria-haspopup="listbox">
@@ -178,6 +180,7 @@
                 <mat-form-field
                   *ngIf="FilterOptions"
                   role="button" 
+                  attr.aria-disabled="{{ filterFormItems.iscedf_narrow == undefined || !filterFormItems.iscedf_narrow.length }}"
                   attr.aria-label="{{ 'studyProgramme.filter_iscedf_detailed' | translate }} {{ 'label.dropdown_multiple' | translate }}"
                   (click)="openDropdown('elem_list_6')"
                   aria-haspopup="listbox">
