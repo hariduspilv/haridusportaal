@@ -153,11 +153,6 @@ class xJsonFile2RestResource extends ResourceBase {
 
         $request_body = json_decode($request->getContent());
         $file_hash = $request_body->file;
-        dump($file_hash);
-        die();
-
-
-        #$file_hash = ;
 
 
         $destination = $this->getUploadLocation();
@@ -184,12 +179,8 @@ class xJsonFile2RestResource extends ResourceBase {
 
         $this->validate($file, $validators);
 
-
-        dump($file);
-        dump(base64_encode($file));
-        die();
         // now make our own file for xjson
-        $file = new Base64Image(base64_encode($file), $temp_file_path, $filename);
+        $file = new Base64Image($file_hash, $temp_file_path, $filename);
 
         if(!$this->ehisService->saveFileToRedis($file, 'VPT_documents')){
             return new ModifiedResourceResponse('Failed to save', 400);
