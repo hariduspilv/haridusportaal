@@ -41,7 +41,15 @@ class IndexesForm extends FormBase {
         $radio_fields = [];
 
         foreach($indexes as $index){
-            $radio_fields[$index->getServerInstance()->id()][$index->id()] = $index->get('name');
+            
+            $tracker = $index->getTrackerInstance();
+            $args = [
+                '@indexed' => $tracker->getIndexedItemsCount(),
+                '@total' => $tracker->getTotalItemsCount(),
+            ];
+            $indexed = t(' (@indexed/@total indexed)', $args);
+
+            $radio_fields[$index->getServerInstance()->id()][$index->id()] = $index->get('name').$indexed;
         }
 
         foreach($radio_fields as $field => $options){
