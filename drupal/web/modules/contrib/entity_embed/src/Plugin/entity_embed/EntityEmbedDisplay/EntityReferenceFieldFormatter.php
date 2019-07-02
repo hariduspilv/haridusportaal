@@ -124,4 +124,74 @@ class EntityReferenceFieldFormatter extends FieldFormatterEntityEmbedDisplayBase
     return $access;
   }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function build() {
+    $build = parent::build();
+
+    // Early return if this derived plugin is not using an EntityViewBuilder.
+    // @see \Drupal\Core\Entity\EntityViewBuilder::getBuildDefaults()
+    if (!isset($build['#view_mode'])) {
+      return $build;
+    }
+
+    /** @var \Drupal\Core\Entity\EntityInterface $entity */
+    $entity = $this->getEntityFromContext();
+
+    // There are a few concerns when rendering an embedded media entity:
+    // - entity access checking happens not during rendering but during routing,
+    //   and therefore we have to do it explicitly here for the embedded entity.
+    $build['#access'] = $entity->access('view', NULL, TRUE);
+    // - caching an embedded entity separately is unnecessary; the host entity
+    //   is already render cached; plus specific values may be overridden (such
+    //   as an `alt` attribute) which would mean this particular rendered
+    //   representation is unique to the host entity and hence nonsensical to
+    //   cache separately anyway.
+    unset($build['#cache']['keys']);
+    // - Contextual Links do not make sense for embedded entities; we only allow
+    //   the host entity to be contextually managed.
+    $build['#pre_render'][] = static::class . '::disableContextualLinks';
+    // - Quick Edit does not make sense for embedded entities; we only allow the
+    //   host entity to be edited in-place.
+    $build['#pre_render'][] = static::class . '::disableQuickEdit';
+    // - default styling may break captioned media embeds; attach asset library
+    //   to ensure captions behave as intended.
+    $build['#attached']['library'][] = 'entity_embed/caption';
+
+    return $build;
+  }
+
+  /**
+   * Disables Contextual Links for the embedded media by removing its property.
+   *
+   * @param array $build
+   *   The render array for the embedded media.
+   *
+   * @return array
+   *   The updated render array.
+   *
+   * @see \Drupal\Core\Entity\EntityViewBuilder::addContextualLinks()
+   */
+  public static function disableContextualLinks(array $build) {
+    unset($build['#contextual_links']);
+    return $build;
+  }
+
+  /**
+   * Disables Quick Edit for the embedded media by removing its attributes.
+   *
+   * @param array $build
+   *   The render array for the embedded media.
+   *
+   * @return array
+   *   The updated render array.
+   *
+   * @see quickedit_entity_view_alter()
+   */
+  public static function disableQuickEdit(array $build) {
+    unset($build['#attributes']['data-quickedit-entity-id']);
+    return $build;
+  }
+
 }
