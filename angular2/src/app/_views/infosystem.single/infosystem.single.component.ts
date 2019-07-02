@@ -50,6 +50,7 @@ export class InfosystemSingle implements OnInit, OnDestroy {
   ngOnInit() {
     if (this.inputData) {
       this.data = this.inputData;
+      this.loading = false;
     } else {
       this.getData();
     }
