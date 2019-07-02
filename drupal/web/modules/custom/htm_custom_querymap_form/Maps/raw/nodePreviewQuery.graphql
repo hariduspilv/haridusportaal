@@ -11,6 +11,7 @@ query nodePreview($uuid: String!) {
         ...school
         ...studyProgramme
         ...oskaResult
+    		...infoSystemPage
     }
 }
 
@@ -940,4 +941,169 @@ fragment article on NodeArticle {
             }
         }
     }
+}
+
+fragment infoSystemPage on NodeInformationSystemPage{
+  nid
+            title
+          fieldSubtitle
+          fieldLogo {
+            derivative(style: CROP_LARGE) {
+              url
+            }
+            targetId
+            alt
+            title
+          }
+          fieldIntroductionText
+          fieldContentText {
+            value
+            format
+            processed
+          }
+          fieldWebpageLink {
+            url {
+              routed
+              path
+            }
+            title
+          }
+          fieldFile {
+            entity {
+              ... on ParagraphFileMandatoryDescription {
+                fieldAttachment {
+                  description
+                  entity {
+                    entityLabel
+                    entityType
+                    entityChanged
+                    entityBundle
+                    entityCreated
+                    url
+                    filename
+                    filemime
+                  }
+                }
+                fieldName
+              }
+            }
+          }
+          fieldInfosystemAccordion {
+            entity {
+              ... on ParagraphInformationSystemAccordion {
+                fieldAccordionTitle
+                fieldAttachmentFile {
+                  entity {
+                    ... on ParagraphFileMandatoryDescription {
+                      fieldAttachment {
+                        description
+                        entity {
+                          entityLabel
+                          entityType
+                          entityChanged
+                          entityBundle
+                          entityCreated
+                          url
+                          filename
+                          filemime
+                        }
+                      }
+                      fieldName
+                    }
+                  }
+                }
+                fieldLinks {
+                  url {
+                    routed
+                    path
+                  }
+                  title
+                }
+                fieldBody {
+                  value
+                  format
+                  processed
+                }
+                fieldLowerParagraph {
+                  entity {
+                    ... on ParagraphInformationSystemLower {
+                      fieldParagraphTitle
+                      fieldParagraphAttachment {
+                        entity {
+                          ... on ParagraphFileMandatoryDescription {
+                            fieldAttachment {
+                              description
+                              entity {
+                                entityLabel
+                                entityType
+                                entityChanged
+                                entityBundle
+                                entityCreated
+                                url
+                                filename
+                                filemime
+                              }
+                            }
+                            fieldName
+                          }
+                        }
+                      }
+                      fieldParagraphLink {
+                        url {
+                          routed
+                          path
+                        }
+                        title
+                      }
+                      fieldParagraphContent {
+                        value
+                        format
+                        processed
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+          fieldInfosystemSidebar {
+            entity {
+              ... on ParagraphInformationSystemSidebar {
+                fieldLegislationBlock {
+                  url {
+                    routed
+                    path
+                  }
+                  title
+                }
+                fieldBlocks {
+                  entity {
+                    ... on ParagraphBlock {
+                      fieldBlockTitle
+                      fieldBlockLinks {
+                        entity {
+                          ... on ParagraphLink {
+                            fieldWebpageLink {
+                              url {
+                                routed
+                                path
+                              }
+                            }
+                            fieldLinkName
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+                fieldButton {
+                  url {
+                    routed
+                    path
+                  }
+                  title
+                }
+              }
+            }
+          }
 }
