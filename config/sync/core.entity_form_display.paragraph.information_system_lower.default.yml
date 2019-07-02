@@ -20,7 +20,7 @@ mode: default
 content:
   field_paragraph_attachment:
     type: entity_reference_paragraphs
-    weight: 1
+    weight: 4
     settings:
       title: Paragraph
       title_plural: Paragraphs
