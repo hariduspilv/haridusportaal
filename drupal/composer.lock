@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3e760799cb4528b9d833785980080ec7",
+    "content-hash": "d3d76848c4c86456c712f767d1e08ac8",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4057,7 +4057,8 @@
             "homepage": "https://github.com/drupal-graphql/graphql-metatag",
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql_metatag"
-            }
+            },
+            "time": "2018-06-13T18:24:32+00:00"
         },
         {
             "name": "drupal/hms_field",
