@@ -10,4 +10,5 @@ seckit.report:
   defaults:
     _controller: '\Drupal\seckit\Controller\SeckitExportController::export'
   requirements:
+    # Needs explanation of why there is no access restriction.
     _access: 'TRUE'

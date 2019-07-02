@@ -88,7 +88,7 @@ function entity_embed_update_8003() {
 }
 
 /**
- * Installs the fake entity type.
+ * Adds new content entity type to remove dependency on node module.
  */
 function entity_embed_update_8004() {
   \Drupal::entityDefinitionUpdateManager()->installEntityType(new ContentEntityType([

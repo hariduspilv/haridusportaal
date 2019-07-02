@@ -1,6 +1,9 @@
 seckit_xss:
   csp:
     checkbox: FALSE
+    vendor-prefix:
+      x: FALSE
+      webkit: FALSE
     report-only: FALSE
     default-src: ''
     script-src: ''
@@ -13,6 +16,7 @@ seckit_xss:
     font-src: ''
     connect-src: ''
     report-uri: '/report-csp-violation'
+    upgrade-req: FALSE
     policy-uri: ''
   x_xss:
     seckit_x_xss_option_disable: Disabled
@@ -38,6 +42,9 @@ seckit_ct:
   max_age: 86400
   report_uri: ''
   enforce: FALSE
+seckit_fp:
+  feature_policy: FALSE
+  feature_policy_policy: ''
 seckit_various:
   from_origin: FALSE
   from_origin_destination: same

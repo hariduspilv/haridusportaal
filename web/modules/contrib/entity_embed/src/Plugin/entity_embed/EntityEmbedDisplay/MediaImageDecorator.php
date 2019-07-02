@@ -118,8 +118,8 @@ class MediaImageDecorator implements EntityEmbedDisplayInterface {
       $settings = $entity->{$image_field}->getItemDefinition()->getSettings();
       $attributes = $this->getAttributeValues();
 
-      $alt = isset($attributes['alt']) ? $attributes['alt'] : $entity->{$image_field}->alt;
-      $title = isset($attributes['title']) ? $attributes['title'] : $entity->{$image_field}->title;
+      $alt = isset($attributes['alt']) ? $attributes['alt'] : NULL;
+      $title = isset($attributes['title']) ? $attributes['title'] : NULL;
 
       // Setting empty alt to double quotes. See ImageFieldFormatter.
       if ($settings['alt_field_required'] && $alt === '') {
@@ -133,9 +133,9 @@ class MediaImageDecorator implements EntityEmbedDisplayInterface {
           '#title' => $this->t('Alternate text'),
           '#default_value' => $alt,
           '#description' => $this->t('This text will be used by screen readers, search engines, or when the image cannot be loaded.'),
-          '#required' => $settings['alt_field_required'],
           '#required_error' => $this->t('Alternative text is required.<br />(Only in rare cases should this be left empty. To create empty alternative text, enter <code>""</code> — two double quotes without any content).'),
           '#maxlength' => 512,
+          '#placeholder' => $entity->{$image_field}->alt,
         ];
       }
 
@@ -146,7 +146,7 @@ class MediaImageDecorator implements EntityEmbedDisplayInterface {
           '#default_value' => $title,
           '#description' => t('The title is used as a tool tip when the user hovers the mouse over the image.'),
           '#maxlength' => 1024,
-          '#required' => $settings['title_field_required'],
+          '#placeholder' => $entity->{$image_field}->title,
         ];
       }
     }
@@ -246,23 +246,12 @@ class MediaImageDecorator implements EntityEmbedDisplayInterface {
       return NULL;
     }
 
-    try {
-      $field_definition = $entity->getSource()
-        ->getSourceFieldDefinition($entity->bundle->entity);
-      $field_name = $field_definition->getName();
-      $field = $entity->get($field_name);
-      $item = $field->first();
-      if (!empty($item) && $item instanceof ImageItem) {
-        // Check that either alt field or title field is enabled.
-        if ($field_definition->getSetting('alt_field') || $field_definition->getSetting('title_field')) {
-          return $field_name;
-        }
-      }
+    $field_definition = $entity->getSource()
+      ->getSourceFieldDefinition($entity->bundle->entity);
+    $item_class = $field_definition->getItemDefinition()->getClass();
+    if ($item_class == ImageItem::class || is_subclass_of($item_class, ImageItem::class)) {
+      return $field_definition->getName();
     }
-    catch (\Exception $e) {
-      return NULL;
-    }
-
     return NULL;
   }
 

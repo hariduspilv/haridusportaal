@@ -2,19 +2,48 @@
 
 namespace Drupal\seckit\Controller;
 
+use Drupal\Core\Controller\ControllerBase;
+use Drupal\Core\DependencyInjection\ContainerInjectionInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Example page controller.
  */
-class SeckitExportController {
+class SeckitExportController extends ControllerBase implements ContainerInjectionInterface {
+
+  /**
+   * Logger instance.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
+   */
+  protected $logger;
+
+  /**
+   * Constructs an SeckitExportController object.
+   *
+   * @param \Psr\Log\LoggerInterface $logger
+   *   LoggerInterface.
+   */
+  public function __construct(LoggerInterface $logger) {
+    $this->logger = $logger;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('logger.channel.seckit')
+    );
+  }
 
   /**
    * Reports CSP violations.
    */
-  public function export(Request $request) {
+  public function export() {
     // Only allow POST data with Content-Type application/csp-report
     // or application/json (the latter to support older user agents).
     // n.b. The CSP spec (1.0, 1.1) mandates this Content-Type header/value.
@@ -48,10 +77,8 @@ class SeckitExportController {
         '@blocked_uri' => $report->{'blocked-uri'},
         '@data' => print_r($report, TRUE),
       ];
-      \Drupal::logger('seckit')->warning('CSP: Directive @directive violated.<br /> Blocked URI: @blocked_uri.<br /> <pre>Data: @data</pre>', $info);
+      $this->logger->warning('CSP: Directive @directive violated.<br /> Blocked URI: @blocked_uri.<br /> <pre>Data: @data</pre>', $info);
     }
-
-    $response['status'] = 'ok';
 
     return new Response();
   }
