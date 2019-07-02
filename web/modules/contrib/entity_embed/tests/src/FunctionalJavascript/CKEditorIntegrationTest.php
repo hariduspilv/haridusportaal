@@ -21,6 +21,7 @@ class CKEditorIntegrationTest extends EntityEmbedTestBase {
     'ckeditor',
     'views',
     'entity_embed',
+    'entity_embed_test',
   ];
 
   /**
@@ -182,9 +183,10 @@ class CKEditorIntegrationTest extends EntityEmbedTestBase {
     $this->assertSame(2, $this->getCkeditorUndoSnapshotCount());
     $this->assignNameToCkeditorIframe();
     $this->getSession()->switchToIFrame('ckeditor');
+    $this->assertSession()->responseContains('entity_embed.editor.css');
+    $this->assertSession()->responseContains('hidden.module.css');
     $this->assertSession()->pageTextNotContains('Billy Bones');
-    $this->getSession()->switchToIFrame();
-    $this->assertSession()->elementExists('css', 'a.cke_button__' . $this->button->id())->click();
+    $this->pressEditorButton($this->button->id());
     $this->assertSession()->waitForId('drupal-modal');
     $this->assertSession()
       ->fieldExists('entity_id')
@@ -222,11 +224,7 @@ class CKEditorIntegrationTest extends EntityEmbedTestBase {
     $this->getSession()->switchToIFrame();
 
     // Test opening the dialog and switching embedded nodes.
-    $select_and_edit_embed = "var editor = CKEDITOR.instances['edit-body-0-value'];
-      var entityEmbed = editor.widgets.getByElement(editor.editable().findOne('div'));
-      entityEmbed.focus();
-      editor.execCommand('editdrupalentity');";
-    $this->getSession()->executeScript($select_and_edit_embed);
+    $this->reopenDialog();
 
     $this->assertSession()
       ->waitForElementVisible('css', 'div.ui-dialog-buttonset')
@@ -272,7 +270,7 @@ class CKEditorIntegrationTest extends EntityEmbedTestBase {
     if ($action !== 'undo' && $action !== 'redo') {
       throw new \LogicException();
     }
-    $this->assertSession()->elementExists('css', 'a.cke_button__' . $action)->click();
+    $this->pressEditorButton($action);
     $this->getSession()->switchToIFrame('ckeditor');
     foreach ($contains as $string) {
       $this->assertSession()->pageTextContains($string);
