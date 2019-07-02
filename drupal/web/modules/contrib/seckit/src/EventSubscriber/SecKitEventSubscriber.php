@@ -2,19 +2,30 @@
 
 namespace Drupal\seckit\EventSubscriber;
 
+use Drupal\Component\Utility\Xss;
+use Drupal\Component\Utility\UrlHelper;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\seckit\SeckitInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Response;
-use Drupal\Component\Utility\UrlHelper;
-use Drupal\Component\Utility\Xss;
 
 /**
  * Subscribing an event.
  */
 class SecKitEventSubscriber implements EventSubscriberInterface {
 
+  use StringTranslationTrait;
+
+  /**
+   * The config factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
   protected $config;
 
   /**
@@ -32,10 +43,23 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
   protected $response;
 
   /**
-   * Constructs an SecKitEventSubscriber object.
+   * Logger instance.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
    */
-  public function __construct() {
-    $this->config = \Drupal::config('seckit.settings');
+  protected $logger;
+
+  /**
+   * Constructs an SecKitEventSubscriber object.
+   *
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The Seckit logger channel.
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   */
+  public function __construct(LoggerInterface $logger, ConfigFactoryInterface $config_factory) {
+    $this->logger = $logger;
+    $this->config = $config_factory->get('seckit.settings');
   }
 
   /**
@@ -54,7 +78,7 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
   }
 
   /**
-   * Executes actions on the respose event.
+   * Executes actions on the response event.
    *
    * @param \Symfony\Component\HttpKernel\Event\FilterResponseEvent $event
    *   Filter Response Event object.
@@ -84,10 +108,13 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
     if ($this->config->get('seckit_ct.expect_ct')) {
       $this->seckitExpectCt();
     }
+    if ($this->config->get('seckit_fp.feature_policy')) {
+      $this->seckitFeaturePolicy();
+    }
 
     // Always call this (regardless of the setting) since if it's disabled it
     // may be necessary to actively disable the core's clickjacking defense.
-    $this->seckitXframe($this->config->get('seckit_clickjacking.x_frame'));
+    $this->seckitXframe($this->config->get('seckit_clickjacking.x_frame'), $event);
   }
 
   /**
@@ -154,9 +181,9 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
     ];
 
     $message = 'Possible CSRF attack was blocked. IP address: @ip, Origin: @origin.';
-    \Drupal::logger('seckit')->warning($message, $args);
+    $this->logger->warning($message, $args);
 
-    $event->setResponse(new Response(t('Access denied'), Response::HTTP_FORBIDDEN));
+    $event->setResponse(new Response($this->t('Access denied'), Response::HTTP_FORBIDDEN));
   }
 
   /**
@@ -169,6 +196,8 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
    */
   public function seckitCsp() {
     // Get default/set options.
+    $csp_vendor_prefix_x = $this->config->get('seckit_xss.csp.vendor-prefix.x');
+    $csp_vendor_prefix_webkit = $this->config->get('seckit_xss.csp.vendor-prefix.webkit');
     $csp_report_only = $this->config->get('seckit_xss.csp.report-only');
     $csp_default_src = $this->config->get('seckit_xss.csp.default-src');
     $csp_script_src = $this->config->get('seckit_xss.csp.script-src');
@@ -182,7 +211,8 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
     $csp_font_src = $this->config->get('seckit_xss.csp.font-src');
     $csp_connect_src = $this->config->get('seckit_xss.csp.connect-src');
     $csp_report_uri = $this->config->get('seckit_xss.csp.report-uri');
-    $csp_policy_uri = $this->config->get('seckit_xss.csp.policy-uri');
+    $csp_upgrade_req = $this->config->get('seckit_xss.csp.upgrade-req');
+    // $csp_policy_uri = $this->config->get('seckit_xss.csp.policy-uri');
     // Prepare directives.
     $directives = [];
 
@@ -226,8 +256,18 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
       $directives[] = "connect-src $csp_connect_src";
     }
     if ($csp_report_uri) {
-      $base_path = UrlHelper::isExternal($csp_report_uri) ? '' : base_path();
+      $base_path = '';
+      if (!UrlHelper::isExternal($csp_report_uri)) {
+        // Strip leading slashes from internal paths to prevent them becoming
+        // external URLs without protocol. /report-csp-violation should not be
+        // turned into //report-csp-violation
+        $csp_report_uri = ltrim($csp_report_uri, '/');
+        $base_path = base_path();
+      }
       $directives[] = "report-uri " . $base_path . $csp_report_uri;
+    }
+    if ($csp_upgrade_req) {
+      $directives[] = 'upgrade-insecure-requests';
     }
     // Merge directives.
     $directives = implode('; ', $directives);
@@ -236,20 +276,22 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
     if ($directives) {
       if ($csp_report_only) {
         // Use report-only mode.
-        // Official name.
         $this->response->headers->set('Content-Security-Policy-Report-Only', $directives);
-        // Firefox and IE10.
-        $this->response->headers->set('X-Content-Security-Policy-Report-Only', $directives);
-        // Chrome and Safari.
-        $this->response->headers->set('X-WebKit-CSP-Report-Only', $directives);
+        if ($csp_vendor_prefix_x) {
+          $this->response->headers->set('X-Content-Security-Policy-Report-Only', $directives);
+        }
+        if ($csp_vendor_prefix_webkit) {
+          $this->response->headers->set('X-WebKit-CSP-Report-Only', $directives);
+        }
       }
       else {
-        // Official name.
         $this->response->headers->set('Content-Security-Policy', $directives);
-        // Firefox and IE10.
-        $this->response->headers->set('X-Content-Security-Policy', $directives);
-        // Chrome and Safari.
-        $this->response->headers->set('X-WebKit-CSP', $directives);
+        if ($csp_vendor_prefix_x) {
+          $this->response->headers->set('X-Content-Security-Policy', $directives);
+        }
+        if ($csp_vendor_prefix_webkit) {
+          $this->response->headers->set('X-WebKit-CSP', $directives);
+        }
       }
     }
   }
@@ -261,22 +303,22 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
    */
   public function seckitXxss($setting) {
     switch ($setting) {
-      case SECKIT_X_XSS_0:
+      case SeckitInterface::X_XSS_0:
         // Set X-XSS-Protection header to 0.
         $this->response->headers->set('X-XSS-Protection', '0');
         break;
 
-      case SECKIT_X_XSS_1:
+      case SeckitInterface::X_XSS_1:
         // Set X-XSS-Protection header to 1.
         $this->response->headers->set('X-XSS-Protection', '1');
         break;
 
-      case SECKIT_X_XSS_1_BLOCK:
+      case SeckitInterface::X_XSS_1_BLOCK:
         // Set X-XSS-Protection header to 1; mode=block.
         $this->response->headers->set('X-XSS-Protection', '1; mode=block');
         break;
 
-      case SECKIT_X_XSS_DISABLE:
+      case SeckitInterface::X_XSS_DISABLE:
         // Do nothing.
       default:
         break;
@@ -293,33 +335,33 @@ class SecKitEventSubscriber implements EventSubscriberInterface {
    * Implementation of X-Frame-Options is based on specification draft availabe
    * at http://tools.ietf.org/html/draft-ietf-websec-x-frame-options-01.
    */
-  public function seckitXframe($setting) {
+  public function seckitXframe($setting, $event) {
     switch ($setting) {
-      case SECKIT_X_FRAME_SAMEORIGIN:
-        // Set X-Frame-Options to SameOrigin.
+      case SeckitInterface::X_FRAME_SAMEORIGIN:
+        // Set X-Frame-Options to SAMEORIGIN.
         $this->response->headers->set('X-Frame-Options', 'SAMEORIGIN');
         break;
 
-      case SECKIT_X_FRAME_DENY:
-        // Set X-Frame-Options to Deny.
+      case SeckitInterface::X_FRAME_DENY:
+        // Set X-Frame-Options to DENY.
         $this->response->headers->set('X-Frame-Options', 'DENY');
         break;
 
-      case SECKIT_X_FRAME_ALLOW_FROM:
+      case SeckitInterface::X_FRAME_ALLOW_FROM:
         // If this request's Origin is allowed, we specify that value.
         // If the origin is not allowed, we can use any other value to prevent
         // the client from framing the page.
         $allowed_from = $this->config->get('seckit_clickjacking.x_frame_allow_from');
         $values = explode("\n", $allowed_from);
         $allowed = array_values(array_filter(array_map('trim', $values)));
-        $origin = $this->request->headers->get('Origin');
+        $origin = $event->getRequest()->headers->get('Origin');
         if (!in_array($origin, $allowed, TRUE)) {
           $origin = array_pop($allowed);
         }
         $this->response->headers->set('X-Frame-Options', "ALLOW-FROM $origin");
         break;
 
-      case SECKIT_X_FRAME_DISABLE:
+      case SeckitInterface::X_FRAME_DISABLE:
         // Make sure Drupal core does not set the header either.
         // See Drupal\Core\EventSubscriber\FinishResponseSubscriber.
         $this->response->headers->remove('X-Frame-Options');
@@ -430,10 +472,10 @@ EOT;
   }
 
   /**
-   * Sends Excpect-CT HTTP response header.
+   * Sends Expect-CT HTTP response header.
    *
-   * Implementation is based on specification draft
-   * available at https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT.
+   * Implementation is based on specification draft available at
+   * https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Expect-CT.
    */
   public function seckitExpectCt() {
     $header[] = sprintf("max-age=%d", $this->config->get('seckit_ct.max_age'));
@@ -448,4 +490,17 @@ EOT;
     $header = implode(', ', $header);
     $this->response->headers->set('Expect-CT', $header);
   }
+
+  /**
+   * Sends Feature-Policy HTTP response header.
+   *
+   * Implementation is based on specification draft available
+   * at https://developers.google.com/web/updates/2018/06/feature-policy.
+   */
+  public function seckitFeaturePolicy() {
+    $header[] = $this->config->get('seckit_fp.feature_policy_policy');
+
+    $this->response->headers->set('Feature-Policy', $header);
+  }
+
 }

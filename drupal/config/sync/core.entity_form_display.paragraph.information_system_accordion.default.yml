@@ -32,7 +32,7 @@ content:
     region: content
   field_attachment_file:
     type: entity_reference_paragraphs
-    weight: 2
+    weight: 5
     settings:
       title: Paragraph
       title_plural: Paragraphs
