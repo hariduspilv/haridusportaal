@@ -152,7 +152,7 @@ a {
     button {margin-bottom: 0;}
   }
   
-  table { width: 100%;border-collapse: collapse; margin: 0; border: 0.0625rem solid $gray;
+  table { width: 100%;border-collapse: collapse; margin: 0; border: 0.0625rem solid $gray; white-space: nowrap;
     thead {background: $light-gray;
       .sortable {&:hover { color: $dark-gray;}}
       .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
