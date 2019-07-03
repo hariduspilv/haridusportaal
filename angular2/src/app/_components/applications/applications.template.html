@@ -24,23 +24,8 @@
       </div>
     </ng-container>
   </div>
-  <div>
+  <div *ngIf="data.drafts.length">
     <h4>{{ 'frontpage.dashboard_tabs_applications_drafts_label' | translate }}</h4>
-    
-    <table class="dashboard-table highCells" *ngIf="!data.drafts.length">
-      <thead>
-        <tr>
-          <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td class="text-center font-normal">{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' | translate }}</td>
-        </tr>
-      </tbody>
-    </table>
-    
-    
     <div class="scrollable scrollable__applications" *ngIf="data.drafts.length">
       <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer" *ngIf="!elemAtStart[0][0]" 
         (touchstart)="tableService.scrollStart('table_0')" 
