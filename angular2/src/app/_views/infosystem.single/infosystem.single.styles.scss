@@ -56,6 +56,10 @@
     text-overflow: ellipsis;
   }
 }
+feedback {
+  margin: 0;
+  padding-bottom: 0;
+}
 .link-list {
   &--buttons {
     li {

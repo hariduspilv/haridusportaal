@@ -61,10 +61,10 @@ export class TeachingsComponent{
               this.content.tasemeharidus.sort((a, b) => {
                 let obj = this.convertDates(a.lopetanud, b.lopetanud);
                 return +new Date(obj.valB) - +new Date(obj.valA);
-              });
+              }).map(elem => elem.typeName = 'tasemeharidus');
             }catch(err){}
               
-            this.content.kvalifikatsioon.sort((a, b) => b.aasta - a.aasta);
+            this.content.kvalifikatsioon.sort((a, b) => b.aasta - a.aasta).map(elem => elem.typeName = 'kvalifikatsioon');
             this.content.kvalifikatsioonid = [...this.content.kvalifikatsioon, ...this.content.tasemeharidus];
           }
           if(errorVal) {
@@ -109,7 +109,9 @@ export class TeachingsComponent{
   }
 
   compareDate(date) {
-    return new Date(date).getTime() >= this.currentDate.getTime()
+    let dateArr = date.split('.');
+    let formattedDate = `${dateArr[1]}/${dateArr[0]}/${dateArr[2]}`;
+    return new Date(formattedDate).getTime() >= this.currentDate.getTime()
   }
 
   ngOnDestroy() {
