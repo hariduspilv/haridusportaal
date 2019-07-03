@@ -158,9 +158,10 @@
                     <td class="normal" colspan="3">{{ 'frontpage.erialaOppekava' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.erialaOppekava }}</td>
                   </tr>
-                  <tr *ngIf="content.lopetanud">
-                    <td class="normal" colspan="3">{{ 'frontpage.lopetanud' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.lopetanud }}</td>
+                  <tr *ngIf="content.lopetanud || content.aasta">
+                    <td class="normal" colspan="3" *ngIf="content.lopetanud">{{ 'frontpage.lopetanud' | translate }}</td>
+                    <td class="normal" colspan="3" *ngIf="content.aasta">{{ 'frontpage.LOPETANUD' | translate }}</td>
+                    <td class="normal" colspan="2">{{ content.lopetanud || content.aasta }}</td>
                   </tr>
                   <tr *ngIf="content.dokument">
                     <td class="normal" colspan="3">{{ 'frontpage.dokumentNr' | translate }}</td>
