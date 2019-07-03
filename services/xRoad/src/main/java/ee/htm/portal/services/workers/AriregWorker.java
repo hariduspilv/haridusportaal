@@ -98,7 +98,7 @@ public class AriregWorker extends Worker {
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "esindusOigus", responseNode);
-    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
+    redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
 
     return responseNode;
   }

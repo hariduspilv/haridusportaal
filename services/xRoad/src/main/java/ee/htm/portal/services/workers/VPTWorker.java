@@ -105,7 +105,7 @@ public class VPTWorker extends Worker {
     LOGGER.info(logForDrupal);
 
     redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
-    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
+    redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
   }
 
   public ObjectNode getDocument(String formName, String identifier) {

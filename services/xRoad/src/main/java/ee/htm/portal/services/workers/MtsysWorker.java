@@ -176,7 +176,7 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash()
           .put(MTSYSKLF_KEY, "tegevusnaitajaTyybid", tegevusnaitajaTyybidNode);
 
-      redisTemplate.expire(MTSYSKLF_KEY, 1L, TimeUnit.DAYS);
+      redisTemplate.expire(MTSYSKLF_KEY, redisKlfExpire, TimeUnit.MINUTES);
 
       logForDrupal.setMessage("EHIS - mtsysKlfTeenus.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
@@ -364,7 +364,7 @@ public class MtsysWorker extends Worker {
     LOGGER.info(logForDrupal);
 
     redisTemplate.opsForHash().put(identifier, "mtsys", jsonNode);
-    redisTemplate.expire(identifier, 30L, TimeUnit.MINUTES);
+    redisTemplate.expire(identifier, redisExpire, TimeUnit.MINUTES);
   }
 
   public ObjectNode getMtsysTegevusluba(String formName, Long identifier, String personalCode) {
@@ -606,7 +606,7 @@ public class MtsysWorker extends Worker {
         redisTemplate.opsForHash()
             .put(personalCode, MTSYSFILE_KEY + "_" + item.getDokumentId(),
                 item.getContent());
-        redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
+        redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
       });
 
       ((ObjectNode) stepAndmedDataElements.get("kommentaar"))
@@ -1054,7 +1054,7 @@ public class MtsysWorker extends Worker {
     LOGGER.info(logForDrupal);
 
     redisTemplate.opsForHash().put(institutionId, "educationalInstitution_" + identifier, jsonNode);
-    redisTemplate.expire(institutionId, 30L, TimeUnit.MINUTES);
+    redisTemplate.expire(institutionId, redisExpire, TimeUnit.MINUTES);
 
     return jsonNode;
   }
@@ -1361,7 +1361,7 @@ public class MtsysWorker extends Worker {
           .put("file_identifier", redisHK);
       redisFileTemplate.opsForHash()
           .put(personalCode, redisHK, response.getCsvFail().getStringValue());
-      redisFileTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
+      redisFileTemplate.expire(personalCode, redisFileExpire, TimeUnit.MINUTES);
 
       dataElementsNode.putObject("majandustegevuseTeateTabel").putArray("value");
       dataElementsNode.putObject("tegevuslubaTabel").putArray("value");

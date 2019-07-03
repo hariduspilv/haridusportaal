@@ -61,13 +61,13 @@ public class HTMServicesApplication {
     return redisFileTemplate;
   }
 
-  @Value("${javax.net.ssl.truststore}")
+  @Value("${javax.net.ssl.truststore:}")
   private String trustStore;
 
-  @Value("${javax.net.ssl.truststorepassword}")
+  @Value("${javax.net.ssl.truststorepassword:}")
   private String trustStorePassword;
 
-  @Value("${stunnel}")
+  @Value("${stunnel:true}")
   private boolean stunnel;
 
   @PostConstruct
