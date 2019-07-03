@@ -110,10 +110,11 @@
               </div>
           </ng-container>
         </ng-container>
+        <feedback class="sm-hide" [nid]="data.nid"></feedback>
       </div>
     </div>
     <div class="col-4 sm-12" *ngIf="!loading">
-      <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="data.fieldInfosystemSidebar && data.fieldInfosystemSidebar.entity && data.fieldInfosystemSidebar.entity.fieldButton">
+      <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="data.fieldInfosystemSidebar && data.fieldInfosystemSidebar.entity && data.fieldInfosystemSidebar.entity.fieldButton && data.fieldInfosystemSidebar.entity.fieldButton.length">
         <div class="padding-block--content">
           <ul class="link-list link-list--buttons mt-0 mb-0">
             <li *ngFor="let link of data.fieldInfosystemSidebar.entity.fieldButton;let ind = index;">
@@ -128,7 +129,7 @@
           </ul>
         </div>
       </div>
-      <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="data.fieldInfosystemSidebar && data.fieldInfosystemSidebar.entity && data.fieldInfosystemSidebar.entity.fieldLegislationBlock">
+      <div class="block border-orange padding-block sm-top no-bottom-sm" *ngIf="data.fieldInfosystemSidebar && data.fieldInfosystemSidebar.entity && data.fieldInfosystemSidebar.entity.fieldLegislationBlock && data.fieldInfosystemSidebar.entity.fieldLegislationBlock.length">
         <h1 class="medium">Õigusaktid</h1>
         <div class="padding-block--content">
           <ul class="link-list mt-0 mb-0">
@@ -164,6 +165,9 @@
           </div>
         </ng-container>
       </ng-container>
+    </div>
+    <div class="col-4 sm-12">
+      <feedback class="feedback--sm sm-show" [nid]="data.nid"></feedback>
     </div>
   </div>
 </div>
