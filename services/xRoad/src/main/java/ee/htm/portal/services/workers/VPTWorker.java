@@ -73,9 +73,7 @@ public class VPTWorker extends Worker {
               .put("identifier", ajalugu.getId())
               .put("document_date",
                   ajalugu.isSetEsitamiseKuupaev() && ajalugu.getEsitamiseKuupaev() != null
-                      ? simpleDateFormat.format(
-                      ((Calendar) ajalugu.getEsitamiseKuupaev()).getTimeInMillis())
-                      : null)
+                      ? ehisDateFormat((Calendar) ajalugu.getEsitamiseKuupaev()) : null)
               .put("status", ajalugu.getOlek()));
 
       if (response.getHoiatusDto().getErrorMessagesList().isEmpty()) {
@@ -181,8 +179,7 @@ public class VPTWorker extends Worker {
                         : null)
                 .put("study_programme", item.getOppekavaNimi())
                 .put("study_programme_EHISid", item.getOppekavaKood())
-                .put("start_date",
-                    simpleDateFormat.format(item.getAlustamiseKuupaev().getTimeInMillis()))
+                .put("start_date",ehisDateFormat(item.getAlustamiseKuupaev()))
                 .put("learning_load", item.getOppekoormusTyyp())
                 .put("learning_load_code",
                     item.isSetOppekoormusTyypKL() ?
@@ -192,15 +189,11 @@ public class VPTWorker extends Worker {
                 .put("academic_leave_start",
                     item.isSetAkadeemilisePuhkuseAlustamiseKuupaev()
                         && item.getAkadeemilisePuhkuseAlustamiseKuupaev() != null ?
-                        simpleDateFormat.format(
-                            ((Calendar) item.getAkadeemilisePuhkuseAlustamiseKuupaev())
-                                .getTimeInMillis())
+                        ehisDateFormat((Calendar) item.getAkadeemilisePuhkuseAlustamiseKuupaev())
                         : null)
                 .put("first_semester_end",
                     item.isSetEsimeseSemestriLoppKp() && item.getEsimeseSemestriLoppKp() != null ?
-                        simpleDateFormat.format(
-                            ((Calendar) item.getEsimeseSemestriLoppKp()).getTimeInMillis())
-                        : null));
+                        ehisDateFormat((Calendar) item.getEsimeseSemestriLoppKp()) : null));
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_0")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
@@ -295,8 +288,7 @@ public class VPTWorker extends Worker {
                 .put("personal_id", item.getIsikukood())
                 .put("last_name", item.getPerenimi())
                 .put("first_name", item.getEesnimi())
-                .put("birth_date",
-                    simpleDateFormat.format(((Calendar) item.getSynniaeg()).getTime()))
+                .put("birth_date", ehisDateFormat((Calendar) item.getSynniaeg()))
                 .put("relationship", item.getSugulusaste().toString())
                 .put("family_member", item.getArvestatudPereliikmeks())
                 .put("studies", item.getOmandabHaridust())
@@ -309,8 +301,7 @@ public class VPTWorker extends Worker {
                 .put("personal_id", item.getIsikukood())
                 .put("last_name", item.getPerenimi())
                 .put("first_name", item.getEesnimi())
-                .put("birth_date",
-                    simpleDateFormat.format(((Calendar) item.getSynniaeg()).getTime()))
+                .put("birth_date", ehisDateFormat((Calendar) item.getSynniaeg()))
                 .put("relationship", item.getSugulusaste().toString())
                 .put("family_member", item.getArvestatudPereliikmeks())
                 .put("studies", item.getOmandabHaridust())
@@ -612,8 +603,7 @@ public class VPTWorker extends Worker {
             .putObject("step_submit_result").putObject("data_elements");
         submitDataElement.putObject("id").put("value", response.getTaotlusInfoDto().getId());
         submitDataElement.putObject("submit_date").put("value",
-            response.getTaotlusInfoDto().isSetEsitamiseKuupaev() ? simpleDateFormat
-                .format(((Calendar) response.getTaotlusInfoDto().getEsitamiseKuupaev()).getTime())
+            response.getTaotlusInfoDto().isSetEsitamiseKuupaev() ? ehisDateFormat((Calendar) response.getTaotlusInfoDto().getEsitamiseKuupaev())
                 : null)
             .put("hidden", !response.getTaotlusInfoDto().isSetEsitamiseKuupaev());
         submitDataElement.putObject("status").put("value", response.getTaotlusInfoDto().getOlek());
