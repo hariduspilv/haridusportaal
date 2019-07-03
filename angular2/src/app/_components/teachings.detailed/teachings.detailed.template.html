@@ -33,7 +33,7 @@
                       <td class="normal" colspan="2">{{ content.ametikoht }}</td>
                     </tr>
                     <tr *ngIf="content.haridustase">
-                      <td class="normal" colspan="3">{{ 'frontpage.haridustase' | translate }}</td>
+                      <td class="normal" colspan="3">{{ 'frontpage.korgeim_haridustase' | translate }}</td>
                       <td class="normal" colspan="2">{{ content.haridustase }}</td>
                     </tr>
                     <tr *ngIf="content.ametikohtAlgus">
@@ -71,9 +71,9 @@
                       <td class="normal" colspan="3">{{ 'frontpage.ametikohtLopp' | translate }}</td>
                       <td class="normal" colspan="2">{{ content.ametikohtLopp }}</td>
                     </tr>
-                    <tr *ngIf="content.ametikohtKoormus && !content.ametikohtLopp">
+                    <tr *ngIf="content.amtikohtKoormus && !content.ametikohtLopp">
                       <td class="normal" colspan="3">{{ 'frontpage.ametikohtKoormus' | translate }}</td>
-                      <td class="normal" colspan="2">{{ content.ametikohtKoormus }}</td>
+                      <td class="normal" colspan="2">{{ content.amtikohtKoormus }}</td>
                     </tr>
                     <tr *ngIf="content.ametikohtKvalVastavus && !content.ametikohtLopp">
                       <td class="normal" colspan="3">{{ 'frontpage.ametikohtKvalVastavus' | translate }}</td>
@@ -142,13 +142,17 @@
                   <!-- Hidden for now -->
                 </ng-container><!--type -->
                 <ng-container *ngIf="type === 'kvalifikatsioonid'">
+                  <tr *ngIf="content.dokument && content.typeName === 'kvalifikatsioon'">
+                    <td class="normal" colspan="3">{{ 'frontpage.kvalDokument' | translate }}</td>
+                    <td class="normal" colspan="2">{{ content.dokument }}</td>
+                  </tr>
                   <tr *ngIf="content.kvalDokument">
                     <td class="normal" colspan="3">{{ 'frontpage.kvalDokument' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.kvalDokument }}</td>
                   </tr>
-                  <tr *ngIf="content.kvalVastavus">
+                  <tr *ngIf="content.kvalVastavus || content.vastavus">
                     <td class="normal" colspan="3">{{ 'frontpage.kvalVastavus' | translate }}</td>
-                    <td class="normal" colspan="2">{{ content.kvalVastavus }}</td>
+                    <td class="normal" colspan="2">{{ content.kvalVastavus || content.vastavus }}</td>
                   </tr>
                   <tr *ngIf="content.nimetus">
                     <td class="normal" colspan="3">{{ 'frontpage.kraadNimetus' | translate }}</td>
@@ -160,10 +164,10 @@
                   </tr>
                   <tr *ngIf="content.lopetanud || content.aasta">
                     <td class="normal" colspan="3" *ngIf="content.lopetanud">{{ 'frontpage.lopetanud' | translate }}</td>
-                    <td class="normal" colspan="3" *ngIf="content.aasta">{{ 'frontpage.LOPETANUD' | translate }}</td>
+                    <td class="normal" colspan="3" *ngIf="content.aasta">{{ 'frontpage.aasta' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.lopetanud || content.aasta }}</td>
                   </tr>
-                  <tr *ngIf="content.dokument">
+                  <tr *ngIf="content.dokument && content.typeName === 'tasemeharidus'">
                     <td class="normal" colspan="3">{{ 'frontpage.dokumentNr' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.dokument }}</td>
                   </tr>
