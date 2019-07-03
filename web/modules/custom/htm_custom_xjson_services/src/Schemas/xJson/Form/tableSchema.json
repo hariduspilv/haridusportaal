@@ -39,6 +39,9 @@
     },
     "hidden": {
       "type": "boolean"
+    },
+    "vertical": {
+      "type": "boolean"
     }
   },
   "required": [ "type", "title", "table_columns" ],
