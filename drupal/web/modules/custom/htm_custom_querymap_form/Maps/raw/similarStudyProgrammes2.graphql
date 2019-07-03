@@ -11,8 +11,7 @@ query similarStudyProgrammes($nid: Int!, $address: String, $offset: Int, $limit:
       FieldTeachingLanguage
       FieldIscedfDetailed
       FieldAccreditationStatus
-      FieldDurationYears
-      FieldDurationMonths
+      FieldDuration
       FieldAdmissionStatus
       EntityPath
       Status
