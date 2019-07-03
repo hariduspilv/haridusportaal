@@ -16,6 +16,7 @@ query infoSystemPage($path: String!) {
       }
       entity {
         ... on NodeInformationSystemPage {
+          nid
           title
           fieldSubtitle
           fieldLogo {
