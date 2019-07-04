@@ -44,8 +44,10 @@ export class TeachingsDetailedComponent implements OnInit{
     );
   }
 
-  compareDate(date) {
-    return new Date(date).getTime() >= this.currentDate.getTime()
+  isDateInPast(date) {
+    let dateArr = date.split('.');
+    let formattedDate = `${dateArr[1]}/${dateArr[0]}/${dateArr[2]}`;
+    return new Date(formattedDate).setHours(0, 0, 0, 0) < this.currentDate.setHours(0, 0, 0, 0)
   }
 
   ngOnInit() {
