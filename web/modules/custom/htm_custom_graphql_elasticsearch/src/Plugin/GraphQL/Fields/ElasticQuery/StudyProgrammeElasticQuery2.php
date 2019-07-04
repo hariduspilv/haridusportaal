@@ -91,6 +91,9 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
 
         $params = $this->getElasticQuery($args);
 
+        dump($params);
+        die();
+
         if($params == NULL){
             return NULL;
         }else{
