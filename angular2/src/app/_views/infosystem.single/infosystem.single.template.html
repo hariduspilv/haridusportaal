@@ -110,7 +110,7 @@
               </div>
           </ng-container>
         </ng-container>
-        <feedback class="sm-hide" [nid]="data.nid"></feedback>
+        <feedback *ngIf="!loading" class="sm-hide" [nid]="data.nid"></feedback>
       </div>
     </div>
     <div class="col-4 sm-12" *ngIf="!loading">
@@ -166,7 +166,7 @@
         </ng-container>
       </ng-container>
     </div>
-    <div class="col-4 sm-12">
+    <div *ngIf="!loading" class="col-4 sm-12">
       <feedback class="feedback--sm sm-show" [nid]="data.nid"></feedback>
     </div>
   </div>
