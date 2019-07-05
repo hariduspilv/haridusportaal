@@ -59,7 +59,7 @@
                       <td class="normal" colspan="2">{{ content.tooleping }}</td>
                     </tr>
                     <tr *ngIf="content.taitmiseViis && content.liik === 'YLIKOOL'
-                      && (!content.ametikohtLopp || compareDate(content.ametikohtLopp))">
+                      && (!content.ametikohtLopp || !isDateInPast(content.ametikohtLopp))">
                       <td class="normal" colspan="3">{{ 'frontpage.taitmiseViis' | translate }}</td>
                       <td class="normal" colspan="2">{{ content.taitmiseViis }}</td>
                     </tr>

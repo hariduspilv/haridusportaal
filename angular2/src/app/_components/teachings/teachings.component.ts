@@ -108,10 +108,10 @@ export class TeachingsComponent{
     this.router.navigateByUrl(this.router.url + "/" + route)
   }
 
-  compareDate(date) {
+  isDateInPast(date) {
     let dateArr = date.split('.');
     let formattedDate = `${dateArr[1]}/${dateArr[0]}/${dateArr[2]}`;
-    return new Date(formattedDate).getTime() >= this.currentDate.getTime()
+    return new Date(formattedDate).setHours(0, 0, 0, 0) < this.currentDate.setHours(0, 0, 0, 0)
   }
 
   ngOnDestroy() {
