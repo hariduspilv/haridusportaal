@@ -400,7 +400,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     e.preventDefault();
     const files = e.target.files || e.dataTransfer.files;
     const model = this.data_elements[element];
-    console.log(element);
 
     if (files && files.length > 0) {
       for (const file of files) {
@@ -491,6 +490,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (this.test === true) { this.promptDebugDialog(payload); } else { this.viewController(this.data); }
       }
       this.dialogRef = null;
+      this.formLoading = false;
     });
   }
 
@@ -581,6 +581,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return { valid: true, message: 'valid' };
   }
   tableValidation(table) {
+    let valid = true;
+    let validationResult = { valid };
+    const validationRows = [];
+
     if (!table.value || !table.value.length) {
       return { valid: true, message: 'valid' };
     }
@@ -591,14 +595,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
         const validation = this.isValidField(column_properties);
         if (validation.valid !== true) {
-          validation['row'] = table.value.indexOf(row);
-          validation['column'] = col;
-          return validation;
+          valid = false;
+          validationRows.push(table.value.indexOf(row));
+          validationResult = validation;
         }
       }
     }
+    if (validationRows.length) {
+      validationResult['rows'] = validationRows;
+    }
 
-    return { valid: true, message: 'valid' };
+    return valid ? { valid: true, message: 'valid' } : validationResult;
   }
 
   isNumeric(n) {
@@ -609,15 +616,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const NOT_FOR_VALIDATION = ['heading', 'helpertext',];
 
     for (const field in elements) {
-      const element = elements[field];
-      if (element.type === 'table') {
-        const validation = this.tableValidation(element);
+      if (elements[field].type === 'table') {
+        const validation = this.tableValidation(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
           break;
         }
-      } else if (!NOT_FOR_VALIDATION.includes(element.type)) {
-        const validation = this.isValidField(element);
+      } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
+        const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
           break;
@@ -644,6 +650,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
         } else {
           this.getData(payload);
         }
+      } else {
+        console.log(this.error);
+        this.formLoading = false;
+        this.scrollPositionController();
       }
     }
   }
@@ -832,8 +842,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.compileAcceptableFormList();
       }
 
-      this.scrollPositionController();
-
+      if (!this.edit_step) {
+        this.scrollPositionController();
+      }
     }
 
   }
