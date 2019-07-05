@@ -32,7 +32,9 @@ export class SideMenuComponent implements OnInit {
   routeIncludes(path) {
     let current = this.router.url;
     current = current.includes('?') ? current.split('?')[0] : current;
-    if ((current.match(/\//g) || []).length === 2) {
+    if (decodeURIComponent(current) === path) {
+      return true 
+    } else if ((current.match(/\//g) || []).length === 2) {
       let childSplitVar = current.split('/').pop();
       let childCurrent = current.split("/" + childSplitVar)[0];
       return decodeURIComponent(childCurrent) === path;
