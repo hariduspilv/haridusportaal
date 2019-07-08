@@ -283,34 +283,32 @@ export class XjsonComponent implements OnInit, OnDestroy {
   scrollPositionController() {
     const _opened_step = this.opened_step;
     if (_opened_step) {
-      setTimeout(function () {
-        const step_navigation_container = document.getElementById('stepNavigation');
-        const opened_step_element = document.getElementById(_opened_step);
-
-        const parent_center = step_navigation_container.offsetWidth / 2;
-        const button_center = opened_step_element.offsetWidth / 2;
-        const position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
-
-        if (window.pageYOffset > 0) {
-          try {
-            window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
-          } catch (e) {
-            window.scrollTo(0, 0);
+      if (document.getElementById('stepNavigation')) {
+        setTimeout(function () {
+          const step_navigation_container = document.getElementById('stepNavigation');
+          const opened_step_element = document.getElementById(_opened_step);
+          const parent_center = step_navigation_container.offsetWidth / 2;
+          const button_center = opened_step_element.offsetWidth / 2;
+          const position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
+          if (window.pageYOffset > 0) {
+            try {
+              window.scrollTo({ left: 0, top: 0, behavior: 'smooth' });
+            } catch (e) {
+              window.scrollTo(0, 0);
+            }
+            navScroller();
+          } else {
+            navScroller();
           }
-          navScroller();
-
-        } else {
-          navScroller();
-        }
-        function navScroller() {
-          try {
-            step_navigation_container.scrollTo({ left: position_left, behavior: 'smooth' });
-          } catch (e) {
-            step_navigation_container.scrollTo(position_left, 0);
+          function navScroller() {
+            try {
+              step_navigation_container.scrollTo({ left: position_left, behavior: 'smooth' });
+            } catch (e) {
+              step_navigation_container.scrollTo(position_left, 0);
+            }
           }
-        }
-
-      }, 0);
+        }, 0);
+      }
     }
   }
 
@@ -395,6 +393,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     model.value.splice(model.value.indexOf(target), 1);
   }
 
+  fileDownload(id, model) {
+    const downloadLink = this.fileDownloadlink(id);
+
+    const subscription = this.http.get(downloadLink, {responseType: 'blob'}).subscribe(response => {
+      console.log(response);
+    });
+
+  }
+
   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
     e.preventDefault();
@@ -467,6 +474,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.data_elements[element].value.splice(rowIndex, 1);
+        delete this.error[element];
+        const validation = this.tableValidation(this.data_elements[element]);
+        if (validation.valid !== true) {
+          this.error[element] = validation;
+        }
       }
       this.dialogRef = null;
     });
@@ -539,7 +551,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (field.value === undefined || field.value === null) {
+      if (field.value === undefined || field.value === null || field.value === '') {
         return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
       }
     }
@@ -651,7 +663,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.getData(payload);
         }
       } else {
-        console.log(this.error);
+        this.edit_step = true;
         this.formLoading = false;
         this.scrollPositionController();
       }
