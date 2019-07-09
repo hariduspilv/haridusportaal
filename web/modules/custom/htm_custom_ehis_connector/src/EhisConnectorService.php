@@ -7,6 +7,7 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\redis\ClientFactory;
+use Drupal\rest\ModifiedResourceResponse;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -120,8 +121,7 @@ class EhisConnectorService {
 			$response = json_decode($response->getBody()->getContents(), TRUE);
 			return $response;
 		}catch (RequestException $e){
-		    dump('jou');
-			throw new HttpException($e->getCode(), $e->getMessage());
+            return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
 		}
 	}
 
