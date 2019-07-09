@@ -135,7 +135,7 @@ class xJsonFile2RestResource extends ResourceBase {
         $file_obj = $this->ehisService->getDocumentFileFromRedis(['hash' => $file_id]);
         $sym_file = $sym_file = new Base64EncodedFile($file_obj);
         dump($file_obj);
-        dump($sym_file->guessExtension());
+        dump($sym_file->);
         die();
         if(!$file_obj){
             $file_obj = $this->ehisService->getDocumentFile(['file_id' => $file_id]);
@@ -162,7 +162,6 @@ class xJsonFile2RestResource extends ResourceBase {
         $request_body = json_decode($request->getContent());
         $file_hash = $request_body->file;
 
-
         $destination = $this->getUploadLocation();
         $prepared_filename = $this->prepareFileName($filename, $validators);
 
@@ -186,6 +185,9 @@ class xJsonFile2RestResource extends ResourceBase {
         $file->setSize(@filesize($temp_file_path));
 
         $this->validate($file, $validators);
+
+        dump($file);
+        die();
 
         // now make our own file for xjson
         $file = new Base64Image($file_hash, $temp_file_path, $filename);
