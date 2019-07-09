@@ -133,10 +133,6 @@ class xJsonFile2RestResource extends ResourceBase {
         }
 
         $file_obj = $this->ehisService->getDocumentFileFromRedis(['hash' => $file_id]);
-        $sym_file = $sym_file = new Base64EncodedFile($file_obj);
-        dump($file_obj);
-        dump($sym_file->);
-        die();
         if(!$file_obj){
             $file_obj = $this->ehisService->getDocumentFile(['file_id' => $file_id]);
         }
