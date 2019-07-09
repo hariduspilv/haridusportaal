@@ -306,11 +306,18 @@ class EhisConnectorService {
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
 	public function getDocumentFile(array $params = []){
-		$params['key'] = 'VPT_documents';
-		dump($params);
-        return $this->client->hGet($params['key'], $params['hash']);
-		//return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
+		$params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode(TRUE)];
+		return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
 	}
+
+    /**
+     * @param array $params
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface
+     */
+    public function getDocumentFileFromRedis(array $params = []){
+        $params['key'] = 'VPT_documents';
+        return $this->client->hGet($params['key'], $params['hash']);
+    }
 
 	/**
 	 * @param array $params
