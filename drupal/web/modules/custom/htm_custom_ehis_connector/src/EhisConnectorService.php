@@ -120,6 +120,7 @@ class EhisConnectorService {
 			$response = json_decode($response->getBody()->getContents(), TRUE);
 			return $response;
 		}catch (RequestException $e){
+		    dump('jou');
 			throw new HttpException($e->getCode(), $e->getMessage());
 		}
 	}
