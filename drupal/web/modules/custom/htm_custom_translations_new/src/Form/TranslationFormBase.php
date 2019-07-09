@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_translations_new\Form;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Config\Config;
@@ -167,6 +168,8 @@ abstract class TranslationFormBase extends ConfigFormBase {
 				$this->messenger->addError('Action type not recognized');
 				break;
 		}
+
+        Cache::invalidateTags(['config:htm_custom_translations_new.translation']);
 	}
 	protected function SaveConfig(){
 
