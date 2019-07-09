@@ -306,9 +306,9 @@ class EhisConnectorService {
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
 	public function getDocumentFile(array $params = []){
-		$params['hash'] = 'VPT_documents';
+		$params['key'] = 'VPT_documents';
 		dump($params);
-        return json_decode($this->client->hGet($params['key'], $params['hash']), TRUE);
+        return $this->client->hGet($params['key'], $params['hash']);
 		//return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
 	}
 
