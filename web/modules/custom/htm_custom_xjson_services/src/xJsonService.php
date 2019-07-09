@@ -401,7 +401,7 @@ class xJsonService implements xJsonServiceInterface {
                 break;
             case 'file':
                 if ($table) $additional_keys = ['width', 'acceptable_extensions'];
-                else $additional_keys = ['multiple', 'acceptable_extensions'];
+                else $additional_keys = ['multiple', 'acceptable_extensions', 'max_size'];
                 /*TODO File check if array aswel*/
                 if ($element['value']) {
                     if (is_array($element['value'])) {
@@ -415,6 +415,9 @@ class xJsonService implements xJsonServiceInterface {
                             $valid = false;
                         }
                     }
+                }
+                if(!$element['max_size'] || $element['max_size'] > ini_get('upload_max_filesize')){
+                    $element['max_size'] = ini_get('upload_max_filesize');
                 }
                 break;
             case 'table':
