@@ -132,10 +132,13 @@ class xJsonFile2RestResource extends ResourceBase {
             throw new AccessDeniedHttpException();
         }
 
-        $file_obj = $this->ehisService->getDocumentFile(['hash' => $file_id]);
-        dump($file_obj);
+        $file_obj = $this->ehisService->getDocumentFileFromRedis(['hash' => $file_id]);
+        $sym_file = $sym_file = new Base64EncodedFile($file_obj);
+        dump($sym_file);
         die();
-        //$file_obj = $this->ehisService->getDocumentFile(['file_id' => $file_id]);
+        if(!$file_obj){
+            $file_obj = $this->ehisService->getDocumentFile(['file_id' => $file_id]);
+        }
 
         if($file_obj && ($file_obj['fileName'] && $file_obj['value'])){
             $sym_file = new Base64EncodedFile($file_obj['value']);
