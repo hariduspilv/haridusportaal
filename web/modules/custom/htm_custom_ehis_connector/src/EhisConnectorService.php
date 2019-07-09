@@ -121,7 +121,7 @@ class EhisConnectorService {
 			$response = json_decode($response->getBody()->getContents(), TRUE);
 			return $response;
 		}catch (RequestException $e){
-            return new ModifiedResourceResponse($e->getMessage(), $e->getCode());
+            return false;
 		}
 	}
 
