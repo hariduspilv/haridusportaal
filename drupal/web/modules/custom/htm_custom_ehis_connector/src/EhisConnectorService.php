@@ -7,6 +7,7 @@ use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Site\Settings;
 use Drupal\redis\ClientFactory;
+use Drupal\rest\ModifiedResourceResponse;
 use GuzzleHttp\Exception\RequestException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -120,7 +121,7 @@ class EhisConnectorService {
 			$response = json_decode($response->getBody()->getContents(), TRUE);
 			return $response;
 		}catch (RequestException $e){
-			throw new HttpException($e->getCode(), $e->getMessage());
+            return false;
 		}
 	}
 
@@ -309,6 +310,15 @@ class EhisConnectorService {
 		$params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode(TRUE)];
 		return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
 	}
+
+    /**
+     * @param array $params
+     * @return array|mixed|\Psr\Http\Message\ResponseInterface
+     */
+    public function getDocumentFileFromRedis(array $params = []){
+        $params['key'] = 'VPT_documents';
+        return $this->client->hGet($params['key'], $params['hash']);
+    }
 
 	/**
 	 * @param array $params

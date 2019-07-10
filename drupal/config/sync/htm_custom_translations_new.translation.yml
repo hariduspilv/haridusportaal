@@ -389,8 +389,8 @@ frontpage:
     en: 'Dokument ENG'
   kraadNimetus:
     translation_type: textarea
-    et: 'Kvalifikatsiooni/akadeemilise kraadi nimetus'
-    en: 'Kvalifikatsiooni/akadeemilise kraadi nimetus ENG'
+    et: 'Akadeemiline kraad'
+    en: 'Akadeemiline kraad ENG'
   kvalifikatsioonVastavus:
     translation_type: textarea
     et: 'Vastavus kehtivas raamistikus'
@@ -735,6 +735,10 @@ frontpage:
     translation_type: textarea
     et: lõpetatud
     en: ''
+  korgeim_haridustase:
+    translation_type: textarea
+    et: 'Kõrgeim haridustase'
+    en: 'Kõrgeim haridustase'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -804,6 +808,10 @@ xjson:
     translation_type: textarea
     et: Kustuta
     en: Delete
+  validation_errors:
+    translation_type: textarea
+    et: 'Vormi täitmisel on esinenud vigu.'
+    en: ''
 article:
   label:
     translation_type: textarea

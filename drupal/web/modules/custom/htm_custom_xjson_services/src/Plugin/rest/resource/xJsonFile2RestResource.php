@@ -39,7 +39,7 @@ use Symfony\Component\Routing\Route;
  *   id = "x_json_file2rest_resource",
  *   label = @Translation("X json file2rest resource"),
  *   uri_paths = {
- *     "canonical" = "/xjson_service/documentFile2/{file_id}",
+ *     "canonical" = "/xjson_service/documentFile2/{file_id}/{file_name}",
  *     "create" = "/xjson_service/documentFile2/{form_name}/{field_name}"
  *   }
  * )
@@ -125,13 +125,19 @@ class xJsonFile2RestResource extends ResourceBase {
     }*/
 
 
-    public function get($file_id) {
+    public function get($file_id, $file_name) {
         // You must to implement the logic of your REST Resource here.
         // Use current user after pass authentication to validate access.
         if (!$this->currentUser->hasPermission('access content')) {
             throw new AccessDeniedHttpException();
         }
-        $file_obj = $this->ehisService->getDocumentFile(['file_id' => $file_id]);
+
+        $file_obj['value'] = $this->ehisService->getDocumentFileFromRedis(['hash' => $file_id]);
+        $file_obj['fileName'] = $file_name;
+
+        if(!$file_obj['value']){
+            $file_obj = $this->ehisService->getDocumentFile(['file_id' => $file_id]);
+        }
 
         if($file_obj && ($file_obj['fileName'] && $file_obj['value'])){
             $sym_file = new Base64EncodedFile($file_obj['value']);
@@ -153,7 +159,6 @@ class xJsonFile2RestResource extends ResourceBase {
 
         $request_body = json_decode($request->getContent());
         $file_hash = $request_body->file;
-
 
         $destination = $this->getUploadLocation();
         $prepared_filename = $this->prepareFileName($filename, $validators);
