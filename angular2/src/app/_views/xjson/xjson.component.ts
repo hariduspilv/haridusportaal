@@ -370,9 +370,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  fileDownloadlink(id) {
+  fileDownloadlink(file) {
+    const id = file.file_identifier;
+    const name = file.file_name;
     const token = sessionStorage.getItem('token');
-    return this.settings.url + '/xjson_service/documentFile2/' + id + '?jwt_token=' + token;
+    return this.settings.url + '/xjson_service/documentFile2/' + id + '/' + name + '?jwt_token=' + token;
   }
 
   canUploadFile(element): boolean {
@@ -393,15 +395,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     model.value.splice(model.value.indexOf(target), 1);
   }
 
-  fileDownload(id, model) {
-    const downloadLink = this.fileDownloadlink(id);
-
-    const subscription = this.http.get(downloadLink, {responseType: 'blob'}).subscribe(response => {
-      console.log(response);
-    });
-
-  }
-
   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
     e.preventDefault();
@@ -413,6 +406,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         const reader = new FileReader();
 
         reader.readAsDataURL(file);
+        console.log(this.byteToMegabyte(file.size));
         reader.onload = () => {
 
           const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
@@ -436,6 +430,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
         };
       }
     }
+  }
+
+  byteToMegabyte(bytes) {
+    return bytes / Math.pow(1024, 2);
   }
 
   tableColumnName(element, index) {
