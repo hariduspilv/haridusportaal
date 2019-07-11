@@ -395,47 +395,59 @@ export class XjsonComponent implements OnInit, OnDestroy {
     model.value.splice(model.value.indexOf(target), 1);
   }
 
+  uploadFile(files, element) {
+    const model = this.data_elements[element];
+    const size_limit = model.max_size;
+    this.fileLoading[element] = true;
+    const file = files[0];
+    const file_size = this.byteToMegabyte(file.size);
+    if (file_size > size_limit) {
+      this.error[element] = { valid: false, message: this.translate.get('xjson.exceed_file_limit')['value'] };
+      files.shift();
+      if ( files.length > 0 ) {
+        this.uploadFile(files, element);
+      } else {
+        this.fileLoading[element] = false;
+      }
+    }
+​
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+​
+      const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
+      const payload = {
+        file: reader.result.toString().split(',')[1],
+        form_name: this.form_name,
+        data_element: element
+      };
+      const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
+        this.fileLoading[element] = true;
+​
+        const new_file = {
+          file_name: file.name,
+          file_identifier: response['id']
+        };
+        model.value.push(new_file);
+        files.shift();
+        if ( files.length > 0 ) {
+          this.uploadFile(files, element);
+        } else {
+          this.fileLoading[element] = false;
+        }
+        subscription.unsubscribe();
+      });
+    };
+  }
+​
   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
     e.preventDefault();
-    const files = e.target.files || e.dataTransfer.files;
-    const model = this.data_elements[element];
-    const size_limit = model.max_size;
-
+    const files_input = e.target.files || e.dataTransfer.files;
+    const files = Object.keys(files_input).map(item => files_input[item]);
+​
     if (files && files.length > 0) {
-      this.fileLoading[element] = true;
-      for (const file of files) {
-        const file_size = this.byteToMegabyte(file.size);
-        if (file_size > size_limit) {
-          this.error[element] = { valid: false, message: this.translate.get('xjson.exceed_file_limit')['value'] };
-          continue;
-        }
-
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-
-          const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
-          const payload = {
-            file: reader.result.toString().split(',')[1],
-            form_name: this.form_name,
-            data_element: element
-          };
-          const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
-            this.fileLoading[element] = true;
-
-            const new_file = {
-              file_name: file.name,
-              file_identifier: response['id']
-            };
-            model.value.push(new_file);
-
-            this.fileLoading[element] = false;
-            subscription.unsubscribe();
-          });
-        };
-      }
+      this.uploadFile(files, element);
     }
   }
 
