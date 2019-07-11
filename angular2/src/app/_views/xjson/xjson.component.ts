@@ -400,13 +400,20 @@ export class XjsonComponent implements OnInit, OnDestroy {
     e.preventDefault();
     const files = e.target.files || e.dataTransfer.files;
     const model = this.data_elements[element];
+    const size_limit = model.max_size;
 
     if (files && files.length > 0) {
+      this.fileLoading[element] = true;
       for (const file of files) {
+        const file_size = this.byteToMegabyte(file.size);
+        if (file_size > size_limit) {
+          this.error[element] = { valid: false, message: this.translate.get('xjson.exceed_file_limit')['value'] };
+          continue;
+        }
+
         const reader = new FileReader();
 
         reader.readAsDataURL(file);
-        console.log(this.byteToMegabyte(file.size));
         reader.onload = () => {
 
           const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
@@ -416,6 +423,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
             data_element: element
           };
           const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
+            this.fileLoading[element] = true;
 
             const new_file = {
               file_name: file.name,
@@ -424,7 +432,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
             model.value.push(new_file);
 
             this.fileLoading[element] = false;
-
             subscription.unsubscribe();
           });
         };
