@@ -425,7 +425,7 @@
                         <ng-container *ngIf="data_elements[element].value">
                           <ng-container *ngFor="let file of data_elements[element].value">
                             <div class="uploaded-file">
-                              <a class="file-icon" [href]="fileDownloadlink(file.file_identifier)" target="_blank">
+                              <a class="file-icon" [href]="fileDownloadlink(file)" target="_blank">
                                 <span class="file-name">{{ file.file_name }}</span>
                               </a>
                               <a class="close-icn" href="javascript:void(0)"
