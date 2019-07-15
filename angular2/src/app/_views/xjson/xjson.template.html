@@ -408,7 +408,7 @@
                     <ng-container *ngIf="data_elements[element].type == 'file'">
 
                       <div class="squared-input__outer-wrapper dropzone-wrapper">
-                        <span class="xjson__heading">
+                        <span class="xjson__file__heading">
                           {{selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
                         </span>
                         <div class="helper-wrapper">
@@ -683,15 +683,6 @@
             <hr class="divider">
 
             <div [class]="navigationLinks.length > 0 ? 'row button-list separate' : 'row button-list'">
-              <ng-container *ngFor="let activity of activityButtons['primary']">
-                <div class="subrow">
-                  <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button
-                    [color]="[activity.style]" (click)="submitForm(activity.action)">
-                    {{ activity.label | translate }}
-                  </button>
-                </div>
-              </ng-container>
-
 
               <div *ngIf="navigationLinks.length > 0" class="secondary-buttons">
                 <ng-container *ngFor="let link of navigationLinks">

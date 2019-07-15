@@ -717,7 +717,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence && this.edit_step === false) {
       if (this.editableStep()) {
         const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-        if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }); }
+        if (displayEditButton) { output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' }); }
       }
     } else {
       activities.forEach(activity => {
