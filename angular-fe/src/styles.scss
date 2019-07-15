@@ -1,0 +1,13 @@
+$create-font-face: false;
+@import 'fonts.scss';
+@import '_iconfont.scss';
+@import 'typography.scss';
+
+html{font-family: Rubik, Arial, Helvetica, sans-serif;}
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+a{color: #2e3374;
+  &:hover{text-decoration: none;}
+}

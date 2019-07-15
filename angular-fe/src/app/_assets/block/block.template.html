@@ -1,0 +1,30 @@
+<ng-container *ngIf="!loading">
+  <div class="block__title" [class.block__title--border]="titleBorder" *ngIf="hasTitle">
+    <div class="block__title__text">
+      <ng-content select="block-title"></ng-content>
+    </div><!--/block__title__text-->
+    <div class="block__title__tabs" *ngIf="labeledTabs > 0">
+      <ng-container *ngFor="let tab of tabs">
+        <button (click)="selectTab(tab)" [class.active]="tab.tabLabel == activeTab">
+          <ng-container *ngIf="tab.tabIcon">
+            <icon [glyph]="tab.tabIcon"></icon>
+          </ng-container>
+          {{ tab.tabLabel }}
+        </button>
+      </ng-container>
+    </div><!--/block__title__Tabs-->
+  </div><!--/title-area-->
+
+  <ng-content select="block-content"></ng-content>
+</ng-container>
+
+<ng-container *ngIf="loading">
+  <div class="block__title" [class.block__title--border]="titleBorder" *ngIf="hasTitle">
+    <div class="block__title__text">
+      <block-title><skeleton type="line"></skeleton></block-title>
+    </div><!--/block__title__text-->
+  </div><!--/title-area-->
+  <div class="block__content">
+    <skeleton type="article"></skeleton>
+  </div>
+</ng-container>
