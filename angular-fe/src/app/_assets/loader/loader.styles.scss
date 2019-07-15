@@ -1,0 +1,54 @@
+@import "typography.scss";
+
+:host {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 14px;
+	position: relative;
+
+	svg {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 50px;
+		width: 50px;
+		padding: 24px;
+		margin: 0 auto;
+		will-change: transforn;
+		animation: loaderRotate 2.4s cubic-bezier(0.77, 0, 0.175, 1) 0s infinite normal forwards;
+	}
+
+	.loader--label {
+		display: block;
+		animation: labelShow 0.5s both;
+		position: absolute;
+		bottom: -16px;
+		left: 0;
+		right: 0;
+		text-align: center;
+		color: $dark-gray;
+	}
+}
+
+@keyframes loaderRotate {
+	0% {
+		transform: rotateZ(0deg);
+	}
+
+	100% {
+		transform: rotateZ(360deg);
+	}
+}
+
+@keyframes labelShow {
+	from {
+		transform: translateY(-10px);
+		opacity: 0;
+	}
+
+	to {
+		transform: translateY(0);
+		opacity: 1;
+	}
+}
