@@ -395,40 +395,59 @@ export class XjsonComponent implements OnInit, OnDestroy {
     model.value.splice(model.value.indexOf(target), 1);
   }
 
+  uploadFile(files, element) {
+    const model = this.data_elements[element];
+    const size_limit = model.max_size;
+    this.fileLoading[element] = true;
+    const file = files[0];
+    const file_size = this.byteToMegabyte(file.size);
+    if (file_size > size_limit) {
+      this.error[element] = { valid: false, message: this.translate.get('xjson.exceed_file_limit')['value'] };
+      files.shift();
+      if ( files.length > 0 ) {
+        this.uploadFile(files, element);
+      } else {
+        this.fileLoading[element] = false;
+      }
+    }
+​
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+​
+      const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
+      const payload = {
+        file: reader.result.toString().split(',')[1],
+        form_name: this.form_name,
+        data_element: element
+      };
+      const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
+        this.fileLoading[element] = true;
+​
+        const new_file = {
+          file_name: file.name,
+          file_identifier: response['id']
+        };
+        model.value.push(new_file);
+        files.shift();
+        if ( files.length > 0 ) {
+          this.uploadFile(files, element);
+        } else {
+          this.fileLoading[element] = false;
+        }
+        subscription.unsubscribe();
+      });
+    };
+  }
+​
   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
     e.preventDefault();
-    const files = e.target.files || e.dataTransfer.files;
-    const model = this.data_elements[element];
-
+    const files_input = e.target.files || e.dataTransfer.files;
+    const files = Object.keys(files_input).map(item => files_input[item]);
+​
     if (files && files.length > 0) {
-      for (const file of files) {
-        const reader = new FileReader();
-
-        reader.readAsDataURL(file);
-        console.log(this.byteToMegabyte(file.size));
-        reader.onload = () => {
-
-          const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
-          const payload = {
-            file: reader.result.toString().split(',')[1],
-            form_name: this.form_name,
-            data_element: element
-          };
-          const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
-
-            const new_file = {
-              file_name: file.name,
-              file_identifier: response['id']
-            };
-            model.value.push(new_file);
-
-            this.fileLoading[element] = false;
-
-            subscription.unsubscribe();
-          });
-        };
-      }
+      this.uploadFile(files, element);
     }
   }
 
@@ -698,7 +717,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence && this.edit_step === false) {
       if (this.editableStep()) {
         const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-        if (displayEditButton) { output['primary'].push({ label: 'button.edit', action: 'EDIT', style: 'primary' }); }
+        if (displayEditButton) { output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' }); }
       }
     } else {
       activities.forEach(activity => {
