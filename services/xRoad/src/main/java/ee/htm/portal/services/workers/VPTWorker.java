@@ -728,6 +728,11 @@ public class VPTWorker extends Worker {
           .put("message_type", type.toUpperCase())
           .putObject("message_text")
           .put("et", item.getKirjeldus());
+      try {
+        TimeUnit.MILLISECONDS.sleep(10L);
+      } catch (InterruptedException e) {
+        e.printStackTrace();
+      }
     });
   }
 }
