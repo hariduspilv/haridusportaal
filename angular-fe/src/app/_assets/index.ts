@@ -14,6 +14,8 @@ import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { TableComponent } from './table';
+import { AlertsComponent } from './alerts';
+import AlertsService from '@app/_services/AlertsService';
 
 const declarations = [
   BlockComponent,
@@ -28,18 +30,24 @@ const declarations = [
   AccordionComponent,
   AccordionItemComponent,
   TableComponent,
+  AlertsComponent
 ];
 
 const exports = [
 
 ];
 
+const providers = [
+  AlertsService
+]
+
 @NgModule({
   declarations,
+  providers,
   imports: [
     CommonModule,
     RouterModule,
   ],
-  exports: [... declarations, ... exports],
+  exports: [...declarations, ...exports],
 })
 export class AssetsModule { }
