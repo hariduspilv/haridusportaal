@@ -2,6 +2,7 @@ $create-font-face: false;
 @import 'fonts.scss';
 @import '_iconfont.scss';
 @import 'typography.scss';
+@import 'breakpoints.scss';
 
 html{font-family: Rubik, Arial, Helvetica, sans-serif;}
 body {
