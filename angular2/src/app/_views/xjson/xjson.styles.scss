@@ -237,7 +237,7 @@ a {
     font-size: 0.875rem; color: $dark-gray;
   }
 
-  .squared-input__field { background: transparent; }
+  .squared-input__field { background: transparent; padding: .875rem 1rem .5rem 1rem;}
   
   
  .disabled-step input::placeholder {
@@ -320,15 +320,15 @@ a {
   }
   .xjson__component ::ng-deep {
     &.mat-select-value {
-    height: 2.375rem; padding-top: 0.7rem; }
+    height: 1.5rem; padding-top: .2rem;}
     &table .mat-select-value {
-      height: 2.375rem; padding-top: 0rem; }
+      height: 1.5rem; padding-top: .2rem;}
 }
 .xjson__component ::ng-deep .mat-select-value-text span { color: $black; }
   .xjson__component { margin-bottom: 0rem; }
   
   .xjson__component ::ng-deep {
-   &.mat-select-placeholder { color: $dark-gray; font-size: 0.875rem; padding-top: 0.7rem; }
+   &.mat-select-placeholder { color: $dark-gray; font-size: 0.875rem; padding-top: .2rem; }
    &table .mat-select-placeholder { padding-top: 0rem; }
   }
 
