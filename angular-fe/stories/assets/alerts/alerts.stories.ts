@@ -4,27 +4,27 @@ import {
   optionsKnob as options,
   boolean,
   button,
-  text
+  text,
 } from '@storybook/addon-knobs';
 import { manager } from '@storybook/addon-knobs/dist/registerKnobs.js';
 import { AssetsModule } from '@app/_assets';
 import alertsMd from './alerts.md';
-import { Alert, AlertType } from '@app/_services/AlertsService';
+import { Alert, AlertType } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
   ],
   providers: [
-  ]
+  ],
 };
 
-let alerts = [
-  new Alert({message: 'Error tekst', id:'big', type: AlertType.Error}),
-  new Alert({message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit quis temporibus quos doloribus nulla, ducimus perferendis esse nobis laudantium quisquam nemo ipsum at a repudiandae obcaecati atque! Debitis, dignissimos voluptatibus.', id:'big', type: AlertType.Warning}),
-  new Alert({message: 'Error tekst', id:'big', type: AlertType.Info}),
-  new Alert({message: 'Error tekst', id:'big', type: AlertType.Success}),
-]
+const alerts = [
+  new Alert({ message: 'Error tekst', id:'big', type: AlertType.Error }),
+  new Alert({ message: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Suscipit quis temporibus quos doloribus nulla, ducimus perferendis esse nobis laudantium quisquam nemo ipsum at a repudiandae obcaecati atque! Debitis, dignissimos voluptatibus.', id:'big', type: AlertType.Warning }),
+  new Alert({ message: 'Error tekst', id:'big', type: AlertType.Info }),
+  new Alert({ message: 'Error tekst', id:'big', type: AlertType.Success }),
+];
 // const addAlert = (message, type, closeable) => {
 //   alerts.push(new Alert({
 //     message,

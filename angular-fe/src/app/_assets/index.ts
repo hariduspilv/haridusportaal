@@ -4,13 +4,13 @@ import {
   BlockContentComponent,
   BlockTitleComponent,
   BlockTabsComponent,
- } from './block/block.component';
+ } from './block';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from './button/button.component';
-import { LoaderComponent } from './loader/loader.component';
-import { SkeletonComponent } from './skeleton/skeleton.component';
-import { IconComponent } from './icon/icon.component';
-import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
+import { ButtonComponent } from './button';
+import { LoaderComponent } from './loader';
+import { SkeletonComponent } from './skeleton';
+import { IconComponent } from './icon';
+import { BreadcrumbsComponent } from './breadcrumbs';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { TableComponent } from './table';

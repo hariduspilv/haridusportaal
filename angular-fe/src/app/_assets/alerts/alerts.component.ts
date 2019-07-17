@@ -11,7 +11,7 @@ enum AlertIcon {
   'warning' = 'alert-circle',
   'success' = 'check-circle',
   'error' = 'x-circle',
-  'info' = 'alert-circle'
+  'info' = 'alert-circle',
 }
 
 @Component({
@@ -29,26 +29,27 @@ export class AlertsComponent implements OnDestroy {
   @HostBinding('class') get hostClasses(): string {
     return 'alerts';
   }
-  public AlertIcons = AlertIcon;
+  public alertIcons = AlertIcon;
   private alertSubscription: Subscription = new Subscription;
   private subscriptions:Subscription[] = [];
 
   constructor(
-    private alertService: AlertsService
-  ){}
+    private alertService: AlertsService,
+  ) {}
 
   ngOnInit(): void {
-    this.alertSubscription = this.alertService.getAlertsFromBlock(this.id).subscribe((alert: Alert) => {
-      if (!alert.message) {
-        this.alerts = [];
-        return;
-      }
-      // only one error per HTTP status code
-      if(alert.httpStatus !== undefined) {
-        if(this.alerts.find((x: Alert) => x.httpStatus === alert.httpStatus)) return;
-      }
-      this.alerts.push(alert);
-    });
+    this.alertSubscription = this.alertService.getAlertsFromBlock(this.id).subscribe(
+      (alert: Alert) => {
+        if (!alert.message) {
+          this.alerts = [];
+          return;
+        }
+        // only one error per HTTP status code
+        if (alert.httpStatus !== undefined) {
+          if (this.alerts.find((x: Alert) => x.httpStatus === alert.httpStatus)) return;
+        }
+        this.alerts.push(alert);
+      });
     this.subscriptions.push(this.alertSubscription);
   }
 
