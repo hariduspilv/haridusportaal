@@ -42,6 +42,9 @@
     },
     "vertical": {
       "type": "boolean"
+    },
+    "value": {
+      "type": "array"
     }
   },
   "required": [ "type", "title", "table_columns" ],
