@@ -20,9 +20,11 @@ export class ButtonComponent {
   }
   onClick($event) {
 
-    const target = $event.originalTarget;
+    const target = $event.originalTarget || $event.target;
+
     const left = $event.pageX - target.offsetLeft;
     const top = $event.pageY - target.offsetTop;
+
     const width = target.offsetWidth;
     const ratio = width / 200;
     const speed = 0.75;
