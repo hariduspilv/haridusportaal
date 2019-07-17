@@ -13,7 +13,6 @@ import { IconComponent } from './icon/icon.component';
 import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableComponent } from './table';
 
 const declarations = [
@@ -31,12 +30,16 @@ const declarations = [
   TableComponent,
 ];
 
+const exports = [
+
+];
+
 @NgModule({
   declarations,
   imports: [
     CommonModule,
     RouterModule,
   ],
-  exports: declarations,
+  exports: [... declarations, ... exports],
 })
 export class AssetsModule { }

@@ -5,10 +5,12 @@ import {
   withKnobs,
   optionsKnob as options,
 } from '@storybook/addon-knobs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+    BrowserAnimationsModule,
   ],
 };
 
