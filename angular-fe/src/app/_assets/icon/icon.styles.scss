@@ -2,7 +2,7 @@
 
 i {
 	display:inline-block;
-	font-size: 32px;
+	font-size: 16px;
 	&:before{
 		display: inline-block;
 		vertical-align: middle;
@@ -10,9 +10,7 @@ i {
 	}
 }
 
-.small {
-	font-size: 16px;
-}
+
 .large {
-	font-size: 64px;
+	font-size: 32px;
 }
