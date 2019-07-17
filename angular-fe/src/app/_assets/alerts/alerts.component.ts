@@ -23,12 +23,11 @@ enum AlertIcon {
 export class AlertsComponent implements OnDestroy {
 
   @Input() id: string = 'global';
-  @Input() small: boolean = false;
   @Input() alerts: Alert[] = [];
+  @Input() small: boolean = false;
 
   @HostBinding('class') get hostClasses(): string {
-    const classes = this.small ? 'alerts alerts--small' : 'alerts' 
-    return classes;
+    return 'alerts';
   }
   public AlertIcons = AlertIcon;
   private alertSubscription: Subscription = new Subscription;
