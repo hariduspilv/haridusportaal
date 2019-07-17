@@ -6,11 +6,13 @@ import {
   optionsKnob as options,
 } from '@storybook/addon-knobs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@app/_modules/translate';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     BrowserAnimationsModule,
+    TranslateModule.forRoot(),
   ],
 };
 
