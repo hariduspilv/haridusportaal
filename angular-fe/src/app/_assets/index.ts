@@ -15,6 +15,8 @@ import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableComponent } from './table';
+import { AlertsComponent } from './alerts';
+import AlertsService from '@app/_services/AlertsService';
 
 const declarations = [
   BlockComponent,
@@ -29,10 +31,16 @@ const declarations = [
   AccordionComponent,
   AccordionItemComponent,
   TableComponent,
+  AlertsComponent
 ];
+
+const providers = [
+  AlertsService
+]
 
 @NgModule({
   declarations,
+  providers,
   imports: [
     CommonModule,
     RouterModule,

@@ -19,7 +19,6 @@ export class ButtonComponent {
     return `button--${this.theme}`;
   }
   onClick($event) {
-
     const target = $event.originalTarget;
     const left = $event.pageX - target.offsetLeft;
     const top = $event.pageY - target.offsetTop;
