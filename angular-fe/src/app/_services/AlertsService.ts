@@ -31,7 +31,7 @@ export default class AlertsService {
     );
   }
 
-  warning(message: string, id: string, closeable: boolean) {
+  warning(message: string, id?: string, closeable?: boolean) {
     this.notify(new Alert({
       message,
       type: AlertType.Warning,
@@ -40,7 +40,7 @@ export default class AlertsService {
     }));
   }
 
-  success(message: string, id: string, closeable: boolean) {
+  success(message: string, id?: string, closeable?: boolean) {
     this.notify(new Alert({
       message,
       type: AlertType.Success,
@@ -58,7 +58,7 @@ export default class AlertsService {
     }));
   }
 
-  error(message: string, id: string, closeable: boolean) {
+  error(message: string, id?: string, closeable?: boolean) {
     this.notify(new Alert({
       message,
       type: AlertType.Error,

@@ -43,6 +43,7 @@ export class AlertsComponent implements OnDestroy {
         this.alerts = [];
         return;
       }
+      // only one error per HTTP status code
       if(alert.httpStatus !== undefined) {
         if(this.alerts.find((x: Alert) => x.httpStatus === alert.httpStatus)) return;
       }
