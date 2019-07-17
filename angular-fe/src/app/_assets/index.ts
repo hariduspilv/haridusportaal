@@ -16,6 +16,11 @@ import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { TableComponent } from './table';
 import { AlertsComponent } from './alerts';
 import AlertsService from '@app/_services/AlertsService';
+import { EmbedVideoService } from 'ngx-embed-video';
+import { VideoComponent } from './video';
+import { TranslateModule } from '@app/_modules/translate';
+import { FeedbackComponent } from './feedback';
+import { FormsModule } from '@angular/forms';
 
 const declarations = [
   BlockComponent,
@@ -30,7 +35,9 @@ const declarations = [
   AccordionComponent,
   AccordionItemComponent,
   TableComponent,
-  AlertsComponent
+  AlertsComponent,
+  VideoComponent,
+  FeedbackComponent,
 ];
 
 const exports = [
@@ -38,8 +45,9 @@ const exports = [
 ];
 
 const providers = [
-  AlertsService
-]
+  AlertsService,
+  EmbedVideoService,
+];
 
 @NgModule({
   declarations,
@@ -47,6 +55,8 @@ const providers = [
   imports: [
     CommonModule,
     RouterModule,
+    TranslateModule,
+    FormsModule,
   ],
   exports: [...declarations, ...exports],
 })
