@@ -1,6 +1,20 @@
 # Alerts
 
 ## Properties
+
+### Alerts
+
+Alerts holds all of the singular Alert components whose id's match with the Alerts list component
+
+| Name  | Default  | Values  |  Type | Description  |
+|---|---|---|---|---|
+| id | global | - | string | Alert list identifier
+| small | false | true, false | boolean | If set to 'true' then the alert list uses smalle paddings and icons 
+
+### Alert
+
+Alert is one single alert entity
+
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | message | - | - | string | Message to show on the alert
