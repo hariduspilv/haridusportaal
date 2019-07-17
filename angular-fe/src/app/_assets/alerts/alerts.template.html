@@ -1,0 +1,13 @@
+<ng-container *ngFor="let alert of alerts">
+  <div [ngClass]="'alert alert--' + alert.type" role="alert" aria-label="alert" key="alert.message"> 
+    <div class="alert__icon">
+        <icon glyph="{{AlertIcons[alert.type]}}" size="large"></icon>
+    </div>
+    <!-- <p>{{alert.message | translate}}</p> -->
+    <p>{{alert.message}}</p>
+    <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
+        <icon glyph="frown" size="large"></icon>
+    </button>
+  </div>
+</ng-container>
+{{alerts | json}}
