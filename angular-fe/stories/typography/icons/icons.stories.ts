@@ -15,7 +15,7 @@ stories.add('Icons', () => {
   const iconsHTML = icons.map((icon) => {
     return `
       <tr>
-        <td style="text-align:center;"><icon size="large" glyph="${icon._name}"></icon></td>
+        <td style="text-align:center;"><icon glyph="${icon._name}"></icon></td>
         <td>${icon._name}</td>
         <td>${icon._fileName}</td>
       </tr>
