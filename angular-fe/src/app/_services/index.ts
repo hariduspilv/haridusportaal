@@ -1,1 +1,1 @@
-export * from './AlertsService';
+export * from './RippleService';
