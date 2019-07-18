@@ -6,7 +6,7 @@ export enum AlertType {
   Warning = 'warning',
   Info = 'info',
   Success = 'success',
-  Error = 'error'
+  Error = 'error',
 }
 
 export class Alert {
@@ -16,7 +16,7 @@ export class Alert {
   closeable?: boolean;
   httpStatus?: number;
   constructor(init?:Partial<Alert>) {
-    Object.assign(this, {closeable: true, id: 'global'} , init)
+    Object.assign(this, { closeable: true, id: 'global' } , init);
   }
 }
 
@@ -24,55 +24,55 @@ export class Alert {
 export default class AlertsService {
 
   private subject:Subject<Alert> = new Subject<Alert>();
-  
+
   getAlertsFromBlock(id: string) {
     return this.subject.asObservable().pipe(
-      filter((alert: Alert) => alert && alert.id === id)
+      filter((alert: Alert) => alert && alert.id === id),
     );
   }
 
   warning(message: string, id?: string, closeable?: boolean) {
     this.notify(new Alert({
       message,
-      type: AlertType.Warning,
       id,
-      closeable
+      closeable,
+      type: AlertType.Warning,
     }));
   }
 
   success(message: string, id?: string, closeable?: boolean) {
     this.notify(new Alert({
       message,
-      type: AlertType.Success,
       id,
-      closeable
+      closeable,
+      type: AlertType.Success,
     }));
   }
 
   info(message: string, id?: string, closeable?: boolean) {
     this.notify(new Alert({
       message,
-      type: AlertType.Info,
       id,
-      closeable
+      closeable,
+      type: AlertType.Info,
     }));
   }
 
   error(message: string, id?: string, closeable?: boolean) {
     this.notify(new Alert({
       message,
-      type: AlertType.Error,
       id,
-      closeable
+      closeable,
+      type: AlertType.Error,
     }));
   }
 
   notify(alert: Alert) {
-    const normalizedAlert = {...alert, message: alert.message ? alert.message.toString() : ''};
+    const normalizedAlert = { ...alert, message: alert.message ? alert.message.toString() : '' };
     this.subject.next(normalizedAlert);
   }
-  
+
   clear(id: string) {
-    this.notify(new alert({id}));
+    this.notify(new alert({ id }));
   }
 }
