@@ -34,6 +34,7 @@
     width: 100%;
     text-align: left;
     font-size: 1rem;
+    font-weight: 500;
     transition: border-left-color, background-color .2s cubic-bezier(0.19, 1, 0.22, 1);
     overflow: hidden;
     position: relative;
@@ -51,7 +52,7 @@
   .sidemenu__link[aria-expanded=true] {
     border-left-color: $orange;
     span {
-      font-weight: 500;
+      font-weight: 700;
       color: rgba(0,0,0,.87);
     }
     + ul {
