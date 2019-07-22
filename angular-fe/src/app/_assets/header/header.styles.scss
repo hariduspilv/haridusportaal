@@ -1,0 +1,75 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+
+	box-sizing: border-box;
+	padding: 0 24px 0 0;
+	width: 100%;
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 999;
+	background: $blue;
+	height: 64px;
+	box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+	.header { 
+		display: flex;
+		&__logo { 
+			margin-top: 18px;
+		}
+		&__hamburger {
+			min-height: 20px;
+			padding: 0 22px;
+			.toggle {
+				width: 20px;
+				display: flex;
+				flex-direction: column;
+				margin: 0 auto;
+				.bar {
+					margin: 2px 0;
+					height: 2px;
+					background: $white;
+					transition: all .225s ease-in-out;
+				}
+				&.active {
+					.middle {background: transparent;}
+					.first {transform: translateY(6px) rotate(-45deg)}
+					.last {transform: translateY(-6px) rotate(45deg)}
+				}
+			}
+		}
+		&__assets {
+			display: flex;
+			flex-grow: 1;
+			.header__search {
+				flex: 1 1 auto;
+			}
+		}
+	}
+	
+	.pointer {cursor: pointer;}
+	button {
+		height: 64px;
+		width: 64px;
+		padding: 0;
+		color: $white;
+		border: none;
+		background: $blue;
+		::ng-deep	.icon {
+			height: 24px;
+			&:before {
+				vertical-align: initial;
+			}
+		}
+	}
+
+	@include break-on(sm, min) {
+		.header {
+			&__logo { padding: 0 24px; }
+			&__hamburger { display: none; }
+			button.sm-show { display: none; }
+		}
+	}
+
+}
