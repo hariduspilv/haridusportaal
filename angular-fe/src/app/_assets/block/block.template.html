@@ -5,11 +5,13 @@
     </div><!--/block__title__text-->
     <div class="block__title__tabs" *ngIf="labeledTabs > 0">
       <ng-container *ngFor="let tab of tabs">
-        <button (click)="selectTab(tab)" [class.active]="tab.tabLabel == activeTab">
-          <ng-container *ngIf="tab.tabIcon">
-            <icon [glyph]="tab.tabIcon"></icon>
-          </ng-container>
-          {{ tab.tabLabel }}
+        <button (click)="selectTab(tab)" (mousedown)="animateRipple($event)" [class.active]="tab.tabLabel == activeTab">
+          <span class="button__contents">
+            <ng-container *ngIf="tab.tabIcon">
+              <icon [glyph]="tab.tabIcon"></icon>
+            </ng-container>
+            {{ tab.tabLabel }}
+          </span><!--/button__contents-->
         </button>
       </ng-container>
     </div><!--/block__title__Tabs-->

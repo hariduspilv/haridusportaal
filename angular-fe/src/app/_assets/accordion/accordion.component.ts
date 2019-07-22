@@ -7,6 +7,7 @@ import {
   AfterContentInit,
   OnChanges,
   OnDestroy,
+  ElementRef,
 } from '@angular/core';
 
 import {
@@ -17,6 +18,7 @@ import {
   trigger,
 } from '@angular/animations';
 import { Subject } from 'rxjs';
+import { RippleService } from '@app/_services';
 
 @Component({
   selector: 'accordion-item',
@@ -45,7 +47,12 @@ export class AccordionItemComponent {
     return 'accordion__item';
   }
 
-  public openAccordion() {
+  constructor(
+    private ripple: RippleService,
+    private el: ElementRef,
+  ) {}
+
+  public openAccordion($event) {
     if (this.styleState === this.active) {
       this.active = !this.active;
     }

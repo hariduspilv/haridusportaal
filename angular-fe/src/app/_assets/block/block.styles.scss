@@ -38,10 +38,17 @@
 					border-left: $gray 1px solid;
 					font-size: 1rem;
 					cursor: pointer;
+					position: relative;
+					overflow: hidden;
 
 					&.active {
 						border-bottom: orange 4px solid;
 						color: $blue;
+					}
+					.button__contents{
+						position: relative;
+						z-index: 2;
+						pointer-events: none;
 					}
 				}
 

@@ -45,15 +45,3 @@
 		pointer-events: none;
 	}
 }
-
-@keyframes ripple {
-	0% {
-		opacity: 0.3;
-		transform: scale(0);
-	}
-
-	100% {
-		opacity: 0;
-		transform: scale(30);
-	}
-}
