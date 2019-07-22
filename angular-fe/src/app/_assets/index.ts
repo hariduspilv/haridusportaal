@@ -21,6 +21,7 @@ import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
+import { RippleService } from '@app/_services';
 
 const declarations = [
   BlockComponent,
@@ -47,6 +48,7 @@ const exports = [
 const providers = [
   AlertsService,
   EmbedVideoService,
+  RippleService,
 ];
 
 @NgModule({

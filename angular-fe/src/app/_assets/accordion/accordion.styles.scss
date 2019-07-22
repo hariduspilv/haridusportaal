@@ -12,6 +12,7 @@
 		}
 
 		&__title {
+      overflow: hidden;
 			background: $aqua;
 			padding: 11px 60px 11px 21px;
 			line-height: 125%;
