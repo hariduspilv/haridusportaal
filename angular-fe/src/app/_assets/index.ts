@@ -22,6 +22,7 @@ import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
 import { RippleService } from '@app/_services';
+import { MenuComponent, SidemenuItemComponent } from './menu';
 
 const declarations = [
   BlockComponent,
@@ -39,6 +40,8 @@ const declarations = [
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,
+  MenuComponent,
+  SidemenuItemComponent
 ];
 
 const exports = [

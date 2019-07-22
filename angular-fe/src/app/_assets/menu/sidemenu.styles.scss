@@ -1,0 +1,72 @@
+@import 'colors.scss';
+
+::ng-deep .sidemenu {
+  height: 735px;
+  overflow-y: scroll;
+  width:100%;
+  background: $white;
+  display: block;
+  word-wrap: break-word;
+  box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0,0,0,.2), 0 0.125rem 0.125rem 0 rgba(0,0,0,.14), 0 0.0625rem 0.3125rem 0 rgba(0,0,0,.12);
+  ul, li {
+    padding: 0;
+    margin: 0;
+    display: block;
+  }
+  .sidemenu__block {
+    border-bottom: .0625rem solid $gray;
+  }
+  .sidemenu__category, .sidemenu__link {
+    display: block;
+    padding: .875rem 1.1875rem;
+    background-color: $white;
+    color: lighten($dark-gray, 5%);
+    border: 0;
+    border-left: .3125rem solid transparent;
+    line-height: 120%;
+  }
+  .sidemenu__link {
+    cursor: pointer;
+    box-sizing:border-box;
+    display: block;
+    text-decoration: none;
+    color: $black;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    transition: border-left-color, background-color .2s cubic-bezier(0.19, 1, 0.22, 1);
+    overflow: hidden;
+    position: relative;
+    + ul {
+      display: none;
+    }
+    icon {
+      float: right;
+    }
+    &:hover {
+      background-color: darken($white, 5%);
+      border-left-color: $orange;
+    }
+  }
+  .sidemenu__link[aria-expanded=true] {
+    border-left-color: $orange;
+    span {
+      font-weight: 500;
+      color: rgba(0,0,0,.87);
+    }
+    + ul {
+      display: block;
+      .sidemenu__link {
+        border-left-color: $orange;
+        span {
+          position: relative;
+          display: block;
+          left: 1rem;
+        }
+      }
+    }
+    icon {
+      transform: rotateZ(180deg);
+    }
+  }
+}
