@@ -140,7 +140,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
       } else if (data_elements[element].type === 'table') {
         Object.keys(data_elements[element].table_columns).forEach(tableElement => {
-          if (data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value) {
+          if (data_elements[element].table_columns[tableElement].type === 'address' && 'value' in data_elements[element].table_columns[tableElement]) {
             if (typeof data_elements[element].table_columns[tableElement].value === 'object') {
               if (data_elements[element].table_columns[tableElement].value.addressHumanReadable) {
                 this.autoCompleteContainer[element][tableElement] = [data_elements[element].table_columns[tableElement].value];
@@ -154,7 +154,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
               this.addressAutocomplete(data_elements[element].table_columns[tableElement].value, 0, tableElement, true);
             }
           }
-        })
+        });
       }
     });
   }
@@ -165,9 +165,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateInAdsFieldTable(element) {
+  validateInAdsFieldTable(element, column) {
     if (this.addressFieldFocus === false) {
-      this.addressAutocompleteSelectionValidationTable(element);
+      this.addressAutocompleteSelectionValidationTable(element, column);
     }
   }
 
@@ -191,19 +191,19 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  addressAutocompleteSelectionValidationTable(element) {
+  addressAutocompleteSelectionValidationTable(element, column) {
 
-    if (this.autoCompleteContainer[element] === undefined) {
-      return this.temporaryModel[element] = null;
+    if (this.autoCompleteContainer[element][column] === undefined) {
+      return this.temporaryModel[element][column] = null;
     }
 
-    const match = this.autoCompleteContainer[element].find(address => {
-      return address.addressHumanReadable === this.temporaryModel[element];
+    const match = this.autoCompleteContainer[element][column].find(address => {
+      return address.addressHumanReadable === this.temporaryModel[element][column];
     });
 
     if (!match) {
-      this.autoCompleteContainer[element] = null;
-      this.temporaryModel[element] = null;
+      this.autoCompleteContainer[element][column] = null;
+      this.temporaryModel[element][column] = null;
       this.data_elements[element].value = null;
     } else {
       this.data_elements[element].value = this.inAdsFormatValue(match);
@@ -237,18 +237,34 @@ export class XjsonComponent implements OnInit, OnDestroy {
       _this.autocompleteSubscription[index] = jsonp.subscribe(data => {
         if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
 
-        _this.autocompleteLoader = false;
-        _this.autoCompleteContainer[element] = data['addresses'] || [];
+        if (!table) {
+          _this.autocompleteLoader = false;
+          _this.autoCompleteContainer[element] = data['addresses'] || [];
+  
+          _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
+  
+          _this.autoCompleteContainer[element].forEach(address => {
+            if (address.kort_nr) {
+              address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
+            } else {
+              address.addressHumanReadable = address.pikkaadress;
+            }
+          });
+        } else {
+          _this.autocompleteLoader = false;
+          _this.autoCompleteContainer[element][col] = data['addresses'] || [];
+  
+          _this.autoCompleteContainer[element][col] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
+  
+          _this.autoCompleteContainer[element][col].forEach(address => {
+            if (address.kort_nr) {
+              address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
+            } else {
+              address.addressHumanReadable = address.pikkaadress;
+            }
+          });
+        }
 
-        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
-
-        _this.autoCompleteContainer[element].forEach(address => {
-          if (address.kort_nr) {
-            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
-          } else {
-            address.addressHumanReadable = address.pikkaadress;
-          }
-        });
 
         if (autoselectOnMatch === true) {
           _this.addressAutocompleteSelectionValidation(element);
@@ -258,7 +274,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
       });
 
     }, debounceTime);
-
   }
 
   inAdsFormatValue(address) {
@@ -473,6 +488,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
         newRow[col] = column.default_value;
       } else {
         newRow[col] = null;
+      }
+      if(column.type === 'address'){
+        this.temporaryModel[element] = {
+          [col]: {}
+        };
       }
     }
     if (table.value === undefined) { table.value = []; }
