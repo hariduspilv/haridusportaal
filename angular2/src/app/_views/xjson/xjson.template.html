@@ -531,9 +531,9 @@
                                               <input *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay" class="contnent-input" type="text" matInput
                                               [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                              [(ngModel)]="row[col]" [name]="element + '_' + rowIndex + '_' + colIndex"
-                                              (ngModelChange)="addressAutocomplete(row[col], 300, element, false, col, rowIndex, true)"
-                                              (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(row[col])"
+                                              [(ngModel)]="temporaryModel[element][col]" [name]="element + '_' + rowIndex + '_' + colIndex"
+                                              (ngModelChange)="addressAutocomplete(temporaryModel[element][col], 300, element, false, col, rowIndex, true)"
+                                              (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(element, col)"
                                               [matAutocomplete]="autoAddress">
                                             <mat-autocomplete #autoAddress="matAutocomplete"
                                               (optionSelected)="addressFieldFocus = false">
@@ -543,13 +543,13 @@
                                                 </mat-option>
                                               </ng-container>
                                               <ng-container
-                                                *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
-                                                <mat-option *ngIf="!autoCompleteContainer[element].length" [value]=""
+                                                *ngIf="autocompleteLoader == false && autoCompleteContainer[element][col]">
+                                                <mat-option *ngIf="!autoCompleteContainer[element][col].length" [value]=""
                                                   disabled="true">
                                                   <span>{{'xjson.address_not_found' | translate }}</span>
                                                 </mat-option>
-                                                <ng-container *ngIf="autoCompleteContainer[element].length > 0">
-                                                  <mat-option *ngFor="let address of autoCompleteContainer[element]"
+                                                <ng-container *ngIf="autoCompleteContainer[element][col].length > 0">
+                                                  <mat-option *ngFor="let address of autoCompleteContainer[element][col]"
                                                     [value]="address.addressHumanReadable">
                                                     <span>{{ address.addressHumanReadable }}</span>
                                                   </mat-option>
