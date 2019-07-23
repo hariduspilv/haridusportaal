@@ -284,8 +284,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (address.apartment !== undefined) { return address; }
 
     return {
-      'adr_id': address.adr_id,
-      'ads_oid': address.ads_oid,
+      'adsId': address.adr_id,
+      'adsOid': address.ads_oid,
       'addressCoded': address.koodaadress,
       'county': address.maakond,
       'countyEHAK': address.ehakmk,
