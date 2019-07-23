@@ -41,7 +41,7 @@ const declarations = [
   VideoComponent,
   FeedbackComponent,
   MenuComponent,
-  SidemenuItemComponent
+  SidemenuItemComponent,
 ];
 
 const exports = [
