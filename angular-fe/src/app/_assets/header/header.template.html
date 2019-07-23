@@ -1,5 +1,7 @@
 <div class="header" role="banner" attr.aria-label="{{'frontpage.header' | translate}}">
-  <button class="header__hamburger pointer" 
+  <button htm-button 
+    theme="plain"
+    classes="header__hamburger"
     attr.aria-label="{{ 'button.open' | translate }} {{ 'frontpage.main_menu' | translate }}" 
     attr.aria-expanded="{{active}}" 
     (click)="active = !active">
@@ -15,10 +17,15 @@
   </a>
   <div class="header__assets">
     <div class="header__search"></div>
-    <button class="pointer sm-show" attr.aria-label="{{ 'button.search' | translate }}">
+    <button htm-button 
+      theme="plain"
+      classes="sm-show"
+      attr.aria-label="{{ 'button.search' | translate }}">
       <icon aria-hidden="true" glyph="search" size="medium"></icon>
     </button>
-    <button class="pointer" attr.aria-label="{{ 'button.login' | translate }}">
+    <button htm-button
+      theme="plain"
+      attr.aria-label="{{ 'button.login' | translate }}">
       <icon aria-hidden="true" glyph="user" size="medium"></icon>
     </button>
   </div>

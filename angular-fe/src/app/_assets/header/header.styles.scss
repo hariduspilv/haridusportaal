@@ -16,6 +16,7 @@
 	.header { 
 		display: flex;
 		&__logo { 
+			cursor: pointer;
 			margin-top: 18px;
 		}
 		&__hamburger {
@@ -26,6 +27,7 @@
 				display: flex;
 				flex-direction: column;
 				margin: 0 auto;
+				pointer-events: auto;
 				.bar {
 					margin: 2px 0;
 					height: 2px;
@@ -48,7 +50,6 @@
 		}
 	}
 	
-	.pointer {cursor: pointer;}
 	button {
 		height: 64px;
 		width: 64px;
@@ -56,6 +57,7 @@
 		color: $white;
 		border: none;
 		background: $blue;
+		border-radius: 0;
 		::ng-deep	.icon {
 			height: 24px;
 			&:before {
