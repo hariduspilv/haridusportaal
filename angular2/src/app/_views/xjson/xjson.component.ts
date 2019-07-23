@@ -683,6 +683,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.error[field] = validation;
           break;
         }
+        if (!this.data_elements[field].value) {
+          this.data_elements[field].value = [];
+        }
       } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
         const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
