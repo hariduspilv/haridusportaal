@@ -27,7 +27,7 @@ import { RippleService } from '@app/_services';
 				[attr.aria-controls]="item.label | slugify"
 			>
 				<span>{{ item.label }}</span>
-				<icon glyph="chevron-down"></icon>
+				<icon glyph="chevron-down" size="medium"></icon>
 			</button>
 			<ul id="{{item.label | slugify}}">
 				<li *ngFor="let item of item.links" (mousedown)="animateRipple($event)">

@@ -28,7 +28,7 @@ import { SlugifyPipe } from 'ngx-pipes';
 
 const pipes = [
   SlugifyPipe,
-]
+];
 
 const declarations = [
   BlockComponent,
