@@ -3,7 +3,7 @@ import { RippleService } from '@app/_services';
 
 @Component({
   selector: '[htm-button]',
-  template: '<span class="buton--label"><ng-content></ng-content></span>',
+  template: '<span class="button--label"><ng-content></ng-content></span>',
   styleUrls: ['./button.styles.scss'],
   host: {
     '(mousedown)': 'onClick($event)',
@@ -16,9 +16,11 @@ export class ButtonComponent {
     private ripple: RippleService,
   ) {}
 
+  @Input() classes: string = '';
   @Input() theme: string = 'default';
+
   @HostBinding('class') get hostClasses(): string {
-    return `button--${this.theme}`;
+    return `${this.classes} button--${this.theme}`;
   }
   onClick($event) {
     this.ripple.animate($event);
