@@ -13,6 +13,7 @@ class StudyProgrammeController extends ControllerBase {
 
     public function import() {
 
+        $this->programmenodes = [];
         $schools = $this->get_existing_schools();
         $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
         $programmes = $this->get_programme_data('programme', $schools, $taxonomies['studyprogrammetype']);
@@ -27,13 +28,13 @@ class StudyProgrammeController extends ControllerBase {
             if($programmenode['node_response']['programme_field']['field_update_from_ehis'] === '1'){
                 $programmenode['edited_node'] = $this->add_programme_fields($programme, $programmenode['node_response'], $schools, $taxonomies);
                 if(isset($programmenode['edited_node']['programme_field']['field_educational_institution'])){
-                    $programmenodes[] = $programmenode['edited_node'];
+                    $this->programmenodes[] = $programmenode['edited_node'];
                 }
             }
         }
         $unpublishnodes = $this->unpublishNonExistantProgrammes($programmes);
-        $programmenodes = array_merge($programmenodes, $unpublishnodes);
-        return $programmenodes;
+        $this->programmenodes = array_merge($this->programmenodes, $unpublishnodes);
+        return $this->programmenodes;
     }
 
     public function get_programme_data($type, $schools, $programmetype){
@@ -61,7 +62,7 @@ class StudyProgrammeController extends ControllerBase {
             $data_from_json = json_decode(str_replace(array("\n", "\r"), '', $data));
             foreach($data_from_json->body->oppekavad->oppekava as $oppekava){
                 if($oppekava->vastuvott != 'Vastuvõttu ei toimu, õppimine keelatud' && isset($programmetype[$this->parse_key($oppekava->oppekavaLiik)])){
-                    if(isset($schools[$oppekava->koolId]) && isset($oppekava->oppekavaNimetus) && $oppekava->oppekavaNimetus != "" && isset($oppekava->oppekavaKood) && $oppekava->oppekavaKood != "" && isset($oppekava->oppekavaLiik) && $oppekava->oppekavaLiik != ''){
+                    if(isset($schools[$oppekava->koolId]) && isset($oppekava->oppekavaNimetus) && !empty($oppekava->oppekavaNimetus) && isset($oppekava->oppekavaKood) && !empty($oppekava->oppekavaKood) && isset($oppekava->oppekavaLiik) && !empty($oppekava->oppekavaLiik)){
                         $programmes[] = $oppekava;
                     }else{
                         $message = t('Puuduvad kohustuslikud andmed õppekavas: @code', array('@code' => $oppekava->oppekavaKood));
@@ -112,6 +113,19 @@ class StudyProgrammeController extends ControllerBase {
             // Match found, update existing node
             $nid = array_shift($nid_result);
 
+            if(!empty($nid_result)){
+                foreach($nid_result as $node_id){
+                    $programme_object = [
+                        'programme_field' => [
+                            'nid' => $node_id
+                        ],
+                        'action' => 'delete'
+                    ];
+                    $this->programmenodes[] = $programme_object;
+                }
+            }
+
+            $programmenode['action'] = 'update';
             $programmenode['programme_field']['nid'] = $nid;
             $programmenode['programme_field']['field_ehis_id'] = $programme->oppekavaKood;
             if(isset($upehis[$nid])){
@@ -120,6 +134,7 @@ class StudyProgrammeController extends ControllerBase {
                 $programmenode['programme_field']['field_update_from_ehis'] = '0';
             }
         }else{
+            $programmenode['action'] = 'create';
             $programmenode['programme_field']['field_ehis_id'] = $programme->oppekavaKood;
             $programmenode['programme_field']['field_update_from_ehis'] = '1';
         }
@@ -305,43 +320,50 @@ class StudyProgrammeController extends ControllerBase {
                 'title' => sprintf('%s', $programme['programme_field']['title']),
             ]);
         }
-        if(isset($programme['programme_field']['field_iscedf_detailed'])){
-            $detailedparents = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($programme['programme_field']['field_iscedf_detailed']);
-            foreach($detailedparents as $parent){
-                $programme['programme_field']['field_iscedf_narrow'] = $parent->id();
-            }
-            $narrowparents = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($programme['programme_field']['field_iscedf_narrow']);
-            foreach($narrowparents as $parent){
-                $programme['programme_field']['field_iscedf_board'] = $parent->id();
-            }
-        }
-        if(isset($programme['programme_taxonomy']['qualificationstandardid'])){
-            foreach($programme['programme_taxonomy']['qualificationstandardid'] as $id){
-                $qualidterm = Term::create([
-                    'name' => $id,
-                    'vid' => 'qualificationstandardid',
-                ]);
-                $qualidterm->save();
-                $programme['programme_field']['field_qualification_standard_id'][] = $qualidterm->get('tid')->getValue()[0]['value'];
-            }
-        }
 
-        if(isset($programme['programme_field']['field_educational_institution'])){
-            $schoolitem = entity_load('node', $programme['programme_field']['field_educational_institution']);
-            if(count($schoolitem->toArray()['field_school_location']) > 0){
-                $schoolitem->toArray()['field_school_location'][0]['target_id'];
-                $paragraph = entity_load('paragraph', $schoolitem->toArray()['field_school_location'][0]['target_id']);
-                $programme['programme_field']['field_school_address'] = $paragraph->get('field_address')->value;
+        if($programme['action'] !== 'delete'){
+            if(isset($programme['programme_field']['field_iscedf_detailed'])){
+                $detailedparents = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($programme['programme_field']['field_iscedf_detailed']);
+                foreach($detailedparents as $parent){
+                    $programme['programme_field']['field_iscedf_narrow'] = $parent->id();
+                }
+                $narrowparents = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadParents($programme['programme_field']['field_iscedf_narrow']);
+                foreach($narrowparents as $parent){
+                    $programme['programme_field']['field_iscedf_board'] = $parent->id();
+                }
             }
-            if(count($schoolitem->toArray()['field_school_webpage_address']) > 0){
-                $programme['programme_field']['field_school_website'] = $schoolitem->toArray()['field_school_webpage_address'];
-            }
-        }
 
-        foreach($programme['programme_field'] as $fieldlabel => $fieldvalue){
-            $node->set($this->parse_key($fieldlabel), $fieldvalue);
+            if(isset($programme['programme_taxonomy']['qualificationstandardid'])){
+                foreach($programme['programme_taxonomy']['qualificationstandardid'] as $id){
+                    $qualidterm = Term::create([
+                        'name' => $id,
+                        'vid' => 'qualificationstandardid',
+                    ]);
+                    $qualidterm->save();
+                    $programme['programme_field']['field_qualification_standard_id'][] = $qualidterm->get('tid')->getValue()[0]['value'];
+                }
+            }
+
+            if(isset($programme['programme_field']['field_educational_institution'])){
+                $schoolitem = entity_load('node', $programme['programme_field']['field_educational_institution']);
+                if(count($schoolitem->toArray()['field_school_location']) > 0){
+                    $schoolitem->toArray()['field_school_location'][0]['target_id'];
+                    $paragraph = entity_load('paragraph', $schoolitem->toArray()['field_school_location'][0]['target_id']);
+                    $programme['programme_field']['field_school_address'] = $paragraph->get('field_address')->value;
+                }
+                if(count($schoolitem->toArray()['field_school_webpage_address']) > 0){
+                    $programme['programme_field']['field_school_website'] = $schoolitem->toArray()['field_school_webpage_address'];
+                }
+            }
+
+            foreach($programme['programme_field'] as $fieldlabel => $fieldvalue){
+                $node->set($this->parse_key($fieldlabel), $fieldvalue);
+            }
+
+            $node->save();
+        }else{
+            $node->delete();
         }
-        $node->save();
     }
 
     public function unpublishNonExistantProgrammes($imported_programmes){
