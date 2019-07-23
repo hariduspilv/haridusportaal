@@ -6,6 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.styles.scss'],
 })
 
-export class HeaderComponent{ 
+export class HeaderComponent {
   public active: boolean = false;
 }
