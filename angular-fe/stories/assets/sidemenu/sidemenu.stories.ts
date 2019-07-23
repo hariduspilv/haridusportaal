@@ -18,9 +18,7 @@ stories.add(
         data,
       },
       template: `
-        <div style="height: 100vh; overflow-y: scroll">
         <sidemenu [data]="data"></sidemenu>
-        </div>
       `,
     };
   },
