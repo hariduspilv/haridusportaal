@@ -102,7 +102,7 @@ class Tara extends OpenIDConnectClientBase {
         if($_SERVER['HTTP_HOST'] === 'test-htm.wiseman.ee:30000'){
             $redirect_uri = 'https://htm.wiseman.ee/custom/login/tara/return';
         }else{
-            $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/openid-connect/tara';
+            $redirect_uri = 'https://'.$_SERVER['HTTP_HOST'].'/custom/login/tara/return';
         }
 
 		$request_options = [
