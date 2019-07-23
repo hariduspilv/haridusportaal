@@ -6,7 +6,8 @@
 	width: 16.25rem;
 	background: $white;
 	display: block;
-	word-wrap: break-word;
+	border-right: 0.0625rem solid $gray;
+  word-wrap: break-word;
 	box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0, 0, 0, 0.2),
 		0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.14),
     0 0.0625rem 0.3125rem 0 rgba(0, 0, 0, 0.12);
@@ -28,7 +29,7 @@
 		display: block;
 		padding: 0.875rem 1.1875rem;
 		background-color: $white;
-		color: lighten($dark-gray, 5%);
+		color: $dark-gray;
 		border: 0;
 		border-left: 0.3125rem solid transparent;
 		line-height: 120%;
@@ -44,7 +45,7 @@
 		font-size: 1rem;
 		font-weight: 500;
 		transition: border-left-color,
-			background-color 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+		background-color 0.2s cubic-bezier(0.19, 1, 0.22, 1);
 		overflow: hidden;
 		position: relative;
 		+ ul {
@@ -82,7 +83,7 @@
 	.sidemenu__info {
 		padding: 1.5rem;
 		text-align: center;
-		color: darken($gray, 25%);
+		color: $dark-gray;
 		font-size: 0.875rem;
 		font-weight: 300;
 		.version {

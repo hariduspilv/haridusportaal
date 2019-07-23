@@ -21,7 +21,7 @@
 				</ng-container>
 				<ng-template #category>
 					<ul class="sidemenu__block">
-						<li class="sidemenu__category">{{ item.label }}</li>
+						<li class="sidemenu__category">{{ item.label | uppercase }}</li>
 						<li *ngFor="let item of item.links">
 							<sidemenu-item [item]="item"></sidemenu-item>
 						</li>

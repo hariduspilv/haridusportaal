@@ -3,8 +3,6 @@ import {
   Input,
   HostBinding,
   OnInit,
-  Directive,
-  HostListener,
 } from '@angular/core';
 import { RippleService } from '@app/_services';
 
@@ -21,17 +19,17 @@ import { RippleService } from '@app/_services';
 				><span>{{ item.label }}</span></a
 			>
 		</ng-container>
-		<ng-template #expandable>
+    <ng-template #expandable>
 			<button
 				class="sidemenu__link"
 				(click)="toggle($event)"
 				[attr.aria-expanded]="isOpen"
-				[attr.aria-controls]="item.label"
+				[attr.aria-controls]="item.label | slugify"
 			>
 				<span>{{ item.label }}</span>
 				<icon glyph="chevron-down"></icon>
 			</button>
-			<ul id="{{ item.label }}">
+			<ul id="{{item.label | slugify}}">
 				<li *ngFor="let item of item.links" (mousedown)="animateRipple($event)">
 					<a
 						*ngIf="item.url.path !== '#nolink'"

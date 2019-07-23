@@ -23,6 +23,11 @@ import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
 import { RippleService } from '@app/_services';
 import { MenuComponent, SidemenuItemComponent } from './menu';
+import { SlugifyPipe } from 'ngx-pipes';
+
+const pipes = [
+  SlugifyPipe,
+]
 
 const declarations = [
   BlockComponent,
@@ -42,6 +47,7 @@ const declarations = [
   FeedbackComponent,
   MenuComponent,
   SidemenuItemComponent,
+  ...pipes,
 ];
 
 const exports = [
