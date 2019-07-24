@@ -22,6 +22,7 @@ import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
 import { RippleService } from '@app/_services';
+import { ScrollableContentComponent } from './scrollableContent';
 
 const declarations = [
   BlockComponent,
@@ -39,6 +40,7 @@ const declarations = [
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,
+  ScrollableContentComponent,
 ];
 
 const exports = [
