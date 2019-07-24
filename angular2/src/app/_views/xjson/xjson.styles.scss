@@ -17,11 +17,12 @@ input { font-size: 0.875rem; }
   &__navigation{ list-style-type: none; padding-left: 1.5rem; padding-right: 1.5rem; margin-left: -1.5rem; margin-right: -1.5rem; display: flex; padding-top: 1rem; margin-top: 2rem; overflow-x: auto; padding-bottom: 2rem; margin-bottom: 0px;
     @include break-on(sm, max) { justify-content: flex-start; max-width: inherit; min-width: 5.875rem; padding-left: 1.5rem; padding-right: 1.5rem; }
   }
+  &__table{margin: 1rem 0rem; }
   @include break-on(sm, min) {border-radius: $half-gutter; margin-left: $medium; margin-right: $medium; margin-top: .5rem;}
 }
 
 
-.xjson__scrollable {position: relative; margin-top: 0.5rem; overflow: hidden;
+.xjson__scrollable {position: relative; overflow: hidden;
   &.scrollable__unpadded {padding: 0;}
   @include break-on(sm, min) {position: relative;}
   &__table {overflow:hidden;}
@@ -207,7 +208,7 @@ a {
   .uploaded-file{display:flex; justify-content: space-between;}
   
   .close-icn {
-   font-size: 1rem;
+   font-size: 16px;
     .htm-icon {
       position: relative;
       top: 0.375rem;
@@ -228,7 +229,7 @@ a {
       left: 0px; top: -0.0625rem; align-items: left; text-align: center; font-size: 1.45rem; 
     }
     .file-name{
-      text-decoration: underline; font-size: 1rem;
+      text-decoration: underline; font-size: 16px;
     }
   }
   
