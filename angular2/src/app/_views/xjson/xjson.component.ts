@@ -284,8 +284,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (address.apartment !== undefined) { return address; }
 
     return {
-      'adr_id': address.adr_id,
-      'ads_oid': address.ads_oid,
+      'adsId': address.adr_id,
+      'adsOid': address.ads_oid,
       'addressCoded': address.koodaadress,
       'county': address.maakond,
       'countyEHAK': address.ehakmk,
@@ -682,6 +682,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (validation.valid !== true) {
           this.error[field] = validation;
           break;
+        }
+        if (!this.data_elements[field].value) {
+          this.data_elements[field].value = [];
         }
       } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
         const validation = this.isValidField(elements[field]);
