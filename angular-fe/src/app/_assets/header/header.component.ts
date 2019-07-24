@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import ModalService from '@app/_services/ModalService';
 
 @Component({
   selector: 'htm-header',
@@ -8,4 +9,5 @@ import { Component } from '@angular/core';
 
 export class HeaderComponent {
   public active: boolean = false;
+  constructor(private modalService: ModalService) {}
 }

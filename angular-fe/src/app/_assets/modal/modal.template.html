@@ -1,0 +1,19 @@
+<div class="modal" [ngClass]="{ 'modal-open': opened }">
+  <div class="modal__backdrop">
+    <div class="modal__block">
+      <div class="modal__header" *ngIf="titleExists || topAction">
+        <div><h2 *ngIf="titleExists">{{ title }}</h2></div>
+        <button *ngIf="topAction" htm-button theme="icon" (click)="stateChange(false)"><icon glyph="x" size="medium"></icon></button>
+      </div>
+      <ng-content select="modal-content"></ng-content>
+      <div class="modal__footer" *ngIf="bottomAction">
+        <button htm-button theme="plain" (click)="stateChange(false)">{{ 'button.close' | translate }}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- For story -->
+<ng-container *ngIf="stateButton">
+  <button style="margin-top: 1rem;" htm-button (click)="modalService.open(id)">Ava modaal {{id}}</button><br>
+</ng-container>
+<!-- / -->

@@ -16,6 +16,7 @@ import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { TableComponent } from './table';
 import { AlertsComponent } from './alerts';
 import AlertsService from '@app/_services/AlertsService';
+import ModalService from '@app/_services/ModalService';
 import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
@@ -23,6 +24,7 @@ import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
 import { RippleService } from '@app/_services';
 import { HeaderComponent } from './header';
+import { ModalComponent, ModalContentComponent } from './modal';
 
 const declarations = [
   BlockComponent,
@@ -40,7 +42,9 @@ const declarations = [
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,
-  HeaderComponent
+  HeaderComponent,
+  ModalComponent,
+  ModalContentComponent,
 ];
 
 const exports = [
@@ -51,6 +55,7 @@ const providers = [
   AlertsService,
   EmbedVideoService,
   RippleService,
+  ModalService,
 ];
 
 @NgModule({

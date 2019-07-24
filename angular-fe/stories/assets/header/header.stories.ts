@@ -17,6 +17,16 @@ stories.add(
       moduleMetadata,
       template: `
           <htm-header></htm-header>
+          <htm-modal id="search" title="Otsing">
+            <modal-content>
+              Otsi OTSI otsi
+            </modal-content>
+          </htm-modal>
+          <htm-modal id="login" title="Login" [bottomAction]="false">
+            <modal-content>
+              Loogika
+            </modal-content>
+          </htm-modal>
         `,
     };
   },
