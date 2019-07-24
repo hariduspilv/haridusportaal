@@ -1,4 +1,4 @@
-# Loader
+# Modal
 
 ## Usage
 
@@ -11,7 +11,7 @@
 </htm-modal>
 ```
 
-## Modal properties
+## Properties
 
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
