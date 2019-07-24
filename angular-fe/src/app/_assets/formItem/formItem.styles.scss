@@ -1,0 +1,59 @@
+@import "typography.scss";
+
+::ng-deep {
+	.formItem {
+    display: block;
+    position: relative;
+    &+.formItem{
+      margin-top:20px;
+    }
+		input, textarea, select {
+      display: block;
+      width: 100%;
+			appearance: none;
+			border: $gray 1px solid;
+			padding: 0 16px;
+			font-family: Rubik, Arial, Helvetica, sans-serif;
+			border-radius: 20px;
+			height: 40px;
+			line-height: 40px;
+      color: $dark-gray;
+      font-size: 14px;
+      transition:border-color 0.25s;
+      will-change:border-clor;
+      &.focused{
+        border-color: $blue;
+      }
+    }
+    textarea{
+      height: 200px;
+      border-radius: 4px;
+      line-height: 150%;
+      padding-top:8px;
+      padding-bottom:8px;
+    }
+    
+    &__title{
+      position: absolute;
+      padding:0 8px;
+      color: $dark-gray;
+      font-size: 14px;
+      line-height: 14px;
+      top: 14px;
+      left: 8px;
+      pointer-events: none;
+      transition: all 0.25s;
+      background: $white;
+      will-change: top, left, color, font-size;
+      &--top{
+        top:-7px;
+        left: 24px;
+        color: $black;
+        font-size: 12px;
+      }
+      &.focused{
+        color: $blue;
+      }
+    }
+	}
+}

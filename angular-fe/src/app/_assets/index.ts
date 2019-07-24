@@ -27,6 +27,8 @@ import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
 import { SlugifyPipe } from 'ngx-pipes';
+import { FormItemComponent } from './formItem';
+import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
 
 const pipes = [
   SlugifyPipe,
@@ -52,7 +54,7 @@ const declarations = [
   MenuComponent,
   SidemenuItemComponent,
   HeaderComponent,
-  ...pipes,
+  FormItemComponent,
 ];
 
 const exports = [
@@ -66,13 +68,14 @@ const providers = [
 ];
 
 @NgModule({
-  declarations,
   providers,
+  declarations: [...declarations, ...pipes],
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
     FormsModule,
+    NgxDaterangepickerMd.forRoot(),
   ],
   exports: [...declarations, ...exports],
 })

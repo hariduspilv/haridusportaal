@@ -1,0 +1,74 @@
+<div class="formItem__title" [class.formItem__title--top]="moveTitle" [class.focused]="focused">{{ title }}</div>
+<ng-container [ngSwitch]="type">
+  <ng-container *ngSwitchCase="'text'">
+    <input
+      [attr.placeholder]="moveTitle ? placeholder : ''"
+      [class.focused]="focused"
+      #inputField
+      type="text"
+      (change)="update()"
+      (focus)="update(true)"
+      (blur)="update()"
+      [(ngModel)]="field" />
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'date'">
+    <input
+      ngxDaterangepickerMd
+      [locale]="{applyLabel: 'ok', format: 'DD.MM.YYYY'}"
+      startKey="start"
+      endKey="end"
+      autoApply="true"
+      singleDatePicker="true"
+      [attr.placeholder]="moveTitle ? placeholder : ''"
+      [class.focused]="focused"
+      #inputField
+      type="text"
+      (change)="update()"
+      (focus)="update(true)"
+      (blur)="update()"
+      [(ngModel)]="dateField" />
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'textarea'">
+    <textarea
+      [class.focused]="focused"
+      #inputField
+      type="text"
+      (change)="update()"
+      (focus)="update(true)"
+      (blur)="update()"
+      [(ngModel)]="field"></textarea>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'select'">
+    <select
+      [class.focused]="focused"
+      #inputField
+      type="text"
+      (change)="update()"
+      (focus)="update(true)"
+      (blur)="update()"
+      [(ngModel)]="field">
+      <option value="" *ngIf="placeholder">{{ placeholder }}</option>
+      <option value="0">Yki</option>
+      <option value="1">Kaki</option>
+    </select>
+  </ng-container>
+  
+  <ng-container *ngSwitchDefault>
+    <select
+      [class.focused]="focused"
+      #inputField
+      type="text"
+      (change)="update()"
+      (focus)="update(true)"
+      (blur)="update()"
+      [(ngModel)]="field">
+      <option value="" *ngIf="placeholder">{{ placeholder }}</option>
+      <option value="0">Yki</option>
+      <option value="1">Kaki</option>
+    </select>
+  </ng-container>
+
+</ng-container>
