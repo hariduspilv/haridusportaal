@@ -13,8 +13,14 @@ export default class ModalService {
   }
 
   open(id: string) {
-    const modal = this.modals.find(x => x.id === id);
-    modal.stateChange(true);
+    // Close other modals and open selected
+    this.modals.forEach((modal) => {
+      if (modal.id === id) {
+        modal.stateChange(true);
+      } else {
+        modal.stateChange(false);
+      }
+    });
   }
 
   close(id: string) {

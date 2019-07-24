@@ -3,11 +3,11 @@
     <div class="modal__block">
       <div class="modal__header" *ngIf="titleExists || topAction">
         <div><h2 *ngIf="titleExists">{{ title }}</h2></div>
-        <button *ngIf="topAction" htm-button theme="icon" (click)="stateChange(false)"><icon glyph="x" size="medium"></icon></button>
+        <button *ngIf="topAction" attr.aria-label="{{ 'button.close' | translate }}" htm-button theme="icon" (click)="stateChange(false)"><icon glyph="x" size="medium"></icon></button>
       </div>
       <ng-content select="modal-content"></ng-content>
       <div class="modal__footer" *ngIf="bottomAction">
-        <button htm-button theme="plain" (click)="stateChange(false)">{{ 'button.close' | translate }}</button>
+        <button htm-button theme="plain" attr.aria-label="{{ 'button.close' | translate }}" (click)="stateChange(false)">{{ 'button.close' | translate }}</button>
       </div>
     </div>
   </div>

@@ -1,4 +1,5 @@
 @import "typography.scss";
+@import "breakpoints.scss";
 
 :host {
 	.modal {
@@ -26,7 +27,7 @@
 			border-top: .625rem solid $orange;
 			border-radius: .25rem;
 			box-shadow: 0 0.6875rem 0.9375rem -0.4375rem rgba(0,0,0,.2), 0 1.5rem 2.375rem 0.1875rem rgba(0,0,0,.14), 0 0.5625rem 2.875rem 0.5rem rgba(0,0,0,.12);
-			padding: 1.5rem;
+			padding: 1rem 1.5rem 1.5rem 1.5rem;
 		}
 		&__header {
 			padding-bottom: 1.5rem;
@@ -57,6 +58,19 @@
 		display: block;
 		p:last-child {
 			margin: 0;
+		}
+	}
+	@include break-on(xxs, max) {
+		.modal {
+			&__backdrop {
+				// For mobile header
+				margin-top: 4rem;
+			}
+			&__block {
+				width: 100%;
+				border-radius: 0;
+				margin-top: 0;
+			}
 		}
 	}
 }

@@ -19,11 +19,11 @@ export class ModalComponent implements OnInit {
   @Input() title: string = '';
   public opened: boolean = false;
   private element: any;
-  // Story opening button and knob inputs
-  @Input() stateButton: boolean = false;
   @Input() titleExists: boolean = true;
   @Input() topAction: boolean = true;
   @Input() bottomAction: boolean = true;
+  // Modal opening button for story
+  @Input() stateButton: boolean = false;
 
   constructor(
     private elem: ElementRef,
