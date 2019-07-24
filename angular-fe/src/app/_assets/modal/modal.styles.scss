@@ -27,11 +27,10 @@
 			border-top: .625rem solid $orange;
 			border-radius: .25rem;
 			box-shadow: 0 0.6875rem 0.9375rem -0.4375rem rgba(0,0,0,.2), 0 1.5rem 2.375rem 0.1875rem rgba(0,0,0,.14), 0 0.5625rem 2.875rem 0.5rem rgba(0,0,0,.12);
-			padding: 1rem 1.5rem 1.5rem 1.5rem;
+			padding: 1.5rem;
 		}
 		&__header {
 			padding-bottom: 1.5rem;
-			line-height: 1.5rem;
 			display: flex;
 			justify-content: space-between;
 			align-items: baseline;
@@ -40,6 +39,12 @@
 				color: $dark-gray;
 				font-size: 1rem;
 				text-transform: uppercase;
+			}
+			h2 {
+				line-height: 1.5rem;
+			}
+			&.justify-end {
+				justify-content: flex-end;
 			}
 		}
 		&__footer {
