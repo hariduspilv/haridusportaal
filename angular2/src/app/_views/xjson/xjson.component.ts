@@ -74,6 +74,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public navigationLinks;
   public subButtons;
   public activityButtons;
+  public error_alert = false;
   public error = {};
   public redirect_url;
 
@@ -427,6 +428,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.uploadFile(files, element);
       } else {
         this.fileLoading[element] = false;
+        return;
       }
     }
 ​
@@ -461,6 +463,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
 ​
   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
+    if (this.error[element]) {
+      delete this.error[element];
+    }
     e.preventDefault();
     const files_input = e.target.files || e.dataTransfer.files;
     const files = Object.keys(files_input).map(item => files_input[item]);
@@ -694,6 +699,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
       }
     }
+    if (Object.keys(this.error).length > 0 ) {
+
+    }
   }
 
   submitForm(activity: string) {
@@ -715,6 +723,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.getData(payload);
         }
       } else {
+        this.error_alert = true;
         this.edit_step = true;
         this.formLoading = false;
         this.scrollPositionController();
@@ -726,8 +735,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     console.log('DEBUG_ERROR: ', message);
   }
 
-  closeMessage(i) {
-    this.data_messages.splice(i, 1);
+  closeError() {
+    this.error_alert = false;
   }
 
   selectStep(step) {

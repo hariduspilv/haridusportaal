@@ -39,10 +39,10 @@
             </ng-container>
           </ng-container>
 
-          <ng-container *ngIf="objectKeys(error).length">
+          <ng-container *ngIf="error_alert">
             <div class="alert" ngClass="alert__error">
               {{ 'xjson.validation_errors' | translate }} <button class="alert__close"
-                (click)="closeMessage(i)" [attr.aria-label]="'notification.close' | translate"></button></div>
+                (click)="closeError()" [attr.aria-label]="'notification.close' | translate"></button></div>
           </ng-container>
 
           <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
@@ -473,6 +473,7 @@
                       </div>
 
 
+                      <div class="xjson__table">
                       <div class="xjson__scrollable">
                         <div class="xjson__scrollable">
                             <div class="xjson__scrollable__table" [attr.id]="'xjsonTable_' + index"
@@ -663,6 +664,8 @@
                           </a>
                         </div>
                       </div> <!-- ADD_DEL_ROWS -->
+
+                    </div>
 
                     </ng-container> <!-- /TABLE -->
 
