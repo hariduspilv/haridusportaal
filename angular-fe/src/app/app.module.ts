@@ -1,10 +1,13 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppComponent } from './app.component';
 import { Routes, RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { TranslateModule } from './_modules/translate';
+import localeEt from '@angular/common/locales/et';
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeEt);
 
 const routes: Routes = [
   {
@@ -29,6 +32,7 @@ const routes: Routes = [
     TranslateModule.forRoot(),
   ],
   providers: [
+    { provide: LOCALE_ID, useValue:'et-EE' },
   ],
   bootstrap: [
     AppComponent,

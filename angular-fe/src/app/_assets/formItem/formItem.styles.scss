@@ -7,7 +7,7 @@
     &+.formItem{
       margin-top:20px;
     }
-		input, textarea, select {
+		& > input, & > textarea, & > select {
       display: block;
       width: 100%;
 			appearance: none;
@@ -23,6 +23,9 @@
       will-change:border-clor;
       &.focused{
         border-color: $blue;
+      }
+      &.hideOption{
+        color:white;
       }
     }
     textarea{
@@ -54,6 +57,11 @@
       &.focused{
         color: $blue;
       }
+    }
+
+    ngb-datepicker{
+      z-index: 2;
+      background: $white;
     }
 	}
 }

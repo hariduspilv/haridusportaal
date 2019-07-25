@@ -1,33 +1,31 @@
-<div class="formItem__title" [class.formItem__title--top]="moveTitle" [class.focused]="focused">{{ title }}</div>
+<div class="formItem__title" [class.formItem__title--top]="filledField" [class.focused]="focused">{{ title }}</div>
 <ng-container [ngSwitch]="type">
   <ng-container *ngSwitchCase="'text'">
     <input
-      [attr.placeholder]="moveTitle ? placeholder : ''"
+      [attr.placeholder]="filledField ? placeholder : ''"
       [class.focused]="focused"
       #inputField
       type="text"
       (change)="update()"
-      (focus)="update(true)"
-      (blur)="update()"
+      (focus)="update('focus')"
+      (blur)="update('blur')"
       [(ngModel)]="field" />
   </ng-container>
 
   <ng-container *ngSwitchCase="'date'">
     <input
-      ngxDaterangepickerMd
-      [locale]="{applyLabel: 'ok', format: 'DD.MM.YYYY'}"
-      startKey="start"
-      endKey="end"
-      autoApply="true"
-      singleDatePicker="true"
-      [attr.placeholder]="moveTitle ? placeholder : ''"
+      ngbDatepicker #d="ngbDatepicker"
+      [attr.placeholder]="filledField ? placeholder : ''"
       [class.focused]="focused"
       #inputField
       type="text"
+      (dateSelect)="update('datepicker')"
+      (closed)="update('datepicker')"
       (change)="update()"
-      (focus)="update(true)"
-      (blur)="update()"
+      (focus)="update('focus')"
+      (blur)="update('blur')"
       [(ngModel)]="dateField" />
+    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">Toggle datepicker</button>
   </ng-container>
 
   <ng-container *ngSwitchCase="'textarea'">
@@ -36,23 +34,25 @@
       #inputField
       type="text"
       (change)="update()"
-      (focus)="update(true)"
-      (blur)="update()"
+      (focus)="update('focus')"
+      (blur)="update('blur')"
       [(ngModel)]="field"></textarea>
   </ng-container>
 
   <ng-container *ngSwitchCase="'select'">
     <select
+      [class.hideOption]="!filledField"
       [class.focused]="focused"
       #inputField
       type="text"
       (change)="update()"
-      (focus)="update(true)"
-      (blur)="update()"
+      (focus)="update('focus')"
+      (blur)="update('blur')"
       [(ngModel)]="field">
       <option value="" *ngIf="placeholder">{{ placeholder }}</option>
-      <option value="0">Yki</option>
-      <option value="1">Kaki</option>
+      <ng-container *ngFor="let item of options">
+        <option [value]="item.value">{{ item.key }}</option>
+      </ng-container>
     </select>
   </ng-container>
   
@@ -62,8 +62,8 @@
       #inputField
       type="text"
       (change)="update()"
-      (focus)="update(true)"
-      (blur)="update()"
+      (focus)="update('focus')"
+      (blur)="update('blur')"
       [(ngModel)]="field">
       <option value="" *ngIf="placeholder">{{ placeholder }}</option>
       <option value="0">Yki</option>

@@ -22,13 +22,13 @@ import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
 import { RippleService } from '@app/_services';
-
+import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
 import { SlugifyPipe } from 'ngx-pipes';
 import { FormItemComponent } from './formItem';
-import { NgxDaterangepickerMd } from 'ngx-daterangepicker-material';
+import { NgbDateCustomParserFormatter } from '@app/_services/ngbDateParser';
 
 const pipes = [
   SlugifyPipe,
@@ -65,6 +65,7 @@ const providers = [
   AlertsService,
   EmbedVideoService,
   RippleService,
+  { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
 ];
 
 @NgModule({
@@ -75,7 +76,7 @@ const providers = [
     RouterModule,
     TranslateModule,
     FormsModule,
-    NgxDaterangepickerMd.forRoot(),
+    NgbModule,
   ],
   exports: [...declarations, ...exports],
 })
