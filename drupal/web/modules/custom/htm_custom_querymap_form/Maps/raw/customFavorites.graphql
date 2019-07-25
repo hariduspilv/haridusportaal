@@ -1,4 +1,4 @@
-query ($language: LanguageId!, $id: Int!) {
+query ($language: LanguageId!, $id: Integer!) {
   CustomFavorites(language: $language, id: $id) {
     ... on FavoriteEntity {
       favoritesNew {
