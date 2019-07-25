@@ -3,6 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { HttpService } from '@app/_services/httpService';
 import { Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
+import { UserService } from '@app/_services/userService';
 
 import { MatDialog, MatSnackBar, MatSnackBarConfig, MAT_SNACK_BAR_DATA } from '@angular/material';
 import { Modal } from '@app/_components/dialogs/modal/modal';
@@ -15,7 +16,7 @@ import { RootScopeService } from '@app/_services';
   styleUrls: ['./favourites.styles.scss'],
 })
 
-export class FavouritesComponent implements OnInit, OnDestroy{
+export class FavouritesComponent implements OnInit, OnDestroy {
   @Input() title: string;
   @Input() id: string;
   @Input() state: boolean;
@@ -25,20 +26,20 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
   public loading: boolean;
   public displaySuccess: boolean;
-  public favouritesDropdown: boolean = false;
+  public favouritesDropdown = false;
 
   public existingItem: any;
   public existing: boolean;
 
   public lang: string;
   private redirectUrls = {
-    "et": "/töölaud/taotlused",
-    "en": "/dashboard/applications"
-  }
+    'et': '/töölaud/taotlused',
+    'en': '/dashboard/applications'
+  };
   public subscriptions: Subscription[] = [];
   public addingSub: Subscription;
   public removingSub: Subscription;
-  public processing: boolean = false;
+  public processing = false;
 
   constructor(
     public route: ActivatedRoute,
@@ -47,17 +48,23 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     public dialog: MatDialog,
     public translate: TranslateService,
     public snackbar: MatSnackBar,
-    public rootScope: RootScopeService
+    public rootScope: RootScopeService,
+    public userService: UserService
     ) {}
 
-  getFavouritesList():void{
-    this.loading= true;
-    this.lang = this.rootScope.get('lang');
-    let variables = {
-      language: this.lang.toUpperCase()
+    get user(): any {
+      return this.userService.getData();
     }
-    let subscription = this.http.get('customFavorites', { params: variables } ).subscribe(response => {
-      if(response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
+
+  getFavouritesList(): void {
+    this.loading = true;
+    this.lang = this.rootScope.get('lang');
+    const variables = {
+      language: this.lang.toUpperCase(),
+      id: Number(this.user.drupal.uid)
+    };
+    const subscription = this.http.get('customFavorites', { params: variables } ).subscribe(response => {
+      if (response['data']['CustomFavorites'] && response['data']['CustomFavorites']['favoritesNew'].length) {
         this.existingFavouriteItems = response['data']['CustomFavorites']['favoritesNew'].filter(item => item.entity != null );
       } else {
         this.existingFavouriteItems = [];
@@ -76,33 +83,33 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       }
     });
   }
-   compileVariables(){
-    let output = {
+   compileVariables() {
+    const output = {
       language: this.lang.toUpperCase(),
       id: this.id
     };
     return output;
   }
 
-  removeFavouriteItem(){
+  removeFavouriteItem() {
     this.processing = true;
-    if( this.removingSub !== undefined ){
+    if ( this.removingSub !== undefined ) {
       this.removingSub.unsubscribe();
     }
     this.loading = true;
-    let data = { 
-      queryId: "c818e222e263618b752e74a997190b0f36a39818:1",
-      variables: { 
+    const data = {
+      queryId: 'c818e222e263618b752e74a997190b0f36a39818:1',
+      variables: {
         id: this.id,
         language: this.lang.toUpperCase()
       }
-    }
+    };
     this.removingSub = this.http.post('/graphql', data).subscribe(response => {
-      if(response['data']['deleteFavoriteItem']['errors'].length) {
+      if (response['data']['deleteFavoriteItem']['errors'].length) {
         console.error('something went terribly wrong with favourite item deletion');
       } else {
         this.openFavouriteSnackbar('remove');
-        this.existingFavouriteItems.pop()
+        this.existingFavouriteItems.pop();
         this.state = false;
       }
       this.loading = false;
@@ -113,25 +120,25 @@ export class FavouritesComponent implements OnInit, OnDestroy{
       this.processing = false;
     });
   }
-  submitFavouriteItem(): void {  
+  submitFavouriteItem(): void {
     this.processing = true;
-    if( this.addingSub !== undefined ){
+    if ( this.addingSub !== undefined ) {
       this.addingSub.unsubscribe();
     }
     this.loading = true;
-    let data = { queryId: "e926a65b24a5ce10d72ba44c62e38f094a38aa26:1" }
+    const data = { queryId: 'e926a65b24a5ce10d72ba44c62e38f094a38aa26:1' };
     data['variables'] = this.compileVariables();
-    
+
     this.addingSub = this.http.post('/graphql', data).subscribe(response => {
       this.loading = false;
-      if(response['data']['createFavoriteItem']["errors"].length){
+      if (response['data']['createFavoriteItem']['errors'].length) {
         this.openDialog();
-        if(this.snackbar) this.snackbar.dismiss();
-      } else if(response['data']['createFavoriteItem']){
+        if (this.snackbar) { this.snackbar.dismiss(); }
+      } else if (response['data']['createFavoriteItem']) {
         this.state = true;
         this.existingFavouriteItems.push({});
         this.openFavouriteSnackbar('add');
-      } 
+      }
       this.addingSub.unsubscribe();
       this.processing = false;
     }, (err) => {
@@ -139,22 +146,22 @@ export class FavouritesComponent implements OnInit, OnDestroy{
     });
   }
   openFavouriteSnackbar(operation: string) {
-    let config = new MatSnackBarConfig();
+    const config = new MatSnackBarConfig();
     let message, action;
-    
-    if(operation === 'add'){
+
+    if (operation === 'add') {
       message = this.translate.get('frontpage.favourites_snackbar_message')['value'];
       action = this.translate.get('frontpage.favourites_snackbar_action')['value'];
       config.panelClass = ['background-green', 'add'];
       config.duration = 600000;
-         
-    } else if ('remove'){
+
+    } else if ('remove') {
       message = this.translate.get('frontpage.favourites_snackbar_message_remove')['value'];
       config.panelClass = ['background-green-removed', 'remove'];
       config.duration = 3000;
     }
 
-    let snackBarRef = this.snackbar.open(message, action ? action : undefined, config);
+    const snackBarRef = this.snackbar.open(message, action ? action : undefined, config);
 
     snackBarRef.afterDismissed().subscribe((obj) => {
       if (obj.dismissedByAction) {
@@ -164,43 +171,43 @@ export class FavouritesComponent implements OnInit, OnDestroy{
 
  }
 
-  addFavouriteItem(){
-    if(this.canAddToFavourites() === true){
+  addFavouriteItem() {
+    if (this.canAddToFavourites() === true) {
       this.submitFavouriteItem();
     } else {
       this.openDialog();
     }
   }
-  canAddToFavourites(): boolean{
-    if( this.existingFavouriteItems.length >= this.maxFavouriteItems) return false;
-    else return true;
+  canAddToFavourites(): boolean {
+    if ( this.existingFavouriteItems.length >= this.maxFavouriteItems) { return false; }
+    else { return true; }
   }
-  initiateComponent(){
+  initiateComponent() {
     if (!this.existingFavouriteItems) {
       this.getFavouritesList();
     }
-    this.lang = this.rootScope.get("lang");
+    this.lang = this.rootScope.get('lang');
   }
-  destroyComponent(){
-    
+  destroyComponent() {
+
     /* Clear all subscriptions */
-    for (let sub of this.subscriptions) {
+    for (const sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
     }
-    if(this.snackbar) this.snackbar.dismiss();
+    if (this.snackbar) { this.snackbar.dismiss(); }
   }
   ngOnChanges(changes: SimpleChanges) {
-    if(changes.id.firstChange == false){
+    if (changes.id.firstChange == false) {
       this.destroyComponent();
       this.initiateComponent();
     }
   }
-  ngOnInit(){
+  ngOnInit() {
     this.initiateComponent();
   }
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.destroyComponent();
   }
 }
