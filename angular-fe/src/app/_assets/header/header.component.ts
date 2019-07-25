@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SidemenuService } from '@app/_services';
 
 @Component({
   selector: 'htm-header',
@@ -6,6 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.styles.scss'],
 })
 
-export class HeaderComponent {
-  public active: boolean = false;
+export class HeaderComponent implements OnInit {
+  public active: boolean;
+
+  constructor(
+    private sidemenuService: SidemenuService,
+  ) {}
+
+  toggleSidemenu(): void {
+    this.sidemenuService.toggle();
+    this.active = this.sidemenuService.isVisible;
+  }
+
+  ngOnInit(): void {
+    this.active = this.sidemenuService.isVisible;
+  }
 }

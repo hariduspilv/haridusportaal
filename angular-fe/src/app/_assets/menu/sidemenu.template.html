@@ -1,6 +1,6 @@
 <aside>
 	<nav>
-		<ul>
+		<ul *ngIf="data.menu">
 			<li *ngFor="let item of data.menu.links">
 				<ng-container
 					*ngIf="
