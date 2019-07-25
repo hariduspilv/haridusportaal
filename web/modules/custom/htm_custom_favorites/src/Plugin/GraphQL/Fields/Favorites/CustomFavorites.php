@@ -16,14 +16,13 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Language\LanguageManager;
 
-/**no_cache
+/**
  * @GraphQLField(
  *   id = "custom_favorites",
  *   secure = true,
  *   name = "CustomFavorites",
  *   description = @Translation("Loads all user favorites"),
  *   type = "Entity",
- *   response_cache_tags = {"favorite_entity_list"},
  *   response_cache_context = {"user", "languages:language_content"},
  *   arguments = {
  *     "language" = "LanguageId"
@@ -156,7 +155,6 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	}
 
 	private function getUserIDcode(){
-	  dump(User::load($this->currentUser->id())->field_user_idcode->value);
 		return ($code = User::load($this->currentUser->id())->field_user_idcode->value) ? $code : 0 ;
 	}
 }
