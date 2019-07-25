@@ -27,7 +27,7 @@ use Drupal\Core\Language\LanguageManager;
  *   response_cache_context = {"user", "languages:language_content"},
  *   arguments = {
  *     "language" = "LanguageId",
- *     "id" = "Int"
+ *     "id" = "Integer"
  *   },
  *   contextual_arguments = {"language"}
  *
