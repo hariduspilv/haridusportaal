@@ -24,6 +24,7 @@ import { FormsModule } from '@angular/forms';
 import { RippleService, SidemenuService } from '@app/_services';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
+import { ScrollableContentComponent } from './scrollableContent';
 import { SlugifyPipe } from 'ngx-pipes';
 import { BaseLayout } from './base-layout';
 
@@ -47,6 +48,7 @@ const declarations = [
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,
+  ScrollableContentComponent,
   MenuComponent,
   SidemenuItemComponent,
   HeaderComponent,
