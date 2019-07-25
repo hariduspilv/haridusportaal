@@ -16,7 +16,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Language\LanguageManager;
 
-/**
+/**no_cache
  * @GraphQLField(
  *   id = "custom_favorites",
  *   secure = true,
@@ -24,6 +24,7 @@ use Drupal\Core\Language\LanguageManager;
  *   description = @Translation("Loads all user favorites"),
  *   type = "Entity",
  *   response_cache_tags = {"favorite_entity_list"},
+ *   response_cache_context = {"user", "languages:language_content"},
  *   arguments = {
  *     "language" = "LanguageId"
  *   },
@@ -119,7 +120,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		$access = $entity->access('view', NULL, TRUE);
 		#dump($access);
 		if ($access->isAllowed()) {
-			yield $entity->addCacheableDependency($access);
+			yield $entity;
 		}
 		else {
 			yield new CacheableValue(NULL, [$access]);
