@@ -23,6 +23,7 @@ use Drupal\Core\Language\LanguageManager;
  *   name = "CustomFavorites",
  *   description = @Translation("Loads all user favorites"),
  *   type = "Entity",
+ *   response_cache_tags = {"favorite_entity_list"},
  *   response_cache_context = {"user", "languages:language_content"},
  *   arguments = {
  *     "language" = "LanguageId"
@@ -102,9 +103,9 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 				return $this->resolveMissingEntity($value, $args, $info);
 			}
 			if ($entity instanceof TranslatableInterface && $entity->isTranslatable()) {
-				return $this->resolveEntityTranslation($entity, $args, $info);
+				return new CacheableValue($this->resolveEntityTranslation($entity, $args, $info));
 			}
-			return $this->resolveEntity($entity, $args, $info);
+			return new CacheableValue($this->resolveEntity($entity, $args, $info));
 		#}
 		#return NULL;
 	}
