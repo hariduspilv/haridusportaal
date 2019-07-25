@@ -1,16 +1,25 @@
 @import "colors.scss";
+@import "breakpoints.scss";
 
 ::ng-deep .sidemenu {
-	height: 100%;
-	max-height: 100vh;
+	grid-area: sidemenu;
+	height: calc(100vh - 4rem);
 	width: 16.25rem;
 	background: $white;
-	display: block;
+	display: inline-block;
 	border-right: 0.0625rem solid $gray;
 	word-wrap: break-word;
+	box-sizing: border-box;
+	position: relative;
 	box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0, 0, 0, 0.2),
 		0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.14),
 		0 0.0625rem 0.3125rem 0 rgba(0, 0, 0, 0.12);
+	transform: translateX(-16.25rem);
+	will-change: transform;
+	transition: transform .2s cubic-bezier(0.215, 0.61, 0.355, 1);
+	&.is-visible {
+		transform: translateX(0);
+	}
 	ul,
 	li {
 		padding: 0;
@@ -18,7 +27,7 @@
 		display: block;
 	}
 	> aside {
-		height: 100vh;
+		height: 100%;
 		overflow-y: scroll;
 	}
 
@@ -98,4 +107,11 @@
 			line-height: 1;
 		}
 	}
+	@include break-on(sm, min) {
+		&{
+			transform: translateX(0);
+		}
+		
+	}
 }
+
