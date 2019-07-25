@@ -26,8 +26,7 @@ use Drupal\Core\Language\LanguageManager;
  *   response_cache_tags = {"favorite_entity_list"},
  *   response_cache_context = {"user", "languages:language_content"},
  *   arguments = {
- *     "language" = "LanguageId",
- *     "id" = "Integer"
+ *     "language" = "LanguageId"
  *   },
  *   contextual_arguments = {"language"}
  *
@@ -99,7 +98,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		#if($this->currentUser->isAuthenticated() && $this->getUserIDcode()) {
 			$storage = $this->entityTypeManager->getStorage('favorite_entity');
-			$entity = $storage->loadByProperties(['user_idcode' => $args['id']]);
+			$entity = $storage->loadByProperties(['user_idcode' => $this->getUserIDcode()]);
 			if (!$entity = reset($entity)) {
 				return $this->resolveMissingEntity($value, $args, $info);
 			}
@@ -121,6 +120,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		$access = $entity->access('view', NULL, TRUE);
 		#dump($access);
 		if ($access->isAllowed()) {
+		  $entity->addCacheTags([$this->currentUser->id()]);
 			yield $entity->addCacheableDependency($access);
 		}
 		else {
@@ -154,5 +154,9 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 			$entity = $entity->getTranslation($args['language']);
 		}
 		return $this->resolveEntity($entity, $args, $info);
+	}
+
+	private function getUserIDcode(){
+		return ($code = User::load($this->currentUser->id())->field_user_idcode->value) ? $code : 0 ;
 	}
 }
