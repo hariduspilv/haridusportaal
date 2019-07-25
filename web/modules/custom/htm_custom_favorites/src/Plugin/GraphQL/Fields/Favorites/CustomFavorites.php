@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_favorites\Plugin\GraphQL\Fields\Favorites;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\TranslatableInterface;
@@ -96,6 +97,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	 * {@inheritdoc}
 	 */
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
+    Cache::invalidateTags(['favorite_entity_list']);
 		#if($this->currentUser->isAuthenticated() && $this->getUserIDcode()) {
 			$storage = $this->entityTypeManager->getStorage('favorite_entity');
 			$entity = $storage->loadByProperties(['user_idcode' => $this->getUserIDcode()]);
@@ -103,9 +105,9 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 				return $this->resolveMissingEntity($value, $args, $info);
 			}
 			if ($entity instanceof TranslatableInterface && $entity->isTranslatable()) {
-				return new CacheableValue($this->resolveEntityTranslation($entity, $args, $info));
+				return $this->resolveEntityTranslation($entity, $args, $info);
 			}
-			return new CacheableValue($this->resolveEntity($entity, $args, $info));
+			return $this->resolveEntity($entity, $args, $info);
 		#}
 		#return NULL;
 	}
