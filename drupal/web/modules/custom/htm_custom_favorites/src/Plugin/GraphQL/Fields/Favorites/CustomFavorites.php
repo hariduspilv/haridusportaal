@@ -26,7 +26,8 @@ use Drupal\Core\Language\LanguageManager;
  *   response_cache_tags = {"favorite_entity_list"},
  *   response_cache_context = {"user", "languages:language_content"},
  *   arguments = {
- *     "language" = "LanguageId"
+ *     "language" = "LanguageId",
+ *     "id" = "Integer"
  *   },
  *   contextual_arguments = {"language"}
  *
@@ -98,7 +99,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
 		#if($this->currentUser->isAuthenticated() && $this->getUserIDcode()) {
 			$storage = $this->entityTypeManager->getStorage('favorite_entity');
-			$entity = $storage->loadByProperties(['user_idcode' => $this->getUserIDcode()]);
+			$entity = $storage->loadByProperties(['user_idcode' => $this->getUserIDcode($args['id'])]);
 			if (!$entity = reset($entity)) {
 				return $this->resolveMissingEntity($value, $args, $info);
 			}
@@ -155,7 +156,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		return $this->resolveEntity($entity, $args, $info);
 	}
 
-	private function getUserIDcode(){
-		return ($code = User::load($this->currentUser->id())->field_user_idcode->value) ? $code : 0 ;
+	private function getUserIDcode($id){
+		return ($code = User::load($id)->field_user_idcode->value) ? $code : 0 ;
 	}
 }
