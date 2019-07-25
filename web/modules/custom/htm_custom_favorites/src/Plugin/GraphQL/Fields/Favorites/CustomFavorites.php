@@ -120,7 +120,9 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		$access = $entity->access('view', NULL, TRUE);
 		#dump($access);
 		if ($access->isAllowed()) {
-			yield $entity;
+		  dump($entity->getCacheContexts());
+		  die();
+			yield $entity->addCacheableDependency($access);
 		}
 		else {
 			yield new CacheableValue(NULL, [$access]);
