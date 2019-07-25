@@ -120,8 +120,6 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 		$access = $entity->access('view', NULL, TRUE);
 		#dump($access);
 		if ($access->isAllowed()) {
-		  dump($entity->getCacheContexts());
-		  die();
 			yield $entity->addCacheableDependency($access);
 		}
 		else {
@@ -158,6 +156,7 @@ class CustomFavorites extends FieldPluginBase implements ContainerFactoryPluginI
 	}
 
 	private function getUserIDcode(){
+	  dump(User::load($this->currentUser->id())->field_user_idcode->value);
 		return ($code = User::load($this->currentUser->id())->field_user_idcode->value) ? $code : 0 ;
 	}
 }
