@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ElementRef } from '@angular/core';
+import { Component, Input, OnInit, ElementRef, HostBinding } from '@angular/core';
 import ModalService from '@app/_services/ModalService';
 
 @Component({
@@ -25,6 +25,9 @@ export class ModalComponent implements OnInit {
   @Input() loading: boolean = false;
   // Modal opening button for story
   @Input() stateButton: boolean = false;
+  @HostBinding('class') get hostClasses(): string {
+    return this.opened ? 'modal modal-open' : 'modal';
+  }
 
   constructor(
     private elem: ElementRef,
