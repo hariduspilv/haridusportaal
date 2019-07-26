@@ -126,8 +126,7 @@ export class FavouritesComponent implements OnInit, OnDestroy {
       this.addingSub.unsubscribe();
     }
     this.loading = true;
-    const data = { queryId: 'e926a65b24a5ce10d72ba44c62e38f094a38aa26:1' };
-    data['variables'] = this.compileVariables();
+    const data = { queryId: 'e926a65b24a5ce10d72ba44c62e38f094a38aa26:1', variables: this.compileVariables() };
 
     this.addingSub = this.http.post('/graphql', data).subscribe(response => {
       this.loading = false;
