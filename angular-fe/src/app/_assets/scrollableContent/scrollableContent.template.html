@@ -1,0 +1,13 @@
+<div class="scrollable__wrapper" [class.isScrollable]="isScrollable">
+  <div class="arrow arrow--left" [class.scrolling]="scrollDirection == -1" [hidden]="!isScrollable" [class.disabled]="!canScrollLeft" [ngStyle]="{top: thHeight+'px'}" (mousedown)="scroll(-1)" (mouseup)="scroll(2)">
+    <icon glyph="chevron-left"></icon>
+  </div><!--/arrow arrow--left-->
+  <div class="scrollable__scroller" (scroll)="checkArrows()">
+    <div class="scrollable__inline">
+      <ng-content></ng-content>
+    </div><!--/scrollable__inline-->
+  </div><!--/scrollable__scroller-->
+  <div class="arrow arrow--right" [class.scrolling]="scrollDirection == 1"  [hidden]="!isScrollable" [class.disabled]="!canScrollRight" [ngStyle]="{top: thHeight+'px'}" (mousedown)="scroll(1)" (mouseup)="scroll(2)">
+    <icon glyph="chevron-right"></icon>
+  </div>
+</div><!--/scrollable-wrapper-->

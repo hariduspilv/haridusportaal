@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { SidemenuService } from '@app/_services';
 import ModalService from '@app/_services/ModalService';
 
 @Component({
@@ -7,7 +8,20 @@ import ModalService from '@app/_services/ModalService';
   styleUrls: ['./header.styles.scss'],
 })
 
-export class HeaderComponent {
-  public active: boolean = false;
-  constructor(private modalService: ModalService) {}
+export class HeaderComponent implements OnInit {
+  public active: boolean;
+
+  constructor(
+    private sidemenuService: SidemenuService,
+    private modalService: ModalService,
+  ) {}
+
+  toggleSidemenu(): void {
+    this.sidemenuService.toggle();
+    this.active = this.sidemenuService.isVisible;
+  }
+
+  ngOnInit(): void {
+    this.active = this.sidemenuService.isVisible;
+  }
 }

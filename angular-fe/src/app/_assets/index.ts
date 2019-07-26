@@ -22,9 +22,17 @@ import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
-import { RippleService } from '@app/_services';
+import { RippleService, SidemenuService } from '@app/_services';
+import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ModalComponent, ModalContentComponent } from './modal';
+import { ScrollableContentComponent } from './scrollableContent';
+import { SlugifyPipe } from 'ngx-pipes';
+import { BaseLayout } from './base-layout';
+
+const pipes = [
+  SlugifyPipe,
+];
 
 const declarations = [
   BlockComponent,
@@ -42,9 +50,13 @@ const declarations = [
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,
-  HeaderComponent,
   ModalComponent,
   ModalContentComponent,
+  ScrollableContentComponent,
+  MenuComponent,
+  SidemenuItemComponent,
+  HeaderComponent,
+  BaseLayout,
 ];
 
 const exports = [
@@ -56,11 +68,12 @@ const providers = [
   EmbedVideoService,
   RippleService,
   ModalService,
+  SidemenuService,
 ];
 
 @NgModule({
-  declarations,
   providers,
+  declarations: [...declarations, ...pipes],
   imports: [
     CommonModule,
     RouterModule,

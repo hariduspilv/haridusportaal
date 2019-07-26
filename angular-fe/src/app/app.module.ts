@@ -29,7 +29,6 @@ const routes: Routes = [
     TranslateModule.forRoot(),
   ],
   providers: [
-
   ],
   bootstrap: [
     AppComponent,
