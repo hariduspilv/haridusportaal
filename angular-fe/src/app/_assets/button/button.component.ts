@@ -22,6 +22,6 @@ export class ButtonComponent {
     return `button--${this.theme}`;
   }
   onClick($event) {
-    this.ripple.animate($event);
+    this.ripple.animate($event, this.theme === 'plain' || this.theme === 'icon' ? 'dark' : 'light');
   }
 }

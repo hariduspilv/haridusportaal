@@ -22,6 +22,7 @@ export class ModalComponent implements OnInit {
   @Input() titleExists: boolean = true;
   @Input() topAction: boolean = true;
   @Input() bottomAction: boolean = true;
+  @Input() loading: boolean = false;
   // Modal opening button for story
   @Input() stateButton: boolean = false;
 
@@ -44,7 +45,6 @@ export class ModalComponent implements OnInit {
 
   ngOnDestroy(): void {
     this.modalService.remove(this.id);
-    this.element.remove();
   }
 
   stateChange(state: boolean): void {

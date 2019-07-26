@@ -51,17 +51,29 @@ stories.add(
         display: 'inline-radio',
       },
     );
+    const loading = options(
+      'Loading',
+      {
+        Yes: 'yes',
+        No: 'no',
+      },
+      'no',
+      {
+        display: 'inline-radio',
+      },
+    );
     return {
       moduleMetadata,
       props: {
         titleExists,
         topAction,
         bottomAction,
+        loading,
       },
       template: `
-          <htm-modal id="modal-1" title="Esimene pealkiri" [titleExists]="titleExists === 'yes'"
-          [topAction]="topAction === 'yes'" [bottomAction]="bottomAction === 'yes'"
-          [stateButton]="true">
+          <htm-modal id="modal-1" title="Esimene pealkiri" [loading]="loading === 'yes'"
+          [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
+          [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
             <modal-content>
               <table htm-table>
                 <tr>
@@ -77,9 +89,9 @@ stories.add(
               </table>
             </modal-content>
           </htm-modal>
-          <htm-modal id="modal-2" title="Pealkiri" [titleExists]="titleExists === 'yes'"
-          [topAction]="topAction === 'yes'" [bottomAction]="bottomAction === 'yes'"
-          [stateButton]="true">
+          <htm-modal id="modal-2" title="Pealkiri" [loading]="loading === 'yes'"
+          [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
+          [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
             <modal-content>
               <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui
                 blanditiis praesentium voluptatum deleniti atque corrupti
@@ -96,10 +108,11 @@ stories.add(
             </modal-content>
           </htm-modal>
           <htm-modal id="loader" title="Failure is apparently an option"
-          [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
-          [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
+          [loading]="loading === 'yes'" [titleExists]="titleExists === 'yes'"
+          [topAction]="topAction === 'yes'" [bottomAction]="bottomAction === 'yes'"
+          [stateButton]="true">
             <modal-content>
-              <loader></loader>
+              Sisu sisu sisu
             </modal-content>
           </htm-modal>
         `,

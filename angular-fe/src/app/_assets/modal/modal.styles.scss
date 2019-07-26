@@ -3,10 +3,11 @@
 
 :host {
 	.modal {
+		position: absolute;
 		visibility: hidden;
 		&__backdrop {
 			opacity: 0;
-			transition: opacity .225s cubic-bezier(.25,.8,.25,1);
+			transition: opacity .25s cubic-bezier(.25,.8,.25,1);
 			display: flex;
 			justify-content: center;
 			background:rgba(51, 51, 51, 0.9);
@@ -18,6 +19,8 @@
 			z-index: 1000;
 		}
 		&__block {
+			transition: transform 0.25s;
+			transform: translateY(-4rem);
 			min-width: calc(20rem - 3rem);
 			max-height: calc(90vh - 4rem);
 			max-width: 90vw;
@@ -53,9 +56,13 @@
 			justify-content: center;
 		}
 		&.modal-open {
+			position: static;
 			visibility: visible;
 			.modal__backdrop {
 				opacity: 1;
+			}
+			.modal__block {
+				transform: translateY(0);
 			}
 		}
 	}

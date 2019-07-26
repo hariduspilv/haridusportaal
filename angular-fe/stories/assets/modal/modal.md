@@ -19,6 +19,7 @@
 | titleExists | true | true, false | boolean | Title state
 | topAction | true | true, false | boolean | Top action button state
 | bottomAction | true | true, false | boolean | Bottom action button state
+| loading | false | true, false | boolean | Loading state
 
 
 
