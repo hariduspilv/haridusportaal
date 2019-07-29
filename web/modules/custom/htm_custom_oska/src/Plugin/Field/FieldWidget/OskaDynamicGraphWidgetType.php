@@ -100,8 +100,10 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             $indicator_data = json_decode(file_get_contents($oska_filters_path.'naitaja'), TRUE);
             $indicator_options = [];
 
-            foreach($indicator_data as $key => $value){
+            if($indicator_data){
+              foreach($indicator_data as $key => $value){
                 $indicator_options[$key] = $key;
+              }
             }
 
             $group_by_options = $fields;
