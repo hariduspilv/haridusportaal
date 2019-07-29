@@ -22,10 +22,7 @@
 	.loader--label {
 		display: block;
 		animation: labelShow 0.5s both;
-		position: absolute;
-		bottom: -16px;
-		left: 0;
-		right: 0;
+		margin-top: -8px;
 		text-align: center;
 		color: $dark-gray;
 	}

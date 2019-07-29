@@ -10,7 +10,7 @@
 
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
-| theme | default | default, inverted, plain | string | Button appearance
+| theme | default | default, inverted, plain, icon | string | Button appearance
 
 
 
