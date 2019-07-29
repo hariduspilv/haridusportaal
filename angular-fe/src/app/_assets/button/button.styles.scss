@@ -31,6 +31,15 @@
 		}
 	}
 
+	&.button--icon {
+		padding: 0;
+		background: none;
+		border-radius: 0;
+		color: $blue;
+		text-decoration: none;
+		box-shadow: none;
+	}
+
 	&.button--inverted {
 		background: $white;
 		color: $black;

@@ -3,10 +3,12 @@
 ## Usage
 
 ```html
-<icon glyph="bookmark"></icon>
+<icon glyph="bookmark" size="default"></icon>
 ```
 
 ## Properties
 
-none - icon class comes from the SVG icon name
+| Name  | Default  | Values  |  Type | Description  |
+|---|---|---|---|---|
+| size | default | default, large, medium | string | Icon size
 

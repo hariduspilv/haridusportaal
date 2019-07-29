@@ -16,13 +16,12 @@ export class ButtonComponent {
     private ripple: RippleService,
   ) {}
 
-  @Input() classes: string = '';
   @Input() theme: string = 'default';
 
   @HostBinding('class') get hostClasses(): string {
-    return `${this.classes} button--${this.theme}`;
+    return `button--${this.theme}`;
   }
   onClick($event) {
-    this.ripple.animate($event);
+    this.ripple.animate($event, this.theme === 'plain' || this.theme === 'icon' ? 'dark' : 'light');
   }
 }
