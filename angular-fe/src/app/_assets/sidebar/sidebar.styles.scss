@@ -1,0 +1,62 @@
+@import "typography.scss";
+
+:host {
+  grid-area: sidebar;
+  display: block;
+  background: $light-gray;
+
+  ::ng-deep sidebar-element {
+    display: block;
+    padding: 1rem 1.5rem 1.5rem;
+    border-top: $orange .625rem solid;
+    background: $white;
+    border-radius: .25rem;
+    margin-bottom: 1rem;
+    &.sidebar__elem--orange { 
+      border-top-color: $orange; 
+    }
+    &.sidebar__elem--blue { 
+      border-top-color: $light-blue; 
+    }
+    h1 {
+      color: $black;
+      font-size: 1.25rem;
+      line-height: 1.875rem;
+    }
+  }
+
+  ::ng-deep sidebar-element-content {
+    &:empty { display: none }
+    display: block;
+    padding-top: .5rem;
+    .list {
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      li {
+        margin-bottom: .625rem;
+        icon {margin-right: .5rem;}
+        a {
+          font-size: 1rem;
+          text-decoration: none;
+        }
+        &:hover {
+          a { text-decoration: underline; }
+        }
+      }
+      &__elem {
+        &--links {
+          display: grid;
+          grid-template-columns: 2rem 1fr;
+          align-items: center;
+        }
+        &--pairs {
+          display: grid;
+          grid-template-columns: 3rem 1fr;
+          align-items: center;
+        }
+      }
+    }
+  }
+
+}
