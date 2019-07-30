@@ -1,57 +1,101 @@
 // tslint:disable
-export const data = [
-  {
-    "title": 'Tasub teada',
-    "theme": 'blue',
-    "entities": {
-      "fieldPros": [
-        "Pluss 1 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikk pigem kõvasti asehk 100 pikvxzvcx",
-        "Pluss 2 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikk pigem kõvas",
-        "Pluss 3 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikk pigem kõvas",
-        "Pluss 4 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikkpigem kõvasti ehk 100 pikk pigem kõvast",
-        "Pluss 5 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikkpigem kõvasti ehk 100 pikk pigem kõvast"
-      ],
-      "fieldNeutral": [],
-      "fieldCons": [
-        "Miinus pikk pigem kõvasti ehk 100 nüüd on cache küll valma",
-        "Miinus 2 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikkpigem kõvasti ehk 100 pikk pigem kõvas",
-        "Miinus 3 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikkpigem kõvasti ehk 100 pikk pigem kõvas",
-        "Miinus 4 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikkpigem kõvasti ehk 100 pikk pigem kõvas",
-        "Miinus 5 pigem kõvasti ehk 100 pikk pigem kõvasti ehk 100 pikkpigem kõvasti ehk 100 pikk pigem kõvas"
-      ]
-    },
-  },
-  {
-    "title": "Valdkonnad",
-    "fields": [
+export const data = {
+  "entity": {
+    "fieldPros": [
+      "Pluss 1"
+    ],
+    "fieldNeutral": [
+      "Neurtaalne 1"
+    ],
+    "fieldCons": [
+      "Miinus 1",
+      "Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Majandusministeeriumis ekspeks"
+    ],
+    "fieldOskaField": [
       {
-        "entityLabel": "Majutus, toitlustus, turism",
-        "entityUrl": {
-          "routed": true,
-          "path": "/valdkonnad/majutus-toitlustus-turism"
-        }
-      },
-      {
-        "entityLabel": "Sotsiaaltöö",
-        "entityUrl": {
-          "routed": true,
-          "path": "/valdkonnad/sotsiaaltöö"
-        }
-      },
-      {
-      "entityLabel": "Transport, logistika, mootorsõidukite müük ja remont",
-      "entityUrl": {
-          "routed": true,
-          "path": "/valdkonnad/transport-logistika-mootorsõidukite-müük-ja-remont"
-        }
-      },
-      {
-        "entityLabel": "Põllumajandus ja toiduainetööstus",
-        "entityUrl": {
-          "routed": true,
-          "path": "/valdkonnad/põllumajandus-ja-toiduainetööstus"
+        "entity": {
+          "entityLabel": "Majutus, toitlustus, turism",
+          "entityUrl": {
+            "routed": true,
+            "path": "/valdkonnad/majutus-toitlustus-turism"
+          }
         }
       }
-    ]
+    ],
+    "fieldIscedfSearchLink": {
+      "entity": {
+        "iscedf_detailed": [
+          {
+            "entity": {
+              "entityId": "3178",
+              "entityLabel": "Ajakirjandus ja teave"
+            }
+          }
+        ],
+        "fieldLevel": [
+          {
+            "entity": {
+              "entityId": "1289",
+              "entityLabel": "Bakalaureuseõpe"
+            }
+          },
+          {
+            "entity": {
+              "entityId": "1290",
+              "entityLabel": "Magistriõpe"
+            }
+          }
+        ]
+      }
+    },
+    "fieldJobOpportunities": [
+      {
+        "url": {
+          "path": "/uudised",
+          "routed": true
+        },
+        "title": "Lingi tekst"
+      }
+    ],
+    "fieldQualificationStandard": [
+      {
+        "url": {
+          "routed": true,
+          "path": "/artiklid/haridusministeerium-loobus-rkas-i-teenusest"
+        },
+        "title": "Kutsestandardi lingi tekst"
+      }
+    ],
+    "fieldJobs": [
+      {
+        "entity": {
+          "fieldJobName": "Ameti nimetus",
+          "fieldJobLink": {
+            "url": {
+              "routed": false,
+              "path": "http://htm.twn.ee/ametialad/ajakirjanik"
+            },
+            "title": ""
+          }
+        }
+      }
+    ],
+    "fieldQuickFind": [
+      {
+        "url": {
+          "routed": true,
+          "path": "/artiklid/dignissim-luctus-ullamcorper"
+        },
+        "title": "Leia kiiresti lingi tekst"
+      }
+    ],
+    "fieldContact": {
+      "entity": {
+        "fieldEmail": "kala@kila.fi",
+        "fieldOrganization": "Organi OÜ",
+        "fieldPerson": "Malle Raha",
+        "fieldPhone": "+372 55 666666"
+      }
+    }
   }
-]
+}

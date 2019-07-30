@@ -1,0 +1,16 @@
+<ng-container *ngIf="data && data.length">
+  <ul class="list">
+    <ng-container *ngFor="let item of data;">
+      <li class="list__elem pairs" *ngFor="let elem of item[1]; let last = last;" [ngClass]="{
+        'last': last,
+        'proColor': item[0] === 'fieldPros',
+        'neutralColor': item[0] === 'fieldNeutral',
+        'conColor': item[0] === 'fieldCons'}">
+        <icon aria-hidden="true" size="medium" bg="true" [glyph]="(item[0] === 'fieldPros' && 'arrow-up')
+          || (item[0] === 'fieldNeutral' && 'minimize-2')
+          || (item[0] === 'fieldCons' && 'arrow-down')"></icon>
+        <div class="label" role="text" attr.aria-label="{{ elem }}">{{ elem }}</div>
+      </li>
+    </ng-container>
+  </ul>
+</ng-container>

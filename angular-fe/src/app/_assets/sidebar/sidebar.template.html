@@ -1,0 +1,9 @@
+<ng-container *ngFor="let keyVal of keys">
+  <block theme="sidebar" *ngIf="data[keyVal] && collection[keyVal]">
+    <block-title>{{ keyVal | translate }}</block-title>
+    <block-content [ngSwitch]="collection[keyVal]">
+      <sidebar-links *ngSwitchCase="'links'" [data]="data[keyVal]"></sidebar-links>
+      <sidebar-categories *ngSwitchCase="'categories'" [data]="data[keyVal]"></sidebar-categories>
+    </block-content>
+  </block>
+</ng-container>
