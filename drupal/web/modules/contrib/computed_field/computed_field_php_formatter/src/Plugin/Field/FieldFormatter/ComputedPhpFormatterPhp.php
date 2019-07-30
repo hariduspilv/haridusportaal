@@ -51,7 +51,7 @@ class ComputedPhpFormatterPhp extends ComputedPhpFormatterBase {
           t('Enter the PHP expression to format the value. The variables available to your code include:
 <ul>
 <li><code>$display_value</code>: the resulting value (to be set in this code),</li>
-<li><code>$value_raw</code>: the raw value to be formatted,</li>
+<li><code>$value</code>: the raw value to be formatted,</li>
 <li><code>$value_escaped</code>: the sanitized value to be formatted,</li>
 <li><code>$item</code>: the field item,</li>
 <li><code>$delta</code>: current index of the field in case of multi-value computed fields (counting from 0).</li>

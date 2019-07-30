@@ -13,6 +13,7 @@ third_party_settings:
     scheme: public
     directory: inline-files
     extensions: pdf
+    max_size: ''
 format: custom_editor
 editor: ckeditor
 settings:
