@@ -3,6 +3,11 @@ import { AssetsModule } from '@app/_assets';
 import sidebarMd from './sidebar.md';
 import { TranslateModule } from '@app/_modules/translate';
 import { data } from './sidebar.data';
+import {
+  withKnobs,
+  optionsKnob as options,
+  select,
+} from '@storybook/addon-knobs';
 
 const moduleMetadata = {
   imports: [
@@ -12,16 +17,40 @@ const moduleMetadata = {
 };
 
 const stories = storiesOf('Assets', module);
+stories.addDecorator(withKnobs);
 
 stories.add('Sidebar', () => {
+  const title = options(
+    'Title',
+    {
+      Yes: 'yes',
+      No: 'no',
+    },
+    'yes',
+    {
+      display: 'inline-radio',
+    },
+  );
+  const theme = select(
+    'Theme',
+    {
+      Orange: 'orange',
+      Blue: 'blue',
+    },
+    'default',
+  );
+
   return {
     moduleMetadata,
     props: {
       data,
+      title,
+      theme,
     },
     template: `
       <sidebar>
-        <sidebar-element *ngFor="let elem of data" [theme]="elem.theme" [title]="elem.title">
+        <sidebar-element *ngFor="let elem of data"
+          [theme]="theme" [titleExists]="title === 'yes'" [title]="elem.title">
           <sidebar-element-content>
             <ng-container *ngIf="elem.fields">
               <ul class="list">

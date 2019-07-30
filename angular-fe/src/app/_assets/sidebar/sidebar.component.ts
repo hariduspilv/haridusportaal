@@ -13,6 +13,7 @@ export class SidebarElemContentComponent {}
 export class SidebarElemComponent {
   @Input() title: string = '';
   @Input() theme: string = 'orange';
+  @Input() titleExists: boolean = true;
   @HostBinding('class') get hostClasses(): string {
     return this.theme ? `sidebar__elem--${this.theme}` : '';
   }
