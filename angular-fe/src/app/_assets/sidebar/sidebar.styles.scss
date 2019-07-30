@@ -5,73 +5,73 @@
   display: block;
   background: $light-gray;
 
-  ::ng-deep sidebar-element {
-    display: block;
-    padding: 1rem 1.5rem 1.5rem;
-    border-top: $orange .625rem solid;
-    background: $white;
-    border-radius: .25rem;
-    margin-bottom: 1rem;
-    &.sidebar__elem--orange { 
-      border-top-color: $orange; 
-    }
-    &.sidebar__elem--blue { 
-      border-top-color: $light-blue; 
-    }
-    h1 {
-      color: $black;
-      font-size: 1.25rem;
-      line-height: 1.875rem;
-    }
-  }
-
-  ::ng-deep sidebar-element-content {
-    &:empty { display: none }
-    display: block;
-    padding-top: .5rem;
-    .list {
-      padding: 0;
-      margin: 0;
-      list-style: none;
-      li {
-        margin-bottom: .625rem;
-        a {
-          font-size: 1rem;
-          text-decoration: none;
-        }
-        &:hover {
-          a { text-decoration: underline; }
-        }
-        &.last {
-          margin-bottom: 1.25rem;
-        }
+  ::ng-deep {
+    block {
+      display: block;
+      padding: 1rem 1.5rem 1.5rem;
+      border-top: $orange .625rem solid;
+      background: $white;
+      border-radius: .25rem;
+      margin-bottom: 1rem;
+      &.sidebar__elem--orange { 
+        border-top-color: $orange; 
       }
-      &__elem {
-        display: flex;
-        align-items: center;
-        &.links {
-          icon {
-            align-self: flex-start; 
-            margin-right: .5rem; 
-          }
-        }
-        &.pairs {
-          .label {
-            margin-left: 1rem;
-            font-size: .875rem;
-          }
-          &.proColor {
-            icon { color: $light-blue; }
-          }
-          &.neutralColor {
-            icon { color: $orange; }
-          }
-          &.conColor {
-            icon { color: $red; }
-          }
-        }
+      &.sidebar__elem--blue { 
+        border-top-color: $light-blue; 
+      }
+      h1 {
+        color: $black;
+        font-size: 1.25rem;
+        line-height: 1.875rem;
       }
     }
+    block-content {
+      &:empty { display: none }
+      display: block;
+      padding-top: .5rem;
+      .list {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        li {
+          margin-bottom: .625rem;
+          a {
+            font-size: 1rem;
+            text-decoration: none;
+          }
+          &:hover {
+            a { text-decoration: underline; }
+          }
+          &.last {
+            margin-bottom: 1.25rem;
+          }
+        }
+        &__elem {
+          display: flex;
+          align-items: center;
+          &.links {
+            icon {
+              align-self: flex-start; 
+              margin-right: .5rem; 
+            }
+          }
+          &.pairs {
+            .label {
+              margin-left: 1rem;
+              font-size: .875rem;
+            }
+            &.proColor {
+              icon { color: $light-blue; }
+            }
+            &.neutralColor {
+              icon { color: $orange; }
+            }
+            &.conColor {
+              icon { color: $red; }
+            }
+          }
+        }
+      }
+    }
   }
-
 }

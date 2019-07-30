@@ -83,6 +83,15 @@
 		}
 	}
 
+	&.block--sidebar {
+		.block__title__text {
+			padding: 0;
+		}
+		.block__content {
+			padding: 0;
+		}
+	}
+
 	@media screen and (max-width:640px) {
 		block {
 			border-radius: 0 0 4px 4px !important;

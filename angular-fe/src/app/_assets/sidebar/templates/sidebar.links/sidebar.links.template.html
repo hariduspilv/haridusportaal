@@ -1,0 +1,13 @@
+<ng-container *ngIf="data && data.length">
+  <ul class="list">
+    <ng-container *ngFor="let item of data">
+      <li *ngIf="item.url">
+        <a class="list__elem links" [href]="item.url.path">
+          <icon *ngIf="!item.url.routed" size="medium" glyph="external-link"></icon>
+          <icon *ngIf="item.url.routed" size="medium" glyph="link-2"></icon>
+          <div class="label">{{ item.title }}</div>
+        </a>
+      </li>
+    </ng-container>
+  </ul>
+</ng-container>

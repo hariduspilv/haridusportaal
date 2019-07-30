@@ -22,12 +22,12 @@ import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
-import { RippleService, SidemenuService } from '@app/_services';
+import { RippleService, SidemenuService, SidebarService } from '@app/_services';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ModalComponent, ModalContentComponent } from './modal';
 import { ScrollableContentComponent } from './scrollableContent';
-import { SidebarComponent, SidebarElemComponent, SidebarElemContentComponent } from './sidebar';
+import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent } from './sidebar';
 import { SlugifyPipe } from 'ngx-pipes';
 import { BaseLayout } from './base-layout';
 
@@ -59,8 +59,8 @@ const declarations = [
   HeaderComponent,
   BaseLayout,
   SidebarComponent,
-  SidebarElemContentComponent,
-  SidebarElemComponent,
+  SidebarLinksComponent,
+  SidebarCategoriesComponent,
 ];
 
 const exports = [
@@ -73,6 +73,7 @@ const providers = [
   RippleService,
   ModalService,
   SidemenuService,
+  SidebarService,
 ];
 
 @NgModule({
