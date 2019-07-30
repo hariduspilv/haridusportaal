@@ -16,6 +16,8 @@ class FeedbackController extends ControllerBase {
    *   Return Hello string.
    */
   public function AllFeedbacks() {
+    $data = \Drupal::database()->select('htm_custom_feedback')->execute();
+    kint($data);
     return [
       '#type' => 'markup',
       '#markup' => $this->t('Implement method: AllFeedbacks')
