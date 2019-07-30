@@ -2,6 +2,11 @@ import { storiesOf } from '@storybook/angular';
 import { icons } from './icons';
 import iconsMd from './icons.md';
 import { AssetsModule } from '@app/_assets';
+import {
+  withKnobs,
+  optionsKnob as options,
+  select,
+} from '@storybook/addon-knobs';
 
 const moduleMetadata = {
   imports: [
@@ -10,12 +15,35 @@ const moduleMetadata = {
 };
 
 const stories = storiesOf('Typography', module);
+stories.addDecorator(withKnobs);
 stories.add('Icons', () => {
 
+  const background = options(
+    'Background',
+    {
+      Yes: 'yes',
+      No: 'no',
+    },
+    'no',
+    {
+      display: 'inline-radio',
+    },
+  );
+  const size = select(
+    'Size',
+    {
+      Default: 'default',
+      Medium: 'medium',
+      Large: 'large',
+    },
+    'default',
+  );
   const iconsHTML = icons.map((icon) => {
     return `
       <tr>
-        <td style="text-align:center;"><icon glyph="${icon._name}"></icon></td>
+        <td style="text-align:center;">
+          <icon glyph="${icon._name}" [bg]="background === 'yes'" [size]="size"></icon>
+        </td>
         <td>${icon._name}</td>
         <td>${icon._fileName}</td>
       </tr>
@@ -24,8 +52,11 @@ stories.add('Icons', () => {
 
   return {
     moduleMetadata,
+    props: {
+      background,
+      size,
+    },
     template: `
-
       <div class="center">
         <h1>Icons (${icons.length})</h1>
         <table htm-table>
