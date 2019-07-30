@@ -812,6 +812,22 @@ xjson:
     translation_type: textarea
     et: 'Vormi täitmisel on esinenud vigu.'
     en: ''
+  allowed_filetypes:
+    translation_type: textarea
+    et: 'Lubatud failitüübid: '
+    en: ''
+  max_size:
+    translation_type: textarea
+    et: 'Maksimaalne lubatud failisuurus on '
+    en: ''
+  exceed_file_limit:
+    translation_type: textarea
+    et: 'Laetud faili suurus ületab piirangut'
+    en: ''
+  edit:
+    translation_type: textarea
+    et: 'Muuda andmeid'
+    en: ''
 article:
   label:
     translation_type: textarea
