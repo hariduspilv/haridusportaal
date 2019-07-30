@@ -26,10 +26,10 @@ stories.add('Sidebar', () => {
             <ng-container *ngIf="elem.fields">
               <ul class="list">
                 <li *ngFor="let item of elem.fields">
-                  <a class="list__elem--links" [href]="item.entityUrl.path">
+                  <a class="list__elem links" [href]="item.entityUrl.path">
                     <icon *ngIf="!item.entityUrl.routed" size="medium" glyph="external-link"></icon>
                     <icon *ngIf="item.entityUrl.routed" size="medium" glyph="link-2"></icon>
-                    <div>{{ item.entityLabel }}</div>
+                    <div class="label">{{ item.entityLabel }}</div>
                   </a>
                 </li>
               </ul>
@@ -38,29 +38,32 @@ stories.add('Sidebar', () => {
             <ng-container *ngIf="elem.entities">
               <ul class="list">
                 <ng-container *ngIf="elem.entities.fieldPros && elem.entities.fieldPros.length">
-                  <li class="list__elem--pairs pro" [class.last]="last"
+                  <li class="list__elem pairs proColor" [class.last]="last"
                     *ngFor="let item of elem.entities.fieldPros; let last = last">
                     <icon size="medium" bg="true" glyph="arrow-up"></icon>
-                    <div role="text" attr.aria-label="{{'sidebar.pro' | translate}} {{ item }}">
+                    <div class="label" role="text"
+                      attr.aria-label="{{'sidebar.pro' | translate}} {{ item }}">
                       {{ item }}
                     </div>
                   </li>
                 </ng-container>
                 <ng-container *ngIf="elem.entities.fieldNeutral
                   && elem.entities.fieldNeutral.length">
-                  <li class="list__elem--pairs neutral" [class.last]="last"
+                  <li class="list__elem pairs neutralColor" [class.last]="last"
                     *ngFor="let item of elem.entities.fieldNeutral; let last = last">
                     <icon size="medium" bg="true" glyph="minimize-2"></icon>
-                    <div role="text" attr.aria-label="{{'sidebar.neutral' | translate}} {{ item }}">
+                    <div class="label" role="text"
+                      attr.aria-label="{{'sidebar.neutral' | translate}} {{ item }}">
                       {{ item }}
                     </div>
                   </li>
                 </ng-container>
                 <ng-container *ngIf="elem.entities.fieldCons && elem.entities.fieldCons.length">
-                  <li class="list__elem--pairs con" [class.final]="last"
+                  <li class="list__elem pairs conColor" [class.final]="last"
                     *ngFor="let item of elem.entities.fieldCons; let last = last">
                     <icon size="medium" bg="true" glyph="arrow-down"></icon>
-                    <div role="text" attr.aria-label="{{'sidebar.con' | translate}} {{ item }}">
+                    <div class="label" role="text"
+                      attr.aria-label="{{'sidebar.con' | translate}} {{ item }}">
                       {{ item }}
                     </div>
                   </li>
