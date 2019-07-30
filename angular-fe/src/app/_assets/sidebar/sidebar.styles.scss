@@ -35,7 +35,6 @@
       list-style: none;
       li {
         margin-bottom: .625rem;
-        icon {margin-right: .5rem;}
         a {
           font-size: 1rem;
           text-decoration: none;
@@ -43,25 +42,32 @@
         &:hover {
           a { text-decoration: underline; }
         }
+        &.last {
+          margin-bottom: 1.25rem;
+        }
       }
       &__elem {
-        &--links {
-          display: grid;
-          grid-template-columns: 2rem 1fr;
-          align-items: center;
+        display: flex;
+        align-items: center;
+        &.links {
+          icon {
+            align-self: flex-start; 
+            margin-right: .5rem; 
+          }
         }
-        &--pairs {
-          display: grid;
-          grid-template-columns: 3rem 1fr;
-          align-items: center;
-          &.pro {
-            icon {color: $light-blue;}
+        &.pairs {
+          .label {
+            margin-left: 1rem;
+            font-size: .875rem;
           }
-          &.neutral {
-            icon {color: $orange;}
+          &.proColor {
+            icon { color: $light-blue; }
           }
-          &.con {
-            icon {color: $red;}
+          &.neutralColor {
+            icon { color: $orange; }
+          }
+          &.conColor {
+            icon { color: $red; }
           }
         }
       }
