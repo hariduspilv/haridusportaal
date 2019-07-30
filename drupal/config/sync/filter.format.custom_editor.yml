@@ -3,6 +3,7 @@ langcode: et
 status: true
 dependencies:
   module:
+    - editor
     - entity_embed
 name: 'Custom editor'
 format: custom_editor
@@ -12,7 +13,7 @@ filters:
     id: filter_html
     provider: filter
     status: true
-    weight: -10
+    weight: 1
     settings:
       allowed_html: '<a href hreflang title target data-entity-type data-entity-uuid> <em> <strong> <cite> <blockquote cite> <ul type> <ol start type> <li> <dl> <dt> <dd> <caption> <h3> <p> <table class id> <tbody> <thead> <tfoot> <th style> <td style> <tr>'
       filter_html_help: true
@@ -21,17 +22,54 @@ filters:
     id: filter_htmlcorrector
     provider: filter
     status: true
-    weight: 10
+    weight: 7
     settings: {  }
   filter_caption:
     id: filter_caption
     provider: filter
     status: true
-    weight: 0
+    weight: 3
     settings: {  }
   entity_embed:
     id: entity_embed
     provider: entity_embed
     status: true
-    weight: 0
+    weight: 5
     settings: {  }
+  editor_file_reference:
+    id: editor_file_reference
+    provider: editor
+    status: false
+    weight: 11
+    settings: {  }
+  filter_html_escape:
+    id: filter_html_escape
+    provider: filter
+    status: false
+    weight: 9
+    settings: {  }
+  filter_autop:
+    id: filter_autop
+    provider: filter
+    status: false
+    weight: 15
+    settings: {  }
+  filter_html_image_secure:
+    id: filter_html_image_secure
+    provider: filter
+    status: false
+    weight: 19
+    settings: {  }
+  filter_align:
+    id: filter_align
+    provider: filter
+    status: false
+    weight: 13
+    settings: {  }
+  filter_url:
+    id: filter_url
+    provider: filter
+    status: false
+    weight: 17
+    settings:
+      filter_url_length: 72
