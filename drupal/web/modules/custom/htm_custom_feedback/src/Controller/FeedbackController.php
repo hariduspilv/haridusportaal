@@ -3,6 +3,7 @@
 namespace Drupal\htm_custom_feedback\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
+use League\Csv\Writer;
 
 /**
  * Class FeedbackController.
@@ -50,12 +51,25 @@ class FeedbackController extends ControllerBase {
     $items = $query->distinct()->execute()->fetchAll();
 
     $processed = [];
-    foreach($items as $key => $item){
-      if(in_array($item->id, $processed)){
-        unset($items[$key]);
+    $new_items = [];
+    foreach($items as $item){
+      if(!in_array($item->id, $processed)){
+        $item->created = date('d.m.Y H:i');
+        $new_items[] = (array) $item;
       }
       $processed[] = $item->id;
     }
+
+
+    $csv = Writer::createFromFileObject(new \SplTempFileObject());
+    $csv->setDelimiter(';');
+    $csv->insertOne(['id', 'created', 'feedback_type', 'feedback_message', 'title']);
+    $csv->insertAll($new_items);
+
+    $csv->output('users.csv');
+    die;
+
+
   }
 
   public function vote(){
