@@ -5,9 +5,9 @@ namespace Drupal\htm_custom_feedback\Controller;
 use Drupal\Core\Controller\ControllerBase;
 
 /**
- * Class FeedbackController.
+ * Class FeedbackDownload.
  */
-class FeedbackController extends ControllerBase {
+class FeedbackDownload extends ControllerBase {
 
   /**
    * Allfeedbacks.
@@ -22,8 +22,7 @@ class FeedbackController extends ControllerBase {
     ];
   }
 
-  private function createFeedback($feedback = null, $node = null){
-    #$user = \Drupal::currentUser()
+  private function queryFeedbacks(){
     $query_method = 'insert';
     $record = [
       'nid' => $node,
@@ -35,22 +34,6 @@ class FeedbackController extends ControllerBase {
     $return = $query->execute();
     dump($return);
     return [];
-  }
-
-  private function downloadFeedback(){
-    $query = \Drupal::database()->query("SELECT DISTINCT ON (f.id) f.id, r.title, 
-to_char(to_timestamp(f.created), 'DD.MM.YYYY HH24:MI:SS'), f.feedback_type, f.feedback_message 
-FROM htm_custom_feedback f 
-JOIN node_field_revision r 
-ON r.nid = f.nid 
-ORDER BY f.id, r.title DESC");
-
-    $result = $query->fetchAll();
-    kint($result);
-  }
-
-  public function vote(){
-
   }
 
 }
