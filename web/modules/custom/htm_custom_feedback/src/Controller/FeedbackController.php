@@ -37,16 +37,17 @@ class FeedbackController extends ControllerBase {
     return [];
   }
 
-  private function downloadFeedback(){
-    $query = \Drupal::database()->query("SELECT DISTINCT ON (f.id) f.id, r.title, 
-to_char(to_timestamp(f.created), 'DD.MM.YYYY HH24:MI:SS'), f.feedback_type, f.feedback_message 
-FROM htm_custom_feedback f 
-JOIN node_field_revision r 
-ON r.nid = f.nid 
-ORDER BY f.id, r.title DESC");
+  public function downloadFeedback(){
+    $connection = \Drupal::database();
 
-    $result = $query->fetchAll();
-    kint($result);
+    $query = $connection->select('htm_custom_feedback', 'f')
+      ->fields('f', ['id', 'created','feedback_type', 'feedback_message'])
+      ->fields('r', ['title'])
+      ->orderBy('f.id');
+    $query->join('node_field_revision', 'r', 'f.nid = r.nid');
+
+    kint($query->distinct()->execute()->fetchAll());
+
   }
 
   public function vote(){
