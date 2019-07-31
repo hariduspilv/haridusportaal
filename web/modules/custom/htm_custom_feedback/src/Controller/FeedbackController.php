@@ -43,6 +43,7 @@ class FeedbackController extends ControllerBase {
     $query = $connection->select('htm_custom_feedback', 'f')
       ->fields('f', ['id', 'created','feedback_type', 'feedback_message'])
       ->fields('r', ['title'])
+      ->where("r.langcode = 'et'")
       ->orderBy('f.id');
     $query->join('node_field_revision', 'r', 'f.nid = r.nid');
 
