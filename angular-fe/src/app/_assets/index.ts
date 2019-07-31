@@ -27,9 +27,11 @@ import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ModalComponent, ModalContentComponent } from './modal';
 import { ScrollableContentComponent } from './scrollableContent';
-import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent } from './sidebar';
 import { SlugifyPipe } from 'ngx-pipes';
 import { BaseLayout } from './base-layout';
+import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
+  SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
+  SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent } from './sidebar';
 
 const pipes = [
   SlugifyPipe,
@@ -61,6 +63,12 @@ const declarations = [
   SidebarComponent,
   SidebarLinksComponent,
   SidebarCategoriesComponent,
+  SidebarContactComponent,
+  SidebarArticlesComponent,
+  SidebarDataComponent,
+  SidebarActionsComponent,
+  SidebarFactsComponent,
+  SidebarLocationComponent,
 ];
 
 const exports = [
