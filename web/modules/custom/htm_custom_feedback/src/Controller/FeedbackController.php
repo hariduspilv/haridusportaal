@@ -50,14 +50,12 @@ class FeedbackController extends ControllerBase {
     $items = $query->distinct()->execute()->fetchAll();
 
     $processed = [];
-    foreach($items as &$item){
+    foreach($items as $key => $item){
       if(in_array($item->id, $processed)){
-        unset($item);
+        unset($items[$key]);
       }
       $processed[] = $item->id;
     }
-    kint($items);
-
   }
 
   public function vote(){
