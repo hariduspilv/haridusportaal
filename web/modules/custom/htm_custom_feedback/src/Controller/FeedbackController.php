@@ -66,10 +66,8 @@ class FeedbackController extends ControllerBase {
     $csv->insertOne(['id', 'created', 'feedback_type', 'feedback_message', 'title']);
     $csv->insertAll($new_items);
 
-    $csv->output('users.csv');
+    $csv->output('feedback.csv');
     die;
-
-
   }
 
   public function vote(){

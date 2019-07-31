@@ -1,0 +1,5 @@
+htm_custom_feedback.feedback_controller_downloadFeedback:
+  route_name: htm_custom_feedback.feedback_controller_downloadFeedback
+  title: 'Download Feedback Data'
+  appears_on:
+    - view.feedback_admin_view.page_1
