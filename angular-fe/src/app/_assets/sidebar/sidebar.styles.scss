@@ -7,18 +7,8 @@
 
   ::ng-deep {
     block {
-      display: block;
       padding: 1rem 1.5rem 1.5rem;
       border-top: $orange .625rem solid;
-      background: $white;
-      border-radius: .25rem;
-      margin-bottom: 1rem;
-      &.sidebar__elem--orange { 
-        border-top-color: $orange; 
-      }
-      &.sidebar__elem--blue { 
-        border-top-color: $light-blue; 
-      }
       h1 {
         color: $black;
         font-size: 1.25rem;
@@ -26,50 +16,102 @@
       }
     }
     block-content {
-      &:empty { display: none }
+      &:empty {
+        display: none
+      }
       display: block;
       padding-top: .5rem;
-      .list {
+      a {
+        font-size: 1rem;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      ul {
         padding: 0;
         margin: 0;
         list-style: none;
         li {
           margin-bottom: .625rem;
-          a {
-            font-size: 1rem;
-            text-decoration: none;
-          }
           &:hover {
-            a { text-decoration: underline; }
+            a { 
+              text-decoration: underline; 
+            }
           }
           &.last {
             margin-bottom: 1.25rem;
           }
+          &:last-of-type {
+            margin-bottom: 0;
+          }
         }
-        &__elem {
+      }
+      sidebar-links {
+        icon {
+          margin-right: .5rem;
+        }
+      }
+      sidebar-categories {
+        span {
+          margin: 0 0 0 1rem;
+          font-size: .875rem;
+        }
+        li {
           display: flex;
           align-items: center;
-          &.links {
-            icon {
-              align-self: flex-start; 
-              margin-right: .5rem; 
+          &.proColor {
+            icon { color: $light-blue; }
+          }
+          &.neutralColor {
+            icon { color: $orange; }
+          }
+          &.conColor {
+            icon { color: $red; }
+          }
+        }
+      }
+      sidebar-contact * {
+        display: block;
+        line-height: 1.375;
+      }
+      sidebar-articles {
+        article {
+          display: block;
+          margin: 0 -1.5rem;
+          padding-bottom: 3rem;
+          a {
+            img {
+              display: block;
+            }
+            h1 {
+              font-size: 1.5rem;
+              padding: 1rem 1.5rem 0;
+              font-weight: bold;
+              line-height: 1.33;
+              color: $blue;
             }
           }
-          &.pairs {
-            .label {
-              margin-left: 1rem;
-              font-size: .875rem;
-            }
-            &.proColor {
-              icon { color: $light-blue; }
-            }
-            &.neutralColor {
-              icon { color: $orange; }
-            }
-            &.conColor {
-              icon { color: $red; }
-            }
+          time {
+            display: block;
+            padding: .5rem 1.5rem 0;
+            font-size: .875rem;
+            line-height: 1.43;
+            color: $dark-gray;
           }
+          &:last-of-type {
+            padding-bottom: 1.5rem;
+          }
+        }
+      }
+      sidebar-actions {
+        li {
+          margin-bottom: 1rem;
+        }
+      }
+      sidebar-register {
+        li {
+          margin-bottom: 1rem;
         }
       }
     }
