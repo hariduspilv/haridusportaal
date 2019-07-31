@@ -47,7 +47,15 @@ class FeedbackController extends ControllerBase {
       ->orderBy('f.id');
     $query->leftJoin('node_field_revision', 'r', 'f.nid = r.nid');
 
-    kint($query->distinct()->execute()->fetchAll());
+    $items = $query->distinct()->execute()->fetchAll();
+
+    $processed = [];
+    foreach($items as &$item){
+      if(in_array($item->id, $processed)){
+        unset($item);
+      }
+    }
+    kint($items);
 
   }
 
