@@ -45,7 +45,7 @@ class FeedbackController extends ControllerBase {
       ->fields('r', ['title'])
       ->where("r.langcode = 'et'")
       ->orderBy('f.id');
-    $query->join('node_field_revision', 'r', 'f.nid = r.nid');
+    $query->leftJoin('node_field_revision', 'r', 'f.nid = r.nid');
 
     kint($query->distinct()->execute()->fetchAll());
 
