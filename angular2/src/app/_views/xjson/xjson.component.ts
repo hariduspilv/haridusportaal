@@ -507,7 +507,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
           };
         }else{
           const rowNumber = Object.keys(this.temporaryModel[element][col]).length;
-          console.log(rowNumber);
           this.temporaryModel[element][col][rowNumber] = null;
         }
       }
@@ -786,6 +785,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.acceptable_forms.forEach((elem, index) => {
       this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
     });
+
   }
 
   toggleAcceptableFormList() {

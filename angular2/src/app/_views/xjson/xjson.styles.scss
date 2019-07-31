@@ -274,7 +274,7 @@ a {
   .squared-input__outer-wrapper {
     display: flex;
     &.date-wrapper {
-      .tooltip { margin-right: -0.125rem; margin-top: .625rem;}
+      .tooltip { margin-right: -0.125rem;}
       .round-input__field { line-height: 1; }
     }
     &.checkbox-wrapper {

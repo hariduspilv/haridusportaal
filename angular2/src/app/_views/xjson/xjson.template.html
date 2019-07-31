@@ -6,7 +6,7 @@
       <div class="block padding-block border-blue">
         <div class="block__head">
           <div class="block__head__title">{{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}</div>
-          <div class="block__head__buttons">
+          <div *ngIf="acceptable_forms.length" class="block__head__buttons">
             <div class="view-item" (click)="changeView('document')"
               attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0"
               [class.active]="view === 'document'">
@@ -131,7 +131,7 @@
                         <div class="squared-input__outer-wrapper">
                           <div class="squared-input__wrapper"
                             [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                            <span class="xjson__textarea__info round-input__title">
+                            <span class="squared-input__title">
                               {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                             </span>
                             <div class="squared-input__area">
@@ -359,6 +359,7 @@
                           </span>
                           <div class="squared-input__field-wrapper">
                             <input class="squared-input__field" matInput [matDatepicker]="picker"
+                              [placeholder] = "selectLanguage(data_elements[element].title)" 
                               [value]="getDatepickerValue(element)" readonly="true"
                               [(ngModel)]="data_elements[element].value" name="{{element}}"
                               (dateInput)="setDatepickerValue($event, element)"
@@ -580,6 +581,7 @@
                                             <div *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay" class="round-input__wrapper">
                                               <div class="round-input__field-wrapper">
                                                 <input class="round-input__field" matInput [matDatepicker]="picker"
+                                                  [placeholder] = "tableColumnAttribute(element, colIndex, 'title')" 
                                                   [value]="getDatepickerValue(element, rowIndex, col)" readonly="true"
                                                   [(ngModel)]='data_elements[element].value[rowIndex][col]'
                                                   name="{{element + '_' + rowIndex + '_' + colIndex}}"

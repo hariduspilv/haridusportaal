@@ -143,24 +143,31 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  setDatepickerValue(event, element) {
-     if (this.datepickerFocus === false) {
-      if (event instanceof FocusEvent) {
-        const date = moment(event.target['value'], 'DD.MM.YYYY').format('L');
-        if (date == 'Invalid date') {
-          this.data_elements[element].value = null;
-          event.target['value'] = null;
-        } else {
-          this.data_elements[element].value = event.target['value'].format('L');
-        }
-      } else {
-        this.data_elements[element].value = event.value.format('L');
+  checkboxChange(event, element) {
+    this.data_elements[element].value = event.checked ? 'true' : 'false';
+  }
+
+  setDatepickerValue(event, element, rowindex, col) {
+    if (this.datepickerFocus === false) {
+      if (!(event instanceof FocusEvent)) {
+        const dateval = event.value.format('L');
+        rowindex === undefined || col === undefined
+          ? this.data_elements[element].value = dateval
+          : this.data_elements[element].value[rowindex][col] = dateval;
       }
     }
   }
 
-  checkboxChange(event, element) {
-    this.data_elements[element].value = event.checked ? 'true' : 'false';
+  getDatepickerValue(element, rowindex, col) {
+    const date = rowindex === undefined || col === undefined
+      ? this.data_elements[element].value
+      : this.data_elements[element].value[rowindex][col];
+
+    if (date) {
+      return moment((String(date).split('.')).reverse().join('-'));
+    } else {
+      return false;
+    }
   }
 
   selectListCompare(a, b) {
