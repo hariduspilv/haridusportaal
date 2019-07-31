@@ -54,6 +54,7 @@ class FeedbackController extends ControllerBase {
       if(in_array($item->id, $processed)){
         unset($item);
       }
+      $processed[] = $item->id;
     }
     kint($items);
 
