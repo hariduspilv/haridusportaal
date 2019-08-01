@@ -1690,17 +1690,17 @@ public class MtsysWorker extends Worker {
 
   private void setAadress(Aadressid aadressid, ObjectNode jsonNode) {
     aadressid.getAadressList().forEach(aadress ->
-        ((ArrayNode) jsonNode.get("aadressid").get("value")).addObject()
-            .put("seqNo", aadress.getJrkNr())
+        ((ArrayNode) jsonNode.get("aadressid").get("value")).addObject().putObject("aadress")
+//            .put("seqNo", aadress.getJrkNr())
             .put("adsId", aadress.getAdsId() != null ? aadress.getAdsId().longValue() : null)
             .put("adsOid", aadress.getAdsOid())
-            .put("klElukoht",
-                aadress.getKlElukoht() != null ? aadress.getKlElukoht().longValue() : null)
+//            .put("klElukoht",
+//                aadress.getKlElukoht() != null ? aadress.getKlElukoht().longValue() : null)
             .put("county", aadress.getMaakond())
             .put("localGovernment", aadress.getOmavalitsus())
             .put("settlementUnit", aadress.getAsula())
             .put("address", aadress.getAdsAadress())
-            .put("addressFull", aadress.getTaisAadress())
+//            .put("addressFull", aadress.getTaisAadress())
             .put("addressHumanReadable", aadress.getAdsAadressHumanReadable()));
   }
 
