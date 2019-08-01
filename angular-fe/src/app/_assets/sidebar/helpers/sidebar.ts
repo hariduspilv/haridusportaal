@@ -13,8 +13,8 @@ export const collection = {
   'fieldRegistration': 'register',
   'fieldButton': 'actions',
   'fieldSchoolLocation': 'location',
+  'facts': 'facts',
   // 'c': 'progress',
-  // 'd': 'facts',
 }
 
 export const uniformTypes = {

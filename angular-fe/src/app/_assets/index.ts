@@ -32,9 +32,12 @@ import { BaseLayout } from './base-layout';
 import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent } from './sidebar';
+import { ProgressBarComponent } from './progressBar';
+import { TruncatePipe } from '@app/_pipes/truncate.pipe';
 
 const pipes = [
   SlugifyPipe,
+  TruncatePipe,
 ];
 
 const declarations = [
@@ -69,6 +72,7 @@ const declarations = [
   SidebarActionsComponent,
   SidebarFactsComponent,
   SidebarLocationComponent,
+  ProgressBarComponent,
 ];
 
 const exports = [
@@ -93,6 +97,6 @@ const providers = [
     TranslateModule,
     FormsModule,
   ],
-  exports: [...declarations, ...exports],
+  exports: [...declarations, ...pipes, ...exports],
 })
 export class AssetsModule { }
