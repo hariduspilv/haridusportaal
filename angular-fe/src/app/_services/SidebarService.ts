@@ -10,8 +10,8 @@ interface UniformType {
 
 export class SidebarService {
   private types: UniformType = uniformTypes;
-  public mapUniformKeys(data) {
-    const uniforms = ['prosCons'];
+  public mapUniformKeys(data, facts) {
+    const uniforms: string[] = ['prosCons'];
     const keysToMerge: Object = {};
     uniforms.forEach((item, key) => {
       const uniformType: Object = {};
@@ -25,6 +25,9 @@ export class SidebarService {
       data[uniforms[key]] = uniformType;
       // keysToDelete.forEach(del => delete data[del]);
     });
+    if (facts) {
+      data['facts'] = facts;
+    }
     return data;
   }
 }

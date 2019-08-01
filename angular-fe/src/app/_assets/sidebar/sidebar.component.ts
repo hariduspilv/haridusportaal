@@ -22,7 +22,7 @@ export class SidebarComponent {
   }
   constructor(private sidebarService: SidebarService) {}
   ngOnInit() {
-    this.mappedData = this.sidebarService.mapUniformKeys(this.data);
+    this.mappedData = this.sidebarService.mapUniformKeys(this.data, this.facts);
     this.keys = Object.keys(this.mappedData);
   }
 }
@@ -91,7 +91,29 @@ export class SidebarLocationComponent {
 })
 export class SidebarFactsComponent {
   @Input() data: Object[];
+  private graduatesToJobsValues = [
+    { class: 'first with-bg', text: 'oska.more_graduates' },
+    { class: 'first with-bg', text: 'oska.less_graduates' },
+    { class: 'second with-bg', text: 'oska.enough_graduates' },
+    { class: 'third with-bg', text: 'oska.graduates_work_outside_field' },
+    { class: 'fourth with-bg', text: 'oska.no_graduates' },
+  ];
+  private trendingValues = [
+    { icon: 'arrow-up', class: 'second', text: 'oska.big_increase' },
+    { icon: 'arrow-up-right', class: 'second', text: 'oska.increase' },
+    { icon: 'arrow-right', class: 'third', text: 'oska.stagnant' },
+    { icon: 'arrow-down-right', class: 'first', text: 'oska.decline' },
+    { icon: 'arrow-down', class: 'first', text: 'oska.big_decline' },
+  ];
   ngOnInit() {
     console.log(this.data);
+  }
+  arrayOfLength (len) {
+    return Array(parseInt(len, 10)).fill(0).map((x, i) => i);
+  }
+  formatNumber (number, locale) {
+    const num = parseInt(number, 10);
+    const formattedNum = num.toLocaleString(locale);
+    return formattedNum.replace(',', ' ');
   }
 }
