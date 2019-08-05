@@ -9,9 +9,9 @@
         </div>
         <!--/block__head-->
 
-        <loader *ngIf="!data || formLoading"></loader>
+        <loader *ngIf="!data"></loader>
 
-        <ng-container *ngIf="data && view == 'document' && !formLoading">
+        <ng-container *ngIf="data && view == 'document'">
 
           <h1 *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</h1>
           <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
