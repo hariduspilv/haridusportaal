@@ -6,7 +6,7 @@
       <div class="block padding-block border-blue">
         <div class="block__head">
           <div class="block__head__title">{{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}</div>
-          <div class="block__head__buttons">
+          <div *ngIf="acceptable_forms.length" class="block__head__buttons">
             <div class="view-item" (click)="changeView('document')"
               attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0"
               [class.active]="view === 'document'">
@@ -39,10 +39,10 @@
             </ng-container>
           </ng-container>
 
-          <ng-container *ngIf="objectKeys(error).length">
+          <ng-container *ngIf="error_alert">
             <div class="alert" ngClass="alert__error">
               {{ 'xjson.validation_errors' | translate }} <button class="alert__close"
-                (click)="closeMessage(i)" [attr.aria-label]="'notification.close' | translate"></button></div>
+                (click)="closeError()" [attr.aria-label]="'notification.close' | translate"></button></div>
           </ng-container>
 
           <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
@@ -131,7 +131,7 @@
                         <div class="squared-input__outer-wrapper">
                           <div class="squared-input__wrapper"
                             [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                            <span class="xjson__textarea__info round-input__title">
+                            <span class="squared-input__title">
                               {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                             </span>
                             <div class="squared-input__area">
@@ -359,6 +359,7 @@
                           </span>
                           <div class="squared-input__field-wrapper">
                             <input class="squared-input__field" matInput [matDatepicker]="picker"
+                              [placeholder] = "selectLanguage(data_elements[element].title)" 
                               [value]="getDatepickerValue(element)" readonly="true"
                               [(ngModel)]="data_elements[element].value" name="{{element}}"
                               (dateInput)="setDatepickerValue($event, element)"
@@ -473,6 +474,7 @@
                       </div>
 
 
+                      <div class="xjson__table">
                       <div class="xjson__scrollable">
                         <div class="xjson__scrollable">
                             <div class="xjson__scrollable__table" [attr.id]="'xjsonTable_' + index"
@@ -531,9 +533,9 @@
                                               <input *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay" class="contnent-input" type="text" matInput
                                               [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                              [(ngModel)]="row[col]" [name]="element + '_' + rowIndex + '_' + colIndex"
-                                              (ngModelChange)="addressAutocomplete(row[col], 300, element, false, col, rowIndex, true)"
-                                              (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(row[col])"
+                                              [(ngModel)]="temporaryModel[element][col][rowIndex]" [name]="element + '_' + rowIndex + '_' + colIndex"
+                                              (ngModelChange)="addressAutocomplete(temporaryModel[element][col][rowIndex], 300, element, false, col, rowIndex, true)"
+                                              (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(element, col, rowIndex)"
                                               [matAutocomplete]="autoAddress">
                                             <mat-autocomplete #autoAddress="matAutocomplete"
                                               (optionSelected)="addressFieldFocus = false">
@@ -543,13 +545,13 @@
                                                 </mat-option>
                                               </ng-container>
                                               <ng-container
-                                                *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
-                                                <mat-option *ngIf="!autoCompleteContainer[element].length" [value]=""
+                                                *ngIf="autocompleteLoader == false && autoCompleteContainer[element][col][rowIndex]">
+                                                <mat-option *ngIf="!autoCompleteContainer[element][col][rowIndex].length" [value]=""
                                                   disabled="true">
                                                   <span>{{'xjson.address_not_found' | translate }}</span>
                                                 </mat-option>
-                                                <ng-container *ngIf="autoCompleteContainer[element].length > 0">
-                                                  <mat-option *ngFor="let address of autoCompleteContainer[element]"
+                                                <ng-container *ngIf="autoCompleteContainer[element][col][rowIndex].length > 0">
+                                                  <mat-option *ngFor="let address of autoCompleteContainer[element][col][rowIndex]"
                                                     [value]="address.addressHumanReadable">
                                                     <span>{{ address.addressHumanReadable }}</span>
                                                   </mat-option>
@@ -579,6 +581,7 @@
                                             <div *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay" class="round-input__wrapper">
                                               <div class="round-input__field-wrapper">
                                                 <input class="round-input__field" matInput [matDatepicker]="picker"
+                                                  [placeholder] = "tableColumnAttribute(element, colIndex, 'title')" 
                                                   [value]="getDatepickerValue(element, rowIndex, col)" readonly="true"
                                                   [(ngModel)]='data_elements[element].value[rowIndex][col]'
                                                   name="{{element + '_' + rowIndex + '_' + colIndex}}"
@@ -663,6 +666,8 @@
                           </a>
                         </div>
                       </div> <!-- ADD_DEL_ROWS -->
+
+                    </div>
 
                     </ng-container> <!-- /TABLE -->
 

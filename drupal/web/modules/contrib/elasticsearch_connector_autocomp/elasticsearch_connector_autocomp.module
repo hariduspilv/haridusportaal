@@ -164,8 +164,8 @@ function elasticsearch_connector_autocomp_form_search_api_index_form_submit(arra
   if ($form_state->has('eca_confirm_form_values') && $form_state->getValue('op') === 'Confirm') {
     $form_state->setValues($form_state->get('eca_confirm_form_values'));
     // Handle the actual submit.
-    $formObject->save($form, $form_state);
     $formObject->submitForm($form, $form_state);
+    $formObject->save($form, $form_state);
     return;
   }
 
@@ -175,8 +175,8 @@ function elasticsearch_connector_autocomp_form_search_api_index_form_submit(arra
     return;
   }
   // No confirmation required, defer to the existing submit handlers.
-  $formObject->save($form, $form_state);
   $formObject->submitForm($form, $form_state);
+  $formObject->save($form, $form_state);
 }
 
 /**

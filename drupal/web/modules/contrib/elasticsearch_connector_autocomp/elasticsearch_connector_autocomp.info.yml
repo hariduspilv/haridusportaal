@@ -6,4 +6,3 @@ package: 'Custom'
 dependencies:
   - elasticsearch_connector
   - search_api
-  - search_api_autocomplete

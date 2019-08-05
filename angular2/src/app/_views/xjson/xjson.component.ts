@@ -74,6 +74,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public navigationLinks;
   public subButtons;
   public activityButtons;
+  public error_alert = false;
   public error = {};
   public redirect_url;
 
@@ -140,7 +141,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
       } else if (data_elements[element].type === 'table') {
         Object.keys(data_elements[element].table_columns).forEach(tableElement => {
-          if (data_elements[element].table_columns[tableElement].type === 'address' && data_elements[element].table_columns[tableElement].value) {
+          if (data_elements[element].table_columns[tableElement].type === 'address') {
             if (typeof data_elements[element].table_columns[tableElement].value === 'object') {
               if (data_elements[element].table_columns[tableElement].value.addressHumanReadable) {
                 this.autoCompleteContainer[element][tableElement] = [data_elements[element].table_columns[tableElement].value];
@@ -154,7 +155,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
               this.addressAutocomplete(data_elements[element].table_columns[tableElement].value, 0, tableElement, true);
             }
           }
-        })
+        });
       }
     });
   }
@@ -165,9 +166,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  validateInAdsFieldTable(element) {
+  validateInAdsFieldTable(element, column, row) {
     if (this.addressFieldFocus === false) {
-      this.addressAutocompleteSelectionValidationTable(element);
+      this.addressAutocompleteSelectionValidationTable(element, column, row);
     }
   }
 
@@ -191,22 +192,22 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  addressAutocompleteSelectionValidationTable(element) {
+  addressAutocompleteSelectionValidationTable(element, column, row) {
 
-    if (this.autoCompleteContainer[element] === undefined) {
-      return this.temporaryModel[element] = null;
+    if (this.autoCompleteContainer[element][column][row] === undefined) {
+      return this.temporaryModel[element][column][row] = null;
     }
 
-    const match = this.autoCompleteContainer[element].find(address => {
-      return address.addressHumanReadable === this.temporaryModel[element];
+    const match = this.autoCompleteContainer[element][column][row].find(address => {
+      return address.addressHumanReadable === this.temporaryModel[element][column][row];
     });
 
     if (!match) {
-      this.autoCompleteContainer[element] = null;
-      this.temporaryModel[element] = null;
-      this.data_elements[element].value = null;
+      this.autoCompleteContainer[element][column][row] = null;
+      this.temporaryModel[element][column][row] = null;
+      this.data_elements[element].value[row][column] = null;
     } else {
-      this.data_elements[element].value = this.inAdsFormatValue(match);
+      this.data_elements[element].value[row][column] = this.inAdsFormatValue(match);
     }
 
   }
@@ -223,9 +224,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     const _this = this;
 
-    const limit = table ? this.data_elements[element].value[row][col].results || 10 : this.data_elements[element].results || 10;
-    const ihist = table ? this.data_elements[element].value[row][col].ihist || 0 : this.data_elements[element].ihist || 0;
-    const apartment = table ? this.data_elements[element].value[row][col].appartment || 0 : this.data_elements[element].appartment || 0;
+    const limit = table ? this.data_elements[element].value[row][col] !== null ? this.data_elements[element].value[row][col].results : 10 : this.data_elements[element].results || 10;
+    const ihist = table ? this.data_elements[element].value[row][col] !== null ? this.data_elements[element].value[row][col].ihist : 0 : this.data_elements[element].ihist || 0;
+    const apartment = table ? this.data_elements[element].value[row][col] !== null ? this.data_elements[element].value[row][col].results : 0 : this.data_elements[element].results || 0;
 
     this.autocompleteDebouncer[index] = setTimeout(function () {
       _this.autocompleteLoader = true;
@@ -237,36 +238,55 @@ export class XjsonComponent implements OnInit, OnDestroy {
       _this.autocompleteSubscription[index] = jsonp.subscribe(data => {
         if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
 
-        _this.autocompleteLoader = false;
-        _this.autoCompleteContainer[element] = data['addresses'] || [];
+        if (!table) {
+          _this.autocompleteLoader = false;
+          _this.autoCompleteContainer[element] = data['addresses'] || [];
+  
+          _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
+  
+          _this.autoCompleteContainer[element].forEach(address => {
+            if (address.kort_nr) {
+              address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
+            } else {
+              address.addressHumanReadable = address.pikkaadress;
+            }
+          });
+        } else {
+          _this.autocompleteLoader = false;
 
-        _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
+          _this.autoCompleteContainer[element] = {
+            [col]: {
+              [row]: data['addresses'] || []
+            }
+          };
+  
+          _this.autoCompleteContainer[element][col][row] = _this.autoCompleteContainer[element][col][row].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
 
-        _this.autoCompleteContainer[element].forEach(address => {
-          if (address.kort_nr) {
-            address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
-          } else {
-            address.addressHumanReadable = address.pikkaadress;
-          }
-        });
+          _this.autoCompleteContainer[element][col][row].forEach(address => {
+            if (address.kort_nr) {
+              address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
+            } else {
+              address.addressHumanReadable = address.pikkaadress;
+            }
+          });
+        }
 
         if (autoselectOnMatch === true) {
-          _this.addressAutocompleteSelectionValidation(element);
+          _this.addressAutocompleteSelectionValidationTable(element, col, row);
         }
 
         _this.autocompleteSubscription[index].unsubscribe();
       });
 
     }, debounceTime);
-
   }
 
   inAdsFormatValue(address) {
     if (address.apartment !== undefined) { return address; }
 
     return {
-      'adr_id': address.adr_id,
-      'ads_oid': address.ads_oid,
+      'adsId': address.adr_id,
+      'adsOid': address.ads_oid,
       'addressCoded': address.koodaadress,
       'county': address.maakond,
       'countyEHAK': address.ehakmk,
@@ -408,6 +428,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.uploadFile(files, element);
       } else {
         this.fileLoading[element] = false;
+        return;
       }
     }
 ​
@@ -442,6 +463,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
 ​
   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
+    if (this.error[element]) {
+      delete this.error[element];
+    }
     e.preventDefault();
     const files_input = e.target.files || e.dataTransfer.files;
     const files = Object.keys(files_input).map(item => files_input[item]);
@@ -473,6 +497,18 @@ export class XjsonComponent implements OnInit, OnDestroy {
         newRow[col] = column.default_value;
       } else {
         newRow[col] = null;
+      }
+      if(column.type === 'address'){
+        if(!this.temporaryModel[element]){
+          this.temporaryModel[element] = {
+            [col]: {
+              '0': null
+            }
+          };
+        }else{
+          const rowNumber = Object.keys(this.temporaryModel[element][col]).length;
+          this.temporaryModel[element][col][rowNumber] = null;
+        }
       }
     }
     if (table.value === undefined) { table.value = []; }
@@ -651,6 +687,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.error[field] = validation;
           break;
         }
+        if (!this.data_elements[field].value) {
+          this.data_elements[field].value = [];
+        }
       } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
         const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
@@ -658,6 +697,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
           break;
         }
       }
+    }
+    if (Object.keys(this.error).length > 0 ) {
+
     }
   }
 
@@ -680,6 +722,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.getData(payload);
         }
       } else {
+        this.error_alert = true;
         this.edit_step = true;
         this.formLoading = false;
         this.scrollPositionController();
@@ -691,8 +734,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     console.log('DEBUG_ERROR: ', message);
   }
 
-  closeMessage(i) {
-    this.data_messages.splice(i, 1);
+  closeError() {
+    this.error_alert = false;
   }
 
   selectStep(step) {
@@ -742,6 +785,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.acceptable_forms.forEach((elem, index) => {
       this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
     });
+
   }
 
   toggleAcceptableFormList() {
