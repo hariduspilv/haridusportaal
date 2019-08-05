@@ -34,10 +34,12 @@ import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { TruncatePipe } from '@app/_pipes/truncate.pipe';
+import { LocaleNumberPipe } from '@app/_pipes/localeNumber.pipe';
 
 const pipes = [
   SlugifyPipe,
   TruncatePipe,
+  LocaleNumberPipe,
 ];
 
 const declarations = [
