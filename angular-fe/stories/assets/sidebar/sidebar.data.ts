@@ -229,7 +229,7 @@ export const facts = {
     {
       "oskaId": 3,
       "oskaIndicator": "Brutopalk",
-      "value": "750",
+      "value": "7500",
       "icon": 1
     },
     {

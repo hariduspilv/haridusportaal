@@ -105,15 +105,7 @@ export class SidebarFactsComponent {
     { icon: 'arrow-down-right', class: 'first', text: 'oska.decline' },
     { icon: 'arrow-down', class: 'first', text: 'oska.big_decline' },
   ];
-  ngOnInit() {
-    console.log(this.data);
-  }
   arrayOfLength (len) {
     return Array(parseInt(len, 10)).fill(0).map((x, i) => i);
-  }
-  formatNumber (number, locale) {
-    const num = parseInt(number, 10);
-    const formattedNum = num.toLocaleString(locale);
-    return formattedNum.replace(',', ' ');
   }
 }
