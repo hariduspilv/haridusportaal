@@ -1,0 +1,39 @@
+<aside>
+	<nav>
+		<ul *ngIf="data.menu">
+			<li *ngFor="let item of data.menu.links">
+				<ng-container
+					*ngIf="
+						item.url.path === '#nocategory' || item.url.path === '#nolink';
+						else category
+					"
+				>
+					<ul *ngIf="item.url.path === '#nocategory'" class="sidemenu__block">
+						<li *ngFor="let item of item.links">
+							<sidemenu-item [item]="item"></sidemenu-item>
+						</li>
+					</ul>
+					<ul class="sidemenu__block" *ngIf="item.url.path === '#nolink'">
+						<li>
+							<sidemenu-item [item]="item"></sidemenu-item>
+						</li>
+					</ul>
+				</ng-container>
+				<ng-template #category>
+					<ul class="sidemenu__block">
+						<li class="sidemenu__category">{{ item.label | uppercase }}</li>
+						<li *ngFor="let item of item.links">
+							<sidemenu-item [item]="item"></sidemenu-item>
+						</li>
+					</ul>
+				</ng-template>
+			</li>
+		</ul>
+		<div class="sidemenu__info">
+			<p class="version">Versioon 0.0.0</p>
+			<p>Lehte haldab</p>
+			<p>Haridus- ja Teadusministeerium</p>
+			<p>koos partneritega</p>
+		</div>
+	</nav>
+</aside>

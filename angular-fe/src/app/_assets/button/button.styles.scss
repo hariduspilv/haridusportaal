@@ -1,0 +1,56 @@
+@import "typography.scss";
+
+:host {
+	color: $white;
+	border-radius: 99px;
+	appearance: none;
+	border: none;
+	font-size: 1rem;
+	line-height: 100%;
+	padding: 12px 45px;
+	cursor: pointer;
+	transition: color 0.25s, background 0.25s;
+	position: relative;
+	overflow: hidden;
+	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+
+	&.button--default {
+		background: $blue;
+		&:hover {
+			background: $blue;
+		}
+	}
+
+	&.button--plain {
+		background: none;
+		color: $blue;
+		text-decoration: underline;
+		box-shadow: none;
+		&:hover {
+			text-decoration: none;
+		}
+	}
+
+	&.button--icon {
+		padding: 0;
+		background: none;
+		border-radius: 0;
+		color: $blue;
+		text-decoration: none;
+		box-shadow: none;
+	}
+
+	&.button--inverted {
+		background: $white;
+		color: $black;
+		&:hover {
+			background: $aqua;
+		}
+	}
+
+	.button--label {
+		position: relative;
+		z-index: 2;
+		pointer-events: none;
+	}
+}

@@ -1,0 +1,60 @@
+<ng-container *ngFor="let indicator of data; let last = last;">
+  
+  <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
+		<h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
+			{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber: 'et' }}
+		</h2>
+		<div>{{ 'oska.compared_to_other_professions' | translate }}</div>
+		<div class="list">
+			<img alt="icon" *ngFor="let item of arrayOfLength(indicator.icon)" src="/assets/img/person_filled.svg" />
+			<img alt="icon" *ngFor="let elem of arrayOfLength(11 - indicator.icon)" src="/assets/img/person.svg" />
+		</div>
+		<hr aria-hidden="true" *ngIf="!last">
+  </ng-container>
+  
+	<ng-container *ngIf="indicator.oskaId === 2 && indicator.icon > 0 && indicator.icon < 6">
+    <h2 attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}: {{trendingValues[indicator.icon - 1].text | translate}}">
+      {{ 'oska.numberEmployedChange' | translate }}:
+    </h2>
+    <ul>
+      <li>
+        <div class="icon__wrapper {{ trendingValues[indicator.icon - 1].class }}">
+          <icon [glyph]="trendingValues[indicator.icon - 1].icon" bg="true"></icon>
+        </div>
+        <span role="text" attr.aria-label="{{trendingValues[indicator.icon - 1].text | translate}}">{{trendingValues[indicator.icon - 1].text | translate}}</span>
+      </li>
+    </ul>
+    <hr aria-hidden="true" *ngIf="!last">
+  </ng-container>
+
+  <ng-container *ngIf="indicator.oskaId === 3 && indicator.icon > 0 && indicator.icon < 21">
+    <h2 attr.aria-label="{{ 'oska.wage' | translate }}: {{ indicator.value }} €">
+      {{ 'oska.wage' | translate }}: {{ indicator.value | localeNumber: 'et' }} €
+    </h2>
+    <div class="label__tag--wrapper" aria-hidden="true">
+      <span class="label__tag">{{'label.average' | translate}}</span>
+    </div>
+    <div class="list label__tag--pointer">
+      <div *ngFor="let item of arrayOfLength((indicator.icon - (indicator.icon % 2)) / 2)"><img alt="icon" src="/assets/img/coin_full.svg" /></div>
+      <div *ngFor="let item of arrayOfLength(indicator.icon % 2)" ><img alt="icon" src="/assets/img/coin_half.svg" /></div>
+      <div *ngFor="let elem of arrayOfLength((20 - indicator.icon) / 2)" ><img alt="icon" src="/assets/img/coin.svg" /></div>
+    </div>
+    <hr aria-hidden="true" *ngIf="!last">
+  </ng-container>
+
+	<ng-container *ngIf="indicator.oskaId === 4 && indicator.icon > 0 && indicator.icon < 6">
+    <h2 attr.aria-label="{{ 'oska.graduation_to_jobs_rate' | translate }}">
+      {{ 'oska.graduation_to_jobs_rate' | translate }}:
+    </h2>
+    <ul>
+      <li>
+        <div class="icon__wrapper {{graduatesToJobsValues[indicator.icon - 1].class}}">
+          <icon glyph="circle" bg="true"></icon>
+        </div>
+        <span role="text" attr.aria-label="{{graduatesToJobsValues[indicator.icon - 1].text | translate}}">{{graduatesToJobsValues[indicator.icon - 1].text | translate}}</span>
+      </li>
+    </ul>
+    <hr aria-hidden="true" *ngIf="!last">
+  </ng-container>
+
+</ng-container>

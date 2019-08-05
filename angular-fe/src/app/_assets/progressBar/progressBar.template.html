@@ -1,0 +1,15 @@
+<div class="progress" id="progressElem--{{id}}">
+  <div class="progress__tag--wrapper">
+    <span attr.id="progress--{{id}}" class="progress__tag">{{ statusLabel | truncate: [30, '...'] }}</span>
+  </div>
+  <div class="progress__bar--component">
+    <div attr.id="level--{{level}}" class="progress__bar--wrapper">
+      <div attr.id="level--{{level}}" class="progress__bar"></div>
+    </div>
+    <div class="progress__bar--labels" aria-hidden="true">
+      <span class="label--left">{{startLabel | truncate: [50, '...']}}</span>
+      <span class="label--right">{{endLabel | truncate: [50, '...']}}</span>
+    </div>
+  </div>
+</div>
+  
