@@ -3,23 +3,15 @@
 ## Usage
 
 ```html
-
-<sidebar>
-  <sidebar-element theme="blue" title="Tasub teada">
-    <sidebar-element-content>
-      ...content
-    <sidebar-element-content>
-  </sidebar-element>
-</sidebar>
-
+<sidebar [data]="data" [facts]="facts"></sidebar>
 ```
 
-## Sidebar element properties
+## Sidebar properties
 
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
-| title | - | - | string | Title
-| theme | orange | orange, blue | string | Border color
+| data | - | - | object | Request data
+| facts | - | - | string | Indicator request data
 
 
 
