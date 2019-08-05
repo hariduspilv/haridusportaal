@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from "@angular/core";
 import { HttpService } from "@app/_services/httpService";
 
 @Component({
