@@ -320,13 +320,14 @@ class xJsonService implements xJsonServiceInterface {
 
     public function mergeElementValue ($element_def, $value) {
         $element_type = $element_def['type'];
+        $element_title = $element_def['title']['etmi'];
 
         if ($element_type === 'table' ) {
             $element_column_keys = array_keys($element_def['table_columns']);
             foreach ($value['value'] as $item) {
                 foreach ($item as $table_key => $element) {
                     if (!in_array($table_key, $element_column_keys)) {
-                        throw new HttpException('400', "$table_key missing from table definition");
+                        throw new HttpException('400', "$table_key missing from table $element_title definition");
                     }
                 }
             }
