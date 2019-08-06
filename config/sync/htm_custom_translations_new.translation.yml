@@ -828,6 +828,10 @@ xjson:
     translation_type: textarea
     et: 'Muuda andmeid'
     en: ''
+  forms_title:
+    translation_type: textarea
+    et: Vormid
+    en: ''
 article:
   label:
     translation_type: textarea
