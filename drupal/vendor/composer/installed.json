@@ -13326,6 +13326,11 @@
         "name": "webflo/drupal-core-require-dev",
         "version": "8.7.5",
         "version_normalized": "8.7.5.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/webflo/drupal-core-require-dev.git",
+            "reference": "f2d22767efe8b6444676eafdd51a452088048747"
+        },
         "require": {
             "behat/mink": "1.7.x-dev",
             "behat/mink-goutte-driver": "^1.2",
