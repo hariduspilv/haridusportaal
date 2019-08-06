@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3d76848c4c86456c712f767d1e08ac8",
+    "content-hash": "73732b4ea6613391c9783b91c823a77f",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -2344,6 +2344,58 @@
             }
         },
         {
+            "name": "drupal/codesnippet",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/codesnippet.git",
+                "reference": "8.x-1.6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/codesnippet-8.x-1.6.zip",
+                "reference": "8.x-1.6",
+                "shasum": "cda07e671361defed098a8e82da0cd42c44d3970"
+            },
+            "require": {
+                "drupal/core": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.6",
+                    "datestamp": "1473688439",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0+"
+            ],
+            "authors": [
+                {
+                    "name": "Kevin Quillen (kevinquillen)",
+                    "homepage": "https://www.drupal.org/u/kevinquillen",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Adds the CodeSnippet plugin to CKEditor.",
+            "homepage": "http://drupal.org/project/codesnippet",
+            "keywords": [
+                "Drupal"
+            ],
+            "support": {
+                "source": "http://cgit.drupalcode.org/codesnippet",
+                "issues": "http://drupal.org/project/issues/codesnippet"
+            }
+        },
+        {
             "name": "drupal/computed_field",
             "version": "2.0.0",
             "source": {
@@ -3550,8 +3602,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/elasticsearch_connector_autocomp",
                 "issues": "https://www.drupal.org/project/issues/elasticsearch_connector_autocomp"
-            },
-            "time": "2019-07-16T05:22:20+00:00"
+            }
         },
         {
             "name": "drupal/embed",
@@ -4057,7 +4108,8 @@
             "homepage": "https://github.com/drupal-graphql/graphql-metatag",
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql_metatag"
-            }
+            },
+            "time": "2018-06-13T18:24:32+00:00"
         },
         {
             "name": "drupal/hms_field",
