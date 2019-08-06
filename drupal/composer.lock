@@ -3550,8 +3550,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/elasticsearch_connector_autocomp",
                 "issues": "https://www.drupal.org/project/issues/elasticsearch_connector_autocomp"
-            },
-            "time": "2019-07-16T05:22:20+00:00"
+            }
         },
         {
             "name": "drupal/embed",
@@ -4057,7 +4056,8 @@
             "homepage": "https://github.com/drupal-graphql/graphql-metatag",
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql_metatag"
-            }
+            },
+            "time": "2018-06-13T18:24:32+00:00"
         },
         {
             "name": "drupal/hms_field",
@@ -13306,6 +13306,11 @@
         {
             "name": "webflo/drupal-core-require-dev",
             "version": "8.7.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/webflo/drupal-core-require-dev.git",
+                "reference": "f2d22767efe8b6444676eafdd51a452088048747"
+            },
             "require": {
                 "behat/mink": "1.7.x-dev",
                 "behat/mink-goutte-driver": "^1.2",
