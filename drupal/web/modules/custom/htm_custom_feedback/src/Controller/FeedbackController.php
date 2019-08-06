@@ -52,14 +52,20 @@ class FeedbackController extends ControllerBase {
 
     $processed = [];
     $new_items = [];
+
+    #sort items by created date
+    usort($items, function($a, $b)
+    {
+      return strcmp($b->created, $a->created);
+    });
+
     foreach($items as $item){
       if(!in_array($item->id, $processed)){
-        $item->created = date('d.m.Y H:i');
+        $item->created = date('d.m.Y H:i', $item->created);
         $new_items[] = (array) $item;
       }
       $processed[] = $item->id;
     }
-
 
     $csv = Writer::createFromFileObject(new \SplTempFileObject());
     $csv->setDelimiter(';');

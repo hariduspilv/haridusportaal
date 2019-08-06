@@ -1,0 +1,13 @@
+name: CKEditor CodeSnippet
+type: module
+description: "Adds the CodeSnippet plugin to CKEditor."
+package: Other
+# core: 8.x
+
+dependencies:
+  - ckeditor
+# Information added by Drupal.org packaging script on 2016-09-12
+version: '8.x-1.6'
+core: '8.x'
+project: 'codesnippet'
+datestamp: 1473688440
