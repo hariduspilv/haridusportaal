@@ -1,4 +1,4 @@
-<ng-container *ngFor="let indicator of data; let last = last;">
+<ng-container *ngFor="let indicator of entitiesData; let last = last;">
   
   <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
 		<h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
@@ -6,8 +6,8 @@
 		</h2>
 		<div>{{ 'oska.compared_to_other_professions' | translate }}</div>
 		<div class="list">
-			<img alt="icon" *ngFor="let item of arrayOfLength(indicator.icon)" src="/assets/img/person_filled.svg" />
-			<img alt="icon" *ngFor="let elem of arrayOfLength(11 - indicator.icon)" src="/assets/img/person.svg" />
+			<img alt="icon" *ngFor="let item of createArr(indicator.icon)" src="/assets/img/person_filled.svg" />
+			<img alt="icon" *ngFor="let elem of createArr(11 - indicator.icon)" src="/assets/img/person.svg" />
 		</div>
 		<hr aria-hidden="true" *ngIf="!last">
   </ng-container>
@@ -35,9 +35,9 @@
       <span class="label__tag">{{'label.average' | translate}}</span>
     </div>
     <div class="list label__tag--pointer">
-      <div *ngFor="let item of arrayOfLength((indicator.icon - (indicator.icon % 2)) / 2)"><img alt="icon" src="/assets/img/coin_full.svg" /></div>
-      <div *ngFor="let item of arrayOfLength(indicator.icon % 2)" ><img alt="icon" src="/assets/img/coin_half.svg" /></div>
-      <div *ngFor="let elem of arrayOfLength((20 - indicator.icon) / 2)" ><img alt="icon" src="/assets/img/coin.svg" /></div>
+      <div *ngFor="let item of createArr((indicator.icon - (indicator.icon % 2)) / 2)"><img alt="icon" src="/assets/img/coin_full.svg" /></div>
+      <div *ngFor="let item of createArr(indicator.icon % 2)" ><img alt="icon" src="/assets/img/coin_half.svg" /></div>
+      <div *ngFor="let elem of createArr((20 - indicator.icon) / 2)" ><img alt="icon" src="/assets/img/coin.svg" /></div>
     </div>
     <hr aria-hidden="true" *ngIf="!last">
   </ng-container>

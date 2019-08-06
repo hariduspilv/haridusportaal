@@ -99,41 +99,6 @@ export const data = {
       "Miinus 1",
       "Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Majandusministeeriumis ekspeks"
     ],
-    "fieldIscedfSearchLink": {
-      "entity": {
-        "iscedf_detailed": [
-          {
-            "entity": {
-              "entityId": "3178",
-              "entityLabel": "Ajakirjandus ja teave"
-            }
-          }
-        ],
-        "fieldLevel": [
-          {
-            "entity": {
-              "entityId": "1289",
-              "entityLabel": "Bakalaureuseõpe"
-            }
-          },
-          {
-            "entity": {
-              "entityId": "1290",
-              "entityLabel": "Magistriõpe"
-            }
-          }
-        ]
-      }
-    },
-    "fieldJobOpportunities": [
-      {
-        "url": {
-          "path": "/uudised",
-          "routed": true
-        },
-        "title": "Lingi tekst"
-      }
-    ],
     "fieldQualificationStandard": [
       {
         "url": {
@@ -207,36 +172,154 @@ export const data = {
             "zoom": null
           }
         }
-      }
-    ]
-  }
-}
-
-export const facts = {
-  "entities": [
-    {
-      "oskaId": 1,
-      "oskaIndicator": "Hõivatute arv",
-      "value": "450",
-      "icon": 4
+      },
+    ],
+    // Second map
+    "fieldEventLocation": {
+      "name": "Raekoja plats 1",
+      "lat": "59.437182",
+      "lon": "24.7450143",
+      "zoom": "9"
     },
-    {
-      "oskaId": 2,
-      "oskaIndicator": "Hõive muutus",
-      "value": "1",
-      "icon": 5
+    "reverseOskaMainProfessionOskaFillingBarEntity": {
+      "entities": [
+        {
+          "value": "4"
+        }
+      ]
     },
-    {
-      "oskaId": 3,
-      "oskaIndicator": "Brutopalk",
-      "value": "7500",
-      "icon": 1
+    "reverseOskaMainProfessionOskaIndicatorEntity": {
+      "entities": [
+        {
+          "oskaId": 1,
+          "oskaIndicator": "Hõivatute arv",
+          "value": "450",
+          "icon": 4
+        },
+        {
+          "oskaId": 2,
+          "oskaIndicator": "Hõive muutus",
+          "value": "1",
+          "icon": 5
+        },
+        {
+          "oskaId": 3,
+          "oskaIndicator": "Brutopalk",
+          "value": "7500",
+          "icon": 1
+        },
+        {
+          "oskaId": 4,
+          "oskaIndicator": "Töökohtade ja lõpetajate arvu võrdlus",
+          "value": "1",
+          "icon": 1
+        }
+      ]
     },
-    {
-      "oskaId": 4,
-      "oskaIndicator": "Töökohtade ja lõpetajate arvu võrdlus",
-      "value": "1",
-      "icon": 1
+    "fieldRegistration": {
+      "nid": 50563,
+      "entityLabel": "Testsündmus regamisega",
+      "RegistrationCount": 0,
+      "fieldMaxNumberOfParticipants": null,
+      "fieldEntryType": "register",
+      "fieldEventMainDate": {
+        "value": "2020-03-31",
+        "date": "2020-03-31 12:00:00 UTC",
+        "unix": "1585656000"
+      },
+      "fieldEventMainStartTime": null,
+      "fieldEventMainEndTime": null,
+      "fieldEventDate": [], // Extra dates
+      "fieldRegistrationDate": {
+        "entity": {
+          "fieldRegistrationFirstDate": {
+            "value": "2019-01-01",
+            "date": "2019-01-01 12:00:00 UTC",
+            "unix": "1546344000"
+          },
+          "fieldRegistrationLastDate": {
+            "value": "2020-04-30",
+            "date": "2020-04-30 12:00:00 UTC",
+            "unix": "1588248000"
+          }
+        }
+      },
+    },
+    "fieldRegistration2": {
+      "entityLabel": "Meeskonnatöö, tööalased suhted, töökultuur",
+      "nid": 10295,
+      "RegistrationCount": 0,
+      "fieldMaxNumberOfParticipants": 120,
+      "fieldEventMainDate": {
+        "value": "2018-08-01",
+        "date": "2018-08-01 12:00:00 UTC",
+        "unix": "1533124800"
+      },
+      "fieldEventMainEndDate": null,
+      "fieldEventMainStartTime": 3600,
+      "fieldEventMainEndTime": 84780,
+      "EventRegistrations": null,
+      "fieldOrganizer": "Firma nimi",
+      "fieldEventDate": [
+        {
+          "entity": {
+            "fieldEventDate": null,
+            "fieldEventStartTime": 39600,
+            "fieldEventEndTime": 61200
+          }
+        },
+        {
+          "entity": {
+            "fieldEventDate": null,
+            "fieldEventStartTime": 39600,
+            "fieldEventEndTime": 54000
+          }
+        },
+        {
+          "entity": {
+            "fieldEventDate": null,
+            "fieldEventStartTime": 36000,
+            "fieldEventEndTime": 39600
+          }
+        }
+      ],
+      "fieldEntryType": "invite",
+      "fieldRegistrationDate": null,
+      "fieldEventLink": [
+        {
+          "url": {
+            "routed": false,
+            "path": "http://htm.twn.ee/et/sundmused/meeskonnatoo-tooalased-suhted-tookultuur"
+          },
+          "title": "lingi tekst"
+        }
+      ],
+      "fieldDescription": {
+        "value": "<p>Lorem ipsum dolor sit amet, lorem ipsum dolor sit amet, lorem ipsum dolor sit amet, lorem ipsum dolor sit amet, lorem ipsum dolor sit amet, lorem ipsum dolor sit amet, lorem ipsum dolor sit amet.</p>\r\n"
+      },
+      "fieldDescriptionSummary": "See on sissejuhatus",
+      "fieldContactPerson": "Madis Kana",
+      "fieldContactPhone": "9995959595",
+      "fieldContactEmail": "tanel.tromp@twn.ee",
+      "fieldPracticalInformation": {
+        "value": "<p>See on praktiline informatsioon.&nbsp; See on praktiline informatsioon. See on praktiline informatsioon. See on praktiline informatsioon. See on praktiline informatsioon. See on praktiline informatsioon. See on praktiline informatsioon.</p>\r\n",
+        "format": "custom_editor",
+        "processed": "<p>See on praktiline informatsioon.  See on praktiline informatsioon. See on praktiline informatsioon. See on praktiline informatsioon. See on praktiline informatsioon. See on praktiline informatsioon. See on praktiline informatsioon.</p>"
+      },
+      "fieldEventGroup": {
+        "targetId": 1369
+      },
+      "fieldTag": [
+        {
+          "entity": null
+        }
+      ],
+      "fieldEventType": {
+        "entity": {
+          "entityLabel": "Konverents"
+        }
+      },
+      "fieldRegistrationUrl": null
     }
-  ]
+  }
 }

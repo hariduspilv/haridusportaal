@@ -11,6 +11,8 @@
         <sidebar-actions *ngSwitchCase="'actions'" [data]="mappedData[keyVal]"></sidebar-actions>
         <sidebar-location *ngSwitchCase="'location'" [data]="mappedData[keyVal]"></sidebar-location>
         <sidebar-facts *ngSwitchCase="'facts'" [data]="mappedData[keyVal]"></sidebar-facts>
+        <sidebar-progress *ngSwitchCase="'progress'" [data]="mappedData[keyVal]"></sidebar-progress>
+        <sidebar-register *ngSwitchCase="'register'" [data]="mappedData[keyVal]"></sidebar-register>
       </block-content>
     </block>
   </ng-container>

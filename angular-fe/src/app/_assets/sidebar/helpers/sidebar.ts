@@ -11,10 +11,11 @@ export const collection = {
   'prosCons': 'categories',
   'fieldAdditional': 'data',
   'fieldRegistration': 'register',
+  'fieldRegistration2': 'register',
   'fieldButton': 'actions',
   'fieldSchoolLocation': 'location',
-  'facts': 'facts',
-  // 'c': 'progress',
+  'reverseOskaMainProfessionOskaIndicatorEntity': 'facts',
+  'reverseOskaMainProfessionOskaFillingBarEntity': 'progress',
 }
 
 export const uniformTypes = {

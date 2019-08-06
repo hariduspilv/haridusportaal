@@ -5,8 +5,6 @@
 ```html
 <sidebar [data]="data"></sidebar>
 ```
-<!-- [facts]="facts" -->
-<!-- | facts | - | - | string | Indicator request data -->
 
 ## Sidebar properties
 
@@ -32,6 +30,13 @@ const data = {
       "title": "Lingi tekst"
     }
   ],
+  "reverseOskaMainProfessionOskaFillingBarEntity": {
+    "entities": [
+      {
+        "value": "4"
+      }
+    ]
+  },
 }
 ```
 

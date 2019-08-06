@@ -3,7 +3,7 @@ import { AssetsModule } from '@app/_assets';
 import { RouterTestingModule } from '@angular/router/testing';
 import sidebarMd from './sidebar.md';
 import { TranslateModule } from '@app/_modules/translate';
-import { data, facts } from './sidebar.data';
+import { data } from './sidebar.data';
 import {
   withKnobs,
   optionsKnob as options,
@@ -25,11 +25,10 @@ stories.add('Sidebar', () => {
   return {
     moduleMetadata,
     props: {
-      facts: facts.entities,
       data: data.entity,
     },
     template: `
-      <sidebar [data]="data" [facts]="facts"></sidebar>
+      <sidebar [data]="data"></sidebar>
     `,
   };
 },          {

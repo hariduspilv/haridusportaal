@@ -31,7 +31,8 @@ import { SlugifyPipe } from 'ngx-pipes';
 import { BaseLayout } from './base-layout';
 import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
-  SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent } from './sidebar';
+  SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
+  SidebarProgressComponent, SidebarRegisterComponent} from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { TruncatePipe } from '@app/_pipes/truncate.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber.pipe';
@@ -74,6 +75,8 @@ const declarations = [
   SidebarActionsComponent,
   SidebarFactsComponent,
   SidebarLocationComponent,
+  SidebarProgressComponent,
+  SidebarRegisterComponent,
   ProgressBarComponent,
 ];
 
