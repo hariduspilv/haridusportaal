@@ -27,6 +27,7 @@ settings:
             - Italic
             - Table
             - SpecialChar
+            - Blockquote
         -
           name: Lists
           items:

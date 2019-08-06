@@ -484,6 +484,15 @@ display:
           admin_label: 'admin feedback score'
           required: false
           plugin_id: standard
+        feedback_nid:
+          id: feedback_nid
+          table: htm_custom_feedback_score
+          field: feedback_nid
+          relationship: none
+          group_type: group
+          admin_label: 'admin feedback'
+          required: false
+          plugin_id: standard
       arguments: {  }
       display_extenders: {  }
     cache_metadata:
