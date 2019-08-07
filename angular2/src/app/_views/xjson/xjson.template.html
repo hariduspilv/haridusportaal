@@ -533,7 +533,9 @@
                                               <input *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay" class="contnent-input" type="text" matInput
                                               [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                              [(ngModel)]="temporaryModel[element][col][rowIndex]" [name]="element + '_' + rowIndex + '_' + colIndex"
+                                              [(ngModel)]="temporaryModel[element][col][rowIndex]" 
+                                              [value] = "temporaryModel[element][col][rowIndex]"
+                                              [name]="element + '_' + rowIndex + '_' + colIndex"
                                               (ngModelChange)="addressAutocomplete(temporaryModel[element][col][rowIndex], 300, element, false, col, rowIndex, true)"
                                               (focus)="addressFieldFocus = true" (blur)="validateInAdsFieldTable(element, col, rowIndex)"
                                               [matAutocomplete]="autoAddress">

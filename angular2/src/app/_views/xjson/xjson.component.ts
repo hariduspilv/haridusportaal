@@ -17,8 +17,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import * as _moment from 'moment';
 const moment = _moment;
-import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material';
-import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MAT_DATE_FORMATS } from '@angular/material';
 
 
 const XJSON_DATEPICKER_FORMAT = {
@@ -142,17 +141,26 @@ export class XjsonComponent implements OnInit, OnDestroy {
       } else if (data_elements[element].type === 'table') {
         Object.keys(data_elements[element].table_columns).forEach(tableElement => {
           if (data_elements[element].table_columns[tableElement].type === 'address') {
-            if (typeof data_elements[element].table_columns[tableElement].value === 'object') {
-              if (data_elements[element].table_columns[tableElement].value.addressHumanReadable) {
-                this.autoCompleteContainer[element][tableElement] = [data_elements[element].table_columns[tableElement].value];
-                this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value.addressHumanReadable));
+            if (Array.isArray(data_elements[element].value)) {
+              data_elements[element].value.forEach((rowValue, row) => {
 
-              } else {
-                data_elements[element].table_columns[tableElement].value = null;
-              }
-            } else if (typeof data_elements[element].table_columns[tableElement].value === 'string') {
-              this.temporaryModel[element][tableElement] = JSON.parse(JSON.stringify(data_elements[element].table_columns[tableElement].value));
-              this.addressAutocomplete(data_elements[element].table_columns[tableElement].value, 0, tableElement, true);
+                if (rowValue[tableElement].adsOid) {
+                  const addressValue = {
+                    [row]: rowValue[tableElement].addressHumanReadable
+                  };
+                  if (!this.temporaryModel[element] && !this.autoCompleteContainer[element]) {
+                    this.temporaryModel[element] = {
+                      [tableElement]: addressValue
+                    };
+                    this.autoCompleteContainer[element] = {
+                      [tableElement]: addressValue
+                    };
+                  } else {
+                    this.autoCompleteContainer[element][tableElement] = { ...this.autoCompleteContainer[element][tableElement], ...addressValue };
+                    this.temporaryModel[element][tableElement] = { ...this.temporaryModel[element][tableElement], ...addressValue };
+                  }
+                }
+              });
             }
           }
         });
@@ -209,7 +217,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     } else {
       this.data_elements[element].value[row][column] = this.inAdsFormatValue(match);
     }
-
   }
 
   addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false, col: string = '', row: number = 0, table: boolean = false) {
@@ -224,9 +231,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     const _this = this;
 
-    const limit = table ? this.data_elements[element].value[row][col] !== null ? this.data_elements[element].value[row][col].results : 10 : this.data_elements[element].results || 10;
-    const ihist = table ? this.data_elements[element].value[row][col] !== null ? this.data_elements[element].value[row][col].ihist : 0 : this.data_elements[element].ihist || 0;
-    const apartment = table ? this.data_elements[element].value[row][col] !== null ? this.data_elements[element].value[row][col].results : 0 : this.data_elements[element].results || 0;
+    const limit = table ? this.data_elements[element].value[row][col] && this.data_elements[element].value[row][col].results != null ? this.data_elements[element].value[row][col].results : 10 : this.data_elements[element].results || 10;
+    const ihist = table ? this.data_elements[element].value[row][col] && this.data_elements[element].value[row][col].ihist != null ? this.data_elements[element].value[row][col].ihist : 0 : this.data_elements[element].ihist || 0;
+    const apartment = table ? this.data_elements[element].value[row][col] && this.data_elements[element].value[row][col].appartment != null ? this.data_elements[element].value[row][col].appartment : 0 : this.data_elements[element].appartment || 0;
 
     this.autocompleteDebouncer[index] = setTimeout(function () {
       _this.autocompleteLoader = true;
@@ -241,9 +248,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (!table) {
           _this.autocompleteLoader = false;
           _this.autoCompleteContainer[element] = data['addresses'] || [];
-  
+
           _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
-  
+
           _this.autoCompleteContainer[element].forEach(address => {
             if (address.kort_nr) {
               address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
@@ -259,7 +266,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
               [row]: data['addresses'] || []
             }
           };
-  
+
           _this.autoCompleteContainer[element][col][row] = _this.autoCompleteContainer[element][col][row].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
 
           _this.autoCompleteContainer[element][col][row].forEach(address => {
@@ -424,18 +431,18 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (file_size > size_limit) {
       this.error[element] = { valid: false, message: this.translate.get('xjson.exceed_file_limit')['value'] };
       files.shift();
-      if ( files.length > 0 ) {
+      if (files.length > 0) {
         this.uploadFile(files, element);
       } else {
         this.fileLoading[element] = false;
         return;
       }
     }
-​
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
-​
+
       const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
       const payload = {
         file: reader.result.toString().split(',')[1],
@@ -444,14 +451,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
       };
       const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
         this.fileLoading[element] = true;
-​
+
         const new_file = {
           file_name: file.name,
           file_identifier: response['id']
         };
         model.value.push(new_file);
         files.shift();
-        if ( files.length > 0 ) {
+        if (files.length > 0) {
           this.uploadFile(files, element);
         } else {
           this.fileLoading[element] = false;
@@ -460,7 +467,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       });
     };
   }
-​
+
   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
     if (this.error[element]) {
@@ -469,7 +476,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     e.preventDefault();
     const files_input = e.target.files || e.dataTransfer.files;
     const files = Object.keys(files_input).map(item => files_input[item]);
-​
+
     if (files && files.length > 0) {
       this.uploadFile(files, element);
     }
@@ -487,7 +494,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return this.data_elements[element].table_columns[this.tableColumnName(element, index)][attribute];
   }
 
-  tableAddRow(element): void {
+  tableAddRow(element) {
     const table = this.data_elements[element];
     const newRow = {};
 
@@ -531,6 +538,23 @@ export class XjsonComponent implements OnInit, OnDestroy {
         const validation = this.tableValidation(this.data_elements[element]);
         if (validation.valid !== true) {
           this.error[element] = validation;
+        }
+        if (this.temporaryModel[element]) {
+          for (const column in this.temporaryModel[element]) {
+            if (this.temporaryModel[element][column][rowIndex]) {
+              delete this.temporaryModel[element][column][rowIndex];
+              let rowNr = 0;
+              for (const row in this.temporaryModel[element][column]) {
+                this.temporaryModel[element][column][rowNr] = this.temporaryModel[element][column][row];
+                this.autoCompleteContainer[element][column][rowNr] = this.autoCompleteContainer[element][column][row];
+                if (parseInt(row) !== rowNr) {
+                  delete this.temporaryModel[element][column][row];
+                  delete this.autoCompleteContainer[element][column][row];
+                }
+                rowNr++;
+              }
+            }
+          }
         }
       }
       this.dialogRef = null;
@@ -697,9 +721,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
           break;
         }
       }
-    }
-    if (Object.keys(this.error).length > 0 ) {
-
     }
   }
 
