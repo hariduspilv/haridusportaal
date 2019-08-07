@@ -740,7 +740,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (this.test === true) {
           this.promptDebugDialog(payload);
         } else {
-          this.temporaryModel = {};
           this.getData(payload);
         }
       } else {
