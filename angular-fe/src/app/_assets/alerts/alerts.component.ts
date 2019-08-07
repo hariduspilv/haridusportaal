@@ -5,7 +5,7 @@ import {
   Input,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import AlertsService, { Alert } from '../../_services/AlertsService';
+import { AlertsService, Alert } from '../../_services/AlertsService';
 
 enum AlertIcon {
   'warning' = 'alert-circle',

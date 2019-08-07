@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
@@ -23,6 +23,7 @@
     "@angular/platform-browser-dynamic": "~8.0.1",
     "@angular/router": "~8.0.1",
     "@ng-bootstrap/ng-bootstrap": "^5.1.0",
+    "@ng-select/ng-select": "^3.0.5",
     "moment": "^2.24.0",
     "ngx-embed-video": "^1.0.4",
     "ngx-pipes": "^2.5.6",

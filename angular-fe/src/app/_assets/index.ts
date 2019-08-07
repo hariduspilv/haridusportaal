@@ -15,24 +15,20 @@ import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { TableComponent } from './table';
 import { AlertsComponent } from './alerts';
-import AlertsService from '@app/_services/AlertsService';
 import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
-import { RippleService } from '@app/_services';
+import { RippleService, NgbDateCustomParserFormatter, AlertsService } from '@app/_services';
 import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
-import { SlugifyPipe } from 'ngx-pipes';
+import { NgPipesModule } from 'ngx-pipes';
 import { FormItemComponent } from './formItem';
-import { NgbDateCustomParserFormatter } from '@app/_services/ngbDateParser';
-
-const pipes = [
-  SlugifyPipe,
-];
+import { RippleDirective } from '@app/_directives/rippleDirective';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 const declarations = [
   BlockComponent,
@@ -55,6 +51,7 @@ const declarations = [
   SidemenuItemComponent,
   HeaderComponent,
   FormItemComponent,
+  RippleDirective,
 ];
 
 const exports = [
@@ -70,13 +67,15 @@ const providers = [
 
 @NgModule({
   providers,
-  declarations: [...declarations, ...pipes],
+  declarations: [...declarations],
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
     FormsModule,
     NgbModule,
+    NgPipesModule,
+    NgSelectModule,
   ],
   exports: [...declarations, ...exports],
 })

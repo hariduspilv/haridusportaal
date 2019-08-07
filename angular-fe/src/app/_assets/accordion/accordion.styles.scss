@@ -24,8 +24,10 @@
 			&:hover {
         border-left-color: $light-blue;
         .accordion__indicator{
+          pointer-events: none;
           background:$blue;
           color:$white;
+          z-index: 2;
         }
 			}
 		}

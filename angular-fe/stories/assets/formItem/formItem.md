@@ -1,9 +1,14 @@
-# Feedback
+# Form item
 
 ## Usage
 
 ```html
-<feedback nid="48788"></feedback>
+<formItem
+  type="text"
+  placeholder="Start typing"
+  [(ngModel)]="modelName"
+  title="First name"
+></formItem>
 ```
 
 ## Properties

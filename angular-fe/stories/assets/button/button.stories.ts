@@ -35,7 +35,6 @@ stories.add('Button', () => {
     },
     template: `
     <button htm-button [theme]="theme">Nupp</button>
-
     `,
   };
 },          {

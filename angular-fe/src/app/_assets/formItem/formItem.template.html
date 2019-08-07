@@ -2,6 +2,7 @@
 <ng-container [ngSwitch]="type">
   <ng-container *ngSwitchCase="'text'">
     <input
+      [class.hideText]="!filledField"
       [attr.placeholder]="filledField ? placeholder : ''"
       [class.focused]="focused"
       #inputField
@@ -14,22 +15,28 @@
 
   <ng-container *ngSwitchCase="'date'">
     <input
+      [class.hideText]="!filledField"
       ngbDatepicker #d="ngbDatepicker"
+      outsideDays="collapsed"
       [attr.placeholder]="filledField ? placeholder : ''"
       [class.focused]="focused"
       #inputField
       type="text"
       (dateSelect)="update('datepicker')"
-      (closed)="update('datepicker')"
+      (closed)="update('datepicker'); focused = false;"
       (change)="update()"
       (focus)="update('focus')"
       (blur)="update('blur')"
       [(ngModel)]="dateField" />
-    <button class="btn btn-outline-secondary calendar" (click)="d.toggle()" type="button">Toggle datepicker</button>
+    <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" ripple="dark">
+      <icon glyph="calendar"></icon>
+    </button>
   </ng-container>
 
   <ng-container *ngSwitchCase="'textarea'">
     <textarea
+      [class.hideText]="!filledField"
+      [attr.placeholder]="filledField ? placeholder : ''"
       [class.focused]="focused"
       #inputField
       type="text"
@@ -40,8 +47,25 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'select'">
+    <ng-select
+      [items]="options"
+      [multiple]="true"
+      bindLabel="key"
+      [closeOnSelect]="false"
+      bindValue="value"
+      (change)="update()"
+      (open)="update('focus')"
+      (close)="update('blur')"
+      [(ngModel)]="field">
+      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+        <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"/> {{item.key}}
+      </ng-template>
+    </ng-select>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'select2'">
     <select
-      [class.hideOption]="!filledField"
+      [class.hideText]="!filledField"
       [class.focused]="focused"
       #inputField
       type="text"
@@ -58,6 +82,7 @@
   
   <ng-container *ngSwitchDefault>
     <select
+      [class.hideText]="!filledField"
       [class.focused]="focused"
       #inputField
       type="text"

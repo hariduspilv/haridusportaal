@@ -4,9 +4,14 @@
 	.formItem {
     display: block;
     position: relative;
+    z-index: 1;
     &+.formItem{
       margin-top:20px;
     }
+    &--focused{
+      z-index: 10;
+    }
+   
 		& > input, & > textarea, & > select {
       display: block;
       width: 100%;
@@ -17,14 +22,16 @@
 			border-radius: 20px;
 			height: 40px;
 			line-height: 40px;
-      color: $dark-gray;
+      color: $black;
       font-size: 14px;
-      transition:border-color 0.25s;
-      will-change:border-clor;
+      z-index: 0;
+      transition:border-color 0.25s, color 0.25s;
+      will-change:border-clor, color;
+      outline: none;
       &.focused{
         border-color: $blue;
       }
-      &.hideOption{
+      &.hideText{
         color:white;
       }
     }
@@ -35,10 +42,10 @@
       padding-top:8px;
       padding-bottom:8px;
     }
-    
     &__title{
       position: absolute;
       padding:0 8px;
+      z-index: 10;
       color: $dark-gray;
       font-size: 14px;
       line-height: 14px;
@@ -46,22 +53,144 @@
       left: 8px;
       pointer-events: none;
       transition: all 0.25s;
-      background: $white;
+      background: transparent;
       will-change: top, left, color, font-size;
+
       &--top{
         top:-7px;
         left: 24px;
         color: $black;
         font-size: 12px;
+        background: $white;
       }
       &.focused{
         color: $blue;
       }
     }
 
-    ngb-datepicker{
-      z-index: 2;
-      background: $white;
+    &__icon{
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 100%;
+      appearance: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      border:none;
+      background:none;
+      cursor: pointer;
+      color: $error;
+      align-items: center;
+      justify-content: center;
+      width:2.5rem;
+      overflow: hidden;
+      border-radius:2.5rem;
+      .icon{
+        margin-top:-2px;
+        font-size:22px;
+      }
     }
-	}
+    &__icon *{
+      pointer-events: none;
+    }
+
+  }
+  
+  ngb-datepicker{
+    box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+    z-index: 2;
+    background: $white;
+    border-radius:4px;
+    width:340px;
+    .ngb-dp-header{
+      background: none;
+      padding:20px 0 10px 0;
+    }
+    .ngb-dp-month{
+      width: 100%;
+    }
+    .ngb-dp-week{
+      margin: 0 0 10px 0;
+    }
+    .ngb-dp-weekday{
+      font-style: normal;
+      font-size:12px;
+      color: $dark-gray;
+    }
+    .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday{
+      flex-grow: 1;
+    }
+    .ngb-dp-arrow{
+      flex-grow: 0;
+      width:40px;
+      .btn{
+        width: 40px;
+        height:40px;
+        cursor: pointer;
+        margin-top:-2px;
+      }
+    }
+    .ngb-dp-day{
+      text-align: center;
+      font-size:13px;
+      &:hover{
+        .btn-light{
+          background:rgba(0,0,0,.04);
+        }
+      }
+      .btn-light{
+        width:36px;
+        height:36px;
+        line-height:34px;
+        border-radius: 36px;
+        border:transparent 1px solid;
+        display: inline-block;
+      }
+      .bg-primary{
+        background: $blue;
+        color: $white;
+      }
+    }
+    .ngb-dp-today{
+      .btn-light{
+        border-color:rgba(0,0,0,.38);
+      }
+    }
+    select{
+      display: block;
+      width: 100%;
+			appearance: none;
+			border: $gray 1px solid;
+			padding: 0 16px !important;
+			font-family: Rubik, Arial, Helvetica, sans-serif;
+			border-radius: 20px;
+			height: 40px !important;
+			line-height: 38px;
+      color: $black;
+      font-size: 14px;
+      transition:border-color 0.25s, color 0.25s;
+      will-change:border-clor, color;
+      text-transform: capitalize;
+      background:url(assets/img/chevron-down.svg);
+      background-size:24px;
+      background-position: right 10px center;
+      background-repeat: no-repeat;
+      flex-grow: 0;
+      width:90px;
+      &:first-of-type{
+        width: 140px;
+      }
+      &:after{
+        content: '';
+        display:block;
+        width: 10px;
+        height:10px;
+        background:red;
+      }
+      &+select{
+        margin-left: 16px;
+      }
+    }
+  }
 }

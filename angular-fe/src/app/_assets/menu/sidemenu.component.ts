@@ -10,7 +10,7 @@ import { RippleService } from '@app/_services';
   selector: 'sidemenu-item',
   styleUrls: ['./sidemenu.styles.scss'],
   template: `
-		<ng-container *ngIf="item.links.length === 0; else expandable">
+		<ng-container *ngIf="item['links'].length === 0; else expandable">
 			<a
 				*ngIf="item.url.path !== '#nolink'"
 				(mousedown)="animateRipple($event)"
@@ -30,7 +30,7 @@ import { RippleService } from '@app/_services';
 				<icon glyph="chevron-down" size="medium"></icon>
 			</button>
 			<ul id="{{item.label | slugify}}">
-				<li *ngFor="let item of item.links" (mousedown)="animateRipple($event)">
+				<li *ngFor="let item of item['links']" (mousedown)="animateRipple($event)">
 					<a
 						*ngIf="item.url.path !== '#nolink'"
 						class="sidemenu__link"
@@ -64,7 +64,7 @@ export class SidemenuItemComponent {
   styleUrls: ['./sidemenu.styles.scss'],
 })
 export class MenuComponent implements OnInit {
-  @Input() data = Object;
+  @Input() data: Object;
   @HostBinding('class') get hostClasses(): string {
     return 'sidemenu';
   }

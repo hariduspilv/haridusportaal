@@ -9,6 +9,7 @@ import {
 } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { RippleService } from '@app/_services';
 
 export interface FormItemOption {
   key: 'string';
@@ -18,7 +19,10 @@ export interface FormItemOption {
 @Component({
   selector: 'formItem',
   templateUrl: 'formItem.template.html',
-  styleUrls: ['formItem.styles.scss'],
+  styleUrls: [
+    'formItem.styles.scss',
+    'formItem.select.styles.scss',
+  ],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -47,16 +51,30 @@ export class FormItemComponent implements ControlValueAccessor, OnInit{
 
   constructor(
     private el: ElementRef,
+    private ripple: RippleService,
   ) {}
+
+  animateRipple($event) {
+    this.ripple.animate($event, 'dark');
+  }
+
+  dateString(dateField) {
+    const day = dateField.day < 10 ? `0${dateField.day}` : dateField.day;
+    const month = dateField.month < 10 ? `0${dateField.month}` : dateField.month;
+    const year = dateField.year;
+    return `${day}.${month}.${year}`;
+  }
+
+  focusField() {
+    this.filledField = true;
+    this.focused = true;
+  }
 
   update(action: string = '') {
 
     if (action === 'datepicker') {
       if (this.dateField && this.dateField.year) {
-        const day = this.dateField.day < 10 ? `0${this.dateField.day}` : this.dateField.day;
-        const month = this.dateField.month < 10 ? `0${this.dateField.month}` : this.dateField.month;
-        const year = this.dateField.year;
-        this.field = `${day}.${month}.${year}`;
+        this.field = this.dateString(this.dateField);
       }
     }
 
@@ -80,13 +98,26 @@ export class FormItemComponent implements ControlValueAccessor, OnInit{
               month: dateObj.month() + 1,
               day: dateObj.date(),
             };
+
+            this.field = this.dateString(this.dateField);
           }
         }
       }
 
-      this.focused = false;
+      if (action === 'blur') {
+        this.focused = false;
+      }
+
       this.dirty = true;
-      this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object');
+
+      if (this.type === 'select') {
+        this.filledField = this.field.length > 0;
+        if (this.focused) {
+          this.filledField = true;
+        }
+      } else {
+        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object');
+      }
     }
     this.propagateChange(this.field);
   }

@@ -9,7 +9,6 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
-import { RippleService } from '@app/_services';
 
 @Component({
   selector: 'block-content',
@@ -75,7 +74,6 @@ export class BlockComponent implements AfterContentInit{
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private ripple: RippleService,
   ) {}
 
   @HostBinding('class') get hostClasses(): string {
@@ -90,10 +88,6 @@ export class BlockComponent implements AfterContentInit{
 
   changeTab(title:string) {
     this.activeTab = title;
-  }
-
-  animateRipple($event) {
-    this.ripple.animate($event, 'dark');
   }
 
   selectTab(tab) {
