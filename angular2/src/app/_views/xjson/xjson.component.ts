@@ -166,6 +166,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         });
       }
     });
+    console.log(this.temporaryModel);
   }
 
   validateInAdsField(element) {
