@@ -1,0 +1,29 @@
+<ng-container *ngIf="options">
+  <agm-map (mapReady)="mapReady($event)"
+    [zoomControl]="options.zoomControl"
+    [streetViewControl]="options.streetViewControl"
+    [mapDraggable]="options.mapDraggable"
+    [zoom]="options.zoom"
+    [minZoom]="options.minZoom"
+    [maxZoom]="options.maxZoom"
+    [styles]="defaultMapStyles">
+    <agm-marker-cluster [styles]="defaultMapOptions.clusterStyles" *ngIf="markers && markers.length">
+      <agm-marker *ngFor="let marker of markers"
+        [latitude]="marker.latitude"
+        [longitude]="marker.longitude"
+        [iconUrl]="defaultMapOptions.icon">
+        <agm-snazzy-info-window *ngIf="marker.popup"
+          [closeWhenOthersOpen]="true">
+          <ng-template>
+            <p class="title">{{marker.popup.title}}</p>
+            <p>{{marker.popup.content}}</p>
+          </ng-template>  
+        </agm-snazzy-info-window>
+      </agm-marker>
+    </agm-marker-cluster>
+  </agm-map>
+  <a *ngIf="options.bottomAction" href="http://www.google.com/maps/place/{{ options.centerLat }},{{ options.centerLng }}" target="_blank">
+    <icon glyph="external-link" size="medium"></icon>
+    <span>{{'button.map_closer' | translate}}</span>
+  </a>
+</ng-container>

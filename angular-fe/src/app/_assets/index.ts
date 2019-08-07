@@ -36,6 +36,10 @@ import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
 import { ProgressBarComponent } from './progressBar';
 import { TruncatePipe } from '@app/_pipes/truncate.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber.pipe';
+import { MapComponent } from './map';
+import { AgmCoreModule } from '@agm/core';
+import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 const pipes = [
   SlugifyPipe,
@@ -78,6 +82,7 @@ const declarations = [
   SidebarProgressComponent,
   SidebarRegisterComponent,
   ProgressBarComponent,
+  MapComponent,
 ];
 
 const exports = [
@@ -101,6 +106,11 @@ const providers = [
     RouterModule,
     TranslateModule,
     FormsModule,
+    AgmJsMarkerClustererModule,
+    AgmCoreModule.forRoot({
+      apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
+    }),
+    AgmSnazzyInfoWindowModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })
