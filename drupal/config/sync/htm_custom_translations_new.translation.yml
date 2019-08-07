@@ -2888,3 +2888,11 @@ date:
     translation_type: textarea
     et: pp.kk.aaaa
     en: dd.mm.yyyy
+'Abitekst HP-183':
+  translation_type: text_format
+  et:
+    value: "<h3>Eesti hariduse infosüsteemist (EHIS) saab vaadata enda huvi-, alus-, üld-, kutse- või kõrghariduse andmeid.</h3>\r\n\r\n<p>EHISes näeb:</p>\r\n\r\n<ul>\r\n\t<li>isiku üldandmeid (ja saab kontrollida, kas on võimalik saada riigi tagatisel õppelaenu)</li>\r\n\t<li>õpingute andmeid</li>\r\n\t<li>õpetaja või õppejõuna töötamise andmeid.</li>\r\n</ul>\r\n\r\n<p><em>Lisaks kuvatakse pedagoogide omandatud tasemehariduse ja täienduskoolituse andmeid ning õppejõudude kvalifikatsiooni andmeid.</em></p>\r\n\r\n<p>EHISesse ei kanta välisriigi õppeasutustes omandatud hariduse või seal töötamise andmeid.</p>\r\n\r\n<p>Üld-, kutse- ja kõrghariduse õppurite ning üld- ja kutsehariduse õpetajate kohta on andmed alates 2005. aastast. Lisaks on toonasest õpilaste ja üliõpilaste registrist EHISesse üle kantud 1998.–2005. aasta kutsehariduse õpilaste ja kõrgkoolide üliõpilaste andmed.</p>\r\n\r\n<p>Üldhariduse lõpudokumentide andmed on registris alates 2004. aastast.</p>\r\n\r\n<p><strong>NB!</strong> EHISesse sisestavad andmeid õppeasutused. Kui andmed teie käimasolevate õpingute kohta on puudulikud või valed, pöörduge andmete täpsustamiseks enda õppeasutuse poole.</p>\r\n\r\n<p><a href=\"mailto:ehis.tugi@hm.ee\">ehis.tugi@hm.ee</a>&nbsp;või Eesti hariduse infosüsteemi (EHIS) kasutajatoe telefon <strong>765 5050 </strong>(E–R 9.00–16.00).</p>\r\n"
+    format: custom_editor
+  en:
+    value: ''
+    format: custom_editor
