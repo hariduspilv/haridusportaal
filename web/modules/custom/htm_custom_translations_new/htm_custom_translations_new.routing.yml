@@ -15,7 +15,7 @@ htm_custom_translations_new.add_translation:
     _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormAddTranslation'
     _title: 'Add new translation'
   requirements:
-    _permission: 'access content'
+    _permission: 'manage dynamic translations'
 
 htm_custom_translations_new.edit_translation:
   path: '/admin/config/htm_custom_translations_new/translation/edit/{translation_key}'
@@ -23,7 +23,7 @@ htm_custom_translations_new.edit_translation:
     _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormEditTranslation'
     _title: 'Edit translation'
   requirements:
-    _permission: 'access content'
+    _permission: 'manage dynamic translations'
 
 htm_custom_translations_new.delete_translation:
   path: '/admin/config/htm_custom_translations_new/translation/delete/{translation_key}'
@@ -31,12 +31,12 @@ htm_custom_translations_new.delete_translation:
     _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormDeleteTranslation'
     _title: 'Delete translation'
   requirements:
-    _permission: 'access content'
+    _permission: 'manage dynamic translations'
 htm_custom_translations_new.import_translation:
   path: '/admin/config/htm_custom_translations_new/translation/import'
   defaults:
     _form: '\Drupal\htm_custom_translations_new\Form\TranslationFormImport'
     _title: 'Import translation'
   requirements:
-    _permission: 'access content'
+    _permission: 'manage dynamic translations'
 
