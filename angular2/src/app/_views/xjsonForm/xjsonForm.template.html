@@ -1,14 +1,21 @@
 <div>
   <breadcrumbs></breadcrumbs>
 </div>
-<div class="xjson main-container">
+<div class="xjson main-container" id="xjsonMain">
   <div class="block padding-block border-blue">
     <div class="block__head">
       <div class="block__head__title">{{ 'xjson.forms_title' | translate | uppercase }}</div>
     </div>
     <!--/block__head-->
 
-    <loader *ngIf="!data"></loader>
+    <ng-container *ngIf="userLoggedOut && !loginError">
+      <re-captcha class="sm-hide" tabindex="-1" #captchaRef="reCaptcha" size="invisible"
+        siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" (resolved)="add($event);"></re-captcha>
+    </ng-container>
+
+    <notifications id="xjsonForm"></notifications>
+
+    <loader *ngIf="!data && !loginError"></loader>
 
     <ng-container *ngIf="data && view == 'document'">
 
