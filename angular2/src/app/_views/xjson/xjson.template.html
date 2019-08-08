@@ -303,7 +303,34 @@
                         <!--/squared-input__wrapper-->
                       </ng-container> <!-- /NUMBER -->
 
-                    <ng-container *ngIf="data_elements[element].type == 'address'">
+                      <ng-container *ngIf="data_elements[element].type == 'address'">
+                          <div class="squared-input__outer-wrapper">
+                            <div class="squared-input__wrapper"
+                              [class.complete]="temporaryModel[element] || opened_step != this.max_step">
+                              <span class="squared-input__title">
+                                {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
+                              </span>
+                              <div class="squared-input__field-wrapper">
+                                <input class="squared-input__field" type="text" matInput
+                                  [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                                  [(ngModel)]="temporaryModel[element]"
+                                  placeholder="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
+                                  (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
+                                  (focus)="addressFieldFocus = true" (blur)="validateInAdsField(element)" [name]="element"
+                                  [matAutocomplete]="autoAddress">
+                              </div>
+                            </div>
+                            <div class="helper-wrapper">
+                              <ng-container *ngIf="data_elements[element].helpertext">
+                                <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
+                                  matTooltipPosition="above">
+                                </span>
+                              </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                            </div>
+                          </div>
+                        </ng-container> <!-- /ADDRESS -->                      
+
+                    <ng-container *ngIf="data_elements[element].type == 'address2'">
                       <div class="squared-input__outer-wrapper">
                         <div class="squared-input__wrapper"
                           [class.complete]="temporaryModel[element] || opened_step != this.max_step">
