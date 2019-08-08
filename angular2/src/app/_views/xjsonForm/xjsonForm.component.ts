@@ -113,8 +113,8 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     if (_opened_step) {
 
       setTimeout(function () {
-        let step_navigation_container = document.getElementById('stepNavigation');
-        let opened_step_element = document.getElementById(_opened_step);
+        let step_navigation_container = document.getElementById('stepNavigation') ? document.getElementById('stepNavigation') : document.getElementById('xjsonMain');
+        let opened_step_element = document.getElementById(_opened_step) ? document.getElementById(_opened_step) : document.getElementById('xjsonMain');
 
         const parent_center = step_navigation_container.offsetWidth / 2;
         const button_center = opened_step_element.offsetWidth / 2;
@@ -446,8 +446,10 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
 
       subscription.unsubscribe();
     }, err => {
-      this.loginError = true;
-      this.notificationService.error(err.error, 'xjsonForm', false);
+      if (err.error === 'xjson.must_log_in') {
+        this.loginError = true;
+        this.notificationService.error(err.error, 'xjsonForm', false);
+      }
     });
 
   }
