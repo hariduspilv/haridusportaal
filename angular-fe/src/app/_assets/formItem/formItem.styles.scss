@@ -348,7 +348,7 @@
         display: inline-block;
       }
       .bg-primary{
-        background: $blue;
+        background: $blue !important;
         color: $white;
       }
     }

@@ -23,6 +23,7 @@
       height:2.5rem !important;
       border-radius: 1.25rem !important;
       box-shadow: none !important;
+      font-size:0.875rem;
     }
     &.ng-select-focused{
       .ng-select-container{
@@ -69,7 +70,7 @@
       margin-top: 0.3125rem !important;
       box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12) !important;
       .ng-option{
-        font-size:1rem !important;
+        font-size:1.125rem !important;
         padding: 1.1rem 1rem !important;
       }
       .ng-option:last-child{
