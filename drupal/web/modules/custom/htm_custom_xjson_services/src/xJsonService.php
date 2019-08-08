@@ -478,8 +478,6 @@ class xJsonService implements xJsonServiceInterface {
 
     protected function sortTableValues ($table_element) {
 
-      dump($table_element);
-
         $table_cols = array_keys($table_element['table_columns']);
         #dump($table_element['value']);
         if (is_array($table_element['value'])) {
