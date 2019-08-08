@@ -12,27 +12,76 @@
       z-index: 10;
     }
    
-		& > input, & > textarea, & > select {
-      display: block;
-      width: 100%;
-			appearance: none;
-			border: $gray 1px solid;
-			padding: 0 16px;
-			font-family: Rubik, Arial, Helvetica, sans-serif;
-			border-radius: 20px;
-			height: 40px;
-			line-height: 40px;
-      color: $black;
-      font-size: 14px;
-      z-index: 0;
-      transition:border-color 0.25s, color 0.25s;
-      will-change:border-clor, color;
-      outline: none;
-      &.focused{
-        border-color: $blue;
+    &--checkbox{
+      .formItem__title{display:none;}
+    }
+    &__wrapper{
+      position: relative;
+      & > input[type="text"], & > textarea, & > select {
+        display: block;
+        width: 100%;
+        appearance: none;
+        border: $gray 1px solid;
+        padding: 0 16px;
+        font-family: Rubik, Arial, Helvetica, sans-serif;
+        border-radius: 20px;
+        height: 40px;
+        line-height: 40px;
+        color: $black;
+        font-size: 14px;
+        z-index: 0;
+        transition:border-color 0.25s, color 0.25s;
+        will-change:border-clor, color;
+        outline: none;
+        &.focused{
+          border-color: $blue;
+        }
+        &.hideText{
+          color:white;
+        }
       }
-      &.hideText{
-        color:white;
+    }
+    &__staticTitle{
+      padding:0 0 10px 0;
+    }
+    &__error{
+      color: $error;
+      font-size:14px;
+      line-height:120%;
+      padding:5px 16px;
+    }
+    
+    &--error{
+      &>.formItem__wrapper{
+        & > input[type="text"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+          border-color:$error;
+        }
+        .ng-select .ng-select-container{
+          border-color: $error !important;
+        }
+      }
+      .formItem__title span{
+        color: $error !important;
+      }
+    }
+
+    &--success{
+      &>.formItem__wrapper{
+        & > input[type="text"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+          border-color:$success;
+        }
+        .ng-select .ng-select-container{
+          border-color: $success !important;
+        }
+      }
+      .formItem__title span{
+        color: $success !important;
+      }
+    }
+
+    &--checkbox, &--radio{
+      .formItem__error{
+        padding-left:0;
       }
     }
     textarea{
@@ -42,29 +91,180 @@
       padding-top:8px;
       padding-bottom:8px;
     }
+    &__check{
+      cursor: pointer;
+      display: flex;
+      padding-right:20px;
+      &.noPadding{
+        padding-right:0;
+      }
+      &__wrapper{
+        position: relative;
+        width: 18px;
+        height: 18px;
+        display: inline-block;
+        line-height:18px;
+        background: $white;
+        input{
+          position:absolute;
+          top:0;
+          left:0;
+          width: 100%;
+          height:100%;
+          cursor:pointer;
+          appearance: none;
+          border:none;
+          padding: 0;
+          margin:0;
+          z-index: 2;
+        }
+        input:checked + .formItem__check__indicator{
+          border-color: $blue;
+          icon {
+            opacity:1;
+            transform: translateY(0);
+          }
+        }
+        input:focus + .formItem__check__indicator{
+          border-color: $blue !important;
+        }
+      }
+      &__indicator{
+        position:absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height:100%;
+        border: $gray 1px solid;
+        border-radius:2px;
+        icon{
+          color: $blue;
+          margin-top:-1px;
+          display:block;
+          opacity:0;
+          transform: translateY(-2px);
+          transition:opacity 0.25s, transform 0.25s;
+        }
+      }
+      &__title{
+        display: inline-block;
+        font-size:14px;
+        padding-left: 10px;
+        line-height:18px;
+        vertical-align: top;
+      }
+    }
+
+    &__radio{
+      &+.formItem__radio{
+        margin-top:10px;
+      }
+      cursor: pointer;
+      display: flex;
+      padding-right:20px;
+      &.noPadding{
+        padding-right:0;
+      }
+      &__wrapper{
+        position: relative;
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        line-height:20px;
+        background: $white;
+        input{
+          position:absolute;
+          top:0;
+          left:0;
+          width: 100%;
+          height:100%;
+          cursor:pointer;
+          appearance: none;
+          border:none;
+          padding: 0;
+          margin:0;
+          z-index: 2;
+        }
+        input:checked + .formItem__radio__indicator{
+          border-color: $blue !important;
+          &:before{
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        input:focus + .formItem__radio__indicator{
+          border-color: $blue !important;
+        }
+      }
+      &__indicator{
+        position:absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height:100%;
+        border: $gray 1px solid;
+        border-radius:20px;
+        &:before{
+          display: block;
+          content: ' ';
+          position: absolute;
+          width: 14px;
+          height: 14px;
+          border-radius: 14px;
+          top:50%;
+          left: 50%;
+          margin:-7px 0 0 -7px;
+          background:$blue;
+          opacity: 0;
+          transform: scale(0.5);
+          transition:opacity 0.25s, transform 0.25s;
+          will-change: opacity, transform;
+        }
+      }
+      &__title{
+        display: inline-block;
+        font-size:14px;
+        padding-left: 10px;
+        line-height:18px;
+        vertical-align: top;
+      }
+    }
+
     &__title{
       position: absolute;
-      padding:0 8px;
+      top: 9px;
+      left: 0;
+      padding-left:8px;
       z-index: 10;
-      color: $dark-gray;
-      font-size: 14px;
-      line-height: 14px;
-      top: 14px;
-      left: 8px;
       pointer-events: none;
       transition: all 0.25s;
-      background: transparent;
       will-change: top, left, color, font-size;
+      span{
+        padding:0 8px;
+        color: $dark-gray;
+        font-size: 14px;
+        line-height: 14px;
+        transition: all 0.25s;
+        background: transparent;
+        will-change: top, left, color, font-size;
+        white-space: nowrap;
+        line-height:100%;
+        display: inline-block;
+      }
 
       &--top{
-        top:-7px;
-        left: 24px;
-        color: $black;
-        font-size: 12px;
-        background: $white;
+        top:-12px;
+        left: 16px;
+        span{
+          color: $black;
+          font-size: 12px;
+          background: $white;
+        }
       }
       &.focused{
-        color: $blue;
+        span{
+          color: $blue;
+        }
       }
     }
 

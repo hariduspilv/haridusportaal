@@ -6,6 +6,8 @@ import {
   OnInit,
   HostBinding,
   forwardRef,
+  OnChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -32,14 +34,25 @@ export interface FormItemOption {
   ],
 })
 
-export class FormItemComponent implements ControlValueAccessor, OnInit{
+export class FormItemComponent implements ControlValueAccessor, OnInit, OnChanges{
   @ContentChildren('#inputField') inputField: ElementRef;
   @Input() title: string = '';
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
+  @Input() label: string = '';
+  @Input() value: string = '';
+  @Input() staticTitle: string;
+  @Input() errorMessage: string = '';
+  @Input() error: boolean = false;
+  @Input() success: boolean = false;
+
   @Input() options: FormItemOption[] = [];
   @HostBinding('class') get hostClasses(): string {
-    return this.focused ? 'formItem formItem--focused' : 'formItem';
+    const errorClass = this.error ? 'formItem--error' : '';
+    const successClass = this.success ? 'formItem--success' : '';
+    return this.focused ?
+          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass}` :
+          `formItem formItem--${this.type} ${errorClass} ${successClass}`;
   }
 
   propagateChange = (_: any) => {};
@@ -52,6 +65,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit{
   constructor(
     private el: ElementRef,
     private ripple: RippleService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   animateRipple($event) {
@@ -70,8 +84,26 @@ export class FormItemComponent implements ControlValueAccessor, OnInit{
     this.focused = true;
   }
 
+  removeComma() {
+    setTimeout(
+      () => {
+        const values = this.el.nativeElement.querySelectorAll('.ng-value');
+        for (const item of values){
+          item.className = item.className.replace(/\slastItem/gi, '');
+        }
+        const lastValue = values[values.length - 1];
+        if (lastValue) {
+          lastValue.className = `${lastValue.className} lastItem`;
+        }
+      },
+      0);
+
+  }
   update(action: string = '') {
 
+    if (this.type === 'multi-select') {
+      this.removeComma();
+    }
     if (action === 'datepicker') {
       if (this.dateField && this.dateField.year) {
         this.field = this.dateString(this.dateField);
@@ -110,7 +142,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit{
 
       this.dirty = true;
 
-      if (this.type === 'select') {
+      if (this.type === 'select' || this.type === 'multi-select') {
         this.filledField = this.field.length > 0;
         if (this.focused) {
           this.filledField = true;
@@ -137,9 +169,17 @@ export class FormItemComponent implements ControlValueAccessor, OnInit{
   }
 
   checkInitialValue(): void {
-    if (this.type === 'select') {
+    if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
     }
+
+    if (this.type === 'multi-select') {
+      this.removeComma();
+    }
+  }
+
+  ngOnChanges() {
+    this.cdr.detectChanges();
   }
 
   ngOnInit() {

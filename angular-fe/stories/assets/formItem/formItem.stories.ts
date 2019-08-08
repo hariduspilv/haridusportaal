@@ -8,6 +8,11 @@ import localeEt from '@angular/common/locales/et';
 import { registerLocaleData } from '@angular/common';
 import { formItems } from './formItem.data';
 import templateHtml from './template.html';
+import {
+  withKnobs,
+  optionsKnob as options,
+  select,
+} from '@storybook/addon-knobs';
 
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -26,11 +31,24 @@ const moduleMetadata = {
 
 const stories = storiesOf('Assets', module);
 
+stories.addDecorator(withKnobs);
 stories.add('Form item', () => {
+  const status = select(
+    'Status',
+    {
+      Default: 'default',
+      Error: 'error',
+      Success: 'success',
+    },
+    'default',
+  );
+  const error = true;
   return {
     moduleMetadata,
     props: {
       formItems,
+      error,
+      status,
     },
     template: templateHtml,
   };
