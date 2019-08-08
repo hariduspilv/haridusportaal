@@ -18,6 +18,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import * as _moment from 'moment';
 const moment = _moment;
 import { MAT_DATE_FORMATS } from '@angular/material';
+import { AddressService } from '@app/_services';
 
 
 const XJSON_DATEPICKER_FORMAT = {
@@ -80,6 +81,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
   public autocompleteSubscription = {};
+  public fullAddressSubscription = {};
   public autocompleteLoader = true;
   public addressFieldFocus = false;
 
@@ -166,7 +168,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         });
       }
     });
-    console.log(this.temporaryModel);
   }
 
   validateInAdsField(element) {
