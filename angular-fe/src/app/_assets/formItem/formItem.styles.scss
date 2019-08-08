@@ -6,7 +6,7 @@
     position: relative;
     z-index: 1;
     &+.formItem{
-      margin-top:20px;
+      margin-top:1.25rem;
     }
     &--focused{
       z-index: 10;
@@ -22,13 +22,13 @@
         width: 100%;
         appearance: none;
         border: $gray 1px solid;
-        padding: 0 16px;
+        padding: 0 1rem;
         font-family: Rubik, Arial, Helvetica, sans-serif;
-        border-radius: 20px;
-        height: 40px;
-        line-height: 40px;
+        border-radius: 1.25rem;
+        height: 2.5rem;
+        line-height: 2.5rem;
         color: $black;
-        font-size: 14px;
+        font-size: 0.875rem;
         z-index: 0;
         transition:border-color 0.25s, color 0.25s;
         will-change:border-clor, color;
@@ -42,13 +42,13 @@
       }
     }
     &__staticTitle{
-      padding:0 0 10px 0;
+      padding:0 0 0.625rem 0;
     }
     &__error{
       color: $error;
-      font-size:14px;
+      font-size:0.875rem;
       line-height:120%;
-      padding:5px 16px;
+      padding:0.3125rem 1rem;
     }
     
     &--error{
@@ -85,25 +85,25 @@
       }
     }
     textarea{
-      height: 200px;
-      border-radius: 4px;
+      height: 12.5rem;
+      border-radius: 0.25rem;
       line-height: 150%;
-      padding-top:8px;
-      padding-bottom:8px;
+      padding-top:0.5rem;
+      padding-bottom:0.5rem;
     }
     &__check{
       cursor: pointer;
       display: flex;
-      padding-right:20px;
+      padding-right:1.25rem;
       &.noPadding{
         padding-right:0;
       }
       &__wrapper{
         position: relative;
-        width: 18px;
-        height: 18px;
+        width: 1.125rem;
+        height: 1.125rem;
         display: inline-block;
-        line-height:18px;
+        line-height:1.125rem;
         background: $white;
         input{
           position:absolute;
@@ -148,29 +148,29 @@
       }
       &__title{
         display: inline-block;
-        font-size:14px;
-        padding-left: 10px;
-        line-height:18px;
+        font-size:0.875rem;
+        padding-left: 0.625rem;
+        line-height:1.125rem;
         vertical-align: top;
       }
     }
 
     &__radio{
       &+.formItem__radio{
-        margin-top:10px;
+        margin-top:0.625rem;
       }
       cursor: pointer;
       display: flex;
-      padding-right:20px;
+      padding-right:1.25rem;
       &.noPadding{
         padding-right:0;
       }
       &__wrapper{
         position: relative;
-        width: 20px;
-        height: 20px;
+        width: 1.25rem;
+        height: 1.25rem;
         display: inline-block;
-        line-height:20px;
+        line-height:1.25rem;
         background: $white;
         input{
           position:absolute;
@@ -203,17 +203,17 @@
         width: 100%;
         height:100%;
         border: $gray 1px solid;
-        border-radius:20px;
+        border-radius:1.25rem;
         &:before{
           display: block;
           content: ' ';
           position: absolute;
-          width: 14px;
-          height: 14px;
-          border-radius: 14px;
+          width: 0.875rem;
+          height: 0.875rem;
+          border-radius: 0.875rem;
           top:50%;
           left: 50%;
-          margin:-7px 0 0 -7px;
+          margin:-0.4375rem 0 0 -0.4375rem;
           background:$blue;
           opacity: 0;
           transform: scale(0.5);
@@ -223,27 +223,27 @@
       }
       &__title{
         display: inline-block;
-        font-size:14px;
-        padding-left: 10px;
-        line-height:18px;
+        font-size:0.875rem;
+        padding-left: 0.625rem;
+        line-height:1.125rem;
         vertical-align: top;
       }
     }
 
     &__title{
       position: absolute;
-      top: 9px;
+      top: 0.5625rem;
       left: 0;
-      padding-left:8px;
+      padding-left:0.5rem;
       z-index: 10;
       pointer-events: none;
       transition: all 0.25s;
       will-change: top, left, color, font-size;
       span{
-        padding:0 8px;
+        padding:0 0.5rem;
         color: $dark-gray;
-        font-size: 14px;
-        line-height: 14px;
+        font-size: 0.875rem;
+        line-height: 0.875rem;
         transition: all 0.25s;
         background: transparent;
         will-change: top, left, color, font-size;
@@ -253,11 +253,11 @@
       }
 
       &--top{
-        top:-12px;
-        left: 16px;
+        top:-0.75rem;
+        left: 1rem;
         span{
           color: $black;
-          font-size: 12px;
+          font-size: 0.75rem;
           background: $white;
         }
       }
@@ -287,8 +287,8 @@
       overflow: hidden;
       border-radius:2.5rem;
       .icon{
-        margin-top:-2px;
-        font-size:22px;
+        margin-top:-0.125rem;
+        font-size:1.375rem;
       }
     }
     &__icon *{
@@ -301,21 +301,21 @@
     box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
     z-index: 2;
     background: $white;
-    border-radius:4px;
-    width:340px;
+    border-radius:0.25rem;
+    width:21.25rem;
     .ngb-dp-header{
       background: none;
-      padding:20px 0 10px 0;
+      padding:1.25rem 0 0.625rem 0;
     }
     .ngb-dp-month{
       width: 100%;
     }
     .ngb-dp-week{
-      margin: 0 0 10px 0;
+      margin: 0 0 0.625rem 0;
     }
     .ngb-dp-weekday{
       font-style: normal;
-      font-size:12px;
+      font-size:0.75rem;
       color: $dark-gray;
     }
     .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday{
@@ -323,27 +323,27 @@
     }
     .ngb-dp-arrow{
       flex-grow: 0;
-      width:40px;
+      width:2.5rem;
       .btn{
-        width: 40px;
-        height:40px;
+        width: 2.5rem;
+        height:2.5rem;
         cursor: pointer;
-        margin-top:-2px;
+        margin-top:-0.125rem;
       }
     }
     .ngb-dp-day{
       text-align: center;
-      font-size:13px;
+      font-size:0.8125rem;
       &:hover{
         .btn-light{
           background:rgba(0,0,0,.04);
         }
       }
       .btn-light{
-        width:36px;
-        height:36px;
-        line-height:34px;
-        border-radius: 36px;
+        width:2.25rem;
+        height:2.25rem;
+        line-height:2.125rem;
+        border-radius: 2.25rem;
         border:transparent 1px solid;
         display: inline-block;
       }
@@ -362,34 +362,34 @@
       width: 100%;
 			appearance: none;
 			border: $gray 1px solid;
-			padding: 0 16px !important;
+			padding: 0 1rem !important;
 			font-family: Rubik, Arial, Helvetica, sans-serif;
-			border-radius: 20px;
-			height: 40px !important;
-			line-height: 38px;
+			border-radius: 1.25rem;
+			height: 2.5rem !important;
+			line-height: 2.375rem;
       color: $black;
-      font-size: 14px;
+      font-size: 0.875rem;
       transition:border-color 0.25s, color 0.25s;
       will-change:border-clor, color;
       text-transform: capitalize;
       background:url(assets/img/chevron-down.svg);
-      background-size:24px;
-      background-position: right 10px center;
+      background-size:1.5rem;
+      background-position: right 0.625rem center;
       background-repeat: no-repeat;
       flex-grow: 0;
-      width:90px;
+      width:5.625rem;
       &:first-of-type{
-        width: 140px;
+        width: 8.75rem;
       }
       &:after{
         content: '';
         display:block;
-        width: 10px;
-        height:10px;
+        width: 0.625rem;
+        height:0.625rem;
         background:red;
       }
       &+select{
-        margin-left: 16px;
+        margin-left: 1rem;
       }
     }
   }
