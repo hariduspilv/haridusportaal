@@ -438,12 +438,12 @@ public class MtsysWorker extends Worker {
       stepZeroDataElementsNode.putObject("oppeTasemed").putArray("value");
       response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList().forEach(
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppeTasemed")
-              .get("value")).add(ehisKlassifikaator.getId().longValue()));
+              .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().longValue()));
 
       stepZeroDataElementsNode.putObject("oppekavaRuhmad").putArray("value");
       response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList().forEach(
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppekavaRuhmad")
-              .get("value")).add(ehisKlassifikaator.getId().longValue()));
+              .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().longValue()));
 
       stepZeroDataElementsNode.putObject("valisAadress")
           .put("value", response.getTegevusloaAndmed().getAadressid().getOnValismaa());
@@ -563,11 +563,11 @@ public class MtsysWorker extends Worker {
 
       response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList()
           .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppeTasemed").get("value"))
-              .add(item.getId().longValue()));
+              .addObject().put("nimetus", item.getId().longValue()));
 
       response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList()
           .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppekavaRuhmad").get("value"))
-              .add(item.getId().longValue()));
+              .addObject().put("nimetus", item.getId().longValue()));
 
       ((ObjectNode) stepAndmedDataElements.get("valisAadress"))
           .put("value", response.getTegevusloaAndmed().getAadressid().getOnValismaa());
@@ -777,7 +777,7 @@ public class MtsysWorker extends Worker {
       OppekavaOppetasemed oppetasemed = OppekavaOppetasemed.Factory.newInstance();
       dataObjectNode.get("oppeTasemed").get("value").forEach(item -> {
         EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
-        klf.setId(BigInteger.valueOf(item.asLong()));
+        klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
 //        klf.setOnKehtiv(true);
         oppetasemed.getOppekavaOppetaseList().add(klf);
       });
@@ -788,9 +788,9 @@ public class MtsysWorker extends Worker {
       Opperyhmad opperyhmad = Opperyhmad.Factory.newInstance();
       dataObjectNode.get("oppekavaRuhmad").get("value").forEach(item -> {
         EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
-        klf.setId(BigInteger.valueOf(item.asLong()));
-        klf.setNimetus(klfOppekavaRyhmad.get(item.asText()).get("et").asText());
-        klf.setOnKehtiv(klfOppekavaRyhmad.get(item.asText()).get("valid").asBoolean());
+        klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
+        klf.setNimetus(klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("et").asText());
+        klf.setOnKehtiv(klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("valid").asBoolean());
         opperyhmad.getOpperyhmList().add(klf);
       });
       taotlus.setOpperyhmad(opperyhmad);
