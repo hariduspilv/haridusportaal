@@ -24,6 +24,7 @@ stories.add('Button', () => {
       Default: 'default',
       Inverted: 'inverted',
       Plain: 'plain',
+      Icon: 'icon',
     },
     'default',
   );
@@ -34,7 +35,10 @@ stories.add('Button', () => {
       theme,
     },
     template: `
-    <button htm-button [theme]="theme">Nupp</button>
+    <button htm-button *ngIf="theme !== 'icon'" [theme]="theme">Nupp</button>
+    <button htm-button *ngIf="theme == 'icon'" [theme]="theme">
+      <icon glyph="x" size="medium"></icon>
+    </button>
     `,
   };
 },          {

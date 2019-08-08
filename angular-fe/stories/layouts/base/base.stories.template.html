@@ -1,0 +1,85 @@
+<base-layout>
+	<breadcrumbs [data]="breadcrumbsData"></breadcrumbs>
+	<block theme="orange" titleBorder="true">
+		<block-title>
+			Esimene plokk
+		</block-title>
+		<block-content>
+      <alerts small="true" [alerts]="plokk1Alerts" id="plokk1"></alerts>
+      <!-- h1>lorem7^p*3>lorem50^h2>lorem3^p*5>lorem29 -->
+      <h1>Lorem ipsum dolor sit amet consectetur adipisicing.</h1>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Doloribus, veniam. Similique aperiam enim ab placeat ad, distinctio doloribus dolores impedit odio. Illo esse, fugiat distinctio ab tempore magni error, pariatur eaque officia laboriosam placeat assumenda libero accusantium? Accusantium cumque delectus necessitatibus alias, consequatur eveniet fugit explicabo animi, impedit minima dolorum?</p>
+      <p>Perspiciatis ipsa ratione temporibus quaerat et porro molestias ea amet, nesciunt quibusdam quis libero at enim asperiores blanditiis expedita sapiente dolorum odio aliquid eum earum! Mollitia id asperiores molestiae temporibus ab sint dolorem inventore, obcaecati a suscipit quae at, vero officia voluptatum eaque eum enim nostrum. Repudiandae natus libero deserunt!</p>
+      <p>Quidem minima laudantium et aut dolor libero pariatur! Temporibus fuga veniam perferendis praesentium reiciendis voluptatum, iusto reprehenderit ipsam, ratione harum magni beatae laboriosam saepe pariatur, quasi totam facilis nobis! Assumenda perspiciatis cumque necessitatibus nostrum saepe, illo quis doloremque ratione nulla quasi, ipsum molestias eaque eveniet earum aspernatur impedit ut. Illo.</p>
+      <h2>Lorem, ipsum dolor.</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quod dicta quae dignissimos quasi laudantium nulla excepturi quaerat animi suscipit exercitationem recusandae est odio, non obcaecati tempore facilis beatae molestias.</p>
+      <p>In modi vel, quis magnam quas iusto voluptates eveniet veritatis dolores quam laudantium quae cumque quasi debitis commodi eaque nulla possimus consequuntur necessitatibus officia amet nihil aperiam aut! Blanditiis?</p>
+      <p>Itaque, veniam consequatur! Porro rem magnam numquam iste. Aspernatur commodi quibusdam iure vel expedita neque odio at, rerum eligendi minus totam maiores, ut ad odit. Unde ducimus reiciendis voluptas!</p>
+      <p>Quod ipsam ex aliquid, doloremque minima, similique sunt illum incidunt repellendus repellat odio atque magnam maxime recusandae beatae reiciendis fugit quisquam id enim et autem eaque voluptatibus. Culpa, molestiae.</p>
+      <p>Possimus, maxime magnam vel quam consequuntur laborum dolore. Corporis a aliquam quis excepturi blanditiis ea unde molestias beatae aut atque eaque, temporibus, deleniti dolor fugit aliquid voluptas, libero harum.</p>
+		</block-content>
+	</block>
+	<block titleBorder="true">
+		<block-title>
+			Mingi tähtis plokk
+		</block-title>
+		<block-content>
+      <alerts small="true" [alerts]="plokk2Alerts" id="plokk2"></alerts>
+			<accordion>
+				<accordion-item title="Akordioni pealkiri">
+					<h1>Akordionis heading1</h1>
+					<p>
+						Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quasi
+						obcaecati totam vitae distinctio. Perspiciatis dolor accusamus
+						fugiat sint suscipit eaque illo, debitis assumenda ipsum neque
+						corrupti dolorum explicabo tempora. Laboriosam.
+					</p>
+				</accordion-item>
+				<accordion-item title="Akordioni pealkiri 2">
+					<h1>Lorem ipsum dolor sit.</h1>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit.
+						Necessitatibus eveniet amet quam eius dolore hic, architecto natus
+						asperiores sunt?
+					</p>
+					<p>Lorem ipsum dolor sit.</p>
+					<p>
+						Lorem ipsum dolor sit amet consectetur adipisicing elit. Iure error
+						sapiente et, fuga suscipit cumque voluptatum, officiis reprehenderit
+						tempore blanditiis officia dignissimos ipsa perspiciatis,
+						consectetur pariatur perferendis aliquam excepturi inventore.Nihil
+						placeat libero vel tempora itaque tenetur porro veritatis vero iusto
+						quo possimus ratione officiis esse adipisci magni iure, quos sunt.
+						Suscipit autem, ab deleniti commodi deserunt id tempore soluta.
+					</p>
+				</accordion-item>
+			</accordion>
+		</block-content>
+  </block>
+  <block loading="true">
+    <block-title>
+      Laadiv plokk
+    </block-title>
+    <block-content></block-content>
+  </block>
+	<block>
+		<block-title>
+			Selle bloki sisu on video
+		</block-title>
+		<block-content>
+			<htm-video [videos]="videoData"></htm-video>
+		</block-content>
+	</block>
+	<block>
+		<block-title>
+			Siin on feedback ja tekst
+		</block-title>
+		<block-content>
+      <alerts small="true" [alerts]="plokk3Alerts" id="plokk3"></alerts>
+			<h1>Tere</h1>
+			<h2>Priit > Henri</h2>
+			<feedback nid="48788"></feedback>
+		</block-content>
+  </block>
+  <alerts global [alerts]="alertsData"></alerts>
+</base-layout>
