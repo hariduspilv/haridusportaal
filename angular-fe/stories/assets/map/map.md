@@ -15,8 +15,7 @@
 
 ```javascript
 const options: Object = {
-  name: 'Raekoja plats 1',
-  centerLat: 59.4371821,
+  centerLat: 59.4371821, // Uses EST center if not specified
   centerLng: 24.7450143,
   zoom: 11,
   maxZoom: 11,
@@ -24,16 +23,18 @@ const options: Object = {
   bottomAction: true,
   zoomControl: false,
   streetViewControl: false,
+  mapDraggable: false,
 };
 const markers: Object[] = [
   {
-    nid: 45547,
-    latitude: 59.4371821,
-    longitude: 24.7450143,
-    popup: {
-      // ...
-      content: 'Sisu',
-      title: 'W00t',
+    Nid: '43317',
+    Lat: null,
+    Lon: null,
+    EntityPath: '/kool/5mpc',
+    info: {
+      FieldSchoolName: '5MPC',
+      FieldOwnershipType: 'Eraomand',
+      FieldEducationalInstitutionTy: 'Täienduskoolitusasutus',
     },
   },
 ];

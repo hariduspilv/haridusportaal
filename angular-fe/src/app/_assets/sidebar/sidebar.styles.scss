@@ -12,8 +12,9 @@
 			border-top: $orange .625rem solid;
 			h1 {
 				color: $black;
-				font-size: 1.25rem;
-				line-height: 1.875rem;
+				font-size: 1.5rem;
+				font-weight: bold;
+				line-height: 1.33;
 			}
 		}
 		block-content {
@@ -90,6 +91,11 @@
 				line-height: 1.375;
 			}
 			sidebar-articles {
+				h1 {
+					color: $black;
+					font-size: 1.25rem;
+					line-height: 1.875rem;
+				}
 				article {
 					display: block;
 					margin: 0 -1.5rem;
@@ -125,6 +131,17 @@
 				}
 				li {
 					margin-bottom: 1rem;
+				}
+			}
+			sidebar-location {
+				map {
+					margin: -2rem -1.5rem 0;
+				}
+				p {
+					margin-top: 1rem;
+				}
+				h1 {
+					margin-top: 1rem;
 				}
 			}
 			sidebar-register {

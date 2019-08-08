@@ -21,3 +21,16 @@ export const collection = {
 export const uniformTypes = {
   'prosCons': ['fieldPros', 'fieldNeutral', 'fieldCons', 'fieldOskaFieldPros', 'fieldOskaFieldCons']
 }
+
+export const titleLess = {
+  'contact': false,
+  'links': false,
+  'prosCons': false,
+  'data': false,
+  'register': false,
+  'actions': false,
+  'facts': false,
+  'progress': false,
+  'articles': false,
+  'location': true,
+};

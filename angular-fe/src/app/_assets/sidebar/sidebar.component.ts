@@ -1,11 +1,14 @@
 import { Component, Input, HostBinding, OnInit } from '@angular/core';
 import { SidebarService } from '@app/_services';
-import { collection } from './helpers/sidebar';
+import { collection, titleLess } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import conf from '@app/_core/conf';
 
 interface SidebarType {
   [key: string]: string;
+}
+interface TitleLess {
+  [key: string]: boolean;
 }
 
 @Component({
@@ -16,6 +19,7 @@ interface SidebarType {
 export class SidebarComponent {
   @Input() data: Object[];
   private collection: SidebarType = collection;
+  private titleLess: TitleLess = titleLess;
   private keys: string[];
   private mappedData: any[];
   @HostBinding('class') get hostClasses(): string {
@@ -84,6 +88,27 @@ export class SidebarActionsComponent {
 })
 export class SidebarLocationComponent {
   @Input() data: Object[];
+  private markers: any[] = [];
+  private options = {
+    centerLat: null,
+    centerLng: null,
+    zoom: 11,
+    maxZoom: 11,
+    minZoom: 11,
+    bottomAction: true,
+    zoomControl: false,
+    streetViewControl: false,
+    mapDraggable: false,
+  };
+  ngOnInit() {
+    this.data.forEach((loc) => {
+      const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
+      const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
+      this.options.centerLat = lat;
+      this.options.centerLng = lon;
+      this.markers.push({ Lat: lat, Lon: lon });
+    });
+  }
 }
 
 @Component({
