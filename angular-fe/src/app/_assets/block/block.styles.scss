@@ -86,9 +86,16 @@
 	&.block--sidebar {
 		.block__title__text {
 			padding: 0;
+			text-transform: none;
+		}
+		block-title {
+			font-size: 1.25rem;
+			line-height: 1.875rem;
+			color: $black;
+			font-weight: bold;
 		}
 		.block__content {
-			padding: .5rem 0 0 0;
+			padding: 0;
 			&:after {
 				content: none;
 			}

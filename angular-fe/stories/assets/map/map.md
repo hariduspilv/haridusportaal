@@ -3,7 +3,7 @@
 ## Usage
 
 ```html
-<map options="options" markers="markers"></map>
+<map [options]="options" [markers]="markers"></map>
 ```
 
 ## Map properties

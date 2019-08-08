@@ -230,7 +230,7 @@
 						height: 1.375rem;
 						font-size: .75rem;
 						border-radius: .6875rem;
-						background: #f8b243;
+						background: $orange;
 						z-index: 2;
 						text-align: center;
 						padding: 0 1rem;
@@ -253,7 +253,7 @@
 									position: absolute;
 									border-right: 0.625rem solid transparent;
 									border-left: 0.625rem solid transparent;
-									border-top: .75rem solid #f8b243;
+									border-top: .75rem solid $orange;
 									right: 25%;
 									bottom: 1.5rem;
 									z-index: 1;

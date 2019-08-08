@@ -28,7 +28,7 @@ export const titleLess = {
   'prosCons': false,
   'data': false,
   'register': false,
-  'actions': false,
+  'actions': true,
   'facts': false,
   'progress': false,
   'articles': false,
