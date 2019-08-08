@@ -1,7 +1,7 @@
 <aside>
 	<nav>
-		<ul>
-			<li *ngFor="let item of data['menu']['links']">
+		<ul *ngIf="data.menu">
+			<li *ngFor="let item of data.menu.links">
 				<ng-container
 					*ngIf="
 						item.url.path === '#nocategory' || item.url.path === '#nolink';

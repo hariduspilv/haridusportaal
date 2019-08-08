@@ -3,8 +3,10 @@ import {
   Input,
   HostBinding,
   OnInit,
+  OnDestroy,
 } from '@angular/core';
-import { RippleService } from '@app/_services';
+import { RippleService, SidemenuService } from '@app/_services';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'sidemenu-item',
@@ -63,17 +65,37 @@ export class SidemenuItemComponent {
   templateUrl: './sidemenu.template.html',
   styleUrls: ['./sidemenu.styles.scss'],
 })
-export class MenuComponent implements OnInit {
-  @Input() data: Object;
+
+export class MenuComponent implements OnInit, OnDestroy {
+
+  public isVisible: boolean;
+  private subscription: Subscription = new Subscription();
+  @Input() data:Object[] = [];
   @HostBinding('class') get hostClasses(): string {
-    return 'sidemenu';
+    return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
   }
 
-  constructor() { }
+  constructor(
+    private sidemenuService: SidemenuService,
+  ) {}
 
+  subscribeToService():void {
+    this.subscription = this.sidemenuService.isVisibleSubscription.subscribe((value) => {
+      this.isVisible = value;
+    });
+  }
+
+  getData():void {
+
+  }
+  ngOnInit():void {
+    this.subscribeToService();
+    this.getData();
+  }
+
+  ngOnDestroy():void {
+    this.subscription.unsubscribe();
+  }
   // needs to have a service associated to it
   // needs to get menu data on init
-  ngOnInit() {
-    console.log(this.data);
-  }
 }

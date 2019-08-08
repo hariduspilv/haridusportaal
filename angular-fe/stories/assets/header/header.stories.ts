@@ -16,8 +16,7 @@ stories.add(
     return {
       moduleMetadata,
       template: `
-          <htm-header></htm-header>
-        `,
+          <htm-header></htm-header>`,
     };
   },
   {
