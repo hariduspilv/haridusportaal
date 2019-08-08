@@ -69,6 +69,7 @@ const providers = [
   EmbedVideoService,
   RippleService,
   { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
+  ModalService,
 ];
 
 @NgModule({
