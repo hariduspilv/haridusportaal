@@ -100,19 +100,27 @@
           </agm-snazzy-info-window>
         </ng-container>
       </agm-map>
-      <!-- <div class="polygons-toggle" *ngIf="polygons">
-        <button (click)="changeLayer('county')" [class.active]="polygonLayer == 'county'">{{ 'school.counties' | translate }}</button>
-        <button (click)="changeLayer('kov')" [class.active]="polygonLayer == 'kov'">{{ 'school.municipalities_detailed' | translate }}</button>
+      <div class="map__additions">
+        <div class="pair" *ngIf="params && params.mapIndicator">
+          <div class="pair__label">{{ 'oskaProfessions.indicator' | translate }}:</div> 
+          <div class="pair__value">{{ params.mapIndicator | ellipsis:20 }}</div>
+        </div>
+        <div class="pair" *ngIf="params && params.OSKAField">
+          <div class="pair__label">{{ 'oska.title_field' | translate }}:</div> 
+          <div class="pair__value">{{ params.OSKAField | ellipsis:20 }}</div>
+        </div>
       </div>
-      <img src="/assets/img/placeholder-50.gif" /> -->
     </div><!--/map-wrapper-->
   
     <ng-container *ngIf="heatMapRanges.length > 0">
       <div class="mapLegend">
         <div class="mapLegend__block" *ngFor="let item of heatMapRanges">
           <div class="mapLegend__color" [style.background-color]="item.color"></div>
-          {{ item.amount | number }}
         </div>
+      </div>
+      <div class="mapLegend__labels">
+        <div>{{ 'oska.small_proportion' | translate }}</div>
+        <div>{{ 'oska.large_proportion' | translate }}</div>
       </div>
     </ng-container>
   
