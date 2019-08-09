@@ -24,6 +24,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   map: any;
   data:any;
   filterData: any = {};
+  private indicatorLegendLabels: {} = {};
 
   params:any = {};
   path: string;
@@ -61,8 +62,9 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   activeFontSize: string = '';
   fontSizes: Object = {
-    md: '9px',
-    lg: '18px',
+    sm: '9px',
+    md: '18px',
+    lg: '22px',
   }
 
   labelOptions = {
@@ -140,9 +142,11 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     if (!polygonValueLabels) {
       return;
     }
-    if ($event < 9 && activeFontSize !== fontSizes['md']) {
+    if ($event < 9 && activeFontSize !== fontSizes['sm']) {
+      this.getPolygonCenterCoords(fontSizes['sm'], polygonValueLabels, polygonValueColors);
+    } else if ($event === 9 && activeFontSize !== fontSizes['md']) {
       this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels, polygonValueColors);
-    } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
+    } else if ($event === 10 && activeFontSize !== fontSizes['lg']) {
       this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels, polygonValueColors);
     }
   }
@@ -215,14 +219,18 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   }
 
   getUniqueFilters(arr) {
-    let field = [];
-    let indicator = [];
+    const field = [];
+    const indicator = [];
     arr.forEach((obj) => {
       if (field && !field.includes(obj['OSKAField'])) {
         field.push(obj['OSKAField']);
       }
       if (indicator && !indicator.includes(obj['mapIndicator'])) {
         indicator.push(obj['mapIndicator']);
+        this.indicatorLegendLabels[obj.mapIndicator] = {
+          start: obj.startLabel,
+          end: obj.endLabel,
+        };
       }
     });
     this.filterData['OSKAField'] = field;
@@ -330,13 +338,23 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       if (match && match.length && !match.includes('%')) {
         match = new LocaleNumberPipe('et').transform(match);
       }
-      let textLabel = match ? `${elem.label} ${match}` : elem.label;
+      if (!elem.latitude || (elem.latitudeSm && elem.latitudeMd && elem.latitudeLg)) {
+        if (this.activeFontSize === this.fontSizes['sm']) {
+          elem.latitude = elem.latitudeSm;
+        }
+        if (this.activeFontSize === this.fontSizes['md']) {
+          elem.latitude = elem.latitudeMd;
+        }
+        if (this.activeFontSize === this.fontSizes['lg']) {
+          elem.latitude = elem.latitudeLg;
+        }
+      }
       elem['labelOptions'] = {
         color: polygonColors[elem.NIMI] === 7 ? this.labelOptions.lightColor : this.labelOptions.color,
-        fontSize: fontSize || this.labelOptions.fontSize,
+        fontSize: this.activeFontSize,
         fontWeight: this.labelOptions.fontWeight,
-        text: textLabel
-      }
+        text: elem.label ? elem.label : match
+      };
     });
   }
 

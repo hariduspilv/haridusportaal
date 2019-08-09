@@ -118,9 +118,9 @@
           <div class="mapLegend__color" [style.background-color]="item.color"></div>
         </div>
       </div>
-      <div class="mapLegend__labels">
-        <div>{{ 'oska.small_proportion' | translate }}</div>
-        <div>{{ 'oska.large_proportion' | translate }}</div>
+      <div class="mapLegend__labels" *ngIf="indicatorLegendLabels[params.mapIndicator]">
+        <div>{{ indicatorLegendLabels[params.mapIndicator].start }}</div>
+        <div>{{ indicatorLegendLabels[params.mapIndicator].end }}</div>
       </div>
     </ng-container>
   
