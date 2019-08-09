@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
   selector: 'sidemenu-item',
   styleUrls: ['./sidemenu.styles.scss'],
   template: `
-		<ng-container *ngIf="item.links.length === 0; else expandable">
+		<ng-container *ngIf="item['links'].length === 0; else expandable">
 			<a
 				*ngIf="item.url.path !== '#nolink'"
 				(mousedown)="animateRipple($event)"
@@ -32,7 +32,7 @@ import { Subscription } from 'rxjs';
 				<icon glyph="chevron-down" size="medium"></icon>
 			</button>
 			<ul id="{{item.label | slugify}}">
-				<li *ngFor="let item of item.links" (mousedown)="animateRipple($event)">
+				<li *ngFor="let item of item['links']" (mousedown)="animateRipple($event)">
 					<a
 						*ngIf="item.url.path !== '#nolink'"
 						class="sidemenu__link"
@@ -65,6 +65,7 @@ export class SidemenuItemComponent {
   templateUrl: './sidemenu.template.html',
   styleUrls: ['./sidemenu.styles.scss'],
 })
+
 export class MenuComponent implements OnInit, OnDestroy {
 
   public isVisible: boolean;

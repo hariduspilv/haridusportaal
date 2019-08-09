@@ -15,19 +15,21 @@ import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { TableComponent } from './table';
 import { AlertsComponent } from './alerts';
-import AlertsService from '@app/_services/AlertsService';
-import ModalService from '@app/_services/ModalService';
 import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
-import { RippleService, SidemenuService, SidebarService } from '@app/_services';
+import { RippleService, NgbDateCustomParserFormatter, AlertsService, SidemenuService, SidebarService, ModalService } from '@app/_services';
+import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
-import { ModalComponent, ModalContentComponent } from './modal';
 import { ScrollableContentComponent } from './scrollableContent';
-import { SlugifyPipe } from 'ngx-pipes';
+import { NgPipesModule } from 'ngx-pipes';
+import { FormItemComponent } from './formItem';
+import { RippleDirective } from '@app/_directives/rippleDirective';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ModalComponent, ModalContentComponent } from './modal';
 import { BaseLayout } from './base-layout';
 import { ArticleLayout } from './article-layout';
 import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
@@ -35,18 +37,12 @@ import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
   SidebarProgressComponent, SidebarRegisterComponent} from './sidebar';
 import { ProgressBarComponent } from './progressBar';
-import { TruncatePipe } from '@app/_pipes/truncate.pipe';
-import { LocaleNumberPipe } from '@app/_pipes/localeNumber.pipe';
 import { MapComponent } from './map';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
-const pipes = [
-  SlugifyPipe,
-  TruncatePipe,
-  LocaleNumberPipe,
-];
+const pipes = []
 
 const declarations = [
   BlockComponent,
@@ -64,12 +60,14 @@ const declarations = [
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,
-  ModalComponent,
-  ModalContentComponent,
   ScrollableContentComponent,
   MenuComponent,
   SidemenuItemComponent,
   HeaderComponent,
+  FormItemComponent,
+  RippleDirective,
+  ModalComponent,
+  ModalContentComponent,
   BaseLayout,
   ArticleLayout,
   SidebarComponent,
@@ -95,6 +93,7 @@ const providers = [
   AlertsService,
   EmbedVideoService,
   RippleService,
+  { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ModalService,
   SidemenuService,
   SidebarService,
@@ -102,7 +101,7 @@ const providers = [
 
 @NgModule({
   providers,
-  declarations: [...declarations, ...pipes],
+  declarations: [...declarations],
   imports: [
     CommonModule,
     RouterModule,
@@ -113,6 +112,9 @@ const providers = [
       apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
     }),
     AgmSnazzyInfoWindowModule,
+    NgbModule,
+    NgPipesModule,
+    NgSelectModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })

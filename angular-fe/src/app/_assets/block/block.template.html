@@ -5,7 +5,7 @@
     </div><!--/block__title__text-->
     <div class="block__title__tabs" *ngIf="labeledTabs > 0">
       <ng-container *ngFor="let tab of tabs">
-        <button (click)="selectTab(tab)" (mousedown)="animateRipple($event)" [class.active]="tab.tabLabel == activeTab">
+        <button (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
           <span class="button__contents">
             <ng-container *ngIf="tab.tabIcon">
               <icon [glyph]="tab.tabIcon"></icon>

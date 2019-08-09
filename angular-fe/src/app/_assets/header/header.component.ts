@@ -1,6 +1,5 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
-import { SidemenuService } from '@app/_services';
-import ModalService from '@app/_services/ModalService';
+import { SidemenuService, ModalService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({

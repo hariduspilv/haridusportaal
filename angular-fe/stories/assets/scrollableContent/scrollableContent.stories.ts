@@ -20,7 +20,6 @@ stories.add('Scrollable content', () => {
   const origFields = Object.keys(data[0]);
   const fields = [...origFields];
   const tmpData = data.slice(0, 40);
-
   return {
     moduleMetadata,
     props: {

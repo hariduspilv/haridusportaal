@@ -2,6 +2,7 @@
 @import "breakpoints.scss";
 
 :host {
+	font-family: 'Rubik', sans-serif;
 	grid-area: sidebar;
 	display: block;
 	background: $light-gray;
@@ -15,7 +16,7 @@
 			h1 {
 				color: $black;
 				font-size: 1.5rem;
-				font-weight: bold;
+				font-weight: 500;
 				line-height: 1.33;
 			}
 		}
@@ -92,6 +93,11 @@
 				display: block;
 				line-height: 1.375;
 			}
+			sidebar-progress {
+				h2 {
+					font-weight: normal;
+				}
+			}
 			sidebar-articles {
 				h1 {
 					color: $black;
@@ -109,7 +115,7 @@
 						h1 {
 							font-size: 1.5rem;
 							padding: 1rem 1.5rem 0;
-							font-weight: bold;
+							font-weight: 500;
 							line-height: 1.33;
 							color: $blue;
 						}
@@ -154,7 +160,7 @@
 					color: $dark-red;
 					line-height: 1.38;
 					font-size: $small;
-					font-weight: bold;
+					font-weight: 500;
 				}
 				button {
 					width: 100%;
@@ -178,7 +184,7 @@
 				}
 				h2 {
 					font-size: 1rem;
-					font-weight: bold;
+					font-weight: 500;
 					margin-bottom: 0;
 				}
 				ul li {

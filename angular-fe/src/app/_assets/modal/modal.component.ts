@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ElementRef, HostBinding } from '@angular/core';
 import { focus } from '@app/_core/utility';
-import ModalService from '@app/_services/ModalService';
+import { ModalService } from '@app/_services';
 
 @Component({
   selector: 'modal-content',

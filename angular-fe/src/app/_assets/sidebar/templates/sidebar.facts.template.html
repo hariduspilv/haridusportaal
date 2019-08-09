@@ -2,7 +2,7 @@
   
   <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
 		<h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
-			{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber: 'et' }}
+			{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}
 		</h2>
 		<div>{{ 'oska.compared_to_other_professions' | translate }}</div>
 		<div class="list">
@@ -29,7 +29,7 @@
 
   <ng-container *ngIf="indicator.oskaId === 3 && indicator.icon > 0 && indicator.icon < 21">
     <h2 attr.aria-label="{{ 'oska.wage' | translate }}: {{ indicator.value }} €">
-      {{ 'oska.wage' | translate }}: {{ indicator.value | localeNumber: 'et' }} €
+      {{ 'oska.wage' | translate }}: {{ indicator.value }} €
     </h2>
     <div class="label__tag--wrapper" aria-hidden="true">
       <span class="label__tag">{{'label.average' | translate}}</span>
