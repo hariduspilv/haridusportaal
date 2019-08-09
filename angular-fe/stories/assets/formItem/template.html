@@ -1,0 +1,26 @@
+<table htm-table>
+  <tr>
+    <th>
+      Form item
+    </th>
+    <th>
+      Model value
+    </th>
+  </tr>
+  <tr *ngFor="let item of formItems">
+    <td style="width:50%">
+      <formItem
+      [type]="item.type"
+      [(ngModel)]="item.value"
+      [placeholder]="item.placeholder"
+      [title]="item.title"
+      [options]="item.options"
+      [label]="item.label"
+      [error]="status == 'error'"
+      [success]="status == 'success'"
+      [errorMessage]="item.errorMessage">
+    </formItem>
+    </td>
+    <td>{{ item.value }}</td>
+  </tr>
+</table>

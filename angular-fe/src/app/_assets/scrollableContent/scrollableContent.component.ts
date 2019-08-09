@@ -23,7 +23,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges{
   private scroller: HTMLElement;
   private arrows: NodeList;
   private arrowsPositionDebounce: any = false;
-  private scrollDirection: number = 0;
+  public scrollDirection: number = 0;
   public canScrollLeft: boolean = false;
   public canScrollRight: boolean = false;
 

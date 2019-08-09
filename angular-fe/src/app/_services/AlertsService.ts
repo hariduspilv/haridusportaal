@@ -21,7 +21,7 @@ export class Alert {
 }
 
 @Injectable()
-export default class AlertsService {
+export class AlertsService {
 
   private subject:Subject<Alert> = new Subject<Alert>();
 

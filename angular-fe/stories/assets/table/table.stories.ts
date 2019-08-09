@@ -14,11 +14,14 @@ const stories = storiesOf('Assets', module);
 stories.add('Table', () => {
 
   const fields = Object.keys(data[0]);
+  const tmpData = data.splice(0, 5);
+  const tmpData2 = data.splice(0, 3);
   return {
     moduleMetadata,
     props: {
-      data,
       fields,
+      data: tmpData,
+      data2: tmpData2,
     },
     template: `
       <table htm-table>
@@ -36,6 +39,17 @@ stories.add('Table', () => {
                 {{ item[field] }}
               </ng-container>
             </ng-container>
+          </td>
+        </tr>
+      </table>
+
+      <div style="height:20px;"></div>
+
+      <table htm-table>
+        <tr *ngFor="let field of fields">
+          <th>{{ field | titlecase }}</th>
+          <td *ngFor="let item of data2">
+            {{ item[field] }}
           </td>
         </tr>
       </table>

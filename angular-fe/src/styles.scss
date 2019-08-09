@@ -13,6 +13,8 @@ body {
 	padding: 0;
 }
 
+*{box-sizing: border-box;}
+
 a{color: #2e3374;
   &:hover{text-decoration: none;}
 }
