@@ -21,7 +21,13 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_content_text: true
+  field_file: true
+  field_infosystem_accordion: true
+  field_infosystem_sidebar: true
   field_introduction_text: true
   field_logo: true
   field_subtitle: true
+  field_webpage_link: true
   langcode: true
+  search_api_excerpt: true

@@ -1,0 +1,20 @@
+uuid: 3f140861-6bf7-4f88-8bcb-c5a590bd0293
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+    - taxonomy
+id: paragraph.field_iscedf_narrow
+field_name: field_iscedf_narrow
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
