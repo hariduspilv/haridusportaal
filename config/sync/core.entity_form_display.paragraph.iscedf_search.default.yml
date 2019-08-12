@@ -3,6 +3,8 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.iscedf_search.field_iscedf_broad
+    - field.field.paragraph.iscedf_search.field_iscedf_narrow
     - field.field.paragraph.iscedf_search.field_iscedf_search_term
     - field.field.paragraph.iscedf_search.field_level
     - paragraphs.paragraphs_type.iscedf_search
@@ -11,7 +13,7 @@ targetEntityType: paragraph
 bundle: iscedf_search
 mode: default
 content:
-  field_iscedf_search_term:
+  field_iscedf_broad:
     weight: 0
     settings:
       match_operator: CONTAINS
@@ -20,14 +22,32 @@ content:
     third_party_settings: {  }
     type: entity_reference_autocomplete_tags
     region: content
+  field_iscedf_narrow:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete_tags
+    region: content
+  field_iscedf_search_term:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete_tags
+    region: content
   field_level:
-    weight: 11
+    weight: 3
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   translation:
-    weight: 10
+    weight: 4
     region: content
     settings: {  }
     third_party_settings: {  }
