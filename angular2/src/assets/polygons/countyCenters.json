@@ -6,9 +6,26 @@
     "longitude": 26.694065469106675
   },
   {
+    "NIMI": "Tartu maakond",
+    "label": "",
+    "latitudeSm": 58.331402629940235,
+    "latitudeMd": 58.341402629940235,
+    "latitudeLg": 58.351402629940235,
+    "longitude": 26.694065469106675
+  },
+  {
     "NIMI": "Jõgeva maakond",
     "label": "Jõgevamaa",
     "latitude": 58.763632768069115,
+    "longitude": 26.4872908450123
+  },
+  {
+    "NIMI": "Jõgeva maakond",
+    "label": "",
+    "latitude": 58.763632768069115,
+    "latitudeSm": 58.723632768069115,
+    "latitudeMd": 58.733632768069115,
+    "latitudeLg": 58.743632768069115,
     "longitude": 26.4872908450123
   },
   {
@@ -18,9 +35,25 @@
     "longitude": 24.672198729725505
   },
   {
+    "NIMI": "Rapla maakond",
+    "label": "",
+    "latitudeSm": 58.92718640181603,
+    "latitudeMd": 58.93718640181603,
+    "latitudeLg": 58.94718640181603,
+    "longitude": 24.672198729725505
+  },
+  {
     "NIMI": "Võru maakond",
     "label": "Võrumaa",
     "latitude": 57.76957632485075,
+    "longitude": 26.955637452021052
+  },
+  {
+    "NIMI": "Võru maakond",
+    "label": "",
+    "latitudeSm": 57.72957632485075,
+    "latitudeMd": 57.73957632485075,
+    "latitudeLg": 57.74957632485075,
     "longitude": 26.955637452021052
   },
   {
@@ -30,9 +63,25 @@
     "longitude": 24.856780893500343
   },
   {
+    "NIMI": "Harju maakond",
+    "label": "",
+    "latitudeSm": 59.34260632449432,
+    "latitudeMd": 59.35260632449432,
+    "latitudeLg": 59.36260632449432,
+    "longitude": 24.856780893500343
+  },
+  {
     "NIMI": "Valga maakond",
     "label": "Valgamaa",
     "latitude": 57.932268648144394,
+    "longitude": 26.105312870556486
+  },
+  {
+    "NIMI": "Valga maakond",
+    "label": "",
+    "latitudeSm": 57.892268648144394,
+    "latitudeMd": 57.902268648144394,
+    "latitudeLg": 57.912268648144394,
     "longitude": 26.105312870556486
   },
   {
@@ -42,9 +91,25 @@
     "longitude": 26.26183525127057
   },
   {
+    "NIMI": "Lääne-Viru maakond",
+    "label": "",
+    "latitudeSm": 59.213991917484024,
+    "latitudeMd": 59.223991917484024,
+    "latitudeLg": 59.233991917484024,
+    "longitude": 26.26183525127057
+  },
+  {
     "NIMI": "Põlva maakond",
     "label": "Põlvamaa",
     "latitude": 58.06315476225576,
+    "longitude": 27.013469147741477
+  },
+  {
+    "NIMI": "Põlva maakond",
+    "label": "",
+    "latitudeSm": 58.02315476225576,
+    "latitudeMd": 58.03315476225576,
+    "latitudeLg": 58.04315476225576,
     "longitude": 27.013469147741477
   },
   {
@@ -54,9 +119,25 @@
     "longitude": 24.4433634623867
   },
   {
+    "NIMI": "Pärnu maakond",
+    "label": "",
+    "latitudeSm": 58.42994262458281,
+    "latitudeMd": 58.43994262458281,
+    "latitudeLg": 58.44994262458281,
+    "longitude": 24.4433634623867
+  },
+  {
     "NIMI": "Järva maakond",
     "label": "Järvamaa",
     "latitude": 58.9086861091671,
+    "longitude": 25.60623056216489
+  },
+  {
+    "NIMI": "Järva maakond",
+    "label": "",
+    "latitudeSm": 58.8686861091671,
+    "latitudeMd": 58.8786861091671,
+    "latitudeLg": 58.8886861091671,
     "longitude": 25.60623056216489
   },
   {
@@ -66,9 +147,25 @@
     "longitude": 27.3968075541764
   },
   {
+    "NIMI": "Ida-Viru maakond",
+    "label": "",
+    "latitudeSm": 59.25041771259,
+    "latitudeMd": 59.26041771259,
+    "latitudeLg": 59.27041771259,
+    "longitude": 27.3968075541764
+  },
+  {
     "NIMI": "Viljandi maakond",
     "label": "Viljandimaa",
     "latitude": 58.308269858166504,
+    "longitude": 25.56958739492529
+  },
+  {
+    "NIMI": "Viljandi maakond",
+    "label": "",
+    "latitudeSm": 58.268269858166504,
+    "latitudeMd": 58.278269858166504,
+    "latitudeLg": 58.288269858166504,
     "longitude": 25.56958739492529
   },
   {
@@ -78,15 +175,39 @@
     "longitude": 22.592184705792876
   },
   {
+    "NIMI": "Hiiu maakond",
+    "label": "",
+    "latitudeSm": 58.87485486262221,
+    "latitudeMd": 58.88485486262221,
+    "latitudeLg": 58.89485486262221,
+    "longitude": 22.592184705792876
+  },
+  {
     "NIMI": "Lääne maakond",
     "label": "Läänemaa",
     "latitude": 59.0546306253273,
     "longitude": 23.75873359936321
   },
   {
+    "NIMI": "Lääne maakond",
+    "label": "",
+    "latitudeSm": 59.0146306253273,
+    "latitudeMd": 59.0246306253273,
+    "latitudeLg": 59.0346306253273,
+    "longitude": 23.75873359936321
+  },
+  {
     "NIMI": "Saare maakond",
     "label": "Saaremaa",
     "latitude": 58.450898162231734,
+    "longitude": 22.57153564547045
+  },
+  {
+    "NIMI": "Saare maakond",
+    "label": "",
+    "latitudeSm": 58.410898162231734,
+    "latitudeMd": 58.420898162231734,
+    "latitudeLg": 58.430898162231734,
     "longitude": 22.57153564547045
   }
 ]
