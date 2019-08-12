@@ -94,6 +94,14 @@
   }
 }
 
+.filter-wrapper {
+  padding: 1rem 1.5rem 1rem 1.5rem;
+  @include break-on(sm, max) { display:none; 
+    padding: 0rem 1rem 0rem 1rem; margin-bottom: 2rem;
+    &.filtersActive{display:block;}
+  }
+}
+
 .modal{background:$light-gray; padding:2rem 2rem 0.4rem 2rem; margin-top:0.8rem; position: relative;
   .hidden-button{position:absolute; top:0; left:0; width:1px; height:1px; overflow: hidden; opacity:0;}
   &__header{border-bottom:$white 3px solid; margin:-2rem -2rem 0 -2rem; padding:0 2rem; display:flex; min-height:4.625rem;

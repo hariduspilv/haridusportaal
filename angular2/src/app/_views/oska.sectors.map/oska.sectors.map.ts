@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber.pipe';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   templateUrl: "oska.sectors.map.html",
@@ -56,6 +57,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   heatMapColors = ["#FBE5C4","#FBD291","#F8B243","#F89229","#E2770D","#D5401A","#8B2F17"];
   heatMapRanges: Array<Object> = [];
+  private fieldMaxRanges: {} = {};
 
   infoWindowFunding:any = false;
   infoLayer:any = false;
@@ -86,6 +88,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       lat: 58.5822061,
       lng: 24.7065513
     },
+    minZoom: 7.4,
+    maxZoom: 10,
     zoom: 7.4,
     clusterStyles: [
       {
@@ -102,7 +106,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     public route: ActivatedRoute,
     public rootScope: RootScopeService,
     private changeDetectorRef: ChangeDetectorRef,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private deviceService: DeviceDetectorService,
   ) {
     super(null, null);
   }
@@ -166,7 +171,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       });
       if (!this.filterData[sibling].length) {
         this.filterFormItems[sibling] = '';
-      } else if (this.filterData[sibling].length && !this.filterFormItems[sibling]) {
+      } else if (this.filterData[sibling].length && !this.filterData[sibling].includes(this.filterFormItems[sibling])) {
         this.filterFormItems[sibling] = this.filterData[sibling][0];
       }
     }
@@ -239,15 +244,15 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   generateHeatmapColors() {
     let maxSum = 0;
-
+    let fieldSums = {};
     for( let i in this.polygonData ){
       if( this.polygonData[i]['division'] > maxSum ){
         maxSum = this.polygonData[i]['division'];
       }
+      if( this.polygonData[i]['division'] > fieldSums[this.polygonData[i].mapIndicator] || (!fieldSums[this.polygonData[i].mapIndicator])) {
+        fieldSums[this.polygonData[i].mapIndicator] = this.polygonData[i]['division'];
+      }
     }
-
-    if( maxSum < 1 ){ maxSum = 7; }
-
     let sumPartial = maxSum / this.heatMapColors.length;
 
     let sumArray = [];
@@ -263,6 +268,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       sumArray.push(tmpArray);
     }
 
+    this.fieldMaxRanges = fieldSums;
     this.heatMapRanges = sumArray;
 
   }
@@ -423,6 +429,9 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
+    if (this.deviceService.isMobile()) {
+      this.mapOptions.minZoom = 6;
+    }
     this.mapOptions.styles = this.rootScope.get("mapStyles");
     this.getData();
   }
