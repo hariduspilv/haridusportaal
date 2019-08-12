@@ -19,6 +19,9 @@
         "number_of_steps": {
           "type": "integer",
           "enum": [1]
+        },
+        "acceptable_forms": {
+          "type": "array"
         }
       },
       "required": ["endpoint", "form_name", "number_of_steps", "auth_not_required"],
