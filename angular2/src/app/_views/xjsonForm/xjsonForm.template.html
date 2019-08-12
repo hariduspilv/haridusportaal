@@ -5,6 +5,20 @@
   <div class="block padding-block border-blue">
     <div class="block__head">
       <div class="block__head__title">{{ 'xjson.forms_title' | translate | uppercase }}</div>
+      <div *ngIf="acceptable_forms.length" class="block__head__buttons">
+        <div class="view-item" (click)="changeView('document')"
+          attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0"
+          [class.active]="view === 'document'">
+          <span class="htm-icon">insert_drive_file</span>
+          <div class="title">{{ 'frontpage.dokument' | translate }}</div>
+        </div>
+        <div class="view-item" (click)="changeView('related_documents')"
+          attr.aria-label="{{ 'frontpage.dashboard_related_documents' | translate }}" tabindex="0"
+          [class.active]="view === 'related_documents'">
+          <span class="htm-icon">call_split</span>
+          <div class="title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
+        </div>
+      </div>
     </div>
     <!--/block__head-->
 
