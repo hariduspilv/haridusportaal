@@ -39,11 +39,17 @@ content:
 hidden:
   field_accordion: true
   field_attachment_file: true
+  field_bruto: true
+  field_change_in_employment: true
   field_dynamic_graph: true
+  field_education_indicator: true
+  field_filling_bar: true
+  field_fixed_label: true
   field_introduction: true
   field_main_profession_accordion: true
   field_main_profession_picture: true
   field_main_profession_tag: true
+  field_number_of_employees: true
   field_oska_graph: true
   field_oska_main_profession_file: true
   field_oska_main_profession_links: true
@@ -54,3 +60,4 @@ hidden:
   field_video: true
   field_web_page_address: true
   langcode: true
+  search_api_excerpt: true
