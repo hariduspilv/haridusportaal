@@ -33,3 +33,10 @@ oska_map_csv.import:
     _title: 'Import OSKA Map Data CSV'
   requirements:
     _permission: 'access content'
+oska_studies.import:
+  path: '/oska_studies_import'
+  defaults:
+    _form: '\Drupal\htm_custom_oska\Form\OskaImportStudiesForm'
+    _title: 'Import OSKA Main Profession Studies CSV'
+  requirements:
+    _permission: 'access content'
