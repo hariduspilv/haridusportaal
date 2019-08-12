@@ -1,0 +1,7 @@
+<div class="content" [class.show]="show" innerHtml="{{content}}"></div>
+<p class="more">
+  <button class="mat-raised-button mat-primary" (click)="show = !show">
+    <span *ngIf="!show">{{ 'button.show_more' | translate }}</span>
+    <span *ngIf="show">{{ 'button.show_less' | translate }}</span>
+  </button>
+</p>
