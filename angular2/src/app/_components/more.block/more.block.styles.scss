@@ -43,6 +43,7 @@
       text-decoration: underline;
       box-shadow: none;
       border: none;
+      font-weight: normal;
       &:hover {
         text-decoration: none;
       }
@@ -53,6 +54,7 @@
     max-height: 99rem;
     .content__background {
       opacity: 0;
+      z-index: -1
     }
     .more {
       margin-top: 1rem;
