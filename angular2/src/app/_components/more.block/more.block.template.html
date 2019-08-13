@@ -1,9 +1,22 @@
-<div class="content">
-  <div class="content__background" *ngIf="active"></div>
-  <div class="content__inner" attr.id="moreContent-{{id}}" [class.show]="show" [innerHTML]="content"></div>
+<div class="content" 
+  role="group"
+  attr.aria-label="{{ show ? '' : (screenReaderContent | ellipsis) }}"
+  tabindex="0"
+  attr.id="wrapper-{{id}}">
+  <div *ngIf="active"
+    class="content__background" 
+    aria-hidden="true">
+  </div>
+  <div class="content__inner"
+    attr.aria-hidden="{{ !show }}"
+    attr.id="moreContent-{{id}}"
+    [class.show]="show"
+    innerHTML="{{ content }}">
+    <!-- innerHTML="{{ show ? (content) : (content | ellipsis: 350) }}"> -->
+  </div>
 </div>
 <p class="more" *ngIf="active">
-  <button class="mat-raised-button mat-primary" (click)="show = !show">
+  <button class="mat-raised-button mat-primary" role="button" (click)="changeState()">
     <span *ngIf="!show">{{ 'button.show_more' | translate }}</span>
     <span *ngIf="show">{{ 'button.show_less' | translate }}</span>
   </button>

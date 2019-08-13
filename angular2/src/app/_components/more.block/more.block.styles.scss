@@ -1,5 +1,8 @@
 @import "../../../assets/styles/typography.scss"; 
 :host {
+  .content:focus {
+    outline: none;
+  }
   &.empty {
     display: none;
   }
@@ -27,17 +30,22 @@
       width: 100%;
       box-sizing: border-box;
       transition: opacity .225s ease-in-out;
-      background-image: linear-gradient(to bottom, transparent 25%, white);
+      margin-top: 2.75rem;
+      // background-image: linear-gradient(to bottom, transparent 25%, white);
+      background: rgba(255, 255, 255, 0.7);
+
     }
   }
   .more {
     position: relative;
+    top: -.125rem;
+    background: $white;
     width: 100%;
     box-sizing: border-box;
     text-align: center;
     margin: 0;
-    transition: margin .225s;
     button {
+      height: 2rem;
       background: none;
       color: #2e3374;
       text-decoration: underline;
@@ -55,9 +63,6 @@
     .content__background {
       opacity: 0;
       z-index: -1
-    }
-    .more {
-      margin-top: 1rem;
     }
   }
   @include break-on(sm, max) {
