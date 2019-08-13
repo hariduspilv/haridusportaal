@@ -64,7 +64,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   activeFontSize: string = '';
   fontSizes: Object = {
-    sm: '9px',
+    sm: '14px',
     md: '18px',
     lg: '22px',
   }
@@ -72,7 +72,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   labelOptions = {
     lightColor: 'white',
     color: 'black',
-    fontSize: '9px',
+    fontSize: '14px',
     fontWeight: 'regular',
   }
   icon = {
