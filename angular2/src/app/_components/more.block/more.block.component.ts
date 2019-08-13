@@ -8,7 +8,7 @@ import { Component, Input, HostBinding } from '@angular/core';
 
 export class MoreBlockComponent {
   @Input() content: string;
-  private show: boolean = false;
+  public show: boolean = false;
   @HostBinding('class') get hostClasses(): string {
     return `content__box ${this.show ? 'show' : 'hide'}`;
   }
