@@ -1,11 +1,5 @@
 <div><breadcrumbs></breadcrumbs></div>
-<div class="sm-show text-right filter-control">
-  <a href="javascript:void(0);" (click)="showFilter = !showFilter">
-    <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
-    <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
-  </a> 
-</div>
-<form (submit)="filterSubmit($event)" class="filter-wrapper" [class.filtersActive]="showFilter">
+<form (submit)="filterSubmit($event)" class="filter-wrapper">
   <div class="main-container">
     <div class="row">
       <div class="col-4 sm-12">
@@ -93,13 +87,13 @@
         </ng-container>
   
         <ng-container *ngIf="sumWindowStatus">
-          <agm-snazzy-info-window [closeWhenOthersOpen]="true" #sumLayer isOpen="sumWindowStatus" [latitude]="sumWindowLat" [longitude]="sumWindowLon" (isOpenChange)="kmlClickStatus($event)" >
+          <!-- <agm-snazzy-info-window [closeWhenOthersOpen]="true" #sumLayer isOpen="sumWindowStatus" [latitude]="sumWindowLat" [longitude]="sumWindowLon" (isOpenChange)="kmlClickStatus($event)" >
             <ng-template>
               <b>{{ infoLayer.name }}</b><br />
               <span *ngIf="infoLayer.field">{{ infoLayer.field }}<br /></span>
               <span *ngIf="infoLayer.value">{{ infoLayer.value }}</span>
             </ng-template>
-          </agm-snazzy-info-window>
+          </agm-snazzy-info-window> -->
         </ng-container>
       </agm-map>
       <div class="map__additions">

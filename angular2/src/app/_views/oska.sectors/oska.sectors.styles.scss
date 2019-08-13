@@ -96,9 +96,12 @@
 
 .filter-wrapper {
   padding: 1rem 1.5rem 1rem 1.5rem;
-  @include break-on(sm, max) { display:none; 
-    padding: 0rem 1rem 0rem 1rem; margin-bottom: 2rem;
-    &.filtersActive{display:block;}
+  @include break-on(sm, max) {
+    padding: 1.5rem 1rem 0rem; margin-bottom: 2rem;
+  }
+  .button-row button {
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 
