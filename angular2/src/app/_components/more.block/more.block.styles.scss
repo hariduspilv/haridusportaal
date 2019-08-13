@@ -1,5 +1,9 @@
 
 :host {
+  &.empty {
+    display: none;
+  }
+  padding-bottom: 1.5rem;
   display: block;
   overflow: hidden;
   ::ng-deep  .content {
@@ -19,35 +23,39 @@
       opacity: 1;
       display: block;
       position: absolute;
-      height: 4.875rem;
+      height: 100%;
       width: 100%;
       box-sizing: border-box;
       transition: opacity .225s ease-in-out;
-      background-image: linear-gradient(to bottom, transparent, white);
+      background-image: linear-gradient(to bottom, transparent 25%, white);
     }
   }
   .more {
+    position: relative;
     width: 100%;
     box-sizing: border-box;
     text-align: center;
+    margin: 0;
+    transition: margin .225s;
     button {
       background: none;
       color: #2e3374;
       text-decoration: underline;
       box-shadow: none;
       border: none;
+      &:hover {
+        text-decoration: none;
+      }
     }
   }
   &.show, .show {
     height: auto;
     max-height: 99rem;
-    .more {
-      background-image: none;
-      position: inherit;
-      padding-top: 1rem;
-    }
     .content__background {
       opacity: 0;
+    }
+    .more {
+      margin-top: 1rem;
     }
   }
 }
