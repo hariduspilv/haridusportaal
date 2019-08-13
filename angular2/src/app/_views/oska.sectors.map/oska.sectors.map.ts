@@ -244,29 +244,27 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   generateHeatmapColors() {
     let maxSum = 0;
-    let fieldSums = {};
-    for( let i in this.polygonData ){
-      if( this.polygonData[i]['division'] > maxSum ){
-        maxSum = this.polygonData[i]['division'];
+    const fieldSums = {};
+    this.polygonData.forEach((item) => {
+      if (item['division'] > maxSum) {
+        maxSum = item['division'];
       }
-      if( this.polygonData[i]['division'] > fieldSums[this.polygonData[i].mapIndicator] || (!fieldSums[this.polygonData[i].mapIndicator])) {
-        fieldSums[this.polygonData[i].mapIndicator] = this.polygonData[i]['division'];
+      if (item['division'] > fieldSums[item.mapIndicator] || (!fieldSums[item.mapIndicator])) {
+        fieldSums[item.mapIndicator] = item['division'];
       }
-    }
-    let sumPartial = maxSum / this.heatMapColors.length;
+    });
+    // let sumPartial = maxSum / this.heatMapColors.length;
 
-    let sumArray = [];
+    const sumArray = [];
 
-    for( var i in this.heatMapColors ){
-      let multiplier:number = parseFloat(i)+1;
-      let tmpArray = {
-        amount: multiplier * sumPartial
-      }
-
-      tmpArray['color'] = this.heatMapColors[i];
-
+    this.heatMapColors.forEach((item, index) => {
+      // let multiplier:number = parseFloat(i)+1;
+      const tmpArray = {
+        amount: index + 1,
+        color: item,
+      };
       sumArray.push(tmpArray);
-    }
+    });
 
     this.fieldMaxRanges = fieldSums;
     this.heatMapRanges = sumArray;
@@ -373,7 +371,6 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   polygonStyles(feature) {
     let color = "#cfcfcf";
     let keys = Object.keys(feature).join(",").split(",");
-
     for( let i in keys ){
       let key = keys[i];
       if( feature[key] && feature[key]['color'] ){
