@@ -664,8 +664,15 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
                 $refProperty = null;
                 $dereference = true;
 
-                if (isset($array[self::PROP_REF])) {
-                    $refProperty = $this->properties[self::PROP_REF];
+                if ($this->properties !== null && isset($array[self::PROP_REF])) {
+                    $refPropName = self::PROP_REF;
+                    if ($hasMapping) {
+                        if (isset($this->properties->__dataToProperty[$options->mapping][self::PROP_REF])) {
+                            $refPropName = $this->properties->__dataToProperty[$options->mapping][self::PROP_REF];
+                        }
+                    }
+
+                    $refProperty = $this->properties[$refPropName];
 
                     if (isset($refProperty) && ($refProperty->format !== Format::URI_REFERENCE)) {
                         $dereference = false;
