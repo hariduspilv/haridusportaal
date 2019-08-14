@@ -180,7 +180,11 @@ table p { margin: 0; font-weight: 400; }
     @include break-on(sm, max) {margin: 0 -1.5rem;}
   }
 }
-
+.unpadded more-block {
+  @include break-on(sm, max) {
+    margin: 0 -1.5rem; 
+  }
+}
 .exam-block {
   margin-top: 1.5rem;
   ul {
