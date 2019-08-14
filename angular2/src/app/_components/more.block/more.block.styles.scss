@@ -72,6 +72,8 @@
   }
   @include break-on(sm, max) {
     padding: 0 1.5rem 1.5rem;
+  }
+  @include break-on(xxs, max) {
     ::ng-deep  .content {
       &__inner {
         max-height: 6.875rem;
