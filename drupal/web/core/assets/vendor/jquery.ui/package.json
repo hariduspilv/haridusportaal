@@ -67,7 +67,7 @@
 		"grunt-html": "6.0.0",
 		"grunt-jscs": "2.1.0",
 		"load-grunt-tasks": "3.4.0",
-		"rimraf": "2.5.1",
+		"rimraf": "2.7.1",
 		"testswarm": "1.1.0"
 	},
 	"keywords": []
