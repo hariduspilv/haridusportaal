@@ -27,9 +27,9 @@ export class MoreBlockComponent {
     const contentElem = document.getElementById(`moreContent-${this.id}`);
     this.links = document.querySelectorAll(`#moreContent-${this.id} a`);
     this.setInnerLinkStates(this.show);
-    if (this.deviceDetector.isDesktop() && contentElem && contentElem.clientHeight >= this.cutoffs['lg']) {
+    if ((this.deviceDetector.isDesktop() || this.deviceDetector.isTablet()) && contentElem && contentElem.clientHeight >= this.cutoffs['lg']) {
       this.active = true;
-    } else if (this.deviceDetector.isMobile() && contentElem && contentElem.clientHeight >= this.cutoffs['sm']) {
+    } else if (contentElem && contentElem.clientHeight >= this.cutoffs['sm']) {
       this.active = true;
     } else {
       this.show = true;
