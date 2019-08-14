@@ -36,13 +36,13 @@ export class MoreBlockComponent {
     }
   }
   setInnerLinkStates(state) {
-    this.links.forEach((link) => {
+    for (let i = 0; i < this.links.length; i++) {
       if (!state) {
-        setTimeout(() => link.setAttribute('style', `visibility: ${state ? 'visible' : 'hidden'}`), 225);
+        setTimeout(() => this.links[i].setAttribute('style', `visibility: ${state ? 'visible' : 'hidden'}`), 225);
       } else {
-        link.setAttribute('style', `visibility: ${state ? 'visible' : 'hidden'}`);
+        this.links[i].setAttribute('style', `visibility: ${state ? 'visible' : 'hidden'}`);
       }
-    });
+    }
   }
   changeState() {
     const newState = !this.show;
