@@ -57,6 +57,11 @@
       }
     }
   }
+  &.hide ::ng-deep .content__inner {
+    :nth-child(n) {
+      margin: 0;
+    }
+  }
   &.show, .show {
     height: auto;
     max-height: 99rem;
