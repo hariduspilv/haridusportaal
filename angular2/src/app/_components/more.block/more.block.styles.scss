@@ -32,7 +32,7 @@
       transition: opacity .225s ease-in-out;
       margin-top: 2.75rem;
       // background-image: linear-gradient(to bottom, transparent 25%, white);
-      background: rgba(255, 255, 255, 0.7);
+      background: rgba(255, 255, 255, 0.8);
 
     }
   }
@@ -67,5 +67,13 @@
   }
   @include break-on(sm, max) {
     padding: 0 1.5rem 1.5rem;
+    ::ng-deep  .content {
+      &__inner {
+        max-height: 6.875rem;
+      }
+      &__background {
+        margin-top: 5.5rem;
+      }
+    }
   }
 }
