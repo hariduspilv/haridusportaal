@@ -11,7 +11,7 @@ export class MoreBlockComponent {
   @Input() content: string;
   @Input() id: string;
   public cutoffs: Object = {
-    lg: 66,
+    lg: 88,
     sm: 110,
   };
   public active: boolean = false;
