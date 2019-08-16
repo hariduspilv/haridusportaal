@@ -18,6 +18,7 @@
 	will-change: transform;
 	transition: transform .2s cubic-bezier(0.215, 0.61, 0.355, 1);
 	&.is-visible {
+		z-index: 1;
 		transform: translateX(0);
 	}
 	ul,
