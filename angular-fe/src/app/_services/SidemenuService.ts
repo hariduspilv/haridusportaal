@@ -1,7 +1,9 @@
 import { Injectable, OnInit } from '@angular/core';
 import { Subject, Observable, BehaviorSubject } from 'rxjs';
 
-@Injectable()
+@Injectable( {
+  providedIn: 'root',
+})
 export class SidemenuService {
 
   private subject:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
