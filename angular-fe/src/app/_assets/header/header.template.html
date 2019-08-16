@@ -3,7 +3,7 @@
     theme="plain"
     attr.aria-label="{{ 'button.open' | translate }} {{ 'frontpage.main_menu' | translate }}" 
     attr.aria-expanded="{{active}}" 
-    (click)="active = !active">
+    (click)="toggleSidemenu()">
     <div class="toggle" [class.active]="active">
       <div class="bar first"></div>
       <div class="bar middle"></div>
