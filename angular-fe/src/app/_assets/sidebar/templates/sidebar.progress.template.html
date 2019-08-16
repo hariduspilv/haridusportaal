@@ -1,0 +1,4 @@
+<h2 innerHtml="{{'oska.competition_introduction_label' | translate}}"></h2>
+<progress-bar *ngIf="level" [id]="level" [level]="level" statusLabel="{{ competitionLabels[level - 1] | translate }}" 
+	startLabel="{{'oska.simple' | translate}}" endLabel="{{'oska.difficult' | translate}}">
+</progress-bar>

@@ -71,10 +71,10 @@ stories.add(
         loading,
       },
       template: `
-          <htm-modal id="modal-1" title="Esimene pealkiri" [loading]="loading === 'yes'"
+          <htm-modal id="modal-1" title="Esimene pealkiri"
           [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
           [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
-            <modal-content>
+            <modal-content id="modal-1" [loading]="loading === 'yes'">
               <table htm-table>
                 <tr>
                   <th>Esimene</th>
@@ -89,10 +89,10 @@ stories.add(
               </table>
             </modal-content>
           </htm-modal>
-          <htm-modal id="modal-2" title="Pealkiri" [loading]="loading === 'yes'"
+          <htm-modal id="modal-2" title="Pealkiri"
           [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
           [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
-            <modal-content>
+            <modal-content id="modal-2" [loading]="loading === 'yes'">
               <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui
                 blanditiis praesentium voluptatum deleniti atque corrupti
                 quos dolores et quas molestias excepturi sint occaecati
@@ -108,10 +108,9 @@ stories.add(
             </modal-content>
           </htm-modal>
           <htm-modal id="loader" title="Failure is apparently an option"
-          [loading]="loading === 'yes'" [titleExists]="titleExists === 'yes'"
-          [topAction]="topAction === 'yes'" [bottomAction]="bottomAction === 'yes'"
-          [stateButton]="true">
-            <modal-content>
+          [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
+          [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
+            <modal-content id="loader" [loading]="loading === 'yes'">
               Sisu sisu sisu
             </modal-content>
           </htm-modal>

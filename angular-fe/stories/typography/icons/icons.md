@@ -3,12 +3,14 @@
 ## Usage
 
 ```html
-<icon glyph="bookmark" size="default"></icon>
+<icon glyph="bookmark" size="default" bg="false"></icon>
 ```
 
 ## Properties
 
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
-| size | default | default, large, medium | string | Icon size
+| glyph | - | ... | string | Icon name
+| size | default | default, large, medium | string | Size
+| bg | false | true, false | boolean | Background
 
