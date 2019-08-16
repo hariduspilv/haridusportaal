@@ -40,6 +40,15 @@ stories.add('Map', () => {
   const streetViewControl = options('Street View control', { Yes: 'yes', No: 'no' }, 'no', {
     display: 'inline-radio',
   });
+  const mapLabelsControl = options('Map labels control', { Yes: 'yes', No: 'no' }, 'yes', {
+    display: 'inline-radio',
+  });
+  const markersControl = options('Markers control', { Yes: 'yes', No: 'no' }, 'yes', {
+    display: 'inline-radio',
+  });
+  const polygonsControl = options('Polygons control', { Yes: 'yes', No: 'no' }, 'no', {
+    display: 'inline-radio',
+  });
   const optionsData: Object = {
     // centerLat: 59.4371821,
     // centerLng: 24.7450143,
@@ -50,6 +59,9 @@ stories.add('Map', () => {
     bottomAction: bottomAction === 'yes',
     zoomControl: zoomControl === 'yes',
     streetViewControl: streetViewControl === 'yes',
+    mapLabelsControl: mapLabelsControl === 'yes',
+    markersControl: markersControl === 'yes',
+    polygonsControl: polygonsControl === 'yes',
   };
   const markers: Object[] = [
     {

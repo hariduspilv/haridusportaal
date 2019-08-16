@@ -1,5 +1,14 @@
 export default {
   api_prefix: 'https://htm.wiseman.ee/',
+  defaultPolygonColors: [
+    '#FBE5C4',
+    '#FBD291',
+    '#F8B243',
+    '#F89229',
+    '#E2770D',
+    '#D5401A',
+    '#8B2F17',
+  ],
   defaultMapOptions: {
     center: {
       lat: 58.5822061,

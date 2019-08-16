@@ -1,0 +1,92 @@
+[
+  {
+    "NIMI": "Tartu maakond",
+    "label": "Tartumaa",
+    "latitude": 58.371402629940235,
+    "longitude": 26.694065469106675
+  },
+  {
+    "NIMI": "Jõgeva maakond",
+    "label": "Jõgevamaa",
+    "latitude": 58.763632768069115,
+    "longitude": 26.4872908450123
+  },
+  {
+    "NIMI": "Rapla maakond",
+    "label": "Raplamaa",
+    "latitude": 58.96718640181603,
+    "longitude": 24.672198729725505
+  },
+  {
+    "NIMI": "Võru maakond",
+    "label": "Võrumaa",
+    "latitude": 57.76957632485075,
+    "longitude": 26.955637452021052
+  },
+  {
+    "NIMI": "Harju maakond",
+    "label": "Harjumaa",
+    "latitude": 59.38260632449432,
+    "longitude": 24.856780893500343
+  },
+  {
+    "NIMI": "Valga maakond",
+    "label": "Valgamaa",
+    "latitude": 57.932268648144394,
+    "longitude": 26.105312870556486
+  },
+  {
+    "NIMI": "Lääne-Viru maakond",
+    "label": "Lääne-Virumaa",
+    "latitude": 59.253991917484024,
+    "longitude": 26.26183525127057
+  },
+  {
+    "NIMI": "Põlva maakond",
+    "label": "Põlvamaa",
+    "latitude": 58.06315476225576,
+    "longitude": 27.013469147741477
+  },
+  {
+    "NIMI": "Pärnu maakond",
+    "label": "Pärnumaa",
+    "latitude": 58.46994262458281,
+    "longitude": 24.4433634623867
+  },
+  {
+    "NIMI": "Järva maakond",
+    "label": "Järvamaa",
+    "latitude": 58.9086861091671,
+    "longitude": 25.60623056216489
+  },
+  {
+    "NIMI": "Ida-Viru maakond",
+    "label": "Ida-Virumaa",
+    "latitude": 59.29041771259,
+    "longitude": 27.3968075541764
+  },
+  {
+    "NIMI": "Viljandi maakond",
+    "label": "Viljandimaa",
+    "latitude": 58.308269858166504,
+    "longitude": 25.56958739492529
+  },
+  {
+    "NIMI": "Hiiu maakond",
+    "label": "Hiiumaa",
+    "latitude": 58.91485486262221,
+    "longitude": 22.592184705792876
+  },
+  {
+    "NIMI": "Lääne maakond",
+    "label": "Läänemaa",
+    "latitude": 59.0546306253273,
+    "longitude": 23.75873359936321
+  },
+  {
+    "NIMI": "Saare maakond",
+    "label": "Saaremaa",
+    "latitude": 58.450898162231734,
+    "longitude": 22.57153564547045
+  }
+]

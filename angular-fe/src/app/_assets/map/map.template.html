@@ -6,8 +6,8 @@
     [zoom]="options.zoom"
     [minZoom]="options.minZoom"
     [maxZoom]="options.maxZoom"
-    [styles]="defaultMapStyles">
-    <agm-marker-cluster [styles]="defaultMapOptions.clusterStyles" *ngIf="markers && markers.length">
+    [styles]="defaultMapOptions.styles">
+    <agm-marker-cluster *ngIf="options.markersControl && markers && markers.length" [styles]="defaultMapOptions.clusterStyles">
       <agm-marker *ngFor="let marker of markers"
         [latitude]="marker.Lat"
         [longitude]="marker.Lon"
@@ -21,6 +21,12 @@
         </agm-snazzy-info-window>
       </agm-marker>
     </agm-marker-cluster>
+    <agm-data-layer *ngIf="options.polygonsControl && polygons" [geoJson]="polygons" [style]="polygonStyles">
+      <!-- (layerClick)="kmlClick($event)" -->
+    </agm-data-layer>
+    <ng-container *ngIf="options.polygonsControl && polygonMarkers && polygonMarkers.length && polygons.features && polygonLayer == 'county'">
+      <agm-marker *ngFor="let item of polygonMarkers" [iconUrl]="polygonIcon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
+    </ng-container>
   </agm-map>
   <a *ngIf="options.bottomAction" href="http://www.google.com/maps/place/{{ options.centerLat }},{{ options.centerLng }}" target="_blank">
     <icon glyph="external-link" size="medium"></icon>
