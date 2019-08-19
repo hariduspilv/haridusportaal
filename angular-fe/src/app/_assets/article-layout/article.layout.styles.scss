@@ -21,6 +21,7 @@
     grid-area: content;
     grid-template-areas: '.'
                          'sidebar';
+    grid-gap: 1rem;
     grid-template-columns: 1fr;
     @include break-on(sm, min) {
       grid-template-areas: '. sidebar';
