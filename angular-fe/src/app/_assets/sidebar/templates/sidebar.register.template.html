@@ -1,0 +1,37 @@
+ <ng-container *ngIf="data.fieldEntryType && data.fieldEntryType == 'register'">
+  <p>
+    <ng-container *ngIf="canRegister() == true">
+      <span>{{'button.register' | translate}} {{'time.from' | translate | lowercase}} </span>
+      <span>{{ data.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} </span>
+      <span>{{'time.to' | translate | lowercase}} {{ data.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}</span>
+    </ng-container>
+    <span class="error" *ngIf="canRegister() == 'ended'" role="alert">{{'event.registration_ended' | translate}}</span>
+    <span class="error" *ngIf="canRegister() == 'not_started'" role="alert">{{'event.registration_not_started' | translate}}</span>
+    <span class="error" *ngIf="canRegister() == 'full'" role="alert">{{'event.registration_full' | translate}}</span>
+  </p>
+  <div class="actions" *ngIf="canRegister() == true">
+    <button htm-button>{{ 'button.register' | translate }}</button>
+    <a href="{{ iCalUrl }}{{ data.nid }}">{{'button.calendar_add' | translate}}</a>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="data.fieldEntryType == 'external_inv'">
+  <div class="actions" *ngIf="data.fieldRegistrationUrl">
+    <a target="_blank" [href]="data.fieldRegistrationUrl.url.path">{{ 'event.external_registration' | translate }}</a>
+  </div>
+</ng-container>
+
+<p *ngIf="data.fieldEntryType && data.fieldEntryType == 'free' && !data.EventRegistrations">
+  <span *ngIf="canRegister() !== 'ended'" >{{'event.free' | translate}}</span>
+  <span class="error" *ngIf="canRegister() == 'ended'">{{'event.passed' | translate}}</span>
+</p>
+
+<p *ngIf="data.fieldEntryType && data.fieldEntryType == 'invite'">
+  <span *ngIf="canRegister() !== 'ended'">{{'event.invite' | translate}}</span>
+  <span class="error" *ngIf="canRegister() == 'ended'" >{{'event.passed' | translate}}</span>
+</p>
+
+<ng-container *ngIf="data.EventRegistrations">
+  <h2>{{'event.participant_list' | translate}}</h2>
+  <button htm-button (click)="toggleParticipants(true)">{{'event.participants_list_view' | translate}}</button>
+</ng-container>

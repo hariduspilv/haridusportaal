@@ -1,0 +1,7 @@
+<ng-container *ngIf="data && data.length">
+  <ng-container *ngFor="let location of data">
+    <map *ngIf="markers && markers.length" aria-hidden="true" [options]="options" [markers]="markers"></map>
+    <h1>{{ 'school.legal_address' | translate }}</h1>
+    <p *ngIf="location.entity.fieldAddress">{{ location.entity.fieldAddress }}</p>
+  </ng-container>
+</ng-container>

@@ -3,7 +3,7 @@
     theme="plain"
     attr.aria-label="{{ 'button.open' | translate }} {{ 'frontpage.main_menu' | translate }}" 
     attr.aria-expanded="{{active}}" 
-    (click)="active = !active">
+    (click)="toggleSidemenu()">
     <div class="toggle" [class.active]="active">
       <div class="bar first"></div>
       <div class="bar middle"></div>
@@ -11,7 +11,7 @@
     </div>
   </button>
 </div>
-<a href="javascript:void(0)" class="header__logo pointer" role="link" attr.aria-label="{{'frontpage.lead' | translate}}">
+<a href="" class="header__logo pointer" role="link" attr.aria-label="{{'frontpage.lead' | translate}}">
   <!-- <icon glyph="logo" size="medium"></icon> -->
   <img aria-hidden="true" src="../../../assets/img/logo.svg"/>
 </a>
@@ -32,12 +32,12 @@
   </button>
 </div>
 <htm-modal id="search" title="Otsing">
-  <modal-content>
+  <modal-content id="search" *ngIf="modalService.modalOpened['search']">
     Otsi OTSI otsi
   </modal-content>
 </htm-modal>
 <htm-modal id="login" title="Login">
-  <modal-content>
+  <modal-content id="login" *ngIf="modalService.modalOpened['login']">
     Loogika
   </modal-content>
 </htm-modal>

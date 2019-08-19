@@ -5,7 +5,7 @@ import baseStoriesTemplateHtml from './base.stories.template.html';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
-import { Alert, AlertType } from '@app/_services';
+import { Alert, AlertType, SidemenuService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
@@ -72,6 +72,7 @@ stories.add('Baselayout', () => {
       plokk2Alerts,
       plokk3Alerts,
       plokk1Alerts,
+      SidemenuService,
     },
     template: baseStoriesTemplateHtml,
   };
