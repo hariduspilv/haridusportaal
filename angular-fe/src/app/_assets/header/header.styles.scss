@@ -112,6 +112,7 @@
 			}
 			&__hamburger { display: none; }
 			&__assets {
+				margin-right: 0;
 				&--grid {
 					display: grid;
 					grid-template-areas: 'search actions';
