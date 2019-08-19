@@ -63,7 +63,7 @@ export const data = {
           }
         },
         {
-          "entityLabel": "rzdm+Automaattest",
+          "entityLabel": "rzdm automaat",
           "created": 1555369449,
           "fieldAuthor": "Kiisu Madis",
           "fieldIntroductionImage": {
@@ -112,7 +112,7 @@ export const data = {
           "routed": true,
           "path": "/artiklid/haridusministeerium-loobus-rkas-i-teenusest"
         },
-        "title": "Kutsestandardi teine lingi tekst testime pikkust tekst tekts tekskkafksamfsapfmsaofpasnsfa tekst"
+        "title": "Kutsestandardi teine lingi tekst testime pikkust tekst tekts teksk kaf ksam fsa pf msao fpa s nsfa tekst"
       }
     ],
     "fieldQuickFind": [
