@@ -1,35 +1,55 @@
+<!-- Snazzy templates -->
 <ng-container *ngIf="options">
-  <agm-map (mapReady)="mapReady($event)"
-    [zoomControl]="options.zoomControl"
-    [streetViewControl]="options.streetViewControl"
-    [mapDraggable]="options.mapDraggable"
-    [zoom]="options.zoom"
-    [minZoom]="options.minZoom"
-    [maxZoom]="options.maxZoom"
-    [styles]="defaultMapOptions.styles">
-    <agm-marker-cluster *ngIf="options.markersControl && markers && markers.length" [styles]="defaultMapOptions.clusterStyles">
-      <agm-marker *ngFor="let marker of markers"
-        [latitude]="marker.Lat"
-        [longitude]="marker.Lon"
-        [iconUrl]="defaultMapOptions.icon">
-        <agm-snazzy-info-window *ngIf="marker.info"
-          [closeWhenOthersOpen]="true">
+  <div class="map__wrapper">
+    <agm-map (mapReady)="mapReady($event)"
+      (zoomChange)="zoomChange($event)"
+      [zoomControl]="options.zoomControl"
+      [streetViewControl]="options.streetViewControl"
+      [mapDraggable]="options.mapDraggable"
+      [zoom]="options.zoom"
+      [minZoom]="options.minZoom"
+      [maxZoom]="options.maxZoom"
+      [styles]="defaultMapOptions.styles">
+      <agm-marker-cluster *ngIf="options.type === 'markers' && markerData && markerData.length" [styles]="defaultMapOptions.clusterStyles">
+        <agm-marker *ngFor="let marker of markerData"
+          [latitude]="marker.Lat"
+          [longitude]="marker.Lon"
+          [iconUrl]="defaultMapOptions.icon">
+          <agm-snazzy-info-window *ngIf="marker.info"
+            [closeWhenOthersOpen]="true">
+            <ng-template>
+              <p class="title with--border">{{ marker.info.FieldSchoolName }}</p>
+              <p>{{ marker.info.FieldEducationalInstitutionTy }}</p>
+            </ng-template>  
+          </agm-snazzy-info-window>
+        </agm-marker>
+      </agm-marker-cluster>
+      <agm-data-layer *ngIf="options.type === 'polygons' && polygons" [geoJson]="polygons" [style]="mapService.polygonStyles" (layerClick)="mapService.layerClick($event, polygonType)"></agm-data-layer>
+      <ng-container *ngIf="options.type === 'polygons' && polygonMarkers && polygonMarkers.length && polygons.features && polygonLayer == 'county'">
+        <agm-marker *ngFor="let item of polygonMarkers" [iconUrl]="polygonIcon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
+      </ng-container>
+      <!-- <ng-container *ngIf="mapService.infoLayer && mapService.infoLayer.status">
+        <agm-snazzy-info-window [closeWhenOthersOpen]="true" isOpen="mapService.infoLayer.status" [latitude]="mapService.infoLayer.latitude" [longitude]="mapService.infoLayer.longitude" (isOpenChange)="mapService.layerClickStatus($event)" >
           <ng-template>
-            <p class="title">{{marker.info.FieldSchoolName}}</p>
-            <p>{{marker.info.FieldEducationalInstitutionTy}}</p>
-          </ng-template>  
+            <p *ngIf="mapService.infoLayer.title" class="title">{{ mapService.infoLayer.title }}</p>
+            <p *ngIf="mapService.infoLayer.currency">{{ mapService.infoLayer.currency }}</p>
+          </ng-template>
         </agm-snazzy-info-window>
-      </agm-marker>
-    </agm-marker-cluster>
-    <agm-data-layer *ngIf="options.polygonsControl && polygons" [geoJson]="polygons" [style]="polygonStyles">
-      <!-- (layerClick)="kmlClick($event)" -->
-    </agm-data-layer>
-    <ng-container *ngIf="options.polygonsControl && polygonMarkers && polygonMarkers.length && polygons.features && polygonLayer == 'county'">
-      <agm-marker *ngFor="let item of polygonMarkers" [iconUrl]="polygonIcon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
-    </ng-container>
-  </agm-map>
-  <a *ngIf="options.bottomAction" href="http://www.google.com/maps/place/{{ options.centerLat }},{{ options.centerLng }}" target="_blank">
-    <icon glyph="external-link" size="medium"></icon>
-    <span>{{'button.map_closer' | translate}}</span>
-  </a>
+      </ng-container> -->
+    </agm-map>
+    <a *ngIf="options.bottomAction" href="http://www.google.com/maps/place/{{ options.centerLat }},{{ options.centerLng }}" target="_blank">
+      <icon glyph="external-link" size="medium"></icon>
+      <span>{{'button.map_closer' | translate}}</span>
+    </a>
+    <div class="polygons__toggle" *ngIf="options.type === 'polygons' && polygons && options.layerControl">
+      <button (click)="changeLayer('county')" [class.active]="polygonLayer === 'county'">{{ 'school.counties' | translate }}</button>
+      <button (click)="changeLayer('kov')" [class.active]="polygonLayer === 'kov'">{{ 'school.municipalities_detailed' | translate }}</button>
+    </div>
+  </div>
+  <div class="map__legend" *ngIf="options.legendControl && heatmap && heatmap.length > 0 && options.type === 'polygons'">
+    <div class="map__legend__block" *ngFor="let item of heatmap">
+      <div class="map__legend__color" [style.background-color]="item.color"></div>
+      {{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount | legendCurrency:"max" }} €
+    </div>
+  </div><!--/map-legend-->
 </ng-container>

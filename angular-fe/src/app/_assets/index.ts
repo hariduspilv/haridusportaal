@@ -41,8 +41,9 @@ import { MapComponent } from './map';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { LegendCurrencyPipe } from '@app/_pipes/legendCurrency.pipe';
 
-const pipes = []
+const pipes =  [LegendCurrencyPipe];
 
 const declarations = [
   BlockComponent,
@@ -101,7 +102,7 @@ const providers = [
 
 @NgModule({
   providers,
-  declarations: [...declarations],
+  declarations: [...declarations, pipes],
   imports: [
     CommonModule,
     RouterModule,

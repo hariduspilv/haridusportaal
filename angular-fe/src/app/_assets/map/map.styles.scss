@@ -2,17 +2,94 @@
 @import "breakpoints.scss";
 
 :host {
-	display: block;
-	position: relative;
-	box-sizing: border-box;
-	padding-bottom: 56%;
-	min-height: 10rem;
+	.map__wrapper {
+		display: block;
+		position: relative;
+		box-sizing: border-box;
+		padding-bottom: 56%;
+		min-height: 10rem;
+		.map__loader {
+			position:  absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(255,255,255,0.7);
+			z-index: 2;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+		}
+		.polygons__toggle {
+			position: absolute;
+			top: 1rem;
+			left: 1rem;
+			background: $white;
+			border-radius: 10rem;
+			button{
+				appearance: none; 
+				display: inline-block;
+				border: none;
+				cursor: pointer;
+				background: $white;
+				color: $black;
+				padding: 0 0.75rem;
+				height: 25px;
+				line-height: 25px;
+				border-radius: 10rem;
+				font-size: 0.875rem;
+				font-family: Rubik;
+			  color: $blue;
+				&.active{
+					background: $light-blue;
+					color: $black;
+				}
+			}
+			@include break-on(sm, max) {
+				right: 1rem;
+				font-size: 0;
+				button{
+					width: 50%;
+				}
+			}
+		}
+	}
+	.map__legend {
+		display: flex;
+    width: 100%;
+    font-size: .875rem;
+    margin-top: 1rem;
+		@include break-on(sm, max) {
+			text-align: center;
+			margin: 1rem 0;
+			width: auto;
+			display: block;
+			overflow: auto;
+			white-space: nowrap;
+			&__block{
+				display: inline-block;
+				width: 9rem;
+			}
+		}
+		&__block{
+			flex-grow: 1;
+    	text-align: center;
+		}
+		&__color{
+			height: 1.875rem;
+			margin-bottom: 0.5625rem;
+			display: block;
+		}
+	}
 	agm-map {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
+		::ng-deep b {
+			font-weight: 500;
+		}
 	}
 	a {
 		position: absolute;
@@ -168,14 +245,20 @@
 			color: #333;
 			font-family: Rubik,sans-serif!important;
 			font-weight: 500;
-			border-bottom: 1px solid #c7c7c9;
 			padding-left: 24px;
-			padding-bottom: 16px;
+			padding-bottom: 0;
 			margin: 0 -24px 16px;
+			&.with--border {
+				padding-bottom: 16px;
+				border-bottom: 1px solid #c7c7c9;
+			}
 		}
 		p:not(.title) {
 			margin-top: 10px;
 			margin-bottom: 10px;
+			&:last-child {
+				margin-bottom: 0;
+			}
 		}
 	}
 	.si-pointer-top {

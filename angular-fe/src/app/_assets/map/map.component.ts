@@ -1,19 +1,22 @@
-import { Component, Input, HostBinding } from '@angular/core';
+import { Component, Input, HostBinding, ChangeDetectorRef } from '@angular/core';
 import conf from '@app/_core/conf';
 import { HttpClient } from '@angular/common/http';
+import { MapService } from '@app/_services';
 interface MapOptions {
   zoomControl: boolean;
   streetViewControl: boolean;
   mapDraggable: boolean;
   bottomAction: boolean;
   mapLabelsControl: boolean;
-  markersControl: boolean;
-  polygonsControl: boolean;
+  legendControl: boolean;
+  layerControl: boolean;
+  extraPolygonLabels: boolean;
   centerLat: any;
   centerLng: any;
   zoom: number;
   minZoom: number;
   maxZoom: number;
+  type: string;
 }
 @Component({
   selector: 'map',
@@ -22,20 +25,18 @@ interface MapOptions {
 })
 
 export class MapComponent {
+  @Input() polygonData: any = false;
   @Input() options: MapOptions;
-  @Input() markers: Object[];
+  @Input() markerData: Object[];
+  @Input() polygonType: string;
   private map: any;
+  private heatmap: any;
+  private loading: boolean = false;
   private polygons: any;
   private polygonMarkers: any;
   private polygonLayer: string = 'county';
   private defaultMapStyles: any = conf.defaultMapStyles;
   private defaultMapOptions: any = conf.defaultMapOptions;
-  private labelOptions = {
-    lightColor: 'white',
-    color: 'black',
-    fontSize: '14px',
-    fontWeight: 'regular',
-  };
   private polygonIcon = {
     url: '',
     scaledSize: {
@@ -43,10 +44,10 @@ export class MapComponent {
       height: 0,
     },
   };
-  @HostBinding('class') get hostClasses(): string {
-    return 'map__wrapper';
-  }
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+    private mapService: MapService) {}
   mapReady(map) {
     this.map = map;
     this.map.setZoom(this.options.zoom);
@@ -60,13 +61,22 @@ export class MapComponent {
       centerCoords = this.defaultMapOptions.center;
     }
     this.map.setCenter(centerCoords);
-    this.getPolygons();
+  }
+  zoomChange($event) {
+    console.log('zoomChange');
   }
   getPolygons() {
     const url = `/assets/polygons/${this.polygonLayer}.json`;
     const subscription = this.http.get(url).subscribe((data) => {
-      this.polygons = data;
-      this.polygonMarkers = this.mapPolyLabels(data);
+      this.heatmap = this.mapService.generateHeatMap(this.polygonType,
+                                                     this.polygonData[this.polygonLayer]);
+      this.polygons = this.mapService.mapPolygonData(this.polygonType, data,
+                                                     this.polygonData[this.polygonLayer],
+                                                     this.heatmap);
+      this.polygonMarkers = this.mapService.mapPolygonLabels(data, this.options.extraPolygonLabels);
+      if (this.polygonMarkers) {
+        this.cdr.detectChanges();
+      }
       subscription.unsubscribe();
     });
   }
@@ -77,42 +87,12 @@ export class MapComponent {
       ...conf.defaultMapStyles,
     ];
   }
-  mapPolyLabels (polygons) {
-    if (polygons && polygons['features']) {
-      const polygonMarkers = polygons['features'].map((elem) => {
-        return {
-          latitude: elem.geometry.center.latitude,
-          longitude: elem.geometry.center.longitude,
-          labelOptions: {
-            color: this.labelOptions.color,
-            fontSize: this.labelOptions.fontSize,
-            fontWeight: this.labelOptions.fontWeight,
-            text: elem.properties['NIMI'],
-          },
-        };
-      });
-      return polygonMarkers;
-    }
+  changeLayer(name) {
+    this.polygonLayer = name;
+    this.getPolygons();
   }
-
-  polygonStyles(feature) {
-    let color = '#cfcfcf';
-    const keys = Object.keys(feature).join(',').split(',');
-
-    for (const i in keys) {
-      const key = keys[i];
-      if (feature[key] && feature[key]['color']) {
-        color = feature[key]['color'];
-      }
-    }
-    return {
-      fillColor: color,
-      fillOpacity: 1,
-      strokeColor: '#ffffff',
-      strokeWeight: 1,
-      strokeOpacity: 1,
-      clickable: true,
-    };
+  ngOnInit() {
+    this.getPolygons();
   }
   ngOnChanges() {
     this.mapLabelSwitcher(this.options.mapLabelsControl);
