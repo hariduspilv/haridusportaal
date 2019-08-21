@@ -14,8 +14,7 @@
 		justify-content: center;
 		height: 50px;
 		width: 50px;
-		padding: 24px;
-		margin: 0 auto;
+		margin: 0 auto 24px auto;
 		will-change: transforn;
 		animation: loaderRotate 2.4s cubic-bezier(0.77, 0, 0.175, 1) 0s infinite normal forwards;
 	}

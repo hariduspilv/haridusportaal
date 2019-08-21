@@ -173,8 +173,15 @@
 			}
 			sidebar-facts {
 				line-height: 1.375rem;
-				img {
+				.image {
 					padding-right: .25rem;
+					@include break-on(sm, min) {
+						line-height: inherit;
+    				width: 100%;
+					}
+				}
+				img {
+					width: 100%;
 				}
 				hr {
 					margin: 1rem 0;
@@ -235,18 +242,6 @@
 				}
 				.label {
 					&__tag {
-						height: 1.375rem;
-						font-size: .75rem;
-						border-radius: .6875rem;
-						background: $orange;
-						z-index: 2;
-						text-align: center;
-						padding: 0 1rem;
-						position: relative;
-						white-space: nowrap;
-						left: 5rem;
-						bottom: -.25rem;
-						margin: 0;
 						&--wrapper {
               padding-top: .5rem;
 							height: 2rem;
@@ -254,6 +249,8 @@
 							position: relative;
 						}
 						&--pointer {
+							display: flex;
+							margin-top: 1.875rem;
 							:nth-child(6n) {
 								position: relative;
 								&:after {
@@ -262,9 +259,35 @@
 									border-right: 0.625rem solid transparent;
 									border-left: 0.625rem solid transparent;
 									border-top: .75rem solid $orange;
-									right: 25%;
-									bottom: 1.5rem;
+									right: 15%;
+									bottom: 1.25rem;
 									z-index: 1;
+								}
+								&:before {
+									content: 'Eesti keskmine';
+									position: absolute;
+									height: 1.375rem;
+									font-size: 0.75rem;
+									border-radius: 0.6875rem;
+									background: $orange;
+									z-index: 2;
+									text-align: center;
+									padding: 0 1rem;
+									white-space: nowrap;
+									margin: 0;
+									bottom: 1.75rem;
+    							right: -2.5rem;
+								}
+							}
+						}
+						@include break-on(md, min) {
+							left: 40%;
+							&--pointer :nth-child(6n) {
+								&:after {
+									bottom: 1.875rem;
+								}
+								&:before {
+									bottom: 2.5rem;
 								}
 							}
 						}
