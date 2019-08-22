@@ -45,6 +45,9 @@ Use the version 1.8.0+ as it sorts previous bugs with nested drag & drop.
 
 If the file exists, the feature will automatically be available.
 
+Due to known issues with newer versions of SortableJs library, version
+1.6.0 should be used with the patch following patch https://patch-diff.githubusercontent.com/raw/SortableJS/Sortable/pull/1154.diff.
+
 MULTILINGUAL CONFIGURATION
 -------------
  * Enable the Paragraph module.

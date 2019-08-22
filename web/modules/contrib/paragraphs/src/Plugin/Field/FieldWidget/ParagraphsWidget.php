@@ -603,6 +603,11 @@ class ParagraphsWidget extends WidgetBase {
           '#access' => $this->duplicateButtonAccess($paragraphs_entity),
         ];
 
+        // Force the closed mode when the user cannot edit the Paragraph.
+        if (!$paragraphs_entity->access('update')) {
+          $item_mode = 'closed';
+        }
+
         if ($item_mode != 'remove') {
           $widget_actions['dropdown_actions']['remove_button'] = [
             '#type' => 'submit',
@@ -753,7 +758,12 @@ class ParagraphsWidget extends WidgetBase {
         ];
 
         field_group_attach_groups($element['subform'], $context);
-        $element['subform']['#pre_render'][] = 'field_group_form_pre_render';
+        if (function_exists('field_group_form_pre_render')) {
+          $element['subform']['#pre_render'][] = 'field_group_form_pre_render';
+        }
+        if (function_exists('field_group_form_process')) {
+          $element['subform']['#process'][] = 'field_group_form_process';
+        }
       }
 
       if ($item_mode == 'edit') {
@@ -1619,12 +1629,19 @@ class ParagraphsWidget extends WidgetBase {
     $field_name = $this->fieldDefinition->getName();
     $field_title = $this->fieldDefinition->getLabel();
     $setting_title = $this->getSetting('title');
+    $select_options = $this->getAccessibleOptions();
     $add_more_elements['add_more_select'] = [
       '#type' => 'select',
-      '#options' => $this->getAccessibleOptions(),
+      '#options' => $select_options,
       '#title' => $this->t('@title type', ['@title' => $setting_title]),
       '#label_display' => 'hidden',
     ];
+
+    // Do not present the select element if only one option is available.
+    if (count($select_options) === 1) {
+      $add_more_elements['add_more_select']['#type'] = 'value';
+      $add_more_elements['add_more_select']['#value'] = key($select_options);
+    }
 
     $text = $this->t('Add @title', ['@title' => $setting_title]);
 
@@ -1661,6 +1678,13 @@ class ParagraphsWidget extends WidgetBase {
     $delta = $submit['element']['#max_delta'];
     $element[$delta]['#prefix'] = '<div class="ajax-new-content">' . (isset($element[$delta]['#prefix']) ? $element[$delta]['#prefix'] : '');
     $element[$delta]['#suffix'] = (isset($element[$delta]['#suffix']) ? $element[$delta]['#suffix'] : '') . '</div>';
+
+    // Clear the Add more delta.
+    NestedArray::setValue(
+      $element,
+      ['add_more', 'add_modal_form_area', 'add_more_delta', '#value'],
+      ''
+    );
 
     return $element;
   }
@@ -2227,20 +2251,27 @@ class ParagraphsWidget extends WidgetBase {
 
         // We can only use the entity form display to display validation errors
         // if it is in edit mode.
-        if ($widget_state['paragraphs'][$item['_original_delta']]['mode'] === 'edit') {
+        if (!$form_state->isValidationComplete() && $widget_state['paragraphs'][$item['_original_delta']]['mode'] === 'edit') {
           $display->validateFormValues($paragraphs_entity, $element[$item['_original_delta']]['subform'], $form_state);
         }
         // Assume that the entity is being saved/previewed, in this case,
         // validate even the closed paragraphs. If there are validation errors,
         // add them on the parent level. Validation errors do not rebuild the
         // form so it's not possible to auto-uncollapse the form at this point.
-        elseif ($form_state->getLimitValidationErrors() === NULL) {
+        elseif (!$form_state->isValidationComplete() && $form_state->getLimitValidationErrors() === NULL) {
           $violations = $paragraphs_entity->validate();
           $violations->filterByFieldAccess();
           if (count($violations)) {
+            /** @var \Symfony\Component\Validator\ConstraintViolationInterface $violation */
             foreach ($violations as $violation) {
-              /** @var \Symfony\Component\Validator\ConstraintViolationInterface $violation */
-              $form_state->setError($element[$item['_original_delta']], $violation->getMessage());
+
+              // Ignore text format related validation errors by ignoring
+              // the .format property.
+              if (substr($violation->getPropertyPath(), -7) === '.format') {
+                continue;
+              }
+
+              $form_state->setError($element[$item['_original_delta']], $this->t('Validation error on collapsed paragraph @path: @message', ['@path' => $violation->getPropertyPath(), '@message' => $violation->getMessage()]));
             }
           }
         }

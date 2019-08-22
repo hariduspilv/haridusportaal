@@ -3,14 +3,14 @@
 namespace Drupal\Tests\paragraphs\FunctionalJavascript;
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
  * Test paragraphs user interface.
  *
  * @group paragraphs
  */
-class ParagraphsExperimentalEditPerspectivesUiTest extends JavascriptTestBase {
+class ParagraphsExperimentalEditPerspectivesUiTest extends WebDriverTestBase {
 
   use LoginAdminTrait;
   use ParagraphsTestBaseTrait;
@@ -50,25 +50,28 @@ class ParagraphsExperimentalEditPerspectivesUiTest extends JavascriptTestBase {
 
     $page = $this->getSession()->getPage();
     $this->drupalGet('admin/structure/paragraphs_type/add');
-    $edit = [
-      'label' => 'TestPlugin',
-      'id' => 'testplugin',
-      'behavior_plugins[test_text_color][enabled]' => TRUE,
-    ];
-    $this->drupalPostForm(NULL, $edit, t('Save and manage fields'));
+    $page->fillField('label', 'TestPlugin');
+    $this->assertSession()->waitForElementVisible('css', '#edit-name-machine-name-suffix .link');
+    $page->pressButton('Edit');
+    $page->fillField('id', 'testplugin');
+    $page->checkField('behavior_plugins[test_text_color][enabled]');
+    $page->pressButton('Save and manage fields');
+
     $this->drupalGet('admin/structure/types/add');
-    $edit = [
-      'name' => 'TestContent',
-      'type' => 'testcontent',
-    ];
-    $this->drupalPostForm(NULL, $edit, t('Save and manage fields'));
+    $page->fillField('name', 'TestContent');
+    $this->assertSession()->waitForElementVisible('css', '#edit-name-machine-name-suffix .link');
+    $page->pressButton('Edit');
+    $page->fillField('type', 'testcontent');
+    $page->pressButton('Save and manage fields');
+
     $this->drupalGet('admin/structure/types/manage/testcontent/fields/add-field');
-    $edit = [
-      'new_storage_type' => 'field_ui:entity_reference_revisions:paragraph',
-      'label' => 'testparagraphfield',
-      'field_name' => 'testparagraphfield',
-    ];
-    $this->drupalPostForm(NULL, $edit, t('Save and continue'));
+    $page->selectFieldOption('new_storage_type', 'field_ui:entity_reference_revisions:paragraph');
+    $page->fillField('label', 'testparagraphfield');
+    $this->assertSession()->waitForElementVisible('css', '#edit-name-machine-name-suffix .link');
+    $page->pressButton('Edit');
+    $page->fillField('field_name', 'testparagraphfield');
+    $page->pressButton('Save and continue');
+
     $edit = [
       'settings[target_type]' => 'paragraph',
     ];
@@ -99,24 +102,27 @@ class ParagraphsExperimentalEditPerspectivesUiTest extends JavascriptTestBase {
 
     $page = $this->getSession()->getPage();
     $this->drupalGet('admin/structure/paragraphs_type/add');
-    $edit = [
-      'label' => 'TestPlugin',
-      'id' => 'testplugin',
-    ];
-    $this->drupalPostForm(NULL, $edit, t('Save and manage fields'));
+    $page->fillField('label', 'TestPlugin');
+    $this->assertSession()->waitForElementVisible('css', '#edit-name-machine-name-suffix .link');
+    $page->pressButton('Edit');
+    $page->fillField('id', 'testplugin');
+    $page->pressButton('Save and manage fields');
+
     $this->drupalGet('admin/structure/types/add');
-    $edit = [
-      'name' => 'TestContent',
-      'type' => 'testcontent',
-    ];
-    $this->drupalPostForm(NULL, $edit, t('Save and manage fields'));
+    $page->fillField('name', 'TestContent');
+    $this->assertSession()->waitForElementVisible('css', '#edit-name-machine-name-suffix .link');
+    $page->pressButton('Edit');
+    $page->fillField('type', 'testcontent');
+    $page->pressButton('Save and manage fields');
+
     $this->drupalGet('admin/structure/types/manage/testcontent/fields/add-field');
-    $edit = [
-      'new_storage_type' => 'field_ui:entity_reference_revisions:paragraph',
-      'label' => 'testparagraphfield',
-      'field_name' => 'testparagraphfield',
-    ];
-    $this->drupalPostForm(NULL, $edit, t('Save and continue'));
+    $page->selectFieldOption('new_storage_type', 'field_ui:entity_reference_revisions:paragraph');
+    $page->fillField('label', 'testparagraphfield');
+    $this->assertSession()->waitForElementVisible('css', '#edit-name-machine-name-suffix .link');
+    $page->pressButton('Edit');
+    $page->fillField('field_name', 'testparagraphfield');
+    $page->pressButton('Save and continue');
+
     $edit = [
       'settings[target_type]' => 'paragraph',
     ];
