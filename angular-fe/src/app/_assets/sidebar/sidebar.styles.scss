@@ -7,7 +7,7 @@
 	display: block;
 	background: $light-gray;
 	@include break-on(sm, min) {
-		margin: 2rem 0 0 1rem;
+		margin: 2rem 0;
 	}
 	::ng-deep {
 		block {
