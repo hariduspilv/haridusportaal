@@ -238,6 +238,7 @@ permissions:
   - 'edit terms in teaching_language'
   - 'edit xjson entity entities'
   - 'edit xjson form entity entities'
+  - 'manage dynamic translations'
   - 'revert all oska entity revisions'
   - 'revert all oska indicator entity revisions'
   - 'revert all revisions'
