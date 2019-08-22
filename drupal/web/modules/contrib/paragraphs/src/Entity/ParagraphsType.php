@@ -14,6 +14,13 @@ use Drupal\paragraphs\ParagraphsTypeInterface;
  * @ConfigEntityType(
  *   id = "paragraphs_type",
  *   label = @Translation("Paragraphs type"),
+ *   label_collection = @Translation("Paragraphs types"),
+ *   label_singular = @Translation("Paragraphs type"),
+ *   label_plural = @Translation("Paragraphs types"),
+ *   label_count = @PluralTranslation(
+ *     singular = "@count Paragraphs type",
+ *     plural = "@count Paragraphs types",
+ *   ),
  *   handlers = {
  *     "access" = "Drupal\paragraphs\ParagraphsTypeAccessControlHandler",
  *     "list_builder" = "Drupal\paragraphs\Controller\ParagraphsTypeListBuilder",

@@ -49,7 +49,7 @@ class JwtAuthIssuerSubscriber implements EventSubscriberInterface {
   public function setStandardClaims(JwtAuthGenerateEvent $event) {
     $event->addClaim('iat', time());
     // @todo: make these more configurable.
-    $event->addClaim('exp', strtotime('+100000 hour'));
+    $event->addClaim('exp', strtotime('+1 hour'));
   }
 
   /**

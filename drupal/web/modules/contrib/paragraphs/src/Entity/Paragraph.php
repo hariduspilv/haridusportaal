@@ -29,6 +29,13 @@ use Drupal\user\UserInterface;
  * @ContentEntityType(
  *   id = "paragraph",
  *   label = @Translation("Paragraph"),
+ *   label_collection = @Translation("Paragraphs"),
+ *   label_singular = @Translation("Paragraph"),
+ *   label_plural = @Translation("Paragraphs"),
+ *   label_count = @PluralTranslation(
+ *     singular = "@count Paragraph",
+ *     plural = "@count Paragraphs",
+ *   ),
  *   bundle_label = @Translation("Paragraph type"),
  *   handlers = {
  *     "view_builder" = "Drupal\paragraphs\ParagraphViewBuilder",
@@ -139,18 +146,25 @@ class Paragraph extends ContentEntityBase implements ParagraphInterface {
    * {@inheritdoc}
    */
   public function label() {
-    $label = '';
-    if ($parent = $this->getParentEntity()) {
+    if (($parent = $this->getParentEntity()) && $parent->hasField($this->get('parent_field_name')->value)) {
       $parent_field = $this->get('parent_field_name')->value;
-      $values = $parent->{$parent_field};
-      foreach ($values as $key => $value) {
+      $field = $parent->get($parent_field);
+      $found = FALSE;
+      foreach ($field as $key => $value) {
         if ($value->entity->id() == $this->id()) {
-          $label = $parent->label() . ' > ' . $value->getFieldDefinition()->getLabel();
-        } else {
-          // A previous or draft revision or a deleted stale Paragraph.
-          $label = $parent->label() . ' > ' . $value->getFieldDefinition()->getLabel() . ' (previous revision)';
+          $found = TRUE;
+          break;
         }
       }
+      if ($found) {
+        $label = $parent->label() . ' > ' . $field->getFieldDefinition()->getLabel();
+      } else {
+        // A previous or draft revision or a deleted stale Paragraph.
+        $label = $parent->label() . ' > ' . $field->getFieldDefinition()->getLabel() . ' (previous revision)';
+      }
+    }
+    else {
+      $label = t('Orphaned @type: @summary', ['@summary' => Unicode::truncate(strip_tags($this->getSummary()), 50, FALSE, TRUE), '@type' => $this->get('type')->entity->label()]);
     }
     return $label;
   }
@@ -472,12 +486,15 @@ class Paragraph extends ContentEntityBase implements ParagraphInterface {
         $summary['content'] = array_merge($summary['content'], $nested_summary);
       }
 
-      if ($field_type = $field_definition->getType() == 'entity_reference') {
-        if ($this->get($field_name)->entity && $this->get($field_name)->entity->access('view label')) {
-          $entity = $this->get($field_name)->entity;
-          // Switch to the entity translation in the current context if exists.
-          $entity = \Drupal::service('entity.repository')->getTranslationFromContext($entity, $this->activeLangcode);
-          $summary['content'][] = $entity->label();
+      if ($field_definition->getType() === 'entity_reference') {
+        $referenced_entities = $this->get($field_name)->referencedEntities();
+        /** @var \Drupal\Core\Entity\EntityInterface[] $referenced_entities */
+        foreach ($referenced_entities as $referenced_entity) {
+          if ($referenced_entity->access('view label')) {
+            // Switch to the entity translation in the current context.
+            $entity = \Drupal::service('entity.repository')->getTranslationFromContext($referenced_entity, $this->activeLangcode);
+            $summary['content'][] = $entity->label();
+          }
         }
       }
 

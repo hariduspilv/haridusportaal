@@ -1,5 +1,0 @@
-'administer search_api_autocomplete':
-  title: 'Administer Search API Autocomplete'
-
-permission_callbacks:
-  - Drupal\search_api_autocomplete\Permissions::bySearch

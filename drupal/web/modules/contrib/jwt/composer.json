@@ -11,7 +11,7 @@
     "source": "http://cgit.drupalcode.org/jwt"
   },
   "require": {
-    "firebase/php-jwt": "4",
+    "firebase/php-jwt": "^4.0 | ^5.0",
     "drupal/key": "~1.3"
   }
 }

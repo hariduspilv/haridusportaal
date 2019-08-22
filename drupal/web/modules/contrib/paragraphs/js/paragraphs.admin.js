@@ -36,7 +36,7 @@
         $parWidget.addClass('content-active');
       }
 
-      $parContent.show();
+      $parContent.not(':hidden').show();
       $parBehavior.hide();
 
       $parTabs.show();
