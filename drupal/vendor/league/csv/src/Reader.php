@@ -16,6 +16,7 @@ namespace League\Csv;
 use BadMethodCallException;
 use CallbackFilterIterator;
 use Countable;
+use Generator;
 use Iterator;
 use IteratorAggregate;
 use JsonSerializable;

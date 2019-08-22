@@ -643,7 +643,12 @@ class InlineParagraphsWidget extends WidgetBase {
         ];
 
         field_group_attach_groups($element['subform'], $context);
-        $element['subform']['#pre_render'][] = 'field_group_form_pre_render';
+        if (function_exists('field_group_form_pre_render')) {
+          $element['subform']['#pre_render'][] = 'field_group_form_pre_render';
+        }
+        if (function_exists('field_group_form_process')) {
+          $element['subform']['#process'][] = 'field_group_form_process';
+        }
       }
 
       if ($item_mode == 'edit') {
@@ -1321,7 +1326,8 @@ class InlineParagraphsWidget extends WidgetBase {
       }
       // If our mode is remove don't save or reference this entity.
       // @todo: Maybe we should actually delete it here?
-      elseif($widget_state['paragraphs'][$item['_original_delta']]['mode'] == 'remove' || $widget_state['paragraphs'][$item['_original_delta']]['mode'] == 'removed') {
+      elseif(isset($widget_state['paragraphs'][$item['_original_delta']]['mode'])
+        && in_array($widget_state['paragraphs'][$item['_original_delta']]['mode'], ['remove', 'removed'])) {
         $item['target_id'] = NULL;
         $item['target_revision_id'] = NULL;
       }
