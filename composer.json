@@ -30,6 +30,7 @@
         "drupal/content_sync": "^2.1",
         "drupal/core": "^8.6.0",
         "drupal/devel": "~1.0",
+        "drupal/devel_entity_updates": "^1.0",
         "drupal/editor_advanced_link": "^1.4",
         "drupal/editor_file": "^1.2",
         "drupal/elasticsearch_connector": "^5.0",
