@@ -132,6 +132,7 @@ permissions:
   - 'edit terms in oska_field'
   - 'edit terms in oska_indicator'
   - 'edit terms in oska_main_profession'
+  - 'manage dynamic translations'
   - 'revert all oska entity revisions'
   - 'revert all oska indicator entity revisions'
   - 'revert article revisions'
