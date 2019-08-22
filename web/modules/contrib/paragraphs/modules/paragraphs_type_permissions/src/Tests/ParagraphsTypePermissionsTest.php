@@ -253,6 +253,17 @@ class ParagraphsTypePermissionsTest extends WebTestBase {
     $this->assertText('Published');
     $this->assertText('Images');
     $this->assertText('You are not allowed to edit or remove this Paragraph.');
+    $this->assertRaw('paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">image-test_0.png<');
+    $this->assertNoRaw('paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Paragraph type Text<');
+
+    // Check that the paragraph is collapsed by asserting the content summary.
+    $authenticated_role->grantPermission('view paragraph content text');
+    $authenticated_role->save();
+    $this->drupalLogin($authenticated_user);
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $this->assertText('You are not allowed to edit or remove this Paragraph.');
+    $this->assertRaw('paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">image-test_0.png<');
+    $this->assertRaw('paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">Paragraph type Text<');
   }
 
 }

@@ -4,6 +4,7 @@ namespace Drupal\paragraphs\Tests\Experimental;
 
 use Drupal\field_ui\Tests\FieldUiTestTrait;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\filter\Entity\FilterFormat;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\user\RoleInterface;
@@ -247,6 +248,49 @@ class ParagraphsExperimentalAccessTest extends ParagraphsExperimentalTestBase {
     $this->drupalGet('node/' . $node->id());
     $this->assertText('recognizable_test');
     $this->assertRaw('paragraph--unpublished');
+  }
+
+  /**
+   * Tests the Paragraph validation with filter access.
+   */
+  public function testParagraphsTextFormatValidation() {
+    $filtered_html_format = FilterFormat::create([
+      'format' => 'filtered_html',
+      'name' => 'Filtered HTML',
+    ]);
+    $filtered_html_format->save();
+    $permissions = [
+      'create paragraphed_content_demo content',
+      'edit any paragraphed_content_demo content',
+      $filtered_html_format->getPermissionName()
+    ];
+    $this->loginAsAdmin($permissions);
+    // Create a node with a Text Paragraph using the filtered html format.
+    $this->drupalGet('node/add/paragraphed_content_demo');
+    $this->drupalPostForm(NULL, NULL, t('Add text'));
+    $this->assertText('Text');
+    $edit = [
+      'title[0][value]' => 'access_validation_test',
+      'field_paragraphs_demo[0][subform][field_text_demo][0][value]' => 'Test',
+    ];
+    $this->drupalPostForm(NULL, $edit, t('Save'));
+    $this->assertText('paragraphed_content_demo access_validation_test has been created.');
+    $this->drupalLogout();
+    // Login as an user without the Text Format permission.
+    $user = $this->drupalCreateUser([
+      'administer nodes',
+      'edit any paragraphed_content_demo content',
+    ]);
+    $this->drupalLogin($user);
+    $node = $this->getNodeByTitle('access_validation_test');
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $this->drupalPostForm(NULL, [], t('Save'));
+    $this->assertText('paragraphed_content_demo access_validation_test has been updated.');
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $this->drupalPostAjaxForm(NULL, [], 'field_paragraphs_demo_0_collapse');
+    $this->drupalPostForm(NULL, [], t('Save'));
+    $this->assertText('paragraphed_content_demo access_validation_test has been updated.');
+    $this->assertNoText('The value you selected is not a valid choice.');
   }
 
 }

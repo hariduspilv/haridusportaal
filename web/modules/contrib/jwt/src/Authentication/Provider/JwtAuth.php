@@ -10,7 +10,6 @@ use Drupal\jwt\Authentication\Event\JwtAuthValidEvent;
 use Drupal\jwt\Authentication\Event\JwtAuthEvents;
 use Drupal\jwt\JsonWebToken\JsonWebToken;
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
-use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -19,13 +18,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * JWT Authentication Provider.
  */
 class JwtAuth implements AuthenticationProviderInterface {
-
-  /**
-   * The user auth service.
-   *
-   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
-   */
-  protected $entityTypeManager;
 
   /**
    * The JWT Transcoder service.
@@ -44,19 +36,15 @@ class JwtAuth implements AuthenticationProviderInterface {
   /**
    * Constructs a HTTP basic authentication provider object.
    *
-   * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The user authentication service.
    * @param \Drupal\jwt\Transcoder\JwtTranscoderInterface $transcoder
    *   The jwt transcoder service.
    * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
    *   The event dispatcher service.
    */
   public function __construct(
-    EntityTypeManagerInterface $entity_type_manager,
     JwtTranscoderInterface $transcoder,
     EventDispatcherInterface $event_dispatcher
   ) {
-    $this->entityTypeManager = $entity_type_manager;
     $this->transcoder = $transcoder;
     $this->eventDispatcher = $event_dispatcher;
   }
