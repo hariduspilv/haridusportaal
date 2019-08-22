@@ -39,53 +39,54 @@ stories.add('Map', () => {
     'Polygon type',
     {
       Investeeringud: 'investment',
-      Valdkonnad: 'fields',
     },
     'investment',
   );
   const zoomLevel = number('Zoom', 7, numberOptions);
   const minZoomLevel = number('Min zoom', 7, numberOptions);
   const maxZoomLevel = number('Max zoom', 15, numberOptions);
-  const bottomAction = options('Bottom action', { Yes: 'yes', No: 'no' }, 'no', {
+  const draggable = options('Draggable map', { Yes: 'yes', No: 'no' }, 'yes', {
     display: 'inline-radio',
   });
-  const mapDraggable = options('Draggable map', { Yes: 'yes', No: 'no' }, 'yes', {
+  const enableZoomControl = options('Enable zoom control', { Yes: 'yes', No: 'no' }, 'no', {
     display: 'inline-radio',
   });
-  const zoomControl = options('Zoom control', { Yes: 'yes', No: 'no' }, 'no', {
+  const enableStreetViewControl = options('Enable street view control', {
+    Yes: 'yes', No: 'no' },               'no', { display: 'inline-radio' });
+  const enableOuterLink = options('Enable outer Link', { Yes: 'yes', No: 'no' }, 'no', {
     display: 'inline-radio',
   });
-  const streetViewControl = options('Street View control', { Yes: 'yes', No: 'no' }, 'no', {
+  const enableLabels = options('Enable map labels', { Yes: 'yes', No: 'no' }, 'yes', {
     display: 'inline-radio',
   });
-  const mapLabelsControl = options('Map labels', { Yes: 'yes', No: 'no' }, 'yes', {
+  const enableParameters = options('Enable map parameters', { Yes: 'yes', No: 'no' }, 'no', {
     display: 'inline-radio',
   });
-  const legendControl = options('Legend', { Yes: 'yes', No: 'no' }, 'yes', {
+  const enablePolygonLegend = options('Enable polygon legend', {
+    Yes: 'yes', No: 'no' },           'yes', { display: 'inline-radio' });
+  const enablePolygonModal = options('Enable polygon modal', { Yes: 'yes', No: 'no' }, 'no', {
     display: 'inline-radio',
   });
-  const extraPolygonLabels = options('Polygon extra labels', { Yes: 'yes', No: 'no' }, 'yes', {
-    display: 'inline-radio',
-  });
-  const layerControl = options('Polygon layer selection', { Yes: 'yes', No: 'no' }, 'yes', {
-    display: 'inline-radio',
-  });
+  const enableLayerSelection = options('Enable polygon layer selection', {
+    Yes: 'yes', No: 'no' },            'yes', { display: 'inline-radio' });
   const optionsData: Object = {
+    polygonType,
     // centerLat: 59.4371821,
     // centerLng: 24.7450143,
     zoom: zoomLevel,
     maxZoom: maxZoomLevel,
     minZoom: minZoomLevel,
-    mapDraggable: mapDraggable === 'yes',
-    bottomAction: bottomAction === 'yes',
-    zoomControl: zoomControl === 'yes',
-    streetViewControl: streetViewControl === 'yes',
-    mapLabelsControl: mapLabelsControl === 'yes',
-    type: typeControl,
-    legendControl: legendControl === 'yes',
-    layerControl: layerControl === 'yes',
-    extraPolygonLabels: extraPolygonLabels === 'yes',
+    draggable: draggable === 'yes',
+    enableZoomControl: enableZoomControl === 'yes',
+    enableStreetViewControl: enableStreetViewControl === 'yes',
+    enableOuterLink: enableOuterLink === 'yes',
+    enableLabels: enableLabels === 'yes',
+    enableParameters: enableParameters === 'yes',
+    enableLayerSelection: enableLayerSelection === 'yes',
+    enablePolygonLegend: enablePolygonLegend === 'yes',
+    enablePolygonModal: enablePolygonModal === 'yes',
   };
+
   const markerData: Object[] = [
     {
       Nid: '43352',
@@ -184,6 +185,17 @@ stories.add('Map', () => {
       },
     ],
   };
+  const parameterData: Object[] = [
+    {
+      label: 'Näitaja',
+      value: 'Hõivatute arv Eestis',
+    },
+    {
+      label: 'Valdkond',
+      value: 'Kalameeste klubi',
+    },
+  ];
+  const parameters = object('Parameters', parameterData);
   const markers = object('Markers', markerData);
   const polygons = object('Polygons', polygonData);
   return {
@@ -191,15 +203,17 @@ stories.add('Map', () => {
     props: {
       polygons,
       optionsData,
-      polygonType,
+      typeControl,
       markers,
+      parameters,
     },
     template: `
       <map
         [polygonData]='polygons'
-        [polygonType]='polygonType'
+        [type]='typeControl'
         [options]='optionsData'
-        [markerData]='markers'>
+        [markers]='markers'
+        [parameters]="parameters">
       </map>
     `,
   };

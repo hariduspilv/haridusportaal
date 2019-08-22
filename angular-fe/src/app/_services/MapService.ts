@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import conf from '@app/_core/conf';
 import { LatLngLiteral } from '@agm/core';
+import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
 
 @Injectable({
   providedIn: 'root',
@@ -9,16 +10,17 @@ import { LatLngLiteral } from '@agm/core';
 export class MapService {
   public activeFontSize: string = '';
   public fontSizes: Object = {
-    sm: '14px',
+    sm: '13px',
     md: '18px',
     lg: '22px',
   };
   public infoLayer: {} = {};
   public polygonValueLabels: {} = {};
+  public polygonColors: {} = {};
   private labelOptions = {
     lightColor: 'white',
     color: 'black',
-    fontSize: '14px',
+    fontSize: '13px',
     fontWeight: 'regular',
   };
   generateHeatMap (type, data) {
@@ -92,6 +94,7 @@ export class MapService {
               color = heatmap[o]['color'];
               properties['investmentAmountSum']
                 = this.polygonValueLabels[properties['NIMI_LUHIKE']] = match.investmentAmountSum;
+              this.polygonColors[properties['NIMI_LUHIKE']] = parseInt(o, 10) + 1;
               break;
             }
           }
@@ -104,29 +107,30 @@ export class MapService {
     if (polygons && polygons['features']) {
       const extraLabelArr = [];
       const polygonMarkers = polygons['features'].map((elem) => {
-        if (extraLabels) {
+        const current = elem.properties['NIMI_LUHIKE'];
+        const color = this.polygonColors[current] === 7
+          ? this.labelOptions.lightColor : this.labelOptions.color;
+        const fontSize = this.activeFontSize || this.labelOptions.fontSize;
+        const fontWeight = this.labelOptions.fontWeight;
+        if (extraLabels && elem.geometry.center) {
+          const text = this.polygonValueLabels[current] ?
+            new EuroCurrencyPipe().transform(this.polygonValueLabels[current]) : '';
+          let latitude = elem.geometry.center.latitudeSm;
+          if (this.activeFontSize === this.fontSizes['md']) {
+            latitude = elem.geometry.center.latitudeMd;
+          } else if (this.activeFontSize === this.fontSizes['lg']) {
+            latitude = elem.geometry.center.latitudeLg;
+          }
           extraLabelArr.push({
-            latitude: elem.geometry.center ? elem.geometry.center.latitudeSm : '',
+            latitude,
             longitude: elem.geometry.center ? elem.geometry.center.longitude : '',
-            labelOptions: {
-              color: this.labelOptions.color,
-              fontSize: this.labelOptions.fontSize,
-              fontWeight: this.labelOptions.fontWeight,
-              text: this.polygonValueLabels[elem.properties['NIMI_LUHIKE']] ?
-                `${this.polygonValueLabels[elem.properties['NIMI_LUHIKE']]} €` :
-                null,
-            },
+            labelOptions: { color, fontSize, fontWeight, text },
           });
         }
         return {
           latitude: elem.geometry.center ? elem.geometry.center.latitude : '',
           longitude: elem.geometry.center ? elem.geometry.center.longitude : '',
-          labelOptions: {
-            color: this.labelOptions.color,
-            fontSize: this.labelOptions.fontSize,
-            fontWeight: this.labelOptions.fontWeight,
-            text: elem.properties['NIMI_LUHIKE'] || elem.properties['NIMI'],
-          },
+          labelOptions: { color, fontSize, fontWeight, text: current || elem.properties['NIMI'] },
         };
       });
       return [...polygonMarkers, ...extraLabelArr];
@@ -167,12 +171,8 @@ export class MapService {
           longitude: $event.latLng.lng(),
           status: true,
           title: $event.feature.getProperty('NIMI_LUHIKE') || $event.feature.getProperty('NIMI'),
-          currency: $event.feature.getProperty('investmentAmountSum') ?
-            `${Number($event.feature.getProperty('investmentAmountSum'))} €` : '0 €',
+          currency: $event.feature.getProperty('investmentAmountSum') || '',
         };
     }
-  }
-  layerClickStatus($isOpen: boolean) {
-    this.infoLayer['status'] = $isOpen;
   }
 }
