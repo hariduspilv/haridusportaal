@@ -45,6 +45,7 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        [style.height]="height ? height+'px' : null"
         [(ngModel)]="field"></textarea>
     </ng-container>
 
