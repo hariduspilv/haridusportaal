@@ -98,21 +98,12 @@
 					display: block;
 					width: 100%;
 					::ng-deep {
-						.formItem__title span {
-							padding-left: 2rem;
-							color: $white;
-						}
-						.formItem__title--top {
-							display: none;
-						}
 						.formItem__wrapper input {
 							padding-left: 2.5rem;
 							color: $white;
 							background-color: rgba(255,255,255,.1);
 							border: .0625rem solid rgba(255,255,255,0);
 							&::placeholder {
-								left: -.0625rem;
-								position: relative;
 								color: $white;
 							}
 						}

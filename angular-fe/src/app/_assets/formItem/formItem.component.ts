@@ -45,6 +45,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() errorMessage: string = '';
   @Input() error: boolean = false;
   @Input() success: boolean = false;
+  @Input() titleDisabled: boolean = false;
   @Input() height: number;
   @Input() options: FormItemOption[] = [];
   @HostBinding('class') get hostClasses(): string {
