@@ -2,7 +2,7 @@
 
 h4 {
   font-size: 1rem; font-weight: 500; line-height: 1.38; text-align: left; color: $black; margin: 2rem 0 0.5rem; }
-h4.title-lg-padding { margin-bottom: 1rem; }
+h4.title-lg-padding { margin-bottom: 1rem;margin-top: 0; }
   
 .mat-expansion-panel {margin-bottom: .25rem;border: .0625rem solid #bee3e8;border-left: .1875rem solid #bee3e8;
   &.detailView {
@@ -171,15 +171,20 @@ table p { margin: 0; font-weight: 400; }
   &.md-top {margin-top: 1.5rem;}
   &.lg-top {margin-top: 2rem;}
 }
+.lg-top {margin-top: 2rem;}
 .font-normal { font-weight: 400!important; }
-.block-btn {width: 100%;height: 5rem;box-sizing: border-box;border-radius: .125rem;border: none;margin-top: 2rem;margin-bottom: 1.5rem;
+.block-btn {width: 100%;height: 5rem;box-sizing: border-box;border-radius: .125rem;border: none;margin-top: .5rem;margin-bottom: 1.5rem;
   background-color: $aqua;font-size: 1rem;text-decoration: underline;color: $blue;line-height: 1.5rem;
   &:hover {text-decoration: none;}
   &--holder {
     @include break-on(sm, max) {margin: 0 -1.5rem;}
   }
 }
-
+.unpadded more-block {
+  @include break-on(sm, max) {
+    margin: 0 -1.5rem; 
+  }
+}
 .exam-block {
   margin-top: 1.5rem;
   ul {

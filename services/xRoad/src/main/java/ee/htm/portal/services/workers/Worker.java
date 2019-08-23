@@ -6,14 +6,25 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.model.LogForDrupal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class Worker {
 
   @Autowired
   protected RedisTemplate<String, Object> redisTemplate;
+
+  @Value("${redis-expire:30}")
+  protected Long redisExpire;
+
+  @Value("${redis-file_expire:30}")
+  protected Long redisFileExpire;
+
+  @Value("${redis-klf_expire:1440}")
+  protected Long redisKlfExpire;
 
   protected JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
@@ -46,5 +57,10 @@ public class Worker {
     jsonNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
         .put("et", "Tehniline viga!");
     jsonNode.remove("value");
+  }
+
+  protected String ehisDateFormat(Calendar cal) {
+    cal.set(Calendar.HOUR, 12);
+    return simpleDateFormat.format(cal.getTime());
   }
 }
