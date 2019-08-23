@@ -54,6 +54,9 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
   public opened_step;
   public max_step;
   public current_acceptable_activity: string[];
+  public acceptable_forms_list_restricted = true;
+  public acceptable_forms = [];
+  public acceptable_forms_limit = 4;
   public data_elements;
   public data_messages;
   public navigationLinks;
@@ -113,8 +116,8 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     if (_opened_step) {
 
       setTimeout(function () {
-        let step_navigation_container = document.getElementById('stepNavigation');
-        let opened_step_element = document.getElementById(_opened_step);
+        let step_navigation_container = document.getElementById('stepNavigation') ? document.getElementById('stepNavigation') : document.getElementById('xjsonMain');
+        let opened_step_element = document.getElementById(_opened_step) ? document.getElementById(_opened_step) : document.getElementById('xjsonMain');
 
         const parent_center = step_navigation_container.offsetWidth / 2;
         const button_center = opened_step_element.offsetWidth / 2;
@@ -374,6 +377,23 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
     return output;
   }
 
+  compileAcceptableFormList() {
+
+    this.acceptable_forms = this.acceptable_forms_list_restricted ?
+      this.data.header.acceptable_forms.slice(0, this.acceptable_forms_limit) :
+      this.data.header.acceptable_forms;
+
+    this.acceptable_forms.forEach((elem, index) => {
+      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
+    });
+
+  }
+
+  toggleAcceptableFormList() {
+    this.acceptable_forms_list_restricted = this.acceptable_forms_list_restricted ? false : true;
+    this.compileAcceptableFormList();
+  }
+
   promptDebugDialog(data) {
 
     if (this.test === false) {
@@ -446,8 +466,10 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
 
       subscription.unsubscribe();
     }, err => {
-      this.loginError = true;
-      this.notificationService.error(err.error, 'xjsonForm', false);
+      if (err.error === 'xjson.must_log_in') {
+        this.loginError = true;
+        this.notificationService.error(err.error, 'xjsonForm', false);
+      }
     });
 
   }
@@ -476,6 +498,10 @@ export class XjsonFormComponent implements OnInit, OnDestroy {
       this.navigationLinks = this.setNavigationLinks(Object.keys(this.data.body.steps), this.opened_step);
 
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
+
+      if (typeof this.data.header.acceptable_forms !== 'undefined') {
+        this.compileAcceptableFormList();
+      }
 
       this.scrollPositionController();
     }

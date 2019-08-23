@@ -2615,6 +2615,14 @@ oska:
     translation_type: textarea
     et: 'võrreldes teiste ametialadega'
     en: 'compared to other professions'
+  large_proportion:
+    translation_type: textarea
+    et: 'Suur osakaal'
+    en: ''
+  small_proportion:
+    translation_type: textarea
+    et: 'Väike osakaal'
+    en: ''
 oskaProfession:
   view_field_info:
     translation_type: textarea
@@ -2888,3 +2896,73 @@ date:
     translation_type: textarea
     et: pp.kk.aaaa
     en: dd.mm.yyyy
+nodeQuery:
+  translation_type: textarea
+  et: Artiklid
+  en: Articles
+fieldContact:
+  translation_type: textarea
+  et: Kontakt
+  en: Contact
+fieldQualificationStandard:
+  translation_type: textarea
+  et: Kutsestandardid
+  en: Qualifications
+fieldQuickFind:
+  translation_type: textarea
+  et: 'Leia kiiresti'
+  en: Quickfind
+fieldAdditional:
+  translation_type: textarea
+  et: Lisainfo
+  en: ''
+fieldRegistration:
+  translation_type: textarea
+  et: Registreerumine
+  en: ''
+prosCons:
+  translation_type: textarea
+  et: 'Tasub teada'
+  en: ''
+reverseOskaMainProfessionOskaFillingBarEntity:
+  translation_type: textarea
+  et: 'Konkurents tööturul'
+  en: ''
+reverseOskaMainProfessionOskaIndicatorEntity:
+  translation_type: textarea
+  et: Faktid
+  en: ''
+helper: {  }
+abitekst:
+  opingud:
+    translation_type: text_format
+    et:
+      value: "<h3>Eesti hariduse infosüsteemist (EHIS) saab vaadata enda huvi-, alus-, üld-, kutse- või kõrghariduse andmeid.</h3>\r\n\r\n<p>EHISes näeb:</p>\r\n\r\n<ul>\r\n\t<li>isiku üldandmeid (ja saab kontrollida, kas on võimalik saada riigi tagatisel õppelaenu)</li>\r\n\t<li>õpingute andmeid</li>\r\n\t<li>õpetaja või õppejõuna töötamise andmeid.</li>\r\n</ul>\r\n\r\n<p><em>Lisaks kuvatakse pedagoogide omandatud tasemehariduse ja täienduskoolituse andmeid ning õppejõudude kvalifikatsiooni andmeid.</em></p>\r\n\r\n<p>EHISesse ei kanta välisriigi õppeasutustes omandatud hariduse või seal töötamise andmeid.</p>\r\n\r\n<p>Üld-, kutse- ja kõrghariduse õppurite ning üld- ja kutsehariduse õpetajate kohta on andmed alates 2005. aastast. Lisaks on toonasest õpilaste ja üliõpilaste registrist EHISesse üle kantud 1998.–2005. aasta kutsehariduse õpilaste ja kõrgkoolide üliõpilaste andmed.</p>\r\n\r\n<p>Üldhariduse lõpudokumentide andmed on registris alates 2004. aastast.</p>\r\n\r\n<p><strong>NB!</strong> EHISesse sisestavad andmeid õppeasutused. Kui andmed teie käimasolevate õpingute kohta on puudulikud või valed, pöörduge andmete täpsustamiseks enda õppeasutuse poole.</p>\r\n\r\n<p><a href=\"mailto:ehis.tugi@hm.ee\">ehis.tugi@hm.ee</a>&nbsp;või Eesti hariduse infosüsteemi (EHIS) kasutajatoe telefon +372 5512<strong>&nbsp;</strong>5050<strong> </strong>(E–R 9.00–16.00).</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  opetan:
+    translation_type: text_format
+    et:
+      value: "<p>Esitage põnevaid küsimusi ning olge aktiivsed, et saada parimad teadmised,\" innustab minister Reps õpilasi uuest õppeaastast võimalikult palju teadmisi ammutama. Mailis Reps tunnustab õpetajaid hariduse tipptaseme hoidmisel ja parimal võimalikul viisil teadmiste edasi andmisel. Samuti on oluline ka lapsevanemate tugi - vaid üheskoos, toetudes perele ja kogukonnale, saab laste omandatav haridus vaid parimaks võimalikuks. Minister avaldab lootust, et uus õppeaasta kujuneb meeldejäädavaks tänu uute ja mitmekesiste võimaluste kasutamisel.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  taotlused:
+    translation_type: text_format
+    et:
+      value: "<h3>Ohoommoos NB!</h3>\r\n\r\n<p>Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.</p>\r\n\r\n<p><a href=\"http://htm.wiseman.ee:30000/sites/default/files/inline-files/kasutusjuhendi_valjavote.pdf\" title=\"Kasutusjuhendi fail - sisemine\">Kasutusjuhendi fail - sisemine</a></p>\r\n\r\n<p><a href=\"http://htm.wiseman.ee:30000/sites/default/files/inline-files/kasutusjuhendi_valjavote_0.pdf\" target=\"_blank\" title=\"Teine kasutusjuhendi fail on välimine\">Teine kasutusjuhendi fail on välimine</a></p>\r\n\r\n<p>Need lingid ja failid on sisutekstiväljal.</p>\r\n\r\n<p><a href=\"http://htm.twn.ee/t%C3%B6%C3%B6laud/taotlused\">http://htm.twn.ee/t%C3%B6%C3%B6laud/taotlused</a></p>\r\n\r\n<p>Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  tunnistused:
+    translation_type: text_format
+    et:
+      value: "<p>See on abitekst, mis on aga lühikene tupac tupac tupac kaks.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor

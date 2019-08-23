@@ -30,6 +30,7 @@ import { TranslateModule, TranslateLoader, TranslatePipe, TranslateService } fro
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { LoaderModule } from './_components/loader/loader.module';
+import { MoreBlockModule } from './_components/more.block/more.block.module';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -96,5 +97,6 @@ export const AppImports = [
   RecaptchaModule.forRoot(),
   RecaptchaFormsModule,
   DeviceDetectorModule.forRoot(),
-  LoaderModule
+  LoaderModule,
+  MoreBlockModule,
 ]
