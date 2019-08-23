@@ -41,6 +41,7 @@ import { MapComponent } from './map';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
+import { LabelsComponent } from './labels';
 
 const pipes = []
 
@@ -83,6 +84,7 @@ const declarations = [
   SidebarRegisterComponent,
   ProgressBarComponent,
   MapComponent,
+  LabelsComponent,
 ];
 
 const exports = [
