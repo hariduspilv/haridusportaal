@@ -120,6 +120,10 @@
 		}
 
 	}
+	.button--plain{
+		padding-left: 1.125rem;
+		padding-right: 1.125rem;
+	}
 
 	@include break-on(xs, max) {
 		margin: 1.5rem 0 0 0;

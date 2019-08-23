@@ -11,7 +11,8 @@
 </ng-container>
 
 <ng-container *ngIf="status == 'add_comment'">
-  <p  attr.aria-label="{{ 'feedback_how_to_improve' | translate }}" role="alert"><b>{{ 'feedback_how_to_improve' | translate }}</b></p>
+  <p  attr.aria-label="{{ 'feedback_how_to_improve' | translate }}" role="alert" *ngIf="!values.vote"><b>{{ 'feedback_how_to_improve' | translate }}</b></p>
+  <p  attr.aria-label="{{ 'feedback_add_comment' | translate }}" role="alert" *ngIf="values.vote"><b>{{ 'feedback_add_comment' | translate }}</b></p>
   <div class="comment">
     <div class="formItem">
       <formItem
@@ -21,6 +22,7 @@
         height="120"
         [title]="'feedback_comment' | translate"></formItem>
     </div><!--/formItem-->
+    <button htm-button theme="plain" (click)="cancel()" attr.aria-label="{{ 'feedback_cancel' | translate }}">{{ 'feedback_cancel' | translate }}</button>
     <button htm-button (click)="sendVote()" attr.aria-label="{{ 'feedback_send' | translate }}">{{ 'feedback_send' | translate }}</button>
   </div><!--/comment-->
 </ng-container>

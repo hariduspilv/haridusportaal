@@ -88,7 +88,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     setTimeout(
       () => {
         const values = this.el.nativeElement.querySelectorAll('.ng-value');
-        for (const item of values){
+        for (const item of values) {
           item.className = item.className.replace(/\slastItem/gi, '');
         }
         const lastValue = values[values.length - 1];
