@@ -5,18 +5,22 @@
 ```html
 <labels
   [data]="data"
-  background="#ffffff"
-  border="#c7c7c9">
+  type="plain">
 </labels>
+  <!-- background="#ffffff" -->
+  <!-- border="#c7c7c9" -->
 ```
 
 ## Properties
 
+NB! Type property overrides background and border.
+
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | data | - | - | Object[] | Label data
-| background | #ffffff | - | string | Background color for labels
-| border | - | - | string | Border color for labels
+| type | none | none, orange, plain | string | Label type
+| background | #ffffff | - | string | Background color for labels (storybook)
+| border | - | - | string | Border color for labels (storybook)
 
 ## Javascript
 ```javascript

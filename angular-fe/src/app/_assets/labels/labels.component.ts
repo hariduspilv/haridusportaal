@@ -10,11 +10,15 @@ export class LabelsComponent {
   @Input() data: Object[];
   @Input() border: string = '#c7c7c9';
   @Input() background: string = '#eeeeee';
+  @Input() type: string;
   private childStyles = {
     border: `.0675rem solid ${this.border}`,
     background: this.background,
   };
   @HostBinding('attr.role') role:string = 'group';
+  @HostBinding('class') get hostClasses(): string {
+    return this.type;
+  }
   ngOnChanges() {
     this.data = this.data.map((item) => {
       if (item['entity']) {
@@ -22,7 +26,9 @@ export class LabelsComponent {
       }
       return item;
     });
-    this.childStyles.border = `.0675rem solid ${this.border}`;
-    this.childStyles.background = this.background;
+    if (!this.type) {
+      this.childStyles.border = `.0675rem solid ${this.border}`;
+      this.childStyles.background = this.background;
+    }
   }
 }

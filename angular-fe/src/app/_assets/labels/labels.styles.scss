@@ -19,4 +19,12 @@
 			margin-right: 0;
 		}
 	}
+	&.plain * {
+		background: $light-gray;
+		border: .0625rem solid $gray;
+	}
+	&.orange * {
+		background: $light-orange;
+		border: .0625rem solid $white;
+	}
 }

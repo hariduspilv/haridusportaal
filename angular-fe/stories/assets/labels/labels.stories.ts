@@ -45,6 +45,15 @@ stories.add('Labels', () => {
       },
     },
   ];
+  const type = select(
+    'Type',
+    {
+      None: '',
+      Plain: 'plain',
+      Orange: 'orange',
+    },
+    '',
+  );
   const background = select(
     'Background color', colors, '#eeeeee',
   );
@@ -58,9 +67,10 @@ stories.add('Labels', () => {
       data,
       border,
       background,
+      type,
     },
     template: `
-      <labels [data]="data" [border]="border" [background]="background"></labels>
+      <labels [data]="data" [type]="type" [border]="border" [background]="background"></labels>
     `,
   };
 },          {
