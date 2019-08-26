@@ -24,6 +24,18 @@ function htm_custom_tara_authentication_openid_connect_claims_alter(&$claims){
 		'type' => 'string',
 		'description' => 'ID code',
 	];
+  $claims['family_name'] = [
+    'scope' => 'profile',
+    'title' => 'family name',
+    'type' => 'string',
+    'description' => 'family name',
+  ];
+  $claims['given_name'] = [
+    'scope' => 'profile',
+    'title' => 'Given name',
+    'type' => 'string',
+    'description' => 'Given name',
+  ];
 }
 
 
