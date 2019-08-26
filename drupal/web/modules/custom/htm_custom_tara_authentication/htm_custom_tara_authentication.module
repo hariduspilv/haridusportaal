@@ -1,8 +1,6 @@
 <?php
 
 function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
-  kint($userinfo);
-  die();
 	//@TODO we need to change email
 	$sub = $context['user_data']['sub'];
 	#dump($userinfo);
@@ -15,7 +13,9 @@ function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$us
 	}else{
 		$userinfo['id_code'] = substr($sub, 2);
 	}
-	#dump($userinfo);
+	$userinfo['family_name'] = $userinfo['profile_attributes']['family_name'];
+  $userinfo['given_name'] = $userinfo['profile_attributes']['family_name'];
+  #dump($userinfo);
 	#die();
 }
 
@@ -26,17 +26,17 @@ function htm_custom_tara_authentication_openid_connect_claims_alter(&$claims){
 		'type' => 'string',
 		'description' => 'ID code',
 	];
-  $claims['family_name'] = [
+  $claims['first_name'] = [
     'scope' => 'profile',
-    'title' => 'family name',
+    'title' => 'First name',
     'type' => 'string',
-    'description' => 'family name',
+    'description' => 'First name',
   ];
   $claims['given_name'] = [
     'scope' => 'profile',
-    'title' => 'Given name',
+    'title' => 'Last name',
     'type' => 'string',
-    'description' => 'Given name',
+    'description' => 'Last name',
   ];
 }
 
