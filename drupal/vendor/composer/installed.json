@@ -3699,6 +3699,60 @@
         }
     },
     {
+        "name": "drupal/devel_entity_updates",
+        "version": "1.0.0",
+        "version_normalized": "1.0.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/devel_entity_updates.git",
+            "reference": "8.x-1.0"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/devel_entity_updates-8.x-1.0.zip",
+            "reference": "8.x-1.0",
+            "shasum": "011b76ba426344450b96efa2f16a64cbc70734c6"
+        },
+        "require": {
+            "drupal/core": "^8.7.0",
+            "drupal/devel": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.0",
+                "datestamp": "1564734485",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "amateescu",
+                "homepage": "https://www.drupal.org/user/729614"
+            },
+            {
+                "name": "plach",
+                "homepage": "https://www.drupal.org/user/183211"
+            }
+        ],
+        "description": "Provides developers an API and drush command to perform automatic entity updates.",
+        "homepage": "https://www.drupal.org/project/devel_entity_updates",
+        "support": {
+            "source": "https://git.drupalcode.org/project/devel_entity_updates"
+        }
+    },
+    {
         "name": "drupal/dynamic_entity_reference",
         "version": "1.7.0",
         "version_normalized": "1.7.0.0",
@@ -13278,17 +13332,6 @@
         "name": "webflo/drupal-core-require-dev",
         "version": "8.7.6",
         "version_normalized": "8.7.6.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/webflo/drupal-core-require-dev.git",
-            "reference": "d9e72ddd4b353727f6bf9293408bfaf429b7c69e"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/webflo/drupal-core-require-dev/zipball/d9e72ddd4b353727f6bf9293408bfaf429b7c69e",
-            "reference": "d9e72ddd4b353727f6bf9293408bfaf429b7c69e",
-            "shasum": ""
-        },
         "require": {
             "behat/mink": "1.7.x-dev",
             "behat/mink-goutte-driver": "^1.2",
