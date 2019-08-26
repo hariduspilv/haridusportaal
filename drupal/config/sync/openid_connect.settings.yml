@@ -5,6 +5,8 @@ userinfo_mappings:
   timezone: zoneinfo
   metatag: 0
   path: 0
+  field_firstname: given_name
+  field_lastname: family_name
   field_user_idcode: id_code
   user_picture: 0
 _core:
