@@ -1,7 +1,7 @@
 <?php
 
 function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$userinfo, array $context) {
-  kint('tere');
+  kint($userinfo);
   die();
 	//@TODO we need to change email
 	$sub = $context['user_data']['sub'];
