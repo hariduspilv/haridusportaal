@@ -2966,3 +2966,11 @@ abitekst:
     en:
       value: ''
       format: custom_editor
+feedback_add_comment:
+  translation_type: textarea
+  et: 'Soovi korral lisa kommentaar'
+  en: 'Add comment optionally'
+feedback_cancel:
+  translation_type: textarea
+  et: Tühista
+  en: Cancel
