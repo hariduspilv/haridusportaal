@@ -21,7 +21,8 @@ Alert is one single alert entity
 | type | - | Warning, Error, Success, Info | AlertType | Set which type of an alert will be shown
 | id | 'global' | - | string | Set which alert block will the alert be shown in
 | closeable | true | true, false | boolean | If set to 'true' then alert can be closed/removed
-| httpStatus | - | - | number | If showing request errors by HTTP Status, add status code, so there are no duplicate messages
+| identifier | - | - | number | No duplicate messages for same id
+| link | - | - | Object | Adds link instead of close button
 
 ```js
 enum AlertType {
@@ -74,7 +75,11 @@ const classMethod = (arg) => {
         type: NotificationType.Error,
         id: 'global',
         closeable: true,
-        httpStatus: 404,
+        identifier: 'ETA-3',
+        link: {
+          url: '/töölaud/taotlused',
+          label: 'Vaata oma töölauda',
+        }
       })
     );
   ...

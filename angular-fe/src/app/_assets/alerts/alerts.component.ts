@@ -45,12 +45,16 @@ export class AlertsComponent implements OnDestroy {
           return;
         }
         // only one error per HTTP status code
-        if (alert.httpStatus !== undefined) {
-          if (this.alerts.find((x: Alert) => x.httpStatus === alert.httpStatus)) return;
+        if (alert.identifier !== undefined) {
+          this.alerts = this.alerts.filter((x: Alert) => x.identifier !== alert.identifier);
         }
         this.alerts.push(alert);
       });
     this.subscriptions.push(this.alertSubscription);
+  }
+
+  remove(alert) {
+    this.alerts = this.alerts.filter(item => item.id !== alert.id);
   }
 
   destroySubscriptions() {

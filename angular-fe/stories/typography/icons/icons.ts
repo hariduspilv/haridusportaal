@@ -901,6 +901,10 @@
     "_fileName": "square.svg"
   },
   {
+    "_name": "star-filled",
+    "_fileName": "star-filled.svg"
+  },
+  {
     "_name": "star",
     "_fileName": "star.svg"
   },

@@ -14,13 +14,16 @@ export class Alert {
   type: AlertType;
   id?: string;
   closeable?: boolean;
-  httpStatus?: number;
+  identifier?: string;
+  link?: Object;
   constructor(init?:Partial<Alert>) {
     Object.assign(this, { closeable: true, id: 'global' } , init);
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AlertsService {
 
   private subject:Subject<Alert> = new Subject<Alert>();

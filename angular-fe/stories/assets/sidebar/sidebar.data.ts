@@ -1,6 +1,32 @@
 // tslint:disable
 export const data = {
   "entity": {
+    "favourites": [
+      {
+        entity: {
+          entityAccess: false,
+          entityLabel: 'Test uudis',
+          entityUrl: { path: '/uudised/test-uudis' },
+        },
+        targetId: 52250,
+      },
+      {
+        entity: {
+          entityAccess: false,
+          entityLabel: 'Linkide ja failide näide',
+          entityUrl: { path: '/artiklid/linkide-ja-failide-näide' },
+        },
+        targetId: 52306,
+      },
+      {
+        entity: {
+          entityAccess: false,
+          entityLabel: 'Artikkel mugudest ',
+          entityUrl: { path: '/artiklid/artikkel-mugudest' },
+        },
+        targetId: 48788,
+      },
+    ],
     "fieldPros": [
       "Pluss 1"
     ],
