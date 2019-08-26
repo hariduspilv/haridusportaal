@@ -62,6 +62,11 @@ class ProcessOskaStudiesData {
           }
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object, $required_fields));
+      }elseif($object['ametiala'] && !$object['oppevaldkond'] && !$object['oppesuund'] && !$object['oppekavaruhm'] && !$object['oppetase']){
+        $error_messag_func = function() {
+              return t('Only main profession entered');
+        };
+        $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func());
       }else{
         $results[$object['ametiala']][] = [
           'field_iscedf_broad' => $object['oppevaldkond'],
@@ -125,6 +130,7 @@ class ProcessOskaStudiesData {
             $new_paragraphs[] = [
               'target_id' => $paragraph->id(),
               'target_revision_id' => $paragraph->getRevisionId()];
+            $context['results']['processed'][] = $paragraph->id();
           }
 
           $sidebar_paragraph->set('field_iscedf_search_link', $new_paragraphs);
@@ -133,7 +139,6 @@ class ProcessOskaStudiesData {
           $context['sandbox']['progress']++;
           $context['sandbox']['current_id'] = $i;
           $context['message'] = $context['sandbox']['max'];
-          $context['results']['processed'][] = $main_profession_page->id();
           $i++;
         }
         $context['sandbox']['current_id']++;
