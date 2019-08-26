@@ -33,7 +33,7 @@ class CustomAccountProxy extends AccountProxy{
       }elseif($account instanceof User){
         $user = $account;
       }
-      return $user->get('field_fistname')->value;
+      return $user->get('field_firstname')->value;
     }
     return 0;
   }
