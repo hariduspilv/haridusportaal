@@ -24,4 +24,30 @@ class CustomAccountProxy extends AccountProxy{
 		}
 		return 0;
 	}
+
+  public function getFirstName(){
+    $account = $this->getAccount();
+    if($this->isAuthenticated()){
+      if($account instanceof UserSession){
+        $user = User::load($account->id());
+      }elseif($account instanceof User){
+        $user = $account;
+      }
+      return $user->get('field_fistname')->value;
+    }
+    return 0;
+  }
+
+  public function getLastName(){
+    $account = $this->getAccount();
+    if($this->isAuthenticated()){
+      if($account instanceof UserSession){
+        $user = User::load($account->id());
+      }elseif($account instanceof User){
+        $user = $account;
+      }
+      return $user->get('field_lastname')->value;
+    }
+    return 0;
+  }
 }
