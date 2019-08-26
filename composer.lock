@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d3d76848c4c86456c712f767d1e08ac8",
+    "content-hash": "745aebd580e2ca8260645c61e9674a2a",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -3278,6 +3278,58 @@
             }
         },
         {
+            "name": "drupal/devel_entity_updates",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://git.drupalcode.org/project/devel_entity_updates.git",
+                "reference": "8.x-1.0"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://ftp.drupal.org/files/projects/devel_entity_updates-8.x-1.0.zip",
+                "reference": "8.x-1.0",
+                "shasum": "011b76ba426344450b96efa2f16a64cbc70734c6"
+            },
+            "require": {
+                "drupal/core": "^8.7.0",
+                "drupal/devel": "*"
+            },
+            "type": "drupal-module",
+            "extra": {
+                "branch-alias": {
+                    "dev-1.x": "1.x-dev"
+                },
+                "drupal": {
+                    "version": "8.x-1.0",
+                    "datestamp": "1564734485",
+                    "security-coverage": {
+                        "status": "covered",
+                        "message": "Covered by Drupal's security advisory policy"
+                    }
+                }
+            },
+            "notification-url": "https://packages.drupal.org/8/downloads",
+            "license": [
+                "GPL-2.0-or-later"
+            ],
+            "authors": [
+                {
+                    "name": "amateescu",
+                    "homepage": "https://www.drupal.org/user/729614"
+                },
+                {
+                    "name": "plach",
+                    "homepage": "https://www.drupal.org/user/183211"
+                }
+            ],
+            "description": "Provides developers an API and drush command to perform automatic entity updates.",
+            "homepage": "https://www.drupal.org/project/devel_entity_updates",
+            "support": {
+                "source": "https://git.drupalcode.org/project/devel_entity_updates"
+            }
+        },
+        {
             "name": "drupal/dynamic_entity_reference",
             "version": "1.7.0",
             "source": {
@@ -3552,7 +3604,8 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/elasticsearch_connector_autocomp",
                 "issues": "https://www.drupal.org/project/issues/elasticsearch_connector_autocomp"
-            }
+            },
+            "time": "2019-07-16T05:22:20+00:00"
         },
         {
             "name": "drupal/embed",
@@ -4058,8 +4111,7 @@
             "homepage": "https://github.com/drupal-graphql/graphql-metatag",
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql_metatag"
-            },
-            "time": "2018-06-13T18:24:32+00:00"
+            }
         },
         {
             "name": "drupal/hms_field",
@@ -13261,17 +13313,6 @@
         {
             "name": "webflo/drupal-core-require-dev",
             "version": "8.7.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/webflo/drupal-core-require-dev.git",
-                "reference": "d9e72ddd4b353727f6bf9293408bfaf429b7c69e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/webflo/drupal-core-require-dev/zipball/d9e72ddd4b353727f6bf9293408bfaf429b7c69e",
-                "reference": "d9e72ddd4b353727f6bf9293408bfaf429b7c69e",
-                "shasum": ""
-            },
             "require": {
                 "behat/mink": "1.7.x-dev",
                 "behat/mink-goutte-driver": "^1.2",
