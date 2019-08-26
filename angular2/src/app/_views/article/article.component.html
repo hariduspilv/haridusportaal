@@ -42,8 +42,12 @@
           <video-component *ngIf="!content.fieldImage && content.fieldVideo && content.fieldVideo.length === 2" [videos]="[content.fieldVideo[1]]"></video-component>
           
           <div class="accordion" *ngIf="accordionSection.length > 0">
-            <mat-accordion multi>
-              <mat-expansion-panel [expanded]="first ? true : false" *ngFor="let accordionItem of accordionSection; let first = first;">
+            <mat-accordion>
+              <mat-expansion-panel
+              [expanded]="first || accordionItem.opened ? true : false"
+              *ngFor="let accordionItem of accordionSection; let first = first;"
+              (afterExpand)="setActivePanelUrl(accordionItem.entity.slug)"
+              [id]="accordionItem.entity.slug">
                 <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
                   <mat-panel-title>
 
