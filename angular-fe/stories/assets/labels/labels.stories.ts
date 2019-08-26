@@ -51,6 +51,7 @@ stories.add('Labels', () => {
       None: '',
       Plain: 'plain',
       Orange: 'orange',
+      Aqua: 'aqua',
     },
     '',
   );

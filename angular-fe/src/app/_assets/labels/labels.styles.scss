@@ -27,4 +27,8 @@
 		background: $light-orange;
 		border: .0625rem solid $white;
 	}
+	&.aqua * {
+		background: $aqua;
+		border: .0625rem solid $white;
+	}
 }
