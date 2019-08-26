@@ -14,7 +14,7 @@ function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$us
 		$userinfo['id_code'] = substr($sub, 2);
 	}
 	$userinfo['family_name'] = $userinfo['profile_attributes']['family_name'];
-  $userinfo['given_name'] = $userinfo['profile_attributes']['family_name'];
+  $userinfo['given_name'] = $userinfo['profile_attributes']['given_name'];
   #dump($userinfo);
 	#die();
 }
@@ -26,18 +26,6 @@ function htm_custom_tara_authentication_openid_connect_claims_alter(&$claims){
 		'type' => 'string',
 		'description' => 'ID code',
 	];
-  $claims['first_name'] = [
-    'scope' => 'profile',
-    'title' => 'First name',
-    'type' => 'string',
-    'description' => 'First name',
-  ];
-  $claims['given_name'] = [
-    'scope' => 'profile',
-    'title' => 'Last name',
-    'type' => 'string',
-    'description' => 'Last name',
-  ];
 }
 
 
