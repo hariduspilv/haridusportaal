@@ -25,7 +25,6 @@ export class FavouriteComponent {
     private translate: TranslateService,
     private modalService: ModalService) {}
   handleStateChange() {
-    this.alertsService.info('message', 'global');
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
@@ -62,7 +61,7 @@ export class FavouriteComponent {
   }
   request({ data, message = '', link, closeable = false, state = false }) {
     return this.http.post(`${conf.api_prefix}graphql`, data).subscribe((response) => {
-      // this.alertsService.success(message, 'global', 'favourites', closeable, link);
+      this.alertsService.success(message, 'global', 'favourites', closeable, link);
       this.state = state;
     },                                                                 (err) => {});
   }
