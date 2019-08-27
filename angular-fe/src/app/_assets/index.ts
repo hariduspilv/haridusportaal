@@ -52,7 +52,9 @@ import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { ShareComponent } from './share';
 import { ClipboardService } from 'ngx-clipboard';
-const pipes = [];
+import { LabelsComponent } from './labels';
+
+const pipes = []
 
 const declarations = [
   BlockComponent,
@@ -94,6 +96,7 @@ const declarations = [
   ProgressBarComponent,
   MapComponent,
   ShareComponent,
+  LabelsComponent,
 ];
 
 const exports = [
