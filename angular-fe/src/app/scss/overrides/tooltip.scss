@@ -1,0 +1,24 @@
+@import 'typography.scss';
+
+.tooltip{
+	z-index: 9999;
+	&-inner{
+		background: rgba(97,97,97,9);
+		border-radius: 0.25rem;
+		padding:0.25rem 0.5rem;
+		font-size: 0.75rem;
+		color: $white;
+	}
+	&.bs-tooltip-right{
+		margin-left: 0.875rem;
+	}
+	&.bs-tooltip-left{
+		margin-right: 0.875rem;
+	}
+	&.bs-tooltip-top{
+		margin-bottom: 0.875rem;
+	}
+	&.bs-tooltip-bottom{
+		margin-top: 0.875rem;
+	}
+}

@@ -20,14 +20,23 @@ import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
-import { RippleService, NgbDateCustomParserFormatter, AlertsService, SidemenuService, SidebarService, ModalService } from '@app/_services';
-import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import {
+  RippleService,
+  NgbDateCustomParserFormatter,
+  AlertsService,
+  SidemenuService,
+  SidebarService,
+  ModalService } from '@app/_services';
+import {
+  NgbModule,
+  NgbTooltipModule,
+  NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
 import { NgPipesModule } from 'ngx-pipes';
 import { FormItemComponent } from './formItem';
-import { RippleDirective } from '@app/_directives/rippleDirective';
+import { RippleDirective } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
 import { BaseLayout } from './base-layout';
@@ -41,8 +50,9 @@ import { MapComponent } from './map';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
-
-const pipes = []
+import { ShareComponent } from './share';
+import { ClipboardService } from 'ngx-clipboard';
+const pipes = [];
 
 const declarations = [
   BlockComponent,
@@ -83,10 +93,11 @@ const declarations = [
   SidebarRegisterComponent,
   ProgressBarComponent,
   MapComponent,
+  ShareComponent,
 ];
 
 const exports = [
-
+  NgbTooltipModule,
 ];
 
 const providers = [
@@ -97,6 +108,7 @@ const providers = [
   ModalService,
   SidemenuService,
   SidebarService,
+  ClipboardService,
 ];
 
 @NgModule({
@@ -115,6 +127,7 @@ const providers = [
     NgbModule,
     NgPipesModule,
     NgSelectModule,
+    NgbTooltipModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })

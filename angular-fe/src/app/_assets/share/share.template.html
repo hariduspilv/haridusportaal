@@ -1,0 +1,45 @@
+<button
+  class="share__indicator"
+  tabindex="-1"
+  attr.aria-hidden="true">
+  <icon glyph="share-2"></icon>
+</button>
+
+<button
+  ripple
+  [ngbTooltip]="'tooltip.copy' | translate"
+  (focus)="hostFocused()"
+  (blur)="hostBlurred()"
+  class="share__link"
+  tabindex="0"
+  (click)="copyLinkToClipboard()"
+  attr.aria-label="{{ 'social.share_link' | translate }}: 2, {{ 'tooltip.copy' | translate }}" >
+  <icon glyph="link"></icon>
+</button>
+
+<div class="share__options">
+  <button
+    ripple
+    [ngbTooltip]="'tooltip.share_fb' | translate"
+    (focus)="hostFocused()"
+    (blur)="hostBlurred()"
+    (click)="share($event, 'facebook')"
+    class="share__option"
+    tabindex="0"
+    role="link"
+    attr.aria-label="{{ 'tooltip.share_fb' | translate }}">
+    <icon glyph="facebook"></icon>
+  </button>
+  <button
+    ripple
+    [ngbTooltip]="'tooltip.share_twitter' | translate"
+    (focus)="hostFocused()"
+    (blur)="hostBlurred()"
+    (click)="share($event, 'twitter')"
+    class="share__option"
+    tabindex="0"
+    role="link"
+    attr.aria-label="{{ 'tooltip.share_twitter' | translate }}">
+    <icon glyph="twitter"></icon>
+  </button>
+</div><!--/share__options-->
