@@ -44,6 +44,7 @@ import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { LegendCurrencyPipe } from '@app/_pipes/legendCurrency.pipe';
 import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
+import { LabelsComponent } from './labels';
 
 const pipes =  [LegendCurrencyPipe, EuroCurrencyPipe];
 
@@ -86,6 +87,7 @@ const declarations = [
   SidebarRegisterComponent,
   ProgressBarComponent,
   MapComponent,
+  LabelsComponent,
 ];
 
 const exports = [

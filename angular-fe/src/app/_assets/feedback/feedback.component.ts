@@ -21,10 +21,16 @@ export class FeedbackComponent {
   ) {
 
   }
-  vote(flag: boolean) {
+  cancel(): void {
+    this.values['vote'] = false;
+    this.values['comment'] = '';
+    this.status = 'vote';
+  }
+
+  vote(flag: boolean):void {
     this.values['vote'] = flag;
     if (flag) {
-      this.sendVote();
+      this.status = 'add_comment';
     }else {
       this.status = 'add_comment';
     }

@@ -45,7 +45,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() errorMessage: string = '';
   @Input() error: boolean = false;
   @Input() success: boolean = false;
-
+  @Input() titleDisabled: boolean = false;
+  @Input() height: number;
   @Input() options: FormItemOption[] = [];
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
@@ -88,7 +89,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     setTimeout(
       () => {
         const values = this.el.nativeElement.querySelectorAll('.ng-value');
-        for (const item of values){
+        for (const item of values) {
           item.className = item.className.replace(/\slastItem/gi, '');
         }
         const lastValue = values[values.length - 1];

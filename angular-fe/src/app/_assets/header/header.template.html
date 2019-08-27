@@ -16,20 +16,32 @@
   <img aria-hidden="true" src="../../../assets/img/logo.svg"/>
 </a>
 <div class="header__assets">
-  <div class="header__search"></div>
-  <button htm-button 
-    (click)="modalService.open('search')"
-    theme="plain"
-    classes="sm-show"
-    attr.aria-label="{{ 'button.search' | translate }}">
-    <icon aria-hidden="true" glyph="search" size="medium"></icon>
-  </button>
-  <button htm-button
-    (click)="modalService.open('login')"
-    theme="plain"
-    attr.aria-label="{{ 'button.login' | translate }}">
-    <icon aria-hidden="true" glyph="user" size="medium"></icon>
-  </button>
+  <div class="header__assets--grid">
+    <div class="header__search">
+      <icon glyph="search" size="default"></icon>
+      <formItem
+        titleDisabled="true"
+        type="text"
+        placeholder="Sisesta märksõna ja vajuta Enter"
+        [(ngModel)]="search">
+      </formItem>
+    </div>
+    <div class="header__actions">
+      <button htm-button 
+        (click)="modalService.open('search')"
+        theme="plain"
+        attr.aria-label="{{ 'button.search' | translate }}">
+        <icon aria-hidden="true" glyph="search" size="medium"></icon>
+      </button>
+      <button htm-button
+        (click)="modalService.open('login')"
+        theme="plain"
+        attr.aria-label="{{ 'button.login' | translate }}">
+        <icon aria-hidden="true" glyph="user" size="medium"></icon>
+        <span>{{ 'button.login' | translate }}</span>
+      </button>
+    </div>
+  </div>
 </div>
 <htm-modal id="search" title="Otsing">
   <modal-content id="search" *ngIf="modalService.modalOpened['search']">

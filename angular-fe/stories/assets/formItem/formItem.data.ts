@@ -2,13 +2,19 @@ export const formItems = [
   {
     type: 'text',
     title: 'Text field',
-    errorMessage: 'Please fill this field!'
+    errorMessage: 'Please fill this field!',
   },
   {
     type: 'text',
     title: 'Text field with placeholder',
     placeholder: 'Start Typing',
     errorMessage: 'Minimum 8 characters!',
+  },
+  {
+    type: 'text',
+    titleDisabled: 'true',
+    placeholder: 'Text field with disabled title',
+    errorMessage: 'Please fill this field!',
   },
   {
     type: 'date',
