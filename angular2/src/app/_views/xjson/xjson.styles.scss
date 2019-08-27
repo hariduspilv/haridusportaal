@@ -160,7 +160,7 @@ a {
       font-size: 0.875rem;font-weight: 500;color: $black; 
     }
     
-    th, td {line-height: 1.38rem;font-size: 0.875rem;padding: .75rem 1rem;text-align:left;border: 0rem;
+    th, td {line-height: 1.38rem;font-size: 0.875rem;padding: .75rem 0.5rem;text-align:left;border: 0rem;
       &.highlighted {font-weight: 500;}
     }
     td.hidden, th.hidden {min-width:1.5rem; width: 1.5rem; background: $light-gray;padding:$gutter;}
@@ -323,7 +323,7 @@ a {
     &.mat-select-value {
     height: 1.5rem; padding-top: .2rem;}
     &table .mat-select-value {
-      height: 1.5rem; padding-top: .2rem;}
+      height: 1.5rem; padding-top: 0rem;}
 }
 .xjson__component ::ng-deep .mat-select-value-text span { color: $black; }
   .xjson__component { margin-bottom: 0rem; }
@@ -347,12 +347,12 @@ a {
     .mat-datepicker-toggle { margin-top: -0.1875rem; }
     .round-input__wrapper { display: table-row-group; margin-bottom: 0rem; }
     
-    .round-input__field-wrapper { margin-top: 0; height: 2rem; border-radius: 0.25rem; min-width: 10rem; background-color: $white; border: solid 0.0625rem $gray; color: $black; font-family: 'Rubik', sans-serif;
+    .round-input__field-wrapper { margin-top: 0; height: 2rem; border-radius: 0.25rem; width: 8rem; background-color: $white; border: solid 0.0625rem $gray; color: $black; font-family: 'Rubik', sans-serif;
       input {  padding: 0.5rem 0.375rem; font-weight: 400; }
     }
   }
-  .scrollableTable th { padding: $gutter $small; }
-  input.contnent-input { height: 1.875rem; border-radius: 0.25rem; background-color: $white; border: solid 0.0625rem $gray; padding: 0rem 0.375rem; color: $black; font-family: 'Rubik', sans-serif; }
+  .scrollableTable th { padding: $gutter $gutter; }
+  input.contnent-input { height: 1.875rem; border-radius: 0.25rem; background-color: $white; border: solid 0.0625rem $gray; padding: 0rem 0.375rem; color: $black; font-family: 'Rubik', sans-serif; width: 8rem;}
   .xjson__component ::ng-deep input.contnent-input:disabled { border: 0px solid transparent!important; min-width: 100%; }
   .mat-input-element:disabled { color: $dark-gray; }
   .table-link { white-space: nowrap; padding: 0.5rem 1rem; }
@@ -376,7 +376,7 @@ a {
   }
   .xjson__component ::ng-deep {
 &.mat-select-arrow { margin-top: -0.5rem!important; }
-&table .mat-select-arrow-wrapper .mat-select-arrow { margin-top: -0.25rem!important; }
+&table .mat-select-arrow-wrapper .mat-select-arrow { margin-top: 0.25rem!important; }
   }
 table .mat-input-element:disabled { color: $black; } 
   .sub-button-list {

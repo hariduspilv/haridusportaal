@@ -63,6 +63,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public temporaryModel = {};
   public data;
   public edit_step = false;
+  public numberOfSteps: number;
   public empty_data = false;
   public acceptable_forms = [];
   public acceptable_forms_limit = 4;
@@ -760,6 +761,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
   closeError() {
     this.error_alert = false;
   }
+  
+  closeMessage(i) {
+    this.data_messages.splice(i, 1);
+  }
 
   selectStep(step) {
     if (step === this.opened_step) {
@@ -916,6 +921,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
     } else {
       this.data_messages = this.data.body.messages;
+    }
+
+    if (this.data.body.steps) {
+      this.numberOfSteps = Object.keys(xjson.body.steps).length;
     }
 
     if (this.data_elements) {
