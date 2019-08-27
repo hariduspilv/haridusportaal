@@ -13,11 +13,15 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 
 export class FavouriteComponent {
   @Input() id: string;
-  @Input() title: string;
   @Input() state: boolean;
   @Input() limit: boolean;
-  // @Input() authorization: string;
   private subscription: Subscription;
+  private alert: Object = {
+    type: AlertType.Success,
+    id: 'global',
+    identifier: 'favourites',
+    message: '',
+  };
   private maxCount: number = 10;
 
   constructor(
@@ -26,12 +30,6 @@ export class FavouriteComponent {
     private translate: TranslateService,
     private modalService: ModalService) {}
   handleStateChange() {
-    // let headers = new HttpHeaders();
-    // headers = headers = headers.append('Authorization', `Bearer ${this.authorization}`);
-    if (this.limit) {
-      this.modalService.open('favourites');
-      return;
-    }
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
@@ -43,41 +41,36 @@ export class FavouriteComponent {
       },
     };
     if (!this.state) {
+      if (this.limit) {
+        this.modalService.open('favourites');
+        return;
+      }
       this.subscription =
-        this.http.post(`${conf.api_prefix}graphql`, data,
-          // { headers }
-          ).subscribe((response) => {
-            this.alertsService.notify(
-              new Alert({
-                message: this.translate.get('frontpage.favourites_snackbar_message'),
-                type: AlertType.Success,
-                id: 'global',
-                link: {
-                  url: '/töölaud/taotlused',
-                  label: this.translate.get('frontpage.check_dashboard'),
-                },
-                identifier: 'favourites',
-              }),
-            );
-            this.state = true;
-          },          (err) => {});
+        this.http.post(`${conf.api_prefix}graphql`, data).subscribe((response) => {
+          this.alert['message'] = this.translate.get('frontpage.favourites_snackbar_message');
+          this.alert['closeable'] = false;
+          this.alert['link'] = {
+            url: '/töölaud/taotlused',
+            label: this.translate.get('frontpage.check_dashboard'),
+          },
+          this.alertsService.notify(
+            new Alert(this.alert),
+          );
+          this.state = true;
+        },                                                          (err) => {});
     } else {
       data.queryId = 'c818e222e263618b752e74a997190b0f36a39818:1';
       this.subscription =
-        this.http.post(`${conf.api_prefix}graphql`, data,
-        // { headers }
-        ).subscribe((response) => {
+        this.http.post(`${conf.api_prefix}graphql`, data).subscribe((response) => {
+          this.alert['message'] =
+            this.translate.get('frontpage.favourites_snackbar_message_remove');
+          this.alert['closeable'] = true;
+          this.alert['link'] = false;
           this.alertsService.notify(
-            new Alert({
-              message: this.translate.get('frontpage.favourites_snackbar_message_remove'),
-              type: AlertType.Success,
-              id: 'global',
-              closeable: true,
-              identifier: 'favourites',
-            }),
+            new Alert(this.alert),
           );
           this.state = false;
-        },          (err) => {});
+        },                                                          (err) => {});
     }
   }
 }

@@ -1,4 +1,4 @@
-<button htm-button theme="icon" (click)="handleStateChange()">
+<button htm-button theme="icon" (click)="handleStateChange()" attr.aria-label="{{ 'tooltip.favourites' | translate }}">
   <icon [glyph]="state ? 'star-filled' : 'star'" size="medium"></icon>
 </button>
 <alerts global></alerts>

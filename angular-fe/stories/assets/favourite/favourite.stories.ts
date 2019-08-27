@@ -61,7 +61,6 @@ stories.add('Favourite', () => {
           <h1 style="margin-bottom: 1rem;">{{entity.title}}</h1>
           <favourite [id]="entity.nid"
             [state]="entity.isFavorite"
-            [title]="entity.title"
             [limit]="limit === 'yes'">
           </favourite>
           <div style="font-weight: 500;margin: 1rem 0;">{{ entity.fieldBodySummary }}</div>

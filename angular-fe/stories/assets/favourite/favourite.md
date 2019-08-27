@@ -5,8 +5,7 @@
 ```html
 <favourite 
   id="48788"
-  state="true"
-  title="Artikkel mugudest">
+  state="true">
 </favourite>
 ```
 
@@ -16,7 +15,7 @@
 |---|---|---|---|---|
 | id | - | - | number | Content Nid (unique identifier)
 | state | - | true, false | boolean | State
-| title | - | - | string | Content title
+| limit | - | true, false | boolean | Boolean indicating if favourites limit reached (storybook)
 
 
 
