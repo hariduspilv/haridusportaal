@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import conf from '@app/_core/conf';
 import { Subscription } from 'rxjs';
-import { AlertsService, Alert, AlertType } from '@app/_services';
+import { AlertsService, Alert, AlertType, ModalService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
@@ -15,16 +15,23 @@ export class FavouriteComponent {
   @Input() id: string;
   @Input() title: string;
   @Input() state: boolean;
+  @Input() limit: boolean;
   // @Input() authorization: string;
   private subscription: Subscription;
+  private maxCount: number = 10;
 
   constructor(
     private http: HttpClient,
     private alertsService: AlertsService,
-    private translate: TranslateService) {}
+    private translate: TranslateService,
+    private modalService: ModalService) {}
   handleStateChange() {
     // let headers = new HttpHeaders();
     // headers = headers = headers.append('Authorization', `Bearer ${this.authorization}`);
+    if (this.limit) {
+      this.modalService.open('favourites');
+      return;
+    }
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }

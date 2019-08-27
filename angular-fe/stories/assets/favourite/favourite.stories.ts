@@ -5,7 +5,7 @@ import { TranslateModule } from '@app/_modules/translate';
 import { RouterTestingModule } from '@angular/router/testing';
 import {
   withKnobs,
-  text,
+  optionsKnob as options,
 } from '@storybook/addon-knobs';
 
 const moduleMetadata = {
@@ -37,10 +37,21 @@ stories.add('Favourite', () => {
       },
     ],
   };
-
+  const limit = options(
+    'Favourites limit reached',
+    {
+      Yes: 'yes',
+      No: 'no',
+    },
+    'no',
+    {
+      display: 'inline-radio',
+    },
+  );
   return {
     moduleMetadata,
     props: {
+      limit,
       entity,
       // jwtToken,
     },
@@ -50,7 +61,8 @@ stories.add('Favourite', () => {
           <h1 style="margin-bottom: 1rem;">{{entity.title}}</h1>
           <favourite [id]="entity.nid"
             [state]="entity.isFavorite"
-            [title]="entity.title">
+            [title]="entity.title"
+            [limit]="limit === 'yes'">
           </favourite>
           <div style="font-weight: 500;margin: 1rem 0;">{{ entity.fieldBodySummary }}</div>
           <htm-video [videos]="entity.fieldVideo"></htm-video>
