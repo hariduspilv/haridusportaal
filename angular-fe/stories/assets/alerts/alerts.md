@@ -21,7 +21,7 @@ Alert is one single alert entity
 | type | - | Warning, Error, Success, Info | AlertType | Set which type of an alert will be shown
 | id | 'global' | - | string | Set which alert block will the alert be shown in
 | closeable | true | true, false | boolean | If set to 'true' then alert can be closed/removed
-| identifier | - | - | number | No duplicate messages for same id
+| category | - | - | number | No duplicate messages for same id
 | link | - | - | Object | Adds link instead of close button
 
 ```js
@@ -56,7 +56,7 @@ Quick methods
 const classMethod = (arg) => {
   ...
     //quick methods
-    this.alertsService.info('message'); //info to global
+    this.alertsService.info('message', 'global'); //info to global
     this.alertsService.success('message', 'ALERTS_BLOCK_ID'); //success to ALERTS_BLOCK_ID alert list
     this.alertsService.error('message', 'ALERTS_BLOCK_ID', false); //ALERTS_BLOCK_ID, not closable
     this.alertsService.warning('message', 'ALERTS_BLOCK_ID');
@@ -75,7 +75,7 @@ const classMethod = (arg) => {
         type: NotificationType.Error,
         id: 'global',
         closeable: true,
-        identifier: 'ETA-3',
+        category: 'ETA-3',
         link: {
           url: '/töölaud/taotlused',
           label: 'Vaata oma töölauda',

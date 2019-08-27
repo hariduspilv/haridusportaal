@@ -25,7 +25,10 @@ import { RippleService,
   SidemenuService,
   SidebarService,
   ModalService } from '@app/_services';
-import { NgbModule, NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+import {
+  NgbModule,
+  NgbTooltipModule,
+  NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
@@ -94,7 +97,7 @@ const declarations = [
 ];
 
 const exports = [
-
+  NgbTooltipModule,
 ];
 
 const providers = [
@@ -122,6 +125,7 @@ const providers = [
     NgbModule,
     NgPipesModule,
     NgSelectModule,
+    NgbTooltipModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })

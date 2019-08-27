@@ -44,9 +44,9 @@ export class AlertsComponent implements OnDestroy {
           this.alerts = [];
           return;
         }
-        // only one error per HTTP status code
-        if (alert.identifier !== undefined) {
-          this.alerts = this.alerts.filter((x: Alert) => x.identifier !== alert.identifier);
+        // only one error per category
+        if (alert.category !== undefined) {
+          this.alerts = this.alerts.filter((x: Alert) => x.category !== alert.category);
         }
         this.alerts.push(alert);
       });
