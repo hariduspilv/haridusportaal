@@ -177,7 +177,8 @@
 					padding-right: .25rem;
 					@include break-on(sm, min) {
 						line-height: inherit;
-    				width: 100%;
+						width: 100%;
+						max-width: 2.5rem;
 					}
 				}
 				img {
@@ -260,7 +261,7 @@
 									border-left: 0.625rem solid transparent;
 									border-top: .75rem solid $orange;
 									right: 15%;
-									bottom: 1.25rem;
+									top: -.875rem;
 									z-index: 1;
 								}
 								&:before {
@@ -275,7 +276,7 @@
 									padding: 0 1rem;
 									white-space: nowrap;
 									margin: 0;
-									bottom: 1.75rem;
+									top: -2rem;
     							right: -2.5rem;
 								}
 							}
