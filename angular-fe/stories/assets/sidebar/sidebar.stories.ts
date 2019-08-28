@@ -212,7 +212,7 @@ stories.add('Sidebar', () => {
       reverseOskaMainProfessionOskaFillingBarEntity: {
         entities: [
           {
-            value: '4',
+            value: 5,
           },
         ],
       },

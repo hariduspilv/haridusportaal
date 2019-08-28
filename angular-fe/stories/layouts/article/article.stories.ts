@@ -240,7 +240,7 @@ stories.add('Article Layout', () => {
       reverseOskaMainProfessionOskaFillingBarEntity: {
         entities: [
           {
-            value: '4',
+            value: 4,
           },
         ],
       },
