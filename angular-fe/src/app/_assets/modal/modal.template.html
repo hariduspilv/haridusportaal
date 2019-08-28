@@ -1,4 +1,4 @@
-<div class="modal" [ngClass]="{ 'modal-open': opened }">
+<div class="modal">
   <div class="modal__backdrop">
       <div class="modal__block" role="modal" attr.id="modal-{{id}}" tabindex="0">
         <ng-container *ngIf="opened">
@@ -10,14 +10,20 @@
           </div>
           <ng-content select="modal-content"></ng-content>
           <div class="modal__footer" *ngIf="bottomAction">
-            <button (blur)="setFocus()" htm-button theme="plain" attr.aria-label="{{ 'button.close' | translate }}" (click)="modalService.close(id)">{{ 'button.close' | translate }}</button>
+            <button (blur)="modalService.focusLock()" htm-button theme="plain" attr.aria-label="{{ 'button.close' | translate }}" (click)="modalService.close(id)">{{ 'button.close' | translate }}</button>
           </div>
         </ng-container>
     </div>
   </div>
 </div>
 <!-- For story -->
-<ng-container *ngIf="stateButton">
-  <button style="margin-top: 1rem;" htm-button (click)="modalService.open(id)">Ava modaal {{id}}</button><br>
-</ng-container>
+<div class="states" *ngIf="stateButton && modalIds">
+  <formItem
+    type="select"
+    title="Modaal"
+    [(ngModel)]="modalId"
+    [options]="modalIds">
+  </formItem>
+  <button htm-button (click)="modalService.open(modalId)">Ava modaal</button><br>
+</div>
 <!-- / -->

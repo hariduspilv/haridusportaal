@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { focus } from '@app/_core/utility';
 
 @Injectable()
 export class ModalService {
@@ -28,5 +29,13 @@ export class ModalService {
   close(id: string) {
     const modal = this.modals.find(x => x.id === id);
     modal.stateChange(false);
+  }
+
+  focusLock() {
+    const openedArr = Object.keys(this.modalOpened).filter(elem => this.modalOpened[elem]);
+    if (openedArr.length) {
+      const id = `modal-${openedArr.reduce(elem => elem)}`;
+      focus(id);
+    }
   }
 }

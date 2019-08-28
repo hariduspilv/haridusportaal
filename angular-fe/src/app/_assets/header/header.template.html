@@ -43,9 +43,20 @@
     </div>
   </div>
 </div>
-<htm-modal id="search" title="Otsing">
+<htm-modal id="search" title="Otsing" [bottomAction]="false">
   <modal-content id="search" *ngIf="modalService.modalOpened['search']">
-    Otsi OTSI otsi
+    <formItem
+      type="text"
+      placeholder="Märksõna"
+      [(ngModel)]="search"
+      title="Märksõna">
+    </formItem>
+    <button
+      (blur)="modalService.focusLock()"
+      htm-button
+      style="margin: 1rem 0; width: 100%;">
+        Otsi
+    </button>
   </modal-content>
 </htm-modal>
 <htm-modal id="login" title="Login">

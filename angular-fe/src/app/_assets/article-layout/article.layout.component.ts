@@ -1,5 +1,4 @@
-import { Component } from '@angular/core';
-import { data } from '../../../../stories/assets/sidebar/sidebar.data';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'article-layout',
@@ -8,6 +7,6 @@ import { data } from '../../../../stories/assets/sidebar/sidebar.data';
 })
 
 export class ArticleLayout {
+  @Input() sidebar: any;
   constructor() {}
-  private sidebar: any = data;
 }

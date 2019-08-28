@@ -1,0 +1,111 @@
+@import "typography.scss";
+
+$shareSize: 3.375rem;
+$optionSize: 2.25rem;
+
+:host{
+  width: $shareSize;
+  height: $shareSize;
+  display: inline-block;
+  position: relative;
+  &:hover, &.share--focused{
+    z-index: 999;
+    .share{
+      &__indicator{
+        transform: rotate(180deg);
+        opacity: 0;
+      }
+      &__link{
+        opacity: 1;
+        icon{
+          transform: rotate(45deg);
+        }
+      }
+      &__options{
+        pointer-events: auto;
+        opacity: 1;
+      }
+      &__option{
+        opacity: 1;
+        transform: scale(1) rotate(0);
+      }
+    }
+  }
+  ::ng-deep{
+    .tooltip{
+      white-space: nowrap;
+    }
+  }
+}
+.share{
+  &__indicator, &__link, &__option{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $shareSize;
+    height: $shareSize;
+    line-height: $shareSize;
+    border: none;
+    background:none;
+    appearance: none;
+    padding: 0;
+    text-align: center;
+    display: inline-block;
+    cursor: pointer;
+    transition: transform .25s, opacity .25s;
+    border-radius:$shareSize;
+    color: $blue;
+    ::ng-deep {
+      icon .icon:before{
+        font-size: 1.4375rem;
+        line-height: $shareSize;
+      }
+      [glyph='twitter'] .icon:before{
+        font-size: 0.875rem;
+      }
+    }
+    icon{
+      pointer-events: none;
+    }
+    &:hover, &:focus{
+      background: $blue-light;
+    }
+  }
+  &__link{
+    color: $white;
+    opacity: 0;
+    background: $blue;
+    icon{
+      transition: transform .25s;
+      transform: rotate(-180deg);
+      display: block;
+    }
+  }
+
+  &__options{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: $shareSize;
+    z-index: 10;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+  }
+  &__option{
+    position: relative;
+    width: $optionSize;
+    height: $optionSize;
+    line-height: $optionSize;
+    background: $blue;
+    color: $white;
+    margin-top:0.875rem;
+    transition: opacity .25s, transform .25s;
+    ::ng-deep {
+        icon .icon:before{
+        font-size: 1.25rem;
+        line-height: $optionSize;
+      }
+    }
+  }
+}
