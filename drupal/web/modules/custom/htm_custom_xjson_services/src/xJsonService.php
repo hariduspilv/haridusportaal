@@ -422,7 +422,7 @@ class xJsonService implements xJsonServiceInterface {
                 }
                 break;
             case 'table':
-                $additional_keys = ['add_del_rows', 'table_columns' , 'hidden', 'vertical'];
+                $additional_keys = ['row_label', 'add_del_rows', 'table_columns' , 'hidden', 'vertical'];
                 if (isset($element['add_del_rows']) && !is_bool($element['add_del_rows'])) $valid = false;
                 if (isset($element['table_columns'])) {
                     foreach ($element['table_columns'] as $key => $column_element) {
