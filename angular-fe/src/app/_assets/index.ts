@@ -28,7 +28,7 @@ import {
   SidebarService,
   ModalService } from '@app/_services';
 import {
-  NgbModule,
+  NgbDatepickerModule,
   NgbTooltipModule,
   NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent, SidemenuItemComponent } from './menu';
@@ -124,7 +124,7 @@ const providers = [
       apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
     }),
     AgmSnazzyInfoWindowModule,
-    NgbModule,
+    NgbDatepickerModule,
     NgPipesModule,
     NgSelectModule,
     NgbTooltipModule,

@@ -8,6 +8,7 @@
 <button
   ripple
   [ngbTooltip]="'tooltip.copy' | translate"
+  placement="right"
   (focus)="hostFocused()"
   (blur)="hostBlurred()"
   class="share__link"
@@ -21,6 +22,7 @@
   <button
     ripple
     [ngbTooltip]="'tooltip.share_fb' | translate"
+    placement="right"
     (focus)="hostFocused()"
     (blur)="hostBlurred()"
     (click)="share($event, 'facebook')"
@@ -33,6 +35,7 @@
   <button
     ripple
     [ngbTooltip]="'tooltip.share_twitter' | translate"
+    placement="right"
     (focus)="hostFocused()"
     (blur)="hostBlurred()"
     (click)="share($event, 'twitter')"
