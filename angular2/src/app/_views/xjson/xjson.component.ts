@@ -80,6 +80,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public redirect_url;
   public scrollableTables = {};
   public visibleTableLength = {};
+  public viewOnlyStep: boolean;
 
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
@@ -381,15 +382,19 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   getDatepickerValue(element, rowindex, col) {
-    const date = rowindex === undefined || col === undefined
+    let date = rowindex === undefined || col === undefined
       ? this.data_elements[element].value
       : this.data_elements[element].value[rowindex][col];
 
-    if (date) {
+      if (!date) {
+        const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = today.getFullYear();
+      date = yyyy + '-' + mm + '-' + dd;
+      }
+
       return moment((String(date).split('.')).reverse().join('-'));
-    } else {
-      return false;
-    }
   }
 
 
@@ -432,6 +437,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const name = file.file_name;
     const token = sessionStorage.getItem('token');
     return this.settings.url + '/xjson_service/documentFile2/' + id + '/' + name + '?jwt_token=' + token;
+  }
+
+  stopFileUpload(element) {
+    this.fileLoading[element] = false;
   }
 
   canUploadFile(element): boolean {
@@ -533,7 +542,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (column.default_value !== undefined) {
         newRow[col] = column.default_value;
       } else {
-        newRow[col] = null;
+          newRow[col] = null;
       }
       if (column.type === 'address') {
         if (!this.temporaryModel[element]) {
@@ -851,6 +860,25 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.compileAcceptableFormList();
   }
 
+  getStepViewStatus() {
+    if (!this.data.body.steps[this.opened_step].editable) {
+      this.viewOnlyStep = true;
+    } else {
+      this.viewOnlyStep = true;
+      for (const [label, elem] of Object.entries(this.data_elements)) {
+        if (elem['type'] === 'table') {
+          this.scrollableTableDeterminant(label);
+          this.tableVisibleColumns(label, elem['table_columns']);
+        }
+        if (elem['hidden'] || elem['readonly']) {
+          return;
+        } else {
+          this.viewOnlyStep = false;
+        }
+      }
+    }
+  }
+
   promptDebugDialog(data) {
 
     if (this.test === false) {
@@ -986,9 +1014,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       for (const [label, elem] of Object.entries(this.data_elements)) {
         if (elem['type'] === 'table') {
           this.scrollableTableDeterminant(label);
-          this.tableVisibleColumns(label, elem['table_columns']);
         }
       }
+
+      this.getStepViewStatus();
     }
 
   }

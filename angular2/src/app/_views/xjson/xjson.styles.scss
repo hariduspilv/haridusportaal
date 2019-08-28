@@ -196,6 +196,7 @@ a {
     display: block;
     font-size: .875rem;
     color: $black;
+    @include break-on(sm, max) { display:none; }
   }
   .dropzone-description {
     margin-top: 1rem;
@@ -347,7 +348,7 @@ a {
     .mat-datepicker-toggle { margin-top: -0.1875rem; }
     .round-input__wrapper { display: table-row-group; margin-bottom: 0rem; }
     
-    .round-input__field-wrapper { margin-top: 0; height: 1.875rem; border-radius: 0.25rem; width: 10rem; background-color: $white; border: solid 0.0625rem $gray; color: $black; font-family: 'Rubik', sans-serif;
+    .round-input__field-wrapper { margin-top: 0; height: 1.875rem; border-radius: 0.25rem; width: 8rem; background-color: $white; border: solid 0.0625rem $gray; color: $black; font-family: 'Rubik', sans-serif;
       input {  padding: 0.275rem 0.375rem; font-weight: 400; }
     }
   }
