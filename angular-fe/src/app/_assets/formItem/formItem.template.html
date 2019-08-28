@@ -5,7 +5,7 @@
     <ng-container *ngSwitchCase="'text'">
       <input
         [class.hideText]="!filledField"
-        [attr.placeholder]="(titleDisabled || filledField) ? placeholder : ''"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         type="text"

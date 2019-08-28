@@ -71,9 +71,26 @@ stories.add(
         loading,
       },
       template: `
+          <htm-modal id="search" title="Otsing"
+          [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
+          [bottomAction]="bottomAction === 'yes'">
+            <modal-content id="search" [loading]="loading === 'yes'">
+              <formItem
+                type="text"
+                placeholder="Märksõna"
+                [(ngModel)]="search"
+                title="Märksõna">
+              </formItem>
+              <button
+                htm-button
+                style="margin-top: 1rem; width: 100%;">
+                  Otsi
+              </button>
+            </modal-content>
+          </htm-modal>
           <htm-modal id="modal-1" title="Esimene pealkiri"
           [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
-          [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
+          [bottomAction]="bottomAction === 'yes'">
             <modal-content id="modal-1" [loading]="loading === 'yes'">
               <table htm-table>
                 <tr>
@@ -89,9 +106,9 @@ stories.add(
               </table>
             </modal-content>
           </htm-modal>
-          <htm-modal id="modal-2" title="Pealkiri"
+          <htm-modal id="modal-2" title="Pealkiri" [stateButton]="true"
           [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
-          [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
+          [bottomAction]="bottomAction === 'yes'">
             <modal-content id="modal-2" [loading]="loading === 'yes'">
               <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui
                 blanditiis praesentium voluptatum deleniti atque corrupti
@@ -105,13 +122,6 @@ stories.add(
                 recusandae. Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis
                 maiores alias consequatur aut perferendis doloribus asperiores repellat.
               </p>
-            </modal-content>
-          </htm-modal>
-          <htm-modal id="loader" title="Failure is apparently an option"
-          [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
-          [bottomAction]="bottomAction === 'yes'" [stateButton]="true">
-            <modal-content id="loader" [loading]="loading === 'yes'">
-              Sisu sisu sisu
             </modal-content>
           </htm-modal>
         `,

@@ -11,10 +11,9 @@ import { ModalService } from '@app/_services';
 export class ModalContentComponent {
   @Input() id: string;
   @Input() loading: boolean = false;
-  private focusElem: string;
+  constructor(private modalService: ModalService) {}
   ngOnInit() {
-    this.focusElem = `modal-${this.id}`;
-    focus(this.focusElem);
+    this.modalService.focusLock();
   }
 }
 
@@ -29,14 +28,14 @@ export class ModalComponent implements OnInit {
   @Input() title: string = '';
   public opened: boolean = false;
   private element: any;
-  private focusStart: string;
+  private modalIds: any;
   @Input() titleExists: boolean = true;
   @Input() topAction: boolean = true;
   @Input() bottomAction: boolean = true;
   // Modal opening button for story
   @Input() stateButton: boolean = false;
   @HostBinding('class') get hostClasses(): string {
-    return this.opened ? 'modal modal-open' : 'modal';
+    return this.opened ? 'modal-open' : '';
   }
 
   constructor(
@@ -48,21 +47,20 @@ export class ModalComponent implements OnInit {
 
   ngOnInit() {
     // Outside click close
-    this.focusStart = `modal-${this.id}`;
     this.element.addEventListener('click', (el) => {
       if (el.target.className && el.target.className.includes('modal__backdrop')) {
         this.stateChange(false);
       }
     });
     this.modalService.add(this);
+    // Modal selection in story
+    if (this.modalService.modals && this.modalService.modals.length) {
+      this.modalIds = this.modalService.modals.map(item => item.id);
+    }
   }
 
   ngOnDestroy(): void {
     this.modalService.remove(this.id);
-  }
-
-  setFocus() {
-    focus(this.focusStart);
   }
 
   stateChange(state: boolean): void {
