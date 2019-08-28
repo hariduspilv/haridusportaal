@@ -103,7 +103,8 @@
 							color: $white;
 							background-color: rgba(255,255,255,.1);
 							border: .0625rem solid rgba(255,255,255,0);
-							&::placeholder {
+							&::placeholder, :-moz-placeholder, ::-moz-placeholder {
+								opacity: 1;
 								color: $white;
 							}
 						}
