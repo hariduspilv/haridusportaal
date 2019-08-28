@@ -20,7 +20,7 @@ export class ShareComponent {
     private clipboardService: ClipboardService,
   ) {}
 
-  public share ($event, type: string) {
+  public share ($event: Event, type: string) {
     $event.preventDefault();
     $event.stopPropagation();
     const url = location.href;
