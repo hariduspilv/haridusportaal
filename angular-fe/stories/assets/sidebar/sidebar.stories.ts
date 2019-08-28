@@ -128,10 +128,10 @@ stories.add('Sidebar', () => {
       fieldQualificationStandard: [
         {
           url: {
-            routed: true,
-            path: '/artiklid/haridusministeerium-loobus-rkas-i-teenusest',
+            routed: false,
+            path: 'eesti.ee',
           },
-          title: 'Kutsestandardi lingi tekst',
+          title: 'Outbound lingi tekst',
         },
         {
           url: {

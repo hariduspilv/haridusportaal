@@ -156,6 +156,13 @@ stories.add('Article Layout', () => {
       fieldQualificationStandard: [
         {
           url: {
+            routed: false,
+            path: 'eesti.ee',
+          },
+          title: 'Outbound lingi tekst',
+        },
+        {
+          url: {
             routed: true,
             path: '/artiklid/haridusministeerium-loobus-rkas-i-teenusest',
           },
