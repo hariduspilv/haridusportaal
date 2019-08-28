@@ -10,7 +10,7 @@
           </div>
           <ng-content select="modal-content"></ng-content>
           <div class="modal__footer" *ngIf="bottomAction">
-            <button (blur)="setFocus()" htm-button theme="plain" attr.aria-label="{{ 'button.close' | translate }}" (click)="modalService.close(id)">{{ 'button.close' | translate }}</button>
+            <button (blur)="modalService.focusLock()" htm-button theme="plain" attr.aria-label="{{ 'button.close' | translate }}" (click)="modalService.close(id)">{{ 'button.close' | translate }}</button>
           </div>
         </ng-container>
     </div>
