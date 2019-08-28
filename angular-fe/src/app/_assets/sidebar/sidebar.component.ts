@@ -39,7 +39,7 @@ export class SidebarComponent {
 export class SidebarLinksComponent implements OnInit {
   @Input() data: Object[];
   ngOnInit() {
-    this.data = this.data.map((item) => {
+    this.data = this.data.map((item: any) => {
       if (item['entity']) {
         return {
           title: item['entity'].entityLabel,
