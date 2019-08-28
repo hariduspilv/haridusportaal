@@ -30,13 +30,14 @@ export class ModalComponent implements OnInit {
   public opened: boolean = false;
   private element: any;
   private focusStart: string;
+  private modalIds: any;
   @Input() titleExists: boolean = true;
   @Input() topAction: boolean = true;
   @Input() bottomAction: boolean = true;
   // Modal opening button for story
   @Input() stateButton: boolean = false;
   @HostBinding('class') get hostClasses(): string {
-    return this.opened ? 'modal modal-open' : 'modal';
+    return this.opened ? 'modal-open' : '';
   }
 
   constructor(
@@ -55,6 +56,10 @@ export class ModalComponent implements OnInit {
       }
     });
     this.modalService.add(this);
+    // Modal selection in story
+    if (this.modalService.modals && this.modalService.modals.length) {
+      this.modalIds = this.modalService.modals.map(item => item.id);
+    }
   }
 
   ngOnDestroy(): void {

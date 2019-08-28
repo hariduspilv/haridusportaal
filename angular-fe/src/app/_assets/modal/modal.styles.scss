@@ -2,8 +2,8 @@
 @import "breakpoints.scss";
 
 :host {
+	position: absolute;
 	.modal {
-		position: absolute;
 		visibility: hidden;
 		&__backdrop {
 			opacity: 0;
@@ -21,13 +21,13 @@
 		&__block {
 			transition: transform 0.25s;
 			transform: translateY(-4rem);
-			min-width: calc(20rem - 3rem);
-			max-height: calc(90vh - 4rem);
-			max-width: 90vw;
+			max-height: 90vh;
+			min-width: 50vw;
+			max-width: 75vw;
 			margin: 4rem 0 auto; 
 			overflow: auto;
 			background: $white;
-			border-top: .625rem solid $orange;
+			border-top: .625rem solid $dark-orange;
 			border-radius: .25rem;
 			box-shadow: 0 0.6875rem 0.9375rem -0.4375rem rgba(0,0,0,.2), 0 1.5rem 2.375rem 0.1875rem rgba(0,0,0,.14), 0 0.5625rem 2.875rem 0.5rem rgba(0,0,0,.12);
 			padding: 1.5rem;
@@ -56,8 +56,10 @@
 			display: flex;
 			justify-content: center;
 		}
-		&.modal-open {
-			position: static;
+	}
+	&.modal-open {
+		position: static;
+		.modal{
 			visibility: visible;
 			.modal__backdrop {
 				opacity: 1;
@@ -73,6 +75,18 @@
 			margin: 0;
 		}
 	}
+	.states {
+		display: flex;
+		flex-direction: column;
+		formItem, button {
+			margin-top: 1rem;
+		}
+	}
+	@include break-on(sm, max) {
+		.modal__block {
+			min-width: 30rem;
+		}
+	}
 	@include break-on(xxs, max) {
 		.modal {
 			&__backdrop {
@@ -80,6 +94,7 @@
 				margin-top: 4rem;
 			}
 			&__block {
+				min-width: 20rem;
 				width: 100%;
 				border-radius: 0;
 				margin-top: 0;

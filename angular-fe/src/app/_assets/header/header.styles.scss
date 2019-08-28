@@ -51,25 +51,27 @@
 		}
 	}
 	
-	button {
-		height: 4rem;
-		width: 4rem;
-		padding: 0;
-		color: $white;
-		border: none;
-		background: $blue;
-		border-radius: 0;
-		::ng-deep	{
-			.button--label {
-				display: block;
-				span {
-					display: none;
+	.header__hamburger, .header__assets {
+		button {
+			height: 4rem;
+			width: 4rem;
+			padding: 0;
+			color: $white;
+			border: none;
+			background: $blue;
+			border-radius: 0;
+			::ng-deep	{
+				.button--label {
+					display: block;
+					span {
+						display: none;
+					}
 				}
-			}
-			.icon {
-				height: 1.5rem;
-				&:before {
-					vertical-align: initial;
+				.icon {
+					height: 1.5rem;
+					&:before {
+						vertical-align: initial;
+					}
 				}
 			}
 		}
@@ -104,10 +106,10 @@
 							background-color: rgba(255,255,255,.1);
 							border: .0625rem solid rgba(255,255,255,0);
 							&::placeholder {
-								color: $white;
+								color: $light-purple;
 							}
 							&:-moz-placeholder, &::-moz-placeholder {
-								color: $white;
+								color: $light-purple;
 								opacity: 1;
 							}
 						}
