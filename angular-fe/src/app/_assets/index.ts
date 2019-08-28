@@ -54,7 +54,7 @@ import { ShareComponent } from './share';
 import { ClipboardService } from 'ngx-clipboard';
 import { LabelsComponent } from './labels';
 
-const pipes = []
+const pipes = [];
 
 const declarations = [
   BlockComponent,
