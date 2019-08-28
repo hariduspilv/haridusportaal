@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
@@ -78,6 +78,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public error_alert = false;
   public error = {};
   public redirect_url;
+  public scrollableTables = {};
+  public visibleTableLength = {};
 
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
@@ -310,6 +312,31 @@ export class XjsonComponent implements OnInit, OnDestroy {
     };
   }
 
+  scrollableTableDeterminant(label) {
+    const _opened_step = this.opened_step;
+    const _scrollableTables = this.scrollableTables;
+    if (_opened_step) {
+      setTimeout(function () {
+        const table = document.getElementById(label + 'Table');
+        const content = document.getElementById(label + 'Content');
+        _scrollableTables[label] = table.offsetWidth < content.offsetWidth ? true : false;
+      }, 0);
+    }
+  }
+
+  tableVisibleColumns(label, columns) {
+    let visibleColumns = 0;
+    const _visibleTableLength = this.visibleTableLength;
+
+    Object.values(columns).forEach((elem) => {
+      if (!elem['hidden']) {
+        visibleColumns++;
+      }
+    });
+
+    _visibleTableLength[label] = visibleColumns;
+  }
+
   scrollPositionController() {
     const _opened_step = this.opened_step;
     if (_opened_step) {
@@ -508,14 +535,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
       } else {
         newRow[col] = null;
       }
-      if(column.type === 'address'){
-        if(!this.temporaryModel[element]){
+      if (column.type === 'address') {
+        if (!this.temporaryModel[element]) {
           this.temporaryModel[element] = {
             [col]: {
               '0': null
             }
           };
-        }else{
+        } else {
           const rowNumber = Object.keys(this.temporaryModel[element][col]).length;
           this.temporaryModel[element][col][rowNumber] = null;
         }
@@ -523,6 +550,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
     if (table.value === undefined) { table.value = []; }
     table.value.push(newRow);
+    this.scrollableTableDeterminant(element);
   }
 
   tableDeleteRow(element, rowIndex) {
@@ -559,6 +587,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
             }
           }
         }
+        this.scrollableTableDeterminant(element);
       }
       this.dialogRef = null;
     });
@@ -738,6 +767,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.validateForm(this.data_elements);
 
       if (Object.keys(this.error).length === 0) {
+        this.error_alert = false;
         this.data.header['activity'] = activity;
         const payload = { form_name: this.form_name, form_info: this.data };
         if (this.test === true) {
@@ -761,7 +791,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   closeError() {
     this.error_alert = false;
   }
-  
+
   closeMessage(i) {
     this.data_messages.splice(i, 1);
   }
@@ -930,7 +960,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.data_elements) {
       // Count table elements and set initial settings
       Object.values(this.data_elements).forEach((elem, index) => {
-        if (elem['type'] === 'table') { this.tableIndexes.push(index); }
+        if (elem['type'] === 'table') {
+          this.tableIndexes.push(index);
+        }
       });
       this.tableIndexes.forEach((elem) => {
         this.elemAtStart[elem] = true;
@@ -949,6 +981,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       if (!this.edit_step) {
         this.scrollPositionController();
+      }
+
+      for (const [label, elem] of Object.entries(this.data_elements)) {
+        if (elem['type'] === 'table') {
+          this.scrollableTableDeterminant(label);
+          this.tableVisibleColumns(label, elem['table_columns']);
+        }
       }
     }
 
