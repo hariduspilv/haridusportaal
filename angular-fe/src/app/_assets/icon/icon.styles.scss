@@ -1,18 +1,29 @@
 @import "typography.scss";
-
-i {
-	display:inline-block;
-	font-size: 16px;
-	&:before{
-		display: inline-block;
-		vertical-align: middle;
-		line-height:100%;
+:host {
+	i {
+		line-height: 0;
+		display:inline-block;
+		font-size: 16px;
+		&:before{
+			display: inline-block;
+			vertical-align: middle;
+			line-height:100%;
+		}
 	}
-}
-
-.medium {
-	font-size: 24px;
-}
-.large {
-	font-size: 32px;
+	&.medium i {
+		font-size: 24px;
+	}
+	&.large i {
+		font-size: 32px;
+	}
+	&.with-bg {
+		display: flex;
+    align-items: center;
+    justify-content: center;
+		background-color: $light-gray;
+		border-radius: 50%;
+		width: 2.5rem;
+		min-width: 2.5rem;
+		height: 2.5rem;
+	}
 }

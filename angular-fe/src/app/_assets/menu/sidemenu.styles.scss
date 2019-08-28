@@ -18,6 +18,7 @@
 	will-change: transform;
 	transition: transform .2s cubic-bezier(0.215, 0.61, 0.355, 1);
 	&.is-visible {
+		z-index: 1;
 		transform: translateX(0);
 	}
 	ul,
@@ -57,7 +58,7 @@
 		width: 100%;
 		text-align: left;
 		font-size: 1rem;
-		font-weight: 500;
+		font-weight: normal;
 		transition: border-left-color,
 			background-color 0.2s cubic-bezier(0.19, 1, 0.22, 1);
 		overflow: hidden;
@@ -71,19 +72,19 @@
 		}
 		&:hover {
 			background-color: darken($white, 5%);
-			border-left-color: $orange;
+			border-left-color: $dark-orange;
 		}
 	}
 	.sidemenu__link[aria-expanded="true"] {
-		border-left-color: $orange;
+		border-left-color: $dark-orange;
 		span {
-			font-weight: 700;
+			font-weight: bold;
 			color: rgba(0, 0, 0, 0.87);
 		}
 		+ ul {
 			display: block;
 			.sidemenu__link {
-				border-left-color: $orange;
+				border-left-color: $dark-orange;
 				span {
 					position: relative;
 					display: block;

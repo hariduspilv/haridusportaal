@@ -99,6 +99,7 @@
 | options | - | - | Array<object> | Array of options [{ key: 'Option title', value: 'Option value' }]. Used for: <b>Multi-select, Select, Radio</b>
 | label | - | - | string | ONLY for checkbox. Used as checkbox label text
 | value | - | – | string | Form item default value
+| height | - | - | number | Textarea optional height
 | error | false | true, false | boolean | Form items error theme
 | errorMessage | - | - | string | Error message for 'error' theme
 | success | false | true, false | boolean | Form items success theme

@@ -3,7 +3,7 @@
     theme="plain"
     attr.aria-label="{{ 'button.open' | translate }} {{ 'frontpage.main_menu' | translate }}" 
     attr.aria-expanded="{{active}}" 
-    (click)="active = !active">
+    (click)="toggleSidemenu()">
     <div class="toggle" [class.active]="active">
       <div class="bar first"></div>
       <div class="bar middle"></div>
@@ -11,33 +11,45 @@
     </div>
   </button>
 </div>
-<a href="javascript:void(0)" class="header__logo pointer" role="link" attr.aria-label="{{'frontpage.lead' | translate}}">
+<a href="" class="header__logo pointer" role="link" attr.aria-label="{{'frontpage.lead' | translate}}">
   <!-- <icon glyph="logo" size="medium"></icon> -->
   <img aria-hidden="true" src="../../../assets/img/logo.svg"/>
 </a>
 <div class="header__assets">
-  <div class="header__search"></div>
-  <button htm-button 
-    (click)="modalService.open('search')"
-    theme="plain"
-    classes="sm-show"
-    attr.aria-label="{{ 'button.search' | translate }}">
-    <icon aria-hidden="true" glyph="search" size="medium"></icon>
-  </button>
-  <button htm-button
-    (click)="modalService.open('login')"
-    theme="plain"
-    attr.aria-label="{{ 'button.login' | translate }}">
-    <icon aria-hidden="true" glyph="user" size="medium"></icon>
-  </button>
+  <div class="header__assets--grid">
+    <div class="header__search">
+      <icon glyph="search" size="default"></icon>
+      <formItem
+        titleDisabled="true"
+        type="text"
+        placeholder="Sisesta märksõna ja vajuta Enter"
+        [(ngModel)]="search">
+      </formItem>
+    </div>
+    <div class="header__actions">
+      <button htm-button 
+        (click)="modalService.open('search')"
+        theme="plain"
+        attr.aria-label="{{ 'button.search' | translate }}">
+        <icon aria-hidden="true" glyph="search" size="medium"></icon>
+      </button>
+      <button htm-button
+        (click)="modalService.open('login')"
+        theme="plain"
+        attr.aria-label="{{ 'button.login' | translate }}">
+        <icon aria-hidden="true" glyph="user" size="medium"></icon>
+        <span>{{ 'button.login' | translate }}</span>
+      </button>
+    </div>
+  </div>
 </div>
 <htm-modal id="search" title="Otsing">
-  <modal-content>
+  <modal-content id="search" *ngIf="modalService.modalOpened['search']">
     Otsi OTSI otsi
   </modal-content>
 </htm-modal>
 <htm-modal id="login" title="Login">
-  <modal-content>
+  <modal-content id="login" *ngIf="modalService.modalOpened['login']">
     Loogika
   </modal-content>
 </htm-modal>

@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export default class ModalService {
+export class ModalService {
   public modals: any[] = [];
+  public modalOpened: Object = {};
 
   add(modal: any) {
     this.modals.push(modal);
+    this.modalOpened[modal.id] = false;
   }
 
   remove(id: string) {

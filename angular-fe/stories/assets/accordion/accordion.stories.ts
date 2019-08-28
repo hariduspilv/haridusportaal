@@ -7,6 +7,7 @@ import {
 } from '@storybook/addon-knobs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@app/_modules/translate';
+import accordionHtml from './accordion.html';
 
 const moduleMetadata = {
   imports: [
@@ -36,35 +37,7 @@ stories.add('Accordion', () => {
     props: {
       collapsible,
     },
-    template: `
-      <accordion [collapsible]="collapsible == '1'">
-        <accordion-item title="First accordion block with a looooooooooooooong title">
-        <p>Officia laboris cillum minim fugiat pariatur nisi tempor
-        quis dolor cillum amet dolor cupidatat.
-        Tempor cupidatat labore ullamco voluptate duis nisi nulla.
-        Aliqua nisi in cupidatat qui fugiat aute nulla veniam nisi.
-        In exercitation nisi sunt enim.</p>
-        <p>Ut pariatur nisi eu cupidatat ut aliquip.
-        Veniam sit veniam proident non quis consectetur cillum
-        et sit aliquip elit ipsum duis laborum. Enim cillum amet
-        consectetur veniam nulla aliqua qui. Sit officia qui do
-        sit et. Amet minim laborum adipisicing ea exercitation
-        adipisicing pariatur excepteur. Veniam amet laborum
-        deserunt officia sit pariatur consectetur. Lorem qui
-        occaecat elit deserunt sint consectetur labore minim
-        ea in occaecat.</p>
-        </accordion-item>
-        <accordion-item title="Second">
-          <p>BOOOOO!</p>
-        </accordion-item>
-        <accordion-item title="Third">
-          <p>BOOOOO!</p>
-        </accordion-item>
-        <accordion-item title="Fourth">
-          <p>einz zwei</p>
-        </accordion-item>
-      </accordion>
-    `,
+    template: accordionHtml,
   };
 },          {
   notes: { markdown: accordionMd },

@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports.app =  {
   name: 'App',
+  path: 'https://htm.twn.ee/storybook',
   ftp: {
     user: "user",
     password: "pass",
@@ -17,6 +18,7 @@ module.exports.app =  {
 
 module.exports.storybook =  {
   name: 'Storybook',
+  path: 'https://htm.twn.ee/storybook',
   ftp: {
     user: "user",
     password: "pass",

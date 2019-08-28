@@ -83,6 +83,25 @@
 		}
 	}
 
+	&.block--sidebar {
+		.block__title__text {
+			padding: 0;
+			text-transform: none;
+		}
+		block-title {
+			font-size: 1.25rem;
+			line-height: 1.875rem;
+			color: $black;
+			font-weight: 500;
+		}
+		.block__content {
+			padding: 0;
+			&:after {
+				content: none;
+			}
+		}
+	}
+
 	@media screen and (max-width:640px) {
 		block {
 			border-radius: 0 0 4px 4px !important;

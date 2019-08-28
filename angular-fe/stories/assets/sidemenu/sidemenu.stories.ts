@@ -9,7 +9,6 @@ const moduleMetadata = {
 };
 
 const stories = storiesOf('Assets', module);
-const sidemenuService:SidemenuService = new SidemenuService();
 stories.add(
   'Sidemenu',
   () => {
@@ -17,7 +16,7 @@ stories.add(
       moduleMetadata,
       props: {
         data,
-        sidemenuService,
+        SidemenuService,
       },
       template: `
         <sidemenu [data]="data"></sidemenu>
