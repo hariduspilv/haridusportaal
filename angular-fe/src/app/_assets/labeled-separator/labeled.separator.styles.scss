@@ -1,0 +1,33 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	color: $dark-gray;
+	font-weight: normal;
+	font-size: 1rem;
+	line-height: 1rem;
+	justify-content: center;
+	margin: 1rem;
+	.divider {
+		background-color: $gray;
+		height: 1px; /* rem value too small for ie */
+		width: 100%;
+	}
+	span {
+		margin: .75rem;
+	}
+	&.vertical {
+		width: auto;
+		max-width: none;
+		flex-direction: column;
+		.divider {
+			max-height: 1.9375rem;
+			height: 100%;
+			width: 1px;
+		}
+	}
+}
+
