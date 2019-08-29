@@ -13,15 +13,6 @@ class StudyProgrammeController extends ControllerBase {
 
     public function import() {
 
-      $paragraphs = \Drupal::entityTypeManager()->getStorage('paragraph')->loadByProperties(['type'=>'iscedf_search']);
-      $i = 0;
-      foreach($paragraphs as $paragraph){
-        if($i <= 0){
-          $paragraph->delete();
-        }
-        $i++;
-      }
-
         $this->programmenodes = [];
         $schools = $this->get_existing_schools();
         $taxonomies['studyprogrammetype'] = $this->get_taxonomy_terms('studyprogrammetype');
