@@ -256,6 +256,33 @@
                   <!--/squared-input__wrapper-->
                 </ng-container> <!-- /EMAIL -->
 
+                <ng-container *ngIf="data_elements[element].type == 'iban'">
+                  <div class="squared-input__outer-wrapper">
+                    <div class="squared-input__wrapper"
+                      [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                      <span class="squared-input__title">
+                        {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
+                      </span>
+                      <div class="squared-input__field-wrapper">
+                        <input class="squared-input__field" type="text"
+                          placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                          [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
+                          [(ngModel)]='data_elements[element].value' [name]="element"
+                          [attr.required]="data_elements[element].required" />
+                      </div>
+                    </div>
+                    <!--/squared-input__wrapper-->
+
+                    <div class="helper-wrapper">
+                      <ng-container *ngIf="data_elements[element].helpertext">
+                        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
+                          matTooltipPosition="above">
+                        </span>
+                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                    </div>
+                  </div>
+                </ng-container> <!-- /IBAN -->
+
                 <ng-container *ngIf="data_elements[element].type == 'checkbox'">
                   <div class="squared-input__outer-wrapper checkbox-wrapper">
                     <div class="custom-checkbox">
@@ -317,51 +344,6 @@
                           (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
                           (focus)="addressFieldFocus = true" (blur)="validateInAdsField(element)" [name]="element"
                           [matAutocomplete]="autoAddress">
-                      </div>
-                    </div>
-                    <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
-                        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
-                          matTooltipPosition="above">
-                        </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                    </div>
-                  </div>
-                </ng-container> <!-- /ADDRESS -->
-
-                <ng-container *ngIf="data_elements[element].type == 'address2'">
-                  <div class="squared-input__outer-wrapper">
-                    <div class="squared-input__wrapper"
-                      [class.complete]="temporaryModel[element] || opened_step != this.max_step">
-                      <span class="squared-input__title">
-                        {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
-                      </span>
-                      <div class="squared-input__field-wrapper">
-                        <input class="squared-input__field" type="text" matInput
-                          [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                          [(ngModel)]="temporaryModel[element]"
-                          placeholder="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
-                          (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
-                          (focus)="addressFieldFocus = true" (blur)="validateInAdsField(element)" [name]="element"
-                          [matAutocomplete]="autoAddress">
-                        <mat-autocomplete #autoAddress="matAutocomplete" (optionSelected)="addressFieldFocus = false">
-                          <ng-container *ngIf="autocompleteLoader">
-                            <mat-option [value]="" disabled="true">
-                              <span>{{'xjson.searching_please_wait' | translate }}</span>
-                            </mat-option>
-                          </ng-container>
-                          <ng-container *ngIf="autocompleteLoader == false && autoCompleteContainer[element]">
-                            <mat-option *ngIf="!autoCompleteContainer[element].length" [value]="" disabled="true">
-                              <span>{{'xjson.address_not_found' | translate }}</span>
-                            </mat-option>
-                            <ng-container *ngIf="autoCompleteContainer[element].length > 0">
-                              <mat-option *ngFor="let address of autoCompleteContainer[element]"
-                                [value]="address.addressHumanReadable">
-                                <span>{{ address.addressHumanReadable }}</span>
-                              </mat-option>
-                            </ng-container>
-                          </ng-container>
-                        </mat-autocomplete>
                       </div>
                     </div>
                     <div class="helper-wrapper">
