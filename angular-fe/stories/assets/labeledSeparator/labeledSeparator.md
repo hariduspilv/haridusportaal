@@ -11,8 +11,6 @@
 
 ## Properties
 
-NB! Type property overrides background and border.
-
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | label | - | - | string | Label
