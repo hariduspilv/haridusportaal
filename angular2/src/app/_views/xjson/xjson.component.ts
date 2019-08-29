@@ -612,6 +612,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
     });
     this.dialogRef.afterClosed().subscribe(result => {
+      this.formLoading = true;
       if (result === true) {
         this.edit_step = true;
         this.data.header.current_step = this.opened_step;
@@ -766,12 +767,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   submitForm(activity: string) {
-    this.formLoading = true;
     this.error = {};
 
     if (activity === 'EDIT') {
       this.promptEditConfirmation();
     } else {
+      this.formLoading = true;
       this.edit_step = false;
       this.validateForm(this.data_elements);
 
@@ -861,20 +862,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   getStepViewStatus() {
-    if (!this.data.body.steps[this.opened_step].editable) {
-      this.viewOnlyStep = true;
-    } else {
-      this.viewOnlyStep = true;
-      for (const [label, elem] of Object.entries(this.data_elements)) {
-        if (elem['type'] === 'table') {
-          this.scrollableTableDeterminant(label);
-          this.tableVisibleColumns(label, elem['table_columns']);
-        }
-        if (elem['hidden'] || elem['readonly']) {
-          return;
-        } else {
-          this.viewOnlyStep = false;
-        }
+    this.viewOnlyStep = true;
+    for (const [label, elem] of Object.entries(this.data_elements)) {
+      if (elem['type'] === 'table') {
+        this.scrollableTableDeterminant(label);
+        this.tableVisibleColumns(label, elem['table_columns']);
+      }
+      if (elem['hidden'] || elem['readonly']) {
+        return;
+      } else {
+        this.viewOnlyStep = false;
       }
     }
   }
