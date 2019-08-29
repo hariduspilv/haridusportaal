@@ -121,7 +121,7 @@ class ProcessOskaStudiesData {
             'type' => 'iscedf_search'
           ]);
           foreach($paragraph_items as $label => $value){
-            $paragraph->set($label, $value);
+            $paragraph->set($label, array_unique($value));
           }
           $paragraph->save();
           $new_paragraphs[] = [
@@ -178,6 +178,6 @@ class ProcessOskaStudiesData {
       $entity = reset($result);
     }
 
-    return isset($entity) ? $entity_type === 'node' ? $entity->id() : ['target_id' => $entity->id()] : FALSE;
+    return isset($entity) ? $entity->id() : FALSE;
   }
 }
