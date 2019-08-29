@@ -14,12 +14,8 @@ class StudyProgrammeController extends ControllerBase {
     public function import() {
 
       $paragraphs = \Drupal::entityTypeManager()->getStorage('paragraph')->loadByProperties(['type'=>'iscedf_search']);
-      $i = 0;
       foreach($paragraphs as $paragraph){
-        if($i <= 10){
-          $paragraph->delete();
-        }
-        $i++;
+        kint($paragraph);
       }
       die();
 
