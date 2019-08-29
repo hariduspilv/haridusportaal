@@ -21,6 +21,7 @@ class StudyProgrammeController extends ControllerBase {
         }
         $i++;
       }
+      die();
 
         $this->programmenodes = [];
         $schools = $this->get_existing_schools();
