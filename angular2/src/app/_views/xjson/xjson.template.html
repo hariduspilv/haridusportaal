@@ -97,7 +97,7 @@
                   </h1>
                 </ng-container> <!-- /HEADING -->
 
-                <ng-container *ngIf="data_elements[element].type == 'text'">
+                <ng-container *ngIf="data_elements[element].type == 'text' || data_elements[element].type == 'iban'">
                   <div class="squared-input__outer-wrapper">
                     <div class="squared-input__wrapper"
                       [class.complete]="data_elements[element].value || opened_step != this.max_step">
@@ -255,33 +255,6 @@
                   </div>
                   <!--/squared-input__wrapper-->
                 </ng-container> <!-- /EMAIL -->
-
-                <ng-container *ngIf="data_elements[element].type == 'iban'">
-                  <div class="squared-input__outer-wrapper">
-                    <div class="squared-input__wrapper"
-                      [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                      <span class="squared-input__title">
-                        {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
-                      </span>
-                      <div class="squared-input__field-wrapper">
-                        <input class="squared-input__field" type="text"
-                          placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                          [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
-                          [(ngModel)]='data_elements[element].value' [name]="element"
-                          [attr.required]="data_elements[element].required" />
-                      </div>
-                    </div>
-                    <!--/squared-input__wrapper-->
-
-                    <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
-                        <span class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
-                          matTooltipPosition="above">
-                        </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                    </div>
-                  </div>
-                </ng-container> <!-- /IBAN -->
 
                 <ng-container *ngIf="data_elements[element].type == 'checkbox'">
                   <div class="squared-input__outer-wrapper checkbox-wrapper">
