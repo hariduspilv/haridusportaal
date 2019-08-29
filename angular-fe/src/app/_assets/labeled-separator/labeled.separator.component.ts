@@ -8,9 +8,9 @@ import { Component, Input, HostBinding } from '@angular/core';
 
 export class LabeledSeparatorComponent {
   @Input() label: string;
-  @Input() vertical: boolean;
+  @Input() type: string;
   @HostBinding('attr.aria-hidden') ariaHidden:boolean = true;
   @HostBinding('class') get hostClasses(): string {
-    return this.vertical ? 'separator vertical' : 'separator';
+    return `${this.type}`;
   }
 }

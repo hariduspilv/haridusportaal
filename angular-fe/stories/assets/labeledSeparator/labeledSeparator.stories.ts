@@ -4,7 +4,7 @@ import labeledSeparatorMd from './labeledSeparator.md';
 import {
   withKnobs,
   text,
-  optionsKnob as options,
+  select,
 } from '@storybook/addon-knobs';
 
 const moduleMetadata = {
@@ -17,35 +17,26 @@ const stories = storiesOf('Assets', module);
 stories.addDecorator(withKnobs);
 stories.add('Labeled separator', () => {
   const label = text('Label', 'Või');
-  const vertical = options(
-    'Vertical',
+  const type = select(
+    'Type',
     {
-      Yes: 'yes',
-      No: 'no',
+      Horizontal: 'horizontal',
+      Vertical: 'vertical',
+      Login: 'login',
     },
-    'no',
-    {
-      display: 'inline-radio',
-    },
+    'horizontal',
   );
-  // tslint:disable-next-line: max-line-length
-  const content = text('Vertical content', 'At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui officia deserunt mollitia animi.');
   return {
     moduleMetadata,
     props: {
-      content,
       label,
-      vertical,
+      type,
     },
     template: `
-      <div style="display: flex;">
-        <p *ngIf="vertical === 'yes'">{{content}}</p>
-        <labeled-separator
-          [label]="label"
-          [vertical]="vertical === 'yes'">
-        </labeled-separator>
-        <p *ngIf="vertical === 'yes'">{{content}}</p>
-      </div>
+      <labeled-separator
+        [label]="label"
+        [type]="type">
+      </labeled-separator>
     `,
   };
 },          {
