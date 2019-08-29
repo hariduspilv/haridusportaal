@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding, Input } from '@angular/core';
 import { SidemenuService, ModalService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
@@ -10,7 +10,8 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 
 export class HeaderComponent implements OnInit {
   public active: boolean;
-
+  @Input() loginStatus: boolean = false;
+  @Input() user: string = '';
   constructor(
     private sidemenuService: SidemenuService,
     private modalService: ModalService,

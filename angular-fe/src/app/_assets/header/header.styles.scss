@@ -130,6 +130,27 @@
 					span {
 						display: none;
 					}
+					.label--logged {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						icon:after {
+							content: "";
+							display: block;
+							height: 0.625rem;
+							width: 0.625rem;
+							background: $success;
+							border-radius: 1rem;
+							margin-right: 0.5rem;
+							position: absolute;
+							top: 0.9rem;
+							left: 2.3rem;					
+							z-index: 3;
+							@include break-on(sm, min) {
+								left: 1rem;
+							}
+						}
+					}
 				}
 				.icon {
 					height: 1.5rem;

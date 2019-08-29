@@ -37,13 +37,21 @@
         (click)="modalService.open('login')"
         theme="plain"
         attr.aria-label="{{ 'button.login' | translate }}">
-        <icon aria-hidden="true" glyph="user" size="medium"></icon>
-        <span>{{ 'button.login' | translate }}</span>
+        <ng-container *ngIf="loginStatus else other;">
+          <div class="label--logged">
+            <icon aria-hidden="true" glyph="user" size="medium"></icon>
+            <span>{{ user }}</span>
+          </div>
+        </ng-container>
+        <ng-template #other>
+          <icon aria-hidden="true" glyph="user" size="medium"></icon>
+          <span>{{ 'button.login' | translate }}</span>
+        </ng-template>
       </button>
     </div>
   </div>
 </div>
-<htm-modal id="search" title="Otsing" [bottomAction]="false">
+<htm-modal id="search" title="{{ 'button.search' | translate }}" [bottomAction]="false">
   <modal-content id="search" *ngIf="modalService.modalOpened['search']">
     <formItem
       type="text"
