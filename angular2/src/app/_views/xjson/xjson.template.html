@@ -463,9 +463,6 @@
                   </div>
 
                   <loader *ngIf="fileLoading[element]"></loader>
-                  <a href="javascript:void(0)"
-                            *ngIf="fileLoading[element]"
-                            (click)="stopFileUpload(element)">{{ 'xjson.delete_file' | translate }}</a>
 
                   <div class="dropzone" (drop)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()"
                     *ngIf="canUploadFile(data_elements[element]) && !fileLoading[element]">
