@@ -53,6 +53,7 @@ import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 import { ShareComponent } from './share';
 import { ClipboardService } from 'ngx-clipboard';
 import { LabelsComponent } from './labels';
+import { FavouriteComponent } from './favourite';
 import { LabeledSeparatorComponent } from './labeled-separator';
 
 const pipes = [];
@@ -98,6 +99,7 @@ const declarations = [
   MapComponent,
   ShareComponent,
   LabelsComponent,
+  FavouriteComponent,
   LabeledSeparatorComponent,
 ];
 
@@ -106,7 +108,6 @@ const exports = [
 ];
 
 const providers = [
-  AlertsService,
   EmbedVideoService,
   RippleService,
   { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },

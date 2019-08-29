@@ -41,8 +41,22 @@ export class SidebarComponent {
   selector: 'sidebar-links',
   templateUrl: './templates/sidebar.links.template.html',
 })
-export class SidebarLinksComponent {
+export class SidebarLinksComponent implements OnInit {
   @Input() data: Object[];
+  ngOnInit() {
+    this.data = this.data.map((item: any) => {
+      if (item['entity']) {
+        return {
+          title: item['entity'].entityLabel,
+          url: {
+            path: item['entity'].entityUrl.path,
+            routed: true,
+          },
+        };
+      }
+      return item;
+    });
+  }
 }
 
 @Component({

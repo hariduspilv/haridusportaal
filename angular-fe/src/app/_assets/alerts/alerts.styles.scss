@@ -1,4 +1,5 @@
 @import "colors.scss";
+@import "breakpoints.scss";
 
 :host { font-family: Rubik; z-index: 1000; width: 100%; display: flex; flex-direction: column;
   &[global] { position: fixed; bottom: 0; left: 0; };
@@ -6,12 +7,11 @@
 
 /*default is info*/
 .alert { background-color: $info-light; border: .09375px solid $info; display: flex;
-
   &__icon { min-width: 3.75rem; min-height: 3.75rem; display: flex; align-items: center; justify-content: center; color: $white; background-color: $info; }
 
   p { padding: 1.1875rem 1rem; color: $black; margin: 0; width: 100%; display: flex; align-self: center; line-height: 1.38 }
 
-  &__close { justify-self: flex-end; align-self: center; padding: 1rem; display: flex; align-content: center; justify-content: center; background: transparent; border: 0; }
+  &__close { justify-self: flex-end; align-self: center; padding: 1rem; display: flex; align-content: center; justify-content: center; background: transparent; border: 0; white-space: nowrap; line-height: 1.38; cursor: pointer; }
 
   &--warning { background-color: $warning-light; border-color: $warning;
     .alert__icon { background-color: $warning; transform: rotate(180deg); }
@@ -22,6 +22,10 @@
   &--success { background-color: $success-light; border-color: $success;
     .alert__icon { background-color: $success; }
   }
+  &__column {
+    display: flex;
+    width: 100%;
+  }
 }
 
 :host[small] .alert {
@@ -31,4 +35,22 @@
   p { padding: 0.5625rem 1rem; color: $black; margin: 0; width: 100%; }
 
   &__close { padding: 0.5625rem 1rem; }
+}
+
+@include break-on(xs, max) {
+  :host[small] .alert__column, .alert__column {
+    flex-direction: column; 
+    padding: 1rem;
+    p {
+      text-align: center;
+      width: auto;
+      padding: 0;
+    }
+    .alert__close {
+      padding: 0;
+    }
+  }
+  :host[small] .alert__column {
+    padding: .5625rem 1rem;
+  } 
 }

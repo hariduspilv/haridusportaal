@@ -22,7 +22,9 @@ export class SidebarService {
           // keysToDelete.push(elem[0]);
         }
       });
-      data[uniforms[key]] = uniformType;
+      if (Object.keys(uniformType).length) {
+        data[uniforms[key]] = uniformType;
+      }
       // keysToDelete.forEach(del => delete data[del]);
     });
     return data;

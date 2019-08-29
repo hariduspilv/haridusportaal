@@ -14,13 +14,16 @@ export class Alert {
   type: AlertType;
   id?: string;
   closeable?: boolean;
-  httpStatus?: number;
+  category?: string;
+  link?: Object;
   constructor(init?:Partial<Alert>) {
     Object.assign(this, { closeable: true, id: 'global' } , init);
   }
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class AlertsService {
 
   private subject:Subject<Alert> = new Subject<Alert>();
@@ -31,8 +34,10 @@ export class AlertsService {
     );
   }
 
-  warning(message: string, id?: string, closeable?: boolean) {
+  warning(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
+      category,
+      link,
       message,
       id,
       closeable,
@@ -40,8 +45,10 @@ export class AlertsService {
     }));
   }
 
-  success(message: string, id?: string, closeable?: boolean) {
+  success(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
+      category,
+      link,
       message,
       id,
       closeable,
@@ -49,8 +56,10 @@ export class AlertsService {
     }));
   }
 
-  info(message: string, id?: string, closeable?: boolean) {
+  info(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
+      category,
+      link,
       message,
       id,
       closeable,
@@ -58,8 +67,10 @@ export class AlertsService {
     }));
   }
 
-  error(message: string, id?: string, closeable?: boolean) {
+  error(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
+      category,
+      link,
       message,
       id,
       closeable,
