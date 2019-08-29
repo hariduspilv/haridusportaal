@@ -50,6 +50,70 @@
 			display: none;
 		}
 	}
+
+	::ng-deep .login__wrapper {
+		display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+		flex-direction: column;
+		padding-bottom: 2rem;
+		.login__method {
+			display: grid;
+			grid-template-columns: 1fr;
+			grid-template-rows: repeat(3,1fr);
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			flex-shrink: 0;
+			width: 100%;
+			button:first-child {
+				grid-row: 1/4;
+			}
+			:nth-child(1) {
+				grid-row: 1;
+			}
+			:nth-child(2) {
+				grid-row: 2;
+			}
+			:nth-child(3) {
+				grid-row: 3;
+			}
+			button, formItem {
+				width: 100%;
+				white-space: nowrap;
+			}
+			.formItem + .formItem {
+				margin-top: 0;
+			}
+			> div {
+				padding: .5rem 0;
+			}
+			h2 {
+				margin: 0;
+				text-align: center;
+			}
+			@include break-on(md, min) {
+				flex-shrink: 1;
+			}
+		}
+		.login__method, labeled-separator {
+			@include break-on(xs, min) {
+				width: 18.75rem;
+			}
+		}
+		@include break-on(md, min) {
+			flex-direction: row;
+			padding-top: 0;
+			labeled-separator {
+				width: auto;
+				max-width: none;
+			}
+		}
+	}
+	modal-content#login {
+		display: flex;
+	}
 	
 	.header__hamburger, .header__assets {
 		button {
@@ -65,6 +129,27 @@
 					display: block;
 					span {
 						display: none;
+					}
+					.label--logged {
+						display: flex;
+						align-items: center;
+						justify-content: center;
+						icon:after {
+							content: "";
+							display: block;
+							height: 0.625rem;
+							width: 0.625rem;
+							background: $success;
+							border-radius: 1rem;
+							margin-right: 0.5rem;
+							position: absolute;
+							top: 0.9rem;
+							left: 2.3rem;					
+							z-index: 3;
+							@include break-on(sm, min) {
+								left: 1rem;
+							}
+						}
 					}
 				}
 				.icon {

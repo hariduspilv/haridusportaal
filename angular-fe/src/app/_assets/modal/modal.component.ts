@@ -1,5 +1,10 @@
-import { Component, Input, OnInit, ElementRef, HostBinding } from '@angular/core';
-import { focus } from '@app/_core/utility';
+import {
+  Component,
+  Input,
+  OnInit,
+  ElementRef,
+  HostBinding,
+} from '@angular/core';
 import { ModalService } from '@app/_services';
 
 @Component({

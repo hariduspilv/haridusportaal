@@ -87,6 +87,11 @@
 			min-width: 30rem;
 		}
 	}
+	@include break-on(md, min) {
+		.modal__block {
+			margin: auto 0;
+		}
+	}
 	@include break-on(xxs, max) {
 		.modal {
 			&__backdrop {
