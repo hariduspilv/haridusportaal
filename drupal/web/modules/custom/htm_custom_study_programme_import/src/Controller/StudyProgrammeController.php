@@ -4,6 +4,7 @@ namespace Drupal\htm_custom_study_programme_import\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\node\Entity\Node;
+use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\taxonomy\Entity\Term;
 
 /**
@@ -13,9 +14,20 @@ class StudyProgrammeController extends ControllerBase {
 
     public function import() {
 
-      $paragraphs = \Drupal::entityTypeManager()->getStorage('paragraph')->loadByProperties(['type'=>'iscedf_search']);
-      foreach($paragraphs as $paragraph){
-        kint($paragraph);
+      $nodes = \Drupal::entityTypeManager()->getStorage('node')->loadByProperties(['type'=>'oska_main_profession_page']);
+      foreach($nodes as $node){
+        $sidebar_paragraph = Paragraph::load($node->get('field_sidebar')->getValue()[0]['target_id']);
+
+        $old_study_paragraphs = $sidebar_paragraph->get('field_iscedf_search_link')->getValue();
+        foreach($old_study_paragraphs as $paragraph){
+          $paragraph = Paragraph::load($paragraph['target_id']);
+          if($paragraph){
+            $paragraph->delete();
+          }
+        }
+
+        $sidebar_paragraph->set('field_iscedf_search_link', []);
+        $sidebar_paragraph->save();
       }
       die();
 
