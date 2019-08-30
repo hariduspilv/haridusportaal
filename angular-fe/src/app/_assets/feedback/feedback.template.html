@@ -20,6 +20,7 @@
         [(ngModel)]='values.comment'
         attr.aria-label="{{ 'feedback_comment' | translate }}"
         height="120"
+        [error]="feedbackError"
         [title]="'feedback_comment' | translate"></formItem>
     </div><!--/formItem-->
     <button htm-button theme="plain" (click)="cancel()" attr.aria-label="{{ 'feedback_cancel' | translate }}">{{ 'feedback_cancel' | translate }}</button>
