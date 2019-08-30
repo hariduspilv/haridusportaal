@@ -141,6 +141,6 @@
 
   </ng-container>
 </div><!--/formItem__wrapper-->
-<div class="formItem__error" *ngIf="error && errorMessage">
+<div class="formItem__error" *ngIf="error && errorMessage" role="alert" [attr.aria-label]="errorMessage">
   {{ errorMessage }}
 </div>
