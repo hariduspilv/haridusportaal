@@ -33,6 +33,7 @@
       width: 100%;
     }
     span {
+      text-align: center;
       margin: .75rem;
     }
     @include break-on(md, min) {
@@ -49,9 +50,15 @@
       }
 		}
 		&.horizontal {
-			width: 100%;
+      width: 100%;
+      @include break-on(xxs, min) {
+        span {
+          white-space: nowrap;
+        }
+      }
 		}
 		&.vertical {
+      max-width: 5rem;
 			height: 100%;
 			flex-direction: column;
 			justify-content: center;
