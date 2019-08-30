@@ -11,9 +11,9 @@ import conf from '@app/_core/conf';
 export class FeedbackComponent {
 
   @Input() nid: number|string;
-
-  status: String = 'vote';
-  values: Object = {};
+  public feedbackError: boolean = false;
+  public status: String = 'vote';
+  public values: Object = {};
 
   constructor(
     private http: HttpClient,
@@ -21,13 +21,14 @@ export class FeedbackComponent {
   ) {
 
   }
-  cancel(): void {
+  public cancel(): void {
     this.values['vote'] = false;
     this.values['comment'] = '';
     this.status = 'vote';
+    this.feedbackError = false;
   }
 
-  vote(flag: boolean):void {
+  public vote(flag: boolean):void {
     this.values['vote'] = flag;
     if (flag) {
       this.status = 'add_comment';
@@ -36,7 +37,18 @@ export class FeedbackComponent {
     }
   }
 
-  sendVote() {
+  public sendVote() {
+
+    if (!this.values['comment'] || this.values['comment'] === '') {
+      this.feedbackError = true;
+    } else {
+      this.feedbackError = false;
+    }
+
+    if (this.feedbackError) {
+      return false;
+    }
+
     this.status = 'response';
 
     const data = {
