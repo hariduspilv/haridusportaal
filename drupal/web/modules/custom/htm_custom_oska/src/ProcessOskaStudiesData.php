@@ -62,13 +62,16 @@ class ProcessOskaStudiesData {
           }
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object, $required_fields));
+      }elseif($object['ametiala'] && !$object['oppevaldkond'] && !$object['oppesuund'] && !$object['oppekavaruhm'] && !$object['oppetase']){
+        $error_messag_func = function() {
+              return t('Only main profession entered');
+        };
+        $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func());
       }else{
-        $results[$object['ametiala']][] = [
-          'field_iscedf_broad' => $object['oppevaldkond'],
-          'field_iscedf_narrow' => $object['oppesuund'],
-          'field_iscedf_search_term' => $object['oppekavaruhm'],
-          'field_level' => $object['oppetase']
-        ];
+        $results[$object['ametiala']]['field_iscedf_broad'][] = $object['oppevaldkond'];
+        $results[$object['ametiala']]['field_iscedf_narrow'][] = $object['oppesuund'];
+        $results[$object['ametiala']]['field_iscedf_search_term'][] = $object['oppekavaruhm'];
+        $results[$object['ametiala']]['field_level'][] = $object['oppetase'];
       }
     }
 
@@ -114,18 +117,17 @@ class ProcessOskaStudiesData {
 
           $new_paragraphs = [];
 
-          foreach($paragraph_items as $paragraph_item){
-            $paragraph = Paragraph::create([
-              'type' => 'iscedf_search'
-            ]);
-            foreach($paragraph_item as $field => $value){
-              $paragraph->set($field, $value);
-            }
-            $paragraph->save();
-            $new_paragraphs[] = [
-              'target_id' => $paragraph->id(),
-              'target_revision_id' => $paragraph->getRevisionId()];
+          $paragraph = Paragraph::create([
+            'type' => 'iscedf_search'
+          ]);
+          foreach($paragraph_items as $label => $value){
+            $paragraph->set($label, array_unique($value));
           }
+          $paragraph->save();
+          $new_paragraphs[] = [
+            'target_id' => $paragraph->id(),
+            'target_revision_id' => $paragraph->getRevisionId()];
+          $context['results']['processed'][] = $paragraph->id();
 
           $sidebar_paragraph->set('field_iscedf_search_link', $new_paragraphs);
           $sidebar_paragraph->save();
@@ -133,7 +135,6 @@ class ProcessOskaStudiesData {
           $context['sandbox']['progress']++;
           $context['sandbox']['current_id'] = $i;
           $context['message'] = $context['sandbox']['max'];
-          $context['results']['processed'][] = $main_profession_page->id();
           $i++;
         }
         $context['sandbox']['current_id']++;
@@ -177,6 +178,6 @@ class ProcessOskaStudiesData {
       $entity = reset($result);
     }
 
-    return isset($entity) ? $entity_type === 'node' ? $entity->id() : ['target_id' => $entity->id()] : FALSE;
+    return isset($entity) ? $entity->id() : FALSE;
   }
 }
