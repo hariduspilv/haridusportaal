@@ -53,7 +53,7 @@ $create-font-face: false;
       display: block !important;
       width: 100% !important;
       height: auto !important;
-      top: 0 !important;
+      top: -2px !important;
       padding-top: 0.375rem !important;
       &:before{
         font-family: "iconfont";
@@ -61,7 +61,7 @@ $create-font-face: false;
       }
     }
     .ng-arrow-wrapper{
-      width: 2.8125rem !important;
+      width: 2.0625rem !important;
     }
     &.ng-select-opened {
       .ng-arrow {
