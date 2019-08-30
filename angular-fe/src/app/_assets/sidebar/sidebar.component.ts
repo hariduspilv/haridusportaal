@@ -18,6 +18,7 @@ interface TitleLess {
 })
 export class SidebarComponent {
   @Input() data: Object[];
+  @Input() feedbackNid: string = '';
   private collection: SidebarType = collection;
   private titleLess: TitleLess = titleLess;
   private keys: string[];

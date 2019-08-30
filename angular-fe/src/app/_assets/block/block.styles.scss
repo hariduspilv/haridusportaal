@@ -1,4 +1,5 @@
 @import "typography.scss";
+@import "breakpoints.scss";
 
 :host {
 	display: block;
@@ -109,6 +110,9 @@
 			&:after {
 				content: none;
 			}
+		}
+		@include break-on(sm, max) {
+			margin-bottom: 0;
 		}
 	}
 
