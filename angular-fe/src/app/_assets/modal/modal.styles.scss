@@ -19,6 +19,7 @@
 			z-index: 1000;
 		}
 		&__block {
+			outline: none;
 			transition: transform 0.25s;
 			transform: translateY(-4rem);
 			max-height: 90vh;

@@ -159,6 +159,11 @@
 					}
 				}
 			}
+			@include break-on(xxs, max) {
+				&.active {
+					background: $dark-orange;
+				}
+			}
 		}
 	}
 
