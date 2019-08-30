@@ -11,6 +11,12 @@
   grid-template-columns: 0 1fr;
   height: 100vh;
   overflow: hidden;
+  ::ng-deep .content feedback {
+    display: none;
+    @include break-on(sm, min) {
+      display: block;
+    }
+  }
   @include break-on(sm, min) {
     grid-template-columns: 16.25rem 1fr;
   }

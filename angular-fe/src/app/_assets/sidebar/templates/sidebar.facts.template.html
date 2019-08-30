@@ -2,7 +2,7 @@
   
   <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
 		<h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
-			{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}
+			{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | number }}
 		</h2>
 		<div aria-hidden="true">{{ 'oska.compared_to_other_professions' | translate }}</div>
 		<div class="list" aria-hidden="true">
@@ -29,7 +29,7 @@
 
   <ng-container *ngIf="indicator.oskaId === 3 && indicator.icon > 0 && indicator.icon < 21">
     <h2 attr.aria-label="{{ 'oska.wage' | translate }}: {{ indicator.value }} €">
-      {{ 'oska.wage' | translate }}: {{ indicator.value }} €
+      {{ 'oska.wage' | translate }}: {{ indicator.value | number }} €
     </h2>
     <div class="list label__tag--pointer" aria-hidden="true">
       <div class="image" *ngFor="let item of createArr((indicator.icon - (indicator.icon % 2)) / 2)"><img alt="icon" src="/assets/img/coin_full.svg" /></div>

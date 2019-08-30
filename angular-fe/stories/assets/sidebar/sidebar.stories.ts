@@ -3,6 +3,14 @@ import { AssetsModule } from '@app/_assets';
 import { RouterTestingModule } from '@angular/router/testing';
 import sidebarMd from './sidebar.md';
 import { TranslateModule } from '@app/_modules/translate';
+import { LOCALE_ID } from '@angular/core';
+// tslint:disable-next-line: import-name
+import localeEt from '@angular/common/locales/et';
+localeEt[14][0].replace(',', ' ');
+localeEt[14][1].replace(',', ' ');
+localeEt[14][2].replace(',', ' ');
+import { registerLocaleData } from '@angular/common';
+registerLocaleData(localeEt);
 import {
   withKnobs,
   object,
@@ -13,6 +21,9 @@ const moduleMetadata = {
     AssetsModule,
     TranslateModule.forRoot(),
     RouterTestingModule,
+  ],
+  providers: [
+    { provide: LOCALE_ID, useValue:'et' },
   ],
 };
 
@@ -361,7 +372,7 @@ stories.add('Sidebar', () => {
       data: data.entity,
     },
     template: `
-      <sidebar [data]="data"></sidebar>
+      <sidebar [feedbackNid]="48788" [data]="data"></sidebar>
     `,
   };
 },          {

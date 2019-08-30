@@ -11,6 +11,7 @@
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | data | - | - | object | Request data
+| feedbackNid | - | - | string | feedback for smaller screens (Nid: page node id)
 
 ```javascript
 const data = {
