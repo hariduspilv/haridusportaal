@@ -1,7 +1,7 @@
 <span class="login-wrapper">
   <button class="login__actions" *ngIf="isLoggedIn" [matMenuTriggerFor]="usermenu" [class.logged]="isLoggedIn">
     <span class="person pointer htm-icon" aria-hidden="true">person_outline</span>
-    <span class="login pointer md-hide">{{ user.username }}</span>
+    <span class="login pointer md-hide">{{ user.firstname && user.lastname ? user.firstname+' '+user.lastname : user.username }}</span>
   </button>
   <mat-menu #usermenu="matMenu" overlapTrigger="false" direction="right" xPosition="before">
     <button mat-menu-item (click)="logOut()">{{ 'button.logout' | translate }}</button>

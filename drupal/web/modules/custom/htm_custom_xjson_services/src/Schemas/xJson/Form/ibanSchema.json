@@ -28,28 +28,24 @@
         "et"
       ]
     },
-    "add_del_rows": {
-      "type": "boolean"
+    "default_value": {
+      "type": "string"
     },
-    "row_label": {
-      "type": "object"
+    "width": {
+      "type": "integer"
     },
-    "table_columns": {
-      "type": "object"
-    },
-    "required": {
+    "readonly": {
       "type": "boolean"
     },
     "hidden": {
       "type": "boolean"
     },
-    "vertical": {
+    "required": {
       "type": "boolean"
-    },
-    "value": {
-      "type": "array"
     }
   },
-  "required": [ "type", "title", "table_columns" ],
+  "required": [
+    "type"
+  ],
   "additionalProperties": false
 }
