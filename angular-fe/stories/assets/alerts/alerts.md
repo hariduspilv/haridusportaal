@@ -10,6 +10,7 @@ Alerts holds all of the singular Alert components whose id's match with the Aler
 |---|---|---|---|---|
 | id | global | - | string | Alert list identifier
 | small | false | true, false | boolean | If set to 'true' then the alert list uses smalle paddings and icons 
+| closeMs | ~ | - | number | Duration for how long until alert closes (ms)
 
 ### Alert
 
