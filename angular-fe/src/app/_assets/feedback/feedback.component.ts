@@ -31,7 +31,8 @@ export class FeedbackComponent {
   public vote(flag: boolean):void {
     this.values['vote'] = flag;
     if (flag) {
-      this.status = 'add_comment';
+      this.status = 'response';
+      this.sendVote();
     }else {
       this.status = 'add_comment';
     }
@@ -39,10 +40,12 @@ export class FeedbackComponent {
 
   public sendVote() {
 
-    if (!this.values['comment'] || this.values['comment'] === '') {
-      this.feedbackError = true;
-    } else {
-      this.feedbackError = false;
+    if (this.status === 'add_comment') {
+      if (!this.values['comment'] || this.values['comment'] === '') {
+        this.feedbackError = true;
+      } else {
+        this.feedbackError = false;
+      }
     }
 
     if (this.feedbackError) {
