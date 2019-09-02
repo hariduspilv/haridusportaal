@@ -1,4 +1,5 @@
 @import 'typography.scss';
+@import 'breakpoints.scss';
 
 .tooltip{
 	z-index: 9999;
@@ -20,5 +21,8 @@
 	}
 	&.bs-tooltip-bottom{
 		margin-top: 0.875rem;
+	}
+	@include break-on(xxs, max) {
+		display: none;
 	}
 }

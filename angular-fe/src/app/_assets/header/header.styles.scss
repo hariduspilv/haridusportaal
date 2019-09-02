@@ -175,6 +175,7 @@
 			&__search {
 				position: relative;
 				grid-area: search;
+				-ms-grid-column: 1;
 				align-items: center;
 				display: flex;
 				icon {
@@ -184,6 +185,9 @@
 					color: $white;
 					::ng-deep i {
 						font-size: 1.25rem;
+					}
+					@media all and (-ms-high-contrast:none) {
+						bottom: 1.375rem;
 					}
 				}
 				formItem {
@@ -208,6 +212,7 @@
 			}
 			&__actions {
 				grid-area: actions;
+				-ms-grid-column: 3;
 				display: flex;
     		justify-content: flex-end;
 			}
@@ -215,9 +220,11 @@
 			&__assets {
 				margin-right: 0;
 				&--grid {
+					display: -ms-grid;
 					display: grid;
 					grid-template-areas: 'search actions';
 					grid-template-columns: 2fr 1fr;
+					-ms-grid-columns: 2fr 1fr;
 					margin: 0 1rem;
 					width: 100%;
 					grid-gap: 1rem;

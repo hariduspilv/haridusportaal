@@ -25,6 +25,7 @@ export class AlertsComponent implements OnDestroy {
   @Input() id: string = 'global';
   @Input() alerts: Alert[] = [];
   @Input() small: boolean = false;
+  @Input() closeMs: number;
 
   @HostBinding('class') get hostClasses(): string {
     return 'alerts';
@@ -49,6 +50,9 @@ export class AlertsComponent implements OnDestroy {
           this.alerts = this.alerts.filter((x: Alert) => x.category !== alert.category);
         }
         this.alerts.push(alert);
+        if (this.closeMs) {
+          setTimeout(() => this.remove(alert), this.closeMs);
+        }
       });
     this.subscriptions.push(this.alertSubscription);
   }
