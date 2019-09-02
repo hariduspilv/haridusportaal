@@ -55,8 +55,9 @@ import { ClipboardService } from 'ngx-clipboard';
 import { LabelsComponent } from './labels';
 import { FavouriteComponent } from './favourite';
 import { LabeledSeparatorComponent } from './labeled-separator';
+import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 
-const pipes = [];
+const pipes = [LocaleNumberPipe];
 
 const declarations = [
   BlockComponent,
@@ -119,7 +120,7 @@ const providers = [
 
 @NgModule({
   providers,
-  declarations: [...declarations],
+  declarations: [...declarations, ...pipes],
   imports: [
     CommonModule,
     RouterModule,

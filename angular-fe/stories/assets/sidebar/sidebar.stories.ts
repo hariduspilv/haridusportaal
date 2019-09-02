@@ -6,9 +6,6 @@ import { TranslateModule } from '@app/_modules/translate';
 import { LOCALE_ID } from '@angular/core';
 // tslint:disable-next-line: import-name
 import localeEt from '@angular/common/locales/et';
-localeEt[14][0].replace(',', ' ');
-localeEt[14][1].replace(',', ' ');
-localeEt[14][2].replace(',', ' ');
 import { registerLocaleData } from '@angular/common';
 registerLocaleData(localeEt);
 import {
