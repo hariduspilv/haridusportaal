@@ -36,10 +36,12 @@ export class FeedbackComponent {
 
   sendVote() {
 
-    if (!this.values['comment'] || this.values['comment'] === ''){
-      this.feedbackError = true;
-    } else{
-      this.feedbackError = false;
+    if(!this.values['vote']) {
+      if (!this.values['comment'] || this.values['comment'] === ''){
+        this.feedbackError = true;
+      } else{
+        this.feedbackError = false;
+      }
     }
 
     if (this.feedbackError) {
