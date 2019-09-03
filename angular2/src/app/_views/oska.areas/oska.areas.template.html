@@ -109,14 +109,6 @@
           <video-component [videos]="[data.fieldSurveyPageVideo[1]]"></video-component>
         </ng-container>
 
-        <ng-container *ngIf="data.fieldMainProfessionGraph || data.fieldSurveyPageGraph	|| data.fieldFieldPageGraph">
-          <chart [data]="data.fieldMainProfessionGraph || data.fieldSurveyPageGraph	|| data.fieldFieldPageGraph"></chart>
-        </ng-container>
-
-        <ng-container *ngIf="data.fieldDynamicGraph && data.fieldDynamicGraph.length > 0">
-          <chart [data]="data.fieldDynamicGraph"  type="filter"></chart>
-        </ng-container>
-
         <ng-container *ngIf="data.reverseFieldOskaFieldParagraph && data.reverseFieldOskaFieldParagraph.entities && data.reverseFieldOskaFieldParagraph.entities.length">
           <div class="accordion accordion--list">
             <mat-accordion>
@@ -232,6 +224,14 @@
               </mat-expansion-panel>
             </mat-accordion>
           </div><!--/accordion-->
+        </ng-container>
+
+        <ng-container *ngIf="data.fieldMainProfessionGraph || data.fieldSurveyPageGraph	|| data.fieldFieldPageGraph">
+          <chart [data]="data.fieldMainProfessionGraph || data.fieldSurveyPageGraph	|| data.fieldFieldPageGraph"></chart>
+        </ng-container>
+
+        <ng-container *ngIf="data.fieldDynamicGraph && data.fieldDynamicGraph.length > 0">
+          <chart [data]="data.fieldDynamicGraph"  type="filter"></chart>
         </ng-container>
 
         <ng-container *ngIf="data.fieldMainProfessionTag">
