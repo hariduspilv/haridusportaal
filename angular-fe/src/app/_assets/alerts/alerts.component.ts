@@ -68,7 +68,7 @@ export class AlertsComponent implements OnDestroy {
         // only one error per category
         if (alert.category !== undefined) {
           this.alerts = this.alerts.filter((x: Alert) => x.category !== alert.category);
-          setTimeout(() => this.alerts.push(alert), 225);
+          setTimeout(() => this.alerts.push(alert), 250);
         } else {
           this.alerts.push(alert);
         }
