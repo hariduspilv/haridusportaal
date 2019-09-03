@@ -42,7 +42,7 @@
             <div class="modal__header">
               <div class="modal__header__col">
                 <h2 role="heading" tabindex="0" id="modalTitle">
-                  {{ modal.title }}
+                  <h2 role="heading" tabindex="0" id="modalTitle"><a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ modal.title }}" >{{ modal.title }}</a></h2>
                 </h2>
               </div><!--/modal__header__col-->
               <div class="modal__header__col">
