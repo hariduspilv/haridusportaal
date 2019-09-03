@@ -3,6 +3,7 @@
  * @file
  * Conditional fields module's updates.
  */
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Removes unused configuration.
@@ -15,15 +16,15 @@ function conditional_fields_update_8001() {
     $etid = $entity_type->id();
     $bundles = $bundle_info->getBundleInfo($etid);
     foreach ($bundles as $bundle_name => $bundle) {
-      /** @var EntityFormDisplay $entity */
+      /** @var \Drupal\Core\Entity\Entity\EntityFormDisplay  $entity */
       $entity = \Drupal::entityTypeManager()
         ->getStorage('entity_form_display')
         ->load("$etid.$bundle_name.default");
       // Replace keys.
-      if ($entity) {
+      if ( $entity instanceof EntityInterface ) {
         _conditional_fields_update_conditional_fields_settings($entity);
       }
-      if (!$entity) {
+      if ( is_null($entity) ) {
         continue;
       }
     }
@@ -33,7 +34,7 @@ function conditional_fields_update_8001() {
 /**
  * Updates conditional fields entity's settings.
  *
- * @param EntityFormDisplay $entity
+ * @param \Drupal\Core\Entity\Entity\EntityFormDisplay $entity
  *   Config entity to update.
  */
 function _conditional_fields_update_conditional_fields_settings(&$entity) {

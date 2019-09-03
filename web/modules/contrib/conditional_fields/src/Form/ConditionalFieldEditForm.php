@@ -3,13 +3,14 @@
 namespace Drupal\conditional_fields\Form;
 
 use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException;
 use Drupal\Core\Render\Element;
 use Drupal\conditional_fields\Conditions;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Form\FormBuilderInterface;
@@ -273,11 +274,11 @@ class ConditionalFieldEditForm extends FormBase {
     ];
     if ($form_state->getValue('condition') == 'value') {
       if (in_array($form_state->getValue('values_set'), $allowed_values_set) &&
-        Unicode::strlen(trim($form_state->getValue('values')) === 0)
+        mb_strlen(trim($form_state->getValue('values')) === 0)
       ) {
         $form_state->setErrorByName('values', $this->t('@name field is required.', ['@name' => $this->t('Set of values')]));
       }
-      elseif ($form_state->getValue('values_set') == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX && Unicode::strlen(trim($form_state->getValue('regex'))) == 0) {
+      elseif ($form_state->getValue('values_set') == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX && mb_strlen(trim($form_state->getValue('regex'))) == 0) {
         $form_state->setErrorByName('regex', $this->t('@name field is required.', ['@name' => $this->t('Regular expression')]));
       }
     }
@@ -329,14 +330,14 @@ class ConditionalFieldEditForm extends FormBase {
       }
 
       // Set field value.
-      if ($settings['values_set'] == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET) {
+      if ( isset( $settings[ $dependee ] ) && ! empty( $settings[ $dependee ] ) ) {
         // Get and save value as string with timezone.
         $value = &$settings[$dependee];
         if (!empty($value[0]['value']) && is_object($value[0]['value']) && $value[0]['value'] instanceof DrupalDateTime) {
           foreach ($value as $delta => $date) {
             if (!empty($date['value'])) {
               // Need to find a solution to handle both datetime and date types.
-              $value[$delta]['value'] = $date['value']->format(DATETIME_DATE_STORAGE_FORMAT);
+              $value[$delta]['value'] = $date['value']->format(DateTimeItemInterface::DATETIME_STORAGE_FORMAT);
             }
           }
         }

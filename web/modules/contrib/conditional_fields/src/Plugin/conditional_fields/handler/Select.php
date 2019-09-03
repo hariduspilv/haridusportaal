@@ -23,6 +23,9 @@ class Select extends ConditionalFieldsHandlerBase {
    */
   public function statesHandler($field, $field_info, $options) {
     $state = [];
+    $select_states = [];
+
+    $values_array = $this->getConditionValues( $options );
 
     switch ($options['values_set']) {
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
@@ -33,28 +36,34 @@ class Select extends ConditionalFieldsHandlerBase {
           $state[$options['state']][$options['selector']]['value'] = (array) $state[$options['state']][$options['selector']]['value'];
         }
         else {
-          $state[$options['state']][$options['selector']]['value'] = [];
+          $state[$options['state']][$options['selector']]['value'] = $values_array;
         }
-        return $state;
+        break;
 
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
-        $select_states[$options['state']][] = 'xor';
-
+        $input_states[$options['selector']] = [
+          $options['condition'] => [ 'xor' => $values_array],
+        ];
+        $state[$options['state']] = $input_states;
+        break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
-        $regex = TRUE;
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
-        foreach ((array) $options['values'] as $value) {
           $select_states[$options['state']][] = [
             $options['selector'] => [
-              $options['condition'] => empty($regex) ? $value : $options['value'],
+              $options['condition'] => [ 'regex' => $options['regex']],
             ],
           ];
+        $state = $select_states;
+        break;
+      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+        $options['state'] = '!' . $options['state'];
+      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
+        foreach ((array) $options['values'] as $value) {
+          $select_states[$options['state']][$options['selector']][] = [$options['condition'] => $value];
         }
+        $state = $select_states;
         break;
     }
 
-    $state = $select_states;
     return $state;
   }
 

@@ -89,19 +89,19 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
     $this->nodeStorage->resetCache([$nid]);
     $node = $this->nodeStorage->load($nid);
 
-    foreach ($st as $key => $status) {
+    foreach ($st as $key => $expected_status) {
       if ($key == 0) {
         // Key 0 is the original, so we just check $node.
-        $this->assertEqual($node->isPublished(), $status,
-          sprintf('%s: The original content (%s) is %s', $description, $this->languages[$key]['name'], ($status ? 'published' : 'unpublished')));
+        $this->assertEquals($expected_status, $node->isPublished(),
+          sprintf('%s: The original content (%s) is %s', $description, $this->languages[$key]['name'], ($expected_status ? 'published' : 'unpublished')));
       }
       else {
         // Key > 0 are the translations, which we get using the Content
         // Translation Manager getTranslationMetadata() function.
         $trans = $this->ctm->getTranslationMetadata($node->getTranslation($this->languages[$key]['code']));
         $trans = $node->getTranslation($this->languages[$key]['code']);
-        $this->assertEqual($trans->isPublished(), $status,
-          sprintf('%s: Translation %d (%s) is %s', $description, $key, $this->languages[$key]['name'], ($status ? 'published' : 'unpublished')));
+        $this->assertEquals($expected_status, $trans->isPublished(),
+          sprintf('%s: Translation %d (%s) is %s', $description, $key, $this->languages[$key]['name'], ($expected_status ? 'published' : 'unpublished')));
       }
     }
   }
@@ -117,9 +117,9 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
     // parameters passed in.
     $this->drupalGet('admin/config/regional/content-language');
     $settings = [
-      'edit-settings-node-page-settings-language-language-alterable' => TRUE,
-      'edit-settings-node-page-fields-publish-on' => $publish_on_translatable,
-      'edit-settings-node-page-fields-unpublish-on' => $unpublish_on_translatable,
+      'edit-settings-node-' . $this->type . '-settings-language-language-alterable' => TRUE,
+      'edit-settings-node-' . $this->type . '-fields-publish-on' => $publish_on_translatable,
+      'edit-settings-node-' . $this->type . '-fields-unpublish-on' => $unpublish_on_translatable,
     ];
     // The submit shows the updated values, so no need for second get.
     $this->submitForm($settings, 'Save configuration');
@@ -160,8 +160,8 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
     $this->drupalGet('node/' . $node->id() . '/translations/add/' . $this->languages[0]['code'] . '/' . $this->languages[2]['code']);
     $edit = [
       'title[0][value]' => $this->languages[2]['name'] . '(2) - Publish in the future',
-      'publish_on[0][value][date]' => date('Y-m-d', strtotime('+2 day', REQUEST_TIME)),
-      'publish_on[0][value][time]' => date('H:i:s', strtotime('+2 day', REQUEST_TIME)),
+      'publish_on[0][value][date]' => date('Y-m-d', strtotime('+2 day', $this->requestTime)),
+      'publish_on[0][value][time]' => date('H:i:s', strtotime('+2 day', $this->requestTime)),
     ];
     $this->submitForm($edit, $save_button_text);
 
@@ -169,8 +169,8 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
     $this->drupalGet('node/' . $node->id() . '/translations/add/' . $this->languages[0]['code'] . '/' . $this->languages[3]['code']);
     $edit = [
       'title[0][value]' => $this->languages[3]['name'] . '(3) - Publish in the past',
-      'publish_on[0][value][date]' => date('Y-m-d', strtotime('-2 day', REQUEST_TIME)),
-      'publish_on[0][value][time]' => date('H:i:s', strtotime('-2 day', REQUEST_TIME)),
+      'publish_on[0][value][date]' => date('Y-m-d', strtotime('-2 day', $this->requestTime)),
+      'publish_on[0][value][time]' => date('H:i:s', strtotime('-2 day', $this->requestTime)),
     ];
     $this->submitForm($edit, $save_button_text);
 

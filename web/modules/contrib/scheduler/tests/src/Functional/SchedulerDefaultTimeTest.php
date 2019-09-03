@@ -2,6 +2,9 @@
 
 namespace Drupal\Tests\scheduler\Functional;
 
+use DateTime;
+use DateInterval;
+
 /**
  * Tests the default time functionality.
  *
@@ -15,23 +18,25 @@ class SchedulerDefaultTimeTest extends SchedulerBrowserTestBase {
   public function testDefaultTime() {
     $this->drupalLogin($this->schedulerUser);
     $config = $this->config('scheduler.settings');
-    $date_formatter = \Drupal::service('date.formatter');
 
-    // For this test we use an offset of 6 hours 30 minutes (23400 seconds).
-    $seconds = 23400;
+    // For this test we use a default time of 6:30am.
+    $default_time = '06:30:00';
+    $config->set('default_time', $default_time)->save();
 
-    // If the test happens to be run at a time when '+1 day' puts the calculated
-    // publishing date into a different daylight-saving period then formatted
-    // time can be an hour different. To avoid these failures we use a fixed
-    // string when asserting the message and looking for field values.
-    // @see https://www.drupal.org/node/2809627
-    $seconds_formatted = '06:30:00';
-    $config->set('default_time', $seconds_formatted)->save();
+    // Create DateTime objects to hold the two scheduling dates. This is better
+    // than using raw unix timestamps because it caters for daylight-saving
+    // shifts properly.
+    // @see https://www.drupal.org/project/scheduler/issues/2957490
+    $publish_time = new DateTime();
+    $publish_time->add(new DateInterval('P1D'))->setTime(6, 30);
 
-    // We cannot easily test the exact validation messages as they contain the
-    // REQUEST_TIME, which can be one or more seconds in the past. Best we can
+    $unpublish_time = new DateTime();
+    $unpublish_time->add(new DateInterval('P2D'))->setTime(6, 30);
+
+    // We cannot easily test the full validation message as they contain the
+    // current time which can be one or two seconds in the past. The best we can
     // do is check the fixed part of the message as it is when passed to t() in
-    // Datetime::validateDatetime. This will only work in English.
+    // Datetime::validateDatetime. Tests only needs to work in English anyway.
     $publish_validation_message = 'The Publish on date is invalid.';
     $unpublish_validation_message = 'The Unpublish on date is invalid.';
 
@@ -41,11 +46,11 @@ class SchedulerDefaultTimeTest extends SchedulerBrowserTestBase {
     // Test that entering a time is required.
     $edit = [
       'title[0][value]' => 'No time ' . $this->randomString(15),
-      'publish_on[0][value][date]' => $date_formatter->format(strtotime('+1 day', REQUEST_TIME), 'custom', 'Y-m-d'),
-      'unpublish_on[0][value][date]' => $date_formatter->format(strtotime('+2 day', REQUEST_TIME), 'custom', 'Y-m-d'),
+      'publish_on[0][value][date]' => $publish_time->format('Y-m-d'),
+      'unpublish_on[0][value][date]' => $unpublish_time->format('Y-m-d'),
     ];
     // Create a node and check that the expected error messages are shown.
-    $this->drupalPostForm('node/add/' . $this->type, $edit, t('Save'));
+    $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $this->assertSession()->pageTextContains($publish_validation_message, 'By default it is required to enter a time when scheduling content for publication.');
     $this->assertSession()->pageTextContains($unpublish_validation_message, 'By default it is required to enter a time when scheduling content for unpublication.');
 
@@ -53,26 +58,27 @@ class SchedulerDefaultTimeTest extends SchedulerBrowserTestBase {
     $config->set('allow_date_only', TRUE)->save();
 
     // Create a node and check that the expected error messages are not shown.
-    $this->drupalPostForm('node/add/' . $this->type, $edit, t('Save'));
+    $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $this->assertSession()->pageTextNotContains($publish_validation_message, 'If the default time option is enabled the user can skip the time when scheduling content for publication.');
     $this->assertSession()->pageTextNotContains($unpublish_validation_message, 'If the default time option is enabled the user can skip the time when scheduling content for unpublication.');
 
-    // Check that the scheduled information is shown after saving.
-    $publish_time = strtotime('+1 day midnight', REQUEST_TIME) + $seconds;
-    $unpublish_time = strtotime('+2 day midnight', REQUEST_TIME) + $seconds;
-    $args = ['@publish_time' => $date_formatter->format($publish_time, 'long')];
-    $this->assertRaw(t('This post is unpublished and will be published @publish_time.', $args), 'The user is informed that the content will be published on the requested date, on the default time.');
+    // Get the pattern of the 'long' default date format.
+    $date_format_storage = $this->container->get('entity_type.manager')->getStorage('date_format');
+    $long_pattern = $date_format_storage->load('long')->getPattern();
 
-    // Protect in case the node was not created.
+    // Check that the scheduled information is shown after saving.
+    $this->assertText(sprintf('This post is unpublished and will be published %s', $publish_time->format($long_pattern)), 'The user is informed that the content will be published on the requested date, on the default time.');
+
+    // Protect this section in case the node was not created.
     if ($node = $this->drupalGetNodeByTitle($edit['title[0][value]'])) {
       // Check that the correct scheduled dates are stored in the node.
-      $this->assertEqual($node->publish_on->value, $publish_time, 'The node publish_on value is stored correctly.');
-      $this->assertEqual($node->unpublish_on->value, $unpublish_time, 'The node unpublish_on value is stored correctly.');
+      $this->assertEquals($publish_time->getTimestamp(), (int) $node->publish_on->value, 'The node publish_on value is stored correctly.');
+      $this->assertEquals($unpublish_time->getTimestamp(), (int) $node->unpublish_on->value, 'The node unpublish_on value is stored correctly.');
 
       // Check that the default time has been added to the form on edit.
       $this->drupalGet('node/' . $node->id() . '/edit');
-      $this->assertFieldByName('publish_on[0][value][time]', $seconds_formatted, 'The default time offset has been added to the date field when scheduling content for publication.');
-      $this->assertFieldByName('unpublish_on[0][value][time]', $seconds_formatted, 'The default time offset has been added to the date field when scheduling content for unpublication.');
+      $this->assertFieldByName('publish_on[0][value][time]', $default_time, 'The default time offset has been added to the date field when scheduling content for publication.');
+      $this->assertFieldByName('unpublish_on[0][value][time]', $default_time, 'The default time offset has been added to the date field when scheduling content for unpublication.');
 
     }
     else {
