@@ -410,6 +410,8 @@ export class ChartComponent implements OnInit {
         }
 
         let tmpFilters = [];
+        const pieCases = ['valdkond', 'ametiala', 'alavaldkond', 'silt', 'periood'];
+        const wideCases = pieCases.slice(0, 3);
 
         for (let i in item.filterValues.graph_options.graph_filters) {
           multipleIndicators = true;
@@ -421,10 +423,11 @@ export class ChartComponent implements OnInit {
             options.push(current[o]);
           };
 
-          // Disable multiple selection for wide views on following cases
-          if ((i == 'valdkond' || i == 'ametiala' || i == 'alavaldkond') && options.length > 1 && this.wide) {
+          // Disable multiple selection for wide views and Pie/Doghnut types on following filters.
+          if ((wideCases.includes(i) && options.length > 1 && this.wide)
+            || (pieCases.includes(i) && options.length > 1 && (item.filterValues.graph_type === 'pie' || item.filterValues.graph_type === 'doughnut'))) {
             multipleIndicators = false;
-          }
+          } 
 
           tmpFilters.push(
             {
