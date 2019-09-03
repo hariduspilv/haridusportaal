@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Field\WidgetInterface;
 use Drupal\Core\Url;
+use Drupal\conditional_fields\ConditionalFieldsFormHelper;
 
 /**
  * Dependency is triggered if the dependee has a certain value.
@@ -150,7 +151,8 @@ function conditional_fields_element_info_alter(array &$types) {
  * Processes form elements with dependencies.
  *
  * Just adds a #conditional_fields property to the form with the needed
- * data, which is used later in conditional_fields_form_after_build():
+ * data, which is used later in
+ * \Drupal\conditional_fields\ConditionalFieldsFormHelper::afterBuild():
  * - The fields #parents property.
  * - Field dependencies data.
  */
@@ -167,7 +169,7 @@ function conditional_fields_element_after_build($element, FormStateInterface &$f
   $first_parent = reset($field['#parents']);
 
   // No parents, so bail out.
-  if (!isset($first_parent)) {
+  if (!isset($first_parent) || ( isset( $field['#type']) && $field['#type'] == 'value') ) {
     return $element;
   }
 
@@ -185,7 +187,10 @@ function conditional_fields_element_after_build($element, FormStateInterface &$f
       $bundle = $entity->bundle();
       $entity_type = $entity->getEntityTypeId();
 
-      // Media entity returns the actual bundle object, rather than id.
+      /**
+       * @deprecated Not actual from Drupal 8.7.0.
+       * Media entity returns the actual bundle object, rather than id
+       */
       if (is_object($bundle) && method_exists($bundle, 'getPluginId')) {
         $bundle = $bundle->getPluginId();
       }
@@ -200,7 +205,7 @@ function conditional_fields_element_after_build($element, FormStateInterface &$f
       // Attach dependent.
       if (isset($dependencies['dependents'][$field_name])) {
         foreach ($dependencies['dependents'][$field_name] as $id => $dependency) {
-          if (!isset($form['#conditional_fields'][$field_name]['dependees'][$id])) {
+          if (!isset($form['#conditional_fields'][$field_name]['dependees'][$id]) || conditional_fields_is_priority_field($field)) {
             conditional_fields_attach_dependency($form, ['#field_name' => $dependency['dependee']], $field, $dependency['options'], $id);
           }
         }
@@ -208,7 +213,7 @@ function conditional_fields_element_after_build($element, FormStateInterface &$f
 
       if (isset($dependencies['dependees'][$field_name])) {
         foreach ($dependencies['dependees'][$field_name] as $id => $dependency) {
-          if (!isset($form['#conditional_fields'][$field_name]['dependents'][$id])) {
+          if (!isset($form['#conditional_fields'][$field_name]['dependents'][$id]) || conditional_fields_is_priority_field($field)) {
             conditional_fields_attach_dependency($form, $field, ['#field_name' => $dependency['dependent']], $dependency['options'], $id);
           }
         }
@@ -378,41 +383,10 @@ function conditional_fields_attach_dependency(&$form, $dependee, $dependent, $op
     ];
   }
 
-  // Actual processing is done in conditional_fields_form_after_build().
+  // Actual processing is done in
+  // \Drupal\conditional_fields\ConditionalFieldsFormHelper::afterBuild().
   // Append the property so the callback runs last.
-  _conditional_fields_element_add_property($form, '#after_build', 'conditional_fields_form_after_build', 'append');
-}
-
-/**
- * Helper function to add a property/value pair to a render array.
- *
- * Safely without overriding any pre-existing value.
- *
- * @param string $position
- *   Use 'append' if $value should be inserted at the end of
- *   the $element[$property] array, any other value to insert it
- *   at the beginning.
- */
-function _conditional_fields_element_add_property(&$element, $property, $value, $position = 'prepend') {
-  // Avoid overriding default element properties that might not yet be set.
-  if (!isset($element[$property])) {
-    $element[$property] = isset($element['#type']) ? element_info_property($element['#type'], $property, []) : [];
-  }
-
-  if (in_array($value, $element[$property])) {
-    return;
-  }
-
-  switch ($position) {
-    case 'append':
-      $element[$property] = array_merge($element[$property], (array) $value);
-      break;
-
-    case 'prepend':
-    default:
-      $element[$property] = array_merge((array) $value, $element[$property]);
-      break;
-  }
+  ConditionalFieldsFormHelper::elementAddProperty($form, '#after_build', [ConditionalFieldsFormHelper::class, 'afterBuild'], 'append');
 }
 
 /**
@@ -466,4 +440,28 @@ function conditional_fields_field_widget_third_party_settings_form(WidgetInterfa
     }
   }
   return $element;
+}
+
+/**
+ * Checking if field is priority for rewrite the conditions
+ * If the field widget is datelist this function help to return correct object for this field
+ *
+ *
+ * @param array $field
+ *   The field form element.
+ *
+ * @return bool
+ *   Check the fields is priority and return the boolean result
+ */
+function conditional_fields_is_priority_field( array $field ) {
+  $priority_fields = [
+    'datelist'
+  ];
+  //For modules supports
+  Drupal::moduleHandler()->alter( ['conditional_fields_priority_field'], $priority_fields);
+
+  if ( isset( $field['#type']) && in_array( $field['#type'], $priority_fields)) {
+    return TRUE;
+  }
+  return FALSE;
 }

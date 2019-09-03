@@ -46,7 +46,7 @@ class SetUnpublishingDate extends RulesActionBase {
       $type_name = node_get_type_label($node);
       $arguments = [
         '%type' => $type_name,
-        'link' => \Drupal::l(t('@type settings', ['@type' => $type_name]), new Url('entity.node_type.edit_form', ['node_type' => $node->getType()])),
+        'link' => \Drupal::l($this->t('@type settings', ['@type' => $type_name]), new Url('entity.node_type.edit_form', ['node_type' => $node->getType()])),
       ];
       \Drupal::logger('scheduler')->warning('Scheduler rules action "Set unpublishing date" - Scheduled unpublishing is not enabled for %type content. To prevent this message add the condition "Scheduled unpublishing is enabled" to your Rule, or enable the Scheduler options via the %type content type settings.', $arguments);
     }

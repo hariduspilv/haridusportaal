@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\scheduler\Functional;
 
-use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Utility\Html;
 
 /**
  * Tests the permissions of the Scheduler module.
@@ -14,7 +14,7 @@ class SchedulerPermissionsTest extends SchedulerBrowserTestBase {
   /**
    * Tests that users without permission do not see the scheduler date fields.
    */
-  public function testUserPermissions() {
+  public function testUserPermissionsAdd() {
     // Create a user who can add the content type but who does not have the
     // permission to use the scheduler functionality.
     $this->webUser = $this->drupalCreateUser([
@@ -51,7 +51,7 @@ class SchedulerPermissionsTest extends SchedulerBrowserTestBase {
       $edit['status[value]'] = TRUE;
     }
     $this->drupalPostForm('node/add/' . $this->type, $edit, $checkbox ? 'Save' : 'Save and publish');
-    $this->assertText(sprintf('%s %s has been created.', $this->typeName, SafeMarkup::checkPlain($title)), 'A node can be created and published when the user does not have scheduler permissions.');
+    $this->assertText(sprintf('%s %s has been created.', $this->typeName, Html::escape($title)), 'A node can be created and published when the user does not have scheduler permissions.');
     $this->assertTrue($this->drupalGetNodeByTitle($title)->isPublished(), 'The new node is published');
 
     // Check that a new node can be saved as unpublished.
@@ -61,7 +61,7 @@ class SchedulerPermissionsTest extends SchedulerBrowserTestBase {
       $edit['status[value]'] = FALSE;
     }
     $this->drupalPostForm('node/add/' . $this->type, $edit, $checkbox ? 'Save' : 'Save as unpublished');
-    $this->assertText(sprintf('%s %s has been created.', $this->typeName, SafeMarkup::checkPlain($title)), 'A node can be created and saved as unpublished when the user does not have scheduler permissions.');
+    $this->assertText(sprintf('%s %s has been created.', $this->typeName, Html::escape($title)), 'A node can be created and saved as unpublished when the user does not have scheduler permissions.');
     $this->assertFalse($this->drupalGetNodeByTitle($title)->isPublished(), 'The new node is unpublished');
 
     // Set publishing and unpublishing to required, to make it a stronger test.
@@ -74,6 +74,68 @@ class SchedulerPermissionsTest extends SchedulerBrowserTestBase {
     // @see https://www.drupal.org/node/2707411
     // "Conflict between 'required publishing' and not having scheduler
     // permission"
+  }
+
+  /**
+   * Tests that users without permission can edit existing scheduled content.
+   */
+  public function testUserPermissionsEdit() {
+    // Create a user who can add the content type but who does not have the
+    // permission to use the scheduler functionality.
+    $this->webUser = $this->drupalCreateUser([
+      'access content',
+      'administer nodes',
+      'create ' . $this->type . ' content',
+      'edit own ' . $this->type . ' content',
+      'delete own ' . $this->type . ' content',
+      'view own unpublished content',
+    ]);
+    $this->drupalLogin($this->webUser);
+
+    $publish_time = strtotime('+ 6 hours', $this->requestTime);
+    $unpublish_time = strtotime('+ 10 hours', $this->requestTime);
+
+    // Create nodes with publish_on and unpublish_on dates.
+    $unpublished_node = $this->drupalCreateNode([
+      'type' => $this->type,
+      'status' => FALSE,
+      'publish_on' => $publish_time,
+    ]);
+    $published_node = $this->drupalCreateNode([
+      'type' => $this->type,
+      'status' => TRUE,
+      'unpublish_on' => $unpublish_time,
+    ]);
+
+    // Verify that the publish_on date is stored as expected before editing.
+    $this->assertEqual($unpublished_node->publish_on->value, $publish_time, 'The publish_on value is stored correctly before edit.');
+
+    // Edit the unpublished node and save.
+    $title = 'For Publishing ' . $this->randomString(10);
+    $this->drupalPostForm('node/' . $unpublished_node->id() . '/edit', ['title[0][value]' => $title], 'Save');
+
+    // Check the updated title, to verify that edit and save was sucessful.
+    $unpublished_node = $this->nodeStorage->load($unpublished_node->id());
+    $this->assertEqual($unpublished_node->title->value, $title, 'The unpublished node title has been updated correctly after edit.');
+
+    // Test that the publish_on date is still stored and is unchanged.
+    $this->assertEqual($unpublished_node->publish_on->value, $publish_time, 'The node publish_on value is still stored correctly after edit.');
+
+    // Do the same for unpublishing.
+    // Verify that the unpublish_on date is stored as expected before editing.
+    $this->assertEqual($published_node->unpublish_on->value, $unpublish_time, 'The unpublish_on value is stored correctly before edit.');
+
+    // Edit the published node and save.
+    $title = 'For Unpublishing ' . $this->randomString(10);
+    $this->drupalPostForm('node/' . $published_node->id() . '/edit', ['title[0][value]' => $title], 'Save');
+
+    // Check the updated title, to verify that edit and save was sucessful.
+    $published_node = $this->nodeStorage->load($published_node->id());
+    $this->assertEqual($published_node->title->value, $title, 'The published node title has been updated correctly after edit.');
+
+    // Test that the unpublish_on date is still stored and is unchanged.
+    $this->assertEqual($published_node->unpublish_on->value, $unpublish_time, 'The node unpublish_on value is still stored correctly after edit.');
+
   }
 
 }

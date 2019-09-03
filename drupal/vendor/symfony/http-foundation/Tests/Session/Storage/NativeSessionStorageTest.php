@@ -72,20 +72,16 @@ class NativeSessionStorageTest extends TestCase
         $this->assertSame($bag, $storage->getBag($bag->getName()));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testRegisterBagException()
     {
+        $this->expectException('InvalidArgumentException');
         $storage = $this->getStorage();
         $storage->getBag('non_existing');
     }
 
-    /**
-     * @expectedException \LogicException
-     */
     public function testRegisterBagForAStartedSessionThrowsException()
     {
+        $this->expectException('LogicException');
         $storage = $this->getStorage();
         $storage->start();
         $storage->registerBag(new AttributeBag());
@@ -98,7 +94,7 @@ class NativeSessionStorageTest extends TestCase
 
         $storage->start();
         $id = $storage->getId();
-        $this->assertInternalType('string', $id);
+        $this->assertIsString($id);
         $this->assertNotSame('', $id);
 
         $storage->save();
@@ -201,11 +197,9 @@ class NativeSessionStorageTest extends TestCase
         $this->assertSame('200', ini_get('session.cache_expire'));
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testSetSaveHandlerException()
     {
+        $this->expectException('InvalidArgumentException');
         $storage = $this->getStorage();
         $storage->setSaveHandler(new \stdClass());
     }
@@ -228,11 +222,9 @@ class NativeSessionStorageTest extends TestCase
         $this->assertInstanceOf('Symfony\Component\HttpFoundation\Session\Storage\Proxy\SessionHandlerProxy', $storage->getSaveHandler());
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testStarted()
     {
+        $this->expectException('RuntimeException');
         $storage = $this->getStorage();
 
         $this->assertFalse($storage->getSaveHandler()->isActive());

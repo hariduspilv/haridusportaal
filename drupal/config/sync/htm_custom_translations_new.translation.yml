@@ -739,6 +739,10 @@ frontpage:
     translation_type: textarea
     et: 'Kõrgeim haridustase'
     en: 'Kõrgeim haridustase'
+  check_dashboard:
+    translation_type: textarea
+    et: 'Vaata oma töölauda'
+    en: ''
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -831,6 +835,10 @@ xjson:
   forms_title:
     translation_type: textarea
     et: Vormid
+    en: ''
+  enter_valid_iban:
+    translation_type: textarea
+    et: 'Palun sisesta sobilik IBAN kontonumber'
     en: ''
 article:
   label:
@@ -1563,6 +1571,10 @@ login:
     translation_type: textarea
     et: 'Autoriseerimine ebaõnnestus, palun proovige uuesti.'
     en: 'Authorizing failed, please try again.'
+  logged_in:
+    translation_type: textarea
+    et: 'Sisselogitud '
+    en: ''
 time:
   january:
     translation_type: textarea
@@ -1875,7 +1887,7 @@ button:
     en: Previous
   next:
     translation_type: textarea
-    et: Järgmine
+    et: Edasi
     en: Next
   cancel:
     translation_type: textarea
@@ -1915,8 +1927,8 @@ button:
     en: 'Delete row'
   upload:
     translation_type: textarea
-    et: 'Lae failid enda arvutist'
-    en: 'Upload files from your computer'
+    et: 'Lae failid enda seadmest'
+    en: 'Upload files from your device'
   hide_extra:
     translation_type: textarea
     et: 'Näita vähem'
@@ -1989,6 +2001,10 @@ button:
     translation_type: textarea
     et: 'Tühjenda filtrites tehtud valikud'
     en: 'Tühjenda filtrites tehtud valikud-eng'
+  add:
+    translation_type: textarea
+    et: Lisa
+    en: ''
 tooltip:
   share:
     translation_type: textarea
@@ -2974,3 +2990,15 @@ feedback_cancel:
   translation_type: textarea
   et: Tühista
   en: Cancel
+favourites:
+  translation_type: textarea
+  et: 'Minu lemmikud'
+  en: ''
+feedback_comment_error:
+  translation_type: textarea
+  et: '* Kommentaari välja täitmine on kohustustlik'
+  en: '* Comment field must be filled'
+feedback_comment_required:
+  translation_type: textarea
+  et: 'Kommentaar (kohustuslik)'
+  en: 'Comment (required)'

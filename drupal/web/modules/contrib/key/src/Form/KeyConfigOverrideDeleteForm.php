@@ -35,11 +35,8 @@ class KeyConfigOverrideDeleteForm extends EntityDeleteForm {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->entity->delete();
-    drupal_set_message($this->t('The override %name has been deleted.', ['%name' => $this->entity->label()]));
-
-    $form_state->setRedirectUrl($this->getCancelUrl());
+  public function getDeletionMessage() {
+    return $this->t('The override %name has been deleted.', ['%name' => $this->entity->label()]);
   }
 
 }
