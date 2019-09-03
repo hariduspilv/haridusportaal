@@ -12,7 +12,7 @@ export class FeedbackComponent {
   @Input() nid: any;
 
   status: String = 'vote';
-
+  feedbackError = false;
   values: Object = {};
 
   constructor(
@@ -24,8 +24,9 @@ export class FeedbackComponent {
 
   cancel(): void {
     this.values['vote'] = false;
-    this.values['message'] = '';
+    this.values['comment'] = '';
     this.status = 'vote';
+    this.feedbackError = false;
   }
 
   vote( flag: boolean ){
@@ -34,6 +35,19 @@ export class FeedbackComponent {
   }
 
   sendVote() {
+
+    if(!this.values['vote']) {
+      if (!this.values['comment'] || this.values['comment'] === ''){
+        this.feedbackError = true;
+      } else{
+        this.feedbackError = false;
+      }
+    }
+
+    if (this.feedbackError) {
+      return false;
+    }
+
     this.status = 'response';
 
     let data = {

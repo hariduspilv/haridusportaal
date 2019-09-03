@@ -14,9 +14,14 @@
   <p  attr.aria-label="{{ 'feedback_how_to_improve' | translate }}" role="alert" *ngIf="!values['vote']"><b>{{ 'feedback_how_to_improve' | translate }}</b></p>
   <p  attr.aria-label="{{ 'feedback_add_comment' | translate }}" role="alert" *ngIf="values['vote']"><b>{{ 'feedback_add_comment' | translate }}</b></p>
   <div class="comment">
-    <div class="formItem">
-      <textarea [(ngModel)]='values.comment' attr.aria-label="{{ 'feedback_comment' | translate }}" formItemStates></textarea>
-      <div class="textarea-title">{{ 'feedback_comment' | translate }}</div>
+    <div class="formItem" [class.error]="feedbackError">
+      <textarea [(ngModel)]='values.comment' attr.aria-label="{{ 'feedback_comment_required' | translate }}" formItemStates *ngIf="!values['vote']"></textarea>
+      <textarea [(ngModel)]='values.comment' attr.aria-label="{{ 'feedback_comment' | translate }}" formItemStates *ngIf="values['vote']"></textarea>
+      <div class="textarea-title" *ngIf="!values['vote']">{{ 'feedback_comment_required' | translate }}</div>
+      <div class="textarea-title" *ngIf="values['vote']">{{ 'feedback_comment' | translate }}</div>
+      <div class="formItem--error" [attr.aria-label]="'feedback_comment_error' | translate" role="alert" *ngIf="feedbackError">
+        {{ 'feedback_comment_error' | translate}}
+      </div>
     </div><!--/formItem-->
     <button mat-raised-button (click)="cancel()" color="primary" attr.aria-label="{{ 'feedback_cancel' | translate }}" class="button--plain">{{ 'feedback_cancel' | translate }}</button>
     <button mat-raised-button (click)="sendVote()" color="primary" attr.aria-label="{{ 'feedback_send' | translate }}">{{ 'feedback_send' | translate }}</button>
