@@ -55,6 +55,7 @@ import { ClipboardService } from 'ngx-clipboard';
 import { LabelsComponent } from './labels';
 import { FavouriteComponent } from './favourite';
 import { LabeledSeparatorComponent } from './labeled-separator';
+import { ListItemComponent } from './listItem/listItem.component';
 
 const pipes = [];
 
@@ -101,6 +102,7 @@ const declarations = [
   LabelsComponent,
   FavouriteComponent,
   LabeledSeparatorComponent,
+  ListItemComponent,
 ];
 
 const exports = [
