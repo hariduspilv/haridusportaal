@@ -22,6 +22,7 @@ use Symfony\Component\HttpKernel\Bundle\BundleInterface;
 use Symfony\Component\HttpKernel\Config\EnvParametersResource;
 use Symfony\Component\HttpKernel\DependencyInjection\ResettableServicePass;
 use Symfony\Component\HttpKernel\DependencyInjection\ServicesResetter;
+use Symfony\Component\HttpKernel\HttpKernel;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Kernel;
 use Symfony\Component\HttpKernel\Tests\Fixtures\KernelForOverrideName;
@@ -388,35 +389,27 @@ EOF;
         $this->assertEquals($expected, $kernel->serialize());
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testLocateResourceThrowsExceptionWhenNameIsNotValid()
     {
+        $this->expectException('InvalidArgumentException');
         $this->getKernel()->locateResource('Foo');
     }
 
-    /**
-     * @expectedException \RuntimeException
-     */
     public function testLocateResourceThrowsExceptionWhenNameIsUnsafe()
     {
+        $this->expectException('RuntimeException');
         $this->getKernel()->locateResource('@FooBundle/../bar');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testLocateResourceThrowsExceptionWhenBundleDoesNotExist()
     {
+        $this->expectException('InvalidArgumentException');
         $this->getKernel()->locateResource('@FooBundle/config/routing.xml');
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testLocateResourceThrowsExceptionWhenResourceDoesNotExist()
     {
+        $this->expectException('InvalidArgumentException');
         $kernel = $this->getKernel(['getBundle']);
         $kernel
             ->expects($this->once())
@@ -672,11 +665,11 @@ EOF;
 
     /**
      * @group legacy
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Bundle "ChildCBundle" extends bundle "FooBar", which is not registered.
      */
     public function testInitializeBundlesThrowsExceptionWhenAParentDoesNotExists()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Bundle "ChildCBundle" extends bundle "FooBar", which is not registered.');
         $child = $this->getBundle(null, 'FooBar', 'ChildCBundle');
         $kernel = $this->getKernel([], [$child]);
         $kernel->boot();
@@ -708,11 +701,11 @@ EOF;
 
     /**
      * @group legacy
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Bundle "ParentCBundle" is directly extended by two bundles "ChildC2Bundle" and "ChildC1Bundle".
      */
     public function testInitializeBundlesThrowsExceptionWhenABundleIsDirectlyExtendedByTwoBundles()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Bundle "ParentCBundle" is directly extended by two bundles "ChildC2Bundle" and "ChildC1Bundle".');
         $parent = $this->getBundle(null, null, 'ParentCBundle');
         $child1 = $this->getBundle(null, 'ParentCBundle', 'ChildC1Bundle');
         $child2 = $this->getBundle(null, 'ParentCBundle', 'ChildC2Bundle');
@@ -723,13 +716,13 @@ EOF;
 
     /**
      * @group legacy
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Trying to register two bundles with the same name "DuplicateName"
      */
     public function testInitializeBundleThrowsExceptionWhenRegisteringTwoBundlesWithTheSameName()
     {
-        $fooBundle = $this->getBundle(null, null, 'FooBundle', 'DuplicateName');
-        $barBundle = $this->getBundle(null, null, 'BarBundle', 'DuplicateName');
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Trying to register two bundles with the same name "DuplicateName"');
+        $fooBundle = $this->getBundle(__DIR__.'/Fixtures/FooBundle', null, 'FooBundle', 'DuplicateName');
+        $barBundle = $this->getBundle(__DIR__.'/Fixtures/BarBundle', null, 'BarBundle', 'DuplicateName');
 
         $kernel = $this->getKernel([], [$fooBundle, $barBundle]);
         $kernel->boot();
@@ -737,11 +730,11 @@ EOF;
 
     /**
      * @group legacy
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Bundle "CircularRefBundle" can not extend itself.
      */
     public function testInitializeBundleThrowsExceptionWhenABundleExtendsItself()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Bundle "CircularRefBundle" can not extend itself.');
         $circularRef = $this->getBundle(null, 'CircularRefBundle', 'CircularRefBundle');
 
         $kernel = $this->getKernel([], [$circularRef]);

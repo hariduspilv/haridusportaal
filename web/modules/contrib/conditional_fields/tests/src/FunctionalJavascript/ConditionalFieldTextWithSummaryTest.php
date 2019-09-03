@@ -67,8 +67,7 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
   protected function setUp() {
     parent::setUp();
 
-//    $this->fieldSelector = '[name="field_' . $this->fieldName . '[0][value]"]';
-    $this->fieldSelector = '[class="cke_editable"]';
+    $this->fieldSelector = '[name="field_' . $this->fieldName . '[0][value]"]';
     $this->fieldStorageDefinition = [
       'field_name' => 'field_' . $this->fieldName,
       'entity_type' => 'node',
@@ -115,33 +114,32 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
 
     $this->getSession()->wait(1000, '!jQuery.active');
     $this->getSession()->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
+    $this->clickLink( 'Edit');
+    $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
+
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Change field that should not show the body.
-    $this->changeField($this->fieldSelector, '');
-    $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
 
     // Check that the field Body is visible.
     $this->changeField($this->fieldSelector, $text);
-    $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
 
     // Change field that should not show the body again.
     $this->changeField($this->fieldSelector, '');
-    $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->createScreenshot($this->screenshotPath . '07-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
   }
 
   /**
@@ -156,51 +154,47 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
 
     // Set up conditions.
     $text = ['drupal text_with_summary text first', 'drupal text_with_summary text second'];
+    $text_values = implode("\r\n", $text);
     $data = [
-      '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
-      '[name="values"]' => implode('\n', $text),
-      '[name="grouping"]' => 'AND',
-      '[name="state"]' => 'visible',
-      '[name="effect"]' => 'show',
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values' => $text_values,
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
     ];
-    foreach ($data as $selector => $value) {
-      $this->changeField($selector, $value);
-    }
-
-    $this->getSession()->wait(1000, '!jQuery.active');
-    $this->getSession()->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
+    $this->submitForm( $data, 'Save settings' );
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
+    $this->clickLink( 'Edit');
+    $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
+
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Check that the field Body is not visible.
-    $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
 
     // Change field that should not show the body.
     $this->changeField($this->fieldSelector, 'drupal.org');
-    $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
 
     // Change field value to show the body.
-    $this->changeField($this->fieldSelector, implode('\n', $text));
-    $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->changeField($this->fieldSelector, implode('\r\n', $text));
+    $this->createScreenshot($this->screenshotPath . '07-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
 
     // Change field value to hide the body again.
     $this->changeField($this->fieldSelector, '');
-    $this->createScreenshot($this->screenshotPath . '07-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->createScreenshot($this->screenshotPath . '08-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is visible');
   }
 
   /**
@@ -216,55 +210,50 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $text = ['drupal text_with_summary text first', 'drupal text_with_summary text second'];
     $data = [
-      '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
-      '[name="values"]' => implode('\n', $text),
-      '[name="grouping"]' => 'AND',
-      '[name="state"]' => 'visible',
-      '[name="effect"]' => 'show',
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values' => implode("\r\n", $text),
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
     ];
-    foreach ($data as $selector => $value) {
-      $this->changeField($selector, $value);
-    }
-
-    $this->getSession()->wait(1000, '!jQuery.active');
-    $this->getSession()->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
+    $this->submitForm( $data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
+    $this->clickLink( 'Edit');
+    $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
+
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Check that the field Body is not visible.
-    $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
 
     // Change field that should not show the body.
     $this->changeField($this->fieldSelector, 'https://drupal.org');
-    $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
 
     // Change field value to show the body.
     $this->changeField($this->fieldSelector, $text[0]);
-    $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->createScreenshot($this->screenshotPath . '07-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
 
     // Change field value to show the body.
     $this->changeField($this->fieldSelector, $text[1]);
-    $this->createScreenshot($this->screenshotPath . '07-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->createScreenshot($this->screenshotPath . '08-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '04. Article Body field is not visible');
 
     // Change field value to hide the body again.
     $this->changeField($this->fieldSelector, '');
-    $this->createScreenshot($this->screenshotPath . '08-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->createScreenshot($this->screenshotPath . '09-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '08. Article Body field is visible');
   }
 
   /**
@@ -280,46 +269,38 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $text = 'text_';
     $data = [
-      '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
-      $this->fieldSelector => $text,
-      '[name="grouping"]' => 'AND',
-      '[name="state"]' => 'visible',
-      '[name="effect"]' => 'show',
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'regex' => $text,
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
     ];
-    foreach ($data as $selector => $value) {
-      $this->changeField($selector, $value);
-    }
-
-    $this->getSession()->wait(1000, '!jQuery.active');
-    $this->getSession()->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
+    $this->submitForm( $data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Change field that should not show the body.
     $this->changeField($this->fieldSelector, 'wrong text');
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
 
     // Check that the field Body is visible.
     $this->changeField($this->fieldSelector, 'text_correct');
     $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is not visible');
 
     // Change field that should not show the body again.
     $this->changeField($this->fieldSelector, 'wrong text');
     $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
   }
 
   /**
@@ -335,57 +316,98 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $text = ['drupal text_with_summary text first', 'drupal text_with_summary text second'];
     $data = [
-      '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
-      '[name="values"]' => implode('\n', $text),
-      '[name="grouping"]' => 'AND',
-      '[name="state"]' => 'visible',
-      '[name="effect"]' => 'show',
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values' => implode("\r\n", $text),
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
     ];
-    foreach ($data as $selector => $value) {
-      $this->changeField($selector, $value);
-    }
-    $this->getSession()->wait(1000, '!jQuery.active');
-    $this->getSession()->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
+    $this->submitForm( $data, 'Save settings');
     $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
     $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is not visible');
 
     // Change field that should not show the body.
     $this->changeField($this->fieldSelector, $text[0]);
     $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
 
     // Change field that should not show the body again.
     $this->changeField($this->fieldSelector, $text[1]);
     $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
 
     // Change field value to show the body.
     $this->changeField($this->fieldSelector, '');
     $this->createScreenshot($this->screenshotPath . '07-' . $this->testName . __FUNCTION__ . '.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueXor() {
-    // TODO: Implement testVisibleValueXor() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-' . $this->testName . __FUNCTION__ . '.png');
+
+    // Set up conditions.
+    $text = ['drupal text_with_summary text first', 'drupal text_with_summary text second'];
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values' => implode("\r\n", $text),
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings');
+    $this->createScreenshot($this->screenshotPath . '02-' . $this->testName . __FUNCTION__ . '.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+    $this->createScreenshot($this->screenshotPath . '03-' . $this->testName . __FUNCTION__ . '.png');
+    $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
+
+    // Change field that should not show the body.
+    $this->changeField($this->fieldSelector, 'https://drupal.org');
+    $this->createScreenshot($this->screenshotPath . '05-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
+
+    // Change field value to show the body.
+    $this->changeField($this->fieldSelector, $text[0]);
+    $this->createScreenshot($this->screenshotPath . '06-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is not visible');
+
+    // Change field value to show the body.
+    $this->changeField($this->fieldSelector, $text[1]);
+    $this->createScreenshot($this->screenshotPath . '07-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is not visible');
+
+    // Change field value to hide the body again.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-' . $this->testName . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
   }
 
   /**
@@ -403,7 +425,6 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, 'Article Body field is visible');
@@ -426,7 +447,6 @@ class ConditionalFieldTextWithSummaryTest extends ConditionalFieldTestBase imple
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
     $this->waitUntilHidden('.field--name-body', 0, 'Article Body field is visible');
     $this->changeField($this->fieldSelector, 'This field is not empty.');

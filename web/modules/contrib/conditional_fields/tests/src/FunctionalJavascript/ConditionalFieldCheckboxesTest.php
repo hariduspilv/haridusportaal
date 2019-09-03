@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
-use Drupal\field\Tests\EntityReference\EntityReferenceTestTrait;
+use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
@@ -75,16 +75,95 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
    * {@inheritdoc}
    */
   public function testVisibleValueWidget() {
-    // TODO: Implement testVisibleValueWidget() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
+
+    // Change a condition's values set and the value.
+    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET);
+    // Random term id to check necessary values.
+    $term_id_1 = mt_rand(1, $this->termsCount);
+    do {
+      $term_id_2 = mt_rand(1, $this->termsCount);
+    } while ($term_id_2 == $term_id_1);
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+
+    // Submit the form.
+    $this->getSession()
+      ->executeScript("jQuery('#conditional-field-edit-form').submit();");
+
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+    $this->assertSession()
+      ->pageTextContains('body field_' . $this->taxonomyName . ' visible value');
+    $this->clickLink( 'Edit' );
+    $this->createScreenshot($this->screenshotPath . '01. Checkboxes' . __FUNCTION__ .  '.jpg');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '02. Checkboxes' . __FUNCTION__ .  '.jpg');
+    $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
+    // Change a select value set to show the body.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
+    $this->waitUntilHidden('.field--name-body', 60, '02. Article Body field is visible');
+
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
+    $this->waitUntilVisible('.field--name-body', 60, '03. Article Body field is not visible');
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->waitUntilHidden('.field--name-body', 60, '04. Article Body field is visible');
+
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueRegExp() {
-    // TODO: Implement testVisibleValueRegExp() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
+
+    // Change a condition's values set and the value.
+    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX);
+    // Random term id to check necessary values.
+    $term_id_1 = mt_rand(1, $this->termsCount);
+    do {
+      $term_id_2 = mt_rand(1, $this->termsCount);
+    } while ($term_id_2 == $term_id_1);
+    $this->changeSelect('#edit-regex', "{$term_id_1}");
+
+    // Submit the form.
+    $this->getSession()
+      ->executeScript("jQuery('#conditional-field-edit-form').submit();");
+
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+    $this->assertSession()
+      ->pageTextContains('body field_' . $this->taxonomyName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
+    // Change a select value set to show the body.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
+    $this->waitUntilVisible('.field--name-body', 60, '02. Article Body field is not visible');
+
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1);
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2);
+    $this->waitUntilHidden('.field--name-body', 60, '03. Article Body field is visible');
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->waitUntilVisible('.field--name-body', 60, '04. Article Body field is not visible');
   }
 
   /**
@@ -109,7 +188,7 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     // Submit the form.
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
+    
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
@@ -118,20 +197,20 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
+    
 
     // Check that the field Body is not visible.
-    $this->waitUntilHidden('.field--name-body', 0, 'Article Body field is visible');
+    $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
     // Change a select value set to show the body.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
     $this->createScreenshot($this->screenshotPath . 'scr1BodyVisCheckboxes.jpg');
-    $this->waitUntilVisible('.field--name-body', 60, 'Article Body field is not visible');
+    $this->waitUntilVisible('.field--name-body', 60, '02. Article Body field is not visible');
     // Change a select value set to hide the body again.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
-    $this->waitUntilHidden('.field--name-body', 60, 'Article Body field is visible');
+    $this->waitUntilHidden('.field--name-body', 60, '03. Article Body field is visible');
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
-    $this->waitUntilHidden('.field--name-body', 60, 'Article Body field is visible');
+    $this->waitUntilHidden('.field--name-body', 60, '04. Article Body field is visible');
     $this->createScreenshot($this->screenshotPath . 'scr2BodyHidCheckboxes.jpg');
   }
 
@@ -157,7 +236,7 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
     // Submit the form.
     $this->getSession()
       ->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
+    
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
@@ -166,38 +245,124 @@ class ConditionalFieldCheckboxesTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
+    
 
     // Check that the field Body is not visible.
-    $this->waitUntilHidden('.field--name-body', 0, 'Article Body field is visible');
+    $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
     // Change a select value set to show the body.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
-    $this->waitUntilVisible('.field--name-body', 60, 'Article Body field is not visible');
+    $this->waitUntilVisible('.field--name-body', 60, '02. Article Body field is not visible');
     // Change a select value set to hide the body again.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
-    $this->waitUntilHidden('.field--name-body', 60, 'Article Body field is visible');
+    $this->waitUntilHidden('.field--name-body', 60, '03. Article Body field is visible');
     // Change a select value set to show the body.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
-    $this->waitUntilVisible('.field--name-body', 60, 'Article Body field is not visible');
+    $this->waitUntilVisible('.field--name-body', 60, '04. Article Body field is not visible');
     // Change a select value set to hide the body again.
     $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
-    $this->waitUntilHidden('.field--name-body', 60, 'Article Body field is visible');
+    $this->waitUntilHidden('.field--name-body', 60, '05. Article Body field is visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueNot() {
-    // TODO: Implement testVisibleValueNot() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
+
+    // Change a condition's values set and the value.
+    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT);
+    // Random term id to check necessary values.
+    $term_id_1 = mt_rand(1, $this->termsCount);
+    do {
+      $term_id_2 = mt_rand(1, $this->termsCount);
+    } while ($term_id_2 == $term_id_1);
+    $values = $term_id_1 . '\r\n' . $term_id_2;
+    $this->changeField('#edit-values', $values);
+
+    // Submit the form.
+    $this->getSession()
+      ->executeScript("jQuery('#conditional-field-edit-form').submit();");
+
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+    $this->assertSession()
+      ->pageTextContains('body field_' . $this->taxonomyName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->waitUntilVisible('.field--name-body', 0, '01. Article Body field is not visible');
+    // Change a select value set to show the body.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->waitUntilHidden('.field--name-body', 60, '02. Article Body field is visible');
+    // Change a select value set to hide the body again.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->waitUntilVisible('.field--name-body', 60, '03. Article Body field is not visible');
+    // Change a select value set to show the body.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
+    $this->waitUntilHidden('.field--name-body', 60, '04. Article Body field is visible');
+    // Change a select value set to hide the body again.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
+    $this->waitUntilVisible('.field--name-body', 60, '05. Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueXor() {
-    // TODO: Implement testVisibleValueXor() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->taxonomyName, 'visible', 'value');
+
+    // Change a condition's values set and the value.
+    $this->changeField('#edit-values-set', CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR);
+    // Random term id to check necessary values.
+    $term_id_1 = mt_rand(1, $this->termsCount);
+    do {
+      $term_id_2 = mt_rand(1, $this->termsCount);
+    } while ($term_id_2 == $term_id_1);
+    $values = $term_id_1 . '\r\n' . $term_id_2;
+    $this->changeField('#edit-values', $values);
+
+    // Submit the form.
+    $this->getSession()
+      ->executeScript("jQuery('#conditional-field-edit-form').submit();");
+
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+    $this->assertSession()
+      ->pageTextContains('body field_' . $this->taxonomyName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is visible');
+    // Change a select value set to show the body.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->waitUntilVisible('.field--name-body', 60, '02. Article Body field is not visible');
+    // Change a select value set to hide the body again.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->waitUntilHidden('.field--name-body', 60, '03. Article Body field is visible');
+    // Change a select value set to show the body.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
+    $this->waitUntilVisible('.field--name-body', 60, '04. Article Body field is not visible');
+    // Change a select value set to hide the body again.
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
+    $this->waitUntilHidden('.field--name-body', 60, '05. Article Body field is  visible');
+
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_1, $term_id_1);
+    $this->changeSelect('#edit-field-' . $this->taxonomyName . '-' . $term_id_2, $term_id_2);
+    $this->waitUntilHidden('.field--name-body', 60, '05. Article Body field is  visible');
   }
 
 }

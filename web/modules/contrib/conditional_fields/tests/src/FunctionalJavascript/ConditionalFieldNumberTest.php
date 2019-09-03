@@ -51,7 +51,7 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
    *
    * @var string
    */
-  protected $validValue = '2017';
+  protected $validValue = '2019';
 
   /**
    * {@inheritdoc}
@@ -101,127 +101,488 @@ class ConditionalFieldNumberTest extends ConditionalFieldTestBase implements Con
 
     // Set up conditions.
     $data = [
-      '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
-      $this->fieldSelector => $this->validValue,
-      '[name="grouping"]' => 'AND',
-      '[name="state"]' => 'visible',
-      '[name="effect"]' => 'show',
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'field_' . $this->fieldName . '[0][value]' => $this->validValue,
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
     ];
-    foreach ($data as $selector => $value) {
-      $this->changeField($selector, $value);
-    }
-
-    $this->getSession()->wait(1000, '!jQuery.active');
-    $this->getSession()->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
+    $this->submitForm( $data, 'Save settings');
+    
     $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
+    
     $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
     $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
+    
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is not visible');
 
     // Change the number field that should not show the body.
     $this->changeField($this->fieldSelector, mt_rand(10, 100));
     $this->createScreenshot($this->screenshotPath . '05-testNumberInteger-testVisibleValueWidget.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is not visible');
 
     // Change the number field to show the body.
     $this->changeField($this->fieldSelector, $this->validValue);
     $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is visible');
 
     // Set wrong value for number field to hide the body.
     $this->changeField($this->fieldSelector, mt_rand(10, 100));
     $this->createScreenshot($this->screenshotPath . '07-testNumberInteger-testVisibleValueWidget.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is not visible');
 
     // Set an empty value to hide body.
     $this->changeField($this->fieldSelector, '');
     $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, '05. Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueRegExp() {
-    // TODO: Implement testVisibleValueRegExp() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    // Set up conditions.
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'regex' => '^2019$',
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is not visible');
+
+    // Change the number field that should not show the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '05-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is not visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is visible');
+
+    // Set wrong value for number field to hide the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '07-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is not visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '05. Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueAnd() {
-    // TODO: Implement testVisibleValueAnd() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    // Set up conditions.
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values' => "2017\r\n2019",
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
+
+    // Change the number field that should not show the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '05-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
+
+    // Set wrong value for number field to hide the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '07-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '05. Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueOr() {
-    // TODO: Implement testVisibleValueOr() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    // Set up conditions.
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values' => "2017\r\n2019",
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is not visible');
+
+    // Change the number field that should not show the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '05-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is not visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is visible');
+
+    // Set wrong value for number field to hide the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '07-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is not visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '05. Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueNot() {
-    // TODO: Implement testVisibleValueNot() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    // Set up conditions.
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values' => "2017\r\n2019",
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
+
+    // Change the number field that should not show the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '05-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is visible');
+
+    // Set wrong value for number field to hide the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '07-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '05. Article Body field is not visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '06. Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueXor() {
-    // TODO: Implement testVisibleValueXor() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    // Set up conditions.
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values' => "2017\r\n2019",
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
+
+    // Change the number field that should not show the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '05-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
+
+    // Set wrong value for number field to hide the body.
+    $this->changeField($this->fieldSelector, mt_rand(10, 100));
+    $this->createScreenshot($this->screenshotPath . '07-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '05. Article Body field is visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleFilled() {
-    // TODO: Implement testVisibleFilled() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, 'visible', '!empty');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible !empty');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleEmpty() {
-    // TODO: Implement testVisibleEmpty() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, 'visible', 'empty');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible empty');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testInvisibleFilled() {
-    // TODO: Implement testInvisibleFilled() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, '!visible', '!empty');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' !visible !empty');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testInvisibleEmpty() {
-    // TODO: Implement testInvisibleEmpty() method.
-    $this->markTestIncomplete();
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', 'field_' . $this->fieldName, '!visible', 'empty');
+    $this->createScreenshot($this->screenshotPath . '01-testNumberInteger-testVisibleValueWidget.png');
+
+    $this->createScreenshot($this->screenshotPath . '02-testNumberInteger-testVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testNumberInteger-testVisibleValueWidget.png');
+    $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' !visible empty');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
+
+    // Change the number field to show the body.
+    $this->changeField($this->fieldSelector, $this->validValue);
+    $this->createScreenshot($this->screenshotPath . '06-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
+
+    // Set an empty value to hide body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testNumberInteger-testVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
   }
 
 }

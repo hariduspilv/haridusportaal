@@ -54,14 +54,14 @@ abstract class SchedulerBrowserTestBase extends BrowserTestBase {
   protected $typeName;
 
   /**
-   * The node type.
+   * The node type object.
    *
    * @var \Drupal\node\Entity\NodeType
    */
   protected $nodetype;
 
   /**
-   * The node storage.
+   * The node storage object.
    *
    * @var \Drupal\Core\Entity\EntityStorageInterface
    */
@@ -75,17 +75,31 @@ abstract class SchedulerBrowserTestBase extends BrowserTestBase {
   protected $database;
 
   /**
+   * The request time stored as interger for direct re-use in many tests.
+   *
+   * @var int
+   */
+  protected $requestTime;
+
+  /**
+   * The date formatter service.
+   *
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
+   */
+  protected $dateFormatter;
+
+  /**
    * {@inheritdoc}
    */
   public function setUp() {
     parent::setUp();
 
-    // Create a 'Basic Page' content type, with 'page' as the identifier.
-    // The test files should use $this->type and $this->typeName and not use
+    // Create a test content type with id 'testpage' and name 'Test Page'.
+    // The tests should use $this->type and $this->typeName and not use
     // $this->nodetype->get('type') or $this->nodetype->get('name'), nor have
-    // the hard-coded strings 'page' and 'Basic page'.
-    $this->type = 'page';
-    $this->typeName = 'Basic page';
+    // the hard-coded strings 'testpage' or 'Test Page'.
+    $this->type = 'testpage';
+    $this->typeName = 'Test Page';
     /** @var NodeTypeInterface $nodetype */
     $this->nodetype = $this->drupalCreateContentType([
       'type' => $this->type,
@@ -99,17 +113,17 @@ abstract class SchedulerBrowserTestBase extends BrowserTestBase {
 
     // Define nodeStorage for use in many tests.
     /** @var EntityStorageInterface $nodeStorage */
-    $this->nodeStorage = $this->container->get('entity.manager')->getStorage('node');
+    $this->nodeStorage = $this->container->get('entity_type.manager')->getStorage('node');
 
     // Create an administrator user having the main admin permissions, full
-    // rights on the 'page' content type and all of the Scheduler permissions.
+    // rights on the test content type and all of the Scheduler permissions.
     // 'access site reports' is required for admin/reports/dblog.
     // 'administer site configuration' is required for admin/reports/status.
     $this->adminUser = $this->drupalCreateUser([
-      'administer nodes',
       'access content',
       'access content overview',
       'access site reports',
+      'administer nodes',
       'administer site configuration',
       'create ' . $this->type . ' content',
       'edit own ' . $this->type . ' content',
@@ -133,6 +147,12 @@ abstract class SchedulerBrowserTestBase extends BrowserTestBase {
 
     // Store the database connection for re-use in the actual tests.
     $this->database = $this->container->get('database');
+
+    // Determine the request time and save for re-use in the actual tests.
+    $this->requestTime = $this->container->get('datetime.time')->getRequestTime();
+
+    // Store the core dateFormatter service for re-use in the actual tests.
+    $this->dateFormatter = $this->container->get('date.formatter');
 
   }
 

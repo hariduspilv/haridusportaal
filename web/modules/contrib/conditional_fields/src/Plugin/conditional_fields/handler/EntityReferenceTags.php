@@ -58,13 +58,12 @@ class EntityReferenceTags extends ConditionalFieldsHandlerBase {
   /**
    * Get a variants of node title for autocomplete.
    *
-   * @param $node
+   * @param Node $node
    *   A node object.
    * @return string
    *   An array with a few relevant suggestions for autocomplete.
    */
   private function getAutocompleteSuggestions($node) {
-    /** @var Node $node */
     return $node->label() . ' (' . $node->id() . ')';
   }
 

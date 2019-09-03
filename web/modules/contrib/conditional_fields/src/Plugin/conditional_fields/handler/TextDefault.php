@@ -15,8 +15,7 @@ class TextDefault extends ConditionalFieldsHandlerBase {
    */
   public function statesHandler($field, $field_info, $options) {
     $state = [];
-    $values_array = !empty($options['values']) ? explode("\r\n", $options['values']) : '';
-
+    $values_array = $this->getConditionValues( $options );
     // Text fields values are keyed by cardinality, so we have to flatten them.
     // TODO: support multiple values.
     switch ($options['values_set']) {
@@ -29,17 +28,25 @@ class TextDefault extends ConditionalFieldsHandlerBase {
         }
         break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
-        // TODO: support AND condition.
+        $input_states[$options['selector']] = [
+          $options['condition'] => $values_array,
+        ];
+        $state[$options['state']] = $input_states;
         break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
         $values[$options['condition']] = ['regex' => $options['regex']];
         $state[$options['state']][$options['selector']] = $values;
         break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
-        $state[$options['state']][] = 'xor';
+        $input_states[$options['selector']] = [
+          $options['condition'] => [ 'xor' => $values_array],
+        ];
+        $state[$options['state']] = $input_states;
+        break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+        $options['state'] = '!' . $options['state'];
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
-        if (is_array($values_array)) {
+        if (!empty($values_array)) {
           foreach ($values_array as $value) {
             $input_states[$options['selector']][] = [
               $options['condition'] => $value,
@@ -51,12 +58,12 @@ class TextDefault extends ConditionalFieldsHandlerBase {
             $options['condition'] => $values_array,
           ];
         }
-
         $state[$options['state']] = $input_states;
         break;
       default:
         break;
     }
+   // dump( $state )  ;
     return $state;
   }
 }

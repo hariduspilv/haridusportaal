@@ -320,28 +320,18 @@ abstract class KeyFormBase extends EntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    /* @var $key \Drupal\key\Entity\Key */
-    $key = $this->entity;
+    // Allow exceptions to percolate, per EntityFormInterface.
+    $status = parent::save($form, $form_state);
 
-    // Save the key, catching exceptions.
-    try {
-      $status = $key->save();
-    }
-    catch (KeyValueNotSetException $e) {
-      drupal_set_message($this->t('The key was not saved because the key value could not be set. @message', ['@message' => $e->getMessage()]), 'error');
-      return;
-    }
-
-    $t_args = ['%name' => $key->label()];
-
+    $t_args = ['%name' => $this->entity->label()];
     if ($status == SAVED_UPDATED) {
-      drupal_set_message($this->t('The key %name has been updated.', $t_args));
+      $this->messenger()->addStatus($this->t('The key %name has been updated.', $t_args));
     }
     elseif ($status == SAVED_NEW) {
-      drupal_set_message(t('The key %name has been added.', $t_args));
+      $this->messenger()->addStatus($this->t('The key %name has been added.', $t_args));
     }
-
     $form_state->setRedirectUrl($this->entity->toUrl('collection'));
+    return $status;
   }
 
   /**
