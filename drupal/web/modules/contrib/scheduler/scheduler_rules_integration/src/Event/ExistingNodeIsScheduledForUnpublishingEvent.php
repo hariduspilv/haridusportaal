@@ -18,7 +18,7 @@ class ExistingNodeIsScheduledForUnpublishingEvent extends Event {
   /**
    * The node which is being scheduled and saved.
    *
-   * @var Drupal\node\NodeInterface
+   * @var \Drupal\node\NodeInterface
    */
   public $node;
 

@@ -54,31 +54,29 @@ class ConditionalFieldsHandlersManager extends DefaultPluginManager implements F
    * @see ConstraintManager::__construct()
    */
   public function registerDefinitions() {
-    $this->getDiscovery()->setDefinition('states_handler_string_textfield', [
-      'label' => new TranslatableMarkup('String textfield'),
-      'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
-      'type' => ['string'],
-    ]);
-    $this->getDiscovery()->setDefinition('states_handler_string_textarea', [
-      'label' => new TranslatableMarkup('String textarea'),
-      'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
-      'type' => ['string'],
-    ]);
-    $this->getDiscovery()->setDefinition('states_handler_text_textfield', [
-      'label' => new TranslatableMarkup('Text textfield'),
-      'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
-      'type' => ['string'],
-    ]);
-    $this->getDiscovery()->setDefinition('states_handler_text_textarea', [
-      'label' => new TranslatableMarkup('Text textarea'),
-      'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
-      'type' => ['string'],
-    ]);
-    $this->getDiscovery()->setDefinition('states_handler_text_textarea_with_summary', [
-      'label' => new TranslatableMarkup('Text textarea with summary'),
-      'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
-      'type' => ['string'],
-    ]);
+    $discovery = $this->getDiscovery();
+    if ( $discovery instanceof StaticDiscovery ) {
+      $discovery->setDefinition( 'states_handler_string_textfield', [
+        'label' => new TranslatableMarkup( 'String textfield' ),
+        'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
+        'type'  => [ 'string' ],
+      ] );
+      $discovery->setDefinition( 'states_handler_string_textarea', [
+        'label' => new TranslatableMarkup( 'String textarea' ),
+        'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
+        'type'  => [ 'string' ],
+      ] );
+      $discovery->setDefinition( 'states_handler_text_textfield', [
+        'label' => new TranslatableMarkup( 'Text textfield' ),
+        'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
+        'type'  => [ 'string' ],
+      ] );
+      $discovery->setDefinition( 'states_handler_text_textarea', [
+        'label' => new TranslatableMarkup( 'Text textarea' ),
+        'class' => '\Drupal\conditional_fields\Plugin\conditional_fields\handler\TextDefault',
+        'type'  => [ 'string' ],
+      ] );
+    }
   }
 
   /**
