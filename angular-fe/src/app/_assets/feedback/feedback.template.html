@@ -16,11 +16,23 @@
   <div class="comment">
     <div class="formItem">
       <formItem
+        *ngIf="values.vote"
         type="textarea"
         [(ngModel)]='values.comment'
         attr.aria-label="{{ 'feedback_comment' | translate }}"
         height="120"
+        [error]="feedbackError"
+        [errorMessage]="'feedback_comment_error' | translate"
         [title]="'feedback_comment' | translate"></formItem>
+      <formItem
+        *ngIf="!values.vote"
+        type="textarea"
+        [(ngModel)]='values.comment'
+        attr.aria-label="{{ 'feedback_comment_required' | translate }}"
+        height="120"
+        [error]="feedbackError"
+        [errorMessage]="'feedback_comment_error' | translate"
+        [title]="'feedback_comment_required' | translate"></formItem>
     </div><!--/formItem-->
     <button htm-button theme="plain" (click)="cancel()" attr.aria-label="{{ 'feedback_cancel' | translate }}">{{ 'feedback_cancel' | translate }}</button>
     <button htm-button (click)="sendVote()" attr.aria-label="{{ 'feedback_send' | translate }}">{{ 'feedback_send' | translate }}</button>

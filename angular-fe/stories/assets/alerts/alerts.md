@@ -10,6 +10,7 @@ Alerts holds all of the singular Alert components whose id's match with the Aler
 |---|---|---|---|---|
 | id | global | - | string | Alert list identifier
 | small | false | true, false | boolean | If set to 'true' then the alert list uses smalle paddings and icons 
+| closeMs | ~ | - | number | Duration for how long until alert closes (ms)
 
 ### Alert
 
@@ -21,7 +22,8 @@ Alert is one single alert entity
 | type | - | Warning, Error, Success, Info | AlertType | Set which type of an alert will be shown
 | id | 'global' | - | string | Set which alert block will the alert be shown in
 | closeable | true | true, false | boolean | If set to 'true' then alert can be closed/removed
-| httpStatus | - | - | number | If showing request errors by HTTP Status, add status code, so there are no duplicate messages
+| category | - | - | number | No duplicate messages for same id
+| link | - | - | Object | Adds link instead of close button
 
 ```js
 enum AlertType {
@@ -55,7 +57,7 @@ Quick methods
 const classMethod = (arg) => {
   ...
     //quick methods
-    this.alertsService.info('message'); //info to global
+    this.alertsService.info('message', 'global'); //info to global
     this.alertsService.success('message', 'ALERTS_BLOCK_ID'); //success to ALERTS_BLOCK_ID alert list
     this.alertsService.error('message', 'ALERTS_BLOCK_ID', false); //ALERTS_BLOCK_ID, not closable
     this.alertsService.warning('message', 'ALERTS_BLOCK_ID');
@@ -74,7 +76,11 @@ const classMethod = (arg) => {
         type: NotificationType.Error,
         id: 'global',
         closeable: true,
-        httpStatus: 404,
+        category: 'ETA-3',
+        link: {
+          url: '/töölaud/taotlused',
+          label: 'Vaata oma töölauda',
+        }
       })
     );
   ...

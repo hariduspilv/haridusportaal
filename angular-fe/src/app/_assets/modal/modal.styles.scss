@@ -19,6 +19,7 @@
 			z-index: 1000;
 		}
 		&__block {
+			outline: none;
 			transition: transform 0.25s;
 			transform: translateY(-4rem);
 			max-height: 90vh;
@@ -85,6 +86,11 @@
 	@include break-on(sm, max) {
 		.modal__block {
 			min-width: 30rem;
+		}
+	}
+	@include break-on(md, min) {
+		.modal__block {
+			margin: auto 0;
 		}
 	}
 	@include break-on(xxs, max) {

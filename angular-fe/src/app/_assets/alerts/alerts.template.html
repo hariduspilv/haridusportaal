@@ -1,12 +1,17 @@
 <ng-container *ngFor="let alert of alerts">
-  <div [ngClass]="'alert alert--' + alert.type" role="alert" aria-label="alert"> 
+  <div @transform [ngClass]="'alert alert--' + alert.type" role="alert" aria-label="alert"> 
     <div class="alert__icon">
       <icon glyph="{{alertIcons[alert.type]}}" [size]="small ? 'medium' : 'large'"></icon>
     </div>
-    <!-- <p>{{alert.message | translate}}</p> -->
-    <p>{{alert.message}}</p>
-    <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
+    <ng-container *ngIf="!alert.link">
+      <p>{{ alert.message }}</p>
+      <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
         <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
-    </button>
+      </button>
+    </ng-container>
+    <div class="alert__column" *ngIf="alert.link && alert.link.url">
+      <p>{{ alert.message }}</p>
+      <a class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
+    </div>
   </div>
 </ng-container>

@@ -3,7 +3,7 @@
 ## Usage
 
 ```html
-<sidebar [data]="data"></sidebar>
+<sidebar [data]='data'></sidebar>
 ```
 
 ## Sidebar properties
@@ -11,29 +11,39 @@
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | data | - | - | object | Request data
+| feedbackNid | - | - | string | feedback for smaller screens (Nid: page node id)
 
 ```javascript
 const data = {
-  "fieldNeutral": [
-    "Neurtaalne 1"
-  ],
-  "fieldCons": [
-    "Miinus 1",
-    "Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Keemik-õhkaja Majandusministeeriumis ekspeks"
-  ],
-  "fieldJobOpportunities": [
+  favourites: [
     {
-      "url": {
-        "path": "/uudised",
-        "routed": true
+      entity: {
+        entityAccess: false,
+        entityLabel: 'Artikkel mugudest',
+        entityUrl: { path: '/artiklid/artikkel-mugudest' },
       },
-      "title": "Lingi tekst"
+      targetId: 48788,
+    },
+  ],
+  fieldNeutral: [
+    'Neurtaalne 1',
+  ],
+  fieldCons: [
+    'Miinus 1',
+  ],
+  fieldJobOpportunities: [
+    {
+      url: {
+        path: '/uudised',
+        routed: true,
+      },
+      title: 'Lingi tekst',
     }
   ],
-  "reverseOskaMainProfessionOskaFillingBarEntity": {
-    "entities": [
+  reverseOskaMainProfessionOskaFillingBarEntity: {
+    entities: [
       {
-        "value": "4"
+        value: '4',
       }
     ]
   },

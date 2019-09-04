@@ -55,8 +55,11 @@ import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
 import { ShareComponent } from './share';
 import { ClipboardService } from 'ngx-clipboard';
 import { LabelsComponent } from './labels';
+import { FavouriteComponent } from './favourite';
+import { LabeledSeparatorComponent } from './labeled-separator';
+import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 
-const pipes =  [LegendCurrencyPipe, EuroCurrencyPipe];
+const pipes =  [LegendCurrencyPipe, EuroCurrencyPipe, LocaleNumberPipe];
 
 const declarations = [
   BlockComponent,
@@ -99,6 +102,8 @@ const declarations = [
   MapComponent,
   ShareComponent,
   LabelsComponent,
+  FavouriteComponent,
+  LabeledSeparatorComponent,
 ];
 
 const exports = [
@@ -106,7 +111,6 @@ const exports = [
 ];
 
 const providers = [
-  AlertsService,
   EmbedVideoService,
   RippleService,
   { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
@@ -118,7 +122,7 @@ const providers = [
 
 @NgModule({
   providers,
-  declarations: [...declarations, pipes],
+  declarations: [...declarations, ...pipes],
   imports: [
     CommonModule,
     RouterModule,

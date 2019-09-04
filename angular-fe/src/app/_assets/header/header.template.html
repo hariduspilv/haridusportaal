@@ -28,26 +28,35 @@
     </div>
     <div class="header__actions">
       <button htm-button 
-        (click)="modalService.open('search')"
+        [class.active]="modalService.modalOpened['search']"
+        (click)="modalService.toggle('search')"
         theme="plain"
         attr.aria-label="{{ 'button.search' | translate }}">
         <icon aria-hidden="true" glyph="search" size="medium"></icon>
       </button>
       <button htm-button
-        (click)="modalService.open('login')"
+        [class.active]="modalService.modalOpened['login']"
+        (click)="modalService.toggle('login')"
         theme="plain"
         attr.aria-label="{{ 'button.login' | translate }}">
-        <icon aria-hidden="true" glyph="user" size="medium"></icon>
-        <span>{{ 'button.login' | translate }}</span>
+        <ng-container *ngIf="loginStatus else other;">
+          <div class="label--logged">
+            <icon aria-hidden="true" glyph="user" size="medium"></icon>
+            <span>{{ user }}</span>
+          </div>
+        </ng-container>
+        <ng-template #other>
+          <icon aria-hidden="true" glyph="user" size="medium"></icon>
+          <span>{{ 'button.login' | translate }}</span>
+        </ng-template>
       </button>
     </div>
   </div>
 </div>
-<htm-modal id="search" title="Otsing" [bottomAction]="false">
+<htm-modal id="search" title="{{ 'button.search' | translate }}" [bottomAction]="false">
   <modal-content id="search" *ngIf="modalService.modalOpened['search']">
     <formItem
       type="text"
-      placeholder="Märksõna"
       [(ngModel)]="search"
       title="Märksõna">
     </formItem>
@@ -59,8 +68,52 @@
     </button>
   </modal-content>
 </htm-modal>
-<htm-modal id="login" title="Login">
+<htm-modal id="login" title="{{ 'button.login' | translate }}" [bottomAction]="false">
   <modal-content id="login" *ngIf="modalService.modalOpened['login']">
-    Loogika
+    <div class="login__wrapper">
+      <div class="login__method">
+        <button htm-button>{{ 'login_harid' | translate }}</button>
+      </div>
+      <labeled-separator type="login" label="või"></labeled-separator>
+      <div class="login__method">
+        <button htm-button>{{ 'login_tara' | translate }}</button>
+      </div>
+      <labeled-separator type="login" label="või"></labeled-separator>
+      <div class="login__method">
+        <div>
+          <h2>{{ 'login_mobile' | translate }}</h2>
+        </div>
+        <div>
+          <formItem
+            type="text"
+            [(ngModel)]="phone"
+            title="{{ 'dashboard.contactPhone' | translate }}">
+          </formItem>
+        </div>
+        <div>
+          <button htm-button>{{ 'button.login' | translate }}</button>
+        </div>
+      </div> 
+      <labeled-separator type="login" label="või"></labeled-separator>
+      <div class="login__method">
+        <div>
+          <formItem
+            type="text"
+            [(ngModel)]="username"
+            title="{{ 'login.username' | translate }}">
+          </formItem>
+        </div>
+        <div>
+          <formItem
+            type="text"
+            [(ngModel)]="phone"
+            title="{{ 'login.password' | translate }}">
+          </formItem>
+        </div>
+        <div>
+          <button (blur)="modalService.focusLock()" htm-button>{{ 'button.login' | translate }}</button>
+        </div>
+      </div>
+    </div>
   </modal-content>
 </htm-modal>

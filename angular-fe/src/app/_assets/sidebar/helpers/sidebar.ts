@@ -16,6 +16,7 @@ export const collection = {
   'fieldSchoolLocation': 'location',
   'reverseOskaMainProfessionOskaIndicatorEntity': 'facts',
   'reverseOskaMainProfessionOskaFillingBarEntity': 'progress',
+  'favourites': 'links',
 }
 
 export const uniformTypes = {
