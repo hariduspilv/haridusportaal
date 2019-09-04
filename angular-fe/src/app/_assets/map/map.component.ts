@@ -40,7 +40,7 @@ export class MapComponent {
   private polygonLayer: string = 'county';
   private defaultMapOptions: any = conf.defaultMapOptions;
   private polygonIcon = {
-    url: '',
+    url: '/storybook/static/marker.svg',
     scaledSize: {
       width: 0,
       height: 0,
