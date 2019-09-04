@@ -1,16 +1,25 @@
 export default {
   api_prefix: 'https://htm.wiseman.ee/',
+  defaultPolygonColors: [
+    '#FBE5C4',
+    '#FBD291',
+    '#F8B243',
+    '#F89229',
+    '#E2770D',
+    '#D5401A',
+    '#8B2F17',
+  ],
   defaultMapOptions: {
     center: {
       lat: 58.5822061,
       lng: 24.7065513,
     },
     zoom: 7.4,
-    icon: '../../../assets/img/marker.svg',
+    icon: '/static/marker.svg',
     clusterStyles: [
       {
         textColor: '#FFFFFF',
-        url: '../../../assets/img/cluster.svg',
+        url: '/static/cluster.svg',
         height: 50,
         width: 28,
       },
