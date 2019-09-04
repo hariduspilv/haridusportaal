@@ -4,3 +4,4 @@ export * from './ngbDateParser';
 export * from './ModalService';
 export * from './SidemenuService';
 export * from './SidebarService';
+export * from './FieldVaryService';

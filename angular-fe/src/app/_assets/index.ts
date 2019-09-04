@@ -4,7 +4,7 @@ import {
   BlockContentComponent,
   BlockTitleComponent,
   BlockTabsComponent,
- } from './block';
+} from './block';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './button';
 import { LoaderComponent } from './loader';
@@ -26,11 +26,14 @@ import {
   AlertsService,
   SidemenuService,
   SidebarService,
-  ModalService } from '@app/_services';
+  ModalService,
+  FieldVaryService
+} from '@app/_services';
 import {
   NgbDatepickerModule,
   NgbTooltipModule,
-  NgbDateParserFormatter } from '@ng-bootstrap/ng-bootstrap';
+  NgbDateParserFormatter
+} from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
@@ -41,10 +44,12 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
 import { BaseLayout } from './base-layout';
 import { ArticleLayout } from './article-layout';
-import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
+import {
+  SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
-  SidebarProgressComponent, SidebarRegisterComponent} from './sidebar';
+  SidebarProgressComponent, SidebarRegisterComponent
+} from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
 import { AgmCoreModule } from '@agm/core';
@@ -56,8 +61,15 @@ import { LabelsComponent } from './labels';
 import { FavouriteComponent } from './favourite';
 import { LabeledSeparatorComponent } from './labeled-separator';
 import { ListItemComponent } from './listItem/listItem.component';
+import { MonthsToYearsPipe } from '@app/_pipes/monthsToYears.pipe';
+import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
+import { UrlPipe } from '@app/_pipes/url.pipe';
 
-const pipes = [];
+const pipes = [
+  MonthsToYearsPipe,
+  RemoveProtocolPipe,
+  UrlPipe,
+];
 
 const declarations = [
   BlockComponent,
@@ -103,6 +115,9 @@ const declarations = [
   FavouriteComponent,
   LabeledSeparatorComponent,
   ListItemComponent,
+  MonthsToYearsPipe,
+  RemoveProtocolPipe,
+  UrlPipe,
 ];
 
 const exports = [
@@ -117,6 +132,7 @@ const providers = [
   SidemenuService,
   SidebarService,
   ClipboardService,
+  FieldVaryService,
 ];
 
 @NgModule({

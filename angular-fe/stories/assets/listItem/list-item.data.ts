@@ -1,202 +1,128 @@
 // tslint:disable
-export const data = [{
-  "firstname": 'T\u00f5nis'
-}, {
-  "firstname": 'Helju'
-}, {
-  "firstname": 'Beatrice'
-}, {
-  "firstname": 'Miron'
-}, {
-  "firstname": 'Heiki'
-}, {
-  "firstname": 'Evald-Enar'
-}, {
-  "firstname": 'Evald'
-}, {
-  "firstname": 'Timofei'
-}, {
-  "firstname": 'Tiiu'
-}, {
-  "firstname": 'Raigo'
-}, {
-  "firstname": 'Selma'
-}, {
-  "firstname": 'Marilin'
-}, {
-  "firstname": 'Viljar'
-}, {
-  "firstname": 'Amalie'
-}, {
-  "firstname": 'Lucy-Lili'
-}, {
-  "firstname": 'Dzintar'
-}, {
-  "firstname": 'Einike'
-}, {
-  "firstname": 'Gerda'
-}, {
-  "firstname": 'Flora'
-}, {
-  "firstname": 'Aide'
-}, {
-  "firstname": 'Ainikki-Dea'
-}, {
-  "firstname": 'Villem'
-}, {
-  "firstname": 'Heiko'
-}, {
-  "firstname": 'Helar'
-}, {
-  "firstname": 'Flora'
-}, {
-  "firstname": 'Venno'
-}, {
-  "firstname": 'Miia-Eline'
-}, {
-  "firstname": 'Liliana'
-}, {
-  "firstname": 'Mats'
-}, {
-  "firstname": 'Alvar-Vladislav'
-}, {
-  "firstname": 'Hubert'
-}, {
-  "firstname": 'Jakob'
-}, {
-  "firstname": 'Alfred'
-}, {
-  "firstname": 'Keity'
-}, {
-  "firstname": 'Ebba-Erge'
-}, {
-  "firstname": 'Laina-Erle'
-}, {
-  "firstname": 'Rauno'
-}, {
-  "firstname": 'Maimo'
-}, {
-  "firstname": 'Joosep'
-}, {
-  "firstname": 'Ella'
-}, {
-  "firstname": 'Flora'
-}, {
-  "firstname": 'Tanel'
-}, {
-  "firstname": 'Aleksandra'
-}, {
-  "firstname": 'Aba-Helerin'
-}, {
-  "firstname": 'Veiko'
-}, {
-  "firstname": 'Gertrude'
-}, {
-  "firstname": 'Eero'
-}, {
-  "firstname": 'Helve'
-}, {
-  "firstname": 'Mihhail'
-}, {
-  "firstname": 'Halliki-Heleriin'
-}, {
-  "firstname": 'Valter'
-}, {
-  "firstname": 'Marleen'
-}, {
-  "firstname": 'Hannes'
-}, {
-  "firstname": 'Ain'
-}, {
-  "firstname": 'Charlotta'
-}, {
-  "firstname": 'Nils'
-}, {
-  "firstname": 'Gerli'
-}, {
-  "firstname": 'Jane'
-}, {
-  "firstname": 'Noora'
-}, {
-  "firstname": 'Jaune'
-}, {
-  "firstname": 'Ronja'
-}, {
-  "firstname": 'Meila'
-}, {
-  "firstname": 'Maila'
-}, {
-  "firstname": 'Dea'
-}, {
-  "firstname": 'Evelyn'
-}, {
-  "firstname": 'Ingeborg'
-}, {
-  "firstname": 'Pirjo'
-}, {
-  "firstname": 'Rudolf'
-}, {
-  "firstname": 'Ando'
-}, {
-  "firstname": 'Leo-Wittekind'
-}, {
-  "firstname": 'Valerjan-Tarvi'
-}, {
-  "firstname": 'Hanna'
-}, {
-  "firstname": 'Aigar'
-}, {
-  "firstname": 'Erle'
-}, {
-  "firstname": 'Heilika'
-}, {
-  "firstname": 'Ralf'
-}, {
-  "firstname": 'Laili'
-}, {
-  "firstname": 'Evely-Janeli'
-}, {
-  "firstname": 'Natalia'
-}, {
-  "firstname": 'Inna-Katre'
-}, {
-  "firstname": 'Koit'
-}, {
-  "firstname": 'Hulda-Kairi'
-}, {
-  "firstname": 'Kevin'
-}, {
-  "firstname": 'Eveliin'
-}, {
-  "firstname": '\u00dclari'
-}, {
-  "firstname": 'Peedu'
-}, {
-  "firstname": 'Herta'
-}, {
-  "firstname": 'Raider'
-}, {
-  "firstname": 'Argo'
-}, {
-  "firstname": 'Kliment'
-}, {
-  "firstname": 'Maiga'
-}, {
-  "firstname": 'R\u00fcnno-Kalev'
-}, {
-  "firstname": 'Katrin'
-}, {
-  "firstname": 'Vjat\u0161eslav-Artjom'
-}, {
-  "firstname": 'Eimar'
-}, {
-  "firstname": 'Elvis'
-}, {
-  "firstname": 'Lisandra'
-}, {
-  "firstname": 'Marin'
-}, {
-  "firstname": 'Ahto'
-}, {
-  "firstname": 'Enn'
-}];
+export const list = {
+  "studyProgramme": [
+    {
+      "nid": 54671,
+      "entityLabel": "500-se ja suurema kogumahutavusega laeva vahit\u00fc\u00fcrimees",
+      "entityUrl": {
+        "path": "\/erialad\/500-se-ja-suurema-kogumahutavusega-laeva-vahit\u00fc\u00fcrimees-0"
+      },
+      "fieldSchoolWebsite": "http:\/\/www.merekool.ee",
+      "fieldSpecialization": "m\u00e4\u00e4ramata",
+      "fieldDegreeOrDiplomaAwarded": null,
+      "fieldShortDescription": null,
+      "fieldSchoolAddress": "Kopli tn 101, P\u00f5hja-Tallinna linnaosa, Tallinn, Harju maakond",
+      "fieldEducationalInstitution": {
+        "entity": {
+          "entityLabel": "Eesti Merekool",
+          "fieldSchoolContactEmail": "eesti.merekool@merekool.ee",
+          "fieldSchoolContactPhone": "6135483",
+          "entityId": "42787"
+        }
+      },
+      "fieldTeachingLanguage": [
+        {
+          "entity": {
+            "entityLabel": "eesti keel"
+          }
+        }
+      ],
+      "fieldStudyProgrammeType": {
+        "entity": {
+          "tid": 1408,
+          "entityLabel": "Kutsehariduse \u00f5ppekava"
+        }
+      },
+      "fieldDuration": 28,
+      "fieldAdmissionStatus": "Avatud",
+      "fieldAccreditationStatus": null,
+      "fieldAccreditationValidUntil": null,
+      "fieldStudyProgrammeLevel": {
+        "entity": {
+          "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
+        }
+      },
+      "fieldIscedfBoard": {
+        "entity": {
+          "entityLabel": "Teenindus"
+        }
+      },
+      "fieldIscedfDetailed": {
+        "entity": {
+          "entityLabel": "Transporditeenused"
+        }
+      },
+      "fieldIscedfNarrow": {
+        "entity": {
+          "entityLabel": "Transporditeenused"
+        }
+      }
+    },
+  ],
+  "school": [
+    {
+      "Nid": "43487",
+      "FieldSchoolName": "\u0022Edu Valem\u0022 Erakool",
+      "FieldSchoolWebpageAddress": "http:\/\/kool.eraharidus.ee",
+      "FieldSchoolContactPhone": "+37258000033",
+      "FieldSchoolContactEmail": "kool@eraharidus.ee",
+      "FieldSpecialClass": "0",
+      "FieldStudentHome": "0",
+      "FieldTeachingLanguage": "vene keel",
+      "FieldOwnershipType": "Eraomand",
+      "FieldEducationalInstitutionTy": "\u00dcldharidusasutus, P\u00f5hikool",
+      "FieldAddress": "Tartu mnt 23, Kesklinna linnaosa, Tallinn, Harju maakond",
+      "Lat": "59.433569345107",
+      "Lon": "24.762786765357",
+      "EntityPath": "\/kool\/edu-valem-erakool"
+    },
+  ],
+  "news":[
+                 {
+                    "entityLabel":"Haridus- ja teadusminister Mailis Repsi kooliaasta alguse tervitus",
+                    "created":1563799160,
+                    "entityUrl":{
+                       "path":"\/uudised\/juuli-uudis",
+                       "languageSwitchLinks":[
+                          {
+                             "active":true,
+                             "title":"Estonian"
+                          },
+                          {
+                             "active":false,
+                             "title":"English"
+                          }
+                       ]
+                    },
+                    "fieldShortDescription":"Haridus- ja teadusminister Mailis Reps soovib algava kooliaasta alguse puhul õpilastele rõõmsat ja õhinat täis kooliaastat, mis tooks palju tarkust.",
+                    "fieldAuthor":"TWN",
+                    "fieldIntroductionImage":{
+                       "derivative":{
+                          "url":"http:\/\/htm.wiseman.ee\/sites\/default\/files\/styles\/crop_small\/public\/2019-07\/koer-retriiver-bokeh-lumi-talv-kapuuts.jpg?h=1d4b4ebd\u0026itok=5NHInAKT"
+                       },
+                       "alt":"Alt tekst",
+                       "title":"koer"
+                    },
+                    "fieldTag":[
+                       {
+                          "entity":{
+                             "entityLabel":"kala",
+                             "tid":2445
+                          }
+                       },
+                       {
+                          "entity":{
+                             "entityLabel":"kaos",
+                             "tid":2441
+                          }
+                       },
+                       {
+                          "entity":{
+                             "entityLabel":"\u00f5petajate p\u00e4ev",
+                             "tid":2582
+                          }
+                       }
+                    ]
+                 },
+              ],
+};

@@ -3,7 +3,7 @@ import { AssetsModule } from '@app/_assets';
 import listItemMd from './list-item.md';
 import listItemHtml from './list-item.html';
 import { TranslateModule } from '@app/_modules/translate';
-import { data } from './list-item.data';
+import { list } from './list-item.data';
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -18,7 +18,7 @@ stories.add('List item', () => {
   return {
     moduleMetadata,
     props: {
-      data,
+      list,
     },
     template: listItemHtml,
   };
