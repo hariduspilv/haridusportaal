@@ -15,11 +15,11 @@ export default {
       lng: 24.7065513,
     },
     zoom: 7.4,
-    icon: '/static/storybook/marker.svg',
+    icon: '/storybook/static/marker.svg',
     clusterStyles: [
       {
         textColor: '#FFFFFF',
-        url: '/static/storybook/cluster.svg',
+        url: '/storybook/static/cluster.svg',
         height: 50,
         width: 28,
       },
