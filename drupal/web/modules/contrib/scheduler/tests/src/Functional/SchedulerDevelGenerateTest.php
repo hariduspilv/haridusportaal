@@ -6,6 +6,10 @@ namespace Drupal\Tests\scheduler\Functional;
  * Tests the Scheduler interaction with Devel Generate module.
  *
  * @group scheduler
+ * @group legacy
+ * @todo Remove the 'legacy' tag when Devel no longer uses the deprecated
+ * $published parameter for setPublished(), and does not use functions
+ * drupal_set_message(), format_date() and db_query_range().
  */
 class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
 
@@ -57,19 +61,19 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
    */
   protected function countScheduledNodes($type, $field, $num_nodes, $num_scheduled, $time_range = NULL) {
     // Check that the expected number of nodes have been created.
-    $count = \Drupal::entityQuery('node')
+    $count = $this->nodeStorage->getQuery()
       ->condition('type', $type)
       ->count()
       ->execute();
-    $this->assertEqual($count, $num_nodes, sprintf('The expected number of %s is %s, found %s', $type, $num_nodes, $count));
+    $this->assertEquals($num_nodes, $count, sprintf('The expected number of %s is %s, found %s', $type, $num_nodes, $count));
 
     // Check that the expected number of nodes have been scheduled.
-    $count = \Drupal::entityQuery('node')
+    $count = $this->nodeStorage->getQuery()
       ->condition('type', $type)
       ->exists($field)
       ->count()
       ->execute();
-    $this->assertEqual($count, $num_scheduled, sprintf('The expected number of scheduled %s is %s, found %s', $field, $num_scheduled, $count));
+    $this->assertEquals($num_scheduled, $count, sprintf('The expected number of scheduled %s is %s, found %s', $field, $num_scheduled, $count));
 
     if (isset($time_range)) {
       // Define the minimum and maximum times that we expect the scheduled dates
@@ -78,10 +82,10 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
       // slowly creep forward during sucessive calls. Tests can fail incorrectly
       // for this reason, hence the best approximation is to use time() when
       // calculating the upper end of the range.
-      $min = REQUEST_TIME - $time_range;
+      $min = $this->requestTime - $time_range;
       $max = time() + $time_range;
 
-      $query = \Drupal::entityQueryAggregate('node');
+      $query = $this->nodeStorage->getAggregateQuery();
       $result = $query
         ->condition('type', $type)
         ->aggregate($field, 'min')
@@ -91,8 +95,8 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
       $max_found = $result[0]["{$field}_max"];
 
       // Assert that the found values are within the expcted range.
-      $this->assertGreaterThanOrEqual($min, $min_found, sprintf('The minimum value for %s is %s, smaller than the expected %s', $field, format_date($min_found, 'custom', 'j M, H:i:s'), format_date($min, 'custom', 'j M, H:i:s')));
-      $this->assertLessThanOrEqual($max, $max_found, sprintf('The maximum value for %s is %s which is larger than expected %s', $field, format_date($max_found, 'custom', 'j M, H:i:s'), format_date($max, 'custom', 'j M, H:i:s')));
+      $this->assertGreaterThanOrEqual($min, $min_found, sprintf('The minimum value for %s is %s, smaller than the expected %s', $field, $this->dateFormatter->format($min_found, 'custom', 'j M, H:i:s'), $this->dateFormatter->format($min, 'custom', 'j M, H:i:s')));
+      $this->assertLessThanOrEqual($max, $max_found, sprintf('The maximum value for %s is %s which is larger than expected %s', $field, $this->dateFormatter->format($max_found, 'custom', 'j M, H:i:s'), $this->dateFormatter->format($max, 'custom', 'j M, H:i:s')));
     }
   }
 

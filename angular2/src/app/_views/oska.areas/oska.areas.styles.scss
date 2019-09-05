@@ -27,6 +27,7 @@
   mat-panel-title {font-size: $small; text-decoration: none; color: $black;}
   .accordion {padding: 0; padding-bottom: 1rem;
     &--list {
+      margin-top: 1.5rem;
       ::ng-deep .mat-expansion-panel-body { padding: 0 !important; }
       ::ng-deep .mat-expansion-panel-content {padding: 0;}
       .mat-accordion .mat-expansion-panel-spacing:last-child  {

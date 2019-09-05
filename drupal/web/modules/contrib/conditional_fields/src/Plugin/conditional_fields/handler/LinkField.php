@@ -145,7 +145,7 @@ class LinkField extends ConditionalFieldsHandlerBase {
    *   Values for triggering events.
    */
   public function getWidgetValue(array $value_form) {
-    return $value_form[0]['uri'];
+    return isset($value_form[0]) && isset($value_form[0]['uri']) ? $value_form[0]['uri'] : '';
   }
 
 }

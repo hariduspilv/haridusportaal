@@ -2,12 +2,12 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
  * Base setup for ConditionalField tests.
  */
-abstract class ConditionalFieldTestBase extends JavascriptTestBase {
+abstract class ConditionalFieldTestBase extends WebDriverTestBase {
 
   /**
    * Path to create screenshot.
@@ -69,7 +69,7 @@ abstract class ConditionalFieldTestBase extends JavascriptTestBase {
    *   (Optional) Message to pass to assertJsCondition().
    */
   protected function waitUntilVisible($selector, $timeout = 1000, $message = '') {
-    $condition = "jQuery('{$selector}').is(':visible');";
+    $condition = "jQuery('{$selector}').is(':visible');console.log(jQuery('{$selector}'))";
     $this->assertJsCondition($condition, $timeout, $message);
   }
 
@@ -124,14 +124,14 @@ abstract class ConditionalFieldTestBase extends JavascriptTestBase {
       'table[add_new_dependency][condition]' => $condition,
     ];
     $this->submitForm($edit, 'Add dependency');
-    $this->assertSession()->statusCodeEquals(200);
+    //the Status code not supported on WebDriverTestBase since 8.4 core. See more information on See https://www.drupal.org/node/2857562
   }
 
   /**
    * Base steps for all javascript tests.
    */
   protected function baseTestSteps() {
-    $admin_account = $this->drupalCreateUser([
+    $admin_account = $this->createUser([
       'view conditional fields',
       'edit conditional fields',
       'delete conditional fields',
@@ -139,25 +139,28 @@ abstract class ConditionalFieldTestBase extends JavascriptTestBase {
       'create article content',
       'administer content types',
     ]);
-    $this->drupalLogin($admin_account);
+
+    $this->drupalLogin( $admin_account );
 
     // Visit a ConditionalFields configuration page that requires login.
     $this->drupalGet('admin/structure/conditional_fields');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Configuration page contains the `Content` entity type.
     $this->assertSession()->pageTextContains('Content');
 
+    // Content link exists
+    $this->assertSession()->linkByHrefExists( '/admin/structure/conditional_fields/node');
+
     // Visit a ConditionalFields configuration page for Content bundles.
     $this->drupalGet('admin/structure/conditional_fields/node');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Configuration page contains the `Article` bundle of Content entity type.
     $this->assertSession()->pageTextContains('Article');
+    $this->assertSession()->linkByHrefExists( 'admin/structure/conditional_fields/node/article');
 
     // Visit a ConditionalFields configuration page for Article CT.
     $this->drupalGet('admin/structure/conditional_fields/node/article');
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertSession()->pageTextContains('Target field');
   }
 
 }

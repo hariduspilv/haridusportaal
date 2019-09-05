@@ -18,7 +18,7 @@ class SchedulerPublishOnConstraintValidator extends ConstraintValidator {
     $default_publish_past_date = \Drupal::config('scheduler.settings')->get('default_publish_past_date');
     $scheduler_publish_past_date = $entity->getEntity()->type->entity->getThirdPartySetting('scheduler', 'publish_past_date', $default_publish_past_date);
 
-    if ($publish_on && $scheduler_publish_past_date == 'error' && $publish_on < REQUEST_TIME) {
+    if ($publish_on && $scheduler_publish_past_date == 'error' && $publish_on < \Drupal::time()->getRequestTime()) {
       $this->context->buildViolation($constraint->messagePublishOnDateNotInFuture)
         ->atPath('publish_on')
         ->addViolation();

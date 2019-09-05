@@ -4,6 +4,8 @@ namespace Drupal\scheduler\Controller;
 
 use Drupal\Core\Access\AccessResult;
 use Drupal\Core\Controller\ControllerBase;
+use Drupal\scheduler\SchedulerManager;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -14,17 +16,41 @@ use Symfony\Component\HttpFoundation\Response;
 class LightweightCronController extends ControllerBase {
 
   /**
+   * The scheduler manager.
+   *
+   * @var \Drupal\scheduler\SchedulerManager
+   */
+  protected $schedulerManager;
+
+  /**
+   * LightweightCronController constructor.
+   *
+   * @param \Drupal\scheduler\SchedulerManager $scheduler_manager
+   *   The scheduler manager.
+   */
+  public function __construct(SchedulerManager $scheduler_manager) {
+    $this->schedulerManager = $scheduler_manager;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+      $container->get('scheduler.manager')
+    );
+  }
+
+  /**
    * Index.
    *
-   * @return \Symfony\Component\HttpFoundation\RedirectResponse
-   *   RedirectResponse.
+   * @return \Symfony\Component\HttpFoundation\Response
+   *   The http response.
    */
   public function index() {
-    // @TODO: \Drupal calls should be avoided in classes.
-    // Replace \Drupal::service with dependency injection?
-    \Drupal::service('scheduler.manager')->runLightweightCron();
+    $this->schedulerManager->runLightweightCron();
 
-    return new Response('', 204);
+    return new Response('', Response::HTTP_NO_CONTENT);
   }
 
   /**
@@ -37,9 +63,7 @@ class LightweightCronController extends ControllerBase {
    *   The access result.
    */
   public function access($cron_key) {
-    // @TODO: \Drupal calls should be avoided in classes.
-    // Replace \Drupal::config with dependency injection?
-    $valid_cron_key = \Drupal::config('scheduler.settings')
+    $valid_cron_key = $this->config('scheduler.settings')
       ->get('lightweight_cron_access_key');
     return AccessResult::allowedIf($valid_cron_key == $cron_key);
   }

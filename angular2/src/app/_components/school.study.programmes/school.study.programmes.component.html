@@ -3,7 +3,7 @@
   <div *ngFor="let programme of programmes;let first = first;let last = last;" [class.sm-top]="first" [class.lg-bottom]="last" class="programme">
     <div class="programme-header">
       <div>
-        <div class="programme-header__head sm-hide" *ngIf="programme.fieldStudyProgrammeLevel">{{ programme.fieldStudyProgrammeLevel.entity.name }}</div>
+        <div class="programme-header__head sm-hide" *ngIf="programme.fieldStudyProgrammeLevel && programme.fieldStudyProgrammeLevel.entity">{{ programme.fieldStudyProgrammeLevel.entity.name }}</div>
         <span>
           <a class="programme-header__title" routerLink="{{programme.entityUrl.path}}">{{ programme.title }}</a>
           <div class="nonActive--blue sm-hide" *ngIf="programme.fieldAdmissionStatus !== 'avatud' && programme.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</div>

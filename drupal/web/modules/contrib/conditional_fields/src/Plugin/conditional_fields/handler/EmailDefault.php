@@ -18,7 +18,7 @@ class EmailDefault extends ConditionalFieldsHandlerBase {
    */
   public function statesHandler($field, $field_info, $options) {
     $state = [];
-    $values_array = !empty($options['values']) ? explode("\r\n", $options['values']) : '';
+    $values_array = $this->getConditionValues( $options );
 
     // Email fields values are keyed by cardinality, so we have to flatten them.
     // TODO: support multiple values.
@@ -39,10 +39,13 @@ class EmailDefault extends ConditionalFieldsHandlerBase {
         $state[$options['state']][$options['selector']] = $values;
         break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
-        $state[$options['state']][] = 'xor';
+        $values[$options['condition']] = ['xor' => $values_array];
+        $state[$options['state']][$options['selector']] = $values;
+        break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+        $options['state'] = '!' . $options['state'];
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
-        if (is_array($values_array)) {
+        if (! empty($values_array)) {
           foreach ($values_array as $value) {
             $input_states[$options['selector']][] = ['value' => $value];
           }

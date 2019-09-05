@@ -17,7 +17,7 @@ class SchedulerHasPublishedThisNodeEvent extends Event {
   /**
    * The node which has been processed.
    *
-   * @var Drupal\node\NodeInterface
+   * @var \Drupal\node\NodeInterface
    */
   public $node;
 
