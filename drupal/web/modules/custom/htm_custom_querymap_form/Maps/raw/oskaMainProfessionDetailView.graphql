@@ -151,6 +151,22 @@ query oskaMainProfessionDetailView($path: String!) {
                           }
                         }
                       }
+                      iscedf_broad: fieldIscedfBroad{
+                        entity{
+                          ... on TaxonomyTermIscedF{
+                            entityId
+                            entityLabel
+                          }
+                        }
+                      }
+                      iscedf_narrow: fieldIscedfNarrow{
+                        entity{
+                          ... on TaxonomyTermIscedF{
+                            entityId
+                            entityLabel
+                          }
+                        }
+                      }
                       fieldLevel {
                         entity {
                           ... on TaxonomyTermStudyprogrammelevel {
