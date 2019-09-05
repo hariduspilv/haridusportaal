@@ -80,7 +80,7 @@ export class OskaAreasSidebarComponent implements OnInit {
     this.lang = this.rootScope.get('lang');
     if (this.sidebar) {
 
-      if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
+      if (this.sidebar.fieldIscedfSearchLink && (this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed || this.sidebar.fieldIscedfSearchLink.entity.iscedf_narrow || this.sidebar.fieldIscedfSearchLink.entity.iscedf_broad)) {
           this.locationPerLang = `/erialad`;
           this.learningQuery = {iscedf_detailed: [], iscedf_narrow: [], iscedf_broad: []};
 
