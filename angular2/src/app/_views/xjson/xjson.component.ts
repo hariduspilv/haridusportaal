@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
@@ -63,6 +63,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public temporaryModel = {};
   public data;
   public edit_step = false;
+  public numberOfSteps: number;
   public empty_data = false;
   public acceptable_forms = [];
   public acceptable_forms_limit = 4;
@@ -77,6 +78,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public error_alert = false;
   public error = {};
   public redirect_url;
+  public scrollableTables = {};
+  public visibleTableLength = {};
+  public viewOnlyStep: boolean;
 
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
@@ -309,6 +313,31 @@ export class XjsonComponent implements OnInit, OnDestroy {
     };
   }
 
+  scrollableTableDeterminant(label) {
+    const _opened_step = this.opened_step;
+    const _scrollableTables = this.scrollableTables;
+    if (_opened_step) {
+      setTimeout(function () {
+        const table = document.getElementById(label + 'Table');
+        const content = document.getElementById(label + 'Content');
+        _scrollableTables[label] = table.offsetWidth < content.offsetWidth ? true : false;
+      }, 0);
+    }
+  }
+
+  tableVisibleColumns(label, columns) {
+    let visibleColumns = 0;
+    const _visibleTableLength = this.visibleTableLength;
+
+    Object.values(columns).forEach((elem) => {
+      if (!elem['hidden']) {
+        visibleColumns++;
+      }
+    });
+
+    _visibleTableLength[label] = visibleColumns;
+  }
+
   scrollPositionController() {
     const _opened_step = this.opened_step;
     if (_opened_step) {
@@ -353,21 +382,25 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   getDatepickerValue(element, rowindex, col) {
-    const date = rowindex === undefined || col === undefined
+    let date = rowindex === undefined || col === undefined
       ? this.data_elements[element].value
       : this.data_elements[element].value[rowindex][col];
 
-    if (date) {
-      return moment((String(date).split('.')).reverse().join('-'));
-    } else {
-      return false;
-    }
-  }
+      if (!date) {
+        const today = new Date();
+      const dd = String(today.getDate()).padStart(2, '0');
+      const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+      const yyyy = today.getFullYear();
+      date = yyyy + '-' + mm + '-' + dd;
+      }
 
+      return moment((String(date).split('.')).reverse().join('-'));
+  }
 
   selectListCompare(a, b) {
     return a && b ? a === b : a === b;
   }
+
   isFieldDisabled(readonly): boolean {
     if (readonly === true) {
       return true;
@@ -404,6 +437,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const name = file.file_name;
     const token = sessionStorage.getItem('token');
     return this.settings.url + '/xjson_service/documentFile2/' + id + '/' + name + '?jwt_token=' + token;
+  }
+
+  stopFileUpload(element) {
+    this.fileLoading[element] = false;
   }
 
   canUploadFile(element): boolean {
@@ -466,6 +503,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.fileLoading[element] = false;
         }
         subscription.unsubscribe();
+      }, (err) => {
+        const message = err.error ? err.error.message : err.message;
+        this.error[element] = { valid: false, message };
+        this.fileLoading[element] = false;
+        subscription.unsubscribe();
       });
     };
   }
@@ -505,16 +547,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (column.default_value !== undefined) {
         newRow[col] = column.default_value;
       } else {
-        newRow[col] = null;
+          newRow[col] = null;
       }
-      if(column.type === 'address'){
-        if(!this.temporaryModel[element]){
+      if (column.type === 'address') {
+        if (!this.temporaryModel[element]) {
           this.temporaryModel[element] = {
             [col]: {
               '0': null
             }
           };
-        }else{
+        } else {
           const rowNumber = Object.keys(this.temporaryModel[element][col]).length;
           this.temporaryModel[element][col][rowNumber] = null;
         }
@@ -522,6 +564,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
     if (table.value === undefined) { table.value = []; }
     table.value.push(newRow);
+    this.scrollableTableDeterminant(element);
   }
 
   tableDeleteRow(element, rowIndex) {
@@ -558,6 +601,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
             }
           }
         }
+        this.scrollableTableDeterminant(element);
       }
       this.dialogRef = null;
     });
@@ -573,6 +617,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
     });
     this.dialogRef.afterClosed().subscribe(result => {
+      this.formLoading = true;
       if (result === true) {
         this.edit_step = true;
         this.data.header.current_step = this.opened_step;
@@ -668,6 +713,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
         const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_email')['value'] }; }
       }
+
+      if(field.type === 'iban'){
+        const reg = /^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}\d{13}|(?:BG|BH|GB|IE)\d{2}[A-Z]{4}\d{14}|GI\d{2}[A-Z]{4}\d{15}|RO\d{2}[A-Z]{4}\d{16}|KW\d{2}[A-Z]{4}\d{22}|MT\d{2}[A-Z]{4}\d{23}|NO\d{13}|(?:DK|FI|GL|FO)\d{16}|MK\d{17}|(?:AT|EE|KZ|LU|XK)\d{18}|(?:BA|HR|LI|CH|CR)\d{19}|(?:GE|DE|LT|ME|RS)\d{20}|IL\d{21}|(?:AD|CZ|ES|MD|SA)\d{22}|PT\d{23}|(?:BE|IS)\d{24}|(?:FR|MR|MC)\d{25}|(?:AL|DO|LB|PL)\d{26}|(?:AZ|HU)\d{27}|(?:GR|MU)\d{28})$/i;
+        if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_iban')['value'] }; }
+      }
     }
     return { valid: true, message: 'valid' };
   }
@@ -727,16 +777,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   submitForm(activity: string) {
-    this.formLoading = true;
     this.error = {};
 
     if (activity === 'EDIT') {
       this.promptEditConfirmation();
     } else {
+      this.formLoading = true;
       this.edit_step = false;
       this.validateForm(this.data_elements);
 
       if (Object.keys(this.error).length === 0) {
+        this.error_alert = false;
         this.data.header['activity'] = activity;
         const payload = { form_name: this.form_name, form_info: this.data };
         if (this.test === true) {
@@ -759,6 +810,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   closeError() {
     this.error_alert = false;
+  }
+
+  closeMessage(i) {
+    this.data_messages.splice(i, 1);
   }
 
   selectStep(step) {
@@ -814,6 +869,21 @@ export class XjsonComponent implements OnInit, OnDestroy {
   toggleAcceptableFormList() {
     this.acceptable_forms_list_restricted = this.acceptable_forms_list_restricted ? false : true;
     this.compileAcceptableFormList();
+  }
+
+  getStepViewStatus() {
+    this.viewOnlyStep = true;
+    for (const [label, elem] of Object.entries(this.data_elements)) {
+      if (elem['type'] === 'table') {
+        this.scrollableTableDeterminant(label);
+        this.tableVisibleColumns(label, elem['table_columns']);
+      }
+      if (elem['hidden'] || elem['readonly']) {
+        return;
+      } else {
+        this.viewOnlyStep = false;
+      }
+    }
   }
 
   promptDebugDialog(data) {
@@ -918,10 +988,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.data_messages = this.data.body.messages;
     }
 
+    if (this.data.body.steps) {
+      this.numberOfSteps = Object.keys(xjson.body.steps).length;
+    }
+
     if (this.data_elements) {
       // Count table elements and set initial settings
       Object.values(this.data_elements).forEach((elem, index) => {
-        if (elem['type'] === 'table') { this.tableIndexes.push(index); }
+        if (elem['type'] === 'table') {
+          this.tableIndexes.push(index);
+        }
       });
       this.tableIndexes.forEach((elem) => {
         this.elemAtStart[elem] = true;
@@ -941,6 +1017,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (!this.edit_step) {
         this.scrollPositionController();
       }
+
+      for (const [label, elem] of Object.entries(this.data_elements)) {
+        if (elem['type'] === 'table') {
+          this.scrollableTableDeterminant(label);
+        }
+      }
+
+      this.getStepViewStatus();
     }
 
   }
