@@ -503,6 +503,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.fileLoading[element] = false;
         }
         subscription.unsubscribe();
+      }, (err) => {
+        const message = err.error ? err.error.message : err.message;
+        this.error[element] = { valid: false, message };
+        this.fileLoading[element] = false;
+        subscription.unsubscribe();
       });
     };
   }
