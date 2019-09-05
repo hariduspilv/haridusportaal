@@ -4,7 +4,7 @@ export class FieldVaryService {
 
   public newData;
 
-  cleanDataArray(data) {
+  flattenFieldNames(data) {
 
     return data.map((item) => {
       const cleanedObject = {};
@@ -34,7 +34,7 @@ export class FieldVaryService {
 
       case 'entityLabel':
       case 'FieldSchoolName':
-        return 'label';
+        return 'title';
 
       case 'fieldStudyProgrammeLevel':
       case 'FieldEducationalInstitutionTy':

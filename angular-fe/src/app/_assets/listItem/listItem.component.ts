@@ -42,7 +42,7 @@ import { FieldVaryService, ModalService } from '@app/_services';
     public modalService: ModalService) {}
 
   ngOnInit() {
-      this.list = this.fieldVaryService.cleanDataArray(this.list);
+    this.list = this.fieldVaryService.flattenFieldNames(this.list);
   }
 
   isArray(obj : any) {
