@@ -160,7 +160,7 @@ a {
       font-size: 0.875rem;font-weight: 500;color: $black; 
     }
     
-    th, td {line-height: 1.38rem;font-size: 0.875rem;padding: .75rem 1rem;text-align:left;border: 0rem;
+    th, td {line-height: 1.38rem;font-size: 0.875rem;padding: .75rem 0.5rem;text-align:left;border: 0rem;
       &.highlighted {font-weight: 500;}
     }
     td.hidden, th.hidden {min-width:1.5rem; width: 1.5rem; background: $light-gray;padding:$gutter;}
@@ -184,8 +184,14 @@ a {
     display: none;
   }
   .dropzone { 
-    background-color: $white; border: dashed 3px $gray; border-radius: 0.25rem; position: relative; margin-bottom: 1rem; padding: 1.75rem; height: 7.25rem;
-    .dropzone-text { position: absolute; left: 0; right: 0; top: 4.5rem; text-align: center; color: $blue;
+    background-color: $white; border: dashed 3px $gray; border-radius: 0.25rem; position: relative; margin-bottom: 1rem; padding: 1.75rem; height: auto;
+    .dropzone-text {
+      position: relative;
+      left: 0;
+      right: 0;
+      top: 3rem;
+      text-align: center;
+      color: $blue;
       .dropzone-add { line-height: 2;position: relative;
         input { opacity: 0; position: absolute; left: 0; right: 0; }
       }
@@ -196,9 +202,10 @@ a {
     display: block;
     font-size: .875rem;
     color: $black;
+    @include break-on(sm, max) { display:none; }
   }
   .dropzone-description {
-    margin-top: 1rem;
+    margin: 1rem 0 2rem;
     display: block;
     font-size: 14px;
     font-style: normal;
@@ -233,7 +240,7 @@ a {
     }
   }
   
-  .round-input__field { background: transparent; }
+  .round-input__field { background: transparent; padding: 0.5rem 0 0.5rem 0.375rem;}
   input::placeholder {
     font-size: 0.875rem; color: $dark-gray;
   }
@@ -323,7 +330,7 @@ a {
     &.mat-select-value {
     height: 1.5rem; padding-top: .2rem;}
     &table .mat-select-value {
-      height: 1.5rem; padding-top: .2rem;}
+      height: 1.5rem; padding-top: 0rem;}
 }
 .xjson__component ::ng-deep .mat-select-value-text span { color: $black; }
   .xjson__component { margin-bottom: 0rem; }
@@ -347,18 +354,18 @@ a {
     .mat-datepicker-toggle { margin-top: -0.1875rem; }
     .round-input__wrapper { display: table-row-group; margin-bottom: 0rem; }
     
-    .round-input__field-wrapper { margin-top: 0; height: 2rem; border-radius: 0.25rem; min-width: 10rem; background-color: $white; border: solid 0.0625rem $gray; color: $black; font-family: 'Rubik', sans-serif;
-      input {  padding: 0.5rem 0.375rem; font-weight: 400; }
+    .round-input__field-wrapper { margin-top: 0; height: 1.875rem; border-radius: 0.25rem; width: 8rem; background-color: $white; border: solid 0.0625rem $gray; color: $black; font-family: 'Rubik', sans-serif;
+      input {  padding: 0.275rem 0.375rem; font-weight: 400; }
     }
   }
-  .scrollableTable th { padding: $gutter $small; }
-  input.contnent-input { height: 1.875rem; border-radius: 0.25rem; background-color: $white; border: solid 0.0625rem $gray; padding: 0rem 0.375rem; color: $black; font-family: 'Rubik', sans-serif; }
+  .scrollableTable th { padding: $gutter $gutter; }
+  input.contnent-input { height: 1.875rem; border-radius: 0.25rem; background-color: $white; border: solid 0.0625rem $gray; padding: 0rem 0.375rem; color: $black; font-family: 'Rubik', sans-serif; width: 8rem;}
   .xjson__component ::ng-deep input.contnent-input:disabled { border: 0px solid transparent!important; min-width: 100%; }
   .mat-input-element:disabled { color: $dark-gray; }
   .table-link { white-space: nowrap; padding: 0.5rem 1rem; }
   
-  .xjson__component ::ng-deep table .mat-select-placeholder { margin-top: 0.4rem; display: block; }
-  .xjson__component ::ng-deep table .mat-select-value-text { margin-top: 0.4rem; display: block; }
+  .xjson__component ::ng-deep table .mat-select-placeholder { margin-top: 0.275rem; display: block; }
+  .xjson__component ::ng-deep table .mat-select-value-text { margin-top: 0.275rem; display: block; }
   .helper-wrapper { width: 1.5rem }
   
   // Select Checkboxes
@@ -376,7 +383,7 @@ a {
   }
   .xjson__component ::ng-deep {
 &.mat-select-arrow { margin-top: -0.5rem!important; }
-&table .mat-select-arrow-wrapper .mat-select-arrow { margin-top: -0.25rem!important; }
+&table .mat-select-arrow-wrapper .mat-select-arrow { margin-top: 0.25rem!important; }
   }
 table .mat-input-element:disabled { color: $black; } 
   .sub-button-list {
