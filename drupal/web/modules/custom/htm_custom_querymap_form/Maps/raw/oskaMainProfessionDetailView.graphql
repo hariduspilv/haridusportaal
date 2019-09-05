@@ -167,7 +167,7 @@ query oskaMainProfessionDetailView($path: String!) {
                           }
                         }
                       }
-                      fieldLevel {
+                      level:fieldLevel {
                         entity {
                           ... on TaxonomyTermStudyprogrammelevel {
                             entityId
