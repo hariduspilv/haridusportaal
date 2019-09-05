@@ -72,18 +72,43 @@ function scheduler_form_node_form_alter(&$form, FormStateInterface $form_state) 
   $publishing_enabled = $type->getThirdPartySetting('scheduler', 'publish_enable', $config->get('default_publish_enable'));
   $unpublishing_enabled = $type->getThirdPartySetting('scheduler', 'unpublish_enable', $config->get('default_unpublish_enable'));
 
-  // If neither publishing nor unpublishing are enabled for this node type then
-  // the only thing to do is remove the fields from the form, then exit.
-  if (!$publishing_enabled && !$unpublishing_enabled) {
+  // Determine if the scheduler fields have been set to hidden (disabled).
+  $display = $form_state->getFormObject()->getFormDisplay($form_state);
+  $publishing_displayed = !empty($display->getComponent('publish_on'));
+  $unpublishing_displayed = !empty($display->getComponent('unpublish_on'));
+
+  /* @var $node \Drupal\node\NodeInterface */
+  $node = $form_state->getFormObject()->getEntity();
+
+  // Invoke all implementations of hook_scheduler_hide_publish_on_field() to
+  // allow other modules to hide the field on the node edit form.
+  if ($publishing_enabled && $publishing_displayed) {
+    $hook = 'scheduler_hide_publish_on_field';
+    foreach (\Drupal::moduleHandler()->getImplementations($hook) as $module) {
+      $function = $module . '_' . $hook;
+      $publishing_displayed = ($function($form, $form_state, $node) !== TRUE) && $publishing_displayed;
+    }
+  }
+  // Invoke all implementations of hook_scheduler_hide_unpublish_on_field() to
+  // allow other modules to hide the field on the node edit form.
+  if ($unpublishing_enabled && $unpublishing_displayed) {
+    $hook = 'scheduler_hide_unpublish_on_field';
+    foreach (\Drupal::moduleHandler()->getImplementations($hook) as $module) {
+      $function = $module . '_' . $hook;
+      $unpublishing_displayed = ($function($form, $form_state, $node) !== TRUE) && $unpublishing_displayed;
+    }
+  }
+
+  // If both publishing and unpublishing are either not enabled or are hidden
+  // for this node type then the only thing to do is remove the fields from the
+  // form, then exit.
+  if ((!$publishing_enabled || !$publishing_displayed) && (!$unpublishing_enabled || !$unpublishing_displayed)) {
     unset($form['publish_on']);
     unset($form['unpublish_on']);
     return;
   }
 
   $date_only_allowed = $config->get('allow_date_only');
-
-  /* @var $node \Drupal\node\NodeInterface */
-  $node = $form_state->getFormObject()->getEntity();
 
   // A publish_on date is required if the content type option is set and the
   // node is being created or it currently has a scheduled publishing date.
@@ -145,7 +170,7 @@ function scheduler_form_node_form_alter(&$form, FormStateInterface $form_state) 
     $descriptions['blank'] = t('Leave the date blank for no scheduled publishing.');
   }
 
-  $form['publish_on']['#access'] = $publishing_enabled;
+  $form['publish_on']['#access'] = $publishing_enabled && $publishing_displayed;
   $form['publish_on']['widget'][0]['value']['#required'] = $publishing_required;
   $form['publish_on']['widget'][0]['value']['#description'] = Xss::filter(implode(' ', $descriptions));
 
@@ -156,16 +181,23 @@ function scheduler_form_node_form_alter(&$form, FormStateInterface $form_state) 
     unset($descriptions['blank']);
   }
 
-  $form['unpublish_on']['#access'] = $unpublishing_enabled;
+  $form['unpublish_on']['#access'] = $unpublishing_enabled && $unpublishing_displayed;
   $form['unpublish_on']['widget'][0]['value']['#required'] = $unpublishing_required;
   $form['unpublish_on']['widget'][0]['value']['#description'] = Xss::filter(implode(' ', $descriptions));
 
   if (!\Drupal::currentUser()->hasPermission('schedule publishing of nodes')) {
     // Do not show the scheduler fields for users who do not have permission.
+    // Setting #access to FALSE for 'scheduler_settings' is enough to hide the
+    // fields. Setting FALSE for the individual fields is necessary to keep any
+    // existing scheduled dates preserved and remain unchanged on saving.
     $form['scheduler_settings']['#access'] = FALSE;
+    $form['publish_on']['#access'] = FALSE;
+    $form['unpublish_on']['#access'] = FALSE;
 
     // @todo Find a more elegant solution for bypassing the validation of
     // scheduler fields when the user does not have permission.
+    // Note: This scenario is NOT yet covered by any tests, neither in
+    // SchedulerPermissionsTest.php nor SchedulerRequiredTest.php
     // @see https://www.drupal.org/node/2651448
     $form['publish_on']['widget'][0]['value']['#required'] = FALSE;
     $form['unpublish_on']['widget'][0]['value']['#required'] = FALSE;
@@ -173,14 +205,18 @@ function scheduler_form_node_form_alter(&$form, FormStateInterface $form_state) 
 
   // Check which widget type is set for the scheduler fields, and give a warning
   // if the wrong one has been set and provide a hint and link to fix it.
-  $storage_form_display = $form_state->getStorage()['form_display'];
-  $content = $storage_form_display->get('content');
-  $pluginDefinitions = $storage_form_display->get('pluginManager')->getDefinitions();
+  $pluginDefinitions = $display->get('pluginManager')->getDefinitions();
+  if ($publishing_enabled && $publishing_displayed) {
+    $fields_to_check[] = 'publish_on';
+  }
+  if ($unpublishing_enabled && $unpublishing_displayed) {
+    $fields_to_check[] = 'unpublish_on';
+  }
   $correct_widget_id = 'datetime_timestamp_no_default';
-  foreach (['publish_on' => $publishing_enabled, 'unpublish_on' => $unpublishing_enabled] as $field => $enabled) {
-    $actual_widget_id = $content[$field]['type'];
-    if ($enabled && $actual_widget_id != $correct_widget_id) {
-      drupal_set_message(t('The widget for field %field is incorrectly set to %wrong. This should be changed to %correct by an admin user via Field UI <a href="@link">content type form display</a> :not_available', [
+  foreach ($fields_to_check as $field) {
+    $actual_widget_id = $display->getComponent($field)['type'];
+    if ($actual_widget_id != $correct_widget_id) {
+      \Drupal::messenger()->addMessage(t('The widget for field %field is incorrectly set to %wrong. This should be changed to %correct by an admin user via Field UI <a href="@link">content type form display</a> :not_available', [
         '%field' => (string) $form[$field]['widget']['#title'],
         '%correct' => (string) $pluginDefinitions[$correct_widget_id]['label'],
         '%wrong' => (string) $pluginDefinitions[$actual_widget_id]['label'],
@@ -298,6 +334,7 @@ function scheduler_node_view(array &$build, EntityInterface $node, EntityViewDis
 function scheduler_node_presave(EntityInterface $node) {
   $config = \Drupal::config('scheduler.settings');
   $entity = $node->type->entity;
+  $request_time = \Drupal::time()->getRequestTime();
 
   // If there is no entity object or the class is incorrect then stop here. This
   // should not really happen but it has been observed, so better to be safe.
@@ -327,14 +364,14 @@ function scheduler_node_presave(EntityInterface $node) {
       if (rand(1, 100) <= $publishing_percent) {
         // Randomly assign a publish_on value in the range starting with the
         // created date and up to the selected time range in the future.
-        $node->set('publish_on', rand($node->created->value + 1, REQUEST_TIME + $time_range));
+        $node->set('publish_on', rand($node->created->value + 1, $request_time + $time_range));
       }
     }
     if ($unpublishing_percent && in_array($node->getType(), $unpublishing_enabled_types)) {
       if (rand(1, 100) <= $unpublishing_percent) {
         // Randomly assign an unpublish_on value in the range from the later of
         // created date/publish_on date up to the time range in the future.
-        $node->set('unpublish_on', rand(max($node->created->value, $node->publish_on->value), REQUEST_TIME + $time_range));
+        $node->set('unpublish_on', rand(max($node->created->value, $node->publish_on->value), $request_time + $time_range));
       }
     }
   }
@@ -349,19 +386,23 @@ function scheduler_node_presave(EntityInterface $node) {
     // Publish the node immediately if the publication date is in the past.
     $publish_immediately = $entity->getThirdPartySetting('scheduler', 'publish_past_date', $config->get('default_publish_past_date')) == 'publish';
 
-    if ($publication_allowed && $publish_immediately && $node->publish_on->value <= REQUEST_TIME) {
+    if ($publication_allowed && $publish_immediately && $node->publish_on->value <= $request_time) {
       // Trigger the PRE_PUBLISH_INMEDIATELY event so that modules can react
       // before the node has been published.
       $event = new SchedulerEvent($node);
       \Drupal::service('event_dispatcher')->dispatch(SchedulerEvents::PRE_PUBLISH_IMMEDIATELY, $event);
       $node = $event->getNode();
 
+      // Set the 'changed' timestamp to match what would have been done had this
+      // content been published via cron.
+      $node->setChangedTime($node->publish_on->value);
       // If required, set the created date to match published date.
-      if ($entity->getThirdPartySetting('scheduler', 'publish_touch', $config->get('default_publish_touch'))) {
+      if ($entity->getThirdPartySetting('scheduler', 'publish_touch', $config->get('default_publish_touch')) ||
+      ($node->getCreatedTime() > $node->publish_on->value && $entity->getThirdPartySetting('scheduler', 'publish_past_date_created', $config->get('default_publish_past_date_created')))) {
         $node->setCreatedTime($node->publish_on->value);
       }
       $node->publish_on->value = NULL;
-      $node->setPublished(TRUE);
+      $node->setPublished();
 
       // Trigger the PUBLISH_IMMEDIATELY event so that modules can react after
       // the node has been published.
@@ -371,14 +412,14 @@ function scheduler_node_presave(EntityInterface $node) {
     }
     else {
       // Ensure the node is unpublished as it will be published by cron later.
-      $node->setPublished(FALSE);
+      $node->setUnpublished();
 
       // Only inform the user that the node is scheduled if publication has not
       // been prevented by other modules. Those modules have to display a
       // message themselves explaining why publication is denied.
       if ($publication_allowed) {
         $date_formatter = \Drupal::service('date.formatter');
-        drupal_set_message(t('This post is unpublished and will be published @publish_time.', [
+        \Drupal::messenger()->addMessage(t('This post is unpublished and will be published @publish_time.', [
           '@publish_time' => $date_formatter->format($node->publish_on->value, 'long'),
         ]), 'status', FALSE);
       }
@@ -462,7 +503,7 @@ function scheduler_entity_extra_field_info() {
   // content type. This allows admins to adjust the weight of the group, and it
   // works for vertical tabs and separate fieldsets.
   $fields = [];
-  foreach (node_type_get_types() as $type) {
+  foreach (NodeType::loadMultiple() as $type) {
     $publishing_enabled = $type->getThirdPartySetting('scheduler', 'publish_enable', $config->get('default_publish_enable'));
     $unpublishing_enabled = $type->getThirdPartySetting('scheduler', 'unpublish_enable', $config->get('default_unpublish_enable'));
 

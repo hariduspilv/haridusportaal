@@ -68,12 +68,10 @@ class ProcessOskaStudiesData {
         };
         $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func());
       }else{
-        $results[$object['ametiala']][] = [
-          'field_iscedf_broad' => $object['oppevaldkond'],
-          'field_iscedf_narrow' => $object['oppesuund'],
-          'field_iscedf_search_term' => $object['oppekavaruhm'],
-          'field_level' => $object['oppetase']
-        ];
+        $results[$object['ametiala']]['field_iscedf_broad'][] = $object['oppevaldkond'];
+        $results[$object['ametiala']]['field_iscedf_narrow'][] = $object['oppesuund'];
+        $results[$object['ametiala']]['field_iscedf_search_term'][] = $object['oppekavaruhm'];
+        $results[$object['ametiala']]['field_level'][] = $object['oppetase'];
       }
     }
 
@@ -93,10 +91,6 @@ class ProcessOskaStudiesData {
       $context['results']['processed'] = [];
 
       if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
-        $limit = $context['sandbox']['current_id'] + 10;
-        if ($context['sandbox']['max'] - $context['sandbox']['current_id'] < 10){
-          $limit = $context['sandbox']['max'];
-        }
         $i = $context['sandbox']['current_id'];
 
         foreach($context['results']['values'] as $main_proffession => $paragraph_items){
@@ -119,19 +113,17 @@ class ProcessOskaStudiesData {
 
           $new_paragraphs = [];
 
-          foreach($paragraph_items as $paragraph_item){
-            $paragraph = Paragraph::create([
-              'type' => 'iscedf_search'
-            ]);
-            foreach($paragraph_item as $field => $value){
-              $paragraph->set($field, $value);
-            }
-            $paragraph->save();
-            $new_paragraphs[] = [
-              'target_id' => $paragraph->id(),
-              'target_revision_id' => $paragraph->getRevisionId()];
-            $context['results']['processed'][] = $paragraph->id();
+          $paragraph = Paragraph::create([
+            'type' => 'iscedf_search'
+          ]);
+          foreach($paragraph_items as $label => $value){
+            $paragraph->set($label, array_unique($value));
           }
+          $paragraph->save();
+          $new_paragraphs[] = [
+            'target_id' => $paragraph->id(),
+            'target_revision_id' => $paragraph->getRevisionId()];
+          $context['results']['processed'][] = $paragraph->id();
 
           $sidebar_paragraph->set('field_iscedf_search_link', $new_paragraphs);
           $sidebar_paragraph->save();
@@ -150,6 +142,48 @@ class ProcessOskaStudiesData {
         $context['finished'] = 1;
       }
 
+    }
+  }
+
+  public static function CleanUntouchedNodes($items, &$context){
+
+    if(empty($context['results']['error'])) {
+      if (empty($context['sandbox'])) {
+        $context['sandbox']['progress'] = 0;
+        $context['sandbox']['current_id'] = 0;
+      }
+
+      $nid_result = \Drupal::entityQuery('node')
+        ->condition('type', 'oska_main_profession_page')
+        ->execute();
+
+      $context['sandbox']['max'] += count($nid_result);
+
+      $imported_values = array_keys($context['results']['values']);
+
+      $untouchedNodes = array_diff(array_values($nid_result), $imported_values);
+
+      foreach($untouchedNodes as $nid){
+        $main_profession_page = \Drupal::entityTypeManager()->getStorage('node')->load($nid);
+
+        $sidebar_paragraph = Paragraph::load($main_profession_page->get('field_sidebar')->getValue()[0]['target_id']);
+
+        $old_study_paragraphs = $sidebar_paragraph->get('field_iscedf_search_link')->getValue();
+
+        #remove and delete old paragraphs from content
+        $sidebar_paragraph->set('field_iscedf_search_link', []);
+        foreach($old_study_paragraphs as $paragraph){
+          $paragraph = Paragraph::load($paragraph['target_id']);
+          if($paragraph){
+            $paragraph->delete();
+          }
+        }
+
+        $context['sandbox']['progress']++;
+        $context['message'] = $context['sandbox']['max'];
+      }
+      $context['finished'] = 1;
+      $context['sandbox']['current_id']++;
     }
   }
 
@@ -182,6 +216,6 @@ class ProcessOskaStudiesData {
       $entity = reset($result);
     }
 
-    return isset($entity) ? $entity_type === 'node' ? $entity->id() : ['target_id' => $entity->id()] : FALSE;
+    return isset($entity) ? $entity->id() : FALSE;
   }
 }

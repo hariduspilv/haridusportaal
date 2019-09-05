@@ -36,6 +36,16 @@ use Drupal\key\Plugin\KeyProviderSettableValueInterface;
  *     "edit-form" = "/admin/config/system/keys/manage/{key}",
  *     "delete-form" = "/admin/config/system/keys/manage/{key}/delete",
  *     "collection" = "/admin/config/system/keys"
+ *   },
+ *   config_export = {
+ *     "id",
+ *     "label",
+ *     "key_type",
+ *     "key_type_settings",
+ *     "key_provider",
+ *     "key_provider_settings",
+ *     "key_input",
+ *     "key_input_settings"
  *   }
  * )
  */

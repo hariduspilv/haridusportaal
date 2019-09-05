@@ -5,7 +5,7 @@ namespace Drupal\Tests\scheduler\Functional;
 use Drupal\Core\Url;
 
 /**
- * Tests the Scheduler lighweight cron urls and admin form.
+ * Tests the Scheduler lightweight cron urls and admin form.
  *
  * @group scheduler
  */
@@ -56,7 +56,7 @@ class SchedulerLightweightCronTest extends SchedulerBrowserTestBase {
     $this->assertTrue(strlen($key) == 20, 'Default lightweight cron key string length is 20');
 
     // Check that a new random key can be generated.
-    $this->drupalPostForm($this->routeCronForm, [], t('Generate new random key'));
+    $this->drupalPostForm($this->routeCronForm, [], 'Generate new random key');
     $new_key_xpath = $this->xpath('//input[@id="edit-lightweight-access-key"]/@value');
     $new_key = $new_key_xpath[0]->getText();
     $this->assertTrue(!empty($new_key), 'Lightweight cron key field is not empty after generating new key');
@@ -64,11 +64,11 @@ class SchedulerLightweightCronTest extends SchedulerBrowserTestBase {
     $this->assertNotEqual($key, $new_key, 'Lightweight cron key has changed.');
 
     // Check that the 'run lightweight cron' button works.
-    $this->drupalPostForm($this->routeCronForm, [], t("Run Scheduler's lightweight cron now"));
+    $this->drupalPostForm($this->routeCronForm, [], "Run Scheduler's lightweight cron now");
     $this->assertText('Lightweight cron run completed.', 'Lightweight cron runs OK manually');
 
     // Check that the form cannot be saved if the cron key is blank.
-    $this->drupalPostForm($this->routeCronForm, ['lightweight_access_key' => ''], t('Save configuration'));
+    $this->drupalPostForm($this->routeCronForm, ['lightweight_access_key' => ''], 'Save configuration');
     $this->assertText('Lightweight cron access key field is required.', 'Saving configuration with a blank cron key throws the expected validation message');
     $this->assertNoText('The configuration options have been saved.', 'Saving configuration with a blank cron key is not possible');
   }

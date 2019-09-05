@@ -2,6 +2,9 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\Core\Entity\Display\EntityDisplayInterface;
+use Drupal\Core\Entity\Entity\EntityViewDisplay;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
@@ -80,8 +83,19 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     $view_display = \Drupal::entityTypeManager()
       ->getStorage('entity_view_display')
       ->load($field->getTargetEntityTypeId() . '.' . $field->getTargetBundle() . '.' . 'full');
-    $view_display->setComponent($this->fieldName, $this->displayOptions)
-      ->save();
+
+    if ( ! $view_display ) {
+      $view_display = EntityViewDisplay::create( [
+          'targetEntityType' => $field->getTargetEntityTypeId(),
+          'bundle' => $field->getTargetBundle(),
+          'mode' => 'full',
+          'status' => TRUE,
+        ] );
+    }
+    if ( $view_display instanceof EntityDisplayInterface ) {
+      $view_display->setComponent( $this->fieldName, $this->displayOptions )
+        ->save();
+    }
   }
 
   /**
@@ -90,7 +104,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
   public function testVisibleValueWidget() {
     $date = new DrupalDateTime();
     $date->createFromTimestamp(time());
-    $date_formatted = $date->format(DATETIME_DATE_STORAGE_FORMAT);
+    $date_formatted = $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT );
 
     $this->baseTestSteps();
 
@@ -100,64 +114,159 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
 
     // Set up conditions.
     $data = [
-      '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
-      $this->fieldSelector => $date_formatted,
-      '[name="grouping"]' => 'AND',
-      '[name="state"]' => 'visible',
-      '[name="effect"]' => 'show',
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      $this->fieldName . '[0][value][date]' => $date_formatted,
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
     ];
-    foreach ($data as $selector => $value) {
-      $this->changeField($selector, $value);
-    }
+    $this->submitForm( $data, 'Save settings' );
 
-    $this->getSession()->wait(1000, '!jQuery.active');
-    $this->getSession()
-      ->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
     $this->createScreenshot($this->screenshotPath . '02-testDateTimeVisibleValueWidget.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
+
     $this->createScreenshot($this->screenshotPath . '03-testDateTimeVisibleValueWidget.png');
     $this->assertSession()
       ->pageTextContains('body ' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
+
 
     // Change a date that should not show the body.
     $this->changeField($this->fieldSelector, '');
     $this->createScreenshot($this->screenshotPath . '04-testDateTimeVisibleValueWidget.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
 
     // Check that the field Body is visible.
     $this->changeField($this->fieldSelector, $date_formatted);
     $this->createScreenshot($this->screenshotPath . '05-testDateTimeVisibleValueWidget.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
 
     // Change a date that should not show the body again.
     $this->changeField($this->fieldSelector, '');
     $this->createScreenshot($this->screenshotPath . '06-testDateTimeVisibleValueWidget.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueRegExp() {
-    // TODO: Implement testVisibleValueRegExp() method.
-    $this->markTestIncomplete();
+    $date = new DrupalDateTime();
+    $date_formatted = $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT );
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-testDateTimeVisibleValueWidget.png');
+
+    // Set up conditions.
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'regex' => '^' . $date_formatted . '$',
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings' );
+
+    $this->createScreenshot($this->screenshotPath . '02-testDateTimeVisibleValueWidget.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testDateTimeVisibleValueWidget.png');
+    $this->assertSession()
+      ->pageTextContains('body ' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Change a date that should not show the body.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '04-testDateTimeVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
+
+    // Check that the field Body is visible.
+    $this->changeField($this->fieldSelector, $date_formatted);
+    $this->createScreenshot($this->screenshotPath . '05-testDateTimeVisibleValueWidget.png');
+    $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
+
+    // Change a date that should not show the body again.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '06-testDateTimeVisibleValueWidget.png');
+    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueAnd() {
-    // TODO: Implement testVisibleValueAnd() method.
-    $this->markTestIncomplete();
+    $date = new DrupalDateTime();
+    $date2 = new DrupalDateTime("-1 year");
+
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-testDateTime ' . __FUNCTION__ . '.png');
+
+    // Set up conditions.
+    $dates =  [
+      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT ),
+      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT )
+    ];
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values' => implode("\r\n", $dates ),
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings' );
+
+    $this->createScreenshot($this->screenshotPath . '02-testDateTime ' . __FUNCTION__ . '.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testDateTime ' . __FUNCTION__ . '.png');
+    $this->assertSession()
+      ->pageTextContains('body ' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testDateTime ' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
+
+    // Change a date that should not show the body.
+    $this->changeField($this->fieldSelector, 'https://drupal.org');
+    $this->createScreenshot($this->screenshotPath . '05-testDateTime ' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
+
+    // Change a date value to show the body.
+    $this->changeField($this->fieldSelector, $dates[0]);
+    $this->createScreenshot($this->screenshotPath . '06-testDateTime ' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
+
+    // Change a date value to show the body.
+    $this->changeField($this->fieldSelector, $dates[1]);
+    $this->createScreenshot($this->screenshotPath . '07-testDateTime ' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is visible');
+
+    // Change a date value to hide the body again.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testDateTime ' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '0.5Article Body field is visible');
   }
 
   /**
@@ -165,9 +274,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
    */
   public function testVisibleValueOr() {
     $date = new DrupalDateTime();
-    $date2 = new DrupalDateTime();
-    $date->createFromTimestamp(time());
-    $date2->createFromTimestamp(strtotime("-1 year"));
+    $date2 = new DrupalDateTime("-1 year");
 
     $this->baseTestSteps();
 
@@ -176,62 +283,56 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     $this->createScreenshot($this->screenshotPath . '01-testDateTimeVisibleValueOr.png');
 
     // Set up conditions.
-    $dates = implode('\n', [
-      $date->format(DATETIME_DATE_STORAGE_FORMAT),
-      $date2->format(DATETIME_DATE_STORAGE_FORMAT)
-    ]);
-    $data = [
-      '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
-      '[name="values"]' => $dates,
-      '[name="grouping"]' => 'AND',
-      '[name="state"]' => 'visible',
-      '[name="effect"]' => 'show',
+    $dates = [
+      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT ),
+      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT )
     ];
-    foreach ($data as $selector => $value) {
-      $this->changeField($selector, $value);
-    }
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values' => implode("\r\n", $dates ),
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings' );
 
-    $this->getSession()->wait(1000, '!jQuery.active');
-    $this->getSession()
-      ->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
     $this->createScreenshot($this->screenshotPath . '02-testDateTimeVisibleValueOr.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
+
     $this->createScreenshot($this->screenshotPath . '03-testDateTimeVisibleValueOr.png');
     $this->assertSession()
       ->pageTextContains('body ' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
+
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testDateTimeVisibleValueOr.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
 
     // Change a date that should not show the body.
     $this->changeField($this->fieldSelector, 'https://drupal.org');
     $this->createScreenshot($this->screenshotPath . '05-testDateTimeVisibleValueOr.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
 
     // Change a date value to show the body.
     $this->changeField($this->fieldSelector, $dates[0]);
     $this->createScreenshot($this->screenshotPath . '06-testDateTimeVisibleValueOr.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
 
     // Change a date value to show the body.
     $this->changeField($this->fieldSelector, $dates[1]);
     $this->createScreenshot($this->screenshotPath . '07-testDateTimeVisibleValueOr.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->waitUntilVisible('.field--name-body', 50, '04. Article Body field is not visible');
 
     // Change a date value to hide the body again.
     $this->changeField($this->fieldSelector, '');
     $this->createScreenshot($this->screenshotPath . '08-testDateTimeVisibleValueOr.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->waitUntilHidden('.field--name-body', 50, '0.5 Article Body field is visible');
   }
 
   /**
@@ -239,75 +340,131 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
    */
   public function testVisibleValueNot() {
     $date = new DrupalDateTime();
-    $date2 = new DrupalDateTime();
-    $date->createFromTimestamp(time());
-    $date2->createFromTimestamp(strtotime("-1 year"));
+    $date2 = new DrupalDateTime("-1 year");
 
     $this->baseTestSteps();
 
     // Visit a ConditionalFields configuration page for Content bundles.
     $this->createCondition('body', $this->fieldName, 'visible', 'value');
-    $this->createScreenshot($this->screenshotPath . '01-testDateTimeVisibleValueNot.png');
+    $this->createScreenshot($this->screenshotPath . '01-testDateTime' . __FUNCTION__ . '.png');
 
     // Set up conditions.
-    $dates = implode('\n', [
-      $date->format(DATETIME_DATE_STORAGE_FORMAT),
-      $date2->format(DATETIME_DATE_STORAGE_FORMAT)
-    ]);
-    $data = [
-      '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
-      '[name="values"]' => $dates,
-      '[name="grouping"]' => 'AND',
-      '[name="state"]' => 'visible',
-      '[name="effect"]' => 'show',
+    $dates = [
+      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT ),
+      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT )
     ];
-    foreach ($data as $selector => $value) {
-      $this->changeField($selector, $value);
-    }
-    $this->getSession()->wait(1000, '!jQuery.active');
-    $this->getSession()
-      ->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    $this->assertSession()->statusCodeEquals(200);
-    $this->createScreenshot($this->screenshotPath . '02-testDateTimeVisibleValueNot.png');
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values' => implode("\r\n", $dates ),
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings' );
+
+    $this->createScreenshot($this->screenshotPath . '02-testDateTime' . __FUNCTION__ . '.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    $this->assertSession()->statusCodeEquals(200);
-    $this->createScreenshot($this->screenshotPath . '03-testDateTimeVisibleValueNot.png');
+
+    $this->createScreenshot($this->screenshotPath . '03-testDateTime' . __FUNCTION__ . '.png');
     $this->assertSession()
       ->pageTextContains('body ' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
-    // Check that the field Body is visible.
-    $this->createScreenshot($this->screenshotPath . '04-testDateTimeVisibleValueNot.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '01. Article Body field is not visible');
 
     // Change a date that should not show the body.
-    $this->changeField($this->fieldSelector, $dates[0]);
-    $this->createScreenshot($this->screenshotPath . '05-testDateTimeVisibleValueNot.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
-
-    // Change a date that should not show the body again.
-    $this->changeField($this->fieldSelector, $dates[1]);
-    $this->createScreenshot($this->screenshotPath . '06-testDateTimeVisibleValueNot.png');
-    $this->waitUntilHidden('.field--name-body', 50, 'Article Body field is not visible');
+    $this->changeField($this->fieldSelector, 'https://drupal.org');
+    $this->createScreenshot($this->screenshotPath . '05-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '02. Article Body field is not visible');
 
     // Change a date value to show the body.
+    $this->changeField($this->fieldSelector, $dates[0]);
+    $this->createScreenshot($this->screenshotPath . '06-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '03. Article Body field is visible');
+
+    // Change a date value to show the body.
+    $this->changeField($this->fieldSelector, $dates[1]);
+    $this->createScreenshot($this->screenshotPath . '07-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '04. Article Body field is visible');
+
+    // Change a date value to hide the body again.
     $this->changeField($this->fieldSelector, '');
-    $this->createScreenshot($this->screenshotPath . '08-testDateTimeVisibleValueNot.png');
-    $this->waitUntilVisible('.field--name-body', 50, 'Article Body field is visible');
+    $this->createScreenshot($this->screenshotPath . '08-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '0.5 Article Body field is not visible');
   }
 
   /**
    * {@inheritdoc}
    */
   public function testVisibleValueXor() {
-    // TODO: Implement testVisibleValueXor() method.
-    $this->markTestIncomplete();
+    $date = new DrupalDateTime();
+    $date2 = new DrupalDateTime("-1 year");
+
+    $this->baseTestSteps();
+
+    // Visit a ConditionalFields configuration page for Content bundles.
+    $this->createCondition('body', $this->fieldName, 'visible', 'value');
+    $this->createScreenshot($this->screenshotPath . '01-testDateTime' . __FUNCTION__ . '.png');
+
+    // Set up conditions.
+    $dates = [
+      $date->format(DateTimeItemInterface::DATE_STORAGE_FORMAT ),
+      $date2->format(DateTimeItemInterface::DATE_STORAGE_FORMAT )
+    ];
+    $data = [
+      'condition' => 'value',
+      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values' => implode("\r\n", $dates ),
+      'grouping' => 'AND',
+      'state' => 'visible',
+      'effect' => 'show',
+    ];
+    $this->submitForm( $data, 'Save settings' );
+
+    $this->createScreenshot($this->screenshotPath . '02-testDateTime' . __FUNCTION__ . '.png');
+
+    // Check if that configuration is saved.
+    $this->drupalGet('admin/structure/types/manage/article/conditionals');
+
+    $this->createScreenshot($this->screenshotPath . '03-testDateTime' . __FUNCTION__ . '.png');
+    $this->assertSession()
+      ->pageTextContains('body ' . $this->fieldName . ' visible value');
+
+    // Visit Article Add form to check that conditions are applied.
+    $this->drupalGet('node/add/article');
+
+
+    // Check that the field Body is not visible.
+    $this->createScreenshot($this->screenshotPath . '04-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '01. Article Body field is visible');
+
+    // Change a date that should not show the body.
+    $this->changeField($this->fieldSelector, 'https://drupal.org');
+    $this->createScreenshot($this->screenshotPath . '05-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '02. Article Body field is visible');
+
+    // Change a date value to show the body.
+    $this->changeField($this->fieldSelector, $dates[0]);
+    $this->createScreenshot($this->screenshotPath . '06-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '03. Article Body field is not visible');
+
+    // Change a date value to show the body.
+    $this->changeField($this->fieldSelector, $dates[1]);
+    $this->createScreenshot($this->screenshotPath . '07-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilVisible('.field--name-body', 50, '04. Article Body field is not visible');
+
+    // Change a date value to hide the body again.
+    $this->changeField($this->fieldSelector, '');
+    $this->createScreenshot($this->screenshotPath . '08-testDateTime' . __FUNCTION__ . '.png');
+    $this->waitUntilHidden('.field--name-body', 50, '0.5 Article Body field is visible');
   }
 
 }

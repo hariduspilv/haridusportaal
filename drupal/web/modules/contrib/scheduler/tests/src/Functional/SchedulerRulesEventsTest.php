@@ -8,6 +8,9 @@ use Drupal\rules\Context\ContextConfig;
  * Tests the six events that Scheduler provides for use in Rules module.
  *
  * @group scheduler
+ * @group legacy
+ * @todo Remove the 'legacy' tag when Rules no longer uses deprecated code.
+ * @see https://www.drupal.org/project/scheduler/issues/2924353
  */
 class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
 
@@ -49,6 +52,11 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       5 => ['scheduler_existing_node_is_scheduled_for_unpublishing_event', 'An existing node is saved and is scheduled for unpublishing.'],
       6 => ['scheduler_has_unpublished_this_node_event', 'Scheduler has unpublished this node during cron.'],
     ];
+    // PHPCS throws a false-positive 'variable $var is undefined' message when
+    // the variable is defined by list( ) syntax. To avoid the unwanted warnings
+    // we can wrap the section with @codingStandardsIgnoreStart and IgnoreEnd.
+    // @see https://www.drupal.org/project/coder/issues/2876245
+    // @codingStandardsIgnoreStart
     foreach ($rule_data as $i => list($event_name, $description)) {
       $rule[$i] = $this->expressionManager->createRule();
       $message[$i] = 'RULES message ' . $i . '. ' . $description;
@@ -63,6 +71,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       ]);
       $config_entity->save();
     }
+    // @codingStandardsIgnoreEnd
 
     $this->drupalLogin($this->schedulerUser);
 
@@ -72,7 +81,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'title[0][value]' => 'Test for no events',
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/add/' . $this->type, $edit, t('Save'));
+    $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
     $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
     $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
@@ -85,7 +94,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
     $edit = [
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, t('Save'));
+    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
     $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
     $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
     $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
@@ -101,7 +110,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'publish_on[0][value][time]' => date('H:i:s', time() + 3),
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/add/' . $this->type, $edit, t('Save'));
+    $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
     $this->assertText($message[1], '"' . $message[1] . '" IS shown');
     $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
@@ -115,7 +124,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'title[0][value]' => 'Edit node with publish-on date',
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, t('Save'));
+    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
     $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
     $this->assertText($message[2], '"' . $message[2] . '" IS shown');
     $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
@@ -143,7 +152,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'unpublish_on[0][value][time]' => date('H:i:s', time() + 3),
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/add/' . $this->type, $edit, t('Save'));
+    $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
     $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
     $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
@@ -157,7 +166,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'title[0][value]' => 'Edit node with unpublish-on date',
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, t('Save'));
+    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
     $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
     $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
     $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
@@ -187,7 +196,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'unpublish_on[0][value][time]' => date('H:i:s', time() + 4),
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/add/' . $this->type, $edit, t('Save'));
+    $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
     $this->assertText($message[1], '"' . $message[1] . '" IS shown');
     $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
@@ -201,7 +210,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'title[0][value]' => 'Edit node with both dates',
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, t('Save'));
+    $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
     $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
     $this->assertText($message[2], '"' . $message[2] . '" IS shown');
