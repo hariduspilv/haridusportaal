@@ -30,18 +30,13 @@ import { FieldVaryService } from '@app/_services';
     ],
   };
 
-  public listItemTypes = [
-    'school',
-    'studyProgramme',
-  ];
-
-  public listItemId;
-
   constructor(
     public fieldVaryService: FieldVaryService) {}
 
   ngOnInit() {
-    this.list = this.fieldVaryService.flattenFieldNames(this.list);
+    this.list.forEach((element, index) => {
+      this.list[index] = this.fieldVaryService.mapResponse(element);
+    });
   }
 
   isArray(obj : any) {

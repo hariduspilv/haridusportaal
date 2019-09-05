@@ -1,67 +1,34 @@
-import { url } from 'inspector';
 
+const requestMap = {
+  tags: ['fieldArticleTags', 'fieldNewsTags', 'fieldTag'],
+  accordion: ['fieldNewsAccordion'],
+  shortDescription: ['fieldShortDescription'],
+  image: ['fieldIntroductionImage'],
+  duration: ['fieldDuration'],
+  title: ['entityLabel', 'FieldSchoolName'],
+  head: ['fieldStudyProgrammeLevel', 'FieldEducationalInstitutionTy'],
+  educationalInstitution: ['fieldEducationalInstitution'],
+  address: ['fieldAddress', 'FieldAddress'],
+  teachingLanguage: ['fieldTeachingLanguage'],
+  phone: ['FieldSchoolContactPhone'],
+  email: ['FieldSchoolContactEmail'],
+  webpage: ['FieldSchoolWebpageAddress'],
+  url: ['entityUrl'],
+}
 export class FieldVaryService {
 
-  public newData;
-
-  flattenFieldNames(data) {
-
-    return data.map((item) => {
-      const cleanedObject = {};
-
-      for (const key in item) {
-        const newKey = this.replaceKey(key);
-
-        cleanedObject[newKey] = item[key];
-      }
-      return cleanedObject;
+  mapResponse(data) {
+    let tmp = {};
+    Object.keys(data).forEach((item) => {
+      Object.keys(requestMap).forEach((compare) => {
+        if (requestMap[compare].indexOf(item) !== -1) {
+          tmp[compare] = data[item];
+        }else {
+          tmp[item] = data[item];
+        }
+      });
     });
-  }
-
-  replaceKey(key) {
-    switch (key){
-      case 'fieldTag':
-        return 'tags';
-
-      case 'fieldShortDescription':
-        return 'shortDescription';
-
-      case 'fieldIntroductionImage':
-        return 'image';
-
-      case 'fieldDuration':
-        return 'duration';
-
-      case 'entityLabel':
-      case 'FieldSchoolName':
-        return 'title';
-
-      case 'fieldStudyProgrammeLevel':
-      case 'FieldEducationalInstitutionTy':
-        return 'head';
-
-      case 'fieldEducationalInstitution':
-        return 'educationalInstitution';
-
-      case 'FieldAddress':
-        return 'address';
-
-      case 'fieldTeachingLanguage':
-        return 'teachingLanguage';
-
-      case 'FieldSchoolContactPhone':
-        return 'phone';
-
-      case 'FieldSchoolContactEmail':
-        return 'email';
-
-      case 'FieldSchoolWebpageAddress':
-        return 'webpage';
-
-      case 'entityUrl':
-        return 'url';
-    }
-    return key;
+    return tmp;
   }
 
 }
