@@ -1,6 +1,5 @@
-<ng-container *ngFor="let key of objectKeys(list)">
-    <div #content *ngIf="list[key] && list[key].length > 0">
-        <ng-container *ngFor="let item of list[key]; let i = index">
+    <div #content *ngIf="list && list.length > 0">
+        <ng-container *ngFor="let item of list; let i = index">
             <div class="list__item">
                 <div class="list__item__titlebox">
                     <div class="col-grow">
@@ -30,7 +29,7 @@
                 </div>
 
                 <div class="inline__items">
-                    <ng-container *ngFor="let fieldName of footerFields[key]; let i = index">
+                    <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
                         <span role="separator" class="bar" *ngIf="i>0">|</span>
                         <span class="item" *ngIf="fieldName === 'duration'">{{ item.duration | monthsToYears }}</span>
                         <span class="item"
@@ -57,5 +56,3 @@
         </ng-container>
         <!--/list repeat-->
     </div>
-    <!--/list-->
-</ng-container>

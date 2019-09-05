@@ -12,6 +12,7 @@ import { FieldVaryService, ModalService } from '@app/_services';
 
   export class ListItemComponent implements OnInit{
   @Input() list;
+  @Input() type;
 
   public objectKeys = Object.keys;
 
@@ -41,16 +42,10 @@ import { FieldVaryService, ModalService } from '@app/_services';
     public modalService: ModalService) {}
 
   ngOnInit() {
-    for (const key in this.list) {
-      this.list[key] = this.fieldVaryService.cleanDataArray(this.list[key]);
-    }
+      this.list = this.fieldVaryService.cleanDataArray(this.list);
   }
 
   isArray(obj : any) {
     return Array.isArray(obj);
-  }
-
-  test(event){
-    console.log(event);
   }
 }

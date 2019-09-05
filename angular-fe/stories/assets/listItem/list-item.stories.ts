@@ -13,12 +13,15 @@ const moduleMetadata = {
 
 const stories = storiesOf('Assets', module);
 
+const objectKeys = Object.keys;
+
 stories.add('List item', () => {
 
   return {
     moduleMetadata,
     props: {
       list,
+      objectKeys,
     },
     template: listItemHtml,
   };
