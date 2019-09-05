@@ -70,6 +70,8 @@ export class OskaAreasSidebarComponent implements OnInit {
 	constructor(private rootScope: RootScopeService, private route: ActivatedRoute) {}
   
   ngOnInit() {
+    const _this = this;
+
     if (this.viewType === 'field' && this.fieldName) {
       this.fieldQuery = {field: this.fieldName};
     }
@@ -83,12 +85,15 @@ export class OskaAreasSidebarComponent implements OnInit {
       if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed) {
         try{
           this.locationPerLang = `/erialad`;
-          this.learningQuery = {iscedf_detailed: []};
-          this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.forEach(elem => {
-            this.learningQuery = { iscedf_detailed: [...this.learningQuery.iscedf_detailed, elem.entity.entityId] };
+          _this.learningQuery = {iscedf_detailed: [], iscedf_narrow: [], iscedf_broad: []};
+
+          Object.keys(_this.learningQuery).forEach(function (field) {
+            _this.sidebar.fieldIscedfSearchLink.entity[field].forEach(elem => {
+              _this.learningQuery[field] = [..._this.learningQuery[field], elem.entity.entityId];
+            });
           });
-          this.sidebar.fieldIscedfSearchLink.entity.fieldLevel.forEach(elem => {
-            this.learningQuery['level'] = this.learningQuery['level'] ? [...this.learningQuery['level'], elem.entity.entityId] : [elem.entity.entityId];
+          _this.sidebar.fieldIscedfSearchLink.entity.fieldLevel.forEach(elem => {
+            _this.learningQuery['level'] = _this.learningQuery['level'] ? [..._this.learningQuery['level'], elem.entity.entityId] : [elem.entity.entityId];
           });
         }catch(err){}
       }
