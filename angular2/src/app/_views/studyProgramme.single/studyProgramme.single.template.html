@@ -24,23 +24,23 @@
             <div class="table-wrapper">
               <table>
                 <thead>
-                  <tr *ngIf="data.fieldEducationalInstitution">
+                  <tr *ngIf="data.fieldEducationalInstitution && data.fieldEducationalInstitution.entity">
                     <th>Õppeasutuse nimi</th>
                     <th>{{ data.fieldEducationalInstitution.entity.entityLabel | titleCase }}</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr *ngIf="data.fieldEducationalInstitution">
+                  <tr *ngIf="data.fieldEducationalInstitution && data.fieldEducationalInstitution.entity">
                     <td>Registrikood</td>
                     <td>{{ data.fieldEducationalInstitution.entity.fieldRegistrationCode }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldStudyProgrammeLevel">
+                  <tr *ngIf="data.fieldStudyProgrammeLevel && data.fieldStudyProgrammeLevel.entity">
                     <td>Õppekava tase</td>
                     <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel | titleCase }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldDegreeOrDiplomaAwarded">
+                  <tr *ngIf="data.fieldDegreeOrDiplomaAwarded && data.fieldDegreeOrDiplomaAwarded.entity">
                     <td>Omistatav kraad või diplom</td>
                     <td>{{ data.fieldDegreeOrDiplomaAwarded.entity.entityLabel | titleCase }}</td>
                   </tr>
