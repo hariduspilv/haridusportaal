@@ -51,9 +51,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
     const successClass = this.success ? 'formItem--success' : '';
+    const titleDisabled = this.titleDisabled ? 'formItem--titleDisabled' : '';
     return this.focused ?
-          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass}` :
-          `formItem formItem--${this.type} ${errorClass} ${successClass}`;
+          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`:
+          `formItem formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`;
   }
 
   propagateChange = (_: any) => {};
@@ -88,14 +89,27 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   removeComma() {
     setTimeout(
       () => {
-        const values = this.el.nativeElement.querySelectorAll('.ng-value');
+        const values = this.el.nativeElement.querySelectorAll('.ng-value-label');
+        const valuesArray = [];
         for (const item of values) {
-          item.className = item.className.replace(/\slastItem/gi, '');
+          valuesArray.push(item.innerText || item.textContent);
         }
-        const lastValue = values[values.length - 1];
-        if (lastValue) {
-          lastValue.className = `${lastValue.className} lastItem`;
+
+        const valuesText = valuesArray.join(', ');
+        let textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
+        if (!textContainer) {
+          const mainContainer = this.el.nativeElement.querySelector('.ng-value-container');
+          const firstChild = this.el.nativeElement.querySelector('.ng-placeholder');
+          const textContainerEl = document.createElement('span');
+          textContainerEl.className = 'ng-value-text';
+
+          const textContainerChildEl = document.createElement('span');
+          textContainerChildEl.className = 'ng-value-text-child';
+          textContainerEl.appendChild(textContainerChildEl);
+          mainContainer.insertBefore(textContainerEl, firstChild);
+          textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
         }
+        textContainer.innerHTML = valuesText;
       },
       0);
 
