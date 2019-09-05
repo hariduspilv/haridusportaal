@@ -3,7 +3,7 @@ import {
     OnInit,
     Input,
   } from '@angular/core';
-import { FieldVaryService, ModalService } from '@app/_services';
+import { FieldVaryService } from '@app/_services';
 @Component({
   selector: 'listItem',
   templateUrl: 'listItem.template.html',
@@ -38,8 +38,7 @@ import { FieldVaryService, ModalService } from '@app/_services';
   public listItemId;
 
   constructor(
-    public fieldVaryService: FieldVaryService,
-    public modalService: ModalService) {}
+    public fieldVaryService: FieldVaryService) {}
 
   ngOnInit() {
     this.list = this.fieldVaryService.flattenFieldNames(this.list);
