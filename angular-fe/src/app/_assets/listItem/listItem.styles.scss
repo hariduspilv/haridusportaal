@@ -1,6 +1,18 @@
 @import "typography.scss";
 @import "breakpoints.scss";
 
+:host{
+  display: block;
+}
+
+::ng-deep{
+  block-content listItems{
+    margin-top: -1.5rem;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+  }
+}
+
 .list {
   padding-bottom: $xxl;
   background: $white;

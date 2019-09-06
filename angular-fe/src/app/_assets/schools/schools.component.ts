@@ -4,11 +4,11 @@ import {
     Input,
   } from '@angular/core';
 @Component({
-  selector: 'studyProgrammes',
-  templateUrl: 'studyProgrammes.template.html',
+  selector: 'schools',
+  templateUrl: 'schools.template.html',
 })
 
-  export class StudyProgrammesComponent implements OnInit{
+  export class SchoolsComponent implements OnInit{
   @Input() list: Object[];
 
   public objectKeys = Object.keys;

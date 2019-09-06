@@ -66,13 +66,15 @@ import { MonthsToYearsPipe } from '@app/_pipes/monthsToYears.pipe';
 import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { UrlPipe } from '@app/_pipes/url.pipe';
+import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
+import { SchoolsComponent } from './schools/schools.component';
 
 const pipes = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
-  LegendCurrencyPipe, 
-  EuroCurrencyPipe, 
+  LegendCurrencyPipe,
+  EuroCurrencyPipe,
   LocaleNumberPipe,
 ];
 
@@ -113,6 +115,8 @@ const declarations = [
   SidebarLocationComponent,
   SidebarProgressComponent,
   SidebarRegisterComponent,
+  StudyProgrammesComponent,
+  SchoolsComponent,
   ProgressBarComponent,
   MapComponent,
   ShareComponent,
