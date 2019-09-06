@@ -11,8 +11,8 @@ import FieldVaryService from '@app/_services/FieldVaryService';
 })
 
   export class ListItemComponent implements OnInit{
-  @Input() list;
-  @Input() type;
+  @Input() list: Object[];
+  @Input() type: string;
 
   public objectKeys = Object.keys;
 
