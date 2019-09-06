@@ -5,3 +5,4 @@ export * from './ModalService';
 export * from './SidemenuService';
 export * from './SidebarService';
 export * from './FieldVaryService';
+export * from './MapService';

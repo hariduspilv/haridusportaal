@@ -15,10 +15,10 @@ export class ModalService {
     this.modals = this.modals.filter(x => x.id !== id);
   }
 
-  open(id: string) {
-    // Close other modals and open selected
+  toggle(id: string) {
+    // Close other modals and open selected if it isn't already open
     this.modals.forEach((modal) => {
-      if (modal.id === id) {
+      if (modal.id === id && !this.modalOpened[id]) {
         modal.stateChange(true);
       } else {
         modal.stateChange(false);

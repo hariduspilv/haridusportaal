@@ -5,6 +5,8 @@ import { TranslateModule } from '@app/_modules/translate';
 import {
   withKnobs,
   optionsKnob as options,
+  select,
+  object,
   number,
 } from '@storybook/addon-knobs';
 
@@ -25,33 +27,67 @@ stories.add('Map', () => {
     max: 20,
     step: 1,
   };
+  const typeControl = select(
+    'Type',
+    {
+      Markerid: 'markers',
+      Polügoonid: 'polygons',
+    },
+    'markers',
+  );
+  const polygonType = select(
+    'Polygon type',
+    {
+      Investeeringud: 'investment',
+    },
+    'investment',
+  );
   const zoomLevel = number('Zoom', 7, numberOptions);
   const minZoomLevel = number('Min zoom', 7, numberOptions);
   const maxZoomLevel = number('Max zoom', 15, numberOptions);
-  const bottomAction = options('Bottom action', { Yes: 'yes', No: 'no' }, 'no', {
+  const draggable = options('Draggable map', { Yes: 'yes', No: 'no' }, 'yes', {
     display: 'inline-radio',
   });
-  const mapDraggable = options('Draggable map', { Yes: 'yes', No: 'no' }, 'yes', {
+  const enableZoomControl = options('Enable zoom control', { Yes: 'yes', No: 'no' }, 'no', {
     display: 'inline-radio',
   });
-  const zoomControl = options('Zoom control', { Yes: 'yes', No: 'no' }, 'no', {
+  const enableStreetViewControl = options('Enable street view control', {
+    Yes: 'yes', No: 'no' },               'no', { display: 'inline-radio' });
+  const enableOuterLink = options('Enable outer Link', { Yes: 'yes', No: 'no' }, 'no', {
     display: 'inline-radio',
   });
-  const streetViewControl = options('Street View control', { Yes: 'yes', No: 'no' }, 'no', {
+  const enableLabels = options('Enable map labels', { Yes: 'yes', No: 'no' }, 'yes', {
     display: 'inline-radio',
   });
+  const enableParameters = options('Enable map parameters', { Yes: 'yes', No: 'no' }, 'no', {
+    display: 'inline-radio',
+  });
+  const enablePolygonLegend = options('Enable polygon legend', {
+    Yes: 'yes', No: 'no' },           'yes', { display: 'inline-radio' });
+  const enablePolygonModal = options('Enable polygon modal', { Yes: 'yes', No: 'no' }, 'no', {
+    display: 'inline-radio',
+  });
+  const enableLayerSelection = options('Enable polygon layer selection', {
+    Yes: 'yes', No: 'no' },            'yes', { display: 'inline-radio' });
   const optionsData: Object = {
+    polygonType,
     // centerLat: 59.4371821,
     // centerLng: 24.7450143,
     zoom: zoomLevel,
     maxZoom: maxZoomLevel,
     minZoom: minZoomLevel,
-    mapDraggable: mapDraggable === 'yes',
-    bottomAction: bottomAction === 'yes',
-    zoomControl: zoomControl === 'yes',
-    streetViewControl: streetViewControl === 'yes',
+    draggable: draggable === 'yes',
+    enableZoomControl: enableZoomControl === 'yes',
+    enableStreetViewControl: enableStreetViewControl === 'yes',
+    enableOuterLink: enableOuterLink === 'yes',
+    enableLabels: enableLabels === 'yes',
+    enableParameters: enableParameters === 'yes',
+    enableLayerSelection: enableLayerSelection === 'yes',
+    enablePolygonLegend: enablePolygonLegend === 'yes',
+    enablePolygonModal: enablePolygonModal === 'yes',
   };
-  const markers: Object[] = [
+
+  const markerData: Object[] = [
     {
       Nid: '43352',
       Lat: '59.351103430836',
@@ -107,14 +143,78 @@ stories.add('Map', () => {
       },
     },
   ];
+  const polygonData: Object = {
+    county: [
+      {
+        investmentLocation: 'Harju maakond',
+        investmentAmountSum: 21000000,
+      },
+      {
+        investmentLocation: 'Pärnu maakond',
+        investmentAmountSum: 11054655,
+      },
+      {
+        investmentLocation: 'Võru maakond',
+        investmentAmountSum: 12300000,
+      },
+      {
+        investmentLocation: 'Lääne-Viru maakond',
+        investmentAmountSum: 12600000,
+      },
+    ],
+    kov: [
+      {
+        investmentLocation: 'Harku vald',
+        investmentAmountSum: 10500000,
+      },
+      {
+        investmentLocation: 'Pärnu linn',
+        investmentAmountSum: 11054655,
+      },
+      {
+        investmentLocation: 'Võru vald',
+        investmentAmountSum: 12300000,
+      },
+      {
+        investmentLocation: 'Väike-Maarja vald',
+        investmentAmountSum: 12600000,
+      },
+      {
+        investmentLocation: 'Tallinn',
+        investmentAmountSum: 10500000,
+      },
+    ],
+  };
+  const parameterData: Object[] = [
+    {
+      label: 'Näitaja',
+      value: 'Hõivatute arv Eestis',
+    },
+    {
+      label: 'Valdkond',
+      value: 'Kalameeste klubi',
+    },
+  ];
+  const parameters = object('Parameters', parameterData);
+  const markers = object('Markers', markerData);
+  const polygons = object('Polygons', polygonData);
   return {
     moduleMetadata,
     props: {
+      polygons,
       optionsData,
+      typeControl,
       markers,
+      parameters,
     },
     template: `
-      <map [options]='optionsData' [markers]='markers'></map>
+      <map
+        [polygonData]='polygons'
+        [type]='typeControl'
+        [options]='optionsData'
+        [markers]='markers'
+        [parameters]="parameters">
+      </map>
     `,
   };
 },          {

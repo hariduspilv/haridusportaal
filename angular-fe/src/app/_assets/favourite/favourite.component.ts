@@ -16,6 +16,7 @@ export class FavouriteComponent {
   @Input() state: boolean;
   @Input() limit: boolean;
   private subscription: Subscription;
+  private closeTime: any = false;
   // TODO: Handle maximum number of favourites (with real request)
   // private maxCount: number = 10;
 
@@ -37,9 +38,10 @@ export class FavouriteComponent {
     };
     if (!this.state) {
       if (this.limit) {
-        this.modalService.open('favourites');
+        this.modalService.toggle('favourites');
         return;
       }
+      this.closeTime = false;
       this.subscription = this.request({
         data,
         message: this.translate.get('frontpage.favourites_snackbar_message'),
@@ -51,6 +53,7 @@ export class FavouriteComponent {
       });
     } else {
       data.queryId = 'c818e222e263618b752e74a997190b0f36a39818:1';
+      this.closeTime = 5000;
       this.subscription = this.request({
         data,
         message: this.translate.get('frontpage.favourites_snackbar_message_remove'),
