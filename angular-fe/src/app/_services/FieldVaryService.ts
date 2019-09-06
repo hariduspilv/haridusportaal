@@ -14,21 +14,18 @@ const requestMap = {
   email: ['FieldSchoolContactEmail'],
   webpage: ['FieldSchoolWebpageAddress'],
   url: ['entityUrl'],
-}
-export class FieldVaryService {
+};
 
-  mapResponse(data) {
-    let tmp = {};
-    Object.keys(data).forEach((item) => {
-      Object.keys(requestMap).forEach((compare) => {
-        if (requestMap[compare].indexOf(item) !== -1) {
-          tmp[compare] = data[item];
-        }else {
-          tmp[item] = data[item];
-        }
-      });
+export default(data) => {
+  const tmp = {};
+  Object.keys(data).forEach((item) => {
+    Object.keys(requestMap).forEach((compare) => {
+      if (requestMap[compare].indexOf(item) !== -1) {
+        tmp[compare] = data[item];
+      }else {
+        tmp[item] = data[item];
+      }
     });
-    return tmp;
-  }
-
-}
+  });
+  return tmp;
+};

@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Pipe({
   name: 'monthsToYears',
@@ -6,25 +7,32 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 export class MonthsToYearsPipe implements PipeTransform {
 
+  constructor(
+    private translate: TranslateService,
+  ) {}
+
   transform(value: number): any {
     const monthOverflow = value % 12;
     const years = Math.floor(value / 12);
-    if(monthOverflow === 1 && years === 1) {
-      return `${years} aasta ${monthOverflow} kuu`
+    if (monthOverflow === 1 && years === 1) {
+      return `${years} ${this.translate.get('time.duration_year_singular')}
+      ${monthOverflow} ${this.translate.get('time.duration_month_singular')}`;
     }
-    if(monthOverflow > 1 && years === 1) {
-      return `${years} aasta ${monthOverflow} kuud`
+    if (monthOverflow > 1 && years === 1) {
+      return `${years} ${this.translate.get('time.duration_year_singular')}
+      ${monthOverflow} ${this.translate.get('time.duration_month_plural')}`;
     }
-    if(monthOverflow > 1 && years > 1) {
-      return `${years} aastat ${monthOverflow} kuud`
+    if (monthOverflow > 1 && years > 1) {
+      return `${years} ${this.translate.get('time.duration_year_plural')}
+      ${monthOverflow} ${this.translate.get('time.duration_month_plural')}`;
     }
-    if(monthOverflow === 0 && years > 1) {
-      return `${years} aastat`
+    if (monthOverflow === 0 && years > 1) {
+      return `${years} ${this.translate.get('time.duration_year_plural')}`;
     }
-    if(monthOverflow > 0 && years === 0) {
-      return `${monthOverflow} kuud`;
+    if (monthOverflow > 0 && years === 0) {
+      return `${monthOverflow} ${this.translate.get('time.duration_month_plural')}`;
     }
-    return `${years} aasta`;
+    return `${years} ${this.translate.get('time.duration_year_singular')}`;
   }
 
 }

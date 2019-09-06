@@ -3,7 +3,7 @@ import {
     OnInit,
     Input,
   } from '@angular/core';
-import { FieldVaryService } from '@app/_services';
+import FieldVaryService from '@app/_services/FieldVaryService';
 @Component({
   selector: 'listItem',
   templateUrl: 'listItem.template.html',
@@ -31,11 +31,11 @@ import { FieldVaryService } from '@app/_services';
   };
 
   constructor(
-    public fieldVaryService: FieldVaryService) {}
+  ) {}
 
   ngOnInit() {
     this.list.forEach((element, index) => {
-      this.list[index] = this.fieldVaryService.mapResponse(element);
+      this.list[index] = FieldVaryService(element);
     });
   }
 

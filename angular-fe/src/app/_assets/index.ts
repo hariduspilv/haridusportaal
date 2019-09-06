@@ -27,12 +27,11 @@ import {
   SidemenuService,
   SidebarService,
   ModalService,
-  FieldVaryService
 } from '@app/_services';
 import {
   NgbDatepickerModule,
   NgbTooltipModule,
-  NgbDateParserFormatter
+  NgbDateParserFormatter,
 } from '@ng-bootstrap/ng-bootstrap';
 import { MenuComponent, SidemenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
@@ -48,7 +47,7 @@ import {
   SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
-  SidebarProgressComponent, SidebarRegisterComponent
+  SidebarProgressComponent, SidebarRegisterComponent,
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
@@ -132,7 +131,6 @@ const providers = [
   SidemenuService,
   SidebarService,
   ClipboardService,
-  FieldVaryService,
 ];
 
 @NgModule({
