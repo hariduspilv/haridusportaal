@@ -47,6 +47,7 @@ import { SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarProgressComponent, SidebarRegisterComponent} from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
@@ -58,6 +59,7 @@ import { LabelsComponent } from './labels';
 import { FavouriteComponent } from './favourite';
 import { LabeledSeparatorComponent } from './labeled-separator';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
+import { ChartComponent } from './chart/chart.component';
 
 const pipes =  [LegendCurrencyPipe, EuroCurrencyPipe, LocaleNumberPipe];
 
@@ -104,6 +106,7 @@ const declarations = [
   LabelsComponent,
   FavouriteComponent,
   LabeledSeparatorComponent,
+  ChartComponent,
 ];
 
 const exports = [
@@ -137,6 +140,7 @@ const providers = [
     NgPipesModule,
     NgSelectModule,
     NgbTooltipModule,
+    Ng2GoogleChartsModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })
