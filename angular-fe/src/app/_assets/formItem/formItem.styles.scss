@@ -78,9 +78,6 @@
           border-color: $error !important;
         }
       }
-      .formItem__title span{
-        color: $error !important;
-      }
     }
 
     &--success{
@@ -91,9 +88,6 @@
         .ng-select .ng-select-container{
           border-color: $success !important;
         }
-      }
-      .formItem__title span{
-        color: $success !important;
       }
     }
 
@@ -264,6 +258,7 @@
       pointer-events: none;
       transition: all 0.25s;
       line-height: 150%;
+      text-align:left;
       will-change: top, left, color, padding, font-size;
       span{
         padding:0 2.5rem 0 0.5rem;
