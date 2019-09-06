@@ -1,4 +1,4 @@
-import { Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RootScopeService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -39,18 +39,18 @@ export class OskaAreasSidebarComponent implements OnInit {
   };
   public competitionLabels = ['oska.simple', 'oska.quite_simple', 'oska.medium', 'oska.quite_difficult', 'oska.difficult'];
   public trendingValues = [
-    {icon: 'trending_flat', class: 'top trending-up', text: 'oska.big_increase'},
-    {icon: 'trending_up', class: 'top', text: 'oska.increase'},
-    {icon: 'trending_flat', class: 'stagnant', text: 'oska.stagnant'},
-    {icon: 'trending_down', class: 'bottom', text: 'oska.decline'},
-    {icon: 'trending_flat', class: 'bottom trending-down', text: 'oska.big_decline'}
+    { icon: 'trending_flat', class: 'top trending-up', text: 'oska.big_increase' },
+    { icon: 'trending_up', class: 'top', text: 'oska.increase' },
+    { icon: 'trending_flat', class: 'stagnant', text: 'oska.stagnant' },
+    { icon: 'trending_down', class: 'bottom', text: 'oska.decline' },
+    { icon: 'trending_flat', class: 'bottom trending-down', text: 'oska.big_decline' }
   ];
   public graduatesToJobsValues = [
-    {icon: 'dot', class: 'bottom', text: 'oska.more_graduates'},
-    {icon: 'dot', class: 'bottom', text: 'oska.less_graduates'},
-    {icon: 'dot', class: 'top', text: 'oska.enough_graduates'},
-    {icon: 'dot', class: 'stagnant', text: 'oska.graduates_work_outside_field'},
-    {icon: 'dot', class: 'low', text: 'oska.no_graduates'}
+    { icon: 'dot', class: 'bottom', text: 'oska.more_graduates' },
+    { icon: 'dot', class: 'bottom', text: 'oska.less_graduates' },
+    { icon: 'dot', class: 'top', text: 'oska.enough_graduates' },
+    { icon: 'dot', class: 'stagnant', text: 'oska.graduates_work_outside_field' },
+    { icon: 'dot', class: 'low', text: 'oska.no_graduates' }
   ];
   public competitionLevel: any = null;
   public competitionLabel = '';
@@ -67,11 +67,11 @@ export class OskaAreasSidebarComponent implements OnInit {
     resultRelatedArticle: null
   };
 
-  constructor(private rootScope: RootScopeService, private route: ActivatedRoute) {}
+  constructor(private rootScope: RootScopeService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     if (this.viewType === 'field' && this.fieldName) {
-      this.fieldQuery = {field: this.fieldName};
+      this.fieldQuery = { field: this.fieldName };
     }
     if (this.viewType === 'mainProfession' && this.fillingbar[0] && this.fillingbar[0].value) {
       this.competitionLevel = parseInt(this.fillingbar[0].value, 10);
@@ -80,19 +80,19 @@ export class OskaAreasSidebarComponent implements OnInit {
     this.lang = this.rootScope.get('lang');
     if (this.sidebar) {
 
-      if (this.sidebar.fieldIscedfSearchLink && (this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed || this.sidebar.fieldIscedfSearchLink.entity.iscedf_narrow || this.sidebar.fieldIscedfSearchLink.entity.iscedf_broad)) {
-          this.locationPerLang = `/erialad`;
-          this.learningQuery = {iscedf_detailed: [], iscedf_narrow: [], iscedf_broad: [], level: []};
+      if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity && (this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed || this.sidebar.fieldIscedfSearchLink.entity.iscedf_narrow || this.sidebar.fieldIscedfSearchLink.entity.iscedf_broad)) {
+        this.locationPerLang = `/erialad`;
+        this.learningQuery = { iscedf_detailed: [], iscedf_narrow: [], iscedf_broad: [], level: [] };
 
-          Object.keys(this.learningQuery).forEach((field) => {
-            if (this.sidebar.fieldIscedfSearchLink.entity) {
-              this.sidebar.fieldIscedfSearchLink.entity[field].forEach(elem => {
-                if (elem.entity) {
-                  this.learningQuery[field].push(elem.entity.entityId);
-                }
-              });
-            }
-          });
+        Object.keys(this.learningQuery).forEach((field) => {
+          if (this.sidebar.fieldIscedfSearchLink.entity) {
+            this.sidebar.fieldIscedfSearchLink.entity[field].forEach(elem => {
+              if (elem.entity) {
+                this.learningQuery[field].push(elem.entity.entityId);
+              }
+            });
+          }
+        });
       }
 
       if (this.viewType === 'field') {
@@ -139,13 +139,13 @@ export class OskaAreasSidebarComponent implements OnInit {
     this.typeStatus[type] = true;
   }
 
-  formatNumber (number, locale) {
+  formatNumber(number, locale) {
     const num = parseInt(number, 10);
     const formattedNum = num.toLocaleString(locale);
     return formattedNum.replace(',', ' ');
   }
 
-  numberEmployed (elem: number, filled, outlined) {
+  numberEmployed(elem: number, filled, outlined) {
     let employedSection: any = false;
     const employedModifier = 11;
     if (0 < elem && elem < 10000) { employedSection = 1; }
@@ -163,21 +163,21 @@ export class OskaAreasSidebarComponent implements OnInit {
     this[outlined] = Array(employedModifier - employedSection).fill(0).map((x, i) => i);
   }
 
-  arrayOfLength (len) {
+  arrayOfLength(len) {
     return Array(parseInt(len, 10)).fill(0).map((x, i) => i);
   }
 
   isContactValid() {
     return (this.viewType === 'field' && this.sidebar.fieldOskaFieldContact && this.sidebar.fieldOskaFieldContact.entity
-    && (this.sidebar.fieldOskaFieldContact.entity.fieldOrganization || this.sidebar.fieldOskaFieldContact.entity.fieldPerson
-      || this.sidebar.fieldOskaFieldContact.entity.fieldEmail || this.sidebar.fieldOskaFieldContact.entity.fieldPhone))
-    ||
-    (this.viewType === 'mainProfession' && this.sidebar.fieldContact && this.sidebar.fieldContact.entity
-    && (this.sidebar.fieldContact.entity.fieldOrganization || this.sidebar.fieldContact.entity.fieldPerson
-      || this.sidebar.fieldContact.entity.fieldEmail || this.sidebar.fieldContact.entity.fieldPhone))
-    ||
-    ((this.viewType === 'results' || this.viewType === 'surveyPage') && this.sidebar.fieldContactSection && this.sidebar.fieldContactSection.entity
-    && (this.sidebar.fieldContactSection.entity.fieldOrganization || this.sidebar.fieldContactSection.entity.fieldPerson
-      || this.sidebar.fieldContactSection.entity.fieldEmail || this.sidebar.fieldContactSection.entity.fieldPhone));
+      && (this.sidebar.fieldOskaFieldContact.entity.fieldOrganization || this.sidebar.fieldOskaFieldContact.entity.fieldPerson
+        || this.sidebar.fieldOskaFieldContact.entity.fieldEmail || this.sidebar.fieldOskaFieldContact.entity.fieldPhone))
+      ||
+      (this.viewType === 'mainProfession' && this.sidebar.fieldContact && this.sidebar.fieldContact.entity
+        && (this.sidebar.fieldContact.entity.fieldOrganization || this.sidebar.fieldContact.entity.fieldPerson
+          || this.sidebar.fieldContact.entity.fieldEmail || this.sidebar.fieldContact.entity.fieldPhone))
+      ||
+      ((this.viewType === 'results' || this.viewType === 'surveyPage') && this.sidebar.fieldContactSection && this.sidebar.fieldContactSection.entity
+        && (this.sidebar.fieldContactSection.entity.fieldOrganization || this.sidebar.fieldContactSection.entity.fieldPerson
+          || this.sidebar.fieldContactSection.entity.fieldEmail || this.sidebar.fieldContactSection.entity.fieldPhone));
   }
 }
