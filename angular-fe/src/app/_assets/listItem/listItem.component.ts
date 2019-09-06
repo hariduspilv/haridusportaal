@@ -5,7 +5,7 @@ import {
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
 @Component({
-  selector: 'listItem',
+  selector: 'listItems',
   templateUrl: 'listItem.template.html',
   styleUrls: ['listItem.styles.scss'],
 })
