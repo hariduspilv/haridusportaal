@@ -123,7 +123,7 @@
   </div>
   <!-- / sidebar.fieldOskaMainProfession / -->
   <!-- sidebar learningOpportunities -->
-  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldIscedfSearchLink && ((sidebar.fieldIscedfSearchLink.entity.iscedf_detailed && sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.length) || (sidebar.fieldIscedfSearchLink.entity.fieldLevel && sidebar.fieldIscedfSearchLink.entity.fieldLevel.length))">
+  <div class="block border-orange padding-block sm-top" *ngIf="sidebar.fieldIscedfSearchLink && sidebar.fieldIscedfSearchLink.entity && ((sidebar.fieldIscedfSearchLink.entity.iscedf_detailed && sidebar.fieldIscedfSearchLink.entity.iscedf_detailed.length) || (sidebar.fieldIscedfSearchLink.entity.fieldLevel && sidebar.fieldIscedfSearchLink.entity.fieldLevel.length) || (sidebar.fieldIscedfSearchLink.entity.iscedf_narrow && sidebar.fieldIscedfSearchLink.entity.iscedf_narrow.length) || (sidebar.fieldIscedfSearchLink.entity.iscedf_broad && sidebar.fieldIscedfSearchLink.entity.iscedf_broad.length))">
     <h1 class="medium">{{ 'oska.learningOpportunities' | translate }}</h1>
     <div class="padding-block--content">
       <!-- <div *ngIf="sidebar.fieldIscedfSearchLink.entity.fieldIscedfSearchText">{{ sidebar.fieldIscedfSearchLink.entity.fieldIscedfSearchText }}</div> -->
