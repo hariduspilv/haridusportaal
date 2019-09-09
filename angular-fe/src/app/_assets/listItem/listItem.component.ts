@@ -14,8 +14,6 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   @Input() list: Object[];
   @Input() type: string;
 
-  public objectKeys = Object.keys;
-
   public footerFields = {
     studyProgramme: [
       'educationalInstitution',

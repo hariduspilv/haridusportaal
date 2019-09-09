@@ -17,8 +17,6 @@ const moduleMetadata = {
 
 const stories = storiesOf('Assets', module);
 
-const objectKeys = Object.keys;
-
 stories.addDecorator(withKnobs);
 
 stories.add('List item', () => {
@@ -26,7 +24,6 @@ stories.add('List item', () => {
   return {
     moduleMetadata,
     props: {
-      objectKeys,
       list,
     },
     template: listItemHtml,
