@@ -382,16 +382,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   getDatepickerValue(element, rowindex, col) {
-    let date = rowindex === undefined || col === undefined
+    const date = rowindex === undefined || col === undefined
       ? this.data_elements[element].value
       : this.data_elements[element].value[rowindex][col];
 
       if (!date) {
-        const today = new Date();
-      const dd = String(today.getDate()).padStart(2, '0');
-      const mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
-      const yyyy = today.getFullYear();
-      date = yyyy + '-' + mm + '-' + dd;
+        return '';
       }
 
       return moment((String(date).split('.')).reverse().join('-'));

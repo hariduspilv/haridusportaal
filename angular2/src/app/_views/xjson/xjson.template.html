@@ -32,15 +32,14 @@
       <ng-container *ngIf="data_messages">
         <ng-container *ngFor="let message of data_messages; let i = index;">
           <div class="alert" [ngClass]="'alert__'+data.messages[message].message_type | lowercase">
-            {{ selectLanguage(data.messages[message].message_text)}}<button class="alert__close"
+            {{ selectLanguage(data.messages[message].message_text)}}<button *ngIf="data.messages[message].message_type !== 'ERROR'" class="alert__close"
               (click)="closeMessage(i)" [attr.aria-label]="'notification.close' | translate"></button></div>
         </ng-container>
       </ng-container>
 
       <ng-container *ngIf="error_alert">
         <div class="alert" ngClass="alert__error">
-          {{ 'xjson.validation_errors' | translate }} <button class="alert__close" (click)="closeError()"
-            [attr.aria-label]="'notification.close' | translate"></button></div>
+          {{ 'xjson.validation_errors' | translate }} </div>
       </ng-container>
 
       <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
@@ -580,7 +579,7 @@
                                           class="round-input__wrapper">
                                           <div class="round-input__field-wrapper">
                                             <input class="round-input__field" matInput [matDatepicker]="picker"
-                                              [placeholder]="tableColumnAttribute(element, colIndex, 'title')"
+                                              [placeholder]="selectLanguage(tableColumnAttribute(element, colIndex, 'title'))"
                                               [value]="getDatepickerValue(element, rowIndex, col)" readonly="true"
                                               [(ngModel)]='data_elements[element].value[rowIndex][col]'
                                               name="{{element + '_' + rowIndex + '_' + colIndex}}"
