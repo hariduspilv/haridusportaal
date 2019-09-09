@@ -35,7 +35,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forRoot(routes),
     HttpClientModule,
-    TranslateModule.forRoot(),
+    TranslateModule.forRoot()
   ],
   providers: [
     { provide: LOCALE_ID, useValue:'et-EE' },
