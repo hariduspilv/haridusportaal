@@ -69,6 +69,7 @@ import { UrlPipe } from '@app/_pipes/url.pipe';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
+import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -103,6 +104,7 @@ const declarations = [
   RippleDirective,
   ModalComponent,
   ModalContentComponent,
+  MainProfessionsComponent,
   BaseLayout,
   ArticleLayout,
   SidebarComponent,

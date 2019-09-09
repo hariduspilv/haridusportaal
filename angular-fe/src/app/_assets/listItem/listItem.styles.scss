@@ -205,6 +205,10 @@ $grid-columns: 12;
     line-height: 1.25rem;
     color: #757575;
     white-space: nowrap;
+
+    .dark {
+      color: #333;
+    }
   }
 
   .bar{
