@@ -68,6 +68,7 @@ import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { UrlPipe } from '@app/_pipes/url.pipe';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
+import { NewsComponent } from './news/news.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -127,6 +128,7 @@ const declarations = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
+  NewsComponent,
 ];
 
 const exports = [

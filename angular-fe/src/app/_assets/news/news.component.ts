@@ -4,13 +4,13 @@ import {
     Input,
   } from '@angular/core';
 @Component({
-  selector: 'studyProgrammes',
-  templateUrl: 'studyProgrammes.template.html',
+  selector: 'news',
+  templateUrl: 'news.template.html',
 })
 
-  export class StudyProgrammesComponent implements OnInit{
+  export class NewsComponent implements OnInit{
   @Input() list: Object[];
-
+  
   constructor(
   ) {}
 
