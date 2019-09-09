@@ -184,7 +184,7 @@ class xJsonFile2RestResource extends ResourceBase {
 
         $this->validate($file, $validators);
 
-        return new ModifiedResourceResponse($file->getSize(), 400);
+        return new ModifiedResourceResponse(filesize($temp_file_path), 400);
 
         // now make our own file for xjson
         $file = new Base64Image($file_hash, $temp_file_path, $filename);
@@ -226,7 +226,7 @@ class xJsonFile2RestResource extends ResourceBase {
         $temp_file = fopen($temp_file_path, 'wb');
         if ($temp_file) {
             while (!feof($file_data)) {
-                $read = fread($file_data, static::BYTES_TO_READ);
+                $read = fread($file_data,  filesize($temp_file_path));
 
                 if ($read === FALSE) {
                     // Close the file streams.
