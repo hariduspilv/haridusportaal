@@ -13,20 +13,18 @@ export class ChartComponent implements OnInit {
   @Input() type = 'default';
   @Input() height = 500;
   @Input() wide = false;
-  @Input() init: any;
-  private prevInit: string = '';
 
-  chartData: any = [];
+  chartData: Object = [];
 
   objectKeys = Object.keys;
 
-  filters: any = {};
-  unselectableFilters: any = {};
+  filters: Object = {};
+  unselectableFilters: Object = {};
 
-  filtersData: any = {};
+  filtersData: Object = {};
 
-  requestDebounce = {};
-  requestSubscription = {};
+  requestDebounce: Object = {};
+  requestSubscription: Object = {};
 
   initiallyFilledSelects = ['näitaja', 'valdkond'];
 
@@ -384,7 +382,11 @@ export class ChartComponent implements OnInit {
 
   parseData() {
     this.data = this.data.map((item) => {
-      item.filterValues = JSON.parse(item.filterValues);
+      try {
+        item.filterValues = JSON.parse(item.filterValues);
+      } catch (err) {
+        console.log('Error parsing JSON');
+      }
       item.id = this.generateID();
 
       item.graph_group_by = item.filterValues.graph_options.graph_group_by;
@@ -432,7 +434,6 @@ export class ChartComponent implements OnInit {
               multiple: multipleIndicators,
             },
           );
-
         }
 
         try {
@@ -504,7 +505,6 @@ export class ChartComponent implements OnInit {
           key: 'näitaja',
           multiple: false,
         });
-
       } catch (err) {
         console.error("Couldn't parse indicators!");
       }
@@ -671,7 +671,7 @@ export class ChartComponent implements OnInit {
       right: 24,
     };
   }
-  initialize() {
+  ngOnInit() {
     switch (this.type) {
       case 'filter': {
         try {
@@ -684,15 +684,6 @@ export class ChartComponent implements OnInit {
           this.compileData();
         } catch (err) { }
       }
-    }
-    this.prevInit = this.init;
-  }
-  ngOnInit() {
-    this.initialize();
-  }
-  ngOnChanges() {
-    if (this.prevInit && this.prevInit !== this.init) {
-      this.initialize();
     }
   }
 }

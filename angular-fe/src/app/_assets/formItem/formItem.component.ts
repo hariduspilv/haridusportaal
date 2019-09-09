@@ -142,7 +142,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
       if (action === 'blur') {
         this.focused = false;
         if (this.type === 'select' || this.type === 'multi-select') {
-          this.onChange.emit('change');
+          this.onChange.emit();
         }
       }
 
@@ -181,6 +181,12 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
 
     if (this.type === 'multi-select') {
       this.removeComma();
+      this.options = this.options.map((opt) => {
+        return typeof opt ===  'string' ? {
+          key: opt,
+          value: opt,
+        } : opt;
+      });
     }
   }
 
