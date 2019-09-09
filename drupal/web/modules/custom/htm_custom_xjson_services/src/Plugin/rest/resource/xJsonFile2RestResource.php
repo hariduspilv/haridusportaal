@@ -166,6 +166,7 @@ class xJsonFile2RestResource extends ResourceBase {
         $file_uri = "{$destination}/{$prepared_filename}";
 
         $temp_file_path = $this->streamUploadData();
+        return new ModifiedResourceResponse($temp_file_path,200);
         $lock_id = $this->generateLockIdFromFileUri($file_uri);
 
         if (!$this->lock->acquire($lock_id)) {
