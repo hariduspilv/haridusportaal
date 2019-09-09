@@ -4,10 +4,6 @@ import studyProgrammesMd from './studyProgrammes.md';
 import studyProgrammesHtml from './studyProgrammes.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { list } from './studyProgrammes.data';
-import {
-  withKnobs,
-  object,
-} from '@storybook/addon-knobs';
 const moduleMetadata = {
   imports: [
     AssetsModule,

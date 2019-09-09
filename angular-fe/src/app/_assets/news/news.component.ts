@@ -1,6 +1,5 @@
 import {
     Component,
-    OnInit,
     Input,
   } from '@angular/core';
 @Component({
@@ -8,12 +7,7 @@ import {
   templateUrl: 'news.template.html',
 })
 
-  export class NewsComponent implements OnInit{
+  export class NewsComponent{
   @Input() list: Object[];
-  
-  constructor(
-  ) {}
 
-  ngOnInit() {
-  }
 }

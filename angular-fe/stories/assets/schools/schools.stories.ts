@@ -4,10 +4,6 @@ import schoolsMd from './schools.md';
 import schoolsHtml from './schools.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { list } from './schools.data';
-import {
-  withKnobs,
-  object,
-} from '@storybook/addon-knobs';
 const moduleMetadata = {
   imports: [
     AssetsModule,

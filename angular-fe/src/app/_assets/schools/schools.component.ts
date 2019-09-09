@@ -1,6 +1,5 @@
 import {
     Component,
-    OnInit,
     Input,
   } from '@angular/core';
 @Component({
@@ -8,14 +7,7 @@ import {
   templateUrl: 'schools.template.html',
 })
 
-  export class SchoolsComponent implements OnInit{
+  export class SchoolsComponent {
   @Input() list: Object[];
 
-  public objectKeys = Object.keys;
-
-  constructor(
-  ) {}
-
-  ngOnInit() {
-  }
 }
