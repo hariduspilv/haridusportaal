@@ -386,11 +386,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       ? this.data_elements[element].value
       : this.data_elements[element].value[rowindex][col];
 
-      if (!date) {
-        return '';
-      }
-
-      return moment((String(date).split('.')).reverse().join('-'));
+      return date ? moment((String(date).split('.')).reverse().join('-')) : '';
   }
 
   selectListCompare(a, b) {
