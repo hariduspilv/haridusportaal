@@ -126,7 +126,7 @@ export class HttpService {
     let headers = this.createAuthorizationHeader();
     headers = headers.append('Accept', 'application/json');
     headers = headers.append('Content-Type', 'application/octet-stream');
-    headers = headers.append('Content-Disposition', 'file; filename="'.concat(filename, '"'));
+    headers = headers.append('Content-Disposition', 'file; filename="'.concat(encodeURIComponent(filename), '"'));
 
     return this.http.post(url, data, {
       headers: headers
