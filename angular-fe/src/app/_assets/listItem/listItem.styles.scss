@@ -1,6 +1,8 @@
 @import "typography.scss";
 @import "breakpoints.scss";
 
+$grid-columns: 12;
+
 :host{
   display: block;
 }
@@ -237,4 +239,27 @@
   text-align: justify;
   margin-right: -1rem;
   padding-right: 2rem;
+}
+
+.list__item{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
+  @for $i from 1 through $grid-columns {
+    .col-#{$i} { width: percentage($i / $grid-columns); }
+    @include break-on(md, max) {
+      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(sm, max) {
+      .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(xs, max) {
+      .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(xxs, max) {
+      .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+  }
+  [class*='col']{box-sizing: border-box;}
+  .col{flex-grow: 1; flex-shrink: 1;}
+  
+  &>.dateBlock{padding:.625rem;}
+  &+.mat-divider{margin:1.25rem 0;}
 }
