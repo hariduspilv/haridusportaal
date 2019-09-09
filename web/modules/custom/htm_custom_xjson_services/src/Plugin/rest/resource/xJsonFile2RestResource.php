@@ -166,7 +166,6 @@ class xJsonFile2RestResource extends ResourceBase {
         $file_uri = "{$destination}/{$prepared_filename}";
 
         $temp_file_path = $this->streamUploadData();
-        return new ModifiedResourceResponse($temp_file_path,200);
         $lock_id = $this->generateLockIdFromFileUri($file_uri);
 
         if (!$this->lock->acquire($lock_id)) {
@@ -181,9 +180,11 @@ class xJsonFile2RestResource extends ResourceBase {
         $file->setFileUri($file_uri);
         // Set the size. This is done in File::preSave() but we validate the file
         // before it is saved.
-        $file->setSize(@filesize($temp_file_path));
+        //$file->setSize(@filesize($temp_file_path));
 
         $this->validate($file, $validators);
+
+        return new ModifiedResourceResponse($file->getSize(), 400);
 
         // now make our own file for xjson
         $file = new Base64Image($file_hash, $temp_file_path, $filename);
