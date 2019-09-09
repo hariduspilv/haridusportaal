@@ -180,6 +180,7 @@ class xJsonFile2RestResource extends ResourceBase {
         $file->setFileUri($file_uri);
         // Set the size. This is done in File::preSave() but we validate the file
         // before it is saved.
+      return new ModifiedResourceResponse(@filesize($temp_file_path), 200);
         $file->setSize(@filesize($temp_file_path));
 
         $this->validate($file, $validators);
