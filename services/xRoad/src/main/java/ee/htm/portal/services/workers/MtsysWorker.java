@@ -377,6 +377,8 @@ public class MtsysWorker extends Worker {
       MtsysTegevuslubaResponse response = ehisXRoadService
           .mtsysTegevusluba(BigInteger.valueOf(identifier), personalCode);
 
+      addAcceptableFormToHeader(response, jsonNode);
+
       Long klOkLiik = response.getTegevusloaAndmed().getKlLiik().longValue();
       ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_0").putObject("title")
           .put("et", klOkLiik.equals(18098L)
@@ -1753,5 +1755,31 @@ public class MtsysWorker extends Worker {
         .forEach(i -> acceptableActivity.add(i.asText()));
 
     return acceptableActivity.contains("VIEW");
+  }
+
+  private void addAcceptableFormToHeader(MtsysTegevuslubaResponse response, ObjectNode jsonNode) {
+    ArrayNode acceptableFormArrayNode = ((ObjectNode) jsonNode.get("header")).putArray("acceptable_form");
+
+    if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(15670L))
+        && !(response.getTegevusloaAndmed().getKlLiik().equals(18057L)
+        || response.getTegevusloaAndmed().getKlLiik().equals(1805L)
+        || response.getTegevusloaAndmed().getKlLiik().equals(18102L))) {
+      acceptableFormArrayNode.addObject()
+          .put("form_name", "MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS");
+    }
+
+    if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(15670L))
+        && (response.getTegevusloaAndmed().getKlLiik().equals(18057L)
+        || response.getTegevusloaAndmed().getKlLiik().equals(18058L)
+        || response.getTegevusloaAndmed().getKlLiik().equals(18102L))) {
+      acceptableFormArrayNode.addObject()
+          .put("form_name", "MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS");
+    }
+
+    if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(18103L))
+        && response.getTegevusloaAndmed().getKlLiik().equals(18098L)) {
+      acceptableFormArrayNode.addObject()
+          .put("form_name", "MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS");
+    }
   }
 }
