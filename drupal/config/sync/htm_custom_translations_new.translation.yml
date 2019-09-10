@@ -2009,6 +2009,10 @@ button:
     translation_type: textarea
     et: 'Loe edasi'
     en: 'Read on'
+  return:
+    translation_type: textarea
+    et: 'Tagasi töölauale'
+    en: 'Back to dashboard'
 tooltip:
   share:
     translation_type: textarea
