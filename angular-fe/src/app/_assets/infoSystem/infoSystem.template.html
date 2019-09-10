@@ -1,9 +1,12 @@
-<block>
+<block tabStyle="middle">
     <block-title>
         {{ 'infosystem.label' | translate }}
     </block-title>
+    <block-secondary-title>
+            {{ data.title }}
+    </block-secondary-title>
     <block-content [tabLabel]="data.subtitle" tabIcon="file-text">
-        <h1>{{ data.title }}</h1>
+        ... content
     </block-content>
     <block-content [tabLabel]="data.accordion.entity.fieldAccordionTitle" tabIcon="file-text">
         ... content

@@ -52,6 +52,21 @@ export class BlockTitleComponent {
 }
 
 @Component({
+  selector: 'block-secondary-title',
+  template: '<ng-content></ng-content>',
+})
+
+export class BlockSecondaryTitleComponent {
+  constructor(
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  detectChanges() {
+    this.cdr.detectChanges();
+  }
+}
+
+@Component({
   selector: 'block-tabs',
   template: '<ng-content></ng-content>',
 })
@@ -71,6 +86,7 @@ export class BlockComponent implements AfterContentInit{
   activeTab: string = '';
   labeledTabs: number = 0;
   hasTitle: boolean = false;
+  hasSecondaryTitle: boolean = false;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -82,6 +98,7 @@ export class BlockComponent implements AfterContentInit{
 
   @ContentChildren(BlockContentComponent) tabs: QueryList<BlockContentComponent>;
   @ContentChildren(BlockTitleComponent) titleComponent: QueryList<BlockTitleComponent>;
+  @ContentChildren(BlockSecondaryTitleComponent) secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
 
   @Input() theme: string = 'blue';
   @Input() titleBorder: boolean = false;
@@ -107,6 +124,13 @@ export class BlockComponent implements AfterContentInit{
   checkTitle() {
     if (this.titleComponent.toArray().length > 0) {
       this.hasTitle = true;
+    }
+  }
+
+  checkSecondaryTitle() {
+    if (this.secondaryTitleComponent.toArray().length > 0) {
+      console.log('jou');
+      this.hasSecondaryTitle = true;
     }
   }
 

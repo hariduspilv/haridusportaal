@@ -18,8 +18,7 @@
 		.block__title {
 			display: flex;
 			color: $dark-gray;
-      font-size: 1rem;
-
+			  font-size: 1rem;
 			&--border {
 				border-bottom: $gray 0.0625rem solid;
 			}
@@ -28,6 +27,15 @@
 				flex-grow: 1;
 				padding: 1.625rem 1.5rem;
 				text-transform: uppercase;
+			}
+
+			&__secondary__text{
+				color: #333333;
+				padding: 0rem 1.5rem;
+			}
+
+			&__secondary{
+				flex-direction: column;
 			}
 
 			&__tabs {
@@ -67,6 +75,64 @@
 				icon {
 					display: block;
 					margin-bottom: 0.125rem;
+				}
+			}
+			&__middle-tabs {
+				display: flex;
+				flex-basis: 100%;
+				justify-content: flex-start;
+				padding: 0rem 1.5rem;
+				margin-top: 1rem;
+				button {
+					appearance: none;
+					padding: 0 1rem;
+					border: none;
+					height: 100%;
+					background: none;
+					font-size: 16px;
+					cursor: pointer;
+					position: relative;
+					overflow: hidden;
+					vertical-align: top;
+					width: 15%;
+					margin: 0;
+					&.active {
+						color: $blue;
+						&:after{
+							content: '';
+							position: absolute;
+							left: -1rem;
+							right: -1rem;
+							bottom: 0;
+							height: 0.25rem;
+							background: $dark-orange;
+							display: block;
+						}
+					}
+					&:hover {
+						icon, .title  { 
+							color: #0F7B8A;
+						}
+					  }
+					.button__contents{
+						position: relative;
+						z-index: 2;
+						pointer-events: none;
+						.title{
+							font-weight: 300;
+							font-size: .875rem;
+							line-height: 1.71;
+							margin-bottom: .75rem;
+						}
+					}
+				}
+
+				icon {
+					display: block;
+					i {
+						font-size: 1.5rem !important;
+						margin: 1rem 0 .5rem;
+					}
 				}
 			}
 		}
