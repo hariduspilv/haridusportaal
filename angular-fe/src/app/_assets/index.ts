@@ -66,6 +66,7 @@ import { MonthsToYearsPipe } from '@app/_pipes/monthsToYears.pipe';
 import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { UrlPipe } from '@app/_pipes/url.pipe';
+import { InfoSystemComponent } from './infoSystem/infoSystem.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -85,6 +86,7 @@ const declarations = [
   LoaderComponent,
   SkeletonComponent,
   IconComponent,
+  InfoSystemComponent,
   BreadcrumbsComponent,
   AccordionComponent,
   AccordionItemComponent,

@@ -1,7 +1,7 @@
 
 const requestMap = {
   tags: ['fieldArticleTags', 'fieldNewsTags', 'fieldTag'],
-  accordion: ['fieldNewsAccordion'],
+  accordion: ['fieldNewsAccordion', 'fieldInfosystemAccordion'],
   shortDescription: ['fieldShortDescription'],
   image: ['fieldIntroductionImage'],
   duration: ['fieldDuration'],
@@ -14,6 +14,7 @@ const requestMap = {
   email: ['FieldSchoolContactEmail'],
   webpage: ['FieldSchoolWebpageAddress'],
   url: ['entityUrl'],
+  subtitle: ['fieldSubtitle'],
 };
 
 export default(data) => {

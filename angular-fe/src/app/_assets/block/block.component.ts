@@ -85,6 +85,7 @@ export class BlockComponent implements AfterContentInit{
 
   @Input() theme: string = 'blue';
   @Input() titleBorder: boolean = false;
+  @Input() tabStyle: string = 'default';
 
   changeTab(title:string) {
     this.activeTab = title;

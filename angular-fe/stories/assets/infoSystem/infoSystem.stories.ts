@@ -13,7 +13,7 @@ const moduleMetadata = {
 
 const stories = storiesOf('Assets', module);
 
-stories.add('List item', () => {
+stories.add('Info system page', () => {
 
   return {
     moduleMetadata,

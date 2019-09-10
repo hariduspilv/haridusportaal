@@ -10,7 +10,7 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   styleUrls: ['infoSystem.styles.scss'],
 })
 
-  export class ListItemComponent implements OnInit{
+  export class InfoSystemComponent implements OnInit{
   @Input() data: Object;
 
   constructor(
