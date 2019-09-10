@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import {
   BlockComponent,
   BlockContentComponent,
@@ -38,7 +38,10 @@ import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
 import { NgPipesModule } from 'ngx-pipes';
 import { FormItemComponent } from './formItem';
-import { RippleDirective } from '@app/_directives';
+import {
+  RippleDirective,
+  FiltersDirective,
+ } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
 import { BaseLayout } from './base-layout';
@@ -66,13 +69,19 @@ import { MonthsToYearsPipe } from '@app/_pipes/monthsToYears.pipe';
 import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { UrlPipe } from '@app/_pipes/url.pipe';
+import { SearchResultsComponent } from './searchResults';
+import { SettingsService } from '@app/_services/SettingsService';
+
+export function settingsProviderFactory(provider: SettingsService) {
+  return () => provider.load();
+}
 
 const pipes = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
-  LegendCurrencyPipe, 
-  EuroCurrencyPipe, 
+  LegendCurrencyPipe,
+  EuroCurrencyPipe,
   LocaleNumberPipe,
 ];
 
@@ -98,6 +107,7 @@ const declarations = [
   HeaderComponent,
   FormItemComponent,
   RippleDirective,
+  FiltersDirective,
   ModalComponent,
   ModalContentComponent,
   BaseLayout,
@@ -123,6 +133,7 @@ const declarations = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
+  SearchResultsComponent,
 ];
 
 const exports = [
@@ -137,6 +148,13 @@ const providers = [
   SidemenuService,
   SidebarService,
   ClipboardService,
+  SettingsService,
+  {
+    provide: APP_INITIALIZER,
+    useFactory: settingsProviderFactory,
+    deps: [SettingsService],
+    multi: true,
+  },
 ];
 
 @NgModule({

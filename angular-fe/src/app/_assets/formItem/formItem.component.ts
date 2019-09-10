@@ -48,6 +48,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() titleDisabled: boolean = false;
   @Input() height: number;
   @Input() options: FormItemOption[] = [];
+  @Input() name: string = '';
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
     const successClass = this.success ? 'formItem--success' : '';
@@ -177,6 +178,17 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     if (this.type === 'multi-select') {
       this.removeComma();
     }
+  }
+
+  getValue() {
+    return {
+      name: this.name,
+      value: this.field,
+    };
+  }
+
+  setValue(value) {
+    this.writeValue(value);
   }
 
   ngOnChanges() {

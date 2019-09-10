@@ -1,0 +1,26 @@
+<div style="max-width:1200px; margin:0 auto; padding:50px;">
+  <form filters>
+    <div class="row">
+      <div class="col-3">
+        <formItem type="text" title="Keyword" name="title"></formItem>
+      </div><!--/col-4-->
+      <div class="col-3">
+        <formItem type="date" title="Start date" name="minDate"></formItem>
+      </div><!--/col-3-->
+      <div class="col-3">
+        <formItem type="date" title="End date" name="maxDate"></formItem>
+      </div><!--/col-3-->
+      <div class="col-3">
+        <button htm-button>Search</button>
+      </div><!--/col-4-->
+    </div><!--/row-->
+  </form>
+
+  <div style="height:50px;"></div>
+
+  <div class="row">
+    <div class="col-12">
+      <searchResults queryName="newsList"></searchResults>
+    </div><!--/col-12-->
+  </div><!--/row-->
+</div>
