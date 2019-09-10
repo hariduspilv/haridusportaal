@@ -75,6 +75,10 @@ import { SettingsService } from '@app/_services/SettingsService';
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
 }
+import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
+import { SchoolsComponent } from './schools/schools.component';
+import { NewsComponent } from './news/news.component';
+import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -110,6 +114,7 @@ const declarations = [
   FiltersDirective,
   ModalComponent,
   ModalContentComponent,
+  MainProfessionsComponent,
   BaseLayout,
   ArticleLayout,
   SidebarComponent,
@@ -123,6 +128,8 @@ const declarations = [
   SidebarLocationComponent,
   SidebarProgressComponent,
   SidebarRegisterComponent,
+  StudyProgrammesComponent,
+  SchoolsComponent,
   ProgressBarComponent,
   MapComponent,
   ShareComponent,
@@ -134,6 +141,7 @@ const declarations = [
   RemoveProtocolPipe,
   UrlPipe,
   SearchResultsComponent,
+  NewsComponent,
 ];
 
 const exports = [

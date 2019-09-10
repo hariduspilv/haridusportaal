@@ -103,6 +103,46 @@ stories.add(
                   <td>Teine</td>
                   <td>Kolmas</td>
                 </tr>
+                <tr>
+                  <td>See</td>
+                  <td>Teine</td>
+                  <td>Kolmas</td>
+                </tr>
+                <tr>
+                  <td>See</td>
+                  <td>Teine</td>
+                  <td>Kolmas</td>
+                </tr>
+                <tr>
+                  <td>See</td>
+                  <td>Teine</td>
+                  <td>Kolmas</td>
+                </tr>
+                <tr>
+                  <td>See</td>
+                  <td>Teine</td>
+                  <td>Kolmas</td>
+                </tr>
+                <tr>
+                  <td>See</td>
+                  <td>Teine</td>
+                  <td>Kolmas</td>
+                </tr>
+                <tr>
+                  <td>See</td>
+                  <td>Teine</td>
+                  <td>Kolmas</td>
+                </tr>
+                <tr>
+                  <td>See</td>
+                  <td>Teine</td>
+                  <td>Kolmas</td>
+                </tr>
+                <tr>
+                  <td>See</td>
+                  <td>Teine</td>
+                  <td>Kolmas</td>
+                </tr>
               </table>
             </modal-content>
           </htm-modal>

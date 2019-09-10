@@ -127,8 +127,125 @@ const news = [
   },
 ];
 
+const mainProfessions = [
+  {
+    "nid": 48993,
+    "title": "Ajakirjanik",
+    "fieldFixedLabel": {
+      "entity": {
+        "entityId": "2744",
+        "entityLabel": "\u00c4ra kindlasti!"
+      }
+    },
+    "entityUrl": {
+      "path": "\/ametialad\/ajakirjanik"
+    },
+    "fieldSidebar": {
+      "entity": {
+        "fieldPros": [
+          "Pluss 1 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti asehk 100 pikvxzvcx",
+          "Pluss 2 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vas",
+          "Pluss 3 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vas",
+          "Pluss 4 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikkpigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vast",
+          "Pluss 5 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikkpigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vast"
+        ],
+        "fieldNeutral": [
+
+        ],
+        "fieldCons": [
+          "Miinus pikk pigem k\u00f5vasti ehk 100 n\u00fc\u00fcd on cache k\u00fcll valma",
+          "Miinus 2 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikkpigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vas",
+          "Miinus 3 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikkpigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vas",
+          "Miinus 4 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikkpigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vas",
+          "Miinus 5 pigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vasti ehk 100 pikkpigem k\u00f5vasti ehk 100 pikk pigem k\u00f5vas"
+        ],
+        "fieldOskaField": [
+          {
+            "entity": {
+              "nid": 48875,
+              "title": "Majutus, toitlustus, turism",
+              "entityUrl": {
+                "path": "\/valdkonnad\/majutus-toitlustus-turism"
+              }
+            }
+          },
+          {
+            "entity": {
+              "nid": 48876,
+              "title": "Transport, logistika, mootors\u00f5idukite m\u00fc\u00fck ja remont",
+              "entityUrl": {
+                "path": "\/valdkonnad\/transport-logistika-mootors\u00f5idukite-m\u00fc\u00fck-ja-remont"
+              }
+            }
+          },
+          {
+            "entity": {
+              "nid": 49677,
+              "title": "Sotsiaalt\u00f6\u00f6",
+              "entityUrl": {
+                "path": "\/valdkonnad\/sotsiaalt\u00f6\u00f6"
+              }
+            }
+          },
+          {
+            "entity": {
+              "nid": 49014,
+              "title": "P\u00f5llumajandus ja toiduainet\u00f6\u00f6stus",
+              "entityUrl": {
+                "path": "\/valdkonnad\/p\u00f5llumajandus-ja-toiduainet\u00f6\u00f6stus"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "reverseOskaMainProfessionOskaIndicatorEntity": {
+      "entities": [
+        {
+          "oskaId": 3,
+          "oskaIndicator": "Brutopalk",
+          "value": "540",
+          "icon": 1
+        },
+        {
+          "oskaId": 2,
+          "oskaIndicator": "H\u00f5ive muutus",
+          "value": "1",
+          "icon": 3
+        },
+        {
+          "oskaId": 4,
+          "oskaIndicator": "T\u00f6\u00f6kohtade ja l\u00f5petajate arvu v\u00f5rdlus",
+          "value": "1",
+          "icon": 1
+        },
+        {
+          "oskaId": 1,
+          "oskaIndicator": "H\u00f5ivatute arv",
+          "value": "10000",
+          "icon": 2
+        }
+      ]
+    },
+    "reverseOskaMainProfessionOskaFillingBarEntity": {
+      "entities": [
+        {
+          "value": "1"
+        }
+      ]
+    },
+    "__typename": "NodeOskaMainProfessionPage",
+    "fieldBruto": 540,
+    "fieldEducationIndicator": 1,
+    "fieldNumberOfEmployees": 10000,
+    "fieldChangeInEmployment": 1,
+    "fieldFillingBar": 1
+  },
+];
+
 export const list = {
   "studyProgramme": studyProgrammes,
   "school": schools,
   "news": news,
+  "mainProfession": mainProfessions,
 };
