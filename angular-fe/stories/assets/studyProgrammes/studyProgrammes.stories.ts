@@ -1,9 +1,9 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import listItemMd from './list-item.md';
-import listItemHtml from './list-item.html';
+import studyProgrammesMd from './studyProgrammes.md';
+import studyProgrammesHtml from './studyProgrammes.html';
 import { TranslateModule } from '@app/_modules/translate';
-import { list } from './list-item.data';
+import { list } from './studyProgrammes.data';
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -13,15 +13,15 @@ const moduleMetadata = {
 
 const stories = storiesOf('Assets', module);
 
-stories.add('List item', () => {
+stories.add('Study Programmes', () => {
 
   return {
     moduleMetadata,
     props: {
       list,
     },
-    template: listItemHtml,
+    template: studyProgrammesHtml,
   };
 },          {
-  notes: { markdown: listItemMd },
+  notes: { markdown: studyProgrammesMd },
 });
