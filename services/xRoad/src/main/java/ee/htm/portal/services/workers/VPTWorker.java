@@ -607,13 +607,13 @@ public class VPTWorker extends Worker {
                 : null)
             .put("hidden", !response.getTaotlusInfoDto().isSetEsitamiseKuupaev());
         submitDataElement.putObject("status").put("value", response.getTaotlusInfoDto().getOlek());
-        submitDataElement.putObject("application_file").putObject("value")
+        submitDataElement.putObject("application_file").putArray("value").addObject()
             .put("file_name", "taotlus.zip")
             .put("file_identifier", "VPT_TAOTLUS_ZIP_" + response.getTaotlusInfoDto().getId());
         submitDataElement.putObject("decision_file").put("hidden",
             (response.getTaotlusInfoDto().getOlek().equalsIgnoreCase("SISESTAMISEL")
                 || response.getTaotlusInfoDto().getOlek().equalsIgnoreCase("MENETLUSES")))
-            .putObject("value").put("file_name", "otsus.bdoc")
+            .putArray("value").addObject().put("file_name", "otsus.bdoc")
             .put("file_identifier", "VPT_OTSUS_DDOC_" + response.getTaotlusInfoDto().getId());
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_submit_result"))
