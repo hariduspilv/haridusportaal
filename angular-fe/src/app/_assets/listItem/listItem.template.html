@@ -71,32 +71,30 @@
                         </span>
 
                         <ng-container *ngIf="fieldName === 'fillingBar'">
-                                <ng-container
-                                *ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value)
+                            <ng-container *ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value)
                                   || (item.indicator.entities && item.indicator.entities.length)">
                                 <ng-container *ngIf="item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
                                   && item[fieldName].entities[0].value > 0 && item[fieldName].entities[0].value < 6">
-                                  <span class="item">{{ 'oska.competition' | translate | ucfirst }}: <span class="dark">{{ getCompetitionLabel(item[fieldName].entities[0].value) | translate }}</span></span>
+                                    <span class="item">{{ 'oska.competition' | translate | ucfirst }}: <span
+                                            class="dark">{{ getCompetitionLabel(item[fieldName].entities[0].value) | translate }}</span></span>
                                 </ng-container>
                                 <ng-container *ngIf="item.indicator.entities && item.indicator.entities.length">
-                                  <ng-container *ngFor="let elem of indicatorValues(item.indicator.entities); let ind = index;">
-                                    <ng-container *ngIf="elem.oskaId">
-                                      <span class="bar" *ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
+                                    <ng-container
+                                        *ngFor="let elem of indicatorValues(item.indicator.entities); let ind = index;">
+                                        <ng-container *ngIf="elem.oskaId">
+                                            <span class="bar"
+                                                *ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
                                         && item[fieldName].entities[0].value > 0 && item[fieldName].entities[0].value < 6) || ind === 1">|</span>
-                                      <span class="item">{{ elem.oskaIndicator | ucfirst }}: <span *ngIf="elem.oskaId === 1" class="dark">{{ elem.value | localeNumber }} </span> <span *ngIf="elem.oskaId === 3" class="dark">{{ elem.value | currency:"EUR" }} </span></span>
-                                      <!-- <span class="item">{{ elem.oskaIndicator | titleCase }}: 
-                                        <span *ngIf="elem.oskaId === 1" class="dark">{{ elem.value }}</span>
-                                        <span *ngIf="elem.oskaId === 3" class="dark">{{ formatNumber(elem.value, 'et') }} €</span>
-                                      </span> -->
+                                            <span class="item">{{ elem.oskaIndicator | ucfirst }}: <span
+                                                    *ngIf="elem.oskaId === 1"
+                                                    class="dark">{{ elem.value | localeNumber }} </span> <span
+                                                    *ngIf="elem.oskaId === 3"
+                                                    class="dark">{{ elem.value | currency:"EUR" }} </span></span>
+                                        </ng-container>
                                     </ng-container>
-                                   
-                                  </ng-container>
                                 </ng-container>
-                                </ng-container>
-
+                            </ng-container>
                         </ng-container>
-
-
                     </ng-container>
                 </ng-container>
             </div>
