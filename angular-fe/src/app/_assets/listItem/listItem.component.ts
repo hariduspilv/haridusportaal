@@ -31,7 +31,13 @@ import FieldVaryService from '@app/_services/FieldVaryService';
     ],
   };
 
-  public competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
+  public competitionLabels = [
+    'oska.simple_extended',
+    'oska.quite_simple_extended',
+    'oska.medium_extended',
+    'oska.quite_difficult_extended',
+    'oska.difficult_extended',
+  ];
 
   constructor(
   ) {}
@@ -40,7 +46,6 @@ import FieldVaryService from '@app/_services/FieldVaryService';
     this.list.forEach((element, index) => {
       this.list[index] = FieldVaryService(element);
     });
-    console.log(this.list);
   }
 
   getCompetitionLabel (val) {

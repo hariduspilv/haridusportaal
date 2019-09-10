@@ -1,4 +1,4 @@
-# Study programmes list view
+# Main professions list view
 
 ## Usage
 
