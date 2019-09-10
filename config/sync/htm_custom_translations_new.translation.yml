@@ -2005,6 +2005,10 @@ button:
     translation_type: textarea
     et: Lisa
     en: ''
+  read_on:
+    translation_type: textarea
+    et: 'Loe edasi'
+    en: 'Read on'
 tooltip:
   share:
     translation_type: textarea
