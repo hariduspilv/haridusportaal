@@ -16,8 +16,8 @@ function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$us
 	foreach($userinfo['profile_attributes'] as $field => $value){
 	  $userinfo[$field] = $value;
   }
-  #dump($userinfo);
-	#die();
+  dump($userinfo);
+	die();
 }
 
 function htm_custom_tara_authentication_openid_connect_claims_alter(&$claims){
