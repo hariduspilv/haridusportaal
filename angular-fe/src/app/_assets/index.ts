@@ -20,6 +20,7 @@ import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
+import { RecaptchaModule, RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
 import {
   RippleService,
   NgbDateCustomParserFormatter,
@@ -145,6 +146,10 @@ const providers = [
   SidemenuService,
   SidebarService,
   ClipboardService,
+  {
+    provide: RECAPTCHA_LANGUAGE,
+    useValue: 'et',
+  },
 ];
 
 @NgModule({
@@ -164,6 +169,7 @@ const providers = [
     NgPipesModule,
     NgSelectModule,
     NgbTooltipModule,
+    RecaptchaModule.forRoot(),
   ],
   exports: [...declarations, ...pipes, ...exports],
 })

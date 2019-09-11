@@ -149,7 +149,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           this.filledField = true;
         }
       } else {
-        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object');
+        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object'
+          || typeof this.field === 'number');
       }
     }
     this.propagateChange(this.field);

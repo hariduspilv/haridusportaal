@@ -1,0 +1,42 @@
+<article-layout>
+	<breadcrumbs [data]="breadcrumbsData"></breadcrumbs>
+	<block titleBorder="true">
+		<block-title>
+			{{ 'frontpage.dashboard_tabs_certificates' | translate | uppercase }}
+		</block-title>
+		<block-content>
+			<h1>{{ 'frontpage.certificate_check' | translate }}</h1>
+			<div class="introduction" 
+				innerHtml="{{'frontpage.certificate_check_body' | translate}}">
+			</div><!--/introduction-->
+			<form>
+				<formItem
+					name="id_code"
+					type="number"
+					[(ngModel)]="model.id_code"
+					title="{{ 'frontpage.certificate_owner_id' | translate }}">
+				</formItem>
+				<formItem
+					name="certificate_id"
+					type="text"
+					[(ngModel)]="model.certificate_id"
+					title="{{ 'frontpage.certificate_id' | translate }}">
+				</formItem>
+				<re-captcha
+					attr.aria-label="'Recaptcha'"
+					#captchaRef="reCaptcha"
+					siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90"
+					[(ngModel)]="model.captcha"
+					name="captcha"
+					required>
+				</re-captcha>
+				<button
+					htm-button
+					type="submit"
+					theme="default">
+					{{ 'button.search' | translate }}
+				</button>
+			</form>
+		</block-content>
+	</block>
+</article-layout>

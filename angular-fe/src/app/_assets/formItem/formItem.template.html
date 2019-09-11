@@ -14,6 +14,19 @@
         (blur)="update('blur')"
         [(ngModel)]="field" />
     </ng-container>
+    
+    <ng-container *ngSwitchCase="'number'">
+      <input
+        [class.hideText]="!filledField"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
+        [class.focused]="focused"
+        #inputField
+        type="number"
+        (change)="update()"
+        (focus)="update('focus')"
+        (blur)="update('blur')"
+        [(ngModel)]="field" />
+    </ng-container>
 
     <ng-container *ngSwitchCase="'date'">
       <input
