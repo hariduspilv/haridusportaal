@@ -13,11 +13,11 @@ function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$us
 	}else{
 		$userinfo['id_code'] = substr($sub, 2);
 	}
-	foreach($userinfo['profile_attributes'] as $field => $value){
-	  $userinfo[$field] = $value;
+	if(isset($userinfo['profile_attributes'])){
+    foreach($userinfo['profile_attributes'] as $field => $value){
+      $userinfo[$field] = $value;
+    }
   }
-  dump($userinfo);
-	die();
 }
 
 function htm_custom_tara_authentication_openid_connect_claims_alter(&$claims){
