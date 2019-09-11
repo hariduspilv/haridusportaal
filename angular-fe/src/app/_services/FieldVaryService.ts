@@ -3,7 +3,9 @@ const requestMap = {
   tags: ['fieldArticleTags', 'fieldNewsTags', 'fieldTag'],
   accordion: ['fieldNewsAccordion', 'fieldInfosystemAccordion'],
   shortDescription: ['fieldShortDescription'],
-  image: ['fieldIntroductionImage'],
+  introductionText: ['fieldIntroductionText'],
+  content: ['fieldContentText'],
+  image: ['fieldIntroductionImage', 'fieldLogo'],
   duration: ['fieldDuration'],
   title: ['entityLabel', 'FieldSchoolName'],
   head: ['fieldStudyProgrammeLevel', 'FieldEducationalInstitutionTy'],
@@ -12,9 +14,10 @@ const requestMap = {
   teachingLanguage: ['fieldTeachingLanguage'],
   phone: ['FieldSchoolContactPhone'],
   email: ['FieldSchoolContactEmail'],
-  webpage: ['FieldSchoolWebpageAddress'],
+  webpage: ['FieldSchoolWebpageAddress', 'fieldWebpageLink'],
   url: ['entityUrl'],
   subtitle: ['fieldSubtitle'],
+  sidebar: ['fieldInfosystemSidebar'],
 };
 
 export default(data) => {

@@ -1,4 +1,15 @@
 // tslint:disable
+
+export const breadcrumbsData = [
+  {
+    title: 'Avaleht',
+    link: '/',
+  },
+  {
+    title: 'Eesti Hariduse Infosüsteem (EHIS)',
+  },
+];
+
 export const data = {
   "nid": 52784,
   "title": "Eesti Hariduse Infos\u00fcsteem (EHIS)",
@@ -167,6 +178,22 @@ export const data = {
   },
   "fieldInfosystemSidebar": {
     "entity": {
+      "fieldButton": [
+        {
+          "url": {
+            "routed": false,
+            "path": "http:\/\/www.google.com"
+          },
+          "title": "EHIS avalik vaade"
+        },
+        {
+          "url": {
+            "routed": false,
+            "path": "http:\/\/www.priit.party"
+          },
+          "title": "Sisene EHIS-sse"
+        }
+      ],
       "fieldLegislationBlock": [
         {
           "url": {
@@ -190,42 +217,6 @@ export const data = {
           "title": "Eesti Hariduse Infos\u00fcsteemi p\u00f5him\u00e4\u00e4rus"
         }
       ],
-      "fieldBlocks": [
-        {
-          "entity": {
-            "fieldBlockTitle": "Leia kiiresti",
-            "fieldBlockLinks": [
-              {
-                "entity": {
-                  "fieldWebpageLink": {
-                    "url": {
-                      "routed": false,
-                      "path": "http:\/\/google.com"
-                    }
-                  },
-                  "fieldLinkName": "testime linki"
-                }
-              }
-            ]
-          }
-        }
-      ],
-      "fieldButton": [
-        {
-          "url": {
-            "routed": false,
-            "path": "http:\/\/www.google.com"
-          },
-          "title": "EHIS avalik vaade"
-        },
-        {
-          "url": {
-            "routed": false,
-            "path": "http:\/\/www.priit.party"
-          },
-          "title": "Sisene EHIS-sse"
-        }
-      ]
     }
   }
 };
