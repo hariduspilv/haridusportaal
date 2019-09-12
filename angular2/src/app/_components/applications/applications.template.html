@@ -7,7 +7,6 @@
     <div>
       <h4 class="title-lg-padding">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
       <div class="text-center" *ngIf="!acceptable_forms_list.length">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_notfound' | translate }}</div>
-      
       <ng-container *ngIf="acceptable_forms_list.length">
         
         <div class="grid-box">
@@ -259,7 +258,7 @@
                 <div class="grid-box">
                   <ng-container *ngFor="let form of school.acceptable_forms; let index = index;">
                     <ng-container *ngIf="index < acceptableFormsLimiter">
-                      <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{educationalInstitutions_id: school.id}" class="grid-item">
+                      <a [routerLink]="[compileXjsonLink(form.form_name)]" [queryParams]="{educationalInstitutions_id: school.id, identifier: form.id, existing: 'true'}" class="grid-item">
                         <span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }} {{ form.description }}</span>
                       </a>
                     </ng-container>
