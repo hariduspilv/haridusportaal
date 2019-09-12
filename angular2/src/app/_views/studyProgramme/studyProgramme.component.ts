@@ -126,8 +126,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         this.FilterOptions['iscedf_narrow'] = filteredNarrows;
         this.filterFormItems['iscedf_narrow'] = filteredNarrows.map(e => e.entityId);
         this.FilterOptions['iscedf_detailed'] = iscedfDetailedFull;
-        console.log(this.filterFormItems);
-        console.log(this.FilterOptions);
       }
       //if narrow exists but no broad, reverse search broad
       if(this.filterFormItems.iscedf_narrow && (!this.filterFormItems.iscedf_broad === false || !this.filterFormItems.iscedf_broad)) {
