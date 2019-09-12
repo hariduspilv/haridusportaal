@@ -1,4 +1,5 @@
 @import 'typography.scss';
+@import 'breakpoints.scss';
 h1 {
   color: $black;
 }
@@ -24,5 +25,36 @@ form {
     margin-top: 1.5rem;
     width: auto;
     align-self: center;
+  }
+  @include break-on(xs, min) {
+    .formItem {
+      width: 66%;
+      margin: 0 auto;
+    }
+  }
+  .formItem + .formItem {
+    margin-top: 1rem;
+  }
+}
+.footer {
+  margin-top: 1.5rem;
+  table {
+    a {
+      text-decoration: none;
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+    b {
+      font-weight: 500;
+    }
+    td {
+      &.separated {
+        border-bottom: 1px solid $dark-gray;
+      }
+      &.centered {
+        text-align: center;
+      }
+    }
   }
 }

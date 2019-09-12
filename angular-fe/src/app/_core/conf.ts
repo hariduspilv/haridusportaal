@@ -1,5 +1,8 @@
 export default {
   api_prefix: 'https://htm.wiseman.ee/',
+  patterns: {
+    idCode: '[1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4}',
+  },
   defaultPolygonColors: [
     '#FBE5C4',
     '#FBD291',

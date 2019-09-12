@@ -398,6 +398,7 @@ stories.add('Article Layout', () => {
       },
     },
   };
+  const feedbackNid = '48788';
   const sidebar = object('Sidebar', sidebarData);
   return {
     moduleMetadata,
@@ -405,6 +406,7 @@ stories.add('Article Layout', () => {
       breadcrumbsData,
       videoData,
       sidebar,
+      feedbackNid,
     },
     template: articleStoriesTemplateHtml,
   };

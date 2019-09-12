@@ -20,7 +20,7 @@ import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
-import { RecaptchaModule, RECAPTCHA_LANGUAGE } from 'ng-recaptcha';
+import { RecaptchaModule, RECAPTCHA_LANGUAGE, RecaptchaFormsModule } from 'ng-recaptcha';
 import {
   RippleService,
   NgbDateCustomParserFormatter,
@@ -170,6 +170,7 @@ const providers = [
     NgSelectModule,
     NgbTooltipModule,
     RecaptchaModule.forRoot(),
+    RecaptchaFormsModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })

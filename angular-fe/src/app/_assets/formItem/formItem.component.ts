@@ -12,6 +12,7 @@ import {
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RippleService } from '@app/_services';
+import conf from '@app/_core/conf';
 
 export interface FormItemOption {
   key: 'string';
@@ -48,6 +49,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() titleDisabled: boolean = false;
   @Input() height: number;
   @Input() options: FormItemOption[] = [];
+  @Input() pattern: any = false;
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
     const successClass = this.success ? 'formItem--success' : '';
@@ -62,12 +64,14 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   public dirty: boolean = false;
   public filledField: boolean = false;
   public focused: boolean = false;
-
+  public patterns: Object;
   constructor(
     private el: ElementRef,
     private ripple: RippleService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+    this.patterns = conf.patterns;
+  }
 
   animateRipple($event) {
     this.ripple.animate($event, 'dark');
@@ -139,6 +143,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
       if (action === 'blur') {
         this.focused = false;
+        if (this.pattern) {
+          const input = this.el.nativeElement.querySelector('input');
+          this.error = input.classList.contains('ng-invalid');
+        }
       }
 
       this.dirty = true;
@@ -149,8 +157,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           this.filledField = true;
         }
       } else {
-        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object'
-          || typeof this.field === 'number');
+        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object');
       }
     }
     this.propagateChange(this.field);
