@@ -49,6 +49,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() height: number;
   @Input() options: FormItemOption[] = [];
   @Input() name: string = '';
+  @Input() checked;
+
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
     const successClass = this.success ? 'formItem--success' : '';
@@ -173,10 +175,17 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   checkInitialValue(): void {
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
-    }
-
-    if (this.type === 'multi-select') {
+    } else if (this.type === 'checkbox') {
+      if (this.checked === '' || this.checked === 'checked') {
+        this.field = 'true';
+      }
+    } else if (this.type === 'multi-select') {
       this.removeComma();
+    } else {
+      if (this.value) {
+        this.field = this.value;
+        this.filledField = true;
+      }
     }
   }
 

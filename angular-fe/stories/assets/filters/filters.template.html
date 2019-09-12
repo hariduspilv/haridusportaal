@@ -1,26 +1,90 @@
-<div style="max-width:1200px; margin:0 auto; padding:50px;">
-  <form filters>
-    <div class="row">
-      <div class="col-3">
-        <formItem type="text" title="Keyword" name="title"></formItem>
-      </div><!--/col-4-->
-      <div class="col-3">
-        <formItem type="date" title="Start date" name="minDate"></formItem>
-      </div><!--/col-3-->
-      <div class="col-3">
-        <formItem type="date" title="End date" name="maxDate"></formItem>
-      </div><!--/col-3-->
-      <div class="col-3">
-        <button htm-button>Search</button>
-      </div><!--/col-4-->
-    </div><!--/row-->
-  </form>
+<div style="background:rgb(238,238,238); min-height: 100%;">
+  <div style="max-width:1200px; margin:0 auto; padding:23px 50px;">
+    <breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+  </div>
+  <ng-container *ngIf="type === 'news'">
+    <div style="background:#fff;">
+      <div style="max-width:1200px; margin:0 auto; padding:0 50px;">
+        <form filters>
+          <div class="row">
+            <div class="col-3">
+              <formItem type="text" title="Sisesta märksõna" name="title"></formItem>
+            </div><!--/col-4-->
+            <div class="col-3">
+              <formItem type="date" title="Alguskuupäev" name="minDate"></formItem>
+            </div><!--/col-3-->
+            <div class="col-3">
+              <formItem type="date" title="Lõpukuupäev" name="maxDate"></formItem>
+            </div><!--/col-3-->
+            <div class="col-3">
+              <button htm-button>Otsi</button>
+            </div><!--/col-4-->
+          </div><!--/row-->
+        </form>
+      </div>
+    </div>
+    <div style="max-width:1200px; margin:0 auto; padding:50px;">
+      <block titleBorder="true">
+        <block-title>Uudised</block-title>
+        <block-content>
+          <searchResults [type]="type" limit="10"></searchResults>
+        </block-content>
+      </block>
+    </div>
+  </ng-container>
 
-  <div style="height:50px;"></div>
+  <ng-container *ngIf="type === 'studyProgramme'">
+    <div style="background:#fff;">
+      <div style="max-width:1200px; margin:0 auto; padding:0 50px;">
+        <form filters>
+          <div class="row">
+            <div class="col-3">
+              <formItem type="text" title="Sisesta märksõna" name="title"></formItem>
+            </div><!--/col-3-->
+            <div class="col-3">
+              <button htm-button>Otsi</button>
+            </div><!--/col-4-->
+          </div><!--/row-->
+        </form>
+      </div>
+      
+    </div>
+    <div style="max-width:1200px; margin:0 auto; padding:50px;">
+      <block titleBorder="true">
+        <block-title>Erialad</block-title>
+        <block-content>
+          <searchResults [type]="type" limit="10"></searchResults>
+        </block-content>
+      </block>
+    </div>
+  </ng-container>
 
-  <div class="row">
-    <div class="col-12">
-      <searchResults queryName="newsList"></searchResults>
-    </div><!--/col-12-->
-  </div><!--/row-->
+  <ng-container *ngIf="type === 'school'">
+    <div style="background:#fff;">
+      <div style="max-width:1200px; margin:0 auto; padding:0 50px;">
+        <form filters>
+          <div class="row">
+            <div class="col-3">
+              <formItem type="text" title="Kooli nimi" name="title"></formItem>
+            </div><!--/col-3-->
+            <div class="col-3">
+              <formItem type="text" title="Asukoht" name="location"></formItem>
+            </div><!--/col-3-->
+            <div class="col-3">
+              <button htm-button>Otsi</button>
+            </div><!--/col-4-->
+          </div><!--/row-->
+        </form>
+      </div>
+      
+    </div>
+    <div style="max-width:1200px; margin:0 auto; padding:50px;">
+      <block titleBorder="true">
+        <block-title>Õppeasutused </block-title>
+        <block-content>
+          <searchResults [type]="type" limit="10"></searchResults>
+        </block-content>
+      </block>
+    </div>
+  </ng-container>
 </div>

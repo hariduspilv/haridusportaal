@@ -1,1 +1,11 @@
+<ng-container *ngIf="!loading">
+  <div class="noResults" *ngIf="!list.length">
+    Otsingutulemused puuduvad
+  </div>
+  <listItems
+    [type]="type"
+    [list]="list"
+  ></listItems>
+</ng-container>
+
 <loader *ngIf="loading"></loader>

@@ -1,60 +1,128 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import {
+  Component,
+  OnDestroy,
+  Input,
+  OnChanges,
+  ChangeDetectorRef,
+  AfterViewInit,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Router, ActivatedRoute } from '@angular/router';
 import { SettingsService } from '@app/_services/SettingsService';
 import * as moment from 'moment';
-import { searchResultKeys, requiredFields } from './searchResults.helper';
+import {
+  searchResultKeys,
+  requiredFields,
+  queryList,
+  likeFields,
+  defaultValues,
+  multiSelectFields,
+} from './searchResults.helper';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'searchResults',
   templateUrl: 'searchResults.template.html',
+  styleUrls: ['searchResults.styles.scss'],
 })
 
-export class SearchResultsComponent implements OnInit, OnDestroy{
+export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChanges{
 
-  @Input() queryName: string = '';
+  @Input() type: string = '';
+  @Input() limit: number = 10;
+
+  public parsedType: string = '';
+  public queryName: string = '';
 
   private paramsWatcher: Subscription = new Subscription();
+  private httpWatcher: Subscription = new Subscription();
   public queryId:string = '';
   public values: object = {};
-  public limit: number = 10;
   public offset: number = 0;
   public loading: boolean = true;
+  public list: [] = [];
+  private getDataDebounce;
+  private debounceDelay: number = 300;
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private settings: SettingsService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   private addRequiredFields(queryParams) {
     const tmp = { ...queryParams };
-    requiredFields[this.queryName].forEach((item) => {
+    requiredFields[this.parsedType].forEach((item) => {
       if (!tmp[item]) {
-        tmp[item] = '';
+        if (item.match(/date/gmi)) {
+          if (item.match(/min/gmi)) {
+            if (this.parsedType === 'news') {
+              tmp[item] = moment().utc().subtract(5, 'years').unix();
+            } else {
+              tmp[item] = moment().utc().startOf('D').unix();
+            }
+          } else if (item.match(/max/gmi)) {
+            tmp[item] = moment().utc().add(1, 'years').unix();
+          }
+        } else {
+          tmp[item] = '';
+        }
       }
     });
     return tmp;
   }
 
+  private getValue(value, key) {
+    let tmpValue = value;
+    try {
+      tmpValue = likeFields[this.parsedType].indexOf(key) !== -1 ? `%25${value}%25` : value;
+    } catch (err) {}
+    return tmpValue;
+  }
   private parseValues(queryParams) {
     const values = {};
     const tmpParams = this.addRequiredFields(queryParams);
+
     Object.keys(tmpParams).forEach((item) => {
       if (item.match(/date/gmi)) {
-        tmpParams[item] = moment.utc(tmpParams[item], 'DD.MM.YYYY').unix();
-      }
-      if (searchResultKeys[item]) {
-        if (typeof searchResultKeys[item] === 'string') {
-          values[searchResultKeys[item]] = tmpParams[item];
+        if (typeof tmpParams[item] === 'string') {
+          if (item.match(/min/gmi)) {
+            tmpParams[item] = moment.utc(tmpParams[item], 'DD.MM.YYYY').startOf('D').unix();
+          } else if (item.match(/max/gmi)) {
+            tmpParams[item] = moment.utc(tmpParams[item], 'DD.MM.YYYY').endOf('D').unix();
+          } else {
+            tmpParams[item] = moment.utc(tmpParams[item], 'DD.MM.YYYY').unix();
+          }
         } else {
-          values[searchResultKeys[item].key] = tmpParams[item];
-          values[searchResultKeys[item].enabled] = tmpParams[item] === '' ? false : true;
+          tmpParams[item] = tmpParams[item].toString();
+        }
+      }
+      if (searchResultKeys[this.parsedType][item]) {
+        if (typeof searchResultKeys[this.parsedType][item] === 'string') {
+          values[searchResultKeys[this.parsedType][item]] = this.getValue(tmpParams[item], item);
+        } else {
+          values[searchResultKeys[this.parsedType][item].key] = this.getValue(tmpParams[item], item);
+          values[searchResultKeys[this.parsedType][item].enabled] = tmpParams[item] === '' ? false : true;
         }
       } else {
-        values[item] = tmpParams[item];
+        values[item] = this.getValue(tmpParams[item], item);
       }
+      if (values[item] === '') {
+        try {
+          values[item] = defaultValues[this.parsedType][item] || '';
+        } catch (err) {}
+      }
+
+      try {
+        if (multiSelectFields[this.parsedType].indexOf(item) !== -1) {
+          values[item] = values[item].split(',');
+          if (values[item][0] === '') {
+            values[item].splice(0, 1);
+          }
+        }
+      } catch (err) {}
+
     });
 
     return values;
@@ -68,30 +136,69 @@ export class SearchResultsComponent implements OnInit, OnDestroy{
   }
 
   private getData(values): void {
-    values.lang = 'ET';
-    values.offset = this.offset;
-    values.limit = this.limit;
+    clearTimeout(this.getDataDebounce);
+    this.httpWatcher.unsubscribe();
+    this.getDataDebounce = setTimeout(
+      () => {
+        values.lang = 'ET';
+        values.offset = this.offset;
+        values.limit = this.limit;
 
-    let query = `queryName=${this.queryName}`;
-    query = `${query}&queryId=${this.queryId}`;
-    query = `${query}&variables=${JSON.stringify(values)}`;
+        let query = `queryName=${this.queryName}`;
+        query = `${query}&queryId=${this.queryId}`;
+        query = `${query}&variables=${JSON.stringify(values)}`;
 
-    const path = `${this.settings.url}/graphql?${query}`.trim();
+        const path = `${this.settings.url}/graphql?${query}`.trim();
 
-    console.log(path);
-    this.http.get(path).subscribe((response) => {
-      console.log(response);
-    });
+        this.loading = true;
+        this.list = [];
+        this.httpWatcher = this.http.get(path).subscribe(
+          (response) => {
+            this.loading = false;
+            try {
+              if (response['data']['nodeQuery']) {
+                this.list = response['data']['nodeQuery']['entities'];
+              } else if (response['data']['CustomElasticQuery']) {
+                this.list = response['data']['CustomElasticQuery'];
+              } else {
+                this.list = [];
+              }
+              this.cdr.detectChanges();
+            } catch (err) {
+              this.list = [];
+            }
+          },
+          (err) => {
+            this.loading = false;
+          });
+      },
+      this.debounceDelay);
   }
 
-  ngOnInit() {
-    this.queryId = this.settings.get(`request.${this.queryName}`);
-    this.watchParams();
-    console.log(this.queryName);
+  ngAfterViewInit() {
+    setTimeout(
+      () => {
+        this.parsedType = this.type.toLowerCase();
+        this.queryName = queryList[this.parsedType];
+        this.queryId = this.settings.get(`request.${this.queryName}`);
+        this.watchParams();
+      },
+      0);
 
+  }
+
+  ngOnChanges() {
+    this.parsedType = this.type.toLowerCase();
+    this.queryName = queryList[this.parsedType];
+    this.queryId = this.settings.get(`request.${this.queryName}`);
+    this.paramsWatcher.unsubscribe();
+    this.httpWatcher.unsubscribe();
+    this.watchParams();
   }
 
   ngOnDestroy() {
     this.paramsWatcher.unsubscribe();
+    this.httpWatcher.unsubscribe();
   }
+
 }

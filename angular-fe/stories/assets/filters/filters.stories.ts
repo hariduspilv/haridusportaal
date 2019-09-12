@@ -17,30 +17,51 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const opts = [
+  { key: 'Select an option', value: '' },
+  { key: 'Value numero unos', value: '1' },
+  { key: 'Value numero duos', value: '2' },
+  { key: 'Value numero tres', value: '3' },
+];
 
-stories.add('Filters', () => {
+const breadcrumbs = [
+  {
+    title: 'Avaleht',
+    link: '/',
+  },
+  {
+    title: 'Uudised',
+  },
+];
 
-  const options = [
-    { key: 'Select an option', value: '' },
-    { key: 'Value numero unos', value: '1' },
-    { key: 'Value numero duos', value: '2' },
-    { key: 'Value numero tres', value: '3' },
-  ];
+const typeOptions = [
+  {
+    key: 'asdasd',
+    value: '1308',
+  },
+  {
+    key: 'aaaa',
+    value: '1287',
+  },
+];
 
-  const filters = {
-    search: '',
-    date: '',
-    selectField: '',
-  };
+const notes = { markdown: filtersMd };
+
+const storyData = (type) => {
   return {
     moduleMetadata,
     props: {
-      options,
-      filters,
+      breadcrumbs,
+      type,
+      typeOptions,
+      options: opts,
     },
     template: filtersTemplateHtml,
   };
-},          {
-  notes: { markdown: filtersMd },
-});
+};
+
+const stories = storiesOf('Filters', module);
+
+stories.add('News', () => { return storyData('news'); }, { notes });
+stories.add('School', () => { return storyData('school'); }, { notes });
+stories.add('studyProgramme', () => { return storyData('studyProgramme'); }, { notes });

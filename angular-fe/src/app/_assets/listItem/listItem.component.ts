@@ -2,6 +2,7 @@ import {
     Component,
     OnInit,
     Input,
+    OnChanges,
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
 @Component({
@@ -10,7 +11,7 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   styleUrls: ['listItem.styles.scss'],
 })
 
-  export class ListItemComponent implements OnInit{
+  export class ListItemComponent implements OnInit, OnChanges{
   @Input() list: Object[];
   @Input() type: string;
 
@@ -42,10 +43,17 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   constructor(
   ) {}
 
-  ngOnInit() {
+  parseList():void {
     this.list.forEach((element, index) => {
       this.list[index] = FieldVaryService(element);
     });
+  }
+  ngOnInit() {
+    this.parseList();
+  }
+
+  ngOnChanges() {
+    this.parseList();
   }
 
   getCompetitionLabel (val) {

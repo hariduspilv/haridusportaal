@@ -1,6 +1,7 @@
 <div #content *ngIf="list && list.length > 0">
     <ng-container *ngFor="let item of list; let i = index">
         <div class="list__item">
+
             <div class="list__item__titlebox">
                 <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
                     <div class="list__item__head" *ngIf="item.head">
