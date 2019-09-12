@@ -264,8 +264,11 @@ public class MtsysWorker extends Worker {
               if (item.isSetTegevusload()) {
                 item.getTegevusload().getTegevuslubaList().forEach(tegevusluba -> {
                   String description = tegevusloaLiigidNode.get(tegevusluba.getLiik())
-                      .get("et").asText() + " number " + tegevusluba.getLoaNumber() +
-                      " kehtivusega alates " + tegevusluba.getKehtivAlates();
+                      .get("et").asText();
+                  description += tegevusluba.isSetLoaNumber() ?
+                      " number " + tegevusluba.getLoaNumber() : "";
+                  description += tegevusluba.isSetKehtivAlates() ?
+                      " kehtivusega alates " + tegevusluba.getKehtivAlates() : "";
                   description += tegevusluba.isSetKehtivKuni() ?
                       " kuni " + tegevusluba.getKehtivKuni() : "";
                   description += tegevusluba.isSetTyhistamiseKp() ?
