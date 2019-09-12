@@ -726,9 +726,6 @@
       </ng-container> <!-- /if !empty_data-->
     </ng-container> <!-- /if data-->
     <ng-container *ngIf="data && view == 'related_documents'">
-      <div class="xjson__title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
-      <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
-
       <ng-container *ngIf="acceptable_forms.length">
         <div class="grid-box">
           <ng-container *ngFor="let form of acceptable_forms">
@@ -739,7 +736,7 @@
         </div>
 
         <ng-container
-          *ngIf="data.header.acceptable_forms.length > acceptable_forms_limit && acceptable_forms_list_restricted == true">
+          *ngIf="data.header.acceptable_form.length > acceptable_forms_limit && acceptable_forms_list_restricted == true">
           <div class="grid-load">
             <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">+
               {{ 'button.show_more' | translate }}
