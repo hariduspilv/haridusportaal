@@ -146,6 +146,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
         }
       }
 
+      if (this.type === 'checkbox' && !action && this.field !== '') {
+        this.onChange.emit(this.field);
+      }
+
       this.dirty = true;
 
       if (this.type === 'select' || this.type === 'multi-select') {

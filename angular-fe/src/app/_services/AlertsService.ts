@@ -84,6 +84,6 @@ export class AlertsService {
   }
 
   clear(id: string) {
-    this.notify(new alert({ id }));
+    this.notify(new Alert({ id }));
   }
 }

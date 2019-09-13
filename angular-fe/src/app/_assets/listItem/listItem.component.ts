@@ -4,6 +4,8 @@ import {
     Input,
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
+import { ModalService, AlertsService } from '@app/_services';
+import { translationsPerType } from '../compare/helpers/compare';
 @Component({
   selector: 'listItems',
   templateUrl: 'listItem.template.html',
@@ -13,7 +15,8 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   export class ListItemComponent implements OnInit{
   @Input() list: Object[];
   @Input() type: string;
-
+  @Input() compareKey: string = 'oskaProfessions.compare';
+  private translationsPerType = translationsPerType;
   public footerFields = {
     studyProgramme: [
       'educationalInstitution',
@@ -40,6 +43,8 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   ];
 
   constructor(
+    private modalService: ModalService,
+    private alertsService: AlertsService,
   ) {}
 
   ngOnInit() {
