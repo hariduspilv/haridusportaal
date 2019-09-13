@@ -3,7 +3,8 @@
         <div class="list__item">
             <div class="list__item__titlebox">
                 <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
-                    <div class="list__item__head" *ngIf="item.head">
+                    <div [class]="type === 'school' ? 'list__item__head sm-hide' : 'list__item__head'"
+                        *ngIf="item.head">
                         {{ item.head.entity ? item.head.entity.entityLabel : item.head }}</div>
                     <div class="flex flex-center flex-wrap">
                         <a href="javascript:void();" class="list__item__title">
@@ -25,12 +26,22 @@
                     </labels>
 
                 </div>
-                <!--col-9-->
                 <div class="col-4 xs-12 pointer" *ngIf="item.image">
-                    <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}"
-                        width="100%" />
+                    <a href="javascript:void();">
+                        <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}"
+                            width="100%" />
+                    </a>
+
                 </div>
             </div>
+            <ng-container *ngIf="type === 'news'">
+                <div class="xs-show col-12 resp-fields">
+                    <a href="javascript:void();" class="mb-0">
+                        <h1 class="title">{{ item.title }}</h1>
+                    </a>
+                    <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                </div>
+            </ng-container>
 
             <ng-container
                 *ngIf="item.sidebar && item.sidebar.entity && item.sidebar.entity.fieldOskaField && item.sidebar.entity.fieldOskaField[0] && item.sidebar.entity.fieldOskaField[0].entity">
@@ -48,7 +59,7 @@
                 </div>
             </ng-container>
 
-            <div class="inline__items sm-hide">
+            <div [class]="type === 'school' || type === 'mainProfession' ? 'inline__items sm-hide' : 'inline__items'">
                 <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
                     <ng-container *ngIf="item[fieldName]">
                         <span role="separator" class="bar" *ngIf="i>0">|</span>
