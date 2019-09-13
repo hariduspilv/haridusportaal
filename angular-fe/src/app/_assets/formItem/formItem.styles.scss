@@ -103,6 +103,7 @@
       &__wrapper{
         position: relative;
         width: 1.125rem;
+        min-width: 1.125rem;
         height: 1.125rem;
         display: inline-block;
         line-height:1.125rem;
@@ -154,6 +155,8 @@
         padding-left: 0.625rem;
         line-height:1.125rem;
         vertical-align: top;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
