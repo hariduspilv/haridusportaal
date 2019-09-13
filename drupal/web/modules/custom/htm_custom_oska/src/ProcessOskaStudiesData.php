@@ -103,7 +103,7 @@ class ProcessOskaStudiesData {
           $old_study_paragraphs = $sidebar_paragraph->get('field_iscedf_search_link')->getValue();
 
           #remove and delete old paragraphs from content
-          $sidebar_paragraph->set('field_iscedf_search_link', []);
+          $sidebar_paragraph->set('field_iscedf_search_link', null);
           foreach($old_study_paragraphs as $paragraph){
             $paragraph = Paragraph::load($paragraph['target_id']);
             if($paragraph){
@@ -120,12 +120,12 @@ class ProcessOskaStudiesData {
             $paragraph->set($label, array_unique($value));
           }
           $paragraph->save();
-          $new_paragraphs[] = [
+          $new_paragraph = [
             'target_id' => $paragraph->id(),
             'target_revision_id' => $paragraph->getRevisionId()];
           $context['results']['processed'][] = $paragraph->id();
 
-          $sidebar_paragraph->set('field_iscedf_search_link', $new_paragraphs);
+          $sidebar_paragraph->set('field_iscedf_search_link', $new_paragraph);
           $sidebar_paragraph->save();
 
           $context['sandbox']['progress']++;
@@ -171,7 +171,7 @@ class ProcessOskaStudiesData {
         $old_study_paragraphs = $sidebar_paragraph->get('field_iscedf_search_link')->getValue();
 
         #remove and delete old paragraphs from content
-        $sidebar_paragraph->set('field_iscedf_search_link', []);
+        $sidebar_paragraph->set('field_iscedf_search_link', NULL);
         foreach($old_study_paragraphs as $paragraph){
           $paragraph = Paragraph::load($paragraph['target_id']);
           if($paragraph){

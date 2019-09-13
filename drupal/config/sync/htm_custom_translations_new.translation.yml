@@ -2005,6 +2005,14 @@ button:
     translation_type: textarea
     et: Lisa
     en: ''
+  read_on:
+    translation_type: textarea
+    et: 'Loe edasi'
+    en: 'Read on'
+  return:
+    translation_type: textarea
+    et: 'Tagasi töölauale'
+    en: 'Back to dashboard'
 tooltip:
   share:
     translation_type: textarea
@@ -3002,3 +3010,16 @@ feedback_comment_required:
   translation_type: textarea
   et: 'Kommentaar (kohustuslik)'
   en: 'Comment (required)'
+infosystem:
+  label:
+    translation_type: textarea
+    et: Infosüsteemid
+    en: ''
+fieldLegislationBlock:
+  translation_type: textarea
+  et: Õigusaktid
+  en: ''
+fieldBlocks:
+  translation_type: textarea
+  et: 'Leia kiiresti'
+  en: ''
