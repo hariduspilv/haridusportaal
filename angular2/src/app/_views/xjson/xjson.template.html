@@ -504,22 +504,8 @@
                             (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
                             <span class="htm-icon">keyboard_arrow_right</span>
                           </div>
-<<<<<<< HEAD
-                          </div>
-                          <table class="scrollableTable" [attr.id]="element + 'Content'" [rotateTable]="element == 'studies'">
-                            <thead>
-                              <tr>
-                                <ng-container
-                                  *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
-                                  <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
-                                    <th>
-                                      {{selectLanguage(data_elements[element].table_columns[col].title)}}
-                                      {{data_elements[element].table_columns[col].required ? '*' : ''}}
-                                    </th>
-                                  </ng-container>
-=======
                         </div>
-                        <table class="scrollableTable" [attr.id]="element + 'Content'">
+                        <table class="scrollableTable" [attr.id]="element + 'Content'" [rotateTable]="element == 'studies'">
                           <thead>
                             <tr>
                               <ng-container
@@ -529,7 +515,6 @@
                                     {{selectLanguage(data_elements[element].table_columns[col].title)}}
                                     {{data_elements[element].table_columns[col].required ? '*' : ''}}
                                   </th>
->>>>>>> 74a77dcf4d955af01adc229d816b03264cd9d2b9
                                 </ng-container>
                               </ng-container>
 
