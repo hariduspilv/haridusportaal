@@ -19,6 +19,10 @@
 			margin-right: 0;
 		}
 	}
+	&.default * {
+		background: $white;
+		border: .0625rem solid $gray;
+	}
 	&.plain * {
 		background: $light-gray;
 		border: .0625rem solid $gray;
