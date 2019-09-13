@@ -3,3 +3,13 @@
   text-align: center;
   padding: 40px;
 }
+
+.loadMore{
+  text-align: center;
+  margin-top: 40px;
+}
+
+listItems + loader{
+  display: block;
+  margin-top: 40px;
+}

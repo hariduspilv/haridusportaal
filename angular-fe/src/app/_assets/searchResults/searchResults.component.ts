@@ -40,9 +40,10 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   public values: object = {};
   public offset: number = 0;
   public loading: boolean = true;
-  public list: [] = [];
+  public list: any = [];
   private getDataDebounce;
   private debounceDelay: number = 300;
+  private canLoadMore: boolean = true;
 
   constructor(
     private http: HttpClient,
@@ -102,7 +103,9 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         if (typeof searchResultKeys[this.parsedType][item] === 'string') {
           values[searchResultKeys[this.parsedType][item]] = this.getValue(tmpParams[item], item);
         } else {
+          // tslint:disable-next-line: max-line-length
           values[searchResultKeys[this.parsedType][item].key] = this.getValue(tmpParams[item], item);
+          // tslint:disable-next-line: max-line-length
           values[searchResultKeys[this.parsedType][item].enabled] = tmpParams[item] === '' ? false : true;
         }
       } else {
@@ -131,11 +134,12 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   private watchParams() {
     this.paramsWatcher = this.route.queryParams.subscribe((queryParams) => {
       const values = this.parseValues({ ... queryParams });
+      this.offset = 0;
       this.getData({ ... values });
     });
   }
 
-  private getData(values): void {
+  private getData(values, append: boolean = false): void {
     clearTimeout(this.getDataDebounce);
     this.httpWatcher.unsubscribe();
     this.getDataDebounce = setTimeout(
@@ -151,21 +155,31 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         const path = `${this.settings.url}/graphql?${query}`.trim();
 
         this.loading = true;
-        this.list = [];
+
+        if (!append) {
+          this.list = [];
+        }
+
         this.httpWatcher = this.http.get(path).subscribe(
           (response) => {
             this.loading = false;
+            let tmpList:[] = [];
             try {
               if (response['data']['nodeQuery']) {
-                this.list = response['data']['nodeQuery']['entities'];
+                tmpList = response['data']['nodeQuery']['entities'];
               } else if (response['data']['CustomElasticQuery']) {
-                this.list = response['data']['CustomElasticQuery'];
-              } else {
-                this.list = [];
+                tmpList = response['data']['CustomElasticQuery'];
               }
               this.cdr.detectChanges();
             } catch (err) {
-              this.list = [];
+            }
+
+            this.canLoadMore = tmpList.length >= this.limit ? true : false;
+
+            if (append) {
+              this.list = [...this.list, ...tmpList];
+            } else {
+              this.list = tmpList;
             }
           },
           (err) => {
@@ -173,6 +187,14 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           });
       },
       this.debounceDelay);
+  }
+
+  public loadMore(): void {
+
+    this.offset = this.list.length;
+    const params = this.route.snapshot.queryParams;
+    const values = this.parseValues({ ... params });
+    this.getData({ ... values }, true);
   }
 
   ngAfterViewInit() {
