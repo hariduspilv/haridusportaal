@@ -49,7 +49,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() height: number;
   @Input() options: FormItemOption[] = [];
   @Input() name: string = '';
-  @Input() checked;
+  @Input() checked: string;
 
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
