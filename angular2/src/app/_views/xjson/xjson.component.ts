@@ -957,7 +957,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       subscription.unsubscribe();
     });
-
   }
 
   stepController(xjson) {
@@ -1014,11 +1013,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (elem['type'] === 'table') {
           this.scrollableTableDeterminant(label);
         }
+        if (elem['type'] === 'selectlist') {
+          this.data_elements[label].value = String(this.data_elements[label].value);
+        }
       }
 
       this.getStepViewStatus();
     }
-
   }
 
   ngOnInit() {
