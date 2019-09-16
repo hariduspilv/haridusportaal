@@ -50,6 +50,7 @@ a{
     // &:first-child{padding-top:0;}
     // &:last-child{border-bottom:0;}
     &__title{
+      width: 100%;
       font-size: $medium; 
       line-height: $large; 
       text-decoration: none; 
