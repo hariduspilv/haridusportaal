@@ -5,6 +5,7 @@ import { DateFormatterDirective } from './dateFormatter.directive';
 import { FormItemStatesDirective } from './formItemStates';
 import { numberFormatterDirective } from './numberFormatter.directive';
 import { KeystrokesDirective } from './keystrokes.directive';
+import { RotateTableDirective } from './rotateTable';
 
 @NgModule({
 	declarations: [
@@ -12,7 +13,8 @@ import { KeystrokesDirective } from './keystrokes.directive';
 		DateFormatterDirective,
 		FormItemStatesDirective,
 		numberFormatterDirective,
-		KeystrokesDirective
+		KeystrokesDirective,
+		RotateTableDirective,
 
 	],
 	exports: [
@@ -20,7 +22,8 @@ import { KeystrokesDirective } from './keystrokes.directive';
 		DateFormatterDirective,
 		FormItemStatesDirective,
 		numberFormatterDirective,
-		KeystrokesDirective
+		KeystrokesDirective,
+		RotateTableDirective,
 	]
 })
 
