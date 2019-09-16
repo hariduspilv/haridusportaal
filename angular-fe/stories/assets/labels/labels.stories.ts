@@ -49,14 +49,15 @@ stories.add('Labels', () => {
     'Type',
     {
       None: '',
+      Default: 'default',
       Plain: 'plain',
       Orange: 'orange',
       Aqua: 'aqua',
     },
-    '',
+    'default',
   );
   const background = select(
-    'Background color', colors, '#eeeeee',
+    'Background color', colors, '#ffffff',
   );
   const border = select(
     'Border color', colors, '#c7c7c9',
