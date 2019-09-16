@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  Output,
   ElementRef,
   ContentChildren,
   OnInit,
@@ -8,6 +9,7 @@ import {
   forwardRef,
   OnChanges,
   ChangeDetectorRef,
+  EventEmitter,
 } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -35,7 +37,7 @@ export interface FormItemOption {
   ],
 })
 
-export class FormItemComponent implements ControlValueAccessor, OnInit, OnChanges{
+export class FormItemComponent implements ControlValueAccessor, OnInit {
   @ContentChildren('#inputField') inputField: ElementRef;
   @Input() title: string = '';
   @Input() placeholder: string = '';
@@ -50,6 +52,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() height: number;
   @Input() options: FormItemOption[] = [];
   @Input() pattern: any = false;
+  @Output() onChange: EventEmitter<any> = new EventEmitter();
   @Input() name: string = '';
   @Input() checked: string;
 
@@ -108,7 +111,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   }
   update(action: string = '') {
-
     if (this.type === 'multi-select') {
       this.removeComma();
     }
@@ -150,6 +152,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           const input = this.el.nativeElement.querySelector('input');
           this.error = input.classList.contains('ng-invalid');
         }
+        if (this.type === 'select' || this.type === 'multi-select') {
+          this.onChange.emit();
+        }
       }
 
       this.dirty = true;
@@ -189,6 +194,12 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       }
     } else if (this.type === 'multi-select') {
       this.removeComma();
+      this.options = this.options.map((opt) => {
+        return typeof opt ===  'string' ? {
+          key: opt,
+          value: opt,
+        } : opt;
+      });
     } else {
       if (this.value) {
         this.field = this.value;

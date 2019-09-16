@@ -55,6 +55,7 @@ import {
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
@@ -69,6 +70,7 @@ import { ListItemComponent } from './listItem/listItem.component';
 import { MonthsToYearsPipe } from '@app/_pipes/monthsToYears.pipe';
 import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
+import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
 import { SearchResultsComponent } from './searchResults';
 import { SettingsService } from '@app/_services/SettingsService';
@@ -137,6 +139,7 @@ const declarations = [
   LabelsComponent,
   FavouriteComponent,
   LabeledSeparatorComponent,
+  ChartComponent,
   ListItemComponent,
   MonthsToYearsPipe,
   RemoveProtocolPipe,
@@ -189,6 +192,7 @@ const providers = [
     NgbTooltipModule,
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
+    Ng2GoogleChartsModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })
