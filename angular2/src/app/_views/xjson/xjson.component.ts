@@ -849,8 +849,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
   compileAcceptableFormList() {
 
     this.acceptable_forms = this.acceptable_forms_list_restricted ?
-      this.data.header.acceptable_forms.slice(0, this.acceptable_forms_limit) :
-      this.data.header.acceptable_forms;
+      this.data.header.acceptable_form.slice(0, this.acceptable_forms_limit) :
+      this.data.header.acceptable_form;
 
     this.acceptable_forms.forEach((elem, index) => {
       this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
@@ -957,7 +957,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       subscription.unsubscribe();
     });
-
   }
 
   stepController(xjson) {
@@ -1002,7 +1001,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       this.fillAddressFieldsTemporaryModel(this.data_elements);
 
-      if (typeof this.data.header.acceptable_forms !== 'undefined') {
+      if (typeof this.data.header.acceptable_form !== 'undefined') {
         this.compileAcceptableFormList();
       }
 
@@ -1014,11 +1013,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (elem['type'] === 'table') {
           this.scrollableTableDeterminant(label);
         }
+        if (elem['type'] === 'selectlist') {
+          this.data_elements[label].value = String(this.data_elements[label].value);
+        }
       }
 
       this.getStepViewStatus();
     }
-
   }
 
   ngOnInit() {
