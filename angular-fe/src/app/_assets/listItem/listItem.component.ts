@@ -16,7 +16,7 @@ import { translationsPerType } from '../compare/helpers/compare';
   export class ListItemComponent implements OnInit, OnChanges{
   @Input() list: Object[];
   @Input() type: string;
-  @Input() compareKey: string = 'oskaProfessions.compare';
+  @Input() compare: string;
   private translationsPerType = translationsPerType;
   public footerFields = {
     studyProgramme: [

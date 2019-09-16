@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { viewOptions, maxItems, translationsPerType } from './helpers/compare';
 import { AlertsService, ModalService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { SettingsService } from '@app/_services/SettingsService';
 
 @Component({
   selector: 'compare',
@@ -12,7 +13,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 export class CompareComponent {
   @Input() id: string;
   @Input() sessionStorageKey: string;
-  private closeTime: any = false;
+  private sessionStorageSubscription: any;
   private compare: any;
   private checked: boolean = false;
   private viewLink: Object = {
@@ -23,12 +24,9 @@ export class CompareComponent {
   constructor(
     private alertsService: AlertsService,
     private modalService: ModalService,
-    private translateService: TranslateService) {
+    private translateService: TranslateService,
+    private settingsService: SettingsService) {
     this.viewLink['label'] = this.translateService.get('button.see_comparison');
-    this.viewLink = {
-      url: '',
-      label: this.translateService.get('button.see_comparison'),
-    };
   }
 
   compareChange(id, $event) {
@@ -43,7 +41,7 @@ export class CompareComponent {
         this.modalService.toggle('compare');
       } else {
         if (!this.compare.length) {
-          this.notify('woot');
+          this.settingsService.compareObservable.next('success');
         }
         this.addItemToLocalStorage(id, this.sessionStorageKey, this.compare);
       }
@@ -61,13 +59,18 @@ export class CompareComponent {
   }
 
   notify(type: string) {
-    this.alertsService.info(
+    const variables = [
       this.translateService.get(translationsPerType[this.sessionStorageKey][type]),
       'global',
       'compare',
       false,
       this.viewLink,
-    );
+    ];
+    if (type === 'success') {
+      this.alertsService.success(...variables);
+    } else {
+      this.alertsService.info(...variables);
+    }
   }
 
   removeItemFromLocalStorage(id, inputKey:string, existing) {
@@ -89,17 +92,19 @@ export class CompareComponent {
     this.compare = this.readFromLocalStorage(this.sessionStorageKey);
     this.checked = this.isChecked(this.id);
     this.viewLink['url'] = viewOptions[this.sessionStorageKey];
-    // let fallbackPath = this.compareViewLinkOptions[this.sessionStorageKey]['et'];
+    if (!this.settingsService.compareObservable.observers.length) {
+      this.sessionStorageSubscription = this.settingsService.compareObservable.subscribe((data) => {
+        this.compare = this.readFromLocalStorage(this.sessionStorageKey);
+        this.notify(data);
+      });
+      this.settingsService.compareObservable.next('info');
+    }
+  }
 
-    // this.compareViewLink = this.compareViewLinkOptions[this.sessionStorageKey][this.rootScope.get("lang")] || fallbackPath
-
-    // this.displayViewLink(this.compare);
-    // this.openCompareSnackbar("info");
-
-    // this.subscription.subscribe(data => {
-      // this.compare = this.readFromLocalStorage(this.sessionStorageKey);
-      // this.displayViewLink(this.compare);
-      // this.openCompareSnackbar()
-    // });
+  ngOnDestroy() {
+    if (this.sessionStorageSubscription) {
+      this.sessionStorageSubscription.unsubscribe();
+    }
+    this.alertsService.clear('');
   }
 }

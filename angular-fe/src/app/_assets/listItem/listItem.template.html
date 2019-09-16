@@ -26,8 +26,8 @@
                     </labels>
 
                 </div>
-                <div *ngIf="compareKey" class="col--compare sm-hide">
-                    <compare [id]="item.nid" [sessionStorageKey]="compareKey"></compare>
+                <div *ngIf="compare" class="col--compare sm-hide">
+                    <compare [id]="item.nid" [sessionStorageKey]="compare"></compare>
                 </div>
                 <div class="col-4 xs-12 pointer" *ngIf="item.image">
                     <a href="javascript:void();">
@@ -117,9 +117,9 @@
     <!--/list repeat-->
 </div>
 
-<htm-modal id="compare" [title]="translationsPerType[compareKey].title | translate">
+<htm-modal *ngIf="compare" id="compare" [title]="translationsPerType[compare].title | translate">
     <modal-content id="compare" *ngIf="modalService.modalOpened['compare']">
-        <div innerHTML="{{ translationsPerType[compareKey].content | translate }}"></div>
+        <div innerHTML="{{ translationsPerType[compare].content | translate }}"></div>
     </modal-content>
 </htm-modal>
 
