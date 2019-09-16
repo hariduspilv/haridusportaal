@@ -11,11 +11,13 @@ import { AssetsModule } from '@app/_assets';
 import alertsMd from './alerts.md';
 import { Alert, AlertType } from '@app/_services';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     RouterTestingModule,
+    BrowserAnimationsModule,
   ],
 };
 

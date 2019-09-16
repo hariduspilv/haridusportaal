@@ -5,6 +5,14 @@ import articleStoriesTemplateHtml from './article.stories.template.html';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { LOCALE_ID } from '@angular/core';
+// tslint:disable-next-line: import-name
+import localeEt from '@angular/common/locales/et';
+import { registerLocaleData } from '@angular/common';
+localeEt[14][0].replace(',', ' ');
+localeEt[14][1].replace(',', ' ');
+localeEt[14][2].replace(',', ' ');
+registerLocaleData(localeEt);
 import {
   withKnobs,
   object,
@@ -19,6 +27,7 @@ const moduleMetadata = {
   ],
   providers: [
     TranslateService,
+    { provide: LOCALE_ID, useValue:'et' },
   ],
 };
 
@@ -389,6 +398,7 @@ stories.add('Article Layout', () => {
       },
     },
   };
+  const feedbackNid = '48788';
   const sidebar = object('Sidebar', sidebarData);
   return {
     moduleMetadata,
@@ -396,6 +406,7 @@ stories.add('Article Layout', () => {
       breadcrumbsData,
       videoData,
       sidebar,
+      feedbackNid,
     },
     template: articleStoriesTemplateHtml,
   };

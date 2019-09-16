@@ -18,6 +18,7 @@ interface TitleLess {
 })
 export class SidebarComponent {
   @Input() data: Object[];
+  @Input() feedbackNid: string = '';
   private collection: SidebarType = collection;
   private titleLess: TitleLess = titleLess;
   private keys: string[];
@@ -114,10 +115,10 @@ export class SidebarLocationComponent {
     zoom: 11,
     maxZoom: 11,
     minZoom: 11,
-    bottomAction: true,
-    zoomControl: false,
-    streetViewControl: false,
-    mapDraggable: false,
+    enableOuterLink: true,
+    enableZoomControl: false,
+    enableStreetViewControl: false,
+    draggable: false,
   };
   ngOnInit() {
     this.data.forEach((loc) => {

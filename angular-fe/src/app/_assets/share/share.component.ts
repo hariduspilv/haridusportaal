@@ -1,5 +1,7 @@
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
+import { AlertsService } from '@app/_services';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
   selector: 'share',
@@ -18,6 +20,8 @@ export class ShareComponent {
 
   constructor(
     private clipboardService: ClipboardService,
+    private alertsService: AlertsService,
+    private translateService: TranslateService,
   ) {}
 
   public share ($event: Event, type: string) {
@@ -51,6 +55,13 @@ export class ShareComponent {
   }
 
   public copyLinkToClipboard(): void {
+    this.alertsService.success(
+      this.translateService.get('url.copied_to_clipboard'),
+      'global',
+      'share',
+      true,
+      false,
+    );
     this.clipboardService.copyFromContent(this.copyLink);
   }
 

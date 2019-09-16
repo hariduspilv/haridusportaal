@@ -1,6 +1,7 @@
 import {
   Component,
   Input,
+  Output,
   ElementRef,
   ContentChildren,
   OnInit,
@@ -8,10 +9,12 @@ import {
   forwardRef,
   OnChanges,
   ChangeDetectorRef,
+  EventEmitter,
 } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RippleService } from '@app/_services';
+import conf from '@app/_core/conf';
 
 export interface FormItemOption {
   key: 'string';
@@ -34,7 +37,7 @@ export interface FormItemOption {
   ],
 })
 
-export class FormItemComponent implements ControlValueAccessor, OnInit, OnChanges{
+export class FormItemComponent implements ControlValueAccessor, OnInit {
   @ContentChildren('#inputField') inputField: ElementRef;
   @Input() title: string = '';
   @Input() placeholder: string = '';
@@ -48,6 +51,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() titleDisabled: boolean = false;
   @Input() height: number;
   @Input() options: FormItemOption[] = [];
+  @Input() pattern: any = false;
+  @Output() onChange: EventEmitter<any> = new EventEmitter();
+  @Input() name: string = '';
+  @Input() checked: string;
+
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
     const successClass = this.success ? 'formItem--success' : '';
@@ -63,12 +71,14 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   public dirty: boolean = false;
   public filledField: boolean = false;
   public focused: boolean = false;
-
+  public patterns: Object;
   constructor(
     private el: ElementRef,
     private ripple: RippleService,
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+    this.patterns = conf.patterns;
+  }
 
   animateRipple($event) {
     this.ripple.animate($event, 'dark');
@@ -115,7 +125,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   }
   update(action: string = '') {
-
     if (this.type === 'multi-select') {
       this.removeComma();
     }
@@ -153,6 +162,13 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
       if (action === 'blur') {
         this.focused = false;
+        if (this.pattern) {
+          const input = this.el.nativeElement.querySelector('input');
+          this.error = input.classList.contains('ng-invalid');
+        }
+        if (this.type === 'select' || this.type === 'multi-select') {
+          this.onChange.emit();
+        }
       }
 
       this.dirty = true;
@@ -186,11 +202,36 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   checkInitialValue(): void {
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
+    } else if (this.type === 'checkbox') {
+      if (this.checked === '' || this.checked === 'checked') {
+        this.field = 'true';
+      }
     }
-
     if (this.type === 'multi-select') {
       this.removeComma();
+      this.options = this.options.map((opt) => {
+        return typeof opt ===  'string' ? {
+          key: opt,
+          value: opt,
+        } : opt;
+      });
+    } else {
+      if (this.value) {
+        this.field = this.value;
+        this.filledField = true;
+      }
     }
+  }
+
+  getValue() {
+    return {
+      name: this.name,
+      value: this.field,
+    };
+  }
+
+  setValue(value) {
+    this.writeValue(value);
   }
 
   ngOnChanges() {

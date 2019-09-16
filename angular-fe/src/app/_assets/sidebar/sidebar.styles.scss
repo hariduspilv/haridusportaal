@@ -6,8 +6,16 @@
 	grid-area: sidebar;
 	display: block;
 	background: $light-gray;
+	feedback {
+		background: $white;
+		margin: 0;
+		padding: 1rem 1.5rem;
+	}
 	@include break-on(sm, min) {
 		margin: 2rem 0;
+		feedback {
+			display: none;
+		}
 	}
 	::ng-deep {
 		block {
@@ -144,6 +152,7 @@
 			sidebar-location {
 				map {
 					margin: -1.5rem -1.5rem 0;
+					display: block;
 				}
 				p {
 					margin-top: 1rem;

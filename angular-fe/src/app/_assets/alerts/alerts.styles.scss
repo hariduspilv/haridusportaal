@@ -11,7 +11,11 @@
 
   p { padding: 1.1875rem 1rem; color: $black; margin: 0; width: 100%; display: flex; align-self: center; line-height: 1.38 }
 
-  &__close { justify-self: flex-end; align-self: center; padding: 1rem; display: flex; align-content: center; justify-content: center; background: transparent; border: 0; white-space: nowrap; line-height: 1.38; cursor: pointer; }
+  &__close { justify-self: flex-end; align-self: center; padding: 1rem; display: flex; align-content: center; justify-content: center; background: transparent; border: 0; white-space: nowrap; line-height: 1.38; cursor: pointer; 
+    @media all and (-ms-high-contrast:none) {
+      display: block;
+    }
+  }
 
   &--warning { background-color: $warning-light; border-color: $warning;
     .alert__icon { background-color: $warning; transform: rotate(180deg); }

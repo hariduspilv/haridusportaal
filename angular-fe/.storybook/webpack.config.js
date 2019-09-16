@@ -2,6 +2,7 @@ const path = require('path');
 const IconfontPlugin = require('iconfont-plugin-webpack');
 const iconJSON = require('../.webpack/iconJSON');
 const resolve = path.resolve.bind(path, __dirname);
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   plugins: [
@@ -22,7 +23,13 @@ module.exports = {
         cwd: __dirname,
         pattern: '../src/icons/*.svg'
       }
-    })
+    }),
+    new CopyWebpackPlugin([
+      {
+        from: path.resolve(__dirname, '../src/assets/img'),
+        to: './static'
+      }
+    ])
   ],
 }
 

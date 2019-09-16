@@ -28,13 +28,15 @@
     </div>
     <div class="header__actions">
       <button htm-button 
-        (click)="modalService.open('search')"
+        [class.active]="modalService.modalOpened['search']"
+        (click)="modalService.toggle('search')"
         theme="plain"
         attr.aria-label="{{ 'button.search' | translate }}">
         <icon aria-hidden="true" glyph="search" size="medium"></icon>
       </button>
       <button htm-button
-        (click)="modalService.open('login')"
+        [class.active]="modalService.modalOpened['login']"
+        (click)="modalService.toggle('login')"
         theme="plain"
         attr.aria-label="{{ 'button.login' | translate }}">
         <ng-container *ngIf="loginStatus else other;">
@@ -55,7 +57,6 @@
   <modal-content id="search" *ngIf="modalService.modalOpened['search']">
     <formItem
       type="text"
-      placeholder="Märksõna"
       [(ngModel)]="search"
       title="Märksõna">
     </formItem>
@@ -85,7 +86,6 @@
         <div>
           <formItem
             type="text"
-            placeholder="{{ 'dashboard.contactPhone' | translate }}"
             [(ngModel)]="phone"
             title="{{ 'dashboard.contactPhone' | translate }}">
           </formItem>
@@ -99,7 +99,6 @@
         <div>
           <formItem
             type="text"
-            placeholder="{{ 'login.username' | translate }}"
             [(ngModel)]="username"
             title="{{ 'login.username' | translate }}">
           </formItem>
@@ -107,7 +106,6 @@
         <div>
           <formItem
             type="text"
-            placeholder="{{ 'login.password' | translate }}"
             [(ngModel)]="phone"
             title="{{ 'login.password' | translate }}">
           </formItem>

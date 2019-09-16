@@ -3,6 +3,7 @@ import { AssetsModule } from '@app/_assets';
 import favouriteMd from './favourite.md';
 import { TranslateModule } from '@app/_modules/translate';
 import { RouterTestingModule } from '@angular/router/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {
   withKnobs,
   optionsKnob as options,
@@ -13,6 +14,7 @@ const moduleMetadata = {
     AssetsModule,
     TranslateModule.forRoot(),
     RouterTestingModule,
+    BrowserAnimationsModule,
   ],
 };
 
