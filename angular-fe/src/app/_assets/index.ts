@@ -83,6 +83,7 @@ import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 import { CompareComponent } from './compare';
+import { CompareViewComponent } from './compare.view';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -148,6 +149,7 @@ const declarations = [
   SearchResultsComponent,
   NewsComponent,
   CompareComponent,
+  CompareViewComponent,
 ];
 
 const exports = [

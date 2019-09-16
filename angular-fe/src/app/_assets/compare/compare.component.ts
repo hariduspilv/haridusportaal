@@ -14,7 +14,7 @@ export class CompareComponent {
   @Input() id: string;
   @Input() sessionStorageKey: string;
   private sessionStorageSubscription: any;
-  private compare: any;
+  public compare: any;
   private checked: boolean = false;
   private viewLink: Object = {
     url: '/',
