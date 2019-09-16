@@ -9,7 +9,7 @@ import { Component, Input, HostBinding } from '@angular/core';
 export class LabelsComponent {
   @Input() data: Object[];
   @Input() border: string = '#c7c7c9';
-  @Input() background: string = '#eeeeee';
+  @Input() background: string = '#ffffff';
   @Input() type: string;
   private childStyles = {
     border: `.0675rem solid ${this.border}`,
