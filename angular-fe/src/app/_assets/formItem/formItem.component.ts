@@ -192,7 +192,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
       if (this.checked === '' || this.checked === 'checked') {
         this.field = 'true';
       }
-    } else if (this.type === 'multi-select') {
+    }
+    if (this.type === 'multi-select') {
       this.removeComma();
       this.options = this.options.map((opt) => {
         return typeof opt ===  'string' ? {
