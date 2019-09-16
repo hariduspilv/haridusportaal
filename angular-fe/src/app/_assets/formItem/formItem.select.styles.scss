@@ -108,8 +108,14 @@ $create-font-face: false;
     }
     .formItem__check{
       pointer-events: none;
-      .formItem__check__title{
+      &__title{
         font-size:1.125rem !important;
+      }
+      input:checked + .formItem__check__indicator{
+        background: $blue;
+        icon{
+          color: $white;
+        }
       }
     }
     .ng-dropdown-panel{
