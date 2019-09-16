@@ -2,6 +2,7 @@ import {
     Component,
     OnInit,
     Input,
+    OnChanges,
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { ModalService, AlertsService } from '@app/_services';
@@ -12,7 +13,7 @@ import { translationsPerType } from '../compare/helpers/compare';
   styleUrls: ['listItem.styles.scss'],
 })
 
-  export class ListItemComponent implements OnInit{
+  export class ListItemComponent implements OnInit, OnChanges{
   @Input() list: Object[];
   @Input() type: string;
   @Input() compareKey: string = 'oskaProfessions.compare';
@@ -47,10 +48,17 @@ import { translationsPerType } from '../compare/helpers/compare';
     private alertsService: AlertsService,
   ) {}
 
-  ngOnInit() {
+  parseList():void {
     this.list.forEach((element, index) => {
       this.list[index] = FieldVaryService(element);
     });
+  }
+  ngOnInit() {
+    this.parseList();
+  }
+
+  ngOnChanges() {
+    this.parseList();
   }
 
   getCompetitionLabel (val) {
