@@ -556,7 +556,8 @@ public class VPTWorker extends Worker {
 
 //region STEP_3 vpTaotlusKontakt response
         ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_3")
-            .putObject("data_elements").putObject("confirmation_2").putNull("value")
+            .putObject("data_elements").putObject("confirmation_2")
+            .put("value", false)
             .put("hidden", !response.getFailiOigsuseKinnitusKuva())
             .put("required", response.getFailiOigsuseKinnitusKuva());
 
