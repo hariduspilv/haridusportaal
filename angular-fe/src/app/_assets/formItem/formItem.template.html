@@ -8,6 +8,7 @@
         [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
         [class.focused]="focused"
         #inputField
+        pattern="{{ pattern ? patterns[pattern] : '' }}"
         type="text"
         (change)="update()"
         (focus)="update('focus')"

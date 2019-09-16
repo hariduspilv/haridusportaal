@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class ArticleLayout {
-  @Input() sidebar: any;
+  @Input() sidebar: any = { entity: {} };
+  @Input() feedbackNid: string = '';
   constructor() {}
 }
