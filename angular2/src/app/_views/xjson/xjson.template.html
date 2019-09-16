@@ -312,7 +312,7 @@
                         {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                       </span>
                       <div class="squared-input__field-wrapper">
-                        <input class="squared-input__field" type="text" [min]="data_elements[element].min"
+                        <input class="squared-input__field" type="number" [min]="data_elements[element].min"
                           [max]="data_elements[element].max"
                           placeholder="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [(ngModel)]="data_elements[element].value"
@@ -596,7 +596,7 @@
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
                                       <input
                                         *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                        class="contnent-input" type="text"
+                                        class="contnent-input" type="number"
                                         [min]="tableColumnAttribute(element, colIndex, 'min')"
                                         [max]="tableColumnAttribute(element, colIndex, 'max')"
                                         [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? true : null"
