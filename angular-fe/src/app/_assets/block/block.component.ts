@@ -129,7 +129,6 @@ export class BlockComponent implements AfterContentInit{
 
   checkSecondaryTitle() {
     if (this.secondaryTitleComponent.toArray().length > 0) {
-      console.log('jou');
       this.hasSecondaryTitle = true;
     }
   }
