@@ -15,6 +15,22 @@ $grid-columns: 12;
   }
 }
 
+a{
+  h1:hover{
+    text-decoration: underline;
+  }
+  h1.title{
+      padding-top: $small;
+      padding-bottom: $half-gutter;
+  }
+}
+
+.resp-fields{
+  a{
+    text-decoration: none;
+  }
+}
+
 .list {
   padding-bottom: $xxl;
   background: $white;
@@ -34,6 +50,7 @@ $grid-columns: 12;
     // &:first-child{padding-top:0;}
     // &:last-child{border-bottom:0;}
     &__title{
+      width: 100%;
       font-size: $medium; 
       line-height: $large; 
       text-decoration: none; 
@@ -165,7 +182,7 @@ $grid-columns: 12;
   padding-right: $large;
 }
 
-.list__item{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box; flex-direction: column;
+.row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
   @for $i from 1 through $grid-columns {
     .col-#{$i} { width: percentage($i / $grid-columns); }
     @include break-on(md, max) {
@@ -181,9 +198,77 @@ $grid-columns: 12;
       .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
     }
   }
+  [class*='col']{padding:$gutter; box-sizing: border-box;}
+  .col{flex-grow: 1; flex-shrink: 1;}
+  
+  &>.dateBlock{padding:.625rem;}
+  &+.mat-divider{margin:1.25rem 0;}
+}
+@for $i from 1 through $grid-columns {
+  .error-#{$i} { width: percentage($i / $grid-columns); }
+  @include break-on(sm, max) {
+    .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+  }
+}
+.list__item{display: flex; margin:-$gutter 0; flex-wrap:wrap;  box-sizing: border-box; flex-direction: column;
+  @for $i from 1 through $grid-columns {
+    .col-#{$i} { width: percentage($i / $grid-columns); }
+    @include break-on(md, max) {
+      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(sm, max) {
+      .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+      .sm-hide {
+        display: none !important;
+      }
+    }
+    @include break-on(xs, max) {
+      .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
+      .xs-hide {
+        display: none !important;
+      }
+    }
+    @include break-on(xxs, max) {
+      .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+  }
   [class*='col']{box-sizing: border-box;}
   .col{flex-grow: 1; flex-shrink: 1;}
   
   &>.dateBlock{padding:.625rem;}
   &+.mat-divider{margin: 1.25rem 0;}
+}
+@for $i from 1 through $grid-columns {
+  .error-#{$i} { width: percentage($i / $grid-columns); }
+  @include break-on(sm, max) {
+    .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+  }
+}
+.xxs-show{display:none !important;}
+.xxs-flex{display:none !important;}
+.xs-show{display:none !important;}
+.xs-flex{display:none !important;}
+.sm-show{display:none !important;}
+.sm-flex{display:none !important;}
+.md-show{display:none !important;}
+.md-flex{display:none !important;}
+@include break-on(xxs, max) {
+  .xxs-hide{display:none !important;}
+  .xxs-show{display: block !important;}
+  .xxs-flex{display: flex !important;}
+}
+@include break-on(xs, max) {
+  .xs-hide{display:none !important;}
+  .xs-show{display: block !important;}
+  .xs-flex{display: flex !important;}
+}
+@include break-on(sm, max) {
+  .sm-hide{display:none !important;}
+  .sm-show{display: block !important;}
+  .sm-flex{display: flex !important;}
+}
+@include break-on(md, max) {
+  .md-hide{display: none !important;}
+  .md-show{display: block !important;}
+  .md-flex{display: flex !important;}
 }
