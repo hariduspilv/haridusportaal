@@ -51,6 +51,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() height: number;
   @Input() options: FormItemOption[] = [];
   @Output() onChange: EventEmitter<any> = new EventEmitter();
+  @Input() name: string = '';
+  @Input() checked: string;
+
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
     const successClass = this.success ? 'formItem--success' : '';
@@ -177,9 +180,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   checkInitialValue(): void {
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
-    }
-
-    if (this.type === 'multi-select') {
+    } else if (this.type === 'checkbox') {
+      if (this.checked === '' || this.checked === 'checked') {
+        this.field = 'true';
+      }
+    } else if (this.type === 'multi-select') {
       this.removeComma();
       this.options = this.options.map((opt) => {
         return typeof opt ===  'string' ? {
@@ -187,7 +192,23 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
           value: opt,
         } : opt;
       });
+    } else {
+      if (this.value) {
+        this.field = this.value;
+        this.filledField = true;
+      }
     }
+  }
+
+  getValue() {
+    return {
+      name: this.name,
+      value: this.field,
+    };
+  }
+
+  setValue(value) {
+    this.writeValue(value);
   }
 
   ngOnChanges() {

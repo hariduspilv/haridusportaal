@@ -14,6 +14,10 @@ const requestMap = {
   email: ['FieldSchoolContactEmail'],
   webpage: ['FieldSchoolWebpageAddress'],
   url: ['entityUrl'],
+  fixedLabel: ['fieldFixedLabel'],
+  sidebar: ['fieldSidebar'],
+  indicator: ['reverseOskaMainProfessionOskaIndicatorEntity'],
+  fillingBar: ['reverseOskaMainProfessionOskaFillingBarEntity'],
 };
 
 export default(data) => {
