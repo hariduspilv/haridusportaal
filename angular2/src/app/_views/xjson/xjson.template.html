@@ -312,7 +312,7 @@
                         {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                       </span>
                       <div class="squared-input__field-wrapper">
-                        <input class="squared-input__field" type="number" [min]="data_elements[element].min"
+                        <input class="squared-input__field" type="text" [min]="data_elements[element].min"
                           [max]="data_elements[element].max"
                           placeholder="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [(ngModel)]="data_elements[element].value"
@@ -596,7 +596,7 @@
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
                                       <input
                                         *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                        class="contnent-input" type="number"
+                                        class="contnent-input" type="text"
                                         [min]="tableColumnAttribute(element, colIndex, 'min')"
                                         [max]="tableColumnAttribute(element, colIndex, 'max')"
                                         [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? true : null"
@@ -735,8 +735,8 @@
           </div>
 
           <div class="primary-buttons">
-            <button type="submit" role="button" mat-raised-button [color]="['alternative']"
-              (click)="returnToPreviousUrl()">
+            <button *ngIf="!edit_step" type="submit" role="button" mat-raised-button [color]="['alternative']"
+              (click)="cancelEventHandler()">
               {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
             </button>
             <ng-container *ngFor="let activity of activityButtons['primary']">
