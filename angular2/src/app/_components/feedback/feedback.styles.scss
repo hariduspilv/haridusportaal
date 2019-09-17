@@ -48,8 +48,8 @@
     }
 
     button{margin-top:1rem;}
-    .button--plain{background:none; border:none; box-shadow: none; padding-left:18px; padding-right:18px; color:$blue;
-      &:hover{text-decoration: underline;}
+    .button--plain{background:none; border:none; box-shadow: none; padding-left:18px; padding-right:18px; color:$blue; text-decoration: underline;
+      &:hover{text-decoration: none;}
     }
 
   }
