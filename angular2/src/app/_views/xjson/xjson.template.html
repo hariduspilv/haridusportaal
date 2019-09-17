@@ -735,7 +735,7 @@
           </div>
 
           <div class="primary-buttons">
-            <button *ngIf="!edit_step" type="submit" role="button" mat-raised-button [color]="['alternative']"
+            <button *ngIf="edit_step === false" type="submit" role="button" mat-raised-button [color]="['alternative']"
               (click)="cancelEventHandler()">
               {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
             </button>
