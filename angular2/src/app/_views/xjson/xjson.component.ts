@@ -665,6 +665,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       return false;
     }
   }
+
   isValidField(field) {
     // check for required field
     if (field.required === true) {
@@ -705,6 +706,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (field.type === 'email') {
         const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_email')['value'] }; }
+      }
+
+      if (field.type === 'number' && typeof field.value === 'string') {
+        if (!Number(field.value.replace(/\s/g, ''))) {
+          return { valid: false, message: this.translate.get('xjson.enter_valid_number')['value'] };
+        }
       }
 
       // check for checkbox value
@@ -765,11 +772,26 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (!this.data_elements[field].value) {
           this.data_elements[field].value = [];
         }
+
+        for (const column in this.data_elements[field].table_columns) {
+          if (this.data_elements[field].table_columns[column].type === 'number') {
+            this.data_elements[field].value.forEach((element, index) => {
+              if (typeof this.data_elements[field].value[index][column] === 'string') {
+                this.data_elements[field].value[index][column] = parseInt(this.data_elements[field].value[index][column].replace(/\s/g, ''));
+              }
+            });
+          }
+        }
+
       } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
         const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
           break;
+        }
+
+        if (this.data_elements[field].type === 'number' && typeof this.data_elements[field].value === 'string') {
+          this.data_elements[field].value = parseInt(this.data_elements[field].value.replace(/\s/g, ''));
         }
       }
     }
@@ -1033,7 +1055,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.pathWatcher();
     const payload = { form_name: this.form_name };
 
