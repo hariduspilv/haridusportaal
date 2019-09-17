@@ -735,8 +735,8 @@
           </div>
 
           <div class="primary-buttons">
-            <button type="submit" role="button" mat-raised-button [color]="['alternative']"
-              (click)="returnToPreviousUrl()">
+            <button *ngIf="!edit_step" type="submit" role="button" mat-raised-button [color]="['alternative']"
+              (click)="cancelEventHandler()">
               {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
             </button>
             <ng-container *ngFor="let activity of activityButtons['primary']">
