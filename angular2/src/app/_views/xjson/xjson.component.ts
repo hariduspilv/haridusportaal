@@ -804,10 +804,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.promptEditConfirmation();
     } else {
       this.formLoading = true;
-      this.edit_step = false;
       this.validateForm(this.data_elements);
 
       if (Object.keys(this.error).length === 0) {
+        this.edit_step = false;
         this.error_alert = false;
         this.data.header['activity'] = activity;
         const payload = { form_name: this.form_name, form_info: this.data };
@@ -817,8 +817,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.getData(payload);
         }
       } else {
+        this.edit_step = this.edit_step ? true : false;
         this.error_alert = true;
-        this.edit_step = true;
         this.formLoading = false;
         this.scrollPositionController();
       }
