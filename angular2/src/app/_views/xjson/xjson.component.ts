@@ -12,7 +12,7 @@ import { TableService } from '@app/_services/tableService';
 import { SettingsService } from '@app/_services/settings.service';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
-import { throwError } from 'rxjs';
+import { throwError, BehaviorSubject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import * as _moment from 'moment';
@@ -67,7 +67,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public empty_data = false;
   public acceptable_forms = [];
   public acceptable_forms_limit = 4;
-  public opened_step;
+  public opened_step: string;
   public max_step;
   public current_acceptable_activity: string[];
   public data_elements;
@@ -88,6 +88,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public fullAddressSubscription = {};
   public autocompleteLoader = true;
   public addressFieldFocus = false;
+  public observableStep;
 
   constructor(
     private translate: TranslateService,
@@ -100,7 +101,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private tableService: TableService,
-    public settings: SettingsService
+    public settings: SettingsService,
   ) { }
 
   pathWatcher() {
@@ -386,7 +387,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       ? this.data_elements[element].value
       : this.data_elements[element].value[rowindex][col];
 
-      return date ? moment((String(date).split('.')).reverse().join('-')) : '';
+    return date ? moment((String(date).split('.')).reverse().join('-')) : '';
   }
 
   selectListCompare(a, b) {
@@ -539,7 +540,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (column.default_value !== undefined) {
         newRow[col] = column.default_value;
       } else {
-          newRow[col] = null;
+        newRow[col] = null;
       }
       if (column.type === 'address') {
         if (!this.temporaryModel[element]) {
@@ -613,7 +614,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (result === true) {
         this.edit_step = true;
         this.data.header.current_step = this.opened_step;
-        this.data.header['activity'] = 'SAVE';
+        this.data.header.acceptable_activity = ['SAVE'];
         const payload = { form_name: this.form_name, form_info: this.data };
         if (this.test === true) { this.promptDebugDialog(payload); } else { this.viewController(this.data); }
       }
@@ -664,6 +665,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       return false;
     }
   }
+
   isValidField(field) {
     // check for required field
     if (field.required === true) {
@@ -706,18 +708,25 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_email')['value'] }; }
       }
 
-      // check for checkbox value
-      if (field.type === 'checkbox' && field.required === true && field.value === false) {
-       return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
+      if (field.type === 'number' && typeof field.value === 'string') {
+        if (!Number(field.value.replace(/\s/g, ''))) {
+          return { valid: false, message: this.translate.get('xjson.enter_valid_number')['value'] };
+        }
       }
 
-      if(field.type === 'iban'){
+      // check for checkbox value
+      if (field.type === 'checkbox' && field.required === true && field.value === false) {
+        return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
+      }
+
+      if (field.type === 'iban') {
         const reg = /^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}\d{13}|(?:BG|BH|GB|IE)\d{2}[A-Z]{4}\d{14}|GI\d{2}[A-Z]{4}\d{15}|RO\d{2}[A-Z]{4}\d{16}|KW\d{2}[A-Z]{4}\d{22}|MT\d{2}[A-Z]{4}\d{23}|NO\d{13}|(?:DK|FI|GL|FO)\d{16}|MK\d{17}|(?:AT|EE|KZ|LU|XK)\d{18}|(?:BA|HR|LI|CH|CR)\d{19}|(?:GE|DE|LT|ME|RS)\d{20}|IL\d{21}|(?:AD|CZ|ES|MD|SA)\d{22}|PT\d{23}|(?:BE|IS)\d{24}|(?:FR|MR|MC)\d{25}|(?:AL|DO|LB|PL)\d{26}|(?:AZ|HU)\d{27}|(?:GR|MU)\d{28})$/i;
         if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_iban')['value'] }; }
       }
     }
     return { valid: true, message: 'valid' };
   }
+
   tableValidation(table) {
     let valid = true;
     let validationResult = { valid };
@@ -763,11 +772,26 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (!this.data_elements[field].value) {
           this.data_elements[field].value = [];
         }
+
+        for (const column in this.data_elements[field].table_columns) {
+          if (this.data_elements[field].table_columns[column].type === 'number') {
+            this.data_elements[field].value.forEach((element, index) => {
+              if (typeof this.data_elements[field].value[index][column] === 'string') {
+                this.data_elements[field].value[index][column] = parseInt(this.data_elements[field].value[index][column].replace(/\s/g, ''));
+              }
+            });
+          }
+        }
+
       } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
         const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
           break;
+        }
+
+        if (this.data_elements[field].type === 'number' && typeof this.data_elements[field].value === 'string') {
+          this.data_elements[field].value = parseInt(this.data_elements[field].value.replace(/\s/g, ''));
         }
       }
     }
@@ -837,7 +861,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
         if (displayEditButton) { output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' }); }
       }
-    } else {
+    }/*  else if (this.edit_step) {
+      output['primary'].push({ label: 'button.save', action: 'SAVE', style: 'primary' });
+    } */ else {
       activities.forEach(activity => {
         if (editableActivities.includes(activity)) {
           output['primary'].push({ label: 'button.' + activity.toLowerCase(), action: activity, style: 'primary' });
@@ -847,8 +873,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return output;
   }
 
-  returnToPreviousUrl() {
-    this.location.back();
+  cancelEventHandler() {
+    if (!this.edit_step) {
+      this.location.back();
+    }
   }
 
   compileAcceptableFormList() {
@@ -969,7 +997,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.viewController(xjson);
   }
 
-
   viewController(xjson) {
     this.tableCountPerStep = 0;
     this.tableIndexes = [];
@@ -1028,7 +1055,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.pathWatcher();
     const payload = { form_name: this.form_name };
 
