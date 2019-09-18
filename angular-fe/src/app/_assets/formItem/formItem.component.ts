@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RippleService } from '@app/_services';
 import conf from '@app/_core/conf';
+import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 
 export interface FormItemOption {
   key: string;
@@ -202,6 +203,12 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   checkInitialValue(): void {
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
+      this.options = this.options.map((opt) => {
+        return typeof opt ===  'string' ? {
+          key: new TitleCasePipe().transform(opt),
+          value: opt,
+        } : opt;
+      });
     } else if (this.type === 'checkbox') {
       if (this.checked === '' || this.checked === 'checked') {
         this.field = 'true';
@@ -209,12 +216,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     }
     if (this.type === 'multi-select') {
       this.removeComma();
-      this.options = this.options.map((opt) => {
-        return typeof opt ===  'string' ? {
-          key: opt,
-          value: opt,
-        } : opt;
-      });
     } else {
       if (this.value) {
         this.field = this.value;
