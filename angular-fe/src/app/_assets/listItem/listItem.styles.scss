@@ -25,6 +25,10 @@ a{
   }
 }
 
+.pointer{
+  cursor: pointer;
+}
+
 .resp-fields{
   a{
     text-decoration: none;
@@ -54,14 +58,16 @@ a{
       font-size: $medium; 
       line-height: $large; 
       text-decoration: none; 
-      font-weight: 500; 
-      color:$blue; 
+      font-weight: 500;
       margin-right: $small;
       @include break-on(sm, min) {
         margin-bottom:0.23rem; 
       }
       &:hover{
         text-decoration: none;
+      }
+      h1{
+        color: $blue;
       }
     }
     &__head {
