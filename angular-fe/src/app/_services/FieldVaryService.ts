@@ -15,7 +15,7 @@ const requestMap = {
   phone: ['FieldSchoolContactPhone'],
   email: ['FieldSchoolContactEmail'],
   webpage: ['FieldSchoolWebpageAddress', 'fieldWebpageLink'],
-  url: ['entityUrl'],
+  url: ['entityUrl', 'EntityPath'],
   subtitle: ['fieldSubtitle'],
   sidebar: ['fieldInfosystemSidebar', 'fieldSidebar'],
   fixedLabel: ['fieldFixedLabel'],

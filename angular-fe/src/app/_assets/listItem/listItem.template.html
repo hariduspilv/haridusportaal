@@ -1,14 +1,13 @@
 <div #content *ngIf="list && list.length > 0">
     <ng-container *ngFor="let item of list; let i = index">
         <div class="list__item">
-
             <div class="list__item__titlebox">
                 <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
                     <div [class]="type === 'school' ? 'list__item__head sm-hide' : 'list__item__head'"
                         *ngIf="item.head">
                         {{ item.head.entity ? item.head.entity.entityLabel : item.head }}</div>
                     <div class="flex flex-center flex-wrap">
-                        <a href="javascript:void();" class="list__item__title">
+                        <a [href]="item.url.path ? item.url.path : item.url" class="list__item__title">
                             <h1>{{ item.title }}</h1>
                         </a>
                         <div href="javascript:void();" class="nonActive--blue"
@@ -19,7 +18,7 @@
                     <div class="author" *ngIf="item.fieldAuthor || item.created">{{ item.fieldAuthor }}
                         {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                     <div class="tags" *ngIf="item.tags">
-                        <labels [data]="item.tags" type="plain"></labels>
+                        <labels [data]="item.tags" type="default"></labels>
                     </div>
                     <div class="description" *ngIf="item.shortDescription">{{ item.shortDescription }}</div>
 
@@ -27,13 +26,11 @@
                     </labels>
 
                 </div>
-                <div class="col-4 xs-12 pointer" *ngIf="item.image">
-                    <a href="javascript:void();">
-                        <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}"
-                            width="100%" />
-                    </a>
 
-                </div>
+                <div class="col-4 xs-12 pointer" *ngIf="item.image">
+                    <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}" width="100%" />
+                  </div>
+
             </div>
             <ng-container *ngIf="type === 'news'">
                 <div class="xs-show col-12 resp-fields">
