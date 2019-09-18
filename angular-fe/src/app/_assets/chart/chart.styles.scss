@@ -1,0 +1,57 @@
+@import 'breakpoints.scss';
+:host {
+  display:block;
+  margin-top:3rem;
+  .graphText {
+    margin-bottom:2rem;
+    p:first-child {
+      margin-top:0;
+    }
+    p:last-child {
+      margin-bottom:0;
+    }
+  }
+  hr {
+    border: solid 1px #c7c7c9;
+    border-top: none;margin: 0 -1.5rem;
+  }
+  .chart-wrapper{
+    position:relative;
+    margin-bottom:1.5rem;
+    min-height:400px;
+    &__loader {
+      position:absolute;
+      top:0;
+      left:0;
+      right:0;
+      bottom:0;
+      background:rgba(255,255,255, 0.7);
+      display:flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10;
+    }
+  }
+  .formItems {
+    display: grid;
+    display: -ms-grid;
+    grid-gap: 1rem;
+    &--2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      -ms-grid-columns: 1fr 1fr;
+    }
+    &--3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      -ms-grid-columns: 1fr 1fr 1fr;
+    }
+    @include break-on(xxs, max) {
+      &--2, &--3 {
+        grid-template-columns: minmax(0, 1fr);
+        -ms-grid-columns: 1fr;
+      }
+    }
+  }
+  h2 {
+    margin: 2rem 0 1.5rem;
+  }
+}

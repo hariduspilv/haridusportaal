@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import {
   BlockComponent,
   BlockContentComponent,
@@ -21,6 +21,7 @@ import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule } from '@angular/forms';
+import { RecaptchaModule, RECAPTCHA_LANGUAGE, RecaptchaFormsModule } from 'ng-recaptcha';
 import {
   RippleService,
   NgbDateCustomParserFormatter,
@@ -39,7 +40,10 @@ import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
 import { NgPipesModule } from 'ngx-pipes';
 import { FormItemComponent } from './formItem';
-import { RippleDirective } from '@app/_directives';
+import {
+  RippleDirective,
+  FiltersDirective,
+ } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
 import { BaseLayout } from './base-layout';
@@ -52,6 +56,7 @@ import {
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
+import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
@@ -66,15 +71,26 @@ import { ListItemComponent } from './listItem/listItem.component';
 import { MonthsToYearsPipe } from '@app/_pipes/monthsToYears.pipe';
 import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
+import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
 import { InfoSystemComponent } from './infoSystem/infoSystem.component';
+import { SearchResultsComponent } from './searchResults';
+import { SettingsService } from '@app/_services/SettingsService';
+import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
+import { SchoolsComponent } from './schools/schools.component';
+import { NewsComponent } from './news/news.component';
+import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
+
+export function settingsProviderFactory(provider: SettingsService) {
+  return () => provider.load();
+}
 
 const pipes = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
-  LegendCurrencyPipe, 
-  EuroCurrencyPipe, 
+  LegendCurrencyPipe,
+  EuroCurrencyPipe,
   LocaleNumberPipe,
 ];
 
@@ -102,8 +118,10 @@ const declarations = [
   HeaderComponent,
   FormItemComponent,
   RippleDirective,
+  FiltersDirective,
   ModalComponent,
   ModalContentComponent,
+  MainProfessionsComponent,
   BaseLayout,
   ArticleLayout,
   SidebarComponent,
@@ -117,16 +135,21 @@ const declarations = [
   SidebarLocationComponent,
   SidebarProgressComponent,
   SidebarRegisterComponent,
+  StudyProgrammesComponent,
+  SchoolsComponent,
   ProgressBarComponent,
   MapComponent,
   ShareComponent,
   LabelsComponent,
   FavouriteComponent,
   LabeledSeparatorComponent,
+  ChartComponent,
   ListItemComponent,
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
+  SearchResultsComponent,
+  NewsComponent,
 ];
 
 const exports = [
@@ -141,6 +164,17 @@ const providers = [
   SidemenuService,
   SidebarService,
   ClipboardService,
+  SettingsService,
+  {
+    provide: RECAPTCHA_LANGUAGE,
+    useValue: 'et',
+  },
+  {
+    provide: APP_INITIALIZER,
+    useFactory: settingsProviderFactory,
+    deps: [SettingsService],
+    multi: true,
+  },
 ];
 
 @NgModule({
@@ -160,6 +194,9 @@ const providers = [
     NgPipesModule,
     NgSelectModule,
     NgbTooltipModule,
+    RecaptchaModule.forRoot(),
+    RecaptchaFormsModule,
+    Ng2GoogleChartsModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })

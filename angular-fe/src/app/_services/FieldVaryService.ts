@@ -18,6 +18,10 @@ const requestMap = {
   url: ['entityUrl'],
   subtitle: ['fieldSubtitle'],
   sidebar: ['fieldInfosystemSidebar'],
+  fixedLabel: ['fieldFixedLabel'],
+  sidebar: ['fieldSidebar'],
+  indicator: ['reverseOskaMainProfessionOskaIndicatorEntity'],
+  fillingBar: ['reverseOskaMainProfessionOskaFillingBarEntity'],
 };
 
 export default(data) => {

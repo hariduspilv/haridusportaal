@@ -1,6 +1,36 @@
 @import "typography.scss";
 @import "breakpoints.scss";
 
+$grid-columns: 12;
+
+:host{
+  display: block;
+}
+
+::ng-deep{
+  block-content listItems{
+    margin-top: -$medium;
+    margin-left: -$medium;
+    margin-right: -$medium;
+  }
+}
+
+a{
+  h1:hover{
+    text-decoration: underline;
+  }
+  h1.title{
+      padding-top: $small;
+      padding-bottom: $half-gutter;
+  }
+}
+
+.resp-fields{
+  a{
+    text-decoration: none;
+  }
+}
+
 .list {
   padding-bottom: $xxl;
   background: $white;
@@ -12,65 +42,21 @@
     margin-bottom: $medium; 
     padding-bottom: 0;
   }
-  .months {
-    margin-top: $medium;
-    @include break-on(sm, min) {
-      margin-top:-$medium;
-    }
-  }
-  &__title {
-    font-size: $small;
-    line-height: 2;
-    color: $dark-gray; 
-    padding: $small $medium $small $medium; 
-    flex-basis: 50%;
-  }
-  &__head {
-    display: flex;
-    border-bottom: .0625rem solid $gray;
-  }
-  .view-item {
-    height: 100%;
-    width: 5.75rem;
-    text-align: center;
-    border-left: .0625rem solid $gray;
-    cursor:pointer;
-    color:$blue;
-    .htm-icon {
-      margin-top: $gutter;
-    }
-    .title {
-      font-size: .875rem;
-    }
-    &.active {
-      color: $black;
-      pointer-events: none;
-      cursor: initial;
-      &:after {
-        content: '';
-        height: .1875rem;
-        background-color: $dark-orange;
-        display: block;
-        position: relative;
-        top: .625rem;
-      }
-    }
-  }
-
   &__item {
     padding: $small $medium; 
-    border-bottom: solid 0.0625rem $gray; 
+    border-bottom: solid .0625rem $gray; 
     display:flex; 
     flex-wrap: wrap;
     // &:first-child{padding-top:0;}
     // &:last-child{border-bottom:0;}
     &__title{
-      font-size:1.5rem; 
-      line-height:2rem; 
+      width: 100%;
+      font-size: $medium; 
+      line-height: $large; 
       text-decoration: none; 
       font-weight: 500; 
       color:$blue; 
-      margin-right: 1rem;
+      margin-right: $small;
       @include break-on(sm, min) {
         margin-bottom:0.23rem; 
       }
@@ -88,22 +74,22 @@
       width:33%; 
       box-sizing: border-box;
       &:first-child {
-        padding-right:1.5rem;
+        padding-right: $medium;
       }
       &:last-child {
-        padding-left:1.5rem;
+        padding-left: $medium;
       }
       p {
         color:$dark-gray; 
-        font-size:0.875rem; 
+        font-size: .875rem; 
         line-height:20px; 
-        margin:0.25rem 0;
+        margin: $half-gutter 0;
       }
     }
     &__subtitle {
       font-size: $small;
       line-height: 1; 
-      font-size:0.88rem; 
+      font-size: .88rem; 
       color:$dark-gray; 
       line-height:143%; 
       display:block; 
@@ -125,58 +111,23 @@
       }
     }
     p:first-child {
-      margin-top:0;
+      margin-top: 0;
     }
     p:last-child {
-      margin-bottom:0;
+      margin-bottom: 0;
     }
   }
   .spinner-wrapper {
-    padding-bottom:1.25rem;
-  }
-}
-.button-list {
-  display: flex;
-  flex-basis: 50%;
-  justify-content: flex-end;
-}
-.actions {
-  margin-bottom:$xxl; 
-  padding:0 $medium;
-  margin-top: -$medium;
-  @include break-on(sm, min) {
-    margin-top: 0;
-  }
-  &.snackBar {
-    margin-bottom: 3rem;
-    @include break-on(sm, min) {
-      margin-bottom: 5.25rem;
-    }
-  }
-}
-@include break-on(sm, max) {
-  .filter-wrapper .row {
-    padding-top: $gutter;
-    &:first-child {
-      padding-top: 0;
-    }
-  }
-  .button-row {
-    padding-top: 0;
-  }
-}
-@include break-on(sm, min) {
-  .custom-checkbox {
-    margin-top: $gutter;
+    padding-bottom: 1.25rem;
   }
 }
 
 .author {
-  padding-top: 0.375rem;
-  padding-bottom: 1rem;
-  font-size: 0.875rem;
+  padding-top: .375rem;
+  padding-bottom: $small;
+  font-size: .875rem;
   line-height: 1.43;
-  color: #757575;
+  color: $dark-gray;
 }
 
 .inline__items {
@@ -189,12 +140,16 @@
     font-weight: 500;
     font-size: .875rem;
     line-height: 1.25rem;
-    color: #757575;
+    color: $dark-gray;
     white-space: nowrap;
+
+    .dark {
+      color: $darker-gray;
+    }
   }
 
   .bar{
-    color: #c7c7c9;
+    color: $gray;
     font-weight: 300;
     padding: 0 .375rem;
   }
@@ -213,16 +168,107 @@
 }
 
 .tags{
-  padding-bottom: 1rem;
+  padding-bottom: $small;
 }
 
 .description {
-  font-size: 1rem;
+  font-size: $small;
   overflow: hidden;
   position: relative;
   line-height: 1.2rem;
   max-height: 3.6rem;
   text-align: justify;
   margin-right: -1rem;
-  padding-right: 2rem;
+  padding-right: $large;
+}
+
+.row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
+  @for $i from 1 through $grid-columns {
+    .col-#{$i} { width: percentage($i / $grid-columns); }
+    @include break-on(md, max) {
+      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(sm, max) {
+      .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(xs, max) {
+      .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(xxs, max) {
+      .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+  }
+  [class*='col']{padding:$gutter; box-sizing: border-box;}
+  .col{flex-grow: 1; flex-shrink: 1;}
+  
+  &>.dateBlock{padding:.625rem;}
+  &+.mat-divider{margin:1.25rem 0;}
+}
+@for $i from 1 through $grid-columns {
+  .error-#{$i} { width: percentage($i / $grid-columns); }
+  @include break-on(sm, max) {
+    .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+  }
+}
+.list__item{display: flex; margin:-$gutter 0; flex-wrap:wrap;  box-sizing: border-box; flex-direction: column;
+  @for $i from 1 through $grid-columns {
+    .col-#{$i} { width: percentage($i / $grid-columns); }
+    @include break-on(md, max) {
+      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+    @include break-on(sm, max) {
+      .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+      .sm-hide {
+        display: none !important;
+      }
+    }
+    @include break-on(xs, max) {
+      .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
+      .xs-hide {
+        display: none !important;
+      }
+    }
+    @include break-on(xxs, max) {
+      .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+  }
+  [class*='col']{box-sizing: border-box;}
+  .col{flex-grow: 1; flex-shrink: 1;}
+  
+  &>.dateBlock{padding:.625rem;}
+  &+.mat-divider{margin: 1.25rem 0;}
+}
+@for $i from 1 through $grid-columns {
+  .error-#{$i} { width: percentage($i / $grid-columns); }
+  @include break-on(sm, max) {
+    .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+  }
+}
+.xxs-show{display:none !important;}
+.xxs-flex{display:none !important;}
+.xs-show{display:none !important;}
+.xs-flex{display:none !important;}
+.sm-show{display:none !important;}
+.sm-flex{display:none !important;}
+.md-show{display:none !important;}
+.md-flex{display:none !important;}
+@include break-on(xxs, max) {
+  .xxs-hide{display:none !important;}
+  .xxs-show{display: block !important;}
+  .xxs-flex{display: flex !important;}
+}
+@include break-on(xs, max) {
+  .xs-hide{display:none !important;}
+  .xs-show{display: block !important;}
+  .xs-flex{display: flex !important;}
+}
+@include break-on(sm, max) {
+  .sm-hide{display:none !important;}
+  .sm-show{display: block !important;}
+  .sm-flex{display: flex !important;}
+}
+@include break-on(md, max) {
+  .md-hide{display: none !important;}
+  .md-show{display: block !important;}
+  .md-flex{display: flex !important;}
 }

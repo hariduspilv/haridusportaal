@@ -4,10 +4,6 @@ import listItemMd from './list-item.md';
 import listItemHtml from './list-item.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { list } from './list-item.data';
-import {
-  withKnobs,
-  object,
-} from '@storybook/addon-knobs';
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -17,16 +13,11 @@ const moduleMetadata = {
 
 const stories = storiesOf('Assets', module);
 
-const objectKeys = Object.keys;
-
-stories.addDecorator(withKnobs);
-
 stories.add('List item', () => {
 
   return {
     moduleMetadata,
     props: {
-      objectKeys,
       list,
     },
     template: listItemHtml,
