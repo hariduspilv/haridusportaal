@@ -17,6 +17,7 @@ export const collection = {
   'reverseOskaMainProfessionOskaIndicatorEntity': 'facts',
   'reverseOskaMainProfessionOskaFillingBarEntity': 'progress',
   'favourites': 'links',
+  'fieldLegislationBlock': 'links',
 }
 
 export const uniformTypes = {

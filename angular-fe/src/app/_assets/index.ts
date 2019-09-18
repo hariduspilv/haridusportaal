@@ -4,6 +4,7 @@ import {
   BlockContentComponent,
   BlockTitleComponent,
   BlockTabsComponent,
+  BlockSecondaryTitleComponent,
 } from './block';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './button';
@@ -72,16 +73,17 @@ import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
+import { InfoSystemComponent } from './infoSystem/infoSystem.component';
 import { SearchResultsComponent } from './searchResults';
 import { SettingsService } from '@app/_services/SettingsService';
-
-export function settingsProviderFactory(provider: SettingsService) {
-  return () => provider.load();
-}
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
+
+export function settingsProviderFactory(provider: SettingsService) {
+  return () => provider.load();
+}
 
 const pipes = [
   MonthsToYearsPipe,
@@ -96,11 +98,13 @@ const declarations = [
   BlockComponent,
   BlockContentComponent,
   BlockTitleComponent,
+  BlockSecondaryTitleComponent,
   BlockTabsComponent,
   ButtonComponent,
   LoaderComponent,
   SkeletonComponent,
   IconComponent,
+  InfoSystemComponent,
   BreadcrumbsComponent,
   AccordionComponent,
   AccordionItemComponent,

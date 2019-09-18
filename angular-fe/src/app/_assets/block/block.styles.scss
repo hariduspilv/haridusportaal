@@ -5,7 +5,7 @@
 	display: block;
 	border-top: $light-blue 0.625rem solid;
 	background: $white;
-	border-radius: 0.25rem;
+	border-radius: $half-gutter;
 	margin-bottom: 16px;
 
 	&.block--orange {
@@ -18,22 +18,32 @@
 		.block__title {
 			display: flex;
 			color: $dark-gray;
-      font-size: 1rem;
-
+			font-size: $small;
+			justify-content: space-between;
 			&--border {
 				border-bottom: $gray 0.0625rem solid;
 			}
 
 			&__text {
 				flex-grow: 1;
-				padding: 1.625rem 1.5rem;
+				padding: 1.625rem $medium;
 				text-transform: uppercase;
 			}
 
+			&__secondary__text{
+				color: $black;
+				padding: 0rem $medium;
+			}
+
+			&__container{
+				flex-direction: column;
+			}
+
 			&__tabs {
+				height:4.5rem;
 				button {
 					appearance: none;
-					padding: 0 1rem;
+					padding: 0 $small;
 					border: none;
 					height: 100%;
 					background: none;
@@ -48,10 +58,10 @@
 						&:after{
 							content: '';
 							position: absolute;
-							left: -1rem;
-							right: -1rem;
+							left: -$small;
+							right: -$small;
 							bottom: 0;
-							height: 0.25rem;
+							height: $half-gutter;
 							background: $dark-orange;
 							display: block;
 						}
@@ -69,11 +79,72 @@
 					margin-bottom: 0.125rem;
 				}
 			}
+			&__middle-tabs {
+				display: flex;
+				flex-basis: 100%;
+				justify-content: flex-start;
+				padding: 0rem 1.5rem;
+				margin-top: $small;
+				button {
+					appearance: none;
+					padding: 0 $small;
+					border: none;
+					height: 100%;
+					background: none;
+					font-size: 16px;
+					cursor: pointer;
+					position: relative;
+					overflow: hidden;
+					vertical-align: top;
+					width: 25%;
+					margin: 0;
+					@include break-on(md, max) {
+						width: 50%;
+					}
+					&.active {
+						color: $blue;
+						&:after{
+							content: '';
+							position: absolute;
+							left: -$small;
+							right: -$small;
+							bottom: 0;
+							height: $half-gutter;
+							background: $dark-orange;
+							display: block;
+						}
+					}
+					&:hover {
+						icon, .title  { 
+							color: #0F7B8A;
+						}
+					  }
+					.button__contents{
+						position: relative;
+						z-index: 2;
+						pointer-events: none;
+						.title{
+							font-weight: 300;
+							font-size: .875rem;
+							line-height: 1.71;
+							margin-bottom: $quarter;
+						}
+					}
+				}
+
+				icon {
+					display: block;
+					i {
+						font-size: $medium !important;
+						margin: $small 0 $gutter;
+					}
+				}
+			}
 		}
 
 		.block__content {
 			display: block;
-			padding: 1.5rem;
+			padding: $medium;
 
 			h1,h2,h3,h4,h5,h6,p {
 				&:first-child {
@@ -112,14 +183,14 @@
 			}
 		}
 		@include break-on(sm, max) {
-			border-radius: 0 0 0.25rem 0.25rem;
+			border-radius: 0 0 $half-gutter $half-gutter;
 			margin-bottom: 0;
 		}
 	}
 
 	@media screen and (max-width:640px) {
 		block {
-			border-radius: 0 0 0.25rem 0.25rem !important;
+			border-radius: 0 0 $half-gutter $half-gutter !important;
 
 			.block__title {
 				&__tabs {
