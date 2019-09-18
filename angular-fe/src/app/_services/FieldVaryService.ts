@@ -17,9 +17,8 @@ const requestMap = {
   webpage: ['FieldSchoolWebpageAddress', 'fieldWebpageLink'],
   url: ['entityUrl'],
   subtitle: ['fieldSubtitle'],
-  sidebar: ['fieldInfosystemSidebar'],
+  sidebar: ['fieldInfosystemSidebar', 'fieldSidebar'],
   fixedLabel: ['fieldFixedLabel'],
-  sidebar: ['fieldSidebar'],
   indicator: ['reverseOskaMainProfessionOskaIndicatorEntity'],
   fillingBar: ['reverseOskaMainProfessionOskaFillingBarEntity'],
 };
