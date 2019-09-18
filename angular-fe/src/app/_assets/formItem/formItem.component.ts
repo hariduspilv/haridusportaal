@@ -17,8 +17,8 @@ import { RippleService } from '@app/_services';
 import conf from '@app/_core/conf';
 
 export interface FormItemOption {
-  key: 'string';
-  value: 'string';
+  key: string;
+  value: string;
 }
 
 @Component({

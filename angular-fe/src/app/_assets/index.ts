@@ -80,6 +80,7 @@ import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.comp
 import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
+import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -92,6 +93,7 @@ const pipes = [
   LegendCurrencyPipe,
   EuroCurrencyPipe,
   LocaleNumberPipe,
+  TitleCasePipe,
 ];
 
 const declarations = [
