@@ -320,7 +320,7 @@ class xJsonService implements xJsonServiceInterface {
 
     public function mergeElementValue ($element_def, $value) {
         $element_type = $element_def['type'];
-        $element_title = $element_def['title']['etmi'];
+        $element_title = $element_def['title'];
 
         if ($element_type === 'table' ) {
             $element_column_keys = array_keys($element_def['table_columns']);
@@ -371,7 +371,7 @@ class xJsonService implements xJsonServiceInterface {
                 else $additional_keys = ['min', 'max'];
                 break;
             case 'selectlist':
-                if ($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options'];
+                if ($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options', 'options_list'];
                 else $additional_keys = ['multiple', 'empty_option', 'options', 'options_list'];
                 if (isset($element['options_list'])) {
                     $params['hash'] = $element['options_list'];
@@ -418,7 +418,7 @@ class xJsonService implements xJsonServiceInterface {
                         }
                     }
                 }
-                if(!$element['max_size'] || $element['max_size'] > ini_get('upload_max_filesize')){
+                if(!$table && (!$element['max_size'] || $element['max_size'] > ini_get('upload_max_filesize'))){
                     $element['max_size'] = intval(preg_replace('/\D/', '', ini_get('upload_max_filesize')));
                 }
                 break;
