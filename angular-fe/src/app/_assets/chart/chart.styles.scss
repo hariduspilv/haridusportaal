@@ -35,20 +35,31 @@
   }
   .formItems {
     display: grid;
-    display: -ms-grid;
     grid-gap: 1rem;
     &--2 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      -ms-grid-columns: 1fr 1fr;
     }
     &--3 {
       grid-template-columns: repeat(3, minmax(0, 1fr));
-      -ms-grid-columns: 1fr 1fr 1fr;
     }
     @include break-on(xxs, max) {
       &--2, &--3 {
         grid-template-columns: minmax(0, 1fr);
-        -ms-grid-columns: 1fr;
+      }
+    }
+    @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+      display: flex;
+      > div {
+        margin-right: 1rem;
+        &:last-child {
+          margin-right: 0;
+        }
+      }
+      &--2 > * {
+        flex-basis: 50%;
+      }
+      &--3 > * {
+        flex-basis: 33.3%;
       }
     }
   }

@@ -38,13 +38,14 @@
     grid-gap: 1rem;
     grid-template-columns: 1fr;
     -ms-grid-columns: 1fr;
+    padding: 0;
+    overflow-y: scroll;
+    min-height: 100%;
     @include break-on(sm, min) {
       grid-template-areas: '. sidebar';
       grid-template-columns: 2fr 1fr;
       -ms-grid-columns: 2fr 1fr;
+      padding: 1rem;
     }
-    padding: 1rem;
-    overflow-y: scroll;
-    min-height: 100%;
   }
 }

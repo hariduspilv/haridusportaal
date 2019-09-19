@@ -11,6 +11,9 @@
 	&.block--orange {
 		border-top-color: $dark-orange;
 	}
+	@include break-on(xs, max) {
+		border-radius: 0 0 $half-gutter $half-gutter;
+	}
 }
 
 ::ng-deep {
@@ -42,6 +45,8 @@
 			&__tabs {
 				height:4.5rem;
 				button {
+					color: $blue;
+					min-width: 5.75rem;
 					appearance: none;
 					padding: 0 $small;
 					border: none;
@@ -53,7 +58,9 @@
 					position: relative;
 					overflow: hidden;
 					vertical-align: top;
-
+					&:hover {
+						color: $light-green;
+					}
 					&.active {
 						&:after{
 							content: '';
@@ -65,7 +72,10 @@
 							background: $dark-orange;
 							display: block;
 						}
-						color: $blue;
+						color: $black;
+						&:hover {
+							color: $black;
+						}
 					}
 					.button__contents{
 						position: relative;
@@ -163,6 +173,26 @@
 				height: 0.0625rem;
 			}
 		}
+
+		@include break-on(xs, max) {
+			& {
+				border-radius: 0 0 $half-gutter $half-gutter !important;
+			}
+			.block__title {
+				display: flex;
+				flex-direction: column;
+				&__tabs {
+					display: flex;
+					border-top: .0625rem solid $gray;
+					button {
+						min-width: auto;
+						padding: 0 .125rem;
+						flex-basis: 0;
+						flex-grow: 1;
+					}
+				}
+			}
+		}
 	}
 
 	&.block--sidebar {
@@ -188,15 +218,4 @@
 		}
 	}
 
-	@media screen and (max-width:640px) {
-		block {
-			border-radius: 0 0 $half-gutter $half-gutter !important;
-
-			.block__title {
-				&__tabs {
-					display: none;
-				}
-			}
-		}
-	}
 }
