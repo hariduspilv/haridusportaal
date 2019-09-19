@@ -371,7 +371,7 @@ class xJsonService implements xJsonServiceInterface {
                 else $additional_keys = ['min', 'max'];
                 break;
             case 'selectlist':
-                if ($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options'];
+                if ($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options', 'options_list'];
                 else $additional_keys = ['multiple', 'empty_option', 'options', 'options_list'];
                 if (isset($element['options_list'])) {
                     $params['hash'] = $element['options_list'];
