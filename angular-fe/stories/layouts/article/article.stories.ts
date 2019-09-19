@@ -449,5 +449,6 @@ stories.add('Article Layout', () => {
       feedbackNid,
     },
     template: articleStoriesTemplateHtml,
+    styleUrls: ['./article.stories.styles.scss'],
   };
 });
