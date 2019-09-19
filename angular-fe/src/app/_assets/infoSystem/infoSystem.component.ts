@@ -5,7 +5,7 @@ import {
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
 @Component({
-  selector: 'infoSystem',
+  selector: 'infoSystem-view',
   templateUrl: 'infoSystem.template.html',
   styleUrls: ['infoSystem.styles.scss'],
 })
