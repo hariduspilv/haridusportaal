@@ -45,8 +45,8 @@
 
       <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
         <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
-          [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps)">
-          <a (click)="selectStep(step)">
+          [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps); let i = index">
+          <a (click)="edit_step && i-1 === data.body.steps[opened_step].sequence ? submitForm('SAVE') : selectStep(step)">
             <span class="xjson__navigation__stepname">
               <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
               </ng-container>
@@ -660,7 +660,7 @@
                                                 {{ tableColumnAttribute(element, colIndex, 'empty_option') ?
                                                 selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : '-'}}
                                               </mat-option>
-                                              <ng-container *ngIf="data_elements[element].options">
+                                              <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'options')">
                                                   <mat-option
                                                   *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
                                                   [value]="option">
