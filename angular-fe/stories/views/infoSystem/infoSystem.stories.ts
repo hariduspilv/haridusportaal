@@ -15,7 +15,7 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Views', module);
 
 stories.add('Infosystem', () => {
 

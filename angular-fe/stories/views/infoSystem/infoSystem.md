@@ -3,9 +3,9 @@
 ## Usage
 
 ```html
-<infoSystem
+<infoSystem-view
   [data]="data"
-></infoSystem>
+></infoSystem-view>
 ```
 
 ## Properties
