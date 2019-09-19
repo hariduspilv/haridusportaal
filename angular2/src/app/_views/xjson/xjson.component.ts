@@ -883,8 +883,20 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.data.header.acceptable_form.slice(0, this.acceptable_forms_limit) :
       this.data.header.acceptable_form;
 
+      const params = [];
+    this.route.queryParams.subscribe(
+      (strings: ActivatedRoute) => {
+        for (const key in strings) {
+          if (strings.hasOwnProperty(key)) {
+            params.push(key + '=' + strings[key]);
+          }
+        }
+      }
+    );
+    const urlParams = params.join('&');
+
     this.acceptable_forms.forEach((elem, index) => {
-      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
+      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name).concat('?', urlParams);
     });
 
   }
@@ -901,9 +913,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.scrollableTableDeterminant(label);
         this.tableVisibleColumns(label, elem['table_columns']);
       }
-      if (elem['hidden'] || elem['readonly']) {
-        return;
-      } else {
+      if (this.viewOnlyStep && !(elem['hidden'] || elem['readonly'])) {
         this.viewOnlyStep = false;
       }
     }
