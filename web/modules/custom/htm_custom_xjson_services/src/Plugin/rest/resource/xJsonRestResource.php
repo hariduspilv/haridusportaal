@@ -138,8 +138,6 @@ class xJsonRestResource extends ResourceBase {
 	private function returnExistingDzeison ($data) {
 		$params['url'] = [$data['form_name'], $data['id']];
 		$response = $this->ehisService->getDocument($params);
-		dump($response);
-		die();
 		$response['header'] += [
 			'endpoint' => 'empty'
 		];
