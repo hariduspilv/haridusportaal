@@ -437,6 +437,8 @@ class xJsonService implements xJsonServiceInterface {
                 } else {
                     $valid = false;
                 }
+                dump($valid);
+                dump($element);
                 break;
             case 'address':
                 $additional_keys = ['multiple', 'appartment', 'results', 'ihist', 'hidden', 'required', 'readonly'];
