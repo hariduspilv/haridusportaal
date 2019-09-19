@@ -48,18 +48,21 @@
 					color: $blue;
 					min-width: 5.75rem;
 					appearance: none;
-					padding: 0 $small;
+					font-size: .875rem;
+					padding: 0 $gutter;
+					font-family: 'Rubik', sans-serif;
 					border: none;
 					height: 100%;
 					background: none;
 					border-left: $gray 0.0625rem solid;
-					font-size: 16px;
 					cursor: pointer;
 					position: relative;
 					overflow: hidden;
 					vertical-align: top;
-					&:hover {
-						color: $light-green;
+					@include break-on(sm, max) {
+						&:hover {
+							color: $light-green;
+						}
 					}
 					&.active {
 						&:after{
