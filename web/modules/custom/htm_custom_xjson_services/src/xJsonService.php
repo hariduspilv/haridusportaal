@@ -431,14 +431,12 @@ class xJsonService implements xJsonServiceInterface {
                             if (isset($is_table) && $is_table) $valid = false;
                             if (isset($is_textarea) && $is_textarea) $valid = false;
                         } else {
-                            if (!$this->validateDataElement($column_element, true)) $valid = false;
+                            if (!$this->validateDataElement($column_element, true))  dump($column_element); $valid = false;
                         }
                     }
                 } else {
                     $valid = false;
                 }
-                dump($valid);
-                dump($element);
                 break;
             case 'address':
                 $additional_keys = ['multiple', 'appartment', 'results', 'ihist', 'hidden', 'required', 'readonly'];
