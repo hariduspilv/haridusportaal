@@ -1,0 +1,35 @@
+<article-layout>
+	<breadcrumbs [path]="path"></breadcrumbs>
+	<block [loading]="loading">
+		<block-title>
+			{{ 'news.label' | translate }}
+		</block-title>
+		<block-content>
+      <ng-container *ngIf="data">
+
+				<h1>{{ data.title }}</h1>
+
+				<div class="author">
+					{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}
+				</div><!--/author-->
+
+				<div class="toolbar">
+					<share [title]="title"></share>
+				</div><!--/toolbar-->
+
+        <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
+
+				<image *ngIf="data.image" [image]="data.image"></image>
+				
+				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
+
+				<htm-video *ngIf="data.video" [videos]="[data.video]"></htm-video>
+
+				<labels [data]="data.tags" *ngIf="data.tags"></labels>
+
+				<feedback [nid]="data.nid"></feedback>
+
+      </ng-container>
+		</block-content>
+	</block>
+</article-layout>
