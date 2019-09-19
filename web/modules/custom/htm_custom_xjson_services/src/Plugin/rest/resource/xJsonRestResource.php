@@ -138,6 +138,8 @@ class xJsonRestResource extends ResourceBase {
 	private function returnExistingDzeison ($data) {
 		$params['url'] = [$data['form_name'], $data['id']];
 		$response = $this->ehisService->getDocument($params);
+		dump($response);
+		die();
 		$response['header'] += [
 			'endpoint' => 'empty'
 		];
@@ -176,8 +178,6 @@ class xJsonRestResource extends ResourceBase {
 
 		if (empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
 		$response = $this->ehisService->postDocument(['json' => $request_body]);
-		dump($response);
-		die();
 		return $this->returnBuildedResponse($response);
 	}
 
