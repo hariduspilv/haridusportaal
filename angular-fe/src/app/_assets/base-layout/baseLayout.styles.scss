@@ -4,6 +4,7 @@
 :host {
   display: grid;
   display: -ms-grid;
+  overflow-y: auto;
   background-color: $light-gray;
   position: relative;
   grid-template-areas: 'header header header header'
