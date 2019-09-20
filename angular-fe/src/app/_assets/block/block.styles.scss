@@ -59,7 +59,7 @@
 					position: relative;
 					overflow: hidden;
 					vertical-align: top;
-					@include break-on(sm, max) {
+					@include break-on(sm, min) {
 						&:hover {
 							color: $light-green;
 						}
