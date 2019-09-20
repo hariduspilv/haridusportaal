@@ -709,7 +709,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
 
       if (field.type === 'number' && typeof field.value === 'string') {
-        if (!Number(field.value.replace(/\s/g, ''))) {
+        if (isNaN(field.value.replace(/\s/g, ''))) {
           return { valid: false, message: this.translate.get('xjson.enter_valid_number')['value'] };
         }
       }
