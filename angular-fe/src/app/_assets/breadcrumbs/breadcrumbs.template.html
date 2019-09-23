@@ -1,7 +1,7 @@
 <ul>
   <li *ngFor="let item of data; let i = index;">
     <span class="arrow" *ngIf="i > 0">
-      >
+      <icon glyph="chevron-right"></icon>
     </span>
     <a [routerLink]="[item.link]" *ngIf="item.link">{{ item.title }}</a>
     <ng-container *ngIf="!item.link">

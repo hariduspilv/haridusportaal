@@ -37,6 +37,12 @@ $optionSize: 2.25rem;
     }
   }
 }
+
+::ng-deep{
+  block-content share{
+    margin:0.625rem 0 -0.9375rem -0.75rem;
+  }
+}
 .share{
   &__indicator, &__link, &__option{
     position: absolute;

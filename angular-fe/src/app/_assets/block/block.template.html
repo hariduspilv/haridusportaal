@@ -46,16 +46,7 @@
 </ng-container>
 
 <ng-container *ngIf="loading">
-  <div class="block__title" [class.block__title--border]="titleBorder" *ngIf="hasTitle">
-    <div class="block__title__text">
-      <block-title>
-        <skeleton type="line"></skeleton>
-      </block-title>
-    </div>
-    <!--/block__title__text-->
-  </div>
-  <!--/title-area-->
   <div class="block__content">
     <skeleton type="article"></skeleton>
-  </div>
+  </div><!--/block__content-->
 </ng-container>

@@ -1,10 +1,10 @@
-<div class="row video" *ngIf="videos">
-  <div class="col-12" *ngFor="let video of videos; let i = index">
+<ng-container *ngIf="videos">
+  <div class="video__entity" *ngFor="let video of videos; let i = index">
     <div class="video-container" *ngIf="embeddedInputs && embeddedInputs.length && embeddedInputs[i]" [innerHtml]="embeddedInputs[i]"></div>
     <div class="video-container" *ngIf="embedFailed && video.videoId">
       <iframe *ngIf="video.finalUrl" attr.aria-label="{{ 'generic.youtube_video' | translate }}" [src]="video.finalUrl" frameborder="0" allowfullscreen></iframe>
     </div>
     <div *ngIf="video.videoDescription && embedFailed" class="video-alt-text">{{video.videoDescription}}</div>
     <div *ngIf="video.videoDescription && embeddedInputs.length && embeddedInputs[i]" class="video-alt-text">{{video.videoDescription}}</div>
-  </div><!--/col-12-->
-</div> <!--/row-->
+  </div><!--/video__entity-->
+</ng-container>

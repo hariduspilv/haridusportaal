@@ -29,6 +29,7 @@ import {
   SidemenuService,
   SidebarService,
   ModalService,
+  SettingsService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -75,7 +76,6 @@ import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
 import { InfoSystemComponent } from './infoSystem/infoSystem.component';
 import { SearchResultsComponent } from './searchResults';
-import { SettingsService } from '@app/_services/SettingsService';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
@@ -85,6 +85,7 @@ import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
 }
+import { ImageComponent } from './image';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -152,6 +153,7 @@ const declarations = [
   UrlPipe,
   SearchResultsComponent,
   NewsComponent,
+  ImageComponent,
 ];
 
 const exports = [
