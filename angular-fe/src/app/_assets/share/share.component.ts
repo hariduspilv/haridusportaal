@@ -7,15 +7,21 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
   selector: 'share',
   templateUrl: 'share.template.html',
   styleUrls: ['share.styles.scss'],
+  host: {
+    '(mouseenter)': 'hostFocused(true)',
+    '(mouseleave)': 'hostBlurred(true)',
+  },
 })
 
 export class ShareComponent {
   public isFocused: boolean = false;
+  public isHovered: boolean = false;
+
   public copyLink = decodeURI(window.location.href);
 
   @Input() pageTitle: string;
   @HostBinding('class') get hostClasses(): string {
-    return this.isFocused ? 'share--focused' : '';
+    return this.isFocused || this.isHovered ? 'share--focused' : '';
   }
 
   constructor(
@@ -46,12 +52,20 @@ export class ShareComponent {
     return window.open(shareLink, 'targetWindow', shareWindow);
   }
 
-  public hostFocused(): void {
-    this.isFocused = true;
+  public hostFocused(hover: boolean = false): void {
+    if (hover) {
+      this.isHovered = true;
+    } else {
+      this.isFocused = true;
+    }
   }
 
-  public hostBlurred(): void {
-    this.isFocused = false;
+  public hostBlurred(hover: boolean = false): void {
+    if (hover) {
+      this.isHovered = false;
+    } else {
+      this.isFocused = false;
+    }
   }
 
   public copyLinkToClipboard(): void {
@@ -63,6 +77,8 @@ export class ShareComponent {
       false,
     );
     this.clipboardService.copyFromContent(this.copyLink);
+    this.isFocused = false;
+    this.isHovered = false;
   }
 
 }
