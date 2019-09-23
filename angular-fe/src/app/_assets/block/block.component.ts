@@ -144,7 +144,6 @@ export class BlockComponent implements AfterContentInit{
 
     this.countLabels();
     this.checkTitle();
-
   }
 
 }

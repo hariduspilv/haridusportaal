@@ -38,4 +38,12 @@
 			<feedback nid="48788"></feedback>
 		</block-content>
   </block>
+	<block *ngIf="charts && charts.length">
+		<block-title>
+			Graafikud
+		</block-title>
+		<block-content>
+			<chart [data]="charts" type="filter"></chart>
+		</block-content>
+  </block>
 </article-layout>

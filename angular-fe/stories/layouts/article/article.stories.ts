@@ -40,6 +40,45 @@ const videoData = [
   },
 ];
 
+const charts = [
+  {
+    graphSet: null,
+    graphTitle: 'Kassi ja koera kaalumised',
+    // tslint:disable-next-line: max-line-length
+    filterValues: '{"graph_type":"line","graph_options":{"graph_title":"Kassi ja koera kaalumised","graph_indicator":{"Kaal":"Kaal"},"graph_v_axis":"periood","graph_group_by":{"valdkond":"valdkond"},"graph_filters":{"valdkond":{"koer":"koer","kass":"kass"},"alavaldkond":[],"ametiala":[],"periood":[],"silt":[]},"graph_y_min":"0","graph_y_unit":"summa","graph_text":{"value":"\\u003Cp\\u003EM\\u00f5nel aastal ununes kaaluda.\\u003C\\/p\\u003E\\r\\n","format":"custom_editor"}},"_weight":"0","_original_delta":0,"hierarchy":null}',
+    graphType: 'line',
+    secondaryGraphType: null,
+    graphText: '<p>Mõnel aastal ununes kaaluda.</p>\r\n',
+  },
+  {
+    graphSet: null,
+    graphTitle: 'testime asukohta',
+    // tslint:disable-next-line: max-line-length
+    filterValues: '{"graph_type":"stacked bar","graph_options":{"graph_title":"testime asukohta","indicator_count":"1","indicators":[{"indicator_set":{"graph_indicator":"Kukkel","secondary_graph_indicator":[]}}],"graph_v_axis":"periood","graph_group_by":{"valdkond":"valdkond"},"graph_filters":{"valdkond":{"raport":"raport","raamat":"raamat","veksel":"veksel","vihik":"vihik"},"alavaldkond":[],"ametiala":[],"periood":[],"silt":[]},"graph_y_min":"0","secondary_graph_y_min":"0","secondary_graph_type":"","graph_y_unit":"summa","graph_text":{"value":"","format":"custom_editor"}},"_weight":"1","_original_delta":1,"hierarchy":null}',
+    graphType: 'stacked bar',
+    secondaryGraphType: '',
+    graphText: '',
+  },
+  {
+    graphSet: null,
+    graphTitle: 'teeeest',
+    // tslint:disable-next-line: max-line-length
+    filterValues: '{"graph_type":"stacked column","graph_options":{"graph_title":"teeeest","indicator_count":"1","indicators":[{"indicator_set":{"graph_indicator":"Kaal","secondary_graph_indicator":{"Kaal2":"Kaal2"}}}],"graph_v_axis":"periood","graph_group_by":{"valdkond":"valdkond","naitaja":"naitaja"},"graph_filters":{"valdkond":[],"alavaldkond":[],"ametiala":[],"periood":[],"silt":[]},"graph_y_min":"0","secondary_graph_y_min":"0","secondary_graph_type":"line","graph_y_unit":"summa","graph_text":{"value":"","format":"custom_editor"}},"_weight":"5","_original_delta":5,"hierarchy":null}',
+    graphType: 'stacked column',
+    secondaryGraphType: 'line',
+    graphText: '',
+  },
+  {
+    graphSet: null,
+    graphTitle: 'Combo 3',
+    // tslint:disable-next-line: max-line-length
+    filterValues: '{"graph_type":"stacked column","graph_options":{"graph_title":"Combo 3","indicator_count":"3","indicators":[{"indicator_set":{"graph_indicator":"Palk","secondary_graph_indicator":{"Investeeringud":"Investeeringud"}}},{"indicator_set":{"graph_indicator":"H\\u00f5ivatute arv","secondary_graph_indicator":{"Lisandv\\u00e4\\u00e4rtus":"Lisandv\\u00e4\\u00e4rtus"}}},{"indicator_set":{"graph_indicator":"Eksport (%)","secondary_graph_indicator":{"Ekspordi keskmine (%)":"Ekspordi keskmine (%)"}}}],"graph_v_axis":"periood","graph_group_by":{"naitaja":"naitaja"},"graph_filters":{"valdkond":[],"alavaldkond":{"metallit\\u00f6\\u00f6stus":"metallit\\u00f6\\u00f6stus"},"ametiala":[],"periood":[],"silt":[]},"graph_y_min":"0","secondary_graph_y_min":"0","secondary_graph_type":"line","graph_y_unit":"summa","graph_text":{"value":"","format":"custom_editor"}},"_weight":"6","_original_delta":6,"hierarchy":null}',
+    graphType: 'stacked column',
+    secondaryGraphType: 'line',
+    graphText: '',
+  },
+];
+
 const breadcrumbsData = [
   {
     title: 'Avaleht',
@@ -403,11 +442,13 @@ stories.add('Article Layout', () => {
   return {
     moduleMetadata,
     props: {
+      charts,
       breadcrumbsData,
       videoData,
       sidebar,
       feedbackNid,
     },
     template: articleStoriesTemplateHtml,
+    styleUrls: ['./article.stories.styles.scss'],
   };
 });

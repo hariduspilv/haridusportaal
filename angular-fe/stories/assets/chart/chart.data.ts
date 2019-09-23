@@ -1,6 +1,6 @@
 // tslint:disable
 export const data = {
-  "fieldDynamicGraph": [
+  "fieldWideDynamicGraph": [
     {
       "graphSet": null,
       "graphTitle": "Ametialad tunnuste järgi",
@@ -9,6 +9,8 @@ export const data = {
       "secondaryGraphType": "",
       "graphText": ""
     },
+  ],
+  "fieldDynamicGraph": [
     {
     "graphSet": null,
     "graphTitle": "test1  - combo",

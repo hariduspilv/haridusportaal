@@ -8,7 +8,7 @@ $optionSize: 2.25rem;
   height: $shareSize;
   display: inline-block;
   position: relative;
-  &:hover, &.share--focused{
+  &.share--focused{
     z-index: 999;
     .share{
       &__indicator{
