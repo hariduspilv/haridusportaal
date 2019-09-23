@@ -21,6 +21,7 @@ stories.add('Chart', () => {
       data,
     },
     template: `
+      <chart [data]="data.fieldWideDynamicGraph" [wide]="true" type="filter"></chart>
       <chart [data]="data.fieldDynamicGraph" type="filter"></chart>
     `,
   };

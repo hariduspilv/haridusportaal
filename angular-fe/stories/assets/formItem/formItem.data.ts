@@ -7,7 +7,6 @@ export const formItems = [
   {
     type: 'text',
     title: 'Text field with placeholder',
-    placeholder: 'Start Typing',
     errorMessage: 'Minimum 8 characters!',
   },
   {
@@ -17,8 +16,13 @@ export const formItems = [
     errorMessage: 'Please fill this field!',
   },
   {
+    type: 'number',
+    title: 'Number field',
+    errorMessage: 'Please fill this field!',
+  },
+  {
     type: 'date',
-    title: 'Datepicker field',
+    title: 'Datepicker field Datepicker field Datepicker field Datepicker field Datepicker field',
     placeholder: 'pp.kk.aaaa',
     errorMessage: 'Wrong date format!',
   },
@@ -41,6 +45,14 @@ export const formItems = [
       {
         key: 'Option 4',
         value: '4',
+      },
+      {
+        key: 'Option 5',
+        value: '5',
+      },
+      {
+        key: 'Option 6',
+        value: '6',
       },
     ],
     errorMessage: 'Please select at least 1 value!',
@@ -103,7 +115,6 @@ export const formItems = [
   {
     type: 'textarea',
     title: 'Textarea',
-    placeholder: 'You can express yourself here...',
     errorMessage: 'Write something!',
   },
 ];

@@ -1,6 +1,6 @@
 <article-layout>
 	<breadcrumbs [data]="breadcrumbsData"></breadcrumbs>
-	<block titleBorder="true">
+	<block>
 		<block-title>
 			{{ 'frontpage.dashboard_tabs_certificates' | translate | uppercase }}
 		</block-title>
@@ -15,7 +15,7 @@
 					pattern="idCode"
 					errorMessage="Vigane isikukood"
 					name="id_code"
-					type="text"
+					type="number"
 					[(ngModel)]="model.id_code"
 					title="{{ 'frontpage.certificate_owner_id' | translate }}">
 				</formItem>
@@ -45,7 +45,7 @@
 			<div class="footer">
 				<loader *ngIf="loading"></loader>
 				<alerts *ngIf="!loading && alerts.length" [alerts]="alerts" small="true" id="error"></alerts>
-				<h2 *ngIf="!loading && dataFetched" role="alert">{{'certificate.data' | translate}}:</h2>
+				<h2 *ngIf="!loading && dataFetched" role="alert">{{'certificate.data' | translate}}</h2>
 				<table *ngIf="!loading && dataFetched" htm-table>
 					<tbody>
 						<tr *ngIf="certificateData && certificateData.nimi">

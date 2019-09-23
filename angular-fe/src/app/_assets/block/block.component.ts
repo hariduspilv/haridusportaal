@@ -52,6 +52,21 @@ export class BlockTitleComponent {
 }
 
 @Component({
+  selector: 'block-secondary-title',
+  template: '<ng-content></ng-content>',
+})
+
+export class BlockSecondaryTitleComponent {
+  constructor(
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  detectChanges() {
+    this.cdr.detectChanges();
+  }
+}
+
+@Component({
   selector: 'block-tabs',
   template: '<ng-content></ng-content>',
 })
@@ -71,6 +86,7 @@ export class BlockComponent implements AfterContentInit{
   activeTab: string = '';
   labeledTabs: number = 0;
   hasTitle: boolean = false;
+  hasSecondaryTitle: boolean = false;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -82,9 +98,11 @@ export class BlockComponent implements AfterContentInit{
 
   @ContentChildren(BlockContentComponent) tabs: QueryList<BlockContentComponent>;
   @ContentChildren(BlockTitleComponent) titleComponent: QueryList<BlockTitleComponent>;
+  @ContentChildren(BlockSecondaryTitleComponent) secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
 
   @Input() theme: string = 'blue';
   @Input() titleBorder: boolean = false;
+  @Input() tabStyle: string = 'default';
 
   changeTab(title:string) {
     this.activeTab = title;
@@ -109,6 +127,12 @@ export class BlockComponent implements AfterContentInit{
     }
   }
 
+  checkSecondaryTitle() {
+    if (this.secondaryTitleComponent.toArray().length > 0) {
+      this.hasSecondaryTitle = true;
+    }
+  }
+
   ngAfterContentInit() {
     const activeTabs = this.tabs.filter(tab => tab.active);
 
@@ -120,7 +144,6 @@ export class BlockComponent implements AfterContentInit{
 
     this.countLabels();
     this.checkTitle();
-
   }
 
 }

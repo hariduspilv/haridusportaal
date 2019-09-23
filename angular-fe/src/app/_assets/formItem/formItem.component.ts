@@ -15,10 +15,11 @@ import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RippleService } from '@app/_services';
 import conf from '@app/_core/conf';
+import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 
 export interface FormItemOption {
-  key: 'string';
-  value: 'string';
+  key: string;
+  value: string;
 }
 
 @Component({
@@ -59,9 +60,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
     const successClass = this.success ? 'formItem--success' : '';
+    const titleDisabled = this.titleDisabled ? 'formItem--titleDisabled' : '';
     return this.focused ?
-          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass}` :
-          `formItem formItem--${this.type} ${errorClass} ${successClass}`;
+          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`:
+          `formItem formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`;
   }
 
   propagateChange = (_: any) => {};
@@ -98,14 +100,27 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   removeComma() {
     setTimeout(
       () => {
-        const values = this.el.nativeElement.querySelectorAll('.ng-value');
+        const values = this.el.nativeElement.querySelectorAll('.ng-value-label');
+        const valuesArray = [];
         for (const item of values) {
-          item.className = item.className.replace(/\slastItem/gi, '');
+          valuesArray.push(item.innerText || item.textContent);
         }
-        const lastValue = values[values.length - 1];
-        if (lastValue) {
-          lastValue.className = `${lastValue.className} lastItem`;
+
+        const valuesText = valuesArray.join(', ');
+        let textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
+        if (!textContainer) {
+          const mainContainer = this.el.nativeElement.querySelector('.ng-value-container');
+          const firstChild = this.el.nativeElement.querySelector('.ng-placeholder');
+          const textContainerEl = document.createElement('span');
+          textContainerEl.className = 'ng-value-text';
+
+          const textContainerChildEl = document.createElement('span');
+          textContainerChildEl.className = 'ng-value-text-child';
+          textContainerEl.appendChild(textContainerChildEl);
+          mainContainer.insertBefore(textContainerEl, firstChild);
+          textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
         }
+        textContainer.innerHTML = valuesText;
       },
       0);
 
@@ -168,7 +183,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
           this.filledField = true;
         }
       } else {
-        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object');
+        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object')
+          || (typeof this.field === 'number' && (this.field || this.field === 0));
       }
     }
     this.propagateChange(this.field);
@@ -191,6 +207,12 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   checkInitialValue(): void {
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
+      this.options = this.options.map((opt) => {
+        return typeof opt ===  'string' ? {
+          key: new TitleCasePipe().transform(opt),
+          value: opt,
+        } : opt;
+      });
     } else if (this.type === 'checkbox') {
       if (this.checked === '' || this.checked === 'checked') {
         this.field = 'true';
@@ -198,12 +220,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     }
     if (this.type === 'multi-select') {
       this.removeComma();
-      this.options = this.options.map((opt) => {
-        return typeof opt ===  'string' ? {
-          key: opt,
-          value: opt,
-        } : opt;
-      });
     } else {
       if (this.value) {
         this.field = this.value;

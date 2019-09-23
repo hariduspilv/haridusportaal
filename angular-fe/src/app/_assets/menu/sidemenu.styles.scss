@@ -3,7 +3,12 @@
 
 ::ng-deep .sidemenu {
 	grid-area: sidemenu;
+	-ms-grid-row: 2; 
+	-ms-grid-row-span: 2; 
+	-ms-grid-column: 1;
 	height: calc(100vh - 4rem);
+	min-height: 100%;
+	overflow-y: auto;
 	width: 16.25rem;
 	background: $white;
 	display: inline-block;

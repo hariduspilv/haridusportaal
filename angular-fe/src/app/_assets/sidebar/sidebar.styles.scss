@@ -4,6 +4,9 @@
 :host {
 	font-family: 'Rubik', sans-serif;
 	grid-area: sidebar;
+	-ms-grid-row: 1; 
+	-ms-grid-column: 3; 
+	-ms-grid-column-span: 1;
 	display: block;
 	background: $light-gray;
 	feedback {

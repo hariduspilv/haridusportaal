@@ -1,5 +1,5 @@
-<div class="formItem__title" [class.formItem__title--top]="filledField || focused" [class.focused]="focused" *ngIf="!titleDisabled && title !== '' && type !== 'radio'"><span>{{ title }}</span></div>
-<div class="formItem__staticTitle" *ngIf="type == 'radio' && title !== ''">{{ title }}</div>
+<div class="formItem__title" [class.formItem__title--top]="filledField || focused" [class.focused]="focused" *ngIf="!titleDisabled && title !== '' && type !== 'radio'"><span>{{ title | titleCase }}</span></div>
+<div class="formItem__staticTitle" *ngIf="type == 'radio' && title !== ''">{{ title | titleCase }}</div>
 <div class="formItem__wrapper">
   <ng-container [ngSwitch]="type">
     <ng-container *ngSwitchCase="'text'">
@@ -10,6 +10,19 @@
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
         type="text"
+        (change)="update()"
+        (focus)="update('focus')"
+        (blur)="update('blur')"
+        [(ngModel)]="field" />
+    </ng-container>
+    <ng-container *ngSwitchCase="'number'">
+      <input
+        [class.hideText]="!filledField"
+        [attr.placeholder]="filledField ? placeholder : ''"
+        [class.focused]="focused"
+        #inputField
+        pattern="{{ pattern ? patterns[pattern] : '' }}"
+        type="number"
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"

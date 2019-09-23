@@ -1,7 +1,7 @@
 <ng-container [ngSwitch]="type">
   <ng-container *ngSwitchCase="'default'">
     <ng-container *ngFor="let item of chartData; let last = last;">
-      <h2>{{ item.graphTitle }}</h2>
+      <h2>{{ item.graphTitle | titleCase }}</h2>
       <google-chart [data]="item"></google-chart>
       <hr *ngIf="!last" aria-hidden="true">
     </ng-container>
@@ -10,7 +10,7 @@
   <ng-container *ngSwitchCase="'filter'">
     <ng-container *ngFor="let item of data; let last = last;">
 
-      <h2>{{ item.graphTitle }}</h2>
+      <h2>{{ item.graphTitle | titleCase }}</h2>
       <div class="graphText" [innerHTML]="item.graphText"></div>
 
       <ng-container *ngIf="item && item.filters">
