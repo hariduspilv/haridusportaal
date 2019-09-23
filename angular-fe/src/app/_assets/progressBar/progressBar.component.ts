@@ -12,6 +12,7 @@ export class ProgressBarComponent implements OnChanges {
   @Input() statusLabel: string;
   @Input() startLabel: string;
   @Input() endLabel: string;
+  @Input() insideBlock: boolean;
 
   public levelOffsets: {} = {
     1: 17,
@@ -47,7 +48,9 @@ export class ProgressBarComponent implements OnChanges {
 
   checkOffsetValidity (label) {
     const parentOffset = document.getElementById(`progressElem--${this.id}`).offsetLeft;
-    if (parentOffset > label.offsetLeft) {
+    let labelOffset = label.offsetLeft;
+    labelOffset = this.insideBlock ? labelOffset -= 24 : labelOffset;
+    if (parentOffset > labelOffset) {
       label.style.left = '0px';
     }
   }

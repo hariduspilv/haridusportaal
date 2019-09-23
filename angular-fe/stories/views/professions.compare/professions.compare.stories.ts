@@ -1,10 +1,9 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import { TranslateService } from '@app/_modules/translate/translate.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
-import compareViewMd from './compare.view.md';
-import compareViewTemplateHtml from './compare.view.template.html';
+import professionsCompareStoriesMd from './professions.compare.stories.md';
+import professionsCompareStoriesTemplateHtml from './professions.compare.stories.template.html';
 import {
   withKnobs,
 } from '@storybook/addon-knobs';
@@ -15,9 +14,6 @@ const moduleMetadata = {
     RouterTestingModule,
     TranslateModule.forRoot(),
   ],
-  providers: [
-    TranslateService,
-  ],
 };
 const breadcrumbsData = [
   {
@@ -25,25 +21,24 @@ const breadcrumbsData = [
     link: '/',
   },
   {
-    title: 'Erialad',
-    link: '/erialad',
+    title: 'Ametialad',
+    link: '/ametialad',
   },
   {
-    title: 'Võrdlus',
+    title: 'Ametialad võrdlus',
   },
 ];
 
 const stories = storiesOf('Views', module);
 stories.addDecorator(withKnobs);
-stories.add('Compare view', () => {
+stories.add('Professions compare', () => {
   return {
     moduleMetadata,
     props: {
       breadcrumbsData,
     },
-    template: compareViewTemplateHtml,
+    template: professionsCompareStoriesTemplateHtml,
   };
 },          {
-  notes: { markdown: compareViewMd },
-  styleUrls: ['./compare.view.scss'],
+  notes: { markdown: professionsCompareStoriesMd },
 });

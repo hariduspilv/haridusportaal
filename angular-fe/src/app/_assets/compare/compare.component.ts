@@ -24,9 +24,8 @@ export class CompareComponent {
   constructor(
     private alertsService: AlertsService,
     private modalService: ModalService,
-    private translateService: TranslateService,
+    public translateService: TranslateService,
     private settingsService: SettingsService) {
-    this.viewLink['label'] = this.translateService.get('button.see_comparison');
   }
 
   compareChange(id, $event) {
@@ -89,6 +88,7 @@ export class CompareComponent {
   }
 
   ngOnInit() {
+    this.viewLink['label'] = this.translateService.get('button.see_comparison');
     this.compare = this.readFromLocalStorage(this.sessionStorageKey);
     this.checked = this.isChecked(this.id);
     this.viewLink['url'] = viewOptions[this.sessionStorageKey];
@@ -97,7 +97,9 @@ export class CompareComponent {
         this.compare = this.readFromLocalStorage(this.sessionStorageKey);
         this.notify(data);
       });
-      this.settingsService.compareObservable.next('info');
+      if (this.compare.length) {
+        this.settingsService.compareObservable.next('info');
+      }
     }
   }
 
@@ -105,6 +107,5 @@ export class CompareComponent {
     if (this.sessionStorageSubscription) {
       this.sessionStorageSubscription.unsubscribe();
     }
-    this.alertsService.clear('');
   }
 }

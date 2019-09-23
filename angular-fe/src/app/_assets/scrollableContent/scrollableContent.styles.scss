@@ -4,9 +4,9 @@ $arrowsWidth: 50px;
 
 ::ng-deep {
 	scrollableContent {
-		table[htm-table] {
-			width: auto;
-    }
+		// table[htm-table] {
+			// width: auto;
+    // }
     .scrollable {
       &__wrapper {
         overflow-x: hidden;
@@ -24,6 +24,7 @@ $arrowsWidth: 50px;
     
     .arrow {
       position: absolute;
+      z-index: 1;
       width: $arrowsWidth;
       bottom: 0;
       background: $aqua;

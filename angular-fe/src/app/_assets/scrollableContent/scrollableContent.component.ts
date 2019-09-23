@@ -96,15 +96,13 @@ export class ScrollableContentComponent implements OnInit, OnChanges{
   }
 
   private detectWidth(): void {
-    this.scroller.style.width = '9999px';
+    // this.scroller.style.width = '9999px';
 
     const inline = this.el.nativeElement.querySelector('.scrollable__inline');
     const inlineWidth = inline.offsetWidth;
     inline.style.width = `${inlineWidth}px`;
     this.scroller.style.width = '100%';
-
     const mainWidth = this.el.nativeElement.offsetWidth;
-
     this.isScrollable = mainWidth < inlineWidth;
   }
 

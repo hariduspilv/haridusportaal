@@ -14,11 +14,15 @@ export const translationsPerType = {
     info: 'studyProgramme.in_comparison',
     title: 'studyProgramme.compare_modal_title',
     content: 'studyProgramme.compare_modal_content',
+    viewTitle: 'studyProgramme.label',
+    viewSubtitle: 'studyProgramme.compare_modal_title'
   },
   'oskaProfessions.compare': {
     success: 'oskaProfessions.added_to_comparison',
     info: 'oskaProfessions.in_comparison',
     title: 'oskaProfessions.compare_modal_title',
     content: 'oskaProfessions.compare_modal_content',
+    viewTitle: 'oskaProfessions.label',
+    viewSubtitle: 'oskaProfessions.compare_label',
   }
 }
