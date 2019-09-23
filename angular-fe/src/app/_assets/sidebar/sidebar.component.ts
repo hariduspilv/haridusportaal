@@ -32,10 +32,11 @@ export class SidebarComponent {
     this.keys = Object.keys(this.mappedData);
   }
   // Storybook data change
-  ngOnChanges() {
+/*   ngOnChanges() {
+    this.blocks = this.sidebarService.getBlockField(this.data);
     this.mappedData = this.sidebarService.mapUniformKeys(this.data);
     this.keys = Object.keys(this.mappedData);
-  }
+  } */
 }
 // Subcomponents
 @Component({
@@ -115,10 +116,10 @@ export class SidebarLocationComponent {
     zoom: 11,
     maxZoom: 11,
     minZoom: 11,
-    bottomAction: true,
-    zoomControl: false,
-    streetViewControl: false,
-    mapDraggable: false,
+    enableOuterLink: true,
+    enableZoomControl: false,
+    enableStreetViewControl: false,
+    draggable: false,
   };
   ngOnInit() {
     this.data.forEach((loc) => {

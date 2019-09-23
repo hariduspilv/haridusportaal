@@ -29,14 +29,14 @@
     <div class="header__actions">
       <button htm-button 
         [class.active]="modalService.modalOpened['search']"
-        (click)="modalService.open('search')"
+        (click)="modalService.toggle('search')"
         theme="plain"
         attr.aria-label="{{ 'button.search' | translate }}">
         <icon aria-hidden="true" glyph="search" size="medium"></icon>
       </button>
       <button htm-button
         [class.active]="modalService.modalOpened['login']"
-        (click)="modalService.open('login')"
+        (click)="modalService.toggle('login')"
         theme="plain"
         attr.aria-label="{{ 'button.login' | translate }}">
         <ng-container *ngIf="loginStatus else other;">

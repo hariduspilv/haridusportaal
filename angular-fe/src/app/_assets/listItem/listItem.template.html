@@ -1,0 +1,113 @@
+<div #content *ngIf="list && list.length > 0">
+    <ng-container *ngFor="let item of list; let i = index">
+        <div class="list__item">
+            <div class="list__item__titlebox">
+                <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
+                    <div [class]="type === 'school' ? 'list__item__head sm-hide' : 'list__item__head'"
+                        *ngIf="item.head">
+                        {{ item.head.entity ? item.head.entity.entityLabel : item.head }}</div>
+                    <div class="flex flex-center flex-wrap">
+                        <a [href]="item.url.path ? item.url.path : item.url" class="list__item__title">
+                            <h1>{{ item.title }}</h1>
+                        </a>
+                        <div href="javascript:void();" class="nonActive--blue"
+                            *ngIf="item.admissionStatus && item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">
+                            {{'studyProgramme.non_active' | translate}}</div>
+                    </div>
+
+                    <div class="author" *ngIf="item.fieldAuthor || item.created">{{ item.fieldAuthor }}
+                        {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                    <div class="tags" *ngIf="item.tags">
+                        <labels [data]="item.tags" type="default"></labels>
+                    </div>
+                    <div class="description" *ngIf="item.shortDescription">{{ item.shortDescription }}</div>
+
+                    <labels *ngIf="item.fixedLabel && item.fixedLabel.entity" [data]="[item.fixedLabel]" type="orange">
+                    </labels>
+
+                </div>
+
+                <div class="col-4 xs-12 pointer" *ngIf="item.image">
+                    <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}" width="100%" />
+                  </div>
+
+            </div>
+            <ng-container *ngIf="type === 'news'">
+                <div class="xs-show col-12 resp-fields">
+                    <a href="javascript:void();" class="mb-0">
+                        <h1 class="title">{{ item.title }}</h1>
+                    </a>
+                    <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                </div>
+            </ng-container>
+
+            <ng-container
+                *ngIf="item.sidebar && item.sidebar.entity && item.sidebar.entity.fieldOskaField && item.sidebar.entity.fieldOskaField[0] && item.sidebar.entity.fieldOskaField[0].entity">
+                <div class="inline__items sm-hide">
+                    <ng-container
+                        *ngFor="let oskaField of item.sidebar.entity.fieldOskaField; let ind = index; let last = last;">
+                        <ng-container *ngIf="ind < 2 && oskaField.entity">
+                            <span aria-hidden="true" class="bar" *ngIf="oskaField.entity.title && ind !== 0">|</span>
+                            <div class="item item--inline">
+                                <a href="javascript:void(0)" tabindex="0"
+                                    attr.aria-label="{{ 'oska.title_field' | translate }} {{ oskaField.entity.title }}">{{ oskaField.entity.title }}</a>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </ng-container>
+
+            <div [class]="type === 'school' || type === 'mainProfession' ? 'inline__items sm-hide' : 'inline__items'">
+                <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
+                    <ng-container *ngIf="item[fieldName]">
+                        <span role="separator" class="bar" *ngIf="i>0">|</span>
+                        <span class="item" *ngIf="fieldName === 'duration'">{{ item.duration | monthsToYears }}</span>
+                        <span class="item"
+                            *ngIf="fieldName === 'educationalInstitution' || fieldName === 'phone' || fieldName === 'address'">{{ item[fieldName].entity ? item[fieldName].entity.entityLabel : item[fieldName] }}</span>
+                        <span class="item" *ngIf="fieldName === 'teachingLanguage' && item[fieldName].length">
+                            <ng-container *ngFor="let item of item[fieldName]; let i = index;">
+                                <span><span *ngIf="i > 0">, </span>{{ item.entity.entityLabel | ucfirst }}</span>
+                            </ng-container>
+                        </span>
+                        <span class="item" *ngIf="fieldName === 'webpage' && item[fieldName]">
+                            <a attr.aria-label="{{'event.webpage'}} {{ item[fieldName] | removeProtocol }}"
+                                href="{{ item[fieldName] | url }}"
+                                target="_blank">{{ item[fieldName] | removeProtocol }}</a>
+                        </span>
+                        <span class="item" *ngIf="fieldName === 'email'">
+                            <a attr.aria-label="{{'E-mail'}} {{ item[fieldName]}}"
+                                href="mailto:{{ item[fieldName]}}">{{ item[fieldName]}}</a>
+                        </span>
+
+                        <ng-container *ngIf="fieldName === 'fillingBar'">
+                            <ng-container *ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value)
+                                  || (item.indicator.entities && item.indicator.entities.length)">
+                                <ng-container *ngIf="item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
+                                  && item[fieldName].entities[0].value > 0 && item[fieldName].entities[0].value < 6">
+                                    <span class="item">{{ 'oska.competition' | translate | ucfirst }}: <span
+                                            class="dark">{{ getCompetitionLabel(item[fieldName].entities[0].value) | translate }}</span></span>
+                                </ng-container>
+                                <ng-container *ngIf="item.indicator.entities && item.indicator.entities.length">
+                                    <ng-container
+                                        *ngFor="let elem of indicatorValues(item.indicator.entities); let ind = index;">
+                                        <ng-container *ngIf="elem.oskaId">
+                                            <span class="bar"
+                                                *ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
+                                        && item[fieldName].entities[0].value > 0 && item[fieldName].entities[0].value < 6) || ind === 1">|</span>
+                                            <span class="item">{{ elem.oskaIndicator | ucfirst }}: <span
+                                                    *ngIf="elem.oskaId === 1"
+                                                    class="dark">{{ elem.value | localeNumber }} </span> <span
+                                                    *ngIf="elem.oskaId === 3"
+                                                    class="dark">{{ elem.value | currency:"EUR" }} </span></span>
+                                        </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </ng-container>
+    <!--/list repeat-->
+</div>

@@ -11,13 +11,28 @@
     &--focused{
       z-index: 10;
     }
+    &--titleDisabled{
+      .formItem__wrapper input {
+        padding-left: 2.5rem !important;
+        color: $white !important;
+        background-color: rgba(255,255,255,.1) !important;
+        border: .0625rem solid rgba(255,255,255,0)!important;
+        &::placeholder {
+          color: $light-purple;
+        }
+        &:-moz-placeholder, &::-moz-placeholder {
+          color: $light-purple;
+          opacity: 1;
+        }
+      }
+    }
    
     &--checkbox{
       .formItem__title{display:none;}
     }
     &__wrapper{
       position: relative;
-      & > input[type="text"], & > textarea, & > select {
+      & > input[type="text"], & > input[type="number"], & > textarea, & > select {
         display: block;
         width: 100%;
         appearance: none;
@@ -26,19 +41,29 @@
         font-family: Rubik, Arial, Helvetica, sans-serif;
         border-radius: 1.25rem;
         height: 2.5rem;
-        line-height: 2.5rem;
+        line-height: 120%;
         color: $black;
         font-size: 0.875rem;
         z-index: 0;
         transition:border-color 0.25s, color 0.25s;
         will-change:border-clor, color;
         outline: none;
+        min-width: 100%;
+        max-width: 100%;
         &.focused{
           border-color: $blue;
         }
         &.hideText{
           color:white;
         }
+      }
+      & > input[type=number]::-webkit-inner-spin-button, 
+      & > input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+      }
+      & > input[type=number] {
+        -moz-appearance:textfield;
       }
     }
     &__staticTitle{
@@ -55,29 +80,23 @@
     
     &--error{
       &>.formItem__wrapper{
-        & > input[type="text"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           border-color:$error;
         }
         .ng-select .ng-select-container{
           border-color: $error !important;
         }
       }
-      .formItem__title span{
-        color: $error !important;
-      }
     }
 
     &--success{
       &>.formItem__wrapper{
-        & > input[type="text"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           border-color:$success;
         }
         .ng-select .ng-select-container{
           border-color: $success !important;
         }
-      }
-      .formItem__title span{
-        color: $success !important;
       }
     }
 
@@ -88,6 +107,7 @@
     }
     textarea{
       height: 12.5rem;
+      min-height: 12.5rem;
       border-radius: 0.25rem;
       line-height: 150%;
       padding-top:0.5rem;
@@ -103,10 +123,13 @@
       &__wrapper{
         position: relative;
         width: 1.125rem;
+        min-width: 1.125rem;
         height: 1.125rem;
         display: inline-block;
         line-height:1.125rem;
         background: $white;
+        flex-shrink: 0;
+        flex-grow: 0;
         input{
           position:absolute;
           top:0;
@@ -119,6 +142,7 @@
           padding: 0;
           margin:0;
           z-index: 2;
+          opacity: 0;
         }
         input:checked + .formItem__check__indicator{
           border-color: $blue;
@@ -141,7 +165,7 @@
         border-radius:2px;
         icon{
           color: $blue;
-          margin-top:-1px;
+          margin-top:-2px;
           display:block;
           opacity:0;
           transform: translateY(-2px);
@@ -154,6 +178,8 @@
         padding-left: 0.625rem;
         line-height:1.125rem;
         vertical-align: top;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
     }
 
@@ -236,31 +262,40 @@
       position: absolute;
       top: 0.5625rem;
       left: 0;
-      padding-left:0.5rem;
+      padding:0 0.5rem;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
       z-index: 10;
       pointer-events: none;
       transition: all 0.25s;
-      will-change: top, left, color, font-size;
+      line-height: 150%;
+      text-align:left;
+      will-change: top, left, color, padding, font-size;
       span{
-        padding:0 0.5rem;
+        padding:0 2.5rem 0 0.5rem;
         color: $dark-gray;
         font-size: 0.875rem;
         line-height: 0.875rem;
         transition: all 0.25s;
         background: transparent;
-        will-change: top, left, color, font-size;
+        will-change: top, left, color, padding, font-size;
         white-space: nowrap;
         line-height:100%;
         display: inline-block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
 
       &--top{
         top:-0.75rem;
-        left: 1rem;
+        padding-left: 1rem;
         span{
           color: $black;
           font-size: 0.75rem;
           background: $white;
+          padding-right:0.5rem;
         }
       }
       &.focused{
@@ -272,9 +307,10 @@
 
     &__icon{
       position: absolute;
-      top: 0;
-      right: 0;
-      height: 100%;
+      top: 4px;
+      right: 2px;
+      border-radius:2.5rem;
+      bottom: 4px;
       appearance: none;
       padding: 0;
       margin: 0;
@@ -287,6 +323,8 @@
       justify-content: center;
       width:2.5rem;
       overflow: hidden;
+      background: $white;
+      z-index: 10;
       border-radius:2.5rem;
       .icon{
         margin-top:-0.125rem;

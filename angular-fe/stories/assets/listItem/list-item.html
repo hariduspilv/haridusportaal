@@ -1,0 +1,3 @@
+<ng-container *ngFor="let item of list | keyvalue">
+    <listItems [list]="item.value" [type]="item.key"></listItems>
+</ng-container>

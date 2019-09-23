@@ -1,4 +1,4 @@
-<table htm-table>
+<table htm-table style="max-width: 100%; table-layout: fixed;">
   <tr>
     <th>
       Form item
@@ -8,7 +8,7 @@
     </th>
   </tr>
   <tr *ngFor="let item of formItems">
-    <td style="width:50%">
+    <td style="width:50%" [style.background-color]="item.titleDisabled ? '#2e3374' : false">
       <formItem
       [type]="item.type"
       [(ngModel)]="item.value"
