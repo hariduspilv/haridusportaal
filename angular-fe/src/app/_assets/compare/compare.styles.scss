@@ -1,5 +1,6 @@
 :host {
   display: block;
+  white-space: nowrap;
   ::ng-deep .formItem__check {
     padding-right: 0;
   }
