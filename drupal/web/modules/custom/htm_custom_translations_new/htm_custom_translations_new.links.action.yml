@@ -10,7 +10,3 @@ htm_custom_translations_new.back:
     - htm_custom_translations_new.new_translation
     - htm_custom_translations_new.edit_translation
     - htm_custom_translations_new.delete_translation
-htm_custom_translations_new.import:
-  route_name: htm_custom_translations_new.import_translation
-  title: 'Import translation'
-  appears_on:
