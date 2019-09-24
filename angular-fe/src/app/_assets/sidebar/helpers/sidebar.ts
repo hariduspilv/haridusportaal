@@ -14,6 +14,7 @@ export const collection = {
   'fieldRegistration2': 'register',
   'fieldButton': 'actions',
   'fieldSchoolLocation': 'location',
+  'fieldEventLocation': 'location',
   'reverseOskaMainProfessionOskaIndicatorEntity': 'facts',
   'reverseOskaMainProfessionOskaFillingBarEntity': 'progress',
   'favourites': 'links',

@@ -1,17 +1,22 @@
-<article-layout>
+<article-layout [sidebar]="sidebar" [feedbackNid]="feedbackNid">
+
 	<breadcrumbs [path]="path"></breadcrumbs>
-	<block [loading]="loading">
+
+	<block [loading]="true" *ngIf="!data">
+	</block>
+
+	<block [loading]="loading" [titleBorder]="true" *ngIf="data">
+
 		<block-title>
-			{{ 'news.label' | translate }}
+			{{ title | translate }}
 		</block-title>
 		<block-secondary-title>
 			{{ data.title }}
 		</block-secondary-title>
+
 		<block-content>
-      <ng-container *ngIf="data">
-
-
-				<div class="author">
+      <ng-container>
+				<div class="author" *ngIf="data.author">
 					{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}
 				</div><!--/author-->
 
@@ -25,7 +30,40 @@
 				
 				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
 
-				<htm-video *ngIf="data.video" [videos]="[data.video]"></htm-video>
+				<links *ngIf="data.links" [data]="data.links"></links>
+
+				<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
+
+				<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
+
+				<accordion *ngIf="data.accordion">
+					<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle">
+						<div [innerHTML]="item.entity.fieldBody.value"></div>
+					</accordion-item>
+				</accordion>
+ 
+				<chart
+					*ngIf="data.graph"
+					[data]='data.graph'
+					type='filter'>
+				</chart>
+
+				<table htm-table *ngIf="table" class="studyProgramme">
+					<thead>
+						<tr>
+							<th>{{ table[0].label }}</th>
+							<th>{{ table[0].value }}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<ng-container *ngFor="let item of table; let i = index;" >
+							<tr *ngIf="i > 0">
+								<td>{{ table[i].label }}</td>
+								<td><b>{{ table[i].value }}</b></td>
+							</tr>
+						</ng-container>
+					</tbody>
+				</table>
 
 				<labels [data]="data.tags" *ngIf="data.tags"></labels>
 

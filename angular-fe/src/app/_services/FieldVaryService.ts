@@ -1,12 +1,12 @@
 
 const requestMap = {
-  tags: ['fieldArticleTags', 'fieldNewsTags', 'fieldTag'],
-  accordion: ['fieldNewsAccordion', 'fieldInfosystemAccordion'],
-  shortDescription: ['fieldShortDescription'],
+  tags: ['fieldArticleTags', 'fieldNewsTags', 'fieldTag', 'fieldMainProfessionTag'],
+  accordion: ['fieldNewsAccordion', 'fieldInfosystemAccordion', 'fieldMainProfessionAccordion'],
+  shortDescription: ['fieldShortDescription', 'fieldDescriptionSummary', 'fieldIntroduction'],
   introductionText: ['fieldIntroductionText'],
   content: ['fieldContentText'],
-  image: ['fieldIntroductionImage', 'fieldLogo'],
-  description: ['fieldNewsDescription'],
+  image: ['fieldIntroductionImage', 'fieldLogo', 'fieldPicture', 'fieldMainProfessionPicture'],
+  description: ['fieldNewsDescription', 'fieldDescription', 'body'],
   duration: ['fieldDuration'],
   title: ['entityLabel', 'FieldSchoolName'],
   head: ['fieldStudyProgrammeLevel', 'FieldEducationalInstitutionTy'],
@@ -22,10 +22,14 @@ const requestMap = {
   fixedLabel: ['fieldFixedLabel'],
   indicator: ['reverseOskaMainProfessionOskaIndicatorEntity'],
   fillingBar: ['reverseOskaMainProfessionOskaFillingBarEntity'],
-  video: ['fieldNewsVideo'],
+  video: ['fieldNewsVideo', 'fieldOskaMainProfessionVideo'],
   additionalImages: ['fieldAdditionalImages'],
   author: ['fieldAuthor'],
   link: ['fieldNewsLink'],
+  links: ['fieldOskaMainProfessionLinks', 'fieldEventLink'],
+  group: ['fieldEventGroup'],
+  attachmentFile: ['fieldOskaMainProfessionFile', 'fieldAttachmentFile'],
+  graph: ['fieldDynamicGraph'],
 };
 
 export default(data) => {

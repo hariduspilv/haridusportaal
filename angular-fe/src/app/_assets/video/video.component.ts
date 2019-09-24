@@ -28,6 +28,10 @@ export class VideoComponent {
   ) {}
 
   ngOnInit() {
+
+    if (!Array.isArray(this.videos)) {
+      this.videos = [this.videos];
+    }
     try {
       return this.videos.forEach((vid) => {
         return this.embeddedInputs.push(this.embedService.embed(vid.input));

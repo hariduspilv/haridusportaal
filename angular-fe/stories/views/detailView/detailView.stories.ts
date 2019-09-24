@@ -30,7 +30,19 @@ const storyData = (type) => {
   const data = {
     news: {
       type: 'news',
-      path: '/uudised/haridus-ja-teadusminister-mailis-repsi-kooliaasta-alguse-tervitus',
+      path: '/uudised/henri-uudis-2019-09',
+    },
+    event: {
+      type: 'event',
+      path: '/s%C3%BCndmused/henri-s%C3%BCndmus-2019-09',
+    },
+    studyProgramme: {
+      type: 'studyProgramme',
+      path: '/erialad/arhitektuur',
+    },
+    profession: {
+      type: 'profession',
+      path: '/ametialad/ajakirjanik',
     },
   };
 
@@ -46,5 +58,6 @@ const storyData = (type) => {
 const stories = storiesOf('Views', module);
 
 stories.add('News', () => { return storyData('news'); }, { notes });
-stories.add('School', () => { return storyData('school'); }, { notes });
-stories.add('studyProgramme', () => { return storyData('studyProgramme'); }, { notes });
+stories.add('Event', () => { return storyData('event'); }, { notes });
+stories.add('Studyprogramme', () => { return storyData('studyProgramme'); }, { notes });
+stories.add('Profession', () => { return storyData('profession'); }, { notes });

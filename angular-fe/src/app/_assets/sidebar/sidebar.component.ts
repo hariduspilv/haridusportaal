@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, OnInit } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, OnChanges } from '@angular/core';
 import { SidebarService } from '@app/_services';
 import { collection, titleLess } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
@@ -16,7 +16,7 @@ interface TitleLess {
   templateUrl: './sidebar.template.html',
   styleUrls: ['./sidebar.styles.scss'],
 })
-export class SidebarComponent {
+export class SidebarComponent implements OnInit, OnChanges{
   @Input() data: Object[];
   @Input() feedbackNid: string = '';
   private collection: SidebarType = collection;
@@ -28,8 +28,16 @@ export class SidebarComponent {
   }
   constructor(private sidebarService: SidebarService) {}
   ngOnInit() {
-    this.mappedData = this.sidebarService.mapUniformKeys(this.data);
-    this.keys = Object.keys(this.mappedData);
+    if (this.data) {
+      this.mappedData = this.sidebarService.mapUniformKeys(this.data);
+      this.keys = Object.keys(this.mappedData);
+    }
+  }
+  ngOnChanges() {
+    if (this.data) {
+      this.mappedData = this.sidebarService.mapUniformKeys(this.data);
+      this.keys = Object.keys(this.mappedData);
+    }
   }
   // Storybook data change
 /*   ngOnChanges() {

@@ -86,6 +86,7 @@ export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
 }
 import { ImageComponent } from './image';
+import { LinksComponent } from './links';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -154,6 +155,7 @@ const declarations = [
   SearchResultsComponent,
   NewsComponent,
   ImageComponent,
+  LinksComponent,
 ];
 
 const exports = [

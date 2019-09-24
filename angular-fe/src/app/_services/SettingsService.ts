@@ -41,9 +41,12 @@ export class SettingsService {
     .reduce((acc, val) => acc && acc[val], obj);
   }
 
-  public query(name: string = '') {
+  public query(name: string = '', variables: object = {}) {
     const requestName = this.get(`request.${name}`);
-    const path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
+    let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
+    if (Object.keys(variables).length > 0) {
+      path = `${path}&variables=${JSON.stringify(variables)}`;
+    }
     return path;
   }
 

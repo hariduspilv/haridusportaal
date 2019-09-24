@@ -10,6 +10,7 @@
       font-size: .875rem;
       line-height: 1.43;
       color: #757575;
+      margin-top:0.5rem;
       &+.toolbar{
         margin-top: -0.625rem;
       }
@@ -25,9 +26,21 @@
     b{
       font-weight: 500;
     }
-    image, htm-video, labels {
+    image, htm-video, labels, links{
       margin: 1.5rem 0;
       display: block;
+    }
+    [htm-table]{
+      margin: 1.5rem 0;
+      &.studyProgramme{
+        th,td{
+          font-style: 16px;
+        }
+        td:first-child{
+          width: 37%;
+          white-space: nowrap;
+        }
+      }
     }
   }
 }

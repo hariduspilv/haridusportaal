@@ -5,6 +5,12 @@
 	padding: 0;
 	clear: both;
 
+	&__entity{
+		margin-bottom: 1rem;
+		&:last-child{
+			margin-bottom:0;
+		}
+	}
 	&-container {
 		position: relative;
 		padding-bottom: 56.25%;

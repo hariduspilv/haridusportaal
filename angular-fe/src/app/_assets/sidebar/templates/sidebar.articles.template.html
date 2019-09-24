@@ -1,6 +1,6 @@
 <article *ngFor="let item of data.entities">
   <a *ngIf="item.entityUrl && item.entityUrl.path" [routerLink]="item.entityUrl.path">
-    <img src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
+    <img *ngIf="item.fieldIntroductionImage" src="{{ item.fieldIntroductionImage.derivative.url }}" alt="{{ item.fieldIntroductionImage.alt }}" width="100%" />
     <h1> {{ item.entityLabel }}</h1>
   </a>
   <time>{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</time>
