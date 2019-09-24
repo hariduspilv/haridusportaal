@@ -652,7 +652,7 @@ public class VPTWorker extends Worker {
     try {
       documentId = documentId.replace("VPT_", "");
 
-      if (documentId.contains("OTSUS_DIGIDOC")) {
+      if (documentId.contains("OTSUS_DDOC")) {
         documentType = "OTSUS_DIGIDOC";
         applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
       } else {

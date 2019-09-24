@@ -597,6 +597,9 @@ public class MtsysWorker extends Worker {
         ObjectNode fileType = (ObjectNode) klfFailiTyybid
             .get(response.getTegevusloaAndmed().getKlLiik().toString())
             .get(String.valueOf(item.getKlLiik()));
+        if(fileType == null) {
+          fileType = (ObjectNode) klfFailiTyybid.get("0").get(String.valueOf(item.getKlLiik()));
+        }
 
         ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
             .put("liik", fileType.get("required").asBoolean() ?
@@ -604,7 +607,7 @@ public class MtsysWorker extends Worker {
                 fileType.get("et").asText())
             .put("klLiik", item.getKlLiik())
             .put("kommentaar", item.getKommentaar())
-            .put("required", fileType.get("required").asBoolean())
+//            .put("required", fileType.get("required").asBoolean())
             .putObject("fail").put("file_name", item.getFailiNimi())
             .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
 
