@@ -63,6 +63,9 @@
     },
     "required": {
       "type": "boolean"
+    },
+    "depend_on": {
+      "type": "string"
     }
   },
   "required": [
