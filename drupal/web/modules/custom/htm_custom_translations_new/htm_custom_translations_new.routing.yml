@@ -39,4 +39,3 @@ htm_custom_translations_new.import_translation:
     _title: 'Import translation'
   requirements:
     _permission: 'manage dynamic translations'
-
