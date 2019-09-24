@@ -13,14 +13,7 @@ module:
   comment: 0
   conditional_fields: 0
   config: 0
-  config_distro: 0
-  config_filter: 0
-  config_merge: 0
-  config_normalizer: 0
-  config_snapshot: 0
-  config_sync: 0
   config_translation: 0
-  config_update: 0
   contact: 0
   contextual: 0
   crop: 0
@@ -142,7 +135,6 @@ module:
   content_translation: 10
   views: 10
   paragraphs: 11
-  config_provider: 100
   standard: 1000
 theme:
   stable: 0
