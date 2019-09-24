@@ -840,6 +840,14 @@ xjson:
     translation_type: textarea
     et: 'Palun sisesta sobilik IBAN kontonumber'
     en: ''
+  enter_valid_number:
+    translation_type: textarea
+    et: 'Sisestage korrektne number'
+    en: ''
+  unacceptable_extension:
+    translation_type: textarea
+    et: 'Üleslaetud faili tüüp pole lubatud'
+    en: ''
 article:
   label:
     translation_type: textarea
