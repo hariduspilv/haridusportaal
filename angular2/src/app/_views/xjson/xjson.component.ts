@@ -418,7 +418,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value.length) {
         return true;
       }
-      if (!Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value){
+      if (!Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value) {
         return true;
       }
     }
@@ -777,7 +777,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   validateForm(elements): void {
-    const NOT_FOR_VALIDATION = ['heading', 'helpertext',];
+    const NOT_FOR_VALIDATION = ['heading', 'helpertext'];
 
     for (const field in elements) {
       if (elements[field].type === 'table') {
