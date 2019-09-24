@@ -1,0 +1,11 @@
+uuid: 84df4452-4391-445f-b568-0735e5e40aeb
+langcode: et
+status: true
+dependencies:
+  module:
+    - config_sync
+id: config_sync.module.config_sync
+snapshotSet: config_sync
+extensionType: module
+extensionName: config_sync
+items: {  }

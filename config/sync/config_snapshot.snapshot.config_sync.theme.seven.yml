@@ -1,0 +1,11 @@
+uuid: 6338bb3a-d8a9-46c2-ae71-79d2ed839b9b
+langcode: et
+status: true
+dependencies:
+  theme:
+    - seven
+id: config_sync.theme.seven
+snapshotSet: config_sync
+extensionType: theme
+extensionName: seven
+items: {  }

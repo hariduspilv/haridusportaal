@@ -1,0 +1,11 @@
+uuid: e8f6cf5b-e598-419d-bf6c-88e58655b00d
+langcode: et
+status: true
+dependencies:
+  module:
+    - ckeditor
+id: config_sync.module.ckeditor
+snapshotSet: config_sync
+extensionType: module
+extensionName: ckeditor
+items: {  }

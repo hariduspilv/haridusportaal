@@ -1,0 +1,18 @@
+uuid: 9dbfac28-c523-4db0-9fba-dbc2e346f9c1
+langcode: et
+status: true
+dependencies:
+  module:
+    - google_map_field
+id: config_sync.module.google_map_field
+snapshotSet: config_sync
+extensionType: module
+extensionName: google_map_field
+items:
+  -
+    collection: ''
+    name: google_map_field.settings
+    data:
+      google_map_field_auth_method: 1
+      google_map_field_apikey: ''
+      google_map_field_map_client_id: ''

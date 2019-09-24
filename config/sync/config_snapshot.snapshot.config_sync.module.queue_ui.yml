@@ -1,0 +1,11 @@
+uuid: 20638720-4a51-4e88-a790-ebf845c80686
+langcode: et
+status: true
+dependencies:
+  module:
+    - queue_ui
+id: config_sync.module.queue_ui
+snapshotSet: config_sync
+extensionType: module
+extensionName: queue_ui
+items: {  }

@@ -1,0 +1,11 @@
+uuid: 84d25008-bd0f-41d8-9b63-66de8207b6c3
+langcode: et
+status: true
+dependencies:
+  module:
+    - better_exposed_filters
+id: config_sync.module.better_exposed_filters
+snapshotSet: config_sync
+extensionType: module
+extensionName: better_exposed_filters
+items: {  }

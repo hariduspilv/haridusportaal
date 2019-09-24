@@ -1,0 +1,11 @@
+uuid: 23c75d65-3baa-4236-8520-02b5b77b367d
+langcode: et
+status: true
+dependencies:
+  module:
+    - quickedit
+id: config_sync.module.quickedit
+snapshotSet: config_sync
+extensionType: module
+extensionName: quickedit
+items: {  }

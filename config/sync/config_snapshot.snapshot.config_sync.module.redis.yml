@@ -1,0 +1,11 @@
+uuid: 283be940-35c2-4271-bd1d-f6dc42256831
+langcode: et
+status: true
+dependencies:
+  module:
+    - redis
+id: config_sync.module.redis
+snapshotSet: config_sync
+extensionType: module
+extensionName: redis
+items: {  }

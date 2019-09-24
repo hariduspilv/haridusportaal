@@ -1,0 +1,11 @@
+uuid: b0d2c748-68b0-4a11-a3e8-fe7ef1e28f8f
+langcode: et
+status: true
+dependencies:
+  module:
+    - graphql
+id: config_sync.module.graphql
+snapshotSet: config_sync
+extensionType: module
+extensionName: graphql
+items: {  }

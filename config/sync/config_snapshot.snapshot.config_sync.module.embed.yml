@@ -1,0 +1,17 @@
+uuid: 443178a6-e69e-438e-b4fd-c8fa40ae2d31
+langcode: et
+status: true
+dependencies:
+  module:
+    - embed
+id: config_sync.module.embed
+snapshotSet: config_sync
+extensionType: module
+extensionName: embed
+items:
+  -
+    collection: ''
+    name: embed.settings
+    data:
+      file_scheme: public
+      upload_directory: embed_buttons
