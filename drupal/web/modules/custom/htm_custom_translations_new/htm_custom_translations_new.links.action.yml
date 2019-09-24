@@ -14,4 +14,3 @@ htm_custom_translations_new.import:
   route_name: htm_custom_translations_new.import_translation
   title: 'Import translation'
   appears_on:
-  - htm_custom_translations_new.translation_form
