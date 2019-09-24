@@ -1,0 +1,11 @@
+uuid: 14c00e61-a67a-4e0b-8592-6b2cd8afa44f
+langcode: et
+status: true
+dependencies:
+  theme:
+    - bartik
+id: config_sync.theme.bartik
+snapshotSet: config_sync
+extensionType: theme
+extensionName: bartik
+items: {  }

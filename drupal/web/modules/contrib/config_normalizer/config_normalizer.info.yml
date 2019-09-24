@@ -1,0 +1,13 @@
+name: 'Configuration Normalizer'
+type: module
+description: 'Normalizes configuration for comparison.'
+# core: 8.x
+package: Config
+dependencies:
+  - config_filter:config_filter
+
+# Information added by Drupal.org packaging script on 2019-02-27
+version: '8.x-1.0-alpha5'
+core: '8.x'
+project: 'config_normalizer'
+datestamp: 1551264787

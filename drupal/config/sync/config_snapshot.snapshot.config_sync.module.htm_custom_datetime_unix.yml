@@ -1,0 +1,11 @@
+uuid: 423f7607-cfd3-45f9-9338-6dcec05c886c
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_datetime_unix
+id: config_sync.module.htm_custom_datetime_unix
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_datetime_unix
+items: {  }

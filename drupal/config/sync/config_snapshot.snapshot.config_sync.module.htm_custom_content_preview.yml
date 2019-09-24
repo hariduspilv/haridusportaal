@@ -1,0 +1,11 @@
+uuid: 64ed4e59-d0dd-4114-8a41-0ace57d440ee
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_content_preview
+id: config_sync.module.htm_custom_content_preview
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_content_preview
+items: {  }

@@ -1,0 +1,16 @@
+uuid: 3c135bd2-a57d-4c3a-8912-7c05f066b4ad
+langcode: et
+status: true
+dependencies:
+  module:
+    - automated_cron
+id: config_sync.module.automated_cron
+snapshotSet: config_sync
+extensionType: module
+extensionName: automated_cron
+items:
+  -
+    collection: ''
+    name: automated_cron.settings
+    data:
+      interval: 10800

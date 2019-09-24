@@ -1,0 +1,11 @@
+uuid: e1d20de5-5d1b-4059-9843-c63a1e1488a7
+langcode: et
+status: true
+dependencies:
+  module:
+    - hms_field
+id: config_sync.module.hms_field
+snapshotSet: config_sync
+extensionType: module
+extensionName: hms_field
+items: {  }

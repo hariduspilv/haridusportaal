@@ -1,0 +1,11 @@
+uuid: 290434f5-2a51-487f-a06a-c966f206c718
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_graphql_functions
+id: config_sync.module.htm_custom_graphql_functions
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_graphql_functions
+items: {  }

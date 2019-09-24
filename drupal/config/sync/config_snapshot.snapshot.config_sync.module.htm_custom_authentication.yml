@@ -1,0 +1,11 @@
+uuid: 1390d643-48c4-463e-8b31-9356c56bc20f
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_authentication
+id: config_sync.module.htm_custom_authentication
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_authentication
+items: {  }

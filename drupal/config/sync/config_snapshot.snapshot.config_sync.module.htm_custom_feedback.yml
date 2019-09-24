@@ -1,0 +1,1428 @@
+uuid: 97a8f79a-03b9-47a3-a21a-7e8066b14056
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_feedback
+id: config_sync.module.htm_custom_feedback
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_feedback
+items:
+  -
+    collection: ''
+    name: views.view.feedback_admin_view
+    data:
+      uuid: abaa57cd-8c41-4188-bb29-a2d87795a927
+      langcode: et
+      status: true
+      dependencies:
+        config:
+          - system.menu.admin
+        module:
+          - htm_custom_feedback
+          - node
+          - user
+      id: feedback_admin_view
+      label: 'Feedback admin view'
+      module: views
+      description: ''
+      tag: ''
+      base_table: htm_custom_feedback_score
+      base_field: id
+      core: 8.x
+      display:
+        default:
+          display_plugin: default
+          id: default
+          display_title: Master
+          position: 0
+          display_options:
+            access:
+              type: perm
+              options:
+                perm: 'access toolbar'
+            cache:
+              type: tag
+              options: {  }
+            query:
+              type: views_query
+              options:
+                disable_sql_rewrite: false
+                distinct: false
+                replica: false
+                query_comment: ''
+                query_tags: {  }
+            exposed_form:
+              type: basic
+              options:
+                submit_button: Apply
+                reset_button: false
+                reset_button_label: Reset
+                exposed_sorts_label: 'Sort by'
+                expose_sort_order: true
+                sort_asc_label: Asc
+                sort_desc_label: Desc
+            pager:
+              type: full
+              options:
+                items_per_page: 20
+                offset: 0
+                id: 0
+                total_pages: null
+                tags:
+                  previous: ‹‹
+                  next: ››
+                  first: '« First'
+                  last: 'Last »'
+                expose:
+                  items_per_page: false
+                  items_per_page_label: 'Items per page'
+                  items_per_page_options: '5, 10, 25, 50'
+                  items_per_page_options_all: false
+                  items_per_page_options_all_label: '- All -'
+                  offset: false
+                  offset_label: Offset
+                quantity: 9
+            style:
+              type: table
+            row:
+              type: fields
+            fields:
+              id:
+                table: htm_custom_feedback_score
+                field: id
+                id: id
+                entity_type: null
+                entity_field: null
+                plugin_id: numeric
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: ID
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ','
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+              title:
+                id: title
+                table: node_field_data
+                field: title
+                relationship: nid
+                group_type: group
+                admin_label: ''
+                label: Title
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                click_sort_column: value
+                type: string
+                settings:
+                  link_to_entity: true
+                group_column: value
+                group_columns: {  }
+                group_rows: true
+                delta_limit: 0
+                delta_offset: 0
+                delta_reversed: false
+                delta_first_last: false
+                multi_type: separator
+                separator: ', '
+                field_api_classes: false
+                entity_type: node
+                entity_field: title
+                plugin_id: field
+              yes_count:
+                id: yes_count
+                table: htm_custom_feedback_score
+                field: yes_count
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Nodes positives feedbacks count'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ' '
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+              no_count:
+                id: no_count
+                table: htm_custom_feedback_score
+                field: no_count
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Nodes negative feedbacks count'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ' '
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+              total_score:
+                id: total_score
+                table: htm_custom_feedback_score
+                field: total_score
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Nodes total score'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ' '
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ' %'
+                plugin_id: numeric
+              count:
+                id: count
+                table: htm_custom_feedback_score
+                field: count
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Total count of feedbacks'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ' '
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+            filters: {  }
+            sorts: {  }
+            title: 'Feedback admin view'
+            header: {  }
+            footer: {  }
+            empty: {  }
+            relationships:
+              nid:
+                id: nid
+                table: htm_custom_feedback_score
+                field: nid
+                relationship: none
+                group_type: group
+                admin_label: 'admin feedback score'
+                required: false
+                plugin_id: standard
+            arguments: {  }
+            display_extenders: {  }
+          cache_metadata:
+            max-age: -1
+            contexts:
+              - 'languages:language_content'
+              - 'languages:language_interface'
+              - url.query_args
+              - user.permissions
+            tags: {  }
+        page_1:
+          display_plugin: page
+          id: page_1
+          display_title: Page
+          position: 1
+          display_options:
+            display_extenders: {  }
+            path: admin/feedback
+            fields:
+              nid:
+                id: nid
+                table: node_field_data
+                field: nid
+                relationship: nid
+                group_type: group
+                admin_label: ''
+                label: ID
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                click_sort_column: value
+                type: number_integer
+                settings:
+                  thousand_separator: ''
+                  prefix_suffix: true
+                group_column: value
+                group_columns: {  }
+                group_rows: true
+                delta_limit: 0
+                delta_offset: 0
+                delta_reversed: false
+                delta_first_last: false
+                multi_type: separator
+                separator: ', '
+                field_api_classes: false
+                entity_type: node
+                entity_field: nid
+                plugin_id: field
+              id:
+                table: htm_custom_feedback_score
+                field: id
+                id: id
+                entity_type: null
+                entity_field: null
+                plugin_id: numeric
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: ID
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ','
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+              title:
+                id: title
+                table: node_field_data
+                field: title
+                relationship: nid
+                group_type: group
+                admin_label: ''
+                label: Title
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                click_sort_column: value
+                type: string
+                settings:
+                  link_to_entity: true
+                group_column: value
+                group_columns: {  }
+                group_rows: true
+                delta_limit: 0
+                delta_offset: 0
+                delta_reversed: false
+                delta_first_last: false
+                multi_type: separator
+                separator: ', '
+                field_api_classes: false
+                entity_type: node
+                entity_field: title
+                plugin_id: field
+              yes_count:
+                id: yes_count
+                table: htm_custom_feedback_score
+                field: yes_count
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Nodes positives feedbacks count'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ' '
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+              no_count:
+                id: no_count
+                table: htm_custom_feedback_score
+                field: no_count
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Nodes negative feedbacks count'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ' '
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+              total_score:
+                id: total_score
+                table: htm_custom_feedback_score
+                field: total_score
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Nodes total score'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ' '
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ' %'
+                plugin_id: numeric
+              count:
+                id: count
+                table: htm_custom_feedback_score
+                field: count
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Total count of feedbacks'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ' '
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+              nothing:
+                id: nothing
+                table: views
+                field: nothing
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Custom text'
+                exclude: false
+                alter:
+                  alter_text: true
+                  text: '<a href="/admin/feedback/{{ nid }}">View</a>'
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: false
+                plugin_id: custom
+            defaults:
+              fields: false
+              sorts: false
+            menu:
+              type: normal
+              title: Feedback
+              description: ''
+              expanded: false
+              parent: system.admin_content
+              weight: 99
+              context: '0'
+              menu_name: admin
+            sorts:
+              total_score:
+                id: total_score
+                table: htm_custom_feedback_score
+                field: total_score
+                relationship: none
+                group_type: group
+                admin_label: ''
+                order: ASC
+                exposed: false
+                expose:
+                  label: ''
+                plugin_id: standard
+          cache_metadata:
+            max-age: -1
+            contexts:
+              - 'languages:language_content'
+              - 'languages:language_interface'
+              - url.query_args
+              - user.permissions
+            tags: {  }
+        page_2:
+          display_plugin: page
+          id: page_2
+          display_title: 'Page 2'
+          position: 2
+          display_options:
+            display_extenders: {  }
+            path: admin/feedback/%
+            fields:
+              id:
+                id: id
+                table: htm_custom_feedback
+                field: id
+                relationship: feedback_nid
+                group_type: group
+                admin_label: ''
+                label: ID
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ','
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+              created:
+                id: created
+                table: htm_custom_feedback
+                field: created
+                relationship: feedback_nid
+                group_type: group
+                admin_label: ''
+                label: Created
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                date_format: short
+                custom_date_format: ''
+                timezone: ''
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ','
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+              feedback_type:
+                id: feedback_type
+                table: htm_custom_feedback
+                field: feedback_type
+                relationship: feedback_nid
+                group_type: group
+                admin_label: ''
+                label: feedback_type
+                exclude: true
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                set_precision: false
+                precision: 0
+                decimal: .
+                separator: ''
+                format_plural: false
+                format_plural_string: !!binary MQNAY291bnQ=
+                prefix: ''
+                suffix: ''
+                plugin_id: numeric
+              nothing:
+                id: nothing
+                table: views
+                field: nothing
+                relationship: none
+                group_type: group
+                admin_label: ''
+                label: 'Feedback type'
+                exclude: false
+                alter:
+                  alter_text: true
+                  text: "{%if feedback_type == 1%}\r\n<i class=\"material-icons green-text\">thumb_up</i>\r\n{%else%}\r\n<i class=\"material-icons red-text\">thumb_down</i>\r\n{% endif %}"
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: false
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: false
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: false
+                plugin_id: custom
+              feedback_message:
+                id: feedback_message
+                table: htm_custom_feedback
+                field: feedback_message
+                relationship: feedback_nid
+                group_type: group
+                admin_label: ''
+                label: 'Feedback message'
+                exclude: false
+                alter:
+                  alter_text: false
+                  text: ''
+                  make_link: false
+                  path: ''
+                  absolute: false
+                  external: false
+                  replace_spaces: false
+                  path_case: none
+                  trim_whitespace: false
+                  alt: ''
+                  rel: ''
+                  link_class: ''
+                  prefix: ''
+                  suffix: ''
+                  target: ''
+                  nl2br: false
+                  max_length: 0
+                  word_boundary: true
+                  ellipsis: true
+                  more_link: false
+                  more_link_text: ''
+                  more_link_path: ''
+                  strip_tags: false
+                  trim: false
+                  preserve_tags: ''
+                  html: false
+                element_type: ''
+                element_class: ''
+                element_label_type: ''
+                element_label_class: ''
+                element_label_colon: true
+                element_wrapper_type: ''
+                element_wrapper_class: ''
+                element_default_classes: true
+                empty: ''
+                hide_empty: false
+                empty_zero: false
+                hide_alter_empty: true
+                plugin_id: standard
+            defaults:
+              fields: false
+              relationships: false
+              arguments: false
+              sorts: false
+              filters: false
+              filter_groups: false
+              exposed_form: false
+              pager: false
+            relationships:
+              feedback_nid:
+                id: feedback_nid
+                table: htm_custom_feedback_score
+                field: feedback_nid
+                relationship: none
+                group_type: group
+                admin_label: 'admin feedback'
+                required: false
+                plugin_id: standard
+              nid_1:
+                id: nid_1
+                table: htm_custom_feedback_score
+                field: nid
+                relationship: none
+                group_type: group
+                admin_label: 'admin feedback score'
+                required: false
+                plugin_id: standard
+            arguments:
+              nid:
+                id: nid
+                table: htm_custom_feedback
+                field: nid
+                relationship: feedback_nid
+                group_type: group
+                admin_label: ''
+                default_action: empty
+                exception:
+                  value: all
+                  title_enable: false
+                  title: All
+                title_enable: false
+                title: ''
+                default_argument_type: fixed
+                default_argument_options:
+                  argument: ''
+                default_argument_skip_url: false
+                summary_options:
+                  base_path: ''
+                  count: true
+                  items_per_page: 25
+                  override: false
+                summary:
+                  sort_order: asc
+                  number_of_records: 0
+                  format: default_summary
+                specify_validation: false
+                validate:
+                  type: none
+                  fail: 'not found'
+                validate_options: {  }
+                break_phrase: false
+                not: false
+                plugin_id: numeric
+            sorts:
+              created:
+                id: created
+                table: htm_custom_feedback
+                field: created
+                relationship: feedback_nid
+                group_type: group
+                admin_label: ''
+                order: DESC
+                exposed: false
+                expose:
+                  label: Created
+                granularity: second
+                plugin_id: date
+            filters:
+              created:
+                id: created
+                table: htm_custom_feedback
+                field: created
+                relationship: feedback_nid
+                group_type: group
+                admin_label: ''
+                operator: '>='
+                value:
+                  min: ''
+                  max: ''
+                  value: ''
+                  type: date
+                group: 1
+                exposed: true
+                expose:
+                  operator_id: created_op
+                  label: Created
+                  description: ''
+                  use_operator: false
+                  operator: created_op
+                  identifier: created
+                  required: false
+                  remember: false
+                  multiple: false
+                  remember_roles:
+                    authenticated: authenticated
+                    anonymous: '0'
+                    administrator: '0'
+                    content_editor: '0'
+                    head_user: '0'
+                  placeholder: ''
+                  min_placeholder: ''
+                  max_placeholder: ''
+                is_grouped: false
+                group_info:
+                  label: ''
+                  description: ''
+                  identifier: ''
+                  optional: true
+                  widget: select
+                  multiple: false
+                  remember: false
+                  default_group: All
+                  default_group_multiple: {  }
+                  group_items: {  }
+                plugin_id: date
+            filter_groups:
+              operator: AND
+              groups:
+                1: AND
+            exposed_form:
+              type: basic
+              options:
+                submit_button: Apply
+                reset_button: false
+                reset_button_label: Reset
+                exposed_sorts_label: 'Sort by'
+                expose_sort_order: true
+                sort_asc_label: Asc
+                sort_desc_label: Desc
+            pager:
+              type: full
+              options:
+                items_per_page: 20
+                offset: 0
+                id: 0
+                total_pages: null
+                tags:
+                  previous: ‹‹
+                  next: ››
+                  first: '« First'
+                  last: 'Last »'
+                expose:
+                  items_per_page: false
+                  items_per_page_label: 'Items per page'
+                  items_per_page_options: '5, 10, 25, 50'
+                  items_per_page_options_all: false
+                  items_per_page_options_all_label: '- All -'
+                  offset: false
+                  offset_label: Offset
+                quantity: 9
+          cache_metadata:
+            max-age: -1
+            contexts:
+              - 'languages:language_interface'
+              - url
+              - url.query_args
+              - user.permissions
+            tags: {  }

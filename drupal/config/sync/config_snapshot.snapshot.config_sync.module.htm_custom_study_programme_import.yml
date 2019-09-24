@@ -1,0 +1,11 @@
+uuid: 6af6c54d-37dc-448f-875f-c0363c6cc49f
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_study_programme_import
+id: config_sync.module.htm_custom_study_programme_import
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_study_programme_import
+items: {  }
