@@ -348,7 +348,7 @@ class xJsonService implements xJsonServiceInterface {
     public function validateDataElement (&$element, $table = false) {
         $valid = true;
         $element_type = $element['type'];
-        $default_acceptable_keys = ['type', 'title', 'helpertext', 'required', 'hidden', 'readonly', 'default_value', 'value'];
+        $default_acceptable_keys = ['type', 'title', 'helpertext', 'required', 'hidden', 'readonly', 'default_value', 'value', 'depend_on'];
         $additional_keys = [];
         switch ($element_type) {
             case 'heading':
