@@ -1,0 +1,11 @@
+uuid: b84db9f0-7738-4979-b984-6bf03d2b4cd7
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_querymap_form
+id: config_sync.module.htm_custom_querymap_form
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_querymap_form
+items: {  }

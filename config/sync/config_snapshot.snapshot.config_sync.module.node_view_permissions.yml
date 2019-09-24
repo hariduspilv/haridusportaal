@@ -1,0 +1,11 @@
+uuid: b1efa6a1-5f54-4c9d-bef6-141c0264f2f8
+langcode: et
+status: true
+dependencies:
+  module:
+    - node_view_permissions
+id: config_sync.module.node_view_permissions
+snapshotSet: config_sync
+extensionType: module
+extensionName: node_view_permissions
+items: {  }

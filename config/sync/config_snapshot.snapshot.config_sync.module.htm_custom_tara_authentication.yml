@@ -1,0 +1,32 @@
+uuid: d12f511b-7702-415e-b65b-44ae3fa2c19e
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_tara_authentication
+id: config_sync.module.htm_custom_tara_authentication
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_tara_authentication
+items:
+  -
+    collection: ''
+    name: openid_connect.settings.harid
+    data:
+      enabled: false
+      settings:
+        client_id: null
+        client_secret: null
+        authorization_endpoint: 'https://example.com/oauth2/authorize'
+        token_endpoint: 'https://example.com/oauth2/token'
+        userinfo_endpoint: 'https://example.com/oauth2/UserInfo'
+  -
+    collection: ''
+    name: openid_connect.settings.tara
+    data:
+      enabled: false
+      settings:
+        client_id: null
+        client_secret: null
+        authorization_endpoint: 'https://example.com/oauth2/authorize'
+        token_endpoint: 'https://example.com/oauth2/token'

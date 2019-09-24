@@ -1,0 +1,2948 @@
+uuid: 04b825e6-d13b-420e-836b-8ab344ba7e04
+langcode: et
+status: true
+dependencies:
+  module:
+    - standard
+id: config_sync.module.standard
+snapshotSet: config_sync
+extensionType: module
+extensionName: standard
+items:
+  -
+    collection: ''
+    name: automated_cron.settings
+    data:
+      interval: 10800
+  -
+    collection: ''
+    name: block.block.bartik_account_menu
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - system.menu.account
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_account_menu
+      theme: bartik
+      region: secondary_menu
+      weight: 0
+      provider: null
+      plugin: 'system_menu_block:account'
+      settings:
+        id: 'system_menu_block:account'
+        label: 'User account menu'
+        provider: system
+        label_display: '0'
+        level: 1
+        depth: 1
+        expand_all_items: false
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_branding
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_branding
+      theme: bartik
+      region: header
+      weight: 0
+      provider: null
+      plugin: system_branding_block
+      settings:
+        id: system_branding_block
+        label: 'Site branding'
+        provider: system
+        label_display: '0'
+        use_site_logo: true
+        use_site_name: true
+        use_site_slogan: true
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_breadcrumbs
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_breadcrumbs
+      theme: bartik
+      region: breadcrumb
+      weight: 0
+      provider: null
+      plugin: system_breadcrumb_block
+      settings:
+        id: system_breadcrumb_block
+        label: Breadcrumbs
+        provider: system
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_content
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_content
+      theme: bartik
+      region: content
+      weight: 0
+      provider: null
+      plugin: system_main_block
+      settings:
+        id: system_main_block
+        label: 'Main page content'
+        provider: system
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_footer
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - system.menu.footer
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_footer
+      theme: bartik
+      region: footer_fifth
+      weight: 0
+      provider: null
+      plugin: 'system_menu_block:footer'
+      settings:
+        id: 'system_menu_block:footer'
+        label: 'Footer menu'
+        provider: system
+        label_display: '0'
+        level: 1
+        depth: 0
+        expand_all_items: false
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_help
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - help
+        theme:
+          - bartik
+      id: bartik_help
+      theme: bartik
+      region: content
+      weight: -30
+      provider: null
+      plugin: help_block
+      settings:
+        id: help_block
+        label: Help
+        provider: help
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_local_actions
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        theme:
+          - bartik
+      id: bartik_local_actions
+      theme: bartik
+      region: content
+      weight: -20
+      provider: null
+      plugin: local_actions_block
+      settings:
+        id: local_actions_block
+        label: 'Primary admin actions'
+        provider: core
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_local_tasks
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        theme:
+          - bartik
+      id: bartik_local_tasks
+      theme: bartik
+      region: content
+      weight: -40
+      provider: null
+      plugin: local_tasks_block
+      settings:
+        id: local_tasks_block
+        label: Tabs
+        provider: core
+        label_display: '0'
+        primary: true
+        secondary: true
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_main_menu
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - system.menu.main
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_main_menu
+      theme: bartik
+      region: primary_menu
+      weight: 0
+      provider: null
+      plugin: 'system_menu_block:main'
+      settings:
+        id: 'system_menu_block:main'
+        label: 'Main navigation'
+        provider: system
+        label_display: '0'
+        level: 1
+        depth: 1
+        expand_all_items: false
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_messages
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_messages
+      theme: bartik
+      region: highlighted
+      weight: 0
+      provider: null
+      plugin: system_messages_block
+      settings:
+        id: system_messages_block
+        label: 'Status messages'
+        provider: system
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_page_title
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        theme:
+          - bartik
+      id: bartik_page_title
+      theme: bartik
+      region: content
+      weight: -50
+      provider: null
+      plugin: page_title_block
+      settings:
+        id: page_title_block
+        label: 'Page title'
+        provider: core
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_powered
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_powered
+      theme: bartik
+      region: footer_fifth
+      weight: 10
+      provider: null
+      plugin: system_powered_by_block
+      settings:
+        id: system_powered_by_block
+        label: 'Powered by Drupal'
+        provider: system
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_search
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - search
+        theme:
+          - bartik
+      id: bartik_search
+      theme: bartik
+      region: sidebar_first
+      weight: -1
+      provider: null
+      plugin: search_form_block
+      settings:
+        id: search_form_block
+        label: Search
+        provider: search
+        label_display: visible
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.bartik_tools
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - system.menu.tools
+        module:
+          - system
+        theme:
+          - bartik
+      id: bartik_tools
+      theme: bartik
+      region: sidebar_first
+      weight: 0
+      provider: null
+      plugin: 'system_menu_block:tools'
+      settings:
+        id: 'system_menu_block:tools'
+        label: Tools
+        provider: system
+        label_display: visible
+        level: 1
+        depth: 0
+        expand_all_items: false
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.seven_breadcrumbs
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - system
+        theme:
+          - seven
+      id: seven_breadcrumbs
+      theme: seven
+      region: breadcrumb
+      weight: 0
+      provider: null
+      plugin: system_breadcrumb_block
+      settings:
+        id: system_breadcrumb_block
+        label: Breadcrumbs
+        provider: system
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.seven_content
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - system
+        theme:
+          - seven
+      id: seven_content
+      theme: seven
+      region: content
+      weight: 0
+      provider: null
+      plugin: system_main_block
+      settings:
+        id: system_main_block
+        label: 'Main page content'
+        provider: system
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.seven_help
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - help
+        theme:
+          - seven
+      id: seven_help
+      theme: seven
+      region: help
+      weight: 0
+      provider: null
+      plugin: help_block
+      settings:
+        id: help_block
+        label: Help
+        provider: help
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.seven_local_actions
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        theme:
+          - seven
+      id: seven_local_actions
+      theme: seven
+      region: content
+      weight: -10
+      provider: null
+      plugin: local_actions_block
+      settings:
+        id: local_actions_block
+        label: 'Primary admin actions'
+        provider: core
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.seven_messages
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - system
+        theme:
+          - seven
+      id: seven_messages
+      theme: seven
+      region: highlighted
+      weight: 0
+      provider: null
+      plugin: system_messages_block
+      settings:
+        id: system_messages_block
+        label: 'Status messages'
+        provider: system
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.seven_page_title
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        theme:
+          - seven
+      id: seven_page_title
+      theme: seven
+      region: header
+      weight: -30
+      provider: null
+      plugin: page_title_block
+      settings:
+        id: page_title_block
+        label: 'Page title'
+        provider: core
+        label_display: '0'
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.seven_primary_local_tasks
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        theme:
+          - seven
+      id: seven_primary_local_tasks
+      theme: seven
+      region: header
+      weight: 0
+      provider: null
+      plugin: local_tasks_block
+      settings:
+        id: local_tasks_block
+        label: 'Primary tabs'
+        provider: core
+        label_display: '0'
+        primary: true
+        secondary: false
+      visibility: {  }
+  -
+    collection: ''
+    name: block.block.seven_secondary_local_tasks
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        theme:
+          - seven
+      id: seven_secondary_local_tasks
+      theme: seven
+      region: pre_content
+      weight: 0
+      provider: null
+      plugin: local_tasks_block
+      settings:
+        id: local_tasks_block
+        label: 'Secondary tabs'
+        provider: core
+        label_display: '0'
+        primary: false
+        secondary: true
+      visibility: {  }
+  -
+    collection: ''
+    name: block_content.type.basic
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: basic
+      label: 'Basic block'
+      revision: 0
+      description: 'A basic block contains a title and a body.'
+  -
+    collection: ''
+    name: comment.type.comment
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: comment
+      label: 'Default comments'
+      target_entity_type_id: node
+      description: 'Allows commenting on content'
+  -
+    collection: ''
+    name: contact.form.feedback
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: feedback
+      label: 'Website feedback'
+      recipients:
+        - admin@example.com
+      reply: ''
+      weight: 0
+      message: 'Your message has been sent.'
+      redirect: ''
+  -
+    collection: ''
+    name: core.base_field_override.node.page.promote
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - node.type.page
+      id: node.page.promote
+      field_name: promote
+      entity_type: node
+      bundle: page
+      label: 'Promoted to front page'
+      description: ''
+      required: false
+      translatable: false
+      default_value:
+        -
+          value: 0
+      default_value_callback: ''
+      settings:
+        on_label: 'On'
+        off_label: 'Off'
+      field_type: boolean
+  -
+    collection: ''
+    name: core.entity_form_display.block_content.basic.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - block_content.type.basic
+          - field.field.block_content.basic.body
+        module:
+          - text
+      id: block_content.basic.default
+      targetEntityType: block_content
+      bundle: basic
+      mode: default
+      content:
+        body:
+          type: text_textarea_with_summary
+          weight: -4
+          region: content
+          settings:
+            rows: 9
+            summary_rows: 3
+            placeholder: ''
+          third_party_settings: {  }
+        info:
+          type: string_textfield
+          weight: -5
+          region: content
+          settings:
+            size: 60
+            placeholder: ''
+          third_party_settings: {  }
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_form_display.comment.comment.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - comment.type.comment
+          - field.field.comment.comment.comment_body
+        module:
+          - text
+      id: comment.comment.default
+      targetEntityType: comment
+      bundle: comment
+      mode: default
+      content:
+        author:
+          weight: -2
+          region: content
+        comment_body:
+          type: text_textarea
+          weight: 11
+          region: content
+          settings:
+            rows: 5
+            placeholder: ''
+          third_party_settings: {  }
+        subject:
+          type: string_textfield
+          weight: 10
+          region: content
+          settings:
+            size: 60
+            placeholder: ''
+          third_party_settings: {  }
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_form_display.media.audio.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.audio.field_media_audio_file
+          - media.type.audio
+        module:
+          - file
+          - path
+      id: media.audio.default
+      targetEntityType: media
+      bundle: audio
+      mode: default
+      content:
+        created:
+          type: datetime_timestamp
+          weight: 10
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        field_media_audio_file:
+          weight: 0
+          settings:
+            progress_indicator: throbber
+          third_party_settings: {  }
+          type: file_generic
+          region: content
+        path:
+          type: path
+          weight: 30
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        status:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 100
+          region: content
+          third_party_settings: {  }
+        uid:
+          type: entity_reference_autocomplete
+          weight: 5
+          settings:
+            match_operator: CONTAINS
+            size: 60
+            placeholder: ''
+          region: content
+          third_party_settings: {  }
+      hidden:
+        name: true
+  -
+    collection: ''
+    name: core.entity_form_display.media.file.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.file.field_media_file
+          - media.type.file
+        module:
+          - file
+      id: media.file.default
+      targetEntityType: media
+      bundle: file
+      mode: default
+      content:
+        created:
+          type: datetime_timestamp
+          weight: 10
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        field_media_file:
+          settings:
+            progress_indicator: throbber
+          third_party_settings: {  }
+          type: file_generic
+          weight: 0
+          region: content
+        status:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 100
+          region: content
+          third_party_settings: {  }
+        uid:
+          type: entity_reference_autocomplete
+          weight: 5
+          settings:
+            match_operator: CONTAINS
+            size: 60
+            placeholder: ''
+          region: content
+          third_party_settings: {  }
+      hidden:
+        name: true
+  -
+    collection: ''
+    name: core.entity_form_display.media.image.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.image.field_media_image
+          - image.style.thumbnail
+          - media.type.image
+        module:
+          - image
+      id: media.image.default
+      targetEntityType: media
+      bundle: image
+      mode: default
+      content:
+        created:
+          type: datetime_timestamp
+          weight: 10
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        field_media_image:
+          settings:
+            progress_indicator: throbber
+            preview_image_style: thumbnail
+          third_party_settings: {  }
+          type: image_image
+          weight: 0
+          region: content
+        status:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 100
+          region: content
+          third_party_settings: {  }
+        uid:
+          type: entity_reference_autocomplete
+          weight: 5
+          settings:
+            match_operator: CONTAINS
+            size: 60
+            placeholder: ''
+          region: content
+          third_party_settings: {  }
+      hidden:
+        name: true
+  -
+    collection: ''
+    name: core.entity_form_display.media.remote_video.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.remote_video.field_media_oembed_video
+          - media.type.remote_video
+        module:
+          - media
+          - path
+      id: media.remote_video.default
+      targetEntityType: media
+      bundle: remote_video
+      mode: default
+      content:
+        created:
+          type: datetime_timestamp
+          weight: 10
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        field_media_oembed_video:
+          type: oembed_textfield
+          weight: 0
+          settings:
+            size: 60
+            placeholder: ''
+          third_party_settings: {  }
+          region: content
+        path:
+          type: path
+          weight: 30
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        status:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 100
+          region: content
+          third_party_settings: {  }
+        uid:
+          type: entity_reference_autocomplete
+          weight: 5
+          settings:
+            match_operator: CONTAINS
+            size: 60
+            placeholder: ''
+          region: content
+          third_party_settings: {  }
+      hidden:
+        name: true
+  -
+    collection: ''
+    name: core.entity_form_display.media.video.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.video.field_media_video_file
+          - media.type.video
+        module:
+          - file
+          - path
+      id: media.video.default
+      targetEntityType: media
+      bundle: video
+      mode: default
+      content:
+        created:
+          type: datetime_timestamp
+          weight: 10
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        field_media_video_file:
+          weight: 0
+          settings:
+            progress_indicator: throbber
+          third_party_settings: {  }
+          type: file_generic
+          region: content
+        path:
+          type: path
+          weight: 30
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        status:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 100
+          region: content
+          third_party_settings: {  }
+        uid:
+          type: entity_reference_autocomplete
+          weight: 5
+          settings:
+            match_operator: CONTAINS
+            size: 60
+            placeholder: ''
+          region: content
+          third_party_settings: {  }
+      hidden:
+        name: true
+  -
+    collection: ''
+    name: core.entity_form_display.node.article.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.node.article.body
+          - field.field.node.article.comment
+          - field.field.node.article.field_image
+          - field.field.node.article.field_tags
+          - image.style.thumbnail
+          - node.type.article
+        module:
+          - comment
+          - image
+          - path
+          - text
+      id: node.article.default
+      targetEntityType: node
+      bundle: article
+      mode: default
+      content:
+        body:
+          type: text_textarea_with_summary
+          weight: 1
+          region: content
+          settings:
+            rows: 9
+            summary_rows: 3
+            placeholder: ''
+          third_party_settings: {  }
+        comment:
+          type: comment_default
+          weight: 20
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        created:
+          type: datetime_timestamp
+          weight: 10
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        field_image:
+          type: image_image
+          weight: 4
+          region: content
+          settings:
+            progress_indicator: throbber
+            preview_image_style: thumbnail
+          third_party_settings: {  }
+        field_tags:
+          type: entity_reference_autocomplete_tags
+          weight: 3
+          region: content
+          settings:
+            match_operator: CONTAINS
+            size: 60
+            placeholder: ''
+          third_party_settings: {  }
+        path:
+          type: path
+          weight: 30
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        promote:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 15
+          region: content
+          third_party_settings: {  }
+        status:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 120
+          region: content
+          third_party_settings: {  }
+        sticky:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 16
+          region: content
+          third_party_settings: {  }
+        title:
+          type: string_textfield
+          weight: 0
+          region: content
+          settings:
+            size: 60
+            placeholder: ''
+          third_party_settings: {  }
+        uid:
+          type: entity_reference_autocomplete
+          weight: 5
+          region: content
+          settings:
+            match_operator: CONTAINS
+            size: 60
+            placeholder: ''
+          third_party_settings: {  }
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_form_display.node.page.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.node.page.body
+          - node.type.page
+        module:
+          - path
+          - text
+      id: node.page.default
+      targetEntityType: node
+      bundle: page
+      mode: default
+      content:
+        body:
+          type: text_textarea_with_summary
+          weight: 31
+          region: content
+          settings:
+            rows: 9
+            summary_rows: 3
+            placeholder: ''
+          third_party_settings: {  }
+        created:
+          type: datetime_timestamp
+          weight: 10
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        path:
+          type: path
+          weight: 30
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        promote:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 15
+          region: content
+          third_party_settings: {  }
+        status:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 120
+          region: content
+          third_party_settings: {  }
+        sticky:
+          type: boolean_checkbox
+          settings:
+            display_label: true
+          weight: 16
+          region: content
+          third_party_settings: {  }
+        title:
+          type: string_textfield
+          weight: -5
+          region: content
+          settings:
+            size: 60
+            placeholder: ''
+          third_party_settings: {  }
+        uid:
+          type: entity_reference_autocomplete
+          weight: 5
+          region: content
+          settings:
+            match_operator: CONTAINS
+            size: 60
+            placeholder: ''
+          third_party_settings: {  }
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_form_display.user.user.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.user.user.user_picture
+          - image.style.thumbnail
+        module:
+          - image
+          - user
+      id: user.user.default
+      targetEntityType: user
+      bundle: user
+      mode: default
+      content:
+        account:
+          weight: -10
+          region: content
+        contact:
+          weight: 5
+          region: content
+        language:
+          weight: 0
+          region: content
+        timezone:
+          weight: 6
+          region: content
+        user_picture:
+          type: image_image
+          settings:
+            progress_indicator: throbber
+            preview_image_style: thumbnail
+          third_party_settings: {  }
+          weight: -1
+          region: content
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_view_display.block_content.basic.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - block_content.type.basic
+          - field.field.block_content.basic.body
+        module:
+          - text
+      id: block_content.basic.default
+      targetEntityType: block_content
+      bundle: basic
+      mode: default
+      content:
+        body:
+          label: hidden
+          type: text_default
+          weight: 0
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_view_display.comment.comment.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - comment.type.comment
+          - field.field.comment.comment.comment_body
+        module:
+          - text
+      id: comment.comment.default
+      targetEntityType: comment
+      bundle: comment
+      mode: default
+      content:
+        comment_body:
+          label: hidden
+          type: text_default
+          weight: 0
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        links:
+          weight: 100
+          region: content
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_view_display.media.audio.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.audio.field_media_audio_file
+          - media.type.audio
+        module:
+          - file
+      id: media.audio.default
+      targetEntityType: media
+      bundle: audio
+      mode: default
+      content:
+        field_media_audio_file:
+          type: file_audio
+          weight: 0
+          label: visually_hidden
+          settings:
+            controls: true
+            autoplay: false
+            loop: false
+            multiple_file_display_type: tags
+          third_party_settings: {  }
+          region: content
+      hidden:
+        created: true
+        name: true
+        thumbnail: true
+        uid: true
+  -
+    collection: ''
+    name: core.entity_view_display.media.file.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.file.field_media_file
+          - media.type.file
+        module:
+          - file
+      id: media.file.default
+      targetEntityType: media
+      bundle: file
+      mode: default
+      content:
+        field_media_file:
+          label: visually_hidden
+          settings: {  }
+          third_party_settings: {  }
+          type: file_default
+          weight: 1
+          region: content
+      hidden:
+        created: true
+        thumbnail: true
+        uid: true
+        name: true
+  -
+    collection: ''
+    name: core.entity_view_display.media.image.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.image.field_media_image
+          - image.style.medium
+          - media.type.image
+        module:
+          - image
+      id: media.image.default
+      targetEntityType: media
+      bundle: image
+      mode: default
+      content:
+        field_media_image:
+          label: visually_hidden
+          settings:
+            image_style: ''
+            image_link: file
+          third_party_settings: {  }
+          type: image
+          weight: 1
+          region: content
+      hidden:
+        created: true
+        thumbnail: true
+        uid: true
+        name: true
+  -
+    collection: ''
+    name: core.entity_view_display.media.remote_video.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.remote_video.field_media_oembed_video
+          - media.type.remote_video
+        module:
+          - media
+      id: media.remote_video.default
+      targetEntityType: media
+      bundle: remote_video
+      mode: default
+      content:
+        field_media_oembed_video:
+          type: oembed
+          weight: 0
+          label: hidden
+          settings:
+            max_width: 0
+            max_height: 0
+          third_party_settings: {  }
+          region: content
+      hidden:
+        created: true
+        name: true
+        thumbnail: true
+        uid: true
+  -
+    collection: ''
+    name: core.entity_view_display.media.video.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.media.video.field_media_video_file
+          - media.type.video
+        module:
+          - file
+      id: media.video.default
+      targetEntityType: media
+      bundle: video
+      mode: default
+      content:
+        field_media_video_file:
+          type: file_video
+          weight: 0
+          label: visually_hidden
+          settings:
+            muted: false
+            width: 640
+            height: 480
+            controls: true
+            autoplay: false
+            loop: false
+            multiple_file_display_type: tags
+          third_party_settings: {  }
+          region: content
+      hidden:
+        created: true
+        name: true
+        thumbnail: true
+        uid: true
+  -
+    collection: ''
+    name: core.entity_view_display.node.article.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - core.entity_view_display.comment.comment.default
+          - field.field.node.article.body
+          - field.field.node.article.comment
+          - field.field.node.article.field_image
+          - field.field.node.article.field_tags
+          - image.style.large
+          - node.type.article
+        module:
+          - comment
+          - image
+          - text
+          - user
+      id: node.article.default
+      targetEntityType: node
+      bundle: article
+      mode: default
+      content:
+        body:
+          type: text_default
+          weight: 0
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+          label: hidden
+        comment:
+          type: comment_default
+          weight: 110
+          region: content
+          label: above
+          settings:
+            view_mode: default
+            pager_id: 0
+          third_party_settings: {  }
+        field_image:
+          type: image
+          weight: -1
+          region: content
+          settings:
+            image_style: large
+            image_link: ''
+          third_party_settings: {  }
+          label: hidden
+        field_tags:
+          type: entity_reference_label
+          weight: 10
+          region: content
+          label: above
+          settings:
+            link: true
+          third_party_settings: {  }
+        links:
+          weight: 100
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_view_display.node.article.rss
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - core.entity_view_mode.node.rss
+          - field.field.node.article.body
+          - field.field.node.article.comment
+          - field.field.node.article.field_image
+          - field.field.node.article.field_tags
+          - node.type.article
+        module:
+          - user
+      id: node.article.rss
+      targetEntityType: node
+      bundle: article
+      mode: rss
+      content:
+        links:
+          weight: 100
+          region: content
+      hidden:
+        body: true
+        comment: true
+        field_image: true
+        field_tags: true
+  -
+    collection: ''
+    name: core.entity_view_display.node.article.teaser
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - core.entity_view_mode.node.teaser
+          - field.field.node.article.body
+          - field.field.node.article.comment
+          - field.field.node.article.field_image
+          - field.field.node.article.field_tags
+          - image.style.medium
+          - node.type.article
+        module:
+          - image
+          - text
+          - user
+      id: node.article.teaser
+      targetEntityType: node
+      bundle: article
+      mode: teaser
+      content:
+        body:
+          type: text_summary_or_trimmed
+          weight: 0
+          region: content
+          settings:
+            trim_length: 600
+          third_party_settings: {  }
+          label: hidden
+        field_image:
+          type: image
+          weight: -1
+          region: content
+          settings:
+            image_style: medium
+            image_link: content
+          third_party_settings: {  }
+          label: hidden
+        field_tags:
+          type: entity_reference_label
+          weight: 10
+          region: content
+          settings:
+            link: true
+          third_party_settings: {  }
+          label: above
+        links:
+          weight: 100
+          region: content
+      hidden:
+        comment: true
+        field_image: true
+        field_tags: true
+  -
+    collection: ''
+    name: core.entity_view_display.node.page.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.node.page.body
+          - node.type.page
+        module:
+          - text
+          - user
+      id: node.page.default
+      targetEntityType: node
+      bundle: page
+      mode: default
+      content:
+        body:
+          label: hidden
+          type: text_default
+          weight: 100
+          region: content
+          settings: {  }
+          third_party_settings: {  }
+        links:
+          weight: 101
+          region: content
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_view_display.node.page.teaser
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - core.entity_view_mode.node.teaser
+          - field.field.node.page.body
+          - node.type.page
+        module:
+          - text
+          - user
+      id: node.page.teaser
+      targetEntityType: node
+      bundle: page
+      mode: teaser
+      content:
+        body:
+          label: hidden
+          type: text_summary_or_trimmed
+          weight: 100
+          region: content
+          settings:
+            trim_length: 600
+          third_party_settings: {  }
+        links:
+          weight: 101
+          region: content
+      hidden: {  }
+  -
+    collection: ''
+    name: core.entity_view_display.user.user.compact
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - core.entity_view_mode.user.compact
+          - field.field.user.user.user_picture
+          - image.style.thumbnail
+        module:
+          - image
+          - user
+      id: user.user.compact
+      targetEntityType: user
+      bundle: user
+      mode: compact
+      content:
+        user_picture:
+          type: image
+          weight: 0
+          region: content
+          settings:
+            image_style: thumbnail
+            image_link: content
+          third_party_settings: {  }
+          label: hidden
+      hidden:
+        member_for: true
+  -
+    collection: ''
+    name: core.entity_view_display.user.user.default
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.field.user.user.user_picture
+          - image.style.thumbnail
+        module:
+          - image
+          - user
+      id: user.user.default
+      targetEntityType: user
+      bundle: user
+      mode: default
+      content:
+        member_for:
+          weight: 5
+          region: content
+        user_picture:
+          type: image
+          weight: 0
+          region: content
+          settings:
+            image_style: thumbnail
+            image_link: content
+          third_party_settings: {  }
+          label: hidden
+      hidden: {  }
+  -
+    collection: ''
+    name: core.menu.static_menu_link_overrides
+    data:
+      definitions:
+        contact__site_page:
+          enabled: true
+          menu_name: footer
+          parent: ''
+          weight: 0
+          expanded: false
+  -
+    collection: ''
+    name: editor.editor.basic_html
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - filter.format.basic_html
+        module:
+          - ckeditor
+      format: basic_html
+      editor: ckeditor
+      settings:
+        toolbar:
+          rows:
+            -
+              -
+                name: Formatting
+                items:
+                  - Bold
+                  - Italic
+              -
+                name: Linking
+                items:
+                  - DrupalLink
+                  - DrupalUnlink
+              -
+                name: Lists
+                items:
+                  - BulletedList
+                  - NumberedList
+              -
+                name: Media
+                items:
+                  - Blockquote
+                  - DrupalImage
+              -
+                name: 'Block Formatting'
+                items:
+                  - Format
+              -
+                name: Tools
+                items:
+                  - Source
+        plugins:
+          stylescombo:
+            styles: ''
+      image_upload:
+        status: true
+        scheme: public
+        directory: inline-images
+        max_size: ''
+        max_dimensions:
+          width: 0
+          height: 0
+  -
+    collection: ''
+    name: editor.editor.full_html
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - filter.format.full_html
+        module:
+          - ckeditor
+      format: full_html
+      editor: ckeditor
+      settings:
+        toolbar:
+          rows:
+            -
+              -
+                name: Formatting
+                items:
+                  - Bold
+                  - Italic
+                  - Strike
+                  - Superscript
+                  - Subscript
+                  - '-'
+                  - RemoveFormat
+              -
+                name: Linking
+                items:
+                  - DrupalLink
+                  - DrupalUnlink
+              -
+                name: Lists
+                items:
+                  - BulletedList
+                  - NumberedList
+              -
+                name: Media
+                items:
+                  - Blockquote
+                  - DrupalImage
+                  - Table
+                  - HorizontalRule
+              -
+                name: 'Block Formatting'
+                items:
+                  - Format
+              -
+                name: Tools
+                items:
+                  - ShowBlocks
+                  - Source
+        plugins:
+          stylescombo:
+            styles: ''
+      image_upload:
+        status: true
+        scheme: public
+        directory: inline-images
+        max_size: ''
+        max_dimensions:
+          width: 0
+          height: 0
+  -
+    collection: ''
+    name: field.field.block_content.basic.body
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - block_content.type.basic
+          - field.storage.block_content.body
+        module:
+          - text
+      id: block_content.basic.body
+      field_name: body
+      entity_type: block_content
+      bundle: basic
+      label: Body
+      description: ''
+      required: false
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        display_summary: false
+      field_type: text_with_summary
+  -
+    collection: ''
+    name: field.field.comment.comment.comment_body
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - comment.type.comment
+          - field.storage.comment.comment_body
+        module:
+          - text
+      id: comment.comment.comment_body
+      field_name: comment_body
+      entity_type: comment
+      bundle: comment
+      label: Comment
+      description: ''
+      required: true
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings: {  }
+      field_type: text_long
+  -
+    collection: ''
+    name: field.field.media.audio.field_media_audio_file
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.media.field_media_audio_file
+          - media.type.audio
+        module:
+          - file
+      id: media.audio.field_media_audio_file
+      field_name: field_media_audio_file
+      entity_type: media
+      bundle: audio
+      label: 'Audio file'
+      description: ''
+      required: true
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        file_extensions: 'mp3 wav aac'
+        file_directory: '[date:custom:Y]-[date:custom:m]'
+        max_filesize: ''
+        description_field: false
+        handler: 'default:file'
+        handler_settings: {  }
+      field_type: file
+  -
+    collection: ''
+    name: field.field.media.file.field_media_file
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.media.field_media_file
+          - media.type.file
+        enforced:
+          module:
+            - media
+        module:
+          - file
+      id: media.file.field_media_file
+      field_name: field_media_file
+      entity_type: media
+      bundle: file
+      label: File
+      description: ''
+      required: true
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        file_directory: '[date:custom:Y]-[date:custom:m]'
+        file_extensions: 'txt rtf doc docx ppt pptx xls xlsx pdf odf odg odp ods odt fodt fods fodp fodg key numbers pages'
+        max_filesize: ''
+        handler: 'default:file'
+        handler_settings: {  }
+        description_field: false
+      field_type: file
+  -
+    collection: ''
+    name: field.field.media.image.field_media_image
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.media.field_media_image
+          - media.type.image
+        enforced:
+          module:
+            - media
+        module:
+          - image
+      id: media.image.field_media_image
+      field_name: field_media_image
+      entity_type: media
+      bundle: image
+      label: Image
+      description: ''
+      required: true
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        alt_field: true
+        alt_field_required: true
+        title_field: false
+        title_field_required: false
+        max_resolution: ''
+        min_resolution: ''
+        default_image:
+          uuid: null
+          alt: ''
+          title: ''
+          width: null
+          height: null
+        file_directory: '[date:custom:Y]-[date:custom:m]'
+        file_extensions: 'png gif jpg jpeg'
+        max_filesize: ''
+        handler: 'default:file'
+        handler_settings: {  }
+      field_type: image
+  -
+    collection: ''
+    name: field.field.media.remote_video.field_media_oembed_video
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.media.field_media_oembed_video
+          - media.type.remote_video
+      id: media.remote_video.field_media_oembed_video
+      field_name: field_media_oembed_video
+      entity_type: media
+      bundle: remote_video
+      label: 'Video URL'
+      description: ''
+      required: true
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings: {  }
+      field_type: string
+  -
+    collection: ''
+    name: field.field.media.video.field_media_video_file
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.media.field_media_video_file
+          - media.type.video
+        module:
+          - file
+      id: media.video.field_media_video_file
+      field_name: field_media_video_file
+      entity_type: media
+      bundle: video
+      label: 'Video file'
+      description: ''
+      required: true
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        file_extensions: mp4
+        file_directory: '[date:custom:Y]-[date:custom:m]'
+        max_filesize: ''
+        description_field: false
+        handler: 'default:file'
+        handler_settings: {  }
+      field_type: file
+  -
+    collection: ''
+    name: field.field.node.article.body
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.node.body
+          - node.type.article
+        module:
+          - text
+      id: node.article.body
+      field_name: body
+      entity_type: node
+      bundle: article
+      label: Body
+      description: ''
+      required: false
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        display_summary: true
+      field_type: text_with_summary
+  -
+    collection: ''
+    name: field.field.node.article.comment
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.node.comment
+          - node.type.article
+        module:
+          - comment
+      id: node.article.comment
+      field_name: comment
+      entity_type: node
+      bundle: article
+      label: Comments
+      description: ''
+      required: false
+      translatable: true
+      default_value:
+        -
+          status: 2
+          cid: 0
+          last_comment_name: null
+          last_comment_timestamp: 0
+          last_comment_uid: 0
+          comment_count: 0
+      default_value_callback: ''
+      settings:
+        default_mode: 1
+        per_page: 50
+        form_location: true
+        anonymous: 0
+        preview: 1
+      field_type: comment
+  -
+    collection: ''
+    name: field.field.node.article.field_image
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.node.field_image
+          - node.type.article
+        module:
+          - image
+      id: node.article.field_image
+      field_name: field_image
+      entity_type: node
+      bundle: article
+      label: Image
+      description: ''
+      required: false
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        file_directory: '[date:custom:Y]-[date:custom:m]'
+        file_extensions: 'png gif jpg jpeg'
+        max_filesize: ''
+        max_resolution: ''
+        min_resolution: ''
+        alt_field: true
+        title_field: false
+        alt_field_required: true
+        title_field_required: false
+        default_image:
+          uuid: null
+          alt: ''
+          title: ''
+          width: null
+          height: null
+        handler: 'default:file'
+        handler_settings: {  }
+      field_type: image
+  -
+    collection: ''
+    name: field.field.node.article.field_tags
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.node.field_tags
+          - node.type.article
+          - taxonomy.vocabulary.tags
+      id: node.article.field_tags
+      field_name: field_tags
+      entity_type: node
+      bundle: article
+      label: Tags
+      description: 'Enter a comma-separated list. For example: Amsterdam, Mexico City, "Cleveland, Ohio"'
+      required: false
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        handler: 'default:taxonomy_term'
+        handler_settings:
+          target_bundles:
+            tags: tags
+          sort:
+            field: _none
+          auto_create: true
+      field_type: entity_reference
+  -
+    collection: ''
+    name: field.field.node.page.body
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.node.body
+          - node.type.page
+        module:
+          - text
+      id: node.page.body
+      field_name: body
+      entity_type: node
+      bundle: page
+      label: Body
+      description: ''
+      required: false
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        display_summary: true
+      field_type: text_with_summary
+  -
+    collection: ''
+    name: field.field.user.user.user_picture
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - field.storage.user.user_picture
+        module:
+          - image
+          - user
+      id: user.user.user_picture
+      field_name: user_picture
+      entity_type: user
+      bundle: user
+      label: Picture
+      description: 'Your virtual face or picture.'
+      required: false
+      translatable: true
+      default_value: {  }
+      default_value_callback: ''
+      settings:
+        file_extensions: 'png gif jpg jpeg'
+        file_directory: 'pictures/[date:custom:Y]-[date:custom:m]'
+        max_filesize: ''
+        alt_field: false
+        title_field: false
+        max_resolution: ''
+        min_resolution: ''
+        default_image:
+          uuid: null
+          alt: ''
+          title: ''
+          width: null
+          height: null
+        alt_field_required: false
+        title_field_required: false
+        handler: 'default:file'
+        handler_settings: {  }
+      field_type: image
+  -
+    collection: ''
+    name: field.storage.media.field_media_audio_file
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - file
+          - media
+      id: media.field_media_audio_file
+      field_name: field_media_audio_file
+      entity_type: media
+      type: file
+      settings:
+        target_type: file
+        display_field: false
+        display_default: false
+        uri_scheme: public
+      module: file
+      locked: false
+      cardinality: 1
+      translatable: true
+      indexes: {  }
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: field.storage.media.field_media_file
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        enforced:
+          module:
+            - media
+        module:
+          - file
+          - media
+      id: media.field_media_file
+      field_name: field_media_file
+      entity_type: media
+      type: file
+      settings:
+        uri_scheme: public
+        target_type: file
+        display_field: false
+        display_default: false
+      module: file
+      locked: false
+      cardinality: 1
+      translatable: true
+      indexes: {  }
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: field.storage.media.field_media_image
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        enforced:
+          module:
+            - media
+        module:
+          - file
+          - image
+          - media
+      id: media.field_media_image
+      field_name: field_media_image
+      entity_type: media
+      type: image
+      settings:
+        default_image:
+          uuid: null
+          alt: ''
+          title: ''
+          width: null
+          height: null
+        target_type: file
+        display_field: false
+        display_default: false
+        uri_scheme: public
+      module: image
+      locked: false
+      cardinality: 1
+      translatable: true
+      indexes: {  }
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: field.storage.media.field_media_oembed_video
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - media
+      id: media.field_media_oembed_video
+      field_name: field_media_oembed_video
+      entity_type: media
+      type: string
+      settings:
+        max_length: 255
+        is_ascii: false
+        case_sensitive: false
+      module: core
+      locked: false
+      cardinality: 1
+      translatable: true
+      indexes: {  }
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: field.storage.media.field_media_video_file
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - file
+          - media
+      id: media.field_media_video_file
+      field_name: field_media_video_file
+      entity_type: media
+      type: file
+      settings:
+        target_type: file
+        display_field: false
+        display_default: false
+        uri_scheme: public
+      module: file
+      locked: false
+      cardinality: 1
+      translatable: true
+      indexes: {  }
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: field.storage.node.comment
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - comment
+          - node
+      id: node.comment
+      field_name: comment
+      entity_type: node
+      type: comment
+      settings:
+        comment_type: comment
+      module: comment
+      locked: false
+      cardinality: 1
+      translatable: true
+      indexes: {  }
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: field.storage.node.field_image
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - file
+          - image
+          - node
+      id: node.field_image
+      field_name: field_image
+      entity_type: node
+      type: image
+      settings:
+        uri_scheme: public
+        default_image:
+          uuid: null
+          alt: ''
+          title: ''
+          width: null
+          height: null
+        target_type: file
+        display_field: false
+        display_default: false
+      module: image
+      locked: false
+      cardinality: 1
+      translatable: true
+      indexes:
+        target_id:
+          - target_id
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: field.storage.node.field_tags
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - node
+          - taxonomy
+      id: node.field_tags
+      field_name: field_tags
+      entity_type: node
+      type: entity_reference
+      settings:
+        target_type: taxonomy_term
+      module: core
+      locked: false
+      cardinality: -1
+      translatable: true
+      indexes: {  }
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: field.storage.user.user_picture
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - file
+          - image
+          - user
+      id: user.user_picture
+      field_name: user_picture
+      entity_type: user
+      type: image
+      settings:
+        uri_scheme: public
+        default_image:
+          uuid: null
+          alt: ''
+          title: ''
+          width: null
+          height: null
+        target_type: file
+        display_field: false
+        display_default: false
+      module: image
+      locked: false
+      cardinality: 1
+      translatable: true
+      indexes:
+        target_id:
+          - target_id
+      persist_with_no_fields: false
+      custom_storage: false
+  -
+    collection: ''
+    name: filter.format.basic_html
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - editor
+      name: 'Basic HTML'
+      format: basic_html
+      weight: 0
+      roles:
+        - authenticated
+      filters:
+        filter_html:
+          id: filter_html
+          provider: filter
+          status: true
+          weight: -10
+          settings:
+            allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id> <p> <br> <span> <img src alt height width data-entity-type data-entity-uuid data-align data-caption>'
+            filter_html_help: false
+            filter_html_nofollow: false
+        filter_align:
+          id: filter_align
+          provider: filter
+          status: true
+          weight: 7
+          settings: {  }
+        filter_caption:
+          id: filter_caption
+          provider: filter
+          status: true
+          weight: 8
+          settings: {  }
+        filter_html_image_secure:
+          id: filter_html_image_secure
+          provider: filter
+          status: true
+          weight: 9
+          settings: {  }
+        editor_file_reference:
+          id: editor_file_reference
+          provider: editor
+          status: true
+          weight: 11
+          settings: {  }
+  -
+    collection: ''
+    name: filter.format.full_html
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        module:
+          - editor
+      name: 'Full HTML'
+      format: full_html
+      weight: 2
+      roles:
+        - administrator
+      filters:
+        filter_align:
+          id: filter_align
+          provider: filter
+          status: true
+          weight: 8
+          settings: {  }
+        filter_caption:
+          id: filter_caption
+          provider: filter
+          status: true
+          weight: 9
+          settings: {  }
+        filter_htmlcorrector:
+          id: filter_htmlcorrector
+          provider: filter
+          status: true
+          weight: 10
+          settings: {  }
+        editor_file_reference:
+          id: editor_file_reference
+          provider: editor
+          status: true
+          weight: 11
+          settings: {  }
+  -
+    collection: ''
+    name: filter.format.restricted_html
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      name: 'Restricted HTML'
+      format: restricted_html
+      weight: 1
+      roles:
+        - anonymous
+      filters:
+        filter_html:
+          id: filter_html
+          provider: filter
+          status: true
+          weight: -10
+          settings:
+            allowed_html: '<a href hreflang> <em> <strong> <cite> <blockquote cite> <code> <ul type> <ol start type> <li> <dl> <dt> <dd> <h2 id> <h3 id> <h4 id> <h5 id> <h6 id>'
+            filter_html_help: true
+            filter_html_nofollow: false
+        filter_autop:
+          id: filter_autop
+          provider: filter
+          status: true
+          weight: 0
+          settings: {  }
+        filter_url:
+          id: filter_url
+          provider: filter
+          status: true
+          weight: 0
+          settings:
+            filter_url_length: 72
+  -
+    collection: ''
+    name: media.type.audio
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: audio
+      label: Audio
+      description: 'A locally hosted audio file.'
+      source: audio_file
+      queue_thumbnail_downloads: false
+      new_revision: true
+      source_configuration:
+        source_field: field_media_audio_file
+      field_map:
+        name: name
+  -
+    collection: ''
+    name: media.type.file
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: file
+      label: File
+      description: 'Use local files for reusable media.'
+      source: file
+      queue_thumbnail_downloads: false
+      new_revision: true
+      source_configuration:
+        source_field: field_media_file
+      field_map:
+        name: name
+  -
+    collection: ''
+    name: media.type.image
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: image
+      label: Image
+      description: 'Use local images for reusable media.'
+      source: image
+      queue_thumbnail_downloads: false
+      new_revision: true
+      source_configuration:
+        source_field: field_media_image
+      field_map:
+        name: name
+  -
+    collection: ''
+    name: media.type.remote_video
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: remote_video
+      label: 'Remote video'
+      description: 'A remotely hosted video from YouTube or Vimeo.'
+      source: 'oembed:video'
+      queue_thumbnail_downloads: false
+      new_revision: false
+      source_configuration:
+        thumbnails_directory: 'public://oembed_thumbnails'
+        providers:
+          - YouTube
+          - Vimeo
+        source_field: field_media_oembed_video
+      field_map:
+        title: name
+  -
+    collection: ''
+    name: media.type.video
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: video
+      label: Video
+      description: 'A locally hosted video file.'
+      source: video_file
+      queue_thumbnail_downloads: false
+      new_revision: true
+      source_configuration:
+        source_field: field_media_video_file
+      field_map:
+        name: name
+  -
+    collection: ''
+    name: node.settings
+    data:
+      use_admin_theme: true
+  -
+    collection: ''
+    name: node.type.article
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      name: Article
+      type: article
+      description: 'Use <em>articles</em> for time-sensitive content like news, press releases or blog posts.'
+      help: ''
+      new_revision: true
+      preview_mode: 1
+      display_submitted: true
+  -
+    collection: ''
+    name: node.type.page
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      name: 'Basic page'
+      type: page
+      description: 'Use <em>basic pages</em> for your static content, such as an ''About us'' page.'
+      help: ''
+      new_revision: true
+      preview_mode: 1
+      display_submitted: false
+  -
+    collection: ''
+    name: rdf.mapping.comment.comment
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - comment.type.comment
+        module:
+          - comment
+      id: comment.comment
+      targetEntityType: comment
+      bundle: comment
+      types:
+        - 'schema:Comment'
+      fieldMappings:
+        subject:
+          properties:
+            - 'schema:name'
+        created:
+          properties:
+            - 'schema:dateCreated'
+          datatype_callback:
+            callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+        changed:
+          properties:
+            - 'schema:dateModified'
+          datatype_callback:
+            callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+        comment_body:
+          properties:
+            - 'schema:text'
+        uid:
+          properties:
+            - 'schema:author'
+          mapping_type: rel
+  -
+    collection: ''
+    name: rdf.mapping.node.article
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - node.type.article
+        module:
+          - node
+      id: node.article
+      targetEntityType: node
+      bundle: article
+      types:
+        - 'schema:Article'
+      fieldMappings:
+        title:
+          properties:
+            - 'schema:name'
+        created:
+          properties:
+            - 'schema:dateCreated'
+          datatype_callback:
+            callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+        changed:
+          properties:
+            - 'schema:dateModified'
+          datatype_callback:
+            callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+        body:
+          properties:
+            - 'schema:text'
+        uid:
+          properties:
+            - 'schema:author'
+        comment:
+          properties:
+            - 'schema:comment'
+          mapping_type: rel
+        comment_count:
+          properties:
+            - 'schema:interactionCount'
+          datatype_callback:
+            callable: 'Drupal\rdf\SchemaOrgDataConverter::interactionCount'
+            arguments:
+              interaction_type: UserComments
+        field_image:
+          properties:
+            - 'schema:image'
+        field_tags:
+          properties:
+            - 'schema:about'
+  -
+    collection: ''
+    name: rdf.mapping.node.page
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - node.type.page
+        module:
+          - node
+      id: node.page
+      targetEntityType: node
+      bundle: page
+      types:
+        - 'schema:WebPage'
+      fieldMappings:
+        title:
+          properties:
+            - 'schema:name'
+        created:
+          properties:
+            - 'schema:dateCreated'
+          datatype_callback:
+            callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+        changed:
+          properties:
+            - 'schema:dateModified'
+          datatype_callback:
+            callable: 'Drupal\rdf\CommonDataConverter::dateIso8601Value'
+        body:
+          properties:
+            - 'schema:text'
+        uid:
+          properties:
+            - 'schema:author'
+          mapping_type: rel
+        comment_count:
+          properties:
+            - 'schema:interactionCount'
+          datatype_callback:
+            callable: 'Drupal\rdf\SchemaOrgDataConverter::interactionCount'
+            arguments:
+              interaction_type: UserComments
+  -
+    collection: ''
+    name: rdf.mapping.taxonomy_term.tags
+    data:
+      langcode: en
+      status: true
+      dependencies:
+        config:
+          - taxonomy.vocabulary.tags
+        module:
+          - taxonomy
+      id: taxonomy_term.tags
+      targetEntityType: taxonomy_term
+      bundle: tags
+      types:
+        - 'schema:Thing'
+      fieldMappings:
+        name:
+          properties:
+            - 'schema:name'
+        description:
+          properties:
+            - 'schema:description'
+  -
+    collection: ''
+    name: system.cron
+    data:
+      threshold:
+        requirements_warning: 172800
+        requirements_error: 1209600
+      logging: 1
+  -
+    collection: ''
+    name: system.site
+    data:
+      uuid: ''
+      name: ''
+      mail: ''
+      slogan: ''
+      page:
+        403: ''
+        404: ''
+        front: /node
+      admin_compact_mode: false
+      weight_select_max: 100
+      langcode: en
+      default_langcode: en
+  -
+    collection: ''
+    name: system.theme
+    data:
+      admin: seven
+      default: bartik
+  -
+    collection: ''
+    name: taxonomy.vocabulary.tags
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      name: Tags
+      vid: tags
+      description: 'Use tags to group articles on similar topics into categories.'
+      weight: 0
+  -
+    collection: ''
+    name: user.role.administrator
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: administrator
+      label: Administrator
+      weight: 2
+      is_admin: true
+      permissions: {  }
+  -
+    collection: ''
+    name: user.role.anonymous
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: anonymous
+      label: 'Anonymous user'
+      weight: 0
+      is_admin: false
+      permissions:
+        - 'access comments'
+        - 'access content'
+        - 'access site-wide contact form'
+        - 'search content'
+        - 'use text format restricted_html'
+  -
+    collection: ''
+    name: user.role.authenticated
+    data:
+      langcode: en
+      status: true
+      dependencies: {  }
+      id: authenticated
+      label: 'Authenticated user'
+      weight: 1
+      is_admin: false
+      permissions:
+        - 'access comments'
+        - 'access content'
+        - 'access shortcuts'
+        - 'access site-wide contact form'
+        - 'post comments'
+        - 'search content'
+        - 'skip comment approval'
+        - 'use text format basic_html'
+  -
+    collection: ''
+    name: user.settings
+    data:
+      anonymous: Anonymous
+      verify_mail: true
+      notify:
+        cancel_confirm: true
+        password_reset: true
+        status_activated: true
+        status_blocked: false
+        status_canceled: false
+        register_admin_created: true
+        register_no_approval_required: true
+        register_pending_approval: true
+      register: visitors_admin_approval
+      cancel_method: user_cancel_block
+      password_reset_timeout: 86400
+      password_strength: true
+      langcode: en

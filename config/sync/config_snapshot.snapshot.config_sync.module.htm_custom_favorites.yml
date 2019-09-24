@@ -1,0 +1,11 @@
+uuid: 931a1496-0798-4ac3-9dbe-7968d6eadfca
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_favorites
+id: config_sync.module.htm_custom_favorites
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_favorites
+items: {  }

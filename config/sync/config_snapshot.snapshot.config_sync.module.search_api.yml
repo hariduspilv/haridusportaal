@@ -1,0 +1,445 @@
+uuid: 5e189209-bcb6-4f79-bba1-c1221d1a89ca
+langcode: et
+status: true
+dependencies:
+  module:
+    - search_api
+id: config_sync.module.search_api
+snapshotSet: config_sync
+extensionType: module
+extensionName: search_api
+items:
+  -
+    collection: ''
+    name: search_api.settings
+    data:
+      default_cron_limit: 50
+      cron_worker_runtime: 15
+      default_tracker: default
+      tracking_page_size: 100
+  -
+    collection: ''
+    name: tour.tour.search-api-index
+    data:
+      id: search-api-index
+      module: search_api
+      label: 'Information about an index'
+      langcode: en
+      routes:
+        -
+          route_name: entity.search_api_index.canonical
+      dependencies:
+        module:
+          - search_api
+      tips:
+        search-api-index-introduction:
+          id: search-api-index-introduction
+          plugin: text
+          label: 'Information about an index'
+          body: 'This page shows a summary of a search index and its status.'
+          weight: 1
+        search-api-index-index-status:
+          id: search-api-index-index-status
+          plugin: text
+          label: 'Index status'
+          body: 'This gives a summary about how many items are known for this index, and how many have been indexed in their latest version. Items that are not indexed yet cannot be found by searches.'
+          weight: 2
+          attributes:
+            data-class: search-api-index-status
+        search-api-index-status:
+          id: search-api-index-status
+          plugin: text
+          label: Status
+          body: 'Shows whether the index is currently enabled or disabled.'
+          weight: 3
+          attributes:
+            data-class: search-api-index-summary--status
+        search-api-index-datasources:
+          id: search-api-index-datasources
+          plugin: text
+          label: Datasources
+          body: 'Lists all datasources that are enabled for this index.'
+          weight: 4
+          attributes:
+            data-class: search-api-index-summary--datasource
+        search-api-index-tracker:
+          id: search-api-index-tracker
+          plugin: text
+          label: Tracker
+          body: 'The tracker used by the index. Only one ("Default") is available by default.'
+          weight: 5
+          attributes:
+            data-class: search-api-index-summary--tracker
+        search-api-index-server:
+          id: search-api-index-server
+          plugin: text
+          label: Server
+          body: 'If the index is attached to a server, this server is listed here.'
+          weight: 6
+          attributes:
+            data-class: search-api-index-summary--server
+        search-api-index-server-index-status:
+          id: search-api-index-server-index-status
+          plugin: text
+          label: 'Server index status'
+          body: 'For enabled indexes, the number of items that can actually be retrieved from the server is listed here. For reasons why this number might differ from the number under "Index status", <a href="https://www.drupal.org/docs/8/modules/search-api/getting-started/frequently-asked-questions#server-index-status">see the module''s documentation</a>.'
+          weight: 7
+          attributes:
+            data-class: search-api-index-summary--server-index-status
+        search-api-index-cron-batch-size:
+          id: search-api-index-cron-batch-size
+          plugin: text
+          label: 'Cron batch size'
+          body: 'The number of items that will be indexed at once during cron runs.'
+          weight: 8
+          attributes:
+            data-class: search-api-index-summary--cron-batch-size
+        search-api-index-index-now:
+          id: search-api-index-remove
+          plugin: text
+          label: 'Start indexing now'
+          body: 'The "Start indexing now" form allows indexing items manually right away, with a batch process. Otherwise, items are only indexed during cron runs. The form might be disabled if indexing is currently not possible for some reason, or not necessary.'
+          weight: 9
+          attributes:
+            data-id: edit-index
+        search-api-index-tracking:
+          id: search-api-index-tracking
+          plugin: text
+          label: 'Track items for index'
+          body: 'In certain situations, the index''s tracker doesn''t have the latest state of the items available for indexing. This will be automatically rectified during cron runs, but can also be manually triggered here, with the "Track now" button.'
+          weight: 10
+          attributes:
+            data-id: edit-tracking
+        search-api-index-reindex:
+          id: search-api-index-reindex
+          plugin: text
+          label: 'Queue all items for reindexing'
+          body: 'This will queue all items on this index for reindexing. Previously indexed data will remain on the search server, so searches on this index will continue to yield results.'
+          weight: 11
+          attributes:
+            data-id: edit-reindex
+        search-api-index-clear:
+          id: search-api-index-clear
+          plugin: text
+          label: 'Clear all indexed data'
+          body: 'This will remove all indexed content for this index from the search server and queue it for reindexing. Searches on this index will not return any results until items are reindexed.'
+          weight: 12
+          attributes:
+            data-id: edit-clear
+  -
+    collection: ''
+    name: tour.tour.search-api-index-fields
+    data:
+      id: search-api-index-fields
+      module: search_api
+      label: 'Fields indexed in this index'
+      langcode: en
+      routes:
+        -
+          route_name: entity.search_api_index.fields
+      dependencies:
+        module:
+          - search_api
+      tips:
+        search-api-index-fields-introduction:
+          id: search-api-index-fields-introduction
+          plugin: text
+          label: 'Fields indexed in this index'
+          body: 'This page lists which fields are indexed in this index, grouped by datasource. (Datasource-independent fields are listed under "General".) Indexed fields can be used to add filters or sorting to views or other search displays based on the index. Fields with type "Fulltext" can also be used for fulltext searching.'
+          weight: 1
+        search-api-index-fields-add:
+          id: search-api-index-fields-add
+          plugin: text
+          label: 'Add fields'
+          body: 'With the "Add fields" button you can add additional fields to this index.'
+          weight: 2
+          attributes:
+            data-class: 'button-action[data-drupal-selector="edit-add-field"]'
+        search-api-index-fields-label:
+          id: search-api-index-fields-label
+          plugin: text
+          label: Label
+          body: 'A label for the field that will be used to refer to the field in most places in the user interface.'
+          weight: 3
+          attributes:
+            data-class: 'details-wrapper:nth(0) table thead th:nth(0)'
+        search-api-index-fields-machine-name:
+          id: search-api-index-fields-machine-name
+          plugin: text
+          label: 'Machine name'
+          body: 'The internal ID to use for this field. Can safely be ignored by inexperienced users in most cases. Changing a field''s machine name requires reindexing of the index.'
+          weight: 4
+          attributes:
+            data-class: 'details-wrapper:nth(0) table thead th:nth(1)'
+        search-api-index-fields-property-path:
+          id: search-api-index-fields-property-path
+          plugin: text
+          label: 'Property path'
+          body: 'The internal relationship linking the indexed item to the field, with links being separated by colons (:). This can be useful information for advanced users, but can otherwise be ignored.'
+          weight: 5
+          attributes:
+            data-class: 'details-wrapper:nth(0) table thead th:nth(2)'
+        search-api-index-fields-type:
+          id: search-api-index-fields-type
+          plugin: text
+          label: Type
+          body: 'The data type to use when indexing the field. Determines how a field can be used in searches. For information on the available types, see the <a href="#search-api-data-types-table">"Data types" box</a> at the bottom of the page.'
+          weight: 6
+          attributes:
+            data-class: 'details-wrapper:nth(0) table thead th:nth(3)'
+        search-api-index-fields-boost:
+          id: search-api-index-fields-boost
+          plugin: text
+          label: Boost
+          body: 'Only applicable for fulltext fields. Determines how "important" the field is compared to other fulltext fields, to influence scoring of fulltext searches.'
+          weight: 7
+          attributes:
+            data-class: 'details-wrapper:nth(0) table thead th:nth(4)'
+        search-api-index-fields-edit:
+          id: search-api-index-fields-edit
+          plugin: text
+          label: 'Edit field'
+          body: 'Some fields have additional configuration available, in which case an "Edit" link is displayed in the "Operations" column.'
+          weight: 8
+          attributes:
+            data-class: 'details-wrapper:nth(0) table tbody td:nth(5) a'
+        search-api-index-fields-remove:
+          id: search-api-index-fields-remove
+          plugin: text
+          label: 'Remove field'
+          body: 'Removes a field from the index again. (Note: Sometimes, a field is required (for example, by a processor) and cannot be removed.)'
+          weight: 9
+          attributes:
+            data-class: 'details-wrapper:nth(0) table tbody td:nth(6) a'
+        search-api-index-fields-submit:
+          id: search-api-index-fields-submit
+          plugin: text
+          label: 'Save changes'
+          body: 'This saves all changes made to the fields for this index. Until this button is pressed, all added, changed or removed fields will only be stored temporarily and not effect the actual index used in the rest of the site.'
+          weight: 10
+          attributes:
+            data-id: edit-actions-submit
+        search-api-index-fields-cancel:
+          id: search-api-index-fields-cancel
+          plugin: text
+          label: 'Cancel changes'
+          body: 'If you have made changes to the index''s fields but not yet saved them, the "Cancel" link lets you discard those changes.'
+          weight: 10
+          attributes:
+            data-id: edit-actions-cancel
+  -
+    collection: ''
+    name: tour.tour.search-api-index-form
+    data:
+      id: search-api-index-form
+      module: search_api
+      label: 'Add or edit a Search API index'
+      langcode: en
+      routes:
+        -
+          route_name: entity.search_api_index.add_form
+        -
+          route_name: entity.search_api_index.edit_form
+      dependencies:
+        module:
+          - search_api
+      tips:
+        search-api-index-form-introduction:
+          id: search-api-index-form-introduction
+          plugin: text
+          label: 'Adding or editing an index'
+          body: 'This form can be used to edit an existing index or add a new index to your site. Indexes define a set of data that will be indexed and can then be searched.'
+          weight: 1
+        search-api-index-form-name:
+          id: search-api-index-form-name
+          plugin: text
+          label: 'Index name'
+          body: 'Enter a name to identify this index. For example, "Content index". This will only be displayed in the admin user interface.'
+          weight: 2
+          attributes:
+            data-id: edit-name
+        search-api-index-form-datasources:
+          id: search-api-index-form-datasources
+          plugin: text
+          label: Datasources
+          body: 'Datasources define the types of items that will be indexed in this index. By default, all content entities (like content, comments and taxonomy terms) will be available here, but modules can also add their own.'
+          weight: 3
+          attributes:
+            data-id: edit-datasources
+        search-api-index-form-tracker:
+          id: search-api-index-form-tracker
+          plugin: text
+          label: Tracker
+          body: 'An index''s tracker is the system that keeps track of which items there are available for the index, and which of them still need to be indexed. Changing the tracker of an existing index will lead to reindexing of all items.'
+          weight: 4
+          attributes:
+            data-id: edit-tracker
+        search-api-index-form-server:
+          id: search-api-index-form-server
+          plugin: text
+          label: Server
+          body: 'The search server that the index should use for indexing and searching. If no server is selected here, the index cannot be enabled. An index can only have one server, but a server can have any number of indexes.'
+          weight: 5
+          attributes:
+            data-id: edit-server
+        search-api-index-form-description:
+          id: search-api-index-form-description
+          plugin: text
+          label: 'Index description'
+          body: 'Optionally, enter a description to explain the function of the index in more detail. This will only be displayed in the admin user interface.'
+          weight: 6
+          attributes:
+            data-id: edit-description
+        search-api-index-form-options:
+          id: search-api-index-form-options
+          plugin: text
+          label: 'Advanced options'
+          body: 'These options allow more detailed configuration of index behavior, but can usually safely be ignored by inexperienced users.'
+          weight: 7
+          attributes:
+            data-id: edit-options
+  -
+    collection: ''
+    name: tour.tour.search-api-index-processors
+    data:
+      id: search-api-index-processors
+      module: search_api
+      label: 'Processors used for this index'
+      langcode: en
+      routes:
+        -
+          route_name: entity.search_api_index.processors
+      dependencies:
+        module:
+          - search_api
+      tips:
+        search-api-index-processors-introduction:
+          id: search-api-index-processors-introduction
+          plugin: text
+          label: 'Processors used for this index'
+          body: 'Processors customize different aspects of an index''s functionality. They can keep items from being indexed, change how certain fields are indexed and influence searches.'
+          weight: 1
+        search-api-index-processors-enable:
+          id: search-api-index-processors-enable
+          plugin: text
+          label: 'Enable processors'
+          body: 'This lists all processors available for this index and lets you choose the ones that should be active. (Note: Some processors cannot be disabled.)'
+          weight: 2
+          attributes:
+            data-id: edit-status
+        search-api-index-processors-weights:
+          id: search-api-index-processors-weights
+          plugin: text
+          label: 'Processor order'
+          body: 'This shows you which enabled processors will be active in the different parts of the indexing/searching workflow, and lets you re-arrange them. This should usually not be necessary, and only be used by advanced users as some processors will lead to unexpected results when used in the wrong order.'
+          weight: 3
+          attributes:
+            data-id: edit-weights
+        search-api-index-processors-settings:
+          id: search-api-index-processors-settings
+          plugin: text
+          label: 'Processor settings'
+          body: 'Some processors have additional configuration available, which you are able to change here.'
+          weight: 4
+          attributes:
+            data-class: form-type-vertical-tabs
+  -
+    collection: ''
+    name: tour.tour.search-api-server
+    data:
+      id: search-api-server
+      module: search_api
+      label: 'Information about a server'
+      langcode: en
+      routes:
+        -
+          route_name: entity.search_api_server.canonical
+      dependencies:
+        module:
+          - search_api
+      tips:
+        search-api-server-introduction:
+          id: search-api-server-introduction
+          plugin: text
+          label: 'Information about a server'
+          body: 'This page shows a summary of a search server.'
+          weight: 1
+        search-api-server-status:
+          id: search-api-server-status
+          plugin: text
+          label: Status
+          body: 'Shows whether the server is currently enabled or disabled.'
+          weight: 2
+          attributes:
+            data-class: search-api-server-summary--status
+        search-api-server-backend:
+          id: search-api-server-backend
+          plugin: text
+          label: 'Backend class'
+          body: 'The backend plugin used for this server. The backend plugin determines how items are indexed and searched – for example, using the database or an Apache Solr server.'
+          weight: 3
+          attributes:
+            data-class: search-api-server-summary--backend
+        search-api-server-indexes:
+          id: search-api-server-indexes
+          plugin: text
+          label: 'Search indexes'
+          body: 'Lists all search indexes that are attached to this server.'
+          weight: 4
+          attributes:
+            data-class: search-api-server-summary--indexes
+        search-api-server-clear:
+          id: search-api-server-clear
+          plugin: text
+          label: 'Delete all indexed data'
+          body: 'This will permanently remove all data currently indexed on this server for indexes that aren''t read-only. Items are queued for reindexing. Until reindexing occurs, searches for the affected indexes will not return any results.'
+          weight: 5
+          attributes:
+            data-id: edit-clear
+  -
+    collection: ''
+    name: tour.tour.search-api-server-form
+    data:
+      id: search-api-server-form
+      module: search_api
+      label: 'Add or edit a Search API server'
+      langcode: en
+      routes:
+        -
+          route_name: entity.search_api_server.add_form
+        -
+          route_name: entity.search_api_server.edit_form
+      dependencies:
+        module:
+          - search_api
+      tips:
+        search-api-server-form-introduction:
+          id: search-api-server-form-introduction
+          plugin: text
+          label: 'Adding or editing a Server'
+          body: 'This form can be used to edit an existing server or add a new server to your site. Servers will hold your indexed data.'
+          weight: 1
+        search-api-server-form-name:
+          id: search-api-server-form-name
+          plugin: text
+          label: 'Server name'
+          body: 'Enter a name to identify this server. For example, "Solr server". This will only be displayed in the admin user interface.'
+          weight: 2
+          attributes:
+            data-id: edit-name
+        search-api-server-form-description:
+          id: search-api-server-form-description
+          plugin: text
+          label: 'Server description'
+          body: 'Optionally, enter a description to explain the function of the server in more detail. This will only be displayed in the admin user interface.'
+          weight: 3
+          attributes:
+            data-id: edit-description
+        search-api-server-form-backend:
+          id: search-api-server-form-backend
+          plugin: text
+          label: 'Server backend'
+          body: 'Servers can be based on different technologies. These are called "backends". A server uses exactly one backend and cannot change it later. You can make the "Database" backend available by enabling the "Database Search" module. Another very common backend is <a href="https://www.drupal.org/project/search_api_solr">"Solr"</a>, which requires to be set up separately.'
+          weight: 4
+          attributes:
+            data-id: edit-backend

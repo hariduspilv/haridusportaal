@@ -484,7 +484,7 @@ display:
           exposed: true
           expose:
             operator_id: type_op
-            label: Type
+            label: 'Sisu tüüp'
             description: ''
             use_operator: false
             operator: type_op

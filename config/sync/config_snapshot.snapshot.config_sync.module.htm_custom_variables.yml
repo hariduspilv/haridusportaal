@@ -1,0 +1,16 @@
+uuid: f5dad22e-6368-4b07-9314-b61ccf327bac
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_variables
+id: config_sync.module.htm_custom_variables
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_variables
+items:
+  -
+    collection: ''
+    name: htm_custom_variables.variable
+    data:
+      htm_custom_variables: null

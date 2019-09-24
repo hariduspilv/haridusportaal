@@ -1,0 +1,17 @@
+uuid: 394245db-1838-45eb-8ad1-d405a309ed35
+langcode: et
+status: true
+dependencies:
+  module:
+    - serialization
+id: config_sync.module.serialization
+snapshotSet: config_sync
+extensionType: module
+extensionName: serialization
+items:
+  -
+    collection: ''
+    name: serialization.settings
+    data:
+      bc_primitives_as_strings: false
+      bc_timestamp_normalizer_unix: false

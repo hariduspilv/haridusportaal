@@ -1,0 +1,11 @@
+uuid: b3dfdb89-1618-47de-8d58-3352629ee47a
+langcode: et
+status: true
+dependencies:
+  module:
+    - token
+id: config_sync.module.token
+snapshotSet: config_sync
+extensionType: module
+extensionName: token
+items: {  }

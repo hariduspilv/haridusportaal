@@ -1,0 +1,11 @@
+uuid: 11bd1e16-5be3-44a5-9f0d-deb630bafa79
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_graphql_elasticsearch
+id: config_sync.module.htm_custom_graphql_elasticsearch
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_graphql_elasticsearch
+items: {  }
