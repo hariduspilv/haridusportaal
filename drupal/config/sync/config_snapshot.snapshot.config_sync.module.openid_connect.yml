@@ -1,0 +1,64 @@
+uuid: 2f0b23eb-97b2-42eb-b51d-6f49a4f226bd
+langcode: et
+status: true
+dependencies:
+  module:
+    - openid_connect
+id: config_sync.module.openid_connect
+snapshotSet: config_sync
+extensionType: module
+extensionName: openid_connect
+items:
+  -
+    collection: ''
+    name: openid_connect.settings
+    data:
+      always_save_userinfo: true
+      connect_existing_users: false
+      override_registration_settings: false
+      userinfo_mappings:
+        timezone: zoneinfo
+  -
+    collection: ''
+    name: openid_connect.settings.facebook
+    data:
+      enabled: false
+      settings:
+        client_id: null
+        client_secret: null
+        api_version: null
+  -
+    collection: ''
+    name: openid_connect.settings.generic
+    data:
+      enabled: false
+      settings:
+        client_id: null
+        client_secret: null
+        authorization_endpoint: 'https://example.com/oauth2/authorize'
+        token_endpoint: 'https://example.com/oauth2/token'
+        userinfo_endpoint: 'https://example.com/oauth2/UserInfo'
+  -
+    collection: ''
+    name: openid_connect.settings.github
+    data:
+      enabled: false
+      settings:
+        client_id: null
+        client_secret: null
+  -
+    collection: ''
+    name: openid_connect.settings.google
+    data:
+      enabled: false
+      settings:
+        client_id: null
+        client_secret: null
+  -
+    collection: ''
+    name: openid_connect.settings.linkedin
+    data:
+      enabled: false
+      settings:
+        client_id: null
+        client_secret: null

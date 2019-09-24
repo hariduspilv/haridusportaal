@@ -1,0 +1,11 @@
+uuid: 71e1933a-645d-44d9-89ca-44d898146104
+langcode: et
+status: true
+dependencies:
+  module:
+    - telephone
+id: config_sync.module.telephone
+snapshotSet: config_sync
+extensionType: module
+extensionName: telephone
+items: {  }

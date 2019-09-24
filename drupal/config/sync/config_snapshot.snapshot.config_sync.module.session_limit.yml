@@ -1,0 +1,20 @@
+uuid: e37a361b-aa1b-4c18-bcdd-424f8716bea9
+langcode: et
+status: true
+dependencies:
+  module:
+    - session_limit
+id: config_sync.module.session_limit
+snapshotSet: config_sync
+extensionType: module
+extensionName: session_limit
+items:
+  -
+    collection: ''
+    name: session_limit.settings
+    data:
+      session_limit_max: 1
+      session_limit_masquerade_ignore: false
+      session_limit_behaviour: 0
+      session_limit_logged_out_message_severity: warning
+      session_limit_roles: {  }

@@ -1,0 +1,11 @@
+uuid: 5ab82960-df5d-451f-9a4f-f2c90742f912
+langcode: et
+status: true
+dependencies:
+  module:
+    - readonly_field_widget
+id: config_sync.module.readonly_field_widget
+snapshotSet: config_sync
+extensionType: module
+extensionName: readonly_field_widget
+items: {  }

@@ -1,0 +1,11 @@
+uuid: a046e0f8-8171-4db2-8b50-fc6454c87fea
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_admin
+id: config_sync.module.htm_custom_admin
+snapshotSet: config_sync
+extensionType: module
+extensionName: htm_custom_admin
+items: {  }

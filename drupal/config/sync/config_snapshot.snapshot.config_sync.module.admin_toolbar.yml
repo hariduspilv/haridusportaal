@@ -1,0 +1,11 @@
+uuid: b8efdefd-99d1-4751-8817-542be6430c41
+langcode: et
+status: true
+dependencies:
+  module:
+    - admin_toolbar
+id: config_sync.module.admin_toolbar
+snapshotSet: config_sync
+extensionType: module
+extensionName: admin_toolbar
+items: {  }
