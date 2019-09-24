@@ -409,6 +409,23 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
+  isFieldHidden(element): boolean {
+    if (element.hidden) {
+      return true;
+    }
+
+    if (element.depend_on) {
+      if (Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value.length) {
+        return true;
+      }
+      if (!Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   parseAcceptableExtentsions(list: string[]) {
     if (!list) {
       return '*/*';
@@ -460,8 +477,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.fileLoading[element] = true;
     const file = files[0];
     const file_size = this.byteToMegabyte(file.size);
-    if (file_size > size_limit) {
-      this.error[element] = { valid: false, message: this.translate.get('xjson.exceed_file_limit')['value'] };
+    if (file_size > size_limit || !model.acceptable_extensions.includes(file.name.split('.').pop())) {
+      this.error[element] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit')['value'] : this.translate.get('xjson.unacceptable_extension')['value']};
       files.shift();
       if (files.length > 0) {
         this.uploadFile(files, element);
@@ -668,8 +685,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   isValidField(field) {
     // check for required field
-    if (field.required === true) {
-      if (field.value === undefined || field.value === null || field.value === '') {
+    if (field.required === true && !this.isFieldHidden(field)) {
+      if (field.value === undefined || field.value === null || field.value === '' || (Array.isArray(field.value) && !field.value.length)) {
         return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
       }
     }
@@ -760,14 +777,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   validateForm(elements): void {
-    const NOT_FOR_VALIDATION = ['heading', 'helpertext',];
+    const NOT_FOR_VALIDATION = ['heading', 'helpertext'];
 
     for (const field in elements) {
       if (elements[field].type === 'table') {
         const validation = this.tableValidation(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
-          break;
+          continue;
         }
         if (!this.data_elements[field].value) {
           this.data_elements[field].value = [];
@@ -787,7 +804,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
-          break;
+          continue;
         }
 
         if (this.data_elements[field].type === 'number' && typeof this.data_elements[field].value === 'string') {
