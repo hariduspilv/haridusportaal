@@ -63,6 +63,11 @@ const storiesData = [
     title: 'Tulemused',
     path: '/oska-tulemused/tulemused-testimisel',
   },
+  {
+    type: 'school',
+    title: 'Õppeasutused',
+    path: '/kool/tallinna-tehnikaülikool',
+  },
 ];
 
 const storyData = (data) => {
