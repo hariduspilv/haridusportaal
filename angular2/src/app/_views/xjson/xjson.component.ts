@@ -512,7 +512,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
           file_name: file.name,
           file_identifier: response['id']
         };
-        console.log(model);
         model.value.push(new_file);
         files.shift();
         if (files.length > 0) {
