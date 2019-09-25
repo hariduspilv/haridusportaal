@@ -56,10 +56,10 @@
       </ul>
 
       <div *ngIf="upperInfoText" class="upper-infotext">
-          <span aria-hidden="true" innerHtml="{{ 'xjson.VPT_TAOTLUS_infotext' | translate }}"></span>
+          <span aria-hidden="true" innerHtml="{{ upperInfoText }}"></span>
           <hr class="divider">
       </div>
-      
+
       <ng-container *ngIf="!empty_data">
         <div *ngIf="!viewOnlyStep" class="upper-infotext">
             <span>{{ 'xjson.required_fields_infotext' | translate }}</span>
