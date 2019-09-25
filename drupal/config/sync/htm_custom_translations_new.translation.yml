@@ -800,10 +800,6 @@ xjson:
     translation_type: textarea
     et: 'Seda vormi saab täita ainult sisse logitud kasutaja. Palun logige sisse.'
     en: 'You must be logged in to see this form.'
-  required_fields_infotext:
-    translation_type: textarea
-    et: '* märgitud väljad on kohustuslikud'
-    en: '* fields are required'
   data_missing:
     translation_type: textarea
     et: 'Andmed puuduvad'
@@ -846,8 +842,20 @@ xjson:
     en: ''
   unacceptable_extension:
     translation_type: textarea
-    et: 'Üleslaetud faili tüüp pole lubatud'
+    et: 'Üles laaditud faili tüüp pole lubatud'
     en: ''
+  required_fields_infotext:
+    translation_type: textarea
+    et: '* märgitud väljad on kohustuslikud'
+    en: ''
+  VPT_TAOTLUS_infotext:
+    translation_type: text_format
+    et:
+      value: "<p>Kui teil on küsimusi vajaduspõhise õppetoetuse kohta, kirjutage aadressil&nbsp;oppetoetused@rtk.ee.&nbsp;<a href=\"https://www.rtk.ee/vajadusp%C3%B5hine-%C3%B5ppetoetusneeds-based-study-allowance\" target=\"_blank\">Täpsem info.</a></p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
 article:
   label:
     translation_type: textarea
