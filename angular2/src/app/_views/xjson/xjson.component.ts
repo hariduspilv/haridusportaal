@@ -937,7 +937,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   getUpperInfoText() {
     const infoTextTranslationKey = 'xjson.' + this.form_name + '_infotext';
     const infoTextTranslation = this.translate.get(infoTextTranslationKey)['value'];
-    this.upperInfoText = infoTextTranslation === infoTextTranslation ? false : infoTextTranslation;
+    this.upperInfoText = infoTextTranslation === infoTextTranslationKey ? false : infoTextTranslation;
   }
 
   getStepViewStatus() {
