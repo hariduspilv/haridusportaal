@@ -410,16 +410,26 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   isFieldHidden(element): boolean {
-    if (element.hidden) {
-      return true;
-    }
+    const model = this.data_elements[element];
 
-    if (element.depend_on) {
-      if (Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value.length) {
+    if (model) {
+      if (model.hidden) {
         return true;
       }
-      if (!Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value) {
-        return true;
+
+      if (model.depend_on) {
+        if (Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value.length) {
+          if (model.value) {
+            this.data_elements[element].value = [];
+          }
+          return true;
+        }
+        if (!Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value) {
+          if (this.data_elements[element].value) {
+            this.data_elements[element].value = '';
+          }
+          return true;
+        }
       }
     }
 
@@ -685,7 +695,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   isValidField(field) {
     // check for required field
-    if (field.required === true && !this.isFieldHidden(field)) {
+    if (field.required === true) {
       if (field.value === undefined || field.value === null || field.value === '' || (Array.isArray(field.value) && !field.value.length)) {
         return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
       }
@@ -800,7 +810,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           }
         }
 
-      } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
+      } else if (!NOT_FOR_VALIDATION.includes(elements[field].type) && !this.isFieldHidden(field)) {
         const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;

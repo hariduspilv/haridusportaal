@@ -80,7 +80,7 @@
           <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 
             <div [class]="data_elements[element].type != 'file' ? 'row' : 'file-row'"
-              *ngIf="!isFieldHidden(data_elements[element])">
+              *ngIf="!isFieldHidden(element)">
               <!-- Form elements -->
 
               <div class="col-12 xjson__component">
