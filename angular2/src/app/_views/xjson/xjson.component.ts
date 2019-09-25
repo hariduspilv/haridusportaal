@@ -53,6 +53,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public queryStrings = {};
   public fileLoading = {};
   public formLoading = false;
+  public upperInfoText;
 
   public lang: string;
   public form_name: string;
@@ -410,16 +411,22 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   isFieldHidden(element): boolean {
-    if (element.hidden) {
-      return true;
-    }
+    const model = this.data_elements[element];
 
-    if (element.depend_on) {
-      if (Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value.length) {
+    if (model) {
+      if (model.hidden) {
         return true;
       }
-      if (!Array.isArray(this.data_elements[element.depend_on].value) && !this.data_elements[element.depend_on].value) {
-        return true;
+
+      if (model.depend_on) {
+        if ((Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value.length) || (!Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value)) {
+          if (model.value && Array.isArray(model.value)) {
+            this.data_elements[element].value = [];
+          } else if (model.value && !Array.isArray(model.value)){
+            this.data_elements[element].value = '';
+          }
+          return true;
+        }
       }
     }
 
@@ -685,7 +692,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   isValidField(field) {
     // check for required field
-    if (field.required === true && !this.isFieldHidden(field)) {
+    if (field.required === true) {
       if (field.value === undefined || field.value === null || field.value === '' || (Array.isArray(field.value) && !field.value.length)) {
         return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
       }
@@ -800,7 +807,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           }
         }
 
-      } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
+      } else if (!NOT_FOR_VALIDATION.includes(elements[field].type) && !this.isFieldHidden(field)) {
         const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
@@ -923,16 +930,33 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.compileAcceptableFormList();
   }
 
+  getUpperInfoText() {
+    const infoTextTranslationKey = 'xjson.' + this.form_name + '_infotext';
+    const infoTextTranslation = this.translate.get(infoTextTranslationKey)['value'];
+    this.upperInfoText = infoTextTranslation === infoTextTranslationKey ? false : infoTextTranslation;
+  }
+
   getStepViewStatus() {
     this.viewOnlyStep = true;
     for (const [label, elem] of Object.entries(this.data_elements)) {
       if (elem['type'] === 'table') {
         this.scrollableTableDeterminant(label);
         this.tableVisibleColumns(label, elem['table_columns']);
+
+        for (const key in elem['table_columns']) {
+          if (this.viewOnlyStep) {
+            this.isViewOnlyStep(elem['table_columns'][key]);
+          }
+        }
+      } else if (this.viewOnlyStep) {
+          this.isViewOnlyStep(elem);
       }
-      if (this.viewOnlyStep && !(elem['hidden'] || elem['readonly'])) {
-        this.viewOnlyStep = false;
-      }
+    }
+  }
+
+  isViewOnlyStep(element) {
+    if (!(element['hidden'] || element['readonly'])) {
+      this.viewOnlyStep = false;
     }
   }
 
@@ -1039,6 +1063,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.data.body.steps) {
       this.numberOfSteps = Object.keys(xjson.body.steps).length;
     }
+
+    this.getUpperInfoText();
 
     if (this.data_elements) {
       // Count table elements and set initial settings
