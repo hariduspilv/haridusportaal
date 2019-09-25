@@ -55,10 +55,16 @@
         </li>
       </ul>
 
-      <ng-container *ngIf="!empty_data">
-        <span *ngIf="!viewOnlyStep">{{ 'xjson.required_fields_infotext' | translate }}</span>
+      <div *ngIf="upperInfoText" class="upper-infotext">
+          <span aria-hidden="true" innerHtml="{{ upperInfoText }}"></span>
+          <hr class="divider">
+      </div>
 
-        <hr class="divider">
+      <ng-container *ngIf="!empty_data">
+        <div *ngIf="!viewOnlyStep" class="upper-infotext">
+            <span>{{ 'xjson.required_fields_infotext' | translate }}</span>
+            <hr class="divider">
+        </div>
 
         <!-- STEP BODY -->
         <div class="row button-list button-list-top">
@@ -80,7 +86,7 @@
           <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 
             <div [class]="data_elements[element].type != 'file' ? 'row' : 'file-row'"
-              *ngIf="!isFieldHidden(data_elements[element])">
+              *ngIf="!isFieldHidden(element)">
               <!-- Form elements -->
 
               <div class="col-12 xjson__component">
