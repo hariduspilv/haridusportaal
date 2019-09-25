@@ -53,6 +53,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public queryStrings = {};
   public fileLoading = {};
   public formLoading = false;
+  public upperInfoText;
 
   public lang: string;
   public form_name: string;
@@ -933,16 +934,33 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.compileAcceptableFormList();
   }
 
+  getUpperInfoText() {
+    const infoTextTranslationKey = 'xjson.' + this.form_name + '_infotext';
+    const infoTextTranslation = this.translate.get(infoTextTranslationKey)['value'];
+    this.upperInfoText = infoTextTranslation === infoTextTranslation ? false : infoTextTranslation;
+  }
+
   getStepViewStatus() {
     this.viewOnlyStep = true;
     for (const [label, elem] of Object.entries(this.data_elements)) {
       if (elem['type'] === 'table') {
         this.scrollableTableDeterminant(label);
         this.tableVisibleColumns(label, elem['table_columns']);
+
+        for (const key in elem['table_columns']) {
+          if (this.viewOnlyStep) {
+            this.isViewOnlyStep(elem['table_columns'][key]);
+          }
+        }
+      } else if (this.viewOnlyStep) {
+          this.isViewOnlyStep(elem);
       }
-      if (this.viewOnlyStep && !(elem['hidden'] || elem['readonly'])) {
-        this.viewOnlyStep = false;
-      }
+    }
+  }
+
+  isViewOnlyStep(element) {
+    if (!(element['hidden'] || element['readonly'])) {
+      this.viewOnlyStep = false;
     }
   }
 
@@ -1049,6 +1067,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.data.body.steps) {
       this.numberOfSteps = Object.keys(xjson.body.steps).length;
     }
+
+    this.getUpperInfoText();
 
     if (this.data_elements) {
       // Count table elements and set initial settings
