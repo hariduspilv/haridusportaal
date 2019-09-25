@@ -419,14 +419,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
 
       if (model.depend_on) {
-        if (Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value.length) {
-          if (model.value) {
+        if ((Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value.length) || (!Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value)) {
+          if (model.value && Array.isArray(model.value)) {
             this.data_elements[element].value = [];
-          }
-          return true;
-        }
-        if (!Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value) {
-          if (this.data_elements[element].value) {
+          } else if (model.value && !Array.isArray(model.value)){
             this.data_elements[element].value = '';
           }
           return true;
