@@ -26,38 +26,57 @@ const moduleMetadata = {
 
 const notes = { markdown: detailViewMd };
 
-const storyData = (type) => {
-  const data = {
-    news: {
-      type: 'news',
-      path: '/uudised/henri-uudis-2019-09',
-    },
-    event: {
-      type: 'event',
-      path: '/s%C3%BCndmused/henri-s%C3%BCndmus-2019-09',
-    },
-    studyProgramme: {
-      type: 'studyProgramme',
-      path: '/erialad/arhitektuur',
-    },
-    profession: {
-      type: 'profession',
-      path: '/ametialad/ajakirjanik',
-    },
-  };
+const storiesData = [
+  {
+    type: 'news',
+    title: 'Uudis',
+    path: '/uudised/henri-uudis-2019-09',
+  },
+  {
+    type: 'event',
+    title: 'Sündmus',
+    path: '/s%C3%BCndmused/henri-s%C3%BCndmus-2019-09',
+  },
+  {
+    type: 'studyProgramme',
+    title: 'Eriala',
+    path: '/erialad/arhitektuur',
+  },
+  {
+    type: 'profession',
+    title: 'Ametiala',
+    path: '/ametialad/ajakirjanik',
+  },
+  {
+    type: 'field',
+    title: 'Valdkond',
+    path: '/valdkonnad/henri-valdkond-2019-09',
+  },
+  {
+    type: 'surveyPage',
+    title: 'Tööjõuprognoos',
+    // tslint:disable-next-line
+    path: '/tööjõuprognoos/eesti-tööturg-täna-ja-homme-milliseid-ameteid-ja-oskusi-tööturg-lähitulevikus-vajab',
+  },
+  {
+    type: 'resultPage',
+    title: 'Tulemused',
+    path: '/oska-tulemused/tulemused-testimisel',
+  },
+];
 
+const storyData = (data) => {
   return {
     moduleMetadata,
     props: {
-      data: data[type],
+      data,
     },
     template: detailViewHtml,
   };
 };
 
-const stories = storiesOf('Views', module);
+const stories = storiesOf('Detail views', module);
 
-stories.add('News', () => { return storyData('news'); }, { notes });
-stories.add('Event', () => { return storyData('event'); }, { notes });
-stories.add('Studyprogramme', () => { return storyData('studyProgramme'); }, { notes });
-stories.add('Profession', () => { return storyData('profession'); }, { notes });
+storiesData.forEach((item) => {
+  stories.add(item.title, () => { return storyData(item); }, { notes });
+});

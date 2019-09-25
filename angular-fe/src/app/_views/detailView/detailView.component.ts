@@ -63,6 +63,9 @@ export class DetailViewComponent {
       case 'event': title = 'event.label'; break;
       case 'studyProgramme': title = 'studyProgramme.label'; break;
       case 'profession': title = 'oskaProfessions.label'; break;
+      case 'field': title = 'oska.title_field'; break;
+      case 'surveyPage': title = 'oska.workforcePrognosis'; break;
+      case 'resultPage': title = 'oska.results'; break;
     }
 
     this.title = title;
@@ -79,6 +82,9 @@ export class DetailViewComponent {
       case 'event': queryKey = 'getEventSingle'; break;
       case 'studyProgramme': queryKey = 'studyProgrammeSingle'; break;
       case 'profession': queryKey = 'oskaMainProfessionDetailView'; break;
+      case 'field': queryKey = 'oskaFieldDetailView'; break;
+      case 'surveyPage': queryKey = 'oskaSurveyPageDetailView'; break;
+      case 'resultPage': queryKey = 'oskaResultPageDetailView'; break;
     }
 
     const path = this.settings.query(queryKey, variables);
@@ -86,6 +92,10 @@ export class DetailViewComponent {
     const subscription = this.http.get(path).subscribe((response) => {
       this.origData = response['data']['route']['entity'];
       this.data = FieldVaryService(response['data']['route']['entity']);
+      if (Array.isArray(this.data.video) && this.data.video.length > 1) {
+        this.data.additionalVideos = this.data.video.slice(1, 10);
+        this.data.video.splice(0, 1);
+      }
       this.loading = false;
       this.feedbackNid = this.data.nid;
       this.getSidebar();

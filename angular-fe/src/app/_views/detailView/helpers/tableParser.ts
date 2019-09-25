@@ -107,7 +107,6 @@ export const parseData = (data) => {
       }).map((item:string) => {
         return item.charAt(0).toUpperCase() + item.slice(1);
       }).join(', ');
-      console.log(value);
     }
 
     if (item.join) {

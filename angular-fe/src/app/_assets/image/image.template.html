@@ -1,2 +1,4 @@
-<img [src]="image.derivative.url" [title]="image.title" [alt]="image.alt" />
-<div class="image__title" *ngIf="image.title">{{ image.title }}</div>
+<div class="image__entity" *ngFor="let item of images">
+  <img [src]="item.derivative.url" [title]="item.title" [alt]="item.alt" />
+  <div class="image__title" *ngIf="item.title">{{ item.title }}</div>
+</div><!--/image__entity-->

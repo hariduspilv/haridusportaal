@@ -26,7 +26,13 @@
 
         <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 
-				<image *ngIf="data.image" [image]="data.image"></image>
+				<ng-container *ngIf="data.video">
+					<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
+				</ng-container>
+
+				<ng-container *ngIf="!data.video">
+					<image *ngIf="data.image" [image]="data.image"></image>
+				</ng-container>
 				
 				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
 
@@ -34,11 +40,15 @@
 
 				<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
 
-				<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
+				<ng-container *ngIf="data.video">
+					<image *ngIf="data.image" [image]="data.image"></image>
+				</ng-container>
+			
+				<htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 
 				<accordion *ngIf="data.accordion">
-					<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle">
-						<div [innerHTML]="item.entity.fieldBody.value"></div>
+					<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle">
+						<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
 					</accordion-item>
 				</accordion>
  

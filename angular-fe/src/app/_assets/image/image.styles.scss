@@ -24,5 +24,12 @@
         text-overflow: ellipsis;
       }
     }
+    &__entity{
+      display: block;
+      margin-bottom: 1.5rem;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
   }
 }

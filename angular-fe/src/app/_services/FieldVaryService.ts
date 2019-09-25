@@ -1,11 +1,11 @@
-
+// tslint:disable
 const requestMap = {
   tags: ['fieldArticleTags', 'fieldNewsTags', 'fieldTag', 'fieldMainProfessionTag'],
-  accordion: ['fieldNewsAccordion', 'fieldInfosystemAccordion', 'fieldMainProfessionAccordion'],
+  accordion: ['fieldNewsAccordion', 'fieldInfosystemAccordion', 'fieldMainProfessionAccordion', 'fieldOskaFieldAccordion', 'fieldSurveyPageAccordion'],
   shortDescription: ['fieldShortDescription', 'fieldDescriptionSummary', 'fieldIntroduction'],
   introductionText: ['fieldIntroductionText'],
   content: ['fieldContentText'],
-  image: ['fieldIntroductionImage', 'fieldLogo', 'fieldPicture', 'fieldMainProfessionPicture'],
+  image: ['fieldIntroductionImage', 'fieldLogo', 'fieldPicture', 'fieldMainProfessionPicture', 'fieldOskaFieldPicture', 'fieldSurveyPagePicture'],
   description: ['fieldNewsDescription', 'fieldDescription', 'body'],
   duration: ['fieldDuration'],
   title: ['entityLabel', 'FieldSchoolName'],
@@ -18,20 +18,19 @@ const requestMap = {
   webpage: ['FieldSchoolWebpageAddress', 'fieldWebpageLink'],
   url: ['entityUrl', 'EntityPath'],
   subtitle: ['fieldSubtitle'],
-  sidebar: ['fieldInfosystemSidebar', 'fieldSidebar'],
+  sidebar: ['fieldInfosystemSidebar', 'fieldSidebar', 'fieldOskaFieldSidebar', 'fieldSurveyPageSidebar'],
   fixedLabel: ['fieldFixedLabel'],
   indicator: ['reverseOskaMainProfessionOskaIndicatorEntity'],
   fillingBar: ['reverseOskaMainProfessionOskaFillingBarEntity'],
-  video: ['fieldNewsVideo', 'fieldOskaMainProfessionVideo'],
+  video: ['fieldNewsVideo', 'fieldOskaMainProfessionVideo', 'fieldOskaVideo', 'fieldSurveyPageVideo'],
   additionalImages: ['fieldAdditionalImages'],
   author: ['fieldAuthor'],
-  link: ['fieldNewsLink'],
-  links: ['fieldOskaMainProfessionLinks', 'fieldEventLink'],
+  links: ['fieldOskaMainProfessionLinks', 'fieldEventLink', 'fieldOskaWebPage', 'fieldNewsLink', 'fieldSurveyPageLink'],
   group: ['fieldEventGroup'],
-  attachmentFile: ['fieldOskaMainProfessionFile', 'fieldAttachmentFile'],
+  attachmentFile: ['fieldOskaMainProfessionFile', 'fieldAttachmentFile', 'fieldOskaAttachmentFile', 'fieldSurveyPageAttachment'],
   graph: ['fieldDynamicGraph'],
 };
-
+// tslint:enable
 export default(data) => {
   const tmp = {};
   Object.keys(data).forEach((item) => {

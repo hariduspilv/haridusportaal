@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'image',
@@ -9,6 +9,15 @@ import { Component, Input } from '@angular/core';
   },
 })
 
-export class ImageComponent {
-  @Input() image: [] = [];
+export class ImageComponent implements OnInit{
+  @Input() image: {} = {};
+  public images;
+
+  ngOnInit() {
+    if (!Array.isArray(this.image)) {
+      this.images = [this.image];
+    } else {
+      this.images = this.image;
+    }
+  }
 }
