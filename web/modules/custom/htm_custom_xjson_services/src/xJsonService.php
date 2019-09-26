@@ -405,7 +405,7 @@ class xJsonService implements xJsonServiceInterface {
                 if ($table) $additional_keys = ['width', 'acceptable_extensions'];
                 else $additional_keys = ['multiple', 'acceptable_extensions', 'max_size'];
                 /*TODO File check if array aswel*/
-                if ($element['value']) {
+                if ($element && $element['value']) {
                     if (is_array($element['value'])) {
                         foreach ($element['value'] as $value) {
                             if (!$value['file_name'] || !$value['file_identifier']) {
@@ -494,7 +494,7 @@ class xJsonService implements xJsonServiceInterface {
 
     public function searchDefinitionElement ($key, $array, $form_name = null) {
         $results = [];
-        if ($form_name) $array = $this->getEntityJsonObject($form_name, $entity_type);
+        if ($form_name) $array = $this->getEntityJsonObject($form_name);
         if (is_array($array)) {
             if (isset($array[$key])) {
                 $results[] = $array[$key];
