@@ -80,6 +80,7 @@ import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.comp
 import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 
 export function settingsProviderFactory(provider: SettingsService) {
@@ -199,6 +200,7 @@ const providers = [
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     Ng2GoogleChartsModule,
+    DeviceDetectorModule.forRoot(),
   ],
   exports: [...declarations, ...pipes, ...exports],
 })
