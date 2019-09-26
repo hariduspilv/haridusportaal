@@ -1,0 +1,39 @@
+<table htm-table>
+  <tr>
+    <td>{{ 'school.register_code_short' | translate }}</td>
+    <td>{{ data.fieldRegistrationCode }}</td>
+  </tr>
+  <tr *ngIf="types && types.length">
+    <td>{{ 'school.institution_type' | translate }}</td>
+    <td>
+      <div *ngFor="let type of types">
+        <span>{{ type.entityLabel }}</span>
+        <span *ngIf="type.children.length">(</span><span *ngFor="let child of type.children">{{child.entityLabel | titlecase}}</span><span *ngIf="type.children.length">)</span>
+      </div>
+    </td>
+  </tr>
+  <tr *ngIf="data.fieldOwnershipType">
+    <td>{{ 'school.ownership' | translate }}</td>
+    <td>{{ data.fieldOwnershipType.entity.name | titlecase }}</td>
+  </tr>
+  <tr *ngIf="data.teachingLanguage.length">
+    <td>{{ 'school.language' | translate }}</td>
+    <td>
+      <div *ngFor="let language of data.teachingLanguage">
+        {{ language.entity.name | titleCase }}
+      </div>
+    </td>
+  </tr>
+  <tr *ngIf="data.specialClass">
+    <td>{{ 'school.special_needs_long' | translate }}</td>
+    <td>
+      <span>{{ 'school.available' | translate | titlecase }}</span>
+    </td>
+  </tr>
+  <tr *ngIf="data.studentHome">
+    <td>{{ 'school.dormitory' | translate }}</td>
+    <td>
+      <span>{{ 'school.available' | translate | titlecase }}</span>
+    </td>
+  </tr>
+</table>

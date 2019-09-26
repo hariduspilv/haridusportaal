@@ -13,11 +13,32 @@ const moduleMetadata = {
 
 const stories = storiesOf('Assets', module);
 
-stories.add('List item', () => {
+const images = [
+  {
+    derivative: {
+      // tslint:disable-next-line
+      url: 'http://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2019-09/4.jpeg?itok=6nd3dmsR',
+    },
+    alt: 'Alt text',
+    title: 'Title text',
+  },
+  {
+    derivative: {
+      // tslint:disable-next-line
+      url: 'https://htm.wiseman.ee/sites/default/files/styles/crop_large/public/2019-04/4.9mb_1.jpg?itok=advang_9',
+    },
+    alt: 'Alt text 2',
+    title: 'Title text 2',
+  },
+];
+
+stories.add('Image', () => {
 
   return {
     moduleMetadata,
-    props: {},
+    props: {
+      images
+    },
     template: imageHtml,
   };
 },          {

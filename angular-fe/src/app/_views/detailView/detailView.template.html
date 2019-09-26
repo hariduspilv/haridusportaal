@@ -7,18 +7,13 @@
 
 	<block [loading]="loading" [titleBorder]="true" *ngIf="data">
 
-		<block-title>
-			{{ title | translate }}
-		</block-title>
-		<block-secondary-title>
-			{{ data.title }}
-		</block-secondary-title>
+		<block-title>{{ title | translate }}</block-title>
+		<block-secondary-title>{{ data.title }}</block-secondary-title>
 
 		<block-content>
       <ng-container>
-				<div class="author" *ngIf="data.author">
-					{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}
-				</div><!--/author-->
+
+				<div class="author" *ngIf="data.author">{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}</div>
 
 				<div class="toolbar">
 					<share [title]="title"></share>
@@ -26,54 +21,31 @@
 
         <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 
-				<ng-container *ngIf="data.video">
-					<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
-				</ng-container>
+				<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
 
-				<ng-container *ngIf="!data.video">
-					<image *ngIf="data.image" [image]="data.image"></image>
-				</ng-container>
+				<image *ngIf="!data.video && data.image" [image]="data.image"></image>
 				
-				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
+				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value | removeEmptyTags"></div>
 
 				<links *ngIf="data.links" [data]="data.links"></links>
 
 				<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
 
-				<ng-container *ngIf="data.video">
-					<image *ngIf="data.image" [image]="data.image"></image>
-				</ng-container>
+				<image *ngIf="data.video && data.image" [image]="data.image"></image>
 			
 				<htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 
 				<accordion *ngIf="data.accordion">
-					<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle">
+					<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
 						<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
 					</accordion-item>
 				</accordion>
  
-				<chart
-					*ngIf="data.graph"
-					[data]='data.graph'
-					type='filter'>
-				</chart>
+				<chart *ngIf="data.graph" [data]='data.graph' type='filter'></chart>
 
-				<table htm-table *ngIf="table" class="studyProgramme">
-					<thead>
-						<tr>
-							<th>{{ table[0].label }}</th>
-							<th>{{ table[0].value }}</th>
-						</tr>
-					</thead>
-					<tbody>
-						<ng-container *ngFor="let item of table; let i = index;" >
-							<tr *ngIf="i > 0">
-								<td>{{ table[i].label }}</td>
-								<td><b>{{ table[i].value }}</b></td>
-							</tr>
-						</ng-container>
-					</tbody>
-				</table>
+				<school-table *ngIf="type === 'school'" [data]="data"></school-table>
+
+				<studyProgramme-table *ngIf="type === 'studyProgramme'" [data]="origData"></studyProgramme-table>
 
 				<labels [data]="data.tags" *ngIf="data.tags"></labels>
 

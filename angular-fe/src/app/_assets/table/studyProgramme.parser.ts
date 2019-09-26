@@ -31,72 +31,72 @@ export const parseData = (data) => {
   const tableValues = [
     {
       key: 'fieldEducationalInstitution.entity.entityLabel',
-      label: 'Õppeasutuse nimi',
+      label: 'school.institution_name',
     },
     {
       key: 'fieldEducationalInstitution.entity.fieldRegistrationCode',
-      label: 'Registrikood',
+      label: 'school.register_code',
     },
     {
       key: 'fieldStudyProgrammeLevel.entity.entityLabel',
-      label: 'Õppekava tase',
+      label: 'studyProgramme.level',
     },
     {
       key: 'fieldDegreeOrDiplomaAwarded.entity.entityLabel',
-      label: 'Omistatav kraad või diplom',
+      label: 'studyProgramme.degree_or_diploma',
     },
     {
       key: 'fieldSpecialization',
-      label: 'Spetsialiseerumine',
+      label: 'studyProgramme.specialization',
     },
     {
       key: 'fieldIscedfBoard.entity.entityLabel',
-      label: 'Õppevaldkond',
+      label: 'studyProgramme.filter_iscedf_broad',
     },
     {
       key: 'fieldIscedfNarrow.entity.entityLabel',
-      label: 'Õppesuund',
+      label: 'studyProgramme.filter_iscedf_narrow',
     },
     {
       key: 'fieldIscedfDetailed.entity.entityLabel',
-      label: 'Õppekavarühm',
+      label: 'studyProgramme.filter_iscedf_detailed',
     },
     {
       key: 'fieldShortDescription',
-      label: 'Lühikirjeldus',
+      label: 'studyProgramme.introduction',
     },
     {
       key: 'fieldTeachingLanguage',
-      label: 'Õppekeel(ed)',
+      label: 'studyProgramme.languages',
     },
     {
       key: 'fieldAmount',
-      label: 'Õppekava maht',
+      label: 'studyProgramme.study_capacity',
       join: 'fieldAmountUnit',
     },
     {
       key: 'fieldPracticalTrainingAmount',
-      label: 'Praktika maht',
+      label: 'studyProgramme.internship_capacity',
       join: 'fieldAmountUnit',
     },
     {
       key: 'fieldDuration',
-      label: 'Nominaalkestus',
+      label: 'studyProgramme.nominal_time',
       transform: 'toYears',
     },
     {
       key: 'fieldAdmissionStatus',
-      label: 'Vastuvõtu olek',
+      label: 'studyProgramme.admission_status',
     },
     {
       key: 'fieldWebPageAddress.uri',
-      label: 'Õppekava kirjeldava veebilehe aadress',
+      label: 'studyProgramme.describing_website',
       transform: 'link',
       linkLabel: 'Vaata õppekava kirjeldust õppeasutuse veebilehel',
     },
     {
       key: 'fieldQualificationStandardId',
-      label: 'Kutsestandard(id)',
+      label: 'studyProgramme.qualification_standards',
     },
   ].map((item) => {
     let value: any = findObj(data, item.key);

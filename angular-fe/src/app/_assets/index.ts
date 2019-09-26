@@ -14,7 +14,7 @@ import { IconComponent } from './icon';
 import { BreadcrumbsComponent } from './breadcrumbs';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
-import { TableComponent } from './table';
+import { TableComponent, SchoolTable, StudyProgrammeTable } from './table';
 import { AlertsComponent } from './alerts';
 import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
@@ -87,6 +87,7 @@ export function settingsProviderFactory(provider: SettingsService) {
 }
 import { ImageComponent } from './image';
 import { LinksComponent } from './links';
+import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -96,6 +97,7 @@ const pipes = [
   EuroCurrencyPipe,
   LocaleNumberPipe,
   TitleCasePipe,
+  RemoveEmptyTagsPipe,
 ];
 
 const declarations = [
@@ -113,6 +115,8 @@ const declarations = [
   AccordionComponent,
   AccordionItemComponent,
   TableComponent,
+  SchoolTable,
+  StudyProgrammeTable,
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,

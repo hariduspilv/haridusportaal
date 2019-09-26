@@ -65,9 +65,14 @@ const storiesData = [
   },
   {
     type: 'school',
-    title: 'Õppeasutused',
+    title: 'Õppeasutus',
     path: '/kool/tallinna-tehnikaülikool',
   },
+  {
+    type: 'article',
+    title: 'Artikkel',
+    path: '/artiklid/artikkel-mugudest',
+  }
 ];
 
 const storyData = (data) => {
