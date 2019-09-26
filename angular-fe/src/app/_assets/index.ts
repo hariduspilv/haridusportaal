@@ -73,13 +73,14 @@ import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
-import { InfoSystemComponent } from './infoSystem/infoSystem.component';
 import { SearchResultsComponent } from './searchResults';
 import { SettingsService } from '@app/_services/SettingsService';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
+import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
+import { DashboardComponent } from '@app/_views/dashboard/dashboard.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -150,6 +151,7 @@ const declarations = [
   UrlPipe,
   SearchResultsComponent,
   NewsComponent,
+  DashboardComponent,
 ];
 
 const exports = [
