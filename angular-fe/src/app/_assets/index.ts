@@ -81,6 +81,9 @@ import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
 import { DashboardComponent } from '@app/_views/dashboard/dashboard.component';
+import { TableService } from '@app/_services/tableService';
+import { RootScopeService } from '@app/_services/rootScopeService';
+import { ApplicationsComponent } from './applications/applications.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -152,6 +155,7 @@ const declarations = [
   SearchResultsComponent,
   NewsComponent,
   DashboardComponent,
+  ApplicationsComponent,
 ];
 
 const exports = [
@@ -167,6 +171,9 @@ const providers = [
   SidebarService,
   ClipboardService,
   SettingsService,
+  RootScopeService,
+  AlertsService,
+  TableService,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',
