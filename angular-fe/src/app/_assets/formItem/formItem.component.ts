@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RippleService } from '@app/_services';
 import conf from '@app/_core/conf';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 export interface FormItemOption {
   key: 'string';
@@ -72,12 +73,16 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   public filledField: boolean = false;
   public focused: boolean = false;
   public patterns: Object;
+  public isMobile: boolean;
+
   constructor(
     private el: ElementRef,
     private ripple: RippleService,
     private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService,
   ) {
     this.patterns = conf.patterns;
+    this.isMobile = !this.deviceService.isDesktop();
   }
 
   animateRipple($event) {
