@@ -16,6 +16,11 @@ export const formItems = [
     errorMessage: 'Please fill this field!',
   },
   {
+    type: 'number',
+    title: 'Number field',
+    errorMessage: 'Please fill this field!',
+  },
+  {
     type: 'date',
     title: 'Datepicker field Datepicker field Datepicker field Datepicker field Datepicker field',
     placeholder: 'pp.kk.aaaa',

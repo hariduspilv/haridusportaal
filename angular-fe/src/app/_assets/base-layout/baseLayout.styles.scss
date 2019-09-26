@@ -3,23 +3,35 @@
 
 :host {
   display: grid;
+  display: -ms-grid;
+  overflow-y: auto;
   background-color: $light-gray;
   position: relative;
   grid-template-areas: 'header header header header'
                        'sidemenu content content .'
                        'sidemenu content content .';
-  grid-template-columns: 0 1fr;
+  grid-template-columns: 0 1fr 1fr;
+  -ms-grid-columns: 0 1fr 1fr;
   height: 100vh;
   overflow: hidden;
   @include break-on(sm, min) {
     grid-template-columns: 16.25rem 1fr;
+    -ms-grid-columns: 16.25rem 1fr;
   }
-  grid-template-rows: 4rem 1fr;
+  grid-template-rows: 4rem 1fr 1fr;
   main {
     box-sizing: border-box;
     grid-area: content;
-    padding: 1rem;
+    display: block;
+    -ms-grid-row: 2; 
+    -ms-grid-row-span: 2; 
+    -ms-grid-column: 2; 
+    -ms-grid-column-span:2;
+    padding: 0;
     overflow-y: scroll;
     min-height: 100%;
+    @include break-on(sm, min) {
+      padding: 1rem;
+    }
   }
 }

@@ -2,22 +2,22 @@
 	<breadcrumbs [data]="breadcrumbsData"></breadcrumbs>
 	<block titleBorder="true">
 		<block-title>
-			{{ 'oskaProfessions.fieldsCompare' | translate | uppercase }}
+			{{ 'oskaProfessions.fields' | translate | uppercase }}
 		</block-title>
-		<block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="maximize-2">
+		<block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid">
+			...
+		</block-content>
+		<block-content [active]="true" tabLabel="{{ 'oska.data' | translate }}" tabIcon="maximize-2">
 			<ng-container *ngFor="let item of viewData.entities">
 				<h1 *ngIf="item.title">{{item.title}}</h1>
 				<p *ngIf="item.fieldIntroduction">{{item.fieldIntroduction}}</p>
 				<chart *ngIf="item.fieldDynamicGraph"
 					[data]="item.fieldDynamicGraph"
 					type="filter"
-					wide="true"
+					[wide]="true"
 					height="700">
 				</chart>
 			</ng-container>
-		</block-content>
-		<block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid">
-			...
 		</block-content>
 		<block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin">
 			...

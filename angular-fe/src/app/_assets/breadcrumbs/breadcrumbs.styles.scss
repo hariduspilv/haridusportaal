@@ -1,10 +1,14 @@
 @import "typography.scss";
+@import "breakpoints.scss";
 
 :host {
 	display: block;
 	font-size: .875rem;
 	line-height: 1rem;
 	margin-bottom: 1rem;
+	@include break-on(sm, max) {
+		display: none;
+	}
 }
 
 ul,

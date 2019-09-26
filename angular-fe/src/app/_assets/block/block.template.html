@@ -1,9 +1,17 @@
 <ng-container *ngIf="!loading">
   <div class="block__title" [class.block__title--border]="titleBorder" *ngIf="hasTitle">
-    <div class="block__title__text">
-      <ng-content select="block-title"></ng-content>
-    </div><!--/block__title__text-->
-    <div class="block__title__tabs" *ngIf="labeledTabs > 0">
+    <div class="block__title__container">
+      <div class="block__title__text">
+        <ng-content select="block-title"></ng-content>
+      </div>
+      <!--/block__title__text-->
+      <h1 class="block__title__secondary__text">
+        <ng-content select="block-secondary-title"></ng-content>
+      </h1>
+      <!--/block__title__middle__text-->
+    </div>
+    <div class="block__title__tabs" *ngIf="labeledTabs > 0 && tabStyle === 'default' ">
+      <ng-content select="block-tabs"></ng-content>
       <ng-container *ngFor="let tab of tabs">
         <button (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
           <span class="button__contents">
@@ -11,21 +19,42 @@
               <icon [glyph]="tab.tabIcon"></icon>
             </ng-container>
             {{ tab.tabLabel }}
-          </span><!--/button__contents-->
+          </span>
+          <!--/button__contents-->
         </button>
       </ng-container>
-    </div><!--/block__title__Tabs-->
-  </div><!--/title-area-->
-
+    </div>
+    <!--/block__title__Tabs-->
+  </div>
+  <!--/title-area-->
+  <div class="block__title__middle-tabs" *ngIf="labeledTabs > 0 && tabStyle === 'middle' ">
+    <ng-content select="block-tabs"></ng-content>
+    <ng-container *ngFor="let tab of tabs">
+      <button (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+        <span class="button__contents">
+          <ng-container *ngIf="tab.tabIcon">
+            <icon [glyph]="tab.tabIcon"></icon>
+          </ng-container>
+          <div class="title">{{ tab.tabLabel }}</div>
+        </span>
+        <!--/button__contents-->
+      </button>
+    </ng-container>
+  </div>
+  <!--/block__title__middle-tabs-->
   <ng-content select="block-content"></ng-content>
 </ng-container>
 
 <ng-container *ngIf="loading">
   <div class="block__title" [class.block__title--border]="titleBorder" *ngIf="hasTitle">
     <div class="block__title__text">
-      <block-title><skeleton type="line"></skeleton></block-title>
-    </div><!--/block__title__text-->
-  </div><!--/title-area-->
+      <block-title>
+        <skeleton type="line"></skeleton>
+      </block-title>
+    </div>
+    <!--/block__title__text-->
+  </div>
+  <!--/title-area-->
   <div class="block__content">
     <skeleton type="article"></skeleton>
   </div>

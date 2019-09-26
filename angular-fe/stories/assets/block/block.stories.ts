@@ -49,6 +49,15 @@ stories.add('Block', () => {
       display: 'inline-radio',
     });
 
+  const tabStyle = select(
+    'Tab style',
+    {
+      Default: 'default',
+      Middle: 'middle',
+    },
+    'default',
+  );
+
   const title = options(
     'Title',
     {
@@ -75,13 +84,15 @@ stories.add('Block', () => {
     moduleMetadata,
     props: {
       theme,
+      tabStyle,
       loading,
       titleBorder,
       tabs,
       title,
     },
     template: `
-      <block [titleBorder]="titleBorder == 'yes'" [theme]="theme" [loading]="loading == 'yes'"
+      <block [titleBorder]="titleBorder == 'yes'" [tabStyle]="tabStyle"
+      [theme]="theme" [loading]="loading == 'yes'"
       *ngIf="tabs == 'yes' && title == 'yes'">
         <block-title>
           Kasti pealkiri läheb siia

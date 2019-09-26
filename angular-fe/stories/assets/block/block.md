@@ -35,6 +35,7 @@
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | theme | blue | blue, yellow | string | Block top border color
+| tabStyle | default | default, middle | string | Block tab positioning and style
 | titleBorder | true | true, false | boolean | Visibility of titles border
 | loading | false | true, false | boolean | Shows loading skeleton
 

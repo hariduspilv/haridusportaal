@@ -32,10 +32,11 @@ export class SidebarComponent {
     this.keys = Object.keys(this.mappedData);
   }
   // Storybook data change
-  ngOnChanges() {
+/*   ngOnChanges() {
+    this.blocks = this.sidebarService.getBlockField(this.data);
     this.mappedData = this.sidebarService.mapUniformKeys(this.data);
     this.keys = Object.keys(this.mappedData);
-  }
+  } */
 }
 // Subcomponents
 @Component({

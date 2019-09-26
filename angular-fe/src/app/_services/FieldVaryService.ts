@@ -1,9 +1,11 @@
 
 const requestMap = {
   tags: ['fieldArticleTags', 'fieldNewsTags', 'fieldTag'],
-  accordion: ['fieldNewsAccordion'],
+  accordion: ['fieldNewsAccordion', 'fieldInfosystemAccordion'],
   shortDescription: ['fieldShortDescription'],
-  image: ['fieldIntroductionImage'],
+  introductionText: ['fieldIntroductionText'],
+  content: ['fieldContentText'],
+  image: ['fieldIntroductionImage', 'fieldLogo'],
   duration: ['fieldDuration'],
   title: ['entityLabel', 'FieldSchoolName'],
   head: ['fieldStudyProgrammeLevel', 'FieldEducationalInstitutionTy'],
@@ -12,10 +14,11 @@ const requestMap = {
   teachingLanguage: ['fieldTeachingLanguage'],
   phone: ['FieldSchoolContactPhone'],
   email: ['FieldSchoolContactEmail'],
-  webpage: ['FieldSchoolWebpageAddress'],
-  url: ['entityUrl'],
+  webpage: ['FieldSchoolWebpageAddress', 'fieldWebpageLink'],
+  url: ['entityUrl', 'EntityPath'],
+  subtitle: ['fieldSubtitle'],
+  sidebar: ['fieldInfosystemSidebar', 'fieldSidebar'],
   fixedLabel: ['fieldFixedLabel'],
-  sidebar: ['fieldSidebar'],
   indicator: ['reverseOskaMainProfessionOskaIndicatorEntity'],
   fillingBar: ['reverseOskaMainProfessionOskaFillingBarEntity'],
 };

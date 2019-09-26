@@ -1,4 +1,4 @@
-<ng-container *ngIf="mappedData">
+<ng-container *ngIf="mappedData || blocks">
   <ng-container *ngFor="let keyVal of keys">
     <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
       <block-title *ngIf="!titleLess[collection[keyVal]]">{{ keyVal | translate }}</block-title>
