@@ -275,6 +275,7 @@ public class VPTWorker extends Worker {
 
         ObjectNode stepOneDataElements = ((ObjectNode) jsonNode.get("body").get("steps"))
             .putObject("step_1").putObject("data_elements");
+        stepOneDataElements.putObject("step1h2").put("hidden", !response.getHoolealuneKuva());
         stepOneDataElements.putObject("custody").put("value", false)
             .put("hidden", !response.getHoolealuneKuva());
         ArrayNode familyMembersPopulationRegister = stepOneDataElements
