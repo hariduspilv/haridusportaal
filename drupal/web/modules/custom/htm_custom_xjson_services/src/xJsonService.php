@@ -352,9 +352,6 @@ class xJsonService implements xJsonServiceInterface {
         $additional_keys = [];
         switch ($element_type) {
             case 'heading':
-              dump($element);
-              die();
-              break;
             case 'iban':
             case 'helpertext':
                 $acceptable_keys = ['type', 'title'];
