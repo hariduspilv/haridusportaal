@@ -353,6 +353,7 @@ class xJsonService implements xJsonServiceInterface {
         switch ($element_type) {
             case 'heading':
               dump($element);
+              die();
               break;
             case 'iban':
             case 'helpertext':
