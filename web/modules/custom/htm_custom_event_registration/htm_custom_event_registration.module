@@ -152,11 +152,11 @@ function htm_custom_event_registration_cron() {
  * @return array
  */
 function _get_event_dates($event){
-	#dump($event);
+
 	$last_event_date = 0;
 	$first_event_date = strtotime('now');
 	foreach($event->field_event_main_date->getValue() as $event_date){
-		$unix_event_date = strtotime($event_date->entity->field_event_main_date->value);
+		$unix_event_date = strtotime($event_date['value']);
 		$last_event_date = ($unix_event_date >= $last_event_date)
 			? $unix_event_date
 			: $last_event_date;
