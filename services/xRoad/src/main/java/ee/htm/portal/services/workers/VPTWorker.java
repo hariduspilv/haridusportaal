@@ -275,7 +275,8 @@ public class VPTWorker extends Worker {
 
         ObjectNode stepOneDataElements = ((ObjectNode) jsonNode.get("body").get("steps"))
             .putObject("step_1").putObject("data_elements");
-        stepOneDataElements.putObject("custody").put("value", response.getHoolealuneKuva());
+        stepOneDataElements.putObject("custody").put("value", false)
+            .put("hidden", !response.getHoolealuneKuva());
         ArrayNode familyMembersPopulationRegister = stepOneDataElements
             .putObject("family_members_population_register").putArray("value");
         ArrayNode familyMembersEntered = stepOneDataElements.putObject("family_members_entered")
@@ -443,7 +444,7 @@ public class VPTWorker extends Worker {
             .put("hidden", !isSetDataMissing.get());
         stepTwoDataElements.putObject("family_members_income_proof")
             .put("required", isSetDataMissing.get())
-//            .put("hidden", !isSetDataMissing.get())
+            .put("hidden", !isSetDataMissing.get())
             .putArray("value");
 
         stepTwoDataElements.putObject("family_members_nonresident_income")
@@ -454,7 +455,7 @@ public class VPTWorker extends Worker {
             .put("hidden", !isSetNonresident.get());
         stepTwoDataElements.putObject("family_members_nonresident_income_proof")
             .put("required", isSetNonresident.get())
-//            .put("hidden", !isSetNonresident.get())
+            .put("hidden", !isSetNonresident.get())
             .putArray("value");
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_2")).putArray("messages");
