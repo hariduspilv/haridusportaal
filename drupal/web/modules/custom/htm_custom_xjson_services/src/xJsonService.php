@@ -342,9 +342,7 @@ class xJsonService implements xJsonServiceInterface {
         //Sort table values
         if ($element_type === 'table') $element_def = $this->sortTableValues($element_def);
         #dump($element_def);
-      if($element_type === 'heading'){
-        dump($this->validateDataElement($element_def));
-      }
+
         return ($this->validateDataElement($element_def)) ? $element_def : [];
     }
 
@@ -357,7 +355,7 @@ class xJsonService implements xJsonServiceInterface {
             case 'heading':
             case 'iban':
             case 'helpertext':
-                $acceptable_keys = ['type', 'title'];
+                $acceptable_keys = ['type', 'title', 'hidden'];
                 break;
             case 'text':
                 $additional_keys = ['width', 'maxlength', 'minlength'];
