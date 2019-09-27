@@ -1357,6 +1357,10 @@ school:
     translation_type: textarea
     et: 'Õppeasutuse alamtase puudub'
     en: 'Õppeasutuse alamtase puudub-eng'
+  institution_name:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi'
+    en: 'Institution name'
 studyProgramme:
   label:
     translation_type: textarea
@@ -1510,6 +1514,18 @@ studyProgramme:
     translation_type: textarea
     et: 'Kestuse järgi kahanevalt'
     en: 'Kestuse järgi kahanevalt-eng'
+  introduction:
+    translation_type: textarea
+    et: Lühikirjeldus
+    en: Introduction
+  describing_website:
+    translation_type: textarea
+    et: 'Õppekava kirjeldava veebilehe aadress'
+    en: 'Studyprogramme link'
+  qualification_standards:
+    translation_type: textarea
+    et: Kutsestandard(id)
+    en: 'Qualification standard(s)'
 login:
   username:
     translation_type: textarea
