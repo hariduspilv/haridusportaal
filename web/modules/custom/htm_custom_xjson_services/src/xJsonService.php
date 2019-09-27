@@ -406,18 +406,18 @@ class xJsonService implements xJsonServiceInterface {
                 else $additional_keys = ['multiple', 'acceptable_extensions', 'max_size'];
                 /*TODO File check if array aswel*/
                 if ($element && $element['value']) {
-                    if (is_array($element['value'])) {
-                        foreach ($element['value'] as $value) {
-                            if (!$value['file_name'] || !$value['file_identifier']) {
-                                $valid = false;
-                            }
-                        }
-                    } else {
-                        if (!$element['value']['file_name'] || !$element['value']['file_identifier']) {
-                            $valid = false;
-                        }
+                  if (is_array($element['value'])) {
+                    foreach ($element['value'] as $value) {
+                      if (!$value['file_name'] || !$value['file_identifier']) {
+                        $valid = false;
+                      }
                     }
-
+                  } else {
+                    if (!$element['value']['file_name'] || !$element['value']['file_identifier']) {
+                      $valid = false;
+                    }
+                  }
+                }
 
                 if(!$table && (!isset($element['max_size']) || $element['max_size'] > ini_get('upload_max_filesize'))){
                     $element['max_size'] = intval(preg_replace('/\D/', '', ini_get('upload_max_filesize')));
