@@ -2,14 +2,16 @@ import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import { ClipboardService } from 'ngx-clipboard';
 import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'share',
   templateUrl: 'share.template.html',
   styleUrls: ['share.styles.scss'],
   host: {
-    '(mouseenter)': 'hostFocused(true)',
-    '(mouseleave)': 'hostBlurred(true)',
+    '(mouseenter)': 'hostFocused(true, $event)',
+    '(mouseleave)': 'hostBlurred(true, $event)',
+    '(touchstart)': 'hostFocused(true, $event)',
   },
 })
 
@@ -28,6 +30,7 @@ export class ShareComponent {
     private clipboardService: ClipboardService,
     private alertsService: AlertsService,
     private translateService: TranslateService,
+    private device: DeviceDetectorService,
   ) {}
 
   public share ($event: Event, type: string) {
@@ -52,15 +55,18 @@ export class ShareComponent {
     return window.open(shareLink, 'targetWindow', shareWindow);
   }
 
-  public hostFocused(hover: boolean = false): void {
+  public hostFocused(hover: boolean = false, $event:any = false): void {
     if (hover) {
       this.isHovered = true;
     } else {
       this.isFocused = true;
     }
+    if ($event && !this.isHovered) {
+      $event.preventDefault();
+    }
   }
 
-  public hostBlurred(hover: boolean = false): void {
+  public hostBlurred(hover: boolean = false, $event:any = false): void {
     if (hover) {
       this.isHovered = false;
     } else {
@@ -76,9 +82,10 @@ export class ShareComponent {
       true,
       false,
     );
-    this.clipboardService.copyFromContent(this.copyLink);
     this.isFocused = false;
     this.isHovered = false;
+    this.clipboardService.copyFromContent(this.copyLink);
+
   }
 
 }
