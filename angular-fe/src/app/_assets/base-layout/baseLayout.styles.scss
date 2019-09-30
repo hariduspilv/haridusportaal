@@ -11,8 +11,7 @@
                        'content content .';
   grid-template-columns: 0 1fr;
   -ms-grid-columns: 0 1fr 1fr;
-  height: 100vh;
-  overflow: hidden;
+  min-height: 100vh;
   @include break-on(sm, min) {
     grid-template-columns: 16.25rem 1fr;
     -ms-grid-columns: 16.25rem 1fr;
