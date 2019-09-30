@@ -5,10 +5,6 @@
         <ng-content select="block-title"></ng-content>
       </div>
       <!--/block__title__text-->
-      <h1 class="block__title__secondary__text">
-        <ng-content select="block-secondary-title"></ng-content>
-      </h1>
-      <!--/block__title__middle__text-->
     </div>
     <div class="block__title__tabs" *ngIf="labeledTabs > 0 && tabStyle === 'default' ">
       <ng-content select="block-tabs"></ng-content>
@@ -42,20 +38,16 @@
     </ng-container>
   </div>
   <!--/block__title__middle-tabs-->
+  <h1 class="block__title__secondary__text" *ngIf="hasSecondaryTitle">
+    <ng-content select="block-secondary-title"></ng-content>
+  </h1>
+  <!--/block__title__middle__text-->
   <ng-content select="block-content"></ng-content>
 </ng-container>
 
 <ng-container *ngIf="loading">
-  <div class="block__title" [class.block__title--border]="titleBorder" *ngIf="hasTitle">
-    <div class="block__title__text">
-      <block-title>
-        <skeleton type="line"></skeleton>
-      </block-title>
-    </div>
-    <!--/block__title__text-->
-  </div>
-  <!--/title-area-->
   <div class="block__content">
+    
     <skeleton type="article"></skeleton>
-  </div>
+  </div><!--/block__content-->
 </ng-container>

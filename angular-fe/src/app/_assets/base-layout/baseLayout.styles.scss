@@ -7,10 +7,9 @@
   overflow-y: auto;
   background-color: $light-gray;
   position: relative;
-  grid-template-areas: 'header header header header'
-                       'sidemenu content content .'
-                       'sidemenu content content .';
-  grid-template-columns: 0 1fr 1fr;
+  grid-template-areas: 'content content .'
+                       'content content .';
+  grid-template-columns: 0 1fr;
   -ms-grid-columns: 0 1fr 1fr;
   height: 100vh;
   overflow: hidden;

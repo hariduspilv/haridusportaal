@@ -69,10 +69,10 @@ stories.add('Certificate check', () => {
   const result = select(
     'Request result',
     {
-      success: true,
-      error: false,
+      success: 'true',
+      error: 'false',
     },
-    true,
+    'true',
   );
   const alerts = [];
   const fieldSum = function () {

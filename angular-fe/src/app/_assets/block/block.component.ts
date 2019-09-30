@@ -8,6 +8,8 @@ import {
   AfterContentInit,
   OnInit,
   ChangeDetectorRef,
+  OnChanges,
+  forwardRef,
 } from '@angular/core';
 
 @Component({
@@ -79,7 +81,7 @@ export class BlockTabsComponent {}
   styleUrls: ['./block.styles.scss'],
 })
 
-export class BlockComponent implements AfterContentInit{
+export class BlockComponent implements AfterContentInit, OnChanges{
 
   @Input() loading: boolean = false;
 
@@ -96,9 +98,12 @@ export class BlockComponent implements AfterContentInit{
     return `block--${this.theme}`;
   }
 
-  @ContentChildren(BlockContentComponent) tabs: QueryList<BlockContentComponent>;
-  @ContentChildren(BlockTitleComponent) titleComponent: QueryList<BlockTitleComponent>;
-  @ContentChildren(BlockSecondaryTitleComponent) secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
+  @ContentChildren(forwardRef(() => BlockContentComponent))
+    tabs: QueryList<BlockContentComponent>;
+  @ContentChildren(forwardRef(() => BlockTitleComponent))
+    titleComponent: QueryList<BlockTitleComponent>;
+  @ContentChildren(forwardRef(() => BlockSecondaryTitleComponent))
+    secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
 
   @Input() theme: string = 'blue';
   @Input() titleBorder: boolean = false;
@@ -122,28 +127,48 @@ export class BlockComponent implements AfterContentInit{
   }
 
   checkTitle() {
-    if (this.titleComponent.toArray().length > 0) {
-      this.hasTitle = true;
-    }
+    try {
+      if (this.titleComponent.toArray().length > 0) {
+        this.hasTitle = true;
+      } else {
+        this.hasTitle = false;
+      }
+    } catch (err) {}
   }
 
   checkSecondaryTitle() {
-    if (this.secondaryTitleComponent.toArray().length > 0) {
-      this.hasSecondaryTitle = true;
-    }
+    try {
+      if (this.secondaryTitleComponent.toArray().length > 0) {
+        this.hasSecondaryTitle = true;
+      } else {
+        this.hasSecondaryTitle = false;
+      }
+    } catch (err) {}
+  }
+
+  private contentInit() {
+    try {
+      const activeTabs = this.tabs.filter(tab => tab.active);
+
+      if (activeTabs.length === 0) {
+        this.selectTab(this.tabs.first);
+      }   else {
+        this.activeTab = activeTabs[0].tabLabel;
+      }
+      this.countLabels();
+    } catch (err) {}
+
+    this.checkTitle();
+    this.checkSecondaryTitle();
   }
 
   ngAfterContentInit() {
-    const activeTabs = this.tabs.filter(tab => tab.active);
+    this.contentInit();
+  }
 
-    if (activeTabs.length === 0) {
-      this.selectTab(this.tabs.first);
-    }   else {
-      this.activeTab = activeTabs[0].tabLabel;
-    }
-
-    this.countLabels();
-    this.checkTitle();
+  ngOnChanges() {
+    this.cdr.detectChanges();
+    this.contentInit();
   }
 
 }

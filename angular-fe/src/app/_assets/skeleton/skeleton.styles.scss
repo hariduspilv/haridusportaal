@@ -2,10 +2,13 @@
 
 .line {
 	background: $gray;
-	height: 19px;
+	height: 1.1875rem;
 	width: 100%;
 	animation: blokkFade 2s infinite;
-	margin-bottom: 17px;
+	margin-bottom: 1.0625rem;
+	&:last-child{
+		margin-bottom :0;
+	}
 }
 
 .image {
@@ -15,7 +18,10 @@
 	position: relative;
 	z-index: 2;
 	animation: blokkFade 2s infinite;
-	margin-bottom: 17px;
+	margin-bottom: 1.0625rem;
+	&:last-child{
+		margin-bottom :0;
+	}
 }
 
 @keyframes blokkFade {

@@ -1,0 +1,57 @@
+<article-layout [sidebar]="sidebar" [feedbackNid]="feedbackNid">
+
+	<breadcrumbs [path]="path"></breadcrumbs>
+
+	<block [loading]="true" *ngIf="!data">
+	</block>
+
+	<block [loading]="loading" [titleBorder]="true" *ngIf="data">
+
+		<block-title>{{ title | translate }}</block-title>
+		<block-secondary-title>{{ data.title }}</block-secondary-title>
+
+		<block-content>
+      <ng-container>
+
+				<div class="author" *ngIf="data.author">{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}</div>
+
+				<div class="toolbar">
+					<share [title]="title"></share>
+				</div><!--/toolbar-->
+
+        <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
+
+				<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
+
+				<image *ngIf="!data.video && data.image" [image]="data.image"></image>
+				
+				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value | removeEmptyTags"></div>
+
+				<links *ngIf="data.links" [data]="data.links"></links>
+
+				<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
+
+				<image *ngIf="data.video && data.image" [image]="data.image"></image>
+			
+				<htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
+
+				<accordion *ngIf="data.accordion">
+					<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
+						<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
+					</accordion-item>
+				</accordion>
+ 
+				<chart *ngIf="data.graph" [data]='data.graph' type='filter'></chart>
+
+				<school-table *ngIf="type === 'school'" [data]="data"></school-table>
+
+				<studyProgramme-table *ngIf="type === 'studyProgramme'" [data]="origData"></studyProgramme-table>
+
+				<labels [data]="data.tags" *ngIf="data.tags"></labels>
+
+				<feedback [nid]="data.nid"></feedback>
+
+      </ng-container>
+		</block-content>
+	</block>
+</article-layout>

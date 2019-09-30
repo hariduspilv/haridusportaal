@@ -12,23 +12,23 @@ $medium: $gutter * 3;
 $large: $gutter * 4;
 $xxl: $gutter * 6;
 
-h1 {
-  font-size: 1.5rem;
-  font-weight: 500;
-  font-style: normal;
-  font-stretch: normal;
-  line-height: 1.33;
-  letter-spacing: normal;
-  text-align: left;
-  color: $blue;
-  margin-top: 0;
-  margin-bottom: 0;
-  color: $black;
-}
-h2, h3 {
-  color: $black;
-  font-size: 1rem;
-  font-weight: 500;
+::ng-deep{
+  h1 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.33;
+    letter-spacing: normal;
+    text-align: left;
+    color: $blue;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  h2, h3 {
+    font-size: 1rem;
+    font-weight: 500;
+  }
 }
 
 @mixin multiLineEllipsis($lineHeight: 1.2rem, $lineCount: 1, $bgColor: $white){

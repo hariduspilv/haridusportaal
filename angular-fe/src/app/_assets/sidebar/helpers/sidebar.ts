@@ -2,26 +2,54 @@
 export const collection = {
   'nodeQuery': 'articles',
   'fieldContact': 'contact',
-  'fieldIscedfSearchLink': 'links',
+  'fieldContactSection': 'contact',
+  'fieldOskaFieldContact': 'contact',
+  'educationalInstitution': 'contact',
+  // 'fieldIscedfSearchLink': 'links',
   'fieldJobOpportunities': 'links',
   'fieldJobs': 'links',
   'fieldOskaField': 'links',
   'fieldQualificationStandard': 'links',
   'fieldQuickFind': 'links',
+  'fieldOskaFieldQuickFind' : 'links',
+  'fieldRelatedArticle': 'links',
+  'fieldRelatedPages': 'links',
+  'fieldHyperlinks': 'links',
   'prosCons': 'categories',
-  'fieldAdditional': 'data',
+  'additional': 'data',
   'fieldRegistration': 'register',
   'fieldRegistration2': 'register',
   'fieldButton': 'actions',
   'fieldSchoolLocation': 'location',
-  'reverseOskaMainProfessionOskaIndicatorEntity': 'facts',
-  'reverseOskaMainProfessionOskaFillingBarEntity': 'progress',
+  'fieldEventLocation': 'location',
+  'indicator': 'facts',
+  'fillingBar': 'progress',
   'favourites': 'links',
   'fieldLegislationBlock': 'links',
+  'links': 'links',
 }
 
 export const uniformTypes = {
-  'prosCons': ['fieldPros', 'fieldNeutral', 'fieldCons', 'fieldOskaFieldPros', 'fieldOskaFieldCons']
+  'prosCons': ['fieldPros', 'fieldNeutral', 'fieldCons', 'fieldOskaFieldPros', 'fieldOskaFieldCons'],
+  'fieldContact': ['email', 'person', 'phone', 'organizer'],
+  'fieldEventLocation': [
+    'fieldEventLocation',
+    'fieldEventLocationLink',
+    'fieldEventDate',
+    'fieldEventMainDate',
+    'fieldEventMainEndDate',
+    'fieldEventMainStartTime',
+    'fieldEventMainEndTime'
+  ],
+  'fieldSchoolLocation': [
+    'educationalInstitution'
+  ],
+  'fieldRegistration': [
+    'fieldEntryType',
+    'fieldRegistrationDate',
+    'EventRegistrations',
+    'fieldRegistrationUrl',
+  ]
 }
 
 export const titleLess = {

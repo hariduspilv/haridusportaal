@@ -28,6 +28,7 @@ stories.add('Labeled separator', () => {
   );
   return {
     moduleMetadata,
+    path: '',
     props: {
       label,
       type,

@@ -7,3 +7,4 @@ export * from './SidebarService';
 export * from './FieldVaryService';
 export * from './MapService';
 export * from './CompareService';
+export * from './SettingsService';

@@ -29,13 +29,14 @@
 
 			&__text {
 				flex-grow: 1;
-				padding: 1.625rem $medium;
+				padding: 1.2rem $medium;
 				text-transform: uppercase;
 			}
 
 			&__secondary__text{
 				color: $black;
 				padding: 0rem $medium;
+				margin: 1rem 0 -2rem 0;
 			}
 
 			&__container{
