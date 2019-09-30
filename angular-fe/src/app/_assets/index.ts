@@ -88,6 +88,8 @@ export function settingsProviderFactory(provider: SettingsService) {
 import { ImageComponent } from './image';
 import { LinksComponent } from './links';
 import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
+import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
+import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -98,6 +100,8 @@ const pipes = [
   LocaleNumberPipe,
   TitleCasePipe,
   RemoveEmptyTagsPipe,
+  WeekDayPipe,
+  UnixToTimePipe,
 ];
 
 const declarations = [

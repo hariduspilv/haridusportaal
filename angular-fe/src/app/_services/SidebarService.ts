@@ -10,22 +10,28 @@ interface UniformType {
 
 export class SidebarService {
   private types: UniformType = uniformTypes;
+
   public mapUniformKeys(data) {
-    const uniforms: string[] = ['prosCons'];
+    const uniforms: string[] = [
+      'prosCons',
+      'fieldContact',
+      'fieldEventLocation',
+      'fieldSchoolLocation',
+      'fieldRegistration',
+    ];
     const keysToMerge: Object = {};
     uniforms.forEach((item, key) => {
       const uniformType: Object = {};
-      // const keysToDelete: string[] = [];
       Object.entries(data).forEach((elem) => {
-        if (this.types[item].includes(elem[0])) {
+        if (!elem[1] || (elem[1] instanceof Array && !elem[1].length)) {
+          delete data[elem[0]];
+        } else if (this.types[item].includes(elem[0])) {
           uniformType[elem[0]] = elem[1];
-          // keysToDelete.push(elem[0]);
         }
       });
       if (Object.keys(uniformType).length) {
         data[uniforms[key]] = uniformType;
       }
-      // keysToDelete.forEach(del => delete data[del]);
     });
     return data;
   }
