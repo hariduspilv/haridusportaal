@@ -26,9 +26,9 @@
 			&--border {
 				border-bottom: $gray 0.0625rem solid;
 			}
-
+			align-items: center;
 			&__text {
-				// flex-grow: 1;
+				flex-grow: 1;
 				padding: 1.2rem $medium;
 				text-transform: uppercase;
 			}
@@ -185,6 +185,7 @@
 			.block__title {
 				display: flex;
 				flex-direction: column;
+				align-items: unset;
 				&__tabs {
 					display: flex;
 					border-top: .0625rem solid $gray;
