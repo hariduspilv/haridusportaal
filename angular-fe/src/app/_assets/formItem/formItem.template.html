@@ -64,35 +64,65 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'multi-select'">
-      <ng-select
-        [items]="options"
-        [multiple]="true"
-        bindLabel="key"
-        [closeOnSelect]="false"
-        bindValue="value"
-        (change)="update()"
-        (open)="update('focus')"
-        (close)="update('blur')"
-        [searchable]="false"
-        [(ngModel)]="field">
+      <ng-container *ngIf="isMobile">
+        <select
+          (change)="update()"
+          (focus)="update('focus')"
+          (blur)="update('blur')"
+          multiple
+          [(ngModel)]="field">
+          <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
+        </select>
+        <button class="formItem__icon" type="button">
+          <icon glyph="chevron-down"></icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isMobile">
+        <ng-select
+          [items]="options"
+          [multiple]="true"
+          bindLabel="key"
+          [closeOnSelect]="false"
+          bindValue="value"
+          (change)="update()"
+          (open)="update('focus')"
+          (close)="update('blur')"
+          [searchable]="false"
+          [(ngModel)]="field">
 
-        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-          <formItem type="checkbox" [label]="item.key" [ngModel]="item$.selected"></formItem>
-        </ng-template>
-      </ng-select>
+          <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+            <formItem type="checkbox" [label]="item.key" [ngModel]="item$.selected"></formItem>
+          </ng-template>
+        </ng-select>
+      </ng-container>
+      
     </ng-container>
 
     <ng-container *ngSwitchCase="'select'">
-      <ng-select
-        [items]="options"
-        bindLabel="key"
-        bindValue="value"
-        (change)="update()"
-        (open)="update('focus')"
-        (close)="update('blur')"
-        [searchable]="false"
-        [(ngModel)]="field">
-      </ng-select>
+      <ng-container *ngIf="isMobile">
+        <select
+          (change)="update()"
+          (focus)="update('focus')"
+          (blur)="update('blur')"
+          [(ngModel)]="field">
+          <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
+        </select>
+        <button class="formItem__icon" type="button">
+          <icon glyph="chevron-down"></icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isMobile">
+        <ng-select
+          [items]="options"
+          bindLabel="key"
+          bindValue="value"
+          (change)="update()"
+          (open)="update('focus')"
+          (close)="update('blur')"
+          [searchable]="false"
+          [(ngModel)]="field">
+        </ng-select>
+      </ng-container>
     </ng-container>
 
     <ng-container *ngSwitchCase="'checkbox'">

@@ -15,6 +15,7 @@ import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RippleService } from '@app/_services';
 import conf from '@app/_core/conf';
+import { DeviceDetectorService } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 
 export interface FormItemOption {
@@ -62,7 +63,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     const successClass = this.success ? 'formItem--success' : '';
     const titleDisabled = this.titleDisabled ? 'formItem--titleDisabled' : '';
     return this.focused ?
-          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`:
+          // tslint:disable-next-line: max-line-length
+          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}` :
           `formItem formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`;
   }
 
@@ -73,12 +75,16 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   public filledField: boolean = false;
   public focused: boolean = false;
   public patterns: Object;
+  public isMobile: boolean;
+
   constructor(
     private el: ElementRef,
     private ripple: RippleService,
     private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService,
   ) {
     this.patterns = conf.patterns;
+    this.isMobile = !this.deviceService.isDesktop();
   }
 
   animateRipple($event) {

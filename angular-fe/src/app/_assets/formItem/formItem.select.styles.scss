@@ -14,6 +14,23 @@ $create-font-face: false;
       opacity: 1;
     }
   }
+  .formItem{
+    &__wrapper{
+      & > select{
+        color: $white;
+        appearance: none;
+        background: $white;
+        &+.formItem__icon{
+          pointer-events: none;
+        }
+      }
+    }
+    &__title--top ~ .formItem__wrapper{
+      & > select{
+        color: $black;
+      }
+    }
+  }
   .ng-select{
     *{
       font-family: Rubik, Arial, Helvetica, sans-serif !important;
@@ -110,12 +127,6 @@ $create-font-face: false;
       pointer-events: none;
       &__title{
         font-size:1.125rem !important;
-      }
-      input:checked + .formItem__check__indicator{
-        background: $blue;
-        icon{
-          color: $white;
-        }
       }
     }
     .ng-dropdown-panel{

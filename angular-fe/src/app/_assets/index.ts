@@ -82,6 +82,7 @@ import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 import { CompareComponent } from './compare';
 import { CompareViewComponent } from './compare.view';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 
 export function settingsProviderFactory(provider: SettingsService) {
@@ -203,6 +204,7 @@ const providers = [
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     Ng2GoogleChartsModule,
+    DeviceDetectorModule.forRoot(),
   ],
   exports: [...declarations, ...pipes, ...exports],
 })
