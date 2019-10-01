@@ -24,7 +24,7 @@
 			font-size: $small;
 			justify-content: space-between;
 			&--border {
-				border-bottom: $gray 0.0625rem solid;
+				border-bottom: $light-gray 0.0625rem solid;
 			}
 			align-items: center;
 			&__text {
@@ -55,7 +55,7 @@
 					border: none;
 					height: 100%;
 					background: none;
-					border-left: $gray 0.0625rem solid;
+					border-left: $light-gray 0.0625rem solid;
 					cursor: pointer;
 					position: relative;
 					overflow: hidden;
@@ -85,6 +85,7 @@
 						position: relative;
 						z-index: 2;
 						pointer-events: none;
+						font-weight: 300;
 					}
 				}
 
@@ -188,12 +189,38 @@
 				align-items: unset;
 				&__tabs {
 					display: flex;
-					border-top: .0625rem solid $gray;
+					align-items: center;
+					border: none;
+					height: auto;
 					button {
 						min-width: auto;
-						padding: 0 .125rem;
-						flex-basis: 0;
+						padding: .5rem 0;
 						flex-grow: 1;
+						flex-basis: 0;
+						border: none;
+						&.button--icon {
+							min-width: 2.5rem;
+							flex-grow: 0;
+							height: 2.5rem;
+							line-height: 1.5rem;
+							align-items: center;
+							color: $blue;
+							padding: 0;
+							// &:first-child {
+							// 	padding-left: .5rem;
+							// }
+							// &:last-child {
+							// 	padding-right: .5rem;
+							// }
+						}
+					}
+					.button__contents {
+						display: block;
+						line-height: 1.5rem;
+						font-size: .875rem;
+						icon {
+							display: none;
+						}
 					}
 				}
 			}

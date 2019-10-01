@@ -85,6 +85,8 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   @Input() loading: boolean = false;
 
+  public viewTabs: QueryList<BlockContentComponent> | Object[];
+  public currentViewTabs: number = 0;
   activeTab: string = '';
   labeledTabs: number = 0;
   hasTitle: boolean = false;
@@ -155,11 +157,31 @@ export class BlockComponent implements AfterContentInit, OnChanges{
       }   else {
         this.activeTab = activeTabs[0].tabLabel;
       }
+      if (this.tabs.length > 2) {
+        this.constructViewTabs();
+      } else {
+        this.viewTabs = this.tabs;
+      }
       this.countLabels();
     } catch (err) {}
 
     this.checkTitle();
     this.checkSecondaryTitle();
+  }
+
+  public navigateTabs(navigation: number) {
+    this.currentViewTabs = this.currentViewTabs + navigation;
+  }
+
+  public constructViewTabs() {
+    const viewTabs: Object[] = [];
+    for (let i = 2; i <= this.tabs.length; i += 2) {
+      viewTabs.push(this.tabs.toArray().slice(i - 2, i));
+    }
+    if (this.tabs.length % 2) {
+      viewTabs.push(this.tabs.toArray().slice(this.tabs.length - 2, this.tabs.length));
+    }
+    this.viewTabs = viewTabs;
   }
 
   ngAfterContentInit() {
