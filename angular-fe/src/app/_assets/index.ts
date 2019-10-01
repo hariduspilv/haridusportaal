@@ -93,6 +93,7 @@ import { LinksComponent } from './links';
 import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
+import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -169,6 +170,7 @@ const declarations = [
   CompareViewComponent,
   ImageComponent,
   LinksComponent,
+  NewsListViewComponent,
 ];
 
 const exports = [
