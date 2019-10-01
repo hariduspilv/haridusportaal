@@ -73,8 +73,16 @@ h4.title-lg-padding { margin-bottom: 1rem;margin-top: 0; }
 
   }
   a.rowspan-btn {font-size: 1rem;}
-  .section--header {margin-bottom: 1rem;
-    @include break-on(sm, max) {margin: 0 1.5rem 1rem;}
+  .section--header {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    @include break-on(sm, max) {
+      margin: 0 1.5rem 1rem;
+    }
+    a {
+      cursor: pointer;
+    }
   }
   .accordion .error {
     @include break-on(sm, max) {margin: 0 1.5rem;}

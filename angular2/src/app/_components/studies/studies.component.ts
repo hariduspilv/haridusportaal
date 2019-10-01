@@ -17,6 +17,7 @@ export class StudiesComponent{
   requestErr: boolean = false;
   dataErr: boolean = false;
   oppelaenOigus: any = false;
+  public expandedStates: boolean[] = [];
    
   constructor(
     private http: HttpService,
@@ -49,6 +50,8 @@ export class StudiesComponent{
           this.error = true;
           this.dataErr = true;
           this.notificationService.info('errors.studies_data_missing', 'studies', false);
+        } else {
+          this.initializeAccordionStates(this.content);
         }
       }
       sub.unsubscribe();
@@ -69,6 +72,17 @@ export class StudiesComponent{
     return translation;
   }
 
+  initializeAccordionStates(arr: object[]) {
+    arr.forEach(() => this.expandedStates.push(false));
+  }
+
+  setAccordionStates(state: boolean) {
+    this.expandedStates = this.expandedStates.map(elem => elem = state);
+  }
+
+  closedAccordionsExist(): number {
+    return this.expandedStates.filter(elem => elem === false).length;
+  }
   //YYYY-MM-DD to DD.MM.YYYY
   // dateFormatter(date) {
   //   let dateOfBirthArr = date.split('-');
