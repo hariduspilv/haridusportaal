@@ -3,7 +3,6 @@ import {
     OnInit,
     Input,
   } from '@angular/core';
-import FieldVaryService from '@app/_services/FieldVaryService';
 @Component({
   selector: 'dashboard-view',
   templateUrl: 'dashboard.template.html',
@@ -11,15 +10,13 @@ import FieldVaryService from '@app/_services/FieldVaryService';
 })
 
   export class DashboardComponent implements OnInit{
-  @Input() data: Object;
-  @Input() applicationsData: Object;
   @Input() breadcrumbs: Object[];
+  @Input() jwt;
+
   public linksLabel = 'links';
 
-  constructor(
-  ) {}
+  constructor() {}
 
   ngOnInit() {
-    this.data = FieldVaryService(this.data);
   }
 }

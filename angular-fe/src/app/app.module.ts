@@ -8,6 +8,7 @@ import { TranslateModule } from '@app/_modules/translate';
 // tslint:disable-next-line: import-name
 import localeEt from '@angular/common/locales/et';
 import { registerLocaleData } from '@angular/common';
+import { UserService } from './_services';
 // We dont need short month names at all!
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -39,6 +40,7 @@ const routes: Routes = [
   ],
   providers: [
     { provide: LOCALE_ID, useValue:'et-EE' },
+    UserService,
   ],
   bootstrap: [
     AppComponent,

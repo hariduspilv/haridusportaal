@@ -1,13 +1,14 @@
-<article-layout [sidebar]="data.sidebar">
+<article-layout>
     <breadcrumbs [data]="breadcrumbs"></breadcrumbs>
     <block tabStyle="middle">
         <block-title>
             {{ 'frontpage.dashboard_label' | translate }}
         </block-title>
         <block-secondary-title>
-            <applications></applications>
+            39504300814
         </block-secondary-title>
         <block-content tabLabel="Taotlused" tabIcon="file-text">
+                <applications [jwt]="jwt"></applications>
         </block-content>
         <block-content tabLabel="Tunnistused" tabIcon="file-text">
         </block-content>
@@ -17,30 +18,3 @@
         </block-content>
     </block>
 </article-layout>
-
-<ng-template #links let-linksData="linksData">
-    <li *ngFor="let link of linksData;let ind = index;">
-        <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}"
-            class="link">
-            <span>
-                <ng-container *ngIf="link.url.routed">
-                    <icon glyph="link-2"></icon><span class="label">{{link.title}}</span>
-                </ng-container>
-                <ng-container *ngIf="!link.url.routed">
-                    <icon glyph="external-link"></icon><span class="label">{{link.title}}</span>
-                </ng-container>
-            </span>
-        </a>
-    </li>
-</ng-template>
-<!-- links -->
-
-<ng-template #files let-filesData="filesData">
-    <li *ngFor="let file of filesData;let ind = index;">
-        <a href="{{file.entity.fieldAttachment.entity.url}}" target="_blank" attr.aria-label="{{file.entity.fieldName}}"
-            class="link">
-            <icon glyph="copy"></icon><span class="label">{{file.entity.fieldName}}</span>
-        </a>
-    </li>
-</ng-template>
-<!-- files -->

@@ -6,7 +6,9 @@ import { RootScopeService } from '@app/_services/rootScopeService';
 import { Subscription } from 'rxjs';
 import { TableService, AlertsService } from '@app/_services';
 import { UserService } from '@app/_services/userService';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { SettingsService } from '@app/_services/SettingsService';
+import { JwtHelperService } from '@auth0/angular-jwt';
 
 const acceptableFormsRestrictedLength = 4;
 const requestIteratorLifetime = 30;
@@ -17,7 +19,8 @@ const requestIteratorLifetime = 30;
   styleUrls: [],
 })
 
-export class ApplicationsComponent implements OnInit, OnDestroy {
+export class ApplicationsComponent implements OnDestroy, OnInit {
+  @Input() jwt;
   public loading = {
     initial: false,
     interval: false,
@@ -37,7 +40,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   };
   public requestIterator;
   public requestIteratorTimeout = 2000;
-  public userData: any;
   public currentRole: string = '';
 
   public acceptableFormsList = [];
@@ -46,6 +48,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   public elemAtStart: any = [{ 0: true, 1: true }];
   public initialized: any = [{ 0: false, 1: false }];
   private subscriptions: Subscription[] = [];
+  public userData;
 
   constructor(
     public alertsService: AlertsService,
@@ -54,6 +57,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
     public route: ActivatedRoute,
     public tableService: TableService,
     public user: UserService,
+    public settings: SettingsService,
   ) { }
 
   pathWatcher() {
@@ -124,9 +128,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
   fetchData(update) {
     const requestBoolean = this.loading['initial'] ? 1 : 0;
 
-    const subscription = this.http.get('/dashboard/applications/' + requestBoolean + '?_format=json').subscribe((response) => {
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', "Bearer " + this.jwt);
+
+    const subscription = this.http.get(this.settings.url + '/dashboard/applications/' + requestBoolean + '?_format=json', { headers: headers, }).subscribe((response) => {
       if (response && response['found'] === null) {
-        console.log('skip');
       } else {
         if (response['error'] && response['error']['message_text']) {
           this.alertsService.info(response['error']['message_text']['et'], 'general', 'applications', false, false);
@@ -180,7 +186,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
         this.loading['interval'] = true;
         this.requestIterator = setTimeout(() => {
           this.fetchData(false);
-        },                                this.requestIteratorTimeout);
+        }, this.requestIteratorTimeout);
       } else {
         this.loading['interval'] = false;
       }
