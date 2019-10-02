@@ -27,7 +27,7 @@ query (
     nid:Nid
     title:Title
     entityPath:EntityPath
-    fieldStudyProgrammeLevel:FieldStudyProgrammeLevel
+    studyProgrammeLevel:FieldStudyProgrammeLevel
     fieldSchoolName:FieldSchoolName
     fieldDuration:FieldDuration
   }
