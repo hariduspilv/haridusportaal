@@ -16,8 +16,12 @@
       }
     }
     .toolbar{
-      display: block;
+      display: flex;
+      align-items: flex-end;
       margin-bottom: 1.4375rem;
+      compare {
+        margin: 0 0 .1875rem .5rem;
+      }
     }
 
     h1{
