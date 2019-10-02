@@ -79,12 +79,27 @@ h4.title-lg-padding { margin-bottom: 1rem;margin-top: 0; }
     justify-content: space-between;
     @include break-on(sm, max) {
       margin: 0 1.5rem 1rem;
-      a {
+      button {
         text-align: right;
       }
     }
-    a {
+    button {
       cursor: pointer;
+      height: 1rem;
+      background: none;
+      color: $blue;
+      text-decoration: underline;
+      box-shadow: none;
+      border: none;
+      font-weight: normal;
+      padding: 0;
+      &:hover {
+        text-decoration: none;
+      }
+      span {
+        font-size: 1rem;
+        font-family: 'Rubik', 'sans-serif';
+      }
     }
   }
   .accordion .error {
