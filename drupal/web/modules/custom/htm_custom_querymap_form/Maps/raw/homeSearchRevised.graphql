@@ -23,7 +23,7 @@ query (
       {field:"field_short_description", weight: 2},
       {field:"field_registration_code", weight:5}
     ]}) {
-    head:ContentType
+    contentType:ContentType
     nid:Nid
     title:Title
     entityPath:EntityPath
