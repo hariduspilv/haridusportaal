@@ -1,0 +1,39 @@
+<article-layout>
+  
+    <block [titleBorder]="true">
+  
+      <block-title>Icons ({{ icons.length }})</block-title>
+      <block-content>
+        <div class="row" style="margin-bottom: 0.5rem;">
+          <div class="col-8 sm-12 md-12">
+            <formItem title="Search icon..." [(ngModel)]="searchField" name="searchField" (keyup)="searchField=$event.target.value"></formItem>
+          </div><!--/col-8-->
+        </div><!--/row-->
+
+        <table htm-table>
+          <tr>
+            <th width="20px">Default</th>
+            <th width="20px">Medium</th>
+            <th width="20px">Large</th>
+            <th>Name</th>
+          </tr>
+          <ng-container *ngFor="let icon of icons">
+            <tr *ngIf="icon._name.toLowerCase().match(searchField.toLowerCase())">
+              <td style="text-align:center;">
+                <icon glyph="{{icon._name}}" [bg]="background === 'yes'" size="default"></icon>
+              </td>
+              <td style="text-align:center;">
+                <icon glyph="{{icon._name}}" [bg]="background === 'yes'" size="medium"></icon>
+              </td>
+              <td style="text-align:center;">
+                <icon glyph="{{icon._name}}" [bg]="background === 'yes'" size="large"></icon>
+              </td>
+              
+              <td style="white-space:nowrap;">{{icon._name}}</td>
+            </tr>
+          </ng-container>
+        </table>
+      </block-content>
+    </block>
+  </article-layout>
+  

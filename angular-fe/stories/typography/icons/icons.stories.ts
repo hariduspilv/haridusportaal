@@ -1,22 +1,30 @@
 import { storiesOf } from '@storybook/angular';
 import { icons } from './icons';
 import iconsMd from './icons.md';
+import iconsHtml from './icons.html';
 import { AssetsModule } from '@app/_assets';
 import {
   withKnobs,
   optionsKnob as options,
   select,
 } from '@storybook/addon-knobs';
+import { TranslateModule } from '@app/_modules/translate';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+  ],
+  providers: [
+    TranslateService,
   ],
 };
 
 const stories = storiesOf('Typography', module);
 stories.addDecorator(withKnobs);
 stories.add('Icons', () => {
+
+  let tmpIcons = [...icons];
 
   const background = options(
     'Background',
@@ -29,46 +37,24 @@ stories.add('Icons', () => {
       display: 'inline-radio',
     },
   );
-  const size = select(
-    'Size',
-    {
-      Default: 'default',
-      Medium: 'medium',
-      Large: 'large',
-    },
-    'default',
-  );
-  const iconsHTML = icons.map((icon) => {
-    return `
-      <tr>
-        <td style="text-align:center;">
-          <icon glyph="${icon._name}" [bg]="background === 'yes'" [size]="size"></icon>
-        </td>
-        <td>${icon._name}</td>
-        <td>${icon._fileName}</td>
-      </tr>
-    `;
-  }).join('');
+  const searchField = '';
+
+  const searchIcon = () => {
+    tmpIcons = [...icons].filter((item) => {
+      return item._name.match(searchField) ? item : false;
+    });
+    console.log(searchField);
+  };
 
   return {
     moduleMetadata,
     props: {
       background,
-      size,
+      searchField,
+      searchIcon,
+      icons: tmpIcons,
     },
-    template: `
-      <div class="center">
-        <h1>Icons (${icons.length})</h1>
-        <table htm-table>
-          <tr>
-            <th width="20px">Icon</th>
-            <th width="20px">Name</th>
-            <th>Filename</th>
-          </tr>
-          ${iconsHTML}
-        </table>
-      </div>
-    `,
+    template: iconsHtml,
   };
 },          {
   notes: { markdown: iconsMd },

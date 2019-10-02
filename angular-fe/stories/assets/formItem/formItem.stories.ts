@@ -17,6 +17,9 @@ import {
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
 });
+
+import { DeviceDetectorService } from 'ngx-device-detector';
+
 registerLocaleData(localeEt);
 
 const moduleMetadata = {

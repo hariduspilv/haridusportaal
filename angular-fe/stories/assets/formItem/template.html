@@ -1,9 +1,10 @@
+{{ isMobile}}
 <table htm-table style="max-width: 100%; table-layout: fixed;">
   <tr>
     <th>
       Form item
     </th>
-    <th>
+    <th *ngIf="!isMobile">
       Model value
     </th>
   </tr>
@@ -22,6 +23,6 @@
       [errorMessage]="item.errorMessage">
     </formItem>
     </td>
-    <td>{{ item.value }}</td>
+    <td *ngIf="!isMobile">{{ item.value }}</td>
   </tr>
 </table>

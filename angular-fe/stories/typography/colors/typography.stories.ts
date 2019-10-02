@@ -3,10 +3,14 @@ import { AssetsModule } from '@app/_assets';
 import colorsHtml from './colors.html';
 import colorsScss from '../../../src/app/scss/colors.scss';
 import colorsMd from './colors.md';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+  ],
+  providers: [
+    TranslateService,
   ],
 };
 
@@ -31,6 +35,7 @@ stories.add('Colors', () => {
       colors,
       colorsObj,
       count,
+      searchField: '',
     },
     template: colorsHtml,
   };

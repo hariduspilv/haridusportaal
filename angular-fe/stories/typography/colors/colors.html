@@ -1,20 +1,36 @@
-<h1>Colors ({{count}})</h1>
-<table htm-table>
-  <tr>
-    <th width="50px">
-      Color
-    </th>
-    <th style="width:200px; white-space: nowrap;">
-      Code
-    </th>
-    <th>
-      Variable
-    </th>
-    
-  </tr>
-  <tr *ngFor="let item of colors">
-    <td><div [ngStyle]="{ background: item }" style="height:50px; width:50px; border:#cfcfcf 1px solid;"></div></td>
-    <td style="width:200px; white-space: nowrap;">{{ item }}</td>
-    <td>${{ colorsObj[item] }}</td>
-  </tr>
-</table>
+<article-layout>
+
+  <block [titleBorder]="true">
+
+    <block-title>Colors ({{count}})</block-title>
+    <block-content>
+      <div class="row" style="margin-bottom: 0.5rem;">
+        <div class="col-8 sm-12 md-12">
+          <formItem title="Search color..." [(ngModel)]="searchField" name="searchField" (keyup)="searchField=$event.target.value"></formItem>
+        </div><!--/col-8-->
+      </div><!--/row-->
+
+      <table htm-table>
+        <tr>
+          <th width="50px">
+            Color
+          </th>
+          <th style="width:200px; white-space: nowrap;">
+            Code
+          </th>
+          <th>
+            Variable
+          </th>
+          
+        </tr>
+        <ng-container *ngFor="let item of colors">
+          <tr *ngIf="item.toLowerCase().match(searchField.toLowerCase()) || colorsObj[item].toLowerCase().match(searchField.toLowerCase())">
+            <td><div [ngStyle]="{ background: item }" style="height:50px; width:50px; border:#cfcfcf 1px solid;"></div></td>
+            <td style="width:200px; white-space: nowrap;">{{ item }}</td>
+            <td>${{ colorsObj[item] }}</td>
+          </tr>
+        </ng-container>
+      </table>
+    </block-content>
+  </block>
+</article-layout>
