@@ -24,7 +24,7 @@
 			font-size: $small;
 			justify-content: space-between;
 			&--border {
-				border-bottom: $gray 0.0625rem solid;
+				border-bottom: $light-gray 0.0625rem solid;
 			}
 			align-items: center;
 			&__text {
@@ -55,7 +55,7 @@
 					border: none;
 					height: 100%;
 					background: none;
-					border-left: $gray 0.0625rem solid;
+					border-left: $light-gray 0.0625rem solid;
 					cursor: pointer;
 					position: relative;
 					overflow: hidden;
@@ -85,6 +85,7 @@
 						position: relative;
 						z-index: 2;
 						pointer-events: none;
+						font-weight: 300;
 					}
 				}
 
@@ -142,15 +143,20 @@
 							font-size: .875rem;
 							line-height: 1.71;
 							margin-bottom: $quarter;
+							@include break-on(sm, max) {
+								line-height: 1.5rem;
+								margin: 0;
+							}
 						}
 					}
 				}
-
-				icon {
-					display: block;
-					i {
-						font-size: $medium !important;
-						margin: $small 0 $gutter;
+				@include break-on(sm, min) {
+					icon {
+						display: block;
+						i {
+							font-size: $medium !important;
+							margin: $small 0 $gutter;
+						}
 					}
 				}
 			}
@@ -178,7 +184,7 @@
 			}
 		}
 
-		@include break-on(xs, max) {
+		@include break-on(sm, max) {
 			& {
 				border-radius: 0 0 $half-gutter $half-gutter !important;
 			}
@@ -186,14 +192,42 @@
 				display: flex;
 				flex-direction: column;
 				align-items: unset;
-				&__tabs {
+				&__tabs, &__middle-tabs {
+					padding: 0;
+					margin: 0;
 					display: flex;
-					border-top: .0625rem solid $gray;
+					align-items: center;
+					border: none;
+					height: auto;
 					button {
 						min-width: auto;
-						padding: 0 .125rem;
-						flex-basis: 0;
+						padding: .5rem 0;
 						flex-grow: 1;
+						flex-basis: 0;
+						border: none;
+						&.button--icon {
+							min-width: 2.5rem;
+							flex-grow: 0;
+							height: 2.5rem;
+							line-height: 1.5rem;
+							align-items: center;
+							color: $blue;
+							padding: 0;
+							&:first-child {
+								margin-left: .5rem;
+							}
+							&:last-child {
+								margin-right: .5rem;
+							}
+						}
+					}
+					.button__contents {
+						display: block;
+						line-height: 1.5rem;
+						font-size: .875rem;
+						icon {
+							display: none;
+						}
 					}
 				}
 			}
