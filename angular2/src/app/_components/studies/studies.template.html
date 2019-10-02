@@ -2,7 +2,9 @@
 <div class="accordion">
   <more-block id="1" content="{{ 'abitekst.opingud' | translate }}"></more-block>
   <ng-container *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
-    <h2 class="section--header">{{ 'frontpage.oppelaenOigus' | translate }}</h2>
+    <div class="section--header">
+      <h2>{{ 'frontpage.oppelaenOigus' | translate }}</h2>
+    </div>
     <table class="dashboard-table dashboard-table--equalCells mb-2">
       <tbody>
         <tr *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
@@ -19,13 +21,18 @@
       </tbody>
     </table>
   </ng-container>
-  <h2 class="section--header">{{ 'frontpage.studies_data' | translate }}</h2>
+  <div class="section--header">
+    <h2>{{ 'frontpage.studies_data' | translate }}</h2>
+    <button type="button" attr.aria-live="{{ stateChanged ? 'assertive' : 'off' }}" (click)="setAccordionStates(closedAccordionsExist() ? true : false)" *ngIf="!loading && content && !error">
+      <span>{{ closedAccordionsExist() ? ('frontpage.studies.openAll' | translate) : ('frontpage.studies.closeAll' | translate) }}</span>
+    </button>
+  </div>
   <loader *ngIf="loading && !error"></loader>
   <!-- <div role="alert" class="ERROR" *ngIf="error && requestErr">{{ 'errors.studies_data_request' | translate }}</div>
   <div role="alert" class="ERROR" *ngIf="error && dataErr">{{ 'errors.studies_data_missing' | translate }}</div> -->
   <notifications [id]="'studies'" class="notifications notifications--small"></notifications>
-  <mat-accordion multi *ngIf="!loading && content && !error">
-    <mat-expansion-panel *ngFor="let item of content; let first = first;">
+  <mat-accordion [multi]="true" *ngIf="!loading && content && !error">
+    <mat-expansion-panel (opened)="expandedStates[ind] = true" (closed)="expandedStates[ind] = false" [expanded]="expandedStates[ind]" *ngFor="let item of content; let first = first;let ind = index;">
       <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
         <mat-panel-title>
           <span>{{ item.oppeasutus }}<ng-container *ngIf="item.staatus">, {{ parseTypeTranslation(item.staatus) | lowercase }}</ng-container><ng-container *ngIf="item.staatus && item.oppLopp"> {{ item.oppLopp }}</ng-container></span>

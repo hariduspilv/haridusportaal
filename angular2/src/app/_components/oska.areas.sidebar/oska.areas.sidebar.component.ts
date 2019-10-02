@@ -82,7 +82,7 @@ export class OskaAreasSidebarComponent implements OnInit {
 
       if (this.sidebar.fieldIscedfSearchLink && this.sidebar.fieldIscedfSearchLink.entity && (this.sidebar.fieldIscedfSearchLink.entity.iscedf_detailed || this.sidebar.fieldIscedfSearchLink.entity.iscedf_narrow || this.sidebar.fieldIscedfSearchLink.entity.iscedf_broad)) {
         this.locationPerLang = `/erialad`;
-        this.learningQuery = { iscedf_detailed: [], iscedf_narrow: [], iscedf_broad: [], level: [] };
+        this.learningQuery = { iscedf_detailed: [], iscedf_narrow: [], iscedf_broad: [], level: [], open_admission: true };
 
         Object.keys(this.learningQuery).forEach((field) => {
           if (this.sidebar.fieldIscedfSearchLink.entity) {
