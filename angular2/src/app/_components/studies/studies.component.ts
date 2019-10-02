@@ -18,6 +18,7 @@ export class StudiesComponent{
   dataErr: boolean = false;
   oppelaenOigus: any = false;
   public expandedStates: boolean[] = [];
+  public stateChanged: boolean;
    
   constructor(
     private http: HttpService,
@@ -77,6 +78,7 @@ export class StudiesComponent{
   }
 
   setAccordionStates(state: boolean) {
+    this.stateChanged = true;
     this.expandedStates = this.expandedStates.map(elem => elem = state);
   }
 

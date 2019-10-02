@@ -79,6 +79,9 @@ h4.title-lg-padding { margin-bottom: 1rem;margin-top: 0; }
     justify-content: space-between;
     @include break-on(sm, max) {
       margin: 0 1.5rem 1rem;
+      a {
+        text-align: right;
+      }
     }
     a {
       cursor: pointer;

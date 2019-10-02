@@ -24,7 +24,7 @@
   <div class="section--header">
     <h2>{{ 'frontpage.studies_data' | translate }}</h2>
     <a role="button" (click)="setAccordionStates(closedAccordionsExist() ? true : false)" *ngIf="!loading && content && !error">
-      {{ closedAccordionsExist() ? ('frontpage.studies.openAll' | translate) : ('frontpage.studies.closeAll' | translate) }}
+      <span attr.aria-live="{{ stateChanged ? 'polite' : 'off' }}">{{ closedAccordionsExist() ? ('frontpage.studies.openAll' | translate) : ('frontpage.studies.closeAll' | translate) }}</span>
     </a>
   </div>
   <loader *ngIf="loading && !error"></loader>
