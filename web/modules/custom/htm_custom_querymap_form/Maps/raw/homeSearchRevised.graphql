@@ -1,0 +1,34 @@
+query (
+  $lang: String,
+  $offset: Int,
+  $limit: Int,
+  $search_term: String!,
+	$indexes: [String!]) {
+  CustomElasticQuery(offset: $offset, limit: $limit, content_type:true, elasticsearch_index: $indexes,
+    filter: {conjunction: AND,
+      conditions: [
+        {operator: EQUAL, field: "langcode", value: [$lang]},
+        {operator: EQUAL, field: "status", value: "1"}]},
+  	score: {search_value: $search_term, conditions:[
+      {field:"title", weight:5},
+      {field:"field_body_summary", weight:2},
+      {field:"field_body", weight:2},
+      {field:"field_accordion_body", weight:2},
+      {field:"field_accordion_title", weight:2},
+      {field:"field_event_type", weight:2},
+      {field:"field_description", weight:2},
+      {field:"field_tag", weight:2},
+      {field:"field_organizer", weight:2},
+      {field:"field_author", weight:2},
+      {field:"field_short_description", weight: 2},
+      {field:"field_registration_code", weight:5}
+    ]}) {
+    ContentType:contentType
+    Nid:nid
+    Title:title
+    EntityPath:entityPath
+    FieldStudyProgrammeLevel:fieldStudyProgrammeLevel
+    FieldSchoolName:fieldSchoolName
+    FieldDuration:fieldDuration
+  }
+}
