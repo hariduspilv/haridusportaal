@@ -3,6 +3,7 @@ export const queryList = {
   news: 'newsList',
   studyprogramme: 'studyProgrammeList',
   school: 'schoolMapQuery',
+  mainprofession: 'oskaMainProfessionListView',
 };
 
 export const likeFields = {
@@ -89,6 +90,35 @@ export const searchResultKeys = {
       enabled: 'studentHomeEnabled',
     },
   },
+  mainprofession: {
+    title: {
+      key: 'titleValue',
+      enabled: 'titleEnabled',
+    },
+    oskaField: {
+      key: 'oskaFieldValue',
+      enabled: 'oskaFieldEnabled',
+    },
+    fixedLabel: {
+      key: 'fixedLabelValue',
+      enabled: 'fixedLabelEnabled',
+    },
+    fillingBar: {
+      key: 'fillingBarValues',
+      enabled: 'fillingBarFilterEnabled',
+    },
+    sortField: {
+      key: 'sortField',
+      enabled: 'indicatorSort',
+    },
+    sortDirection: {
+      key: 'sortDirection',
+    },
+    nidEnabled: {
+      key: 'nidEnabled',
+      enabled: 'nidEnabled',
+    },
+  },
 };
 
 export const requiredFields = {
@@ -121,6 +151,15 @@ export const requiredFields = {
     'specialClass',
     'studentHome',
   ],
+  mainprofession: [
+    'title',
+    'oskaField',
+    'fixedLabel',
+    'fillingBar',
+    'sortField',
+    'sortDirection',
+    'nidEnabled',
+  ],
 };
 
 export const defaultValues = {
@@ -134,6 +173,10 @@ export const defaultValues = {
     minLon: '0',
     maxLon: '99',
   },
+  mainprofession: {
+    sortField: 'title',
+    sortDirection: 'ASC',
+  },
 };
 
 export const multiSelectFields = {
@@ -141,5 +184,13 @@ export const multiSelectFields = {
     'type',
     'language',
     'ownership',
+  ],
+  news: [
+    'tagValue',
+  ],
+  mainprofession: [
+    'fillingBarValues',
+    'oskaFieldValue',
+    'fixedLabelValue',
   ],
 };

@@ -4,8 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
 import { SettingsService } from '@app/_services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import newsListViewHtml from './newsListView.html';
-import newsListViewMd from './newsListView.md';
+import mainProfessionListViewHtml from './mainProfessionListView.html';
+import mainProfessionListViewMd from './mainProfessionListView.md';
 import { AssetsModule } from '@app/_assets';
 
 const moduleMetadata = {
@@ -21,15 +21,19 @@ const moduleMetadata = {
   ],
 };
 
+const path = '/ametialad';
+
 const stories = storiesOf('List views', module);
 
-stories.add('News', () => {
+stories.add('Main professions', () => {
 
   return {
     moduleMetadata,
-    props: {},
-    template: newsListViewHtml,
+    props: {
+      path,
+    },
+    template: mainProfessionListViewHtml,
   };
 },          {
-  notes: { markdown: newsListViewMd },
+  notes: { markdown: mainProfessionListViewMd },
 });

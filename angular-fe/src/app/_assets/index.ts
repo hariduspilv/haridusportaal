@@ -94,6 +94,7 @@ import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
 import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.component';
+import { MainProfessionListViewComponent } from '@app/_views/mainProfessionListView/mainProfessionListView.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -171,6 +172,7 @@ const declarations = [
   ImageComponent,
   LinksComponent,
   NewsListViewComponent,
+  MainProfessionListViewComponent,
 ];
 
 const exports = [

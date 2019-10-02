@@ -1,5 +1,5 @@
 <base-layout>
-	<breadcrumbs path="/uudised"></breadcrumbs>
+	<breadcrumbs path="/ametialad"></breadcrumbs>
 	<form class="filter-wrapper" filters>
 		<div class="sm-show text-right filter-control">
 			<a href="javascript:void(0);" (click)="showFilter = !showFilter">
@@ -10,15 +10,11 @@
 		<ng-container *ngIf="showFilter">
 			<div class="row">
 				<div class="col-4 sm-12">
-					<formItem type="text" title="{{ 'news.filter_name' | translate }}" name="title"></formItem>
+					<formItem type="text" title="{{ 'search.keyword' | translate }}" name="title"></formItem>
 				</div>
-				<!--/col-4-->
-				<div class="col-25 sm-12">
-					<formItem type="date" title="{{ 'time.date_period_from' | translate }}" name="minDate"></formItem>
-				</div>
-				<!--/col-3-->
-				<div class="col-25 sm-12">
-					<formItem type="date" title="{{ 'time.date_period_to' | translate }}" name="maxDate"></formItem>
+				<div class="col-5 sm-12">
+					<formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" name="oskaFieldValue"
+						[options]="oskaFields"></formItem>
 				</div>
 
 				<div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
@@ -36,11 +32,31 @@
 			</div>
 			<!--/row-->
 			<div class="row" *ngIf="filterFull">
-				<div class="col-9 sm-12">
-					<formItem type="multi-select" title="{{ 'news.filter_tag' | translate }}" name="tag"
-						[options]="tags">
+				<div class="col-4 sm-12">
+					<formItem type="multi-select" title="{{ 'oska.competition' | translate }}" name="fillingBar"
+						[options]="competitionFilters" [(ngModel)]="competitionSelection">
 					</formItem>
 				</div>
+				<div class="col-5 sm-12">
+					<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortedBy"
+						[(ngModel)]="sort" (onChange)="setSortDirection()">
+					</formItem>
+				</div>
+				<div class="hidden">
+					<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
+						[(ngModel)]="sortField">
+					</formItem>
+				</div>
+				<div class="hidden">
+					<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
+						[(ngModel)]="sortDirection">
+					</formItem>
+				</div>
+				<div class="col-9 sm-12">
+						<formItem type="multi-select" title="{{ 'oskaProfessions.tags' | translate }}" name="fixedLabel"
+							[options]="fixedLabels" [(ngModel)]="fixedLabelSelection">
+						</formItem>
+					</div>
 
 				<div class="col-3 align-end text-right sm-12 inline-flex">
 					<div class="align-center filter-state sm-hide">
@@ -59,7 +75,7 @@
 	<block titleBorder="true">
 		<block-title>Uudised</block-title>
 		<block-content>
-			<searchResults type="news" limit="24"></searchResults>
+			<searchResults type="mainProfession" limit="24"></searchResults>
 		</block-content>
 	</block>
 </base-layout>
