@@ -11,6 +11,7 @@ import {
   OnChanges,
   forwardRef,
 } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'block-content',
@@ -87,6 +88,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   public viewTabs: QueryList<BlockContentComponent> | Object[];
   public currentViewTabs: number = 0;
+  public isMobile: boolean;
   activeTab: string = '';
   labeledTabs: number = 0;
   hasTitle: boolean = false;
@@ -94,7 +96,10 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {}
+    private deviceService: DeviceDetectorService,
+  ) {
+    this.isMobile = !this.deviceService.isDesktop();
+  }
 
   @HostBinding('class') get hostClasses(): string {
     return `block--${this.theme}`;
@@ -157,10 +162,10 @@ export class BlockComponent implements AfterContentInit, OnChanges{
       }   else {
         this.activeTab = activeTabs[0].tabLabel;
       }
-      if (this.tabs.length > 2) {
+      if (this.tabs.length > 2 && this.isMobile) {
         this.constructViewTabs();
       } else {
-        this.viewTabs = this.tabs;
+        this.viewTabs = [this.tabs];
       }
       this.countLabels();
     } catch (err) {}

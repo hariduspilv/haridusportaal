@@ -143,15 +143,20 @@
 							font-size: .875rem;
 							line-height: 1.71;
 							margin-bottom: $quarter;
+							@include break-on(sm, max) {
+								line-height: 1.5rem;
+								margin: 0;
+							}
 						}
 					}
 				}
-
-				icon {
-					display: block;
-					i {
-						font-size: $medium !important;
-						margin: $small 0 $gutter;
+				@include break-on(sm, min) {
+					icon {
+						display: block;
+						i {
+							font-size: $medium !important;
+							margin: $small 0 $gutter;
+						}
 					}
 				}
 			}
@@ -179,7 +184,7 @@
 			}
 		}
 
-		@include break-on(xs, max) {
+		@include break-on(sm, max) {
 			& {
 				border-radius: 0 0 $half-gutter $half-gutter !important;
 			}
@@ -187,7 +192,9 @@
 				display: flex;
 				flex-direction: column;
 				align-items: unset;
-				&__tabs {
+				&__tabs, &__middle-tabs {
+					padding: 0;
+					margin: 0;
 					display: flex;
 					align-items: center;
 					border: none;
@@ -206,12 +213,12 @@
 							align-items: center;
 							color: $blue;
 							padding: 0;
-							// &:first-child {
-							// 	padding-left: .5rem;
-							// }
-							// &:last-child {
-							// 	padding-right: .5rem;
-							// }
+							&:first-child {
+								margin-left: .5rem;
+							}
+							&:last-child {
+								margin-right: .5rem;
+							}
 						}
 					}
 					.button__contents {

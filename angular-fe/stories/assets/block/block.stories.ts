@@ -122,6 +122,7 @@ stories.add('Block', () => {
           Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
         </block-content>
         <block-content tabLabel="Andmed" tabIcon="database">
+          <p><b>ANDMED</b></p>
           <p>Ut pariatur nisi eu cupidatat ut aliquip.
           Veniam sit veniam proident non quis consectetur cillum
           et sit aliquip elit ipsum duis laborum. Enim cillum amet
@@ -141,15 +142,7 @@ stories.add('Block', () => {
           Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
         </block-content>
         <block-content tabLabel="Kaart" tabIcon="map">
-          <p>Ut pariatur nisi eu cupidatat ut aliquip.
-          Veniam sit veniam proident non quis consectetur cillum
-          et sit aliquip elit ipsum duis laborum. Enim cillum amet
-          consectetur veniam nulla aliqua qui. Sit officia qui do
-          sit et. Amet minim laborum adipisicing ea exercitation
-          adipisicing pariatur excepteur. Veniam amet laborum
-          deserunt officia sit pariatur consectetur. Lorem qui
-          occaecat elit deserunt sint consectetur labore minim
-          ea in occaecat.</p>
+          <p><b>KAART</b></p>
           <p>Ipsum consectetur deserunt fugiat enim ex. Ex
           laboris qui eu in tempor aliqua reprehenderit nulla.
           Minim amet ullamco eiusmod do reprehenderit minim velit
@@ -160,15 +153,18 @@ stories.add('Block', () => {
           Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
         </block-content>
         <block-content tabLabel="Uus" tabIcon="map">
-          <p>Ut pariatur nisi eu cupidatat ut aliquip.
-          Veniam sit veniam proident non quis consectetur cillum
-          et sit aliquip elit ipsum duis laborum. Enim cillum amet
-          consectetur veniam nulla aliqua qui. Sit officia qui do
-          sit et. Amet minim laborum adipisicing ea exercitation
-          adipisicing pariatur excepteur. Veniam amet laborum
-          deserunt officia sit pariatur consectetur. Lorem qui
-          occaecat elit deserunt sint consectetur labore minim
-          ea in occaecat.</p>
+          <p><b>UUS</b></p>
+          <p>Ipsum consectetur deserunt fugiat enim ex. Ex
+          laboris qui eu in tempor aliqua reprehenderit nulla.
+          Minim amet ullamco eiusmod do reprehenderit minim velit
+          ipsum sint. Do duis culpa laborum commodo ullamco dolore
+          qui. Id aute reprehenderit ad in elit laboris fugiat
+          reprehenderit sit. Cillum incididunt occaecat mollit
+          nulla voluptate fugiat sunt qui irure eu veniam amet non ullamco.
+          Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
+        </block-content>
+        <block-content tabLabel="Viies" tabIcon="x">
+          <p><b>Viies</b></p>
           <p>Ipsum consectetur deserunt fugiat enim ex. Ex
           laboris qui eu in tempor aliqua reprehenderit nulla.
           Minim amet ullamco eiusmod do reprehenderit minim velit
