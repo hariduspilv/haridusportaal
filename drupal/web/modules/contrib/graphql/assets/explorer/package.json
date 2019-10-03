@@ -9,7 +9,7 @@
     "graphiql": "^0.11.10",
     "graphql": "^0.11.7",
     "react": "^16.10.2",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.10.2"
   },
   "devDependencies": {
     "babel": "^6.23.0",
