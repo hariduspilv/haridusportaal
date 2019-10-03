@@ -82,6 +82,7 @@ import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
+import { AutocompleteComponent } from './autocomplete';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -153,6 +154,7 @@ const declarations = [
   UrlPipe,
   SearchResultsComponent,
   NewsComponent,
+  AutocompleteComponent,
 ];
 
 const exports = [

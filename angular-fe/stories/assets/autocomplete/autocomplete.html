@@ -1,0 +1,16 @@
+<article-layout>
+  
+  <block [titleBorder]="true">
+
+    <block-title>Autocomplete</block-title>
+    <block-content>
+      <formItem
+        #autocompleteInput
+        type="text"
+        title="Märksõna"
+        (keyup)="autocompleteElem.search(autocompleteInput.field);">
+      </formItem>
+      <autocomplete #autocompleteElem type="testAutocomplete"></autocomplete>
+    </block-content>
+  </block>
+</article-layout>

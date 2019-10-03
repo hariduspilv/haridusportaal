@@ -45,7 +45,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
   @Input() label: string = '';
-  @Input() value: string = '';
+  @Input() public value: string = '';
   @Input() staticTitle: string;
   @Input() errorMessage: string = '';
   @Input() error: boolean = false;
