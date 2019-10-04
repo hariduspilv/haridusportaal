@@ -11,6 +11,7 @@ import {
   OnChanges,
   forwardRef,
 } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'block-content',
@@ -85,6 +86,9 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   @Input() loading: boolean = false;
 
+  public viewTabs: QueryList<BlockContentComponent> | Object[];
+  public currentViewTabs: number = 0;
+  public isMobile: boolean;
   activeTab: string = '';
   labeledTabs: number = 0;
   hasTitle: boolean = false;
@@ -92,7 +96,10 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {}
+    private deviceService: DeviceDetectorService,
+  ) {
+    this.isMobile = !this.deviceService.isDesktop();
+  }
 
   @HostBinding('class') get hostClasses(): string {
     return `block--${this.theme}`;
@@ -155,11 +162,31 @@ export class BlockComponent implements AfterContentInit, OnChanges{
       }   else {
         this.activeTab = activeTabs[0].tabLabel;
       }
+      if (this.tabs.length > 2 && this.isMobile) {
+        this.constructViewTabs();
+      } else {
+        this.viewTabs = [this.tabs];
+      }
       this.countLabels();
     } catch (err) {}
 
     this.checkTitle();
     this.checkSecondaryTitle();
+  }
+
+  public navigateTabs(navigation: number) {
+    this.currentViewTabs = this.currentViewTabs + navigation;
+  }
+
+  public constructViewTabs() {
+    const viewTabs: Object[] = [];
+    for (let i = 2; i <= this.tabs.length; i += 2) {
+      viewTabs.push(this.tabs.toArray().slice(i - 2, i));
+    }
+    if (this.tabs.length % 2) {
+      viewTabs.push(this.tabs.toArray().slice(this.tabs.length - 2, this.tabs.length));
+    }
+    this.viewTabs = viewTabs;
   }
 
   ngAfterContentInit() {
