@@ -1,5 +1,5 @@
 <base-layout>
-	<breadcrumbs path="/kool"></breadcrumbs>
+	<breadcrumbs path="/erialad"></breadcrumbs>
 	<form class="filter-wrapper" filters>
 		<div class="sm-show text-right filter-control">
 			<a href="javascript:void(0);" (click)="showFilter = !showFilter">
@@ -84,9 +84,9 @@
 		</ng-container>
 	</form>
 	<block titleBorder="true">
-		<block-title>{{ 'school.label' | translate }}</block-title>
+		<block-title>{{ 'news.label' | translate }}</block-title>
 		<block-content>
-			<searchResults type="school" limit="24"></searchResults>
+			<searchResults type="studyProgramme" limit="24"></searchResults>
 		</block-content>
 	</block>
 </base-layout>

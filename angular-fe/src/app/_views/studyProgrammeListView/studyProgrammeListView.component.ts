@@ -3,12 +3,12 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'schoolList-view',
-  templateUrl: 'schoolListView.template.html',
-  styleUrls: ['schoolListView.styles.scss'],
+  selector: 'studyProgrammeList-view',
+  templateUrl: 'studyProgrammeListView.template.html',
+  styleUrls: ['studyProgrammeListView.styles.scss'],
 })
 
-export class SchoolListViewComponent {
+export class StudyProgrammeListViewComponent {
   @Input() path: string;
   lang: any;
   params: any;

@@ -97,6 +97,7 @@ import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.com
 import { MainProfessionListViewComponent } from '@app/_views/mainProfessionListView/mainProfessionListView.component';
 import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
 import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
+import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -177,6 +178,7 @@ const declarations = [
   MainProfessionListViewComponent,
   HomeSearchListViewComponent,
   SchoolListViewComponent,
+  StudyProgrammeListViewComponent,
 ];
 
 const exports = [

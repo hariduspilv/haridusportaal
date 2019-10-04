@@ -107,7 +107,12 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           // tslint:disable-next-line: max-line-length
           values[searchResultKeys[this.parsedType][item].key] = this.getValue(tmpParams[item], item);
           // tslint:disable-next-line: max-line-length
-          values[searchResultKeys[this.parsedType][item].enabled] = tmpParams[item] === '' ? false : true;
+          
+          if (Array.isArray(tmpParams[item])) {
+            values[searchResultKeys[this.parsedType][item].enabled] = tmpParams[item] ? false : true;
+          } else {
+            values[searchResultKeys[this.parsedType][item].enabled] = tmpParams[item] === '' ? false : true;
+          }
         }
       } else {
         values[item] = this.getValue(tmpParams[item], item);
