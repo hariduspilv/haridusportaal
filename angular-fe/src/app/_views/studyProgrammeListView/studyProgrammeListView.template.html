@@ -10,11 +10,11 @@
 		<ng-container *ngIf="showFilter">
 			<div class="row">
 				<div class="col-4 sm-12">
-					<formItem type="text" title="{{ 'school.name' | translate }}" name="title"></formItem>
+					<formItem type="text" title="{{ 'studyProgramme.filter_title' | translate }}" name="title"></formItem>
 				</div>
 				<!--/col-4-->
 				<div class="col-5 sm-12">
-					<formItem type="text" title="{{ 'school.location' | translate }}" name="location"></formItem>
+					<formItem type="multi-select" title="{{ 'studyProgramme.filter_type' | translate }}" name="type" [options]="typeFilters" [(ngModel)]="selectedTypes"></formItem>
 				</div>
 				<!--/col-3-->
 
@@ -35,37 +35,65 @@
 			<div class="row" *ngIf="filterFull">
 
 				<div class="col-4 sm-12">
-					<formItem type="multi-select" [(ngModel)]="selectedPrimaryTypes"
-						title="{{ 'school.institution_type' | translate }}" name="primaryTypes" [options]="primaryTypes" (onChange)="setSecondaryTypes()">
-					</formItem>
-				</div>
-
-				<div *ngIf="secondaryFilteredTypes" class="col-5 sm-12" [class.disabled]="selectedPrimaryTypes.length ? false : true">
-					<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"
-						title="{{ 'school.institution_sublevel' | translate }}" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
-					</formItem>
-				</div>
-
-				<div class="hidden">
-					<formItem type="multi-select" title="{{ 'button.sort' | translate }}" name="type" [options]="primaryTypes"
-						[(ngModel)]="selectedTypes">
-					</formItem>
-				</div>
-
-				<div class="col-4 sm-12">
-					<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language" [options]="languageFilters">
+					<formItem type="multi-select" [(ngModel)]="selectedLevels"
+						title="{{ 'studyProgramme.level' | translate }}" name="level" [options]="levelFilters">
 					</formItem>
 				</div>
 
 				<div class="col-5 sm-12">
-					<formItem type="multi-select" title="{{ 'school.ownership' | translate }}" name="ownership" [options]="ownershipFilters">
+					<formItem type="multi-select" [(ngModel)]="selectedIscedfBroad" (onChange)="setIscedfFilters('narrow')"
+						title="{{ 'studyProgramme.filter_iscedf_broad' | translate }}" name="iscedf_broad" [options]="iscedfBroadFilters">
 					</formItem>
 				</div>
-				<div class="col-9">
-					<formItem type="checkbox" label="{{ 'school.special_needs_short' | translate }}"
-						name="specialClass">
+
+				<div class="col-4 sm-12">
+					<formItem type="multi-select" [(ngModel)]="selectedLanguages" 
+					title="{{ 'studyProgramme.filter_language' | translate }}" name="language" [options]="languageFilters">
 					</formItem>
-					<formItem type="checkbox" label="{{ 'school.dormitory' | translate }}" name="studentHome">
+				</div>
+
+				<div class="col-5 sm-12" [class.disabled]="selectedIscedfBroad.length ? false : true" >
+					<formItem type="multi-select" [(ngModel)]="selectedIscedfNarrow" (onChange)="setIscedfFilters('detailed')"
+					title="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}" name="iscedf_narrow" [options]="iscedfNarrowFilters">
+					</formItem>
+				</div>
+
+				<div class="col-4 sm-12">
+					<formItem type="text" title="{{ 'studyProgramme.filter_school' | translate }}" name="school">
+					</formItem>
+				</div>
+
+				<div class="col-5 sm-12" [class.disabled]="selectedIscedfNarrow.length ? false : true">
+					<formItem type="multi-select" [(ngModel)]="selectedIscedfDetailed" 
+					title="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}" name="iscedf_detailed" [options]="iscedfDetailedFilters">
+					</formItem>
+				</div>
+
+				<div class="col-4 sm-12">
+					<formItem type="text" title="{{ 'studyProgramme.filter_location' | translate }}" name="location">
+					</formItem>
+				</div>
+
+				<div class="col-5 sm-12">
+					<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortOptions"
+					[(ngModel)]="sort" (onChange)="setSortDirection()">
+					</formItem>
+				</div>
+
+				<div class="hidden">
+					<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
+						[(ngModel)]="sortField">
+					</formItem>
+				</div>
+				<div class="hidden">
+					<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
+						[(ngModel)]="sortDirection">
+					</formItem>
+				</div>
+
+				<div class="col-9">
+					<formItem type="checkbox" [(ngModel)]="openAdmission"
+					label="{{ 'studyProgramme.filter_open_admission' | translate }}" name="onlyOpenAdmission">
 					</formItem>
 				</div>
 
@@ -84,7 +112,7 @@
 		</ng-container>
 	</form>
 	<block titleBorder="true">
-		<block-title>{{ 'news.label' | translate }}</block-title>
+		<block-title>{{ 'studyProgramme.label' | translate }}</block-title>
 		<block-content>
 			<searchResults type="studyProgramme" limit="24"></searchResults>
 		</block-content>

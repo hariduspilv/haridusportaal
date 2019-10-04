@@ -28,7 +28,6 @@ export class SchoolListViewComponent {
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
-    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -49,8 +48,9 @@ export class SchoolListViewComponent {
   }
 
   removeHangingTypes() {
+    const oldValues = this.selectedSecondaryTypes;
     this.selectedSecondaryTypes = [];
-    this.selectedSecondaryTypes.forEach((element) => {
+    oldValues.forEach((element) => {
       if (this.secondaryFilteredTypes.indexOf(element) !== -1) {
         this.selectedSecondaryTypes.push(element);
       }
@@ -72,7 +72,6 @@ export class SchoolListViewComponent {
     const subscribe = this.http.get(path).subscribe((response: any) => {
       const data = response.data.taxonomyTermQuery.entities;
 
-      console.log(data);
       data.map((el) => {
         if (el.reverseFieldEducationalInstitutionTyNode) {
           el.parentId ? this.secondaryTypes.push({ value: el.entityId, key: el.entityLabel, parent: el.parentId }) : this.primaryTypes.push({ value: el.entityId, key: el.entityLabel });

@@ -4,8 +4,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
 import { SettingsService } from '@app/_services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import studyProgrammeListViewHtml from './studyProgrammeListView.html';
-import studyProgrammeListViewMd from './studyProgrammeListView.md';
+import studyProgrammeListViewHtml from './studyProgrammeListView.stories.html';
+import studyProgrammeListViewMd from './studyProgrammeListView.stories.md';
 import { AssetsModule } from '@app/_assets';
 
 const moduleMetadata = {

@@ -61,6 +61,17 @@ export const searchResultKeys = {
       key: 'iscedf_detailed',
       enabled: 'iscedf_detailedEnabled',
     },
+    onlyOpenAdmission: {
+      key: 'onlyOpenAdmission',
+      enabled: 'onlyOpenAdmission',
+    },
+    sortField: {
+      key: 'sortField',
+      enabled: 'indicatorSort',
+    },
+    sortDirection: {
+      key: 'sortDirection',
+    },
   },
   school: {
     bounds: {
@@ -144,6 +155,7 @@ export const requiredFields = {
     'iscedf_detailed',
     'sortField',
     'sortDirection',
+    'onlyOpenAdmission',
   ],
   school: [
     'title',
@@ -177,6 +189,7 @@ export const defaultValues = {
   studyprogramme: {
     sortField: 'title',
     sortDirection: 'ASC',
+    onlyOpenAdmission: true,
   },
   school: {
     minLat: '0',
