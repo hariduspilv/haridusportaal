@@ -19,6 +19,7 @@ export class DetailViewComponent {
   public loading: boolean = true;
   public sidebar: object;
   public title: string;
+  public compareKey: string;
   private queryKey: string = '';
 
   constructor(
@@ -71,11 +72,13 @@ export class DetailViewComponent {
       case 'studyProgramme': {
         this.queryKey = 'studyProgrammeSingle';
         this.title = 'studyProgramme.label';
+        this.compareKey = 'studyProgramme.compare';
         break;
       }
       case 'profession': {
         this.queryKey = 'oskaMainProfessionDetailView';
         this.title = 'oskaProfessions.label';
+        this.compareKey = 'oskaProfessions.compare';
         break;
       }
       case 'field': {

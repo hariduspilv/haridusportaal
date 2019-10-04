@@ -17,6 +17,7 @@
 
 				<div class="toolbar">
 					<share [title]="title"></share>
+					<compare *ngIf="compareKey" [id]="data.nid" [sessionStorageKey]="compareKey"></compare>
 				</div><!--/toolbar-->
 
         <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
