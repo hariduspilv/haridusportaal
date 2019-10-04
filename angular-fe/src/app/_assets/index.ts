@@ -95,6 +95,8 @@ import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
 import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.component';
 import { MainProfessionListViewComponent } from '@app/_views/mainProfessionListView/mainProfessionListView.component';
+import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
+import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -173,6 +175,8 @@ const declarations = [
   LinksComponent,
   NewsListViewComponent,
   MainProfessionListViewComponent,
+  HomeSearchListViewComponent,
+  SchoolListViewComponent,
 ];
 
 const exports = [

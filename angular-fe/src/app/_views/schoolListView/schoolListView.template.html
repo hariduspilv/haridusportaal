@@ -1,5 +1,5 @@
 <base-layout>
-	<breadcrumbs path="/ametialad"></breadcrumbs>
+	<breadcrumbs path="/kool"></breadcrumbs>
 	<form class="filter-wrapper" filters>
 		<div class="sm-show text-right filter-control">
 			<a href="javascript:void(0);" (click)="showFilter = !showFilter">
@@ -10,12 +10,13 @@
 		<ng-container *ngIf="showFilter">
 			<div class="row">
 				<div class="col-4 sm-12">
-					<formItem type="text" title="{{ 'search.keyword' | translate }}" name="title"></formItem>
+					<formItem type="text" title="{{ 'school.name' | translate }}" name="title"></formItem>
 				</div>
+				<!--/col-4-->
 				<div class="col-5 sm-12">
-					<formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" name="oskaFieldValue"
-						[options]="oskaFields"></formItem>
+					<formItem type="text" title="{{ 'school.location' | translate }}" name="location"></formItem>
 				</div>
+				<!--/col-3-->
 
 				<div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
 					<div class="align-center filter-state sm-hide">
@@ -32,31 +33,41 @@
 			</div>
 			<!--/row-->
 			<div class="row" *ngIf="filterFull">
+
 				<div class="col-4 sm-12">
-					<formItem type="multi-select" title="{{ 'oska.competition' | translate }}" name="fillingBar"
-						[options]="competitionFilters" [(ngModel)]="competitionSelection">
+					<formItem type="multi-select" [(ngModel)]="selectedPrimaryTypes"
+						title="{{ 'school.institution_type' | translate }}" name="primaryTypes" [options]="primaryTypes" (onChange)="setSecondaryTypes()">
 					</formItem>
 				</div>
+
+				<div *ngIf="secondaryFilteredTypes" class="col-5 sm-12" [class.disabled]="selectedPrimaryTypes.length ? false : true">
+					<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"
+						title="{{ 'school.institution_sublevel' | translate }}" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
+					</formItem>
+				</div>
+
+				<div class="hidden">
+					<formItem type="multi-select" title="{{ 'button.sort' | translate }}" name="type" [options]="primaryTypes"
+						[(ngModel)]="selectedTypes">
+					</formItem>
+				</div>
+
+				<div class="col-4 sm-12">
+					<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language">
+					</formItem>
+				</div>
+
 				<div class="col-5 sm-12">
-					<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortedBy"
-						[(ngModel)]="sort" (onChange)="setSortDirection()">
+					<formItem type="multi-select" title="{{ 'school.ownership' | translate }}" name="ownership">
 					</formItem>
 				</div>
-				<div class="hidden">
-					<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
-						[(ngModel)]="sortField">
+				<div class="col-9">
+					<formItem type="checkbox" label="{{ 'school.special_needs_short' | translate }}"
+						name="specialClass">
+					</formItem>
+					<formItem type="checkbox" label="{{ 'school.dormitory' | translate }}" name="studentHome">
 					</formItem>
 				</div>
-				<div class="hidden">
-					<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
-						[(ngModel)]="sortDirection">
-					</formItem>
-				</div>
-				<div class="col-9 sm-12">
-						<formItem type="multi-select" title="{{ 'oskaProfessions.tags' | translate }}" name="fixedLabel"
-							[options]="fixedLabels" [(ngModel)]="fixedLabelSelection">
-						</formItem>
-					</div>
 
 				<div class="col-3 align-end text-right sm-12 inline-flex">
 					<div class="align-center filter-state sm-hide">
@@ -73,9 +84,9 @@
 		</ng-container>
 	</form>
 	<block titleBorder="true">
-		<block-title>{{ 'oskaProfessions.main_profession' | translate }}</block-title>
+		<block-title>{{ 'news.label' | translate }}</block-title>
 		<block-content>
-			<searchResults type="mainProfession" compare="oskaProfessions.compare" limit="24"></searchResults>
+			<searchResults type="school" limit="24"></searchResults>
 		</block-content>
 	</block>
 </base-layout>

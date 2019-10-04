@@ -29,7 +29,7 @@
 						</a>
 					</div>
 					<div class="button-row">
-						<button htm-button>Otsi</button>
+						<button htm-button>{{ 'button.search' | translate }}</button>
 					</div>
 				</div>
 
@@ -38,7 +38,7 @@
 			<div class="row" *ngIf="filterFull">
 				<div class="col-9 sm-12">
 					<formItem type="multi-select" title="{{ 'news.filter_tag' | translate }}" name="tag"
-						[options]="tags">
+						[options]="tags" [(ngModel)]="selectedTag">
 					</formItem>
 				</div>
 
@@ -50,14 +50,14 @@
 						</a>
 					</div>
 					<div class="button-row">
-						<button htm-button>Otsi</button>
+						<button htm-button>{{ 'button.search' | translate }}</button>
 					</div>
 				</div>
 			</div>
 		</ng-container>
 	</form>
 	<block titleBorder="true">
-		<block-title>Uudised</block-title>
+		<block-title>{{ 'news.label' | translate }}</block-title>
 		<block-content>
 			<searchResults type="news" limit="24"></searchResults>
 		</block-content>

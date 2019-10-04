@@ -30,6 +30,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
 
   @Input() type: string = '';
   @Input() limit: number = 10;
+  @Input() compare: string = '';
 
   public parsedType: string = '';
   public queryName: string = '';

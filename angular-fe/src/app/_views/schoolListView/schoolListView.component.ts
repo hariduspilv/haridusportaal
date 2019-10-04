@@ -1,0 +1,83 @@
+import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { SettingsService } from '@app/_services/SettingsService';
+import { HttpClient } from '@angular/common/http';
+
+@Component({
+  selector: 'schoolList-view',
+  templateUrl: 'schoolListView.template.html',
+  styleUrls: ['schoolListView.styles.scss'],
+})
+
+export class SchoolListViewComponent {
+  @Input() path: string;
+  lang: any;
+  params: any;
+  tags: any;
+  selectedTag: any;
+  showFilter = true;
+  schoolType = [];
+  primaryTypes = [];
+  selectedPrimaryTypes = [];
+  selectedSecondaryTypes = [];
+  secondaryTypes = [];
+  secondaryFilteredTypes = [];
+  selectedTypes = [];
+
+  constructor(
+    private settings: SettingsService,
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+  ) { }
+
+  ngOnInit() {
+    this.getTags();
+  }
+
+  setSecondaryTypes() {
+    this.secondaryFilteredTypes = [];
+    this.selectedPrimaryTypes.forEach((element) => {
+      this.secondaryTypes.forEach((el) => {
+        if (el.parent === Number(element)) {
+          this.secondaryFilteredTypes.push({ value: el.value, key: el.key });
+        }
+      });
+    });
+    this.removeHangingTypes();
+    this.setTypeValue();
+  }
+
+  removeHangingTypes() {
+    this.selectedSecondaryTypes = [];
+    this.selectedSecondaryTypes.forEach((element) => {
+      if (this.secondaryFilteredTypes.indexOf(element) !== -1) {
+        this.selectedSecondaryTypes.push(element);
+      }
+    });
+  }
+
+  setTypeValue() {
+    this.selectedTypes = [...this.selectedPrimaryTypes, ...this.selectedSecondaryTypes];
+  }
+
+  getTags() {
+
+    let variables = {
+      lang: 'ET',
+    };
+
+    const path = this.settings.query('getSchoolFilterOptions', variables);
+
+    const subscribe = this.http.get(path).subscribe((response: any) => {
+      const data = response.data.taxonomyTermQuery.entities;
+
+      data.map((el) => {
+        if (el.reverseFieldEducationalInstitutionTyNode) {
+          el.parentId ? this.secondaryTypes.push({ value: el.entityId, key: el.entityLabel, parent: el.parentId }) : this.primaryTypes.push({ value: el.entityId, key: el.entityLabel });
+        }
+      });
+      console.log(this.primaryTypes);
+
+      subscribe.unsubscribe();
+    });
+  }
+}

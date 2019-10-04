@@ -1,0 +1,80 @@
+<base-layout>
+	<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+	<form (submit)="getResults(param, [])" class="filter-wrapper">
+		<div class="main-container">
+			<div class="row">
+				<div class="col-10 sm-12">
+						<formItem type="text" [(ngModel)]="param" title="{{'search.keyword' | translate}}" name="title"></formItem>
+				</div>
+				<div class="col-2 sm-12">
+						<button htm-button>{{ 'button.search' | translate }}</button>
+				</div>
+			</div>
+		</div>
+	</form>
+	<block titleBorder="true">
+		<block-title>{{ 'search.results' | translate }}</block-title>
+		<block-content>
+			<div #content *ngIf="filteredResults && filteredResults.length" class="search__title--filter">
+				{{ 'search.filter_results' | translate }}:</div>
+			<ng-container *ngIf="filteredResults && filteredResults.length">
+				<div class="search__chips" role="group" attr.aria-label="Search filter">
+					<a role="alert" id="initial" (keyup.enter)="filterAll()" (click)="filterAll()"
+						*ngIf="results && results.length" href="javascript:void(0)"
+						attr.aria-label="{{'button.all' | translate}} {{'search.results' | translate}}, status: {{allFilters ? 'On': 'Off'}}, count: {{ results.length }}"
+						class="search__chips--chip pointer" [class.selected]="allFilters">
+						<span aria-label="">{{'button.all' | translate}} <span>({{results.length}})</span></span>
+					</a>
+					<ng-container *ngFor="let chip of types; let i = index;">
+						<a role="button" *ngIf="chip.sum" href="javascript:void(0)"
+							attr.aria-label="Filter: {{chip.name | translate}}, status: {{chip.value ? 'On': 'Off'}}, count: {{ chip.sum }}"
+							(click)="filterView(i)" class="search__chips--chip pointer"
+							[class.selected]="chip.value">{{chip.name | translate}} <span>({{chip.sum}})</span></a>
+					</ng-container>
+				</div>
+			</ng-container>
+			<loader *ngIf="loading"></loader>
+			<ng-container *ngIf="filteredResults && filteredResults.length">
+				<ng-container *ngFor="let item of filteredResults;let i = index;">
+					<a tabindex="0" id="{{i}}" href="javascript:void(0)" *ngIf="i < listLimit" class="search__sub pointer"
+						[routerLink]="[item.EntityPath]">
+						<div class="search__sub--category" aria-hidden="true">{{ item.ContentType }}</div>
+						<div class="search__sub--title"
+							attr.aria-label="{{ item.ContentType }}{{ item.ContentType !== 'Õppekava' ? ':' : '' }} {{ item.Title }}{{ item.ContentType === 'Õppekava' ? ':' : '' }}">
+							<h1>{{ item.Title }}</h1>
+						</div>
+						<div class="inline__items" *ngIf="item.ContentType === 'Õppekava'"
+							attr.aria-label="{{ item.FieldSchoolName }} {{ item.FieldStudyProgrammeLevel }} {{ item.FieldDuration | monthsToYears }}">
+							<span class="item" *ngIf="item.FieldSchoolName" aria-hidden="true">{{ item.FieldSchoolName }}</span>
+							<span class="bar" *ngIf="item.FieldSchoolName && item.FieldStudyProgrammeLevel"
+								aria-hidden="true">|</span>
+							<span class="item" *ngIf="item.FieldStudyProgrammeLevel"
+								aria-hidden="true">{{ item.FieldStudyProgrammeLevel }}</span>
+							<span class="bar" *ngIf="(item.FieldStudyProgrammeLevel || item.FieldSchoolName) && item.FieldDuration"
+								aria-hidden="true">|</span>
+							<span class="item" *ngIf="item.FieldDuration"
+								aria-hidden="true">{{ item.FieldDuration | monthsToYears }}</span>
+						</div>
+					</a>
+					<!--ngFor-->
+				</ng-container>
+			</ng-container>
+			<!--/search__body-->
+			<div class="text-center actions__error"
+				*ngIf="!loading && filteredResults !== null && filteredResults.length === 0">
+				<div class="alert text-center" role="alert">{{'search.no_results_start' | translate}} <span
+						*ngIf="route.snapshot.queryParams['term']">"{{route.snapshot.queryParams['term']}}" </span><span
+						innerHtml="{{'search.no_results_end' | translate}}"></span></div>
+			</div>
+			<!--/text-center-->
+			<div class="text-center actions__error" *ngIf="!loading && !filteredResults">
+				<div class="alert text-center" role="alert">{{ 'news.no_results' | translate }}</div>
+			</div>
+			<div class="text-center actions" *ngIf="listLength > listLimit && filteredResults && filteredResults.length">
+				<button mat-raised-button color="primary" (click)="loadMore()"
+					role="button">{{ 'button.load_more' | translate }}</button>
+			</div>
+			<!--/text-center-->
+		</block-content>
+	</block>
+</base-layout>

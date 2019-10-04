@@ -17,6 +17,7 @@ import { translationsPerType } from '../compare/helpers/compare';
   @Input() list: Object[];
   @Input() type: string;
   @Input() compare: string;
+
   private translationsPerType = translationsPerType;
   public footerFields = {
     studyProgramme: [
@@ -32,6 +33,11 @@ import { translationsPerType } from '../compare/helpers/compare';
     ],
     mainProfession: [
       'fillingBar',
+    ],
+    homeSearch: [
+      'fieldSchoolName',
+      'studyProgrammeLevel',
+      'duration',
     ],
   };
 
@@ -50,7 +56,7 @@ import { translationsPerType } from '../compare/helpers/compare';
 
   parseList():void {
     this.list.forEach((element, index) => {
-      this.list[index] = FieldVaryService(element);
+      this.list[index] = FieldVaryService(element);;
     });
   }
   ngOnInit() {

@@ -4,11 +4,13 @@ export const queryList = {
   studyprogramme: 'studyProgrammeList',
   school: 'schoolMapQuery',
   mainprofession: 'oskaMainProfessionListView',
+  homesearch: 'homeSearchRevised',
 };
 
 export const likeFields = {
   news: ['title', 'school', 'location'],
   studyprogramme: ['title', 'school', 'location'],
+  mainprofession: ['title'],
 };
 
 export const searchResultKeys = {
@@ -119,6 +121,12 @@ export const searchResultKeys = {
       enabled: 'nidEnabled',
     },
   },
+  homesearch: {
+    searchTerm: {
+      key: 'search_term',
+      enabled: 'searchTermEnabled',
+    },
+  },
 };
 
 export const requiredFields = {
@@ -159,6 +167,9 @@ export const requiredFields = {
     'sortField',
     'sortDirection',
     'nidEnabled',
+  ],
+  homesearch: [
+    'searchTerm',
   ],
 };
 

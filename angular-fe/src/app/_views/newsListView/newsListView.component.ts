@@ -14,6 +14,7 @@ export class NewsListViewComponent {
   lang: any;
   params: any;
   tags: any;
+  selectedTag: any;
   showFilter = true;
 
   constructor(
