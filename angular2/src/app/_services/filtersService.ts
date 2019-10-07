@@ -109,7 +109,10 @@ export class FiltersService {
     let urlParams = {};
 
     for( var i in this.filterFormItems ){
-
+      
+      if (i == 'displayRelated') {
+        this.filterFormItems[i] = true;
+      }
       if( this.filterFormItems[i] == '' || this.filterFormItems[i] == null){
         delete this.filterFormItems[i];
       }
@@ -132,6 +135,7 @@ export class FiltersService {
         urlParams[i] = this.filterFormItems[i];
       }
     }
+
 
     this.router.navigate([], {
       queryParams: urlParams,
