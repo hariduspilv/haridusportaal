@@ -2,12 +2,12 @@ import { storiesOf } from '@storybook/angular';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
 import { withKnobs, select } from '@storybook/addon-knobs';
-import { BreadcrumbsComponent } from '@app/_assets/breadcrumbs/breadcrumbs.component';
 import breadcrumbsMd from './breadcrumbs.md';
+import { AssetsModule } from '@app/_assets';
 
 const moduleMetadata = {
-  declarations: [BreadcrumbsComponent],
   imports: [
+    AssetsModule,
     RouterTestingModule,
     CommonModule,
   ],

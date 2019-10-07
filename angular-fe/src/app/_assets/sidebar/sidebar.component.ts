@@ -1,7 +1,8 @@
-import { Component, Input, HostBinding, OnInit } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, OnChanges } from '@angular/core';
 import { SidebarService } from '@app/_services';
 import { collection, titleLess } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
+import FieldVaryService from '@app/_services/FieldVaryService';
 import conf from '@app/_core/conf';
 
 interface SidebarType {
@@ -16,21 +17,35 @@ interface TitleLess {
   templateUrl: './sidebar.template.html',
   styleUrls: ['./sidebar.styles.scss'],
 })
-export class SidebarComponent {
-  @Input() data: Object[];
+export class SidebarComponent implements OnInit {
+  @Input() data: any;
   @Input() feedbackNid: string = '';
   private collection: SidebarType = collection;
   private titleLess: TitleLess = titleLess;
   private keys: string[];
-  private mappedData: any[];
+  private mappedData: any;
   @HostBinding('class') get hostClasses(): string {
     return 'sidebar';
   }
   constructor(private sidebarService: SidebarService) {}
   ngOnInit() {
-    this.mappedData = this.sidebarService.mapUniformKeys(this.data);
-    this.keys = Object.keys(this.mappedData);
+    if (this.data) {
+      this.data = FieldVaryService(this.data);
+      if (this.data.sidebar && this.data.sidebar.entity) {
+        Object.keys(this.data.sidebar.entity).forEach((elem) => {
+          this.data[elem] = this.data.sidebar.entity[elem];
+        });
+      }
+      this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
+      this.keys = Object.keys(this.mappedData);
+    }
   }
+  // ngOnChanges() {
+  //   if (this.data) {
+  //     this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
+  //     this.keys = Object.keys(this.mappedData);
+  //   }
+  // }
   // Storybook data change
 /*   ngOnChanges() {
     this.blocks = this.sidebarService.getBlockField(this.data);
@@ -47,12 +62,21 @@ export class SidebarLinksComponent implements OnInit {
   @Input() data: Object[];
   ngOnInit() {
     this.data = this.data.map((item: any) => {
-      if (item['entity']) {
+      if (item['entity'] && item['entity'].entityLabel) {
         return {
           title: item['entity'].entityLabel,
           url: {
             path: item['entity'].entityUrl.path,
             routed: true,
+          },
+        };
+      }
+      if (item['entity'] && item['entity'].fieldJobName) {
+        return {
+          title: item['entity'].fieldJobName,
+          url: {
+            path: item['entity'].fieldJobLink.url.path,
+            routed: item['entity'].fieldJobLink.url.routed,
           },
         };
       }
@@ -77,7 +101,12 @@ export class SidebarCategoriesComponent implements OnInit {
   templateUrl: './templates/sidebar.contact.template.html',
 })
 export class SidebarContactComponent {
-  @Input() data: Object[];
+  @Input() data: any;
+  ngOnInit() {
+    if (this.data.entity) {
+      this.data = FieldVaryService(this.data.entity);
+    }
+  }
 }
 
 @Component({
@@ -90,7 +119,7 @@ export class SidebarArticlesComponent {
 
 @Component({
   selector: 'sidebar-data',
-  template: '<div [innerHTML]="data.entity.fieldAdditionalBody"><div>',
+  template: '<b *ngIf="data.entity?.fieldTitle">{{ data.entity?.fieldTitle }}</b><div [innerHTML]="data.entity?.fieldAdditionalBody || data.value"><div>',
 })
 export class SidebarDataComponent {
   @Input() data: Object;
@@ -108,7 +137,7 @@ export class SidebarActionsComponent {
   templateUrl: './templates/sidebar.location.template.html',
 })
 export class SidebarLocationComponent {
-  @Input() data: Object[];
+  @Input() data: any;
   private markers: any[] = [];
   private options = {
     centerLat: null,
@@ -122,13 +151,33 @@ export class SidebarLocationComponent {
     draggable: false,
   };
   ngOnInit() {
-    this.data.forEach((loc) => {
-      const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
-      const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
+    if (this.data && this.data.length) {
+      this.data.forEach((loc) => {
+        const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
+        const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
+        this.options.centerLat = lat;
+        this.options.centerLng = lon;
+        this.markers.push({ Lat: lat, Lon: lon });
+      });
+    } else if (this.data.educationalInstitution) {
+      this.data.educationalInstitution.entity.fieldSchoolLocation.forEach((loc) => {
+        const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
+        const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
+        this.options.centerLat = lat;
+        this.options.centerLng = lon;
+        this.markers.push({ Lat: lat, Lon: lon });
+      });
+      this.data = this.data.educationalInstitution.entity.fieldSchoolLocation;
+    } else {
+      const lat = parseFloat(this.data.fieldEventLocation.lat);
+      const lon = parseFloat(this.data.fieldEventLocation.lon);
       this.options.centerLat = lat;
       this.options.centerLng = lon;
+      this.options.zoom = this.options.minZoom
+        = this.options.maxZoom = parseInt(this.data.fieldEventLocation.zoom, 10);
       this.markers.push({ Lat: lat, Lon: lon });
-    });
+      this.data = [this.data];
+    }
   }
 }
 

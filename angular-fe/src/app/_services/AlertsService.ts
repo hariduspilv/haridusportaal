@@ -34,6 +34,7 @@ export class AlertsService {
     );
   }
 
+  warning(...args);
   warning(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
       category,
@@ -45,6 +46,7 @@ export class AlertsService {
     }));
   }
 
+  success(...args);
   success(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
       category,
@@ -56,6 +58,7 @@ export class AlertsService {
     }));
   }
 
+  info(...args);
   info(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
       category,
@@ -67,6 +70,7 @@ export class AlertsService {
     }));
   }
 
+  error(...args);
   error(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
       category,
@@ -84,6 +88,6 @@ export class AlertsService {
   }
 
   clear(id: string) {
-    this.notify(new alert({ id }));
+    this.notify(new Alert({ id }));
   }
 }

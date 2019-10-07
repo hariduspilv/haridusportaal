@@ -8,6 +8,7 @@ import {
   OnChanges,
   OnDestroy,
   ElementRef,
+  forwardRef,
 } from '@angular/core';
 
 import {
@@ -94,7 +95,8 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
     return 'accordion';
   }
 
-  @ContentChildren(AccordionItemComponent) items: QueryList<AccordionItemComponent>;
+  @ContentChildren(forwardRef(() => AccordionItemComponent))
+    items: QueryList<AccordionItemComponent>;
 
   closeOthers() {
     if (this.collapsible) {

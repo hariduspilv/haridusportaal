@@ -1,6 +1,7 @@
 import { Injectable, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
+import { Subject } from 'rxjs';
 
 @Injectable()
 export class SettingsService {
@@ -32,6 +33,7 @@ export class SettingsService {
   public mobileLogin = '/custom/login/mobile_id?_format=json';
   public error: boolean = false;
   public data: any;
+  public compareObservable = new Subject<any>();
 
   private findObj(obj, path) {
     return path
@@ -39,6 +41,15 @@ export class SettingsService {
     .split('.')
     .filter(s => s)
     .reduce((acc, val) => acc && acc[val], obj);
+  }
+
+  public query(name: string = '', variables: object = {}) {
+    const requestName = this.get(`request.${name}`);
+    let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
+    if (Object.keys(variables).length > 0) {
+      path = `${path}&variables=${JSON.stringify(variables)}`;
+    }
+    return path;
   }
 
   public get(key:string = '') {

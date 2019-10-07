@@ -5,12 +5,10 @@
     <block-title>Autocomplete</block-title>
     <block-content>
       <formItem
-        #autocompleteInput
-        type="text"
-        title="Märksõna"
-        (keyup)="autocompleteElem.search(autocompleteInput.field);">
+        type="autocomplete"
+        query="testAutocomplete"
+        title="Üldine otsing...">
       </formItem>
-      <autocomplete #autocompleteElem type="testAutocomplete"></autocomplete>
     </block-content>
   </block>
 </article-layout>

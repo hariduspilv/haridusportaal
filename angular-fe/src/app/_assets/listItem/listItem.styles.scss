@@ -111,6 +111,10 @@ $grid-columns: 12;
         align-items: baseline; 
         flex-shrink: 0;
         align-items: baseline;
+        &--compare {
+          display: flex;
+          margin-top: .5rem;
+        }
       }
     }
     p:first-child {
@@ -183,6 +187,17 @@ $grid-columns: 12;
   text-align: justify;
   margin-right: -1rem;
   padding-right: $large;
+}
+
+::ng-deep modal-content {
+  font-size: 1.5rem;
+  text-align: center;
+  color: $black;
+  line-height: 1.875rem;
+  font-weight: 500;
+  p {
+    margin: 0;
+  }
 }
 
 .row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;

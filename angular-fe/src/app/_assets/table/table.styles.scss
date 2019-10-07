@@ -5,6 +5,15 @@
     width:100%;
     border: $gray 1px solid;
     border-collapse: collapse;
+    &.studyProgramme{
+      th,td{
+        font-size: 16px;
+      }
+      td:first-child{
+        width: 37%;
+        white-space: nowrap;
+      }
+    }
     th,td{
       border: $gray 1px solid;
       padding:12px 17px;

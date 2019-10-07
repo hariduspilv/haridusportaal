@@ -1,0 +1,36 @@
+@import "typography.scss";
+
+::ng-deep{
+  .autocomplete{
+    position: absolute;
+    top: 90%;
+    left: 0;
+    width: 100%;
+    background: $white;
+    box-shadow: 0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+    z-index: 11;
+    max-height: 240px;
+    overflow: auto;
+    overflow-x:hidden;
+    ul, li{
+      margin:0;
+      padding: 0;
+    }
+    li{
+      display: block;
+      padding: 0 1rem;
+      line-height: 48px;
+      color: rgba(0,0,0,.38);
+      font-size: 1rem;
+    }
+    &__results{
+      li{
+        color: $black;
+        &:hover, &.autocomplete__active{
+          background: rgba(0,0,0,.04);
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

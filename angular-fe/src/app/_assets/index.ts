@@ -14,7 +14,7 @@ import { IconComponent } from './icon';
 import { BreadcrumbsComponent } from './breadcrumbs';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
-import { TableComponent } from './table';
+import { TableComponent, SchoolTable, StudyProgrammeTable } from './table';
 import { AlertsComponent } from './alerts';
 import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
@@ -29,6 +29,7 @@ import {
   SidemenuService,
   SidebarService,
   ModalService,
+  SettingsService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -75,11 +76,12 @@ import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
 import { InfoSystemComponent } from './infoSystem/infoSystem.component';
 import { SearchResultsComponent } from './searchResults';
-import { SettingsService } from '@app/_services/SettingsService';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
+import { CompareComponent } from './compare';
+import { CompareViewComponent } from './compare.view';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { AutocompleteComponent } from './autocomplete';
@@ -87,6 +89,11 @@ import { AutocompleteComponent } from './autocomplete';
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
 }
+import { ImageComponent } from './image';
+import { LinksComponent } from './links';
+import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
+import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
+import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -96,6 +103,9 @@ const pipes = [
   EuroCurrencyPipe,
   LocaleNumberPipe,
   TitleCasePipe,
+  RemoveEmptyTagsPipe,
+  WeekDayPipe,
+  UnixToTimePipe,
 ];
 
 const declarations = [
@@ -113,6 +123,8 @@ const declarations = [
   AccordionComponent,
   AccordionItemComponent,
   TableComponent,
+  SchoolTable,
+  StudyProgrammeTable,
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,
@@ -155,6 +167,10 @@ const declarations = [
   SearchResultsComponent,
   NewsComponent,
   AutocompleteComponent,
+  CompareComponent,
+  CompareViewComponent,
+  ImageComponent,
+  LinksComponent,
 ];
 
 const exports = [

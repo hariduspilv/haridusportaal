@@ -14,7 +14,6 @@
                             *ngIf="item.admissionStatus && item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">
                             {{'studyProgramme.non_active' | translate}}</div>
                     </div>
-
                     <div class="author" *ngIf="item.fieldAuthor || item.created">{{ item.fieldAuthor }}
                         {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                     <div class="tags" *ngIf="item.tags">
@@ -25,6 +24,9 @@
                     <labels *ngIf="item.fixedLabel && item.fixedLabel.entity" [data]="[item.fixedLabel]" type="orange">
                     </labels>
 
+                </div>
+                <div *ngIf="compare" class="col--compare sm-hide">
+                    <compare [id]="item.nid" [sessionStorageKey]="compare"></compare>
                 </div>
 
                 <div class="col-4 xs-12 pointer" *ngIf="item.image">
@@ -111,3 +113,11 @@
     </ng-container>
     <!--/list repeat-->
 </div>
+
+<htm-modal *ngIf="compare" id="compare" [title]="translationsPerType[compare].title | translate">
+    <modal-content id="compare" *ngIf="modalService.modalOpened['compare']">
+        <div innerHTML="{{ translationsPerType[compare].content | translate }}"></div>
+    </modal-content>
+</htm-modal>
+
+<alerts [closeMs]="closeTime" global></alerts>

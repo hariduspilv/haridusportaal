@@ -1,4 +1,4 @@
-<div *ngIf="data.entity && data.entity.fieldOrganization" role="link" attr.aria-label="{{'event.organizer' | translate}} {{ data.entity.fieldOrganization }}">{{ data.entity.fieldOrganization }}</div>
-<div *ngIf="data.entity && data.entity.fieldPerson" role="link" attr.aria-label="{{'event.person' | translate}} {{ data.entity.fieldPerson }}">{{ data.entity.fieldPerson }}</div>
-<a *ngIf="data.entity && data.entity.fieldPhone" attr.aria-label="{{'event.phone | translate'}} {{ data.entity.fieldPhone }}" href="tel:{{data.entity.fieldPhone}}">{{ data.entity.fieldPhone }}</a>
-<a *ngIf="data.entity && data.entity.fieldEmail" attr.aria-label="{{'event.participant_email' | translate}} {{ data.entity.fieldEmail }}" href="mailto:{{data.entity.fieldEmail}}" alt="">{{ data.entity.fieldEmail }}</a>
+<div attr.aria-label="{{'event.organizer' | translate}} {{ data.organizer || data.title }}">{{ data.organizer || data.title }}</div>
+<div attr.aria-label="{{'event.person' | translate}} {{ data.person || data.fieldRegistrationCode }}">{{ data.person || data.fieldRegistrationCode }}</div>
+<a href="tel:{{ data.phone }}" attr.aria-label="{{'event.phone' | translate}} {{ data.phone }}">{{ data.phone }}</a>
+<a href="mailto:{{ data.email }}" attr.aria-label="{{'event.email' | translate}} {{ data.email }}">{{ data.email }}</a>

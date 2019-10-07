@@ -8,7 +8,10 @@ import {
   AfterContentInit,
   OnInit,
   ChangeDetectorRef,
+  OnChanges,
+  forwardRef,
 } from '@angular/core';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'block-content',
@@ -79,10 +82,13 @@ export class BlockTabsComponent {}
   styleUrls: ['./block.styles.scss'],
 })
 
-export class BlockComponent implements AfterContentInit{
+export class BlockComponent implements AfterContentInit, OnChanges{
 
   @Input() loading: boolean = false;
 
+  public viewTabs: QueryList<BlockContentComponent> | Object[];
+  public currentViewTabs: number = 0;
+  public isMobile: boolean;
   activeTab: string = '';
   labeledTabs: number = 0;
   hasTitle: boolean = false;
@@ -90,15 +96,21 @@ export class BlockComponent implements AfterContentInit{
 
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {}
+    private deviceService: DeviceDetectorService,
+  ) {
+    this.isMobile = !this.deviceService.isDesktop();
+  }
 
   @HostBinding('class') get hostClasses(): string {
     return `block--${this.theme}`;
   }
 
-  @ContentChildren(BlockContentComponent) tabs: QueryList<BlockContentComponent>;
-  @ContentChildren(BlockTitleComponent) titleComponent: QueryList<BlockTitleComponent>;
-  @ContentChildren(BlockSecondaryTitleComponent) secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
+  @ContentChildren(forwardRef(() => BlockContentComponent))
+    tabs: QueryList<BlockContentComponent>;
+  @ContentChildren(forwardRef(() => BlockTitleComponent))
+    titleComponent: QueryList<BlockTitleComponent>;
+  @ContentChildren(forwardRef(() => BlockSecondaryTitleComponent))
+    secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
 
   @Input() theme: string = 'blue';
   @Input() titleBorder: boolean = false;
@@ -122,28 +134,68 @@ export class BlockComponent implements AfterContentInit{
   }
 
   checkTitle() {
-    if (this.titleComponent.toArray().length > 0) {
-      this.hasTitle = true;
-    }
+    try {
+      if (this.titleComponent.toArray().length > 0) {
+        this.hasTitle = true;
+      } else {
+        this.hasTitle = false;
+      }
+    } catch (err) {}
   }
 
   checkSecondaryTitle() {
-    if (this.secondaryTitleComponent.toArray().length > 0) {
-      this.hasSecondaryTitle = true;
+    try {
+      if (this.secondaryTitleComponent.toArray().length > 0) {
+        this.hasSecondaryTitle = true;
+      } else {
+        this.hasSecondaryTitle = false;
+      }
+    } catch (err) {}
+  }
+
+  private contentInit() {
+    try {
+      const activeTabs = this.tabs.filter(tab => tab.active);
+
+      if (activeTabs.length === 0) {
+        this.selectTab(this.tabs.first);
+      }   else {
+        this.activeTab = activeTabs[0].tabLabel;
+      }
+      if (this.tabs.length > 2 && this.isMobile) {
+        this.constructViewTabs();
+      } else {
+        this.viewTabs = [this.tabs];
+      }
+      this.countLabels();
+    } catch (err) {}
+
+    this.checkTitle();
+    this.checkSecondaryTitle();
+  }
+
+  public navigateTabs(navigation: number) {
+    this.currentViewTabs = this.currentViewTabs + navigation;
+  }
+
+  public constructViewTabs() {
+    const viewTabs: Object[] = [];
+    for (let i = 2; i <= this.tabs.length; i += 2) {
+      viewTabs.push(this.tabs.toArray().slice(i - 2, i));
     }
+    if (this.tabs.length % 2) {
+      viewTabs.push(this.tabs.toArray().slice(this.tabs.length - 2, this.tabs.length));
+    }
+    this.viewTabs = viewTabs;
   }
 
   ngAfterContentInit() {
-    const activeTabs = this.tabs.filter(tab => tab.active);
+    this.contentInit();
+  }
 
-    if (activeTabs.length === 0) {
-      this.selectTab(this.tabs.first);
-    }   else {
-      this.activeTab = activeTabs[0].tabLabel;
-    }
-
-    this.countLabels();
-    this.checkTitle();
+  ngOnChanges() {
+    this.cdr.detectChanges();
+    this.contentInit();
   }
 
 }
