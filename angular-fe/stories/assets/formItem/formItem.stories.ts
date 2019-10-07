@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import formItemMd from './formItem.md';
 import { TranslateModule } from '@app/_modules/translate';
-import { LOCALE_ID } from '@angular/core';
+import { LOCALE_ID, PLATFORM_ID, Inject } from '@angular/core';
 // tslint:disable-next-line: import-name
 import localeEt from '@angular/common/locales/et';
 import { registerLocaleData } from '@angular/common';
@@ -28,11 +28,13 @@ const moduleMetadata = {
     { provide: LOCALE_ID, useValue:'et' },
   ],
 };
-
 const stories = storiesOf('Assets', module);
 
 stories.addDecorator(withKnobs);
 stories.add('Form item', () => {
+
+  const isMobile = window.innerWidth < 600 ? true : false;
+
   const status = select(
     'Status',
     {
@@ -49,6 +51,7 @@ stories.add('Form item', () => {
       formItems,
       error,
       status,
+      isMobile,
     },
     template: templateHtml,
   };

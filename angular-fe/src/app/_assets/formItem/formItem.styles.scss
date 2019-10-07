@@ -1,13 +1,21 @@
 @import "typography.scss";
-
+@import "breakpoints.scss";
 ::ng-deep {
 	.formItem {
     display: block;
     position: relative;
     z-index: 1;
+
+    @include break-on(sm, max) {
+      input, select, textarea{
+        font-size: 16px !important;
+      }
+    }
+
     &+.formItem{
       margin-top:1.25rem;
     }
+
     &--focused{
       z-index: 10;
     }
