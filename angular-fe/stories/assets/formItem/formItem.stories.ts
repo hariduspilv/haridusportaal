@@ -28,6 +28,7 @@ const moduleMetadata = {
     { provide: LOCALE_ID, useValue:'et' },
   ],
 };
+
 const stories = storiesOf('Assets', module);
 
 stories.addDecorator(withKnobs);
@@ -44,6 +45,7 @@ stories.add('Form item', () => {
     },
     'default',
   );
+
   const error = true;
   return {
     moduleMetadata,
