@@ -10,10 +10,11 @@
   [ngbTooltip]="'tooltip.copy' | translate"
   placement="right"
   (focus)="hostFocused()"
-  (blur)="hostBlurred()"
+  (blur)="hostBlurred(false);"
   class="share__link"
   tabindex="0"
-  (click)="copyLinkToClipboard()"
+  (click)="copyLinkToClipboard('click')"
+  (touchstart)="copyLinkToClipboard('touchstart')"
   attr.aria-label="{{ 'social.share_link' | translate }}: 2, {{ 'tooltip.copy' | translate }}" >
   <icon glyph="link"></icon>
 </button>
@@ -24,8 +25,8 @@
     [ngbTooltip]="'tooltip.share_fb' | translate"
     placement="right"
     (focus)="hostFocused()"
-    (blur)="hostBlurred()"
-    (click)="share($event, 'facebook')"
+    (blur)="hostBlurred();"
+    (click)="share($event, 'facebook'); hostBlurred()"
     class="share__option"
     tabindex="0"
     role="link"
@@ -38,7 +39,7 @@
     placement="right"
     (focus)="hostFocused()"
     (blur)="hostBlurred()"
-    (click)="share($event, 'twitter')"
+    (click)="share($event, 'twitter'); hostBlurred()"
     class="share__option"
     tabindex="0"
     role="link"
@@ -46,3 +47,5 @@
     <icon glyph="twitter"></icon>
   </button>
 </div><!--/share__options-->
+
+<div class="share__overlay" (click)="hostBlurred(true)" *ngIf="isTouchDevice && isHovered"></div>
