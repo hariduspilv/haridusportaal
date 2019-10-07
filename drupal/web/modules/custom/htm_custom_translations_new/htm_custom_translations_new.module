@@ -1,0 +1,39 @@
+<?php
+
+use Drupal\htm_custom_translations_new\translationHelper;
+
+
+/**
+ * @file
+ * Contains htm_custom_translations_new.module.
+ */
+
+
+function htm_custom_translations_new_import_translations()
+{
+  $config = \Drupal::config('htm_custom_translations_new.translation');
+  $editable_config = \Drupal::configFactory()->getEditable('htm_custom_translations_new.translation');
+  $formatter = new translationHelper();
+
+  $file = @file_get_contents(__DIR__ . '/translations.json',true);
+  if($file !== FALSE){
+    $new_translations = $formatter->flatten(json_decode($file, true));
+    $existing_translations = $formatter->flatten($config->get());
+    foreach($new_translations as $key => $values){
+      if(!isset($existing_translations[$key])){
+        foreach($values as $field => $value){
+          $editable_config->set("$key.$field", $value)->save();
+        }
+      }
+    }
+  }
+}
+
+function htm_custom_translations_new_export_translations()
+{
+  $translations = \Drupal::config('htm_custom_translations_new.translation')->get();
+
+  $fp = fopen(__DIR__ . '/translations.json', 'c');
+  fwrite($fp, json_encode($translations));
+  fclose($fp);
+}

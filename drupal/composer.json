@@ -26,6 +26,7 @@
         "drupal/cache_tags": "^1.0",
         "drupal/computed_field": "^2.0",
         "drupal/conditional_fields": "^1.0",
+        "drupal/config_sync": "^2.0",
         "drupal/console": "~1.0",
         "drupal/content_sync": "^2.1",
         "drupal/core": "^8.6.0",

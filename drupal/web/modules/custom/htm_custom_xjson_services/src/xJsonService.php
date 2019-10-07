@@ -320,7 +320,7 @@ class xJsonService implements xJsonServiceInterface {
 
     public function mergeElementValue ($element_def, $value) {
         $element_type = $element_def['type'];
-        $element_title = $element_def['title']['etmi'];
+        $element_title = $element_def['title'];
 
         if ($element_type === 'table' ) {
             $element_column_keys = array_keys($element_def['table_columns']);
@@ -342,19 +342,20 @@ class xJsonService implements xJsonServiceInterface {
         //Sort table values
         if ($element_type === 'table') $element_def = $this->sortTableValues($element_def);
         #dump($element_def);
+
         return ($this->validateDataElement($element_def)) ? $element_def : [];
     }
 
     public function validateDataElement (&$element, $table = false) {
         $valid = true;
         $element_type = $element['type'];
-        $default_acceptable_keys = ['type', 'title', 'helpertext', 'required', 'hidden', 'readonly', 'default_value', 'value'];
+        $default_acceptable_keys = ['type', 'title', 'helpertext', 'required', 'hidden', 'readonly', 'default_value', 'value', 'depend_on'];
         $additional_keys = [];
         switch ($element_type) {
             case 'heading':
             case 'iban':
             case 'helpertext':
-                $acceptable_keys = ['type', 'title'];
+                $acceptable_keys = ['type', 'title', 'hidden'];
                 break;
             case 'text':
                 $additional_keys = ['width', 'maxlength', 'minlength'];
@@ -371,7 +372,7 @@ class xJsonService implements xJsonServiceInterface {
                 else $additional_keys = ['min', 'max'];
                 break;
             case 'selectlist':
-                if ($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options'];
+                if ($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options', 'options_list'];
                 else $additional_keys = ['multiple', 'empty_option', 'options', 'options_list'];
                 if (isset($element['options_list'])) {
                     $params['hash'] = $element['options_list'];
@@ -405,20 +406,21 @@ class xJsonService implements xJsonServiceInterface {
                 if ($table) $additional_keys = ['width', 'acceptable_extensions'];
                 else $additional_keys = ['multiple', 'acceptable_extensions', 'max_size'];
                 /*TODO File check if array aswel*/
-                if ($element['value']) {
-                    if (is_array($element['value'])) {
-                        foreach ($element['value'] as $value) {
-                            if (!$value['file_name'] || !$value['file_identifier']) {
-                                $valid = false;
-                            }
-                        }
-                    } else {
-                        if (!$element['value']['file_name'] || !$element['value']['file_identifier']) {
-                            $valid = false;
-                        }
+                if ($element && $element['value']) {
+                  if (is_array($element['value'])) {
+                    foreach ($element['value'] as $value) {
+                      if (!$value['file_name'] || !$value['file_identifier']) {
+                        $valid = false;
+                      }
                     }
+                  } else {
+                    if (!$element['value']['file_name'] || !$element['value']['file_identifier']) {
+                      $valid = false;
+                    }
+                  }
                 }
-                if(!$element['max_size'] || $element['max_size'] > ini_get('upload_max_filesize')){
+
+                if(!$table && (!isset($element['max_size']) || $element['max_size'] > ini_get('upload_max_filesize'))){
                     $element['max_size'] = intval(preg_replace('/\D/', '', ini_get('upload_max_filesize')));
                 }
                 break;
@@ -494,7 +496,7 @@ class xJsonService implements xJsonServiceInterface {
 
     public function searchDefinitionElement ($key, $array, $form_name = null) {
         $results = [];
-        if ($form_name) $array = $this->getEntityJsonObject($form_name, $entity_type);
+        if ($form_name) $array = $this->getEntityJsonObject($form_name);
         if (is_array($array)) {
             if (isset($array[$key])) {
                 $results[] = $array[$key];
