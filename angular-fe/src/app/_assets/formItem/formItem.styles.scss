@@ -30,6 +30,9 @@
     &--checkbox{
       .formItem__title{display:none;}
     }
+    &__relative{
+      position: relative;
+    }
     &__wrapper{
       position: relative;
       & > input[type="text"], & > input[type="number"], & > textarea, & > select {

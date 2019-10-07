@@ -13,6 +13,7 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
         [(ngModel)]="field" />
     </ng-container>
     <ng-container *ngSwitchCase="'number'">
@@ -26,6 +27,7 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
         [(ngModel)]="field" />
     </ng-container>
 
@@ -43,6 +45,7 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
         [(ngModel)]="dateField" />
       <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" ripple="dark">
         <icon glyph="calendar"></icon>
@@ -59,6 +62,7 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
         [style.height]="height ? height+'px' : null"
         [(ngModel)]="field"></textarea>
     </ng-container>
@@ -166,7 +170,25 @@
         </label><!--/formItem__check-->
       </ng-container>
     </ng-container>
-    
+    <ng-container *ngSwitchCase="'autocomplete'">
+      <input
+        [class.hideText]="!filledField && !focused"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
+        [class.focused]="focused"
+        #inputField
+        pattern="{{ pattern ? patterns[pattern] : '' }}"
+        type="text"
+        (change)="update()"
+        (focus)="update('focus')"
+        (blur)="update('blur'); autocompleteElem.close();"
+        (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
+        [(ngModel)]="field" />
+      <autocomplete
+        #autocompleteElem
+        [type]="query"
+        (onValueSelected)="autocompleteUpdate($event)">
+      </autocomplete>
+    </ng-container>
     <ng-container *ngSwitchDefault>
       <select
         [class.hideText]="!filledField"

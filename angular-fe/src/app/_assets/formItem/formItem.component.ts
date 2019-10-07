@@ -7,7 +7,6 @@ import {
   OnInit,
   HostBinding,
   forwardRef,
-  OnChanges,
   ChangeDetectorRef,
   EventEmitter,
 } from '@angular/core';
@@ -45,7 +44,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
   @Input() label: string = '';
-  @Input() value: string = '';
+  @Input() public value: string = '';
   @Input() staticTitle: string;
   @Input() errorMessage: string = '';
   @Input() error: boolean = false;
@@ -55,8 +54,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() options: FormItemOption[] = [];
   @Input() pattern: any = false;
   @Output() onChange: EventEmitter<any> = new EventEmitter();
+  @Output() onUpdate: EventEmitter<any> = new EventEmitter();
   @Input() name: string = '';
   @Input() checked: string;
+  @Input() query: string = '';
 
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
@@ -196,9 +197,13 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     this.propagateChange(this.field);
   }
 
+  autocompleteUpdate(value: string = ''): void {
+    this.field = value;
+  }
+
   writeValue(value: string) {
     this.field = value || '';
-    this.update();
+    this.update('blur');
     this.propagateChange(this.field);
   }
 
@@ -234,6 +239,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     }
   }
 
+  triggerOnUpdate(): void {
+    this.onUpdate.emit(true);
+  }
   getValue() {
     return {
       name: this.name,

@@ -84,6 +84,7 @@ import { CompareComponent } from './compare';
 import { CompareViewComponent } from './compare.view';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
+import { AutocompleteComponent } from './autocomplete';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -170,6 +171,7 @@ const declarations = [
   UrlPipe,
   SearchResultsComponent,
   NewsComponent,
+  AutocompleteComponent,
   CompareComponent,
   CompareViewComponent,
   ImageComponent,
