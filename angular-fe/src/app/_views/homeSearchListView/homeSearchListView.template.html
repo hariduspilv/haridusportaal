@@ -4,7 +4,7 @@
 		<div class="main-container">
 			<div class="row">
 				<div class="col-10 sm-12">
-						<formItem type="text" [(ngModel)]="param" title="{{'search.keyword' | translate}}" name="title"></formItem>
+						<formItem type="autocomplete" query="testAutocomplete" [(ngModel)]="param" title="{{'search.keyword' | translate}}" name="title"></formItem>
 				</div>
 				<div class="col-2 sm-12">
 						<button htm-button>{{ 'button.search' | translate }}</button>
