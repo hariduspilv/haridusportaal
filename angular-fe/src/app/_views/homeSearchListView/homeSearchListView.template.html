@@ -4,10 +4,11 @@
 		<div class="main-container">
 			<div class="row">
 				<div class="col-10 sm-12">
-						<formItem type="autocomplete" query="testAutocomplete" [(ngModel)]="param" title="{{'search.keyword' | translate}}" name="title"></formItem>
+					<formItem type="autocomplete" query="testAutocomplete" [(ngModel)]="param"
+						title="{{'search.keyword' | translate}}" name="title"></formItem>
 				</div>
 				<div class="col-2 sm-12">
-						<button htm-button>{{ 'button.search' | translate }}</button>
+					<button htm-button>{{ 'button.search' | translate }}</button>
 				</div>
 			</div>
 		</div>
@@ -36,8 +37,8 @@
 			<loader *ngIf="loading"></loader>
 			<ng-container *ngIf="filteredResults && filteredResults.length">
 				<ng-container *ngFor="let item of filteredResults;let i = index;">
-					<a tabindex="0" id="{{i}}" href="javascript:void(0)" *ngIf="i < listLimit" class="search__sub pointer"
-						[routerLink]="[item.EntityPath]">
+					<a tabindex="0" id="{{i}}" href="javascript:void(0)" *ngIf="i < listLimit"
+						class="search__sub pointer" [routerLink]="[item.EntityPath]">
 						<div class="search__sub--category" aria-hidden="true">{{ item.ContentType }}</div>
 						<div class="search__sub--title"
 							attr.aria-label="{{ item.ContentType }}{{ item.ContentType !== 'Õppekava' ? ':' : '' }} {{ item.Title }}{{ item.ContentType === 'Õppekava' ? ':' : '' }}">
@@ -45,12 +46,14 @@
 						</div>
 						<div class="inline__items" *ngIf="item.ContentType === 'Õppekava'"
 							attr.aria-label="{{ item.FieldSchoolName }} {{ item.FieldStudyProgrammeLevel }} {{ item.FieldDuration | monthsToYears }}">
-							<span class="item" *ngIf="item.FieldSchoolName" aria-hidden="true">{{ item.FieldSchoolName }}</span>
+							<span class="item" *ngIf="item.FieldSchoolName"
+								aria-hidden="true">{{ item.FieldSchoolName }}</span>
 							<span class="bar" *ngIf="item.FieldSchoolName && item.FieldStudyProgrammeLevel"
 								aria-hidden="true">|</span>
 							<span class="item" *ngIf="item.FieldStudyProgrammeLevel"
 								aria-hidden="true">{{ item.FieldStudyProgrammeLevel }}</span>
-							<span class="bar" *ngIf="(item.FieldStudyProgrammeLevel || item.FieldSchoolName) && item.FieldDuration"
+							<span class="bar"
+								*ngIf="(item.FieldStudyProgrammeLevel || item.FieldSchoolName) && item.FieldDuration"
 								aria-hidden="true">|</span>
 							<span class="item" *ngIf="item.FieldDuration"
 								aria-hidden="true">{{ item.FieldDuration | monthsToYears }}</span>
@@ -70,9 +73,11 @@
 			<div class="text-center actions__error" *ngIf="!loading && !filteredResults">
 				<div class="alert text-center" role="alert">{{ 'news.no_results' | translate }}</div>
 			</div>
-			<div class="text-center actions" *ngIf="listLength > listLimit && filteredResults && filteredResults.length">
-				<button mat-raised-button color="primary" (click)="loadMore()"
-					role="button">{{ 'button.load_more' | translate }}</button>
+			<div class="text-center actions"
+				*ngIf="listLength > listLimit && filteredResults && filteredResults.length">
+				<div class="loadMore">
+					<button htm-button (click)="loadMore()">{{ 'button.load_more' | translate }}</button>
+				</div>
 			</div>
 			<!--/text-center-->
 		</block-content>
