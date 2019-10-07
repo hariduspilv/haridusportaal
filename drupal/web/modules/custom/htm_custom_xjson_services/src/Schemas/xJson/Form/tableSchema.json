@@ -48,6 +48,9 @@
     },
     "value": {
       "type": "array"
+    },
+    "depend_on": {
+      "type": "string"
     }
   },
   "required": [ "type", "title", "table_columns" ],

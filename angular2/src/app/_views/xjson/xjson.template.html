@@ -45,8 +45,8 @@
 
       <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
         <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
-          [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps)">
-          <a (click)="selectStep(step)">
+          [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps); let i = index">
+          <a (click)="edit_step && i-1 === data.body.steps[data.header.current_step].sequence ? submitForm('SAVE') : selectStep(step)">
             <span class="xjson__navigation__stepname">
               <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
               </ng-container>
@@ -55,10 +55,16 @@
         </li>
       </ul>
 
-      <ng-container *ngIf="!empty_data">
-        <span *ngIf="!viewOnlyStep">{{ 'xjson.required_fields_infotext' | translate }}</span>
+      <div *ngIf="upperInfoText" class="upper-infotext">
+          <span aria-hidden="true" innerHtml="{{ upperInfoText }}"></span>
+          <hr class="divider">
+      </div>
 
-        <hr class="divider">
+      <ng-container *ngIf="!empty_data">
+        <div *ngIf="!viewOnlyStep" class="upper-infotext">
+            <span>{{ 'xjson.required_fields_infotext' | translate }}</span>
+            <hr class="divider">
+        </div>
 
         <!-- STEP BODY -->
         <div class="row button-list button-list-top">
@@ -80,7 +86,7 @@
           <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 
             <div [class]="data_elements[element].type != 'file' ? 'row' : 'file-row'"
-              *ngIf="!data_elements[element].hidden">
+              *ngIf="!isFieldHidden(element)">
               <!-- Form elements -->
 
               <div class="col-12 xjson__component">
@@ -214,7 +220,7 @@
                               </ng-container>
                             </ng-container>
 
-                            <ng-container *ngIf="data_elements[element].multiple">
+                            <ng-container *ngIf="data_elements[element].multiple && data_elements[element].options">
                               <mat-option *ngFor="let option of objectKeys(data_elements[element].options)"
                                 [value]="option">
                                 {{ selectLanguage(data_elements[element].options[option]) }}
@@ -603,6 +609,12 @@
                                         [(ngModel)]='row[col]' name="{{element + '_' + rowIndex + '_' + colIndex}}" />
                                     </ng-container> <!-- /NUMBER -->
 
+                                    <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') === 'file' && row[col]">
+                                        <a class="file-icon" [href]="fileDownloadlink(row[col])" target="_blank">
+                                            <span class="file-name">{{ row[col].file_name }}</span>
+                                          </a>
+                                      </ng-container> <!-- /file -->
+
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
                                       <div
                                         *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
@@ -654,11 +666,13 @@
                                                 {{ tableColumnAttribute(element, colIndex, 'empty_option') ?
                                                 selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : '-'}}
                                               </mat-option>
-                                              <mat-option
-                                                *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
-                                                [value]="option">
-                                                {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
-                                              </mat-option>
+                                              <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'options')">
+                                                  <mat-option
+                                                  *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
+                                                  [value]="option">
+                                                  {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
+                                                </mat-option>
+                                              </ng-container>
                                             </mat-select>
                                           </div>
                                         </div>
@@ -735,8 +749,8 @@
           </div>
 
           <div class="primary-buttons">
-            <button type="submit" role="button" mat-raised-button [color]="['alternative']"
-              (click)="returnToPreviousUrl()">
+            <button *ngIf="!edit_step" type="submit" role="button" mat-raised-button [color]="['alternative']"
+              (click)="cancelEventHandler()">
               {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
             </button>
             <ng-container *ngFor="let activity of activityButtons['primary']">

@@ -25,7 +25,7 @@ frontpage:
     en: 'You don''t have any favourites added. You can do so by clicking on the star icon on topic pages and lists.'
   favourites_snackbar_message:
     translation_type: textarea
-    et: 'Lehekülg lisatud lemmikuks. Lemmikuid näed enda Töölaualt.'
+    et: 'Lehekülg on lisatud lemmikuks. Lemmikuid näed enda Töölaualt.'
     en: 'This page has been added to favourites. Favourites can be viewed from the Dashboard.'
   favourites_snackbar_message_remove:
     translation_type: textarea
@@ -205,8 +205,8 @@ frontpage:
     en: Haridustase-ENG
   oppekava:
     translation_type: textarea
-    et: Õppekava(d)
-    en: Õppekava(d)-ENG
+    et: Õppekava
+    en: Õppekava
   oppekeel:
     translation_type: textarea
     et: Õppekeel
@@ -743,6 +743,15 @@ frontpage:
     translation_type: textarea
     et: 'Vaata oma töölauda'
     en: ''
+  studies:
+    openAll:
+      translation_type: textarea
+      et: 'Ava kõik õpingute andmed'
+      en: ''
+    closeAll:
+      translation_type: textarea
+      et: 'Sulge kõik õpingute andmed'
+      en: ''
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -800,10 +809,6 @@ xjson:
     translation_type: textarea
     et: 'Seda vormi saab täita ainult sisse logitud kasutaja. Palun logige sisse.'
     en: 'You must be logged in to see this form.'
-  required_fields_infotext:
-    translation_type: textarea
-    et: '* märgitud väljad on kohustuslikud'
-    en: '* fields are required'
   data_missing:
     translation_type: textarea
     et: 'Andmed puuduvad'
@@ -840,6 +845,26 @@ xjson:
     translation_type: textarea
     et: 'Palun sisesta sobilik IBAN kontonumber'
     en: ''
+  enter_valid_number:
+    translation_type: textarea
+    et: 'Sisestage korrektne number'
+    en: ''
+  unacceptable_extension:
+    translation_type: textarea
+    et: 'Üles laaditud faili tüüp pole lubatud'
+    en: ''
+  required_fields_infotext:
+    translation_type: textarea
+    et: '* märgitud väljad on kohustuslikud'
+    en: ''
+  VPT_TAOTLUS_infotext:
+    translation_type: text_format
+    et:
+      value: "<p>Kui teil on küsimusi vajaduspõhise õppetoetuse kohta, kirjutage aadressil&nbsp;oppetoetused@rtk.ee.&nbsp;<a href=\"https://www.rtk.ee/vajadusp%C3%B5hine-%C3%B5ppetoetusneeds-based-study-allowance\" target=\"_blank\">Täpsem info.</a></p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
 article:
   label:
     translation_type: textarea
@@ -1341,6 +1366,10 @@ school:
     translation_type: textarea
     et: 'Õppeasutuse alamtase puudub'
     en: 'Õppeasutuse alamtase puudub-eng'
+  institution_name:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi'
+    en: 'Institution name'
 studyProgramme:
   label:
     translation_type: textarea
@@ -1480,7 +1509,7 @@ studyProgramme:
     en: 'Course not active'
   added_to_comparison:
     translation_type: textarea
-    et: 'Eriala(d) lisatud võrdlusesse'
+    et: 'Eriala(d) on lisatud võrdlusesse'
     en: 'Programme added to comparison'
   in_comparison:
     translation_type: textarea
@@ -1494,6 +1523,18 @@ studyProgramme:
     translation_type: textarea
     et: 'Kestuse järgi kahanevalt'
     en: 'Kestuse järgi kahanevalt-eng'
+  introduction:
+    translation_type: textarea
+    et: Lühikirjeldus
+    en: Introduction
+  describing_website:
+    translation_type: textarea
+    et: 'Õppekava kirjeldava veebilehe aadress'
+    en: 'Studyprogramme link'
+  qualification_standards:
+    translation_type: textarea
+    et: Kutsestandard(id)
+    en: 'Qualification standard(s)'
 login:
   username:
     translation_type: textarea
@@ -1843,7 +1884,7 @@ button:
     en: 'Add to favourites'
   add_to_favourites_add_success:
     translation_type: textarea
-    et: 'Lemmik edukalt lisatud'
+    et: 'Lemmik on edukalt lisatud'
     en: 'Successfully added to favourites'
   add_to_favourites_remove:
     translation_type: textarea
@@ -2303,7 +2344,7 @@ oskaProfessions:
     en: Indicator
   added_to_comparison:
     translation_type: textarea
-    et: 'Ametiala(d) lisatud võrdlusesse.'
+    et: 'Ametiala(d) on lisatud võrdlusesse.'
     en: 'Professions added to comparison.'
   indicators:
     translation_type: textarea
@@ -2745,7 +2786,7 @@ dashboard:
     en: 'Educational institution information saved!'
   educational_institution_data_saved:
     translation_type: textarea
-    et: 'Õppeasutuse andmed lisatud!'
+    et: 'Õppeasutuse andmed on lisatud!'
     en: 'Educational institution information saved!'
 general: {  }
 agree:

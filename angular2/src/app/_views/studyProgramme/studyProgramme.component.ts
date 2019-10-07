@@ -112,7 +112,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       //don't judge
       //if detailed exists but no narrow, reverse search narrow and broad
 
-      if(this.filterFormItems.iscedf_detailed && (!this.filterFormItems.iscedf_narrow === false || !this.filterFormItems.iscedf_narrow)) {
+      if(this.filterFormItems.iscedf_detailed && ((this.filterFormItems.iscedf_narrow === false) || !this.filterFormItems.iscedf_narrow)) {
         const iscedfDetailedFull = this.isceList['iscedf_detailed'].filter((e) => {
           return this.filterFormItems['iscedf_detailed'].find(x => x === e.entityId);
         });
@@ -128,7 +128,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         this.FilterOptions['iscedf_detailed'] = iscedfDetailedFull;
       }
       //if narrow exists but no broad, reverse search broad
-      if(this.filterFormItems.iscedf_narrow && (!this.filterFormItems.iscedf_broad === false || !this.filterFormItems.iscedf_broad)) {
+      if(this.filterFormItems.iscedf_narrow && ((this.filterFormItems.iscedf_broad === false) || !this.filterFormItems.iscedf_broad)) {
         const iscedfNarrowFull = this.isceList['iscedf_narrow'].filter((narrow) => {
           return this.filterFormItems['iscedf_narrow'].find(x => x === narrow.entityId);
         });

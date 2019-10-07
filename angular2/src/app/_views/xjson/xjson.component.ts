@@ -12,7 +12,7 @@ import { TableService } from '@app/_services/tableService';
 import { SettingsService } from '@app/_services/settings.service';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
-import { throwError } from 'rxjs';
+import { throwError, BehaviorSubject } from 'rxjs';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 import * as _moment from 'moment';
@@ -53,6 +53,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public queryStrings = {};
   public fileLoading = {};
   public formLoading = false;
+  public upperInfoText;
 
   public lang: string;
   public form_name: string;
@@ -67,7 +68,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public empty_data = false;
   public acceptable_forms = [];
   public acceptable_forms_limit = 4;
-  public opened_step;
+  public opened_step: string;
   public max_step;
   public current_acceptable_activity: string[];
   public data_elements;
@@ -88,6 +89,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public fullAddressSubscription = {};
   public autocompleteLoader = true;
   public addressFieldFocus = false;
+  public observableStep;
 
   constructor(
     private translate: TranslateService,
@@ -100,7 +102,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private tableService: TableService,
-    public settings: SettingsService
+    public settings: SettingsService,
   ) { }
 
   pathWatcher() {
@@ -386,7 +388,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       ? this.data_elements[element].value
       : this.data_elements[element].value[rowindex][col];
 
-      return date ? moment((String(date).split('.')).reverse().join('-')) : '';
+    return date ? moment((String(date).split('.')).reverse().join('-')) : '';
   }
 
   selectListCompare(a, b) {
@@ -406,6 +408,29 @@ export class XjsonComponent implements OnInit, OnDestroy {
     } else {
       return true;
     }
+  }
+
+  isFieldHidden(element): boolean {
+    const model = this.data_elements[element];
+
+    if (model) {
+      if (model.hidden) {
+        return true;
+      }
+
+      if (model.depend_on) {
+        if ((Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value.length) || (!Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value)) {
+          if (model.value && Array.isArray(model.value)) {
+            this.data_elements[element].value = [];
+          } else if (model.value && !Array.isArray(model.value)){
+            this.data_elements[element].value = '';
+          }
+          return true;
+        }
+      }
+    }
+
+    return false;
   }
 
   parseAcceptableExtentsions(list: string[]) {
@@ -459,8 +484,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.fileLoading[element] = true;
     const file = files[0];
     const file_size = this.byteToMegabyte(file.size);
-    if (file_size > size_limit) {
-      this.error[element] = { valid: false, message: this.translate.get('xjson.exceed_file_limit')['value'] };
+    if (file_size > size_limit || !model.acceptable_extensions.includes(file.name.split('.').pop())) {
+      this.error[element] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit')['value'] : this.translate.get('xjson.unacceptable_extension')['value']};
       files.shift();
       if (files.length > 0) {
         this.uploadFile(files, element);
@@ -539,7 +564,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (column.default_value !== undefined) {
         newRow[col] = column.default_value;
       } else {
-          newRow[col] = null;
+        newRow[col] = null;
       }
       if (column.type === 'address') {
         if (!this.temporaryModel[element]) {
@@ -613,7 +638,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (result === true) {
         this.edit_step = true;
         this.data.header.current_step = this.opened_step;
-        this.data.header['activity'] = 'SAVE';
+        this.data.header.acceptable_activity = ['SAVE'];
         const payload = { form_name: this.form_name, form_info: this.data };
         if (this.test === true) { this.promptDebugDialog(payload); } else { this.viewController(this.data); }
       }
@@ -664,10 +689,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
       return false;
     }
   }
+
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (field.value === undefined || field.value === null || field.value === '') {
+      if (field.value === undefined || field.value === null || field.value === '' || (Array.isArray(field.value) && !field.value.length)) {
         return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
       }
     }
@@ -702,17 +728,29 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
       // check for email format
       if (field.type === 'email') {
-        const reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        const reg = /^(?!\.)((?!.*\.{2})[a-zA-Z0-9\u0080-\u00FF\u0100-\u017F\u0180-\u024F\u0250-\u02AF\u0300-\u036F\u0370-\u03FF\u0400-\u04FF\u0500-\u052F\u0530-\u058F\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u0780-\u07BF\u07C0-\u07FF\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\u0E80-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u10A0-\u10FF\u1100-\u11FF\u1200-\u137F\u1380-\u139F\u13A0-\u13FF\u1400-\u167F\u1680-\u169F\u16A0-\u16FF\u1700-\u171F\u1720-\u173F\u1740-\u175F\u1760-\u177F\u1780-\u17FF\u1800-\u18AF\u1900-\u194F\u1950-\u197F\u1980-\u19DF\u19E0-\u19FF\u1A00-\u1A1F\u1B00-\u1B7F\u1D00-\u1D7F\u1D80-\u1DBF\u1DC0-\u1DFF\u1E00-\u1EFF\u1F00-\u1FFFu20D0-\u20FF\u2100-\u214F\u2C00-\u2C5F\u2C60-\u2C7F\u2C80-\u2CFF\u2D00-\u2D2F\u2D30-\u2D7F\u2D80-\u2DDF\u2F00-\u2FDF\u2FF0-\u2FFF\u3040-\u309F\u30A0-\u30FF\u3100-\u312F\u3130-\u318F\u3190-\u319F\u31C0-\u31EF\u31F0-\u31FF\u3200-\u32FF\u3300-\u33FF\u3400-\u4DBF\u4DC0-\u4DFF\u4E00-\u9FFF\uA000-\uA48F\uA490-\uA4CF\uA700-\uA71F\uA800-\uA82F\uA840-\uA87F\uAC00-\uD7AF\uF900-\uFAFF\.!#$%&'*+-/=?^_`{|}~\-\d]+)@(?!\.)([a-zA-Z0-9\u0080-\u00FF\u0100-\u017F\u0180-\u024F\u0250-\u02AF\u0300-\u036F\u0370-\u03FF\u0400-\u04FF\u0500-\u052F\u0530-\u058F\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u0780-\u07BF\u07C0-\u07FF\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\u0E80-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u10A0-\u10FF\u1100-\u11FF\u1200-\u137F\u1380-\u139F\u13A0-\u13FF\u1400-\u167F\u1680-\u169F\u16A0-\u16FF\u1700-\u171F\u1720-\u173F\u1740-\u175F\u1760-\u177F\u1780-\u17FF\u1800-\u18AF\u1900-\u194F\u1950-\u197F\u1980-\u19DF\u19E0-\u19FF\u1A00-\u1A1F\u1B00-\u1B7F\u1D00-\u1D7F\u1D80-\u1DBF\u1DC0-\u1DFF\u1E00-\u1EFF\u1F00-\u1FFF\u20D0-\u20FF\u2100-\u214F\u2C00-\u2C5F\u2C60-\u2C7F\u2C80-\u2CFF\u2D00-\u2D2F\u2D30-\u2D7F\u2D80-\u2DDF\u2F00-\u2FDF\u2FF0-\u2FFF\u3040-\u309F\u30A0-\u30FF\u3100-\u312F\u3130-\u318F\u3190-\u319F\u31C0-\u31EF\u31F0-\u31FF\u3200-\u32FF\u3300-\u33FF\u3400-\u4DBF\u4DC0-\u4DFF\u4E00-\u9FFF\uA000-\uA48F\uA490-\uA4CF\uA700-\uA71F\uA800-\uA82F\uA840-\uA87F\uAC00-\uD7AF\uF900-\uFAFF\-\.\d]+)((\.([a-zA-Z\u0080-\u00FF\u0100-\u017F\u0180-\u024F\u0250-\u02AF\u0300-\u036F\u0370-\u03FF\u0400-\u04FF\u0500-\u052F\u0530-\u058F\u0590-\u05FF\u0600-\u06FF\u0700-\u074F\u0750-\u077F\u0780-\u07BF\u07C0-\u07FF\u0900-\u097F\u0980-\u09FF\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\u0E80-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u10A0-\u10FF\u1100-\u11FF\u1200-\u137F\u1380-\u139F\u13A0-\u13FF\u1400-\u167F\u1680-\u169F\u16A0-\u16FF\u1700-\u171F\u1720-\u173F\u1740-\u175F\u1760-\u177F\u1780-\u17FF\u1800-\u18AF\u1900-\u194F\u1950-\u197F\u1980-\u19DF\u19E0-\u19FF\u1A00-\u1A1F\u1B00-\u1B7F\u1D00-\u1D7F\u1D80-\u1DBF\u1DC0-\u1DFF\u1E00-\u1EFF\u1F00-\u1FFF\u20D0-\u20FF\u2100-\u214F\u2C00-\u2C5F\u2C60-\u2C7F\u2C80-\u2CFF\u2D00-\u2D2F\u2D30-\u2D7F\u2D80-\u2DDF\u2F00-\u2FDF\u2FF0-\u2FFF\u3040-\u309F\u30A0-\u30FF\u3100-\u312F\u3130-\u318F\u3190-\u319F\u31C0-\u31EF\u31F0-\u31FF\u3200-\u32FF\u3300-\u33FF\u3400-\u4DBF\u4DC0-\u4DFF\u4E00-\u9FFF\uA000-\uA48F\uA490-\uA4CF\uA700-\uA71F\uA800-\uA82F\uA840-\uA87F\uAC00-\uD7AF\uF900-\uFAFF]){2,63})+)$/i;
         if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_email')['value'] }; }
       }
 
-      if(field.type === 'iban'){
+      if (field.type === 'number' && typeof field.value === 'string') {
+        if (isNaN(field.value.replace(/\s/g, ''))) {
+          return { valid: false, message: this.translate.get('xjson.enter_valid_number')['value'] };
+        }
+      }
+
+      // check for checkbox value
+      if (field.type === 'checkbox' && field.required === true && field.value === false) {
+        return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
+      }
+
+      if (field.type === 'iban') {
         const reg = /^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}\d{13}|(?:BG|BH|GB|IE)\d{2}[A-Z]{4}\d{14}|GI\d{2}[A-Z]{4}\d{15}|RO\d{2}[A-Z]{4}\d{16}|KW\d{2}[A-Z]{4}\d{22}|MT\d{2}[A-Z]{4}\d{23}|NO\d{13}|(?:DK|FI|GL|FO)\d{16}|MK\d{17}|(?:AT|EE|KZ|LU|XK)\d{18}|(?:BA|HR|LI|CH|CR)\d{19}|(?:GE|DE|LT|ME|RS)\d{20}|IL\d{21}|(?:AD|CZ|ES|MD|SA)\d{22}|PT\d{23}|(?:BE|IS)\d{24}|(?:FR|MR|MC)\d{25}|(?:AL|DO|LB|PL)\d{26}|(?:AZ|HU)\d{27}|(?:GR|MU)\d{28})$/i;
         if (reg.test(field.value) === false) { return { valid: false, message: this.translate.get('xjson.enter_valid_iban')['value'] }; }
       }
     }
     return { valid: true, message: 'valid' };
   }
+
   tableValidation(table) {
     let valid = true;
     let validationResult = { valid };
@@ -746,23 +784,38 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   validateForm(elements): void {
-    const NOT_FOR_VALIDATION = ['heading', 'helpertext',];
+    const NOT_FOR_VALIDATION = ['heading', 'helpertext'];
 
     for (const field in elements) {
       if (elements[field].type === 'table') {
         const validation = this.tableValidation(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
-          break;
+          continue;
         }
         if (!this.data_elements[field].value) {
           this.data_elements[field].value = [];
         }
-      } else if (!NOT_FOR_VALIDATION.includes(elements[field].type)) {
+
+        for (const column in this.data_elements[field].table_columns) {
+          if (this.data_elements[field].table_columns[column].type === 'number') {
+            this.data_elements[field].value.forEach((element, index) => {
+              if (typeof this.data_elements[field].value[index][column] === 'string') {
+                this.data_elements[field].value[index][column] = parseInt(this.data_elements[field].value[index][column].replace(/\s/g, ''));
+              }
+            });
+          }
+        }
+
+      } else if (!NOT_FOR_VALIDATION.includes(elements[field].type) && !this.isFieldHidden(field)) {
         const validation = this.isValidField(elements[field]);
         if (validation.valid !== true) {
           this.error[field] = validation;
-          break;
+          continue;
+        }
+
+        if (this.data_elements[field].type === 'number' && typeof this.data_elements[field].value === 'string') {
+          this.data_elements[field].value = parseInt(this.data_elements[field].value.replace(/\s/g, ''));
         }
       }
     }
@@ -775,10 +828,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.promptEditConfirmation();
     } else {
       this.formLoading = true;
-      this.edit_step = false;
       this.validateForm(this.data_elements);
 
       if (Object.keys(this.error).length === 0) {
+        this.edit_step = false;
         this.error_alert = false;
         this.data.header['activity'] = activity;
         const payload = { form_name: this.form_name, form_info: this.data };
@@ -788,8 +841,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.getData(payload);
         }
       } else {
+        this.edit_step = this.edit_step ? true : false;
         this.error_alert = true;
-        this.edit_step = true;
         this.formLoading = false;
         this.scrollPositionController();
       }
@@ -842,8 +895,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return output;
   }
 
-  returnToPreviousUrl() {
-    this.location.back();
+  cancelEventHandler() {
+    if (!this.edit_step) {
+      this.location.back();
+    }
   }
 
   compileAcceptableFormList() {
@@ -852,8 +907,20 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.data.header.acceptable_form.slice(0, this.acceptable_forms_limit) :
       this.data.header.acceptable_form;
 
+      const params = [];
+    this.route.queryParams.subscribe(
+      (strings: ActivatedRoute) => {
+        for (const key in strings) {
+          if (strings.hasOwnProperty(key)) {
+            params.push(key + '=' + strings[key]);
+          }
+        }
+      }
+    );
+    const urlParams = params.join('&');
+
     this.acceptable_forms.forEach((elem, index) => {
-      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name);
+      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name).concat('?', urlParams);
     });
 
   }
@@ -863,18 +930,33 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.compileAcceptableFormList();
   }
 
+  getUpperInfoText() {
+    const infoTextTranslationKey = 'xjson.' + this.form_name + '_infotext';
+    const infoTextTranslation = this.translate.get(infoTextTranslationKey)['value'];
+    this.upperInfoText = infoTextTranslation === infoTextTranslationKey ? false : infoTextTranslation;
+  }
+
   getStepViewStatus() {
     this.viewOnlyStep = true;
     for (const [label, elem] of Object.entries(this.data_elements)) {
       if (elem['type'] === 'table') {
         this.scrollableTableDeterminant(label);
         this.tableVisibleColumns(label, elem['table_columns']);
+
+        for (const key in elem['table_columns']) {
+          if (this.viewOnlyStep) {
+            this.isViewOnlyStep(elem['table_columns'][key]);
+          }
+        }
+      } else if (this.viewOnlyStep) {
+          this.isViewOnlyStep(elem);
       }
-      if (elem['hidden'] || elem['readonly']) {
-        return;
-      } else {
-        this.viewOnlyStep = false;
-      }
+    }
+  }
+
+  isViewOnlyStep(element) {
+    if (!(element['hidden'] || element['readonly'])) {
+      this.viewOnlyStep = false;
     }
   }
 
@@ -964,7 +1046,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.viewController(xjson);
   }
 
-
   viewController(xjson) {
     this.tableCountPerStep = 0;
     this.tableIndexes = [];
@@ -982,6 +1063,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.data.body.steps) {
       this.numberOfSteps = Object.keys(xjson.body.steps).length;
     }
+
+    this.getUpperInfoText();
 
     if (this.data_elements) {
       // Count table elements and set initial settings
@@ -1023,7 +1106,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-
     this.pathWatcher();
     const payload = { form_name: this.form_name };
 

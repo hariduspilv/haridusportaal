@@ -264,8 +264,11 @@ public class MtsysWorker extends Worker {
               if (item.isSetTegevusload()) {
                 item.getTegevusload().getTegevuslubaList().forEach(tegevusluba -> {
                   String description = tegevusloaLiigidNode.get(tegevusluba.getLiik())
-                      .get("et").asText() + " number " + tegevusluba.getLoaNumber() +
-                      " kehtivusega alates " + tegevusluba.getKehtivAlates();
+                      .get("et").asText();
+                  description += tegevusluba.isSetLoaNumber() ?
+                      " number " + tegevusluba.getLoaNumber() : "";
+                  description += tegevusluba.isSetKehtivAlates() ?
+                      " kehtivusega alates " + tegevusluba.getKehtivAlates() : "";
                   description += tegevusluba.isSetKehtivKuni() ?
                       " kuni " + tegevusluba.getKehtivKuni() : "";
                   description += tegevusluba.isSetTyhistamiseKp() ?
@@ -594,6 +597,9 @@ public class MtsysWorker extends Worker {
         ObjectNode fileType = (ObjectNode) klfFailiTyybid
             .get(response.getTegevusloaAndmed().getKlLiik().toString())
             .get(String.valueOf(item.getKlLiik()));
+        if(fileType == null) {
+          fileType = (ObjectNode) klfFailiTyybid.get("0").get(String.valueOf(item.getKlLiik()));
+        }
 
         ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
             .put("liik", fileType.get("required").asBoolean() ?
@@ -601,7 +607,7 @@ public class MtsysWorker extends Worker {
                 fileType.get("et").asText())
             .put("klLiik", item.getKlLiik())
             .put("kommentaar", item.getKommentaar())
-            .put("required", fileType.get("required").asBoolean())
+//            .put("required", fileType.get("required").asBoolean())
             .putObject("fail").put("file_name", item.getFailiNimi())
             .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
 
@@ -1761,23 +1767,23 @@ public class MtsysWorker extends Worker {
     ArrayNode acceptableFormArrayNode = ((ObjectNode) jsonNode.get("header")).putArray("acceptable_form");
 
     if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(15670L))
-        && !(response.getTegevusloaAndmed().getKlLiik().equals(18057L)
-        || response.getTegevusloaAndmed().getKlLiik().equals(1805L)
-        || response.getTegevusloaAndmed().getKlLiik().equals(18102L))) {
+        && !(response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18057L))
+        || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18058L))
+        || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18102L)))) {
       acceptableFormArrayNode.addObject()
           .put("form_name", "MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS");
     }
 
     if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(15670L))
-        && (response.getTegevusloaAndmed().getKlLiik().equals(18057L)
-        || response.getTegevusloaAndmed().getKlLiik().equals(18058L)
-        || response.getTegevusloaAndmed().getKlLiik().equals(18102L))) {
+        && (response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18057L))
+        || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18058L))
+        || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18102L)))) {
       acceptableFormArrayNode.addObject()
           .put("form_name", "MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS");
     }
 
     if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(18103L))
-        && response.getTegevusloaAndmed().getKlLiik().equals(18098L)) {
+        && response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))) {
       acceptableFormArrayNode.addObject()
           .put("form_name", "MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS");
     }

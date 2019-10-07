@@ -275,7 +275,9 @@ public class VPTWorker extends Worker {
 
         ObjectNode stepOneDataElements = ((ObjectNode) jsonNode.get("body").get("steps"))
             .putObject("step_1").putObject("data_elements");
-        stepOneDataElements.putObject("custody").put("value", response.getHoolealuneKuva());
+        stepOneDataElements.putObject("step1h2").put("hidden", !response.getHoolealuneKuva());
+        stepOneDataElements.putObject("custody").put("value", false)
+            .put("hidden", !response.getHoolealuneKuva());
         ArrayNode familyMembersPopulationRegister = stepOneDataElements
             .putObject("family_members_population_register").putArray("value");
         ArrayNode familyMembersEntered = stepOneDataElements.putObject("family_members_entered")
@@ -436,25 +438,25 @@ public class VPTWorker extends Worker {
         });
 
         stepTwoDataElements.putObject("family_members_income")
-            .put("value", response.isSetLisatudIsikuteSissetulek() ?
-                (Float) response.getLisatudIsikuteSissetulek()
-                : null)
+            .put("value", response.isSetLisatudIsikuteSissetulek()
+                && !response.getLisatudIsikuteSissetulek().equals(0.0f) ?
+                (Float) response.getLisatudIsikuteSissetulek() : null)
             .put("required", isSetDataMissing.get())
             .put("hidden", !isSetDataMissing.get());
         stepTwoDataElements.putObject("family_members_income_proof")
             .put("required", isSetDataMissing.get())
-//            .put("hidden", !isSetDataMissing.get())
+            .put("hidden", !isSetDataMissing.get())
             .putArray("value");
 
         stepTwoDataElements.putObject("family_members_nonresident_income")
-            .put("value", response.isSetNonResidentSissetulek() ?
-                (Float) response.getNonResidentSissetulek()
-                : null)
+            .put("value", response.isSetNonResidentSissetulek()
+                && !response.getNonResidentSissetulek().equals(0.0f) ?
+                (Float) response.getNonResidentSissetulek() : null)
             .put("required", isSetNonresident.get())
             .put("hidden", !isSetNonresident.get());
         stepTwoDataElements.putObject("family_members_nonresident_income_proof")
             .put("required", isSetNonresident.get())
-//            .put("hidden", !isSetNonresident.get())
+            .put("hidden", !isSetNonresident.get())
             .putArray("value");
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_2")).putArray("messages");
@@ -557,12 +559,13 @@ public class VPTWorker extends Worker {
 //region STEP_3 vpTaotlusKontakt response
         ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_3")
             .putObject("data_elements").putObject("confirmation_2")
-            .put("value", response.getFailiOigsuseKinnitusKuva());
+            .put("value", false)
+            .put("hidden", !response.getFailiOigsuseKinnitusKuva())
+            .put("required", response.getFailiOigsuseKinnitusKuva());
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_3")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
-        setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
-            "step_3");
+        setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING", "step_3");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_3");
@@ -651,9 +654,9 @@ public class VPTWorker extends Worker {
     try {
       documentId = documentId.replace("VPT_", "");
 
-      if (documentId.contains("OTSUS_DIGIDOC")) {
+      if (documentId.contains("OTSUS_DDOC")) {
         documentType = "OTSUS_DIGIDOC";
-        applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
+        applicationId = Long.valueOf(documentId.replace("OTSUS_DDOC_", ""));
       } else {
         documentType = "TAOTLUS_ZIP";
         applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
