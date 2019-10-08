@@ -9,7 +9,7 @@
         <h1>{{ translations[key].viewSubtitle | translate }}</h1>
       </div>
 
-      <scrollableContent>
+      <!-- <scrollableContent> -->
         <table htm-table>
           <ng-container *ngIf="key === 'studyProgramme.compare'">
             <tbody>
@@ -312,7 +312,7 @@
           </ng-container>
           <!--OskaProfessions.compare-->
         </table>
-      </scrollableContent>
+      <!-- </scrollableContent> -->
       <div class="notification--alert" role="alert">
         <span>{{ deleteText }} <span *ngIf="deleteText">{{ 'oskaProfessions.removed_from_comparison' | translate }}</span></span>
       </div>

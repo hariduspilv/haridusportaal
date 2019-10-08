@@ -2,6 +2,9 @@
 @import 'breakpoints.scss';
 
 :host {
+  block {
+    overflow-y: auto;
+  }
   .heading {
     display: flex;
     align-items: center;
