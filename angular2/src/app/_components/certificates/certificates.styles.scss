@@ -85,17 +85,19 @@ h4.title-lg-padding { margin-bottom: 1rem;margin-top: 0; }
     }
     button {
       cursor: pointer;
-      height: 1.1875rem;
+      align-self: flex-start;
       background: none;
       color: $blue;
-      text-decoration: underline;
       box-shadow: none;
       border: none;
       font-weight: normal;
       padding: 0;
-      &:hover {
-        text-decoration: none;
+      @include break-on(sm, min) {
+        &:hover {
+          text-decoration: none;
+        }
       }
+      text-decoration: underline;
       span {
         font-size: 1rem;
         font-family: 'Rubik', 'sans-serif';
