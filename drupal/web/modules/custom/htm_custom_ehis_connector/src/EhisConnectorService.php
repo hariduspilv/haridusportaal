@@ -6,6 +6,7 @@ use Drupal\Component\Datetime\DateTimePlus;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\Site\Settings;
+use Drupal\htm_custom_xjson_services\xJsonService;
 use Drupal\redis\ClientFactory;
 use Drupal\rest\ModifiedResourceResponse;
 use GuzzleHttp\Exception\RequestException;
@@ -45,9 +46,13 @@ class EhisConnectorService {
 		'ownershipType' => 'oppeasutuseOmandivormid',
 		'studyInstitutionType' => 'oppeasutuseLiigid'
 	];
+  /**
+   * @var xJsonService
+   */
+  protected $xJsonService;
 
 
-	/**
+  /**
 	 * EhisConnectorService constructor.
 	 *
 	 * @param AccountProxyInterface         $current_user
@@ -57,10 +62,12 @@ class EhisConnectorService {
 	public function __construct(
 			AccountProxyInterface $current_user,
 			ClientFactory $client_factory,
-			LoggerChannelFactoryInterface $logger) {
+			LoggerChannelFactoryInterface $logger,
+      xJsonService $xJsonService) {
 		$this->currentUser = $current_user;
 		$this->client = $client_factory->getClient();
 		$this->logger = $logger->get('ehis_connector_service');
+    $this->xJsonService = $xJsonService;
 		$this->currentRole = \Drupal::service('current_user.role_switcher')->getCurrentRole();
 		$this->loime_url = settings::get('loime_default_url');
 	}
@@ -407,13 +414,27 @@ class EhisConnectorService {
 		if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
 		#dump($params);
 		$response = $this->invokeWithRedis('vpTaotlus', $params);
-		dump($response);
+		$workedResponse = $this->applicationPathWorker($response);
+
 		$this->getFormDefinitionTitle($response, $params['hash']);
 		if(isset($params['get_edi_data']) && $params['get_edi_data']){
 			$this->addInstitutionData($response);
 		}
 		return $response;
 	}
+
+	private function applicationPathWorker($datafields){
+	  foreach($datafields as &$field){
+	    if(is_array($field)){
+	      foreach($field as &$values){
+	        if(isset($values['form_name'])){
+	          $values['form_path'] = $this->xJsonService->getEntityFormPath($values['form_name']);
+          }
+        }
+      }
+    }
+	  dump($datafields);
+  }
 
 	/**
 	 * @param array $params
