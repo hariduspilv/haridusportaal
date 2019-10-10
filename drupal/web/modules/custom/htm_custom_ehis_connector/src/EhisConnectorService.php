@@ -414,11 +414,11 @@ class EhisConnectorService {
 		$response = $this->invokeWithRedis('vpTaotlus', $params);
 		$workedResponse = $this->applicationPathWorker($response);
 
-		$this->getFormDefinitionTitle($response, $params['hash']);
+		$this->getFormDefinitionTitle($workedResponse, $params['hash']);
 		if(isset($params['get_edi_data']) && $params['get_edi_data']){
-			$this->addInstitutionData($response);
+			$this->addInstitutionData($workedResponse);
 		}
-		return $response;
+		return $workedResponse;
 	}
 
 	private function applicationPathWorker($datafields){
@@ -432,7 +432,6 @@ class EhisConnectorService {
         }
       }
     }
-	  dump($datafields);
 	  return $datafields;
   }
 
