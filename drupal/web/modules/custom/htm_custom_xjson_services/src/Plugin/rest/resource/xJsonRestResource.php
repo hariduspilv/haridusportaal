@@ -176,12 +176,12 @@ class xJsonRestResource extends ResourceBase {
 
 		if (empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
 		$response = $this->ehisService->postDocument(['json' => $request_body]);
-		dump('test');
 		return $this->returnBuildedResponse($response);
 	}
 
 	private function returnBuildedResponse ($response) {
 		$builded_response = $this->xJsonService->buildFormv2($response);
+		dump('test');
 		if (empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
 		return new ModifiedResourceResponse($builded_response, 200);
 	}
