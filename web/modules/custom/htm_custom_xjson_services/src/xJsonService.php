@@ -143,8 +143,6 @@ class xJsonService implements xJsonServiceInterface {
       $baseJson = $this->checkReferences($baseJson);
     }
 
-    dump('test');
-
     return $baseJson;
   }
 
