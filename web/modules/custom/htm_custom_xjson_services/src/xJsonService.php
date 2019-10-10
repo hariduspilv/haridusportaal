@@ -50,16 +50,16 @@ class xJsonService implements xJsonServiceInterface {
     $this->ehisconnector = $ehisConnectorService;
   }
 
-  public function getxJsonHeader () {
-    return (!empty($this->getEntityJsonObject())) ? $this->getEntityJsonObject()['header'] : [];
+  public function getxJsonHeader ($form_name = null) {
+    return (!empty($this->getEntityJsonObject($form_name))) ? $this->getEntityJsonObject($form_name)['header'] : [];
   }
 
-  public function getxJsonBody () {
-    return $this->getEntityJsonObject()['body'];
+  public function getxJsonBody ($form_name = null) {
+    return $this->getEntityJsonObject($form_name)['body'];
   }
 
-  public function getxJsonMessages () {
-    return $this->getEntityJsonObject()['messages'];
+  public function getxJsonMessages ($form_name = null) {
+    return $this->getEntityJsonObject($form_name)['messages'];
   }
 
 
@@ -78,7 +78,7 @@ class xJsonService implements xJsonServiceInterface {
     }
 
     if ($first && !empty($this->getEntityJsonObject($form_name))) {
-      $definition_header = $this->getxJsonHeader();
+      $definition_header = $this->getxJsonHeader($form_name);
       $baseJson['header'] = $definition_header + [
           'first' => true,
           'current_step' => null,
@@ -109,7 +109,7 @@ class xJsonService implements xJsonServiceInterface {
     } elseif (!empty($response_info) && !empty($this->getEntityJsonObject($form_name))) {
       $baseJson = $response_info;
       unset($baseJson['header']['first']);
-      $definition_header = $this->getxJsonHeader();
+      $definition_header = $this->getxJsonHeader($form_name);
       // set definition header and add server-side idCode
       $baseJson['header'] = $definition_header + [
           'agents' => [
