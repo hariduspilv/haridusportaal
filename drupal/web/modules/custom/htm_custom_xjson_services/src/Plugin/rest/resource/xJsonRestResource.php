@@ -195,7 +195,6 @@ class xJsonRestResource extends ResourceBase {
 
     $path = \Drupal::service('path.alias_manager')->getPathByAlias($path);
     $system_path = explode('/', $path);
-    dump($system_path);
     $entityStorage = \Drupal::entityTypeManager()->getStorage($system_path[1]);
     $entity = reset($entityStorage->loadByProperties(['id' => $system_path[2]]));
 
