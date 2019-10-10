@@ -51,15 +51,15 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   public function getxJsonHeader () {
-    return (!empty($this->getEntityJsonObjectByName())) ? $this->getEntityJsonObjectByName()['header'] : [];
+    return (!empty($this->getEntityJsonObject())) ? $this->getEntityJsonObjectByName()['header'] : [];
   }
 
   public function getxJsonBody () {
-    return $this->getEntityJsonObjectByName()['body'];
+    return $this->getEntityJsonObject()['body'];
   }
 
   public function getxJsonMessages () {
-    return $this->getEntityJsonObjectByName()['messages'];
+    return $this->getEntityJsonObject()['messages'];
   }
 
 
@@ -204,23 +204,7 @@ class xJsonService implements xJsonServiceInterface {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function getEntityJsonObject ($form_path = null) {
-    $id = (!$form_path) ? $this->getFormNameFromRequest() : $form_path;
-
-    $path = \Drupal::service('path.alias_manager')->getPathByAlias($id);
-    $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_entity');
-    $entity = reset($entityStorage->loadByProperties(['id' => basename($path)]));
-
-    return ($entity) ? Json::decode($entity->get('xjson_definition')->value) : null;
-  }
-
-  /**
-   * @param null $form_name
-   * @return mixed|null
-   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
-   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   */
-  public function getEntityJsonObjectByName ($form_name = null) {
+  public function getEntityJsonObject ($form_name = null) {
     $id = (!$form_name) ? $this->getFormNameFromRequest() : $form_name;
     $entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
     $connection = \Drupal::database();
@@ -257,7 +241,7 @@ class xJsonService implements xJsonServiceInterface {
     dump($response_header);
     $this->validatexJsonHeader($response_header);
     $form_name = $response['header']['form_name'];
-    $definition = $this->getEntityJsonObjectByName($form_name);
+    $definition = $this->getEntityJsonObject($form_name);
     $definition_body = $definition['body'];
 
     $return['messages'] = (isset($definition['messages'])) ? $definition['messages'] : [];
