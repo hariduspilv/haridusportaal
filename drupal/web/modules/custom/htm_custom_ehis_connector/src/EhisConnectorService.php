@@ -62,12 +62,10 @@ class EhisConnectorService {
 	public function __construct(
 			AccountProxyInterface $current_user,
 			ClientFactory $client_factory,
-			LoggerChannelFactoryInterface $logger,
-      xJsonService $xJsonService) {
+			LoggerChannelFactoryInterface $logger) {
 		$this->currentUser = $current_user;
 		$this->client = $client_factory->getClient();
 		$this->logger = $logger->get('ehis_connector_service');
-    $this->xJsonService = $xJsonService;
 		$this->currentRole = \Drupal::service('current_user.role_switcher')->getCurrentRole();
 		$this->loime_url = settings::get('loime_default_url');
 	}
@@ -424,11 +422,12 @@ class EhisConnectorService {
 	}
 
 	private function applicationPathWorker($datafields){
+	  $xJsonService = new xJsonService();
 	  foreach($datafields as &$field){
 	    if(is_array($field)){
 	      foreach($field as &$values){
 	        if(isset($values['form_name'])){
-	          $values['form_path'] = $this->xJsonService->getEntityFormPath($values['form_name']);
+	          $values['form_path'] = $xJsonService->getEntityFormPath($values['form_name']);
           }
         }
       }
