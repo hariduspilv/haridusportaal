@@ -407,6 +407,7 @@ class EhisConnectorService {
 		if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
 		#dump($params);
 		$response = $this->invokeWithRedis('vpTaotlus', $params);
+		dump($response);
 		$this->getFormDefinitionTitle($response, $params['hash']);
 		if(isset($params['get_edi_data']) && $params['get_edi_data']){
 			$this->addInstitutionData($response);

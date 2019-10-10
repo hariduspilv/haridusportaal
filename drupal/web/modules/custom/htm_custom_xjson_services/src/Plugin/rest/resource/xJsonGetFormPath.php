@@ -3,6 +3,7 @@
 namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\htm_custom_xjson_services\xJsonService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
@@ -29,6 +30,10 @@ class xJsonGetFormPath extends ResourceBase {
    * @var \Drupal\Core\Session\AccountProxyInterface
    */
   protected $currentUser;
+  /**
+   * @var xJsonService
+   */
+  protected $xJsonService;
 
   /**
    * Constructs a new BaseSettingsRestResource object.
@@ -43,6 +48,7 @@ class xJsonGetFormPath extends ResourceBase {
    *   The available serialization formats.
    * @param \Psr\Log\LoggerInterface $logger
    *   A logger instance.
+   * @param xJsonService $xJsonService
    * @param \Drupal\Core\Session\AccountProxyInterface $current_user
    *   A current user instance.
    */
@@ -52,8 +58,10 @@ class xJsonGetFormPath extends ResourceBase {
     $plugin_definition,
     array $serializer_formats,
     LoggerInterface $logger,
+    xJsonService $xJsonService,
     AccountProxyInterface $current_user) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->xJsonService = $xJsonService;
     $this->currentUser = $current_user;
   }
 
@@ -67,6 +75,7 @@ class xJsonGetFormPath extends ResourceBase {
       $plugin_definition,
       $container->getParameter('serializer.formats'),
       $container->get('logger.factory')->get('htm_custom_authentication'),
+      $container->get('htm_custom_xjson_services.default'),
       $container->get('current_user')
     );
   }
@@ -90,17 +99,8 @@ class xJsonGetFormPath extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
 
-    $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_entity');
-    $connection = \Drupal::database();
-    $query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $form_name]);
-    $result = $query->fetchField();
-    if ($result) {
-      $entity = $entityStorage->load($result);
-      $response = [
-        'path' => urldecode($entity->toUrl()->toString())
-      ];
-      return new ModifiedResourceResponse($response, 200);
-    }
-    return new ModifiedResourceResponse('Path cannot be found', 400);
+    $response = $this->xJsonService->getEntityFormPath($form_name);
+
+    return $response ? new ModifiedResourceResponse($response, 200) : new ModifiedResourceResponse('Path cannot be found', 400);
   }
 }
