@@ -164,7 +164,7 @@ class xJsonRestResource extends ResourceBase {
   private function returnRighstDzeison ($data) {
 
     if (isset($data['form_info'])) {
-      $request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
+      $request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info'], $data['form_name']);
     } else {
       $request_body = $this->xJsonService->getBasexJsonForm(true, [], $data['form_name']);
     }
