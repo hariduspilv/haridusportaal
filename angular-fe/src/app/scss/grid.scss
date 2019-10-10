@@ -1,30 +1,47 @@
 $gridColumns: 12;
-$gridGutter: 15px;
-$sm-break: 640px;
-$md-break: 1000px;
-
+$gridGutter: 8px;
+$xxs-break: 480px;
+$xs-break: 720px;
+$sm-break: 1024px;
+$md-break: 1280px;
 .row{display: flex; flex-wrap: wrap;margin:-$gridGutter;
 
 	@for $i from 1 through $gridColumns { 
 		$width: percentage( $i / $gridColumns );
-		& > .col-#{$i}{ width: $width; padding:$gridGutter;}
-		& > .col-offset-#{$i}{ margin-left: $width;}
+		& > .col-#{$i} { width: $width; padding: $gridGutter; }
+		& > .col-offset-#{$i} { margin-left: $width; }
 
-		@media screen and( min-width: $sm-break ) and ( max-width:$md-break ){
-			& > .md-#{$i}{ width: $width; padding:$gridGutter;}
+		@media screen and (max-width: $md-break) {
+			& > .md-#{$i} { width: $width; padding: $gridGutter; }
 		}
 
-		@media screen and( max-width:$sm-break ){
-			& > .sm-#{$i}{ width: $width; padding:$gridGutter;}
+		@media screen and (max-width: $sm-break) {
+			& > .sm-#{$i} { width: $width; padding: $gridGutter; }
+		}
+
+		@media screen and (max-width: $xs-break) {
+			& > .xs-#{$i} { width: $width; padding: $gridGutter; }
+		}
+
+		@media screen and (max-width: $xxs-break) {
+			& > .xxs-#{$i} { width: $width; padding: $gridGutter;}
 		}
 	}
 
-	@media screen and( min-width: $sm-break ) and ( max-width:$md-break ){
-		.md-hide{display: none;}
+	@media screen and (max-width:$md-break) {
+		.md-hide { display: none; }
 	}
 
-	@media screen and( max-width:$sm-break ){
-		.sm-hide{display: none;}
+	@media screen and (max-width:$sm-break) {
+		.sm-hide { display: none; }
+	}
+	
+	@media screen and (max-width:$xs-break) {
+		.xs-hide { display: none; }
+	}
+	
+	@media screen and (max-width: $xxs-break) {
+		.xxs-hide { display: none; }
 	}
 
 }

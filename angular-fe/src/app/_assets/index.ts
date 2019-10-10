@@ -85,6 +85,7 @@ import { CompareViewComponent } from './compare.view';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { AutocompleteComponent } from './autocomplete';
+import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -99,6 +100,7 @@ import { MainProfessionListViewComponent } from '@app/_views/mainProfessionListV
 import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
 import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
 import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
+import { IframePipe } from '@app/_pipes/iframe.pipe';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -111,6 +113,7 @@ const pipes = [
   RemoveEmptyTagsPipe,
   WeekDayPipe,
   UnixToTimePipe,
+  IframePipe,
 ];
 
 const declarations = [
@@ -181,6 +184,7 @@ const declarations = [
   HomeSearchListViewComponent,
   SchoolListViewComponent,
   StudyProgrammeListViewComponent,
+  DropdownListComponent,
 ];
 
 const exports = [
