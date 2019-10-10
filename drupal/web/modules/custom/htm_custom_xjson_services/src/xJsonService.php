@@ -318,6 +318,7 @@ class xJsonService implements xJsonServiceInterface {
    * @param $header
    */
   public function validatexJsonHeader ($header) {
+    dump($header);
     $required_keys = ['form_name', 'endpoint'];
     $acceptable_activity_keys = ['SAVE', 'SUBMIT', 'VIEW'];
 
