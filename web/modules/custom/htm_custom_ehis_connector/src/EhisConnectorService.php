@@ -422,17 +422,33 @@ class EhisConnectorService {
 	}
 
 	private function applicationPathWorker($datafields){
-	  $xJsonService = new xJsonService();
+	  $workedValues = [];
 	  foreach($datafields as &$field){
 	    if(is_array($field)){
 	      foreach($field as &$values){
 	        if(isset($values['form_name'])){
-	          $values['form_path'] = $xJsonService->getEntityFormPath($values['form_name']);
+	          $values['form_path'] = isset($workedValues[$values['form_name']]) ? $workedValues[$values['form_name']] : $this->getEntityFormPath($values['form_name']);
           }
         }
       }
     }
 	  dump($datafields);
+  }
+
+  private function getEntityFormPath ($form_name)
+  {
+    $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_entity');
+    $connection = \Drupal::database();
+    $query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $form_name]);
+    $result = $query->fetchField();
+    if ($result) {
+      $entity = $entityStorage->load($result);
+      $response = [
+        'path' => urldecode($entity->toUrl()->toString())
+      ];
+      return $response;
+    }
+    return false;
   }
 
 	/**
