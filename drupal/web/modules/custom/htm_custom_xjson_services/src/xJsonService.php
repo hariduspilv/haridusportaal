@@ -106,8 +106,6 @@ class xJsonService implements xJsonServiceInterface {
       /*TODO fix empty arrays*/
       $baseJson['messages'] = ['empty' => 'empty'];
 
-      dump('test');
-
     } elseif (!empty($response_info) && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
       $baseJson = $response_info;
       unset($baseJson['header']['first']);
@@ -144,6 +142,8 @@ class xJsonService implements xJsonServiceInterface {
     if(isset($baseJson['header']['references'])){
       $baseJson = $this->checkReferences($baseJson);
     }
+
+    dump('test');
 
     return $baseJson;
   }
