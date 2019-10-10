@@ -51,15 +51,15 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   public function getxJsonHeader () {
-    return (!empty($this->getEntityJsonObject())) ? $this->getEntityJsonObject()['header'] : [];
+    return (!empty($this->getEntityJsonObjectByName())) ? $this->getEntityJsonObjectByName()['header'] : [];
   }
 
   public function getxJsonBody () {
-    return $this->getEntityJsonObject()['body'];
+    return $this->getEntityJsonObjectByName()['body'];
   }
 
   public function getxJsonMessages () {
-    return $this->getEntityJsonObject()['messages'];
+    return $this->getEntityJsonObjectByName()['messages'];
   }
 
 
@@ -106,7 +106,7 @@ class xJsonService implements xJsonServiceInterface {
       /*TODO fix empty arrays*/
       $baseJson['messages'] = ['empty' => 'empty'];
 
-    } elseif (!empty($response_info) && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
+    } elseif (!empty($response_info) && !empty($this->getEntityJsonObject($form_name))) {
       $baseJson = $response_info;
       unset($baseJson['header']['first']);
       $definition_header = $this->getxJsonHeader();
@@ -255,7 +255,6 @@ class xJsonService implements xJsonServiceInterface {
     $response_messages = isset($response['messages']) ? $response['messages'] : null;
 
     $this->validatexJsonHeader($response_header);
-    dump($response);
     $form_name = $response['header']['form_name'];
     $definition = $this->getEntityJsonObjectByName($form_name);
     $definition_body = $definition['body'];
