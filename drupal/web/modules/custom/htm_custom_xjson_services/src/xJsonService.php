@@ -78,7 +78,6 @@ class xJsonService implements xJsonServiceInterface {
     }
 
     if ($first && !empty($this->getEntityJsonObject($form_name))) {
-      dump('test');
       $definition_header = $this->getxJsonHeader();
       $baseJson['header'] = $definition_header + [
           'first' => true,
@@ -107,8 +106,9 @@ class xJsonService implements xJsonServiceInterface {
       /*TODO fix empty arrays*/
       $baseJson['messages'] = ['empty' => 'empty'];
 
+      dump('test');
+
     } elseif (!empty($response_info) && !empty($this->getEntityJsonObject($form_name, $entity_type))) {
-      dump('test2');
       $baseJson = $response_info;
       unset($baseJson['header']['first']);
       $definition_header = $this->getxJsonHeader();
