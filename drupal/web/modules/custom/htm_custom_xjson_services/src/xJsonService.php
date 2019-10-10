@@ -210,6 +210,7 @@ class xJsonService implements xJsonServiceInterface {
     $path = \Drupal::service('path.alias_manager')->getPathByAlias($id);
     $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_entity');
     $entity = reset($entityStorage->loadByProperties(['id' => basename($path)]));
+    dump($entity);
 
     return ($entity) ? Json::decode($entity->get('xjson_definition')->value) : null;
   }
