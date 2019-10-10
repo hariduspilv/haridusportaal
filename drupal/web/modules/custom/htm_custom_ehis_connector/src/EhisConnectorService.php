@@ -432,7 +432,7 @@ class EhisConnectorService {
         }
       }
     }
-	  dump($datafields);
+	  return $datafields;
   }
 
   private function getEntityFormPath ($form_name)
@@ -443,9 +443,7 @@ class EhisConnectorService {
     $result = $query->fetchField();
     if ($result) {
       $entity = $entityStorage->load($result);
-      $response = [
-        'path' => urldecode($entity->toUrl()->toString())
-      ];
+      $response = urldecode($entity->toUrl()->toString());
       return $response;
     }
     return false;
