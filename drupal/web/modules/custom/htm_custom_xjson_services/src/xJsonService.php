@@ -238,7 +238,6 @@ class xJsonService implements xJsonServiceInterface {
     $response_header = isset($response['header']) ? $response['header'] : null;
     $response_messages = isset($response['messages']) ? $response['messages'] : null;
 
-    dump($response_header);
     $this->validatexJsonHeader($response_header);
     $form_name = $response['header']['form_name'];
     $definition = $this->getEntityJsonObject($form_name);
@@ -303,7 +302,6 @@ class xJsonService implements xJsonServiceInterface {
    * @param $header
    */
   public function validatexJsonHeader ($header) {
-    dump($header);
     $required_keys = ['form_name', 'endpoint'];
     $acceptable_activity_keys = ['SAVE', 'SUBMIT', 'VIEW'];
 
