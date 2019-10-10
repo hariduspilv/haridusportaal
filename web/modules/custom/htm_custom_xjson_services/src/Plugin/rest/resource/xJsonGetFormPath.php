@@ -3,6 +3,7 @@
 namespace Drupal\htm_custom_xjson_services\Plugin\rest\resource;
 
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use Psr\Log\LoggerInterface;
@@ -75,7 +76,7 @@ class xJsonGetFormPath extends ResourceBase {
    *
    *
    * @param $form_name
-   * @return \Drupal\rest\ResourceResponse
+   * @return ModifiedResourceResponse|ResourceResponse
    *   The HTTP response object.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
@@ -96,10 +97,8 @@ class xJsonGetFormPath extends ResourceBase {
     if ($result) {
       $entity = $entityStorage->load($result);
       $url = $entity->toUrl()->toString();
-      $jou = new ResourceResponse($url, 200);
-      dump($jou);
-      return new ResourceResponse($url, 200);
+      return new ModifiedResourceResponse($url, 200);
     }
-    return new ResourceResponse('Path cannot be found', 400);
+    return new ModifiedResourceResponse('Path cannot be found', 400);
   }
 }
