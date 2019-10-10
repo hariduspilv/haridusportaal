@@ -432,6 +432,7 @@ class EhisConnectorService {
         }
       }
     }
+	  dump($datafields);
 	  return $datafields;
   }
 
