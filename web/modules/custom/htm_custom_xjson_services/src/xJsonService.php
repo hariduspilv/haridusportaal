@@ -6,6 +6,7 @@ use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
+use Drupal\rest\ModifiedResourceResponse;
 use Drupal\user\Entity\User;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -216,6 +217,28 @@ class xJsonService implements xJsonServiceInterface {
     } else {
       return null;
     }
+  }
+
+  /**
+   * @param null $form_name
+   * @return mixed|null
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getEntityFormPath ($form_name)
+  {
+    $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_entity');
+    $connection = \Drupal::database();
+    $query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $form_name]);
+    $result = $query->fetchField();
+    if ($result) {
+      $entity = $entityStorage->load($result);
+      $response = [
+        'path' => urldecode($entity->toUrl()->toString())
+      ];
+      return $response;
+    }
+    return false;
   }
 
   /**
