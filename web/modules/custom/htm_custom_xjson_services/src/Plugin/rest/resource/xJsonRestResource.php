@@ -132,7 +132,6 @@ class xJsonRestResource extends ResourceBase {
   }
 
   private function returnExistingDzeison ($data) {
-    dump('test2');
     $params['url'] = [$data['form_name'], $data['id']];
     $response = $this->ehisService->getDocument($params);
     $response['header'] += [
@@ -163,14 +162,12 @@ class xJsonRestResource extends ResourceBase {
   }
 
   private function returnRighstDzeison ($data) {
-    dump('test');
 
     if (isset($data['form_info'])) {
       $request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info']);
     } else {
-      $request_body = $this->xJsonService->getBasexJsonForm(true);
+      $request_body = $this->xJsonService->getBasexJsonForm(true, [], $data['form_name']);
     }
-
 
     if (empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
     $response = $this->ehisService->postDocument(['json' => $request_body]);
