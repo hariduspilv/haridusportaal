@@ -199,7 +199,7 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   /**
-   * @param null $form_path
+   * @param null $form_name
    * @return mixed|null
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
