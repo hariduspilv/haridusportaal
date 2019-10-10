@@ -181,7 +181,6 @@ class xJsonRestResource extends ResourceBase {
 
 	private function returnBuildedResponse ($response) {
 		$builded_response = $this->xJsonService->buildFormv2($response);
-		dump('test');
 		if (empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
 		return new ModifiedResourceResponse($builded_response, 200);
 	}
