@@ -92,7 +92,7 @@ class xJsonGetFormPath extends ResourceBase {
       $url = $entity->toUrl()->toString();
       return new ResourceResponse($url);
     } else {
-      return new ModifiedResourceResponse('Path cannot be found', 400);
+      return new ResourceResponse('Path cannot be found', 400);
     }
   }
 }
