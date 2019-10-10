@@ -51,7 +51,7 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   public function getxJsonHeader () {
-    return (!empty($this->getEntityJsonObject())) ? $this->getEntityJsonObjectByName()['header'] : [];
+    return (!empty($this->getEntityJsonObject())) ? $this->getEntityJsonObject()['header'] : [];
   }
 
   public function getxJsonBody () {
