@@ -87,9 +87,9 @@ class xJsonGetFormPath extends ResourceBase {
     $connection = \Drupal::database();
     $query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $form_name]);
     $result = $query->fetchField();
-    dump('test');
     if ($result) {
       $entity = $entityStorage->load($result);
+      dump('test');
       return new ResourceResponse($entity->toUrl()->toString());
     } else {
       return new ModifiedResourceResponse('Path cannot be found', 400);
