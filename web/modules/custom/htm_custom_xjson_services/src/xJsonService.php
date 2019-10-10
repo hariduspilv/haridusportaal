@@ -235,6 +235,7 @@ class xJsonService implements xJsonServiceInterface {
     $response_messages = isset($response['messages']) ? $response['messages'] : null;
 
     $this->validatexJsonHeader($response_header);
+    dump($response);
     $form_name = $response['header']['form_name'];
     $definition = $this->getEntityJsonObject($form_name);
     $definition_body = $definition['body'];
