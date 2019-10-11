@@ -57,6 +57,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   public lang: string;
   public form_name: string;
+  public form_route: string;
   public subscriptions: Subscription[] = [];
   public dialogRef: MatDialogRef<ConfirmPopupDialog>;
   public datepickerFocus = false;
@@ -106,6 +107,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   ) { }
 
   pathWatcher() {
+    this.form_route = decodeURI(this.router.url).split('?')[0];
     const params = this.route.params.subscribe(
       (params: ActivatedRoute) => {
         this.form_name = params['form_name'];
@@ -639,7 +641,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.edit_step = true;
         this.data.header.current_step = this.opened_step;
         this.data.header.acceptable_activity = ['SAVE'];
-        const payload = { form_name: this.form_name, form_info: this.data };
+        const payload = { form_name: this.form_route, form_info: this.data };
         if (this.test === true) { this.promptDebugDialog(payload); } else { this.viewController(this.data); }
       }
       this.dialogRef = null;
@@ -834,7 +836,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.edit_step = false;
         this.error_alert = false;
         this.data.header['activity'] = activity;
-        const payload = { form_name: this.form_name, form_info: this.data };
+        const payload = { form_name: this.form_route, form_info: this.data };
         if (this.test === true) {
           this.promptDebugDialog(payload);
         } else {
@@ -1107,7 +1109,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.pathWatcher();
-    const payload = { form_name: this.form_name };
+    
+    const payload = { form_name: this.form_route };
 
     if (this.test === true) {
       this.promptDebugDialog(payload);
