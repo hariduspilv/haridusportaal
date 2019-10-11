@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'links',
@@ -9,7 +9,32 @@ import { Component, Input } from '@angular/core';
   },
 })
 
-export class LinksComponent {
+export class LinksComponent implements OnInit {
   @Input() data;
   @Input() type: string = 'external';
+
+  ngOnInit() {
+    if (this.type === 'document') {
+      try {
+        this.data = this.data.map((item) => {
+          let output;
+          if (item.entity.fieldAttachment && item.entity.fieldAttachment.entity) {
+            output = {
+              entity: {
+                url: item.entity.fieldAttachment.entity.url,
+              },
+              description: item.entity.fieldName,
+            };
+          } else {
+            output = item;
+          }
+          return output;
+        });
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      
+    }
+  }
 }

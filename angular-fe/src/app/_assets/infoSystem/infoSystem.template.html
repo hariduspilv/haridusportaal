@@ -13,6 +13,10 @@
             </div>
             <h2 class="intro" *ngIf="data.introductionText">{{data.introductionText}}</h2>
             <div class="description" *ngIf="data.content" [innerHTML]="data.content.processed"></div>
+            {{ data.fieldFile | json }}
+            <links [data]="data.webpage" *ngIf="data.webpage.length" type="webpage"></links>
+            <links [data]="data.fieldFile" *ngIf="data.fieldFile.length" type="document"></links>
+            
             <ul class="link-list mt-0">
                 <ng-container *ngIf="data.webpage">
                     <ng-container *ngTemplateOutlet="links;context:{linksData:data.webpage}">
