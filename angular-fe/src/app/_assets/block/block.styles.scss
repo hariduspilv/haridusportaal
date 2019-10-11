@@ -36,7 +36,7 @@
 			&__secondary__text{
 				color: $black;
 				padding: 0rem $medium;
-				margin: 1rem 0 -2rem 0;
+				margin: 1rem 0 0rem 0;
 			}
 
 			&__container{
@@ -113,11 +113,12 @@
 					vertical-align: top;
 					width: 25%;
 					margin: 0;
+					color: $blue;
 					@include break-on(md, max) {
 						width: 50%;
 					}
 					&.active {
-						color: $blue;
+						color: $black;
 						&:after{
 							content: '';
 							position: absolute;
@@ -166,6 +167,7 @@
 			display: block;
 			padding: $medium;
 
+			line-height: 1.375rem;
 			h1,h2,h3,h4,h5,h6,p {
 				&:first-child {
 					margin-top: 0;

@@ -96,6 +96,7 @@ import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
+import { NumbersOnly } from '@app/_pipes/numbersOnly.pipe';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -167,6 +168,7 @@ const declarations = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
+  NumbersOnly,
   SearchResultsComponent,
   NewsComponent,
   AutocompleteComponent,
