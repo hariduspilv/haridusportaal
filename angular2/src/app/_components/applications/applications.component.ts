@@ -11,7 +11,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DashboardFormDialog } from '@app/_components/dialogs/dashboard.form/dashboard.form.dialog';
 
 const ACCEPTABLE_FORMS_RESTRICTED_LENGTH = 4;
-const REQUEST_ITERATOR_LIFETIME = 30;
 
 @Component({
   selector: 'applications',
@@ -19,7 +18,7 @@ const REQUEST_ITERATOR_LIFETIME = 30;
   styleUrls: ['../certificates/certificates.styles.scss']
 })
 
-export class ApplicationsComponent implements OnInit, OnDestroy{
+export class ApplicationsComponent implements OnInit, OnDestroy {
   public loading = {
     initial: true,
     interval: false
