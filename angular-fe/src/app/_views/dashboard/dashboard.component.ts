@@ -18,5 +18,6 @@ import {
   constructor() {}
 
   ngOnInit() {
+    this.jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NzEwNjgxOTQsImV4cCI6MTU3MTA3MTc5NCwiZHJ1cGFsIjp7InVpZCI6IjY5OSJ9LCJyb2xlIjp7ImN1cnJlbnRfcm9sZSI6eyJ0eXBlIjoibmF0dXJhbF9wZXJzb24ifX0sInVzZXJuYW1lIjoiMzgyMDEyNDAzMTkiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsfQ.CNPiKmBd4KkrV0ZuqyRXVGUZhlrNRpgTWc47b4-ubNZYimmamJuLJkDFDr_k9TrNtGc1_vcoVnd8zXsJbn3nCQ';
   }
 }

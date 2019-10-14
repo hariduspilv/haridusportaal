@@ -110,6 +110,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   formatAcceptableForms(list) {
+    list.push(list[0]);
+    list.push(list[0]);
+    list.push(list[0]);
     if (this.acceptableFormsListRestricted) {
       return JSON.parse(JSON.stringify(list)).splice(0, acceptableFormsRestrictedLength);
     }
@@ -206,7 +209,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     } */
 
   ngOnInit() {
-    this.jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NzEwNjI5NTYsImV4cCI6MTU3MTA2NjU1NiwiZHJ1cGFsIjp7InVpZCI6IjY5OSJ9LCJyb2xlIjp7ImN1cnJlbnRfcm9sZSI6eyJ0eXBlIjoibmF0dXJhbF9wZXJzb24ifX0sInVzZXJuYW1lIjoiMzgyMDEyNDAzMTkiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsfQ.FMeQvHdC2nJNOBvhrrrnx6BK4h6cP49fK7_cK1YDgMik7v3kSSnzNXx_W6JF7e7wxN4zVa70pkHcLiyjIBbAPw';
     this.lang = this.rootScope.get('lang');
     this.userData = this.jwt ? this.user.decodeToken(this.jwt) : this.user.getData();
     this.currentRole = this.userData['role']['current_role']['type'];
