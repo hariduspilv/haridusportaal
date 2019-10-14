@@ -25,13 +25,26 @@
     padding: 1rem 1.5rem;
     background: #fff;
     margin: 1rem -1rem 1.5rem;
+    @include break-on(sm, max) {
+      margin-bottom: 0;
+      padding-top: 1rem;
+      .filter-control{
+          padding: 0 !important;
+          span {
+              margin-right: 1rem;
+          }
+      }
+      &.filtersActive {
+        display: block;
+      }
+    }
     .filter-control {
-        padding: 1.5rem 0rem .5rem;
+      padding: 1.5rem 0rem 0.5rem;
     }
     .text-right {
-        text-align: right;
+      text-align: right;
     }
-}
+  }
 
 .row {
     margin: 0 -.5rem;
@@ -54,6 +67,10 @@
         position: relative;
         right: .5rem;
         text-align: center;
+        text-decoration: underline;
+        &:hover {
+            text-decoration: none;
+        }
     }
 }
 

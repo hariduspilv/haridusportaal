@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -9,12 +9,15 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   styleUrls: ['newsListView.styles.scss'],
 })
 
-export class NewsListViewComponent {
+export class NewsListViewComponent implements AfterViewInit {
   @Input() path: string;
+  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+
   lang: any;
   params: any;
   tags: any;
   selectedTag: any;
+  filterFull = false;
   showFilter = true;
 
   constructor(
@@ -24,6 +27,11 @@ export class NewsListViewComponent {
 
   ngOnInit() {
     this.getTags();
+  }
+
+  ngAfterViewInit() {
+    this.showFilter = this.filterToggle.nativeElement.clientWidth ? false : true;
+    this.filterFull = true;
   }
 
   getTags() {

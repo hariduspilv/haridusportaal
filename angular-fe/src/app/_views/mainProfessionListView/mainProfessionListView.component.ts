@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -10,8 +10,10 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
   styleUrls: ['mainProfessionListView.styles.scss'],
 })
 
-export class MainProfessionListViewComponent {
+export class MainProfessionListViewComponent implements AfterViewInit {
   @Input() path: string;
+  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+
   lang: any;
   params: any;
   tags: any;
@@ -20,6 +22,7 @@ export class MainProfessionListViewComponent {
   fixedLabelSelection: any;
   competitionSelection: any;
   showFilter = true;
+  filterFull = false;
   sortDirection = 'ASC';
   sortField: any;
   sort: any;
@@ -51,6 +54,11 @@ export class MainProfessionListViewComponent {
     const directionHelper = this.sort.split('_');
     this.sortDirection = (directionHelper.pop()).toUpperCase();
     this.sortField = directionHelper.join('_');
+  }
+
+  ngAfterViewInit() {
+    this.showFilter = this.filterToggle.nativeElement.clientWidth ? false : true;
+    this.filterFull = true;
   }
 
   getFilters() {

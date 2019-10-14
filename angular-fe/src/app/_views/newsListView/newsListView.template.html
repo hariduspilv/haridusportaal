@@ -1,7 +1,7 @@
 <base-layout>
 	<breadcrumbs path="/uudised"></breadcrumbs>
 	<form class="filter-wrapper" filters>
-		<div class="sm-show text-right filter-control">
+		<div #filterToggle class="sm-show text-right filter-control">
 			<a href="javascript:void(0);" (click)="showFilter = !showFilter">
 				<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
 				<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>

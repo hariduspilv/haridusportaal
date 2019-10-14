@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
@@ -9,13 +9,16 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
   styleUrls: ['studyProgrammeListView.styles.scss'],
 })
 
-export class StudyProgrammeListViewComponent {
+export class StudyProgrammeListViewComponent implements AfterViewInit {
   @Input() path: string;
+  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  
   lang: any;
   params: any;
   tags: any;
   selectedTag: any;
   showFilter = true;
+  filterFull = false;
   typeFilters = [];
   selectedTypes = [];
   levelFilters = [];
@@ -45,6 +48,11 @@ export class StudyProgrammeListViewComponent {
     this.getFilters();
 
     this.getSortOptions();
+  }
+
+  ngAfterViewInit() {
+    this.showFilter = this.filterToggle.nativeElement.clientWidth ? false : true;
+    this.filterFull = true;
   }
 
   setIscedfFilters(type) {

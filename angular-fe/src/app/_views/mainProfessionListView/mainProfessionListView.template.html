@@ -1,7 +1,7 @@
 <base-layout>
 	<breadcrumbs path="/ametialad"></breadcrumbs>
 	<form class="filter-wrapper" filters>
-		<div class="sm-show text-right filter-control">
+		<div #filterToggle class="sm-show text-right filter-control">
 			<a href="javascript:void(0);" (click)="showFilter = !showFilter">
 				<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
 				<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
@@ -72,10 +72,12 @@
 			</div>
 		</ng-container>
 	</form>
-	<block titleBorder="true">
+	<block titleBorder="true" tabStyle="default">
 		<block-title>{{ 'oskaProfessions.main_profession' | translate }}</block-title>
-		<block-content>
+		<block-content tabLabel="{{ 'oskaProfessions.main_profession' | translate }}" tabIcon="grid">
 			<searchResults type="mainProfession" compare="oskaProfessions.compare" limit="24"></searchResults>
+		</block-content>
+		<block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info">
 		</block-content>
 	</block>
 </base-layout>
