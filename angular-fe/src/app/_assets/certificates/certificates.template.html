@@ -6,6 +6,9 @@
   <accordion-item title="{{ 'frontpage.dashboard_tabs_certificates_professional' | translate }}"
     (click)="dataController('professional-certificates')">
     <loader *ngIf="!error && !professionalCertificates"></loader>
+    <p *ngIf="error && !certificateErr" class="text-center text--substrong--head mb-0">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</p>
+    <p *ngIf="error && certificateErr" class="text-center text--substrong--head mb-0">{{ certificateErr }}</p>
+    <p *ngIf="professionalCertificates && professionalCertificates.length < 1" class="text-center text--substrong--head mb-0">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</p>
     <table htm-table *ngIf="!error && professionalCertificates && professionalCertificates.length > 0">
       <tbody>
         <tr *ngFor="let certificate of professionalCertificates">
