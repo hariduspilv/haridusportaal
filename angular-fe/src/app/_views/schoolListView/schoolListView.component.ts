@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 
@@ -8,13 +8,16 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['schoolListView.styles.scss'],
 })
 
-export class SchoolListViewComponent {
+export class SchoolListViewComponent implements AfterViewInit {
   @Input() path: string;
+  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  
   lang: any;
   params: any;
   tags: any;
   selectedTag: any;
   showFilter = true;
+  filterFull = false;
   schoolType = [];
   primaryTypes = [];
   selectedPrimaryTypes = [];
@@ -32,6 +35,11 @@ export class SchoolListViewComponent {
 
   ngOnInit() {
     this.getTags();
+  }
+
+  ngAfterViewInit() {
+    this.showFilter = this.filterToggle.nativeElement.clientWidth ? false : true;
+    this.filterFull = true;
   }
 
   setSecondaryTypes() {

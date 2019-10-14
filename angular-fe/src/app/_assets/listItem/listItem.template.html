@@ -29,7 +29,7 @@
                     <compare [id]="item.nid" [sessionStorageKey]="compare"></compare>
                 </div>
 
-                <div class="col-4 xs-12 pointer" *ngIf="item.image">
+                <div class="col-4 xs-12 pointer" class="list__item__image" *ngIf="item.image">
                     <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}" width="100%" />
                   </div>
 

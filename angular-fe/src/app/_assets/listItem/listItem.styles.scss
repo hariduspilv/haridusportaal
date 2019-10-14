@@ -50,6 +50,9 @@ $grid-columns: 12;
         }
       }
     }
+    &__image{
+      cursor: pointer;
+    }
     &__title{
       width: 100%;
       font-size: $medium; 

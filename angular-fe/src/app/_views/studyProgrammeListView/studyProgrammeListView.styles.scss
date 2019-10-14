@@ -2,99 +2,155 @@
 @import "breakpoints.scss";
 @import "grid.scss";
 
-
 .col-25 {
-    width: 20.83%;
+  width: 20.83%;
 }
 
 ::ng-deep.disabled {
-    pointer-events: none;
-    .ng-select-container {
-      background: $light-gray !important;
-      .ng-arrow {
-          color: $dark-gray;
-      }
+  pointer-events: none;
+  .ng-select-container {
+    background: $light-gray !important;
+    .ng-arrow {
+      color: $dark-gray;
     }
+  }
 }
 
 .hidden {
-    display: none;
+  display: none;
 }
 
 .filter-wrapper {
-    padding: 1rem 1.5rem;
-    background: #fff;
-    margin: 1rem -1rem 1.5rem;
+  padding: 1rem 1.5rem;
+  background: #fff;
+  margin: 1rem -1rem 1.5rem;
+  @include break-on(sm, max) {
+    margin-bottom: 0;
+    padding-top: 1rem;
     .filter-control {
-        padding: 1.5rem 0rem .5rem;
+      padding: 0 !important;
+      span {
+        margin-right: 1rem;
+      }
     }
-    .text-right {
-        text-align: right;
+    &.filtersActive {
+      display: block;
     }
+  }
+  .filter-control {
+    padding: 1.5rem 0rem 0.5rem;
+  }
+  .text-right {
+    text-align: right;
+  }
 }
 
 .row {
-    margin: 0 -.5rem;
-    .align-end {
-        align-self: flex-end;
-        margin-bottom: auto;
+  margin: 0 -0.5rem;
+  .align-end {
+    align-self: flex-end;
+    margin-bottom: auto;
+  }
+  .inline-flex {
+    display: inline-flex;
+    justify-content: flex-end;
+  }
+  .text-right {
+    text-align: right;
+  }
+  .align-center {
+    align-self: center;
+  }
+  .filter-state {
+    margin: 0 auto;
+    position: relative;
+    right: 0.5rem;
+    text-align: center;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
     }
-    .inline-flex {
-        display: inline-flex;
-        justify-content: flex-end;
-    }
-    .text-right {
-        text-align: right;
-    }
-    .align-center {
-        align-self: center;
-    }
-    .filter-state {
-        margin: 0 auto;
-        position: relative;
-        right: .5rem;
-        text-align: center;
-    }
+  }
 }
 
-div[class*=col-] {
-    padding: .5rem !important;
+div[class*="col-"] {
+  padding: 0.5rem !important;
 }
 
 .button-row {
-    @include break-on(sm, max) {
-        width: 100%;
-    }
-    button{
-        width: 100%;
-    }
+  @include break-on(sm, max) {
+    width: 100%;
+  }
+  button {
+    width: 100%;
+  }
 }
 
-.xxs-show{display:none !important;}
-.xxs-flex{display:none !important;}
-.xs-show{display:none !important;}
-.xs-flex{display:none !important;}
-.sm-show{display:none !important;}
-.sm-flex{display:none !important;}
-.md-show{display:none !important;}
-.md-flex{display:none !important;}
+.xxs-show {
+  display: none !important;
+}
+.xxs-flex {
+  display: none !important;
+}
+.xs-show {
+  display: none !important;
+}
+.xs-flex {
+  display: none !important;
+}
+.sm-show {
+  display: none !important;
+}
+.sm-flex {
+  display: none !important;
+}
+.md-show {
+  display: none !important;
+}
+.md-flex {
+  display: none !important;
+}
 @include break-on(xxs, max) {
-  .xxs-hide{display:none !important;}
-  .xxs-show{display: block !important;}
-  .xxs-flex{display: flex !important;}
+  .xxs-hide {
+    display: none !important;
+  }
+  .xxs-show {
+    display: block !important;
+  }
+  .xxs-flex {
+    display: flex !important;
+  }
 }
 @include break-on(xs, max) {
-  .xs-hide{display:none !important;}
-  .xs-show{display: block !important;}
-  .xs-flex{display: flex !important;}
+  .xs-hide {
+    display: none !important;
+  }
+  .xs-show {
+    display: block !important;
+  }
+  .xs-flex {
+    display: flex !important;
+  }
 }
 @include break-on(sm, max) {
-  .sm-hide{display:none !important;}
-  .sm-show{display: block !important;}
-  .sm-flex{display: flex !important;}
+  .sm-hide {
+    display: none !important;
+  }
+  .sm-show {
+    display: block !important;
+  }
+  .sm-flex {
+    display: flex !important;
+  }
 }
 @include break-on(md, max) {
-  .md-hide{display: none !important;}
-  .md-show{display: block !important;}
-  .md-flex{display: flex !important;}
+  .md-hide {
+    display: none !important;
+  }
+  .md-show {
+    display: block !important;
+  }
+  .md-flex {
+    display: flex !important;
+  }
 }
