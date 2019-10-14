@@ -1,8 +1,10 @@
 <loader *ngIf="loading.initial === true"></loader>
-
+<div class="unpadded">
+    {{ 'abitekst.taotlused' | translate }}
+  </div>
 <div *ngIf="loading.initial === false && currentRole === 'natural_person'">
-  <div>
-    <h4 class="title-lg-padding">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
+  <div class="acceptable-forms">
+    <h4>{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
     <div class="text-center" *ngIf="!acceptableFormsList.length">
       {{ 'frontpage.dashboard_tabs_applications_acceptable_forms_notfound' | translate }}</div>
 

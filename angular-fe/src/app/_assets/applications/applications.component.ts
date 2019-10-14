@@ -112,10 +112,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   formatAcceptableForms(list) {
-    list.push(list[0]);
-    list.push(list[0]);
-    list.push(list[0]);
-    list.push(list[0]);
     if (this.acceptableFormsListRestricted) {
       return JSON.parse(JSON.stringify(list)).splice(0, acceptableFormsRestrictedLength);
     }
@@ -129,73 +125,51 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
   }
 
-  fetchData(update) {
-    const requestBoolean = this.loading['initial'] ? 1 : 0;
-
+  fetchData() {
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', "Bearer " + this.jwt);
 
-    const subscription = this.http.get(this.settings.url + '/dashboard/applications/' + requestBoolean + '?_format=json', { headers: headers, }).subscribe((response) => {
-      if (response && response['found'] === null) {
-      } else {
-        if (response['error'] && response['error']['message_text']) {
-          this.alertsService.info(response['error']['message_text']['et'], 'general', 'applications', false, false);
-        } else if (this.currentRole === 'natural_person') {
-          this.data.acceptable_forms = response['acceptable_forms'];
-          // dummyData[this.dummyDataVersion].acceptable_forms ||
-          this.data.drafts = response['drafts'];
-          // dummyData[this.dummyDataVersion].drafts ||
-          this.data.documents = response['documents'];
-          // dummyData[this.dummyDataVersion].documents ||
-          this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
-          this.data.drafts = this.sortList(this.data.drafts, 'title');
-          this.data.documents = this.sortList(this.data.documents, 'date');
-
-          this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
+    setTimeout(() => {
+      const subscription = this.http.get(this.settings.url + '/dashboard/applications/1?_format=json', { headers: headers, }).subscribe((response: any) => {
+        if (typeof response.found !== undefined && response.found === null) {
+          this.fetchData();
         } else {
-          // let keysToSort = [ 'documents', 'acceptable_forms', 'drafts' ];
-          const responseData = response['educationalInstitutions'].map((elem) => {
-            elem.documents = this.sortList(elem.documents, 'date');
-            elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
-            elem.drafts = this.sortList(elem.drafts, 'title');
-            return elem;
-          });
-          if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
-            this.data.educationalInstitutions = responseData;
-            // && response['educationalInstitutions'].length ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
-            if (response['message']) {
-              this.alertsService.info(response['message'], 'general', 'applications', false, false);
-            }
-            // || juridicalDummyData[this.dummyDataVersion].message;
-            // this.data.educationalInstitutions = juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
-            // this.data.message = juridicalDummyData[this.dummyDataVersion].message || response['message'];
-            if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
-              this.data.educationalInstitutions.forEach((elem, index) => {
-                this.tableOverflown[index] = { 0: false, 1: false, 2: false };
-                this.elemAtStart[index] = { 0: true, 1: true, 2: true };
-                this.initialized[index] = { 0: false, 1: false, 2: false };
-              });
+          if (response['error'] && response['error']['message_text']) {
+            this.alertsService.info(response['error']['message_text']['et'], 'general', 'applications', false, false);
+          } else if (this.currentRole === 'natural_person') {
+            this.data.acceptable_forms = response['acceptable_forms'];
+            this.data.drafts = response['drafts'];
+            this.data.documents = response['documents'];
+            this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
+            this.data.drafts = this.sortList(this.data.drafts, 'title');
+            this.data.documents = this.sortList(this.data.documents, 'date');
+            this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
+          } else {
+            const responseData = response['educationalInstitutions'].map(elem => {
+              elem.documents = this.sortList(elem.documents, 'date');
+              elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
+              elem.drafts = this.sortList(elem.drafts, 'title');
+              return elem;
+            })
+            if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
+              this.data.educationalInstitutions = responseData;
+              if (response['message']) {
+                this.alertsService.info(response['message'], 'general', 'applications', false, false);
+              }
+              if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
+                this.data.educationalInstitutions.forEach((elem, index) => {
+                  this.tableOverflown[index] = { 0: false, 1: false, 2: false };
+                  this.elemAtStart[index] = { 0: true, 1: true, 2: true };
+                  this.initialized[index] = { 0: false, 1: false, 2: false };
+                });
+              }
             }
           }
+          this.loading['initial'] = false;
         }
-      }
-
-      if (this.loading.initial && !update && !(response && response['found'] === null)) {
-        this.loading.initial = false;
-      }
-      subscription.unsubscribe();
-
-      if ((Date.now() - this.startTime) / 1000 < requestIteratorLifetime) {
-        this.requestIteratorTimeout += (0.25 * this.requestIteratorTimeout);
-        this.loading['interval'] = true;
-        this.requestIterator = setTimeout(() => {
-          this.fetchData(false);
-        }, this.requestIteratorTimeout);
-      } else {
-        this.loading['interval'] = false;
-      }
-
-    });
+        subscription.unsubscribe();
+      });
+    }, 1000);
   }
 
   initialTableCheck(id, parentIndex, index) {
