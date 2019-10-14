@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router, ActivatedRoute, Params, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 
 import { FiltersService } from '@app/_services/filtersService';
@@ -58,7 +58,8 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     public scrollRestoration: ScrollRestorationService,
   ) {
     super(null, null);
-  }
+
+    }
   
   populateFilterOptions(){
     this.loading = true;
@@ -254,6 +255,10 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
   watchSearch() {
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
+      if(Object.keys(params).length === 0) {
+        this.clearForm();
+        this.filterFormItems.open_admission = true;
+      }
       this.params = params;
       const paramsKeys = Object.keys(params);
       const newParams = {};
@@ -263,7 +268,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
         } else {
           newParams[e] = this.params[e];
         }
-      })
+      });
       this.params = newParams;
       this.reset();
     });
@@ -327,6 +332,10 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
+    Object.keys(this.filterFormItems).forEach(e => {
+      this.clearField(e);
+      this.params[e] = '';
+    });
     this.showFilter = this.device.isDesktop();
     this.filterFull = this.device.isTablet() || this.device.isMobile();
     this.pathWatcher();
