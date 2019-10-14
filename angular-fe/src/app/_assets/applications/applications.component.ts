@@ -16,7 +16,7 @@ const requestIteratorLifetime = 30;
 @Component({
   selector: 'applications',
   templateUrl: './applications.template.html',
-  styleUrls: [],
+  styleUrls: ['./applications.styles.scss'],
 })
 
 export class ApplicationsComponent implements OnDestroy, OnInit {
@@ -112,6 +112,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   formatAcceptableForms(list) {
+    list.push(list[0]);
+    list.push(list[0]);
+    list.push(list[0]);
+    list.push(list[0]);
     if (this.acceptableFormsListRestricted) {
       return JSON.parse(JSON.stringify(list)).splice(0, acceptableFormsRestrictedLength);
     }
@@ -230,8 +234,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     } */
 
   ngOnInit() {
+    this.jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NzEwNTgxMzUsImV4cCI6MTU3MTA2MTczNSwiZHJ1cGFsIjp7InVpZCI6IjY5OSJ9LCJyb2xlIjp7ImN1cnJlbnRfcm9sZSI6eyJ0eXBlIjoibmF0dXJhbF9wZXJzb24ifX0sInVzZXJuYW1lIjoiMzgyMDEyNDAzMTkiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsfQ.PLa7ejw6QG6h5qSdn7DkowLf0xI3h49Fsn8EsCnxGJX85vM_PSvImVepSXuANjLf83Xwzth32ZecPxKCf6OLBQ';
     this.lang = this.rootScope.get('lang');
-    this.userData = this.user.getData();
+    this.userData = this.jwt ? this.user.decodeToken(this.jwt) : this.user.getData();
     this.currentRole = this.userData['role']['current_role']['type'];
     this.pathWatcher();
     this.startTime = Date.now();

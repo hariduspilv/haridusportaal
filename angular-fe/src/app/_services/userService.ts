@@ -25,7 +25,7 @@ export class UserService{
     this.isLoggedInChange.next(isLoggedIn);
   }
 
-  private decodeToken(inputToken:any = "") {
+  public decodeToken(inputToken:any = "") {
     
     const token = inputToken ? inputToken : this.getStorage();
 
