@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { MonthsToYearsPipe } from './monthsToYears.pipe';
 import { RemoveProtocolPipe } from './removeProtocol.pipe';
 import { UrlPipe } from './url.pipe';
+import { EllipsisPipe } from './ellipsis.pipe';
 
 const pipes = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
+  EllipsisPipe,
 ];
 
 @NgModule({

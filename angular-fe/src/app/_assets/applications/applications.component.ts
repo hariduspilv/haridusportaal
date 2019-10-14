@@ -8,10 +8,8 @@ import { TableService, AlertsService } from '@app/_services';
 import { UserService } from '@app/_services/userService';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
-import { JwtHelperService } from '@auth0/angular-jwt';
 
 const acceptableFormsRestrictedLength = 4;
-const requestIteratorLifetime = 30;
 
 @Component({
   selector: 'applications',
@@ -208,14 +206,14 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     } */
 
   ngOnInit() {
-    this.jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NzEwNTgxMzUsImV4cCI6MTU3MTA2MTczNSwiZHJ1cGFsIjp7InVpZCI6IjY5OSJ9LCJyb2xlIjp7ImN1cnJlbnRfcm9sZSI6eyJ0eXBlIjoibmF0dXJhbF9wZXJzb24ifX0sInVzZXJuYW1lIjoiMzgyMDEyNDAzMTkiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsfQ.PLa7ejw6QG6h5qSdn7DkowLf0xI3h49Fsn8EsCnxGJX85vM_PSvImVepSXuANjLf83Xwzth32ZecPxKCf6OLBQ';
+    this.jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NzEwNjI5NTYsImV4cCI6MTU3MTA2NjU1NiwiZHJ1cGFsIjp7InVpZCI6IjY5OSJ9LCJyb2xlIjp7ImN1cnJlbnRfcm9sZSI6eyJ0eXBlIjoibmF0dXJhbF9wZXJzb24ifX0sInVzZXJuYW1lIjoiMzgyMDEyNDAzMTkiLCJmaXJzdG5hbWUiOm51bGwsImxhc3RuYW1lIjpudWxsfQ.FMeQvHdC2nJNOBvhrrrnx6BK4h6cP49fK7_cK1YDgMik7v3kSSnzNXx_W6JF7e7wxN4zVa70pkHcLiyjIBbAPw';
     this.lang = this.rootScope.get('lang');
     this.userData = this.jwt ? this.user.decodeToken(this.jwt) : this.user.getData();
     this.currentRole = this.userData['role']['current_role']['type'];
     this.pathWatcher();
     this.startTime = Date.now();
     this.loading['initial'] = true;
-    this.fetchData(false);
+    this.fetchData();
   }
 
   ngAfterViewChecked() {

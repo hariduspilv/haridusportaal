@@ -1,7 +1,7 @@
-<loader *ngIf="loading.initial === true"></loader>
 <div class="unpadded">
-    {{ 'abitekst.taotlused' | translate }}
-  </div>
+  <more-block id="1" content="{{ 'abitekst.taotlused' | translate }}"></more-block>
+</div>
+<loader *ngIf="loading.initial === true"></loader>
 <div *ngIf="loading.initial === false && currentRole === 'natural_person'">
   <div class="acceptable-forms">
     <h4>{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>

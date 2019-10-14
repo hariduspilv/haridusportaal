@@ -84,6 +84,9 @@ import { DashboardComponent } from '@app/_views/dashboard/dashboard.component';
 import { TableService } from '@app/_services/tableService';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { ApplicationsComponent } from './applications/applications.component';
+import { MoreBlockComponent } from './more.block/more.block.component';
+import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -96,6 +99,7 @@ const pipes = [
   LegendCurrencyPipe,
   EuroCurrencyPipe,
   LocaleNumberPipe,
+  EllipsisPipe,
 ];
 
 const declarations = [
@@ -156,6 +160,7 @@ const declarations = [
   NewsComponent,
   DashboardComponent,
   ApplicationsComponent,
+  MoreBlockComponent,
 ];
 
 const exports = [
@@ -173,6 +178,7 @@ const providers = [
   SettingsService,
   RootScopeService,
   AlertsService,
+  DeviceDetectorService,
   TableService,
   {
     provide: RECAPTCHA_LANGUAGE,
