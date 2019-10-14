@@ -6,6 +6,6 @@ export * from './SidemenuService';
 export * from './SidebarService';
 export * from './FieldVaryService';
 export * from './MapService';
-export * from './rootScopeService';
+export * from './RootScopeService';
 export * from './userService';
 export * from './tableService';

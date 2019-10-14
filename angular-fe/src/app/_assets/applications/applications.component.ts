@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
 const moment = _moment;
-import { RootScopeService } from '@app/_services/rootScopeService';
+import { RootScopeService } from '@app/_services/RootScopeService';
 import { Subscription } from 'rxjs';
 import { TableService, AlertsService } from '@app/_services';
 import { UserService } from '@app/_services/userService';
@@ -128,10 +128,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
   fetchData() {
     let headers = new HttpHeaders();
-    headers = headers.append('Authorization', "Bearer " + this.jwt);
+    headers = headers.append('Authorization', 'Bearer ' + this.jwt);
 
     setTimeout(() => {
-      const subscription = this.http.get(this.settings.url + '/dashboard/applications/1?_format=json', { headers: headers, }).subscribe((response: any) => {
+      const subscription = this.http.get(this.settings.url + '/dashboard/applications/1?_format=json', { headers, }).subscribe((response: any) => {
         if (typeof response.found !== undefined && response.found === null) {
           this.fetchData();
         } else {
@@ -151,7 +151,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
               elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
               elem.drafts = this.sortList(elem.drafts, 'title');
               return elem;
-            })
+            });
             if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
               this.data.educationalInstitutions = responseData;
               if (response['message']) {
@@ -170,7 +170,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         }
         subscription.unsubscribe();
       });
-    }, 1000);
+    },         1000);
   }
 
   initialTableCheck(id, parentIndex, index) {

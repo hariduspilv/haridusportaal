@@ -82,8 +82,10 @@ import { MainProfessionsComponent } from './mainProfessions/mainProfessions.comp
 import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
 import { DashboardComponent } from '@app/_views/dashboard/dashboard.component';
 import { TableService } from '@app/_services/tableService';
-import { RootScopeService } from '@app/_services/rootScopeService';
+import { RootScopeService } from '@app/_services/RootScopeService';
 import { ApplicationsComponent } from './applications/applications.component';
+import { CertificatesComponent } from './certificates/certificates.component';
+
 import { MoreBlockComponent } from './more.block/more.block.component';
 import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -161,6 +163,7 @@ const declarations = [
   DashboardComponent,
   ApplicationsComponent,
   MoreBlockComponent,
+  CertificatesComponent,
 ];
 
 const exports = [
