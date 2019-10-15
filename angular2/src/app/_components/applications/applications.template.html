@@ -2,8 +2,8 @@
   <div class="unpadded">
     <more-block id="1" content="{{ 'abitekst.taotlused' | translate }}"></more-block>
   </div>
-  <loader *ngIf="loading.initial === true"></loader>
-  <div *ngIf="loading.initial === false && currentRole === 'natural_person'">
+  <loader *ngIf="loading.initial"></loader>
+  <div *ngIf="!loading.initial && currentRole === 'natural_person'">
     <div>
       <h4 class="title-lg-padding">{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
       <div class="text-center" *ngIf="!acceptable_forms_list.length">
@@ -12,7 +12,7 @@
 
         <div class="grid-box">
           <ng-container *ngFor="let form of acceptable_forms_list">
-            <a [routerLink]="[compileXjsonLink(form.form_name)]" class="grid-item">
+            <a [routerLink]="[form.form_path]" class="grid-item">
               <span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }}</span>
             </a>
           </ng-container>
@@ -59,7 +59,7 @@
                   <ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}</ng-container>
                 </td>
                 <td class="text-center">
-                  <a class="rowspan-btn" *ngIf="form.form_name" [routerLink]="[compileXjsonLink(form.form_name)]"
+                  <a class="rowspan-btn" *ngIf="form.form_name" [routerLink]="[form.form_path]"
                     [queryParams]="{draft:'true', identifier: form.identifier}">
                     {{ 'button.continue_filling' | translate }}
                   </a>
@@ -142,7 +142,7 @@
                   <td><span *ngIf="form.document_date">{{ form.document_date }}</span></td>
                   <td><span *ngIf="form.status">{{ form.status }}</span></td>
                   <td class="text-center">
-                    <a class="rowspan-btn" *ngIf="form.form_name" [routerLink]="[compileXjsonLink(form.form_name)]"
+                    <a class="rowspan-btn" *ngIf="form.form_name" [routerLink]="[form.form_path]"
                       [queryParams]="{existing:'true', identifier: form.identifier}">
                       {{ 'button.open' | translate }}
                     </a>
@@ -295,7 +295,7 @@
                 <div class="grid-box">
                   <ng-container *ngFor="let form of school.acceptable_forms; let index = index;">
                     <ng-container *ngIf="index < acceptableFormsLimiter">
-                        <a [routerLink]="[compileXjsonLink(form.form_name)]"
+                        <a [routerLink]="[form.form_path]"
                           [queryParams]="form.id ? {educationalInstitutions_id: school.id, identifier: form.id, existing: 'true'} : {educationalInstitutions_id: school.id}" class="grid-item">
                           <span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }}
                             {{ form.description }}</span>
@@ -373,7 +373,7 @@
                           <td class="text-center">
                             <a class="rowspan-btn" *ngIf="form.form_name"
                               attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
-                              [routerLink]="[compileXjsonLink(form.form_name)]"
+                              [routerLink]="[form.form_path]"
                               [queryParams]="{draft:'true', identifier: form.id, educationalInstitutions_id: school.id}">
                               {{ 'button.continue_filling' | translate }}
                             </a>
@@ -465,7 +465,7 @@
                           <td class="text-center">
                             <a class="rowspan-btn" *ngIf="form.form_name"
                               attr.aria-label="{{'button.open' | translate}} {{'frontpage.dokument' | translate}}"
-                              [routerLink]="[compileXjsonLink(form.form_name)]"
+                              [routerLink]="[form.form_path]"
                               [queryParams]="{existing:'true', identifier: form.id, educationalInstitutions_id: school.id}">
                               {{ 'button.open' | translate }}
                             </a>
