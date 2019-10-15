@@ -2,201 +2,208 @@
 @import "breakpoints.scss";
 
 :host {
-	display: block;
-	border-top: $light-blue 0.625rem solid;
-	background: $white;
-	border-radius: $half-gutter;
-	margin-bottom: 16px;
+  display: block;
+  border-top: $light-blue 0.625rem solid;
+  background: $white;
+  border-radius: $half-gutter;
+  margin-bottom: 16px;
 
-	&.block--orange {
-		border-top-color: $dark-orange;
-	}
+  &.block--orange {
+    border-top-color: $dark-orange;
+  }
 }
 
 ::ng-deep {
-	block {
-		.block__title {
-			display: flex;
-			color: $dark-gray;
-			font-size: $small;
-			justify-content: space-between;
-			&--border {
-				border-bottom: $gray 0.0625rem solid;
-			}
+  block {
+    .block__title {
+      display: flex;
+      color: $dark-gray;
+      font-size: $small;
+      justify-content: space-between;
+      &--border {
+        border-bottom: $gray 0.0625rem solid;
+      }
 
-			&__text {
-				flex-grow: 1;
-				padding: 1.625rem $medium;
-				text-transform: uppercase;
-			}
+      &__text {
+        flex-grow: 1;
+        padding: 1.625rem $medium;
+        text-transform: uppercase;
+      }
 
-			&__secondary__text{
-				color: $black;
-				padding: 0rem $medium;
-			}
+      &__secondary__text {
+        color: $black;
+        padding: 0rem $medium;
+      }
 
-			&__container{
-				flex-direction: column;
-			}
+      &__container {
+        flex-direction: column;
+      }
 
-			&__tabs {
-				height:4.5rem;
-				button {
-					appearance: none;
-					padding: 0 $small;
-					border: none;
-					height: 100%;
-					background: none;
-					border-left: $gray 0.0625rem solid;
-					font-size: 16px;
-					cursor: pointer;
-					position: relative;
-					overflow: hidden;
-					vertical-align: top;
+      &__tabs {
+        height: 4.5rem;
+        button {
+          appearance: none;
+          padding: 0 $small;
+          border: none;
+          height: 100%;
+          background: none;
+          border-left: $gray 0.0625rem solid;
+          font-size: 16px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          vertical-align: top;
 
-					&.active {
-						&:after{
-							content: '';
-							position: absolute;
-							left: -$small;
-							right: -$small;
-							bottom: 0;
-							height: $half-gutter;
-							background: $dark-orange;
-							display: block;
-						}
-						color: $blue;
-					}
-					.button__contents{
-						position: relative;
-						z-index: 2;
-						pointer-events: none;
-					}
-				}
+          &.active {
+            &:after {
+              content: "";
+              position: absolute;
+              left: -$small;
+              right: -$small;
+              bottom: 0;
+              height: $half-gutter;
+              background: $dark-orange;
+              display: block;
+            }
+            color: $blue;
+          }
+          .button__contents {
+            position: relative;
+            z-index: 2;
+            pointer-events: none;
+          }
+        }
 
-				icon {
-					display: block;
-					margin-bottom: 0.125rem;
-				}
-			}
-			&__middle-tabs {
-				display: flex;
-				flex-basis: 100%;
-				justify-content: flex-start;
-				padding: 0rem 1.5rem;
-				margin-top: $small;
-				button {
-					appearance: none;
-					padding: 0 $small;
-					border: none;
-					height: 100%;
-					background: none;
-					font-size: 16px;
-					cursor: pointer;
-					position: relative;
-					overflow: hidden;
-					vertical-align: top;
-					width: 25%;
-					margin: 0;
-					@include break-on(md, max) {
-						width: 50%;
-					}
-					&.active {
-						color: $blue;
-						&:after{
-							content: '';
-							position: absolute;
-							left: -$small;
-							right: -$small;
-							bottom: 0;
-							height: $half-gutter;
-							background: $dark-orange;
-							display: block;
-						}
-					}
-					&:hover {
-						icon, .title  { 
-							color: #0F7B8A;
-						}
-					  }
-					.button__contents{
-						position: relative;
-						z-index: 2;
-						pointer-events: none;
-						.title{
-							font-weight: 300;
-							font-size: .875rem;
-							line-height: 1.71;
-							margin-bottom: $quarter;
-						}
-					}
-				}
+        icon {
+          display: block;
+          margin-bottom: 0.125rem;
+        }
+      }
+      &__middle-tabs {
+        display: flex;
+        flex-basis: 100%;
+        justify-content: flex-start;
+        padding: 0rem 1.5rem;
+        margin-top: $small;
+        button {
+          appearance: none;
+          padding: 0 $small;
+          border: none;
+          height: 100%;
+          background: none;
+          font-size: 16px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+          vertical-align: top;
+          width: 25%;
+          margin: 0;
+          @include break-on(md, max) {
+            width: 50%;
+          }
+          &.active {
+            color: $blue;
+            &:after {
+              content: "";
+              position: absolute;
+              left: -$small;
+              right: -$small;
+              bottom: 0;
+              height: $half-gutter;
+              background: $dark-orange;
+              display: block;
+            }
+          }
+          &:hover {
+            icon,
+            .title {
+              color: #0f7b8a;
+            }
+          }
+          .button__contents {
+            position: relative;
+            z-index: 2;
+            pointer-events: none;
+            .title {
+              font-weight: 300;
+              font-size: 0.875rem;
+              line-height: 1.71;
+              margin-bottom: $quarter;
+            }
+          }
+        }
 
-				icon {
-					display: block;
-					i {
-						font-size: $medium !important;
-						margin: $small 0 $gutter;
-					}
-				}
-			}
-		}
+        icon {
+          display: block;
+          i {
+            font-size: $medium !important;
+            margin: $small 0 $gutter;
+          }
+        }
+      }
+    }
 
-		.block__content {
-			display: block;
-			padding: $medium;
+    .block__content {
+      display: block;
+      padding: $medium;
 
-			h1,h2,h3,h4,h5,h6,p {
-				&:first-child {
-					margin-top: 0;
-				}
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6,
+      p {
+        &:first-child {
+          margin-top: 0;
+        }
 
-				&:last-child {
-					margin-bottom: 0;
-				}
-			}
+        &:last-child {
+          margin-bottom: 0;
+        }
+      }
 
-			&:after {
-				content: '';
-				display: block;
-				clear: both;
-				height: 0.0625rem;
-			}
-		}
-	}
+      &:after {
+        content: "";
+        display: block;
+        clear: both;
+        height: 0.0625rem;
+      }
+    }
+  }
 
-	&.block--sidebar {
-		.block__title__text {
-			padding: 0;
-			text-transform: none;
-		}
-		block-title {
-			font-size: 1.25rem;
-			line-height: 1.875rem;
-			color: $black;
-			font-weight: 500;
-		}
-		.block__content {
-			padding: 0;
-			&:after {
-				content: none;
-			}
-		}
-		@include break-on(sm, max) {
-			border-radius: 0 0 $half-gutter $half-gutter;
-			margin-bottom: 0;
-		}
-	}
+  &.block--sidebar {
+    .block__title__text {
+      padding: 0;
+      text-transform: none;
+    }
+    block-title {
+      font-size: 1.25rem;
+      line-height: 1.875rem;
+      color: $black;
+      font-weight: 500;
+    }
+    .block__content {
+      padding: 0;
+      &:after {
+        content: none;
+      }
+    }
+    @include break-on(sm, max) {
+      border-radius: 0 0 $half-gutter $half-gutter;
+      margin-bottom: 0;
+    }
+  }
 
-	@media screen and (max-width:640px) {
-		block {
-			border-radius: 0 0 $half-gutter $half-gutter !important;
+  @media screen and (max-width: 640px) {
+    block {
+      border-radius: 0 0 $half-gutter $half-gutter !important;
 
-			.block__title {
-				&__tabs {
-					display: none;
-				}
-			}
-		}
-	}
+      .block__title {
+        &__tabs {
+          display: none;
+        }
+      }
+    }
+  }
 }

@@ -4,10 +4,11 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { RootScopeService } from '@app/_services/RootScopeService';
 import { Subscription } from 'rxjs';
-import { TableService, AlertsService } from '@app/_services';
-import { UserService } from '@app/_services/userService';
+import { AlertsService } from '@app/_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
+import { UserService } from '@app/_services/userService';
+import { TableService } from '@app/_services/tableService';
 
 const acceptableFormsRestrictedLength = 4;
 

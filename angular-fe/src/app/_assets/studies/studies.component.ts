@@ -1,15 +1,14 @@
 import { Component, OnInit, Input, Output, OnDestroy, RootRenderer } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
-import { AlertsService, RootScopeService } from '@app/_services';
+import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { JwtHelperService } from '@auth0/angular-jwt';
-import { CertificatesComponent } from '../certificates/certificates.component';
+import { RootScopeService } from '@app/_services/RootScopeService';
 
 @Component({
   selector: 'studies',
   templateUrl: './studies.template.html',
-  styleUrls: [],
+  styleUrls: ['./studies.styles.scss'],
 })
 
 export class StudiesComponent implements OnInit {

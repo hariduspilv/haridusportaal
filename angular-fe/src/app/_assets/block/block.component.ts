@@ -9,6 +9,7 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from '@angular/core';
+import { ModalService } from '@app/_services';
 
 @Component({
   selector: 'block-content',
@@ -67,6 +68,21 @@ export class BlockSecondaryTitleComponent {
 }
 
 @Component({
+  selector: 'block-sub-title',
+  template: '<ng-content></ng-content>',
+})
+
+export class BlockSubTitleComponent {
+  constructor(
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  detectChanges() {
+    this.cdr.detectChanges();
+  }
+}
+
+@Component({
   selector: 'block-tabs',
   template: '<ng-content></ng-content>',
 })
@@ -90,6 +106,7 @@ export class BlockComponent implements AfterContentInit{
 
   constructor(
     private cdr: ChangeDetectorRef,
+    private modalService: ModalService,
   ) {}
 
   @HostBinding('class') get hostClasses(): string {

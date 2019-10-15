@@ -4,9 +4,22 @@
         <block-title>
             {{ 'frontpage.dashboard_label' | translate }}
         </block-title>
-        <block-secondary-title>
-            39504300814
-        </block-secondary-title>
+        <block-sub-title>
+            <div class="block__sub__title">
+                <div class="identification">
+                    <a href="javascript:void(0)" attr.aria-label="{{ 'modal.modaler' | translate }}"
+                        (click)="loadUserModal()">
+                        <h1>39504300814</h1>
+                    </a>
+                </div>
+                <div class="change-role">
+                    <a href="javascript:void(0)" attr.aria-label="{{ 'modal.change_role' | translate }}"
+                        (click)="loadRoleChangeModal()">
+                        {{ 'modal.change_role' | translate }}
+                    </a>
+                </div>
+            </div>
+        </block-sub-title>
         <block-content tabLabel="Taotlused" tabIcon="file-text">
             <applications [jwt]="jwt"></applications>
         </block-content>
@@ -17,6 +30,31 @@
             <studies [jwt]="jwt"></studies>
         </block-content>
         <block-content tabLabel="Õpetan" tabIcon="file-text">
+            <teachings [jwt]="jwt"></teachings>
         </block-content>
     </block>
 </article-layout>
+
+<htm-modal id="userModal" title="{{ 'frontpage.dashboard_tabs_personal_label' | translate }}"
+    [titleExists]="titleExists" [topAction]="topAction" [bottomAction]="bottomAction">
+    <modal-content [loading]="loading">
+        <alerts class="notifications notifications--small" id="personalData"></alerts>
+        <ng-container *ngIf="!loading && !error">
+            <h1>{{ userData.username }}</h1>
+            <table htm-table>
+            </table>
+        </ng-container>
+    </modal-content>
+</htm-modal>
+
+<htm-modal id="roleModal" title="{{ 'modal.changing_role' | translate }}"
+    [titleExists]="titleExists" [topAction]="topAction" [bottomAction]="bottomAction">
+    <modal-content [loading]="loading">
+        <alerts class="notifications notifications--small" id="roles"></alerts>
+        <ng-container *ngIf="!loading && !error">
+            <h1>{{ userData.username }}</h1>
+            <table htm-table>
+            </table>
+        </ng-container>
+    </modal-content>
+</htm-modal>

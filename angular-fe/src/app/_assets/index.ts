@@ -5,6 +5,7 @@ import {
   BlockTitleComponent,
   BlockTabsComponent,
   BlockSecondaryTitleComponent,
+  BlockSubTitleComponent,
 } from './block';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './button';
@@ -90,6 +91,7 @@ import { MoreBlockComponent } from './more.block/more.block.component';
 import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { StudiesComponent } from './studies/studies.component';
+import { TeachingsComponent } from './teachings/teachings.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -110,6 +112,7 @@ const declarations = [
   BlockContentComponent,
   BlockTitleComponent,
   BlockSecondaryTitleComponent,
+  BlockSubTitleComponent,
   BlockTabsComponent,
   ButtonComponent,
   LoaderComponent,
@@ -166,6 +169,7 @@ const declarations = [
   MoreBlockComponent,
   CertificatesComponent,
   StudiesComponent,
+  TeachingsComponent,
 ];
 
 const exports = [

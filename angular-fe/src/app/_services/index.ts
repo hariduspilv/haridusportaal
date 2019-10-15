@@ -9,3 +9,5 @@ export * from './MapService';
 export * from './RootScopeService';
 export * from './userService';
 export * from './tableService';
+export * from './SettingsService';
+
