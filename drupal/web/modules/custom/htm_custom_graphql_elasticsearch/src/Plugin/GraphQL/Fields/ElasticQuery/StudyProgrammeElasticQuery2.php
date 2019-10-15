@@ -115,9 +115,6 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
                 $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
             }
 
-            dump($responsevalues);
-            die();
-
             yield ['count'=> $response['hits']['total'], 'values' => $responsevalues];
         }
     }
