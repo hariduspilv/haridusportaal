@@ -108,9 +108,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   pathWatcher() {
     this.form_route = decodeURI(this.router.url).split('?')[0];
+
     const params = this.route.params.subscribe(
       (params: ActivatedRoute) => {
-        this.form_name = params['form_name'];
         this.lang = params['lang'];
       }
     );
@@ -126,6 +126,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
+  }
+
+  getFormName(path) {
+    const url = '/xjson_service/form_name?_format=json';
+
+    const subscription = this.http.post(url, { form_path: path }).subscribe((response: any) => {
+      this.form_name = response;
+      subscription.unsubscribe();
+    });
   }
 
   changeView(key) {
@@ -1111,6 +1120,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.pathWatcher();
     
     const payload = { form_name: this.form_route };
+
+    this.getFormName(this.form_route);
 
     if (this.test === true) {
       this.promptDebugDialog(payload);
