@@ -89,6 +89,7 @@ import { CertificatesComponent } from './certificates/certificates.component';
 import { MoreBlockComponent } from './more.block/more.block.component';
 import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { StudiesComponent } from './studies/studies.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -164,6 +165,7 @@ const declarations = [
   ApplicationsComponent,
   MoreBlockComponent,
   CertificatesComponent,
+  StudiesComponent,
 ];
 
 const exports = [
