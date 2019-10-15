@@ -15,8 +15,10 @@ $grid-columns: 12;
   }
 }
 
-.pointer{
-  cursor: pointer;
+::ng-deep{
+  .pointer{
+    cursor: pointer !important;
+  }
 }
 
 .resp-fields{
