@@ -38,8 +38,9 @@ export class SchoolListViewComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.showFilter = this.filterToggle.nativeElement.clientWidth ? false : true;
-    this.filterFull = true;
+    const responsive = this.filterToggle.nativeElement.clientWidth;
+    this.showFilter = responsive ? false : true;
+    this.filterFull = responsive ? true : false;
   }
 
   setSecondaryTypes() {
