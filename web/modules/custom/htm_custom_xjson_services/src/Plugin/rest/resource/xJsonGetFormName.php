@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *   id = "x_json_form_name_rest_resource",
  *   label = @Translation("X json form name rest resource"),
  *   uri_paths = {
- *     "canonical" = "/xjson_service/form_name/{form_path}"
+ *     "canonical" = "/xjson_service/form_name"
  *   }
  * )
  */
@@ -92,15 +92,14 @@ class xJsonGetFormName extends ResourceBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\Core\Entity\EntityMalformedException
    */
-  public function get($form_path) {
+  public function post($data) {
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
-    dump($form_path);
 
-    $response = $this->xJsonService->getEntityFormName($form_path);
+    $response = $this->xJsonService->getEntityFormName($data['form_path']);
 
     return $response ? new ModifiedResourceResponse($response, 200) : new ModifiedResourceResponse('Name cannot be found', 400);
   }
