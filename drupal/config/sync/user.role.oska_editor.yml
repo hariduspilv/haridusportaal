@@ -189,6 +189,7 @@ permissions:
   - 'view own oska_result_page content'
   - 'view own oska_survey_page content'
   - 'view own unpublished content'
+  - 'view own unpublished media'
   - 'view published oska entity entities'
   - 'view published oska indicator entity entities'
   - 'view published oska table entity entities'
@@ -199,3 +200,4 @@ permissions:
   - 'view unpublished oska indicator entity entities'
   - 'view unpublished oska table entity entities'
   - 'view unpublished paragraphs'
+  - 'view unpublished subsidy project entities'
