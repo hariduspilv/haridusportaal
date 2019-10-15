@@ -116,8 +116,8 @@
                 <mat-expansion-panel-header [expandedHeight]="'2.5rem'" [collapsedHeight]="'2.5rem'">
                   <mat-panel-title>{{ 'oskaProfessions.label' | translate }}</mat-panel-title>
                 </mat-expansion-panel-header>
-                <div class="studyProgramme__item" *ngFor="let item of data.reverseFieldOskaFieldParagraph.entities; let first = first; let i = index;">
-                  <ng-container *ngIf="item">
+                <ng-container *ngFor="let item of data.reverseFieldOskaFieldParagraph.entities; let first = first; let i = index;">
+                <div class="studyProgramme__item" *ngIf="item !== null">
                       <div class="studyProgramme__item__titlebox">
                           <div class="col-grow">
                             <a id="{{i}}" href="javascript:void();" attr.aria-label="{{ item.paragraphReference[0].entityLabel }}" [routerLink]="item.paragraphReference[0].entityUrl.path" class="studyProgramme__item__title"><h1>{{ item.paragraphReference[0].entityLabel }}</h1></a>
@@ -148,8 +148,8 @@
                             </ng-container>
                           </ng-container>
                         </div>
-                  </ng-container>
                 </div><!--/studyProgramme__item-->
+                </ng-container>
 
               </mat-expansion-panel>
             </mat-accordion>
