@@ -12,17 +12,17 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
- * Provides a resource to get paths by xjson form name.
+ * Provides a resource to get name by xjson form path.
  *
  * @RestResource(
- *   id = "x_json_form_path_rest_resource",
- *   label = @Translation("X json form path rest resource"),
+ *   id = "x_json_form_name_rest_resource",
+ *   label = @Translation("X json form name rest resource"),
  *   uri_paths = {
- *     "canonical" = "/xjson_service/form_path/{form_name}"
+ *     "canonical" = "/xjson_service/form_name/{form_name}"
  *   }
  * )
  */
-class xJsonGetFormPath extends ResourceBase {
+class xJsonGetFormName extends ResourceBase {
 
   /**
    * A current user instance.
@@ -92,15 +92,15 @@ class xJsonGetFormPath extends ResourceBase {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    * @throws \Drupal\Core\Entity\EntityMalformedException
    */
-  public function get($form_name) {
+  public function get($form_path) {
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
 
-    $response = $this->xJsonService->getEntityFormPath($form_name);
+    $response = $this->xJsonService->getEntityFormName($form_path);
 
-    return $response ? new ModifiedResourceResponse($response, 200) : new ModifiedResourceResponse('Path cannot be found', 400);
+    return $response ? new ModifiedResourceResponse($response, 200) : new ModifiedResourceResponse('Name cannot be found', 400);
   }
 }

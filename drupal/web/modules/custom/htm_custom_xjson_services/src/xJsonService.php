@@ -242,6 +242,42 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   /**
+   * @param null $form_name
+   * @return mixed|null
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   */
+  public function getEntityFormName ($form_path)
+  {
+    $path = \Drupal::service('path.alias_manager')->getPathByAlias($form_path);
+    $system_path = explode('/', $path);
+    $entityStorage = \Drupal::entityTypeManager()->getStorage($system_path[1]);
+    $entity = reset($entityStorage->loadByProperties(['id' => $system_path[2]]));
+
+    $definition = json_decode($entity->get('xjson_definition')->value);
+
+    if($definition){
+      return $definition->header->form_name;
+    } else {
+      return null;
+    }
+
+
+    $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_entity');
+    $connection = \Drupal::database();
+    $query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $form_name]);
+    $result = $query->fetchField();
+    if ($result) {
+      $entity = $entityStorage->load($result);
+      $response = [
+        'path' => urldecode($entity->toUrl()->toString())
+      ];
+      return $response;
+    }
+    return false;
+  }
+
+  /**
    * @return mixed
    */
   protected function getCurrentUserIdCode () {
