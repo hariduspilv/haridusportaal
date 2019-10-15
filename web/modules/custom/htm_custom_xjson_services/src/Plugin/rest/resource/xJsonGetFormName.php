@@ -98,6 +98,7 @@ class xJsonGetFormName extends ResourceBase {
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
+    dump($form_path);
 
     $response = $this->xJsonService->getEntityFormName($form_path);
 
