@@ -91,9 +91,6 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
 
         $params = $this->getElasticQuery($args);
 
-        dump($params);
-        die();
-
         if($params == NULL){
             return NULL;
         }else{
@@ -117,6 +114,9 @@ class StudyProgrammeElasticQuery2 extends FieldPluginBase implements ContainerFa
             }else{
                 $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
             }
+
+            dump($responsevalues);
+            die();
 
             yield ['count'=> $response['hits']['total'], 'values' => $responsevalues];
         }
