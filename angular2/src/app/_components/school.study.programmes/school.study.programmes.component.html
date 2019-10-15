@@ -1,12 +1,17 @@
 <div *ngIf="programmes && programmes.length > 0" class="block snackBar" id="school-study-programmes">
   <div class="block-title">{{'studyProgramme.label' | translate}}</div>
-  <div *ngFor="let programme of programmes;let first = first;let last = last;" [class.sm-top]="first" [class.lg-bottom]="last" class="programme">
+  <div *ngFor="let programme of programmes;let first = first;let last = last;" [class.sm-top]="first"
+    [class.lg-bottom]="last" class="programme">
     <div class="programme-header">
       <div>
-        <div class="programme-header__head sm-hide" *ngIf="programme.fieldStudyProgrammeLevel && programme.fieldStudyProgrammeLevel.entity">{{ programme.fieldStudyProgrammeLevel.entity.name }}</div>
+        <div class="programme-header__head sm-hide"
+          *ngIf="programme.fieldStudyProgrammeLevel && programme.fieldStudyProgrammeLevel.entity">
+          {{ programme.fieldStudyProgrammeLevel.entity.name }}</div>
         <span>
           <a class="programme-header__title" routerLink="{{programme.entityUrl.path}}">{{ programme.title }}</a>
-          <div class="nonActive--blue sm-hide" *ngIf="programme.fieldAdmissionStatus !== 'avatud' && programme.fieldAdmissionStatus !== 'Avatud'">{{'studyProgramme.non_active' | translate}}</div>
+          <div class="nonActive--blue sm-hide"
+            *ngIf="programme.fieldAdmissionStatus !== 'avatud' && programme.fieldAdmissionStatus !== 'Avatud'">
+            {{'studyProgramme.non_active' | translate}}</div>
         </span>
       </div>
       <div class="compare-block sm-hide">
@@ -14,18 +19,19 @@
       </div>
     </div>
     <div class="inline__items sm-hide">
-      <span class="item" *ngIf="programme.fieldDurationYears">
-        <ng-container *ngIf="programme.fieldDurationYears && programme.fieldDurationYears !== 0">{{ programme.fieldDurationYears }} aasta<span *ngIf="programme.fieldDurationYears > 1">t </span>  </ng-container>
-        <ng-container *ngIf="programme.fieldDurationMonths && programme.fieldDurationMonths !== 0">{{ programme.fieldDurationMonths }} kuud</ng-container>
-      </span>
-      <span class="bar" *ngIf="programme.fieldDurationYears && programme.fieldTeachingLanguage">|</span>
+      <span class="item" *ngIf="programme.fieldDuration">{{ programme.fieldDuration | monthsToYears }}</span>
+      <span class="bar" *ngIf="programme.fieldDuration && programme.fieldTeachingLanguage">|</span>
       <span class="item" *ngIf="programme.fieldTeachingLanguage">
-        <ng-container *ngFor="let item of programme.fieldTeachingLanguage; let i = index;"><ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.name | titleCase }}</ng-container>  
+        <ng-container *ngFor="let item of programme.fieldTeachingLanguage; let i = index;">
+          <ng-container *ngIf="i > 0">, </ng-container>{{ item.entity.name | titleCase }}
+        </ng-container>
       </span>
     </div>
   </div>
 </div>
 <loader *ngIf="loading"></loader>
 <div class="button-wrapper">
-  <button mat-raised-button color="primary" (click)="getData()"  *ngIf="!listEnd && !loading">{{ 'button.load_more' | translate }}</button>
-</div><!--/button-wrapper-->
+  <button mat-raised-button color="primary" (click)="getData()"
+    *ngIf="!listEnd && !loading">{{ 'button.load_more' | translate }}</button>
+</div>
+<!--/button-wrapper-->
