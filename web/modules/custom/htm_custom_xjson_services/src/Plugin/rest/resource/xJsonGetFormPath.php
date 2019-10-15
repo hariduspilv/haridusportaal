@@ -99,7 +99,7 @@ class xJsonGetFormPath extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
 
-    $response = $this->xJsonService->getEntityFormPath($form_name);
+    $response = $this->xJsonService->getEntityFormPath(urldecode($form_name));
 
     return $response ? new ModifiedResourceResponse($response, 200) : new ModifiedResourceResponse('Path cannot be found', 400);
   }
