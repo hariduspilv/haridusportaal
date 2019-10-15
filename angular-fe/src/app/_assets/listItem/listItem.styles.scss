@@ -43,13 +43,6 @@ $grid-columns: 12;
     flex-wrap: wrap;
     // &:first-child{padding-top:0;}
     // &:last-child{border-bottom:0;}
-    :hover {
-      a{
-        h1{
-          text-decoration: underline;
-        }
-      }
-    }
     &__image{
       cursor: pointer;
     }
@@ -63,8 +56,8 @@ $grid-columns: 12;
       @include break-on(sm, min) {
         margin-bottom:0.23rem; 
       }
-      &:hover{
-        text-decoration: none;
+      &:hover {
+        text-decoration: underline;
       }
       h1{
         color: $blue;
