@@ -129,6 +129,7 @@ permissions:
   - 'view own oska_result_page content'
   - 'view own oska_survey_page content'
   - 'view own unpublished content'
+  - 'view own unpublished media'
   - 'view published event registration entities'
   - 'view published oska entity entities'
   - 'view published oska indicator entity entities'

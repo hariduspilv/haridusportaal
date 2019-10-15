@@ -120,6 +120,7 @@
   <div #content *ngIf="data && data.length > 0">
   
     <ng-container *ngFor="let item of data; let i = index">
+      <ng-container *ngIf="item !== null">
       <div class="studyProgramme__item" *ngIf="i < listLimit">
         <div class="studyProgramme__item__titlebox">
           <div class="col-grow">
@@ -166,6 +167,7 @@
           </ng-container>
         </div>
       </div><!--/studyProgramme__item-->
+      </ng-container>
     </ng-container><!--/list repeat-->
   </div><!--/list-->
 

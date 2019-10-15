@@ -1,0 +1,18 @@
+uuid: 1c884df8-b42c-45b0-851b-2386466c1cc7
+langcode: et
+status: false
+dependencies:
+  module:
+    - htm_custom_xjson_services
+    - jwt
+    - serialization
+id: x_json_form_path_rest_resource
+plugin_id: x_json_form_path_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - jwt_auth

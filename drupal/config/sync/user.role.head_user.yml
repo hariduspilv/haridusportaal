@@ -331,6 +331,7 @@ permissions:
   - 'view own school content'
   - 'view own study_programme content'
   - 'view own unpublished content'
+  - 'view own unpublished media'
   - 'view published oska table entity entities'
   - 'view published subscription entity entities'
   - 'view published subsidy project entities'

@@ -18,6 +18,7 @@ dependencies:
     - field.field.node.oska_main_profession_page.field_oska_main_profession_file
     - field.field.node.oska_main_profession_page.field_oska_main_profession_links
     - field.field.node.oska_main_profession_page.field_oska_main_profession_video
+    - field.field.node.oska_main_profession_page.field_pictogram
     - field.field.node.oska_main_profession_page.field_sidebar
     - image.style.crop_result_thumb
     - node.type.oska_main_profession_page
@@ -55,7 +56,7 @@ content:
     third_party_settings: {  }
   field_bruto:
     type: readonly_field_widget
-    weight: 23
+    weight: 24
     region: content
     settings:
       label: above
@@ -68,7 +69,7 @@ content:
     third_party_settings: {  }
   field_change_in_employment:
     type: readonly_field_widget
-    weight: 24
+    weight: 25
     region: content
     settings:
       label: above
@@ -80,14 +81,14 @@ content:
       show_description: 0
     third_party_settings: {  }
   field_dynamic_graph:
-    weight: 22
+    weight: 23
     settings: {  }
     third_party_settings: {  }
     type: oska_dynamic_graph_widget_type
     region: content
   field_education_indicator:
     type: readonly_field_widget
-    weight: 25
+    weight: 26
     region: content
     settings:
       label: above
@@ -97,7 +98,7 @@ content:
     third_party_settings: {  }
   field_filling_bar:
     type: readonly_field_widget
-    weight: 26
+    weight: 27
     region: content
     settings:
       label: above
@@ -126,7 +127,7 @@ content:
     region: content
   field_main_profession_accordion:
     type: entity_reference_paragraphs
-    weight: 19
+    weight: 20
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -137,7 +138,7 @@ content:
     third_party_settings: {  }
     region: content
   field_main_profession_picture:
-    weight: 17
+    weight: 18
     settings:
       show_default_crop: true
       warn_multiple_usages: true
@@ -152,7 +153,7 @@ content:
     type: image_widget_crop
     region: content
   field_main_profession_tag:
-    weight: 18
+    weight: 19
     settings:
       match_operator: CONTAINS
       size: 60
@@ -162,7 +163,7 @@ content:
     region: content
   field_number_of_employees:
     type: readonly_field_widget
-    weight: 27
+    weight: 28
     region: content
     settings:
       label: above
@@ -171,14 +172,14 @@ content:
       show_description: false
     third_party_settings: {  }
   field_oska_main_profession_file:
-    weight: 16
+    weight: 17
     settings:
       progress_indicator: throbber
     third_party_settings: {  }
     type: file_generic
     region: content
   field_oska_main_profession_links:
-    weight: 15
+    weight: 16
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -186,16 +187,23 @@ content:
     type: link_default
     region: content
   field_oska_main_profession_video:
-    weight: 14
+    weight: 15
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
     type: custom_video_widget_type
     region: content
+  field_pictogram:
+    weight: 14
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
   field_sidebar:
     type: entity_reference_paragraphs
-    weight: 20
+    weight: 21
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -232,7 +240,7 @@ content:
     settings: {  }
     third_party_settings: {  }
   scheduler_settings:
-    weight: 21
+    weight: 22
     region: content
     settings: {  }
     third_party_settings: {  }
