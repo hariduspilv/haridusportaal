@@ -18,7 +18,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *   id = "x_json_form_name_rest_resource",
  *   label = @Translation("X json form name rest resource"),
  *   uri_paths = {
- *     "canonical" = "/xjson_service/form_name"
+ *     "https://www.drupal.org/link-relations/create" = "/xjson_service/form_name"
  *   }
  * )
  */
@@ -81,16 +81,16 @@ class xJsonGetFormName extends ResourceBase {
   }
 
   /**
-   * Responds to GET requests.
+   * Responds to POST requests.
    *
+   * @param array
+   *   The data object.
    *
-   * @param $form_name
-   * @return ModifiedResourceResponse|ResourceResponse
+   * @return \Drupal\rest\ModifiedResourceResponse
    *   The HTTP response object.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
-   * @throws \Drupal\Core\Entity\EntityMalformedException
    */
   public function post($data) {
     // You must to implement the logic of your REST Resource here.
