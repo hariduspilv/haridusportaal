@@ -521,7 +521,7 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   public function buildTestResponse () {
-    $id = $this->getFormNameFromRequest();
+    $id = $this->getEntityFormName($this->getFormNameFromRequest());
     $entityStorage = $this->entityTypeManager->getStorage('x_json_entity');
 
     $connection = \Drupal::database();
