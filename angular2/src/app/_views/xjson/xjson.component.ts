@@ -1016,6 +1016,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
 
     const subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
+      console.log(response);
 
       if (!response['header']) { return this.errorHandler('Missing header from response'); }
       if (!response['body']) { return this.errorHandler('Missing body from response'); }
