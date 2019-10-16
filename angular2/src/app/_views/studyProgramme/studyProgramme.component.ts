@@ -48,6 +48,8 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   private isceList: any = {};
   public scrollPositionSet: boolean = false;
   public areFiltersCleared: boolean = false;
+
+  private mouseListener: any = null;
   
   constructor (
     private rootScope: RootScopeService,
@@ -255,10 +257,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
   watchSearch() {
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
-      if(Object.keys(params).length === 0) {
-        this.clearForm();
-        this.filterFormItems.open_admission = true;
-      }
       this.params = params;
       const paramsKeys = Object.keys(params);
       const newParams = {};
@@ -332,10 +330,6 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
-    Object.keys(this.filterFormItems).forEach(e => {
-      this.clearField(e);
-      this.params[e] = '';
-    });
     this.showFilter = this.device.isDesktop();
     this.filterFull = this.device.isTablet() || this.device.isMobile();
     this.pathWatcher();
@@ -349,6 +343,17 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
       this.filterFormItems.type = this.filterFormItems.type.split(',').map(e => parseInt(e));
     }
     this.filterSubmit();
+    this.mouseListener = (el: any) => { 
+      if(el.target.attributes['href'] && el.target.attributes['href'].value === '/erialad') {
+        this.router.navigate([], { queryParams: { open_admission: true}})
+        Object.keys(this.filterFormItems).forEach(e => {
+          this.clearField(e);
+          this.params[e] = '';
+        })
+        this.filterFormItems.open_admission = true;
+      }
+    }
+    document.addEventListener('click', this.mouseListener);
   }
   ngOnDestroy() {
     this.list = false;
@@ -361,6 +366,7 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
     if (this.scrollRestoration.scrollableRoutes.includes(this.scrollRestoration.currentRoute)) {
       this.scrollRestoration.setRouteKey('limit', this.limit + this.offset)
     }
+    document.removeEventListener('click', this.mouseListener);
   }
   
   setFocus(id) {
