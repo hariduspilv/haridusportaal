@@ -45,6 +45,11 @@ $grid-columns: 12;
     flex-wrap: wrap;
     // &:first-child{padding-top:0;}
     // &:last-child{border-bottom:0;}
+    &:hover {
+      .list__item__title {
+        text-decoration: underline;
+      }
+    }
     &__image{
       cursor: pointer;
     }
@@ -54,12 +59,9 @@ $grid-columns: 12;
       line-height: $large; 
       text-decoration: none; 
       font-weight: 500;
-      margin-right: $small;
+      padding-right: $small;
       @include break-on(sm, min) {
-        margin-bottom:0.23rem; 
-      }
-      &:hover {
-        text-decoration: underline;
+        padding-bottom: 0.23rem; 
       }
       h1{
         color: $blue;
