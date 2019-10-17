@@ -134,8 +134,6 @@ class TaraRedirectController extends RedirectController{
 		}
 
 		$fe_url = $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url').'/auth.html';
-		dump($this->messenger()->all());
-		die();
 		if(empty($this->messenger()->all()) && !$redirect_home){
 			$query = ['jwt' => $this->jsonAuth->generateToken(), 'error' => 'false'];
 		}elseif($redirect_home){
