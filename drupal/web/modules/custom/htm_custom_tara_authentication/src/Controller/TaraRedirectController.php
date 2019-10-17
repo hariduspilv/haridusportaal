@@ -44,12 +44,10 @@ class TaraRedirectController extends RedirectController{
     // ensure that the user, not a malicious script, is making the request.
     $query = $this->requestStack->getCurrentRequest()->query;
     $state_token = $query->get('state');
+    \Drupal::logger()->notice($state_token.StateToken::confirm($state_token));
     if ($state_token && StateToken::confirm($state_token)) {
       return AccessResult::allowed();
     }
-    dump($state_token);
-    dump(StateToken::confirm($state_token));
-    die();
     return AccessResult::forbidden();
   }
 
