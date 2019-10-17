@@ -86,8 +86,6 @@ class RedirectController extends ControllerBase implements AccessInterface {
    *   in the session.
    */
   public function access() {
-    dump('tesasfadsfwe');
-    die();
     // Confirm anti-forgery state token. This round-trip verification helps to
     // ensure that the user, not a malicious script, is making the request.
     $query = $this->requestStack->getCurrentRequest()->query;
@@ -108,8 +106,6 @@ class RedirectController extends ControllerBase implements AccessInterface {
    *   The redirect response starting the authentication request.
    */
   public function authenticate($client_name) {
-    dump('testasfs');
-    die();
     $query = $this->requestStack->getCurrentRequest()->query;
 
     // Delete the state token, since it's already been confirmed.
