@@ -40,7 +40,9 @@ class TaraRedirectController extends RedirectController{
 	}
 
   public function access() {
-    \Drupal::logger('htm_custom_tara_authentication')->notice('set in session before getting query'.$_SESSION['openid_connect_state']);
+    \Drupal::logger('htm_custom_tara_authentication')->notice('current session'.$_SESSION);
+    \Drupal::logger('htm_custom_tara_authentication')->notice('current get'.$_GET);
+    \Drupal::logger('htm_custom_tara_authentication')->notice('current server'.$_SERVER);
     // Confirm anti-forgery state token. This round-trip verification helps to
     // ensure that the user, not a malicious script, is making the request.
     $query = $this->requestStack->getCurrentRequest()->query;
