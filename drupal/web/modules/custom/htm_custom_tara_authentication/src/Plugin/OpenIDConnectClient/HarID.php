@@ -95,9 +95,7 @@ class HarID extends Generic {
 		$client = $this->httpClient;
 		try {
 			$response = $client->post($endpoints['token'], $request_options);
-			$response_data = json_decode((string) $response->getBody(), TRUE);
-			dump($response_data);
-			die();
+			$response_data = json_decode((string) $response->getBody(), TRUE);;
 
 			// Expected result.
 			$tokens = [
@@ -110,6 +108,8 @@ class HarID extends Generic {
 			if (array_key_exists('refresh_token', $response_data)) {
 				$tokens['refresh_token'] = $response_data['refresh_token'];
 			}
+			dump($tokens);
+			die();
 			return $tokens;
 		}
 		catch (Exception $e) {
