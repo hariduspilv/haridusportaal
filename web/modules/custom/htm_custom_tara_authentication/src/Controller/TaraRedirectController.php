@@ -45,8 +45,6 @@ class TaraRedirectController extends RedirectController{
 		header("Pragma: no-cache");
 
 		$query = $this->requestStack->getCurrentRequest()->query;
-		dump($query);
-		die();
 		$redirect_home = false;
 		// Delete the state token, since it's already been confirmed.
 		unset($_SESSION['openid_connect_state']);
@@ -133,9 +131,12 @@ class TaraRedirectController extends RedirectController{
 			$query = ['error' => 'true'];
 		}
 		$redirect = Url::fromUri($fe_url, ['query' => $query, 'http' => true])->toString();
+		#dump($redirect);
+		#die();
 		// log user out because we have own jwt token for auth and dont need session
 		user_logout();
 		return new TrustedRedirectResponse($redirect);
+
 	}
 
 	public function startAuth($method){
