@@ -15,7 +15,7 @@ use Drupal\openid_connect\StateToken;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class TaraRedirectController extends RedirectController{
+class TaraRedirectController extends RedirecaccesstController{
 
 	protected $claims;
 
