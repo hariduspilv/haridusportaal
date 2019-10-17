@@ -6,14 +6,6 @@ openid_connect.admin_settings:
   requirements:
     _permission: 'administer openid connect clients'
 
-openid_connect.redirect_controller_redirect:
-  path: '/openid-connect/{client_name}'
-  defaults:
-    _controller: '\Drupal\openid_connect\Controller\RedirectController::authenticate'
-    _title: 'OpenID Connect redirect page'
-  requirements:
-    _custom_access: '\Drupal\openid_connect\Controller\RedirectController::access'
-
 openid_connect.accounts_controller_index:
   path: '/user/{user}/connected-accounts'
   defaults:
