@@ -76,8 +76,6 @@ class TaraRedirectController extends RedirectController{
 
 		$provider_param = ['@provider' => $client->getPluginDefinition()['label']];
 
-		dump($query);
-		die();
 		if ($query->get('error')) {
 			if (in_array($query->get('error'), [
 				'interaction_required',
@@ -104,6 +102,8 @@ class TaraRedirectController extends RedirectController{
 			// Process the login or connect operations.
 			$tokens = $client->retrieveTokens($query->get('code'));
 			if ($tokens) {
+			  dump($parameters);
+			  die();
 				if ($parameters['op'] === 'login') {
 					$success = openid_connect_complete_authorization($client, $tokens, $destination);
 
