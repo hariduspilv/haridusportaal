@@ -604,7 +604,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         cancel: this.translate.get('button.cancel')['value'],
       }
     });
-    console.log(this.dialogRef);
     this.dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.data_elements[element].value.splice(rowIndex, 1);
