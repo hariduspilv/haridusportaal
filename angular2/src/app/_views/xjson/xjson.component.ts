@@ -604,6 +604,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         cancel: this.translate.get('button.cancel')['value'],
       }
     });
+    console.log(this.dialogRef);
     this.dialogRef.afterClosed().subscribe(result => {
       if (result === true) {
         this.data_elements[element].value.splice(rowIndex, 1);
@@ -1016,7 +1017,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
 
     const subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
-      console.log(response);
 
       if (!response['header']) { return this.errorHandler('Missing header from response'); }
       if (!response['body']) { return this.errorHandler('Missing body from response'); }
