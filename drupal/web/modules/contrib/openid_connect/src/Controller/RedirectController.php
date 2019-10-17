@@ -109,7 +109,6 @@ class RedirectController extends ControllerBase implements AccessInterface {
     $query = $this->requestStack->getCurrentRequest()->query;
 
     // Delete the state token, since it's already been confirmed.
-    \Drupal::logger('htm_custom_tara_authentication')->notice('unsetorig');
     unset($_SESSION['openid_connect_state']);
 
     // Get parameters from the session, and then clean up.
