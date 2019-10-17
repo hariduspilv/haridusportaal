@@ -52,8 +52,6 @@ class HarID extends Generic {
 		$authorization_endpoint = Url::fromUri($endpoints['authorization'], $url_options)->toString(TRUE);
 
 		$response = new TrustedRedirectResponse($authorization_endpoint->getGeneratedUrl());
-		dump($response);
-		die();
 		// We can't cache the response, since this will prevent the state to be
 		// added to the session. The kill switch will prevent the page getting
 		// cached for anonymous users when page cache is active.
@@ -98,6 +96,8 @@ class HarID extends Generic {
 		try {
 			$response = $client->post($endpoints['token'], $request_options);
 			$response_data = json_decode((string) $response->getBody(), TRUE);
+			dump($response_data);
+			die();
 
 			// Expected result.
 			$tokens = [
