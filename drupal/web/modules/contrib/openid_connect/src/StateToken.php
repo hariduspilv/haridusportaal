@@ -20,6 +20,7 @@ class StateToken {
   public static function create() {
     $state = Crypt::randomBytesBase64();
     $_SESSION['openid_connect_state'] = $state;
+    \Drupal::logger('htm_custom_tara_authentication')->notice('created'.$state);
     return $state;
   }
 
