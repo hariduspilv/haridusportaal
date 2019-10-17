@@ -45,6 +45,8 @@ class TaraRedirectController extends RedirectController{
 		header("Pragma: no-cache");
 
 		$query = $this->requestStack->getCurrentRequest()->query;
+		dump($query);
+		die();
 		$redirect_home = false;
 		// Delete the state token, since it's already been confirmed.
 		unset($_SESSION['openid_connect_state']);
@@ -76,9 +78,6 @@ class TaraRedirectController extends RedirectController{
 
 		$provider_param = ['@provider' => $client->getPluginDefinition()['label']];
 
-		dump($query);
-		die();
-		
 		if ($query->get('error')) {
 			if (in_array($query->get('error'), [
 				'interaction_required',
