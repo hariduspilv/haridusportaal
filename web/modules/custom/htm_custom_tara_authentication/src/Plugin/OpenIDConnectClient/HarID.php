@@ -108,8 +108,6 @@ class HarID extends Generic {
 			if (array_key_exists('refresh_token', $response_data)) {
 				$tokens['refresh_token'] = $response_data['refresh_token'];
 			}
-      dump($tokens);
-      die();
 			return $tokens;
 		}
 		catch (Exception $e) {
