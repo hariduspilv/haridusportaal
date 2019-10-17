@@ -93,8 +93,6 @@ class RedirectController extends ControllerBase implements AccessInterface {
     if ($state_token && StateToken::confirm($state_token)) {
       return AccessResult::allowed();
     }
-    dump('test');
-    die();
     return AccessResult::forbidden();
   }
 
