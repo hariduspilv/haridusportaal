@@ -57,6 +57,9 @@ class HarID extends Generic {
 		// cached for anonymous users when page cache is active.
 		\Drupal::service('page_cache_kill_switch')->trigger();
 
+		dump('test');
+		die();
+
 		return $response;
 	}
 
@@ -93,6 +96,8 @@ class HarID extends Generic {
 
 		/* @var \GuzzleHttp\ClientInterface $client */
 		$client = $this->httpClient;
+		dump('test2');
+		die();
 		try {
 			$response = $client->post($endpoints['token'], $request_options);
 			$response_data = json_decode((string) $response->getBody(), TRUE);;
