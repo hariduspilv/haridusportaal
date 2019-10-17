@@ -59,8 +59,6 @@ class TaraRedirectController extends RedirectController{
 			unset($_SESSION['openid_connect_' . $key]);
 		}
 		$destination = $parameters['destination'];
-		dump($destination);
-		die();
 
 		$configuration = $this->config('openid_connect.settings.' . $client_name)
 			->get('settings');
@@ -78,6 +76,8 @@ class TaraRedirectController extends RedirectController{
 
 		$provider_param = ['@provider' => $client->getPluginDefinition()['label']];
 
+		dump($query);
+		die();
 		if ($query->get('error')) {
 			if (in_array($query->get('error'), [
 				'interaction_required',
