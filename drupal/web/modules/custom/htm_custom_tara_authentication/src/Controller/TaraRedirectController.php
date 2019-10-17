@@ -39,6 +39,19 @@ class TaraRedirectController extends RedirectController{
 
 	}
 
+  public function access() {
+	  dump('jou');
+	  die();
+    // Confirm anti-forgery state token. This round-trip verification helps to
+    // ensure that the user, not a malicious script, is making the request.
+    $query = $this->requestStack->getCurrentRequest()->query;
+    $state_token = $query->get('state');
+    if ($state_token && StateToken::confirm($state_token)) {
+      return AccessResult::allowed();
+    }
+    return AccessResult::forbidden();
+  }
+
 	public function authenticate ($client_name) {
 		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 		header("Cache-Control: post-check=0, pre-check=0", false);
