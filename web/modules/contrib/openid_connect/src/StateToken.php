@@ -38,6 +38,7 @@ class StateToken {
   public static function confirm($state_token) {
     $tempstore = \Drupal::service('user.private_tempstore')->get('htm_custom_tara_authentication');
     $session_state = $tempstore->get('openid_connect_state');
+    \Drupal::logger('htm_custom_tara_authentication')->notice('current session'.$session_state);
     return $session_state &&
       $state_token == $session_state;
   }
