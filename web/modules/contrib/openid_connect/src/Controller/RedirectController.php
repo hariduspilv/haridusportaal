@@ -90,6 +90,8 @@ class RedirectController extends ControllerBase implements AccessInterface {
     // ensure that the user, not a malicious script, is making the request.
     $query = $this->requestStack->getCurrentRequest()->query;
     $state_token = $query->get('state');
+    \Drupal::logger('htm_custom_tara_authentication')->notice((string)$state_token);
+    \Drupal::logger('htm_custom_tara_authentication')->notice(StateToken::confirm($state_token) ? 'true' : 'false');
     if ($state_token && StateToken::confirm($state_token)) {
       return AccessResult::allowed();
     }
@@ -109,7 +111,7 @@ class RedirectController extends ControllerBase implements AccessInterface {
     $query = $this->requestStack->getCurrentRequest()->query;
 
     // Delete the state token, since it's already been confirmed.
-    unset($_SESSION['openid_connect_state']);
+    //unset($_SESSION['openid_connect_state']);
 
     // Get parameters from the session, and then clean up.
     $parameters = [
