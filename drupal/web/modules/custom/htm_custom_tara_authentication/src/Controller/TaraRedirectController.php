@@ -49,6 +49,7 @@ class TaraRedirectController extends RedirectController{
     }
     dump($state_token);
     dump(StateToken::confirm($state_token));
+    die();
     return AccessResult::forbidden();
   }
 
