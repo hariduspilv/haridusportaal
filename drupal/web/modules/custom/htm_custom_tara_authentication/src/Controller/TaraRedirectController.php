@@ -102,11 +102,11 @@ class TaraRedirectController extends RedirectController{
 			// Process the login or connect operations.
 			$tokens = $client->retrieveTokens($query->get('code'));
 			if ($tokens) {
-			  dump($parameters);
-			  die();
 				if ($parameters['op'] === 'login') {
 					$success = openid_connect_complete_authorization($client, $tokens, $destination);
 
+					dump($success);
+					die();
 					$register = \Drupal::config('user.settings')->get('register');
 					if (!$success && $register !== USER_REGISTER_ADMINISTRATORS_ONLY) {
 						$this->messenger()->addError(t('Logging in with @provider could not be completed due to an error.', $provider_param));
