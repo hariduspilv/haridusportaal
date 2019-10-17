@@ -105,8 +105,6 @@ class TaraRedirectController extends RedirectController{
 				if ($parameters['op'] === 'login') {
 					$success = openid_connect_complete_authorization($client, $tokens, $destination);
 
-					dump($success);
-					die();
 					$register = \Drupal::config('user.settings')->get('register');
 					if (!$success && $register !== USER_REGISTER_ADMINISTRATORS_ONLY) {
 						$this->messenger()->addError(t('Logging in with @provider could not be completed due to an error.', $provider_param));
@@ -133,12 +131,13 @@ class TaraRedirectController extends RedirectController{
 			$query = ['error' => 'true'];
 		}
 		$redirect = Url::fromUri($fe_url, ['query' => $query, 'http' => true])->toString();
+		dump($redirect);
+		die();
 		#dump($redirect);
 		#die();
 		// log user out because we have own jwt token for auth and dont need session
 		user_logout();
 		return new TrustedRedirectResponse($redirect);
-
 	}
 
 	public function startAuth($method){
