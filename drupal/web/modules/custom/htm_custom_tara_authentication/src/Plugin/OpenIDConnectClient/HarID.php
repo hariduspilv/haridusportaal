@@ -51,6 +51,9 @@ class HarID extends Generic {
 		$this->requestStack->getCurrentRequest()->query->remove('destination');
 		$authorization_endpoint = Url::fromUri($endpoints['authorization'], $url_options)->toString(TRUE);
 
+		dump($authorization_endpoint);
+		die();
+
 		$response = new TrustedRedirectResponse($authorization_endpoint->getGeneratedUrl());
 		// We can't cache the response, since this will prevent the state to be
 		// added to the session. The kill switch will prevent the page getting
