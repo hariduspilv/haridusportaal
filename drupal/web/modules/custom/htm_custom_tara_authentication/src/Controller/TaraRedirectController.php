@@ -60,7 +60,7 @@ class TaraRedirectController extends RedirectController{
 		$query = $this->requestStack->getCurrentRequest()->query;
 		$redirect_home = false;
 		// Delete the state token, since it's already been confirmed.
-		unset($_SESSION['openid_connect_state']);
+		//unset($_SESSION['openid_connect_state']);
 
 		// Get parameters from the session, and then clean up.
 		$parameters = [
