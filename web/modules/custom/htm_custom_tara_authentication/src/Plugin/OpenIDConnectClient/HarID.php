@@ -57,6 +57,8 @@ class HarID extends Generic {
 		// cached for anonymous users when page cache is active.
 		\Drupal::service('page_cache_kill_switch')->trigger();
 
+		dump('test');
+		
 		return $response;
 	}
 
@@ -71,8 +73,6 @@ class HarID extends Generic {
 	 *   A result array or false.
 	 */
 	public function retrieveTokens($authorization_code) {
-    dump('test2');
-    die();
 		$endpoints = $this->getEndpoints();
 		if($_SERVER['HTTP_HOST'] === 'test-htm.wiseman.ee:30000'){
 		    $redirect_uri = 'https://htm.wiseman.ee/custom/login/harid/return';
