@@ -58,7 +58,6 @@ class TaraRedirectController extends RedirectController{
 		$query = $this->requestStack->getCurrentRequest()->query;
 		$redirect_home = false;
 		// Delete the state token, since it's already been confirmed.
-    \Drupal::logger('htm_custom_tara_authentication')->notice('unsetcustom');
 		unset($_SESSION['openid_connect_state']);
 
 		// Get parameters from the session, and then clean up.
@@ -147,6 +146,7 @@ class TaraRedirectController extends RedirectController{
 		#die();
 		// log user out because we have own jwt token for auth and dont need session
 		user_logout();
+    \Drupal::logger('htm_custom_tara_authentication')->notice('redirecturl: '.$redirect);
 		return new TrustedRedirectResponse($redirect);
 
 	}
