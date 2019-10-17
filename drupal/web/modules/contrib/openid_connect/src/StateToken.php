@@ -19,9 +19,7 @@ class StateToken {
    */
   public static function create() {
     $state = Crypt::randomBytesBase64();
-    //$_SESSION['openid_connect_state'] = $state;
-    $tempstore = \Drupal::service('user.private_tempstore')->get('htm_custom_tara_authentication');
-    $tempstore->set('openid_connect_state', $state);
+    $_SESSION['openid_connect_state'] = $state;
     return $state;
   }
 
@@ -36,11 +34,9 @@ class StateToken {
    *   in the session.
    */
   public static function confirm($state_token) {
-    $tempstore = \Drupal::service('user.private_tempstore')->get('htm_custom_tara_authentication');
-    $session_state = $tempstore->get('openid_connect_state');
-    \Drupal::logger('htm_custom_tara_authentication')->notice('current session'.$session_state);
-    return $session_state &&
-      $state_token == $session_state;
+    \Drupal::logger('htm_custom_tara_authentication')->notice('current session state: '.isset($_SESSION['openid_connect_state']) ? $_SESSION['openid_connect_state'] : '');
+    return isset($_SESSION['openid_connect_state']) &&
+      $state_token == $_SESSION['openid_connect_state'];
   }
 
 }
