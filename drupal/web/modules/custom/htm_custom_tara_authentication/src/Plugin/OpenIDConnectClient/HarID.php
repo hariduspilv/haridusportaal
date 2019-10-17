@@ -32,7 +32,7 @@ class HarID extends OpenIDConnectClientBase {
    */
   public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form = parent::buildConfigurationForm($form, $form_state);
-    
+
     $form['authorization_endpoint'] = [
       '#title' => $this->t('Authorization endpoint'),
       '#type' => 'textfield',
