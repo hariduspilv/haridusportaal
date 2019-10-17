@@ -45,7 +45,7 @@ class TaraRedirectController extends RedirectController{
     $query = $this->requestStack->getCurrentRequest()->query;
     $state_token = $query->get('state');
     \Drupal::logger('htm_custom_tara_authentication')->notice((string)$state_token);
-    \Drupal::logger('htm_custom_tara_authentication')->notice((string)StateToken::confirm($state_token));
+    \Drupal::logger('htm_custom_tara_authentication')->notice(StateToken::confirm($state_token) ? 'true' : 'false');
     if ($state_token && StateToken::confirm($state_token)) {
       return AccessResult::allowed();
     }
