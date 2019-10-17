@@ -134,7 +134,7 @@ class TaraRedirectController extends RedirectController{
 		#dump($redirect);
 		#die();
 		// log user out because we have own jwt token for auth and dont need session
-		//user_logout();
+		user_logout();
 		return new TrustedRedirectResponse($redirect);
 	}
 
