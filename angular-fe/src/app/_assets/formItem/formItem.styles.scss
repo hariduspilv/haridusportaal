@@ -176,9 +176,13 @@
         }
         input:checked + .formItem__check__indicator{
           border-color: $blue;
+          background: $blue;
           icon {
             opacity:1;
             transform: translateY(0);
+            i:before{
+              color: $white;
+            }
           }
         }
         input:focus + .formItem__check__indicator{

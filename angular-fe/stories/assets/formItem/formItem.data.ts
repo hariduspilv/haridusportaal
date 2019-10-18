@@ -13,7 +13,7 @@ export const formItems = [
   {
     type: 'text',
     disabled: 'true',
-    title: 'Disabled text field'
+    title: 'Disabled text field',
   },
   {
     type: 'number',

@@ -12,6 +12,7 @@ import {
   withKnobs,
   optionsKnob as options,
   select,
+  button,
 } from '@storybook/addon-knobs';
 
 localeEt[5][1] = localeEt[5][2].map((item) => {
@@ -28,6 +29,10 @@ const moduleMetadata = {
     { provide: LOCALE_ID, useValue:'et' },
   ],
 };
+
+const reload = () => {
+  console.log('piip');
+}
 
 const stories = storiesOf('Assets', module);
 
@@ -46,7 +51,10 @@ stories.add('Form item', () => {
     'default',
   );
 
+  const refresh = button('Update', reload);
+
   const error = true;
+
   return {
     moduleMetadata,
     props: {

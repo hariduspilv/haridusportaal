@@ -40,7 +40,7 @@ export class AutocompleteComponent {
 
   public search(value: string = '', $event: any = false): void {
 
-    if ( this.active && ($event.key === 'ArrowUp' || $event.key === 'ArrowDown')) {
+    if (this.active && ($event.key === 'ArrowUp' || $event.key === 'ArrowDown')) {
       this.navigate($event.key);
     } else if ($event.key === 'Enter') {
       this.chooseOption();
@@ -117,7 +117,9 @@ export class AutocompleteComponent {
         this.data = [];
         this.searched = false;
         clearTimeout(this.debounce);
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+          this.subscription.unsubscribe();
+        }
       },
       delay);
   }

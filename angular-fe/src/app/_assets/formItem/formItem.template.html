@@ -192,7 +192,6 @@
         (focus)="update('focus')"
         (blur)="update('blur'); autocompleteElem.close();"
         (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
-        [attr.disabled]="disabled"
         [(ngModel)]="field" />
       <autocomplete
         #autocompleteElem

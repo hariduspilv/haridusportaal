@@ -64,7 +64,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
     if (this.error) {
-      classes.push('formItem--error')
+      classes.push('formItem--error');
     }
     if (this.success) {
       classes.push('formItem--success');

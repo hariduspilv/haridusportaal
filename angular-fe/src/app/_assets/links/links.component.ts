@@ -33,8 +33,8 @@ export class LinksComponent implements OnInit {
       } catch (err) {
         console.log(err);
       }
-    } else {
-      
+    } else if (this.type === 'webpage'){
+
     }
   }
 }
