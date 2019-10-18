@@ -50,8 +50,8 @@ class TaraRedirectController extends RedirectController{
       dump($_SERVER['HTTP_REFERER']);
       dump($this->requestStack->getCurrentRequest());
       die();
+      return AccessResult::forbidden();
     }
-    return AccessResult::forbidden();
   }
 
 	public function authenticate ($client_name) {
