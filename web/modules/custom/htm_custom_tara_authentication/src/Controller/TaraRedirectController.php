@@ -44,6 +44,7 @@ class TaraRedirectController extends RedirectController{
     // ensure that the user, not a malicious script, is making the request.
     $query = $this->requestStack->getCurrentRequest()->query;
     $state_token = $query->get('state');
+    dump($_SERVER['HTTP_REFERER']);
     dump($this->requestStack->getCurrentRequest());
     die();
     if ($state_token && StateToken::confirm($state_token)) {
