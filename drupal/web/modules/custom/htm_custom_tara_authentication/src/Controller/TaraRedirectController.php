@@ -43,9 +43,9 @@ class TaraRedirectController extends RedirectController{
     // Confirm anti-forgery state token. This round-trip verification helps to
     // ensure that the user, not a malicious script, is making the request.
     $query = $this->requestStack->getCurrentRequest()->query;
-    dump($query);
-    die();
     $state_token = $query->get('state');
+    dump($this->requestStack->getCurrentRequest());
+    die();
     if ($state_token && StateToken::confirm($state_token)) {
       return AccessResult::allowed();
     }
