@@ -47,6 +47,8 @@ class TaraRedirectController extends RedirectController{
     if ($state_token && StateToken::confirm($state_token)) {
       return AccessResult::allowed();
     }
+    dump('test');
+    die();
     return AccessResult::allowed();
   }
 
