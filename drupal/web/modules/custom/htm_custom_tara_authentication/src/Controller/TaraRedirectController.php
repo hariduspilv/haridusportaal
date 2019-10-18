@@ -45,12 +45,9 @@ class TaraRedirectController extends RedirectController{
     $query = $this->requestStack->getCurrentRequest();
     $state_token = $query->query->get('state');
     if(!isset($_SESSION['openid_connect_state'])){
-      dump('test');
-      dump($query);
-      dump($_SESSION);
-    }
-    if ($state_token && StateToken::confirm($state_token)) {
-      return AccessResult::allowed();
+      return AccessResult::forbidden();
+    } else if ($state_token && StateToken::confirm($state_token)) {
+        return AccessResult::allowed();
     }
     return AccessResult::forbidden();
   }
