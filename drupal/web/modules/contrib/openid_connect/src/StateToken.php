@@ -19,8 +19,7 @@ class StateToken {
    */
   public static function create() {
     $state = Crypt::randomBytesBase64();
-    $session = \Drupal::request()->getSession();
-    $session->set('openid_connect_state', $state);
+    $_SESSION['openid_connect_state'] = $state;
     return $state;
   }
 
@@ -35,10 +34,8 @@ class StateToken {
    *   in the session.
    */
   public static function confirm($state_token) {
-    $session = \Drupal::request()->getSession();
-    $session_token = $session->get('openid_connect_state');
-    \Drupal::logger('htm_custom_tara_authentication')->notice('current session state: '.$session_token);
-    return $state_token == $session_token;
+    return isset($_SESSION['openid_connect_state']) &&
+      $state_token == $_SESSION['openid_connect_state'];
   }
 
 }
