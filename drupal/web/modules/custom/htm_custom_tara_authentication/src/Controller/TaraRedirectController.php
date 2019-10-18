@@ -46,10 +46,11 @@ class TaraRedirectController extends RedirectController{
     $state_token = $query->get('state');
     if ($state_token && StateToken::confirm($state_token)) {
       return AccessResult::allowed();
+    } else {
+      dump($_SERVER['HTTP_REFERER']);
+      dump($this->requestStack->getCurrentRequest());
+      die();
     }
-    dump($_SERVER['HTTP_REFERER']);
-    dump($this->requestStack->getCurrentRequest());
-    die();
     return AccessResult::forbidden();
   }
 
