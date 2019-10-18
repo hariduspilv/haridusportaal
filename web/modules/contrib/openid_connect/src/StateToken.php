@@ -34,11 +34,6 @@ class StateToken {
    *   in the session.
    */
   public static function confirm($state_token) {
-    if(!isset($_SESSION['openid_connect_state'])){
-      dump('test2');
-      dump($_SESSION);
-      die();
-    }
     return isset($_SESSION['openid_connect_state']) &&
       $state_token == $_SESSION['openid_connect_state'];
   }
