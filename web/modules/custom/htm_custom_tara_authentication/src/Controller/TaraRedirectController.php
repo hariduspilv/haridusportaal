@@ -44,15 +44,13 @@ class TaraRedirectController extends RedirectController{
     // ensure that the user, not a malicious script, is making the request.
     $query = $this->requestStack->getCurrentRequest();
     $state_token = $query->query->get('state');
-    //if(!isset($_SESSION['openid_connect_state'])){
-      //return AccessResult::forbidden();
-      //dump($query);
-      //die();
-    //}
+    $client = $query->attributes->get('client_name');
+    if(!isset($_SESSION['openid_connect_state']) && $client === 'harid'){
+      $url = 'https://'.$_SERVER['HTTP_HOST'].'/external-login/'.$client;
+      $redirect = Url::fromUri($url);
+      return new TrustedRedirectResponse($redirect);
+    }
     if ($state_token && StateToken::confirm($state_token)) {
-      dump($query);
-      dump($query->attributes->get('client_name'));
-      die();
         return AccessResult::allowed();
     }
     return AccessResult::forbidden();
