@@ -143,14 +143,14 @@
 							font-size: .875rem;
 							line-height: 1.71;
 							margin-bottom: $quarter;
-							@include break-on(sm, max) {
+							@include break-on(xs, max) {
 								line-height: 1.5rem;
 								margin: 0;
 							}
 						}
 					}
 				}
-				@include break-on(sm, min) {
+				@include break-on(xs, min) {
 					icon {
 						display: block;
 						i {
@@ -184,7 +184,7 @@
 			}
 		}
 
-		@include break-on(sm, max) {
+		@include break-on(xs, max) {
 			& {
 				border-radius: 0 0 $half-gutter $half-gutter !important;
 			}

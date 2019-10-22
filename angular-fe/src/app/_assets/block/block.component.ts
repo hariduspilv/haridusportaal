@@ -98,7 +98,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
     private cdr: ChangeDetectorRef,
     private deviceService: DeviceDetectorService,
   ) {
-    this.isMobile = !this.deviceService.isDesktop();
+    this.isMobile = this.deviceService.isMobile();
   }
 
   @HostBinding('class') get hostClasses(): string {

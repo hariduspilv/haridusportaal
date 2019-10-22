@@ -3,11 +3,14 @@ export const queryList = {
   news: 'newsList',
   studyprogramme: 'studyProgrammeList',
   school: 'schoolMapQuery',
+  mainprofession: 'oskaMainProfessionListView',
+  homesearch: 'homeSearchRevised',
 };
 
 export const likeFields = {
   news: ['title', 'school', 'location'],
   studyprogramme: ['title', 'school', 'location'],
+  mainprofession: ['title'],
 };
 
 export const searchResultKeys = {
@@ -58,6 +61,17 @@ export const searchResultKeys = {
       key: 'iscedf_detailed',
       enabled: 'iscedf_detailedEnabled',
     },
+    onlyOpenAdmission: {
+      key: 'onlyOpenAdmission',
+      enabled: 'onlyOpenAdmission',
+    },
+    sortField: {
+      key: 'sortField',
+      enabled: 'indicatorSort',
+    },
+    sortDirection: {
+      key: 'sortDirection',
+    },
   },
   school: {
     bounds: {
@@ -89,6 +103,41 @@ export const searchResultKeys = {
       enabled: 'studentHomeEnabled',
     },
   },
+  mainprofession: {
+    title: {
+      key: 'titleValue',
+      enabled: 'titleEnabled',
+    },
+    oskaField: {
+      key: 'oskaFieldValue',
+      enabled: 'oskaFieldEnabled',
+    },
+    fixedLabel: {
+      key: 'fixedLabelValue',
+      enabled: 'fixedLabelEnabled',
+    },
+    fillingBar: {
+      key: 'fillingBarValues',
+      enabled: 'fillingBarFilterEnabled',
+    },
+    sortField: {
+      key: 'sortField',
+      enabled: 'indicatorSort',
+    },
+    sortDirection: {
+      key: 'sortDirection',
+    },
+    nidEnabled: {
+      key: 'nidEnabled',
+      enabled: 'nidEnabled',
+    },
+  },
+  homesearch: {
+    searchTerm: {
+      key: 'search_term',
+      enabled: 'searchTermEnabled',
+    },
+  },
 };
 
 export const requiredFields = {
@@ -106,6 +155,7 @@ export const requiredFields = {
     'iscedf_detailed',
     'sortField',
     'sortDirection',
+    'onlyOpenAdmission',
   ],
   school: [
     'title',
@@ -121,18 +171,35 @@ export const requiredFields = {
     'specialClass',
     'studentHome',
   ],
+  mainprofession: [
+    'title',
+    'oskaField',
+    'fixedLabel',
+    'fillingBar',
+    'sortField',
+    'sortDirection',
+    'nidEnabled',
+  ],
+  homesearch: [
+    'searchTerm',
+  ],
 };
 
 export const defaultValues = {
   studyprogramme: {
     sortField: 'title',
     sortDirection: 'ASC',
+    onlyOpenAdmission: true,
   },
   school: {
     minLat: '0',
     maxLat: '99',
     minLon: '0',
     maxLon: '99',
+  },
+  mainprofession: {
+    sortField: 'title',
+    sortDirection: 'ASC',
   },
 };
 
@@ -141,5 +208,13 @@ export const multiSelectFields = {
     'type',
     'language',
     'ownership',
+  ],
+  news: [
+    'tagValue',
+  ],
+  mainprofession: [
+    'fillingBarValues',
+    'oskaFieldValue',
+    'fixedLabelValue',
   ],
 };

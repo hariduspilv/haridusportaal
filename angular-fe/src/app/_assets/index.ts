@@ -85,6 +85,7 @@ import { CompareViewComponent } from './compare.view';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { AutocompleteComponent } from './autocomplete';
+import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -95,6 +96,12 @@ import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.component';
+import { MainProfessionListViewComponent } from '@app/_views/mainProfessionListView/mainProfessionListView.component';
+import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
+import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
+import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
+import { IframePipe } from '@app/_pipes/iframe.pipe';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -107,6 +114,7 @@ const pipes = [
   RemoveEmptyTagsPipe,
   WeekDayPipe,
   UnixToTimePipe,
+  IframePipe,
 ];
 
 const declarations = [
@@ -172,6 +180,12 @@ const declarations = [
   CompareViewComponent,
   ImageComponent,
   LinksComponent,
+  NewsListViewComponent,
+  MainProfessionListViewComponent,
+  HomeSearchListViewComponent,
+  SchoolListViewComponent,
+  StudyProgrammeListViewComponent,
+  DropdownListComponent,
 ];
 
 const exports = [

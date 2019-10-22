@@ -49,7 +49,7 @@ export class CompareComponent {
     }
     this.compare = this.readFromLocalStorage(this.sessionStorageKey);
     if (!this.compare.length) {
-      this.alertsService.clear('global');
+      this.alertsService.clear('compare');
     }
   }
 
@@ -60,7 +60,7 @@ export class CompareComponent {
   notify(type: string) {
     const variables = [
       this.translateService.get(translationsPerType[this.sessionStorageKey][type]),
-      'global',
+      'compare',
       'compare',
       false,
       this.viewLink,
