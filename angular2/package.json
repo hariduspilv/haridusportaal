@@ -39,7 +39,7 @@
     "ng-recaptcha": "4.2.1",
     "ng2-google-charts": "^4.0.0",
     "ngx-clipboard": "11.1.9",
-    "ngx-device-detector": "^1.3.5",
+    "ngx-device-detector": "^1.3.12",
     "rxjs": "6.3.3",
     "rxjs-compat": "^6.3.3",
     "scss": "0.2.4",
