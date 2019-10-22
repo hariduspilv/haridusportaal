@@ -2,7 +2,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppComponent } from '@app/app.component';
-import { HttpClientModule } from '@angular/common/http';
+import { Routes, RouterModule } from '@angular/router';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { TranslateModule } from '@app/_modules/translate';
 // tslint:disable-next-line: import-name
 import localeEt from '@angular/common/locales/et';
@@ -27,6 +28,7 @@ registerLocaleData(localeEt);
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     TranslateModule.forRoot(),
   ],
   providers: [
