@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { DOCUMENT } from '@angular/common';
 import { Subject } from 'rxjs';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SettingsService {
   constructor(
     @Inject(DOCUMENT) private document,
@@ -34,6 +36,7 @@ export class SettingsService {
   public error: boolean = false;
   public data: any;
   public compareObservable = new Subject<any>();
+  public activeLang: string = 'ET';
 
   private findObj(obj, path) {
     return path
@@ -45,6 +48,7 @@ export class SettingsService {
 
   public query(name: string = '', variables: object = {}) {
     const requestName = this.get(`request.${name}`);
+
     let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
     if (Object.keys(variables).length > 0) {
       path = `${path}&variables=${JSON.stringify(variables)}`;

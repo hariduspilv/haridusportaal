@@ -7,7 +7,7 @@
                         *ngIf="item.head">
                         {{ item.head.entity ? item.head.entity.entityLabel : item.head }}</div>
                     <div class="flex flex-center flex-wrap">
-                        <a [href]="item.url.path ? item.url.path : item.url" class="list__item__title">
+                        <a [routerLink]="item.url.path ? item.url.path : item.url" class="list__item__title">
                             <h1>{{ item.title }}</h1>
                         </a>
                         <div href="javascript:void();" class="nonActive--blue"

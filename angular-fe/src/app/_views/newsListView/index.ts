@@ -3,35 +3,35 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
 import { TranslateModule } from '@app/_modules/translate';
-import { DetailViewComponent } from './detailView.component';
+import { NewsListViewComponent } from './newsListView.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
     path: '',
-    component: DetailViewComponent,
-  },
-  {
-    path: ':id',
-    component: DetailViewComponent,
+    component: NewsListViewComponent,
   },
 ];
 
 @NgModule({
   declarations: [
-    DetailViewComponent,
+    NewsListViewComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
     AssetsModule,
     TranslateModule,
     CommonModule,
+    FormsModule,
   ],
   exports: [
-    DetailViewComponent,
+    NewsListViewComponent,
   ],
   providers: [
 
   ],
+  bootstrap: [
+  ],
 })
 
-export class DetailViewModule { }
+export class NewsListViewModule { }

@@ -13,11 +13,12 @@ import { translationsPerType } from '../compare/helpers/compare';
   styleUrls: ['listItem.styles.scss'],
 })
 
-  export class ListItemComponent implements OnInit, OnChanges{
+export class ListItemComponent implements OnInit, OnChanges{
   @Input() list: Object[];
   @Input() type: string;
   @Input() compare: string;
 
+  public closeTime: number = 5000;
   private translationsPerType = translationsPerType;
   public footerFields = {
     studyProgramme: [

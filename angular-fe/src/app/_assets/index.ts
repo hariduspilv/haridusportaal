@@ -95,12 +95,12 @@ import { LinksComponent } from './links';
 import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
-import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.component';
 import { MainProfessionListViewComponent } from '@app/_views/mainProfessionListView/mainProfessionListView.component';
 import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
 import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
 import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
+import { ModuleWithProviders } from '@angular/compiler/src/core';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -179,7 +179,6 @@ const declarations = [
   CompareViewComponent,
   ImageComponent,
   LinksComponent,
-  NewsListViewComponent,
   MainProfessionListViewComponent,
   HomeSearchListViewComponent,
   SchoolListViewComponent,
@@ -213,7 +212,6 @@ const providers = [
 ];
 
 @NgModule({
-  providers,
   declarations: [...declarations, ...pipes],
   imports: [
     CommonModule,
@@ -236,4 +234,11 @@ const providers = [
   ],
   exports: [...declarations, ...pipes, ...exports],
 })
-export class AssetsModule { }
+export class AssetsModule {
+  static forRoot(): ModuleWithProviders {
+    return {
+      providers,
+      ngModule: AssetsModule,
+    };
+  }
+}

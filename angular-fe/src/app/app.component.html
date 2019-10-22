@@ -1,4 +1,7 @@
-<a routerLink="/">Esileht</a> | <a routerLink="/article">Article</a>
-<div style="display:block; max-width:1200px; margin:50px auto;">
-  <router-outlet></router-outlet>
-</div>
+<div class="app-wrapper">
+  <htm-header></htm-header>
+  <sidemenu></sidemenu>
+  <div class="app-content">
+    <router-outlet></router-outlet>
+  </div><!--/app-content-->
+</div><!--/app-wrapper-->

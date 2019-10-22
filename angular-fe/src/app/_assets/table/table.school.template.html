@@ -3,15 +3,7 @@
     <td>{{ 'school.register_code_short' | translate }}</td>
     <td>{{ data.fieldRegistrationCode }}</td>
   </tr>
-  <tr *ngIf="types && types.length">
-    <td>{{ 'school.institution_type' | translate }}</td>
-    <td>
-      <div *ngFor="let type of types">
-        <span>{{ type.entityLabel }}</span>
-        <span *ngIf="type.children.length">(</span><span *ngFor="let child of type.children">{{child.entityLabel | titlecase}}</span><span *ngIf="type.children.length">)</span>
-      </div>
-    </td>
-  </tr>
+
   <tr *ngIf="data.fieldOwnershipType">
     <td>{{ 'school.ownership' | translate }}</td>
     <td>{{ data.fieldOwnershipType.entity.name | titlecase }}</td>

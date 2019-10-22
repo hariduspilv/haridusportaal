@@ -16,8 +16,8 @@ export class CompareViewComponent extends CompareComponent {
   @Input() key: string;
   @Input() queryName: string;
   private queryId: string;
-  private loading: boolean = false;
-  private translations = translationsPerType;
+  public loading: boolean = false;
+  public translations = translationsPerType;
   public compare: String[] = [];
   private deleteText: string = '';
   private deleteIndicator: number = 1;

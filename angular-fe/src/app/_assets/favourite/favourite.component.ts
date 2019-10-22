@@ -16,7 +16,7 @@ export class FavouriteComponent {
   @Input() state: boolean;
   @Input() limit: boolean;
   private subscription: Subscription;
-  private closeTime: any = false;
+  public closeTime: any = false;
   // TODO: Handle maximum number of favourites (with real request)
   // private maxCount: number = 10;
 
@@ -24,7 +24,7 @@ export class FavouriteComponent {
     private http: HttpClient,
     private alertsService: AlertsService,
     private translate: TranslateService,
-    private modalService: ModalService) {}
+    public modalService: ModalService) {}
   handleStateChange() {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();

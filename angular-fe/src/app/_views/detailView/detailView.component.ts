@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'detail-view',
@@ -25,6 +27,8 @@ export class DetailViewComponent {
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
+    private route: ActivatedRoute,
+    private location: Location,
   ) {}
 
   private getSidebar():void {
@@ -58,6 +62,7 @@ export class DetailViewComponent {
   }
 
   private getValues(): void {
+
     switch (this.type) {
       case 'news': {
         this.queryKey = 'newsSingel';
@@ -140,6 +145,11 @@ export class DetailViewComponent {
   }
 
   ngOnInit() {
+    if (this.route.snapshot.data) {
+      this.path = decodeURI(this.location.path());
+      this.type = this.route.snapshot.data['type'];
+    }
+
     this.getValues();
     if (!this.data) {
       this.getData();

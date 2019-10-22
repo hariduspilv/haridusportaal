@@ -23,7 +23,7 @@ export class SidebarComponent implements OnInit {
   private collection: SidebarType = collection;
   private titleLess: TitleLess = titleLess;
   private keys: string[];
-  private mappedData: any;
+  public mappedData: any;
   @HostBinding('class') get hostClasses(): string {
     return 'sidebar';
   }
@@ -91,7 +91,7 @@ export class SidebarLinksComponent implements OnInit {
 })
 export class SidebarCategoriesComponent implements OnInit {
   @Input() data: Object[];
-  private entriesData: any[];
+  public entriesData: any[];
   ngOnInit() {
     this.entriesData = Object.entries(this.data);
   }
@@ -114,7 +114,7 @@ export class SidebarContactComponent {
   templateUrl: './templates/sidebar.articles.template.html',
 })
 export class SidebarArticlesComponent {
-  @Input() data: Object;
+  @Input() data;
 }
 
 @Component({
@@ -122,7 +122,7 @@ export class SidebarArticlesComponent {
   template: '<b *ngIf="data.entity?.fieldTitle">{{ data.entity?.fieldTitle }}</b><div [innerHTML]="data.entity?.fieldAdditionalBody || data.value"><div>',
 })
 export class SidebarDataComponent {
-  @Input() data: Object;
+  @Input() data;
 }
 
 @Component({
@@ -130,7 +130,7 @@ export class SidebarDataComponent {
   templateUrl: './templates/sidebar.actions.template.html',
 })
 export class SidebarActionsComponent {
-  @Input() data: Object[];
+  @Input() data;
 }
 @Component({
   selector: 'sidebar-location',
@@ -187,7 +187,7 @@ export class SidebarLocationComponent {
 })
 export class SidebarFactsComponent implements OnInit {
   @Input() data: any;
-  private entitiesData: any[];
+  public entitiesData: any[];
   private graduatesToJobsValues = [
     { class: 'first with-bg', text: 'oska.more_graduates' },
     { class: 'first with-bg', text: 'oska.less_graduates' },
@@ -223,7 +223,7 @@ export class SidebarProgressComponent {
     'oska.quite_difficult',
     'oska.difficult',
   ];
-  private level: number;
+  public level: number;
   ngOnInit() {
     if (this.data.entities && this.data.entities.length) {
       this.level = this.data.entities[0].value;

@@ -11,8 +11,8 @@ import FieldVaryService from '@app/_services/FieldVaryService';
 })
 
   export class InfoSystemComponent implements OnInit{
-  @Input() data: Object;
-  @Input() breadcrumbs: Object[];
+  @Input() data;
+  @Input() breadcrumbs;
   public linksLabel = 'links';
 
   constructor(

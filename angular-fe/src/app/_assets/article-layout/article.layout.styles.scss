@@ -4,15 +4,13 @@
 :host {
   display: grid;
   display: -ms-grid;
-  overflow-y: auto;
   background-color: $light-gray;
   position: relative;
   grid-template-areas: 'content content'
                        'content content';
   grid-template-columns: 0 1fr;
   -ms-grid-columns:0 1fr;
-  height: 100vh;
-  overflow: hidden;
+
   ::ng-deep .content feedback {
     display: none;
     @include break-on(sm, min) {

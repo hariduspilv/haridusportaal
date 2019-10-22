@@ -12,9 +12,10 @@ export class HeaderComponent implements OnInit {
   public active: boolean;
   @Input() loginStatus: boolean = false;
   @Input() user: string = '';
+  public search;
   constructor(
     private sidemenuService: SidemenuService,
-    private modalService: ModalService,
+    public modalService: ModalService,
     private translate: TranslateService,
   ) {}
 

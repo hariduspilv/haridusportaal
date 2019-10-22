@@ -5,8 +5,9 @@ import {
   OnInit,
   OnDestroy,
 } from '@angular/core';
-import { RippleService, SidemenuService } from '@app/_services';
+import { RippleService, SidemenuService, SettingsService } from '@app/_services';
 import { Subscription } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'sidemenu-item',
@@ -17,7 +18,7 @@ import { Subscription } from 'rxjs';
 				*ngIf="item.url.path !== '#nolink'"
 				(mousedown)="animateRipple($event)"
 				class="sidemenu__link"
-				href="{{ item.url.path }}"
+				routerLink="{{ item.url.path }}"
 				><span>{{ item.label }}</span></a
 			>
 		</ng-container>
@@ -36,7 +37,7 @@ import { Subscription } from 'rxjs';
 					<a
 						*ngIf="item.url.path !== '#nolink'"
 						class="sidemenu__link"
-						href="{{ item.url.path }}"
+						routerLink="{{ item.url.path }}"
 					>
 						<span>{{ item.label }}</span>
 					</a>
@@ -70,13 +71,15 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   public isVisible: boolean;
   private subscription: Subscription = new Subscription();
-  @Input() data:Object[] = [];
+  @Input() data;
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
   }
 
   constructor(
     private sidemenuService: SidemenuService,
+    private http: HttpClient,
+    private settings: SettingsService,
   ) {}
 
   subscribeToService():void {
@@ -86,8 +89,15 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   getData():void {
-
+    const variables = {
+      language: this.settings.activeLang,
+    };
+    const path = this.settings.query('getMenu', variables);
+    const subscription = this.http.get(path).subscribe((response) => {
+      this.data = response['data'];
+    });
   }
+
   ngOnInit():void {
     this.subscribeToService();
     this.getData();

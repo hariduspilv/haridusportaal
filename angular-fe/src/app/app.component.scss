@@ -1,0 +1,31 @@
+@import "breakpoints.scss";
+@import "typography.scss";
+
+.app-wrapper{
+  display: grid;
+  display: -ms-grid;
+  background-color: $light-gray;
+  position: relative;
+  grid-template-areas: 'header header header header'
+                       'sidemenu content content .'
+                       'sidemenu content content .';
+  grid-template-columns: 0 1fr;
+  -ms-grid-columns: 0 1fr 1fr;
+  min-height: 100vh;
+  height: 100vh;
+  @include break-on(sm, min) {
+    grid-template-columns: 16.25rem 1fr;
+    -ms-grid-columns: 16.25rem 1fr;
+  }
+  htm-header{
+    z-index: 100;
+  }
+  .app-content {
+    box-sizing: border-box;
+    grid-area: content;
+    padding: 0 16px;
+    overflow-y: scroll;
+    height: 100%;
+    
+  }
+}

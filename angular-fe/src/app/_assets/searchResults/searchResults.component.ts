@@ -44,7 +44,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   public list: any = [];
   private getDataDebounce;
   private debounceDelay: number = 300;
-  private canLoadMore: boolean = true;
+  public canLoadMore: boolean = true;
 
   constructor(
     private http: HttpClient,

@@ -33,7 +33,7 @@ export class ModalComponent implements OnInit {
   @Input() title: string = '';
   public opened: boolean = false;
   private element: any;
-  private modalIds: any;
+  public modalIds: any;
   @Input() titleExists: boolean = true;
   @Input() topAction: boolean = true;
   @Input() bottomAction: boolean = true;
