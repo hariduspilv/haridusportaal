@@ -194,7 +194,7 @@
       <div class="row margin">
       <ng-container *ngFor="let item of institutionModalFields">
           <div class="col-{{ item.col }}">
-              <formItem [type]="item.type" [(ngModel)]="institutionData[item.modelName]" title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"></formItem>
+              <formItem [type]="item.type" [(ngModel)]="institutionData[item.modelName]" title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}" [options]="formOptions[item.modelName]"></formItem>
           </div>
       </ng-container>
     </div>

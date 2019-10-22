@@ -9,6 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
 import { UserService } from '@app/_services/userService';
 import { TableService } from '@app/_services/tableService';
+import { formItems } from '../../../../stories/assets/formItem/formItem.data';
 
 const acceptableFormsRestrictedLength = 4;
 
@@ -280,9 +281,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const sub = this.http.get(this.settings.url + '/educational-institution/data?_format=json', { headers }).subscribe((response: any) => {
 
       Object.keys(this.formOptions).forEach((key) => {
-        Object.values(response[key]).forEach((elem, index) => {
+        Object.values(response[key]).forEach((elem: any, index) => {
           elem['id'] = Object.keys(response[key])[index];
-          this.formOptions[key].push(elem);
+          this.formOptions[key].push({ key: elem.et, value: elem.id });
         });
       });
 
