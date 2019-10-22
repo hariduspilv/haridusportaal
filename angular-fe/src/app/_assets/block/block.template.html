@@ -28,6 +28,7 @@
     </div>
     <!--/block__title__Tabs-->
   </div>
+  <ng-content select="block-sub-title"></ng-content>
   <!--/title-area-->
   <div class="block__title__middle-tabs" *ngIf="labeledTabs > 0 && tabStyle === 'middle' ">
     <ng-content select="block-tabs"></ng-content>

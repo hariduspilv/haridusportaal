@@ -11,6 +11,7 @@ import {
   OnChanges,
   forwardRef,
 } from '@angular/core';
+import { ModalService } from '@app/_services';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
@@ -70,6 +71,21 @@ export class BlockSecondaryTitleComponent {
 }
 
 @Component({
+  selector: 'block-sub-title',
+  template: '<ng-content></ng-content>',
+})
+
+export class BlockSubTitleComponent {
+  constructor(
+    private cdr: ChangeDetectorRef,
+  ) {}
+
+  detectChanges() {
+    this.cdr.detectChanges();
+  }
+}
+
+@Component({
   selector: 'block-tabs',
   template: '<ng-content></ng-content>',
 })
@@ -96,6 +112,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   constructor(
     private cdr: ChangeDetectorRef,
+    private modalService: ModalService,
     private deviceService: DeviceDetectorService,
   ) {
     this.isMobile = this.deviceService.isMobile();

@@ -1,0 +1,91 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+  .content:focus {
+    outline: none;
+  }
+  &.empty {
+    display: none;
+  }
+  padding-bottom: 1.5rem;
+  display: block;
+  overflow: hidden;
+  ::ng-deep  .content {
+    position: relative;
+    &__inner {
+      display: block;
+      line-height: 1.375rem;
+      overflow: hidden;
+      margin: 0;
+      max-height: 5.5rem;
+      transition: max-height .225s ease-in-out;
+      :first-child {
+        margin: 0;
+      }
+    }
+    &__background {
+      opacity: 1;
+      display: block;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      box-sizing: border-box;
+      transition: opacity .225s ease-in-out;
+      margin-top: 4.125rem;
+      // background-image: linear-gradient(to bottom, transparent 25%, white);
+      background: rgba(255, 255, 255, 0.8);
+
+    }
+  }
+  .more {
+    position: relative;
+    top: -.125rem;
+    background: $white;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    margin: 0;
+    button {
+      height: 2rem;
+      background: none;
+      color: #2e3374;
+      text-decoration: underline;
+      box-shadow: none;
+      border: none;
+      font-weight: normal;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+  &.hide ::ng-deep .content__inner {
+    :nth-child(n) {
+      margin: 0;
+    }
+  }
+  &.show, .show {
+    height: auto;
+    max-height: 99rem;
+    .content__background {
+      opacity: 0;
+      z-index: -1
+    }
+    @include break-on(xxs, max) {
+      max-height: 199rem;
+    }
+  }
+  @include break-on(sm, max) {
+    padding: 0 1.5rem 1.5rem;
+  }
+  @include break-on(xxs, max) {
+    ::ng-deep  .content {
+      &__inner {
+        max-height: 6.875rem;
+      }
+      &__background {
+        margin-top: 5.5rem;
+      }
+    }
+  }
+}

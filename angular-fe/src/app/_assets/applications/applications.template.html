@@ -1,0 +1,203 @@
+<div class="unpadded">
+  <more-block id="1" content="{{ 'abitekst.taotlused' | translate }}"></more-block>
+</div>
+<loader *ngIf="loading.initial === true"></loader>
+<div *ngIf="loading.initial === false && currentRole === 'natural_person'">
+  <div class="acceptable-forms">
+    <h4>{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' | translate }}</h4>
+    <div class="text-center" *ngIf="!acceptableFormsList.length">
+      {{ 'frontpage.dashboard_tabs_applications_acceptable_forms_notfound' | translate }}</div>
+
+    <ng-container *ngIf="acceptableFormsList.length">
+
+      <div class="row">
+        <ng-container *ngFor="let form of acceptableFormsList">
+          <div class="col-6 form-item">
+            <a [routerLink]="[compileXjsonLink(form.form_name)]" class="grid-item">
+              <span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }}</span>
+            </a>
+          </div>
+        </ng-container>
+      </div>
+
+      <div class="grid-load"
+        *ngIf="data.acceptable_forms.length > 4 && acceptableFormsList.length == 4 && acceptableFormsListRestricted == true">
+        <a href="javascript:void(0);" (click)="toggleAcceptableFormsList()">+ {{ 'button.show_more' | translate }}
+          ({{ data.acceptable_forms.length - 4 }})</a>
+      </div>
+
+      <div class="grid-load" *ngIf="acceptableFormsListRestricted == false">
+        <a href="javascript:void(0);" (click)="toggleAcceptableFormsList()">- {{ 'button.show_less' | translate }}</a>
+      </div>
+    </ng-container>
+  </div>
+  <div *ngIf="data.drafts.length">
+    <h4>{{ 'frontpage.dashboard_tabs_applications_drafts_label' | translate }}</h4>
+    <div class="scrollable scrollable__applications" *ngIf="data.drafts.length">
+      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer"
+        *ngIf="!elemAtStart[0][0]" (touchstart)="tableService.scrollStart('table_0')"
+        (mousedown)="tableService.scrollStart('table_0')" (touchend)="tableService.scrollEnd()"
+        (mouseup)="tableService.scrollEnd()">
+        <span class="htm-icon">keyboard_arrow_left</span>
+      </div>
+      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer"
+        *ngIf="tableOverflown[0][0]" (touchstart)="tableService.scrollStart('table_0', true)"
+        (mousedown)="tableService.scrollStart('table_0', true)" (touchend)="tableService.scrollEnd(true)"
+        (mouseup)="tableService.scrollEnd(true)">
+        <span class="htm-icon">keyboard_arrow_right</span>
+      </div>
+      <div class="scrollable__table" [attr.id]="'table_0'"
+        (scroll)="tableOverflown[0][0] = tableService.isOverflownWhileScrolling($event); elemAtStart[0][0] = tableService.isElemAtStart('table_0')">
+        <table htm-table>
+          <thead>
+            <tr>
+              <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let form of data.drafts">
+              <td>
+                <ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}</ng-container>
+              </td>
+              <td class="text-center">
+                <a class="rowspan-btn" *ngIf="form.form_name" [routerLink]="[compileXjsonLink(form.form_name)]"
+                  [queryParams]="{draft:'true', identifier: form.identifier}">
+                  {{ 'button.continue_filling' | translate }}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div>
+    <h4>{{ 'frontpage.dashboard_tabs_applications_documents_label' | translate }}</h4>
+
+
+    <div class="scrollable scrollable__applications" *ngIf="!data.documents.length">
+      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer"
+        *ngIf="!elemAtStart[0][1]" (touchstart)="tableService.scrollStart('table_1')"
+        (mousedown)="tableService.scrollStart('table_1')" (touchend)="tableService.scrollEnd()"
+        (mouseup)="tableService.scrollEnd()">
+        <span class="htm-icon">keyboard_arrow_left</span>
+      </div>
+      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer"
+        *ngIf="tableOverflown[0][1]" (touchstart)="tableService.scrollStart('table_1', true)"
+        (mousedown)="tableService.scrollStart('table_1', true)" (touchend)="tableService.scrollEnd(true)"
+        (mouseup)="tableService.scrollEnd(true)">
+        <span class="htm-icon">keyboard_arrow_right</span>
+      </div>
+      <div class="scrollable__table" [attr.id]="'table_1'"
+        (scroll)="tableOverflown[0][1] = tableService.isOverflownWhileScrolling($event); elemAtStart[0][1] = tableService.isElemAtStart('table_1')">
+        <table htm-table>
+          <thead>
+            <tr>
+              <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
+              <th>{{ 'frontpage.dashboard_tabs_applications_document_date' | translate }}</th>
+              <th>{{ 'frontpage.dashboard_tabs_applications_document_status' | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="text-center font-normal" colspan="3">
+                {{ 'frontpage.dashboard_tabs_applications_documents_notfound' | translate }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <div class="scrollable scrollable__applications" *ngIf="data.documents.length">
+      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--left pointer"
+        *ngIf="!elemAtStart[0][1]" (touchstart)="tableService.scrollStart('table_1')"
+        (mousedown)="tableService.scrollStart('table_1')" (touchend)="tableService.scrollEnd()"
+        (mouseup)="tableService.scrollEnd()">
+        <span class="htm-icon">keyboard_arrow_left</span>
+      </div>
+      <div aria-hidden="true" class="scrollable__rectangle scrollable__rectangle--right pointer"
+        *ngIf="tableOverflown[0][1]" (touchstart)="tableService.scrollStart('table_1', true)"
+        (mousedown)="tableService.scrollStart('table_1', true)" (touchend)="tableService.scrollEnd(true)"
+        (mouseup)="tableService.scrollEnd(true)">
+        <span class="htm-icon">keyboard_arrow_right</span>
+      </div>
+      <div class="scrollable__table" [attr.id]="'table_1'"
+        (scroll)="tableOverflown[0][1] = tableService.isOverflownWhileScrolling($event); elemAtStart[0][1] = tableService.isElemAtStart('table_1')">
+        <table htm-table>
+          <thead>
+            <tr>
+              <th>{{ 'frontpage.dashboard_tabs_applications_document_name' | translate }}</th>
+              <th>{{ 'frontpage.dashboard_tabs_applications_document_date' | translate }}</th>
+              <th>{{ 'frontpage.dashboard_tabs_applications_document_status' | translate }}</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let form of data.documents">
+              <tr [class.description]="form.description">
+                <td>
+                  <ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}</ng-container>
+                </td>
+                <td><span *ngIf="form.document_date">{{ form.document_date }}</span></td>
+                <td><span *ngIf="form.status">{{ form.status }}</span></td>
+                <td class="text-center">
+                  <a class="rowspan-btn" *ngIf="form.form_name" [routerLink]="[compileXjsonLink(form.form_name)]"
+                    [queryParams]="{existing:'true', identifier: form.identifier}">
+                    {{ 'button.open' | translate }}
+                  </a>
+                </td>
+              </tr>
+              <tr class="description-bottom" *ngIf="form.description">
+                <td colspan="4">
+                  <p>{{ form. description }}</p>
+                </td>
+              </tr>
+            </ng-container>
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="loading.initial === false && currentRole === 'juridical_person'">
+  <div *ngIf="false" class="lg-top">
+    <alerts class="notifications notifications--small" id="general"></alerts>
+  </div>
+  <!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
+  <div class="block-btn--holder">
+    <button class="block-btn" role="button" (click)="loadInstitutionModal()"
+      attr.aria-label="{{'dashboard.add_new_educational_institution' | translate}}">+
+      {{'dashboard.add_new_educational_institution' | translate}}</button>
+  </div>
+  <ng-container *ngIf="data.educationalInstitutions && data.educationalInstitutions.length">
+    <accordion>
+      <accordion-item [active]="data.educationalInstitutions.length === 1 && first"
+        *ngFor="let school of data.educationalInstitutions; let first = first; let ind = index;"
+        [title]="school.institutionInfo.generalData.name">
+      </accordion-item>
+    </accordion>
+  </ng-container><!-- /ngFor -->
+</div>
+
+<htm-modal id="institutionModal" title="{{ 'dashboard.adding_educational_institution' | translate }}"
+  [titleExists]="titleExists" [topAction]="topAction" [bottomAction]="bottomAction">
+  <modal-content [loading]="modalLoading">
+    <alerts class="notifications notifications--small" id="personalData"></alerts>
+    <ng-container *ngIf="!modalLoading && !error && formOptions">
+      <h1>{{ 'dashboard.add_new_educational_institution' | translate }}</h1>
+      <p>{{ 'xjson.required_fields_infotext' | translate }}</p>
+      <div class="row margin">
+      <ng-container *ngFor="let item of institutionModalFields">
+          <div class="col-{{ item.col }}">
+              <formItem [type]="item.type" [(ngModel)]="institutionData[item.modelName]" title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}" [options]="formOptions[item.modelName]"></formItem>
+          </div>
+      </ng-container>
+    </div>
+    </ng-container>
+  </modal-content>
+</htm-modal>
