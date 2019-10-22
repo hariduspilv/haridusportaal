@@ -30,6 +30,7 @@ import {
   SidemenuService,
   SidebarService,
   ModalService,
+  AddressService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -188,6 +189,7 @@ const providers = [
   RootScopeService,
   AlertsService,
   DeviceDetectorService,
+  AddressService,
   TableService,
   {
     provide: RECAPTCHA_LANGUAGE,

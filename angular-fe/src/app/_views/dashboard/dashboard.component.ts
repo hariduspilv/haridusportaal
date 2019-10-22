@@ -45,7 +45,7 @@ import { SettingsService, AlertsService, ModalService, RootScopeService } from '
   ) {}
 
   ngOnInit() {
-    this.jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NzE2NjE3NzEsImV4cCI6MTU3MTY2NTM3MSwiZHJ1cGFsIjp7InVpZCI6IjEzODAifSwicm9sZSI6eyJjdXJyZW50X3JvbGUiOnsidHlwZSI6Imp1cmlkaWNhbF9wZXJzb24iLCJkYXRhIjp7InJlZ19rb29kIjoxMDg3NjMzMSwibmltaSI6IkFkdm9rYWFkaWJcdTAwZmNyb28gU09SQUlORU4gQVMifX19LCJ1c2VybmFtZSI6IjM3NjA2Mjc2NTIxIiwiZmlyc3RuYW1lIjpudWxsLCJsYXN0bmFtZSI6bnVsbH0.NhccY7_HZHu59JKZ-CFIuk8z7JBZAAqeKqNf_HAMqa_ZoSgELt6VXxEGEIoPMAWB54L2nXCHBrS07UR_EbSdog';
+    this.jwt = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE1NzE3MzM5MDcsImV4cCI6MTU3MTczNzUwNywiZHJ1cGFsIjp7InVpZCI6IjY5OSJ9LCJyb2xlIjp7ImN1cnJlbnRfcm9sZSI6eyJ0eXBlIjoianVyaWRpY2FsX3BlcnNvbiIsImRhdGEiOnsicmVnX2tvb2QiOjEyNjE1OTEzLCJuaW1pIjoiVW5kZXJzdGFuZCBVXHUwMGRjIn19fSwidXNlcm5hbWUiOiIzODIwMTI0MDMxOSIsImZpcnN0bmFtZSI6IlRhbmVsIiwibGFzdG5hbWUiOiJUcm9tcCJ9.Ib9BCcVlnIG4X29d6QWWcXIDv4yePbFVEPAoyH6AYpalvtJRJrK7iPndudQrgV1P3u9xQylCkhj2p9qSczB9gw';
     this.userData = this.jwt ? this.user.decodeToken(this.jwt) : this.user.getData();
 
     this.currentRole = this.userData.role.current_role.type;

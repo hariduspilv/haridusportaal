@@ -20,37 +20,44 @@ const acceptableFormsRestrictedLength = 4;
 
 export class ApplicationsComponent implements OnDestroy, OnInit {
   @Input() jwt;
-  public loading = {
+  loading = {
     initial: false,
     interval: false,
   };
-  public dummyDataVersion: string; // Delete this row after testing is done
-  public startTime;
-  public endViewCheck: boolean = false;
-  public acceptableFormsLimiter = acceptableFormsRestrictedLength;
-  public lang: string;
-  public pollingLoader: boolean = true;
-  public data = {
+  dummyDataVersion: string;
+  startTime;
+  endViewCheck: boolean = false;
+  acceptableFormsLimiter = acceptableFormsRestrictedLength;
+  lang: string;
+  pollingLoader: boolean = true;
+  data = {
     message: null,
     acceptable_forms: [],
     documents: [],
     drafts: [],
     educationalInstitutions: [],
   };
-  public requestIterator;
-  public requestIteratorTimeout = 2000;
-  public currentRole: string = '';
+  requestIterator;
+  requestIteratorTimeout = 2000;
+  currentRole: string = '';
 
-  public acceptableFormsList = [];
-  public acceptableFormsListRestricted: boolean = true;
-  public tableOverflown: any = [{ 0: false, 1: false }];
-  public elemAtStart: any = [{ 0: true, 1: true }];
-  public initialized: any = [{ 0: false, 1: false }];
+  institutionData = {};
+
+  modalTitleExists = true;
+  modalTopAction = false;
+  modalBottomAction = false;
+  institutionModalFields = [];
+
+  acceptableFormsList = [];
+  acceptableFormsListRestricted: boolean = true;
+  tableOverflown: any = [{ 0: false, 1: false }];
+  elemAtStart: any = [{ 0: true, 1: true }];
+  initialized: any = [{ 0: false, 1: false }];
   private subscriptions: Subscription[] = [];
-  public userData;
-  public error = false;
-  public modalLoading = false;
-  public formOptions = {
+  userData;
+  error = false;
+  modalLoading = false;
+  formOptions = {
     ownerType: [],
     ownershipType: [],
     studyInstitutionType: [],
@@ -136,7 +143,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     headers = headers.append('Authorization', 'Bearer ' + this.jwt);
 
     setTimeout(() => {
-      const subscription = this.http.get(this.settings.url + '/dashboard/applications/1?_format=json', { headers, }).subscribe((response: any) => {
+      const subscription = this.http.get(this.settings.url + '/dashboard/applications/1?_format=json', { headers }).subscribe((response: any) => {
         if (typeof response.found !== undefined && response.found === null) {
           this.fetchData();
         } else {
@@ -151,7 +158,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.data.documents = this.sortList(this.data.documents, 'date');
             this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
           } else {
-            const responseData = response['educationalInstitutions'].map(elem => {
+            const responseData = response['educationalInstitutions'].map((elem) => {
               elem.documents = this.sortList(elem.documents, 'date');
               elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
               elem.drafts = this.sortList(elem.drafts, 'title');
@@ -175,7 +182,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         }
         subscription.unsubscribe();
       });
-    }, 1000);
+    },         1000);
   }
 
   initialTableCheck(id, parentIndex, index) {
@@ -188,20 +195,89 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
   institutionInfoFieldSum(school) {
     let counter = 0;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail) counter =+ 1;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone) counter =+ 1;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress) counter =+ 1;
-    if (school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable) counter =+ 1;
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail) counter = + 1;
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone) counter = + 1;
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress) counter = + 1;
+    if (school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable) counter = + 1;
     return counter;
   }
 
   loadInstitutionModal() {
+    this.institutionModalFields = [
+      {
+        col: 12,
+        type: 'text',
+        title: 'school.institution_name',
+        modelName: 'name',
+        required: true,
+      },
+      {
+        col: 12,
+        type: 'text',
+        title: 'dashboard.nameENG',
+        modelName: 'nameENG',
+        required: false,
+      },
+      {
+        col: 6,
+        type: 'text',
+        title: 'dashboard.contactPhone',
+        modelName: 'contactPhone',
+        required: true,
+      },
+      {
+        col: 6,
+        type: 'text',
+        title: 'event.participant_email',
+        modelName: 'contactEmail',
+        required: true,
+      },
+      {
+        col: 12,
+        type: 'text',
+        title: 'dashboard.address',
+        modelName: 'address',
+        required: true,
+      },
+      {
+        col: 6,
+        type: 'text',
+        title: 'dashboard.webpageAddress',
+        modelName: 'webpageAddress',
+        required: true,
+      },
+      {
+        col: 6,
+        type: 'select',
+        title: 'dashboard.ownerType',
+        modelName: 'ownerType',
+        options: [],
+        required: true,
+      },
+      {
+        col: 6,
+        type: 'select',
+        title: 'school.ownership',
+        modelName: 'ownershipType',
+        options: [],
+        required: true,
+      },
+      {
+        col: 6,
+        type: 'select',
+        title: 'dashboard.studyInstitutionType',
+        modelName: 'studyInstitutionType',
+        options: [],
+        required: true,
+      },
+    ];
+
     let headers = new HttpHeaders();
     headers = headers.append('Authorization', 'Bearer ' + this.jwt);
     this.error = false;
     this.modalLoading = true;
     this.modalService.toggle('institutionModal');
-    const sub = this.http.get(this.settings.url + '/educational-institution/data?_format=json', { headers, }).subscribe((response: any) => {
+    const sub = this.http.get(this.settings.url + '/educational-institution/data?_format=json', { headers }).subscribe((response: any) => {
 
       Object.keys(this.formOptions).forEach((key) => {
         Object.values(response[key]).forEach((elem, index) => {

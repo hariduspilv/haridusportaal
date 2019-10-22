@@ -184,12 +184,20 @@
   </ng-container><!-- /ngFor -->
 </div>
 
-<htm-modal id="institutionModal" title="{{ 'frontpage.dashboard_tabs_personal_label' | translate }}"
-    [titleExists]="titleExists" [topAction]="topAction" [bottomAction]="bottomAction">
-    <modal-content [loading]="modalLoading">
-        <alerts class="notifications notifications--small" id="personalData"></alerts>
-        <ng-container *ngIf="!modalLoading && !error && personalData">
-            <h1>{{ userData.username }}</h1>
-        </ng-container>
-    </modal-content>
+<htm-modal id="institutionModal" title="{{ 'dashboard.adding_educational_institution' | translate }}"
+  [titleExists]="titleExists" [topAction]="topAction" [bottomAction]="bottomAction">
+  <modal-content [loading]="modalLoading">
+    <alerts class="notifications notifications--small" id="personalData"></alerts>
+    <ng-container *ngIf="!modalLoading && !error && formOptions">
+      <h1>{{ 'dashboard.add_new_educational_institution' | translate }}</h1>
+      <p>{{ 'xjson.required_fields_infotext' | translate }}</p>
+      <div class="row margin">
+      <ng-container *ngFor="let item of institutionModalFields">
+          <div class="col-{{ item.col }}">
+              <formItem [type]="item.type" [(ngModel)]="institutionData[item.modelName]" title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"></formItem>
+          </div>
+      </ng-container>
+    </div>
+    </ng-container>
+  </modal-content>
 </htm-modal>

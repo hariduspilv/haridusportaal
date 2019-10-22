@@ -10,4 +10,4 @@ export * from './RootScopeService';
 export * from './userService';
 export * from './tableService';
 export * from './SettingsService';
-
+export * from './AddressService';
