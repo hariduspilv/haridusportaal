@@ -5,7 +5,6 @@ import {
   BlockTitleComponent,
   BlockTabsComponent,
   BlockSecondaryTitleComponent,
-  BlockSubTitleComponent,
 } from './block';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './button';
@@ -15,7 +14,7 @@ import { IconComponent } from './icon';
 import { BreadcrumbsComponent } from './breadcrumbs';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
-import { TableComponent } from './table';
+import { TableComponent, SchoolTable, StudyProgrammeTable } from './table';
 import { AlertsComponent } from './alerts';
 import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
@@ -30,7 +29,7 @@ import {
   SidemenuService,
   SidebarService,
   ModalService,
-  AddressService,
+  SettingsService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -75,28 +74,33 @@ import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
+import { InfoSystemComponent } from './infoSystem/infoSystem.component';
 import { SearchResultsComponent } from './searchResults';
-import { SettingsService } from '@app/_services/SettingsService';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
-import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
-import { DashboardComponent } from '@app/_views/dashboard/dashboard.component';
-import { TableService } from '@app/_services/tableService';
-import { RootScopeService } from '@app/_services/RootScopeService';
-import { ApplicationsComponent } from './applications/applications.component';
-import { CertificatesComponent } from './certificates/certificates.component';
-
-import { MoreBlockComponent } from './more.block/more.block.component';
-import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
-import { DeviceDetectorService } from 'ngx-device-detector';
-import { StudiesComponent } from './studies/studies.component';
-import { TeachingsComponent } from './teachings/teachings.component';
+import { CompareComponent } from './compare';
+import { CompareViewComponent } from './compare.view';
+import { DeviceDetectorModule } from 'ngx-device-detector';
+import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
+import { AutocompleteComponent } from './autocomplete';
+import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
 }
+import { ImageComponent } from './image';
+import { LinksComponent } from './links';
+import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
+import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
+import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
+import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.component';
+import { MainProfessionListViewComponent } from '@app/_views/mainProfessionListView/mainProfessionListView.component';
+import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
+import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
+import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
+import { IframePipe } from '@app/_pipes/iframe.pipe';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -105,7 +109,11 @@ const pipes = [
   LegendCurrencyPipe,
   EuroCurrencyPipe,
   LocaleNumberPipe,
-  EllipsisPipe,
+  TitleCasePipe,
+  RemoveEmptyTagsPipe,
+  WeekDayPipe,
+  UnixToTimePipe,
+  IframePipe,
 ];
 
 const declarations = [
@@ -113,7 +121,6 @@ const declarations = [
   BlockContentComponent,
   BlockTitleComponent,
   BlockSecondaryTitleComponent,
-  BlockSubTitleComponent,
   BlockTabsComponent,
   ButtonComponent,
   LoaderComponent,
@@ -124,6 +131,8 @@ const declarations = [
   AccordionComponent,
   AccordionItemComponent,
   TableComponent,
+  SchoolTable,
+  StudyProgrammeTable,
   AlertsComponent,
   VideoComponent,
   FeedbackComponent,
@@ -165,12 +174,17 @@ const declarations = [
   UrlPipe,
   SearchResultsComponent,
   NewsComponent,
-  DashboardComponent,
-  ApplicationsComponent,
-  MoreBlockComponent,
-  CertificatesComponent,
-  StudiesComponent,
-  TeachingsComponent,
+  AutocompleteComponent,
+  CompareComponent,
+  CompareViewComponent,
+  ImageComponent,
+  LinksComponent,
+  NewsListViewComponent,
+  MainProfessionListViewComponent,
+  HomeSearchListViewComponent,
+  SchoolListViewComponent,
+  StudyProgrammeListViewComponent,
+  DropdownListComponent,
 ];
 
 const exports = [
@@ -186,11 +200,6 @@ const providers = [
   SidebarService,
   ClipboardService,
   SettingsService,
-  RootScopeService,
-  AlertsService,
-  DeviceDetectorService,
-  AddressService,
-  TableService,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',
@@ -223,6 +232,7 @@ const providers = [
     RecaptchaModule.forRoot(),
     RecaptchaFormsModule,
     Ng2GoogleChartsModule,
+    DeviceDetectorModule.forRoot(),
   ],
   exports: [...declarations, ...pipes, ...exports],
 })
