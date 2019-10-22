@@ -17,7 +17,7 @@ interface TitleLess {
   templateUrl: './sidebar.template.html',
   styleUrls: ['./sidebar.styles.scss'],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Input() feedbackNid: string = '';
   private collection: SidebarType = collection;
@@ -27,7 +27,7 @@ export class SidebarComponent implements OnInit {
   @HostBinding('class') get hostClasses(): string {
     return 'sidebar';
   }
-  constructor(private sidebarService: SidebarService) {}
+  constructor(private sidebarService: SidebarService) { }
   ngOnInit() {
     if (this.data) {
       this.data = FieldVaryService(this.data);
@@ -40,18 +40,19 @@ export class SidebarComponent implements OnInit {
       this.keys = Object.keys(this.mappedData);
     }
   }
-  // ngOnChanges() {
-  //   if (this.data) {
-  //     this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
-  //     this.keys = Object.keys(this.mappedData);
-  //   }
-  // }
-  // Storybook data change
-/*   ngOnChanges() {
-    this.blocks = this.sidebarService.getBlockField(this.data);
-    this.mappedData = this.sidebarService.mapUniformKeys(this.data);
-    this.keys = Object.keys(this.mappedData);
-  } */
+
+  ngOnChanges() {
+    if (this.data) {
+      this.data = FieldVaryService(this.data);
+      if (this.data.sidebar && this.data.sidebar.entity) {
+        Object.keys(this.data.sidebar.entity).forEach((elem) => {
+          this.data[elem] = this.data.sidebar.entity[elem];
+        });
+      }
+      this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
+      this.keys = Object.keys(this.mappedData);
+    }
+  }
 }
 // Subcomponents
 @Component({

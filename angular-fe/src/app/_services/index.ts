@@ -8,3 +8,5 @@ export * from './FieldVaryService';
 export * from './MapService';
 export * from './CompareService';
 export * from './SettingsService';
+export * from './RootScopeService';
+export * from './userService';

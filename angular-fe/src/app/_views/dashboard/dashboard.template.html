@@ -1,4 +1,4 @@
-<article-layout>
+<article-layout [sidebar]="sidebar.entity.events.length || sidebar.entity.favourites.length ? sidebar : false">
     <breadcrumbs [data]="breadcrumbs"></breadcrumbs>
     <block tabStyle="middle">
         <block-title>
@@ -21,16 +21,17 @@
                 </div>
             </div>
         </block-sub-title>
-        <block-content *ngIf="currentRole === 'juridical_person' || currentRole === 'natural_person'" tabLabel="Taotlused" tabIcon="file-text">
+        <block-content *ngIf="currentRole === 'juridical_person' || currentRole === 'natural_person'"
+            tabLabel="Taotlused" tabIcon="file-text">
             <applications [jwt]="jwt"></applications>
         </block-content>
-        <block-content *ngIf="currentRole === 'natural_person'" tabLabel="Tunnistused" tabIcon="file-text">
+        <block-content *ngIf="currentRole === 'natural_person'" tabLabel="Tunnistused" tabIcon="class">
             <certificates [jwt]="jwt"></certificates>
         </block-content>
-        <block-content *ngIf="currentRole === 'natural_person'" tabLabel="Õpingud" tabIcon="file-text">
+        <block-content *ngIf="currentRole === 'natural_person'" tabLabel="Õpingud" tabIcon="local-library">
             <studies [jwt]="jwt"></studies>
         </block-content>
-        <block-content *ngIf="currentRole === 'natural_person'" tabLabel="Õpetan" tabIcon="file-text">
+        <block-content *ngIf="currentRole === 'natural_person'" tabLabel="Õpetan" tabIcon="school">
             <teachings [jwt]="jwt"></teachings>
         </block-content>
     </block>

@@ -166,7 +166,7 @@
 
 <div *ngIf="loading.initial === false && currentRole === 'juridical_person'">
   <div *ngIf="false" class="lg-top">
-    <alerts class="notifications notifications--small" id="general"></alerts>
+    <alerts small="true" id="general"></alerts>
   </div>
   <!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
   <div class="block-btn--holder">
@@ -185,19 +185,25 @@
 </div>
 
 <htm-modal id="institutionModal" title="{{ 'dashboard.adding_educational_institution' | translate }}"
-  [titleExists]="titleExists" [topAction]="topAction" [bottomAction]="bottomAction">
+  [titleExists]="modalTitleExists" [topAction]="modalTopAction" [bottomAction]="modalBottomAction">
   <modal-content [loading]="modalLoading">
-    <alerts class="notifications notifications--small" id="personalData"></alerts>
+    <alerts small="true" id="institution"></alerts>
     <ng-container *ngIf="!modalLoading && !error && formOptions">
       <h1>{{ 'dashboard.add_new_educational_institution' | translate }}</h1>
       <p>{{ 'xjson.required_fields_infotext' | translate }}</p>
       <div class="row margin">
-      <ng-container *ngFor="let item of institutionModalFields">
+        <ng-container *ngFor="let item of institutionModalFields">
           <div class="col-{{ item.col }}">
-              <formItem [type]="item.type" [(ngModel)]="institutionData[item.modelName]" title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}" [options]="formOptions[item.modelName]"></formItem>
+            <formItem [type]="item.type" [error]="item.error" [(ngModel)]="institutionData[item.modelName]"
+              title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
+              [options]="formOptions[item.modelName]"></formItem>
           </div>
-      </ng-container>
-    </div>
+        </ng-container>
+        <div class="button-container">
+          <button htm-button theme="plain" (click)="modalService.close('institutionModal')" (keyup.enter)="modalService.close('institutionModal')">{{ 'event.registration_form_cancel' | translate }}</button>
+          <button htm-button theme="default" (click)="createInstitution()" (keyup.enter)="createInstitution()">{{ 'button.save' | translate }}</button>
+        </div>
+      </div>
     </ng-container>
   </modal-content>
 </htm-modal>

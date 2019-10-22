@@ -5,6 +5,7 @@ import {
   BlockTitleComponent,
   BlockTabsComponent,
   BlockSecondaryTitleComponent,
+  BlockSubTitleComponent,
 } from './block';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './button';
@@ -30,6 +31,7 @@ import {
   SidebarService,
   ModalService,
   SettingsService,
+  RootScopeService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -74,7 +76,6 @@ import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
-import { InfoSystemComponent } from './infoSystem/infoSystem.component';
 import { SearchResultsComponent } from './searchResults';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
@@ -101,6 +102,17 @@ import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/home
 import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
 import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
+import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
+import { DashboardViewModule } from '@app/_views/dashboard';
+import { DashboardComponent } from '@app/_views/dashboard/dashboard.component';
+import { ApplicationsComponent } from './applications/applications.component';
+import { StudiesComponent } from './studies/studies.component';
+import { TeachingsComponent } from './teachings/teachings.component';
+import { CertificatesComponent } from './certificates/certificates.component';
+import { MoreBlockComponent } from './more.block/more.block.component';
+import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
+import { TableService } from '@app/_services/tableService';
+import { AddressService } from '@app/_services/AddressService';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -114,6 +126,7 @@ const pipes = [
   WeekDayPipe,
   UnixToTimePipe,
   IframePipe,
+  EllipsisPipe,
 ];
 
 const declarations = [
@@ -185,6 +198,13 @@ const declarations = [
   SchoolListViewComponent,
   StudyProgrammeListViewComponent,
   DropdownListComponent,
+  DashboardComponent,
+  BlockSubTitleComponent,
+  ApplicationsComponent,
+  StudiesComponent,
+  TeachingsComponent,
+  CertificatesComponent,
+  MoreBlockComponent,
 ];
 
 const exports = [
@@ -199,6 +219,9 @@ const providers = [
   SidemenuService,
   SidebarService,
   ClipboardService,
+  RootScopeService,
+  TableService,
+  AddressService,
   SettingsService,
   {
     provide: RECAPTCHA_LANGUAGE,

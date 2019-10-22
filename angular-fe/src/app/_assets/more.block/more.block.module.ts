@@ -16,4 +16,4 @@ import { AppPipes } from '@app/_pipes';
   ]
 })
 
-export class MoreBlockModule {}
+export class MoreBlockModule { }

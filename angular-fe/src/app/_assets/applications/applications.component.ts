@@ -204,6 +204,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   loadInstitutionModal() {
+    this.alertsService.clear('institution');
+    this.modalBottomAction = false;
     this.institutionModalFields = [
       {
         col: 12,
@@ -211,6 +213,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         title: 'school.institution_name',
         modelName: 'name',
         required: true,
+        error: false,
       },
       {
         col: 12,
@@ -218,6 +221,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         title: 'dashboard.nameENG',
         modelName: 'nameENG',
         required: false,
+        error: false,
       },
       {
         col: 6,
@@ -225,6 +229,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         title: 'dashboard.contactPhone',
         modelName: 'contactPhone',
         required: true,
+        error: false,
       },
       {
         col: 6,
@@ -232,6 +237,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         title: 'event.participant_email',
         modelName: 'contactEmail',
         required: true,
+        error: false,
       },
       {
         col: 12,
@@ -239,6 +245,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         title: 'dashboard.address',
         modelName: 'address',
         required: true,
+        error: false,
       },
       {
         col: 6,
@@ -246,6 +253,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         title: 'dashboard.webpageAddress',
         modelName: 'webpageAddress',
         required: true,
+        error: false,
       },
       {
         col: 6,
@@ -254,6 +262,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'ownerType',
         options: [],
         required: true,
+        error: false,
       },
       {
         col: 6,
@@ -262,6 +271,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'ownershipType',
         options: [],
         required: true,
+        error: false,
       },
       {
         col: 6,
@@ -270,6 +280,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'studyInstitutionType',
         options: [],
         required: true,
+        error: false,
       },
     ];
 
@@ -289,6 +300,41 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
       this.modalLoading = false;
       sub.unsubscribe();
+    });
+  }
+
+  createInstitution() {
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Bearer ' + this.jwt);
+    this.error = false;
+    this.modalLoading = true;
+
+    const body = {
+      address: this.institutionData['address'],
+      contacts: {
+        contactEmail: this.institutionData['contactEmail'],
+        contactPhone: this.institutionData['contactPhone'],
+        webpageAddress: this.institutionData['webpageAddress'],
+      },
+      general: {
+        name: this.institutionData['name'],
+        nameENG: this.institutionData['nameENG'],
+        ownerType: this.institutionData['ownerType'],
+        ownershipType: this.institutionData['ownershipType'],
+        studyInstitutionType: this.institutionData['studyInstitutionType'],
+      },
+    };
+
+    const sub = this.http.post(this.settings.url + '/educational-institution/add', body, { headers }).subscribe((response: any) => {
+      this.alertsService.info(response.message, 'institution', 'institution', false, false);
+      this.modalLoading = false;
+      this.modalBottomAction = true;
+      sub.unsubscribe();
+    },                                                                                                          (err) => {
+      this.alertsService.error(err.error, 'institution', 'institution', false, false);
+      this.modalLoading = false;
+      this.error = true;
+      this.modalBottomAction = true;
     });
   }
 

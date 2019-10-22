@@ -5,17 +5,24 @@
   display: flex;
 }
 
-.block__sub__title {
-  display: flex;
-  justify-content: space-between;
-  padding: 0 1.5rem;
-  a {
-    h1 {
-      color: $blue;
+.block {
+  &__title__middle-tabs {
+    button {
+      color: $blue !important;
     }
   }
-  .change-role {
-    align-self: center;
+  &__sub__title{
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    a {
+      h1 {
+        color: $blue;
+      }
+    }
+    .change-role {
+      align-self: center;
+    }
   }
 }
 
