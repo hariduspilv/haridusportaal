@@ -17,18 +17,22 @@ form {
   padding-top: 2rem;
   re-captcha {
     margin: 1rem auto 0;
+    @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+      width: 300px;
+    }
   }
   input {
     -webkit-appearance: none;
   }
   button {
     margin-top: 1.5rem;
+    font-weight: 300;
     width: auto;
     align-self: center;
   }
   @include break-on(xs, min) {
     .formItem {
-      width: 66%;
+      width: 49%;
       margin: 0 auto;
     }
   }
@@ -40,9 +44,10 @@ form {
   margin-top: 1.5rem;
   table {
     a {
-      text-decoration: none;
+      cursor: pointer;
+      text-decoration: underline;
       &:hover {
-        text-decoration: underline;
+        text-decoration: none;
       }
     }
     b {

@@ -8,18 +8,20 @@ $optionSize: 2.25rem;
   height: $shareSize;
   display: inline-block;
   position: relative;
-  &:hover, &.share--focused{
+  &.share--focused{
     z-index: 999;
     .share{
       &__indicator{
         transform: rotate(180deg);
         opacity: 0;
+        pointer-events: none;
       }
       &__link{
         opacity: 1;
         icon{
           transform: rotate(45deg);
         }
+        pointer-events: auto;
       }
       &__options{
         pointer-events: auto;
@@ -37,6 +39,12 @@ $optionSize: 2.25rem;
     }
   }
 }
+
+::ng-deep{
+  block-content share{
+    margin:0.625rem 0 -0.9375rem -0.75rem;
+  }
+}
 .share{
   &__indicator, &__link, &__option{
     position: absolute;
@@ -52,6 +60,7 @@ $optionSize: 2.25rem;
     text-align: center;
     display: inline-block;
     cursor: pointer;
+    z-index: 2;
     transition: transform .25s, opacity .25s;
     border-radius:$shareSize;
     color: $blue;
@@ -67,9 +76,18 @@ $optionSize: 2.25rem;
     icon{
       pointer-events: none;
     }
-    &:hover, &:focus{
-      background: $blue-light;
-    }
+  }
+
+  &__overlay{
+    position:fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: transparent;
+  }
+  &__indicator{
+    z-index: 2;
   }
   &__link{
     color: $white;
@@ -80,6 +98,7 @@ $optionSize: 2.25rem;
       transform: rotate(-180deg);
       display: block;
     }
+    pointer-events: none;
   }
 
   &__options{

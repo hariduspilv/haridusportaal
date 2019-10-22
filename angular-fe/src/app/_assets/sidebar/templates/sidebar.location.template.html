@@ -1,7 +1,59 @@
 <ng-container *ngIf="data && data.length">
   <ng-container *ngFor="let location of data">
     <map *ngIf="markers && markers.length" aria-hidden="true" type="markers" [options]="options" [markers]="markers"></map>
-    <h1>{{ 'school.legal_address' | translate }}</h1>
-    <p *ngIf="location.entity.fieldAddress">{{ location.entity.fieldAddress }}</p>
+    <ng-container *ngIf="!location.fieldEventLocation">
+      <h1>{{ 'school.legal_address' | translate }}</h1>
+      <p>
+        {{ location.entity?.fieldAddress }}
+      </p>
+    </ng-container>
+    <ng-container *ngIf="location.fieldEventLocation">
+      <h1>{{ 'event.place_and_time' | translate }}</h1>
+      <p *ngIf="location.fieldEventMainDate">
+        <span>
+          {{ 'time.'+ (location.fieldEventMainDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
+          {{ location.fieldEventMainDate.unix*1000 | date: "dd.MM yyy "}}
+  
+          <span *ngIf="location.fieldEventMainStartTime && location.fieldEventMainEndTime">
+            <span> {{ 'time.time_of_day' | translate }}</span>
+            <ng-container *ngIf="location.fieldEventMainStartTime">
+              {{ location.fieldEventMainStartTime | unixToTime  }}
+            </ng-container>
+            <ng-container *ngIf="location.fieldEventMainStartTime && location.fieldEventMainEndTime">
+              -
+            </ng-container>
+            <ng-container *ngIf="location.fieldEventMainEndTime">
+              {{ location.fieldEventMainEndTime | unixToTime  }}
+            </ng-container>
+          </span>
+          
+        </span>
+        <ng-container *ngIf="location && location.fieldEventDate">
+          <div *ngFor="let item of location.fieldEventDate">
+            <ng-container *ngIf="item.entity.fieldEventDate">
+              {{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }}
+              {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM yyy "}}
+  
+              <span *ngIf="item.entity.fieldEventStartTime || item.entity.fieldEventEndTime">
+                <span> {{ 'time.time_of_day' | translate }}</span>
+                <ng-container *ngIf="item.entity.fieldEventStartTime">
+                  {{ item.entity.fieldEventStartTime | unixToTime  }}
+                </ng-container>
+                <ng-container *ngIf="item.entity.fieldEventStartTime && item.entity.fieldEventEndTime">
+                  -
+                </ng-container>
+                <ng-container *ngIf="item.entity.fieldEventEndTime">
+                  {{ item.entity.fieldEventEndTime | unixToTime  }}
+                </ng-container>
+              </span>
+            </ng-container>
+          </div>
+        </ng-container>
+      </p>
+      <p>
+        {{ location.fieldEventLocation?.name }}<br>
+        <a href="{{ location.fieldEventLocationLink?.uri }}" target="_blank">{{ location.fieldEventLocationLink?.uri }}</a>
+      </p>
+    </ng-container>
   </ng-container>
 </ng-container>

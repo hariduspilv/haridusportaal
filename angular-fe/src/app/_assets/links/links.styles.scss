@@ -1,0 +1,30 @@
+::ng-deep{
+  .links{
+    display: block;
+    ul, li{
+      display: inline;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      a{
+        display: block;
+        margin-bottom:15px;
+      }
+      icon{
+        display: inline-block;
+        margin-top: -0.3125rem;
+        margin-right: 0.4375rem;
+        vertical-align: middle;
+        .icon:before{
+          font-size: 1.25rem;
+        }
+      }
+    }
+    li:last-child a{
+      margin-bottom: 0;
+    }
+    &+.links{
+      margin-top:1.1rem;
+    }
+  }
+}

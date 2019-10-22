@@ -1,6 +1,4 @@
-<htm-header></htm-header>
-<sidemenu></sidemenu>
 <main>
   <div class="content"><ng-content></ng-content></div>
-  <sidebar [feedbackNid]="feedbackNid" [data]="sidebar.entity"></sidebar>
+  <sidebar *ngIf="sidebar" [feedbackNid]="feedbackNid" [data]="sidebar.entity"></sidebar>
 </main>

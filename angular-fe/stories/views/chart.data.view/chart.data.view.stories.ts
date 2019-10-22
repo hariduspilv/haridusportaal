@@ -1,10 +1,10 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import compareViewStoriesTemplateHtml from './compare.view.stories.template.html';
+import chartDataViewTemplateHtml from './chart.data.view.template.html';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
-import { chartData } from './compare.view.data';
+import { chartData } from './chart.data.view.data';
 import {
   text,
   withKnobs,
@@ -37,7 +37,7 @@ const breadcrumbsData = [
 
 const stories = storiesOf('Views', module);
 stories.addDecorator(withKnobs);
-stories.add('Compare view', () => {
+stories.add('Chart data view', () => {
   const titleField = text('Title', 'Kalandus või metsandus? See on Püha Graal');
   // tslint:disable-next-line: max-line-length
   const introductionField = text('Introduction', 'Sissejuhatuse tekst, mis kirjeldab, mis võrdlus kamm käib. Sissejuhatuse tekst, mis kirjeldab, mis võrdlus kamm käib.  Sissejuhatuse tekst, mis kirjeldab, mis võrdlus kamm käib.  Sissejuhatuse tekst, mis kirjeldab, mis võrdlus kamm käib.  Sissejuhatuse tekst, mis kirjeldab, mis võrdlus kamm käib.');
@@ -57,7 +57,7 @@ stories.add('Compare view', () => {
       viewData,
       breadcrumbsData,
     },
-    template: compareViewStoriesTemplateHtml,
-    styleUrls: ['./compare.view.stories.styles.scss'],
+    template: chartDataViewTemplateHtml,
+    styleUrls: ['./chart.data.view.scss'],
   };
 });

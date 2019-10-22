@@ -1,0 +1,80 @@
+
+<div class="sectors__list-body" *ngIf="data" areaModal>
+  <div class="row sectors--row" *ngIf="data.length">
+    <ng-container *ngFor="let elem of data; let i = index;">
+      <div #content class="col-3 md-4 xs-6 sectors--col">
+        <div class="sector__wrapper" (click)="modalOpen(i)" [class.active]="i == modal.index" [id]="'block_'+i">
+          <span class="sector__wrapper--pic">
+            <img *ngIf="elem.fieldOskaFieldPicture && elem.fieldOskaFieldPicture.derivative && elem.fieldOskaFieldPicture.derivative.url" [alt]="elem.fieldOskaFieldPicture.alt" [title]="elem.fieldOskaFieldPicture.title" [src]="elem.fieldOskaFieldPicture.derivative.url" />
+            <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" *ngIf="!elem.fieldOskaFieldPicture" src="../../assets/img/1208x680.png">
+            <span class="overlay"></span>
+          </span>
+          <button attr.aria-label="{{ elem.title }}" class="sector__wrapper--title" [id]="'block_button_'+i">
+            <span class="sector__title">{{ elem.title }}</span>
+          </button>
+        </div>
+      </div>
+      <div class="col-12" *ngIf="modal && modal.position == i">
+        <div class="modal" id="modal" tabindex="0" role="alert" attr.aria-label="{{ 'oskaProfessions.modal_opened' | translate }}" >
+          <div class="modal__header">
+            <div class="modal__header__col">
+              <h2 role="heading" tabindex="0" id="modalTitle"><a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ modal.title }}" >{{ modal.title }}</a></h2>
+            </div><!--/modal__header__col-->
+            <div class="modal__header__col">
+              <button htm-button theme="icon" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()"><icon glyph="x" size="medium"></icon></button>
+            </div><!--/modal__header__col-->
+          </div>
+          <div class="modal__content">
+            <div class="row">
+              <div class="col-8 xs-12">
+                <p role="heading"><b>{{ 'oskaProfessions.general_info' | translate }}</b></p>
+                <p *ngIf="modal.fieldIntroduction" role="text">{{ modal.fieldIntroduction }}</p>
+                <a [routerLink]="modal.entityUrl.path" role="link" tabindex="0" attr.aria-label="{{ 'oskaProfession.view_field_info' | translate }}">{{ 'button.read_on' | translate }}</a>
+              </div><!--/col-->
+              <div class="col-4 xs-12">
+
+                <div class="separator xs-hide"></div>
+
+                <hr class="xs-show" aria-hidden="true" />
+
+                <div class="modal__padding">
+                  <ng-container *ngIf="!modal.fieldOskaFieldPicture && !modal.videoUrl">
+                    <div class="modal__image" [ngStyle]="{'background-image': 'url(../../assets/img/1208x680.png)'}">
+                      <img alt="{{ 'errors.img_missing' | translate }}" title="{{ 'errors.img_missing' | translate }}" src="../../assets/img/1208x680.png" />
+                    </div><!--/modal__image-->
+                  </ng-container>
+                  
+                  <ng-container *ngIf="modal.fieldOskaFieldPicture && !modal.videoUrl">
+                    <div class="modal__image" [ngStyle]="{'background-image': 'url(' + modal.fieldOskaFieldPicture.derivative.url + ')'}">
+                      <img [src]="modal.fieldOskaFieldPicture.derivative.url" [alt]="modal.fieldOskaFieldPicture.alt" [title]="modal.fieldOskaFieldPicture.title" />
+                    </div><!--/modal__image-->
+                  </ng-container>
+
+                  <ng-container *ngIf="modal.videoUrl">
+                    <div class="modal__video">
+                      <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}" [src]="modal.videoUrl | iframe" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                    </div><!--/modal__video-->
+                  </ng-container>
+                </div><!--/modal__padding-->
+              </div><!--/col-->
+            </div>
+            <hr aria-hidden="true" />
+
+            <p *ngIf="modal.list && modal.list.length > 0"><b>{{ 'oskaProfessions.main_profession' | translate }}</b></p>
+            <ul>
+              <li *ngFor="let item of modal.list"><a [routerLink]="item.entityUrl.path" [title]="item.entityLabel" role="link" attr.aria-label="{{item.entityLabel}}" tabindex="0">{{ item.entityLabel }}</a></li>
+            </ul>
+            <button class="hidden-button" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()" (blur)="resetFocus($event, 'modalTitle')"></button>
+          </div><!--/modal__content-->
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+<div class="sectors__list-body" *ngIf="errMessage && !data">
+  <div class="text-center actions__error">
+    <p role="alert">{{ 'errors.request' | translate }}</p>
+  </div>
+</div>
+
+

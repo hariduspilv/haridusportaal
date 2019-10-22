@@ -2,208 +2,259 @@
 @import "breakpoints.scss";
 
 :host {
-  display: block;
-  border-top: $light-blue 0.625rem solid;
-  background: $white;
-  border-radius: $half-gutter;
-  margin-bottom: 16px;
+	display: block;
+	border-top: $light-blue 0.625rem solid;
+	background: $white;
+	border-radius: $half-gutter;
+	margin-bottom: 16px;
 
-  &.block--orange {
-    border-top-color: $dark-orange;
-  }
+	&.block--orange {
+		border-top-color: $dark-orange;
+	}
+	@include break-on(xs, max) {
+		border-radius: 0 0 $half-gutter $half-gutter;
+	}
 }
 
 ::ng-deep {
-  block {
-    .block__title {
-      display: flex;
-      color: $dark-gray;
-      font-size: $small;
-      justify-content: space-between;
-      &--border {
-        border-bottom: $gray 0.0625rem solid;
-      }
+	block {
+		.block__title {
+			display: flex;
+			color: $dark-gray;
+			font-size: $small;
+			justify-content: space-between;
+			&--border {
+				border-bottom: $light-gray 0.0625rem solid;
+			}
+			align-items: center;
+			&__text {
+				flex-grow: 1;
+				padding: 1.2rem $medium;
+				text-transform: uppercase;
+			}
 
-      &__text {
-        flex-grow: 1;
-        padding: 1.625rem $medium;
-        text-transform: uppercase;
-      }
+			&__secondary__text{
+				color: $black;
+				padding: 0rem $medium;
+				margin: 1rem 0 -2rem 0;
+			}
 
-      &__secondary__text {
-        color: $black;
-        padding: 0rem $medium;
-      }
+			&__container{
+				flex-direction: column;
+			}
 
-      &__container {
-        flex-direction: column;
-      }
+			&__tabs {
+				height:4.5rem;
+				button {
+					color: $blue;
+					min-width: 5.75rem;
+					appearance: none;
+					font-size: .875rem;
+					padding: 0 $gutter;
+					font-family: 'Rubik', sans-serif;
+					border: none;
+					height: 100%;
+					background: none;
+					border-left: $light-gray 0.0625rem solid;
+					cursor: pointer;
+					position: relative;
+					overflow: hidden;
+					vertical-align: top;
+					@include break-on(sm, min) {
+						&:hover {
+							color: $light-green;
+						}
+					}
+					&.active {
+						&:after{
+							content: '';
+							position: absolute;
+							left: -$small;
+							right: -$small;
+							bottom: 0;
+							height: $half-gutter;
+							background: $dark-orange;
+							display: block;
+						}
+						color: $black;
+						&:hover {
+							color: $black;
+						}
+					}
+					.button__contents{
+						position: relative;
+						z-index: 2;
+						pointer-events: none;
+						font-weight: 300;
+					}
+				}
 
-      &__tabs {
-        height: 4.5rem;
-        button {
-          appearance: none;
-          padding: 0 $small;
-          border: none;
-          height: 100%;
-          background: none;
-          border-left: $gray 0.0625rem solid;
-          font-size: 16px;
-          cursor: pointer;
-          position: relative;
-          overflow: hidden;
-          vertical-align: top;
+				icon {
+					display: block;
+					margin-bottom: 0.125rem;
+				}
+			}
+			&__middle-tabs {
+				display: flex;
+				flex-basis: 100%;
+				justify-content: flex-start;
+				padding: 0rem 1.5rem;
+				margin-top: $small;
+				button {
+					appearance: none;
+					padding: 0 $small;
+					border: none;
+					height: 100%;
+					background: none;
+					font-size: 16px;
+					cursor: pointer;
+					position: relative;
+					overflow: hidden;
+					vertical-align: top;
+					width: 25%;
+					margin: 0;
+					@include break-on(md, max) {
+						width: 50%;
+					}
+					&.active {
+						color: $blue;
+						&:after{
+							content: '';
+							position: absolute;
+							left: -$small;
+							right: -$small;
+							bottom: 0;
+							height: $half-gutter;
+							background: $dark-orange;
+							display: block;
+						}
+					}
+					&:hover {
+						icon, .title  { 
+							color: #0F7B8A;
+						}
+					  }
+					.button__contents{
+						position: relative;
+						z-index: 2;
+						pointer-events: none;
+						.title{
+							font-weight: 300;
+							font-size: .875rem;
+							line-height: 1.71;
+							margin-bottom: $quarter;
+							@include break-on(xs, max) {
+								line-height: 1.5rem;
+								margin: 0;
+							}
+						}
+					}
+				}
+				@include break-on(xs, min) {
+					icon {
+						display: block;
+						i {
+							font-size: $medium !important;
+							margin: $small 0 $gutter;
+						}
+					}
+				}
+			}
+		}
 
-          &.active {
-            &:after {
-              content: "";
-              position: absolute;
-              left: -$small;
-              right: -$small;
-              bottom: 0;
-              height: $half-gutter;
-              background: $dark-orange;
-              display: block;
-            }
-            color: $blue;
-          }
-          .button__contents {
-            position: relative;
-            z-index: 2;
-            pointer-events: none;
-          }
-        }
+		.block__content {
+			display: block;
+			padding: $medium;
 
-        icon {
-          display: block;
-          margin-bottom: 0.125rem;
-        }
-      }
-      &__middle-tabs {
-        display: flex;
-        flex-basis: 100%;
-        justify-content: flex-start;
-        padding: 0rem 1.5rem;
-        margin-top: $small;
-        button {
-          appearance: none;
-          padding: 0 $small;
-          border: none;
-          height: 100%;
-          background: none;
-          font-size: 16px;
-          cursor: pointer;
-          position: relative;
-          overflow: hidden;
-          vertical-align: top;
-          width: 25%;
-          margin: 0;
-          @include break-on(md, max) {
-            width: 50%;
-          }
-          &.active {
-            color: $blue;
-            &:after {
-              content: "";
-              position: absolute;
-              left: -$small;
-              right: -$small;
-              bottom: 0;
-              height: $half-gutter;
-              background: $dark-orange;
-              display: block;
-            }
-          }
-          &:hover {
-            icon,
-            .title {
-              color: #0f7b8a;
-            }
-          }
-          .button__contents {
-            position: relative;
-            z-index: 2;
-            pointer-events: none;
-            .title {
-              font-weight: 300;
-              font-size: 0.875rem;
-              line-height: 1.71;
-              margin-bottom: $quarter;
-            }
-          }
-        }
+			h1,h2,h3,h4,h5,h6,p {
+				&:first-child {
+					margin-top: 0;
+				}
 
-        icon {
-          display: block;
-          i {
-            font-size: $medium !important;
-            margin: $small 0 $gutter;
-          }
-        }
-      }
-    }
+				&:last-child {
+					margin-bottom: 0;
+				}
+			}
 
-    .block__content {
-      display: block;
-      padding: $medium;
+			&:after {
+				content: '';
+				display: block;
+				clear: both;
+				height: 0.0625rem;
+			}
+		}
 
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6,
-      p {
-        &:first-child {
-          margin-top: 0;
-        }
+		@include break-on(xs, max) {
+			& {
+				border-radius: 0 0 $half-gutter $half-gutter !important;
+			}
+			.block__title {
+				display: flex;
+				flex-direction: column;
+				align-items: unset;
+				&__tabs, &__middle-tabs {
+					padding: 0;
+					margin: 0;
+					display: flex;
+					align-items: center;
+					border: none;
+					height: auto;
+					button {
+						min-width: auto;
+						padding: .5rem 0;
+						flex-grow: 1;
+						flex-basis: 0;
+						border: none;
+						&.button--icon {
+							min-width: 2.5rem;
+							flex-grow: 0;
+							height: 2.5rem;
+							line-height: 1.5rem;
+							align-items: center;
+							color: $blue;
+							padding: 0;
+							&:first-child {
+								margin-left: .5rem;
+							}
+							&:last-child {
+								margin-right: .5rem;
+							}
+						}
+					}
+					.button__contents {
+						display: block;
+						line-height: 1.5rem;
+						font-size: .875rem;
+						icon {
+							display: none;
+						}
+					}
+				}
+			}
+		}
+	}
 
-        &:last-child {
-          margin-bottom: 0;
-        }
-      }
+	&.block--sidebar {
+		.block__title__text {
+			padding: 0;
+			text-transform: none;
+		}
+		block-title {
+			font-size: 1.25rem;
+			line-height: 1.875rem;
+			color: $black;
+			font-weight: 500;
+		}
+		.block__content {
+			padding: 0;
+			&:after {
+				content: none;
+			}
+		}
+		@include break-on(sm, max) {
+			border-radius: 0 0 $half-gutter $half-gutter;
+			margin-bottom: 0;
+		}
+	}
 
-      &:after {
-        content: "";
-        display: block;
-        clear: both;
-        height: 0.0625rem;
-      }
-    }
-  }
-
-  &.block--sidebar {
-    .block__title__text {
-      padding: 0;
-      text-transform: none;
-    }
-    block-title {
-      font-size: 1.25rem;
-      line-height: 1.875rem;
-      color: $black;
-      font-weight: 500;
-    }
-    .block__content {
-      padding: 0;
-      &:after {
-        content: none;
-      }
-    }
-    @include break-on(sm, max) {
-      border-radius: 0 0 $half-gutter $half-gutter;
-      margin-bottom: 0;
-    }
-  }
-
-  @media screen and (max-width: 640px) {
-    block {
-      border-radius: 0 0 $half-gutter $half-gutter !important;
-
-      .block__title {
-        &__tabs {
-          display: none;
-        }
-      }
-    }
-  }
 }

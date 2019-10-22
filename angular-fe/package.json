@@ -8,7 +8,7 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "storybook": "start-storybook",
+    "storybook": "start-storybook -p 4300",
     "deploy-storybook": "build-storybook -c .storybook -o storybook-dist && TASK=storybook node scripts/deploy.js",
     "deploy": "TASK=app node scripts/deploy.js"
   },

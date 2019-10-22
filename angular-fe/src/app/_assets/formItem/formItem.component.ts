@@ -7,7 +7,6 @@ import {
   OnInit,
   HostBinding,
   forwardRef,
-  OnChanges,
   ChangeDetectorRef,
   EventEmitter,
 } from '@angular/core';
@@ -15,10 +14,12 @@ import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { RippleService } from '@app/_services';
 import conf from '@app/_core/conf';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 
 export interface FormItemOption {
-  key: 'string';
-  value: 'string';
+  key: string;
+  value: string;
 }
 
 @Component({
@@ -43,7 +44,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() placeholder: string = '';
   @Input() type: string = 'text';
   @Input() label: string = '';
-  @Input() value: string = '';
+  @Input() public value: string = '';
   @Input() staticTitle: string;
   @Input() errorMessage: string = '';
   @Input() error: boolean = false;
@@ -53,15 +54,18 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() options: FormItemOption[] = [];
   @Input() pattern: any = false;
   @Output() onChange: EventEmitter<any> = new EventEmitter();
+  @Output() onUpdate: EventEmitter<any> = new EventEmitter();
   @Input() name: string = '';
   @Input() checked: string;
+  @Input() query: string = '';
 
   @HostBinding('class') get hostClasses(): string {
     const errorClass = this.error ? 'formItem--error' : '';
     const successClass = this.success ? 'formItem--success' : '';
     const titleDisabled = this.titleDisabled ? 'formItem--titleDisabled' : '';
     return this.focused ?
-          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`:
+          // tslint:disable-next-line: max-line-length
+          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}` :
           `formItem formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`;
   }
 
@@ -72,12 +76,16 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   public filledField: boolean = false;
   public focused: boolean = false;
   public patterns: Object;
+  public isMobile: boolean;
+
   constructor(
     private el: ElementRef,
     private ripple: RippleService,
     private cdr: ChangeDetectorRef,
+    private deviceService: DeviceDetectorService,
   ) {
     this.patterns = conf.patterns;
+    this.isMobile = !this.deviceService.isDesktop();
   }
 
   animateRipple($event) {
@@ -170,6 +178,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
           this.onChange.emit();
         }
       }
+      if (this.type === 'checkbox' && !action && this.field !== '') {
+        this.onChange.emit(this.field);
+      }
 
       this.dirty = true;
 
@@ -179,15 +190,20 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
           this.filledField = true;
         }
       } else {
-        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object');
+        this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object')
+          || (typeof this.field === 'number' && (this.field || this.field === 0));
       }
     }
     this.propagateChange(this.field);
   }
 
+  autocompleteUpdate(value: string = ''): void {
+    this.field = value;
+  }
+
   writeValue(value: string) {
     this.field = value || '';
-    this.update();
+    this.update('blur');
     this.propagateChange(this.field);
   }
 
@@ -202,6 +218,12 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   checkInitialValue(): void {
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
+      this.options = this.options.map((opt) => {
+        return typeof opt ===  'string' ? {
+          key: new TitleCasePipe().transform(opt),
+          value: opt,
+        } : opt;
+      });
     } else if (this.type === 'checkbox') {
       if (this.checked === '' || this.checked === 'checked') {
         this.field = 'true';
@@ -209,12 +231,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     }
     if (this.type === 'multi-select') {
       this.removeComma();
-      this.options = this.options.map((opt) => {
-        return typeof opt ===  'string' ? {
-          key: opt,
-          value: opt,
-        } : opt;
-      });
     } else {
       if (this.value) {
         this.field = this.value;
@@ -223,6 +239,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     }
   }
 
+  triggerOnUpdate(): void {
+    this.onUpdate.emit(true);
+  }
   getValue() {
     return {
       name: this.name,

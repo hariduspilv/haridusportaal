@@ -1,0 +1,321 @@
+<block>
+  <block-title>
+    {{ translations[key].viewTitle | translate }}
+  </block-title>
+  <block-content>
+    <loader *ngIf="!compareService.list && loading"></loader>
+    <ng-container class="row" *ngIf="compareService.list && !loading">
+      <div class="heading">
+        <h1>{{ translations[key].viewSubtitle | translate }}</h1>
+      </div>
+
+      <!-- <scrollableContent> -->
+        <table htm-table>
+          <ng-container *ngIf="key === 'studyProgramme.compare'">
+            <tbody>
+              
+              <tr *ngIf="compareService.list">
+                <td class="firstCell lastCell centered bold layoutCell" *ngFor="let item of compareService.list">
+                  <a [routerLink]="item.entityUrl.path" role="link">{{item.name | titlecase }}</a>
+                </td>
+              </tr>
+              
+              <ng-container *ngIf="compareService.existingFields.includes('EducationalInstitution')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.school' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td class="firstCell lastCell" *ngFor="let item of compareService.list">
+                    <span *ngIf="item.EducationalInstitution && item.EducationalInstitution.entity">{{ item.EducationalInstitution.entity.name | titlecase }}</span>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="compareService.existingFields.includes('level')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.level' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
+                    && !compareService.existingFields.includes('duration')
+                    && !compareService.existingFields.includes('practicalTrainingAmount')
+                    && !compareService.existingFields.includes('fieldAmount')
+                    && !compareService.existingFields.includes('teachingLanguage')
+                    && !compareService.existingFields.includes('specialization')
+                    && !compareService.existingFields.includes('degreeOrDiplomaAwarded')"
+                    class="firstCell lastCell" 
+                    *ngFor="let item of compareService.list">
+                    <span *ngIf="item.level">{{ item.level.entity.name | titlecase }}</span>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="compareService.existingFields.includes('degreeOrDiplomaAwarded')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.degree_or_diploma' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
+                    && !compareService.existingFields.includes('duration')
+                    && !compareService.existingFields.includes('practicalTrainingAmount')
+                    && !compareService.existingFields.includes('fieldAmount')
+                    && !compareService.existingFields.includes('teachingLanguage')
+                    && !compareService.existingFields.includes('specialization')"
+                    class="firstCell lastCell" 
+                    *ngFor="let item of compareService.list">
+                    <span *ngIf="item.degreeOrDiplomaAwarded">{{ item.degreeOrDiplomaAwarded.entity.name | titlecase }}</span>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="compareService.existingFields.includes('specialization')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.specialization' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
+                    && !compareService.existingFields.includes('duration')
+                    && !compareService.existingFields.includes('practicalTrainingAmount')
+                    && !compareService.existingFields.includes('fieldAmount')
+                    && !compareService.existingFields.includes('teachingLanguage')"
+                    class="firstCell lastCell"
+                    *ngFor="let item of compareService.list">
+                    <span *ngIf="item.specialization">{{ item.specialization | titlecase }}</span>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="compareService.existingFields.includes('teachingLanguage')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.languages' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
+                    && !compareService.existingFields.includes('duration')
+                    && !compareService.existingFields.includes('practicalTrainingAmount')
+                    && !compareService.existingFields.includes('fieldAmount')"
+                    class="firstCell lastCell" 
+                    *ngFor="let item of compareService.list">
+                    <ng-container *ngIf="item.teachingLanguage && item.teachingLanguage.length">
+                      <ng-container *ngFor="let lang of item.teachingLanguage; let last = last;">
+                        <span *ngIf="!last">{{ lang.entity.name | titlecase }}, </span>
+                        <span *ngIf="last">{{ lang.entity.name | titlecase }}</span>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!item.teachingLanguage || (item.teachingLanguage && !item.teachingLanguage.length)"></ng-container>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="compareService.existingFields.includes('fieldAmount')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.study_capacity' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td 
+                    [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
+                      && !compareService.existingFields.includes('duration')
+                      && !compareService.existingFields.includes('practicalTrainingAmount')" 
+                    class="firstCell lastCell" 
+                    *ngFor="let item of compareService.list">
+                    <span *ngIf="item.fieldAmount">
+                      {{ item.fieldAmount }}
+                      <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
+                    </span>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="compareService.existingFields.includes('practicalTrainingAmount')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.internship_capacity' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')
+                    && !compareService.existingFields.includes('duration')" 
+                    class="firstCell lastCell"
+                    *ngFor="let item of compareService.list">
+                    <span *ngIf="item.practicalTrainingAmount">
+                      {{ item.practicalTrainingAmount }}
+                      <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
+                    </span>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="compareService.existingFields.includes('duration')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.nominal_time' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td [class.withBottom]="!compareService.existingFields.includes('admissionStatus')"
+                    class="firstCell lastCell"
+                    *ngFor="let item of compareService.list">
+                    <span *ngIf="item.duration">{{ item.duration | monthsToYears }}</span>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <ng-container *ngIf="compareService.existingFields.includes('admissionStatus')">
+                <tr class="shade" *ngIf="compareService.list">
+                  <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'studyProgramme.admission_status' | translate | uppercase }}</td>
+                </tr>
+                <tr>
+                  <td class="firstCell lastCell withBottom" *ngFor="let item of compareService.list">
+                    <span *ngIf="item.admissionStatus">{{ item.admissionStatus }}</span>
+                  </td>
+                </tr>
+              </ng-container>
+
+              <tr>
+                <td class="centered" *ngFor="let item of compareService.list; let i = index;">
+                  <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'studyProgramme.compare'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
+                </td>
+              </tr>
+
+            </tbody>
+
+          </ng-container>
+          <!--StudyProgramme.compare-->
+
+          <ng-container *ngIf="key === 'oskaProfessions.compare'">
+            <tbody>
+              <tr *ngIf="compareService.list">
+                <td class="firstCell centered bold layoutCell" [class.borderless]="compareService.fixedLabelExists" [class.lastCell]="!compareService.fixedLabelExists" *ngFor="let item of compareService.list"
+                [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length && !compareService.paymentFields.length && !compareService.employedChangeFields.length && !compareService.employedFields.length && !compareService.progressFields.length && !compareService.oskaFieldsArr.length && !compareService.fixedLabelExists">
+                  <a [routerLink]="item.entityUrl.path" attr.aria-label="{{item.title}}">{{ item.title }}</a>
+                </td>
+              </tr>
+              <tr *ngIf="compareService.list && compareService.fixedLabelExists">
+                <td *ngFor="let item of compareService.list" class="lastCell centered"
+                  [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length && !compareService.paymentFields.length && !compareService.employedChangeFields.length && !compareService.employedFields.length && !compareService.progressFields.length && !compareService.oskaFieldsArr.length">
+                  <labels *ngIf="item.fieldFixedLabel && item.fieldFixedLabel.entity" [data]="[item.fieldFixedLabel]" type="orange"></labels>
+                </td>
+              </tr>
+              <tr *ngIf="compareService.list && compareService.oskaFieldsArr.length" class="shade">
+                <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'oskaProfessions.fields' | translate | uppercase }}</td>
+              </tr>
+              <tr *ngFor="let elem of compareService.oskaFieldsArr; let childInd = index; let last = last;">
+                <ng-container *ngFor="let item of compareService.list; let ind = index;">
+                  <td [class.firstCell]="childInd === 0" [class.groupCell]="!last" [class.lastCell]="last" 
+                    [class.withBottom]="last && !compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length && !compareService.paymentFields.length && !compareService.employedChangeFields.length && !compareService.employedFields.length && !compareService.progressFields.length">
+                    <ng-container *ngIf="compareService.oskaFields[ind]">
+                      <span *ngIf="!compareService.oskaFields[ind][childInd]"></span>
+                      <span *ngIf="compareService.oskaFields[ind][childInd]">{{compareService.oskaFields[ind][childInd].entity.title}}</span>
+                    </ng-container>
+                    <ng-container *ngIf="!compareService.oskaFields[ind]">
+                      <span></span>
+                    </ng-container>
+                  </td>
+                </ng-container>
+              </tr>
+              <tr class="shade" *ngIf="compareService.list && compareService.progressFields.length">
+                <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'oska.competition' | translate | uppercase }}</td>
+              </tr>
+              <tr *ngIf="compareService.progressFields && compareService.progressFields.length">
+                <td class="firstCell lastCell xHidden" [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length && !compareService.paymentFields.length && !compareService.employedChangeFields.length && !compareService.employedFields.length" *ngFor="let item of compareService.progressFields; let ind = index;">
+                  <progress-bar *ngIf="item && item > 0 && item < 6"
+                    [level]="item"
+                    [id]="item"
+                    statusLabel="{{ compareService.competitionLabel[ind] | translate }}"
+                    startLabel="{{ 'oska.simple' | translate }}"
+                    endLabel="{{ 'oska.difficult' | translate }}">
+                  </progress-bar>
+                </td>
+              </tr>
+              <tr class="shade" *ngIf="compareService.list && compareService.employedFields.length">
+                <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'oska.fieldNumberEmployed' | translate | uppercase }}</td>
+              </tr>
+              <tr *ngIf="compareService.list && compareService.employedFields.length">
+                <td class="firstCell lastCell" [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length && !compareService.paymentFields.length && !compareService.employedChangeFields.length" *ngFor="let item of compareService.employedFields;">
+                  <span *ngIf="item">{{ item | localeNumber }}</span>
+                  <span *ngIf="!item"></span>
+                </td>
+              </tr>
+              <tr class="shade" *ngIf="compareService.list && compareService.employedChangeFields.length">
+                <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'oska.numberEmployedChange' | translate | uppercase }}</td>
+              </tr>
+              <tr *ngIf="compareService.list && compareService.employedChangeFields.length">
+                <td class="firstCell lastCell" [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length && !compareService.paymentFields.length" *ngFor="let item of compareService.employedChangeFields;">
+                  <ul *ngIf="item && item > 0 && item < 6">
+                    <li>
+                      <div class="icon__wrapper {{ compareService.trendingValues[item - 1].class }}">
+                        <icon [glyph]="compareService.trendingValues[item - 1].icon" bg="true"></icon>
+                      </div>
+                      <span role="text" attr.aria-label="{{compareService.trendingValues[item - 1].text | translate}}">{{compareService.trendingValues[item - 1].text | translate}}</span>
+                    </li>
+                  </ul>
+                  <div *ngIf="!(item && item > 0 && item < 6)"></div>
+                </td>
+              </tr>
+              <tr class="shade" *ngIf="compareService.list && compareService.paymentFields.length">
+                <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'oska.wage' | translate | uppercase }}</td>
+              </tr>
+              <tr *ngIf="compareService.list && compareService.paymentFields.length">
+                <td class="firstCell lastCell" [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length" *ngFor="let item of compareService.paymentFields;">
+                  <span *ngIf="item">{{ item | localeNumber }} €</span>
+                  <span *ngIf="!item"></span>
+                </td>
+              </tr>
+              <tr class="shade" *ngIf="compareService.list && compareService.graduatesToJobsFields.length">
+                <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'oska.graduation_to_jobs_rate' | translate | uppercase }}</td>
+              </tr>
+              <tr *ngIf="compareService.list && compareService.graduatesToJobsFields.length">
+                <td class="firstCell lastCell" [class.withBottom]="!compareService.finalFieldsArr.length" *ngFor="let item of compareService.graduatesToJobsFields;">
+                  <ul *ngIf="item && item > 0 && item < 6">
+                    <li>
+                      <div class="icon__wrapper {{compareService.graduatesToJobsValues[item - 1].class}}">
+                        <icon glyph="circle" bg="true"></icon>
+                      </div>
+                      <span role="text" attr.aria-label="{{compareService.graduatesToJobsValues[item - 1].text | translate}}">{{compareService.graduatesToJobsValues[item - 1].text | translate}}</span>
+                    </li>
+                  </ul>
+                  <div *ngIf="!(item && item > 0 && item < 6)"></div>
+                </td>
+              </tr>
+              <tr class="shade" *ngIf="compareService.list && compareService.finalFieldsArr.length">
+                <td [attr.colspan]="compareService.list.length" class="dark center">{{ 'sidebar.pros_and_cons' | translate | uppercase }}</td>
+              </tr>
+              <tr class="slim" [class.firstSlim]="childInd === 0" *ngFor="let elem of compareService.finalFieldsArr; let childInd = index; let last = last;">
+                <ng-container *ngFor="let item of compareService.list; let ind = index;">
+                  <td [class.groupCell]="!last" [class.lastCell]="last" [class.withBottom]="last" [class.another]="childInd > 0 && compareService.finalFields[ind][childInd] && compareService.finalFields[ind][childInd].type !== compareService.finalFields[ind][childInd - 1].type">
+                    <ng-container *ngIf="compareService.finalFields[ind]">
+                      <span *ngIf="!compareService.finalFields[ind][childInd]"></span>
+                      <ng-container *ngIf="compareService.finalFields[ind][childInd]">
+                        <ul>
+                          <li [ngClass]="{
+                            'last': last,
+                            'proColor': compareService.finalFields[ind][childInd].type === 'pro',
+                            'neutralColor': compareService.finalFields[ind][childInd].type === 'neutral',
+                            'conColor': compareService.finalFields[ind][childInd].type === 'con'}">
+                            <icon aria-hidden="true" size="medium" bg="true" 
+                            [glyph]="(compareService.finalFields[ind][childInd].type === 'pro' && 'arrow-up')
+                            || (compareService.finalFields[ind][childInd].type === 'neutral' && 'minimize-2')
+                            || (compareService.finalFields[ind][childInd].type === 'con' && 'arrow-down')"></icon>
+                            <span role="text">{{compareService.finalFields[ind][childInd].value}}</span>
+                          </li>
+                        </ul>
+                      </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!compareService.finalFields[ind]">
+                      <span></span>
+                    </ng-container>
+                  </td>
+                </ng-container>
+              </tr>
+              <tr>
+                <td class="centered" *ngFor="let item of compareService.list; let i = index;">
+                  <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessions.compare'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+          <!--OskaProfessions.compare-->
+        </table>
+      <!-- </scrollableContent> -->
+      <div class="notification--alert" role="alert">
+        <span>{{ deleteText }} <span *ngIf="deleteText">{{ 'oskaProfessions.removed_from_comparison' | translate }}</span></span>
+      </div>
+    </ng-container>
+  </block-content>
+</block>

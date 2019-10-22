@@ -1,5 +1,5 @@
-<div class="formItem__title" [class.formItem__title--top]="filledField || focused" [class.focused]="focused" *ngIf="!titleDisabled && title !== '' && type !== 'radio'"><span>{{ title }}</span></div>
-<div class="formItem__staticTitle" *ngIf="type == 'radio' && title !== ''">{{ title }}</div>
+<div class="formItem__title" [class.formItem__title--top]="filledField || focused" [class.focused]="focused" *ngIf="!titleDisabled && title !== '' && type !== 'radio'"><span>{{ title | titleCase }}</span></div>
+<div class="formItem__staticTitle" *ngIf="type == 'radio' && title !== ''">{{ title | titleCase }}</div>
 <div class="formItem__wrapper">
   <ng-container [ngSwitch]="type">
     <ng-container *ngSwitchCase="'text'">
@@ -13,6 +13,21 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
+        [(ngModel)]="field" />
+    </ng-container>
+    <ng-container *ngSwitchCase="'number'">
+      <input
+        [class.hideText]="!filledField"
+        [attr.placeholder]="filledField ? placeholder : ''"
+        [class.focused]="focused"
+        #inputField
+        pattern="{{ pattern ? patterns[pattern] : '' }}"
+        type="number"
+        (change)="update()"
+        (focus)="update('focus')"
+        (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
         [(ngModel)]="field" />
     </ng-container>
 
@@ -30,6 +45,7 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
         [(ngModel)]="dateField" />
       <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" ripple="dark">
         <icon glyph="calendar"></icon>
@@ -46,40 +62,71 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
         [style.height]="height ? height+'px' : null"
         [(ngModel)]="field"></textarea>
     </ng-container>
 
     <ng-container *ngSwitchCase="'multi-select'">
-      <ng-select
-        [items]="options"
-        [multiple]="true"
-        bindLabel="key"
-        [closeOnSelect]="false"
-        bindValue="value"
-        (change)="update()"
-        (open)="update('focus')"
-        (close)="update('blur')"
-        [searchable]="false"
-        [(ngModel)]="field">
+      <ng-container *ngIf="isMobile">
+        <select
+          (change)="update()"
+          (focus)="update('focus')"
+          (blur)="update('blur')"
+          multiple
+          [(ngModel)]="field">
+          <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
+        </select>
+        <button class="formItem__icon" type="button">
+          <icon glyph="chevron-down"></icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isMobile">
+        <ng-select
+          [items]="options"
+          [multiple]="true"
+          bindLabel="key"
+          [closeOnSelect]="false"
+          bindValue="value"
+          (change)="update()"
+          (open)="update('focus')"
+          (close)="update('blur')"
+          [searchable]="false"
+          [(ngModel)]="field">
 
-        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
-          <formItem type="checkbox" [label]="item.key" [ngModel]="item$.selected"></formItem>
-        </ng-template>
-      </ng-select>
+          <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+            <formItem type="checkbox" [label]="item.key" [ngModel]="item$.selected"></formItem>
+          </ng-template>
+        </ng-select>
+      </ng-container>
+      
     </ng-container>
 
     <ng-container *ngSwitchCase="'select'">
-      <ng-select
-        [items]="options"
-        bindLabel="key"
-        bindValue="value"
-        (change)="update()"
-        (open)="update('focus')"
-        (close)="update('blur')"
-        [searchable]="false"
-        [(ngModel)]="field">
-      </ng-select>
+      <ng-container *ngIf="isMobile">
+        <select
+          (change)="update()"
+          (focus)="update('focus')"
+          (blur)="update('blur')"
+          [(ngModel)]="field">
+          <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
+        </select>
+        <button class="formItem__icon" type="button">
+          <icon glyph="chevron-down"></icon>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="!isMobile">
+        <ng-select
+          [items]="options"
+          bindLabel="key"
+          bindValue="value"
+          (change)="update()"
+          (open)="update('focus')"
+          (close)="update('blur')"
+          [searchable]="false"
+          [(ngModel)]="field">
+        </ng-select>
+      </ng-container>
     </ng-container>
 
     <ng-container *ngSwitchCase="'checkbox'">
@@ -123,7 +170,25 @@
         </label><!--/formItem__check-->
       </ng-container>
     </ng-container>
-    
+    <ng-container *ngSwitchCase="'autocomplete'">
+      <input
+        [class.hideText]="!filledField && !focused"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
+        [class.focused]="focused"
+        #inputField
+        pattern="{{ pattern ? patterns[pattern] : '' }}"
+        type="text"
+        (change)="update()"
+        (focus)="update('focus')"
+        (blur)="update('blur'); autocompleteElem.close();"
+        (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
+        [(ngModel)]="field" />
+      <autocomplete
+        #autocompleteElem
+        [type]="query"
+        (onValueSelected)="autocompleteUpdate($event)">
+      </autocomplete>
+    </ng-container>
     <ng-container *ngSwitchDefault>
       <select
         [class.hideText]="!filledField"

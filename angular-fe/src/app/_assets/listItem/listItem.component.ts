@@ -5,6 +5,8 @@ import {
     OnChanges,
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
+import { ModalService, AlertsService } from '@app/_services';
+import { translationsPerType } from '../compare/helpers/compare';
 @Component({
   selector: 'listItems',
   templateUrl: 'listItem.template.html',
@@ -14,7 +16,9 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   export class ListItemComponent implements OnInit, OnChanges{
   @Input() list: Object[];
   @Input() type: string;
+  @Input() compare: string;
 
+  private translationsPerType = translationsPerType;
   public footerFields = {
     studyProgramme: [
       'educationalInstitution',
@@ -30,6 +34,11 @@ import FieldVaryService from '@app/_services/FieldVaryService';
     mainProfession: [
       'fillingBar',
     ],
+    homeSearch: [
+      'fieldSchoolName',
+      'studyProgrammeLevel',
+      'duration',
+    ],
   };
 
   public competitionLabels = [
@@ -41,11 +50,13 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   ];
 
   constructor(
+    private modalService: ModalService,
+    private alertsService: AlertsService,
   ) {}
 
   parseList():void {
     this.list.forEach((element, index) => {
-      this.list[index] = FieldVaryService(element);
+      this.list[index] = FieldVaryService(element);;
     });
   }
   ngOnInit() {

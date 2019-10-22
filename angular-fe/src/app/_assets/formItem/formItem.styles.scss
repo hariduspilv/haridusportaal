@@ -1,13 +1,21 @@
 @import "typography.scss";
-
+@import "breakpoints.scss";
 ::ng-deep {
 	.formItem {
     display: block;
     position: relative;
     z-index: 1;
+
+    @include break-on(sm, max) {
+      input, select, textarea{
+        font-size: 16px !important;
+      }
+    }
+
     &+.formItem{
       margin-top:1.25rem;
     }
+
     &--focused{
       z-index: 10;
     }
@@ -30,9 +38,12 @@
     &--checkbox{
       .formItem__title{display:none;}
     }
+    &__relative{
+      position: relative;
+    }
     &__wrapper{
       position: relative;
-      & > input[type="text"], & > textarea, & > select {
+      & > input[type="text"], & > input[type="number"], & > textarea, & > select {
         display: block;
         width: 100%;
         appearance: none;
@@ -57,6 +68,14 @@
           color:white;
         }
       }
+      & > input[type=number]::-webkit-inner-spin-button, 
+      & > input[type=number]::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0; 
+      }
+      & > input[type=number] {
+        -moz-appearance:textfield;
+      }
     }
     &__staticTitle{
       padding:0 0 0.625rem 0;
@@ -72,7 +91,7 @@
     
     &--error{
       &>.formItem__wrapper{
-        & > input[type="text"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           border-color:$error;
         }
         .ng-select .ng-select-container{
@@ -83,7 +102,7 @@
 
     &--success{
       &>.formItem__wrapper{
-        & > input[type="text"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           border-color:$success;
         }
         .ng-select .ng-select-container{

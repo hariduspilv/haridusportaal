@@ -7,14 +7,13 @@
                         *ngIf="item.head">
                         {{ item.head.entity ? item.head.entity.entityLabel : item.head }}</div>
                     <div class="flex flex-center flex-wrap">
-                        <a [href]="item.url.path" class="list__item__title">
+                        <a [href]="item.url.path ? item.url.path : item.url" class="list__item__title">
                             <h1>{{ item.title }}</h1>
                         </a>
                         <div href="javascript:void();" class="nonActive--blue"
                             *ngIf="item.admissionStatus && item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">
                             {{'studyProgramme.non_active' | translate}}</div>
                     </div>
-
                     <div class="author" *ngIf="item.fieldAuthor || item.created">{{ item.fieldAuthor }}
                         {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                     <div class="tags" *ngIf="item.tags">
@@ -26,8 +25,11 @@
                     </labels>
 
                 </div>
+                <div *ngIf="compare" class="col--compare sm-hide">
+                    <compare [id]="item.nid" [sessionStorageKey]="compare"></compare>
+                </div>
 
-                <div class="col-4 xs-12 pointer" *ngIf="item.image">
+                <div class="col-4 xs-12 pointer" class="list__item__image" *ngIf="item.image">
                     <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}" width="100%" />
                   </div>
 
@@ -63,7 +65,7 @@
                         <span role="separator" class="bar" *ngIf="i>0">|</span>
                         <span class="item" *ngIf="fieldName === 'duration'">{{ item.duration | monthsToYears }}</span>
                         <span class="item"
-                            *ngIf="fieldName === 'educationalInstitution' || fieldName === 'phone' || fieldName === 'address'">{{ item[fieldName].entity ? item[fieldName].entity.entityLabel : item[fieldName] }}</span>
+                            *ngIf="fieldName === 'educationalInstitution' || fieldName === 'phone' || fieldName === 'address' || fieldName === 'studyProgrammeLevel' || fieldName === 'fieldSchoolName'">{{ item[fieldName].entity ? item[fieldName].entity.entityLabel : item[fieldName] }}</span>
                         <span class="item" *ngIf="fieldName === 'teachingLanguage' && item[fieldName].length">
                             <ng-container *ngFor="let item of item[fieldName]; let i = index;">
                                 <span><span *ngIf="i > 0">, </span>{{ item.entity.entityLabel | ucfirst }}</span>
@@ -111,3 +113,11 @@
     </ng-container>
     <!--/list repeat-->
 </div>
+
+<htm-modal *ngIf="compare" id="compare" [title]="translationsPerType[compare].title | translate">
+    <modal-content id="compare" *ngIf="modalService.modalOpened['compare']">
+        <div innerHTML="{{ translationsPerType[compare].content | translate }}"></div>
+    </modal-content>
+</htm-modal>
+
+<alerts [closeMs]="closeTime" global id="compare"></alerts>

@@ -6,13 +6,13 @@ export const formItems = [
   },
   {
     type: 'text',
-    title: 'Text field with placeholder',
-    errorMessage: 'Minimum 8 characters!',
-  },
-  {
-    type: 'text',
     titleDisabled: 'true',
     placeholder: 'Text field with disabled title',
+    errorMessage: 'Please fill this field!',
+  },
+  {
+    type: 'number',
+    title: 'Number field',
     errorMessage: 'Please fill this field!',
   },
   {

@@ -2,9 +2,15 @@
 @import "breakpoints.scss";
 
 .video {
-	padding: 0 1.5rem 0 1.5rem;
+	padding: 0;
 	clear: both;
 
+	&__entity{
+		margin-bottom: 1rem;
+		&:last-child{
+			margin-bottom:0;
+		}
+	}
 	&-container {
 		position: relative;
 		padding-bottom: 56.25%;
@@ -19,11 +25,11 @@
 		color: $black;
 		font-style: italic;
 		font-weight: 300;
-		padding: 0.5rem 1.5rem 1rem 1.5rem;
+		padding: 0.5rem 1.5rem 0 0;
 		overflow: hidden;
 
 		@include break-on(sm, min) {
-			padding: 0.5rem 0 1rem 0;
+			padding: 0.5rem 0 0 0;
 			white-space: nowrap;
 			text-overflow: ellipsis;
 		}

@@ -46,8 +46,10 @@ export class ProgressBarComponent implements OnChanges {
   }
 
   checkOffsetValidity (label) {
-    const parentOffset = document.getElementById(`progressElem--${this.id}`).offsetLeft;
-    if (parentOffset > label.offsetLeft) {
+    const parent = document.getElementById(`progressElem--${this.id}`) as HTMLElement;
+    const parentOffset = parent.getBoundingClientRect().left;
+    const labelOffset = label.getBoundingClientRect().left;
+    if (parentOffset > labelOffset) {
       label.style.left = '0px';
     }
   }
