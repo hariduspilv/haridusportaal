@@ -1,49 +1,73 @@
 @import "typography.scss";
+@import "breakpoints.scss";
 
 h4 {
-    font-size: 1rem;
-    font-weight: 500;
-    line-height: 1.38;
-    text-align: left;
-    color: #333;
-    margin: 2rem 0 1rem;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.38;
+  text-align: left;
+  color: #333;
+  margin: 2rem 0 1rem;
 }
 
 .unpadded {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
-more-block{
-    padding: 0 !important;
+more-block {
+  padding: 0 !important;
 }
 
 .acceptable-forms {
-    margin-bottom: 2rem;
+  margin-bottom: 2rem;
 }
 
 .text-center {
-    text-align: center;
+  text-align: center;
 }
 
 .row {
-    margin: 0 !important;
-    justify-content: space-between;
+  margin: 0 !important;
+  justify-content: space-between;
 }
 
 .form-item {
+  text-decoration: none;
+  text-align: center;
+  padding: 1rem 0.5rem;
+  border-radius: 0.25rem;
+  border: 1px solid #c7c7c9;
+  background-color: #fff;
+  color: #2e3374;
+  font-weight: 500;
+  font-size: 0.875rem;
+  flex: 0;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-basis: calc(50% - 0.5rem);
+  justify-content: center;
+  flex-direction: column;
+}
+
+.block-btn {
+  width: 100%;
+  height: 5rem;
+  box-sizing: border-box;
+  border-radius: 0.125rem;
+  border: none;
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  background-color: $aqua;
+  font-size: 1rem;
+  text-decoration: underline;
+  color: $blue;
+  line-height: 1.5rem;
+  &:hover {
     text-decoration: none;
-    text-align: center;
-    padding: 1rem .5rem;
-    border-radius: .25rem;
-    border: 1px solid #c7c7c9;
-    background-color: #fff;
-    color: #2e3374;
-    font-weight: 500;
-    font-size: .875rem;
-    flex: 0;
-    margin-bottom: 1rem;
-    display: flex;
-    flex-basis: calc(50% - .5rem);
-    justify-content: center;
-    flex-direction: column;
+  }
+  &--holder {
+    @include break-on(sm, max) {
+      margin: 0 -1.5rem;
+    }
+  }
 }

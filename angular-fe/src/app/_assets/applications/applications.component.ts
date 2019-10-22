@@ -4,7 +4,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { RootScopeService } from '@app/_services/RootScopeService';
 import { Subscription } from 'rxjs';
-import { AlertsService } from '@app/_services';
+import { AlertsService, ModalService } from '@app/_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
 import { UserService } from '@app/_services/userService';
@@ -48,6 +48,13 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   public initialized: any = [{ 0: false, 1: false }];
   private subscriptions: Subscription[] = [];
   public userData;
+  public error = false;
+  public modalLoading = false;
+  public formOptions = {
+    ownerType: [],
+    ownershipType: [],
+    studyInstitutionType: [],
+  };
 
   constructor(
     public alertsService: AlertsService,
@@ -57,6 +64,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     public tableService: TableService,
     public user: UserService,
     public settings: SettingsService,
+    public modalService: ModalService,
   ) { }
 
   pathWatcher() {
@@ -111,15 +119,11 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   formatAcceptableForms(list) {
-    list.push(list[0]);
-    list.push(list[0]);
-    list.push(list[0]);
     if (this.acceptableFormsListRestricted) {
       return JSON.parse(JSON.stringify(list)).splice(0, acceptableFormsRestrictedLength);
     }
 
     return JSON.parse(JSON.stringify(list));
-
   }
 
   toggleAcceptableFormsList() {
@@ -171,7 +175,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         }
         subscription.unsubscribe();
       });
-    },         1000);
+    }, 1000);
   }
 
   initialTableCheck(id, parentIndex, index) {
@@ -184,30 +188,32 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
   institutionInfoFieldSum(school) {
     let counter = 0;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail) counter++;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone) counter++;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress) counter++;
-    if (school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable) counter++;
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail) counter =+ 1;
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone) counter =+ 1;
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress) counter =+ 1;
+    if (school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable) counter =+ 1;
     return counter;
   }
 
-  /*   openDialog(edId, institutionInfo): void {
-      let dialogRef = this.dialog.open(DashboardFormDialog, {
-        data: {
-          edId,
-          institutionInfo
-        }
+  loadInstitutionModal() {
+    let headers = new HttpHeaders();
+    headers = headers.append('Authorization', 'Bearer ' + this.jwt);
+    this.error = false;
+    this.modalLoading = true;
+    this.modalService.toggle('institutionModal');
+    const sub = this.http.get(this.settings.url + '/educational-institution/data?_format=json', { headers, }).subscribe((response: any) => {
+
+      Object.keys(this.formOptions).forEach((key) => {
+        Object.values(response[key]).forEach((elem, index) => {
+          elem['id'] = Object.keys(response[key])[index];
+          this.formOptions[key].push(elem);
+        });
       });
 
-      dialogRef.afterClosed().subscribe(result => {
-        if (result) {
-          this.startTime = Date.now();
-          this.loading['initial'] = true;
-          this.requestIteratorTimeout = 2000;
-          this.fetchData(true);
-        }
-      });
-    } */
+      this.modalLoading = false;
+      sub.unsubscribe();
+    });
+  }
 
   ngOnInit() {
     this.lang = this.rootScope.get('lang');

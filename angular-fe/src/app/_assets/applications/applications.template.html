@@ -170,7 +170,7 @@
   </div>
   <!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
   <div class="block-btn--holder">
-    <button class="block-btn" role="button" (click)="openDialog()"
+    <button class="block-btn" role="button" (click)="loadInstitutionModal()"
       attr.aria-label="{{'dashboard.add_new_educational_institution' | translate}}">+
       {{'dashboard.add_new_educational_institution' | translate}}</button>
   </div>
@@ -183,3 +183,13 @@
     </accordion>
   </ng-container><!-- /ngFor -->
 </div>
+
+<htm-modal id="institutionModal" title="{{ 'frontpage.dashboard_tabs_personal_label' | translate }}"
+    [titleExists]="titleExists" [topAction]="topAction" [bottomAction]="bottomAction">
+    <modal-content [loading]="modalLoading">
+        <alerts class="notifications notifications--small" id="personalData"></alerts>
+        <ng-container *ngIf="!modalLoading && !error && personalData">
+            <h1>{{ userData.username }}</h1>
+        </ng-container>
+    </modal-content>
+</htm-modal>

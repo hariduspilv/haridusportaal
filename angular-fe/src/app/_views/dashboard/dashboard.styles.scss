@@ -18,3 +18,25 @@
     align-self: center;
   }
 }
+
+.personal-data {
+  margin-top: 1rem;
+}
+
+.text-center {
+  text-align: center;
+}
+
+#roleModal {
+  .button-container {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+  .natural-roles {
+    margin-bottom: .5rem;
+  }
+  .role-title {
+    margin-bottom: 1rem;
+  }
+}
