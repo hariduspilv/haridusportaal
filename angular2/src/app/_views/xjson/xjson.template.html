@@ -46,31 +46,25 @@
       <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
         <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
           [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps); let i = index">
-          <a *ngIf="!isStepDisabled(step)" tabindex="0"
+          <a tabindex="{{ isStepDisabled(step) ? -1 : 0 }}"
             attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}"
-            (click)="edit_step && i-1 === data.body.steps[data.header.current_step].sequence ? submitForm('SAVE') : selectStep(step)"
-            role="link">
+            (click)="edit_step && i-1 === data.body.steps[data.header.current_step].sequence ? submitForm('SAVE') : selectStep(step)">
             <span class="xjson__navigation__stepname">
               <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
               </ng-container>
             </span>
           </a>
-          <span *ngIf="isStepDisabled(step)" class="xjson__navigation__stepname" role="text"
-            attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}">
-            <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
-            </ng-container>
-          </span>
         </li>
       </ul>
 
       <div *ngIf="upperInfoText" class="upper-infotext">
-        <span attr.aria-label="{{ upperInfoText }}" innerHtml="{{ upperInfoText }}"></span>
+        <span tabindex="-1" attr.aria-label="{{ upperInfoText }}" innerHtml="{{ upperInfoText }}"></span>
         <hr aria-hidden="true" class="divider">
       </div>
 
       <ng-container *ngIf="!empty_data">
         <div *ngIf="!viewOnlyStep" class="upper-infotext">
-          <span attr.aria-label="{{ 'xjson.required_fields_infotext' | translate }}">{{ 'xjson.required_fields_infotext' | translate }}</span>
+          <span tabindex="-1" attr.aria-label="{{ 'xjson.required_fields_infotext' | translate }}">{{ 'xjson.required_fields_infotext' | translate }}</span>
           <hr aria-hidden="true" class="divider">
         </div>
 
