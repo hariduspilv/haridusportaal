@@ -26,7 +26,7 @@
 
     <ng-container *ngIf="data && view == 'document' && !formLoading">
 
-      <h1 *ngIf="data.body.title" tabindex="0">{{ selectLanguage(data.body.title) }}</h1>
+      <h1 *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</h1>
       <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}</p>
 
       <ng-container *ngIf="data_messages">
@@ -47,7 +47,7 @@
         <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
           [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps); let i = index">
           <a *ngIf="!isStepDisabled(step)" tabindex="0"
-            attr.aria-label="{{ 'Wizard step '+ (data.body.steps[step].sequence + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}"
+            attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}"
             (click)="edit_step && i-1 === data.body.steps[data.header.current_step].sequence ? submitForm('SAVE') : selectStep(step)"
             role="link">
             <span class="xjson__navigation__stepname">
@@ -55,8 +55,8 @@
               </ng-container>
             </span>
           </a>
-          <span *ngIf="isStepDisabled(step)" class="xjson__navigation__stepname" tabindex="0"
-            attr.aria-label="{{ 'Wizard step '+ (data.body.steps[step].sequence + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}">
+          <span *ngIf="isStepDisabled(step)" class="xjson__navigation__stepname"
+            attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}">
             <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
             </ng-container>
           </span>
@@ -106,7 +106,7 @@
                 </ng-container> <!-- /HELPERTEXT (heading) -->
 
                 <ng-container *ngIf="data_elements[element].type == 'heading'">
-                  <h2 tabindex="0" *ngIf="data_elements[element].title">
+                  <h2 *ngIf="data_elements[element].title">
                     {{ selectLanguage(data_elements[element].title) }}
                   </h2>
                 </ng-container> <!-- /HEADING -->
@@ -509,7 +509,7 @@
 
                 <ng-container *ngIf="data_elements[element].type == 'table'">
                   <div class="round-input__outer-wrapper table-wrapper">
-                    <h2 tabindex="0" *ngIf="data_elements[element].title">
+                    <h2 *ngIf="data_elements[element].title">
                       {{ selectLanguage(data_elements[element].title) }}
                     </h2>
                     <div class="helper-wrapper">
