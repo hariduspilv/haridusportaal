@@ -379,6 +379,13 @@ a {
     justify-content: center;
     padding: 2rem 0.5rem 0rem 0.5rem;
   }
+  .primary-buttons {
+    display: flex;
+    margin-right: .5rem;
+  }
+  .secondary-buttons {
+    margin-left: .5rem;
+  }
   a,
   button {
     @include break-on(sm, max) {
@@ -568,20 +575,19 @@ table {
   }
 }
 
-.dropzone:before {
-  font-family: "htm-icon";
-  content: "add";
-  font-feature-settings: "liga";
-  -ms-font-feature-settings: "liga";
-  color: $gray;
-  background: transparent;
-  position: absolute;
-  left: 0px;
-  top: 0.75rem;
-  right: 0px;
-  font-size: 3.75rem;
-  align-items: center;
-  text-align: center;
+.dropzone {
+  .htm-icon{
+    width: 100% !important;
+    color: $gray;
+    background: transparent;
+    position: absolute;
+    left: 0px;
+    top: 0.75rem;
+    right: 0px;
+    font-size: 3.75rem;
+    align-items: center;
+    text-align: center;
+  }
 }
 .loaded-files-list {
   display: flex;
