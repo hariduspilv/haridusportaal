@@ -508,7 +508,7 @@
                     </h2>
                     <div class="helper-wrapper">
                       <ng-container *ngIf="data_elements[element].helpertext">
-                        <span tabindex="0"
+                        <span tabindex="0" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
@@ -545,8 +545,7 @@
                               <ng-container
                                 *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
                                 <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
-                                  <th attr.aria-label="{{selectLanguage(data_elements[element].table_columns[col].title)}}
-                                  {{data_elements[element].table_columns[col].required ? '*' : ''}}">
+                                  <th attr.aria-hidden="true">
                                     {{selectLanguage(data_elements[element].table_columns[col].title)}}
                                     {{data_elements[element].table_columns[col].required ? '*' : ''}}
                                   </th>
