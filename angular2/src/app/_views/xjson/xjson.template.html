@@ -55,7 +55,7 @@
               </ng-container>
             </span>
           </a>
-          <span *ngIf="isStepDisabled(step)" class="xjson__navigation__stepname" role="listitem"
+          <span *ngIf="isStepDisabled(step)" class="xjson__navigation__stepname" role="text"
             attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}">
             <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
             </ng-container>
@@ -64,14 +64,14 @@
       </ul>
 
       <div *ngIf="upperInfoText" class="upper-infotext">
-        <span tabindex="0" innerHtml="{{ upperInfoText }}"></span>
-        <hr class="divider">
+        <span attr.aria-label="{{ upperInfoText }}" innerHtml="{{ upperInfoText }}"></span>
+        <hr aria-hidden="true" class="divider">
       </div>
 
       <ng-container *ngIf="!empty_data">
         <div *ngIf="!viewOnlyStep" class="upper-infotext">
-          <span tabindex="0">{{ 'xjson.required_fields_infotext' | translate }}</span>
-          <hr class="divider">
+          <span attr.aria-label="{{ 'xjson.required_fields_infotext' | translate }}">{{ 'xjson.required_fields_infotext' | translate }}</span>
+          <hr aria-hidden="true" class="divider">
         </div>
 
         <!-- STEP BODY -->
