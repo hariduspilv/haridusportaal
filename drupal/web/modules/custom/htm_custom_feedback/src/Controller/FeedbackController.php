@@ -34,7 +34,6 @@ class FeedbackController extends ControllerBase {
     ];
     $query = \Drupal::database()->$query_method('admin_feedback')->fields($record);
     $return = $query->execute();
-    dump($return);
     return [];
   }
 
