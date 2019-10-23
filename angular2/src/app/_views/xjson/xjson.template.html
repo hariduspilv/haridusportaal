@@ -55,7 +55,7 @@
               </ng-container>
             </span>
           </a>
-          <span *ngIf="isStepDisabled(step)" class="xjson__navigation__stepname"
+          <span *ngIf="isStepDisabled(step)" class="xjson__navigation__stepname" role="listitem"
             attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}">
             <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
             </ng-container>
