@@ -283,6 +283,8 @@
       line-height: 150%;
       text-align:left;
       will-change: top, left, color, padding, font-size;
+      font-size: 1rem;
+      font-weight: normal;
       span{
         padding:0 2.5rem 0 0.5rem;
         color: $dark-gray;

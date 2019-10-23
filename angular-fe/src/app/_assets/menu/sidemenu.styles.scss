@@ -75,9 +75,12 @@
 		icon {
 			float: right;
 		}
-		&:hover {
+		&:hover, &--active{
 			background-color: darken($white, 5%);
 			border-left-color: $dark-orange;
+		}
+		&--active{
+			font-weight: 500;
 		}
 	}
 	.sidemenu__link[aria-expanded="true"] {

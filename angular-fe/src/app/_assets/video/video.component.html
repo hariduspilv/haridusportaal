@@ -1,5 +1,5 @@
-<ng-container *ngIf="videos">
-  <div class="video__entity" *ngFor="let video of videos; let i = index">
+<ng-container *ngIf="videoArray">
+  <div class="video__entity" *ngFor="let video of videoArray; let i = index">
     <div class="video-container" *ngIf="embeddedInputs && embeddedInputs.length && embeddedInputs[i]" [innerHtml]="embeddedInputs[i]"></div>
     <div class="video-container" *ngIf="embedFailed && video.videoId">
       <iframe *ngIf="video.finalUrl" attr.aria-label="{{ 'generic.youtube_video' | translate }}" [src]="video.finalUrl" frameborder="0" allowfullscreen></iframe>

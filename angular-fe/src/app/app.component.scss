@@ -23,9 +23,12 @@
   .app-content {
     box-sizing: border-box;
     grid-area: content;
-    padding: 0 16px;
     overflow-y: scroll;
     height: 100%;
-    
+    ::ng-deep{
+      main {
+        padding:1rem 1.5rem !important;
+      }
+    }
   }
 }

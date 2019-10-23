@@ -32,11 +32,19 @@ const routes: Routes = [
     },
   },
   {
+    path: 'kool',
+    loadChildren: './_views/schoolListView#SchoolListViewModule',
+  },
+  {
     path: 'kool/:id',
     loadChildren: './_views/detailView#DetailViewModule',
     data: {
       type: 'school',
     },
+  },
+  {
+    path: 'ametialad',
+    loadChildren: './_views/mainProfessionListView#MainProfessionListViewModule',
   },
   {
     path: 'ametialad/:id',
@@ -65,6 +73,10 @@ const routes: Routes = [
     data: {
       type: 'surveyPage',
     },
+  },
+  {
+    path: 'erialad',
+    loadChildren: './_views/studyProgrammeListView#StudyProgrammeListViewModule',
   },
   {
     path: 'erialad/:id',

@@ -12,39 +12,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'sidemenu-item',
   styleUrls: ['./sidemenu.styles.scss'],
-  template: `
-		<ng-container *ngIf="item['links'].length === 0; else expandable">
-			<a
-				*ngIf="item.url.path !== '#nolink'"
-				(mousedown)="animateRipple($event)"
-				class="sidemenu__link"
-				routerLink="{{ item.url.path }}"
-				><span>{{ item.label }}</span></a
-			>
-		</ng-container>
-    <ng-template #expandable>
-			<button
-				class="sidemenu__link"
-				(click)="toggle($event)"
-				[attr.aria-expanded]="isOpen"
-				[attr.aria-controls]="item.label | slugify"
-			>
-				<span>{{ item.label }}</span>
-				<icon glyph="chevron-down" size="medium"></icon>
-			</button>
-			<ul id="{{item.label | slugify}}">
-				<li *ngFor="let item of item['links']" (mousedown)="animateRipple($event)">
-					<a
-						*ngIf="item.url.path !== '#nolink'"
-						class="sidemenu__link"
-						routerLink="{{ item.url.path }}"
-					>
-						<span>{{ item.label }}</span>
-					</a>
-				</li>
-			</ul>
-		</ng-template>
-	`,
+  templateUrl: 'sidemenu.item.template.html',
 })
 export class SidemenuItemComponent {
   public isOpen: boolean = false;

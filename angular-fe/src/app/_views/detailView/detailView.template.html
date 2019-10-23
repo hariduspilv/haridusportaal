@@ -25,7 +25,7 @@
 
 				<image *ngIf="!data.video && data.image" [image]="data.image"></image>
 				
-				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value | removeEmptyTags"></div>
+				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
 
 				<links *ngIf="data.links" [data]="data.links"></links>
 

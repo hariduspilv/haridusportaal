@@ -97,7 +97,6 @@ export class AutocompleteComponent {
     let resultSet = data['addresses'] || [];
     resultSet = resultSet.filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
     try {
-      console.log(resultSet);
       resultSet.forEach((address) => {
         if (address.kort_nr) {
           address.addressHumanReadable = `${address.pikkaadress}-${address.kort_nr}`;

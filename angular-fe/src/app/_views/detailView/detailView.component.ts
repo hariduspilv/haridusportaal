@@ -1,9 +1,10 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'detail-view',
@@ -11,7 +12,7 @@ import { Location } from '@angular/common';
   styleUrls: ['detailView.styles.scss'],
 })
 
-export class DetailViewComponent {
+export class DetailViewComponent implements OnDestroy {
   @Input() type: string = 'news';
   @Input() path: string;
   @Input() data: any;
@@ -23,6 +24,7 @@ export class DetailViewComponent {
   public title: string;
   public compareKey: string;
   private queryKey: string = '';
+  private paramsWatcher: Subscription = new Subscription();
 
   constructor(
     private settings: SettingsService,
@@ -144,15 +146,30 @@ export class DetailViewComponent {
 
   }
 
-  ngOnInit() {
+  private watchParams() {
+    this.paramsWatcher = this.route.params.subscribe((routeParams) => {
+      this.data = false;
+      this.initialize();
+    });
+  }
+
+  private initialize() {
     if (this.route.snapshot.data) {
       this.path = decodeURI(this.location.path());
       this.type = this.route.snapshot.data['type'];
     }
-
     this.getValues();
     if (!this.data) {
       this.getData();
     }
+  }
+
+  ngOnInit() {
+    this.watchParams();
+    this.initialize();
+  }
+
+  ngOnDestroy() {
+    this.paramsWatcher.unsubscribe();
   }
 }

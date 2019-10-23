@@ -26,9 +26,15 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   sortDirection = 'ASC';
   sortField: any;
   sort: any;
-  competitionLabels = ['oska.simple_extended', 'oska.quite_simple_extended', 'oska.medium_extended', 'oska.quite_difficult_extended', 'oska.difficult_extended'];
+  competitionLabels = [
+    'oska.simple_extended',
+    'oska.quite_simple_extended',
+    'oska.medium_extended',
+    'oska.quite_difficult_extended',
+    'oska.difficult_extended',
+  ];
   competitionFilters = [];
-  sortedBy: Array<Object> = [
+  sortedBy: object[] = [
     { key: 'Kõik', value: '' },
     { key: 'Brutopalga järgi kasvavalt', value: 'field_bruto_asc' },
     { key: 'Brutopalga järgi kahanevalt', value: 'field_bruto_desc' },
@@ -37,7 +43,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     { key: 'Hõivatute arvu järgi kasvavalt', value: 'field_number_of_employees_asc' },
     { key: 'Hõivatute arvu järgi kahanevalt', value: 'field_number_of_employees_desc' },
     { key: 'Hõive muutuse järgi kasvavalt', value: 'field_change_in_employment_asc' },
-    { key: 'Hõive muutuse järgi kahanevalt', value: 'field_change_in_employment_desc' }
+    { key: 'Hõive muutuse järgi kahanevalt', value: 'field_change_in_employment_desc' },
   ];
 
   constructor(
@@ -64,7 +70,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
 
   getFilters() {
 
-    let variables = {
+    const variables = {
       lang: 'ET',
       limit: 24,
     };

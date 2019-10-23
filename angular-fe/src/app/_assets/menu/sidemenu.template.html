@@ -1,13 +1,11 @@
 <aside>
 	<nav>
-		<ul *ngIf="data.menu">
+		<ul *ngIf="data && data.menu">
 			<li *ngFor="let item of data.menu.links">
 				<ng-container
 					*ngIf="
 						item.url.path === '#nocategory' || item.url.path === '#nolink';
-						else category
-					"
-				>
+						else category">
 					<ul *ngIf="item.url.path === '#nocategory'" class="sidemenu__block">
 						<li *ngFor="let item of item['links']">
 							<sidemenu-item [item]="item"></sidemenu-item>

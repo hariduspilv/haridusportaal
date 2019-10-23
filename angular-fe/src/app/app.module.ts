@@ -3,7 +3,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppComponent } from '@app/app.component';
 import { Routes, RouterModule } from '@angular/router';
-import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientJsonpModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TranslateModule } from '@app/_modules/translate';
 // tslint:disable-next-line: import-name
 import localeEt from '@angular/common/locales/et';
@@ -11,6 +11,7 @@ import { registerLocaleData } from '@angular/common';
 import { AssetsModule } from './_assets';
 import { SettingsService } from './_services';
 import { RoutesModule } from './app.routes';
+import { AuthInterceptor } from './_interceptors';
 // We dont need short month names at all!
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -33,6 +34,7 @@ registerLocaleData(localeEt);
   ],
   providers: [
     { provide: LOCALE_ID, useValue:'et-EE' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [
     AppComponent,

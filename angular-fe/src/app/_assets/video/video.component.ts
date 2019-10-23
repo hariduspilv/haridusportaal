@@ -18,7 +18,9 @@ export interface VideoItem {
 
 export class VideoComponent {
 
-  @Input() videos: VideoItem[] = [];
+  @Input() videos;
+  public videoArray: VideoItem[] = [];
+
   public embedFailed: boolean = false;
   public embeddedInputs: VideoItem[] = [];
 
@@ -30,14 +32,17 @@ export class VideoComponent {
   ngOnInit() {
 
     if (!Array.isArray(this.videos)) {
-      this.videos = [this.videos];
+      this.videoArray = [this.videos];
+    } else {
+      this.videoArray = this.videos;
     }
+
     try {
-      return this.videos.forEach((vid) => {
+      return this.videoArray.forEach((vid) => {
         return this.embeddedInputs.push(this.embedService.embed(vid.input));
       });
     } catch {
-      this.videos = this.videos.map((vid) => {
+      this.videoArray = this.videoArray.map((vid) => {
         const url = `${window.location.protocol}//www.youtube.com/embed/${vid.videoId}`;
         vid.finalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
         return vid;
