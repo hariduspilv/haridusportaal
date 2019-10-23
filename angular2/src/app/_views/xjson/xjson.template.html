@@ -545,7 +545,8 @@
                               <ng-container
                                 *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
                                 <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
-                                  <th>
+                                  <th attr.aria-label="{{selectLanguage(data_elements[element].table_columns[col].title)}}
+                                  {{data_elements[element].table_columns[col].required ? '*' : ''}}">
                                     {{selectLanguage(data_elements[element].table_columns[col].title)}}
                                     {{data_elements[element].table_columns[col].required ? '*' : ''}}
                                   </th>
