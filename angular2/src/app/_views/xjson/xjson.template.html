@@ -46,7 +46,7 @@
       <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
         <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
           [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps); let i = index">
-          <a tabindex="{{ isStepDisabled(step) ? -1 : 0 }}"
+          <a tabindex="{{ isStepDisabled(step) ? -1 : 0 }}" attr.role="{{ isStepDisabled(step) ? 'listitem' : 'link' }}"
             attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}"
             (click)="edit_step && i-1 === data.body.steps[data.header.current_step].sequence ? submitForm('SAVE') : selectStep(step)">
             <span class="xjson__navigation__stepname">
