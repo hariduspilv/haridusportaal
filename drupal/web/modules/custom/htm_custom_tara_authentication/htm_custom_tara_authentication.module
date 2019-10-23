@@ -8,7 +8,7 @@ function htm_custom_tara_authentication_openid_connect_userinfo_alter(array &$us
 	#die();
 	$userinfo['email'] = "$sub@HTMportaal.ee";
 	#$userinfo['email'] = "$sub@HTMportaal.ee";
-	if($context['user_data']['iss'] === 'https://test.harid.ee'){
+	if($context['user_data']['iss'] === 'https://test.harid.ee' || $context['user_data']['iss'] === 'https://harid.ee'){
 		$userinfo['id_code'] = preg_replace("/[^0-9]/", "", $userinfo['personal_code']);
 	}else{
 		$userinfo['id_code'] = substr($sub, 2);

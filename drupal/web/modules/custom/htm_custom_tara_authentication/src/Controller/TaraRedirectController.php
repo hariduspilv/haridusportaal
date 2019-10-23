@@ -39,6 +39,23 @@ class TaraRedirectController extends RedirectController{
 
 	}
 
+  public function access() {
+    // Confirm anti-forgery state token. This round-trip verification helps to
+    // ensure that the user, not a malicious script, is making the request.
+    $query = $this->requestStack->getCurrentRequest();
+    $state_token = $query->query->get('state');
+    $client = $query->attributes->get('client_name');
+    if(!isset($_SESSION['openid_connect_state']) && $client === 'harid'){
+      $url = 'https://'.$_SERVER['HTTP_HOST'].'/external-login/'.$client;
+      $redirect = Url::fromUri($url);
+      return new TrustedRedirectResponse($redirect);
+    }
+    if ($state_token && StateToken::confirm($state_token)) {
+        return AccessResult::allowed();
+    }
+    return AccessResult::forbidden();
+  }
+
 	public function authenticate ($client_name) {
 		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 		header("Cache-Control: post-check=0, pre-check=0", false);
@@ -135,6 +152,7 @@ class TaraRedirectController extends RedirectController{
 		#die();
 		// log user out because we have own jwt token for auth and dont need session
 		user_logout();
+    \Drupal::logger('htm_custom_tara_authentication')->notice('redirecturl: '.$redirect);
 		return new TrustedRedirectResponse($redirect);
 
 	}
