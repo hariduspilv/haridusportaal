@@ -477,26 +477,31 @@
                   </div>
 
                   <loader *ngIf="fileLoading[element]"></loader>
-                  
 
-                  <div class="dropzone" (drop)="fileEventHandler($event, element)" contenteditable="true" (keyup.enter)="fileEventHandler($event, element)" (keyup.space)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()"
-                    *ngIf="canUploadFile(data_elements[element]) && !fileLoading[element]"
-                    attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB"
-                    tabindex="0">
-                    <div class="htm-icon" aria-hidden="true">add</div>
-                    <div class="dropzone-text" aria-hidden="true" tabindex="-1">
-                      <span class="dropzone-title" tabindex="-1">
+                  <input *ngIf="canUploadFile(data_elements[element])"
+                  class="hidden" type="file" 
+                  attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB" 
+                          (change)="fileEventHandler($event, element)"
+                          placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                          [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
+                          [attr.multiple]="data_elements[element].multiple ? '' : null" />
+                  
+                  <div aria-hidden="true" class="dropzone" (drop)="fileEventHandler($event, element)"
+                  (dragover)="$event.preventDefault()" *ngIf="canUploadFile(data_elements[element]) && !fileLoading[element]">
+                    <div class="htm-icon">add</div>
+                    <div class="dropzone-text">
+                      <span class="dropzone-title">
                         {{ 'xjson.drag_files_here_or' | translate }}
                       </span>
                       <a class="dropzone-add" href="javascript:void(0)" tabindex="-1">
-                        <input aria-hidden="true" tabindex="-1" type="file" [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
+                        <input tabindex="-1" type="file" [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
                           (change)="fileEventHandler($event, element)"
                           placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
                           [attr.multiple]="data_elements[element].multiple ? '' : null" />
                         {{ 'button.upload' | translate }}
                       </a>
-                      <span class="dropzone-description" aria-hidden="true">{{ 'xjson.allowed_filetypes' | translate }}
+                      <span class="dropzone-description">{{ 'xjson.allowed_filetypes' | translate }}
                         {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}
                         <br>{{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB</span>
                     </div>
