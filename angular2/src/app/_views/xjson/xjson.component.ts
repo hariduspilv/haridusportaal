@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
 import { Location } from '@angular/common';
-import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { Router, ActivatedRoute, RoutesRecognized, Data } from '@angular/router';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
@@ -720,7 +720,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
       // check for min
       if (field.min !== undefined) {
         if (field.type === 'date') {
-          if (moment(field.value).isBefore(field.min)) {
+          const valDate = new Date(field.value);
+          const minDate = new Date(field.min);
+          if (!(valDate instanceof Date) || valDate < minDate) {
             return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') };
           }
         } else if (field.value < field.min) {
@@ -730,8 +732,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       // check for max
       if (field.max !== undefined) {
         if (field.type === 'date') {
-          if (moment(field.value).isAfter(field.max)) {
-            return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') };
+          const valDate = new Date(field.value);
+          const maxDate = field.max === 'today' ? new Date() : new Date(field.max);
+          if (valDate > maxDate) {
+            return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(maxDate).format('DD.MM.YYYY') };
           }
         } else if (field.value > field.max) {
           return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max };
