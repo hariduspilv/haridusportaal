@@ -46,7 +46,8 @@
       <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
         <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
           [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps); let i = index">
-          <a tabindex="{{ isStepDisabled(step) ? -1 : 0 }}" attr.aria-disabled="{{ isStepDisabled(step) ? true : false }}"
+          <a tabindex="{{ isStepDisabled(step) ? -1 : 0 }}"
+            attr.aria-disabled="{{ isStepDisabled(step) ? true : false }}"
             attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}"
             (click)="edit_step && i-1 === data.body.steps[data.header.current_step].sequence ? submitForm('SAVE') : selectStep(step)">
             <span class="xjson__navigation__stepname">
@@ -64,7 +65,8 @@
 
       <ng-container *ngIf="!empty_data">
         <div *ngIf="!viewOnlyStep" class="upper-infotext">
-          <span tabindex="-1" attr.aria-label="{{ 'xjson.required_fields_infotext' | translate }}">{{ 'xjson.required_fields_infotext' | translate }}</span>
+          <span tabindex="-1"
+            attr.aria-label="{{ 'xjson.required_fields_infotext' | translate }}">{{ 'xjson.required_fields_infotext' | translate }}</span>
           <hr aria-hidden="true" class="divider">
         </div>
 
@@ -94,7 +96,7 @@
 
                 <ng-container *ngIf="data_elements[element].type == 'helpertext'">
                   <p tabindex="-1" role="text"
-                  attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                    attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                     *ngIf="data_elements[element].title">
                     {{ selectLanguage(data_elements[element].title) }}
                   </p>
@@ -106,7 +108,7 @@
                   </h2>
                 </ng-container> <!-- /HEADING -->
 
-                <ng-container *ngIf="data_elements[element].type == 'text' || data_elements[element].type == 'iban'">
+                <ng-container *ngIf="(data_elements[element].type == 'text' || data_elements[element].type == 'iban') && !isFieldDisabled(data_elements[element].readonly)">
                   <div class="squared-input__outer-wrapper">
                     <div class="squared-input__wrapper"
                       [class.complete]="data_elements[element].value || opened_step != this.max_step">
@@ -115,6 +117,7 @@
                       </span>
                       <div class="squared-input__field-wrapper">
                         <input class="squared-input__field" type="text"
+                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
                           placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                           [(ngModel)]='data_elements[element].value' [name]="element"
@@ -126,7 +129,7 @@
                     <div class="helper-wrapper">
                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
-                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
@@ -134,6 +137,34 @@
                     </div>
                   </div>
                 </ng-container> <!-- /TEXT -->
+
+                <ng-container
+                *ngIf="(data_elements[element].type == 'text' || data_elements[element].type == 'iban') && isFieldDisabled(data_elements[element].readonly)">
+                <div class="squared-input__outer-wrapper">
+                  <div class="squared-input__wrapper"
+                    [class.complete]="data_elements[element].value || opened_step != this.max_step">
+                    <span class="squared-input__title" attr.aria-label="{{ selectLanguage(data_elements[element].title) }} {{ data_elements[element].value }}">
+                      {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
+                    </span>
+                    <div class="squared-input__field-wrapper">
+                      <input class="squared-input__field" type="text" aria-hidden="true"
+                        attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
+                        placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                        [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
+                        [(ngModel)]="data_elements[element].value" name="{{element}}" />
+                    </div>
+                  </div>
+                  <div class="helper-wrapper">
+                    <ng-container *ngIf="data_elements[element].helpertext">
+                      <span tabindex="-1" role="text"
+                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                        class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
+                        matTooltipPosition="above">
+                      </span>
+                    </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                  </div>
+                </div>
+              </ng-container><!-- /TEXT -->
 
                 <ng-container *ngIf="data_elements[element].type == 'textarea'">
                   <div class="squared-input__area">
@@ -146,6 +177,7 @@
                         </span>
                         <div class="squared-input__area">
                           <textarea class="squared-input__area__elem"
+                            attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
                             [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                             [(ngModel)]='data_elements[element].value'
                             placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
@@ -155,7 +187,7 @@
                       <div class="helper-wrapper">
                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span tabindex="-1" role="text"
-                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                            attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                             class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
                           </span>
@@ -239,7 +271,7 @@
                       <div class="helper-wrapper">
                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span tabindex="-1" role="text"
-                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                            attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                             class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
                           </span>
@@ -253,11 +285,12 @@
                   <div class="squared-input__outer-wrapper">
                     <div class="squared-input__wrapper"
                       [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                      <span class="squared-input__title">
+                      <span class="squared-input__title" attr.aria-label="{{ selectLanguage(data_elements[element].title) }} {{ data_elements[element].value }}">
                         {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                       </span>
                       <div class="squared-input__field-wrapper">
-                        <input class="squared-input__field" type="text"
+                        <input class="squared-input__field" type="text" aria-hidden="true"
+                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
                           placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                           [(ngModel)]='data_elements[element].value' [name]="element"
@@ -267,7 +300,7 @@
                     <div class="helper-wrapper">
                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
-                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
@@ -285,6 +318,7 @@
                       </span>
                       <div class="squared-input__field-wrapper">
                         <input class="squared-input__field" type="email"
+                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
                           placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                           [(ngModel)]='data_elements[element].value' [name]="element"
@@ -294,7 +328,7 @@
                     <div class="helper-wrapper">
                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
-                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
@@ -316,7 +350,7 @@
                     <div class="helper-wrapper">
                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
-                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
@@ -334,6 +368,7 @@
                       </span>
                       <div class="squared-input__field-wrapper">
                         <input class="squared-input__field" type="text" [min]="data_elements[element].min"
+                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
                           [max]="data_elements[element].max"
                           placeholder="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [(ngModel)]="data_elements[element].value"
@@ -363,6 +398,7 @@
                       </span>
                       <div class="squared-input__field-wrapper">
                         <input class="squared-input__field" type="text" matInput
+                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
                           [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           [(ngModel)]="temporaryModel[element]"
                           placeholder="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
@@ -374,7 +410,7 @@
                     <div class="helper-wrapper">
                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
-                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
@@ -393,6 +429,7 @@
                       </span>
                       <div class="squared-input__field-wrapper">
                         <input class="squared-input__field" matInput [matDatepicker]="picker"
+                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
                           [placeholder]="selectLanguage(data_elements[element].title)"
                           [value]="getDatepickerValue(element)" readonly="true"
                           [(ngModel)]="data_elements[element].value" name="{{element}}"
@@ -406,7 +443,7 @@
                     <div class="helper-wrapper">
                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
-                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
@@ -420,11 +457,12 @@
                   <div class="squared-input__outer-wrapper">
                     <div class="squared-input__wrapper"
                       [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                      <span class="squared-input__title">
+                      <span class="squared-input__title" attr.aria-label="{{ selectLanguage(data_elements[element].title) }} {{ data_elements[element].value }}">
                         {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
                       </span>
                       <div class="squared-input__field-wrapper">
-                        <input class="squared-input__field" type="text"
+                        <input class="squared-input__field" type="text" aria-hidden="true"
+                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
                           placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
                           [(ngModel)]="data_elements[element].value" name="{{element}}" />
@@ -433,7 +471,7 @@
                     <div class="helper-wrapper">
                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
-                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
@@ -445,7 +483,7 @@
                 <ng-container *ngIf="data_elements[element].type == 'file'">
 
                   <div class="squared-input__outer-wrapper dropzone-wrapper">
-                    <span class="xjson__file__heading">
+                    <span class="xjson__file__heading" tabindex="0">
                       {{selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
                     </span>
                     <div class="helper-wrapper">
@@ -463,14 +501,14 @@
                     <ng-container *ngIf="data_elements[element].value">
                       <ng-container *ngFor="let file of data_elements[element].value">
                         <div class="uploaded-file">
-                          <a class="file-icon" [href]="fileDownloadlink(file)" target="_blank">
+                          <a class="file-icon" [href]="fileDownloadlink(file)" attr.aria-label="{{ file.file_name }}" target="_blank">
                             <span class="file-name">{{ file.file_name }}</span>
                           </a>
                           <a role="button" class="close-icn" href="javascript:void(0)"
                             *ngIf="!isFieldDisabled(data_elements[element].readonly)"
                             [class.disabled]="isFieldDisabled(data_elements[element].readonly)"
-                            (click)="fileDelete(file.file_identifier, data_elements[element])"><span aria-hidden="true" tabindex="-1"
-                              class="htm-icon">close</span>{{ 'xjson.delete_file' | translate }}</a>
+                            (click)="fileDelete(file.file_identifier, data_elements[element])"><span aria-hidden="true"
+                              tabindex="-1" class="htm-icon">close</span>{{ 'xjson.delete_file' | translate }}</a>
                         </div>
                       </ng-container>
                     </ng-container>
@@ -478,23 +516,31 @@
 
                   <loader *ngIf="fileLoading[element]"></loader>
 
-                  <div class="dropzone" attr.aria-hidden="true" (drop)="fileEventHandler($event, element)" (dragover)="$event.preventDefault()"
+                  <input *ngIf="canUploadFile(data_elements[element])" class="hidden" type="file"
+                    attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB"
+                    (change)="fileEventHandler($event, element)"
+                    placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                    [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
+                    [attr.multiple]="data_elements[element].multiple ? '' : null" />
+
+                  <div aria-hidden="true" class="dropzone" (drop)="fileEventHandler($event, element)"
+                    (dragover)="$event.preventDefault()"
                     *ngIf="canUploadFile(data_elements[element]) && !fileLoading[element]">
+                    <div class="htm-icon">add</div>
                     <div class="dropzone-text">
-                      <span class="dropzone-title" attr.aria-hidden="true">
+                      <span class="dropzone-title">
                         {{ 'xjson.drag_files_here_or' | translate }}
                       </span>
-                      <a class="dropzone-add" href="javascript:void(0)" tabindex="-1" attr.aria-hidden="true">
-                        <input type="file" [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
-                          attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }}
-                        {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB"
-                          tabindex="0" (change)="fileEventHandler($event, element)"
+                      <a class="dropzone-add" href="javascript:void(0)" tabindex="-1">
+                        <input tabindex="-1" type="file"
+                          [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
+                          (change)="fileEventHandler($event, element)"
                           placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
                           [attr.multiple]="data_elements[element].multiple ? '' : null" />
                         {{ 'button.upload' | translate }}
                       </a>
-                      <span class="dropzone-description" attr.aria-hidden="true">{{ 'xjson.allowed_filetypes' | translate }}
+                      <span class="dropzone-description">{{ 'xjson.allowed_filetypes' | translate }}
                         {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}
                         <br>{{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB</span>
                     </div>
@@ -738,12 +784,14 @@
                     <div class="add-row"
                       *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
                       <div>
-                        <a role="button" *ngIf="!data_elements[element].row_label; else labeledAdd" class="table-link"
+                        <a attr.aria-label="{{ 'button.add_table_row' | translate }}" role="button"
+                          *ngIf="!data_elements[element].row_label; else labeledAdd" class="table-link"
                           href="javascript:void(0);" (click)="tableAddRow(element)">
                           + {{ 'button.add_table_row' | translate }}
                         </a>
                         <ng-template #labeledAdd>
-                          <a role="button" class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)">
+                          <a role="button" class="table-link" href="javascript:void(0);" (click)="tableAddRow(element)"
+                            attr.aria-label="{{ 'button.add' | translate }} {{ selectLanguage(data_elements[element].row_label) }}">
                             + {{ 'button.add' | translate }} {{ selectLanguage(data_elements[element].row_label) }}
                           </a>
                         </ng-template>
@@ -774,28 +822,33 @@
             <ng-container *ngFor="let link of navigationLinks">
               <a tabindex="0" *ngIf="link.type === 'link'" href="javascript:void(0);"
                 (click)="selectStep(link.step)">{{ link.label | translate }}</a>
-              <button tabindex="0" *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button [color]="['primary']"
-                (click)="selectStep(link.step)">{{ link.label | translate }}</button>
+              <button tabindex="0" *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button
+                [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
             </ng-container>
           </div>
 
-          <div tabindex="-1" class="primary-buttons" attr.aria-hidden="true">
-            <button tabindex="0" *ngIf="!edit_step" type="submit" attr.aria-label="{{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}" role="link" mat-raised-button [color]="['alternative']"
-              (click)="cancelEventHandler()">
-              {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
-            </button>
+          <div tabindex="-1" class="primary-buttons">
+            <div>
+              <button tabindex="0" *ngIf="!edit_step" type="submit" role="link" mat-raised-button
+                [color]="['alternative']" (click)="cancelEventHandler()">
+                {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
+              </button>
+            </div>
 
             <ng-container *ngFor="let activity of activityButtons['primary']">
-              <button tabindex="0" *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button
-                [color]="[activity.style]" attr.aria-label="{{ 'activity.label' | translate }}" (click)="submitForm(activity.action)">
-                {{ 'activity.label' | translate }}
-              </button>
+              <div>
+                <button tabindex="0" *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button
+                  [color]="[activity.style]" (click)="submitForm(activity.action)">
+                  {{ activity.label | translate }}
+                </button>
+              </div>
             </ng-container>
           </div>
 
           <ng-container *ngFor="let activity of activityButtons['secondary']">
-            <div tabindex="-1" class="subrow" *ngIf="activityButtons['secondary'].length" attr.aria-hidden="true">
-              <a tabindex="0" href="javascript:void(0);" attr.aria-label="{{ 'activity.label' | translate }}" (click)="submitForm(activity.action)">{{ 'activity.label' | translate }}</a>
+            <div tabindex="-1" class="subrow" *ngIf="activityButtons['secondary'].length" aria-hidden="true">
+              <a tabindex="0" href="javascript:void(0);" attr.aria-label="{{ activity.label | translate }}"
+                (click)="submitForm(activity.action)">{{ activity.label | translate }}</a>
             </div> <!-- /row button-list -->
           </ng-container>
         </div> <!-- /row button-list -->
