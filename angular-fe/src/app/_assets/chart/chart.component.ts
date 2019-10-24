@@ -46,8 +46,9 @@ export class ChartComponent implements OnInit {
         bottom: 75,
       },
       pieSliceTextStyle: {
-        color: '#ffffff',
+        color: '#333',
       },
+      pieSliceBorderColor: '#333',
       curveType: 'function',
       lineWidth: 3,
       pointsVisible: true,
@@ -176,13 +177,15 @@ export class ChartComponent implements OnInit {
           return (typeof field === 'string' && field.length)
             ? this.capitalize(field) : field;
         });
-        if (chartType.toLowerCase().includes('stacked') && !secondaryGraphType) {
+        if (chartType.toLowerCase() !== 'line') {
           const parsedArray = [];
           single.forEach((item, ind) => {
             parsedArray.push(item);
-            if (index && ind) {
-              parsedArray.push('stroke-color: #333; stroke-width: 1px');
-            } else if (ind) {
+            if (index) {
+              if ((secondaryGraphType && ind === 1) || (!secondaryGraphType && ind)) {
+                parsedArray.push('stroke-color: #333; stroke-width: 1px');
+              }
+            } else if (secondaryGraphType && ind === 1 || !secondaryGraphType && ind) {
               parsedArray.push({ role: 'style' });
             }
           });
@@ -364,11 +367,12 @@ export class ChartComponent implements OnInit {
           let colorCounter = 0;
 
           for (const i in filters['näitaja2']) {
-            const index = titleCaseValues[0].findIndex(
-              item => filters['näitaja2'][i].toLowerCase() === item.toLowerCase());
-
-            tmp.options.colors[index - 1] = lineColors[colorCounter];
-            tmp.options['series'][index - 1] = {
+            const index = titleCaseValues[0].findIndex(item =>
+              typeof item === 'string'
+                ? filters['näitaja2'][i].toLowerCase() === item.toLowerCase()
+                : null);
+            tmp.options.colors[index - 2] = lineColors[colorCounter];
+            tmp.options['series'][index - 2] = {
               type: secondaryGraphType,
               targetAxisIndex: 1,
               viewWindow: {
