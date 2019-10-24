@@ -998,3 +998,7 @@ hr.divider {
 ::ng-deep .xjson__component .mat-icon-button[disabled] {
   visibility: hidden;
 }
+
+.hidden {
+  opacity: 0;
+}
