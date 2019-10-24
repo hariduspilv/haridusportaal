@@ -19,7 +19,7 @@
     "jshint": "^2.9.4",
     "jshint-stylish": "^2.2.1",
     "materialize-css": "^1.0.0",
-    "node-sass": "4.11.0"
+    "node-sass": "4.13.0"
   },
   "scripts": {
     "start": "gulp",
