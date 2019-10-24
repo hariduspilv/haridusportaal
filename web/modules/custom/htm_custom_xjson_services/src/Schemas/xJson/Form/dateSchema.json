@@ -36,12 +36,10 @@
       "type": "integer"
     },
     "min": {
-      "type": "string",
-      "pattern": "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$"
+      "type": "string"
     },
     "max": {
-      "type": "string",
-      "pattern": "^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$"
+      "type": "string"
     },
     "readonly": {
       "type": "boolean"
