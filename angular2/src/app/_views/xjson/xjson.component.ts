@@ -721,9 +721,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (field.min !== undefined) {
         if (field.type === 'date') {
           const valDate = new Date(field.value);
-          const minDate = new Date(field.min);
+          const minDate = field.min === 'today' ? new Date : new Date(field.min);
           if (!(valDate instanceof Date) || valDate < minDate) {
-            return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') };
+            return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(minDate).format('DD.MM.YYYY') };
           }
         } else if (field.value < field.min) {
           return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min };
