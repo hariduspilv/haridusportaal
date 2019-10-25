@@ -720,9 +720,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
       // check for min
       if (field.min !== undefined) {
         if (field.type === 'date') {
-          const valDate = new Date(field.value);
-          const minDate = field.min === 'today' ? new Date : new Date(field.min);
-          if (!(valDate instanceof Date) || valDate < minDate) {
+          const valDate = moment(field.value, XJSON_DATEPICKER_FORMAT.parse.dateInput);
+          const minDate = field.min === 'today' ? moment() : moment(field.min, XJSON_DATEPICKER_FORMAT.parse.dateInput);
+          if (valDate < minDate) {
             return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(minDate).format('DD.MM.YYYY') };
           }
         } else if (field.value < field.min) {
@@ -732,8 +732,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
       // check for max
       if (field.max !== undefined) {
         if (field.type === 'date') {
-          const valDate = new Date(field.value);
-          const maxDate = field.max === 'today' ? new Date() : new Date(field.max);
+          const valDate = moment(field.value, XJSON_DATEPICKER_FORMAT.parse.dateInput);
+          const maxDate = field.max === 'today' ? moment() : moment(field.max, XJSON_DATEPICKER_FORMAT.parse.dateInput);
           if (valDate > maxDate) {
             return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(maxDate).format('DD.MM.YYYY') };
           }
