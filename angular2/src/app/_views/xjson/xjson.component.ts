@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { HttpService } from '@app/_services/httpService';
 import { Jsonp } from '@angular/http';
 import { Location } from '@angular/common';
-import { Router, ActivatedRoute, RoutesRecognized } from '@angular/router';
+import { Router, ActivatedRoute, RoutesRecognized, Data } from '@angular/router';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { TranslateService } from '@ngx-translate/core';
@@ -720,8 +720,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       // check for min
       if (field.min !== undefined) {
         if (field.type === 'date') {
-          if (moment(field.value).isBefore(field.min)) {
-            return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(field.min).format('DD.MM.YYYY') };
+          const valDate = moment(field.value, XJSON_DATEPICKER_FORMAT.parse.dateInput);
+          const minDate = field.min === 'today' ? moment() : moment(field.min, XJSON_DATEPICKER_FORMAT.parse.dateInput);
+          if (valDate < minDate) {
+            return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + moment(minDate).format('DD.MM.YYYY') };
           }
         } else if (field.value < field.min) {
           return { valid: false, message: this.translate.get('xjson.min_value_is')['value'] + ' ' + field.min };
@@ -730,8 +732,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       // check for max
       if (field.max !== undefined) {
         if (field.type === 'date') {
-          if (moment(field.value).isAfter(field.max)) {
-            return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(field.max).format('DD.MM.YYYY') };
+          const valDate = moment(field.value, XJSON_DATEPICKER_FORMAT.parse.dateInput);
+          const maxDate = field.max === 'today' ? moment() : moment(field.max, XJSON_DATEPICKER_FORMAT.parse.dateInput);
+          if (valDate > maxDate) {
+            return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + moment(maxDate).format('DD.MM.YYYY') };
           }
         } else if (field.value > field.max) {
           return { valid: false, message: this.translate.get('xjson.max_value_is')['value'] + ' ' + field.max };

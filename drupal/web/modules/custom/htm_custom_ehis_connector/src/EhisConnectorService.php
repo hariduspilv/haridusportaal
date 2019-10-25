@@ -395,31 +395,36 @@ class EhisConnectorService {
 	 * @param array $params
 	 * @return array|mixed|\Psr\Http\Message\ResponseInterface
 	 */
-	public function getApplications(array $params = []){
-		$params['url'] = [$this->getCurrentUserIdRegCode()];
-		$params['key'] = $this->getCurrentUserIdRegCode();
+  public function getApplications(array $params = []){
+    $params['url'] = [$this->getCurrentUserIdRegCode()];
+    $params['key'] = $this->getCurrentUserIdRegCode();
 
-		// we need to start getDocument service
-		if($params['init']){
-			$params['hash'] = 'getDocuments';
-			$init = $this->invokeWithRedis('getDocuments', $params, FALSE);
-			if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
-				throw new RequestException('Service down');
-			}
-		}
+    // we need to start getDocument service
+    if($params['init']){
+      $params['hash'] = 'getDocuments';
+      $init = $this->invokeWithRedis('getDocuments', $params, FALSE);
+      if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
+        throw new RequestException('Service down');
+      }
+    }
 
-		if($this->useReg()) $params['hash'] = 'mtsys';
-		if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
-		#dump($params);
-		$response = $this->invokeWithRedis('vpTaotlus', $params);
-		$workedResponse = $this->applicationPathWorker($response);
+    if($this->useReg()) $params['hash'] = 'mtsys';
+    if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
+    #dump($params);
+    $response = $this->invokeWithRedis('vpTaotlus', $params);
+    $workedResponse = $this->applicationPathWorker($response);
+    if(isset($workedResponse['educationalInstitutions'])){
+      foreach($workedResponse['educationalInstitutions'] as &$institution){
+        $institution = $this->applicationPathWorker($institution);
+      }
+    }
 
-		$this->getFormDefinitionTitle($workedResponse, $params['hash']);
-		if(isset($params['get_edi_data']) && $params['get_edi_data']){
-			$this->addInstitutionData($workedResponse);
-		}
-		return $workedResponse;
-	}
+    $this->getFormDefinitionTitle($workedResponse, $params['hash']);
+    if(isset($params['get_edi_data']) && $params['get_edi_data']){
+      $this->addInstitutionData($workedResponse);
+    }
+    return $workedResponse;
+  }
 
 	private function applicationPathWorker($datafields){
 	  $workedValues = [];
