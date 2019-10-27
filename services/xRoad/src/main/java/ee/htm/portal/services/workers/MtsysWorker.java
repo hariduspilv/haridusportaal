@@ -680,6 +680,36 @@ public class MtsysWorker extends Worker {
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
         }
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SUBMIT")) {
+           boolean repeatStepAndmed = false;
+           if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+                  .get("oppeTasemed").get("required").asBoolean()
+               && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+                  .get("oppeTasemed").get("value").size() == 0) {
+              repeatStepAndmed = true;
+              ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                  .add("oppeTasemed_validation_error");
+              ((ObjectNode) jsonNode.get("messages")).putObject("oppeTasemed_validation_error")
+                  .put("message_type", "ERROR").putObject("message_text")
+                  .put("et", "Õppetasemed puuduvad.");
+           }
+           if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+                  .get("oppekavaRuhmad").get("required").asBoolean()
+               && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+                  .get("oppekavaRuhmad").get("value").size() == 0) {
+               repeatStepAndmed = true;
+              ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                  .add("oppekavaRuhmad_validation_error");
+              ((ObjectNode) jsonNode.get("messages")).putObject("oppekavaRuhmad_validation_error")
+                  .put("message_type", "ERROR").putObject("message_text")
+                  .put("et", "Õppekavarühmad puuduvad.");
+           }
+           if (repeatStepAndmed) {
+              logForDrupal.setMessage("postMtsysTegevusluba step_andmed validation_error on SUBMIT");
+              logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+              LOGGER.info(logForDrupal);
+              return jsonNode;
+           }
+
           ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_esitamise_tagasiside")
               .putObject("data_elements");
           ((ObjectNode) jsonNode.get("body").get("steps").get("step_esitamise_tagasiside"))
