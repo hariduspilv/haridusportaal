@@ -413,11 +413,11 @@ class EhisConnectorService {
     #dump($params);
     $response = $this->invokeWithRedis('vpTaotlus', $params);
     $workedResponse = $this->applicationPathWorker($response);
-    if(isset($workedResponse['educationalInstitutions'])){
+/*    if(isset($workedResponse['educationalInstitutions'])){
       foreach($workedResponse['educationalInstitutions'] as &$institution){
         $institution = $this->applicationPathWorker($institution);
       }
-    }
+    }*/
 
     $this->getFormDefinitionTitle($workedResponse, $params['hash']);
     if(isset($params['get_edi_data']) && $params['get_edi_data']){
@@ -428,16 +428,27 @@ class EhisConnectorService {
 
 	private function applicationPathWorker($datafields){
 	  $workedValues = [];
-	  foreach($datafields as &$field){
+	  $datafields = array_walk_recursive($datafields, 'addFormPath');
+/*	  foreach($datafields as &$field){
 	    if(is_array($field)){
+	      $field = array_walk_recursive($field, 'addFormPath');
 	      foreach($field as &$values){
 	        if(isset($values['form_name'])){
 	          $values['form_path'] = isset($workedValues[$values['form_name']]) ? $workedValues[$values['form_name']] : $this->getEntityFormPath($values['form_name']);
           }
         }
       }
-    }
+    }*/
 	  return $datafields;
+  }
+
+  private function addFormPath(&$item, $key){
+    if(isset($item['form_name'])){
+      $item['form_path'] = $this->getEntityFormPath($item['form_name']);
+    }
+    if(is_array($item)){
+      array_walk_recursive($item, 'addFormPath');
+    }
   }
 
   private function getEntityFormPath ($form_name)
