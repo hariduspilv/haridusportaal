@@ -46,6 +46,10 @@ $md-break: 1280px;
 
 }
 
+.inline{
+	max-width: 1130px;
+	margin:0 auto;
+}
 /*
 @media screen and( min-width: $sm-break ) and ( max-width:$md-break ){
 	html{font-size:12px;}

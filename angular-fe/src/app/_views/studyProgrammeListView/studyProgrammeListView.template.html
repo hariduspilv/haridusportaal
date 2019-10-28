@@ -1,120 +1,126 @@
 <base-layout>
-	<breadcrumbs path="/erialad"></breadcrumbs>
+	<div class="inline">
+		<breadcrumbs path="/erialad"></breadcrumbs>
+	</div><!--/inline-->
 	<form class="filter-wrapper" filters>
-		<div #filterToggle class="sm-show text-right filter-control">
-			<a href="javascript:void(0);" (click)="showFilter = !showFilter">
-				<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
-				<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
-			</a>
-		</div>
-		<ng-container *ngIf="showFilter">
-			<div class="row">
-				<div class="col-4 sm-12">
-					<formItem type="text" title="{{ 'studyProgramme.filter_title' | translate }}" name="title"></formItem>
-				</div>
-				<!--/col-4-->
-				<div class="col-5 sm-12">
-					<formItem type="multi-select" title="{{ 'studyProgramme.filter_type' | translate }}" name="type" [options]="typeFilters" [(ngModel)]="selectedTypes"></formItem>
-				</div>
-				<!--/col-3-->
-
-				<div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
-					<div class="align-center filter-state sm-hide">
-						<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-							(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
-							<span>{{ 'button.search_detailed' | translate}}</span>
-						</a>
-					</div>
-					<div class="button-row">
-						<button htm-button>{{ 'button.search' | translate }}</button>
-					</div>
-				</div>
-
+		<div class="inline">
+			<div #filterToggle class="sm-show text-right filter-control">
+				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
+					<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+					<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+				</a>
 			</div>
-			<!--/row-->
-			<div class="row" *ngIf="filterFull">
-
-				<div class="col-4 sm-12">
-					<formItem type="multi-select" [(ngModel)]="selectedLevels"
-						title="{{ 'studyProgramme.level' | translate }}" name="level" [options]="levelFilters">
-					</formItem>
-				</div>
-
-				<div class="col-5 sm-12">
-					<formItem type="multi-select" [(ngModel)]="selectedIscedfBroad" (onChange)="setIscedfFilters('narrow')"
-						title="{{ 'studyProgramme.filter_iscedf_broad' | translate }}" name="iscedf_broad" [options]="iscedfBroadFilters">
-					</formItem>
-				</div>
-
-				<div class="col-4 sm-12">
-					<formItem type="multi-select" [(ngModel)]="selectedLanguages" 
-					title="{{ 'studyProgramme.filter_language' | translate }}" name="language" [options]="languageFilters">
-					</formItem>
-				</div>
-
-				<div class="col-5 sm-12" [class.disabled]="selectedIscedfBroad.length ? false : true" >
-					<formItem type="multi-select" [(ngModel)]="selectedIscedfNarrow" (onChange)="setIscedfFilters('detailed')"
-					title="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}" name="iscedf_narrow" [options]="iscedfNarrowFilters">
-					</formItem>
-				</div>
-
-				<div class="col-4 sm-12">
-					<formItem type="text" title="{{ 'studyProgramme.filter_school' | translate }}" name="school">
-					</formItem>
-				</div>
-
-				<div class="col-5 sm-12" [class.disabled]="selectedIscedfNarrow.length ? false : true">
-					<formItem type="multi-select" [(ngModel)]="selectedIscedfDetailed" 
-					title="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}" name="iscedf_detailed" [options]="iscedfDetailedFilters">
-					</formItem>
-				</div>
-
-				<div class="col-4 sm-12">
-					<formItem type="text" title="{{ 'studyProgramme.filter_location' | translate }}" name="location">
-					</formItem>
-				</div>
-
-				<div class="col-5 sm-12">
-					<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortOptions"
-					[(ngModel)]="sort" (onChange)="setSortDirection()">
-					</formItem>
-				</div>
-
-				<div class="hidden">
-					<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
-						[(ngModel)]="sortField">
-					</formItem>
-				</div>
-				<div class="hidden">
-					<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
-						[(ngModel)]="sortDirection">
-					</formItem>
-				</div>
-
-				<div class="col-9">
-					<formItem type="checkbox" [(ngModel)]="openAdmission"
-					label="{{ 'studyProgramme.filter_open_admission' | translate }}" name="onlyOpenAdmission">
-					</formItem>
-				</div>
-
-				<div class="col-3 align-end text-right sm-12 inline-flex">
-					<div class="align-center filter-state sm-hide">
-						<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-							(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
-							<span>{{ 'button.search_brief' | translate}}</span>
-						</a>
+			<ng-container *ngIf="showFilter">
+				<div class="row">
+					<div class="col-4 sm-12">
+						<formItem type="text" title="{{ 'studyProgramme.filter_title' | translate }}" name="title"></formItem>
 					</div>
-					<div class="button-row">
-						<button htm-button>{{ 'button.search' | translate }}</button>
+					<!--/col-4-->
+					<div class="col-5 sm-12">
+						<formItem type="multi-select" title="{{ 'studyProgramme.filter_type' | translate }}" name="type" [options]="typeFilters" [(ngModel)]="selectedTypes"></formItem>
+					</div>
+					<!--/col-3-->
+
+					<div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
+						<div class="align-center filter-state sm-hide">
+							<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
+								(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
+								<span>{{ 'button.search_detailed' | translate}}</span>
+							</a>
+						</div>
+						<div class="button-row">
+							<button htm-button>{{ 'button.search' | translate }}</button>
+						</div>
+					</div>
+
+				</div>
+				<!--/row-->
+				<div class="row" *ngIf="filterFull">
+
+					<div class="col-4 sm-12">
+						<formItem type="multi-select" [(ngModel)]="selectedLevels"
+							title="{{ 'studyProgramme.level' | translate }}" name="level" [options]="levelFilters">
+						</formItem>
+					</div>
+
+					<div class="col-5 sm-12">
+						<formItem type="multi-select" [(ngModel)]="selectedIscedfBroad" (onChange)="setIscedfFilters('narrow')"
+							title="{{ 'studyProgramme.filter_iscedf_broad' | translate }}" name="iscedf_broad" [options]="iscedfBroadFilters">
+						</formItem>
+					</div>
+
+					<div class="col-4 sm-12">
+						<formItem type="multi-select" [(ngModel)]="selectedLanguages" 
+						title="{{ 'studyProgramme.filter_language' | translate }}" name="language" [options]="languageFilters">
+						</formItem>
+					</div>
+
+					<div class="col-5 sm-12" [class.disabled]="selectedIscedfBroad.length ? false : true" >
+						<formItem type="multi-select" [(ngModel)]="selectedIscedfNarrow" (onChange)="setIscedfFilters('detailed')"
+						title="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}" name="iscedf_narrow" [options]="iscedfNarrowFilters">
+						</formItem>
+					</div>
+
+					<div class="col-4 sm-12">
+						<formItem type="text" title="{{ 'studyProgramme.filter_school' | translate }}" name="school">
+						</formItem>
+					</div>
+
+					<div class="col-5 sm-12" [class.disabled]="selectedIscedfNarrow.length ? false : true">
+						<formItem type="multi-select" [(ngModel)]="selectedIscedfDetailed" 
+						title="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}" name="iscedf_detailed" [options]="iscedfDetailedFilters">
+						</formItem>
+					</div>
+
+					<div class="col-4 sm-12">
+						<formItem type="text" title="{{ 'studyProgramme.filter_location' | translate }}" name="location">
+						</formItem>
+					</div>
+
+					<div class="col-5 sm-12">
+						<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortOptions"
+						[(ngModel)]="sort" (onChange)="setSortDirection()">
+						</formItem>
+					</div>
+
+					<div class="hidden">
+						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
+							[(ngModel)]="sortField">
+						</formItem>
+					</div>
+					<div class="hidden">
+						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
+							[(ngModel)]="sortDirection">
+						</formItem>
+					</div>
+
+					<div class="col-9">
+						<formItem type="checkbox" [(ngModel)]="openAdmission"
+						label="{{ 'studyProgramme.filter_open_admission' | translate }}" name="onlyOpenAdmission">
+						</formItem>
+					</div>
+
+					<div class="col-3 align-end text-right sm-12 inline-flex">
+						<div class="align-center filter-state sm-hide">
+							<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
+								(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
+								<span>{{ 'button.search_brief' | translate}}</span>
+							</a>
+						</div>
+						<div class="button-row">
+							<button htm-button>{{ 'button.search' | translate }}</button>
+						</div>
 					</div>
 				</div>
-			</div>
-		</ng-container>
+			</ng-container>
+		</div><!--/inline-->
 	</form>
-	<block titleBorder="true">
-		<block-title>{{ 'studyProgramme.label' | translate }}</block-title>
-		<block-content>
-			<searchResults type="studyProgramme" compare="studyProgramme.compare" limit="24"></searchResults>
-		</block-content>
-	</block>
+	<div class="inline">
+		<block titleBorder="true">
+			<block-title>{{ 'studyProgramme.label' | translate }}</block-title>
+			<block-content>
+				<searchResults type="studyProgramme" compare="studyProgramme.compare" limit="24"></searchResults>
+			</block-content>
+		</block>
+	</div><!--/inline-->
 </base-layout>

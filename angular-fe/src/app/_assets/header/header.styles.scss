@@ -40,11 +40,13 @@
 				}
 			}
 		}
-		&__assets {
-			display: flex;
+		&__assets {	
 			flex-grow: 1;
-			margin-right: 1rem;
-    	justify-content: flex-end;
+			.inline{
+				display: flex;
+				flex-grow: 1;
+				justify-content: flex-end;
+			}
 			.header__search {
 				flex: 1 1 auto;
 			}
@@ -228,7 +230,7 @@
 					grid-template-areas: 'search actions';
 					grid-template-columns: 2fr 1fr;
 					-ms-grid-columns: 2fr 1fr;
-					margin: 0 1rem;
+					margin: 0;
 					width: 100%;
 					grid-gap: 1rem;
 				}

@@ -28,8 +28,12 @@
             "tsConfig": "tsconfig.app.json",
             "aot": false,
             "assets": [
+              "src/assets",
               "src/favicon.ico",
-              "src/assets"
+              "src/auth.html",
+              "src/manifest.json",
+              "src/redirect.php",
+              "src/.htaccess"
             ],
             "styles": [
               "src/styles.scss"

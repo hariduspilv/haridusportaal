@@ -20,7 +20,7 @@ import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RecaptchaModule, RECAPTCHA_LANGUAGE, RecaptchaFormsModule } from 'ng-recaptcha';
 import {
   RippleService,
@@ -30,6 +30,7 @@ import {
   SidebarService,
   ModalService,
   SettingsService,
+  AuthService
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -96,7 +97,6 @@ import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.component';
 import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
@@ -195,6 +195,7 @@ const providers = [
   SidebarService,
   ClipboardService,
   SettingsService,
+  AuthService,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',
@@ -229,6 +230,7 @@ const providers = [
     DeviceDetectorModule.forRoot(),
     HttpClientJsonpModule,
     HttpClientModule,
+    ReactiveFormsModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })

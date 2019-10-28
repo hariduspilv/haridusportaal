@@ -24,12 +24,6 @@ module.exports = {
         pattern: '../src/icons/*.svg'
       }
     }),
-    new CopyWebpackPlugin([
-      {
-        from: path.resolve(__dirname, '../src/assets/img'),
-        to: './static'
-      }
-    ])
   ],
 }
 
