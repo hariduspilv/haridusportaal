@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains htm_custom_infograph.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function htm_custom_infograph_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the htm_custom_infograph module.
+    case 'help.page.htm_custom_infograph':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for infographs') . '</p>';
+      return $output;
+
+    default:
+  }
+}
