@@ -36,6 +36,7 @@
             </div>
             
             <div class="description" [class.sm-top]="!content.fieldImage && content.fieldVideo && content.fieldVideo.length > 0" *ngIf="content.fieldBody != null" [innerHTML]="content.fieldBody.value"></div>
+            <iframe *ngIf="content.nid === 56085" src="https://app.powerbi.com/reportEmbed?reportId=227dec7f-1811-4d32-aaae-445071874526&autoAuth=true&ctid=b5a716d7-ec6c-4d85-98a7-b8b6a41ee742&config=eyJjbHVzdGVyVXJsIjoiaHR0cHM6Ly93YWJpLWV1cm9wZS1ub3J0aC1iLXJlZGlyZWN0LmFuYWx5c2lzLndpbmRvd3MubmV0LyJ9" frameborder="0" allowFullScreen="true"></iframe>
           </article>
 
           <video-component *ngIf="content.fieldImage && content.fieldVideo && content.fieldVideo.length > 0" [videos]="content.fieldVideo"></video-component>
