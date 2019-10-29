@@ -366,7 +366,7 @@ class xJsonService implements xJsonServiceInterface {
 
     #if(!$header['first']) array_push($required_keys, ...['identifier', 'acceptable_activity']);
     foreach ($required_keys as $key) {
-      if (!$header[$key]) throw new HttpException('400', "$key missing");
+      if (!$header[$key]) throw new HttpException('400', "$key missing from response");
       if (!isset($header['first'])) {
         foreach ($acceptable_activity_keys as $acceptable_activity_key) {
           if (!in_array($aa = $acceptable_activity_key, $acceptable_activity_keys)) throw new HttpException("400", "acceptable_activity $aa value not acceptable");
