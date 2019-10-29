@@ -110,6 +110,9 @@ class EhisConnectorService {
    * @return mixed|\Psr\Http\Message\ResponseInterface
    */
   private function invoke($service_name, $params, $type = 'get'){
+    dump($service_name);
+    dump($params);
+    die();
     $client = \Drupal::httpClient();
     try {
       /*TODO make post URL configurable*/
