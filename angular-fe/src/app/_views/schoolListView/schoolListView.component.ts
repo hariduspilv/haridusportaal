@@ -18,6 +18,7 @@ export class SchoolListViewComponent implements AfterViewInit {
   selectedTag: any;
   showFilter = true;
   filterFull = false;
+  isLanguageDisabled = false;
   schoolType = [];
   primaryTypes = [];
   selectedPrimaryTypes = [];
@@ -37,6 +38,24 @@ export class SchoolListViewComponent implements AfterViewInit {
     this.getTags();
   }
 
+  checkLanguageDisable():void {
+    // 3441 - huvikool
+    // 3440 - täienduskoolitusasutus
+    if (this.selectedPrimaryTypes.length === 1) {
+      this.isLanguageDisabled =
+        this.selectedPrimaryTypes.includes('3441') || this.selectedPrimaryTypes.includes('3440')
+          ? true : false;
+      return;
+    }
+
+    if (this.selectedPrimaryTypes.length === 2) {
+      this.isLanguageDisabled =
+        this.selectedPrimaryTypes.includes('3441') && this.selectedPrimaryTypes.includes('3440')
+          ? true : false;
+      return;
+    }
+    this.isLanguageDisabled = false;
+  }
   ngAfterViewInit() {
     const responsive = this.filterToggle.nativeElement.clientWidth;
     this.showFilter = responsive ? false : true;
