@@ -241,6 +241,7 @@ class DynamicGraphWidgetType extends WidgetBase {
         '#multiple' => TRUE,
         '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
         '#options' => $group_by_options,
+        '#element_validate' => array(array($this, 'validateChartInput')),
         '#empty_option' => '-',
         '#required' => FALSE,
         '#delta' => $delta,
