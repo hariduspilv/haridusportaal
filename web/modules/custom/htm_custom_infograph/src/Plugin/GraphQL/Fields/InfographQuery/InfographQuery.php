@@ -187,12 +187,7 @@ class InfographQuery extends FieldPluginBase {
         foreach($labelsums as $label => $value){
           $data_array[0][] = (string)$label;
           foreach($value as $key => $val){
-            if(is_string($val)){
-              $val = preg_replace('/\s+/', '', $val);
-            } else {
-              $val = round($val, 2);
-            }
-            $data_array[$key][] = $val;
+            $data_array[$key][] = is_string($val) || $val === null ? $val : round($val, 2);
           }
         }
         $data_array = array_values($data_array);
