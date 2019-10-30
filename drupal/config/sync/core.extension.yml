@@ -58,6 +58,7 @@ module:
   htm_custom_file_logging: 0
   htm_custom_graphql_elasticsearch: 0
   htm_custom_graphql_functions: 0
+  htm_custom_infograph: 0
   htm_custom_iscedf_import: 0
   htm_custom_oska: 0
   htm_custom_professional_certific: 0
