@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_infograph\Form;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\MessengerInterface;
@@ -50,6 +51,7 @@ class InfographDeleteCsvForm extends FormBase {
     array_map( 'unlink', array_filter((array) glob($filters_path."/*")));
     rmdir($filters_path);
 	  unlink($file_path);
+    Cache::invalidateTags([pathinfo($filename, PATHINFO_FILENAME).'_csv']);
 		$form_state->setRedirect('htm_custom_infograph.infograph_csv_list_form');
 	}
 }
