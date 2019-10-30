@@ -471,9 +471,6 @@ class DynamicGraphWidgetType extends WidgetBase {
       ];
     }
 
-    kint($new_values);
-    die();
-
     return isset($new_values) ? $new_values : $values;
   }
 
