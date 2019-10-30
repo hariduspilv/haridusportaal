@@ -11,6 +11,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Drupal\graphql\GraphQL\Buffers\SubRequestBuffer;
 use League\Csv\Reader;
 use League\Csv\Statement;
+use League\Csv\Exception;
 
 /**
  * @GraphQLField(
@@ -95,7 +96,12 @@ class InfographQuery extends FieldPluginBase {
 
     $this->filter_values = $filter_values;
 
-    $reader = Reader::createFromPath('/app/drupal/web/sites/default/files/private/infograph/'.$graph_info['file'].'.csv', 'r');
+    try {
+      $reader = Reader::createFromPath('/app/drupal/web/sites/default/files/private/infograph/'.$graph_info['file'].'.csv', 'r');
+    } catch (Exception $e) {
+      return NULL;
+    }
+    
     $reader->setDelimiter(';');
     $reader->setHeaderOffset(0);
     $stmt = (new Statement())
