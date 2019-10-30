@@ -108,8 +108,8 @@ class DynamicGraphWidgetType extends WidgetBase {
 
     if (isset($form_state->getUserInput()[$field_name])) {
       $graph_source = $form_state->getUserInput()[$field_name][$delta]['graph_source_file'];
-    } else if (isset($items[$delta]->graph_source_file)) {
-      $graph_source = $items[$delta]->graph_source_file;
+    } else if (isset($data['graph_source_file'])) {
+      $graph_source = $data['graph_source_file'];
     } else {
       $graph_source = false;
     }
@@ -461,6 +461,7 @@ class DynamicGraphWidgetType extends WidgetBase {
     $hierarchy_path = '/app/drupal/web/sites/default/files/private/infograph_filters/';
 
     foreach($values as $key => $value){
+      $value['graph_options']['graph_source_file'] = $value['graph_source_file'];
       $value['hierarchy'] = json_decode(file_get_contents($hierarchy_path.$value['graph_source_file'].'/hierarchy'), TRUE);
       $new_values[$key] = [
         'graph_type' => $value['graph_type'],
