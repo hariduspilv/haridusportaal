@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_infograph\Form;
 
+use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -122,6 +123,7 @@ class InfographImportDataForm extends FormBase {
     ];
 
     batch_set($batch);
+    Cache::invalidateTags([$filename.'_csv']);
     $form_state->setRedirect('htm_custom_infograph.infograph_csv_list_form');
   }
 
