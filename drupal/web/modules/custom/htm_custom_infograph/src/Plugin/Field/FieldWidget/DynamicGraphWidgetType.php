@@ -463,6 +463,7 @@ class DynamicGraphWidgetType extends WidgetBase {
     foreach($values as $key => $value){
       $value['hierarchy'] = json_decode(file_get_contents($hierarchy_path.$value['graph_source_file'].'/hierarchy'), TRUE);
       $new_values[$key] = [
+        'graph_source_file' => $value['graph_source_file'],
         'graph_type' => $value['graph_type'],
         'graph_title' => $value['graph_options']['graph_title'],
         'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
