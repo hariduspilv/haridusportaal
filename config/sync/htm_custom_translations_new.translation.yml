@@ -855,7 +855,7 @@ xjson:
     en: ''
   required_fields_infotext:
     translation_type: textarea
-    et: '* märgitud väljad on kohustuslikud'
+    et: 'Tärniga ( * ) märgitud väljad on kohustuslikud'
     en: ''
   VPT_TAOTLUS_infotext:
     translation_type: text_format
