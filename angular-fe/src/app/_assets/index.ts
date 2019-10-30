@@ -102,6 +102,7 @@ import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/home
 import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
 import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
+import { InfographComponent } from './infograph/infograph.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -169,6 +170,7 @@ const declarations = [
   FavouriteComponent,
   LabeledSeparatorComponent,
   ChartComponent,
+  InfographComponent,
   ListItemComponent,
   MonthsToYearsPipe,
   RemoveProtocolPipe,
