@@ -240,11 +240,11 @@ public class MtsysWorker extends Worker {
                   if (!tegevusnaitaja.isSetEsitamiseKp() && !tegevusnaitaja.isSetId()
                       && !tegevusnaitaja.isSetMenetlusStaatus()) {
                     ((ArrayNode) itemNode.get("acceptable_forms")).addObject()
-                        .put("form_name", "MTSYS_TEGEVUSNAITAJAD")
+                        .put("form_name", "MTSYS_TEGEVUSNAITAJAD_ARUANNE")
                         .put("description", tegevusnaitaja.getAasta().intValue());
                   } else if (!tegevusnaitaja.getMenetlusStaatus().equalsIgnoreCase("Esitatud")) {
                     ((ArrayNode) itemNode.get("drafts")).addObject()
-                        .put("form_name", "MTSYS_TEGEVUSNAITAJAD")
+                        .put("form_name", "MTSYS_TEGEVUSNAITAJAD_ARUANNE")
                         .put("id", tegevusnaitaja.getId().intValue())
                         .put("description", tegevusnaitaja.getAasta().intValue());
                   } else {
@@ -661,7 +661,7 @@ public class MtsysWorker extends Worker {
       ((ObjectNode) jsonNode.get("header")).put("current_step", "step_liik");
       ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("CONTINUE");
 
-      logForDrupal.setMessage("psotMtsysTegevusluba step_liik json loodud");
+      logForDrupal.setMessage("postMtsysTegevusluba step_liik json loodud");
     } else if (currentStep.equalsIgnoreCase("step_liik")) {
       getTegevuslubaXJSON(jsonNode, jsonNode.get("body").get("steps").get("step_liik")
               .get("data_elements").get("tegevusloaLiik").get("value").asLong(),
@@ -671,7 +671,7 @@ public class MtsysWorker extends Worker {
       ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll()
           .add("SAVE").add("SUBMIT");
 
-      logForDrupal.setMessage("psotMtsysTegevusluba step_andmed json loodud");
+      logForDrupal.setMessage("postMtsysTegevusluba step_andmed json loodud");
     } else if (currentStep.equalsIgnoreCase("step_andmed")) {
       try {
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SAVE")) {
