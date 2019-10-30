@@ -107,31 +107,23 @@ export class XjsonComponent implements OnInit, OnDestroy {
   ) { }
 
   pathWatcher() {
-    this.form_route = decodeURI(this.router.url).split('?')[0];
-
-    const params = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = params['lang'];
-      }
-    );
     const strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
         this.test = (strings['test'] === 'true');
         if (strings['draft'] === 'true') { this.queryStrings['status'] = 'draft'; }
         if (strings['existing'] === 'true') { this.queryStrings['status'] = 'submitted'; }
-        if (this.form_name && this.form_name.includes('MTSYS') && strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutions_id'] = strings['educationalInstitutions_id']; }
+        if (strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutions_id'] = Number(strings['educationalInstitutions_id']); }
         if (strings['identifier'] !== undefined) { this.queryStrings['id'] = Number(strings['identifier']); }
       }
     );
 
-    this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
 
-  getFormName(path) {
+  getFormName() {
     const url = '/xjson_service/form_name?_format=json';
 
-    const subscription = this.http.post(url, { form_path: path }).subscribe((response: any) => {
+    const subscription = this.http.post(url, { form_path: this.form_route }).subscribe((response: any) => {
       this.form_name = response;
       subscription.unsubscribe();
     });
@@ -1015,6 +1007,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       data.test = true; // TEST
     }
 
+    console.log(this.queryStrings);
     if (this.queryStrings) {
       data = { ...data, ... this.queryStrings };
     }
@@ -1121,11 +1114,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.form_route = decodeURI(this.router.url).split('?')[0];
+    this.lang = this.rootScope.get('lang');
+    this.getFormName();
     this.pathWatcher();
     
     const payload = { form_name: this.form_route };
-
-    this.getFormName(this.form_route);
 
     if (this.test === true) {
       this.promptDebugDialog(payload);
