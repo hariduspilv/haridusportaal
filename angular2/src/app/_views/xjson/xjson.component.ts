@@ -117,6 +117,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (strings['identifier'] !== undefined) { this.queryStrings['id'] = Number(strings['identifier']); }
       }
     );
+
+    this.subscriptions = [...this.subscriptions, strings];
   }
 
   isArray(obj: any) {
