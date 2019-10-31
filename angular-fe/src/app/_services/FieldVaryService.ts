@@ -33,6 +33,7 @@ const requestMap = {
   group: ['fieldEventGroup'],
   attachmentFile: ['fieldOskaMainProfessionFile', 'fieldAttachmentFile', 'fieldOskaAttachmentFile', 'fieldSurveyPageAttachment'],
   graph: ['fieldDynamicGraph'],
+  infograph: ['fieldInfograph'],
   additional: ['fieldAdditional', 'fieldPracticalInformation'],
   fieldPros: ['fieldOskaFieldPros'],
   fieldCons: ['fieldOskaFieldCons'],
