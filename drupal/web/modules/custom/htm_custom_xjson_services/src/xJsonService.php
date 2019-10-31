@@ -291,6 +291,8 @@ class xJsonService implements xJsonServiceInterface {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function buildFormv2 ($response) {
+    dump($response);
+    die();
     $return = [];
     #dump($response);
     $response_body = isset($response['body']) ? $response['body'] : null;
