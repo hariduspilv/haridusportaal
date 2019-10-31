@@ -114,16 +114,16 @@ class xJsonRestResource extends ResourceBase {
           throw new AccessDeniedHttpException();
         }
 
-        if (isset($checked_data['id']) && !isset($checked_data['form_info'])) {
-          if (isset($checked_data['status']) && ($checked_data['status'] === 'draft' || $checked_data['status'] === 'submitted')) {
-            return $this->returnExistingXjson($checked_data);
+        if(!isset($checked_data['form_info'])){
+          if(isset($checked_data['id'])){
+            if (isset($checked_data['status']) && ($checked_data['status'] === 'draft' || $checked_data['status'] === 'submitted')) {
+              return $this->returnDynamicXjson($checked_data);
+            } else {
+              return new ModifiedResourceResponse('Status missing or status value wrong', 400);
+            }
           } else {
-            return new ModifiedResourceResponse('Status missing or status value wrong', 400);
+            return $this->returnDynamicXjson($checked_data);
           }
-        }
-
-        if (isset($checked_data['educationalInstitutions_id']) && isset($checked_data['year']) && !isset($checked_data['form_info'])) {
-          return $this->returnReportXjson($checked_data);
         }
 
         if (isset($checked_data['test']) && $checked_data['test'] === true) {
@@ -135,27 +135,16 @@ class xJsonRestResource extends ResourceBase {
     }
   }
 
-
-  private function returnReportXjson ($data) {
-    $params['url'] = [$data['form_name'], $this->ehisService->getCurrentUserIdRegCode(), $data['year']];
-    $response = $this->ehisService->getDocument($params, true);
-    if($response) {
-      $response['header'] += [
-        'endpoint' => 'empty'
-      ];
-      $form_name = $response['header']['form_name'];
-
-      $builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
-      if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
-
-      return $this->returnBuildedResponse($builded_header);
-    } else {
-      return new ModifiedResourceResponse('invalid request', 400);
+  private function returnDynamicXjson ($data) {
+    $sequence = ['form_name', 'id', 'idcode', 'year', 'educationalInstitutions_id'];
+    foreach($sequence as $parameter){
+      if(isset($data[$parameter]) && $parameter !== 'idcode'){
+        $params['url'][] = $data[$parameter];
+      }
+      if($parameter === 'idcode'){
+        $params['url'][] = $this->ehisService->getCurrentUserIdRegCode();
+      }
     }
-  }
-
-  private function returnExistingXjson ($data) {
-    $params['url'] = [$data['form_name'], $data['id']];
     $response = $this->ehisService->getDocument($params);
     $response['header'] += [
       'endpoint' => 'empty'
@@ -163,15 +152,14 @@ class xJsonRestResource extends ResourceBase {
     $form_name = $response['header']['form_name'];
     //validate header activity
     $acceptable_activity = $response['header']['acceptable_activity'];
-    #if ($data['status'] === 'draft') $allowed_activites = ['SAVE' => 'SAVE', 'SUBMIT' => 'SUBMIT', 'CONTINUE' => 'CONTINUE'];
-    #if ($data['status'] === 'submitted') $allowed_activites = ['VIEW' => 'VIEW'];
-    #dump($response);
-    #foreach ($acceptable_activity as $value) {
-    #	if (!isset($allowed_activites[$value])) {
-    #		$errorJson = $this->xJsonService->returnErrorXjson();
-    #		return new ModifiedResourceResponse($errorJson);
-    #	}
-    #}
+    if ($data['status'] === 'draft') $allowed_activites = ['SAVE' => 'SAVE', 'SUBMIT' => 'SUBMIT', 'CONTINUE' => 'CONTINUE'];
+    if ($data['status'] === 'submitted') $allowed_activites = ['VIEW' => 'VIEW'];
+    foreach ($acceptable_activity as $value) {
+      if (!isset($allowed_activites[$value])) {
+        $errorJson = $this->xJsonService->returnErrorXjson();
+        return new ModifiedResourceResponse($errorJson);
+      }
+    }
 
     $builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
     if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
