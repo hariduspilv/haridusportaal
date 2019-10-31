@@ -291,8 +291,6 @@ class xJsonService implements xJsonServiceInterface {
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
   public function buildFormv2 ($response) {
-    dump($response);
-    die();
     $return = [];
     #dump($response);
     $response_body = isset($response['body']) ? $response['body'] : null;
@@ -481,10 +479,6 @@ class xJsonService implements xJsonServiceInterface {
 
         if(!$table && (!isset($element['max_size']) || $element['max_size'] > ini_get('upload_max_filesize'))){
           $element['max_size'] = intval(preg_replace('/\D/', '', ini_get('upload_max_filesize')));
-        }
-        if($element['title']['et'] === 'Aruanne fail üles  laadimiseks'){
-          dump($table);
-          dump($element);
         }
         break;
       case 'table':
