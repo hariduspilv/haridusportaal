@@ -480,7 +480,10 @@ class xJsonService implements xJsonServiceInterface {
         if(!$table && (!isset($element['max_size']) || $element['max_size'] > ini_get('upload_max_filesize'))){
           $element['max_size'] = intval(preg_replace('/\D/', '', ini_get('upload_max_filesize')));
         }
-        dump($element);
+        if($element['title']['et'] === 'Aruanne fail üles  laadimiseks'){
+          dump($table);
+          dump($element);
+        }
         break;
       case 'table':
         $additional_keys = ['row_label', 'add_del_rows', 'table_columns' , 'hidden', 'vertical'];
