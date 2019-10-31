@@ -267,8 +267,6 @@ class EhisConnectorService {
     if(!$regcode) {
       $params['url'][] = $this->getCurrentUserIdRegCode();
     }
-    dump($params);
-    die();
     return $this->invokeWithRedis('getDocument', $params, FALSE);
   }
 
