@@ -146,6 +146,8 @@ class xJsonRestResource extends ResourceBase {
       }
     }
     $response = $this->ehisService->getDocument($params, true);
+    dump($response);
+    die();
     $response['header'] += [
       'endpoint' => 'empty'
     ];
