@@ -145,6 +145,8 @@ class xJsonRestResource extends ResourceBase {
         $params['url'][] = $this->ehisService->getCurrentUserIdRegCode();
       }
     }
+    dump($params);
+    die();
     $response = $this->ehisService->getDocument($params);
     $response['header'] += [
       'endpoint' => 'empty'
