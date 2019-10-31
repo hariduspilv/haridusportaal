@@ -565,7 +565,7 @@ class xJsonService implements xJsonServiceInterface {
     return $results;
   }
 
-  public function returnErrorxDzeison () {
+  public function returnErrorXjson () {
     $json = [
       'header' => [
         'form_name' => 'error',
