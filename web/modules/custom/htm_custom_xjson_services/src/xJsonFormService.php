@@ -201,7 +201,7 @@ class xJsonFormService implements xJsonServiceInterface {
             $this->entity = $entityStorage->load($result);
             return ($this->entity) ? Json::decode($this->entity->get('xjson_definition')->value) : null;
         } else {
-            return $this->returnErrorxDzeison();
+            return $this->returnErrorXjson();
         }
 
     }
@@ -284,7 +284,7 @@ class xJsonFormService implements xJsonServiceInterface {
         return $input_values;
     }
 
-    public function returnErrorxDzeison () {
+    public function returnErrorXjson () {
         $json = [
             'header' => [
                 'form_name' => 'error',
