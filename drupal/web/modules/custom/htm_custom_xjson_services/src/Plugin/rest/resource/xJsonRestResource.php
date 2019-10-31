@@ -136,13 +136,13 @@ class xJsonRestResource extends ResourceBase {
   }
 
   private function returnDynamicXjson ($data) {
-    $sequence = ['form_name', 'id', 'idcode', 'year'];
+    $sequence = ['form_name', 'id', 'idcode', 'year', 'educationalInstitutions_id'];
     foreach($sequence as $parameter){
       if(isset($data[$parameter]) && $parameter !== 'idcode'){
         $params['url'][] = $data[$parameter];
       }
       if($parameter === 'idcode'){
-        //$params['url'][] = $this->ehisService->getCurrentUserIdRegCode();
+        $params['url'][] = $this->ehisService->getCurrentUserIdRegCode();
       }
     }
     $response = $this->ehisService->getDocument($params, true);
