@@ -116,22 +116,41 @@ class xJsonRestResource extends ResourceBase {
 
         if (isset($checked_data['id']) && !isset($checked_data['form_info'])) {
           if (isset($checked_data['status']) && ($checked_data['status'] === 'draft' || $checked_data['status'] === 'submitted')) {
-            return $this->returnExistingDzeison($checked_data);
+            return $this->returnExistingXjson($checked_data);
           } else {
             return new ModifiedResourceResponse('Status missing or status value wrong', 400);
           }
         }
 
+        if (isset($checked_data['educationalInstitutions_id']) && isset($checked_data['year']) && !isset($checked_data['form_info'])) {
+          return $this->returnReportXjson($checked_data);
+        }
+
         if (isset($checked_data['test']) && $checked_data['test'] === true) {
-          return $this->returnTestDzeison();
+          return $this->returnTestXjson();
         } else {
-          return $this->returnRighstDzeison($checked_data);
+          return $this->returnMainXjson($checked_data);
         }
       }
     }
   }
 
-  private function returnExistingDzeison ($data) {
+
+  private function returnReportXjson ($data) {
+    $params['url'] = [$data['form_name'], $data['year']];
+    $response = $this->ehisService->getDocument($params);
+    $response['header'] += [
+      'endpoint' => 'empty'
+    ];
+    $form_name = $response['header']['form_name'];
+
+    $builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
+    if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
+
+    return $this->returnBuildedResponse($builded_header);
+  }
+
+  private function returnExistingXjson ($data) {
     $params['url'] = [$data['form_name'], $data['id']];
     $response = $this->ehisService->getDocument($params);
     $response['header'] += [
@@ -145,7 +164,7 @@ class xJsonRestResource extends ResourceBase {
     #dump($response);
     #foreach ($acceptable_activity as $value) {
     #	if (!isset($allowed_activites[$value])) {
-    #		$errorJson = $this->xJsonService->returnErrorxDzeison();
+    #		$errorJson = $this->xJsonService->returnErrorXjson();
     #		return new ModifiedResourceResponse($errorJson);
     #	}
     #}
@@ -156,12 +175,12 @@ class xJsonRestResource extends ResourceBase {
     return $this->returnBuildedResponse($builded_header);
   }
 
-  private function returnTestDzeison () {
+  private function returnTestXjson() {
     $response = $this->xJsonService->buildTestResponse();
     return new ModifiedResourceResponse($response);
   }
 
-  private function returnRighstDzeison ($data) {
+  private function returnMainXjson ($data) {
 
     if (isset($data['form_info'])) {
       $request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info'], $data['form_name']);
