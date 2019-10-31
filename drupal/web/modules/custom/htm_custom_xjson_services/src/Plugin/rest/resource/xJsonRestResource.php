@@ -139,17 +139,19 @@ class xJsonRestResource extends ResourceBase {
   private function returnReportXjson ($data) {
     $params['url'] = [$data['form_name'], $data['year']];
     $response = $this->ehisService->getDocument($params);
-    dump($response);
-    die();
-    $response['header'] += [
-      'endpoint' => 'empty'
-    ];
-    $form_name = $response['header']['form_name'];
+    if($response) {
+      $response['header'] += [
+        'endpoint' => 'empty'
+      ];
+      $form_name = $response['header']['form_name'];
 
-    $builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
-    if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
+      $builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
+      if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
 
-    return $this->returnBuildedResponse($builded_header);
+      return $this->returnBuildedResponse($builded_header);
+    } else {
+      return new ModifiedResourceResponse('invalid request', 400);
+    }
   }
 
   private function returnExistingXjson ($data) {
