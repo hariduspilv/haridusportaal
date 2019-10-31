@@ -101,7 +101,7 @@ class InfographQuery extends FieldPluginBase {
     } catch (Exception $e) {
       return NULL;
     }
-    
+
     $reader->setDelimiter(';');
     $reader->setHeaderOffset(0);
     $stmt = (new Statement())
