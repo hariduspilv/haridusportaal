@@ -605,7 +605,7 @@ export class InfographComponent implements OnInit {
           ? filters['näitaja2'] : secondaryIndicatorList,
         indicator: filters['näitaja'] && filters['näitaja'].length > 0 ? filters['näitaja'] : false,
         topic: filters.teema && filters.teema.length > 0 ? filters.teema : topicList,
-        period: filters.periood || '',
+        period: filters.aasta || '',
         label: filters.silt || '',
         graphGroupBy: filters.grupeeri || '',
         graphVAxis: current.graph_v_axis,
@@ -625,8 +625,6 @@ export class InfographComponent implements OnInit {
       }
 
       const tmpVariables = {};
-
-      console.log(variables);
 
       for (const i in variables) {
         if (variables[i] !== '') {

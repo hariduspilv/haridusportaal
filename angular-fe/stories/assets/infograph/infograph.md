@@ -3,10 +3,10 @@
 ## Usage
 
 ```html
-<chart
+<infograph
   [data]='data'
   [type]='type'>
-</chart>
+</infograph>
 ```
 
 ## Properties
@@ -20,14 +20,14 @@
 const data: Object = {
   fieldDynamicGraph: [
     {
-      graphSet: null,
-      graphTitle: 'Kassi ja koera kaalumised',
-      filterValues: '{\'graph_type\':\'line\',\'graph_options\':{\'graph_title\':\'Kassi ja koera kaalumised\',\'graph_indicator\':{\'Kaal\':\'Kaal\'},\'graph_v_axis\':\'periood\',\'graph_group_by\':{\'valdkond\':\'valdkond\'},\'graph_filters\':{\'valdkond\':{\'koer\':\'koer\',\'kass\':\'kass\'},\'alavaldkond\':[],\'ametiala\':[],\'periood\':[],\'silt\':[]},\'graph_y_min\':\'0\',\'graph_y_unit\':\'summa\',\'graph_text\':{\'value\':\'\\u003Cp\\u003EM\\u00f5nel aastal ununes kaaluda.\\u003C\\/p\\u003E\\r\\n\',\'format\':\'custom_editor\'}},\'_weight\':\'0\',\'_original_delta\':0,\'hierarchy\':null}',
-      graphType: 'line',
-      secondaryGraphType: null,
-      graphText: '<p>Mõnel aastal ununes kaaluda.</p>\r\n'
-    },
-    ...
-  ]
+      "graphSet": null,
+      "graphTitle": "asdfasdfsadf",
+      "graphVAxis": null,
+      "filterValues": "{\"graph_source_file\":\"larstest\",\"graph_type\":\"line\",\"graph_options\":{\"graph_title\":\"asdfasdfsadf\",\"graph_indicator\":{\"\\u00f5pilaste arv\":\"\\u00f5pilaste arv\"},\"graph_v_axis\":\"aasta\",\"graph_group_by\":{\"silt\":\"silt\",\"naitaja\":\"naitaja\"},\"graph_filters\":{\"teema\":[],\"aasta\":[],\"silt\":[]},\"graph_y_min\":\"0\",\"graph_y_unit\":\"summa\",\"graph_text\":{\"value\":\"\",\"format\":\"custom_editor\"},\"graph_source_file\":\"sadf\"},\"_weight\":\"0\",\"_original_delta\":0,\"hierarchy\":{\"naitaja\":{\"\\u00f5pilaste arv\":{\"teema\":\"\",\"aasta\":\"2018\\/2019\",\"silt\":\"g\\u00fcmnaasium\"}}}}",
+      "graphType": "line",
+      "secondaryGraphType": null,
+      "graphText": ""
+    }
+  ],
 }
 ```
