@@ -139,6 +139,8 @@ class xJsonRestResource extends ResourceBase {
   private function returnReportXjson ($data) {
     $params['url'] = [$data['form_name'], $data['year']];
     $response = $this->ehisService->getDocument($params);
+    dump($response);
+    die();
     $response['header'] += [
       'endpoint' => 'empty'
     ];
