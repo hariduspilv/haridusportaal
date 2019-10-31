@@ -16,41 +16,37 @@
       <ng-container *ngIf="item && item.filters">
         <div class="formItems" [ngClass]="{'formItems--3': wide, 'formItems--2': !wide}">
           <ng-container *ngFor="let select of item.filters; let i = index">
-            
+
             <div *ngIf="select.options.length > 1">
               <ng-container *ngIf="select.multiple && filters[item.id]">
-                <formItem
-                  type="multi-select"
-                  (onChange)="getGraphData(item.id)"
-                  [(ngModel)]="filters[item.id][select.key]"
-                  [title]="select.key"
-                  [options]="select.options">
+                <formItem type="multi-select" (onChange)="getGraphData(item.id)"
+                  [(ngModel)]="filters[item.id][select.key]" [title]="select.key" [options]="select.options">
                 </formItem>
               </ng-container>
               <ng-container *ngIf="!select.multiple && filters[item.id]">
-                <formItem
-                  (onChange)="getGraphData(item.id)"
-                  type="select"
-                  [(ngModel)]="filters[item.id][select.key]"
-                  [title]="select.key"
-                  [options]="select.options">
+                <formItem (onChange)="getGraphData(item.id)" type="select" [(ngModel)]="filters[item.id][select.key]"
+                  [title]="select.key" [options]="select.options">
                 </formItem>
               </ng-container>
-            </div><!--/col-->
+            </div>
+            <!--/col-->
           </ng-container>
-        </div><!--/row-->
+        </div>
+        <!--/row-->
 
         <div class="chart-wrapper">
 
           <ng-container *ngIf="filtersData[item.id]">
             <div class="chart-wrapper__loader" *ngIf="filtersData[item.id].loading">
               <loader></loader>
-            </div><!--/chart-wrapper__loader-->
-            
+            </div>
+            <!--/chart-wrapper__loader-->
+
             <google-chart [data]="filtersData[item.id]" *ngIf="filtersData[item.id].dataTable"></google-chart>
 
           </ng-container>
-        </div><!--/chart-wrapper-->
+        </div>
+        <!--/chart-wrapper-->
 
       </ng-container>
       <hr *ngIf="!last" aria-hidden="true">

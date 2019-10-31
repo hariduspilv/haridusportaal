@@ -656,7 +656,7 @@ export class InfographComponent implements OnInit {
 
           this.requestSubscription[id].unsubscribe();
           this.requestSubscription[id] = false;
-        },                                                    (err) => {
+        },                              (err) => {
           this.filtersData[current.id].loading = false;
         });
     },                                    300);
