@@ -263,9 +263,10 @@ class EhisConnectorService {
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
   /*@TODO something wrong here*/
-  public function getDocument(array $params = []){
-    array_splice( $params['url'], 1, 0, $this->getCurrentUserIdRegCode());
-    //$params['url'][] = $this->getCurrentUserIdRegCode();
+  public function getDocument(array $params = [], $regcode = false){
+    if(!$regcode) {
+      $params['url'][] = $this->getCurrentUserIdRegCode();
+    }
     return $this->invokeWithRedis('getDocument', $params, FALSE);
   }
 
