@@ -137,7 +137,7 @@ class xJsonRestResource extends ResourceBase {
 
 
   private function returnReportXjson ($data) {
-    $params['url'] = [$data['form_name'], $this->currentUser->getIdCode(), $data['year']];
+    $params['url'] = [$data['form_name'], $this->ehisService->getCurrentUserIdRegCode(), $data['year']];
     $response = $this->ehisService->getDocument($params, true);
     if($response) {
       $response['header'] += [
