@@ -1395,7 +1395,7 @@ public class MtsysWorker extends Worker {
 
       String redisHK =
           "mtsys_tegevusnaitajad_aruanne_eeltaidetud_" + educationalInstitutionsId + "_" + year;
-      dataElementsNode.putObject("eeltaidetudCSV").putObject("value")
+      dataElementsNode.putObject("eeltaidetudCSV").putArray("value").addObject()
           .put("file_name", response.getCsvFail().getFilename())
           .put("file_identifier", redisHK);
       redisFileTemplate.opsForHash()
@@ -1521,7 +1521,7 @@ public class MtsysWorker extends Worker {
 
     if (jsonNode.get("header").get("parameters").get("fileSubmit").asBoolean()) {
       request.setFail(Base64.getDecoder().decode((String) redisFileTemplate.opsForHash()
-          .get(applicantPersonalCode, dataElementNode.get("esitamiseksCSV").get("value")
+          .get(applicantPersonalCode, dataElementNode.get("esitamiseksCSV").get("value").get(0)
               .get("file_identifier").asText())));
     } else {
       Naitajad naitajad = Naitajad.Factory.newInstance();
