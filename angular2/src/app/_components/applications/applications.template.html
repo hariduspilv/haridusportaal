@@ -296,7 +296,7 @@
                   <ng-container *ngFor="let form of school.acceptable_forms; let index = index;">
                     <ng-container *ngIf="index < acceptableFormsLimiter">
                         <a [routerLink]="[form.form_path]"
-                          [queryParams]="form.id ? {educationalInstitutions_id: school.id, identifier: form.id, existing: 'true'} : {educationalInstitutions_id: school.id}" class="grid-item">
+                          [queryParams]="form.id ? {educationalInstitutions_id: school.id, identifier: form.id, existing: 'true'} : {educationalInstitutions_id: school.id, year: form.description}" class="grid-item">
                           <span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }}
                             {{ form.description }}</span>
                         </a>
