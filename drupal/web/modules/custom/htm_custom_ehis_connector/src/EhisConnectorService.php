@@ -115,7 +115,6 @@ class EhisConnectorService {
       /*TODO make post URL configurable*/
       if($type === 'get'){
         if($service_name === 'getDocument'){
-          dump($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
           $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
         } else {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
@@ -129,8 +128,6 @@ class EhisConnectorService {
         //TODO throw error
       }
       $response = json_decode($response->getBody()->getContents(), TRUE);
-      dump($response);
-      die();
       return $response;
     }catch (RequestException $e){
       return false;
