@@ -93,8 +93,6 @@ class EhisConnectorService {
 
         break;
       default:
-        dump($params);
-        die();
         if($redis_response = $this->getValue($params['key'], $params['hash'])){
           $redis_response['redis_hit'] = TRUE;
           return $redis_response;
@@ -116,7 +114,13 @@ class EhisConnectorService {
     try {
       /*TODO make post URL configurable*/
       if($type === 'get'){
-        $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
+        if($service_name === 'getDocument'){
+          $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'/'. implode($params['url'], '/'));
+        } else {
+          $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
+        }
+        dump($response);
+        die();
       }elseif($type === 'post'){
         $params['headers'] = [
           'Content-Type' => 'application/json'
