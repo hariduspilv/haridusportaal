@@ -2,7 +2,7 @@ query relatedEvents(
   $groupID: String,
   $lang: LanguageId!,
   $nid: String) {
-  nodeQuery(limit: 3, sort: {field: "field_event_main_date.value", direction: ASC}, filter: {conditions: [
+  nodeQuery(limit: 100, sort: {field: "field_event_main_date.value", direction: ASC}, filter: {conditions: [
     {operator: EQUAL, field: "field_event_group.target_id", value: [$groupID], language: $lang},
     {operator: NOT_EQUAL, field: "nid", value: [$nid], language: $lang},
     {operator: EQUAL, field: "status", value: "1", language: $lang}]}) {
