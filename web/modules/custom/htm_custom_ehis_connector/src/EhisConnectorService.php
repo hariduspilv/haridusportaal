@@ -95,10 +95,8 @@ class EhisConnectorService {
       default:
         if($redis_response = $this->getValue($params['key'], $params['hash'])){
           $redis_response['redis_hit'] = TRUE;
-          dump($redis_response);
           return $redis_response;
         }else{
-          dump('test');
           return $this->invoke($service_name, $params);
         }
         break;
@@ -121,8 +119,6 @@ class EhisConnectorService {
         } else {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
         }
-        dump($response);
-        die();
       }elseif($type === 'post'){
         $params['headers'] = [
           'Content-Type' => 'application/json'
