@@ -107,31 +107,28 @@ export class XjsonComponent implements OnInit, OnDestroy {
   ) { }
 
   pathWatcher() {
-    this.form_route = decodeURI(this.router.url).split('?')[0];
-
-    const params = this.route.params.subscribe(
-      (params: ActivatedRoute) => {
-        this.lang = params['lang'];
-      }
-    );
     const strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
         this.test = (strings['test'] === 'true');
+        if (strings['year'] !== undefined) { this.queryStrings['year'] = Number(strings['year']); }
         if (strings['draft'] === 'true') { this.queryStrings['status'] = 'draft'; }
         if (strings['existing'] === 'true') { this.queryStrings['status'] = 'submitted'; }
-        if (this.form_name && this.form_name.includes('MTSYS') && strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutions_id'] = strings['educationalInstitutions_id']; }
-        if (strings['identifier'] !== undefined) { this.queryStrings['id'] = Number(strings['identifier']); }
+        if (strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutionsId'] = Number(strings['educationalInstitutions_id']); }
+        if (strings['identifier'] !== undefined) { this.queryStrings['identifier'] = Number(strings['identifier']); }
       }
     );
 
-    this.subscriptions = [...this.subscriptions, params];
     this.subscriptions = [...this.subscriptions, strings];
   }
 
-  getFormName(path) {
+  isArray(obj: any) {
+    return Array.isArray(obj);
+  }
+
+  getFormName() {
     const url = '/xjson_service/form_name?_format=json';
 
-    const subscription = this.http.post(url, { form_path: path }).subscribe((response: any) => {
+    const subscription = this.http.post(url, { form_path: this.form_route }).subscribe((response: any) => {
       this.form_name = response;
       subscription.unsubscribe();
     });
@@ -433,7 +430,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if ((Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value.length) || (!Array.isArray(this.data_elements[model.depend_on].value) && !this.data_elements[model.depend_on].value)) {
           if (model.value && Array.isArray(model.value)) {
             this.data_elements[element].value = [];
-          } else if (model.value && !Array.isArray(model.value)){
+          } else if (model.value && !Array.isArray(model.value)) {
             this.data_elements[element].value = '';
           }
           return true;
@@ -495,8 +492,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.fileLoading[element] = true;
     const file = files[0];
     const file_size = this.byteToMegabyte(file.size);
-    if (file_size > size_limit || !model.acceptable_extensions.includes(file.name.split('.').pop())) {
-      this.error[element] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit')['value'] : this.translate.get('xjson.unacceptable_extension')['value']};
+    if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.split('.').pop()))) {
+      this.error[element] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit')['value'] : this.translate.get('xjson.unacceptable_extension')['value'] };
       files.shift();
       if (files.length > 0) {
         this.uploadFile(files, element);
@@ -922,7 +919,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.data.header.acceptable_form.slice(0, this.acceptable_forms_limit) :
       this.data.header.acceptable_form;
 
-      const params = [];
+    const params = [];
     this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
         for (const key in strings) {
@@ -964,7 +961,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           }
         }
       } else if (this.viewOnlyStep) {
-          this.isViewOnlyStep(elem);
+        this.isViewOnlyStep(elem);
       }
     }
   }
@@ -1121,11 +1118,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.form_route = decodeURI(this.router.url).split('?')[0];
+    this.lang = this.rootScope.get('lang');
+    this.getFormName();
     this.pathWatcher();
-    
-    const payload = { form_name: this.form_route };
 
-    this.getFormName(this.form_route);
+    const payload = { form_name: this.form_route };
 
     if (this.test === true) {
       this.promptDebugDialog(payload);
