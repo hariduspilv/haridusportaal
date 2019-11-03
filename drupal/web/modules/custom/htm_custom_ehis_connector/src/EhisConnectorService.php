@@ -93,6 +93,8 @@ class EhisConnectorService {
 
         break;
       default:
+        dump($params);
+        die();
         if($redis_response = $this->getValue($params['key'], $params['hash'])){
           $redis_response['redis_hit'] = TRUE;
           return $redis_response;
@@ -265,7 +267,7 @@ class EhisConnectorService {
   /*@TODO something wrong here*/
   public function getDocument(array $params = [], $regcode = false){
     if(!$regcode) {
-      $params['url'][] = $this->getCurrentUserIdRegCode();
+      $params['idcode'] = $this->getCurrentUserIdRegCode();
     }
     return $this->invokeWithRedis('getDocument', $params, FALSE);
   }
