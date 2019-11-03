@@ -144,8 +144,6 @@ class xJsonRestResource extends ResourceBase {
     }
     $params['form_name'] = $data['form_name'];
     $response = $this->ehisService->getDocument($params);
-    dump($response);
-    die();
     $response['header'] += [
       'endpoint' => 'empty'
     ];
