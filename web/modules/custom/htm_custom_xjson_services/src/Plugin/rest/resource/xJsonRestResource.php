@@ -114,8 +114,8 @@ class xJsonRestResource extends ResourceBase {
           throw new AccessDeniedHttpException();
         }
 
-        if(!isset($checked_data['form_info']) && (isset($checked_data['id']) || isset($checked_data['year']))){
-          if(isset($checked_data['id'])){
+        if(!isset($checked_data['form_info']) && (isset($checked_data['identifier']) || isset($checked_data['year']))){
+          if(isset($checked_data['identifier'])){
             if (isset($checked_data['status']) && ($checked_data['status'] === 'draft' || $checked_data['status'] === 'submitted')) {
               return $this->returnDynamicXjson($checked_data);
             } else {
