@@ -113,8 +113,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (strings['year'] !== undefined) { this.queryStrings['year'] = Number(strings['year']); }
         if (strings['draft'] === 'true') { this.queryStrings['status'] = 'draft'; }
         if (strings['existing'] === 'true') { this.queryStrings['status'] = 'submitted'; }
-        if (strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutions_id'] = Number(strings['educationalInstitutions_id']); }
-        if (strings['identifier'] !== undefined) { this.queryStrings['id'] = Number(strings['identifier']); }
+        if (strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutionsId'] = Number(strings['educationalInstitutions_id']); }
+        if (strings['identifier'] !== undefined) { this.queryStrings['identifier'] = Number(strings['identifier']); }
       }
     );
 
