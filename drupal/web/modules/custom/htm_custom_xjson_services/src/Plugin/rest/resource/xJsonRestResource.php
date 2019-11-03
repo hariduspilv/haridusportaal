@@ -148,18 +148,6 @@ class xJsonRestResource extends ResourceBase {
       'endpoint' => 'empty'
     ];
     $form_name = $response['header']['form_name'];
-    //validate header activity
-    if(isset($data['status'])){
-      $acceptable_activity = $response['header']['acceptable_activity'];
-      if ($data['status'] === 'draft') $allowed_activites = ['SAVE' => 'SAVE', 'SUBMIT' => 'SUBMIT', 'CONTINUE' => 'CONTINUE'];
-      if ($data['status'] === 'submitted') $allowed_activites = ['VIEW' => 'VIEW'];
-      foreach ($acceptable_activity as $value) {
-        if (!isset($allowed_activites[$value])) {
-          $errorJson = $this->xJsonService->returnErrorXjson();
-          return new ModifiedResourceResponse($errorJson);
-        }
-      }
-    }
 
     $builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
     if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
