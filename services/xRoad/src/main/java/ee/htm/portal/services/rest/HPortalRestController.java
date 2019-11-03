@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -57,45 +58,41 @@ public class HPortalRestController {
     return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
   }
 
-  @RequestMapping(value = {"/getDocument/{formName}/{identifier}/{personalCode}",
-      "/getDocument/{formName}/{personalCode}/{year}/{educationalInstitutionsId}",
-      "/getDocument/{formName}/{identifier}/{personalCode}/{year}/{educationalInstitutionsId}"},
+  @RequestMapping(value = {"/getDocument/{formName}/{personalCode}"},
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDocument(
       @PathVariable("formName") String formName,
-      @PathVariable("identifier") Optional<String> identifier,
       @PathVariable("personalCode") String personalCode,
-      @PathVariable("year") Optional<Long> year,
-      @PathVariable("educationalInstitutionsId") Optional<Long> educationalInstitutionsId) {
+      @RequestParam(value = "identifier", required = false) String identifier,
+      @RequestParam(value = "year", required = false) Long year,
+      @RequestParam(value = "educationalInstitutionsId", required = false) Long educationalInstitutionsId) {
     if (formName.startsWith("VPT_ESITATUD")) {
-      return new ResponseEntity<>(vptWorker.getDocument(formName, identifier.get()), HttpStatus.OK);
+      return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
       return new ResponseEntity<>(
-          mtsysWorker.getMtsysTegevusluba(formName, Long.valueOf(identifier.get()), personalCode),
+          mtsysWorker.getMtsysTegevusluba(formName, Long.valueOf(identifier), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
       return new ResponseEntity<>(
           mtsysWorker
-              .getMtsysTegevusNaitaja(formName, Long.valueOf(identifier.get()), personalCode),
+              .getMtsysTegevusNaitaja(formName, Long.valueOf(identifier), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
       return new ResponseEntity<>(
           mtsysWorker
-              .getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier.get()), personalCode),
+              .getMtsysTegevuslubaTaotlus(formName, Long.valueOf(identifier), personalCode),
           HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_ARUANNE")) {
       return new ResponseEntity<>(mtsysWorker
           .getMtsysTegevusNaitajaTaotlus(formName,
-              identifier.isPresent() && NumberUtils.isDigits(identifier.get()) ? Long
-                  .valueOf(identifier.get()) : null,
-              year.isPresent() ? year.get() : null,
-              educationalInstitutionsId.get(), personalCode), HttpStatus.OK);
+              NumberUtils.isDigits(identifier) ? Long.valueOf(identifier) : null,
+              year, educationalInstitutionsId, personalCode), HttpStatus.OK);
     } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS")
         || formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS")
         || formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS")) {
       return new ResponseEntity<>(mtsysWorker
-          .getMtsysEsitaTegevusluba(formName, Long.valueOf(identifier.get()), personalCode),
+          .getMtsysEsitaTegevusluba(formName, Long.valueOf(identifier), personalCode),
           HttpStatus.OK);
     }
 
