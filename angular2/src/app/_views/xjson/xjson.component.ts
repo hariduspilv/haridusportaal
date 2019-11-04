@@ -323,7 +323,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     };
   }
 
-  scrollableTableDeterminant(label) {
+  scrollableTableDeterminant(label, focusable?: string) {
     const _opened_step = this.opened_step;
     const _scrollableTables = this.scrollableTables;
     if (_opened_step) {
@@ -331,6 +331,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         const table = document.getElementById(label + 'Table');
         const content = document.getElementById(label + 'Content');
         _scrollableTables[label] = table.offsetWidth < content.offsetWidth ? true : false;
+        if (focusable) {
+          (document.querySelector(focusable) as HTMLElement).focus();
+        }
       }, 0);
     }
   }
@@ -589,7 +592,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
     if (table.value === undefined) { table.value = []; }
     table.value.push(newRow);
-    this.scrollableTableDeterminant(element);
+    this.scrollableTableDeterminant(element, `#${element}Content input`);
   }
 
   tableDeleteRow(element, rowIndex) {
@@ -626,7 +629,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
             }
           }
         }
-        this.scrollableTableDeterminant(element);
+        this.scrollableTableDeterminant(element, `#${element}Content input, #${element}TableAdd`);
       }
       this.dialogRef = null;
     });
