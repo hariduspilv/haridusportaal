@@ -19,10 +19,10 @@ export class RotateTableDirective implements AfterViewInit {
   private buildHtml(thList, trList) {
     let output = '';
     thList.forEach((th, index) => {
-      output += '<tr>';
-        output += `<th class="${this.classes.th}">${th}</th>`;
+      output += '<tr role="row">';
+        output += `<th role="cell" id="th-${index}"class="${this.classes.th}">${th}</th>`;
         trList.forEach((tr) => {
-          output += `<td class="${this.classes.td}">${tr[index]}</td>`;
+          output += `<td role="cell" aria-describedby="th-${index}" class="${this.classes.td}">${tr[index]}</td>`;
         });
       output += '</tr>';
     });
