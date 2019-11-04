@@ -20,10 +20,14 @@ import {
 } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { RippleService } from '@app/_services';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { SlugifyPipe } from 'ngx-pipes';
 
 @Component({
   selector: 'accordion-item',
   templateUrl: './accordion-item.template.html',
+  providers: [SlugifyPipe],
   animations: [
     trigger('toggleBody', [
       state('collapsed, void', style({ height: '0px', visibility: 'hidden' })),
@@ -41,6 +45,7 @@ export class AccordionItemComponent {
   public bodyClass: string = '';
   public change = new Subject<any>();
   public id: string = Math.random().toString(36).substr(2, 9);
+  private scroll: boolean = false;
 
   @Input() title: string = '';
   @Input() active: boolean = false;
@@ -51,15 +56,22 @@ export class AccordionItemComponent {
   constructor(
     private ripple: RippleService,
     private el: ElementRef,
+    private location: Location,
+    private router: Router,
+    private route: ActivatedRoute,
+    private slugifyPipe: SlugifyPipe,
   ) {}
 
-  public openAccordion($event) {
+  public openAccordion() {
     if (this.styleState === this.active) {
       this.active = !this.active;
     }
     if (this.active) {
       this.change.next();
     }
+    const slug = this.slugifyPipe.transform(this.title);
+    const newUrl = this.router.url.split('#')[0];
+    this.location.replaceState(`${newUrl}#${slug}`);
   }
 
   public closeAccordion() {
@@ -70,11 +82,24 @@ export class AccordionItemComponent {
     if (!this.active) {
       this.styleState = false;
     }
+    if (this.scroll) {
+      document.querySelector('.app-content').scrollTop =
+        this.el.nativeElement.getBoundingClientRect().top;
+      this.scroll = false;
+    }
   }
 
   animationStart() {
     if (this.active) {
       this.styleState = true;
+    }
+  }
+
+  ngOnInit(): void {
+    const slug = this.slugifyPipe.transform(this.title);
+    if (this.route.snapshot.fragment === slug) {
+      this.scroll = true;
+      this.openAccordion();
     }
   }
 }
@@ -88,7 +113,6 @@ export class AccordionItemComponent {
 export class AccordionComponent implements AfterContentInit, OnChanges, OnDestroy{
 
   private subscriptions = [];
-
   @Input() collapsible: boolean = false;
 
   @HostBinding('class') get hostClasses(): string {
@@ -133,5 +157,4 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
   ngOnDestroy() {
     this.destroySubscriptions();
   }
-
 }

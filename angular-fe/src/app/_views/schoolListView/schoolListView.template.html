@@ -51,11 +51,11 @@
 
 					<div class="hidden">
 						<formItem type="multi-select" title="" name="type" [options]="primaryTypes"
-							[(ngModel)]="selectedTypes">
+							[(ngModel)]="selectedTypes" (onChange)="checkLanguageDisable()">
 						</formItem>
 					</div>
 
-					<div class="col-4 sm-12">
+					<div class="col-4 sm-12" [class.disabled]="isLanguageDisabled">
 						<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language" [options]="languageFilters">
 						</formItem>
 					</div>
