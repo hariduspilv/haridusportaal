@@ -90,6 +90,8 @@ public class MtsysWorker extends Worker {
           item -> oppekavaStaatusedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
               .put("valid", item.getOnKehtiv()));
+      oppekavaStaatusedNode.putObject("18472").put("et", "Esitatud").put("valid", true);
+      oppekavaStaatusedNode.putObject("18471").put("et", "Sisestamisel").put("valid", true);
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "oppekavaStaatused", oppekavaStaatusedNode);
 
       ObjectNode oppekavaOppetasemedNode = mtsysKlfResponse.putObject("oppekavaOppetasemed");
