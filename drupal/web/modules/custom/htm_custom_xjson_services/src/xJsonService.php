@@ -297,6 +297,9 @@ class xJsonService implements xJsonServiceInterface {
     $response_header = isset($response['header']) ? $response['header'] : null;
     $response_messages = isset($response['messages']) ? $response['messages'] : null;
 
+    dump($response);
+    die();
+
     $this->validatexJsonHeader($response_header);
     $form_name = $response['header']['form_name'];
     $definition = $this->getEntityJsonObject($form_name);
@@ -323,10 +326,6 @@ class xJsonService implements xJsonServiceInterface {
             $return['body']['steps'][$step_key]['data_elements'][$element_key] = $return_element;
           }
           //Add step non data_elements
-          dump($step_key);
-          dump($return['body']['steps']);
-          dump($definition_body['steps']);
-          die();
           unset($definition_body['steps'][$step_key]['data_elements']);
           $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
           // add each step messages aswel
