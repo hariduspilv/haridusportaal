@@ -51,6 +51,7 @@ export class LoginModal {
 
   constructor(
     private router: Router,
+    private activatedRoute: ActivatedRoute,
     private http: HttpClient,
     private sidemenu: SideMenuService,
     private settings: SettingsService,
@@ -151,17 +152,16 @@ export class LoginModal {
       this.loginVisible = false;
 
       this.user = this.userService.storeData(data['token']);
-      
-      let redirectUrl = '/töölaud/taotlused';
-      let lang = this.rootScope.get("lang");
-      
-      this.router.navigateByUrl("/", {skipLocationChange: true}).then( () => {
+
+      const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirect') || '/töölaud/taotlused';
+
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then( () => {
         this.router.navigateByUrl(redirectUrl);
         this.sidemenu.triggerLang();
       });
       this.userService.toggleLoggedInStatus(true);
       this.dialogRef.close();
-      
+
     }, (data: any) => {
       this.formModels['password'] = '';
       this.loader = false;
