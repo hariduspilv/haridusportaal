@@ -434,7 +434,6 @@ class xJsonService implements xJsonServiceInterface {
         if (isset($element['options_list'])) {
           $params['hash'] = $element['options_list'];
           $element['options'] = $this->ehisconnector->getOptionsTaxonomy($params);
-          dump($element);
         }
 
         $recfunc = function ($options, $keys = []) use (&$recfunc) {
