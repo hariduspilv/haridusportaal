@@ -2,7 +2,7 @@
   <article class="row">
     <div class="col-6 sm-12 pointer" *ngFor="let item of content" [routerLink]="[item.entityUrl.path]">
       <span class="author" *ngIf="item.fieldEventMainDate && item.fieldEventMainDate.unix">
-        {{ 'time.'+ (item.fieldEventMainDate.unix*1000 | weekday: "unix" | lowercase) | translate }}, {{ item.fieldEventMainDate.unix*1000 | date: "dd.MM" }}
+        {{ 'time.'+ (item.fieldEventMainDate.unix*1000 | weekday: "unix" | lowercase) | translate }}, {{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}
       </span>
       <h1>{{ item.title }}</h1>
       <span class="author" *ngIf="item.fieldContactPerson" tabindex="0" attr.aria-label="{{'author.author' | translate}} {{ item.fieldContactPerson }}">{{ item.fieldContactPerson }}</span>
