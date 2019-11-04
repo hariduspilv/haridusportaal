@@ -1,6 +1,7 @@
 // tslint:disable
 export const collection = {
   'nodeQuery': 'articles',
+  'newsQuery': 'news',
   'fieldContact': 'contact',
   'fieldContactSection': 'contact',
   'fieldOskaFieldContact': 'contact',

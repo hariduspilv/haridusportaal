@@ -31,6 +31,15 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     if (this.data) {
       this.data = FieldVaryService(this.data);
+
+      // Try to determine if its news data
+      try {
+        if (this.data['nodeQuery']['entities'][0]['entityUrl']['path'].match('uudised')) {
+          this.data['newsQuery'] = this.data['nodeQuery'];
+          delete this.data['nodeQuery'];
+        }
+      } catch (err) {}
+
       if (this.data.sidebar && this.data.sidebar.entity) {
         Object.keys(this.data.sidebar.entity).forEach((elem) => {
           this.data[elem] = this.data.sidebar.entity[elem];
@@ -38,6 +47,7 @@ export class SidebarComponent implements OnInit {
       }
       this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
       this.keys = Object.keys(this.mappedData);
+      console.log(this.collection);
     }
   }
   // ngOnChanges() {

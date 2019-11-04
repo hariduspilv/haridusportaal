@@ -19,6 +19,7 @@ export class SidebarService {
       'fieldSchoolLocation',
       'fieldRegistration',
     ];
+
     const keysToMerge: Object = {};
     uniforms.forEach((item, key) => {
       const uniformType: Object = {};
