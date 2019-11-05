@@ -44,6 +44,8 @@
 	
 					<chart *ngIf="data.graph" [data]='data.graph' type='filter'></chart>
 
+					<infograph *ngIf="data.infograph" [data]='data.infograph' type='filter'></infograph>
+
 					<school-table *ngIf="type === 'school'" [data]="data"></school-table>
 
 					<studyProgramme-table *ngIf="type === 'studyProgramme'" [data]="origData"></studyProgramme-table>

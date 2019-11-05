@@ -1,3 +1,5 @@
+const path = require('path');
+
 class Log {
   constructor() {
     this.reset = "\x1b[0m";
@@ -19,10 +21,10 @@ class Log {
 const log = new Log();
 let conf = '';
 try{
-  conf = require('./conf')[process.env.TASK];
-  log.success('/scripts.conf.js present');
+  conf = require(path.resolve(__dirname, './conf-storybook'));
+  log.success('/scripts/conf-storybook.js present');
 }catch(err) {
-  log.error('/scripts/conf.js file not found!');
+  log.error('/scripts/conf-storybook.js file not found!');
   process.exit();
 }
 

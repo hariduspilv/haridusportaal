@@ -138,9 +138,8 @@ export class DetailViewComponent implements OnDestroy {
 
       this.feedbackNid = this.data.nid;
 
-      subscription.unsubscribe();
-
       this.getSidebar();
+      subscription.unsubscribe();
 
     });
 

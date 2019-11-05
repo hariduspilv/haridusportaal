@@ -17,7 +17,7 @@ interface TitleLess {
   templateUrl: './sidebar.template.html',
   styleUrls: ['./sidebar.styles.scss'],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Input() feedbackNid: string = '';
   private collection: SidebarType = collection;
@@ -28,7 +28,8 @@ export class SidebarComponent implements OnInit {
     return 'sidebar';
   }
   constructor(private sidebarService: SidebarService) {}
-  ngOnInit() {
+
+  private getData():void {
     if (this.data) {
       this.data = FieldVaryService(this.data);
 
@@ -47,8 +48,13 @@ export class SidebarComponent implements OnInit {
       }
       this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
       this.keys = Object.keys(this.mappedData);
-      console.log(this.collection);
     }
+  }
+  ngOnInit() {
+    this.getData();
+  }
+  ngOnChanges() {
+    this.getData();
   }
   // ngOnChanges() {
   //   if (this.data) {

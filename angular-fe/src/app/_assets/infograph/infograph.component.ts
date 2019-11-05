@@ -1,14 +1,15 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import conf from '@app/_core/conf';
+import { SettingsService } from '@app/_services/SettingsService';
 
 @Component({
-  selector: 'chart',
-  templateUrl: 'chart.template.html',
-  styleUrls: ['chart.styles.scss'],
+  selector: 'infograph',
+  templateUrl: 'infograph.template.html',
+  styleUrls: ['infograph.styles.scss'],
 })
 
-export class ChartComponent implements OnInit {
+export class InfographComponent implements OnInit {
   @Input() data;
   @Input() type = 'default';
   @Input() height = 500;
@@ -26,7 +27,7 @@ export class ChartComponent implements OnInit {
   requestDebounce: Object = {};
   requestSubscription: Object = {};
 
-  initiallyFilledSelects = ['näitaja', 'valdkond'];
+  initiallyFilledSelects = ['näitaja', 'teema'];
 
   singleIndicatorCharts = ['line', 'pie', 'doughnut'];
 
@@ -34,7 +35,10 @@ export class ChartComponent implements OnInit {
 
   mainLineColors: string[] = ['#4146AF', '#980000', '#E87502', '#1398AA', '#4F00FA'];
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private settings: SettingsService,
+    ) {}
 
   getGraphOptions() {
 
@@ -131,20 +135,12 @@ export class ChartComponent implements OnInit {
     const cols = value[1].length - 1;
     let height;
 
-    // if (type == 'clustered bar') {
-    //   height = rows * cols * 10;
-    // } else
     if (type === 'stacked bar 100' || type === 'stacked bar' || type === 'clustered bar') {
       height = rows * 64;
     } else {
       height = rows * 28;
     }
 
-    // if (type == 'clustered bar') {
-    //   height += (rows - 1) * 40;
-    // }
-
-    // height = height / 0.75;
     height += 150; // graph legend & title space
 
     if (height < 400) {
@@ -152,7 +148,6 @@ export class ChartComponent implements OnInit {
     }
 
     return height;
-
   }
 
   compileData(inputData: any = false) {
@@ -431,7 +426,7 @@ export class ChartComponent implements OnInit {
         }
 
         const tmpFilters = [];
-        const pieCases = ['valdkond', 'ametiala', 'alavaldkond', 'silt', 'periood'];
+        const pieCases = ['teema', 'silt', 'aasta'];
         const wideCases = pieCases.slice(0, 3);
 
         for (const i in item.filterValues.graph_options.graph_filters) {
@@ -587,10 +582,7 @@ export class ChartComponent implements OnInit {
 
       this.filtersData[current.id].loading = true;
 
-      let professionList = current.filters.filter(x => x.key === 'ametiala').map(y => y.options)[0];
-      let subFieldList
-        = current.filters.filter(x => x.key === 'alavaldkond').map(y => y.options)[0];
-      let fieldList = current.filters.filter(x => x.key === 'valdkond').map(y => y.options)[0];
+      let topicList = current.filters.filter(x => x.key === 'teema').map(y => y.options)[0];
 
       const secondaryIndicatorList = '';
       if (typeof unselectableFilters['näitaja2'] !== 'undefined') {
@@ -602,33 +594,22 @@ export class ChartComponent implements OnInit {
         });
       }
 
-      if (!professionList || professionList.length === 0) {
-        professionList = '';
-      }
-
-      if (!subFieldList || subFieldList.length === 0) {
-        subFieldList = '';
-      }
-
-      if (!fieldList || fieldList.length === 0) {
-        fieldList = '';
+      if (!topicList || topicList.length === 0) {
+        topicList = '';
       }
 
       const variables = {
-        graphType: current['graphType'],
+        graphType: current.graphType,
         secondaryGraphType: current.secondaryGraphType,
         secondaryGraphIndicator: filters['näitaja2'] && filters['näitaja2'].length > 0
           ? filters['näitaja2'] : secondaryIndicatorList,
         indicator: filters['näitaja'] && filters['näitaja'].length > 0 ? filters['näitaja'] : false,
-        oskaField: filters.valdkond && filters.valdkond.length > 0 ? filters.valdkond : fieldList,
-        oskaSubField: filters.alavaldkond && filters.alavaldkond.length > 0
-          ? filters.alavaldkond : subFieldList,
-        oskaMainProfession: filters.ametiala && filters.ametiala.length > 0
-          ? filters.ametiala : professionList,
-        period: filters.periood || '',
+        topic: filters.teema && filters.teema.length > 0 ? filters.teema : topicList,
+        period: filters.aasta || '',
         label: filters.silt || '',
-        graphGroupBy: filters['grupeeri'] || '',
-        graphVAxis: current['graph_v_axis'],
+        graphGroupBy: filters.grupeeri || '',
+        graphVAxis: current.graph_v_axis,
+        fileName: current.filterValues.graph_source_file,
       };
 
       if (!variables.indicator) {
@@ -650,13 +631,10 @@ export class ChartComponent implements OnInit {
           tmpVariables[i] = variables[i];
         }
       }
-      let url
-        = 'graphql?queryName=googleChartData&queryId=9bdca5d7f53e0755482e65d091682f48ee77b635:1';
-      url += `&variables=${JSON.stringify(tmpVariables)}`;
-      url = encodeURI(url);
+      const path = this.settings.query('infographQuery', tmpVariables);
       this.requestSubscription[id]
-        = this.http.get(`${conf.api_prefix}${url}`).subscribe((response) => {
-          const data = response['data'].GoogleChartQuery.map((item) => {
+        = this.http.get(path).subscribe((response) => {
+          const data = response['data'].InfographQuery.map((item) => {
 
             const type = variables['graphType'];
 
@@ -678,7 +656,7 @@ export class ChartComponent implements OnInit {
 
           this.requestSubscription[id].unsubscribe();
           this.requestSubscription[id] = false;
-        },                                                    (err) => {
+        },                              (err) => {
           this.filtersData[current.id].loading = false;
         });
     },                                    300);

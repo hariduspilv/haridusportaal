@@ -100,6 +100,7 @@ import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@ang
 import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
+import { InfographComponent } from './infograph/infograph.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -167,6 +168,7 @@ const declarations = [
   FavouriteComponent,
   LabeledSeparatorComponent,
   ChartComponent,
+  InfographComponent,
   ListItemComponent,
   MonthsToYearsPipe,
   RemoveProtocolPipe,
