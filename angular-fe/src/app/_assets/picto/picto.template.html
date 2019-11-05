@@ -1,1 +1,8 @@
-<div class="description" *ngIf="description" [innerHtml]="description"></div>
+<div class="picto">
+    <img class="image" [src]="img" />
+        <ng-container *ngIf="pictoDesigns[pictoNumber]">
+            <div *ngFor="let circle of pictoDesigns[pictoNumber].circles" class="circle" [style.margin-right.rem]="circle.right"
+                [style.margin-top.rem]="circle.top" [style.font-size.rem]="circle.size" [style.z-index]="circle.z"
+                [style.background-color]="circle.color"></div>
+        </ng-container>
+</div>

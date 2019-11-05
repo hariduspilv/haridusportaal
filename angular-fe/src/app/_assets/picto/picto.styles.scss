@@ -9,30 +9,13 @@
       margin-top: 1rem;
       margin-bottom: 1.5rem;
       margin-left: 2.5rem;
-	}
+    }
     .circle {
-		position: relative;
-		float: right;
-		margin-top: 1.5rem;
-		margin-right: -6.5rem;
-		font-size: 4rem;
-		z-index: 3;
-		width: 1em;
-		height: 1em;
-		border-radius: 1em;
-		background: #FFE7C1;
-	}
-	.circlesec {
-		position: relative;
-		float: right;
-		margin-top: 3rem;
-		margin-right: -8rem;
-		font-size: 3rem;
-		z-index: 4;
-		width: 1em;
-		height: 1em;
-		border-radius: 1em;
-		background: #9DD6E4;
+      position: relative;
+      float: right;
+      width: 1em;
+      height: 1em;
+      border-radius: 1em;
     }
   }
 }
