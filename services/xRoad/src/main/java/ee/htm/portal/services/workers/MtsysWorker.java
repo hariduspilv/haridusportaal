@@ -90,6 +90,8 @@ public class MtsysWorker extends Worker {
           item -> oppekavaStaatusedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
               .put("valid", item.getOnKehtiv()));
+      oppekavaStaatusedNode.putObject("18472").put("et", "Esitatud").put("valid", true);
+      oppekavaStaatusedNode.putObject("18471").put("et", "Sisestamisel").put("valid", true);
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "oppekavaStaatused", oppekavaStaatusedNode);
 
       ObjectNode oppekavaOppetasemedNode = mtsysKlfResponse.putObject("oppekavaOppetasemed");
@@ -1495,6 +1497,8 @@ public class MtsysWorker extends Worker {
             response.isSetInfotekst() ? response.getInfotekst() : null,
             response.isSetVeatekst() ? response.getVeatekst() : null,
             response.isSetAruandeId() ? response.getAruandeId() : null);
+
+        ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
       }
 
     } catch (Exception e) {
@@ -1763,17 +1767,18 @@ public class MtsysWorker extends Worker {
 
   private void setLaeTeenusteResponseInfotekst(ObjectNode jsonNode, String infotekst,
       String veatekst, BigInteger aruandeId) {
+    Long timestamp = System.currentTimeMillis();
     if (infotekst != null) {
-      ((ArrayNode) jsonNode.get("body").get("messages")).add("infotekst");
-      ((ObjectNode) jsonNode.get("messages")).putObject("infotekst")
+      ((ArrayNode) jsonNode.get("body").get("messages")).add("infotekst_" + timestamp);
+      ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_" + timestamp)
           .put("message_type", "NOTICE")
           .putObject("message_text")
           .put("et", infotekst);
     }
 
     if (veatekst != null) {
-      ((ArrayNode) jsonNode.get("body").get("messages")).add("veatekst");
-      ((ObjectNode) jsonNode.get("messages")).putObject("veatekst")
+      ((ArrayNode) jsonNode.get("body").get("messages")).add("veatekst_" + timestamp);
+      ((ObjectNode) jsonNode.get("messages")).putObject("veatekst_" + timestamp)
           .put("message_type", "ERROR")
           .putObject("message_text")
           .put("et", veatekst);
