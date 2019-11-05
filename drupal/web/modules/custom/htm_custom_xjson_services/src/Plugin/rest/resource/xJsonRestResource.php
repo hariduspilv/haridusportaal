@@ -144,6 +144,8 @@ class xJsonRestResource extends ResourceBase {
     }
     $params['form_name'] = $data['form_name'];
     $response = $this->ehisService->getDocument($params);
+    dump($response);
+    die();
     $response['header'] += [
       'endpoint' => 'empty'
     ];
@@ -170,8 +172,6 @@ class xJsonRestResource extends ResourceBase {
 
     if (empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
     $response = $this->ehisService->postDocument(['json' => $request_body]);
-    dump($response);
-    die();
     return $this->returnBuildedResponse($response);
   }
 
