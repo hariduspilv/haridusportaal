@@ -7,6 +7,10 @@ const routes: Routes = [
     loadChildren: './_views/frontpage#FrontpageViewModule',
   },
   {
+    path: 'oska',
+    loadChildren: './_views/oskaFrontpage#OskaFrontpageViewModule',
+  },
+  {
     path: 'uudised',
     loadChildren: './_views/newsListView#NewsListViewModule',
   },

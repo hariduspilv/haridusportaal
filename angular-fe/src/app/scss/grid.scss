@@ -90,3 +90,26 @@ $md-break: 1280px;
 @media screen and( max-width:$sm-break ){
 	html{font-size:10px;}
 }*/
+
+.flex{display:flex;
+	.flex--single {flex: 1;display: flex;
+		@include break-on(sm, max) {display: block;flex: none;}
+		img {line-height: inherit;width: 100%;}
+		&.padded {padding-right: .25rem;
+			&:last-child {padding-right: 0;}
+		}
+	}
+	&.centered { align-items: center; }
+	&.flex-wrap {flex-wrap: wrap; }
+	&.flex-notrows {flex-direction: column; }
+	&.flex-rows {flex-direction: row; }
+	&.flex-grow {flex-grow: 1; }
+	&.flex-center {align-items: center; }
+	&.flex-justify-end {justify-content: flex-end; }
+	&.flex-justify-center {justify-content: center; }
+	&.input-row {padding: .5rem 0 .5rem 0;flex-direction: column;
+		&.no-top {padding-top: 0;}
+		&.no-bottom {padding-bottom: 0;}
+		@include break-on(sm, min) {padding-right: 1rem;flex-direction: row;} 
+	}
+}
