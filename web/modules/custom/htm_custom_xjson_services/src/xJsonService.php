@@ -315,11 +315,6 @@ class xJsonService implements xJsonServiceInterface {
 
             if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
               $response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
-              if($element_key === 'oppeasutusId'){
-                dump($element);
-                dump($response_element);
-                die();
-              }
               if (!empty($this->mergeElementValue($element, $response_element))) {
                 $return_element = $this->mergeElementValue($element, $response_element);
               }
