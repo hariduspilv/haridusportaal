@@ -60,8 +60,8 @@ export class FrontpageComponent {
     url: 'fieldTopicLink'
   };
   public fieldTopicImage: Object = {
-    standard: '/assets/img/frontpage-button-default.svg',
-    hover: '/assets/img/frontpage-button-hover.svg'
+    standard: '/assets/img/frontpage/frontpage-button-default.svg',
+    hover: '/assets/img/frontpage/frontpage-button-hover.svg'
   };
   
   constructor (

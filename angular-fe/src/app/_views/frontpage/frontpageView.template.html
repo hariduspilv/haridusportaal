@@ -1,13 +1,84 @@
-<base-layout>
-	<div class="inline">
-		<block [titleBorder]="true">
-			<block-title>Frontpage</block-title>
-			<block-content>
-				Frontpage content
-				<p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Perferendis, ad non vero delectus eos officiis reiciendis illo quas ab soluta commodi modi, tempore libero! Id animi neque quod qui molestias.</p>
-				<p>Corrupti quibusdam perspiciatis ut amet! Reiciendis, ullam libero. Deserunt est rem quam numquam, libero expedita et modi perspiciatis quae sapiente temporibus consequatur. Corrupti quibusdam perspiciatis ut amet! Reiciendis, ullam libero. Deserunt est rem quam numquam, libero expedita et modi perspiciatis quae sapiente temporibus consequatur.</p>
-				<p>Eaque velit quaerat, dolorum laborum, minima quas explicabo, nisi reprehenderit consectetur perferendis id accusamus totam odit repellendus officia pariatur magni assumenda fuga? Eaque velit quaerat, dolorum laborum, minima quas explicabo, nisi reprehenderit consectetur perferendis id accusamus totam odit repellendus officia pariatur magni assumenda fuga?</p>
-			</block-content>
-		</block>
-	</div><!--/inline-->
-</base-layout>
+<loader *ngIf="!events || !news || !generalData"></loader>
+<div *ngIf="(events && news && generalData && generalData[0]) || (events && news)" class="main-container">
+  <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="topLeft"></triangles>
+</div>
+<div class="frontpage" *ngIf="(events && news && generalData && generalData[0]) || (events && news)">
+  <div class="frontpage__section frontpage__section--origin main-container"
+    [class.frontpage__section--short]="generalData && generalData.length && !superNewsShown['first']">
+    <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{ 'frontpage.lead_title_wcag' | translate}}">
+      <span aria-hidden="true" class="sm-show xxs text-center" innerHtml="{{ 'frontpage.lead_title_xxs' | translate}}"></span>
+      <span aria-hidden="true" class="sm-show sm text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
+      <span aria-hidden="true" class="sm-hide text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
+    </h1>
+    <inline-links *ngIf="generalData && generalData.length"
+      identifier="header"
+      [content]="generalData[0].fieldTopics"
+      [contentLabels]="fieldTopicLabels"
+      [externalImage]="fieldTopicImage"
+      externalLink="button.read_more"
+      columnLayout="true"
+      hoverEffect="false">
+    </inline-links>
+  </div>
+  <div class="frontpage__section frontpage__section--short" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && generalData[0].fieldSupernews[0] && superNewsShown['first'] && superNewsSubtext[0]">
+    <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topRight" smallAlignment="right"></circles>
+    <articles-single
+      heading="news.current" 
+      [title]="generalData[0].fieldSupernews[0].entity.fieldSupernewsNode.entity.title"
+      [image]="generalData[0].fieldSupernews[0].entity.fieldSupernewsNode.entity.fieldIntroductionImage"
+      [url]="generalData[0].fieldSupernews[0].entity.fieldSupernewsNode.entity.entityUrl"
+      [subtext]="superNewsSubtext[0]"
+      theme="light">
+    </articles-single>
+    <circles aria-hidden="true" large="#f8b243" position="bottomLeft"></circles>
+    <triangles aria-hidden="true" small="#f8b243" large="#bee3e8" position="right"></triangles>
+  </div>
+  <div class="frontpage__section frontpage__section--short" [class.frontpage__section--none]="generalData && generalData.length && !superNewsShown['second']" *ngIf="news && news.length">
+    <inline-articles
+      identifier="news"
+      heading="news.label" 
+      [generalLink]="newsLink"
+      [content]="news"
+      [contentLabels]="newsLabels">
+    </inline-articles>
+  </div>
+  <div class="frontpage__section frontpage__section--short" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && generalData[0].fieldSupernews[1] && superNewsShown['second'] && superNewsSubtext[1]">
+    <circles aria-hidden="true" large="#15adc2" small="#d5401a" position="topMiddle" smallAlignment="right"></circles>
+    <articles-single
+      heading="news.current" 
+      [title]="generalData[0].fieldSupernews[1].entity.fieldSupernewsNode.entity.title"
+      [image]="generalData[0].fieldSupernews[1].entity.fieldSupernewsNode.entity.fieldIntroductionImage"
+      [url]="generalData[0].fieldSupernews[1].entity.fieldSupernewsNode.entity.entityUrl"
+      [subtext]="superNewsSubtext[1]"
+      contentLeft="true"
+      theme="dark">
+    </articles-single>
+    <circles aria-hidden="true" large="#15adc2" position="bottomMob"></circles>
+    <triangles aria-hidden="true" small="#bee3e8" large="#15adc2" position="leftSwapped"></triangles>
+  </div>
+  <div class="frontpage__section frontpage__section--short" *ngIf="events && events.length">
+    <inline-articles
+      identifier="events"
+      heading="event.label" 
+      [generalLink]="eventsLink"
+      [content]="events"
+      [contentLabels]="eventsLabels">
+    </inline-articles>
+  </div>
+  <div class="frontpage__section frontpage__section--newsletter" *ngIf="((events && events.length) || (news && news.length)) && generalData">
+    <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="rightLower"></triangles>
+    <div class="section__block--newsletter">
+      <div class="section__content">
+        <newsletter-order></newsletter-order>
+      </div>
+    </div><!--/section-->
+  </div>
+</div><!--/frontpage-->
+
+<htm-modal id="unsubscribe" title="{{'newsletter.unsubscribe_title' | translate}}">
+  <modal-content innerHtml="{{'newsletter.unsubscribe_content' | translate}}"></modal-content>
+</htm-modal>
+  
+<htm-modal id="subscribe" title="{{'newsletter.modal_title' | translate}}">
+  <modal-content innerHtml="{{'newsletter.modal_content' | translate}}"></modal-content>
+</htm-modal>

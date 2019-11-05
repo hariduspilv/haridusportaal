@@ -1,0 +1,50 @@
+<div class="flex flex-justify-center origin" [ngClass]="{ 'row origin--column': columnLayout }" *ngIf="content && content.length">
+  <div class="origin__child" [ngClass]="{ 'col-3 sm-6 xxs-12': columnLayout }" *ngFor="let item of content; let i = index; let last = last;" [class.origin__child--last]="last" [class.origin__child--secondLast]="columnLayout && i === 2">
+    <a *ngIf="item[contentLabels.url] && item[contentLabels.url].routed"
+    attr.aria-label="{{item[contentLabels.title] || ''}}: {{item[contentLabels.description] || ''}}{{ item[contentLabels.description] ? ',' : ''}} {{item[contentLabels.link] || ''}}"
+    href="javascript:void(0)"
+    [class.rotate]="hoverEffect"
+    class="flex flex-notrows pointer text-center" 
+    [routerLink]="item[contentLabels.url].path"
+    (mouseenter)="imgModifier('routed', i, 'hover')"
+    (mouseleave)="imgModifier('routed', i, 'standard')">
+      <div class="img__wrapper" aria-hidden="true" [class.extraSpaced]="extraSpaced" *ngIf="item[contentLabels.image]">
+        <img attr.id="routed-{{identifier}}-{{i}}"  aria-hidden="true" [src]="item[contentLabels.image][imageState]">
+      </div>
+      <div class="content__wrapper" aria-hidden="true" *ngIf="item[contentLabels.title] || item[contentLabels.link]">
+        <div *ngIf="item[contentLabels.title]" class="origin__title" attr.aria-label="{{item[contentLabels.title]}}">{{item[contentLabels.title]}}</div>
+        <div *ngIf="item[contentLabels.description]" class="origin__description" attr.aria-label="{{item[contentLabels.description]}}">{{item[contentLabels.description]}}</div>
+        <div *ngIf="item[contentLabels.link]" attr.aria-label="{{item[contentLabels.link]}}" class="origin__link">{{item[contentLabels.link]}}</div>
+      </div>
+    </a> 
+    <a *ngIf="item[contentLabels.url] && !item[contentLabels.url].routed"
+    attr.aria-label="{{item[contentLabels.title] || ''}} {{item[contentLabels.description] || ''}}{{ item[contentLabels.description] ? ',' : ''}} {{item[contentLabels.link] || ''}}"
+    [class.rotate]="hoverEffect"
+    class="flex flex-notrows pointer text-center"
+    href="{{item[contentLabels.url].path}}"
+    target="_blank"
+    (mouseenter)="imgModifier('nonRouted', i, 'hover')"
+    (mouseleave)="imgModifier('nonRouted', i, 'standard')">
+      <div class="img__wrapper" aria-hidden="true" [class.extraSpaced]="extraSpaced">
+        <img attr.id="nonRouted-{{identifier}}-{{i}}" aria-hidden="true" [src]="item[contentLabels.image][imageState]">
+      </div>
+      <div class="content__wrapper" aria-hidden="true">
+        <div *ngIf="item[contentLabels.title]" class="origin__title" attr.aria-label="{{item[contentLabels.title]}}">{{item[contentLabels.title]}}</div>
+        <div *ngIf="item[contentLabels.description]" class="origin__description" attr.aria-label="{{item[contentLabels.description]}}">{{item[contentLabels.description]}}</div>
+        <div *ngIf="item[contentLabels.link]" attr.aria-label="{{item[contentLabels.link]}}" class="origin__link">{{item[contentLabels.link]}}</div>
+      </div>
+    </a>
+    <div class="flex flex-notrows text-center"
+      attr.aria-label="{{item[contentLabels.title] || ''}}: {{item[contentLabels.description] || ''}}{{ item[contentLabels.description] ? ',' : ''}} {{item[contentLabels.link] || ''}}"
+      *ngIf="item && !item[contentLabels.url]">
+      <div class="img__wrapper" [class.extraSpaced]="extraSpaced" aria-hidden="true">
+        <img aria-hidden="true" [src]="item[contentLabels.image][imageState]">
+      </div>
+      <div class="content__wrapper" aria-hidden="true">
+        <div *ngIf="item[contentLabels.title]" class="origin__title" attr.aria-label="{{item[contentLabels.title]}}">{{item[contentLabels.title]}}</div>
+        <div *ngIf="item[contentLabels.description]" class="origin__description" attr.aria-label="{{item[contentLabels.description]}}">{{item[contentLabels.description]}}</div>
+        <div *ngIf="item[contentLabels.link]" attr.aria-label="{{item[contentLabels.link]}}" class="origin__link">{{item[contentLabels.link]}}</div>
+      </div>
+    </div> 
+  </div>
+</div>

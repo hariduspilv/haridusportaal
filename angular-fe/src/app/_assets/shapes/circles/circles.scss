@@ -1,0 +1,36 @@
+@import "typography.scss"; 
+@import "breakpoints.scss"; 
+.circles {position: relative;z-index: 0;bottom: 2.25rem;
+  &__wrapper {position: absolute;
+    &--top {left: 8rem;
+      @include break-on(xs, max) {left: 5rem;}
+    }
+    &--topMiddle {left: 16rem;
+      @include break-on(xs, max) {left: 10rem;}
+    }
+    &--topRight {right: 15rem;
+      @include break-on(sm, max) {right: 11rem;}
+    }
+    &--bottom {right: 15rem;
+      @include break-on(xs, max) {right: auto;left: 5rem;}
+    }
+    &--bottomMiddle {right: 17rem;
+      @include break-on(xs, max) {right: auto;left: 10rem;}
+    }
+    &--bottomLeft {left: 4rem;
+      @include break-on(sm, max) {right: auto;left: 7rem;}
+    }
+    &--bottomMob {right: 26rem;
+      @include break-on(sm, max) {left: auto;right: 12rem;}
+      @include break-on(xxs, max) {left: auto;right: 8rem;}
+    }
+  }
+  &__child {position: absolute;border-radius: 50%;
+    &--large {width: 4.5rem;height: 4.5rem;}
+    &--small {width: 2.25rem;height: 2.25rem;bottom: -1rem;}
+  }
+  .small {
+    &--left {right: .75rem;}
+    &--right {left: 5rem;}
+  }
+}

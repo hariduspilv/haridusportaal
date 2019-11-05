@@ -45,11 +45,43 @@ $md-break: 1280px;
 	}
 
 }
+.xxs-show{display:none !important;}
+.xxs-flex{display:none !important;}
+.xs-show{display:none !important;}
+.xs-flex{display:none !important;}
+.sm-show{display:none !important;}
+.sm-flex{display:none !important;}
+.md-show{display:none !important;}
+.md-flex{display:none !important;}
+
+@include break-on(xxs, max) {
+  .xxs-hide{display:none !important;}
+  .xxs-show{display: block !important;}
+  .xxs-flex{display: flex !important;}
+}
+@include break-on(xs, max) {
+  .xs-hide{display:none !important;}
+  .xs-show{display: block !important;}
+  .xs-flex{display: flex !important;}
+}
+@include break-on(sm, max) {
+  .sm-hide{display:none !important;}
+  .sm-show{display: block !important;}
+  .sm-flex{display: flex !important;}
+}
+@include break-on(md, max) {
+  .md-hide{display: none !important;}
+  .md-show{display: block !important;}
+  .md-flex{display: flex !important;}
+}
 
 .inline{
 	max-width: 1180px;
 	margin:0 auto;
 }
+
+.pull-right {float:right;}
+.inline-flex {display: inline-flex;justify-content: flex-end;}
 /*
 @media screen and( min-width: $sm-break ) and ( max-width:$md-break ){
 	html{font-size:12px;}

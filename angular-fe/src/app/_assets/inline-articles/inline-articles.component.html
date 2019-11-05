@@ -1,0 +1,30 @@
+<div class="outer__wrapper" [ngClass]="{ 'outer__wrapper--dark': theme === 'dark', 'outer__wrapper--light': theme === 'light' }">
+  <div class="wrapper main-container">
+    <div class="wrapper__heading">
+      <span class="wrapper__heading__label">{{ heading | translate | uppercase }}</span>
+      <span class="wrapper__heading__action">
+        <a attr.aria-label="{{ generalLink['name'] | translate }}" [routerLink]="generalLink['url']" href="javascript:void(0);">
+          <!-- <span class="sm-hide">{{ generalLink['name'] | translate }}</span> -->
+          <span>{{ 'button.view_all' | translate }}</span>
+        </a>
+      </span>
+    </div>
+    <article class="wrapper__article row">
+      <a href="javascript:void();" 
+        attr.aria-labelledby="head-{{identifier}}-{{i}} img-{{identifier}}-{{i}} title-{{identifier}}-{{i}} subtext-{{identifier}}-{{i}}"
+        class="col-4 sm-12 pointer article"
+        *ngFor="let item of content; let first = first; let i = index;"
+        [routerLink]="item[contentLabels.url].path">
+        <div attr.id="img-{{identifier}}-{{i}}" attr.aria-label="{{'Graphic: '}}{{ item[contentLabels.image].alt }}" class="article__image" *ngIf="contentLabels.image && item[contentLabels.image]">
+          <img src="{{ item[contentLabels.image].derivative.url }}" alt="{{ item[contentLabels.image].alt }}"/>
+        </div>
+        <div attr.id="head-{{identifier}}-{{i}}" class="article__headtext" *ngIf="contentLabels.date && item[contentLabels.date] && item[contentLabels.date]['unix']">{{ 'time.'+ (item[contentLabels.date]['unix']*1000 | weekday: "unix" | lowercase) | translate }}, {{ item[contentLabels.date]['unix']*1000 | date: "dd.MM"}}</div>
+        <h1 attr.id="title-{{identifier}}-{{i}}" class="article__title" *ngIf="contentLabels.title && item[contentLabels.title]">{{ item[contentLabels.title] }}</h1>
+        <div attr.id="subtext-{{identifier}}-{{i}}">
+          <div class="article__subtext" *ngIf="!subtextObject && contentLabels.subtext && item[contentLabels.subtext]">{{ item[contentLabels.subtext] }}</div>
+          <div class="article__subtext" *ngIf="subtextObject">{{ item[authorLabel] }} {{ item[dateLabel] * 1000 | date:"dd.MM.yyyy" }}</div>
+        </div>
+      </a>
+    </article>
+  </div>
+</div>

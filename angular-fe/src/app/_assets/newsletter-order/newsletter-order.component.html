@@ -1,0 +1,79 @@
+<div class="block" id="blockTop" tabindex="0">
+  <loader *ngIf="!data && !subscribedStatus"></loader>
+  <div class="block__content" *ngIf="data">
+    <div class="block__content--header">
+      <h1>{{ 'newsletter.title' | translate }}</h1>
+      <div class="intro">{{ 'newsletter.intro' | translate }}</div>
+    </div>
+    <form class="block__content--form" (ngSubmit)="submit()">
+      <div class="form__checklist--parent">
+        <div class="block__content--form__checklist__elem">
+          <label class="checkbox__container pointer">
+            <span class="label">{{ 'Vali kõik' }}</span>
+            <input type="checkbox" [(ngModel)]="allChecked" name="all_check" (change)="updateItems()">
+            <span class="checkmark" [class.checked]="allChecked"></span>
+          </label>
+        </div>
+      </div>
+      <div class="block__content--form__checklist">
+        <ng-container *ngFor="let item of data">
+          <div class="block__content--form__checklist__elem" *ngIf="item && item.parentsCount && item.parentsCount.count > 0">
+            <label class="checkbox__container pointer">
+              <span class="label">{{ item.entityLabel }}</span>
+              <input type="checkbox" [(ngModel)]='formItems[item.entityId]' [name]="item.entityId" (change)="updateRSSLink()">
+              <span class="checkmark" [class.checked]="formItems[item.entityId]"></span>
+            </label>
+          </div>
+        </ng-container>
+      </div><!--block__content--form__checklist-->
+
+
+      <div class="block__content--form__input">
+        <div class="flex wrap flex-justify-center" [class.order]="order">
+          <ng-container *ngIf="!order">
+            <div class="full--lineup">
+              <button type="button" (click)="order = true" attr.aria-label="{{'newsletter.order_to_email' | translate}}" htm-button>{{ 'newsletter.order_to_email' | translate }} </button>
+            </div>
+            <div class="btn">
+              <div class="outer">
+                <a role="button" href="{{settings.url}}/custom/rss{{rssIDs}}" target="_blank">{{ 'button.rss_order' | translate }} </a>
+              </div>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="order">
+            <div class="grow full lengthy">
+              <div class="round-input__wrapper" [class.error]="(email || errors.email) && (errors.email || errors.items) && !emailFocus">
+                <span class="round-input__title" [class.exists]="email">{{ 'newsletter.email' | translate }}</span>
+                <div class="round-input__field-wrapper" [class.spacing]="email">
+                  <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false;errors.email = false;" [class.focused]='emailFocus' name="email" placeholder="{{ 'newsletter.email' | translate }}" [(ngModel)]="email"/>
+                </div>
+                <div class="round-input__error" *ngIf="(email || errors.email) && !emailFocus && (errors.email || errors.items)">
+                  <div class="round-input__error--text" aria-live="assertive">
+                    <span *ngIf="errors.items" role="alert">{{ 'newsletter.subscription_choose_one' | translate }}</span>
+                    <span *ngIf="errors.email && !errors.items" role="alert">{{ 'newsletter.valid_email' | translate }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="btn unpadded">
+              <button htm-button>{{ 'button.newsletter_submit' | translate }}</button>
+            </div>
+          </ng-container>
+
+        </div>
+      </div><!--block__content--form__input-->
+    </form><!--block__content--form-->
+  </div><!--block__content-->
+
+  <div class="message--holder" aria-live="assertive">
+    <div class="block__content--message" *ngIf="subscribedStatus && !subscribedFailure">
+      <div class="block__content--message__content">{{ 'newsletter.subscription_thanks_content' | translate }}</div>
+      <div class="block__content--message__subcontent">{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{email}}</b>.</div>
+    </div>
+    <div class="block__content--message" *ngIf="subscribedStatus && subscribedFailure">
+      <div class="block__content--message__content">{{ 'newsletter.subscription_failed' | translate }}</div>
+      <button class="again" type="button" (click)="resetView()" attr.aria-label="{{'button.try_again' | translate}}" mat-raised-button color="primary">{{ 'button.try_again' | translate }} </button>
+    </div>
+  </div>
+</div><!--block-->

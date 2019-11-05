@@ -1,0 +1,45 @@
+@import "typography.scss"; 
+@import "breakpoints.scss";
+
+.origin {
+  &__child {margin-right: 4rem;
+    @include break-on(xs, max) {margin-right: 0; margin-bottom: 4rem;}
+    &--last {margin-right: 0;
+      @include break-on(xs, max) {margin-bottom: 0;}  
+    }
+    &--secondLast {
+      @include break-on(xs, max) {
+       @include break-on(xxs, min) {margin-bottom: 0;}
+      }  
+    }
+    .content__wrapper {margin-top: 1rem;}
+    .img__wrapper.extraSpaced {margin-bottom: .5rem;}
+  }
+  &__link {line-height: 1.25rem;}
+  &__description, &__title {line-height: 1.25rem;color: $black;}
+  &__description {margin-bottom: .5rem;}
+  &__title {font-weight: 500;}
+  a {text-decoration: none;max-width: 14rem;margin: 0 auto;
+    .origin__link {text-decoration: underline;}
+    &:hover {
+      .origin__link {text-decoration: none;}
+    }
+    &.rotate:hover {
+      img {transition: ease 0.2s;transform: rotate(30deg);}
+    }
+  }
+  @include break-on(xs, max) {flex-direction: column;}
+  &--column {
+    @include break-on(sm, max) {flex-direction: row;
+      @include break-on(xxs, min) {padding: 0 2rem;}
+    }
+    .origin__child {margin-right: 0;
+      @include break-on(sm, max) {margin-bottom: 4rem;
+        @include break-on(xxs, min) {
+          &--secondLast {margin-bottom: 0;}
+        }
+        &--last {margin-bottom: 0;}
+      }
+    }
+  }
+}

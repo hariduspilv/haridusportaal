@@ -1,0 +1,97 @@
+@import "typography.scss"; 
+@import "breakpoints.scss";
+:host {
+  position: relative;
+}
+.block {border-top: none;background: #f4f4f4;padding: 7.5rem 0 $xxl 0;border-radius: $half-gutter;
+  @include break-on(sm, min) {border-radius: $half-gutter;margin-bottom: 0;}
+  &__content {
+    &--header {
+      h1 {text-align: center; color: $black;line-height: $large;}
+      .intro {line-height: 1.375rem;font-size: $small; padding-top: $small;text-align: center;
+        @include break-on(sm, min) {padding: $small $small 0;}
+      }
+    }
+    &--form {
+      .form__checklist--parent {border-bottom: solid 1px $gray;padding: 1rem 0;margin: 0 1rem 0 1.25rem;
+        @include break-on(xxs, max) {margin: 0;}
+        .block__content--form__checklist__elem {margin-left: 0;}
+      }
+      &__checklist {padding: $small;display: flex;flex-flow: column;
+        &__elem {margin-bottom: $quarter;
+          &:last-child {margin-bottom: 0;}
+          @include break-on(sm, min) {margin: $half-gutter;flex: 0 1 calc(25% - .5rem);
+            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+              flex-basis: 32%;
+            }
+          }
+          @include break-on(sm, max) {
+            @include break-on(xxs, min) {margin: $half-gutter;flex: 0 1 calc(50% - .5rem);}
+          }
+        }
+        @include break-on(sm, min) {padding: $small 0;flex-flow: row wrap;}
+        @include break-on(xxs, min) {padding: $small $small;padding-bottom:$large;flex-flow: row wrap;}
+        @include break-on(xxs, max) {padding: $small 0 $medium;width: max-content; box-sizing: content-box;}
+      }
+      &__input {
+        @include break-on(xxs, min) {padding: 0 $gutter;}
+      }
+    }
+    &--message {display: flex;flex-direction: column;align-items: center;justify-content: center;min-height: 20vh;
+      &__content {font-size: $small;line-height: 1.375rem;margin-bottom: $medium;font-weight: 500;text-align: center;}
+      &__subcontent {text-align: center;line-height: 1.375rem;}
+    }
+  }
+
+  button {width: auto;box-sizing: border-box;overflow: hidden;text-overflow: ellipsis;white-space: nowrap;
+    &.again {width: 100%; @include break-on(sm, min){width: auto;}}
+    @include break-on(sm, max){width: 100%}
+  }
+
+}
+.checkbox {
+  &__container {display: inline-block;position: relative;padding-left: 1.75rem;
+    &:focus-within .checkmark {border-color: $black !important;}
+    .checkmark:after {content: "";position: absolute;display: none;}
+    input {position: absolute;opacity: 0;}
+    .checkmark:after {left: .3125rem;width: .375rem;height: .8125rem;border: solid $blue;
+      border-width: 0 .125rem .125rem 0;-webkit-transform: rotate(45deg);transform: rotate(45deg);
+    }
+    .checkmark {position: absolute;top: 0;left: 0;width: 1.125rem;height: 1.125rem;
+      border-radius: 0.125rem;border: solid .0625rem $gray;background-color:$white;
+    }
+    .label {font-size: .875rem;}
+    input:checked ~ .checkmark:after {display: block;}
+    .checkmark.checked {border-color: $blue;}
+  }
+}
+.outer {line-height: 2.5rem;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;
+  @include break-on(xxs, max) {line-height: 2rem;text-align: center;}
+}
+.btn {
+  // padding-top: .25rem;
+  @include break-on(sm, max) {width: 100%;padding-top: 1rem;}
+  &.unpadded {
+    @include break-on(sm, min) {padding-top: 0rem;}
+  }
+}
+.flex {flex-wrap: wrap;text-align: center;
+  .round-input__wrapper {text-align: left;}
+  @include break-on(sm, min) {
+    &.order {flex-wrap: nowrap;}
+  }
+}
+.grow {
+  &.full.lengthy {
+    @include break-on(sm, max) {flex-basis: 100%; padding-right: 0;}
+  }
+  &.full {
+    &.short {overflow: hidden;flex-wrap: wrap;padding-right: 0;
+      @include break-on(sm, min) {flex-grow: 0;}
+    }
+  }
+}
+.full--lineup {
+  @include break-on(sm, min) {padding-right: 1rem;}
+  @include break-on(xxs, max) {width: 100%; box-sizing: border-box;}
+}

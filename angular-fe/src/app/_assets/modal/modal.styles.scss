@@ -3,6 +3,8 @@
 
 :host {
 	position: absolute;
+	top: 0;
+	left: 0;
 	.modal {
 		visibility: hidden;
 		&__backdrop {

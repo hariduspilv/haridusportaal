@@ -1,0 +1,71 @@
+@import "typography.scss"; 
+@import "breakpoints.scss";
+.frontpage {
+  background-color: $white;
+  margin-bottom:-4rem;
+
+  .main-container {
+    @include break-on(sm, max) {
+      @include break-on(xxs, min) {margin-left: auto!important;margin-right: auto!important;max-width: 590px;}
+    }
+  }
+
+  &__title {color: $black;line-height: 2rem;z-index: 1;position: relative;font-weight: 400;
+    ::ng-deep p {margin: 0;}
+    &--padded {padding: 6rem 0;
+      @include break-on(sm, max) {padding-top: 8rem;}
+    }
+    &--middle {padding-bottom: 1.5rem;}
+  }
+
+  &__section {padding-bottom: 8rem;
+    &--short {padding-bottom: 4rem;}
+    &--none {padding-bottom: 0;}
+    &--newsletter {background-color: #f4f4f4;
+      @include break-on(sm, max) {
+        margin-bottom: -10rem;
+        padding-bottom: 5rem;
+      }
+    }
+    &--origin {padding-left: 3rem;padding-right: 3rem;
+     @include break-on(xxs, max) {padding-left: 2rem;padding-right: 2rem;}
+    }
+  }
+
+  @include break-on(sm, min) {margin-top: -$small;}
+  .section {z-index: 1;padding-top: 4.5rem;
+    @include break-on(sm, max) {padding-top: 3rem;}
+    .btn {@include break-on(xxs, max) {width: 100%;}z-index: 5;}
+    &__content {width: 66%;box-sizing: border-box;z-index: 2;
+      @include break-on(sm, max) {width: 100%;
+        @include break-on(xxs, min) {margin-left: auto!important;margin-right: auto!important;max-width: 590px;}
+      }
+      @include break-on(xl, min) {margin-left: auto!important;margin-right: auto!important;max-width: 1890px;width: 42%;}
+    }
+    &__block {display: flex;justify-content: center;align-items: center;box-sizing: border-box;flex-direction: column;
+      &--newsletter {@extend .section__block;height: 100%;background-color: #f4f4f4;}
+      @include break-on(sm, max) {padding: 0 $large;}
+    }
+  }
+  .sm-show {
+    &.sm {
+      @include break-on(sm, max) {display: block !important;}
+      @include break-on(xxs, max) {display: none !important;}
+    }
+    &.xxs {
+      @include break-on(sm, max) {display: none !important;}
+      @include break-on(xxs, max) {display: block !important;}
+    }
+  }
+}
+
+:host {
+  ::ng-deep modal-content {
+    span {
+      font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:normal;
+    }
+    p {
+      font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:500;
+    }
+  }
+}

@@ -19,6 +19,7 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     AssetsModule,
+    CommonModule,
     TranslateModule,
   ],
   providers: [
