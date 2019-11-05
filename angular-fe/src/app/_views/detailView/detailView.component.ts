@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -9,17 +9,19 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   styleUrls: ['detailView.styles.scss'],
 })
 
-export class DetailViewComponent {
+export class DetailViewComponent implements AfterViewInit{
   @Input() type: string = 'news';
   @Input() path: string;
   @Input() data: any;
   @Input() origData: any;
+  @ViewChild('descriptionBlock', { static: false }) description: ElementRef;
 
   public feedbackNid: number;
   public loading: boolean = true;
   public sidebar: object;
   public title: string;
   public compareKey: string;
+  public pictoWidth: number;
   private queryKey: string = '';
 
   constructor(
@@ -127,6 +129,11 @@ export class DetailViewComponent {
         this.data.video.splice(0, 1);
       }
 
+      if (this.data.fieldPictogram && this.data.fieldPictogram.entity) {
+        this.data.description.value = `<picto src="${this.data.fieldPictogram.entity.url}"></picto>${this.data.description.value}`;
+      }
+      console.log(this.data.description.value);
+
       this.loading = false;
 
       this.feedbackNid = this.data.nid;
@@ -137,6 +144,9 @@ export class DetailViewComponent {
 
     });
 
+  }
+
+  ngAfterViewInit() {
   }
 
   ngOnInit() {

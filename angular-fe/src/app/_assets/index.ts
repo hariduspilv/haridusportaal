@@ -103,6 +103,7 @@ import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListVi
 import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
 import { InfographComponent } from './infograph/infograph.component';
+import { PictoComponent } from './picto';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -188,6 +189,7 @@ const declarations = [
   SchoolListViewComponent,
   StudyProgrammeListViewComponent,
   DropdownListComponent,
+  PictoComponent,
 ];
 
 const exports = [

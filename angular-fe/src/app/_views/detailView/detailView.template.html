@@ -26,7 +26,11 @@
 
 				<image *ngIf="!data.video && data.image" [image]="data.image"></image>
 				
-				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value | removeEmptyTags"></div>
+
+				<div class="description" *ngIf="data.description && data.description.value && !data.fieldPictogram.entity" [innerHtml]="data.description.value"></div>
+				<div class="description" *ngIf="data.description && data.description.value && data.fieldPictogram.entity">
+					<picto [img]="data.fieldPictogram.entity.url" [content]="data.description.value"></picto>
+				</div>
 
 				<links *ngIf="data.links" [data]="data.links"></links>
 
