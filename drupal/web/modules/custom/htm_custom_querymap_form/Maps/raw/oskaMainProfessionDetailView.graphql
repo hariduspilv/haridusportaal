@@ -19,12 +19,17 @@ query oskaMainProfessionDetailView($path: String!) {
       }
       entity {
         ... on NodeOskaMainProfessionPage {
+          fieldPictogram {
+            entity{
+              url
+            }
+          }
           isFavorite
           nid
           entityLabel
-          fieldFixedLabel{
+          fieldFixedLabel {
             entity {
-              ... on TaxonomyTermOskaFixedLabels{
+              ... on TaxonomyTermOskaFixedLabels {
                 entityId
                 entityLabel
               }
@@ -151,23 +156,23 @@ query oskaMainProfessionDetailView($path: String!) {
                           }
                         }
                       }
-                      iscedf_broad: fieldIscedfBroad{
-                        entity{
-                          ... on TaxonomyTermIscedF{
+                      iscedf_broad: fieldIscedfBroad {
+                        entity {
+                          ... on TaxonomyTermIscedF {
                             entityId
                             entityLabel
                           }
                         }
                       }
-                      iscedf_narrow: fieldIscedfNarrow{
-                        entity{
-                          ... on TaxonomyTermIscedF{
+                      iscedf_narrow: fieldIscedfNarrow {
+                        entity {
+                          ... on TaxonomyTermIscedF {
                             entityId
                             entityLabel
                           }
                         }
                       }
-                      level:fieldLevel {
+                      level: fieldLevel {
                         entity {
                           ... on TaxonomyTermStudyprogrammelevel {
                             entityId

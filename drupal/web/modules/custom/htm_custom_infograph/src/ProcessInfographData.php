@@ -13,61 +13,59 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class ProcessInfographData {
 
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function create(ContainerInterface $container) {
-        return new static();
-    }
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static();
+  }
 
 
-    public static function ValidateFile($filename, $items, &$context){
+  public static function ValidateFile($filename, $items, &$context){
 
-        $message = t('Validating file');
+    $message = t('Validating file');
+    $results = [];
+    $object = [
+      'naitaja' => false,
+    ];
+    foreach ($items as $index => $item){
 
-        $results = [];
-        $object = [
-          'naitaja' => false,
-        ];
-      foreach ($items as $index => $item){
-
-        foreach($item as $key => $value){
-          if(mb_detect_encoding($key) == 'UTF-8'){
-            $object[cleanString($key)] = $value;
-          }else{
-            $object[$key] = $value;
-          }
-        }
-
-        if(!$object['naitaja']){
-
-          $error_messag_func = function($values) {
-            foreach($values as $key => $value){
-              if($key === 'naitaja' && $value === FALSE){
-                return $key;
-              }
-            }
-          };
-
-          $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
+      foreach($item as $key => $value){
+        if(mb_detect_encoding($key) == 'UTF-8'){
+          $object[cleanString($key)] = $value;
         }else{
-          $results[] = $object;
+          $object[$key] = $value;
         }
       }
 
-      $context['message'] = $message;
-      $context['results']['values'] = $results;
+      if(!$object['naitaja']){
+        $error_messag_func = function($values) {
+          foreach($values as $key => $value){
+            if($key === 'naitaja' && ($value === FALSE || $value === null) || empty($value)){
+              return $key;
+            }
+          }
+        };
 
-      if(empty($context['results']['error'])){
-
-        $logpath = '/app/drupal/web/sites/default/files/private/infograph';
-        if(!file_exists($logpath)) mkdir($logpath, 0744, true);
-        $writer = Writer::createFromPath($logpath.'/'.$filename.'.csv', 'w+');
-        $writer->setDelimiter(';');
-        $writer->insertOne(['naitaja', 'teema', 'aasta', 'silt', 'vaartus']);
-        $writer->insertAll($results);
+        $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
+      }else{
+        $results[] = $object;
       }
     }
+
+    $context['message'] = $message;
+    $context['results']['values'] = $results;
+
+    if(empty($context['results']['error'])){
+
+      $logpath = '/app/drupal/web/sites/default/files/private/infograph';
+      if(!file_exists($logpath)) mkdir($logpath, 0744, true);
+      $writer = Writer::createFromPath($logpath.'/'.$filename.'.csv', 'w+');
+      $writer->setDelimiter(';');
+      $writer->insertOne(['naitaja', 'teema', 'aasta', 'silt', 'vaartus']);
+      $writer->insertAll($results);
+    }
+  }
 
   public static function CreateGraphFilters($filename, $items, &$context){
 
@@ -139,22 +137,22 @@ class ProcessInfographData {
     }
   }
 
-    public static function ProcessInfographDataFinishedCallback($success, $results, $operations){
-        // The 'success' parameter means no fatal PHP errors were detected. All
-        // other error management should be handled using 'results'.
-        if ($success) {
-            if(isset($results['error'])){
-                $message = [implode(', ', $results['error']), 'error'];
-            }else{
-                $message = [\Drupal::translation()->formatPlural(
-                    count($results['processed']),
-                    'One infograph item processed.', '@count infograph items processed.'
-                ), 'status'];
-            }
-        }
-        else {
-            $message = [t('Finished with an error.'), 'error'];
-        }
-        drupal_set_message($message[0], $message[1]);
+  public static function ProcessInfographDataFinishedCallback($success, $results, $operations){
+    // The 'success' parameter means no fatal PHP errors were detected. All
+    // other error management should be handled using 'results'.
+    if ($success) {
+      if(isset($results['error'])){
+        $message = [implode(', ', $results['error']), 'error'];
+      }else{
+        $message = [\Drupal::translation()->formatPlural(
+          count($results['processed']),
+          'One infograph item processed.', '@count infograph items processed.'
+        ), 'status'];
+      }
     }
+    else {
+      $message = [t('Finished with an error.'), 'error'];
+    }
+    drupal_set_message($message[0], $message[1]);
+  }
 }
