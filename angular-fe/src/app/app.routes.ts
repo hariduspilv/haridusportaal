@@ -79,6 +79,10 @@ const routes: Routes = [
     },
   },
   {
+    path: 'infosüsteemid',
+    loadChildren: './_views/infoSystemView#InfoSystemViewModule',
+  },
+  {
     path: 'erialad',
     loadChildren: './_views/studyProgrammeListView#StudyProgrammeListViewModule',
   },
@@ -88,6 +92,10 @@ const routes: Routes = [
     data: {
       type: 'studyProgramme',
     },
+  },
+  {
+    path: 'tunnistuse-kehtivuse-kontroll',
+    loadChildren: './_views/certificateCheck#CertificateCheckViewModule',
   },
 ];
 

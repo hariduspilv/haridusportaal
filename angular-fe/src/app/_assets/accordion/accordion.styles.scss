@@ -1,6 +1,7 @@
 @import "typography.scss";
 
-::ng-deep {
+:host { 
+  ::ng-deep {
 	.accordion {
 		display: block;
 
@@ -9,7 +10,20 @@
 			&+.accordion__item {
 				margin-top: 4px;
 			}
-		}
+    }
+    
+    &__links {
+      line-height: 1.375rem;
+      font-size: 1rem;
+      ul.link-list {
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+    }
+
+    &__body {
+      margin-bottom: 1rem;
+    }
 
 		&__title {
       overflow: hidden;
@@ -50,7 +64,7 @@
     }
 
     &__inline{
-      padding:24px;
+      padding:1.5rem;
       h1,h2,h3,h4,h5,h6,p{
         &:first-child{
           margin-top:0;
@@ -92,4 +106,5 @@
       }
     }
 	}
+}
 }

@@ -31,7 +31,7 @@ const requestMap = {
   organizer: ['fieldOrganizer', 'fieldContactOrganizer', 'fieldOrganization', 'fieldContactOrganization'],
   links: ['fieldOskaMainProfessionLinks', 'fieldEventLink', 'fieldOskaWebPage', 'fieldNewsLink', 'fieldSurveyPageLink'],
   group: ['fieldEventGroup'],
-  attachmentFile: ['fieldOskaMainProfessionFile', 'fieldAttachmentFile', 'fieldOskaAttachmentFile', 'fieldSurveyPageAttachment'],
+  attachmentFile: ['fieldOskaMainProfessionFile', 'fieldAttachmentFile', 'fieldOskaAttachmentFile', 'fieldSurveyPageAttachment', 'fieldFile'],
   graph: ['fieldDynamicGraph'],
   infograph: ['fieldInfograph'],
   additional: ['fieldAdditional', 'fieldPracticalInformation'],

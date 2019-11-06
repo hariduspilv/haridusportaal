@@ -1,0 +1,40 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+:host {
+    .logo{
+        margin-bottom: $medium;
+        img{
+            width: 100%;
+            max-width: 200px;
+            height: auto;
+        }
+    }
+    .link-list{
+        list-style: none;
+        padding: 0;
+        margin: 1rem 0;
+        ::ng-deep icon {
+            vertical-align: top;
+            margin-right: $gutter;
+            color: #2e3374;
+            i {
+                font-size: 1.5rem !important;
+            }
+        }
+        li {
+            margin-bottom: .25rem;
+            &:last-child {
+                margin-bottom: 0;
+            }
+            span {
+                line-height: 1.5rem;
+            }
+        }
+    }
+        
+    ::ng-deep {
+        block .block__title__secondary__text {
+            margin-bottom: 0;
+        }
+    }
+}

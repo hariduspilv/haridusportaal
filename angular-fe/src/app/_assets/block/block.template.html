@@ -29,30 +29,31 @@
     <!--/block__title__Tabs-->
   </div>
   <!--/title-area-->
-  <div class="block__title__middle-tabs" *ngIf="labeledTabs > 0 && tabStyle === 'middle' ">
-    <ng-content select="block-tabs"></ng-content>
-    <button class="navigation__icon" *ngIf="isMobile && viewTabs && currentViewTabs > 0" (click)="navigateTabs(-1)" htm-button theme="icon">
-      <icon glyph="chevron-left"></icon>
-    </button>
-    <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
-      <button (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
-        <span class="button__contents">
-          <ng-container *ngIf="tab.tabIcon">
-            <icon [glyph]="tab.tabIcon"></icon>
-          </ng-container>
-          <div class="title">{{ tab.tabLabel }}</div>
-        </span>
-        <!--/button__contents-->
-      </button>
-    </ng-container>
-    <button class="navigation__icon" *ngIf="isMobile && viewTabs && viewTabs[currentViewTabs + 1]" (click)="navigateTabs(1)" htm-button theme="icon">
-      <icon glyph="chevron-right"></icon>
-    </button>
-  </div>
-  <!--/block__title__middle-tabs-->
+  
   <h1 class="block__title__secondary__text" *ngIf="hasSecondaryTitle">
     <ng-content select="block-secondary-title"></ng-content>
   </h1>
+  <div class="block__title__middle-tabs" *ngIf="labeledTabs > 0 && tabStyle === 'middle' ">
+      <ng-content select="block-tabs"></ng-content>
+      <button class="navigation__icon" *ngIf="isMobile && viewTabs && currentViewTabs > 0" (click)="navigateTabs(-1)" htm-button theme="icon">
+        <icon glyph="chevron-left"></icon>
+      </button>
+      <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
+        <button (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+          <span class="button__contents">
+            <ng-container *ngIf="tab.tabIcon">
+              <icon [glyph]="tab.tabIcon"></icon>
+            </ng-container>
+            <div class="title">{{ tab.tabLabel }}</div>
+          </span>
+          <!--/button__contents-->
+        </button>
+      </ng-container>
+      <button class="navigation__icon" *ngIf="isMobile && viewTabs && viewTabs[currentViewTabs + 1]" (click)="navigateTabs(1)" htm-button theme="icon">
+        <icon glyph="chevron-right"></icon>
+      </button>
+    </div>
+    <!--/block__title__middle-tabs-->
   <!--/block__title__middle__text-->
   <ng-content select="block-content"></ng-content>
 </ng-container>
