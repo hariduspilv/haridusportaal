@@ -17,5 +17,13 @@
       height: 1em;
       border-radius: 1em;
     }
+    .triangle {
+      position: relative;
+      float: right;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-style: inset;
+    }
   }
 }

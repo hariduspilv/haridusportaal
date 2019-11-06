@@ -129,11 +129,6 @@ export class DetailViewComponent implements AfterViewInit{
         this.data.video.splice(0, 1);
       }
 
-      if (this.data.fieldPictogram && this.data.fieldPictogram.entity) {
-        this.data.description.value = `<picto src="${this.data.fieldPictogram.entity.url}"></picto>${this.data.description.value}`;
-      }
-      console.log(this.data.description.value);
-
       this.loading = false;
 
       this.feedbackNid = this.data.nid;
