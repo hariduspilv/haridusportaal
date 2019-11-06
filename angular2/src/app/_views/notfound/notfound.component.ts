@@ -1,44 +1,54 @@
-import { Component, OnInit } from '@angular/core';
-import { TranslateService } from '@ngx-translate/core';
-import { RootScopeService, SideMenuService } from '@app/_services'
-import { Router } from '@angular/router';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { RootScopeService, SideMenuService } from '@app/_services';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { LoginModal } from '@app/_components/dialogs/login.modal/login.modal';
 
 @Component({
   templateUrl: './notfound.component.html',
   styleUrls: ['./notfound.component.scss']
 })
 
-export class NotFoundComponent {
+export class NotFoundComponent implements AfterViewInit {
 
-  viewTranslations: any;
-  translatedLinks: object = {
+  public viewTranslations: any;
+  public translatedLinks: object = {
     school: {et: '/kool'},
     events: {et: '/sündmused'},
     news: {et: '/uudised'}
-  }
+  };
+  public redirectUrl: string;
 
   constructor(
-    private translate: TranslateService,
+    private dialog: MatDialog,
     private rootScope: RootScopeService,
     private sidemenu: SideMenuService,
+    private route: ActivatedRoute,
     private router: Router) {
+      this.redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
   }
-  
-  ngOnInit() {
+
+  ngAfterViewInit() {
     this.sidemenu.triggerLang(true);
     document.getElementById('toFront').focus();
   }
 
-  getLang() {
-    return this.rootScope.get('lang');
-  }
-
-  toFrontpage() {
-    return `/`;
-  }
-
   constructUrl(type) {
-    return this.translatedLinks[type][this.getLang()]
+    return this.translatedLinks[type][this.rootScope.get('lang')];
   }
 
+  action() {
+    if (this.redirectUrl) {
+      this.dialog.closeAll();
+      const dialogRef = this.dialog.open(LoginModal, {
+        panelClass: 'sticky-dialog-container',
+        backdropClass: 'sticky-dialog-backdrop'
+      });
+      if (dialogRef['_overlayRef'].overlayElement) {
+        dialogRef['_overlayRef'].overlayElement.parentElement.className += ' sticky-dialog-wrapper';
+      }
+    } else {
+      this.router.navigate(['/']);
+    }
+  }
 }
