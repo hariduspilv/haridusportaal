@@ -41,11 +41,12 @@ import { TeachingsComponent } from '@app/_components/teachings/teachings.compone
 import { PreviewComponent } from '@app/_views/preview/preview.component';
 import { VariablesComponent } from './_views/variables/variables.component';
 import { OskaSectorsMapComponent } from './_views/oska.sectors.map/oska.sectors.map';
+import { AuthGuard } from './_services/authGuard';
 const appRoutes: Routes = [
 
   { path: '', component: FrontpageComponent },
   { path: 'oska', component: OskaFrontPageComponent },
-  
+
   { path: 'artiklid/:id', component: ArticleComponent },
   { path: 'uudised', component: NewsComponent },
   { path: 'uudised/:id', component: NewsSingleComponent },
@@ -77,12 +78,30 @@ const appRoutes: Routes = [
 
   { path: 'tunnistuse-kehtivuse-kontroll', component: CertificateCheckComponent },
 
-  { path: 'vormid/:form_name', component: XjsonFormComponent },
-  
-  { path: 'töölaud/tunnistused/:id', component: CertificatesDetailedComponent},
-  { path: 'töölaud/õpetan/:type', component: TeachingsDetailedComponent},
-  { path: 'töölaud/taotlused/:form_name', component: XjsonComponent},
-  { path: 'töölaud', component: DashboardComponent,
+  {
+    path: 'vormid/:form_name',
+    component: XjsonFormComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'töölaud/tunnistused/:id',
+    component: CertificatesDetailedComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'töölaud/õpetan/:type',
+    component: TeachingsDetailedComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'töölaud/taotlused/:form_name',
+    component: XjsonComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'töölaud',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       { path: 'taotlused', component: ApplicationsComponent},
       { path: 'tunnistused', component: CertificatesComponent},
@@ -106,7 +125,7 @@ const appRoutes: Routes = [
   { path: 'oska-tulemused/:id', component: OskaResultsComponent},
 
   { path: 'tööjõuprognoos/:id', component: OskaAreasComponent},
-  
+
   { path: 'otsing', component: SearchComponent },
 
   { path: 'isikukaart', component: PersonalDataComponent },
