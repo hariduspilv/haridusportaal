@@ -1,0 +1,21 @@
+uuid: 0e68d329-5306-4d24-af0a-425cbdfd5ef4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_infograph
+    - node.type.article
+  module:
+    - htm_custom_infograph
+id: node.article.field_infograph
+field_name: field_infograph
+entity_type: node
+bundle: article
+label: Infograafika
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: dynamic_graph_field
