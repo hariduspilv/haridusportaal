@@ -7,6 +7,7 @@ dependencies:
     - field.field.node.article.field_body
     - field.field.node.article.field_body_summary
     - field.field.node.article.field_image
+    - field.field.node.article.field_infograph
     - field.field.node.article.field_metatags
     - field.field.node.article.field_right_sidebar
     - field.field.node.article.field_video
@@ -14,6 +15,7 @@ dependencies:
     - node.type.article
   module:
     - entity_reference_revisions
+    - htm_custom_infograph
     - htm_custom_video_field
     - image
     - metatag
@@ -58,6 +60,13 @@ content:
       image_style: crop_large
       image_link: ''
     third_party_settings: {  }
+  field_infograph:
+    weight: 8
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: dynamic_graph_formatter_type
+    region: content
   field_metatags:
     weight: 5
     label: above
@@ -88,3 +97,4 @@ content:
     third_party_settings: {  }
 hidden:
   langcode: true
+  search_api_excerpt: true
