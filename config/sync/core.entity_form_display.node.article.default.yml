@@ -7,12 +7,14 @@ dependencies:
     - field.field.node.article.field_body
     - field.field.node.article.field_body_summary
     - field.field.node.article.field_image
+    - field.field.node.article.field_infograph
     - field.field.node.article.field_metatags
     - field.field.node.article.field_right_sidebar
     - field.field.node.article.field_video
     - image.style.crop_result_thumb
     - node.type.article
   module:
+    - htm_custom_infograph
     - htm_custom_video_field
     - image_widget_crop
     - maxlength
@@ -81,6 +83,12 @@ content:
       progress_indicator: throbber
       show_crop_area: false
     third_party_settings: {  }
+  field_infograph:
+    weight: 26
+    settings: {  }
+    third_party_settings: {  }
+    type: dynamic_graph_widget_type
+    region: content
   field_metatags:
     weight: 13
     settings: {  }

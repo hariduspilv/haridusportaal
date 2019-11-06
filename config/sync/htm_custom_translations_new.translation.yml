@@ -752,6 +752,10 @@ frontpage:
       translation_type: textarea
       et: 'Sulge kõik õpingute andmed'
       en: ''
+  login_required_message:
+    translation_type: textarea
+    et: 'Soovitud teenus nõuab sisse logimist.'
+    en: 'Soovitud teenus nõuab sisse logimist.'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -2088,6 +2092,14 @@ notFound:
     en:
       value: "<p>It looks like the page you were looking for was not found.<br />\r\nError code: <strong> 404 </strong></p>\r\n"
       format: custom_editor
+  auth_explanation:
+    translation_type: text_format
+    et:
+      value: "<p>Soovitud teenus nõuab sisse logimist, logi sisse!</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Soovitud teenus nõuab sisse logimist, logi sisse!</p>\r\n"
+      format: custom_editor
 errors:
   enter_valid_date:
     translation_type: textarea
@@ -3064,3 +3076,7 @@ fieldBlocks:
   translation_type: textarea
   et: 'Leia kiiresti'
   en: ''
+newsQuery:
+  translation_type: textarea
+  et: Uudised
+  en: News
