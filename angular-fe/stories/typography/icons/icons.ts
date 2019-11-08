@@ -225,6 +225,10 @@
     "_fileName": "circle.svg"
   },
   {
+    "_name": "class",
+    "_fileName": "class.svg"
+  },
+  {
     "_name": "clipboard",
     "_fileName": "clipboard.svg"
   },
@@ -573,6 +577,10 @@
     "_fileName": "loader.svg"
   },
   {
+    "_name": "local-library",
+    "_fileName": "local-library.svg"
+  },
+  {
     "_name": "lock",
     "_fileName": "lock.svg"
   },
@@ -811,6 +819,10 @@
   {
     "_name": "save",
     "_fileName": "save.svg"
+  },
+  {
+    "_name": "school",
+    "_fileName": "school.svg"
   },
   {
     "_name": "scissors",

@@ -1,0 +1,23 @@
+<div class="content" 
+  role="group"
+  attr.aria-label="{{ show ? '' : (screenReaderContent | ellipsis) }}"
+  tabindex="0"
+  attr.id="wrapper-{{id}}">
+  <div *ngIf="active"
+    class="content__background" 
+    aria-hidden="true">
+  </div>
+  <div class="content__inner"
+    attr.aria-hidden="{{ !show }}"
+    attr.id="moreContent-{{id}}"
+    [class.show]="show"
+    innerHTML="{{ content }}">
+    <!-- innerHTML="{{ show ? (content) : (content | ellipsis: 350) }}"> -->
+  </div>
+</div>
+<p class="more" *ngIf="active">
+  <button class="mat-raised-button mat-primary" role="button" (click)="changeState()">
+      <button *ngIf="!show" htm-button theme="plain">{{ 'button.show_more' | translate }}</button>
+      <button *ngIf="show" htm-button theme="plain">{{ 'button.show_less' | translate }}</button>
+  </button>
+</p>
