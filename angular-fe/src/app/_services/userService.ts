@@ -14,7 +14,6 @@ export class UserService{
   constructor(
     private router: Router,
     private sidemenu: SidemenuService,
-    private rootScope: RootScopeService,
   ) {
     this.isLoggedInChange.subscribe(value => {
       this.isLoggedIn = value;
@@ -56,7 +55,7 @@ export class UserService{
   public triggerPageReload() {
 
     const url = {
-      lang: this.rootScope.get('lang'),
+      lang: 'et',
       current: this.router.url,
     };
 

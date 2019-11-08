@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 import { AlertsService, ModalService } from '@app/_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
-import { UserService } from '@app/_services/userService';
+import { AuthService } from '@app/_services';
 import { TableService } from '@app/_services/tableService';
 import { formItems } from '../../../../stories/assets/formItem/formItem.data';
 
@@ -67,10 +67,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   constructor(
     public alertsService: AlertsService,
     public http: HttpClient,
-    public rootScope: RootScopeService,
+    // public rootScope: RootScopeService,
     public route: ActivatedRoute,
     public tableService: TableService,
-    public user: UserService,
+    public auth: AuthService,
     public settings: SettingsService,
     public modalService: ModalService,
   ) { }
@@ -94,12 +94,12 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     return obj['et'];
   }
 
-  compileXjsonLink(formName) {
+  compileXjsonLink(formName: any) {
     if (!formName) return '';
     return formName;
   }
 
-  sortList(list, method) {
+  sortList(list: any, method: any) {
     const ACCEPTED = ['title', 'date'];
     if (!list || (list && !list.length) || !ACCEPTED.includes(method)) return list;
 
@@ -117,8 +117,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     }
 
     const regex = /(\d{2}).(\d{2}).(\d{4})/;
-    function compareDate(a, b) {
+    function compareDate(a: any, b: any) {
       if (!a['document_date'] || !b['document_date']) return -1;
+      // tslint:disable-next-line: max-line-length
       return Number(new Date(b.document_date.replace(regex, '$3/$2/$1'))) - Number(new Date(a.document_date.replace(regex, '$3/$2/$1')));
     }
 
@@ -141,65 +142,82 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
   fetchData() {
     let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Bearer ' + this.jwt);
+    headers = headers.append('Authorization', `Bearer ${this.jwt}`);
 
     setTimeout(() => {
-      const subscription = this.http.get(this.settings.url + '/dashboard/applications/1?_format=json', { headers }).subscribe((response: any) => {
-        if (typeof response.found !== undefined && response.found === null) {
-          this.fetchData();
-        } else {
-          if (response['error'] && response['error']['message_text']) {
-            this.alertsService.info(response['error']['message_text']['et'], 'general', 'applications', false, false);
-          } else if (this.currentRole === 'natural_person') {
-            this.data.acceptable_forms = response['acceptable_forms'];
-            this.data.drafts = response['drafts'];
-            this.data.documents = response['documents'];
-            this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
-            this.data.drafts = this.sortList(this.data.drafts, 'title');
-            this.data.documents = this.sortList(this.data.documents, 'date');
-            this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
-          } else {
-            const responseData = response['educationalInstitutions'].map((elem) => {
-              elem.documents = this.sortList(elem.documents, 'date');
-              elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
-              elem.drafts = this.sortList(elem.drafts, 'title');
-              return elem;
-            });
-            if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
-              this.data.educationalInstitutions = responseData;
-              if (response['message']) {
-                this.alertsService.info(response['message'], 'general', 'applications', false, false);
-              }
-              if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
-                this.data.educationalInstitutions.forEach((elem, index) => {
-                  this.tableOverflown[index] = { 0: false, 1: false, 2: false };
-                  this.elemAtStart[index] = { 0: true, 1: true, 2: true };
-                  this.initialized[index] = { 0: false, 1: false, 2: false };
+      const subscription = this.http
+        .get(`${this.settings.url}/dashboard/applications/1?_format=json`, { headers })
+        .subscribe(
+          (response: any) => {
+            if (typeof response.found !== undefined && response.found === null) {
+              this.fetchData();
+            } else {
+              if (response.error && response.error.message_text) {
+                this.alertsService
+                  .info(response.error.message_text.et, 'general', 'applications', false, false);
+              } else if (this.currentRole === 'natural_person') {
+                this.data.acceptable_forms = response['acceptable_forms'];
+                this.data.drafts = response['drafts'];
+                this.data.documents = response['documents'];
+                this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
+                this.data.drafts = this.sortList(this.data.drafts, 'title');
+                this.data.documents = this.sortList(this.data.documents, 'date');
+                this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
+              } else {
+                const responseData = response['educationalInstitutions'].map((elem) => {
+                  elem.documents = this.sortList(elem.documents, 'date');
+                  elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
+                  elem.drafts = this.sortList(elem.drafts, 'title');
+                  return elem;
                 });
+                if (
+                  JSON.stringify(this.data.educationalInstitutions)
+                  !== JSON.stringify(responseData)
+                ) {
+                  this.data.educationalInstitutions = responseData;
+                  if (response['message']) {
+                    this.alertsService
+                      .info(response.message, 'general', 'applications', false, false);
+                  }
+                  if (
+                    this.data.educationalInstitutions
+                    && this.data.educationalInstitutions.length
+                  ) {
+                    this.data.educationalInstitutions.forEach((elem, index) => {
+                      this.tableOverflown[index] = { 0: false, 1: false, 2: false };
+                      this.elemAtStart[index] = { 0: true, 1: true, 2: true };
+                      this.initialized[index] = { 0: false, 1: false, 2: false };
+                    });
+                  }
+                }
               }
+              this.loading['initial'] = false;
             }
-          }
-          this.loading['initial'] = false;
-        }
-        subscription.unsubscribe();
-      });
-    },         1000);
+            subscription.unsubscribe();
+          });
+    },
+               1000);
   }
 
-  initialTableCheck(id, parentIndex, index) {
+  initialTableCheck(id: any, parentIndex: any, index:any) {
     const element = document.getElementById(id);
     if (element) {
-      this.tableOverflown[parentIndex][index] = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
+      this.tableOverflown[parentIndex][index]
+        = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
       this.initialized[parentIndex][index] = true;
     }
   }
 
   institutionInfoFieldSum(school) {
     let counter = 0;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail) counter = + 1;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone) counter = + 1;
-    if (school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress) counter = + 1;
-    if (school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable) counter = + 1;
+    // tslint:disable-next-line: max-line-length
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail) counter += 1;
+    // tslint:disable-next-line: max-line-length
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone) counter += 1;
+    // tslint:disable-next-line: max-line-length
+    if (school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress) counter += 1;
+    // tslint:disable-next-line: max-line-length
+    if (school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable) counter += 1;
     return counter;
   }
 
@@ -283,29 +301,27 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         error: false,
       },
     ];
-
-    let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Bearer ' + this.jwt);
     this.error = false;
     this.modalLoading = true;
     this.modalService.toggle('institutionModal');
-    const sub = this.http.get(this.settings.url + '/educational-institution/data?_format=json', { headers }).subscribe((response: any) => {
-
-      Object.keys(this.formOptions).forEach((key) => {
-        Object.values(response[key]).forEach((elem: any, index) => {
-          elem['id'] = Object.keys(response[key])[index];
-          this.formOptions[key].push({ key: elem.et, value: elem.id });
+    const sub = this.http
+      .get(`${this.settings.url}/educational-institution/data?_format=json`)
+      .subscribe((response: any) => {
+        Object.keys(this.formOptions).forEach((key) => {
+          Object.values(response[key]).forEach((elem: any, index) => {
+            elem['id'] = Object.keys(response[key])[index];
+            this.formOptions[key].push({ key: elem.et, value: elem.id });
+          });
         });
-      });
 
-      this.modalLoading = false;
-      sub.unsubscribe();
-    });
+        this.modalLoading = false;
+        sub.unsubscribe();
+      });
   }
 
   createInstitution() {
     let headers = new HttpHeaders();
-    headers = headers.append('Authorization', 'Bearer ' + this.jwt);
+    headers = headers.append('Authorization', `Bearer ${this.jwt}`);
     this.error = false;
     this.modalLoading = true;
 
@@ -325,23 +341,26 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       },
     };
 
-    const sub = this.http.post(this.settings.url + '/educational-institution/add', body, { headers }).subscribe((response: any) => {
-      this.alertsService.info(response.message, 'institution', 'institution', false, false);
-      this.modalLoading = false;
-      this.modalBottomAction = true;
-      sub.unsubscribe();
-    },                                                                                                          (err) => {
-      this.alertsService.error(err.error, 'institution', 'institution', false, false);
-      this.modalLoading = false;
-      this.error = true;
-      this.modalBottomAction = true;
-    });
+    const sub = this.http
+      .post(`${this.settings.url}/educational-institution/add`, body, { headers })
+      .subscribe(
+        (response: any) => {
+          this.alertsService.info(response.message, 'institution', 'institution', false, false);
+          this.modalLoading = false;
+          this.modalBottomAction = true;
+          sub.unsubscribe();
+        },
+        (err) => {
+          this.alertsService.error(err.error, 'institution', 'institution', false, false);
+          this.modalLoading = false;
+          this.error = true;
+          this.modalBottomAction = true;
+        });
   }
 
   ngOnInit() {
-    this.lang = this.rootScope.get('lang');
-    this.userData = this.jwt ? this.user.decodeToken(this.jwt) : this.user.getData();
-    this.currentRole = this.userData['role']['current_role']['type'];
+    this.lang = 'et';
+    this.currentRole = this.auth.userData.role.current_role.type;
     this.pathWatcher();
     this.startTime = Date.now();
     this.loading['initial'] = true;
@@ -354,11 +373,12 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       this.initialTableCheck('table_1', 0, 1);
       if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
         this.data.educationalInstitutions.forEach((elem, index) => {
-          this.initialTableCheck('juridicalFirst_' + index, index, 0);
-          this.initialTableCheck('juridicalSecond_' + index, index, 1);
-          this.initialTableCheck('juridicalThird_' + index, index, 2);
+          this.initialTableCheck(`juridicalFirst_${index}`, index, 0);
+          this.initialTableCheck(`juridicalSecond_${index}`, index, 1);
+          this.initialTableCheck(`juridicalThird_${index}`, index, 2);
         });
-        if (document.getElementById('juridicalThird_' + (this.data.educationalInstitutions.length - 1))) {
+        if (document
+          .getElementById(`juridicalThird_${(this.data.educationalInstitutions.length - 1)}`)) {
           this.endViewCheck = true;
         }
       }

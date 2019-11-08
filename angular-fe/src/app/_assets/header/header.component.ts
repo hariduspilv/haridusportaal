@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   @HostBinding('attr.aria-label') ariaLabel:string = this.translate.get('frontpage.header');
   @HostBinding('attr.role') role:string = 'banner';
   public search;
+  public logoutActive = false;
   public loginForm: FormGroup = this.formBuilder.group({
     password: ['', Validators.required],
     username: ['', Validators.required],
@@ -31,7 +32,7 @@ export class HeaderComponent implements OnInit {
     public modalService: ModalService,
     private translate: TranslateService,
     private formBuilder: FormBuilder,
-    private auth: AuthService,
+    public auth: AuthService,
   ) {}
 
   public basicLogin():void {
@@ -47,7 +48,14 @@ export class HeaderComponent implements OnInit {
     this.active = this.sidemenuService.isVisible;
   }
 
+  subscribeToAuth() {
+    this.auth.isAuthenticated.subscribe((val) => {
+      this.loginStatus = val;
+    });
+  }
+
   ngOnInit(): void {
     this.active = this.sidemenuService.isVisible;
+    this.subscribeToAuth();
   }
 }

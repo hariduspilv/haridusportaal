@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthService } from './_services';
 
 const routes: Routes = [
   {
@@ -9,6 +10,11 @@ const routes: Routes = [
   {
     path: 'oska',
     loadChildren: './_views/oskaFrontpageView#OskaFrontpageViewModule',
+  },
+  {
+    path: 'töölaud',
+    loadChildren: './_views/dashboardView#DashboardViewModule',
+    canActivate: [AuthService],
   },
   {
     path: 'uudised',

@@ -24,11 +24,11 @@ export class TeachingsComponent implements OnInit {
   headers: HttpHeaders;
   public currentDate: Date = new Date();
   contentTypes = ['tootamine', 'kvalifikatsioonid', 'taiendkoolitus'];
-  accordionStates: Array<Boolean> = [false, false, false, false];
+  accordionStates: Boolean[] = [false, false, false, false];
 
   constructor(
     private http: HttpClient,
-    private rootScope: RootScopeService,
+
     private router: Router,
     private alertsService: AlertsService,
     private translate: TranslateService,
@@ -36,78 +36,93 @@ export class TeachingsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    this.headers = new HttpHeaders;
-    this.headers = this.headers.append('Authorization', 'Bearer ' + this.jwt);
-
     this.fetchData();
   }
 
   fetchData() {
     this.loading = true;
-    const sub = this.http.get(this.settings.url + '/dashboard/eeIsikukaart/teachings?_format=json', { headers: this.headers }).subscribe((response: any) => {
-      if (response['error']) {
-        this.error = true;
-        this.requestErr = true;
-        const currentLang = this.rootScope.get('lang');
-        this.alertsService.info(response.error.message_text[currentLang], 'general', 'teachings', false, false);
-      } else {
-        try {
-          this.content = response['value'];
-          let errorVal = true;
-          Object.values(this.content).forEach(elem => {
-            if (elem[0]) { errorVal = false; }
-          });
-          this.error = this.dataErr = errorVal;
-          if (this.content) {
+    const sub =
+      this.http
+        .get(
+          `${this.settings.url}/dashboard/eeIsikukaart/teachings?_format=json`,
+          { headers: this.headers })
+        .subscribe(
+          (response: any) => {
+            if (response['error']) {
+              this.error = true;
+              this.requestErr = true;
+              const currentLang = 'et';
+              this.alertsService
+                .info(
+                  response.error.message_text[currentLang],
+                  'general',
+                  'teachings',
+                  false,
+                  false,
+                );
+            } else {
+              try {
+                this.content = response['value'];
+                let errorVal = true;
+                Object.values(this.content).forEach((elem) => {
+                  if (elem[0]) { errorVal = false; }
+                });
+                this.error = this.dataErr = errorVal;
+                if (this.content) {
 
-            try {
-              this.content.tootamine.sort((a, b) => {
-                const obj = this.convertDates(a.ametikohtAlgus, b.ametikohtAlgus);
-                return +new Date(obj.valB) - +new Date(obj.valA);
-              });
-            } catch (err) { }
+                  try {
+                    this.content.tootamine.sort((a, b) => {
+                      const obj = this.convertDates(a.ametikohtAlgus, b.ametikohtAlgus);
+                      return +new Date(obj.valB) - +new Date(obj.valA);
+                    });
+                  } catch (err) { }
 
-            try {
-              this.content.taiendkoolitus.sort((a, b) => {
-                const obj = this.convertDates(a.loppKp, b.loppKp);
-                return +new Date(obj.valB) - +new Date(obj.valA);
-              });
-            } catch (err) { }
+                  try {
+                    this.content.taiendkoolitus.sort((a, b) => {
+                      const obj = this.convertDates(a.loppKp, b.loppKp);
+                      return +new Date(obj.valB) - +new Date(obj.valA);
+                    });
+                  } catch (err) { }
 
-            try {
-              this.content.tasemeharidus.sort((a, b) => {
-                const obj = this.convertDates(a.lopetanud, b.lopetanud);
-                return +new Date(obj.valB) - +new Date(obj.valA);
-              }).map((elem) => {
-                if (elem.lopetanud) {
-                  elem.aastaLopetanud = elem.lopetanud.split('.')[2];
+                  try {
+                    this.content.tasemeharidus.sort((a, b) => {
+                      const obj = this.convertDates(a.lopetanud, b.lopetanud);
+                      return +new Date(obj.valB) - +new Date(obj.valA);
+                    }).map((elem) => {
+                      if (elem.lopetanud) {
+                        elem.aastaLopetanud = elem.lopetanud.split('.')[2];
+                      }
+                      elem.typeName = 'tasemeharidus';
+                      return elem;
+                    });
+                  } catch (err) {
+                    console.log(err);
+                  }
+                  this.content.kvalifikatsioon
+                    .sort((a, b) => b.aasta - a.aasta)
+                    .map(elem => elem.typeName = 'kvalifikatsioon');
+                  this.content.kvalifikatsioonid =
+                    [...this.content.kvalifikatsioon, ...this.content.tasemeharidus];
                 }
-                elem.typeName = 'tasemeharidus';
-                return elem;
-              });
-            } catch (err) {
-              console.log(err);
+                if (errorVal) {
+                  throw new Error();
+                }
+              } catch (err) {
+                this.alertsService
+                  .info('errors.teachings_data_missing', 'general', 'teachings', false, false);
+              }
             }
-            this.content.kvalifikatsioon.sort((a, b) => b.aasta - a.aasta).map(elem => elem.typeName = 'kvalifikatsioon');
-            this.content.kvalifikatsioonid = [...this.content.kvalifikatsioon, ...this.content.tasemeharidus];
-          }
-          if (errorVal) {
-            throw new Error();
-          }
-        } catch (err) {
-          this.alertsService.info('errors.teachings_data_missing', 'general', 'teachings', false, false);
-        }
-      }
-      sub.unsubscribe();
-      this.accordionStates = this.rootScope.get('teachingsAccordion') || [false, false, false, false];
-      this.loading = false;
-    }, error => {
-      this.loading = false;
-      this.error = true;
-      this.requestErr = true;
-      this.alertsService.info('errors.teachings_data_request', 'general', 'teachings', false, false);
-    });
+            sub.unsubscribe();
+// this.accordionStates = this.rootScope.get('teachingsAccordion') || [false, false, false, false];
+            this.loading = false;
+          },
+          (error) => {
+            this.loading = false;
+            this.error = true;
+            this.requestErr = true;
+            this.alertsService
+              .info('errors.teachings_data_request', 'general', 'teachings', false, false);
+          });
   }
 
   convertDates(dateA, dateB) {
@@ -133,8 +148,8 @@ export class TeachingsComponent implements OnInit {
   }
 
   setTeachingsDetail(work, route) {
-    this.rootScope.set('teachingsDetail', work);
-    this.router.navigateByUrl(this.router.url + '/' + route);
+    // this.rootScope.set('teachingsDetail', work);
+    this.router.navigateByUrl(`${this.router.url}/${route}`);
   }
 
   isDateInPast(date) {
@@ -144,6 +159,6 @@ export class TeachingsComponent implements OnInit {
   }
 
   ngOnDestroy() {
-    this.rootScope.set('teachingsAccordion', this.accordionStates);
+    // this.rootScope.set('teachingsAccordion', this.accordionStates);
   }
 }

@@ -43,7 +43,7 @@
     }
     &__wrapper{
       position: relative;
-      & > input[type="text"], & > input[type="number"], & > textarea, & > select {
+      & > input[type="text"],& > input[type="password"], & > input[type="number"], & > textarea, & > select {
         display: block;
         width: 100%;
         appearance: none;
@@ -91,7 +91,7 @@
     
     &--error{
       &>.formItem__wrapper{
-        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+        & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           border-color:$error;
         }
         .ng-select .ng-select-container{
@@ -102,7 +102,7 @@
 
     &--success{
       &>.formItem__wrapper{
-        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+        & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           border-color:$success;
         }
         .ng-select .ng-select-container{
