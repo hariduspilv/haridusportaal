@@ -109,6 +109,7 @@ import { InlineLinksComponent } from './inline-links/inline-links.component';
 import { InlineArticlesComponent } from './inline-articles/inline-articles.component';
 import { ArticlesSingleComponent } from './articles-single/articles-single.component';
 import { NewsletterOrderComponent } from './newsletter-order/newsletter-order.component';
+import { PictoComponent } from './picto';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -197,6 +198,7 @@ const declarations = [
   InlineArticlesComponent,
   ArticlesSingleComponent,
   NewsletterOrderComponent,
+  PictoComponent,
 ];
 
 const exports = [

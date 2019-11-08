@@ -1,0 +1,13 @@
+<div class="picto">
+    <img class="image" [src]="img" />
+        <ng-container *ngIf="pictoDesigns[pictoNumber]">
+            <div *ngFor="let circle of pictoDesigns[pictoNumber].circles" class="circle" [style.margin-right.rem]="circle.right"
+                [style.margin-top.rem]="circle.top" [style.font-size.rem]="circle.size" [style.z-index]="circle.z"
+                [style.background-color]="circle.color"></div>
+                <div *ngFor="let triangle of pictoDesigns[pictoNumber].triangles" class="triangle" 
+                [style.border-width]="triangle.height/2 +'rem '+ triangle.width +'rem '+ triangle.height/2 +'rem 0rem'"
+                [style.margin-right.rem]="triangle.right" [style.margin-top.rem]="triangle.top"
+                [style.transform]="'rotate(' + triangle.rotate + 'deg)'"
+                [style.z-index]="triangle.z" [style.border-color]="triangle.color"></div>
+        </ng-container>
+</div>

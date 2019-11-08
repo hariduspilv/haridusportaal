@@ -4,11 +4,11 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './_views/frontpage#FrontpageViewModule',
+    loadChildren: './_views/frontpageView#FrontpageViewModule',
   },
   {
     path: 'oska',
-    loadChildren: './_views/oskaFrontpage#OskaFrontpageViewModule',
+    loadChildren: './_views/oskaFrontpageView#OskaFrontpageViewModule',
   },
   {
     path: 'uudised',
@@ -95,7 +95,7 @@ const routes: Routes = [
   },
   {
     path: 'tunnistuse-kehtivuse-kontroll',
-    loadChildren: './_views/certificateCheck#CertificateCheckViewModule',
+    loadChildren: './_views/certificateCheckView#CertificateCheckViewModule',
   },
 ];
 
