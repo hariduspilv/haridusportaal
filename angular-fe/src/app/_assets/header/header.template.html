@@ -48,19 +48,27 @@
 					<icon aria-hidden="true" glyph="search" size="medium"></icon>
 				</button>
 
-        <button 
-          *ngIf="loginStatus; else other"
-          theme="plain"
-          (click)="logoutActive = true"
-          htm-button
-        >
+				<button
+					*ngIf="loginStatus; else other"
+					theme="plain"
+					(click)="logoutActive = true"
+					htm-button
+				>
 					<div class="label--logged">
 						<icon aria-hidden="true" glyph="user" size="medium"></icon>
 						<span>{{ auth.user.firstname }} {{ auth.user.lastname }}</span>
-          </div>
+					</div>
 				</button>
-        <div *ngIf="logoutActive" class="header__logout">
-          <button htm-button theme="logout" (mouseout)="logoutActive = false" (click)="auth.logout()">Logi välja</button></div>
+				<div *ngIf="logoutActive" class="header__logout">
+					<button
+						htm-button
+						theme="logout"
+						(mouseout)="logoutActive = false"
+						(click)="auth.logout()"
+					>
+						Logi välja
+					</button>
+				</div>
 				<ng-template #other>
 					<button
 						htm-button
@@ -102,13 +110,17 @@
 	[bottomAction]="false"
 >
 	<modal-content id="login" *ngIf="modalService.modalOpened['login']">
-		<div class="login__wrapper">
+		<div class="login__wrapper" *ngIf="!loading">
 			<div class="login__method">
-				<button htm-button>{{ "login_harid" | translate }}</button>
+				<button (click)="harIdLogin()" htm-button>
+					{{ "login_harid" | translate }}
+				</button>
 			</div>
 			<labeled-separator type="login" label="või"></labeled-separator>
 			<div class="login__method">
-				<button htm-button>{{ "login_tara" | translate }}</button>
+				<button (click)="taraLogin()" htm-button>
+					{{ "login_tara" | translate }}
+				</button>
 			</div>
 			<labeled-separator type="login" label="või"></labeled-separator>
 			<div class="login__method">
@@ -116,15 +128,19 @@
 					<h2>{{ "login_mobile" | translate }}</h2>
 				</div>
 				<div>
-					<formItem
-						type="text"
-						[(ngModel)]="phone"
-						title="{{ 'dashboard.contactPhone' | translate }}"
-					>
-					</formItem>
+					<form [formGroup]="mobileIdForm">
+						<formItem
+							type="text"
+							formControlName="phoneNumber"
+							title="{{ 'dashboard.contactPhone' | translate }}"
+						>
+						</formItem>
+					</form>
 				</div>
 				<div>
-					<button htm-button>{{ "button.login" | translate }}</button>
+					<button (click)="mobileIdLogin()" htm-button>
+						{{ "button.login" | translate }}
+					</button>
 				</div>
 			</div>
 			<labeled-separator type="login" label="või"></labeled-separator>

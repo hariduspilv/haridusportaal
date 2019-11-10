@@ -20,7 +20,6 @@ const acceptableFormsRestrictedLength = 4;
 })
 
 export class ApplicationsComponent implements OnDestroy, OnInit {
-  @Input() jwt;
   loading = {
     initial: false,
     interval: false,
@@ -141,12 +140,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   fetchData() {
-    let headers = new HttpHeaders();
-    headers = headers.append('Authorization', `Bearer ${this.jwt}`);
-
     setTimeout(() => {
       const subscription = this.http
-        .get(`${this.settings.url}/dashboard/applications/1?_format=json`, { headers })
+        .get(`${this.settings.url}/dashboard/applications/1?_format=json`)
         .subscribe(
           (response: any) => {
             if (typeof response.found !== undefined && response.found === null) {
@@ -320,8 +316,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   createInstitution() {
-    let headers = new HttpHeaders();
-    headers = headers.append('Authorization', `Bearer ${this.jwt}`);
     this.error = false;
     this.modalLoading = true;
 
@@ -342,7 +336,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     };
 
     const sub = this.http
-      .post(`${this.settings.url}/educational-institution/add`, body, { headers })
+      .post(`${this.settings.url}/educational-institution/add`, body)
       .subscribe(
         (response: any) => {
           this.alertsService.info(response.message, 'institution', 'institution', false, false);

@@ -61,7 +61,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   subscribeToAuth():void {
-    this.authSub = this.auth.isAuthenticated.subscribe((val) => {
+    this.authSub = this.auth.isAuthenticated.subscribe(() => {
       this.getData();
     });
   }
