@@ -157,11 +157,7 @@ class xJsonFileRestResource extends ResourceBase {
 				return new ModifiedResourceResponse('Failed to save', 400);
 			}
 		}
-
-		#dump($img);
-		/*if(!$this->ehisService->saveFileToRedis($img, 'VPT_documents')){
-			return new ModifiedResourceResponse('Failed to save', 400);
-		}*/
+		
 		$return = [];
     if(is_array($img)){
     	foreach($img as $item){
