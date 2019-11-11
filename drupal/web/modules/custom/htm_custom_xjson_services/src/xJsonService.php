@@ -518,6 +518,7 @@ class xJsonService implements xJsonServiceInterface {
       if (!in_array($element_key, $acceptable_keys, true)) $valid = false;
       continue;
     }
+    dump($element);
     return $valid;
   }
 
