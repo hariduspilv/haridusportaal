@@ -5,6 +5,7 @@ import {
   BlockTitleComponent,
   BlockTabsComponent,
   BlockSecondaryTitleComponent,
+  BlockSubTitleComponent,
 } from './block';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './button';
@@ -75,7 +76,6 @@ import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { ChartComponent } from './chart/chart.component';
 import { UrlPipe } from '@app/_pipes/url.pipe';
-import { InfoSystemComponent } from './infoSystem/infoSystem.component';
 import { SearchResultsComponent } from './searchResults';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
@@ -109,6 +109,16 @@ import { InlineLinksComponent } from './inline-links/inline-links.component';
 import { InlineArticlesComponent } from './inline-articles/inline-articles.component';
 import { ArticlesSingleComponent } from './articles-single/articles-single.component';
 import { NewsletterOrderComponent } from './newsletter-order/newsletter-order.component';
+import { PictoComponent } from './picto';
+import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
+import { ApplicationsComponent } from './applications/applications.component';
+import { StudiesComponent } from './studies/studies.component';
+import { TeachingsComponent } from './teachings/teachings.component';
+import { CertificatesComponent } from './certificates/certificates.component';
+import { MoreBlockComponent } from './more.block/more.block.component';
+import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
+import { TableService } from '@app/_services/tableService';
+import { AddressService } from '@app/_services/AddressService';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -122,6 +132,7 @@ const pipes = [
   WeekDayPipe,
   UnixToTimePipe,
   IframePipe,
+  EllipsisPipe,
 ];
 
 const declarations = [
@@ -197,6 +208,13 @@ const declarations = [
   InlineArticlesComponent,
   ArticlesSingleComponent,
   NewsletterOrderComponent,
+  PictoComponent,
+  BlockSubTitleComponent,
+  ApplicationsComponent,
+  StudiesComponent,
+  TeachingsComponent,
+  CertificatesComponent,
+  MoreBlockComponent,
 ];
 
 const exports = [
@@ -211,6 +229,8 @@ const providers = [
   SidemenuService,
   SidebarService,
   ClipboardService,
+  TableService,
+  AddressService,
   SettingsService,
   AuthService,
   {

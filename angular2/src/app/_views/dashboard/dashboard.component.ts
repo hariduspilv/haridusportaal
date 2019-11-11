@@ -9,19 +9,19 @@ import { CheckModal } from '@app/_components/dialogs/check.modal/check.modal';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
-  templateUrl: "dashboard.component.html",
-  styleUrls: ["dashboard.component.scss"]
+  templateUrl: './dashboard.component.html',
+  styleUrls: ['dashboard.component.scss']
 })
 
-export class DashboardComponent implements OnInit, OnDestroy{
+export class DashboardComponent implements OnInit, OnDestroy {
   public lang: string;
   public path: string;
-  public currentRole: string = '';
- 
-  subscriptions: Subscription[] = [];
-  
+  public currentRole = '';
+
+  public subscriptions: Subscription[] = [];
+
   public mainMenu = {
-    "et": [
+    et: [
       {_id: 1, link: '/töölaud/taotlused', active: true },
       {_id: 2, link: '/töölaud/tunnistused', active: true },
       {_id: 3, link: '/töölaud/õpingud', active: true },
@@ -34,8 +34,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
     2: {icon: 'class', label: 'frontpage.dashboard_tabs_certificates'},
     3: {icon: 'local_library', label: 'frontpage.dashboard_tabs_studies'},
     4: {icon: 'school', label: 'frontpage.dashboard_tabs_teachings'}
-  }
-  public userData;
+  };
+  public userData: any = {};
 
   constructor(
     private rootScope: RootScopeService,
@@ -44,55 +44,52 @@ export class DashboardComponent implements OnInit, OnDestroy{
     private user: UserService,
     public dialog: MatDialog,
     public translate: TranslateService
-  ){
+  ) {
 
   }
-  pathWatcher() { 
-    
-    let parameters = this.route.params.subscribe(
+  pathWatcher() {
+    const parameters = this.route.params.subscribe(
       (params: ActivatedRoute) => {
           this.path = this.router.url.split('?')[0];
-          this.setPaths();       
+          this.setPaths();
       }
     );
-
-    let endpoint = this.router.events.subscribe((event) => {
+    const endpoint = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.path = this.router.url.split('?')[0];
         this.setPaths();
       }
     });
-   
     this.subscriptions = [...this.subscriptions, parameters, endpoint];
-   
   }
   setPaths() {
-    let selectedLink = this.mainMenu[this.lang].find(item => item.link == this.path)
-    let unselectedLangs: string[] = Object.keys(this.mainMenu).filter(language => language != this.lang);
-    
-    let opts = {};
-    
+    const selectedLink = this.mainMenu[this.lang].find(item => item.link === this.path);
+    const unselectedLangs: string[] = Object.keys(this.mainMenu).filter(language => language !== this.lang);
+
+    const opts = {};
+
     opts[this.lang] = this.path;
 
     unselectedLangs.forEach(language => {
-      opts[language] = this.mainMenu[language].find(counterpartLink => counterpartLink._id == selectedLink._id).link
-    })
+      opts[language] = this.mainMenu[language].find(counterpartLink => counterpartLink._id === selectedLink._id).link;
+    });
+
     this.rootScope.set('langOptions', opts);
   }
-  ngOnInit(){
-    this.lang = this.rootScope.get("lang");
+  ngOnInit() {
+    this.lang = this.rootScope.get('lang');
     this.rootScope.set('roleChanged', false);
     this.userData = this.user.getData();
     this.currentRole = this.userData['role']['current_role']['type'];
     this.pathWatcher();
-    if(this.userData.isExpired === true){
+    if (this.userData.isExpired === true) {
       this.router.navigateByUrl('');
     } else {
       this.roleStateSet();
       this.dialog.afterAllClosed.subscribe(result => {
         if (this.rootScope.get('roleChanged')) {
           this.rootScope.set('roleChanged', false);
-          let paths = { 'et': '/töölaud/taotlused' };
+          const paths = { 'et': '/töölaud/taotlused' };
           this.router.navigateByUrl(this.lang, {skipLocationChange: true}).then( () => {
             this.router.navigateByUrl(paths[this.lang]);
           });
@@ -100,8 +97,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
       });
     }
   }
-  ngOnDestroy(){
-    for (let sub of this.subscriptions) {
+  ngOnDestroy() {
+    for (const sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
@@ -109,8 +106,8 @@ export class DashboardComponent implements OnInit, OnDestroy{
   }
 
   dataModal() {
-    let dialogRef = this.dialog;
-    let data = {
+    const dialogRef = this.dialog;
+    const data = {
       title: this.userData.username,
       pretitle: this.translate.get('frontpage.dashboard_tabs_personal_label')['value'],
       close: this.translate.get('frontpage.favourites_limit_modal_close')['value'],
@@ -122,10 +119,9 @@ export class DashboardComponent implements OnInit, OnDestroy{
       data: data
     });
   }
-  
   changeRole() {
-    let dialogRef = this.dialog;
-    let data = {
+    const dialogRef = this.dialog;
+    const data = {
       userData: this.userData,
       title: this.translate.get('modal.choose_role')['value'],
       pretitle: this.translate.get('modal.changing_role')['value'],

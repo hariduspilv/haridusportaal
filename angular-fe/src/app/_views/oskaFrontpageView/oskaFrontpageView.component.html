@@ -1,0 +1,80 @@
+<ng-template #middle>
+    <div class="flex flex-justify-center middle">
+      <div class="middle__child" *ngFor="let item of generalData[0].fieldMiddleContentLinks; let i = index; let last = last;" [class.middle__child--last]="last">
+        <h1 class="frontpage__title frontpage__title--middle" *ngIf="item.entity && item.entity.title">{{item.entity.title}}</h1>
+        <div class="frontpage__description frontpage__description--middle" *ngIf="item.entity && item.entity.introduction">{{item.entity.introduction}}</div>
+        <button attr.aria-label="{{ 'button.view_more' | translate }}" htm-button class="text-center" *ngIf="item.entity && item.entity.entityUrl && item.entity.entityUrl.path" [routerLink]="item.entity.entityUrl.path">{{'button.view_more' | translate}}</button> 
+      </div>
+    </div>
+  </ng-template>
+  
+  <ng-container>
+    <div class="main-container">
+      <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="top"></triangles>
+    </div>
+    <breadcrumbs></breadcrumbs>
+    <loader *ngIf="!generalData"></loader>
+    <div class="frontpage" *ngIf="generalData && generalData.length && fieldsData">
+      <div class="frontpage__section--short main-container">
+        <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{'frontpage.oska_lead_title_wcag' | translate}}">
+          <span aria-hidden="true" class="text-center" innerHtml="{{'frontpage.oska_lead_title' | translate}}"></span>
+        </h1>
+        <inline-links
+          identifier="header"
+          [content]="generalData[0].fieldContentPageLinks"
+          [contentLabels]="introLabels"
+          [externalImage]="introImage"
+          hoverEffect="true">
+        </inline-links>
+      </div>
+      <div class="scroll__past main-container text-right" role="img" aria-label="Euroopa Liidu lipp. Euroopa sotsiaalfond. Eesti lipp. Eesti tuleviku heaks.">
+        <img [class.translate]="hasScrolled" src="/assets/img/europe-fund.svg" alt="">
+      </div>
+      <div class="frontpage__section" *ngIf="fieldsData && fieldsData.length">
+        <circles aria-hidden="true" large="#15adc2" small="#15adc2" position="top" smallAlignment="left"></circles>
+        <inline-articles
+          identifier="fields"
+          heading="oska.latest_field_studies" 
+          [generalLink]="fieldsLink"
+          [content]="fieldsData"
+          [contentLabels]="fieldsLabels"
+          theme="dark">
+        </inline-articles>
+        <circles aria-hidden="true" large="#15adc2" position="bottom"></circles>
+        <triangles aria-hidden="true" small="#15adc2" large="#f8b243" position="right"></triangles>
+      </div>
+      <div class="frontpage__section frontpage__section--middle main-container">
+        <ng-container *ngTemplateOutlet="middle"></ng-container>
+      </div>
+      <triangles aria-hidden="true" small="#15adc2" large="#f8b243" position="left"></triangles>
+      <div class="frontpage__section">
+        <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topMiddle" smallAlignment="right"></circles>
+        <articles-single
+          [heading]="fieldBottomHeading" 
+          [title]="generalData[0].fieldBottomTopic.entity.title"
+          [image]="generalData[0].fieldBottomTopic.entity.fieldMainProfessionPicture
+            || generalData[0].fieldBottomTopic.entity.fieldOskaFieldPicture
+            || (generalData[0].fieldBottomTopic.entity.fieldSurveyPagePicture && generalData[0].fieldBottomTopic.entity.fieldSurveyPagePicture[0])
+            || (generalData[0].fieldBottomTopic.entity.fieldResultPagePicture && generalData[0].fieldBottomTopic.entity.fieldResultPagePicture[0])"
+          [url]="generalData[0].fieldBottomTopic.entity.entityUrl"
+          contentLeft="true"
+          theme="light">
+        </articles-single>
+        <circles aria-hidden="true" large="#f8b243" position="bottomMiddle"></circles>
+      </div>
+      <div class="frontpage__section frontpage__section--short main-container">
+        <inline-links
+          identifier="footer"
+          [content]="footerData"
+          [contentLabels]="footerLabels"
+          extraSpaced="true">
+        </inline-links>
+        <div class="frontpage__footer">
+          <div class="frontpage__description__footer">{{ 'oska.footer_intro' | translate }}</div>
+          <div class="frontpage__description__footer frontpage__description__footer--medium">{{ 'oska.footer_outro' | translate }}</div>
+        </div>
+      </div>
+    </div><!--/frontpage-->
+  </ng-container>
+  
+  

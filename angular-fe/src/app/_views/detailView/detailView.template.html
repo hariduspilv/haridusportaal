@@ -25,6 +25,8 @@
 					<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
 
 					<image *ngIf="!data.video && data.image" [image]="data.image"></image>
+
+					<picto *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
 					
 					<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
 

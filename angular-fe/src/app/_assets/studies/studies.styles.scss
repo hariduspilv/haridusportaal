@@ -1,0 +1,68 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+.text-center {
+    text-align: center;
+}
+
+.mb {
+    margin-bottom: 2rem;
+}
+
+.dashboard-table {
+    border: .0625rem solid $gray;
+    border-collapse: collapse;
+    width: 100%;
+    font-size: $small; 
+    tr{
+      border: .0625rem solid $gray;
+      &.extraBottom {border-bottom: solid .125rem $dark-gray;}
+      &.extraRow {background-color: #f6f6f6;
+        border-top: solid .125rem $dark-gray;
+      }
+      td, th {
+        padding: 0.75rem 1rem;
+        border: .0625rem solid $gray;
+        width: 33%;
+        font-size: 0.875rem;
+        a {font-weight: 400; font-size: 16px;}
+        color: $black;
+        &.text-center {
+          text-align: center;
+        }
+        &:first-letter { 
+          text-transform: uppercase;
+        }
+        &.first-small:first-letter {
+          text-transform: lowercase;
+        }
+        &:last-of-type {
+          font-weight: 500;
+        }
+        &.normal {width: 50%;}
+        &.additional {border-bottom: solid .0625rem $dark-gray;
+          &.multi {border-bottom: .0625rem solid #f6f6f6;
+            &--bordered {border-bottom: .0625rem solid $gray;}
+          }
+          &--1 {width: 5%; background-color: #f6f6f6;}
+          &--2 {width: 45%;}
+          &--3 {width: 50%;}
+          &.lastRow {border-bottom: .0625rem solid $gray;}
+        }
+        &.nonBreakable {white-space: nowrap;}
+        &.dark {font-weight: 500;}
+        &.action-spanning {text-align: center;width: 20%;font-size: 1rem;}
+        &.light {font-weight: 400;
+          &.underlineHover {
+            a {text-decoration: none;
+              &:hover {text-decoration: underline;}
+            }
+          }
+        }
+        &.extraHeight {height: 1.5rem;}
+      }
+      td.extraHeight {font-weight: 400;}
+      th {font-weight: 500; background: $light-gray; text-align: left;}
+    }
+    &.first-table {margin-bottom: .5rem;}
+  }

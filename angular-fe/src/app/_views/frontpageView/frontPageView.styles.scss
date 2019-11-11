@@ -61,6 +61,7 @@
 
 :host {
   ::ng-deep modal-content {
+    text-align: center;
     span {
       font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:normal;
     }

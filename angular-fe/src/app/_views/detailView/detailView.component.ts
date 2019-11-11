@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -12,17 +12,19 @@ import { Subscription } from 'rxjs';
   styleUrls: ['detailView.styles.scss'],
 })
 
-export class DetailViewComponent implements OnDestroy {
+export class DetailViewComponent {
   @Input() type: string = 'news';
   @Input() path: string;
   @Input() data: any;
   @Input() origData: any;
+  @ViewChild('descriptionBlock', { static: false }) description: ElementRef;
 
   public feedbackNid: number;
   public loading: boolean = true;
   public sidebar: object;
   public title: string;
   public compareKey: string;
+  public pictoWidth: number;
   private queryKey: string = '';
   private paramsWatcher: Subscription = new Subscription();
 

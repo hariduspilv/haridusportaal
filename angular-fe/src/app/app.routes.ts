@@ -1,10 +1,20 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AuthService } from './_services';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './_views/frontpage#FrontpageViewModule',
+    loadChildren: './_views/frontpageView#FrontpageViewModule',
+  },
+  {
+    path: 'oska',
+    loadChildren: './_views/oskaFrontpageView#OskaFrontpageViewModule',
+  },
+  {
+    path: 'töölaud',
+    loadChildren: './_views/dashboardView#DashboardViewModule',
+    canActivate: [AuthService],
   },
   {
     path: 'uudised',
@@ -75,6 +85,10 @@ const routes: Routes = [
     },
   },
   {
+    path: 'infosüsteemid',
+    loadChildren: './_views/infoSystemView#InfoSystemViewModule',
+  },
+  {
     path: 'erialad',
     loadChildren: './_views/studyProgrammeListView#StudyProgrammeListViewModule',
   },
@@ -84,6 +98,10 @@ const routes: Routes = [
     data: {
       type: 'studyProgramme',
     },
+  },
+  {
+    path: 'tunnistuse-kehtivuse-kontroll',
+    loadChildren: './_views/certificateCheckView#CertificateCheckViewModule',
   },
 ];
 

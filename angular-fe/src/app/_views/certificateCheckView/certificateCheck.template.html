@@ -1,0 +1,189 @@
+<div class="inline">
+	<article-layout>
+		<breadcrumbs></breadcrumbs>
+		<block>
+			<block-title>
+				{{ "frontpage.dashboard_tabs_certificates" | translate | uppercase }}
+			</block-title>
+			<block-content>
+				<h1>{{ "frontpage.certificate_check" | translate }}</h1>
+				<div
+					class="introduction"
+					innerHtml="{{ 'frontpage.certificate_check_body' | translate }}"
+				></div>
+				<!--/introduction-->
+				<form [formGroup]="model">
+					<formItem
+						required
+						pattern="idCode"
+						errorMessage="Vigane isikukood"
+						name="id_code"
+						type="number"
+						formControlName="id_code"
+						title="{{ 'frontpage.certificate_owner_id' | translate }}"
+					>
+					</formItem>
+					<formItem
+						required
+						name="certificate_id"
+						type="text"
+						formControlName="certificate_id"
+						title="{{ 'frontpage.certificate_id' | translate }}"
+					>
+					</formItem>
+					<re-captcha
+						required
+						attr.aria-label="'Recaptcha'"
+						#captchaRef="reCaptcha"
+						siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90"
+						formControlName="captcha"
+						name="captcha"
+					>
+					</re-captcha>
+					<button htm-button type="submit" theme="default" (click)="submit()">
+						{{ "button.search" | translate }}
+					</button>
+				</form>
+				<div class="footer">
+					<loader *ngIf="loading"></loader>
+					<alerts
+						small="true"
+						id="certificateCheck"
+					></alerts>
+					<h2 *ngIf="!loading && dataFetched" role="alert">
+						{{ "certificate.data" | translate }}
+					</h2>
+					<table *ngIf="!loading && dataFetched" htm-table>
+						<tbody>
+							<tr *ngIf="certificateData && certificateData.nimi">
+								<td>
+									<span>
+										<b>{{ "certificate.name" | translate }}</b>
+									</span>
+								</td>
+								<td>
+									<span>
+										<b>{{ certificateData.nimi }}</b>
+									</span>
+								</td>
+								<td class="centered" attr.rowspan="{{ fieldSum() }}">
+									<a attr.aria-label="{{ 'button.download' | translate }}">{{
+										"button.download" | translate
+									}}</a>
+								</td>
+							</tr>
+							<tr *ngIf="certificateData && certificateData.tunnistus_nr">
+								<td>
+									<span>
+										<b>{{ "certificate.nr" | translate }}</b>
+									</span>
+								</td>
+								<td class="dark">
+									<span>
+										<b>{{ certificateData.tunnistus_nr }}</b>
+									</span>
+								</td>
+								<td
+									class="centered"
+									*ngIf="!certificateData.nimi"
+									attr.rowspan="{{ fieldSum() }}"
+								>
+									<a attr.aria-label="{{ 'button.download' | translate }}">{{
+										"button.download" | translate
+									}}</a>
+								</td>
+							</tr>
+							<tr *ngIf="certificateData && certificateData.kehtiv">
+								<td>
+									<span>
+										<b>{{ "certificate.status" | translate }}</b>
+									</span>
+								</td>
+								<td>
+									<span *ngIf="certificateData.kehtiv === '1'">
+										<b>{{ "status.published" | translate }}</b>
+									</span>
+									<span *ngIf="certificateData.kehtiv != '1'">
+										<b>{{ "status.unpublished" | translate }}</b>
+									</span>
+								</td>
+								<td
+									class="centered"
+									*ngIf="!certificateData.nimi && !certificateData.tunnistus_nr"
+									attr.rowspan="{{ fieldSum() }}"
+								>
+									<a attr.aria-label="{{ 'button.download' | translate }}">{{
+										"button.download" | translate
+									}}</a>
+								</td>
+							</tr>
+							<tr>
+								<th colspan="3">
+									{{ "certificate.registered_exams" | translate }}
+								</th>
+							</tr>
+						</tbody>
+						<ng-container
+							*ngIf="
+								certificateData.eksam_jada && certificateData.eksam_jada.length
+							"
+						>
+							<tbody
+								*ngFor="
+									let examResults of certificateData.eksam_jada;
+									let last = last
+								"
+							>
+								<tr *ngIf="examResults.nimetus">
+									<td>{{ "exam.subject" | translate }}</td>
+									<td colspan="2">{{ examResults.nimetus }}</td>
+								</tr>
+								<tr *ngIf="examResults.aeg">
+									<td
+										[class.separated]="
+											!examResults.tulemus && !examResults.staatus && !last
+										"
+									>
+										{{ "exam.time" | translate }}
+									</td>
+									<td
+										[class.separated]="
+											!examResults.tulemus && !examResults.staatus && !last
+										"
+										colspan="2"
+									>
+										{{ examResults.aeg }}
+									</td>
+								</tr>
+								<tr *ngIf="examResults.staatus">
+									<td [class.separated]="!examResults.tulemus && !last">
+										{{ "exam.status" | translate }}
+									</td>
+									<td
+										[class.separated]="!examResults.tulemus && !last"
+										colspan="2"
+									>
+										<span *ngIf="examResults.staatus === '1'">{{
+											"exam.result_known" | translate
+										}}</span>
+										<span *ngIf="examResults.staatus != '1'">{{
+											"exam.result_unknown" | translate
+										}}</span>
+									</td>
+								</tr>
+								<tr *ngIf="examResults.tulemus">
+									<td [class.separated]="!last">
+										{{ "frontpage.tulemus" | translate }}
+									</td>
+									<td [class.separated]="!last" colspan="2">
+										{{ examResults.tulemus }}
+									</td>
+								</tr>
+							</tbody>
+						</ng-container>
+					</table>
+				</div>
+			</block-content>
+		</block>
+	</article-layout>
+</div>

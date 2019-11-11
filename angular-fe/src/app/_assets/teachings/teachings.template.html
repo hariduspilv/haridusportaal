@@ -1,0 +1,29 @@
+
+<div class="accordion">
+  <more-block id="1" content="{{ 'abitekst.opetan' | translate }}"></more-block>
+  <h2 class="section--header">{{ 'frontpage.teachings_data' | translate }}</h2>
+  <loader *ngIf="loading && !error"></loader>
+  <!-- <div class="error" *ngIf="error" role="alert">
+    <span *ngIf="dataErr">{{ 'errors.teachings_data_missing' | translate }}</span>
+    <span *ngIf="requestErr">{{ 'errors.teachings_data_request' | translate }}</span>
+  </div> -->
+  <alerts [id]="'teachings'" class="notifications notifications--small"></alerts>
+  <accordion>
+    <accordion-item *ngFor="let type of contentTypes; let first = first; let ind = index;"
+    title="{{ parseTypeTranslation(type) | ucfirst }}">
+    <table htm-table *ngIf="!error">
+        <tbody>
+          <tr *ngFor="let work of content[type];">
+            <td>
+              <span>{{ work.oppeasutus }}</span>
+              <span *ngIf="work.ametikohtLopp && isDateInPast(work.ametikohtLopp)">, {{ 'frontpage.lopetatud' | translate }} {{ work.ametikohtLopp }}</span>
+              <span *ngIf="work.aasta">, {{ work.aasta }}</span>
+              <span *ngIf="work.aastaLopetanud">, {{ work.aastaLopetanud }}</span>
+            </td>
+            <td class="text-center"><a href="javascript:void(0)" (click)="setTeachingsDetail(work, type)">{{ 'button.view_more' | translate }}</a></td>
+          </tr>
+        </tbody>
+      </table>
+    </accordion-item>
+  </accordion>
+</div>

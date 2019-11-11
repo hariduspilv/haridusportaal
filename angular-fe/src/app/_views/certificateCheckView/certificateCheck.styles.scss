@@ -1,0 +1,67 @@
+@import 'typography.scss';
+@import 'breakpoints.scss';
+:host {
+  h1 {
+    color: $black;
+  }
+  .introduction {
+    font-size: 1rem;
+    line-height: 1.375rem;
+    color: $black;
+    padding-top: 1.5rem;
+    font-weight: 500;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 2rem;
+    ::ng-deep re-captcha {
+      margin: 1rem auto 0;
+      @media screen and (-ms-high-contrast: active), screen and (-ms-high-contrast: none) {
+        width: 300px;
+      }
+    }
+    input {
+      -webkit-appearance: none;
+    }
+    button {
+      margin-top: 1.5rem;
+      font-weight: 300;
+      width: auto;
+      align-self: center;
+    }
+    @include break-on(xs, min) {
+      .formItem {
+        width: 49%;
+        margin: 0 auto;
+      }
+    }
+    .formItem + .formItem {
+      margin-top: 1rem;
+    }
+  }
+  .footer {
+    margin-top: 1.5rem;
+    table {
+      a {
+        cursor: pointer;
+        text-decoration: underline;
+        &:hover {
+          text-decoration: none;
+        }
+      }
+      b {
+        font-weight: 500;
+      }
+      td {
+        &.separated {
+          border-bottom: 1px solid $dark-gray;
+        }
+        &.centered {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
