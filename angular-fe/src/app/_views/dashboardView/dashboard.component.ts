@@ -7,6 +7,7 @@ import { UserService } from '@app/_services/userService';
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { SettingsService, AlertsService, ModalService, AuthService } from '@app/_services';
 import * as _moment from 'moment';
+import { Location } from '@angular/common';
 const moment = _moment;
 @Component({
   selector: 'dashboard-view',
@@ -15,7 +16,6 @@ const moment = _moment;
 })
 
 export class DashboardComponent implements OnInit {
-  @Input() breadcrumbs: Object[];
   @Input() jwt;
 
   linksLabel = 'links';
@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit {
       events: [],
     },
   };
+  public breadcrumbs: any;
 
   constructor(
     private modalService: ModalService,
@@ -52,11 +53,12 @@ export class DashboardComponent implements OnInit {
     private alertsService: AlertsService,
 
     public auth: AuthService,
+    public location: Location,
   ) { }
 
   ngOnInit() {
     this.userData = this.auth.userData;
-
+    this.breadcrumbs = decodeURI(this.location.path());
     this.currentRole = this.userData.role.current_role.type;
     this.getFavouritesList();
     this.getEventList();

@@ -1,4 +1,6 @@
-<more-block id="2" content="{{ 'abitekst.opingud' | translate }}"></more-block>
+<div *ngIf="!loading" class="unpadded">
+  <more-block id="2" content="abitekst.opingud"></more-block>
+</div>
 <ng-container *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
   <h2>{{ 'frontpage.oppelaenOigus' | translate }}</h2>
   <table htm-table class="mb">
@@ -21,7 +23,7 @@
 <h2>{{ 'frontpage.studies_data' | translate }}</h2>
 <loader *ngIf="loading && !error"></loader>
 <alerts id="studies" small="true"></alerts>
-<accordion>
+<accordion *ngIf="!loading">
   <accordion-item *ngFor="let item of content; let first = first;let ind = index;"
     [title]="item.oppeasutus + (item.staatus ? ', ' + parseTypeTranslation(item.staatus) : '') + (item.oppLopp ? ' ' + item.oppLopp : '')">
     <loader *ngIf="!error && !content"></loader>

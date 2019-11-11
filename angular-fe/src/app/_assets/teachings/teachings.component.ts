@@ -17,7 +17,7 @@ export class TeachingsComponent implements OnInit {
 
   content: any = false;
   openAccordion: any = false;
-  loading: boolean = false;
+  loading: boolean = true;
   error: boolean = false;
   dataErr: boolean = false;
   requestErr: boolean = false;

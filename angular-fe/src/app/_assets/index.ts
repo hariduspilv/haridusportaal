@@ -111,11 +111,6 @@ import { ArticlesSingleComponent } from './articles-single/articles-single.compo
 import { NewsletterOrderComponent } from './newsletter-order/newsletter-order.component';
 import { PictoComponent } from './picto';
 import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
-import { ApplicationsComponent } from './applications/applications.component';
-import { StudiesComponent } from './studies/studies.component';
-import { TeachingsComponent } from './teachings/teachings.component';
-import { CertificatesComponent } from './certificates/certificates.component';
-import { MoreBlockComponent } from './more.block/more.block.component';
 import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
@@ -210,11 +205,6 @@ const declarations = [
   NewsletterOrderComponent,
   PictoComponent,
   BlockSubTitleComponent,
-  ApplicationsComponent,
-  StudiesComponent,
-  TeachingsComponent,
-  CertificatesComponent,
-  MoreBlockComponent,
 ];
 
 const exports = [

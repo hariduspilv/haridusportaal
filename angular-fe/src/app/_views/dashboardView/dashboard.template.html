@@ -43,28 +43,28 @@
 				tabLabel="Taotlused"
 				tabIcon="file-text"
 			>
-				<applications [jwt]="jwt"></applications>
+				<applications></applications>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
 				tabLabel="Tunnistused"
 				tabIcon="class"
 			>
-				<certificates [jwt]="jwt"></certificates>
+				<certificates></certificates>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
 				tabLabel="Õpingud"
 				tabIcon="local-library"
 			>
-				<studies [jwt]="jwt"></studies>
+				<studies></studies>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
 				tabLabel="Õpetan"
 				tabIcon="school"
 			>
-				<teachings [jwt]="jwt"></teachings>
+				<teachings></teachings>
 			</block-content>
 		</block>
 	</article-layout>
