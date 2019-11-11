@@ -280,9 +280,8 @@
             </ng-container>
             <!-- /general data -->
 
-            <div *ngIf="school.message" class="NOTICE md-top">
-              <div class="alert">{{ school.message }}</div>
-            </div>
+            <notifications *ngIf="school.message" class="notifications notifications--small" [attr.id]="'school_'+school.id">
+            </notifications>
 
             <!-- acceptable_forms -->
             <ng-container *ngIf="school.acceptable_forms">
@@ -295,11 +294,12 @@
                 <div class="grid-box">
                   <ng-container *ngFor="let form of school.acceptable_forms; let index = index;">
                     <ng-container *ngIf="index < acceptableFormsLimiter">
-                        <a [routerLink]="[form.form_path]"
-                          [queryParams]="form.id ? {educationalInstitutions_id: school.id, identifier: form.id, existing: 'true'} : {educationalInstitutions_id: school.id, year: form.description}" class="grid-item">
-                          <span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }}
-                            {{ form.description }}</span>
-                        </a>
+                      <a [routerLink]="[form.form_path]"
+                        [queryParams]="form.id ? {educationalInstitutions_id: school.id, identifier: form.id, existing: 'true'} : {educationalInstitutions_id: school.id, year: form.description}"
+                        class="grid-item">
+                        <span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }}
+                          {{ form.description }}</span>
+                      </a>
                     </ng-container>
                   </ng-container>
                 </div>

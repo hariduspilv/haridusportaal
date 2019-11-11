@@ -701,7 +701,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (field.value === undefined || field.value === null || field.value === '' || (Array.isArray(field.value) && !field.value.length)) {
+      if (field.value === undefined || field.value === null || (field.type === 'selectlist' && field.value === 'null') || field.value === '' || (Array.isArray(field.value) && !field.value.length)) {
         return { valid: false, message: this.translate.get('xjson.missing_required_value')['value'] };
       }
     }

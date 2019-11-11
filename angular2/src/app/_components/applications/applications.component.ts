@@ -110,6 +110,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
     let regex = /(\d{2}).(\d{2}).(\d{4})/;
     function compareDate(a,b){
       if(!a['document_date'] || !b['document_date']) return -1;
+      console.log(a);
+      console.log(b);
       return Number(new Date(b.document_date.replace( regex , "$3/$2/$1" ))) - Number(new Date(a.document_date.replace( regex, "$3/$2/$1")));
     }
 
@@ -147,23 +149,28 @@ export class ApplicationsComponent implements OnInit, OnDestroy {
             this.data.documents = this.sortList(this.data.documents, 'date');
             this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms);
           } else {
-            const responseData = response['educationalInstitutions'].map(elem => {
-              elem.documents = this.sortList(elem.documents, 'date');
-              elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
-              elem.drafts = this.sortList(elem.drafts, 'title');
-              return elem;
-            })
-            if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
-              this.data.educationalInstitutions = responseData;
-              if (response['message']) {
-                this.notificationService.info(response['message'], 'general', false);
-              }
-              if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
-                this.data.educationalInstitutions.forEach((elem, index) => {
-                  this.tableOverflown[index] = {0: false, 1: false, 2: false};
-                  this.elemAtStart[index] = {0: true, 1: true, 2: true};
-                  this.initialized[index] = {0: false, 1: false, 2: false};
-                });
+            if (response.educationalInstitutions) {
+              const responseData = response['educationalInstitutions'].map(elem => {
+                elem.documents = this.sortList(elem.documents, 'date');
+                elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
+                elem.drafts = this.sortList(elem.drafts, 'title');
+                return elem;
+              });
+              if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
+                this.data.educationalInstitutions = responseData;
+                if (response['message']) {
+                  this.notificationService.info(response['message'], 'general', false);
+                }
+                if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
+                  this.data.educationalInstitutions.forEach((elem, index) => {
+                    this.tableOverflown[index] = {0: false, 1: false, 2: false};
+                    this.elemAtStart[index] = {0: true, 1: true, 2: true};
+                    this.initialized[index] = {0: false, 1: false, 2: false};
+                    if (elem.message) {
+                      this.notificationService.error('test', `school_${elem.id}`, false);
+                    }
+                  });
+                }
               }
             }
           }
