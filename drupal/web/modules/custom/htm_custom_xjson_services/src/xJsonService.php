@@ -403,8 +403,9 @@ class xJsonService implements xJsonServiceInterface {
     //Sort table values
     if ($element_type === 'table') $element_def = $this->sortTableValues($element_def);
     #dump($element_def);
-    
+
     dump($this->validateDataElement($element_def));
+    dump($element_def);
 
     return ($this->validateDataElement($element_def)) ? $element_def : [];
   }
