@@ -292,7 +292,6 @@ class xJsonService implements xJsonServiceInterface {
    */
   public function buildFormv2 ($response) {
     $return = [];
-    #dump($response);
     $response_body = isset($response['body']) ? $response['body'] : null;
     $response_header = isset($response['header']) ? $response['header'] : null;
     $response_messages = isset($response['messages']) ? $response['messages'] : null;
@@ -315,10 +314,7 @@ class xJsonService implements xJsonServiceInterface {
 
             if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
               $response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
-              if($element_key === 'oppeTasemed'){
-                dump($this->mergeElementValue($element, $response_element));
-                die();
-              }
+              dump($this->mergeElementValue($element, $response_element));
               if (!empty($this->mergeElementValue($element, $response_element))) {
                 $return_element = $this->mergeElementValue($element, $response_element);
               }
@@ -534,7 +530,6 @@ class xJsonService implements xJsonServiceInterface {
     $result = $query->fetchField();
     if ($result) {
       $entity = $entityStorage->load($result);
-      #dump($entity->get('xjson_definition_test')->value);
       return $this->buildFormv2(Json::decode($entity->get('xjson_definition_test')->value));
     } else {
       return null;
@@ -544,7 +539,6 @@ class xJsonService implements xJsonServiceInterface {
   protected function sortTableValues ($table_element) {
 
     $table_cols = array_keys($table_element['table_columns']);
-    #dump($table_element['value']);
     if (is_array($table_element['value'])) {
       foreach ($table_element['value'] as &$value) {
         $properOrderedArray = array_merge(array_flip($table_cols), $value);
