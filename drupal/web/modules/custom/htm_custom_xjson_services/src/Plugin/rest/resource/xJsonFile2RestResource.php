@@ -336,7 +336,7 @@ class xJsonFile2RestResource extends ResourceBase {
      */
     protected function getBaseRouteRequirements($method) {
         $requirements = parent::getBaseRouteRequirements($method);
-        #dump($requirements);
+
         // Add the content type format access check. This will enforce that all
         // incoming requests can only use the 'application/octet-stream'
         // Content-Type header.
@@ -412,8 +412,6 @@ class xJsonFile2RestResource extends ResourceBase {
     protected function validate(FileInterface $file, array $validators) {
         // Validate the file based on the field definition configuration.
         $errors = file_validate($file, $validators);
-        /*dump($file);
-        dump($validators);*/
 
         if (!empty($errors)) {
             $message = "Unprocessable Entity: file validation failed.\n";
