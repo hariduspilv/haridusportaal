@@ -490,8 +490,12 @@ class xJsonService implements xJsonServiceInterface {
               if (isset($is_table) && $is_table) $valid = false;
               if (isset($is_textarea) && $is_textarea) $valid = false;
             } else {
-              if (!$this->validateDataElement($column_element, true)) $valid = false;
-              else $this->validateDataElement($column_element);
+              $table_validation = $this->validateDataElement($column_element, true);
+              if(!$table_validation){
+                $valid = false;
+              } else {
+                $element['table_columns'][$key] = $table_validation;
+              }
             }
           }
         } else {
@@ -518,8 +522,8 @@ class xJsonService implements xJsonServiceInterface {
       if (!in_array($element_key, $acceptable_keys, true)) $valid = false;
       continue;
     }
-    dump($element);
-    return $valid;
+    
+    return $table ? $element : $valid;
   }
 
   public function buildTestResponse () {
