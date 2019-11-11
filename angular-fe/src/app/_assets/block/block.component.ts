@@ -21,7 +21,9 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 
 export class BlockContentComponent {
   @Input() tabLabel: string;
+  @Input() tabLink: string;
   @Input() tabIcon: string;
+  @Input() tabActive: boolean;
   @Input() active: boolean = false;
 
   constructor(
@@ -172,10 +174,20 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   private contentInit() {
     try {
-      const activeTabs = this.tabs.filter(tab => tab.active);
+      let activeTabs;
+      this.tabs.forEach((item) => {
+        if (item.tabActive) {
+          activeTabs = [item];
+        }
+      });
 
+      if (!activeTabs) {
+        activeTabs = this.tabs.filter(tab => tab.active);
+      }else {
+        activeTabs[0].active = true;
+      }
       if (activeTabs.length === 0) {
-        this.selectTab(this.tabs.first);
+        this.selectTab(this.tabs.first || this.tabs[0]);
       }   else {
         this.activeTab = activeTabs[0].tabLabel;
       }

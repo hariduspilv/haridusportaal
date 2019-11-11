@@ -1,0 +1,22 @@
+.filters {
+  background:#fff;
+  margin: 0 -1.5rem 24px;
+  padding: 25px 0;
+  [class*='col-'] {
+    padding: 0 14px 0 0 !important;
+  }
+  .col-25{
+    width: 20.83%;
+  }
+  .align-center{
+    align-self: center;
+    margin: 0 auto;
+    position: relative;
+    right: .5rem;
+    text-align: center;
+  }
+  .brief{
+    align-items: flex-end;
+    padding-top: 19px !important;
+  }
+}

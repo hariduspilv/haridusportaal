@@ -44,16 +44,28 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
       }
     });
 
+    Object.keys(queryParams).forEach((item) => {
+      if (Array.isArray(queryParams[item])) {
+        queryParams[item] = queryParams[item].join(',');
+      }
+    });
+
     this.router.navigate([], {
       queryParams,
     });
   }
 
   setValues(queryParams): void {
+    const tmpParams = { ...queryParams };
+    Object.keys(tmpParams).forEach((item) => {
+      if (tmpParams[item].match(',')) {
+        tmpParams[item] = tmpParams[item].split(',');
+      }
+    });
     this.formItems.forEach((item) => {
       const data = item.getValue();
-      if (queryParams[data.name]) {
-        item.setValue(queryParams[data.name]);
+      if (tmpParams[data.name]) {
+        item.setValue(tmpParams[data.name]);
       }
     });
   }

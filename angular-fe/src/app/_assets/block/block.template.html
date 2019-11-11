@@ -12,7 +12,7 @@
         <icon glyph="chevron-left"></icon>
       </button>
       <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
-        <button (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+        <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
           <span class="button__contents">
             <ng-container *ngIf="tab.tabIcon">
               <icon [glyph]="tab.tabIcon"></icon>
@@ -20,6 +20,14 @@
             {{ tab.tabLabel }}
           </span>
           <!--/button__contents-->
+        </button>
+        <button *ngIf="tab.tabLink" [routerLink]="tab.tabLink" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+          <span class="button__contents">
+            <ng-container *ngIf="tab.tabIcon">
+              <icon [glyph]="tab.tabIcon"></icon>
+            </ng-container>
+            {{ tab.tabLabel }}
+          </span><!--/button__contents-->
         </button>
       </ng-container>
       <button class="navigation__icon" *ngIf="isMobile && viewTabs && viewTabs[currentViewTabs + 1]" (click)="navigateTabs(1)" htm-button theme="icon">

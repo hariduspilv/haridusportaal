@@ -1,0 +1,54 @@
+<base-layout>
+	<div class="inline">
+		<breadcrumbs path="/ametialad/andmed"></breadcrumbs>
+	</div><!--/inline-->
+  
+	<div class="inline">
+		<block titleBorder="true" tabStyle="default">
+			<block-title>{{ 'oskaProfessions.main_profession' | translate }}</block-title>
+			<block-content tabLabel="{{ 'oskaProfessions.main_profession' | translate }}" tabIcon="grid" tabLink="/ametialad">
+			</block-content>
+      <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/ametialad/andmed" [tabActive]="true">
+        <ng-container *ngIf="data">
+
+          <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
+
+          <htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
+
+          <image *ngIf="!data.video && data.image" [image]="data.image"></image>
+
+          <picto *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
+          
+          <div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
+
+          <links *ngIf="data.links" [data]="data.links"></links>
+
+          <links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
+
+          <image *ngIf="data.video && data.image" [image]="data.image"></image>
+        
+          <htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
+
+          <accordion *ngIf="data.accordion">
+            <accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
+              <div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
+            </accordion-item>
+          </accordion>
+  
+          <chart *ngIf="data.graph" [data]='data.graph' type='filter'></chart>
+
+          <infograph *ngIf="data.infograph" [data]='data.infograph' type='filter'></infograph>
+
+          <school-table *ngIf="type === 'school'" [data]="data"></school-table>
+
+          <studyProgramme-table *ngIf="type === 'studyProgramme'" [data]="origData"></studyProgramme-table>
+
+          <labels [data]="data.tags" *ngIf="data.tags"></labels>
+
+          <feedback [nid]="data.nid"></feedback>
+
+        </ng-container>
+			</block-content>
+		</block>
+	</div><!--/inline-->
+</base-layout>

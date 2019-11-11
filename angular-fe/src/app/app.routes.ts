@@ -28,6 +28,10 @@ const routes: Routes = [
     },
   },
   {
+    path: 'sündmused',
+    loadChildren: './_views/eventsView#EventsViewModule',
+  },
+  {
     path: 'sündmused/:id',
     loadChildren: './_views/detailView#DetailViewModule',
     data: {
@@ -55,6 +59,10 @@ const routes: Routes = [
   {
     path: 'ametialad',
     loadChildren: './_views/mainProfessionListView#MainProfessionListViewModule',
+  },
+  {
+    path: 'ametialad/andmed',
+    loadChildren: './_views/mainProfessionDataView#MainProfessionDataView',
   },
   {
     path: 'ametialad/:id',

@@ -59,6 +59,7 @@ $md-break: 1280px;
   .xxs-show{display: block !important;}
   .xxs-flex{display: flex !important;}
 }
+
 @include break-on(xs, max) {
   .xs-hide{display:none !important;}
   .xs-show{display: block !important;}
