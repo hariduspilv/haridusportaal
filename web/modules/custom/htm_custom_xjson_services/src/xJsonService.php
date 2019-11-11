@@ -314,7 +314,6 @@ class xJsonService implements xJsonServiceInterface {
 
             if(isset($response_body['steps'][$step_key]['data_elements'][$element_key])){
               $response_element = $response_body['steps'][$step_key]['data_elements'][$element_key];
-              dump($this->mergeElementValue($element, $response_element));
               if (!empty($this->mergeElementValue($element, $response_element))) {
                 $return_element = $this->mergeElementValue($element, $response_element);
               }
@@ -398,7 +397,6 @@ class xJsonService implements xJsonServiceInterface {
 
     //Sort table values
     if ($element_type === 'table') $element_def = $this->sortTableValues($element_def);
-    #dump($element_def);
 
     return ($this->validateDataElement($element_def)) ? $element_def : [];
   }
@@ -522,7 +520,7 @@ class xJsonService implements xJsonServiceInterface {
       if (!in_array($element_key, $acceptable_keys, true)) $valid = false;
       continue;
     }
-    
+
     return $table ? $element : $valid;
   }
 
