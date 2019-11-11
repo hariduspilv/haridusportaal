@@ -1,5 +1,5 @@
-<div class="unpadded">
-  <more-block id="1" content="{{ 'abitekst.taotlused' | translate }}"></more-block>
+<div *ngIf="loading.initial === false" class="unpadded">
+  <more-block id="1" content="abitekst.taotlused"></more-block>
 </div>
 <loader *ngIf="loading.initial === true"></loader>
 <div *ngIf="loading.initial === false && currentRole === 'natural_person'">
@@ -184,7 +184,7 @@
   </ng-container><!-- /ngFor -->
 </div>
 
-<htm-modal id="institutionModal" title="{{ 'dashboard.adding_educational_institution' | translate }}"
+<!-- <htm-modal id="institutionModal" title="{{ 'dashboard.adding_educational_institution' | translate }}"
   [titleExists]="modalTitleExists" [topAction]="modalTopAction" [bottomAction]="modalBottomAction">
   <modal-content [loading]="modalLoading">
     <alerts small="true" id="institution"></alerts>
@@ -206,4 +206,4 @@
       </div>
     </ng-container>
   </modal-content>
-</htm-modal>
+</htm-modal> -->

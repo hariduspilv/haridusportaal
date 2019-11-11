@@ -4,10 +4,8 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { RootScopeService } from '@app/_services/RootScopeService';
 import { Subscription } from 'rxjs';
-import { AlertsService, ModalService } from '@app/_services';
+import { AlertsService, ModalService, AuthService, SettingsService } from '@app/_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { SettingsService } from '@app/_services/SettingsService';
-import { AuthService } from '@app/_services';
 import { TableService } from '@app/_services/tableService';
 import { formItems } from '../../../../stories/assets/formItem/formItem.data';
 
@@ -63,7 +61,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     studyInstitutionType: [],
   };
 
-  constructor(
+  constructor (
     public alertsService: AlertsService,
     public http: HttpClient,
     // public rootScope: RootScopeService,
@@ -127,6 +125,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   formatAcceptableForms(list) {
+    console.log(list);
     if (this.acceptableFormsListRestricted) {
       return JSON.parse(JSON.stringify(list)).splice(0, acceptableFormsRestrictedLength);
     }
@@ -145,6 +144,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         .get(`${this.settings.url}/dashboard/applications/1?_format=json`)
         .subscribe(
           (response: any) => {
+            console.log(response);
             if (typeof response.found !== undefined && response.found === null) {
               this.fetchData();
             } else {
@@ -187,7 +187,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   }
                 }
               }
-              this.loading['initial'] = false;
+              this.loading.initial = false;
             }
             subscription.unsubscribe();
           });

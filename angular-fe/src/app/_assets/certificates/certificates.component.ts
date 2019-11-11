@@ -12,9 +12,7 @@ export class CertificatesComponent implements OnInit {
   @Input() jwt;
 
   public loading = {};
-
   public error: boolean = false;
-
   public professionalCertificates: any;
   public examResults: any;
   public examResultsErr: string;
@@ -54,7 +52,7 @@ export class CertificatesComponent implements OnInit {
     this.loading[id] = true;
 
     if (!this.loaded[id]) {
-      const sub = this.http.get(this.settings.url + '/dashboard/certificates/getProfessionalCertificate?_format=json', { headers: this.headers }).subscribe(response => {
+      const sub = this.http.get(this.settings.url + '/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe(response => {
         this.loading[id] = false;
 
         if (response['error']) {
@@ -90,7 +88,7 @@ export class CertificatesComponent implements OnInit {
     this.loading[id] = true;
 
     if (!this.loaded[id]) {
-      const sub = this.http.get(this.settings.url + '/dashboard/certificates/getTestSessions?_format=json', { headers: this.headers }).subscribe(response => {
+      const sub = this.http.get(this.settings.url + '/dashboard/certificates/getTestSessions?_format=json').subscribe(response => {
         if ((response['value'] && response['value']['teade']) || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et']) || response['value']['testsessioonid_kod_jada'] === []) {
           const message = (response['error'] && response['error']['message_text']) ? response['error']['message_text']['et'] : response['value']['teade'];
           this.examResultsErr = message;
@@ -108,8 +106,6 @@ export class CertificatesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.headers = new HttpHeaders;
-    this.headers = this.headers.append('Authorization', 'Bearer ' + this.jwt);
   }
   ngOnDestroy() {
   }

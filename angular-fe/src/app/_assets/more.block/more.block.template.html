@@ -1,4 +1,4 @@
-<div class="content" 
+<div *ngIf="content" class="content" 
   role="group"
   attr.aria-label="{{ show ? '' : (screenReaderContent | ellipsis) }}"
   tabindex="0"
@@ -9,9 +9,9 @@
   </div>
   <div class="content__inner"
     attr.aria-hidden="{{ !show }}"
-    attr.id="moreContent-{{id}}"
     [class.show]="show"
-    innerHTML="{{ content }}">
+    #moreContent
+    innerHTML="{{ translatedContent }}">
     <!-- innerHTML="{{ show ? (content) : (content | ellipsis: 350) }}"> -->
   </div>
 </div>

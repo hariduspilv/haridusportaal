@@ -1,8 +1,9 @@
+<loader *ngIf="loading && !error"></loader>
 
-<div class="accordion">
-  <more-block id="1" content="{{ 'abitekst.opetan' | translate }}"></more-block>
+<div  class="accordion">
+  <more-block id="1" content="abitekst.opetan"></more-block>
+
   <h2 class="section--header">{{ 'frontpage.teachings_data' | translate }}</h2>
-  <loader *ngIf="loading && !error"></loader>
   <!-- <div class="error" *ngIf="error" role="alert">
     <span *ngIf="dataErr">{{ 'errors.teachings_data_missing' | translate }}</span>
     <span *ngIf="requestErr">{{ 'errors.teachings_data_request' | translate }}</span>
@@ -10,7 +11,7 @@
   <alerts [id]="'teachings'" class="notifications notifications--small"></alerts>
   <accordion>
     <accordion-item *ngFor="let type of contentTypes; let first = first; let ind = index;"
-    title="{{ parseTypeTranslation(type) | ucfirst }}">
+    title="{{ parseTypeTranslation(type) | titleCase }}">
     <table htm-table *ngIf="!error">
         <tbody>
           <tr *ngFor="let work of content[type];">

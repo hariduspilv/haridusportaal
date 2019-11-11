@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnDestroy, RootRenderer } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy, RootRenderer, ChangeDetectorRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
 import { AlertsService } from '@app/_services';
@@ -15,7 +15,7 @@ export class StudiesComponent implements OnInit {
   @Input() jwt;
 
   content: any = false;
-  loading: boolean = false;
+  loading: boolean = true;
   error: boolean = false;
   requestErr: boolean = false;
   dataErr: boolean = false;
@@ -29,6 +29,7 @@ export class StudiesComponent implements OnInit {
     private settings: SettingsService,
     private alertsService: AlertsService,
     private translate: TranslateService,
+    private cdr: ChangeDetectorRef,
     // private rootScope: RootScopeService,
   ) { }
 
@@ -41,7 +42,6 @@ export class StudiesComponent implements OnInit {
     const sub = this.http
       .get(
         `${this.settings.url}/dashboard/eeIsikukaart/studies?_format=json`,
-        { headers: this.headers },
       )
       .subscribe(
         (response: any) => {
@@ -67,7 +67,7 @@ export class StudiesComponent implements OnInit {
               this.error = true;
               this.dataErr = true;
               this.alertsService
-                .info('errors.studies_data_missing', 'general', 'studies', false, false);
+                .info('errors.studies_data_missing', 'studies');
             } else {
               this.initializeAccordionStates(this.content);
             }
@@ -80,7 +80,7 @@ export class StudiesComponent implements OnInit {
           this.error = true;
           this.requestErr = true;
           this.alertsService
-            .info('errors.studies_data_missing', 'general', 'studies', false, false);
+            .info('errors.studies_data_missing', 'studies');
         });
   }
 
