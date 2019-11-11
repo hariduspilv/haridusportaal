@@ -1,25 +1,16 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
-import { HttpService } from '@app/_services/httpService';
-import { Jsonp } from '@angular/http';
+import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
-import { Router, ActivatedRoute, RoutesRecognized, Data } from '@angular/router';
-import { RootScopeService } from '@app/_services/rootScopeService';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
-import { TranslateService } from '@ngx-translate/core';
-import { ConfirmPopupDialog } from '@app/_components/dialogs/confirm.popup/confirm.popup.dialog';
+import { Router, ActivatedRoute } from '@angular/router';
 import { TableService } from '@app/_services/tableService';
-import { SettingsService } from '@app/_services/settings.service';
 import 'rxjs/add/operator/map';
-import { Observable } from 'rxjs/Observable';
-import { throwError, BehaviorSubject } from 'rxjs';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { FormBuilder } from '@angular/forms';
 import * as _moment from 'moment';
 const moment = _moment;
-import { MAT_DATE_FORMATS } from '@angular/material';
-import { AddressService } from '@app/_services';
-
+import { HttpClient } from '@angular/common/http';
+import { RootScopeService } from '@app/_services/RootScopeService';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import { SettingsService } from '@app/_services';
 
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
@@ -35,9 +26,7 @@ const XJSON_DATEPICKER_FORMAT = {
 @Component({
   templateUrl: 'xjson.template.html',
   styleUrls: ['../xjson/xjson.styles.scss'],
-  providers: [
-    { provide: MAT_DATE_FORMATS, useValue: XJSON_DATEPICKER_FORMAT },
-  ]
+  providers: [],
 })
 export class XjsonComponent implements OnInit, OnDestroy {
 
@@ -59,7 +48,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public form_name: string;
   public form_route: string;
   public subscriptions: Subscription[] = [];
-  public dialogRef: MatDialogRef<ConfirmPopupDialog>;
   public datepickerFocus = false;
   public acceptable_forms_list_restricted = true;
   public temporaryModel = {};
@@ -94,15 +82,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   constructor(
     private translate: TranslateService,
-    public dialog: MatDialog,
     private rootScope: RootScopeService,
-    private http: HttpService,
-    private _jsonp: Jsonp,
-    private _formBuilder: FormBuilder,
+    private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    private tableService: TableService,
     public settings: SettingsService,
   ) { }
 
@@ -136,191 +120,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   changeView(key) {
     this.view = key;
-  }
-
-  fillAddressFieldsTemporaryModel(data_elements) {
-    Object.keys(data_elements).forEach(element => {
-
-      if (data_elements[element].type === 'address' && data_elements[element].value) {
-        if (typeof data_elements[element].value === 'object') {
-          if (data_elements[element].value.addressHumanReadable) {
-            this.autoCompleteContainer[element] = [data_elements[element].value];
-            this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value.addressHumanReadable));
-
-          } else {
-            data_elements[element].value = null;
-          }
-        } else if (typeof data_elements[element].value === 'string') {
-          this.temporaryModel[element] = JSON.parse(JSON.stringify(data_elements[element].value));
-          this.addressAutocomplete(data_elements[element].value, 0, element, true);
-        }
-      } else if (data_elements[element].type === 'table') {
-        Object.keys(data_elements[element].table_columns).forEach(tableElement => {
-          if (data_elements[element].table_columns[tableElement].type === 'address') {
-            if (Array.isArray(data_elements[element].value)) {
-              data_elements[element].value.forEach((rowValue, row) => {
-
-                if (rowValue[tableElement].adsOid) {
-                  const addressValue = {
-                    [row]: rowValue[tableElement].addressHumanReadable
-                  };
-                  if (!this.temporaryModel[element] && !this.autoCompleteContainer[element]) {
-                    this.temporaryModel[element] = {
-                      [tableElement]: addressValue
-                    };
-                    this.autoCompleteContainer[element] = {
-                      [tableElement]: addressValue
-                    };
-                  } else {
-                    this.autoCompleteContainer[element][tableElement] = { ...this.autoCompleteContainer[element][tableElement], ...addressValue };
-                    this.temporaryModel[element][tableElement] = { ...this.temporaryModel[element][tableElement], ...addressValue };
-                  }
-                }
-              });
-            }
-          }
-        });
-      }
-    });
-  }
-
-  validateInAdsField(element) {
-    if (this.addressFieldFocus === false) {
-      this.addressAutocompleteSelectionValidation(element);
-    }
-  }
-
-  validateInAdsFieldTable(element, column, row) {
-    if (this.addressFieldFocus === false) {
-      this.addressAutocompleteSelectionValidationTable(element, column, row);
-    }
-  }
-
-  addressAutocompleteSelectionValidation(element) {
-
-    if (this.autoCompleteContainer[element] === undefined) {
-      return this.temporaryModel[element] = null;
-    }
-
-    const match = this.autoCompleteContainer[element].find(address => {
-      return address.addressHumanReadable === this.temporaryModel[element];
-    });
-
-    if (!match) {
-      this.autoCompleteContainer[element] = null;
-      this.temporaryModel[element] = null;
-      this.data_elements[element].value = null;
-    } else {
-      this.data_elements[element].value = this.inAdsFormatValue(match);
-    }
-
-  }
-
-  addressAutocompleteSelectionValidationTable(element, column, row) {
-
-    if (this.autoCompleteContainer[element][column][row] === undefined) {
-      return this.temporaryModel[element][column][row] = null;
-    }
-
-    const match = this.autoCompleteContainer[element][column][row].find(address => {
-      return address.addressHumanReadable === this.temporaryModel[element][column][row];
-    });
-
-    if (!match) {
-      this.autoCompleteContainer[element][column][row] = null;
-      this.temporaryModel[element][column][row] = null;
-      this.data_elements[element].value[row][column] = null;
-    } else {
-      this.data_elements[element].value[row][column] = this.inAdsFormatValue(match);
-    }
-  }
-
-  addressAutocomplete(searchText: string, debounceTime: number = 300, element, autoselectOnMatch: boolean = false, col: string = '', row: number = 0, table: boolean = false) {
-
-    if (searchText.length < 3) { return; }
-
-    const index = table ? Array.prototype.join.call(element, col, row) : element;
-
-    if (this.autocompleteDebouncer[index]) { clearTimeout(this.autocompleteDebouncer[index]); }
-
-    if (this.autocompleteSubscription[index] !== undefined) { this.autocompleteSubscription[index].unsubscribe(); }
-
-    const _this = this;
-
-    const limit = table ? this.data_elements[element].value[row][col] && this.data_elements[element].value[row][col].results != null ? this.data_elements[element].value[row][col].results : 10 : this.data_elements[element].results || 10;
-    const ihist = table ? this.data_elements[element].value[row][col] && this.data_elements[element].value[row][col].ihist != null ? this.data_elements[element].value[row][col].ihist : 0 : this.data_elements[element].ihist || 0;
-    const apartment = table ? this.data_elements[element].value[row][col] && this.data_elements[element].value[row][col].appartment != null ? this.data_elements[element].value[row][col].appartment : 0 : this.data_elements[element].appartment || 0;
-
-    this.autocompleteDebouncer[index] = setTimeout(function () {
-      _this.autocompleteLoader = true;
-      const url = 'http://inaadress.maaamet.ee/inaadress/gazetteer?ihist=' + ihist + '&appartment=' + apartment + '&address=' + searchText + '&results=' + limit + '&callback=JSONP_CALLBACK';
-      const jsonp = _this._jsonp.get(url).map(function (res) {
-        return res.json() || {};
-      }).catch(function (error: any) { return throwError(error); });
-
-      _this.autocompleteSubscription[index] = jsonp.subscribe(data => {
-        if (data['error']) { _this.errorHandler('Something went wrong with In-ADS request'); }
-
-        if (!table) {
-          _this.autocompleteLoader = false;
-          _this.autoCompleteContainer[element] = data['addresses'] || [];
-
-          _this.autoCompleteContainer[element] = _this.autoCompleteContainer[element].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
-
-          _this.autoCompleteContainer[element].forEach(address => {
-            if (address.kort_nr) {
-              address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
-            } else {
-              address.addressHumanReadable = address.pikkaadress;
-            }
-          });
-        } else {
-          _this.autocompleteLoader = false;
-
-          _this.autoCompleteContainer[element] = {
-            [col]: {
-              [row]: data['addresses'] || []
-            }
-          };
-
-          _this.autoCompleteContainer[element][col][row] = _this.autoCompleteContainer[element][col][row].filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
-
-          _this.autoCompleteContainer[element][col][row].forEach(address => {
-            if (address.kort_nr) {
-              address.addressHumanReadable = address.pikkaadress + '-' + address.kort_nr;
-            } else {
-              address.addressHumanReadable = address.pikkaadress;
-            }
-          });
-        }
-
-        if (autoselectOnMatch === true) {
-          _this.addressAutocompleteSelectionValidationTable(element, col, row);
-        }
-
-        _this.autocompleteSubscription[index].unsubscribe();
-      });
-
-    }, debounceTime);
-  }
-
-  inAdsFormatValue(address) {
-    if (address.apartment !== undefined) { return address; }
-
-    return {
-      'adsId': address.adr_id,
-      'adsOid': address.ads_oid,
-      'addressCoded': address.koodaadress,
-      'county': address.maakond,
-      'countyEHAK': address.ehakmk,
-      'localGovernment': address.omavalitsus,
-      'localGovernmentEHAK': address.ehakov,
-      'settlementUnit': address.asustusyksus,
-      'settlementUnitEHAK': address.ehak,
-      'address': address.aadresstekst,
-      'apartment': address.kort_nr,
-      'addressHumanReadable': address.addressHumanReadable
-    };
   }
 
   scrollableTableDeterminant(label) {
@@ -486,7 +285,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     model.value.splice(model.value.indexOf(target), 1);
   }
 
-  uploadFile(files, element) {
+/*   uploadFile(files, element) {
     const model = this.data_elements[element];
     const size_limit = model.max_size;
     this.fileLoading[element] = true;
@@ -535,9 +334,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         subscription.unsubscribe();
       });
     };
-  }
+  } */
 
-  fileEventHandler(e, element) {
+/*   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
     if (this.error[element]) {
       delete this.error[element];
@@ -549,7 +348,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (files && files.length > 0) {
       this.uploadFile(files, element);
     }
-  }
+  } */
 
   byteToMegabyte(bytes) {
     return bytes / Math.pow(1024, 2);
@@ -591,7 +390,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     table.value.push(newRow);
     this.scrollableTableDeterminant(element);
   }
-
+/* 
   tableDeleteRow(element, rowIndex) {
     this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
       data: {
@@ -653,7 +452,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.dialogRef = null;
       this.formLoading = false;
     });
-  }
+  } */
 
   isItemExisting(list, target): boolean {
     return list.some(item => item === target);
@@ -833,7 +632,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  submitForm(activity: string) {
+/*   submitForm(activity: string) {
     this.error = {};
 
     if (activity === 'EDIT') {
@@ -859,7 +658,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.scrollPositionController();
       }
     }
-  }
+  } */
 
   errorHandler(message) {
     console.log('DEBUG_ERROR: ', message);
@@ -972,7 +771,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  promptDebugDialog(data) {
+/*   promptDebugDialog(data) {
 
     if (this.test === false) {
       return this.getData(data);
@@ -994,7 +793,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.dialogRef = null;
     });
 
-  }
+  } */
 
   setMaxStep(xjson) {
     if (!Object.keys(xjson['body']['steps']).length) {
@@ -1094,8 +893,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       this.activityButtons = this.setActivityButtons(this.data.header.acceptable_activity);
 
-      this.fillAddressFieldsTemporaryModel(this.data_elements);
-
       if (typeof this.data.header.acceptable_form !== 'undefined') {
         this.compileAcceptableFormList();
       }
@@ -1126,7 +923,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const payload = { form_name: this.form_route };
 
     if (this.test === true) {
-      this.promptDebugDialog(payload);
+      //this.promptDebugDialog(payload);
     } else {
       // TODO: create catcher to prevent endless loop requests...
       this.getData(payload);
