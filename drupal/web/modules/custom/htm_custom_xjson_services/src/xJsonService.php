@@ -404,9 +404,6 @@ class xJsonService implements xJsonServiceInterface {
     if ($element_type === 'table') $element_def = $this->sortTableValues($element_def);
     #dump($element_def);
 
-    dump($this->validateDataElement($element_def));
-    dump($element_def);
-
     return ($this->validateDataElement($element_def)) ? $element_def : [];
   }
 
@@ -498,6 +495,7 @@ class xJsonService implements xJsonServiceInterface {
               if (isset($is_textarea) && $is_textarea) $valid = false;
             } else {
               if (!$this->validateDataElement($column_element, true)) $valid = false;
+              else $this->validateDataElement($column_element);
             }
           }
         } else {
