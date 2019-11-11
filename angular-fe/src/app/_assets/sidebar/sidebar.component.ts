@@ -1,9 +1,11 @@
-import { Component, Input, HostBinding, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, HostBinding, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { SidebarService } from '@app/_services';
 import { collection, titleLess } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import conf from '@app/_core/conf';
+import { Router, ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 interface SidebarType {
   [key: string]: string;
@@ -11,6 +13,12 @@ interface SidebarType {
 interface TitleLess {
   [key: string]: boolean;
 }
+
+const sidebarOrder = {
+  article: ['fieldHyperlinks', 'fieldRelatedArticle'],
+  school: ['fieldContact', 'fieldSchoolLocation'],
+  profession: ['prosCons', 'fieldOskaField', 'fieldLearningOpportunities', 'fieldJobOpportunities', 'fieldQualificationStandard ', 'fieldJobs', 'fieldContact'],
+};
 
 @Component({
   selector: 'sidebar',
@@ -20,14 +28,25 @@ interface TitleLess {
 export class SidebarComponent implements OnInit, OnChanges {
   @Input() data: any;
   @Input() feedbackNid: string = '';
+
+  private type: string;
+
   private collection: SidebarType = collection;
   private titleLess: TitleLess = titleLess;
   private keys: string[];
+  private orderedKeys: string [] = [];
+
   public mappedData: any;
   @HostBinding('class') get hostClasses(): string {
     return 'sidebar';
   }
-  constructor(private sidebarService: SidebarService) {}
+  constructor(
+    private sidebarService: SidebarService,
+    private route: ActivatedRoute,
+    private translate: TranslateService,
+  ) {
+    this.type = route.snapshot.data.type;
+  }
 
   private getData():void {
     if (this.data) {
@@ -46,28 +65,41 @@ export class SidebarComponent implements OnInit, OnChanges {
           this.data[elem] = this.data.sidebar.entity[elem];
         });
       }
+
       this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
       this.keys = Object.keys(this.mappedData);
+
+      if (sidebarOrder[this.type]) {
+        this.orderedKeys = [...sidebarOrder[this.type]];
+      }
+
+      this.keys.forEach((item) => {
+        if (this.orderedKeys.indexOf(item) === -1) {
+          this.orderedKeys.push(item);
+        }
+      });
+
+      try {
+        this.mappedData['fieldLearningOpportunities'] = [
+          {
+            title: this.translate.get('professions.go_to_subjects'),
+            url: {
+              path: 'aaa',
+              routed: true,
+            },
+          },
+        ];
+      } catch (err) {}
     }
   }
   ngOnInit() {
+    console.log(this.type);
     this.getData();
   }
   ngOnChanges() {
     this.getData();
   }
-  // ngOnChanges() {
-  //   if (this.data) {
-  //     this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
-  //     this.keys = Object.keys(this.mappedData);
-  //   }
-  // }
-  // Storybook data change
-/*   ngOnChanges() {
-    this.blocks = this.sidebarService.getBlockField(this.data);
-    this.mappedData = this.sidebarService.mapUniformKeys(this.data);
-    this.keys = Object.keys(this.mappedData);
-  } */
+
 }
 // Subcomponents
 @Component({
@@ -76,8 +108,12 @@ export class SidebarComponent implements OnInit, OnChanges {
 })
 export class SidebarLinksComponent implements OnInit {
   @Input() data: Object[];
+  public parsedData: Object[];
+
+  constructor() {}
+
   ngOnInit() {
-    this.data = this.data.map((item: any) => {
+    this.parsedData = this.data.map((item: any) => {
       if (item['entity'] && item['entity'].entityLabel) {
         return {
           title: item['entity'].entityLabel,
@@ -118,9 +154,13 @@ export class SidebarCategoriesComponent implements OnInit {
 })
 export class SidebarContactComponent {
   @Input() data: any;
+  public parsedData: any;
+
   ngOnInit() {
     if (this.data.entity) {
-      this.data = FieldVaryService(this.data.entity);
+      this.parsedData = FieldVaryService(this.data.entity);
+    } else {
+      this.parsedData = this.data;
     }
   }
 }
@@ -135,7 +175,8 @@ export class SidebarArticlesComponent {
 
 @Component({
   selector: 'sidebar-data',
-  template: '<b *ngIf="data.entity?.fieldTitle">{{ data.entity?.fieldTitle }}</b><div [innerHTML]="data.entity?.fieldAdditionalBody || data.value"><div>',
+  template: `<b *ngIf="data.entity?.fieldTitle">{{ data.entity?.fieldTitle }}</b>
+            <div [innerHTML]="data.entity?.fieldAdditionalBody || data.value"><div>`,
 })
 export class SidebarDataComponent {
   @Input() data;

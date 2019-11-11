@@ -8,6 +8,7 @@ export const collection = {
   'educationalInstitution': 'contact',
   // 'fieldIscedfSearchLink': 'links',
   'fieldJobOpportunities': 'links',
+  'fieldLearningOpportunities': 'links',
   'fieldJobs': 'links',
   'fieldOskaField': 'links',
   'fieldQualificationStandard': 'links',
@@ -32,7 +33,7 @@ export const collection = {
 
 export const uniformTypes = {
   'prosCons': ['fieldPros', 'fieldNeutral', 'fieldCons', 'fieldOskaFieldPros', 'fieldOskaFieldCons'],
-  'fieldContact': ['email', 'person', 'phone', 'organizer'],
+  'fieldContact': ['email', 'person', 'phone', 'organizer', 'webpage'],
   'fieldEventLocation': [
     'fieldEventLocation',
     'fieldEventLocationLink',

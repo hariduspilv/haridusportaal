@@ -17,7 +17,7 @@ const requestMap = {
   studentHome: ['fieldStudentHome'],
   phone: ['FieldSchoolContactPhone', 'fieldSchoolContactPhone', 'fieldPhone', 'fieldContactPhone'],
   email: ['FieldSchoolContactEmail', 'fieldSchoolContactEmail', 'fieldEmail', 'fieldContactEmail'],
-  webpage: ['FieldSchoolWebpageAddress', 'fieldSchoolWebpageAddress', 'fieldWebpageLink'],
+  webpage: ['FieldSchoolWebpageAddress', 'fieldSchoolWebpageAddress', 'fieldWebpageLink', 'fieldSchoolWebpageAddress'],
   url: ['entityUrl', 'EntityPath', 'entityPath' ],
   subtitle: ['fieldSubtitle'],
   sidebar: ['fieldInfosystemSidebar', 'fieldSidebar', 'fieldOskaFieldSidebar', 'fieldSurveyPageSidebar', 'fieldRightSidebar', 'fieldResultPageSidebar'],

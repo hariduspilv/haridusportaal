@@ -87,6 +87,8 @@ import { DeviceDetectorModule } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { AutocompleteComponent } from './autocomplete';
 import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
+import { Triangles } from './shapes/triangles/triangles';
+import { Circles } from './shapes/circles/circles';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -96,11 +98,17 @@ import { LinksComponent } from './links';
 import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
-import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
+import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HomeSearchListViewComponent,
+} from '@app/_views/homeSearchListView/homeSearchListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { InfographComponent } from './infograph/infograph.component';
+import { InlineLinksComponent } from './inline-links/inline-links.component';
+import { InlineArticlesComponent } from './inline-articles/inline-articles.component';
+import { ArticlesSingleComponent } from './articles-single/articles-single.component';
+import { NewsletterOrderComponent } from './newsletter-order/newsletter-order.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -182,6 +190,13 @@ const declarations = [
   HomeSearchListViewComponent,
   CompareViewComponent,
   DropdownListComponent,
+  // frontpage stuff, delete after remake
+  Triangles,
+  Circles,
+  InlineLinksComponent,
+  InlineArticlesComponent,
+  ArticlesSingleComponent,
+  NewsletterOrderComponent,
 ];
 
 const exports = [

@@ -1,5 +1,5 @@
-<ul *ngIf="data && data.length">
-  <ng-container *ngFor="let item of data">
+<ul *ngIf="parsedData && parsedData.length">
+  <ng-container *ngFor="let item of parsedData">
     <li *ngIf="item.url">
       <a [href]="item.url.path">
         <icon *ngIf="!item.url.routed" size="medium" glyph="external-link"></icon>

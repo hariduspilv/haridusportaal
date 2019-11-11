@@ -25,4 +25,13 @@
       text-align: left;
     }
   }
+  school-table {
+    td:first-child {
+      width:40%;
+    }
+
+    td:last-child {
+      font-weight: 500;
+    }
+  }
 }

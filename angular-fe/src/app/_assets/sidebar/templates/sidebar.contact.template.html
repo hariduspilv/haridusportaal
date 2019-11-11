@@ -1,4 +1,5 @@
-<div attr.aria-label="{{'event.organizer' | translate}} {{ data.organizer || data.title }}">{{ data.organizer || data.title }}</div>
-<div attr.aria-label="{{'event.person' | translate}} {{ data.person || data.fieldRegistrationCode }}">{{ data.person || data.fieldRegistrationCode }}</div>
-<a href="tel:{{ data.phone }}" attr.aria-label="{{'event.phone' | translate}} {{ data.phone }}">{{ data.phone }}</a>
-<a href="mailto:{{ data.email }}" attr.aria-label="{{'event.email' | translate}} {{ data.email }}">{{ data.email }}</a>
+<div *ngIf="parsedData.organizer || parsedData.title" attr.aria-label="{{'event.organizer' | translate}} {{ parsedData.organizer || parsedData.title }}">{{ parsedData.organizer || parsedData.title }}</div>
+<div *ngIf="parsedData.person || parsedData.fieldRegistrationCode" attr.aria-label="{{'event.person' | translate}} {{ parsedData.person || parsedData.fieldRegistrationCode }}">{{ parsedData.person || parsedData.fieldRegistrationCode }}</div>
+<a *ngIf="parsedData.phone" href="tel:{{ parsedData.phone }}" attr.aria-label="{{'event.phone' | translate}} {{ parsedData.phone }}">{{ parsedData.phone }}</a>
+<a *ngIf="parsedData.email" href="mailto:{{ parsedData.email }}" attr.aria-label="{{'event.email' | translate}} {{ parsedData.email }}">{{ parsedData.email }}</a>
+<a *ngIf="parsedData.webpage" href="{{ parsedData.webpage }}" attr.aria-label="{{'event.contact' | translate}} {{ parsedData.webpage }}">{{ parsedData.webpage | removeProtocol }}</a>
