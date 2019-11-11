@@ -55,7 +55,7 @@ export class ChartComponent implements OnInit {
       pointSize: 10,
       legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
       tooltip: {},
-      colors: ['#16b5ca', '#6ccfdc', '#bee3e8', '#ffe7c1', '#ffc388', '#f8b243', '#fd8208'],
+      colors: ['#fd8208', '#f8b243', '#ffc388', '#ffe7c1', '#bee3e8', '#6ccfdc', '#16b5ca'],
 
       animation: {
         duration: 1000,
