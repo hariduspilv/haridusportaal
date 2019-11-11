@@ -517,10 +517,6 @@ class xJsonService implements xJsonServiceInterface {
       if (!in_array($element_key, $acceptable_keys, true)) $valid = false;
       continue;
     }
-    if($element['options_list'] === 'oppekavaOppetasemed'){
-      dump($valid);
-      dump($element);
-    }
     return $valid;
   }
 
