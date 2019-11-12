@@ -30,7 +30,7 @@ export class RelatedEventsComponent implements OnInit {
     const subscription = this.http.get('getRelatedEvents', { params: variables }).subscribe((response) => {
       const data = response['data'];
       if (data['nodeQuery']) {
-        this.content = data['nodeQuery']['entities'].sort((a: object, b: object) => (a['fieldEventMainDate']['date'] > b['fieldEventMainDate']['date'] ? -1 : 1));
+        this.content = data['nodeQuery']['entities'].sort((a: object, b: object) => (a['fieldEventMainDate']['date'] < b['fieldEventMainDate']['date'] ? -1 : 1));
       }
       subscription.unsubscribe();
     });
