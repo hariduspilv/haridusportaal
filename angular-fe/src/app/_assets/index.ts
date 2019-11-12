@@ -46,6 +46,7 @@ import { FormItemComponent } from './formItem';
 import {
   RippleDirective,
   FiltersDirective,
+  RotateTableDirective,
  } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
@@ -114,6 +115,7 @@ import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component
 import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
+import { XjsonComponent } from '@app/_views/xjson/xjson.component';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -157,6 +159,7 @@ const declarations = [
   FormItemComponent,
   RippleDirective,
   FiltersDirective,
+  RotateTableDirective,
   ModalComponent,
   ModalContentComponent,
   MainProfessionsComponent,
@@ -205,6 +208,7 @@ const declarations = [
   NewsletterOrderComponent,
   PictoComponent,
   BlockSubTitleComponent,
+  XjsonComponent,
 ];
 
 const exports = [

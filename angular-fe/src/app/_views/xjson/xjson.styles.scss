@@ -1,5 +1,6 @@
-@import "../../../assets/styles/typography.scss";
-@import "../../../assets/styles/layout.scss";
+@import "typography.scss";
+@import "breakpoints.scss";
+@import "grid.scss";
 
 input {
   font-size: 0.875rem;

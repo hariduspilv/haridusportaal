@@ -73,8 +73,12 @@
         <!-- STEP BODY -->
         <div class="row button-list button-list-top">
           <ng-container *ngFor="let activity of activityButtons['primary']">
-            <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button
+            <!--             <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button
               [color]="[activity.style]" (click)="submitForm(activity.action)">
+              {{ activity.label | translate }}
+            </button> -->
+
+            <button htm-button *ngIf="activity.action == 'EDIT'" theme="default" (click)="submitForm(activity.action)">
               {{ activity.label | translate }}
             </button>
           </ng-container>
@@ -128,13 +132,14 @@
                     <!--/squared-input__wrapper-->
 
                     <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                      <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </ng-container>  -->
+                      <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     </div>
                   </div>
                 </ng-container> <!-- /TEXT -->
@@ -157,13 +162,14 @@
                       </div>
                     </div>
                     <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                      <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </ng-container> -->
+                      <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     </div>
                   </div>
                 </ng-container><!-- /TEXT -->
@@ -187,97 +193,41 @@
                         </div>
                       </div>
                       <div class="helper-wrapper">
-                        <ng-container *ngIf="data_elements[element].helpertext">
+                        <!--                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span tabindex="-1" role="text"
                             attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                             class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
                           </span>
-                        </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                        </ng-container> -->
+                        <!-- /HELPERTEXT QUESTIONMARK (?) -->
                       </div>
                     </div>
                   </div>
                 </ng-container> <!-- /TEXTAREA -->
 
                 <ng-container *ngIf="data_elements[element].type == 'selectlist'">
-                    <div class="squared-input__outer-wrapper multiselect-wrapper">
-                      <div class="squared-input__wrapper"
-                        [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                        <span class="squared-input__title">
-                          {{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
-                        </span>
 
-                        <div class="squared-input__field-wrapper">
-                          <mat-select class="squared-input__field"
-                            placeholder=" {{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                            [(ngModel)]="data_elements[element].value"
-                            [disabled]="isFieldDisabled(data_elements[element].readonly)" [name]="element"
-                            [multiple]="data_elements[element].multiple">
-                            <ng-container *ngIf="!data_elements[element].multiple">
-                              <mat-option *ngIf="!data_elements[element].multiple" [value]="undefined">
-                                {{ data_elements[element].empty_option ? selectLanguage(data_elements[element].empty_option) : ''}}
-                              </mat-option>
-                              <ng-container *ngIf="data_elements[element].options">
-                                <ng-container *ngFor="let option of objectKeys(data_elements[element].options)">
-                                  <mat-option *ngIf="!data_elements[element].options[option].options" [value]="option">
-                                    {{ selectLanguage(data_elements[element].options[option]) }}
-                                  </mat-option>
-
-                                  <ng-container *ngIf="data_elements[element].options[option].options">
-                                    <mat-option disabled="true" [value]="null">
-                                      {{ selectLanguage(data_elements[element].options[option]) }}
-                                    </mat-option>
-
-                                    <ng-container
-                                      *ngFor="let option2 of objectKeys(data_elements[element].options[option].options)">
-                                      <!--level 2-->
-                                      <mat-option
-                                        *ngIf="!data_elements[element].options[option].options[option2].options"
-                                        [value]="option2">
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{selectLanguage(data_elements[element].options[option].options[option2]) }}
-                                      </mat-option>
-
-                                      <ng-container
-                                        *ngIf="data_elements[element].options[option].options[option2].options">
-                                        <mat-option disabled="true" [value]="null">
-                                          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{selectLanguage(data_elements[element].options[option]['options'][option2]) }}
-                                        </mat-option>
-
-                                        <ng-container
-                                          *ngFor="let option3 of objectKeys(data_elements[element].options[option].options[option2].options)">
-                                          <!--level 3-->
-                                          <mat-option
-                                            *ngIf="!data_elements[element].options[option].options[option2].options[option3].options"
-                                            [value]="option3">
-                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{selectLanguage(data_elements[element].options[option].options[option2].options[option3])}}
-                                          </mat-option>
-                                        </ng-container>
-                                      </ng-container>
-                                    </ng-container>
-                                  </ng-container>
-                                </ng-container>
-                              </ng-container>
-                            </ng-container>
-
-                            <ng-container *ngIf="data_elements[element].multiple && data_elements[element].options">
-                              <mat-option *ngFor="let option of objectKeys(data_elements[element].options)"
-                                [value]="option">
-                                {{ selectLanguage(data_elements[element].options[option]) }}
-                              </mat-option>
-                            </ng-container>
-                          </mat-select>
-                        </div>
-                      </div>
-                      <div class="helper-wrapper">
-                        <ng-container *ngIf="data_elements[element].helpertext">
+                  <ng-container *ngIf="data_elements[element].multiple; else singleSelect">
+                    <formItem type="multi-select"
+                      title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                      [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"></formItem>
+                  </ng-container>
+                  <ng-template #singleSelect>
+                    <formItem type="select"
+                      title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                      [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"></formItem>
+                  </ng-template>
+                  <div class="helper-wrapper">
+                    <!--                         <ng-container *ngIf="data_elements[element].helpertext">
                           <span tabindex="-1" role="text"
                             attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                             class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                             matTooltipPosition="above">
                           </span>
-                        </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                      </div>
-                    </div>
+                        </ng-container> -->
+                    <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                  </div>
                 </ng-container> <!-- /SELECTLIST -->
 
                 <ng-container *ngIf="data_elements[element].type == 'email'">
@@ -297,36 +247,33 @@
                       </div>
                     </div>
                     <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                      <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </ng-container>  -->
+                      <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     </div>
                   </div>
                   <!--/squared-input__wrapper-->
                 </ng-container> <!-- /EMAIL -->
 
                 <ng-container *ngIf="data_elements[element].type == 'checkbox'">
-                  <div class="squared-input__outer-wrapper checkbox-wrapper">
-                    <div class="custom-checkbox">
-                      <mat-checkbox [(ngModel)]="data_elements[element].value" [name]="element"
-                        [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                        [required]="data_elements[element].required">
-                        {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
-                      </mat-checkbox>
-                    </div>
-                    <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                  <formItem type="checkbox"
+                    label="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
+                    [(ngModel)]="data_elements[element].value"></formItem>
+
+                  <div class="helper-wrapper">
+                    <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                    </div>
+                      </ng-container> -->
+                    <!-- /HELPERTEXT QUESTIONMARK (?) -->
                   </div>
                 </ng-container> <!-- /CHECKBOX -->
 
@@ -348,78 +295,39 @@
                       </div>
                     </div>
                     <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                      <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="0"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </ng-container> -->
+                      <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     </div>
                   </div>
                   <!--/squared-input__wrapper-->
                 </ng-container> <!-- /NUMBER -->
 
                 <ng-container *ngIf="data_elements[element].type == 'address'">
-                  <div class="squared-input__outer-wrapper">
-                    <div class="squared-input__wrapper"
-                      [class.complete]="temporaryModel[element] || opened_step != this.max_step">
-                      <span class="squared-input__title">
-                        {{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
-                      </span>
-                      <div class="squared-input__field-wrapper">
-                        <input class="squared-input__field" type="text" matInput
-                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
-                          [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                          [(ngModel)]="temporaryModel[element]"
-                          placeholder="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
-                          (ngModelChange)="addressAutocomplete(temporaryModel[element], 300, element)"
-                          (focus)="addressFieldFocus = true" (blur)="validateInAdsField(element)" [name]="element"
-                          [matAutocomplete]="autoAddress">
-                      </div>
-                    </div>
-                    <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
-                        <span tabindex="-1" role="text"
-                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
-                          class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
-                          matTooltipPosition="above">
-                        </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                    </div>
-                  </div>
+                  <formItem type="autocomplete" query="inaadress" [(ngModel)]="data_elements[element].value"
+                    title="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}">
+                  </formItem>
                 </ng-container> <!-- /ADDRESS -->
 
                 <ng-container
                   *ngIf="data_elements[element].type == 'date' && !isFieldDisabled(data_elements[element].readonly)">
-                  <div class="squared-input__outer-wrapper date-wrapper">
-                    <div class="squared-input__wrapper"
-                      [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                      <span class="squared-input__title">
-                        {{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}
-                      </span>
-                      <div class="squared-input__field-wrapper">
-                        <input class="squared-input__field" matInput [matDatepicker]="picker"
-                          attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
-                          [placeholder]="selectLanguage(data_elements[element].title)"
-                          [value]="getDatepickerValue(element)" readonly="true"
-                          [(ngModel)]="data_elements[element].value" name="{{element}}"
-                          (dateInput)="setDatepickerValue($event, element)"
-                          (dateChange)="setDatepickerValue($event, element)" (focus)="datepickerFocus = true"
-                          (blur)="datepickerFocus = false; setDatepickerValue($event, element)">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-datepicker #picker startView='multi-year'></mat-datepicker>
-                      </div>
-                    </div>
-                    <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                  <formItem type="date" placeholder="pp.kk.aaaa"
+                    title="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
+                    [(ngModel)]="data_elements[element].value"></formItem>
+                  <div class="helper-wrapper">
+                    <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                    </div>
+                      </ng-container>  -->
+                    <!-- /HELPERTEXT QUESTIONMARK (?) -->
                   </div>
                 </ng-container> <!-- /DATE -->
 
@@ -441,13 +349,14 @@
                       </div>
                     </div>
                     <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                      <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </ng-container> -->
+                      <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     </div>
                   </div>
                 </ng-container><!-- /DATE -->
@@ -459,13 +368,14 @@
                       {{selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
                     </span>
                     <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                      <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </ng-container> -->
+                      <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     </div>
                   </div>
 
@@ -527,13 +437,14 @@
                       {{ selectLanguage(data_elements[element].title) }}
                     </h2>
                     <div class="helper-wrapper">
-                      <ng-container *ngIf="data_elements[element].helpertext">
+                      <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                         <span tabindex="-1" role="text"
                           attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
                           class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
                           matTooltipPosition="above">
                         </span>
-                      </ng-container> <!-- /HELPERTEXT QUESTIONMARK (?) -->
+                      </ng-container> -->
+                      <!-- /HELPERTEXT QUESTIONMARK (?) -->
                     </div>
                   </div>
 
@@ -601,40 +512,9 @@
                                     </ng-container> <!-- /TEXT -->
 
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
-                                      <input
-                                        *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else addressReadonlyDisplay"
-                                        class="contnent-input" type="text" matInput
-                                        [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                        placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                        [(ngModel)]="temporaryModel[element][col][rowIndex]"
-                                        [name]="element + '_' + rowIndex + '_' + colIndex"
-                                        (ngModelChange)="addressAutocomplete(temporaryModel[element][col][rowIndex], 300, element, false, col, rowIndex, true)"
-                                        (focus)="addressFieldFocus = true"
-                                        (blur)="validateInAdsFieldTable(element, col, rowIndex)"
-                                        [matAutocomplete]="autoAddress">
-                                      <mat-autocomplete #autoAddress="matAutocomplete"
-                                        (optionSelected)="addressFieldFocus = false">
-                                        <ng-container *ngIf="autocompleteLoader">
-                                          <mat-option [value]="" disabled="true">
-                                            <span>{{'xjson.searching_please_wait' | translate }}</span>
-                                          </mat-option>
-                                        </ng-container>
-                                        <ng-container
-                                          *ngIf="autocompleteLoader == false && autoCompleteContainer[element][col][rowIndex]">
-                                          <mat-option *ngIf="!autoCompleteContainer[element][col][rowIndex].length"
-                                            [value]="" disabled="true">
-                                            <span>{{'xjson.address_not_found' | translate }}</span>
-                                          </mat-option>
-                                          <ng-container
-                                            *ngIf="autoCompleteContainer[element][col][rowIndex].length > 0">
-                                            <mat-option
-                                              *ngFor="let address of autoCompleteContainer[element][col][rowIndex]"
-                                              [value]="address.addressHumanReadable">
-                                              <span>{{ address.addressHumanReadable }}</span>
-                                            </mat-option>
-                                          </ng-container>
-                                        </ng-container>
-                                      </mat-autocomplete>
+                                      <formItem type="autocomplete" query="inaadress" [(ngModel)]="row[col]"
+                                        title="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}">
+                                      </formItem>
                                     </ng-container> <!-- /ADDRESS -->
 
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
@@ -701,14 +581,12 @@
 
                                     <ng-container
                                       *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
-                                      <formItem
-                                      type="select"
-                                      title="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': '' }}"
-                                      [(ngModel)]="row[col]"
-                                      [options]="tableColumnAttribute(element, colIndex, 'options')"
-                                      ></formItem>
+                                      <formItem type="select"
+                                        title="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': '' }}"
+                                        [(ngModel)]="row[col]"
+                                        [options]="tableColumnAttribute(element, colIndex, 'options')"></formItem>
 
-<!--                                       <ng-container
+                                      <!--                                       <ng-container
                                         *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) == false; else readonlyDisplay">
                                         <div class="round-input__wrapper"
                                           [class.complete]="data_elements[element].value || opened_step != this.max_step">
