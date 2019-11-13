@@ -1,7 +1,7 @@
 <div class="inline">
 	<article-layout
 		[sidebar]="
-			sidebar.entity.events.length || sidebar.entity.favourites.length
+			sidebar.entity.event.length && sidebar.entity.favourites.length
 				? sidebar
 				: false
 		"
@@ -43,7 +43,7 @@
 				tabLabel="Taotlused"
 				tabIcon="file-text"
 			>
-				<applications></applications>
+				<applications #applications></applications>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
@@ -98,7 +98,7 @@
 	</modal-content>
 </htm-modal>
 
-<!-- <htm-modal id="roleModal" title="{{ 'modal.changing_role' | translate }}" [titleExists]="titleExists"
+<htm-modal id="roleModal" title="{{ 'modal.changing_role' | translate }}" [titleExists]="titleExists"
     [topAction]="topAction" [bottomAction]="roleBottomAction">
     <modal-content [loading]="loading">
         <alerts class="notifications notifications--small" id="roles"></alerts>
@@ -112,8 +112,8 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>
-                            <formItem type="radio" [(ngModel)]="roleSelection" [options]="roleNaturalOptions">
+                        <td ngForm [formGroup]="formGroup">
+                            <formItem type="radio" formControlName="roleSelection" [options]="roleNaturalOptions">
                             </formItem>
                         </td>
                     </tr>
@@ -125,11 +125,11 @@
                         <th>{{ 'modal.organizations' | translate }}:</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody ngForm [formGroup]="formGroup">
                     <ng-container *ngIf="roleJuridicalOptions && roleJuridicalOptions.length">
                         <tr *ngFor="let item of roleJuridicalOptions">
                             <td>
-                                <formItem type="radio" [(ngModel)]="roleSelection"
+                                <formItem type="radio" formControlName="roleSelection"
                                     (click)="codeSelection = item.ariregistri_kood"
                                     (keyup.space)="codeSelection = item.ariregistri_kood"
                                     [options]="[{ key: item.arinimi, value:'juridical-' + item.ariregistri_kood }]">
@@ -152,4 +152,4 @@
                 attr.aria-label="{{ 'modal.confirm' | translate }}">{{ 'modal.confirm' | translate }}</button>
         </div>
     </modal-content>
-</htm-modal> -->
+</htm-modal>

@@ -1,5 +1,6 @@
 <div class="outer__wrapper" [ngClass]="{ 'outer__wrapper--dark': theme === 'dark', 'outer__wrapper--light': theme === 'light' }">
   <div class="wrapper main-container">
+    <div class="inline">
     <div class="wrapper__heading">
       <span class="wrapper__heading__label">{{ heading | translate | uppercase }}</span>
       <span class="wrapper__heading__action">
@@ -26,5 +27,6 @@
         </div>
       </a>
     </article>
+  </div>
   </div>
 </div>

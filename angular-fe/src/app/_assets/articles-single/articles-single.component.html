@@ -31,10 +31,10 @@
   </div>
 </ng-template>
 <div class="outer__wrapper" [ngClass]="{ 'outer__wrapper--dark': theme === 'dark', 'outer__wrapper--light': theme === 'light' }">
-  <div class="wrapper main-container" *ngIf="!contentLeft">
+  <div class="wrapper main-container inline" *ngIf="!contentLeft">
     <ng-container *ngTemplateOutlet="imageFirst"></ng-container>
   </div>
-  <div class="wrapper main-container" *ngIf="contentLeft">
+  <div class="wrapper main-container inline" *ngIf="contentLeft">
     <ng-container *ngTemplateOutlet="articleFirst"></ng-container>
   </div>
 </div>

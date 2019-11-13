@@ -1,0 +1,8 @@
+<ul *ngIf="data && data.length">
+  <li *ngFor="let item of data">
+      <a target="_blank" [href]="item.entityUrl.path">
+        <p>{{item.fieldEventMainDate.unix * 1000 | date:"dd.MM.yyyy"}} kell {{item.fieldEventMainStartTime | unixToTime}}</p>
+        <span>{{item.title}}</span>
+      </a>
+  </li>
+</ul>
