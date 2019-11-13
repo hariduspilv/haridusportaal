@@ -234,8 +234,6 @@ public class MtsysWorker extends Worker {
 
               itemNode.putArray("acceptable_forms").addObject()
                   .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS");
-//              ((ArrayNode) itemNode.get("acceptable_forms")).addObject()
-//                  .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE");
 
               if (item.isSetTegevusnaitajad()) {
                 item.getTegevusnaitajad().getTegevusnaitajaList().forEach(tegevusnaitaja -> {
@@ -276,26 +274,6 @@ public class MtsysWorker extends Worker {
                   description += tegevusluba.isSetTyhistamiseKp() ?
                       " tühistatud " + tegevusluba.getTyhistamiseKp() : "";
 
-//                  if (tegevusluba.getLiik().equalsIgnoreCase("18098")) {
-//                    if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Sisestamisel") ||
-//                        tegevusluba.getMenetlusStaatus()
-//                            .equalsIgnoreCase("Tagastatud puudustega")) {
-//                      ((ArrayNode) itemNode.get("drafts")).addObject()
-//                          .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE")
-//                          .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
-//                          .put("document_date",
-//                              tegevusluba.isSetLoomiseKp() ? tegevusluba.getLoomiseKp() : null)
-//                          .put("description", tegevusloaLiigidNode.get(tegevusluba.getLiik())
-//                              .get("et").asText());
-//                    } else {
-//                      ((ArrayNode) itemNode.get("documents")).addObject()
-//                          .put("form_name", "MTSYS_MAJANDUSTEGEVUSE_TEADE")
-//                          .put("id", tegevusluba.getId().intValue())
-//                          .put("document_date", tegevusluba.getKehtivAlates())
-//                          .put("status", tegevusluba.getMenetlusStaatus())
-//                          .put("description", description);
-//                    }
-//                  } else {
                   if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Sisestamisel") ||
                       tegevusluba.getMenetlusStaatus()
                           .equalsIgnoreCase("Tagastatud puudustega")) {
@@ -314,7 +292,6 @@ public class MtsysWorker extends Worker {
                         .put("status", tegevusluba.getMenetlusStaatus())
                         .put("description", description);
                   }
-//                  }
 
                   if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Registreeritud")
                       && !(tegevusluba.getLiik().equalsIgnoreCase("18057")
@@ -609,7 +586,6 @@ public class MtsysWorker extends Worker {
                 fileType.get("et").asText())
             .put("klLiik", item.getKlLiik())
             .put("kommentaar", item.getKommentaar())
-//            .put("required", fileType.get("required").asBoolean())
             .putObject("fail").put("file_name", item.getFailiNimi())
             .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
 
@@ -818,7 +794,6 @@ public class MtsysWorker extends Worker {
       dataObjectNode.get("oppeTasemed").get("value").forEach(item -> {
         EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
         klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
-//        klf.setOnKehtiv(true);
         oppetasemed.getOppekavaOppetaseList().add(klf);
       });
       taotlus.setOppetasemed(oppetasemed);
@@ -841,18 +816,12 @@ public class MtsysWorker extends Worker {
     dataObjectNode.get("aadressid").get("value").forEach(item0 -> {
       ObjectNode item = (ObjectNode) item0.get("aadress");
       Aadress aadress = Aadress.Factory.newInstance();
-//      if (!item.get("seqNo").isNull()) {
-//        aadress.setJrkNr(item.get("seqNo").asLong());
-//      }
       if (!item.get("adsId").isNull()) {
         aadress.setAdsId(BigInteger.valueOf(item.get("adsId").asLong()));
       }
       if (!item.get("adsOid").isNull()) {
         aadress.setAdsOid(item.get("adsOid").asText());
       }
-//      if (!item.get("klElukoht").isNull()) {
-//        aadress.setKlElukoht(BigInteger.valueOf(item.get("klElukoht").asLong()));
-//      }
       if (!item.get("county").isNull()) {
         aadress.setMaakond(item.get("county").asText());
       }
@@ -865,9 +834,6 @@ public class MtsysWorker extends Worker {
       if (!item.get("address").isNull()) {
         aadress.setAdsAadress(item.get("address").asText());
       }
-//      if (!item.get("addressFull").isNull()) {
-//        aadress.setTaisAadress(item.get("addressFull").asText());
-//      }
       if (!item.get("addressHumanReadable").isNull()) {
         aadress.setAdsAadressHumanReadable(item.get("addressHumanReadable").asText());
       }
@@ -1484,7 +1450,6 @@ public class MtsysWorker extends Worker {
         MtsysEsitaTegevusnaitajad request = MtsysEsitaTegevusnaitajad.Factory.newInstance();
         request.setOperatsioon("ESITAMINE");
         request.setAruandeId(jsonNode.get("header").get("identifier").bigIntegerValue());
-//        request.setMenetlusKommentaar();
 
         MtsysEsitaTegevusnaitajadResponse response = ehisXRoadService
             .mtsysEsitaTegevusnaitajad(request, personalCode);
@@ -1690,7 +1655,6 @@ public class MtsysWorker extends Worker {
                   fileType.getValue().get("et").asText() + " (Kohustuslik)" :
                   fileType.getValue().get("et").asText())
               .put("klLiik", Long.valueOf(fileType.getKey()));
-//              .put("required", fileType.getValue().get("required").asBoolean());
         }
       }
     } else {
@@ -1733,16 +1697,12 @@ public class MtsysWorker extends Worker {
   private void setAadress(Aadressid aadressid, ObjectNode jsonNode) {
     aadressid.getAadressList().forEach(aadress ->
         ((ArrayNode) jsonNode.get("aadressid").get("value")).addObject().putObject("aadress")
-//            .put("seqNo", aadress.getJrkNr())
             .put("adsId", aadress.getAdsId() != null ? aadress.getAdsId().longValue() : null)
             .put("adsOid", aadress.getAdsOid())
-//            .put("klElukoht",
-//                aadress.getKlElukoht() != null ? aadress.getKlElukoht().longValue() : null)
             .put("county", aadress.getMaakond())
             .put("localGovernment", aadress.getOmavalitsus())
             .put("settlementUnit", aadress.getAsula())
             .put("address", aadress.getAdsAadress())
-//            .put("addressFull", aadress.getTaisAadress())
             .put("addressHumanReadable", aadress.getAdsAadressHumanReadable()));
   }
 
