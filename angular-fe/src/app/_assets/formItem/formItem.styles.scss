@@ -43,7 +43,7 @@
     }
     &__wrapper{
       position: relative;
-      & > input[type="text"],& > input[type="password"], & > input[type="number"], & > textarea, & > select {
+      & > input[type="text"], & > input[type="number"], & > textarea, & > select {
         display: block;
         width: 100%;
         appearance: none;
@@ -91,7 +91,7 @@
     
     &--error{
       &>.formItem__wrapper{
-        & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           border-color:$error;
         }
         .ng-select .ng-select-container{
@@ -102,12 +102,31 @@
 
     &--success{
       &>.formItem__wrapper{
-        & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           border-color:$success;
         }
         .ng-select .ng-select-container{
           border-color: $success !important;
         }
+      }
+    }
+
+    &--disabled{
+      pointer-events: none;
+      * {
+        pointer-events: none !important;
+      }
+      &>.formItem__wrapper{
+        & > input[type="text"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+          background:#eee;
+        }
+      }
+      .formItem__icon{
+        background: #eee;
+        color: #757575;
+      }
+      .ng-arrow{
+        color: #757575 !important;
       }
     }
 
@@ -157,9 +176,13 @@
         }
         input:checked + .formItem__check__indicator{
           border-color: $blue;
+          background: $blue;
           icon {
             opacity:1;
             transform: translateY(0);
+            i:before{
+              color: $white;
+            }
           }
         }
         input:focus + .formItem__check__indicator{
@@ -280,11 +303,9 @@
       z-index: 10;
       pointer-events: none;
       transition: all 0.25s;
-      line-height: 150%;
+      line-height: 170%;
       text-align:left;
       will-change: top, left, color, padding, font-size;
-      font-size: 1rem;
-      font-weight: normal;
       span{
         padding:0 2.5rem 0 0.5rem;
         color: $dark-gray;

@@ -153,7 +153,9 @@ export class AutocompleteComponent {
         this.data = [];
         this.searched = false;
         clearTimeout(this.debounce);
-        this.subscription.unsubscribe();
+        if (this.subscription) {
+          this.subscription.unsubscribe();
+        }
       },
       delay);
   }
