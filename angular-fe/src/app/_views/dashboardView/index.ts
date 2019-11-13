@@ -13,11 +13,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { AuthInterceptor } from '@app/_interceptors';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { XjsonComponent } from '../xjson/xjson.component';
 
 const routes: Routes = [
   {
     path: '',
     component: DashboardComponent,
+  },
+  {
+    path: 'taotlused/:id',
+    component: XjsonComponent,
   },
 ];
 

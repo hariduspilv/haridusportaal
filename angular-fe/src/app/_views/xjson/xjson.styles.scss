@@ -383,6 +383,9 @@ a {
   .primary-buttons {
     display: flex;
     margin-right: 0.5rem;
+    button {
+      margin-left: .625rem;
+    }
   }
   .secondary-buttons {
     margin-left: 0.5rem;

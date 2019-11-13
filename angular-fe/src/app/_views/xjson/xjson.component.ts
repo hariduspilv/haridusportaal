@@ -5,9 +5,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
 const moment = _moment;
 import { HttpClient } from '@angular/common/http';
-import { RootScopeService } from '@app/_services/RootScopeService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SettingsService } from '@app/_services';
+import { SettingsService, ModalService } from '@app/_services';
 
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
@@ -68,6 +67,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public scrollableTables = {};
   public visibleTableLength = {};
   public viewOnlyStep: boolean;
+  public path: any;
 
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
@@ -79,12 +79,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   constructor(
     private translate: TranslateService,
-    private rootScope: RootScopeService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private router: Router,
     private location: Location,
-    public settings: SettingsService,
+    private settings: SettingsService,
+    private modalService: ModalService,
   ) { }
 
   pathWatcher() {
@@ -107,7 +107,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   getFormName() {
-    const url = '/xjson_service/form_name?_format=json';
+    const url = `${this.settings.url}/xjson_service/form_name?_format=json`;
 
     const subscription = this.http.post(url, { form_path: this.form_route }).subscribe((response: any) => {
       this.form_name = response;
@@ -282,70 +282,70 @@ export class XjsonComponent implements OnInit, OnDestroy {
     model.value.splice(model.value.indexOf(target), 1);
   }
 
-/*   uploadFile(files, element) {
-    const model = this.data_elements[element];
-    const size_limit = model.max_size;
-    this.fileLoading[element] = true;
-    const file = files[0];
-    const file_size = this.byteToMegabyte(file.size);
-    if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.split('.').pop()))) {
-      this.error[element] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit')['value'] : this.translate.get('xjson.unacceptable_extension')['value'] };
-      files.shift();
-      if (files.length > 0) {
-        this.uploadFile(files, element);
-      } else {
-        this.fileLoading[element] = false;
-        return;
-      }
-    }
-
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => {
-
-      const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
-      const payload = {
-        file: reader.result.toString().split(',')[1],
-        form_name: this.form_name,
-        data_element: element
-      };
-      const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
-        this.fileLoading[element] = true;
-
-        const new_file = {
-          file_name: file.name,
-          file_identifier: response['id']
-        };
-        model.value.push(new_file);
+  /*   uploadFile(files, element) {
+      const model = this.data_elements[element];
+      const size_limit = model.max_size;
+      this.fileLoading[element] = true;
+      const file = files[0];
+      const file_size = this.byteToMegabyte(file.size);
+      if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.split('.').pop()))) {
+        this.error[element] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit')['value'] : this.translate.get('xjson.unacceptable_extension')['value'] };
         files.shift();
         if (files.length > 0) {
           this.uploadFile(files, element);
         } else {
           this.fileLoading[element] = false;
+          return;
         }
-        subscription.unsubscribe();
-      }, (err) => {
-        const message = err.error ? err.error.message : err.message;
-        this.error[element] = { valid: false, message };
-        this.fileLoading[element] = false;
-        subscription.unsubscribe();
-      });
-    };
-  } */
+      }
+  
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+  
+        const url = '/xjson_service/documentFile2/'.concat(this.form_name, '/', element);
+        const payload = {
+          file: reader.result.toString().split(',')[1],
+          form_name: this.form_name,
+          data_element: element
+        };
+        const subscription = this.http.fileUpload(url, payload, file.name).subscribe(response => {
+          this.fileLoading[element] = true;
+  
+          const new_file = {
+            file_name: file.name,
+            file_identifier: response['id']
+          };
+          model.value.push(new_file);
+          files.shift();
+          if (files.length > 0) {
+            this.uploadFile(files, element);
+          } else {
+            this.fileLoading[element] = false;
+          }
+          subscription.unsubscribe();
+        }, (err) => {
+          const message = err.error ? err.error.message : err.message;
+          this.error[element] = { valid: false, message };
+          this.fileLoading[element] = false;
+          subscription.unsubscribe();
+        });
+      };
+    } */
 
-/*   fileEventHandler(e, element) {
-    this.fileLoading[element] = true;
-    if (this.error[element]) {
-      delete this.error[element];
-    }
-    e.preventDefault();
-    const files_input = e.target.files || e.dataTransfer.files;
-    const files = Object.keys(files_input).map(item => files_input[item]);
-
-    if (files && files.length > 0) {
-      this.uploadFile(files, element);
-    }
-  } */
+  /*   fileEventHandler(e, element) {
+      this.fileLoading[element] = true;
+      if (this.error[element]) {
+        delete this.error[element];
+      }
+      e.preventDefault();
+      const files_input = e.target.files || e.dataTransfer.files;
+      const files = Object.keys(files_input).map(item => files_input[item]);
+  
+      if (files && files.length > 0) {
+        this.uploadFile(files, element);
+      }
+    } */
 
   byteToMegabyte(bytes) {
     return bytes / Math.pow(1024, 2);
@@ -387,69 +387,49 @@ export class XjsonComponent implements OnInit, OnDestroy {
     table.value.push(newRow);
     this.scrollableTableDeterminant(element);
   }
-/* 
-  tableDeleteRow(element, rowIndex) {
-    this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
-      data: {
-        title: this.translate.get('xjson.table_delete_row_confirm_modal_title')['value'],
-        content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
-        confirm: this.translate.get('button.yes_delete')['value'],
-        cancel: this.translate.get('button.cancel')['value'],
-      }
-    });
-    this.dialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
-        this.data_elements[element].value.splice(rowIndex, 1);
-        delete this.error[element];
-        const validation = this.tableValidation(this.data_elements[element]);
-        if (validation.valid !== true) {
-          this.error[element] = validation;
+  /* 
+    tableDeleteRow(element, rowIndex) {
+      this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
+        data: {
+          title: this.translate.get('xjson.table_delete_row_confirm_modal_title')['value'],
+          content: this.translate.get('xjson.table_delete_row_confirm_modal_content')['value'],
+          confirm: this.translate.get('button.yes_delete')['value'],
+          cancel: this.translate.get('button.cancel')['value'],
         }
-        if (this.temporaryModel[element]) {
-          for (const column in this.temporaryModel[element]) {
-            if (this.temporaryModel[element][column][rowIndex]) {
-              delete this.temporaryModel[element][column][rowIndex];
-              let rowNr = 0;
-              for (const row in this.temporaryModel[element][column]) {
-                this.temporaryModel[element][column][rowNr] = this.temporaryModel[element][column][row];
-                this.autoCompleteContainer[element][column][rowNr] = this.autoCompleteContainer[element][column][row];
-                if (parseInt(row) !== rowNr) {
-                  delete this.temporaryModel[element][column][row];
-                  delete this.autoCompleteContainer[element][column][row];
+      });
+      this.dialogRef.afterClosed().subscribe(result => {
+        if (result === true) {
+          this.data_elements[element].value.splice(rowIndex, 1);
+          delete this.error[element];
+          const validation = this.tableValidation(this.data_elements[element]);
+          if (validation.valid !== true) {
+            this.error[element] = validation;
+          }
+          if (this.temporaryModel[element]) {
+            for (const column in this.temporaryModel[element]) {
+              if (this.temporaryModel[element][column][rowIndex]) {
+                delete this.temporaryModel[element][column][rowIndex];
+                let rowNr = 0;
+                for (const row in this.temporaryModel[element][column]) {
+                  this.temporaryModel[element][column][rowNr] = this.temporaryModel[element][column][row];
+                  this.autoCompleteContainer[element][column][rowNr] = this.autoCompleteContainer[element][column][row];
+                  if (parseInt(row) !== rowNr) {
+                    delete this.temporaryModel[element][column][row];
+                    delete this.autoCompleteContainer[element][column][row];
+                  }
+                  rowNr++;
                 }
-                rowNr++;
               }
             }
           }
+          this.scrollableTableDeterminant(element);
         }
-        this.scrollableTableDeterminant(element);
-      }
-      this.dialogRef = null;
-    });
-  }
+        this.dialogRef = null;
+      });
+    }*/
 
   promptEditConfirmation() {
-    this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
-      data: {
-        title: this.translate.get('xjson.edit_step_confirm_modal_title')['value'],
-        content: this.translate.get('xjson.edit_step_confirm_modal_content')['value'],
-        confirm: this.translate.get('button.yes_change')['value'],
-        cancel: this.translate.get('button.cancel')['value'],
-      }
-    });
-    this.dialogRef.afterClosed().subscribe(result => {
-      this.formLoading = true;
-      if (result === true) {
-        this.edit_step = true;
-        this.data.header.current_step = this.opened_step;
-        this.data.header.acceptable_activity = ['SAVE'];
-        const payload = { form_name: this.form_route, form_info: this.data };
-        if (this.test === true) { this.promptDebugDialog(payload); } else { this.viewController(this.data); }
-      }
-      this.dialogRef = null;
-      this.formLoading = false;
-    });
-  } */
+  }
 
   isItemExisting(list, target): boolean {
     return list.some(item => item === target);
@@ -629,7 +609,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-/*   submitForm(activity: string) {
+  submitForm(activity: string) {
     this.error = {};
 
     if (activity === 'EDIT') {
@@ -655,7 +635,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.scrollPositionController();
       }
     }
-  } */
+  }
 
   errorHandler(message) {
     console.log('DEBUG_ERROR: ', message);
@@ -768,29 +748,24 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-/*   promptDebugDialog(data) {
+  promptDebugDialog(data) {
 
-    if (this.test === false) {
+    if (this.test) {
       return this.getData(data);
     }
+    console.log('jou');
 
-    this.dialogRef = this.dialog.open(ConfirmPopupDialog, {
-      data: {
-        title: data.form_name,
-        json: data,
-        confirm: 'Jätka',
-        cancel: 'Katkesta'
-      }
-    });
-    this.dialogRef.afterClosed().subscribe(result => {
-      if (result === true) {
+    this.modalService.toggle('debugModal');
 
-        this.getData(data);
-      }
-      this.dialogRef = null;
-    });
+    /*       this.dialogRef.afterClosed().subscribe(result => {
+            if (result === true) {
+      
+              this.getData(data);
+            }
+            this.dialogRef = null;
+          }); */
 
-  } */
+  }
 
   setMaxStep(xjson) {
     if (!Object.keys(xjson['body']['steps']).length) {
@@ -812,41 +787,42 @@ export class XjsonComponent implements OnInit, OnDestroy {
       data = { ...data, ... this.queryStrings };
     }
 
-    const subscription = this.http.post('/xjson_service?_format=json', data).subscribe(response => {
+    const subscription = this.http.post(`${this.settings.url}/xjson_service?_format=json`, data)
+      .subscribe((response) => {
 
-      if (!response['header']) { return this.errorHandler('Missing header from response'); }
-      if (!response['body']) { return this.errorHandler('Missing body from response'); }
-      if (!response['body']['steps']) { return this.errorHandler('Missing body.steps from response'); }
+        if (!response['header']) { return this.errorHandler('Missing header from response'); }
+        if (!response['body']) { return this.errorHandler('Missing body from response'); }
+        if (!response['body']['steps']) { return this.errorHandler('Missing body.steps from response'); }
 
-      if (response['body']['steps'].length === 0) {
-        this.empty_data = true;
-      }
-
-      if (response['header']['current_step']) {
-        this.setMaxStep(response);
-      }
-
-      if (response['header']['acceptable_activity']) {
-        if ((!(response['header']['acceptable_activity'] instanceof Array))) {
-          return this.errorHandler('Acceptable activity is a string!');
+        if (response['body']['steps'].length === 0) {
+          this.empty_data = true;
         }
-        this.current_acceptable_activity = response['header']['acceptable_activity'];
 
-        const acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
-          return ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key);
-        });
-
-        if (acceptableActivityIncludesTarget && !response['header']['current_step']) {
-          return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE');
+        if (response['header']['current_step']) {
+          this.setMaxStep(response);
         }
-      }
 
-      this.stepController(response);
+        if (response['header']['acceptable_activity']) {
+          if ((!(response['header']['acceptable_activity'] instanceof Array))) {
+            return this.errorHandler('Acceptable activity is a string!');
+          }
+          this.current_acceptable_activity = response['header']['acceptable_activity'];
 
-      this.formLoading = false;
+          const acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
+            return ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key);
+          });
 
-      subscription.unsubscribe();
-    });
+          if (acceptableActivityIncludesTarget && !response['header']['current_step']) {
+            return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE');
+          }
+        }
+
+        this.stepController(response);
+
+        this.formLoading = false;
+
+        subscription.unsubscribe();
+      });
   }
 
   stepController(xjson) {
@@ -912,15 +888,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.path = decodeURI(this.location.path());
     this.form_route = decodeURI(this.router.url).split('?')[0];
-    this.lang = this.rootScope.get('lang');
+    this.lang = 'et';
     this.getFormName();
     this.pathWatcher();
 
     const payload = { form_name: this.form_route };
 
-    if (this.test === true) {
-      //this.promptDebugDialog(payload);
+    if (this.test) {
+      this.promptDebugDialog(payload);
     } else {
       // TODO: create catcher to prevent endless loop requests...
       this.getData(payload);
