@@ -565,7 +565,6 @@ export class ChartComponent implements OnInit {
   }
 
   getGraphData(id) {
-
     clearTimeout(this.requestDebounce[id]);
 
     this.requestDebounce[id] = setTimeout(() => {

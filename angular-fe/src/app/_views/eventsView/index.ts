@@ -11,6 +11,7 @@ import { SettingsService } from '@app/_services';
 import { FiltersService } from '@app/_services/filterService';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AppPipes } from '@app/_pipes';
 
 const routes: Routes = [
   {
@@ -35,6 +36,7 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    AppPipes,
   ],
   exports: [
     EventsViewComponent,

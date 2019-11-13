@@ -4,6 +4,7 @@ import { OskaFrontpageViewComponent } from './oskaFrontpageView.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
 import { TranslateModule } from '@app/_modules/translate';
+import { AppPipes } from '@app/_pipes';
 
 const routes: Routes = [
   {
@@ -21,6 +22,7 @@ const routes: Routes = [
     AssetsModule,
     CommonModule,
     TranslateModule,
+    AppPipes,
   ],
   providers: [
   ],

@@ -10,9 +10,9 @@ import { TeachingsComponent } from '@app/_assets/teachings/teachings.component';
 import { CertificatesComponent } from '@app/_assets/certificates/certificates.component';
 import { MoreBlockComponent } from '@app/_assets/more.block/more.block.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { AuthInterceptor } from '@app/_interceptors';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AppPipes } from '@app/_pipes';
 
 const routes: Routes = [
   {
@@ -36,9 +36,9 @@ const routes: Routes = [
     TranslateModule,
     CommonModule,
     ReactiveFormsModule,
+    AppPipes,
   ],
   providers: [
-    TitleCasePipe,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [],

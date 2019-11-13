@@ -11,18 +11,27 @@ import { LegendCurrencyPipe } from './legendCurrency.pipe';
 import { LocaleNumberPipe } from './localeNumber';
 import { UnixToTimePipe } from './unixToTime.pipe';
 import { WeekDayPipe } from './weekday.pipe';
+import { TitleCasePipe } from './titleCase.pipe';
 ​
 const pipes = [
-  MonthsToYearsPipe,
-  RemoveProtocolPipe,
-  UrlPipe,
-  RemoveEmptyTagsPipe,
   EllipsisPipe,
   EuroCurrencyPipe,
   IframePipe,
   LegendCurrencyPipe,
   LocaleNumberPipe,
   UnixToTimePipe,
+  WeekDayPipe,
+  EllipsisPipe,
+  EuroCurrencyPipe,
+  IframePipe,
+  LegendCurrencyPipe,
+  LocaleNumberPipe,
+  MonthsToYearsPipe,
+  RemoveEmptyTagsPipe,
+  RemoveProtocolPipe,
+  TitleCasePipe,
+  UnixToTimePipe,
+  UrlPipe,
   WeekDayPipe,
 ];
 ​

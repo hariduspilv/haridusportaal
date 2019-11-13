@@ -69,7 +69,6 @@ export class EventsListComponent extends FiltersService implements OnInit {
 
   objectKeys = Object.keys;
   parseInt = parseInt;
-
   subscriptions: Subscription[] = [];
   
   // ALL PAGE CONFIG
@@ -101,7 +100,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
   error: boolean = false;
   showFilter: boolean = true;
   
-  current: object;
+  current;
 
   visibleEntries = 3;
 

@@ -6,6 +6,7 @@ import { TranslateModule } from '@app/_modules/translate';
 import { DetailViewComponent } from './detailView.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
+import { AppPipes } from '@app/_pipes';
 
 const routes: Routes = [
   {
@@ -27,6 +28,7 @@ const routes: Routes = [
     AssetsModule,
     TranslateModule,
     CommonModule,
+    AppPipes,
   ],
   exports: [
     DetailViewComponent,

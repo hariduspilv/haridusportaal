@@ -18,6 +18,8 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   public eventsTags;
   public eventsTypesSet;
   public eventsTagsObs;
+  showFilter: boolean = false;
+  filterFull: boolean = false;
   private subscriptions: Subscription[] = [];
   constructor(
     private settings:SettingsService,
