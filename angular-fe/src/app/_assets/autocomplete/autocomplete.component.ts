@@ -51,24 +51,39 @@ export class AutocompleteComponent {
       const variables = {
         search_term: value,
       };
-      const path = this.settings.query(this.type, variables);
+      let path = this.settings.query(this.type, variables);
+
+      if (this.type === 'inaadress') {
+        const params = `ihist=1&appartment=1&address=${value}&results=10&callback=JSONP_CALLBACK`;
+        path = `http://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
+      }
+
       clearTimeout(this.debounce);
       this.debounce = setTimeout(
         () => {
           if (value.length >= this.minChars) {
             this.loading = true;
-            this.subscription = this.http.get(path).subscribe((response) => {
-              try {
-                this.data = response['data']['CustomElasticAutocompleteQuery'].map((item) => {
-                  return item.Suggestion;
-                });
-              } catch (err) {
-                this.data = [];
-              }
-              this.searched = true;
-              this.loading = false;
-              this.subscription.unsubscribe();
-            });
+            if (this.type === 'inaadress') {
+              this.subscription = this.http.jsonp(path, 'callback').subscribe((response) => {
+                this.parseInAds(response);
+                this.searched = true;
+                this.loading = false;
+                this.subscription.unsubscribe();
+              });
+            } else {
+              this.subscription = this.http.get(path).subscribe((response) => {
+                try {
+                  this.data = response['data']['CustomElasticAutocompleteQuery'].map((item) => {
+                    return item.Suggestion;
+                  });
+                } catch (err) {
+                  this.data = [];
+                }
+                this.searched = true;
+                this.loading = false;
+                this.subscription.unsubscribe();
+              });
+            }
           } else {
             this.searched = false;
             this.data = [];
@@ -76,6 +91,28 @@ export class AutocompleteComponent {
         },
         this.delay);
     }
+  }
+
+  private parseInAds(data) {
+    let resultSet = data['addresses'] || [];
+    resultSet = resultSet.filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
+    try {
+      console.log(resultSet);
+      resultSet.forEach((address) => {
+        if (address.kort_nr) {
+          address.addressHumanReadable = `${address.pikkaadress}-${address.kort_nr}`;
+        } else {
+          address.addressHumanReadable = address.pikkaadress;
+        }
+      });
+      resultSet = resultSet.map((item) => {
+        return item.ipikkaadress;
+      });
+    } catch (err) {
+      console.log(err);
+    }
+
+    this.data = resultSet;
   }
 
   private navigate(direction: string = ''): void {

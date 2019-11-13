@@ -29,7 +29,7 @@
                     <compare [id]="item.nid" [sessionStorageKey]="compare"></compare>
                 </div>
 
-                <div class="col-4 xs-12 pointer" *ngIf="item.image">
+                <div class="col-4 xs-12 pointer" class="list__item__image" *ngIf="item.image">
                     <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}" width="100%" />
                   </div>
 
@@ -65,7 +65,7 @@
                         <span role="separator" class="bar" *ngIf="i>0">|</span>
                         <span class="item" *ngIf="fieldName === 'duration'">{{ item.duration | monthsToYears }}</span>
                         <span class="item"
-                            *ngIf="fieldName === 'educationalInstitution' || fieldName === 'phone' || fieldName === 'address'">{{ item[fieldName].entity ? item[fieldName].entity.entityLabel : item[fieldName] }}</span>
+                            *ngIf="fieldName === 'educationalInstitution' || fieldName === 'phone' || fieldName === 'address' || fieldName === 'studyProgrammeLevel' || fieldName === 'fieldSchoolName'">{{ item[fieldName].entity ? item[fieldName].entity.entityLabel : item[fieldName] }}</span>
                         <span class="item" *ngIf="fieldName === 'teachingLanguage' && item[fieldName].length">
                             <ng-container *ngFor="let item of item[fieldName]; let i = index;">
                                 <span><span *ngIf="i > 0">, </span>{{ item.entity.entityLabel | ucfirst }}</span>

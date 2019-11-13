@@ -11,38 +11,48 @@
 		<block-secondary-title>{{ data.title }}</block-secondary-title>
 
 		<block-content>
-      <ng-container>
+			<ng-container>
 
-				<div class="author" *ngIf="data.author">{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}</div>
+				<div class="author" *ngIf="data.author">{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}
+				</div>
 
 				<div class="toolbar">
 					<share [title]="title"></share>
 					<compare *ngIf="compareKey" [id]="data.nid" [sessionStorageKey]="compareKey"></compare>
-				</div><!--/toolbar-->
+				</div>
+				<!--/toolbar-->
 
-        <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
+				<p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 
 				<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
 
 				<image *ngIf="!data.video && data.image" [image]="data.image"></image>
-				
-				<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value | removeEmptyTags"></div>
+
+				<picto *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
+
+				<div class="description" *ngIf="data.description && data.description.value"
+					[innerHtml]="data.description.value"></div>
 
 				<links *ngIf="data.links" [data]="data.links"></links>
 
 				<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
 
 				<image *ngIf="data.video && data.image" [image]="data.image"></image>
-			
+
 				<htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 
 				<accordion *ngIf="data.accordion">
-					<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
-						<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
+					<accordion-item *ngFor="let item of data.accordion"
+						[title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
+						<div
+							[innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value">
+						</div>
 					</accordion-item>
 				</accordion>
- 
+
 				<chart *ngIf="data.graph" [data]='data.graph' type='filter'></chart>
+
+				<infograph *ngIf="data.infograph" [data]='data.infograph' type='filter'></infograph>
 
 				<school-table *ngIf="type === 'school'" [data]="data"></school-table>
 
@@ -52,7 +62,7 @@
 
 				<feedback [nid]="data.nid"></feedback>
 
-      </ng-container>
+			</ng-container>
 		</block-content>
 	</block>
 </article-layout>

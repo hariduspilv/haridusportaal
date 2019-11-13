@@ -45,4 +45,5 @@ testem.log
 .DS_Store
 Thumbs.db
 scripts/conf.js
+scripts/conf-storybook.js
 storybook-dist

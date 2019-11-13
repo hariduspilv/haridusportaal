@@ -95,8 +95,16 @@ import { LinksComponent } from './links';
 import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
 import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
 import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
+import { NewsListViewComponent } from '@app/_views/newsListView/newsListView.component';
+import { MainProfessionListViewComponent } from '@app/_views/mainProfessionListView/mainProfessionListView.component';
+import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/homeSearchListView.component';
+import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
+import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
 import { NumbersOnly } from '@app/_pipes/numbersOnly.pipe';
+import { InfographComponent } from './infograph/infograph.component';
+import { PictoComponent } from './picto';
 
 const pipes = [
   MonthsToYearsPipe,
@@ -164,6 +172,7 @@ const declarations = [
   FavouriteComponent,
   LabeledSeparatorComponent,
   ChartComponent,
+  InfographComponent,
   ListItemComponent,
   MonthsToYearsPipe,
   RemoveProtocolPipe,
@@ -176,7 +185,13 @@ const declarations = [
   CompareViewComponent,
   ImageComponent,
   LinksComponent,
+  NewsListViewComponent,
+  MainProfessionListViewComponent,
+  HomeSearchListViewComponent,
+  SchoolListViewComponent,
+  StudyProgrammeListViewComponent,
   DropdownListComponent,
+  PictoComponent,
 ];
 
 const exports = [
@@ -225,6 +240,8 @@ const providers = [
     RecaptchaFormsModule,
     Ng2GoogleChartsModule,
     DeviceDetectorModule.forRoot(),
+    HttpClientJsonpModule,
+    HttpClientModule,
   ],
   exports: [...declarations, ...pipes, ...exports],
 })

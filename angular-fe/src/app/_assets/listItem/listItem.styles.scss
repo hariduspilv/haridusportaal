@@ -15,8 +15,10 @@ $grid-columns: 12;
   }
 }
 
-.pointer{
-  cursor: pointer;
+::ng-deep{
+  .pointer{
+    cursor: pointer !important;
+  }
 }
 
 .resp-fields{
@@ -43,12 +45,13 @@ $grid-columns: 12;
     flex-wrap: wrap;
     // &:first-child{padding-top:0;}
     // &:last-child{border-bottom:0;}
-    :hover {
-      a{
-        h1{
-          text-decoration: underline;
-        }
+    &:hover {
+      .list__item__title {
+        text-decoration: underline;
       }
+    }
+    &__image{
+      cursor: pointer;
     }
     &__title{
       width: 100%;
@@ -56,12 +59,9 @@ $grid-columns: 12;
       line-height: $large; 
       text-decoration: none; 
       font-weight: 500;
-      margin-right: $small;
+      padding-right: $small;
       @include break-on(sm, min) {
-        margin-bottom:0.23rem; 
-      }
-      &:hover{
-        text-decoration: none;
+        padding-bottom: 0.23rem; 
       }
       h1{
         color: $blue;

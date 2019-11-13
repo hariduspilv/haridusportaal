@@ -32,6 +32,8 @@ export class ChartComponent implements OnInit {
 
   wideChartTypesToFormat: Object[] = ['bar', 'column'];
 
+  mainLineColors: string[] = ['#4146AF', '#980000', '#E87502', '#1398AA', '#4F00FA'];
+
   constructor(private http: HttpClient) {}
 
   getGraphOptions() {
@@ -44,15 +46,16 @@ export class ChartComponent implements OnInit {
         bottom: 75,
       },
       pieSliceTextStyle: {
-        color: '#ffffff',
+        color: '#333',
       },
+      pieSliceBorderColor: '#333',
       curveType: 'function',
       lineWidth: 3,
       pointsVisible: true,
       pointSize: 10,
       legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
       tooltip: {},
-      colors: ['#161B5B', '#293193', '#4C53AD', '#824CAD', '#AD4CA3'],
+      colors: ['#fd8208', '#f8b243', '#ffc388', '#ffe7c1', '#bee3e8', '#6ccfdc', '#16b5ca'],
 
       animation: {
         duration: 1000,
@@ -161,10 +164,6 @@ export class ChartComponent implements OnInit {
     for (const i in data) {
       const current = data[i];
       const value = JSON.parse(current.value);
-      const titleCaseValues = value ? value.map((single) => {
-        return single.map(field => (typeof field === 'string' && field.length)
-        ? this.capitalize(field) : field);
-      }) : value;
       const graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       const graphIndicator = current.graphIndicator;
@@ -173,6 +172,27 @@ export class ChartComponent implements OnInit {
       let isStacked: any = false;
       let seriesType: any = false;
       let primaryFormat;
+      const titleCaseValues = value ? value.map((single, index) => {
+        single.map((field) => {
+          return (typeof field === 'string' && field.length)
+            ? this.capitalize(field) : field;
+        });
+        if (chartType.toLowerCase() !== 'line') {
+          const parsedArray = [];
+          single.forEach((item, ind) => {
+            parsedArray.push(item);
+            if (index) {
+              if ((secondaryGraphType && ind === 1) || (!secondaryGraphType && ind)) {
+                parsedArray.push('stroke-color: #333; stroke-width: 1px');
+              }
+            } else if (secondaryGraphType && ind === 1 || !secondaryGraphType && ind) {
+              parsedArray.push({ role: 'style' });
+            }
+          });
+          return parsedArray;
+        }
+        return single;
+      }) : value;
 
       if (chartType === 'Doughnut') {
         chartType = 'Pie';
@@ -312,6 +332,10 @@ export class ChartComponent implements OnInit {
         tmp.options['pieHole'] = 0.4;
       }
 
+      if (current.graphType === 'line') {
+        tmp.options['colors'] = this.mainLineColors;
+      }
+
       if (chartType && secondaryGraphType) {
 
         let newType = seriesType || chartType;
@@ -339,16 +363,16 @@ export class ChartComponent implements OnInit {
         };
 
         if (filters && filters['näitaja2'] && filters['näitaja2'].length > 0) {
-          const lineColors = ['#FFE7C1', '#BEE3E8'];
+          const lineColors = this.mainLineColors;
           let colorCounter = 0;
 
           for (const i in filters['näitaja2']) {
-
-            const index = titleCaseValues[0].findIndex(
-              item => filters['näitaja2'][i].toLowerCase() === item.toLowerCase());
-
-            tmp.options.colors[index - 1] = lineColors[colorCounter];
-            tmp.options['series'][index - 1] = {
+            const index = titleCaseValues[0].findIndex(item =>
+              typeof item === 'string'
+                ? filters['näitaja2'][i].toLowerCase() === item.toLowerCase()
+                : null);
+            tmp.options.colors[index - 2] = lineColors[colorCounter];
+            tmp.options['series'][index - 2] = {
               type: secondaryGraphType,
               targetAxisIndex: 1,
               viewWindow: {
