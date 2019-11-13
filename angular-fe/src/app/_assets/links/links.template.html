@@ -1,5 +1,8 @@
 <ul>
   <li *ngFor="let item of data">
+    <ng-container *ngIf="type === 'webpage'">
+      asd
+    </ng-container>
     <a [href]="item.url.path" target="_blank" *ngIf="type === 'external'"><icon glyph="external-link"></icon>{{ item.title }}</a>
     <a [href]="item.entity.url" target="_blank" *ngIf="type === 'document'"><icon glyph="file"></icon>{{ item.description || item.entity.entityLabel }}</a>
   </li>

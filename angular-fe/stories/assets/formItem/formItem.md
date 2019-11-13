@@ -10,6 +10,7 @@
   [error]="boolean"
   [errorMessage]="string"
   [success]="boolean"
+  [disabled]="boolean"
 ></formItem>
 ```
 
@@ -23,6 +24,7 @@
   [error]="boolean"
   [errorMessage]="string"
   [success]="boolean"
+  [disabled]="boolean"
 ></formItem>
 ```
 
@@ -36,6 +38,7 @@
   [errorMessage]="string"
   [success]="boolean"
   [options]="array"
+  [disabled]="boolean"
 ></formItem>
 ```
 
@@ -49,6 +52,7 @@
   [errorMessage]="string"
   [success]="boolean"
   [options]="array"
+  [disabled]="boolean"
 ></formItem>
 ```
 
@@ -61,6 +65,7 @@
   [error]="boolean"
   [errorMessage]="string"
   [success]="boolean"
+  [disabled]="boolean"
 ></formItem>
 ```
 
@@ -73,6 +78,7 @@
   [errorMessage]="string"
   [success]="boolean"
   [options]="array"
+  [disabled]="boolean"
 ></formItem>
 ```
 
@@ -86,6 +92,7 @@
   [error]="boolean"
   [errorMessage]="string"
   [success]="boolean"
+  [disabled]="boolean"
 ></formItem>
 ```
 
@@ -100,6 +107,7 @@
 | label | - | - | string | ONLY for checkbox. Used as checkbox label text
 | value | - | – | string | Form item default value
 | height | - | - | number | Textarea optional height
+| disabled | false | true,false | boolean | Wheter the form item is disabled or not
 | error | false | true, false | boolean | Form items error theme
 | errorMessage | - | - | string | Error message for 'error' theme
 | success | false | true, false | boolean | Form items success theme

@@ -102,6 +102,7 @@ import { HomeSearchListViewComponent } from '@app/_views/homeSearchListView/home
 import { SchoolListViewComponent } from '@app/_views/schoolListView/schoolListView.component';
 import { StudyProgrammeListViewComponent } from '@app/_views/studyProgrammeListView/studyProgrammeListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
+import { NumbersOnly } from '@app/_pipes/numbersOnly.pipe';
 import { InfographComponent } from './infograph/infograph.component';
 import { PictoComponent } from './picto';
 
@@ -176,6 +177,7 @@ const declarations = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
+  NumbersOnly,
   SearchResultsComponent,
   NewsComponent,
   AutocompleteComponent,

@@ -9,6 +9,7 @@ import {
   forwardRef,
   ChangeDetectorRef,
   EventEmitter,
+  HostListener,
 } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -58,15 +59,26 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() name: string = '';
   @Input() checked: string;
   @Input() query: string = '';
+  @Input() disabled: boolean = false;
 
   @HostBinding('class') get hostClasses(): string {
-    const errorClass = this.error ? 'formItem--error' : '';
-    const successClass = this.success ? 'formItem--success' : '';
-    const titleDisabled = this.titleDisabled ? 'formItem--titleDisabled' : '';
+    const classes = ['formItem', `formItem--${this.type}`];
+    if (this.error) {
+      classes.push('formItem--error');
+    }
+    if (this.success) {
+      classes.push('formItem--success');
+    }
+    if (this.titleDisabled) {
+      classes.push('formItem--titleDisabled');
+    }
+    if (this.disabled) {
+      classes.push('formItem--disabled');
+    }
+
     return this.focused ?
-          // tslint:disable-next-line: max-line-length
-          `formItem formItem--focused formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}` :
-          `formItem formItem--${this.type} ${errorClass} ${successClass} ${titleDisabled}`;
+          `formItem--focused ${classes.join(' ')}` :
+          `${classes.join(' ')}`;
   }
 
   propagateChange = (_: any) => {};

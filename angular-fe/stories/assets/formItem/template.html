@@ -19,7 +19,8 @@
       [label]="item.label"
       [error]="status == 'error'"
       [success]="status == 'success'"
-      [errorMessage]="item.errorMessage">
+      [errorMessage]="item.errorMessage"
+      [disabled]="item.disabled">
     </formItem>
     </td>
     <td *ngIf="!isMobile">{{ item.value }}</td>

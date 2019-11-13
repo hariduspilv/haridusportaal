@@ -14,6 +14,7 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
+        [attr.disabled]="disabled"
         [(ngModel)]="field" />
     </ng-container>
     <ng-container *ngSwitchCase="'number'">
@@ -28,6 +29,7 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
+        [attr.disabled]="disabled"
         [(ngModel)]="field" />
     </ng-container>
 
@@ -46,8 +48,9 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
+        [attr.disabled]="disabled"
         [(ngModel)]="dateField" />
-      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" ripple="dark">
+      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" ripple="dark" [attr.disabled]="disabled">
         <icon glyph="calendar"></icon>
       </button>
     </ng-container>
@@ -64,6 +67,7 @@
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
         [style.height]="height ? height+'px' : null"
+        [attr.disabled]="disabled"
         [(ngModel)]="field"></textarea>
     </ng-container>
 
@@ -74,6 +78,7 @@
           (focus)="update('focus')"
           (blur)="update('blur')"
           multiple
+          [attr.disabled]="disabled"
           [(ngModel)]="field">
           <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
         </select>
@@ -92,6 +97,7 @@
           (open)="update('focus')"
           (close)="update('blur')"
           [searchable]="false"
+          [disabled]="disabled"
           [(ngModel)]="field">
 
           <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
@@ -108,6 +114,7 @@
           (change)="update()"
           (focus)="update('focus')"
           (blur)="update('blur')"
+          [attr.disabled]="disabled"
           [(ngModel)]="field">
           <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
         </select>
@@ -124,6 +131,7 @@
           (open)="update('focus')"
           (close)="update('blur')"
           [searchable]="false"
+          [disabled]="disabled"
           [(ngModel)]="field">
         </ng-select>
       </ng-container>
@@ -137,6 +145,7 @@
           [(ngModel)]="field"
           (change)="update()"
           (focus)="update('focus')"
+          [attr.disabled]="disabled"
           (blur)="update('blur')"
           />
           <div class="formItem__check__indicator">
@@ -160,6 +169,7 @@
             [(ngModel)]="field"
             (change)="update()"
             (focus)="update('focus')"
+            [attr.disabled]="disabled"
             (blur)="update('blur')"
             />
             <div class="formItem__radio__indicator"></div>
@@ -198,6 +208,7 @@
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
+        [attr.disabled]="disabled"
         [(ngModel)]="field">
         <option value="" *ngIf="placeholder">{{ placeholder }}</option>
         <option value="0">Yki</option>
