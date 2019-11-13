@@ -114,11 +114,12 @@
 					width: 25%;
 					margin: 0;
 					margin-bottom: -$half-gutter;
+					color: $blue;
 					@include break-on(md, max) {
 						width: 50%;
 					}
 					&.active {
-						color: $blue;
+						color: $black;
 						&:after{
 							content: '';
 							position: absolute;
@@ -168,6 +169,7 @@
 			display: block;
 			padding: $medium;
 
+			line-height: 1.375rem;
 			h1,h2,h3,h4,h5,h6,p {
 				&:first-child {
 					margin-top: 0;

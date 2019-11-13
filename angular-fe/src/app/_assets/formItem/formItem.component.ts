@@ -59,7 +59,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() name: string = '';
   @Input() checked: string;
   @Input() query: string = '';
+<<<<<<< HEAD
   @Input() disabled: boolean;
+=======
+  @Input() disabled: boolean = false;
+>>>>>>> origin/fe-refactor
 
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];

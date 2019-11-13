@@ -11,6 +11,11 @@ export const formItems = [
     errorMessage: 'Please fill this field!',
   },
   {
+    type: 'text',
+    disabled: 'true',
+    title: 'Disabled text field',
+  },
+  {
     type: 'number',
     title: 'Number field',
     errorMessage: 'Please fill this field!',

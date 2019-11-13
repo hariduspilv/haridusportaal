@@ -105,6 +105,7 @@ import {
 } from '@app/_views/homeSearchListView/homeSearchListView.component';
 import { IframePipe } from '@app/_pipes/iframe.pipe';
 import { ModuleWithProviders } from '@angular/compiler/src/core';
+import { NumbersOnly } from '@app/_pipes/numbersOnly.pipe';
 import { InfographComponent } from './infograph/infograph.component';
 import { InlineLinksComponent } from './inline-links/inline-links.component';
 import { InlineArticlesComponent } from './inline-articles/inline-articles.component';
@@ -191,6 +192,7 @@ const declarations = [
   MonthsToYearsPipe,
   RemoveProtocolPipe,
   UrlPipe,
+  NumbersOnly,
   SearchResultsComponent,
   NewsComponent,
   AutocompleteComponent,
