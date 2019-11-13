@@ -319,3 +319,11 @@ export class SidebarRegisterComponent {
     if (lastDate < this.unix) return 'ended';
   }
 }
+
+@Component({
+  selector: 'sidebar-events',
+  templateUrl: './templates/sidebar.events.template.html',
+})
+export class SidebarEventsComponent {
+  @Input() data: any;
+}

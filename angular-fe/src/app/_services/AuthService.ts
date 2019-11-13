@@ -40,7 +40,7 @@ export class AuthService implements CanActivate {
         if (response['token']) {
           sessionStorage.setItem('token', response['token']);
           this.isAuthenticated.next(true);
-          this.user = this.decodeToken(response.token);
+          this.userData = this.decodeToken(response.token);
           this.router.navigateByUrl('/töölaud');
         } else {
           sessionStorage.removeItem('token');
@@ -67,9 +67,12 @@ export class AuthService implements CanActivate {
     return true;
   }
 
-  private refreshUser() {
+  public refreshUser(newToken:any = false) {
+    if (newToken) {
+      sessionStorage.setItem('token', newToken);
+    }
     const token = sessionStorage.getItem('token');
-    this.user = this.decodeToken(token);
+    this.userData = this.decodeToken(token);
     this.isAuthenticated.next(true);
   }
 

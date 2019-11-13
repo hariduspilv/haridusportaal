@@ -1,13 +1,15 @@
 import {
   Component,
   OnInit,
-  Input,
+  ViewChild,
+  ChangeDetectorRef,
 } from '@angular/core';
-import { UserService } from '@app/_services/userService';
-import { HttpHeaders, HttpClient } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { SettingsService, AlertsService, ModalService, AuthService } from '@app/_services';
 import * as _moment from 'moment';
 import { Location } from '@angular/common';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ApplicationsComponent } from '@app/_assets/applications/applications.component';
 const moment = _moment;
 @Component({
   selector: 'dashboard-view',
@@ -16,8 +18,7 @@ const moment = _moment;
 })
 
 export class DashboardComponent implements OnInit {
-  @Input() jwt;
-
+  @ViewChild(ApplicationsComponent, { static: false }) applicationsComponent: ApplicationsComponent;
   linksLabel = 'links';
   titleExists = true;
   topAction = true;
@@ -25,7 +26,6 @@ export class DashboardComponent implements OnInit {
   roleBottomAction = false;
   loading = false;
   userData: any;
-  headers: HttpHeaders;
   error = false;
   personalData: any;
   roleData: any;
@@ -41,11 +41,13 @@ export class DashboardComponent implements OnInit {
   sidebar = {
     entity: {
       favourites: [],
-      events: [],
+      event: [],
     },
   };
   public breadcrumbs: any;
-
+  public formGroup: FormGroup = this.formBuilder.group({
+    roleSelection: [''],
+  });
   constructor(
     private modalService: ModalService,
     private http: HttpClient,
@@ -54,14 +56,25 @@ export class DashboardComponent implements OnInit {
 
     public auth: AuthService,
     public location: Location,
+    public formBuilder: FormBuilder,
+    public cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
+    this.initialize();
+  }
+
+  initialize() {
     this.userData = this.auth.userData;
     this.breadcrumbs = decodeURI(this.location.path());
     this.currentRole = this.userData.role.current_role.type;
+    this.formGroup.controls.roleSelection.setValue(this.currentRole);
     this.getFavouritesList();
     this.getEventList();
+    if (this.applicationsComponent) {
+      this.applicationsComponent.initialize();
+    }
+    this.cdr.detectChanges();
   }
 
   loadUserModal() {
@@ -71,7 +84,6 @@ export class DashboardComponent implements OnInit {
     const sub = this.http
       .get(
         `${this.settings.url}/dashboard/eeIsikukaart/personal_data?_format=json`,
-        { headers: this.headers },
       )
       .subscribe((response: any) => {
         if (response.error) {
@@ -96,13 +108,12 @@ export class DashboardComponent implements OnInit {
       this.userData.role.current_role.data ? this.userData.role.current_role.data.reg_kood : null;
     this.roleSelection = this.userData.role.current_role.type;
     if (this.roleSelection === 'juridical_person') {
-      this.roleSelection = `juridicial-${this.codeSelection}`;
+      this.formGroup.controls.roleSelection.setValue(`juridical-${this.codeSelection}`);
     }
     this.initialRole = this.roleSelection;
     const sub = this.http
       .get(
         `${this.settings.url}/custom/login/getRoles?_format=json`,
-        { headers: this.headers },
       )
       .subscribe(
         (response: any) => {
@@ -131,14 +142,14 @@ export class DashboardComponent implements OnInit {
       id: this.codeSelection,
     };
     const sub = this.http
-      .post(`${this.settings.url}/custom/login/setRole`, data, { headers: this.headers })
+      .post(`${this.settings.url}/custom/login/setRole`, data)
       .subscribe(
         (response: any) => {
           if (response['token']) {
-            this.auth.userData = response['token'];
+            this.auth.refreshUser(response['token']);
+            this.initialize();
           }
           sub.unsubscribe();
-          // this.rootScope.set('roleChanged', true);
           this.modalService.close('roleModal');
         },
         (err) => {
@@ -151,9 +162,9 @@ export class DashboardComponent implements OnInit {
   }
 
   roleChange() {
-    if (this.initialRole !== this.roleSelection) {
-      if (this.roleSelection.includes('-')) {
-        this.roleSelection = this.roleSelection.split('-')[0];
+    if (this.initialRole !== this.formGroup.value.roleSelection) {
+      if (this.formGroup.value.roleSelection.includes('-')) {
+        this.roleSelection = this.formGroup.value.roleSelection.split('-')[0];
       }
       this.setRole();
     } else {
@@ -166,7 +177,6 @@ export class DashboardComponent implements OnInit {
   }
 
   getFavouritesList(): void {
-    this.loading = true;
     const variables = {
       language: 'ET',
       id: this.userData.drupal.uid,
@@ -174,7 +184,7 @@ export class DashboardComponent implements OnInit {
 
     const path = this.settings.query('customFavorites', variables);
 
-    const subscription = this.http.get(path, { headers: this.headers })
+    const subscription = this.http.get(path)
       .subscribe(
         (response) => {
           if (
@@ -187,13 +197,11 @@ export class DashboardComponent implements OnInit {
           } else {
             this.sidebar.entity.favourites = [];
           }
-          this.loading = false;
           subscription.unsubscribe();
         });
   }
 
   getEventList(): void {
-    this.loading = true;
     const variables = {
       tagsEnabled: false,
       typesEnabled: false,
@@ -209,11 +217,11 @@ export class DashboardComponent implements OnInit {
 
     const path = this.settings.query('getEventList', variables);
 
-    const subscription = this.http.get(path, { headers: this.headers })
+    const subscription = this.http.get(path)
     .subscribe((response: any) => {
       const data = response.data.nodeQuery.entities;
       if (data && data.length) {
-        this.sidebar.entity.events = data.sort((a, b) => {
+        this.sidebar.entity.event = data.sort((a, b) => {
           if (
             moment(a.fieldEventMainDate.unix * 1000)
               .format('YYYY-MM-DD') ===
@@ -225,9 +233,9 @@ export class DashboardComponent implements OnInit {
           return 0;
         });
       } else {
-        this.sidebar.entity.events = [];
+        this.sidebar.entity.event = [];
       }
-      this.loading = false;
+      console.log(this.sidebar);
       subscription.unsubscribe();
     });
   }

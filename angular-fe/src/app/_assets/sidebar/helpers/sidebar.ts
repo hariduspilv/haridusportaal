@@ -29,6 +29,7 @@ export const collection = {
   'favourites': 'links',
   'fieldLegislationBlock': 'links',
   'links': 'links',
+  'event': 'events'
 }
 
 export const uniformTypes = {
@@ -65,4 +66,5 @@ export const titleLess = {
   'progress': false,
   'articles': false,
   'location': true,
+  'event': false,
 };

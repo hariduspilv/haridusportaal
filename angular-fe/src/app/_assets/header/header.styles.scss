@@ -13,6 +13,11 @@
 	-ms-grid-column:1; 
 	-ms-grid-column-span:3;
 	display: flex;
+	> .modal-open {
+		position: static;
+		width: auto;
+		height: auto;
+	}
 	.header { 
 		&__logo { 
 			cursor: pointer;

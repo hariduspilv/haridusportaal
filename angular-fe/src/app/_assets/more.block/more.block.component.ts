@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewChecked, OnInit } from '@angular/core';
+import { Component, Input, HostBinding, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewChecked, OnInit, AfterContentChecked } from '@angular/core';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BehaviorSubject } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
@@ -9,7 +9,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
   styleUrls: ['./more.block.styles.scss'],
 })
 
-export class MoreBlockComponent implements AfterViewInit, OnInit {
+export class MoreBlockComponent implements AfterContentChecked, OnInit {
   @Input() content: any = false;
   @Input() id: string;
   @ViewChild('moreContent', { static: false }) moreContentElem: ElementRef;
@@ -21,34 +21,41 @@ export class MoreBlockComponent implements AfterViewInit, OnInit {
   public show: boolean = false;
   public links: any;
   public screenReaderContent: string = '';
-
+  public hasInitialized = false;
   public translatedContent: any = false;
   @HostBinding('class') get hostClasses(): string {
     return `${this.content ? 'content__box' : 'empty'} ${this.show ? 'show' : 'hide'}`;
   }
-  constructor(private deviceDetector: DeviceDetectorService, private cdr: ChangeDetectorRef, private translate: TranslateService) {}
+  constructor (
+    private deviceDetector: DeviceDetectorService,
+    private cdr: ChangeDetectorRef,
+    private translate: TranslateService,
+  ) {}
 
   ngOnInit(): void {
     this.translatedContent = this.translate.get(this.content);
   }
-  ngAfterViewInit() {
-    const contentElem = this.moreContentElem.nativeElement;
-    this.links = document.querySelectorAll(`#moreContent-${this.id} a`);
-    this.setInnerLinkStates(this.show);
-    this.screenReaderContent = this.content ? this.content.replace(/<[^>]*>/g, '') : '';
-    if ((this.deviceDetector.isDesktop() || this.deviceDetector.isTablet())
-      && contentElem && contentElem.clientHeight >= this.cutoffs['lg']
-      ) {
-      this.active = true;
-    } else if (contentElem && contentElem.clientHeight >= this.cutoffs['sm']) {
-      this.active = true;
-    } else {
-      this.show = false;
+  ngAfterContentChecked(): void {
+    if(this.moreContentElem && this.moreContentElem.nativeElement.clientHeight !== 0 && this.translatedContent && !this.hasInitialized) {
+      const contentElem = this.moreContentElem.nativeElement;
+      this.links = document.querySelectorAll(`#moreContent-${this.id} a`);
+      this.setInnerLinkStates(this.show);
+      this.screenReaderContent = this.content ? this.content.replace(/<[^>]*>/g, '') : '';
+      if ((this.deviceDetector.isDesktop() || this.deviceDetector.isTablet())
+        && contentElem && contentElem.clientHeight >= this.cutoffs['lg']
+        ) {
+        this.active = true;
+      } else if (contentElem && contentElem.clientHeight >= this.cutoffs['sm']) {
+        this.active = true;
+      } else {
+        this.show = false;
+      }
+      this.hasInitialized = true;
+      this.cdr.detectChanges();
     }
-    this.cdr.detectChanges();
   }
   setInnerLinkStates(state) {
-    for (let i = 0; i < this.links.length; i++) {
+    for (let i = 0; i < this.links.length; i += 1) {
       if (!state) {
         setTimeout(
           () => this.links[i]
