@@ -112,6 +112,19 @@
 				display: block;
 				line-height: 1.375;
 			}
+			sidebar-events {
+				ul li:hover a {
+					text-decoration: none;
+					span {
+						text-decoration: underline;
+					}
+				}
+				p {
+					line-height: 1.375;
+					margin-bottom: 0;
+					color: $black;
+				}
+			}
 			sidebar-progress {
 				h2 {
 					font-weight: normal;

@@ -8,6 +8,7 @@ import { AlertsService, ModalService, AuthService, SettingsService } from '@app/
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TableService } from '@app/_services/tableService';
 import { formItems } from '../../../../stories/assets/formItem/formItem.data';
+import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
 
 const acceptableFormsRestrictedLength = 4;
 
@@ -39,7 +40,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   requestIteratorTimeout = 2000;
   currentRole: string = '';
 
-  institutionData = {};
+  institutionData = [];
 
   modalTitleExists = true;
   modalTopAction = false;
@@ -61,15 +62,17 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     studyInstitutionType: [],
   };
 
+  public formGroup: FormGroup = this.formBuilder.group({});
+
   constructor (
     public alertsService: AlertsService,
     public http: HttpClient,
-    // public rootScope: RootScopeService,
     public route: ActivatedRoute,
     public tableService: TableService,
     public auth: AuthService,
     public settings: SettingsService,
     public modalService: ModalService,
+    public formBuilder: FormBuilder,
   ) { }
 
   pathWatcher() {
@@ -220,6 +223,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   loadInstitutionModal() {
     this.alertsService.clear('institution');
     this.modalBottomAction = false;
+    this.formGroup.reset();
     this.institutionModalFields = [
       {
         col: 12,
@@ -228,6 +232,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'name',
         required: true,
         error: false,
+        formControl: this.formBuilder.control([''], Validators.required),
       },
       {
         col: 12,
@@ -236,6 +241,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'nameENG',
         required: false,
         error: false,
+        formControl: this.formBuilder.control(['']),
       },
       {
         col: 6,
@@ -244,6 +250,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'contactPhone',
         required: true,
         error: false,
+        formControl: this.formBuilder.control([''], Validators.required),
       },
       {
         col: 6,
@@ -252,6 +259,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'contactEmail',
         required: true,
         error: false,
+        formControl: this.formBuilder.control([''], Validators.required),
       },
       {
         col: 12,
@@ -260,6 +268,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'address',
         required: true,
         error: false,
+        formControl: this.formBuilder.control([''], Validators.required),
       },
       {
         col: 6,
@@ -268,6 +277,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'webpageAddress',
         required: true,
         error: false,
+        formControl: this.formBuilder.control([''], Validators.required),
       },
       {
         col: 6,
@@ -277,6 +287,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         options: [],
         required: true,
         error: false,
+        formControl: this.formBuilder.control([''], Validators.required),
       },
       {
         col: 6,
@@ -286,6 +297,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         options: [],
         required: true,
         error: false,
+        formControl: this.formBuilder.control([''], Validators.required),
       },
       {
         col: 6,
@@ -295,8 +307,12 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         options: [],
         required: true,
         error: false,
+        formControl: this.formBuilder.control([''], Validators.required),
       },
     ];
+    this.institutionModalFields.forEach((el) => {
+      this.formGroup.addControl(el.modelName, el.formControl);
+    });
     this.error = false;
     this.modalLoading = true;
     this.modalService.toggle('institutionModal');
@@ -318,23 +334,21 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   createInstitution() {
     this.error = false;
     this.modalLoading = true;
-
     const body = {
-      address: this.institutionData['address'],
+      address: this.formGroup.value.address,
       contacts: {
-        contactEmail: this.institutionData['contactEmail'],
-        contactPhone: this.institutionData['contactPhone'],
-        webpageAddress: this.institutionData['webpageAddress'],
+        contactEmail: this.formGroup.value.contactEmail,
+        contactPhone: this.formGroup.value.contactPhone,
+        webpageAddress: this.formGroup.value.webpageAddress,
       },
       general: {
-        name: this.institutionData['name'],
-        nameENG: this.institutionData['nameENG'],
-        ownerType: this.institutionData['ownerType'],
-        ownershipType: this.institutionData['ownershipType'],
-        studyInstitutionType: this.institutionData['studyInstitutionType'],
+        name: this.formGroup.value.name,
+        nameENG: this.formGroup.value.nameENG,
+        ownerType: this.formGroup.value.ownerType,
+        ownershipType: this.formGroup.value.ownershipType,
+        studyInstitutionType: this.formGroup.value.studyInstitutionType,
       },
     };
-
     const sub = this.http
       .post(`${this.settings.url}/educational-institution/add`, body)
       .subscribe(
@@ -353,6 +367,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   ngOnInit() {
+    this.initialize();
+  }
+
+  public initialize() {
     this.lang = 'et';
     this.currentRole = this.auth.userData.role.current_role.type;
     this.pathWatcher();

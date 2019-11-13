@@ -10,12 +10,12 @@
   
   <ng-container>
     <div class="main-container">
-      <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="top"></triangles>
+      <div class="inline"><triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="top"></triangles></div>
     </div>
-    <breadcrumbs></breadcrumbs>
     <loader *ngIf="!generalData"></loader>
     <div class="frontpage" *ngIf="generalData && generalData.length && fieldsData">
       <div class="frontpage__section--short main-container">
+        <div class="inline">
         <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{'frontpage.oska_lead_title_wcag' | translate}}">
           <span aria-hidden="true" class="text-center" innerHtml="{{'frontpage.oska_lead_title' | translate}}"></span>
         </h1>
@@ -27,11 +27,16 @@
           hoverEffect="true">
         </inline-links>
       </div>
+      </div>
       <div class="scroll__past main-container text-right" role="img" aria-label="Euroopa Liidu lipp. Euroopa sotsiaalfond. Eesti lipp. Eesti tuleviku heaks.">
+        <div class="inline">
         <img [class.translate]="hasScrolled" src="/assets/img/europe-fund.svg" alt="">
       </div>
+      </div>
       <div class="frontpage__section" *ngIf="fieldsData && fieldsData.length">
+        <div class="inline">
         <circles aria-hidden="true" large="#15adc2" small="#15adc2" position="top" smallAlignment="left"></circles>
+      </div>
         <inline-articles
           identifier="fields"
           heading="oska.latest_field_studies" 
@@ -40,15 +45,21 @@
           [contentLabels]="fieldsLabels"
           theme="dark">
         </inline-articles>
+        <div class="inline">
         <circles aria-hidden="true" large="#15adc2" position="bottom"></circles>
+      </div>
         <triangles aria-hidden="true" small="#15adc2" large="#f8b243" position="right"></triangles>
       </div>
       <div class="frontpage__section frontpage__section--middle main-container">
+        <div class="inline">
         <ng-container *ngTemplateOutlet="middle"></ng-container>
+      </div>
       </div>
       <triangles aria-hidden="true" small="#15adc2" large="#f8b243" position="left"></triangles>
       <div class="frontpage__section">
+        <div class="inline">
         <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topMiddle" smallAlignment="right"></circles>
+      </div>
         <articles-single
           [heading]="fieldBottomHeading" 
           [title]="generalData[0].fieldBottomTopic.entity.title"
@@ -60,7 +71,9 @@
           contentLeft="true"
           theme="light">
         </articles-single>
+        <div class="inline">
         <circles aria-hidden="true" large="#f8b243" position="bottomMiddle"></circles>
+      </div>
       </div>
       <div class="frontpage__section frontpage__section--short main-container">
         <inline-links

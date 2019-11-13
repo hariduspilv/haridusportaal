@@ -1,27 +1,33 @@
 <loader *ngIf="!events || !news || !generalData"></loader>
 <div *ngIf="(events && news && generalData && generalData[0]) || (events && news)" class="main-container">
-  <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="topLeft"></triangles>
+  <div class="inline">
+    <triangles aria-hidden="true" small="#bee3e8" large="#f8b243" position="topLeft"></triangles>
+  </div>
 </div>
 <div class="frontpage" *ngIf="(events && news && generalData && generalData[0]) || (events && news)">
   <div class="frontpage__section frontpage__section--origin main-container"
     [class.frontpage__section--short]="generalData && generalData.length && !superNewsShown['first']">
-    <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{ 'frontpage.lead_title_wcag' | translate}}">
-      <span aria-hidden="true" class="sm-show xxs text-center" innerHtml="{{ 'frontpage.lead_title_xxs' | translate}}"></span>
-      <span aria-hidden="true" class="sm-show sm text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
-      <span aria-hidden="true" class="sm-hide text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
-    </h1>
-    <inline-links *ngIf="generalData && generalData.length"
-      identifier="header"
-      [content]="generalData[0].fieldTopics"
-      [contentLabels]="fieldTopicLabels"
-      [externalImage]="fieldTopicImage"
-      externalLink="button.read_more"
-      columnLayout="true"
-      hoverEffect="false">
-    </inline-links>
+    <div class="inline">
+      <h1 class="frontpage__title frontpage__title--padded" attr.aria-label="{{ 'frontpage.lead_title_wcag' | translate}}">
+        <span aria-hidden="true" class="sm-show xxs text-center" innerHtml="{{ 'frontpage.lead_title_xxs' | translate}}"></span>
+        <span aria-hidden="true" class="sm-show sm text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
+        <span aria-hidden="true" class="sm-hide text-center" innerHtml="{{ 'frontpage.lead_title' | translate }}"></span>
+      </h1>
+      <inline-links *ngIf="generalData && generalData.length"
+        identifier="header"
+        [content]="generalData[0].fieldTopics"
+        [contentLabels]="fieldTopicLabels"
+        [externalImage]="fieldTopicImage"
+        externalLink="button.read_more"
+        columnLayout="true"
+        hoverEffect="false">
+      </inline-links>
+    </div>
   </div>
   <div class="frontpage__section frontpage__section--short" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && generalData[0].fieldSupernews[0] && superNewsShown['first'] && superNewsSubtext[0]">
-    <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topRight" smallAlignment="right"></circles>
+    <div class="inline">
+      <circles aria-hidden="true" large="#f8b243" small="#f8b243" position="topRight" smallAlignment="right"></circles>
+    </div>
     <articles-single
       heading="news.current" 
       [title]="generalData[0].fieldSupernews[0].entity.fieldSupernewsNode.entity.title"
@@ -30,10 +36,13 @@
       [subtext]="superNewsSubtext[0]"
       theme="light">
     </articles-single>
+    <div class="inline">
     <circles aria-hidden="true" large="#f8b243" position="bottomLeft"></circles>
+  </div>
     <triangles aria-hidden="true" small="#f8b243" large="#bee3e8" position="right"></triangles>
   </div>
   <div class="frontpage__section frontpage__section--short" [class.frontpage__section--none]="generalData && generalData.length && !superNewsShown['second']" *ngIf="news && news.length">
+    <div class="inline">
     <inline-articles
       identifier="news"
       heading="news.label" 
@@ -42,8 +51,9 @@
       [contentLabels]="newsLabels">
     </inline-articles>
   </div>
+  </div>
   <div class="frontpage__section frontpage__section--short" *ngIf="generalData && generalData.length && generalData[0].fieldSupernews && generalData[0].fieldSupernews[1] && superNewsShown['second'] && superNewsSubtext[1]">
-    <circles aria-hidden="true" large="#15adc2" small="#d5401a" position="topMiddle" smallAlignment="right"></circles>
+    <div class="inline"><circles aria-hidden="true" large="#15adc2" small="#d5401a" position="topMiddle" smallAlignment="right"></circles></div>
     <articles-single
       heading="news.current" 
       [title]="generalData[0].fieldSupernews[1].entity.fieldSupernewsNode.entity.title"
@@ -53,7 +63,7 @@
       contentLeft="true"
       theme="dark">
     </articles-single>
-    <circles aria-hidden="true" large="#15adc2" position="bottomMob"></circles>
+    <div class="inline"><circles aria-hidden="true" large="#15adc2" position="bottomMob"></circles></div>
     <triangles aria-hidden="true" small="#bee3e8" large="#15adc2" position="leftSwapped"></triangles>
   </div>
   <div class="frontpage__section frontpage__section--short" *ngIf="events && events.length">
