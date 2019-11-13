@@ -17,11 +17,6 @@ const routes: Routes = [
     canActivate: [AuthService],
   },
   {
-    path: 'töölaud/taotlused',
-    loadChildren: './_views/xjson#XjsonModule',
-    canActivate: [AuthService],
-  },
-  {
     path: 'uudised',
     loadChildren: './_views/newsListView#NewsListViewModule',
   },

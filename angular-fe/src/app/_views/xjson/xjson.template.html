@@ -545,35 +545,14 @@
                                     </ng-container> <!-- /file -->
 
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-                                      <div
-                                        *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                        class="round-input__wrapper">
-                                        <div class="round-input__field-wrapper">
-                                          <input class="round-input__field" matInput [matDatepicker]="picker"
-                                            [placeholder]="selectLanguage(tableColumnAttribute(element, colIndex, 'title'))"
-                                            [value]="getDatepickerValue(element, rowIndex, col)" readonly="true"
-                                            [(ngModel)]='data_elements[element].value[rowIndex][col]'
-                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                            (dateInput)="setDatepickerValue($event, element, rowIndex, col)"
-                                            (dateChange)="setDatepickerValue($event, element, rowIndex, col)"
-                                            (focus)="datepickerFocus = true"
-                                            (blur)="datepickerFocus = false; setDatepickerValue($event, element, rowIndex, col)">
-                                          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                          <mat-datepicker #picker startView='multi-year'></mat-datepicker>
-                                        </div>
-                                      </div>
+                                        <formItem type="date" placeholder="pp.kk.aaaa"
+                                        [title]="selectLanguage(tableColumnAttribute(element, colIndex, 'title'))"
+                                        [(ngModel)]="row[col]"></formItem>
                                     </ng-container><!-- /DATE -->
 
-
                                     <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
-                                      <div
-                                        *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else checkboxReadonlyDisplay"
-                                        class="custom-checkbox">
-                                        <mat-checkbox [(ngModel)]="row[col]"
-                                          name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                          [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
-                                        </mat-checkbox>
-                                      </div>
+                                        <formItem type="checkbox"
+                                        [(ngModel)]="row[col]"></formItem>
                                     </ng-container> <!-- /CHECKBOX -->
                                     <ng-template #checkboxReadonlyDisplay>
                                       <span>{{ (row[col] ? 'true' : 'false') | translate }}</span>
@@ -680,25 +659,29 @@
             <ng-container *ngFor="let link of navigationLinks">
               <a tabindex="0" *ngIf="link.type === 'link'" href="javascript:void(0);"
                 (click)="selectStep(link.step)">{{ link.label | translate }}</a>
-              <button tabindex="0" *ngIf="link.type === 'button'" type="submit" role="button" mat-raised-button
-                [color]="['primary']" (click)="selectStep(link.step)">{{ link.label | translate }}</button>
+                <button htm-button tabindex="0" *ngIf="link.type === 'button'" role="button"
+                theme="plain" (click)="selectStep(link.step)">
+                {{ link.label | translate }}
+                  </button>
             </ng-container>
           </div>
 
           <div tabindex="-1" class="primary-buttons">
             <div>
-              <button tabindex="0" *ngIf="!edit_step" type="submit" role="link" mat-raised-button
-                [color]="['alternative']" (click)="cancelEventHandler()">
-                {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
-              </button>
+              <button htm-button tabindex="0" *ngIf="!edit_step" role="link"
+              theme="inverted" 
+              (click)="cancelEventHandler()">
+              {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
+                </button>
             </div>
 
             <ng-container *ngFor="let activity of activityButtons['primary']">
               <div>
-                <button tabindex="0" *ngIf="activity.action != 'EDIT'" type="submit" role="button" mat-raised-button
-                  [color]="[activity.style]" (click)="submitForm(activity.action)">
-                  {{ activity.label | translate }}
-                </button>
+                <button htm-button tabindex="0" *ngIf="activity.action != 'EDIT'"
+                theme="{{ activity.style === 'primary' ? 'default' : 'inverted' }}" 
+                (click)="submitForm(activity.action)">
+                    {{ activity.label | translate }}
+                  </button>
               </div>
             </ng-container>
           </div>
