@@ -274,9 +274,9 @@ public class MtsysWorker extends Worker {
                   description += tegevusluba.isSetTyhistamiseKp() ?
                       " tühistatud " + tegevusluba.getTyhistamiseKp() : "";
 
-                  if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Sisestamisel") ||
-                      tegevusluba.getMenetlusStaatus()
-                          .equalsIgnoreCase("Tagastatud puudustega")) {
+                  if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Sisestamisel")
+                      || tegevusluba.getMenetlusStaatus()
+                      .equalsIgnoreCase("Tagastatud puudustega")) {
                     ((ArrayNode) itemNode.get("drafts")).addObject()
                         .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS")
                         .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
@@ -576,7 +576,7 @@ public class MtsysWorker extends Worker {
         ObjectNode fileType = (ObjectNode) klfFailiTyybid
             .get(response.getTegevusloaAndmed().getKlLiik().toString())
             .get(String.valueOf(item.getKlLiik()));
-        if(fileType == null) {
+        if (fileType == null) {
           fileType = (ObjectNode) klfFailiTyybid.get("0").get(String.valueOf(item.getKlLiik()));
         }
 
@@ -658,35 +658,35 @@ public class MtsysWorker extends Worker {
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
         }
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SUBMIT")) {
-           boolean repeatStepAndmed = false;
-           if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
-                  .get("oppeTasemed").get("required").asBoolean()
-               && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
-                  .get("oppeTasemed").get("value").size() == 0) {
-              repeatStepAndmed = true;
-              ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
-                  .add("oppeTasemed_validation_error");
-              ((ObjectNode) jsonNode.get("messages")).putObject("oppeTasemed_validation_error")
-                  .put("message_type", "ERROR").putObject("message_text")
-                  .put("et", "Õppetasemed puuduvad.");
-           }
-           if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
-                  .get("oppekavaRuhmad").get("required").asBoolean()
-               && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
-                  .get("oppekavaRuhmad").get("value").size() == 0) {
-               repeatStepAndmed = true;
-              ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
-                  .add("oppekavaRuhmad_validation_error");
-              ((ObjectNode) jsonNode.get("messages")).putObject("oppekavaRuhmad_validation_error")
-                  .put("message_type", "ERROR").putObject("message_text")
-                  .put("et", "Õppekavarühmad puuduvad.");
-           }
-           if (repeatStepAndmed) {
-              logForDrupal.setMessage("postMtsysTegevusluba step_andmed validation_error on SUBMIT");
-              logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-              LOGGER.info(logForDrupal);
-              return jsonNode;
-           }
+          boolean repeatStepAndmed = false;
+          if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("oppeTasemed").get("required").asBoolean()
+              && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("oppeTasemed").get("value").size() == 0) {
+            repeatStepAndmed = true;
+            ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                .add("oppeTasemed_validation_error");
+            ((ObjectNode) jsonNode.get("messages")).putObject("oppeTasemed_validation_error")
+                .put("message_type", "ERROR").putObject("message_text")
+                .put("et", "Õppetasemed puuduvad.");
+          }
+          if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("oppekavaRuhmad").get("required").asBoolean()
+              && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("oppekavaRuhmad").get("value").size() == 0) {
+            repeatStepAndmed = true;
+            ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                .add("oppekavaRuhmad_validation_error");
+            ((ObjectNode) jsonNode.get("messages")).putObject("oppekavaRuhmad_validation_error")
+                .put("message_type", "ERROR").putObject("message_text")
+                .put("et", "Õppekavarühmad puuduvad.");
+          }
+          if (repeatStepAndmed) {
+            logForDrupal.setMessage("postMtsysTegevusluba step_andmed validation_error on SUBMIT");
+            logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+            LOGGER.info(logForDrupal);
+            return jsonNode;
+          }
 
           ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_esitamise_tagasiside")
               .putObject("data_elements");
@@ -805,7 +805,8 @@ public class MtsysWorker extends Worker {
         EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
         klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
         klf.setNimetus(klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("et").asText());
-        klf.setOnKehtiv(klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("valid").asBoolean());
+        klf.setOnKehtiv(klfOppekavaRyhmad.get(
+            item.get("nimetus").asText()).get("valid").asBoolean());
         opperyhmad.getOpperyhmList().add(klf);
       });
       taotlus.setOpperyhmad(opperyhmad);
@@ -1759,7 +1760,8 @@ public class MtsysWorker extends Worker {
   }
 
   private void addAcceptableFormToHeader(MtsysTegevuslubaResponse response, ObjectNode jsonNode) {
-    ArrayNode acceptableFormArrayNode = ((ObjectNode) jsonNode.get("header")).putArray("acceptable_form");
+    ArrayNode acceptableFormArrayNode = ((ObjectNode) jsonNode.get("header"))
+        .putArray("acceptable_form");
 
     if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(15670L))
         && !(response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18057L))
