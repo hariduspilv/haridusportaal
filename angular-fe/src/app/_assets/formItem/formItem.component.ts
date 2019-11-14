@@ -59,11 +59,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() name: string = '';
   @Input() checked: string;
   @Input() query: string = '';
-<<<<<<< HEAD
   @Input() disabled: boolean;
-=======
-  @Input() disabled: boolean = false;
->>>>>>> origin/fe-refactor
 
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
@@ -232,6 +228,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   }
 
   checkInitialValue(): void {
+    this.disabled = !this.disabled ? undefined : this.disabled;
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
       this.options = this.options.map((opt) => {
@@ -270,6 +267,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnChanges() {
+    this.disabled = !this.disabled ? undefined : this.disabled;
     this.cdr.detectChanges();
   }
 
