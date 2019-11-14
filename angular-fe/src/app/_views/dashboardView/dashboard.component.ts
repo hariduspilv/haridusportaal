@@ -10,6 +10,8 @@ import * as _moment from 'moment';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApplicationsComponent } from '@app/_assets/applications/applications.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 const moment = _moment;
 @Component({
   selector: 'dashboard-view',
@@ -58,10 +60,21 @@ export class DashboardComponent implements OnInit {
     public location: Location,
     public formBuilder: FormBuilder,
     public cdr: ChangeDetectorRef,
+    public router: Router,
   ) { }
 
   ngOnInit() {
     this.initialize();
+    this.pathWatcher();
+  }
+
+  pathWatcher() {
+    this.router.events.subscribe((event: any) => {
+      if (event.constructor.name === 'NavigationStart') {
+        this.breadcrumbs = decodeURI(event.url);
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   initialize() {

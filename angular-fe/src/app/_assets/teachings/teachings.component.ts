@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
 import { AlertsService } from '@app/_services';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { RootScopeService } from '@app/_services/RootScopeService';
@@ -24,6 +24,11 @@ export class TeachingsComponent implements OnInit {
   headers: HttpHeaders;
   public currentDate: Date = new Date();
   contentTypes = ['tootamine', 'kvalifikatsioonid', 'taiendkoolitus'];
+  routeType = {
+    tootamine: 'töötamine',
+    kvalifikatsioonid: 'kvalifikatsioonid',
+    taiendkoolitus: 'täiendkoolitus',
+  };
   accordionStates: Boolean[] = [false, false, false, false];
 
   constructor(
@@ -33,6 +38,7 @@ export class TeachingsComponent implements OnInit {
     private alertsService: AlertsService,
     private translate: TranslateService,
     private settings: SettingsService,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -113,8 +119,8 @@ export class TeachingsComponent implements OnInit {
               }
             }
             sub.unsubscribe();
-// this.accordionStates = this.rootScope.get('teachingsAccordion') || [false, false, false, false];
             this.loading = false;
+            console.log(this.content);
           },
           (error) => {
             this.loading = false;
@@ -145,11 +151,6 @@ export class TeachingsComponent implements OnInit {
       return type;
     }
     return translation;
-  }
-
-  setTeachingsDetail(work, route) {
-    // this.rootScope.set('teachingsDetail', work);
-    this.router.navigateByUrl(`${this.router.url}/${route}`);
   }
 
   isDateInPast(date) {

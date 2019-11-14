@@ -20,7 +20,7 @@
 							attr.aria-label="{{ 'modal.modaler' | translate }}"
 							(click)="loadUserModal()"
 						>
-							<h1>{{ userData.username | titlecase }}</h1>
+							<h1>{{ auth.user.firstname }} {{ auth.user.lastname }}</h1>
                     </button>
 						<h1 *ngIf="currentRole === 'juridical_person'">
 							{{ userData.role.current_role.data.nimi }}
@@ -42,6 +42,8 @@
 				"
 				tabLabel="Taotlused"
 				tabIcon="file-text"
+				tabLink="taotlused"
+				[tabActive]="breadcrumbs === '/töölaud/taotlused'"
 			>
 				<applications #applications></applications>
 			</block-content>
@@ -49,6 +51,9 @@
 				*ngIf="currentRole === 'natural_person'"
 				tabLabel="Tunnistused"
 				tabIcon="class"
+				tabLink="tunnistused"
+				[tabActive]="breadcrumbs === '/töölaud/tunnistused'"
+
 			>
 				<certificates></certificates>
 			</block-content>
@@ -56,6 +61,8 @@
 				*ngIf="currentRole === 'natural_person'"
 				tabLabel="Õpingud"
 				tabIcon="local-library"
+				tabLink="õpingud"
+				[tabActive]="breadcrumbs === '/töölaud/õpingud'"
 			>
 				<studies></studies>
 			</block-content>
@@ -63,6 +70,8 @@
 				*ngIf="currentRole === 'natural_person'"
 				tabLabel="Õpetan"
 				tabIcon="school"
+				tabLink="õpetan"
+				[tabActive]="breadcrumbs === '/töölaud/õpetan'"
 			>
 				<teachings></teachings>
 			</block-content>
@@ -83,7 +92,7 @@
 			id="personalData"
 		></alerts>
 		<ng-container *ngIf="!loading && !error && personalData">
-			<h1>{{ userData.username }}</h1>
+			<h1>{{ auth.userData.firstname }} {{ auth.userData.lastname }}</h1>
 			<table htm-table class="personal-data">
 				<ng-container *ngFor="let field of personalDataFields">
 					<tr *ngIf="personalData[field]">
