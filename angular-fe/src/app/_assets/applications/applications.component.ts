@@ -96,7 +96,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
 
   compileXjsonLink(formName: any) {
     if (!formName) return '';
-    return formName;
+    return `taotlused/${formName}`;
   }
 
   sortList(list: any, method: any) {

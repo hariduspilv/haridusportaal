@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 
@@ -13,7 +13,7 @@ interface BreadcrumbsItem {
   styleUrls: ['./breadcrumbs.styles.scss'],
 })
 
-export class BreadcrumbsComponent implements OnInit{
+export class BreadcrumbsComponent implements OnInit, OnChanges{
   @Input() data: BreadcrumbsItem[] = [];
   @Input() path: string = '';
 
@@ -22,6 +22,9 @@ export class BreadcrumbsComponent implements OnInit{
     private http: HttpClient,
   ) {}
 
+  ngOnChanges() {
+    this.getData();
+  }
   private parseData(response): void {
     try {
       this.data = response['data']['route']['breadcrumb'].map((item) => {

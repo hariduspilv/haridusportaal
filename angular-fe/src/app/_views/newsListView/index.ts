@@ -7,6 +7,7 @@ import { NewsListViewComponent } from './newsListView.component';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
+import { AppPipes } from '@app/_pipes';
 
 const routes: Routes = [
   {
@@ -25,6 +26,7 @@ const routes: Routes = [
     TranslateModule,
     CommonModule,
     FormsModule,
+    AppPipes,
   ],
   exports: [
     NewsListViewComponent,

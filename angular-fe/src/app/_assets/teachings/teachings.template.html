@@ -21,7 +21,7 @@
               <span *ngIf="work.aasta">, {{ work.aasta }}</span>
               <span *ngIf="work.aastaLopetanud">, {{ work.aastaLopetanud }}</span>
             </td>
-            <td class="text-center"><a href="javascript:void(0)" (click)="setTeachingsDetail(work, type)">{{ 'button.view_more' | translate }}</a></td>
+            <td class="text-center"><a [routerLink]="'õpetan/' + routeType[type]" [state]="{ data: work, type: type }">{{ 'button.view_more' | translate }}</a></td>
           </tr>
         </tbody>
       </table>

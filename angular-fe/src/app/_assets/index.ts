@@ -56,7 +56,7 @@ import {
   SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
-  SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent
+  SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent,
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
@@ -64,19 +64,13 @@ import { Ng2GoogleChartsModule } from 'ng2-google-charts';
 import { AgmCoreModule } from '@agm/core';
 import { AgmJsMarkerClustererModule } from '@agm/js-marker-clusterer';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
-import { LegendCurrencyPipe } from '@app/_pipes/legendCurrency.pipe';
-import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
 import { ShareComponent } from './share';
 import { ClipboardService } from 'ngx-clipboard';
 import { LabelsComponent } from './labels';
 import { FavouriteComponent } from './favourite';
 import { LabeledSeparatorComponent } from './labeled-separator';
 import { ListItemComponent } from './listItem/listItem.component';
-import { MonthsToYearsPipe } from '@app/_pipes/monthsToYears.pipe';
-import { RemoveProtocolPipe } from '@app/_pipes/removeProtocol.pipe';
-import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { ChartComponent } from './chart/chart.component';
-import { UrlPipe } from '@app/_pipes/url.pipe';
 import { SearchResultsComponent } from './searchResults';
 import { StudyProgrammesComponent } from './studyProgrammes/studyProgrammes.component';
 import { SchoolsComponent } from './schools/schools.component';
@@ -85,7 +79,6 @@ import { MainProfessionsComponent } from './mainProfessions/mainProfessions.comp
 import { CompareComponent } from './compare';
 import { CompareViewComponent } from './compare.view';
 import { DeviceDetectorModule } from 'ngx-device-detector';
-import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { AutocompleteComponent } from './autocomplete';
 import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
 import { Triangles } from './shapes/triangles/triangles';
@@ -96,16 +89,12 @@ export function settingsProviderFactory(provider: SettingsService) {
 }
 import { ImageComponent } from './image';
 import { LinksComponent } from './links';
-import { RemoveEmptyTagsPipe } from '@app/_pipes/removeEmptyTags.pipe';
-import { WeekDayPipe } from '@app/_pipes/weekday.pipe';
-import { UnixToTimePipe } from '@app/_pipes/unixToTime.pipe';
-import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import {
   HomeSearchListViewComponent,
 } from '@app/_views/homeSearchListView/homeSearchListView.component';
-import { IframePipe } from '@app/_pipes/iframe.pipe';
+
 import { ModuleWithProviders } from '@angular/compiler/src/core';
-import { NumbersOnly } from '@app/_pipes/numbersOnly.pipe';
 import { InfographComponent } from './infograph/infograph.component';
 import { InlineLinksComponent } from './inline-links/inline-links.component';
 import { InlineArticlesComponent } from './inline-articles/inline-articles.component';
@@ -113,25 +102,13 @@ import { ArticlesSingleComponent } from './articles-single/articles-single.compo
 import { NewsletterOrderComponent } from './newsletter-order/newsletter-order.component';
 import { PictoComponent } from './picto';
 import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
-import { EllipsisPipe } from '@app/_pipes/ellipsis.pipe';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
 import { XjsonComponent } from '@app/_views/xjson/xjson.component';
 
-const pipes = [
-  MonthsToYearsPipe,
-  RemoveProtocolPipe,
-  UrlPipe,
-  LegendCurrencyPipe,
-  EuroCurrencyPipe,
-  LocaleNumberPipe,
-  TitleCasePipe,
-  RemoveEmptyTagsPipe,
-  WeekDayPipe,
-  UnixToTimePipe,
-  IframePipe,
-  EllipsisPipe,
-];
+const pipes = [];
+
+import { AppPipes } from '@app/_pipes';
 
 const declarations = [
   BlockComponent,
@@ -189,10 +166,6 @@ const declarations = [
   ChartComponent,
   InfographComponent,
   ListItemComponent,
-  MonthsToYearsPipe,
-  RemoveProtocolPipe,
-  UrlPipe,
-  NumbersOnly,
   SearchResultsComponent,
   NewsComponent,
   AutocompleteComponent,
@@ -243,12 +216,13 @@ const providers = [
 ];
 
 @NgModule({
-  declarations: [...declarations, ...pipes],
+  declarations: [...declarations],
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
     FormsModule,
+    AppPipes,
     AgmJsMarkerClustererModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
@@ -266,7 +240,7 @@ const providers = [
     HttpClientModule,
     ReactiveFormsModule,
   ],
-  exports: [...declarations, ...pipes, ...exports],
+  exports: [...declarations, ...exports],
 })
 export class AssetsModule {
   static forRoot(): ModuleWithProviders {

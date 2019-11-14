@@ -10,14 +10,58 @@ import { TeachingsComponent } from '@app/_assets/teachings/teachings.component';
 import { CertificatesComponent } from '@app/_assets/certificates/certificates.component';
 import { MoreBlockComponent } from '@app/_assets/more.block/more.block.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { AuthInterceptor } from '@app/_interceptors';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { XjsonComponent } from '../xjson/xjson.component';
+import { AppPipes } from '@app/_pipes';
+import { StudiesDetailView } from './studiesDetailView/studiesDetailView.component';
+import { CertificatesDetailView } from './certificatesDetailView/certificatesDetailView.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: DashboardComponent,
+    children: [
+      {
+        path: '',
+        redirectTo: 'taotlused',
+      },
+      {
+        path: 'taotlused',
+        component: DashboardComponent,
+      },
+      {
+        path: 'tunnistused',
+        component: DashboardComponent,
+      },
+      {
+        path: 'õpingud',
+        component: DashboardComponent,
+      },
+      {
+        path: 'õpetan',
+        component: DashboardComponent,
+      },
+    ],
+  },
+  {
+    path: 'õpetan/töötamine',
+    component: StudiesDetailView,
+  },
+  {
+    path: 'õpetan/kvalifikatsioonid',
+    component: StudiesDetailView,
+  },
+  {
+    path: 'õpetan/täiendkoolitus',
+    component: StudiesDetailView,
+  },
+  {
+    path: 'tunnistused/:id',
+    component: CertificatesDetailView,
+  },
+  {
+    path: 'taotlused/:id',
     component: DashboardComponent,
   },
   {
@@ -34,6 +78,8 @@ const routes: Routes = [
     TeachingsComponent,
     CertificatesComponent,
     MoreBlockComponent,
+    StudiesDetailView,
+    CertificatesDetailView,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -41,9 +87,9 @@ const routes: Routes = [
     TranslateModule,
     CommonModule,
     ReactiveFormsModule,
+    AppPipes,
   ],
   providers: [
-    TitleCasePipe,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [],
