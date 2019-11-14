@@ -14,7 +14,8 @@
         <tr *ngFor="let certificate of professionalCertificates">
           <td>{{ certificate.nimi }}</td>
           <td>{{ certificate.valjaantud }}</td>
-          <td><a [routerLink]="[certificate.path]">{{ 'button.view_more' | translate }}</a></td>
+          {{certificate | json}}
+          <td><a [routerLink]="[certificate.path]" [state]="{data:certificate}">{{ 'button.view_more' | translate }}</a></td>
         </tr>
       </tbody>
     </table>

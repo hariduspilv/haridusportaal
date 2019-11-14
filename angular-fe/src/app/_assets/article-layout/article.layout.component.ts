@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'article-layout',
@@ -9,5 +9,7 @@ import { Component, Input } from '@angular/core';
 export class ArticleLayout {
   @Input() sidebar: any = { entity: {} };
   @Input() feedbackNid: string = '';
-  constructor() {}
+  constructor(
+  ) {}
+
 }
