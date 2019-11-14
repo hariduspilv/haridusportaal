@@ -17,6 +17,22 @@
         [attr.disabled]="disabled"
         [(ngModel)]="field" />
     </ng-container>
+
+    <ng-container *ngSwitchCase="'password'">
+      <input
+        [class.hideText]="!filledField && !focused"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
+        [class.focused]="focused"
+        #inputField
+        pattern="{{ pattern ? patterns[pattern] : '' }}"
+        type="password"
+        (change)="update()"
+        (focus)="update('focus')"
+        (blur)="update('blur')"
+        (keyup)="triggerOnUpdate()"
+        [attr.disabled]="disabled"
+        [(ngModel)]="field" />
+    </ng-container>
     <ng-container *ngSwitchCase="'number'">
       <input
         [class.hideText]="!filledField"
