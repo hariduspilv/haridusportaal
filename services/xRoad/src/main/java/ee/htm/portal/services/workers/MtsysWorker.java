@@ -160,7 +160,13 @@ public class MtsysWorker extends Worker {
       response.getEestiKeeleTasemed().getEestiKeeleTaseList().forEach(
           item -> eestiKeeleTasemedNode.putObject(item.getId().toString())
               .put("et", item.getNimetus())
-              .put("valid", item.getOnKehtiv()));
+              .put("valid", !item.getId().equals(BigInteger.valueOf(14857L))
+                  && !item.getId().equals(BigInteger.valueOf(14858L))
+                  && !item.getId().equals(BigInteger.valueOf(14859L))
+                  && !item.getId().equals(BigInteger.valueOf(14860L))
+                  && !item.getId().equals(BigInteger.valueOf(14861L))
+                  && !item.getId().equals(BigInteger.valueOf(14862L))
+                  && !item.getId().equals(BigInteger.valueOf(15651L)) && item.getOnKehtiv()));
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "eestiKeeleTasemed", eestiKeeleTasemedNode);
 
       ObjectNode opperyhmadNode = mtsysKlfResponse.putObject("opperyhmad");
@@ -288,7 +294,10 @@ public class MtsysWorker extends Worker {
                     ((ArrayNode) itemNode.get("documents")).addObject()
                         .put("form_name", "MTSYS_TEGEVUSLUBA")
                         .put("id", tegevusluba.getId().intValue())
-                        .put("document_date", tegevusluba.getKehtivAlates())
+                        .put("document_date",
+                            tegevusluba.getMenetlusStaatus()
+                                .equalsIgnoreCase("Ära saadetud") ?
+                                tegevusluba.getLoomiseKp() : tegevusluba.getKehtivAlates())
                         .put("status", tegevusluba.getMenetlusStaatus())
                         .put("description", description);
                   }
@@ -429,9 +438,7 @@ public class MtsysWorker extends Worker {
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppekavaRuhmad")
               .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().longValue()));
 
-      stepZeroDataElementsNode.putObject("valisAadress")
-          .put("value", response.getTegevusloaAndmed().getAadressid().getOnValismaa());
-
+      stepZeroDataElementsNode.putObject("valisAadress");
       stepZeroDataElementsNode.putObject("aadressid").putArray("value");
       setAadress(response.getTegevusloaAndmed().getAadressid(), stepZeroDataElementsNode);
 
@@ -553,8 +560,6 @@ public class MtsysWorker extends Worker {
           .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppekavaRuhmad").get("value"))
               .addObject().put("nimetus", item.getId().longValue()));
 
-      ((ObjectNode) stepAndmedDataElements.get("valisAadress"))
-          .put("value", response.getTegevusloaAndmed().getAadressid().getOnValismaa());
       setAadress(response.getTegevusloaAndmed().getAadressid(), stepAndmedDataElements);
 
       ((ObjectNode) stepAndmedDataElements.get("oppeasutuseNimetus"))
@@ -641,9 +646,70 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("postMtsysTegevusluba step_liik json loodud");
     } else if (currentStep.equalsIgnoreCase("step_liik")) {
-      getTegevuslubaXJSON(jsonNode, jsonNode.get("body").get("steps").get("step_liik")
-              .get("data_elements").get("tegevusloaLiik").get("value").asLong(),
-          getKlfNode("failiTyybid"));
+      Long stepLiik = jsonNode.get("body").get("steps").get("step_liik")
+          .get("data_elements").get("tegevusloaLiik").get("value").asLong();
+      getTegevuslubaXJSON(jsonNode, stepLiik, getKlfNode("failiTyybid"));
+      ObjectNode stepAndmed = (ObjectNode) jsonNode.get("body").get("steps").get("step_andmed")
+          .get("data_elements");
+
+      ObjectNode oppeasutusedNode = (ObjectNode) redisTemplate.opsForHash().get(
+          jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
+          "educationalInstitution_" + jsonNode.get("header").get("agents").get(0)
+              .get("educationalInstitutions_id").asText());
+
+      if (stepLiik.equals(18098L)) {
+        try {
+          MtsysTegevusnaitaja request = MtsysTegevusnaitaja.Factory.newInstance();
+          request.setUusTMV(true);
+          request.setOppeasutusId(BigInteger.valueOf(
+              jsonNode.get("header").get("agents").get(0).get("educationalInstitutions_id")
+                  .asLong()));
+
+          MtsysTegevusnaitajaResponse response = ehisXRoadService
+              .mtsysTegevusnaitaja(request, personalCode);
+
+          response.getOpperyhmad().getOpperyhmList().forEach(item ->
+              ((ArrayNode) stepAndmed.get("oppekavaRuhmad").get("value"))
+                  .addObject().put("nimetus", item.getId().longValue()));
+
+          setAadress(response.getAadressid(), stepAndmed);
+
+        } catch (Exception e) {
+          setXdzeisonError(LOGGER, jsonNode, e);
+        }
+      } else {
+        ((ArrayNode) stepAndmed.get("aadressid").get("value")).addObject().putObject("aadress")
+            .put("adsId", oppeasutusedNode.get("educationalInstitution")
+                .get("address").get("adsId").asLong())
+            .put("adsOid", oppeasutusedNode.get("educationalInstitution")
+                .get("address").get("adsOid").asText())
+            .put("county", oppeasutusedNode.get("educationalInstitution")
+                .get("address").get("county").asText())
+            .put("localGovernment", oppeasutusedNode.get("educationalInstitution")
+                .get("address").get("localGovernment").asText())
+            .put("settlementUnit", oppeasutusedNode.get("educationalInstitution")
+                .get("address").get("settlementUnit").asText())
+            .put("address", oppeasutusedNode.get("educationalInstitution")
+                .get("address").get("address").asText())
+            .put("addressHumanReadable", oppeasutusedNode.get("educationalInstitution")
+                .get("address").get("addressHumanReadable").asText());
+      }
+
+      stepAndmed.putObject("oppeasutuseNimetus")
+          .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
+              .get("name").asText());
+      stepAndmed.putObject("omanik")
+          .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
+              .get("owner").asText());
+      stepAndmed.putObject("telefon")
+          .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
+              .get("contactPhone").asText());
+      stepAndmed.putObject("epost")
+          .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
+              .get("contactEmail").asText());
+      stepAndmed.putObject("koduleht")
+          .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
+              .get("webpageAddress").asText());
 
       ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
       ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll()
@@ -1596,8 +1662,8 @@ public class MtsysWorker extends Worker {
         .put("hidden", !klOkLiik.equals(18055L));
 
     stepAndmedDataElements.putObject("oppeTasemed")
-        .put("required", klOkLiik.equals(18057L))
-        .put("hidden", !klOkLiik.equals(18057L))
+        .put("required", klOkLiik.equals(18057L) || klOkLiik.equals(18102L))
+        .put("hidden", !klOkLiik.equals(18057L) && !klOkLiik.equals(18102L))
         .put("add_del_rows", true)
         .putArray("value");
 
@@ -1696,6 +1762,7 @@ public class MtsysWorker extends Worker {
   }
 
   private void setAadress(Aadressid aadressid, ObjectNode jsonNode) {
+    ((ObjectNode) jsonNode.get("valisAadress")).put("value", aadressid.getOnValismaa());
     aadressid.getAadressList().forEach(aadress ->
         ((ArrayNode) jsonNode.get("aadressid").get("value")).addObject().putObject("aadress")
             .put("adsId", aadress.getAdsId() != null ? aadress.getAdsId().longValue() : null)
