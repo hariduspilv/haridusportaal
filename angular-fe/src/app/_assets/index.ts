@@ -88,7 +88,7 @@ export function settingsProviderFactory(provider: SettingsService) {
 }
 import { ImageComponent } from './image';
 import { LinksComponent } from './links';
-import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import {
   HomeSearchListViewComponent,
 } from '@app/_views/homeSearchListView/homeSearchListView.component';
