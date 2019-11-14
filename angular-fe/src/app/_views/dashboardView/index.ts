@@ -62,10 +62,6 @@ const routes: Routes = [
   },
   {
     path: 'taotlused/:id',
-    component: DashboardComponent,
-  },
-  {
-    path: 'taotlused/:id',
     component: XjsonComponent,
   },
 ];

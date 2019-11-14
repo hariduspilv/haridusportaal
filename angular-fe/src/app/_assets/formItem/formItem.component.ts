@@ -253,8 +253,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   }
 
   checkDisabled(): void {
+    console.log(this.disabled);
     if (typeof this.disabled === 'string') {
-      this.disabled = this.disabled === 'true' ? true : false;
+      this.disabled = this.disabled === 'true' ? true : undefined;
     } else {
       this.disabled = !this.disabled ? undefined : this.disabled;
     }

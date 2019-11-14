@@ -119,9 +119,9 @@
                     </ng-container> <!-- /HEADING -->
 
                     <ng-container
-                      *ngIf="(data_elements[element].type == 'text' || data_elements[element].type == 'iban') && !isFieldDisabled(data_elements[element].readonly)">
+                      *ngIf="(data_elements[element].type == 'text' || data_elements[element].type == 'iban')">
 
-                          <formItem type="text" [disabled]="false"
+                          <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [(ngModel)]="data_elements[element].value" [name]="element">
                         </formItem>
@@ -141,36 +141,6 @@
                         </div>
                       </div>
                     </ng-container> <!-- /TEXT -->
-
-                    <ng-container
-                      *ngIf="(data_elements[element].type == 'text' || data_elements[element].type == 'iban') && isFieldDisabled(data_elements[element].readonly)">
-                      <div class="squared-input__outer-wrapper">
-                        <div class="squared-input__wrapper"
-                          [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                          <span class="squared-input__title"
-                            attr.aria-label="{{ selectLanguage(data_elements[element].title) }} {{ data_elements[element].value }}">
-                            {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
-                          </span>
-                          <div class="squared-input__field-wrapper">
-                            <input class="squared-input__field" type="text" aria-hidden="true"
-                              attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
-                              placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                              [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
-                              [(ngModel)]="data_elements[element].value" name="{{element}}" />
-                          </div>
-                        </div>
-                        <div class="helper-wrapper">
-                          <!--                       <ng-container *ngIf="data_elements[element].helpertext">
-                                <span tabindex="-1" role="text"
-                                  attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
-                                  class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
-                                  matTooltipPosition="above">
-                                </span>
-                              </ng-container> -->
-                          <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                        </div>
-                      </div>
-                    </ng-container><!-- /TEXT -->
 
                     <ng-container *ngIf="data_elements[element].type == 'textarea'">
 

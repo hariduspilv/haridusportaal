@@ -209,9 +209,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key))) {
       return false;
 
-    } else {
-      return true;
     }
+    return true;
   }
 
   isFieldHidden(element): boolean {
