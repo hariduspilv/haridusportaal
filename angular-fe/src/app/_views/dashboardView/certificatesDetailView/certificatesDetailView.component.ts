@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { map } from 'rxjs/operators';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { SettingsService } from '@app/_services';
+import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'certificates-detail',
   templateUrl: 'certificatesDetailView.template.html',
@@ -10,8 +12,9 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 })
 export class CertificatesDetailView implements OnInit {
 
-  public data: any;
-  public type: any;
+  public certificate: any;
+  public examResults: any;
+  public labels: any = [];
   public breadcrumbs = [
     {
       title: 'Avaleht',
@@ -33,16 +36,46 @@ export class CertificatesDetailView implements OnInit {
     public router: Router,
     public location: Location,
     public translate: TranslateService,
+    public settings: SettingsService,
+    public http: HttpClient,
   ) {}
+
+  createAccordionTitle(item) {
+    const string = `${item.test_nimi}`;
+    if (item.tulemus) { return `${string} | ${item.tulemus}`; }
+    return string;
+  }
   ngOnInit() {
-    if (!window.history.state.data) {
-      this.router.navigateByUrl('/töölaud');
-    }
-    this.data = window.history.state.data;
-    this.type = window.history.state.type;
     const currentRoute = decodeURI(this.location.path()).split('/')[3];
     this.breadcrumbs[this.breadcrumbs.length - 1].title
       = currentRoute[0].toUpperCase() + currentRoute.slice(1);
+    if (window.history.state.certificate) {
+      this.certificateInit();
+      return;
+    }
+    if (window.history.state.exams) {
+      this.examInit();
+      return;
+    }
+    this.router.navigateByUrl('/töölaud');
+  }
+
+  certificateInit() {
+    this.certificate = window.history.state.certificate;
+    if (this.certificate.kehtetu) {
+      this.labels = [...this.labels, { value: 'Kehtetu' }];
+    }
+    if (this.certificate.duplikaat) {
+      this.labels = [...this.labels, { value: 'Duplikaat' }];
+    }
+  }
+  examInit() {
+    console.log(window.history.state.exams);
+    this.http
+      .get(`${this.settings.url}/state-exams/${window.history.state.exams}?_format=json`).subscribe((res) => {
+        this.examResults = res;
+        console.log(res);
+      });
   }
 
   parseTypeTranslation(type) {
@@ -50,8 +83,6 @@ export class CertificatesDetailView implements OnInit {
     if (translation.includes(`frontpage.${type}`)) {
       return type;
     }
-    console.log(type);
-    console.log(translation);
     return translation;
   }
 

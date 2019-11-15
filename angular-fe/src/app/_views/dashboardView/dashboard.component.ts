@@ -3,6 +3,7 @@ import {
   OnInit,
   ViewChild,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService, AlertsService, ModalService, AuthService } from '@app/_services';
@@ -12,6 +13,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApplicationsComponent } from '@app/_assets/applications/applications.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
+import { BlockComponent } from '@app/_assets/block';
+import { Subscription } from 'rxjs';
 const moment = _moment;
 @Component({
   selector: 'dashboard-view',
@@ -19,8 +22,9 @@ const moment = _moment;
   styleUrls: ['dashboard.styles.scss'],
 })
 
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
   @ViewChild(ApplicationsComponent, { static: false }) applicationsComponent: ApplicationsComponent;
+  @ViewChild(BlockComponent, { static: false }) blockComponent: BlockComponent;
   linksLabel = 'links';
   titleExists = true;
   topAction = true;
@@ -50,6 +54,7 @@ export class DashboardComponent implements OnInit {
   public formGroup: FormGroup = this.formBuilder.group({
     roleSelection: [''],
   });
+  public routerSub: Subscription = new Subscription();
   constructor(
     private modalService: ModalService,
     private http: HttpClient,
@@ -69,7 +74,7 @@ export class DashboardComponent implements OnInit {
   }
 
   pathWatcher() {
-    this.router.events.subscribe((event: any) => {
+    this.routerSub = this.router.events.subscribe((event: any) => {
       if (event.constructor.name === 'NavigationStart') {
         this.breadcrumbs = decodeURI(event.url);
         this.cdr.detectChanges();
@@ -84,6 +89,9 @@ export class DashboardComponent implements OnInit {
     this.formGroup.controls.roleSelection.setValue(this.currentRole);
     this.getFavouritesList();
     this.getEventList();
+    if (this.blockComponent) {
+      this.blockComponent.changeTab('Taotlused');
+    }
     if (this.applicationsComponent) {
       this.applicationsComponent.initialize();
     }
@@ -160,6 +168,7 @@ export class DashboardComponent implements OnInit {
         (response: any) => {
           if (response['token']) {
             this.auth.refreshUser(response['token']);
+            this.location.go('/töölaud/taotlused');
             this.initialize();
           }
           sub.unsubscribe();
@@ -251,5 +260,9 @@ export class DashboardComponent implements OnInit {
       console.log(this.sidebar);
       subscription.unsubscribe();
     });
+  }
+  ngOnDestroy() {
+    this.cdr.detach();
+    this.routerSub.unsubscribe();
   }
 }

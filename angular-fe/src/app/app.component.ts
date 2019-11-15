@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from './_services';
 
 @Component({
   selector: 'app-root',
@@ -6,8 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 
-export class AppComponent {
+export class AppComponent implements OnInit {
 
+  constructor(
+    public auth: AuthService,
+  ) {}
   public onActivate(): void {
     try {
       document.querySelector('.app-content').scrollTo({
@@ -16,4 +20,7 @@ export class AppComponent {
     } catch (err) {}
   }
 
+  ngOnInit() {
+    this.auth.isLoggedIn();
+  }
 }

@@ -1,49 +1,84 @@
 <div class="unpadded">
-  <more-block id="1" content="abitekst.tunnistused"></more-block>
+	<more-block id="1" content="abitekst.tunnistused"></more-block>
 </div>
 <h2>{{ 'frontpage.certificates_data' | translate }}</h2>
 <accordion>
-  <accordion-item title="{{ 'frontpage.dashboard_tabs_certificates_professional' | translate }}"
-    (click)="dataController('professional-certificates')">
-    <loader *ngIf="!error && !professionalCertificates"></loader>
-    <p *ngIf="error && !certificateErr" class="text-center text--substrong--head mb-0">{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</p>
-    <p *ngIf="error && certificateErr" class="text-center text--substrong--head mb-0">{{ certificateErr }}</p>
-    <p *ngIf="professionalCertificates && professionalCertificates.length < 1" class="text-center text--substrong--head mb-0">{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</p>
-    <table htm-table *ngIf="!error && professionalCertificates && professionalCertificates.length > 0">
-      <tbody>
-        <tr *ngFor="let certificate of professionalCertificates">
-          <td>{{ certificate.nimi }}</td>
-          <td>{{ certificate.valjaantud }}</td>
-          {{certificate | json}}
-          <td><a [routerLink]="[certificate.path]" [state]="{data:certificate}">{{ 'button.view_more' | translate }}</a></td>
-        </tr>
-      </tbody>
-    </table>
-  </accordion-item>
-  <accordion-item title="{{ 'frontpage.dashboard_tabs_certificates_examinations' | translate}}"
-  (click)="dataController('state-exams')">
-      <loader *ngIf="!examResultsErr && !errRequest && !examResults"></loader>
-      <ng-container *ngIf="examResultsErr || errRequest">
-          <p class="text-center text--substrong--head mb-0" *ngIf="examResultsErr">{{ examResultsErr }}</p>
-          <p class="text-center text--substrong--head mb-0" *ngIf="errRequest">
-            {{ 'errors.examinations_data_request' | translate }}</p>
-        </ng-container>
-        <table htm-table *ngIf="!examResultsErr && !errRequest && examResults">
-          <thead>
-            <tr>
-              <th>{{'frontpage.eksamiNimetus' | translate}}</th>
-              <th>{{'frontpage.aasta' | translate}}</th>
-              <th aria-hidden="true"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let session of examResults">
-              <td>{{ session.nimi }}</td>
-              <td>{{ session.oppeaasta }}</td>
-              <td class="text-center"><a [routerLink]="[session.testsessioon_id]"
-                  [queryParams]="{exams: session.oppeaasta}">{{ 'button.view_more' | translate }}</a></td>
-            </tr>
-          </tbody>
-        </table>
-  </accordion-item>
+	<accordion-item
+		title="{{ 'frontpage.dashboard_tabs_certificates_professional' | translate }}"
+		(click)="dataController('professional-certificates')"
+	>
+		<loader *ngIf="!error && !professionalCertificates"></loader>
+		<p
+			*ngIf="error && !certificateErr"
+			class="text-center text--substrong--head mb-0"
+		>
+			{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}
+		</p>
+		<p
+			*ngIf="error && certificateErr"
+			class="text-center text--substrong--head mb-0"
+		>
+			{{ certificateErr }}
+		</p>
+		<p
+			*ngIf="professionalCertificates && professionalCertificates.length < 1"
+			class="text-center text--substrong--head mb-0"
+		>
+			{{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}
+		</p>
+		<table
+			htm-table
+			*ngIf="!error && professionalCertificates && professionalCertificates.length > 0"
+		>
+			<tbody>
+				<tr *ngFor="let certificate of professionalCertificates">
+					<td>{{ certificate.nimi }}</td>
+					<td>{{ certificate.valjaantud }}</td>
+					<td>
+						<a
+							[routerLink]="'tunnistused/' + certificate.registrinumber"
+							[state]="{certificate:certificate}"
+							>{{ 'button.view_more' | translate }}</a
+						>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</accordion-item>
+	<accordion-item
+		title="{{ 'frontpage.dashboard_tabs_certificates_examinations' | translate}}"
+		(click)="dataController('state-exams')"
+	>
+		<loader *ngIf="!examResultsErr && !errRequest && !examResults"></loader>
+		<ng-container *ngIf="examResultsErr || errRequest">
+			<p class="text-center text--substrong--head mb-0" *ngIf="examResultsErr">
+				{{ examResultsErr }}
+			</p>
+			<p class="text-center text--substrong--head mb-0" *ngIf="errRequest">
+				{{ 'errors.examinations_data_request' | translate }}
+			</p>
+		</ng-container>
+		<table htm-table *ngIf="!examResultsErr && !errRequest && examResults">
+			<thead>
+				<tr>
+					<th>{{'frontpage.eksamiNimetus' | translate}}</th>
+					<th>{{'frontpage.aasta' | translate}}</th>
+					<th aria-hidden="true"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr *ngFor="let session of examResults">
+					<td>{{ session.nimi }}</td>
+					<td>{{ session.oppeaasta }}</td>
+					<td class="text-center">
+						<a
+							[routerLink]="'tunnistused/' + session.testsessioon_id"
+							[state]="{exams: session.oppeaasta}"
+							>{{ 'button.view_more' | translate }}</a
+						>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</accordion-item>
 </accordion>

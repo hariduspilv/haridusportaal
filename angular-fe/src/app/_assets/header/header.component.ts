@@ -105,6 +105,8 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.active = this.sidemenuService.isVisible;
+    console.log(this.auth.isAuthenticated.getValue());
+    this.loginStatus = this.auth.isAuthenticated.getValue();
     this.subscribeToAuth();
   }
 }
