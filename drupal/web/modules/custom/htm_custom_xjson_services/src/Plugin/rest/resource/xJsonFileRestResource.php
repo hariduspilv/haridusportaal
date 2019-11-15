@@ -157,7 +157,7 @@ class xJsonFileRestResource extends ResourceBase {
 				return new ModifiedResourceResponse('Failed to save', 400);
 			}
 		}
-		
+
 		$return = [];
     if(is_array($img)){
     	foreach($img as $item){
