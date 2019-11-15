@@ -431,12 +431,12 @@ public class MtsysWorker extends Worker {
       stepZeroDataElementsNode.putObject("oppeTasemed").putArray("value");
       response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList().forEach(
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppeTasemed")
-              .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().longValue()));
+              .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().toString()));
 
       stepZeroDataElementsNode.putObject("oppekavaRuhmad").putArray("value");
       response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList().forEach(
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppekavaRuhmad")
-              .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().longValue()));
+              .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().toString()));
 
       stepZeroDataElementsNode.putObject("valisAadress");
       stepZeroDataElementsNode.putObject("aadressid").putArray("value");
@@ -554,11 +554,11 @@ public class MtsysWorker extends Worker {
 
       response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList()
           .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppeTasemed").get("value"))
-              .addObject().put("nimetus", item.getId().longValue()));
+              .addObject().put("nimetus", item.getId().toString()));
 
       response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList()
           .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppekavaRuhmad").get("value"))
-              .addObject().put("nimetus", item.getId().longValue()));
+              .addObject().put("nimetus", item.getId().toString()));
 
       setAadress(response.getTegevusloaAndmed().getAadressid(), stepAndmedDataElements);
 
@@ -670,7 +670,7 @@ public class MtsysWorker extends Worker {
 
           response.getOpperyhmad().getOpperyhmList().forEach(item ->
               ((ArrayNode) stepAndmed.get("oppekavaRuhmad").get("value"))
-                  .addObject().put("nimetus", item.getId().longValue()));
+                  .addObject().put("nimetus", item.getId().toString()));
 
           setAadress(response.getAadressid(), stepAndmed);
 
