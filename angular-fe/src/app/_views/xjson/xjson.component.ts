@@ -378,16 +378,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         newRow[col] = null;
       }
       if (column.type === 'address') {
-        if (!this.temporaryModel[element]) {
-          this.temporaryModel[element] = {
-            [col]: {
-              '0': null
-            }
-          };
-        } else {
-          const rowNumber = Object.keys(this.temporaryModel[element][col]).length;
-          this.temporaryModel[element][col][rowNumber] = null;
-        }
+        newRow[col] = {
+          'address': '',
+        };
       }
     }
     if (table.value === undefined) { table.value = []; }
@@ -795,7 +788,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
   populateAlerts() {
     this.data_messages.forEach((element) => {
       const message = this.data.messages[element];
-      console.log(message);
       if (message.message_text && message.message_type) {
         this.alertsService[message.message_type === 'NOTICE' ? 'info' : message.message_type.toLowerCase()](message.message_text.et, 'upperAlert', false, true);
       }
