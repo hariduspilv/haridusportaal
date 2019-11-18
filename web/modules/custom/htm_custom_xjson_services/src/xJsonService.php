@@ -521,6 +521,12 @@ class xJsonService implements xJsonServiceInterface {
       continue;
     }
 
+    if($element['type'] === 'selectlist'){
+      dump($element);
+      dump($valid);
+      die();
+    }
+
     return $table ? $element : $valid;
   }
 

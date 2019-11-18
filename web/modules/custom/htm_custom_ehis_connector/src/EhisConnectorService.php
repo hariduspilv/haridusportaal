@@ -371,8 +371,6 @@ class EhisConnectorService {
       return (isset($return[$params['hash']])) ? $return[$params['hash']] : [];
     }
     $processedArray = [];
-    dump($return);
-    die();
     foreach($return as $key => $value) {
       if($key !== 'redis_hit'){
         $processedArray[] = [
