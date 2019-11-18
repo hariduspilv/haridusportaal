@@ -449,10 +449,10 @@ class xJsonService implements xJsonServiceInterface {
         if (isset($element['value'])) {
           if (is_array($element['value'])) {
             foreach ($element['value'] as $value) {
-              if (!in_array($value, $option_keys)) $valid = false;
+              if (!in_array($value, $option_keys)) dump($value, $option_keys);
             }
           } else {
-            if (!in_array($element['value'], $option_keys)) $valid = false;
+            if (!in_array($element['value'], $option_keys)) dump($element['value'], $option_keys);
           }
         }
 
@@ -517,19 +517,8 @@ class xJsonService implements xJsonServiceInterface {
     if (!isset($acceptable_keys)) $acceptable_keys = array_merge($default_acceptable_keys, $additional_keys);
     $element_keys = array_keys($element);
     foreach ($element_keys as $element_key) {
-      if (!in_array($element_key, $acceptable_keys, true)) {
-        dump($element_key);
-        dump($acceptable_keys);
-        die();
-      }
-      //$valid = false;
+      if (!in_array($element_key, $acceptable_keys, true)) $valid = false;
       continue;
-    }
-
-    if($element['type'] === 'selectlist'){
-      dump($element);
-      dump($valid);
-      die();
     }
 
     return $table ? $element : $valid;
