@@ -660,11 +660,14 @@ input::placeholder {
   color: transparent;
 }
 
-.tooltip {
-  margin-top: 0.5rem;
-  font-size: 1.5rem;
-  &:before {
-    color: $blue;
+.tooltip ::ng-deep {
+  i {
+    margin-top: .25rem;
+    font-size: 1.2rem;
+    margin-left: .3rem;
+    &:before {
+      color: $blue;
+    }
   }
 }
 

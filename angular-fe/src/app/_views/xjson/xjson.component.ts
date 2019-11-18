@@ -636,6 +636,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.error_alert = true;
         this.alertsService.error(this.translate.get('xjson.validation_errors'), 'upperAlert', false);
         this.formLoading = false;
+        this.populateAlerts();
         this.scrollPositionController();
       }
     }

@@ -50,12 +50,12 @@ export class AlertsComponent implements OnDestroy {
   }
   public alertIcons = AlertIcon;
   private alertSubscription: Subscription = new Subscription;
-  private subscriptions:Subscription[] = [];
+  private subscriptions: Subscription[] = [];
   private removeTimeout: any = false;
 
   constructor(
     private alertService: AlertsService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.alertSubscription = this.alertService.getAlertsFromBlock(this.id).subscribe(
@@ -80,7 +80,7 @@ export class AlertsComponent implements OnDestroy {
   }
 
   remove(alert) {
-    this.alerts = this.alerts.filter(item => item.id !== alert.id);
+    this.alerts = this.alerts.filter(item => item !== alert);
   }
 
   destroySubscriptions() {
