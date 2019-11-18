@@ -443,19 +443,6 @@ class xJsonService implements xJsonServiceInterface {
           }
           return $keys;
         };
-
-        $option_keys = $recfunc($element['options']);
-        /*TODO check also if value is array*/
-        if (isset($element['value'])) {
-          if (is_array($element['value'])) {
-            foreach ($element['value'] as $value) {
-              if (!in_array($value, $option_keys)) dump($value, $option_keys);
-            }
-          } else {
-            if (!in_array($element['value'], $option_keys)) dump($element['value'], $option_keys);
-          }
-        }
-
         break;
       case 'file':
         if ($table) $additional_keys = ['width', 'acceptable_extensions'];
