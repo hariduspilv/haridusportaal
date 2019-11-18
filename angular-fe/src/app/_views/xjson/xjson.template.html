@@ -109,7 +109,7 @@
                           <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [(ngModel)]="data_elements[element].value" [name]="element"
-                          [error]="error[element] ? true : false" [titleDisabled] = "true"
+                          [error]="error[element] ? true : false"
                           [errorMessage]="error[element] ? error[element].message : ''">
                         </formItem>
                         <div class="tooltip">
@@ -202,7 +202,7 @@
 
                     <ng-container
                       *ngIf="data_elements[element].type == 'date'">
-                      <formItem *ngIf="!isFieldDisabled(data_elements[element].readonly)" type="date" 
+                      <formItem class="datepicker" *ngIf="!isFieldDisabled(data_elements[element].readonly)" type="date" 
                       placeholder="pp.kk.aaaa" [name]="element" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         title="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
                         [(ngModel)]="data_elements[element].value"
@@ -292,16 +292,6 @@
                             ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
                             placement="top"></icon>
                         </div>
-                        <div class="helper-wrapper">
-                          <!--                       <ng-container *ngIf="data_elements[element].helpertext">
-                                <span tabindex="-1" role="text"
-                                  attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
-                                  class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
-                                  matTooltipPosition="above">
-                                </span>
-                              </ng-container> -->
-                          <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                        </div>
                       </div>
 
                       <div class="xjson__table" [attr.id]="element + 'Table'">
@@ -361,8 +351,7 @@
                                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
                                           <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                             type="text" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
-                                            titleDisabled="true">
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
                                             </formItem>
                                         </ng-container> <!-- /TEXT -->
 
@@ -400,7 +389,7 @@
                                         </ng-container> <!-- /file -->
 
                                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-                                          <formItem name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                          <formItem class="datepicker" name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                             type="date" placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
                                             [(ngModel)]="row[col]"></formItem>
@@ -571,6 +560,21 @@ title="{{ 'xjson.table_delete_row_confirm_modal_title' | translate}}"
   <button htm-button tabindex="0" 
   theme="default"
   (click)="confirmRowDelete()">{{ 'button.yes_delete' | translate }}
+</button>
+</modal-content>
+</htm-modal>
+
+<htm-modal
+id="editStep"
+title="{{ 'xjson.edit_step_confirm_modal_title' | translate}}"
+[bottomAction]="true"
+[topAction]="true"
+>
+<modal-content class="modal-center">
+  <div>{{ 'xjson.edit_step_confirm_modal_content' | translate }}</div>
+  <button htm-button tabindex="0" 
+  theme="default"
+  (click)="toggleStepEdit()">{{ 'button.yes_change' | translate }}
 </button>
 </modal-content>
 </htm-modal>

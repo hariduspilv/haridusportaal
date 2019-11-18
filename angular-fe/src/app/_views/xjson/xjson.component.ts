@@ -315,7 +315,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         form_name: this.form_name,
         data_element: element,
       };
-      
+
       const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe((response) => {
         this.fileLoading[element] = true;
 
@@ -340,19 +340,19 @@ export class XjsonComponent implements OnInit, OnDestroy {
     };
   }
 
-     fileEventHandler(e, element) {
-      this.fileLoading[element] = true;
-      if (this.error[element]) {
-        delete this.error[element];
-      }
-      e.preventDefault();
-      const files_input = e.target.files || e.dataTransfer.files;
-      const files = Object.keys(files_input).map(item => files_input[item]);
-  
-      if (files && files.length > 0) {
-        this.uploadFile(files, element);
-      }
+  fileEventHandler(e, element) {
+    this.fileLoading[element] = true;
+    if (this.error[element]) {
+      delete this.error[element];
     }
+    e.preventDefault();
+    const files_input = e.target.files || e.dataTransfer.files;
+    const files = Object.keys(files_input).map(item => files_input[item]);
+
+    if (files && files.length > 0) {
+      this.uploadFile(files, element);
+    }
+  }
 
   byteToMegabyte(bytes) {
     return bytes / Math.pow(1024, 2);
@@ -432,6 +432,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   promptEditConfirmation() {
+    this.modalRef = this.modalService.toggle('editStep');
+  }
+
+  toggleStepEdit() {
+    this.formLoading = true;
+    this.edit_step = true;
+    this.data.header.current_step = this.opened_step;
+    this.data.header.acceptable_activity = ['SAVE'];
+    this.modalService.close('editStep');
+    this.viewController(this.data);
+    this.formLoading = false;
   }
 
   isItemExisting(list, target): boolean {
