@@ -5,7 +5,7 @@
     <ng-container *ngSwitchCase="'text'">
       <input
         [class.hideText]="!filledField && !focused"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
@@ -21,7 +21,7 @@
     <ng-container *ngSwitchCase="'password'">
       <input
         [class.hideText]="!filledField && !focused"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
@@ -36,7 +36,7 @@
     <ng-container *ngSwitchCase="'number'">
       <input
         [class.hideText]="!filledField"
-        [attr.placeholder]="filledField ? placeholder : ''"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
@@ -53,8 +53,9 @@
       <input
         [class.hideText]="!filledField"
         ngbDatepicker #d="ngbDatepicker"
+        container="body"
         outsideDays="collapsed"
-        [attr.placeholder]="filledField ? placeholder : ''"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         type="text"
@@ -74,7 +75,7 @@
     <ng-container *ngSwitchCase="'textarea'">
       <textarea
         [class.hideText]="!filledField"
-        [attr.placeholder]="filledField ? placeholder : ''"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         type="text"
@@ -108,11 +109,13 @@
           [multiple]="true"
           bindLabel="key"
           [closeOnSelect]="false"
+          [placeholder]="placeholder"
           bindValue="value"
           (change)="update()"
           (open)="update('focus')"
           (close)="update('blur')"
           [searchable]="false"
+          appendTo="body"
           [disabled]="disabled"
           [(ngModel)]="field">
 
@@ -148,6 +151,8 @@
           (close)="update('blur')"
           [searchable]="false"
           [disabled]="disabled"
+          [placeholder]="placeholder"
+          appendTo="body"
           [(ngModel)]="field">
         </ng-select>
       </ng-container>
@@ -199,7 +204,7 @@
     <ng-container *ngSwitchCase="'autocomplete'">
       <input
         [class.hideText]="!filledField && !focused"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && filledField) ? placeholder : ''"
+        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"

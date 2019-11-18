@@ -132,25 +132,6 @@ $create-font-face: false;
         font-size:1.125rem !important;
       }
     }
-    .ng-dropdown-panel{
-      border-radius:0 !important;
-      border: none !important;
-      margin-top: 0.3125rem !important;
-      box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12) !important;
-      .ng-option{
-        font-size:1.125rem !important;
-        padding: 1.1rem 1rem !important;
-      }
-      .ng-option:last-child{
-        border-radius: 0 !important;
-      }
-      .ng-option-selected{
-        background: none !important;
-      }
-      .ng-option-marked{
-        background: rgba(0,0,0,.04) !important;
-      }
-    }
     &.ng-select-multiple{
       .ng-value{
         display: none;
@@ -173,6 +154,28 @@ $create-font-face: false;
           }
         }
       }
+    }
+  }
+  .ng-dropdown-panel{
+    border-radius:0 !important;
+    border: none !important;
+    margin-top: 0.3125rem !important;
+    box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12) !important;
+    .ng-option{
+      font-size:1.125rem !important;
+      padding: 1.1rem 1rem !important;
+    }
+    .ng-option:last-child{
+      border-radius: 0 !important;
+    }
+    .ng-option-selected{
+      background: none !important;
+    }
+    .ng-option-marked{
+      background: rgba(0,0,0,.04) !important;
+    }
+    .formItem__check__title{
+      font-size: 1.125rem !important;
     }
   }
 }
