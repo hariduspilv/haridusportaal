@@ -115,68 +115,69 @@
 	<modal-content id="login" *ngIf="modalService.modalOpened['login']">
 		<alerts id="login-modal" small></alerts>
 		<loader *ngIf="loading"></loader>
+		<div class="login__methods">
 		<div class="login__wrapper" *ngIf="!loading">
 			<ng-container *ngIf="!mobileId.challengeId; else mobileIdWrapper">
-				<div class="login__method">
-					<button (click)="harIdLogin()" htm-button>
-						{{ "login_harid" | translate }}
-					</button>
-				</div>
-				<labeled-separator type="login" label="või"></labeled-separator>
-				<div class="login__method">
-					<button (click)="taraLogin()" htm-button>
-						{{ "login_tara" | translate }}
-					</button>
-				</div>
-				<labeled-separator type="login" label="või"></labeled-separator>
-				<div class="login__method">
-					<div>
-						<h2>{{ "login_mobile" | translate }}</h2>
-					</div>
-					<div>
-						<form [formGroup]="mobileIdForm">
-							<formItem
-								type="text"
-								formControlName="phoneNumber"
-								title="{{ 'dashboard.contactPhone' | translate }}"
-							>
-							</formItem>
-						</form>
-					</div>
-					<div>
-						<button (click)="mobileIdLogin()" htm-button>
-							{{ "button.login" | translate }}
-						</button>
-					</div>
-				</div>
-				<labeled-separator type="login" label="või"></labeled-separator>
-				<div class="login__method" ngForm [formGroup]="loginForm">
-						<div>
-							<formItem
-								type="text"
-								formControlName="username"
-								title="{{ 'login.username' | translate }}"
-							>
-							</formItem>
-						</div>
-						<div>
-							<formItem
-								type="password"
-								formControlName="password"
-								title="{{ 'login.password' | translate }}"
-							>
-							</formItem>
-						</div>
-						<div>
-							<button
-								(blur)="modalService.focusLock()"
-								htm-button
-								(click)="basicLogin()"
-							>
-								{{ "button.login" | translate }}
-							</button>
-						</div>
-				</div>
+				<ng-container *ngFor="let method of availableAuthMethods; let first = first">
+					<labeled-separator *ngIf="!first" type="login" label="või"></labeled-separator>
+						<div class="login__method" *ngIf="method[0] === 'harid'">
+								<button (click)="harIdLogin()" htm-button>
+									{{ "login_harid" | translate }}
+								</button>
+							</div>
+							<div class="login__method" *ngIf="method[0] === 'tara'">
+								<button (click)="taraLogin()" htm-button>
+									{{ "login_tara" | translate }}
+								</button>
+							</div>
+							<div class="login__method" *ngIf="method[0] === 'mobile_id'">
+								<div>
+									<h2>{{ "login_mobile" | translate }}</h2>
+								</div>
+								<div>
+									<form [formGroup]="mobileIdForm">
+										<formItem
+											type="text"
+											formControlName="phoneNumber"
+											title="{{ 'dashboard.contactPhone' | translate }}"
+										>
+										</formItem>
+									</form>
+								</div>
+								<div>
+									<button (click)="mobileIdLogin()" htm-button>
+										{{ "button.login" | translate }}
+									</button>
+								</div>
+							</div>
+							<div class="login__method" *ngIf="method[0] === 'basic'" ngForm [formGroup]="loginForm">
+									<div>
+										<formItem
+											type="text"
+											formControlName="username"
+											title="{{ 'login.username' | translate }}"
+										>
+										</formItem>
+									</div>
+									<div>
+										<formItem
+											type="password"
+											formControlName="password"
+											title="{{ 'login.password' | translate }}"
+										>
+										</formItem>
+									</div>
+									<div>
+										<button
+											(blur)="modalService.focusLock()"
+											htm-button
+											(click)="basicLogin()"
+										>
+											{{ "button.login" | translate }}
+										</button>
+									</div>
+							</div>
+				</ng-container>
 			</ng-container>
 			<ng-template #mobileIdWrapper>
 				<div class="mobile-handshake">
@@ -190,5 +191,6 @@
 				</div>
 			</ng-template>
 		</div>
+	</div>
 	</modal-content>
 </htm-modal>

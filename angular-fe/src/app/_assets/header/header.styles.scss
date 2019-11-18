@@ -63,6 +63,10 @@
 		}
 	}
 
+	::ng-deep .login__methods {
+		display: flex;
+		flex-direction: row;
+	}
 	::ng-deep .login__wrapper {
 		display: flex;
     width: 100%;

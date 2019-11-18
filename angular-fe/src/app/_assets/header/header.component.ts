@@ -129,10 +129,15 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
-    this.active = this.sidemenuService.isVisible;
-    this.loginStatus = this.auth.isAuthenticated.getValue();
-    this.subscribeToAuth();
+  getAuthMethods() {
+    if (
+      this.settings.url === 'https://htm.wiseman.ee' ||
+      this.settings.url === 'http://test-htm.wiseman.ee:30000' ||
+      this.settings.url === 'https://apitest.hp.edu.ee'
+    ) {
+      this.authMethods.basic = true;
+      this.authMethods.mobile_id = true;
+    }
     this.http.get(`${this.settings.url}/auth_methods?_format=json`).subscribe(
       (response) => {
         this.authMethods = Object.assign({}, this.authMethods, { ...response['auth_methods'] });
@@ -141,12 +146,20 @@ export class HeaderComponent implements OnInit {
         if (!this.availableAuthMethods.length) {
           this.alertsService.info('login.unavailable', 'login', false);
         }
+        console.log(this.availableAuthMethods);
       },
       (response) => {
         this.alertsService.error(response.error.message, 'login', false);
       },
       () => {
         this.loading = false;
-      })
+      });
+  }
+
+  ngOnInit(): void {
+    this.active = this.sidemenuService.isVisible;
+    this.loginStatus = this.auth.isAuthenticated.getValue();
+    this.subscribeToAuth();
+    this.getAuthMethods();
   }
 }
