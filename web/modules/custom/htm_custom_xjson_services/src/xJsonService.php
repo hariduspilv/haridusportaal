@@ -441,8 +441,6 @@ class xJsonService implements xJsonServiceInterface {
               return $recfunc($option['options'], $keys);
             }
           }
-          dump($keys);
-          die();
           return $keys;
         };
 
