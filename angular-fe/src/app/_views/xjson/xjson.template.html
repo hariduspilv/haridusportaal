@@ -27,7 +27,7 @@
 
         <loader *ngIf="!data || formLoading"></loader>
 
-        <alerts
+        <alerts [class.hidden]="formLoading"
           small="true"
           id="upperAlert"
         ></alerts>
@@ -109,7 +109,7 @@
                           <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [(ngModel)]="data_elements[element].value" [name]="element"
-                          [error]="error[element] ? true : false"
+                          [error]="error[element] ? true : false" [titleDisabled] = "true"
                           [errorMessage]="error[element] ? error[element].message : ''">
                         </formItem>
                         <div class="tooltip">
@@ -361,7 +361,8 @@
                                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
                                           <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                             type="text" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
+                                            titleDisabled="true">
                                             </formItem>
                                         </ng-container> <!-- /TEXT -->
 
