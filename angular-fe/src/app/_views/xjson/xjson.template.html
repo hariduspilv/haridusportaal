@@ -33,19 +33,10 @@
           <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}
           </p>
 
-          <ng-container *ngIf="data_messages">
-            <ng-container *ngFor="let message of data_messages; let i = index;">
-              <div class="alert" [ngClass]="'alert__'+data.messages[message].message_type | lowercase">
-                {{ selectLanguage(data.messages[message].message_text)}}<button
-                  *ngIf="data.messages[message].message_type !== 'ERROR'" class="alert__close" (click)="closeMessage(i)"
-                  [attr.aria-label]="'notification.close' | translate"></button></div>
-            </ng-container>
-          </ng-container>
-
-          <ng-container *ngIf="error_alert">
-            <div class="alert" ngClass="alert__error">
-              {{ 'xjson.validation_errors' | translate }} </div>
-          </ng-container>
+          <alerts
+          small="true"
+          id="upperAlert"
+        ></alerts>
 
           <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
             <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
@@ -77,11 +68,6 @@
             <!-- STEP BODY -->
             <div class="row button-list button-list-top">
               <ng-container *ngFor="let activity of activityButtons['primary']">
-                <!--             <button *ngIf="activity.action == 'EDIT'" type="submit" role="button" mat-raised-button
-                      [color]="[activity.style]" (click)="submitForm(activity.action)">
-                      {{ activity.label | translate }}
-                    </button> -->
-
                 <button htm-button *ngIf="activity.action == 'EDIT'" theme="default"
                   (click)="submitForm(activity.action)">
                   {{ activity.label | translate }}
@@ -123,7 +109,9 @@
 
                           <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                          [(ngModel)]="data_elements[element].value" [name]="element">
+                          [(ngModel)]="data_elements[element].value" [name]="element"
+                          [error]="error[element] ? true : false"
+                          [errorMessage]="error[element] ? error[element].message : ''">
                         </formItem>
 
                       <div class="squared-input__outer-wrapper">
@@ -144,9 +132,11 @@
 
                     <ng-container *ngIf="data_elements[element].type == 'textarea'">
 
-                        <formItem type="text"
+                        <formItem type="textarea" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                        [(ngModel)]="data_elements[element].value" [name]="element">
+                        [(ngModel)]="data_elements[element].value" [name]="element"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''">
                       </formItem>
 
                       <div class="squared-input__area">
@@ -169,15 +159,19 @@
                     <ng-container *ngIf="data_elements[element].type == 'selectlist'">
 
                       <ng-container *ngIf="data_elements[element].multiple; else singleSelect">
-                        <formItem type="multi-select"
+                        <formItem type="multi-select" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options" [name]="element">
+                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options" [name]="element"
+                          [error]="error[element] ? true : false"
+                          [errorMessage]="error[element] ? error[element].message : ''">
                         </formItem>
                       </ng-container>
                       <ng-template #singleSelect>
-                        <formItem type="select"
+                        <formItem type="select" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options" [name]="element">
+                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options" [name]="element"
+                          [error]="error[element] ? true : false"
+                          [errorMessage]="error[element] ? error[element].message : ''">
                         </formItem>
                       </ng-template>
                       <div class="helper-wrapper">
@@ -193,9 +187,11 @@
                     </ng-container> <!-- /SELECTLIST -->
 
                     <ng-container *ngIf="data_elements[element].type == 'email'">
-                        <formItem type="text"
+                        <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                        [(ngModel)]="data_elements[element].value" [name]="element">
+                        [(ngModel)]="data_elements[element].value" [name]="element"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''">
                       </formItem>
 
                       <div class="squared-input__outer-wrapper">
@@ -214,9 +210,11 @@
                     </ng-container> <!-- /EMAIL -->
 
                     <ng-container *ngIf="data_elements[element].type == 'checkbox'">
-                      <formItem type="checkbox"
+                      <formItem type="checkbox" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         label="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
-                        [(ngModel)]="data_elements[element].value" [name]="element"></formItem>
+                        [(ngModel)]="data_elements[element].value" [name]="element"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''"></formItem>
 
                       <div class="helper-wrapper">
                         <!--                       <ng-container *ngIf="data_elements[element].helpertext">
@@ -231,9 +229,11 @@
                     </ng-container> <!-- /CHECKBOX -->
 
                     <ng-container *ngIf="data_elements[element].type == 'number'">
-                        <formItem type="number"
+                        <formItem type="number" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                        [(ngModel)]="data_elements[element].value" [name]="element">
+                        [(ngModel)]="data_elements[element].value" [name]="element"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''">
                       </formItem>
 
                       <div class="squared-input__outer-wrapper">
@@ -252,16 +252,22 @@
                     </ng-container> <!-- /NUMBER -->
 
                     <ng-container *ngIf="data_elements[element].type == 'address'">
-                      <formItem type="autocomplete" query="inaadress" [(ngModel)]="data_elements[element].value" [name]="element"
-                        title="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}">
+                      <formItem type="autocomplete" query="inaadress" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                      [(ngModel)]="data_elements[element].value" [name]="element"
+                        title="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''">
                       </formItem>
                     </ng-container> <!-- /ADDRESS -->
 
                     <ng-container
-                      *ngIf="data_elements[element].type == 'date' && !isFieldDisabled(data_elements[element].readonly)">
-                      <formItem *ngIf="!isFieldDisabled(data_elements[element].readonly)" type="date" placeholder="pp.kk.aaaa" [name]="element"
+                      *ngIf="data_elements[element].type == 'date'">
+                      <formItem *ngIf="!isFieldDisabled(data_elements[element].readonly)" type="date" 
+                      placeholder="pp.kk.aaaa" [name]="element" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         title="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
-                        [(ngModel)]="data_elements[element].value"></formItem>
+                        [(ngModel)]="data_elements[element].value"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''"></formItem>
                       <div class="helper-wrapper">
                         <!--                       <ng-container *ngIf="data_elements[element].helpertext">
                                 <span tabindex="-1" role="text"
@@ -273,36 +279,6 @@
                         <!-- /HELPERTEXT QUESTIONMARK (?) -->
                       </div>
                     </ng-container> <!-- /DATE -->
-
-                    <ng-container
-                      *ngIf="data_elements[element].type == 'date' && isFieldDisabled(data_elements[element].readonly)">
-                      <div class="squared-input__outer-wrapper">
-                        <div class="squared-input__wrapper"
-                          [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                          <span class="squared-input__title"
-                            attr.aria-label="{{ selectLanguage(data_elements[element].title) }} {{ data_elements[element].value }}">
-                            {{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}
-                          </span>
-                          <div class="squared-input__field-wrapper">
-                            <input class="squared-input__field" type="text" aria-hidden="true"
-                              attr.aria-invalid="{{ error[element] && error[element].row == undefined ? 'true' : 'false' }}"
-                              placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                              [attr.disabled]="isFieldDisabled(data_elements[element].readonly) ? '' : null"
-                              [(ngModel)]="data_elements[element].value" name="{{element}}" />
-                          </div>
-                        </div>
-                        <div class="helper-wrapper">
-                          <!--                       <ng-container *ngIf="data_elements[element].helpertext">
-                                <span tabindex="-1" role="text"
-                                  attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
-                                  class="tooltip" matTooltip="{{ selectLanguage(data_elements[element].helpertext) }}"
-                                  matTooltipPosition="above">
-                                </span>
-                              </ng-container> -->
-                          <!-- /HELPERTEXT QUESTIONMARK (?) -->
-                        </div>
-                      </div>
-                    </ng-container><!-- /DATE -->
 
                     <ng-container *ngIf="data_elements[element].type == 'file'">
 
@@ -447,44 +423,36 @@
 
                                       <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
                                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
-                                          <input
-                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                            class="contnent-input" type="text"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                            [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? '' : null"
-                                            [(ngModel)]='row[col]'
-                                            name="{{element + '_' + rowIndex + '_' + colIndex}}" />
+                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="text" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            title="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}">
+                                            </formItem>
                                         </ng-container> <!-- /TEXT -->
 
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
-                                          <formItem type="autocomplete" query="inaadress" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                          type="autocomplete" query="inaadress" [(ngModel)]="row[col]"
+                                          name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             title="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}">
                                           </formItem>
                                         </ng-container> <!-- /ADDRESS -->
 
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
-                                          <input
-                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                            class="contnent-input" type="email"
-                                            [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
-                                            [readonly]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                            [(ngModel)]='row[col]'
-                                            name="{{element + '_' + rowIndex + '_' + colIndex}}" />
+                                            <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="text" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            title="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
+                                            [error]="row[col]">
+                                            </formItem>
                                         </ng-container> <!-- /EMAIL -->
 
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
-                                          <input
-                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                            class="contnent-input" type="text"
-                                            [min]="tableColumnAttribute(element, colIndex, 'min')"
-                                            [max]="tableColumnAttribute(element, colIndex, 'max')"
-                                            [attr.disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ? true : null"
-                                            [(ngModel)]='row[col]'
-                                            name="{{element + '_' + rowIndex + '_' + colIndex}}" />
+                                            <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="number" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            title="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}">
+                                            </formItem>
                                         </ng-container> <!-- /NUMBER -->
 
                                         <ng-container
@@ -498,13 +466,15 @@
                                           <formItem name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                             type="date" placeholder="pp.kk.aaaa"
-                                            [title]="selectLanguage(tableColumnAttribute(element, colIndex, 'title'))"
+                                            title="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}{{ tableColumnAttribute(element, colIndex, 'required') ? '*' : ''}}"
                                             [(ngModel)]="row[col]"></formItem>
                                         </ng-container><!-- /DATE -->
 
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
-                                          <formItem type="checkbox" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"></formItem>
+                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else checkboxReadonlyDisplay"
+                                          type="checkbox" [(ngModel)]="row[col]" 
+                                          name="{{element + '_' + rowIndex + '_' + colIndex}}"></formItem>
                                         </ng-container> <!-- /CHECKBOX -->
                                         <ng-template #checkboxReadonlyDisplay>
                                           <span>{{ (row[col] ? 'true' : 'false') | translate }}</span>
@@ -516,32 +486,6 @@
                                             title="{{ selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': '' }}"
                                             [(ngModel)]="row[col]"
                                             [options]="tableColumnAttribute(element, colIndex, 'options')"></formItem>
-
-                                          <!--                                       <ng-container
-                                                *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) == false; else readonlyDisplay">
-                                                <div class="round-input__wrapper"
-                                                  [class.complete]="data_elements[element].value || opened_step != this.max_step">
-                                                  <div class="round-input__field-wrapper">
-                                                    <mat-select class="round-input__field"
-                                                      [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                                      [(ngModel)]="row[col]"
-                                                      name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                                      placeholder="{{ tableColumnAttribute(element, colIndex, 'empty_option') ? selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : ''}}">
-                                                      <mat-option>
-                                                        {{ tableColumnAttribute(element, colIndex, 'empty_option') ?
-                                                        selectLanguage(tableColumnAttribute(element, colIndex, 'empty_option')) : '-'}}
-                                                      </mat-option>
-                                                      <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'options')">
-                                                        <mat-option
-                                                          *ngFor="let option of objectKeys(tableColumnAttribute(element, colIndex, 'options'))"
-                                                          [value]="option">
-                                                          {{ selectLanguage(tableColumnAttribute(element, colIndex, 'options')[option]) }}
-                                                        </mat-option>
-                                                      </ng-container>
-                                                    </mat-select>
-                                                  </div>
-                                                </div>
-                                              </ng-container> -->
                                         </ng-container> <!-- /SELECTLIST -->
 
                                         <ng-template #readonlyDisplay>
@@ -593,7 +537,7 @@
 
                     </ng-container> <!-- /TABLE -->
 
-                    <ng-container *ngIf="error[element] && error[element].row == undefined">
+                    <ng-container *ngIf="error[element] && error[element].rows">
                       <div class="error">
                         {{ error[element].message }}
                       </div>
@@ -675,14 +619,22 @@
           </ng-container>
         </ng-container>
       </div>
-      <htm-modal
-  id="debugModal"
-  title="test"
-	titleExists="false">
-	<modal-content>
-	</modal-content>
-</htm-modal>
       <!--/block border-blue-->
     </block-content>
   </block>
 </base-layout>
+
+<htm-modal
+id="deleteTableRow"
+title="{{ 'xjson.table_delete_row_confirm_modal_title' | translate}}"
+[bottomAction]="true"
+[topAction]="true"
+>
+<modal-content class="modal-center">
+  <div>{{ 'xjson.table_delete_row_confirm_modal_content' | translate }}</div>
+  <button htm-button tabindex="0" 
+  theme="default"
+  (click)="confirmRowDelete()">{{ 'button.yes_delete' | translate }}
+</button>
+</modal-content>
+</htm-modal>

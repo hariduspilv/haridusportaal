@@ -103,6 +103,16 @@ h2 {
   }
 }
 
+.modal-center {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  div {
+    margin-bottom: 2rem;
+  }
+}
+
 .xjson__scrollable {
   position: relative;
   overflow: hidden;
@@ -232,9 +242,7 @@ h2 {
   a {
     text-decoration: none;
     &:before {
-      content: "done";
-      font-family: "htm-icon";
-      font-feature-settings: "liga";
+      content: "";
       color: $light-blue;
       width: 1.5625rem;
       height: 1.5625rem;
@@ -384,7 +392,7 @@ a {
     display: flex;
     margin-right: 0.5rem;
     button {
-      margin-left: .625rem;
+      margin-left: 0.625rem;
     }
   }
   .secondary-buttons {
@@ -729,87 +737,6 @@ input::placeholder {
   margin-bottom: 0.5rem;
 }
 
-/*ALERTS*/
-
-.alert {
-  margin: 1rem 0rem;
-  position: relative;
-  border-radius: 0.25rem;
-  background-color: #f1f7fe;
-  border: solid 0.0625rem $info;
-  padding: 0.5625rem 3.5rem;
-  font-size: 1rem;
-  line-height: 1.38;
-  text-align: left;
-  color: $black;
-  font-weight: normal;
-  &:before {
-    font-family: "htm-icon";
-    content: "info";
-    font-feature-settings: "liga";
-    -ms-font-feature-settings: "liga";
-    color: $white;
-    background: $info;
-    position: absolute;
-    left: 0px;
-    font-size: 1.5rem;
-    align-items: center;
-    text-align: center;
-    display: flex;
-    padding: 0.5rem;
-    top: 0;
-    bottom: 0;
-    font-weight: 400;
-  }
-  &__warning {
-    background-color: #fff7eb;
-    border-color: $warning;
-    &:before {
-      content: "info";
-      background: $warning;
-      transform: rotate(180deg);
-    }
-  }
-  &__error {
-    background-color: #fdf3f4;
-    border-color: $error;
-    &:before {
-      content: "highlight_off";
-      background: $error;
-    }
-  }
-  &__success {
-    background-color: #e6f5ef;
-    border-color: $success;
-    &:before {
-      content: "check_circle";
-      background: $success;
-    }
-  }
-  &__close {
-    font-family: "htm-icon";
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    width: 3.5rem;
-    cursor: pointer;
-    appearance: none;
-    padding: 0;
-    border: none;
-    background: none;
-    text-align: center;
-    font-size: 1rem;
-    &:before {
-      content: "close";
-      display: block;
-      width: 100%;
-    }
-  }
-}
-
 .xjson__component ::ng-deep .round-input__field .mat-select-trigger {
   margin: -0.5rem 1rem 0rem 0rem;
   display: block !important;
@@ -993,6 +920,14 @@ hr.divider {
 }
 .disabled-step table .round-input__field-wrapper {
   border: 0px solid transparent;
+}
+h1 {
+  margin-bottom: 1rem;
+}
+.row {
+  formItem {
+    margin-bottom: 0.5rem;
+  }
 }
 .subrow {
   display: flex;

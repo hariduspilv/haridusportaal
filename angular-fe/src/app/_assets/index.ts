@@ -32,6 +32,7 @@ import {
   ModalService,
   SettingsService,
   AuthService,
+  UploadService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -202,6 +203,7 @@ const providers = [
   TableService,
   AddressService,
   SettingsService,
+  UploadService,
   AuthService,
   {
     provide: RECAPTCHA_LANGUAGE,
