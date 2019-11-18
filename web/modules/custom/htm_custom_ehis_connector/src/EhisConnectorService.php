@@ -379,7 +379,7 @@ class EhisConnectorService {
         ];
       }
     }
-    return $return;
+    return $processedArray;
   }
 
   /**
