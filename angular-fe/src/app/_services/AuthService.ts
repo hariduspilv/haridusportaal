@@ -19,7 +19,7 @@ export class AuthService implements CanActivate {
     private router: Router,
     private settings: SettingsService,
   ) {
-    this.isLoggedIn();
+    this.isAuthenticated.next(this.isLoggedIn());
   }
 
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -50,8 +50,8 @@ export class AuthService implements CanActivate {
   }
 
   public logout() {
-    this.isAuthenticated.next(false);
     localStorage.removeItem('token');
+    this.isAuthenticated.next(false);
     this.router.navigateByUrl('/');
   }
 
@@ -73,7 +73,7 @@ export class AuthService implements CanActivate {
     }
     const token = localStorage.getItem('token');
     this.userData = this.decodeToken(token);
-    if(!this.isAuthenticated.getValue()) {
+    if (!this.isAuthenticated.getValue()) {
       this.isAuthenticated.next(true);
     }
   }

@@ -56,7 +56,10 @@
 				>
 					<div class="label--logged">
 						<icon aria-hidden="true" glyph="user" size="medium"></icon>
-						<span>{{ auth.user.firstname }} {{ auth.user.lastname }}</span>
+						<span>
+							<ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }} {{ auth.user.lastname }}</ng-container>
+							<ng-container *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}</ng-container>
+						</span>
 					</div>
 				</button>
 				<div *ngIf="logoutActive" class="header__logout">
@@ -64,7 +67,7 @@
 						htm-button
 						theme="logout"
 						(mouseout)="logoutActive = false"
-						(click)="auth.logout()"
+						(click)="auth.logout(); logoutActive = false;"
 					>
 						Logi välja
 					</button>
@@ -73,7 +76,7 @@
 					<button
 						htm-button
 						[class.active]="modalService.modalOpened['login']"
-						(click)="modalService.toggle('login')"
+						(click)="modalService.toggle('login'); loginForm.reset(); mobileIdForm.reset()"
 						theme="plain"
 						attr.aria-label="{{ 'button.login' | translate }}"
 					>
@@ -110,69 +113,82 @@
 	[bottomAction]="false"
 >
 	<modal-content id="login" *ngIf="modalService.modalOpened['login']">
+		<alerts id="login-modal" small></alerts>
+		<loader *ngIf="loading"></loader>
 		<div class="login__wrapper" *ngIf="!loading">
-			<div class="login__method">
-				<button (click)="harIdLogin()" htm-button>
-					{{ "login_harid" | translate }}
-				</button>
-			</div>
-			<labeled-separator type="login" label="või"></labeled-separator>
-			<div class="login__method">
-				<button (click)="taraLogin()" htm-button>
-					{{ "login_tara" | translate }}
-				</button>
-			</div>
-			<labeled-separator type="login" label="või"></labeled-separator>
-			<div class="login__method">
-				<div>
-					<h2>{{ "login_mobile" | translate }}</h2>
-				</div>
-				<div>
-					<form [formGroup]="mobileIdForm">
-						<formItem
-							type="text"
-							formControlName="phoneNumber"
-							title="{{ 'dashboard.contactPhone' | translate }}"
-						>
-						</formItem>
-					</form>
-				</div>
-				<div>
-					<button (click)="mobileIdLogin()" htm-button>
-						{{ "button.login" | translate }}
+			<ng-container *ngIf="!mobileId.challengeId; else mobileIdWrapper">
+				<div class="login__method">
+					<button (click)="harIdLogin()" htm-button>
+						{{ "login_harid" | translate }}
 					</button>
 				</div>
-			</div>
-			<labeled-separator type="login" label="või"></labeled-separator>
-			<form [formGroup]="loginForm">
+				<labeled-separator type="login" label="või"></labeled-separator>
+				<div class="login__method">
+					<button (click)="taraLogin()" htm-button>
+						{{ "login_tara" | translate }}
+					</button>
+				</div>
+				<labeled-separator type="login" label="või"></labeled-separator>
 				<div class="login__method">
 					<div>
-						<formItem
-							type="text"
-							formControlName="username"
-							title="{{ 'login.username' | translate }}"
-						>
-						</formItem>
+						<h2>{{ "login_mobile" | translate }}</h2>
 					</div>
 					<div>
-						<formItem
-							type="password"
-							formControlName="password"
-							title="{{ 'login.password' | translate }}"
-						>
-						</formItem>
+						<form [formGroup]="mobileIdForm">
+							<formItem
+								type="text"
+								formControlName="phoneNumber"
+								title="{{ 'dashboard.contactPhone' | translate }}"
+							>
+							</formItem>
+						</form>
 					</div>
 					<div>
-						<button
-							(blur)="modalService.focusLock()"
-							htm-button
-							(click)="basicLogin()"
-						>
+						<button (click)="mobileIdLogin()" htm-button>
 							{{ "button.login" | translate }}
 						</button>
 					</div>
 				</div>
-			</form>
+				<labeled-separator type="login" label="või"></labeled-separator>
+				<div class="login__method" ngForm [formGroup]="loginForm">
+						<div>
+							<formItem
+								type="text"
+								formControlName="username"
+								title="{{ 'login.username' | translate }}"
+							>
+							</formItem>
+						</div>
+						<div>
+							<formItem
+								type="password"
+								formControlName="password"
+								title="{{ 'login.password' | translate }}"
+							>
+							</formItem>
+						</div>
+						<div>
+							<button
+								(blur)="modalService.focusLock()"
+								htm-button
+								(click)="basicLogin()"
+							>
+								{{ "button.login" | translate }}
+							</button>
+						</div>
+				</div>
+			</ng-container>
+			<ng-template #mobileIdWrapper>
+				<div class="mobile-handshake">
+					<p>
+						Kontrolli, et näed mobiiltelefoni ekraanil täpselt sama numbrit:
+					</p>
+					<h1>{{this.mobileId.challengeId}}</h1>
+					<p class="mb-0">Seejärel sisesta PIN1</p>
+					<p class="mt-0">Ootame Mobiil-ID vastust…</p>
+					<button (click)="mobileIdCancel()" htm-button theme="plain">{{"button.cancel" | translate}}</button>
+				</div>
+			</ng-template>
 		</div>
 	</modal-content>
 </htm-modal>
