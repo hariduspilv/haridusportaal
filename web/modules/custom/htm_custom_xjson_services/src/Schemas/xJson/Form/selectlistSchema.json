@@ -46,7 +46,7 @@
     "options": {
       "type": "array",
       "items": {
-        "type": "string"
+        "type": "object"
       }
     },
     "options_list": {
