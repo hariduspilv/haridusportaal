@@ -6,7 +6,7 @@ input {
   font-size: 0.875rem;
 }
 
-::ng-deep htm-modal .datepicker {
+::ng-deep htm-modal {
   z-index: 10000 !important;
 }
 
@@ -30,7 +30,7 @@ h2 {
   letter-spacing: normal;
   text-align: left;
   margin-top: 1.8rem !important;
-  margin-bottom: 0;
+  margin-bottom: 1rem !important;
 }
 
 .xjson {

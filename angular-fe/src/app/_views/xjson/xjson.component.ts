@@ -737,7 +737,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   getUpperInfoText() {
     const infoTextTranslationKey = 'xjson.' + this.form_name + '_infotext';
     const infoTextTranslation = this.translate.get(infoTextTranslationKey);
-    this.upperInfoText = infoTextTranslation === infoTextTranslationKey ? false : infoTextTranslation;
+    this.upperInfoText = infoTextTranslation.replace(/[?]/g, "") === infoTextTranslationKey ? false : infoTextTranslation;
   }
 
   getStepViewStatus() {
@@ -795,8 +795,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   populateAlerts() {
     this.data_messages.forEach((element) => {
       const message = this.data.messages[element];
+      console.log(message);
       if (message.message_text && message.message_type) {
-        this.alertsService[message.message_type.toLowerCase()](message.message_text.et, 'upperAlert', false, true);
+        this.alertsService[message.message_type === 'NOTICE' ? 'info' : message.message_type.toLowerCase()](message.message_text.et, 'upperAlert', false, true);
       }
     });
   }
