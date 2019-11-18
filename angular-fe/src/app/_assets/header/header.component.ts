@@ -1,9 +1,9 @@
 import { Component, OnInit, HostBinding, Input } from '@angular/core';
-import { SidemenuService, ModalService, AuthService, SettingsService } from '@app/_services';
+import { SidemenuService, ModalService, AuthService, SettingsService, AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'htm-header',
@@ -18,27 +18,33 @@ export class HeaderComponent implements OnInit {
   @HostBinding('class') get hostClasses(): string {
     return 'header';
   }
-  @HostBinding('attr.aria-label') ariaLabel:string = this.translate.get('frontpage.header');
-  @HostBinding('attr.role') role:string = 'banner';
+  @HostBinding('attr.aria-label') ariaLabel: string = this.translate.get('frontpage.header');
+  @HostBinding('attr.role') role: string = 'banner';
   public search;
   public logoutActive = false;
 
   public loading = false;
   public mobileId = {
-    handshake: '',
     challengeId: '',
-    session_code: '',
-    id_code: '',
   };
+
+  public authMethods = {
+    harid: false,
+    tara: false,
+    mobile_id: false,
+    basic: false,
+  };
+
+  public availableAuthMethods = [];
+
+  public mobileIdRequest: Subscription = new Subscription();
   public loginForm: FormGroup = this.formBuilder.group({
     password: ['', Validators.required],
     username: ['', Validators.required],
-    auth_method: ['basic'],
   });
 
   public mobileIdForm: FormGroup = this.formBuilder.group({
     phoneNumber: ['', Validators.required],
-    auth_method: ['mobileId'],
   });
 
   constructor(
@@ -49,52 +55,72 @@ export class HeaderComponent implements OnInit {
     public auth: AuthService,
     private settings: SettingsService,
     private http: HttpClient,
-  ) {}
+    private alertsService: AlertsService,
+  ) { }
 
-  public basicLogin():void {
-    const data = this.loginForm.value;
+  public basicLogin(): void {
+    this.alertsService.clear('login-modal');
+    const data = { ...this.loginForm.value, auth_method: 'basic' };
     const subscription = this.auth.login(data).subscribe((response) => {
       this.modalService.close('login');
       subscription.unsubscribe();
     });
   }
 
-  public taraLogin():void {
+  public taraLogin(): void {
     window.location.href = `${this.settings.url}/external-login/tara`;
   }
 
-  public harIdLogin():void {
+  public harIdLogin(): void {
     window.location.href = `${this.settings.url}/external-login/harid`;
   }
 
   // needs to be finished
-  public mobileIdLogin():void {
-    const data = this.loginForm.value;
+  public mobileIdLogin(): void {
+    this.alertsService.clear('login-modal');
+    this.loading = true;
     this.http.post(
       `${this.settings.url}${this.settings.mobileLogin}`,
       { telno: this.mobileIdForm.controls.phoneNumber.value },
     ).subscribe(
-      (data:any) => {
-        console.log(data);
-        const consecutiveForm = {
-          challengeId: data.ChallengeID,
-          session_code: data.Sesscode,
-          id_code: data.UserIDCode,
-        };
-      },
       (data: any) => {
         this.loading = false;
+        this.mobileId.challengeId = data.ChallengeID;
+        const consecutiveForm = {
+          session_code: data.Sesscode,
+          id_code: data.UserIDCode,
+          auth_method: 'mobile_id',
+        };
+        this.mobileIdRequest = this.auth.login(consecutiveForm)
+          .subscribe(
+            (response) => {
+              this.modalService.close('login');
+              this.mobileId.challengeId = '';
+            },
+            (err) => {
+              this.alertsService
+                .error(this.translate.get(err.error.message), 'login-modal', false, true);
+              this.mobileId.challengeId = '';
+            },
+            () => {
+            });
       },
+      (err: any) => {
+      },
+      () => {
+        this.loading = false;
+      }
     );
-    const subscription = this.auth.login(data).subscribe((response) => {
-      this.modalService.close('login');
-      subscription.unsubscribe();
-    });
   }
 
   toggleSidemenu(): void {
     this.sidemenuService.toggle();
     this.active = this.sidemenuService.isVisible;
+  }
+
+  mobileIdCancel() {
+    this.mobileId.challengeId = '';
+    this.mobileIdRequest.unsubscribe();
   }
 
   subscribeToAuth() {
@@ -103,8 +129,37 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  getAuthMethods() {
+    if (
+      this.settings.url === 'https://htm.wiseman.ee' ||
+      this.settings.url === 'http://test-htm.wiseman.ee:30000' ||
+      this.settings.url === 'https://apitest.hp.edu.ee'
+    ) {
+      this.authMethods.basic = true;
+      this.authMethods.mobile_id = true;
+    }
+    this.http.get(`${this.settings.url}/auth_methods?_format=json`).subscribe(
+      (response) => {
+        this.authMethods = Object.assign({}, this.authMethods, { ...response['auth_methods'] });
+        this.availableAuthMethods =
+          Object.entries(this.authMethods).filter(method => method[1]);
+        if (!this.availableAuthMethods.length) {
+          this.alertsService.info('login.unavailable', 'login', false);
+        }
+        console.log(this.availableAuthMethods);
+      },
+      (response) => {
+        this.alertsService.error(response.error.message, 'login', false);
+      },
+      () => {
+        this.loading = false;
+      });
+  }
+
   ngOnInit(): void {
     this.active = this.sidemenuService.isVisible;
+    this.loginStatus = this.auth.isAuthenticated.getValue();
     this.subscribeToAuth();
+    this.getAuthMethods();
   }
 }

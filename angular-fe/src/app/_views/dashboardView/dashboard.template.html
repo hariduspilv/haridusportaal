@@ -1,7 +1,7 @@
 <div class="inline">
 	<article-layout
 		[sidebar]="
-			sidebar.entity.event.length && sidebar.entity.favourites.length
+			favouritesListDone && eventsListDone
 				? sidebar
 				: false
 		"
@@ -14,25 +14,37 @@
 			<block-sub-title>
 				<div class="block__sub__title">
 					<div class="identification">
-                        <button
-                            htm-button theme="link"
+						<button
+							htm-button
+							theme="link"
 							*ngIf="currentRole === 'natural_person'"
 							attr.aria-label="{{ 'modal.modaler' | translate }}"
 							(click)="loadUserModal()"
 						>
-							<h1>{{ auth.user.firstname }} {{ auth.user.lastname }}</h1>
-                    </button>
+							<h1>
+								<ng-container *ngIf="auth.user.firstname && auth.user.lastname"
+									>{{ auth.user.firstname }} {{ auth.user.lastname
+									}}</ng-container
+								>
+								<ng-container
+									*ngIf="!auth.user.firstname && !auth.user.lastname"
+									>{{ auth.user.username }}</ng-container
+								>
+							</h1>
+						</button>
 						<h1 *ngIf="currentRole === 'juridical_person'">
 							{{ userData.role.current_role.data.nimi }}
 						</h1>
 					</div>
 					<div class="change-role">
-                        <button htm-button theme="link"
+						<button
+							htm-button
+							theme="link"
 							attr.aria-label="{{ 'modal.change_role' | translate }}"
 							(click)="loadRoleChangeModal()"
 						>
 							{{ "modal.change_role" | translate }}
-                        </button>
+						</button>
 					</div>
 				</div>
 			</block-sub-title>
@@ -53,7 +65,6 @@
 				tabIcon="class"
 				tabLink="tunnistused"
 				[tabActive]="breadcrumbs === '/töölaud/tunnistused'"
-
 			>
 				<certificates></certificates>
 			</block-content>
@@ -92,7 +103,14 @@
 			id="personalData"
 		></alerts>
 		<ng-container *ngIf="!loading && !error && personalData">
-			<h1>{{ auth.userData.firstname }} {{ auth.userData.lastname }}</h1>
+			<h1>
+				<ng-container *ngIf="auth.user.firstname && auth.user.lastname"
+					>{{ auth.user.firstname }} {{ auth.user.lastname }}</ng-container
+				>
+				<ng-container *ngIf="!auth.user.firstname && !auth.user.lastname"
+					>{{ auth.user.username }}</ng-container
+				>
+			</h1>
 			<table htm-table class="personal-data">
 				<ng-container *ngFor="let field of personalDataFields">
 					<tr *ngIf="personalData[field]">
@@ -107,58 +125,88 @@
 	</modal-content>
 </htm-modal>
 
-<htm-modal id="roleModal" title="{{ 'modal.changing_role' | translate }}" [titleExists]="titleExists"
-    [topAction]="topAction" [bottomAction]="roleBottomAction">
-    <modal-content [loading]="loading">
-        <alerts class="notifications notifications--small" id="roles"></alerts>
-        <ng-container *ngIf="!loading && !error">
-            <h1 class="role-title">{{ 'modal.choose_role' | translate }}</h1>
-            <table htm-table class="natural-roles">
-                <thead>
-                    <tr>
-                        <th>{{ 'modal.me' | translate }}:</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td ngForm [formGroup]="formGroup">
-                            <formItem type="radio" formControlName="roleSelection" [options]="roleNaturalOptions">
-                            </formItem>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            <table htm-table>
-                <thead>
-                    <tr>
-                        <th>{{ 'modal.organizations' | translate }}:</th>
-                    </tr>
-                </thead>
-                <tbody ngForm [formGroup]="formGroup">
-                    <ng-container *ngIf="roleJuridicalOptions && roleJuridicalOptions.length">
-                        <tr *ngFor="let item of roleJuridicalOptions">
-                            <td>
-                                <formItem type="radio" formControlName="roleSelection"
-                                    (click)="codeSelection = item.ariregistri_kood"
-                                    (keyup.space)="codeSelection = item.ariregistri_kood"
-                                    [options]="[{ key: item.arinimi, value:'juridical-' + item.ariregistri_kood }]">
-                                </formItem>
-                            </td>
-                        </tr>
-                    </ng-container>
-                    <ng-container *ngIf="roleJuridicalOptions && !roleJuridicalOptions.length">
-                        <tr>
-                            <td class="text-center">{{ 'modal.no_organizations' | translate }}</td>
-                        </tr>
-                    </ng-container>
-                </tbody>
-            </table>
-        </ng-container>
-        <div class="button-container">
-            <button htm-button theme="plain" (click)="closeRoleChangeModal()"
-                attr.aria-label="{{ 'event.registration_form_cancel' | translate }}">{{ 'event.registration_form_cancel' | translate }}</button>
-            <button htm-button theme="default" (click)="roleChange()"
-                attr.aria-label="{{ 'modal.confirm' | translate }}">{{ 'modal.confirm' | translate }}</button>
-        </div>
-    </modal-content>
+<htm-modal
+	id="roleModal"
+	title="{{ 'modal.changing_role' | translate }}"
+	[titleExists]="titleExists"
+	[topAction]="topAction"
+	[bottomAction]="roleBottomAction"
+>
+	<modal-content [loading]="loading">
+		<alerts class="notifications notifications--small" id="roles"></alerts>
+		<ng-container *ngIf="!loading && !error">
+			<h1 class="role-title">{{ 'modal.choose_role' | translate }}</h1>
+			<table htm-table class="natural-roles">
+				<thead>
+					<tr>
+						<th>{{ 'modal.me' | translate }}:</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td ngForm [formGroup]="formGroup">
+							<formItem
+								type="radio"
+								formControlName="roleSelection"
+								[options]="roleNaturalOptions"
+							>
+							</formItem>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table htm-table>
+				<thead>
+					<tr>
+						<th>{{ 'modal.organizations' | translate }}:</th>
+					</tr>
+				</thead>
+				<tbody ngForm [formGroup]="formGroup">
+					<ng-container
+						*ngIf="roleJuridicalOptions && roleJuridicalOptions.length"
+					>
+						<tr *ngFor="let item of roleJuridicalOptions">
+							<td>
+								<formItem
+									type="radio"
+									formControlName="roleSelection"
+									(click)="codeSelection = item.ariregistri_kood"
+									(keyup.space)="codeSelection = item.ariregistri_kood"
+									[options]="[{ key: item.arinimi, value:'juridical-' + item.ariregistri_kood }]"
+								>
+								</formItem>
+							</td>
+						</tr>
+					</ng-container>
+					<ng-container
+						*ngIf="roleJuridicalOptions && !roleJuridicalOptions.length"
+					>
+						<tr>
+							<td class="text-center">
+								{{ 'modal.no_organizations' | translate }}
+							</td>
+						</tr>
+					</ng-container>
+				</tbody>
+			</table>
+		</ng-container>
+		<div class="button-container">
+			<button
+				htm-button
+				theme="plain"
+				(click)="closeRoleChangeModal()"
+				attr.aria-label="{{ 'event.registration_form_cancel' | translate }}"
+			>
+				{{ 'event.registration_form_cancel' | translate }}
+			</button>
+			<button
+				htm-button
+				theme="default"
+				(click)="roleChange()"
+				attr.aria-label="{{ 'modal.confirm' | translate }}"
+			>
+				{{ 'modal.confirm' | translate }}
+			</button>
+		</div>
+	</modal-content>
 </htm-modal>

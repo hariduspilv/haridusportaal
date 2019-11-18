@@ -5,6 +5,7 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
+  OnChanges,
 } from '@angular/core';
 import { RippleService, SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
@@ -41,7 +42,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   public isVisible: boolean;
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
-  @Input() data;
+  public data;
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
   }
@@ -61,11 +62,10 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   subscribeToAuth():void {
-    this.authSub = this.auth.isAuthenticated.subscribe(() => {
+    this.auth.isAuthenticated.subscribe((val) => {
       this.getData();
     });
   }
-
   getData():void {
     const variables = {
       language: this.settings.activeLang,
@@ -78,14 +78,13 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit():void {
-    this.subscribeToService();
     this.subscribeToAuth();
+    this.subscribeToService();
     this.getData();
   }
 
   ngOnDestroy():void {
     this.subscription.unsubscribe();
-    this.authSub.unsubscribe();
   }
   // needs to have a service associated to it
   // needs to get menu data on init

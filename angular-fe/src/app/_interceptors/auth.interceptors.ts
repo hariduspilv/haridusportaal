@@ -13,7 +13,7 @@ export class AuthInterceptor implements HttpInterceptor{
 
   private addAuthToken(req: HttpRequest<any>): HttpRequest<any> {
     let request = req.clone();
-    const token: string|boolean = sessionStorage.getItem('token') || false;
+    const token: string|boolean = localStorage.getItem('token') || false;
     if (token) {
       request = request.clone({
         headers: request.headers.set('Authorization', `Bearer ${token}`),

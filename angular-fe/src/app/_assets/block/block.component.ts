@@ -107,7 +107,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
   public viewTabs: QueryList<BlockContentComponent> | Object[];
   public currentViewTabs: number = 0;
   public isMobile: boolean;
-  activeTab: string = '';
+  public activeTab: string = '';
   labeledTabs: number = 0;
   hasTitle: boolean = false;
   hasSecondaryTitle: boolean = false;
