@@ -304,14 +304,13 @@
                             <div class="uploaded-file">
                               <a class="file-icon" [href]="fileDownloadlink(file)"
                                 attr.aria-label="{{ file.file_name }}" target="_blank">
-                                <span class="file-name">{{ file.file_name }}</span>
+                                <span class="file-name"><icon glyph="file-text"></icon>{{ file.file_name }}</span>
                               </a>
                               <a role="button" class="close-icn" href="javascript:void(0)"
                                 *ngIf="!isFieldDisabled(data_elements[element].readonly)"
                                 [class.disabled]="isFieldDisabled(data_elements[element].readonly)"
-                                (click)="fileDelete(file.file_identifier, data_elements[element])"><span
-                                  aria-hidden="true" tabindex="-1"
-                                  class="htm-icon">close</span>{{ 'xjson.delete_file' | translate }}</a>
+                                (click)="fileDelete(file.file_identifier, data_elements[element])">
+                                <icon glyph="x" aria-hidden="true" tabindex="-1"></icon>{{ 'xjson.delete_file' | translate }}</a>
                             </div>
                           </ng-container>
                         </ng-container>
@@ -329,7 +328,9 @@
                       <div aria-hidden="true" class="dropzone" (drop)="fileEventHandler($event, element)"
                         (dragover)="$event.preventDefault()"
                         *ngIf="canUploadFile(data_elements[element]) && !fileLoading[element]">
-                        <div class="htm-icon">add</div>
+                        <div class="upload">
+                          <icon glyph="upload"></icon>
+                        </div>
                         <div class="dropzone-text">
                           <span class="dropzone-title">
                             {{ 'xjson.drag_files_here_or' | translate }}

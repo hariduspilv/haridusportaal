@@ -7,6 +7,7 @@ const moment = _moment;
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService, ModalService, AlertsService, UploadService } from '@app/_services';
+import { TableService } from '@app/_services/tableService';
 
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
@@ -90,6 +91,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private modalService: ModalService,
     private alertsService: AlertsService,
     private uploadService: UploadService,
+    private tableService: TableService,
   ) { }
 
   pathWatcher() {
