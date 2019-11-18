@@ -374,7 +374,7 @@ class EhisConnectorService {
     foreach($return as $key => $value) {
       if($key !== 'redis_hit'){
         $processedArray[] = [
-          'key' => $value,
+          'key' => $value['et'],
           'value' => $key,
         ];
       }
