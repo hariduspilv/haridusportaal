@@ -44,7 +44,10 @@
       "type": "boolean"
     },
     "options": {
-      "type": "object"
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
     },
     "options_list": {
       "type": "string"
