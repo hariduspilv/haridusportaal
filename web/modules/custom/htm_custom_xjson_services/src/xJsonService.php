@@ -517,7 +517,12 @@ class xJsonService implements xJsonServiceInterface {
     if (!isset($acceptable_keys)) $acceptable_keys = array_merge($default_acceptable_keys, $additional_keys);
     $element_keys = array_keys($element);
     foreach ($element_keys as $element_key) {
-      if (!in_array($element_key, $acceptable_keys, true)) $valid = false;
+      if (!in_array($element_key, $acceptable_keys, true)) {
+        dump($element_key);
+        dump($acceptable_keys);
+        die();
+      }
+      //$valid = false;
       continue;
     }
 
