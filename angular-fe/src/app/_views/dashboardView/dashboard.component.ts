@@ -50,6 +50,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       event: [],
     },
   };
+  eventsListDone = false;
+  favouritesListDone = false;
   public breadcrumbs: any;
   public formGroup: FormGroup = this.formBuilder.group({
     roleSelection: [''],
@@ -220,6 +222,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.sidebar.entity.favourites = [];
           }
           subscription.unsubscribe();
+          this.favouritesListDone = true;
         });
   }
 
@@ -257,8 +260,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         this.sidebar.entity.event = [];
       }
-      console.log(this.sidebar);
       subscription.unsubscribe();
+      this.eventsListDone = true;
     });
   }
   ngOnDestroy() {
