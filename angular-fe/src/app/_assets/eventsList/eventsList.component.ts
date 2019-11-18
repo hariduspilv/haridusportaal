@@ -104,6 +104,8 @@ export class EventsListComponent extends FiltersService implements OnInit {
 
   visibleEntries = 3;
 
+  queryString: string = '';
+
   scrollPositionSet: boolean = false;
   count: number = 0;
   private filterFullProperties: any = ['tags', 'types'];
@@ -344,6 +346,11 @@ export class EventsListComponent extends FiltersService implements OnInit {
       year: parseInt(moment().format("YYYY"))
     }  
     this.route.queryParams.subscribe( (params) => {
+      if (Object.keys(params).length > 0) {
+        this.queryString = '?'+Object.keys(params).reduce(function(a,k){a.push(k+'='+encodeURIComponent(params[k]));return a},[]).join('&');
+      } else {
+        this.queryString = '';
+      }
       this.params = params;
       this.eventList = false;
       this.listEnd = false;

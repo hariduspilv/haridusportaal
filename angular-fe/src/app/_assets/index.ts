@@ -55,7 +55,7 @@ import {
   SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
-  SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent
+  SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent,
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
@@ -208,7 +208,7 @@ const providers = [
 ];
 
 @NgModule({
-  declarations: [...declarations ],
+  declarations: [...declarations],
   imports: [
     CommonModule,
     RouterModule,

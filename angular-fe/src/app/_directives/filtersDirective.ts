@@ -60,6 +60,14 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
     Object.keys(tmpParams).forEach((item) => {
       if (tmpParams[item].match(',')) {
         tmpParams[item] = tmpParams[item].split(',');
+        tmpParams[item] = tmpParams[item].map((obj) => {
+          let val = obj;
+          if (!obj.match(/\D/)) {
+            val = parseFloat(val);
+          }
+          return val;
+        });
+        console.log(tmpParams[item]);
       }
     });
     this.formItems.forEach((item) => {
