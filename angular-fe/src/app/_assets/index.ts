@@ -32,6 +32,7 @@ import {
   ModalService,
   SettingsService,
   AuthService,
+  UploadService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -46,6 +47,7 @@ import { FormItemComponent } from './formItem';
 import {
   RippleDirective,
   FiltersDirective,
+  RotateTableDirective,
  } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
@@ -55,7 +57,7 @@ import {
   SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
-  SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent
+  SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent,
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
@@ -92,6 +94,7 @@ import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import {
   HomeSearchListViewComponent,
 } from '@app/_views/homeSearchListView/homeSearchListView.component';
+
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { InfographComponent } from './infograph/infograph.component';
 import { InlineLinksComponent } from './inline-links/inline-links.component';
@@ -102,6 +105,10 @@ import { PictoComponent } from './picto';
 import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
+import { XjsonComponent } from '@app/_views/xjson/xjson.component';
+
+const pipes = [];
+
 import { AppPipes } from '@app/_pipes';
 
 const declarations = [
@@ -131,6 +138,7 @@ const declarations = [
   FormItemComponent,
   RippleDirective,
   FiltersDirective,
+  RotateTableDirective,
   ModalComponent,
   ModalContentComponent,
   MainProfessionsComponent,
@@ -177,6 +185,7 @@ const declarations = [
   NewsletterOrderComponent,
   PictoComponent,
   BlockSubTitleComponent,
+  XjsonComponent,
 ];
 
 const exports = [
@@ -194,6 +203,7 @@ const providers = [
   TableService,
   AddressService,
   SettingsService,
+  UploadService,
   AuthService,
   {
     provide: RECAPTCHA_LANGUAGE,
@@ -208,7 +218,7 @@ const providers = [
 ];
 
 @NgModule({
-  declarations: [...declarations ],
+  declarations: [...declarations],
   imports: [
     CommonModule,
     RouterModule,

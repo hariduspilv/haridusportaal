@@ -9,3 +9,4 @@ export * from './MapService';
 export * from './CompareService';
 export * from './SettingsService';
 export * from './AuthService';
+export * from './UploadService';

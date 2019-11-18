@@ -1,0 +1,580 @@
+<base-layout>
+  <breadcrumbs [path]="path"></breadcrumbs>
+  <block titleBorder="true">
+    <block-title>
+      {{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}
+    </block-title>
+    <block-content>
+      <div class="block padding-block border-blue">
+        <div class="block__head">
+          <div *ngIf="acceptable_forms.length" class="block__head__buttons">
+            <div class="view-item" (click)="changeView('document')"
+              attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0"
+              [class.active]="view === 'document'">
+              <span class="htm-icon">insert_drive_file</span>
+              <div class="title">{{ 'frontpage.dokument' | translate }}</div>
+            </div>
+            <div class="view-item" (click)="changeView('related_documents')"
+              attr.aria-label="{{ 'frontpage.dashboard_related_documents' | translate }}" tabindex="0"
+              [class.active]="view === 'related_documents'">
+              <span class="htm-icon">call_split</span>
+              <div class="title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
+            </div>
+          </div>
+          <!--/block__head__buttons-->
+        </div>
+        <!--/block__head-->
+
+        <loader *ngIf="!data || formLoading"></loader>
+
+        <alerts [class.hidden]="formLoading"
+          small="true"
+          id="upperAlert"
+        ></alerts>
+
+        <ng-container *ngIf="data && view == 'document' && !formLoading">
+
+          <h1 *ngIf="data.body.title">{{ selectLanguage(data.body.title) }}</h1>
+          <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}
+          </p>
+
+          <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
+            <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
+              [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps); let i = index">
+              <a tabindex="{{ isStepDisabled(step) ? -1 : 0 }}"
+                attr.aria-disabled="{{ isStepDisabled(step) ? true : false }}"
+                attr.aria-label="{{ 'Wizard step '+ (i + 1) +' of '+ objectKeys(data.body.steps).length +': ' + data.body.steps[step].title.et }}"
+                (click)="edit_step && i-1 === data.body.steps[data.header.current_step].sequence ? submitForm('SAVE') : selectStep(step)">
+                <span class="xjson__navigation__stepname">
+                  <ng-container *ngIf="data.body.steps[step].title"> {{ selectLanguage(data.body.steps[step].title) }}
+                  </ng-container>
+                </span>
+              </a>
+            </li>
+          </ul>
+
+          <div *ngIf="upperInfoText" class="upper-infotext">
+            <span tabindex="-1" attr.aria-label="{{ upperInfoText }}" innerHtml="{{ upperInfoText }}"></span>
+            <hr aria-hidden="true" class="divider">
+          </div>
+
+          <ng-container *ngIf="!empty_data">
+            <div *ngIf="!viewOnlyStep" class="upper-infotext">
+              <span tabindex="-1"
+                attr.aria-label="{{ 'xjson.required_fields_infotext' | translate }}">{{ 'xjson.required_fields_infotext' | translate }}</span>
+              <hr aria-hidden="true" class="divider">
+            </div>
+
+            <!-- STEP BODY -->
+            <div class="row button-list button-list-top">
+              <ng-container *ngFor="let activity of activityButtons['primary']">
+                <button htm-button *ngIf="activity.action == 'EDIT'" theme="default"
+                  (click)="submitForm(activity.action)">
+                  {{ activity.label | translate }}
+                </button>
+              </ng-container>
+            </div>
+
+            <div class="xjson__step-introduction" *ngIf="data.body.steps[opened_step].introduction">
+              {{selectLanguage(data.body.steps[opened_step].introduction) }}
+            </div>
+
+            <form [class.disabled-step]="opened_step != this.max_step && !edit_step" (submit)="submitForm()"
+              *ngIf="objectKeys(data_elements).length > 0">
+
+              <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
+
+                <div [class]="data_elements[element].type != 'file' ? 'row' : 'file-row'"
+                  *ngIf="!isFieldHidden(element)">
+                  <!-- Form elements -->
+
+                  <div class="col-12 xjson__component">
+
+                    <ng-container *ngIf="data_elements[element].type == 'helpertext'">
+                      <p tabindex="-1" role="text"
+                        attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                        *ngIf="data_elements[element].title">
+                        {{ selectLanguage(data_elements[element].title) }}
+                      </p>
+                    </ng-container> <!-- /HELPERTEXT (heading) -->
+
+                    <ng-container *ngIf="data_elements[element].type == 'heading'">
+                      <h2 *ngIf="data_elements[element].title">
+                        {{ selectLanguage(data_elements[element].title) }}
+                      </h2>
+                    </ng-container> <!-- /HEADING -->
+
+                    <ng-container
+                      *ngIf="(data_elements[element].type === 'text' || data_elements[element].type === 'iban' || data_elements[element].type === 'email')">
+                          <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                          [(ngModel)]="data_elements[element].value" [name]="element"
+                          [error]="error[element] ? true : false"
+                          [errorMessage]="error[element] ? error[element].message : ''">
+                        </formItem>
+                        <div class="tooltip">
+                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                            placement="top"></icon>
+                        </div>
+                    </ng-container> <!-- /TEXT -->
+
+                    <ng-container *ngIf="data_elements[element].type == 'textarea'">
+
+                        <formItem type="textarea" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                        title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                        [(ngModel)]="data_elements[element].value" [name]="element"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''">
+                      </formItem>
+                      <div class="tooltip">
+                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                          placement="top"></icon>
+                      </div>
+                    </ng-container> <!-- /TEXTAREA -->
+
+                    <ng-container *ngIf="data_elements[element].type == 'selectlist'">
+
+                      <ng-container *ngIf="data_elements[element].multiple; else singleSelect">
+                        <formItem type="multi-select" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options" [name]="element"
+                          [error]="error[element] ? true : false"
+                          [errorMessage]="error[element] ? error[element].message : ''">
+                        </formItem>
+                      </ng-container>
+                      <ng-template #singleSelect>
+                        <formItem type="select" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options" [name]="element"
+                          [error]="error[element] ? true : false"
+                          [errorMessage]="error[element] ? error[element].message : ''">
+                        </formItem>
+                      </ng-template>
+                      <div class="tooltip">
+                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                          placement="top"></icon>
+                      </div>
+                    </ng-container> <!-- /SELECTLIST -->
+
+                    <ng-container *ngIf="data_elements[element].type == 'checkbox'">
+                      <formItem type="checkbox" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                        label="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
+                        [(ngModel)]="data_elements[element].value" [name]="element"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''"></formItem>
+                        <div class="tooltip">
+                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                            placement="top"></icon>
+                        </div>
+                    </ng-container> <!-- /CHECKBOX -->
+
+                    <ng-container *ngIf="data_elements[element].type == 'number'">
+                        <formItem type="number" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                        title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                        [(ngModel)]="data_elements[element].value" [name]="element"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''">
+                      </formItem>
+                      <div class="tooltip">
+                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                          placement="top"></icon>
+                      </div>
+                    </ng-container> <!-- /NUMBER -->
+
+                    <ng-container *ngIf="data_elements[element].type == 'address'">
+                      <formItem type="autocomplete" query="inaadress" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                      [(ngModel)]="data_elements[element].value" [name]="element"
+                        title="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''">
+                      </formItem>
+                      <div class="tooltip">
+                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                          placement="top"></icon>
+                      </div>
+                    </ng-container> <!-- /ADDRESS -->
+
+                    <ng-container
+                      *ngIf="data_elements[element].type == 'date'">
+                      <formItem class="datepicker" *ngIf="!isFieldDisabled(data_elements[element].readonly)" type="date" 
+                      placeholder="pp.kk.aaaa" [name]="element" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                        title="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
+                        [(ngModel)]="data_elements[element].value"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''"></formItem>
+                        <div class="tooltip">
+                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                            placement="top"></icon>
+                        </div>
+                    </ng-container> <!-- /DATE -->
+
+                    <ng-container *ngIf="data_elements[element].type == 'file'">
+
+                      <div class="squared-input__outer-wrapper dropzone-wrapper">
+                        <span class="xjson__file__heading" tabindex="0">
+                          {{selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
+                        </span>
+                        <div class="tooltip">
+                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                            placement="top"></icon>
+                        </div>
+                      </div>
+
+                      <div class="loaded-files-list">
+                        <ng-container *ngIf="data_elements[element].value">
+                          <ng-container *ngFor="let file of data_elements[element].value">
+                            <div class="uploaded-file">
+                              <a class="file-icon" [href]="fileDownloadlink(file)"
+                                attr.aria-label="{{ file.file_name }}" target="_blank">
+                                <span class="file-name"><icon glyph="file-text"></icon>{{ file.file_name }}</span>
+                              </a>
+                              <a role="button" class="close-icn" href="javascript:void(0)"
+                                *ngIf="!isFieldDisabled(data_elements[element].readonly)"
+                                [class.disabled]="isFieldDisabled(data_elements[element].readonly)"
+                                (click)="fileDelete(file.file_identifier, data_elements[element])">
+                                <icon glyph="x" aria-hidden="true" tabindex="-1"></icon>{{ 'xjson.delete_file' | translate }}</a>
+                            </div>
+                          </ng-container>
+                        </ng-container>
+                      </div>
+
+                      <loader *ngIf="fileLoading[element]"></loader>
+
+                      <input *ngIf="canUploadFile(data_elements[element])" class="hidden" type="file"
+                        attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB"
+                        (change)="fileEventHandler($event, element)"
+                        placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                        [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
+                        [attr.multiple]="data_elements[element].multiple ? '' : null" />
+
+                      <div aria-hidden="true" class="dropzone" (drop)="fileEventHandler($event, element)"
+                        (dragover)="$event.preventDefault()"
+                        *ngIf="canUploadFile(data_elements[element]) && !fileLoading[element]">
+                        <div class="upload">
+                          <icon glyph="upload"></icon>
+                        </div>
+                        <div class="dropzone-text">
+                          <span class="dropzone-title">
+                            {{ 'xjson.drag_files_here_or' | translate }}
+                          </span>
+                          <a class="dropzone-add" href="javascript:void(0)" tabindex="-1">
+                            <input tabindex="-1" type="file"
+                              [attr.disabled]="canUploadFile(data_elements[element]) ? null : ''"
+                              (change)="fileEventHandler($event, element)"
+                              placeholder="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                              [accept]="parseAcceptableExtentsions(data_elements[element].acceptable_extensions)"
+                              [attr.multiple]="data_elements[element].multiple ? '' : null" />
+                            {{ 'button.upload' | translate }}
+                          </a>
+                          <span class="dropzone-description">{{ 'xjson.allowed_filetypes' | translate }}
+                            {{ displayAcceptableExtentsions(data_elements[element].acceptable_extensions) }}
+                            <br>{{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB</span>
+                        </div>
+                      </div>
+                    </ng-container> <!-- /FILE -->
+
+
+                    <ng-container *ngIf="data_elements[element].type == 'table'">
+                      <div class="round-input__outer-wrapper table-wrapper">
+                        <h2 *ngIf="data_elements[element].title">
+                          {{ selectLanguage(data_elements[element].title) }}
+                        </h2>
+                        <div class="tooltip">
+                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
+                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
+                            placement="top"></icon>
+                        </div>
+                      </div>
+
+                      <div class="xjson__table" [attr.id]="element + 'Table'">
+                        <div class="xjson__scrollable">
+                          <div class="xjson__scrollable__table" [attr.id]="'xjsonTable_' + index"
+                            (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
+                            <div *ngIf="scrollableTables[element]">
+                              <div aria-hidden="true"
+                                class="xjson__scrollable__rectangle xjson__scrollable__rectangle--left pointer"
+                                *ngIf="!elemAtStart[index]" (touchstart)="tableService.scrollStart('xjsonTable_'+index)"
+                                (mousedown)="tableService.scrollStart('xjsonTable_'+index)"
+                                (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
+                                <span class="htm-icon">keyboard_arrow_left</span>
+                              </div>
+                              <div aria-hidden="true"
+                                class="xjson__scrollable__rectangle xjson__scrollable__rectangle--right pointer"
+                                *ngIf="tableOverflown[index]"
+                                (touchstart)="tableService.scrollStart('xjsonTable_'+index, true)"
+                                (mousedown)="tableService.scrollStart('xjsonTable_'+index, true)"
+                                (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
+                                <span class="htm-icon">keyboard_arrow_right</span>
+                              </div>
+                            </div>
+                            <table htm-table class="scrollableTable" [attr.id]="element + 'Content'"
+                              [rotateTable]="element == 'studies'">
+                              <thead>
+                                <tr>
+                                  <ng-container
+                                    *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
+                                    <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
+                                      <th attr.aria-hidden="true">
+                                        {{selectLanguage(data_elements[element].table_columns[col].title)}}
+                                        {{data_elements[element].table_columns[col].required ? '*' : ''}}
+                                      </th>
+                                    </ng-container>
+                                  </ng-container>
+
+                                  <th aria-hidden="true" tabindex="-1"
+                                    *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                                    <!-- extra column for action buttons -->
+                                  </th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                <tr *ngIf="!data_elements[element].value || !data_elements[element].value.length">
+                                  <td
+                                    [attr.colspan]="data_elements[element].add_del_rows ? visibleTableLength[element]+1 : visibleTableLength[element]">
+                                    {{'xjson.data_missing' | translate }}
+                                  </td>
+                                </tr>
+                                <ng-container *ngFor="let row of data_elements[element].value; let rowIndex = index;">
+                                  <tr
+                                    [class]="error[element] && error[element].rows.includes(rowIndex) ? 'invalid-row' : 'valid-row'">
+                                    <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
+
+                                      <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
+                                        <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
+                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="text" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                            </formItem>
+                                        </ng-container> <!-- /TEXT -->
+
+                                        <ng-container
+                                          *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
+                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                          type="autocomplete" query="inaadress" [(ngModel)]="row[col].addressHumanReadable"
+                                          name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                          placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                          </formItem>
+                                        </ng-container> <!-- /ADDRESS -->
+
+                                        <ng-container
+                                          *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
+                                            <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="text" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
+                                            [error]="row[col]">
+                                            </formItem>
+                                        </ng-container> <!-- /EMAIL -->
+
+                                        <ng-container
+                                          *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
+                                            <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="number" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                            </formItem>
+                                        </ng-container> <!-- /NUMBER -->
+
+                                        <ng-container
+                                          *ngIf="tableColumnAttribute(element, colIndex, 'type') === 'file' && row[col]">
+                                          <a class="file-icon" [href]="fileDownloadlink(row[col])" target="_blank">
+                                            <span class="file-name">{{ row[col].file_name }}</span>
+                                          </a>
+                                        </ng-container> <!-- /file -->
+
+                                        <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
+                                          <formItem class="datepicker" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="date" placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
+                                            [(ngModel)]="row[col]"></formItem>
+                                        </ng-container><!-- /DATE -->
+
+                                        <ng-container
+                                          *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
+                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else checkboxReadonlyDisplay"
+                                          type="checkbox" [(ngModel)]="row[col]" 
+                                          name="{{element + '_' + rowIndex + '_' + colIndex}}"></formItem>
+                                        </ng-container> <!-- /CHECKBOX -->
+                                        <ng-template #checkboxReadonlyDisplay>
+                                          <span>{{ (row[col] ? 'true' : 'false') | translate }}</span>
+                                        </ng-template> <!-- /CHECKBOX DISABLED -->
+
+                                        <ng-container
+                                          *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
+                                          <formItem type="select" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            [(ngModel)]="row[col]"
+                                            [options]="tableColumnAttribute(element, colIndex, 'options')"
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"></formItem>
+                                        </ng-container> <!-- /SELECTLIST -->
+
+                                        <ng-template #readonlyDisplay>
+                                          <span [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] }}</span>
+                                        </ng-template>
+                                        <ng-template #addressReadonlyDisplay>
+                                          <span
+                                            [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ temporaryModel[element][col][rowIndex] }}</span>
+                                        </ng-template>
+
+                                      </td>
+                                    </ng-container> <!-- END OF *NGFOR COLUMNS-->
+                                    <td
+                                      *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                                      <div>
+                                        <a role="button" class="table-link" href="javascript:void(0);"
+                                          (click)="tableDeleteRow(element, rowIndex)">
+                                          {{ 'button.delete_table_row' | translate }}
+                                        </a>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </ng-container> <!-- END OF *NGFOR COLUMNS-->
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                        <div class="add-row"
+                          *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                          <div>
+                            <a attr.aria-label="{{ 'button.add_table_row' | translate }}" role="button"
+                              *ngIf="!data_elements[element].row_label; else labeledAdd" class="table-link"
+                              href="javascript:void(0);" (click)="tableAddRow(element)">
+                              + {{ 'button.add_table_row' | translate }}
+                            </a>
+                            <ng-template #labeledAdd>
+                              <a role="button" class="table-link" href="javascript:void(0);"
+                                (click)="tableAddRow(element)"
+                                attr.aria-label="{{ 'button.add' | translate }} {{ selectLanguage(data_elements[element].row_label) }}">
+                                + {{ 'button.add' | translate }}
+                                {{ selectLanguage(data_elements[element].row_label) }}
+                              </a>
+                            </ng-template>
+                          </div>
+                        </div> <!-- ADD_DEL_ROWS -->
+
+                      </div>
+
+                    </ng-container> <!-- /TABLE -->
+
+                    <ng-container *ngIf="error[element] && error[element].rows">
+                      <div class="error">
+                        {{ error[element].message }}
+                      </div>
+                    </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
+
+                  </div>
+                  <!--/col-12-->
+                </div> <!-- row -->
+              </ng-container>
+            </form>
+
+            <hr class="divider">
+
+            <div [class]="navigationLinks.length > 0 ? 'row button-list separate' : 'row button-list'">
+
+              <div tabindex="-1" *ngIf="navigationLinks.length > 0" class="secondary-buttons">
+                <ng-container *ngFor="let link of navigationLinks">
+                  <a tabindex="0" *ngIf="link.type === 'link'" href="javascript:void(0);"
+                    (click)="selectStep(link.step)">{{ link.label | translate }}</a>
+                  <button htm-button tabindex="0" *ngIf="link.type === 'button'" role="button" theme="plain"
+                    (click)="selectStep(link.step)">
+                    {{ link.label | translate }}
+                  </button>
+                </ng-container>
+              </div>
+
+              <div tabindex="-1" class="primary-buttons">
+                <div>
+                  <button htm-button tabindex="0" *ngIf="!edit_step" role="link" theme="inverted"
+                    (click)="cancelEventHandler()">
+                    {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
+                  </button>
+                </div>
+
+                <ng-container *ngFor="let activity of activityButtons['primary']">
+                  <div>
+                    <button htm-button tabindex="0" *ngIf="activity.action != 'EDIT'"
+                      theme="{{ activity.style === 'primary' ? 'default' : 'inverted' }}"
+                      (click)="submitForm(activity.action)">
+                      {{ activity.label | translate }}
+                    </button>
+                  </div>
+                </ng-container>
+              </div>
+
+              <ng-container *ngFor="let activity of activityButtons['secondary']">
+                <div tabindex="-1" class="subrow" *ngIf="activityButtons['secondary'].length" aria-hidden="true">
+                  <a tabindex="0" href="javascript:void(0);" attr.aria-label="{{ activity.label | translate }}"
+                    (click)="submitForm(activity.action)">{{ activity.label | translate }}</a>
+                </div> <!-- /row button-list -->
+              </ng-container>
+            </div> <!-- /row button-list -->
+          </ng-container> <!-- /if !empty_data-->
+        </ng-container> <!-- /if data-->
+        <ng-container *ngIf="data && view == 'related_documents'">
+          <ng-container *ngIf="acceptable_forms.length">
+            <div class="grid-box">
+              <ng-container *ngFor="let form of acceptable_forms">
+                <a [href]="form.link" class="grid-item">
+                  <span class="grid-link">{{ form.form_name }}</span>
+                </a>
+              </ng-container>
+            </div>
+
+            <ng-container
+              *ngIf="data.header.acceptable_form.length > acceptable_forms_limit && acceptable_forms_list_restricted == true">
+              <div class="grid-load">
+                <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">+
+                  {{ 'button.show_more' | translate }}
+                  ({{ data.header.acceptable_forms.length - acceptable_forms_limit }})</a>
+              </div>
+            </ng-container>
+            <ng-container *ngIf="acceptable_forms_list_restricted == false">
+              <div class="grid-load">
+                <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">-
+                  {{ 'button.show_less' | translate }}</a>
+              </div>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </div>
+      <!--/block border-blue-->
+    </block-content>
+  </block>
+</base-layout>
+
+<htm-modal
+id="deleteTableRow"
+title="{{ 'xjson.table_delete_row_confirm_modal_title' | translate}}"
+[bottomAction]="true"
+[topAction]="true"
+>
+<modal-content class="modal-center">
+  <div>{{ 'xjson.table_delete_row_confirm_modal_content' | translate }}</div>
+  <button htm-button tabindex="0" 
+  theme="default"
+  (click)="confirmRowDelete()">{{ 'button.yes_delete' | translate }}
+</button>
+</modal-content>
+</htm-modal>
+
+<htm-modal
+id="editStep"
+title="{{ 'xjson.edit_step_confirm_modal_title' | translate}}"
+[bottomAction]="true"
+[topAction]="true"
+>
+<modal-content class="modal-center">
+  <div>{{ 'xjson.edit_step_confirm_modal_content' | translate }}</div>
+  <button htm-button tabindex="0" 
+  theme="default"
+  (click)="toggleStepEdit()">{{ 'button.yes_change' | translate }}
+</button>
+</modal-content>
+</htm-modal>

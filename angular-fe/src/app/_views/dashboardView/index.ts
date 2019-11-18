@@ -12,6 +12,7 @@ import { MoreBlockComponent } from '@app/_assets/more.block/more.block.component
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from '@app/_interceptors';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { XjsonComponent } from '../xjson/xjson.component';
 import { AppPipes } from '@app/_pipes';
 import { StudiesDetailView } from './studiesDetailView/studiesDetailView.component';
 import { CertificatesDetailView } from './certificatesDetailView/certificatesDetailView.component';
@@ -61,7 +62,7 @@ const routes: Routes = [
   },
   {
     path: 'taotlused/:id',
-    component: DashboardComponent,
+    component: XjsonComponent,
   },
 ];
 
