@@ -132,6 +132,9 @@ class xJsonFile2RestResource extends ResourceBase {
             throw new AccessDeniedHttpException();
         }
 
+        dump($this->currentUser);
+        die();
+        
         $file_obj['value'] = $this->ehisService->getDocumentFileFromRedis(['hash' => $file_id]);
         $file_obj['fileName'] = $file_name;
 
