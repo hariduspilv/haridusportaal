@@ -125,16 +125,16 @@ class xJsonFile2RestResource extends ResourceBase {
     }*/
 
 
-    public function get($file_id, $file_name) {
+    public function get(Request $request, $file_id, $file_name) {
         // You must to implement the logic of your REST Resource here.
         // Use current user after pass authentication to validate access.
         if (!$this->currentUser->hasPermission('access content')) {
             throw new AccessDeniedHttpException();
         }
 
-        dump($this->currentUser);
+        dump($request);
         die();
-        
+
         $file_obj['value'] = $this->ehisService->getDocumentFileFromRedis(['hash' => $file_id]);
         $file_obj['fileName'] = $file_name;
 
