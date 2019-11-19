@@ -121,6 +121,18 @@ h2 {
   }
 }
 
+.htm-icon ::ng-deep {
+  i {
+    top: 50%;
+    margin-top: -1.25rem;
+    line-height: 2.5rem;
+    left: 0;
+    position: relative;
+    font-size: 2.5rem;
+    color: #2e3374;
+  }
+}
+
 .xjson__scrollable {
   position: relative;
   overflow: hidden;
@@ -143,15 +155,6 @@ h2 {
     transform: translateY(-50%);
     z-index: 5;
     user-select: none;
-    .htm-icon {
-      top: 50%;
-      margin-top: -1.25rem;
-      line-height: 2.5rem;
-      left: 0;
-      position: relative;
-      font-size: 2.5rem;
-      color: #2e3374;
-    }
     &--left {
       left: 0;
       @include break-on(sm, min) {
