@@ -465,8 +465,8 @@
 				</ng-container>
 				<!-- /general data -->
 
-				<alerts small="true" [id]="school.id"></alerts>
-
+				<alerts small="true" [id]="school.acceptable_forms.length ? school.id : ''"></alerts>
+				
 				<!-- acceptable_forms -->
 				<ng-container *ngIf="school.acceptable_forms">
 					<h4 class="title-lg-padding">
@@ -614,7 +614,7 @@
 													*ngIf="form.form_path"
 													attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
 													[routerLink]="form.form_path"
-													[queryParams]="{draft:'true', identifier: form.id, educationalInstitutions_id: school.id}"
+													[queryParams]="{draft:'true', identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined}"
 												>
 													{{ 'button.continue_filling' | translate }}
 												</a>
@@ -776,7 +776,7 @@
 													*ngIf="form.form_path"
 													attr.aria-label="{{'button.open' | translate}} {{'frontpage.dokument' | translate}}"
 													[routerLink]="form.form_path"
-													[queryParams]="{existing:'true', identifier: form.id, educationalInstitutions_id: school.id}"
+													[queryParams]="{existing:'true', identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined }"
 												>
 													{{ 'button.open' | translate }}
 												</a>

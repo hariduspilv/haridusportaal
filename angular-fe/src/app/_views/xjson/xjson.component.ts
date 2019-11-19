@@ -6,7 +6,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SettingsService, ModalService, AlertsService, UploadService } from '@app/_services';
+import { SettingsService, ModalService, AlertsService, UploadService, AuthService } from '@app/_services';
 import { TableService } from '@app/_services/tableService';
 
 const XJSON_DATEPICKER_FORMAT = {
@@ -92,6 +92,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private alertsService: AlertsService,
     private uploadService: UploadService,
     private tableService: TableService,
+    private authService: AuthService,
   ) { }
 
   pathWatcher() {
@@ -262,8 +263,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   fileDownloadlink(file) {
     const id = file.file_identifier;
     const name = file.file_name;
-    const token = sessionStorage.getItem('token');
-    return this.settings.url + '/xjson_service/documentFile2/' + id + '/' + name + '?jwt_token=' + token;
+    const token = localStorage.getItem('token');
+
+    return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}`;
   }
 
   stopFileUpload(element) {
@@ -289,6 +291,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   uploadFile(files, element) {
+    if (!this.data_elements[element].value) {
+      this.data_elements[element].value = [];
+    }
     const model = this.data_elements[element];
     const size_limit = model.max_size;
     this.fileLoading[element] = true;
@@ -321,8 +326,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
         const new_file = {
           file_name: file.name,
-          file_identifier: response['id']
+          file_identifier: response['id'],
         };
+        console.log(new_file);
+        console.log(model);
         model.value.push(new_file);
         files.shift();
         if (files.length > 0) {

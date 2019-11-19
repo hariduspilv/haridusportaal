@@ -304,7 +304,9 @@
                                 *ngIf="!elemAtStart[index]" (touchstart)="tableService.scrollStart('xjsonTable_'+index)"
                                 (mousedown)="tableService.scrollStart('xjsonTable_'+index)"
                                 (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
-                                <span class="htm-icon">keyboard_arrow_left</span>
+                                <div class="htm-icon">
+                                    <icon glyph="chevron-left"></icon>
+                                </div>
                               </div>
                               <div aria-hidden="true"
                                 class="xjson__scrollable__rectangle xjson__scrollable__rectangle--right pointer"
@@ -312,7 +314,9 @@
                                 (touchstart)="tableService.scrollStart('xjsonTable_'+index, true)"
                                 (mousedown)="tableService.scrollStart('xjsonTable_'+index, true)"
                                 (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
-                                <span class="htm-icon">keyboard_arrow_right</span>
+                                <div class="htm-icon">
+                                    <icon glyph="chevron-right"></icon>
+                                </div>
                               </div>
                             </div>
                             <table htm-table class="scrollableTable" [attr.id]="element + 'Content'"

@@ -3,6 +3,7 @@ import {
   HostBinding,
   OnDestroy,
   Input,
+  OnChanges,
 } from '@angular/core';
 import {
   animate,
@@ -38,7 +39,7 @@ enum AlertIcon {
   ],
 })
 
-export class AlertsComponent implements OnDestroy {
+export class AlertsComponent implements OnDestroy, OnChanges {
 
   @Input() id: string = 'global';
   @Input() alerts: Alert[] = [];
@@ -56,6 +57,10 @@ export class AlertsComponent implements OnDestroy {
   constructor(
     private alertService: AlertsService,
   ) { }
+
+  ngOnChanges() {
+    this.ngOnInit();
+  }
 
   ngOnInit(): void {
     this.alertSubscription = this.alertService.getAlertsFromBlock(this.id).subscribe(
