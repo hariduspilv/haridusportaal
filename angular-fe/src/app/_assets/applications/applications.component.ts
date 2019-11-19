@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -73,6 +73,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     public settings: SettingsService,
     public modalService: ModalService,
     public formBuilder: FormBuilder,
+    public cdr: ChangeDetectorRef,
   ) { }
 
   pathWatcher() {
@@ -167,12 +168,12 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                 this.data.documents = this.sortList(this.data.documents, 'date');
                 this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
               } else {
-                console.log(response);
                 if (response['educationalInstitutions']) {
                   const responseData = response['educationalInstitutions'].map((elem) => {
                     elem.documents = this.sortList(elem.documents, 'date');
                     elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
                     elem.drafts = this.sortList(elem.drafts, 'title');
+                    this.alertsService.info(elem.message, 'test', false);
                     return elem;
                   });
                   if (

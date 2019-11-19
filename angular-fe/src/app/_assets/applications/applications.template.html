@@ -263,7 +263,6 @@
 		</div>
 	</div>
 </div>
-
 <div *ngIf="loading.initial === false && currentRole === 'juridical_person'">
 	<div *ngIf="false" class="lg-top">
 		<alerts small="true" id="general"></alerts>
@@ -466,9 +465,7 @@
 				</ng-container>
 				<!-- /general data -->
 
-				<div *ngIf="school.message" class="NOTICE md-top">
-					<div class="alert">{{ school.message }}</div>
-				</div>
+				<alerts small="true" [id]="school.id"></alerts>
 
 				<!-- acceptable_forms -->
 				<ng-container *ngIf="school.acceptable_forms">
@@ -488,7 +485,7 @@
 										<div class="col-6 form-item">
 											<a
 												[routerLink]="form.form_path"
-												[queryParams]="{ identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined }"
+												[queryParams]="{ identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined, existing: form.status === 'Registreeritud' ? true : undefined }"
 												class="grid-item"
 											>
 												<span *ngIf="form.title" class="grid-link"
