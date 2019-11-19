@@ -61,6 +61,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     ownershipType: [],
     studyInstitutionType: [],
   };
+  jou = false;
 
   public formGroup: FormGroup = this.formBuilder.group({});
 
@@ -174,6 +175,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                     elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
                     elem.drafts = this.sortList(elem.drafts, 'title');
                     this.alertsService.info(elem.message, 'test', false);
+                    this.jou = true;
+                    console.log(this.jou);
                     return elem;
                   });
                   if (
