@@ -174,9 +174,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                     elem.documents = this.sortList(elem.documents, 'date');
                     elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
                     elem.drafts = this.sortList(elem.drafts, 'title');
-                    this.alertsService.info(elem.message, 'test', false);
-                    this.jou = true;
-                    console.log(this.jou);
+                    this.alertsService.info(elem.message, elem.id, false);
                     return elem;
                   });
                   if (

@@ -46,11 +46,15 @@
     font-weight: 500;
     font-size: 0.875rem;
     flex: 0;
-    margin-bottom: 1rem;
+    margin: .25rem .25rem;
     display: flex;
     flex-basis: calc(50% - 0.5rem);
     justify-content: center;
     flex-direction: column;
+  }
+
+  .grid-load {
+    margin-top: 1rem;
   }
   
   .block-btn {
