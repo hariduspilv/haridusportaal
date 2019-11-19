@@ -18,7 +18,7 @@
 				<ng-container *ngFor="let form of acceptableFormsList">
 					<div class="col-6 form-item">
 						<a
-							[routerLink]="[compileXjsonLink(form.form_name)]"
+							[routerLink]="form.form_path"
 							class="grid-item"
 						>
 							<span *ngIf="form.title" class="grid-link"
@@ -98,8 +98,8 @@
 							<td class="text-center">
 								<a
 									class="rowspan-btn"
-									*ngIf="form.form_name"
-									[routerLink]="[compileXjsonLink(form.form_name)]"
+									*ngIf="form.form_path"
+									[routerLink]="form.form_path"
 									[queryParams]="{draft:'true', identifier: form.identifier}"
 								>
 									{{ 'button.continue_filling' | translate }}
@@ -243,8 +243,8 @@
 								<td class="text-center">
 									<a
 										class="rowspan-btn"
-										*ngIf="form.form_name"
-										[routerLink]="[compileXjsonLink(form.form_name)]"
+										*ngIf="form.form_path"
+										[routerLink]="form.form_path"
 										[queryParams]="{existing:'true', identifier: form.identifier}"
 									>
 										{{ 'button.open' | translate }}
@@ -263,7 +263,6 @@
 		</div>
 	</div>
 </div>
-
 <div *ngIf="loading.initial === false && currentRole === 'juridical_person'">
 	<div *ngIf="false" class="lg-top">
 		<alerts small="true" id="general"></alerts>
@@ -320,7 +319,7 @@
 						>
 							<table
 								htm-table
-								class="dashboard-table highCells scrollableTable"
+								class="dashboard-table highCells scrollableTable small-text"
 							>
 								<tbody>
 									<tr
@@ -466,9 +465,7 @@
 				</ng-container>
 				<!-- /general data -->
 
-				<div *ngIf="school.message" class="NOTICE md-top">
-					<div class="alert">{{ school.message }}</div>
-				</div>
+				<alerts small="true" [id]="school.id"></alerts>
 
 				<!-- acceptable_forms -->
 				<ng-container *ngIf="school.acceptable_forms">
@@ -482,49 +479,40 @@
 					</div>
 
 					<ng-container *ngIf="school.acceptable_forms.length">
-						<div class="grid-box">
-							<ng-container
-								*ngFor="let form of school.acceptable_forms; let index = index;"
-							>
-								<ng-container *ngIf="index < acceptableFormsLimiter">
-									<a
-										[routerLink]="[compileXjsonLink(form.form_name)]"
-										[queryParams]="{educationalInstitutions_id: school.id}"
-										class="grid-item"
+							<div class="row">
+									<ng-container *ngFor="let form of school.acceptable_forms; let i = index;">
+										<ng-container *ngIf="(acceptableFormsListRestricted && i < acceptableFormsLimiter) || !acceptableFormsListRestricted">
+										<div class="col-6 form-item">
+											<a
+												[routerLink]="form.form_path"
+												[queryParams]="{ identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined, existing: form.status === 'Registreeritud' ? true : undefined }"
+												class="grid-item"
+											>
+												<span *ngIf="form.title" class="grid-link"
+													>{{ selectLanguage(form.title) }} {{ form.description
+													}}</span
+												>
+											</a>
+										</div>
+									</ng-container>
+									</ng-container>
+								</div>
+					
+								<div
+									class="grid-load"
+									*ngIf="school.acceptable_forms.length > 4 && acceptableFormsListRestricted"
+								>
+									<a href="javascript:void(0);" (click)="toggleAcceptableFormsList()"
+										>+ {{ 'button.show_more' | translate }} ({{
+										school.acceptable_forms.length - 4 }})</a
 									>
-										<span *ngIf="form.title" class="grid-link"
-											>{{ selectLanguage(form.title) }} {{ form.description
-											}}</span
-										>
-									</a>
-								</ng-container>
-							</ng-container>
-						</div>
-
-						<div
-							class="grid-load"
-							*ngIf="school.acceptable_forms.length > acceptableFormsLimiter"
-						>
-							<a
-								class="rowspan-btn"
-								href="javascript:void(0);"
-								(click)="acceptableFormsLimiter = school.acceptable_forms.length"
-								>+ {{ 'button.show_more' | translate }} ({{
-								school.acceptable_forms.length - 4 }})</a
-							>
-						</div>
-
-						<div
-							class="grid-load"
-							*ngIf="school.acceptable_forms.length === acceptableFormsLimiter && school.acceptable_forms.length > 4"
-						>
-							<a
-								class="rowspan-btn"
-								href="javascript:void(0);"
-								(click)="acceptableFormsLimiter = 4"
-								>- {{ 'button.show_less' | translate }}</a
-							>
-						</div>
+								</div>
+					
+								<div class="grid-load" *ngIf="!acceptableFormsListRestricted">
+									<a href="javascript:void(0);" (click)="toggleAcceptableFormsList()"
+										>- {{ 'button.show_less' | translate }}</a
+									>
+								</div>
 					</ng-container>
 				</ng-container>
 				<!-- /acceptable_forms -->
@@ -538,7 +526,7 @@
 
 					<table
 						htm-table
-						class="dashboard-table highCells"
+						class="dashboard-table highCells small-text"
 						*ngIf="!school.drafts.length"
 					>
 						<thead>
@@ -592,7 +580,7 @@
 						>
 							<table
 								htm-table
-								class="dashboard-table highCells scrollableTable"
+								class="dashboard-table highCells scrollableTable small-text"
 							>
 								<thead>
 									<tr>
@@ -623,9 +611,9 @@
 											<td class="text-center">
 												<a
 													class="rowspan-btn"
-													*ngIf="form.form_name"
+													*ngIf="form.form_path"
 													attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
-													[routerLink]="[compileXjsonLink(form.form_name)]"
+													[routerLink]="form.form_path"
 													[queryParams]="{draft:'true', identifier: form.id, educationalInstitutions_id: school.id}"
 												>
 													{{ 'button.continue_filling' | translate }}
@@ -683,7 +671,7 @@
 						>
 							<table
 								htm-table
-								class="dashboard-table highCells scrollableTable"
+								class="dashboard-table highCells scrollableTable small-text"
 							>
 								<thead>
 									<tr>
@@ -747,7 +735,7 @@
 						>
 							<table
 								htm-table
-								class="dashboard-table highCells scrollableTable"
+								class="dashboard-table highCells scrollableTable small-text"
 							>
 								<thead>
 									<tr>
@@ -785,9 +773,9 @@
 											<td class="text-center">
 												<a
 													class="rowspan-btn"
-													*ngIf="form.form_name"
+													*ngIf="form.form_path"
 													attr.aria-label="{{'button.open' | translate}} {{'frontpage.dokument' | translate}}"
-													[routerLink]="[compileXjsonLink(form.form_name)]"
+													[routerLink]="form.form_path"
 													[queryParams]="{existing:'true', identifier: form.id, educationalInstitutions_id: school.id}"
 												>
 													{{ 'button.open' | translate }}
