@@ -185,7 +185,6 @@ const declarations = [
   NewsletterOrderComponent,
   PictoComponent,
   BlockSubTitleComponent,
-  XjsonComponent,
 ];
 
 const exports = [
