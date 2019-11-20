@@ -76,6 +76,7 @@ const routes: Routes = [
     MoreBlockComponent,
     StudiesDetailView,
     CertificatesDetailView,
+    XjsonComponent,
   ],
   imports: [
     AppPipes,

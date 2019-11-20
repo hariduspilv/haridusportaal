@@ -105,7 +105,6 @@ import { PictoComponent } from './picto';
 import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
-import { XjsonComponent } from '@app/_views/xjson/xjson.component';
 
 const pipes = [];
 
