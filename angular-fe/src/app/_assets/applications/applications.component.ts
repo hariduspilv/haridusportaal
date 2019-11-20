@@ -103,7 +103,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const ACCEPTED = ['title', 'date'];
     if (!list || (list && !list.length) || !ACCEPTED.includes(method)) return list;
 
-    function compareTitle(a, b) {
+    const compareTitle = (a, b) => {
       if (!a['title'] || !b['title']) return -1;
       const title1 = this.selectLanguage(a['title']).toUpperCase();
       const title2 = this.selectLanguage(b['title']).toUpperCase();
