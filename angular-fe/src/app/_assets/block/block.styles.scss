@@ -106,7 +106,6 @@
 					padding: 0 $small;
 					border: none;
 					background: none;
-					font-size: 16px;
 					cursor: pointer;
 					position: relative;
 					overflow: hidden;
@@ -144,7 +143,6 @@
 							font-weight: 300;
 							font-size: .875rem;
 							line-height: 1.71;
-							padding: 0 1.5rem;
 							margin-bottom: $quarter;
 							@include break-on(xs, max) {
 								line-height: 1.5rem;

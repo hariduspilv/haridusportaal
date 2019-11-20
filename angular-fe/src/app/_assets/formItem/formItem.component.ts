@@ -228,6 +228,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   }
 
   checkInitialValue(): void {
+    this.checkDisabled();
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
       this.options = this.options.map((opt) => {
@@ -251,6 +252,14 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     }
   }
 
+  checkDisabled(): void {
+    if (typeof this.disabled === 'string') {
+      this.disabled = this.disabled === 'true' ? true : undefined;
+    } else {
+      this.disabled = !this.disabled ? undefined : this.disabled;
+    }
+  }
+
   triggerOnUpdate(): void {
     this.onUpdate.emit(true);
   }
@@ -266,6 +275,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   }
 
   ngOnChanges() {
+    this.checkDisabled();
     this.cdr.detectChanges();
   }
 

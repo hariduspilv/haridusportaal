@@ -63,6 +63,10 @@
 		}
 	}
 
+	::ng-deep .login__methods {
+		display: flex;
+		flex-direction: row;
+	}
 	::ng-deep .login__wrapper {
 		display: flex;
     width: 100%;
@@ -70,6 +74,26 @@
     justify-content: space-around;
 		flex-direction: column;
 		padding-bottom: 2rem;
+		.mobile-handshake {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			line-height: 1.88;
+			p:first-child {
+				font-weight: 500;
+			}
+			h1 {
+				color: $black;
+				font-weight: 700;
+			}
+			.mb-0 {
+				margin-bottom: 0;
+				font-weight: 500;
+			}
+			.mt-0 {
+				margin-top: 0;
+			}
+		}
 		.login__method {
 			display: grid;
 			grid-template-columns: 1fr;
@@ -79,6 +103,10 @@
 			align-items: center;
 			flex-shrink: 0;
 			width: 100%;
+			button {
+				padding-left: 0;
+				padding-right: 0;
+			}
 			button:first-child {
 				grid-row: 1/4;
 			}
@@ -125,6 +153,7 @@
 	}
 	modal-content#login {
 		display: flex;
+		flex-direction: column;
 	}
 	
 	.header__hamburger, .header__assets {

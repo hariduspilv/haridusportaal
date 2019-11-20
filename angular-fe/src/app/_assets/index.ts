@@ -32,6 +32,7 @@ import {
   ModalService,
   SettingsService,
   AuthService,
+  UploadService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -46,6 +47,7 @@ import { FormItemComponent } from './formItem';
 import {
   RippleDirective,
   FiltersDirective,
+  RotateTableDirective,
  } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
@@ -92,6 +94,7 @@ import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 import {
   HomeSearchListViewComponent,
 } from '@app/_views/homeSearchListView/homeSearchListView.component';
+
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { InfographComponent } from './infograph/infograph.component';
 import { InlineLinksComponent } from './inline-links/inline-links.component';
@@ -102,6 +105,9 @@ import { PictoComponent } from './picto';
 import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
+
+const pipes = [];
+
 import { AppPipes } from '@app/_pipes';
 
 const declarations = [
@@ -131,6 +137,7 @@ const declarations = [
   FormItemComponent,
   RippleDirective,
   FiltersDirective,
+  RotateTableDirective,
   ModalComponent,
   ModalContentComponent,
   MainProfessionsComponent,
@@ -194,6 +201,7 @@ const providers = [
   TableService,
   AddressService,
   SettingsService,
+  UploadService,
   AuthService,
   {
     provide: RECAPTCHA_LANGUAGE,

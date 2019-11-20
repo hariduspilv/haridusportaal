@@ -1,4 +1,5 @@
 @import "./colors.scss";
+@import 'breakpoints.scss';
 
 // Examples: 
 // @include break-on(sm, min)
@@ -11,6 +12,20 @@ $small: $gutter * 2;
 $medium: $gutter * 3;
 $large: $gutter * 4;
 $xxl: $gutter * 6;
+
+html {
+  font-size: 100%;
+	height: 100%;
+	@include break-on(lg, min) {
+		font-size: 16px;
+	}
+	@include break-on(xl, min) {
+		font-size: 18px;
+	}
+	@include break-on(xxl, min) {
+		font-size: 22px;
+	}
+}
 
 ::ng-deep{
   h1 {
