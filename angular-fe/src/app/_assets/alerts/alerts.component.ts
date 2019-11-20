@@ -39,7 +39,7 @@ enum AlertIcon {
   ],
 })
 
-export class AlertsComponent implements OnDestroy, OnChanges {
+export class AlertsComponent implements OnDestroy {
 
   @Input() id: string = 'global';
   @Input() alerts: Alert[] = [];
@@ -57,10 +57,6 @@ export class AlertsComponent implements OnDestroy, OnChanges {
   constructor(
     private alertService: AlertsService,
   ) { }
-
-  ngOnChanges() {
-    this.ngOnInit();
-  }
 
   ngOnInit(): void {
     this.alertSubscription = this.alertService.getAlertsFromBlock(this.id).subscribe(
