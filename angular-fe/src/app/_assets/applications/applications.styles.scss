@@ -93,5 +93,9 @@
     display: flex;
     justify-content: flex-end;
   }
+
+  [htm-table] {
+    font-size: .875rem;
+  }
   
 }

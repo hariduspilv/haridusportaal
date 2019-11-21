@@ -12,7 +12,7 @@
       }
     }
 
-    &+.formItem{
+    &+.formItem:not([type="checkbox"]){
       margin-top:1.25rem;
     }
 
@@ -145,7 +145,7 @@
     }
     &__check{
       cursor: pointer;
-      display: flex;
+      display: inline-flex;
       padding-right:1.25rem;
       &.noPadding{
         padding-right:0;
