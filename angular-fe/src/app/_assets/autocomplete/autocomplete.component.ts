@@ -20,6 +20,8 @@ import { Subscription } from 'rxjs';
 
 export class AutocompleteComponent {
   @Input() type: string = '';
+  @Input() valueType: string = 'string';
+
   private debounce;
   private delay: number = 300;
   public data:[] = [];
@@ -104,12 +106,16 @@ export class AutocompleteComponent {
           address.addressHumanReadable = address.pikkaadress;
         }
       });
-      resultSet = resultSet.map((item) => {
-        return item.ipikkaadress;
-      });
+
+      if (this.valueType === 'string') {
+        resultSet = resultSet.map((item) => {
+          return item.ipikkaadress;
+        });
+      }
     } catch (err) {
       console.log(err);
     }
+
 
     this.data = resultSet;
   }
