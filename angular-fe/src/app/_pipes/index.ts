@@ -13,6 +13,7 @@ import { UnixToTimePipe } from './unixToTime.pipe';
 import { WeekDayPipe } from './weekday.pipe';
 import { TitleCasePipe } from './titleCase.pipe';
 import { NumbersOnly } from './numbersOnly.pipe';
+import { UrlDecodePipe } from './urlDecode.pipe';
 ​
 const pipes = [
   EllipsisPipe,
@@ -35,6 +36,7 @@ const pipes = [
   UrlPipe,
   WeekDayPipe,
   NumbersOnly,
+  UrlDecodePipe,
 ];
 ​
 @NgModule({

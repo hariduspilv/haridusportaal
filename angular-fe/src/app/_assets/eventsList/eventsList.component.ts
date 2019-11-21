@@ -155,7 +155,6 @@ export class EventsListComponent extends FiltersService implements OnInit {
   }
 
   changeMonth(direction:number) {
-    console.log(direction);
     this.loadingCalendar = true;
     let month = parseInt( this.month );
     

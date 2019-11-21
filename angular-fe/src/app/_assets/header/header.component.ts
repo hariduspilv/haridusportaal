@@ -154,7 +154,6 @@ export class HeaderComponent implements OnInit {
         if (!this.availableAuthMethods.length) {
           this.alertsService.info('login.unavailable', 'login', false);
         }
-        console.log(this.availableAuthMethods);
       },
       (response) => {
         this.alertsService.error(response.error.message, 'login', false);

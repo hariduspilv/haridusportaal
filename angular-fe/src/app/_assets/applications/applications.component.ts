@@ -134,7 +134,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   formatAcceptableForms(list) {
-    console.log(list);
     if (this.acceptableFormsListRestricted) {
       return JSON.parse(JSON.stringify(list)).splice(0, acceptableFormsRestrictedLength);
     }
@@ -153,7 +152,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         .get(`${this.settings.url}/dashboard/applications/1?_format=json`)
         .subscribe(
           (response: any) => {
-            console.log(response);
+
             if (typeof response.found !== undefined && response.found === null) {
               this.fetchData();
             } else {
