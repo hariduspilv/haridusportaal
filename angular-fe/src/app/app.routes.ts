@@ -79,6 +79,10 @@ const routes: Routes = [
     },
   },
   {
+    path: 'oska-tulemused/ettepanekute-elluviimine',
+    loadChildren: './_views/oskaResultsView#OskaResultsViewModule',
+  },
+  {
     path: 'oska-tulemused/:id',
     loadChildren: './_views/detailView#DetailViewModule',
     data: {
@@ -114,7 +118,7 @@ const routes: Routes = [
   {
     path: 'töölaud/taotlused/:id',
     loadChildren: './_views/xjson#XjsonModule',
-  },
+  }
 ];
 
 @NgModule({

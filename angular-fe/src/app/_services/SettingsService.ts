@@ -48,7 +48,7 @@ export class SettingsService {
 
   public query(name: string = '', variables: object = {}) {
     const requestName = this.get(`request.${name}`);
-    console.log(name, requestName);
+    // console.log(name, requestName);
     let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
     if (Object.keys(variables).length > 0) {
       path = `${path}&variables=${JSON.stringify(variables)}`;
