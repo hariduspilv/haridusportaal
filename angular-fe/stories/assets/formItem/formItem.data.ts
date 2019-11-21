@@ -23,7 +23,6 @@ export const formItems = [
   {
     type: 'date',
     title: 'Datepicker field Datepicker field Datepicker field Datepicker field Datepicker field',
-    placeholder: 'pp.kk.aaaa',
     errorMessage: 'Wrong date format!',
   },
   {
@@ -65,6 +64,29 @@ export const formItems = [
         key: 'Select an option',
         value: '',
       },
+      {
+        key: 'Option 1',
+        value: '1',
+      },
+      {
+        key: 'Option 2',
+        value: '2',
+      },
+      {
+        key: 'Option 3',
+        value: '3',
+      },
+      {
+        key: 'Option 4',
+        value: '4',
+      },
+    ],
+    errorMessage: 'This field is required!',
+  },
+  {
+    type: 'select',
+    placeholder: 'Select a value',
+    options: [
       {
         key: 'Option 1',
         value: '1',

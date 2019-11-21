@@ -82,10 +82,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   }
 
   propagateChange = (_: any) => {};
-  public field: string;
+  public field: any;
   public dateField;
   public dirty: boolean = false;
-  public filledField: boolean = false;
+  public filledField: any = false;
   public focused: boolean = false;
   public patterns: Object;
   public isMobile: boolean;
@@ -145,6 +145,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
 
   }
   update(action: string = '') {
+    
     if (this.type === 'multi-select') {
       this.removeComma();
     }
@@ -226,6 +227,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
       this.field = '';
     }
 
+    if (this.field && !this.field.toString().match(/\D/)) {
+      this.field = parseFloat(this.field);
+    }
+
     this.update('blur');
     this.propagateChange(this.field);
   }
@@ -260,6 +265,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
         this.field = this.value;
         this.filledField = true;
       }
+    }
+
+    if (this.field && !this.field.match(/\D/)) {
+      this.field = parseFloat(this.field);
     }
   }
 

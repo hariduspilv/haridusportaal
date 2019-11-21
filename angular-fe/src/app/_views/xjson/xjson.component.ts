@@ -133,8 +133,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (_opened_step) {
       setTimeout(function () {
         const table = document.getElementById(label + 'Table');
-        const content = document.getElementById(label + 'Content');
-        _scrollableTables[label] = table.offsetWidth < content.offsetWidth ? true : false;
+        if (table) {
+          const content = document.getElementById(label + 'Content');
+          _scrollableTables[label] = table.offsetWidth < content.offsetWidth ? true : false;
+        }
       }, 0);
     }
   }

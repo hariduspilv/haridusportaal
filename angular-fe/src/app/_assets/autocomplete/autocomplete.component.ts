@@ -68,6 +68,7 @@ export class AutocompleteComponent {
                 this.parseInAds(response);
                 this.searched = true;
                 this.loading = false;
+                this.positionElement();
                 this.subscription.unsubscribe();
               });
             } else {
@@ -81,6 +82,7 @@ export class AutocompleteComponent {
                 }
                 this.searched = true;
                 this.loading = false;
+                this.positionElement();
                 this.subscription.unsubscribe();
               });
             }
@@ -156,6 +158,7 @@ export class AutocompleteComponent {
         if (this.subscription) {
           this.subscription.unsubscribe();
         }
+        this.unbindScroll();
       },
       delay);
   }
@@ -163,4 +166,32 @@ export class AutocompleteComponent {
   public onClick(value: string = ''): void {
     this.onValueSelected.emit(value);
   }
+
+  private handleScroll() {
+    const el = <HTMLElement>document.getElementById('autocomplete-block');
+    const parent = <HTMLElement>el.parentNode;
+    const parentHeight = parent.getBoundingClientRect().height;
+    const scrollTop = (window.pageYOffset || document.documentElement.scrollTop);
+    const parentTop = parent.getBoundingClientRect().top + scrollTop + parentHeight;
+    const parentLeft = parent.getBoundingClientRect().left;
+    const parentWidth = parent.getBoundingClientRect().width;
+    el.style.top = `${parentTop}px`;
+    el.style.left = `${parentLeft}px`;
+    el.style.width = `${parentWidth}px`;
+    el.style.opacity = '1';
+    console.log('px');
+  }
+
+  private positionElement() {
+    this.el.nativeElement.id = 'autocomplete-block';
+    document.addEventListener('scroll', this.handleScroll, true);
+    this.handleScroll();
+  }
+
+  private unbindScroll() {
+    this.el.nativeElement.id = '';
+    this.el.nativeElement.opacity = '0';
+    document.removeEventListener('scroll', this.handleScroll, true);
+  }
+
 }

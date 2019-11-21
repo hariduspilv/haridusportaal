@@ -1,6 +1,9 @@
 <div class="formItem__title" [class.formItem__title--top]="filledField || focused" [class.focused]="focused" *ngIf="!titleDisabled && title !== '' && type !== 'radio'"><span>{{ title | titleCase }}</span></div>
 <div class="formItem__staticTitle" *ngIf="type == 'radio' && title !== ''">{{ title | titleCase }}</div>
-<div class="formItem__wrapper">
+<div class="formItem__wrapper"
+  [class.showPlaceholder]="(type == 'select' || type == 'multi-select') && placeholder && (field == '' || field == null)"
+  [class.title--top]="filledField || focused"
+  >
   <ng-container [ngSwitch]="type">
     <ng-container *ngSwitchCase="'text'">
       <input

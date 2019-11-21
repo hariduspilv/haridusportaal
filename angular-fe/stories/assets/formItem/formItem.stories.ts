@@ -14,6 +14,7 @@ import {
   select,
   button,
 } from '@storybook/addon-knobs';
+import { RippleService } from '@app/_services';
 
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -27,6 +28,7 @@ const moduleMetadata = {
   ],
   providers: [
     { provide: LOCALE_ID, useValue:'et' },
+    RippleService,
   ],
 };
 

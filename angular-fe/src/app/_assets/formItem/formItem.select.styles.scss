@@ -14,6 +14,11 @@ $create-font-face: false;
       opacity: 1;
     }
   }
+  .title--top{
+    .ng-value-container{
+      opacity: 1 !important;
+    }
+  }
   .formItem{
     &__wrapper{
       & > select{
@@ -22,6 +27,16 @@ $create-font-face: false;
         background: $white;
         &+.formItem__icon{
           pointer-events: none;
+        }
+      }
+      &.showPlaceholder{
+        .ng-select {
+          .ng-value-container{
+            opacity:1;
+          }
+          .ng-has-value .ng-placeholder{
+            display: block; 
+          }
         }
       }
     }
@@ -33,6 +48,12 @@ $create-font-face: false;
   }
   .ngb-dp-navigation-chevron{
     color: $red !important;
+  }
+  .ng-dropdown-panel .formItem__check{
+    pointer-events: none;
+    &__title{
+      font-size:1.125rem !important;
+    }
   }
   .ng-select{
     *{
@@ -125,12 +146,6 @@ $create-font-face: false;
     input{
       font-size:0.875rem !important;
       outline: none;
-    }
-    .formItem__check{
-      pointer-events: none;
-      &__title{
-        font-size:1.125rem !important;
-      }
     }
     &.ng-select-multiple{
       .ng-value{
