@@ -7,16 +7,13 @@
       float: right !important;
       height: 7rem;
       z-index: 5;
-      margin-right: 2rem;
+      margin-right: 4rem;
       margin-top: 1rem;
       margin-bottom: 1.5rem;
-      margin-left: 4.5rem;
+      margin-left: 2.5rem;
       @include break-on(xs, max) {
         margin-right: 6rem;
         margin-left: 6rem;
-      }
-      @include break-on(sm, max) {
-        margin-right: 4rem;
       }
     }
     .circle {

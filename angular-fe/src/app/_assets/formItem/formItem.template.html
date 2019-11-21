@@ -213,8 +213,10 @@
         (focus)="update('focus')"
         (blur)="update('blur'); autocompleteElem.close();"
         (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
-        [(ngModel)]="field" />
+        (ngModelChange)="field = $event"
+        [ngModel]="field | parseInAdds" />
       <autocomplete
+        [valueType]="valueType"
         #autocompleteElem
         [type]="query"
         (onValueSelected)="autocompleteUpdate($event)">

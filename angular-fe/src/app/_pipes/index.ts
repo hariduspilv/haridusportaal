@@ -14,6 +14,7 @@ import { WeekDayPipe } from './weekday.pipe';
 import { TitleCasePipe } from './titleCase.pipe';
 import { NumbersOnly } from './numbersOnly.pipe';
 import { UrlDecodePipe } from './urlDecode.pipe';
+import { ParseInAddsPipe } from './parseInAdds.pipe';
 ​
 const pipes = [
   EllipsisPipe,
@@ -37,6 +38,7 @@ const pipes = [
   WeekDayPipe,
   NumbersOnly,
   UrlDecodePipe,
+  ParseInAddsPipe,
 ];
 ​
 @NgModule({
