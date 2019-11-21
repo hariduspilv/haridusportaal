@@ -120,7 +120,6 @@ export class TeachingsComponent implements OnInit {
             }
             sub.unsubscribe();
             this.loading = false;
-            console.log(this.content);
           },
           (error) => {
             this.loading = false;
