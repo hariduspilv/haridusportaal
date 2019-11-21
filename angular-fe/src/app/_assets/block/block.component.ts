@@ -13,6 +13,7 @@ import {
 } from '@angular/core';
 import { ModalService } from '@app/_services';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'block-content',
@@ -25,6 +26,7 @@ export class BlockContentComponent {
   @Input() tabIcon: string;
   @Input() tabActive: boolean;
   @Input() active: boolean = false;
+  public queryParams = {};
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -39,7 +41,6 @@ export class BlockContentComponent {
     this.active = true;
     this.cdr.detectChanges();
   }
-
 }
 
 @Component({
@@ -116,6 +117,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
     private cdr: ChangeDetectorRef,
     private modalService: ModalService,
     private deviceService: DeviceDetectorService,
+    private router: Router,
   ) {
     this.isMobile = this.deviceService.isMobile();
   }
@@ -216,6 +218,10 @@ export class BlockComponent implements AfterContentInit, OnChanges{
       viewTabs.push(this.tabs.toArray().slice(this.tabs.length - 2, this.tabs.length));
     }
     this.viewTabs = viewTabs;
+  }
+
+  navigateTo(tabLink) {
+    this.router.navigateByUrl(tabLink);
   }
 
   ngAfterContentInit() {
