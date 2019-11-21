@@ -19,7 +19,7 @@ const sidebarOrder = {
   article: ['fieldHyperlinks', 'fieldRelatedArticle'],
   school: ['fieldContact', 'fieldSchoolLocation'],
   profession: ['prosCons', 'fieldOskaField', 'fieldLearningOpportunities', 'fieldJobOpportunities', 'fieldQualificationStandard ', 'fieldJobs', 'fieldContact'],
-  event: ['register', 'location', 'contact', 'data'],
+  event: ['fieldRegistration', 'fieldLocation', 'fieldContact', 'additional'],
 };
 // tslint:enable
 
@@ -74,7 +74,6 @@ export class SidebarComponent implements OnInit, OnChanges {
       this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
       this.keys = Object.keys(this.mappedData);
 
-      console.log(this.type);
       if (sidebarOrder[this.type]) {
         this.orderedKeys = [...sidebarOrder[this.type]];
       }
@@ -84,6 +83,8 @@ export class SidebarComponent implements OnInit, OnChanges {
           this.orderedKeys.push(item);
         }
       });
+
+      console.log(this.orderedKeys);
 
       try {
         this.mappedData['fieldLearningOpportunities'] = [
@@ -99,7 +100,7 @@ export class SidebarComponent implements OnInit, OnChanges {
     }
   }
   ngOnInit() {
-    console.log(this.type);
+    console.log(this.type); 
     this.getData();
   }
   ngOnChanges() {

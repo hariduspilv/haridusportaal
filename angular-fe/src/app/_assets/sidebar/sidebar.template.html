@@ -2,16 +2,15 @@
   <ng-container *ngFor="let keyVal of orderedKeys">
     <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
       <block-title *ngIf="!titleLess[collection[keyVal]]"  [ngClass]="'type-'+[collection[keyVal]]">
-        <ng-container>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</ng-container>
+        <ng-container>{{ keyVal }} {{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</ng-container>
       </block-title>
       <block-content [ngSwitch]="collection[keyVal]">
-        {{ collection[keyVal] }}
         <sidebar-links *ngSwitchCase="'links'" [data]="mappedData[keyVal]"></sidebar-links>
         <sidebar-categories *ngSwitchCase="'categories'" [data]="mappedData[keyVal]"></sidebar-categories>
         <sidebar-contact *ngSwitchCase="'contact'" [data]="mappedData[keyVal]"></sidebar-contact>
         <sidebar-articles *ngSwitchCase="'articles'" [data]="mappedData[keyVal]"></sidebar-articles>
         <sidebar-articles *ngSwitchCase="'news'" [data]="mappedData[keyVal]"></sidebar-articles>
-        <sidebar-data *ngSwitchCase="'data'" [data]="mappedData[keyVal]"></sidebar-data>
+        <sidebar-data *ngSwitchCase="'data' || additional" [data]="mappedData[keyVal]"></sidebar-data>
         <sidebar-actions *ngSwitchCase="'actions'" [data]="mappedData[keyVal]"></sidebar-actions>
         <sidebar-location *ngSwitchCase="'location'" [data]="mappedData[keyVal]"></sidebar-location>
         <sidebar-facts *ngSwitchCase="'facts'" [data]="mappedData[keyVal]"></sidebar-facts>
