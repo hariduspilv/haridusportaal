@@ -623,10 +623,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  debug(value) {
-    console.log('----');
-    console.log(value);
-  }
   submitForm(activity: string) {
     this.error = {};
 
