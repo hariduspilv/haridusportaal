@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 
@@ -22,8 +22,8 @@ export class BreadcrumbsComponent implements OnInit, OnChanges{
     private http: HttpClient,
   ) {}
 
-  ngOnChanges() {
-    if (this.data.length === 0) {
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.path.currentValue !== changes.path.previousValue) {
       this.getData();
     }
   }

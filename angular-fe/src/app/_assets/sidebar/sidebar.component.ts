@@ -84,8 +84,6 @@ export class SidebarComponent implements OnInit, OnChanges {
         }
       });
 
-      console.log(this.orderedKeys);
-
       try {
         this.mappedData['fieldLearningOpportunities'] = [
           {
@@ -100,7 +98,6 @@ export class SidebarComponent implements OnInit, OnChanges {
     }
   }
   ngOnInit() {
-    console.log(this.type); 
     this.getData();
   }
   ngOnChanges() {

@@ -185,7 +185,6 @@ export class AutocompleteComponent {
     el.style.left = `${parentLeft}px`;
     el.style.width = `${parentWidth}px`;
     el.style.opacity = '1';
-    console.log('px');
   }
 
   private positionElement() {

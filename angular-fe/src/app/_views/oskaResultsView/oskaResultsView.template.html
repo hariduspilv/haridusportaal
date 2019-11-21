@@ -1,0 +1,378 @@
+<div class="inline">
+	<base-layout>
+		<div class="sm-show text-right filter-wrapper">
+			<a href="javascript:void(0);" (click)="showFilter = !showFilter">
+				<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+				<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+			</a>
+		</div>
+		<form
+			(submit)="filterSubmit($event)"
+			class="filter-wrapper"
+			*ngIf="showFilter"
+		>
+			<div class="main-container">
+				<div class="row form-first-row" [class.short-filter]="!filterFull">
+					<div class="col-4 sm-12 form-col">
+						<div class="round-input__wrapper">
+							<!-- <mat-form-field>
+        <mat-select placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]='filterFormItems.field' name="field">
+          <mat-option>{{ 'button.all' | translate }}</mat-option>
+          <mat-option *ngFor="let item of filterItemValues.field" [value]="item">
+            {{item | titleCase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+						</div>
+						<!--/round-inpuit__wrapper-->
+					</div>
+					<!--/col-4-->
+					<div class="col-5 sm-12 form-col">
+						<div class="round-input__wrapper">
+							<!-- <mat-form-field>
+        <mat-select placeholder="{{ 'oska.table_responsible_person' | translate }}" [(ngModel)]='filterFormItems.responsible' name="responsible">
+          <mat-option>{{ 'button.all' | translate }}</mat-option>
+          <mat-option *ngFor="let item of filterItemValues.responsible" [value]="item">
+            {{item | titleCase}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field> -->
+						</div>
+					</div>
+					<!--/col-4-->
+					<div
+						class="col-3 align-end text-right sm-12 inline-flex form-col"
+						*ngIf="!filterFull"
+					>
+						<div class="align-center filter-state sm-hide">
+							<a
+								role="button"
+								href="javascript:void(0);"
+								(click)="filterFull = !filterFull"
+								aria-expanded="false"
+							>
+								<span>Täpsem otsing</span>
+							</a>
+						</div>
+						<div class="button-row">
+							<button role="button" mat-raised-button color="primary">
+								{{ 'button.search' | translate}}
+							</button>
+						</div>
+					</div>
+					<!--/col-3-->
+				</div>
+				<!--/row-->
+				<ng-container *ngIf="filterFull">
+					<div class="row form-additional-row">
+						<div class="col-9 sm-12 form-col">
+							<div class="round-input__wrapper">
+								<!-- <mat-form-field>
+          <mat-select placeholder="{{ 'oska.table_proposition_status' | translate }}" [(ngModel)]='filterFormItems.proposalStatus' name="proposalStatus">
+            <mat-option>{{ 'button.all' | translate }}</mat-option>
+            <mat-option *ngFor="let item of filterItemValues.proposalStatus" [value]="item">
+              {{item | titleCase}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+							</div>
+						</div>
+						<div class="col-3 align-end text-right sm-12 inline-flex form-col">
+							<div class="align-center filter-state sm-hide">
+								<a
+									role="button"
+									href="javascript:void(0);"
+									(click)="filterFull = !filterFull"
+									aria-expanded="true"
+								>
+									<span>{{ 'button.search_brief' | translate }}</span>
+								</a>
+							</div>
+							<div class="button-row">
+								<button role="button" mat-raised-button color="primary">
+									{{ 'button.search' | translate}}
+								</button>
+							</div>
+						</div>
+					</div>
+				</ng-container>
+			</div>
+		</form>
+		<block>
+			<block-title>{{ 'oska.results' | translate }}</block-title>
+			<block-content>
+				<div class="main-container">
+					<loader *ngIf="!tableData && !error"></loader>
+					<div class="row wrapper__row" *ngIf="tableData">
+						<div class="col-12">
+							<div
+								class="block border-blue padding-block lg-bottom"
+								id="tableElem"
+								*ngIf="filteredTableData && tableData && tableData.length"
+							>
+								<div class="row">
+									<div class="col sm-8 flex">
+										<h1>{{ 'oska.proposal_title' | translate }}</h1>
+									</div>
+									<div
+										class="col sm-4 flex flex-center flex-justify-end action--back"
+										*ngIf="filteredTableData && filteredTableData.length && tableFile && tableFile.fieldResultPageTableFile"
+									>
+										<div class="link-holder">
+											<a
+												href="{{ tableFile.fieldResultPageTableFile.entity.url }}"
+												target="_blank"
+												attr.aria-label="{{ 'button.download_table' | translate }}: {{ tableFile.fieldResultPageTableFile.description || tableFile.fieldResultPageTableFile.entity.entityLabel }}"
+											>
+												<span>{{ 'button.download_table' | translate }}</span>
+											</a>
+										</div>
+									</div>
+								</div>
+								<div
+									class="text-center actions__error"
+									*ngIf="filteredTableData && !filteredTableData.length"
+								>
+									<div class="alert" role="alert">
+										{{'search.no_results_start' | translate}}
+										<span
+											innerHtml="{{'search.no_results_end' | translate}}"
+										></span>
+									</div>
+								</div>
+								<div
+									class="scrollable"
+									*ngIf="filteredTableData && filteredTableData.length"
+								>
+									<scrollableContent>
+										<div class="scrollable__table" id="resultsTable">
+											<table class="dashboard-table scrollableTable">
+												<thead>
+													<tr>
+														<th
+															scope="col"
+															class="pointer"
+															(click)="sortView('field');setAlert('oska.title_field')"
+														>
+															<span>{{ 'oska.title_field' | translate }}</span>
+															<a
+																href="javascript:void(0)"
+																attr.aria-label="{{'button.sortable' | translate}}"
+															>
+																<span class="icon" aria-hidden="true">
+																	<icon
+																		*ngIf="field === 'field' && modifier"
+																		size="medium"
+																		glyph="chevron-up"
+																	></icon>
+																	<icon
+																		*ngIf="field && !(field === 'field' && modifier)"
+																		size="medium"
+																		glyph="chevron-down"
+																	></icon>
+																</span>
+															</a>
+														</th>
+														<th scope="col">
+															{{ 'oska.table_proposition' | translate }}
+														</th>
+														<th
+															scope="col"
+															class="pointer"
+															(click)="sortView('responsible');setAlert('oska.table_responsible_person')"
+														>
+															<span
+																>{{ 'oska.table_responsible_person' | translate
+																}}</span
+															>
+															<a
+																href="javascript:void(0)"
+																role="button"
+																attr.aria-label="{{'button.sortable' | translate}}"
+															>
+																<span class="icon" aria-hidden="true">
+																	<icon
+																		*ngIf="field === 'responsible' && modifier"
+																		size="medium"
+																		glyph="chevron-up"
+																	></icon>
+																	<icon
+																		*ngIf="field && !(field === 'responsible' && modifier)"
+																		size="medium"
+																		glyph="chevron-down"
+																	></icon>
+																</span>
+															</a>
+														</th>
+														<th
+															scope="col"
+															class="pointer"
+															(click)="sortView('proposalStatus');setAlert('oska.table_proposition_status')"
+														>
+															<span
+																>{{ 'oska.table_proposition_status' | translate
+																}}</span
+															>
+															<a
+																href="javascript:void(0)"
+																role="button"
+																attr.aria-label="{{'button.sortable' | translate}}"
+															>
+																<span class="icon" aria-hidden="true">
+																	<icon
+																		*ngIf="field === 'proposalStatus' && modifier"
+																		size="medium"
+																		glyph="chevron-up"
+																	></icon>
+																	<icon
+																		*ngIf="field && !(field === 'proposalStatus' && modifier)"
+																		size="medium"
+																		glyph="chevron-down"
+																	></icon>
+																</span>
+															</a>
+														</th>
+														<th
+															aria-hidden="true"
+															class="separator"
+															*ngIf="!commentVisible"
+														></th>
+														<th
+															scope="col"
+															class="pointer"
+															[class.hidden]="!commentVisible"
+														>
+															<span
+																tabindex="0"
+																role="button"
+																(keyup.enter)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()"
+																(click)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()"
+															>
+																<span
+																	*ngIf="commentVisible"
+																	attr.aria-label="{{ 'button.close' | translate }} {{ 'oska.table_experts_comment' | translate }}"
+																	>{{ 'oska.table_experts_comment' | translate
+																	}}</span
+																>
+																<span
+																	class="icon visible__elem"
+																	aria-hidden="true"
+																	*ngIf="commentVisible"
+																>
+																	<icon glyph="skip-back"></icon>
+																</span>
+																<span
+																	*ngIf="!commentVisible"
+																	attr.aria-label="{{ 'button.open' | translate }} {{ 'oska.table_experts_comment' | translate }}"
+																></span>
+																<span
+																	*ngIf="!commentVisible"
+																	aria-hidden="true"
+																>
+																	<icon glyph="skip-forward"></icon>
+																</span>
+															</span>
+														</th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr
+														*ngFor="let item of filteredTableData; let first = first; let last = last;"
+													>
+														<td class="narrow">
+															<div *ngIf="item.oskaField && item.oskaField[0]">
+																{{ item.oskaField[0].entity.title }}
+															</div>
+														</td>
+														<td class="wide">
+															<div id="limitedData" *ngIf="item.proposal">
+																{{item.proposal}}
+															</div>
+															<div
+																aria-hidden="true"
+																class="text-center hidden show-more"
+															>
+																<a
+																	(click)="removeLimiter($event)"
+																	aria-hidden="true"
+																	role="button"
+																	href="javascript:void(0)"
+																	>{{'button.see_more' | translate}}</a
+																>
+															</div>
+														</td>
+														<td class="narrow">
+															<div *ngIf="item.responsible">
+																{{item.responsible}}
+															</div>
+														</td>
+														<td class="narrow">
+															<div class="flex centered">
+																<div
+																	class="icon-wrapper"
+																	[class.top]="item.proposalStatus == 'Plaanis rakendada'"
+																	[class.bottom]="item.proposalStatus == 'Ei rakenda'"
+																	[class.positive]="item.proposalStatus == 'Tehtud' || item.proposalStatus == 'Töös'"
+																	[class.lowest]="item.proposalStatus == 'Tagasiside kogumisel'"
+																>
+																	<span class="icon" aria-hidden="true"></span>
+																</div>
+																<div class="flex-text">
+																	<span
+																		role="text"
+																		attr.aria-label="{{item.proposalStatus}}"
+																		>{{item.proposalStatus}}</span
+																	>
+																</div>
+															</div>
+														</td>
+														<ng-container>
+															<td
+																aria-hidden="true"
+																class="separator"
+																*ngIf="!commentVisible"
+															></td>
+															<td
+																*ngIf="!commentVisible"
+																class="hidden vertical pointer"
+																[class.last]="last"
+																(click)="commentVisible = !commentVisible;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()"
+															>
+																<span class="vertical__text" *ngIf="first"
+																	>{{ 'oska.table_experts_comment' | translate
+																	}}</span
+																>
+																<span
+																	role="button"
+																	class="vertical__text"
+																	*ngIf="!first"
+																></span>
+															</td>
+															<td
+																*ngIf="commentVisible"
+																class="wide--extra"
+																[class.last]="last"
+															>
+																<span
+																	*ngIf="commentVisible && item.expertCommentary"
+																	>{{ item.expertCommentary }}</span
+																>
+															</td>
+														</ng-container>
+													</tr>
+												</tbody>
+											</table>
+											<div class="notification--alert" role="alert">
+												<span *ngIf="alertText">{{alertText}}</span>
+											</div>
+										</div>
+									</scrollableContent>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</block-content>
+		</block>
+	</base-layout>
+</div>

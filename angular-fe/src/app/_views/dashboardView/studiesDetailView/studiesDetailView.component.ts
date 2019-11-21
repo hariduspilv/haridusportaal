@@ -50,8 +50,6 @@ export class StudiesDetailView implements OnInit {
     if (translation.includes(`frontpage.${type}`)) {
       return type;
     }
-    console.log(type);
-    console.log(translation);
     return translation;
   }
 

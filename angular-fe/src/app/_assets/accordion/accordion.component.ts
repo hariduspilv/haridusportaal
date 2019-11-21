@@ -123,7 +123,7 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
     items: QueryList<AccordionItemComponent>;
 
   closeOthers() {
-    if (this.collapsible) {
+    if (this.collapsible && this.items) {
       const items = this.items.toArray();
       items.forEach((item) => {
         this.subscriptions.push(item.change.subscribe((response) => {
