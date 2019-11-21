@@ -60,10 +60,7 @@ const routes: Routes = [
     path: 'tunnistused/:id',
     component: CertificatesDetailView,
   },
-  {
-    path: 'taotlused/:id',
-    component: XjsonComponent,
-  },
+
 ];
 
 @NgModule({
@@ -76,7 +73,6 @@ const routes: Routes = [
     MoreBlockComponent,
     StudiesDetailView,
     CertificatesDetailView,
-    XjsonComponent,
   ],
   imports: [
     AppPipes,

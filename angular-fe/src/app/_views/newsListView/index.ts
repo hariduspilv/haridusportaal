@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { AppPipes } from '@app/_pipes';
+import { SettingsService } from '@app/_services';
 
 const routes: Routes = [
   {

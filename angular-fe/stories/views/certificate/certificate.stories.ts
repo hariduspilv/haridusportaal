@@ -5,7 +5,7 @@ import certificateStoriesTemplateHtml from './certificate.stories.template.html'
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
-import { Alert, AlertType } from '@app/_services';
+import { Alert, AlertType, ModalService, RippleService } from '@app/_services';
 import {
   text,
   withKnobs,
@@ -25,6 +25,8 @@ const moduleMetadata = {
   ],
   providers: [
     TranslateService,
+    ModalService,
+    RippleService,
   ],
 };
 

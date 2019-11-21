@@ -3,26 +3,18 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
 import { DetailViewModule } from '@app/_views/detailView';
-import { SettingsService } from '@app/_services';
+import { SettingsService, RippleService, ModalService } from '@app/_services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { withKnobs } from '@storybook/addon-knobs';
 import detailViewHtml from './detailView.html';
 import detailViewMd from './detailView.md';
-import { AssetsModule } from '@app/_assets';
-
-const moduleMetadata = {
-  imports: [
-    RouterTestingModule,
-    TranslateModule.forRoot(),
-    DetailViewModule,
-    BrowserAnimationsModule,
-    AssetsModule,
-  ],
-  providers: [
-    TranslateService,
-    SettingsService,
-  ],
-};
+import { AssetsModule, settingsProviderFactory } from '@app/_assets';
+import { DetailViewComponent } from '@app/_views/detailView/detailView.component';
+import { APP_BASE_HREF } from '@angular/common';
+import { ActivatedRoute, Params } from '@angular/router';
+import { Subscription, Subject, Observable, of } from 'rxjs';
+import { APP_INITIALIZER } from '@angular/core';
+import { EmbedVideoService } from 'ngx-embed-video';
 
 const notes = { markdown: detailViewMd };
 
@@ -77,7 +69,34 @@ const storiesData = [
 
 const storyData = (data) => {
   return {
-    moduleMetadata,
+    moduleMetadata: {
+      declarations: [
+        DetailViewComponent,
+      ],
+      imports: [
+        RouterTestingModule,
+        TranslateModule.forRoot(),
+        BrowserAnimationsModule,
+        AssetsModule,
+      ],
+      providers: [
+        TranslateService,
+        SettingsService,
+        RippleService,
+        ModalService,
+        EmbedVideoService,
+        {
+          provide: ActivatedRoute,
+          useValue: { snapshot: {}, params: new Observable<Params>() } },
+        { provide: Location, useValue: { path: data.path } },
+        {
+          provide: APP_INITIALIZER,
+          useFactory: settingsProviderFactory,
+          deps: [SettingsService],
+          multi: true,
+        },
+      ],
+    },
     props: {
       data,
     },

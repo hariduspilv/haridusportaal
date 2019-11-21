@@ -42,7 +42,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   public isVisible: boolean;
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
-  public data;
+  @Input() data;
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
   }

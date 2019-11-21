@@ -4,10 +4,16 @@ import schoolsMd from './schools.md';
 import schoolsHtml from './schools.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { list } from './schools.data';
+import { ModalService } from '@app/_services';
+import { RouterTestingModule } from '@angular/router/testing';
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
+    RouterTestingModule,
+  ],
+  providers: [
+    ModalService,
   ],
 };
 

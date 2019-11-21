@@ -8,13 +8,21 @@ import { AssetsModule } from '@app/_assets';
 import autocompleteMd from './autocomplete.md';
 import autocompleteHtml from './autocomplete.html';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { RippleService, ModalService } from '@app/_services';
+import { ActivatedRoute } from '@angular/router';
+import { APP_BASE_HREF } from '@angular/common';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+    RouterTestingModule,
   ],
   providers: [
     TranslateService,
+    RippleService,
+    ModalService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 
@@ -26,7 +34,6 @@ stories.add('Autocomplete', () => {
   return {
     moduleMetadata,
     props: {
-
     },
     template: autocompleteHtml,
   };

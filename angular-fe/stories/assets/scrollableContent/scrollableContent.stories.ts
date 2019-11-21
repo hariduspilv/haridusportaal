@@ -5,11 +5,15 @@ import { TranslateModule } from '@app/_modules/translate';
 import { data } from './table.data';
 import { ScrollableContentComponent } from '@app/_assets/scrollableContent';
 import { QueryList } from '@angular/core';
+import { RippleService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
+  ],
+  providers: [
+    RippleService,
   ],
 };
 

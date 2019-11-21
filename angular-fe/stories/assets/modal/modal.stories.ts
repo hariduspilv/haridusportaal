@@ -6,12 +6,17 @@ import {
   withKnobs,
   optionsKnob as options,
 } from '@storybook/addon-knobs';
+import { ModalService, RippleService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
   ],
+  providers: [
+    ModalService,
+    RippleService,
+  ]
 };
 
 const stories = storiesOf('Assets', module);

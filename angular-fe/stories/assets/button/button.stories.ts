@@ -6,11 +6,15 @@ import {
 } from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
 import buttonMd from './button.md';
+import { RippleService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
   ],
+  providers: [
+    RippleService,
+  ]
 };
 
 const stories = storiesOf('Assets', module);

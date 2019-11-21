@@ -67,6 +67,8 @@ export class DetailViewComponent {
 
   private getValues(): void {
 
+    console.log(this.type);
+
     switch (this.type) {
       case 'news': {
         this.queryKey = 'newsSingel';
@@ -122,13 +124,12 @@ export class DetailViewComponent {
     const variables = {
       path: this.path,
     };
-
+    console.log('PATH', this.path);
     const path = this.settings.query(this.queryKey, variables);
 
     const subscription = this.http.get(path).subscribe((response) => {
 
       this.origData = response['data']['route']['entity'];
-
       this.data = FieldVaryService(response['data']['route']['entity']);
 
       if (Array.isArray(this.data.video) && this.data.video.length > 1) {

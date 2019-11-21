@@ -2,12 +2,16 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import videoMd from './video.md';
 import { TranslateModule } from '@app/_modules/translate';
+import { EmbedVideoService } from 'ngx-embed-video';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
   ],
+  providers: [
+    EmbedVideoService,
+  ]
 };
 
 const stories = storiesOf('Assets', module);

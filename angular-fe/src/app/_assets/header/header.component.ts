@@ -129,7 +129,15 @@ export class HeaderComponent implements OnInit {
     });
   }
 
+  openLoginModal() {
+    this.loginForm.reset();
+    this.mobileIdForm.reset();
+    this.getAuthMethods();
+    this.modalService.toggle('login');
+  }
+
   getAuthMethods() {
+    this.loading = true;
     if (
       this.settings.url === 'https://htm.wiseman.ee' ||
       this.settings.url === 'http://test-htm.wiseman.ee:30000' ||
@@ -150,6 +158,7 @@ export class HeaderComponent implements OnInit {
       },
       (response) => {
         this.alertsService.error(response.error.message, 'login', false);
+        this.loading = false;
       },
       () => {
         this.loading = false;

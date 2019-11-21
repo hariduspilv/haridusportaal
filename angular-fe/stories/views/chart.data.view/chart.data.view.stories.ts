@@ -9,6 +9,7 @@ import {
   text,
   withKnobs,
 } from '@storybook/addon-knobs';
+import { RippleService, ModalService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
@@ -18,6 +19,8 @@ const moduleMetadata = {
   ],
   providers: [
     TranslateService,
+    RippleService,
+    ModalService,
   ],
 };
 
