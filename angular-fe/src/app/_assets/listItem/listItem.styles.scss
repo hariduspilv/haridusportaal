@@ -5,288 +5,302 @@ $grid-columns: 12;
 
 :host{
   display: block;
-}
-
-::ng-deep{
-  block-content listItems{
-    margin-top: -$medium;
-    margin-left: -$medium;
-    margin-right: -$medium;
+  ::ng-deep listItems {
+      margin-top: -$medium;
+      margin-left: -$medium;
+      margin-right: -$medium;
   }
-}
-
-::ng-deep{
-  .pointer{
-    cursor: pointer !important;
+  
+  ::ng-deep{
+    .pointer{
+      cursor: pointer !important;
+    }
   }
-}
-
-.resp-fields{
-  a{
-    text-decoration: none;
+  
+  .resp-fields{
+    a{
+      text-decoration: none;
+    }
   }
-}
-
-.list {
-  padding-bottom: $xxl;
-  background: $white;
-  border-top: $gutter solid $light-blue;
-  @include break-on(sm, min) {
-    border-radius: $half-gutter; 
-    margin-left: $medium; 
-    margin-right: $medium;
-    margin-bottom: $medium; 
-    padding-bottom: 0;
+  
+  .list {
+    padding-bottom: $xxl;
+    background: $white;
+    border-top: $gutter solid $light-blue;
+    @include break-on(sm, min) {
+      border-radius: $half-gutter; 
+      margin-left: $medium; 
+      margin-right: $medium;
+      margin-bottom: $medium; 
+      padding-bottom: 0;
+    }
+    &__item {
+      padding: 1.5rem; 
+      border-bottom: solid .0625rem $gray; 
+      display:flex; 
+      flex-wrap: wrap;
+      &:first-child{padding-top:0;}
+      .tags {
+        padding-bottom: 0.5rem;
+      }
+      &:last-child{ border-bottom:0; }
+      &:hover {
+        .list__item__title {
+          text-decoration: underline;
+        }
+      }
+      &__image{
+        cursor: pointer;
+      }
+      &__title{
+        width: 100%;
+        font-size: $medium; 
+        line-height: $large; 
+        text-decoration: none; 
+        font-weight: 500;
+        padding-right: $small;
+        @include break-on(sm, min) {
+          padding-bottom: 0.23rem; 
+        }
+        h1{
+          color: $blue;
+        }
+      }
+      &__head {
+        font-size: .875rem;
+        line-height: 1.25rem;
+        color: $dark-gray;
+        padding-bottom: $half-gutter;
+      }
+      &__col{
+        width:33%; 
+        box-sizing: border-box;
+        &:first-child {
+          padding-right: $medium;
+        }
+        &:last-child {
+          padding-left: $medium;
+        }
+        p {
+          color:$dark-gray; 
+          font-size: .875rem; 
+          line-height:20px; 
+          margin: $half-gutter 0;
+        }
+      }
+      &__subtitle {
+        font-size: $small;
+        line-height: 1; 
+        font-size: .88rem; 
+        color:$dark-gray; 
+        line-height:143%; 
+        display:block; 
+        font-weight: 500; 
+        margin-bottom:$medium; 
+        margin-top: $half-gutter;
+      }
+      &__titlebox {
+        width:100%; 
+        display:flex;
+        .col-grow {
+          flex-grow: 1
+        }
+        .col {
+          display: flex; 
+          align-items: baseline; 
+          flex-shrink: 0;
+          align-items: baseline;
+          &--compare {
+            display: flex;
+            margin-top: .5rem;
+          }
+        }
+      }
+      p:first-child {
+        margin-top: 0;
+      }
+      p:last-child {
+        margin-bottom: 0;
+      }
+    }
+    .spinner-wrapper {
+      padding-bottom: 1.25rem;
+    }
   }
-  &__item {
-    padding: $small $medium; 
-    border-bottom: solid .0625rem $gray; 
-    display:flex; 
+  
+  .author {
+    padding-top: .375rem;
+    padding-bottom: $small;
+    font-size: .875rem;
+    line-height: 1.43;
+    color: $dark-gray;
+    font-weight: 500;
+  }
+  
+  .inline__items {
+    padding-top: .375rem;
+    display: flex;
     flex-wrap: wrap;
-    // &:first-child{padding-top:0;}
-    // &:last-child{border-bottom:0;}
-    &:hover {
-      .list__item__title {
-        text-decoration: underline;
-      }
-    }
-    &__image{
-      cursor: pointer;
-    }
-    &__title{
-      width: 100%;
-      font-size: $medium; 
-      line-height: $large; 
-      text-decoration: none; 
+    flex-direction: row;
+  
+    .item{
       font-weight: 500;
-      padding-right: $small;
-      @include break-on(sm, min) {
-        padding-bottom: 0.23rem; 
-      }
-      h1{
-        color: $blue;
-      }
-    }
-    &__head {
       font-size: .875rem;
       line-height: 1.25rem;
       color: $dark-gray;
-      padding-bottom: $half-gutter;
-    }
-    &__col{
-      width:33%; 
-      box-sizing: border-box;
-      &:first-child {
-        padding-right: $medium;
-      }
-      &:last-child {
-        padding-left: $medium;
-      }
-      p {
-        color:$dark-gray; 
-        font-size: .875rem; 
-        line-height:20px; 
-        margin: $half-gutter 0;
+      white-space: nowrap;
+  
+      .dark {
+        color: $darker-gray;
       }
     }
-    &__subtitle {
-      font-size: $small;
-      line-height: 1; 
-      font-size: .88rem; 
-      color:$dark-gray; 
-      line-height:143%; 
-      display:block; 
-      font-weight: 500; 
-      margin-bottom:$medium; 
-      margin-top: $half-gutter;
+  
+    .bar{
+      color: $gray;
+      font-weight: 300;
+      padding: 0 .375rem;
     }
-    &__titlebox {
-      width:100%; 
-      display:flex;
-      .col-grow {
-        flex-grow: 1
+  }
+  
+  .flex.flex-center {
+    align-items: center;
+  }
+  
+  .flex.flex-wrap {
+    flex-wrap: wrap;
+  }
+  
+  .flex {
+    display: flex;
+  }
+  
+  .tags{
+    padding-bottom: $small;
+  }
+  
+  .description {
+    font-size: $small;
+    overflow: hidden;
+    position: relative;
+    line-height: 1.2rem;
+    max-height: 3.6rem;
+    text-align: justify;
+    padding-right: $large;
+    text-overflow: ellipsis;
+    a[target="_blank"]::after{
+			-webkit-font-feature-settings: 'liga';
+			font-feature-settings: 'liga';
+			-ms-font-feature-settings: 'liga';
+			font-family: 'iconfont';
+			content: "" !important;
+			position: relative;
+			top: .125rem;
+			left: .125rem;
+			display: inline-block;
+		}
+  }
+  
+  ::ng-deep modal-content {
+    font-size: 1.5rem;
+    text-align: center;
+    color: $black;
+    line-height: 1.875rem;
+    font-weight: 500;
+    p {
+      margin: 0;
+    }
+  }
+  
+  .row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
+    @for $i from 1 through $grid-columns {
+      .col-#{$i} { width: percentage($i / $grid-columns); }
+      @include break-on(md, max) {
+        .md-#{$i} { width: percentage($i / $grid-columns) !important; }
       }
-      .col {
-        display: flex; 
-        align-items: baseline; 
-        flex-shrink: 0;
-        align-items: baseline;
-        &--compare {
-          display: flex;
-          margin-top: .5rem;
+      @include break-on(sm, max) {
+        .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+      }
+      @include break-on(xs, max) {
+        .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
+      }
+      @include break-on(xxs, max) {
+        .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
+      }
+    }
+    [class*='col']{padding:$gutter; box-sizing: border-box;}
+    .col{flex-grow: 1; flex-shrink: 1;}
+    
+    &>.dateBlock{padding:.625rem;}
+    &+.mat-divider{margin:1.25rem 0;}
+  }
+  @for $i from 1 through $grid-columns {
+    .error-#{$i} { width: percentage($i / $grid-columns); }
+    @include break-on(sm, max) {
+      .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+    }
+  }
+  .list__item{display: flex;
+    margin:0 -1.5rem;
+    flex-wrap:wrap;  box-sizing: border-box; flex-direction: column;
+    @for $i from 1 through $grid-columns {
+      .col-#{$i} { width: percentage($i / $grid-columns); }
+      @include break-on(md, max) {
+        .md-#{$i} { width: percentage($i / $grid-columns) !important; }
+      }
+      @include break-on(sm, max) {
+        .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+        .sm-hide {
+          display: none !important;
         }
       }
-    }
-    p:first-child {
-      margin-top: 0;
-    }
-    p:last-child {
-      margin-bottom: 0;
-    }
-  }
-  .spinner-wrapper {
-    padding-bottom: 1.25rem;
-  }
-}
-
-.author {
-  padding-top: .375rem;
-  padding-bottom: $small;
-  font-size: .875rem;
-  line-height: 1.43;
-  color: $dark-gray;
-}
-
-.inline__items {
-  padding-top: .375rem;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: row;
-
-  .item{
-    font-weight: 500;
-    font-size: .875rem;
-    line-height: 1.25rem;
-    color: $dark-gray;
-    white-space: nowrap;
-
-    .dark {
-      color: $darker-gray;
-    }
-  }
-
-  .bar{
-    color: $gray;
-    font-weight: 300;
-    padding: 0 .375rem;
-  }
-}
-
-.flex.flex-center {
-  align-items: center;
-}
-
-.flex.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.flex {
-  display: flex;
-}
-
-.tags{
-  padding-bottom: $small;
-}
-
-.description {
-  font-size: $small;
-  overflow: hidden;
-  position: relative;
-  line-height: 1.2rem;
-  max-height: 3.6rem;
-  text-align: justify;
-  margin-right: -1rem;
-  padding-right: $large;
-}
-
-::ng-deep modal-content {
-  font-size: 1.5rem;
-  text-align: center;
-  color: $black;
-  line-height: 1.875rem;
-  font-weight: 500;
-  p {
-    margin: 0;
-  }
-}
-
-.row{display: flex; margin:-$gutter; flex-wrap:wrap;  box-sizing: border-box;
-  @for $i from 1 through $grid-columns {
-    .col-#{$i} { width: percentage($i / $grid-columns); }
-    @include break-on(md, max) {
-      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
-    }
-    @include break-on(sm, max) {
-      .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
-    }
-    @include break-on(xs, max) {
-      .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
-    }
-    @include break-on(xxs, max) {
-      .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
-    }
-  }
-  [class*='col']{padding:$gutter; box-sizing: border-box;}
-  .col{flex-grow: 1; flex-shrink: 1;}
-  
-  &>.dateBlock{padding:.625rem;}
-  &+.mat-divider{margin:1.25rem 0;}
-}
-@for $i from 1 through $grid-columns {
-  .error-#{$i} { width: percentage($i / $grid-columns); }
-  @include break-on(sm, max) {
-    .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
-  }
-}
-.list__item{display: flex; margin:-$gutter 0; flex-wrap:wrap;  box-sizing: border-box; flex-direction: column;
-  @for $i from 1 through $grid-columns {
-    .col-#{$i} { width: percentage($i / $grid-columns); }
-    @include break-on(md, max) {
-      .md-#{$i} { width: percentage($i / $grid-columns) !important; }
-    }
-    @include break-on(sm, max) {
-      .sm-#{$i} { width: percentage($i / $grid-columns) !important; }
-      .sm-hide {
-        display: none !important;
+      @include break-on(xs, max) {
+        .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
+        .xs-hide {
+          display: none !important;
+        }
+      }
+      @include break-on(xxs, max) {
+        .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
       }
     }
-    @include break-on(xs, max) {
-      .xs-#{$i} { width: percentage($i / $grid-columns) !important; }
-      .xs-hide {
-        display: none !important;
-      }
-    }
-    @include break-on(xxs, max) {
-      .xxs-#{$i} { width: percentage($i / $grid-columns) !important; }
+    [class*='col']{box-sizing: border-box;}
+    .col{flex-grow: 1; flex-shrink: 1;}
+    
+    &>.dateBlock{padding:.625rem;}
+    &+.mat-divider{margin: 1.25rem 0;}
+  }
+  @for $i from 1 through $grid-columns {
+    .error-#{$i} { width: percentage($i / $grid-columns); }
+    @include break-on(sm, max) {
+      .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
     }
   }
-  [class*='col']{box-sizing: border-box;}
-  .col{flex-grow: 1; flex-shrink: 1;}
-  
-  &>.dateBlock{padding:.625rem;}
-  &+.mat-divider{margin: 1.25rem 0;}
-}
-@for $i from 1 through $grid-columns {
-  .error-#{$i} { width: percentage($i / $grid-columns); }
+  .xxs-show{display:none !important;}
+  .xxs-flex{display:none !important;}
+  .xs-show{display:none !important;}
+  .xs-flex{display:none !important;}
+  .sm-show{display:none !important;}
+  .sm-flex{display:none !important;}
+  .md-show{display:none !important;}
+  .md-flex{display:none !important;}
+  @include break-on(xxs, max) {
+    .xxs-hide{display:none !important;}
+    .xxs-show{display: block !important;}
+    .xxs-flex{display: flex !important;}
+  }
+  @include break-on(xs, max) {
+    .xs-hide{display:none !important;}
+    .xs-show{display: block !important;}
+    .xs-flex{display: flex !important;}
+  }
   @include break-on(sm, max) {
-    .error-sm-#{$i} { width: percentage($i / $grid-columns) !important; }
+    .sm-hide{display:none !important;}
+    .sm-show{display: block !important;}
+    .sm-flex{display: flex !important;}
   }
-}
-.xxs-show{display:none !important;}
-.xxs-flex{display:none !important;}
-.xs-show{display:none !important;}
-.xs-flex{display:none !important;}
-.sm-show{display:none !important;}
-.sm-flex{display:none !important;}
-.md-show{display:none !important;}
-.md-flex{display:none !important;}
-@include break-on(xxs, max) {
-  .xxs-hide{display:none !important;}
-  .xxs-show{display: block !important;}
-  .xxs-flex{display: flex !important;}
-}
-@include break-on(xs, max) {
-  .xs-hide{display:none !important;}
-  .xs-show{display: block !important;}
-  .xs-flex{display: flex !important;}
-}
-@include break-on(sm, max) {
-  .sm-hide{display:none !important;}
-  .sm-show{display: block !important;}
-  .sm-flex{display: flex !important;}
-}
-@include break-on(md, max) {
-  .md-hide{display: none !important;}
-  .md-show{display: block !important;}
-  .md-flex{display: flex !important;}
+  @include break-on(md, max) {
+    .md-hide{display: none !important;}
+    .md-show{display: block !important;}
+    .md-flex{display: flex !important;}
+  }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from './_services';
+import { AuthService, SidemenuService } from './_services';
 
 @Component({
   selector: 'app-root',
@@ -9,9 +9,13 @@ import { AuthService } from './_services';
 
 export class AppComponent implements OnInit {
 
+  public sidemenuIsVisible: boolean = false;
   constructor(
+    public sidemenuService: SidemenuService,
     public auth: AuthService,
-  ) {}
+  ) {
+    this.sidemenuIsVisible = sidemenuService.isVisible;
+  }
   public onActivate(): void {
     try {
       document.querySelector('.app-content').scrollTo({
@@ -20,7 +24,15 @@ export class AppComponent implements OnInit {
     } catch (err) {}
   }
 
+  closeSidemenu(event: Event) {
+    if (this.sidemenuIsVisible) { this.sidemenuService.toggle(); }
+    return;
+  }
+
   ngOnInit() {
+    this.sidemenuService.isVisibleSubscription.subscribe((val) => {
+      this.sidemenuIsVisible = val;
+    });
     this.auth.isLoggedIn();
   }
 }

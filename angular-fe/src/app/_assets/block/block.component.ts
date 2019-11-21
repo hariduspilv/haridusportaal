@@ -134,7 +134,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
     secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
 
   @Input() theme: string = 'blue';
-  @Input() titleBorder: boolean = false;
+  @Input() titleBorder: boolean = true;
   @Input() tabStyle: string = 'default';
 
   changeTab(title:string) {

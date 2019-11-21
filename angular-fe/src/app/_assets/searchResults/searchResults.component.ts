@@ -45,6 +45,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   private getDataDebounce;
   private debounceDelay: number = 300;
   public canLoadMore: boolean = true;
+  public loadingMore: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -160,7 +161,9 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
 
         const path = `${this.settings.url}/graphql?${query}`.trim();
 
-        this.loading = true;
+        if (!this.loadingMore) {
+          this.loading = true;
+        }
 
         if (!append) {
           this.list = [];
@@ -168,7 +171,10 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
 
         this.httpWatcher = this.http.get(path).subscribe(
           (response) => {
-            this.loading = false;
+            if (!this.loadingMore) {
+              this.loading = false;
+            }
+            this.loadingMore = false;
             let tmpList:[] = [];
             try {
               if (response['data']['nodeQuery']) {
@@ -190,13 +196,14 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           },
           (err) => {
             this.loading = false;
+            this.loadingMore = false;
           });
       },
       this.debounceDelay);
   }
 
   public loadMore(): void {
-
+    this.loadingMore = true;
     this.offset = this.list.length;
     const params = this.route.snapshot.queryParams;
     const values = this.parseValues({ ... params });

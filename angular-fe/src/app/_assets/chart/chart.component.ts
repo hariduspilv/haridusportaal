@@ -405,6 +405,7 @@ export class ChartComponent implements OnInit {
   }
 
   parseData() {
+    console.log(this.data);
     this.data = this.data.map((item) => {
       try {
         item.filterValues = JSON.parse(item.filterValues);
@@ -412,7 +413,6 @@ export class ChartComponent implements OnInit {
         console.log('Error parsing JSON');
       }
       item.id = this.generateID();
-
       item.graph_group_by = item.filterValues.graph_options.graph_group_by;
       item.graph_v_axis = item.filterValues.graph_options.graph_v_axis;
       item.secondaryGraphType = item.filterValues.graph_options.secondary_graph_type;
@@ -532,7 +532,8 @@ export class ChartComponent implements OnInit {
       } catch (err) {
         console.error("Couldn't parse indicators!");
       }
-
+      console.log('#########################', item.id);
+      console.log(this.data);
       this.setInitialValues(item.id);
 
       this.getGraphData(item.id);
@@ -573,12 +574,15 @@ export class ChartComponent implements OnInit {
         this.requestSubscription[id].unsubscribe();
       }
 
+      console.log(this.data);
+      console.log('koerajalad',id)
+
       const current = this.data.filter((item) => {
         if (id === item.id) {
           return item;
         }
       })[0];
-
+      console.log(current);
       const filters = this.filters[current.id];
       const unselectableFilters = this.unselectableFilters[current.id];
 

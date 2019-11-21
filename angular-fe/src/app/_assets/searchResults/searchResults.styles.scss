@@ -1,15 +1,38 @@
-.noResults{
-  display: block;
-  text-align: center;
-  padding: 40px;
-}
+@import 'colors.scss';
+@import 'breakpoints.scss';
 
-.loadMore{
-  text-align: center;
-  margin-top: 40px;
-}
+:host {
+  .noResults{
+    display: block;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .loadMore, loader{
+    text-align: center;
+    padding-top: 1.5rem;
+    padding-bottom: 6rem;
+    background-color: $white;
+    margin-right: -1.5rem;
+    margin-left: -1.5rem;
+    margin-bottom: -1.6rem;
+    @include break-on(sm, min){
+      background-color: $light-gray;
+    }
+    padding-right: 1.5rem;
+    padding-left: 1.5rem;
+    button {
+      width: 100%;
+      @include break-on(sm, min){
+        width: auto;
+      }
+    }
+  }
 
-listItems + loader{
-  display: block;
-  margin-top: 40px;
+  ::ng-deep block {
+    margin-bottom: 0;
+    .block__content {
+      padding-bottom: 0;
+    }
+  }
 }

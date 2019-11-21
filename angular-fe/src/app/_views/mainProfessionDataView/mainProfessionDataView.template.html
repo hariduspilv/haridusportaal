@@ -5,11 +5,13 @@
   
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
-			<block-title>{{ 'oskaProfessions.main_profession' | translate }}</block-title>
+			<block-title>{{ 'oskaProfessions.data' | translate }}</block-title>
 			<block-content tabLabel="{{ 'oskaProfessions.main_profession' | translate }}" tabIcon="grid" tabLink="/ametialad">
 			</block-content>
       <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/ametialad/andmed" [tabActive]="true">
         <ng-container *ngIf="data">
+
+          <h1 *ngIf="data.title">{{data.title}}</h1>
 
           <p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 

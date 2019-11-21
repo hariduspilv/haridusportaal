@@ -8,6 +8,7 @@ $optionSize: 2.25rem;
   height: $shareSize;
   display: inline-block;
   position: relative;
+  margin-top: -1rem;
   &.share--focused{
     z-index: 999;
     .share{

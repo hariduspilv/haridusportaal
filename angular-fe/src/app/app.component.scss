@@ -27,8 +27,27 @@
     height: 100%;
     ::ng-deep{
       main {
-        padding:1rem 1.5rem !important;
+        @include break-on(sm, min) {
+          padding:1rem 1.5rem !important;
+        }
       }
+    }
+    &::after {
+      content: '';
+      background-color: transparent;
+      transition: background-color .2s;
+    } 
+    &.darken {
+      overflow-y: hidden;
+    }
+    &.darken::after {
+      content: "";
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background-color: rgba(0,0,0,0.5);
     }
   }
 }
