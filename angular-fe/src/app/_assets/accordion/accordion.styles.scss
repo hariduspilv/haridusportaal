@@ -76,6 +76,9 @@
           margin-bottom:0;
         }
       }
+      b, strong {
+        font-weight: 500;
+      }
       ::ng-deep links {
         margin: 0;
         a {
