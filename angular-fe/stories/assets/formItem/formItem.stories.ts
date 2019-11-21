@@ -29,6 +29,7 @@ const moduleMetadata = {
   providers: [
     RippleService,
     { provide: LOCALE_ID, useValue:'et' },
+    RippleService,
   ],
 };
 
