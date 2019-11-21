@@ -78,12 +78,12 @@ const routes: Routes = [
     CertificatesDetailView,
   ],
   imports: [
+    AppPipes,
     RouterModule.forChild(routes),
     AssetsModule,
     TranslateModule,
     CommonModule,
     ReactiveFormsModule,
-    AppPipes,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

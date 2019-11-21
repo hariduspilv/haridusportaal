@@ -6,6 +6,14 @@ input {
   font-size: 0.875rem;
 }
 
+::ng-deep htm-modal {
+  z-index: 10000 !important;
+}
+
+::ng-deep .tooltip {
+  z-index: 999;
+}
+
 .xjson-wrapper {
   padding: 0.5rem 0;
   @include break-on(sm, max) {
@@ -22,7 +30,7 @@ h2 {
   letter-spacing: normal;
   text-align: left;
   margin-top: 1.8rem !important;
-  margin-bottom: 0;
+  margin-bottom: 1rem !important;
 }
 
 .xjson {
@@ -113,6 +121,18 @@ h2 {
   }
 }
 
+.htm-icon ::ng-deep {
+  i {
+    top: 50%;
+    margin-top: -1.25rem;
+    line-height: 2.5rem;
+    left: 0;
+    position: relative;
+    font-size: 2.5rem;
+    color: #2e3374;
+  }
+}
+
 .xjson__scrollable {
   position: relative;
   overflow: hidden;
@@ -135,15 +155,6 @@ h2 {
     transform: translateY(-50%);
     z-index: 5;
     user-select: none;
-    .htm-icon {
-      top: 50%;
-      margin-top: -1.25rem;
-      line-height: 2.5rem;
-      left: 0;
-      position: relative;
-      font-size: 2.5rem;
-      color: #2e3374;
-    }
     &--left {
       left: 0;
       @include break-on(sm, min) {

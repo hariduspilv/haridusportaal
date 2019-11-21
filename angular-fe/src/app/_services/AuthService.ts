@@ -19,7 +19,7 @@ export class AuthService implements CanActivate {
     private router: Router,
     private settings: SettingsService,
   ) {
-    this.isLoggedIn();
+    this.isAuthenticated.next(this.isLoggedIn());
   }
 
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
@@ -38,29 +38,29 @@ export class AuthService implements CanActivate {
       .post(`${this.settings.url}/api/v1/token?_format=json`, data)
       .pipe(map((response:any) => {
         if (response['token']) {
-          sessionStorage.setItem('token', response['token']);
+          localStorage.setItem('token', response['token']);
           this.isAuthenticated.next(true);
           this.userData = this.decodeToken(response.token);
           this.router.navigateByUrl('/töölaud');
         } else {
-          sessionStorage.removeItem('token');
+          localStorage.removeItem('token');
         }
         return response;
       }));
   }
 
   public logout() {
+    localStorage.removeItem('token');
     this.isAuthenticated.next(false);
-    sessionStorage.removeItem('token');
     this.router.navigateByUrl('/');
   }
 
   public isLoggedIn() {
-    if (!sessionStorage.getItem('token')) {
+    if (!localStorage.getItem('token')) {
       return false;
     }
     if (this.isTokenExpired()) {
-      sessionStorage.removeItem('token');
+      localStorage.removeItem('token');
       return false;
     }
     this.refreshUser();
@@ -69,11 +69,13 @@ export class AuthService implements CanActivate {
 
   public refreshUser(newToken:any = false) {
     if (newToken) {
-      sessionStorage.setItem('token', newToken);
+      localStorage.setItem('token', newToken);
     }
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     this.userData = this.decodeToken(token);
-    this.isAuthenticated.next(true);
+    if (!this.isAuthenticated.getValue()) {
+      this.isAuthenticated.next(true);
+    }
   }
 
   private decodeToken(token) {
@@ -88,7 +90,7 @@ export class AuthService implements CanActivate {
   }
 
   private isTokenExpired() {
-    const token = sessionStorage.getItem('token');
+    const token = localStorage.getItem('token');
     const tokenPayload = this.decodeToken(token);
     if (Date.now() >= tokenPayload.exp * 1000) {
       return true;
@@ -103,7 +105,7 @@ export class AuthService implements CanActivate {
       this.isAuthenticated.next(false);
       this.router.navigateByUrl('/');
     }
-    return this.isLoggedIn();
+    return true;
   }
   // does nothing, services dont Init;
   // ngOnInit() {

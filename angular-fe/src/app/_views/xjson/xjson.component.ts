@@ -6,7 +6,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SettingsService, ModalService, AlertsService, UploadService } from '@app/_services';
+import { SettingsService, ModalService, AlertsService, UploadService, AuthService } from '@app/_services';
 import { TableService } from '@app/_services/tableService';
 
 const XJSON_DATEPICKER_FORMAT = {
@@ -92,6 +92,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private alertsService: AlertsService,
     private uploadService: UploadService,
     private tableService: TableService,
+    private authService: AuthService,
   ) { }
 
   pathWatcher() {
@@ -262,8 +263,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   fileDownloadlink(file) {
     const id = file.file_identifier;
     const name = file.file_name;
-    const token = sessionStorage.getItem('token');
-    return this.settings.url + '/xjson_service/documentFile2/' + id + '/' + name + '?jwt_token=' + token;
+    const token = localStorage.getItem('token');
+
+    return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}`;
   }
 
   stopFileUpload(element) {
@@ -289,6 +291,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   uploadFile(files, element) {
+    if (!this.data_elements[element].value) {
+      this.data_elements[element].value = [];
+    }
     const model = this.data_elements[element];
     const size_limit = model.max_size;
     this.fileLoading[element] = true;
@@ -315,14 +320,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
         form_name: this.form_name,
         data_element: element,
       };
-      
+
       const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe((response) => {
         this.fileLoading[element] = true;
 
         const new_file = {
           file_name: file.name,
-          file_identifier: response['id']
+          file_identifier: response['id'],
         };
+        console.log(new_file);
+        console.log(model);
         model.value.push(new_file);
         files.shift();
         if (files.length > 0) {
@@ -340,19 +347,19 @@ export class XjsonComponent implements OnInit, OnDestroy {
     };
   }
 
-     fileEventHandler(e, element) {
-      this.fileLoading[element] = true;
-      if (this.error[element]) {
-        delete this.error[element];
-      }
-      e.preventDefault();
-      const files_input = e.target.files || e.dataTransfer.files;
-      const files = Object.keys(files_input).map(item => files_input[item]);
-  
-      if (files && files.length > 0) {
-        this.uploadFile(files, element);
-      }
+  fileEventHandler(e, element) {
+    this.fileLoading[element] = true;
+    if (this.error[element]) {
+      delete this.error[element];
     }
+    e.preventDefault();
+    const files_input = e.target.files || e.dataTransfer.files;
+    const files = Object.keys(files_input).map(item => files_input[item]);
+
+    if (files && files.length > 0) {
+      this.uploadFile(files, element);
+    }
+  }
 
   byteToMegabyte(bytes) {
     return bytes / Math.pow(1024, 2);
@@ -378,16 +385,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         newRow[col] = null;
       }
       if (column.type === 'address') {
-        if (!this.temporaryModel[element]) {
-          this.temporaryModel[element] = {
-            [col]: {
-              '0': null
-            }
-          };
-        } else {
-          const rowNumber = Object.keys(this.temporaryModel[element][col]).length;
-          this.temporaryModel[element][col][rowNumber] = null;
-        }
+        newRow[col] = {
+          'address': '',
+        };
       }
     }
     if (table.value === undefined) { table.value = []; }
@@ -432,6 +432,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   promptEditConfirmation() {
+    this.modalRef = this.modalService.toggle('editStep');
+  }
+
+  toggleStepEdit() {
+    this.formLoading = true;
+    this.edit_step = true;
+    this.data.header.current_step = this.opened_step;
+    this.data.header.acceptable_activity = ['SAVE'];
+    this.modalService.close('editStep');
+    this.viewController(this.data);
+    this.formLoading = false;
   }
 
   isItemExisting(list, target): boolean {
@@ -726,7 +737,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   getUpperInfoText() {
     const infoTextTranslationKey = 'xjson.' + this.form_name + '_infotext';
     const infoTextTranslation = this.translate.get(infoTextTranslationKey);
-    this.upperInfoText = infoTextTranslation === infoTextTranslationKey ? false : infoTextTranslation;
+    this.upperInfoText = infoTextTranslation.replace(/[?]/g, "") === infoTextTranslationKey ? false : infoTextTranslation;
   }
 
   getStepViewStatus() {
@@ -785,7 +796,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.data_messages.forEach((element) => {
       const message = this.data.messages[element];
       if (message.message_text && message.message_type) {
-        this.alertsService[message.message_type.toLowerCase()](message.message_text.et, 'upperAlert', false, true);
+        this.alertsService[message.message_type === 'NOTICE' ? 'info' : message.message_type.toLowerCase()](message.message_text.et, 'upperAlert', false, true);
       }
     });
   }
