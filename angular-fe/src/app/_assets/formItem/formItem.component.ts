@@ -198,9 +198,15 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
 
       if (this.type === 'select' || this.type === 'multi-select') {
         this.filledField = this.field.length > 0;
+
+        if (typeof this.field === 'number') {
+          this.filledField = true;
+        }
+
         if (this.focused) {
           this.filledField = true;
         }
+
       } else {
         this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object')
           || (typeof this.field === 'number' && (this.field || this.field === 0));
@@ -215,6 +221,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
 
   writeValue(value: string) {
     this.field = value || '';
+
+    if (this.field === 'null') {
+      this.field = '';
+    }
+
     this.update('blur');
     this.propagateChange(this.field);
   }
