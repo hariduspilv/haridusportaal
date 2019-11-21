@@ -6,6 +6,7 @@ import { TranslateModule } from '@app/_modules/translate';
 import { list } from './studyProgrammes.data';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ModalService, RippleService } from '@app/_services';
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -13,6 +14,10 @@ const moduleMetadata = {
     BrowserAnimationsModule,
     TranslateModule.forRoot(),
   ],
+  providers: [
+    ModalService,
+    RippleService,
+  ]
 };
 
 const stories = storiesOf('Assets', module);

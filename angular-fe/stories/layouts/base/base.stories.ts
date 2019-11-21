@@ -5,7 +5,8 @@ import baseStoriesTemplateHtml from './base.stories.template.html';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
-import { Alert, AlertType, SidemenuService } from '@app/_services';
+import { Alert, AlertType, SidemenuService, RippleService, ModalService } from '@app/_services';
+import { EmbedVideoService } from 'ngx-embed-video';
 
 const moduleMetadata = {
   imports: [
@@ -17,6 +18,9 @@ const moduleMetadata = {
   ],
   providers: [
     TranslateService,
+    RippleService,
+    ModalService,
+    EmbedVideoService,
   ],
 };
 
@@ -46,7 +50,7 @@ const breadcrumbsData = [
 const alertsData = [
   new Alert({
     message: `
-    ♪♫Kui Erkki mind ei armasta, siis lõpp on lool♫♪
+    Mitte väga pikk sõnum mis annab millestki teada
     `,
     type: AlertType.Warning,
   }),

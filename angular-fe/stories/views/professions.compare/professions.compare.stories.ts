@@ -7,6 +7,7 @@ import professionsCompareStoriesTemplateHtml from './professions.compare.stories
 import {
   withKnobs,
 } from '@storybook/addon-knobs';
+import { RippleService, ModalService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
@@ -14,6 +15,10 @@ const moduleMetadata = {
     RouterTestingModule,
     TranslateModule.forRoot(),
   ],
+  providers: [
+    RippleService,
+    ModalService
+  ]
 };
 const breadcrumbsData = [
   {

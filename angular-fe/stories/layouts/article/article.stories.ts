@@ -17,6 +17,8 @@ import {
   withKnobs,
   object,
 } from '@storybook/addon-knobs';
+import { ModalService, RippleService } from '@app/_services';
+import { EmbedVideoService } from 'ngx-embed-video';
 
 const moduleMetadata = {
   imports: [
@@ -28,6 +30,9 @@ const moduleMetadata = {
   providers: [
     TranslateService,
     { provide: LOCALE_ID, useValue:'et' },
+    ModalService,
+    RippleService,
+    EmbedVideoService,
   ],
 };
 

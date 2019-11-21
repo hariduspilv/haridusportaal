@@ -12,6 +12,7 @@ import {
   withKnobs,
   object,
 } from '@storybook/addon-knobs';
+import { ModalService, RippleService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
@@ -21,6 +22,8 @@ const moduleMetadata = {
   ],
   providers: [
     { provide: LOCALE_ID, useValue:'et' },
+    ModalService,
+    RippleService,
   ],
 };
 

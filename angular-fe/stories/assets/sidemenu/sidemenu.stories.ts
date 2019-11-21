@@ -2,10 +2,17 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import menuMd from './menu.md';
 import { data } from './menu.data';
-import { SidemenuService } from '@app/_services';
+import { SidemenuService, RippleService } from '@app/_services';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const moduleMetadata = {
-  imports: [AssetsModule],
+  imports: [
+    AssetsModule,
+    RouterTestingModule,
+  ],
+  providers: [
+    RippleService,
+  ]
 };
 
 const stories = storiesOf('Assets', module);

@@ -76,7 +76,7 @@
 					<button
 						htm-button
 						[class.active]="modalService.modalOpened['login']"
-						(click)="modalService.toggle('login'); loginForm.reset(); mobileIdForm.reset()"
+						(click)="openLoginModal()"
 						theme="plain"
 						attr.aria-label="{{ 'button.login' | translate }}"
 					>
@@ -150,7 +150,7 @@
 									</button>
 								</div>
 							</div>
-							<div class="login__method" *ngIf="method[0] === 'basic'" ngForm [formGroup]="loginForm">
+							<form class="login__method" *ngIf="method[0] === 'basic'" [formGroup]="loginForm">
 									<div>
 										<formItem
 											type="text"
@@ -176,7 +176,7 @@
 											{{ "button.login" | translate }}
 										</button>
 									</div>
-							</div>
+								</form>
 				</ng-container>
 			</ng-container>
 			<ng-template #mobileIdWrapper>

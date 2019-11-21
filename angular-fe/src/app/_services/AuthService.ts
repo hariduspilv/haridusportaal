@@ -57,10 +57,12 @@ export class AuthService implements CanActivate {
 
   public isLoggedIn() {
     if (!localStorage.getItem('token')) {
+      this.isAuthenticated.next(false);
       return false;
     }
     if (this.isTokenExpired()) {
       localStorage.removeItem('token');
+      this.isAuthenticated.next(false);
       return false;
     }
     this.refreshUser();

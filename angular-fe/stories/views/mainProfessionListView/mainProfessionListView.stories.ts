@@ -2,22 +2,26 @@ import { storiesOf } from '@storybook/angular';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
-import { SettingsService } from '@app/_services';
+import { SettingsService, RippleService, ModalService } from '@app/_services';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import mainProfessionListViewHtml from './mainProfessionListView.html';
 import mainProfessionListViewMd from './mainProfessionListView.md';
 import { AssetsModule } from '@app/_assets';
+import { MainProfessionListViewModule } from '@app/_views/mainProfessionListView';
 
 const moduleMetadata = {
   imports: [
     RouterTestingModule,
     TranslateModule.forRoot(),
     BrowserAnimationsModule,
+    MainProfessionListViewModule,
     AssetsModule,
   ],
   providers: [
     TranslateService,
     SettingsService,
+    RippleService,
+    ModalService,
   ],
 };
 

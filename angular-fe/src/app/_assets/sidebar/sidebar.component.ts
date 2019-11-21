@@ -45,7 +45,9 @@ export class SidebarComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private translate: TranslateService,
   ) {
-    this.type = route.snapshot.data.type;
+    if (route.snapshot.data.type) {
+      this.type = route.snapshot.data.type;
+    }
   }
 
   private getData():void {

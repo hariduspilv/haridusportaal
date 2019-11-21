@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { withKnobs, select } from '@storybook/addon-knobs';
 import breadcrumbsMd from './breadcrumbs.md';
 import { AssetsModule } from '@app/_assets';
+import { RippleService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
@@ -11,6 +12,9 @@ const moduleMetadata = {
     RouterTestingModule,
     CommonModule,
   ],
+  providers: [
+    RippleService,
+  ]
 };
 
 const stories = storiesOf('Assets', module);
