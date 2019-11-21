@@ -33,6 +33,6 @@ export class AppComponent implements OnInit {
     this.sidemenuService.isVisibleSubscription.subscribe((val) => {
       this.sidemenuIsVisible = val;
     });
-    this.auth.isLoggedIn();
+    // this.auth.isLoggedIn();
   }
 }

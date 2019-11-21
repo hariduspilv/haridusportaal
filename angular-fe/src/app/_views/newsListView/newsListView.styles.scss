@@ -15,7 +15,7 @@
     }
     @include break-on(sm, max) {
       margin-bottom: 0;
-      margin: 1.5rem 0;
+      // margin: 1.5rem 0;
       .filter-control{
           padding: 0 !important;
           span {
