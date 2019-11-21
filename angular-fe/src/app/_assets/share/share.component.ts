@@ -99,7 +99,6 @@ export class ShareComponent {
       this.isFocused = false;
     }
 
-    console.log(this.isHovered, this.isFocused);
     if ($event && !this.isHovered) {
       $event.preventDefault();
     }

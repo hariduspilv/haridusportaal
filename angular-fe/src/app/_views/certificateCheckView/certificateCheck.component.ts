@@ -69,7 +69,6 @@ export class CertificateCheckComponent {
     this.http.post('https://htm.wiseman.ee/certificate-public', this.model.value).subscribe(
       (response: any) => {
         if (response.value && response.value.tunnistus === null) {
-          console.log('OLEN JU SIIN SEES');
           this.alertsService
             .error(response.value.teade, 'certificateCheck', false);
         }

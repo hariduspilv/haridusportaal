@@ -34,7 +34,6 @@ const moduleMetadata = {
 };
 
 const reload = () => {
-  console.log('piip');
 }
 
 const stories = storiesOf('Assets', module);

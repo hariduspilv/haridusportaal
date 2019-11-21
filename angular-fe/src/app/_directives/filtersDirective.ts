@@ -67,7 +67,6 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
           }
           return val;
         });
-        console.log(tmpParams[item]);
       }
     });
     this.formItems.forEach((item) => {

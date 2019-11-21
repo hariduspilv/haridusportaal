@@ -70,11 +70,9 @@ export class CertificatesDetailView implements OnInit {
     }
   }
   examInit() {
-    console.log(window.history.state.exams);
     this.http
       .get(`${this.settings.url}/state-exams/${window.history.state.exams}?_format=json`).subscribe((res) => {
         this.examResults = res;
-        console.log(res);
       });
   }
 

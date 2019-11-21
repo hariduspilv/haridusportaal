@@ -165,7 +165,6 @@ export class FrontpageViewComponent implements OnInit {
   }
   ngOnInit() {
     (document.activeElement as HTMLElement).blur();
-    console.log('midagi nagu toimub?');
     this.lang = 'et';
     this.mobileView = window.innerWidth <= 1024;
     this.route.params.subscribe(() => {
