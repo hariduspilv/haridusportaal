@@ -42,7 +42,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   public isVisible: boolean;
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
-  public data;
+  @Input() data;
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
   }
@@ -62,7 +62,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   subscribeToAuth():void {
-    this.auth.isAuthenticated.subscribe((val) => {
+    this.authSub = this.auth.isAuthenticated.subscribe((val) => {
       this.getData();
     });
   }
@@ -85,7 +85,6 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   ngOnDestroy():void {
     this.subscription.unsubscribe();
+    this.authSub.unsubscribe();
   }
-  // needs to have a service associated to it
-  // needs to get menu data on init
 }

@@ -7,10 +7,15 @@ import {
   select,
 } from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
+import { ModalService, RippleService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+  ],
+  providers: [
+    ModalService,
+    RippleService,
   ],
 };
 

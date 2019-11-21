@@ -21,7 +21,8 @@
           </span>
           <!--/button__contents-->
         </button>
-        <button *ngIf="tab.tabLink" [routerLink]="tab.tabLink" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+
+        <button *ngIf="tab.tabLink" (click)="navigateTo(tab.tabLink)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
           <span class="button__contents">
             <ng-container *ngIf="tab.tabIcon">
               <icon [glyph]="tab.tabIcon"></icon>

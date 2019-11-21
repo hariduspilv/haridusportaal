@@ -1,14 +1,20 @@
+@import "breakpoints.scss"; 
+
 ::ng-deep {
   .picto {
     .image {
       position: relative;
       float: right !important;
-      height: 5.5rem;
+      height: 7rem;
       z-index: 5;
-      margin-right: 1.5rem;
+      margin-right: 4rem;
       margin-top: 1rem;
       margin-bottom: 1.5rem;
       margin-left: 2.5rem;
+      @include break-on(xs, max) {
+        margin-right: 6rem;
+        margin-left: 6rem;
+      }
     }
     .circle {
       position: relative;

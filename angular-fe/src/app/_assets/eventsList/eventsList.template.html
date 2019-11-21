@@ -1,6 +1,6 @@
 <block [titleBorder]="true">
   <block-title>SÜNDMUSED</block-title>
-  <block-content tabLabel="Nimekiri" tabIcon="list" tabLink="/sündmused"  [tabActive]="view == 'list'">
+  <block-content tabLabel="Nimekiri" tabIcon="list" [tabLink]="'/sündmused'+queryString"  [tabActive]="view == 'list'">
     <ng-container *ngFor="let yearKey of objectKeys(eventList)">
       <ng-container *ngFor="let monthKey of objectKeys(eventList[yearKey])">
 
@@ -69,7 +69,7 @@
     </div><!--/text-center-->
   </block-content>
 
-  <block-content tabLabel="Kalender" tabIcon="calendar" tabLink="/sündmused/kalender" [tabActive]="view == 'calendar'">
+  <block-content tabLabel="Kalender" tabIcon="calendar" [tabLink]="'/sündmused/kalender'+queryString" [tabActive]="view == 'calendar'">
     <div class="navigation text-center">
       <span tabindex="0" (keyup.enter)="changeMonth(-1);" attr.aria-label="{{'month.prev' | translate}}">
         <span class="icon-wrapper">

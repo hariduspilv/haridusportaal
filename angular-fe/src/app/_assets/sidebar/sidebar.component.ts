@@ -14,11 +14,14 @@ interface TitleLess {
   [key: string]: boolean;
 }
 
+// tslint:disable
 const sidebarOrder = {
   article: ['fieldHyperlinks', 'fieldRelatedArticle'],
   school: ['fieldContact', 'fieldSchoolLocation'],
   profession: ['prosCons', 'fieldOskaField', 'fieldLearningOpportunities', 'fieldJobOpportunities', 'fieldQualificationStandard ', 'fieldJobs', 'fieldContact'],
+  event: ['register', 'location', 'contact', 'data'],
 };
+// tslint:enable
 
 @Component({
   selector: 'sidebar',
@@ -45,7 +48,9 @@ export class SidebarComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private translate: TranslateService,
   ) {
-    this.type = route.snapshot.data.type;
+    if (route.snapshot.data.type) {
+      this.type = route.snapshot.data.type;
+    }
   }
 
   private getData():void {
@@ -69,6 +74,7 @@ export class SidebarComponent implements OnInit, OnChanges {
       this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
       this.keys = Object.keys(this.mappedData);
 
+      console.log(this.type);
       if (sidebarOrder[this.type]) {
         this.orderedKeys = [...sidebarOrder[this.type]];
       }

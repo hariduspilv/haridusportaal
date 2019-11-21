@@ -111,6 +111,10 @@ const routes: Routes = [
     path: 'tunnistuse-kehtivuse-kontroll',
     loadChildren: './_views/certificateCheckView#CertificateCheckViewModule',
   },
+  {
+    path: 'töölaud/taotlused/:id',
+    loadChildren: './_views/xjson#XjsonModule',
+  },
 ];
 
 @NgModule({

@@ -14,8 +14,8 @@
                             *ngIf="item.admissionStatus && item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">
                             {{'studyProgramme.non_active' | translate}}</div>
                     </div>
-                    <div class="author" *ngIf="item.fieldAuthor || item.created">{{ item.fieldAuthor }}
-                        {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                    <div class="author" *ngIf="item.author || item.created">
+                        {{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                     <div class="tags" *ngIf="item.tags">
                         <labels [data]="item.tags" type="default"></labels>
                     </div>
@@ -59,7 +59,7 @@
                 </div>
             </ng-container>
 
-            <div [class]="type === 'school' || type === 'mainProfession' ? 'inline__items sm-hide' : 'inline__items'">
+            <div *ngIf="type !== 'news'" [class]="type === 'school' || type === 'mainProfession' ? 'inline__items sm-hide' : 'inline__items'">
                 <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
                     <ng-container *ngIf="item[fieldName]">
                         <span role="separator" class="bar" *ngIf="i>0">|</span>

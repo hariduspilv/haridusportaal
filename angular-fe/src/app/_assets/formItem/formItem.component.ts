@@ -17,6 +17,7 @@ import { RippleService } from '@app/_services';
 import conf from '@app/_core/conf';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
+import { ParseInAddsPipe } from '@app/_pipes/parseInAdds.pipe';
 
 export interface FormItemOption {
   key: string;
@@ -36,6 +37,7 @@ export interface FormItemOption {
       multi: true,
       useExisting: forwardRef(() => FormItemComponent),
     },
+    ParseInAddsPipe,
   ],
 })
 
@@ -60,6 +62,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() checked: string;
   @Input() query: string = '';
   @Input() disabled: boolean;
+  @Input() valueType: string = 'string';
 
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
@@ -95,6 +98,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     private ripple: RippleService,
     private cdr: ChangeDetectorRef,
     private deviceService: DeviceDetectorService,
+    private inAddsPipe: ParseInAddsPipe,
   ) {
     this.patterns = conf.patterns;
     this.isMobile = !this.deviceService.isDesktop();
@@ -145,7 +149,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
 
   }
   update(action: string = '') {
-    
     if (this.type === 'multi-select') {
       this.removeComma();
     }
@@ -213,11 +216,32 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
           || (typeof this.field === 'number' && (this.field || this.field === 0));
       }
     }
-    this.propagateChange(this.field);
+    if (this.type !== 'autocomplete') {
+      this.propagateChange(this.field);
+    }
   }
 
-  autocompleteUpdate(value: string = ''): void {
-    this.field = value;
+  autocompleteUpdate(value: any = ''): void {
+
+    if (this.valueType === 'string') {
+      this.field = value;
+    } else {
+      this.field = {
+        adsId: value['adr_id'],
+        adsOid: value['ads_oid'],
+        addressCoded: value['koodaadress'],
+        county: value['maakond'],
+        countyEHAK: value['ehakmk'],
+        localGovernment: value['omavalitsus'],
+        localGovernmentEHAK: value['ehakov'],
+        settlementUnit: value['asustusyksus'],
+        settlementUnitEHAK: value['ehak'],
+        address: value['aadresstekst'],
+        apartment: value['kort_nr'],
+        addressHumanReadable: value['addressHumanReadable'],
+      };
+    }
+    this.propagateChange(this.field);
   }
 
   writeValue(value: string) {

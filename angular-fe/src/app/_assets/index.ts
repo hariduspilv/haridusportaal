@@ -102,10 +102,8 @@ import { InlineArticlesComponent } from './inline-articles/inline-articles.compo
 import { ArticlesSingleComponent } from './articles-single/articles-single.component';
 import { NewsletterOrderComponent } from './newsletter-order/newsletter-order.component';
 import { PictoComponent } from './picto';
-import { InfoSystemComponent } from '@app/_views/infoSystem/infoSystem.component';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
-import { XjsonComponent } from '@app/_views/xjson/xjson.component';
 
 const pipes = [];
 
@@ -121,7 +119,6 @@ const declarations = [
   LoaderComponent,
   SkeletonComponent,
   IconComponent,
-  InfoSystemComponent,
   BreadcrumbsComponent,
   AccordionComponent,
   AccordionItemComponent,
@@ -185,7 +182,6 @@ const declarations = [
   NewsletterOrderComponent,
   PictoComponent,
   BlockSubTitleComponent,
-  XjsonComponent,
 ];
 
 const exports = [

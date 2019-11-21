@@ -1,7 +1,7 @@
 <div class="app-wrapper">
   <htm-header></htm-header>
   <sidemenu></sidemenu>
-  <div class="app-content">
+  <div class="app-content" [class.darken]="sidemenuIsVisible" (click)="closeSidemenu($event)">
     <router-outlet (activate)="onActivate()"></router-outlet>
   </div><!--/app-content-->
 </div><!--/app-wrapper-->

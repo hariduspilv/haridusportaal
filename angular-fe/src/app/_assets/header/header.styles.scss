@@ -23,6 +23,9 @@
 			cursor: pointer;
 			margin-top: 1.125rem;
 		}
+		&__actions {
+			display: flex;
+		}
 		&__hamburger {
 			min-height: 1.25rem;
 			padding: 0;

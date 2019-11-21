@@ -20,7 +20,6 @@ export class ImageComponent implements OnInit{
     } else {
       this.images = this.image;
     }
-
-    this.images.splice(0, this.limit);
+    this.images = this.images.splice(0, this.limit);
   }
 }

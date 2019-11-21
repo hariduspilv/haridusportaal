@@ -105,7 +105,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const ACCEPTED = ['title', 'date'];
     if (!list || (list && !list.length) || !ACCEPTED.includes(method)) return list;
 
-    function compareTitle(a, b) {
+    const compareTitle = (a, b) => {
       if (!a['title'] || !b['title']) return -1;
       const title1 = a.title.et.toUpperCase();
       const title2 = b.title.et.toUpperCase();
@@ -134,7 +134,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   formatAcceptableForms(list) {
-    console.log(list);
     if (this.acceptableFormsListRestricted) {
       return JSON.parse(JSON.stringify(list)).splice(0, acceptableFormsRestrictedLength);
     }
@@ -153,7 +152,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         .get(`${this.settings.url}/dashboard/applications/1?_format=json`)
         .subscribe(
           (response: any) => {
-            console.log(response);
+
             if (typeof response.found !== undefined && response.found === null) {
               this.fetchData();
             } else {

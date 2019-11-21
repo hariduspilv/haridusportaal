@@ -39,13 +39,13 @@
 
         </div>
 
-        <div class="row" *ngIf="filterFull" style="margin-top:25px;">
+        <div class="row" *ngIf="filterFull">
           <div class="col-9 sm-12">
             <formItem type="multi-select" title="{{ 'event.filter_types' | translate }}" name="types"
               [options]="eventsTypes">
             </formItem>
           </div>
-          <div class="col-9 sm-12" style="margin-top:19px;">
+          <div class="col-9 sm-12">
             <formItem type="multi-select" title="{{ 'event.filter_tags' | translate }}" name="tags"
               [options]="eventsTags">
             </formItem>

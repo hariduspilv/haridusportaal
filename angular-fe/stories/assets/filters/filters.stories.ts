@@ -5,6 +5,7 @@ import filtersTemplateHtml from './filters.template.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SettingsService } from '@app/_services/SettingsService';
+import { RippleService, ModalService } from '@app/_services';
 
 const moduleMetadata = {
   imports: [
@@ -14,6 +15,8 @@ const moduleMetadata = {
   ],
   providers: [
     SettingsService,
+    RippleService,
+    ModalService,
   ],
 };
 

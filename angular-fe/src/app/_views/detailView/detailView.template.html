@@ -12,21 +12,21 @@
 
 			<block-content>
 				<ng-container>
-
 					<div class="author" *ngIf="data.author">{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}</div>
-
 					<div class="toolbar">
 						<share [title]="title"></share>
 						<compare *ngIf="compareKey" [id]="data.nid" [sessionStorageKey]="compareKey"></compare>
+						<labels *ngIf="data.fixedLabel" [data]="[data.fixedLabel.entity]" type="orange"></labels>
 					</div><!--/toolbar-->
+					
+					<p *ngIf="data.introductionText" class="short">{{data.introductionText}}</p>
 
 					<p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 
 					<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
+					<image *ngIf="(!data.video || data.video.length === 0) && data.image" [image]="data.image"></image>
 
-					<image *ngIf="!data.video && data.image" [image]="data.image"></image>
-
-					<picto *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
+					<picto tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
 					
 					<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
 
@@ -34,13 +34,14 @@
 
 					<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
 
-					<image *ngIf="data.video && data.image" [image]="data.image"></image>
+					<image *ngIf="(data.video && data.video.length > 0) && data.image" [image]="data.image"></image>
 				
 					<htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 
-					<accordion *ngIf="data.accordion">
+					<accordion [collapsible]="true" *ngIf="data.accordion">
 						<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
 							<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
+							<links *ngIf="item.entity.fieldRelatedArticle && item.entity.fieldRelatedArticle.length > 0" [data]="item.entity.fieldRelatedArticle"></links>
 						</accordion-item>
 					</accordion>
 	

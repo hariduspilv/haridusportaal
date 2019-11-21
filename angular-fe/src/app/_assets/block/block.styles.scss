@@ -24,7 +24,7 @@
 			font-size: $small;
 			justify-content: space-between;
 			&--border {
-				border-bottom: $light-gray 0.0625rem solid;
+				border-bottom: $gray 0.0625rem solid;
 			}
 			align-items: center;
 			&__text {
@@ -100,7 +100,7 @@
 				justify-content: flex-start;
 				margin: 0rem 1.5rem;
 				margin-top: $small;
-				border-bottom: $half-gutter solid $light-gray;
+				border-bottom: .1875rem solid $light-gray;
 				button {
 					appearance: none;
 					padding: 0 $small;
@@ -112,7 +112,7 @@
 					vertical-align: top;
 					width: 25%;
 					margin: 0;
-					margin-bottom: -$half-gutter;
+					margin-bottom: -.1875rem;
 					color: $blue;
 					@include break-on(md, max) {
 						width: 50%;
@@ -237,6 +237,9 @@
 	}
 
 	&.block--sidebar {
+		.block__title--border {
+			border: 0;
+		}
 		.block__title__text {
 			padding: 0;
 			text-transform: none;
@@ -262,7 +265,17 @@
 	.description {
 		line-height: 1.375rem;
 		word-break: break-word;
-		hyphens: auto;
+		a[target="_blank"]::after{
+			-webkit-font-feature-settings: 'liga';
+			font-feature-settings: 'liga';
+			-ms-font-feature-settings: 'liga';
+			font-family: 'iconfont';
+			content: "" !important;
+			position: relative;
+			top: .125rem;
+			left: .125rem;
+			display: inline-block;
+		}
 		ul {
 			padding-left: 1rem;
 		}

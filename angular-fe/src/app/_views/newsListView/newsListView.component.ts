@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -18,11 +18,22 @@ export class NewsListViewComponent implements AfterViewInit {
   tags: any;
   selectedTag: any;
   filterFull = false;
-  showFilter = true;
+  public showFilter = true;
+  public breadcrumbs = [
+    {
+      link: '/',
+      title: 'Avaleht',
+    },
+    {
+      link: '',
+      title: 'Uudised',
+    },
+  ];
 
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit() {
@@ -33,11 +44,12 @@ export class NewsListViewComponent implements AfterViewInit {
     const responsive = this.filterToggle.nativeElement.clientWidth;
     this.showFilter = responsive ? false : true;
     this.filterFull = responsive ? true : false;
+    this.cdr.detectChanges();
   }
 
   getTags() {
 
-    let variables = {
+    const variables = {
       lang: 'ET',
     };
 
@@ -46,8 +58,8 @@ export class NewsListViewComponent implements AfterViewInit {
     const subscribe = this.http.get(path).subscribe((response:any) => {
       const data = response.data.taxonomyTermQuery.tags;
 
-      const sortedTags = data.filter((el) => el.referencedNodes.count > 0);
-      this.tags = sortedTags.map((el) => {
+      const sortedTags = data.filter((el: any) => el.referencedNodes.count > 0);
+      this.tags = sortedTags.map((el:any) => {
         return {
           value: el.entityId,
           key: el.entityLabel,

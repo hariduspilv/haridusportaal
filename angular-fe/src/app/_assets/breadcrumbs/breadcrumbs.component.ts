@@ -23,7 +23,9 @@ export class BreadcrumbsComponent implements OnInit, OnChanges{
   ) {}
 
   ngOnChanges() {
-    this.getData();
+    if (this.data.length === 0) {
+      this.getData();
+    }
   }
   private parseData(response): void {
     try {
@@ -50,7 +52,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges{
     });
   }
   ngOnInit() {
-    if (this.path) {
+    if (this.path.length !== 0) {
       this.getData();
     }
   }

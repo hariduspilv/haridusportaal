@@ -27,6 +27,7 @@ const moduleMetadata = {
     TranslateModule.forRoot(),
   ],
   providers: [
+    RippleService,
     { provide: LOCALE_ID, useValue:'et' },
     RippleService,
   ],

@@ -60,10 +60,7 @@ const routes: Routes = [
     path: 'tunnistused/:id',
     component: CertificatesDetailView,
   },
-  {
-    path: 'taotlused/:id',
-    component: XjsonComponent,
-  },
+
 ];
 
 @NgModule({

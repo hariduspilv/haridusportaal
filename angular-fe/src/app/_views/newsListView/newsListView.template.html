@@ -1,6 +1,6 @@
 <base-layout>
 	<div class="inline">
-		<breadcrumbs path="/uudised"></breadcrumbs>
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 	</div><!--/inline-->
 	<form class="filter-wrapper" filters>
 		<div class="inline">
@@ -60,12 +60,9 @@
 			</ng-container>
 		</div><!--/inline-->
 	</form>
-	<div class="inline">
-		<block titleBorder="true">
-			<block-title>{{ 'news.label' | translate }}</block-title>
-			<block-content>
-				<searchResults type="news" limit="24"></searchResults>
-			</block-content>
-		</block>
-	</div><!--/inline-->
+	<block>
+		<block-content>
+			<searchResults type="news" limit="24"></searchResults>
+		</block-content>
+	</block>
 </base-layout>

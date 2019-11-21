@@ -7,6 +7,7 @@ import { XjsonComponent } from './xjson.component';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
+import { FormItemComponent } from '@app/_assets/formItem';
 
 const routes: Routes = [
   {

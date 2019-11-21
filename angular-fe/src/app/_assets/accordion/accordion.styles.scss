@@ -76,6 +76,31 @@
           margin-bottom:0;
         }
       }
+      ::ng-deep links {
+        margin: 0;
+        a {
+          margin-bottom: 0.5rem;
+        }
+      }
+      > a[target="_blank"]::after{
+        -webkit-font-feature-settings: 'liga';
+        font-feature-settings: 'liga';
+        -ms-font-feature-settings: 'liga';
+        font-family: 'iconfont';
+        content: "" !important;
+        position: relative;
+        top: .125rem;
+        left: .125rem;
+        display: inline-block;
+      }
+      ul {
+        margin-left: 0;
+        padding-left: 1rem;
+      }
+      ol {
+        padding-left: 0;
+        list-style-position: inside;
+      }
     }
     
     &__wrapper{
