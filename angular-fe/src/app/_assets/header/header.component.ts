@@ -48,7 +48,7 @@ export class HeaderComponent implements OnInit {
   });
 
   constructor(
-    private sidemenuService: SidemenuService,
+    public sidemenuService: SidemenuService,
     public modalService: ModalService,
     private translate: TranslateService,
     private formBuilder: FormBuilder,
