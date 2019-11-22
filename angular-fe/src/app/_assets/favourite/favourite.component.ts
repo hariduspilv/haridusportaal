@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import conf from '@app/_core/conf';
 import { Subscription } from 'rxjs';
-import { AlertsService, ModalService } from '@app/_services';
+import { AlertsService, ModalService, SettingsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
@@ -24,7 +24,9 @@ export class FavouriteComponent {
     private http: HttpClient,
     private alertsService: AlertsService,
     private translate: TranslateService,
-    public modalService: ModalService) {}
+    public modalService: ModalService,
+    private settings: SettingsService,
+    ) {}
   handleStateChange() {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
@@ -63,7 +65,7 @@ export class FavouriteComponent {
     }
   }
   request({ data, message = '', link, closeable = false, state = false }) {
-    return this.http.post(`${conf.api_prefix}graphql`, data).subscribe((response) => {
+    return this.http.post(`${this.settings.url}/graphql`, data).subscribe((response) => {
       this.alertsService.success(
         message,
         'global',
