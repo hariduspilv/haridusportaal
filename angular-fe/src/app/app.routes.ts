@@ -72,6 +72,14 @@ const routes: Routes = [
     },
   },
   {
+    path: 'valdkonnad',
+    loadChildren: './_views/oskaFieldListView#OskaFieldListViewModule',
+  },
+  {
+    path: 'valdkonnad/andmed',
+    loadChildren: './_views/oskaFieldDataView#OskaFieldDataView',
+  },
+  {
     path: 'valdkonnad/:id',
     loadChildren: './_views/detailView#DetailViewModule',
     data: {

@@ -1,0 +1,15 @@
+<base-layout>
+	<div class="inline">
+		<breadcrumbs path="/valdkonnad"></breadcrumbs>
+	</div><!--/inline-->
+	<div class="inline">
+		<block titleBorder="true" tabStyle="default">
+			<block-title>{{ 'oskaProfessions.fields' | translate }}</block-title>
+			<block-content blank="true" tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
+				<dropdown-list [data]="data"></dropdown-list>
+			</block-content>
+			<block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/valdkonnad/andmed">
+			</block-content>
+		</block>
+	</div><!--/inline-->
+</base-layout>
