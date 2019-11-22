@@ -754,7 +754,7 @@ frontpage:
       en: ''
   login_required_message:
     translation_type: textarea
-    et: 'Soovitud teenus nõuab sisse logimist.'
+    et: 'Soovitud teenus eeldab sisse logimist.'
     en: 'Soovitud teenus nõuab sisse logimist.'
 xjson:
   edit_step_confirm_modal_content:
