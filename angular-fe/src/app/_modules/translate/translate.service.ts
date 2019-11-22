@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import conf from '@app/_core/conf';
+import { SettingsService } from '@app/_services';
 
 @Injectable()
 export class TranslateService {
 
   constructor(
     private http: HttpClient,
+    private settings: SettingsService,
   ) {}
 
   error: boolean = false;
@@ -41,7 +42,7 @@ export class TranslateService {
 
       const errorHandler = () => resolve(true);
 
-      this.http.get(`${conf.api_prefix}translations?_format=json&lang=et`).subscribe(
+      this.http.get(`${this.settings.url}/translations?_format=json&lang=et`).subscribe(
         httpResponse,
         errorHandler,
       );
