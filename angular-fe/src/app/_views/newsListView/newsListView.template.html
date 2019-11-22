@@ -1,9 +1,7 @@
 <base-layout>
 	<div class="inline">
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
-	</div><!--/inline-->
 	<form class="filter-wrapper" filters>
-		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
 				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
 					<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
@@ -58,11 +56,11 @@
 					</div>
 				</div>
 			</ng-container>
-		</div><!--/inline-->
 	</form>
 	<block>
 		<block-content>
 			<searchResults type="news" limit="24"></searchResults>
 		</block-content>
 	</block>
+	</div>
 </base-layout>
