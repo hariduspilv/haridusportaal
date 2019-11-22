@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import conf from '@app/_core/conf';
+import { SettingsService } from '@app/_services';
 
 @Component({
   selector: 'chart',
@@ -34,7 +35,10 @@ export class ChartComponent implements OnInit {
 
   mainLineColors: string[] = ['#4146AF', '#980000', '#E87502', '#1398AA', '#4F00FA'];
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private settings: SettingsService,
+    ) {}
 
   getGraphOptions() {
 
@@ -651,7 +655,7 @@ export class ChartComponent implements OnInit {
       url += `&variables=${JSON.stringify(tmpVariables)}`;
       url = encodeURI(url);
       this.requestSubscription[id]
-        = this.http.get(`${conf.api_prefix}${url}`).subscribe((response) => {
+        = this.http.get(`${this.settings.url}${url}`).subscribe((response) => {
           const data = response['data'].GoogleChartQuery.map((item) => {
 
             const type = variables['graphType'];

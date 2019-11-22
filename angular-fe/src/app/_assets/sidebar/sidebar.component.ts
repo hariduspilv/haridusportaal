@@ -1,5 +1,5 @@
 import { Component, Input, HostBinding, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
-import { SidebarService } from '@app/_services';
+import { SidebarService, SettingsService } from '@app/_services';
 import { collection, titleLess } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
@@ -297,11 +297,16 @@ export class SidebarProgressComponent {
   templateUrl: './templates/sidebar.register.template.html',
 })
 export class SidebarRegisterComponent {
+
+  constructor(
+    private settings: SettingsService,
+  )
+  {}
   @Input() data: any;
   private unix: number;
   private iCalUrl: string;
   ngOnInit() {
-    this.iCalUrl = `${conf.api_prefix}calendarexport/`;
+    this.iCalUrl = `${this.settings.url}/calendarexport/`;
     this.unix = parseUnixDate(new Date().getTime() / 1000);
   }
   canRegister() {
