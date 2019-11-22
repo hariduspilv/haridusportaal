@@ -36,6 +36,8 @@ export class OskaFieldDataViewComponent implements OnInit{
         this.data.video.splice(0, 1);
       }
 
+      console.log(this.data);
+
       this.loading = false;
 
       subscription.unsubscribe();
