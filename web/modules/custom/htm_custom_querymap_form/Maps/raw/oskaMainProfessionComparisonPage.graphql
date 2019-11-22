@@ -13,6 +13,7 @@ query oskaMainProfessionComparisonPageQuery($lang: LanguageId!) {
           secondaryGraphType
           graphText
         }
+        nid
       }
     }
   }
