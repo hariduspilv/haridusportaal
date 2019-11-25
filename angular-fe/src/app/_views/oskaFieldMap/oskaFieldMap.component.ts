@@ -6,6 +6,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { FiltersService } from '@app/_services/filterService';
 import { RootScopeService } from '@app/_services/RootScopeService';
+import { SettingsService } from '@app/_services';
 
 @Component({
   templateUrl: 'oskaFieldMap.template.html',
@@ -100,6 +101,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     private changeDetectorRef: ChangeDetectorRef,
     private translate: TranslateService,
     private rootScope: RootScopeService,
+    private settings: SettingsService,
   ) {
     super(null, null);
   }
@@ -196,7 +198,9 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     this.mapLabelSwitcher();
     const variables = {};
 
-    const subscription = this.http.get('oskaMapData', { params: variables }).subscribe(data => {
+    const path = this.settings.query('oskaMapData', variables);
+
+    const subscription = this.http.get(path).subscribe(data => {
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);
       // Extra mapping for floating point numbers
       rawData = rawData.map(elem => [elem.join()]).map(elem => elem.join('').split(';')).map(item => {
@@ -233,6 +237,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     });
     this.filterData['OSKAField'] = field;
     this.filterData['mapIndicator'] = indicator;
+    console.log(this.filterData);
   }
 
   generateHeatmapColors() {

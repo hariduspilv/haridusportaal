@@ -1,0 +1,114 @@
+<base-layout>
+  <div class="inline">
+    <breadcrumbs path="/valdkonnad/kaart"></breadcrumbs>
+  </div>
+  <!--/inline-->
+  <div class="inline">
+    <block titleBorder="true" tabStyle="default">
+      <block-title>{{ 'oska.fields_data_on_map' | translate }}</block-title>
+      <block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
+      </block-content>
+      <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info" tabLink="/valdkonnad/andmed">
+      </block-content>
+      <block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="/valdkonnad/kaart"
+        [tabActive]="true">
+        <div class="sm-show text-right filter-control">
+          <a href="javascript:void(0);" (click)="showFilter = !showFilter">
+            <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+            <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+          </a>
+        </div>
+        <form (submit)="filterSubmit($event)" class="filter-wrapper" [class.filtersActive]="showFilter">
+          <div class="main-container">
+            <div class="row">
+              <div class="col-4 sm-12">
+                <div class="round-input__wrapper" [class.complete]="filterFormItems.mapIndicator">
+                  <!--                         <formItem
+                        type="select"
+                        title="{{ 'oskaProfessions.indicator' | translate }}"
+                        [(ngModel)]=filterFormItems.mapIndicator
+                        [options]="filterData.mapIndicator"
+                        ></formItem> -->
+                </div>
+                <!--/round-inpuit__wrapper-->
+              </div>
+              <!--/col-4-->
+              <div class="col-6 sm-12">
+                <div class="round-input__wrapper" [class.complete]="filterFormItems.OSKAField"
+                  [class.disabled]="filterData.OSKAField && !filterData.OSKAField.length">
+                  <!--                   <mat-form-field>
+                        <mat-select [disabled]="filterData.OSKAField && !filterData.OSKAField.length"
+                          (openedChange)="setRelatedFilter('mapIndicator', 'OSKAField')" [placeholder]="fieldPlaceholder()"
+                          [(ngModel)]="filterFormItems.OSKAField" name="OSKAField">
+                          <ng-container *ngIf="filterData && filterData.OSKAField">
+                            <ng-container *ngFor="let item of filterData.OSKAField">
+                              <mat-option [value]="item">
+                                {{ item }}
+                              </mat-option>
+                            </ng-container>
+                          </ng-container>
+                        </mat-select>
+                      </mat-form-field> -->
+                </div>
+                <!--/round-inpuit__wrapper-->
+              </div>
+              <!--/col-4-->
+              <div class="col-2 sm-12 align-end flex-end">
+                <div class="button-row">
+                  <button role="button" mat-raised-button color="primary">{{ 'button.filter' | translate }}</button>
+                </div>
+              </div>
+              <!--/col-4-->
+            </div>
+            <!--/row-->
+          </div>
+        </form>
+        <h2>{{ 'oska.field_map_introduction' | translate }}</h2>
+        <div class="map-wrapper" [class.polygonMap]="polygons">
+          <div class="map-loader" *ngIf="loading">
+            <loader></loader>
+          </div>
+          <!--/map-loader-->
+          <agm-map (zoomChange)="zoomChange($event)" (mapReady)="mapReady($event)" minZoom="7.4" maxZoom="10"
+            style="height:525px" [styles]="mapOptions.styles">
+
+            <agm-data-layer *ngIf="polygons" [geoJson]="polygons" [style]="polygonStyles"
+              (layerClick)="kmlClick($event)">
+            </agm-data-layer>
+
+            <ng-container *ngIf="polygons && polygons.features && polygonLabels && polygonLabels.length">
+              <agm-marker *ngFor="let item of polygonLabels" [iconUrl]="icon" [latitude]="item.latitude"
+                [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
+            </ng-container>
+
+            <ng-container *ngIf="sumWindowStatus">
+              <agm-snazzy-info-window [closeWhenOthersOpen]="true" #sumLayer isOpen="sumWindowStatus"
+                [latitude]="sumWindowLat" [longitude]="sumWindowLon" (isOpenChange)="kmlClickStatus($event)">
+                <ng-template>
+                  <b>{{ infoLayer.name }}</b><br />
+                  <span *ngIf="infoLayer.field">{{ infoLayer.field }}<br /></span>
+                  {{ infoLayer.value }}
+                </ng-template>
+              </agm-snazzy-info-window>
+            </ng-container>
+          </agm-map>
+          <!-- <div class="polygons-toggle" *ngIf="polygons">
+                            <button (click)="changeLayer('county')" [class.active]="polygonLayer == 'county'">{{ 'school.counties' | translate }}</button>
+                            <button (click)="changeLayer('kov')" [class.active]="polygonLayer == 'kov'">{{ 'school.municipalities_detailed' | translate }}</button>
+                          </div>
+                          <img src="/assets/img/placeholder-50.gif" /> -->
+        </div>
+        <!--/map-wrapper-->
+
+        <ng-container *ngIf="heatMapRanges.length > 0">
+          <div class="mapLegend">
+            <div class="mapLegend__block" *ngFor="let item of heatMapRanges">
+              <div class="mapLegend__color" [style.background-color]="item.color"></div>
+              {{ item.amount | number }}
+            </div>
+          </div>
+        </ng-container>
+      </block-content>
+    </block>
+  </div>
+</base-layout>

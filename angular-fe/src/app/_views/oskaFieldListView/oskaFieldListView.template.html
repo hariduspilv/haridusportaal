@@ -5,11 +5,13 @@
 	<div class="inline">
 		<block titleBorder="true" tabStyle="default">
 			<block-title>{{ 'oskaProfessions.fields' | translate }}</block-title>
-			<block-content blank="true" tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
+			<block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
 				<loader *ngIf=!data></loader>
 				<dropdown-list *ngIf="data" [data]="data"></dropdown-list>
 			</block-content>
 			<block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/valdkonnad/andmed">
+			</block-content>
+			<block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="/valdkonnad/kaart">
 			</block-content>
 		</block>
 	</div><!--/inline-->
