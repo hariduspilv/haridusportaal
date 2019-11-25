@@ -4,7 +4,6 @@ namespace Drupal\key\Plugin\KeyType;
 
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\key\Plugin\KeyPluginFormInterface;
 use Drupal\key\Plugin\KeyTypeBase;
 use Drupal\key\Plugin\KeyTypeMultivalueInterface;
 
@@ -61,7 +60,7 @@ class AuthenticationMultivalueKeyType extends KeyTypeBase implements KeyTypeMult
     $definition = $this->getPluginDefinition();
     $fields = $definition['multivalue']['fields'];
 
-    foreach($fields as $id => $field) {
+    foreach ($fields as $id => $field) {
       if (!is_array($field)) {
         $field = ['label' => $field];
       }
@@ -70,7 +69,7 @@ class AuthenticationMultivalueKeyType extends KeyTypeBase implements KeyTypeMult
         continue;
       }
 
-      if (!isset ($value[$id])) {
+      if (!isset($value[$id])) {
         $form_state->setError($error_element, $this->t('The key value is missing the field %field.', ['%field' => $id]));
       }
       elseif (empty($value[$id])) {

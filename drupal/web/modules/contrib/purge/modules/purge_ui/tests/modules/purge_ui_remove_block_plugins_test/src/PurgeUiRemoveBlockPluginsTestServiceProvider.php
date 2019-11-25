@@ -2,8 +2,8 @@
 
 namespace Drupal\purge_ui_remove_block_plugins_test;
 
-use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
+use Drupal\Core\DependencyInjection\ServiceModifierInterface;
 
 /**
  * Replaces the queuers and processors plugin managers with failing stubs.

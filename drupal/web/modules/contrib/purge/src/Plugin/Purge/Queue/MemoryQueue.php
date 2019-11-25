@@ -2,11 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\Queue;
 
-use Drupal\purge\Plugin\Purge\Queue\QueueInterface;
-use Drupal\purge\Plugin\Purge\Queue\QueueBase;
-
 /**
- * A \Drupal\purge\Plugin\Purge\Queue\QueueInterface compliant volatile memory buffer queue.
+ * A QueueInterface compliant volatile memory buffer queue.
  *
  * @warning
  * This queue does not extend core's Memory queue on purpose, as it does not
@@ -22,11 +19,15 @@ class MemoryQueue extends QueueBase implements QueueInterface {
 
   /**
    * Whether the buffer has been initialized or not.
+   *
+   * @var bool
    */
   protected $bufferInitialized;
 
   /**
    * The internal buffer where all data is copied in.
+   *
+   * @var array[]
    */
   protected $buffer;
 
@@ -55,9 +56,9 @@ class MemoryQueue extends QueueBase implements QueueInterface {
     end($this->buffer);
     $id = key($this->buffer) + 1;
     $this->buffer[$id] = [
-      SELF::DATA => serialize($data),
-      SELF::EXPIRE => 0,
-      SELF::CREATED => time(),
+      self::DATA => serialize($data),
+      self::EXPIRE => 0,
+      self::CREATED => time(),
     ];
     return $id;
   }
@@ -72,9 +73,9 @@ class MemoryQueue extends QueueBase implements QueueInterface {
     $ids = [];
     foreach ($items as $data) {
       $this->buffer[$id] = [
-        SELF::DATA => serialize($data),
-        SELF::EXPIRE => 0,
-        SELF::CREATED => time(),
+        self::DATA => serialize($data),
+        self::EXPIRE => 0,
+        self::CREATED => time(),
       ];
       $ids[] = $id;
       $id++;
@@ -106,16 +107,16 @@ class MemoryQueue extends QueueBase implements QueueInterface {
       return FALSE;
     }
     if (
-      ($this->buffer[$id][SELF::EXPIRE] === 0)
-      || ( ($this->buffer[$id][SELF::EXPIRE] !== 0)
-        && (time() > $this->buffer[$id][SELF::EXPIRE]))
+      ($this->buffer[$id][self::EXPIRE] === 0)
+      || (($this->buffer[$id][self::EXPIRE] !== 0)
+        && (time() > $this->buffer[$id][self::EXPIRE]))
       ) {
-      $this->buffer[$id][SELF::EXPIRE] = time() + $lease_time;
+      $this->buffer[$id][self::EXPIRE] = time() + $lease_time;
       $item = new \stdClass();
       $item->item_id = $id;
-      $item->data = unserialize($this->buffer[$id][SELF::DATA]);
-      $item->expire = $this->buffer[$id][SELF::EXPIRE];
-      $item->created = $this->buffer[$id][SELF::CREATED];
+      $item->data = unserialize($this->buffer[$id][self::DATA]);
+      $item->expire = $this->buffer[$id][self::EXPIRE];
+      $item->created = $this->buffer[$id][self::CREATED];
       return $item;
     }
     else {
@@ -146,9 +147,9 @@ class MemoryQueue extends QueueBase implements QueueInterface {
     if (!isset($this->buffer[$item->item_id])) {
       return FALSE;
     }
-    $this->buffer[$item->item_id][SELF::EXPIRE] = 0;
-    if ($item->data !== $this->buffer[$item->item_id][SELF::DATA]) {
-      $this->buffer[$item->item_id][SELF::DATA] = serialize($item->data);
+    $this->buffer[$item->item_id][self::EXPIRE] = 0;
+    if ($item->data !== $this->buffer[$item->item_id][self::DATA]) {
+      $this->buffer[$item->item_id][self::DATA] = serialize($item->data);
     }
     return TRUE;
   }
@@ -212,7 +213,7 @@ class MemoryQueue extends QueueBase implements QueueInterface {
     // Calculate the start and end of the IDs we're looking for and iterate.
     $items = [];
     $limit = $this->selectPageLimit();
-    $start = (($page-1) * $limit) + 1;
+    $start = (($page - 1) * $limit) + 1;
     $end = ($page * $limit) + 1;
     for ($id = $start; $id < $end; $id++) {
       if (!isset($this->buffer[$id])) {
@@ -220,9 +221,9 @@ class MemoryQueue extends QueueBase implements QueueInterface {
       }
       $item = new \stdClass();
       $item->item_id = $id;
-      $item->data = unserialize($this->buffer[$id][SELF::DATA]);
-      $item->expire = $this->buffer[$id][SELF::EXPIRE];
-      $item->created = $this->buffer[$id][SELF::CREATED];
+      $item->data = unserialize($this->buffer[$id][self::DATA]);
+      $item->expire = $this->buffer[$id][self::EXPIRE];
+      $item->created = $this->buffer[$id][self::CREATED];
       $items[] = $item;
     }
     return $items;

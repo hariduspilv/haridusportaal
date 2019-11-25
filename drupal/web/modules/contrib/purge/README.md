@@ -1,5 +1,4 @@
 [//]: # ( clear&&curl -s -F input_files[]=@README.md -F from=markdown -F to=html http://c.docverter.com/convert|tail -n+11|head -n-2 )
-[//]: # ( curl -s -F input_files[]=@README.md -F from=markdown -F to=pdf http://c.docverter.com/convert>README.pdf )
 
 # Purge
 ##### _The modular external cache invalidation framework._
@@ -15,32 +14,32 @@ The ``purge_drush`` module adds the following commands for Drush administration:
 
 | Command                         | Alias    | Description                                                  |
 |---------------------------------|----------|--------------------------------------------------------------|
-| **``cache-rebuild-external``**  | ``pddis``| Invalidate 'everything' using the Purge framework.           |
-| **``p-debug-dis``**             | ``pddis``| Disable debugging for all of Purge's log channels.           |
-| **``p-debug-en``**              | ``pden`` | Enable debugging for all of Purge's log channels.            |
-| **``p-diagnostics``**           | ``pdia`` | Generate a diagnostic self-service report.                   |
-| **``p-invalidate``**            | ``pinv`` | Directly invalidate an item without going through the queue. |
-| **``p-processor-add``**         | ``pradd``| Add a new processor.                                         |
-| **``p-processor-ls``**          | ``prls`` | List all enabled processors.                                 |
-| **``p-processor-lsa``**         | ``prlsa``| List available processor plugin IDs that can be added.       |
-| **``p-processor-rm``**          | ``prrm`` | Remove a processor.                                          |
-| **``p-purger-add``**            | ``ppadd``| Create a new purger instance.                                |
-| **``p-purger-ls``**             | ``ppls`` | List all configured purgers in order of execution.           |
-| **``p-purger-lsa``**            | ``pplsa``| List available plugin IDs for which purgers can be added.    |
-| **``p-purger-mvd``**            | ``ppmvd``| Move the given purger DOWN in the execution order.           |
-| **``p-purger-mvu``**            | ``ppmvu``| Move the given purger UP in the execution order.             |
-| **``p-purger-rm``**             | ``pprm`` | Remove a purger instance.                                    |
-| **``p-queue-add``**             | ``pqa``  | Add one or more items to the queue for later processing.     |
-| **``p-queue-browse``**          | ``pqb``  | Inspect what is in the queue by paging through it.           |
-| **``p-queue-empty``**           | ``pqe``  | Empty the entire queue.                                      |
-| **``p-queue-stats``**           | ``pqs``  | View the queue statistics.                                   |
-| **``p-queue-volume``**          | ``pqv``  | Count how many items currently sit in the queue.             |
-| **``p-queue-work``**            | ``pqw``  | Claim a chunk of items from the queue and process them.      |
-| **``p-queuer-add``**            | ``puadd``| Add a new queuer.                                            |
-| **``p-queuer-ls``**             | ``puls`` | List all enabled queuers.                                    |
-| **``p-queuer-lsa``**            | ``pulsa``| List available queuer plugin IDs that can be added.          |
-| **``p-queuer-rm``**             | ``purm`` | Remove a queuer.                                             |
-| **``p-types``**                 | ``ptyp`` | List all supported cache invalidation types.                 |
+| **``cache:rebuild-external``**  | ``cre``  | Invalidate 'everything' using the Purge framework.           |
+| **``p:debug-dis``**             | ``pddis``| Disable debugging for all of Purge's log channels.           |
+| **``p:debug-en``**              | ``pden`` | Enable debugging for all of Purge's log channels.            |
+| **``p:diagnostics``**           | ``pdia`` | Generate a diagnostic self-service report.                   |
+| **``p:invalidate``**            | ``pinv`` | Directly invalidate an item without going through the queue. |
+| **``p:processor-add``**         | ``pradd``| Add a new processor.                                         |
+| **``p:processor-ls``**          | ``prls`` | List all enabled processors.                                 |
+| **``p:processor-lsa``**         | ``prlsa``| List available processor plugin IDs that can be added.       |
+| **``p:processor-rm``**          | ``prrm`` | Remove a processor.                                          |
+| **``p:purger-add``**            | ``ppadd``| Create a new purger instance.                                |
+| **``p:purger-ls``**             | ``ppls`` | List all configured purgers in order of execution.           |
+| **``p:purger-lsa``**            | ``pplsa``| List available plugin IDs for which purgers can be added.    |
+| **``p:purger-mvd``**            | ``ppmvd``| Move the given purger DOWN in the execution order.           |
+| **``p:purger-mvu``**            | ``ppmvu``| Move the given purger UP in the execution order.             |
+| **``p:purger-rm``**             | ``pprm`` | Remove a purger instance.                                    |
+| **``p:queue-add``**             | ``pqa``  | Add one or more items to the queue for later processing.     |
+| **``p:queue-browse``**          | ``pqb``  | Inspect what is in the queue by paging through it.           |
+| **``p:queue-empty``**           | ``pqe``  | Empty the entire queue.                                      |
+| **``p:queue-stats``**           | ``pqs``  | View the queue statistics.                                   |
+| **``p:queue-volume``**          | ``pqv``  | Count how many items are currently in the queue.             |
+| **``p:queue-work``**            | ``pqw``  | Process one or more chunks of items from the queue.          |
+| **``p:queuer-add``**            | ``puadd``| Add a new queuer.                                            |
+| **``p:queuer-ls``**             | ``puls`` | List all enabled queuers.                                    |
+| **``p:queuer-lsa``**            | ``pulsa``| List available queuer plugin IDs that can be added.          |
+| **``p:queuer-rm``**             | ``purm`` | Remove a queuer.                                             |
+| **``p:types``**                 | ``ptyp`` | List all supported cache invalidation types.                 |
 
 Several commands understand the ``--format`` parameter allowing you to integrate
 the commands in external scripts with JSON or YAML output. See the respective
@@ -104,7 +103,7 @@ type is the most important one to support in your architecture.
 * **``domain``** Invalidates an entire domain name.
 * **``everything``** Invalidates everything.
 * **``path``** Invalidates by path, e.g. ``news/article-1``.
-* **``regex``** Invalidates by regular expression, e.g.: ``\.(jpg|jpeg|css|js)$``.
+* **``regex``** Invalidates by reg. expression, e.g.: ``\.(jpg|jpeg|css|js)$``.
 * **``tag``** Invalidates by Drupal cache tag, e.g.: ``menu:footer``.
 * **``url``** Invalidates by URL, e.g. ``http://site.com/node/1``.
 * **``wildcardpath``** Invalidates by path, e.g. ``news/*``.
@@ -260,7 +259,8 @@ string(10) "PROCESSING"
 ```
 
 The results reveal why you should **normally not invalidate without going
-through the queue**, because items can fail or need to run again later to finish entirely. The most common use case for direct invalidation is manual UI purging.
+through the queue**, because items can fail or need to run again later to finish
+entirely. The most common use case for direct invalidation is manual UI purging.
 
 #### Queue processing
 Processing items from the queue is handled by processors, which users can add

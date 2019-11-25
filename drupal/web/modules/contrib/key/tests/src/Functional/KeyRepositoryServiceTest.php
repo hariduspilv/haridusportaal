@@ -15,11 +15,9 @@ class KeyRepositoryServiceTest extends BrowserTestBase {
   use KeyTestTrait;
 
   /**
-   * Modules to enable.
-   *
-   * @var array
+   * {@inheritdoc}
    */
-  public static $modules = ['key'];
+  protected static $modules = ['key'];
 
   /**
    * Test key provider methods.
@@ -38,47 +36,44 @@ class KeyRepositoryServiceTest extends BrowserTestBase {
 
     // Test getKeysByProvider.
     $keys = \Drupal::service('key.repository')->getKeysByProvider('config');
-    $this->assertEqual(count($keys), '2', "The getKeysByProvider function is not returning 2 config keys");
+    $this->assertEquals('2', count($keys), "The getKeysByProvider function is not returning 2 config keys");
     foreach ($keys as $key) {
       $this->assertInstanceOf(KeyInterface::class, $key);
-      $this->assertEqual('config', $key->getKeyProvider()->getPluginId());
+      $this->assertEquals('config', $key->getKeyProvider()->getPluginId());
     }
 
     $this->createTestKey('test_type', 'encryption', 'config');
 
     // Test getKeysByType.
     $keys = \Drupal::service('key.repository')->getKeysByType('encryption');
-    $this->assertEqual(count($keys), '1', "Found " . count($keys) . " keys with type 'encryption' instead of 1.");
+    $this->assertEquals('1', count($keys), "Found " . count($keys) . " keys with type 'encryption' instead of 1.");
     foreach ($keys as $key) {
       $this->assertInstanceOf(KeyInterface::class, $key);
-      $this->assertEqual('encryption', $key->getKeyType()->getPluginId());
+      $this->assertEquals('encryption', $key->getKeyType()->getPluginId());
     }
 
     // Test getKeys.
     $keys = \Drupal::service('key.repository')->getKeys();
-    $this->assertEqual(count($keys), 4, "Only found " . count($keys) . " of 4 keys.");
+    $this->assertEquals(4, count($keys), "Only found " . count($keys) . " of 4 keys.");
 
     $keys = \Drupal::service('key.repository')->getKeys(['test_type', 'testing_key_0']);
-    $this->assertEqual(count($keys), 2, "Couldn't find 2 keys by ID.");
+    $this->assertEquals(2, count($keys), "Couldn't find 2 keys by ID.");
 
     // Test getKeysByTypeGroup.
     $this->createTestKey('test_type_group', 'authentication_multivalue', 'config');
     $keys = \Drupal::service('key.repository')->getKeysByTypeGroup('authentication');
-    $this->assertEqual(count($keys),
-      4,
-      "Only found " . count($keys) . " of 4 'authentication' group keys."
-    );
+    $this->assertEquals(4, count($keys), "Only found " . count($keys) . " of 4 'authentication' group keys.");
 
     // Test getKeyNamesAsOptions.
     $keys = \Drupal::service('key.repository')->getKeyNamesAsOptions();
-    $this->assertEqual(count($keys), 5, "Only found " . count($keys) . " of 5 key names.");
+    $this->assertEquals(5, count($keys), "Only found " . count($keys) . " of 5 key names.");
 
     $filter = [
       'type' => 'authentication',
       'provider' => 'file',
     ];
     $keys = \Drupal::service('key.repository')->getKeyNamesAsOptions($filter);
-    $this->assertEqual(count($keys), 1, "Found " . count($keys) . " key names instead of 1.");
+    $this->assertEquals(1, count($keys), "Found " . count($keys) . " key names instead of 1.");
   }
 
 }

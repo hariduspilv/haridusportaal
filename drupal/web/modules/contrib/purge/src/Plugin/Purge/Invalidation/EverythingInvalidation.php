@@ -2,9 +2,6 @@
 
 namespace Drupal\purge\Plugin\Purge\Invalidation;
 
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationBase;
-
 /**
  * Describes that everything is to be invalidated.
  *

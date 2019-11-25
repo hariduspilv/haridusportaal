@@ -2,10 +2,9 @@
 
 namespace Drupal\purge\Tests\Queuer;
 
-use Drupal\purge\Tests\KernelTestBase;
-use Drupal\purge\Tests\KernelServiceTestBase;
-use Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface;
 use Drupal\purge\Plugin\Purge\Queuer\QueuerInterface;
+use Drupal\purge\Tests\KernelServiceTestBase;
+use Drupal\purge\Tests\KernelTestBase;
 
 /**
  * Tests \Drupal\purge\Plugin\Purge\Queuer\QueuersService.
@@ -15,13 +14,25 @@ use Drupal\purge\Plugin\Purge\Queuer\QueuerInterface;
  * @see \Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface
  */
 class ServiceTest extends KernelServiceTestBase {
+
+  /**
+   * The name of the service as defined in services.yml.
+   *
+   * @var string
+   */
   protected $serviceId = 'purge.queuers';
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
   public static $modules = ['purge_queuer_test'];
 
   /**
    * Set up the test.
    */
-  public function setUp() {
+  public function setUp($switch_to_memory_queue = TRUE) {
 
     // Skip parent::setUp() as we don't want the service initialized here.
     KernelTestBase::setUp();
@@ -29,7 +40,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Queuer\QueuersService::count
+   * Tests \Drupal\purge\Plugin\Purge\Queuer\QueuersService::count.
    */
   public function testCount() {
     $this->initializeService();
@@ -38,7 +49,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Processor\QueuersService::get
+   * Tests \Drupal\purge\Plugin\Purge\Processor\QueuersService::get.
    */
   public function testGet() {
     $this->initializeService();
@@ -60,8 +71,9 @@ class ServiceTest extends KernelServiceTestBase {
    */
   public function testIteration() {
     $this->initializeService();
-    $this->assertIterator('\Drupal\purge\Plugin\Purge\Queuer\QueuerInterface',
-      ['a', 'b']
+    $this->assertIterator(
+      ['a', 'b'],
+      '\Drupal\purge\Plugin\Purge\Queuer\QueuerInterface'
     );
   }
 

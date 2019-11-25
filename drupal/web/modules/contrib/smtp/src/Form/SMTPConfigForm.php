@@ -6,7 +6,6 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Messenger\Messenger;
-use Drupal\smtp\Plugin\Mail\SMTPMailSystem;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -47,7 +46,7 @@ class SMTPConfigForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'smtp_admin_settings';
   }
 
@@ -158,7 +157,7 @@ class SMTPConfigForm extends ConfigFormBase {
 
     $form['email_options'] = [
       '#type'  => 'details',
-      '#title' =>$this->t('E-mail options'),
+      '#title' => $this->t('E-mail options'),
       '#open' => TRUE,
     ];
     $form['email_options']['smtp_from'] = [
@@ -232,7 +231,7 @@ class SMTPConfigForm extends ConfigFormBase {
    * Check if config variable is overridden by the settings.php.
    *
    * @param string $name
-   *   STMP settings key.
+   *   SMTP settings key.
    *
    * @return bool
    *   Boolean.
@@ -270,6 +269,7 @@ class SMTPConfigForm extends ConfigFormBase {
     if (empty($values['smtp_username'])) {
       $values['smtp_password'] = '';
     }
+
     // A little hack. When form is presented,
     // the password is not shown (Drupal way of doing).
     // So, if user submits the form without changing the password,
@@ -315,7 +315,8 @@ class SMTPConfigForm extends ConfigFormBase {
     }
 
     // Set as default mail system if module is enabled.
-    if ($config->get('smtp_on')) {
+    if ($config->get('smtp_on') ||
+        ($this->isOverridden('smtp_on') && $values['smtp_on'] == 'on')) {
       if ($mail_system != 'SMTPMailSystem') {
         $config->set('prev_mail_system', $mail_system);
       }
@@ -325,9 +326,8 @@ class SMTPConfigForm extends ConfigFormBase {
     else {
       $default_system_mail = 'php_mail';
       $mail_config = $this->configFactory->getEditable('system.mail');
-      $default_interface = ($mail_config->get('prev_mail_system')) ? $mail_config->get('prev_mail_system') : $default_system_mail;
-      $mail_config->set('interface.default', $default_interface)
-        ->save();
+      $default_interface = $mail_config->get('prev_mail_system') ? $mail_config->get('prev_mail_system') : $default_system_mail;
+      $mail_config->set('interface.default', $default_interface)->save();
     }
 
     // If an address was given, send a test e-mail message.
@@ -335,6 +335,7 @@ class SMTPConfigForm extends ConfigFormBase {
       $params['subject'] = $this->t('Drupal SMTP test e-mail');
       $params['body'] = [$this->t('If you receive this message it means your site is capable of using SMTP to send e-mail.')];
       $account = \Drupal::currentUser();
+
       // If module is off, send the test message
       // with SMTP by temporarily overriding.
       if (!$config->get('smtp_on')) {
@@ -342,10 +343,12 @@ class SMTPConfigForm extends ConfigFormBase {
         $mail_system = 'SMTPMailSystem';
         $mail_config->set('interface.default', $mail_system)->save();
       }
+
       \Drupal::service('plugin.manager.mail')->mail('smtp', 'smtp-test', $test_address, $account->getPreferredLangcode(), $params);
       if (!$config->get('smtp_on')) {
         $mail_config->set('interface', $original)->save();
       }
+
       $this->messenger->addMessage($this->t('A test e-mail has been sent to @email via SMTP. You may want to check the log for any error messages.', ['@email' => $test_address]));
     }
 
@@ -354,9 +357,11 @@ class SMTPConfigForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
-   *
-   * @todo - Flesh this out.
    */
-  public function getEditableConfigNames() {}
+  protected function getEditableConfigNames() {
+    return [
+      'smtp.settings',
+    ];
+  }
 
 }

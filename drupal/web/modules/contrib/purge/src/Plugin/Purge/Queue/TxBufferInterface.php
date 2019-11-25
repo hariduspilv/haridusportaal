@@ -52,15 +52,11 @@ interface TxBufferInterface extends \Countable, \Iterator {
    *
    * @param array|\Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface $invalidations
    *   Invalidation object or array with objects.
-   *
-   * @return void
    */
   public function delete($invalidations);
 
   /**
    * Delete everything in the buffer.
-   *
-   * @return void
    */
   public function deleteEverything();
 
@@ -89,9 +85,10 @@ interface TxBufferInterface extends \Countable, \Iterator {
    *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::ADDED
    *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::RELEASING
    *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::RELEASED
-   *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::DELETING
+   *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::DELETING.
    *
    * @return \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface[]
+   *   List of invalidation objects.
    */
   public function getFiltered($states);
 
@@ -133,7 +130,8 @@ interface TxBufferInterface extends \Countable, \Iterator {
    * @param \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface $invalidation
    *   Invalidation object.
    *
-   * @return TRUE|FALSE
+   * @return bool
+   *   Whether the object is already in the buffer.
    */
   public function has(InvalidationInterface $invalidation);
 
@@ -149,13 +147,11 @@ interface TxBufferInterface extends \Countable, \Iterator {
    *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::ADDED
    *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::RELEASING
    *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::RELEASED
-   *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::DELETING
+   *     - \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface::DELETING.
    *
    * @throws \Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException
    *   Thrown when $invalidations contains other data than derivatives of
    *   \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface.
-   *
-   * @return void
    */
   public function set($invalidations, $state);
 
@@ -168,8 +164,6 @@ interface TxBufferInterface extends \Countable, \Iterator {
    *   The string key of the property you want to store.
    * @param mixed $value
    *   The value of the property you want to set.
-   *
-   * @return void
    */
   public function setProperty(InvalidationInterface $invalidation, $property, $value);
 

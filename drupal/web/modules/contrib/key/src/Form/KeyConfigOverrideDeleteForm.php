@@ -3,14 +3,13 @@
 namespace Drupal\key\Form;
 
 use Drupal\Core\Entity\EntityDeleteForm;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
-use Drupal\key\Plugin\KeyPluginDeleteFormInterface;
 
 /**
  * Builds the form to delete a Key.
  */
 class KeyConfigOverrideDeleteForm extends EntityDeleteForm {
+
   /**
    * {@inheritdoc}
    */

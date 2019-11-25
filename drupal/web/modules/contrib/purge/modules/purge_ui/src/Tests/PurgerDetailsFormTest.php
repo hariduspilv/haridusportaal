@@ -6,7 +6,9 @@ use Drupal\Core\Url;
 use Drupal\purge\Tests\WebTestBase;
 
 /**
- * Tests:
+ * Tests the purger details form.
+ *
+ * The following classes are covered:
  *   - \Drupal\purge_ui\Form\PluginDetailsForm.
  *   - \Drupal\purge_ui\Controller\PurgerFormController::detailForm().
  *   - \Drupal\purge_ui\Controller\PurgerFormController::detailFormTitle().
@@ -16,9 +18,11 @@ use Drupal\purge\Tests\WebTestBase;
 class PurgerDetailsFormTest extends WebTestBase {
 
   /**
+   * The Drupal user entity.
+   *
    * @var \Drupal\user\Entity\User
    */
-  protected $admin_user;
+  protected $adminUser;
 
   /**
    * The route that renders the form.
@@ -37,9 +41,9 @@ class PurgerDetailsFormTest extends WebTestBase {
   /**
    * Setup the test.
    */
-  public function setUp() {
-    parent::setUp();
-    $this->admin_user = $this->drupalCreateUser(['administer site configuration']);
+  public function setUp($switch_to_memory_queue = TRUE) {
+    parent::setUp($switch_to_memory_queue);
+    $this->adminUser = $this->drupalCreateUser(['administer site configuration']);
   }
 
   /**
@@ -50,7 +54,7 @@ class PurgerDetailsFormTest extends WebTestBase {
     $this->initializePurgersService(['a']);
     $this->drupalGet(Url::fromRoute($this->route, $args));
     $this->assertResponse(403);
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route, $args));
     $this->assertResponse(200);
     $args = ['id' => 'doesnotexist'];
@@ -67,12 +71,12 @@ class PurgerDetailsFormTest extends WebTestBase {
   public function testDetailForm() {
     $args = ['id' => 'id0'];
     $this->initializePurgersService(['a']);
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route, $args));
     $this->assertRaw('Purger A');
     $this->assertRaw('Test purger A.');
-    $this->assertRaw(t('Close'));
-    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route, $args)->toString(), [], ['op' => t('Close')]);
+    $this->assertRaw('Close');
+    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route, $args)->toString(), [], ['op' => 'Close']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual(2, count($json));
   }

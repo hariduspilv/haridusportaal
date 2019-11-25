@@ -2,8 +2,6 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Drupal\purge_ui\Form\PluginConfigFormBase;
-
 /**
  * Provides a base class for processor configuration forms.
  *
@@ -17,6 +15,6 @@ abstract class ProcessorConfigFormBase extends PluginConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  protected $parent_id = 'edit-queue';
+  protected $parentId = 'edit-queue';
 
 }

@@ -8,6 +8,14 @@
 use Drupal\Core\Database\Database;
 
 /**
+ * Implements hook_install().
+ */
+function externalauth_install() {
+  // Increase module weight to perform the authmap cleanup later.
+  module_set_weight('externalauth', 10);
+}
+
+/**
  * Implements hook_schema().
  */
 function externalauth_schema() {
@@ -82,4 +90,12 @@ function externalauth_update_8102() {
   // website maintainer is required to fix the table contents themselves.
   $schema->addUniqueKey('authmap', 'authname_provider', ['authname', 'provider']);
   $schema->dropIndex('authmap', 'auth_provider');
+}
+
+/**
+ * Increase externalauth module weight.
+ */
+function externalauth_update_8103() {
+  // Increase module weight to perform the authmap cleanup later.
+  module_set_weight('externalauth', 10);
 }

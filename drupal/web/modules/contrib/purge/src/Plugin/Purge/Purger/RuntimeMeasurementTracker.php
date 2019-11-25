@@ -3,9 +3,6 @@
 namespace Drupal\purge\Plugin\Purge\Purger;
 
 use Drupal\Core\State\StateInterface;
-use Drupal\purge\Plugin\Purge\Purger\RuntimeMeasurement;
-// use Drupal\purge\Plugin\Purge\Purger\RuntimeMeasurementInterface;
-use Drupal\purge\Plugin\Purge\Purger\RuntimeMeasurementTrackerInterface;
 
 /**
  * Provides the tracker that tracks RuntimeMeasurement objects for purgers.
@@ -18,8 +15,7 @@ use Drupal\purge\Plugin\Purge\Purger\RuntimeMeasurementTrackerInterface;
 class RuntimeMeasurementTracker implements RuntimeMeasurementTrackerInterface {
 
   /**
-   * Buffer of values that need to be written back to state storage. Items
-   * present in the buffer take priority over state data.
+   * Key-value buffer with changed state variables that need to be saved.
    *
    * @var float[]
    */

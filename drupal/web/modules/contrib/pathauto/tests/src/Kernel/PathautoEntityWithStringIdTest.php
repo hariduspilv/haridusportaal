@@ -7,7 +7,7 @@ use Drupal\Component\Utility\Crypt;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\KeyValueStore\KeyValueDatabaseFactory;
 use Drupal\pathauto\PathautoState;
-use Drupal\pathauto\Tests\PathautoTestHelperTrait;
+use Drupal\Tests\pathauto\Functional\PathautoTestHelperTrait;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\pathauto_string_id_test\Entity\PathautoStringIdTest;
 

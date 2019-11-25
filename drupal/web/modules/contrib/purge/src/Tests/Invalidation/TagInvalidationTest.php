@@ -2,8 +2,6 @@
 
 namespace Drupal\purge\Tests\Invalidation;
 
-use Drupal\purge\Tests\Invalidation\PluginTestBase;
-
 /**
  * Tests \Drupal\purge\Plugin\Purge\Invalidation\TagInvalidation.
  *
@@ -11,12 +9,30 @@ use Drupal\purge\Tests\Invalidation\PluginTestBase;
  * @see \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface
  */
 class TagInvalidationTest extends PluginTestBase {
-  protected $plugin_id = 'tag';
+
+  /**
+   * The plugin ID of the invalidation type being tested.
+   *
+   * @var string
+   */
+  protected $pluginId = 'tag';
+
+  /**
+   * String expressions valid to the invalidation type being tested.
+   *
+   * @var string[]|null
+   */
   protected $expressions = [
     'tag',
     'user:1',
     'menu:footer',
   ];
+
+  /**
+   * String expressions invalid to the invalidation type being tested.
+   *
+   * @var string[]|null
+   */
   protected $expressionsInvalid = [
     NULL,
     '',

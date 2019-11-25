@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Save a key.
+ */
+
 use Drupal\Component\Serialization\Json;
 use Drush\Log\LogLevel;
 

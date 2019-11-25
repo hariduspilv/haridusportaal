@@ -13,6 +13,9 @@ use Drupal\Core\StringTranslation\TranslatableMarkup;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * KeyConfigOverrideAddForm class.
+ */
 class KeyConfigOverrideAddForm extends EntityForm {
 
   /**
@@ -64,6 +67,10 @@ class KeyConfigOverrideAddForm extends EntityForm {
    *   The entity manager.
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The config factory.
+   * @param \Drupal\Core\Config\StorageInterface $config_storage
+   *   The config storage.
+   * @param \Symfony\Component\HttpFoundation\RequestStack $request_stack
+   *   The current request stack.
    */
   public function __construct(EntityTypeManagerInterface $entity_type_manager, ConfigFactoryInterface $config_factory, StorageInterface $config_storage, RequestStack $request_stack) {
     $this->entityTypeManager = $entity_type_manager;
@@ -194,7 +201,7 @@ class KeyConfigOverrideAddForm extends EntityForm {
       $definitions = $this->getConfigEntityTypeDefinitions();
       $config_type = $form_state->getValue('config_type');
 
-      if (key_exists($config_type, $definitions)) {
+      if (array_key_exists($config_type, $definitions)) {
         $config_prefix = $definitions[$config_type]->getConfigPrefix();
       }
       else {
@@ -308,7 +315,7 @@ class KeyConfigOverrideAddForm extends EntityForm {
       $names = $this->configStorage->listAll();
       $names = array_combine($names, $names);
 
-      // Filter out any names that match a configuration entity prefix
+      // Filter out any names that match a configuration entity prefix.
       foreach ($names as $config_name) {
         foreach ($config_prefixes as $config_prefix) {
           if (strpos($config_name, $config_prefix) === 0) {
@@ -361,7 +368,7 @@ class KeyConfigOverrideAddForm extends EntityForm {
    * Define the list of configuration types to exclude.
    *
    * @return array
-   *  The configuration types to exclude.
+   *   The configuration types to exclude.
    */
   protected function excludedConfigTypes() {
     $exclude = [
@@ -374,7 +381,7 @@ class KeyConfigOverrideAddForm extends EntityForm {
   /**
    * Recursively create a flat array of configuration items.
    *
-   * @param $config_array
+   * @param array $config_array
    *   An array of configuration items.
    * @param string $prefix
    *   A prefix to add to nested items.
@@ -384,7 +391,7 @@ class KeyConfigOverrideAddForm extends EntityForm {
    * @return array
    *   The flattened array of configuration items.
    */
-  protected function flattenConfigItemList($config_array, $prefix = '', $level = 0) {
+  protected function flattenConfigItemList(array $config_array, $prefix = '', $level = 0) {
     $config_items = [];
 
     // Define items to ignore.

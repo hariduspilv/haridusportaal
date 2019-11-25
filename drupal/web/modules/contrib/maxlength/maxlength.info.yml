@@ -1,11 +1,10 @@
 name: Maxlength
 type: module
 description: 'Limit the number of characters in textfields and textareas and shows the amount of characters left.'
-# core: 8.x
+core: 8.x
 package: Fields
 
-# Information added by Drupal.org packaging script on 2018-06-01
-version: '8.x-1.0-beta2'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2019-10-09
+version: '8.x-1.0-beta4'
 project: 'maxlength'
-datestamp: 1527856386
+datestamp: 1570633692

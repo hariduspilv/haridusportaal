@@ -498,7 +498,7 @@ class EntityReferenceRevisionsDestinationTest extends KernelTestBase implements 
                     'source' => 'author',
                   ],
                   [
-                    'plugin' => 'iterator',
+                    'plugin' => 'sub_process',
                     'process' => [
                       'target_id' => '0',
                       'target_revision_id' => '1',
