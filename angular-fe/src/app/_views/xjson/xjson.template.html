@@ -1,12 +1,12 @@
 <base-layout>
   <breadcrumbs [path]="path"></breadcrumbs>
-  <block titleBorder="true">
+  <block titleBorder="true" tabStyle="default">
     <block-title>
       {{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}
     </block-title>
-    <block-content>
+    <block-content tabLabel="{{ 'frontpage.dokument' | translate }}" tabIcon="file">
       <div class="block padding-block border-blue">
-        <div class="block__head">
+       <!--  <div class="block__head">
           <div *ngIf="acceptable_forms.length" class="block__head__buttons">
             <div class="view-item" (click)="changeView('document')"
               attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0"
@@ -21,8 +21,7 @@
               <div class="title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
             </div>
           </div>
-          <!--/block__head__buttons-->
-        </div>
+        </div> -->
         <!--/block__head-->
 
         <loader *ngIf="!data || formLoading"></loader>
