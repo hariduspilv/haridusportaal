@@ -1,6 +1,7 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import conf from '@app/_core/conf';
+import { SettingsService } from '@app/_services';
 
 @Component({
   selector: 'feedback',
@@ -18,6 +19,7 @@ export class FeedbackComponent {
   constructor(
     private http: HttpClient,
     private cd: ChangeDetectorRef,
+    private settings: SettingsService,
   ) {
 
   }
@@ -59,7 +61,7 @@ export class FeedbackComponent {
       message: this.values['comment'] || '',
     };
 
-    const subscribe = this.http.post(`${conf.api_prefix}/feedback?_format=json`, data).subscribe(
+    const subscribe = this.http.post(`${this.settings.url}/feedback?_format=json`, data).subscribe(
       (response) => {
         subscribe.unsubscribe();
       });

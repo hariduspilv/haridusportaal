@@ -80,6 +80,10 @@ const routes: Routes = [
     loadChildren: './_views/oskaFieldDataView#OskaFieldDataView',
   },
   {
+    path: 'valdkonnad/kaart',
+    loadChildren: './_views/oskaFieldMap#OskaFieldMapModule',
+  },
+  {
     path: 'valdkonnad/:id',
     loadChildren: './_views/detailView#DetailViewModule',
     data: {
