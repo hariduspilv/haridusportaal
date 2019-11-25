@@ -13,9 +13,11 @@ use Drupal\purge\Tests\WebTestBase;
 class QueueBrowserFormTest extends WebTestBase {
 
   /**
+   * The Drupal user entity.
+   *
    * @var \Drupal\user\Entity\User
    */
-  protected $admin_user;
+  protected $adminUser;
 
   /**
    * The route that renders the form.
@@ -29,9 +31,15 @@ class QueueBrowserFormTest extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = ['purge_ui', 'purge_queuer_test', 'purge_purger_test'];
+  public static $modules = [
+    'purge_ui',
+    'purge_queuer_test',
+    'purge_purger_test',
+  ];
 
   /**
+   * The queuer plugin.
+   *
    * @var \Drupal\purge\Plugin\Purge\Queuer\QueuerInterface
    */
   protected $queuer;
@@ -39,11 +47,11 @@ class QueueBrowserFormTest extends WebTestBase {
   /**
    * Setup the test.
    */
-  public function setUp() {
-    parent::setUp();
+  public function setUp($switch_to_memory_queue = TRUE) {
+    parent::setUp($switch_to_memory_queue);
     $this->initializeQueuersService();
     $this->queuer = $this->purgeQueuers->get('a');
-    $this->admin_user = $this->drupalCreateUser(['administer site configuration']);
+    $this->adminUser = $this->drupalCreateUser(['administer site configuration']);
   }
 
   /**
@@ -52,11 +60,11 @@ class QueueBrowserFormTest extends WebTestBase {
   public function testAccess() {
     $this->drupalGet(Url::fromRoute($this->route));
     $this->assertResponse(403);
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route));
     $this->assertResponse(200);
-    $this->assertTitle(t("Purge queue browser | Drupal"));
-    $this->assertText(t("Your queue is empty."));
+    $this->assertTitle("Purge queue browser | Drupal");
+    $this->assertText("Your queue is empty.");
     $this->assertNoField('edit-1');
   }
 
@@ -67,10 +75,10 @@ class QueueBrowserFormTest extends WebTestBase {
    * @see \Drupal\purge_ui\Form\CloseDialogTrait::closeDialog
    */
   public function testClose() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route));
-    $this->assertText(t("Close"));
-    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), [], ['op' => t('Close')]);
+    $this->assertText("Close");
+    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), [], ['op' => 'Close']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual(2, count($json));
   }
@@ -98,17 +106,17 @@ class QueueBrowserFormTest extends WebTestBase {
     $this->assertEqual(30, count($this->purgeQueue->selectPage()));
     $this->purgeQueue->reload();
     // Render the interface and find the first 15 tags, the is on page 2.
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route));
-    $this->assertText(t("Type"));
-    $this->assertText(t("State"));
-    $this->assertText(t("Expression"));
-    $this->assertText(t("New"));
+    $this->assertText("Type");
+    $this->assertText("State");
+    $this->assertText("Expression");
+    $this->assertText("New");
     $this->assertField('edit-1');
     $this->assertField('edit-2');
     $this->assertNoField('edit-3');
     foreach ($needles as $i => $needle) {
-      // @see \Drupal\purge_ui\Form\QueueBrowserForm::$number_of_items.
+      // @see \Drupal\purge_ui\Form\QueueBrowserForm::$numberOfItems.
       if ($i <= 15) {
         $this->assertRaw($needle);
       }

@@ -20,7 +20,7 @@ class ConfigurationForm extends QueuerConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_queuer_coretags.configuration_form';
   }
 
@@ -30,9 +30,7 @@ class ConfigurationForm extends QueuerConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $config = $this->config('purge_queuer_coretags.settings');
 
-    /**
-     * Blacklist form elements (and ajax 'add more' logic).
-     */
+    // Blacklist form elements (and ajax 'add more' logic).
     $form['blacklist'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Tag blacklist'),
@@ -71,7 +69,7 @@ class ConfigurationForm extends QueuerConfigFormBase {
     $form['blacklist']['add'] = [
       '#type' => 'submit',
       '#name' => 'add',
-      '#value' => t('Add prefix'),
+      '#value' => $this->t('Add prefix'),
       '#submit' => [[$this, 'addMoreSubmit']],
       '#ajax' => [
         'callback' => [$this, 'addMoreCallback'],

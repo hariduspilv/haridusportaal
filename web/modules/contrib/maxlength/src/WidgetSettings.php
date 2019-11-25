@@ -37,6 +37,21 @@ class WidgetSettings implements WidgetSettingsInterface {
         'summary_maxlength_setting' => TRUE,
         'truncate_setting' => TRUE,
       ),
+      'key_value_textarea' => array(
+        'maxlength_setting' => TRUE,
+        'summary_maxlength_setting' => TRUE,
+        'truncate_setting' => TRUE,
+      ),
+      'link_default' => array(
+        'maxlength_setting' => TRUE,
+        'summary_maxlength_setting' => FALSE,
+        'truncate_setting' => FALSE,
+      ),
+      'linkit' => array(
+        'maxlength_setting' => TRUE,
+        'summary_maxlength_setting' => FALSE,
+        'truncate_setting' => FALSE,
+      ),
     );
 
     $additional_widget_settings = \Drupal::moduleHandler()->invokeAll('maxlength_widget_settings') ?: [];

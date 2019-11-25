@@ -2,10 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\DiagnosticCheck;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Tests if the page_cache module is installed.
@@ -28,7 +26,7 @@ class PageCacheCheck extends DiagnosticCheckBase implements DiagnosticCheckInter
   protected $moduleHandler;
 
   /**
-   * Constructs a \Drupal\purge\Plugin\Purge\DiagnosticCheck\PerformanceSettingsCheck object.
+   * Construct a PageCacheCheck object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
@@ -66,9 +64,9 @@ class PageCacheCheck extends DiagnosticCheckBase implements DiagnosticCheckInter
     if (!$this->moduleHandler->moduleExists('page_cache')) {
       $this->value = '';
       $this->recommendation = $this->t("Please install the page_cache module. The page cache acts as a 'second layer of defence' by keeping copies of all generated pages, which protects you from widespread performance degradation in case of emergencies.");
-      return SELF::SEVERITY_WARNING;
+      return self::SEVERITY_WARNING;
     }
-    return SELF::SEVERITY_OK;
+    return self::SEVERITY_OK;
   }
 
 }

@@ -2,8 +2,8 @@
 
 namespace Drupal\purge_tagsheader_test\Plugin\Purge\TagsHeader;
 
-use Drupal\purge\Plugin\Purge\TagsHeader\TagsHeaderInterface;
 use Drupal\purge\Plugin\Purge\TagsHeader\TagsHeaderBase;
+use Drupal\purge\Plugin\Purge\TagsHeader\TagsHeaderInterface;
 
 /**
  * Test header B.

@@ -1,0 +1,31 @@
+<?php
+
+/**
+ * @file
+ * Framework for managing configuration updates from distributions.
+ */
+
+/**
+ * Implements hook_batch_alter().
+ *
+ * Switches out the default batch 'finished' callback class for our custom
+ * version.
+ *
+ * By testing for the presence of \Drupal\Core\Config\ConfigImporterBatch,
+ * which was introduced to core in 8.6.x, we restrict our change to sites
+ * running that or a later version.
+ *
+ * @see \Drupal\config_distro\Form\ConfigDistroImportForm::finishBatch()
+ */
+function config_distro_batch_alter(&$batch) {
+  // Detect the batch generated in
+  // \Drupal\config\Form\ConfigSync::submitForm().
+  if (
+    isset($batch['form_state']) &&
+    ($batch['form_state']->getValue('form_id') === 'config_distro_import_form') &&
+    !empty($batch['sets'][0]['finished'][0]) &&
+    ($batch['sets'][0]['finished'][0] === 'Drupal\Core\Config\Importer\ConfigImporterBatch')
+  ) {
+    $batch['sets'][0]['finished'][0] = 'Drupal\config_distro\ConfigDistroConfigImporterBatch';
+  }
+}

@@ -28,7 +28,7 @@ trait QueueBasePageTrait {
    * {@inheritdoc}
    */
   public function selectPageMax() {
-    $max = ( (int) $this->numberOfItems() ) / $this->selectPageLimit();
+    $max = ((int) $this->numberOfItems()) / $this->selectPageLimit();
     return intval(ceil($max));
   }
 

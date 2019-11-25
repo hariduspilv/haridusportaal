@@ -3,7 +3,6 @@
 namespace Drupal\purge\Plugin\Purge\Processor;
 
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\purge\Plugin\Purge\Processor\ProcessorInterface;
 
 /**
  * Provides base implementations for processors.

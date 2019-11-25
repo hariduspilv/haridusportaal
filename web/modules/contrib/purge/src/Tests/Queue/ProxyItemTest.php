@@ -2,11 +2,11 @@
 
 namespace Drupal\purge\Tests\Queue;
 
-use Drupal\purge\Tests\KernelTestBase;
 use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
 use Drupal\purge\Plugin\Purge\Queue\Exception\InvalidPropertyException;
 use Drupal\purge\Plugin\Purge\Queue\ProxyItem;
 use Drupal\purge\Plugin\Purge\Queue\TxBuffer;
+use Drupal\purge\Tests\KernelTestBase;
 
 /**
  * Tests \Drupal\purge\Tests\Queue\ProxyItem.
@@ -32,13 +32,13 @@ class ProxyItemTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
-    parent::setUp();
+  public function setUp($switch_to_memory_queue = TRUE) {
+    parent::setUp($switch_to_memory_queue);
     $this->buffer = new TxBuffer();
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Queue\ProxyItem::__get
+   * Tests \Drupal\purge\Plugin\Purge\Queue\ProxyItem::__get.
    */
   public function testGet() {
     $i = $this->getInvalidations(1);
@@ -89,7 +89,7 @@ class ProxyItemTest extends KernelTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Queue\ProxyItem::__set
+   * Tests \Drupal\purge\Plugin\Purge\Queue\ProxyItem::__set.
    */
   public function testSet() {
     $i = $this->getInvalidations(1);

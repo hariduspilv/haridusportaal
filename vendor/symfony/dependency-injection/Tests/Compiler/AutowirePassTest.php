@@ -377,15 +377,10 @@ class AutowirePassTest extends TestCase
         $pass->process($container);
     }
 
-    /**
-     * @group issue-32995
-     *
-     * @runInSeparateProcess https://github.com/symfony/symfony/issues/32995
-     */
     public function testParentClassNotFoundThrowsException()
     {
         $this->expectException('Symfony\Component\DependencyInjection\Exception\AutowiringFailedException');
-        $this->expectExceptionMessage('Cannot autowire service "a": argument "$r" of method "Symfony\Component\DependencyInjection\Tests\Compiler\BadParentTypeHintedArgument::__construct()" has type "Symfony\Component\DependencyInjection\Tests\Compiler\OptionalServiceClass" but this class is missing a parent class (Class Symfony\Bug\NotExistClass not found).');
+        $this->expectExceptionMessageRegExp('{^Cannot autowire service "a": argument "\$r" of method "(Symfony\\\\Component\\\\DependencyInjection\\\\Tests\\\\Compiler\\\\)BadParentTypeHintedArgument::__construct\(\)" has type "\1OptionalServiceClass" but this class is missing a parent class \(Class "?Symfony\\\\Bug\\\\NotExistClass"? not found}');
 
         $container = new ContainerBuilder();
 
@@ -594,12 +589,10 @@ class AutowirePassTest extends TestCase
         );
     }
 
-    /**
-     * @exceptedExceptionMessage Invalid service "Symfony\Component\DependencyInjection\Tests\Fixtures\NamedArgumentsDummy": method "setLogger()" does not exist.
-     */
     public function testWithNonExistingSetterAndAutowiring()
     {
         $this->expectException('Symfony\Component\DependencyInjection\Exception\RuntimeException');
+        $this->expectExceptionMessage('Invalid service "Symfony\Component\DependencyInjection\Tests\Fixtures\CaseSensitiveClass": method "setLogger()" does not exist.');
         $container = new ContainerBuilder();
 
         $definition = $container->register(CaseSensitiveClass::class, CaseSensitiveClass::class)->setAutowired(true);
@@ -693,11 +686,6 @@ class AutowirePassTest extends TestCase
         ];
     }
 
-    /**
-     * @group issue-32995
-     *
-     * @runInSeparateProcess https://github.com/symfony/symfony/issues/32995
-     */
     public function testIgnoreServiceWithClassNotExisting()
     {
         $container = new ContainerBuilder();
@@ -896,11 +884,6 @@ class AutowirePassTest extends TestCase
         $pass->process($container);
     }
 
-    /**
-     * @group issue-32995
-     *
-     * @runInSeparateProcess https://github.com/symfony/symfony/issues/32995
-     */
     public function testExceptionWhenAliasDoesNotExist()
     {
         $this->expectException('Symfony\Component\DependencyInjection\Exception\AutowiringFailedException');

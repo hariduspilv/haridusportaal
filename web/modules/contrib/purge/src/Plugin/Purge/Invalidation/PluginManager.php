@@ -2,9 +2,9 @@
 
 namespace Drupal\purge\Plugin\Purge\Invalidation;
 
-use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Plugin\DefaultPluginManager;
 
 /**
  * The invalidation type plugin manager.

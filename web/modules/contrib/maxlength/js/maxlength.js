@@ -116,7 +116,7 @@
    * @see http://www.sitepoint.com/blogs/2004/02/16/line-endings-in-javascript/
    */
   ml.twochar_lineending = function(str) {
-    return str.replace(/(\r\n|\r|\n)/g, "\r\n");
+    return str.replace(/(\r\n|\r|\n)/g, "\r");
   };
 
   ml.strip_tags = function(input, allowed) {
@@ -264,7 +264,8 @@
       return 'removed';
     }
 
-    var counterElement = $('<' + options.counterElement + ' id="' + $(this).attr('id') + '-' + options.css + '" class="' + options.css + '"></' + options.counterElement + '>');
+    var sanitizedId = ($(this).attr('id') + '-' + options.css).replace(/[^0-9a-z-_]/gi, '');
+    var counterElement = $('<' + options.counterElement + ' id="' + sanitizedId + '" class="' + options.css + '"></' + options.counterElement + '>');
     // Use there is a description element use it to place the counterElement.
     var describedBy = $(this).attr('aria-describedby');
     if (describedBy && $('#' + describedBy).length) {

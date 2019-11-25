@@ -2,11 +2,9 @@
 
 namespace Drupal\purge\Plugin\Purge\DiagnosticCheck;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Checks if there is a purger plugin that invalidates an external cache.
@@ -22,6 +20,8 @@ use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckBase;
 class PurgersAvailableDiagnosticCheck extends DiagnosticCheckBase implements DiagnosticCheckInterface {
 
   /**
+   * The factory for configuration objects.
+   *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
@@ -34,7 +34,7 @@ class PurgersAvailableDiagnosticCheck extends DiagnosticCheckBase implements Dia
   protected $purgePurgers;
 
   /**
-   * Constructs a \Drupal\purge\Plugin\Purge\DiagnosticCheck\PurgerAvailableCheck object.
+   * Construct a PurgersAvailableDiagnosticCheck object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -70,7 +70,7 @@ class PurgersAvailableDiagnosticCheck extends DiagnosticCheckBase implements Dia
    * {@inheritdoc}
    */
   public function run() {
-    $purgerlabels  = $this->purgePurgers->getLabels();
+    $purgerlabels = $this->purgePurgers->getLabels();
 
     // Put all enabled in a comma separated value.
     $this->value = '';
@@ -84,25 +84,20 @@ class PurgersAvailableDiagnosticCheck extends DiagnosticCheckBase implements Dia
 
     // Test for an empty set of labels, indicating no purgers are configured.
     if (empty($purgerlabels)) {
-      $this->recommendation = $this->t("There is no purger loaded which means ".
-        "that you need a module enabled to provide a purger plugin to clear ".
-        "your external cache or CDN.");
-      return SELF::SEVERITY_ERROR;
+      $this->recommendation = $this->t("There is no purger loaded which means that you need a module enabled to provide a purger plugin to clear your external cache or CDN.");
+      return self::SEVERITY_ERROR;
     }
     elseif (count($purgerlabels) == 1) {
       $this->recommendation = $this->t("Purger configured.");
-      return SELF::SEVERITY_OK;
+      return self::SEVERITY_OK;
     }
     elseif (count($purgerlabels) > 3) {
-      $this->recommendation = $this->t("You have more than 3 purgers active ".
-        "on one system. This introduces the risk of congesting Drupal as ".
-        "multiple purgers are clearing external caches. It is highly ".
-        "recommended is to simplify your caching architecture if possible.");
-      return SELF::SEVERITY_WARNING;
+      $this->recommendation = $this->t("You have more than 3 purgers active on one system. This introduces the risk of congesting Drupal as multiple purgers are clearing external caches. It is highly recommended is to simplify your caching architecture if possible.");
+      return self::SEVERITY_WARNING;
     }
     else {
       $this->recommendation = $this->t("Purgers configured.");
-      return SELF::SEVERITY_OK;
+      return self::SEVERITY_OK;
     }
   }
 

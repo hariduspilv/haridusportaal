@@ -38,11 +38,19 @@ interface TagsHeaderInterface extends PluginInspectionInterface, ContainerFactor
    * @throws \LogicException
    *   Thrown when the returned value isn't a string.
    *
-   * @see \Drupal\Core\Cache\CacheableDependencyInterface::getCacheTags().
+   * @see \Drupal\Core\Cache\CacheableDependencyInterface::getCacheTags()
    *
    * @return string
    *   String representing the given headers.
    */
   public function getValue(array $tags);
+
+  /**
+   * Determine if this header should be added to the response.
+   *
+   * @return bool
+   *   TRUE when the header should be added to responses, FALSE when not.
+   */
+  public function isEnabled();
 
 }

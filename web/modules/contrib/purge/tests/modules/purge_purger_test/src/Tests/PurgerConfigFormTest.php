@@ -36,7 +36,7 @@ class PurgerConfigFormTest extends PurgerConfigFormTestBase {
    * Verify that the form contains all fields we require.
    */
   public function testFieldExistence() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet($this->route);
     $this->assertField('edit-textfield');
     $this->assertText("Test");
@@ -62,11 +62,11 @@ class PurgerConfigFormTest extends PurgerConfigFormTestBase {
    * Test posting data to the form.
    */
   public function testFormSubmit() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $edit = [
       'textfield' => "The moose in the noose ate the goose who was loose.",
     ];
-    $this->drupalPostForm($this->route, $edit, t('Save configuration'));
+    $this->drupalPostForm($this->route, $edit, 'Save configuration');
   }
 
 }

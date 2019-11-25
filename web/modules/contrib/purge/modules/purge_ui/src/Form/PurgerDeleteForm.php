@@ -2,14 +2,12 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Form\ConfirmFormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface;
-use Drupal\purge_ui\Form\CloseDialogTrait;
-use Drupal\purge_ui\Form\ReloadConfigFormCommand;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Delete the {id} purger instance.
@@ -39,12 +37,10 @@ class PurgerDeleteForm extends ConfirmFormBase {
   protected $purgePurgers;
 
   /**
-   * Constructs a DeletePurgerForm object.
+   * Construct a DeletePurgerForm object.
    *
    * @param \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface $purge_purgers
    *   The purgers service.
-   *
-   * @return void
    */
   public function __construct(PurgersServiceInterface $purge_purgers) {
     $this->purgePurgers = $purge_purgers;
@@ -67,7 +63,7 @@ class PurgerDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_ui.purger_delete_form';
   }
 
@@ -136,6 +132,7 @@ class PurgerDeleteForm extends ConfirmFormBase {
    *   The current state of the form.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The AJAX response object.
    */
   public function deletePurger(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();

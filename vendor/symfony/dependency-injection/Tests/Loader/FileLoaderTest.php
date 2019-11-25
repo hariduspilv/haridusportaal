@@ -107,11 +107,6 @@ class FileLoaderTest extends TestCase
         );
     }
 
-    /**
-     * @group issue-32995
-     *
-     * @runInSeparateProcess https://github.com/symfony/symfony/issues/32995
-     */
     public function testRegisterClassesWithExclude()
     {
         $container = new ContainerBuilder();
@@ -141,11 +136,6 @@ class FileLoaderTest extends TestCase
         );
     }
 
-    /**
-     * @group issue-32995
-     *
-     * @runInSeparateProcess https://github.com/symfony/symfony/issues/32995
-     */
     public function testNestedRegisterClasses()
     {
         $container = new ContainerBuilder();
@@ -174,11 +164,6 @@ class FileLoaderTest extends TestCase
         $this->assertFalse($alias->isPrivate());
     }
 
-    /**
-     * @group issue-32995
-     *
-     * @runInSeparateProcess https://github.com/symfony/symfony/issues/32995
-     */
     public function testMissingParentClass()
     {
         $container = new ContainerBuilder();
@@ -193,9 +178,9 @@ class FileLoaderTest extends TestCase
 
         $this->assertTrue($container->has(MissingParent::class));
 
-        $this->assertSame(
-            ['While discovering services from namespace "Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype\BadClasses\", an error was thrown when processing the class "Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype\BadClasses\MissingParent": "Class Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype\BadClasses\MissingClass not found".'],
-            $container->getDefinition(MissingParent::class)->getErrors()
+        $this->assertRegExp(
+            '{Class "?Symfony\\\\Component\\\\DependencyInjection\\\\Tests\\\\Fixtures\\\\Prototype\\\\BadClasses\\\\MissingClass"? not found}',
+            $container->getDefinition(MissingParent::class)->getErrors()[0]
         );
     }
 

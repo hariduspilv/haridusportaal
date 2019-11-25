@@ -2,8 +2,8 @@
 
 namespace Drupal\purge_ui\Plugin\Purge\Processor;
 
-use Drupal\purge\Plugin\Purge\Processor\ProcessorInterface;
 use Drupal\purge\Plugin\Purge\Processor\ProcessorBase;
+use Drupal\purge\Plugin\Purge\Processor\ProcessorInterface;
 
 /**
  * Processor for \Drupal\purge_ui\Form\PurgeBlockForm.

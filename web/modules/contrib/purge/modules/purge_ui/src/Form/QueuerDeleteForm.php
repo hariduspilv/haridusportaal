@@ -2,14 +2,12 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Form\ConfirmFormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface;
-use Drupal\purge_ui\Form\CloseDialogTrait;
-use Drupal\purge_ui\Form\ReloadConfigFormCommand;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Delete queuer {id}.
@@ -18,6 +16,8 @@ class QueuerDeleteForm extends ConfirmFormBase {
   use CloseDialogTrait;
 
   /**
+   * The 'purge.queuers' service.
+   *
    * @var \Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface
    */
   protected $purgeQueuers;
@@ -30,12 +30,10 @@ class QueuerDeleteForm extends ConfirmFormBase {
   protected $queuer;
 
   /**
-   * Constructs a QueuerDeleteForm object.
+   * Construct a QueuerDeleteForm object.
    *
    * @param \Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface $purge_queuers
    *   The purge queuers service.
-   *
-   * @return void
    */
   public function __construct(QueuersServiceInterface $purge_queuers) {
     $this->purgeQueuers = $purge_queuers;
@@ -58,7 +56,7 @@ class QueuerDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_ui.queuer_delete_form';
   }
 
@@ -123,6 +121,7 @@ class QueuerDeleteForm extends ConfirmFormBase {
    *   The current state of the form.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The AJAX response object.
    */
   public function deleteQueuer(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();

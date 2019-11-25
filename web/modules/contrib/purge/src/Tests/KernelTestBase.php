@@ -2,7 +2,6 @@
 
 namespace Drupal\purge\Tests;
 
-use Drupal\purge\Tests\TestTrait;
 use Drupal\simpletest\KernelTestBase as RealKernelTestBase;
 
 /**
@@ -26,7 +25,6 @@ abstract class KernelTestBase extends RealKernelTestBase {
    *
    * @param bool $switch_to_memory_queue
    *   Whether to switch the default queue to the memory backend or not.
-   *
    */
   public function setUp($switch_to_memory_queue = TRUE) {
     parent::setUp();

@@ -2,10 +2,9 @@
 
 namespace Drupal\purge\Tests\Processor;
 
-use Drupal\purge\Tests\KernelTestBase;
-use Drupal\purge\Tests\KernelServiceTestBase;
-use Drupal\purge\Plugin\Purge\Processor\ProcessorsServiceInterface;
 use Drupal\purge\Plugin\Purge\Processor\ProcessorInterface;
+use Drupal\purge\Tests\KernelServiceTestBase;
+use Drupal\purge\Tests\KernelTestBase;
 
 /**
  * Tests \Drupal\purge\Plugin\Purge\Processor\ProcessorsService.
@@ -15,13 +14,25 @@ use Drupal\purge\Plugin\Purge\Processor\ProcessorInterface;
  * @see \Drupal\purge\Plugin\Purge\Processor\ProcessorsServiceInterface
  */
 class ServiceTest extends KernelServiceTestBase {
+
+  /**
+   * The name of the service as defined in services.yml.
+   *
+   * @var string
+   */
   protected $serviceId = 'purge.processors';
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
   public static $modules = ['purge_processor_test'];
 
   /**
    * Set up the test.
    */
-  public function setUp() {
+  public function setUp($switch_to_memory_queue = TRUE) {
 
     // Skip parent::setUp() as we don't want the service initialized here.
     KernelTestBase::setUp();
@@ -29,7 +40,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Processor\ProcessorsService::count
+   * Tests \Drupal\purge\Plugin\Purge\Processor\ProcessorsService::count.
    */
   public function testCount() {
     $this->initializeService();
@@ -38,7 +49,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Processor\ProcessorsService::get
+   * Tests \Drupal\purge\Plugin\Purge\Processor\ProcessorsService::get.
    */
   public function testGet() {
     $this->initializeService();
@@ -60,8 +71,9 @@ class ServiceTest extends KernelServiceTestBase {
    */
   public function testIteration() {
     $this->initializeService();
-    $this->assertIterator('\Drupal\purge\Plugin\Purge\Processor\ProcessorInterface',
-      ['a', 'b']
+    $this->assertIterator(
+      ['a', 'b'],
+      '\Drupal\purge\Plugin\Purge\Processor\ProcessorInterface'
     );
   }
 

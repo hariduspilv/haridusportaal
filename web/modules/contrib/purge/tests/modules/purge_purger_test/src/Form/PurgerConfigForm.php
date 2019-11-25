@@ -6,6 +6,8 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\purge_ui\Form\PurgerConfigFormBase;
 
 /**
+ * Configuration form for a test purger.
+ *
  * @see \Drupal\purge_purger_test\Plugin\Purge\Purger\PurgerWithForm.
  */
 class PurgerConfigForm extends PurgerConfigFormBase {
@@ -20,7 +22,7 @@ class PurgerConfigForm extends PurgerConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_purger_test.purgerconfigform';
   }
 
@@ -30,7 +32,7 @@ class PurgerConfigForm extends PurgerConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['textfield'] = [
       '#type' => 'textfield',
-      '#title' => t('Test'),
+      '#title' => $this->t('Test'),
       '#required' => FALSE,
     ];
     return parent::buildForm($form, $form_state);

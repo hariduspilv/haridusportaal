@@ -339,7 +339,7 @@ class AliasCleaner implements AliasCleanerInterface {
       // Only clean non-path tokens.
       $config = $this->configFactory->get('pathauto.settings');
       $safe_tokens = implode('|', (array) $config->get('safe_tokens'));
-      if (!preg_match('/:(' . $safe_tokens . ')(:|\]$)/', $token)) {
+      if (!preg_match('/(\[|\:)(' . $safe_tokens . ')(:|\]$)/', $token)) {
         $replacements[$token] = $this->cleanString($value, $options);
       }
     }

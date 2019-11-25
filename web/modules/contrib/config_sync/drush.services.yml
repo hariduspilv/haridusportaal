@@ -1,0 +1,10 @@
+services:
+  config_sync.commands:
+    class: \Drupal\config_sync\Commands\ConfigSyncCommands
+    arguments:
+      - '@config_sync.lister'
+      - '@config.storage'
+      - '@config.manager'
+      - '@config.import.commands'
+    tags:
+      - { name: drush.command }

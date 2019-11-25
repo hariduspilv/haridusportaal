@@ -2,11 +2,11 @@
 
 namespace Drupal\purge\EventSubscriber;
 
-use Symfony\Component\HttpKernel\KernelEvents;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Drupal\Core\Cache\CacheableResponseInterface;
 use Drupal\purge\Plugin\Purge\TagsHeader\TagsHeadersServiceInterface;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 
 /**
  * Add cache tags headers on cacheable responses, for external caching systems.
@@ -21,7 +21,7 @@ class CacheableResponseSubscriber implements EventSubscriberInterface {
   protected $purgeTagsHeaders;
 
   /**
-   * Constructs a CacheableResponseSubscriber object.
+   * Construct a CacheableResponseSubscriber object.
    *
    * @param \Drupal\purge\Plugin\Purge\TagsHeader\TagsHeadersServiceInterface $purge_tagsheaders
    *   The tagsheaders service for iterating the available header plugins.
@@ -56,15 +56,17 @@ class CacheableResponseSubscriber implements EventSubscriberInterface {
       // Iterate all tagsheader plugins and add a header for each plugin.
       $tags = $response->getCacheableMetadata()->getCacheTags();
       foreach ($this->purgeTagsHeaders as $header) {
+        if ($header->isEnabled()) {
 
-        // Retrieve the header name perform a few simple sanity checks.
-        $name = $header->getHeaderName();
-        if ((!is_string($name)) || empty(trim($name))) {
-          $plugin_id = $header->getPluginId();
-          throw new \LogicException("Header plugin '$plugin_id' should return a non-empty string on ::getHeaderName()!");
+          // Retrieve the header name and perform a few simple sanity checks.
+          $name = $header->getHeaderName();
+          if ((!is_string($name)) || empty(trim($name))) {
+            $plugin_id = $header->getPluginId();
+            throw new \LogicException("Header plugin '$plugin_id' should return a non-empty string on ::getHeaderName()!");
+          }
+
+          $response->headers->set($name, $header->getValue($tags));
         }
-
-        $response->headers->set($name, $header->getValue($tags));
       }
     }
   }

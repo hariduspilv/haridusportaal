@@ -2,13 +2,11 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Ajax\AjaxResponse;
-use Drupal\Core\Ajax\HtmlCommand;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
-use Drupal\purge_ui\Form\CloseDialogTrait;
-use Drupal\purge_ui\Form\ReloadConfigFormCommand;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Form\ConfigFormBase;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Provides a base class for (dialog-driven) plugin configuration forms.
@@ -26,7 +24,7 @@ abstract class PluginConfigFormBase extends ConfigFormBase {
    *
    * @var string
    */
-  protected $parent_id = '';
+  protected $parentId = '';
 
   /**
    * Determine if this is a AJAX dialog request or not.
@@ -37,6 +35,7 @@ abstract class PluginConfigFormBase extends ConfigFormBase {
    *   The current state of the form.
    *
    * @return bool
+   *   Whether this is a AJAX dialog request or not.
    */
   public function isDialog(array &$form, FormStateInterface $form_state) {
     return $form_state->getBuildInfo()['args'][0]['dialog'];
@@ -96,7 +95,7 @@ abstract class PluginConfigFormBase extends ConfigFormBase {
       else {
         $this->submitFormSuccess($form, $form_state);
         $response->addCommand(new CloseModalDialogCommand());
-        $response->addCommand(new ReloadConfigFormCommand($this->parent_id));
+        $response->addCommand(new ReloadConfigFormCommand($this->parentId));
       }
       return $response;
     }
@@ -109,9 +108,7 @@ abstract class PluginConfigFormBase extends ConfigFormBase {
   }
 
   /**
-   * Form submission handler which ONLY gets called when no validation errors
-   * occurred. Normally this would be the case, however with AJAX driven form
-   * dialogs this handler is needed for standard behavior.
+   * Form submission handler only called when there are no validation errors.
    *
    * @param array $form
    *   An associative array containing the structure of the form.

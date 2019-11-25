@@ -116,6 +116,8 @@ services:
   purge.tagsheaders:
     class: Drupal\purge\Plugin\Purge\TagsHeader\TagsHeadersService
     arguments: ['@plugin.manager.purge.tagsheader']
+    calls:
+    - [setContainer, ['@service_container']]
   purge.tagsheaders.cacheable_response_subscriber:
     class: Drupal\purge\EventSubscriber\CacheableResponseSubscriber
     arguments: ['@purge.tagsheaders']

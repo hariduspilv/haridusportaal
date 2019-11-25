@@ -4,11 +4,14 @@ namespace Drupal\key;
 
 use Drupal\Core\Config\Entity\ConfigEntityInterface;
 
+/**
+ * KeyConfigOverrideInterface interface.
+ */
 interface KeyConfigOverrideInterface extends ConfigEntityInterface {
 
   /**
    * Gets the configuration type.
-   * 
+   *
    * @return string
    *   The configuration type.
    */
@@ -16,7 +19,7 @@ interface KeyConfigOverrideInterface extends ConfigEntityInterface {
 
   /**
    * Gets the configuration name.
-   * 
+   *
    * @return string
    *   The configuration name.
    */

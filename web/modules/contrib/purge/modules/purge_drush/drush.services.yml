@@ -1,0 +1,41 @@
+services:
+  purge_drush.debug_commands:
+    class: \Drupal\purge_drush\Commands\DebugCommands
+    arguments: ['@purge.logger']
+    tags:
+      - { name: drush.command }
+  purge_drush.diagnostics_command:
+    class: \Drupal\purge_drush\Commands\DiagnosticsCommand
+    arguments: ['@purge.diagnostics']
+    tags:
+      - { name: drush.command }
+  purge_drush.invalidate_command:
+    class: \Drupal\purge_drush\Commands\InvalidateCommand
+    arguments: ['@purge.invalidation.factory', '@purge.processors', '@purge.purgers']
+    tags:
+      - { name: drush.command }
+  purge_drush.processor_commands:
+    class: \Drupal\purge_drush\Commands\ProcessorCommands
+    arguments: ['@purge.processors']
+    tags:
+      - { name: drush.command }
+  purge_drush.purger_commands:
+    class: \Drupal\purge_drush\Commands\PurgerCommands
+    arguments: ['@purge.purgers']
+    tags:
+      - { name: drush.command }
+  purge_drush.queue_commands:
+    class: \Drupal\purge_drush\Commands\QueueCommands
+    arguments: ['@purge.processors', '@purge.purgers', '@purge.invalidation.factory', '@purge.queue', '@purge.queue.stats', '@purge.queuers']
+    tags:
+      - { name: drush.command }
+  purge_drush.queuer_commands:
+    class: \Drupal\purge_drush\Commands\QueuerCommands
+    arguments: ['@purge.queuers']
+    tags:
+      - { name: drush.command }
+  purge_drush.types_command:
+    class: \Drupal\purge_drush\Commands\TypesCommand
+    arguments: ['@purge.invalidation.factory', '@purge.purgers']
+    tags:
+      - { name: drush.command }
