@@ -271,12 +271,14 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     this.checkDisabled();
     if (this.type === 'select' || this.type === 'multi-select') {
       this.field = '';
-      this.options = this.options.map((opt) => {
-        return typeof opt ===  'string' ? {
-          key: new TitleCasePipe().transform(opt),
-          value: opt,
-        } : opt;
-      });
+      if (this.options) {
+        this.options = this.options.map((opt) => {
+          return typeof opt ===  'string' ? {
+            key: new TitleCasePipe().transform(opt),
+            value: opt,
+          } : opt;
+        });
+      }
     } else if (this.type === 'checkbox') {
       if (this.checked === '' || this.checked === 'checked') {
         this.field = 'true';

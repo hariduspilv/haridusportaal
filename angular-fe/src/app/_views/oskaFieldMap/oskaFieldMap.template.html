@@ -6,13 +6,13 @@
     <div class="inline">
       <div class="row">
         <div class="col-4 sm-12">
-          <formItem type="select" title="{{ 'oskaProfessions.indicator' | translate }}"
-            [(ngModel)]="filterFormItems.mapIndicator" [options]="filterData.mapIndicator"></formItem>
+          <formItem type="select" title="{{ 'oskaProfessions.indicator' | translate }}" name="mapIndicator"
+            [(ngModel)]="filterFormItems.mapIndicator" [options]="filterData.mapIndicator" (onChange)="setRelatedFilter('mapIndicator', 'OSKAField')"></formItem>
         </div>
         <div class="col-6 sm-12">
 
           <formItem type="select" title="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.OSKAField"
-            [options]="filterData.OSKAField"></formItem>
+            [options]="filterData.OSKAField" name="OSKAField" (onChange)="setRelatedFilter('mapIndicator', 'OSKAField')"></formItem>
         </div>
 
         <div class="col-2 sm-12 align-end flex-end">
