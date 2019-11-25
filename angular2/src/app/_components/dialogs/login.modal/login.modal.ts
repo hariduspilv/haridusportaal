@@ -155,8 +155,9 @@ export class LoginModal {
 
       const redirectUrl = this.activatedRoute.snapshot.queryParamMap.get('redirect') || '/töölaud/taotlused';
 
-      this.router.navigateByUrl('/', {skipLocationChange: true}).then( () => {
-        this.router.navigateByUrl(redirectUrl);
+      // Why the double navigation? No clue, but too scared to remove...
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigateByUrl(redirectUrl, { replaceUrl: true });
         this.sidemenu.triggerLang();
       });
       this.userService.toggleLoggedInStatus(true);
