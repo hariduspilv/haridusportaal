@@ -3,8 +3,8 @@
 namespace Drupal\Tests\purge\Unit\Logger;
 
 use Drupal\purge\Logger\LoggerService;
-use Drupal\Tests\UnitTestCase;
 use Drupal\Tests\purge\Unit\FixGetConfigFactoryStubTrait;
+use Drupal\Tests\UnitTestCase;
 
 /**
  * @coversDefaultClass \Drupal\purge\Logger\LoggerService
@@ -247,13 +247,13 @@ class LoggerServiceTest extends UnitTestCase {
 
   /**
    * @covers ::setChannel
-   * @expectedException \LogicException
-   * @expectedExceptionMessage The given ID is empty or not a string!
    * @dataProvider providerTestSetChannelIdException()
    */
   public function testSetChannelIdException($id) {
     $config_factory = $this->getConfigFactoryStub($this->defaultConfig);
     $service = new LoggerService($config_factory, $this->loggerChannelPartFactory);
+    $this->expectException(\LogicException::class);
+    $this->expectExceptionMessage('The given ID is empty or not a string!');
     $service->setChannel($id);
   }
 
@@ -269,13 +269,13 @@ class LoggerServiceTest extends UnitTestCase {
 
   /**
    * @covers ::setChannel
-   * @expectedException \LogicException
-   * @expectedExceptionMessage Passed grant is invalid!
    * @dataProvider providerTestSetChannelGrantsException()
    */
   public function testSetChannelGrantsException($id, $grants) {
     $config_factory = $this->getConfigFactoryStub($this->defaultConfig);
     $service = new LoggerService($config_factory, $this->loggerChannelPartFactory);
+    $this->expectException(\LogicException::class);
+    $this->expectExceptionMessage('Passed grant is invalid!');
     $service->setChannel($id, $grants);
   }
 

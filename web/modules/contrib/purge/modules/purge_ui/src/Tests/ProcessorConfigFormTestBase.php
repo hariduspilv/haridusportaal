@@ -2,10 +2,6 @@
 
 namespace Drupal\purge_ui\Tests;
 
-use Drupal\Core\Form\FormState;
-use Drupal\Core\Url;
-use Drupal\purge_ui\Tests\PluginConfigFormTestBase;
-
 /**
  * Testbase for \Drupal\purge_ui\Form\ProcessorConfigFormBase derivatives.
  */

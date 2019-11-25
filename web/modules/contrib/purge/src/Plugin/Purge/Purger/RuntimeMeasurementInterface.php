@@ -27,8 +27,6 @@ interface RuntimeMeasurementInterface extends CounterInterface {
    *
    * @throws \LogicException
    *   Thrown when already started before without calling ::stop().
-   *
-   * @return void
    */
   public function start();
 
@@ -57,8 +55,6 @@ interface RuntimeMeasurementInterface extends CounterInterface {
    *   Thrown when any invalidation isn't a InvalidationInterface instance.
    * @throws \LogicException
    *   Thrown when ::start() hasn't been called yet.
-   *
-   * @return void.
    */
   public function stop(array $invalidations);
 

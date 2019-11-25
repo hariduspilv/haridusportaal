@@ -2,8 +2,8 @@
 
 namespace Drupal\purge_ui\Plugin\Purge\Queuer;
 
-use Drupal\purge\Plugin\Purge\Queuer\QueuerInterface;
 use Drupal\purge\Plugin\Purge\Queuer\QueuerBase;
+use Drupal\purge\Plugin\Purge\Queuer\QueuerInterface;
 
 /**
  * Queuer for \Drupal\purge_ui\Form\PurgeBlockForm.

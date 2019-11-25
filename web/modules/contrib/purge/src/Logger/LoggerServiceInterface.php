@@ -2,8 +2,8 @@
 
 namespace Drupal\purge\Logger;
 
-use Drupal\Core\DependencyInjection\ServiceProviderInterface;
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
+use Drupal\Core\DependencyInjection\ServiceProviderInterface;
 
 /**
  * Describes logging services to purge and its submodules, via a single channel.
@@ -40,7 +40,8 @@ interface LoggerServiceInterface extends ServiceProviderInterface, ServiceModifi
    * @throws \LogicException
    *   Thrown when the given id is empty or otherwise invalid.
    *
-   * @return \Drupal\purge\Logger\LoggerChannelPartInterface.
+   * @return \Drupal\purge\Logger\LoggerChannelPartInterface
+   *   The channel part instance.
    */
   public function get($id);
 
@@ -61,6 +62,7 @@ interface LoggerServiceInterface extends ServiceProviderInterface, ServiceModifi
    *   The identifier of the channel part.
    *
    * @return true|false
+   *   Whether the given channel is registered or not.
    */
   public function hasChannel($id);
 
@@ -82,7 +84,7 @@ interface LoggerServiceInterface extends ServiceProviderInterface, ServiceModifi
    *    - \Drupal\Core\Logger\RfcLogLevel::WARNING
    *    - \Drupal\Core\Logger\RfcLogLevel::NOTICE
    *    - \Drupal\Core\Logger\RfcLogLevel::INFO
-   *    - \Drupal\Core\Logger\RfcLogLevel::DEBUG
+   *    - \Drupal\Core\Logger\RfcLogLevel::DEBUG.
    *
    * @throws \LogicException
    *   Thrown when the given id is empty or otherwise invalid.

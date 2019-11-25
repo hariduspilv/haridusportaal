@@ -1,5 +1,10 @@
 <?php
 
+/**
+ * @file
+ * Delete a key.
+ */
+
 use Drush\Log\LogLevel;
 
 /**

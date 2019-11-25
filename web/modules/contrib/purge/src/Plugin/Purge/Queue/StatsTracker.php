@@ -3,7 +3,6 @@
 namespace Drupal\purge\Plugin\Purge\Queue;
 
 use Drupal\Core\State\StateInterface;
-use Drupal\purge\Plugin\Purge\Queue\StatsTrackerInterface;
 use Drupal\purge\Plugin\Purge\Invalidation\InvStatesInterface;
 
 /**
@@ -22,6 +21,7 @@ class StatsTracker implements StatsTrackerInterface {
    * Current iterator position.
    *
    * @var int
+   *
    * @ingroup iterator
    */
   protected $position = 0;
@@ -38,7 +38,7 @@ class StatsTracker implements StatsTrackerInterface {
    *
    * @var float[]
    */
-  protected $state_buffer = [];
+  protected $stateBuffer = [];
 
   /**
    * Mapping of classes used for each counter.
@@ -46,11 +46,11 @@ class StatsTracker implements StatsTrackerInterface {
    * @var string[]
    */
   protected $statClasses = [
-    self::NUMBER_OF_ITEMS     => '\Drupal\purge\Plugin\Purge\Queue\numberOfItemsStatistic',
-    self::TOTAL_PROCESSING    => '\Drupal\purge\Plugin\Purge\Queue\totalProcessingStatistic',
-    self::TOTAL_SUCCEEDED     => '\Drupal\purge\Plugin\Purge\Queue\totalSucceededStatistic',
-    self::TOTAL_FAILED        => '\Drupal\purge\Plugin\Purge\Queue\totalFailedStatistic',
-    self::TOTAL_NOT_SUPPORTED => '\Drupal\purge\Plugin\Purge\Queue\totalNotSupportedStatistic',
+    self::NUMBER_OF_ITEMS     => NumberOfItemsStatistic::class,
+    self::TOTAL_PROCESSING    => TotalProcessingStatistic::class,
+    self::TOTAL_SUCCEEDED     => TotalSucceededStatistic::class,
+    self::TOTAL_FAILED        => TotalFailedStatistic::class,
+    self::TOTAL_NOT_SUPPORTED => TotalNotSupportedStatistic::class,
   ];
 
   /**
@@ -96,12 +96,12 @@ class StatsTracker implements StatsTrackerInterface {
       }
 
       // Instantiate the counter and pass a write callback that puts written
-      // values directly back into $this->state_buffer. At the end of this
+      // values directly back into $this->stateBuffer. At the end of this
       // request, ::destruct() will pick them up and save the values.
       $this->instances[$i] = new $this->statClasses[$i]($values[$statekey]);
       $this->instances[$i]->setWriteCallback(
         function ($value) use ($statekey) {
-          $this->state_buffer[$statekey] = $value;
+          $this->stateBuffer[$statekey] = $value;
         }
       );
     }
@@ -109,6 +109,7 @@ class StatsTracker implements StatsTrackerInterface {
 
   /**
    * {@inheritdoc}
+   *
    * @ingroup countable
    */
   public function count() {
@@ -162,9 +163,9 @@ class StatsTracker implements StatsTrackerInterface {
   public function destruct() {
 
     // When the buffer contains changes, write them to the state API in one go.
-    if (count($this->state_buffer)) {
-      $this->state->setMultiple($this->state_buffer);
-      $this->state_buffer = [];
+    if (count($this->stateBuffer)) {
+      $this->state->setMultiple($this->stateBuffer);
+      $this->stateBuffer = [];
     }
   }
 
@@ -183,22 +184,17 @@ class StatsTracker implements StatsTrackerInterface {
    */
   public function updateTotals(array $invalidations) {
     $changes = [
-      'numberOfItems'     => 0,
       'totalProcessing'   => 0,
       'totalSucceeded'    => 0,
       'totalFailed'       => 0,
       'totalNotSupported' => 0,
     ];
     foreach ($invalidations as $invalidation) {
-      if ($invalidation->getState() === InvStatesInterface::FRESH) {
-        $changes['numberOfItems']++;
-      }
-      elseif ($invalidation->getState() === InvStatesInterface::PROCESSING) {
+      if ($invalidation->getState() === InvStatesInterface::PROCESSING) {
         $changes['totalProcessing']++;
       }
       elseif ($invalidation->getState() === InvStatesInterface::SUCCEEDED) {
         $changes['totalSucceeded']++;
-        $changes['numberOfItems']--;
       }
       elseif ($invalidation->getState() === InvStatesInterface::FAILED) {
         $changes['totalFailed']++;
@@ -221,6 +217,8 @@ class StatsTracker implements StatsTrackerInterface {
   }
 
   /**
+   * Return the current element.
+   *
    * @ingroup iterator
    */
   public function current() {
@@ -232,6 +230,8 @@ class StatsTracker implements StatsTrackerInterface {
   }
 
   /**
+   * Return the key of the current element.
+   *
    * @ingroup iterator
    */
   public function key() {
@@ -240,6 +240,8 @@ class StatsTracker implements StatsTrackerInterface {
   }
 
   /**
+   * Move forward to next element.
+   *
    * @ingroup iterator
    */
   public function next() {
@@ -248,6 +250,8 @@ class StatsTracker implements StatsTrackerInterface {
   }
 
   /**
+   * Rewind the Iterator to the first element.
+   *
    * @ingroup iterator
    */
   public function rewind() {
@@ -255,10 +259,13 @@ class StatsTracker implements StatsTrackerInterface {
   }
 
   /**
+   * Checks if current position is valid.
+   *
    * @ingroup iterator
    */
   public function valid() {
     $this->initializeStatistics();
     return isset($this->instances[$this->position]);
   }
+
 }

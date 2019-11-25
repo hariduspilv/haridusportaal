@@ -2,8 +2,6 @@
 
 namespace Drupal\purge\Tests\Invalidation;
 
-use Drupal\purge\Tests\Invalidation\PluginTestBase;
-
 /**
  * Tests \Drupal\purge\Plugin\Purge\Invalidation\DomainInvalidation.
  *
@@ -11,8 +9,26 @@ use Drupal\purge\Tests\Invalidation\PluginTestBase;
  * @see \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface
  */
 class DomainInvalidationTest extends PluginTestBase {
-  protected $plugin_id = 'domain';
+
+  /**
+   * The plugin ID of the invalidation type being tested.
+   *
+   * @var string
+   */
+  protected $pluginId = 'domain';
+
+  /**
+   * String expressions valid to the invalidation type being tested.
+   *
+   * @var string[]|null
+   */
   protected $expressions = ['sitea.com', 'www.site.com'];
+
+  /**
+   * String expressions invalid to the invalidation type being tested.
+   *
+   * @var string[]|null
+   */
   protected $expressionsInvalid = [NULL, ''];
 
 }

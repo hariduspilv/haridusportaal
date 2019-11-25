@@ -11,8 +11,8 @@
  *
  * Overriding mail handling in Drupal to make SMTP the default
  * transport layer, requires to change the 'system.mail.interface'
- * default value array('default' => 'Drupal\Core\Mail\PhpMail').
- * This module uses array('default' => 'SMTPMailSystem').
+ * default value ['default' => 'Drupal\Core\Mail\PhpMail'].
+ * This module uses ['default' => 'SMTPMailSystem'].
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
@@ -25,18 +25,6 @@ function smtp_help($route_name, RouteMatchInterface $route_match) {
     case 'help.page.smtp':
       return t('Allow for site emails to be sent through an SMTP server of your choice.');
   }
-}
-
-/**
- * Implements hook_menu().
- */
-function smtp_menu() {
-  $items['admin/config/system/smtp'] = [
-    'title' => 'SMTP Authentication Support',
-    'description' => 'Allow for site emails to be sent through an SMTP server of your choice.',
-    'route_name' => 'smtp.config',
-  ];
-  return $items;
 }
 
 /**
@@ -86,7 +74,11 @@ function _smtp_mailer_send($variables) {
 
   // Try to send e-mail. If it fails, set watchdog entry.
   if (!$mailer->Send()) {
-    $logger->error('Error sending e-mail from @from to @to: @error_message', ['@from' => $from, '@to' => $to, '@error_message' => $mailer->ErrorInfo]);
+    $logger->error('Error sending e-mail from @from to @to: @error_message', [
+      '@from' => $from,
+      '@to' => $to,
+      '@error_message' => $mailer->ErrorInfo,
+    ]);
     return FALSE;
   }
 

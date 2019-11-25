@@ -2,6 +2,50 @@
 
 All Notable changes to `Csv` will be documented in this file
 
+## 9.4.1 - 2019-10-17
+
+### Added
+
+- Nothing
+
+### Deprecated
+
+- Nothing
+
+### Fixed
+
+- bug fix issue [#358](https://github.com/thephpleague/csv/pull/358) with the escape mechanism polyfill fixed by [on2](https://github.com/on2)
+
+### Removed
+
+- Nothing
+
+## 9.4.0 - 2019-10-02
+
+### Added
+
+- Adding support for controlling empty record presence in `Reader::getRecords` return value.
+    - `Reader::includeEmptyRecords`
+    - `Reader::skipEmptyRecords`
+    - `Reader::isEmptyRecordsIncluded`
+
+- Adding support for controlling Input BOM usage in the library:
+    - `AbstractCsv::skipInputBOM`
+    - `AbstractCsv::includeInputBOM`
+    - `AbstractCsv::isInputBOMIncluded`
+
+### Deprecated
+
+- Nothing
+
+### Fixed
+
+- `EmptyEscapeParser::parse` no longer auto skip empty records
+
+### Removed
+
+- Nothing
+
 ## 9.3.0 - 2019-07-30
 
 ### Added

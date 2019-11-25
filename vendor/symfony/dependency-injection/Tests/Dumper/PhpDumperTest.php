@@ -886,18 +886,13 @@ class PhpDumperTest extends TestCase
             ->setPublic(true)
             ->addArgument($baz);
 
-        $passConfig = $container->getCompiler()->getPassConfig();
+        $container->getCompiler()->getPassConfig();
         $container->compile();
 
         $dumper = new PhpDumper($container);
         $this->assertStringEqualsFile(self::$fixturesPath.'/php/services_inline_self_ref.php', $dumper->dump(['class' => 'Symfony_DI_PhpDumper_Test_Inline_Self_Ref']));
     }
 
-    /**
-     * @group issue-32995
-     *
-     * @runInSeparateProcess https://github.com/symfony/symfony/issues/32995
-     */
     public function testHotPathOptimizations()
     {
         $container = include self::$fixturesPath.'/containers/container_inline_requires.php';
@@ -983,7 +978,6 @@ class PhpDumperTest extends TestCase
         $container->compile();
 
         $dumper = new PhpDumper($container);
-        $dump = $dumper->dump();
         $this->assertStringEqualsFile(self::$fixturesPath.'/php/services_adawson.php', $dumper->dump());
     }
 

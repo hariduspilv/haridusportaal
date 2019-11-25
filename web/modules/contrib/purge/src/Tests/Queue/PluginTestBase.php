@@ -16,7 +16,7 @@ abstract class PluginTestBase extends KernelTestBase {
    *
    * @var string
    */
-  protected $plugin_id;
+  protected $pluginId;
 
   /**
    * The plugin manager for queues ('plugin.manager.purge.queue').
@@ -35,7 +35,7 @@ abstract class PluginTestBase extends KernelTestBase {
   /**
    * Set up the test.
    */
-  public function setUp() {
+  public function setUp($switch_to_memory_queue = TRUE) {
     parent::setUp();
     $this->pluginManagerPurgeQueue = $this->container->get('plugin.manager.purge.queue');
     $this->setUpQueuePlugin();
@@ -48,7 +48,7 @@ abstract class PluginTestBase extends KernelTestBase {
     if (!is_null($this->queue)) {
       return;
     }
-    $this->queue = $this->pluginManagerPurgeQueue->createInstance($this->plugin_id);
+    $this->queue = $this->pluginManagerPurgeQueue->createInstance($this->pluginId);
     $this->assertNull($this->queue->createQueue());
   }
 
@@ -107,7 +107,7 @@ abstract class PluginTestBase extends KernelTestBase {
     for ($i = 10; $i > 5; $i--) {
       $claim = $this->queue->claimItem();
       $this->assertNull($this->queue->deleteItem($claim));
-      $this->assertEqual($i-1, $this->queue->numberOfItems());
+      $this->assertEqual($i - 1, $this->queue->numberOfItems());
     }
     $claims = $this->queue->claimItemMultiple(5);
     $this->queue->deleteItemMultiple($claims);
@@ -140,7 +140,10 @@ abstract class PluginTestBase extends KernelTestBase {
     $this->assertTrue($claim = $this->queue->claimItem(3600));
     $this->assertIdentical([4, 5, 6], $claim->data);
     $this->queue->releaseItem($claim);
-    $this->assertIdentical(4, count($this->queue->createItemMultiple([1, 2, 3, 4])));
+    $this->assertIdentical(
+      4,
+      count($this->queue->createItemMultiple([1, 2, 3, 4]))
+    );
     $claims = $this->queue->claimItemMultiple(5, 3600);
     foreach ($claims as $i => $claim) {
       $claim->data = 9;
@@ -201,7 +204,16 @@ abstract class PluginTestBase extends KernelTestBase {
     $this->assertEqual($this->queue->selectPageMax(), 0);
     $this->assertEqual($this->queue->selectPage(), []);
     // Create 25 items, which should be 3,5 (so 4) pages of 7 items each.
-    $this->assertIdentical(25, count($this->queue->createItemMultiple([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25])));
+    $this->assertIdentical(
+      25,
+      count(
+        $this->queue->createItemMultiple(
+        [
+          1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+          20, 21, 22, 23, 24, 25,
+        ])
+      )
+    );
     $this->assertEqual($this->queue->selectPageMax(), 4);
     $this->assertEqual($this->queue->selectPageLimit(5), 5);
     $this->assertEqual($this->queue->selectPageMax(), 5);

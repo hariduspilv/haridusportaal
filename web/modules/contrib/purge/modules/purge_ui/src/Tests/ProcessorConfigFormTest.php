@@ -16,9 +16,11 @@ use Drupal\purge\Tests\WebTestBase;
 class ProcessorConfigFormTest extends WebTestBase {
 
   /**
+   * The Drupal user entity.
+   *
    * @var \Drupal\user\Entity\User
    */
-  protected $admin_user;
+  protected $adminUser;
 
   /**
    * Name of the processor plugin that does have a form configured.
@@ -35,11 +37,11 @@ class ProcessorConfigFormTest extends WebTestBase {
   protected $route = 'purge_ui.processor_config_form';
 
   /**
-   * The route to a processors configuration form (takes argument 'id') - dialog.
+   * The route to a processors config form (takes argument 'id') - dialog.
    *
    * @var string
    */
-  protected $route_dialog = 'purge_ui.processor_config_dialog_form';
+  protected $routeDialog = 'purge_ui.processor_config_dialog_form';
 
   /**
    * The URL object constructed from $this->route.
@@ -49,7 +51,7 @@ class ProcessorConfigFormTest extends WebTestBase {
   protected $urlValid = NULL;
 
   /**
-   * The URL object constructed from $this->route_dialog.
+   * The URL object constructed from $this->routeDialog.
    *
    * @var \Drupal\Core\Url
    */
@@ -72,13 +74,13 @@ class ProcessorConfigFormTest extends WebTestBase {
   /**
    * Setup the test.
    */
-  public function setUp() {
-    parent::setUp();
+  public function setUp($switch_to_memory_queue = TRUE) {
+    parent::setUp($switch_to_memory_queue);
     $this->initializeProcessorsService(['c', $this->processor]);
     $this->urlValid = Url::fromRoute($this->route, ['id' => $this->processor]);
-    $this->urlValidDialog = Url::fromRoute($this->route_dialog, ['id' => $this->processor]);
+    $this->urlValidDialog = Url::fromRoute($this->routeDialog, ['id' => $this->processor]);
     $this->urlInvalid = Url::fromRoute($this->route, ['id' => 'c']);
-    $this->admin_user = $this->drupalCreateUser(['administer site configuration']);
+    $this->adminUser = $this->drupalCreateUser(['administer site configuration']);
   }
 
   /**
@@ -87,23 +89,23 @@ class ProcessorConfigFormTest extends WebTestBase {
   public function testForm() {
     $this->drupalGet($this->urlValid);
     $this->assertResponse(403);
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet($this->urlInvalid);
     $this->assertResponse(404);
     // Test the plain version of the form.
     $this->drupalGet($this->urlValid);
     $this->assertResponse(200);
-    $this->assertRaw(t('Save configuration'));
-    $this->assertNoRaw(t('Cancel'));
+    $this->assertRaw('Save configuration');
+    $this->assertNoRaw('Cancel');
     $this->assertFieldByName('textfield');
     // Test the modal dialog version of the form.
     $this->drupalGet($this->urlValidDialog);
     $this->assertResponse(200);
-    $this->assertRaw(t('Save configuration'));
-    $this->assertRaw(t('Cancel'));
+    $this->assertRaw('Save configuration');
+    $this->assertRaw('Cancel');
     $this->assertFieldByName('textfield');
     // Test the AJAX response of the modal dialog version.
-    $json = $this->drupalPostAjaxForm($this->urlValidDialog->toString(), [], ['op' => t('Cancel')]);
+    $json = $this->drupalPostAjaxForm($this->urlValidDialog->toString(), [], ['op' => 'Cancel']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual(2, count($json));
   }

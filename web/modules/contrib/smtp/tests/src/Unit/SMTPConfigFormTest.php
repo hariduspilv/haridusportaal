@@ -13,7 +13,7 @@ use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Validate requirements for ProceedingsRealmNegotiator.
+ * Validate requirements for SMTPConfigForm.
  *
  * @group SMTP
  */
@@ -92,6 +92,16 @@ class SMTPConfigFormTest extends UnitTestCase {
     $form = [];
     $formBuilder->buildForm($form, new FormState());
     $this->mockMessenger->addMessage(Argument::which('getUntranslatedString', 'SMTP module is INACTIVE.'))->shouldHaveBeenCalled();
+  }
+
+  /**
+   * Test form id.
+   */
+  public function testGetFormId() {
+    $formBuilder = SMTPConfigForm::create($this->mockContainer->reveal());
+
+    $form_id = $formBuilder->getFormId();
+    $this->assertEquals('smtp_admin_settings', $form_id);
   }
 
 }

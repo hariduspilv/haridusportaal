@@ -2,14 +2,12 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Form\ConfirmFormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\purge\Plugin\Purge\Processor\ProcessorsServiceInterface;
-use Drupal\purge_ui\Form\CloseDialogTrait;
-use Drupal\purge_ui\Form\ReloadConfigFormCommand;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Delete processor {id}.
@@ -18,6 +16,8 @@ class ProcessorDeleteForm extends ConfirmFormBase {
   use CloseDialogTrait;
 
   /**
+   * The 'purge.processors' service.
+   *
    * @var \Drupal\purge\Plugin\Purge\Processor\ProcessorsServiceInterface
    */
   protected $purgeProcessors;
@@ -30,12 +30,10 @@ class ProcessorDeleteForm extends ConfirmFormBase {
   protected $processor;
 
   /**
-   * Constructs a ProcessorDeleteForm object.
+   * Construct a ProcessorDeleteForm object.
    *
    * @param \Drupal\purge\Plugin\Purge\Processor\ProcessorsServiceInterface $purge_processors
    *   The purge processors service.
-   *
-   * @return void
    */
   public function __construct(ProcessorsServiceInterface $purge_processors) {
     $this->purgeProcessors = $purge_processors;
@@ -58,7 +56,7 @@ class ProcessorDeleteForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_ui.processor_delete_form';
   }
 
@@ -123,6 +121,7 @@ class ProcessorDeleteForm extends ConfirmFormBase {
    *   The current state of the form.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The AJAX response object.
    */
   public function deleteProcessor(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();

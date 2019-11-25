@@ -97,7 +97,7 @@ function pathauto_entity_update(EntityInterface $entity) {
  * Implements hook_entity_delete().
  */
 function pathauto_entity_delete(EntityInterface $entity) {
-  if ($entity->hasLinkTemplate('canonical') && $entity instanceof ContentEntityInterface && $entity->hasField('path')) {
+  if ($entity->hasLinkTemplate('canonical') && $entity instanceof ContentEntityInterface && $entity->hasField('path') && $entity->getFieldDefinition('path')->getType() == 'path') {
     \Drupal::service('pathauto.alias_storage_helper')->deleteEntityPathAll($entity);
     $entity->get('path')->first()->get('pathauto')->purge();
   }

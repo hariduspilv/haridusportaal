@@ -11,12 +11,13 @@ trait IteratingServiceBaseTrait {
    * Current iterator position.
    *
    * @var int
+   *
    * @ingroup iterator
    */
   protected $position = 0;
 
   /**
-   * Holds all instantiated plugins
+   * Holds all instantiated plugins.
    *
    * @var null|\Drupal\Component\Plugin\PluginInspectionInterface[]
    */
@@ -24,8 +25,6 @@ trait IteratingServiceBaseTrait {
 
   /**
    * Instantiate all enabled plugins or check that they are present.
-   *
-   * @return void
    */
   protected function initializePluginInstances() {
     if (!is_null($this->instances)) {
@@ -38,6 +37,8 @@ trait IteratingServiceBaseTrait {
   }
 
   /**
+   * Return the current element.
+   *
    * @ingroup iterator
    */
   public function current() {
@@ -49,6 +50,8 @@ trait IteratingServiceBaseTrait {
   }
 
   /**
+   * Return the key of the current element.
+   *
    * @ingroup iterator
    */
   public function key() {
@@ -57,6 +60,8 @@ trait IteratingServiceBaseTrait {
   }
 
   /**
+   * Move forward to next element.
+   *
    * @ingroup iterator
    */
   public function next() {
@@ -72,7 +77,7 @@ trait IteratingServiceBaseTrait {
    *   plugins get reinstantiated during the current request, which should
    *   normally not be used. This method is specifically used in tests.
    *
-   * @see \Drupal\purge\ServiceInterface::reload().
+   * @see \Drupal\purge\ServiceInterface::reload()
    */
   protected function reloadIterator() {
     $this->instances = NULL;
@@ -80,6 +85,8 @@ trait IteratingServiceBaseTrait {
   }
 
   /**
+   * Rewind the Iterator to the first element.
+   *
    * @ingroup iterator
    */
   public function rewind() {
@@ -87,6 +94,8 @@ trait IteratingServiceBaseTrait {
   }
 
   /**
+   * Checks if current position is valid.
+   *
    * @ingroup iterator
    */
   public function valid() {

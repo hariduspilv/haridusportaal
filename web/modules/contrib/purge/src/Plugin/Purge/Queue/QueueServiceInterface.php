@@ -2,10 +2,9 @@
 
 namespace Drupal\purge\Plugin\Purge\Queue;
 
-use Drupal\purge\ServiceInterface;
 use Drupal\purge\ModifiableServiceInterface;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
 use Drupal\purge\Plugin\Purge\Queuer\QueuerInterface;
+use Drupal\purge\ServiceInterface;
 
 /**
  * Describes a service that lets invalidations interact with a queue backend.
@@ -21,8 +20,6 @@ interface QueueServiceInterface extends ServiceInterface, ModifiableServiceInter
    *   A non-associative array with invalidation objects to be added to the
    *   queue. After the items have been added to the queue, they can be claimed
    *   to be processed by a queue processor.
-   *
-   * @return void
    */
   public function add(QueuerInterface $queuer, array $invalidations);
 
@@ -60,15 +57,11 @@ interface QueueServiceInterface extends ServiceInterface, ModifiableServiceInter
    *   queue. The object instances and references thereto, remain to exist until
    *   the queue service is destructed, but should not be accessed anymore as
    *   they will be deleted anyway.
-   *
-   * @return void
    */
   public function delete(array $invalidations);
 
   /**
    * Empty the entire queue.
-   *
-   * @return void
    */
   public function emptyQueue();
 
@@ -76,6 +69,7 @@ interface QueueServiceInterface extends ServiceInterface, ModifiableServiceInter
    * Retrieve the description of the queue backend.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The translated description.
    */
   public function getDescription();
 
@@ -83,6 +77,7 @@ interface QueueServiceInterface extends ServiceInterface, ModifiableServiceInter
    * Retrieve the label of the queue backend.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The translated label.
    */
   public function getLabel();
 
@@ -93,8 +88,6 @@ interface QueueServiceInterface extends ServiceInterface, ModifiableServiceInter
    *   The invalidation objects after processing.
    *
    * @see \Drupal\purge\Plugin\Purge\Purger\PurgersService::invalidate
-   *
-   * @return void
    */
   public function handleResults(array $invalidations);
 
@@ -113,8 +106,6 @@ interface QueueServiceInterface extends ServiceInterface, ModifiableServiceInter
    *   A non-associative array with invalidation objects to be released back to
    *   the queue, usually FAILED, PROCESSING or NOT_SUPPORTED. Once released,
    *   other processors can claim them again for further processing.
-   *
-   * @return void
    */
   public function release(array $invalidations);
 

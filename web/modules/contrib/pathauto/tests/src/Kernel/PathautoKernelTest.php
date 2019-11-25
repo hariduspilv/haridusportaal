@@ -11,7 +11,7 @@ use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\node\Entity\NodeType;
 use Drupal\pathauto\PathautoGeneratorInterface;
 use Drupal\pathauto\PathautoState;
-use Drupal\pathauto\Tests\PathautoTestHelperTrait;
+use Drupal\Tests\pathauto\Functional\PathautoTestHelperTrait;
 use Drupal\KernelTests\KernelTestBase;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
@@ -53,7 +53,7 @@ class PathautoKernelTest extends KernelTestBase {
     ConfigurableLanguage::createFromLangcode('fr')->save();
 
     $this->installSchema('node', ['node_access']);
-    $this->installSchema('system', ['url_alias', 'sequences', 'router']);
+    $this->installSchema('system', ['sequences']);
 
     $type = NodeType::create(['type' => 'page']);
     $type->save();
@@ -72,7 +72,7 @@ class PathautoKernelTest extends KernelTestBase {
    * Test _pathauto_get_schema_alias_maxlength().
    */
   public function testGetSchemaAliasMaxLength() {
-    $this->assertIdentical(\Drupal::service('pathauto.alias_storage_helper')->getAliasSchemaMaxlength(), 255);
+    $this->assertSame(\Drupal::service('pathauto.alias_storage_helper')->getAliasSchemaMaxlength(), 255);
   }
 
   /**
@@ -153,7 +153,7 @@ class PathautoKernelTest extends KernelTestBase {
       $entity = \Drupal::entityTypeManager()->getStorage($test['entity'])->create($test['values']);
       $entity->save();
       $actual = \Drupal::service('pathauto.generator')->getPatternByEntity($entity);
-      $this->assertIdentical($actual->getPattern(), $test['expected'], t("Correct pattern returned for @entity_type with @values", [
+      $this->assertSame($actual->getPattern(), $test['expected'], t("Correct pattern returned for @entity_type with @values", [
         '@entity' => $test['entity'],
         '@values' => print_r($test['values'], TRUE),
       ]));
@@ -215,7 +215,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     foreach ($tests as $input => $expected) {
       $output = \Drupal::service('pathauto.alias_cleaner')->cleanString($input);
-      $this->assertEqual($output, $expected, t("Drupal::service('pathauto.alias_cleaner')->cleanString('@input') expected '@expected', actual '@output'", [
+      $this->assertEquals($expected, $output, t("Drupal::service('pathauto.alias_cleaner')->cleanString('@input') expected '@expected', actual '@output'", [
         '@input' => $input,
         '@expected' => $expected,
         '@output' => $output,
@@ -236,7 +236,7 @@ class PathautoKernelTest extends KernelTestBase {
 
     foreach ($tests as $input => $expected) {
       $output = \Drupal::service('pathauto.alias_cleaner')->cleanAlias($input);
-      $this->assertEqual($output, $expected, t("Drupal::service('pathauto.generator')->cleanAlias('@input') expected '@expected', actual '@output'", [
+      $this->assertEquals($expected, $output, t("Drupal::service('pathauto.generator')->cleanAlias('@input') expected '@expected', actual '@output'", [
         '@input' => $input,
         '@expected' => $expected,
         '@output' => $output,
@@ -443,17 +443,25 @@ class PathautoKernelTest extends KernelTestBase {
    * Test programmatic entity creation for aliases.
    */
   function testProgrammaticEntityCreation() {
-    $this->createPattern('taxonomy_term', '/[term:vocabulary]/[term:name]');
     $node = $this->drupalCreateNode(['title' => 'Test node', 'path' => ['pathauto' => TRUE]]);
     $this->assertEntityAlias($node, '/content/test-node');
 
+    // Check the case when the pathauto widget is hidden, so it can not populate
+    // the 'pathauto' property, and
+    // \Drupal\path\Plugin\Field\FieldType\PathFieldItemList::computeValue()
+    // populates the 'path' field with a 'langcode' property, for example during
+    // an AJAX call on the entity form.
+    $node = $this->drupalCreateNode(['title' => 'Test node 2', 'path' => ['langcode' => 'en']]);
+    $this->assertEntityAlias($node, '/content/test-node-2');
+
+    $this->createPattern('taxonomy_term', '/[term:vocabulary]/[term:name]');
     $vocabulary = $this->addVocabulary(['name' => 'Tags']);
     $term = $this->addTerm($vocabulary, ['name' => 'Test term', 'path' => ['pathauto' => TRUE]]);
     $this->assertEntityAlias($term, '/tags/test-term');
 
     $edit['name'] = 'Test user';
     $edit['mail'] = 'test-user@example.com';
-    $edit['pass']   = user_password();
+    $edit['pass'] = user_password();
     $edit['path'] = ['pathauto' => TRUE];
     $edit['status'] = 1;
     $account = User::create($edit);
@@ -573,8 +581,8 @@ class PathautoKernelTest extends KernelTestBase {
   protected function drupalCreateNode(array $settings = [] ){
     // Populate defaults array.
     $settings += [
-      'title'     => $this->randomMachineName(8),
-      'type'      => 'page',
+      'title' => $this->randomMachineName(8),
+      'type' => 'page',
     ];
 
     $node = Node::create($settings);

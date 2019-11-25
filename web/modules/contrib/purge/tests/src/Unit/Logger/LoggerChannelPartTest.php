@@ -2,8 +2,8 @@
 
 namespace Drupal\Tests\purge\Unit\Logger;
 
-use Drupal\purge\Logger\LoggerChannelPart;
 use Drupal\Core\Logger\RfcLogLevel;
+use Drupal\purge\Logger\LoggerChannelPart;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -249,7 +249,7 @@ class LoggerChannelPartTest extends UnitTestCase {
       ->method('log')
       ->with(
         $this->stringContains($level),
-        $this->stringContains('@purge_channel_part: '. $message),
+        $this->stringContains('@purge_channel_part: ' . $message),
         $this->callback(function ($subject) use ($id, $output) {
           return ($subject['@purge_channel_part'] === $id) && ($subject['@replaceme'] === $output);
         })

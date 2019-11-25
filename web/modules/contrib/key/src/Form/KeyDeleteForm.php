@@ -11,6 +11,7 @@ use Drupal\key\Plugin\KeyPluginDeleteFormInterface;
  * Builds the form to delete a Key.
  */
 class KeyDeleteForm extends EntityDeleteForm {
+
   /**
    * {@inheritdoc}
    */

@@ -151,7 +151,7 @@ function maxlength_field_widget_settings_summary_alter(&$summary, $context) {
  */
 function maxlength_field_widget_form_alter(&$element, FormStateInterface $form_state, $context) {
   $thirdPartySettings = $context['widget']->getThirdPartySettings();
-  if (!empty($thirdPartySettings['maxlength']['maxlength_js'])) {
+  if (!empty($thirdPartySettings['maxlength']['maxlength_js']) || !empty($thirdPartySettings['maxlength']['maxlength_js_summary'])) {
     $element['#maxlength_js'] = TRUE;
     $element['value']['#maxlength_js'] = TRUE;
 
@@ -171,6 +171,21 @@ function maxlength_field_widget_form_alter(&$element, FormStateInterface $form_s
       $maxlength_js_label = !empty($thirdPartySettings['maxlength']['maxlength_js_label']) ? $thirdPartySettings['maxlength']['maxlength_js_label'] : t('Content limited to @limit characters, remaining: <strong>@remaining</strong>');
       $element['#attributes']['maxlength_js_label'][] = $maxlength_js_label;
       $element['value']['#attributes']['maxlength_js_label'][] = $maxlength_js_label;
+
+      // Add maxlength functionality to Link widget link text field.
+      if (in_array($context['widget']->getPluginId(), ['link_default', 'linkit']) && isset($element['title'])) {
+        // In the Link module the link text field has a set maxlength of 255
+        // characters.
+        $maxlength_js = ($maxlength_js <= 255) ? $maxlength_js : 255;
+
+        // Set title maxlength attributes.
+        $element['title']['#attributes']['class'][] = 'maxlength';
+        $element['title']['#attached']['library'][] = 'maxlength/maxlength';
+        $element['title']['value']['#attributes']['maxlength'] = $maxlength_js;
+        $element['title']['value']['#attributes']['maxlength_js_label'][] = $maxlength_js_label;
+        $element['title']['#attributes']['maxlength'] = $maxlength_js;
+        $element['title']['#attributes']['maxlength_js_label'][] = $maxlength_js_label;
+      }
     }
     if (isset($thirdPartySettings['maxlength']['maxlength_js_enforce']) && $thirdPartySettings['maxlength']['maxlength_js_enforce']) {
       $element['value']['#attributes']['#maxlength_js_enforce'] = TRUE;

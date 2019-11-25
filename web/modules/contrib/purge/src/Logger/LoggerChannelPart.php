@@ -2,11 +2,9 @@
 
 namespace Drupal\purge\Logger;
 
-use Psr\Log\LogLevel;
-use Psr\Log\LoggerInterface;
-use Drupal\Core\DependencyInjection\ServiceProviderBase;
 use Drupal\Core\Logger\RfcLogLevel;
-use Drupal\purge\Logger\LoggerChannelPart;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LogLevel;
 
 /**
  * Provides a subchannel whichs logs to a single main channel with permissions.
