@@ -8,8 +8,8 @@ import { FiltersService } from '@app/_services/filterService';
 import { RootScopeService } from '@app/_services/RootScopeService';
 
 @Component({
-  templateUrl: "oska.sectors.map.html",
-  styleUrls: ["../oska.sectors/oska.sectors.styles.scss"]
+  templateUrl: 'oskaFieldMap.template.html',
+  styleUrls: ['oskaFieldMap.styles.scss'],
 })
 
 export class OskaFieldMapComponent extends FiltersService implements OnInit, OnDestroy {
@@ -31,7 +31,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   polygonLabels: any;
   polygonValueLabels: any;
   polygonValueColors: any;
-  polygonLayer: String = "county";
+  polygonLayer: String = 'county';
   polygonData: any;
 
   shortMonthLabels: Object = {
@@ -49,10 +49,10 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     'valga maakond': 'Valgamaa',
     'põlva maakond': 'Põlvamaa',
     'lääne maakond': 'Läänemaa',
-    'jõgeva maakond': 'Jõgevamaa'
-  }
+    'jõgeva maakond': 'Jõgevamaa',
+  };
 
-  heatMapColors = ["#FBE5C4", "#FBD291", "#F8B243", "#F89229", "#E2770D", "#D5401A", "#8B2F17"];
+  heatMapColors = ['#FBE5C4', '#FBD291', '#F8B243', '#F89229', '#E2770D', '#D5401A', '#8B2F17'];
   heatMapRanges: Array<Object> = [];
 
   infoWindowFunding: any = false;
@@ -62,36 +62,36 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   fontSizes: Object = {
     md: '9px',
     lg: '18px',
-  }
+  };
 
   labelOptions = {
     lightColor: 'white',
     color: 'black',
     fontSize: '9px',
     fontWeight: 'regular',
-  }
+  };
   icon = {
     url: '',
     scaledSize: {
       width: 0,
-      height: 0
-    }
-  }
+      height: 0,
+    },
+  };
 
   mapOptions = {
     center: {
       lat: 58.5822061,
-      lng: 24.7065513
+      lng: 24.7065513,
     },
     zoom: 7.4,
     clusterStyles: [
       {
         height: 50,
-        width: 28
-      }
+        width: 28,
+      },
     ],
-    styles: []
-  }
+    styles: [],
+  };
 
   constructor(
     private http: HttpClient,
@@ -110,11 +110,13 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
 
   watchSearch() {
 
-    let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
+    const subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
       this.filterRetrieveParams(params);
       if (!this.filterFormItems['OSKAField'] || !this.filterFormItems['mapIndicator']) {
-        if (!this.filterFormItems['mapIndicator'] && this.filterData['mapIndicator'].length) this.filterFormItems['mapIndicator'] = this.filterData['mapIndicator'][0];
+        if (!this.filterFormItems['mapIndicator'] && this.filterData['mapIndicator'].length) {
+          this.filterFormItems['mapIndicator'] = this.filterData['mapIndicator'][0];
+        }
         if (!this.filterFormItems['OSKAField'] && this.filterData['OSKAField'].length) {
           this.setRelatedFilter('mapIndicator', 'OSKAField');
           this.filterFormItems['OSKAField'] = this.filterData['OSKAField'][0];
@@ -150,10 +152,10 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     this.mapOptions.styles = [];
     this.mapOptions.styles = [
       {
-        "elementType": "labels", "stylers": [
-          { "visibility": "off" }, { "color": "#f49f53" }
-        ]
-      }, ...this.rootScope.get("mapStyles")];
+        'elementType': 'labels', 'stylers': [
+          { 'visibility': 'off' }, { 'color': '#f49f53' },
+        ],
+      }, ...this.rootScope.get('mapStyles')];
   }
 
   setRelatedFilter(current, sibling) {
@@ -192,9 +194,9 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
 
     this.loading = true;
     this.mapLabelSwitcher();
-    let variables = {};
+    const variables = {};
 
-    let subscription = this.http.get('oskaMapData', { params: variables }).subscribe(data => {
+    const subscription = this.http.get('oskaMapData', { params: variables }).subscribe(data => {
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);
       // Extra mapping for floating point numbers
       rawData = rawData.map(elem => [elem.join()]).map(elem => elem.join('').split(';')).map(item => {
@@ -206,8 +208,8 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
           value: item[3],
           division: parseInt(item[4], 10),
           endLabel: item[6].replace(/"/g, ''),
-          startLabel: item[5].replace(/"/g, '')
-        }
+          startLabel: item[5].replace(/"/g, ''),
+        };
       });
       rawData.shift();
       this.getUniqueFilters(rawData);
@@ -219,8 +221,8 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   }
 
   getUniqueFilters(arr) {
-    let field = [];
-    let indicator = [];
+    const field = [];
+    const indicator = [];
     arr.forEach((obj) => {
       if (field && !field.includes(obj['OSKAField'])) {
         field.push(obj['OSKAField']);
@@ -236,7 +238,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   generateHeatmapColors() {
     let maxSum = 0;
 
-    for (let i in this.polygonData) {
+    for (const i in this.polygonData) {
       if (this.polygonData[i]['division'] > maxSum) {
         maxSum = this.polygonData[i]['division'];
       }
@@ -244,15 +246,15 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
 
     if (maxSum < 1) { maxSum = 7; }
 
-    let sumPartial = maxSum / this.heatMapColors.length;
+    const sumPartial = maxSum / this.heatMapColors.length;
 
-    let sumArray = [];
+    const sumArray = [];
 
-    for (var i in this.heatMapColors) {
-      let multiplier: number = parseFloat(i) + 1;
-      let tmpArray = {
-        amount: multiplier * sumPartial
-      }
+    for (let i in this.heatMapColors) {
+      const multiplier: number = parseFloat(i) + 1;
+      const tmpArray = {
+        amount: multiplier * sumPartial,
+      };
 
       tmpArray['color'] = this.heatMapColors[i];
 
@@ -264,8 +266,8 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   }
 
   getPolygons() {
-    let url = "/assets/polygons/" + this.polygonLayer + ".json";
-    let subscription = this.http.get(url).subscribe(data => {
+    const url = '/assets/polygons/' + this.polygonLayer + '.json';
+    const subscription = this.http.get(url).subscribe(data => {
       this.polygonValueLabels = false;
       this.polygons = this.assignPolygonsColors(data);
       this.loading = false;
@@ -276,13 +278,13 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   assignPolygonsColors(data) {
     this.polygonValueLabels = {};
     this.polygonValueColors = {};
-    for (let i in data['features']) {
-      let current = data['features'][i];
-      let properties = current['properties'];
-      let name = properties['NIMI'].toLowerCase();
-      var match: any = false;
+    for (const i in data['features']) {
+      const current = data['features'][i];
+      const properties = current['properties'];
+      const name = properties['NIMI'].toLowerCase();
+      let match: any = false;
 
-      for (let o in this.polygonData) {
+      for (const o in this.polygonData) {
         if (this.shortMonthLabels[name] == this.polygonData[o]['county']) {
           match = this.polygonData[o];
           this.polygonValueLabels[properties['NIMI']] = match.value;
@@ -290,11 +292,10 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
         }
       }
 
-
       let color = this.heatMapColors[0];
-      for (let o in this.heatMapRanges) {
+      for (const o in this.heatMapRanges) {
         if (!match.division) {
-          color = "#cfcfcf";
+          color = '#cfcfcf';
           properties['value'] = this.translate.get('errors.data_missing')['value'];
         } else if (match.division === this.heatMapRanges[o]['amount']) {
           color = this.heatMapRanges[o]['color'];
@@ -305,8 +306,6 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       }
 
       properties['color'] = color;
-
-
 
     }
     this.getPolygonCenterCoords('', this.polygonValueLabels, this.polygonValueColors);
@@ -319,8 +318,8 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       return;
     }
 
-    let url = "/assets/polygons/countyCenters.json";
-    let subscription = this.http.get(url).subscribe(data => {
+    const url = '/assets/polygons/countyCenters.json';
+    const subscription = this.http.get(url).subscribe(data => {
       this.polygonLabels = data;
       this.mapPolyLabels(fontSize, polygons, polygonColors);
       subscription.unsubscribe();
@@ -334,13 +333,13 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       if (match && match.length && !match.includes('%')) {
         match = (new LocaleNumberPipe).transform(match);
       }
-      let textLabel = match ? `${elem.label} ${match}` : elem.label;
+      const textLabel = match ? `${elem.label} ${match}` : elem.label;
       elem['labelOptions'] = {
         color: polygonColors[elem.NIMI] === 7 ? this.labelOptions.lightColor : this.labelOptions.color,
         fontSize: fontSize || this.labelOptions.fontSize,
         fontWeight: this.labelOptions.fontWeight,
-        text: textLabel
-      }
+        text: textLabel,
+      };
     });
   }
 
@@ -351,11 +350,11 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   }
 
   polygonStyles(feature) {
-    let color = "#cfcfcf";
-    let keys = Object.keys(feature).join(",").split(",");
+    let color = '#cfcfcf';
+    const keys = Object.keys(feature).join(',').split(',');
 
-    for (let i in keys) {
-      let key = keys[i];
+    for (const i in keys) {
+      const key = keys[i];
       if (feature[key] && feature[key]['color']) {
         color = feature[key]['color'];
       }
@@ -364,10 +363,10 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     return {
       fillColor: color,
       fillOpacity: 1,
-      strokeColor: "#ffffff",
+      strokeColor: '#ffffff',
       strokeWeight: 1,
       strokeOpacity: 1,
-      clickable: true
+      clickable: true,
     };
   }
 
@@ -379,21 +378,21 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   kmlClick($event) {
 
     let mouse;
-    for (let i in $event) {
+    for (const i in $event) {
       if (typeof $event[i] == 'object' && $event[i]['clientX']) {
         mouse = $event[i];
       }
     }
 
-    let val = $event.feature.getProperty('value');
-    let textLabel =
+    const val = $event.feature.getProperty('value');
+    const textLabel =
       val && val.length && parseFloat(val) && !val.includes('%')
         ? (new LocaleNumberPipe).transform(val) :
         val;
 
     this.infoLayer = {
-      left: mouse['clientX'] + "px",
-      top: mouse['clientY'] + "px",
+      left: mouse['clientX'] + 'px',
+      top: mouse['clientY'] + 'px',
       value: textLabel,
       name: this.shortMonthLabels[$event.feature.getProperty('NIMI').toLowerCase()],
       field: $event.feature.getProperty('field'),
@@ -412,13 +411,13 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   }
 
   ngOnInit() {
-    this.mapOptions.styles = this.rootScope.get("mapStyles");
+    this.mapOptions.styles = this.rootScope.get('mapStyles');
     this.getData();
   }
 
   ngOnDestroy() {
     /* Clear all subscriptions */
-    for (let sub of this.subscriptions) {
+    for (const sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
       }
