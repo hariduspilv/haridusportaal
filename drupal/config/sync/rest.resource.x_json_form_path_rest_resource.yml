@@ -1,6 +1,6 @@
 uuid: 1c884df8-b42c-45b0-851b-2386466c1cc7
 langcode: et
-status: false
+status: true
 dependencies:
   module:
     - htm_custom_xjson_services
