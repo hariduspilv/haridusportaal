@@ -40,6 +40,7 @@ import { LoginModal } from './_components/dialogs/login.modal/login.modal';
 import { SearchModal } from './_components/dialogs/search.modal/search.modal'; 
 import { NotificationComponent } from './_components/notifications/notification.component';
 import { InfosystemSingle } from './_views/infosystem.single/infosystem.single.component';
+import { PictoComponent } from './_components/picto/picto.component';
 
 
 export const AppDeclarations = [
@@ -84,7 +85,8 @@ export const AppDeclarations = [
   LoginModal,
   SearchModal,
   NotificationComponent,
-  InfosystemSingle
+  InfosystemSingle,
+  PictoComponent,
 ];
 
 export const AppEntryComponents = [
