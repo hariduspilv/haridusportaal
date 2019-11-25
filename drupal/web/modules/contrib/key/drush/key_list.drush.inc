@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Display a list of available keys.
+ */
+
+/**
  * Get a list of available keys.
  */
 function drush_key_list() {

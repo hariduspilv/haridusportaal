@@ -3,7 +3,6 @@
 namespace Drupal\purge\Plugin\Purge\Queue;
 
 use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
-use Drupal\purge\Plugin\Purge\Queue\TxBufferInterface;
 
 /**
  * Describes a proxy item.
@@ -46,17 +45,17 @@ interface ProxyItemInterface {
   const DATA_INDEX_PROPERTIES = 3;
 
   /**
-   * Constructs a proxy item object.
+   * Construct a proxy item object.
+   *
+   * @param \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface $invalidation
+   *   Invalidation object being wrapped in a proxy.
+   * @param \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface $buffer
+   *   The current transaction buffer used by the queue service.
    *
    * @see \Drupal\Core\Queue\QueueInterface::createItem
    * @see \Drupal\Core\Queue\QueueInterface::claimItem
    * @see \Drupal\Core\Queue\QueueInterface::deleteItem
    * @see \Drupal\Core\Queue\QueueInterface::releaseItem
-   *
-   * @param \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface $invalidation
-   *   Invalidation object being wrapped in a proxy.
-   * @param \Drupal\purge\Plugin\Purge\Queue\TxBufferInterface $buffer
-   *   The actively used TxBuffer object by \Drupal\purge\Plugin\Purge\Queue\QueueService.
    */
   public function __construct(InvalidationInterface $invalidation, TxBufferInterface $buffer);
 
@@ -72,6 +71,7 @@ interface ProxyItemInterface {
    * @see http://php.net/manual/en/language.oop5.overloading.php#object.get
    *
    * @return mixed
+   *   The property value.
    */
   public function __get($name);
 
@@ -87,8 +87,6 @@ interface ProxyItemInterface {
    *   Thrown when the requested property isn't 'item_id' or 'created'.
    *
    * @see http://php.net/manual/en/language.oop5.overloading.php#object.set
-   *
-   * @return void
    */
   public function __set($name, $value);
 

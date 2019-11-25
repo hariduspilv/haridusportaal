@@ -15,34 +15,46 @@ use Drupal\Tests\key\Unit\KeyTestBase;
 class KeyEntityTest extends KeyTestBase {
 
   /**
+   * Key type manager.
+   *
    * @var \Drupal\key\Plugin\KeyPluginManager
    */
   protected $keyTypeManager;
 
   /**
+   * Key provider manager.
+   *
    * @var \Drupal\key\Plugin\KeyPluginManager
    */
   protected $keyProviderManager;
 
   /**
+   * Key plugin manager.
+   *
    * @var \Drupal\key\Plugin\KeyPluginManager
    */
   protected $keyInputManager;
 
   /**
-   * @var []
+   * Key type settings.
+   *
+   * @var array
    *   Key type settings to use for Authentication key type.
    */
   protected $key_type_settings;
 
   /**
-   * @var []
+   * Key provider settings.
+   *
+   * @var array
    *   Key provider settings to use for Configuration key provider.
    */
   protected $key_provider_settings;
 
   /**
-   * @var []
+   * Key input settings.
+   *
+   * @var array
    *   Key input settings to use for None key input.
    */
   protected $key_input_settings;
@@ -110,7 +122,11 @@ class KeyEntityTest extends KeyTestBase {
       ->method('getDefinitions')
       ->willReturn([
         ['id' => 'file', 'label' => 'File', 'storage_method' => 'file'],
-        ['id' => 'config', 'label' => 'Configuration', 'storage_method' => 'config'],
+        [
+          'id' => 'config',
+          'label' => 'Configuration',
+          'storage_method' => 'config',
+        ],
       ]);
     $this->keyProviderManager->expects($this->any())
       ->method('createInstance')

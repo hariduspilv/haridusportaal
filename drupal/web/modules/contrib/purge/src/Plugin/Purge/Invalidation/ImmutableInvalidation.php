@@ -2,10 +2,6 @@
 
 namespace Drupal\purge\Plugin\Purge\Invalidation;
 
-use Drupal\purge\Plugin\Purge\Invalidation\ImmutableInvalidationInterface;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationBase;
-
 /**
  * Provides the immutable invalidation object.
  *
@@ -30,8 +26,6 @@ class ImmutableInvalidation extends ImmutableInvalidationBase implements Immutab
    *   The invalidation object describes what needs to be invalidated from the
    *   external caching system, and gets instantiated by the service
    *   'purge.invalidation.factory', either directly or through a queue claim.
-   *
-   * @return void
    */
   public function __construct(InvalidationInterface $invalidation) {
     $this->invalidation = $invalidation;

@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\key\Functional;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Tests\BrowserTestBase;
 use Drupal\Core\Url;
 
@@ -15,11 +16,9 @@ class KeyAdminTest extends BrowserTestBase {
   use KeyTestTrait;
 
   /**
-   * Modules to enable.
-   *
-   * @var array
+   * {@inheritdoc}
    */
-  public static $modules = ['key'];
+  protected static $modules = ['key'];
 
   /**
    * A user with the 'administer keys' permission.
@@ -43,16 +42,16 @@ class KeyAdminTest extends BrowserTestBase {
    */
   public function testKeyListBuilder() {
     $this->drupalLogin($this->adminUser);
-
+    $assert_session = $this->assertSession();
     // Go to the Key list page.
     $this->drupalGet('admin/config/system/keys');
-    $this->assertResponse(200);
+    $assert_session->statusCodeEquals(200);
 
     // Verify that the "no keys" message displays.
-    $this->assertRaw(
-      t('No keys are available. <a href=":link">Add a key</a>.', [
+    $assert_session->responseContains(
+      new FormattableMarkup('No keys are available. <a href=":link">Add a key</a>.', [
         ':link' => Url::fromRoute('entity.key.add_form')->toString(),
-      ]), 'Empty text when there are no keys is correct.');
+      ]));
 
     // Add a key.
     $this->drupalGet('admin/config/system/keys/add');
@@ -61,14 +60,14 @@ class KeyAdminTest extends BrowserTestBase {
       'id' => 'testing_key',
       'label' => 'Testing Key',
     ];
-    $this->drupalPostForm(NULL, $edit, t('Save'));
+    $this->drupalPostForm(NULL, $edit, 'Save');
 
     // Go to the Key list page.
     $this->drupalGet('admin/config/system/keys');
-    $this->assertResponse(200);
+    $assert_session->statusCodeEquals(200);
 
     // Verify that the "no keys" message does not display.
-    $this->assertNoText(t('No keys are available.'));
+    $assert_session->pageTextNotContains('No keys are available.');
   }
 
   /**

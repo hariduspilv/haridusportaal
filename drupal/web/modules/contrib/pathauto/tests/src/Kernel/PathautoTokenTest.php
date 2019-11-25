@@ -38,7 +38,7 @@ class PathautoTokenTest extends KernelTestBase {
     /* @var \Drupal\pathauto\AliasCleanerInterface $alias_cleaner */
     $alias_cleaner = \Drupal::service('pathauto.alias_cleaner');
     $alias_cleaner->cleanTokenValues($replacements, $data, []);
-    $this->assertEqual($replacements['[array:join-path]'], 'test-first-arg/array-value');
+    $this->assertEquals('test-first-arg/array-value', $replacements['[array:join-path]']);
 
     // Test additional token cleaning and its configuration.
     $safe_tokens = $this->config('pathauto.settings')->get('safe_tokens');
@@ -55,6 +55,7 @@ class PathautoTokenTest extends KernelTestBase {
       '[example:login-url:relative]',
       '[example:url:relative]',
       '[example:safe]',
+      '[safe:example]',
     ];
     $unsafe_tokens = [
       '[example:path_part]',

@@ -13,9 +13,11 @@ use Drupal\purge\Tests\WebTestBase;
 class ProcessorAddFormTest extends WebTestBase {
 
   /**
+   * The Drupal user entity.
+   *
    * @var \Drupal\user\Entity\User
    */
-  protected $admin_user;
+  protected $adminUser;
 
   /**
    * The route that renders the form.
@@ -34,9 +36,9 @@ class ProcessorAddFormTest extends WebTestBase {
   /**
    * Setup the test.
    */
-  public function setUp() {
-    parent::setUp();
-    $this->admin_user = $this->drupalCreateUser(['administer site configuration']);
+  public function setUp($switch_to_memory_queue = TRUE) {
+    parent::setUp($switch_to_memory_queue);
+    $this->adminUser = $this->drupalCreateUser(['administer site configuration']);
   }
 
   /**
@@ -45,14 +47,22 @@ class ProcessorAddFormTest extends WebTestBase {
   public function testAccess() {
     $this->drupalGet(Url::fromRoute($this->route));
     $this->assertResponse(403);
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->initializeProcessorsService([]);
     $this->drupalGet(Url::fromRoute($this->route));
     $this->assertResponse(200);
     $this->initializeProcessorsService(['a', 'b', 'c']);
     $this->drupalGet(Url::fromRoute($this->route));
     $this->assertResponse(200);
-    $this->initializeProcessorsService(['a', 'b', 'c', 'withform', 'purge_ui_block_processor']);
+    $this->initializeProcessorsService(
+      [
+        'a',
+        'b',
+        'c',
+        'withform',
+        'purge_ui_block_processor',
+      ]
+    );
     $this->drupalGet(Url::fromRoute($this->route));
     $this->assertResponse(404);
     $this->initializeProcessorsService(['a', 'b']);
@@ -65,10 +75,10 @@ class ProcessorAddFormTest extends WebTestBase {
    * @see \Drupal\purge_ui\Form\CloseDialogTrait::closeDialog
    */
   public function testCancel() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route));
-    $this->assertRaw(t('Cancel'));
-    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), [], ['op' => t('Cancel')]);
+    $this->assertRaw('Cancel');
+    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), [], ['op' => 'Cancel']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual(2, count($json));
   }
@@ -80,13 +90,13 @@ class ProcessorAddFormTest extends WebTestBase {
    * @see \Drupal\purge_ui\Form\CloseDialogTrait::addPurger
    */
   public function testAdd() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route));
-    $this->assertRaw(t('Add'));
-    $this->assertNoRaw(t('Processor A'));
-    $this->assertNoRaw(t('Processor B'));
-    $this->assertRaw(t('Processor C'));
-    $this->assertRaw(t('Processor with form'));
+    $this->assertRaw('Add');
+    $this->assertNoRaw('Processor A');
+    $this->assertNoRaw('Processor B');
+    $this->assertRaw('Processor C');
+    $this->assertRaw('Processor with form');
     $this->assertTrue(count($this->purgeProcessors->getPluginsEnabled()) === 2);
     $this->assertTrue(in_array('a', $this->purgeProcessors->getPluginsEnabled()));
     $this->assertTrue(in_array('b', $this->purgeProcessors->getPluginsEnabled()));
@@ -94,7 +104,7 @@ class ProcessorAddFormTest extends WebTestBase {
     $this->assertFalse(in_array('withform', $this->purgeProcessors->getPluginsEnabled()));
     // Test that adding the plugin succeeds and results in a redirect command,
     // which only happens when it was able to save the data.
-    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), ['id' => 'c'], ['op' => t('Add')]);
+    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), ['id' => 'c'], ['op' => 'Add']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual('redirect', $json[2]['command']);
     $this->assertEqual(3, count($json));

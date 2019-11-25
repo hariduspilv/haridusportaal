@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\key\Entity\Key;
-use Drupal\key\Exception\KeyValueNotSetException;
 use Drupal\key\Plugin\KeyPluginFormInterface;
 use Drupal\key\Plugin\KeyProviderSettableValueInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,7 +25,7 @@ abstract class KeyFormBase extends EntityForm {
   /**
    * The original key.
    *
-   * @var \Drupal\key\Entity\Key|NULL
+   * @var \Drupal\key\Entity\Key|null
    *   The original key entity or NULL if this is a new key.
    */
   protected $originalKey = NULL;
@@ -486,10 +485,10 @@ abstract class KeyFormBase extends EntityForm {
    *
    * @param string $type
    *   The plugin type ID.
-   * @param FormStateInterface $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state to copy values from.
    *
-   * @return FormStateInterface
+   * @return \Drupal\Core\Form\FormStateInterface
    *   A clone of the form state object with values from the plugin.
    */
   protected function createPluginFormState($type, FormStateInterface $form_state) {

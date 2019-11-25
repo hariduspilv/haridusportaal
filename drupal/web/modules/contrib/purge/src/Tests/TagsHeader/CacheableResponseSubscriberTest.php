@@ -2,9 +2,8 @@
 
 namespace Drupal\purge\Tests\TagsHeader;
 
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Drupal\purge\Tests\KernelTestBase;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Tests \Drupal\purge\EventSubscriber\CacheableResponseSubscriber.
@@ -40,8 +39,8 @@ class CacheableResponseSubscriberTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
-    parent::setUp();
+  public function setUp($switch_to_memory_queue = TRUE) {
+    parent::setUp($switch_to_memory_queue);
     $this->installSchema('system', ['router']);
     \Drupal::service('router.builder')->rebuild();
   }

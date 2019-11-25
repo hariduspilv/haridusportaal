@@ -2,12 +2,12 @@
 
 namespace Drupal\purge_ui\Plugin\Block;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 use Drupal\Core\Block\BlockBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\purge_ui\Form\PurgeBlockForm;
+use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Let site administrators purge the current page.
@@ -21,9 +21,9 @@ class PurgeBlock extends BlockBase implements ContainerFactoryPluginInterface {
   use ContainerAwareTrait;
 
   /**
-   * Constructs a new PurgeBlock instance.
+   * Construct a new PurgeBlock instance.
    *
-   * @param ContainerInterface $container
+   * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
    *   The dependency injection container.
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.

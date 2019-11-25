@@ -2,10 +2,10 @@
 
 namespace Drupal\purge_ui\Tests;
 
+use Drupal\Core\Form\FormState;
 use Drupal\Core\Url;
 use Drupal\purge\Tests\WebTestBase;
 use Drupal\purge_ui\Form\QueueEmptyForm;
-use Drupal\Core\Form\FormState;
 
 /**
  * Tests \Drupal\purge_ui\Form\QueueEmptyForm.
@@ -15,9 +15,11 @@ use Drupal\Core\Form\FormState;
 class QueueEmptyFormTest extends WebTestBase {
 
   /**
+   * The Drupal user entity.
+   *
    * @var \Drupal\user\Entity\User
    */
-  protected $admin_user;
+  protected $adminUser;
 
   /**
    * The route that renders the form.
@@ -31,9 +33,15 @@ class QueueEmptyFormTest extends WebTestBase {
    *
    * @var array
    */
-  public static $modules = ['purge_ui', 'purge_queuer_test', 'purge_purger_test'];
+  public static $modules = [
+    'purge_ui',
+    'purge_queuer_test',
+    'purge_purger_test',
+  ];
 
   /**
+   * The queuer plugin.
+   *
    * @var \Drupal\purge\Plugin\Purge\Queuer\QueuerInterface
    */
   protected $queuer;
@@ -41,11 +49,11 @@ class QueueEmptyFormTest extends WebTestBase {
   /**
    * Setup the test.
    */
-  public function setUp() {
-    parent::setUp();
+  public function setUp($switch_to_memory_queue = TRUE) {
+    parent::setUp($switch_to_memory_queue);
     $this->initializeQueuersService();
     $this->queuer = $this->purgeQueuers->get('a');
-    $this->admin_user = $this->drupalCreateUser(['administer site configuration']);
+    $this->adminUser = $this->drupalCreateUser(['administer site configuration']);
   }
 
   /**
@@ -54,12 +62,12 @@ class QueueEmptyFormTest extends WebTestBase {
   public function testAccess() {
     $this->drupalGet(Url::fromRoute($this->route));
     $this->assertResponse(403);
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route));
     $this->assertResponse(200);
-    $this->assertTitle(t("Are you sure you want to empty the queue? | Drupal"));
-    $this->assertText(t("This action cannot be undone."));
-    $this->assertText(t('Yes, throw everything away!'));
+    $this->assertTitle("Are you sure you want to empty the queue? | Drupal");
+    $this->assertText("This action cannot be undone.");
+    $this->assertText('Yes, throw everything away!');
   }
 
   /**
@@ -69,10 +77,10 @@ class QueueEmptyFormTest extends WebTestBase {
    * @see \Drupal\purge_ui\Form\CloseDialogTrait::closeDialog
    */
   public function testNo() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route));
-    $this->assertRaw(t('No'));
-    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), [], ['op' => t('No')]);
+    $this->assertRaw('No');
+    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), [], ['op' => 'No']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual(2, count($json));
   }
@@ -91,9 +99,9 @@ class QueueEmptyFormTest extends WebTestBase {
     $this->purgeQueue->reload();
     $this->assertEqual(7, $this->purgeQueue->numberOfItems());
     // Call the confirm form and assert the AJAX responses.
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route));
-    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), [], ['op' => t('Yes, throw everything away!')]);
+    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route)->toString(), [], ['op' => 'Yes, throw everything away!']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual(2, count($json));
     // Directly call ::emptyQueue() on a form object and assert the empty queue.

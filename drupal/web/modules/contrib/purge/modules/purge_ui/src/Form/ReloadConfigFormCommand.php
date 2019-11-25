@@ -2,9 +2,9 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Drupal\Core\Url;
 use Drupal\Core\Ajax\CommandInterface;
 use Drupal\Core\Ajax\RedirectCommand;
+use Drupal\Core\Url;
 
 /**
  * Ajax command to reload the purge configuration form from modal dialogs.
@@ -21,7 +21,7 @@ class ReloadConfigFormCommand extends RedirectCommand implements CommandInterfac
   protected $route = 'purge_ui.dashboard';
 
   /**
-   * Constructs an ReloadConfigFormCommand object.
+   * Construct a ReloadConfigFormCommand object.
    *
    * @param string $fragment
    *   The fragment to jump to in the main config form.

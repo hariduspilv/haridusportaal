@@ -2,8 +2,6 @@
 
 namespace Drupal\purge\Plugin\Purge\Invalidation;
 
-use Drupal\purge\Plugin\Purge\Invalidation\PathInvalidation;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
 use Drupal\purge\Plugin\Purge\Invalidation\Exception\InvalidExpressionException;
 
 /**
@@ -24,7 +22,7 @@ class WildcardPathInvalidation extends PathInvalidation implements InvalidationI
   /**
    * {@inheritdoc}
    */
-  public function validateExpression() {
+  public function validateExpression($wildcard_check = TRUE) {
     parent::validateExpression(FALSE);
     if (strpos($this->expression, '*') === FALSE) {
       throw new InvalidExpressionException($this->t('Wildcard invalidations should contain an asterisk.'));

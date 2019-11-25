@@ -4,7 +4,6 @@ namespace Drupal\purge\Tests\Queue;
 
 use Drupal\Core\DestructableInterface;
 use Drupal\Core\StreamWrapper\PublicStream;
-use Drupal\purge\Tests\Queue\PluginTestBase;
 
 /**
  * Tests \Drupal\purge\Plugin\Purge\Queue\FileQueue.
@@ -13,10 +12,18 @@ use Drupal\purge\Tests\Queue\PluginTestBase;
  * @see \Drupal\purge\Plugin\Purge\Queue\QueueInterface
  */
 class FileQueueTest extends PluginTestBase {
-  protected $plugin_id = 'file';
+
+  /**
+   * The plugin ID of the queue plugin being tested.
+   *
+   * @var string
+   */
+  protected $pluginId = 'file';
 
   /**
    * The file under public:// to which the queue buffer gets written to.
+   *
+   * @var string
    *
    * @see \Drupal\purge\Plugin\Purge\Queue\File::$file
    */
@@ -25,7 +32,7 @@ class FileQueueTest extends PluginTestBase {
   /**
    * Set up the test.
    */
-  public function setUp() {
+  public function setUp($switch_to_memory_queue = TRUE) {
     parent::setUp();
     $this->file = DRUPAL_ROOT . '/' . PublicStream::basePath() . '/' . $this->file;
   }
@@ -48,11 +55,11 @@ class FileQueueTest extends PluginTestBase {
     // creates a range of payloads to make this test more resilient.
     $payloads = function ($base, $time) {
       return [
-        $base . $time-2 . "\n",
-        $base . $time-1 . "\n",
-        $base . $time   . "\n",
-        $base . $time+1 . "\n",
-        $base . $time+2 . "\n",
+        $base . ($time - 2) . "\n",
+        $base . ($time - 1) . "\n",
+        $base . $time . "\n",
+        $base . ($time + 1) . "\n",
+        $base . ($time + 2) . "\n",
       ];
     };
 

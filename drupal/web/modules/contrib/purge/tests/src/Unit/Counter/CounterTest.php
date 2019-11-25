@@ -3,6 +3,7 @@
 namespace Drupal\Tests\purge\Unit\Counter;
 
 use Drupal\purge\Counter\Counter;
+use Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -13,34 +14,34 @@ class CounterTest extends UnitTestCase {
 
   /**
    * @covers ::disableDecrement
-   * @expectedException \LogicException
-   * @expectedExceptionMessage No ::decrement() permission on this object.
    */
   public function testDisableDecrement() {
     $counter = new Counter();
     $counter->disableDecrement();
+    $this->expectException(\LogicException::class);
+    $this->expectExceptionMessage('No ::decrement() permission on this object.');
     $counter->decrement();
   }
 
   /**
    * @covers ::disableIncrement
-   * @expectedException \LogicException
-   * @expectedExceptionMessage No ::increment() permission on this object.
    */
   public function testDisableIncrement() {
     $counter = new Counter();
     $counter->disableIncrement();
+    $this->expectException(\LogicException::class);
+    $this->expectExceptionMessage('No ::increment() permission on this object.');
     $counter->increment();
   }
 
   /**
    * @covers ::disableSet
-   * @expectedException \LogicException
-   * @expectedExceptionMessage No ::set() permission on this object.
    */
   public function testDisableSet() {
     $counter = new Counter();
     $counter->disableSet();
+    $this->expectException(\LogicException::class);
+    $this->expectExceptionMessage('No ::set() permission on this object.');
     $counter->set(5);
   }
 
@@ -94,12 +95,12 @@ class CounterTest extends UnitTestCase {
 
   /**
    * @covers ::disableSet
-   * @expectedException \Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException
-   * @expectedExceptionMessage Given $value is not a integer or float.
    * @dataProvider providerTestSetNotFloatOrInt()
    */
   public function testSetNotFloatOrInt($value) {
     $counter = new Counter();
+    $this->expectException(BadBehaviorException::class);
+    $this->expectExceptionMessage('Given $value is not a integer or float.');
     $counter->set($value);
   }
 
@@ -116,11 +117,11 @@ class CounterTest extends UnitTestCase {
 
   /**
    * @covers ::disableSet
-   * @expectedException \Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException
-   * @expectedExceptionMessage Given $value can only be zero or positive.
    */
   public function testSetNegative() {
     $counter = new Counter();
+    $this->expectException(BadBehaviorException::class);
+    $this->expectExceptionMessage('Given $value can only be zero or positive.');
     $counter->set(-0.000001);
   }
 
@@ -171,12 +172,12 @@ class CounterTest extends UnitTestCase {
 
   /**
    * @covers ::decrement
-   * @expectedException \Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException
-   * @expectedExceptionMessage Given $amount is zero or negative.
    * @dataProvider providerTestDecrementInvalidValue()
    */
   public function testDecrementInvalidValue($value) {
     $counter = new Counter(10);
+    $this->expectException(BadBehaviorException::class);
+    $this->expectExceptionMessage('Given $amount is zero or negative.');
     $counter->decrement($value);
   }
 
@@ -193,12 +194,12 @@ class CounterTest extends UnitTestCase {
 
   /**
    * @covers ::decrement
-   * @expectedException \Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException
-   * @expectedExceptionMessage Given $amount is not a integer or float.
    * @dataProvider providerTestDecrementNotFloatOrInt()
    */
   public function testDecrementNotFloatOrInt($value) {
     $counter = new Counter(10);
+    $this->expectException(BadBehaviorException::class);
+    $this->expectExceptionMessage('Given $amount is not a integer or float.');
     $counter->decrement($value);
   }
 
@@ -237,12 +238,12 @@ class CounterTest extends UnitTestCase {
 
   /**
    * @covers ::increment
-   * @expectedException \Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException
-   * @expectedExceptionMessage Given $amount is zero or negative.
    * @dataProvider providerTestIncrementInvalidValue()
    */
   public function testIncrementInvalidValue($value) {
     $counter = new Counter(10);
+    $this->expectException(BadBehaviorException::class);
+    $this->expectExceptionMessage('Given $amount is zero or negative.');
     $counter->increment($value);
   }
 
@@ -259,12 +260,12 @@ class CounterTest extends UnitTestCase {
 
   /**
    * @covers ::increment
-   * @expectedException \Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException
-   * @expectedExceptionMessage Given $amount is not a integer or float.
    * @dataProvider providerTestIncrementNotFloatOrInt()
    */
   public function testIncrementNotFloatOrInt($value) {
     $counter = new Counter(10);
+    $this->expectException(BadBehaviorException::class);
+    $this->expectExceptionMessage('Given $amount is not a integer or float.');
     $counter->increment($value);
   }
 

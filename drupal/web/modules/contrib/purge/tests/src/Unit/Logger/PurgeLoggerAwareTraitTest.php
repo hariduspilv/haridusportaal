@@ -35,11 +35,11 @@ class PurgeLoggerAwareTraitTest extends UnitTestCase {
 
   /**
    * @covers ::logger
-   * @expectedException \LogicException
-   * @expectedExceptionMessage Logger unavailable, call ::setLogger().
    */
   public function testLoggerUnset() {
     $trait = $this->getMockForTrait('\Drupal\purge\Logger\PurgeLoggerAwareTrait');
+    $this->expectException(\LogicException::class);
+    $this->expectExceptionMessage('Logger unavailable, call ::setLogger().');
     $trait->logger();
   }
 
