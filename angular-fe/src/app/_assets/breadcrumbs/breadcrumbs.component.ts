@@ -23,7 +23,6 @@ export class BreadcrumbsComponent implements OnInit, OnChanges{
   ) {}
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log(changes);
     if (changes.path && changes.path.currentValue !== changes.path.previousValue) {
       this.getData();
     }

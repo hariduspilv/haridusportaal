@@ -108,7 +108,6 @@ export class AuthService implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.isLoggedIn()) {
-      this.isAuthenticated.next(false);
       this.router.navigateByUrl('/');
     }
     return true;
