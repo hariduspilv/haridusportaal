@@ -9,6 +9,7 @@
 			<block-content tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
 			</block-content>
       <block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/valdkonnad/andmed" [tabActive]="true">
+        <loader *ngIf="!data"></loader>
         <ng-container *ngIf="data">
 
           <h1 *ngIf="data.title">{{data.title}}</h1>
