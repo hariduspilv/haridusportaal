@@ -53,6 +53,8 @@
           <video-component [videos]="[data.fieldOskaVideo]"></video-component>
         </ng-container>
 
+        <picto tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
+        
         <div [innerHTML]="data['body']['value']" attr.aria-label="{{'description' | translate}}" class="description" ></div>
 
         <ng-container *ngIf="data.fieldOskaWebPage || data.fieldOskaAttachmentFile">
