@@ -92,7 +92,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getFavouritesList();
     this.getEventList();
     if (this.blockComponent) {
-      this.blockComponent.changeTab('Taotlused');
+      this.blockComponent.selectTab(
+        this.blockComponent.tabs.find(
+          (tab: any) => {
+            return tab.tabLabel === 'Taotlused';
+          },
+        ),
+      );
     }
     if (this.applicationsComponent) {
       this.applicationsComponent.initialize();
@@ -170,7 +176,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         (response: any) => {
           if (response['token']) {
             this.auth.refreshUser(response['token']);
-            this.location.go('/töölaud/taotlused');
+            this.router.navigateByUrl('/töölaud/taotlused');
             this.initialize();
           }
           sub.unsubscribe();
