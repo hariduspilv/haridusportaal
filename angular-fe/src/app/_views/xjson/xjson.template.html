@@ -1,10 +1,10 @@
 <base-layout>
   <breadcrumbs [path]="path"></breadcrumbs>
-  <block titleBorder="true">
+  <block titleBorder="true" tabStyle="default">
     <block-title>
       {{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}
     </block-title>
-    <block-content>
+    <block-content tabLabel="{{ 'frontpage.dokument' | translate }}" tabIcon="file">
       <div class="block padding-block border-blue">
        <!--  <div class="block__head">
           <div *ngIf="acceptable_forms.length" class="block__head__buttons">
