@@ -96,6 +96,37 @@
   }
 }
 
+.button-row {
+  button {
+    width: 100%;
+  }
+}
+
+.filter-wrapper {
+  padding: 1rem 1.5rem;
+  background: #fff;
+  margin: 1rem -1.5rem 1.5rem;
+  @include break-on(sm, max) {
+    margin-bottom: 0;
+    padding-top: 1rem;
+    .filter-control{
+        padding: 0 !important;
+        span {
+            margin-right: 1rem;
+        }
+    }
+    &.filtersActive {
+      display: block;
+    }
+  }
+  .filter-control {
+    padding: 1.5rem 0rem 0.5rem;
+  }
+  .text-right {
+    text-align: right;
+  }
+}
+
 .modal{background:$light-gray; padding:2rem 2rem 0.4rem 2rem; margin-top:0.8rem; position: relative;
   .hidden-button{position:absolute; top:0; left:0; width:1px; height:1px; overflow: hidden; opacity:0;}
   &__header{border-bottom:$white 3px solid; margin:-2rem -2rem 0 -2rem; padding:0 2rem; display:flex; min-height:4.625rem;
