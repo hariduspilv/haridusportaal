@@ -30,23 +30,31 @@ export class NotFoundComponent implements AfterViewInit {
 
   ngAfterViewInit() {
     this.sidemenu.triggerLang(true);
-    document.getElementById('toFront').focus();
+    if (this.redirectUrl) {
+      this.openLogin();
+    } else {
+      document.getElementById('toFront').focus();
+    }
   }
 
   constructUrl(type) {
     return this.translatedLinks[type][this.rootScope.get('lang')];
   }
 
+  openLogin() {
+    this.dialog.closeAll();
+    const dialogRef = this.dialog.open(LoginModal, {
+      panelClass: 'sticky-dialog-container',
+      backdropClass: 'sticky-dialog-backdrop'
+    });
+    if (dialogRef['_overlayRef'].overlayElement) {
+      dialogRef['_overlayRef'].overlayElement.parentElement.className += ' sticky-dialog-wrapper';
+    }
+  }
+
   action() {
     if (this.redirectUrl) {
-      this.dialog.closeAll();
-      const dialogRef = this.dialog.open(LoginModal, {
-        panelClass: 'sticky-dialog-container',
-        backdropClass: 'sticky-dialog-backdrop'
-      });
-      if (dialogRef['_overlayRef'].overlayElement) {
-        dialogRef['_overlayRef'].overlayElement.parentElement.className += ' sticky-dialog-wrapper';
-      }
+      this.openLogin();
     } else {
       this.router.navigate(['/']);
     }
