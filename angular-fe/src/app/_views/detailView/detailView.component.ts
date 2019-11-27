@@ -165,7 +165,7 @@ export class DetailViewComponent {
 
   ngOnInit() {
     this.watchParams();
-    this.initialize();
+    // this.initialize();
   }
 
   ngOnDestroy() {

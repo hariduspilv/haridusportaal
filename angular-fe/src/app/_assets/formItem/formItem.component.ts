@@ -10,6 +10,8 @@ import {
   ChangeDetectorRef,
   EventEmitter,
   HostListener,
+  OnChanges,
+  OnDestroy,
 } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -41,7 +43,7 @@ export interface FormItemOption {
   ],
 })
 
-export class FormItemComponent implements ControlValueAccessor, OnInit {
+export class FormItemComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   @ContentChildren('#inputField') inputField: ElementRef;
   @Input() title: string = '';
   @Input() placeholder: string = '';
@@ -63,6 +65,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
   @Input() query: string = '';
   @Input() disabled: boolean;
   @Input() valueType: string = 'string';
+  @Input() browserAutocomplete: string = '';
 
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
@@ -219,7 +222,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     if (this.type !== 'autocomplete') {
       this.propagateChange(this.field);
     }
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) {
+      this.cdr.detectChanges();
+    }
   }
 
   autocompleteUpdate(value: any = ''): void {
@@ -328,5 +333,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
 
   ngOnInit() {
     this.checkInitialValue();
+  }
+  ngOnDestroy(): void {
+    this.cdr.detach();
   }
 }

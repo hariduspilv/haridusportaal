@@ -13,6 +13,7 @@
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
         type="text"
+        [autocomplete]="browserAutocomplete"
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
@@ -29,6 +30,7 @@
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
         type="password"
+        autocomplete="current-password"
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur')"
