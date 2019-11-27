@@ -47,7 +47,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   ];
 
   mapOptions = {
-    polygonType: 'investment',
+    polygonType: 'oskaField',
     centerLat: 58.5822061,
     centerLng: 24.7065513,
     zoom: 7.4,
@@ -56,11 +56,10 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     draggable: true,
     zoomControl: true,
     streetViewControl: true,
-    showOuterLink: false,
-    showLabels: false,
-    showParameters: true,
-    showPolygonLayerSelection: false,
-    showPolygonLegend: true,
+    enableOuterLink: false,
+    enableLabels: false,
+    enableParameters: true,
+    enablePolygonLegend: true,
     enablePolygonModal: true,
   };
 

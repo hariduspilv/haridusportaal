@@ -58,6 +58,7 @@
     <div class="map__legend__block" *ngFor="let item of heatmap; let first = first; let last = last;">
       <div class="map__legend__color" [style.background-color]="item.color"></div>
       <div class="map__legend__item" *ngIf="options.polygonType === 'investment'">{{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount | legendCurrency:"max" }} €</div>
+      <div class="map__legend__item" *ngIf="options.polygonType === 'oskaFields'">{{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount | legendCurrency:"max" }}</div>
     </div>
   </div><!--/map-legend-->
 </ng-container>
