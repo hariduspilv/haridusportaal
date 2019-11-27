@@ -219,6 +219,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit {
     if (this.type !== 'autocomplete') {
       this.propagateChange(this.field);
     }
+    this.cdr.detectChanges();
   }
 
   autocompleteUpdate(value: any = ''): void {

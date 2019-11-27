@@ -1,0 +1,70 @@
+@import 'colors.scss';
+@import 'breakpoints.scss';
+
+:host {
+  .filter-wrapper {
+		background: #fff;
+		padding: 1.5rem;
+    @include break-on(sm, min) {
+      margin: 0rem -1.5rem 1.5rem;
+      padding: 0.75rem 1.5rem;
+    }
+		@include break-on(sm, max) {
+			margin-bottom: 0;
+			padding-top: 1rem;
+			.filter-control {
+				padding: 0 !important;
+				span {
+					margin-right: 1rem;
+				}
+			}
+			&.filtersActive {
+				display: block;
+			}
+		}
+		.filter-control {
+			padding: 1.5rem 0rem 0.5rem;
+		}
+		.text-right {
+			text-align: right;
+    }
+    [htm-button] {
+      margin-left: 1rem;
+      min-width: fit-content;
+    }
+	}
+
+	.row {
+    margin: 0 -0.5rem;
+    .flex {
+      display: flex;
+      formItem {
+        width: 100%;
+      }
+    }
+		.align-end {
+			align-self: flex-end;
+			margin-bottom: auto;
+		}
+		.inline-flex {
+			display: inline-flex;
+			justify-content: flex-end;
+		}
+		.text-right {
+			text-align: right;
+		}
+		.align-center {
+			align-self: center;
+		}
+		.filter-state {
+			margin: 0 auto;
+			position: relative;
+			right: 0.5rem;
+			text-align: center;
+			text-decoration: underline;
+			&:hover {
+				text-decoration: none;
+			}
+		}
+  }
+}
