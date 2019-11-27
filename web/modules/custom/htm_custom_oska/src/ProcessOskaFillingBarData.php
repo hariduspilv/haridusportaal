@@ -71,16 +71,18 @@ class ProcessOskaFillingBarData {
 
     public static function ClearOldValues($items, &$context){
 
+      if(empty($context['results']['error'])){
         $nids = \Drupal::entityQuery('node')
-            ->condition('type', 'oska_main_profession_page')
-            ->execute();
+          ->condition('type', 'oska_main_profession_page')
+          ->execute();
         $storage = \Drupal::entityTypeManager()->getStorage('node');
 
         foreach($nids as $nid){
-            $entity = $storage->load($nid);
-            $entity->set('field_filling_bar', 0);
-            $entity->save();
+          $entity = $storage->load($nid);
+          $entity->set('field_filling_bar', 0);
+          $entity->save();
         }
+      }
     }
 
     public static function ProcessOskaFillingBarData($items, &$context){
@@ -91,7 +93,6 @@ class ProcessOskaFillingBarData {
                 $context['sandbox']['current_id'] = 0;
                 $context['sandbox']['max'] = count($context['results']['values']);
             }
-
 
             if($context['sandbox']['current_id'] <= $context['sandbox']['max']){
                 $limit = $context['sandbox']['current_id'] + 10;
