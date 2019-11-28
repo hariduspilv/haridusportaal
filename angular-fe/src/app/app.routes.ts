@@ -61,6 +61,10 @@ const routes: Routes = [
     },
   },
   {
+    path: 'koolide-rahastus',
+    loadChildren: './_views/schoolFunding#SchoolFundingViewModule',
+  },
+  {
     path: 'ametialad',
     loadChildren: './_views/mainProfessionListView#MainProfessionListViewModule',
   },
@@ -134,7 +138,7 @@ const routes: Routes = [
   {
     path: 'töölaud/taotlused/:id',
     loadChildren: './_views/xjson#XjsonModule',
-  }
+  },
 ];
 
 @NgModule({

@@ -15,17 +15,17 @@
         <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
           <span class="button__contents">
             <ng-container *ngIf="tab.tabIcon">
-              <icon [glyph]="tab.tabIcon"></icon>
+              <icon size="medium" [glyph]="tab.tabIcon"></icon>
             </ng-container>
             {{ tab.tabLabel }}
           </span>
           <!--/button__contents-->
         </button>
 
-        <button *ngIf="tab.tabLink" (click)="navigateTo(tab.tabLink)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+        <button *ngIf="tab.tabLink" (click)="navigateTo(tab.tabLink, tab.queryParams)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
           <span class="button__contents">
             <ng-container *ngIf="tab.tabIcon">
-              <icon [glyph]="tab.tabIcon"></icon>
+              <icon size="medium" [glyph]="tab.tabIcon"></icon>
             </ng-container>
             {{ tab.tabLabel }}
           </span><!--/button__contents-->

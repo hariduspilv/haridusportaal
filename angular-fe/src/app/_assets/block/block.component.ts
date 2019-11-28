@@ -26,7 +26,7 @@ export class BlockContentComponent {
   @Input() tabIcon: string;
   @Input() tabActive: boolean;
   @Input() active: boolean = false;
-  public queryParams = {};
+  @Input() queryParams: any = {};
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -220,8 +220,10 @@ export class BlockComponent implements AfterContentInit, OnChanges{
     this.viewTabs = viewTabs;
   }
 
-  navigateTo(tabLink) {
-    this.router.navigateByUrl(tabLink);
+  navigateTo(tabLink, params = {}) {
+    this.router.navigate([tabLink], {
+      queryParams: params,
+    });
   }
 
   ngAfterContentInit() {
