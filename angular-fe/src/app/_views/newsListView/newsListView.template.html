@@ -1,5 +1,7 @@
 <base-layout>
-		<div class="inline"><breadcrumbs [data]="breadcrumbs"></breadcrumbs></div>
+	<div class="inline">
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+	</div>
 	<form class="filter-wrapper" filters>
 		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
@@ -15,7 +17,8 @@
 					</div>
 					<!--/col-4-->
 					<div class="col-25 sm-12">
-						<formItem type="date" title="{{ 'time.date_period_from' | translate }}" name="minDate"></formItem>
+						<formItem type="date" title="{{ 'time.date_period_from' | translate }}" name="minDate">
+						</formItem>
 					</div>
 					<!--/col-3-->
 					<div class="col-25 sm-12">
@@ -59,10 +62,11 @@
 		</div>
 	</form>
 	<div class="inline">
-	<block>
-		<block-content>
-			<searchResults type="news" limit="24"></searchResults>
-		</block-content>
-	</block>
-</div>
+		<block titleBorder="true">
+			<block-title>{{ 'news.label' | translate }}</block-title>
+			<block-content>
+				<searchResults type="news" limit="24"></searchResults>
+			</block-content>
+		</block>
+	</div>
 </base-layout>

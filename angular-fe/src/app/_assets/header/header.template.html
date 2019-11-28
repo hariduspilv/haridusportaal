@@ -96,7 +96,7 @@
 
 <htm-modal
 	id="search"
-	title="{{ 'button.search' | translate }}"
+	modalTitle="{{ 'button.search' | translate }}"
 	[bottomAction]="false"
 >
 	<modal-content id="search" *ngIf="modalService.modalOpened['search']">
@@ -112,7 +112,7 @@
 </htm-modal>
 <htm-modal
 	id="login"
-	title="{{ 'button.login' | translate }}"
+	modalTitle="{{ 'button.login' | translate }}"
 	[bottomAction]="false"
 >
 	<modal-content id="login" *ngIf="modalService.modalOpened['login']">

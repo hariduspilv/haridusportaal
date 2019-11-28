@@ -30,7 +30,7 @@ export class ModalContentComponent {
 
 export class ModalComponent implements OnInit {
   @Input() id: string;
-  @Input() title: string = '';
+  @Input() modalTitle: string = '';
   public opened: boolean = false;
   private element: any;
   public modalIds: any;
