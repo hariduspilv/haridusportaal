@@ -91,9 +91,6 @@ export function settingsProviderFactory(provider: SettingsService) {
 import { ImageComponent } from './image';
 import { LinksComponent } from './links';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import {
-  HomeSearchListViewComponent,
-} from '@app/_views/homeSearchListView/homeSearchListView.component';
 
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { InfographComponent } from './infograph/infograph.component';
@@ -170,7 +167,6 @@ const declarations = [
   CompareComponent,
   ImageComponent,
   LinksComponent,
-  HomeSearchListViewComponent,
   CompareViewComponent,
   DropdownListComponent,
   // frontpage stuff, delete after remake

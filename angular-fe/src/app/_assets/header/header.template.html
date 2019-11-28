@@ -30,10 +30,13 @@
 			<div class="header__search">
 				<icon glyph="search" size="default"></icon>
 				<formItem
+					type="autocomplete" 
+					query="testAutocomplete"
 					titleDisabled="true"
-					type="text"
 					placeholder="Sisesta märksõna ja vajuta Enter"
-					[(ngModel)]="search"
+					[(ngModel)]="searchTerm"
+					name="homeSearch"
+					(keyup.enter)="searchRoute()"
 				>
 				</formItem>
 			</div>

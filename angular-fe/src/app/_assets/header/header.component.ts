@@ -4,6 +4,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'htm-header',
@@ -20,7 +21,7 @@ export class HeaderComponent implements OnInit {
   }
   @HostBinding('attr.aria-label') ariaLabel: string = this.translate.get('frontpage.header');
   @HostBinding('attr.role') role: string = 'banner';
-  public search;
+  public searchTerm: any;
   public logoutActive = false;
 
   public loading = false;
@@ -56,6 +57,7 @@ export class HeaderComponent implements OnInit {
     private settings: SettingsService,
     private http: HttpClient,
     private alertsService: AlertsService,
+    private router: Router,
   ) { }
 
   public basicLogin(): void {
@@ -162,6 +164,13 @@ export class HeaderComponent implements OnInit {
       () => {
         this.loading = false;
       });
+  }
+
+  public searchRoute() {
+    console.log(this.searchTerm);
+    const url = `/otsing?term=${this.searchTerm}`;
+    console.log(url);
+    this.router.navigateByUrl(url);
   }
 
   ngOnInit(): void {

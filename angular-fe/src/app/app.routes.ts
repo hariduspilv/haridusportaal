@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: './_views/newsListView#NewsListViewModule',
   },
   {
+    path: 'otsing',
+    loadChildren: './_views/homeSearchListView#HomeSearchListViewModule',
+  },
+  {
     path: 'uudised/:id',
     loadChildren: './_views/detailView#DetailViewModule',
     data: {
