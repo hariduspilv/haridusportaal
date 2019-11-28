@@ -3,15 +3,10 @@
     <div class="alert__icon">
       <icon glyph="{{alertIcons[alert.type]}}" [size]="small ? 'medium' : 'large'"></icon>
     </div>
-    <ng-container *ngIf="!alert.link">
       <p>{{ alert.message }}</p>
+      <a class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
       <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
         <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
       </button>
-    </ng-container>
-    <div class="alert__column" *ngIf="alert.link && alert.link.url">
-      <p>{{ alert.message }}</p>
-      <a class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
-    </div>
   </div>
 </ng-container>
