@@ -24,6 +24,8 @@ export class HeaderComponent implements OnInit {
   public searchTerm: any;
   public logoutActive = false;
 
+  public searchString = '';
+
   public loading = false;
   public mobileId = {
     challengeId: '',

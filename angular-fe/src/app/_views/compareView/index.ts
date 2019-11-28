@@ -3,26 +3,21 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
 import { TranslateModule } from '@app/_modules/translate';
-import { DetailViewComponent } from './detailView.component';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { AppPipes } from '@app/_pipes';
-import { StudyProgrammeListViewModule } from '../studyProgrammeListView';
+import { CompareViewComponent } from './compareView.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DetailViewComponent,
-  },
-  {
-    path: ':id',
-    component: DetailViewComponent,
+    component: CompareViewComponent,
   },
 ];
 
 @NgModule({
   declarations: [
-    DetailViewComponent,
+    CompareViewComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -32,11 +27,11 @@ const routes: Routes = [
     AppPipes,
   ],
   exports: [
-    DetailViewComponent,
+    CompareViewComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })
 
-export class DetailViewModule { }
+export class CompareViewModule { }

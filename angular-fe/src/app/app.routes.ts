@@ -125,6 +125,13 @@ const routes: Routes = [
     loadChildren: './_views/studyProgrammeListView#StudyProgrammeListViewModule',
   },
   {
+    path: 'erialad/võrdlus',
+    loadChildren: './_views/compareView#CompareViewModule',
+    data: {
+      type: 'studyProgrammeComparison',
+    },
+  },
+  {
     path: 'erialad/:id',
     loadChildren: './_views/detailView#DetailViewModule',
     data: {
