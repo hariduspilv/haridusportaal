@@ -25,7 +25,7 @@
         </agm-marker>
       </agm-marker-cluster>
       <agm-data-layer *ngIf="type === 'polygons' && polygons" [geoJson]="polygons" [style]="mapService.polygonStyles" (layerClick)="mapService.layerClick($event, options.polygonType)"></agm-data-layer>
-      <ng-container *ngIf="type === 'polygons' && polygonMarkers && polygonMarkers.length && polygons.features && polygonLayer == 'county'">
+      <ng-container *ngIf="type === 'polygons' && polygonMarkers && polygonMarkers.length && polygons && polygons.features && polygonLayer == 'county'">
         <ng-container *ngFor="let item of polygonMarkers">
           <agm-marker *ngIf="item.labelOptions && item.labelOptions.text" [iconUrl]="polygonIcon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
         </ng-container>
@@ -54,11 +54,24 @@
       <button (click)="changeLayer('kov')" [class.active]="polygonLayer === 'kov'">{{ 'school.municipalities_detailed' | translate }}</button>
     </div>
   </div>
-  <div class="map__legend" *ngIf="options.enablePolygonLegend && heatmap && heatmap.length > 0 && type === 'polygons'">
+  <div class="map__legend" *ngIf="options.enablePolygonLegend && heatmap && heatmap.length > 0 && type === 'polygons' && options.polygonType === 'investment'">
     <div class="map__legend__block" *ngFor="let item of heatmap; let first = first; let last = last;">
       <div class="map__legend__color" [style.background-color]="item.color"></div>
       <div class="map__legend__item" *ngIf="options.polygonType === 'investment'">{{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount | legendCurrency:"max" }} €</div>
       <div class="map__legend__item" *ngIf="options.polygonType === 'oskaFields'">{{ item.minAmount | legendCurrency:"min" }} - {{ item.maxAmount | legendCurrency:"max" }}</div>
     </div>
   </div><!--/map-legend-->
+  <ng-container *ngIf="options.enablePolygonLegend && heatmap && heatmap.length > 0 && type === 'polygons' && options.polygonType === 'oskaFields'">
+    <div class="mapLegend">
+      <ng-container *ngFor="let item of heatmap">
+        <div class="mapLegend__block">
+          <div class="mapLegend__color" [style.background-color]="item.color"></div>
+        </div>
+      </ng-container>
+    </div>
+    <div class="mapLegend__labels" *ngIf="legendLabels && activeLegendParameters">
+      <div>{{ activeLegendParameters.start }}</div>
+      <div>{{ activeLegendParameters.end }}</div>
+    </div>
+  </ng-container>
 </ng-container>

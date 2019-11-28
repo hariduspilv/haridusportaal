@@ -8,10 +8,12 @@ import {
 } from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
 import { ModalService, RippleService } from '@app/_services';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+    RouterTestingModule,
   ],
   providers: [
     ModalService,

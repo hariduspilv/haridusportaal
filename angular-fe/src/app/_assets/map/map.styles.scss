@@ -90,6 +90,37 @@
 			display: block;
 		}
 	}
+	.mapLegend {
+		display:flex;
+		width:100%;
+		font-size:0.875rem;
+		margin-top:1rem;
+		@include break-on(sm, max){
+			display:flex;
+			&__block {
+				display:inline-block;
+				width:8.25rem;
+			}
+		}
+		&__block {
+			flex-grow:1;
+			text-align: center;
+		}
+		&__color {
+			height:1.875rem;
+			margin-bottom:0.5625rem;
+			display:block;
+		}
+		&__labels {
+			display: flex; 
+			justify-content: space-between;
+			font-size: .875rem;
+			line-height: 1.25rem;
+			@include break-on(sm, max) {
+				margin: 0 1rem;
+			}
+		}
+	}
 	agm-map {
 		position: absolute;
 		top: 0;

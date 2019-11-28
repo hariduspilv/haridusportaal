@@ -40,7 +40,7 @@
         [tabActive]="true">
         <h2>{{ 'oska.field_map_introduction' | translate }}</h2>
         <loader *ngIf="loading"></loader>
-        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters">
+        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator">
         </map>
         <!--/map-wrapper-->
       </block-content>

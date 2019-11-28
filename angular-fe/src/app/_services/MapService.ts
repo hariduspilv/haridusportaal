@@ -100,10 +100,41 @@ export class MapService {
           }
           properties['color'] = color;
         }
-        return polygonData;
+        break;
+      case 'oskaFields':
+        this.polygonValueLabels = {};
+        for (const i in polygonData['features']) {
+          const current = polygonData['features'][i];
+          const properties = current['properties'];
+          const shortName = properties['NIMI_LUHIKE']
+            ? properties['NIMI_LUHIKE'].toLowerCase() : '';
+          let match:any = false;
+          for (const o in requestData) {
+            if (shortName === requestData[o].county.toLowerCase()) {
+              match = requestData[o];
+              this.polygonValueLabels[properties['NIMI_LUHIKE']] = match.investmentAmountSum;
+            }
+          }
+          let color = heatmap[0];
+          for (const o in heatmap) {
+            if (!match.division) {
+              color = '#cfcfcf';
+              properties['value'] = 'Puudub';
+            } else if (match.division === heatmap[o]['amount']) {
+              color = heatmap[o]['color'];
+              properties['value']
+                = this.polygonValueLabels[properties['NIMI_LUHIKE']] = match.value;
+              this.polygonColors[properties['NIMI_LUHIKE']] = parseInt(o, 10) + 1;
+              break;
+            }
+          }
+          properties['color'] = color;
+        }
+        break;
     }
+    return polygonData;
   }
-  mapPolygonLabels (polygons, extraLabels) {
+  mapPolygonLabels (polygons, extraLabels, polygonType) {
     if (polygons && polygons['features']) {
       const extraLabelArr = [];
       const polygonMarkers = polygons['features'].map((elem) => {
@@ -113,8 +144,11 @@ export class MapService {
         const fontSize = this.activeFontSize || this.labelOptions.fontSize;
         const fontWeight = this.labelOptions.fontWeight;
         if (extraLabels && elem.geometry.center) {
-          const text = this.polygonValueLabels[current] ?
-            new EuroCurrencyPipe().transform(this.polygonValueLabels[current]) : '';
+          let text = this.polygonValueLabels[current] ? `${this.polygonValueLabels[current]}` : '';
+          if (polygonType === 'investment') {
+            text = this.polygonValueLabels[current] ?
+              new EuroCurrencyPipe().transform(this.polygonValueLabels[current]) : '';
+          }
           let latitude = elem.geometry.center.latitudeSm;
           if (this.activeFontSize === this.fontSizes['md']) {
             latitude = elem.geometry.center.latitudeMd;
@@ -172,6 +206,7 @@ export class MapService {
           status: true,
           title: $event.feature.getProperty('NIMI_LUHIKE') || $event.feature.getProperty('NIMI'),
           currency: $event.feature.getProperty('investmentAmountSum') || '',
+          value: $event.feature.getProperty('value'),
         };
     }
   }

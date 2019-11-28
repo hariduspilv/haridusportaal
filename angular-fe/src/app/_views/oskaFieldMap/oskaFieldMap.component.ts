@@ -30,7 +30,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
 
   params: any = {};
   path: string;
-  
+
   polygonValueLabels: any;
   polygonLayer: String = 'county';
   polygonData: any = {};
@@ -47,7 +47,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   ];
 
   mapOptions = {
-    polygonType: 'oskaField',
+    polygonType: 'oskaFields',
     centerLat: 58.5822061,
     centerLng: 24.7065513,
     zoom: 7.4,
@@ -60,7 +60,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     enableLabels: false,
     enableParameters: true,
     enablePolygonLegend: true,
-    enablePolygonModal: true,
+    enablePolygonModal: false,
   };
 
   constructor(
@@ -84,7 +84,9 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       this.params = params;
       this.filterRetrieveParams(params);
       if (!this.filterFormItems['OSKAField'] || !this.filterFormItems['mapIndicator']) {
-        if (!this.filterFormItems['mapIndicator'] && this.filterData['mapIndicator'].length) this.filterFormItems['mapIndicator'] = this.filterData['mapIndicator'][0];
+        if (!this.filterFormItems['mapIndicator'] && this.filterData['mapIndicator'].length) {
+          this.filterFormItems['mapIndicator'] = this.filterData['mapIndicator'][0];
+        }
         if (!this.filterFormItems['OSKAField'] && this.filterData['OSKAField'].length) {
           this.setRelatedFilter('mapIndicator', 'OSKAField');
           this.filterFormItems['OSKAField'] = this.filterData['OSKAField'][0];
@@ -112,14 +114,14 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
         this.filterFormItems[sibling] = this.filterData[sibling][0];
       }
     }
-    this.parameters[0].value = this.filterFormItems.mapIndicator;
-    this.parameters[1].value = this.filterFormItems.OSKAField;
   }
 
   filterGivenData(mapRefresh) {
     if (this.data && this.data.length) {
       this.loading = true;
-      this.polygonData.county = this.data.filter(elem => {
+      this.polygonData.county = this.data.filter((elem) => {
+        this.parameters[0].value = this.filterFormItems.mapIndicator;
+        this.parameters[1].value = this.filterFormItems.OSKAField;
         if (this.filterFormItems['mapIndicator'] && this.filterFormItems['OSKAField']) {
           return elem.mapIndicator === this.filterFormItems['mapIndicator'] && elem.OSKAField === this.filterFormItems['OSKAField'];
         }
@@ -131,24 +133,8 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
         }
         return true;
       });
-      this.mapPolygonKeys();
-      this.getPolygons();
+      this.loading = false;
     }
-  }
-
-  mapPolygonKeys() {
-    this.polygonData.county = this.polygonData.county.map((element) => {
-      const newElement: any = {};
-      Object.entries(element).map(([key, val]) => {
-        let newKey = key;
-        if (newKey === 'county') newKey = 'investmentLocation';
-        if (newKey === 'value') {
-          newKey = 'investmentAmountSum';
-        }
-        newElement[newKey] = key === 'value' ? parseInt(String(val)) : val;
-      });
-      return newElement;
-    });
   }
 
   getData() {
@@ -162,6 +148,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);
       // Extra mapping for floating point numbers
       rawData = rawData.map(elem => [elem.join()]).map(elem => elem.join('').split(';')).map(item => {
+        console.log(item[3]);
         return {
           mapIndicator: item[0],
           OSKAField: item[7].replace(/"/g, ''),
@@ -198,15 +185,6 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     });
     this.filterData['OSKAField'] = field;
     this.filterData['mapIndicator'] = indicator;
-  }
-
-  getPolygons() {
-    const url = `/assets/polygons/${this.polygonLayer}.json`;
-    const subscription = this.http.get(url).subscribe((data) => {
-      this.polygonValueLabels = false;
-      this.loading = false;
-      subscription.unsubscribe();
-    });
   }
 
   fieldPlaceholder() {
