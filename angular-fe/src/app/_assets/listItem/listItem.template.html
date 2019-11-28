@@ -51,7 +51,7 @@
                         <ng-container *ngIf="ind < 2 && oskaField.entity">
                             <span aria-hidden="true" class="bar" *ngIf="oskaField.entity.title && ind !== 0">|</span>
                             <div class="item item--inline">
-                                <a href="javascript:void(0)" tabindex="0"
+                                <a [href]="oskaField.entity.entityUrl.path" tabindex="0"
                                     attr.aria-label="{{ 'oska.title_field' | translate }} {{ oskaField.entity.title }}">{{ oskaField.entity.title }}</a>
                             </div>
                         </ng-container>
