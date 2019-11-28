@@ -167,7 +167,7 @@ const declarations = [
   CompareComponent,
   ImageComponent,
   LinksComponent,
-  HomeSearchListViewComponent,
+  // HomeSearchListViewComponent,
   DropdownListComponent,
   // frontpage stuff, delete after remake
   Triangles,

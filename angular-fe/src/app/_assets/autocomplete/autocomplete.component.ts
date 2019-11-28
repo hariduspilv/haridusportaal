@@ -41,11 +41,10 @@ export class AutocompleteComponent {
   ) {}
 
   public search(value: string = '', $event: any = false): void {
-
     if (this.active && ($event.key === 'ArrowUp' || $event.key === 'ArrowDown')) {
       this.navigate($event.key);
     } else if ($event.key === 'Enter') {
-      this.chooseOption();
+      this.chooseOption(value);
     } else {
 
       this.activeItem = -1;
@@ -146,8 +145,12 @@ export class AutocompleteComponent {
     }
   }
 
-  private chooseOption(): void {
-    this.onValueSelected.emit(this.data[this.activeItem]);
+  private chooseOption(value: any = false): void {
+    if (!this.activeItem) {
+      this.onValueSelected.emit(this.data[this.activeItem]);
+    } else {
+      this.onValueSelected.emit(value);
+    }
     this.close(true);
   }
 
