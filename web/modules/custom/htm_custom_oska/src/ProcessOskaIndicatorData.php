@@ -89,25 +89,28 @@ class ProcessOskaIndicatorData {
     }
 
     public static function ClearOldValues($items, &$context){
+
+      if(empty($context['results']['error'])){
         $fields = [
-            'field_bruto',
-            'field_education_indicator',
-            'field_number_of_employees',
-            'field_change_in_employment'
+          'field_bruto',
+          'field_education_indicator',
+          'field_number_of_employees',
+          'field_change_in_employment'
         ];
 
         $nids = \Drupal::entityQuery('node')
-            ->condition('type', 'oska_main_profession_page')
-            ->execute();
+          ->condition('type', 'oska_main_profession_page')
+          ->execute();
         $storage = \Drupal::entityTypeManager()->getStorage('node');
 
         foreach($nids as $nid){
-            $entity = $storage->load($nid);
-            foreach($fields as $field){
-                $entity->set($field, 0);
-            }
-            $entity->save();
+          $entity = $storage->load($nid);
+          foreach($fields as $field){
+            $entity->set($field, 0);
+          }
+          $entity->save();
         }
+      }
     }
 
     public static function ProcessOskaIndicatorData($items, &$context){
