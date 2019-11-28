@@ -1,0 +1,16 @@
+<block>
+  <block-title>{{ 'studyProgramme.related_label' | translate | uppercase }}</block-title>
+  <block-content>
+    <form [formGroup]="relatedProgrammesForm" class="filter-wrapper">
+      <formItem title="{{ 'studyProgramme.related_filter_location' | translate }}" type="text" formControlName="address"></formItem>
+      <button (click)="getRelatedStudyprogrammes(nid)" type="button" htm-button>{{ 'button.search' | translate}}</button>
+    </form>
+    <loader *ngIf="loading"></loader>
+    <listItems *ngIf="!loading" [list]="list" type="studyProgramme" compare="studyProgramme.compare"></listItems>
+  </block-content>
+</block>
+<div class="loadMore-wrapper">
+  <loader *ngIf="loadingMore"></loader>
+  <button *ngIf="!loadingMore && (totalItems > ((1 + page)  * 24))" htm-button (click)="loadMore()" type="button">{{ 'button.load_more' | translate }}</button>
+</div>
+

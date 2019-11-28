@@ -78,7 +78,6 @@ import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 import { CompareComponent } from './compare';
-import { CompareViewComponent } from './compare.view';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AutocompleteComponent } from './autocomplete';
 import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
@@ -105,6 +104,7 @@ import { AddressService } from '@app/_services/AddressService';
 const pipes = [];
 
 import { AppPipes } from '@app/_pipes';
+import { RelatedStudyProgrammesListComponent } from './relatedStudyprogrammesList/relatedStudyProgrammesList.component';
 
 const declarations = [
   BlockComponent,
@@ -167,7 +167,7 @@ const declarations = [
   CompareComponent,
   ImageComponent,
   LinksComponent,
-  CompareViewComponent,
+  // HomeSearchListViewComponent,
   DropdownListComponent,
   // frontpage stuff, delete after remake
   Triangles,
@@ -178,6 +178,7 @@ const declarations = [
   NewsletterOrderComponent,
   PictoComponent,
   BlockSubTitleComponent,
+  RelatedStudyProgrammesListComponent,
 ];
 
 const exports = [

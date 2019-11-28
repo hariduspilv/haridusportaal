@@ -28,6 +28,8 @@ export class DetailViewComponent {
   private queryKey: string = '';
   private paramsWatcher: Subscription = new Subscription();
 
+  public relatedStudyprogrammes: Object[] = [];
+
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
