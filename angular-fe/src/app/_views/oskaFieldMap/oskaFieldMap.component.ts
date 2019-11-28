@@ -5,8 +5,6 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { FiltersService } from '@app/_services/filterService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { RootScopeService } from '@app/_services/RootScopeService';
-import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 import { SettingsService } from '@app/_services';
 
 @Component({
@@ -54,13 +52,9 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     maxZoom: 10,
     minZoom: 7.4,
     draggable: true,
-    zoomControl: true,
-    streetViewControl: true,
-    enableOuterLink: false,
-    enableLabels: false,
+    enableStreetViewControl: false,
     enableParameters: true,
     enablePolygonLegend: true,
-    enablePolygonModal: false,
   };
 
   constructor(
@@ -104,13 +98,15 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     if (this.data && this.data.length) {
       this.filterData[sibling] = [];
       this.data.forEach((obj) => {
-        if (current && obj[current] === this.filterFormItems[current] && obj[sibling] && !this.filterData[sibling].includes(obj[sibling])) {
+        if (current && obj[current] === this.filterFormItems[current]
+          && obj[sibling] && !this.filterData[sibling].includes(obj[sibling])) {
           this.filterData[sibling].push(obj[sibling]);
         }
       });
       if (!this.filterData[sibling].length) {
         this.filterFormItems[sibling] = '';
-      } else if (this.filterData[sibling].length && !this.filterData[sibling].includes(this.filterFormItems[sibling])) {
+      } else if (this.filterData[sibling].length
+        && !this.filterData[sibling].includes(this.filterFormItems[sibling])) {
         this.filterFormItems[sibling] = this.filterData[sibling][0];
       }
     }
@@ -123,7 +119,8 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
         this.parameters[0].value = this.filterFormItems.mapIndicator;
         this.parameters[1].value = this.filterFormItems.OSKAField;
         if (this.filterFormItems['mapIndicator'] && this.filterFormItems['OSKAField']) {
-          return elem.mapIndicator === this.filterFormItems['mapIndicator'] && elem.OSKAField === this.filterFormItems['OSKAField'];
+          return elem.mapIndicator === this.filterFormItems['mapIndicator']
+            && elem.OSKAField === this.filterFormItems['OSKAField'];
         }
         if (this.filterFormItems['mapIndicator']) {
           return elem.mapIndicator === this.filterFormItems['mapIndicator'];
@@ -146,20 +143,19 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
 
     const subscription = this.http.get(path).subscribe((data) => {
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);
-      // Extra mapping for floating point numbers
-      rawData = rawData.map(elem => [elem.join()]).map(elem => elem.join('').split(';')).map(item => {
-        console.log(item[3]);
-        return {
-          mapIndicator: item[0],
-          OSKAField: item[7].replace(/"/g, ''),
-          county: item[1].replace(/"/g, ''),
-          localGovernment: item[2],
-          value: item[3],
-          division: parseInt(item[4], 10),
-          endLabel: item[6].replace(/"/g, ''),
-          startLabel: item[5].replace(/"/g, ''),
-        };
-      });
+      rawData = rawData.map(elem => [elem.join()])
+        .map(elem => elem.join('').split(';')).map((item) => {
+          return {
+            mapIndicator: item[0],
+            OSKAField: item[7].replace(/"/g, ''),
+            county: item[1].replace(/"/g, ''),
+            localGovernment: item[2],
+            value: item[3],
+            division: parseInt(item[4], 10),
+            endLabel: item[6].replace(/"/g, ''),
+            startLabel: item[5].replace(/"/g, ''),
+          };
+        });
       rawData.shift();
       this.getUniqueFilters(rawData);
       this.data = this.polygonData['county'] = rawData;

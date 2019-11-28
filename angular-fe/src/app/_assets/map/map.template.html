@@ -12,15 +12,56 @@
       [styles]="defaultMapOptions.styles">
       <agm-marker-cluster *ngIf="type === 'markers' && markers && markers.length" [styles]="defaultMapOptions.clusterStyles">
         <agm-marker *ngFor="let marker of markers"
-          [latitude]="marker.Lat"
-          [longitude]="marker.Lon"
+          [latitude]="marker.lat || marker.Lat"
+          [longitude]="marker.lon || marker.Lon"
           [iconUrl]="defaultMapOptions.icon">
-          <agm-snazzy-info-window *ngIf="marker.info"
-            [closeWhenOthersOpen]="true">
+          <agm-snazzy-info-window *ngIf="marker.schoolInfo || marker.FieldSchoolName" [closeWhenOthersOpen]="true" maxHeight="9999">
             <ng-template>
-              <p class="title with--border">{{ marker.info.FieldSchoolName }}</p>
-              <p>{{ marker.info.FieldEducationalInstitutionTy }}</p>
-            </ng-template>  
+              <ng-container *ngIf="marker.schoolInfo">
+                <p class="title with--border">{{ marker.schoolInfo.entityLabel }}</p>
+            
+                <ng-container *ngIf="!infoWindowFunding">
+                  <p *ngIf="marker.schoolInfo.fieldRegistrationCode">{{ 'school.register_code' | translate }}: <b>{{ marker.schoolInfo.fieldRegistrationCode }}</b></p>
+                  <p *ngIf="marker.schoolInfo.fieldOwnershipType">{{ 'school.ownership' | translate }}: <b>{{ marker.schoolInfo.fieldOwnershipType.entity.entityLabel }}</b></p>
+                </ng-container>
+                <ng-container *ngIf="!infoWindowFunding">
+                    <hr />
+                    <p>{{ 'school.select_investment_measure_year' | translate }}:</p>
+                    <div class="tab-buttons">
+                      <ng-container *ngFor="let item of mapService.groupYears(marker.schoolInfo.CustomSubsidyProjects)">
+                        <button (click)="showFunding(item, infoWindow)">{{ item }} </button>
+                      </ng-container>
+                    </div><!--/tab-buttons-->
+                </ng-container>
+  
+                <ng-container *ngIf="infoWindowFunding">
+                  <a href="javascript:void(0);" (click)="showFunding(false)" class="link">&lt; {{ 'button.back' | translate }}</a>
+                  <div class="snazzy-scrollarea">
+                    <p>{{ infoWindowFunding }}-{{ 'school.selected_year_investment_measure' | translate }}</p>
+                    <ng-container *ngFor="let item of mapService.parseInfoWindowMarkerData(marker.schoolInfo.CustomSubsidyProjects)">
+                      <ng-container *ngIf="item.year == infoWindowFunding">
+                        <p>
+                          {{ 'school.investment_measure' | translate }}: <b>{{ item.investmentMeasure.entity.entityLabel }}</b><br />
+                          {{ 'school.investment_project' | translate }}: <b>{{ item.investmentProject }}</b><br />
+                          {{ 'school.investment_max_amount' | translate }}: <b>{{ item.investmentAmount | currency:"EUR" }}</b><br />
+                          {{ 'school.investment_deadline' | translate }}: <b>{{ item.investmentDeadline.unix*1000 | date:"dd.MM.yyyy" }}</b>
+                        </p>
+                      </ng-container>
+                    </ng-container>
+                  </div><!--/snazzy-scrollarea-->
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="marker.FieldSchoolName">
+                <p class="title with--border">{{ marker.FieldSchoolName }}</p>
+                <p *ngIf="marker.FieldAddress">{{ 'school.legal_address' | translate }}: <b>{{ marker.FieldAddress }}</b></p>
+                
+                <p *ngIf="marker.FieldEducationalInstitutionTy">{{ 'school.institution_type' | translate }}: <b>{{ marker.FieldEducationalInstitutionTy }}</b></p>
+                <p *ngIf="marker.FieldSchoolContactPhone || marker.FieldSchoolContactEmail" >{{ 'school.contact_info' | translate }}: <b *ngIf="marker.FieldSchoolContactPhone">{{ marker.FieldSchoolContactPhone }}</b><span *ngIf="marker.FieldSchoolContactPhone && marker.FieldSchoolContactEmail">,</span> <a *ngIf="marker.FieldSchoolContactEmail" href="mailto:{{ marker.FieldSchoolContactEmail}}"><b>{{ marker.FieldSchoolContactEmail}}</b></a></p>
+  
+                <p style="margin-bottom: 20px;" *ngIf="marker.FieldSchoolWebpageAddress">{{ 'school.website' | translate }}: <a href="{{ marker.FieldSchoolWebpageAddress | url }}" target="_blank"><b>{{ marker.FieldSchoolWebpageAddress | removeProtocol }}</b></a></p>
+                <a [routerLink]="marker.EntityPath" class="button">{{ 'button.view_more' | translate }}</a>
+              </ng-container>
+            </ng-template>
           </agm-snazzy-info-window>
         </agm-marker>
       </agm-marker-cluster>
@@ -45,7 +86,7 @@
         <div class="pair__value">{{ item.value | shorten: 20: '...' }}</div>
       </div>
     </div>
-    <a *ngIf="options.enableOuterLink" href="http://www.google.com/maps/place/{{ options.centerLat }},{{ options.centerLng }}" target="_blank">
+    <a class="outerLink" *ngIf="options.enableOuterLink" href="http://www.google.com/maps/place/{{ options.centerLat }},{{ options.centerLng }}" target="_blank">
       <icon glyph="external-link" size="medium"></icon>
       <span>{{'button.map_closer' | translate}}</span>
     </a>
@@ -64,7 +105,7 @@
   <ng-container *ngIf="options.enablePolygonLegend && heatmap && heatmap.length > 0 && type === 'polygons' && options.polygonType === 'oskaFields'">
     <div class="mapLegend">
       <ng-container *ngFor="let item of heatmap">
-        <div class="mapLegend__block">
+        <div class="mapLegend__block" *ngIf="params && params.mapIndicator && mapService.fieldMaxRanges[params.mapIndicator] && item.amount <= mapService.fieldMaxRanges[params.mapIndicator]">
           <div class="mapLegend__color" [style.background-color]="item.color"></div>
         </div>
       </ng-container>

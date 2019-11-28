@@ -16,7 +16,7 @@ const routes: Routes = [
   {
     path: 'haldusüksused',
     component: SchoolFundingAreasViewComponent,
-  }
+  },
 ];
 
 @NgModule({

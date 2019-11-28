@@ -224,6 +224,7 @@ const providers = [
     AgmJsMarkerClustererModule,
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
+      language: 'et',
     }),
     AgmSnazzyInfoWindowModule,
     NgbDatepickerModule,

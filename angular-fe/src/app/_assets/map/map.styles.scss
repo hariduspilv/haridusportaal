@@ -35,7 +35,7 @@
 			left: 1rem;
 			background: $white;
 			border-radius: 10rem;
-			button{
+			button {
 				appearance: none; 
 				display: inline-block;
 				border: none;
@@ -131,7 +131,7 @@
 			font-weight: 500;
 		}
 	}
-	a {
+	a.outerLink {
 		position: absolute;
 		left: 0;
 		bottom: 0;
@@ -185,6 +185,12 @@
 	box-sizing: border-box;
 	position: absolute;
 	width: 100%;
+	::ng-deep a.link {
+    font-size: 1rem;
+    margin: 0 0 1rem 0;
+    display: inline-block;
+		font-family: Rubik,sans-serif!important;
+	}
 	.si-wrapper-top {
 		width: 443px;
 		position: relative;
@@ -206,10 +212,31 @@
 			z-index: 3;
 			border-radius: 4px 4px 0 0;
 		}
+		.tab-buttons button {
+			font-family: Rubik,sans-serif!important;
+			-webkit-appearance: none;
+			-moz-appearance: none;
+			appearance: none;
+			border: 1px solid #c7c7c9;
+			border-radius: 2rem;
+			height: 2.5rem;
+			line-height: 2.5rem;
+			padding: 0 1.5rem;
+			color: #333;
+			text-decoration: none;
+			background: #fff;
+			font-size: .875rem;
+			margin-right: .75rem;
+		}
+		.snazzy-scrollarea {
+			max-height: 200px;
+			overflow: auto;
+			font-family: Rubik,sans-serif!important;
+		}
 		@include break-on(sm, max) {
 			width: 327px;
 		}
-	}
+	}	
 	::ng-deep hr {
     border: none;
     margin: 0 -24px;
@@ -292,6 +319,16 @@
 				padding-bottom: 16px;
 				border-bottom: 1px solid #c7c7c9;
 			}
+		}
+		.button {
+			font-family: Rubik,sans-serif!important;
+			height: 62px;
+			line-height: 62px;
+			margin: 0 -24px -24px;
+			text-align: center;
+			display: block;
+			border-top: 1px solid #c7c7c9;
+			font-size: 16px;
 		}
 		p:not(.title) {
 			margin-top: 10px;

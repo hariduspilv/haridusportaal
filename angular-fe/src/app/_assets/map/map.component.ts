@@ -45,6 +45,8 @@ export class MapComponent {
   private polygonLayer: string = 'county';
   private defaultMapOptions: any = conf.defaultMapOptions;
   private paramSub: Subscription;
+  public params: Object;
+  public infoWindowFunding: Boolean | Number;
   private activeLegendParameters: object;
   private polygonIcon = {
     url: '',
@@ -53,6 +55,7 @@ export class MapComponent {
       height: 0,
     },
   };
+
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
@@ -88,10 +91,12 @@ export class MapComponent {
       }
     }
   }
+
   setPolyLabels() {
     this.polygonMarkers = this.mapService.mapPolygonLabels(
       this.polygonCoords, !this.options.enablePolygonModal, this.options.polygonType);
   }
+
   getPolygons() {
     const url = `/assets/polygons/${this.polygonLayer}.json`;
     const subscription = this.http.get(url).subscribe((data) => {
@@ -128,10 +133,13 @@ export class MapComponent {
 
   watchSearch() {
     this.paramSub = this.route.queryParams.subscribe((params) => {
+      this.params = params;
       if (this.legendKey && params[this.legendKey]) {
         this.activeLegendParameters = this.legendLabels[params[this.legendKey]];
       }
-      this.getPolygons();
+      if (this.type === 'polygons') {
+        this.getPolygons();
+      }
       this.mapLabelSwitcher(this.options.enableLabels);
     });
   }
@@ -146,6 +154,12 @@ export class MapComponent {
 
   layerClickStatus($isOpen: boolean) {
     this.mapService.infoLayer['status'] = $isOpen;
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) this.cdr.detectChanges();
   }
+
+  showFunding(year: string, infoWindow:any = false) {
+    this.infoWindowFunding = parseFloat(year);
+    if (!this.cdr['destroyed']) this.cdr.detectChanges();
+  }
+
 }

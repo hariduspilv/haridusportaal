@@ -1,6 +1,6 @@
 <base-layout>
 	<div class="inline">
-		<breadcrumbs path="/kool"></breadcrumbs>
+		<breadcrumbs path="/kool/kaart"></breadcrumbs>
 	</div><!--/inline-->
 	<form class="filter-wrapper" filters>
 		<div class="inline">
@@ -90,10 +90,11 @@
 	<div class="inline">
 		<block titleBorder="true">
 			<block-title>{{ 'school.label' | translate }}</block-title>
-			<block-content tabLabel="Nimekiri" tabLink="/kool" [tabActive]="true" tabIcon="list">
-				<searchResults type="school" limit="24"></searchResults>
+			<block-content tabLabel="Nimekiri" tabLink="/kool" [queryParams]="params" tabIcon="list"></block-content>
+			<block-content tabLabel="Kaart" tabLink="/kool/kaart" [tabActive]="true" tabIcon="map-pin">
+				<loader *ngIf="loading"></loader>
+				<map *ngIf="!loading && markers" type="markers" [markers]="markers" [options]="options"></map>
 			</block-content>
-			<block-content tabLabel="Kaart" tabLink="/kool/kaart" [queryParams]="params" tabIcon="map-pin"></block-content>
 		</block>
 	</div><!--/inline-->
 </base-layout>

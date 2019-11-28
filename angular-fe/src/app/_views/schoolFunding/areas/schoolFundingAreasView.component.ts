@@ -19,9 +19,9 @@ export class SchoolFundingAreasViewComponent {
 
   @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
 
-  showFilter = true;
-  filterFull = false;
-  loading = false;
+  public showFilter = true;
+  public filterFull = false;
+  public loading = true;
 
   public institutionOwnershipItems: object[] | boolean = false;
   public investmentMeasureItems: object[] | boolean = false;
@@ -30,7 +30,7 @@ export class SchoolFundingAreasViewComponent {
   public investmentDeadlineYear: any = false;
   public investmentMeasure: any = false;
   public institutionOwnership: any = false;
-
+  public polygonData: Object;
   public params: any = {};
 
   public breadcrumbs = [
@@ -45,21 +45,14 @@ export class SchoolFundingAreasViewComponent {
   ];
 
   public options: Object = {
-    polygonType: 'investment', // ...
-    centerLat: 59.4371821, // Uses EST center if not specified
-    centerLng: 24.7450143,
-    zoom: 11,
-    maxZoom: 11,
-    minZoom: 11,
+    polygonType: 'investment',
+    zoom: 7.4,
+    maxZoom: 16,
+    minZoom: 7,
     draggable: true,
-    zoomControl: false,
-    streetViewControl: false,
-    showOuterLink: true,
-    showLabels: true,
-    showParameters: false,
-    showPolygonLayerSelection: false,
-    showPolygonLegend: false,
-    enablePolygonModal: false,
+    enablePolygonLegend: true,
+    enablePolygonModal: true,
+    enableStreetViewControl: false,
   };
 
   watchParams() {
@@ -70,7 +63,6 @@ export class SchoolFundingAreasViewComponent {
       this.institutionOwnership = this.params.institutionOwnership;
     }
     this.route.queryParams.subscribe((params: any) => {
-      console.log(params);
       this.getData(params);
       this.params = params;
       this.investmentDeadlineYear = params.investmentDeadlineYear;
@@ -83,7 +75,7 @@ export class SchoolFundingAreasViewComponent {
 
     this.loading = true;
     const variables = {
-      ownerShipType: params.institutionOwnerShip,
+      ownershipType: params.institutionOwnership,
       investmentMeasure: params.investmentMeasure,
       investmentDeadline: params.investmentDeadlineYear,
       levelOfDetail: 1,
@@ -91,8 +83,10 @@ export class SchoolFundingAreasViewComponent {
 
     const query = this.settingsService.query('subsidyProjectQueryLocation', variables);
 
-    this.http.get(query).subscribe((data: any) => {
-      console.log(data);
+    this.http.get(query).subscribe(({ data }: any) => {
+      this.polygonData = { county: data.CustomSubsidyProjectQuery };
+    },                             () => {}, () => {
+      this.loading = false;
     });
   }
 
@@ -147,7 +141,6 @@ export class SchoolFundingAreasViewComponent {
     };
     const query = this.settingsService.query('subsidyProjectFilters', variables);
     this.http.get(query).subscribe(({ data }: any) => {
-      console.log(data);
       this.parseFilters(data);
       this.watchParams();
     });

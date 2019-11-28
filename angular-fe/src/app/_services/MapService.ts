@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import conf from '@app/_core/conf';
-import { LatLngLiteral } from '@agm/core';
 import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
+import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,7 @@ export class MapService {
   public infoLayer: {} = {};
   public polygonValueLabels: {} = {};
   public polygonColors: {} = {};
+  public fieldMaxRanges: Object = {};
   private labelOptions = {
     lightColor: 'white',
     color: 'black',
@@ -26,6 +27,7 @@ export class MapService {
   generateHeatMap (type, data) {
     let maxSum = 0;
     const sumArray = [];
+    const fieldSums = {};
     switch (type) {
       case 'investment':
         data.forEach((item) => {
@@ -54,6 +56,9 @@ export class MapService {
           if (item['division'] > maxSum) {
             maxSum = item['division'];
           }
+          if (item['division'] > fieldSums[item.mapIndicator] || (!fieldSums[item.mapIndicator])) {
+            fieldSums[item.mapIndicator] = item['division'];
+          }
         });
         conf.defaultPolygonColors.forEach((item, index) => {
           const tmpArray = {
@@ -62,6 +67,7 @@ export class MapService {
           };
           sumArray.push(tmpArray);
         });
+        this.fieldMaxRanges = fieldSums;
         return sumArray;
       default:
         console.error('Error generating heatmap (MapService.ts).');
@@ -144,7 +150,10 @@ export class MapService {
         const fontSize = this.activeFontSize || this.labelOptions.fontSize;
         const fontWeight = this.labelOptions.fontWeight;
         if (extraLabels && elem.geometry.center) {
-          let text = this.polygonValueLabels[current] ? `${this.polygonValueLabels[current]}` : '';
+          let text =
+            this.polygonValueLabels[current] && !this.polygonValueLabels[current].includes('%')
+            ? `${new LocaleNumberPipe().transform(this.polygonValueLabels[current])}`
+            : this.polygonValueLabels[current];
           if (polygonType === 'investment') {
             text = this.polygonValueLabels[current] ?
               new EuroCurrencyPipe().transform(this.polygonValueLabels[current]) : '';
@@ -209,5 +218,30 @@ export class MapService {
           value: $event.feature.getProperty('value'),
         };
     }
+  }
+
+  groupYears(data) {
+    const output = [];
+
+    for (const i in data) {
+      const unix = data[i].investmentDeadline.unix;
+      let year:any = new Date(parseFloat(unix) * 1000);
+      year = year.getFullYear();
+
+      if (output.indexOf(year) === -1) {
+        output.push(year);
+      }
+    }
+    return output;
+  }
+
+  parseInfoWindowMarkerData(data: any): any {
+    for (const i in data) {
+      const current = data[i];
+      const unix = new Date(current.investmentDeadline['unix'] * 1000);
+      const year:any = unix.getFullYear();
+      current.year = parseFloat(year);
+    }
+    return data;
   }
 }

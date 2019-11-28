@@ -8,17 +8,23 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { SchoolListViewComponent } from './schoolListView.component';
 import { AppPipes } from '@app/_pipes';
+import { SchoolListMapComponent } from './map/schoolListMap.component';
 
 const routes: Routes = [
   {
     path: '',
     component: SchoolListViewComponent,
   },
+  {
+    path: 'kaart',
+    component: SchoolListMapComponent,
+  },
 ];
 
 @NgModule({
   declarations: [
     SchoolListViewComponent,
+    SchoolListMapComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

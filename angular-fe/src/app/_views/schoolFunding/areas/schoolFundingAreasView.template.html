@@ -34,7 +34,9 @@
       <block-content tabLabel="Õppeasutused" tabLink="/koolide-rahastus" [queryParams]="params" tabIcon="home">
       </block-content>
       <block-content tabLabel="Haldusüksused" tabLink="/koolide-rahastus/haldusüksused" [tabActive]="true" tabIcon="map-pin">
-        insert map 2 here
+        <loader *ngIf="loading && !polygonData"></loader>
+        <map *ngIf="polygonData" type="polygons" [options]="options" [polygonData]="polygonData">
+        </map>
       </block-content>
     </block>
   </div>
