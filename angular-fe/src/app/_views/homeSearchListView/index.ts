@@ -3,40 +3,37 @@ import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
 import { TranslateModule } from '@app/_modules/translate';
-import { DetailViewComponent } from './detailView.component';
+import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { AppPipes } from '@app/_pipes';
-import { StudyProgrammeListViewModule } from '../studyProgrammeListView';
+import { HomeSearchListViewComponent } from './homeSearchListView.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: DetailViewComponent,
-  },
-  {
-    path: ':id',
-    component: DetailViewComponent,
+    component: HomeSearchListViewComponent,
   },
 ];
 
 @NgModule({
   declarations: [
-    DetailViewComponent,
+    HomeSearchListViewComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
     AssetsModule,
     TranslateModule,
     CommonModule,
+    FormsModule,
     AppPipes,
   ],
   exports: [
-    DetailViewComponent,
+    HomeSearchListViewComponent,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })
 
-export class DetailViewModule { }
+export class HomeSearchListViewModule { }

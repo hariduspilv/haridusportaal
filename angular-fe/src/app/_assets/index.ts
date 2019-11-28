@@ -78,7 +78,6 @@ import { SchoolsComponent } from './schools/schools.component';
 import { NewsComponent } from './news/news.component';
 import { MainProfessionsComponent } from './mainProfessions/mainProfessions.component';
 import { CompareComponent } from './compare';
-import { CompareViewComponent } from './compare.view';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { AutocompleteComponent } from './autocomplete';
 import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
@@ -91,9 +90,6 @@ export function settingsProviderFactory(provider: SettingsService) {
 import { ImageComponent } from './image';
 import { LinksComponent } from './links';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
-import {
-  HomeSearchListViewComponent,
-} from '@app/_views/homeSearchListView/homeSearchListView.component';
 
 import { ModuleWithProviders } from '@angular/compiler/src/core';
 import { InfographComponent } from './infograph/infograph.component';
@@ -108,6 +104,7 @@ import { AddressService } from '@app/_services/AddressService';
 const pipes = [];
 
 import { AppPipes } from '@app/_pipes';
+import { RelatedStudyProgrammesListComponent } from './relatedStudyprogrammesList/relatedStudyProgrammesList.component';
 
 const declarations = [
   BlockComponent,
@@ -170,8 +167,7 @@ const declarations = [
   CompareComponent,
   ImageComponent,
   LinksComponent,
-  HomeSearchListViewComponent,
-  CompareViewComponent,
+  // HomeSearchListViewComponent,
   DropdownListComponent,
   // frontpage stuff, delete after remake
   Triangles,
@@ -182,6 +178,7 @@ const declarations = [
   NewsletterOrderComponent,
   PictoComponent,
   BlockSubTitleComponent,
+  RelatedStudyProgrammesListComponent,
 ];
 
 const exports = [

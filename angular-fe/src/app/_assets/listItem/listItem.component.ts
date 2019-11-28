@@ -57,7 +57,7 @@ export class ListItemComponent implements OnInit, OnChanges{
 
   parseList():void {
     this.list.forEach((element, index) => {
-      this.list[index] = FieldVaryService(element);;
+      this.list[index] = FieldVaryService(element);
     });
   }
   ngOnInit() {

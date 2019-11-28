@@ -35,6 +35,11 @@
 			border-bottom: 0.0625rem solid $gray;
 			display: block;
 			text-decoration: none;
+			&--title{
+				h1{
+					color: $blue;
+				}
+			}
 			&:hover .search__sub--title {
 				text-decoration: underline;
 			}

@@ -21,6 +21,10 @@ const routes: Routes = [
     loadChildren: './_views/newsListView#NewsListViewModule',
   },
   {
+    path: 'otsing',
+    loadChildren: './_views/homeSearchListView#HomeSearchListViewModule',
+  },
+  {
     path: 'uudised/:id',
     loadChildren: './_views/detailView#DetailViewModule',
     data: {
@@ -119,6 +123,13 @@ const routes: Routes = [
   {
     path: 'erialad',
     loadChildren: './_views/studyProgrammeListView#StudyProgrammeListViewModule',
+  },
+  {
+    path: 'erialad/võrdlus',
+    loadChildren: './_views/compareView#CompareViewModule',
+    data: {
+      type: 'studyProgrammeComparison',
+    },
   },
   {
     path: 'erialad/:id',
