@@ -1,5 +1,6 @@
 <div class="inline">
 	<base-layout>
+		<breadcrumbs [path]="path"></breadcrumbs>
 		<div class="sm-show text-right filter-wrapper">
 			<a href="javascript:void(0);" (click)="showFilter = !showFilter">
 				<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
@@ -10,36 +11,18 @@
 			(submit)="filterSubmit($event)"
 			class="filter-wrapper"
 			*ngIf="showFilter"
+			filters
 		>
 			<div class="main-container">
 				<div class="row form-first-row" [class.short-filter]="!filterFull">
 					<div class="col-4 sm-12 form-col">
-						<div class="round-input__wrapper">
-							<!-- <mat-form-field>
-        <mat-select placeholder="{{ 'oska.title_field' | translate }}" [(ngModel)]='filterFormItems.field' name="field">
-          <mat-option>{{ 'button.all' | translate }}</mat-option>
-          <mat-option *ngFor="let item of filterItemValues.field" [value]="item">
-            {{item | titleCase}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
-						</div>
-						<!--/round-inpuit__wrapper-->
+						<formItem type="select" name="field" title="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.field" [options]="filterItemValues.field"></formItem>
 					</div>
-					<!--/col-4-->
 					<div class="col-5 sm-12 form-col">
+							<formItem type="select" name="responsible" title="{{ 'oska.table_responsible_person' | translate }}" [(ngModel)]="filterFormItems.responsible" [options]="filterItemValues.responsible"></formItem>
 						<div class="round-input__wrapper">
-							<!-- <mat-form-field>
-        <mat-select placeholder="{{ 'oska.table_responsible_person' | translate }}" [(ngModel)]='filterFormItems.responsible' name="responsible">
-          <mat-option>{{ 'button.all' | translate }}</mat-option>
-          <mat-option *ngFor="let item of filterItemValues.responsible" [value]="item">
-            {{item | titleCase}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field> -->
 						</div>
 					</div>
-					<!--/col-4-->
 					<div
 						class="col-3 align-end text-right sm-12 inline-flex form-col"
 						*ngIf="!filterFull"
@@ -55,7 +38,7 @@
 							</a>
 						</div>
 						<div class="button-row">
-							<button role="button" mat-raised-button color="primary">
+							<button role="button" htm-button>
 								{{ 'button.search' | translate}}
 							</button>
 						</div>
@@ -67,14 +50,7 @@
 					<div class="row form-additional-row">
 						<div class="col-9 sm-12 form-col">
 							<div class="round-input__wrapper">
-								<!-- <mat-form-field>
-          <mat-select placeholder="{{ 'oska.table_proposition_status' | translate }}" [(ngModel)]='filterFormItems.proposalStatus' name="proposalStatus">
-            <mat-option>{{ 'button.all' | translate }}</mat-option>
-            <mat-option *ngFor="let item of filterItemValues.proposalStatus" [value]="item">
-              {{item | titleCase}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field> -->
+								<formItem type="select" name="proposalStatus" title="{{ 'oska.table_proposition_status' | translate }}" [(ngModel)]="filterFormItems.proposalStatus" [options]="filterItemValues.proposalStatus"></formItem>
 							</div>
 						</div>
 						<div class="col-3 align-end text-right sm-12 inline-flex form-col">
@@ -89,7 +65,7 @@
 								</a>
 							</div>
 							<div class="button-row">
-								<button role="button" mat-raised-button color="primary">
+								<button role="button" htm-button>
 									{{ 'button.search' | translate}}
 								</button>
 							</div>
@@ -111,11 +87,11 @@
 								*ngIf="filteredTableData && tableData && tableData.length"
 							>
 								<div class="row">
-									<div class="col sm-8 flex">
+									<div class="col-8 sm-8 flex">
 										<h1>{{ 'oska.proposal_title' | translate }}</h1>
 									</div>
 									<div
-										class="col sm-4 flex flex-center flex-justify-end action--back"
+										class="col-4 sm-4 flex flex-center flex-justify-end action--back"
 										*ngIf="filteredTableData && filteredTableData.length && tableFile && tableFile.fieldResultPageTableFile"
 									>
 										<div class="link-holder">
@@ -144,8 +120,8 @@
 									class="scrollable"
 									*ngIf="filteredTableData && filteredTableData.length"
 								>
-									<scrollableContent>
-										<div class="scrollable__table" id="resultsTable">
+								<div class="scrollable__table" id="resultsTable">
+										<scrollableContent [changed]="commentVisible">
 											<table class="dashboard-table scrollableTable">
 												<thead>
 													<tr>
@@ -245,8 +221,8 @@
 															<span
 																tabindex="0"
 																role="button"
-																(keyup.enter)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()"
-																(click)="commentVisible = !commentVisible;;elemAtStart = tableService.isElemAtStart('resultsTable');tableOverflown = tableService.isElemOverflown('resultsTable');setAlert()"
+																(keyup.enter)="commentVisible = !commentVisible"
+																(click)="commentVisible = !commentVisible"
 															>
 																<span
 																	*ngIf="commentVisible"
@@ -277,7 +253,7 @@
 												</thead>
 												<tbody>
 													<tr
-														*ngFor="let item of filteredTableData; let first = first; let last = last;"
+														*ngFor="let item of filteredTableData; let first = first; let last = last; let index = index"
 													>
 														<td class="narrow">
 															<div *ngIf="item.oskaField && item.oskaField[0]">
@@ -285,7 +261,7 @@
 															</div>
 														</td>
 														<td class="wide">
-															<div id="limitedData" *ngIf="item.proposal">
+															<div id="limitedData" [ngClass]="'elem-' + index" class="less" *ngIf="item.proposal">
 																{{item.proposal}}
 															</div>
 															<div
@@ -293,9 +269,10 @@
 																class="text-center hidden show-more"
 															>
 																<a
-																	(click)="removeLimiter($event)"
+																	(click)="removeLimiter(index)"
 																	aria-hidden="true"
 																	role="button"
+																	[ngClass]="'elem-' + index + '-btn'"
 																	href="javascript:void(0)"
 																	>{{'button.see_more' | translate}}</a
 																>
@@ -362,11 +339,11 @@
 													</tr>
 												</tbody>
 											</table>
-											<div class="notification--alert" role="alert">
+										</scrollableContent>
+											<!-- <div class="notification--alert" role="alert">
 												<span *ngIf="alertText">{{alertText}}</span>
-											</div>
+											</div> -->
 										</div>
-									</scrollableContent>
 								</div>
 							</div>
 						</div>

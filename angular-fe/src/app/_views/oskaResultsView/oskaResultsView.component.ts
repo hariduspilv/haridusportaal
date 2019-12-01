@@ -1,11 +1,12 @@
-import { Component, OnInit, HostListener, Input, ChangeDetectorRef } from '@angular/core';
-// import { TableService, RootScopeService } from '@app/_services';
-// import { FiltersService } from '@app/_services/filtersService'
+import { Component, OnInit, Input, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
-// import { TranslateService } from '@ngx-translate/core';
+import { FiltersService } from '@app/_services/filterService';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import { Location } from '@angular/common';
+
 
 @Component({
   selector: 'oskaResultsTable',
@@ -13,7 +14,7 @@ import { SettingsService } from '@app/_services';
   styleUrls: ['oskaResultsView.styles.scss'],
 })
 
-export class OskaResultsView implements OnInit {
+export class OskaResultsView extends FiltersService implements OnInit {
 
   @Input() inputData: any;
   public tableData: any = false;
@@ -34,14 +35,11 @@ export class OskaResultsView implements OnInit {
   public searchSubscription: Subscription;
   private activeSortedBy: string = '';
   private alertText: string = '';
-  public params: object;
+  public params: any;
+
+  public path: any;
   public filterOptionsKeys = ['field', 'responsible', 'proposalStatus'];
-  public filterItems: {} = {
-    field: '',
-    responsible: '',
-    proposalStatus: '',
-  };
-  public filterItemValues: {} = {
+  public filterItemValues: any = {
     field: [],
     responsible: [],
     proposalStatus: [],
@@ -55,33 +53,39 @@ export class OskaResultsView implements OnInit {
     public route: ActivatedRoute,
     public settingsService: SettingsService,
     public router: Router,
-    // public translate: TranslateService
+    public translate: TranslateService,
+    public location: Location,
   ) {
+    super(null, null);
   }
 
   filterView() {
-    // if (this.tableData) {
-    //   if (!this.filterFormItems['field'] && !this.filterFormItems['responsible'] && !this.filterFormItems['proposalStatus']) {
-    //     this.filteredTableData = this.tableData;
-    //   }
-    //   if (this.params['field'] && !this.filterItemValues['field'].includes(this.params['field'])) {
-    //     this.router.navigate([], { queryParams: { field: null }, queryParamsHandling: 'merge', replaceUrl: true });
-    //     this.filterFormItems['field'] = '';
-    //   }
-    //   this.filterItems = { field: '', responsible: '', proposalStatus: '' };
-    //   Object.keys(this.filterFormItems).forEach((key) => this.filterItems[key] = this.filterFormItems[key] || "");
-    //   this.filteredTableData = this.tableData.filter((elem) => {
-    //     let field = elem.oskaField && elem.oskaField[0] ? elem.oskaField[0].entity.title.toLowerCase() : '';
-    //     let responsible = elem.responsible ? elem.responsible.toLowerCase() : '';
-    //     let proposalStatus = elem.proposalStatus ? elem.proposalStatus.toLowerCase() : '';
-    //     return field.includes(this.filterItems['field'].toLowerCase())
-    //       && responsible.includes(this.filterItems['responsible'].toLowerCase())
-    //       && proposalStatus.includes(this.filterItems['proposalStatus'].toLowerCase());
-    //   })
-    //   this.removeAllRedundantClasses()
-    //   this.updated = true;
-    //   this.resetTableScroll();
-    // }
+    if (this.tableData) {
+      if (!this.params.field &&
+        !this.params.responsible &&
+        !this.params.proposalStatus ) {
+        this.filteredTableData = this.tableData;
+      }
+      let filteredData = this.tableData;
+      if (this.params['field']) {
+        filteredData = filteredData.filter((el) => {
+          return el.oskaField[0].entity.title.toLowerCase() ===
+            this.params['field'].toLowerCase();
+        });
+      }
+      if (this.params['responsible']) {
+        filteredData = filteredData.filter((el) => {
+          return el.responsible.toLowerCase() === this.params['responsible'].toLowerCase();
+        });
+      }
+      if (this.params['proposalStatus']) {
+        filteredData = filteredData.filter((el) => {
+          return el.proposalStatus.toLowerCase() ===
+            this.params['proposalStatus'].toLowerCase();
+        });
+      }
+      this.filteredTableData = filteredData;
+    }
   }
 
   sortView(field) {
@@ -129,12 +133,11 @@ export class OskaResultsView implements OnInit {
     }
   }
 
-  removeLimiter(self) {
-    self.target.parentNode.classList.add('hidden');
-    const sibling = document.querySelector(`.elem-${self.target.className}`);
-    sibling.classList.remove('less');
-    sibling.classList.remove(`elem-${self.target.className}`);
-    self.target.parentNode.childNodes[0].classList.remove(`${self.target.className}`);
+  removeLimiter(index) {
+    const text = document.querySelector(`.elem-${index}`);
+    const btn = document.querySelector(`.elem-${index}-btn`);
+    text.classList.toggle('less');
+    btn.classList.add('hide');
   }
 
   getTableData() {
@@ -142,52 +145,47 @@ export class OskaResultsView implements OnInit {
       lang: 'ET',
     };
     const query = this.settingsService.query('oskaResultPageTable', variables);
-    const subscription = this.http.get(query).subscribe((data) => {
-      console.log(data);
-      if (data['data']['errors']) {
-        this.error = true;
-        return;
-      }
-      this.tableData = this.filteredTableData = data['data']['oskaTable']['entities'];
-      this.tableFile = data['data']['oskaTableFile']['entities'] ? data['data']['oskaTableFile']['entities'][0] : false;
-      const fieldsToProcess = ['responsible', 'proposalStatus'];
-      if (this.tableData) {
-        this.tableData.forEach(elem => {
-          if (elem.oskaField && elem.oskaField[0] && !this.filterItemValues['field'].includes(elem.oskaField[0].entity.title)) {
-            this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
-          }
-          fieldsToProcess.forEach(item => {
-            if (elem[item] && !this.filterItemValues[item].includes(elem[item])) this.filterItemValues[item].push(elem[item]);
+    const subscription = this.http.get(query).subscribe(
+      (data) => {
+        if (data['data']['errors']) {
+          this.error = true;
+          return;
+        }
+        this.tableData = this.filteredTableData = data['data']['oskaTable']['entities'];
+        this.tableFile = data['data']['oskaTableFile']['entities'] ?
+          data['data']['oskaTableFile']['entities'][0] : false;
+        const fieldsToProcess = ['responsible', 'proposalStatus'];
+        if (this.tableData) {
+          this.tableData.forEach((elem: any) => {
+            if (elem.oskaField && elem.oskaField[0]) {
+              this.filterItemValues['field'].push(elem.oskaField[0].entity.title);
+            }
+            fieldsToProcess.forEach((item: any) => {
+              if (elem[item] && !this.filterItemValues[item].includes(elem[item])) {
+                this.filterItemValues[item].push(elem[item]);
+              }
+            });
           });
-        });
-        this.filterItemValues['proposalStatus'].sort();
-        this.filterItemValues['field'].sort();
-        this.filterItemValues['responsible'].sort();
-      }
-      this.filterView();
-      subscription.unsubscribe();
-    }, (err) => {
-      console.log(err);
-      this.error = true;
-    });
-  }
-
-  initialTableCheck(id) {
-    const element = document.getElementById(id);
-    if (element) {
-      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      this.setScrollPos('resultsTable');
-      this.initialized = true;
-      this.limitTableRows('#limitedData', 150);
-    }
-  }
-
-  resetTableScroll() {
-    let table = document.getElementById('resultsTable');
-    if (table) table.scrollLeft = 0;
+          this.filterItemValues['field'] = Array.from(new Set(this.filterItemValues.field)).sort();
+          this.filterItemValues['responsible'] = this.filterItemValues['responsible'].sort();
+          this.filterItemValues['proposalStatus'] = this.filterItemValues['proposalStatus'].sort();
+          for (const key in this.filterItemValues) {
+            this.filterItemValues[key].unshift({ key: 'Kõik', value: '' });
+            // console.log(this.filterItemValues[key]);
+          }
+          this.cdr.detectChanges();
+        }
+        this.filterView();
+        subscription.unsubscribe();
+      },
+      (err) => {
+        console.log(err);
+        this.error = true;
+      });
   }
 
   setAlert(sortedBy) {
+    // this doesnt do anything in live?
     // if (sortedBy) {
     //   let modifierValue = this.modifier ? 'sort.descending' : 'sort.ascending';
     //   let sortLabel = `${this.translate.get(sortedBy)['value']} - ${this.translate.get(modifierValue)['value']}`;
@@ -198,74 +196,24 @@ export class OskaResultsView implements OnInit {
     // }
   }
 
-  setScrollPos(id) {
-    let table = document.getElementById(id);
-    let clientHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-    if (table && (table.getBoundingClientRect().top < (clientHeight / 2))) {
-      if (!window.pageYOffset) { window.scroll(0, 1) }
-      this.scrollPos = ((clientHeight / 2) - table.getBoundingClientRect().top).toString();
-    }
-    if (table && (parseInt(this.scrollPos, 10) <= table.getBoundingClientRect().height)) {
-      if (document.getElementById('scrollableRight')) {
-        document.getElementById('scrollableRight').setAttribute('style', 'top: ' + this.scrollPos + 'px');
-      }
-      if (document.getElementById('scrollableLeft')) {
-        document.getElementById('scrollableLeft').setAttribute('style', 'top: ' + this.scrollPos + 'px');
-      }
-    }
-  }
-
-  @HostListener("window:scroll", [])
-  onWindowScroll() {
-    this.setScrollPos('resultsTable');
-  }
-  @HostListener('document:touchend', ['$event']) touchedOutside($event) {
-    (document.activeElement as HTMLElement).blur();
-  }
-
   ngOnInit() {
     this.getTableData();
     this.watchSearch();
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth < 1024;
+    if (this.route.snapshot.data) {
+      this.path = decodeURI(this.location.path());
+    }
   }
 
   watchSearch() {
     this.searchSubscription = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
       this.filterView();
+      this.cdr.detectChanges();
     });
 
-    // this.filterRetrieveParams(this.params);
-  }
-
-  evaluateChange(id) {
-    const element = document.getElementById(id);
-    if (element) {
-      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      this.setScrollPos(id);
-      if (window.innerWidth > 1024) {
-        element.scrollLeft = 999;
-      } else if (!this.commentVisible && !this.elemAtStart) {
-        this.tableOverflown = false;
-      }
-      this.cdr.detectChanges();
-    }
-  }
-
-  ngAfterViewChecked() {
-    if (!this.initialized) {
-      this.initialTableCheck('resultsTable');
-    }
-    if (this.updated) {
-      this.limitTableRows('#limitedData', 150);
-      this.evaluateChange('resultsTable');
-      this.updated = false;
-    }
-    if (this.recentCommentState !== this.commentVisible) {
-      this.evaluateChange('resultsTable');
-      this.recentCommentState = this.commentVisible;
-    }
+    this.filterRetrieveParams(this.params);
   }
 
   ngOnDestroy() {

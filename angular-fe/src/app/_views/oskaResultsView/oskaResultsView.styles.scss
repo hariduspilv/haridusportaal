@@ -4,28 +4,61 @@
 .short{font-weight: 500; padding:1rem 0 1rem 0;}
 .short, .description{line-height:1.375rem;}
 .filter-wrapper {
-  padding: 1rem 1.5rem;
-  background: #fff;
-  margin: 1rem -1.5rem 1.5rem;
-  @include break-on(sm, max) {
-    margin-bottom: 0;
-    padding-top: 1rem;
-    .filter-control {
-      padding: 0 !important;
-      span {
-        margin-right: 1rem;
-      }
-    }
-    &.filtersActive {
-      display: block;
-    }
-  }
+		padding: 1rem 1.5rem;
+		background: #fff;
+		margin: 1rem -1.5rem 1.5rem;
+		@include break-on(sm, max) {
+			margin-bottom: 0;
+      padding-top: 1rem;
+      margin: 1rem 0 1.5rem;
+			.filter-control {
+				padding: 0 !important;
+				span {
+					margin-right: 1rem;
+				}
+			}
+			&.filtersActive {
+				display: block;
+			}
+		}
   .filter-control {
     padding: 1.5rem 0rem 0.5rem;
   }
   .text-right {
     text-align: right;
   }
+  .align-center {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+  }
+  .row {
+		margin: 0 -0.5rem;
+		.align-end {
+			align-self: flex-end;
+			margin-bottom: auto;
+		}
+		.inline-flex {
+			display: inline-flex;
+			justify-content: flex-end;
+		}
+		.text-right {
+			text-align: right;
+		}
+		.align-center {
+			align-self: center;
+		}
+		.filter-state {
+			margin: 0 auto;
+			position: relative;
+			right: 0.5rem;
+			text-align: center;
+			text-decoration: underline;
+			&:hover {
+				text-decoration: none;
+			}
+		}
+	}
 }
 ::ng-deep .padding-block{
   .row.video{padding:0 0 1rem 0 !important;
@@ -67,7 +100,7 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
 .pointer {user-select: none;}
 .scrollable {padding: 0;}
 .scrollable__table {overflow-y: hidden;}
-.scrollableTable {
+.scrollable__table {
   td {
     &.narrow {min-width: 7.5rem; font-weight: 400;}
     &.wide {min-width: 14rem; font-weight: 400;
@@ -95,7 +128,7 @@ h1{color:$black; font-size:1.5rem; line-height:1.33; margin:0;padding-bottom: .5
   }
 }
 .link-holder {padding-bottom: .5rem;}
-.scrollableTable thead {
+.scrollable_table thead {
   .htm-icon.nonvisible__elem {font-size: 1.5rem;cursor: pointer;}
   .visible__elem {float: right;top: 0;}
 }
@@ -171,5 +204,8 @@ feedback{margin-left:0; margin-right:0; margin-bottom:-2rem;}
     left: .5rem;
     top: 1rem;
     z-index: 1;
+}
+.hide {
+  display: none;
 }
 }

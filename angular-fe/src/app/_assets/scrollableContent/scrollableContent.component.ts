@@ -152,7 +152,9 @@ export class ScrollableContentComponent implements OnInit, OnChanges{
     setTimeout(
       () => {
         this.detectWidth();
+        this.onScroll();
+        this.checkArrows();
       },
-      0);
+      100);
   }
 }

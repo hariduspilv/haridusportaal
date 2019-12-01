@@ -97,41 +97,6 @@ export class FiltersService {
   }
   filterSubmit($event:any = false) {
 
-    if ($event) {
-      $event.preventDefault();
-    }
-
-    const urlParams = {};
-
-    for (var i in this.filterFormItems) {
-
-      if (this.filterFormItems[i] == '' || this.filterFormItems[i] == null) {
-        delete this.filterFormItems[i];
-      }
-      else if (i.match('date') && typeof(this.filterFormItems[i]) == 'object' && this.filterFormItems[i] !== null) {
-        urlParams[i] = this.filterParseDate(this.filterFormItems[i]);
-      }
-      else if (typeof(this.filterFormItems[i]) == 'object') {
-        let values = '';
-        for (let ii in this.filterFormItems[i]) {
-          if (values !== '') { values += ',';}
-          if (this.filterFormItems[i][ii].id) {
-            values += this.filterFormItems[i][ii].id;
-          } else {
-            values += this.filterFormItems[i][ii];
-          }
-        }
-        urlParams[i] = values;
-      }
-      else {
-        urlParams[i] = this.filterFormItems[i];
-      }
-    }
-
-    this.router.navigate([], {
-      queryParams: urlParams,
-      replaceUrl: true,
-    });
 
   }
 
