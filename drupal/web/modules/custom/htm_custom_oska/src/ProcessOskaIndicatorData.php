@@ -22,11 +22,7 @@ class ProcessOskaIndicatorData {
 
   public static function ValidateFile($items, &$context){
     $message = t('Validating file');
-
-    //first delete all subsidies
-    self::deleteAllEntities();
-
-    #dump(self::$k['EHIS_ID']);
+    
     $results = [];
     $object = [
       'id' => false,
@@ -206,12 +202,5 @@ class ProcessOskaIndicatorData {
     }
 
     return isset($entity) ? $entity->id() : FALSE;
-  }
-
-  public static function deleteAllEntities(){
-    $ids = \Drupal::entityQuery('oska_indicator_entity')->execute();
-    $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_indicator_entity');
-    $entities = $storage_handler->loadMultiple($ids);
-    $storage_handler->delete($entities);
   }
 }
