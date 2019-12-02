@@ -280,6 +280,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           }
         } catch (err) {}
       }
+    } else if (this.type === 'date') {
+      this.dateField = this.field;
     } else {
       this.field = value || '';
     }
@@ -288,7 +290,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.field = '';
     }
 
-    if (this.field && typeof this.field !== 'object' && !this.field.toString().match(/\D/)) {
+    if (this.field
+      && typeof this.field !== 'object'
+      && !this.field.toString().match(/\D/)
+      && this.type !== 'date'
+      ) {
       this.field = parseFloat(this.field);
     }
 
@@ -339,9 +345,14 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       }
     }
 
-    if (this.field && typeof this.field !== 'object' && !this.field.match(/\D/)) {
+    if (this.field
+      && typeof this.field !== 'object'
+      && !this.field.match(/\D/)
+      && this.type !== 'date') {
       this.field = parseFloat(this.field);
     }
+
+    console.log(this.field, this.name);
     this.cdr.detectChanges();
   }
 

@@ -4,6 +4,7 @@
   [class.showPlaceholder]="(type == 'select' || type == 'multi-select') && placeholder && (field == '' || field == null)"
   [class.title--top]="filledField || focused"
   >
+
   <ng-container [ngSwitch]="type">
     <ng-container *ngSwitchCase="'text'">
       <input
