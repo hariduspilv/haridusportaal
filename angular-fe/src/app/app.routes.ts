@@ -111,6 +111,9 @@ const routes: Routes = [
   {
     path: 'infosüsteemid',
     loadChildren: './_views/infoSystemView#InfoSystemViewModule',
+    data: {
+      type: 'infosystem',
+    },
   },
   {
     path: 'erialad',

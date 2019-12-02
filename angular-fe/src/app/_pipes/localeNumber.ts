@@ -10,7 +10,7 @@ export class LocaleNumberPipe implements PipeTransform {
   // constructor(@Inject(LOCALE_ID) public locale: string) {}
 
   transform(value: string): any {
-    const newValue = value.includes(',') ? value.replace(/,/g, '.') : value;
+    const newValue = value.toString().includes(',') ? value.replace(/,/g, '.') : value;
     return parseFloat(newValue).toLocaleString(this.locale);
   }
 

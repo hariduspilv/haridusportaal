@@ -1,4 +1,4 @@
-<ul *ngIf="parsedData && parsedData.length">
+<ul *ngIf="parsedData && parsedData.length && !blocks">
   <ng-container *ngFor="let item of parsedData">
     <li *ngIf="item.url">
       <a [href]="item.url.path">
@@ -9,3 +9,16 @@
     </li>
   </ng-container>
 </ul>
+
+<ng-container *ngIf="blocks">
+  <ng-container *ngFor="let block of blocks">
+    <block theme="sidebar">
+      <block-title>
+        <ng-container>{{ block.title }}</ng-container>
+      </block-title>
+      <block-content>
+        <sidebar-links [data]="block.links"></sidebar-links>
+      </block-content>
+    </block>
+  </ng-container>
+</ng-container>

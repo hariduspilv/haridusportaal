@@ -1,13 +1,13 @@
 <ng-container *ngIf="data && data.length">
   <ng-container *ngFor="let location of data">
     <map *ngIf="markers && markers.length" aria-hidden="true" type="markers" [options]="options" [markers]="markers"></map>
-    <ng-container *ngIf="!location.fieldEventLocation">
+    <ng-container *ngIf="!location.fieldEventLocation && location.entity && location.entity.fieldAddress">
       <h1>{{ 'school.legal_address' | translate }}</h1>
       <p>
         {{ location.entity?.fieldAddress }}
       </p>
     </ng-container>
-    <ng-container *ngIf="location.fieldEventLocation">
+    <ng-container *ngIf="location.fieldEventMainDate">
       <h1>{{ 'event.place_and_time' | translate }}</h1>
       <p *ngIf="location.fieldEventMainDate">
         <span>
@@ -51,7 +51,9 @@
         </ng-container>
       </p>
       <p>
-        {{ location.fieldEventLocation?.name }}<br>
+        <ng-container *ngIf="location.fieldEventLocation">
+          {{ location.fieldEventLocation?.name }}<br>
+        </ng-container>
         <a href="{{ location.fieldEventLocationLink?.uri }}" target="_blank">{{ location.fieldEventLocationLink?.uri }}</a>
       </p>
     </ng-container>

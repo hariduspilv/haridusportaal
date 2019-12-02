@@ -1,6 +1,6 @@
 import { Component, Input, HostBinding, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { SidebarService, SettingsService } from '@app/_services';
-import { collection, titleLess } from './helpers/sidebar';
+import { collection, titleLess, parseProfessionData, parseFieldData } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import conf from '@app/_core/conf';
@@ -16,10 +16,13 @@ interface TitleLess {
 
 // tslint:disable
 const sidebarOrder = {
-  article: ['fieldHyperlinks', 'fieldRelatedArticle'],
+  article: ['additional', 'fieldContactSection', 'fieldHyperlinks', 'fieldRelatedArticle'],
   school: ['fieldContact', 'fieldSchoolLocation'],
-  profession: ['prosCons', 'fieldOskaField', 'fieldLearningOpportunities', 'fieldJobOpportunities', 'fieldQualificationStandard ', 'fieldJobs', 'fieldContact'],
-  event: ['fieldRegistration', 'fieldLocation', 'fieldContact', 'additional'],
+  profession: ['fillingBar', 'indicator', 'prosCons', 'fieldOskaField', 'fieldLearningOpportunities', 'fieldJobOpportunities', 'fieldQualificationStandard', 'fieldJobs', 'fieldQuickFind', 'fieldContact'],
+  event: ['fieldRegistration', 'fieldEventLocation', 'fieldContact', 'additional'],
+  infosystem: ['fieldButton', 'fieldLegislationBlock'],
+  field: ['indicator', 'prosCons', 'fieldOskaResults', 'fieldQuickFind', 'fieldRelatedPages'],
+  resultPage: ['additional', 'fieldContactSection', 'fieldHyperlinks', 'fieldRelatedArticle'],
 };
 // tslint:enable
 
@@ -54,6 +57,7 @@ export class SidebarComponent implements OnInit, OnChanges {
   }
 
   private getData():void {
+    console.log(this.type);
     if (this.data) {
       this.data = FieldVaryService(this.data);
 
@@ -72,6 +76,22 @@ export class SidebarComponent implements OnInit, OnChanges {
       }
 
       this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
+
+      if (this.type === 'profession') {
+        this.mappedData = parseProfessionData(this.mappedData, this.translate);
+      }
+
+      if (this.type === 'field') {
+        this.mappedData = parseFieldData(this.mappedData, this.translate);
+      }
+
+      if (this.type === 'resultPage' ||
+        this.type === 'surveyPage' ||
+        this.type === 'event'
+      ) {
+        delete this.mappedData.links;
+      }
+
       this.keys = Object.keys(this.mappedData);
 
       if (sidebarOrder[this.type]) {
@@ -84,17 +104,8 @@ export class SidebarComponent implements OnInit, OnChanges {
         }
       });
 
-      try {
-        this.mappedData['fieldLearningOpportunities'] = [
-          {
-            title: this.translate.get('professions.go_to_subjects'),
-            url: {
-              path: 'aaa',
-              routed: true,
-            },
-          },
-        ];
-      } catch (err) {}
+      console.log(this.type);
+      console.log(this.mappedData);
     }
   }
   ngOnInit() {
@@ -110,13 +121,13 @@ export class SidebarComponent implements OnInit, OnChanges {
   selector: 'sidebar-links',
   templateUrl: './templates/sidebar.links.template.html',
 })
-export class SidebarLinksComponent implements OnInit {
+export class SidebarLinksComponent implements OnInit, OnChanges{
   @Input() data: Object[];
   public parsedData: Object[];
-
+  public blocks;
   constructor() {}
 
-  ngOnInit() {
+  parseData() {
     this.parsedData = this.data.map((item: any) => {
       if (item['entity'] && item['entity'].entityLabel) {
         return {
@@ -136,8 +147,37 @@ export class SidebarLinksComponent implements OnInit {
           },
         };
       }
+
       return item;
     });
+
+    if (this.data && this.data.length) {
+      try {
+        const blocks = [];
+        this.data.forEach((item) => {
+          if (item['entity']['fieldBlockLinks']) {
+            let links = [];
+            links = item['entity']['fieldBlockLinks'].map((link) => {
+              return {
+                title: link.entity.fieldLinkName,
+                url: link.entity.fieldWebpageLink,
+              };
+            });
+            blocks.push({
+              links,
+              title: item['entity']['fieldBlockTitle'],
+            });
+          }
+        });
+        this.blocks = blocks;
+      } catch (err) {}
+    }
+  }
+  ngOnInit() {
+    this.parseData();
+  }
+  ngOnChanges() {
+    this.parseData();
   }
 }
 
@@ -179,7 +219,7 @@ export class SidebarArticlesComponent {
 
 @Component({
   selector: 'sidebar-data',
-  template: `<b *ngIf="data.entity?.fieldTitle">{{ data.entity?.fieldTitle }}</b>
+  template: `<h3>{{ data.entity?.fieldTitle || 'Praktiline info' }}</h3>
             <div [innerHTML]="data.entity?.fieldAdditionalBody || data.value"><div>`,
 })
 export class SidebarDataComponent {
@@ -211,36 +251,57 @@ export class SidebarLocationComponent {
     enableStreetViewControl: false,
     draggable: false,
   };
-  ngOnInit() {
+
+  parseData() {
     if (this.data && this.data.length) {
-      this.data.forEach((loc) => {
-        const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
-        const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
-        this.options.centerLat = lat;
-        this.options.centerLng = lon;
-        this.markers.push({ Lat: lat, Lon: lon });
-      });
+      try {
+        this.data.forEach((loc) => {
+          const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
+          const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
+          this.options.centerLat = lat;
+          this.options.centerLng = lon;
+          this.markers.push({ Lat: lat, Lon: lon });
+        });
+      } catch (err) {}
     } else if (this.data.educationalInstitution) {
-      this.data.educationalInstitution.entity.fieldSchoolLocation.forEach((loc) => {
-        const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
-        const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
+      try {
+        this.data.educationalInstitution.entity.fieldSchoolLocation.forEach((loc) => {
+          const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
+          const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
+          this.options.centerLat = lat;
+          this.options.centerLng = lon;
+          this.markers.push({ Lat: lat, Lon: lon });
+        });
+        this.data = this.data.educationalInstitution.entity.fieldSchoolLocation;
+      } catch (err) {}
+    } else {
+      try {
+        const lat = parseFloat(this.data.fieldEventLocation.lat);
+        const lon = parseFloat(this.data.fieldEventLocation.lon);
         this.options.centerLat = lat;
         this.options.centerLng = lon;
+        this.options.zoom = this.options.minZoom
+          = this.options.maxZoom = parseInt(this.data.fieldEventLocation.zoom, 10);
         this.markers.push({ Lat: lat, Lon: lon });
-      });
-      this.data = this.data.educationalInstitution.entity.fieldSchoolLocation;
-    } else {
-      const lat = parseFloat(this.data.fieldEventLocation.lat);
-      const lon = parseFloat(this.data.fieldEventLocation.lon);
-      this.options.centerLat = lat;
-      this.options.centerLng = lon;
-      this.options.zoom = this.options.minZoom
-        = this.options.maxZoom = parseInt(this.data.fieldEventLocation.zoom, 10);
-      this.markers.push({ Lat: lat, Lon: lon });
-      this.data = [this.data];
+        this.data = [this.data];
+      } catch (err) {
+        this.data = [this.data];
+      }
     }
+
+    console.log(this.data);
+
+  }
+  ngOnChanges() {
+    console.log('changed');
+    this.parseData();
+  }
+  ngOnInit() {
+    console.log(this.data);
+    this.parseData();
   }
 }
+
 
 @Component({
   selector: 'sidebar-facts',
