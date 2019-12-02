@@ -10,7 +10,7 @@
                        'sidemenu content content .'
                        'sidemenu content content .';
   grid-template-columns: 0 1fr;
-  -ms-grid-columns: 0 1fr 1fr;
+  -ms-grid-columns: 0 1fr;
   min-height: 100vh;
   height: 100vh;
   @include break-on(sm, min) {
@@ -24,11 +24,9 @@
     box-sizing: border-box;
     grid-area: content;
     overflow-y: scroll;
-    height: 100%;
+    height: calc(100vh - 4rem);
     -ms-grid-row: 2; 
-    -ms-grid-row-span: 2; 
     -ms-grid-column: 2; 
-    -ms-grid-column-span:2;
     ::ng-deep{
       main {
         @include break-on(sm, min) {

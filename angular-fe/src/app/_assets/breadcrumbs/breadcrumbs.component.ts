@@ -46,7 +46,8 @@ export class BreadcrumbsComponent implements OnInit, OnChanges{
     const variables = {
       path: this.path,
     };
-    const path = `${this.settings.query('getBreadcrumbs')}&variables=${JSON.stringify(variables)}`;
+    
+    const path = this.settings.query('getBreadcrumbs', variables);
     const subscription = this.http.get(path).subscribe((response) => {
       this.parseData(response);
     });

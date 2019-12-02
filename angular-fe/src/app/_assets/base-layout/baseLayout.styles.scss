@@ -23,10 +23,9 @@
     display: block;
     -ms-grid-row: 2; 
     -ms-grid-row-span: 2; 
-    -ms-grid-column: 2; 
+    -ms-grid-column: 1; 
     -ms-grid-column-span:2;
     padding: 0;
-    overflow-y: scroll;
     min-height: 100%;
     @include break-on(sm, min) {
       padding: 1rem;
