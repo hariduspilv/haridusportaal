@@ -1,0 +1,41 @@
+<base-layout>
+  <div class="inline">
+    <breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+  </div>
+  <form class="filter-wrapper" filters>
+		<div class="inline">
+			<div #filterToggle class="sm-show text-right filter-control">
+				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
+					<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+					<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+				</a>
+			</div>
+			<ng-container *ngIf="showFilter">
+				<div class="row">
+					<div class="col-3 sm-12">
+						<formItem type="select" title="{{ 'school.institution_ownership' | translate }}"  [options]="institutionOwnershipItems" [(ngModel)]="institutionOwnership" name="institutionOwnership"></formItem>
+					</div>
+					<div class="col-5 sm-12">
+						<formItem type="select" title="{{ 'school.investment_measure' | translate }}" [options]="investmentMeasureItems" [(ngModel)]="investmentMeasure" name="investmentMeasure"></formItem>
+          </div>
+          <div class="col-4 sm-12 flex">
+            <formItem type="select" title="{{ 'school.investment_deadline_year' | translate }}" [options]="investmentDeadlineYearItems" [(ngModel)]="investmentDeadlineYear"  name="investmentDeadlineYear"></formItem>
+            <button role="button" htm-button>{{ 'button.search' | translate }}</button>
+          </div><!--/col-4-->
+				</div>
+			</ng-container>
+		</div><!--/inline-->
+	</form>
+  <div class="inline">
+    <block>
+      <block-title>
+        {{ 'school.label' | translate }}: {{ 'school.support_projects' | translate }}
+      </block-title>
+      <block-content tabLabel="Õppeasutused" tabLink="/koolide-rahastus" [tabActive]="true" tabIcon="home">
+        <loader *ngIf="loading"></loader>
+        <map *ngIf="!loading && markers" type="markers" [options]="options" [markers]="markers"></map>
+      </block-content>
+      <block-content tabLabel="Haldusüksused" tabLink="/koolide-rahastus/haldusüksused" [queryParams]="params" tabIcon="map-pin"></block-content>
+    </block>
+  </div>
+</base-layout>

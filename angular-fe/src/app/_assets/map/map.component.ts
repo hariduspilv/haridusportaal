@@ -2,6 +2,8 @@ import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import conf from '@app/_core/conf';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '@app/_services';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 interface MapOptions {
   centerLat: any;
   centerLng: any;
@@ -31,6 +33,9 @@ export class MapComponent {
   @Input() markers: Object[];
   @Input() type: string;
   @Input() parameters: Object[];
+  @Input() legendLabels: Object;
+  @Input() legendKey: string;
+
   private map: any;
   private heatmap: any;
   private previousPolygonModalState = false;
@@ -39,6 +44,10 @@ export class MapComponent {
   private polygonMarkers: any;
   private polygonLayer: string = 'county';
   private defaultMapOptions: any = conf.defaultMapOptions;
+  private paramSub: Subscription;
+  public params: Object;
+  public infoWindowFunding: Boolean | Number;
+  private activeLegendParameters: object;
   private polygonIcon = {
     url: '',
     scaledSize: {
@@ -46,10 +55,12 @@ export class MapComponent {
       height: 0,
     },
   };
+
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-    private mapService: MapService) {}
+    private mapService: MapService,
+    private route: ActivatedRoute) {}
   mapReady(map) {
     this.map = map;
     this.map.setZoom(this.options.zoom);
@@ -80,10 +91,12 @@ export class MapComponent {
       }
     }
   }
+
   setPolyLabels() {
-    this.polygonMarkers =
-      this.mapService.mapPolygonLabels(this.polygonCoords, !this.options.enablePolygonModal);
+    this.polygonMarkers = this.mapService.mapPolygonLabels(
+      this.polygonCoords, !this.options.enablePolygonModal, this.options.polygonType);
   }
+
   getPolygons() {
     const url = `/assets/polygons/${this.polygonLayer}.json`;
     const subscription = this.http.get(url).subscribe((data) => {
@@ -93,8 +106,8 @@ export class MapComponent {
       this.polygons = this.mapService.mapPolygonData(this.options.polygonType, data,
                                                      this.polygonData[this.polygonLayer],
                                                      this.heatmap);
-      this.polygonMarkers =
-        this.mapService.mapPolygonLabels(data, !this.options.enablePolygonModal);
+      this.polygonMarkers = this.mapService.mapPolygonLabels(
+        data, !this.options.enablePolygonModal, this.options.polygonType);
       if (this.polygonMarkers) {
         this.cdr.detectChanges();
       }
@@ -108,25 +121,45 @@ export class MapComponent {
       ...conf.defaultMapStyles,
     ];
   }
+
   changeLayer(name) {
     this.polygonLayer = name;
     this.getPolygons();
   }
+
   ngOnInit() {
-    if (this.polygonData) {
-      this.getPolygons();
-    }
+    this.watchSearch();
   }
+
+  watchSearch() {
+    this.paramSub = this.route.queryParams.subscribe((params) => {
+      this.params = params;
+      if (this.legendKey && params[this.legendKey]) {
+        this.activeLegendParameters = this.legendLabels[params[this.legendKey]];
+      }
+      if (this.type === 'polygons') {
+        this.getPolygons();
+      }
+      this.mapLabelSwitcher(this.options.enableLabels);
+    });
+  }
+
+  ngOnDestroy() {
+    this.paramSub.unsubscribe();
+  }
+
   ngOnChanges() {
     this.mapLabelSwitcher(this.options.enableLabels);
-    if (this.previousPolygonModalState !== this.options.enablePolygonModal) {
-      this.polygonMarkers = this.mapService.mapPolygonLabels(
-        this.polygonCoords, !this.options.enablePolygonModal);
-      this.previousPolygonModalState = this.options.enablePolygonModal;
-    }
   }
+
   layerClickStatus($isOpen: boolean) {
     this.mapService.infoLayer['status'] = $isOpen;
-    this.cdr.detectChanges();
+    if (!this.cdr['destroyed']) this.cdr.detectChanges();
   }
+
+  showFunding(year: string, infoWindow:any = false) {
+    this.infoWindowFunding = parseFloat(year);
+    if (!this.cdr['destroyed']) this.cdr.detectChanges();
+  }
+
 }

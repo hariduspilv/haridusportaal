@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import conf from '@app/_core/conf';
-import { LatLngLiteral } from '@agm/core';
 import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
+import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,7 @@ export class MapService {
   public infoLayer: {} = {};
   public polygonValueLabels: {} = {};
   public polygonColors: {} = {};
+  public fieldMaxRanges: Object = {};
   private labelOptions = {
     lightColor: 'white',
     color: 'black',
@@ -26,6 +27,7 @@ export class MapService {
   generateHeatMap (type, data) {
     let maxSum = 0;
     const sumArray = [];
+    const fieldSums = {};
     switch (type) {
       case 'investment':
         data.forEach((item) => {
@@ -54,6 +56,9 @@ export class MapService {
           if (item['division'] > maxSum) {
             maxSum = item['division'];
           }
+          if (item['division'] > fieldSums[item.mapIndicator] || (!fieldSums[item.mapIndicator])) {
+            fieldSums[item.mapIndicator] = item['division'];
+          }
         });
         conf.defaultPolygonColors.forEach((item, index) => {
           const tmpArray = {
@@ -62,6 +67,7 @@ export class MapService {
           };
           sumArray.push(tmpArray);
         });
+        this.fieldMaxRanges = fieldSums;
         return sumArray;
       default:
         console.error('Error generating heatmap (MapService.ts).');
@@ -100,10 +106,41 @@ export class MapService {
           }
           properties['color'] = color;
         }
-        return polygonData;
+        break;
+      case 'oskaFields':
+        this.polygonValueLabels = {};
+        for (const i in polygonData['features']) {
+          const current = polygonData['features'][i];
+          const properties = current['properties'];
+          const shortName = properties['NIMI_LUHIKE']
+            ? properties['NIMI_LUHIKE'].toLowerCase() : '';
+          let match:any = false;
+          for (const o in requestData) {
+            if (shortName === requestData[o].county.toLowerCase()) {
+              match = requestData[o];
+              this.polygonValueLabels[properties['NIMI_LUHIKE']] = match.investmentAmountSum;
+            }
+          }
+          let color = heatmap[0];
+          for (const o in heatmap) {
+            if (!match.division) {
+              color = '#cfcfcf';
+              properties['value'] = 'Puudub';
+            } else if (match.division === heatmap[o]['amount']) {
+              color = heatmap[o]['color'];
+              properties['value']
+                = this.polygonValueLabels[properties['NIMI_LUHIKE']] = match.value;
+              this.polygonColors[properties['NIMI_LUHIKE']] = parseInt(o, 10) + 1;
+              break;
+            }
+          }
+          properties['color'] = color;
+        }
+        break;
     }
+    return polygonData;
   }
-  mapPolygonLabels (polygons, extraLabels) {
+  mapPolygonLabels (polygons, extraLabels, polygonType) {
     if (polygons && polygons['features']) {
       const extraLabelArr = [];
       const polygonMarkers = polygons['features'].map((elem) => {
@@ -113,8 +150,14 @@ export class MapService {
         const fontSize = this.activeFontSize || this.labelOptions.fontSize;
         const fontWeight = this.labelOptions.fontWeight;
         if (extraLabels && elem.geometry.center) {
-          const text = this.polygonValueLabels[current] ?
-            new EuroCurrencyPipe().transform(this.polygonValueLabels[current]) : '';
+          let text =
+            this.polygonValueLabels[current] && !this.polygonValueLabels[current].includes('%')
+            ? `${new LocaleNumberPipe().transform(this.polygonValueLabels[current])}`
+            : this.polygonValueLabels[current];
+          if (polygonType === 'investment') {
+            text = this.polygonValueLabels[current] ?
+              new EuroCurrencyPipe().transform(this.polygonValueLabels[current]) : '';
+          }
           let latitude = elem.geometry.center.latitudeSm;
           if (this.activeFontSize === this.fontSizes['md']) {
             latitude = elem.geometry.center.latitudeMd;
@@ -172,7 +215,33 @@ export class MapService {
           status: true,
           title: $event.feature.getProperty('NIMI_LUHIKE') || $event.feature.getProperty('NIMI'),
           currency: $event.feature.getProperty('investmentAmountSum') || '',
+          value: $event.feature.getProperty('value'),
         };
     }
+  }
+
+  groupYears(data) {
+    const output = [];
+
+    for (const i in data) {
+      const unix = data[i].investmentDeadline.unix;
+      let year:any = new Date(parseFloat(unix) * 1000);
+      year = year.getFullYear();
+
+      if (output.indexOf(year) === -1) {
+        output.push(year);
+      }
+    }
+    return output;
+  }
+
+  parseInfoWindowMarkerData(data: any): any {
+    for (const i in data) {
+      const current = data[i];
+      const unix = new Date(current.investmentDeadline['unix'] * 1000);
+      const year:any = unix.getFullYear();
+      current.year = parseFloat(year);
+    }
+    return data;
   }
 }

@@ -4,17 +4,17 @@ import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { CompareService } from '@app/_services';
-import { Router } from '@angular/router';
-import { translationsPerType } from '../compare/helpers/compare';
+import { Router, ActivatedRoute } from '@angular/router';
+import { translationsPerType } from '../../_assets/compare/helpers/compare';
 @Component({
   selector: 'compare-view',
-  templateUrl: './compare.view.template.html',
-  styleUrls: ['./compare.view.styles.scss'],
+  templateUrl: './compareView.template.html',
+  styleUrls: ['./compareView.styles.scss'],
 })
 
 export class CompareViewComponent extends CompareComponent {
   @Input() key: string;
-  @Input() queryName: string;
+  @Input() queryName: string = this.route.snapshot.data['type'];
   private queryId: string;
   public loading: boolean = false;
   public translations = translationsPerType;
@@ -26,13 +26,14 @@ export class CompareViewComponent extends CompareComponent {
     private settings: SettingsService,
     public translateService: TranslateService,
     public compareService: CompareService,
+    public route: ActivatedRoute,
     public router: Router) {
     super(null, null, null, null);
   }
 
   ngOnInit() {
     this.compare = this.readFromLocalStorage(this.key);
-    this.queryId = this.settings.get(`request.${this.queryName}`);
+    this.queryId = this.settings.query(this.queryName);
     this.getData();
   }
 

@@ -1,0 +1,18 @@
+:host {
+  .filter-wrapper {
+    display: flex;
+    margin-bottom: 1.5rem;
+    > formItem {
+      width: 100%;
+    }
+    > [htm-button] {
+      margin-left: 1rem;
+    }
+  }
+  .loadMore-wrapper {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 5.25rem;
+  }
+}

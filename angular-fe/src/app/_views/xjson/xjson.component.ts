@@ -719,12 +719,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
             params.push(key + '=' + strings[key]);
           }
         }
-      }
+      },
     );
     const urlParams = params.join('&');
 
     this.acceptable_forms.forEach((elem, index) => {
-      this.acceptable_forms[index].link = this.route.routeConfig.path.replace(':form_name', elem.form_name).concat('?', urlParams);
+      const path = `${this.settings.url}/xjson_service/form_path/${elem.form_name}`;
+      this.http.get(path).subscribe((response: any) => {
+        if (response.path) {
+          this.acceptable_forms[index].link = `${response.path}?${urlParams}`;
+        }
+      });
     });
 
   }

@@ -62,7 +62,7 @@ export class CompareComponent {
       this.translateService.get(translationsPerType[this.sessionStorageKey][type]),
       'compare',
       'compare',
-      false,
+      true,
       this.viewLink,
     ];
     if (type === 'success') {

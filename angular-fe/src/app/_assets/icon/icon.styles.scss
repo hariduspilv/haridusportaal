@@ -3,7 +3,7 @@
 	i {
 		line-height: 0;
 		display:inline-block;
-		font-size: 16px;
+		font-size: 1rem;
 		&:before{
 			display: inline-block;
 			vertical-align: middle;
@@ -11,10 +11,10 @@
 		}
 	}
 	&.medium i {
-		font-size: 24px;
+		font-size: 1.25rem;
 	}
 	&.large i {
-		font-size: 32px;
+		font-size: 2rem;
 	}
 	&.with-bg {
 		display: flex;

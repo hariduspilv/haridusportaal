@@ -18,11 +18,11 @@ export default {
       lng: 24.7065513,
     },
     zoom: 7.4,
-    icon: '/storybook/static/marker.svg',
+    icon: '/assets/img/marker.svg',
     clusterStyles: [
       {
         textColor: '#FFFFFF',
-        url: '/storybook/static/cluster.svg',
+        url: '/assets/img/cluster.svg',
         height: 50,
         width: 28,
       },

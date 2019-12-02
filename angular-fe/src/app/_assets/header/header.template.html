@@ -30,10 +30,13 @@
 			<div class="header__search">
 				<icon glyph="search" size="default"></icon>
 				<formItem
+					type="autocomplete" 
+					query="testAutocomplete"
 					titleDisabled="true"
-					type="text"
 					placeholder="Sisesta märksõna ja vajuta Enter"
-					[(ngModel)]="search"
+					[(ngModel)]="searchTerm"
+					name="homeSearch"
+					(keyup.enter)="searchRoute()"
 				>
 				</formItem>
 			</div>
@@ -93,7 +96,7 @@
 
 <htm-modal
 	id="search"
-	title="{{ 'button.search' | translate }}"
+	modalTitle="{{ 'button.search' | translate }}"
 	[bottomAction]="false"
 >
 	<modal-content id="search" *ngIf="modalService.modalOpened['search']">
@@ -109,7 +112,7 @@
 </htm-modal>
 <htm-modal
 	id="login"
-	title="{{ 'button.login' | translate }}"
+	modalTitle="{{ 'button.login' | translate }}"
 	[bottomAction]="false"
 >
 	<modal-content id="login" *ngIf="modalService.modalOpened['login']">
@@ -155,6 +158,7 @@
 										<formItem
 											type="text"
 											formControlName="username"
+											browserAutocomplete="username"
 											title="{{ 'login.username' | translate }}"
 										>
 										</formItem>

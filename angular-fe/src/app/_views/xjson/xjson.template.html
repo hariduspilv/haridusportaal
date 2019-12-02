@@ -1,12 +1,12 @@
 <base-layout>
   <breadcrumbs [path]="path"></breadcrumbs>
-  <block titleBorder="true">
+  <block titleBorder="true" tabStyle="default">
     <block-title>
       {{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}
     </block-title>
-    <block-content>
+    <block-content tabLabel="{{ 'frontpage.dokument' | translate }}" tabIcon="file">
       <div class="block padding-block border-blue">
-        <div class="block__head">
+        <!--  <div class="block__head">
           <div *ngIf="acceptable_forms.length" class="block__head__buttons">
             <div class="view-item" (click)="changeView('document')"
               attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0"
@@ -21,16 +21,12 @@
               <div class="title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
             </div>
           </div>
-          <!--/block__head__buttons-->
-        </div>
+        </div> -->
         <!--/block__head-->
 
         <loader *ngIf="!data || formLoading"></loader>
 
-        <alerts [class.hidden]="formLoading"
-          small="true"
-          id="upperAlert"
-        ></alerts>
+        <alerts [class.hidden]="formLoading" small="true" id="upperAlert"></alerts>
 
         <ng-container *ngIf="data && view == 'document' && !formLoading">
 
@@ -106,31 +102,29 @@
 
                     <ng-container
                       *ngIf="(data_elements[element].type === 'text' || data_elements[element].type === 'iban' || data_elements[element].type === 'email')">
-                          <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                          title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                          [(ngModel)]="data_elements[element].value" [name]="element"
-                          [error]="error[element] ? true : false"
-                          [errorMessage]="error[element] ? error[element].message : ''">
-                        </formItem>
-                        <div class="tooltip">
-                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                            placement="top"></icon>
-                        </div>
-                    </ng-container> <!-- /TEXT -->
-
-                    <ng-container *ngIf="data_elements[element].type == 'textarea'">
-
-                        <formItem type="textarea" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                      <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                         [(ngModel)]="data_elements[element].value" [name]="element"
                         [error]="error[element] ? true : false"
                         [errorMessage]="error[element] ? error[element].message : ''">
                       </formItem>
                       <div class="tooltip">
-                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                          placement="top"></icon>
+                        <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
+                      </div>
+                    </ng-container> <!-- /TEXT -->
+
+                    <ng-container *ngIf="data_elements[element].type == 'textarea'">
+
+                      <formItem type="textarea" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                        title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
+                        [(ngModel)]="data_elements[element].value" [name]="element"
+                        [error]="error[element] ? true : false"
+                        [errorMessage]="error[element] ? error[element].message : ''">
+                      </formItem>
+                      <div class="tooltip">
+                        <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
                       </div>
                     </ng-container> <!-- /TEXTAREA -->
 
@@ -139,23 +133,22 @@
                       <ng-container *ngIf="data_elements[element].multiple; else singleSelect">
                         <formItem type="multi-select" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options" [name]="element"
-                          [error]="error[element] ? true : false"
+                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"
+                          [name]="element" [error]="error[element] ? true : false"
                           [errorMessage]="error[element] ? error[element].message : ''">
                         </formItem>
                       </ng-container>
                       <ng-template #singleSelect>
                         <formItem type="select" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
-                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options" [name]="element"
-                          [error]="error[element] ? true : false"
+                          [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"
+                          [name]="element" [error]="error[element] ? true : false"
                           [errorMessage]="error[element] ? error[element].message : ''">
                         </formItem>
                       </ng-template>
                       <div class="tooltip">
-                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                          placement="top"></icon>
+                        <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
                       </div>
                     </ng-container> <!-- /SELECTLIST -->
 
@@ -165,54 +158,50 @@
                         [(ngModel)]="data_elements[element].value" [name]="element"
                         [error]="error[element] ? true : false"
                         [errorMessage]="error[element] ? error[element].message : ''"></formItem>
-                        <div class="tooltip">
-                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                            placement="top"></icon>
-                        </div>
+                      <div class="tooltip">
+                        <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
+                      </div>
                     </ng-container> <!-- /CHECKBOX -->
 
                     <ng-container *ngIf="data_elements[element].type == 'number'">
-                        <formItem type="number" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                      <formItem type="number" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                         [(ngModel)]="data_elements[element].value" [name]="element"
                         [error]="error[element] ? true : false"
                         [errorMessage]="error[element] ? error[element].message : ''">
                       </formItem>
                       <div class="tooltip">
-                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                          placement="top"></icon>
+                        <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
                       </div>
                     </ng-container> <!-- /NUMBER -->
 
                     <ng-container *ngIf="data_elements[element].type == 'address'">
-                      <formItem type="autocomplete" query="inaadress" [disabled]="isFieldDisabled(data_elements[element].readonly)"
-                      [(ngModel)]="data_elements[element].value" [name]="element"
+                      <formItem type="autocomplete" query="inaadress"
+                        [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                        [(ngModel)]="data_elements[element].value" [name]="element"
                         title="{{ selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}"
                         [error]="error[element] ? true : false"
                         [errorMessage]="error[element] ? error[element].message : ''">
                       </formItem>
                       <div class="tooltip">
-                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                          placement="top"></icon>
+                        <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
                       </div>
                     </ng-container> <!-- /ADDRESS -->
 
-                    <ng-container
-                      *ngIf="data_elements[element].type == 'date'">
-                      <formItem class="datepicker" *ngIf="!isFieldDisabled(data_elements[element].readonly)" type="date" 
-                      placeholder="pp.kk.aaaa" [name]="element" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                    <ng-container *ngIf="data_elements[element].type == 'date'">
+                      <formItem class="datepicker" *ngIf="!isFieldDisabled(data_elements[element].readonly)" type="date"
+                        placeholder="pp.kk.aaaa" [name]="element"
+                        [disabled]="isFieldDisabled(data_elements[element].readonly)"
                         title="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
-                        [(ngModel)]="data_elements[element].value"
-                        [error]="error[element] ? true : false"
+                        [(ngModel)]="data_elements[element].value" [error]="error[element] ? true : false"
                         [errorMessage]="error[element] ? error[element].message : ''"></formItem>
-                        <div class="tooltip">
-                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                            placement="top"></icon>
-                        </div>
+                      <div class="tooltip">
+                        <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                          ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
+                      </div>
                     </ng-container> <!-- /DATE -->
 
                     <ng-container *ngIf="data_elements[element].type == 'file'">
@@ -222,9 +211,8 @@
                           {{selectLanguage(data_elements[element].title) }}{{data_elements[element].required ? '*': ''}}
                         </span>
                         <div class="tooltip">
-                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                            placement="top"></icon>
+                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
                         </div>
                       </div>
 
@@ -234,13 +222,17 @@
                             <div class="uploaded-file">
                               <a class="file-icon" [href]="fileDownloadlink(file)"
                                 attr.aria-label="{{ file.file_name }}" target="_blank">
-                                <span class="file-name"><icon glyph="file-text"></icon>{{ file.file_name }}</span>
+                                <span class="file-name">
+                                  <icon glyph="file-text"></icon>{{ file.file_name }}
+                                </span>
                               </a>
                               <a role="button" class="close-icn" href="javascript:void(0)"
                                 *ngIf="!isFieldDisabled(data_elements[element].readonly)"
                                 [class.disabled]="isFieldDisabled(data_elements[element].readonly)"
                                 (click)="fileDelete(file.file_identifier, data_elements[element])">
-                                <icon glyph="x" aria-hidden="true" tabindex="-1"></icon>{{ 'xjson.delete_file' | translate }}</a>
+                                <icon glyph="x" aria-hidden="true" tabindex="-1"></icon>
+                                {{ 'xjson.delete_file' | translate }}
+                              </a>
                             </div>
                           </ng-container>
                         </ng-container>
@@ -288,9 +280,8 @@
                           {{ selectLanguage(data_elements[element].title) }}
                         </h2>
                         <div class="tooltip">
-                            <icon glyph="help-circle" *ngIf="data_elements[element].helpertext" 
-                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" 
-                            placement="top"></icon>
+                          <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
+                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
                         </div>
                       </div>
 
@@ -305,7 +296,7 @@
                                 (mousedown)="tableService.scrollStart('xjsonTable_'+index)"
                                 (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
                                 <div class="htm-icon">
-                                    <icon glyph="chevron-left"></icon>
+                                  <icon glyph="chevron-left"></icon>
                                 </div>
                               </div>
                               <div aria-hidden="true"
@@ -315,7 +306,7 @@
                                 (mousedown)="tableService.scrollStart('xjsonTable_'+index, true)"
                                 (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
                                 <div class="htm-icon">
-                                    <icon glyph="chevron-right"></icon>
+                                  <icon glyph="chevron-right"></icon>
                                 </div>
                               </div>
                             </div>
@@ -353,36 +344,43 @@
 
                                       <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
                                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
-                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                            type="text" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                          <formItem
+                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="text" [(ngModel)]="row[col]"
+                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
-                                            </formItem>
+                                          </formItem>
                                         </ng-container> <!-- /TEXT -->
 
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
-                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplayAddress"
-                                          type="autocomplete" query="inaadress" valueType="object" [(ngModel)]="row[col]"
-                                          name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                          placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                          <formItem
+                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplayAddress"
+                                            type="autocomplete" query="inaadress" valueType="object"
+                                            [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
                                           </formItem>
                                         </ng-container> <!-- /ADDRESS -->
 
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
-                                            <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                            type="text" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                          <formItem
+                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="text" [(ngModel)]="row[col]"
+                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
                                             [error]="row[col]">
-                                            </formItem>
+                                          </formItem>
                                         </ng-container> <!-- /EMAIL -->
 
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
-                                            <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                            type="number" [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                          <formItem
+                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                            type="number" [(ngModel)]="row[col]"
+                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
-                                            </formItem>
+                                          </formItem>
                                         </ng-container> <!-- /NUMBER -->
 
                                         <ng-container
@@ -393,17 +391,20 @@
                                         </ng-container> <!-- /file -->
 
                                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-                                          <formItem class="datepicker" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                          <formItem class="datepicker"
+                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                            type="date" placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
+                                            type="date"
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
                                             [(ngModel)]="row[col]"></formItem>
                                         </ng-container><!-- /DATE -->
 
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
-                                          <formItem *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else checkboxReadonlyDisplay"
-                                          type="checkbox" [(ngModel)]="row[col]" 
-                                          name="{{element + '_' + rowIndex + '_' + colIndex}}"></formItem>
+                                          <formItem
+                                            *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else checkboxReadonlyDisplay"
+                                            type="checkbox" [(ngModel)]="row[col]"
+                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"></formItem>
                                         </ng-container> <!-- /CHECKBOX -->
                                         <ng-template #checkboxReadonlyDisplay>
                                           <span>{{ (row[col] ? 'true' : 'false') | translate }}</span>
@@ -412,16 +413,18 @@
                                         <ng-container
                                           *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
                                           <formItem type="select" name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                            [(ngModel)]="row[col]"
+                                            [(ngModel)]="row[col]" [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                             [options]="tableColumnAttribute(element, colIndex, 'options')"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"></formItem>
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                          </formItem>
                                         </ng-container> <!-- /SELECTLIST -->
 
                                         <ng-template #readonlyDisplay>
                                           <span [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] }}</span>
                                         </ng-template>
                                         <ng-template #readonlyDisplayAddress>
-                                          <span [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].address }}</span>
+                                          <span
+                                            [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].address }}</span>
                                         </ng-template>
 
                                       </td>
@@ -520,64 +523,52 @@
             </div> <!-- /row button-list -->
           </ng-container> <!-- /if !empty_data-->
         </ng-container> <!-- /if data-->
-        <ng-container *ngIf="data && view == 'related_documents'">
-          <ng-container *ngIf="acceptable_forms.length">
-            <div class="grid-box">
-              <ng-container *ngFor="let form of acceptable_forms">
-                <a [href]="form.link" class="grid-item">
-                  <span class="grid-link">{{ form.form_name }}</span>
-                </a>
-              </ng-container>
-            </div>
-
-            <ng-container
-              *ngIf="data.header.acceptable_form.length > acceptable_forms_limit && acceptable_forms_list_restricted == true">
-              <div class="grid-load">
-                <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">+
-                  {{ 'button.show_more' | translate }}
-                  ({{ data.header.acceptable_forms.length - acceptable_forms_limit }})</a>
-              </div>
-            </ng-container>
-            <ng-container *ngIf="acceptable_forms_list_restricted == false">
-              <div class="grid-load">
-                <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">-
-                  {{ 'button.show_less' | translate }}</a>
-              </div>
-            </ng-container>
-          </ng-container>
-        </ng-container>
       </div>
       <!--/block border-blue-->
+    </block-content>
+    <block-content tabLabel="{{ 'frontpage.dashboard_related_documents' | translate }}" tabIcon="shuffle">
+      <ng-container *ngIf="acceptable_forms.length">
+        <div class="grid-box">
+          <ng-container *ngFor="let form of acceptable_forms">
+            <a [href]="form.link" class="grid-item">
+              <span class="grid-link">{{ form.form_name }}</span>
+            </a>
+          </ng-container>
+        </div>
+
+        <ng-container
+          *ngIf="data.header.acceptable_form.length > acceptable_forms_limit && acceptable_forms_list_restricted == true">
+          <div class="grid-load">
+            <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">+
+              {{ 'button.show_more' | translate }}
+              ({{ data.header.acceptable_forms.length - acceptable_forms_limit }})</a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="acceptable_forms_list_restricted == false">
+          <div class="grid-load">
+            <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">-
+              {{ 'button.show_less' | translate }}</a>
+          </div>
+        </ng-container>
+      </ng-container>
     </block-content>
   </block>
 </base-layout>
 
-<htm-modal
-id="deleteTableRow"
-title="{{ 'xjson.table_delete_row_confirm_modal_title' | translate}}"
-[bottomAction]="true"
-[topAction]="true"
->
-<modal-content class="modal-center">
-  <div>{{ 'xjson.table_delete_row_confirm_modal_content' | translate }}</div>
-  <button htm-button tabindex="0" 
-  theme="default"
-  (click)="confirmRowDelete()">{{ 'button.yes_delete' | translate }}
-</button>
-</modal-content>
+<htm-modal id="deleteTableRow" modalTitle="{{ 'xjson.table_delete_row_confirm_modal_title' | translate}}"
+  [bottomAction]="true" [topAction]="true">
+  <modal-content class="modal-center">
+    <div>{{ 'xjson.table_delete_row_confirm_modal_content' | translate }}</div>
+    <button htm-button tabindex="0" theme="default" (click)="confirmRowDelete()">{{ 'button.yes_delete' | translate }}
+    </button>
+  </modal-content>
 </htm-modal>
 
-<htm-modal
-id="editStep"
-title="{{ 'xjson.edit_step_confirm_modal_title' | translate}}"
-[bottomAction]="true"
-[topAction]="true"
->
-<modal-content class="modal-center">
-  <div>{{ 'xjson.edit_step_confirm_modal_content' | translate }}</div>
-  <button htm-button tabindex="0" 
-  theme="default"
-  (click)="toggleStepEdit()">{{ 'button.yes_change' | translate }}
-</button>
-</modal-content>
+<htm-modal id="editStep" modalTitle="{{ 'xjson.edit_step_confirm_modal_title' | translate}}" [bottomAction]="true"
+  [topAction]="true">
+  <modal-content class="modal-center">
+    <div>{{ 'xjson.edit_step_confirm_modal_content' | translate }}</div>
+    <button htm-button tabindex="0" theme="default" (click)="toggleStepEdit()">{{ 'button.yes_change' | translate }}
+    </button>
+  </modal-content>
 </htm-modal>

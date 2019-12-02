@@ -57,8 +57,10 @@
 
 					<feedback [nid]="data.nid"></feedback>
 
+					
 				</ng-container>
 			</block-content>
 		</block>
+		<relatedStudyProgrammesList *ngIf="type === 'studyProgramme' && data.nid" [nid]="data.nid"></relatedStudyProgrammesList>
 	</article-layout>
 </div><!--/inline-->

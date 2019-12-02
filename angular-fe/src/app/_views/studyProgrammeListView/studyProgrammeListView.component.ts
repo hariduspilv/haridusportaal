@@ -139,9 +139,9 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   }
 
   setSortDirection() {
-    const directionHelper = this.sort.split('_');
-    this.sortDirection = (directionHelper.pop()).toUpperCase();
-    this.sortField = directionHelper.join('_');
+    // const directionHelper = this.sort.split('_');
+    // this.sortDirection = (directionHelper.pop()).toUpperCase();
+    // this.sortField = directionHelper.join('_');
   }
 
   getSortOptions() {

@@ -3,7 +3,7 @@
       <div class="modal__block" role="modal" attr.id="modal-{{id}}" tabindex="0">
         <ng-container *ngIf="opened">
           <div class="modal__header" *ngIf="titleExists || topAction" [ngClass]="{ 'justify-end': !titleExists }">
-            <h2 *ngIf="titleExists">{{ title }}</h2>
+            <h2 *ngIf="titleExists">{{ modalTitle }}</h2>
             <button *ngIf="topAction" attr.aria-label="{{ 'button.close' | translate }}" htm-button theme="icon" (click)="modalService.close(id)">
               <icon glyph="x" size="medium"></icon>
             </button>

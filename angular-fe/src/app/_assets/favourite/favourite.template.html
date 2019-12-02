@@ -7,7 +7,7 @@
     <icon [glyph]="state ? 'star-filled' : 'star'" size="medium"></icon>
 </button>
 
-<htm-modal id="favourites" [title]="'tooltip.favourites' | translate">
+<htm-modal id="favourites" [modalTitle]="'tooltip.favourites' | translate">
   <modal-content id="favourites" *ngIf="modalService.modalOpened['favourites']">
     <div innerHTML="{{ 'frontpage.favourites_limit_modal_content' | translate }}"></div>
     <button htm-button

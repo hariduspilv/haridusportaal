@@ -1,11 +1,36 @@
 @import "typography.scss";
 @import "breakpoints.scss";
 @import "grid.scss";
+
 :host {
   .col-25 {
     width: 20.83%;
   }
-  
+
+  ::ng-deep {
+    .block__content {
+      @include break-on(sm, max) {
+        padding-top: 0 !important;
+      }
+    }
+    .list__item {
+      @include break-on(sm, max) {
+        padding: 0 !important;
+        padding-bottom: 3rem !important;
+      }
+    }
+    .author {
+      @include break-on(sm, max) {
+        padding-bottom: 0 !important;
+      }
+    }
+    .resp-fields {
+      @include break-on(sm, max) {
+        padding: 1rem 1.5rem 0 !important;
+      }
+    }
+  }
+
   .filter-wrapper {
     padding: 1.5rem;
     background: #fff;
@@ -16,11 +41,11 @@
     @include break-on(sm, max) {
       margin-bottom: 0;
       // margin: 1.5rem 0;
-      .filter-control{
-          padding: 0 !important;
-          span {
-              margin-right: 1rem;
-          }
+      .filter-control {
+        padding: 0 !important;
+        span {
+          margin-right: 1rem;
+        }
       }
       &.filtersActive {
         display: block;
@@ -33,11 +58,11 @@
       text-align: right;
     }
   }
-  
+
   .row {
     margin: 0 -0.5rem;
     @include break-on(sm, max) {
-      padding-top:0.75rem;
+      padding-top: 0.75rem;
     }
     .align-end {
       align-self: flex-end;
@@ -64,11 +89,11 @@
       }
     }
   }
-  
+
   div[class*="col-"] {
     padding: 0.5rem !important;
   }
-  
+
   .button-row {
     @include break-on(sm, max) {
       width: 100%;
@@ -77,7 +102,7 @@
       width: 100%;
     }
   }
-  
+
   .xxs-show {
     display: none !important;
   }
@@ -146,5 +171,4 @@
       display: flex !important;
     }
   }
-  
 }

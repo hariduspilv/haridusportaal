@@ -22,7 +22,11 @@ $grid-columns: 12;
       text-decoration: none;
     }
   }
-  
+
+  labels {
+    color: $black;
+  }
+
   .list {
     padding-bottom: $xxl;
     background: $white;
@@ -35,7 +39,7 @@ $grid-columns: 12;
       padding-bottom: 0;
     }
     &__item {
-      padding: 1.5rem; 
+      padding: 1.5rem;
       border-bottom: solid .0625rem $gray; 
       display:flex; 
       flex-wrap: wrap;
@@ -179,11 +183,12 @@ $grid-columns: 12;
   }
   
   .description {
+    color: $black;
     font-size: $small;
     overflow: hidden;
     position: relative;
-    line-height: 1.2rem;
-    max-height: 3.6rem;
+    line-height: 1.375rem;
+    max-height: 4.125rem;
     text-align: justify;
     padding-right: $large;
     text-overflow: ellipsis;

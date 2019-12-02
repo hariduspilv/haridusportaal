@@ -6,25 +6,19 @@ import { TranslateModule } from '@app/_modules/translate';
 import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
-import { SchoolListViewComponent } from './schoolListView.component';
 import { AppPipes } from '@app/_pipes';
-import { SchoolListMapComponent } from './map/schoolListMap.component';
+import { HomeSearchListViewComponent } from './homeSearchListView.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: SchoolListViewComponent,
-  },
-  {
-    path: 'kaart',
-    component: SchoolListMapComponent,
+    component: HomeSearchListViewComponent,
   },
 ];
 
 @NgModule({
   declarations: [
-    SchoolListViewComponent,
-    SchoolListMapComponent,
+    HomeSearchListViewComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -35,11 +29,11 @@ const routes: Routes = [
     AppPipes,
   ],
   exports: [
-    SchoolListViewComponent,
+    HomeSearchListViewComponent,
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor , multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })
 
-export class SchoolListViewModule { }
+export class HomeSearchListViewModule { }

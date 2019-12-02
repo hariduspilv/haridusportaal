@@ -1,11 +1,10 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, Params, NavigationStart, NavigationEnd } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { DeviceDetectorService } from 'ngx-device-detector';
+import { FiltersService } from '@app/_services/filterService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
-import { FiltersService } from '@app/_services/filterService';
-import { RootScopeService } from '@app/_services/RootScopeService';
 import { SettingsService } from '@app/_services';
 
 @Component({
@@ -14,6 +13,7 @@ import { SettingsService } from '@app/_services';
 })
 
 export class OskaFieldMapComponent extends FiltersService implements OnInit, OnDestroy {
+  lang: string = 'et';
   subscriptions: Subscription[] = [];
   parseFloat = parseFloat;
   toString = toString;
@@ -24,83 +24,45 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   map: any;
   data: any;
   filterData: any = {};
+  private indicatorLegendLabels: {} = {};
 
   params: any = {};
   path: string;
 
-  polygons: any;
-  polygonLabels: any;
   polygonValueLabels: any;
-  polygonValueColors: any;
   polygonLayer: String = 'county';
-  polygonData: any;
+  polygonData: any = {};
 
-  shortMonthLabels: Object = {
-    'tartu maakond': 'Tartumaa',
-    'saare maakond': 'Saaremaa',
-    'hiiu maakond': 'Hiiumaa',
-    'harju maakond': 'Harjumaa',
-    'ida-viru maakond': 'Ida-Virumaa',
-    'rapla maakond': 'Raplamaa',
-    'järva maakond': 'Järvamaa',
-    'lääne-viru maakond': 'Lääne-Virumaa',
-    'võru maakond': 'Võrumaa',
-    'pärnu maakond': 'Pärnumaa',
-    'viljandi maakond': 'Viljandimaa',
-    'valga maakond': 'Valgamaa',
-    'põlva maakond': 'Põlvamaa',
-    'lääne maakond': 'Läänemaa',
-    'jõgeva maakond': 'Jõgevamaa',
-  };
-
-  heatMapColors = ['#FBE5C4', '#FBD291', '#F8B243', '#F89229', '#E2770D', '#D5401A', '#8B2F17'];
-  heatMapRanges: Array<Object> = [];
-
-  infoWindowFunding: any = false;
-  infoLayer: any = false;
-
-  activeFontSize: string = '';
-  fontSizes: Object = {
-    md: '9px',
-    lg: '18px',
-  };
-
-  labelOptions = {
-    lightColor: 'white',
-    color: 'black',
-    fontSize: '9px',
-    fontWeight: 'regular',
-  };
-  icon = {
-    url: '',
-    scaledSize: {
-      width: 0,
-      height: 0,
+  parameters = [
+    {
+      label: 'Näitaja',
+      value: '',
     },
-  };
+    {
+      label: 'Valdkond',
+      value: '',
+    },
+  ];
 
   mapOptions = {
-    center: {
-      lat: 58.5822061,
-      lng: 24.7065513,
-    },
+    polygonType: 'oskaFields',
+    centerLat: 58.5822061,
+    centerLng: 24.7065513,
     zoom: 7.4,
-    clusterStyles: [
-      {
-        height: 50,
-        width: 28,
-      },
-    ],
-    styles: [],
+    maxZoom: 10,
+    minZoom: 7.4,
+    draggable: true,
+    enableStreetViewControl: false,
+    enableParameters: true,
+    enablePolygonLegend: true,
   };
 
   constructor(
     private http: HttpClient,
     public router: Router,
     public route: ActivatedRoute,
-    private changeDetectorRef: ChangeDetectorRef,
     private translate: TranslateService,
-    private rootScope: RootScopeService,
+    private deviceService: DeviceDetectorService,
     private settings: SettingsService,
   ) {
     super(null, null);
@@ -132,45 +94,19 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     this.subscriptions = [...this.subscriptions, subscribe];
   }
 
-  mapReady(map) {
-    this.map = map;
-    this.map.setZoom(this.mapOptions.zoom);
-    this.map.setCenter(this.mapOptions.center);
-  }
-
-  zoomChange($event) {
-    const { polygonValueLabels, polygonValueColors, fontSizes, activeFontSize } = this;
-    if (!polygonValueLabels) {
-      return;
-    }
-    if ($event < 9 && activeFontSize !== fontSizes['md']) {
-      this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels, polygonValueColors);
-    } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
-      this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels, polygonValueColors);
-    }
-  }
-
-  mapLabelSwitcher() {
-    this.mapOptions.styles = [];
-    this.mapOptions.styles = [
-      {
-        'elementType': 'labels', 'stylers': [
-          { 'visibility': 'off' }, { 'color': '#f49f53' },
-        ],
-      }, ...this.rootScope.get('mapStyles')];
-  }
-
   setRelatedFilter(current, sibling) {
     if (this.data && this.data.length) {
       this.filterData[sibling] = [];
       this.data.forEach((obj) => {
-        if (current && obj[current] === this.filterFormItems[current] && obj[sibling] && !this.filterData[sibling].includes(obj[sibling])) {
+        if (current && obj[current] === this.filterFormItems[current]
+          && obj[sibling] && !this.filterData[sibling].includes(obj[sibling])) {
           this.filterData[sibling].push(obj[sibling]);
         }
       });
       if (!this.filterData[sibling].length) {
         this.filterFormItems[sibling] = '';
-      } else if (this.filterData[sibling].length && !this.filterFormItems[sibling]) {
+      } else if (this.filterData[sibling].length
+        && !this.filterData[sibling].includes(this.filterFormItems[sibling])) {
         this.filterFormItems[sibling] = this.filterData[sibling][0];
       }
     }
@@ -178,47 +114,51 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
 
   filterGivenData(mapRefresh) {
     if (this.data && this.data.length) {
-      if (this.map) {
-        this.sumWindowStatus = false;
-      }
       this.loading = true;
-      this.polygonData = this.data.filter(elem => {
-        if (this.filterFormItems['mapIndicator'] && this.filterFormItems['OSKAField']) return elem.mapIndicator === this.filterFormItems['mapIndicator'] && elem.OSKAField === this.filterFormItems['OSKAField'];
-        if (this.filterFormItems['mapIndicator']) return elem.mapIndicator === this.filterFormItems['mapIndicator'];
-        if (this.filterFormItems['OSKAField']) return elem.OSKAField === this.filterFormItems['OSKAField'];
+      this.polygonData.county = this.data.filter((elem) => {
+        this.parameters[0].value = this.filterFormItems.mapIndicator;
+        this.parameters[1].value = this.filterFormItems.OSKAField;
+        if (this.filterFormItems['mapIndicator'] && this.filterFormItems['OSKAField']) {
+          return elem.mapIndicator === this.filterFormItems['mapIndicator']
+            && elem.OSKAField === this.filterFormItems['OSKAField'];
+        }
+        if (this.filterFormItems['mapIndicator']) {
+          return elem.mapIndicator === this.filterFormItems['mapIndicator'];
+        }
+        if (this.filterFormItems['OSKAField']) {
+          return elem.OSKAField === this.filterFormItems['OSKAField'];
+        }
         return true;
       });
-      this.getPolygons();
+      this.loading = false;
     }
   }
 
   getData() {
 
     this.loading = true;
-    this.mapLabelSwitcher();
     const variables = {};
 
     const path = this.settings.query('oskaMapData', variables);
 
-    const subscription = this.http.get(path).subscribe(data => {
+    const subscription = this.http.get(path).subscribe((data) => {
       let rawData = JSON.parse(data['data']['OskaMapQuery'][0]['OskaMapJson']);
-      // Extra mapping for floating point numbers
-      rawData = rawData.map(elem => [elem.join()]).map(elem => elem.join('').split(';')).map(item => {
-        return {
-          mapIndicator: item[0],
-          OSKAField: item[7].replace(/"/g, ''),
-          county: item[1].replace(/"/g, ''),
-          localGovernment: item[2],
-          value: item[3],
-          division: parseInt(item[4], 10),
-          endLabel: item[6].replace(/"/g, ''),
-          startLabel: item[5].replace(/"/g, ''),
-        };
-      });
+      rawData = rawData.map(elem => [elem.join()])
+        .map(elem => elem.join('').split(';')).map((item) => {
+          return {
+            mapIndicator: item[0],
+            OSKAField: item[7].replace(/"/g, ''),
+            county: item[1].replace(/"/g, ''),
+            localGovernment: item[2],
+            value: item[3],
+            division: parseInt(item[4], 10),
+            endLabel: item[6].replace(/"/g, ''),
+            startLabel: item[5].replace(/"/g, ''),
+          };
+        });
       rawData.shift();
       this.getUniqueFilters(rawData);
-      this.data = this.polygonData = rawData;
-      this.generateHeatmapColors();
+      this.data = this.polygonData['county'] = rawData;
       this.watchSearch();
       subscription.unsubscribe();
     });
@@ -233,119 +173,14 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       }
       if (indicator && !indicator.includes(obj['mapIndicator'])) {
         indicator.push(obj['mapIndicator']);
+        this.indicatorLegendLabels[obj.mapIndicator] = {
+          start: obj.startLabel,
+          end: obj.endLabel,
+        };
       }
     });
     this.filterData['OSKAField'] = field;
     this.filterData['mapIndicator'] = indicator;
-    console.log(this.filterData);
-  }
-
-  generateHeatmapColors() {
-    let maxSum = 0;
-
-    for (const i in this.polygonData) {
-      if (this.polygonData[i]['division'] > maxSum) {
-        maxSum = this.polygonData[i]['division'];
-      }
-    }
-
-    if (maxSum < 1) { maxSum = 7; }
-
-    const sumPartial = maxSum / this.heatMapColors.length;
-
-    const sumArray = [];
-
-    for (let i in this.heatMapColors) {
-      const multiplier: number = parseFloat(i) + 1;
-      const tmpArray = {
-        amount: multiplier * sumPartial,
-      };
-
-      tmpArray['color'] = this.heatMapColors[i];
-
-      sumArray.push(tmpArray);
-    }
-
-    this.heatMapRanges = sumArray;
-
-  }
-
-  getPolygons() {
-    const url = '/assets/polygons/' + this.polygonLayer + '.json';
-    const subscription = this.http.get(url).subscribe(data => {
-      this.polygonValueLabels = false;
-      this.polygons = this.assignPolygonsColors(data);
-      this.loading = false;
-      subscription.unsubscribe();
-    });
-  }
-
-  assignPolygonsColors(data) {
-    this.polygonValueLabels = {};
-    this.polygonValueColors = {};
-    for (const i in data['features']) {
-      const current = data['features'][i];
-      const properties = current['properties'];
-      const name = properties['NIMI'].toLowerCase();
-      let match: any = false;
-
-      for (const o in this.polygonData) {
-        if (this.shortMonthLabels[name] == this.polygonData[o]['county']) {
-          match = this.polygonData[o];
-          this.polygonValueLabels[properties['NIMI']] = match.value;
-          this.polygonValueColors[properties['NIMI']] = match.division;
-        }
-      }
-
-      let color = this.heatMapColors[0];
-      for (const o in this.heatMapRanges) {
-        if (!match.division) {
-          color = '#cfcfcf';
-          properties['value'] = this.translate.get('errors.data_missing')['value'];
-        } else if (match.division === this.heatMapRanges[o]['amount']) {
-          color = this.heatMapRanges[o]['color'];
-          properties['value'] = match.value;
-          properties['field'] = match.OSKAField;
-          break;
-        }
-      }
-
-      properties['color'] = color;
-
-    }
-    this.getPolygonCenterCoords('', this.polygonValueLabels, this.polygonValueColors);
-    return data;
-  }
-
-  getPolygonCenterCoords(fontSize, polygons, polygonColors) {
-    if (this.polygonLabels) {
-      this.mapPolyLabels(fontSize, polygons, polygonColors);
-      return;
-    }
-
-    const url = '/assets/polygons/countyCenters.json';
-    const subscription = this.http.get(url).subscribe(data => {
-      this.polygonLabels = data;
-      this.mapPolyLabels(fontSize, polygons, polygonColors);
-      subscription.unsubscribe();
-    });
-  }
-
-  mapPolyLabels(fontSize, polygons, polygonColors) {
-    this.activeFontSize = fontSize || this.labelOptions.fontSize;
-    this.polygonLabels.map(elem => {
-      let match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
-      if (match && match.length && !match.includes('%')) {
-        match = (new LocaleNumberPipe).transform(match);
-      }
-      const textLabel = match ? `${elem.label} ${match}` : elem.label;
-      elem['labelOptions'] = {
-        color: polygonColors[elem.NIMI] === 7 ? this.labelOptions.lightColor : this.labelOptions.color,
-        fontSize: fontSize || this.labelOptions.fontSize,
-        fontWeight: this.labelOptions.fontWeight,
-        text: textLabel,
-      };
-    });
   }
 
   fieldPlaceholder() {
@@ -354,69 +189,10 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       this.translate.get('oska.title_field')['value'];
   }
 
-  polygonStyles(feature) {
-    let color = '#cfcfcf';
-    const keys = Object.keys(feature).join(',').split(',');
-
-    for (const i in keys) {
-      const key = keys[i];
-      if (feature[key] && feature[key]['color']) {
-        color = feature[key]['color'];
-      }
-    }
-
-    return {
-      fillColor: color,
-      fillOpacity: 1,
-      strokeColor: '#ffffff',
-      strokeWeight: 1,
-      strokeOpacity: 1,
-      clickable: true,
-    };
-  }
-
-  sumWindowStatus: boolean = false;
-  sumWindowLat: any;
-  sumWindowLon: any;
-  kmlDebounce: any;
-
-  kmlClick($event) {
-
-    let mouse;
-    for (const i in $event) {
-      if (typeof $event[i] == 'object' && $event[i]['clientX']) {
-        mouse = $event[i];
-      }
-    }
-
-    const val = $event.feature.getProperty('value');
-    const textLabel =
-      val && val.length && parseFloat(val) && !val.includes('%')
-        ? (new LocaleNumberPipe).transform(val) :
-        val;
-
-    this.infoLayer = {
-      left: mouse['clientX'] + 'px',
-      top: mouse['clientY'] + 'px',
-      value: textLabel,
-      name: this.shortMonthLabels[$event.feature.getProperty('NIMI').toLowerCase()],
-      field: $event.feature.getProperty('field'),
-    };
-
-    this.sumWindowLat = $event.latLng.lat();
-    this.sumWindowLon = $event.latLng.lng();
-
-    this.sumWindowStatus = true;
-    this.changeDetectorRef.detectChanges();
-  }
-
-  kmlClickStatus($isOpen: boolean) {
-    this.sumWindowStatus = $isOpen;
-    this.changeDetectorRef.detectChanges();
-  }
-
   ngOnInit() {
-    this.mapOptions.styles = this.rootScope.get('mapStyles');
+    if (this.deviceService.isMobile()) {
+      this.mapOptions.minZoom = 6;
+    }
     this.getData();
   }
 
