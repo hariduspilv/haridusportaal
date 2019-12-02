@@ -27,7 +27,7 @@
 <div class="header__assets">
 	<div class="inline">
 		<div class="header__assets--grid">
-			<div class="header__search">
+			<div *ngIf="headerSearchEnabled()" class="header__search">
 				<icon glyph="search" size="default"></icon>
 				<formItem
 					type="autocomplete" 
@@ -37,6 +37,7 @@
 					[(ngModel)]="searchTerm"
 					name="homeSearch"
 					(keyup.enter)="searchRoute()"
+					(autoCompleteChanged)="searchRoute($event)"
 				>
 				</formItem>
 			</div>

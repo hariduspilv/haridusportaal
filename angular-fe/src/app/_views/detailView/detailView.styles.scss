@@ -20,13 +20,14 @@
     }
 
     .author {
-      padding: .5rem 0;
+      padding-top: .5rem;
+      padding-bottom: 2rem;
       font-size: .875rem;
       line-height: 1.43;
       color: #757575;
       margin-top:-1.5rem;
       &+.toolbar{
-        margin-top: -0.625rem;
+        margin-top: 1rem;
       }
     }
     .toolbar{

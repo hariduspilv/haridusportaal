@@ -4,7 +4,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { nmcall } from 'q';
 
 @Component({
@@ -61,6 +61,7 @@ export class HeaderComponent implements OnInit {
     private http: HttpClient,
     private alertsService: AlertsService,
     private router: Router,
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   public basicLogin(): void {
@@ -169,11 +170,14 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  public searchRoute() {
-    console.log(this.searchTerm);
-    const url = `/otsing?term=${this.searchTerm}`;
-    console.log(url);
+  searchRoute(e = '') {
+    const url = `/otsing?term=${!e ? this.searchTerm : e}`;
     this.router.navigateByUrl(url);
+  }
+
+  headerSearchEnabled() {
+    return this.activatedRoute.snapshot.firstChild &&
+    this.activatedRoute.snapshot.firstChild.routeConfig.path !== 'otsing';
   }
 
   ngOnInit(): void {

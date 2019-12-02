@@ -6,24 +6,6 @@
     </block-title>
     <block-content tabLabel="{{ 'frontpage.dokument' | translate }}" tabIcon="file">
       <div class="block padding-block border-blue">
-        <!--  <div class="block__head">
-          <div *ngIf="acceptable_forms.length" class="block__head__buttons">
-            <div class="view-item" (click)="changeView('document')"
-              attr.aria-label="{{ 'frontpage.dokument' | translate }}" tabindex="0"
-              [class.active]="view === 'document'">
-              <span class="htm-icon">insert_drive_file</span>
-              <div class="title">{{ 'frontpage.dokument' | translate }}</div>
-            </div>
-            <div class="view-item" (click)="changeView('related_documents')"
-              attr.aria-label="{{ 'frontpage.dashboard_related_documents' | translate }}" tabindex="0"
-              [class.active]="view === 'related_documents'">
-              <span class="htm-icon">call_split</span>
-              <div class="title">{{ 'frontpage.dashboard_related_documents' | translate }}</div>
-            </div>
-          </div>
-        </div> -->
-        <!--/block__head-->
-
         <loader *ngIf="!data || formLoading"></loader>
 
         <alerts [class.hidden]="formLoading" small="true" id="upperAlert"></alerts>
@@ -311,7 +293,7 @@
                               </div>
                             </div>
                             <table htm-table class="scrollableTable" [attr.id]="element + 'Content'"
-                              [rotateTable]="element == 'studies'">
+                              [rotateTable]="data_elements[element].vertical">
                               <thead>
                                 <tr>
                                   <ng-container
@@ -420,7 +402,7 @@
                                         </ng-container> <!-- /SELECTLIST -->
 
                                         <ng-template #readonlyDisplay>
-                                          <span [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] }}</span>
+                                          <span [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] === 'undefined' ? row[col] : '' }}</span>
                                         </ng-template>
                                         <ng-template #readonlyDisplayAddress>
                                           <span

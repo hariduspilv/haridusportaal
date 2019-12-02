@@ -9,7 +9,7 @@ export class RotateTableDirective implements AfterViewInit {
 
   private classes = {
     th: '',
-    td: ''
+    td: '',
   };
 
   constructor(
@@ -20,10 +20,14 @@ export class RotateTableDirective implements AfterViewInit {
     let output = '';
     thList.forEach((th, index) => {
       output += '<tr role="row">';
-        output += `<th role="cell" id="th-${index}"class="${this.classes.th}">${th}</th>`;
-        trList.forEach((tr) => {
-          output += `<td role="cell" aria-describedby="th-${index}" class="${this.classes.td}">${tr[index]}</td>`;
-        });
+      output += `<th role="cell" id="th-${index}"class="${this.classes.th}">${th}</th>`;
+      trList.forEach((tr) => {
+        if (tr[index]) {
+          output += `<td role="cell" aria-describedby="th-${index}"
+          rowspan="${tr[index].rowspan ? tr[index].rowspan : ''}"
+          class="${this.classes.td}">${tr[index].val}</td>`;
+        }
+      });
       output += '</tr>';
     });
     output = output.replace(/<![^>]*>/igm, '');
@@ -40,7 +44,10 @@ export class RotateTableDirective implements AfterViewInit {
     const tr = this.el.nativeElement.querySelectorAll('tr').forEach((item) => {
       const tmp = [];
       item.querySelectorAll('td').forEach((child) => {
-        tmp.push(child.innerHTML);
+        tmp.push({
+          val: child.innerHTML,
+          rowspan: child.getAttribute('colspan'),
+        });
       });
       if (tmp.length) {
         trList.push(tmp);
