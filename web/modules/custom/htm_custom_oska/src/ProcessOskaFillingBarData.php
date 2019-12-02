@@ -24,9 +24,6 @@ class ProcessOskaFillingBarData {
     public static function ValidateFile($items, &$context){
         $message = t('Validating file');
 
-        //first delete all subsidies
-        self::deleteAllEntities();
-
         $results = [];
         $object = [
             'ametiala' => false,
@@ -70,6 +67,12 @@ class ProcessOskaFillingBarData {
     }
 
     public static function ClearOldValues($items, &$context){
+
+      if(empty($context['results']['error'])) {
+        dump('sagfsa');
+      }
+      dump(empty($context['results']['error']));
+      die();
 
       if(empty($context['results']['error'])){
         $nids = \Drupal::entityQuery('node')
@@ -165,12 +168,5 @@ class ProcessOskaFillingBarData {
         }
 
         return isset($entity) ? $entity->id() : FALSE;
-    }
-
-    private function deleteAllEntities(){
-        $ids = \Drupal::entityQuery('oska_filling_bar_entity')->execute();
-        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_filling_bar_entity');
-        $entities = $storage_handler->loadMultiple($ids);
-        $storage_handler->delete($entities);
     }
 }
