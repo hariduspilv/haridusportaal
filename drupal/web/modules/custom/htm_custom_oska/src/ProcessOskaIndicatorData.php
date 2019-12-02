@@ -87,6 +87,8 @@ class ProcessOskaIndicatorData {
   public static function ClearOldValues($items, &$context){
 
     if(empty($context['results']['error'])){
+      self::deleteAllEntities();
+      
       $fields = [
         'field_bruto',
         'field_education_indicator',
@@ -186,8 +188,6 @@ class ProcessOskaIndicatorData {
   }
 
   public static function checkEntityReference($entity_type, $vocabulary, $name){
-
-
     $storage = \Drupal::entityTypeManager()->getStorage($entity_type);
 
     $properties = [
@@ -202,5 +202,12 @@ class ProcessOskaIndicatorData {
     }
 
     return isset($entity) ? $entity->id() : FALSE;
+  }
+
+  public static function deleteAllEntities(){
+    $ids = \Drupal::entityQuery('oska_indicator_entity')->execute();
+    $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_indicator_entity');
+    $entities = $storage_handler->loadMultiple($ids);
+    $storage_handler->delete($entities);
   }
 }
