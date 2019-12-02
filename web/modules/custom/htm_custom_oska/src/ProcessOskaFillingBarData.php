@@ -19,8 +19,7 @@ class ProcessOskaFillingBarData {
     public static function create(ContainerInterface $container) {
         return new static();
     }
-
-
+    
     public static function ValidateFile($items, &$context){
         $message = t('Validating file');
 
@@ -67,12 +66,6 @@ class ProcessOskaFillingBarData {
     }
 
     public static function ClearOldValues($items, &$context){
-
-      if(empty($context['results']['error'])) {
-        dump('sagfsa');
-      }
-      dump(empty($context['results']['error']));
-      die();
 
       if(empty($context['results']['error'])){
         $nids = \Drupal::entityQuery('node')

@@ -22,7 +22,7 @@ class ProcessOskaIndicatorData {
 
   public static function ValidateFile($items, &$context){
     $message = t('Validating file');
-    
+
     $results = [];
     $object = [
       'id' => false,
