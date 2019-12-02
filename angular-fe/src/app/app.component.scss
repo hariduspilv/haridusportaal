@@ -25,6 +25,10 @@
     grid-area: content;
     overflow-y: scroll;
     height: 100%;
+    -ms-grid-row: 2; 
+    -ms-grid-row-span: 2; 
+    -ms-grid-column: 2; 
+    -ms-grid-column-span:2;
     ::ng-deep{
       main {
         @include break-on(sm, min) {

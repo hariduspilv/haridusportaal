@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { RippleService, SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'sidemenu-item',
@@ -71,7 +71,10 @@ export class MenuComponent implements OnInit, OnDestroy {
       language: this.settings.activeLang,
     };
     const path = this.settings.query('getMenu', variables);
-    this.http.get(path).subscribe((response) => {
+    // force to not use disk cache
+    this.http.get(path, {
+      headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
+    }).subscribe((response) => {
       this.data = response['data'];
       this.cdr.detectChanges();
     });
