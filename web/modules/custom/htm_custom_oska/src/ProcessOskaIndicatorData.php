@@ -88,7 +88,7 @@ class ProcessOskaIndicatorData {
 
     if(empty($context['results']['error'])){
       self::deleteAllEntities();
-      
+
       $fields = [
         'field_bruto',
         'field_education_indicator',
