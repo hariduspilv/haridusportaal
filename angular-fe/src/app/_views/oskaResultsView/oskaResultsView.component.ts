@@ -208,6 +208,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
 
   watchSearch() {
     this.searchSubscription = this.route.queryParams.subscribe((params: ActivatedRoute) => {
+      console.log(params);
       this.params = params;
       this.filterView();
       this.cdr.detectChanges();

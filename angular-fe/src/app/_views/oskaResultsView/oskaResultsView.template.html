@@ -32,6 +32,7 @@
 						title="{{ 'oska.table_responsible_person' | translate }}"
 						[(ngModel)]="filterFormItems.responsible"
 						[options]="filterItemValues.responsible"
+						*ngIf="filterItemValues.responsible.length"
 					></formItem>
 					<div class="round-input__wrapper"></div>
 				</div>

@@ -52,7 +52,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges{
     });
   }
   ngOnInit() {
-    if (this.path.length !== 0) {
+    if (this.path && this.path.length !== 0) {
       this.getData();
     }
   }

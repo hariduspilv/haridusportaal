@@ -46,7 +46,7 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
 
     Object.keys(queryParams).forEach((item) => {
       if (Array.isArray(queryParams[item])) {
-        queryParams[item] = queryParams[item].join(',');
+        queryParams[item] = queryParams[item].join(';');
       }
     });
 
@@ -58,8 +58,8 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
   setValues(queryParams): void {
     const tmpParams = { ...queryParams };
     Object.keys(tmpParams).forEach((item) => {
-      if (tmpParams[item].match(',')) {
-        tmpParams[item] = tmpParams[item].split(',');
+      if (tmpParams[item].match(';')) {
+        tmpParams[item] = tmpParams[item].split(';');
         tmpParams[item] = tmpParams[item].map((obj) => {
           let val = obj;
           if (!obj.match(/\D/)) {
