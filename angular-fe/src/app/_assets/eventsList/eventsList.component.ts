@@ -345,22 +345,32 @@ export class EventsListComponent extends FiltersService implements OnInit {
       year: parseInt(moment().format("YYYY"))
     }  
     this.route.queryParams.subscribe( (params) => {
+      const tmpParams = {};
+      Object.keys(params).forEach((i) => {
+        tmpParams[i] = params[i].replace(/\;/igm, ',');
+      });
       if (Object.keys(params).length > 0) {
-        this.queryString = '?'+Object.keys(params).reduce(function(a,k){a.push(k+'='+encodeURIComponent(params[k]));return a},[]).join('&');
+        this.queryString = '?'+Object.keys(tmpParams).reduce(function(a,k){a.push(k+'='+encodeURIComponent(tmpParams[k]));return a},[]).join('&');
       } else {
         this.queryString = '';
       }
-      this.params = params;
+
+      this.params = tmpParams;
       this.eventList = false;
       this.listEnd = false;
       this.status = false;
-      this.filterRetrieveParams(params);
+      this.filterRetrieveParams(tmpParams);
       this.generateCalendar();
       this.getData();
       
     });
 
-    this.filterRetrieveParams( this.params );
+    const tmpParams = {};
+    Object.keys(this.params).forEach((i) => {
+      tmpParams[i] = this.params[i].replace(/\;/igm, ',');
+    });
+
+    this.filterRetrieveParams( tmpParams );
     //this.getData();
   }
   sort(prop:any, arr:any) {

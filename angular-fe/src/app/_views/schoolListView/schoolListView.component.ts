@@ -76,13 +76,15 @@ export class SchoolListViewComponent implements AfterViewInit {
   }
 
   removeHangingTypes() {
-    const oldValues = this.selectedSecondaryTypes;
-    this.selectedSecondaryTypes = [];
-    oldValues.forEach((element) => {
-      if (this.secondaryFilteredTypes.indexOf(element) !== -1) {
-        this.selectedSecondaryTypes.push(element);
-      }
-    });
+    try {
+      const oldValues = this.selectedSecondaryTypes;
+      this.selectedSecondaryTypes = [];
+      oldValues.forEach((element) => {
+        if (this.secondaryFilteredTypes.indexOf(element) !== -1) {
+          this.selectedSecondaryTypes.push(element);
+        }
+      });
+    } catch (err) {}
   }
 
   setTypeValue() {
@@ -114,6 +116,7 @@ export class SchoolListViewComponent implements AfterViewInit {
         }
       });
 
+      console.log(data);
       subscribe.unsubscribe();
     });
   }

@@ -20,6 +20,7 @@ import conf from '@app/_core/conf';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { ParseInAddsPipe } from '@app/_pipes/parseInAdds.pipe';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
 
 export interface FormItemOption {
   key: string;
@@ -103,6 +104,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     private cdr: ChangeDetectorRef,
     private deviceService: DeviceDetectorService,
     private inAddsPipe: ParseInAddsPipe,
+    private queryParams: QueryParamsService,
   ) {
     this.patterns = conf.patterns;
     this.isMobile = !this.deviceService.isDesktop();
@@ -153,9 +155,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   }
   update(action: string = '') {
-    if (this.type === 'multi-select') {
-      this.removeComma();
-    }
+
     if (action === 'datepicker') {
       if (this.dateField && this.dateField.year) {
         this.field = this.dateString(this.dateField);
@@ -223,9 +223,15 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     if (this.type !== 'autocomplete') {
       this.propagateChange(this.field);
     }
+
+    if (this.type === 'multi-select') {
+      this.removeComma();
+    }
+
     if (!this.cdr['destroyed']) {
       this.cdr.detectChanges();
     }
+
   }
 
   autocompleteUpdate(value: any = ''): void {
@@ -253,13 +259,36 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   writeValue(value: string) {
-    this.field = value || '';
+
+    if (this.type === 'multi-select') {
+
+      if (this.field === '' || !this.field) {
+        this.field = false;
+      }
+      if (typeof this.field !== 'object' && this.field !== '' && this.field) {
+        this.field = [this.field];
+      }
+      if (this.options) {
+        try {
+          const arrType = typeof this.options[0].value;
+          if (arrType === 'string') {
+            this.field = this.field.map((item) => {
+              if (item) {
+                return item.toString();
+              }
+            });
+          }
+        } catch (err) {}
+      }
+    } else {
+      this.field = value || '';
+    }
 
     if (this.field === 'null') {
       this.field = '';
     }
 
-    if (this.field && !this.field.toString().match(/\D/)) {
+    if (this.field && typeof this.field !== 'object' && !this.field.toString().match(/\D/)) {
       this.field = parseFloat(this.field);
     }
 
@@ -277,8 +306,13 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   checkInitialValue(): void {
     this.checkDisabled();
+
+    if (this.name) {
+      this.field = this.queryParams.getValues(this.name) || this.field;
+    }
+
     if (this.type === 'select' || this.type === 'multi-select') {
-      this.field = '';
+      // this.field = '';
       if (this.options) {
         this.options = this.options.map((opt) => {
           return typeof opt ===  'string' ? {
@@ -292,8 +326,12 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         this.field = 'true';
       }
     }
+
     if (this.type === 'multi-select') {
       this.removeComma();
+      if (this.field && this.field.length) {
+        this.filledField = true;
+      }
     } else {
       if (this.value) {
         this.field = this.value;
@@ -301,9 +339,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       }
     }
 
-    if (this.field && !this.field.match(/\D/)) {
+    if (this.field && typeof this.field !== 'object' && !this.field.match(/\D/)) {
       this.field = parseFloat(this.field);
     }
+    this.cdr.detectChanges();
   }
 
   checkDisabled(): void {

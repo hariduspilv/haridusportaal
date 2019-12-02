@@ -103,12 +103,11 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       }
       if (searchResultKeys[this.parsedType][item]) {
         if (typeof searchResultKeys[this.parsedType][item] === 'string') {
-          values[searchResultKeys[this.parsedType][item]] = this.getValue(tmpParams[item], item);
+          values[searchResultKeys[this.parsedType][item]] = this.getValue(tmpParams[item], item).replace(/\;/igm, ',');
         } else {
           // tslint:disable-next-line: max-line-length
-          values[searchResultKeys[this.parsedType][item].key] = this.getValue(tmpParams[item], item);
+          values[searchResultKeys[this.parsedType][item].key] = this.getValue(tmpParams[item], item).replace(/\;/igm, ',');
           // tslint:disable-next-line: max-line-length
-          
           if (Array.isArray(tmpParams[item])) {
             values[searchResultKeys[this.parsedType][item].enabled] = tmpParams[item] ? false : true;
           } else {
@@ -126,7 +125,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
 
       try {
         if (multiSelectFields[this.parsedType].indexOf(item) !== -1) {
-          values[item] = values[item].split(',');
+          values[item] = values[item].split(';');
           if (values[item][0] === '') {
             values[item].splice(0, 1);
           }
@@ -184,6 +183,10 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
               }
               this.cdr.detectChanges();
             } catch (err) {
+            }
+
+            if (!tmpList) {
+              tmpList = [];
             }
 
             this.canLoadMore = tmpList.length >= this.limit ? true : false;

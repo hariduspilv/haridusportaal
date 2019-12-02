@@ -6,10 +6,12 @@ import {
   QueryList,
   AfterViewInit,
   OnDestroy,
+  Injectable,
 } from '@angular/core';
 import { FormItemComponent } from '@app/_assets/formItem';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
 
 @Directive({
   selector: '[filters]',
@@ -25,6 +27,7 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
     private el: ElementRef,
     private router: Router,
     private route: ActivatedRoute,
+    private filters: QueryParamsService,
   ) {}
 
   bindEvents(): void {
@@ -55,20 +58,9 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
     });
   }
 
-  setValues(queryParams): void {
-    const tmpParams = { ...queryParams };
-    Object.keys(tmpParams).forEach((item) => {
-      if (tmpParams[item].match(';')) {
-        tmpParams[item] = tmpParams[item].split(';');
-        tmpParams[item] = tmpParams[item].map((obj) => {
-          let val = obj;
-          if (!obj.match(/\D/)) {
-            val = parseFloat(val);
-          }
-          return val;
-        });
-      }
-    });
+  setValues(): void {
+    const tmpParams = this.filters.getValues();
+
     this.formItems.forEach((item) => {
       const data = item.getValue();
       if (tmpParams[data.name]) {
@@ -79,7 +71,7 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
 
   watchParams(): void {
     this.paramsWatcher = this.route.queryParams.subscribe((queryParams) => {
-      this.setValues(queryParams);
+      this.setValues();
     });
   }
 

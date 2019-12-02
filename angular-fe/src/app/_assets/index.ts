@@ -105,6 +105,7 @@ const pipes = [];
 
 import { AppPipes } from '@app/_pipes';
 import { RelatedStudyProgrammesListComponent } from './relatedStudyprogrammesList/relatedStudyProgrammesList.component';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
 
 const declarations = [
   BlockComponent,
@@ -198,6 +199,7 @@ const providers = [
   SettingsService,
   UploadService,
   AuthService,
+  QueryParamsService,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',
