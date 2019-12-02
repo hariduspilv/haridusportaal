@@ -4,7 +4,7 @@
       <icon glyph="{{alertIcons[alert.type]}}" [size]="small ? 'medium' : 'large'"></icon>
     </div>
       <p>{{ alert.message }}</p>
-      <a class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
+      <a *ngIf="alert.link" class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
       <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
         <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
       </button>
