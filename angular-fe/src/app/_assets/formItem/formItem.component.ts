@@ -60,6 +60,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() pattern: any = false;
   @Output() onChange: EventEmitter<any> = new EventEmitter();
   @Output() onUpdate: EventEmitter<any> = new EventEmitter();
+  @Output() autoCompleteChanged: EventEmitter<any> = new EventEmitter();
   @Input() name: string = '';
   @Input() checked: string;
   @Input() query: string = '';
@@ -247,6 +248,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         addressHumanReadable: value['addressHumanReadable'],
       };
     }
+    this.autoCompleteChanged.emit(this.field);
     this.propagateChange(this.field);
   }
 
