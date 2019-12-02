@@ -1,3 +1,5 @@
+<div class="inline">
+  
 <base-layout>
 <block>
   <block-title>
@@ -11,8 +13,9 @@
       </div>
 
       <!-- <scrollableContent> -->
+        <scrollableContent>
         <table htm-table>
-          <ng-container *ngIf="key === 'studyProgramme.compare'">
+          <ng-container *ngIf="key === 'studyProgrammeComparison'">
             <tbody>
               
               <tr *ngIf="compareService.list">
@@ -170,7 +173,7 @@
 
               <tr>
                 <td class="centered" *ngFor="let item of compareService.list; let i = index;">
-                  <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'studyProgramme.compare'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
+                  <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'studyProgrammeComparison'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
                 </td>
               </tr>
 
@@ -179,7 +182,7 @@
           </ng-container>
           <!--StudyProgramme.compare-->
 
-          <ng-container *ngIf="key === 'oskaProfessions.compare'">
+          <ng-container *ngIf="key === 'oskaProfessionsComparison'">
             <tbody>
               <tr *ngIf="compareService.list">
                 <td class="firstCell centered bold layoutCell" [class.borderless]="compareService.fixedLabelExists" [class.lastCell]="!compareService.fixedLabelExists" *ngFor="let item of compareService.list"
@@ -306,13 +309,14 @@
               </tr>
               <tr>
                 <td class="centered" *ngFor="let item of compareService.list; let i = index;">
-                  <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessions.compare'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
+                  <a attr.aria-label="{{'button.remove_from_comparison' | translate}}" href="javascript:void(0);" (click)="removeItemFromList(item.nid, 'oskaProfessionsComparison'); setDeleteText(i)">{{ 'button.remove_from_comparison' | translate}}</a>
                 </td>
               </tr>
             </tbody>
           </ng-container>
           <!--OskaProfessions.compare-->
         </table>
+      </scrollableContent>
       <!-- </scrollableContent> -->
       <div class="notification--alert" role="alert">
         <span>{{ deleteText }} <span *ngIf="deleteText">{{ 'oskaProfessions.removed_from_comparison' | translate }}</span></span>
@@ -321,3 +325,4 @@
   </block-content>
 </block>
 </base-layout>
+</div>

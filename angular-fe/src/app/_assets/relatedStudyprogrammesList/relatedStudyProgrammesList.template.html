@@ -6,7 +6,7 @@
       <button (click)="getRelatedStudyprogrammes(nid)" type="button" htm-button>{{ 'button.search' | translate}}</button>
     </form>
     <loader *ngIf="loading"></loader>
-    <listItems *ngIf="!loading" [list]="list" type="studyProgramme" compare="studyProgramme.compare"></listItems>
+    <listItems *ngIf="!loading" [list]="list" type="studyProgramme" compare="studyProgrammeComparison"></listItems>
   </block-content>
 </block>
 <div class="loadMore-wrapper">

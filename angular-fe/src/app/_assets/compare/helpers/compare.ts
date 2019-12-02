@@ -1,15 +1,15 @@
 // tslint:disable
 export const viewOptions = {
-  'studyProgramme.compare': '/erialad/võrdlus',
-  'oskaProfessions.compare': '/ametialad/võrdlus',
+  studyProgrammeComparison: '/erialad/võrdlus',
+  oskaProfessionsComparison: '/ametialad/võrdlus',
 }
 export const maxItems = {
-  'studyProgramme.compare': 3,
-  'oskaProfessions.compare': 3,
+  studyProgrammeComparison: 3,
+  oskaProfessionsCompare: 3,
   'default': 10
 }
 export const translationsPerType = {
-  'studyProgramme.compare': {
+  studyProgrammeComparison: {
     success: 'studyProgramme.added_to_comparison',
     info: 'studyProgramme.in_comparison',
     title: 'studyProgramme.compare_modal_title',
@@ -17,7 +17,7 @@ export const translationsPerType = {
     viewTitle: 'studyProgramme.label',
     viewSubtitle: 'studyProgramme.compare_modal_title'
   },
-  'oskaProfessions.compare': {
+  oskaProfessionsComparison: {
     success: 'oskaProfessions.added_to_comparison',
     info: 'oskaProfessions.in_comparison',
     title: 'oskaProfessions.compare_modal_title',

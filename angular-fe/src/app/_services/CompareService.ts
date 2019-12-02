@@ -66,7 +66,7 @@ export class CompareService {
 
   formatData(data, compare, key) {
     switch (key) {
-      case 'oskaProfessions.compare':
+      case 'oskaProfessionsComparison':
         this.resetValues();
         const prosFields = {};
         let prosFieldsMaxLength = 0;
@@ -206,7 +206,7 @@ export class CompareService {
           ? Array(this.oskaFieldsMaxLength).fill(0).map((x, i) => i) : [];
         this.list = data;
         break;
-      case 'studyProgramme.compare':
+      case 'studyProgrammeComparison':
         this.existingFields = [];
         this.list = data;
         const fieldsToCheck = [

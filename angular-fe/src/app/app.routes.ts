@@ -69,6 +69,14 @@ const routes: Routes = [
     loadChildren: './_views/mainProfessionListView#MainProfessionListViewModule',
   },
   {
+    path: 'ametialad/võrdlus',
+    loadChildren: './_views/compareView#CompareViewModule',
+    data: {
+      type: 'oskaProfessionsComparison',
+      query: 'oskaMainProfessionListView',
+    },
+  },
+  {
     path: 'ametialad/andmed',
     loadChildren: './_views/mainProfessionDataView#MainProfessionDataView',
   },
@@ -132,6 +140,7 @@ const routes: Routes = [
     loadChildren: './_views/compareView#CompareViewModule',
     data: {
       type: 'studyProgrammeComparison',
+      query: 'studyProgrammeComparison',
     },
   },
   {

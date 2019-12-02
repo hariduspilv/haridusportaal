@@ -11,7 +11,7 @@
 				</a>
 			</div>
 			<ng-container *ngIf="showFilter">
-				<div class="row">
+				<div class="row form-first-row">
 					<div class="col-4 sm-12">
 						<formItem type="text" title="{{ 'studyProgramme.filter_title' | translate }}" name="title"></formItem>
 					</div>
@@ -119,7 +119,7 @@
 		<block titleBorder="true">
 			<block-title>{{ 'studyProgramme.label' | translate }}</block-title>
 			<block-content>
-				<searchResults type="studyProgramme" compare="studyProgramme.compare" limit="24"></searchResults>
+				<searchResults type="studyProgramme" compare="studyProgrammeComparison" limit="24"></searchResults>
 			</block-content>
 		</block>
 	</div><!--/inline-->

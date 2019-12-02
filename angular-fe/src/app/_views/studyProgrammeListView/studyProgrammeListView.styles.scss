@@ -22,32 +22,40 @@
 	}
 
 	.filter-wrapper {
-		padding: 1rem 1.5rem;
-		background: #fff;
-		margin: 1rem -1.5rem 1.5rem;
-		@include break-on(sm, max) {
-			margin-bottom: 0;
-			padding-top: 1rem;
-			.filter-control {
-				padding: 0 !important;
-				span {
-					margin-right: 1rem;
-				}
-			}
-			&.filtersActive {
-				display: block;
-			}
-		}
-		.filter-control {
-			padding: 1.5rem 0rem 0.5rem;
-		}
-		.text-right {
-			text-align: right;
-		}
-	}
+    padding: 1.5rem;
+    background: #fff;
+    @include break-on(sm, min) {
+      margin: 0rem -1.5rem 1.5rem;
+      padding: 0.75rem 1.5rem;
+    }
+    @include break-on(sm, max) {
+      margin-bottom: 0;
+      // margin: 1.5rem 0;
+      .filter-control {
+        padding: 0 !important;
+        span {
+          margin-right: 1rem;
+        }
+      }
+      &.filtersActive {
+        display: block;
+      }
+    }
+    .filter-control {
+      padding: 1.5rem 0rem 0.5rem;
+    }
+    .text-right {
+      text-align: right;
+    }
+  }
 
 	.row {
 		margin: 0 -0.5rem;
+    @include break-on(sm, max) {
+      &.form-first-row {
+        padding-top: 0.75rem;
+      }
+    }
 		.align-end {
 			align-self: flex-end;
 			margin-bottom: auto;

@@ -61,7 +61,7 @@
 
   .row {
     margin: 0 -0.5rem;
-    @include break-on(sm, max) {
+    &.form-first-row {
       padding-top: 0.75rem;
     }
     .align-end {

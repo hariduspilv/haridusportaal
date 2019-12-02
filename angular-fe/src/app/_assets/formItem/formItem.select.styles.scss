@@ -163,6 +163,7 @@ $create-font-face: false;
       .ng-dropdown-panel{
         .ng-option-selected{
           font-weight: normal !important;
+          color: $light-blue !important;
           background:rgba(227,227,227) !important;
           .ng-option-label{
             font-weight: normal !important;
@@ -176,7 +177,7 @@ $create-font-face: false;
     border: none !important;
     margin-top: 0.3125rem !important;
     box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12) !important;
-    .ng-option{
+    .ng-option {
       font-size:1.125rem !important;
       padding: 1.1rem 1rem !important;
     }
@@ -185,9 +186,15 @@ $create-font-face: false;
     }
     .ng-option-selected{
       background: none !important;
+      span {
+        font-weight: 400 !important;
+      }
     }
     .ng-option-marked{
       background: rgba(0,0,0,.04) !important;
+      span {
+        font-weight: 400 !important;
+      }
     }
     .formItem__check__title{
       font-size: 1.125rem !important;

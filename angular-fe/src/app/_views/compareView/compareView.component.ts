@@ -13,8 +13,8 @@ import { translationsPerType } from '../../_assets/compare/helpers/compare';
 })
 
 export class CompareViewComponent extends CompareComponent {
-  @Input() key: string;
-  @Input() queryName: string = this.route.snapshot.data['type'];
+  @Input() key: string = this.route.snapshot.data.type;
+  @Input() queryName: string = this.route.snapshot.data.query;
   private queryId: string;
   public loading: boolean = false;
   public translations = translationsPerType;
@@ -40,11 +40,11 @@ export class CompareViewComponent extends CompareComponent {
   getData() {
     this.loading = true;
     const allVars = {
-      'studyProgramme.compare': {
+      studyProgrammeComparison: {
         lang: 'ET',
         nidValues: `[${this.compare.map(id => id.toString())}]`,
       },
-      'oskaProfessions.compare': {
+      oskaProfessionsComparison: {
         lang: 'ET',
         titleValue: '',
         titleEnabled: false,
@@ -73,6 +73,7 @@ export class CompareViewComponent extends CompareComponent {
       const data = response['data']['nodeQuery']['entities'];
       this.compareService.formatData(data, this.compare, this.key);
       this.loading = false;
+      console.log(response);
       if (!data.length) this.rerouteToParent();
     },                            (err) => {
       this.rerouteToParent();
