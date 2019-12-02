@@ -34,8 +34,8 @@
       <block-content tabLabel="Õppeasutused" tabLink="/koolide-rahastus" [queryParams]="params" tabIcon="home">
       </block-content>
       <block-content tabLabel="Haldusüksused" tabLink="/koolide-rahastus/haldusüksused" [tabActive]="true" tabIcon="map-pin">
-        <loader *ngIf="loading && !polygonData"></loader>
-        <map *ngIf="polygonData" type="polygons" [options]="options" [polygonData]="polygonData">
+        <loader *ngIf="!polygonData"></loader>
+        <map *ngIf="polygonData" type="polygons" [loading]="loading" [options]="options" [polygonData]="polygonData" (layerChange)="onLayerChange($event)">
         </map>
       </block-content>
     </block>

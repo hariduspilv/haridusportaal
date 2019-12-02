@@ -1,6 +1,9 @@
 <!-- Snazzy templates -->
 <ng-container *ngIf="options">
   <div class="map__wrapper">
+    <div class="map-loader" *ngIf="loading">
+      <loader></loader>
+    </div><!--/map-loader-->
     <agm-map (mapReady)="mapReady($event)"
       (zoomChange)="zoomChange($event)"
       [zoomControl]="options.enableZoomControl"

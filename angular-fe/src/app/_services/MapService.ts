@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import conf from '@app/_core/conf';
 import { EuroCurrencyPipe } from '@app/_pipes/euroCurrency.pipe';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,10 @@ export class MapService {
     md: '18px',
     lg: '22px',
   };
+  public activeMap: any;
+  public latlngBounds: any;
+  public polygonLayer: BehaviorSubject<number> = new BehaviorSubject<number>(1);
+  public previousPolygonLayer: number;
   public infoLayer: {} = {};
   public polygonValueLabels: {} = {};
   public polygonColors: {} = {};
@@ -78,6 +83,7 @@ export class MapService {
     switch (type) {
       case 'investment':
         this.polygonValueLabels = {};
+        this.polygonColors = {};
         for (const i in polygonData['features']) {
           const current = polygonData['features'][i];
           const properties = current['properties'];
@@ -109,6 +115,7 @@ export class MapService {
         break;
       case 'oskaFields':
         this.polygonValueLabels = {};
+        this.polygonColors = {};
         for (const i in polygonData['features']) {
           const current = polygonData['features'][i];
           const properties = current['properties'];
@@ -217,6 +224,28 @@ export class MapService {
           currency: $event.feature.getProperty('investmentAmountSum') || '',
           value: $event.feature.getProperty('value'),
         };
+    }
+  }
+
+  setBounds(markers: Object[]) {
+    let hasBounds: boolean = false;
+    if (markers) {
+      this.latlngBounds = new window['google'].maps.LatLngBounds();
+      markers.filter(elem => elem['Lat']).forEach((elem) => {
+        hasBounds = true;
+        this.latlngBounds.extend(
+          new window['google'].maps.LatLng(parseFloat(elem['Lat']), parseFloat(elem['Lon'])));
+      });
+      if (hasBounds) {
+        this.activeMap.fitBounds(this.latlngBounds);
+      }
+    }
+  }
+
+  resetCenter() {
+    if (this.activeMap) {
+      this.activeMap.setCenter(conf.defaultMapOptions.center);
+      this.activeMap.setZoom(conf.defaultMapOptions.zoom);
     }
   }
 

@@ -1,5 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { SettingsService } from '@app/_services';
+import { SettingsService, MapService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
@@ -15,6 +15,7 @@ export class SchoolFundingAreasViewComponent {
     private settingsService: SettingsService,
     private http: HttpClient,
     private route: ActivatedRoute,
+    private mapService: MapService,
   ) { }
 
   @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
@@ -52,6 +53,7 @@ export class SchoolFundingAreasViewComponent {
     draggable: true,
     enablePolygonLegend: true,
     enablePolygonModal: true,
+    enableLayerSelection: true,
     enableStreetViewControl: false,
   };
 
@@ -63,7 +65,7 @@ export class SchoolFundingAreasViewComponent {
       this.institutionOwnership = this.params.institutionOwnership;
     }
     this.route.queryParams.subscribe((params: any) => {
-      this.getData(params);
+      this.getData(params, this.mapService.polygonLayer.getValue());
       this.params = params;
       this.investmentDeadlineYear = params.investmentDeadlineYear;
       this.investmentMeasure = params.investmentMeasure;
@@ -71,23 +73,22 @@ export class SchoolFundingAreasViewComponent {
     });
   }
 
-  getData(params: any = {}) {
-
+  getData(params: any = {}, levelOfDetail: number): void {
     this.loading = true;
     const variables = {
+      levelOfDetail,
       ownershipType: params.institutionOwnership,
       investmentMeasure: params.investmentMeasure,
       investmentDeadline: params.investmentDeadlineYear,
-      levelOfDetail: 1,
     };
-
     const query = this.settingsService.query('subsidyProjectQueryLocation', variables);
-
     this.http.get(query).subscribe(({ data }: any) => {
-      this.polygonData = { county: data.CustomSubsidyProjectQuery };
-    },                             () => {}, () => {
-      this.loading = false;
-    });
+      this.polygonData = {
+        county: data.CustomSubsidyProjectQuery,
+        kov: data.CustomSubsidyProjectQuery,
+      };
+      this.mapService.polygonLayer.next(levelOfDetail);
+    },                             () => this.loading = false);
   }
 
   parseFilters(data) {
@@ -144,6 +145,11 @@ export class SchoolFundingAreasViewComponent {
       this.parseFilters(data);
       this.watchParams();
     });
+  }
+
+  onLayerChange(layer: string): void {
+    const levelOfDetail: number = layer !== 'kov' ? 1 : 2;
+    this.getData(this.params, levelOfDetail);
   }
 
   ngOnInit() {
