@@ -165,7 +165,7 @@ class ProcessOskaFillingBarData {
   }
 
   public static function deleteAllEntities(){
-    $ids = \Drupal::entityQuery('oska_indicator_entity')->execute();
+    $ids = \Drupal::entityQuery('oska_filling_bar_entity')->execute();
     $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_filling_bar_entity');
     $entities = $storage_handler->loadMultiple($ids);
     $storage_handler->delete($entities);
