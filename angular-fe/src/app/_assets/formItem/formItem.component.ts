@@ -352,7 +352,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.field = parseFloat(this.field);
     }
 
-    console.log(this.field, this.name);
     this.cdr.detectChanges();
   }
 

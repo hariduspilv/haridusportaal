@@ -57,7 +57,6 @@ export class SidebarComponent implements OnInit, OnChanges {
   }
 
   private getData():void {
-    console.log(this.type);
     if (this.data) {
       this.data = FieldVaryService(this.data);
 
@@ -104,8 +103,6 @@ export class SidebarComponent implements OnInit, OnChanges {
         }
       });
 
-      console.log(this.type);
-      console.log(this.mappedData);
     }
   }
   ngOnInit() {
@@ -289,15 +286,11 @@ export class SidebarLocationComponent {
       }
     }
 
-    console.log(this.data);
-
   }
   ngOnChanges() {
-    console.log('changed');
     this.parseData();
   }
   ngOnInit() {
-    console.log(this.data);
     this.parseData();
   }
 }

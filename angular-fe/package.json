@@ -10,7 +10,7 @@
     "e2e": "ng e2e",
     "storybook": "start-storybook -p 4300",
     "deploy-storybook": "build-storybook -c .storybook -o storybook-dist && node scripts/deploy-storybook.js",
-    "deploy": "node scripts/deploy-edu.js"
+    "deploy": "ng build --prod && node scripts/deploy-edu.js"
   },
   "private": true,
   "dependencies": {

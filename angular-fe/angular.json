@@ -33,7 +33,8 @@
               "src/auth.html",
               "src/manifest.json",
               "src/redirect.php",
-              "src/.htaccess"
+              "src/.htaccess",
+              "src/amp-php"
             ],
             "styles": [
               "src/styles.scss"

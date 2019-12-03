@@ -1,0 +1,2 @@
+RewriteEngine On
+RewriteRule ^amp/(.*)$ amp-php/index.php?url=$1 [L]
