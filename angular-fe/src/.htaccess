@@ -1,5 +1,7 @@
 RewriteEngine on
 
+RewriteRule ^amp/(.*)$ amp-php/index.php?url=$1 [L]
+
 RewriteCond %{HTTPS} off
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]

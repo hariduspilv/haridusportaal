@@ -1,0 +1,35 @@
+body{
+  margin: 0;
+  background: #f4f4f4;
+  padding-top:84px;
+  font-family: Roboto, Arial, Verdana, sans-serif;
+  color: #333;  
+}
+.header{
+  position:fixed;
+  top: 0;
+  left:0;
+  width: 100%;
+  height: 64px;
+  z-index: 10;
+  background:#2e3374;
+}
+
+.block {
+  display: block;
+  border-top:#15adc2 0.625rem solid;
+  background: #ffffff;
+  border-radius: 0.25rem;
+  margin-bottom: 16px;
+  padding: 24px;
+}
+
+.block img{
+  width: 100%;
+  display: block;
+}
+
+h1{
+  font-weight: 600;
+  font-size: 24px;
+}

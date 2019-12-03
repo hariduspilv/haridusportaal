@@ -4,6 +4,7 @@
   [class.showPlaceholder]="(type == 'select' || type == 'multi-select') && placeholder && (field == '' || field == null)"
   [class.title--top]="filledField || focused"
   >
+
   <ng-container [ngSwitch]="type">
     <ng-container *ngSwitchCase="'text'">
       <input
@@ -94,6 +95,7 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'multi-select'">
+
       <ng-container *ngIf="isMobile">
         <select
           (change)="update()"
@@ -122,6 +124,7 @@
           [searchable]="false"
           appendTo="body"
           [disabled]="disabled"
+          *ngIf="options"
           [(ngModel)]="field">
 
           <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">

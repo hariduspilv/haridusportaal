@@ -116,7 +116,6 @@ export class SchoolListViewComponent implements AfterViewInit {
         }
       });
 
-      console.log(data);
       subscribe.unsubscribe();
     });
   }
