@@ -23,6 +23,17 @@ query newsList($tagValue: [String], $tagEnabled: Boolean, $titleValue: String, $
           alt
           title
         }
+        fieldNewsVideo {
+          input
+          videoDomain
+          videoDescription
+          videoId
+        }
+        fieldVideoThumbnail {
+          derivative(style: CROP_SMALL) {
+            url
+          }
+        }
         fieldTag {
           entity {
             entityLabel
