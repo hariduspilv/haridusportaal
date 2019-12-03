@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, Output, EventEmitter } from '@angular/core';
 import conf from '@app/_core/conf';
 import { HttpClient } from '@angular/common/http';
 import { MapService } from '@app/_services';
@@ -35,16 +35,18 @@ export class MapComponent {
   @Input() parameters: Object[];
   @Input() legendLabels: Object;
   @Input() legendKey: string;
+  @Input() loading: boolean;
+  @Output() layerChange: EventEmitter<string> = new EventEmitter;
 
   private map: any;
   private heatmap: any;
-  private previousPolygonModalState = false;
   private polygonCoords: any;
   private polygons: any;
   private polygonMarkers: any;
   private polygonLayer: string = 'county';
   private defaultMapOptions: any = conf.defaultMapOptions;
   private paramSub: Subscription;
+  private polygonSub: Subscription;
   public params: Object;
   public infoWindowFunding: Boolean | Number;
   private activeLegendParameters: object;
@@ -61,20 +63,27 @@ export class MapComponent {
     private cdr: ChangeDetectorRef,
     private mapService: MapService,
     private route: ActivatedRoute) {}
+
   mapReady(map) {
     this.map = map;
+    this.mapService.activeMap = this.map;
     this.map.setZoom(this.options.zoom);
+    this.setCenter(this.map, this.options, this.defaultMapOptions);
+  }
+
+  setCenter(activeMap: any, options: MapOptions, defaultMapOptions: any) {
     let centerCoords: {};
-    if (this.options.centerLat && this.options.centerLng) {
+    if (options.centerLat && options.centerLng) {
       centerCoords = {
-        lat: parseFloat(this.options.centerLat),
-        lng: parseFloat(this.options.centerLng),
+        lat: parseFloat(options.centerLat),
+        lng: parseFloat(options.centerLng),
       };
     } else {
-      centerCoords = this.defaultMapOptions.center;
+      centerCoords = defaultMapOptions.center;
     }
-    this.map.setCenter(centerCoords);
+    activeMap.setCenter(centerCoords);
   }
+
   zoomChange($event) {
     if (this.type === 'polygons' && this.polygonCoords) {
       if ($event < 9 && this.mapService.activeFontSize !== this.mapService.fontSizes['sm']) {
@@ -98,6 +107,7 @@ export class MapComponent {
   }
 
   getPolygons() {
+    this.loading = true;
     const url = `/assets/polygons/${this.polygonLayer}.json`;
     const subscription = this.http.get(url).subscribe((data) => {
       this.polygonCoords = data;
@@ -111,6 +121,8 @@ export class MapComponent {
       if (this.polygonMarkers) {
         this.cdr.detectChanges();
       }
+    },                                                () => {}, () => {
+      this.loading = false;
       subscription.unsubscribe();
     });
   }
@@ -124,11 +136,17 @@ export class MapComponent {
 
   changeLayer(name) {
     this.polygonLayer = name;
-    this.getPolygons();
+    this.layerChange.emit(name);
   }
 
   ngOnInit() {
     this.watchSearch();
+    if (this.type === 'polygons') {
+      this.polygonSub = this.mapService.polygonLayer.subscribe((layer) => {
+        this.getPolygons();
+        this.mapService.previousPolygonLayer = layer;
+      });
+    }
   }
 
   watchSearch() {
@@ -137,15 +155,13 @@ export class MapComponent {
       if (this.legendKey && params[this.legendKey]) {
         this.activeLegendParameters = this.legendLabels[params[this.legendKey]];
       }
-      if (this.type === 'polygons') {
-        this.getPolygons();
-      }
       this.mapLabelSwitcher(this.options.enableLabels);
     });
   }
 
   ngOnDestroy() {
     this.paramSub.unsubscribe();
+    if (this.polygonSub) this.polygonSub.unsubscribe();
   }
 
   ngOnChanges() {

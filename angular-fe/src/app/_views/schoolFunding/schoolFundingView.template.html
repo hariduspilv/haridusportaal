@@ -32,8 +32,8 @@
         {{ 'school.label' | translate }}: {{ 'school.support_projects' | translate }}
       </block-title>
       <block-content tabLabel="Õppeasutused" tabLink="/koolide-rahastus" [tabActive]="true" tabIcon="home">
-        <loader *ngIf="loading"></loader>
-        <map *ngIf="!loading && markers" type="markers" [options]="options" [markers]="markers"></map>
+        <loader *ngIf="!markers"></loader>
+        <map *ngIf="markers" [loading]="loading" type="markers" [options]="options" [markers]="markers"></map>
       </block-content>
       <block-content tabLabel="Haldusüksused" tabLink="/koolide-rahastus/haldusüksused" [queryParams]="params" tabIcon="map-pin"></block-content>
     </block>

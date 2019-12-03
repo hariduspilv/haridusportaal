@@ -50,7 +50,7 @@ export class SettingsService {
     const requestName = this.get(`request.${name}`);
     let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
     if (Object.keys(variables).length > 0) {
-      path = `${path}&variables=${JSON.stringify(variables)}`;
+      path = `${path}&variables=${encodeURI(JSON.stringify(variables))}`;
     }
     return path;
   }

@@ -1,11 +1,11 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { Router, ActivatedRoute, Params, NavigationStart, NavigationEnd } from '@angular/router';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { FiltersService } from '@app/_services/filterService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SettingsService } from '@app/_services';
+import { SettingsService, MapService } from '@app/_services';
 
 @Component({
   templateUrl: 'oskaFieldMap.template.html',
@@ -64,6 +64,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     private translate: TranslateService,
     private deviceService: DeviceDetectorService,
     private settings: SettingsService,
+    private mapService: MapService,
   ) {
     super(null, null);
   }
@@ -88,6 +89,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
         this.filterSubmit();
       }
       this.filterGivenData(true);
+      this.mapService.polygonLayer.next(1);
     });
 
     // Add subscription to main array for destroying

@@ -3,6 +3,7 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { MapService } from '@app/_services';
 
 @Component({
   selector: 'schoolList-map',
@@ -35,7 +36,8 @@ export class SchoolListMapComponent implements AfterViewInit {
   private mapLimit: number = 3000;
   private boundsEnabled: boolean = false;
   private paramsSub: Subscription;
-  public markers: Object;
+  public markers: Object[];
+  private listSub: Subscription;
   public options: Object = {
     polygonType: 'investment', // ...
     zoom: 7.4,
@@ -57,6 +59,7 @@ export class SchoolListMapComponent implements AfterViewInit {
     private settings: SettingsService,
     private http: HttpClient,
     private route: ActivatedRoute,
+    private mapService: MapService,
   ) { }
 
   ngOnInit() {
@@ -126,6 +129,7 @@ export class SchoolListMapComponent implements AfterViewInit {
 
   getData(params) {
     this.loading = true;
+    if (this.listSub !== undefined) this.listSub.unsubscribe();
     const variables = {
       lang: 'ET',
       offset: 0,
@@ -151,12 +155,17 @@ export class SchoolListMapComponent implements AfterViewInit {
     };
 
     const path = this.settings.query('schoolMapQuery', variables);
-    const subscribe = this.http.get(path).subscribe((response: any) => {
+    this.listSub = this.http.get(path).subscribe((response: any) => {
       const entities = response['data']['CustomElasticQuery'];
       this.markers = this.fixCoordinates(entities);
-    },                                              () => {}, () => {
+    },                                           () => {}, () => {
       this.loading = false;
-      subscribe.unsubscribe();
+      if (window['google'] && this.markers && this.markers.length) {
+        this.mapService.setBounds(this.markers);
+      } else {
+        this.mapService.resetCenter();
+      }
+      this.listSub.unsubscribe();
     });
   }
 
