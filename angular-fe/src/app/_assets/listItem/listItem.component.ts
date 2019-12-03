@@ -20,6 +20,7 @@ export class ListItemComponent implements OnInit, OnChanges{
 
   public closeTime: number = 5000;
   private translationsPerType = translationsPerType;
+  public clickedVideos = {};
   public footerFields = {
     studyProgramme: [
       'educationalInstitution',
@@ -59,6 +60,7 @@ export class ListItemComponent implements OnInit, OnChanges{
     this.list.forEach((element, index) => {
       this.list[index] = FieldVaryService(element);
     });
+    console.log(this.list);
   }
   ngOnInit() {
     this.parseList();

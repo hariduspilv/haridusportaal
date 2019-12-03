@@ -25,6 +25,7 @@ const requestMap = {
   indicator: ['reverseOskaMainProfessionOskaIndicatorEntity'],
   fillingBar: ['reverseOskaMainProfessionOskaFillingBarEntity'],
   video: ['fieldNewsVideo', 'fieldOskaVideo', 'fieldSurveyPageVideo', 'fieldVideo'],
+  videoThumb: ['fieldVideoThumbnail'],
   additionalImages: ['fieldAdditionalImages'],
   additionalVideos: ['fieldResultPageVideo', 'fieldOskaMainProfessionVideo'],
   author: ['fieldAuthor'],
