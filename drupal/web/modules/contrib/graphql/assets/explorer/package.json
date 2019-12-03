@@ -6,7 +6,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "graphiql": "^0.11.10",
+    "graphiql": "^0.17.2",
     "graphql": "^0.11.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0"
