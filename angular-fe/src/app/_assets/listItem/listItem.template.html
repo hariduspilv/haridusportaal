@@ -35,7 +35,7 @@
                 </div>
 
                 <ng-container *ngIf="item.video && item.video.videoId">
-                    <div *ngIf="!clickedVideos[i]" class="col-4 xs-12 pointer">
+                    <div *ngIf="!clickedVideos[i]" class="col-4 xs-12 pointer" (click)="clickedVideos[i] = true">
                         <div class="list__item__image" *ngIf="item.videoThumb && item.videoThumb.derivative.url">
                                 <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" />
                                 <i class="icon play-circle"></i>
@@ -43,7 +43,7 @@
                         <div *ngIf="!item.videoThumb" class="list__item__video__thumbnail">
                                 <img [class.lastImg]="last"
                                 [src]="'https://img.youtube.com/vi/' + item.video.videoId + '/hqdefault.jpg'"
-                                width="100%" (click)="clickedVideos[i] = true" />
+                                width="100%" />
                                 <i class="icon play-circle"></i>
                         </div>
                     </div>
