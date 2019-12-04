@@ -39,14 +39,12 @@ export class BreadcrumbsComponent implements OnInit, OnChanges{
     } catch (err) {
       console.log('Unable to parse Breadcrumbs data;');
     }
-
   }
 
   private getData(): void {
     const variables = {
       path: this.path,
     };
-    
     const path = this.settings.query('getBreadcrumbs', variables);
     const subscription = this.http.get(path).subscribe((response) => {
       this.parseData(response);

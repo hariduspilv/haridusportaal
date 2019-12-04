@@ -61,7 +61,7 @@ export class TeachingsComponent implements OnInit {
               this.alertsService
                 .info(
                   response.error.message_text[currentLang],
-                  'general',
+                  'teachings',
                   'teachings',
                   false,
                   false,
@@ -115,7 +115,7 @@ export class TeachingsComponent implements OnInit {
                 }
               } catch (err) {
                 this.alertsService
-                  .info('errors.teachings_data_missing', 'general', 'teachings', false, false);
+                  .info('errors.teachings_data_missing', 'teachings', 'teachings', false, false);
               }
             }
             sub.unsubscribe();
@@ -126,7 +126,7 @@ export class TeachingsComponent implements OnInit {
             this.error = true;
             this.requestErr = true;
             this.alertsService
-              .info('errors.teachings_data_request', 'general', 'teachings', false, false);
+              .info('errors.teachings_data_request', 'teachings', 'teachings', false, false);
           });
   }
 
