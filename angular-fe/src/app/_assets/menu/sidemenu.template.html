@@ -8,12 +8,12 @@
 						else category">
 					<ul *ngIf="item.url.path === '#nocategory'" class="sidemenu__block">
 						<li *ngFor="let item of item['links']">
-							<sidemenu-item [item]="item"></sidemenu-item>
+							<sidemenu-item (openStateChange)="closeOthers($event)" [item]="item"></sidemenu-item>
 						</li>
 					</ul>
 					<ul class="sidemenu__block" *ngIf="item.url.path === '#nolink'">
 						<li>
-							<sidemenu-item [item]="item"></sidemenu-item>
+							<sidemenu-item (openStateChange)="closeOthers($event)" [item]="item"></sidemenu-item>
 						</li>
 					</ul>
 				</ng-container>
@@ -21,7 +21,7 @@
 					<ul class="sidemenu__block">
 						<li class="sidemenu__category">{{ item.label | uppercase }}</li>
 						<li *ngFor="let item of item['links']">
-							<sidemenu-item [item]="item"></sidemenu-item>
+							<sidemenu-item (openStateChange)="closeOthers($event)" [item]="item"></sidemenu-item>
 						</li>
 					</ul>
 				</ng-template>

@@ -23,6 +23,10 @@ export class SidemenuService {
     this.subject.next(!this.subject.getValue());
   }
 
+  close() {
+    this.subject.next(false);
+  }
+
   triggerLang(force:boolean = false) {
 
     // force language switch on login to load main nav

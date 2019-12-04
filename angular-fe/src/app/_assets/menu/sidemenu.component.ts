@@ -6,10 +6,16 @@ import {
   OnDestroy,
   ChangeDetectorRef,
   OnChanges,
+  ViewChildren,
+  QueryList,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { RippleService, SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Location } from '@angular/common';
+import { NavigationEnd, RouterEvent, Router } from '@angular/router';
 
 @Component({
   selector: 'sidemenu-item',
@@ -18,13 +24,25 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 })
 export class SidemenuItemComponent {
   public isOpen: boolean = false;
-  @Input() item: object = {};
+  @Output() openStateChange = new EventEmitter;
+  @Input() item: any = {};
 
-  constructor(private ripple: RippleService) { }
+  constructor(private ripple: RippleService, private cdr: ChangeDetectorRef) { }
 
   toggle(e) {
     this.isOpen = !this.isOpen;
+    this.openStateChange.emit(this.item['label']);
     this.animateRipple(e);
+  }
+
+  public close() {
+    this.isOpen = false;
+    this.cdr.detectChanges();
+  }
+
+  public open() {
+    this.isOpen = true;
+    this.cdr.detectChanges();
   }
   animateRipple(event) {
     this.ripple.animate(event, 'dark');
@@ -42,6 +60,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   public isVisible: boolean;
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
+  private routerSub: Subscription = new Subscription();
+  @ViewChildren(SidemenuItemComponent) sidemenuItems: QueryList<SidemenuItemComponent>;
   @Input() data;
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
@@ -53,6 +73,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     private settings: SettingsService,
     private auth: AuthService,
     private cdr: ChangeDetectorRef,
+    private location: Location,
+    private router: Router,
   ) {}
 
   subscribeToService():void {
@@ -66,7 +88,18 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.getData();
     });
   }
-  getData():void {
+
+  subscribeToRouter(): void {
+    this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
+      if (event instanceof NavigationEnd) {
+        if (this.isVisible) {
+          this.sidemenuService.close();
+        }
+        this.makeActive();
+      }
+    });
+  }
+  getData(init: boolean = false):void {
     const variables = {
       language: this.settings.activeLang,
     };
@@ -77,17 +110,50 @@ export class MenuComponent implements OnInit, OnDestroy {
     }).subscribe((response) => {
       this.data = response['data'];
       this.cdr.detectChanges();
+      if (init) {
+        this.makeActive();
+      }
+    });
+  }
+
+  makeActive() {
+    const path = decodeURI(this.location.path());
+    const categories = this.sidemenuItems.toArray().filter((el) => {
+      if (el.item.links.length > 0) {
+        return true;
+      }
+    });
+    const activeCategory = categories.find((el) => {
+      return el.item.links.find((link) => {
+        if (link.url.path === path) {
+          return true;
+        }
+      });
+    });
+    if (activeCategory) {
+      activeCategory.open();
+      this.closeOthers(activeCategory.item.label);
+    }
+  }
+
+  closeOthers(item: any = '') {
+    this.sidemenuItems.toArray().map((el: any) => {
+      if (el.item.label !== item) {
+        el.close();
+      }
     });
   }
 
   ngOnInit():void {
     this.subscribeToAuth();
     this.subscribeToService();
-    this.getData();
+    this.subscribeToRouter();
+    this.getData(true);
   }
 
   ngOnDestroy():void {
     this.subscription.unsubscribe();
     this.authSub.unsubscribe();
+    this.routerSub.unsubscribe();
   }
 }
