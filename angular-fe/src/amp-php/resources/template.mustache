@@ -9,22 +9,70 @@
   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <base href="/">
   <link rel="canonical" href="{{ fullPath }}" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <meta name="description" content="{{ shortDescription }}" />
   <style amp-custom>
     {{{ styles }}}
   </style>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "{{ fullPath }}"
+    },
+    "headline": "{{ title }}",
+    {{#image}}
+    "image": [
+      "{{ image.derivative.url }}"
+    ],
+    {{/image}}
+    {{#author}}
+    "author": {
+      "@type": "Person",
+      "name": "{{ author }}"
+    },
+    {{/author}}
+    "publisher": {
+      "@type": "Organization",
+      "name": "Haridusportaal",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "{{ server }}/assets/img/logo.png",
+        "width": 600,
+        "height": 60
+      }
+    },
+    "description": "{{ shortDescription }}"
+  }
+  </script>
 </head>
 <body>
   <div class="header">
+    <a href="{{ fullPath }}" class="icon"><amp-img width="20" height="20" src="/assets/img/menu.svg" ></amp-img></a>
     <a href="{{ fullPath }}" class="logo">
-      <img src="/assets/img/logo.svg" />
+      <amp-img width="93" height="24" src="/assets/img/logo.svg"></amp-img>
     </a>
+    <div class="right">
+      <a href="{{ fullPath }}" class="icon"><amp-img width="20" height="20" src="/assets/img/search.svg" ></amp-img></a>
+      <a href="{{ fullPath }}" class="icon"><amp-img width="20" height="20" src="/assets/img/user.svg" ></amp-img></a>
+    </div><!--/right-->
   </div><!--/header-->
 
   <div class="block">
+
+    <div class="block__title">
+      {{ pageTitle }}
+    </div><!--/block__title-->
+
     <h1>{{ title }}</h1>
+
+    {{#author}}
+      <div class="author">{{{ author }}}</div>
+    {{/author}}
 
     {{#shortDescription}}
       <p><b>{{{ shortDescription }}}</b></p>
