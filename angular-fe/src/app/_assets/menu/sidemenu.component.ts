@@ -132,7 +132,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
     if (activeCategory) {
       activeCategory.open();
-      this.closeOthers(activeCategory.item.label);
+    } else {
+      this.closeOthers('');
     }
   }
 
