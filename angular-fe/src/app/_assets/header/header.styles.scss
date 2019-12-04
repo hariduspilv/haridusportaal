@@ -26,6 +26,15 @@
 		&__actions {
 			display: flex;
 		}
+		&__logout {
+			background-color: $white;
+			padding: 0.5rem 0;
+			position: absolute;
+			right: 0px;
+			top: 90%;
+			box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
+			border-radius: 4px;
+		}
 		&__hamburger {
 			min-height: 1.25rem;
 			padding: 0;
@@ -260,15 +269,6 @@
 				display: flex;
 				position: relative;
 				justify-content: flex-end;
-			}
-			&__logout {
-				background-color: $white;
-				padding: 0.5rem 0;
-				position: absolute;
-				right: 0px;
-				top: 90%;
-				box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px 0 rgba(0,0,0,.14), 0 1px 10px 0 rgba(0,0,0,.12);
-				border-radius: 4px;
 			}
 			&__hamburger { display: none; }
 			&__assets {

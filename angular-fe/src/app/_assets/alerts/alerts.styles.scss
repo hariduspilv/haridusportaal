@@ -2,14 +2,39 @@
 @import "breakpoints.scss";
 
 :host { font-family: Rubik; z-index: 1000; width: 100%; display: flex; flex-direction: column;
-  &[global] { position: fixed; bottom: 0; left: 0; .alert { margin-bottom: 0} };
+  &[global] {
+    position: fixed;
+    bottom: 0;
+    max-width: 1180px;
+    transform: translateX(-50%);
+    left: 50%;
+    .alert { margin-bottom: 0};
+    @include break-on(xs, max) {
+      .alert--cookie {
+        flex-direction: column;
+        align-items: center;
+        .alert__icon {
+          display: none;
+        }
+        button.alert__close {
+          display: none;
+        }
+        p {
+          justify-content: center;
+          button.alert__close {
+            display: block;
+          }
+        }
+      }
+    }
+  };
 }
 
 /*default is info*/
 .alert { background-color: $info-light; border: .09375px solid $info; display: flex;
   &__icon { min-width: 3.75rem; min-height: 3.75rem; display: flex; align-items: center; justify-content: center; color: $white; background-color: $info; }
 
-  p { padding: 1.1875rem 1rem; color: $black; margin: 0; width: 100%; display: flex; align-self: center; line-height: 1.38 }
+  p { padding: 1.1875rem 1rem; color: $black; margin: 0; width: 100%; display: flex; align-self: center; line-height: 1.38; button.alert__close{ display: none}}
 
   &__close { justify-self: flex-end; align-self: center; padding: 1rem; display: flex; align-content: center; justify-content: center; background: transparent; border: 0; white-space: nowrap; line-height: 1.38; cursor: pointer; 
     @media all and (-ms-high-contrast:none) {
@@ -25,6 +50,19 @@
   }
   &--success { background-color: $success-light; border-color: $success;
     .alert__icon { background-color: $success; }
+  }
+  &--cookie {
+    background-color: $light-gray;
+    border-color: $gray;
+    .alert__icon {
+      background-color: transparent;
+    }
+    [htm-button] {
+      margin: 1.1875rem 1rem;
+      align-self: center;
+      min-width: 12rem;
+      height: 2.75rem;
+    }
   }
   &__column {
     display: flex;

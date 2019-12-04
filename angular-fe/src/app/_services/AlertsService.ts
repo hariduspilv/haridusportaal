@@ -7,6 +7,7 @@ export enum AlertType {
   Info = 'info',
   Success = 'success',
   Error = 'error',
+  Cookie= 'cookie',
 }
 
 export class Alert {
@@ -86,7 +87,6 @@ export class AlertsService {
     const normalizedAlert = { ...alert, message: alert.message ? alert.message.toString() : '' };
     this.subject.next(normalizedAlert);
   }
-
   clear(id: string) {
     this.notify(new Alert({ id }));
   }
