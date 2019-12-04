@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <script async src = "https://cdn.ampproject.org/v0.js"></script>
+  <script async custom-element="amp-youtube" src="https://cdn.ampproject.org/v0/amp-youtube-0.1.js"></script>
   <title>Haridusportaal</title>
   <style amp-boilerplate>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <base href="/">
-  <link rel="canonical" href="<?php echo $URL->getFullPath(); ?>" />
+  <link rel="canonical" href="{{ fullPath }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
@@ -17,7 +18,9 @@
 </head>
 <body>
   <div class="header">
-    asd
+    <a href="{{ fullPath }}" class="logo">
+      <img src="/assets/img/logo.svg" />
+    </a>
   </div><!--/header-->
 
   <div class="block">
@@ -26,14 +29,29 @@
     {{#shortDescription}}
       <p><b>{{{ shortDescription }}}</b></p>
     {{/shortDescription}}
-    <amp-img
+
+    {{#video.0}}
+    <amp-youtube
+      data-videoid="{{video.0.videoId}}"
       layout="responsive"
-      height="680"
-      width="1208"
-      src="{{ image.derivative.url }}"
-      alt="{{ image.alt }}"
-      title="{{ image.title }}"
-      ></amp-img>
+      width="480"
+      height="270"
+    ></amp-youtube>
+    <div class="mediaTitle">{{ video.0.videoDescription }}</div>
+    {{/video.0}}
+    {{^video.0}}
+      {{#image}}
+        <amp-img
+        layout="responsive"
+        height="680"
+        width="1208"
+        src="{{ image.derivative.url }}"
+        alt="{{ image.alt }}"
+        title="{{ image.title }}"
+        ></amp-img>
+        <div class="mediaTitle">{{ image.title }}</div>
+      {{/image}}
+    {{/video.0}}
 
     {{#description}}
       {{{ description.value }}}

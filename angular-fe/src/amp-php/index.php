@@ -11,6 +11,7 @@
     $template = file_get_contents('./resources/template.mustache');
     $styles = file_get_contents('./resources/styles.css');
     $data->styles = $styles;
+    $data->fullPath = $URL->getFullPath();
     echo $m->render($template, $data);
   } else {
     header("Location: ".$URL->getFullPath());

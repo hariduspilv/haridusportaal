@@ -15,6 +15,18 @@ body{
   background:#2e3374;
 }
 
+.header .logo {
+  display: inline-flex;
+  height: 100%;
+}
+
+.mediaTitle{
+  font-size: 0.875rem;
+  color:#333333;
+  font-style: italic;
+  font-weight: 300;
+  padding:0.5rem 0 0 0;
+}
 .block {
   display: block;
   border-top:#15adc2 0.625rem solid;
@@ -22,6 +34,33 @@ body{
   border-radius: 0.25rem;
   margin-bottom: 16px;
   padding: 24px;
+}
+
+.block a{
+  color: #2e3374;
+}
+
+table{
+  width:100%;
+  border: #c7c7c9 1px solid;
+  border-collapse: collapse;
+}
+table caption {
+  font-size: 1rem;
+  color:#333;
+  font-weight: 500;
+  padding: 0 0 .5rem;
+  text-align: left;
+}
+table th, table td{
+  border: #c7c7c9 1px solid;
+  padding: .75rem 1rem;
+  line-height: 138%;
+}
+table th{
+  background:#eeeeee;
+  font-weight: 500;
+  text-align: left;
 }
 
 .block img{
