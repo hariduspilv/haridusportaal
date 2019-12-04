@@ -9,9 +9,10 @@
   <noscript><style amp-boilerplate>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style></noscript>
   <base href="/">
   <link rel="canonical" href="{{ fullPath }}" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <meta name="description" content="{{ shortDescription }}" />
   <style amp-custom>
     {{{ styles }}}
   </style>
@@ -40,7 +41,9 @@
       "name": "Haridusportaal",
       "logo": {
         "@type": "ImageObject",
-        "url": "{{ server }}/assets/img/logo.svg"
+        "url": "{{ server }}/assets/img/logo.png",
+        "width": 600,
+        "height": 60
       }
     },
     "description": "{{ shortDescription }}"
