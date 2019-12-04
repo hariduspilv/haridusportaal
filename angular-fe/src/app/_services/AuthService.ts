@@ -5,6 +5,7 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   CanActivate,
+  ActivatedRoute,
 } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { SettingsService } from './SettingsService';
@@ -17,6 +18,7 @@ export class AuthService implements CanActivate {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private route: ActivatedRoute,
     private settings: SettingsService,
   ) {
     this.isAuthenticated.next(this.isLoggedIn());
@@ -41,7 +43,8 @@ export class AuthService implements CanActivate {
           localStorage.setItem('token', response['token']);
           this.isAuthenticated.next(true);
           this.userData = this.decodeToken(response.token);
-          this.router.navigateByUrl('/töölaud');
+          const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
+          this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
         } else {
           localStorage.removeItem('token');
         }
@@ -108,12 +111,10 @@ export class AuthService implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
     if (!this.isLoggedIn()) {
-      this.router.navigateByUrl('/');
+      this.router.navigate(['/auth'], {
+        queryParams: { redirect: decodeURIComponent(state.url) },
+      });
     }
     return true;
   }
-  // does nothing, services dont Init;
-  // ngOnInit() {
-  //   this.isLoggedIn();
-  // }
 }
