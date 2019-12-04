@@ -29,29 +29,32 @@
                     <compare [id]="item.nid" [sessionStorageKey]="compare"></compare>
                 </div>
 
-                <div class="col-4 xs-12 pointer list__item__image" *ngIf="item.image && !item.video.videoId">
+                <div class="col-4 xs-12 pointer list__item__image"
+                    *ngIf="item.image && !item.video">
                     <img [class.lastImg]="last" src="{{ item.image.derivative.url }}" alt="{{ item.image.alt }}"
-                        width="100%" height="100%" />
+                        width="100%" height="100%" [routerLink]="item.url.path ? item.url.path : item.url"/>
                 </div>
 
-                <ng-container *ngIf="item.video.videoId">
-                    <div *ngIf="!clickedVideos[i]" class="col-4 xs-12 pointer">
-                        <div class="list__item__image" *ngIf="item.videoThumb && item.videoThumb.derivative.url">
-                                <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" />
-                                <i class="icon play-circle"></i>
+                <ng-container *ngIf="item.video && item.video.videoId">
+                    <div *ngIf="!clickedVideos[i]" class="col-4 xs-12 pointer" (click)="clickedVideos[i] = true">
+                        <div *ngIf="item.videoThumb && item.videoThumb.derivative.url"
+                            class="list__item__video__thumbnail">
+                            <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" />
+                            <i class="icon play-circle"></i>
                         </div>
                         <div *ngIf="!item.videoThumb" class="list__item__video__thumbnail">
-                                <img [class.lastImg]="last"
+                            <img [class.lastImg]="last"
                                 [src]="'https://img.youtube.com/vi/' + item.video.videoId + '/hqdefault.jpg'"
-                                width="100%" (click)="clickedVideos[i] = true" />
-                                <i class="icon play-circle"></i>
+                                width="100%" />
+                            <i class="icon play-circle"></i>
                         </div>
                     </div>
 
-                    <div *ngIf="!item.videoThumb && clickedVideos[i]" class="col-4 xs-12 list__item__video">
+                    <div *ngIf="clickedVideos[i]" class="col-4 xs-12 list__item__video">
                         <div class="aspect">
                             <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}"
-                                [src]="'http://www.youtube.com/embed/' + item.video.videoId +'?autoplay=1&mute=1' | iframe " frameborder="0"
+                                [src]="'http://www.youtube.com/embed/' + item.video.videoId +'?autoplay=1&mute=1' | iframe "
+                                frameborder="0"
                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
                         </div>
