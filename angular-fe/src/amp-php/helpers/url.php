@@ -1,23 +1,66 @@
 <?php
   class URL {
     function getPrefix() {
-      return 'http://htm.wiseman.ee';
+      $server = $_SERVER['SERVER_NAME'];
+      $urlTemplates = (object) [
+        "edu.twn.ee" => "https://htm.wiseman.ee",
+        "edu.ee" => "https://api.hp.edu.ee",
+        "www.edu.ee" => "https://api.hp.edu.ee",
+        "test.edu.ee" => "https://apitest.hp.edu.ee",
+        "localhost" => "https://htm.wiseman.ee",
+        "fallback" => "https://api.hp.edu.ee"
+      ];
+
+      $prefix = isset($urlTemplates->$server) ? $urlTemplates->$server : $urlTemplates->fallback;
+
+      return $prefix;
     }
 
-    function requestKey() {
+    function getDomain() {
+      return (isset($_SERVER['HTTPS']) ? "https" : "http") . "://$_SERVER[HTTP_HOST]";
+    }
+
+    function requestKey($key = 'queryKey') {
       $map = array(
-        "uudised" => "newsSingel",
-        "sündmused" => "getEventSingle",
-        "erialad" => "studyProgrammeSingle",
-        "ametialad" => "oskaMainProfessionDetailView",
-        "valdkonnad" => "oskaFieldDetailView",
-        "tööjõuprognoos" => "oskaSurveyPageDetailView",
-        "oska-tulemused" => "oskaResultPageDetailView",
-        "kool" => "getSchoolSingle",
-        "artiklid" => "getArticle"
+        "uudised" => array(
+          "queryKey" => "newsSingel",
+          "pageTitle" => "Uudised"
+        ),
+        "sündmused" => array(
+          "queryKey" => "getEventSingle",
+          "pageTitle" => "Sündmused"
+        ),
+        "erialad" => array(
+          "queryKey" => "studyProgrammeSingle",
+          "pageTitle" => "Erialad"
+        ),
+        "ametialad" => array(
+          "queryKey" => "oskaMainProfessionDetailView",
+          "pageTitle" => "Ametialad"
+        ),
+        "valdkonnad" => array(
+          "queryKey" => "oskaFieldDetailView",
+          "pageTitle" => "Valdkonnad"
+        ),
+        "tööjõuprognoos" => array(
+          "queryKey" => "oskaSurveyPageDetailView",
+          "pageTitle" => "Tööjõuprognoos"
+        ),
+        "oska-tulemused" => array(
+          "queryKey" => "oskaResultPageDetailView",
+          "pageTitle" => "Tulemused"
+        ),
+        "kool" => array(
+          "queryKey" => "getSchoolSingle",
+          "pageTitle" => "Õppeasutused"
+        ),
+        "artiklid" => array(
+          "queryKey" => "getArticle",
+          "pageTitle" => "Artikkel"
+        )
       );
       $path = explode('/', $_SERVER['REQUEST_URI'])[2];
-      return $map[urldecode($path)];
+      return $map[urldecode($path)][$key];
     }
 
     function getRequestID() {
