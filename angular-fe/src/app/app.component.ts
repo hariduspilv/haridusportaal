@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
 import { AmpService } from './_services/ampService';
 import { TranslateService } from './_modules/translate/translate.service';
+import { CookieService } from './_services/CookieService';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +24,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private alertsService: AlertsService,
     private settingsService: SettingsService,
     private translate: TranslateService,
+    private cookieService: CookieService,
   ) {
     this.sidemenuIsVisible = sidemenuService.isVisible;
   }
@@ -47,14 +49,44 @@ export class AppComponent implements OnInit, AfterViewInit {
         label: this.translate.get('read_terms'),
       },
       message: this.translate.get('cookie_text'),
-      id: 'global',
+      id: 'cookie',
       type: AlertType.Cookie,
       closeable: true,
     }));
   }
 
+  initCookies() {
+    const cookiesAuth = this.cookieService.isAuthorized();
+    if (cookiesAuth !== 'not_allowed') {
+      if (cookiesAuth) {
+        // this.showChat();
+      } else {
+        this.cookieAlert();
+      }
+    }
+  }
+
+  showChat() {
+    if (
+      window.location.host !==
+      'haridusportaal.edu.ee' &&
+      window.location.host !== 'test.edu.ee'
+    ) {
+      window['__lc'] = window['__lc'] || {};
+      // Initial api-key: 10492167
+      window['__lc'].license = 10834647;
+      (function () {
+        const lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = false;
+        // tslint:disable-next-line: max-line-length
+        lc.src = `${('https:' === document.location.protocol ? 'https://' : 'http://')}cdn.livechatinc.com/tracking.js`;
+        const s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+      })();
+    }
+  }
+
   ngAfterViewInit(): void {
-    this.cookieAlert();
+    // this.cookieAlert();
+    this.initCookies();
   }
   ngOnInit() {
     this.sidemenuService.isVisibleSubscription.subscribe((val) => {

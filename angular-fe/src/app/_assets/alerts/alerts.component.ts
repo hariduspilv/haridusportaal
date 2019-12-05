@@ -13,6 +13,7 @@ import {
 } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { AlertsService, Alert } from '../../_services/AlertsService';
+import { CookieService } from '@app/_services/CookieService';
 
 enum AlertIcon {
   'warning' = 'alert-circle',
@@ -56,6 +57,7 @@ export class AlertsComponent implements OnDestroy {
 
   constructor(
     private alertService: AlertsService,
+    private cookies: CookieService,
   ) { }
 
   ngOnInit(): void {
