@@ -49,7 +49,8 @@ export class MapComponent {
   private polygonSub: Subscription;
   public params: Object;
   public infoWindowFunding: Boolean | Number;
-  private activeLegendParameters: object;
+  public activeLegendParameters: object;
+  public paramValue: string;
   private polygonIcon = {
     url: '',
     scaledSize: {
@@ -152,8 +153,11 @@ export class MapComponent {
   watchSearch() {
     this.paramSub = this.route.queryParams.subscribe((params) => {
       this.params = params;
-      if (this.legendKey && params[this.legendKey]) {
-        this.activeLegendParameters = this.legendLabels[params[this.legendKey]];
+      this.paramValue = params[this.legendKey]
+        || (this.parameters
+          && this.parameters.find(param => param['key'] === this.legendKey)['value']);
+      if (this.paramValue) {
+        this.activeLegendParameters = this.legendLabels[this.paramValue];
       }
       this.mapLabelSwitcher(this.options.enableLabels);
     });

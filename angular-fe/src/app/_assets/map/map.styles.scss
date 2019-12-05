@@ -6,7 +6,6 @@
 		display: block;
 		position: relative;
 		box-sizing: border-box;
-		padding-bottom: 56%;
 		min-height: 10rem;
 		.map__additions {
 			position:absolute;
@@ -73,6 +72,9 @@
 			display:flex;
 			flex-direction: column;
 			justify-content: center;
+		}
+		@include break-on(sm, min) {
+			padding-bottom: 56%;
 		}
 	}
 	.map__legend {
@@ -141,6 +143,10 @@
 		height: 100%;
 		::ng-deep b {
 			font-weight: 500;
+		}
+		@include break-on(sm, max) {
+			position: initial;
+			height: 525px;
 		}
 	}
 	a.outerLink {

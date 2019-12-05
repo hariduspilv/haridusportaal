@@ -108,7 +108,8 @@
   <ng-container *ngIf="options.enablePolygonLegend && heatmap && heatmap.length > 0 && type === 'polygons' && options.polygonType === 'oskaFields'">
     <div class="mapLegend">
       <ng-container *ngFor="let item of heatmap">
-        <div class="mapLegend__block" *ngIf="params && params.mapIndicator && mapService.fieldMaxRanges[params.mapIndicator] && item.amount <= mapService.fieldMaxRanges[params.mapIndicator]">
+        <div class="mapLegend__block" *ngIf="(params && params.mapIndicator && mapService.fieldMaxRanges[params.mapIndicator] && item.amount <= mapService.fieldMaxRanges[params.mapIndicator])
+          || (paramValue && mapService.fieldMaxRanges[paramValue] && item.amount <= mapService.fieldMaxRanges[paramValue])">
           <div class="mapLegend__color" [style.background-color]="item.color"></div>
         </div>
       </ng-container>
