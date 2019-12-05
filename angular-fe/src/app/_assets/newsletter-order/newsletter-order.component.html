@@ -27,6 +27,7 @@
         </ng-container>
       </div><!--block__content--form__checklist-->
 
+      <alerts id="newsletter-order" small="true"></alerts>
 
       <div class="block__content--form__input">
         <div class="flex wrap flex-justify-center" [class.order]="order">
@@ -41,20 +42,15 @@
             </div>
           </ng-container>
           <ng-container *ngIf="order">
-            <div class="grow full lengthy">
-              <div class="round-input__wrapper" [class.error]="(email || errors.email) && (errors.email || errors.items) && !emailFocus">
-                <span class="round-input__title" [class.exists]="email">{{ 'newsletter.email' | translate }}</span>
-                <div class="round-input__field-wrapper" [class.spacing]="email">
-                  <input class="round-input__field" (focus)="emailFocus = true" (blur)="emailFocus = false;errors.email = false;" [class.focused]='emailFocus' name="email" placeholder="{{ 'newsletter.email' | translate }}" [(ngModel)]="email"/>
-                </div>
+            <formItem style="width: 100%; margin-right: 1rem" (focus)="emailFocus = true" (blur)="emailFocus = false;errors.email = false;" [class.focused]='emailFocus' name="email" placeholder="{{ 'newsletter.email' | translate }}" [(ngModel)]="email"></formItem>
+            <!-- <div class="grow full lengthy">
                 <div class="round-input__error" *ngIf="(email || errors.email) && !emailFocus && (errors.email || errors.items)">
                   <div class="round-input__error--text" aria-live="assertive">
                     <span *ngIf="errors.items" role="alert">{{ 'newsletter.subscription_choose_one' | translate }}</span>
                     <span *ngIf="errors.email && !errors.items" role="alert">{{ 'newsletter.valid_email' | translate }}</span>
                   </div>
                 </div>
-              </div>
-            </div>
+            </div> -->
 
             <div class="btn unpadded">
               <button htm-button>{{ 'button.newsletter_submit' | translate }}</button>

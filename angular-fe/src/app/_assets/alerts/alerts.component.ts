@@ -31,10 +31,10 @@ enum AlertIcon {
         style({ opacity: '1', transform: 'scale(0)' }),
         animate('.225s cubic-bezier(0.215, 0.61, 0.355, 1)', style({ transform: 'scale(1)' })),
       ]),
-      transition(':leave', [
-        style({ opacity: '1' }),
-        animate('.225s cubic-bezier(0.215, 0.61, 0.355, 1)', style({ opacity: '0' })),
-      ]),
+      // transition(':leave', [
+      //   style({ opacity: '1' }),
+      //   animate('.225s cubic-bezier(0.215, 0.61, 0.355, 1)', style({ opacity: '0' })),
+      // ]),
     ]),
   ],
 })

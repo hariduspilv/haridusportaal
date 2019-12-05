@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService, SidemenuService } from './_services';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { AuthService, SidemenuService, AlertsService, SettingsService, Alert, AlertType } from './_services';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
 import { AmpService } from './_services/ampService';
+import { TranslateService } from './_modules/translate/translate.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,7 @@ import { AmpService } from './_services/ampService';
   styleUrls: ['./app.component.scss'],
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit {
 
   public sidemenuIsVisible: boolean = false;
   constructor(
@@ -19,6 +20,9 @@ export class AppComponent implements OnInit {
     private router: Router,
     private location: Location,
     private amp: AmpService,
+    private alertsService: AlertsService,
+    private settingsService: SettingsService,
+    private translate: TranslateService,
   ) {
     this.sidemenuIsVisible = sidemenuService.isVisible;
   }
@@ -35,6 +39,23 @@ export class AppComponent implements OnInit {
     return;
   }
 
+  cookieAlert() {
+    this.alertsService.notify(new Alert({
+      category: 'cookie',
+      link: {
+        url: this.settingsService.data.cookie_link,
+        label: this.translate.get('read_terms'),
+      },
+      message: this.translate.get('cookie_text'),
+      id: 'global',
+      type: AlertType.Cookie,
+      closeable: true,
+    }));
+  }
+
+  ngAfterViewInit(): void {
+    this.cookieAlert();
+  }
   ngOnInit() {
     this.sidemenuService.isVisibleSubscription.subscribe((val) => {
       this.sidemenuIsVisible = val;
@@ -50,6 +71,5 @@ export class AppComponent implements OnInit {
         });
       }
     });
-    // this.auth.isLoggedIn();
   }
 }

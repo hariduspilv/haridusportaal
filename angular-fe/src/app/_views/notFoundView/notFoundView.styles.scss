@@ -1,0 +1,30 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+.notFound {background-color: $blue;height: calc(100vh - 4rem);margin-bottom: -10rem;
+  @include break-on(sm, min) {margin-top: -$small;margin-bottom: -4rem;}
+}
+.flex {flex-wrap: wrap;
+  [class^='error'],[class*='error'] {justify-content: center;flex: 1 0 100%;}
+  .error {
+    &__head {padding-top: 4.5rem;font-size: $xxl;font-weight: 500;color: $orange;
+      line-height: 0.96;text-align: center;
+    }
+    &__explanation {padding-top: 2.5rem;color: $white;font-size: $small;
+      line-height: 1.38;font-weight: 300;text-align: center;
+      @include break-on(sm, min) {font-size: $medium;line-height: 1.25;padding-top: $large;}
+    }
+    &__button {padding-top: 2.25rem;text-align: center;
+      button {width: auto; color: $black; background-color: $white;font-weight: 400;
+        &:hover {
+          background-color: $aqua;
+        }
+      }
+    }
+    &__links {padding-top: $large;text-align: center;
+      a {padding-right: $medium;font-weight: 300;font-size: $small;
+        line-height: 1.88;text-align: center;color: $white;
+        &:last-child {padding-right: 0;}
+      }
+    }
+  }
+}

@@ -12,6 +12,7 @@
   display: block;
   overflow: hidden;
   ::ng-deep  .content {
+    word-break: break-word;
     position: relative;
     &__inner {
       display: block;
