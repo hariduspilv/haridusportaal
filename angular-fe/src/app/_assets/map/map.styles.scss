@@ -2,6 +2,10 @@
 @import "breakpoints.scss";
 
 :host {
+	@include break-on(xs, max) {
+		display: block;
+	}
+	margin: 0 -1.5rem;
 	.map__wrapper {
 		display: block;
 		position: relative;
