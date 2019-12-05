@@ -39,7 +39,7 @@
                     <div *ngIf="!clickedVideos[i]" class="col-4 xs-12 pointer" (click)="clickedVideos[i] = true">
                         <div *ngIf="item.videoThumb && item.videoThumb.derivative.url"
                             class="list__item__video__thumbnail">
-                            <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" />
+                            <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" alt="{{ item.videoThumb.alt }}"/>
                             <i class="icon play-circle"></i>
                         </div>
                         <div *ngIf="!item.videoThumb" class="list__item__video__thumbnail">
