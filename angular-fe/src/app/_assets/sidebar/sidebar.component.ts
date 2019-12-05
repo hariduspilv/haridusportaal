@@ -371,7 +371,7 @@ export class SidebarRegisterComponent {
         parseUnixDate(this.data.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix);
       lastDate =
         parseUnixDate(this.data.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix);
-    } else {
+    } else if (this.data.fieldEventMainDate) {
       firstDate = parseUnixDate(this.data.fieldEventMainDate.unix);
       lastDate = parseUnixDate(this.data.fieldEventMainDate.unix);
     }
