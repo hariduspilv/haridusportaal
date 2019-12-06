@@ -83,6 +83,8 @@ import { AutocompleteComponent } from './autocomplete';
 import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
 import { Triangles } from './shapes/triangles/triangles';
 import { Circles } from './shapes/circles/circles';
+import { GalleryModule } from  '@ngx-gallery/core';
+import { LightboxModule } from  '@ngx-gallery/lightbox';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -237,6 +239,8 @@ const providers = [
     HttpClientJsonpModule,
     HttpClientModule,
     ReactiveFormsModule,
+    GalleryModule,
+    LightboxModule,
   ],
   exports: [...declarations, ...exports],
 })

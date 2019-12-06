@@ -35,15 +35,15 @@ export class DetailViewComponent {
     private http: HttpClient,
     private route: ActivatedRoute,
     private location: Location,
-  ) {}
+  ) { }
 
-  private getSidebar():void {
+  private getSidebar(): void {
     const variables = {
       lang: 'ET',
       nid: this.data.nid,
     };
 
-    let queryKey:string|boolean = false;
+    let queryKey: string | boolean = false;
 
     switch (this.type) {
       case 'news': queryKey = 'recentNews'; break;
@@ -120,7 +120,7 @@ export class DetailViewComponent {
     }
   }
 
-  private getData():void {
+  private getData(): void {
     const variables = {
       path: this.path,
     };
@@ -134,6 +134,9 @@ export class DetailViewComponent {
       if (Array.isArray(this.data.video) && this.data.video.length > 1) {
         this.data.additionalVideos = this.data.video.slice(1, 10);
         this.data.video.splice(0, 1);
+      }
+
+      if (this.data.image) {
       }
 
       this.loading = false;
