@@ -223,7 +223,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ) {
             this.sidebar.entity.favourites =
               response['data']['CustomFavorites']['favoritesNew']
-                .filter(item => item.entity != null);
+                .filter(item => item.entity != null).map((item) => {
+                  return {
+                    title: item.entity.entityLabel,
+                    url: {
+                      path: item.entity.entityUrl.path,
+                      routed: true,
+                    },
+                  };
+                });
           } else {
             this.sidebar.entity.favourites = [];
           }

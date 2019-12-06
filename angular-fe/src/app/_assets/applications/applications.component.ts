@@ -333,7 +333,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.formOptions[key].push({ key: elem.et, value: elem.id });
           });
         });
-
+        console.log(this.formOptions);
         this.modalLoading = false;
         sub.unsubscribe();
       });

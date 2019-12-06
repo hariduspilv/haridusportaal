@@ -172,6 +172,7 @@ export class SidebarLinksComponent implements OnInit, OnChanges{
   }
   ngOnInit() {
     this.parseData();
+    console.log(this.data);
   }
   ngOnChanges() {
     this.parseData();
