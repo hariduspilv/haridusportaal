@@ -1117,6 +1117,10 @@
     "_fileName": "x.svg"
   },
   {
+    "_name": "youtube-play",
+    "_fileName": "youtube-play.svg"
+  },
+  {
     "_name": "youtube",
     "_fileName": "youtube.svg"
   },

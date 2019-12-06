@@ -40,13 +40,15 @@
                         <div *ngIf="item.videoThumb && item.videoThumb.derivative.url"
                             class="list__item__video__thumbnail">
                             <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" alt="{{ item.videoThumb.alt }}"/>
-                            <i class="icon play-circle"></i>
+                            <i class="icon youtube-play"></i>
+                            <div class="triangle"></div>
                         </div>
                         <div *ngIf="!item.videoThumb" class="list__item__video__thumbnail">
                             <img [class.lastImg]="last"
                                 [src]="'https://img.youtube.com/vi/' + item.video.videoId + '/hqdefault.jpg'"
                                 width="100%" />
-                            <i class="icon play-circle"></i>
+                            <i class="icon youtube-play"></i>
+                            <div class="triangle"></div>
                         </div>
                     </div>
 
