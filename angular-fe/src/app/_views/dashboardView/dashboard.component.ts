@@ -15,6 +15,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 import { BlockComponent } from '@app/_assets/block';
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 const moment = _moment;
 @Component({
   selector: 'dashboard-view',
@@ -68,6 +69,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public formBuilder: FormBuilder,
     public cdr: ChangeDetectorRef,
     public router: Router,
+    public translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -225,8 +227,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
               response['data']['CustomFavorites']['favoritesNew']
                 .filter(item => item.entity != null);
           } else {
-            this.sidebar.entity.favourites = [];
+            const label = this.translate.get('frontpage.favourites_list_none_message');
+            this.sidebar.entity.favourites = [label];
           }
+
           subscription.unsubscribe();
           this.favouritesListDone = true;
         });

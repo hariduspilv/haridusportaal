@@ -4,6 +4,8 @@ import {
   OnInit,
   ElementRef,
   HostBinding,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { ModalService } from '@app/_services';
 
@@ -39,6 +41,8 @@ export class ModalComponent implements OnInit {
   @Input() bottomAction: boolean = true;
   // Modal opening button for story
   @Input() stateButton: boolean = false;
+  @Output() onClose: EventEmitter<any> = new EventEmitter();
+
   @HostBinding('class') get hostClasses(): string {
     return this.opened ? 'modal-open' : '';
   }
@@ -71,5 +75,8 @@ export class ModalComponent implements OnInit {
   stateChange(state: boolean): void {
     this.modalService.modalOpened[this.id] = state;
     this.opened = state;
+    if (!state) {
+      this.onClose.emit(true);
+    }
   }
 }

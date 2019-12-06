@@ -7,6 +7,9 @@
         <span role="text">{{ item.title }}</span>
       </a>
     </li>
+    <li *ngIf="!item.url" class="text-instance">
+      {{ item }}
+    </li>
   </ng-container>
 </ul>
 

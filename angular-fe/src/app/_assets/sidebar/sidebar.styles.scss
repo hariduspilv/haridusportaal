@@ -87,6 +87,9 @@
 				icon {
 					margin-right: .5rem;
 				}
+				.text-instance{
+					color: #757575;
+				}
 			}
 			sidebar-categories {
 				span {
@@ -187,22 +190,82 @@
 					margin-top: 1rem;
 				}
 				h1 {
+					font-size: 1.25rem;
 					margin-top: 1rem;
 				}
 			}
 			sidebar-register {
+				h3{
+					font-size: 1.25rem;
+				}
+				.fullWidth {
+					width: 100%;
+					text-align: center;
+				}
+				::ng-deep{
+					.modal__block{
+						max-width: 700px !important;
+						min-width: 0 !important;
+						
+						.eventTitle {
+							font-size: 1.5rem;
+							font-weight: 500;
+							font-style: normal;
+							line-height: 1.33;
+							text-align: left;
+							margin-top: 0;
+							margin-bottom: 0;
+						}
+						.buttons {
+							display: flex;
+							margin: 1rem 0;
+							justify-content: flex-end;
+
+							button, a {
+								margin-top: 0;
+							}
+						}
+						.dialog__time{
+							margin:1rem 0;
+							line-height: 1.38rem;
+						}
+						.registerResponse{
+							text-align: center;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							h2{
+								font-size: 1.5rem;
+								font-weight: 500;
+								font-style: normal;
+								line-height: 1.33;
+								text-align: left;
+								color:#333;
+								margin-top: 1.375rem;
+								margin-bottom: 3rem;
+							}
+
+							button, a{
+								width: auto;
+							}
+							a{
+								margin-bottom: 1rem;
+							}
+						}
+					}
+				}
 				.actions {
 					text-align: center;
+					button {
+						width: 100%;
+						box-sizing: border-box;
+					}
 				}
 				.error {
 					color: $dark-red;
 					line-height: 1.38;
 					font-size: $small;
 					font-weight: 500;
-				}
-				button {
-					width: 100%;
-					box-sizing: border-box;
 				}
 				a {
 					display: block;

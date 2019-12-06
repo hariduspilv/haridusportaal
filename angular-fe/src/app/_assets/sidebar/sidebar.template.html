@@ -1,6 +1,5 @@
 <ng-container *ngIf="mappedData">
   <ng-container *ngFor="let keyVal of orderedKeys">
-
     <ng-container *ngIf="keyVal !== 'fieldBlocks'">
       <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
         <block-title *ngIf="!titleLess[collection[keyVal]]"  [ngClass]="'type-'+[collection[keyVal]]">
@@ -17,7 +16,7 @@
           <sidebar-location *ngSwitchCase="'location'" [data]="mappedData[keyVal]"></sidebar-location>
           <sidebar-facts *ngSwitchCase="'facts'" [data]="mappedData[keyVal]"></sidebar-facts>
           <sidebar-progress *ngSwitchCase="'progress'" [data]="mappedData[keyVal]"></sidebar-progress>
-          <sidebar-register *ngSwitchCase="'register'" [data]="mappedData[keyVal]"></sidebar-register>
+          <sidebar-register *ngSwitchCase="'register'" [data]="mappedData[keyVal]" [pageData]="data"></sidebar-register>
           <sidebar-events *ngSwitchCase="'events'" [data]="mappedData[keyVal]"></sidebar-events>
         </block-content>
       </block>
