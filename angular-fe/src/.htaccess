@@ -1,7 +1,5 @@
 RewriteEngine on
 
-RewriteRule ^amp/(.*)$ amp-php/index.php?url=$1 [L]
-
 RewriteCond %{HTTPS} off
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]
@@ -9,6 +7,8 @@ RewriteRule ^(.*)$ http://%{HTTP_HOST}/$1 [R=301,L]
 RewriteCond %{HTTPS} on
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
+
+RewriteRule ^amp/(.*)$ amp-php/index.php?url=$1 [L]
 
 <IfModule mod_headers.c>
 	Header set X-XSS-Protection "1; mode=block"
@@ -18,7 +18,7 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
 RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit/[0-9]|Twitterbot|Pinterest|Google.*snippet)
 RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*) /redirect.php?q=$1 [L]
+RewriteRule ^(.*) amp-php/index.php [L]
 
 RewriteCond %{REQUEST_FILENAME} -s [OR]
 RewriteCond %{REQUEST_FILENAME} -l [OR]

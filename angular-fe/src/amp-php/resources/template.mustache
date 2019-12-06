@@ -12,7 +12,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <meta http-equiv="content-language" content="et" />
+
+  <meta name="title" content="{{ title }}" />
+  <meta property="og:title" content="{{ title }} | Haridusportaal" />
+  <meta name="twitter:title" content="{{ title }} | Haridusportaal" />
+  <meta property="og:site_name" content="{{ title }} | Haridusportaal" />
+
+  <meta property="og:url" content="{{ fullPath }}" />
+  <meta name="twitter:url" content="{{ fullPath }}" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  
+  
+  <meta name="twitter:description" content="{{ shortDescription }}" />
   <meta name="description" content="{{ shortDescription }}" />
+  <meta property="og:description" content="{{ shortDescription }}" />
+
+  {{#image}}
+    <meta name="twitter:image" content="{{ image.derivative.url }}" />
+    <meta property="og:image" content="{{ image.derivative.url }}" />
+  {{/image}}
+
+  
+  <meta name="keywords" content="{{#tags}}{{ entity.entityLabel }}, {{/tags}}" />
+  
+  <meta name="MobileOptimized" content="width" />
+  <meta name="HandheldFriendly" content="true" />
   <style amp-custom>
     {{{ styles }}}
   </style>
