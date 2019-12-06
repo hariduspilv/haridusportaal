@@ -4,6 +4,16 @@
     color: $black;
     line-height: 1.375rem;
 
+    .resultsNavigation {
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      display: flex;
+      justify-content: center;
+      > a {
+        text-decoration: none;
+      }
+    }
+
     .short {
       line-height: 1.375rem;
       font-weight: 500;

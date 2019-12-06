@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { viewOptions, maxItems, translationsPerType } from './helpers/compare';
 import { AlertsService, ModalService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
@@ -10,7 +10,7 @@ import { SettingsService } from '@app/_services/SettingsService';
   styleUrls: ['./compare.styles.scss'],
 })
 
-export class CompareComponent {
+export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() id: string;
   @Input() sessionStorageKey: string;
   private sessionStorageSubscription: any;
@@ -92,6 +92,9 @@ export class CompareComponent {
     this.compare = this.readFromLocalStorage(this.sessionStorageKey);
     this.checked = this.isChecked(this.id);
     this.viewLink['url'] = viewOptions[this.sessionStorageKey];
+  }
+
+  ngAfterViewInit(): void {
     if (!this.settingsService.compareObservable.observers.length) {
       this.sessionStorageSubscription = this.settingsService.compareObservable.subscribe((data) => {
         this.compare = this.readFromLocalStorage(this.sessionStorageKey);

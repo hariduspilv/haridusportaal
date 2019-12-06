@@ -35,8 +35,13 @@ $grid-columns: 12;
     }
   }
 
-  labels {
+  ::ng-deep labels {
     color: $black;
+    margin-top: 0.25rem;
+    margin-bottom: 1rem;
+    &.orange > div {
+      margin-bottom: 0;
+    }
   }
 
   .list {
@@ -103,9 +108,9 @@ $grid-columns: 12;
         text-decoration: none;
         font-weight: 500;
         padding-right: $small;
-        @include break-on(sm, min) {
-          padding-bottom: 0.23rem;
-        }
+        // @include break-on(sm, min) {
+        //   padding-bottom: 0.23rem;
+        // }
         h1 {
           color: $blue;
         }

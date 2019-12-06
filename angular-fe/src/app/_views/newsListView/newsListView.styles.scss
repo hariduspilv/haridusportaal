@@ -9,23 +9,23 @@
 
   ::ng-deep {
     .block__content {
-      @include break-on(sm, max) {
+      @include break-on(xs, max) {
         padding-top: 0 !important;
       }
     }
     .list__item {
-      @include break-on(sm, max) {
+      @include break-on(xs, max) {
         padding: 0 !important;
         padding-bottom: 3rem !important;
       }
     }
     .author {
-      @include break-on(sm, max) {
+      @include break-on(xs, max) {
         padding-bottom: 0 !important;
       }
     }
     .resp-fields {
-      @include break-on(sm, max) {
+      @include break-on(xs, max) {
         padding: 1rem 1.5rem 0 !important;
       }
     }

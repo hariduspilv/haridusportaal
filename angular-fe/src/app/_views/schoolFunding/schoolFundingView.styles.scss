@@ -11,7 +11,7 @@
     }
 		@include break-on(sm, max) {
 			margin-bottom: 0;
-			padding-top: 1rem;
+			// padding-top: 1rem;
 			.filter-control {
 				padding: 0 !important;
 				span {
@@ -27,17 +27,30 @@
 		}
 		.text-right {
 			text-align: right;
-    }
+		}
     [htm-button] {
       margin-left: 1rem;
-      min-width: fit-content;
+			min-width: fit-content;
+			@include break-on(sm, max) {
+				margin-left: 0;
+				margin-top: 1rem;
+				width: 100%;
+			}
     }
 	}
 
 	.row {
+		&.first {
+			@include break-on(sm, max) {
+				margin-top: 1rem;
+			}
+		}
     margin: 0 -0.5rem;
     .flex {
-      display: flex;
+			display: flex;
+			@include break-on(sm, max) {
+				display: block;
+			}
       formItem {
         width: 100%;
       }

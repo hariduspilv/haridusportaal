@@ -25,11 +25,14 @@
     input {
       -webkit-appearance: none;
     }
-    button {
+    [htm-button] {
       margin-top: 1.5rem;
       font-weight: 300;
       width: auto;
       align-self: center;
+      @include break-on(sm, max) {
+        width: 100%;
+      }
     }
     @include break-on(xs, min) {
       .formItem {

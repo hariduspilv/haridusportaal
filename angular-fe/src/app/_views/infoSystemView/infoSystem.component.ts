@@ -48,7 +48,7 @@ export class InfoSystemViewComponent implements OnInit {
         this.data.additionalVideos = this.data.video.slice(1, 10);
         this.data.video.splice(0, 1);
       }
-
+      console.log(this.data);
       this.loading = false;
 
       // this.feedbackNid = this.data.nid;

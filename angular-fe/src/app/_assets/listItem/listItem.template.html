@@ -86,8 +86,7 @@
                     </ng-container>
                 </div>
             </ng-container>
-
-            <div *ngIf="type !== 'news'"
+            <div *ngIf="type !== 'news' && item[footerFields[type]] && item[footerFields[type]].entities.length > 0"
                 [class]="type === 'school' || type === 'mainProfession' ? 'inline__items sm-hide' : 'inline__items'">
                 <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
                     <ng-container *ngIf="item[fieldName]">
@@ -149,4 +148,4 @@
     </modal-content>
 </htm-modal>
 
-<alerts [closeMs]="closeTime" global id="compare"></alerts>
+<alerts global id="compare"></alerts>
