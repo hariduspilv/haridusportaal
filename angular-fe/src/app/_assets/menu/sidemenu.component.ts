@@ -16,6 +16,7 @@ import { Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { NavigationEnd, RouterEvent, Router } from '@angular/router';
+import { environment } from '@env/environment';
 
 @Component({
   selector: 'sidemenu-item',
@@ -57,6 +58,7 @@ export class SidemenuItemComponent {
 
 export class MenuComponent implements OnInit, OnDestroy {
 
+  public version: any = environment.VERSION;
   public isVisible: boolean;
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
