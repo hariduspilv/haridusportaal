@@ -4,6 +4,7 @@ import { AlertsService, SettingsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { HttpClient } from '@angular/common/http';
 import value from '*.scss';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './certificateCheck.template.html',
@@ -28,12 +29,15 @@ export class CertificateCheckComponent {
 
   public initialized = false;
 
+  public path = this.location.path();
+
   constructor(
     private formBuilder: FormBuilder,
     private alertsService: AlertsService,
     private translate: TranslateService,
     private settings: SettingsService,
     private http: HttpClient,
+    private location: Location,
   ) { }
 
   initialTableCheck(id) {

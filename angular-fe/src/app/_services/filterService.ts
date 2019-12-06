@@ -97,7 +97,6 @@ export class FiltersService {
   }
   filterSubmit($event:any = false) {
 
-
   }
 
 }

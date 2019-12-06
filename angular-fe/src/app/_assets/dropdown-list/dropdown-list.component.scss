@@ -3,9 +3,10 @@
 @import "grid.scss";
 .sectors {
   &__list-body {
-    padding: 1.5rem 0 3rem;
+    // padding: 1.5rem 0 3rem;
     @include break-on(sm, min) {
-      padding: 1rem 1.5rem 3rem;
+      // padding: 1rem 1.5rem 3rem;
+      padding: 0;
     }
     .sector__wrapper {
       display: flex;

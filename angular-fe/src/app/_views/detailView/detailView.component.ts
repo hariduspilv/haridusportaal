@@ -89,7 +89,7 @@ export class DetailViewComponent {
       case 'profession': {
         this.queryKey = 'oskaMainProfessionDetailView';
         this.title = 'oskaProfessions.label';
-        this.compareKey = 'oskaProfessionComparison';
+        this.compareKey = 'oskaProfessionsComparison';
         break;
       }
       case 'field': {

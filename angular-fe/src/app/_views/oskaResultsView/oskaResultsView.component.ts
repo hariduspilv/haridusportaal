@@ -37,7 +37,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
   private alertText: string = '';
   public params: any;
 
-  public path: any;
+  public path: any = this.location.path();
   public filterOptionsKeys = ['field', 'responsible', 'proposalStatus'];
   public filterItemValues: any = {
     field: [],
@@ -201,9 +201,6 @@ export class OskaResultsView extends FiltersService implements OnInit {
     this.watchSearch();
     this.showFilter = window.innerWidth > 1024;
     this.filterFull = window.innerWidth < 1024;
-    if (this.route.snapshot.data) {
-      this.path = decodeURI(this.location.path());
-    }
   }
 
   watchSearch() {

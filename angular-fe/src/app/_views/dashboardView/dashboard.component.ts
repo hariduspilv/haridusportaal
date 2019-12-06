@@ -225,7 +225,15 @@ export class DashboardComponent implements OnInit, OnDestroy {
           ) {
             this.sidebar.entity.favourites =
               response['data']['CustomFavorites']['favoritesNew']
-                .filter(item => item.entity != null);
+                .filter(item => item.entity != null).map((item) => {
+                  return {
+                    title: item.entity.entityLabel,
+                    url: {
+                      path: item.entity.entityUrl.path,
+                      routed: true,
+                    },
+                  };
+                });
           } else {
             const label = this.translate.get('frontpage.favourites_list_none_message');
             this.sidebar.entity.favourites = [label];
@@ -256,6 +264,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     .subscribe((response: any) => {
       const data = response.data.nodeQuery.entities;
       if (data && data.length) {
+        console.log(data);
         this.sidebar.entity.event = data.sort((a, b) => {
           if (
             moment(a.fieldEventMainDate.unix * 1000)

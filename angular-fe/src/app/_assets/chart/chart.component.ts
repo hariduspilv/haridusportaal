@@ -651,7 +651,7 @@ export class ChartComponent implements OnInit {
         }
       }
       let url
-        = 'graphql?queryName=googleChartData&queryId=9bdca5d7f53e0755482e65d091682f48ee77b635:1';
+        = '/graphql?queryName=googleChartData&queryId=9bdca5d7f53e0755482e65d091682f48ee77b635:1';
       url += `&variables=${JSON.stringify(tmpVariables)}`;
       url = encodeURI(url);
       this.requestSubscription[id]

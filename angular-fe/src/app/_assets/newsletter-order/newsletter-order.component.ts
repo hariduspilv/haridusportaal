@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef, ɵConsole } from '@ang
 import { Router, ActivatedRoute, Params } from '@angular/router'
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SettingsService, ModalService } from '@app/_services';
+import { SettingsService, ModalService, AlertsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -38,6 +38,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
     private settings: SettingsService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
+    private alertsService: AlertsService,
   ) { }
 
   updateItems() {
@@ -122,12 +123,17 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-
+    this.alertsService.clear('newsletter-order');
     this.errors = {};
 
     const emailRegex = new RegExp(/[^@\s]+@[^@\s]+\.[^@\s][^@\s]+/gm);
 
     this.errors['email'] = !this.email.match(emailRegex);
+
+    if (this.errors['email']) {
+      this.alertsService.error(this.translate.get('newsletter.valid_email'), 'newsletter-order');
+      return;
+    }
 
     let output = '';
 
@@ -139,6 +145,13 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
     }
 
     this.errors['items'] = counter > 0 ? false : true;
+
+    if (this.errors['items']) {
+      this.alertsService.error(
+        this.translate.get('newsletter.subscription_choose_one'), 'newsletter-order',
+      );
+      return;
+    }
 
     let errorCounter = 0;
     for (const i in this.errors) {

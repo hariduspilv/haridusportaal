@@ -23,7 +23,7 @@
 <h2>{{ 'frontpage.studies_data' | translate }}</h2>
 <loader *ngIf="loading && !error"></loader>
 <alerts id="studies" small="true"></alerts>
-<accordion *ngIf="!loading">
+<accordion *ngIf="!loading && !error">
   <accordion-item *ngFor="let item of content; let first = first;let ind = index;"
     [title]="item.oppeasutus + (item.staatus ? ', ' + parseTypeTranslation(item.staatus) : '') + (item.oppLopp ? ' ' + item.oppLopp : '')">
     <loader *ngIf="!error && !content"></loader>

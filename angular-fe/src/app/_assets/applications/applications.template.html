@@ -810,7 +810,7 @@
 			<p>{{ 'xjson.required_fields_infotext' | translate }}</p>
 			<div ngForm [formGroup]="formGroup" class="row margin">
 				<ng-container *ngFor="let item of institutionModalFields">
-					<div class="col-{{ item.col }}">
+					<div class="col-{{ item.col }} sm-12">
 						<formItem
 							[type]="item.type"
 							[error]="item.error"

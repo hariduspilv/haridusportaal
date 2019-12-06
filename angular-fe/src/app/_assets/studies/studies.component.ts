@@ -50,7 +50,7 @@ export class StudiesComponent implements OnInit {
             this.requestErr = true;
             const currentLang = 'et';
             this.alertsService
-              .info(response.error.message_text[currentLang], 'general', 'studies', false, false);
+              .info(response.error.message_text[currentLang], 'studies', 'studies', false, false);
           } else {
             if (response['value'] && response['value']['isikuandmed']) {
               this.oppelaenOigus = response['value']['isikuandmed']['oppelaenOigus'];

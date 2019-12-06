@@ -157,6 +157,11 @@ const routes: Routes = [
   {
     path: 'töölaud/taotlused/:id',
     loadChildren: './_views/xjson#XjsonModule',
+    canActivate: [AuthService],
+  },
+  {
+    path: '**',
+    loadChildren: './_views/notFoundView#NotFoundViewModule',
   },
 ];
 

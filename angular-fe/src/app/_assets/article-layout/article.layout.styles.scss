@@ -4,7 +4,10 @@
 :host {
   display: grid;
   display: -ms-grid;
-  background-color: $light-gray;
+  background-color: $white;
+  @include break-on(sm, min) {
+    background-color: $light-gray;
+  }
   position: relative;
   grid-template-areas: 'content content'
                        'content content';

@@ -24,7 +24,7 @@ const requestMap = {
   fixedLabel: ['fieldFixedLabel'],
   indicator: ['reverseOskaMainProfessionOskaIndicatorEntity'],
   fillingBar: ['reverseOskaMainProfessionOskaFillingBarEntity'],
-  video: ['fieldNewsVideo', 'fieldOskaVideo', 'fieldSurveyPageVideo', 'fieldVideo'],
+  video: ['fieldNewsVideo', 'fieldOskaVideo', 'fieldSurveyPageVideo', 'fieldVideo', 'fieldEventVideo'],
   videoThumb: ['fieldVideoThumbnail'],
   additionalImages: ['fieldAdditionalImages'],
   additionalVideos: ['fieldResultPageVideo', 'fieldOskaMainProfessionVideo'],

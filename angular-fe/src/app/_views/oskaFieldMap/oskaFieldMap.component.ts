@@ -35,10 +35,12 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
 
   parameters = [
     {
+      key: 'mapIndicator',
       label: 'Näitaja',
       value: '',
     },
     {
+      key: 'OSKAField',
       label: 'Valdkond',
       value: '',
     },
@@ -86,7 +88,6 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
           this.setRelatedFilter('mapIndicator', 'OSKAField');
           this.filterFormItems['OSKAField'] = this.filterData['OSKAField'][0];
         }
-        this.filterSubmit();
       }
       this.filterGivenData(true);
       this.mapService.polygonLayer.next(1);

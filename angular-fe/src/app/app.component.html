@@ -4,4 +4,6 @@
   <div class="app-content" [class.darken]="sidemenuIsVisible" (click)="closeSidemenu($event)">
     <router-outlet (activate)="onActivate()"></router-outlet>
   </div><!--/app-content-->
+  <alerts global></alerts>
+  <alerts global id="cookie"></alerts>
 </div><!--/app-wrapper-->

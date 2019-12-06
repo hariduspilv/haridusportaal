@@ -1,6 +1,6 @@
 
 <div class="inline">
-    <article-layout [sidebar]="data.sidebar">
+    <article-layout [sidebar]="data.sidebar" [feedbackNid]="data.nid">
     <breadcrumbs [path]="path"></breadcrumbs>
     <block [loading]="true" *ngIf="!data">
     </block>
@@ -23,7 +23,7 @@
                     </ng-container>
                 </ng-container>
                 <ng-container *ngIf="data.attachmentFile && data.attachmentFile.length">
-                    <li *ngFor="let file of data.fieldAttachmentFile;let ind = index;">
+                    <li *ngFor="let file of data.attachmentFile;let ind = index;">
                         <a href="{{file.entity.fieldAttachment.entity.url}}" target="_blank"
                             attr.aria-label="{{file.entity.fieldName}}" class="link">
                             <icon glyph="copy"></icon><span class="label">{{file.entity.fieldName}}</span>
@@ -31,7 +31,6 @@
                     </li>
                 </ng-container>
             </ul>
-            <feedback [nid]="data.nid"></feedback>
         </block-content>
         <block-content [tabLabel]="data.accordion.entity.fieldAccordionTitle" tabIcon="file-text">
             <div *ngIf="data.accordion && data.accordion.entity && data.accordion.entity.fieldBody" class="description"
@@ -72,7 +71,6 @@
                     </div>
                 </accordion-item>
             </accordion>
-            <feedback [nid]="data.nid"></feedback>
         </block-content>
     </block>
 </article-layout>

@@ -162,11 +162,9 @@
 				}
 			}
 		}
-
 		.block__content {
 			display: block;
 			padding: $medium;
-
 			line-height: 1.375rem;
 			h1,h2,h3,h4,h5,h6,p {
 				&:first-child {
@@ -232,6 +230,10 @@
 						}
 					}
 				}
+				&__middle-tabs {
+					border-bottom: #c7c7c9 0.0625rem solid;
+					padding-bottom: .1875rem;
+				}
 			}
 		}
 	}
@@ -262,6 +264,13 @@
 		}
 	}
 
+	@include break-on(sm, max) {
+		&.block-content--no-padding .block__content {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+
 	.description {
 		line-height: 1.375rem;
 		word-break: break-word;
@@ -284,5 +293,4 @@
 			padding-left: 0;
 		}
 	}
-
 }
