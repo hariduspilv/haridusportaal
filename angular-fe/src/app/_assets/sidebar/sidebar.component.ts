@@ -446,7 +446,6 @@ export class SidebarRegisterComponent {
         firstDate = parseUnixDate(this.pageData.fieldEventMainDate.unix);
         lastDate = parseUnixDate(this.pageData.fieldEventMainDate.unix);
       }
-      console.log(firstDate, this.unix);
       if (this.pageData.fieldMaxNumberOfParticipants !== null &&
         this.pageData.RegistrationCount >= this.pageData.fieldMaxNumberOfParticipants) return 'full';
       if (lastDate >= this.unix && firstDate <= this.unix) return true;

@@ -12,7 +12,6 @@
       ];
 
       $prefix = isset($urlTemplates->$server) ? $urlTemplates->$server : $urlTemplates->fallback;
-
       return $prefix;
     }
 
@@ -59,7 +58,7 @@
           "pageTitle" => "Artikkel"
         )
       );
-      $path = explode('/', $_SERVER['REQUEST_URI'])[2];
+      $path = explode('/', $_SERVER['REQUEST_URI'])[1] == 'amp' ? explode('/', $_SERVER['REQUEST_URI'])[2] : explode('/', $_SERVER['REQUEST_URI'])[1];
       return $map[urldecode($path)][$key];
     }
 
@@ -83,7 +82,7 @@
     function getData() {
       $id = $this->getRequestID();
       $path = $this->getPrefix().'/graphql?queryId='.$id.'&variables={%22lang%22:%22ET%22,%22path%22:%22'.$this->getPath().'%22}';
-      $data = json_decode(file_get_contents($path));
+      $data = json_decode(file_get_contents($path), false);
       return $data->data->route ? $data->data->route->entity : false;
     }
   }
