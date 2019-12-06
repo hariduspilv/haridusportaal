@@ -128,6 +128,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         if (link.url.path === path) {
           return true;
         }
+        const pathRoot = path.split('/');
+        if (link.url.path.includes(`${pathRoot[0]}/${pathRoot[1]}`)) {
+          return true;
+        }
+        return false;
       });
     });
     if (activeCategory) {
@@ -135,6 +140,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     } else {
       this.closeOthers('');
     }
+    this.cdr.detectChanges();
   }
 
   closeOthers(item: any = '') {

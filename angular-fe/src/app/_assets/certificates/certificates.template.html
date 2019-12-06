@@ -35,7 +35,6 @@
 					<td>{{ certificate.nimi }}</td>
 					<td>{{ certificate.valjaantud }}</td>
 					<td>
-						{{certificate | json}}
 						<a
 							[routerLink]="'tunnistused/' + certificate.registrinumber"
 							[state]="{certificate:certificate}"
