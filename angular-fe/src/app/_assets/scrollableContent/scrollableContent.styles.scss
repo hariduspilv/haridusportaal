@@ -4,9 +4,13 @@ $arrowsWidth: 50px;
 
 ::ng-deep {
 	scrollableContent {
+    // display: block;
 		// table[htm-table] {
 			// width: auto;
     // }
+    table[htm-table] {
+      width: 100%;
+    }
     color: $black;
     .scrollable {
       &__wrapper {
@@ -19,7 +23,7 @@ $arrowsWidth: 50px;
       }
     
       &__inline {
-        display: inline-block;
+        display: block;
       }
     }
     
