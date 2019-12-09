@@ -125,7 +125,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
 
       try {
         if (multiSelectFields[this.parsedType].indexOf(item) !== -1) {
-          values[item] = values[item].split(';');
+          values[item] = values[item].split(',');
           if (values[item][0] === '') {
             values[item].splice(0, 1);
           }
@@ -133,7 +133,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       } catch (err) {}
 
     });
-
+    
     return values;
   }
 

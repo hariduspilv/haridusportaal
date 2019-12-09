@@ -44,6 +44,7 @@ export const searchResultKeys = {
     type: {
       key: 'type',
       enabled: 'typeEnabled',
+      type: 'string',
     },
     language: {
       key: 'language',
@@ -208,6 +209,9 @@ export const multiSelectFields = {
     'type',
     'language',
     'ownership',
+  ],
+  studyprogramme: [
+    'level',
   ],
   news: [
     'tagValue',

@@ -5,7 +5,7 @@
                 <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
                     <div [class]="type === 'school' ? 'list__item__head sm-hide' : 'list__item__head'"
                         *ngIf="item.head">
-                        {{ item.head.entity ? item.head.entity.entityLabel : item.head }}</div>
+                        {{ returnEntityString(item.head) }}</div>
                     <div class="flex flex-center flex-wrap">
                         <a [routerLink]="item.url.path ? item.url.path : item.url" class="list__item__title">
                             <h1>{{ item.title }}</h1>

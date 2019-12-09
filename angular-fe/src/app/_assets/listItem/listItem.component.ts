@@ -60,7 +60,6 @@ export class ListItemComponent implements OnInit, OnChanges{
     this.list.forEach((element, index) => {
       this.list[index] = FieldVaryService(element);
     });
-    console.log(this.list);
   }
   ngOnInit() {
     this.parseList();
@@ -88,6 +87,14 @@ export class ListItemComponent implements OnInit, OnChanges{
     if (employed['oskaId']) res.push(employed);
     if (pay['oskaId']) res.push(pay);
     return res;
+  }
+
+  returnEntityString (entity) {
+    if (Array.isArray(entity)) {
+      const values = entity.map(val => val.entity.entityLabel);
+      return values.join(', ');
+    }
+    return entity;
   }
 
   isArray(obj : any) {

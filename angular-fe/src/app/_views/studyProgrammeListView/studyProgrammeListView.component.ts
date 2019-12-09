@@ -12,7 +12,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 export class StudyProgrammeListViewComponent implements AfterViewInit {
   @Input() path: string;
   @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
-  
+
   lang: any;
   params: any;
   tags: any;
@@ -115,7 +115,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
       });
 
       this.levelFilters = data.level.entities.map((el) => {
-        return { value: el.tid, key: el.entityLabel };
+        return { value: String(el.tid), key: el.entityLabel };
       });
 
       data.isced_f.entities.map((el) => {
