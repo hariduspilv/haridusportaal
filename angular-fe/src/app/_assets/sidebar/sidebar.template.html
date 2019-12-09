@@ -4,8 +4,12 @@
       <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
         <block-title *ngIf="!titleLess[collection[keyVal]]"  [ngClass]="'type-'+[collection[keyVal]]">
           <ng-container>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</ng-container>
+          <div *ngIf="keyVal === 'notifications' && mappedData.notifications.unread > 0" class="unreadMessages">
+            {{mappedData.notifications.unread}}
+          </div>
         </block-title>
         <block-content [ngSwitch]="collection[keyVal]">
+          <sidebar-notifications *ngSwitchCase="'notifications'" [data]="mappedData[keyVal]"></sidebar-notifications>
           <sidebar-links *ngSwitchCase="'links'" [data]="mappedData[keyVal]"></sidebar-links>
           <sidebar-categories *ngSwitchCase="'categories'" [data]="mappedData[keyVal]"></sidebar-categories>
           <sidebar-contact *ngSwitchCase="'contact'" [data]="mappedData[keyVal]"></sidebar-contact>

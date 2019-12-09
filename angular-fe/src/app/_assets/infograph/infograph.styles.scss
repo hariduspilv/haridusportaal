@@ -5,6 +5,7 @@
   .graphText {
     line-height: 1.375rem;
     margin-bottom: 2rem;
+    word-break: break-all;
     p:first-child {
       margin-top:0;
     }

@@ -1,0 +1,11 @@
+<ul *ngIf="data">
+  <li *ngFor="let item of data.list | slice:0:3">
+    <a target="_blank" [class.unread]="item.unread">
+      <span>{{item.koer}}</span>
+      <p>{{item.date * 1000 | date:"dd.MM.yyyy"}} kell {{item.timestamp | unixToTime}}</p>
+    </a>
+  </li>
+</ul>
+<div class="bottom">
+  <a>Vaata kõiki teavitusi</a>
+</div>

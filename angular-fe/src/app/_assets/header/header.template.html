@@ -55,7 +55,7 @@
 				<button
 					*ngIf="loginStatus; else other"
 					theme="plain"
-					(click)="logoutActive = true"
+					(click)="openLogOutDropdown($event)"
 					htm-button
 				>
 					<div class="label--logged">
@@ -70,7 +70,6 @@
 					<button
 						htm-button
 						theme="logout"
-						(mouseout)="logoutActive = false"
 						(click)="auth.logout(); logoutActive = false;"
 					>
 						Logi välja

@@ -5,6 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'events-view',
@@ -25,6 +26,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
     private settings:SettingsService,
     private http: HttpClient,
     private route: ActivatedRoute,
+    private device: DeviceDetectorService,
   ) {}
 
   getTypes() {
@@ -91,6 +93,9 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   ngOnInit() {
     this.getTags();
     this.getTypes();
+    if (this.device.isMobile()) {
+      this.filterFull = true;
+    }
   }
 
   ngOnDestroy() {

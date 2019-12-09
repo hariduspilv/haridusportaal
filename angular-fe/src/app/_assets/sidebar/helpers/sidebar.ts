@@ -32,6 +32,7 @@ export const collection = {
   'links': 'links',
   'event': 'events',
   'fieldBlocks': 'links',
+  'notifications': 'notifications',
 }
 
 export const uniformTypes = {

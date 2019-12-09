@@ -25,6 +25,7 @@ const sidebarOrder = {
   infosystem: ['fieldButton', 'fieldLegislationBlock'],
   field: ['indicator', 'prosCons', 'fieldOskaResults', 'fieldQuickFind', 'fieldRelatedPages'],
   resultPage: ['additional', 'fieldContactSection', 'fieldHyperlinks', 'fieldRelatedArticle'],
+  dashboard: ['notifications', 'favourites', 'events'],
 };
 // tslint:enable
 
@@ -460,5 +461,13 @@ export class SidebarRegisterComponent {
   templateUrl: './templates/sidebar.events.template.html',
 })
 export class SidebarEventsComponent {
+  @Input() data: any;
+}
+
+@Component({
+  selector: 'sidebar-notifications',
+  templateUrl: './templates/sidebar.notifications.template.html',
+})
+export class SidebarNotificationsComponent {
   @Input() data: any;
 }

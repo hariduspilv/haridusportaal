@@ -49,6 +49,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     entity: {
       favourites: [],
       event: [],
+      // notifications: {},
     },
   };
   eventsListDone = false;
@@ -93,6 +94,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.formGroup.controls.roleSelection.setValue(this.currentRole);
     this.getFavouritesList();
     this.getEventList();
+    this.getNotifications();
     if (this.blockComponent) {
       this.blockComponent.selectTab(
         this.blockComponent.tabs.find(
@@ -282,6 +284,59 @@ export class DashboardComponent implements OnInit, OnDestroy {
       subscription.unsubscribe();
       this.eventsListDone = true;
     });
+  }
+
+  getNotifications(): void {
+    // make request
+    const unreadNotifications = 10;
+    const notificationsList = [
+      {
+        koer: 'Õppetoetuse taotluse rahuldamise otsus',
+        timestamp: 15939323,
+        date: 135352342,
+        unread: true,
+      },
+      {
+        koer: 'Eksmatrikuleerimine eluülikoolist igaveseks',
+        timestamp: 15939323,
+        date: 135352342,
+        unread: true,
+      },
+      {
+        koer: 'Õpikute tagastamise reeglid',
+        timestamp: 15939323,
+        date: 135352342,
+        unread: false,
+      },
+      {
+        koer: 'kala',
+        timestamp: 15939323,
+        date: 135352342,
+        unread: false,
+      },
+      {
+        koer: 'kala',
+        timestamp: 15939323,
+        date: 135352342,
+        unread: false,
+      },
+      {
+        koer: 'kala',
+        timestamp: 15939323,
+        date: 135352342,
+        unread: true,
+      },
+      {
+        koer: 'kala',
+        timestamp: 15939323,
+        date: 135352342,
+        unread: true,
+      },
+    ]
+    // this.sidebar.entity['notifications']['list'] = notificationsList;
+    // this.sidebar.entity['notifications']['unread'] = unreadNotifications;
+    // request done
+    // give data to sidebar
   }
   ngOnDestroy() {
     this.cdr.detach();
