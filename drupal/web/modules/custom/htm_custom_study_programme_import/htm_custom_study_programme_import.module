@@ -28,7 +28,7 @@ function htm_custom_study_programme_import_cron() {
         foreach($programmenodes as $programmenode){
           $queue->createItem($programmenode);
           if(isset($programmenode['programme_field']['nid'])){
-            if($programmenode['programme_field']['status'] == '1'){
+            if(isset($programmenode['programme_field']['status']) && $programmenode['programme_field']['status'] === '1'){
               $updated++;
             }else{
               $unpublished++;
