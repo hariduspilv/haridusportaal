@@ -1,4 +1,5 @@
- <ng-container *ngIf="data.fieldEntryType && data.fieldEntryType == 'register'">
+<ng-container *ngIf="data.fieldEntryType && data.fieldEntryType == 'register'">
+  <h3>{{ 'event.registration' | translate }}</h3>
   <p>
     <ng-container *ngIf="canRegister() == true">
       <span>{{'button.register' | translate}} {{'time.from' | translate | lowercase}} </span>
@@ -10,28 +11,128 @@
     <span class="error" *ngIf="canRegister() == 'full'" role="alert">{{'event.registration_full' | translate}}</span>
   </p>
   <div class="actions" *ngIf="canRegister() == true">
-    <button htm-button>{{ 'button.register' | translate }}</button>
-    <a href="{{ iCalUrl }}{{ data.nid }}">{{'button.calendar_add' | translate}}</a>
+    <button htm-button (click)="modal.toggle('register')">{{ 'button.register' | translate }}</button>
+    <a href="{{ iCalUrl }}{{ pageData.nid }}">{{'button.calendar_add' | translate}}</a>
   </div>
+
+  <htm-modal
+    id="register"
+    modalTitle="{{ 'event.registration_form' | translate }}"
+    [bottomAction]="false"
+    (onClose)="clearModal()"
+  >
+    <modal-content id="register" *ngIf="modal.modalOpened['register']">
+      <ng-container *ngIf="!loading && step === 1">
+        <h2 class="eventTitle">{{ pageData.title }}</h2>
+        <div class="dialog__time" tabindex="0"> 
+          <span class="capitalize">{{ 'time.'+ (pageData.eventStartDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ pageData.eventStartDate.unix*1000 | date: "dd.MM"}}</span>
+          
+          <span *ngIf="pageData.eventStartTime || pageData.eventEndTime">
+            <span> {{ 'time.time_of_day' | translate }}</span>
+            <ng-container *ngIf="pageData.eventStartTime">
+              {{ pageData.eventStartTime | unixToTime  }}
+            </ng-container>
+            <ng-container *ngIf="pageData.eventStartTime && pageData.eventEndTime">
+              -
+            </ng-container>
+            <ng-container *ngIf="pageData.eventEndTime">
+              {{ pageData.eventEndTime | unixToTime  }}
+            </ng-container>
+          </span>
+          <ng-container *ngIf="pageData.eventExtraDates && pageData.eventExtraDates.length">
+            <div *ngFor="let item of pageData.eventExtraDates">
+              <ng-container *ngIf="item.entity.fieldEventDate">
+                <span class="capitalize">{{ 'time.'+ (item.entity.fieldEventDate.unix*1000 | weekday: "unix" | lowercase) | translate }} {{ item.entity.fieldEventDate.unix*1000 | date: "dd.MM"}}</span>
+                <span *ngIf="item.entity.fieldEventStartTime || item.entity.fieldEventEndTime">
+                  <span> {{ 'time.time_of_day' | translate }}</span>
+                  <ng-container *ngIf="item.entity.fieldEventStartTime">
+                    {{ item.entity.fieldEventStartTime | unixToTime  }}
+                  </ng-container>
+                  <ng-container *ngIf="item.entity.fieldEventStartTime && item.entity.fieldEventEndTime">
+                    -
+                  </ng-container>
+                  <ng-container *ngIf="item.entity.fieldEventEndTime">
+                    {{ item.entity.fieldEventEndTime | unixToTime  }}
+                  </ng-container>
+                </span>
+                
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+
+        <p>* {{ 'event.registration_form_required' | translate }}</p>
+
+        <form [formGroup]="form" (submit)="submitForm()">
+          <div class="row">
+            <div class="col-6 md-12 sm-12">
+              <formItem type="text" title="Eesnimi *" formControlName="firstName" [error]="formSubmitted && hasError('firstName')"></formItem>
+            </div><!--/col-6-->
+            <div class="col-6 md-12 sm-12">
+              <formItem type="text" title="Perekonnanimi *" formControlName="lastName" [error]="formSubmitted && hasError('lastName')"></formItem>
+            </div><!--/col-6-->
+            <div class="col-12">
+              <formItem type="text" title="Ettevõte/Asutus" formControlName="companyName"></formItem>
+            </div><!--/col-12-->
+            <div class="col-6 md-12 sm-12">
+              <formItem type="text" title="E-post *" formControlName="email" [error]="formSubmitted && hasError('email')"></formItem>
+            </div><!--/col-6-->
+            <div class="col-6 md-12 sm-12">
+              <formItem type="text" title="Telefon" formControlName="telephone"></formItem>
+            </div><!--/col-6-->
+            <div class="col-12">
+              <formItem type="textarea" title="Märkused" formControlName="marked"></formItem>
+            </div><!--/col-12-->
+          </div><!--/row-->
+          <div class="buttons">
+            <a htm-button theme="plain" (click)="modal.close('register')">{{'event.registration_form_cancel' | translate}}</a>
+            <button htm-button>{{'event.registration_form_send' | translate}}</button>
+          </div><!--/buttons-->
+        </form>
+      </ng-container>
+      <ng-container *ngIf="!loading && step == 2">
+        <div class="registerResponse">
+          <h2 *ngIf="response && response.errors.length == 0">{{ 'event.registration_form_thanks' | translate }}</h2>
+          <ng-container *ngIf="response">
+            <ng-container *ngFor="let item of response.errors">
+              <h2 *ngIf="item == 1">{{ 'event.registration_full' | translate }}</h2>
+            </ng-container>
+          </ng-container>
+          <a htm-button href="{{ iCalUrl }}{{ pageData.nid }}">{{'event.registration_form_add_to_calendar' | translate}}</a>
+          <button htm-button theme="plain" (click)="modal.close('register')">{{ 'event.registration_form_close' | translate }}</button>
+        </div><!--/registerResponse-->
+      </ng-container>
+      <loader *ngIf="loading"></loader>
+    </modal-content>
+  </htm-modal>
 </ng-container>
 
 <ng-container *ngIf="data.fieldEntryType == 'external_inv'">
+  <h3>{{ 'event.registration' | translate }}</h3>
   <div class="actions" *ngIf="data.fieldRegistrationUrl">
     <a target="_blank" [href]="data.fieldRegistrationUrl.url.path">{{ 'event.external_registration' | translate }}</a>
   </div>
 </ng-container>
 
-<p *ngIf="data.fieldEntryType && data.fieldEntryType == 'free' && !data.EventRegistrations">
-  <span *ngIf="canRegister() !== 'ended'" >{{'event.free' | translate}}</span>
-  <span class="error" *ngIf="canRegister() == 'ended'">{{'event.passed' | translate}}</span>
-</p>
+<ng-container *ngIf="data.fieldEntryType && data.fieldEntryType == 'free' && !data.EventRegistrations">
+  <h3>{{ 'event.entrance' | translate }}</h3>
+  <p>
+    <span *ngIf="canRegister() !== 'ended'" >{{'event.free' | translate}}</span>
+    <span class="error" *ngIf="canRegister() == 'ended'">{{'event.passed' | translate}}</span>
+  </p>
+</ng-container>
 
-<p *ngIf="data.fieldEntryType && data.fieldEntryType == 'invite'">
-  <span *ngIf="canRegister() !== 'ended'">{{'event.invite' | translate}}</span>
-  <span class="error" *ngIf="canRegister() == 'ended'" >{{'event.passed' | translate}}</span>
-</p>
+<ng-container *ngIf="data.fieldEntryType && data.fieldEntryType == 'invite'">
+  <h3>{{ 'event.registration' | translate }}</h3>
+  <p>
+    <span *ngIf="canRegister() !== 'ended'">{{'event.invite' | translate}}</span>
+    <span class="error" *ngIf="canRegister() == 'ended'" >{{'event.passed' | translate}}</span>
+  </p>
+</ng-container>
 
-<ng-container *ngIf="data.EventRegistrations">
-  <h2>{{'event.participant_list' | translate}}</h2>
-  <button htm-button (click)="toggleParticipants(true)">{{'event.participants_list_view' | translate}}</button>
+<ng-container *ngIf="data.EventRegistrations && step === 4">
+  <h3>{{'event.participant_list' | translate}}</h3>
+  <div class="actions">
+    <button htm-button (click)="toggleParticipants(true)">{{'event.participants_list_view' | translate}}</button>
+  </div><!--/actions-->
 </ng-container>

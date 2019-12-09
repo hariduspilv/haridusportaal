@@ -14,6 +14,10 @@
 				<ng-container>
 					<div class="author" *ngIf="data.author">{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}</div>
 					<div class="toolbar">
+						<favourite
+							[id]="data.nid"
+							[state]="data.isFavorite">
+						</favourite>
 						<share [title]="title"></share>
 						<compare *ngIf="compareKey" [id]="data.nid" [sessionStorageKey]="compareKey"></compare>
 						<labels *ngIf="data.fixedLabel" [data]="[data.fixedLabel.entity]" type="orange"></labels>

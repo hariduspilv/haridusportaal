@@ -15,6 +15,9 @@ const routes: Routes = [
     path: 'töölaud',
     loadChildren: './_views/dashboardView#DashboardViewModule',
     canActivate: [AuthService],
+    data: {
+      type: 'dashboard',
+    },
   },
   {
     path: 'uudised',

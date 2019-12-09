@@ -21,6 +21,12 @@
 | topAction | true | true, false | boolean | Top action button state
 | bottomAction | true | true, false | boolean | Bottom action button state
 
+## Events
+
+| Name  | Default  | Values  |  Type | Description  |
+|---|---|---|---|---|
+| onClose | true | true | boolean | Activates on modal close
+
 ## Modal Content properties
 
 | Name  | Default  | Values  |  Type | Description  |

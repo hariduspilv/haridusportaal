@@ -39,6 +39,22 @@
 			margin-top: -0.25rem;
 			display: block;
 		}
+		block-title.type-notifications {
+			display: flex;
+			align-items: center;
+			.unreadMessages {
+				border-radius: 100%;
+				width: 1rem;
+				height: 1rem;
+				display: inline-flex;
+				margin-left: 0.5rem;
+				background-color: $dark-red;
+				color: $white;
+				font-size: 0.625rem;
+				align-items:center;
+				justify-content: center;
+			}
+		}
 		block-content {
 			&:empty {
 				display: none
@@ -87,6 +103,9 @@
 				icon {
 					margin-right: .5rem;
 				}
+				.text-instance{
+					color: #757575;
+				}
 			}
 			sidebar-categories {
 				span {
@@ -128,6 +147,40 @@
 					line-height: 1.375;
 					margin-bottom: 0;
 					color: $black;
+				}
+			}
+			sidebar-notifications {
+				ul li {
+					border-bottom: 1px solid $gray;
+					margin-left: -1.5rem;
+					margin-right: -1.5rem;
+					padding: 1rem 1.5rem;
+					margin-bottom: 0;
+					&:first-child {
+						padding-top: 0;
+					}
+				}
+				ul li:hover a {
+					text-decoration: none;
+					span {
+						text-decoration: underline;
+					}
+				}
+				a.unread {
+					span {
+						font-weight: 500;
+					}
+				}
+				p {
+					line-height: 1.375;
+					margin-bottom: 0;
+					margin-top: 0;
+					color: $black;
+				}
+				.bottom {
+					margin-top: 1rem;
+					display: flex;
+					justify-content: center;
 				}
 			}
 			sidebar-progress {
@@ -187,22 +240,82 @@
 					margin-top: 1rem;
 				}
 				h1 {
+					font-size: 1.25rem;
 					margin-top: 1rem;
 				}
 			}
 			sidebar-register {
+				h3{
+					font-size: 1.25rem;
+				}
+				.fullWidth {
+					width: 100%;
+					text-align: center;
+				}
+				::ng-deep{
+					.modal__block{
+						max-width: 700px !important;
+						min-width: 0 !important;
+						
+						.eventTitle {
+							font-size: 1.5rem;
+							font-weight: 500;
+							font-style: normal;
+							line-height: 1.33;
+							text-align: left;
+							margin-top: 0;
+							margin-bottom: 0;
+						}
+						.buttons {
+							display: flex;
+							margin: 1rem 0;
+							justify-content: flex-end;
+
+							button, a {
+								margin-top: 0;
+							}
+						}
+						.dialog__time{
+							margin:1rem 0;
+							line-height: 1.38rem;
+						}
+						.registerResponse{
+							text-align: center;
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							h2{
+								font-size: 1.5rem;
+								font-weight: 500;
+								font-style: normal;
+								line-height: 1.33;
+								text-align: left;
+								color:#333;
+								margin-top: 1.375rem;
+								margin-bottom: 3rem;
+							}
+
+							button, a{
+								width: auto;
+							}
+							a{
+								margin-bottom: 1rem;
+							}
+						}
+					}
+				}
 				.actions {
 					text-align: center;
+					button {
+						width: 100%;
+						box-sizing: border-box;
+					}
 				}
 				.error {
 					color: $dark-red;
 					line-height: 1.38;
 					font-size: $small;
 					font-weight: 500;
-				}
-				button {
-					width: 100%;
-					box-sizing: border-box;
 				}
 				a {
 					display: block;

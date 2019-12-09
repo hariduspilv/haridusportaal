@@ -1,11 +1,13 @@
 import { Component, Input, HostBinding, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
-import { SidebarService, SettingsService } from '@app/_services';
+import { SidebarService, SettingsService, ModalService } from '@app/_services';
 import { collection, titleLess, parseProfessionData, parseFieldData } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import conf from '@app/_core/conf';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { FormBuilder, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
 
 interface SidebarType {
   [key: string]: string;
@@ -23,6 +25,7 @@ const sidebarOrder = {
   infosystem: ['fieldButton', 'fieldLegislationBlock'],
   field: ['indicator', 'prosCons', 'fieldOskaResults', 'fieldQuickFind', 'fieldRelatedPages'],
   resultPage: ['additional', 'fieldContactSection', 'fieldHyperlinks', 'fieldRelatedArticle'],
+  dashboard: ['notifications', 'favourites', 'events'],
 };
 // tslint:enable
 
@@ -166,13 +169,12 @@ export class SidebarLinksComponent implements OnInit, OnChanges{
             });
           }
         });
-        this.blocks = blocks;
+        this.blocks = blocks.length ? blocks : false;
       } catch (err) {}
     }
   }
   ngOnInit() {
     this.parseData();
-    console.log(this.data);
   }
   ngOnChanges() {
     this.parseData();
@@ -217,8 +219,7 @@ export class SidebarArticlesComponent {
 
 @Component({
   selector: 'sidebar-data',
-  template: `<h3>{{ data.entity?.fieldTitle || 'Praktiline info' }}</h3>
-            <div [innerHTML]="data.entity?.fieldAdditionalBody || data.value"><div>`,
+  templateUrl: './templates/sidebar.data.template.html',
 })
 export class SidebarDataComponent {
   @Input() data;
@@ -352,35 +353,106 @@ export class SidebarProgressComponent {
   templateUrl: './templates/sidebar.register.template.html',
 })
 export class SidebarRegisterComponent {
+  @Input() pageData;
+
+  public formSubmitted: boolean = false;
+
+  public form = this.formBuilder.group({
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    companyName: [''],
+    email: ['', [Validators.required, Validators.email]],
+    telephone: [''],
+    marked: [''],
+  });
 
   constructor(
     private settings: SettingsService,
+    public modal: ModalService,
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
   )
   {}
   @Input() data: any;
   private unix: number;
   private iCalUrl: string;
+  public loading: boolean = false;
+  public step: number = 1;
+  public response;
   ngOnInit() {
+    try {
+      this.pageData = {
+        ... this.pageData,
+        eventTitle: this.pageData.entityLabel,
+        eventStartDate: this.pageData.fieldEventMainDate,
+        eventStartTime: this.pageData.fieldEventMainStartTime,
+        eventEndTime: this.pageData.fieldEventMainEndTime,
+        eventExtraDates: this.pageData.fieldEventDate,
+      };
+    } catch (err) {}
+
     this.iCalUrl = `${this.settings.url}/calendarexport/`;
     this.unix = parseUnixDate(new Date().getTime() / 1000);
   }
+
+  public clearModal(): void {
+    this.form.reset();
+    this.loading = false;
+    this.step = 1;
+    this.response = undefined;
+    this.formSubmitted = false;
+  }
+  public hasError(name: string = '') {
+    return this.form.controls[name].invalid;
+  }
+
+  public submitForm() {
+    this.formSubmitted = true;
+    if (this.form.valid) {
+      this.loading = true;
+
+      const data = {
+        queryId: 'cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1',
+        variables: {
+          event_id: this.pageData.nid,
+          lang: 'ET',
+          ... this.form.value,
+        },
+      };
+
+      const register = this.http.post(`${this.settings.url}/graphql`, data).subscribe(
+        (response) => {
+          const data = response['data'];
+          this.response = data['createEventRegistration'];
+          this.step = 2;
+          this.loading = false;
+          register.unsubscribe();
+        },
+        (data) => {
+          this.loading = false;
+        });
+    }
+  }
+
   canRegister() {
     let firstDate;
     let lastDate;
-    if (this.data.fieldRegistrationDate) {
-      firstDate =
-        parseUnixDate(this.data.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix);
-      lastDate =
-        parseUnixDate(this.data.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix);
-    } else if (this.data.fieldEventMainDate) {
-      firstDate = parseUnixDate(this.data.fieldEventMainDate.unix);
-      lastDate = parseUnixDate(this.data.fieldEventMainDate.unix);
-    }
-    if (this.data.fieldMaxNumberOfParticipants !== null &&
-      this.data.RegistrationCount >= this.data.fieldMaxNumberOfParticipants) return 'full';
-    if (lastDate >= this.unix && firstDate <= this.unix) return true;
-    if (firstDate > this.unix) return 'not_started';
-    if (lastDate < this.unix) return 'ended';
+    try {
+      if (this.pageData.fieldRegistrationDate) {
+        firstDate =
+          parseUnixDate(this.pageData.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix);
+        lastDate =
+          parseUnixDate(this.pageData.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix);
+      } else {
+        firstDate = parseUnixDate(this.pageData.fieldEventMainDate.unix);
+        lastDate = parseUnixDate(this.pageData.fieldEventMainDate.unix);
+      }
+      if (this.pageData.fieldMaxNumberOfParticipants !== null &&
+        this.pageData.RegistrationCount >= this.pageData.fieldMaxNumberOfParticipants) return 'full';
+      if (lastDate >= this.unix && firstDate <= this.unix) return true;
+      if (firstDate > this.unix) return 'not_started';
+      if (lastDate < this.unix) return 'ended';
+    } catch(err) {}
   }
 }
 
@@ -389,5 +461,13 @@ export class SidebarRegisterComponent {
   templateUrl: './templates/sidebar.events.template.html',
 })
 export class SidebarEventsComponent {
+  @Input() data: any;
+}
+
+@Component({
+  selector: 'sidebar-notifications',
+  templateUrl: './templates/sidebar.notifications.template.html',
+})
+export class SidebarNotificationsComponent {
   @Input() data: any;
 }

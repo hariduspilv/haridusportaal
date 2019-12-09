@@ -39,7 +39,7 @@
 
         </div>
 
-        <div class="row" *ngIf="filterFull">
+        <div class="row" *ngIf="filterFull && showFilter">
           <div class="col-9 sm-12">
             <formItem type="multi-select" title="{{ 'event.filter_types' | translate }}" name="types"
               [options]="eventsTypes">

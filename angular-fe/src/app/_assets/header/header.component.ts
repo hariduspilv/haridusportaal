@@ -5,7 +5,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Router, ActivatedRoute } from '@angular/router';
-import { nmcall } from 'q';
 
 @Component({
   selector: 'htm-header',
@@ -42,6 +41,7 @@ export class HeaderComponent implements OnInit {
   public availableAuthMethods = [];
 
   public mobileIdRequest: Subscription = new Subscription();
+  public offClickHandler: any;
   public loginForm: FormGroup = this.formBuilder.group({
     password: ['', Validators.required],
     username: ['', Validators.required],
@@ -178,6 +178,25 @@ export class HeaderComponent implements OnInit {
   headerSearchEnabled() {
     return this.activatedRoute.snapshot.firstChild &&
     this.activatedRoute.snapshot.firstChild.routeConfig.path !== 'otsing';
+  }
+
+  // wtf
+  openLogOutDropdown(event: Event) {
+    if (!this.logoutActive) {
+      document.addEventListener(
+        'click',
+        this.offClickHandler = () => this.offClickListener(),
+      );
+    }
+  }
+
+  offClickListener() {
+    if (this.logoutActive) {
+      document.removeEventListener('click', this.offClickHandler);
+      this.logoutActive = false;
+    } else {
+      this.logoutActive = true;
+    }
   }
 
   ngOnInit(): void {
