@@ -3080,3 +3080,51 @@ newsQuery:
   translation_type: textarea
   et: Uudised
   en: News
+fieldContactSection:
+  translation_type: textarea
+  et: Kontakt
+  en: Contact
+fieldRelatedArticle:
+  translation_type: textarea
+  et: 'Sarnased teemad'
+  en: 'Related articles'
+fieldOskaField:
+  translation_type: textarea
+  et: Valdkonnad
+  en: Fields
+fieldLearningOpportunities:
+  translation_type: textarea
+  et: Õppimisvõimalused
+  en: 'Learning opportunities'
+fieldJobOpportunities:
+  translation_type: textarea
+  et: Töövõimalused
+  en: 'Job opportunities'
+fieldJobs:
+  translation_type: textarea
+  et: Ametid
+  en: Jobs
+indicator:
+  translation_type: textarea
+  et: Faktid
+  en: Facts
+fieldOskaResults:
+  translation_type: textarea
+  et: Tulemused
+  en: Results
+fieldRelatedPages:
+  translation_type: textarea
+  et: 'Sarnased teemad'
+  en: 'Related topics'
+fieldOskaFieldContact:
+  translation_type: textarea
+  et: Kontakt
+  en: Contact
+educationalInstitution:
+  translation_type: textarea
+  et: Kontakt
+  en: Contact
+fieldHyperlinks:
+  translation_type: textarea
+  et: 'Leia kiiresti'
+  en: 'Quick links'
