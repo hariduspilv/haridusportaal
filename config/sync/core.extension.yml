@@ -32,7 +32,6 @@ module:
   embed: 0
   entity_embed: 0
   entity_reference_revisions: 0
-  externalauth: 0
   field: 0
   field_ui: 0
   file: 0
@@ -134,6 +133,7 @@ module:
   menu_link_content: 1
   pathauto: 1
   content_translation: 10
+  externalauth: 10
   views: 10
   paragraphs: 11
   standard: 1000

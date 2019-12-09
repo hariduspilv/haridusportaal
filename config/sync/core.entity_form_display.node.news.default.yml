@@ -13,9 +13,11 @@ dependencies:
     - field.field.node.news.field_news_video
     - field.field.node.news.field_short_description
     - field.field.node.news.field_tag
+    - field.field.node.news.field_video_thumbnail
     - image.style.crop_result_thumb
     - node.type.news
   module:
+    - conditional_fields
     - htm_custom_video_field
     - image_widget_crop
     - link
@@ -31,12 +33,12 @@ mode: default
 content:
   created:
     type: datetime_timestamp
-    weight: 12
+    weight: 13
     region: content
     settings: {  }
     third_party_settings: {  }
   field_additional_images:
-    weight: 9
+    weight: 11
     settings:
       show_default_crop: true
       warn_multiple_usages: true
@@ -73,11 +75,12 @@ content:
         - 16_9_large
       progress_indicator: throbber
       crop_types_required: {  }
-    third_party_settings: {  }
+    third_party_settings:
+      conditional_fields: {  }
     type: image_widget_crop
     region: content
   field_metatags:
-    weight: 26
+    weight: 18
     settings: {  }
     third_party_settings: {  }
     type: metatag_firehose
@@ -92,7 +95,7 @@ content:
     type: text_textarea_with_summary
     region: content
   field_news_link:
-    weight: 10
+    weight: 12
     settings:
       placeholder_url: ''
       placeholder_title: ''
@@ -100,11 +103,12 @@ content:
     type: link_default
     region: content
   field_news_video:
-    weight: 28
+    weight: 9
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      conditional_fields: {  }
     type: custom_video_widget_type
     region: content
   field_short_description:
@@ -121,10 +125,25 @@ content:
     type: string_textarea
     region: content
   field_tag:
-    weight: 27
+    weight: 19
     settings: {  }
     third_party_settings: {  }
     type: options_select
+    region: content
+  field_video_thumbnail:
+    weight: 10
+    settings:
+      show_crop_area: true
+      show_default_crop: true
+      warn_multiple_usages: true
+      preview_image_style: crop_result_thumb
+      crop_preview_image_style: crop_thumbnail
+      crop_list:
+        - 16_9_large
+      progress_indicator: throbber
+      crop_types_required: {  }
+    third_party_settings: {  }
+    type: image_widget_crop
     region: content
   langcode:
     type: language_select
@@ -135,7 +154,7 @@ content:
     third_party_settings: {  }
   path:
     type: path
-    weight: 16
+    weight: 17
     region: content
     settings: {  }
     third_party_settings: {  }
@@ -152,7 +171,7 @@ content:
     third_party_settings: {  }
   status:
     type: boolean_checkbox
-    weight: 14
+    weight: 15
     region: content
     settings:
       display_label: true
@@ -169,13 +188,13 @@ content:
         maxlength_js: 100
         maxlength_js_label: 'Content limited to @limit characters, remaining: <strong>@remaining</strong>'
   translation:
-    weight: 15
+    weight: 16
     region: content
     settings: {  }
     third_party_settings: {  }
   uid:
     type: entity_reference_autocomplete
-    weight: 13
+    weight: 14
     region: content
     settings:
       match_operator: CONTAINS
