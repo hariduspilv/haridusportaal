@@ -192,8 +192,8 @@ export class HeaderComponent implements OnInit {
 
   offClickListener() {
     if (this.logoutActive) {
-      document.removeEventListener('click', this.offClickHandler);
       this.logoutActive = false;
+      document.removeEventListener('click', this.offClickHandler);
     } else {
       this.logoutActive = true;
     }

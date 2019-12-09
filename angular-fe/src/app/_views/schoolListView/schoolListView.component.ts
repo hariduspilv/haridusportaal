@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 
@@ -27,11 +27,13 @@ export class SchoolListViewComponent implements AfterViewInit {
   secondaryFilteredTypes = [];
   selectedTypes = [];
   languageFilters = [];
+  combinedTypesOptions = [];
   ownershipFilters = [];
 
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -73,6 +75,7 @@ export class SchoolListViewComponent implements AfterViewInit {
     });
     this.removeHangingTypes();
     this.setTypeValue();
+    console.log(this.selectedTypes);
   }
 
   removeHangingTypes() {
@@ -88,7 +91,15 @@ export class SchoolListViewComponent implements AfterViewInit {
   }
 
   setTypeValue() {
-    this.selectedTypes = [...this.selectedPrimaryTypes, ...this.selectedSecondaryTypes];
+    this.combinedTypesOptions = [...this.selectedPrimaryTypes, ...this.selectedSecondaryTypes].map((el) => {
+      return {
+        key: el,
+        value: el,
+      }
+    });
+    this.selectedTypes = [...this.selectedPrimaryTypes, ...this.selectedSecondaryTypes].map(el => `${parseInt(el)}`);
+    console.log(this.selectedTypes);
+    this.cdr.detectChanges();
   }
 
   getTags() {

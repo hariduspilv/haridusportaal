@@ -88,7 +88,7 @@
                     </ng-container>
                 </div>
             </ng-container>
-            <div *ngIf="type !== 'news' && item[footerFields[type]] && item[footerFields[type]].entities.length > 0"
+            <div *ngIf="type !== 'news'"
                 [class]="type === 'school' || type === 'mainProfession' ? 'inline__items sm-hide' : 'inline__items'">
                 <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
                     <ng-container *ngIf="item[fieldName]">

@@ -5,15 +5,15 @@ import { AuthService } from './_services';
 const routes: Routes = [
   {
     path: '',
-    loadChildren: './_views/frontpageView#FrontpageViewModule',
+    loadChildren: () => import('./_views/frontpageView').then(m => m.FrontpageViewModule),
   },
   {
     path: 'oska',
-    loadChildren: './_views/oskaFrontpageView#OskaFrontpageViewModule',
+    loadChildren: () => import('./_views/oskaFrontpageView').then(m => m.OskaFrontpageViewModule),
   },
   {
     path: 'töölaud',
-    loadChildren: './_views/dashboardView#DashboardViewModule',
+    loadChildren: () => import('./_views/dashboardView').then(m => m.DashboardViewModule),
     canActivate: [AuthService],
     data: {
       type: 'dashboard',
@@ -21,59 +21,62 @@ const routes: Routes = [
   },
   {
     path: 'uudised',
-    loadChildren: './_views/newsListView#NewsListViewModule',
+    loadChildren: () => import('./_views/newsListView').then(m => m.NewsListViewModule),
+
   },
   {
     path: 'otsing',
-    loadChildren: './_views/homeSearchListView#HomeSearchListViewModule',
+    loadChildren: () => import('./_views/homeSearchListView').then(m => m.HomeSearchListViewModule),
+
   },
   {
     path: 'uudised/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'news',
     },
   },
   {
     path: 'sündmused',
-    loadChildren: './_views/eventsView#EventsViewModule',
+    loadChildren: () => import('./_views/eventsView').then(m => m.EventsViewModule),
   },
   {
     path: 'sündmused/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'event',
     },
   },
   {
     path: 'artiklid/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'article',
     },
   },
   {
     path: 'kool',
-    loadChildren: './_views/schoolListView#SchoolListViewModule',
+    loadChildren: () => import('./_views/schoolListView').then(m => m.SchoolListViewModule),
   },
   {
     path: 'kool/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'school',
     },
   },
   {
     path: 'koolide-rahastus',
-    loadChildren: './_views/schoolFunding#SchoolFundingViewModule',
+    loadChildren: () => import('./_views/schoolFunding').then(m => m.SchoolFundingViewModule),
   },
   {
     path: 'ametialad',
-    loadChildren: './_views/mainProfessionListView#MainProfessionListViewModule',
+    loadChildren: () => import('./_views/mainProfessionListView')
+      .then(m => m.MainProfessionListViewModule),
   },
   {
     path: 'ametialad/võrdlus',
-    loadChildren: './_views/compareView#CompareViewModule',
+    loadChildren: () => import('./_views/compareView').then(m => m.CompareViewModule),
     data: {
       type: 'oskaProfessionsComparison',
       query: 'oskaMainProfessionListView',
@@ -81,66 +84,68 @@ const routes: Routes = [
   },
   {
     path: 'ametialad/andmed',
-    loadChildren: './_views/mainProfessionDataView#MainProfessionDataView',
+    loadChildren: () => import('./_views/mainProfessionDataView')
+      .then(m => m.MainProfessionDataView),
   },
   {
     path: 'ametialad/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'profession',
     },
   },
   {
     path: 'valdkonnad',
-    loadChildren: './_views/oskaFieldListView#OskaFieldListViewModule',
+    loadChildren: () => import('./_views/oskaFieldListView').then(m => m.OskaFieldListViewModule),
   },
   {
     path: 'valdkonnad/andmed',
-    loadChildren: './_views/oskaFieldDataView#OskaFieldDataView',
+    loadChildren: () => import('./_views/oskaFieldDataView').then(m => m.OskaFieldDataView),
   },
   {
     path: 'valdkonnad/kaart',
-    loadChildren: './_views/oskaFieldMap#OskaFieldMapModule',
+    loadChildren: () => import('./_views/oskaFieldMap').then(m => m.OskaFieldMapModule),
   },
   {
     path: 'valdkonnad/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'field',
     },
   },
   {
     path: 'oska-tulemused/ettepanekute-elluviimine',
-    loadChildren: './_views/oskaResultsView#OskaResultsViewModule',
+    loadChildren: () => import('./_views/oskaResultsView').then(m => m.OskaResultsViewModule),
   },
   {
     path: 'oska-tulemused/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'resultPage',
     },
   },
   {
     path: 'tööjõuprognoos/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'surveyPage',
     },
   },
   {
     path: 'infosüsteemid',
-    loadChildren: './_views/infoSystemView#InfoSystemViewModule',
+    loadChildren: () => import('./_views/infoSystemView').then(m => m.InfoSystemViewModule),
     data: {
       type: 'infosystem',
     },
   },
   {
     path: 'erialad',
-    loadChildren: './_views/studyProgrammeListView#StudyProgrammeListViewModule',
+    loadChildren: () => import('./_views/studyProgrammeListView')
+      .then(m => m.StudyProgrammeListViewModule),
   },
   {
     path: 'erialad/võrdlus',
-    loadChildren: './_views/compareView#CompareViewModule',
+    loadChildren: () => import('./_views/compareView').then(m => m.CompareViewModule),
     data: {
       type: 'studyProgrammeComparison',
       query: 'studyProgrammeComparison',
@@ -148,23 +153,24 @@ const routes: Routes = [
   },
   {
     path: 'erialad/:id',
-    loadChildren: './_views/detailView#DetailViewModule',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
       type: 'studyProgramme',
     },
   },
   {
     path: 'tunnistuse-kehtivuse-kontroll',
-    loadChildren: './_views/certificateCheckView#CertificateCheckViewModule',
+    loadChildren: () => import('./_views/certificateCheckView')
+      .then(m => m.CertificateCheckViewModule),
   },
   {
     path: 'töölaud/taotlused/:id',
-    loadChildren: './_views/xjson#XjsonModule',
+    loadChildren: () => import('./_views/xjson').then(m => m.XjsonModule),
     canActivate: [AuthService],
   },
   {
     path: '**',
-    loadChildren: './_views/notFoundView#NotFoundViewModule',
+    loadChildren: () => import('./_views/notFoundView').then(m => m.NotFoundViewModule),
   },
 ];
 
