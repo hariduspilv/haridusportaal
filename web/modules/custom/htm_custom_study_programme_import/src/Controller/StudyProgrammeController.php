@@ -186,7 +186,7 @@ class StudyProgrammeController extends ControllerBase {
                 if(isset($programme->ope)){
                     if($level[$key[0]] === $programme->ope){
                         $programmelevelvalue = $key[0];
-                        $programmenode['programme_field']['field_study_programme_level'] = $programmelevelvalue;
+                        $programmenode['programme_field']['field_study_programme_level'][] = $programmelevelvalue;
                     }
                 }
             }
