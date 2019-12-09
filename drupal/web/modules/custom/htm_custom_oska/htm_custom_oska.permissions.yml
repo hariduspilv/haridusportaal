@@ -95,3 +95,6 @@ view published oska filling bar entity entities:
 
 view unpublished oska filling bar entity entities:
   title: 'View unpublished Oska filling bar entity entities'
+
+import oska csv data:
+  title: 'Import OSKA CSV data'
