@@ -146,7 +146,7 @@
             </div>
           </ng-container>
     
-          <ng-container *ngIf="examResults && !loading">
+          <ng-container *ngIf="examResults">
             <h1 id="heading" tabindex="0" *ngIf="examResults">
               {{ 'frontpage.eksamiTulemused' | translate }}
               {{route.snapshot.queryParams['exams']}}
