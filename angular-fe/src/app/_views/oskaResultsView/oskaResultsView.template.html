@@ -2,85 +2,50 @@
 	<div class="inline">
 		<breadcrumbs [path]="path"></breadcrumbs>
 	</div>
-	<form
-		(submit)="filterSubmit($event)"
-		class="filter-wrapper"
-		filters
-	>
+	<form (submit)="filterSubmit($event)" class="filter-wrapper" filters>
 		<div class="main-container inline">
-				<div class="sm-show text-right filter-control">
-						<a href="javascript:void(0);" (click)="showFilter = !showFilter">
-							<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
-							<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
-						</a>
-					</div>
-			<ng-container *ngIf="showFilter">
-			<div class="row form-first-row" [class.short-filter]="!filterFull">
-				<div class="col-4 sm-12 form-col">
-					<formItem
-						type="select"
-						name="field"
-						title="{{ 'oska.title_field' | translate }}"
-						[(ngModel)]="filterFormItems.field"
-						[options]="filterItemValues.field"
-					></formItem>
-				</div>
-				<div class="col-5 sm-12 form-col">
-					<formItem
-						type="select"
-						name="responsible"
-						title="{{ 'oska.table_responsible_person' | translate }}"
-						[(ngModel)]="filterFormItems.responsible"
-						[options]="filterItemValues.responsible"
-						*ngIf="filterItemValues.responsible.length"
-					></formItem>
-					<div class="round-input__wrapper"></div>
-				</div>
-				<div
-					class="col-3 align-end text-right sm-12 inline-flex form-col"
-					*ngIf="!filterFull"
-				>
-					<div class="align-center filter-state sm-hide">
-						<a
-							role="button"
-							href="javascript:void(0);"
-							(click)="filterFull = !filterFull"
-							aria-expanded="false"
-						>
-							<span>Täpsem otsing</span>
-						</a>
-					</div>
-					<div class="button-row">
-						<button role="button" htm-button>
-							{{ 'button.search' | translate}}
-						</button>
-					</div>
-				</div>
-				<!--/col-3-->
+			<div class="sm-show text-right filter-control">
+				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
+					<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
+					<span *ngIf="showFilter"
+						>{{ 'button.filter_close' | translate }}</span
+					>
+				</a>
 			</div>
-			<!--/row-->
-			<ng-container *ngIf="filterFull">
-				<div class="row form-additional-row">
-					<div class="col-9 sm-12 form-col">
-						<div class="round-input__wrapper">
-							<formItem
-								type="select"
-								name="proposalStatus"
-								title="{{ 'oska.table_proposition_status' | translate }}"
-								[(ngModel)]="filterFormItems.proposalStatus"
-								[options]="filterItemValues.proposalStatus"
-							></formItem>
-						</div>
+			<ng-container *ngIf="showFilter">
+				<div class="row form-first-row" [class.short-filter]="!filterFull">
+					<div class="col-4 sm-12 form-col">
+						<formItem
+							type="select"
+							name="field"
+							title="{{ 'oska.title_field' | translate }}"
+							[(ngModel)]="filterFormItems.field"
+							[options]="filterItemValues.field"
+						></formItem>
 					</div>
-					<div class="col-3 align-end text-right sm-12 inline-flex form-col">
+					<div class="col-5 sm-12 form-col">
+						<formItem
+							type="select"
+							name="responsible"
+							title="{{ 'oska.table_responsible_person' | translate }}"
+							[(ngModel)]="filterFormItems.responsible"
+							[options]="filterItemValues.responsible"
+							*ngIf="filterItemValues.responsible.length"
+						></formItem>
+						<div class="round-input__wrapper"></div>
+					</div>
+					<div
+						class="col-3 align-end text-right sm-12 inline-flex form-col"
+						*ngIf="!filterFull"
+					>
 						<div class="align-center filter-state sm-hide">
 							<a
 								role="button"
 								href="javascript:void(0);"
 								(click)="filterFull = !filterFull"
-								aria-expanded="true"
+								aria-expanded="false"
 							>
-								<span>{{ 'button.search_brief' | translate }}</span>
+								<span>Täpsem otsing</span>
 							</a>
 						</div>
 						<div class="button-row">
@@ -89,9 +54,42 @@
 							</button>
 						</div>
 					</div>
+					<!--/col-3-->
 				</div>
+				<!--/row-->
+				<ng-container *ngIf="filterFull">
+					<div class="row form-additional-row">
+						<div class="col-9 sm-12 form-col">
+							<div class="round-input__wrapper">
+								<formItem
+									type="select"
+									name="proposalStatus"
+									title="{{ 'oska.table_proposition_status' | translate }}"
+									[(ngModel)]="filterFormItems.proposalStatus"
+									[options]="filterItemValues.proposalStatus"
+								></formItem>
+							</div>
+						</div>
+						<div class="col-3 align-end text-right sm-12 inline-flex form-col">
+							<div class="align-center filter-state sm-hide">
+								<a
+									role="button"
+									href="javascript:void(0);"
+									(click)="filterFull = !filterFull"
+									aria-expanded="true"
+								>
+									<span>{{ 'button.search_brief' | translate }}</span>
+								</a>
+							</div>
+							<div class="button-row">
+								<button role="button" htm-button>
+									{{ 'button.search' | translate}}
+								</button>
+							</div>
+						</div>
+					</div>
+				</ng-container>
 			</ng-container>
-		</ng-container>
 		</div>
 	</form>
 	<div class="inline">
@@ -244,6 +242,7 @@
 																role="button"
 																(keyup.enter)="commentVisible = !commentVisible"
 																(click)="commentVisible = !commentVisible"
+																style="justify-content: space-between; display: flex;"
 															>
 																<span
 																	*ngIf="commentVisible"

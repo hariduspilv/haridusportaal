@@ -163,7 +163,7 @@
 				min-width: 14rem;
 				font-weight: 400;
 				&--extra {
-					min-width: 10rem;
+					min-width: 15rem;
 					@include break-on(sm, min) {
 						min-width: 24rem;
 					}
