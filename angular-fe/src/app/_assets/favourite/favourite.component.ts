@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import conf from '@app/_core/conf';
 import { Subscription } from 'rxjs';
-import { AlertsService, ModalService, SettingsService } from '@app/_services';
+import { AlertsService, ModalService, SettingsService, AuthService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
@@ -17,8 +17,7 @@ export class FavouriteComponent {
   @Input() limit: boolean;
   private subscription: Subscription;
   public closeTime: any = false;
-  // TODO: Handle maximum number of favourites (with real request)
-  // private maxCount: number = 10;
+  private maxCount = 10;
 
   constructor(
     private http: HttpClient,
@@ -26,7 +25,9 @@ export class FavouriteComponent {
     private translate: TranslateService,
     public modalService: ModalService,
     private settings: SettingsService,
-    ) {}
+    private auth: AuthService,
+  ) { }
+
   handleStateChange() {
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
@@ -39,20 +40,24 @@ export class FavouriteComponent {
       },
     };
     if (!this.state) {
-      if (this.limit) {
-        this.modalService.toggle('favourites');
-        return;
-      }
-      this.closeTime = false;
-      this.subscription = this.request({
-        data,
-        message: this.translate.get('frontpage.favourites_snackbar_message'),
-        state: true,
-        link: {
-          url: '/töölaud/taotlused',
-          label: this.translate.get('frontpage.check_dashboard'),
-        },
+
+      const variables = {
+        language: 'ET',
+        id: this.auth.userData.drupal.uid,
+      };
+
+      const path = this.settings.query('customFavorites', variables);
+
+      this.http.get(path).subscribe((response: any) => {
+
+        if (response.data.CustomFavorites &&
+          response.data.CustomFavorites.favoritesNew.length >= this.maxCount) {
+          this.modalService.toggle('favourites');
+        } else {
+          this.setFavourite(data);
+        }
       });
+
     } else {
       data.queryId = 'c818e222e263618b752e74a997190b0f36a39818:1';
       this.closeTime = 5000;
@@ -64,6 +69,20 @@ export class FavouriteComponent {
       });
     }
   }
+
+  setFavourite(data) {
+    this.closeTime = false;
+    this.subscription = this.request({
+      data,
+      message: this.translate.get('frontpage.favourites_snackbar_message'),
+      state: true,
+      link: {
+        url: '/töölaud/taotlused',
+        label: this.translate.get('frontpage.check_dashboard'),
+      },
+    });
+  }
+
   request({ data, message = '', link, closeable = false, state = false }) {
     return this.http.post(`${this.settings.url}/graphql`, data).subscribe((response) => {
       this.alertsService.success(
@@ -74,6 +93,6 @@ export class FavouriteComponent {
         link,
       );
       this.state = state;
-    },                                                                 (err) => {});
+    }, (err) => { });
   }
 }

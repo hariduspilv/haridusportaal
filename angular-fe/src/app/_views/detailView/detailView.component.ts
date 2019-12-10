@@ -28,6 +28,8 @@ export class DetailViewComponent {
   public compareKey: string;
   public pictoWidth: number;
   private queryKey: string = '';
+  public userData: any;
+  public favoriteLimit = false;
   private paramsWatcher: Subscription = new Subscription();
 
   public relatedStudyprogrammes: Object[] = [];
@@ -158,6 +160,7 @@ export class DetailViewComponent {
   }
 
   private initialize() {
+    this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
       this.path = decodeURI(this.location.path());
       this.type = this.route.snapshot.data['type'];
