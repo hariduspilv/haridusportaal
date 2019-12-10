@@ -129,6 +129,7 @@ export class DetailViewComponent {
     const subscription = this.http.get(path).subscribe((response) => {
 
       this.origData = response['data']['route']['entity'];
+      console.log(this.origData);
       this.data = FieldVaryService(response['data']['route']['entity']);
 
       if (Array.isArray(this.data.video) && this.data.video.length > 1) {

@@ -38,7 +38,7 @@ export const parseData = (data) => {
       label: 'school.register_code',
     },
     {
-      key: 'fieldStudyProgrammeLevel.entity.entityLabel',
+      key: 'fieldStudyProgrammeLevel',
       label: 'studyProgramme.level',
     },
     {
