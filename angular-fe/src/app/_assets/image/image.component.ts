@@ -11,6 +11,7 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export class ImageComponent implements OnInit{
   @Input() image: {} = {};
+  @Input() gallery = false;
   @Input() limit: number = 1;
   public images;
 
@@ -21,5 +22,6 @@ export class ImageComponent implements OnInit{
       this.images = this.image;
     }
     this.images = this.images.splice(0, this.limit);
+    console.log(this.gallery);
   }
 }

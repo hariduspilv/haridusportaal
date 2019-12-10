@@ -1,4 +1,18 @@
-<div class="image__entity" *ngFor="let item of images">
-  <img [src]="item.derivative.url" [title]="item.title" [alt]="item.alt" />
-  <div class="image__title" *ngIf="item.title">{{ item.title }}</div>
-</div><!--/image__entity-->
+<ng-container *ngIf="!gallery">
+  <div class="image__entity" *ngFor="let item of images">
+    <img [src]="item.derivative.url" [title]="item.title" [alt]="item.alt" />
+    <div class="image__title" *ngIf="item.title">{{ item.title }}</div>
+  </div>
+  <!--/image__entity-->
+</ng-container>
+
+<ng-container *ngIf="gallery">
+    <div class="image__entity">
+      <div class="image__gallery__button">
+        Vaata kõiki pilte (20)
+      </div>
+      <img [src]="images[0].derivative.url" [title]="images[0].title" [alt]="images[0].alt" />
+      <div class="image__title" *ngIf="images[0].title">{{ images[0].title }}</div>
+    </div>
+    <!--/image__entity-->
+  </ng-container>
