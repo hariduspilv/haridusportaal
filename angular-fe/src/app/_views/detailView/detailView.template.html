@@ -14,7 +14,7 @@
 				<ng-container>
 					<div class="author" *ngIf="data.author">{{ data.author }} {{ data.created*1000 | date:'dd.MM.yyyy' }}</div>
 					<div class="toolbar">
-						<favourite
+						<favourite *ngIf="auth.isAuthenticated.value"
 							[id]="data.nid"
 							[state]="data.isFavorite">
 						</favourite>

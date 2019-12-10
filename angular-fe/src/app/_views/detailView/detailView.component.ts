@@ -5,6 +5,8 @@ import FieldVaryService from '@app/_services/FieldVaryService';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
+import { UserService } from '@app/_services/userService';
+import { AuthService } from '@app/_services';
 
 @Component({
   selector: 'detail-view',
@@ -35,6 +37,7 @@ export class DetailViewComponent {
     private http: HttpClient,
     private route: ActivatedRoute,
     private location: Location,
+    public auth: AuthService,
   ) {}
 
   private getSidebar():void {
@@ -129,7 +132,6 @@ export class DetailViewComponent {
     const subscription = this.http.get(path).subscribe((response) => {
 
       this.origData = response['data']['route']['entity'];
-      console.log(this.origData);
       this.data = FieldVaryService(response['data']['route']['entity']);
 
       if (Array.isArray(this.data.video) && this.data.video.length > 1) {
