@@ -20,6 +20,8 @@
       color: white;
       &:hover {
         text-decoration: underline;
+        cursor: pointer;
+        user-select: none;
       }
     }
 
