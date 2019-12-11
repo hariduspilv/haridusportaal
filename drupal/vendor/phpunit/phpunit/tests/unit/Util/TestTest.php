@@ -7,7 +7,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace PHPUnit\Util;
 
 use PharIo\Version\VersionConstraint;
@@ -21,7 +20,7 @@ class TestTest extends TestCase
     /**
      * @todo Split up in separate tests
      */
-    public function testGetExpectedException()
+    public function testGetExpectedException(): void
     {
         $this->assertArraySubset(
             ['class' => 'FooBarBaz', 'code' => null, 'message' => ''],
@@ -34,7 +33,7 @@ class TestTest extends TestCase
         );
 
         $this->assertArraySubset(
-            ['class' => \Foo\Bar\Baz::class, 'code' => null, 'message' => ''],
+            ['class' => 'Foo\Bar\Baz', 'code' => null, 'message' => ''],
             Test::getExpectedException(\ExceptionTest::class, 'testThree')
         );
 
@@ -90,7 +89,7 @@ class TestTest extends TestCase
         );
     }
 
-    public function testGetExpectedRegExp()
+    public function testGetExpectedRegExp(): void
     {
         $this->assertArraySubset(
             ['message_regex' => '#regex#'],
@@ -110,8 +109,12 @@ class TestTest extends TestCase
 
     /**
      * @dataProvider requirementsProvider
+     *
+     * @throws Warning
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testGetRequirements($test, $result)
+    public function testGetRequirements($test, $result): void
     {
         $this->assertEquals(
             $result,
@@ -119,7 +122,7 @@ class TestTest extends TestCase
         );
     }
 
-    public function requirementsProvider()
+    public function requirementsProvider(): array
     {
         return [
             ['testOne',    []],
@@ -156,6 +159,9 @@ class TestTest extends TestCase
                         'testFuncOne',
                         'testFunc2',
                     ],
+                    'setting'   => [
+                        'not_a_setting' => 'Off',
+                    ],
                     'extensions' => [
                         'testExtOne',
                         'testExt2',
@@ -169,156 +175,162 @@ class TestTest extends TestCase
             ['testSpecificExtensionVersion',
                 [
                     'extension_versions' => ['testExt' => ['version' => '1.8.0', 'operator' => '']],
-                    'extensions'         => ['testExt']
-                ]
+                    'extensions'         => ['testExt'],
+                ],
             ],
             ['testPHPVersionOperatorLessThan',
                 [
-                    'PHP' => ['version' => '5.4', 'operator' => '<']
-                ]
+                    'PHP' => ['version' => '5.4', 'operator' => '<'],
+                ],
             ],
             ['testPHPVersionOperatorLessThanEquals',
                 [
-                    'PHP' => ['version' => '5.4', 'operator' => '<=']
-                ]
+                    'PHP' => ['version' => '5.4', 'operator' => '<='],
+                ],
             ],
             ['testPHPVersionOperatorGreaterThan',
                 [
-                    'PHP' => ['version' => '99', 'operator' => '>']
-                ]
+                    'PHP' => ['version' => '99', 'operator' => '>'],
+                ],
             ],
             ['testPHPVersionOperatorGreaterThanEquals',
                 [
-                    'PHP' => ['version' => '99', 'operator' => '>=']
-                ]
+                    'PHP' => ['version' => '99', 'operator' => '>='],
+                ],
             ],
             ['testPHPVersionOperatorEquals',
                 [
-                    'PHP' => ['version' => '5.4', 'operator' => '=']
-                ]
+                    'PHP' => ['version' => '5.4', 'operator' => '='],
+                ],
             ],
             ['testPHPVersionOperatorDoubleEquals',
                 [
-                    'PHP' => ['version' => '5.4', 'operator' => '==']
-                ]
+                    'PHP' => ['version' => '5.4', 'operator' => '=='],
+                ],
             ],
             ['testPHPVersionOperatorBangEquals',
                 [
-                    'PHP' => ['version' => '99', 'operator' => '!=']
-                ]
+                    'PHP' => ['version' => '99', 'operator' => '!='],
+                ],
             ],
             ['testPHPVersionOperatorNotEquals',
                 [
-                    'PHP' => ['version' => '99', 'operator' => '<>']
-                ]
+                    'PHP' => ['version' => '99', 'operator' => '<>'],
+                ],
             ],
             ['testPHPVersionOperatorNoSpace',
                 [
-                    'PHP' => ['version' => '99', 'operator' => '>=']
-                ]
+                    'PHP' => ['version' => '99', 'operator' => '>='],
+                ],
             ],
             ['testPHPUnitVersionOperatorLessThan',
                 [
-                    'PHPUnit' => ['version' => '1.0', 'operator' => '<']
-                ]
+                    'PHPUnit' => ['version' => '1.0', 'operator' => '<'],
+                ],
             ],
             ['testPHPUnitVersionOperatorLessThanEquals',
                 [
-                    'PHPUnit' => ['version' => '1.0', 'operator' => '<=']
-                ]
+                    'PHPUnit' => ['version' => '1.0', 'operator' => '<='],
+                ],
             ],
             ['testPHPUnitVersionOperatorGreaterThan',
                 [
-                    'PHPUnit' => ['version' => '99', 'operator' => '>']
-                ]
+                    'PHPUnit' => ['version' => '99', 'operator' => '>'],
+                ],
             ],
             ['testPHPUnitVersionOperatorGreaterThanEquals',
                 [
-                    'PHPUnit' => ['version' => '99', 'operator' => '>=']
-                ]
+                    'PHPUnit' => ['version' => '99', 'operator' => '>='],
+                ],
             ],
             ['testPHPUnitVersionOperatorEquals',
                 [
-                    'PHPUnit' => ['version' => '1.0', 'operator' => '=']
-                ]
+                    'PHPUnit' => ['version' => '1.0', 'operator' => '='],
+                ],
             ],
             ['testPHPUnitVersionOperatorDoubleEquals',
                 [
-                    'PHPUnit' => ['version' => '1.0', 'operator' => '==']
-                ]
+                    'PHPUnit' => ['version' => '1.0', 'operator' => '=='],
+                ],
             ],
             ['testPHPUnitVersionOperatorBangEquals',
                 [
-                    'PHPUnit' => ['version' => '99', 'operator' => '!=']
-                ]
+                    'PHPUnit' => ['version' => '99', 'operator' => '!='],
+                ],
             ],
             ['testPHPUnitVersionOperatorNotEquals',
                 [
-                    'PHPUnit' => ['version' => '99', 'operator' => '<>']
-                ]
+                    'PHPUnit' => ['version' => '99', 'operator' => '<>'],
+                ],
             ],
             ['testPHPUnitVersionOperatorNoSpace',
                 [
-                    'PHPUnit' => ['version' => '99', 'operator' => '>=']
-                ]
+                    'PHPUnit' => ['version' => '99', 'operator' => '>='],
+                ],
             ],
             ['testExtensionVersionOperatorLessThanEquals',
                 [
                     'extensions'         => ['testExtOne'],
-                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '<=']]
-                ]
+                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '<=']],
+                ],
             ],
             ['testExtensionVersionOperatorGreaterThan',
                 [
                     'extensions'         => ['testExtOne'],
-                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>']]
-                ]
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>']],
+                ],
             ],
             ['testExtensionVersionOperatorGreaterThanEquals',
                 [
                     'extensions'         => ['testExtOne'],
-                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>=']]
-                ]
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>=']],
+                ],
             ],
             ['testExtensionVersionOperatorEquals',
                 [
                     'extensions'         => ['testExtOne'],
-                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '=']]
-                ]
+                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '=']],
+                ],
             ],
             ['testExtensionVersionOperatorDoubleEquals',
                 [
                     'extensions'         => ['testExtOne'],
-                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '==']]
-                ]
+                    'extension_versions' => ['testExtOne' => ['version' => '1.0', 'operator' => '==']],
+                ],
             ],
             ['testExtensionVersionOperatorBangEquals',
                 [
                     'extensions'         => ['testExtOne'],
-                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '!=']]
-                ]
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '!=']],
+                ],
             ],
             ['testExtensionVersionOperatorNotEquals',
                 [
                     'extensions'         => ['testExtOne'],
-                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '<>']]
-                ]
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '<>']],
+                ],
             ],
             ['testExtensionVersionOperatorNoSpace',
                 [
                     'extensions'         => ['testExtOne'],
-                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>=']]
-                ]
-            ]
+                    'extension_versions' => ['testExtOne' => ['version' => '99', 'operator' => '>=']],
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider requirementsWithVersionConstraintsProvider
+     *
+     * @throws Exception
+     * @throws Warning
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testGetRequirementsWithVersionConstraints($test, array $result)
+    public function testGetRequirementsWithVersionConstraints($test, array $result): void
     {
         $requirements = Test::getRequirements(\RequirementsTest::class, $test);
+
         foreach ($result as $type => $expected_requirement) {
             $this->assertArrayHasKey(
                 "{$type}_constraint",
@@ -339,142 +351,144 @@ class TestTest extends TestCase
         }
     }
 
-    public function requirementsWithVersionConstraintsProvider()
+    public function requirementsWithVersionConstraintsProvider(): array
     {
         return [
             [
                 'testVersionConstraintTildeMajor',
                 [
                     'PHP' => [
-                        'constraint' => '~1.0'
+                        'constraint' => '~1.0',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '~2.0'
-                    ]
-                ]
+                        'constraint' => '~2.0',
+                    ],
+                ],
             ],
             [
                 'testVersionConstraintCaretMajor',
                 [
                     'PHP' => [
-                        'constraint' => '^1.0'
+                        'constraint' => '^1.0',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '^2.0'
-                    ]
-                ]
+                        'constraint' => '^2.0',
+                    ],
+                ],
             ],
             [
                 'testVersionConstraintTildeMinor',
                 [
                     'PHP' => [
-                        'constraint' => '~3.4.7'
+                        'constraint' => '~3.4.7',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '~4.7.1'
-                    ]
-                ]
+                        'constraint' => '~4.7.1',
+                    ],
+                ],
             ],
             [
                 'testVersionConstraintCaretMinor',
                 [
                     'PHP' => [
-                        'constraint' => '^7.0.17'
+                        'constraint' => '^7.0.17',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '^4.7.1'
-                    ]
-                ]
+                        'constraint' => '^4.7.1',
+                    ],
+                ],
             ],
             [
                 'testVersionConstraintCaretOr',
                 [
                     'PHP' => [
-                        'constraint' => '^5.6 || ^7.0'
+                        'constraint' => '^5.6 || ^7.0',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '^5.0 || ^6.0'
-                    ]
-                ]
+                        'constraint' => '^5.0 || ^6.0',
+                    ],
+                ],
             ],
             [
                 'testVersionConstraintTildeOr',
                 [
                     'PHP' => [
-                        'constraint' => '~5.6.22 || ~7.0.17'
+                        'constraint' => '~5.6.22 || ~7.0.17',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '^5.0.5 || ^6.0.6'
-                    ]
-                ]
+                        'constraint' => '^5.0.5 || ^6.0.6',
+                    ],
+                ],
             ],
             [
                 'testVersionConstraintTildeOrCaret',
                 [
                     'PHP' => [
-                        'constraint' => '~5.6.22 || ^7.0'
+                        'constraint' => '~5.6.22 || ^7.0',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '~5.6.22 || ^7.0'
-                    ]
-                ]
+                        'constraint' => '~5.6.22 || ^7.0',
+                    ],
+                ],
             ],
             [
                 'testVersionConstraintCaretOrTilde',
                 [
                     'PHP' => [
-                        'constraint' => '^5.6 || ~7.0.17'
+                        'constraint' => '^5.6 || ~7.0.17',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '^5.6 || ~7.0.17'
-                    ]
-                ]
+                        'constraint' => '^5.6 || ~7.0.17',
+                    ],
+                ],
             ],
             [
                 'testVersionConstraintRegexpIgnoresWhitespace',
                 [
                     'PHP' => [
-                        'constraint' => '~5.6.22 || ~7.0.17'
+                        'constraint' => '~5.6.22 || ~7.0.17',
                     ],
                     'PHPUnit' => [
-                        'constraint' => '~5.6.22 || ~7.0.17'
-                    ]
-                ]
-            ]
+                        'constraint' => '~5.6.22 || ~7.0.17',
+                    ],
+                ],
+            ],
         ];
     }
 
     /**
      * @dataProvider requirementsWithInvalidVersionConstraintsThrowsExceptionProvider
+     *
+     * @throws Warning
      */
-    public function testGetRequirementsWithInvalidVersionConstraintsThrowsException($test)
+    public function testGetRequirementsWithInvalidVersionConstraintsThrowsException($test): void
     {
         $this->expectException(Warning::class);
         Test::getRequirements(\RequirementsTest::class, $test);
     }
 
-    public function requirementsWithInvalidVersionConstraintsThrowsExceptionProvider()
+    public function requirementsWithInvalidVersionConstraintsThrowsExceptionProvider(): array
     {
         return [
             ['testVersionConstraintInvalidPhpConstraint'],
-            ['testVersionConstraintInvalidPhpUnitConstraint']
+            ['testVersionConstraintInvalidPhpUnitConstraint'],
         ];
     }
 
-    public function testGetRequirementsMergesClassAndMethodDocBlocks()
+    public function testGetRequirementsMergesClassAndMethodDocBlocks(): void
     {
         $expectedAnnotations = [
             'PHP'       => ['version' => '5.4', 'operator' => ''],
             'PHPUnit'   => ['version' => '3.7', 'operator' => ''],
             'OS'        => 'WINNT',
             'functions' => [
-              'testFuncClass',
-              'testFuncMethod',
+                'testFuncClass',
+                'testFuncMethod',
             ],
             'extensions' => [
-              'testExtClass',
-              'testExtMethod',
-            ]
+                'testExtClass',
+                'testExtMethod',
+            ],
         ];
 
         $this->assertEquals(
@@ -485,8 +499,12 @@ class TestTest extends TestCase
 
     /**
      * @dataProvider missingRequirementsProvider
+     *
+     * @throws Warning
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testGetMissingRequirements($test, $result)
+    public function testGetMissingRequirements($test, $result): void
     {
         $this->assertEquals(
             $result,
@@ -494,7 +512,7 @@ class TestTest extends TestCase
         );
     }
 
-    public function missingRequirementsProvider()
+    public function missingRequirementsProvider(): array
     {
         return [
             ['testOne',            []],
@@ -504,14 +522,15 @@ class TestTest extends TestCase
             ['testAlwaysSkip2',    ['PHP >= 9999999 is required.']],
             ['testAlwaysSkip3',    ['Operating system matching /DOESNOTEXIST/i is required.']],
             ['testAllPossibleRequirements', [
-              'PHP >= 99-dev is required.',
-              'PHPUnit >= 9-dev is required.',
-              'Operating system matching /DOESNOTEXIST/i is required.',
-              'Function testFuncOne is required.',
-              'Function testFunc2 is required.',
-              'Extension testExtOne is required.',
-              'Extension testExt2 is required.',
-              'Extension testExtThree >= 2.0 is required.',
+                'PHP >= 99-dev is required.',
+                'PHPUnit >= 9-dev is required.',
+                'Operating system matching /DOESNOTEXIST/i is required.',
+                'Function testFuncOne is required.',
+                'Function testFunc2 is required.',
+                'Setting "not_a_setting" must be "Off".',
+                'Extension testExtOne is required.',
+                'Extension testExt2 is required.',
+                'Extension testExtThree >= 2.0 is required.',
             ]],
             ['testPHPVersionOperatorLessThan', ['PHP < 5.4 is required.']],
             ['testPHPVersionOperatorLessThanEquals', ['PHP <= 5.4 is required.']],
@@ -536,19 +555,19 @@ class TestTest extends TestCase
             ['testExtensionVersionOperatorNoSpace', ['Extension testExtOne >= 99 is required.']],
             ['testVersionConstraintTildeMajor', [
                 'PHP version does not match the required constraint ~1.0.',
-                'PHPUnit version does not match the required constraint ~2.0.'
+                'PHPUnit version does not match the required constraint ~2.0.',
             ]],
             ['testVersionConstraintCaretMajor', [
                 'PHP version does not match the required constraint ^1.0.',
-                'PHPUnit version does not match the required constraint ^2.0.'
-            ]]
+                'PHPUnit version does not match the required constraint ^2.0.',
+            ]],
         ];
     }
 
     /**
-     * @todo   This test does not really test functionality of \PHPUnit\Util\Test
+     * @todo This test does not really test functionality of \PHPUnit\Util\Test
      */
-    public function testGetProvidedDataRegEx()
+    public function testGetProvidedDataRegEx(): void
     {
         $result = \preg_match(Test::REGEX_DATA_PROVIDER, '@dataProvider method', $matches);
         $this->assertEquals(1, $result);
@@ -574,7 +593,7 @@ class TestTest extends TestCase
     /**
      * Check if all data providers are being merged.
      */
-    public function testMultipleDataProviders()
+    public function testMultipleDataProviders(): void
     {
         $dataSets = Test::getProvidedData(\MultipleDataProviderTest::class, 'testOne');
 
@@ -595,11 +614,11 @@ class TestTest extends TestCase
         $this->assertEquals(3, $cCount);
     }
 
-    public function testMultipleYieldIteratorDataProviders()
+    public function testMultipleYieldIteratorDataProviders(): void
     {
         $dataSets = Test::getProvidedData(\MultipleDataProviderTest::class, 'testTwo');
 
-        $this->assertEquals(9, \count($dataSets));
+        $this->assertCount(9, $dataSets);
 
         $aCount = 0;
         $bCount = 0;
@@ -616,7 +635,7 @@ class TestTest extends TestCase
         $this->assertEquals(3, $cCount);
     }
 
-    public function testWithVariousIterableDataProviders()
+    public function testWithVariousIterableDataProviders(): void
     {
         $dataSets = Test::getProvidedData(\VariousIterableDataProviderTest::class, 'test');
 
@@ -633,13 +652,13 @@ class TestTest extends TestCase
         ], $dataSets);
     }
 
-    public function testTestWithEmptyAnnotation()
+    public function testTestWithEmptyAnnotation(): void
     {
         $result = Test::getDataFromTestWithAnnotation("/**\n * @anotherAnnotation\n */");
         $this->assertNull($result);
     }
 
-    public function testTestWithSimpleCase()
+    public function testTestWithSimpleCase(): void
     {
         $result = Test::getDataFromTestWithAnnotation('/**
                                                                      * @testWith [1]
@@ -647,7 +666,7 @@ class TestTest extends TestCase
         $this->assertEquals([[1]], $result);
     }
 
-    public function testTestWithMultiLineMultiParameterCase()
+    public function testTestWithMultiLineMultiParameterCase(): void
     {
         $result = Test::getDataFromTestWithAnnotation('/**
                                                                      * @testWith [1, 2]
@@ -656,7 +675,7 @@ class TestTest extends TestCase
         $this->assertEquals([[1, 2], [3, 4]], $result);
     }
 
-    public function testTestWithVariousTypes()
+    public function testTestWithVariousTypes(): void
     {
         $result = Test::getDataFromTestWithAnnotation('/**
             * @testWith ["ab"]
@@ -666,7 +685,7 @@ class TestTest extends TestCase
         $this->assertEquals([['ab'], [true], [null]], $result);
     }
 
-    public function testTestWithAnnotationAfter()
+    public function testTestWithAnnotationAfter(): void
     {
         $result = Test::getDataFromTestWithAnnotation('/**
                                                                      * @testWith [1]
@@ -676,7 +695,7 @@ class TestTest extends TestCase
         $this->assertEquals([[1], [2]], $result);
     }
 
-    public function testTestWithSimpleTextAfter()
+    public function testTestWithSimpleTextAfter(): void
     {
         $result = Test::getDataFromTestWithAnnotation('/**
                                                                      * @testWith [1]
@@ -686,7 +705,7 @@ class TestTest extends TestCase
         $this->assertEquals([[1], [2]], $result);
     }
 
-    public function testTestWithCharacterEscape()
+    public function testTestWithCharacterEscape(): void
     {
         $result = Test::getDataFromTestWithAnnotation('/**
                                                                      * @testWith ["\"", "\""]
@@ -694,20 +713,20 @@ class TestTest extends TestCase
         $this->assertEquals([['"', '"']], $result);
     }
 
-    public function testTestWithThrowsProperExceptionIfDatasetCannotBeParsed()
+    public function testTestWithThrowsProperExceptionIfDatasetCannotBeParsed(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessageRegExp('/^The dataset for the @testWith annotation cannot be parsed:/');
+        $this->expectExceptionMessageRegExp('/^The data set for the @testWith annotation cannot be parsed:/');
 
         Test::getDataFromTestWithAnnotation('/**
                                                            * @testWith [s]
                                                            */');
     }
 
-    public function testTestWithThrowsProperExceptionIfMultiLineDatasetCannotBeParsed()
+    public function testTestWithThrowsProperExceptionIfMultiLineDatasetCannotBeParsed(): void
     {
         $this->expectException(Exception::class);
-        $this->expectExceptionMessageRegExp('/^The dataset for the @testWith annotation cannot be parsed:/');
+        $this->expectExceptionMessageRegExp('/^The data set for the @testWith annotation cannot be parsed:/');
 
         Test::getDataFromTestWithAnnotation('/**
                                                            * @testWith ["valid"]
@@ -718,7 +737,7 @@ class TestTest extends TestCase
     /**
      * @todo Not sure what this test tests (name is misleading at least)
      */
-    public function testParseAnnotation()
+    public function testParseAnnotation(): void
     {
         $this->assertEquals(
             ['Foo', 'ほげ'],
@@ -732,11 +751,11 @@ class TestTest extends TestCase
      *
      * @todo Remove fixture from test class
      */
-    public function methodForTestParseAnnotation()
+    public function methodForTestParseAnnotation(): void
     {
     }
 
-    public function testParseAnnotationThatIsOnlyOneLine()
+    public function testParseAnnotationThatIsOnlyOneLine(): void
     {
         $this->assertEquals(
             ['Bar'],
@@ -745,27 +764,37 @@ class TestTest extends TestCase
     }
 
     /** @depends Bar */
-    public function methodForTestParseAnnotationThatIsOnlyOneLine()
+    public function methodForTestParseAnnotationThatIsOnlyOneLine(): void
     {
         // TODO Remove fixture from test class
     }
 
     /**
      * @dataProvider getLinesToBeCoveredProvider
+     *
+     * @throws CodeCoverageException
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testGetLinesToBeCovered($test, $lines)
+    public function testGetLinesToBeCovered($test, $lines): void
     {
         if (\strpos($test, 'Namespace') === 0) {
             $expected = [
-              TEST_FILES_PATH . 'NamespaceCoveredClass.php' => $lines
+                TEST_FILES_PATH . 'NamespaceCoveredClass.php' => $lines,
             ];
+        } elseif ($test === 'CoverageMethodNothingCoversMethod') {
+            $expected = false;
+        } elseif ($test === 'CoverageCoversOverridesCoversNothingTest') {
+            $expected = [TEST_FILES_PATH . 'CoveredClass.php' => $lines];
         } elseif ($test === 'CoverageNoneTest') {
             $expected = [];
-        } elseif ($test === 'CoverageNothingTest') {
+        } elseif ($test === 'CoverageClassNothingTest') {
+            $expected = false;
+        } elseif ($test === 'CoverageMethodNothingTest') {
             $expected = false;
         } elseif ($test === 'CoverageFunctionTest') {
             $expected = [
-              TEST_FILES_PATH . 'CoveredFunction.php' => $lines
+                TEST_FILES_PATH . 'CoveredFunction.php' => $lines,
             ];
         } else {
             $expected = [TEST_FILES_PATH . 'CoveredClass.php' => $lines];
@@ -780,7 +809,7 @@ class TestTest extends TestCase
         );
     }
 
-    public function testGetLinesToBeCovered2()
+    public function testGetLinesToBeCovered2(): void
     {
         $this->expectException(CodeCoverageException::class);
 
@@ -790,7 +819,7 @@ class TestTest extends TestCase
         );
     }
 
-    public function testGetLinesToBeCovered3()
+    public function testGetLinesToBeCovered3(): void
     {
         $this->expectException(CodeCoverageException::class);
 
@@ -800,7 +829,7 @@ class TestTest extends TestCase
         );
     }
 
-    public function testGetLinesToBeCovered4()
+    public function testGetLinesToBeCovered4(): void
     {
         $this->expectException(CodeCoverageException::class);
 
@@ -810,7 +839,7 @@ class TestTest extends TestCase
         );
     }
 
-    public function testGetLinesToBeCoveredSkipsNonExistentMethods()
+    public function testGetLinesToBeCoveredSkipsNonExistentMethods(): void
     {
         $this->assertSame(
             [],
@@ -821,7 +850,7 @@ class TestTest extends TestCase
         );
     }
 
-    public function testTwoCoversDefaultClassAnnotationsAreNotAllowed()
+    public function testTwoCoversDefaultClassAnnotationsAreNotAllowed(): void
     {
         $this->expectException(CodeCoverageException::class);
 
@@ -831,10 +860,10 @@ class TestTest extends TestCase
         );
     }
 
-    public function testFunctionParenthesesAreAllowed()
+    public function testFunctionParenthesesAreAllowed(): void
     {
         $this->assertSame(
-            [TEST_FILES_PATH . 'CoveredFunction.php' => \range(2, 4)],
+            [TEST_FILES_PATH . 'CoveredFunction.php' => \range(10, 12)],
             Test::getLinesToBeCovered(
                 'CoverageFunctionParenthesesTest',
                 'testSomething'
@@ -842,10 +871,10 @@ class TestTest extends TestCase
         );
     }
 
-    public function testFunctionParenthesesAreAllowedWithWhitespace()
+    public function testFunctionParenthesesAreAllowedWithWhitespace(): void
     {
         $this->assertSame(
-            [TEST_FILES_PATH . 'CoveredFunction.php' => \range(2, 4)],
+            [TEST_FILES_PATH . 'CoveredFunction.php' => \range(10, 12)],
             Test::getLinesToBeCovered(
                 'CoverageFunctionParenthesesWhitespaceTest',
                 'testSomething'
@@ -853,10 +882,10 @@ class TestTest extends TestCase
         );
     }
 
-    public function testMethodParenthesesAreAllowed()
+    public function testMethodParenthesesAreAllowed(): void
     {
         $this->assertSame(
-            [TEST_FILES_PATH . 'CoveredClass.php' => \range(31, 35)],
+            [TEST_FILES_PATH . 'CoveredClass.php' => \range(29, 33)],
             Test::getLinesToBeCovered(
                 'CoverageMethodParenthesesTest',
                 'testSomething'
@@ -864,10 +893,10 @@ class TestTest extends TestCase
         );
     }
 
-    public function testMethodParenthesesAreAllowedWithWhitespace()
+    public function testMethodParenthesesAreAllowedWithWhitespace(): void
     {
         $this->assertSame(
-            [TEST_FILES_PATH . 'CoveredClass.php' => \range(31, 35)],
+            [TEST_FILES_PATH . 'CoveredClass.php' => \range(29, 33)],
             Test::getLinesToBeCovered(
                 'CoverageMethodParenthesesWhitespaceTest',
                 'testSomething'
@@ -875,11 +904,11 @@ class TestTest extends TestCase
         );
     }
 
-    public function testNamespacedFunctionCanBeCoveredOrUsed()
+    public function testNamespacedFunctionCanBeCoveredOrUsed(): void
     {
         $this->assertEquals(
             [
-                TEST_FILES_PATH . 'NamespaceCoveredFunction.php' => \range(4, 7)
+                TEST_FILES_PATH . 'NamespaceCoveredFunction.php' => \range(12, 15),
             ],
             Test::getLinesToBeCovered(
                 \CoverageNamespacedFunctionTest::class,
@@ -888,109 +917,121 @@ class TestTest extends TestCase
         );
     }
 
-    public function getLinesToBeCoveredProvider()
+    public function getLinesToBeCoveredProvider(): array
     {
         return [
-          [
-            'CoverageNoneTest',
-            []
-          ],
-          [
-            'CoverageClassExtendedTest',
-            \array_merge(\range(19, 36), \range(2, 17))
-          ],
-          [
-            'CoverageClassTest',
-            \range(19, 36)
-          ],
-          [
-            'CoverageMethodTest',
-            \range(31, 35)
-          ],
-          [
-            'CoverageMethodOneLineAnnotationTest',
-            \range(31, 35)
-          ],
-          [
-            'CoverageNotPrivateTest',
-            \array_merge(\range(25, 29), \range(31, 35))
-          ],
-          [
-            'CoverageNotProtectedTest',
-            \array_merge(\range(21, 23), \range(31, 35))
-          ],
-          [
-            'CoverageNotPublicTest',
-            \array_merge(\range(21, 23), \range(25, 29))
-          ],
-          [
-            'CoveragePrivateTest',
-            \range(21, 23)
-          ],
-          [
-            'CoverageProtectedTest',
-            \range(25, 29)
-          ],
-          [
-            'CoveragePublicTest',
-            \range(31, 35)
-          ],
-          [
-            'CoverageFunctionTest',
-            \range(2, 4)
-          ],
-          [
-            'NamespaceCoverageClassExtendedTest',
-            \array_merge(\range(21, 38), \range(4, 19))
-          ],
-          [
-            'NamespaceCoverageClassTest',
-            \range(21, 38)
-          ],
-          [
-            'NamespaceCoverageMethodTest',
-            \range(33, 37)
-          ],
-          [
-            'NamespaceCoverageNotPrivateTest',
-            \array_merge(\range(27, 31), \range(33, 37))
-          ],
-          [
-            'NamespaceCoverageNotProtectedTest',
-            \array_merge(\range(23, 25), \range(33, 37))
-          ],
-          [
-            'NamespaceCoverageNotPublicTest',
-            \array_merge(\range(23, 25), \range(27, 31))
-          ],
-          [
-            'NamespaceCoveragePrivateTest',
-            \range(23, 25)
-          ],
-          [
-            'NamespaceCoverageProtectedTest',
-            \range(27, 31)
-          ],
-          [
-            'NamespaceCoveragePublicTest',
-            \range(33, 37)
-          ],
-          [
-            'NamespaceCoverageCoversClassTest',
-            \array_merge(\range(23, 25), \range(27, 31), \range(33, 37), \range(6, 8), \range(10, 13), \range(15, 18))
-          ],
-          [
-            'NamespaceCoverageCoversClassPublicTest',
-            \range(33, 37)
-          ],
-          [
-            'CoverageNothingTest',
-            false
-          ]
+            [
+                'CoverageNoneTest',
+                [],
+            ],
+            [
+                'CoverageClassExtendedTest',
+                \array_merge(\range(27, 44), \range(10, 25)),
+            ],
+            [
+                'CoverageClassTest',
+                \range(27, 44),
+            ],
+            [
+                'CoverageMethodTest',
+                \range(29, 33),
+            ],
+            [
+                'CoverageMethodOneLineAnnotationTest',
+                \range(29, 33),
+            ],
+            [
+                'CoverageNotPrivateTest',
+                \array_merge(\range(29, 33), \range(35, 39)),
+            ],
+            [
+                'CoverageNotProtectedTest',
+                \array_merge(\range(29, 33), \range(41, 43)),
+            ],
+            [
+                'CoverageNotPublicTest',
+                \array_merge(\range(35, 39), \range(41, 43)),
+            ],
+            [
+                'CoveragePrivateTest',
+                \range(41, 43),
+            ],
+            [
+                'CoverageProtectedTest',
+                \range(35, 39),
+            ],
+            [
+                'CoveragePublicTest',
+                \range(29, 33),
+            ],
+            [
+                'CoverageFunctionTest',
+                \range(10, 12),
+            ],
+            [
+                'NamespaceCoverageClassExtendedTest',
+                \array_merge(\range(29, 46), \range(12, 27)),
+            ],
+            [
+                'NamespaceCoverageClassTest',
+                \range(29, 46),
+            ],
+            [
+                'NamespaceCoverageMethodTest',
+                \range(31, 35),
+            ],
+            [
+                'NamespaceCoverageNotPrivateTest',
+                \array_merge(\range(31, 35), \range(37, 41)),
+            ],
+            [
+                'NamespaceCoverageNotProtectedTest',
+                \array_merge(\range(31, 35), \range(43, 45)),
+            ],
+            [
+                'NamespaceCoverageNotPublicTest',
+                \array_merge(\range(37, 41), \range(43, 45)),
+            ],
+            [
+                'NamespaceCoveragePrivateTest',
+                \range(43, 45),
+            ],
+            [
+                'NamespaceCoverageProtectedTest',
+                \range(37, 41),
+            ],
+            [
+                'NamespaceCoveragePublicTest',
+                \range(31, 35),
+            ],
+            [
+                'NamespaceCoverageCoversClassTest',
+                \array_merge(\range(43, 45), \range(37, 41), \range(31, 35), \range(24, 26), \range(19, 22), \range(14, 17)),
+            ],
+            [
+                'NamespaceCoverageCoversClassPublicTest',
+                \range(31, 35),
+            ],
+            [
+                'CoverageClassNothingTest',
+                false,
+            ],
+            [
+                'CoverageMethodNothingTest',
+                false,
+            ],
+            [
+                'CoverageCoversOverridesCoversNothingTest',
+                \range(29, 33),
+            ],
+            [
+                'CoverageMethodNothingCoversMethod',
+                false,
+            ],
         ];
     }
 
-    public function testParseTestMethodAnnotationsIncorporatesTraits()
+    public function testParseTestMethodAnnotationsIncorporatesTraits(): void
     {
         $result = Test::parseTestMethodAnnotations(\ParseTestMethodAnnotationsMock::class);
 
@@ -998,5 +1039,18 @@ class TestTest extends TestCase
         $this->assertArrayHasKey('method', $result);
         $this->assertArrayHasKey('theClassAnnotation', $result['class']);
         $this->assertArrayHasKey('theTraitAnnotation', $result['class']);
+    }
+
+    public function testCoversAnnotationIncludesTraitsUsedByClass(): void
+    {
+        $this->assertSame(
+            [
+                TEST_FILES_PATH . '3194.php' => \array_merge(\range(21, 29), \range(13, 19)),
+            ],
+            Test::getLinesToBeCovered(
+                \Test3194::class,
+                'testOne'
+            )
+        );
     }
 }

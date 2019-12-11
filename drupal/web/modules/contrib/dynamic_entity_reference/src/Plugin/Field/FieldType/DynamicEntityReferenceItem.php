@@ -586,7 +586,7 @@ class DynamicEntityReferenceItem extends EntityReferenceItem {
                 // setting, disable the auto-creation feature completely.
                 $auto_create_bundle = !empty($handler_settings['auto_create_bundle']) ? $handler_settings['auto_create_bundle'] : FALSE;
                 if ($auto_create_bundle && $auto_create_bundle == $bundle->id()) {
-                  $handler_settings['auto_create'] = NULL;
+                  $handler_settings['auto_create'] = FALSE;
                   $handler_settings['auto_create_bundle'] = NULL;
                 }
 

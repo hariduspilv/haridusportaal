@@ -34,7 +34,7 @@ class DynamicEntityReferenceWidgetTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'dynamic_entity_reference',
     'field_ui',
     'node',
@@ -52,6 +52,11 @@ class DynamicEntityReferenceWidgetTest extends BrowserTestBase {
     'administer node form display',
     'bypass node access',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * Sets up a Drupal site for running functional and integration tests.

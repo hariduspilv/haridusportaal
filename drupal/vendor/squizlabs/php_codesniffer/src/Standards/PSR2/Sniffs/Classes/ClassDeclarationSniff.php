@@ -9,9 +9,9 @@
 
 namespace PHP_CodeSniffer\Standards\PSR2\Sniffs\Classes;
 
+use PHP_CodeSniffer\Files\File;
 use PHP_CodeSniffer\Standards\PEAR\Sniffs\Classes\ClassDeclarationSniff as PEARClassDeclarationSniff;
 use PHP_CodeSniffer\Util\Tokens;
-use PHP_CodeSniffer\Files\File;
 
 class ClassDeclarationSniff extends PEARClassDeclarationSniff
 {
@@ -503,21 +503,23 @@ class ClassDeclarationSniff extends PEARClassDeclarationSniff
             }
         }//end if
 
-        // Check the closing brace is on it's own line, but allow
-        // for comments like "//end class".
-        $ignoreTokens   = Tokens::$phpcsCommentTokens;
-        $ignoreTokens[] = T_WHITESPACE;
-        $ignoreTokens[] = T_COMMENT;
-        $ignoreTokens[] = T_SEMICOLON;
-        $ignoreTokens[] = T_COMMA;
-        $nextContent    = $phpcsFile->findNext($ignoreTokens, ($closeBrace + 1), null, true);
-        if ($tokens[$nextContent]['content'] !== $phpcsFile->eolChar
-            && $tokens[$nextContent]['line'] === $tokens[$closeBrace]['line']
-        ) {
-            $type  = strtolower($tokens[$stackPtr]['content']);
-            $error = 'Closing %s brace must be on a line by itself';
-            $data  = [$type];
-            $phpcsFile->addError($error, $closeBrace, 'CloseBraceSameLine', $data);
+        if ($tokens[$stackPtr]['code'] !== T_ANON_CLASS) {
+            // Check the closing brace is on it's own line, but allow
+            // for comments like "//end class".
+            $ignoreTokens   = Tokens::$phpcsCommentTokens;
+            $ignoreTokens[] = T_WHITESPACE;
+            $ignoreTokens[] = T_COMMENT;
+            $ignoreTokens[] = T_SEMICOLON;
+            $ignoreTokens[] = T_COMMA;
+            $nextContent    = $phpcsFile->findNext($ignoreTokens, ($closeBrace + 1), null, true);
+            if ($tokens[$nextContent]['content'] !== $phpcsFile->eolChar
+                && $tokens[$nextContent]['line'] === $tokens[$closeBrace]['line']
+            ) {
+                $type  = strtolower($tokens[$stackPtr]['content']);
+                $error = 'Closing %s brace must be on a line by itself';
+                $data  = [$type];
+                $phpcsFile->addError($error, $closeBrace, 'CloseBraceSameLine', $data);
+            }
         }
 
     }//end processClose()

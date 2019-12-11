@@ -88,7 +88,7 @@ site. If this applies to you, please note that you will need to update any
 hard coded links in your content or blocks.
 
 If you use the "system path" (i.e. node/10) for menu items and settings like
-that, Drupal will replace it with the url_alias.
+that, Drupal will replace it with the url alias.
 
 
 FAQs

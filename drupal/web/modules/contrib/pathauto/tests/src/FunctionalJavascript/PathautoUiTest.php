@@ -21,7 +21,7 @@ class PathautoUiTest extends WebDriverTestBase {
    *
    * @var array
    */
-  public static $modules = ['pathauto', 'node'];
+  public static $modules = ['pathauto', 'node', 'block'];
 
   /**
    * Admin user.
@@ -63,7 +63,18 @@ class PathautoUiTest extends WebDriverTestBase {
   }
 
   function testPatternsWorkflow() {
-    $this->drupalGet('admin/config/search/path/patterns/add');
+    $this->drupalPlaceBlock('local_tasks_block');
+    $this->drupalPlaceBlock('local_actions_block');
+    $this->drupalPlaceBlock('page_title_block');
+
+    $this->drupalGet('admin/config/search/path');
+    $this->assertSession()->elementContains('css', '.block-local-tasks-block', 'Patterns');
+    $this->assertSession()->elementContains('css', '.block-local-tasks-block', 'Settings');
+    $this->assertSession()->elementContains('css', '.block-local-tasks-block', 'Bulk generate');
+    $this->assertSession()->elementContains('css', '.block-local-tasks-block', 'Delete aliases');
+
+    $this->drupalGet('admin/config/search/path/patterns');
+    $this->clickLink('Add Pathauto pattern');
 
     $session = $this->getSession();
     $session->getPage()->fillField('type', 'canonical_entities:node');
