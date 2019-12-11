@@ -31,6 +31,9 @@ class IconFileUsageTest extends KernelTestBase {
     $this->installEntitySchema('user');
     $this->installEntitySchema('file');
     $this->installEntitySchema('embed_button');
+    $this->config('file.settings')
+      ->set('make_unused_managed_files_temporary', TRUE)
+      ->save();
 
     $file1 = file_save_data(file_get_contents('core/misc/druplicon.png'));
     $file1->setTemporary();

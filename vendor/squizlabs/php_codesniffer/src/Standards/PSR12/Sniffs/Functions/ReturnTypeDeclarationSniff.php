@@ -1,6 +1,6 @@
 <?php
 /**
- * Ensure return types are defined correctly for fucnctions and closures.
+ * Ensure return types are defined correctly for functions and closures.
  *
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @copyright 2006-2019 Squiz Pty Ltd (ABN 77 084 670 600)
@@ -9,9 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\PSR12\Sniffs\Functions;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Util\Tokens;
+use PHP_CodeSniffer\Sniffs\Sniff;
 
 class ReturnTypeDeclarationSniff implements Sniff
 {
@@ -27,6 +26,7 @@ class ReturnTypeDeclarationSniff implements Sniff
         return [
             T_FUNCTION,
             T_CLOSURE,
+            T_FN,
         ];
 
     }//end register()

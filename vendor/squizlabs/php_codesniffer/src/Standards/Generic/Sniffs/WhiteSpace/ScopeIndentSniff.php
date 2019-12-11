@@ -9,10 +9,10 @@
 
 namespace PHP_CodeSniffer\Standards\Generic\Sniffs\WhiteSpace;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
-use PHP_CodeSniffer\Files\File;
-use PHP_CodeSniffer\Util\Tokens;
 use PHP_CodeSniffer\Config;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
+use PHP_CodeSniffer\Util\Tokens;
 
 class ScopeIndentSniff implements Sniff
 {
@@ -483,12 +483,7 @@ class ScopeIndentSniff implements Sniff
 
                 $arrayOpener = $tokens[$arrayCloser]['bracket_opener'];
                 if ($tokens[$arrayCloser]['line'] !== $tokens[$arrayOpener]['line']) {
-                    $first       = $phpcsFile->findFirstOnLine(T_WHITESPACE, $arrayOpener, true);
-                    $checkIndent = ($tokens[$first]['column'] - 1);
-                    if (isset($adjustments[$first]) === true) {
-                        $checkIndent += $adjustments[$first];
-                    }
-
+                    $first = $phpcsFile->findFirstOnLine(T_WHITESPACE, $arrayOpener, true);
                     $exact = false;
 
                     if ($this->debug === true) {
@@ -522,6 +517,11 @@ class ScopeIndentSniff implements Sniff
                         }
                     } else if ($tokens[$first]['code'] === T_WHITESPACE) {
                         $first = $phpcsFile->findNext(T_WHITESPACE, ($first + 1), null, true);
+                    }
+
+                    $checkIndent = ($tokens[$first]['column'] - 1);
+                    if (isset($adjustments[$first]) === true) {
+                        $checkIndent += $adjustments[$first];
                     }
 
                     if (isset($tokens[$first]['scope_closer']) === true
@@ -846,7 +846,8 @@ class ScopeIndentSniff implements Sniff
                 $next = $phpcsFile->findNext(Tokens::$emptyTokens, ($checkToken + 1), null, true);
                 if ($next === false
                     || ($tokens[$next]['code'] !== T_CLOSURE
-                    && $tokens[$next]['code'] !== T_VARIABLE)
+                    && $tokens[$next]['code'] !== T_VARIABLE
+                    && $tokens[$next]['code'] !== T_FN)
                 ) {
                     if ($this->debug === true) {
                         $line = $tokens[$checkToken]['line'];
@@ -893,8 +894,6 @@ class ScopeIndentSniff implements Sniff
                         }
                     }
                 }
-
-                $checkIndent = (int) (ceil($checkIndent / $this->indent) * $this->indent);
             }//end if
 
             // Close tags needs to be indented to exact column positions.
@@ -1121,7 +1120,7 @@ class ScopeIndentSniff implements Sniff
                     if ($this->debug === true) {
                         $type = str_replace('_', ' ', strtolower(substr($tokens[$i]['type'], 2)));
                         $line = $tokens[$i]['line'];
-                        echo "* ignoring single-line $type on line $line".PHP_EOL;
+                        echo "* ignoring single-line $type on line $line *".PHP_EOL;
                     }
 
                     $i = $closer;
@@ -1191,7 +1190,7 @@ class ScopeIndentSniff implements Sniff
                     if ($this->debug === true) {
                         $line = $tokens[$i]['line'];
                         $type = $tokens[$i]['type'];
-                        echo "* ignoring single-line $type on line $line".PHP_EOL;
+                        echo "* ignoring single-line $type on line $line *".PHP_EOL;
                     }
 
                     $i = $closer;
@@ -1199,6 +1198,16 @@ class ScopeIndentSniff implements Sniff
                 }
 
                 $condition = $tokens[$tokens[$i]['scope_condition']]['code'];
+                if ($condition === T_FN) {
+                    if ($this->debug === true) {
+                        $line = $tokens[$tokens[$i]['scope_condition']]['line'];
+                        echo "* ignoring arrow function on line $line *".PHP_EOL;
+                    }
+
+                    $i = $closer;
+                    continue;
+                }
+
                 if (isset(Tokens::$scopeOpeners[$condition]) === true
                     && in_array($condition, $this->nonIndentingScopes, true) === false
                 ) {
@@ -1238,7 +1247,7 @@ class ScopeIndentSniff implements Sniff
                 if ($tokens[$i]['line'] === $tokens[$closer]['line']) {
                     if ($this->debug === true) {
                         $line = $tokens[$i]['line'];
-                        echo "* ignoring single-line JS object on line $line".PHP_EOL;
+                        echo "* ignoring single-line JS object on line $line *".PHP_EOL;
                     }
 
                     $i = $closer;

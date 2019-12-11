@@ -115,7 +115,8 @@ class EmbedButton extends ConfigEntityBase implements EmbedButtonInterface {
    */
   public function getIconFile() {
     if ($this->icon_uuid) {
-      return $this->entityManager()->loadEntityByUuid('file', $this->icon_uuid);
+      $files = $this->entityTypeManager()->getStorage('file')->loadByProperties(['uuid' => $this->icon_uuid]);
+      return reset($files);
     }
   }
 
@@ -138,7 +139,7 @@ class EmbedButton extends ConfigEntityBase implements EmbedButtonInterface {
     parent::calculateDependencies();
 
     // Add the file icon entity as dependency if an UUID was specified.
-    if ($this->icon_uuid && $file_icon = $this->entityManager()->loadEntityByUuid('file', $this->icon_uuid)) {
+    if ($file_icon = $this->getIconFile()) {
       $this->addDependency($file_icon->getConfigDependencyKey(), $file_icon->getConfigDependencyName());
     }
 
