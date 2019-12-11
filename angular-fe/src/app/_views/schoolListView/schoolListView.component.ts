@@ -1,4 +1,5 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, AfterViewInit,
+  ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 
@@ -43,6 +44,7 @@ export class SchoolListViewComponent implements AfterViewInit {
   checkLanguageDisable():void {
     // 3441 - huvikool
     // 3440 - täienduskoolitusasutus
+
     if (this.selectedPrimaryTypes.length === 1) {
       this.isLanguageDisabled =
         this.selectedPrimaryTypes.includes('3441') || this.selectedPrimaryTypes.includes('3440')
@@ -57,25 +59,33 @@ export class SchoolListViewComponent implements AfterViewInit {
       return;
     }
     this.isLanguageDisabled = false;
+    this.cdr.detectChanges();
   }
   ngAfterViewInit() {
     const responsive = this.filterToggle.nativeElement.clientWidth;
     this.showFilter = responsive ? false : true;
     this.filterFull = responsive ? true : false;
+    this.cdr.detectChanges();
   }
 
   setSecondaryTypes() {
     this.secondaryFilteredTypes = [];
-    this.selectedPrimaryTypes.forEach((element) => {
-      this.secondaryTypes.forEach((el) => {
-        if (el.parent === Number(element)) {
-          this.secondaryFilteredTypes.push({ value: el.value, key: el.key });
-        }
+    if (this.selectedPrimaryTypes && this.selectedPrimaryTypes.length > 0) {
+      this.selectedPrimaryTypes.forEach((element) => {
+        this.secondaryTypes.forEach((el) => {
+          if (el.parent === Number(element)) {
+            this.secondaryFilteredTypes.push({ value: `${el.value}`, key: el.key });
+          }
+        });
       });
-    });
+      if (this.secondaryFilteredTypes.length === 0) {
+        this.selectedSecondaryTypes = [];
+      }
+    } else {
+      this.selectedSecondaryTypes = [];
+    }
     this.removeHangingTypes();
     this.setTypeValue();
-    console.log(this.selectedTypes);
   }
 
   removeHangingTypes() {
@@ -91,14 +101,11 @@ export class SchoolListViewComponent implements AfterViewInit {
   }
 
   setTypeValue() {
-    this.combinedTypesOptions = [...this.selectedPrimaryTypes, ...this.selectedSecondaryTypes].map((el) => {
-      return {
-        key: el,
-        value: el,
-      }
-    });
-    this.selectedTypes = [...this.selectedPrimaryTypes, ...this.selectedSecondaryTypes].map(el => `${parseInt(el)}`);
-    console.log(this.selectedTypes);
+    this.combinedTypesOptions =
+      [...this.primaryTypes, ...this.secondaryTypes];
+    this.selectedTypes =
+      [...this.selectedPrimaryTypes, ...this.selectedSecondaryTypes];
+    this.checkLanguageDisable();
     this.cdr.detectChanges();
   }
 
@@ -126,7 +133,6 @@ export class SchoolListViewComponent implements AfterViewInit {
           this.ownershipFilters.push({ value: el.entityId, key: el.entityLabel });
         }
       });
-
       subscribe.unsubscribe();
     });
   }

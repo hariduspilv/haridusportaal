@@ -42,19 +42,17 @@
 							title="{{ 'school.institution_type' | translate }}" name="primaryTypes" [options]="primaryTypes" (onChange)="setSecondaryTypes()">
 						</formItem>
 					</div>
-
-					<div *ngIf="secondaryFilteredTypes" class="col-5 sm-12" [class.disabled]="selectedPrimaryTypes.length ? false : true">
+					<div class="col-5 sm-12" [class.disabled]="secondaryFilteredTypes.length > 0 ? false : true">
 						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"
 							title="{{ 'school.institution_sublevel' | translate }}" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
 						</formItem>
 					</div>
 
-					<div class="hidden">
+					<!-- <div class="hidden">
 						<formItem type="multi-select" title="" name="type" [options]="primaryTypes"
 							[(ngModel)]="selectedTypes" (onChange)="checkLanguageDisable()">
 						</formItem>
-					</div>
-					
+					</div> -->
 					<div class="col-4 sm-12" [class.disabled]="isLanguageDisabled">
 						<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language" [options]="languageFilters">
 						</formItem>

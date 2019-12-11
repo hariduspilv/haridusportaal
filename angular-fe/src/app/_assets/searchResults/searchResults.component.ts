@@ -155,6 +155,17 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         values.limit = this.limit;
 
         let query = `queryName=${this.queryName}`;
+        // TODO @KOKK: FIX SO WE DONT NEED THIS HACK
+        if (this.queryName === 'schoolMapQuery') {
+          if (values.primaryTypes) {
+            values.type = values.primaryTypes.split(';');
+            values.typeEnabled = true;
+          }
+          if (values.secondaryTypes) {
+            values.type = [...values.type, ...values.secondaryTypes.split(';')];
+            values.typeEnabled = true;
+          }
+        }
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;
 
