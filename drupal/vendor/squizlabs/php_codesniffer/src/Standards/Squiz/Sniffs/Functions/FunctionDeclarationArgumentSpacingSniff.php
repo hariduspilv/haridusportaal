@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Functions;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class FunctionDeclarationArgumentSpacingSniff implements Sniff
@@ -48,6 +48,7 @@ class FunctionDeclarationArgumentSpacingSniff implements Sniff
         return [
             T_FUNCTION,
             T_CLOSURE,
+            T_FN,
         ];
 
     }//end register()
@@ -259,7 +260,7 @@ class FunctionDeclarationArgumentSpacingSniff implements Sniff
                 if ($tokens[($commaToken - 1)]['code'] === T_WHITESPACE) {
                     $error = 'Expected 0 spaces between argument "%s" and comma; %s found';
                     $data  = [
-                        $param['name'],
+                        $params[($paramNumber - 1)]['name'],
                         $tokens[($commaToken - 1)]['length'],
                     ];
 
