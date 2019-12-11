@@ -12,3 +12,7 @@ function foo(string $bar, array $baz, ?MyClass $object) : MyClass {}
 class Example {
     public ?int $scalarType;
 }
+
+$a = fn(?\DateTime $x) : ?\DateTime => $x;
+
+$b = fn ($b) => $b ? true : false;

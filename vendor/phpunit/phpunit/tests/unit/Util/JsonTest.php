@@ -7,29 +7,30 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace PHPUnit\Util;
 
+use PHPUnit\Framework\Exception;
 use PHPUnit\Framework\TestCase;
 
 class JsonTest extends TestCase
 {
     /**
      * @dataProvider canonicalizeProvider
+     *
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testCanonicalize($actual, $expected, $expectError)
+    public function testCanonicalize($actual, $expected, $expectError): void
     {
-        list($error, $canonicalized) = Json::canonicalize($actual);
+        [$error, $canonicalized] = Json::canonicalize($actual);
         $this->assertEquals($expectError, $error);
+
         if (!$expectError) {
             $this->assertEquals($expected, $canonicalized);
         }
     }
 
-    /**
-     * @return array
-     */
-    public function canonicalizeProvider()
+    public function canonicalizeProvider(): array
     {
         return [
             ['{"name":"John","age":"35"}', '{"age":"35","name":"John"}', false],
@@ -40,36 +41,36 @@ class JsonTest extends TestCase
 
     /**
      * @dataProvider prettifyProvider
+     *
+     * @throws \PHPUnit\Framework\Exception
+     * @throws \PHPUnit\Framework\ExpectationFailedException
+     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function testPrettify($actual, $expected)
+    public function testPrettify($actual, $expected): void
     {
         $this->assertEquals($expected, Json::prettify($actual));
     }
 
-    /**
-     * @return array
-     */
-    public function prettifyProvider()
+    public function prettifyProvider(): array
     {
         return [
             ['{"name":"John","age": "5"}', "{\n    \"name\": \"John\",\n    \"age\": \"5\"\n}"],
+            ['{"url":"https://www.example.com/"}', "{\n    \"url\": \"https://www.example.com/\"\n}"],
         ];
     }
 
     /**
      * @dataProvider prettifyExceptionProvider
-     * @expectedException \PHPUnit\Framework\Exception
-     * @expectedExceptionMessage Cannot prettify invalid json
      */
-    public function testPrettifyException($json)
+    public function testPrettifyException($json): void
     {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Cannot prettify invalid json');
+
         Json::prettify($json);
     }
 
-    /**
-     * @return array
-     */
-    public function prettifyExceptionProvider()
+    public function prettifyExceptionProvider(): array
     {
         return [
             ['"name":"John","age": "5"}'],
