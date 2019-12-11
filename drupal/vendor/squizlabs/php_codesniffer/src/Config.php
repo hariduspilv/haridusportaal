@@ -12,8 +12,8 @@
 
 namespace PHP_CodeSniffer;
 
-use PHP_CodeSniffer\Exceptions\RuntimeException;
 use PHP_CodeSniffer\Exceptions\DeepExitException;
+use PHP_CodeSniffer\Exceptions\RuntimeException;
 
 class Config
 {
@@ -23,7 +23,7 @@ class Config
      *
      * @var string
      */
-    const VERSION = '3.5.2';
+    const VERSION = '3.5.3';
 
     /**
      * Package stability; either stable, beta or alpha.

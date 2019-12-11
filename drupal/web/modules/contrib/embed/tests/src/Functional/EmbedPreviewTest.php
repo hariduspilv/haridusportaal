@@ -21,6 +21,11 @@ class EmbedPreviewTest extends BrowserTestBase {
   public static $modules = ['embed_test', 'filter'];
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Tests that out-of-band assets are included with previews.
    */
   public function testPreview() {

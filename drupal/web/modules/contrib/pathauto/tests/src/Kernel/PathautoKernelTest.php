@@ -48,6 +48,9 @@ class PathautoKernelTest extends KernelTestBase {
     $this->installEntitySchema('user');
     $this->installEntitySchema('node');
     $this->installEntitySchema('taxonomy_term');
+    if ($this->container->get('entity_type.manager')->hasDefinition('path_alias')) {
+      $this->installEntitySchema('path_alias');
+    }
     $this->installConfig(['pathauto', 'taxonomy', 'system', 'node']);
 
     ConfigurableLanguage::createFromLangcode('fr')->save();
