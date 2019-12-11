@@ -164,10 +164,7 @@ class xJsonFile2RestResource extends ResourceBase {
     public function post(Request $request, $form_name, $field_name)
     {
       $request_body = json_decode($request->getContent());
-      dump($request_body);
-      die();
-        $filename = $this->validateAndParseContentDispositionHeader($request);
-        $validators = $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name);
+        $validators = isset($request_body->table_element) ? $validators = $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name, $request_body->table_element) : $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name);
         dump($filename);
         dump($validators);
         die();
@@ -316,9 +313,12 @@ class xJsonFile2RestResource extends ResourceBase {
         return $this->fileSystem->basename($filename);
     }
 
-    protected function validateAndLoadxJsonFieldDefinition($form_name, $field_name){
+    protected function validateAndLoadxJsonFieldDefinition($form_name, $field_name, $table_field = false){
         $defElement = $this->xjsonService->searchDefinitionElement($field_name, NULL, $form_name);
         $defElement = reset($defElement);
+        if($table_field){
+          dump($defElement);
+        }
         if(!isset($defElement['acceptable_extensions'])){
             throw new NotFoundHttpException(sprintf('Field "%s" does not exist', $field_name));
         }
