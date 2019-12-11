@@ -216,7 +216,7 @@ function paragraphs_post_update_rebuild_parent_fields(array &$sandbox) {
 
   // Select paragraphs with at least one wrong parent field.
   $or_group = new Condition('OR');
-  $or_group->where("p.parent_id <> f.$entity_id_column");
+  $or_group->where("p.parent_id <> CAST(f.$entity_id_column as varchar)");
   $or_group->condition('p.parent_type', $entity_type_id, '<>');
   $or_group->condition('p.parent_field_name', $field_name, '<>');
   $query->condition($or_group);
