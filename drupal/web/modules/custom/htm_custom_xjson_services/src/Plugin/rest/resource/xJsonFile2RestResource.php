@@ -40,7 +40,7 @@ use Symfony\Component\Routing\Route;
  *   label = @Translation("X json file2rest resource"),
  *   uri_paths = {
  *     "canonical" = "/xjson_service/documentFile2/{file_id}/{file_name}",
- *     "create" = "/xjson_service/documentFile2/{form_name}/{field_name}"
+ *     "create" = "/xjson_service/documentFile2/{form_name}/{field_name}/{table_field}"
  *   }
  * )
  */
@@ -161,9 +161,10 @@ class xJsonFile2RestResource extends ResourceBase {
         return new ModifiedResourceResponse('File not found', 400);
     }
 
-    public function post(Request $request, $form_name, $field_name)
+    public function post(Request $request, $form_name, $field_name, $table_field)
     {
-      dump('test');
+      dump($table_field);
+      die();
         $filename = $this->validateAndParseContentDispositionHeader($request);
         $validators = $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name);
         dump($filename);
