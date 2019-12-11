@@ -316,8 +316,8 @@ class xJsonFile2RestResource extends ResourceBase {
     protected function validateAndLoadxJsonFieldDefinition($form_name, $field_name, $table_field = false){
         $defElement = $this->xjsonService->searchDefinitionElement($field_name, NULL, $form_name);
         $defElement = reset($defElement);
-        if($table_field){
-          dump($defElement);
+        if($table_field && isset($defElement['table_columns'][$table_field])){
+          $defElement = $defElement['table_columns'][$table_field];
         }
         if(!isset($defElement['acceptable_extensions'])){
             throw new NotFoundHttpException(sprintf('Field "%s" does not exist', $field_name));
