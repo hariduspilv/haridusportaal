@@ -399,6 +399,20 @@ $foo = [<<<JSON
 JSON
        ];
 
+$array = [
+          'a'   => fn() => return 1,
+          'bb'  => fn() => return 2,
+          'ccc' => ( true ) ?
+              fn() => return 1 :
+              fn() => return 2,
+         ];
+
+$array = [
+          1 => '1',
+          2 => fn ($x) => yield 'a' => $x,
+          3 => '3',
+         ];
+
 // Intentional syntax error.
 $a = [
       'a' =>

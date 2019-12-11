@@ -28,7 +28,7 @@ class DynamicEntityReferenceBaseTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'field_ui',
     'dynamic_entity_reference',
     'entity_test',
@@ -45,6 +45,11 @@ class DynamicEntityReferenceBaseTest extends BrowserTestBase {
     'administer entity_test fields',
     'administer entity_test content',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * Sets the test up.

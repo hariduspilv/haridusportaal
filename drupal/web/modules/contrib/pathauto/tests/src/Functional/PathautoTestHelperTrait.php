@@ -77,7 +77,7 @@ trait PathautoTestHelperTrait {
   }
 
   public function saveAlias($source, $alias, $langcode = Language::LANGCODE_NOT_SPECIFIED) {
-    \Drupal::service('path.alias_storage')->delete(['source' => $source, 'language', 'langcode' => $langcode]);
+    \Drupal::service('path.alias_storage')->delete(['source' => $source, 'langcode' => $langcode]);
     return \Drupal::service('path.alias_storage')->save($source, $alias, $langcode);
   }
 
@@ -119,6 +119,10 @@ trait PathautoTestHelperTrait {
 
   public function assertAlias($source, $expected_alias, $langcode = Language::LANGCODE_NOT_SPECIFIED) {
     \Drupal::service('path.alias_manager')->cacheClear($source);
+    $entity_type_manager = \Drupal::entityTypeManager();
+    if ($entity_type_manager->hasDefinition('path_alias')) {
+      $entity_type_manager->getStorage('path_alias')->resetCache();
+    }
     $this->assertEquals($expected_alias, \Drupal::service('path.alias_manager')->getAliasByPath($source, $langcode), t("Alias for %source with language '@language' is correct.",
       ['%source' => $source, '@language' => $langcode]));
   }
@@ -135,7 +139,7 @@ trait PathautoTestHelperTrait {
   }
 
   public function deleteAllAliases() {
-    \Drupal::database()->delete('url_alias')->execute();
+    \Drupal::service('pathauto.alias_storage_helper')->deleteAll();
     \Drupal::service('path.alias_manager')->cacheClear();
   }
 
