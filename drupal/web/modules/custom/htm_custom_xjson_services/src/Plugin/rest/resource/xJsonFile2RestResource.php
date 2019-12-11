@@ -163,7 +163,8 @@ class xJsonFile2RestResource extends ResourceBase {
 
     public function post(Request $request, $form_name, $field_name)
     {
-      dump($request);
+      $request_body = json_decode($request->getContent());
+      dump($request_body);
       die();
         $filename = $this->validateAndParseContentDispositionHeader($request);
         $validators = $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name);
