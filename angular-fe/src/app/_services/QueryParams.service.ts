@@ -17,7 +17,7 @@ export class QueryParamsService {
           if (!obj.match(/\D/)) {
             val = parseFloat(val);
           }
-          return val;
+          return `${val}`;
         });
       }
     });

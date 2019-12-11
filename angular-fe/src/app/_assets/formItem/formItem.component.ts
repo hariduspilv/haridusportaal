@@ -150,6 +150,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
         }
         textContainer.innerHTML = valuesText;
+        this.cdr.detectChanges();
       },
       0);
 
@@ -316,7 +317,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     if (this.name) {
       this.field = this.queryParams.getValues(this.name) || this.field;
     }
-
     if (this.type === 'select' || this.type === 'multi-select') {
       // this.field = '';
       if (this.options) {
@@ -361,6 +361,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     } else {
       this.disabled = !this.disabled ? undefined : this.disabled;
     }
+    this.cdr.detectChanges();
   }
 
   triggerOnUpdate(): void {
