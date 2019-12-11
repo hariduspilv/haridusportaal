@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\Squiz\Sniffs\Arrays;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class ArrayDeclarationSniff implements Sniff
@@ -367,6 +367,7 @@ class ArrayDeclarationSniff implements Sniff
             if ($tokens[$nextToken]['code'] === T_ARRAY
                 || $tokens[$nextToken]['code'] === T_OPEN_SHORT_ARRAY
                 || $tokens[$nextToken]['code'] === T_CLOSURE
+                || $tokens[$nextToken]['code'] === T_FN
             ) {
                 // Let subsequent calls of this test handle nested arrays.
                 if ($tokens[$lastToken]['code'] !== T_DOUBLE_ARROW) {

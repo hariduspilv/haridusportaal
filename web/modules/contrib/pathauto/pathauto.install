@@ -16,27 +16,6 @@ use Drupal\pathauto\Entity\PathautoPattern;
 function pathauto_install() {
   // Set the weight to 1.
   module_set_weight('pathauto', 1);
-
-  // Ensure the url_alias table exists.
-  _pathauto_ensure_url_alias_table_exists();
-}
-
-/**
- * Helper function to ensure the url_alias table exists.
- *
- * Only necessary on Drupal 8.1.x.
- *
- * @see https://www.drupal.org/node/2704821
- */
-function _pathauto_ensure_url_alias_table_exists() {
-  $alias_storage = \Drupal::service('path.alias_storage');
-  if (method_exists($alias_storage, 'schemaDefinition')) {
-    $database_schema = \Drupal::database()->schema();
-    if (!$database_schema->tableExists($alias_storage::TABLE)) {
-      $schema_definition = $alias_storage->schemaDefinition();
-      $database_schema->createTable($alias_storage::TABLE, $schema_definition);
-    }
-  }
 }
 
 /**
@@ -286,7 +265,7 @@ function pathauto_update_8104() {
  * Ensure the url_alias table exists.
  */
 function pathauto_update_8105() {
-  _pathauto_ensure_url_alias_table_exists();
+  // This update function is not needed anymore.
 }
 
 /**

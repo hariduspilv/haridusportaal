@@ -71,7 +71,7 @@ function dynamic_entity_reference_field_views_data(FieldStorageConfigInterface $
         $table_mapping = $entity_manager->getStorage($entity_type_id)
           ->getTableMapping();
         $args['@entity'] = $entity_type->getLabel();
-        $args['@label'] = $target_entity_type->getLowercaseLabel();
+        $args['@label'] = $target_entity_type->getSingularLabel();
         $data[$target_base_table][$pseudo_field_name]['relationship'] = [
           'title' => t('@entity using @field_name', $args),
           'label' => t('@field_name', ['@field_name' => $field_name]),

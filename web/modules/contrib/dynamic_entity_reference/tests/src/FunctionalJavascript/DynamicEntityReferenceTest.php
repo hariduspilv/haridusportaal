@@ -51,7 +51,7 @@ class DynamicEntityReferenceTest extends WebDriverTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'field_ui',
     'dynamic_entity_reference',
     'entity_test',
@@ -72,6 +72,11 @@ class DynamicEntityReferenceTest extends WebDriverTestBase {
     'administer node display',
     'access user profiles',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * Sets the test up.

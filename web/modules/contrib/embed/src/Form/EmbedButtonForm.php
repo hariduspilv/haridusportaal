@@ -11,6 +11,7 @@ use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\embed\EmbedType\EmbedTypeManager;
+use Drupal\embed\Entity\EmbedButton;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -84,7 +85,7 @@ class EmbedButtonForm extends EntityForm {
       '#maxlength' => EntityTypeInterface::BUNDLE_MAX_LENGTH,
       '#disabled' => !$button->isNew(),
       '#machine_name' => [
-        'exists' => ['Drupal\embed\Entity\EmbedButton', 'load'],
+        'exists' => [EmbedButton::class, 'load'],
       ],
       '#description' => $this->t('A unique machine-readable name for this embed button. It must only contain lowercase letters, numbers, and underscores.'),
     ];
@@ -101,8 +102,8 @@ class EmbedButtonForm extends EntityForm {
       ],
       '#disabled' => !$button->isNew(),
     ];
-    if (count($form['type_id']['#options']) == 0) {
-      drupal_set_message($this->t('No embed types found.'), 'warning');
+    if (empty($form['type_id']['#options'])) {
+      $this->messenger()->addWarning($this->t('No embed types found.'));
     }
 
     // Add the embed type plugin settings.
@@ -119,7 +120,7 @@ class EmbedButtonForm extends EntityForm {
       }
     }
     catch (PluginNotFoundException $exception) {
-      drupal_set_message($exception->getMessage(), 'error');
+      $this->messenger()->addError($exception->getMessage());
       watchdog_exception('embed', $exception);
       $form['type_id']['#disabled'] = FALSE;
     }
@@ -195,16 +196,16 @@ class EmbedButtonForm extends EntityForm {
 
     $t_args = ['%label' => $button->label()];
 
-    if ($status == SAVED_UPDATED) {
-      drupal_set_message($this->t('The embed button %label has been updated.', $t_args));
+    if ($status === SAVED_UPDATED) {
+      $this->messenger()->addStatus($this->t('The embed button %label has been updated.', $t_args));
+      $this->logger('embed')->info('Updated embed button %label.', $t_args);
     }
-    elseif ($status == SAVED_NEW) {
-      drupal_set_message($this->t('The embed button %label has been added.', $t_args));
-      $context = array_merge($t_args, ['link' => $button->link($this->t('View'), 'collection')]);
-      $this->logger('embed')->notice('Added embed button %label.', $context);
+    elseif ($status === SAVED_NEW) {
+      $this->messenger()->addStatus($this->t('The embed button %label has been added.', $t_args));
+      $this->logger('embed')->info('Added embed button %label.', $t_args);
     }
 
-    $form_state->setRedirectUrl($button->urlInfo('collection'));
+    $form_state->setRedirectUrl($button->toUrl());
   }
 
   /**

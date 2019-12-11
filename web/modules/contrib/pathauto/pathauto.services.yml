@@ -7,7 +7,7 @@ services:
     arguments: ['@config.factory', '@pathauto.alias_storage_helper', '@language_manager', '@cache.discovery', '@transliteration', '@module_handler']
   pathauto.alias_storage_helper:
     class: Drupal\pathauto\AliasStorageHelper
-    arguments: ['@config.factory', '@path.alias_storage', '@database','@pathauto.verbose_messenger', '@string_translation']
+    arguments: ['@config.factory', '@path_alias.repository', '@database','@pathauto.verbose_messenger', '@string_translation', '@entity_type.manager']
     tags:
       - { name: backend_overridable }
   pathauto.alias_uniquifier:

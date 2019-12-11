@@ -204,7 +204,7 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
      * @throws InvalidValue
      * @throws \Exception
      */
-    private function processType($data, Context $options, $path = '#')
+    private function processType(&$data, Context $options, $path = '#')
     {
         if ($options->tolerateStrings && is_string($data)) {
             $valid = Type::readString($this->type, $data);
@@ -1116,10 +1116,6 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
             $data = $options->dataPreProcessor->process($data, $this, $import);
         }
 
-        if ($result === null) {
-            $result = $data;
-        }
-
         if ($options->skipValidation) {
             goto skipValidation;
         }
@@ -1153,6 +1149,10 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
         }
 
         skipValidation:
+
+        if ($result === null) {
+            $result = $data;
+        }
 
         if ($this->oneOf !== null) {
             $result = $this->processOneOf($data, $options, $path);

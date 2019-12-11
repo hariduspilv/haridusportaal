@@ -9,8 +9,8 @@
 
 namespace PHP_CodeSniffer\Standards\PSR12\Sniffs\Files;
 
-use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Sniffs\Sniff;
 use PHP_CodeSniffer\Util\Tokens;
 
 class ImportStatementSniff implements Sniff
@@ -49,7 +49,7 @@ class ImportStatementSniff implements Sniff
         }
 
         if ($phpcsFile->hasCondition($stackPtr, Tokens::$ooScopeTokens) === true) {
-            // This rule inly applies to import statements.
+            // This rule only applies to import statements.
             return;
         }
 
