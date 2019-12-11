@@ -56,7 +56,7 @@ export class AutocompleteComponent {
 
       if (this.type === 'inaadress') {
         const params = `ihist=1&appartment=1&address=${value}&results=10&callback=JSONP_CALLBACK`;
-        path = `http://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
+        path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
       }
 
       clearTimeout(this.debounce);
