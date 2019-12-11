@@ -458,6 +458,9 @@
     margin: 0;
     border: 0.0625rem solid $gray;
     white-space: nowrap;
+    .button--default {
+      margin-top: -.5rem;
+    }
     thead {
       background: $light-gray;
       .sortable {

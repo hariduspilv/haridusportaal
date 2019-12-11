@@ -41,6 +41,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public formLoading = false;
   public upperInfoText;
 
+  public fileUploadElement: string;
+  public fileUploadCol: string;
+  public fileUploadRow: number;
+  public tableUpload = false;
+
   public lang: string;
   public form_name: string;
   public form_route: string;
@@ -270,6 +275,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}`;
   }
 
+  fileModal(element, col, row) {
+    this.fileUploadElement = element;
+    this.fileUploadCol = col;
+    this.fileUploadRow = row;
+    this.tableUpload = true;
+    this.modalService.toggle('addFile');
+  }
+
   stopFileUpload(element) {
     this.fileLoading[element] = false;
   }
@@ -290,6 +303,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
   fileDelete(id, model) {
     const target = model.value.find(file => file.file_identifier === id);
     model.value.splice(model.value.indexOf(target), 1);
+  }
+
+  tableFileDelete(id, model) {
+    const target = model.find(file => file.file_identifier === id);
+    model.splice(model.indexOf(target), 1);
   }
 
   uploadFile(files, element) {
@@ -347,6 +365,62 @@ export class XjsonComponent implements OnInit, OnDestroy {
     };
   }
 
+  uploadTableFile(files) {
+    if (!this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol]) {
+      this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol] = [];
+    }
+    const model = this.data_elements[this.fileUploadElement].table_columns[this.fileUploadCol];
+    const size_limit = model.max_size;
+    this.fileLoading[this.fileUploadElement] = true;
+    const file = files[0];
+    const file_size = this.byteToMegabyte(file.size);
+    if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.split('.').pop()))) {
+      this.error[this.fileUploadElement] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit') : this.translate.get('xjson.unacceptable_extension') };
+      files.shift();
+      if (files.length > 0) {
+        this.uploadTableFile(files);
+      } else {
+        this.fileLoading[this.fileUploadElement] = false;
+        return;
+      }
+    }
+
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+
+      const url = `${this.settings.url}/xjson_service/documentFile2/${this.form_name}/${this.fileUploadElement}`;
+      const payload = {
+        file: reader.result.toString().split(',')[1],
+        form_name: this.form_name,
+        data_element: this.fileUploadElement,
+        table_element: this.fileUploadCol,
+      };
+
+      const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe((response) => {
+        this.fileLoading[this.fileUploadElement] = true;
+
+        const new_file = {
+          file_name: file.name,
+          file_identifier: response['id'],
+        };
+        this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol].push(new_file);
+        files.shift();
+        if (files.length > 0) {
+          this.uploadTableFile(files);
+        } else {
+          this.fileLoading[this.fileUploadElement] = false;
+        }
+        subscription.unsubscribe();
+      }, (err) => {
+        const message = err.error ? err.error.message : err.message;
+        this.error[this.fileUploadElement] = { valid: false, message };
+        this.fileLoading[this.fileUploadElement] = false;
+        subscription.unsubscribe();
+      });
+    };
+  }
+
   fileEventHandler(e, element) {
     this.fileLoading[element] = true;
     if (this.error[element]) {
@@ -357,7 +431,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const files = Object.keys(files_input).map(item => files_input[item]);
 
     if (files && files.length > 0) {
-      this.uploadFile(files, element);
+      this.tableUpload ? this.uploadTableFile(files) : this.uploadFile(files, element);
     }
   }
 
