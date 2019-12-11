@@ -42,7 +42,7 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'field_ui',
     'dynamic_entity_reference',
     'entity_test',
@@ -60,6 +60,11 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
     'administer entity_test content',
     'access user profiles',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * Sets the test up.
@@ -105,6 +110,7 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
     $excluded_entity_type_ids = [
       'user',
       'file',
+      'path_alias',
       'entity_test_label',
       'entity_test_no_id',
       'entity_test_no_bundle',
@@ -207,6 +213,7 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
     $excluded_entity_type_ids = [
       'user',
       'file',
+      'path_alias',
       'entity_test_no_id',
       'entity_test_no_bundle',
       'entity_test_string_id',

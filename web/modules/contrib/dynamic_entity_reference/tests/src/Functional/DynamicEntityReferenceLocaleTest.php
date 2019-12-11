@@ -12,7 +12,10 @@ use Drupal\locale\Gettext;
  */
 class DynamicEntityReferenceLocaleTest extends DynamicEntityReferenceTest {
 
-  public static $modules = [
+  /**
+   * {@inheritdoc}
+   */
+  protected static $modules = [
     'language',
     'locale',
   ];
@@ -20,7 +23,7 @@ class DynamicEntityReferenceLocaleTest extends DynamicEntityReferenceTest {
   /**
    * {@inheritdoc}
    */
-  public function setUp() {
+  protected function setUp() {
     parent::setUp();
 
     $file = new \stdClass();

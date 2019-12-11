@@ -6,7 +6,7 @@ package: Testing
 dependencies:
   - token:token
 
-# Information added by Drupal.org packaging script on 2019-10-11
-version: '8.x-1.5'
+# Information added by Drupal.org packaging script on 2019-12-04
+version: '8.x-1.6'
 project: 'pathauto'
-datestamp: 1570828089
+datestamp: 1575467315
