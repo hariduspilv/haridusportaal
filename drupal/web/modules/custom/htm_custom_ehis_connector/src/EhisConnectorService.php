@@ -369,6 +369,7 @@ class EhisConnectorService {
     $params['key'] = 'klassifikaator';
     $return = $this->invokeWithRedis('mtsysKlfTeenus', $params, FALSE);
 
+    dump($return);
     if(!$return['redis_hit']){
       return (isset($return[$params['hash']])) ? $return[$params['hash']] : [];
     }
