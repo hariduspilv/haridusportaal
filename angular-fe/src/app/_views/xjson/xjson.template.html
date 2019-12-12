@@ -367,7 +367,7 @@
 
                                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
                                           <div class="upload">
-                                              <icon *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay" 
+                                              <icon *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else fileReadonlyDisplay" 
                                               glyph="plus" size="default" [bg]="false"
                                               (click)="fileModal(element, col, rowIndex)"></icon>
                                           </div>
@@ -415,6 +415,10 @@
                                           <span
                                             [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] !== 'undefined' ? row[col] : '' }}</span>
                                         </ng-template>
+                                        <ng-template #fileReadonlyDisplay>
+                                            <span
+                                              [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' ? row[col][0].file_name : '' }}</span>
+                                          </ng-template>
                                         <ng-template #readonlyDisplayAddress>
                                           <span
                                             [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].address }}</span>
@@ -566,7 +570,7 @@
   </modal-content>
 </htm-modal>
 
-<htm-modal id="addFile" [bottomAction]="false" [topAction]="true">
+<htm-modal id="addFile" [bottomAction]="true" [topAction]="true">
   <modal-content class="modal-center">
     <ng-container *ngIf="fileUploadElement && fileUploadCol">
         <div class="loaded-files-list">
