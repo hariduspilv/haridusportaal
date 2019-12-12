@@ -45,7 +45,10 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
@@ -60,6 +63,7 @@ public class MtsysWorker extends Worker {
 
   private static final String MTSYSKLF_KEY = "klassifikaator";
   private static final String MTSYSFILE_KEY = "mtsysFile";
+  private static final String MTSYS_REDIS_KEY = "MTSYS_documents";
 
   @Resource
   private EhisXRoadService ehisXRoadService;
@@ -467,7 +471,7 @@ public class MtsysWorker extends Worker {
       response.getDokumendid().getDokumentList().forEach(
           dokument -> {
             ((ArrayNode) stepZeroDataElementsNode.get("dokumendid").get("value")).addObject()
-                .put("liik", dokument.getKlLiik())
+                .put("liik", String.valueOf(dokument.getKlLiik()))
                 .put("kommentaar", dokument.getKommentaar())
                 .putObject("fail")
                 .put("file_name", dokument.getFailiNimi())
@@ -679,38 +683,42 @@ public class MtsysWorker extends Worker {
           setXdzeisonError(LOGGER, jsonNode, e);
         }
       } else {
-        ((ArrayNode) stepAndmed.get("aadressid").get("value")).addObject().putObject("aadress")
-            .put("adsId", oppeasutusedNode.get("educationalInstitution")
-                .get("address").get("adsId").asLong())
-            .put("adsOid", oppeasutusedNode.get("educationalInstitution")
-                .get("address").get("adsOid").asText())
-            .put("county", oppeasutusedNode.get("educationalInstitution")
-                .get("address").get("county").asText())
-            .put("localGovernment", oppeasutusedNode.get("educationalInstitution")
-                .get("address").get("localGovernment").asText())
-            .put("settlementUnit", oppeasutusedNode.get("educationalInstitution")
-                .get("address").get("settlementUnit").asText())
-            .put("address", oppeasutusedNode.get("educationalInstitution")
-                .get("address").get("address").asText())
-            .put("addressHumanReadable", oppeasutusedNode.get("educationalInstitution")
-                .get("address").get("addressHumanReadable").asText());
+        if (oppeasutusedNode != null) {
+          ((ArrayNode) stepAndmed.get("aadressid").get("value")).addObject().putObject("aadress")
+              .put("adsId", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("adsId").asLong())
+              .put("adsOid", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("adsOid").asText())
+              .put("county", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("county").asText())
+              .put("localGovernment", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("localGovernment").asText())
+              .put("settlementUnit", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("settlementUnit").asText())
+              .put("address", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("address").asText())
+              .put("addressHumanReadable", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("addressHumanReadable").asText());
+        }
       }
 
-      stepAndmed.putObject("oppeasutuseNimetus")
-          .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
-              .get("name").asText());
-      stepAndmed.putObject("omanik")
-          .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
-              .get("owner").asText());
-      stepAndmed.putObject("telefon")
-          .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
-              .get("contactPhone").asText());
-      stepAndmed.putObject("epost")
-          .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
-              .get("contactEmail").asText());
-      stepAndmed.putObject("koduleht")
-          .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
-              .get("webpageAddress").asText());
+      if (oppeasutusedNode != null) {
+        stepAndmed.putObject("oppeasutuseNimetus")
+            .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
+                .get("name").asText());
+        stepAndmed.putObject("omanik")
+            .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
+                .get("owner").asText());
+        stepAndmed.putObject("telefon")
+            .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
+                .get("contactPhone").asText());
+        stepAndmed.putObject("epost")
+            .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
+                .get("contactEmail").asText());
+        stepAndmed.putObject("koduleht")
+            .put("value", oppeasutusedNode.get("educationalInstitution").get("contacts")
+                .get("webpageAddress").asText());
+      }
 
       ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
       ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll()
@@ -725,12 +733,12 @@ public class MtsysWorker extends Worker {
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
         }
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SUBMIT")) {
-          boolean repeatStepAndmed = false;
+          AtomicBoolean repeatStepAndmed = new AtomicBoolean(false);
           if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("oppeTasemed").get("required").asBoolean()
               && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("oppeTasemed").get("value").size() == 0) {
-            repeatStepAndmed = true;
+            repeatStepAndmed.set(true);
             ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
                 .add("oppeTasemed_validation_error");
             ((ObjectNode) jsonNode.get("messages")).putObject("oppeTasemed_validation_error")
@@ -741,14 +749,33 @@ public class MtsysWorker extends Worker {
               .get("oppekavaRuhmad").get("required").asBoolean()
               && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("oppekavaRuhmad").get("value").size() == 0) {
-            repeatStepAndmed = true;
+            repeatStepAndmed.set(true);
             ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
                 .add("oppekavaRuhmad_validation_error");
             ((ObjectNode) jsonNode.get("messages")).putObject("oppekavaRuhmad_validation_error")
                 .put("message_type", "ERROR").putObject("message_text")
                 .put("et", "Õppekavarühmad puuduvad.");
           }
-          if (repeatStepAndmed) {
+          AtomicInteger validationErrors = new AtomicInteger(0);
+          String klOkLiik = jsonNode.get("body").get("steps").get("step_liik")
+              .get("data_elements").get("tegevusloaLiik").get("value").asText();
+          ObjectNode fileTypes = (ObjectNode) getKlfNode("failiTyybid").get(klOkLiik);
+          jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("dokumendid").get("value").forEach(item -> {
+            if ((item.get("fail") == null || item.get("fail").get(0) == null
+                || item.get("fail").get(0).get("file_identifier") == null)
+                && fileTypes.get(item.get("klLiik").asText()).get("required").asBoolean()) {
+              repeatStepAndmed.set(true);
+              ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                  .add("dokumendid_validation_error_" + validationErrors);
+              ((ObjectNode) jsonNode.get("messages"))
+                  .putObject("dokumendid_validation_error_" + validationErrors)
+                  .put("message_type", "ERROR").putObject("message_text")
+                  .put("et", "Kohustuskik dokument '" + item.get("liik").asText() + "' puudub.");
+              validationErrors.getAndIncrement();
+            }
+          });
+          if (repeatStepAndmed.get()) {
             logForDrupal.setMessage("postMtsysTegevusluba step_andmed validation_error on SUBMIT");
             logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
             LOGGER.info(logForDrupal);
@@ -929,16 +956,17 @@ public class MtsysWorker extends Worker {
     kontaktandmed.setKoduleht(dataObjectNode.get("koduleht").get("value").asText());
     request.setKontaktandmed(kontaktandmed);
 
-    //TODO: required = true & file.file_identifier == null ERROR
     Dokumendid dokumendid = Dokumendid.Factory.newInstance();
     dataObjectNode.get("dokumendid").get("value").forEach(item -> {
-      if (item.get("fail") != null && item.get("fail").get("file_identifier") != null) {
+      if (item.get("fail") != null && item.get("fail").get(0) != null
+          && item.get("fail").get(0).get("file_identifier") != null) {
         Dokument dokument = Dokument.Factory.newInstance();
         dokument.setKlLiik(item.get("klLiik").asInt());
-        dokument.setFailiNimi(item.get("fail").get("file_name").asText());
+        dokument.setFailiNimi(item.get("fail").get(0).get("file_name").asText());
         dokument.setKommentaar(item.get("kommentaar").asText());
-        dokument.setContent(Base64.getDecoder().decode((String) redisFileTemplate.opsForHash()
-            .get(applicantPersonalCode, item.get("fail").get("file_identifier").asText())));
+        dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
+            redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY,
+                item.get("fail").get(0).get("file_identifier").asText()))));
         dokumendid.getDokumentList().add(dokument);
       }
     });
@@ -1435,8 +1463,8 @@ public class MtsysWorker extends Worker {
           .put("file_name", response.getCsvFail().getFilename())
           .put("file_identifier", redisHK);
       redisFileTemplate.opsForHash()
-          .put(personalCode, redisHK, response.getCsvFail().getStringValue());
-      redisFileTemplate.expire(personalCode, redisFileExpire, TimeUnit.MINUTES);
+          .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
+      redisFileTemplate.expire(MTSYS_REDIS_KEY, redisFileExpire, TimeUnit.MINUTES);
 
       dataElementsNode.putObject("majandustegevuseTeateTabel").putArray("value");
       dataElementsNode.putObject("tegevuslubaTabel").putArray("value");
@@ -1557,9 +1585,10 @@ public class MtsysWorker extends Worker {
     request.setOppeasutusId(dataElementNode.get("oppeasutusId").get("value").bigIntegerValue());
 
     if (jsonNode.get("header").get("parameters").get("fileSubmit").asBoolean()) {
-      request.setFail(Base64.getDecoder().decode((String) redisFileTemplate.opsForHash()
-          .get(applicantPersonalCode, dataElementNode.get("esitamiseksCSV").get("value").get(0)
-              .get("file_identifier").asText())));
+      request.setFail(Base64.getDecoder().decode((String) Objects.requireNonNull(
+          redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY,
+              dataElementNode.get("esitamiseksCSV").get("value").get(0).get("file_identifier")
+                  .asText()))));
     } else {
       Naitajad naitajad = Naitajad.Factory.newInstance();
 
@@ -1796,7 +1825,7 @@ public class MtsysWorker extends Worker {
 
   private void setLaeTeenusteResponseInfotekst(ObjectNode jsonNode, String infotekst,
       String veatekst, BigInteger aruandeId) {
-    Long timestamp = System.currentTimeMillis();
+    long timestamp = System.currentTimeMillis();
     if (infotekst != null) {
       ((ArrayNode) jsonNode.get("body").get("messages")).add("infotekst_" + timestamp);
       ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_" + timestamp)
