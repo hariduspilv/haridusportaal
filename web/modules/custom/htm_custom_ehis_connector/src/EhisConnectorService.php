@@ -368,14 +368,13 @@ class EhisConnectorService {
   public function getOptionsTaxonomy(array $params = []){
     $params['key'] = 'klassifikaator';
     $return = $this->invokeWithRedis('mtsysKlfTeenus', $params, FALSE);
-    dump($return);
-    
+
     if(!$return['redis_hit']){
       return (isset($return[$params['hash']])) ? $return[$params['hash']] : [];
     }
     $processedArray = [];
     foreach($return as $key => $value) {
-      if($key !== 'redis_hit' && $value['valid']){
+      if($key !== 'redis_hit' && ($value['valid'] || isset($value['okLiik']))){
         $processedArray[] = [
           'key' => $value['et'],
           'value' => $key,
