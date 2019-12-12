@@ -869,6 +869,10 @@ xjson:
     en:
       value: ''
       format: custom_editor
+  return_dashboard:
+    translation_type: textarea
+    et: 'Olete kindel, et soovite töölauale liikuda?'
+    en: ''
 article:
   label:
     translation_type: textarea
