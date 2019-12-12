@@ -70,10 +70,11 @@
 					<button
 						htm-button
 						theme="logout"
-						(click)="auth.logout(); logoutActive = false;"
+						(click)="logOut()"
 					>
 						Logi välja
 					</button>
+					{{logoutActive | json}}
 				</div>
 				<ng-template #other>
 					<button

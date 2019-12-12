@@ -1,4 +1,4 @@
-import { Component, OnInit, HostBinding, Input } from '@angular/core';
+import { Component, OnInit, HostBinding, Input, ChangeDetectorRef } from '@angular/core';
 import { SidemenuService, ModalService, AuthService, SettingsService, AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
@@ -62,6 +62,7 @@ export class HeaderComponent implements OnInit {
     private alertsService: AlertsService,
     private router: Router,
     private activatedRoute: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   public basicLogin(): void {
@@ -192,11 +193,17 @@ export class HeaderComponent implements OnInit {
 
   offClickListener() {
     if (this.logoutActive) {
-      this.logoutActive = false;
       document.removeEventListener('click', this.offClickHandler);
+      this.logoutActive = false;
     } else {
       this.logoutActive = true;
     }
+  }
+
+  logOut() {
+    document.removeEventListener('click', this.offClickHandler);
+    this.logoutActive = false;
+    this.auth.logout();
   }
 
   ngOnInit(): void {
