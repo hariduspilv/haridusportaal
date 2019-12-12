@@ -371,7 +371,7 @@
 									<div class="col-6 form-item">
 										<a
 											[routerLink]="form.form_path"
-											[queryParams]="{ identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined, existing: form.status === 'Registreeritud' ? true : undefined }"
+											[queryParams]="{ identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined, existing: form.status === 'Registreeritud' || form.status === 'Esitatud' ? true : undefined }"
 											class="grid-item"
 										>
 											<span *ngIf="form.title" class="grid-link"
@@ -396,7 +396,7 @@
 							>
 						</div>
 
-						<div class="grid-load" *ngIf="!acceptableFormsListRestricted">
+						<div class="grid-load" *ngIf="school.acceptable_forms.length > 4 && !acceptableFormsListRestricted">
 							<a
 								href="javascript:void(0);"
 								(click)="toggleAcceptableFormsList()"

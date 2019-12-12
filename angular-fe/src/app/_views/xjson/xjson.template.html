@@ -367,10 +367,20 @@
 
                                         <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
                                           <div class="upload">
-                                              <icon *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else fileReadonlyDisplay" 
+                                              <icon *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))" 
                                               glyph="plus" size="default" [bg]="false"
                                               (click)="fileModal(element, col, rowIndex)"></icon>
                                           </div>
+                                          <ng-container *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && !isArray(row[col])">
+                                              <a class="file-icon" [href]="fileDownloadlink(row[col])" target="_blank">
+                                                  <span class="file-name">{{ row[col].file_name }}</span>
+                                                </a>
+                                          </ng-container>
+                                          <ng-container *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' && isArray(row[col])">
+                                              <a class="file-icon" [href]="fileDownloadlink(row[col][0])" target="_blank">
+                                                  <span class="file-name">{{ row[col][0].file_name }}</span>
+                                                </a>
+                                          </ng-container>
                                         </ng-container> <!-- /file -->
 
                                         <!--                                         <ng-container
@@ -495,7 +505,7 @@
               <div tabindex="-1" class="primary-buttons">
                 <div>
                   <button htm-button tabindex="0" *ngIf="!edit_step" role="link" theme="inverted"
-                    (click)="cancelEventHandler()">
+                    (click)="modalService.toggle('dashboardReturn')">
                     {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
                   </button>
                 </div>
@@ -523,8 +533,7 @@
       </div>
       <!--/block border-blue-->
     </block-content>
-    <block-content tabLabel="{{ 'frontpage.dashboard_related_documents' | translate }}" tabIcon="shuffle">
-      <ng-container *ngIf="acceptable_forms.length">
+    <block-content *ngIf="acceptable_forms.length" tabLabel="{{ 'frontpage.dashboard_related_documents' | translate }}" tabIcon="shuffle">
         <div class="grid-box">
           <ng-container *ngFor="let form of acceptable_forms">
             <a [href]="form.link" class="grid-item">
@@ -547,7 +556,6 @@
               {{ 'button.show_less' | translate }}</a>
           </div>
         </ng-container>
-      </ng-container>
     </block-content>
   </block>
 </base-layout>
@@ -566,6 +574,15 @@
   <modal-content class="modal-center">
     <div>{{ 'xjson.edit_step_confirm_modal_content' | translate }}</div>
     <button htm-button tabindex="0" theme="default" (click)="toggleStepEdit()">{{ 'button.yes_change' | translate }}
+    </button>
+  </modal-content>
+</htm-modal>
+
+<htm-modal id="dashboardReturn" modalTitle="{{ 'xjson.edit_step_confirm_modal_title' | translate}}" [bottomAction]="true"
+  [topAction]="true">
+  <modal-content class="modal-center">
+    <div>{{ 'xjson.return_dashboard' | translate }}</div>
+    <button htm-button tabindex="0" theme="default" (click)="cancelEventHandler()">{{ 'modal.confirm' | translate }}
     </button>
   </modal-content>
 </htm-modal>

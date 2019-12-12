@@ -49,6 +49,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public lang: string;
   public form_name: string;
   public form_route: string;
+  public formKey = '';
   public subscriptions: Subscription[] = [];
   public datepickerFocus = false;
   public acceptable_forms_list_restricted = true;
@@ -93,7 +94,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private settings: SettingsService,
-    private modalService: ModalService,
+    public modalService: ModalService,
     private alertsService: AlertsService,
     private uploadService: UploadService,
     private tableService: TableService,
@@ -272,7 +273,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const name = file.file_name;
     const token = localStorage.getItem('token');
 
-    return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}`;
+    return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}/${this.formKey}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}`;
   }
 
   fileModal(element, col, row) {
@@ -344,6 +345,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       const payload = {
         file: reader.result.toString().split(',')[1],
         form_name: this.form_name,
+        form_key: this.formKey,
         data_element: element,
       };
 
@@ -399,6 +401,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       const payload = {
         file: reader.result.toString().split(',')[1],
         form_name: this.form_name,
+        form_key: this.formKey,
         data_element: this.fileUploadElement,
         table_element: this.fileUploadCol,
       };
@@ -945,6 +948,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.tableOverflown = {};
     this.elemAtStart = {};
     this.data = xjson;
+    this.formKey = this.data.header.form_name.substr(0, this.data.header.form_name.indexOf('_'));
+    console.log(this.formKey);
     if (typeof this.opened_step !== 'undefined') {
       this.data_elements = this.data.body.steps[this.opened_step].data_elements;
       // Concat. all message arrays and display them at all times
