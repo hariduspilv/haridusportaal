@@ -287,9 +287,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.fileLoading[element] = false;
   }
 
-  canUploadFile(element): boolean {
+  canUploadFile(element, table = false): boolean {
 
-    const singeFileRestrictionApplies = (element.multiple === false && element.value.length > 0);
+    const fieldVal = table ?
+    this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol] :
+    element.value;
+
+    const singeFileRestrictionApplies =
+    table ? (!element.multiple && fieldVal && fieldVal.length > 0) :
+    (!element.multiple && fieldVal && fieldVal.length > 0);
 
     if (this.isFieldDisabled(element.readonly)) {
       return false;
