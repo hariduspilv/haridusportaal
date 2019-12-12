@@ -137,20 +137,20 @@ public class MtsysWorker extends Worker {
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "pidajaLiigid", pidajaLiigidNode);
 
       ObjectNode failiTyybidNode = mtsysKlfResponse.putObject("failiTyybid");
-      final Object[] lastKlOkLiik = new Object[]{BigInteger.valueOf(-1L)};
       response.getFailiTyybid().getFailiTyypList().forEach(item -> {
-        if (lastKlOkLiik[0].equals(BigInteger.valueOf(-1L)) || !lastKlOkLiik[0]
-            .equals(item.getKlOkLiik())) {
-          failiTyybidNode.putObject(item.getKlOkLiik().toString())
-              .put("et", item.getOkLiik());
-          lastKlOkLiik[0] = item.getKlOkLiik();
+        if (failiTyybidNode.get(item.getKlFailTyyp().toString()) != null) {
+          ((ArrayNode) failiTyybidNode.get(item.getKlFailTyyp().toString()).get("okLiik"))
+              .addObject().put("required", item.getKohustuslik().equals(BigInteger.ONE))
+              .put("klOkLiik", item.getKlOkLiik().toString())
+              .put("okLiik", item.getOkLiik());
+        } else {
+          failiTyybidNode.putObject(item.getKlFailTyyp().toString())
+              .put("et", item.getFailTyyp())
+              .putArray("okLiik").addObject()
+              .put("required", item.getKohustuslik().equals(BigInteger.ONE))
+              .put("klOkLiik", item.getKlOkLiik().toString())
+              .put("okLiik", item.getOkLiik());
         }
-
-        ((ObjectNode) failiTyybidNode.get(item.getKlOkLiik().toString()))
-            .putObject(item.getKlFailTyyp().toString())
-            .put("et", item.getFailTyyp())
-            .put("required", item.getKohustuslik().equals(BigInteger.ONE));
-
       });
       redisTemplate.opsForHash().put(MTSYSKLF_KEY, "failiTyybid", failiTyybidNode);
 
@@ -373,9 +373,10 @@ public class MtsysWorker extends Worker {
       MtsysTegevuslubaResponse response = ehisXRoadService
           .mtsysTegevusluba(BigInteger.valueOf(identifier), personalCode);
 
-      addAcceptableFormToHeader(response, jsonNode);
-
       Long klOkLiik = response.getTegevusloaAndmed().getKlLiik().longValue();
+      Long klStaatus = response.getTegevusloaAndmed().getKlStaatus().longValue();
+      addAcceptableFormToHeader(jsonNode, klOkLiik, klStaatus);
+
       ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_0").putObject("title")
           .put("et", klOkLiik.equals(18098L)
               ? "Majandustegevusteade" : "Tegevusluba");
@@ -383,9 +384,9 @@ public class MtsysWorker extends Worker {
           .get("step_0")).putObject("data_elements");
 
       stepZeroDataElementsNode.putObject("tegevusloaLiik")
-          .put("value", response.getTegevusloaAndmed().getKlLiik().intValue());
+          .put("value", klOkLiik.intValue());
       stepZeroDataElementsNode.putObject("tegevusloaStaatus")
-          .put("value", response.getTegevusloaAndmed().getKlStaatus().intValue());
+          .put("value", klStaatus.intValue());
       stepZeroDataElementsNode.putObject("tegevusloaNumber")
           .put("value", response.getTegevusloaAndmed().getLoaNumber());
       stepZeroDataElementsNode.putObject("oppekavaNimetus").put("hidden",
@@ -524,18 +525,18 @@ public class MtsysWorker extends Worker {
           response.getTegevusloaAndmed().isSetId() ?
               response.getTegevusloaAndmed().getId().longValue() : identifier);
 
+      Long klOkLiik = response.getTegevusloaAndmed().getKlLiik().longValue();
       ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_liik")
           .putObject("tegevusloaLiik")
-          .put("value", response.getTegevusloaAndmed().getKlLiik().toString());
+          .put("value", klOkLiik.toString());
 
-      getTegevuslubaXJSON(jsonNode, response.getTegevusloaAndmed().getKlLiik().longValue(),
-          klfFailiTyybid);
+      getTegevuslubaXJSON(jsonNode, klOkLiik, klfFailiTyybid);
 
       ObjectNode stepAndmedDataElements = (ObjectNode) jsonNode.get("body").get("steps")
           .get("step_andmed").get("data_elements");
 
       ((ObjectNode) stepAndmedDataElements.get("tegevusloaLiik"))
-          .put("value", response.getTegevusloaAndmed().getKlLiik().toString());
+          .put("value", klOkLiik.toString());
       ((ObjectNode) stepAndmedDataElements.get("oppekavaNimetus"))
           .put("value", response.getTegevusloaAndmed().getNimetus());
       ((ObjectNode) stepAndmedDataElements.get("alguseKuupaev"))
@@ -583,21 +584,23 @@ public class MtsysWorker extends Worker {
           .put("value", response.getKontaktandmed().getKoduleht());
 
       response.getDokumendid().getDokumentList().forEach(item -> {
-        ObjectNode fileType = (ObjectNode) klfFailiTyybid
-            .get(response.getTegevusloaAndmed().getKlLiik().toString())
-            .get(String.valueOf(item.getKlLiik()));
-        if (fileType == null) {
-          fileType = (ObjectNode) klfFailiTyybid.get("0").get(String.valueOf(item.getKlLiik()));
-        }
+        ObjectNode fileType = (ObjectNode) klfFailiTyybid.get(String.valueOf(item.getKlLiik()));
+        String fileTypeKlOkLiik =
+            fileType.get("okLiik").findValuesAsText("klOkLiik").contains(klOkLiik.toString())
+                ? klOkLiik.toString() : "0";
 
-        ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
-            .put("liik", fileType.get("required").asBoolean() ?
-                fileType.get("et").asText() + " (Kohustuslik)" :
-                fileType.get("et").asText())
-            .put("klLiik", item.getKlLiik())
-            .put("kommentaar", item.getKommentaar())
-            .putObject("fail").put("file_name", item.getFailiNimi())
-            .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
+        fileType.get("okLiik").forEach(i -> {
+          if (fileTypeKlOkLiik.equalsIgnoreCase(i.get("klOkLiik").asText())) {
+            ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
+                .put("liik", i.get("required").asBoolean() ?
+                    fileType.get("et").asText() + " (Kohustuslik)" :
+                    fileType.get("et").asText())
+                .put("klLiik", item.getKlLiik())
+                .put("kommentaar", item.getKommentaar())
+                .putObject("fail").put("file_name", item.getFailiNimi())
+                .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
+          }
+        });
 
         redisTemplate.opsForHash()
             .put(personalCode, MTSYSFILE_KEY + "_" + item.getDokumentId(),
@@ -757,23 +760,25 @@ public class MtsysWorker extends Worker {
                 .put("et", "Õppekavarühmad puuduvad.");
           }
           AtomicInteger validationErrors = new AtomicInteger(0);
-          String klOkLiik = jsonNode.get("body").get("steps").get("step_liik")
-              .get("data_elements").get("tegevusloaLiik").get("value").asText();
-          ObjectNode fileTypes = (ObjectNode) getKlfNode("failiTyybid").get(klOkLiik);
+          ObjectNode fileTypes = getKlfNode("failiTyybid");
+          Long klOkLiik = jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("tegevusloaLiik").get("value").asLong();
           jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("dokumendid").get("value").forEach(item -> {
-            if ((item.get("fail") == null || item.get("fail").get(0) == null
-                || item.get("fail").get(0).get("file_identifier") == null)
-                && fileTypes.get(item.get("klLiik").asText()).get("required").asBoolean()) {
-              repeatStepAndmed.set(true);
-              ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
-                  .add("dokumendid_validation_error_" + validationErrors);
-              ((ObjectNode) jsonNode.get("messages"))
-                  .putObject("dokumendid_validation_error_" + validationErrors)
-                  .put("message_type", "ERROR").putObject("message_text")
-                  .put("et", "Kohustuskik dokument '" + item.get("liik").asText() + "' puudub.");
-              validationErrors.getAndIncrement();
-            }
+            fileTypes.get(item.get("klLiik").asText()).get("okLiik").forEach(i -> {
+              if (klOkLiik.equals(i.get("klOkLiik").asLong()) && i.get("required").asBoolean()
+                  && (item.get("fail") == null || item.get("fail").get(0) == null
+                  || item.get("fail").get(0).get("file_identifier") == null)) {
+                repeatStepAndmed.set(true);
+                ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                    .add("dokumendid_validation_error_" + validationErrors);
+                ((ObjectNode) jsonNode.get("messages"))
+                    .putObject("dokumendid_validation_error_" + validationErrors)
+                    .put("message_type", "ERROR").putObject("message_text")
+                    .put("et", "Kohustuskik dokument '" + item.get("liik").asText() + "' puudub.");
+                validationErrors.getAndIncrement();
+              }
+            });
           });
           if (repeatStepAndmed.get()) {
             logForDrupal.setMessage("postMtsysTegevusluba step_andmed validation_error on SUBMIT");
@@ -1742,17 +1747,18 @@ public class MtsysWorker extends Worker {
     ArrayNode dokumendidValue = ((ObjectNode) stepAndmedDataElements.get("dokumendid"))
         .putArray("value");
     if (!klOkLiik.equals(18098L)) {
-      Iterator<Entry<String, JsonNode>> fileTypes = klfFailiTyybid.get(klOkLiik.toString())
-          .fields();
+      Iterator<Entry<String, JsonNode>> fileTypes = klfFailiTyybid.fields();
       while (fileTypes.hasNext()) {
         Entry<String, JsonNode> fileType = fileTypes.next();
-        if (!fileType.getKey().equalsIgnoreCase("et")) {
-          dokumendidValue.addObject()
-              .put("liik", fileType.getValue().get("required").asBoolean() ?
-                  fileType.getValue().get("et").asText() + " (Kohustuslik)" :
-                  fileType.getValue().get("et").asText())
-              .put("klLiik", Long.valueOf(fileType.getKey()));
-        }
+        fileType.getValue().get("okLiik").forEach(i -> {
+          if (klOkLiik.equals(i.get("klOkLiik").asLong())) {
+            dokumendidValue.addObject()
+                .put("liik", i.get("required").asBoolean() ?
+                    fileType.getValue().get("et").asText() + " (Kohustuslik)" :
+                    fileType.getValue().get("et").asText())
+                .put("klLiik", Long.valueOf(fileType.getKey()));
+          }
+        });
       }
     } else {
       ((ObjectNode) stepAndmedDataElements.get("dokumendid")).put("hidden", true);
@@ -1856,28 +1862,22 @@ public class MtsysWorker extends Worker {
     return acceptableActivity.contains("VIEW");
   }
 
-  private void addAcceptableFormToHeader(MtsysTegevuslubaResponse response, ObjectNode jsonNode) {
+  private void addAcceptableFormToHeader(ObjectNode jsonNode, Long klOkLiik, Long klStaatus) {
     ArrayNode acceptableFormArrayNode = ((ObjectNode) jsonNode.get("header"))
         .putArray("acceptable_form");
 
-    if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(15670L))
-        && !(response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18057L))
-        || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18058L))
-        || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18102L)))) {
+    boolean b = klOkLiik.equals(18057L) || klOkLiik.equals(18058L) || klOkLiik.equals(18102L);
+    if (klStaatus.equals(15670L) && !b) {
       acceptableFormArrayNode.addObject()
           .put("form_name", "MTSYS_TEGEVUSLUBA_SULGEMINE_TAOTLUS");
     }
 
-    if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(15670L))
-        && (response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18057L))
-        || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18058L))
-        || response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18102L)))) {
+    if (klStaatus.equals(15670L) && b) {
       acceptableFormArrayNode.addObject()
           .put("form_name", "MTSYS_TEGEVUSLUBA_MUUTMINE_TAOTLUS");
     }
 
-    if (response.getTegevusloaAndmed().getKlStaatus().equals(BigInteger.valueOf(18103L))
-        && response.getTegevusloaAndmed().getKlLiik().equals(BigInteger.valueOf(18098L))) {
+    if (klStaatus.equals(18103L) && klOkLiik.equals(18098L)) {
       acceptableFormArrayNode.addObject()
           .put("form_name", "MTSYS_TEGEVUSLUBA_LOPETAMINE_TAOTLUS");
     }
