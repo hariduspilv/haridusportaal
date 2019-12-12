@@ -39,7 +39,7 @@ use Symfony\Component\Routing\Route;
  *   id = "x_json_file2rest_resource",
  *   label = @Translation("X json file2rest resource"),
  *   uri_paths = {
- *     "canonical" = "/xjson_service/documentFile2/{file_id}/{file_name}",
+ *     "canonical" = "/xjson_service/documentFile2/{file_id}/{file_name}/{form_key}",
  *     "create" = "/xjson_service/documentFile2/{form_name}/{field_name}"
  *   }
  * )
@@ -125,7 +125,7 @@ class xJsonFile2RestResource extends ResourceBase {
   }*/
 
 
-  public function get(Request $request, $file_id, $file_name) {
+  public function get(Request $request, $file_id, $file_name, $form_key) {
     // You must to implement the logic of your REST Resource here.
     // Use current user after pass authentication to validate access.
     if (!$this->currentUser->hasPermission('access content')) {
@@ -136,10 +136,7 @@ class xJsonFile2RestResource extends ResourceBase {
       'hash' => $file_id
     ];
 
-    $id = $request->get('id');
-    if($id){
-      $params['key'] = $id;
-    }
+    $params['key'] = $form_key.'_documents';
 
     $file_obj['value'] = $this->ehisService->getDocumentFileFromRedis($params);
     $file_obj['fileName'] = $file_name;
@@ -167,8 +164,8 @@ class xJsonFile2RestResource extends ResourceBase {
     $filename = $this->validateAndParseContentDispositionHeader($request);
     $validators = isset($request_body->table_element) ? $validators = $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name, $request_body->table_element) : $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name);
 
-    $request_body = json_decode($request->getContent());
     $file_hash = $request_body->file;
+    $redis_key = $request_body->form_key;
 
     $destination = $this->getUploadLocation();
     $prepared_filename = $this->prepareFileName($filename, $validators);
@@ -197,7 +194,7 @@ class xJsonFile2RestResource extends ResourceBase {
     // now make our own file for xjson
     $file = new Base64Image($file_hash, $temp_file_path, $filename);
 
-    if(!$this->ehisService->saveFileToRedis($file, 'VPT_documents')){
+    if(!$this->ehisService->saveFileToRedis($file, $redis_key)){
       return new ModifiedResourceResponse('Failed to save', 400);
     }
 
