@@ -86,6 +86,7 @@ export class HomeSearchListViewComponent {
     this.breadcrumbs = this.constructCrumbs();
   }
 
+  // temporary fix
   updateParam(e) {
     this.param = e.target.value;
   }

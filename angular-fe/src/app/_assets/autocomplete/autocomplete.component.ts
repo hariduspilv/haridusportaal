@@ -4,10 +4,12 @@ import {
   Output,
   EventEmitter,
   ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { NgbRadio } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'autocomplete',
@@ -23,7 +25,7 @@ export class AutocompleteComponent {
   @Input() valueType: string = 'string';
 
   private debounce;
-  private delay: number = 300;
+  private delay: number = 600;
   public data:[] = [];
   public active: boolean = false;
   public loading: boolean = false;
@@ -38,6 +40,7 @@ export class AutocompleteComponent {
     private settings: SettingsService,
     private http: HttpClient,
     private el: ElementRef,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   public search(value: string = '', $event: any = false): void {
@@ -117,8 +120,8 @@ export class AutocompleteComponent {
       console.log(err);
     }
 
-
     this.data = resultSet;
+    this.cdr.detectChanges();
   }
 
   private navigate(direction: string = ''): void {
