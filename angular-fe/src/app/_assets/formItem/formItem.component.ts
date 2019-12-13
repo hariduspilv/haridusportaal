@@ -232,7 +232,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     if (!this.cdr['destroyed']) {
       this.cdr.detectChanges();
     }
-
+    console.log(this.field);
   }
 
   autocompleteUpdate(value: any = ''): void {

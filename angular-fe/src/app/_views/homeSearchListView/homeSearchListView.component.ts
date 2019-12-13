@@ -86,8 +86,12 @@ export class HomeSearchListViewComponent {
     this.breadcrumbs = this.constructCrumbs();
   }
 
+  updateParam(e) {
+    this.param = e.target.value;
+  }
+
   getResults(term, type) {
-    if( this.dataSubscription !== undefined ){
+    if (this.dataSubscription !== undefined) {
       this.dataSubscription.unsubscribe();
     }
     this.typeArr = type;
