@@ -176,7 +176,7 @@
 		<alerts small="true" id="general"></alerts>
 	</div>
 	<!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
-	<div class="block-btn--holder">
+	<div *ngIf="data.educationalInstitutions && data.educationalInstitutions.length < 1" class="block-btn--holder">
 		<button
 			class="block-btn"
 			role="button"
@@ -186,6 +186,9 @@
 			+ {{'dashboard.add_new_educational_institution' | translate}}
 		</button>
 	</div>
+	<div class="content__inner"
+    innerHTML="{{ 'test' }}">
+  </div>
 	<ng-container
 		*ngIf="data.educationalInstitutions && data.educationalInstitutions.length"
 	>
