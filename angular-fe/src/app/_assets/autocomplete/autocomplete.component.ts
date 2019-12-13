@@ -25,7 +25,7 @@ export class AutocompleteComponent {
   @Input() valueType: string = 'string';
 
   private debounce;
-  private delay: number = 600;
+  private delay: number = 200;
   public data:[] = [];
   public active: boolean = false;
   public loading: boolean = false;

@@ -4,7 +4,7 @@
     <block-title>
       {{ 'frontpage.dashboard_tabs_applications' | translate | uppercase }}
     </block-title>
-    <block-content tabLabel="{{ 'frontpage.dokument' | translate }}" tabIcon="file">
+    <block-content>
       <div class="block padding-block border-blue">
         <loader *ngIf="!data || formLoading"></loader>
 
@@ -505,7 +505,7 @@
               <div tabindex="-1" class="primary-buttons">
                 <div>
                   <button htm-button tabindex="0" *ngIf="!edit_step" role="link" theme="inverted"
-                    (click)="modalService.toggle('dashboardReturn')">
+                    (click)="numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? cancelEventHandler() : modalService.toggle('dashboardReturn')">
                     {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
                   </button>
                 </div>
@@ -578,7 +578,7 @@
   </modal-content>
 </htm-modal>
 
-<htm-modal id="dashboardReturn" modalTitle="{{ 'xjson.edit_step_confirm_modal_title' | translate}}" [bottomAction]="true"
+<htm-modal id="dashboardReturn" [bottomAction]="true"
   [topAction]="true">
   <modal-content class="modal-center">
     <div>{{ 'xjson.return_dashboard' | translate }}</div>
