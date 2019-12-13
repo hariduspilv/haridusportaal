@@ -266,7 +266,6 @@ export class DashboardComponent implements OnInit, OnDestroy {
     .subscribe((response: any) => {
       const data = response.data.nodeQuery.entities;
       if (data && data.length) {
-        console.log(data);
         this.sidebar.entity.event = data.sort((a, b) => {
           if (
             moment(a.fieldEventMainDate.unix * 1000)

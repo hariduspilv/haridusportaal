@@ -61,11 +61,11 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     ownershipType: [],
     studyInstitutionType: [],
   };
-  jou = false;
 
   public formGroup: FormGroup = this.formBuilder.group({});
 
-  constructor (
+
+  constructor(
     public alertsService: AlertsService,
     public http: HttpClient,
     public route: ActivatedRoute,
@@ -203,10 +203,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             subscription.unsubscribe();
           });
     },
-               1000);
+      1000);
   }
 
-  initialTableCheck(id: any, parentIndex: any, index:any) {
+  initialTableCheck(id: any, parentIndex: any, index: any) {
     const element = document.getElementById(id);
     if (element) {
       this.tableOverflown[parentIndex][index]
@@ -240,7 +240,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'name',
         required: true,
         error: false,
-        formControl: this.formBuilder.control([''], Validators.required),
+        formControl: this.formBuilder.control('', Validators.required),
       },
       {
         col: 12,
@@ -249,7 +249,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'nameENG',
         required: false,
         error: false,
-        formControl: this.formBuilder.control(['']),
+        formControl: this.formBuilder.control(''),
       },
       {
         col: 6,
@@ -258,7 +258,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'contactPhone',
         required: true,
         error: false,
-        formControl: this.formBuilder.control([''], Validators.required),
+        formControl: this.formBuilder.control('', Validators.required),
       },
       {
         col: 6,
@@ -267,16 +267,17 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'contactEmail',
         required: true,
         error: false,
-        formControl: this.formBuilder.control([''], Validators.required),
+        formControl: this.formBuilder.control('', Validators.required),
       },
       {
         col: 12,
-        type: 'text',
+        type: 'autocomplete',
+        query: 'inaadress',
         title: 'dashboard.address',
         modelName: 'address',
         required: true,
         error: false,
-        formControl: this.formBuilder.control([''], Validators.required),
+        formControl: this.formBuilder.control('', Validators.required),
       },
       {
         col: 6,
@@ -285,7 +286,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         modelName: 'webpageAddress',
         required: true,
         error: false,
-        formControl: this.formBuilder.control([''], Validators.required),
+        formControl: this.formBuilder.control('', Validators.required),
       },
       {
         col: 6,
@@ -295,7 +296,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         options: [],
         required: true,
         error: false,
-        formControl: this.formBuilder.control([''], Validators.required),
+        formControl: this.formBuilder.control('', Validators.required),
       },
       {
         col: 6,
@@ -305,7 +306,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         options: [],
         required: true,
         error: false,
-        formControl: this.formBuilder.control([''], Validators.required),
+        formControl: this.formBuilder.control('', Validators.required),
       },
       {
         col: 6,
@@ -315,12 +316,13 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         options: [],
         required: true,
         error: false,
-        formControl: this.formBuilder.control([''], Validators.required),
+        formControl: this.formBuilder.control('', Validators.required),
       },
     ];
     this.institutionModalFields.forEach((el) => {
       this.formGroup.addControl(el.modelName, el.formControl);
     });
+    this.formGroup.updateValueAndValidity();
     this.error = false;
     this.modalLoading = true;
     this.modalService.toggle('institutionModal');
@@ -333,7 +335,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.formOptions[key].push({ key: elem.et, value: elem.id });
           });
         });
-        console.log(this.formOptions);
         this.modalLoading = false;
         sub.unsubscribe();
       });
@@ -342,36 +343,40 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   createInstitution() {
     this.error = false;
     this.modalLoading = true;
-    const body = {
-      address: this.formGroup.value.address,
-      contacts: {
-        contactEmail: this.formGroup.value.contactEmail,
-        contactPhone: this.formGroup.value.contactPhone,
-        webpageAddress: this.formGroup.value.webpageAddress,
-      },
-      general: {
-        name: this.formGroup.value.name,
-        nameENG: this.formGroup.value.nameENG,
-        ownerType: this.formGroup.value.ownerType,
-        ownershipType: this.formGroup.value.ownershipType,
-        studyInstitutionType: this.formGroup.value.studyInstitutionType,
-      },
-    };
-    const sub = this.http
-      .post(`${this.settings.url}/educational-institution/add`, body)
-      .subscribe(
-        (response: any) => {
-          this.alertsService.info(response.message, 'institution', 'institution', false, false);
-          this.modalLoading = false;
-          this.modalBottomAction = true;
-          sub.unsubscribe();
+    if (!this.formGroup.valid) {
+      this.modalLoading = false;
+    } else {
+      const body = {
+        address: this.formGroup.value.address,
+        contacts: {
+          contactEmail: this.formGroup.value.contactEmail,
+          contactPhone: this.formGroup.value.contactPhone,
+          webpageAddress: this.formGroup.value.webpageAddress,
         },
-        (err) => {
-          this.alertsService.error(err.error, 'institution', 'institution', false, false);
-          this.modalLoading = false;
-          this.error = true;
-          this.modalBottomAction = true;
-        });
+        general: {
+          name: this.formGroup.value.name,
+          nameENG: this.formGroup.value.nameENG,
+          ownerType: this.formGroup.value.ownerType,
+          ownershipType: this.formGroup.value.ownershipType,
+          studyInstitutionType: this.formGroup.value.studyInstitutionType,
+        },
+      };
+      const sub = this.http
+        .post(`${this.settings.url}/educational-institution/add`, body)
+        .subscribe(
+          (response: any) => {
+            this.alertsService.info(response.message, 'institution', 'institution', false, false);
+            this.modalLoading = false;
+            this.modalBottomAction = true;
+            sub.unsubscribe();
+          },
+          (err) => {
+            this.alertsService.error(err.error, 'institution', 'institution', false, false);
+            this.modalLoading = false;
+            this.error = true;
+            this.modalBottomAction = true;
+          });
+    }
   }
 
   ngOnInit() {
