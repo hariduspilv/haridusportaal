@@ -58,6 +58,7 @@ class EmbedPreviewTest extends BrowserTestBase {
     $response = $this->drupalGet('/embed/preview/foo', [
       'query' => [
         'value' => 'node:' . $node->id(),
+        '_wrapper_format' => 'drupal_ajax',
       ],
     ]);
 
