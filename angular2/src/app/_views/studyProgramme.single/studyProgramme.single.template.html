@@ -35,9 +35,9 @@
                     <td>{{ data.fieldEducationalInstitution.entity.fieldRegistrationCode }}</td>
                   </tr>
 
-                  <tr *ngIf="data.fieldStudyProgrammeLevel && data.fieldStudyProgrammeLevel.entity">
+                  <tr *ngIf="data.fieldStudyProgrammeLevel">
                     <td>Õppekava tase</td>
-                    <td>{{ data.fieldStudyProgrammeLevel.entity.entityLabel | titleCase }}</td>
+                    <td>{{ returnEntityString(data.fieldStudyProgrammeLevel) | titleCase }}</td>
                   </tr>
 
                   <tr *ngIf="data.fieldDegreeOrDiplomaAwarded && data.fieldDegreeOrDiplomaAwarded.entity">
