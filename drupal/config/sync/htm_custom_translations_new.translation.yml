@@ -871,7 +871,7 @@ xjson:
       format: custom_editor
   return_dashboard:
     translation_type: textarea
-    et: 'Olete kindel, et soovite töölauale liikuda?'
+    et: 'Kas olete kindel, et soovite tegevuse katkestada?'
     en: ''
 article:
   label:
@@ -1988,8 +1988,8 @@ button:
     en: Close
   save_draft:
     translation_type: textarea
-    et: 'Salvesta ja jätka'
-    en: 'Save and continue'
+    et: Salvesta
+    en: Save
   rss_order:
     translation_type: textarea
     et: 'Telli teemad RSS-iga'
