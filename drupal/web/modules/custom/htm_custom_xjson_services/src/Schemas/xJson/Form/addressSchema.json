@@ -28,6 +28,18 @@
         "et"
       ]
     },
+    "placeholder": {
+      "type": "object",
+      "properties": {
+        "et": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "et"
+      ]
+    },
     "apartment": {
       "type": "integer"
     },
