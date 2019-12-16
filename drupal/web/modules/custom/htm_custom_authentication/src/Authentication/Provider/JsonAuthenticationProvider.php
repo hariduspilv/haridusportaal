@@ -148,7 +148,7 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 			$id_code = $content->id_code;
 		}
 
-		if ($this->flood->isAllowed('json_authentication_provider.failed_login_ip', $flood_config->get('ip_limit'), $flood_config->get('ip_window'))) {
+		//if ($this->flood->isAllowed('json_authentication_provider.failed_login_ip', $flood_config->get('ip_limit'), $flood_config->get('ip_window'))) {
 			if (isset($auth_method)) {
 				switch ($auth_method) {
 					case 'mobile_id':
@@ -183,9 +183,9 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 					}
 				}
 			}
-		}
+		//}
 		// Always register an IP-based failed login event.
-		$this->flood->register('json_authentication_provider.failed_login_ip', $flood_config->get('ip_window'));
+		//$this->flood->register('json_authentication_provider.failed_login_ip', $flood_config->get('ip_window'));
 		return [];
 	}
 
