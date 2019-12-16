@@ -30,7 +30,9 @@ export class ChartComponent implements OnInit {
 
   singleIndicatorCharts = ['line', 'pie', 'doughnut'];
 
-  wideChartTypesToFormat: Array<Object> = ['bar', 'column'];
+  wideChartTypesToFormat: Object[] = ['bar', 'column'];
+
+  mainLineColors: string[] = ['#4146AF', '#980000', '#E87502', '#1398AA', '#4F00FA'];
 
   constructor(
     private http: HttpService,
@@ -49,15 +51,16 @@ export class ChartComponent implements OnInit {
         bottom: 75
       },
       pieSliceTextStyle: {
-        'color': '#ffffff'
+        color: '#333',
       },
-      curveType: "function",
+      pieSliceBorderColor: '#333',
+      curveType: 'function',
       lineWidth: 3,
       pointsVisible: true,
       pointSize: 10,
       legend: { position: 'bottom', maxLines: 99, alignment: 'start' },
       tooltip: {},
-      colors: ['#161B5B', '#293193', '#4C53AD', '#824CAD', '#AD4CA3'],
+      colors: ['#fd8208', '#f8b243', '#ffc388', '#ffe7c1', '#bee3e8', '#6ccfdc', '#16b5ca'],
 
       animation: {
         duration: 1000,
@@ -167,9 +170,6 @@ export class ChartComponent implements OnInit {
     for (let i in data) {
       let current = data[i];
       let value = JSON.parse(current.value);
-      let titleCaseValues = value ? value.map(single => {
-        return single.map(field => (typeof field === 'string' && field.length) ? this.capitalize(field) : field);
-      }) : value;
       let graphVAxis = current.graphVAxis;
       let chartType = this.capitalize(current.graphType);
       let graphIndicator = current.graphIndicator;
@@ -178,6 +178,27 @@ export class ChartComponent implements OnInit {
       let isStacked: any = false;
       let seriesType: any = false;
       let primaryFormat;
+      const titleCaseValues = value ? value.map((single, index) => {
+        single.map((field) => {
+          return (typeof field === 'string' && field.length)
+            ? this.capitalize(field) : field;
+        });
+        if (chartType.toLowerCase() !== 'line') {
+          const parsedArray = [];
+          single.forEach((item, ind) => {
+            parsedArray.push(item);
+            if (index) {
+              if ((secondaryGraphType && ind === 1) || (!secondaryGraphType && ind)) {
+                parsedArray.push('stroke-color: #333; stroke-width: 1px');
+              }
+            } else if (secondaryGraphType && ind === 1 || !secondaryGraphType && ind) {
+              parsedArray.push({ role: 'style' });
+            }
+          });
+          return parsedArray;
+        }
+        return single;
+      }) : value;
 
       if (chartType == "Doughnut") {
         chartType = "Pie";
@@ -343,23 +364,23 @@ export class ChartComponent implements OnInit {
         }
 
         if (filters && filters['näitaja2'] && filters['näitaja2'].length > 0) {
-          let lineColors = ['#FFE7C1', '#BEE3E8'];
+          const lineColors = this.mainLineColors;
           let colorCounter = 0;
-
-          for (let i in filters['näitaja2']) {
-
-            let index = titleCaseValues[0].findIndex(item => filters['näitaja2'][i].toLowerCase() === item.toLowerCase());
-
-            tmp.options.colors[index - 1] = lineColors[colorCounter];
-            tmp.options['series'][index - 1] = {
+          for (const i in filters['näitaja2']) {
+            const index = titleCaseValues[0].findIndex(item =>
+              typeof item === 'string'
+                ? filters['näitaja2'][i].toLowerCase() === item.toLowerCase()
+                : null);
+            tmp.options.colors[index - 2] = lineColors[colorCounter];
+            tmp.options['series'][index - 2] = {
               type: secondaryGraphType,
               targetAxisIndex: 1,
               viewWindow: {
-                min: 1000
-              }
+                min: 1000,
+              },
             };
-            colorCounter++;
-            if (colorCounter > lineColors.length-1) { colorCounter = 0; }
+            colorCounter += 1;
+            if (colorCounter > lineColors.length - 1) { colorCounter = 0; }
           }
         }
 
@@ -388,8 +409,11 @@ export class ChartComponent implements OnInit {
   parseData() {
 
     this.data = this.data.map((item) => {
-
-      item.filterValues = JSON.parse(item.filterValues);
+      try {
+        item.filterValues = JSON.parse(item.filterValues);
+      } catch (err) {
+        console.log('Error parsing JSON');
+      }
 
       item.id = this.generateID();
 
