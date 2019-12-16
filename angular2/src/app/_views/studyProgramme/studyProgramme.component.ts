@@ -329,6 +329,14 @@ export class StudyProgrammeComponent extends FiltersService implements OnInit, O
 
   }
 
+  returnEntityString (entity) {
+    if (Array.isArray(entity)) {
+      const values = entity.map(val => val.entity.entityLabel);
+      return values.join(', ');
+    }
+    return entity;
+  }
+
   ngOnInit() {
     this.showFilter = this.device.isDesktop();
     this.filterFull = this.device.isTablet() || this.device.isMobile();
