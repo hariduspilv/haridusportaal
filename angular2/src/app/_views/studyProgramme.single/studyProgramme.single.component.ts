@@ -67,6 +67,15 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   toggleDisplayRelatedStudyProgrammes(value){
     this.displayRelatedStudyProgrammes = value;
   }
+
+  returnEntityString (entity) {
+    if (Array.isArray(entity)) {
+      const values = entity.map(val => val.entity.entityLabel);
+      return values.join(', ');
+    }
+    return entity;
+  }
+
   getData() {
 
     this.data = false;
