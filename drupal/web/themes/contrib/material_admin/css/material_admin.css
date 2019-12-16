@@ -1,5 +1,5 @@
 /* @file
- * Material Admin 
+ * Material Admin
  *
  */
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
@@ -2040,7 +2040,7 @@ table tbody tr.grey.drag, table > tbody > tr.field-plugin-settings-editing {
   color: transparent !important; }
 
 /* @file
- * Color schema 
+ * Color schema
  *
  */
 /* @file
@@ -5362,6 +5362,8 @@ input[type=range]:focus::-ms-fill-upper {
   z-index: -1; }
 
 .dropdown-content {
+  top: auto !important;
+  left: auto !important;
   background-color: #FFFFFF;
   margin: 0;
   display: none;
