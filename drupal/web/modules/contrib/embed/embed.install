@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the embed module.
+ */
+
+use Drupal\embed\Entity\EmbedButton;
+
+/**
+ * Update embed button icons to use encoded data instead of file references.
+ */
+function embed_update_8101() {
+  $config_factory = \Drupal::configFactory();
+  $file_usage = \Drupal::service('file.usage');
+  $count = 0;
+
+  foreach ($config_factory->listAll('embed.button.') as $key) {
+    $config = $config_factory->getEditable($key);
+    if ($icon_uuid = $config->get('icon_uuid')) {
+      // Read in the button icon file and convert to base 64 encoded string.
+      $files = \Drupal::entityTypeManager()->getStorage('file')->loadByProperties(['uuid' => $icon_uuid]);
+      $file = reset($files);
+      $config->set('icon', EmbedButton::convertImageToEncodedData($file->getFileUri()));
+      $config->clear('icon_uuid');
+
+      // Decrement file usage for this embed button.
+      $file_usage->delete($file, 'embed', 'embed_button', $config->get('id'));
+
+      // Remove the button icon file dependency.
+      if ($dependencies = $config->get('dependencies.content')) {
+        $dependencies = array_diff($dependencies, [$file->getConfigDependencyName()]);
+        if ($dependencies) {
+          $config->set('dependencies.content', array_values($dependencies));
+        }
+        else {
+          $config->clear('dependencies.content');
+        }
+      }
+
+      $config->save(TRUE);
+      $count++;
+    }
+  }
+
+  return t('Converted @count embed button icon references to encoded image URLs', ['@count' => $count]);
+}

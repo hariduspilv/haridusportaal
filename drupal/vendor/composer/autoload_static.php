@@ -190,6 +190,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'DrupalComposer\\DrupalScaffold\\' => 30,
             'DrupalCodeGenerator\\' => 20,
             'Dotenv\\' => 7,
+            'Doctrine\\Persistence\\' => 21,
             'Doctrine\\Instantiator\\' => 22,
             'Doctrine\\Common\\Lexer\\' => 22,
             'Doctrine\\Common\\Inflector\\' => 26,
@@ -617,6 +618,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
+        ),
+        'Doctrine\\Persistence\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/persistence/lib/Doctrine/Persistence',
         ),
         'Doctrine\\Instantiator\\' => 
         array (

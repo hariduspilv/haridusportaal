@@ -103,6 +103,7 @@ return array(
     'DrupalComposer\\DrupalScaffold\\' => array($vendorDir . '/drupal-composer/drupal-scaffold/src'),
     'DrupalCodeGenerator\\' => array($vendorDir . '/chi-teck/drupal-code-generator/src'),
     'Dotenv\\' => array($vendorDir . '/vlucas/phpdotenv/src'),
+    'Doctrine\\Persistence\\' => array($vendorDir . '/doctrine/persistence/lib/Doctrine/Persistence'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib/Doctrine/Common/Lexer'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib/Doctrine/Common/Inflector'),
