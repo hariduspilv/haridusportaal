@@ -59,7 +59,7 @@
         transition:border-color 0.25s, color 0.25s;
         will-change:border-clor, color;
         outline: none;
-        min-width: 100%;
+        min-width: 5rem;
         max-width: 100%;
         &.focused{
           border-color: $blue;

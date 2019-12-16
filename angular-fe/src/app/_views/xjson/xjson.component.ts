@@ -773,9 +773,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (displayEditButton) { output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' }); }
       }
     } else {
+      console.log(activities);
       activities.forEach(activity => {
         if (editableActivities.includes(activity)) {
-          output['primary'].push({ label: 'button.' + activity.toLowerCase(), action: activity, style: 'primary' });
+          if (activity === 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT')) {
+            output['primary'].push({ label: 'button.save_draft', action: activity, style: 'primary' });
+          } else {
+            output['primary'].push({ label: 'button.' + activity.toLowerCase(), action: activity, style: 'primary' });
+          }
         }
       });
     }
@@ -1006,7 +1011,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.path = decodeURI(this.location.path());
+    this.path = decodeURI(this.location.path().split('?')[0]);
     this.form_route = decodeURI(this.router.url).split('?')[0];
     this.lang = 'et';
     this.getFormName();

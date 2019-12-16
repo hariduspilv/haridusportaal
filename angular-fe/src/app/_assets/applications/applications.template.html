@@ -268,7 +268,7 @@
 									<td>{{ 'school.website' | translate }}</td>
 									<td class="light underlineHover first-small">
 										<a
-											href="{{school.institutionInfo.contacts.webpageAddress}}"
+											href="{{ getWebPage(school.institutionInfo.contacts.webpageAddress) }}"
 											target="_blank"
 											attr.aria-label="{{'school.website' | translate}}: {{school.institutionInfo.contacts.webpageAddress}}"
 											>{{ school.institutionInfo.contacts.webpageAddress }}</a
@@ -290,11 +290,11 @@
 									</td>
 								</tr>
 								<tr
-									*ngIf="school.institutionInfo.address && school.institutionInfo.address.addressHumanReadable"
+									*ngIf="school.institutionInfo.address && school.institutionInfo.address.adsOid"
 								>
 									<td>{{ 'event.aadress' | translate }}</td>
 									<td class="light">
-										{{ school.institutionInfo.address.addressHumanReadable }}
+										{{ school.institutionInfo.address.addressFull !== null ? school.institutionInfo.address.addressFull : getInAds(school.institutionInfo.address.adsOid, ind) }}
 									</td>
 									<td
 										*ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress"

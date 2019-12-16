@@ -61,7 +61,7 @@
         ngbDatepicker #d="ngbDatepicker"
         container="body"
         outsideDays="collapsed"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
+        [attr.placeholder]="titleDisabled && !focused ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         type="text"

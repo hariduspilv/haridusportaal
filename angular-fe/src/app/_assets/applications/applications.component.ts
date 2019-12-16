@@ -23,6 +23,12 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     initial: false,
     interval: false,
   };
+
+  private debounce;
+  private delay: number = 200;
+
+  test = true;
+
   dummyDataVersion: string;
   startTime;
   endViewCheck: boolean = false;
@@ -53,6 +59,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   elemAtStart: any = [{ 0: true, 1: true }];
   initialized: any = [{ 0: false, 1: false }];
   private subscriptions: Subscription[] = [];
+  private locSubscriptions: Subscription[] = [];
   userData;
   error = false;
   modalLoading = false;
@@ -63,7 +70,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   };
 
   public formGroup: FormGroup = this.formBuilder.group({});
-
 
   constructor(
     public alertsService: AlertsService,
@@ -116,7 +122,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         return 1;
       }
       return 0;
-    }
+    };
 
     const regex = /(\d{2}).(\d{2}).(\d{4})/;
     function compareDate(a: any, b: any) {
@@ -340,14 +346,35 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       });
   }
 
+  getWebPage(url) {
+    return url.startsWith('www.') ? `http://${url}` : url;
+  }
+
+  getInAds(id, index) {
+    if (!this.locSubscriptions[index]) {
+      const params = `ihist=1&appartment=1&address=${id}&results=10&callback=JSONP_CALLBACK`;
+      const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
+      clearTimeout(this.debounce);
+      this.debounce = setTimeout(() => {
+        this.locSubscriptions[index] = this.http.jsonp(path, 'callback').
+          subscribe((response: any) => {
+            this.data.educationalInstitutions[index].institutionInfo.address.addressFull =
+              response.addresses && response.addresses[0] && response.addresses[0].pikkaadress ?
+                response.addresses[0].pikkaadress :
+                this.data.educationalInstitutions[index].institutionInfo.address.addressHumanReadable;
+            this.locSubscriptions[index].unsubscribe();
+          });
+      }, this.delay);
+    }
+  }
+
   createInstitution() {
     this.error = false;
     this.modalLoading = true;
     if (!this.formGroup.valid) {
       Object.entries(this.formGroup.controls).map(([key, val]) => {
-        if (val.errors) {
-          //this.institutionModalFields[key].error = true;
-        }
+        const seq = Object.keys(this.formGroup.controls).indexOf(key);
+        this.institutionModalFields[seq].error = val.errors ? true : false;
       });
       this.modalLoading = false;
     } else {

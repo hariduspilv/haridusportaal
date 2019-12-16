@@ -329,8 +329,7 @@
                                           <formItem
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                             type="text" [(ngModel)]="row[col]"
-                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                            name="{{element + '_' + rowIndex + '_' + colIndex}}">
                                           </formItem>
                                         </ng-container> <!-- /TEXT -->
 
@@ -339,8 +338,7 @@
                                           <formItem
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplayAddress"
                                             type="autocomplete" query="inaadress" valueType="object"
-                                            [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                            [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}">
                                           </formItem>
                                         </ng-container> <!-- /ADDRESS -->
 
@@ -350,7 +348,6 @@
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                             type="text" [(ngModel)]="row[col]"
                                             name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
                                             [error]="row[col]">
                                           </formItem>
                                         </ng-container> <!-- /EMAIL -->
@@ -360,8 +357,7 @@
                                           <formItem
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                             type="number" [(ngModel)]="row[col]"
-                                            name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                            name="{{element + '_' + rowIndex + '_' + colIndex}}">
                                           </formItem>
                                         </ng-container> <!-- /NUMBER -->
 
@@ -396,7 +392,6 @@
                                             name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                             type="date"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}"
                                             [(ngModel)]="row[col]"></formItem>
                                         </ng-container><!-- /DATE -->
 
@@ -416,8 +411,7 @@
                                           <formItem type="select" name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                             [(ngModel)]="row[col]"
                                             [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                            [options]="tableColumnAttribute(element, colIndex, 'options')"
-                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'title'))}}">
+                                            [options]="tableColumnAttribute(element, colIndex, 'options')">
                                           </formItem>
                                         </ng-container> <!-- /SELECTLIST -->
 

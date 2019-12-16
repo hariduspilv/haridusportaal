@@ -23,6 +23,7 @@ import 'core-js/es6/reflect';
 import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 import 'core-js/es7/object';
 import 'core-js/es7/array';
+import 'core-js/es7/string';
 
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
