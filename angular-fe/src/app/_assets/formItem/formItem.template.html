@@ -143,7 +143,7 @@
           (blur)="update('blur')"
           [attr.disabled]="disabled"
           [(ngModel)]="field">
-          <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
+          <option *ngFor="let item of options | orderBy:'key'" [value]="item.value">{{ item.key }}</option>
         </select>
         <button class="formItem__icon" type="button">
           <icon glyph="chevron-down"></icon>
@@ -151,7 +151,7 @@
       </ng-container>
       <ng-container *ngIf="!isMobile">
         <ng-select
-          [items]="options"
+          [items]="options | orderBy:'key'"
           bindLabel="key"
           bindValue="value"
           (change)="update()"

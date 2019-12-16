@@ -344,6 +344,11 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     this.error = false;
     this.modalLoading = true;
     if (!this.formGroup.valid) {
+      Object.entries(this.formGroup.controls).map(([key, val]) => {
+        if (val.errors) {
+          //this.institutionModalFields[key].error = true;
+        }
+      });
       this.modalLoading = false;
     } else {
       const body = {
