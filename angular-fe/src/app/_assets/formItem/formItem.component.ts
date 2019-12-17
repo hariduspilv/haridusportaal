@@ -240,8 +240,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.field = value;
     } else {
       this.field = {
+        seqNo: value['unik'],
+        klElukoht: value['tehn_id2'],
         adsId: value['adr_id'],
         adsOid: value['ads_oid'],
+        addressFull: value['pikkaadress'],
         addressCoded: value['koodaadress'],
         county: value['maakond'],
         countyEHAK: value['ehakmk'],

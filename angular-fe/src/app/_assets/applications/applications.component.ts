@@ -45,11 +45,12 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   currentRole: string = '';
 
   institutionData = [];
-  editableInstitution = false;
+  editableInstitution = {};
+  editableId = '';
 
   modalTitleExists = true;
   modalTopAction = false;
-  modalBottomAction = false;
+  modalBottomAction = true;
   institutionModalFields = [];
 
   acceptableFormsList = [];
@@ -233,12 +234,13 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     return counter;
   }
 
-  loadInstitutionModal(info = false) {
-    this.editableInstitution = info;
+  loadInstitutionModal(id = null, editableInst = false) {
+    this.editableInstitution = editableInst ? editableInst : {};
+    this.editableId = id;
     this.alertsService.clear('institution');
     this.modalBottomAction = false;
     this.formGroup.reset();
-    if (!info) {
+    if (!editableInst) {
       this.institutionModalFields = [
         {
           col: 12,
@@ -378,7 +380,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     this.formGroup.updateValueAndValidity();
     this.error = false;
     this.modalLoading = true;
-    info ? this.modalService.toggle('editInstitutionModal') :
+    editableInst ? this.modalService.toggle('editInstitutionModal') :
     this.modalService.toggle('institutionModal');
     const sub = this.http
       .get(`${this.settings.url}/educational-institution/data?_format=json`)
@@ -413,6 +415,45 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.locSubscriptions[index].unsubscribe();
           });
       }, this.delay);
+    }
+  }
+
+  editInstitution() {
+    this.error = false;
+    this.modalLoading = true;
+    if (!this.formGroup.valid) {
+      Object.entries(this.formGroup.controls).map(([key, val]) => {
+        const seq = Object.keys(this.formGroup.controls).indexOf(key);
+        this.institutionModalFields[seq].error = val.errors ? true : false;
+      });
+      this.modalLoading = false;
+    } else {
+      const body = {
+        edId: this.editableId,
+        address: this.formGroup.value.address,
+        contacts: {
+          contactPhone: this.formGroup.value.contactPhone,
+          contactEmail: this.formGroup.value.contactEmail,
+          webpageAddress: this.formGroup.value.webpageAddress,
+        },
+      };
+
+      const sub = this.http
+        .post(`${this.settings.url}/educational-institution/edit`, body)
+        .subscribe(
+          (response: any) => {
+            this.alertsService.info(response.message, 'institution', 'institution', false, false);
+            this.modalLoading = false;
+            this.modalBottomAction = true;
+            this.editableInstitution = body;
+            sub.unsubscribe();
+          },
+          (err) => {
+            this.alertsService.error(err.error, 'institution', 'institution', false, false);
+            this.modalLoading = false;
+            this.error = true;
+            this.modalBottomAction = true;
+          });
     }
   }
 
