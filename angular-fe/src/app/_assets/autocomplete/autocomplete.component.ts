@@ -5,6 +5,7 @@ import {
   EventEmitter,
   ElementRef,
   ChangeDetectorRef,
+  OnDestroy,
 } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
@@ -20,7 +21,7 @@ import { NgbRadio } from '@ng-bootstrap/ng-bootstrap';
   },
 })
 
-export class AutocompleteComponent {
+export class AutocompleteComponent implements OnDestroy {
   @Input() type: string = '';
   @Input() valueType: string = 'string';
 
@@ -203,6 +204,10 @@ export class AutocompleteComponent {
     this.el.nativeElement.id = '';
     this.el.nativeElement.opacity = '0';
     document.removeEventListener('scroll', this.handleScroll, true);
+  }
+
+  ngOnDestroy() {
+    this.unbindScroll();
   }
 
 }

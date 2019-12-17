@@ -146,7 +146,11 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
   }
 
   ngAfterContentInit() {
-    this.closeOthers();
+    setTimeout(
+      () => {
+        this.closeOthers();
+      },
+      0);
   }
 
   ngOnChanges() {

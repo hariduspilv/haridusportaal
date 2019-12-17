@@ -5,7 +5,10 @@ import {
   OnChanges,
   HostListener,
   Input,
+  Renderer2,
+  OnDestroy,
 } from '@angular/core';
+import { fromEvent, Subscription } from 'rxjs';
 
 @Component({
   selector: 'scrollableContent',
@@ -13,7 +16,7 @@ import {
   styleUrls: ['./scrollableContent.styles.scss'],
 })
 
-export class ScrollableContentComponent implements OnInit, OnChanges{
+export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
 
   public isScrollable: boolean = false;
   public scrollRunner: any;
@@ -29,7 +32,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges{
 
   @Input() changed: any;
 
-  @HostListener('window:scroll', ['$event'])
+  scrollListener: Subscription;
   onScroll() {
     if (this.isScrollable) {
       const timing = this.arrowsPositionDebounce ? 60 : 0;
@@ -48,13 +51,15 @@ export class ScrollableContentComponent implements OnInit, OnChanges{
     }
   }
 
-  @HostListener('document:mouseup', ['$event'])
+  mouseUpListener: Subscription;
   onMouseUp(event) {
-    clearInterval(this.scrollRunner);
-    this.scrollDirection = 0;
+    if (this.scrollRunner) {
+      clearInterval(this.scrollRunner);
+      this.scrollRunner = false;
+    }
   }
 
-  @HostListener('window:resize', ['$event'])
+  resizeListener: Subscription;
   onResize(event) {
     clearTimeout(this.debounce);
     this.debounce = setTimeout(
@@ -66,6 +71,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges{
 
   constructor(
     private el: ElementRef,
+    private renderer: Renderer2,
   ) {}
 
   private centerArrows(): void {
@@ -115,21 +121,30 @@ export class ScrollableContentComponent implements OnInit, OnChanges{
 
     this.scrollDirection = direction;
 
-    if (direction === 2) {
-      clearInterval(this.scrollRunner);
-    } else {
-      clearInterval(this.scrollRunner);
-      this.scrollRunner = setInterval(
-        () => {
-          const scroller = this.el.nativeElement.querySelector('.scrollable__scroller');
-          let scrollLeft = scroller.scrollLeft;
-          const step = 20;
+    const scroller = this.el.nativeElement.querySelector('.scrollable__scroller');
+    let scrollLeft = scroller.scrollLeft;
+    const step = 100;
 
-          scrollLeft += direction * step;
-          scroller.scrollLeft = scrollLeft;
-        },
-        30);
-    }
+    scrollLeft += direction * step;
+    scroller.scroll({
+      left: scrollLeft,
+      behavior: 'smooth',
+    });
+  }
+
+  bindListeners() {
+    this.resizeListener = fromEvent(window, 'resize').subscribe((e) => {
+      this.onResize(e);
+    });
+    this.scrollListener = fromEvent(window, 'scroll').subscribe((e) => {
+      this.onScroll();
+    });
+
+  }
+
+  destroyListeners() {
+    this.resizeListener.unsubscribe();
+    this.scrollListener.unsubscribe();
   }
 
   ngOnInit() {
@@ -137,16 +152,19 @@ export class ScrollableContentComponent implements OnInit, OnChanges{
     this.scroller = this.el.nativeElement.querySelector('.scrollable__scroller');
     this.inline = this.el.nativeElement.querySelector('.scrollable__inline');
     this.arrows = this.el.nativeElement.querySelectorAll('.arrow');
-
     setTimeout(
       () => {
         this.detectWidth();
         this.onScroll();
         this.checkArrows();
+        this.bindListeners();
       },
       0);
   }
 
+  ngOnDestroy() {
+    this.destroyListeners();
+  }
   ngOnChanges() {
     setTimeout(
       () => {

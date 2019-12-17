@@ -201,6 +201,12 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                       });
                     }
                   }
+
+                  this.data.educationalInstitutions.forEach((school, ind) => {
+                    if (school.institutionInfo.address.addressFull === null ) {
+                      this.getInAds(school);
+                    } 
+                  });
                 }
               }
               this.loading.initial = false;
@@ -237,7 +243,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     this.editableInstitution = info;
     this.alertsService.clear('institution');
     this.modalBottomAction = false;
-    this.formGroup.reset();
+    this.formGroup = this.formBuilder.group({});
     if (!info) {
       this.institutionModalFields = [
         {
@@ -383,37 +389,64 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const sub = this.http
       .get(`${this.settings.url}/educational-institution/data?_format=json`)
       .subscribe((response: any) => {
+
         Object.keys(this.formOptions).forEach((key) => {
           Object.values(response[key]).forEach((elem: any, index) => {
             elem['id'] = Object.keys(response[key])[index];
             this.formOptions[key].push({ key: elem.et, value: elem.id });
           });
         });
+
+        this.institutionModalFields.forEach((item) => {
+          const value = item.modelCategory ?
+            this.editableInstitution[item.modelCategory][item.modelName] :
+            this.editableInstitution[item.modelName];
+          item.formControl.setValue(value);
+          if (item.query === 'inaadress') {
+            this.getItemAddress(item);
+          }
+        });
+        console.log(this.formGroup.value);
         this.modalLoading = false;
         sub.unsubscribe();
       });
+
+  }
+
+  getItemAddress(item) {
+    if (item.formControl.value && item.formControl.value.addressHumanReadable) {
+      const address = item.formControl.value.addressHumanReadable;
+      const params = `ihist=1&appartment=1&address=${address}&results=10&callback=JSONP_CALLBACK`;
+      const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
+      const subscription = this.http.jsonp(path, 'callback').
+          subscribe((response: any) => {
+            const value  =
+              response.addresses && response.addresses[0] && response.addresses[0].pikkaadress ?
+                response.addresses[0].pikkaadress :
+                item.formControl.value.addressHumanReadable;
+            item.formControl.setValue(value);
+          });
+    }
   }
 
   getWebPage(url) {
     return url.startsWith('www.') ? `http://${url}` : url;
   }
 
-  getInAds(id, index) {
-    if (!this.locSubscriptions[index]) {
-      const params = `ihist=1&appartment=1&address=${id}&results=10&callback=JSONP_CALLBACK`;
-      const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
-      clearTimeout(this.debounce);
-      this.debounce = setTimeout(() => {
-        this.locSubscriptions[index] = this.http.jsonp(path, 'callback').
-          subscribe((response: any) => {
-            this.data.educationalInstitutions[index].institutionInfo.address.addressFull =
-              response.addresses && response.addresses[0] && response.addresses[0].pikkaadress ?
-                response.addresses[0].pikkaadress :
-                this.data.educationalInstitutions[index].institutionInfo.address.addressHumanReadable;
-            this.locSubscriptions[index].unsubscribe();
-          });
-      }, this.delay);
-    }
+  getInAds(school) {
+    const id = school.institutionInfo.address.adsOid;
+    const params = `ihist=1&appartment=1&address=${id}&results=10&callback=JSONP_CALLBACK`;
+    const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
+    school.institutionInfo.address.addressFull = '';
+    const subscription = this.http.jsonp(path, 'callback').
+      subscribe((response: any) => {
+        school.institutionInfo.address.addressFull =
+          response.addresses && response.addresses[0] && response.addresses[0].pikkaadress ?
+            response.addresses[0].pikkaadress :
+            school.institutionInfo.address.addressHumanReadable;
+        this.cdr.detectChanges();
+        subscription.unsubscribe();
+      });
   }
 
   createInstitution() {

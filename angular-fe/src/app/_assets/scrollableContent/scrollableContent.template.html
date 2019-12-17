@@ -1,5 +1,5 @@
 <div class="scrollable__wrapper" [class.isScrollable]="isScrollable">
-  <div ripple="light" class="arrow arrow--left" [class.scrolling]="scrollDirection == -1" [hidden]="!isScrollable" [class.disabled]="!canScrollLeft" (mousedown)="scroll(-1)" (mouseup)="scroll(2)">
+  <div ripple="light" class="arrow arrow--left" [class.scrolling]="scrollDirection == -1" [hidden]="!isScrollable" [class.disabled]="!canScrollLeft" (click)="scroll(-1)">
     <icon glyph="chevron-left"></icon>
   </div><!--/arrow arrow--left-->
   <div class="scrollable__scroller" (scroll)="checkArrows()">
@@ -7,7 +7,7 @@
       <ng-content></ng-content>
     </div><!--/scrollable__inline-->
   </div><!--/scrollable__scroller-->
-  <div class="arrow arrow--right" ripple="light" [class.scrolling]="scrollDirection == 1"  [hidden]="!isScrollable" [class.disabled]="!canScrollRight" (mousedown)="scroll(1)" (mouseup)="scroll(2)">
+  <div class="arrow arrow--right" ripple="light" [class.scrolling]="scrollDirection == 1"  [hidden]="!isScrollable" [class.disabled]="!canScrollRight" (click)="scroll(1)">
     <icon glyph="chevron-right"></icon>
   </div>
 </div><!--/scrollable-wrapper-->

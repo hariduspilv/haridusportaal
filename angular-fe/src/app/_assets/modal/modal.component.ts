@@ -44,7 +44,7 @@ export class ModalComponent implements OnInit {
   @Output() onClose: EventEmitter<any> = new EventEmitter();
 
   @HostBinding('class') get hostClasses(): string {
-    return this.opened ? 'modal-open' : '';
+    return this.opened ? '' : 'modal-hidden';
   }
 
   constructor(

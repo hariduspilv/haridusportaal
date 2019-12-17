@@ -265,7 +265,7 @@
 									<td>{{ 'school.website' | translate }}</td>
 									<td class="light underlineHover first-small">
 										<a
-											href="{{ getWebPage(school.institutionInfo.contacts.webpageAddress) }}"
+											[href]="school.institutionInfo.contacts.webpageAddress | url"
 											target="_blank"
 											attr.aria-label="{{'school.website' | translate}}: {{school.institutionInfo.contacts.webpageAddress}}"
 											>{{ school.institutionInfo.contacts.webpageAddress }}</a
@@ -291,7 +291,7 @@
 								>
 									<td>{{ 'event.aadress' | translate }}</td>
 									<td class="light">
-										{{ school.institutionInfo.address.addressFull !== null ? school.institutionInfo.address.addressFull : getInAds(school.institutionInfo.address.adsOid, ind) }}
+										{{ school.institutionInfo.address.addressFull }}
 									</td>
 									<td
 										*ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress"
@@ -656,7 +656,6 @@
 				<ng-container *ngFor="let item of institutionModalFields">
 					<div class="col-{{ item.col }} sm-12">
 						<formItem
-							[(ngModel)]="item.modelCategory ? editableInstitution[item.modelCategory][item.modelName] : editableInstitution[item.modelName]"
 							[type]="item.type"
 							[query]="item.query ? item.query : false"
 							[error]="item.error"
