@@ -26,6 +26,14 @@
           }
         }
       }
+      .alert {
+        p { display: block; }
+        a {
+          display: block;
+          align-self: initial;
+          padding: 0;
+        }
+      }
     }
   };
 }
@@ -35,6 +43,8 @@
   &__icon { min-width: 3.75rem; min-height: 3.75rem; display: flex; align-items: center; justify-content: center; color: $white; background-color: $info; }
 
   p { padding: 1.1875rem 1rem; color: $black; margin: 0; width: 100%; display: flex; align-self: center; line-height: 1.38; button.alert__close{ display: none}}
+
+  a { padding: 0 1rem; }
 
   &__close { justify-self: flex-end; align-self: center; padding: 1rem; display: flex; align-content: center; justify-content: center; background: transparent; border: 0; white-space: nowrap; line-height: 1.38; cursor: pointer; 
     @media all and (-ms-high-contrast:none) {
@@ -95,5 +105,5 @@
   }
   :host[small] .alert__column {
     padding: .5625rem 1rem;
-  } 
+  }
 }

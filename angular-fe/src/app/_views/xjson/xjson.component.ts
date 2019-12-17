@@ -162,23 +162,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   scrollPositionController() {
-    const _opened_step = this.opened_step;
-    if (_opened_step) {
-      if (document.getElementById('stepNavigation')) {
-        setTimeout(function () {
-          const step_navigation_container = document.getElementById('stepNavigation');
-          const opened_step_element = document.getElementById(_opened_step);
-          const parent_center = step_navigation_container.offsetWidth / 2;
-          const button_center = opened_step_element.offsetWidth / 2;
-          const position_left = (step_navigation_container.offsetLeft - opened_step_element.offsetLeft + parent_center - button_center) * -1;
-
-          document.querySelector('.app-content').scrollTo({
-            top: 0,
-          });
-
-        },         0);
-      }
-    }
+    document.querySelector('.app-content').scrollTo({
+      top: 0,
+    });
   }
 
   setDatepickerValue(event, element, rowindex, col) {
@@ -709,6 +695,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.error_alert = false;
         this.data.header['activity'] = activity;
         const payload = { form_name: this.form_route, form_info: this.data };
+        this.scrollPositionController();
         if (this.test) {
           this.promptDebugDialog(payload);
         } else {
