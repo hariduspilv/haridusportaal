@@ -7,9 +7,10 @@ import {
   ChangeDetectorRef,
 } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { NgbRadio } from '@ng-bootstrap/ng-bootstrap';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'autocomplete',
@@ -25,7 +26,7 @@ export class AutocompleteComponent {
   @Input() valueType: string = 'string';
 
   private debounce;
-  private delay: number = 200;
+  private delay: number = 500;
   public data:[] = [];
   public active: boolean = false;
   public loading: boolean = false;
@@ -55,24 +56,36 @@ export class AutocompleteComponent {
       const variables = {
         search_term: value,
       };
-      let path = this.settings.query(this.type, variables);
-
+      const path = this.settings.query(this.type, variables);
+      let params: HttpParams = new HttpParams();
       if (this.type === 'inaadress') {
-        const params = `ihist=1&appartment=1&address=${value}&results=10&callback=JSONP_CALLBACK`;
-        path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
+        params = params.set('address', value);
+        params = params.set('ihist', '1');
+        params = params.set('appartment', '1');
+        params = params.set('results', '10');
       }
 
       clearTimeout(this.debounce);
+      if (this.subscription) this.subscription.unsubscribe();
       this.debounce = setTimeout(
         () => {
           if (value.length >= this.minChars) {
             this.loading = true;
             if (this.type === 'inaadress') {
-              this.subscription = this.http.jsonp(path, 'callback').subscribe((response) => {
+              const jsonP = this.http.jsonp<any>(
+                `https://inaadress.maaamet.ee/inaadress/gazetteer?${params.toString()}`,
+                'callback',
+              );
+              this.subscription = jsonP.pipe(
+                map((data) => {
+                  return data.addresses;
+                }),
+              ).subscribe((response) => {
                 this.parseInAds(response);
+                this.positionElement();
+              },          () => {}, () => {
                 this.searched = true;
                 this.loading = false;
-                this.positionElement();
                 this.subscription.unsubscribe();
               });
             } else {
@@ -100,7 +113,7 @@ export class AutocompleteComponent {
   }
 
   private parseInAds(data) {
-    let resultSet = data['addresses'] || [];
+    let resultSet = data || [];
     resultSet = resultSet.filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
     try {
       resultSet.forEach((address) => {
