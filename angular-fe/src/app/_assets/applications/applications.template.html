@@ -227,7 +227,7 @@
 											class="rowspan-btn"
 											role="button"
 											href="javascript:void(0)"
-											(click)="openDialog(school.id, school.institutionInfo)"
+											(click)="loadInstitutionModal(school.institutionInfo)"
 											attr.aria-label="{{ 'button.edit' | translate }}"
 											>{{ 'button.edit' | translate }}</a
 										>
@@ -623,6 +623,55 @@
 						theme="plain"
 						(click)="modalService.close('institutionModal')"
 						(keyup.enter)="modalService.close('institutionModal')"
+					>
+						{{ 'event.registration_form_cancel' | translate }}
+					</button>
+					<button
+						htm-button
+						theme="default"
+						(click)="createInstitution()"
+						(keyup.enter)="createInstitution()"
+					>
+						{{ 'button.save' | translate }}
+					</button>
+				</div>
+			</div>
+		</ng-container>
+	</modal-content>
+</htm-modal>
+
+<htm-modal
+	id="editInstitutionModal"
+	modalTitle="{{ 'button.edit' | translate }}"
+	[titleExists]="modalTitleExists"
+	[topAction]="modalTopAction"
+	[bottomAction]="modalBottomAction"
+>
+	<modal-content [loading]="modalLoading">
+		<alerts small="true" id="institution"></alerts>
+		<ng-container *ngIf="!modalLoading && !error && formOptions && editableInstitution">
+			<h1>{{ 'xjson.edit' | translate }}</h1>
+			<p>{{ 'xjson.required_fields_infotext' | translate }}</p>
+			<div ngForm [formGroup]="formGroup" class="row margin">
+				<ng-container *ngFor="let item of institutionModalFields">
+					<div class="col-{{ item.col }} sm-12">
+						<formItem
+							[(ngModel)]="item.modelCategory ? editableInstitution[item.modelCategory][item.modelName] : editableInstitution[item.modelName]"
+							[type]="item.type"
+							[query]="item.query ? item.query : false"
+							[error]="item.error"
+							[formControlName]="item.modelName"
+							title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
+							[options]="formOptions[item.modelName]"
+						></formItem>
+					</div>
+				</ng-container>
+				<div class="button-container">
+					<button
+						htm-button
+						theme="plain"
+						(click)="modalService.close('editInstitutionModal')"
+						(keyup.enter)="modalService.close('editInstitutionModal')"
 					>
 						{{ 'event.registration_form_cancel' | translate }}
 					</button>

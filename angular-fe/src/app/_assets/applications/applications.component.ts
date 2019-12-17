@@ -27,8 +27,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   private debounce;
   private delay: number = 200;
 
-  test = true;
-
   dummyDataVersion: string;
   startTime;
   endViewCheck: boolean = false;
@@ -47,6 +45,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   currentRole: string = '';
 
   institutionData = [];
+  editableInstitution = false;
 
   modalTitleExists = true;
   modalTopAction = false;
@@ -234,103 +233,152 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     return counter;
   }
 
-  loadInstitutionModal() {
+  loadInstitutionModal(info = false) {
+    this.editableInstitution = info;
     this.alertsService.clear('institution');
     this.modalBottomAction = false;
     this.formGroup.reset();
-    this.institutionModalFields = [
-      {
-        col: 12,
-        type: 'text',
-        title: 'school.institution_name',
-        modelName: 'name',
-        required: true,
-        error: false,
-        formControl: this.formBuilder.control('', Validators.required),
-      },
-      {
-        col: 12,
-        type: 'text',
-        title: 'dashboard.nameENG',
-        modelName: 'nameENG',
-        required: false,
-        error: false,
-        formControl: this.formBuilder.control(''),
-      },
-      {
-        col: 6,
-        type: 'text',
-        title: 'dashboard.contactPhone',
-        modelName: 'contactPhone',
-        required: true,
-        error: false,
-        formControl: this.formBuilder.control('', Validators.required),
-      },
-      {
-        col: 6,
-        type: 'text',
-        title: 'event.participant_email',
-        modelName: 'contactEmail',
-        required: true,
-        error: false,
-        formControl: this.formBuilder.control('', Validators.required),
-      },
-      {
-        col: 12,
-        type: 'autocomplete',
-        query: 'inaadress',
-        title: 'dashboard.address',
-        modelName: 'address',
-        required: true,
-        error: false,
-        formControl: this.formBuilder.control('', Validators.required),
-      },
-      {
-        col: 6,
-        type: 'text',
-        title: 'dashboard.webpageAddress',
-        modelName: 'webpageAddress',
-        required: true,
-        error: false,
-        formControl: this.formBuilder.control('', Validators.required),
-      },
-      {
-        col: 6,
-        type: 'select',
-        title: 'dashboard.ownerType',
-        modelName: 'ownerType',
-        options: [],
-        required: true,
-        error: false,
-        formControl: this.formBuilder.control('', Validators.required),
-      },
-      {
-        col: 6,
-        type: 'select',
-        title: 'school.ownership',
-        modelName: 'ownershipType',
-        options: [],
-        required: true,
-        error: false,
-        formControl: this.formBuilder.control('', Validators.required),
-      },
-      {
-        col: 6,
-        type: 'select',
-        title: 'dashboard.studyInstitutionType',
-        modelName: 'studyInstitutionType',
-        options: [],
-        required: true,
-        error: false,
-        formControl: this.formBuilder.control('', Validators.required),
-      },
-    ];
+    if (!info) {
+      this.institutionModalFields = [
+        {
+          col: 12,
+          type: 'text',
+          title: 'school.institution_name',
+          modelName: 'name',
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+        {
+          col: 12,
+          type: 'text',
+          title: 'dashboard.nameENG',
+          modelName: 'nameENG',
+          required: false,
+          error: false,
+          formControl: this.formBuilder.control(''),
+        },
+        {
+          col: 6,
+          type: 'text',
+          title: 'dashboard.contactPhone',
+          modelName: 'contactPhone',
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+        {
+          col: 6,
+          type: 'text',
+          title: 'event.participant_email',
+          modelName: 'contactEmail',
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+        {
+          col: 12,
+          type: 'autocomplete',
+          query: 'inaadress',
+          title: 'dashboard.address',
+          modelName: 'address',
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+        {
+          col: 6,
+          type: 'text',
+          title: 'dashboard.webpageAddress',
+          modelName: 'webpageAddress',
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+        {
+          col: 6,
+          type: 'select',
+          title: 'dashboard.ownerType',
+          modelName: 'ownerType',
+          options: [],
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+        {
+          col: 6,
+          type: 'select',
+          title: 'school.ownership',
+          modelName: 'ownershipType',
+          options: [],
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+        {
+          col: 6,
+          type: 'select',
+          title: 'dashboard.studyInstitutionType',
+          modelName: 'studyInstitutionType',
+          options: [],
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+      ];
+    } else {
+      this.institutionModalFields = [
+        {
+          col: 12,
+          type: 'text',
+          title: 'dashboard.contactPhone',
+          modelCategory: 'contacts',
+          modelName: 'contactPhone',
+          required: false,
+          error: false,
+          formControl: this.formBuilder.control(''),
+        },
+        {
+          col: 12,
+          type: 'text',
+          title: 'event.participant_email',
+          modelCategory: 'contacts',
+          modelName: 'contactEmail',
+          required: false,
+          error: false,
+          formControl: this.formBuilder.control(''),
+        },
+        {
+          col: 12,
+          type: 'text',
+          title: 'dashboard.webpageAddress',
+          modelCategory: 'contacts',
+          modelName: 'webpageAddress',
+          required: false,
+          error: false,
+          formControl: this.formBuilder.control(''),
+        },
+        {
+          col: 12,
+          type: 'autocomplete',
+          query: 'inaadress',
+          title: 'dashboard.address',
+          modelCategory: false,
+          modelName: 'address',
+          required: true,
+          error: false,
+          formControl: this.formBuilder.control('', Validators.required),
+        },
+      ];
+    }
+
     this.institutionModalFields.forEach((el) => {
       this.formGroup.addControl(el.modelName, el.formControl);
     });
     this.formGroup.updateValueAndValidity();
     this.error = false;
     this.modalLoading = true;
+    info ? this.modalService.toggle('editInstitutionModal') :
     this.modalService.toggle('institutionModal');
     const sub = this.http
       .get(`${this.settings.url}/educational-institution/data?_format=json`)

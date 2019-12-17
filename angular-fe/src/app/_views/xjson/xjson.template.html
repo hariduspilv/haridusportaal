@@ -338,6 +338,7 @@
                                           <formItem
                                             *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplayAddress"
                                             type="autocomplete" query="inaadress" valueType="object"
+                                            placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'placeholder'))}}"
                                             [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}">
                                           </formItem>
                                         </ng-container> <!-- /ADDRESS -->
