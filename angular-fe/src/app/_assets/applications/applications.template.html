@@ -227,7 +227,7 @@
 											class="rowspan-btn"
 											role="button"
 											href="javascript:void(0)"
-											(click)="loadInstitutionModal(school.institutionInfo)"
+											(click)="loadInstitutionModal(school.id, school.institutionInfo)"
 											attr.aria-label="{{ 'button.edit' | translate }}"
 											>{{ 'button.edit' | translate }}</a
 										>
@@ -660,6 +660,7 @@
 							[type]="item.type"
 							[query]="item.query ? item.query : false"
 							[error]="item.error"
+							[valueType]="item.type === 'autocomplete' ? 'object' : false"
 							[formControlName]="item.modelName"
 							title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
 							[options]="formOptions[item.modelName]"
@@ -678,8 +679,8 @@
 					<button
 						htm-button
 						theme="default"
-						(click)="createInstitution()"
-						(keyup.enter)="createInstitution()"
+						(click)="editInstitution()"
+						(keyup.enter)="editInstitution()"
 					>
 						{{ 'button.save' | translate }}
 					</button>

@@ -122,6 +122,7 @@ export class AutocompleteComponent {
         } else {
           address.addressHumanReadable = address.pikkaadress;
         }
+        address.seqNo = address.unik;
       });
 
       if (this.valueType === 'string') {
