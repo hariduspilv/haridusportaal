@@ -3,6 +3,7 @@
 ::ng-deep {
   .picto {
     .image {
+      filter: invert(3%) sepia(53%) saturate(2100%) hue-rotate(218deg) brightness(94%) contrast(87%);
       position: relative;
       float: right !important;
       height: 7rem;
