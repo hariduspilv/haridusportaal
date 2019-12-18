@@ -176,6 +176,7 @@ class xJsonRestResource extends ResourceBase {
   private function returnBuildedResponse ($response) {
     $builded_response = $this->xJsonService->buildFormv2($response);
     if (empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
+    $this->ehisService->deleteKeyFromredis($this->ehisService->getCurrentUserIdRegCode(FALSE));
     return new ModifiedResourceResponse($builded_response, 200);
   }
 

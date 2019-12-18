@@ -352,6 +352,10 @@ class xJsonService implements xJsonServiceInterface {
       $return = $this->checkAcceptableForms($return);
     }
 
+    if(!empty($return)){
+
+    }
+
     return $return;
   }
 
