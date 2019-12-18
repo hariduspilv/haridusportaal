@@ -133,6 +133,9 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 			return new ResourceResponse($e->getMessage(), $e->getCode());
 		}
 
+    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($this->current_user, TRUE) . '</code></pre>' );
+
+
     \Drupal::logger('xjson')->notice('<pre><code>' . print_r($json, TRUE) . '</code></pre>' );
 
     $response = new ModifiedResourceResponse($json, 200);
