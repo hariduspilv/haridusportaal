@@ -19,12 +19,6 @@
         transform: translateX(-30%);
         float: none !important;
       }
-      @include break-on(xxs, max) {
-        position: relative;
-        left: 15%;
-        transform: translateX(-15%);
-        float: none !important;
-      }
     }
     .bg {
       @include break-on(xs, max) {
@@ -32,12 +26,6 @@
         top: 0;
         left: 20%;
         transform: translateX(-20%);
-      }
-      @include break-on(xxs, max) {
-        position: absolute;
-        top: 0;
-        left: 15%;
-        transform: translateX(-15%);
       }
       .circle {
         position: relative;
