@@ -429,6 +429,7 @@ class EhisConnectorService {
     if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
     #dump($params);
     $response = $this->invokeWithRedis('vpTaotlus', $params);
+    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($params, TRUE) . '</code></pre>' );
     $workedResponse = $this->applicationPathWorker($response);
     if(isset($workedResponse['educationalInstitutions'])){
       foreach($workedResponse['educationalInstitutions'] as &$institution){

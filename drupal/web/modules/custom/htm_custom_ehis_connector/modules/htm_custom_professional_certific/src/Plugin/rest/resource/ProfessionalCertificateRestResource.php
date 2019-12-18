@@ -116,7 +116,8 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 				$method = 'getApplications';
 				#$this->certificate->testApplications();
 				$params = ['init' => (boolean) $tab, 'get_edi_data' => TRUE];
-				break;
+        \Drupal::logger('xjson')->notice('<pre><code>' . print_r($params, TRUE) . '</code></pre>' );
+        break;
 		  case 'educational_institution':
 		  	$method = 'getEducationalInstitution';
 		  	$params = ['id' => $tab, 'addTitle' => true];
@@ -132,7 +133,9 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 			return new ResourceResponse($e->getMessage(), $e->getCode());
 		}
 
-		$response = new ModifiedResourceResponse($json, 200);
+    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($json, TRUE) . '</code></pre>' );
+
+    $response = new ModifiedResourceResponse($json, 200);
 
 		return $response;
 	}
