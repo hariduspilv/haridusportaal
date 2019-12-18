@@ -161,6 +161,10 @@ class EhisConnectorService {
     return $response;
   }
 
+  public function deleteKeyFromredis($key){
+    $this->client->del($key);
+  }
+
 
   /**
    * @param bool $idcode
