@@ -32,6 +32,7 @@ class xJsonRestResource extends ResourceBase {
    */
   protected $currentUser;
 
+  protected $formAction;
 
   /**
    * xJsonRestResource constructor.
@@ -176,7 +177,9 @@ class xJsonRestResource extends ResourceBase {
   private function returnBuildedResponse ($response) {
     $builded_response = $this->xJsonService->buildFormv2($response);
     if (empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
-    $this->ehisService->deleteKeyFromredis($this->ehisService->getCurrentUserIdRegCode(FALSE));
+    if($this->formAction === 'SAVE' || $this->formAction === 'SUBMIT'){
+      $this->ehisService->deleteKeyFromredis($this->ehisService->getCurrentUserIdRegCode(FALSE));
+    }
     return new ModifiedResourceResponse($builded_response, 200);
   }
 
@@ -192,6 +195,9 @@ class xJsonRestResource extends ResourceBase {
 
   private function checkxJsonForm ($data) {
     $path = $data['form_name'];
+    if(isset($data['form_info'])){
+      $this->formAction = $data['form_info']['header']['activity'];
+    }
 
     $path = \Drupal::service('path.alias_manager')->getPathByAlias($path);
     $system_path = explode('/', $path);
