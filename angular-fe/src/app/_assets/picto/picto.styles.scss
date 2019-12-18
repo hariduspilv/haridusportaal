@@ -2,6 +2,7 @@
 
 ::ng-deep {
   .picto {
+    position: relative;
     .image {
       filter: invert(3%) sepia(53%) saturate(2100%) hue-rotate(218deg) brightness(94%) contrast(87%);
       position: relative;
@@ -13,24 +14,34 @@
       margin-bottom: 1.5rem;
       margin-left: 2.5rem;
       @include break-on(xs, max) {
-        margin-right: 6rem;
-        margin-left: 6rem;
+        position: relative;
+        left: 15%;
+        transform: translateX(-15%);
+        float: none !important;
       }
     }
-    .circle {
-      position: relative;
-      float: right;
-      width: 1em;
-      height: 1em;
-      border-radius: 1em;
-    }
-    .triangle {
-      position: relative;
-      float: right;
-      width: 0;
-      height: 0;
-      border-style: solid;
-      border-style: inset;
+    .bg {
+      @include break-on(xs, max) {
+        position: absolute;
+        top: 0;
+        left: 15%;
+        transform: translateX(-15%);
+      }
+      .circle {
+        position: relative;
+        float: right;
+        width: 1em;
+        height: 1em;
+        border-radius: 1em;
+      }
+      .triangle {
+        position: relative;
+        float: right;
+        width: 0;
+        height: 0;
+        border-style: solid;
+        border-style: inset;
+      }
     }
   }
 }
