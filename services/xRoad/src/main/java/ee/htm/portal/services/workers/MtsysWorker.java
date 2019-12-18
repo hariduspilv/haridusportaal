@@ -257,6 +257,7 @@ public class MtsysWorker extends Worker {
                     ((ArrayNode) itemNode.get("drafts")).addObject()
                         .put("form_name", "MTSYS_TEGEVUSNAITAJAD_ARUANNE")
                         .put("id", tegevusnaitaja.getId().intValue())
+                        .put("document_date", tegevusnaitaja.getEsitamiseKp())
                         .put("description", tegevusnaitaja.getAasta().intValue());
                   } else {
                     ((ArrayNode) itemNode.get("documents")).addObject()
@@ -1358,12 +1359,12 @@ public class MtsysWorker extends Worker {
       step0DataElementsNode.putObject("kommentaar")
           .put("value", response.isSetKommentaar() ? response.getKommentaar() : null);
 
-      step0DataElementsNode.putObject("majandustegevuseTeateTabel").putArray("value");
-      step0DataElementsNode.putObject("tegevuslubaTabel").putArray("value");
-      step0DataElementsNode.putObject("kokkuTabel").putArray("value");
-
+      step0DataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true).putArray("value");
+      step0DataElementsNode.putObject("tegevuslubaTabel").put("hidden", true).putArray("value");
+      step0DataElementsNode.putObject("kokkuTabel").put("hidden", true).putArray("value");
       response.getNaitajad().getItemList().forEach(item -> {
         if (item.getKlOkLiik().equals(BigInteger.valueOf(-1L))) {
+          ((ObjectNode) step0DataElementsNode.get("kokkuTabel")).put("hidden", false);
           ((ArrayNode) step0DataElementsNode.get("kokkuTabel").get("value")).addObject()
               .put("nimetus", item.isSetNimetus() ? item.getNimetus() : null)
               .put("oppijateArv", item.isSetOppijaArv() ? item.getOppijaArv().intValue() : null)
@@ -1376,6 +1377,7 @@ public class MtsysWorker extends Worker {
               .put("yle240", item.isSetYle240() ? item.getYle240().intValue() : null)
               .put("kokku", item.isSetKokku() ? item.getKokku().intValue() : null);
         } else if (item.getKlOkLiik().equals(BigInteger.valueOf(18098L))) {
+          ((ObjectNode) step0DataElementsNode.get("majandustegevuseTeateTabel")).put("hidden", false);
           ((ArrayNode) step0DataElementsNode.get("majandustegevuseTeateTabel").get("value"))
               .addObject()
               .put("nimetus", item.isSetNimetus() ? item.getNimetus() : null)
@@ -1389,6 +1391,7 @@ public class MtsysWorker extends Worker {
               .put("yle240", item.isSetYle240() ? item.getYle240().intValue() : null)
               .put("kokku", item.isSetKokku() ? item.getKokku().intValue() : null);
         } else {
+          ((ObjectNode) step0DataElementsNode.get("tegevuslubaTabel")).put("hidden", false);
           ((ArrayNode) step0DataElementsNode.get("tegevuslubaTabel").get("value")).addObject()
               .put("nimetus", item.isSetNimetus() ? item.getNimetus() : null)
               .put("oppijateArv", item.isSetOppijaArv() ? item.getOppijaArv().intValue() : null)
@@ -1471,11 +1474,11 @@ public class MtsysWorker extends Worker {
           .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
       redisFileTemplate.expire(MTSYS_REDIS_KEY, redisFileExpire, TimeUnit.MINUTES);
 
-      dataElementsNode.putObject("majandustegevuseTeateTabel").putArray("value");
-      dataElementsNode.putObject("tegevuslubaTabel").putArray("value");
-
+      dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true).putArray("value");
+      dataElementsNode.putObject("tegevuslubaTabel").put("hidden", true).putArray("value");
       response.getNaitajad().getItemList().forEach(item -> {
         if (item.getKlOkLiik().equals(BigInteger.valueOf(18098L))) {
+          ((ObjectNode) dataElementsNode.get("majandustegevuseTeateTabel")).put("hidden", false);
           ((ArrayNode) dataElementsNode.get("majandustegevuseTeateTabel").get("value")).addObject()
               .put("nimetus", item.getNimetus())
               .put("oppijateArv", item.getOppijaArv())
@@ -1492,6 +1495,7 @@ public class MtsysWorker extends Worker {
               .put("klEkTase", item.getKlEkTase());
         } else if (!item.getKlOkLiik().equals(BigInteger.valueOf(18098L)) && !item.getKlOkLiik()
             .equals(BigInteger.valueOf(-1L))) {
+          ((ObjectNode) dataElementsNode.get("tegevuslubaTabel")).put("hidden", false);
           ((ArrayNode) dataElementsNode.get("tegevuslubaTabel").get("value")).addObject()
               .put("nimetus", item.getNimetus())
               .put("oppijateArv", item.getOppijaArv())
