@@ -16,6 +16,7 @@ import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicke
 import { BlockComponent } from '@app/_assets/block';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { ThrowStmt } from '@angular/compiler';
 const moment = _moment;
 @Component({
   selector: 'dashboard-view',
@@ -92,6 +93,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.breadcrumbs = decodeURI(this.location.path());
     this.currentRole = this.userData.role.current_role.type;
     this.formGroup.controls.roleSelection.setValue(this.currentRole);
+    console.log(this.currentRole);
     this.getFavouritesList();
     this.getEventList();
     this.getNotifications();
@@ -133,6 +135,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
       });
   }
 
+  initUser() {
+    this.roleSelection = this.currentRole;
+    this.codeSelection = this.currentRole === 'juridical_person' ?
+    this.userData.role.current_role.data.reg_kood : this.userData.username;
+    this.setRole();
+  }
+
   loadRoleChangeModal() {
     this.error = false;
     this.loading = true;
@@ -170,6 +179,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   setRole() {
+    console.log('tere');
     const data = {
       type: this.roleSelection,
       id: this.codeSelection,
