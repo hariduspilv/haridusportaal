@@ -980,8 +980,25 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
       }
 
+      this.fillInAds();
       this.getStepViewStatus();
     }
+  }
+
+  fillInAds() {
+    try {
+      if (this.data_elements.aadressid) {
+        this.data_elements.aadressid.value.forEach((item, index) => {
+          const address =  item.aadress.addressHumanReadable;
+          const params = `ihist=1&appartment=1&address=${address}&results=10&callback=JSONP_CALLBACK`;
+          const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
+          const subscription = this.http.jsonp(path, 'callback').
+              subscribe((response: any) => {
+                this.data_elements.aadressid.value[index].aadress = response.addresses[0];
+              });
+        });
+      }
+    } catch (err) {}
   }
 
   ngOnInit() {

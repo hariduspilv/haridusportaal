@@ -239,6 +239,16 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     if (this.valueType === 'string') {
       this.field = value;
     } else {
+
+      if (!value.addressHumanReadable) {
+        if (value.kort_nr) {
+          value.addressHumanReadable = `${value.pikkaadress}-${value.kort_nr}`;
+        } else {
+          value.addressHumanReadable = value.pikkaadress;
+        }
+        value.seqNo = value.unik;
+      }
+
       this.field = {
         seqNo: value['unik'],
         klElukoht: value['tehn_id2'],
@@ -299,6 +309,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       && this.type !== 'date'
       ) {
       this.field = parseFloat(this.field);
+    }
+
+    if (this.type === 'autocomplete' && value) {
+      this.autocompleteUpdate(value);
     }
 
     this.update('blur');

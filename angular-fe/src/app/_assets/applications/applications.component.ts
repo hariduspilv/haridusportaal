@@ -408,7 +408,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.getItemAddress(item);
           }
         });
-        console.log(this.formGroup.value);
+
         this.modalLoading = false;
         sub.unsubscribe();
       });
@@ -422,10 +422,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
       const subscription = this.http.jsonp(path, 'callback').
           subscribe((response: any) => {
-            const value  =
-              response.addresses && response.addresses[0] && response.addresses[0].pikkaadress ?
-                response.addresses[0].pikkaadress :
-                item.formControl.value.addressHumanReadable;
+            const value  = { ... response.addresses[0] };
             item.formControl.setValue(value);
           });
     }

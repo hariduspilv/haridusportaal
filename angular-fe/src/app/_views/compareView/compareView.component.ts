@@ -73,7 +73,6 @@ export class CompareViewComponent extends CompareComponent {
       const data = response['data']['nodeQuery']['entities'];
       this.compareService.formatData(data, this.compare, this.key);
       this.loading = false;
-      console.log(response);
       if (!data.length) this.rerouteToParent();
     },                            (err) => {
       this.rerouteToParent();
