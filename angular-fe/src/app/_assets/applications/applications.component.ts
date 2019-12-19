@@ -408,7 +408,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.getItemAddress(item);
           }
         });
-
         this.modalLoading = false;
         sub.unsubscribe();
       });
@@ -467,6 +466,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           webpageAddress: this.formGroup.value.webpageAddress,
         },
       };
+
+      console.log(body);
 
       const sub = this.http
         .post(`${this.settings.url}/educational-institution/edit`, body)
