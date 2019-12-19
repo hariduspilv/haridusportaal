@@ -138,16 +138,18 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         const valuesText = valuesArray.join(', ');
         let textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
         if (!textContainer) {
-          const mainContainer = this.el.nativeElement.querySelector('.ng-value-container');
-          const firstChild = this.el.nativeElement.querySelector('.ng-placeholder');
-          const textContainerEl = document.createElement('span');
-          textContainerEl.className = 'ng-value-text';
+          try {
+            const mainContainer = this.el.nativeElement.querySelector('.ng-value-container');
+            const firstChild = this.el.nativeElement.querySelector('.ng-placeholder');
+            const textContainerEl = document.createElement('span');
+            textContainerEl.className = 'ng-value-text';
 
-          const textContainerChildEl = document.createElement('span');
-          textContainerChildEl.className = 'ng-value-text-child';
-          textContainerEl.appendChild(textContainerChildEl);
-          mainContainer.insertBefore(textContainerEl, firstChild);
-          textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
+            const textContainerChildEl = document.createElement('span');
+            textContainerChildEl.className = 'ng-value-text-child';
+            textContainerEl.appendChild(textContainerChildEl);
+            mainContainer.insertBefore(textContainerEl, firstChild);
+            textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
+          } catch(err) {}
         }
         textContainer.innerHTML = valuesText;
         this.cdr.detectChanges();
@@ -272,7 +274,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   writeValue(value: string) {
-
     if (this.type === 'multi-select') {
 
       if (this.field === '' || !this.field) {
@@ -368,10 +369,30 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.field = parseFloat(this.field);
     }
 
+    if (this.options) {
+      try {
+        const arrType = typeof this.options[0].value;
+        if (arrType === 'string') {
+          this.field = this.field.map((item) => {
+            if (item) {
+              return item.toString();
+            }
+          });
+        } else if (arrType === 'number') {
+          this.field = this.field.map((item) => {
+            if (item) {
+              return parseFloat(item);
+            }
+          });
+        }
+      } catch (err) {}
+    }
+
     this.cdr.detectChanges();
   }
 
   checkDisabled(): void {
+
     if (typeof this.disabled === 'string') {
       this.disabled = this.disabled === 'true' ? true : undefined;
     } else {
@@ -395,6 +416,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   ngOnChanges() {
+    this.checkInitialValue();
     this.checkDisabled();
     this.cdr.detectChanges();
   }
