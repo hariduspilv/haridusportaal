@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import javax.annotation.Resource;
@@ -379,8 +380,9 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> custodyFiles = new ArrayList<>();
           stepOneDataElements.get("custody_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisFileTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) Objects
+                .requireNonNull(redisFileTemplate.opsForHash()
+                    .get(VPT_FILES_KEY, item.get("file_identifier").asText())))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             custodyFiles.add(failInfoDto);
           });
@@ -390,8 +392,9 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> personFailInfoDtoList = new ArrayList<>();
           stepOneDataElements.get("family_members_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisFileTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) Objects
+                .requireNonNull(redisFileTemplate.opsForHash()
+                    .get(VPT_FILES_KEY, item.get("file_identifier").asText())))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             personFailInfoDtoList.add(failInfoDto);
           });
@@ -531,8 +534,9 @@ public class VPTWorker extends Worker {
           List<FailInfoDto> addedFiles = new ArrayList<>();
           stepTwoDataElements.get("family_members_income_proof").get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisFileTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) Objects
+                .requireNonNull(redisFileTemplate.opsForHash()
+                    .get(VPT_FILES_KEY, item.get("file_identifier").asText())))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             addedFiles.add(failInfoDto);
           });
@@ -544,8 +548,9 @@ public class VPTWorker extends Worker {
           stepTwoDataElements.get("family_members_nonresident_income_proof")
               .get("value").forEach(item -> {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
-            failInfoDto.setContent(Base64.getDecoder().decode(((String) redisFileTemplate.opsForHash()
-                .get(VPT_FILES_KEY, item.get("file_identifier").asText()))));
+            failInfoDto.setContent(Base64.getDecoder().decode(((String) Objects
+                .requireNonNull(redisFileTemplate.opsForHash()
+                    .get(VPT_FILES_KEY, item.get("file_identifier").asText())))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             nonResidentFiles.add(failInfoDto);
           });
@@ -557,11 +562,16 @@ public class VPTWorker extends Worker {
             .vpTaotlusKontakt(request, applicantPersonalCode);
 
 //region STEP_3 vpTaotlusKontakt response
-        ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_3")
-            .putObject("data_elements").putObject("confirmation_2")
+        ObjectNode step3DataElement = ((ObjectNode) jsonNode.get("body").get("steps"))
+            .putObject("step_3").putObject("data_elements");
+        step3DataElement.putObject("confirmation_2")
             .put("value", false)
             .put("hidden", !response.getFailiOigsuseKinnitusKuva())
             .put("required", response.getFailiOigsuseKinnitusKuva());
+        step3DataElement.putObject("bank_account_owner")
+            .put("value", response.getKontoOmanikuNimi());
+        step3DataElement.putObject("bank_account_number")
+            .put("value", response.getKontonumber());
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_3")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
@@ -642,7 +652,7 @@ public class VPTWorker extends Worker {
   }
 
   public ObjectNode getDocumentFile(String documentId, String personalCode) {
-    Long applicationId;
+    long applicationId;
     String documentType;
     ObjectNode documentResponse = nodeFactory.objectNode();
 
@@ -656,10 +666,10 @@ public class VPTWorker extends Worker {
 
       if (documentId.contains("OTSUS_DDOC")) {
         documentType = "OTSUS_DIGIDOC";
-        applicationId = Long.valueOf(documentId.replace("OTSUS_DDOC_", ""));
+        applicationId = Long.parseLong(documentId.replace("OTSUS_DDOC_", ""));
       } else {
         documentType = "TAOTLUS_ZIP";
-        applicationId = Long.valueOf(documentId.replace(documentType + "_", ""));
+        applicationId = Long.parseLong(documentId.replace(documentType + "_", ""));
       }
 
       VpTaotlusDokument request = VpTaotlusDokument.Factory.newInstance();
@@ -718,7 +728,7 @@ public class VPTWorker extends Worker {
     }
 
     list.forEach(item -> {
-      Long timestamp = System.currentTimeMillis();
+      long timestamp = System.currentTimeMillis();
       if (StringUtils.isNotBlank(step)) {
         ((ArrayNode) jsonNode.get("body").get("steps").get(step).get("messages"))
             .add(type.toLowerCase() + "_" + timestamp);
