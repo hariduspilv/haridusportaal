@@ -149,7 +149,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
             textContainerEl.appendChild(textContainerChildEl);
             mainContainer.insertBefore(textContainerEl, firstChild);
             textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
-          } catch(err) {}
+          } catch (err) {}
         }
         textContainer.innerHTML = valuesText;
         this.cdr.detectChanges();

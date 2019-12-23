@@ -153,68 +153,69 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   fetchData() {
-    setTimeout(() => {
-      const subscription = this.http
-        .get(`${this.settings.url}/dashboard/applications/1?_format=json`)
-        .subscribe(
-          (response: any) => {
+    setTimeout(
+      () => {
+        const subscription = this.http
+          .get(`${this.settings.url}/dashboard/applications/1?_format=json`)
+          .subscribe(
+            (response: any) => {
 
-            if (typeof response.found !== undefined && response.found === null) {
-              this.fetchData();
-            } else {
-              if (response.error && response.error.message_text) {
-                this.alertsService
-                  .info(response.error.message_text.et, 'general', 'applications', false, false);
-              } else if (this.currentRole === 'natural_person') {
-                this.data.acceptable_forms = response['acceptable_forms'];
-                this.data.drafts = response['drafts'];
-                this.data.documents = response['documents'];
-                this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
-                this.data.drafts = this.sortList(this.data.drafts, 'title');
-                this.data.documents = this.sortList(this.data.documents, 'date');
-                this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
+              if (typeof response.found !== undefined && response.found === null) {
+                this.fetchData();
               } else {
-                if (response['educationalInstitutions']) {
-                  const responseData = response['educationalInstitutions'].map((elem) => {
-                    elem.documents = this.sortList(elem.documents, 'date');
-                    elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
-                    elem.drafts = this.sortList(elem.drafts, 'title');
-                    this.alertsService.info(elem.message, elem.id, false);
-                    return elem;
-                  });
-                  if (
-                    JSON.stringify(this.data.educationalInstitutions)
-                    !== JSON.stringify(responseData)
-                  ) {
-                    this.data.educationalInstitutions = responseData;
-                    if (response['message']) {
-                      this.alertsService
-                        .info(response.message, 'general', 'applications', false, false);
-                    }
+                if (response.error && response.error.message_text) {
+                  this.alertsService
+                    .info(response.error.message_text.et, 'general', 'applications', false, false);
+                } else if (this.currentRole === 'natural_person') {
+                  this.data.acceptable_forms = response['acceptable_forms'];
+                  this.data.drafts = response['drafts'];
+                  this.data.documents = response['documents'];
+                  this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
+                  this.data.drafts = this.sortList(this.data.drafts, 'title');
+                  this.data.documents = this.sortList(this.data.documents, 'date');
+                  this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
+                } else {
+                  if (response['educationalInstitutions']) {
+                    const responseData = response['educationalInstitutions'].map((elem) => {
+                      elem.documents = this.sortList(elem.documents, 'date');
+                      elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
+                      elem.drafts = this.sortList(elem.drafts, 'title');
+                      this.alertsService.info(elem.message, elem.id, false);
+                      return elem;
+                    });
                     if (
-                      this.data.educationalInstitutions
-                      && this.data.educationalInstitutions.length
+                      JSON.stringify(this.data.educationalInstitutions)
+                      !== JSON.stringify(responseData)
                     ) {
-                      this.data.educationalInstitutions.forEach((elem, index) => {
-                        this.tableOverflown[index] = { 0: false, 1: false, 2: false };
-                        this.elemAtStart[index] = { 0: true, 1: true, 2: true };
-                        this.initialized[index] = { 0: false, 1: false, 2: false };
-                      });
+                      this.data.educationalInstitutions = responseData;
+                      if (response['message']) {
+                        this.alertsService
+                          .info(response.message, 'general', 'applications', false, false);
+                      }
+                      if (
+                        this.data.educationalInstitutions
+                        && this.data.educationalInstitutions.length
+                      ) {
+                        this.data.educationalInstitutions.forEach((elem, index) => {
+                          this.tableOverflown[index] = { 0: false, 1: false, 2: false };
+                          this.elemAtStart[index] = { 0: true, 1: true, 2: true };
+                          this.initialized[index] = { 0: false, 1: false, 2: false };
+                        });
+                      }
                     }
-                  }
 
-                  this.data.educationalInstitutions.forEach((school, ind) => {
-                    if (school.institutionInfo.address.addressFull === null ) {
-                      this.getInAds(school);
-                    } 
-                  });
+                    this.data.educationalInstitutions.forEach((school, ind) => {
+                      if (school.institutionInfo.address.addressFull === null) {
+                        this.getInAds(school);
+                      }
+                    });
+                  }
                 }
+                this.loading.initial = false;
               }
-              this.loading.initial = false;
-            }
-            subscription.unsubscribe();
-          });
-    },
+              subscription.unsubscribe();
+            });
+      },
       1000);
   }
 
