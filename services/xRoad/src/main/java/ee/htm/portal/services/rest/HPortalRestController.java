@@ -8,7 +8,6 @@ import ee.htm.portal.services.workers.KutseregisterWorker;
 import ee.htm.portal.services.workers.MtsysWorker;
 import ee.htm.portal.services.workers.VPTWorker;
 import java.math.BigInteger;
-import java.util.Optional;
 import org.apache.commons.lang.math.NumberUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -162,6 +161,13 @@ public class HPortalRestController {
       @PathVariable("requestTimestamp") Long timestamp) {
     return new ResponseEntity<>(
         eeIsikukaartWorker.getEeIsikukaart(personalcode, timestamp), HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/GDPRLog/{personalCode}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getGDPRLog(@PathVariable("personalCode") String personalcode) {
+    return new ResponseEntity<>(eeIsikukaartWorker.getGDPRLog(personalcode), HttpStatus.OK);
   }
 
   @RequestMapping(value = "/mtsysKlfTeenus",
