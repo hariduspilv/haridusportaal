@@ -9,6 +9,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TableService } from '@app/_services/tableService';
 import { formItems } from '../../../../stories/assets/formItem/formItem.data';
 import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { NgbRadio } from '@ng-bootstrap/ng-bootstrap';
 
 const acceptableFormsRestrictedLength = 4;
 
@@ -40,6 +41,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     drafts: [],
     educationalInstitutions: [],
   };
+  createdMessage = {};
   requestIterator;
   requestIteratorTimeout = 2000;
   currentRole: string = '';
@@ -152,6 +154,16 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
   }
 
+  createMessage(school) {
+    console.log(school);
+    this.alertsService.info(school.message, String(school.id), false);
+    this.createdMessage[school.id] = true;
+  }
+
+  toString(item) {
+    return String(item);
+  }
+
   fetchData() {
     setTimeout(
       () => {
@@ -180,7 +192,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                       elem.documents = this.sortList(elem.documents, 'date');
                       elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
                       elem.drafts = this.sortList(elem.drafts, 'title');
-                      this.alertsService.info(elem.message, elem.id, false);
+                      this.alertsService.info(elem.message, String(elem.id), false);
                       return elem;
                     });
                     if (

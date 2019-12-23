@@ -4,6 +4,7 @@ import {
   OnDestroy,
   Input,
   OnChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   animate,

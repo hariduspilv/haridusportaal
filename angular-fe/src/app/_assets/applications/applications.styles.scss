@@ -9,6 +9,10 @@
 
   }
 
+  alerts {
+    margin-top: 2rem;
+  }
+
   ::ng-deep accordion-item {
     @include break-on(xs, max) {
       margin-left: -1.5rem;
