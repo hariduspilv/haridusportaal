@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, OnDestroy, RootRenderer, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy, RootRenderer, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
 import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { RootScopeService } from '@app/_services/RootScopeService';
+import { AccordionComponent } from '../accordion';
 
 @Component({
   selector: 'studies',
@@ -13,13 +14,15 @@ import { RootScopeService } from '@app/_services/RootScopeService';
 
 export class StudiesComponent implements OnInit {
   @Input() jwt;
-
+  @ViewChild('sudiesAccordion', { static: false }) accordion: AccordionComponent;
   content: any = false;
   loading: boolean = true;
   error: boolean = false;
   requestErr: boolean = false;
   dataErr: boolean = false;
   oppelaenOigus: any = false;
+  totalAccordions: number = 0;
+  activeAccordions: number = 0;
   headers: HttpHeaders;
   public expandedStates: boolean[] = [];
   public stateChanged: boolean;
@@ -82,6 +85,21 @@ export class StudiesComponent implements OnInit {
           this.alertsService
             .info('errors.studies_data_missing', 'studies');
         });
+  }
+
+  openAllAccordions() {
+    this.accordion.openAll();
+  }
+
+  closeAllAccordions() {
+    this.accordion.closeAll();
+  }
+
+  accordionChange($event): void {
+    this.totalAccordions = $event.length;
+    this.activeAccordions = $event.filter((item) => {
+      return item.isActive ? item : false;
+    }).length;
   }
 
   parseTypeTranslation(type) {

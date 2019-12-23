@@ -40,33 +40,33 @@ export class AuthService implements CanActivate {
       .post(`${this.settings.url}/api/v1/token?_format=json`, data)
       .pipe(map((response:any) => {
         if (response['token']) {
-          localStorage.setItem('token', response['token']);
+          sessionStorage.setItem('token', response['token']);
           this.isAuthenticated.next(true);
           this.userData = this.decodeToken(response.token);
           const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
           this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
         } else {
-          localStorage.removeItem('token');
+          sessionStorage.removeItem('token');
         }
         return response;
       }));
   }
 
   public logout() {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     this.isAuthenticated.next(false);
     this.router.navigateByUrl('/');
   }
 
   public isLoggedIn() {
-    if (!localStorage.getItem('token')) {
+    if (!sessionStorage.getItem('token')) {
       if (this.isAuthenticated.getValue()) {
         this.isAuthenticated.next(false);
       }
       return false;
     }
     if (this.isTokenExpired()) {
-      localStorage.removeItem('token');
+      sessionStorage.removeItem('token');
       if (this.isAuthenticated.getValue()) {
         this.isAuthenticated.next(false);
       }
@@ -78,9 +78,9 @@ export class AuthService implements CanActivate {
 
   public refreshUser(newToken:any = false) {
     if (newToken) {
-      localStorage.setItem('token', newToken);
+      sessionStorage.setItem('token', newToken);
     }
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     this.userData = this.decodeToken(token);
     if (!this.isAuthenticated.getValue()) {
       this.isAuthenticated.next(true);
@@ -99,7 +99,7 @@ export class AuthService implements CanActivate {
   }
 
   private isTokenExpired() {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     const tokenPayload = this.decodeToken(token);
     if (Date.now() >= tokenPayload.exp * 1000) {
       return true;

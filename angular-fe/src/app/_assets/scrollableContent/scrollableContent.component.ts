@@ -101,14 +101,20 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     });
   }
 
-  private detectWidth(): void {
+  public detectWidth(): void {
     // this.scroller.style.width = '9999px';
     const inline = this.el.nativeElement.querySelector('.scrollable__inline');
-    const inlineWidth = inline.offsetWidth;
-    inline.style.width = `${inlineWidth}px`;
-    this.scroller.style.width = '100%';
-    const mainWidth = this.el.nativeElement.offsetWidth;
-    this.isScrollable = mainWidth < inlineWidth;
+    inline.style.width = 'auto';
+
+    setTimeout(
+      () => {
+        const inlineWidth = inline.offsetWidth;
+        inline.style.width = `${inlineWidth}px`;
+        this.scroller.style.width = '100%';
+        const mainWidth = this.el.nativeElement.offsetWidth;
+        this.isScrollable = mainWidth < inlineWidth;
+      },
+      0);
   }
 
   public checkArrows(): void {
@@ -159,7 +165,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
         this.checkArrows();
         this.bindListeners();
       },
-      0);
+      100);
   }
 
   ngOnDestroy() {

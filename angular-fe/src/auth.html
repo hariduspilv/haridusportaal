@@ -22,10 +22,10 @@
       var p = document.createElement('p');
 
       if( token ){
-        localStorage.setItem("token", token);
+        sessionStorage.setItem("token", token);
         window.location = "/töölaud/taotlused";
       }else{
-        localStorage.setItem("token", "");
+        sessionStorage.setItem("token", "");
         window.location = "/";
       }
     

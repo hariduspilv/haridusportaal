@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { ModalService } from '@app/_services';
 
 @Component({
   selector: 'notFound-view',
@@ -13,6 +14,7 @@ export class NotFoundViewComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private modalService: ModalService,
     private router: Router) {
     this.redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
   }
@@ -27,7 +29,7 @@ export class NotFoundViewComponent implements OnInit {
 
   action() {
     if (this.redirectUrl) {
-      document.getElementById('headerLogin').click();
+      this.modalService.open('login'); //document.getElementById('headerLogin').click();
     } else {
       this.router.navigate(['/']);
     }

@@ -20,10 +20,15 @@
   </table>
 </ng-container>
 
-<h2>{{ 'frontpage.studies_data' | translate }}</h2>
+<h2 class="middleTitle">
+  <span>{{ 'frontpage.studies_data' | translate }}</span>
+  <a *ngIf="totalAccordions > activeAccordions" (click)="openAllAccordions();">{{ 'frontpage.studies.openAll' | translate }}</a>
+  <a *ngIf="totalAccordions === activeAccordions" (click)="closeAllAccordions();">{{ 'frontpage.studies.closeAll' | translate }}</a>
+</h2>
+
 <loader *ngIf="loading && !error"></loader>
 <alerts id="studies" small="true"></alerts>
-<accordion *ngIf="!loading && !error">
+<accordion #sudiesAccordion *ngIf="!loading && !error" (onChange)="accordionChange($event);">
   <accordion-item *ngFor="let item of content; let first = first;let ind = index;"
     [title]="item.oppeasutus + (item.staatus ? ', ' + parseTypeTranslation(item.staatus) : '') + (item.oppLopp ? ' ' + item.oppLopp : '')">
     <loader *ngIf="!error && !content"></loader>

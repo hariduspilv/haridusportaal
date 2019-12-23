@@ -9,6 +9,9 @@ import {
   OnDestroy,
   ElementRef,
   forwardRef,
+  Output,
+  EventEmitter,
+  ViewChild,
 } from '@angular/core';
 
 import {
@@ -23,6 +26,7 @@ import { RippleService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { SlugifyPipe } from 'ngx-pipes';
+import { ScrollableContentComponent } from '../scrollableContent';
 
 @Component({
   selector: 'accordion-item',
@@ -44,9 +48,11 @@ export class AccordionItemComponent {
   public styleState: boolean = false;
   public bodyClass: string = '';
   public change = new Subject<any>();
+  public statusUpdate = new Subject<any>();
   public id: string = Math.random().toString(36).substr(2, 9);
   private scroll: boolean = false;
-
+  @ContentChildren(forwardRef(() => ScrollableContentComponent))
+    scrollable: QueryList<ScrollableContentComponent>;
   @Input() title: string = '';
   @Input() active: boolean = false;
   @HostBinding('class') get hostClasses(): string {
@@ -63,14 +69,24 @@ export class AccordionItemComponent {
   ) {}
 
   public openAccordion() {
+
     if (this.styleState === this.active) {
       this.active = !this.active;
     }
+
     if (this.active) {
+      try {
+        this.scrollable.forEach((item) => {
+          item.detectWidth();
+          item.checkArrows();
+        });
+      } catch (err) {}
       this.change.next();
     }
+
     const slug = this.slugifyPipe.transform(this.title);
     const newUrl = this.router.url.split('#')[0];
+    this.statusUpdate.next();
     this.location.replaceState(`${newUrl}#${slug}`);
   }
 
@@ -99,7 +115,11 @@ export class AccordionItemComponent {
     const slug = this.slugifyPipe.transform(this.title);
     if (this.route.snapshot.fragment === slug) {
       this.scroll = true;
-      this.openAccordion();
+      setTimeout(
+        () => {
+          this.openAccordion();
+        },
+        0);
     }
   }
 }
@@ -114,6 +134,7 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
 
   private subscriptions = [];
   @Input() collapsible: boolean = false;
+  @Output() onChange: EventEmitter<any> = new EventEmitter();
 
   @HostBinding('class') get hostClasses(): string {
     return 'accordion';
@@ -137,6 +158,44 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
         }));
       });
     }
+
+  }
+
+  closeAll() {
+    const items = this.items.toArray();
+    items.forEach((item) => {
+      item.active = false;
+    });
+    this.countAccordions();
+  }
+  openAll() {
+    const items = this.items.toArray();
+    items.forEach((item) => {
+      item.active = true;
+    });
+    this.countAccordions();
+  }
+
+  countAccordions() {
+    const itemsData = this.items.map((entity) => {
+      return {
+        isActive: entity.active,
+        id: entity.id,
+        title: entity.title,
+      };
+    });
+    this.onChange.emit(itemsData);
+  }
+
+  watchItems() {
+    const items = this.items.toArray();
+    items.forEach((item) => {
+      this.subscriptions.push(item.statusUpdate.subscribe((response) => {
+        this.countAccordions();
+      }));
+    });
+
+    this.countAccordions();
   }
 
   destroySubscriptions() {
@@ -149,6 +208,7 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
     setTimeout(
       () => {
         this.closeOthers();
+        this.watchItems();
       },
       0);
   }

@@ -31,6 +31,11 @@ export class ModalService {
     modal.stateChange(false);
   }
 
+  open(id: string) {
+    const modal = this.modals.find(x => x.id === id);
+    modal.stateChange(true);
+  }
+
   focusLock() {
     const openedArr = Object.keys(this.modalOpened).filter(elem => this.modalOpened[elem]);
     if (openedArr.length) {
