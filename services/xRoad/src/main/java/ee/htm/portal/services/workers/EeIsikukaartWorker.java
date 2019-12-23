@@ -21,6 +21,7 @@ public class EeIsikukaartWorker extends Worker {
 
   public ObjectNode getEeIsikukaart(String personalCode, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();
+    ObjectNode gdprNode = nodeFactory.objectNode();
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
     logForDrupal.setUser(personalCode);
@@ -29,10 +30,21 @@ public class EeIsikukaartWorker extends Worker {
 
     responseNode.put("request_timestamp", timestamp).put("response_timestamp", "")
         .put("key", "eeIsikukaart");
+    gdprNode.put("request_timestamp", System.currentTimeMillis()).put("response_timestamp", "")
+        .put("key", "eeIsikukaartGDPR");
 
     try {
       EeIsikukaartResponse response = ehisXRoadService
           .eeIsikukaart(personalCode, "xml", personalCode);
+
+      ArrayNode gdprArrayNode = gdprNode.putObject("value").putArray("GDPR");
+      response.getIsikukaart().getGdprlogList().forEach(item ->
+          gdprArrayNode.addObject().put("id", item.getId())
+              .put("personCode", item.getPersoncode())
+              .put("logTime", ehisDateFormat(item.getLogtime()))
+              .put("action", item.getAction())
+              .put("sender", item.getSender())
+              .put("receiver", item.getReceiver()));
 
       ObjectNode valueNode = responseNode.putObject("value");
 
@@ -63,7 +75,7 @@ public class EeIsikukaartWorker extends Worker {
 
         ArrayNode laenPohjus = oppeleanOigusNode.putArray("pohjus");
         response.getIsikukaart().getIsikuandmed().getOppelaenOigus().getPohjusList()
-            .forEach(pohjus -> laenPohjus.add(pohjus));
+            .forEach(laenPohjus::add);
       } else {
         isikukandmedNode.putObject("oppelaenOigus");
       }
@@ -261,9 +273,62 @@ public class EeIsikukaartWorker extends Worker {
       if (e instanceof XRoadServiceConsumptionException
           && ((XRoadServiceConsumptionException) e).getFaultString() != null
           && (((XRoadServiceConsumptionException) e).getFaultString()
-              .equalsIgnoreCase("Paring ei ole lubatud")
-            || ((XRoadServiceConsumptionException) e).getFaultString()
-              .equalsIgnoreCase("Isiku kohta andmeid ei leitud."))) {
+          .equalsIgnoreCase("Paring ei ole lubatud")
+          || ((XRoadServiceConsumptionException) e).getFaultString()
+          .equalsIgnoreCase("Isiku kohta andmeid ei leitud."))) {
+        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
+            .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
+        responseNode.remove("value");
+      } else {
+        setError(LOGGER, responseNode, e);
+      }
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
+
+    responseNode.put("response_timestamp", System.currentTimeMillis());
+    gdprNode.put("response_timestamp", System.currentTimeMillis());
+
+    redisTemplate.opsForHash().put(personalCode, "eeIsikukaartGDPR", gdprNode);
+    redisTemplate.opsForHash().put(personalCode, "eeIsikukaart", responseNode);
+    redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
+
+    return responseNode;
+  }
+
+  public ObjectNode getGDPRLog(String personalCode) {
+    ObjectNode responseNode = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - eeIsikukaart.v1:GDPR");
+    logForDrupal.setSeverity("notice");
+
+    responseNode.put("request_timestamp", System.currentTimeMillis()).put("response_timestamp", "")
+        .put("key", "eeIsikukaartGDPR");
+
+    try {
+      EeIsikukaartResponse response = ehisXRoadService
+          .eeIsikukaart(personalCode, "xml", personalCode);
+
+      ArrayNode GDPRNode = responseNode.putObject("value").putArray("GDPR");
+      response.getIsikukaart().getGdprlogList().forEach(item ->
+          GDPRNode.addObject().put("id", item.getId())
+          .put("personCode", item.getPersoncode())
+          .put("logTime", ehisDateFormat(item.getLogtime()))
+          .put("action", item.getAction())
+          .put("sender", item.getSender())
+          .put("receiver", item.getReceiver()));
+
+      logForDrupal.setMessage("EHIS - eeIsikukaart.v1:GDPR teenuselt andmete pärimine õnnestus.");
+    } catch (Exception e) {
+      if (e instanceof XRoadServiceConsumptionException
+          && ((XRoadServiceConsumptionException) e).getFaultString() != null
+          && (((XRoadServiceConsumptionException) e).getFaultString()
+          .equalsIgnoreCase("Paring ei ole lubatud")
+          || ((XRoadServiceConsumptionException) e).getFaultString()
+          .equalsIgnoreCase("Isiku kohta andmeid ei leitud."))) {
         responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
             .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
         responseNode.remove("value");
@@ -277,7 +342,7 @@ public class EeIsikukaartWorker extends Worker {
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
-    redisTemplate.opsForHash().put(personalCode, "eeIsikukaart", responseNode);
+    redisTemplate.opsForHash().put(personalCode, "eeIsikukaartGDPR", responseNode);
     redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
 
     return responseNode;
