@@ -4,6 +4,7 @@ import {
   OnDestroy,
   Input,
   OnChanges,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   animate,
@@ -58,6 +59,7 @@ export class AlertsComponent implements OnDestroy {
   constructor(
     private alertService: AlertsService,
     private cookies: CookieService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit(): void {
