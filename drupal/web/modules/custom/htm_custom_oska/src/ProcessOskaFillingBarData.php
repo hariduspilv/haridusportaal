@@ -39,7 +39,7 @@ class ProcessOskaFillingBarData {
       }
 
       $object['ametiala'] = self::checkEntityReference('node', 'oska_main_profession_page', $item['ametiala']);
-      $object['vaartus'] = $item['vaartus'] >= 1 && $item['vaartus'] <= 5 ? $item['vaartus'] : FALSE;
+      $object['vaartus'] = $item['vaartus'] >= 1 && $item['vaartus'] <= 5 && is_numeric($item['vaartus']) ? $item['vaartus'] : FALSE;
       if(
         !$object['ametiala']
         ||
