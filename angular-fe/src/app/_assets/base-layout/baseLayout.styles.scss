@@ -28,7 +28,7 @@
     padding: 0;
     min-height: 100%;
     @include break-on(sm, min) {
-      padding: 1rem;
+      padding: 1rem 0;
     }
   }
 }

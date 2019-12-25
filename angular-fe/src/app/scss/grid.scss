@@ -77,8 +77,12 @@ $md-break: 1280px;
 }
 
 .inline{
-	max-width: 1130px;
+	max-width: 1180px;
 	margin:0 auto;
+	
+	@include break-on(sm, min) {
+		padding: 0 1.5rem;
+	}
 }
 
 .pull-right {float:right;}

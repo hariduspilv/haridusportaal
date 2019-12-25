@@ -169,6 +169,13 @@ const routes: Routes = [
     canActivate: [AuthService],
   },
   {
+    path: 'preview',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+    data: {
+      preview: true,
+    },
+  },
+  {
     path: '**',
     loadChildren: () => import('./_views/notFoundView').then(m => m.NotFoundViewModule),
   },

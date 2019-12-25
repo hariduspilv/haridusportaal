@@ -1,7 +1,12 @@
 <div class="inline">
+	<ng-container *ngIf="isPreview">
+		<div class="preview">
+			<button role="button" htm-button (click)="editPost()">{{ 'button.back' | translate }}</button>
+		</div><!--/preview-->
+	</ng-container>
 	<article-layout [sidebar]="sidebar" sidebarTitle="Mooooooo" [feedbackNid]="feedbackNid">
 
-		<breadcrumbs [path]="path"></breadcrumbs>
+		<breadcrumbs [path]="path" *ngIf="!isPreview"></breadcrumbs>
 
 		<block [loading]="true" *ngIf="!data">
 		</block>
