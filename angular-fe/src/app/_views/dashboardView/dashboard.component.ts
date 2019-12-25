@@ -105,7 +105,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
       );
     }
     if (this.applicationsComponent) {
-      this.applicationsComponent.initialize();
+      setTimeout(
+        () => {
+          this.applicationsComponent.initialize();
+        },
+        3000);
     }
     this.cdr.detectChanges();
   }

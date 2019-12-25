@@ -20,7 +20,7 @@ export class RotateTableDirective implements AfterViewInit {
     let output = '';
     thList.forEach((th, index) => {
       output += '<tr role="row">';
-      output += `<th role="cell" id="th-${index}"class="${this.classes.th}">${th}</th>`;
+      output += `<td role="cell" id="th-${index}"class="${this.classes.th}">${th}</td>`;
       trList.forEach((tr) => {
         if (tr[index]) {
           output += `<td role="cell" aria-describedby="th-${index}"
