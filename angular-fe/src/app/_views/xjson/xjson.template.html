@@ -465,7 +465,7 @@
 
                     </ng-container> <!-- /TABLE -->
 
-                    <ng-container *ngIf="error[element] && error[element].rows">
+                    <ng-container *ngIf="(error[element] && error[element].rows) || (error[element] && data_elements[element].type === 'table')">
                       <div class="error">
                         {{ error[element].message }}
                       </div>
@@ -568,7 +568,7 @@
   </modal-content>
 </htm-modal>
 
-<htm-modal id="dashboardReturn" [bottomAction]="true"
+<htm-modal id="dashboardReturn" [bottomAction]="true" modalTitle="{{ 'xjson.cancel_modal_title' | translate }}"
   [topAction]="true">
   <modal-content class="modal-center">
     <div>{{ 'xjson.return_dashboard' | translate }}</div>
@@ -577,7 +577,7 @@
   </modal-content>
 </htm-modal>
 
-<htm-modal id="addFile" [bottomAction]="true" [topAction]="true">
+<htm-modal id="addFile" [bottomAction]="true" [topAction]="true" modalTitle="{{ 'xjson.add_files' | translate }}">
   <modal-content class="modal-center">
     <ng-container *ngIf="fileUploadElement && fileUploadCol">
         <div class="loaded-files-list">

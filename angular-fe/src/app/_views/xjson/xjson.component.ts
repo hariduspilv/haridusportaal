@@ -197,7 +197,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }  if (this.max_step !== this.opened_step && !this.edit_step) {
       return true;
 
-    } else if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key))) {
+    }  if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key))) {
       return false;
 
     }
@@ -230,17 +230,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
   parseAcceptableExtentsions(list: string[]) {
     if (!list) {
       return '*/*';
-    } 
-      return list.map(extentsion => '.' + extentsion).join(',');
-    
+    }
+    return list.map(extentsion => '.' + extentsion).join(',');
+
   }
 
   displayAcceptableExtentsions(list: string[]) {
     if (!list) {
       return this.translate.get('button.all') || '';
-    } 
-      return list.map(extentsion => ' ' + extentsion).join();
-    
+    }
+    return list.map(extentsion => ' ' + extentsion).join();
+
   }
 
   fileDownloadlink(file) {
@@ -277,9 +277,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
       return false;
     }  if (singeFileRestrictionApplies) {
       return false;
-    } else {
+    } 
       return true;
-    }
+    
   }
 
   fileDelete(id, model) {
@@ -508,7 +508,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   selectLanguage(obj: object) {
-    if (obj[this.lang]) { return obj[this.lang]; }  return obj['et']; 
+    if (obj[this.lang]) { return obj[this.lang]; }  return obj['et'];
   }
 
   setNavigationLinks(list, opened): {}[] {
@@ -541,9 +541,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }  if (isAfterCurrentStep) {
       return true;
 
-    } else {
+    } 
       return false;
-    }
+    
   }
 
   isValidField(field) {
@@ -616,8 +616,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     let validationResult = { valid };
     const validationRows = [];
 
-    if (!table.value || !table.value.length) {
-      return { valid: true, message: 'valid' };
+    if ((!table.value || !table.value.length)) {
+      return table.required ?
+      { valid: false, message: this.translate.get('xjson.missing_required_value') } :
+      { valid: true, message: 'valid' };
     }
     for (const row of table.value) {
       for (const col of Object.keys(row)) {
@@ -727,13 +729,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
   selectStep(step) {
     if (step === this.opened_step) {
       return; // to nothing
-    } 
-      if (this.isStepDisabled(step)) {
+    }
+    if (this.isStepDisabled(step)) {
         return this.errorHandler('This step is disabled');
       }
-      this.opened_step = step;
-      this.viewController(this.data);
-    
+    this.opened_step = step;
+    this.viewController(this.data);
+
   }
 
   editableStep() {
