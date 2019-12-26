@@ -1,18 +1,18 @@
 
-      <div class="noResults" *ngIf="!list.length && !loading">
-          Otsingutulemused puuduvad
-        </div>
-        <listItems
-          *ngIf="this.list.length"
-          [type]="type"
-          [list]="list"
-          [compare]="compare"
-        ></listItems>
-  <loader *ngIf="loading"></loader>
-  <loader class="loadMore" *ngIf="loadingMore"></loader>
-  <div class="loadMore" *ngIf="!loading && !loadingMore && canLoadMore">
-      <button htm-button (click)="loadMore()">{{ 'button.load_more' | translate }}</button>
-    </div><!--/loadMore-->
+<div class="noResults" *ngIf="!list.length && !loading">
+  {{ 'news.no_results' | translate }}
+</div>
+<listItems
+  *ngIf="this.list.length"
+  [type]="type"
+  [list]="list"
+  [compare]="compare"
+></listItems>
+<loader *ngIf="loading"></loader>
+<loader class="loadMore" *ngIf="loadingMore"></loader>
+<div class="loadMore" *ngIf="!loading && !loadingMore && canLoadMore">
+  <button htm-button (click)="loadMore()">{{ 'button.load_more' | translate }}</button>
+</div><!--/loadMore-->
 
 
 

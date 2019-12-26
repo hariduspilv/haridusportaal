@@ -108,7 +108,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
 
     setTimeout(
       () => {
-        const inlineWidth = inline.offsetWidth;
+        const inlineWidth = inline.offsetWidth === 0 ? '100%' : inline.offsetWidth;
         inline.style.width = `${inlineWidth}px`;
         this.scroller.style.width = '100%';
         const mainWidth = this.el.nativeElement.offsetWidth;

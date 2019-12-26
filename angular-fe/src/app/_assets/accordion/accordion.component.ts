@@ -11,7 +11,6 @@ import {
   forwardRef,
   Output,
   EventEmitter,
-  ViewChild,
 } from '@angular/core';
 
 import {
@@ -65,7 +64,6 @@ export class AccordionItemComponent {
     private location: Location,
     private router: Router,
     private route: ActivatedRoute,
-    private slugifyPipe: SlugifyPipe,
   ) {}
 
   public openAccordion() {
@@ -84,10 +82,14 @@ export class AccordionItemComponent {
       this.change.next();
     }
 
-    const slug = this.slugifyPipe.transform(this.title);
+    const slug = this.title.toLowerCase()
+    .replace(/ /g, '-')
+    .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
     const newUrl = this.router.url.split('#')[0];
     this.statusUpdate.next();
-    this.location.replaceState(`${newUrl}#${slug}`);
+    if (this.active) {
+      this.location.replaceState(`${newUrl}#${slug}`);
+    }
   }
 
   public closeAccordion() {
@@ -100,7 +102,7 @@ export class AccordionItemComponent {
     }
     if (this.scroll) {
       document.querySelector('.app-content').scrollTop =
-        this.el.nativeElement.getBoundingClientRect().top;
+        this.el.nativeElement.getBoundingClientRect().top - 100;
       this.scroll = false;
     }
   }
@@ -112,7 +114,9 @@ export class AccordionItemComponent {
   }
 
   ngOnInit(): void {
-    const slug = this.slugifyPipe.transform(this.title);
+    const slug = this.title.toLowerCase()
+    .replace(/ /g, '-')
+    .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
     if (this.route.snapshot.fragment === slug) {
       this.scroll = true;
       setTimeout(
@@ -132,6 +136,10 @@ export class AccordionItemComponent {
 
 export class AccordionComponent implements AfterContentInit, OnChanges, OnDestroy{
 
+  constructor(
+    private router: Router,
+    private location: Location,
+  ) {}
   private subscriptions = [];
   @Input() collapsible: boolean = false;
   @Output() onChange: EventEmitter<any> = new EventEmitter();
@@ -184,6 +192,14 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
         title: entity.title,
       };
     });
+    const totalOpened = itemsData.filter((item) => {
+      return item.isActive ? item : false;
+    }).length;
+
+    if (totalOpened === 0) {
+      const newUrl = this.router.url.split('#')[0];
+      this.location.replaceState(`${newUrl}`);
+    }
     this.onChange.emit(itemsData);
   }
 

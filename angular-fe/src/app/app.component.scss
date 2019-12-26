@@ -28,11 +28,7 @@
     -ms-grid-row: 2; 
     -ms-grid-column: 2; 
     ::ng-deep{
-      main {
-        @include break-on(sm, min) {
-          padding:1rem 1.5rem !important;
-        }
-      }
+      
     }
     &::after {
       content: '';

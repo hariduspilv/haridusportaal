@@ -10,6 +10,7 @@ $arrowsWidth: 50px;
     // }
     table[htm-table] {
       width: 100%;
+      min-width: 100%;
     }
     color: $black;
     .scrollable {
@@ -24,6 +25,7 @@ $arrowsWidth: 50px;
     
       &__inline {
         display: block;
+        //min-width: 100%;
       }
     }
     

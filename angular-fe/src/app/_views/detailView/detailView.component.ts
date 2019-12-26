@@ -31,6 +31,7 @@ export class DetailViewComponent {
   public userData: any;
   public favoriteLimit = false;
   private paramsWatcher: Subscription = new Subscription();
+  public isPreview: boolean = false;
 
   public relatedStudyprogrammes: Object[] = [];
 
@@ -134,22 +135,53 @@ export class DetailViewComponent {
     const subscription = this.http.get(path).subscribe((response) => {
 
       this.origData = response['data']['route']['entity'];
-      this.data = FieldVaryService(response['data']['route']['entity']);
-
-      if (Array.isArray(this.data.video) && this.data.video.length > 1) {
-        this.data.additionalVideos = this.data.video.slice(1, 10);
-        this.data.video.splice(0, 1);
-      }
-
-      this.loading = false;
-
-      this.feedbackNid = this.data.nid;
-
-      this.getSidebar();
+      this.parseData(response['data']['route']['entity']);
       subscription.unsubscribe();
 
     });
 
+  }
+
+  private getPreviewData(): void {
+    this.loading = true;
+
+    const variables = {
+      uuid: this.route.snapshot.params.id,
+    };
+
+    const path = this.settings.query('nodePreviewQuery', variables);
+
+    const subscription = this.http.get(path, {
+      withCredentials: true,
+    }).subscribe((data) => {
+      this.origData = data['data']['NodePreviewByUuid'];
+      this.parseData(data['data']['NodePreviewByUuid']);
+      this.initialize(this.origData.entityBundle);
+      subscription.unsubscribe();
+    });
+  }
+
+  editPost() {
+    const id = this.route.snapshot.params.id;
+    let href = `${this.settings.url}/node/${this.data.entityId}/edit?uuid=${id}`;
+    if (!this.data.entityId) {
+      href = `${this.settings.url}/node/add/${this.data.entityBundle}?uuid="+${id}`;
+    }
+    window.location.href = href;
+  }
+
+  private parseData(data):void {
+    this.data = FieldVaryService(data);
+    if (Array.isArray(this.data.video) && this.data.video.length > 1) {
+      this.data.additionalVideos = this.data.video.slice(1, 10);
+      this.data.video.splice(0, 1);
+    }
+
+    this.loading = false;
+
+    this.feedbackNid = this.data.nid;
+
+    this.getSidebar();
   }
 
   private watchParams() {
@@ -159,11 +191,11 @@ export class DetailViewComponent {
     });
   }
 
-  private initialize() {
+  private initialize(type: string = undefined) {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
       this.path = decodeURI(this.location.path());
-      this.type = this.route.snapshot.data['type'];
+      this.type = type || this.route.snapshot.data['type'];
     }
     this.getValues();
     if (!this.data) {
@@ -172,7 +204,12 @@ export class DetailViewComponent {
   }
 
   ngOnInit() {
-    this.watchParams();
+    if (this.route.snapshot.data.preview) {
+      this.isPreview = true;
+      this.getPreviewData();
+    } else {
+      this.watchParams();
+    }
     // this.initialize();
   }
 

@@ -4,9 +4,7 @@ import {
   HostBinding,
   ContentChildren,
   QueryList,
-  ViewChildren,
   AfterContentInit,
-  OnInit,
   ChangeDetectorRef,
   OnChanges,
   forwardRef,
@@ -14,6 +12,7 @@ import {
 import { ModalService } from '@app/_services';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { Router } from '@angular/router';
+import { ScrollableContentComponent } from '../scrollableContent';
 
 @Component({
   selector: 'block-content',
@@ -27,6 +26,8 @@ export class BlockContentComponent {
   @Input() tabActive: boolean;
   @Input() active: boolean = false;
   @Input() queryParams: any = {};
+  @ContentChildren(forwardRef(() => ScrollableContentComponent), { descendants: true })
+  scrollable: QueryList<ScrollableContentComponent>;
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -39,6 +40,17 @@ export class BlockContentComponent {
 
   show() {
     this.active = true;
+    setTimeout(
+      () => {
+        try {
+          this.scrollable.forEach((item) => {
+            item.detectWidth();
+            item.checkArrows();
+          });
+        } catch (err) {
+        }
+      },
+      0);
     this.cdr.detectChanges();
   }
 }

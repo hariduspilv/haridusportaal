@@ -1,3 +1,8 @@
 .text-center {
-    text-align: center;
+  text-align: center;
+}
+::ng-deep{
+  table{
+    table-layout: fixed;
+  }
 }
