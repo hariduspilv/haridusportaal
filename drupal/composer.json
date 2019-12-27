@@ -75,6 +75,8 @@
         "drupal/session_limit": "^1.0",
         "drupal/sitemap": "^1.5",
         "drupal/smtp": "^1.0",
+        "drupal/svg_image": "^1.9",
+        "drupal/svg_image_field": "^1.2",
         "drupal/taxonomy_multidelete_terms": "^1.1",
         "drupal/ultimate_cron": "^2.0",
         "drupal/varnish": "1.x-dev",
