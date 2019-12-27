@@ -39,12 +39,17 @@ export class ModalComponent implements OnInit {
   @Input() titleExists: boolean = true;
   @Input() topAction: boolean = true;
   @Input() bottomAction: boolean = true;
+  @Input() size: string = 'default';
+  @Input() reloadOnClose: boolean = false;
   // Modal opening button for story
   @Input() stateButton: boolean = false;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
 
   @HostBinding('class') get hostClasses(): string {
-    return this.opened ? '' : 'modal-hidden';
+    const classes = [];
+    classes.push(this.opened ? '' : 'modal-hidden');
+    classes.push(`size-${this.size}`);
+    return classes.join(' ');
   }
 
   constructor(
@@ -74,6 +79,9 @@ export class ModalComponent implements OnInit {
 
   stateChange(state: boolean): void {
     this.modalService.modalOpened[this.id] = state;
+    if (this.opened && !state && this.reloadOnClose) {
+      window.location.reload();
+    }
     this.opened = state;
     if (!state) {
       this.onClose.emit(true);

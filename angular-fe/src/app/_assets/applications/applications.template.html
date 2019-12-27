@@ -503,7 +503,7 @@
 </htm-modal>
 
 <htm-modal id="editInstitutionModal" modalTitle="{{ 'button.edit' | translate }}" [titleExists]="modalTitleExists"
-	[topAction]="true" [bottomAction]="false">
+	[topAction]="true" [bottomAction]="false" [reloadOnClose]="viewReload">
 	<modal-content [loading]="modalLoading">
 		<alerts small="true" id="institution"></alerts>
 		<ng-container *ngIf="!modalLoading && !error && formOptions && editableInstitution">
@@ -525,7 +525,7 @@
 						{{ 'event.registration_form_cancel' | translate }}
 					</button>
 					<button htm-button theme="default" (click)="editInstitution()" (keyup.enter)="editInstitution()">
-						{{ 'button.save' | translate }}
+						{{ 'button.save_draft' | translate }}
 					</button>
 				</div>
 			</div>
