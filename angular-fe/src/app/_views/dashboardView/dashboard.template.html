@@ -49,6 +49,14 @@
 				</div>
 			</block-sub-title>
 			<block-content
+				[tabActive]="breadcrumbs === '/töölaud'"
+				tabLink=""
+				tabLabel="intro"
+				[tabVisible]="false">
+
+				<div #intro [innerHTML]="'dashboard.intro' | translate"></div>
+			</block-content>
+			<block-content
 				*ngIf="
 					currentRole === 'juridical_person' || currentRole === 'natural_person'
 				"
@@ -57,7 +65,7 @@
 				tabLink="taotlused"
 				[tabActive]="breadcrumbs === '/töölaud/taotlused'"
 			>
-				<applications #applications></applications>
+				<applications #applications *ngIf="breadcrumbs === '/töölaud/taotlused'"></applications>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"

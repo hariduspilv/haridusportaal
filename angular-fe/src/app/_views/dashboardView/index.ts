@@ -24,7 +24,6 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'taotlused',
       },
       {
         path: 'taotlused',

@@ -12,24 +12,27 @@
         <icon glyph="chevron-left"></icon>
       </button>
       <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
-        <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
-          <span class="button__contents">
-            <ng-container *ngIf="tab.tabIcon">
-              <icon size="medium" [glyph]="tab.tabIcon"></icon>
-            </ng-container>
-            {{ tab.tabLabel }}
-          </span>
-          <!--/button__contents-->
-        </button>
+        <ng-container *ngIf="!tab.tabVisible">
 
-        <button *ngIf="tab.tabLink" (click)="navigateTo(tab.tabLink, tab.queryParams)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
-          <span class="button__contents">
-            <ng-container *ngIf="tab.tabIcon">
-              <icon size="medium" [glyph]="tab.tabIcon"></icon>
-            </ng-container>
-            {{ tab.tabLabel }}
-          </span><!--/button__contents-->
-        </button>
+          <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <span class="button__contents">
+              <ng-container *ngIf="tab.tabIcon">
+                <icon size="medium" [glyph]="tab.tabIcon"></icon>
+              </ng-container>
+              {{ tab.tabLabel }}
+            </span>
+            <!--/button__contents-->
+          </button>
+          
+          <button *ngIf="tab.tabLink" (click)="navigateTo(tab.tabLink, tab.queryParams)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <span class="button__contents">
+              <ng-container *ngIf="tab.tabIcon">
+                <icon size="medium" [glyph]="tab.tabIcon"></icon>
+              </ng-container>
+              {{ tab.tabLabel }}
+            </span><!--/button__contents-->
+          </button>
+        </ng-container>
       </ng-container>
       <button class="navigation__icon" *ngIf="isMobile && viewTabs && viewTabs[currentViewTabs + 1]" (click)="navigateTabs(1)" htm-button theme="icon">
         <icon glyph="chevron-right"></icon>
@@ -49,24 +52,26 @@
         <icon glyph="chevron-left"></icon>
       </button>
       <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
-        <button *ngIf="tab.tabLink" (click)="selectTab(tab)"  [routerLink]="tab.tabLink" ripple="dark" [class.active]="tab.tabLabel == activeTab">
-          <span class="button__contents">
-            <ng-container *ngIf="tab.tabIcon">
-              <icon [glyph]="tab.tabIcon"></icon>
-            </ng-container>
-            <div class="title">{{ tab.tabLabel }}</div>
-          </span>
-          <!--/button__contents-->
-        </button>
-        <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
-              <span class="button__contents">
-                <ng-container *ngIf="tab.tabIcon">
-                  <icon [glyph]="tab.tabIcon"></icon>
-                </ng-container>
-                <div class="title">{{ tab.tabLabel }}</div>
-              </span>
-              <!--/button__contents-->
-            </button>
+        <ng-container *ngIf="tab.tabVisible">
+          <button *ngIf="tab.tabLink" (click)="selectTab(tab)"  [routerLink]="tab.tabLink" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <span class="button__contents">
+              <ng-container *ngIf="tab.tabIcon">
+                <icon [glyph]="tab.tabIcon"></icon>
+              </ng-container>
+              <div class="title">{{ tab.tabLabel }}</div>
+            </span>
+            <!--/button__contents-->
+          </button>
+          <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <span class="button__contents">
+              <ng-container *ngIf="tab.tabIcon">
+                <icon [glyph]="tab.tabIcon"></icon>
+              </ng-container>
+              <div class="title">{{ tab.tabLabel }}</div>
+            </span>
+            <!--/button__contents-->
+          </button>
+        </ng-container>
       </ng-container>
       <button class="navigation__icon" *ngIf="isMobile && viewTabs && viewTabs[currentViewTabs + 1]" (click)="navigateTabs(1)" htm-button theme="icon">
         <icon glyph="chevron-right"></icon>

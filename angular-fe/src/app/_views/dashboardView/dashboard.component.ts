@@ -4,6 +4,11 @@ import {
   ViewChild,
   ChangeDetectorRef,
   OnDestroy,
+  ContentChildren,
+  forwardRef,
+  QueryList,
+  ViewChildren,
+  AfterViewInit,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService, AlertsService, ModalService, AuthService } from '@app/_services';
@@ -13,7 +18,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApplicationsComponent } from '@app/_assets/applications/applications.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
-import { BlockComponent } from '@app/_assets/block';
+import { BlockComponent, BlockContentComponent } from '@app/_assets/block';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ThrowStmt } from '@angular/compiler';
@@ -24,9 +29,13 @@ const moment = _moment;
   styleUrls: ['dashboard.styles.scss'],
 })
 
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(ApplicationsComponent, { static: false }) applicationsComponent: ApplicationsComponent;
+  @ViewChild('intro', { static: false }) intro;
   @ViewChild(BlockComponent, { static: false }) blockComponent: BlockComponent;
+  @ViewChildren(forwardRef(() => BlockContentComponent))
+  blockContents: QueryList<BlockContentComponent>;
+
   linksLabel = 'links';
   titleExists = true;
   topAction = true;
@@ -72,7 +81,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public cdr: ChangeDetectorRef,
     public router: Router,
     public translate: TranslateService,
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.initialize();
@@ -81,9 +90,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   pathWatcher() {
     this.routerSub = this.router.events.subscribe((event: any) => {
-      if (event.constructor.name === 'NavigationStart') {
+      if (event.constructor.name === 'NavigationEnd') {
         this.breadcrumbs = decodeURI(event.url);
         this.cdr.detectChanges();
+
+        try {
+
+          const partial = this.breadcrumbs.split('/')[2] || '';
+
+          let activeTab;
+          this.blockContents.forEach((item) => {
+            if (item.tabLink === partial) {
+              activeTab = item;
+            }
+          });
+          this.blockComponent.selectTab(activeTab);
+        } catch (err) {
+          console.log(err);
+        }
       }
     });
   }
@@ -95,6 +119,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getFavouritesList();
     this.getEventList();
     this.getNotifications();
+
     if (this.blockComponent) {
       this.blockComponent.selectTab(
         this.blockComponent.tabs.find(
@@ -103,7 +128,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
           },
         ),
       );
+
     }
+
     if (this.applicationsComponent) {
       setTimeout(
         () => {
@@ -111,6 +138,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
         },
         3000);
     }
+
     this.cdr.detectChanges();
   }
 
@@ -296,6 +324,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
     });
   }
 
+  bindIntroLinks(): void {
+    this.intro.nativeElement.querySelectorAll('a').forEach((item) => {
+      item.addEventListener('click', (e) => {
+        e.preventDefault();
+        const href = item.attributes.href.value;
+        if (href.indexOf('modal-') !== -1) {
+          const modal = href.split('modal-')[1];
+          if (modal === 'roleModal') {
+            this.loadRoleChangeModal();
+          } else {
+            this.modalService.open(modal);
+          }
+        } else {
+          this.router.navigateByUrl(href);
+        }
+      });
+    });
+  }
+
   getNotifications(): void {
     // make request
     const unreadNotifications = 10;
@@ -347,6 +394,10 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // this.sidebar.entity['notifications']['unread'] = unreadNotifications;
     // request done
     // give data to sidebar
+  }
+
+  ngAfterViewInit() {
+    this.bindIntroLinks();
   }
   ngOnDestroy() {
     this.cdr.detach();

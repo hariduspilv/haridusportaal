@@ -25,6 +25,7 @@ export class BlockContentComponent {
   @Input() tabIcon: string;
   @Input() tabActive: boolean;
   @Input() active: boolean = false;
+  @Input() tabVisible: boolean = true;
   @Input() queryParams: any = {};
   @ContentChildren(forwardRef(() => ScrollableContentComponent), { descendants: true })
   scrollable: QueryList<ScrollableContentComponent>;
