@@ -195,9 +195,7 @@ export class DetailViewComponent {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
       this.path = this.path || decodeURI(this.location.path());
-      // The following doesn't work for studyProgrammes:
-      // this.type || type || this.route.snapshot.data['type'];
-      this.type = type || this.route.snapshot.data['type'];
+      this.type = this.type || type || this.route.snapshot.data['type'];
     }
 
     this.getValues();
