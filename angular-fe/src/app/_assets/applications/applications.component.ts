@@ -54,6 +54,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   modalTopAction = false;
   modalBottomAction = true;
   institutionModalFields = [];
+  viewReload = false;
 
   acceptableFormsList = [];
   acceptableFormsListRestricted: boolean = true;
@@ -155,7 +156,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   createMessage(school) {
-    console.log(school);
     this.alertsService.info(school.message, String(school.id), false);
     this.createdMessage[school.id] = true;
   }
@@ -400,7 +400,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     this.error = false;
     this.modalLoading = true;
     editableInst ? this.modalService.toggle('editInstitutionModal') :
-    this.modalService.toggle('institutionModal');
+      this.modalService.toggle('institutionModal');
     const sub = this.http
       .get(`${this.settings.url}/educational-institution/data?_format=json`)
       .subscribe((response: any) => {
@@ -433,10 +433,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       const params = `ihist=1&appartment=1&address=${address}&results=10&callback=JSONP_CALLBACK`;
       const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
       const subscription = this.http.jsonp(path, 'callback').
-          subscribe((response: any) => {
-            const value  = { ... response.addresses[0] };
-            item.formControl.setValue(value);
-          });
+        subscribe((response: any) => {
+          const value = { ...response.addresses[0] };
+          item.formControl.setValue(value);
+        });
     }
   }
 
@@ -480,8 +480,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         },
       };
 
-      console.log(body);
-
       const sub = this.http
         .post(`${this.settings.url}/educational-institution/edit`, body)
         .subscribe(
@@ -490,6 +488,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.modalLoading = false;
             this.modalBottomAction = true;
             this.editableInstitution = body;
+            this.viewReload = true;
             sub.unsubscribe();
           },
           (err) => {
