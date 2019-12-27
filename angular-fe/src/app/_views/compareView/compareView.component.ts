@@ -15,11 +15,12 @@ import { translationsPerType } from '../../_assets/compare/helpers/compare';
 export class CompareViewComponent extends CompareComponent {
   @Input() key: string = this.route.snapshot.data.type;
   @Input() queryName: string = this.route.snapshot.data.query;
+  public typeUrl: string;
   private queryId: string;
   public loading: boolean = false;
   public translations = translationsPerType;
   public compare: String[] = [];
-  private deleteText: string = '';
+  public deleteText: string = '';
   private deleteIndicator: number = 1;
   constructor(
     private http: HttpClient,
@@ -32,6 +33,8 @@ export class CompareViewComponent extends CompareComponent {
   }
 
   ngOnInit() {
+    this.typeUrl = this.key === 'oskaProfessionsComparison'
+      ? '/ametialad/võrdlus' : 'erialad/võrdlus';
     this.compare = this.readFromLocalStorage(this.key);
     this.queryId = this.settings.query(this.queryName);
     this.getData();
