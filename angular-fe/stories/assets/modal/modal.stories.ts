@@ -7,6 +7,8 @@ import {
   optionsKnob as options,
 } from '@storybook/addon-knobs';
 import { ModalService, RippleService } from '@app/_services';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -16,7 +18,9 @@ const moduleMetadata = {
   providers: [
     ModalService,
     RippleService,
-  ]
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
+  ],
 };
 
 const stories = storiesOf('Assets', module);

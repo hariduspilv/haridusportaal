@@ -194,9 +194,10 @@ export class DetailViewComponent {
   private initialize(type: string = undefined) {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
-      this.path = decodeURI(this.location.path());
-      this.type = type || this.route.snapshot.data['type'];
+      this.path = this.path || decodeURI(this.location.path());
+      this.type = this.type || type || this.route.snapshot.data['type'];
     }
+
     this.getValues();
     if (!this.data) {
       this.getData();

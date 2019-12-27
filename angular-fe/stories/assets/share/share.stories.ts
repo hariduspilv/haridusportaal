@@ -5,6 +5,8 @@ import shareHtml from './share.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RippleService } from '@app/_services';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -14,6 +16,8 @@ const moduleMetadata = {
   ],
   providers: [
     RippleService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

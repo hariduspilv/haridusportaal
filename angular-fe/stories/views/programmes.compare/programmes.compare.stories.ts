@@ -8,18 +8,28 @@ import {
   withKnobs,
 } from '@storybook/addon-knobs';
 import { ModalService, RippleService, SettingsService } from '@app/_services';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
+import { CompareViewComponent } from '@app/_views/compareView/compareView.component';
+import { AppPipes } from '@app/_pipes';
 
 const moduleMetadata = {
   imports: [
-    AssetsModule,
+    AssetsModule.forRoot(),
     RouterTestingModule,
     TranslateModule.forRoot(),
+    AppPipes,
+  ],
+  declarations: [
+    CompareViewComponent,
   ],
   providers: [
-    ModalService,
-    RippleService,
-    SettingsService,
-  ]
+    { provide: ActivatedRoute, useValue: {
+      snapshot: {
+        data: {},
+      },
+    } },
+  ],
 };
 const breadcrumbsData = [
   {

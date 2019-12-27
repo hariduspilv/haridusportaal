@@ -7,18 +7,26 @@ import professionsCompareStoriesTemplateHtml from './professions.compare.stories
 import {
   withKnobs,
 } from '@storybook/addon-knobs';
-import { RippleService, ModalService } from '@app/_services';
+import { ActivatedRoute } from '@angular/router';
+import { CompareViewModule } from '@app/_views/compareView';
 
 const moduleMetadata = {
   imports: [
-    AssetsModule,
+    AssetsModule.forRoot(),
     RouterTestingModule,
     TranslateModule.forRoot(),
+    CompareViewModule,
   ],
   providers: [
-    RippleService,
-    ModalService
-  ]
+    {
+      provide: ActivatedRoute,
+      useValue: {
+        snapshot: {
+          data: {},
+        },
+      },
+    },
+  ],
 };
 const breadcrumbsData = [
   {

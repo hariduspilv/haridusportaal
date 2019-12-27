@@ -7,20 +7,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@app/_modules/translate/translate.module';
 import { Alert, AlertType, SidemenuService, RippleService, ModalService } from '@app/_services';
 import { EmbedVideoService } from 'ngx-embed-video';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
-    AssetsModule,
+    AssetsModule.forRoot(),
     RouterTestingModule,
     BrowserAnimationsModule,
     TranslateModule.forRoot(),
 
   ],
   providers: [
-    TranslateService,
-    RippleService,
-    ModalService,
-    EmbedVideoService,
   ],
 };
 

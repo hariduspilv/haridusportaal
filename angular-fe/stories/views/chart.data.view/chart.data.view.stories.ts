@@ -10,6 +10,8 @@ import {
   withKnobs,
 } from '@storybook/addon-knobs';
 import { RippleService, ModalService } from '@app/_services';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -21,6 +23,8 @@ const moduleMetadata = {
     TranslateService,
     RippleService,
     ModalService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

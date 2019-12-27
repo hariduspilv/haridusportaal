@@ -141,7 +141,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       } catch (err) {}
 
     });
-    
+
     return values;
   }
 

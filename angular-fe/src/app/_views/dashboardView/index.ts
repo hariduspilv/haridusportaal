@@ -85,7 +85,16 @@ const routes: Routes = [
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  bootstrap: [],
+  exports: [
+    DashboardComponent,
+    ApplicationsComponent,
+    StudiesComponent,
+    TeachingsComponent,
+    CertificatesComponent,
+    MoreBlockComponent,
+    StudiesDetailView,
+    CertificatesDetailView,
+  ],
 })
 
 export class DashboardViewModule { }

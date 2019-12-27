@@ -6,6 +6,8 @@ import { data } from './table.data';
 import { ScrollableContentComponent } from '@app/_assets/scrollableContent';
 import { QueryList } from '@angular/core';
 import { RippleService } from '@app/_services';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -14,6 +16,8 @@ const moduleMetadata = {
   ],
   providers: [
     RippleService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

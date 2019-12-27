@@ -12,6 +12,7 @@ import { RippleService, ModalService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
 
 const moduleMetadata = {
   imports: [
@@ -22,6 +23,7 @@ const moduleMetadata = {
     TranslateService,
     RippleService,
     ModalService,
+    QueryParamsService,
     { provide: ActivatedRoute, useValue: {} },
   ],
 };

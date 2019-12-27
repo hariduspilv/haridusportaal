@@ -9,9 +9,9 @@ export class ParseInAddsPipe implements PipeTransform {
   transform(value: any): any {
 
     if (typeof value === 'object') {
-        return value.addressHumanReadable;
+      return value.addressHumanReadable || '';
     }
-    return decodeURI(value);
+    return decodeURI(value || '');
 
   }
 

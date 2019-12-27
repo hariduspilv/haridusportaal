@@ -19,20 +19,18 @@ import {
 } from '@storybook/addon-knobs';
 import { ModalService, RippleService } from '@app/_services';
 import { EmbedVideoService } from 'ngx-embed-video';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
-    AssetsModule,
+    AssetsModule.forRoot(),
     RouterTestingModule,
     TranslateModule.forRoot(),
     BrowserAnimationsModule,
   ],
   providers: [
-    TranslateService,
     { provide: LOCALE_ID, useValue:'et' },
-    ModalService,
-    RippleService,
-    EmbedVideoService,
   ],
 };
 

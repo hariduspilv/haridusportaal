@@ -18,7 +18,7 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class InfoSystemViewComponent implements OnInit {
   @Input() data;
   @Input() breadcrumbs;
-  public path: any = '';
+  @Input() path: any = '';
   public linksLabel = 'links';
   public loading: boolean = true;
   public origData: any = {};
@@ -66,7 +66,7 @@ export class InfoSystemViewComponent implements OnInit {
   }
 
   private initialize() {
-    this.path = decodeURI(this.location.path());
+    this.path = decodeURI(this.path || this.location.path());
     if (!this.data) {
       this.getData();
     }
