@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, Output, OnDestroy, ChangeDetectorRef, ViewRef } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
 const moment = _moment;
@@ -455,7 +455,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           response.addresses && response.addresses[0] && response.addresses[0].pikkaadress ?
             response.addresses[0].pikkaadress :
             school.institutionInfo.address.addressHumanReadable;
-        this.cdr.detectChanges();
+
+        if (this.cdr && !(this.cdr as ViewRef).destroyed) {
+          this.cdr.detectChanges();
+        }
         subscription.unsubscribe();
       });
   }
