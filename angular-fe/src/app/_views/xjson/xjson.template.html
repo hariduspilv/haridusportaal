@@ -175,8 +175,8 @@
                       </ng-container> <!-- /ADDRESS -->
 
                       <ng-container *ngIf="data_elements[element].type == 'date'">
-                        <formItem class="datepicker" *ngIf="!isFieldDisabled(data_elements[element].readonly)" type="date"
-                          placeholder="pp.kk.aaaa" [name]="element"
+                        <formItem class="datepicker" *ngIf="!isFieldDisabled(data_elements[element].readonly)"
+                          type="date" placeholder="pp.kk.aaaa" [name]="element"
                           [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
                           [(ngModel)]="data_elements[element].value" [error]="error[element] ? true : false"
@@ -195,7 +195,8 @@
                           </span>
                           <div class="tooltip">
                             <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
-                              ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
+                              ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top">
+                            </icon>
                           </div>
                         </div>
 
@@ -254,7 +255,7 @@
                               <br>{{ 'xjson.max_size' | translate }} {{ data_elements[element].max_size }}MB</span>
                           </div>
                         </div>
-                        
+
                       </ng-container> <!-- /FILE -->
 
 
@@ -265,7 +266,8 @@
                           </h2>
                           <div class="tooltip">
                             <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
-                              ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top"></icon>
+                              ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="top">
+                            </icon>
                           </div>
                         </div>
 
@@ -276,7 +278,8 @@
                               <div *ngIf="scrollableTables[element]">
                                 <div aria-hidden="true"
                                   class="xjson__scrollable__rectangle xjson__scrollable__rectangle--left pointer"
-                                  *ngIf="!elemAtStart[index]" (touchstart)="tableService.scrollStart('xjsonTable_'+index)"
+                                  *ngIf="!elemAtStart[index]"
+                                  (touchstart)="tableService.scrollStart('xjsonTable_'+index)"
                                   (mousedown)="tableService.scrollStart('xjsonTable_'+index)"
                                   (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
                                   <div class="htm-icon">
@@ -327,7 +330,8 @@
                                       <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
                                         <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
-                                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
+                                          <ng-container
+                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
                                             <formItem
                                               *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                               type="text" [(ngModel)]="row[col]"
@@ -341,7 +345,8 @@
                                               *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplayAddress"
                                               type="autocomplete" query="inaadress" valueType="object"
                                               placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'placeholder'))}}"
-                                              [(ngModel)]="row[col]" name="{{element + '_' + rowIndex + '_' + colIndex}}">
+                                              [(ngModel)]="row[col]"
+                                              name="{{element + '_' + rowIndex + '_' + colIndex}}">
                                             </formItem>
                                           </ng-container> <!-- /ADDRESS -->
 
@@ -350,8 +355,7 @@
                                             <formItem
                                               *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
                                               type="text" [(ngModel)]="row[col]"
-                                              name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                              [error]="row[col]">
+                                              name="{{element + '_' + rowIndex + '_' + colIndex}}" [error]="row[col]">
                                             </formItem>
                                           </ng-container> <!-- /EMAIL -->
 
@@ -364,33 +368,38 @@
                                             </formItem>
                                           </ng-container> <!-- /NUMBER -->
 
-                                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
-                                              <ng-container *ngIf="row[col] && row[col].length > 0">
-                                                  {{ 'xjson.count_added_files' | translate }} {{ row[col].length }} | <a (click)="fileModal(element, col, rowIndex)">{{ 'xjson.add_file' | translate }}</a>
-                                                </ng-container>
+                                          <ng-container
+                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
+                                            <ng-container *ngIf="row[col] && row[col].length > 0">
+                                              {{ 'xjson.count_added_files' | translate }} {{ row[col].length }} | <a
+                                                (click)="fileModal(element, col, rowIndex)">{{ 'xjson.add_file' | translate }}</a>
+                                            </ng-container>
                                             <div class="upload"
-                                            *ngIf="(!row[col] || row[col].length <= 0) && !isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
-                                                <icon glyph="plus" size="default" [bg]="false"
+                                              *ngIf="(!row[col] || row[col].length <= 0) && !isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
+                                              <icon glyph="plus" size="default" [bg]="false"
                                                 (click)="fileModal(element, col, rowIndex)"></icon>
                                             </div>
-                                            <ng-container *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && !isArray(row[col])">
-                                                <a class="file-icon" [href]="fileDownloadlink(row[col])" target="_blank">
-                                                    <span class="file-name">{{ row[col].file_name }}</span>
-                                                  </a>
+                                            <ng-container
+                                              *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && !isArray(row[col])">
+                                              <a class="file-icon" [href]="fileDownloadlink(row[col])" target="_blank">
+                                                <span class="file-name">{{ row[col].file_name }}</span>
+                                              </a>
                                             </ng-container>
-                                            <ng-container *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' && isArray(row[col])">
-                                                <a class="file-icon" [href]="fileDownloadlink(row[col][0])" target="_blank">
-                                                    <span class="file-name">{{ row[col][0].file_name }}</span>
-                                                  </a>
+                                            <ng-container
+                                              *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' && isArray(row[col])">
+                                              <a class="file-icon" [href]="fileDownloadlink(row[col][0])"
+                                                target="_blank">
+                                                <span class="file-name">{{ row[col][0].file_name }}</span>
+                                              </a>
                                             </ng-container>
                                           </ng-container> <!-- /file -->
 
-                                          <ng-container *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
+                                          <ng-container
+                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
                                             <formItem class="datepicker"
                                               name="{{element + '_' + rowIndex + '_' + colIndex}}"
                                               *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                              type="date"
-                                              [(ngModel)]="row[col]"></formItem>
+                                              type="date" [(ngModel)]="row[col]"></formItem>
                                           </ng-container><!-- /DATE -->
 
                                           <ng-container
@@ -418,9 +427,9 @@
                                               [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] !== 'undefined' ? row[col] : '' }}</span>
                                           </ng-template>
                                           <ng-template #fileReadonlyDisplay>
-                                              <span
-                                                [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' ? row[col][0].file_name : '' }}</span>
-                                            </ng-template>
+                                            <span
+                                              [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' ? row[col][0].file_name : '' }}</span>
+                                          </ng-template>
                                           <ng-template #readonlyDisplayAddress>
                                             <span
                                               [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].address }}</span>
@@ -465,6 +474,12 @@
 
                         </div>
 
+                        <ng-container
+                          *ngIf="(error[element] && error[element].rows) || (error[element] && data_elements[element].type === 'table')">
+                          <div class="error">
+                            {{ error[element].message }}
+                          </div>
+                        </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
                       </ng-container> <!-- /TABLE -->
 
                       <ng-container *ngIf="error[element] && error[element].row == undefined">
@@ -525,32 +540,34 @@
         </div>
         <!--/block border-blue-->
       </block-content>
-      <block-content *ngIf="acceptable_forms.length" tabLabel="{{ 'frontpage.dashboard_related_documents' | translate }}" tabIcon="shuffle">
-          <div class="grid-box">
-            <ng-container *ngFor="let form of acceptable_forms">
-              <a [href]="form.link" class="grid-item">
-                <span class="grid-link">{{ form.form_name }}</span>
-              </a>
-            </ng-container>
-          </div>
+      <block-content *ngIf="acceptable_forms.length"
+        tabLabel="{{ 'frontpage.dashboard_related_documents' | translate }}" tabIcon="shuffle">
+        <div class="grid-box">
+          <ng-container *ngFor="let form of acceptable_forms">
+            <a [href]="form.link" class="grid-item">
+              <span class="grid-link">{{ form.form_name }}</span>
+            </a>
+          </ng-container>
+        </div>
 
-          <ng-container
-            *ngIf="data.header.acceptable_form.length > acceptable_forms_limit && acceptable_forms_list_restricted == true">
-            <div class="grid-load">
-              <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">+
-                {{ 'button.show_more' | translate }}
-                ({{ data.header.acceptable_forms.length - acceptable_forms_limit }})</a>
-            </div>
-          </ng-container>
-          <ng-container *ngIf="acceptable_forms_list_restricted == false">
-            <div class="grid-load">
-              <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">-
-                {{ 'button.show_less' | translate }}</a>
-            </div>
-          </ng-container>
+        <ng-container
+          *ngIf="data.header.acceptable_form.length > acceptable_forms_limit && acceptable_forms_list_restricted == true">
+          <div class="grid-load">
+            <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">+
+              {{ 'button.show_more' | translate }}
+              ({{ data.header.acceptable_forms.length - acceptable_forms_limit }})</a>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="acceptable_forms_list_restricted == false">
+          <div class="grid-load">
+            <a href="javascript:void(0);" (click)="toggleAcceptableFormList()">-
+              {{ 'button.show_less' | translate }}</a>
+          </div>
+        </ng-container>
       </block-content>
     </block>
-  </div><!--/inline-->
+  </div>
+  <!--/inline-->
 </base-layout>
 
 <htm-modal id="deleteTableRow" modalTitle="{{ 'xjson.table_delete_row_confirm_modal_title' | translate}}"
@@ -571,7 +588,7 @@
   </modal-content>
 </htm-modal>
 
-<htm-modal id="dashboardReturn" [bottomAction]="true"
+<htm-modal id="dashboardReturn" [bottomAction]="true" modalTitle="{{ 'xjson.cancel_modal_title' | translate }}"
   [topAction]="true">
   <modal-content class="modal-center">
     <div>{{ 'xjson.return_dashboard' | translate }}</div>
@@ -580,62 +597,65 @@
   </modal-content>
 </htm-modal>
 
-<htm-modal id="addFile" [bottomAction]="true" [topAction]="true">
+<htm-modal id="addFile" [bottomAction]="true" [topAction]="true" modalTitle="{{ 'xjson.add_files' | translate }}">
   <modal-content class="modal-center">
     <ng-container *ngIf="fileUploadElement && fileUploadCol">
-        <div class="loaded-files-list">
-            <ng-container *ngIf="data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
-              <ng-container *ngFor="let file of data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
-                <div class="uploaded-file">
-                  <a class="file-icon" [href]="fileDownloadlink(file)" attr.aria-label="{{ file.file_name }}" target="_blank">
-                    <span class="file-name">
-                      <icon glyph="file-text"></icon>{{ file.file_name }}
-                    </span>
-                  </a>
-                  <a role="button" class="close-icn" href="javascript:void(0)"
-                    (click)="tableFileDelete(file.file_identifier, data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol])">
-                    <icon glyph="x" aria-hidden="true" tabindex="-1"></icon>
-                    {{ 'xjson.delete_file' | translate }}
-                  </a>
-                </div>
-              </ng-container>
-            </ng-container>
-          </div>
-      
-          <loader *ngIf="fileLoading[fileUploadElement]"></loader>
-
-          <input *ngIf="canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true)" class="hidden" type="file"
-            attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[fileUploadElement].table_columns[fileUploadCol].max_size }}MB"
-            (change)="fileEventHandler($event, fileUploadElement)"
-            placeholder="{{selectLanguage(data_elements[fileUploadElement].table_columns[fileUploadCol].title)}}{{data_elements[fileUploadElement].table_columns[fileUploadCol].required ? '*': ''}}"
-            [accept]="parseAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions)"
-            [attr.multiple]="data_elements[fileUploadElement].table_columns[fileUploadCol].multiple ? '' : null" />
-      
-          <div aria-hidden="true" class="dropzone" (drop)="fileEventHandler($event, fileUploadElement)"
-            (dragover)="$event.preventDefault()"
-            *ngIf="canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true) && !fileLoading[fileUploadElement]">
-            <div class="upload">
-              <icon glyph="upload"></icon>
-            </div>
-            <div class="dropzone-text">
-              <span class="dropzone-title">
-                {{ 'xjson.drag_files_here_or' | translate }}
-              </span>
-              <a class="dropzone-add" href="javascript:void(0)" tabindex="-1">
-                <input tabindex="-1" type="file" [attr.disabled]="canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true) ? null : ''"
-                  (change)="fileEventHandler($event, element)"
-                  placeholder="{{selectLanguage(data_elements[fileUploadElement].table_columns[fileUploadCol].title)}}{{data_elements[fileUploadElement].table_columns[fileUploadCol].required ? '*': ''}}"
-                  [accept]="parseAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions)"
-                  [attr.multiple]="data_elements[fileUploadElement].table_columns[fileUploadCol].multiple ? '' : null" />
-                {{ 'button.upload' | translate }}
+      <div class="loaded-files-list">
+        <ng-container *ngIf="data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
+          <ng-container *ngFor="let file of data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
+            <div class="uploaded-file">
+              <a class="file-icon" [href]="fileDownloadlink(file)" attr.aria-label="{{ file.file_name }}"
+                target="_blank">
+                <span class="file-name">
+                  <icon glyph="file-text"></icon>{{ file.file_name }}
+                </span>
               </a>
-              <span class="dropzone-description">{{ 'xjson.allowed_filetypes' | translate }}
-                {{ displayAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions) }}
-                <br>{{ 'xjson.max_size' | translate }}
-                {{ data_elements[fileUploadElement].table_columns[fileUploadCol].max_size }}MB</span>
+              <a role="button" class="close-icn" href="javascript:void(0)"
+                (click)="tableFileDelete(file.file_identifier, data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol])">
+                <icon glyph="x" aria-hidden="true" tabindex="-1"></icon>
+                {{ 'xjson.delete_file' | translate }}
+              </a>
             </div>
-          </div>
+          </ng-container>
+        </ng-container>
+      </div>
+
+      <loader *ngIf="fileLoading[fileUploadElement]"></loader>
+
+      <input *ngIf="canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true)" class="hidden"
+        type="file"
+        attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[fileUploadElement].table_columns[fileUploadCol].max_size }}MB"
+        (change)="fileEventHandler($event, fileUploadElement)"
+        placeholder="{{selectLanguage(data_elements[fileUploadElement].table_columns[fileUploadCol].title)}}{{data_elements[fileUploadElement].table_columns[fileUploadCol].required ? '*': ''}}"
+        [accept]="parseAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions)"
+        [attr.multiple]="data_elements[fileUploadElement].table_columns[fileUploadCol].multiple ? '' : null" />
+
+      <div aria-hidden="true" class="dropzone" (drop)="fileEventHandler($event, fileUploadElement)"
+        (dragover)="$event.preventDefault()"
+        *ngIf="canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true) && !fileLoading[fileUploadElement]">
+        <div class="upload">
+          <icon glyph="upload"></icon>
+        </div>
+        <div class="dropzone-text">
+          <span class="dropzone-title">
+            {{ 'xjson.drag_files_here_or' | translate }}
+          </span>
+          <a class="dropzone-add" href="javascript:void(0)" tabindex="-1">
+            <input tabindex="-1" type="file"
+              [attr.disabled]="canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true) ? null : ''"
+              (change)="fileEventHandler($event, element)"
+              placeholder="{{selectLanguage(data_elements[fileUploadElement].table_columns[fileUploadCol].title)}}{{data_elements[fileUploadElement].table_columns[fileUploadCol].required ? '*': ''}}"
+              [accept]="parseAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions)"
+              [attr.multiple]="data_elements[fileUploadElement].table_columns[fileUploadCol].multiple ? '' : null" />
+            {{ 'button.upload' | translate }}
+          </a>
+          <span class="dropzone-description">{{ 'xjson.allowed_filetypes' | translate }}
+            {{ displayAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions) }}
+            <br>{{ 'xjson.max_size' | translate }}
+            {{ data_elements[fileUploadElement].table_columns[fileUploadCol].max_size }}MB</span>
+        </div>
+      </div>
     </ng-container>
-    
+
   </modal-content>
 </htm-modal>

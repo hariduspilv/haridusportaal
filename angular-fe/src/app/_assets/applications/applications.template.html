@@ -503,7 +503,7 @@
 </htm-modal>
 
 <htm-modal id="editInstitutionModal" modalTitle="{{ 'button.edit' | translate }}" [titleExists]="modalTitleExists"
-	[topAction]="modalTopAction" [bottomAction]="modalBottomAction">
+	[topAction]="true" [bottomAction]="false">
 	<modal-content [loading]="modalLoading">
 		<alerts small="true" id="institution"></alerts>
 		<ng-container *ngIf="!modalLoading && !error && formOptions && editableInstitution">
