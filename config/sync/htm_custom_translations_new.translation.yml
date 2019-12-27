@@ -835,7 +835,7 @@ xjson:
     en: ''
   exceed_file_limit:
     translation_type: textarea
-    et: 'Laetud faili suurus ületab piirangut'
+    et: 'Laetud faili suurus ületab lubatud piirangut 4MB!'
     en: ''
   edit:
     translation_type: textarea
@@ -855,7 +855,7 @@ xjson:
     en: ''
   unacceptable_extension:
     translation_type: textarea
-    et: 'Üles laaditud faili tüüp pole lubatud'
+    et: 'Üles laaditud faili tüüp pole lubatud!'
     en: ''
   required_fields_infotext:
     translation_type: textarea
@@ -872,6 +872,22 @@ xjson:
   return_dashboard:
     translation_type: textarea
     et: 'Kas olete kindel, et soovite tegevuse katkestada?'
+    en: ''
+  count_added_files:
+    translation_type: textarea
+    et: 'Faile lisatud:'
+    en: ''
+  add_file:
+    translation_type: textarea
+    et: 'Lisa fail'
+    en: ''
+  add_files:
+    translation_type: textarea
+    et: 'Failide lisamine'
+    en: ''
+  cancel_modal_title:
+    translation_type: textarea
+    et: Katkestamine
     en: ''
 article:
   label:
@@ -2804,6 +2820,14 @@ dashboard:
     translation_type: textarea
     et: 'Õppeasutuse andmed on lisatud!'
     en: 'Educational institution information saved!'
+  intro:
+    translation_type: text_format
+    et:
+      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"changeRole()\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"changeRole()\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
+      format: custom_editor
 general: {  }
 agree:
   translation_type: textarea
@@ -3034,7 +3058,7 @@ abitekst:
   taotlused:
     translation_type: text_format
     et:
-      value: "<h3>Ohoommoos NB!</h3>\r\n\r\n<p>Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.</p>\r\n\r\n<p><a href=\"http://htm.wiseman.ee:30000/sites/default/files/inline-files/kasutusjuhendi_valjavote.pdf\" title=\"Kasutusjuhendi fail - sisemine\">Kasutusjuhendi fail - sisemine</a></p>\r\n\r\n<p><a href=\"http://htm.wiseman.ee:30000/sites/default/files/inline-files/kasutusjuhendi_valjavote_0.pdf\" target=\"_blank\" title=\"Teine kasutusjuhendi fail on välimine\">Teine kasutusjuhendi fail on välimine</a></p>\r\n\r\n<p>Need lingid ja failid on sisutekstiväljal.</p>\r\n\r\n<p><a href=\"http://htm.twn.ee/t%C3%B6%C3%B6laud/taotlused\">http://htm.twn.ee/t%C3%B6%C3%B6laud/taotlused</a></p>\r\n\r\n<p>Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.Cras pellentesque sit amet risus non commodo. Mauris eu sem fermentum nisl rhoncus volutpat. <em>Dui non lobortis luctus</em>. Maecenas dapibus metus non tristique interdum. Aliquam ultricies, libero at aliquam convallis, tellus arcu condimentum metus, eu gravida leo risus eget tortor. Integer laoreet diam ut varius interdum. <a href=\"https://app.zeplin.io/project/5ae9c7f3c560dffb217da75c/screen/5c35accfbb7a224bba61c115\" target=\"_blank\" title=\"Pealkiri lingile\">See on väline link</a> non eros aliquam auctor.</p>\r\n"
+      value: "<h3>Vajaduspõhine õppetoetus</h3>\r\n\r\n<p>Alates 2013/2014. õppeaastast&nbsp;toetab riik vähemkindlustatud perekondadest pärit tudengeid kõrghariduse omandamisega kaasnevate lisakulude katmisel. Vajaduspõhine õppetoetus on kehtestatud&nbsp;<a href=\"https://www.riigiteataja.ee/akt/122122012008?leiaKehtiv\" target=\"_blank\">õppetoetuste ja õppelaenu seadusega.</a></p>\r\n\r\n<p>Alates 2016/2017. õppeaastast saavad vajaduspõhist õppetoetust taotleda ka üliõpilased, kes immatrikuleeriti enne 2013/2014. õppeaastat.</p>\r\n\r\n<p>Vajaduspõhist õppetoetust saab tudeng:</p>\r\n\r\n<ul>\r\n\t<li>kes õpib täiskoormusega ja täidab õppekava nõudeid 75% ulatuses, kusjuures õppe mahu arvestus on semestrite lõikes kumulatiivne. Esimesel semestril õppetoetuse taotlemisel on piisav ainult täiskoormuse nõude täitmine;</li>\r\n\t<li>kelle perekonna kuusissetulek ühe pereliikme kohta on kuni 468 eurot.</li>\r\n</ul>\r\n"
       format: custom_editor
     en:
       value: ''
@@ -3132,3 +3156,24 @@ fieldHyperlinks:
   translation_type: textarea
   et: 'Leia kiiresti'
   en: 'Quick links'
+autocomplete:
+  no_result:
+    translation_type: textarea
+    et: 'Tulemusi ei leitud!'
+    en: ''
+  loading:
+    translation_type: textarea
+    et: 'Otsin, palun oodake...'
+    en: ''
+fillingBar:
+  translation_type: textarea
+  et: 'Konkurents tööturul'
+  en: ''
+KVALIFIKATSIOONID:
+  translation_type: textarea
+  et: KVALIFIKATSIOONID
+  en: ''
+Kvalifikatsioonid:
+  translation_type: textarea
+  et: KVALIFIKATSIOONID
+  en: QUALIFICATIONS
