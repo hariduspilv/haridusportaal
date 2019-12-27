@@ -12,7 +12,7 @@
         <icon glyph="chevron-left"></icon>
       </button>
       <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
-        <ng-container *ngIf="!tab.tabVisible">
+        <ng-container *ngIf="tab.tabVisible">
 
           <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
             <span class="button__contents">

@@ -12,6 +12,7 @@ export class StudiesDetailView implements OnInit {
 
   public data: any;
   public type: any;
+  public currentDate: Date = new Date();
   public breadcrumbs = [
     {
       title: 'Avaleht',
@@ -43,6 +44,12 @@ export class StudiesDetailView implements OnInit {
     const currentRoute = decodeURI(this.location.path()).split('/')[3];
     this.breadcrumbs[this.breadcrumbs.length - 1].title
       = currentRoute[0].toUpperCase() + currentRoute.slice(1);
+  }
+
+  isDateInPast(date) {
+    const dateArr = date.split('.');
+    const formattedDate = `${dateArr[1]}/${dateArr[0]}/${dateArr[2]}`;
+    return new Date(formattedDate).setHours(0, 0, 0, 0) < this.currentDate.setHours(0, 0, 0, 0);
   }
 
   parseTypeTranslation(type) {

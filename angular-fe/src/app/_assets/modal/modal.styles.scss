@@ -4,8 +4,14 @@
 :host {
 	&.size-small {
 		.modal__block {
-			min-width: 20vw;
-			max-width: 32vw;
+			min-width: 0;
+			max-width: 540px;
+		}
+	}
+	&.size-medium {
+		.modal__block {
+			min-width: 0;
+			max-width: 700px;
 		}
 	}
 	.modal {
