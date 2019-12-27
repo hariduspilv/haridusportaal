@@ -118,6 +118,8 @@ module:
   sitemap: 0
   smtp: 0
   statistics: 0
+  svg_image: 0
+  svg_image_field: 0
   syslog: 0
   system: 0
   taxonomy: 0
