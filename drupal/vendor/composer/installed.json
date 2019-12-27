@@ -7573,6 +7573,116 @@
         }
     },
     {
+        "name": "drupal/svg_image",
+        "version": "1.9.0",
+        "version_normalized": "1.9.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/svg_image.git",
+            "reference": "8.x-1.9"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/svg_image-8.x-1.9.zip",
+            "reference": "8.x-1.9",
+            "shasum": "7b193de6ec7b7fc3626f170d0f5f8fccaa2f26bf"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.9",
+                "datestamp": "1548492180",
+                "security-coverage": {
+                    "status": "covered",
+                    "message": "Covered by Drupal's security advisory policy"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "zvse",
+                "homepage": "https://www.drupal.org/user/2870933"
+            }
+        ],
+        "description": "Overrides the standard image formatter and widget to support SVG files.",
+        "homepage": "https://www.drupal.org/project/svg_image",
+        "support": {
+            "source": "https://git.drupalcode.org/project/svg_image"
+        }
+    },
+    {
+        "name": "drupal/svg_image_field",
+        "version": "1.2.0",
+        "version_normalized": "1.2.0.0",
+        "source": {
+            "type": "git",
+            "url": "https://git.drupalcode.org/project/svg_image_field.git",
+            "reference": "8.x-1.2"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://ftp.drupal.org/files/projects/svg_image_field-8.x-1.2.zip",
+            "reference": "8.x-1.2",
+            "shasum": "966c50eb6292bf502dfd114948389df2f8f802a7"
+        },
+        "require": {
+            "drupal/core": "*"
+        },
+        "type": "drupal-module",
+        "extra": {
+            "branch-alias": {
+                "dev-1.x": "1.x-dev"
+            },
+            "drupal": {
+                "version": "8.x-1.2",
+                "datestamp": "1552491485",
+                "security-coverage": {
+                    "status": "not-covered",
+                    "message": "Project has not opted into security advisory coverage!"
+                }
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packages.drupal.org/8/downloads",
+        "license": [
+            "GPL-2.0-or-later"
+        ],
+        "authors": [
+            {
+                "name": "donne93",
+                "homepage": "https://www.drupal.org/user/3569136"
+            },
+            {
+                "name": "dunot",
+                "homepage": "https://www.drupal.org/user/3562626"
+            },
+            {
+                "name": "romychvk",
+                "homepage": "https://www.drupal.org/user/361734"
+            },
+            {
+                "name": "shmel210",
+                "homepage": "https://www.drupal.org/user/2600028"
+            }
+        ],
+        "description": "Provides svg image field",
+        "homepage": "https://www.drupal.org/project/svg_image_field",
+        "support": {
+            "source": "https://git.drupalcode.org/project/svg_image_field"
+        }
+    },
+    {
         "name": "drupal/taxonomy_multidelete_terms",
         "version": "1.1.0",
         "version_normalized": "1.1.0.0",
@@ -14302,11 +14412,6 @@
         "name": "webflo/drupal-core-require-dev",
         "version": "8.8.0",
         "version_normalized": "8.8.0.0",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/webflo/drupal-core-require-dev.git",
-            "reference": "175535d94c4580901e153b51571cfd67ef443dc2"
-        },
         "require": {
             "behat/mink": "1.7.x-dev",
             "behat/mink-goutte-driver": "^1.2",
