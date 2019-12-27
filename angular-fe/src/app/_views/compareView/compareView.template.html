@@ -1,6 +1,7 @@
 <div class="inline">
-  
+
 <base-layout>
+<breadcrumbs [path]="typeUrl"></breadcrumbs>
 <block>
   <block-title>
     {{ translations[key].viewTitle | translate }}
@@ -49,7 +50,7 @@
                     && !compareService.existingFields.includes('degreeOrDiplomaAwarded')"
                     class="firstCell lastCell" 
                     *ngFor="let item of compareService.list">
-                    <span *ngIf="item.level">{{ item.level.entity.name | titlecase }}</span>
+                    <span *ngIf="item?.level">{{ item?.level?.entity?.name | titlecase }}</span>
                   </td>
                 </tr>
               </ng-container>
