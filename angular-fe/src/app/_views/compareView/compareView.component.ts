@@ -34,7 +34,7 @@ export class CompareViewComponent extends CompareComponent {
 
   ngOnInit() {
     this.typeUrl = this.key === 'oskaProfessionsComparison'
-      ? '/ametialad/võrdlus' : 'erialad/võrdlus';
+      ? '/ametialad/võrdlus' : '/erialad/võrdlus';
     this.compare = this.readFromLocalStorage(this.key);
     this.queryId = this.settings.query(this.queryName);
     this.getData();
@@ -84,7 +84,7 @@ export class CompareViewComponent extends CompareComponent {
   }
 
   rerouteToParent(): void {
-    const parentUrl = this.router.url.split('/')[0];
+    const parentUrl = this.typeUrl.split('/')[1];
     this.router.navigateByUrl(parentUrl);
   }
 
