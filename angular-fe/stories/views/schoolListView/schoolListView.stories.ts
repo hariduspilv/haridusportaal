@@ -8,6 +8,8 @@ import schoolListViewHtml from './schoolListView.html';
 import schoolListViewMd from './schoolListView.md';
 import { AssetsModule } from '@app/_assets';
 import { SchoolListViewModule } from '@app/_views/schoolListView';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -22,6 +24,8 @@ const moduleMetadata = {
     SettingsService,
     RippleService,
     ModalService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

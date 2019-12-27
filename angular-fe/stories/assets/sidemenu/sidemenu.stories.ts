@@ -4,6 +4,8 @@ import menuMd from './menu.md';
 import { data } from './menu.data';
 import { SidemenuService, RippleService } from '@app/_services';
 import { RouterTestingModule } from '@angular/router/testing';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -12,7 +14,9 @@ const moduleMetadata = {
   ],
   providers: [
     RippleService,
-  ]
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
+  ],
 };
 
 const stories = storiesOf('Assets', module);

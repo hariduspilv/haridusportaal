@@ -7,6 +7,8 @@ import { list } from './mainProfessions.data';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RippleService, ModalService } from '@app/_services';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -17,7 +19,9 @@ const moduleMetadata = {
   providers: [
     RippleService,
     ModalService,
-  ]
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
+  ],
 };
 
 const stories = storiesOf('Assets', module);

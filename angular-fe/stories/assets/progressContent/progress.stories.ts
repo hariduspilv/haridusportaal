@@ -9,12 +9,18 @@ import {
   optionsKnob as options,
   select,
 } from '@storybook/addon-knobs';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
     RouterTestingModule,
+  ],
+  providers: [
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

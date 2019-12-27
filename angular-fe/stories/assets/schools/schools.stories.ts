@@ -6,6 +6,8 @@ import { TranslateModule } from '@app/_modules/translate';
 import { list } from './schools.data';
 import { ModalService } from '@app/_services';
 import { RouterTestingModule } from '@angular/router/testing';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -14,6 +16,8 @@ const moduleMetadata = {
   ],
   providers: [
     ModalService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

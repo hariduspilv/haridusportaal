@@ -1,5 +1,5 @@
 
-<div class="inline">
+<div class="inline" *ngIf="data">
     <article-layout [sidebar]="data.sidebar" [feedbackNid]="data.nid">
     <breadcrumbs [path]="path"></breadcrumbs>
     <block [loading]="true" *ngIf="!data">

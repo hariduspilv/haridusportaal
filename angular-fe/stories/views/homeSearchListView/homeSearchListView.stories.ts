@@ -7,6 +7,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import homeSearchListViewHtml from './homeSearchListView.html';
 import homeSearchListViewMd from './homeSearchListView.md';
 import { AssetsModule } from '@app/_assets';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -20,6 +22,8 @@ const moduleMetadata = {
     SettingsService,
     RippleService,
     ModalService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

@@ -16,6 +16,7 @@ import { Subscription, Subject, Observable, of } from 'rxjs';
 import { APP_INITIALIZER } from '@angular/core';
 import { EmbedVideoService } from 'ngx-embed-video';
 import { InfoSystemViewComponent } from '@app/_views/infoSystemView/infoSystem.component';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
 
 const stories = storiesOf('Views', module);
 
@@ -39,9 +40,14 @@ stories.add(
           RippleService,
           ModalService,
           EmbedVideoService,
+          QueryParamsService,
           {
             provide: ActivatedRoute,
-            useValue: { snapshot: {}, params: new Observable<Params>() } },
+            useValue: { snapshot: {
+              data: {
+                type: 'infosystem',
+              },
+            }, params: new Observable<Params>() } },
           {
             provide: APP_INITIALIZER,
             useFactory: settingsProviderFactory,
@@ -52,7 +58,10 @@ stories.add(
       },
       props: {
       },
-      template: '<infoSystem-view></infoSystem-view>',
+      template: `
+      <infoSystem-view
+        path="/infosüsteemid/eesti-hariduse-infosüsteem-ehis">
+      </infoSystem-view>`,
     };
   },
 );

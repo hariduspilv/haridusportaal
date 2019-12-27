@@ -3,10 +3,16 @@ import { AssetsModule } from '@app/_assets';
 import colorsHtml from './colors.html';
 import colorsScss from '../../../src/app/scss/colors.scss';
 import colorsMd from './colors.md';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+  ],
+  providers: [
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

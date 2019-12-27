@@ -8,6 +8,8 @@ import mainProfessionListViewHtml from './mainProfessionListView.html';
 import mainProfessionListViewMd from './mainProfessionListView.md';
 import { AssetsModule } from '@app/_assets';
 import { MainProfessionListViewModule } from '@app/_views/mainProfessionListView';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -22,6 +24,8 @@ const moduleMetadata = {
     SettingsService,
     RippleService,
     ModalService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

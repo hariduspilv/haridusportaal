@@ -8,6 +8,8 @@ import newsListViewHtml from './newsListView.html';
 import newsListViewMd from './newsListView.md';
 import { AssetsModule } from '@app/_assets';
 import { NewsListViewModule } from '@app/_views/newsListView';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -22,6 +24,8 @@ const moduleMetadata = {
     SettingsService,
     RippleService,
     ModalService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

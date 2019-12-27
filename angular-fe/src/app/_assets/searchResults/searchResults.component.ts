@@ -88,6 +88,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     const tmpParams = this.addRequiredFields(queryParams);
 
     Object.keys(tmpParams).forEach((item) => {
+      let tmpItem;
       if (item.match(/date/gmi)) {
         if (typeof tmpParams[item] === 'string') {
           if (item.match(/min/gmi)) {
@@ -103,15 +104,21 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       }
       if (searchResultKeys[this.parsedType][item]) {
         if (typeof searchResultKeys[this.parsedType][item] === 'string') {
-          values[searchResultKeys[this.parsedType][item]] = this.getValue(tmpParams[item], item).replace(/\;/igm, ',');
+          tmpItem =  searchResultKeys[this.parsedType][item];
+          values[searchResultKeys[this.parsedType][item]] =
+          this.getValue(tmpParams[item], item).replace(/\;/igm, ',');
         } else {
           // tslint:disable-next-line: max-line-length
-          values[searchResultKeys[this.parsedType][item].key] = this.getValue(tmpParams[item], item).replace(/\;/igm, ',');
+          tmpItem = searchResultKeys[this.parsedType][item].key;
+          values[searchResultKeys[this.parsedType][item].key] =
+          this.getValue(tmpParams[item], item).replace(/\;/igm, ',');
           // tslint:disable-next-line: max-line-length
           if (Array.isArray(tmpParams[item])) {
-            values[searchResultKeys[this.parsedType][item].enabled] = tmpParams[item] ? false : true;
+            values[searchResultKeys[this.parsedType][item].enabled] =
+            tmpParams[item] ? false : true;
           } else {
-            values[searchResultKeys[this.parsedType][item].enabled] = tmpParams[item] === '' ? false : true;
+            values[searchResultKeys[this.parsedType][item].enabled] =
+            tmpParams[item] === '' ? false : true;
           }
         }
       } else {
@@ -124,16 +131,17 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       }
 
       try {
-        if (multiSelectFields[this.parsedType].indexOf(item) !== -1) {
-          values[item] = values[item].split(',');
-          if (values[item][0] === '') {
-            values[item].splice(0, 1);
+        if (multiSelectFields[this.parsedType].indexOf(tmpItem) !== -1) {
+          values[tmpItem] = values[tmpItem].split(';');
+          console.log(values[tmpItem]);
+          if (values[tmpItem][0] === '') {
+            values[tmpItem].splice(0, 1);
           }
         }
       } catch (err) {}
 
     });
-    
+
     return values;
   }
 

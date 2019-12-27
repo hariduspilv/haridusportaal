@@ -2,10 +2,16 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import tableMd from './table.md';
 import { data } from './table.data';
+import { ActivatedRoute } from '@angular/router';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+  ],
+  providers: [
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 

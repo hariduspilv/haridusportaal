@@ -4,6 +4,8 @@ import chartMd from './chart.md';
 import { data } from './chart.data';
 import { TranslateModule } from '@app/_modules/translate';
 import { RippleService } from '@app/_services';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 const moduleMetadata = {
   imports: [
@@ -12,7 +14,9 @@ const moduleMetadata = {
   ],
   providers: [
     RippleService,
-  ]
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
+  ],
 };
 
 const stories = storiesOf('Assets', module);

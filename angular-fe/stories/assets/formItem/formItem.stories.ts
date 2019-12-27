@@ -15,6 +15,8 @@ import {
   button,
 } from '@storybook/addon-knobs';
 import { RippleService } from '@app/_services';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { ActivatedRoute } from '@angular/router';
 
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -29,12 +31,13 @@ const moduleMetadata = {
   providers: [
     RippleService,
     { provide: LOCALE_ID, useValue:'et' },
-    RippleService,
+    QueryParamsService,
+    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 
 const reload = () => {
-}
+};
 
 const stories = storiesOf('Assets', module);
 

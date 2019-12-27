@@ -6,17 +6,15 @@ import { TranslateModule } from '@app/_modules/translate';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SettingsService } from '@app/_services/SettingsService';
 import { RippleService, ModalService } from '@app/_services';
+import { ActivatedRoute, Params } from '@angular/router';
+import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { Observable } from 'rxjs';
 
 const moduleMetadata = {
   imports: [
-    AssetsModule,
+    AssetsModule.forRoot(),
     TranslateModule.forRoot(),
     RouterTestingModule,
-  ],
-  providers: [
-    SettingsService,
-    RippleService,
-    ModalService,
   ],
 };
 
