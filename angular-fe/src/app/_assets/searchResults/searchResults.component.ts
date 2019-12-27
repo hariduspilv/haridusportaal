@@ -132,8 +132,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
 
       try {
         if (multiSelectFields[this.parsedType].indexOf(tmpItem) !== -1) {
-          values[tmpItem] = values[tmpItem].split(';');
-          console.log(values[tmpItem]);
+          values[tmpItem] = values[tmpItem].split(',');
           if (values[tmpItem][0] === '') {
             values[tmpItem].splice(0, 1);
           }

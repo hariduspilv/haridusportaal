@@ -74,7 +74,7 @@
 				tabLink="tunnistused"
 				[tabActive]="breadcrumbs === '/töölaud/tunnistused'"
 			>
-				<certificates></certificates>
+				<certificates *ngIf="breadcrumbs === '/töölaud/tunnistused'"></certificates>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
@@ -83,7 +83,7 @@
 				tabLink="õpingud"
 				[tabActive]="breadcrumbs === '/töölaud/õpingud'"
 			>
-				<studies></studies>
+				<studies *ngIf="breadcrumbs === '/töölaud/õpingud'"></studies>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
@@ -92,7 +92,7 @@
 				tabLink="õpetan"
 				[tabActive]="breadcrumbs === '/töölaud/õpetan'"
 			>
-				<teachings></teachings>
+				<teachings *ngIf="breadcrumbs === '/töölaud/õpetan'"></teachings>
 			</block-content>
 		</block>
 	</article-layout>
@@ -104,6 +104,7 @@
 	[titleExists]="titleExists"
 	[topAction]="topAction"
 	[bottomAction]="bottomAction"
+	size="medium"
 >
 	<modal-content [loading]="loading">
 		<alerts

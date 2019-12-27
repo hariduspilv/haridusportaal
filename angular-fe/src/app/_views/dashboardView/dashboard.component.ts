@@ -16,7 +16,7 @@ import * as _moment from 'moment';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApplicationsComponent } from '@app/_assets/applications/applications.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 import { BlockComponent, BlockContentComponent } from '@app/_assets/block';
 import { Subscription } from 'rxjs';
@@ -83,31 +83,29 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     public translate: TranslateService,
   ) {}
 
-  ngOnInit() {
-    this.initialize();
-    this.pathWatcher();
-  }
-
   pathWatcher() {
     this.routerSub = this.router.events.subscribe((event: any) => {
-      if (event.constructor.name === 'NavigationEnd') {
-        this.breadcrumbs = decodeURI(event.url);
-        this.cdr.detectChanges();
 
+      if (event instanceof NavigationEnd) {
+        this.breadcrumbs = decodeURI(event.url);
         try {
 
           const partial = this.breadcrumbs.split('/')[2] || '';
 
+          console.log(partial);
           let activeTab;
           this.blockContents.forEach((item) => {
             if (item.tabLink === partial) {
               activeTab = item;
             }
           });
+
           this.blockComponent.selectTab(activeTab);
         } catch (err) {
           console.log(err);
         }
+
+        this.cdr.detectChanges();
       }
     });
   }
@@ -136,7 +134,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
         () => {
           this.applicationsComponent.initialize();
         },
-        3000);
+        300);
     }
 
     this.cdr.detectChanges();
@@ -396,8 +394,14 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     // give data to sidebar
   }
 
+  ngOnInit() {
+    this.initialize();
+  }
+
+
   ngAfterViewInit() {
     this.bindIntroLinks();
+    this.pathWatcher();
   }
   ngOnDestroy() {
     this.cdr.detach();
