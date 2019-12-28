@@ -421,9 +421,10 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
 
 
-    \Drupal::logger('xjson')->notice('<pre><code>kudainiton' . print_r($params['init'], TRUE) . '</code></pre>' );
+    \Drupal::logger('xjson')->notice('<pre><code>kudainiton' . print_r($params, TRUE) . '</code></pre>' );
     // we need to start getDocument service
     if($params['init']){
+      \Drupal::logger('xjson')->notice('<pre><code>kasjoudis' . print_r($params, TRUE) . '</code></pre>' );
       $params['hash'] = 'getDocuments';
       $init = $this->invokeWithRedis('getDocuments', $params, FALSE);
       if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
