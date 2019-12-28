@@ -427,8 +427,8 @@ class EhisConnectorService {
     \Drupal::logger('xjson')->notice('<pre><code>response' . print_r($response, TRUE) . '</code></pre>' );
 
     // we need to start getDocument service
-    if($params['init'] && $response['redis_hit']){
-      \Drupal::logger('xjson')->notice('<pre><code>redisesoli' . print_r($response, TRUE) . '</code></pre>' );
+    if($params['init'] && !$response['redis_hit']){
+      \Drupal::logger('xjson')->notice('<pre><code>rediseseiolnud' . print_r($response, TRUE) . '</code></pre>' );
       $queryparams = $params;
       $queryparams['hash'] = 'getDocuments';
       $init = $this->invokeWithRedis('getDocuments', $queryparams, FALSE);
