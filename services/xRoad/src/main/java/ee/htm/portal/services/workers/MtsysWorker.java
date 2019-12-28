@@ -475,7 +475,7 @@ public class MtsysWorker extends Worker {
             ((ArrayNode) stepZeroDataElementsNode.get("dokumendid").get("value")).addObject()
                 .put("liik", String.valueOf(dokument.getKlLiik()))
                 .put("kommentaar", dokument.getKommentaar())
-                .putObject("fail")
+                .putArray("fail").addObject()
                 .put("file_name", dokument.getFailiNimi())
                 .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId());
 
@@ -528,7 +528,7 @@ public class MtsysWorker extends Worker {
 
       Long klOkLiik = response.getTegevusloaAndmed().getKlLiik().longValue();
       ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_liik")
-          .putObject("tegevusloaLiik")
+          .putObject("data_elements").putObject("tegevusloaLiik")
           .put("value", klOkLiik.toString());
 
       getTegevuslubaXJSON(jsonNode, klOkLiik, klfFailiTyybid);
@@ -598,7 +598,8 @@ public class MtsysWorker extends Worker {
                     fileType.get("et").asText())
                 .put("klLiik", item.getKlLiik())
                 .put("kommentaar", item.getKommentaar())
-                .putObject("fail").put("file_name", item.getFailiNimi())
+                .putArray("fail").addObject()
+                .put("file_name", item.getFailiNimi())
                 .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
           }
         });
