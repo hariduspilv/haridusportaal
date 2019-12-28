@@ -3071,6 +3071,14 @@ abitekst:
     en:
       value: ''
       format: custom_editor
+  jur_taotlused:
+    translation_type: text_format
+    et:
+      value: "<p>Testitekst</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
 feedback_add_comment:
   translation_type: textarea
   et: 'Soovi korral lisa kommentaar'
