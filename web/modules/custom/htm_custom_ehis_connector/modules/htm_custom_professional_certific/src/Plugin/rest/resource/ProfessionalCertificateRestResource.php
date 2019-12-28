@@ -97,7 +97,6 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 	 * @return ResourceResponse
 	 */
 	public function get($service_name, $tab) {
-    \Drupal::logger('xjson')->notice('<pre><code>get' . print_r($service_name, TRUE) . '</code></pre>' );
 		// You must to implement the logic of your REST Resource here.
 		// Use current user after pass authentication to validate access.
 		if (!$this->currentUser->hasPermission('access content')) {
