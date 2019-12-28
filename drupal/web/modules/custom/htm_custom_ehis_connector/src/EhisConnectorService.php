@@ -422,13 +422,11 @@ class EhisConnectorService {
 
     if($this->useReg()) $params['hash'] = 'mtsys';
     if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
-    #dump($params);
+    
     $response = $this->invokeWithRedis('vpTaotlus', $params);
-    \Drupal::logger('xjson')->notice('<pre><code>response' . print_r($response, TRUE) . '</code></pre>' );
 
     // we need to start getDocument service
     if($params['init'] && !$response['redis_hit']){
-      \Drupal::logger('xjson')->notice('<pre><code>rediseseiolnud' . print_r($response, TRUE) . '</code></pre>' );
       $queryparams = $params;
       $queryparams['hash'] = 'getDocuments';
       $init = $this->invokeWithRedis('getDocuments', $queryparams, FALSE);
