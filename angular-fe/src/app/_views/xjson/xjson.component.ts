@@ -428,6 +428,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   tableColumnAttribute(element, index, attribute) {
+    if (element === 'dokumendid' && index === 1 && attribute === 'readonly') {
+      console.log(this.data_elements[element].table_columns[this.tableColumnName(element, index)][attribute]);
+    }
     return this.data_elements[element].table_columns[this.tableColumnName(element, index)][attribute];
   }
 
