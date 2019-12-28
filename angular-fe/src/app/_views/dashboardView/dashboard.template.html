@@ -52,7 +52,7 @@
 
 			<block-content
 				[tabActive]="breadcrumbs === '/töölaud' && currentRole !== 'juridical_person'"
-				tabLink=""
+				tabLink="intro"
 				tabLabel="intro"
 				[tabVisible]="false">
 				
@@ -60,19 +60,17 @@
 			</block-content>
 			
 			<block-content
-				*ngIf="
-					currentRole === 'juridical_person' || currentRole === 'natural_person'
-				"
+				*ngIf="currentRole === 'juridical_person' || currentRole === 'natural_person'"
 				tabLabel="Taotlused"
 				tabIcon="file-text"
 				tabLink="taotlused"
-				[tabActive]="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')"
-			>
+				[tabActive]="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
 				<applications
 					#applications
 					*ngIf="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
 				</applications>
 			</block-content>
+
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
 				tabLabel="Tunnistused"
