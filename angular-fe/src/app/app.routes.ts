@@ -1,6 +1,12 @@
-import { NgModule } from '@angular/core';
+import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthService } from './_services';
+
+@Component({
+  selector: 'dummy-view',
+  template: '',
+})
+export class DummyViewComponent {}
 
 const routes: Routes = [
   {
@@ -176,12 +182,17 @@ const routes: Routes = [
     },
   },
   {
+    path: 'dummy',
+    component: DummyViewComponent,
+  },
+  {
     path: '**',
     loadChildren: () => import('./_views/notFoundView').then(m => m.NotFoundViewModule),
   },
 ];
 
 @NgModule({
+  declarations: [DummyViewComponent],
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })

@@ -56,6 +56,8 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   initialRole: any;
   roleNaturalOptions: any;
   roleJuridicalOptions: [];
+  pageLoading: boolean = false;
+
   sidebar = {
     entity: {
       favourites: [],
@@ -119,6 +121,11 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  redirectTo(uri:string){
+    this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() =>
+    this.router.navigate([uri]));
+  }
+
   initialize() {
     this.userData = this.auth.userData;
     this.breadcrumbs = decodeURI(this.location.path());
@@ -177,6 +184,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.codeSelection = this.currentRole === 'juridical_person' ?
     this.userData.role.current_role.data.reg_kood : this.userData.username;
     this.formGroup.controls.roleSelection.setValue(this.currentRole);
+    this.pageLoading = false;
   }
 
   loadRoleChangeModal() {
@@ -220,6 +228,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       type: this.roleSelection,
       id: this.codeSelection,
     };
+    this.pageLoading = true;
     this.setRoleSubscription = this.http
       .post(`${this.settings.url}/custom/login/setRole`, data)
       .subscribe(
@@ -231,6 +240,9 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
           }
           this.setRoleSubscription.unsubscribe();
           this.modalService.close('roleModal');
+          this.initUser();
+          this.pageLoading = false;
+          this.redirectTo('/töölaud');
         },
         (err) => {
           if (err['message'] || err['error']['message']) {
