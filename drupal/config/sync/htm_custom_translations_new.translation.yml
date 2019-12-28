@@ -1489,7 +1489,7 @@ studyProgramme:
     en: 'No related study programmes'
   compare_modal_title:
     translation_type: textarea
-    et: 'Erialade võrdlemine'
+    et: 'Erialade võrdlus'
     en: 'Study programme comparison'
   compare_modal_content:
     translation_type: text_format
