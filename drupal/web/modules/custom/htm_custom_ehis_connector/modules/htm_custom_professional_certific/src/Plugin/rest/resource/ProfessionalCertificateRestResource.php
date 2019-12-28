@@ -97,6 +97,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 	 * @return ResourceResponse
 	 */
 	public function get($service_name, $tab) {
+    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($service_name, TRUE) . '</code></pre>' );
 		// You must to implement the logic of your REST Resource here.
 		// Use current user after pass authentication to validate access.
 		if (!$this->currentUser->hasPermission('access content')) {
@@ -116,7 +117,6 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 				$method = 'getApplications';
 				#$this->certificate->testApplications();
 				$params = ['init' => (boolean) $tab, 'get_edi_data' => TRUE];
-        \Drupal::logger('xjson')->notice('<pre><code>' . print_r($params, TRUE) . '</code></pre>' );
         break;
 		  case 'educational_institution':
 		  	$method = 'getEducationalInstitution';
@@ -132,11 +132,6 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		}catch (RequestException $e){
 			return new ResourceResponse($e->getMessage(), $e->getCode());
 		}
-
-    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($this->current_user, TRUE) . '</code></pre>' );
-
-
-    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($json, TRUE) . '</code></pre>' );
 
     $response = new ModifiedResourceResponse($json, 200);
 
