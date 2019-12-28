@@ -2,6 +2,18 @@
 @import "breakpoints.scss";
 
 :host {
+	&.size-small {
+		.modal__block {
+			min-width: 0;
+			max-width: 540px;
+		}
+	}
+	&.size-medium {
+		.modal__block {
+			min-width: 0;
+			max-width: 700px;
+		}
+	}
 	.modal {
 		&__backdrop {
 			opacity: 0;

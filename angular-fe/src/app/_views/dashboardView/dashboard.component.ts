@@ -4,6 +4,12 @@ import {
   ViewChild,
   ChangeDetectorRef,
   OnDestroy,
+  ContentChildren,
+  forwardRef,
+  QueryList,
+  ViewChildren,
+  AfterViewInit,
+  ViewRef,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService, AlertsService, ModalService, AuthService } from '@app/_services';
@@ -11,9 +17,9 @@ import * as _moment from 'moment';
 import { Location } from '@angular/common';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ApplicationsComponent } from '@app/_assets/applications/applications.component';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
-import { BlockComponent } from '@app/_assets/block';
+import { BlockComponent, BlockContentComponent } from '@app/_assets/block';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ThrowStmt } from '@angular/compiler';
@@ -24,9 +30,13 @@ const moment = _moment;
   styleUrls: ['dashboard.styles.scss'],
 })
 
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild(ApplicationsComponent, { static: false }) applicationsComponent: ApplicationsComponent;
+  @ViewChild('intro', { static: false }) intro;
   @ViewChild(BlockComponent, { static: false }) blockComponent: BlockComponent;
+  @ViewChildren(forwardRef(() => BlockContentComponent))
+  blockContents: QueryList<BlockContentComponent>;
+
   linksLabel = 'links';
   titleExists = true;
   topAction = true;
@@ -60,6 +70,14 @@ export class DashboardComponent implements OnInit, OnDestroy {
     roleSelection: [''],
   });
   public routerSub: Subscription = new Subscription();
+  public subscriptions: Subscription[];
+
+  private modalSubscription: Subscription = new Subscription();
+  private roleSubscription: Subscription = new Subscription();
+  private setRoleSubscription: Subscription = new Subscription();
+  private getFavouritesSubscription: Subscription = new Subscription();
+  private eventListSubscription: Subscription = new Subscription();
+
   constructor(
     private modalService: ModalService,
     private http: HttpClient,
@@ -71,19 +89,32 @@ export class DashboardComponent implements OnInit, OnDestroy {
     public formBuilder: FormBuilder,
     public cdr: ChangeDetectorRef,
     public router: Router,
+    public route: ActivatedRoute,
     public translate: TranslateService,
-  ) { }
-
-  ngOnInit() {
-    this.initialize();
-    this.pathWatcher();
-  }
+  ) {}
 
   pathWatcher() {
     this.routerSub = this.router.events.subscribe((event: any) => {
-      if (event.constructor.name === 'NavigationStart') {
+
+      if (event instanceof NavigationEnd) {
         this.breadcrumbs = decodeURI(event.url);
-        this.cdr.detectChanges();
+        try {
+
+          const partial = this.breadcrumbs.split('/')[2] || '';
+
+          let activeTab;
+          this.blockContents.forEach((item) => {
+            if (item.tabLink === partial) {
+              activeTab = item;
+            }
+          });
+
+          this.blockComponent.selectTab(activeTab);
+        } catch (err) {
+          console.log(err);
+        }
+
+        this.detectChanges();
       }
     });
   }
@@ -95,6 +126,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.getFavouritesList();
     this.getEventList();
     this.getNotifications();
+
     if (this.blockComponent) {
       this.blockComponent.selectTab(
         this.blockComponent.tabs.find(
@@ -103,22 +135,25 @@ export class DashboardComponent implements OnInit, OnDestroy {
           },
         ),
       );
+
     }
+
     if (this.applicationsComponent) {
       setTimeout(
         () => {
           this.applicationsComponent.initialize();
         },
-        3000);
+        300);
     }
-    this.cdr.detectChanges();
+
+    this.detectChanges();
   }
 
   loadUserModal() {
     this.error = false;
     this.loading = true;
     this.modalService.toggle('userModal');
-    const sub = this.http
+    this.modalSubscription = this.http
       .get(
         `${this.settings.url}/dashboard/eeIsikukaart/personal_data?_format=json`,
       )
@@ -133,7 +168,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
           this.personalData = response.value.isikuandmed;
         }
         this.loading = false;
-        sub.unsubscribe();
+        this.modalSubscription.unsubscribe();
       });
   }
 
@@ -155,7 +190,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       this.formGroup.controls.roleSelection.setValue(`juridical-${this.codeSelection}`);
     }
     this.initialRole = this.roleSelection;
-    const sub = this.http
+    this.roleSubscription = this.http
       .get(
         `${this.settings.url}/custom/login/getRoles?_format=json`,
       )
@@ -176,7 +211,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             ];
           }
           this.loading = false;
-          sub.unsubscribe();
+          this.roleSubscription.unsubscribe();
         });
   }
 
@@ -185,7 +220,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
       type: this.roleSelection,
       id: this.codeSelection,
     };
-    const sub = this.http
+    this.setRoleSubscription = this.http
       .post(`${this.settings.url}/custom/login/setRole`, data)
       .subscribe(
         (response: any) => {
@@ -194,7 +229,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.router.navigateByUrl('/töölaud/taotlused');
             this.initialize();
           }
-          sub.unsubscribe();
+          this.setRoleSubscription.unsubscribe();
           this.modalService.close('roleModal');
         },
         (err) => {
@@ -221,6 +256,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
     this.modalService.close('roleModal');
   }
 
+  detectChanges() {
+    if (this.cdr && !(this.cdr as ViewRef).destroyed) {
+      this.cdr.detectChanges();
+    }
+  }
   getFavouritesList(): void {
     const variables = {
       language: 'ET',
@@ -229,7 +269,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     const path = this.settings.query('customFavorites', variables);
 
-    const subscription = this.http.get(path)
+    this.getFavouritesSubscription = this.http.get(path)
       .subscribe(
         (response) => {
           if (
@@ -252,7 +292,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             this.sidebar.entity.favourites = [label];
           }
 
-          subscription.unsubscribe();
+          this.getFavouritesSubscription.unsubscribe();
           this.favouritesListDone = true;
         });
   }
@@ -273,7 +313,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     const path = this.settings.query('getEventList', variables);
 
-    const subscription = this.http.get(path)
+    this.eventListSubscription = this.http.get(path)
     .subscribe((response: any) => {
       const data = response.data.nodeQuery.entities;
       if (data && data.length) {
@@ -291,9 +331,30 @@ export class DashboardComponent implements OnInit, OnDestroy {
       } else {
         this.sidebar.entity.event = [];
       }
-      subscription.unsubscribe();
+      this.eventListSubscription.unsubscribe();
       this.eventsListDone = true;
     });
+  }
+
+  bindIntroLinks(): void {
+    if (this.intro){
+      this.intro.nativeElement.querySelectorAll('a').forEach((item) => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+          const href = item.attributes.href.value;
+          if (href.indexOf('modal-') !== -1) {
+            const modal = href.split('modal-')[1];
+            if (modal === 'roleModal') {
+              this.loadRoleChangeModal();
+            } else {
+              this.modalService.open(modal);
+            }
+          } else {
+            this.router.navigateByUrl(href);
+          }
+        });
+      });
+    }
   }
 
   getNotifications(): void {
@@ -348,8 +409,24 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // request done
     // give data to sidebar
   }
+
+  ngOnInit() {
+    this.initialize();
+    this.pathWatcher();
+  }
+
+
+  ngAfterViewInit() {
+    this.bindIntroLinks();
+  }
   ngOnDestroy() {
-    this.cdr.detach();
+    // this.cdr.detach();
     this.routerSub.unsubscribe();
+    this.modalSubscription.unsubscribe();
+    this.roleSubscription.unsubscribe();
+    this.setRoleSubscription.unsubscribe();
+    this.getFavouritesSubscription.unsubscribe();
+    this.eventListSubscription.unsubscribe();
+
   }
 }

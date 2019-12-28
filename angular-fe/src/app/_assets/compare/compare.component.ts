@@ -95,7 +95,7 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (!this.settingsService.compareObservable.observers.length) {
+    if (this.settingsService && !this.settingsService.compareObservable.observers.length) {
       this.sessionStorageSubscription = this.settingsService.compareObservable.subscribe((data) => {
         this.compare = this.readFromLocalStorage(this.sessionStorageKey);
         this.notify(data);

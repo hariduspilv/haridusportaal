@@ -48,6 +48,17 @@
 					</div>
 				</div>
 			</block-sub-title>
+			
+
+			<block-content
+				[tabActive]="breadcrumbs === '/töölaud' && currentRole !== 'juridical_person'"
+				tabLink=""
+				tabLabel="intro"
+				[tabVisible]="false">
+				
+				<div #intro [innerHTML]="'dashboard.intro' | translate"></div>
+			</block-content>
+			
 			<block-content
 				*ngIf="
 					currentRole === 'juridical_person' || currentRole === 'natural_person'
@@ -55,9 +66,12 @@
 				tabLabel="Taotlused"
 				tabIcon="file-text"
 				tabLink="taotlused"
-				[tabActive]="breadcrumbs === '/töölaud/taotlused'"
+				[tabActive]="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')"
 			>
-				<applications #applications></applications>
+				<applications
+					#applications
+					*ngIf="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
+				</applications>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
@@ -66,7 +80,7 @@
 				tabLink="tunnistused"
 				[tabActive]="breadcrumbs === '/töölaud/tunnistused'"
 			>
-				<certificates></certificates>
+				<certificates *ngIf="breadcrumbs === '/töölaud/tunnistused'"></certificates>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
@@ -75,7 +89,7 @@
 				tabLink="õpingud"
 				[tabActive]="breadcrumbs === '/töölaud/õpingud'"
 			>
-				<studies></studies>
+				<studies *ngIf="breadcrumbs === '/töölaud/õpingud'"></studies>
 			</block-content>
 			<block-content
 				*ngIf="currentRole === 'natural_person'"
@@ -84,7 +98,7 @@
 				tabLink="õpetan"
 				[tabActive]="breadcrumbs === '/töölaud/õpetan'"
 			>
-				<teachings></teachings>
+				<teachings *ngIf="breadcrumbs === '/töölaud/õpetan'"></teachings>
 			</block-content>
 		</block>
 	</article-layout>
@@ -96,6 +110,7 @@
 	[titleExists]="titleExists"
 	[topAction]="topAction"
 	[bottomAction]="bottomAction"
+	size="medium"
 >
 	<modal-content [loading]="loading">
 		<alerts
@@ -131,6 +146,7 @@
 	[titleExists]="titleExists"
 	[topAction]="topAction"
 	[bottomAction]="roleBottomAction"
+	size="small"
 >
 	<modal-content [loading]="loading">
 		<alerts class="notifications notifications--small" id="roles"></alerts>

@@ -15,7 +15,7 @@ import { AuthService } from '@app/_services';
 })
 
 export class DetailViewComponent {
-  @Input() type: string = 'news';
+  @Input() type: string;
   @Input() path: string;
   @Input() data: any;
   @Input() origData: any;

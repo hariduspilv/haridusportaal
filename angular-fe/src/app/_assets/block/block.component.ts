@@ -25,6 +25,7 @@ export class BlockContentComponent {
   @Input() tabIcon: string;
   @Input() tabActive: boolean;
   @Input() active: boolean = false;
+  @Input() tabVisible: boolean = true;
   @Input() queryParams: any = {};
   @ContentChildren(forwardRef(() => ScrollableContentComponent), { descendants: true })
   scrollable: QueryList<ScrollableContentComponent>;
@@ -223,11 +224,16 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   public constructViewTabs() {
     const viewTabs: Object[] = [];
-    for (let i = 2; i <= this.tabs.length; i += 2) {
-      viewTabs.push(this.tabs.toArray().slice(i - 2, i));
+    const tmpTabs = this.tabs.toArray().filter((item) => {
+      if (item.tabVisible) {
+        return item;
+      }
+    });
+    for (let i = 2; i <= tmpTabs.length; i += 2) {
+      viewTabs.push(tmpTabs.slice(i - 2, i));
     }
-    if (this.tabs.length % 2) {
-      viewTabs.push(this.tabs.toArray().slice(this.tabs.length - 2, this.tabs.length));
+    if (tmpTabs.length % 2) {
+      viewTabs.push(tmpTabs.slice(tmpTabs.length - 2, tmpTabs.length));
     }
     this.viewTabs = viewTabs;
   }
