@@ -126,6 +126,7 @@
                             title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"
                             [name]="element" [error]="error[element] ? true : false"
+                            placeholder="vali liik"
                             [errorMessage]="error[element] ? error[element].message : ''">
                           </formItem>
                         </ng-template>
