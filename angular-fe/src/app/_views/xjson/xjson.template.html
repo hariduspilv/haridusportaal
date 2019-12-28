@@ -126,7 +126,6 @@
                             title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"
                             [name]="element" [error]="error[element] ? true : false"
-                            placeholder="vali liik"
                             [errorMessage]="error[element] ? error[element].message : ''">
                           </formItem>
                         </ng-template>
@@ -483,11 +482,11 @@
                         </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
                       </ng-container> <!-- /TABLE -->
 
-                      <ng-container *ngIf="error[element] && error[element].row == undefined">
+<!--                       <ng-container *ngIf="error[element] && error[element].row == undefined">
                         <div class="error">
                           {{ error[element].message }}
                         </div>
-                      </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
+                      </ng-container> --> <!-- FIELD VALIDATION ERROR MESSAGE -->
 
                     </div>
                     <!--/col-12-->
