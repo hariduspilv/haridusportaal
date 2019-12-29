@@ -275,6 +275,7 @@
 
 					<ng-container *ngIf="school.acceptable_forms.length">
 						<div class="row">
+							{{ school.acceptable_forms | json }}
 							<ng-container *ngFor="let form of school.acceptable_forms; let i = index;">
 								<ng-container
 									*ngIf="(acceptableFormsListRestricted && i < acceptableFormsLimiter) || !acceptableFormsListRestricted">

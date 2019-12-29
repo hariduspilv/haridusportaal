@@ -190,7 +190,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   if (response['educationalInstitutions']) {
                     const responseData = response['educationalInstitutions'].map((elem) => {
                       elem.documents = this.sortList(elem.documents, 'date');
-                      elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
+                      //elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
                       elem.drafts = this.sortList(elem.drafts, 'title');
                       this.alertsService.info(elem.message, String(elem.id), false);
                       return elem;
