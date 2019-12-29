@@ -370,15 +370,10 @@
 
                                           <ng-container
                                             *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
-                                            <ng-container *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col].length > 0">
-                                              {{ 'xjson.count_added_files' | translate }} {{ row[col].length }} | <a
+                                            <ng-container *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ">
+                                              {{ 'xjson.count_added_files' | translate }} {{ row[col] && row[col].length ? row[col].length : '0'}} | <a
                                                 (click)="fileModal(element, col, rowIndex)">{{ 'xjson.add_file' | translate }}</a>
                                             </ng-container>
-                                            <div class="upload"
-                                              *ngIf="(!row[col] || row[col].length <= 0) && !isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))">
-                                              <icon glyph="plus" size="default" [bg]="false"
-                                                (click)="fileModal(element, col, rowIndex)"></icon>
-                                            </div>
                                             <ng-container
                                               *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && !isArray(row[col])">
                                               <a class="file-icon" [href]="fileDownloadlink(row[col])" target="_blank">
