@@ -318,7 +318,7 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr *ngIf="!data_elements[element].value || !data_elements[element].value.length">
+                                  <tr *ngIf="(!data_elements[element].value || !data_elements[element].value.length) && !data_elements[element].add_del_rows">
                                     <td
                                       [attr.colspan]="data_elements[element].add_del_rows ? visibleTableLength[element]+1 : visibleTableLength[element]">
                                       {{'xjson.data_missing' | translate }}
@@ -454,7 +454,7 @@
                           </div>
 
                           <div class="add-row"
-                            *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                            *ngIf="showTableAddRow(data_elements[element])">
                             <div>
                               <a attr.aria-label="{{ 'button.add_table_row' | translate }}" role="button"
                                 *ngIf="!data_elements[element].row_label; else labeledAdd" class="table-link"
