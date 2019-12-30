@@ -54,6 +54,7 @@ export class AuthService implements CanActivate {
 
   public logout() {
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('redirectUrl');
     this.isAuthenticated.next(false);
     this.router.navigateByUrl('/');
   }
