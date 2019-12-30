@@ -1,0 +1,8 @@
+editor_advanced_link:
+  version: VERSION
+  js:
+    js/editor_advanced_link.js: {}
+  dependencies:
+    - core/drupal
+    - core/jquery
+    - core/jquery.once
