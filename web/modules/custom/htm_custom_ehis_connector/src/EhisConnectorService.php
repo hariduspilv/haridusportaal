@@ -422,7 +422,7 @@ class EhisConnectorService {
 
     if($this->useReg()) $params['hash'] = 'mtsys';
     if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
-    
+
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
     // we need to start getDocument service
