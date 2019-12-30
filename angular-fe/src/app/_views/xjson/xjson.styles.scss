@@ -141,6 +141,13 @@
     margin-top: -.2rem;
   }
 
+  .underline {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   .xjson__scrollable {
     position: relative;
     overflow: hidden;

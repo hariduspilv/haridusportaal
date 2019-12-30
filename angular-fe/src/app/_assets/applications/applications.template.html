@@ -59,7 +59,7 @@
 						</td>
 						<td class="text-center">
 							<a class="rowspan-btn" *ngIf="form.form_path" [routerLink]="form.form_path"
-								[queryParams]="{draft:'true', identifier: form.identifier}">
+								[queryParams]="{mustand:'true', id: form.identifier}">
 								{{ 'button.continue_filling' | translate }}
 							</a>
 						</td>
@@ -132,7 +132,7 @@
 							<td><span *ngIf="form.status">{{ form.status }}</span></td>
 							<td class="text-center">
 								<a class="rowspan-btn" *ngIf="form.form_path" [routerLink]="form.form_path"
-									[queryParams]="{existing:'true', identifier: form.identifier}">
+									[queryParams]="{eksisteerib:'true', id: form.identifier}">
 									{{ 'button.open' | translate }}
 								</a>
 							</td>
@@ -280,7 +280,7 @@
 									*ngIf="(acceptableFormsListRestricted && i < acceptableFormsLimiter) || !acceptableFormsListRestricted">
 									<div class="col-6 form-item">
 										<a [routerLink]="form.form_path"
-											[queryParams]="{ identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined, existing: form.status === 'Registreeritud' || form.status === 'Esitatud' ? true : undefined }"
+											[queryParams]="{ id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined, eksisteerib: form.status === 'Registreeritud' || form.status === 'Esitatud' ? true : undefined }"
 											class="grid-item">
 											<span *ngIf="form.title" class="grid-link">{{ selectLanguage(form.title) }} {{ form.description
 												}}</span>
@@ -361,7 +361,7 @@
 											<a class="rowspan-btn" *ngIf="form.form_path"
 												attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
 												[routerLink]="form.form_path"
-												[queryParams]="{draft:'true', identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined}">
+												[queryParams]="{mustand:'true', id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined}">
 												{{ 'button.continue_filling' | translate }}
 											</a>
 										</td>
@@ -451,7 +451,7 @@
 											<a class="rowspan-btn" *ngIf="form.form_path"
 												attr.aria-label="{{'button.open' | translate}} {{'frontpage.dokument' | translate}}"
 												[routerLink]="form.form_path"
-												[queryParams]="{existing:'true', identifier: form.id, educationalInstitutions_id: school.id, year: isNumber(form.description) ? form.description : undefined }">
+												[queryParams]="{eksisteerib:'true', id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined }">
 												{{ 'button.open' | translate }}
 											</a>
 										</td>

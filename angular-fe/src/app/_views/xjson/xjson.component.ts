@@ -108,11 +108,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
         this.test = (strings['test'] === 'true');
-        if (strings['year'] !== undefined) { this.queryStrings['year'] = Number(strings['year']); }
-        if (strings['draft'] === 'true') { this.queryStrings['status'] = 'draft'; }
-        if (strings['existing'] === 'true') { this.queryStrings['status'] = 'submitted'; }
-        if (strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutionsId'] = Number(strings['educationalInstitutions_id']); }
-        if (strings['identifier'] !== undefined) { this.queryStrings['identifier'] = Number(strings['identifier']); }
+        if (strings['aasta'] !== undefined) { this.queryStrings['year'] = Number(strings['aasta']); }
+        if (strings['mustand'] === 'true') { this.queryStrings['status'] = 'draft'; }
+        if (strings['eksisteerib'] === 'true') { this.queryStrings['status'] = 'submitted'; }
+        if (strings['õppeasutus']) { this.queryStrings['educationalInstitutionsId'] = Number(strings['õppeasutus']); }
+        if (strings['id'] !== undefined) { this.queryStrings['identifier'] = Number(strings['id']); }
       },
     );
 
@@ -634,7 +634,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         validationElement.value = val[Object.keys(val)[0]];
 
         const validation = this.isValidField(validationElement);
-        console.log(validationElement);
         if (validation.valid) {
           return true;
         }
@@ -844,18 +843,21 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   getStepViewStatus() {
     this.viewOnlyStep = true;
-    for (const [label, elem] of Object.entries(this.data_elements)) {
-      if (elem['type'] === 'table') {
-        this.scrollableTableDeterminant(label);
-        this.tableVisibleColumns(label, elem['table_columns']);
+    if (!(this.current_acceptable_activity.length === 1 &&
+      this.current_acceptable_activity[0] === 'VIEW')) {
+      for (const [label, elem] of Object.entries(this.data_elements)) {
+        if (elem['type'] === 'table') {
+          this.scrollableTableDeterminant(label);
+          this.tableVisibleColumns(label, elem['table_columns']);
 
-        for (const key in elem['table_columns']) {
-          if (this.viewOnlyStep) {
-            this.isViewOnlyStep(elem['table_columns'][key]);
+          for (const key in elem['table_columns']) {
+            if (this.viewOnlyStep) {
+              this.isViewOnlyStep(elem['table_columns'][key]);
+            }
           }
+        } else if (this.viewOnlyStep) {
+          this.isViewOnlyStep(elem);
         }
-      } else if (this.viewOnlyStep) {
-        this.isViewOnlyStep(elem);
       }
     }
   }

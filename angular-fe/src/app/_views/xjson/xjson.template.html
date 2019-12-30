@@ -371,7 +371,7 @@
                                           <ng-container
                                             *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
                                             <ng-container *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ">
-                                              {{ 'xjson.count_added_files' | translate }} {{ row[col] && row[col].length ? row[col].length : '0'}} | <a
+                                              {{ 'xjson.count_added_files' | translate }} {{ row[col] && row[col].length ? row[col].length : '0'}} | <a class="underline"
                                                 (click)="fileModal(element, col, rowIndex)">{{ 'xjson.add_file' | translate }}</a>
                                             </ng-container>
                                             <ng-container
