@@ -397,7 +397,7 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
     $params['hash'] = 'educationalInstitution_'.$params['id'];
     $response = $this->invokeWithRedis('getEducationalInstitution', $params, FALSE);
-    if($params['addTitle']){
+    if(isset($params['addTitle']) && $params['addTitle']){
       $this->addTitles($response);
     }
     return $response;
