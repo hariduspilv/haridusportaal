@@ -124,8 +124,7 @@ class EducationalFormRestResource extends ResourceBase {
 		  case 'edit':
 			  if($validation[0]){
 			  	$response = $this->ehisConnector->editInstitution(['data' => $data]);
-          \Drupal::logger('xjson')->notice('<pre><code>response' . print_r($response, TRUE) . '</code></pre>' );
-			  	if($response['edId']){
+			  	if(isset($response['message'])){
             $this->ehisConnector->deleteKeyFromredis($this->ehisConnector->getCurrentUserIdRegCode(FALSE));
           }
 				  return new ModifiedResourceResponse($response);
