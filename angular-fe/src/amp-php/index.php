@@ -1,9 +1,10 @@
 <?php
-  require('./helpers/Mustache.php');
+  require_once('./helpers/Mustache/Autoloader.php');
   require('./helpers/url.php');
   require('./helpers/FieldVaryService.php');
 
-  $m = new Mustache;
+  Mustache_Autoloader::register();
+  $m = new Mustache_Engine;
 
   $data = $FieldVaryService->parse($URL->getData());
 
@@ -20,6 +21,5 @@
     header("Location: ".$URL->getFullPath());
     die();
   }
-
 ?>
 
