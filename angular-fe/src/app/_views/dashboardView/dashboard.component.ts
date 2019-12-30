@@ -102,8 +102,10 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
         this.breadcrumbs = decodeURI(event.url);
         try {
 
-          const partial = this.breadcrumbs.split('/')[2] || '';
-
+          let partial = this.breadcrumbs.split('/')[2] || 'intro';
+          if (this.currentRole === 'juridical_person' && partial === 'intro') {
+            partial = 'taotlused';
+          }
           let activeTab;
           this.blockContents.forEach((item) => {
             if (item.tabLink === partial) {
@@ -235,8 +237,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
         (response: any) => {
           if (response['token']) {
             this.auth.refreshUser(response['token']);
-            this.router.navigateByUrl('/töölaud/taotlused');
-            this.initialize();
+            //this.router.navigateByUrl('/töölaud/taotlused');
           }
           this.setRoleSubscription.unsubscribe();
           this.modalService.close('roleModal');

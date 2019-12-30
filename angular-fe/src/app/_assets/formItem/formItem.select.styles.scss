@@ -104,6 +104,12 @@ $create-font-face: false;
     .ng-arrow-wrapper{
       width: 2.0625rem !important;
     }
+
+    &.ng-select-disabled {
+      .ng-arrow-wrapper {
+        display: none;
+      }
+    }
     &.ng-select-opened {
       .ng-arrow {
         &:before{

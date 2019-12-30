@@ -46,4 +46,5 @@ testem.log
 Thumbs.db
 scripts/conf.js
 scripts/conf-storybook.js
+scripts/conf-edu.js
 storybook-dist

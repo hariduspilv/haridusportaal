@@ -164,16 +164,16 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     return String(item);
   }
 
-  fetchData() {
+  fetchData(init = true) {
     setTimeout(
       () => {
         const subscription = this.http
-          .get(`${this.settings.url}/dashboard/applications/1?_format=json`)
+          .get(`${this.settings.url}/dashboard/applications/${init ? '1' : '0'}?_format=json`)
           .subscribe(
             (response: any) => {
 
               if (typeof response.found !== undefined && response.found === null) {
-                this.fetchData();
+                this.fetchData(false);
               } else {
                 if (response.error && response.error.message_text) {
                   this.alertsService
@@ -190,8 +190,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   if (response['educationalInstitutions']) {
                     const responseData = response['educationalInstitutions'].map((elem) => {
                       elem.documents = this.sortList(elem.documents, 'date');
-                      elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
-                      elem.drafts = this.sortList(elem.drafts, 'title');
                       this.alertsService.info(elem.message, String(elem.id), false);
                       return elem;
                     });
@@ -557,7 +555,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     this.pathWatcher();
     this.startTime = Date.now();
     this.loading['initial'] = true;
-    this.fetchData();
+    this.fetchData(true);
   }
 
   ngAfterViewChecked() {

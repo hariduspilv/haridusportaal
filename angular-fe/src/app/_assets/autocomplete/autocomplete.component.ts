@@ -79,6 +79,7 @@ export class AutocompleteComponent implements OnDestroy {
               );
               this.subscription = jsonP.pipe(
                 map((data) => {
+                  console.log(data);
                   return data.addresses;
                 }),
               ).subscribe((response) => {

@@ -27,6 +27,7 @@ export class UploadService {
       const isExpired = helper.isTokenExpired(token);
       if (isExpired) {
         sessionStorage.removeItem('token');
+        sessionStorage.removeItem('redirectUrl');
       } else {
         headers = headers.append('Authorization', `Bearer ${token}`);
       }

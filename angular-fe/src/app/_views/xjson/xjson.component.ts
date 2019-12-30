@@ -6,8 +6,10 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { SettingsService, ModalService, AlertsService,
-  UploadService, AuthService } from '@app/_services';
+import {
+  SettingsService, ModalService, AlertsService,
+  UploadService, AuthService
+} from '@app/_services';
 import { TableService } from '@app/_services/tableService';
 
 const XJSON_DATEPICKER_FORMAT = {
@@ -106,11 +108,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
         this.test = (strings['test'] === 'true');
-        if (strings['year'] !== undefined) { this.queryStrings['year'] = Number(strings['year']); }
-        if (strings['draft'] === 'true') { this.queryStrings['status'] = 'draft'; }
-        if (strings['existing'] === 'true') { this.queryStrings['status'] = 'submitted'; }
-        if (strings['educationalInstitutions_id']) { this.queryStrings['educationalInstitutionsId'] = Number(strings['educationalInstitutions_id']); }
-        if (strings['identifier'] !== undefined) { this.queryStrings['identifier'] = Number(strings['identifier']); }
+        if (strings['aasta'] !== undefined) { this.queryStrings['year'] = Number(strings['aasta']); }
+        if (strings['mustand'] === 'true') { this.queryStrings['status'] = 'draft'; }
+        if (strings['eksisteerib'] === 'true') { this.queryStrings['status'] = 'submitted'; }
+        if (strings['õppeasutus']) { this.queryStrings['educationalInstitutionsId'] = Number(strings['õppeasutus']); }
+        if (strings['id'] !== undefined) { this.queryStrings['identifier'] = Number(strings['id']); }
       },
     );
 
@@ -144,7 +146,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           const content = document.getElementById(label + 'Content');
           _scrollableTables[label] = table.offsetWidth < content.offsetWidth ? true : false;
         }
-      },         0);
+      }, 0);
     }
   }
 
@@ -194,10 +196,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (readonly === true) {
       return true;
 
-    }  if (this.max_step !== this.opened_step && !this.edit_step) {
+    } if (this.max_step !== this.opened_step && !this.edit_step) {
       return true;
 
-    }  if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key))) {
+    } if (this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key))) {
       return false;
 
     }
@@ -275,11 +277,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     if (this.isFieldDisabled(element.readonly)) {
       return false;
-    }  if (singeFileRestrictionApplies) {
+    } if (singeFileRestrictionApplies) {
       return false;
-    } 
-      return true;
-    
+    }
+    return true;
+
   }
 
   fileDelete(id, model) {
@@ -339,7 +341,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.fileLoading[element] = false;
         }
         subscription.unsubscribe();
-      },                                                                                    (err) => {
+      }, (err) => {
         const message = err.error ? err.error.message : err.message;
         this.error[element] = { valid: false, message };
         this.fileLoading[element] = false;
@@ -396,7 +398,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.fileLoading[this.fileUploadElement] = false;
         }
         subscription.unsubscribe();
-      },                                                                                    (err) => {
+      }, (err) => {
         const message = err.error ? err.error.message : err.message;
         this.error[this.fileUploadElement] = { valid: false, message };
         this.fileLoading[this.fileUploadElement] = false;
@@ -428,9 +430,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   tableColumnAttribute(element, index, attribute) {
-    if (element === 'dokumendid' && index === 1 && attribute === 'readonly') {
-      console.log(this.data_elements[element].table_columns[this.tableColumnName(element, index)][attribute]);
-    }
     return this.data_elements[element].table_columns[this.tableColumnName(element, index)][attribute];
   }
 
@@ -511,7 +510,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   selectLanguage(obj: object) {
-    if (obj[this.lang]) { return obj[this.lang]; }  return obj['et'];
+    if (obj[this.lang]) { return obj[this.lang]; } return obj['et'];
   }
 
   setNavigationLinks(list, opened): {}[] {
@@ -541,18 +540,23 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.current_acceptable_activity.includes('VIEW') && !isAfterCurrentStep) {
       return false;
 
-    }  if (isAfterCurrentStep) {
+    } if (isAfterCurrentStep) {
       return true;
 
-    } 
-      return false;
-    
+    }
+    return false;
+
   }
 
   isValidField(field) {
     // check for required field
     if (field.required === true) {
-      if (field.value === undefined || field.value === null || (field.type === 'selectlist' && field.value === 'null') || field.value === '' || (Array.isArray(field.value) && !field.value.length)) {
+      if (field.type === 'address' && !field.value.addressHumanReadable) {
+        return { valid: false, message: this.translate.get('xjson.missing_required_value') };
+      }
+      if (field.value === undefined || field.value === null ||
+        (field.type === 'selectlist' && field.value === 'null') || field.value === ''
+        || (Array.isArray(field.value) && !field.value.length)) {
         return { valid: false, message: this.translate.get('xjson.missing_required_value') };
       }
     }
@@ -614,6 +618,30 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return { valid: true, message: 'valid' };
   }
 
+  showTableAddRow(element) {
+    if (element.add_del_rows && !this.isFieldDisabled(element.readonly)) {
+      if (element.value && !element.value.length) {
+        return true;
+      }
+      if (!element.value) {
+        return true;
+      }
+      const elementColumns: any = Object.values(element.table_columns);
+      if (element.value && element.value.length &&
+        elementColumns.length === 1 && elementColumns[0].required) {
+        const validationElement = elementColumns[0];
+        const val = element.value[element.value.length - 1];
+        validationElement.value = val[Object.keys(val)[0]];
+
+        const validation = this.isValidField(validationElement);
+        if (validation.valid) {
+          return true;
+        }
+        return false;
+      }
+    }
+  }
+
   tableValidation(table) {
     let valid = true;
     let validationResult = { valid };
@@ -621,8 +649,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     if ((!table.value || !table.value.length)) {
       return table.required ?
-      { valid: false, message: this.translate.get('xjson.missing_required_value') } :
-      { valid: true, message: 'valid' };
+        { valid: false, message: this.translate.get('xjson.missing_required_value') } :
+        { valid: true, message: 'valid' };
     }
     for (const row of table.value) {
       for (const col of Object.keys(row)) {
@@ -734,8 +762,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
       return; // to nothing
     }
     if (this.isStepDisabled(step)) {
-        return this.errorHandler('This step is disabled');
-      }
+      return this.errorHandler('This step is disabled');
+    }
     this.opened_step = step;
     this.viewController(this.data);
 
@@ -815,18 +843,21 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   getStepViewStatus() {
     this.viewOnlyStep = true;
-    for (const [label, elem] of Object.entries(this.data_elements)) {
-      if (elem['type'] === 'table') {
-        this.scrollableTableDeterminant(label);
-        this.tableVisibleColumns(label, elem['table_columns']);
+    if (!(this.current_acceptable_activity.length === 1 &&
+      this.current_acceptable_activity[0] === 'VIEW')) {
+      for (const [label, elem] of Object.entries(this.data_elements)) {
+        if (elem['type'] === 'table') {
+          this.scrollableTableDeterminant(label);
+          this.tableVisibleColumns(label, elem['table_columns']);
 
-        for (const key in elem['table_columns']) {
-          if (this.viewOnlyStep) {
-            this.isViewOnlyStep(elem['table_columns'][key]);
+          for (const key in elem['table_columns']) {
+            if (this.viewOnlyStep) {
+              this.isViewOnlyStep(elem['table_columns'][key]);
+            }
           }
+        } else if (this.viewOnlyStep) {
+          this.isViewOnlyStep(elem);
         }
-      } else if (this.viewOnlyStep) {
-        this.isViewOnlyStep(elem);
       }
     }
   }
@@ -858,7 +889,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   setMaxStep(xjson) {
     if (!Object.keys(xjson['body']['steps']).length) {
       return this.errorHandler('No steps available');
-    }  if (!Object.keys(xjson['body']['steps']).some(step => step === xjson['header']['current_step'])) {
+    } if (!Object.keys(xjson['body']['steps']).some(step => step === xjson['header']['current_step'])) {
       this.max_step = Object.keys(xjson['body']['steps'])[0];
     } else {
       this.max_step = xjson['header']['current_step'];
@@ -994,16 +1025,16 @@ export class XjsonComponent implements OnInit, OnDestroy {
     try {
       if (this.data_elements.aadressid) {
         this.data_elements.aadressid.value.forEach((item, index) => {
-          const address =  item.aadress.addressHumanReadable;
+          const address = item.aadress.addressHumanReadable;
           const params = `ihist=1&appartment=1&address=${address}&results=10&callback=JSONP_CALLBACK`;
           const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
           const subscription = this.http.jsonp(path, 'callback').
-              subscribe((response: any) => {
-                this.data_elements.aadressid.value[index].aadress = response.addresses[0];
-              });
+            subscribe((response: any) => {
+              this.data_elements.aadressid.value[index].aadress = response.addresses[0];
+            });
         });
       }
-    } catch (err) {}
+    } catch (err) { }
   }
 
   ngOnInit() {

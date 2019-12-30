@@ -141,6 +141,13 @@
     margin-top: -.2rem;
   }
 
+  .underline {
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
   .xjson__scrollable {
     position: relative;
     overflow: hidden;
@@ -814,9 +821,6 @@
     line-height: 1.375rem;
   }
   table {
-    th {
-      white-space: nowrap;
-    }
     .custom-checkbox {
       text-align: center;
     }
@@ -867,6 +871,7 @@
     visibility: hidden !important;
   }
   .table-link {
+    text-align: left;
     white-space: nowrap;
     padding: 0.5rem 1rem;
   }

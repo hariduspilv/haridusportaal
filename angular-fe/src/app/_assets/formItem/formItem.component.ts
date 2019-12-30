@@ -236,9 +236,35 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.removeComma();
     }
 
+    if (this.type === 'autocomplete' && !this.field.addressHumanReadable &&
+    !this.field.ipikkaadress && this.query === 'inaadress') {
+      this.field = this.undefinedAddressValue();
+      this.propagateChange(this.field);
+    }
+
     if (!this.cdr['destroyed']) {
       this.cdr.detectChanges();
     }
+  }
+
+  undefinedAddressValue() {
+    return {
+      seqNo: undefined,
+      klElukoht: undefined,
+      adsId: undefined,
+      adsOid: undefined,
+      addressFull: undefined,
+      addressCoded: undefined,
+      county: undefined,
+      countyEHAK: undefined,
+      localGovernment: undefined,
+      localGovernmentEHAK: undefined,
+      settlementUnit: undefined,
+      settlementUnitEHAK: undefined,
+      address: undefined,
+      apartment: undefined,
+      addressHumanReadable: undefined,
+    };
   }
 
   autocompleteUpdate(value: any = ''): void {
