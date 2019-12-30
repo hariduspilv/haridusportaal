@@ -83,6 +83,9 @@ $md-break: 1280px;
 	@include break-on(sm, min) {
 		padding: 0 1.5rem;
 	}
+	@include break-on(lg, min) {max-width: 1180px;}
+  @include break-on(xl, min) {max-width: 1480px;}
+  @include break-on(xxl, min) {max-width: 1940px;}
 }
 
 .pull-right {float:right;}

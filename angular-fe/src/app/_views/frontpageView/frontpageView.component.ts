@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { SettingsService } from '@app/_services';
+import { SettingsService, ModalService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -70,6 +70,7 @@ export class FrontpageViewComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private settings: SettingsService,
+    private modalService: ModalService,
   ) {}
 
   getEvents() {

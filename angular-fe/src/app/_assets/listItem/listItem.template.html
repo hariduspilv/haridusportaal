@@ -144,7 +144,7 @@
     <!--/list repeat-->
 </div>
 
-<htm-modal *ngIf="compare" id="compare" [modalTitle]="translationsPerType[compare].title | translate">
+<htm-modal *ngIf="compare" id="compare" [modalTitle]="translationsPerType[compare].title | translate" size="medium">
     <modal-content id="compare" *ngIf="modalService.modalOpened['compare']">
         <div innerHTML="{{ translationsPerType[compare].content | translate }}"></div>
     </modal-content>

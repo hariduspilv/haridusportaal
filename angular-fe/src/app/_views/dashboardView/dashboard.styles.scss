@@ -33,6 +33,14 @@
   
   .personal-data {
     margin-top: 1rem;
+    table-layout: fixed;
+    th{
+      background: none;
+      font-weight: normal;
+    }
+    td {
+      font-weight: 500;
+    }
   }
   
   .text-center {
