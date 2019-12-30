@@ -62,7 +62,10 @@
       }
     }
     &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;}
-    &__month {padding: $small $medium 0 $medium; 
+    &__month {padding: 3rem $medium 0 $medium; 
+      &:first-child{
+        padding-top:$small;
+      }
       @include break-on(sm, min) {padding-left: 8.5rem;}
       h1{color: $black;}}
       &__header {display: flex;margin-bottom:-$gutter; margin-right:-1.5rem;
@@ -205,7 +208,7 @@
     }
     .col-25 {width: 20.83%;}
     .center {align-items: center;}
-    .tags {padding-left: 0;}
+    .tags {padding-left: 0; padding-top:16px;}
     .view-item {height: 100%;width: 5.75rem;text-align: center;border-left: .0625rem solid $gray;color:$blue;
       .title { font-size: 0.875rem; }
       .htm-icon{margin-top: 0.5rem;

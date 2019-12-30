@@ -22,6 +22,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   showFilter: boolean = true;
   filterFull: boolean = false;
   private subscriptions: Subscription[] = [];
+  private hasCalendar: boolean = false;
   constructor(
     private settings:SettingsService,
     private http: HttpClient,
@@ -93,6 +94,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   ngOnInit() {
     this.getTags();
     this.getTypes();
+    this.hasCalendar = this.route.snapshot.data.calendar;
     if (this.device.isMobile()) {
       this.filterFull = true;
     }

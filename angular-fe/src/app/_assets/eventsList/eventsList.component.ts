@@ -649,6 +649,19 @@ export class EventsListComponent extends FiltersService implements OnInit {
         this.dataSubscription = this.http.get(path).subscribe((response) => {
 
           let data = response['data'];
+
+          try {
+            data['nodeQuery']['entities'] = data['nodeQuery']['entities'].map((item) => {
+              const type = [{ ... item.fieldEventType.entity} ];
+              const tags = item.hashTags.map((tag) => {
+                return tag.entity || false;
+              }).filter((tag) => {
+                return tag;
+              });
+              item.tags = [ ...type, ...tags];
+              return item;
+            });
+          } catch (err) {}
           
           if( this.status ){ return false; }
 
@@ -660,7 +673,6 @@ export class EventsListComponent extends FiltersService implements OnInit {
             this.eventListRaw = data['nodeQuery']['entities'];
             
             this.eventList = this.organizeList( this.eventListRaw );
-            
             // if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
             //   this.listEnd = true;
             // }

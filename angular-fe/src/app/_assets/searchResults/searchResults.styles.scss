@@ -17,6 +17,7 @@
     background-color: $white;
     margin-right: -1.5rem;
     margin-left: -1.5rem;
+    margin-bottom: -1.6rem;
     @include break-on(sm, min){
       background-color: $light-gray;
     }

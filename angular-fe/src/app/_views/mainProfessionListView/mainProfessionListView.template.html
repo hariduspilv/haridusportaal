@@ -16,7 +16,7 @@
 						<formItem type="text" title="{{ 'search.keyword' | translate }}" name="title"></formItem>
 					</div>
 					<div class="col-5 sm-12">
-						<formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" name="oskaFieldValue"
+						<formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" name="oskaField"
 							[options]="oskaFields"></formItem>
 					</div>
 
@@ -37,11 +37,11 @@
 				<div class="row" *ngIf="filterFull">
 					<div class="col-4 sm-12">
 						<formItem type="multi-select" title="{{ 'oska.competition' | translate }}" name="fillingBar"
-							[options]="competitionFilters" [(ngModel)]="competitionSelection">
+							[options]="competitionFilters">
 						</formItem>
 					</div>
 					<div class="col-5 sm-12">
-						<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortedBy"
+						<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortedBy" [sortOptions]="false"
 							[(ngModel)]="sort" (onChange)="setSortDirection()">
 						</formItem>
 					</div>

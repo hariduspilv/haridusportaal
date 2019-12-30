@@ -2,6 +2,7 @@ import { Component, Input, ChangeDetectorRef, ViewChild, ElementRef, AfterViewIn
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'studyProgrammeList-view',
@@ -42,12 +43,34 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
     private settings: SettingsService,
     private http: HttpClient,
     private translate: TranslateService,
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
     this.getFilters();
-
     this.getSortOptions();
+  }
+
+  toggleFilters() {
+    this.showFilter = !this.showFilter;
+    this.fillFilters();
+  }
+
+  fillFilters() {
+    const params = this.route.snapshot.queryParams;
+    if (params['iscedf_broad']) {
+      this.selectedIscedfBroad = params['iscedf_broad'].split(';');
+    }
+    if (params['iscedf_narrow']) {
+      this.selectedIscedfNarrow = params['iscedf_narrow'].split(';');
+    }
+    if (params['iscedf_detailed']) {
+      this.selectedIscedfDetailed = params['iscedf_detailed'].split(';');
+    }
+
+    this.setIscedfFilters('narrow');
+    this.cdr.detectChanges();
   }
 
   ngAfterViewInit() {
@@ -64,6 +87,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
           this.iscedfNarrowFilters.push(secElement);
         });
       });
+
       this.removeHangingIscedf(type);
       this.setIscedfFilters('detailed');
     }
@@ -134,6 +158,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
         return { value: el.tid, key: el.entityLabel };
       });
 
+      this.fillFilters();
       subscribe.unsubscribe();
     });
   }

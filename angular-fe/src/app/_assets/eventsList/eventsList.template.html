@@ -50,7 +50,9 @@
                     
                   </div>
                   <div class="tags sm-hide" *ngIf="(event.hashTags && event.hashTags.length) || event.fieldEventType">
-                    
+                    <labels
+                      [data]="event.tags">
+                    </labels>
                   </div><!--/row-->
                 </div>
               </div>
