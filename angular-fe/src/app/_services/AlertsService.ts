@@ -87,6 +87,7 @@ export class AlertsService {
     const normalizedAlert = { ...alert, message: alert.message ? alert.message.toString() : '' };
     this.subject.next(normalizedAlert);
   }
+
   clear(id: string) {
     this.notify(new Alert({ id }));
   }

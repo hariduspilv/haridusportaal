@@ -1,5 +1,6 @@
 <div class="unpadded">
-	<more-block id="1" [content]="currentRole === 'natural_person' ? 'abitekst.taotlused' : 'abitekst.jur_taotlused'"></more-block>
+	<more-block id="1" [content]="currentRole === 'natural_person' ? 'abitekst.taotlused' : 'abitekst.jur_taotlused'">
+	</more-block>
 </div>
 <loader *ngIf="loading.initial === true"></loader>
 <ng-container *ngIf="loading.initial === false && currentRole === 'natural_person'">
@@ -305,6 +306,75 @@
 					</ng-container>
 				</ng-container>
 				<!-- /acceptable_forms -->
+
+				<!-- financial reports -->
+				<!-- 				<ng-container>
+					<h4>{{ 'frontpage.dashboard_tabs_financial_report_drafts_label' | translate }}</h4>
+					<table htm-table class="dashboard-table highCells small-text" *ngIf="!school.drafts.length">
+						<thead>
+							<tr>
+								<th>
+									{{ 'frontpage.dashboard_tabs_applications_document_name' |
+											translate }}
+								</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td class="text-center font-normal" colspan="2">
+									{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' |
+										translate }}
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<scrollableContent *ngIf="school.drafts.length">
+							<table htm-table class="dashboard-table highCells scrollableTable small-text">
+								<thead>
+									<tr>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_name' |
+											translate }}
+										</th>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_date' |
+											translate }}
+										</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<ng-container *ngFor="let form of school.drafts">
+										<ng-container *ngIf="form.form_name === 'MTSYS_TEGEVUSNAITAJAD_ARUANNE'">
+												<tr [class.description]="form.description">
+														<td>
+															<ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}
+															</ng-container>
+														</td>
+														<td>
+															<ng-container *ngIf="form.document_date">{{ form.document_date }}
+															</ng-container>
+														</td>
+														<td class="text-center">
+															<a class="rowspan-btn" *ngIf="form.form_path"
+																attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
+																[routerLink]="form.form_path"
+																[queryParams]="{mustand:'true', id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined}">
+																{{ 'button.continue_filling' | translate }}
+															</a>
+														</td>
+													</tr>
+													<tr class="description-bottom" *ngIf="form.description">
+														<td colspan="3">
+															<p>{{ form. description }}</p>
+														</td>
+													</tr>
+										</ng-container>
+									</ng-container>
+								</tbody>
+							</table>
+						</scrollableContent>
+				</ng-container> -->
 
 				<!-- drafts -->
 				<ng-container>

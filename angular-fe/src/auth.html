@@ -23,7 +23,7 @@
 
       if( token ){
         sessionStorage.setItem("token", token);
-        window.location = sessionStorage.getItem("redirectUrl") || "/töölaud/taotlused";
+        window.location = sessionStorage.getItem("redirectUrl") || "/töölaud";
       }else{
         sessionStorage.setItem("token", "");
         window.location = "/";

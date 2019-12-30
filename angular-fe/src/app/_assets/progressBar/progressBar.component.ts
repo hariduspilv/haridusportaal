@@ -34,7 +34,7 @@ export class ProgressBarComponent implements OnChanges {
       const labelWidth = label.getBoundingClientRect().width;
       const levelOffset: number = this.levelOffsets[this.level];
       const extraPadding: number = 12;
-      if (this.level === 5) {
+      if (+this.level === 5) {
         label.style.margin = '0 0 0 auto';
         label.style.left = '0';
       } else {
