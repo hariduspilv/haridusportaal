@@ -12,7 +12,7 @@
   <ng-container *ngIf="!loading && data.length">
     <ul class="autocomplete__results">
       <ng-container *ngFor="let item of data; let i = index;" >
-        <li (click)="onClick(item)" [class.autocomplete__active]="i == activeItem">
+        <li (click)="onClick(item)" (keypress.enter)="onClick(item)" [class.autocomplete__active]="i == activeItem">
           {{ item | parseInAdds }}
         </li>
       </ng-container>

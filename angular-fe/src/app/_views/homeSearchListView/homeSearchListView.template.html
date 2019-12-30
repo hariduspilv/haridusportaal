@@ -43,8 +43,8 @@
 				<loader *ngIf="loading"></loader>
 				<ng-container *ngIf="filteredResults && filteredResults.length">
 					<ng-container *ngFor="let item of filteredResults;let i = index;">
-						<a tabindex="0" id="{{i}}" href="javascript:void(0)" *ngIf="i < listLimit"
-							class="search__sub pointer" [routerLink]="[item.EntityPath]">
+						<a tabindex="0" id="{{i}}" *ngIf="i < listLimit"
+							class="search__sub pointer" [routerLink]="item.EntityPath">
 							<div class="search__sub--category" aria-hidden="true">{{ item.ContentType }}</div>
 							<div class="search__sub--title"
 								attr.aria-label="{{ item.ContentType }}{{ item.ContentType !== 'Õppekava' ? ':' : '' }} {{ item.Title }}{{ item.ContentType === 'Õppekava' ? ':' : '' }}">

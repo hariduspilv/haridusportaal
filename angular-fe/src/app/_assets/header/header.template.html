@@ -27,7 +27,7 @@
 <div class="header__assets">
 	<div class="inline">
 		<div class="header__assets--grid">
-			<div *ngIf="headerSearchEnabled()" class="header__search">
+			<div [class.hidden]="!headerSearchEnabled()" class="header__search">
 				<icon glyph="search" size="default"></icon>
 				<formItem
 					type="autocomplete" 

@@ -49,6 +49,8 @@ export class AutocompleteComponent implements OnDestroy {
     if (this.active && ($event.key === 'ArrowUp' || $event.key === 'ArrowDown')) {
       this.navigate($event.key);
     } else if ($event.key === 'Enter') {
+      $event.stopPropagation();
+      console.log(value);
       this.chooseOption(value);
     } else {
 

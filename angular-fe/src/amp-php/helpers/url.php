@@ -8,6 +8,7 @@
         "www.edu.ee" => "https://api.hp.edu.ee",
         "test.edu.ee" => "https://apitest.hp.edu.ee",
         "localhost" => "https://htm.wiseman.ee",
+        "haridusportaal.edu.ee" => "https://api.hp.edu.ee",
         "fallback" => "https://api.hp.edu.ee"
       ];
 

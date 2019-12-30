@@ -68,6 +68,9 @@
 			}
 			.header__search {
 				flex: 1 1 auto;
+				&.hidden {
+					display: none;
+				}
 			}
 		}
 		&__search formItem, &__search icon {
