@@ -22,6 +22,7 @@ export class NotFoundViewComponent implements OnInit {
   ngOnInit() {
     if (this.redirectUrl) {
       document.getElementById('headerLogin').click();
+      sessionStorage.setItem('redirectUrl', this.redirectUrl);
     } else {
       document.getElementById('toFront').focus();
     }
