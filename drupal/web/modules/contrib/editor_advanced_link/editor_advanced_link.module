@@ -61,6 +61,9 @@ function editor_advanced_link_form_editor_link_dialog_alter(&$form, FormStateInt
     return $restrictions === FALSE || $restrictions['allowed']['a'] === TRUE || !empty($restrictions['allowed']['a'][$attribute_name]);
   };
 
+  // Load the library.
+  $form['#attached']['library'][] = 'editor_advanced_link/editor_advanced_link';
+
   $form['attributes']['href']['#weight'] = 0;
 
   $form['attributes']['title'] = [

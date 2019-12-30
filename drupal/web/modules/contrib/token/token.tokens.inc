@@ -43,12 +43,6 @@ function token_token_info_alter(&$info) {
   // Add a 'dynamic' key to any tokens that have chained but dynamic tokens.
   $info['tokens']['date']['custom']['dynamic'] = TRUE;
 
-  // The [file:size] may not always return in kilobytes.
-  // @todo Remove when http://drupal.org/node/1193044 is fixed.
-  if (!empty($info['tokens']['file']['size'])) {
-    $info['tokens']['file']['size']['description'] = t('The size of the file.');
-  }
-
   // Remove deprecated tokens from being listed.
   unset($info['tokens']['node']['tnid']);
   unset($info['tokens']['node']['type']);
@@ -127,48 +121,50 @@ function token_token_info_alter(&$info) {
  */
 function token_token_info() {
   // Node tokens.
-  $info['tokens']['node']['source'] = [
-    'name' => t('Translation source node'),
-    'description' => t("The source node for this current node's translation set."),
-    'type' => 'node',
-  ];
-  $info['tokens']['node']['log'] = [
-    'name' => t('Revision log message'),
-    'description' => t('The explanation of the most recent changes made to the node.'),
-  ];
-  $info['tokens']['node']['content-type'] = [
-    'name' => t('Content type'),
-    'description' => t('The content type of the node.'),
-    'type' => 'content-type',
-  ];
+  if (\Drupal::moduleHandler()->moduleExists('node')) {
+    $info['tokens']['node']['source'] = [
+      'name' => t('Translation source node'),
+      'description' => t("The source node for this current node's translation set."),
+      'type' => 'node',
+    ];
+    $info['tokens']['node']['log'] = [
+      'name' => t('Revision log message'),
+      'description' => t('The explanation of the most recent changes made to the node.'),
+    ];
+    $info['tokens']['node']['content-type'] = [
+      'name' => t('Content type'),
+      'description' => t('The content type of the node.'),
+      'type' => 'content-type',
+    ];
 
-  // Content type tokens.
-  $info['types']['content-type'] = [
-    'name' => t('Content types'),
-    'description' => t('Tokens related to content types.'),
-    'needs-data' => 'node_type',
-  ];
-  $info['tokens']['content-type']['name'] = [
-    'name' => t('Name'),
-    'description' => t('The name of the content type.'),
-  ];
-  $info['tokens']['content-type']['machine-name'] = [
-    'name' => t('Machine-readable name'),
-    'description' => t('The unique machine-readable name of the content type.'),
-  ];
-  $info['tokens']['content-type']['description'] = [
-    'name' => t('Description'),
-    'description' => t('The optional description of the content type.'),
-  ];
-  $info['tokens']['content-type']['node-count'] = [
-    'name' => t('Node count'),
-    'description' => t('The number of nodes belonging to the content type.'),
-  ];
-  $info['tokens']['content-type']['edit-url'] = [
-    'name' => t('Edit URL'),
-    'description' => t("The URL of the content type's edit page."),
-    // 'type' => 'url',
-  ];
+    // Content type tokens.
+    $info['types']['content-type'] = [
+      'name' => t('Content types'),
+      'description' => t('Tokens related to content types.'),
+      'needs-data' => 'node_type',
+    ];
+    $info['tokens']['content-type']['name'] = [
+      'name' => t('Name'),
+      'description' => t('The name of the content type.'),
+    ];
+    $info['tokens']['content-type']['machine-name'] = [
+      'name' => t('Machine-readable name'),
+      'description' => t('The unique machine-readable name of the content type.'),
+    ];
+    $info['tokens']['content-type']['description'] = [
+      'name' => t('Description'),
+      'description' => t('The optional description of the content type.'),
+    ];
+    $info['tokens']['content-type']['node-count'] = [
+      'name' => t('Node count'),
+      'description' => t('The number of nodes belonging to the content type.'),
+    ];
+    $info['tokens']['content-type']['edit-url'] = [
+      'name' => t('Edit URL'),
+      'description' => t("The URL of the content type's edit page."),
+      // 'type' => 'url',
+    ];
+  }
 
   // Taxonomy term and vocabulary tokens.
   if (\Drupal::moduleHandler()->moduleExists('taxonomy')) {
@@ -1204,11 +1200,14 @@ function menu_ui_token_info() {
     'name' => t('Edit URL'),
     'description' => t("The URL of the menu link's edit page."),
   ];
-  $info['tokens']['node']['menu-link'] = [
-    'name' => t('Menu link'),
-    'description' => t("The menu link for this node."),
-    'type' => 'menu-link',
-  ];
+
+  if (\Drupal::moduleHandler()->moduleExists('node')) {
+    $info['tokens']['node']['menu-link'] = [
+      'name' => t('Menu link'),
+      'description' => t("The menu link for this node."),
+      'type' => 'menu-link',
+    ];
+  }
 
   return $info;
 }
@@ -1376,7 +1375,7 @@ function field_token_info_alter(&$info) {
 
   // Attach field tokens to their respecitve entity tokens.
   foreach (\Drupal::entityTypeManager()->getDefinitions() as $entity_type_id => $entity_type) {
-    if (!$entity_type->isSubclassOf('\Drupal\Core\Entity\ContentEntityInterface')) {
+    if (!$entity_type->entityClassImplements(ContentEntityInterface::class)) {
       continue;
     }
 
@@ -1499,6 +1498,11 @@ function field_token_info_alter(&$info) {
       }
       // Provide format token for datetime fields.
       if ($field->getType() == 'datetime') {
+        $info['tokens'][$field_token_name]['date'] = $info['tokens'][$field_token_name]['value'];
+        $info['tokens'][$field_token_name]['date']['name'] .= ' ' . t('format');
+        $info['tokens'][$field_token_name]['date']['type'] = 'date';
+      }
+      if ($field->getType() == 'timestamp' || $field->getType() == 'created' || $field->getType() == 'changed') {
         $info['tokens'][$field_token_name]['date'] = $info['tokens'][$field_token_name]['value'];
         $info['tokens'][$field_token_name]['date']['name'] .= ' ' . t('format');
         $info['tokens'][$field_token_name]['date']['type'] = 'date';
@@ -1750,6 +1754,16 @@ function field_tokens($type, $tokens, array $data = [], array $options = [], Bub
         else {
           $date_tokens = \Drupal::token()->findWithPrefix($filtered_tokens, $property_name);
           $replacements += \Drupal::token()->generate('date', $date_tokens, ['date' => $timestamp], $options, $bubbleable_metadata);
+        }
+      }
+      elseif (in_array($field_item->getFieldDefinition()->getType(), ['timestamp', 'created', 'changed']) && in_array($property_name, ['date'])) {
+        $timestamp = $field_item->value;
+        if ($property_name == $token || "$delta:$property_name" == $token) {
+          $replacements[$original] = $timestamp;
+        }
+        else {
+          $field_tokens = \Drupal::token()->findWithPrefix($filtered_tokens, $property_name);
+          $replacements += \Drupal::token()->generate('date', $field_tokens, ['date' => $timestamp], $options, $bubbleable_metadata);
         }
       }
       else {
