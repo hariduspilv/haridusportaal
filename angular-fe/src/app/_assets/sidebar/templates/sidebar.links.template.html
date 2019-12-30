@@ -7,8 +7,13 @@
         <span role="text">{{ item.title }}</span>
       </a>
     </li>
-    <li *ngIf="!item.url" class="text-instance">
+    <li *ngIf="!item.url && item.url !== ''" class="text-instance">
       {{ item }}
+    </li>
+    <li *ngIf="item.url == ''">
+      <a class="no-link">
+        <span role="text">{{ item.title }}</span>
+      </a>
     </li>
   </ng-container>
 </ul>

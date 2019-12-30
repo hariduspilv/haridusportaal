@@ -19,6 +19,9 @@
     font-weight: normal;
     text-decoration: underline;
     cursor: pointer;
+    &:hover {
+      text-decoration: none;
+    }
   }
 }
 .dashboard-table {

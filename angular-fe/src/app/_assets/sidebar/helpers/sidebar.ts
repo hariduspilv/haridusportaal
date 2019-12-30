@@ -126,10 +126,11 @@ export const parseProfessionData = (inputData, translate) => {
     mappedData['fieldJobs'] = mappedData['fieldJobs'].map((item) => {
       return {
         title: item.entity.fieldJobName,
-        url: item.entity.fieldJobLink,
+        url: item.entity.fieldJobLink || '',
       };
     });
-  } catch (err) {}
+  } catch (err) {
+  }
 
   try {
     if (!mappedData['fieldQuickFind']) {
