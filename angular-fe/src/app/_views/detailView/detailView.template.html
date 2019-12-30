@@ -76,4 +76,4 @@
 		<relatedStudyProgrammesList *ngIf="type === 'studyProgramme' && data.nid" [nid]="data.nid"></relatedStudyProgrammesList>
 	</article-layout>
 </div><!--/inline-->
-<alerts global *ngIf="type === 'profession'" id="compare"></alerts>
+<alerts global *ngIf="type === 'profession' || type === 'studyProgramme'" id="compare"></alerts>

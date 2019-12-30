@@ -41,15 +41,19 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
       } else {
         if (!this.compare.length) {
           this.settingsService.compareObservable.next('success');
+        } else {
+          this.settingsService.compareObservable.next('info');
         }
         this.addItemToLocalStorage(id, this.sessionStorageKey, this.compare);
       }
     } else if (!$event && this.isChecked(id)) {
       this.removeItemFromLocalStorage(id, this.sessionStorageKey, this.compare);
-    }
-    this.compare = this.readFromLocalStorage(this.sessionStorageKey);
-    if (!this.compare.length) {
-      this.alertsService.clear('compare');
+      this.compare = this.readFromLocalStorage(this.sessionStorageKey);
+      if (!this.compare.length) {
+        this.alertsService.clear('compare');
+      } else {
+        this.settingsService.compareObservable.next('info');
+      }
     }
   }
 
