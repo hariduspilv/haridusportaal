@@ -47,6 +47,7 @@ export class AuthService implements CanActivate {
           this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
         } else {
           sessionStorage.removeItem('token');
+          sessionStorage.removeItem('redirectUrl');
         }
         return response;
       }));
@@ -68,6 +69,7 @@ export class AuthService implements CanActivate {
     }
     if (this.isTokenExpired()) {
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('redirectUrl');
       if (this.isAuthenticated.getValue()) {
         this.isAuthenticated.next(false);
       }
