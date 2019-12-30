@@ -42,8 +42,10 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
 
     this.formItems.forEach((item) => {
       const data = item.getValue();
-      if (data.name && data.name !== '' && data.value && data.value !== '') {
-        queryParams[data.name] = data.value;
+      if (data.search) {
+        if (data.name && data.name !== '' && data.value && data.value !== '') {
+          queryParams[data.name] = data.value;
+        }
       }
     });
     Object.keys(queryParams).forEach((item) => {
@@ -63,6 +65,8 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
       const data = item.getValue();
       if (tmpParams[data.name]) {
         item.setValue(tmpParams[data.name]);
+      } else {
+        item.setValue(undefined);
       }
     });
   }

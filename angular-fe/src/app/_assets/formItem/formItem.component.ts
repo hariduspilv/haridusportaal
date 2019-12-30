@@ -69,7 +69,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() valueType: string = 'string';
   @Input() browserAutocomplete: string = '';
   @Input() sortOptions: boolean = false;
-
+  @Input() search: boolean = true;
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
     if (this.error) {
@@ -157,7 +157,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           textContainer.innerHTML = valuesText;
         } catch (err) {}
 
-        this.cdr.detectChanges();
+        this.detectChanges();
       },
       0);
 
@@ -242,6 +242,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.propagateChange(this.field);
     }
 
+    this.detectChanges();
+  }
+
+  detectChanges() {
     if (!this.cdr['destroyed']) {
       this.cdr.detectChanges();
     }
@@ -405,7 +409,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
     if (this.options) {
       try {
-        console.log(this.name, this.field);
         const arrType = this.options[0] ? typeof this.options[0].value : 'string';
         if (arrType === 'string') {
           this.field = this.field.map((item) => {
@@ -425,7 +428,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       }
     }
 
-    this.cdr.detectChanges();
+    this.detectChanges();
   }
 
   checkDisabled(): void {
@@ -435,7 +438,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     } else {
       this.disabled = !this.disabled ? undefined : this.disabled;
     }
-    this.cdr.detectChanges();
+    this.detectChanges();
   }
 
   triggerOnUpdate(): void {
@@ -446,6 +449,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     return {
       name: this.name,
       value: this.field,
+      search: this.search,
     };
   }
 
@@ -456,8 +460,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   ngOnChanges() {
     this.checkInitialValue();
     this.checkDisabled();
-    this.cdr.detectChanges();
-    
+    this.detectChanges();
   }
 
   ngOnInit() {

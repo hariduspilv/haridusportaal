@@ -2,7 +2,7 @@ import { Component, Input, ChangeDetectorRef, ViewChild, ElementRef, AfterViewIn
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'studyProgrammeList-view',
@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 export class StudyProgrammeListViewComponent implements AfterViewInit {
   @Input() path: string;
   @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  @ViewChild('filters', { static: false }) filters: ElementRef;
 
   lang: any;
   params: any;
@@ -34,7 +35,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   selectedLanguages = [];
   secondaryIscedfFilters = {};
   sortOptions = [];
-  sortDirection = 'ASC';
+  sortDirection = '';
   sortField: any;
   sort: any;
   openAdmission = true;
@@ -45,9 +46,20 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
     private translate: TranslateService,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
+    private router: Router,
   ) { }
 
   ngOnInit() {
+    if (!Object.keys(this.route.snapshot.queryParams).length) {
+
+      this.router.navigate(['.'], {
+        relativeTo: this.route,
+        queryParams: {
+          onlyOpenAdmission: true,
+        },
+        replaceUrl: true,
+      });
+    }
     this.getFilters();
     this.getSortOptions();
   }
@@ -58,7 +70,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   }
 
   fillFilters() {
-    const params = this.route.snapshot.queryParams;
+    let params = { ... this.route.snapshot.queryParams };
     if (params['iscedf_broad']) {
       this.selectedIscedfBroad = params['iscedf_broad'].split(';');
     }
@@ -69,8 +81,33 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
       this.selectedIscedfDetailed = params['iscedf_detailed'].split(';');
     }
 
+    if (params['sortField'] && params['sortDirection']) {
+      this.sort = `${params['sortField']}_${params.sortDirection.toLowerCase()}`;
+    }
+
+    Object.keys(params).forEach((item) => {
+      if(
+        item === 'title' ||
+        item === 'type' ||
+        item === 'onlyOpenAdmission'
+      ) {
+        delete params[item];
+      }
+    });
+
+    if (Object.keys(params).length) {
+      this.filterFull = true;
+    }
+
     this.setIscedfFilters('narrow');
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
+  }
+
+  resetFilters() {
+    this.router.navigate(['.'], {
+      relativeTo: this.route,
+      queryParams: {},
+    });
   }
 
   ngAfterViewInit() {
@@ -81,24 +118,27 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
 
   setIscedfFilters(type) {
     if (type === 'narrow') {
-      this.iscedfNarrowFilters = [];
-      this.selectedIscedfBroad.forEach((element) => {
-        this.secondaryIscedfFilters[element].forEach((secElement) => {
-          this.iscedfNarrowFilters.push(secElement);
+      try {
+        this.iscedfNarrowFilters = [];
+        this.selectedIscedfBroad.forEach((element) => {
+          this.secondaryIscedfFilters[element].forEach((secElement) => {
+            this.iscedfNarrowFilters.push(secElement);
+          });
         });
-      });
-
-      this.removeHangingIscedf(type);
-      this.setIscedfFilters('detailed');
+        this.removeHangingIscedf(type);
+        this.setIscedfFilters('detailed');
+      } catch (err) {}
     }
     if (type === 'detailed') {
-      this.iscedfDetailedFilters = [];
-      this.selectedIscedfNarrow.forEach((element) => {
-        this.secondaryIscedfFilters[element].forEach((secElement) => {
-          this.iscedfDetailedFilters.push(secElement);
+      try {
+        this.iscedfDetailedFilters = [];
+        this.selectedIscedfNarrow.forEach((element) => {
+          this.secondaryIscedfFilters[element].forEach((secElement) => {
+            this.iscedfDetailedFilters.push(secElement);
+          });
         });
-      });
-      this.removeHangingIscedf(type);
+        this.removeHangingIscedf(type);
+      } catch (err) {}
     }
   }
 
@@ -113,11 +153,13 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
     });
     const oldValue = this.selectedIscedfNarrow;
     this[selectionField] = [];
-    oldValue.forEach((element) => {
-      if (options.indexOf(element) !== -1) {
-        this[selectionField].push(element);
-      }
-    });
+    if (oldValue) {
+      oldValue.forEach((element) => {
+        if (options.indexOf(element) !== -1) {
+          this[selectionField].push(element);
+        }
+      });
+    }
   }
 
   uppercase(string) {
@@ -164,9 +206,15 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   }
 
   setSortDirection() {
-    // const directionHelper = this.sort.split('_');
-    // this.sortDirection = (directionHelper.pop()).toUpperCase();
-    // this.sortField = directionHelper.join('_');
+
+    if (this.sort === 'title') {
+      this.sortDirection = '';
+      this.sortField = '';
+    } else if (this.sort) {
+      const directionHelper = this.sort.split('_');
+      this.sortDirection = (directionHelper.pop()).toUpperCase();
+      this.sortField = directionHelper.join('_');
+    }
   }
 
   getSortOptions() {
@@ -175,10 +223,12 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
         value: 'title', key: this.translate.get('button.all'),
       },
       {
-        value: 'field_duration_asc', key: this.translate.get('studyProgramme.sortby_duration_asc'),
+        value: 'field_duration_asc',
+        key: this.translate.get('studyProgramme.sortby_duration_asc'),
       },
       {
-        value: 'field_duration_desc', key: this.translate.get('studyProgramme.sortby_duration_desc'),
+        value: 'field_duration_desc',
+        key: this.translate.get('studyProgramme.sortby_duration_desc'),
       },
     ];
   }

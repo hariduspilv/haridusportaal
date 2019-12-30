@@ -75,11 +75,22 @@
 			position: relative;
 			right: 0.5rem;
 			text-align: center;
-			text-decoration: underline;
-			&:hover {
+			a {
+				text-decoration: underline;
+			}
+			a:hover {
 				text-decoration: none;
 			}
 		}
+	}
+
+	.separator {
+		color:#c7c7c9;
+		font-weight: 300;
+		margin:0 1rem;
+	}
+	.filter-buttons {
+		white-space: nowrap;
 	}
 
 	div[class*="col-"] {

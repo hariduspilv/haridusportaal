@@ -2,7 +2,7 @@
 	<div class="inline">
 		<breadcrumbs path="/erialad"></breadcrumbs>
 	</div><!--/inline-->
-	<form class="filter-wrapper" filters>
+	<form class="filter-wrapper" filters #filters>
 		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
 				<a href="javascript:void(0);" (click)="toggleFilters()">
@@ -78,7 +78,7 @@
 					</div>
 
 					<div class="col-5 sm-12">
-						<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortOptions"
+						<formItem type="select" title="{{ 'button.sort' | translate }}" name="sort" [options]="sortOptions" [search]="false"
 						[(ngModel)]="sort" (onChange)="setSortDirection()">
 						</formItem>
 					</div>
@@ -89,19 +89,24 @@
 						</formItem>
 					</div>
 					<div class="hidden">
-						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
-							[(ngModel)]="sortDirection">
+						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection" [(ngModel)]="sortDirection">
 						</formItem>
 					</div>
 
-					<div class="col-9">
+					<div class="col-6">
 						<formItem type="checkbox" [(ngModel)]="openAdmission"
 						label="{{ 'studyProgramme.filter_open_admission' | translate }}" name="onlyOpenAdmission">
 						</formItem>
 					</div>
 
-					<div class="col-3 align-end text-right sm-12 inline-flex">
-						<div class="align-center filter-state sm-hide">
+					<div class="col-6 align-end text-right sm-12 inline-flex">
+						<div class="align-center filter-state sm-hide filter-buttons">
+							<a role="button" class="pointer" (keyup.enter)="resetFilters()"
+								(click)="resetFilters()" tabindex="0" aria-expanded="false">
+								<icon glyph="x"></icon>
+								<span>{{ 'button.clear_fields' | translate}}</span>
+							</a>
+							<span class="separator">|</span>
 							<a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
 								(click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
 								<span>{{ 'button.search_brief' | translate}}</span>

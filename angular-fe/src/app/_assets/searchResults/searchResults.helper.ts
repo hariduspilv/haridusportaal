@@ -66,7 +66,7 @@ export const searchResultKeys = {
       key: 'onlyOpenAdmission',
       enabled: 'onlyOpenAdmission',
     },
-    sortField: {
+    sort: {
       key: 'sortField',
       enabled: 'indicatorSort',
     },

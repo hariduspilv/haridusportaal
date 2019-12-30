@@ -21,7 +21,7 @@ export class QueryParamsService {
         });
       }
     });
-    console.log(tmpParams);
+
     return key ? tmpParams[key] : tmpParams;
   }
 }
