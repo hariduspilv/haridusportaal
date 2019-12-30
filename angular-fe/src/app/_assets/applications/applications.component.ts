@@ -164,6 +164,14 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     return String(item);
   }
 
+  filterForms(elem, newProperty, forms) {
+    Object.entries(elem).map(([key, val]) => {
+      if (Array.isArray(val)) {
+        const filteredValues = val.filter(i => forms.indexOf(i.form_name));
+      }
+    });
+  }
+
   fetchData(init = true) {
     setTimeout(
       () => {
@@ -190,6 +198,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   if (response['educationalInstitutions']) {
                     const responseData = response['educationalInstitutions'].map((elem) => {
                       elem.documents = this.sortList(elem.documents, 'date');
+                      //elem = this.filterForms(elem, 'financial_reports', ['MTSYS_TEGEVUSNAITAJAD', 'MTSYS_TEGEVUSNAITAJAD_ARUANNE']);
                       this.alertsService.info(elem.message, String(elem.id), false);
                       return elem;
                     });

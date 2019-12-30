@@ -594,9 +594,9 @@
 
 <htm-modal id="addFile" [bottomAction]="true" [topAction]="true" modalTitle="{{ 'xjson.add_files' | translate }}">
   <modal-content class="modal-center">
-    <ng-container *ngIf="fileUploadElement && fileUploadCol">
+    <ng-container *ngIf="fileUploadElement && fileUploadCol && modalService.isOpen('addFile')">
       <div class="loaded-files-list">
-        <ng-container *ngIf="data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
+        <ng-container *ngIf="data_elements[fileUploadElement] && data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
           <ng-container *ngFor="let file of data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
             <div class="uploaded-file">
               <a class="file-icon" [href]="fileDownloadlink(file)" attr.aria-label="{{ file.file_name }}"
@@ -617,7 +617,8 @@
 
       <loader *ngIf="fileLoading[fileUploadElement]"></loader>
 
-      <input *ngIf="canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true)" class="hidden"
+      {{ data_elements[fileUploadElement] | json }}
+      <input *ngIf="data_elements[fileUploadElement] && canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true)" class="hidden"
         type="file"
         attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[fileUploadElement].table_columns[fileUploadCol].max_size }}MB"
         (change)="fileEventHandler($event, fileUploadElement)"

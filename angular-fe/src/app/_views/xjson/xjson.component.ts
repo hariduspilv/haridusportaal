@@ -897,6 +897,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   populateAlerts() {
+    this.alertsService.clear('upperAlert');
     this.data_messages.forEach((element) => {
       const message = this.data.messages[element];
       if (message.message_text && message.message_type) {
