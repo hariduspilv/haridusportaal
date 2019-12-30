@@ -835,7 +835,7 @@ xjson:
     en: ''
   exceed_file_limit:
     translation_type: textarea
-    et: 'Laetud faili suurus ületab lubatud piirangut 4MB!'
+    et: 'Laetud faili suurus ületab lubatud piirangut!'
     en: ''
   edit:
     translation_type: textarea
@@ -1489,7 +1489,7 @@ studyProgramme:
     en: 'No related study programmes'
   compare_modal_title:
     translation_type: textarea
-    et: 'Erialade võrdlemine'
+    et: 'Erialade võrdlus'
     en: 'Study programme comparison'
   compare_modal_content:
     translation_type: text_format
@@ -2823,10 +2823,10 @@ dashboard:
   intro:
     translation_type: text_format
     et:
-      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"changeRole()\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
+      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"modal-roleModal\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
       format: custom_editor
     en:
-      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"changeRole()\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
+      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"modal-roleModal\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
       format: custom_editor
 general: {  }
 agree:
@@ -3067,6 +3067,14 @@ abitekst:
     translation_type: text_format
     et:
       value: "<p>See on abitekst, mis on aga lühikene tupac tupac tupac kaks.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  jur_taotlused:
+    translation_type: text_format
+    et:
+      value: "<p>Testitekst</p>\r\n"
       format: custom_editor
     en:
       value: ''
