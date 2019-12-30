@@ -31,7 +31,8 @@
                 </tr>
                 <tr>
                   <td class="firstCell lastCell" *ngFor="let item of compareService.list">
-                    <span *ngIf="item.EducationalInstitution && item.EducationalInstitution.entity">{{ item.EducationalInstitution.entity.name | titlecase }}</span>
+                    <span *ngIf="item.EducationalInstitution?.entity">{{ item.EducationalInstitution.entity.name | titlecase }}</span>
+                    <span *ngIf="!item.EducationalInstitution?.entity">-</span>
                   </td>
                 </tr>
               </ng-container>
@@ -50,7 +51,8 @@
                     && !compareService.existingFields.includes('degreeOrDiplomaAwarded')"
                     class="firstCell lastCell" 
                     *ngFor="let item of compareService.list">
-                    <span *ngIf="item?.level">{{ item?.level?.entity?.name | titlecase }}</span>
+                    <span *ngIf="item.level && item.level?.length">{{ item?.level[0]?.entity?.name | titlecase }}</span>
+                    <span *ngIf="item.level && !item.level?.length">-</span>
                   </td>
                 </tr>
               </ng-container>
@@ -68,7 +70,8 @@
                     && !compareService.existingFields.includes('specialization')"
                     class="firstCell lastCell" 
                     *ngFor="let item of compareService.list">
-                    <span *ngIf="item.degreeOrDiplomaAwarded">{{ item.degreeOrDiplomaAwarded.entity.name | titlecase }}</span>
+                    <span *ngIf="item.degreeOrDiplomaAwarded">{{ item.degreeOrDiplomaAwarded?.entity?.name | titlecase }}</span>
+                    <span *ngIf="!item.degreeOrDiplomaAwarded">-</span>
                   </td>
                 </tr>
               </ng-container>
@@ -86,6 +89,7 @@
                     class="firstCell lastCell"
                     *ngFor="let item of compareService.list">
                     <span *ngIf="item.specialization">{{ item.specialization | titlecase }}</span>
+                    <span *ngIf="!item.specialization">-</span>
                   </td>
                 </tr>
               </ng-container>
@@ -107,7 +111,7 @@
                         <span *ngIf="last">{{ lang.entity.name | titlecase }}</span>
                       </ng-container>
                     </ng-container>
-                    <ng-container *ngIf="!item.teachingLanguage || (item.teachingLanguage && !item.teachingLanguage.length)"></ng-container>
+                    <ng-container *ngIf="!item.teachingLanguage || (item.teachingLanguage && !item.teachingLanguage.length)">-</ng-container>
                   </td>
                 </tr>
               </ng-container>
@@ -127,6 +131,7 @@
                       {{ item.fieldAmount }}
                       <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
                     </span>
+                    <span *ngIf="!item.fieldAmount">-</span>
                   </td>
                 </tr>
               </ng-container>
@@ -144,6 +149,7 @@
                       {{ item.practicalTrainingAmount }}
                       <ng-container *ngIf="item.fieldAmountUnit">{{ item.fieldAmountUnit }}</ng-container>
                     </span>
+                    <span *ngIf="!item.practicalTrainingAmount">-</span>
                   </td>
                 </tr>
               </ng-container>
@@ -157,6 +163,7 @@
                     class="firstCell lastCell"
                     *ngFor="let item of compareService.list">
                     <span *ngIf="item.duration">{{ item.duration | monthsToYears }}</span>
+                    <span *ngIf="!item.duration">-</span>
                   </td>
                 </tr>
               </ng-container>
@@ -168,6 +175,7 @@
                 <tr>
                   <td class="firstCell lastCell withBottom" *ngFor="let item of compareService.list">
                     <span *ngIf="item.admissionStatus">{{ item.admissionStatus }}</span>
+                    <span *ngIf="!item.admissionStatus">-</span>
                   </td>
                 </tr>
               </ng-container>
@@ -194,7 +202,7 @@
               <tr *ngIf="compareService.list && compareService.fixedLabelExists">
                 <td *ngFor="let item of compareService.list" class="lastCell centered"
                   [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length && !compareService.paymentFields.length && !compareService.employedChangeFields.length && !compareService.employedFields.length && !compareService.progressFields.length && !compareService.oskaFieldsArr.length">
-                  <labels *ngIf="item.fieldFixedLabel && item.fieldFixedLabel.entity" [data]="[item.fieldFixedLabel]" type="orange"></labels>
+                  <labels *ngIf="item.fieldFixedLabel?.entity" [data]="[item.fieldFixedLabel]" type="orange"></labels>
                 </td>
               </tr>
               <tr *ngIf="compareService.list && compareService.oskaFieldsArr.length" class="shade">
@@ -209,7 +217,7 @@
                       <span *ngIf="compareService.oskaFields[ind][childInd]">{{compareService.oskaFields[ind][childInd].entity.title}}</span>
                     </ng-container>
                     <ng-container *ngIf="!compareService.oskaFields[ind]">
-                      <span></span>
+                      <span *ngIf="childInd === 0">-</span>
                     </ng-container>
                   </td>
                 </ng-container>
@@ -226,6 +234,7 @@
                     startLabel="{{ 'oska.simple' | translate }}"
                     endLabel="{{ 'oska.difficult' | translate }}">
                   </progress-bar>
+                  <span *ngIf="!(item && item > 0 && item < 6)">-</span>
                 </td>
               </tr>
               <tr class="shade" *ngIf="compareService.list && compareService.employedFields.length">
@@ -234,7 +243,7 @@
               <tr *ngIf="compareService.list && compareService.employedFields.length">
                 <td class="firstCell lastCell" [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length && !compareService.paymentFields.length && !compareService.employedChangeFields.length" *ngFor="let item of compareService.employedFields;">
                   <span *ngIf="item">{{ item | localeNumber }}</span>
-                  <span *ngIf="!item"></span>
+                  <span *ngIf="!item">-</span>
                 </td>
               </tr>
               <tr class="shade" *ngIf="compareService.list && compareService.employedChangeFields.length">
@@ -250,7 +259,7 @@
                       <span role="text" attr.aria-label="{{compareService.trendingValues[item - 1].text | translate}}">{{compareService.trendingValues[item - 1].text | translate}}</span>
                     </li>
                   </ul>
-                  <div *ngIf="!(item && item > 0 && item < 6)"></div>
+                  <div *ngIf="!(item && item > 0 && item < 6)">-</div>
                 </td>
               </tr>
               <tr class="shade" *ngIf="compareService.list && compareService.paymentFields.length">
@@ -259,7 +268,7 @@
               <tr *ngIf="compareService.list && compareService.paymentFields.length">
                 <td class="firstCell lastCell" [class.withBottom]="!compareService.graduatesToJobsFields.length && !compareService.finalFieldsArr.length" *ngFor="let item of compareService.paymentFields;">
                   <span *ngIf="item">{{ item | localeNumber }} €</span>
-                  <span *ngIf="!item"></span>
+                  <span *ngIf="!item">-</span>
                 </td>
               </tr>
               <tr class="shade" *ngIf="compareService.list && compareService.graduatesToJobsFields.length">
@@ -275,7 +284,7 @@
                       <span role="text" attr.aria-label="{{compareService.graduatesToJobsValues[item - 1].text | translate}}">{{compareService.graduatesToJobsValues[item - 1].text | translate}}</span>
                     </li>
                   </ul>
-                  <div *ngIf="!(item && item > 0 && item < 6)"></div>
+                  <div *ngIf="!(item && item > 0 && item < 6)">-</div>
                 </td>
               </tr>
               <tr class="shade" *ngIf="compareService.list && compareService.finalFieldsArr.length">
@@ -285,7 +294,7 @@
                 <ng-container *ngFor="let item of compareService.list; let ind = index;">
                   <td [class.groupCell]="!last" [class.lastCell]="last" [class.withBottom]="last" [class.another]="childInd > 0 && compareService.finalFields[ind][childInd] && compareService.finalFields[ind][childInd].type !== compareService.finalFields[ind][childInd - 1].type">
                     <ng-container *ngIf="compareService.finalFields[ind]">
-                      <span *ngIf="!compareService.finalFields[ind][childInd]"></span>
+                      <span *ngIf="!compareService.finalFields[ind][childInd] && childInd === 0">-</span>
                       <ng-container *ngIf="compareService.finalFields[ind][childInd]">
                         <ul>
                           <li [ngClass]="{
