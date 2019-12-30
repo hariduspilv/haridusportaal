@@ -50,11 +50,11 @@ export class NotFoundComponent implements AfterViewInit {
     if (dialogRef['_overlayRef'].overlayElement) {
       dialogRef['_overlayRef'].overlayElement.parentElement.className += ' sticky-dialog-wrapper';
     }
+    sessionStorage.setItem('redirectUrl', this.redirectUrl);
   }
 
   action() {
     if (this.redirectUrl) {
-      sessionStorage.setItem('redirectUrl', this.redirectUrl);
       this.openLogin();
     } else {
       this.router.navigate(['/']);
