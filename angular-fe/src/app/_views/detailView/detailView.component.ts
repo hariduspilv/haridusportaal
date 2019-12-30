@@ -33,6 +33,9 @@ export class DetailViewComponent {
   private paramsWatcher: Subscription = new Subscription();
   public isPreview: boolean = false;
 
+  @Input() storyPath: string;
+  @Input() storyType: string;
+
   public relatedStudyprogrammes: Object[] = [];
 
   constructor(
@@ -194,8 +197,8 @@ export class DetailViewComponent {
   private initialize(type: string = undefined) {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
-      this.path = this.path || decodeURI(this.location.path());
-      this.type = this.type || type || this.route.snapshot.data['type'];
+      this.path = this.storyPath || decodeURI(this.location.path());
+      this.type = this.storyType || type || this.route.snapshot.data['type'];
     }
 
     this.getValues();
