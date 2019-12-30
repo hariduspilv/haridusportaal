@@ -149,8 +149,8 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   destroyListeners() {
-    this.resizeListener.unsubscribe();
-    this.scrollListener.unsubscribe();
+    if (this.resizeListener) this.resizeListener.unsubscribe();
+    if (this.scrollListener) this.scrollListener.unsubscribe();
   }
 
   ngOnInit() {
