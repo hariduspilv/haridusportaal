@@ -1489,7 +1489,7 @@ studyProgramme:
     en: 'No related study programmes'
   compare_modal_title:
     translation_type: textarea
-    et: 'Erialade võrdlemine'
+    et: 'Erialade võrdlus'
     en: 'Study programme comparison'
   compare_modal_content:
     translation_type: text_format
@@ -3067,6 +3067,14 @@ abitekst:
     translation_type: text_format
     et:
       value: "<p>See on abitekst, mis on aga lühikene tupac tupac tupac kaks.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  jur_taotlused:
+    translation_type: text_format
+    et:
+      value: "<p>Testitekst</p>\r\n"
       format: custom_editor
     en:
       value: ''
