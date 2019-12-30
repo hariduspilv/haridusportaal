@@ -594,7 +594,7 @@ public class MtsysWorker extends Worker {
           if (fileTypeKlOkLiik.equalsIgnoreCase(i.get("klOkLiik").asText())) {
             ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
                 .put("liik", i.get("required").asBoolean() ?
-                    fileType.get("et").asText() + " (Kohustuslik)" :
+                    fileType.get("et").asText() + " *" :
                     fileType.get("et").asText())
                 .put("klLiik", item.getKlLiik())
                 .put("kommentaar", item.getKommentaar())
@@ -1759,7 +1759,7 @@ public class MtsysWorker extends Worker {
           if (klOkLiik.equals(i.get("klOkLiik").asLong())) {
             dokumendidValue.addObject()
                 .put("liik", i.get("required").asBoolean() ?
-                    fileType.getValue().get("et").asText() + " (Kohustuslik)" :
+                    fileType.getValue().get("et").asText() + " *" :
                     fileType.getValue().get("et").asText())
                 .put("klLiik", Long.valueOf(fileType.getKey()));
           }
