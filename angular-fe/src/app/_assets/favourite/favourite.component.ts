@@ -95,4 +95,8 @@ export class FavouriteComponent {
       this.state = state;
     }, (err) => { });
   }
+
+  ngOnDestroy() {
+    this.alertsService.clear('global');
+  }
 }
