@@ -3,7 +3,7 @@
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 		<block *ngIf="data">
 			<block-title *ngIf="data.oppeasutus">
-					{{ parseTypeTranslation(type) | translate | uppercase }}
+					{{ parseTypeTranslation(type) | uppercase }}
 			</block-title>
 			<block-content>
         <h1>{{ data.oppeasutus }}</h1>
