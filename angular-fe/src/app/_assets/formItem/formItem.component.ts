@@ -68,6 +68,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() disabled: boolean;
   @Input() valueType: string = 'string';
   @Input() browserAutocomplete: string = '';
+  @Input() sortOptions: boolean = false;
 
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
@@ -151,7 +152,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
             textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
           } catch (err) {}
         }
-        textContainer.innerHTML = valuesText;
+
+        try {
+          textContainer.innerHTML = valuesText;
+        } catch (err) {}
+
         this.cdr.detectChanges();
       },
       0);
@@ -381,6 +386,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       if (this.field && this.field.length) {
         this.filledField = true;
       }
+      if (this.field && typeof this.field !== 'object') {
+        this.field = this.field.toString().split(';');
+      }
     } else {
       if (this.value) {
         this.field = this.value;
@@ -397,7 +405,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
     if (this.options) {
       try {
-        const arrType = typeof this.options[0].value;
+        console.log(this.name, this.field);
+        const arrType = this.options[0] ? typeof this.options[0].value : 'string';
         if (arrType === 'string') {
           this.field = this.field.map((item) => {
             if (item) {
@@ -411,7 +420,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
             }
           });
         }
-      } catch (err) {}
+      } catch (err) {
+
+      }
     }
 
     this.cdr.detectChanges();
@@ -430,6 +441,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   triggerOnUpdate(): void {
     this.onUpdate.emit(true);
   }
+
   getValue() {
     return {
       name: this.name,
@@ -445,6 +457,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.checkInitialValue();
     this.checkDisabled();
     this.cdr.detectChanges();
+    
   }
 
   ngOnInit() {

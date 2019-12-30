@@ -212,6 +212,9 @@ export const multiSelectFields = {
   ],
   studyprogramme: [
     'level',
+    'iscedf_broad',
+    'iscedf_narrow',
+    'iscedf_detailed',
   ],
   news: [
     'tagValue',

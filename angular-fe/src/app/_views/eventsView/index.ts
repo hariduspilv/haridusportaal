@@ -17,10 +17,16 @@ const routes: Routes = [
   {
     path: '',
     component: EventsViewComponent,
+    data: {
+      calendar: false,
+    },
   },
   {
     path: 'kalender',
     component: EventsViewComponent,
+    data: {
+      calendar: true,
+    },
   },
 ];
 

@@ -1,7 +1,9 @@
 import { Component, Input, AfterViewInit,
-  ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+  ViewChild, ElementRef, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'schoolList-view',
@@ -9,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['schoolListView.styles.scss'],
 })
 
-export class SchoolListViewComponent implements AfterViewInit {
+export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
   @Input() path: string;
   @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
 
@@ -30,15 +32,24 @@ export class SchoolListViewComponent implements AfterViewInit {
   languageFilters = [];
   combinedTypesOptions = [];
   ownershipFilters = [];
+  paramsWatcher: Subscription = new Subscription();
 
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
-  ) { }
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit() {
+    this.watchParams();
     this.getTags();
+  }
+
+  watchParams() {
+    this.paramsWatcher = this.route.queryParams.subscribe((response) => {
+      this.params = response;
+    });
   }
 
   checkLanguageDisable():void {
@@ -135,5 +146,9 @@ export class SchoolListViewComponent implements AfterViewInit {
       });
       subscribe.unsubscribe();
     });
+  }
+
+  ngOnDestroy() {
+    this.paramsWatcher.unsubscribe();
   }
 }

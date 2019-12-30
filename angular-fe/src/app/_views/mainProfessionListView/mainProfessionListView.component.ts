@@ -57,9 +57,11 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   }
 
   setSortDirection() {
-    const directionHelper = this.sort.split('_');
-    this.sortDirection = (directionHelper.pop()).toUpperCase();
-    this.sortField = directionHelper.join('_');
+    if (this.sort) {
+      const directionHelper = this.sort.split('_');
+      this.sortDirection = (directionHelper.pop()).toUpperCase();
+      this.sortField = directionHelper.join('_');
+    }
   }
 
   ngAfterViewInit() {
@@ -78,7 +80,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     const path = this.settings.query('oskaMainProfessionListViewFilter', variables);
 
     this.competitionLabels.forEach((element, index) => {
-      this.competitionFilters.push({ key: this.translateService.get(element), value: index });
+      this.competitionFilters.push({ key: this.translateService.get(element), value: (index + 1) });
     });
 
     const subscribe = this.http.get(path).subscribe((response:any) => {

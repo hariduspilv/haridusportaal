@@ -13,15 +13,15 @@
           </a>
         </div>
         <div class="row" *ngIf="showFilter">
-          <div class="col-4 sm-12">
+          <div class="col-4 sm-12" [class.col-9]="hasCalendar">
             <formItem type="text" title="{{ 'news.filter_name' | translate }}" name="title"></formItem>
           </div>
           <!--/col-4-->
-          <div class="col-25 sm-12">
+          <div class="col-25 sm-12" *ngIf="!hasCalendar">
             <formItem type="date" title="{{ 'time.date_period_from' | translate }}" name="dateFrom"></formItem>
           </div>
           <!--/col-3-->
-          <div class="col-25 sm-12">
+          <div class="col-25 sm-12" *ngIf="!hasCalendar">
             <formItem type="date" title="{{ 'time.date_period_to' | translate }}" name="dateTo"></formItem>
           </div>
 

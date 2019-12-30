@@ -44,7 +44,7 @@
 					</div>
 					<div class="col-5 sm-12" [class.disabled]="secondaryFilteredTypes.length > 0 ? false : true">
 						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"
-							title="{{ 'school.institution_sublevel' | translate }}" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
+							title="{{ (selectedPrimaryTypes && selectedPrimaryTypes.length ? 'school.institution_sublevel' : 'school.institution_select_type') | translate }}" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
 						</formItem>
 					</div>
 
@@ -60,13 +60,6 @@
 
 					<div class="col-5 sm-12">
 						<formItem type="multi-select" title="{{ 'school.ownership' | translate }}" name="ownership" [options]="ownershipFilters">
-						</formItem>
-					</div>
-					<div class="col-9">
-						<formItem type="checkbox" label="{{ 'school.special_needs_short' | translate }}"
-							name="specialClass">
-						</formItem>
-						<formItem type="checkbox" label="{{ 'school.dormitory' | translate }}" name="studentHome">
 						</formItem>
 					</div>
 
@@ -88,7 +81,7 @@
 	<div class="inline">
 		<block titleBorder="true">
 			<block-title>{{ 'school.label' | translate }}</block-title>
-			<block-content tabLabel="Nimekiri" tabLink="/kool" [tabActive]="true" tabIcon="list">
+			<block-content tabLabel="Nimekiri" tabLink="/kool" [queryParams]="params" [tabActive]="true" tabIcon="list">
 				<searchResults type="school" limit="24"></searchResults>
 			</block-content>
 			<block-content tabLabel="Kaart" tabLink="/kool/kaart" [queryParams]="params" tabIcon="map-pin"></block-content>
