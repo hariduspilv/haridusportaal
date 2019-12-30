@@ -54,6 +54,7 @@ export class NotFoundComponent implements AfterViewInit {
 
   action() {
     if (this.redirectUrl) {
+      sessionStorage.setItem('redirectUrl', this.redirectUrl);
       this.openLogin();
     } else {
       this.router.navigate(['/']);

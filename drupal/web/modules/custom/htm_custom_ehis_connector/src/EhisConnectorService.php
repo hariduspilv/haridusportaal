@@ -397,7 +397,7 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
     $params['hash'] = 'educationalInstitution_'.$params['id'];
     $response = $this->invokeWithRedis('getEducationalInstitution', $params, FALSE);
-    if($params['addTitle']){
+    if(isset($params['addTitle']) && $params['addTitle']){
       $this->addTitles($response);
     }
     return $response;
@@ -420,20 +420,21 @@ class EhisConnectorService {
     $params['url'] = [$this->getCurrentUserIdRegCode()];
     $params['key'] = $this->getCurrentUserIdRegCode();
 
+    if($this->useReg()) $params['hash'] = 'mtsys';
+    if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
+
+    $response = $this->invokeWithRedis('vpTaotlus', $params);
+
     // we need to start getDocument service
-    if($params['init']){
-      $params['hash'] = 'getDocuments';
-      $init = $this->invokeWithRedis('getDocuments', $params, FALSE);
+    if($params['init'] && !$response['redis_hit']){
+      $queryparams = $params;
+      $queryparams['hash'] = 'getDocuments';
+      $init = $this->invokeWithRedis('getDocuments', $queryparams, FALSE);
       if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
         throw new RequestException('Service down');
       }
     }
 
-    if($this->useReg()) $params['hash'] = 'mtsys';
-    if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
-    #dump($params);
-    $response = $this->invokeWithRedis('vpTaotlus', $params);
-    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($params, TRUE) . '</code></pre>' );
     $workedResponse = $this->applicationPathWorker($response);
     if(isset($workedResponse['educationalInstitutions'])){
       foreach($workedResponse['educationalInstitutions'] as &$institution){
