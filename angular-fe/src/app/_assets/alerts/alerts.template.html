@@ -3,16 +3,18 @@
     <div class="alert__icon">
       <icon glyph="{{alertIcons[alert.type]}}" [size]="small ? 'medium' : 'large'"></icon>
     </div>
-      <p>
-        {{ alert.message }}
-        <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
-          <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
-        </button>
-        <a *ngIf="alert.link" class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
-      </p>
-      <button htm-button (click)="cookies.agreeTerms()" *ngIf="alert.type === 'cookie'">{{ 'agree' | translate }}</button>
+    <p>
+      {{ alert.message }}
+      <a *ngIf="alert.link" class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
+    </p>
+    <div class="cookie__buttons" *ngIf="alert.type === 'cookie'">
+      <button htm-button (click)="cookies.agreeTerms()">{{ 'agree' | translate }}</button>
       <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
         <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
       </button>
+    </div>
+    <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
+      <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
+    </button>
   </div>
 </ng-container>
