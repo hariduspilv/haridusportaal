@@ -21,7 +21,11 @@ export class AuthInterceptor implements HttpInterceptor{
     if (this.authService.isLoggedIn()) {
       const token: string = sessionStorage.getItem('token');
       request = request.clone({
-        headers: request.headers.set('Authorization', `Bearer ${token}`),
+        headers: request.headers
+          .set('Authorization', `Bearer ${token}`)
+          .set('Cache-Control', 'no-cache')
+          .set('Pragma', 'no-cache')
+          .set('Expires', '0'),
       });
     }
     return request;
