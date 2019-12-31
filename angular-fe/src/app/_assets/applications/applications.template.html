@@ -542,7 +542,8 @@
 </div>
 
 <htm-modal id="institutionModal" modalTitle="{{ 'dashboard.adding_educational_institution' | translate }}"
-	[titleExists]="modalTitleExists" [topAction]="modalTopAction" [bottomAction]="modalBottomAction">
+	[titleExists]="modalTitleExists" [topAction]="modalTopAction" [bottomAction]="modalBottomAction"
+	[reloadOnClose]="viewReload">
 	<modal-content [loading]="modalLoading">
 		<alerts small="true" id="institution"></alerts>
 		<ng-container *ngIf="!modalLoading && !error && formOptions">
