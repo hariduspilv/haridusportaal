@@ -50,7 +50,6 @@ export class AutocompleteComponent implements OnDestroy {
       this.navigate($event.key);
     } else if ($event.key === 'Enter') {
       $event.stopPropagation();
-      console.log(value);
       this.chooseOption(value);
     } else {
 
@@ -81,7 +80,6 @@ export class AutocompleteComponent implements OnDestroy {
               );
               this.subscription = jsonP.pipe(
                 map((data) => {
-                  console.log(data);
                   return data.addresses;
                 }),
               ).subscribe((response) => {
