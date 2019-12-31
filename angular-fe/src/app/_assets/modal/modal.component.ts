@@ -86,6 +86,5 @@ export class ModalComponent implements OnInit {
     if (!state) {
       this.onClose.emit(true);
     }
-    console.log(this.opened);
   }
 }
