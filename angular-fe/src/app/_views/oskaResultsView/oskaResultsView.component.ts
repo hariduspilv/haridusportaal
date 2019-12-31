@@ -171,7 +171,6 @@ export class OskaResultsView extends FiltersService implements OnInit {
           this.filterItemValues['proposalStatus'] = this.filterItemValues['proposalStatus'].sort();
           for (const key in this.filterItemValues) {
             this.filterItemValues[key].unshift({ key: 'Kõik', value: '' });
-            // console.log(this.filterItemValues[key]);
           }
           this.cdr.detectChanges();
         }

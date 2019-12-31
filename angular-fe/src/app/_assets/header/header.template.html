@@ -101,12 +101,16 @@
 	[bottomAction]="false"
 >
 	<modal-content id="search" *ngIf="modalService.modalOpened['search']">
-		<formItem type="text" [(ngModel)]="search" title="Märksõna"> </formItem>
+		<formItem
+			type="text"
+			[(ngModel)]="search"
+			title="Märksõna"
+			(keyup.enter)="searchRoute(search); modalService.close('search')"> </formItem>
 		<button
 			(blur)="modalService.focusLock()"
 			htm-button
 			style="margin: 1rem 0; width: 100%;"
-		>
+			(click)="searchRoute(search); modalService.close('search')">
 			Otsi
 		</button>
 	</modal-content>

@@ -543,6 +543,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.alertsService.info(response.message, 'institution', 'institution', false, false);
             this.modalLoading = false;
             this.modalBottomAction = true;
+            this.modalService.close('institutionModal');
+            this.viewReload = true;
             sub.unsubscribe();
           },
           (err) => {
