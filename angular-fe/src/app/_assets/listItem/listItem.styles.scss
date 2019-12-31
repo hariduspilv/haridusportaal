@@ -177,6 +177,9 @@ $grid-columns: 12;
           &--compare {
             display: flex;
             margin-top: 0.5rem;
+            @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+              display: block;
+            }
           }
         }
       }
@@ -185,6 +188,9 @@ $grid-columns: 12;
       }
       p:last-child {
         margin-bottom: 0;
+      }
+      @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) { 
+        .flex { display: block; }
       }
     }
     .spinner-wrapper {
