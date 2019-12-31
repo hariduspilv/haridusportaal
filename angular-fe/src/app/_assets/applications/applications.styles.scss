@@ -4,7 +4,7 @@
 :host {
   ::ng-deep #modal-institutionModal {
     @include break-on(md, min) {
-      overflow: visible;
+      overflow: auto;
     }
 
   }

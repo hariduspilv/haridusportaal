@@ -19,7 +19,7 @@
         button.alert__close {
           display: none;
         }
-        p {
+        p, div {
           justify-content: center;
           button.alert__close {
             display: block;
@@ -72,6 +72,12 @@
       align-self: center;
       min-width: 12rem;
       height: 2.75rem;
+    }
+    .cookie__buttons {
+      display: flex;
+      .alert__close {
+        display: none;
+      }
     }
   }
   &__column {

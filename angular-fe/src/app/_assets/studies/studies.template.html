@@ -22,8 +22,10 @@
 
 <h2 class="middleTitle">
   <span>{{ 'frontpage.studies_data' | translate }}</span>
-  <a *ngIf="totalAccordions > activeAccordions" (click)="openAllAccordions();">{{ 'frontpage.studies.openAll' | translate }}</a>
-  <a *ngIf="totalAccordions === activeAccordions" (click)="closeAllAccordions();">{{ 'frontpage.studies.closeAll' | translate }}</a>
+  <ng-container *ngIf="content && content.length">
+    <a *ngIf="totalAccordions > activeAccordions" (click)="openAllAccordions();">{{ 'frontpage.studies.openAll' | translate }}</a>
+    <a *ngIf="totalAccordions === activeAccordions" (click)="closeAllAccordions();">{{ 'frontpage.studies.closeAll' | translate }}</a>
+  </ng-container>
 </h2>
 
 <loader *ngIf="loading && !error"></loader>
