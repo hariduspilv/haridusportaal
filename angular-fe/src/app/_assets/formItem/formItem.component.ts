@@ -253,6 +253,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   undefinedAddressValue() {
     return {
+      adr_id: undefined,
+      ads_oid: undefined,
       seqNo: undefined,
       klElukoht: undefined,
       adsId: undefined,
