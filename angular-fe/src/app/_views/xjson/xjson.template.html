@@ -616,8 +616,7 @@
       </div>
 
       <loader *ngIf="fileLoading[fileUploadElement]"></loader>
-
-      {{ data_elements[fileUploadElement] | json }}
+      
       <input *ngIf="data_elements[fileUploadElement] && canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true)" class="hidden"
         type="file"
         attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[fileUploadElement].table_columns[fileUploadCol].max_size }}MB"
