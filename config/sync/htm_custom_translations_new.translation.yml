@@ -756,6 +756,10 @@ frontpage:
     translation_type: textarea
     et: 'Soovitud teenus eeldab sisse logimist.'
     en: 'Soovitud teenus nõuab sisse logimist.'
+  dashboard_tabs_financial_report_drafts_label:
+    translation_type: textarea
+    et: Tegevusnäitajad
+    en: ''
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -3074,7 +3078,7 @@ abitekst:
   jur_taotlused:
     translation_type: text_format
     et:
-      value: "<p>Testitekst</p>\r\n"
+      value: "<p>Täiskasvanute täienduskoolituste korraldajad peavad sõltuvalt valdkonnast taotlema õppe korraldamiseks&nbsp;<strong>tegevusloa&nbsp;</strong>või&nbsp;<strong>esitama majandustegevusteate.</strong>&nbsp;<strong>Sama koolituse</strong>&nbsp;kohta ei saa taotleda korraga tegevusluba ja esitada majandustegevusteadet.<br />\r\nTegevusloa taotlusele tuleb lisada asjaomase valdkonna eriseaduses&nbsp;<strong>nõutud dokumendid ja kinnitused</strong>. Tegevusloa taotluse lahendab haridus- ja teadusministeerium või olenevalt valdkonnast ka muu asutus.&nbsp;<br />\r\nNoortelaagrite korraldajad peavad vastavalt noorsootöö seadusele taotlema tegevusloa kas haridus- ja teadusministeeriumilt (püsilaagrid) või kohalikult omavalitsuselt, mille territooriumil laager korraldatakse (projektlaagrid).&nbsp;<br />\r\n<strong>Tegevusluba peavad taotlema</strong>:</p>\r\n\r\n<ul>\r\n\t<li>mootorsõidukijuhtide koolitust korraldavad ettevõtjad,</li>\r\n\t<li>eesti keele tasemeeksami tegemiseks ettevalmistavat eesti keele õpet korraldavad ettevõtjad,</li>\r\n\t<li>turvatöötajate õppe korraldajad,</li>\r\n\t<li>vedurijuhtide koolituse korraldajad,</li>\r\n\t<li>noorte püsi- ja projektlaagrite korraldajad.</li>\r\n</ul>\r\n\r\n<p>Kõigis teistes koolitusvaldkondades&nbsp;<strong>saab esitada majandustegevusteate</strong>. Teate esitamine ei ole kohustuslik, kuid sellega kaasnevad eelised ja kohustused kohalduvad üksnes koolitajatele, kes on majandustegevusteate esitanud.<br />\r\nMajandustegevusteade&nbsp;<strong>loetakse esitatuks hetkest</strong>, mil koolitaja selle kinnitab. Lisaks majandustegevusteate esitamisele&nbsp;<strong>peab koolitaja oma veebilehel avalikustama</strong>&nbsp;õppetöö korraldust ja õppe sisu käsitlevad dokumendid.<br />\r\nLisainfo täiskasvanute täienduskoolituste ning noorte püsi- ja projektlaagrite korraldamiseks väljastatavate tegevuslubade taotlemise ning majandustegevusteate esitamise kohta&nbsp;haridus- ja teadusministeeriumi kodulehelt<br />\r\n<a href=\"mailto:ehis.tugi@hm.ee\" target=\"_blank\">ehis.tugi@hm.ee</a>&nbsp;või Eesti hariduse infosüsteemi (EHIS) kasutajatoe telefon&nbsp;<strong>765 5050&nbsp;</strong>&nbsp;(E-R 9.00–16.00).<br />\r\nTeksti koostanud haridus- ja teadusministeerium</p>\r\n"
       format: custom_editor
     en:
       value: ''
