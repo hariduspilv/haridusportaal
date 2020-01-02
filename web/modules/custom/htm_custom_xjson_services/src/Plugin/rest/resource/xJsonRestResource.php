@@ -145,7 +145,7 @@ class xJsonRestResource extends ResourceBase {
     }
     $params['form_name'] = $data['form_name'];
     $response = $this->ehisService->getDocument($params);
-    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($response, TRUE) . '</code></pre>' );
+    \Drupal::logger('xjson')->notice('<pre><code>ehis response ' . print_r($response, TRUE) . '</code></pre>' );
     $response['header'] += [
       'endpoint' => 'empty'
     ];
@@ -172,7 +172,7 @@ class xJsonRestResource extends ResourceBase {
 
     if (empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
     $response = $this->ehisService->postDocument(['json' => $request_body]);
-    \Drupal::logger('xjson')->notice('<pre><code>' . print_r($response, TRUE) . '</code></pre>' );
+    \Drupal::logger('xjson')->notice('<pre><code>ehis response ' . print_r($response, TRUE) . '</code></pre>' );
     return $this->returnBuildedResponse($response);
   }
 
@@ -182,6 +182,7 @@ class xJsonRestResource extends ResourceBase {
     if($this->formAction === 'SAVE' || $this->formAction === 'SUBMIT'){
       $this->ehisService->deleteKeyFromredis($this->ehisService->getCurrentUserIdRegCode(FALSE));
     }
+    \Drupal::logger('xjson')->notice('<pre><code>builded response ' . print_r($builded_response, TRUE) . '</code></pre>' );
     return new ModifiedResourceResponse($builded_response, 200);
   }
 
