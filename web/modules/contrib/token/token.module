@@ -130,28 +130,28 @@ function token_field_info_alter(&$info) {
 }
 
 /**
- * Implements hook_date_format_insert().
+ * Implements hook_ENTITY_TYPE_insert().
  */
 function token_date_format_insert() {
   token_clear_cache();
 }
 
 /**
- * Implements hook_date_format_delete().
+ * Implements hook_ENTITY_TYPE_delete().
  */
 function token_date_format_delete() {
   token_clear_cache();
 }
 
 /**
- * Implements hook_field_storage_config_presave().
+ * Implements hook_ENTITY_TYPE_presave().
  */
 function token_field_config_presave($instance) {
   token_clear_cache();
 }
 
 /**
- * Implements hook_field_storage_config_delete().
+ * Implements hook_ENTITY_TYPE_delete().
  */
 function token_field_config_delete($instance) {
   token_clear_cache();
@@ -204,10 +204,6 @@ function token_entity_type_alter(array &$entity_types) {
     }
   }
 }
-
-/**
- * Implements hook_entity_view_modes_info().
- */
 
 /**
  * Implements hook_module_implements_alter().
@@ -678,6 +674,7 @@ function token_entity_base_field_info(EntityTypeInterface $entity_type) {
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'menu_link_content')
       ->setTranslatable(TRUE)
+      ->setInternal(TRUE)
       ->setDisplayOptions('view', [
         'label' => 'hidden',
         'region' => 'hidden',
@@ -765,6 +762,7 @@ function token_node_menu_link_submit($entity_type, NodeInterface $node, &$form, 
       $entity->menu_name->value = $values['menu_name'];
       $entity->parent->value = $values['parent'];
       $entity->weight->value = isset($values['weight']) ? $values['weight'] : 0;
+      $entity->isDefaultRevision($node->isDefaultRevision());
       $entity->save();
       $node->menu_link = $entity;
       // Leave this for _menu_ui_node_save() to pick up so we don't end up with
