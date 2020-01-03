@@ -7,7 +7,7 @@
 <ng-container *ngIf="requestError && !loading.initial">
 	<alerts id="requestAlert"></alerts>
 	<div class="center">
-		<button (click)="tryAgain()" htm-button>Proovi uuesti</button>
+		<button (click)="tryAgain()" htm-button>{{ 'button.try_again' | translate }}</button>
 	</div><!--/center-->
 </ng-container>
 

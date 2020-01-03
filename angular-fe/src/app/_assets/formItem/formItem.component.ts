@@ -163,7 +163,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   }
   update(action: string = '') {
-    console.log(this.field);
 
     if (action === 'datepicker') {
       if (this.dateField && this.dateField.year) {

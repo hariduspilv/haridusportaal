@@ -1,15 +1,24 @@
-import { Component, OnInit, Input, Output, OnDestroy, ChangeDetectorRef, ViewRef } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import * as _moment from 'moment';
-const moment = _moment;
-import { RootScopeService } from '@app/_services/RootScopeService';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  ViewRef,
+} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AlertsService, ModalService, AuthService, SettingsService, Alert, AlertType } from '@app/_services';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {
+  AlertsService,
+  ModalService,
+  AuthService,
+  SettingsService,
+  Alert,
+  AlertType,
+} from '@app/_services';
+import { HttpClient } from '@angular/common/http';
 import { TableService } from '@app/_services/tableService';
-import { formItems } from '../../../../stories/assets/formItem/formItem.data';
-import { FormControl, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { NgbRadio } from '@ng-bootstrap/ng-bootstrap';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 const acceptableFormsRestrictedLength = 4;
 
@@ -88,6 +97,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     public modalService: ModalService,
     public formBuilder: FormBuilder,
     public cdr: ChangeDetectorRef,
+    private translate: TranslateService,
   ) { }
 
   pathWatcher() {
@@ -190,7 +200,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       () => {
         this.alertsService.notify(
           new Alert({
-            message: 'Ei saanud EHIS-ga ühendust!',
+            message: this.translate.get('error.ehis_connection'),
             type: AlertType.Error,
             id: 'requestAlert',
             category: 'requestAlert',
@@ -219,7 +229,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   this.requestFailed();
                 }
               } else {
-                this.requestCounter = 0;
                 if (response.error && response.error.message_text) {
                   this.alertsService
                     .info(response.error.message_text.et, 'general', 'applications', false, false);
@@ -230,7 +239,12 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
                   this.data.drafts = this.sortList(this.data.drafts, 'title');
                   this.data.documents = this.sortList(this.data.documents, 'date');
-                  this.acceptableFormsList = this.formatAcceptableForms(this.data.acceptable_forms);
+                  try {
+                    this.acceptableFormsList =
+                      this.formatAcceptableForms(this.data.acceptable_forms);
+                  } catch (err) {
+                    this.loading.initial = false;
+                  }
                 } else {
                   if (response['educationalInstitutions']) {
                     const responseData = response['educationalInstitutions'].map((elem) => {
