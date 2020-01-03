@@ -34,6 +34,11 @@
     <meta property="og:image" content="{{ image.derivative.url }}" />
   {{/image}}
 
+  {{#fieldPictogram}}
+    <meta name="twitter:image" content="{{ fieldPictogram.entity.url }}" />
+    <meta property="og:image" content="{{ fieldPictogram.entity.url }}" />
+  {{/fieldPictogram}}
+
   
   <meta name="keywords" content="{{#tags}}{{ entity.entityLabel }}, {{/tags}}" />
   
