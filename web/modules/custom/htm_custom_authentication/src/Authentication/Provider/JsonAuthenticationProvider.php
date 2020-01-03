@@ -225,6 +225,8 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
     $event->addClaim('firstname', $this->roleSwitcher->returnUser()->getFirstName());
     $event->addClaim('lastname', $this->roleSwitcher->returnUser()->getLastName());
 		$jwt = $event->getToken();
+		dump($jwt);
+		dump($this->transcoder₋>encode($jwt));
 		return $this->transcoder->encode($jwt);
 	}
 
