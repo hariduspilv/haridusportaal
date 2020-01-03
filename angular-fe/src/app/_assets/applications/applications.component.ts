@@ -345,6 +345,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           type: 'autocomplete',
           query: 'inaadress',
           title: 'dashboard.address',
+          modelCategory: false,
           modelName: 'address',
           required: true,
           error: false,

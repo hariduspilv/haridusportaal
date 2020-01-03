@@ -86,11 +86,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     }
 
     return this.focused ?
-          `formItem--focused ${classes.join(' ')}` :
-          `${classes.join(' ')}`;
+      `formItem--focused ${classes.join(' ')}` :
+      `${classes.join(' ')}`;
   }
 
-  propagateChange = (_: any) => {};
+  propagateChange = (_: any) => { };
   public field: any;
   public dateField;
   public dirty: boolean = false;
@@ -150,12 +150,12 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
             textContainerEl.appendChild(textContainerChildEl);
             mainContainer.insertBefore(textContainerEl, firstChild);
             textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
-          } catch (err) {}
+          } catch (err) { }
         }
 
         try {
           textContainer.innerHTML = valuesText;
-        } catch (err) {}
+        } catch (err) { }
 
         this.detectChanges();
       },
@@ -163,6 +163,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   }
   update(action: string = '') {
+    console.log(this.field);
 
     if (action === 'datepicker') {
       if (this.dateField && this.dateField.year) {
@@ -237,7 +238,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     }
 
     if (this.type === 'autocomplete' && !this.field.addressHumanReadable &&
-    !this.field.ipikkaadress && this.query === 'inaadress') {
+      !this.field.ipikkaadress && this.query === 'inaadress') {
       this.field = this.undefinedAddressValue();
       this.propagateChange(this.field);
     }
@@ -331,7 +332,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
               }
             });
           }
-        } catch (err) {}
+        } catch (err) { }
       }
     } else if (this.type === 'date') {
       this.dateField = this.field;
@@ -347,7 +348,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       && typeof this.field !== 'object'
       && !this.field.toString().match(/\D/)
       && this.type !== 'date'
-      ) {
+    ) {
       this.field = parseFloat(this.field);
     }
 
@@ -377,7 +378,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       // this.field = '';
       if (this.options) {
         this.options = this.options.map((opt) => {
-          return typeof opt ===  'string' ? {
+          return typeof opt === 'string' ? {
             key: new TitleCasePipe().transform(opt),
             value: opt,
           } : opt;
