@@ -169,9 +169,6 @@ class EducationalFormRestResource extends ResourceBase {
 
 	  $d = $this->validateAgainstSchema($required_keys, $data );
 
-	  dump($data);
-	  dump($d);
-
 	  return $d;
 
   }
