@@ -136,6 +136,7 @@ export class AutocompleteComponent implements OnDestroy {
       console.log(err);
     }
 
+    console.log(resultSet);
     this.data = resultSet;
     this.cdr.detectChanges();
   }
