@@ -4,7 +4,7 @@ import * as _moment from 'moment';
 const moment = _moment;
 import { RootScopeService } from '@app/_services/RootScopeService';
 import { Subscription } from 'rxjs';
-import { AlertsService, ModalService, AuthService, SettingsService } from '@app/_services';
+import { AlertsService, ModalService, AuthService, SettingsService, Alert, AlertType } from '@app/_services';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TableService } from '@app/_services/tableService';
 import { formItems } from '../../../../stories/assets/formItem/formItem.data';
@@ -25,6 +25,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     interval: false,
   };
 
+  public requestCounter: number = 0;
+  public maxRequests: number = 10;
+  public requestError: boolean = false;
+
   private debounce;
   private delay: number = 200;
 
@@ -43,7 +47,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   };
   createdMessage = {};
   requestIterator;
-  requestIteratorTimeout = 2000;
+  requestIteratorTimeout = 1000;
   currentRole: string = '';
 
   institutionData = [];
@@ -172,17 +176,50 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     });
   }
 
+  tryAgain(): void {
+    this.requestError = false;
+    this.requestCounter = 0;
+    this.loading.initial = true;
+    this.fetchData(true);
+  }
+
+  requestFailed(): void {
+    this.requestError = true;
+    this.loading.initial = false;
+    setTimeout(
+      () => {
+        this.alertsService.notify(
+          new Alert({
+            message: 'Ei saanud EHIS-ga ühendust!',
+            type: AlertType.Error,
+            id: 'requestAlert',
+            category: 'requestAlert',
+            closeable: false,
+          }),
+        );
+      },
+      0);
+  }
+
   fetchData(init = true) {
+    const delay = init ? 0 : this.requestIteratorTimeout;
+
+    this.requestCounter = this.requestCounter + 1;
+
     setTimeout(
       () => {
         const subscription = this.http
           .get(`${this.settings.url}/dashboard/applications/${init ? '1' : '0'}?_format=json`)
           .subscribe(
             (response: any) => {
-
               if (typeof response.found !== undefined && response.found === null) {
-                this.fetchData(false);
+                if (this.requestCounter < this.maxRequests) {
+                  this.fetchData(false);
+                } else {
+                  this.requestFailed();
+                }
               } else {
+                this.requestCounter = 0;
                 if (response.error && response.error.message_text) {
                   this.alertsService
                     .info(response.error.message_text.et, 'general', 'applications', false, false);
@@ -198,7 +235,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   if (response['educationalInstitutions']) {
                     const responseData = response['educationalInstitutions'].map((elem) => {
                       elem.documents = this.sortList(elem.documents, 'date');
-                      //elem = this.filterForms(elem, 'financial_reports', ['MTSYS_TEGEVUSNAITAJAD', 'MTSYS_TEGEVUSNAITAJAD_ARUANNE']);
                       this.alertsService.info(elem.message, String(elem.id), false);
                       return elem;
                     });
@@ -235,7 +271,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
               subscription.unsubscribe();
             });
       },
-      1000);
+      delay);
   }
 
   initialTableCheck(id: any, parentIndex: any, index: any) {
@@ -499,6 +535,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.modalBottomAction = true;
             this.editableInstitution = body;
             this.viewReload = true;
+            this.modalService.close('editInstitutionModal');
+            this.loading.initial = true;
+            this.fetchData(true);
             sub.unsubscribe();
           },
           (err) => {
@@ -545,6 +584,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
             this.modalBottomAction = true;
             this.modalService.close('institutionModal');
             this.viewReload = true;
+            this.loading.initial = true;
+            this.fetchData(true);
             sub.unsubscribe();
           },
           (err) => {
