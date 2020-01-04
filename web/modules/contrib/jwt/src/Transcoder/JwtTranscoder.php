@@ -195,6 +195,7 @@ class JwtTranscoder implements JwtTranscoderInterface {
       return FALSE;
     }
     $encoded = $this->transcoder->encode($jwt->getPayload(), $key, $this->algorithm);
+    dump($encoded);
     return $encoded;
   }
 
