@@ -102,9 +102,9 @@ class JwtTranscoder implements JwtTranscoderInterface {
     $key_id = $configFactory->get('jwt.config')->get('key_id');
     $this->setAlgorithm($configFactory->get('jwt.config')->get('algorithm'));
 
-    dump($key_id);
     if (isset($key_id)) {
       $key = $key_repo->getKey($key_id);
+      dump($key);
       if (!is_null($key)) {
         $key_value = $key->getKeyValue();
         if ($this->algorithmType == 'jwt_hs') {
