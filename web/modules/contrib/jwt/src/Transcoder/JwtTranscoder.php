@@ -105,14 +105,9 @@ class JwtTranscoder implements JwtTranscoderInterface {
     if (isset($key_id)) {
       $key = $key_repo->getKey($key_id);
       if (!is_null($key)) {
-        if(!is_null($key->getKeyProvider()->getConfiguration()['file_location'])){
-          $key_value = file_get_contents($key->getKeyProvider()->getConfiguration()['file_location']);
-        } else {
-          $key_value = $key->getKeyValue();
-        }
+        $key_value = $key->getKeyValue();
         if ($this->algorithmType == 'jwt_hs') {
           // Symmetric algorithm so we set the secret.
-          dump($key_value);
           $this->setSecret($key_value);
         }
         elseif ($this->algorithmType == 'jwt_rs') {
@@ -195,7 +190,6 @@ class JwtTranscoder implements JwtTranscoderInterface {
       return FALSE;
     }
     $encoded = $this->transcoder->encode($jwt->getPayload(), $key, $this->algorithm);
-    dump($encoded);
     return $encoded;
   }
 
