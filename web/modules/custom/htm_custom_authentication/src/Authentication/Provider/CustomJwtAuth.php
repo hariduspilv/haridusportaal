@@ -66,7 +66,6 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
 
     // Decode JWT and validate signature.
     try {
-      //$this->transcoder->setSecret('test');
       $jwt = $this->transcoder->decode($raw_jwt);
     }
     catch (JwtDecodeException $e) {
