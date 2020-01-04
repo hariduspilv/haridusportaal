@@ -264,10 +264,9 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
     // request or if the static variable storage needs to be reset for
     // this key, retrieve the value using the key provider.
     if (!isset($key_values[$key_id]) || $reset) {
+      dump($this->getKeyProvider());
       $key_values[$key_id] = $this->getKeyProvider()->getKeyValue($this);
     }
-
-    dump($key_values[$key_id]);
 
     return $key_values[$key_id];
   }
