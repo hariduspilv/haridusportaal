@@ -2,9 +2,14 @@
 
 namespace Drupal\htm_custom_authentication\Authentication\Provider;
 
+use Drupal\jwt\Authentication\Event\JwtAuthEvents;
+use Drupal\jwt\Authentication\Event\JwtAuthValidateEvent;
+use Drupal\jwt\Authentication\Event\JwtAuthValidEvent;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
+use Drupal\jwt\Transcoder\JwtDecodeException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * JWT Authentication Provider.
@@ -21,6 +26,38 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
 		return (preg_match('/^Bearer .+/', $auth) || $auth_param);
 	}
 
+  /**
+   * {@inheritdoc}
+   */
+  public function authenticate(Request $request) {
+    $raw_jwt = $this->getJwtFromRequest($request);
+
+    // Decode JWT and validate signature.
+    try {
+      $this->transcoder->setSecret('test');
+      $jwt = $this->transcoder->decode($raw_jwt);
+    }
+    catch (JwtDecodeException $e) {
+      throw new AccessDeniedHttpException($e->getMessage(), $e);
+    }
+
+    $validate = new JwtAuthValidateEvent($jwt);
+    // Signature is validated, but allow modules to do additional validation.
+    $this->eventDispatcher->dispatch(JwtAuthEvents::VALIDATE, $validate);
+    if (!$validate->isValid()) {
+      throw new AccessDeniedHttpException($validate->invalidReason());
+    }
+
+    $valid = new JwtAuthValidEvent($jwt);
+    $this->eventDispatcher->dispatch(JwtAuthEvents::VALID, $valid);
+    $user = $valid->getUser();
+
+    if (!$user) {
+      throw new AccessDeniedHttpException('Unable to load user from provided JWT.');
+    }
+
+    return $user;
+  }
 
 	/**
 	 * @param Request $request
@@ -37,8 +74,6 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
 		} else {
 			$return = false;
 		}
-
-		dump($return);
 
 		return $return;
 	}
