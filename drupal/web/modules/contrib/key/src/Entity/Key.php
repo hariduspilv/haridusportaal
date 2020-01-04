@@ -260,8 +260,6 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
     $key_id = $this->id();
     $key_values = &drupal_static(__FUNCTION__);
 
-    $this->getKeyValues();
-
     // If the key value has not already been retrieved during this page
     // request or if the static variable storage needs to be reset for
     // this key, retrieve the value using the key provider.
@@ -285,8 +283,6 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
     else {
       $values = (array) $value;
     }
-
-    dump($values);
 
     return $values;
   }
