@@ -51,7 +51,7 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
   ) {
     $this->transcoder = $transcoder;
     $this->eventDispatcher = $event_dispatcher;
-    $this->config = \Drupal::config('jwt');
+    $this->config = \Drupal::config('jwt.config');
   }
 
 	/**
@@ -68,12 +68,11 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
    * {@inheritdoc}
    */
   public function authenticate(Request $request) {
-    dump($this->config);
     $raw_jwt = $this->getJwtFromRequest($request);
 
     // Decode JWT and validate signature.
     try {
-      $this->transcoder->setSecret('test');
+      //$this->transcoder->setSecret('test');
       $jwt = $this->transcoder->decode($raw_jwt);
     }
     catch (JwtDecodeException $e) {
