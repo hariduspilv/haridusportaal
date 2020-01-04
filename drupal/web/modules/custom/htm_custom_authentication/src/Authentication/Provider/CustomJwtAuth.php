@@ -8,6 +8,8 @@ use Drupal\jwt\Authentication\Event\JwtAuthValidEvent;
 use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Drupal\Core\Authentication\AuthenticationProviderInterface;
 use Drupal\jwt\Transcoder\JwtDecodeException;
+use Drupal\jwt\Transcoder\JwtTranscoderInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
@@ -15,6 +17,42 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * JWT Authentication Provider.
  */
 class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
+
+  /**
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected $config;
+
+  /**
+   * The JWT Transcoder service.
+   *
+   * @var \Drupal\jwt\Transcoder\JwtTranscoderInterface
+   */
+  protected $transcoder;
+
+  /**
+   * The event dispatcher.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $eventDispatcher;
+
+  /**
+   * Constructs a HTTP basic authentication provider object.
+   *
+   * @param \Drupal\jwt\Transcoder\JwtTranscoderInterface $transcoder
+   *   The jwt transcoder service.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+   *   The event dispatcher service.
+   */
+  public function __construct(
+    JwtTranscoderInterface $transcoder,
+    EventDispatcherInterface $event_dispatcher
+  ) {
+    $this->transcoder = $transcoder;
+    $this->eventDispatcher = $event_dispatcher;
+    $this->config = \Drupal::config('jwt');
+  }
 
 	/**
 	 * @param Request $request
@@ -30,6 +68,7 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
    * {@inheritdoc}
    */
   public function authenticate(Request $request) {
+    dump($this->config);
     $raw_jwt = $this->getJwtFromRequest($request);
 
     // Decode JWT and validate signature.
