@@ -102,6 +102,7 @@ class JwtTranscoder implements JwtTranscoderInterface {
     $key_id = $configFactory->get('jwt.config')->get('key_id');
     $this->setAlgorithm($configFactory->get('jwt.config')->get('algorithm'));
 
+    dump($key_id);
     if (isset($key_id)) {
       $key = $key_repo->getKey($key_id);
       if (!is_null($key)) {
@@ -170,7 +171,6 @@ class JwtTranscoder implements JwtTranscoderInterface {
    */
   public function decode($jwt) {
     $key = $this->getKey('decode');
-    dump($key);
     $algorithms = [$this->algorithm];
     try {
       $token = $this->transcoder->decode($jwt, $key, $algorithms);
@@ -205,7 +205,6 @@ class JwtTranscoder implements JwtTranscoderInterface {
    */
   protected function getKey($operation) {
     if ($this->algorithmType == 'jwt_hs') {
-      dump($this->secret);
       return $this->secret;
     }
     elseif ($this->algorithmType == 'jwt_rs') {
