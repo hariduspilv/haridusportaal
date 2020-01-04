@@ -170,6 +170,7 @@ class JwtTranscoder implements JwtTranscoderInterface {
    */
   public function decode($jwt) {
     $key = $this->getKey('decode');
+    dump($key);
     $algorithms = [$this->algorithm];
     try {
       $token = $this->transcoder->decode($jwt, $key, $algorithms);
