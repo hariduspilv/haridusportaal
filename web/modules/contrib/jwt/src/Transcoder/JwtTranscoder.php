@@ -112,8 +112,7 @@ class JwtTranscoder implements JwtTranscoderInterface {
         }
         if ($this->algorithmType == 'jwt_hs') {
           // Symmetric algorithm so we set the secret.
-          dump($key_value);
-          $this->setSecret($key_value);
+          $this->setSecret('test');
         }
         elseif ($this->algorithmType == 'jwt_rs') {
           // Asymmetric algorithm so we set the private key.
