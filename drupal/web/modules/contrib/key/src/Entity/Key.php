@@ -267,6 +267,8 @@ class Key extends ConfigEntityBase implements KeyInterface, EntityWithPluginColl
       $key_values[$key_id] = $this->getKeyProvider()->getKeyValue($this);
     }
 
+    dump($key_values[$key_id]);
+
     return $key_values[$key_id];
   }
 
