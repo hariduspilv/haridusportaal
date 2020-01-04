@@ -19,11 +19,6 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
 
   /**
-   * @var \Drupal\Core\Config\ImmutableConfig
-   */
-  protected $config;
-
-  /**
    * The JWT Transcoder service.
    *
    * @var \Drupal\jwt\Transcoder\JwtTranscoderInterface
@@ -51,7 +46,6 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
   ) {
     $this->transcoder = $transcoder;
     $this->eventDispatcher = $event_dispatcher;
-    $this->config = \Drupal::config('jwt.config');
   }
 
 	/**

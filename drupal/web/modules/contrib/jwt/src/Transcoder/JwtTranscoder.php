@@ -110,8 +110,8 @@ class JwtTranscoder implements JwtTranscoderInterface {
         } else {
           $key_value = $key->getKeyValue();
         }
-        dump($key_value);
         if ($this->algorithmType == 'jwt_hs') {
+          dump($key_value);
           // Symmetric algorithm so we set the secret.
           $this->setSecret($key_value);
         }
