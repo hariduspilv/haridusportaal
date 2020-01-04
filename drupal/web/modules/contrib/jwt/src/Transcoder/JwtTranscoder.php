@@ -205,6 +205,7 @@ class JwtTranscoder implements JwtTranscoderInterface {
    */
   protected function getKey($operation) {
     if ($this->algorithmType == 'jwt_hs') {
+      dump($this->secret);
       return $this->secret;
     }
     elseif ($this->algorithmType == 'jwt_rs') {
