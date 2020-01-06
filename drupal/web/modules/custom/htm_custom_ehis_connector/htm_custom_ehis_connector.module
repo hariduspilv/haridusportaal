@@ -6,12 +6,10 @@
  */
 
 /**
- * Alter the resource plugin definitions.
- *
- * @param array $definitions
- *   The collection of resource definitions.
+ * Implements hook_rest_resource_alter().
  */
-function hook_rest_resource_alter(&$definitions) {
+function htm_custom_ehis_connector_rest_resource_alter(&$definitions)
+{
   dump($definitions);
   if (isset($definitions['entity:node'])) {
     // We want to handle REST requests regarding nodes with our own plugin
