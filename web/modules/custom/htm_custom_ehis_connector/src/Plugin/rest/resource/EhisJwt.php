@@ -101,6 +101,8 @@ class EhisJwt extends ResourceBase {
         RequestOptions::JSON => ['jwt' => $data['jwt']]
       ]);
 
+      dump($response);
+
 /*      $params['headers'] = [
         'Content-Type' => 'application/json'
       ];
