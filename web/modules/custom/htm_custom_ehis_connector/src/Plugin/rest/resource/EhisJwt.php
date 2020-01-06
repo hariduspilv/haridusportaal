@@ -9,6 +9,7 @@ use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
+use GuzzleHttp\RequestOptions;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -97,7 +98,7 @@ class EhisJwt extends ResourceBase {
       $client = new Client();
 
       $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', [
-        GuzzleHttp\RequestOptions::JSON => ['jwt' => $data['jwt']]
+        RequestOptions::JSON => ['jwt' => $data['jwt']]
       ]);
 
 /*      $params['headers'] = [
