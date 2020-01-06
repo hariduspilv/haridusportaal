@@ -41,16 +41,32 @@ export class AuthService implements CanActivate {
       .pipe(map((response:any) => {
         if (response['token']) {
           sessionStorage.setItem('token', response['token']);
+          if (this.settings.url === 'https://htm.wiseman.ee') {
+            this.testNewJWT(response['token']);
+          }
           this.isAuthenticated.next(true);
           this.userData = this.decodeToken(response.token);
           const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
           this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
         } else {
           sessionStorage.removeItem('token');
+          sessionStorage.removeItem('ehisToken');
           sessionStorage.removeItem('redirectUrl');
         }
         return response;
       }));
+  }
+
+  public testNewJWT(token) {
+    const data = {
+      jwt: token,
+    };
+    this.http
+    .post(`${this.settings.url}/ehis/jwt`, data).subscribe((response: any) => {
+      if (response.jwt) {
+        sessionStorage.setItem('ehisToken', response.jwt);
+      }
+    });
   }
 
   public logout() {

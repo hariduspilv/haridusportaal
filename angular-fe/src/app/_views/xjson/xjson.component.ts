@@ -721,7 +721,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       this.promptEditConfirmation();
     } else {
       this.formLoading = true;
-      if (activity !== 'SAVE') {
+      const activities = this.data.header.acceptable_activity;
+
+      console.log(activity);
+      if ((activity === 'SAVE' && activities.includes('SAVE') && !activities.includes('SUBMIT')) || (activity !== 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT'))) {
         this.validateForm(this.data_elements);
       }
 

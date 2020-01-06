@@ -1,13 +1,14 @@
 import { Injectable, ɵConsole } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { AuthService } from '@app/_services';
+import { AuthService, SettingsService } from '@app/_services';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor{
 
   constructor(
     private authService: AuthService,
+    private settings: SettingsService,
   ) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -18,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor{
 
   private addAuthToken(req: HttpRequest<any>): HttpRequest<any> {
     let request = req.clone();
-    if (this.authService.isLoggedIn()) {
+    if (this.authService.isLoggedIn() && !request.url.match(`${this.settings.url}/ehis/jwt`)) {
       const token: string = sessionStorage.getItem('token');
       request = request.clone({
         headers: request.headers
