@@ -94,7 +94,10 @@ class EhisJwt extends ResourceBase {
 
     if(isset($data['jwt'])) {
       $client = \Drupal::httpClient();
-      $params['json'] = [
+      $params['headers'] = [
+        'Content-Type' => 'application/json'
+      ];
+      $params['form_data'] = [
         'jwt' => preg_replace ('/\\\\x([0-9a-fA-F]{2})/e', "pack('H*',utf8_decode('\\1'))",$data['jwt'])
       ];
       try {
