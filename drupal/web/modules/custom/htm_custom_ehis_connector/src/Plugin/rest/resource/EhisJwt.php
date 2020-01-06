@@ -100,6 +100,7 @@ class EhisJwt extends ResourceBase {
       $params['form_data'] = [
         'jwt' => preg_replace ('/\\\\x([0-9a-fA-F]{2})/e', "pack('H*',utf8_decode('\\1'))",$data['jwt'])
       ];
+      dump($params);
       try {
         $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', $params);
       } catch(ServerException $e) {
