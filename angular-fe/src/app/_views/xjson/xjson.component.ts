@@ -1,3 +1,5 @@
+// tslint:disable: variable-name
+// tslint:disable: max-line-length
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
@@ -7,8 +9,11 @@ const moment = _moment;
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import {
-  SettingsService, ModalService, AlertsService,
-  UploadService, AuthService
+  SettingsService,
+  ModalService,
+  AlertsService,
+  UploadService,
+  AuthService,
 } from '@app/_services';
 import { TableService } from '@app/_services/tableService';
 
@@ -140,13 +145,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const _opened_step = this.opened_step;
     const _scrollableTables = this.scrollableTables;
     if (_opened_step) {
-      setTimeout(function () {
-        const table = document.getElementById(label + 'Table');
-        if (table) {
-          const content = document.getElementById(label + 'Content');
-          _scrollableTables[label] = table.offsetWidth < content.offsetWidth ? true : false;
-        }
-      }, 0);
+      setTimeout(
+        () => {
+          const table = document.getElementById(`${label}Table`);
+          if (table) {
+            const content = document.getElementById(`${label}Content`);
+            _scrollableTables[label] = table.offsetWidth < content.offsetWidth ? true : false;
+          }
+        },
+        0);
     }
   }
 
@@ -156,7 +163,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     Object.values(columns).forEach((elem) => {
       if (!elem['hidden']) {
-        visibleColumns++;
+        visibleColumns = visibleColumns + 1;
       }
     });
 
@@ -233,7 +240,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (!list) {
       return '*/*';
     }
-    return list.map(extentsion => '.' + extentsion).join(',');
+    return list.map(extentsion => `.${extentsion}`).join(',');
 
   }
 
@@ -241,7 +248,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (!list) {
       return this.translate.get('button.all') || '';
     }
-    return list.map(extentsion => ' ' + extentsion).join();
+    return list.map(extentsion => ` ${extentsion}`).join();
 
   }
 
@@ -326,27 +333,29 @@ export class XjsonComponent implements OnInit, OnDestroy {
         data_element: element,
       };
 
-      const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe((response) => {
-        this.fileLoading[element] = true;
+      const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe(
+        (response) => {
+          this.fileLoading[element] = true;
 
-        const new_file = {
-          file_name: file.name,
-          file_identifier: response['id'],
-        };
-        model.value.push(new_file);
-        files.shift();
-        if (files.length > 0) {
-          this.uploadFile(files, element);
-        } else {
+          const new_file = {
+            file_name: file.name,
+            file_identifier: response['id'],
+          };
+          model.value.push(new_file);
+          files.shift();
+          if (files.length > 0) {
+            this.uploadFile(files, element);
+          } else {
+            this.fileLoading[element] = false;
+          }
+          subscription.unsubscribe();
+        },
+        (err) => {
+          const message = err.error ? err.error.message : err.message;
+          this.error[element] = { message, valid: false };
           this.fileLoading[element] = false;
-        }
-        subscription.unsubscribe();
-      }, (err) => {
-        const message = err.error ? err.error.message : err.message;
-        this.error[element] = { valid: false, message };
-        this.fileLoading[element] = false;
-        subscription.unsubscribe();
-      });
+          subscription.unsubscribe();
+        });
     };
   }
 
@@ -383,27 +392,29 @@ export class XjsonComponent implements OnInit, OnDestroy {
         table_element: this.fileUploadCol,
       };
 
-      const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe((response) => {
-        this.fileLoading[this.fileUploadElement] = true;
+      const subscription = this.uploadService.fileUpload(url, payload, file.name).subscribe(
+        (response) => {
+          this.fileLoading[this.fileUploadElement] = true;
 
-        const new_file = {
-          file_name: file.name,
-          file_identifier: response['id'],
-        };
-        this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol].push(new_file);
-        files.shift();
-        if (files.length > 0) {
-          this.uploadTableFile(files);
-        } else {
+          const new_file = {
+            file_name: file.name,
+            file_identifier: response['id'],
+          };
+          this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol].push(new_file);
+          files.shift();
+          if (files.length > 0) {
+            this.uploadTableFile(files);
+          } else {
+            this.fileLoading[this.fileUploadElement] = false;
+          }
+          subscription.unsubscribe();
+        },
+        (err) => {
+          const message = err.error ? err.error.message : err.message;
+          this.error[this.fileUploadElement] = { message, valid: false };
           this.fileLoading[this.fileUploadElement] = false;
-        }
-        subscription.unsubscribe();
-      }, (err) => {
-        const message = err.error ? err.error.message : err.message;
-        this.error[this.fileUploadElement] = { valid: false, message };
-        this.fileLoading[this.fileUploadElement] = false;
-        subscription.unsubscribe();
-      });
+          subscription.unsubscribe();
+        });
     };
   }
 
@@ -472,11 +483,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
           for (const row in this.temporaryModel[element][column]) {
             this.temporaryModel[element][column][rowNr] = this.temporaryModel[element][column][row];
             this.autoCompleteContainer[element][column][rowNr] = this.autoCompleteContainer[element][column][row];
-            if (parseInt(row) !== rowNr) {
+            if (parseInt(row, 10) !== rowNr) {
               delete this.temporaryModel[element][column][row];
               delete this.autoCompleteContainer[element][column][row];
             }
-            rowNr++;
+            rowNr = rowNr + 1;
           }
         }
       }
@@ -563,11 +574,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (typeof field.value !== 'undefined' && field.value !== null) {
       // check for minlength
       if (field.minlength !== undefined && field.value !== '') {
-        if (field.value.length < field.minlength) { return { valid: false, message: this.translate.get('xjson.value_min_length_is') + ' ' + field.minlength }; }
+        if (field.value.length < field.minlength) { return { valid: false, message: `${this.translate.get('xjson.value_min_length_is')} ${field.minlength}` }; }
       }
       // check for maxlength
       if (field.maxlength !== undefined && field.value !== '') {
-        if (field.value.length > field.maxlength) { return { valid: false, message: this.translate.get('xjson.value_max_length_is') + ' ' + field.maxlength }; }
+        if (field.value.length > field.maxlength) { return { valid: false, message: `${this.translate.get('xjson.value_min_length_is')} ${field.maxlength}` }; }
       }
       // check for min
       if (field.min !== undefined) {
@@ -575,10 +586,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
           const valDate = moment(field.value, XJSON_DATEPICKER_FORMAT.parse.dateInput);
           const minDate = field.min === 'today' ? moment() : moment(field.min, XJSON_DATEPICKER_FORMAT.parse.dateInput);
           if (valDate < minDate) {
-            return { valid: false, message: this.translate.get('xjson.min_value_is') + ' ' + moment(minDate).format('DD.MM.YYYY') };
+            return { valid: false, message: `${this.translate.get('xjson.min_value_is')} ${moment(minDate).format('DD.MM.YYYY')}` };
           }
         } else if (field.value < field.min) {
-          return { valid: false, message: this.translate.get('xjson.min_value_is') + ' ' + field.min };
+          return { valid: false, message: `${this.translate.get('xjson.min_value_is')} ${field.min}` };
         }
       }
       // check for max
@@ -587,10 +598,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
           const valDate = moment(field.value, XJSON_DATEPICKER_FORMAT.parse.dateInput);
           const maxDate = field.max === 'today' ? moment() : moment(field.max, XJSON_DATEPICKER_FORMAT.parse.dateInput);
           if (valDate > maxDate) {
-            return { valid: false, message: this.translate.get('xjson.max_value_is') + ' ' + moment(maxDate).format('DD.MM.YYYY') };
+            return { valid: false, message: `${this.translate.get('xjson.max_value_is')} ${moment(maxDate).format('DD.MM.YYYY')}` };
           }
         } else if (field.value > field.max) {
-          return { valid: false, message: this.translate.get('xjson.max_value_is') + ' ' + field.max };
+          return { valid: false, message: `${this.translate.get('xjson.max_value_is')} ${field.max}` };
         }
       }
       // check for email format
@@ -694,7 +705,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           if (this.data_elements[field].table_columns[column].type === 'number') {
             this.data_elements[field].value.forEach((element, index) => {
               if (typeof this.data_elements[field].value[index][column] === 'string') {
-                this.data_elements[field].value[index][column] = parseInt(this.data_elements[field].value[index][column].replace(/\s/g, ''));
+                this.data_elements[field].value[index][column] = parseInt(this.data_elements[field].value[index][column].replace(/\s/g, ''), 10);
               }
             });
           }
@@ -708,7 +719,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
 
         if (this.data_elements[field].type === 'number' && typeof this.data_elements[field].value === 'string') {
-          this.data_elements[field].value = parseInt(this.data_elements[field].value.replace(/\s/g, ''));
+          this.data_elements[field].value = parseInt(this.data_elements[field].value.replace(/\s/g, ''), 10);
         }
       }
     }
@@ -784,12 +795,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (displayEditButton) { output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' }); }
       }
     } else {
-      activities.forEach(activity => {
+      activities.forEach((activity) => {
         if (editableActivities.includes(activity)) {
           if (activity === 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT')) {
             output['primary'].push({ label: 'button.save_draft', action: activity, style: 'primary' });
           } else {
-            output['primary'].push({ label: 'button.' + activity.toLowerCase(), action: activity, style: 'primary' });
+            output['primary'].push({ label: `button.${activity.toLowerCase()}`, action: activity, style: 'primary' });
           }
         }
       });
@@ -814,7 +825,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       (strings: ActivatedRoute) => {
         for (const key in strings) {
           if (strings.hasOwnProperty(key)) {
-            params.push(key + '=' + strings[key]);
+            params.push(`${key}=${strings[key]}`);
           }
         }
       },
@@ -838,7 +849,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   getUpperInfoText() {
-    const infoTextTranslationKey = 'xjson.' + this.form_name + '_infotext';
+    const infoTextTranslationKey = `xjson.${this.form_name}_infotext`;
     const infoTextTranslation = this.translate.get(infoTextTranslationKey);
     this.upperInfoText = infoTextTranslation.replace(/[?]/g, '') === infoTextTranslationKey ? false : infoTextTranslation;
   }
@@ -908,8 +919,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
     });
   }
 
-  getData(data) {
+  getData(inputData) {
 
+    let data = { ...inputData };
     if (this.test) {
       data.test = true; // TEST
     }
@@ -939,7 +951,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           }
           this.current_acceptable_activity = response['header']['acceptable_activity'];
 
-          const acceptableActivityIncludesTarget = this.current_acceptable_activity.some(key => {
+          const acceptableActivityIncludesTarget = this.current_acceptable_activity.some((key) => {
             return ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key);
           });
 

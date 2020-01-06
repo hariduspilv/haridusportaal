@@ -10,6 +10,22 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
 RewriteRule ^amp/(.*)$ amp-php/index.php?url=$1 [L]
 
+<FilesMatch "\.(html)$">
+    <IfModule mod_expires.c>
+        ExpiresActive Off
+    </IfModule>
+    <IfModule mod_headers.c>
+        FileETag None
+        Header unset ETag
+        Header unset Pragma
+        Header unset Cache-Control
+        Header unset Last-Modified
+        Header set Pragma "no-cache"
+        Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+        Header set Expires "Thu, 1 Jan 1970 00:00:00 GMT"
+    </IfModule>
+</FilesMatch>
+
 <IfModule mod_headers.c>
 	Header set X-XSS-Protection "1; mode=block"
 	Header always append X-Frame-Options SAMEORIGIN

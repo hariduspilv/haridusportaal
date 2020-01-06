@@ -46,7 +46,6 @@ export class AutocompleteComponent implements OnDestroy {
   ) {}
 
   public search(value: string = '', $event: any = false): void {
-    console.log(value);
     if (this.active && ($event.key === 'ArrowUp' || $event.key === 'ArrowDown')) {
       this.navigate($event.key);
     } else if ($event.key === 'Enter') {
@@ -194,7 +193,6 @@ export class AutocompleteComponent implements OnDestroy {
   }
 
   public onClick(value: string = ''): void {
-
     this.onValueSelected.emit(value);
   }
 
