@@ -97,6 +97,7 @@ class EhisJwt extends ResourceBase {
       $params['headers'] = [
         'Content-Type' => 'application/json; charset=utf-8'
       ];
+      dump(mb_detect_encoding($data['jwt']));
       $params['form_data'] = [
         'jwt' => $data['jwt']
       ];
