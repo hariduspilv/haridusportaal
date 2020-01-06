@@ -91,10 +91,15 @@ class EhisJwt extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
 
-    dump($data);
+    if(isset($data['jwt'])) {
+      $client = \Drupal::httpClient();
+      $params['headers'] = [
+        'Content-Type' => 'application/json'
+      ];
+      $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt');
+      $response = json_decode($response->getBody()->getContents(), TRUE);
+    }
 
-    return new ModifiedResourceResponse('', 200);
-
-    //return $response ? new ModifiedResourceResponse($response, 200) : new ModifiedResourceResponse('Name cannot be found', 400);
+    return $response ? new ModifiedResourceResponse($response, 200) : new ModifiedResourceResponse('Forbidden', 403);
   }
 }
