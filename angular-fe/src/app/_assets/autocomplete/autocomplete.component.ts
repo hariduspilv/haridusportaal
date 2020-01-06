@@ -192,6 +192,7 @@ export class AutocompleteComponent implements OnDestroy {
   }
 
   public onClick(value: string = ''): void {
+
     this.onValueSelected.emit(value);
   }
 

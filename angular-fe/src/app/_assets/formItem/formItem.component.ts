@@ -238,8 +238,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
     if (this.type === 'autocomplete' && !this.field.addressHumanReadable &&
       !this.field.ipikkaadress && this.query === 'inaadress') {
-      this.field = this.undefinedAddressValue();
-      this.propagateChange(this.field);
+      if (typeof this.field !== 'string') {
+        this.field = this.undefinedAddressValue();
+        this.propagateChange(this.field);
+      }
     }
 
     this.detectChanges();
