@@ -7,6 +7,7 @@ use Drupal\htm_custom_xjson_services\xJsonService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use GuzzleHttp\Client;
 use GuzzleHttp\Exception\ServerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -93,21 +94,23 @@ class EhisJwt extends ResourceBase {
     }
 
     if(isset($data['jwt'])) {
-      $client = \Drupal::httpClient();
-      $params['headers'] = [
+      $client = new Client();
+
+      $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', [
+        GuzzleHttp\RequestOptions::JSON => ['jwt' => $data['jwt']]
+      ]);
+
+/*      $params['headers'] = [
         'Content-Type' => 'application/json'
       ];
       $params['form_data'] = [
         'jwt' => $data['jwt']
-      ];
-      $test = json_encode($params['form_data']);
-      dump($test);
-      dump(mb_detect_encoding($test));
-      try {
+      ];*/
+/*      try {
         $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', $params);
       } catch(ServerException $e) {
         dump($e);
-      }
+      }*/
       $response = json_decode($response->getBody()->getContents(), TRUE);
     }
 
