@@ -226,7 +226,7 @@
         type="text"
         (change)="update()"
         (focus)="update('focus')"
-        (blur)="update('blur'); autocompleteElem.close();"
+        (blur)="update('blur', autocompleteElem);"
         (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
         (ngModelChange)="field = $event"
         [ngModel]="field | parseInAdds" />

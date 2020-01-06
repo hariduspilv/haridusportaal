@@ -162,7 +162,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       0);
 
   }
-  update(action: string = '') {
+  update(action: string = '', elem = undefined) {
 
     if (action === 'datepicker') {
       if (this.dateField && this.dateField.year) {
@@ -196,16 +196,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         }
       }
 
-      if (action === 'blur') {
-        this.focused = false;
-        if (this.pattern) {
-          const input = this.el.nativeElement.querySelector('input');
-          this.error = input.classList.contains('ng-invalid');
-        }
-        if (this.type === 'select' || this.type === 'multi-select') {
-          this.onChange.emit();
-        }
-      }
       if (this.type === 'checkbox' && !action && this.field !== '') {
         this.onChange.emit(this.field);
       }
@@ -227,6 +217,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         this.filledField = this.field && (this.field.length > 0 || typeof this.field === 'object')
           || (typeof this.field === 'number' && (this.field || this.field === 0));
       }
+
     }
     if (this.type !== 'autocomplete') {
       this.propagateChange(this.field);
@@ -242,6 +233,26 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         this.field = this.undefinedAddressValue();
       }
       this.propagateChange(this.field);
+    }
+
+    if (action === 'blur') {
+      if (elem) {
+        setTimeout(
+          () => {
+            elem.close();
+            this.focused = false;
+          },
+          120);
+      } else {
+        this.focused = false;
+      }
+      if (this.pattern) {
+        const input = this.el.nativeElement.querySelector('input');
+        this.error = input.classList.contains('ng-invalid');
+      }
+      if (this.type === 'select' || this.type === 'multi-select') {
+        this.onChange.emit();
+      }
     }
 
     this.detectChanges();
@@ -277,7 +288,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   autocompleteUpdate(value: any = ''): void {
 
-
     if (this.valueType === 'string') {
       this.field = value;
     } else {
@@ -293,27 +303,30 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           value.seqNo = value.unik;
         }
 
-        this.field = {
-          seqNo: value['unik'],
-          klElukoht: value['tehn_id2'],
-          adr_id: value['adr_id'],
-          ads_oid: value['ads_oid'],
-          adsId: value['adr_id'],
-          adsOid: value['ads_oid'],
-          addressFull: value['pikkaadress'],
-          addressCoded: value['koodaadress'],
-          county: value['maakond'],
-          countyEHAK: value['ehakmk'],
-          localGovernment: value['omavalitsus'],
-          localGovernmentEHAK: value['ehakov'],
-          settlementUnit: value['asustusyksus'],
-          settlementUnitEHAK: value['ehak'],
-          address: value['aadresstekst'],
-          apartment: value['kort_nr'],
-          addressHumanReadable: value['addressHumanReadable'],
-        };
+        if (value['unik'] && value['pikkaadress']) {
+          this.field = {
+            seqNo: value['unik'],
+            klElukoht: value['tehn_id2'],
+            adr_id: value['adr_id'],
+            ads_oid: value['ads_oid'],
+            adsId: value['adr_id'],
+            adsOid: value['ads_oid'],
+            addressFull: value['pikkaadress'],
+            addressCoded: value['koodaadress'],
+            county: value['maakond'],
+            countyEHAK: value['ehakmk'],
+            localGovernment: value['omavalitsus'],
+            localGovernmentEHAK: value['ehakov'],
+            settlementUnit: value['asustusyksus'],
+            settlementUnitEHAK: value['ehak'],
+            address: value['aadresstekst'],
+            apartment: value['kort_nr'],
+            addressHumanReadable: value['addressHumanReadable'],
+          };
+        }
       }
     }
+
     this.autoCompleteChanged.emit(this.field);
     this.propagateChange(this.field);
   }
