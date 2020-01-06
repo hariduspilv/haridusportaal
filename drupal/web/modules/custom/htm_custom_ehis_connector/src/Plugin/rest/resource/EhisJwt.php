@@ -7,6 +7,7 @@ use Drupal\htm_custom_xjson_services\xJsonService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use GuzzleHttp\Exception\ServerException;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -99,8 +100,11 @@ class EhisJwt extends ResourceBase {
       $params['form_params'] = [
         'jwt' => $data['jwt']
       ];
-      $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', $params);
-      dump($response);
+      try {
+        $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', $params);
+      } catch(ServerException $e) {
+        dump($e);
+      }
       $response = json_decode($response->getBody()->getContents(), TRUE);
     }
 
