@@ -427,7 +427,7 @@
                                           </ng-template>
                                           <ng-template #readonlyDisplayAddress>
                                             <span
-                                              [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].address }}</span>
+                                              [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].address || row[col].pikkaadress }}</span>
                                           </ng-template>
 
                                         </td>
