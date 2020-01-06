@@ -165,7 +165,8 @@ export class AutocompleteComponent implements OnDestroy {
   }
 
   private chooseOption(value: any = false): void {
-    if (!this.activeItem) {
+
+    if (this.activeItem || this.activeItem === 0) {
       this.onValueSelected.emit(this.data[this.activeItem]);
     } else {
       this.onValueSelected.emit(value);

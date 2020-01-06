@@ -277,38 +277,42 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   autocompleteUpdate(value: any = ''): void {
 
+
     if (this.valueType === 'string') {
       this.field = value;
     } else {
 
-      if (!value.addressHumanReadable) {
-        if (value.kort_nr) {
-          value.addressHumanReadable = `${value.pikkaadress}-${value.kort_nr}`;
-        } else {
-          value.addressHumanReadable = value.pikkaadress;
-        }
-        value.seqNo = value.unik;
-      }
+      if (typeof value !== 'string') {
 
-      this.field = {
-        seqNo: value['unik'],
-        klElukoht: value['tehn_id2'],
-        adr_id: value['adr_id'],
-        ads_oid: value['ads_oid'],
-        adsId: value['adr_id'],
-        adsOid: value['ads_oid'],
-        addressFull: value['pikkaadress'],
-        addressCoded: value['koodaadress'],
-        county: value['maakond'],
-        countyEHAK: value['ehakmk'],
-        localGovernment: value['omavalitsus'],
-        localGovernmentEHAK: value['ehakov'],
-        settlementUnit: value['asustusyksus'],
-        settlementUnitEHAK: value['ehak'],
-        address: value['aadresstekst'],
-        apartment: value['kort_nr'],
-        addressHumanReadable: value['addressHumanReadable'],
-      };
+        if (!value.addressHumanReadable) {
+          if (value.kort_nr) {
+            value.addressHumanReadable = `${value.pikkaadress}-${value.kort_nr}`;
+          } else {
+            value.addressHumanReadable = value.pikkaadress;
+          }
+          value.seqNo = value.unik;
+        }
+
+        this.field = {
+          seqNo: value['unik'],
+          klElukoht: value['tehn_id2'],
+          adr_id: value['adr_id'],
+          ads_oid: value['ads_oid'],
+          adsId: value['adr_id'],
+          adsOid: value['ads_oid'],
+          addressFull: value['pikkaadress'],
+          addressCoded: value['koodaadress'],
+          county: value['maakond'],
+          countyEHAK: value['ehakmk'],
+          localGovernment: value['omavalitsus'],
+          localGovernmentEHAK: value['ehakov'],
+          settlementUnit: value['asustusyksus'],
+          settlementUnitEHAK: value['ehak'],
+          address: value['aadresstekst'],
+          apartment: value['kort_nr'],
+          addressHumanReadable: value['addressHumanReadable'],
+        };
+      }
     }
     this.autoCompleteChanged.emit(this.field);
     this.propagateChange(this.field);
