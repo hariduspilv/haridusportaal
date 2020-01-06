@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  * Provides a resource to get EHIS JWT.
  *
  * @RestResource(
- *   id = "esecondary_ehis_service_rest_resource",
+ *   id = "secondary_ehis_service_rest_resource",
  *   label = @Translation("EHIS JWT rest resource"),
  *   uri_paths = {
  *     "https://www.drupal.org/link-relations/create" = "/ehis/jwt"
