@@ -95,7 +95,7 @@ class EhisJwt extends ResourceBase {
     if(isset($data['jwt'])) {
       $client = \Drupal::httpClient();
       $params['json'] = [
-        'jwt' => utf8_decode($data['jwt'])
+        'jwt' => preg_replace ('/\\\\x([0-9a-fA-F]{2})/e', "pack('H*',utf8_decode('\\1'))",$data['jwt'])
       ];
       try {
         $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', $params);
