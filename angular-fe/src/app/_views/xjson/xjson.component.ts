@@ -1,5 +1,6 @@
 // tslint:disable: variable-name
 // tslint:disable: max-line-length
+// tslint:disable: radix
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Location } from '@angular/common';
@@ -483,7 +484,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           for (const row in this.temporaryModel[element][column]) {
             this.temporaryModel[element][column][rowNr] = this.temporaryModel[element][column][row];
             this.autoCompleteContainer[element][column][rowNr] = this.autoCompleteContainer[element][column][row];
-            if (parseInt(row, 10) !== rowNr) {
+            if (parseInt(row) !== rowNr) {
               delete this.temporaryModel[element][column][row];
               delete this.autoCompleteContainer[element][column][row];
             }
@@ -705,7 +706,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           if (this.data_elements[field].table_columns[column].type === 'number') {
             this.data_elements[field].value.forEach((element, index) => {
               if (typeof this.data_elements[field].value[index][column] === 'string') {
-                this.data_elements[field].value[index][column] = parseInt(this.data_elements[field].value[index][column].replace(/\s/g, ''), 10);
+                this.data_elements[field].value[index][column] = parseInt(this.data_elements[field].value[index][column].replace(/\s/g, ''));
               }
             });
           }
@@ -719,7 +720,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
 
         if (this.data_elements[field].type === 'number' && typeof this.data_elements[field].value === 'string') {
-          this.data_elements[field].value = parseInt(this.data_elements[field].value.replace(/\s/g, ''), 10);
+          this.data_elements[field].value = parseInt(this.data_elements[field].value.replace(/\s/g, ''));
         }
       }
     }

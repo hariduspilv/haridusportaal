@@ -19,16 +19,24 @@ export class AuthInterceptor implements HttpInterceptor{
 
   private addAuthToken(req: HttpRequest<any>): HttpRequest<any> {
     let request = req.clone();
+
+    let headers = request.headers;
+
     if (this.authService.isLoggedIn() && !request.url.match(`${this.settings.url}/ehis/jwt`)) {
       const token: string = sessionStorage.getItem('token');
-      request = request.clone({
-        headers: request.headers
-          .set('Authorization', `Bearer ${token}`)
-          .set('Cache-Control', 'no-cache')
-          .set('Pragma', 'no-cache')
-          .set('Expires', '0'),
-      });
+      headers = headers
+        .set('Authorization', `Bearer ${token}`);
     }
+
+    headers = headers
+      .set('Cache-Control', 'no-cache')
+      .set('Pragma', 'no-cache')
+      .set('Expires', '-1');
+
+    request = request.clone({
+      headers,
+    });
+
     return request;
   }
 }
