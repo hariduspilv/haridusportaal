@@ -102,7 +102,7 @@ class EhisJwt extends ResourceBase {
       ];
       $test = json_encode($params['form_data']);
       dump($test);
-      mb_detect_encoding($test);
+      dump(mb_detect_encoding($test));
       try {
         $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', $params);
       } catch(ServerException $e) {
