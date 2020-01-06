@@ -97,9 +97,8 @@ class EhisJwt extends ResourceBase {
       $params['headers'] = [
         'Content-Type' => 'application/json; charset=utf-8'
       ];
-      dump(mb_detect_encoding($data['jwt']));
       $params['form_data'] = [
-        'jwt' => $data['jwt']
+        'jwt' => utf8_decode($data['jwt'])
       ];
       try {
         $response = $client->post('http://users.app.ehis2.dev.tes.ee/v1/haridusportaal/jwt', $params);
