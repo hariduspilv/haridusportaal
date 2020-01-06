@@ -94,10 +94,7 @@ class EhisJwt extends ResourceBase {
 
     if(isset($data['jwt'])) {
       $client = \Drupal::httpClient();
-      $params['headers'] = [
-        'Content-Type' => 'application/json'
-      ];
-      $params['form_params'] = [
+      $params['json'] = [
         'jwt' => $data['jwt']
       ];
       try {
