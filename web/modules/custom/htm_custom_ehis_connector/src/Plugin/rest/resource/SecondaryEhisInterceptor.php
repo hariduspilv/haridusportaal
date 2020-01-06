@@ -23,7 +23,7 @@ use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
  *   id = "secondary_ehis_service_rest_resource",
  *   label = @Translation("Secondary EHIS service rest resource"),
  *   uri_paths = {
- *     "canonical" = "/ehis/{service_name}"
+ *     "canonical" = "/ehis/{service_name}/{v1}/{v2}/{v3}/{v4}/{v5}/{v6}/{v7}/{v8}/{v9}"
  *   }
  * )
  */
