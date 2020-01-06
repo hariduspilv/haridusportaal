@@ -240,8 +240,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       !this.field.ipikkaadress && this.query === 'inaadress') {
       if (typeof this.field !== 'string') {
         this.field = this.undefinedAddressValue();
-        this.propagateChange(this.field);
       }
+      this.propagateChange(this.field);
     }
 
     this.detectChanges();
