@@ -277,7 +277,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   autocompleteUpdate(value: any = ''): void {
 
-
     if (this.valueType === 'string') {
       this.field = value;
     } else {
@@ -293,25 +292,27 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           value.seqNo = value.unik;
         }
 
-        this.field = {
-          seqNo: value['unik'],
-          klElukoht: value['tehn_id2'],
-          adr_id: value['adr_id'],
-          ads_oid: value['ads_oid'],
-          adsId: value['adr_id'],
-          adsOid: value['ads_oid'],
-          addressFull: value['pikkaadress'],
-          addressCoded: value['koodaadress'],
-          county: value['maakond'],
-          countyEHAK: value['ehakmk'],
-          localGovernment: value['omavalitsus'],
-          localGovernmentEHAK: value['ehakov'],
-          settlementUnit: value['asustusyksus'],
-          settlementUnitEHAK: value['ehak'],
-          address: value['aadresstekst'],
-          apartment: value['kort_nr'],
-          addressHumanReadable: value['addressHumanReadable'],
-        };
+        if (value['unik'] && value['pikkaadress']) {
+          this.field = {
+            seqNo: value['unik'],
+            klElukoht: value['tehn_id2'],
+            adr_id: value['adr_id'],
+            ads_oid: value['ads_oid'],
+            adsId: value['adr_id'],
+            adsOid: value['ads_oid'],
+            addressFull: value['pikkaadress'],
+            addressCoded: value['koodaadress'],
+            county: value['maakond'],
+            countyEHAK: value['ehakmk'],
+            localGovernment: value['omavalitsus'],
+            localGovernmentEHAK: value['ehakov'],
+            settlementUnit: value['asustusyksus'],
+            settlementUnitEHAK: value['ehak'],
+            address: value['aadresstekst'],
+            apartment: value['kort_nr'],
+            addressHumanReadable: value['addressHumanReadable'],
+          };
+        }
       }
     }
     this.autoCompleteChanged.emit(this.field);
