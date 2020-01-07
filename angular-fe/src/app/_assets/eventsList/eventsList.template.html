@@ -64,7 +64,10 @@
 
     <div class="text-center actions" *ngIf="!listEnd && view !== 'calendar'">
       <loader *ngIf="loadFlag"></loader>
-      <button *ngIf="!loadFlag" htm-button (click)="loadMore()" role="button" tabindex="0">{{ 'button.load_more' | translate }}</button>
+
+      <div class="loadMore">
+        <button *ngIf="!loadFlag" htm-button (click)="loadMore()" role="button" tabindex="0">{{ 'button.load_more' | translate }}</button>
+      </div><!--/loadMore-->
     </div><!--/text-center-->
     <div class="text-center actions__error" *ngIf="eventList != null && objectKeys(eventList).length == 0 && eventList">
       <p role="alert">{{ 'events.no_results' | translate }}</p>

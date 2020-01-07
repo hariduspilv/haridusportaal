@@ -1,5 +1,5 @@
 //tslint:disable
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
@@ -14,6 +14,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 
 export class EventsViewComponent implements OnDestroy, OnInit{
+  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
   public breadcrumbsPath: string = '/sündmused';
   public eventsTypes;
   public eventsTags;
@@ -90,7 +91,11 @@ export class EventsViewComponent implements OnDestroy, OnInit{
     });
     this.subscriptions = [...this.subscriptions, tagSubscription];
   }
-  
+  ngAfterViewInit() {
+    const responsive = this.filterToggle.nativeElement.clientWidth;
+    this.showFilter = responsive ? false : true;
+    this.filterFull = responsive ? true : false;
+  }
   ngOnInit() {
     this.getTags();
     this.getTypes();

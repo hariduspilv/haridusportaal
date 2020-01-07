@@ -52,7 +52,6 @@ html {
   line-height: $lineHeight;
   max-height: $lineHeight * $lineCount; 
   text-align: justify;
-  margin-right: -1rem;
   padding-right: 2rem;
   &:before {
     content: '...';
@@ -70,7 +69,15 @@ html {
     background: $bgColor;
   }
 }
-
+.app-content block{
+  a:visited{
+    color: $visited !important; 
+    h1, h2, h3, h4{
+      color: $visited !important; 
+    }
+  }
+}
+  
 .text-center{text-align:center;}
 .text-right{text-align: right;}
 .pointer{cursor: pointer;}

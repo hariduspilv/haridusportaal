@@ -10,7 +10,7 @@
                         <a [routerLink]="item.url.path ? item.url.path : item.url" class="list__item__title">
                             <h1>{{ item.title }}</h1>
                         </a>
-                        <div href="javascript:void();" class="nonActive--blue"
+                        <div href="javascript:void(0);" class="nonActive--blue"
                             *ngIf="item.admissionStatus && item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">
                             {{'studyProgramme.non_active' | translate}}</div>
                     </div>
@@ -66,7 +66,7 @@
             </div>
             <ng-container *ngIf="type === 'news'">
                 <div class="xs-show col-12 resp-fields">
-                    <a href="javascript:void();" class="mb-0">
+                    <a [routerLink]="item.url.path ? item.url.path : item.url" class="mb-0">
                         <h1 class="title">{{ item.title }}</h1>
                     </a>
                     <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
