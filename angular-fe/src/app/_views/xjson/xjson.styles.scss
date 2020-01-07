@@ -10,10 +10,15 @@
     z-index: 10000 !important;
   }
 
-  ::ng-deep .tooltip {
-    z-index: 999;
+  ::ng-deep {
+    .tooltip {
+      z-index: 999;
+    }
+    .bold-text {
+      font-weight: 500;
+    }
   }
-
+  
   .xjson-wrapper {
     padding: 0.5rem 0;
     @include break-on(sm, max) {

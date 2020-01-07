@@ -329,7 +329,7 @@
                                       [class]="error[element] && error[element].rows.includes(rowIndex) ? 'invalid-row' : 'valid-row'">
                                       <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
-                                        <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')">
+                                        <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')" class="bold-text">
                                           <ng-container
                                             *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
                                             <formItem
