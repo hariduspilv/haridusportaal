@@ -1,12 +1,12 @@
-@import "typography.scss";
+@import 'typography.scss';
 
 $arrowsWidth: 50px;
 
 ::ng-deep {
-  scrollableContent {
+	scrollableContent {
     // display: block;
-    // table[htm-table] {
-    // width: auto;
+		// table[htm-table] {
+			// width: auto;
     // }
     table[htm-table] {
       width: 100%;
@@ -18,22 +18,19 @@ $arrowsWidth: 50px;
         overflow-x: hidden;
         position: relative;
       }
-
+    
       &__scroller {
         overflow-x: auto;
       }
-
+    
       &__inline {
         display: block;
         //min-width: 100%;
       }
     }
-
+    
     .arrow {
       position: absolute;
-      display: flex;
-      justify-content: center;
-      flex-direction: column;
       z-index: 1;
       width: $arrowsWidth;
       bottom: 0;
@@ -41,49 +38,52 @@ $arrowsWidth: 50px;
       top: 0;
       cursor: pointer;
       color: $blue;
-      transform: translateX(0);
-      transition: transform 0.25s, opacity 0.25s;
+      transform:translateX(0);
+      transition:transform 0.25s, opacity 0.25s;
       &--left {
         left: 0;
-        opacity: 1;
-        &.scrolling {
-          icon {
-            margin-left: -5px;
+        opacity:1;
+        &.scrolling{
+          icon{
+            margin-left:-5px;
           }
         }
-        &.disabled {
-          transform: translateX(-10px);
+        &.disabled{
+          transform:translateX(-10px);
         }
       }
-
+    
       &--right {
         right: 0;
-        opacity: 1;
-        &.scrolling {
-          icon {
-            margin-left: 5px;
+        opacity:1;
+        &.scrolling{
+          icon{
+            margin-left:5px;
           }
         }
-        &.disabled {
-          transform: translateX(10px);
+        &.disabled{
+          transform:translateX(10px);
         }
       }
 
-      &.disabled {
-        opacity: 0;
+      &.disabled{
+        opacity:0;
         pointer-events: none;
       }
 
-      icon {
-        width: 100%;
+      icon{
+        position: absolute;
+        top:0;
+        left:0;
+        width:100%;
         text-align: center;
-        line-height: 40px;
-        margin-top: -20px;
+        line-height:40px;
+        margin-top:-20px;
         transition: transform 0.25s, margin 0.25s;
-        .icon {
-          font-size: 40px;
+        .icon{
+          font-size:40px;
         }
       }
     }
-  }
+	}
 }
