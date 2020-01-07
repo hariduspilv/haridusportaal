@@ -81,10 +81,6 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
       this.selectedIscedfDetailed = params['iscedf_detailed'].split(';');
     }
 
-    if (params['sortField'] && params['sortDirection']) {
-      this.sort = `${params['sortField']}_${params.sortDirection.toLowerCase()}`;
-    }
-
     Object.keys(params).forEach((item) => {
       if(
         item === 'title' ||
@@ -206,15 +202,12 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   }
 
   setSortDirection() {
-
-    if (this.sort === 'title') {
-      this.sortDirection = '';
-      this.sortField = '';
-    } else if (this.sort) {
+    if (this.sort) {
       const directionHelper = this.sort.split('_');
       this.sortDirection = (directionHelper.pop()).toUpperCase();
       this.sortField = directionHelper.join('_');
     }
+    console.log(this.sort, this.sortDirection, this.sortField);
   }
 
   getSortOptions() {

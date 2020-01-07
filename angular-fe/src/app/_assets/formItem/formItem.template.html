@@ -104,7 +104,12 @@
           multiple
           [attr.disabled]="disabled"
           [(ngModel)]="field">
-          <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
+          <ng-container *ngIf="sortOptions">
+            <option *ngFor="let item of options | orderBy: 'key'" [value]="item.value">{{ item.key }}</option>
+          </ng-container>
+          <ng-container *ngIf="!sortOptions">
+            <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
+          </ng-container>
         </select>
         <button class="formItem__icon" type="button">
           <icon glyph="chevron-down"></icon>
@@ -112,7 +117,7 @@
       </ng-container>
       <ng-container *ngIf="!isMobile">
         <ng-select
-          [items]="options"
+          [items]="sortOptions ? (options | orderBy:'key') : options"
           [multiple]="true"
           bindLabel="key"
           [closeOnSelect]="false"

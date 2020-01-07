@@ -60,7 +60,7 @@ export class TeachingsComponent implements OnInit {
               const currentLang = 'et';
               this.alertsService
                 .info(
-                  response.error.message_text[currentLang],
+                  this.translate.get(response.error.message_text[currentLang]),
                   'teachings',
                   'teachings',
                   false,

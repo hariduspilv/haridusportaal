@@ -30,6 +30,16 @@
       text-align: right;
     }
   }
+
+  @include break-on(sm, max) {
+    ::ng-deep{
+      .block__title__tabs {
+        display: none;
+      }
+    }
+  }
+
+
   .htm-icon { position: relative; }
   .w-100{width: 100%;}
   .events {padding-bottom: $xxl;background: $white;border-top: $gutter solid $light-blue;
@@ -38,9 +48,6 @@
       @include break-on(sm, min) {margin-top:-$medium;}
     }
   
-  a:visited, a:visited h1 { color: $visited; }
-  a h1, a { text-decoration: none; }
-  a h1:hover { text-decoration: underline; }
   
     & > *:nth-child(2) {margin-top: 0;}
     &__block {
@@ -61,7 +68,8 @@
         }
       }
     }
-    &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;}
+    &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;
+    }
     &__month {padding: 3rem $medium 0 $medium; 
       &:first-child{
         padding-top:$small;
@@ -91,10 +99,14 @@
       }
       &__content {margin: 0 $medium $small 7.5rem;border-radius: 1.625rem;padding: $gutter $small;
         background-color: $aqua;font-size: .875rem;line-height: 1.125rem;color: $blue;
+        a:visited, a:visited h1 { color: $visited; }
+        a h1, a { text-decoration: none;}
+        a h1:hover { text-decoration: underline; }
         h1 {font-weight: 500;
           @include break-on(sm, min) {font-size: 1.5rem; color: $blue; padding-bottom: $gutter;line-height:1.33;}
           @include break-on(sm, max) {font-size: 0.875rem;}
         }
+
         @include break-on(sm, min) {color: $dark-gray;background-color: $white;border-radius: 0;
           border-bottom: .0625rem solid $gray;padding: $gutter $small $medium 0;margin: 0 0 $small 9.25rem;
           .info {
@@ -108,6 +120,11 @@
       }
     }
     .actions {padding-top: $medium; margin-bottom: -1.5rem;
+      .loadMore {
+        margin: 0 -1.6rem -1.6rem -1.6rem;
+        padding: 1.6rem 0;
+        background: $light-gray;
+      }
       button {margin: 0 $medium; width: stretch;}
       @include break-on(sm, min) {padding-bottom: 0;
         button { margin: 0 $medium; width: auto;}

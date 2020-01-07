@@ -20,15 +20,17 @@ export class LabelsComponent {
     return this.type;
   }
   ngOnChanges() {
-    this.data = this.data.map((item) => {
-      if (item['entity']) {
-        return item['entity'];
+    if (this.data) {
+      this.data = this.data.map((item) => {
+        if (item['entity']) {
+          return item['entity'];
+        }
+        return item;
+      });
+      if (!this.type) {
+        this.childStyles.border = `.0675rem solid ${this.border}`;
+        this.childStyles.background = this.background;
       }
-      return item;
-    });
-    if (!this.type) {
-      this.childStyles.border = `.0675rem solid ${this.border}`;
-      this.childStyles.background = this.background;
     }
   }
 }
