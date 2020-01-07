@@ -437,17 +437,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           error: false,
           formControl: this.formBuilder.control(''),
         },
-        {
-          col: 12,
-          type: 'autocomplete',
-          query: 'inaadress',
-          title: 'dashboard.address',
-          modelCategory: false,
-          modelName: 'address',
-          required: true,
-          error: false,
-          formControl: this.formBuilder.control('', Validators.required),
-        },
       ];
     }
 
@@ -533,7 +522,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     } else {
       const body = {
         edId: this.editableId,
-        address: this.formGroup.value.address,
         contacts: {
           contactPhone: this.formGroup.value.contactPhone,
           contactEmail: this.formGroup.value.contactEmail,

@@ -306,7 +306,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         if (value['unik'] && value['pikkaadress']) {
           this.field = {
             seqNo: value['unik'],
-            klElukoht: value['tehn_id2'],
+            klElukoht: value['ehak'],
             adr_id: value['adr_id'],
             ads_oid: value['ads_oid'],
             adsId: value['adr_id'],
