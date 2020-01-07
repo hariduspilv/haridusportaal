@@ -1,18 +1,20 @@
 @import "typography.scss";
 @import "breakpoints.scss";
 
-.unpadded {
-  margin-bottom: 2rem;
-}
-
-accordion {
-  margin: 0 !important;
-}
-
-more-block {
-  padding: 0 !important;
-}
-
-.text-center {
-  text-align: center;
+:host {
+  .unpadded {
+    margin-bottom: 2rem;
+  }
+  
+  accordion {
+    margin: 0 !important;
+  }
+  
+  more-block {
+    padding: 0 !important;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
 }
