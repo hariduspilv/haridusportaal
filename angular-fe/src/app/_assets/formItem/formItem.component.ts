@@ -68,7 +68,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() disabled: boolean;
   @Input() valueType: string = 'string';
   @Input() browserAutocomplete: string = '';
-  @Input() sortOptions: boolean = false;
+  @Input() sortOptions: boolean = true;
   @Input() search: boolean = true;
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
@@ -175,6 +175,26 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.filledField = true;
     } else {
 
+      if (action === 'blur') {
+        if (elem) {
+          setTimeout(
+            () => {
+              elem.close();
+              this.focused = false;
+            },
+            120);
+        } else {
+          this.focused = false;
+        }
+        if (this.pattern) {
+          const input = this.el.nativeElement.querySelector('input');
+          this.error = input.classList.contains('ng-invalid');
+        }
+        if (this.type === 'select' || this.type === 'multi-select') {
+          this.onChange.emit();
+        }
+      }
+
       if (this.type === 'date') {
         if (typeof this.dateField === 'string') {
           this.field = this.dateField;
@@ -203,6 +223,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.dirty = true;
 
       if (this.type === 'select' || this.type === 'multi-select') {
+        if (this.type === 'multi-select' && !this.field) {
+          this.field = [];
+        }
         this.filledField = this.field.length > 0;
 
         if (typeof this.field === 'number') {
@@ -233,26 +256,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         this.field = this.undefinedAddressValue();
       }
       this.propagateChange(this.field);
-    }
-
-    if (action === 'blur') {
-      if (elem) {
-        setTimeout(
-          () => {
-            elem.close();
-            this.focused = false;
-          },
-          120);
-      } else {
-        this.focused = false;
-      }
-      if (this.pattern) {
-        const input = this.el.nativeElement.querySelector('input');
-        this.error = input.classList.contains('ng-invalid');
-      }
-      if (this.type === 'select' || this.type === 'multi-select') {
-        this.onChange.emit();
-      }
     }
 
     this.detectChanges();
@@ -334,6 +337,9 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   writeValue(value: string) {
     if (this.type === 'multi-select') {
 
+      if (value) {
+        this.field = value;
+      }
       if (this.field === '' || !this.field) {
         this.field = false;
       }

@@ -38,13 +38,13 @@
 				<div class="row" *ngIf="filterFull">
 
 					<div class="col-4 sm-12">
-						<formItem type="multi-select" [(ngModel)]="selectedPrimaryTypes"
+						<formItem type="multi-select" [(ngModel)]="selectedPrimaryTypes" sortOptions="true"
 							title="{{ 'school.institution_type' | translate }}" name="primaryTypes" [options]="primaryTypes" (onChange)="setSecondaryTypes()">
 						</formItem>
 					</div>
 					<div class="col-5 sm-12" [class.disabled]="secondaryFilteredTypes.length > 0 ? false : true">
-						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"
-							title="{{ (selectedPrimaryTypes && selectedPrimaryTypes.length ? 'school.institution_sublevel' : 'school.institution_select_type') | translate }}" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
+						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"  sortOptions="true"
+							[title]="subPlaceholder" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
 						</formItem>
 					</div>
 
@@ -54,12 +54,12 @@
 						</formItem>
 					</div> -->
 					<div class="col-4 sm-12" [class.disabled]="isLanguageDisabled">
-						<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language" [options]="languageFilters">
+						<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language" [options]="languageFilters"  sortOptions="true">
 						</formItem>
 					</div>
 
 					<div class="col-5 sm-12">
-						<formItem type="multi-select" title="{{ 'school.ownership' | translate }}" name="ownership" [options]="ownershipFilters">
+						<formItem type="multi-select" title="{{ 'school.ownership' | translate }}" name="ownership" [options]="ownershipFilters"  sortOptions="true">
 						</formItem>
 					</div>
 

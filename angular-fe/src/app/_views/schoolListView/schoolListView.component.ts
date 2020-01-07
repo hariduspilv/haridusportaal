@@ -4,6 +4,7 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
   selector: 'schoolList-view',
@@ -33,12 +34,13 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
   combinedTypesOptions = [];
   ownershipFilters = [];
   paramsWatcher: Subscription = new Subscription();
-
+  subPlaceholder: string = '';
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     private route: ActivatedRoute,
+    private translate: TranslateService,
   ) {}
 
   ngOnInit() {
@@ -97,6 +99,7 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
     }
     this.removeHangingTypes();
     this.setTypeValue();
+    this.subtypePlaceholder();
   }
 
   removeHangingTypes() {
@@ -118,6 +121,22 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
       [...this.selectedPrimaryTypes, ...this.selectedSecondaryTypes];
     this.checkLanguageDisable();
     this.cdr.detectChanges();
+  }
+
+  subtypePlaceholder() {
+    let output;
+    if (
+      this.selectedPrimaryTypes &&
+      this.selectedPrimaryTypes.length > 0 &&
+      this.secondaryFilteredTypes.length === 0
+    ) {
+      output = this.translate.get('school.no_subtype');
+    } else if (this.selectedPrimaryTypes.length > 0) {
+      output = this.translate.get('school.institution_sublevel');
+    } else {
+      output = this.translate.get('school.institution_select_type');
+    }
+    this.subPlaceholder = output;
   }
 
   getTags() {

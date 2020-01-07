@@ -66,7 +66,8 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
       if (tmpParams[data.name]) {
         item.setValue(tmpParams[data.name]);
       } else {
-        item.setValue(undefined);
+        const val = item.type === 'multi-select' ? [] : '';
+        item.setValue(val);
       }
     });
   }
