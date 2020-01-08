@@ -292,7 +292,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   autocompleteUpdate(value: any = ''): void {
 
     if (this.valueType === 'string') {
-      this.field = value;
+      this.field = value === '' ? this.field : value;
     } else {
 
       if (typeof value !== 'string') {

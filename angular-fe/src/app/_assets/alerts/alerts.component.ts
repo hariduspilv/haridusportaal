@@ -49,7 +49,8 @@ export class AlertsComponent implements OnDestroy {
   @Input() closeMs: number;
 
   @HostBinding('class') get hostClasses(): string {
-    return 'alerts';
+    const addonClass = this.alerts.length ? 'alerts--active' : '';
+    return `alerts ${addonClass}`;
   }
   public alertIcons = AlertIcon;
   private alertSubscription: Subscription = new Subscription;

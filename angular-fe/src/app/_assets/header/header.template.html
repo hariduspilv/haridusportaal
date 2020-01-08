@@ -36,7 +36,6 @@
 					placeholder="Sisesta märksõna ja vajuta Enter"
 					[(ngModel)]="searchTerm"
 					name="homeSearch"
-					(keyup.enter)="searchRoute()"
 					(autoCompleteChanged)="searchRoute($event)"
 				>
 				</formItem>

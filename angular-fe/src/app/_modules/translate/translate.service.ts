@@ -24,9 +24,9 @@ export class TranslateService {
   get(key:string = '') {
     let value = '';
     if (!this.data) {
-      value = `?${key}?`;
+      value = `${key}`;
     } else {
-      value = this.findObj(this.data, key) || `?${key}?`;
+      value = this.findObj(this.data, key) || `${key}`;
     }
     return value;
   }

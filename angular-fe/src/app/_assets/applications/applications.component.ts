@@ -200,7 +200,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       () => {
         this.alertsService.notify(
           new Alert({
-            message: this.translate.get('error.ehis_connection'),
+            message: 'error.ehis_connection',
             type: AlertType.Error,
             id: 'requestAlert',
             category: 'requestAlert',
