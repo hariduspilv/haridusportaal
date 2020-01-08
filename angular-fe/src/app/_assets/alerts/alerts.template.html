@@ -4,7 +4,7 @@
       <icon glyph="{{alertIcons[alert.type]}}" [size]="small ? 'medium' : 'large'"></icon>
     </div>
     <p>
-      {{ alert.message }}
+      {{ alert.message | translate }}
       <a *ngIf="alert.link" class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
     </p>
     <div class="cookie__buttons" *ngIf="alert.type === 'cookie'">

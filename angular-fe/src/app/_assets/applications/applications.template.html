@@ -164,7 +164,7 @@
 			<alerts small="true" id="general"></alerts>
 		</div>
 		<!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
-		<div *ngIf="data.educationalInstitutions && data.educationalInstitutions.length < 1" class="block-btn--holder">
+		<div *ngIf="data.educationalInstitutions && data.educationalInstitutions.length > 1" class="block-btn--holder">
 			<button class="block-btn" role="button" (click)="loadInstitutionModal()"
 				attr.aria-label="{{'dashboard.add_new_educational_institution' | translate}}">
 				+ {{'dashboard.add_new_educational_institution' | translate}}
@@ -553,7 +553,7 @@
 </ng-container>
 
 <htm-modal id="institutionModal" modalTitle="{{ 'dashboard.adding_educational_institution' | translate }}"
-	[titleExists]="modalTitleExists" [topAction]="modalTopAction" [bottomAction]="modalBottomAction"
+	[titleExists]="modalTitleExists" [topAction]="modalTopAction" [bottomAction]="modalBottomAction" size="medium"
 	[reloadOnClose]="viewReload">
 	<modal-content [loading]="modalLoading">
 		<alerts small="true" id="institution"></alerts>
@@ -585,13 +585,12 @@
 	</modal-content>
 </htm-modal>
 
-<htm-modal id="editInstitutionModal" modalTitle="{{ 'button.edit' | translate }}" [titleExists]="modalTitleExists"
+<htm-modal id="editInstitutionModal" modalTitle="{{ 'button.edit' | translate }}" [titleExists]="modalTitleExists"  size="medium"
 	[topAction]="true" [bottomAction]="false" [reloadOnClose]="viewReload">
 	<modal-content [loading]="modalLoading">
 		<alerts small="true" id="institution"></alerts>
 		<ng-container *ngIf="!modalLoading && !error && formOptions && editableInstitution">
 			<h1>{{ 'xjson.edit' | translate }}</h1>
-			<p>{{ 'xjson.required_fields_infotext' | translate }}</p>
 			<div ngForm [formGroup]="formGroup" class="row margin">
 				<ng-container *ngFor="let item of institutionModalFields">
 					<div class="col-{{ item.col }} sm-12">

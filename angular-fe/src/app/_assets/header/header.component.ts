@@ -171,7 +171,7 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  searchRoute(e = '', timeout: boolean = false) {
+  searchRoute(e, timeout: boolean = false) {
     const url = `/otsing?term=${!e ? this.searchTerm : e}`;
     this.searchTerm = '';
     this.cdr.detectChanges();

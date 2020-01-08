@@ -2,14 +2,27 @@
 @import "breakpoints.scss";
 
 :host {
-  ::ng-deep #modal-institutionModal {
-    @include break-on(md, min) {
-      overflow: auto;
+  ::ng-deep{
+    modal-content {
+      .alerts{
+        margin-top: 0 !important;
+        &--active {
+          margin-top: 2rem !important;
+        }
+      }
+      h1 + .row {
+        margin-top: 1rem;
+      }
     }
-
+    #modal-institutionModal {
+      @include break-on(md, min) {
+        overflow: auto;
+      }
+    }
   }
 
-  alerts {
+
+  .alerts {
     margin-top: 2rem;
   }
 
