@@ -592,6 +592,13 @@ public class MtsysWorker extends Worker {
 
         fileType.get("okLiik").forEach(i -> {
           if (fileTypeKlOkLiik.equalsIgnoreCase(i.get("klOkLiik").asText())) {
+            for (int j = 0; j < stepAndmedDataElements.get("dokumendid").get("value").size(); j++) {
+              if (stepAndmedDataElements.get("dokumendid").get("value").get(j).get("klLiik").asInt()
+                  == item.getKlLiik()) {
+                ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).remove(j);
+                break;
+              }
+            }
             ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
                 .put("liik", i.get("required").asBoolean() ?
                     fileType.get("et").asText() + " *" :
@@ -738,6 +745,10 @@ public class MtsysWorker extends Worker {
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
         }
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SUBMIT")) {
+          jsonNode.get("body").get("steps").get("step_andmed").get("messages")
+              .forEach(t -> ((ObjectNode) jsonNode.get("messages")).remove(t.asText()));
+          ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+              .removeAll();
           AtomicBoolean repeatStepAndmed = new AtomicBoolean(false);
           if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("oppeTasemed").get("required").asBoolean()
