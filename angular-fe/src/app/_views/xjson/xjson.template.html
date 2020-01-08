@@ -328,7 +328,7 @@
                                   </tr>
                                   <ng-container *ngFor="let row of data_elements[element].value; let rowIndex = index;">
                                     <tr
-                                      [class]="error[element] && error[element].rows.includes(rowIndex) ? 'invalid-row' : 'valid-row'">
+                                      [class]="error[element] && error[element].rows && error[element].rows.includes(rowIndex) ? 'invalid-row' : 'valid-row'">
                                       <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
                                         <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')"

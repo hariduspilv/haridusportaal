@@ -371,7 +371,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.fileLoading[this.fileUploadElement] = true;
     const file = files[0];
     const file_size = this.byteToMegabyte(file.size);
-    if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.split('.').pop()))) {
+    if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.toLowerCase().split('.').pop()))) {
       this.error[this.fileUploadElement] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit') : this.translate.get('xjson.unacceptable_extension') };
       files.shift();
       if (files.length > 0) {
@@ -730,6 +730,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   submitForm(activity: string) {
     this.error = {};
+    this.alertsService.clear('upperAlert');
 
     if (activity === 'EDIT') {
       this.promptEditConfirmation();
@@ -738,7 +739,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       const activities = this.data.header.acceptable_activity;
 
       if ((activity === 'SAVE' && activities.includes('SAVE') && !activities.includes('SUBMIT'))
-        || (activity !== 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT'))) {
+        || (activity !== 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT')) || activity === 'CONTINUE') {
         this.validateForm(this.data_elements);
       }
 
@@ -761,7 +762,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.error_alert = true;
         this.alertsService.error(this.translate.get('xjson.validation_errors'), 'upperAlert', false);
         this.formLoading = false;
-        this.populateAlerts();
         this.scrollPositionController();
       }
     }
