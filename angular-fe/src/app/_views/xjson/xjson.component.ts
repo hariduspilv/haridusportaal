@@ -730,6 +730,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   submitForm(activity: string) {
     this.error = {};
+    this.alertsService.clear('upperAlert');
 
     if (activity === 'EDIT') {
       this.promptEditConfirmation();
@@ -761,7 +762,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.error_alert = true;
         this.alertsService.error(this.translate.get('xjson.validation_errors'), 'upperAlert', false);
         this.formLoading = false;
-        this.populateAlerts();
         this.scrollPositionController();
       }
     }
