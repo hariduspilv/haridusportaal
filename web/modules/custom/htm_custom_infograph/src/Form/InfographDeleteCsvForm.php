@@ -52,6 +52,7 @@ class InfographDeleteCsvForm extends FormBase {
     rmdir($filters_path);
 	  unlink($file_path);
     Cache::invalidateTags([pathinfo($filename, PATHINFO_FILENAME).'_csv']);
+    \Drupal::logger('htm_custom_infograph')->notice($filename.' has been deleted.');
 		$form_state->setRedirect('htm_custom_infograph.infograph_csv_list_form');
 	}
 }
