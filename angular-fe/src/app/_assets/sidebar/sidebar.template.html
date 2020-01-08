@@ -2,7 +2,7 @@
   <ng-container *ngFor="let keyVal of orderedKeys">
     <ng-container *ngIf="keyVal !== 'fieldBlocks'">
       <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
-        <block-title *ngIf="!titleLess[collection[keyVal]]"  [ngClass]="'type-'+[collection[keyVal]]">
+        <block-title *ngIf="!titleLess[collection[keyVal]]" [ngClass]="'type-'+[collection[keyVal]]">
           <ng-container>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</ng-container>
           <div *ngIf="keyVal === 'notifications' && mappedData.notifications.unread > 0" class="unreadMessages">
             {{mappedData.notifications.unread}}
@@ -13,10 +13,11 @@
           <sidebar-links *ngSwitchCase="'links'" [data]="mappedData[keyVal]"></sidebar-links>
           <sidebar-categories *ngSwitchCase="'categories'" [data]="mappedData[keyVal]"></sidebar-categories>
           <sidebar-contact *ngSwitchCase="'contact'" [data]="mappedData[keyVal]"></sidebar-contact>
+          <sidebar-actions *ngSwitchCase="'actions'" [data]="mappedData[keyVal]"
+            [icons]="keyVal === 'fieldEhisLinks' ? true : false"></sidebar-actions>
           <sidebar-articles *ngSwitchCase="'articles'" [data]="mappedData[keyVal]"></sidebar-articles>
           <sidebar-articles *ngSwitchCase="'news'" [data]="mappedData[keyVal]"></sidebar-articles>
           <sidebar-data *ngSwitchCase="'data'" [data]="mappedData[keyVal]"></sidebar-data>
-          <sidebar-actions *ngSwitchCase="'actions'" [data]="mappedData[keyVal]"></sidebar-actions>
           <sidebar-location *ngSwitchCase="'location'" [data]="mappedData[keyVal]"></sidebar-location>
           <sidebar-facts *ngSwitchCase="'facts'" [data]="mappedData[keyVal]"></sidebar-facts>
           <sidebar-progress *ngSwitchCase="'progress'" [data]="mappedData[keyVal]"></sidebar-progress>

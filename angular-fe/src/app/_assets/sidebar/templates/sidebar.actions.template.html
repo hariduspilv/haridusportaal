@@ -1,5 +1,15 @@
 <ul *ngIf="data && data.length">
   <li *ngFor="let item of data">
-    <button role="link" [routerLink]="[item.url.path]" htm-button>{{ item.title }}</button>
+    <a *ngIf="icons" [href]="item.url.path">
+      <div class="row">
+        <div class="col-1 padding center-flex">
+          <icon *ngIf="item.url.path.includes('educationalInstitution')" size="medium" glyph="link-2"></icon>
+          <icon *ngIf="item.url.path.includes('curriculums')" size="medium" glyph="book"></icon>
+          <icon *ngIf="item.url.path.includes('operatingRights')" size="medium" glyph="file-text"></icon>
+        </div>
+        <span class="col-11 padding text" role="text">{{ item.title }}</span>
+      </div>
+    </a>
+    <button *ngIf="!icons" role="link" [routerLink]="[item.url.path]" htm-button>{{ item.title }}</button>
   </li>
 </ul>
