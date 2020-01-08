@@ -175,6 +175,13 @@ query infoSystemPage($path: String!) {
                   }
                   title
                 }
+                fieldEhisLinks {
+                  url {
+                    routed
+                    path
+                  }
+                  title
+                }
               }
             }
           }
