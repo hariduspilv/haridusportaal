@@ -120,7 +120,11 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		  case 'educational_institution':
 		  	$method = 'getEducationalInstitution';
 		  	$params = ['id' => $tab, 'addTitle' => true];
-		  	breaK;
+		  	break;
+      case 'gdprlog':
+        $method = 'getGdprLogs';
+        $params = [];
+        break;
 			default:
 				throw new BadRequestHttpException('Service name not found');
 				break;
