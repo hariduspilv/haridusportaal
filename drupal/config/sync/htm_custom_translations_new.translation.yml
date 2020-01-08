@@ -1225,6 +1225,10 @@ event:
     translation_type: textarea
     et: 'Välise registreerimisega'
     en: 'External registration'
+  related_no_results:
+    translation_type: textarea
+    et: 'Sarnased sündmused puuduvad'
+    en: 'Sarnased sündmused puuduvad'
 school:
   label:
     translation_type: textarea
