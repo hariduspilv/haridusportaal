@@ -2971,7 +2971,11 @@ login_mobile:
   translation_type: textarea
   et: 'Sisene Mobiil ID-ga'
   en: 'Mobile ID login'
-error: {  }
+error:
+  ehis_connection:
+    translation_type: textarea
+    et: 'Ei saanud EHIS-ga ühendust!'
+    en: 'Couldn''t connect to Ehis!'
 sort:
   descending:
     translation_type: textarea
