@@ -236,6 +236,17 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  public function getGdprLogs(array $params = []){
+    $params['url'] = [$this->getCurrentUserIdRegCode(TRUE)];
+    $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
+    $params['hash'] = 'eeIsikukaartGDPR';
+    return $this->invokeWithRedis('eeIsikukaartGDPR', $params, FALSE);
+  }
+
+  /**
+   * @param array $params
+   * @return array|mixed|\Psr\Http\Message\ResponseInterface
+   */
   public function getCertificate(array $params = []){
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), $params['certificate_id'], time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
