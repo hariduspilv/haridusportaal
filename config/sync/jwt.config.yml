@@ -2,5 +2,5 @@ jwt: null
 _core:
   default_config_hash: VnJRkQumCIpCyjYAJevVI3NEg_EMkh2AyvPbn8pbGP4
 langcode: et
-algorithm: HS512
-key_id: new_jwt_key
+algorithm: HS256
+key_id: jwt_hmac_key
