@@ -49,6 +49,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public fileLoading = {};
   public formLoading = false;
   public upperInfoText;
+  public saved = false;
 
   public fileUploadElement: string;
   public fileUploadCol: string;
@@ -87,6 +88,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   public modalRef: any;
   public deleteTableElement: any;
   public deleteTableRow: any;
+  public objectEntries = Object.entries;
 
   public autoCompleteContainer = {};
   public autocompleteDebouncer = {};
@@ -736,7 +738,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       const activities = this.data.header.acceptable_activity;
 
       if ((activity === 'SAVE' && activities.includes('SAVE') && !activities.includes('SUBMIT'))
-      || (activity !== 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT'))) {
+        || (activity !== 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT'))) {
         this.validateForm(this.data_elements);
       }
 
@@ -745,6 +747,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.error_alert = false;
         this.data.header['activity'] = activity;
         const payload = { form_name: this.form_route, form_info: this.data };
+        if (activity === 'SAVE') {
+          this.saved = true;
+        }
         this.scrollPositionController();
         if (this.test) {
           this.promptDebugDialog(payload);
@@ -860,21 +865,18 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   getStepViewStatus() {
     this.viewOnlyStep = true;
-    if (!(this.current_acceptable_activity.length === 1 &&
-      this.current_acceptable_activity[0] === 'VIEW')) {
-      for (const [label, elem] of Object.entries(this.data_elements)) {
-        if (elem['type'] === 'table') {
-          this.scrollableTableDeterminant(label);
-          this.tableVisibleColumns(label, elem['table_columns']);
+    for (const [label, elem] of Object.entries(this.data_elements)) {
+      if (elem['type'] === 'table') {
+        this.scrollableTableDeterminant(label);
+        this.tableVisibleColumns(label, elem['table_columns']);
 
-          for (const key in elem['table_columns']) {
-            if (this.viewOnlyStep) {
-              this.isViewOnlyStep(elem['table_columns'][key]);
-            }
+        for (const key in elem['table_columns']) {
+          if (this.viewOnlyStep) {
+            this.isViewOnlyStep(elem['table_columns'][key]);
           }
-        } else if (this.viewOnlyStep) {
-          this.isViewOnlyStep(elem);
         }
+      } else if (this.viewOnlyStep) {
+        this.isViewOnlyStep(elem);
       }
     }
   }
