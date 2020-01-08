@@ -359,7 +359,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
         } catch (err) { }
       }
     } else if (this.type === 'date') {
-      this.dateField = this.field;
+      this.dateField = value || this.field;
     } else {
       this.field = value || '';
     }

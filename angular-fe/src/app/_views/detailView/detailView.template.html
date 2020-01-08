@@ -69,11 +69,13 @@
 					</div>
 
 					<feedback [nid]="data.nid"></feedback>
-					
 				</ng-container>
 			</block-content>
 		</block>
-		<relatedStudyProgrammesList *ngIf="type === 'studyProgramme' && data.nid" [nid]="data.nid"></relatedStudyProgrammesList>
+		<ng-container *ngIf="data">
+			<relatedStudyProgrammesList *ngIf="type === 'studyProgramme' && data.nid" [nid]="data.nid"></relatedStudyProgrammesList>
+			<relatedEvents *ngIf="type === 'event' && data.nid && data.group" [nid]="data.nid" [groupID]="data.group.targetId"></relatedEvents>
+		</ng-container>
 	</article-layout>
 </div><!--/inline-->
 <alerts global *ngIf="type === 'profession' || type === 'studyProgramme'" id="compare"></alerts>

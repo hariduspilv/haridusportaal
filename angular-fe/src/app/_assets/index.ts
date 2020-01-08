@@ -106,6 +106,7 @@ const pipes = [];
 import { AppPipes } from '@app/_pipes';
 import { RelatedStudyProgrammesListComponent } from './relatedStudyprogrammesList/relatedStudyProgrammesList.component';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { RelatedEventsComponent } from './relatedEvents';
 
 const declarations = [
   BlockComponent,
@@ -181,6 +182,7 @@ const declarations = [
   PictoComponent,
   BlockSubTitleComponent,
   RelatedStudyProgrammesListComponent,
+  RelatedEventsComponent,
 ];
 
 const exports = [
