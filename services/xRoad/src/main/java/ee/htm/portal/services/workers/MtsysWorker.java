@@ -592,6 +592,13 @@ public class MtsysWorker extends Worker {
 
         fileType.get("okLiik").forEach(i -> {
           if (fileTypeKlOkLiik.equalsIgnoreCase(i.get("klOkLiik").asText())) {
+            for (int j = 0; j < stepAndmedDataElements.get("dokumendid").get("value").size(); j++) {
+              if (stepAndmedDataElements.get("dokumendid").get("value").get(j).get("klLiik").asInt()
+                  == item.getKlLiik()) {
+                ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).remove(j);
+                break;
+              }
+            }
             ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
                 .put("liik", i.get("required").asBoolean() ?
                     fileType.get("et").asText() + " *" :
@@ -738,6 +745,10 @@ public class MtsysWorker extends Worker {
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
         }
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SUBMIT")) {
+          jsonNode.get("body").get("steps").get("step_andmed").get("messages")
+              .forEach(t -> ((ObjectNode) jsonNode.get("messages")).remove(t.asText()));
+          ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+              .removeAll();
           AtomicBoolean repeatStepAndmed = new AtomicBoolean(false);
           if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("oppeTasemed").get("required").asBoolean()
@@ -766,22 +777,22 @@ public class MtsysWorker extends Worker {
           Long klOkLiik = jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("tegevusloaLiik").get("value").asLong();
           jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
-              .get("dokumendid").get("value").forEach(item -> {
-            fileTypes.get(item.get("klLiik").asText()).get("okLiik").forEach(i -> {
-              if (klOkLiik.equals(i.get("klOkLiik").asLong()) && i.get("required").asBoolean()
-                  && (item.get("fail") == null || item.get("fail").get(0) == null
-                  || item.get("fail").get(0).get("file_identifier") == null)) {
-                repeatStepAndmed.set(true);
-                ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
-                    .add("dokumendid_validation_error_" + validationErrors);
-                ((ObjectNode) jsonNode.get("messages"))
-                    .putObject("dokumendid_validation_error_" + validationErrors)
-                    .put("message_type", "ERROR").putObject("message_text")
-                    .put("et", "Kohustuskik dokument '" + item.get("liik").asText() + "' puudub.");
-                validationErrors.getAndIncrement();
-              }
-            });
-          });
+              .get("dokumendid").get("value").forEach(
+              item -> fileTypes.get(item.get("klLiik").asText()).get("okLiik").forEach(i -> {
+                if (klOkLiik.equals(i.get("klOkLiik").asLong()) && i.get("required").asBoolean()
+                    && (item.get("fail") == null || item.get("fail").get(0) == null
+                    || item.get("fail").get(0).get("file_identifier") == null)) {
+                  repeatStepAndmed.set(true);
+                  ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                      .add("dokumendid_validation_error_" + validationErrors);
+                  ((ObjectNode) jsonNode.get("messages"))
+                      .putObject("dokumendid_validation_error_" + validationErrors)
+                      .put("message_type", "ERROR").putObject("message_text")
+                      .put("et",
+                          "Kohustuskik dokument '" + item.get("liik").asText() + "' puudub.");
+                  validationErrors.getAndIncrement();
+                }
+              }));
           if (repeatStepAndmed.get()) {
             logForDrupal.setMessage("postMtsysTegevusluba step_andmed validation_error on SUBMIT");
             logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -1360,7 +1371,8 @@ public class MtsysWorker extends Worker {
       step0DataElementsNode.putObject("kommentaar")
           .put("value", response.isSetKommentaar() ? response.getKommentaar() : null);
 
-      step0DataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true).putArray("value");
+      step0DataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true)
+          .putArray("value");
       step0DataElementsNode.putObject("tegevuslubaTabel").put("hidden", true).putArray("value");
       step0DataElementsNode.putObject("kokkuTabel").put("hidden", true).putArray("value");
       response.getNaitajad().getItemList().forEach(item -> {
@@ -1378,7 +1390,8 @@ public class MtsysWorker extends Worker {
               .put("yle240", item.isSetYle240() ? item.getYle240().intValue() : null)
               .put("kokku", item.isSetKokku() ? item.getKokku().intValue() : null);
         } else if (item.getKlOkLiik().equals(BigInteger.valueOf(18098L))) {
-          ((ObjectNode) step0DataElementsNode.get("majandustegevuseTeateTabel")).put("hidden", false);
+          ((ObjectNode) step0DataElementsNode.get("majandustegevuseTeateTabel"))
+              .put("hidden", false);
           ((ArrayNode) step0DataElementsNode.get("majandustegevuseTeateTabel").get("value"))
               .addObject()
               .put("nimetus", item.isSetNimetus() ? item.getNimetus() : null)
@@ -1475,7 +1488,8 @@ public class MtsysWorker extends Worker {
           .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
       redisFileTemplate.expire(MTSYS_REDIS_KEY, redisFileExpire, TimeUnit.MINUTES);
 
-      dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true).putArray("value");
+      dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true)
+          .putArray("value");
       dataElementsNode.putObject("tegevuslubaTabel").put("hidden", true).putArray("value");
       response.getNaitajad().getItemList().forEach(item -> {
         if (item.getKlOkLiik().equals(BigInteger.valueOf(18098L))) {
