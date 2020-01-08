@@ -522,6 +522,18 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     } else {
       const body = {
         edId: this.editableId,
+        address: {
+          seqNo: '',
+          adsId: '',
+          adsOid: '',
+          klElukoht: '',
+          county: '',
+          localGovernment: '',
+          settlementUnit: '',
+          address: '',
+          addressFull: '',
+          addressHumanReadable: '',
+        },
         contacts: {
           contactPhone: this.formGroup.value.contactPhone,
           contactEmail: this.formGroup.value.contactEmail,

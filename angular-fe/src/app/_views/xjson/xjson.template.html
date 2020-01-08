@@ -17,7 +17,7 @@
             <p class="xjson__introduction" *ngIf="data.body.introduction">{{ selectLanguage(data.body.introduction) }}
             </p>
 
-            <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps">
+            <ul class="xjson__navigation" id="stepNavigation" *ngIf="!data.body.hide_steps && objectEntries(data.body.steps).length > 1">
               <li class="xjson__navigation__step" [attr.id]="step" [class.active]="opened_step === step"
                 [class.disabled]="isStepDisabled(step)" *ngFor="let step of objectKeys(data.body.steps); let i = index">
                 <a tabindex="{{ isStepDisabled(step) ? -1 : 0 }}"
@@ -107,7 +107,8 @@
                         </formItem>
                         <div class="tooltip">
                           <icon glyph="help-circle" *ngIf="data_elements[element].helpertext"
-                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="right"></icon>
+                            ngbTooltip="{{ selectLanguage(data_elements[element].helpertext) }}" placement="right">
+                          </icon>
                         </div>
                       </ng-container> <!-- /TEXTAREA -->
 
@@ -318,7 +319,8 @@
                                   </tr>
                                 </thead>
                                 <tbody>
-                                  <tr *ngIf="(!data_elements[element].value || !data_elements[element].value.length) && !data_elements[element].add_del_rows">
+                                  <tr
+                                    *ngIf="(!data_elements[element].value || !data_elements[element].value.length) && !data_elements[element].add_del_rows">
                                     <td
                                       [attr.colspan]="data_elements[element].add_del_rows ? visibleTableLength[element]+1 : visibleTableLength[element]">
                                       {{'xjson.data_missing' | translate }}
@@ -329,7 +331,8 @@
                                       [class]="error[element] && error[element].rows.includes(rowIndex) ? 'invalid-row' : 'valid-row'">
                                       <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
 
-                                        <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')" class="bold-text">
+                                        <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')"
+                                          class="bold-text">
                                           <ng-container
                                             *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
                                             <formItem
@@ -370,8 +373,11 @@
 
                                           <ng-container
                                             *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
-                                            <ng-container *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ">
-                                              {{ 'xjson.count_added_files' | translate }} {{ row[col] && row[col].length ? row[col].length : '0'}} | <a class="underline"
+                                            <ng-container
+                                              *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ">
+                                              {{ 'xjson.count_added_files' | translate }}
+                                              {{ row[col] && row[col].length ? row[col].length : '0'}} | <a
+                                                class="underline"
                                                 (click)="fileModal(element, col, rowIndex)">{{ 'xjson.add_file' | translate }}</a>
                                             </ng-container>
                                             <ng-container
@@ -448,8 +454,7 @@
                             </div>
                           </div>
 
-                          <div class="add-row"
-                            *ngIf="showTableAddRow(data_elements[element])">
+                          <div class="add-row" *ngIf="showTableAddRow(data_elements[element])">
                             <div>
                               <a attr.aria-label="{{ 'button.add_table_row' | translate }}" role="button"
                                 *ngIf="!data_elements[element].row_label; else labeledAdd" class="table-link"
@@ -468,20 +473,14 @@
                           </div> <!-- ADD_DEL_ROWS -->
 
                         </div>
-
-                        <ng-container
-                          *ngIf="(error[element] && error[element].rows) || (error[element] && data_elements[element].type === 'table')">
-                          <div class="error">
-                            {{ error[element].message }}
-                          </div>
-                        </ng-container> <!-- FIELD VALIDATION ERROR MESSAGE -->
                       </ng-container> <!-- /TABLE -->
 
-<!--                       <ng-container *ngIf="error[element] && error[element].row == undefined">
+                      <ng-container
+                        *ngIf="(error[element] && error[element].rows) || (error[element] && (data_elements[element].type === 'table' || data_elements[element].type === 'file'))">
                         <div class="error">
                           {{ error[element].message }}
                         </div>
-                      </ng-container> --> <!-- FIELD VALIDATION ERROR MESSAGE -->
+                      </ng-container>
 
                     </div>
                     <!--/col-12-->
@@ -508,7 +507,7 @@
                   <div>
                     <button htm-button tabindex="0" *ngIf="!edit_step" role="link" theme="inverted"
                       (click)="numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? cancelEventHandler() : modalService.toggle('dashboardReturn')">
-                      {{ (numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
+                      {{ (saved || numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
                     </button>
                   </div>
 
@@ -592,11 +591,13 @@
   </modal-content>
 </htm-modal>
 
-<htm-modal id="addFile" [bottomAction]="true" [topAction]="true" modalTitle="{{ 'xjson.add_files' | translate }}" size="medium">
+<htm-modal id="addFile" [bottomAction]="true" [topAction]="true" modalTitle="{{ 'xjson.add_files' | translate }}"
+  size="medium">
   <modal-content class="modal-center">
     <ng-container *ngIf="fileUploadElement && fileUploadCol && modalService.isOpen('addFile')">
       <div class="loaded-files-list">
-        <ng-container *ngIf="data_elements[fileUploadElement] && data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
+        <ng-container
+          *ngIf="data_elements[fileUploadElement] && data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
           <ng-container *ngFor="let file of data_elements[fileUploadElement].value[fileUploadRow][fileUploadCol]">
             <div class="uploaded-file">
               <a class="file-icon" [href]="fileDownloadlink(file)" attr.aria-label="{{ file.file_name }}"
@@ -616,9 +617,10 @@
       </div>
 
       <loader *ngIf="fileLoading[fileUploadElement]"></loader>
-      
-      <input *ngIf="data_elements[fileUploadElement] && canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true)" class="hidden"
-        type="file"
+
+      <input
+        *ngIf="data_elements[fileUploadElement] && canUploadFile(data_elements[fileUploadElement].table_columns[fileUploadCol], true)"
+        class="hidden" type="file"
         attr.aria-label="{{ 'xjson.drag_files_here_or' | translate }} {{ 'button.upload' | translate }}. {{ 'xjson.allowed_filetypes' | translate }} {{ displayAcceptableExtentsions(data_elements[fileUploadElement].table_columns[fileUploadCol].acceptable_extensions) }}. {{ 'xjson.max_size' | translate }} {{ data_elements[fileUploadElement].table_columns[fileUploadCol].max_size }}MB"
         (change)="fileEventHandler($event, fileUploadElement)"
         placeholder="{{selectLanguage(data_elements[fileUploadElement].table_columns[fileUploadCol].title)}}{{data_elements[fileUploadElement].table_columns[fileUploadCol].required ? '*': ''}}"
