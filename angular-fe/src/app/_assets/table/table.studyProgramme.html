@@ -9,7 +9,7 @@
     <ng-container *ngFor="let item of table; let i = index;" >
       <tr *ngIf="i > 0">
         <td>{{ table[i].label | translate }}</td>
-        <td><b>{{ table[i].value | titlecase }}</b></td>
+        <td><b>{{ table[i].value | capitalize }}</b></td>
       </tr>
     </ng-container>
   </tbody>
