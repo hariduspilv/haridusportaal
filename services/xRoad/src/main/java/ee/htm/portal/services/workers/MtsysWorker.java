@@ -772,6 +772,17 @@ public class MtsysWorker extends Worker {
                 .put("message_type", "ERROR").putObject("message_text")
                 .put("et", "Õppekavarühmad puuduvad.");
           }
+          if (!jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("valisAadress").get("value").asBoolean()
+              && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+                  .get("aadressid").get("value").size() == 0) {
+            repeatStepAndmed.set(true);
+            ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                .add("address_validation_error");
+            ((ObjectNode) jsonNode.get("messages")).putObject("address_validation_error")
+                .put("message_type", "ERROR").putObject("message_text")
+                .put("et", "Taotluse esitamisel on kohustuslik määrata asukoht!.");
+          }
           AtomicInteger validationErrors = new AtomicInteger(0);
           ObjectNode fileTypes = getKlfNode("failiTyybid");
           Long klOkLiik = jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
