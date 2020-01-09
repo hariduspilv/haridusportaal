@@ -127,6 +127,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.addPlumbrScript();
+    //this.addPlumbrScript();
   }
 }

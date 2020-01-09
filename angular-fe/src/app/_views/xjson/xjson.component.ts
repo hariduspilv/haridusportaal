@@ -265,6 +265,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   fileModal(element, col, row) {
     this.fileUploadElement = element;
+    if (this.error[this.fileUploadElement]) {
+      this.error[this.fileUploadElement] = {};
+    }
     this.fileUploadCol = col;
     this.fileUploadRow = row;
     this.tableUpload = true;
@@ -372,7 +375,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const file = files[0];
     const file_size = this.byteToMegabyte(file.size);
     if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.toLowerCase().split('.').pop()))) {
-      this.error[this.fileUploadElement] = { valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit') : this.translate.get('xjson.unacceptable_extension') };
+      this.error[this.fileUploadElement] = { type: 'file', valid: false, message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit') : this.translate.get('xjson.unacceptable_extension') };
       files.shift();
       if (files.length > 0) {
         this.uploadTableFile(files);
