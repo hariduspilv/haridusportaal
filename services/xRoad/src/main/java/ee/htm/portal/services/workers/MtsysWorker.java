@@ -435,12 +435,14 @@ public class MtsysWorker extends Worker {
           .put("value", response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
               response.getTegevusloaAndmed().getKlSoidukiKategooria().intValue() : null);
 
-      stepZeroDataElementsNode.putObject("oppeTasemed").putArray("value");
+      stepZeroDataElementsNode.putObject("oppeTasemed").put("hidden",
+          !klOkLiik.equals(18057L) && !klOkLiik.equals(18102L)).putArray("value");
       response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList().forEach(
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppeTasemed")
               .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().toString()));
 
-      stepZeroDataElementsNode.putObject("oppekavaRuhmad").putArray("value");
+      stepZeroDataElementsNode.putObject("oppekavaRuhmad").put("hidden", !klOkLiik.equals(18098L))
+          .putArray("value");
       response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList().forEach(
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppekavaRuhmad")
               .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().toString()));
@@ -462,14 +464,17 @@ public class MtsysWorker extends Worker {
       stepZeroDataElementsNode.putObject("koduleht")
           .put("value", response.getKontaktandmed().getKoduleht());
 
-      stepZeroDataElementsNode.putObject("peatamised").putArray("value");
+      stepZeroDataElementsNode.putObject("peatamised").put("hidden",
+          !response.isSetPeatamised() || response.getPeatamised().getPeatamineList().isEmpty())
+          .putArray("value");
       response.getPeatamised().getPeatamineList().forEach(
           peatamine -> ((ArrayNode) stepZeroDataElementsNode.get("peatamised").get("value"))
               .addObject()
               .put("algusKp", peatamine.getAlgusKp())
               .put("loppKp", peatamine.getLoppKp()));
 
-      stepZeroDataElementsNode.putObject("dokumendid").putArray("value");
+      stepZeroDataElementsNode.putObject("dokumendid").put("hidden", klOkLiik.equals(18098L))
+          .putArray("value");
       response.getDokumendid().getDokumentList().forEach(
           dokument -> {
             ((ArrayNode) stepZeroDataElementsNode.get("dokumendid").get("value")).addObject()
@@ -779,7 +784,7 @@ public class MtsysWorker extends Worker {
           if (!jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("valisAadress").get("value").asBoolean()
               && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
-                  .get("aadressid").get("value").size() == 0) {
+              .get("aadressid").get("value").size() == 0) {
             repeatStepAndmed.set(true);
             ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
                 .add("address_validation_error");
