@@ -673,6 +673,7 @@ public class MtsysWorker extends Worker {
           jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
           "educationalInstitution_" + jsonNode.get("header").get("agents").get(0)
               .get("educationalInstitutions_id").asText());
+      boolean addAddress = true;
 
       if (stepLiik.equals(18098L)) {
         try {
@@ -690,12 +691,17 @@ public class MtsysWorker extends Worker {
                   .addObject().put("nimetus", item.getId().toString()));
 
           setAadress(response.getAadressid(), stepAndmed);
+          addAddress = false;
 
         } catch (Exception e) {
-          setXdzeisonError(LOGGER, jsonNode, e);
+          LOGGER.error(e, e);
+          addAddress = false;
+//          setXdzeisonError(LOGGER, jsonNode, e);
         }
-      } else {
-        if (oppeasutusedNode != null) {
+      }
+
+      if (oppeasutusedNode != null) {
+        if (addAddress) {
           ((ArrayNode) stepAndmed.get("aadressid").get("value")).addObject().putObject("aadress")
               .put("adsId", oppeasutusedNode.get("educationalInstitution")
                   .get("address").get("adsId").asLong())
@@ -712,9 +718,7 @@ public class MtsysWorker extends Worker {
               .put("addressHumanReadable", oppeasutusedNode.get("educationalInstitution")
                   .get("address").get("addressHumanReadable").asText());
         }
-      }
 
-      if (oppeasutusedNode != null) {
         stepAndmed.putObject("oppeasutuseNimetus")
             .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
                 .get("name").asText());
