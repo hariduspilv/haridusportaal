@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       document.querySelector('.app-content').scrollTo({
         top: 0,
       });
-    } catch (err) {}
+    } catch (err) { }
   }
 
   closeSidemenu(event: Event) {
@@ -84,6 +84,33 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
+  addPlumbrScript() {
+    const prodDomains = [
+      'haridusportaal.edu.ee',
+      'test.edu.ee',
+      'localhost',
+    ];
+
+    if (prodDomains.includes(document.domain)) {
+      const script = document.createElement('script');
+      script.src = 'https://browser.plumbr.io/pa.js';
+      script.setAttribute('crossorigin', 'anonymous');
+      script.setAttribute('data-plumbr', `
+      {
+        "accountId":"43h3pmh6v5en84nqkms3m3ikge",
+        "appName":"edu.ee",
+        "serverUrl":"https://bdr.plumbr.io"
+      }
+      `);
+
+/*       const s = document.getElementsByTagName('script')[0];
+      s.parentNode.insertBefore(script, s); */
+
+      const head = document.getElementsByTagName('head')[0];
+      head.appendChild(script);
+    }
+  }
+
   ngAfterViewInit(): void {
     // this.cookieAlert();
     this.initCookies();
@@ -94,7 +121,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
 
     this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd ){
+      if (event instanceof NavigationEnd) {
         const path = `${window.location.origin}/amp${window.location.pathname}`;
         this.amp.removeTag('rel=amphtml');
         this.amp.addTag({
@@ -103,5 +130,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         });
       }
     });
+
+    this.addPlumbrScript();
   }
 }
