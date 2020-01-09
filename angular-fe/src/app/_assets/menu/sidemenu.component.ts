@@ -127,7 +127,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
     const activeCategory = categories.find((el) => {
       return el.item.links.find((link) => {
-        if (link.url.path === path) {
+        if (link.url.path === path.split('?')[0]) {
           return true;
         }
         const pathRoot = path.split('/');
