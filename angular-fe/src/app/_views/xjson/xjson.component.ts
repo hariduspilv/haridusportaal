@@ -694,7 +694,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const NOT_FOR_VALIDATION = ['heading', 'helpertext'];
 
     for (const field in elements) {
-      if (elements[field].type === 'table') {
+      if (elements[field].type === 'table' && !this.isFieldHidden(field)) {
         const validation = this.tableValidation(elements[field]);
         if (!validation.valid) {
           this.error[field] = validation;

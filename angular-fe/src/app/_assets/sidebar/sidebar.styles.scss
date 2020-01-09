@@ -2,454 +2,468 @@
 @import "breakpoints.scss";
 
 :host {
-	font-family: 'Rubik', sans-serif;
-	grid-area: sidebar;
-	-ms-grid-row: 1; 
-	-ms-grid-column: 3; 
-	-ms-grid-column-span: 1;
-	display: block;
-	background: $light-gray;
-	feedback {
-		background: $white;
-		margin: 0;
-		padding: 1rem 1.5rem;
-	}
-	@include break-on(sm, min) {
-		margin: 2rem 0;
-		feedback {
-			display: none;
+  font-family: "Rubik", sans-serif;
+  grid-area: sidebar;
+  -ms-grid-row: 1;
+  -ms-grid-column: 3;
+  -ms-grid-column-span: 1;
+  display: block;
+  background: $light-gray;
+  feedback {
+    background: $white;
+    margin: 0;
+    padding: 1rem 1.5rem;
+  }
+  @include break-on(sm, min) {
+    margin: 2rem 0;
+    feedback {
+      display: none;
+    }
+  }
+  ::ng-deep {
+    block {
+      padding: 1rem 1.5rem 1.5rem;
+      border-top: $orange 0.625rem solid;
+      h1 {
+        color: $black;
+        font-size: 1.5rem;
+        font-weight: 500;
+        line-height: 1.33;
+      }
+    }
+    block-title.type-news {
+      color: #757575;
+      font-size: 1rem;
+      font-weight: normal;
+      text-transform: uppercase;
+      margin-top: -0.25rem;
+      display: block;
+    }
+    block-title.type-notifications {
+      display: flex;
+      align-items: center;
+      .unreadMessages {
+        border-radius: 100%;
+        width: 1rem;
+        height: 1rem;
+        display: inline-flex;
+        margin-left: 0.5rem;
+        background-color: $dark-red;
+        color: $white;
+        font-size: 0.625rem;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    block-content {
+      &:empty {
+        display: none;
+      }
+      display: block;
+      padding-top: 0.5rem;
+      a {
+        font-size: 1rem;
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+      .list {
+        display: flex;
+        padding-top: 0.5rem;
+        img {
+          display: block;
+        }
+      }
+      ul {
+        padding: 0;
+        margin: 0;
+        list-style: none;
+        li {
+          margin-bottom: 0.625rem;
+          &:hover {
+            a {
+              text-decoration: underline;
+            }
+          }
+          &.last {
+            margin-bottom: 1.25rem;
+          }
+          &:last-of-type {
+            margin-bottom: 0;
+          }
+        }
+      }
+      sidebar-data {
+        h3 {
+          font-size: 1.25rem;
+        }
+      }
+      sidebar-links {
+        icon {
+          margin-right: 0.5rem;
+        }
+        .text-instance {
+          color: #757575;
+        }
+        .no-link {
+          text-decoration: none !important;
+          color: #333;
+        }
+      }
+      sidebar-categories {
+        span {
+          margin: 0 0 0 1rem;
+          font-size: 0.875rem;
+        }
+        li {
+          display: flex;
+          align-items: center;
+          &.proColor {
+            icon {
+              color: $light-blue;
+            }
+          }
+          &.neutralColor {
+            icon {
+              color: $orange;
+            }
+          }
+          &.conColor {
+            icon {
+              color: $red;
+            }
+          }
+        }
+      }
+      sidebar-contact * {
+        display: block;
+        line-height: 1.375;
+      }
+      sidebar-events {
+        ul li:hover a {
+          text-decoration: none;
+          span {
+            text-decoration: underline;
+          }
+        }
+        p {
+          line-height: 1.375;
+          margin-bottom: 0;
+          color: $black;
+        }
+      }
+      sidebar-notifications {
+        ul li {
+          border-bottom: 1px solid $gray;
+          margin-left: -1.5rem;
+          margin-right: -1.5rem;
+          padding: 1rem 1.5rem;
+          margin-bottom: 0;
+          &:first-child {
+            padding-top: 0;
+          }
+        }
+        ul li:hover a {
+          text-decoration: none;
+          span {
+            text-decoration: underline;
+          }
+        }
+        a.unread {
+          span {
+            font-weight: 500;
+          }
+        }
+        p {
+          line-height: 1.375;
+          margin-bottom: 0;
+          margin-top: 0;
+          color: $black;
+        }
+        .bottom {
+          margin-top: 1rem;
+          display: flex;
+          justify-content: center;
+        }
+      }
+      sidebar-progress {
+        h2 {
+          font-weight: normal;
+        }
+      }
+      sidebar-articles {
+        h1 {
+          color: $black;
+          font-size: 1.25rem;
+          line-height: 1.875rem;
+        }
+        article {
+          display: block;
+          margin: 0 -1.5rem;
+          padding-bottom: 3rem;
+          a {
+            img {
+              display: block;
+            }
+            h1 {
+              font-size: 1.5rem;
+              padding: 1rem 1.5rem 0;
+              font-weight: 500;
+              line-height: 1.33;
+              color: $blue;
+            }
+          }
+          time {
+            display: block;
+            padding: 0.5rem 1.5rem 0;
+            font-size: 0.875rem;
+            line-height: 1.43;
+            color: $dark-gray;
+          }
+          &:last-of-type {
+            padding-bottom: 1.5rem;
+          }
+        }
+      }
+      sidebar-actions {
+        .center-flex {
+          display: flex;
+          justify-content: center;
+          flex-direction: row;
+        }
+        .padding {
+          padding: 0;
 		}
-	}
-	::ng-deep {
-		block {
-			padding: 1rem 1.5rem 1.5rem;
-			border-top: $orange .625rem solid;
-			h1 {
-				color: $black;
-				font-size: 1.5rem;
-				font-weight: 500;
-				line-height: 1.33;
-			}
+		.text {
+			padding-left: .4rem;
 		}
-		block-title.type-news {
-			color:#757575;
-			font-size: 1rem;
-			font-weight: normal;
-			text-transform: uppercase;
-			margin-top: -0.25rem;
-			display: block;
-		}
-		block-title.type-notifications {
-			display: flex;
-			align-items: center;
-			.unreadMessages {
-				border-radius: 100%;
-				width: 1rem;
-				height: 1rem;
-				display: inline-flex;
-				margin-left: 0.5rem;
-				background-color: $dark-red;
-				color: $white;
-				font-size: 0.625rem;
-				align-items:center;
-				justify-content: center;
-			}
-		}
-		block-content {
-			&:empty {
-				display: none
-			}
-			display: block;
-			padding-top: .5rem;
-			a {
-				font-size: 1rem;
-				text-decoration: none;
-				&:hover {
-					text-decoration: underline;
-				}
-			}
-			.list {
-				display: flex;
-				padding-top: .5rem;
-				img {
-					display: block;
-				}
-			}
-			ul {
-				padding: 0;
-				margin: 0;
-				list-style: none;
-				li {
-					margin-bottom: .625rem;
-					&:hover {
-						a {
-							text-decoration: underline;
-						}
-					}
-					&.last {
-						margin-bottom: 1.25rem;
-					}
-					&:last-of-type {
-						margin-bottom: 0;
-					}
-				}
-			}
-			sidebar-data{
-				h3{
-					font-size: 1.25rem;
-				}
-			}
-			sidebar-links {
-				icon {
-					margin-right: .5rem;
-				}
-				.text-instance{
-					color: #757575;
-				}
-				.no-link {
-					text-decoration: none !important;
-					color: #333;
-				}
-			}
-			sidebar-categories {
-				span {
-					margin: 0 0 0 1rem;
-					font-size: .875rem;
-				}
-				li {
-					display: flex;
-					align-items: center;
-					&.proColor {
-						icon {
-							color: $light-blue;
-						}
-					}
-					&.neutralColor {
-						icon {
-							color: $orange;
-						}
-					}
-					&.conColor {
-						icon {
-							color: $red;
-						}
-					}
-				}
-			}
-			sidebar-contact * {
-				display: block;
-				line-height: 1.375;
-			}
-			sidebar-events {
-				ul li:hover a {
-					text-decoration: none;
-					span {
-						text-decoration: underline;
-					}
-				}
-				p {
-					line-height: 1.375;
-					margin-bottom: 0;
-					color: $black;
-				}
-			}
-			sidebar-notifications {
-				ul li {
-					border-bottom: 1px solid $gray;
-					margin-left: -1.5rem;
-					margin-right: -1.5rem;
-					padding: 1rem 1.5rem;
-					margin-bottom: 0;
-					&:first-child {
-						padding-top: 0;
-					}
-				}
-				ul li:hover a {
-					text-decoration: none;
-					span {
-						text-decoration: underline;
-					}
-				}
-				a.unread {
-					span {
-						font-weight: 500;
-					}
-				}
-				p {
-					line-height: 1.375;
-					margin-bottom: 0;
-					margin-top: 0;
-					color: $black;
-				}
-				.bottom {
-					margin-top: 1rem;
-					display: flex;
-					justify-content: center;
-				}
-			}
-			sidebar-progress {
-				h2 {
-					font-weight: normal;
-				}
-			}
-			sidebar-articles {
-				h1 {
-					color: $black;
-					font-size: 1.25rem;
-					line-height: 1.875rem;
-				}
-				article {
-					display: block;
-					margin: 0 -1.5rem;
-					padding-bottom: 3rem;
-					a {
-						img {
-							display: block;
-						}
-						h1 {
-							font-size: 1.5rem;
-							padding: 1rem 1.5rem 0;
-							font-weight: 500;
-							line-height: 1.33;
-							color: $blue;
-						}
-					}
-					time {
-						display: block;
-						padding: .5rem 1.5rem 0;
-						font-size: .875rem;
-						line-height: 1.43;
-						color: $dark-gray;
-					}
-					&:last-of-type {
-						padding-bottom: 1.5rem;
-					}
-				}
-			}
-			sidebar-actions {
-				button {
-					width: 100%;
-					box-sizing: border-box;
-				}
-				li {
-					margin-bottom: 1rem;
-				}
-			}
-			sidebar-location {
-				map {
-					margin: -1.5rem -1.5rem 0;
-					display: block;
-				}
-				p {
-					margin-top: 1rem;
-				}
-				h1 {
-					font-size: 1.25rem;
-					margin-top: 1rem;
-				}
-			}
-			sidebar-register {
-				h3{
-					font-size: 1.25rem;
-				}
-				.fullWidth {
-					width: 100%;
-					text-align: center;
-				}
-				::ng-deep{
-					.modal__block{
-						max-width: 700px !important;
-						min-width: 0 !important;
-						
-						.eventTitle {
-							font-size: 1.5rem;
-							font-weight: 500;
-							font-style: normal;
-							line-height: 1.33;
-							text-align: left;
-							margin-top: 0;
-							margin-bottom: 0;
-						}
-						.buttons {
-							display: flex;
-							margin: 1rem 0;
-							justify-content: flex-end;
+        button {
+          width: 100%;
+          box-sizing: border-box;
+        }
+        li {
+          margin-left: 0.2rem;
+          margin-bottom: 1.2rem;
+        }
+      }
+      sidebar-location {
+        map {
+          margin: -1.5rem -1.5rem 0;
+          display: block;
+        }
+        p {
+          margin-top: 1rem;
+        }
+        h1 {
+          font-size: 1.25rem;
+          margin-top: 1rem;
+        }
+      }
+      sidebar-register {
+        h3 {
+          font-size: 1.25rem;
+        }
+        .fullWidth {
+          width: 100%;
+          text-align: center;
+        }
+        ::ng-deep {
+          .modal__block {
+            max-width: 700px !important;
+            min-width: 0 !important;
 
-							button, a {
-								margin-top: 0;
-							}
-						}
-						.dialog__time{
-							margin:1rem 0;
-							line-height: 1.38rem;
-						}
-						.registerResponse{
-							text-align: center;
-							display: flex;
-							flex-direction: column;
-							align-items: center;
-							h2{
-								font-size: 1.5rem;
-								font-weight: 500;
-								font-style: normal;
-								line-height: 1.33;
-								text-align: left;
-								color:#333;
-								margin-top: 1.375rem;
-								margin-bottom: 3rem;
-							}
+            .eventTitle {
+              font-size: 1.5rem;
+              font-weight: 500;
+              font-style: normal;
+              line-height: 1.33;
+              text-align: left;
+              margin-top: 0;
+              margin-bottom: 0;
+            }
+            .buttons {
+              display: flex;
+              margin: 1rem 0;
+              justify-content: flex-end;
 
-							button, a{
-								width: auto;
-							}
-							a{
-								margin-bottom: 1rem;
-							}
-						}
-					}
-				}
-				.actions {
-					text-align: center;
-					button {
-						width: 100%;
-						box-sizing: border-box;
-					}
-				}
-				.error {
-					color: $dark-red;
-					line-height: 1.38;
-					font-size: $small;
-					font-weight: 500;
-				}
-				a {
-					display: block;
-					margin-top: 1rem;
-				}
-			}
-			sidebar-facts {
-				line-height: 1.375rem;
-				.image {
-					padding-right: .25rem;
-					@include break-on(sm, min) {
-						line-height: inherit;
-						width: 100%;
-						max-width: 2.5rem;
-					}
-				}
-				img {
-					width: 100%;
-				}
-				hr {
-					margin: 1rem 0;
-					height: 1px;
-					background-color: $light-gray;
-					border: 0;
-				}
-				h2 {
-					font-size: 1rem;
-					font-weight: 500;
-					margin-bottom: 0;
-				}
-				ul li {
-					padding-top: .5rem;
-					display: flex;
-					align-items: center;
-					span {
-						margin: 0 0 0 1rem;
-						font-size: 0.875rem;
-					}
-				}
-				.icon__wrapper {
-					i {
-						border-radius: .5rem;
-					}
-					&.first {
-						i {
-							color: $red;
-						}
-						&.with-bg i {
-							background: $red;
-						}
-					}
-					&.second {
-						i {
-							color: $light-blue;
-						}
-						&.with-bg i {
-							background: $light-blue;
-						}
-					}
-					&.third {
-						i {
-							color: $dark-orange;
-						}
-						&.with-bg i {
-							background: $dark-orange;
-						}
-					}
-					&.fourth {
-						i {
-							color: $gray;
-						}
-						&.with-bg i {
-							background: $gray;
-						}
-					}
-				}
-				.label {
-					&__tag {
-						&--wrapper {
-              padding-top: .5rem;
-							height: 2rem;
-							display: flex;
-							position: relative;
-						}
-						&--pointer {
-							display: flex;
-							margin-top: 1.875rem;
-							:nth-child(6n) {
-								position: relative;
-								&:after {
-									content: '';
-									position: absolute;
-									border-right: 0.625rem solid transparent;
-									border-left: 0.625rem solid transparent;
-									border-top: .75rem solid $orange;
-									right: 15%;
-									top: -.875rem;
-									z-index: 1;
-								}
-								&:before {
-									content: 'Eesti keskmine';
-									position: absolute;
-									height: 1.375rem;
-									font-size: 0.75rem;
-									border-radius: 0.6875rem;
-									background: $orange;
-									z-index: 2;
-									text-align: center;
-									padding: 0 1rem;
-									white-space: nowrap;
-									margin: 0;
-									top: -2rem;
-    							right: -2.5rem;
-								}
-							}
-						}
-						@include break-on(md, min) {
-							left: 40%;
-							&--pointer :nth-child(6n) {
-								&:after {
-									bottom: 1.875rem;
-								}
-								&:before {
-									bottom: 2.5rem;
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	}
+              button,
+              a {
+                margin-top: 0;
+              }
+            }
+            .dialog__time {
+              margin: 1rem 0;
+              line-height: 1.38rem;
+            }
+            .registerResponse {
+              text-align: center;
+              display: flex;
+              flex-direction: column;
+              align-items: center;
+              h2 {
+                font-size: 1.5rem;
+                font-weight: 500;
+                font-style: normal;
+                line-height: 1.33;
+                text-align: left;
+                color: #333;
+                margin-top: 1.375rem;
+                margin-bottom: 3rem;
+              }
+
+              button,
+              a {
+                width: auto;
+              }
+              a {
+                margin-bottom: 1rem;
+              }
+            }
+          }
+        }
+        .actions {
+          text-align: center;
+          button {
+            width: 100%;
+            box-sizing: border-box;
+          }
+        }
+        .error {
+          color: $dark-red;
+          line-height: 1.38;
+          font-size: $small;
+          font-weight: 500;
+        }
+        a {
+          display: block;
+          margin-top: 1rem;
+        }
+      }
+      sidebar-facts {
+        line-height: 1.375rem;
+        .image {
+          padding-right: 0.25rem;
+          @include break-on(sm, min) {
+            line-height: inherit;
+            width: 100%;
+            max-width: 2.5rem;
+          }
+        }
+        img {
+          width: 100%;
+        }
+        hr {
+          margin: 1rem 0;
+          height: 1px;
+          background-color: $light-gray;
+          border: 0;
+        }
+        h2 {
+          font-size: 1rem;
+          font-weight: 500;
+          margin-bottom: 0;
+        }
+        ul li {
+          padding-top: 0.5rem;
+          display: flex;
+          align-items: center;
+          span {
+            margin: 0 0 0 1rem;
+            font-size: 0.875rem;
+          }
+        }
+        .icon__wrapper {
+          i {
+            border-radius: 0.5rem;
+          }
+          &.first {
+            i {
+              color: $red;
+            }
+            &.with-bg i {
+              background: $red;
+            }
+          }
+          &.second {
+            i {
+              color: $light-blue;
+            }
+            &.with-bg i {
+              background: $light-blue;
+            }
+          }
+          &.third {
+            i {
+              color: $dark-orange;
+            }
+            &.with-bg i {
+              background: $dark-orange;
+            }
+          }
+          &.fourth {
+            i {
+              color: $gray;
+            }
+            &.with-bg i {
+              background: $gray;
+            }
+          }
+        }
+        .label {
+          &__tag {
+            &--wrapper {
+              padding-top: 0.5rem;
+              height: 2rem;
+              display: flex;
+              position: relative;
+            }
+            &--pointer {
+              display: flex;
+              margin-top: 1.875rem;
+              :nth-child(6n) {
+                position: relative;
+                &:after {
+                  content: "";
+                  position: absolute;
+                  border-right: 0.625rem solid transparent;
+                  border-left: 0.625rem solid transparent;
+                  border-top: 0.75rem solid $orange;
+                  right: 15%;
+                  top: -0.875rem;
+                  z-index: 1;
+                }
+                &:before {
+                  content: "Eesti keskmine";
+                  position: absolute;
+                  height: 1.375rem;
+                  font-size: 0.75rem;
+                  border-radius: 0.6875rem;
+                  background: $orange;
+                  z-index: 2;
+                  text-align: center;
+                  padding: 0 1rem;
+                  white-space: nowrap;
+                  margin: 0;
+                  top: -2rem;
+                  right: -2.5rem;
+                }
+              }
+            }
+            @include break-on(md, min) {
+              left: 40%;
+              &--pointer :nth-child(6n) {
+                &:after {
+                  bottom: 1.875rem;
+                }
+                &:before {
+                  bottom: 2.5rem;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
 }

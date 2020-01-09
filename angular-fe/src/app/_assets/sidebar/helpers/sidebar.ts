@@ -23,6 +23,7 @@ export const collection = {
   'fieldRegistration': 'register',
   'fieldRegistration2': 'register',
   'fieldButton': 'actions',
+  'fieldEhisLinks': 'actions',
   'fieldSchoolLocation': 'location',
   'fieldEventLocation': 'location',
   'indicator': 'facts',

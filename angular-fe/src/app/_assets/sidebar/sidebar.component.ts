@@ -22,7 +22,7 @@ const sidebarOrder = {
   school: ['fieldContact', 'fieldSchoolLocation'],
   profession: ['fillingBar', 'indicator', 'prosCons', 'fieldOskaField', 'fieldLearningOpportunities', 'fieldJobOpportunities', 'fieldQualificationStandard', 'fieldJobs', 'fieldQuickFind', 'fieldContact'],
   event: ['fieldRegistration', 'fieldEventLocation', 'fieldContact', 'additional'],
-  infosystem: ['fieldButton', 'fieldLegislationBlock'],
+  infosystem: ['fieldEhisLinks', 'fieldButton', 'fieldLegislationBlock'],
   field: ['indicator', 'prosCons', 'fieldOskaResults', 'fieldQuickFind', 'fieldRelatedPages'],
   resultPage: ['additional', 'fieldContactSection', 'fieldHyperlinks', 'fieldRelatedArticle'],
   dashboard: ['notifications', 'favourites', 'events'],
@@ -43,7 +43,7 @@ export class SidebarComponent implements OnInit, OnChanges {
   private collection: SidebarType = collection;
   private titleLess: TitleLess = titleLess;
   private keys: string[];
-  private orderedKeys: string [] = [];
+  private orderedKeys: string[] = [];
 
   public mappedData: any;
   @HostBinding('class') get hostClasses(): string {
@@ -59,7 +59,7 @@ export class SidebarComponent implements OnInit, OnChanges {
     }
   }
 
-  private getData():void {
+  private getData(): void {
     if (this.data) {
       this.data = FieldVaryService(this.data);
 
@@ -69,7 +69,7 @@ export class SidebarComponent implements OnInit, OnChanges {
           this.data['newsQuery'] = this.data['nodeQuery'];
           delete this.data['nodeQuery'];
         }
-      } catch (err) {}
+      } catch (err) { }
 
       if (this.data.sidebar && this.data.sidebar.entity) {
         Object.keys(this.data.sidebar.entity).forEach((elem) => {
@@ -121,11 +121,11 @@ export class SidebarComponent implements OnInit, OnChanges {
   selector: 'sidebar-links',
   templateUrl: './templates/sidebar.links.template.html',
 })
-export class SidebarLinksComponent implements OnInit, OnChanges{
+export class SidebarLinksComponent implements OnInit, OnChanges {
   @Input() data: Object[];
   public parsedData: Object[];
   public blocks;
-  constructor() {}
+  constructor() { }
 
   parseData() {
     this.parsedData = this.data.map((item: any) => {
@@ -170,7 +170,7 @@ export class SidebarLinksComponent implements OnInit, OnChanges{
           }
         });
         this.blocks = blocks.length ? blocks : false;
-      } catch (err) {}
+      } catch (err) { }
     }
   }
   ngOnInit() {
@@ -231,6 +231,7 @@ export class SidebarDataComponent {
 })
 export class SidebarActionsComponent {
   @Input() data;
+  @Input() icons;
 }
 @Component({
   selector: 'sidebar-location',
@@ -261,7 +262,7 @@ export class SidebarLocationComponent {
           this.options.centerLng = lon;
           this.markers.push({ Lat: lat, Lon: lon });
         });
-      } catch (err) {}
+      } catch (err) { }
     } else if (this.data.educationalInstitution) {
       try {
         this.data.educationalInstitution.entity.fieldSchoolLocation.forEach((loc) => {
@@ -272,7 +273,7 @@ export class SidebarLocationComponent {
           this.markers.push({ Lat: lat, Lon: lon });
         });
         this.data = this.data.educationalInstitution.entity.fieldSchoolLocation;
-      } catch (err) {}
+      } catch (err) { }
     } else {
       try {
         const lat = parseFloat(this.data.fieldEventLocation.lat);
@@ -296,7 +297,6 @@ export class SidebarLocationComponent {
     this.parseData();
   }
 }
-
 
 @Component({
   selector: 'sidebar-facts',
@@ -371,8 +371,7 @@ export class SidebarRegisterComponent {
     public modal: ModalService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
-  )
-  {}
+  ) { }
   @Input() data: any;
   private unix: number;
   private iCalUrl: string;
@@ -389,7 +388,7 @@ export class SidebarRegisterComponent {
         eventEndTime: this.pageData.fieldEventMainEndTime,
         eventExtraDates: this.pageData.fieldEventDate,
       };
-    } catch (err) {}
+    } catch (err) { }
 
     this.iCalUrl = `${this.settings.url}/calendarexport/`;
     this.unix = parseUnixDate(new Date().getTime() / 1000);
@@ -452,7 +451,7 @@ export class SidebarRegisterComponent {
       if (lastDate >= this.unix && firstDate <= this.unix) return true;
       if (firstDate > this.unix) return 'not_started';
       if (lastDate < this.unix) return 'ended';
-    } catch(err) {}
+    } catch (err) { }
   }
 }
 

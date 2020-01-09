@@ -57,7 +57,8 @@ import {
   SidebarComponent, SidebarLinksComponent, SidebarCategoriesComponent,
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
-  SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent, SidebarNotificationsComponent,
+  SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent,
+  SidebarNotificationsComponent,
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
