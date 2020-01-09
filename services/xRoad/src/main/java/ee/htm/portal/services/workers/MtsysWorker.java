@@ -800,13 +800,12 @@ public class MtsysWorker extends Worker {
             return jsonNode;
           }
 
-          ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_esitamise_tagasiside")
-              .putObject("data_elements");
-          ((ObjectNode) jsonNode.get("body").get("steps").get("step_esitamise_tagasiside"))
-              .putArray("messages");
+//          ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_esitamise_tagasiside")
+//              .putObject("data_elements");
+//          ((ObjectNode) jsonNode.get("body").get("steps").get("step_esitamise_tagasiside"))
+//              .putArray("messages");
 
-          saveMtsysTegevusluba(jsonNode, applicationId, personalCode,
-              "step_esitamise_tagasiside");
+          saveMtsysTegevusluba(jsonNode, applicationId, personalCode, "step_andmed");
           logForDrupal
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
           logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -823,7 +822,7 @@ public class MtsysWorker extends Worker {
               .mtsysEsitaTegevusluba(request, personalCode);
 
           if (response.isSetInfotekst()) {
-            ((ArrayNode) jsonNode.get("body").get("steps").get("step_esitamise_tagasiside")
+            ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed")
                 .get("messages")).add("infotekst_esita");
             ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_esita")
                 .put("message_type", "NOTICE")
@@ -831,7 +830,7 @@ public class MtsysWorker extends Worker {
                 .put("et", response.getInfotekst());
           }
 
-          ((ObjectNode) jsonNode.get("header")).put("current_step", "step_esitamise_tagasiside");
+          ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
           ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
 
           logForDrupal
