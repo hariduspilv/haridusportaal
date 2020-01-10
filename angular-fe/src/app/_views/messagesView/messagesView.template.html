@@ -1,0 +1,100 @@
+<base-layout>
+	<div class="inline">
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+	</div>
+	<form class="filter-wrapper" filters>
+		<div class="inline">
+			<div class="row">
+				<div class="col-6 sm-12">
+					<formItem
+						type="text"
+						title="{{ 'news.filter_name' | translate }}"
+						name="searchString"
+						pattern="minLength3"
+						errorMessage="Otsing peab olema vähemalt 3 tähemärki pikk"
+					></formItem>
+				</div>
+				<!--/col-4-->
+				<div class="col-2 sm-12">
+					<formItem
+						type="date"
+						title="{{ 'time.from' | translate }}"
+						name="sentFrom"
+					>
+					</formItem>
+				</div>
+				<!--/col-3-->
+				<div class="col-2 sm-12">
+					<formItem
+						type="date"
+						title="{{ 'time.to' | translate }}"
+						name="sentUntil"
+					></formItem>
+				</div>
+
+				<div class="col-2 align-end text-right sm-12 inline-flex">
+					<div class="button-row">
+						<button htm-button>{{ 'button.search' | translate }}</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+	<div class="inline">
+		<block>
+			<block-title>
+				TÖÖLAUD
+			</block-title>
+			<block-secondary-title
+				>Teavitused<a routerLink="/töölaud"
+					>Tagasi töölauale</a
+				></block-secondary-title
+			>
+			<block-content>
+				<table htm-table *ngIf="!loading && data.responseInfo.totalCount !== 0">
+					<thead>
+						<tr>
+							<th>Pealkiri</th>
+							<th>Saadetud</th>
+							<th>Prioriteet</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<ng-container *ngIf="auth.hasEhisToken | async">
+							<tr
+								*ngFor="let message of data.messages"
+								[class.unread]="!message.read"
+							>
+								<td>
+									{{ message.subject }}
+									<span *ngIf="!message.read" class="message__new-indicator"
+										>uus</span
+									>
+								</td>
+								<td>
+									{{ message.sentAt | date: 'dd.MM.yyyy HH:mm' }}
+								</td>
+								<td>
+									<icon glyph="flag" *ngIf="message.highPriority"></icon>
+									{{ message.highPriority ? ('messages.highPriority' |
+									translate) : '' }}
+								</td>
+								<td><a [routerLink]="message.id">Ava</a></td>
+							</tr>
+						</ng-container>
+						<ng-container *ngIf="loading">
+							<tr *ngFor="let i of [].constructor(5)">
+								<td><skeleton></skeleton></td>
+								<td><skeleton></skeleton></td>
+								<td><skeleton></skeleton></td>
+								<td><skeleton></skeleton></td>
+							</tr>
+						</ng-container>
+					</tbody>
+				</table>
+				<h3 *ngIf="!loading && data.responseInfo.totalCount === 0">Sulle ei ole ühtegi teavitust.</h3>
+			</block-content>
+		</block>
+	</div>
+</base-layout>
