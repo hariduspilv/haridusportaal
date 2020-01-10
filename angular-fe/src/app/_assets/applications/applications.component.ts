@@ -84,6 +84,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     ownershipType: [],
     studyInstitutionType: [],
   };
+  formOptionsQueried = false;
 
   public formGroup: FormGroup = this.formBuilder.group({});
 
@@ -451,13 +452,15 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const sub = this.http
       .get(`${this.settings.url}/educational-institution/data?_format=json`)
       .subscribe((response: any) => {
-
-        Object.keys(this.formOptions).forEach((key) => {
-          Object.values(response[key]).forEach((elem: any, index) => {
-            elem['id'] = Object.keys(response[key])[index];
-            this.formOptions[key].push({ key: elem.et, value: elem.id });
+        if (!this.formOptionsQueried) {
+          Object.keys(this.formOptions).forEach((key) => {
+            Object.values(response[key]).forEach((elem: any, index) => {
+              elem['id'] = Object.keys(response[key])[index];
+              this.formOptions[key].push({ key: elem.et, value: elem.id });
+            });
           });
-        });
+          this.formOptionsQueried = true;
+        }
 
         this.institutionModalFields.forEach((item) => {
           const value = item.modelCategory ?

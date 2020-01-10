@@ -164,7 +164,7 @@
 			<alerts small="true" id="general"></alerts>
 		</div>
 		<!-- *ngIf="(data.educationalInstitutions && !data.educationalInstitutions.length) || !data.educationalInstitutions" -->
-		<div *ngIf="data.educationalInstitutions && data.educationalInstitutions.length < 1" class="block-btn--holder">
+		<div *ngIf="data.educationalInstitutions && data.educationalInstitutions.length < 5" class="block-btn--holder">
 			<button class="block-btn" role="button" (click)="loadInstitutionModal()"
 				attr.aria-label="{{'dashboard.add_new_educational_institution' | translate}}">
 				+ {{'dashboard.add_new_educational_institution' | translate}}
