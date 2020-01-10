@@ -435,12 +435,14 @@ public class MtsysWorker extends Worker {
           .put("value", response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
               response.getTegevusloaAndmed().getKlSoidukiKategooria().intValue() : null);
 
-      stepZeroDataElementsNode.putObject("oppeTasemed").putArray("value");
+      stepZeroDataElementsNode.putObject("oppeTasemed").put("hidden",
+          !klOkLiik.equals(18057L) && !klOkLiik.equals(18102L)).putArray("value");
       response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList().forEach(
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppeTasemed")
               .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().toString()));
 
-      stepZeroDataElementsNode.putObject("oppekavaRuhmad").putArray("value");
+      stepZeroDataElementsNode.putObject("oppekavaRuhmad").put("hidden", !klOkLiik.equals(18098L))
+          .putArray("value");
       response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList().forEach(
           ehisKlassifikaator -> ((ArrayNode) stepZeroDataElementsNode.get("oppekavaRuhmad")
               .get("value")).addObject().put("nimetus", ehisKlassifikaator.getId().toString()));
@@ -462,14 +464,17 @@ public class MtsysWorker extends Worker {
       stepZeroDataElementsNode.putObject("koduleht")
           .put("value", response.getKontaktandmed().getKoduleht());
 
-      stepZeroDataElementsNode.putObject("peatamised").putArray("value");
+      stepZeroDataElementsNode.putObject("peatamised").put("hidden",
+          !response.isSetPeatamised() || response.getPeatamised().getPeatamineList().isEmpty())
+          .putArray("value");
       response.getPeatamised().getPeatamineList().forEach(
           peatamine -> ((ArrayNode) stepZeroDataElementsNode.get("peatamised").get("value"))
               .addObject()
               .put("algusKp", peatamine.getAlgusKp())
               .put("loppKp", peatamine.getLoppKp()));
 
-      stepZeroDataElementsNode.putObject("dokumendid").putArray("value");
+      stepZeroDataElementsNode.putObject("dokumendid").put("hidden", klOkLiik.equals(18098L))
+          .putArray("value");
       response.getDokumendid().getDokumentList().forEach(
           dokument -> {
             ((ArrayNode) stepZeroDataElementsNode.get("dokumendid").get("value")).addObject()
@@ -673,6 +678,7 @@ public class MtsysWorker extends Worker {
           jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
           "educationalInstitution_" + jsonNode.get("header").get("agents").get(0)
               .get("educationalInstitutions_id").asText());
+      boolean addAddress = true;
 
       if (stepLiik.equals(18098L)) {
         try {
@@ -690,12 +696,17 @@ public class MtsysWorker extends Worker {
                   .addObject().put("nimetus", item.getId().toString()));
 
           setAadress(response.getAadressid(), stepAndmed);
+          addAddress = false;
 
         } catch (Exception e) {
-          setXdzeisonError(LOGGER, jsonNode, e);
+          LOGGER.error(e, e);
+          addAddress = false;
+//          setXdzeisonError(LOGGER, jsonNode, e);
         }
-      } else {
-        if (oppeasutusedNode != null) {
+      }
+
+      if (oppeasutusedNode != null) {
+        if (addAddress) {
           ((ArrayNode) stepAndmed.get("aadressid").get("value")).addObject().putObject("aadress")
               .put("adsId", oppeasutusedNode.get("educationalInstitution")
                   .get("address").get("adsId").asLong())
@@ -712,9 +723,7 @@ public class MtsysWorker extends Worker {
               .put("addressHumanReadable", oppeasutusedNode.get("educationalInstitution")
                   .get("address").get("addressHumanReadable").asText());
         }
-      }
 
-      if (oppeasutusedNode != null) {
         stepAndmed.putObject("oppeasutuseNimetus")
             .put("value", oppeasutusedNode.get("educationalInstitution").get("generalData")
                 .get("name").asText());
@@ -772,6 +781,17 @@ public class MtsysWorker extends Worker {
                 .put("message_type", "ERROR").putObject("message_text")
                 .put("et", "Õppekavarühmad puuduvad.");
           }
+          if (!jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("valisAadress").get("value").asBoolean()
+              && jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
+              .get("aadressid").get("value").size() == 0) {
+            repeatStepAndmed.set(true);
+            ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                .add("address_validation_error");
+            ((ObjectNode) jsonNode.get("messages")).putObject("address_validation_error")
+                .put("message_type", "ERROR").putObject("message_text")
+                .put("et", "Taotluse esitamisel on kohustuslik määrata asukoht!.");
+          }
           AtomicInteger validationErrors = new AtomicInteger(0);
           ObjectNode fileTypes = getKlfNode("failiTyybid");
           Long klOkLiik = jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
@@ -800,13 +820,12 @@ public class MtsysWorker extends Worker {
             return jsonNode;
           }
 
-          ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_esitamise_tagasiside")
-              .putObject("data_elements");
-          ((ObjectNode) jsonNode.get("body").get("steps").get("step_esitamise_tagasiside"))
-              .putArray("messages");
+//          ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_esitamise_tagasiside")
+//              .putObject("data_elements");
+//          ((ObjectNode) jsonNode.get("body").get("steps").get("step_esitamise_tagasiside"))
+//              .putArray("messages");
 
-          saveMtsysTegevusluba(jsonNode, applicationId, personalCode,
-              "step_esitamise_tagasiside");
+          saveMtsysTegevusluba(jsonNode, applicationId, personalCode, "step_andmed");
           logForDrupal
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
           logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -823,7 +842,7 @@ public class MtsysWorker extends Worker {
               .mtsysEsitaTegevusluba(request, personalCode);
 
           if (response.isSetInfotekst()) {
-            ((ArrayNode) jsonNode.get("body").get("steps").get("step_esitamise_tagasiside")
+            ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed")
                 .get("messages")).add("infotekst_esita");
             ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_esita")
                 .put("message_type", "NOTICE")
@@ -831,7 +850,7 @@ public class MtsysWorker extends Worker {
                 .put("et", response.getInfotekst());
           }
 
-          ((ObjectNode) jsonNode.get("header")).put("current_step", "step_esitamise_tagasiside");
+          ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
           ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
 
           logForDrupal
