@@ -948,11 +948,17 @@ public class MtsysWorker extends Worker {
     dataObjectNode.get("aadressid").get("value").forEach(item0 -> {
       ObjectNode item = (ObjectNode) item0.get("aadress");
       Aadress aadress = Aadress.Factory.newInstance();
+      if (!item.get("seqNo").isNull()) {
+        aadress.setJrkNr(item.get("seqNo").asLong());
+      }
       if (!item.get("adsId").isNull()) {
         aadress.setAdsId(BigInteger.valueOf(item.get("adsId").asLong()));
       }
       if (!item.get("adsOid").isNull()) {
         aadress.setAdsOid(item.get("adsOid").asText());
+      }
+      if (!item.get("klElukoht").isNull()) {
+        aadress.setKlElukoht(BigInteger.valueOf(item.get("klElukoht").asLong()));
       }
       if (!item.get("county").isNull()) {
         aadress.setMaakond(item.get("county").asText());
@@ -965,6 +971,9 @@ public class MtsysWorker extends Worker {
       }
       if (!item.get("address").isNull()) {
         aadress.setAdsAadress(item.get("address").asText());
+      }
+      if (!item.get("addressFull").isNull()) {
+        aadress.setTaisAadress(item.get("addressFull").asText());
       }
       if (!item.get("addressHumanReadable").isNull()) {
         aadress.setAdsAadressHumanReadable(item.get("addressHumanReadable").asText());
