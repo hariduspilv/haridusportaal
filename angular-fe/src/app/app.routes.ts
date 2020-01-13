@@ -185,6 +185,11 @@ const routes: Routes = [
     canActivate: [AuthService],
   },
   {
+    path: 'töölaud/gdpr',
+    loadChildren: () => import('./_views/gdprView').then(m => m.GdprViewModule),
+    canActivate: [AuthService],
+  },
+  {
     path: 'preview',
     loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {

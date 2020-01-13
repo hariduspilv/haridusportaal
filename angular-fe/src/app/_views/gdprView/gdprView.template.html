@@ -1,0 +1,25 @@
+<base-layout>
+	<div class="inline">
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+	</div>
+	<div class="inline">
+		<block>
+			<block-title>
+				SINU ANDMETE KASUTAJAD
+			</block-title>
+			<block-secondary-title
+				>Päring minu andmete vaatamise kohta<a routerLink="/töölaud"
+					>Tagasi töölauale</a
+				></block-secondary-title
+			>
+			<block-content>
+				<p *ngIf="!this.data">
+					Andmed puuduvad
+				</p>
+				<accordion>
+					<accordion-item></accordion-item>
+				</accordion>
+			</block-content>
+		</block>
+	</div>
+</base-layout>
