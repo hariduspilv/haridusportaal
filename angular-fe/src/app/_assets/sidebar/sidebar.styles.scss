@@ -199,6 +199,12 @@
           margin-top: 1rem;
           display: flex;
           justify-content: center;
+          a {
+            text-decoration: underline;
+            &:hover {
+              text-decoration: none;
+            }
+          }
         }
       }
       sidebar-progress {
