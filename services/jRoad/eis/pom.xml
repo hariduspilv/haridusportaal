@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ee.htm.portal.services</groupId>
+<!--  <groupId>ee.htm.portal.services</groupId>-->
   <artifactId>jRoad_EIS_Client</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>jar</packaging>
@@ -12,17 +12,17 @@
   <name>jRoad_EIS_Client</name>
 
   <parent>
-    <groupId>com.nortal.jroad</groupId>
-    <artifactId>xtee-root</artifactId>
-    <version>4.2.5</version>
+    <groupId>ee.htm.portal.services</groupId>
+    <artifactId>jRoad_Clients</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <properties>
+<!--  <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <java.version>1.8</java.version>
     <jroad.version>4.2.5</jroad.version>
-  </properties>
+  </properties>-->
 
   <dependencies>
     <dependency>
@@ -45,6 +45,15 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>${java.version}</source>
+          <target>${java.version}</target>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
