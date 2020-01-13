@@ -1,0 +1,32 @@
+<article-layout>
+	<div class="inline">
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+	</div>
+	<div class="inline">
+		<block>
+			<block-title>
+				SINU ANDMETE KASUTAJAD
+			</block-title>
+			<block-secondary-title
+				>Päring minu andmete vaatamise kohta<a routerLink="/töölaud"
+					>Tagasi töölauale</a
+				></block-secondary-title
+			>
+			<block-content>
+				<p *ngIf="!loading && !this.data">
+					Andmed puuduvad
+				</p>
+				<accordion *ngIf="!loading && groupedData.length > 0">
+					<accordion-item [title]="group.institution + ' <span>(' + group.queries.length + ' päringut)</span>'" *ngFor="let group of groupedData" >
+						<table htm-table>
+							<tr *ngFor="let query of group.queries">
+								<td>{{query.logTime}}</td>
+								<td>{{query.action}}</td>
+							</tr>
+						</table>
+					</accordion-item>
+				</accordion>
+			</block-content>
+		</block>
+	</div>
+</article-layout>

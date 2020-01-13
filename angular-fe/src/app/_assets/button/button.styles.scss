@@ -78,6 +78,17 @@
 		}
 	}
 
+	&.button--outline {
+		background: $white;
+		color: $blue;
+		border:1px solid $blue;
+		width: 100%;
+		box-shadow: none;
+		&:hover {
+			background: $light-gray;
+		}
+	}
+
 	.button--label {
 		position: relative;
 		z-index: 2;

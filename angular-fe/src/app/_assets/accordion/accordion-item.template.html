@@ -1,6 +1,6 @@
 <div class="accordion__wrapper" [class.accordion__wrapper--active]="this.styleState">
   <div class="accordion__title" (click)="openAccordion()" ripple="light">
-    {{ title }}
+    <div [innerHTML]="title"></div>
     <div class="accordion__indicator" [class.accordion__indicator--active]="active">
       <icon glyph="chevron-down"></icon>
     </div><!--/accordion__indicator-->

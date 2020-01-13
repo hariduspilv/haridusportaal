@@ -54,10 +54,10 @@
 				<table htm-table *ngIf="!loading && data.responseInfo.totalCount !== 0">
 					<thead>
 						<tr>
-							<th>Pealkiri</th>
-							<th>Saadetud</th>
-							<th>Prioriteet</th>
-							<th></th>
+							<th scope="col">Pealkiri</th>
+							<th scope="col">Saadetud</th>
+							<th scope="col">Prioriteet</th>
+							<th [attr.aria-hidden]="true"></th>
 						</tr>
 					</thead>
 					<tbody>

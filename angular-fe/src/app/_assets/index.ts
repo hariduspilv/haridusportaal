@@ -58,7 +58,7 @@ import {
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
   SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent,
-  SidebarNotificationsComponent,
+  SidebarNotificationsComponent, SidebarGdprComponent,
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
@@ -154,6 +154,7 @@ const declarations = [
   SidebarRegisterComponent,
   SidebarEventsComponent,
   SidebarNotificationsComponent,
+  SidebarGdprComponent,
   StudyProgrammesComponent,
   SchoolsComponent,
   ProgressBarComponent,
