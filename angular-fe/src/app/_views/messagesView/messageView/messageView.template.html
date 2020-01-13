@@ -15,7 +15,7 @@
 			</block-secondary-title>
 			<block-content>
 				<skeleton type="article" *ngIf="loading"></skeleton>
-				<ng-container *ngIf="!loading && !errors">
+				<ng-container *ngIf="!loading">
           <div class="message">
             <dl>
               <dt>{{'messages.subject' | translate}}:</dt>

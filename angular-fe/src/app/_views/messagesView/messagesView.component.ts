@@ -15,7 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 
 export class MessagesViewComponent implements OnInit{
 
-  public data: any[] = [];
+  public data: any;
   public breadcrumbs: any = [
     {
       title: 'Avaleht',
