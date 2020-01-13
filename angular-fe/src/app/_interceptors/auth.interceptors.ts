@@ -28,6 +28,15 @@ export class AuthInterceptor implements HttpInterceptor{
         .set('Authorization', `Bearer ${token}`);
     }
 
+    if (
+      this.authService.isLoggedIn() &&
+      request.url.includes('/messages/messages/receiver')
+    ) {
+      const token = sessionStorage.getItem('ehisToken');
+      headers = headers
+      .set('Authorization', `Bearer ${token}`);
+    }
+
     headers = headers
       .set('Cache-Control', 'no-cache')
       .set('Pragma', 'no-cache')

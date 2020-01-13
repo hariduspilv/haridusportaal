@@ -25,6 +25,7 @@ export class AuthService implements CanActivate {
   }
 
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public hasEhisToken: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public user: any = {};
 
   get userData() {
@@ -44,10 +45,8 @@ export class AuthService implements CanActivate {
           if (this.settings.url === 'https://htm.wiseman.ee') {
             this.testNewJWT(response['token']);
           }
-          this.isAuthenticated.next(true);
           this.userData = this.decodeToken(response.token);
-          const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
-          this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
+          this.isAuthenticated.next(true);
         } else {
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('ehisToken');
@@ -62,17 +61,28 @@ export class AuthService implements CanActivate {
       jwt: token,
     };
     this.http
-    .post(`${this.settings.url}/ehis/jwt`, data).subscribe((response: any) => {
-      if (response.jwt) {
-        sessionStorage.setItem('ehisToken', response.jwt);
+    .post(`${this.settings.url}/ehis/jwt`, data).subscribe(
+      (response: any) => {
+        if (response.jwt) {
+          sessionStorage.setItem('ehisToken', response.jwt);
+          this.hasEhisToken.next(true);
+        }
+        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
+        this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
+      },
+      (err) => {
+        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
+        this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
       }
-    });
+    );
   }
 
   public logout() {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('redirectUrl');
+    sessionStorage.removeItem('ehisToken');
     this.isAuthenticated.next(false);
+    this.hasEhisToken.next(false);
     this.router.navigateByUrl('/');
   }
 
@@ -85,9 +95,11 @@ export class AuthService implements CanActivate {
     }
     if (this.isTokenExpired()) {
       sessionStorage.removeItem('token');
+      sessionStorage.removeItem('ehisToken');
       sessionStorage.removeItem('redirectUrl');
       if (this.isAuthenticated.getValue()) {
         this.isAuthenticated.next(false);
+        this.hasEhisToken.next(false);
       }
       return false;
     }
@@ -100,13 +112,16 @@ export class AuthService implements CanActivate {
       sessionStorage.setItem('token', newToken);
     }
     const token = sessionStorage.getItem('token');
+    if (sessionStorage.getItem('ehisToken')) {
+      this.hasEhisToken.next(true);
+    }
     this.userData = this.decodeToken(token);
     if (!this.isAuthenticated.getValue()) {
       this.isAuthenticated.next(true);
     }
   }
 
-  private decodeToken(token) {
+  public decodeToken(token) {
     const payload = JSON.parse(
       decodeURIComponent(
         escape(

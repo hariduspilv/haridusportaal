@@ -1,11 +1,16 @@
-<ul *ngIf="data">
+<ul *ngIf="data.list.length > 0">
   <li *ngFor="let item of data.list | slice:0:3">
-    <a target="_blank" [class.unread]="item.unread">
-      <span>{{item.koer}}</span>
-      <p>{{item.date * 1000 | date:"dd.MM.yyyy"}} kell {{item.timestamp | unixToTime}}</p>
+    <a [routerLink]="'/töölaud/teavitused/' + item.id" class="message" [class.unread]="!item.read">
+      <span>{{item.subject}}</span>
+      <p>{{item.sentAt | date:"dd.MM.yyyy"}} kell {{item.sentAt | date:"HH:mm"}}</p>
     </a>
   </li>
 </ul>
-<div class="bottom">
-  <a>Vaata kõiki teavitusi</a>
+<ul class="no-messages" *ngIf="data.list.length === 0">
+  <li>
+    Sulle ei ole ühtegi teavitust.
+  </li>
+</ul>
+<div class="bottom" *ngIf="data.list.length > 0">
+  <a routerLink="/töölaud/teavitused">Vaata kõiki teavitusi</a>
 </div>

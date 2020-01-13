@@ -170,8 +170,18 @@ const routes: Routes = [
       .then(m => m.CertificateCheckViewModule),
   },
   {
+    path: 'lõpudokumentide-kehtivuse-kontroll',
+    loadChildren: () => import('./_views/documentCheckView')
+      .then(m => m.DocumentCheckViewModule),
+  },
+  {
     path: 'töölaud/taotlused/:id',
     loadChildren: () => import('./_views/xjson').then(m => m.XjsonModule),
+    canActivate: [AuthService],
+  },
+  {
+    path: 'töölaud/teavitused',
+    loadChildren: () => import('./_views/messagesView').then(m => m.MessagesViewModule),
     canActivate: [AuthService],
   },
   {

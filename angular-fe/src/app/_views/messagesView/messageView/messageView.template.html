@@ -1,0 +1,60 @@
+<base-layout>
+	<div class="inline">
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+	</div>
+	<div class="inline">
+		<block>
+			<block-title>
+				Töölaud
+			</block-title>
+			<block-secondary-title>
+				Teavitused
+				<a routerLink="/töölaud/teavitused"
+					>Tagasi teavituste nimekirja vaatesse</a
+				>
+			</block-secondary-title>
+			<block-content>
+				<skeleton type="article" *ngIf="loading"></skeleton>
+				<ng-container *ngIf="!loading && !errors">
+          <div class="message">
+            <dl>
+              <dt>{{'messages.subject' | translate}}:</dt>
+              <dd>{{ data.subject }}</dd>
+              <dt>{{'messages.sentAt' | translate}}:</dt>
+              <dd>
+                {{ data.status === 'SENT' ? (data.sentAt | date: 'dd.MM.yyyy') :
+                '-' }}
+              </dd>
+              <dt>{{'messages.body' | translate}}:</dt>
+              <dd [innerHTML]="data.body" class="html"></dd>
+              <ng-container *ngIf="data.highPriority">
+                <dt>{{'messages.priority' | translate}}:</dt>
+                <dd>
+                  <icon glyph="flag"></icon> {{ 'messages.highPriority' |
+                  translate}}
+                </dd>
+              </ng-container>
+              <dt>{{'messages.replyTo' | translate}}:</dt>
+              <dd><a href="mailto:{{ data.replyTo }}">{{ data.replyTo }}</a></dd>
+            </dl
+            >
+            <div class="message__bottom">
+              <button htm-button theme="link" (click)="modal.toggle('delete')">
+                Kustuta
+              </button>
+            </div>
+          </div>
+        </ng-container>
+			</block-content>
+		</block>
+	</div>
+</base-layout>
+<htm-modal id="delete" modalTitle="{{'messages.delete' | translate}}" [bottomAction]="false">
+  <modal-content>
+    <p>{{'messages.deleteMessage' | translate}}</p>
+    <div class="button-container">
+      <button htm-button theme="plain" (click)="modal.toggle('delete')">{{'messages.decline' | translate}}</button>
+      <button htm-button (click)="deleteMessage(); modal.close('delete')">{{'messages.acceptDelete' | translate}}</button>
+    </div>
+  </modal-content>
+</htm-modal>

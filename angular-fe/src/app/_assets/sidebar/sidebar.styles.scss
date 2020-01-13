@@ -170,17 +170,31 @@
             text-decoration: underline;
           }
         }
-        a.unread {
-          span {
-            font-weight: 500;
+        .message {
+          font-size: 1.375rem;
+          word-break: break-all;
+          hyphens: auto;
+          &.unread {
+            span {
+              font-weight: 500;
+            }
+          }
+          p {
+            line-height: 1.375;
+            margin-bottom: 0;
+            margin-top: 0;
+            color: $dark-gray;
+            font-size: 0.875rem;
           }
         }
-        p {
-          line-height: 1.375;
-          margin-bottom: 0;
-          margin-top: 0;
-          color: $black;
+        .no-messages {
+          li {
+            border-bottom: 0;
+            color: $dark-gray;
+            padding-bottom: 0;
+          }
         }
+
         .bottom {
           margin-top: 1rem;
           display: flex;
