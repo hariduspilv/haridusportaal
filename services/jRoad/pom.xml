@@ -4,7 +4,6 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>ee.htm.portal.services</groupId>
   <artifactId>jRoad_Clients</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -12,22 +11,27 @@
   <name>jRoad_Clients</name>
 
   <parent>
-    <groupId>com.nortal.jroad</groupId>
-    <artifactId>xtee-root</artifactId>
-    <version>4.2.5</version>
+    <groupId>ee.htm.portal.services</groupId>
+    <artifactId>htm-liides</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
 
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <java.version>1.8</java.version>
-    <jroad.version>4.2.5</jroad.version>
-  </properties>
-
   <modules>
-	<module>arireg</module>
-	<module>ehis</module>
-	<module>eis</module>
-	<module>kutseregister</module>
+    <module>arireg</module>
+    <module>ehis</module>
+    <module>eis</module>
+    <module>kutseregister</module>
   </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.nortal.jroad</groupId>
+        <artifactId>xtee-root</artifactId>
+        <version>${jroad.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
