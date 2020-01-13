@@ -14,7 +14,7 @@
           <sidebar-links *ngSwitchCase="'links'" [data]="mappedData[keyVal]"></sidebar-links>
           <sidebar-categories *ngSwitchCase="'categories'" [data]="mappedData[keyVal]"></sidebar-categories>
           <sidebar-contact *ngSwitchCase="'contact'" [data]="mappedData[keyVal]"></sidebar-contact>
-          <sidebar-actions *ngSwitchCase="'actions'" [data]="mappedData[keyVal]"
+          <sidebar-actions *ngSwitchCase="'actions'" [data]="isArray(mappedData[keyVal]) ? mappedData[keyVal] : [mappedData[keyVal]]"
             [icons]="keyVal === 'fieldEhisLinks' ? true : false"></sidebar-actions>
           <sidebar-articles *ngSwitchCase="'articles'" [data]="mappedData[keyVal]"></sidebar-articles>
           <sidebar-articles *ngSwitchCase="'news'" [data]="mappedData[keyVal]"></sidebar-articles>
