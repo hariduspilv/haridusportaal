@@ -40,6 +40,8 @@ export class SidebarComponent implements OnInit, OnChanges {
 
   private type: string;
 
+  public isArray = Array.isArray;
+
   private collection: SidebarType = collection;
   private titleLess: TitleLess = titleLess;
   private keys: string[];
