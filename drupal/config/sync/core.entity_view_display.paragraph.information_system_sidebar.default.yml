@@ -5,6 +5,7 @@ dependencies:
   config:
     - field.field.paragraph.information_system_sidebar.field_blocks
     - field.field.paragraph.information_system_sidebar.field_button
+    - field.field.paragraph.information_system_sidebar.field_ehis_links
     - field.field.paragraph.information_system_sidebar.field_legislation_block
     - paragraphs.paragraphs_type.information_system_sidebar
   module:
@@ -36,6 +37,18 @@ content:
     third_party_settings: {  }
     type: link
     region: content
+  field_ehis_links:
+    weight: 5
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
   field_legislation_block:
     weight: 2
     label: above
@@ -48,4 +61,5 @@ content:
     third_party_settings: {  }
     type: link
     region: content
-hidden: {  }
+hidden:
+  search_api_excerpt: true
