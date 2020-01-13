@@ -37,7 +37,7 @@ export class InfoSystemViewComponent implements OnInit {
     };
 
     const path = this.settings.query('infoSystemPage', variables);
-
+    console.log(variables);
     const subscription = this.http.get(path).subscribe((response) => {
 
       this.origData = response['data']['route']['entity'];
@@ -61,12 +61,16 @@ export class InfoSystemViewComponent implements OnInit {
   private watchParams() {
     this.paramsWatcher = this.route.params.subscribe((routeParams) => {
       this.data = false;
-      this.initialize();
+      this.initialize(true);
     });
   }
 
-  private initialize() {
-    this.path = decodeURI(this.path || this.location.path());
+  private initialize(forceNewPath = false) {
+    if (forceNewPath) {
+      this.path = decodeURI(this.location.path());
+    } else {
+      this.path = decodeURI(this.path || this.location.path());
+    }
     if (!this.data) {
       this.getData();
     }
@@ -74,5 +78,8 @@ export class InfoSystemViewComponent implements OnInit {
   ngOnInit() {
     this.watchParams();
     this.initialize();
+  }
+  ngOnDestroy(): void {
+    this.paramsWatcher.unsubscribe();
   }
 }

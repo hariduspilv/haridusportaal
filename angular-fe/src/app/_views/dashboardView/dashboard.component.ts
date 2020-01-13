@@ -63,6 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       favourites: [],
       event: [],
       // notifications: {},
+      gdpr: true,
     },
   };
   eventsListDone = false;
@@ -144,7 +145,6 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
           },
         ),
       );
-
     }
 
     if (this.applicationsComponent) {
@@ -371,56 +371,23 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   getNotifications(): void {
-    // make request
-    const unreadNotifications = 10;
-    const notificationsList = [
-      {
-        koer: 'Õppetoetuse taotluse rahuldamise otsus',
-        timestamp: 15939323,
-        date: 135352342,
-        unread: true,
-      },
-      {
-        koer: 'Eksmatrikuleerimine eluülikoolist igaveseks',
-        timestamp: 15939323,
-        date: 135352342,
-        unread: true,
-      },
-      {
-        koer: 'Õpikute tagastamise reeglid',
-        timestamp: 15939323,
-        date: 135352342,
-        unread: false,
-      },
-      {
-        koer: 'kala',
-        timestamp: 15939323,
-        date: 135352342,
-        unread: false,
-      },
-      {
-        koer: 'kala',
-        timestamp: 15939323,
-        date: 135352342,
-        unread: false,
-      },
-      {
-        koer: 'kala',
-        timestamp: 15939323,
-        date: 135352342,
-        unread: true,
-      },
-      {
-        koer: 'kala',
-        timestamp: 15939323,
-        date: 135352342,
-        unread: true,
-      },
-    ]
-    // this.sidebar.entity['notifications']['list'] = notificationsList;
-    // this.sidebar.entity['notifications']['unread'] = unreadNotifications;
-    // request done
-    // give data to sidebar
+    const notifications = {
+      unread: 0,
+      list: [],
+    };
+    if (this.auth.hasEhisToken.getValue()) {
+      this.http.get(`${this.settings.url}/messages/messages/receiver/unreadmessagecount`).subscribe((val: any) => {
+        notifications.unread = val.UnreadMessagesQty;
+      });
+      this.http.get(`${this.settings.url}/messages/messages/receiver?orderby=sentAt&sort=DESC`).subscribe((val: any) => {
+        if (val.messages.length > 5) {
+          notifications.list = [...val.messages.splice(0, 5)];
+        } else {
+          notifications.list = [...val.messages];
+        }
+      });
+    }
+    this.sidebar.entity['notifications'] = notifications;
   }
 
   ngOnInit() {

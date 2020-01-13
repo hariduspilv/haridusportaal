@@ -9,6 +9,7 @@
           </div>
         </block-title>
         <block-content [ngSwitch]="collection[keyVal]">
+          <sidebar-gdpr *ngSwitchCase="'gdpr'" [data]="mappedData[keyVal]"></sidebar-gdpr>
           <sidebar-notifications *ngSwitchCase="'notifications'" [data]="mappedData[keyVal]"></sidebar-notifications>
           <sidebar-links *ngSwitchCase="'links'" [data]="mappedData[keyVal]"></sidebar-links>
           <sidebar-categories *ngSwitchCase="'categories'" [data]="mappedData[keyVal]"></sidebar-categories>

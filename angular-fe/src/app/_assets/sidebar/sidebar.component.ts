@@ -25,7 +25,7 @@ const sidebarOrder = {
   infosystem: ['fieldEhisLinks', 'fieldButton', 'fieldLegislationBlock'],
   field: ['indicator', 'prosCons', 'fieldOskaResults', 'fieldQuickFind', 'fieldRelatedPages'],
   resultPage: ['additional', 'fieldContactSection', 'fieldHyperlinks', 'fieldRelatedArticle'],
-  dashboard: ['notifications', 'favourites', 'events'],
+  dashboard: ['gdpr', 'notifications', 'favourites', 'events'],
 };
 // tslint:enable
 
@@ -64,7 +64,6 @@ export class SidebarComponent implements OnInit, OnChanges {
   private getData(): void {
     if (this.data) {
       this.data = FieldVaryService(this.data);
-
       // Try to determine if its news data
       try {
         if (this.data['nodeQuery']['entities'][0]['entityUrl']['path'].match('uudised')) {
@@ -470,5 +469,13 @@ export class SidebarEventsComponent {
   templateUrl: './templates/sidebar.notifications.template.html',
 })
 export class SidebarNotificationsComponent {
+  @Input() data: any;
+}
+
+@Component({
+  selector: 'sidebar-gdpr',
+  templateUrl: './templates/sidebar.gdpr.template.html',
+})
+export class SidebarGdprComponent {
   @Input() data: any;
 }
