@@ -17,6 +17,7 @@ export class ListItemComponent implements OnInit, OnChanges{
   @Input() list: Object[];
   @Input() type: string;
   @Input() compare: string;
+  @Input() addonClass: string = '';
 
   public closeTime: number = 5000;
   private translationsPerType = translationsPerType;

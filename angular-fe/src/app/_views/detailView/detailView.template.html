@@ -47,6 +47,14 @@
 				
 					<htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 
+					<ng-container *ngIf="data.fieldAccordion && data.fieldAccordion.length">
+						<accordion [collapsible]="true">
+							<accordion-item [title]="'oskaProfessions.label' | translate">
+								<listItems [list]="data.fieldAccordion" type='mainProfession' compare="oskaProfessionsComparison" addonClass="list__item--detailedProfession"></listItems>
+							</accordion-item>
+						</accordion>
+						
+					</ng-container>
 					<accordion [collapsible]="true" *ngIf="data.accordion">
 						<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
 							<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>

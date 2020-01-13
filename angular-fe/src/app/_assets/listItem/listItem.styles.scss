@@ -183,6 +183,17 @@ $grid-columns: 12;
           }
         }
       }
+      &--detailedProfession {
+        .inline__items{
+          .bar {
+            display: none;
+          }
+          .item {
+            width: 100%;
+          }
+        }
+      }
+
       p:first-child {
         margin-top: 0;
       }

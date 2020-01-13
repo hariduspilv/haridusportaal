@@ -180,6 +180,17 @@ export class DetailViewComponent {
       this.data.video.splice(0, 1);
     }
 
+    this.data['fieldAccordion'] = this.data.reverseFieldOskaFieldParagraph ?
+      this.data.reverseFieldOskaFieldParagraph.entities : false;
+
+    if (this.data.fieldAccordion) {
+      try {
+        this.data.fieldAccordion = this.data.fieldAccordion.map((item) => {
+          return FieldVaryService(item.paragraphReference[0]);
+        });
+      } catch (err) {}
+    }
+
     this.loading = false;
 
     this.feedbackNid = this.data.nid;
