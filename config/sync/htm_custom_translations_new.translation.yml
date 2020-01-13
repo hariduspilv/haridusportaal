@@ -3221,3 +3221,48 @@ Kvalifikatsioonid:
   translation_type: textarea
   et: KVALIFIKATSIOONID
   en: QUALIFICATIONS
+messages:
+  highPriority:
+    translation_type: textarea
+    et: Kõrge
+    en: 'Kõrge -eng'
+  subject:
+    translation_type: textarea
+    et: Pealkiri
+    en: 'Pealkiri - eng'
+  body:
+    translation_type: textarea
+    et: Sisu
+    en: 'Sisu - eng'
+  priority:
+    translation_type: textarea
+    et: Prioriteet
+    en: 'Prioriteet - eng'
+  replyTo:
+    translation_type: textarea
+    et: 'E-postiga teatele vastamise aadress'
+    en: 'E-postiga teatele vastamise aadress - eng'
+  sentAt:
+    translation_type: textarea
+    et: 'Saatmise aeg'
+    en: 'Saatmise aeg -eng'
+  deleteMessage:
+    translation_type: textarea
+    et: 'Kas olete kindel, et soovite teate kustutada?'
+    en: 'Kas olete kindel, et soovite teate kustutada? - eng'
+  acceptDelete:
+    translation_type: textarea
+    et: 'Jah, soovin'
+    en: 'Jah, soovin'
+  decline:
+    translation_type: textarea
+    et: 'Ei soovi'
+    en: 'Ei soovi - eng'
+  delete:
+    translation_type: textarea
+    et: Kustuta
+    en: 'Kustuta - eng'
+notifications:
+  translation_type: textarea
+  et: Teavitused
+  en: 'Teavitused - eng'
