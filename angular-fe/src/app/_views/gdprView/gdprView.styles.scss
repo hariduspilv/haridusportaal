@@ -2,12 +2,6 @@
 @import 'breakpoints.scss';
 
 :host {
-  ::ng-deep icon i.icon.flag {
-    color: $red;
-  }
-  .col-25 {
-    width: 20.83%;
-  }
   ::ng-deep block-secondary-title {
     display: flex;
     justify-content: space-between;
@@ -17,178 +11,12 @@
       font-weight: normal;
     }
   }
-  tr {
-    th {
-      border-left: 0;
-      border-right: 0;
-    }
-    td { 
-      font-size: 1rem;
-      border-left: 0;
-      border-right: 0;
-    }
-    td:first-child {
-      word-break: break-word;
-      hyphens: auto;
-    }
-  }
-  .unread {
-    td {
+  ::ng-deep accordion-item {
+    .accordion__title {
       font-weight: 500;
-      
-    }
-  }
-  .message__new-indicator {
-    background-color: $light-red;
-    color: $red;
-    padding: 0.25rem 0.5rem;
-    font-size: 0.625rem;
-    border-radius: 1rem;
-    font-weight: normal;
-    margin-left: 0.75rem;
-  }
-
-  .filter-wrapper {
-    padding: 1.5rem;
-    background: #fff;
-    @include break-on(sm, min) {
-      margin: 0rem 0 1.5rem;
-      padding: 0.75rem 1.5rem;
-    }
-    @include break-on(sm, max) {
-      margin-bottom: 0;
-      // margin: 1.5rem 0;
-      .filter-control {
-        padding: 0 !important;
-        span {
-          margin-right: 1rem;
-        }
+      span {
+        font-weight: normal;
       }
-      &.filtersActive {
-        display: block;
-      }
-    }
-    .filter-control {
-      padding: 1.5rem 0rem 0.5rem;
-    }
-    .text-right {
-      text-align: right;
-    }
-  }
-
-  //why
-
-
-  .row {
-    margin: 0 -0.5rem;
-    &.form-first-row {
-      padding-top: 0.75rem;
-    }
-    .align-end {
-      align-self: flex-end;
-      margin-bottom: auto;
-    }
-    .inline-flex {
-      display: inline-flex;
-      justify-content: flex-end;
-    }
-    .text-right {
-      text-align: right;
-    }
-    .align-center {
-      align-self: center;
-    }
-    .filter-state {
-      margin: 0 auto;
-      position: relative;
-      right: 0.5rem;
-      text-align: center;
-      text-decoration: underline;
-      &:hover {
-        text-decoration: none;
-      }
-    }
-  }
-
-  div[class*="col-"] {
-    padding: 0.5rem !important;
-  }
-
-  .button-row {
-    @include break-on(sm, max) {
-      width: 100%;
-    }
-    button {
-      width: 100%;
-    }
-  }
-
-  .xxs-show {
-    display: none !important;
-  }
-  .xxs-flex {
-    display: none !important;
-  }
-  .xs-show {
-    display: none !important;
-  }
-  .xs-flex {
-    display: none !important;
-  }
-  .sm-show {
-    display: none !important;
-  }
-  .sm-flex {
-    display: none !important;
-  }
-  .md-show {
-    display: none !important;
-  }
-  .md-flex {
-    display: none !important;
-  }
-  @include break-on(xxs, max) {
-    .xxs-hide {
-      display: none !important;
-    }
-    .xxs-show {
-      display: block !important;
-    }
-    .xxs-flex {
-      display: flex !important;
-    }
-  }
-  @include break-on(xs, max) {
-    .xs-hide {
-      display: none !important;
-    }
-    .xs-show {
-      display: block !important;
-    }
-    .xs-flex {
-      display: flex !important;
-    }
-  }
-  @include break-on(sm, max) {
-    .sm-hide {
-      display: none !important;
-    }
-    .sm-show {
-      display: block !important;
-    }
-    .sm-flex {
-      display: flex !important;
-    }
-  }
-  @include break-on(md, max) {
-    .md-hide {
-      display: none !important;
-    }
-    .md-show {
-      display: block !important;
-    }
-    .md-flex {
-      display: flex !important;
     }
   }
 }

@@ -30,7 +30,7 @@
       justify-content: flex-end;
     }
   }
-  .message {
+  ::ng-deep block .message {
     width: 100%;
     dl {
       display: flex;
@@ -55,6 +55,10 @@
       font-weight: 500;
       &.html {
         font-weight: normal;
+        ul, ol {
+          margin: 0;
+          padding: 0;
+        }
         ul li {
           margin-left: 2rem;
         }
@@ -67,7 +71,7 @@
         color: $red;
       }
       > p {
-        margin-bottom: 0.5rem;
+        margin: 0;
       }
     }
     > *:last-child{

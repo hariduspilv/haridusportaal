@@ -1,4 +1,4 @@
-<base-layout>
+<article-layout>
 	<div class="inline">
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 	</div>
@@ -13,13 +13,20 @@
 				></block-secondary-title
 			>
 			<block-content>
-				<p *ngIf="!this.data">
+				<p *ngIf="!loading && !this.data">
 					Andmed puuduvad
 				</p>
-				<accordion>
-					<accordion-item></accordion-item>
+				<accordion *ngIf="!loading && groupedData.length > 0">
+					<accordion-item [title]="group.institution + ' <span>(' + group.queries.length + ' päringut)</span>'" *ngFor="let group of groupedData" >
+						<table htm-table>
+							<tr *ngFor="let query of group.queries">
+								<td>{{query.logTime}}</td>
+								<td>{{query.action}}</td>
+							</tr>
+						</table>
+					</accordion-item>
 				</accordion>
 			</block-content>
 		</block>
 	</div>
-</base-layout>
+</article-layout>
