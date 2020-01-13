@@ -1,0 +1,23 @@
+uuid: f979a575-9cee-41f1-8c2b-5fd270338a30
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_ehis_links
+    - paragraphs.paragraphs_type.information_system_sidebar
+  module:
+    - link
+id: paragraph.information_system_sidebar.field_ehis_links
+field_name: field_ehis_links
+entity_type: paragraph
+bundle: information_system_sidebar
+label: 'EHIS 2 viited'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link
