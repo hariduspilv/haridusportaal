@@ -921,10 +921,14 @@ public class MtsysWorker extends Worker {
           dataObjectNode.get("soidukiteKategooria").get("value").asLong()));
     }
     if (dataObjectNode.get("oppeTasemed").get("required").asBoolean()) {
+      ObjectNode klfOppekavaOppetasemed = getKlfNode("oppekavaOppetasemed");
       OppekavaOppetasemed oppetasemed = OppekavaOppetasemed.Factory.newInstance();
       dataObjectNode.get("oppeTasemed").get("value").forEach(item -> {
         EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
         klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
+        klf.setNimetus(klfOppekavaOppetasemed.get(item.get("nimetus").asText()).get("et").asText());
+        klf.setOnKehtiv(
+            klfOppekavaOppetasemed.get(item.get("nimetus").asText()).get("valid").asBoolean());
         oppetasemed.getOppekavaOppetaseList().add(klf);
       });
       taotlus.setOppetasemed(oppetasemed);
@@ -936,8 +940,8 @@ public class MtsysWorker extends Worker {
         EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
         klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
         klf.setNimetus(klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("et").asText());
-        klf.setOnKehtiv(klfOppekavaRyhmad.get(
-            item.get("nimetus").asText()).get("valid").asBoolean());
+        klf.setOnKehtiv(
+            klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("valid").asBoolean());
         opperyhmad.getOpperyhmList().add(klf);
       });
       taotlus.setOpperyhmad(opperyhmad);
@@ -948,11 +952,17 @@ public class MtsysWorker extends Worker {
     dataObjectNode.get("aadressid").get("value").forEach(item0 -> {
       ObjectNode item = (ObjectNode) item0.get("aadress");
       Aadress aadress = Aadress.Factory.newInstance();
+      if (!item.get("seqNo").isNull()) {
+        aadress.setJrkNr(item.get("seqNo").asLong());
+      }
       if (!item.get("adsId").isNull()) {
         aadress.setAdsId(BigInteger.valueOf(item.get("adsId").asLong()));
       }
       if (!item.get("adsOid").isNull()) {
         aadress.setAdsOid(item.get("adsOid").asText());
+      }
+      if (!item.get("klElukoht").isNull()) {
+        aadress.setKlElukoht(BigInteger.valueOf(item.get("klElukoht").asLong()));
       }
       if (!item.get("county").isNull()) {
         aadress.setMaakond(item.get("county").asText());
@@ -965,6 +975,9 @@ public class MtsysWorker extends Worker {
       }
       if (!item.get("address").isNull()) {
         aadress.setAdsAadress(item.get("address").asText());
+      }
+      if (!item.get("addressFull").isNull()) {
+        aadress.setTaisAadress(item.get("addressFull").asText());
       }
       if (!item.get("addressHumanReadable").isNull()) {
         aadress.setAdsAadressHumanReadable(item.get("addressHumanReadable").asText());
@@ -1292,15 +1305,15 @@ public class MtsysWorker extends Worker {
           aadress.setAsula(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("settlementUnit").asText()); //optional
         }
-        if (jsonNodeRequest.get("educationalInstitution").get("address").get("address") != null
-            && !jsonNodeRequest.get("educationalInstitution").get("address").get("address").asText()
-            .equalsIgnoreCase("")) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("addressFull") != null
+            && !jsonNodeRequest.get("educationalInstitution").get("address")
+            .get("addressFull").asText().equalsIgnoreCase("")) {
           aadress.setTaisAadress(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("address").asText()); //optional
         }
-        if (jsonNodeRequest.get("educationalInstitution").get("address")
-            .get("addressFull") != null && !jsonNodeRequest.get("educationalInstitution")
-            .get("address").get("addressFull").asText().equalsIgnoreCase("")) {
+        if (jsonNodeRequest.get("educationalInstitution").get("address").get("address") != null
+            && !jsonNodeRequest.get("educationalInstitution").get("address")
+            .get("address").asText().equalsIgnoreCase("")) {
           aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution")
               .get("address").get("addressFull").asText()); //optional
         }
