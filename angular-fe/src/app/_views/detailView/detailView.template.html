@@ -47,15 +47,15 @@
 				
 					<htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 
-					<accordion [collapsible]="true" *ngIf="data.accordion || (data.fieldAccordion && data.fieldAccordion.length)">
-						<ng-container *ngIf="data.fieldAccordion && data.fieldAccordion.length">
-							<accordion-item [title]="'oskaProfessions.label' | translate">
-								<listItems [list]="data.fieldAccordion" type='mainProfession' compare="oskaProfessionsComparison" addonClass="list__item--detailedProfession"></listItems>
-							</accordion-item>
-						</ng-container>
+					<accordion [collapsible]="true" *ngIf="data.accordion">
 						<accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
-							<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
-							<links *ngIf="item.entity.fieldRelatedArticle && item.entity.fieldRelatedArticle.length > 0" [data]="item.entity.fieldRelatedArticle"></links>
+							<ng-container *ngIf="!item.entity.professions">
+								<div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
+								<links *ngIf="item.entity.fieldRelatedArticle && item.entity.fieldRelatedArticle.length > 0" [data]="item.entity.fieldRelatedArticle"></links>
+							</ng-container>
+							<ng-container *ngIf="item.entity.professions">
+								<listItems [list]="item.entity.professions" type='mainProfession' compare="oskaProfessionsComparison" addonClass="list__item--detailedProfession"></listItems>
+							</ng-container>
 						</accordion-item>
 					</accordion>
 	
