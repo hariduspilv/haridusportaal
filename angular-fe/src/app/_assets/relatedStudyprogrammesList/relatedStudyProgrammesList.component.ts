@@ -68,7 +68,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
         nid: parseInt(el.Nid, 10),
         educationalInstitution: el.FieldSchoolName,
         title: el.Name,
-        fieldTeachingLanguage: el.fieldTeachingLanguage ? el.FieldTeachingLanguage.split(',')
+        fieldTeachingLanguage: el.FieldTeachingLanguage ? el.FieldTeachingLanguage.split(',')
           .map((el: any) => { return { entity: { entityLabel: el.trim() } }; }) : null,
       };
     });

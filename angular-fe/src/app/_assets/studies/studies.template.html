@@ -93,7 +93,7 @@
           <td class="normal">{{ 'frontpage.oppevorm' | translate }}</td>
           <td class="normal">
             <div *ngFor="let elem of item.oppevorm; let secondIndex = index;">
-              <span>{{ parseTypeTranslation(elem.nimetus) | titlecase }}
+              <span>{{ parseTypeTranslation(elem.nimetus) | capitalize }}
                 <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}
                 </ng-container>
                 <ng-container *ngIf="elem.loppKp"> {{ 'time.to' | translate | lowercase }} {{ elem.loppKp }}
@@ -116,7 +116,7 @@
           <td class="normal">{{ 'frontpage.oppevorm' | translate }}</td>
           <td class="normal">
             <div *ngFor="let elem of item.oppevorm; let secondIndex = index;">
-              <span>{{ parseTypeTranslation(elem.nimetus) | titlecase }}
+              <span>{{ parseTypeTranslation(elem.nimetus) | capitalize }}
                 <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}
                 </ng-container>
                 <ng-container *ngIf="elem.loppKp"> {{ 'time.to' | translate | lowercase }} {{ elem.loppKp }}
@@ -131,7 +131,7 @@
           <td class="normal">
             <ng-container *ngFor="let elem of item.koormus; let secondIndex = index; let last = last;">
               <div *ngIf="(secondIndex === 0 && last) || (secondIndex !== 0 && last)">
-                <span>{{ parseTypeTranslation(elem.nimetus) | titlecase }}
+                <span>{{ parseTypeTranslation(elem.nimetus) | capitalize }}
                   <ng-container *ngIf="elem.algusKp">{{ 'time.from' | translate | lowercase }} {{ elem.algusKp }}
                   </ng-container>
                   <ng-container *ngIf="elem.loppKp"> {{ 'time.to' | translate | lowercase }} {{ elem.loppKp }}

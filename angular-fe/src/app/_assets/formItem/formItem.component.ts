@@ -70,6 +70,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() browserAutocomplete: string = '';
   @Input() sortOptions: boolean = true;
   @Input() search: boolean = true;
+  @Input() appendTo: string = '';
+
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
     if (this.error) {

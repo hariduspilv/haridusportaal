@@ -182,7 +182,8 @@ export class DetailViewComponent {
       this.data.video.splice(0, 1);
     }
 
-    this.data['fieldAccordion'] = this.data.reverseFieldOskaFieldParagraph ?
+    this.data['fieldAccordion'] = this.data.reverseFieldOskaFieldParagraph &&
+      this.data.reverseFieldOskaFieldParagraph.entities.length ?
       this.data.reverseFieldOskaFieldParagraph.entities : false;
 
     if (this.data.fieldAccordion) {
@@ -199,7 +200,6 @@ export class DetailViewComponent {
             professions: this.data.fieldAccordion,
           },
         }, ... this.data.accordion];
-        console.log(this.data.accordion);
       } catch (err) {}
     }
 

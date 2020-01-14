@@ -116,7 +116,7 @@
                       <ng-container *ngIf="data_elements[element].type == 'selectlist'">
 
                         <ng-container *ngIf="data_elements[element].multiple; else singleSelect">
-                          <formItem type="multi-select" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          <formItem type="multi-select" [disabled]="isFieldDisabled(data_elements[element].readonly)" appendTo="body"
                             title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"
                             [name]="element" [error]="error[element] ? true : false"
@@ -124,7 +124,7 @@
                           </formItem>
                         </ng-container>
                         <ng-template #singleSelect>
-                          <formItem type="select" [disabled]="isFieldDisabled(data_elements[element].readonly)"
+                          <formItem type="select" [disabled]="isFieldDisabled(data_elements[element].readonly)" appendTo="body"
                             title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                             [(ngModel)]="data_elements[element].value" [options]="data_elements[element].options"
                             [name]="element" [error]="error[element] ? true : false"
@@ -417,7 +417,7 @@
 
                                           <ng-container
                                             *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
-                                            <formItem type="select" name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                            <formItem type="select" name="{{element + '_' + rowIndex + '_' + colIndex}}" appendTo="body"
                                               [(ngModel)]="row[col]"
                                               [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
                                               [options]="tableColumnAttribute(element, colIndex, 'options')">

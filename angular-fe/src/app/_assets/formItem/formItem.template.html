@@ -127,7 +127,7 @@
           (open)="update('focus')"
           (close)="update('blur')"
           [searchable]="false"
-          appendTo="body"
+          [appendTo]="appendTo"
           [disabled]="disabled"
           *ngIf="options"
           [(ngModel)]="field">
@@ -172,7 +172,6 @@
           [searchable]="false"
           [disabled]="disabled"
           [placeholder]="placeholder"
-          appendTo="body"
           [(ngModel)]="field">
         </ng-select>
       </ng-container>

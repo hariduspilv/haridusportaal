@@ -20,6 +20,9 @@ $create-font-face: false;
     }
   }
   .formItem{
+    .ng-dropdown-panel{
+      min-width: 100%;
+    }
     &__wrapper{
       & > select{
         color: $white;
