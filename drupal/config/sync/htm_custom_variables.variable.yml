@@ -3,3 +3,5 @@ _core:
   default_config_hash: 3ikU4rZFvZCOPuz2huI_7lqq5AcTGWmBjL-Lc1G-KKE
 langcode: et
 cookie_link: /artiklid/kasutustingimused
+loader:
+  timeout: '10000'
