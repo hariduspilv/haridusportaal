@@ -327,6 +327,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
     }
 
+    const found = this.data_elements[element].value.findIndex(element => element.file_name === file.name);
+    if (found >= 0) {
+      this.data_elements[element].value.splice(found, 1);
+    }
+
     const reader = new FileReader();
     reader.readAsDataURL(file);
     reader.onload = () => {
@@ -383,6 +388,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
         this.fileLoading[this.fileUploadElement] = false;
         return;
       }
+    }
+
+    const found = this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol].findIndex(element => element.file_name === file.name);
+    if (found >= 0) {
+      this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol].splice(found, 1);
     }
 
     const reader = new FileReader();
