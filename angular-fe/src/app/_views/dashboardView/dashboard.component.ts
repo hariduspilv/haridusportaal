@@ -63,7 +63,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       favourites: [],
       event: [],
       // notifications: {},
-      gdpr: true,
+      // gdpr: true,
     },
   };
   eventsListDone = false;

@@ -13,7 +13,7 @@
 				></block-secondary-title
 			>
 			<block-content>
-				<p *ngIf="!loading && !this.data">
+				<p *ngIf="!loading && (!data || groupedData.length === 0)">
 					Andmed puuduvad
 				</p>
 				<accordion *ngIf="!loading && groupedData.length > 0">
