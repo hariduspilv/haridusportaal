@@ -3266,3 +3266,29 @@ notifications:
   translation_type: textarea
   et: Teavitused
   en: 'Teavitused - eng'
+gdpr:
+  translation_type: textarea
+  et: 'Sinu andmete kasutajad'
+  en: 'Sinu andmete kasutajad - eng'
+  checkData:
+    translation_type: textarea
+    et: 'Vaata andmete kasutajaid'
+    en: 'Vaata andmete kasutajaid - eng'
+  checkdata:
+    translation_type: textarea
+    et: laksjdlakjsdlkajsd
+    en: aekglkajeg
+gdpr_button:
+  checkdata:
+    translation_type: textarea
+    et: 'Vaata andmete kasutajaid'
+    en: 'Vaata andmete kasutajaid-eng'
+loader:
+  text:
+    translation_type: text_format
+    et:
+      value: "<p>Uh-Oh! Tundub, et server jäi magama.<br />\r\nPalun varu kannatust!</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Uh-Oh! Tundub, et server jäi magama.<br />\r\nPalun varu kannatust!</p>\r\n"
+      format: custom_editor
