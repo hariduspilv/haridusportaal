@@ -7,6 +7,7 @@ import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
 import { UserService } from '@app/_services/userService';
 import { AuthService } from '@app/_services';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
   selector: 'detail-view',
@@ -44,6 +45,7 @@ export class DetailViewComponent {
     private route: ActivatedRoute,
     private location: Location,
     public auth: AuthService,
+    private translate: TranslateService,
   ) {}
 
   private getSidebar():void {
@@ -188,6 +190,16 @@ export class DetailViewComponent {
         this.data.fieldAccordion = this.data.fieldAccordion.map((item) => {
           return FieldVaryService(item.paragraphReference[0]);
         });
+        if (!this.data.accordion) {
+          this.data.accordion = [];
+        }
+        this.data.accordion = [{
+          entity: {
+            fieldTitle: this.translate.get('oskaProfessions.label'),
+            professions: this.data.fieldAccordion,
+          },
+        }, ... this.data.accordion];
+        console.log(this.data.accordion);
       } catch (err) {}
     }
 
