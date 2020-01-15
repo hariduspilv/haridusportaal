@@ -224,7 +224,7 @@ public class MtsysWorker extends Worker {
       jsonNode.put("message", response.isSetInfotekst() ? response.getInfotekst() : null)
           .put("ownerid", response.isSetAsutus() ? response.getAsutus().getRegNr() : null);
 
-      if (response.isSetAsutus()) {
+      if (response.isSetAsutus() && response.getAsutus().isSetOppeasutused()) {
         ArrayNode educationalInstitutionNode = jsonNode.putArray("educationalInstitutions");
 
         Calendar currentDate = Calendar.getInstance();
