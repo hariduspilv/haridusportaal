@@ -809,7 +809,7 @@ public class MtsysWorker extends Worker {
                       .putObject("dokumendid_validation_error_" + validationErrors)
                       .put("message_type", "ERROR").putObject("message_text")
                       .put("et",
-                          "Kohustuskik dokument '" + item.get("liik").asText() + "' puudub.");
+                          "Kohustuslik dokument '" + item.get("liik").asText() + "' puudub.");
                   validationErrors.getAndIncrement();
                 }
               }));
@@ -842,6 +842,19 @@ public class MtsysWorker extends Worker {
               .mtsysEsitaTegevusluba(request, personalCode);
 
           if (response.isSetInfotekst()) {
+            if (response.getInfotekst().equalsIgnoreCase("Tegevusloa taotlus on esitatud!")
+                || response.getInfotekst().equalsIgnoreCase("Majandustegevusteade on esitatud!")) {
+              int infotekstSaveIndex = 0;
+              for (JsonNode item : ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))) {
+                if (item.asText().equalsIgnoreCase("infotekst_save")) {
+                  break;
+                }
+                infotekstSaveIndex++;
+              }
+              ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+                  .remove(infotekstSaveIndex);
+              ((ObjectNode) jsonNode.get("messages")).remove("infotekst_save");
+            }
             ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed")
                 .get("messages")).add("infotekst_esita");
             ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_esita")
