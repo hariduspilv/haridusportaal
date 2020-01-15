@@ -273,7 +273,9 @@ class EhisConnectorService {
     $params['url'] = [$this->getCurrentUserIdRegCode(TRUE), time()];
     $params['key'] = $this->getCurrentUserIdRegCode(TRUE);
     $params['hash'] = 'eeIsikukaart';
+    dump($params);
     $response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
+    dump($response);
     \Drupal::logger('xjson')->notice('<pre><code>Personal card response: '. print_r($response, TRUE). '</code></pre>' );
     return $this->filterPersonalCard($response, $params['tab']);
   }
