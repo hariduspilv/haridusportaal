@@ -102,7 +102,13 @@ export const parseData = (data) => {
     let value: any = findObj(data, item.key);
 
     if (Array.isArray(value) && value.length > 0) {
-      value = value.map((item) => {
+      const existingValues = [];
+      value = value.filter((item) => {
+        if (!existingValues.includes(item.entity.entityLabel)) {
+          existingValues.push(item.entity.entityLabel);
+          return item;
+        }
+      }).map((item) => {
         return item['entity']['entityLabel'];
       }).map((item:string) => {
         return item.charAt(0).toUpperCase() + item.slice(1);

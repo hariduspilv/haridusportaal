@@ -389,9 +389,9 @@
                                             </ng-container>
                                             <ng-container
                                               *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' && isArray(row[col])">
-                                              <a class="file-icon" [href]="fileDownloadlink(row[col][0])"
+                                              <a *ngFor="let file of row[col]; let i = index" class="file-icon" [href]="fileDownloadlink(row[col][0])"
                                                 target="_blank">
-                                                <span class="file-name">{{ row[col][0].file_name }}</span>
+                                                <span class="file-name">{{ file.file_name }}{{ i < row[col].length - 1 ? ', ' : ''}}</span>
                                               </a>
                                             </ng-container>
                                           </ng-container> <!-- /file -->
