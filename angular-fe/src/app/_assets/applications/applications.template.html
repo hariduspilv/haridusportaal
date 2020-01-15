@@ -563,7 +563,7 @@
 			<div ngForm [formGroup]="formGroup" class="row margin">
 				<ng-container *ngFor="let item of institutionModalFields">
 					<div class="col-{{ item.col }} sm-12">
-						<formItem [type]="item.type" [query]="item.query ? item.query : false" [error]="item.error"
+						<formItem [type]="item.type" [query]="item.query ? item.query : false" [error]="item.error" appendTo="body"
 							[valueType]="item.type === 'autocomplete' ? 'object' : false"
 							[formControlName]="item.modelName"
 							title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
@@ -594,7 +594,7 @@
 			<div ngForm [formGroup]="formGroup" class="row margin">
 				<ng-container *ngFor="let item of institutionModalFields">
 					<div class="col-{{ item.col }} sm-12">
-						<formItem [type]="item.type" [query]="item.query ? item.query : false" [error]="item.error"
+						<formItem [type]="item.type" [query]="item.query ? item.query : false" [error]="item.error" appendTo="body"
 							[valueType]="item.type === 'autocomplete' ? 'object' : false"
 							[formControlName]="item.modelName"
 							title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
