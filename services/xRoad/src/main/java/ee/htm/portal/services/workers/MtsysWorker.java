@@ -845,7 +845,8 @@ public class MtsysWorker extends Worker {
             if (response.getInfotekst().equalsIgnoreCase("Tegevusloa taotlus on esitatud!")
                 || response.getInfotekst().equalsIgnoreCase("Majandustegevusteade on esitatud!")) {
               int infotekstSaveIndex = 0;
-              for (JsonNode item : ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))) {
+              for (JsonNode item : ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed")
+                  .get("messages"))) {
                 if (item.asText().equalsIgnoreCase("infotekst_save")) {
                   break;
                 }
@@ -1322,13 +1323,13 @@ public class MtsysWorker extends Worker {
             && !jsonNodeRequest.get("educationalInstitution").get("address")
             .get("addressFull").asText().equalsIgnoreCase("")) {
           aadress.setTaisAadress(jsonNodeRequest.get("educationalInstitution")
-              .get("address").get("address").asText()); //optional
+              .get("address").get("addressFull").asText()); //optional
         }
         if (jsonNodeRequest.get("educationalInstitution").get("address").get("address") != null
             && !jsonNodeRequest.get("educationalInstitution").get("address")
             .get("address").asText().equalsIgnoreCase("")) {
           aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution")
-              .get("address").get("addressFull").asText()); //optional
+              .get("address").get("address").asText()); //optional
         }
         if (jsonNodeRequest.get("educationalInstitution").get("address")
             .get("addressHumanReadable") != null && !jsonNodeRequest.get("educationalInstitution")
@@ -1518,60 +1519,7 @@ public class MtsysWorker extends Worker {
       MtsysTegevusnaitajaResponse response = ehisXRoadService
           .mtsysTegevusnaitaja(request, personalCode);
 
-      ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
-          .putObject("step_aruanne").putObject("data_elements");
-
-      dataElementsNode.putObject("aasta").put("value", year);
-      dataElementsNode.putObject("oppeasutusId").put("value", educationalInstitutionsId);
-
-      String redisHK =
-          "mtsys_tegevusnaitajad_aruanne_eeltaidetud_" + educationalInstitutionsId + "_" + year;
-      dataElementsNode.putObject("eeltaidetudCSV").putArray("value").addObject()
-          .put("file_name", response.getCsvFail().getFilename())
-          .put("file_identifier", redisHK);
-      redisFileTemplate.opsForHash()
-          .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
-      redisFileTemplate.expire(MTSYS_REDIS_KEY, redisFileExpire, TimeUnit.MINUTES);
-
-      dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true)
-          .putArray("value");
-      dataElementsNode.putObject("tegevuslubaTabel").put("hidden", true).putArray("value");
-      response.getNaitajad().getItemList().forEach(item -> {
-        if (item.getKlOkLiik().equals(BigInteger.valueOf(18098L))) {
-          ((ObjectNode) dataElementsNode.get("majandustegevuseTeateTabel")).put("hidden", false);
-          ((ArrayNode) dataElementsNode.get("majandustegevuseTeateTabel").get("value")).addObject()
-              .put("nimetus", item.getNimetus())
-              .put("oppijateArv", item.getOppijaArv())
-              .put("tunnistusteArv", item.getTunnistusArv())
-              .put("kuni8", item.getKuni8())
-              .put("kuni26", item.getKuni26())
-              .put("kuni80", item.getKuni80())
-              .put("kuni240", item.getKuni240())
-              .put("yle240", item.getYle240())
-              .put("kokku", item.getKokku())
-              .put("klOkLiik", item.getKlOkLiik())
-              .put("klOpperuhm", item.getKlOpperuhm())
-              .put("klKategooria", item.getKlKategooria())
-              .put("klEkTase", item.getKlEkTase());
-        } else if (!item.getKlOkLiik().equals(BigInteger.valueOf(18098L)) && !item.getKlOkLiik()
-            .equals(BigInteger.valueOf(-1L))) {
-          ((ObjectNode) dataElementsNode.get("tegevuslubaTabel")).put("hidden", false);
-          ((ArrayNode) dataElementsNode.get("tegevuslubaTabel").get("value")).addObject()
-              .put("nimetus", item.getNimetus())
-              .put("oppijateArv", item.getOppijaArv())
-              .put("tunnistusteArv", item.getTunnistusArv())
-              .put("kuni8", item.getKuni8())
-              .put("kuni26", item.getKuni26())
-              .put("kuni80", item.getKuni80())
-              .put("kuni240", item.getKuni240())
-              .put("yle240", item.getYle240())
-              .put("kokku", item.getKokku())
-              .put("klOkLiik", item.getKlOkLiik())
-              .put("klOpperuhm", item.getKlOpperuhm())
-              .put("klKategooria", item.getKlKategooria())
-              .put("klEkTase", item.getKlEkTase());
-        }
-      });
+      setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode, response);
 
       logForDrupal.setMessage("EHIS - mtsysTegevusnaitaja.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
@@ -1646,12 +1594,14 @@ public class MtsysWorker extends Worker {
     MtsysLaeTegevusnaitajad request = MtsysLaeTegevusnaitajad.Factory.newInstance();
     ObjectNode dataElementNode = (ObjectNode) jsonNode.get("body").get("steps")
         .get("step_aruanne").get("data_elements");
+    Long educationalInstitutionsId = dataElementNode.get("oppeasutusId").get("value").asLong();
+    Long year = dataElementNode.get("aasta").get("value").asLong();
 
     if (identifier != null) {
       request.setAruandeId(BigInteger.valueOf(identifier));
     }
-    request.setAasta(dataElementNode.get("aasta").get("value").bigIntegerValue());
-    request.setOppeasutusId(dataElementNode.get("oppeasutusId").get("value").bigIntegerValue());
+    request.setAasta(BigInteger.valueOf(year));
+    request.setOppeasutusId(BigInteger.valueOf(educationalInstitutionsId));
 
     if (jsonNode.get("header").get("parameters").get("fileSubmit").asBoolean()) {
       request.setFail(Base64.getDecoder().decode((String) Objects.requireNonNull(
@@ -1697,6 +1647,77 @@ public class MtsysWorker extends Worker {
         response.isSetInfotekst() ? response.getInfotekst() : null,
         response.isSetVeatekst() ? response.getVeatekst() : null,
         response.isSetAruandeId() ? response.getAruandeId() : null);
+
+    if (response.isSetAruandeId()) {
+      MtsysTegevusnaitaja tegevusnaitajaRequest = MtsysTegevusnaitaja.Factory.newInstance();
+      tegevusnaitajaRequest.setAruandeId(response.getAruandeId());
+      tegevusnaitajaRequest.setOppeasutusId(BigInteger.valueOf(educationalInstitutionsId));
+      tegevusnaitajaRequest.setAasta(BigInteger.valueOf(year));
+
+      MtsysTegevusnaitajaResponse tegevusnaitajaResponse = ehisXRoadService
+          .mtsysTegevusnaitaja(tegevusnaitajaRequest, applicantPersonalCode);
+
+      setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode,
+          tegevusnaitajaResponse);
+    }
+  }
+
+  private void setMtsysTegevusnaitajaTaotlus(Long year, Long educationalInstitutionsId,
+      ObjectNode jsonNode, MtsysTegevusnaitajaResponse response) {
+    ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
+        .putObject("step_aruanne").putObject("data_elements");
+
+    dataElementsNode.putObject("aasta").put("value", year);
+    dataElementsNode.putObject("oppeasutusId").put("value", educationalInstitutionsId);
+
+    String redisHK =
+        "mtsys_tegevusnaitajad_aruanne_eeltaidetud_" + educationalInstitutionsId + "_" + year;
+    dataElementsNode.putObject("eeltaidetudCSV").putArray("value").addObject()
+        .put("file_name", response.getCsvFail().getFilename())
+        .put("file_identifier", redisHK);
+    redisFileTemplate.opsForHash()
+        .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
+    redisFileTemplate.expire(MTSYS_REDIS_KEY, redisFileExpire, TimeUnit.MINUTES);
+
+    dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true)
+        .putArray("value");
+    dataElementsNode.putObject("tegevuslubaTabel").put("hidden", true).putArray("value");
+    response.getNaitajad().getItemList().forEach(item -> {
+      if (item.getKlOkLiik().equals(BigInteger.valueOf(18098L))) {
+        ((ObjectNode) dataElementsNode.get("majandustegevuseTeateTabel")).put("hidden", false);
+        ((ArrayNode) dataElementsNode.get("majandustegevuseTeateTabel").get("value")).addObject()
+            .put("nimetus", item.getNimetus())
+            .put("oppijateArv", item.getOppijaArv())
+            .put("tunnistusteArv", item.getTunnistusArv())
+            .put("kuni8", item.getKuni8())
+            .put("kuni26", item.getKuni26())
+            .put("kuni80", item.getKuni80())
+            .put("kuni240", item.getKuni240())
+            .put("yle240", item.getYle240())
+            .put("kokku", item.getKokku())
+            .put("klOkLiik", item.getKlOkLiik())
+            .put("klOpperuhm", item.getKlOpperuhm())
+            .put("klKategooria", item.getKlKategooria())
+            .put("klEkTase", item.getKlEkTase());
+      } else if (!item.getKlOkLiik().equals(BigInteger.valueOf(18098L)) && !item.getKlOkLiik()
+          .equals(BigInteger.valueOf(-1L))) {
+        ((ObjectNode) dataElementsNode.get("tegevuslubaTabel")).put("hidden", false);
+        ((ArrayNode) dataElementsNode.get("tegevuslubaTabel").get("value")).addObject()
+            .put("nimetus", item.getNimetus())
+            .put("oppijateArv", item.getOppijaArv())
+            .put("tunnistusteArv", item.getTunnistusArv())
+            .put("kuni8", item.getKuni8())
+            .put("kuni26", item.getKuni26())
+            .put("kuni80", item.getKuni80())
+            .put("kuni240", item.getKuni240())
+            .put("yle240", item.getYle240())
+            .put("kokku", item.getKokku())
+            .put("klOkLiik", item.getKlOkLiik())
+            .put("klOpperuhm", item.getKlOpperuhm())
+            .put("klKategooria", item.getKlKategooria())
+            .put("klEkTase", item.getKlEkTase());
+      }
+    });
   }
 
   private ObjectNode getKlfNode(String hashKey) {
