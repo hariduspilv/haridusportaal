@@ -187,6 +187,7 @@ export class HeaderComponent implements OnInit {
     return {
       category: 'search',
       action: 'submit',
+      label: this.searchTerm,
     };
   }
 

@@ -9,14 +9,16 @@ export class AnalyticsEvent {
 
   @HostListener('click', ['$event']) onClick($event) {
 
-    (<any>window).ga('send', 'event', this.option.category, this.option.action, {
-      hitCallback: () => {
+    (<any>window)
+      .ga('send', 'event', this.option.category,
+          this.option.action, this.option.label, {
+            hitCallback: () => {
 
-        console.log('Tracking is successful');
+              console.log('Tracking is successful');
 
-      },
+            },
 
-    });
+          });
 
   }
   constructor() { }

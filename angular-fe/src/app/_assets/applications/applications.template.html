@@ -173,157 +173,154 @@
 		</div>
 		<ng-container *ngIf="data.educationalInstitutions && data.educationalInstitutions.length">
 			<accordion>
-				<ng-container *ngFor="let school of data.educationalInstitutions; let first = first; let ind = index;">
-					<accordion-item *ngIf="school.institutionInfo"
-						[active]="data.educationalInstitutions.length === 1 && first"
-						[title]="school.institutionInfo.generalData.name">
-						<!-- general data -->
-						<ng-container *ngIf="school.institutionInfo">
-							<scrollableContent>
-								<table htm-table class="dashboard-table highCells scrollableTable small-text">
-									<tbody>
-										<tr
-											*ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone">
-											<td>{{ 'event.participant_phone' | translate }}</td>
-											<td class="light underlineHover">
-												<a class="sm-show"
-													href="tel:{{school.institutionInfo.contacts.contactPhone}}"
-													role="link"
-													attr.aria-label="{{'event.participant_phone' | translate}}: {{school.institutionInfo.contacts.contactPhone}}">{{ school.institutionInfo.contacts.contactPhone }}</a>
-												<span
-													class="sm-hide">{{ school.institutionInfo.contacts.contactPhone }}</span>
-											</td>
-											<td attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-												<a class="rowspan-btn" role="button" href="javascript:void(0)"
-													(click)="loadInstitutionModal(school.id, school.institutionInfo)"
-													attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
-											</td>
-										</tr>
-										<tr
-											*ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail">
-											<td>{{ 'event.participant_email' | translate }}</td>
-											<td class="light underlineHover first-small">
-												<a href="mailto:{{school.institutionInfo.contacts.contactEmail}}"
-													attr.aria-label="{{'event.participant_email' | translate}}: {{school.institutionInfo.contacts.contactEmail}}">{{ school.institutionInfo.contacts.contactEmail }}</a>
-											</td>
-											<td *ngIf="school.institutionInfo.contacts && !school.institutionInfo.contacts.contactPhone"
-												attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-												<a class="rowspan-btn" role="button" href="javascript:void(0)"
-													(click)="openDialog(school.id, school.institutionInfo)"
-													attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
-											</td>
-										</tr>
-										<tr
-											*ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress">
-											<td>{{ 'school.website' | translate }}</td>
-											<td class="light underlineHover first-small">
-												<a [href]="school.institutionInfo.contacts.webpageAddress | url"
-													target="_blank"
-													attr.aria-label="{{'school.website' | translate}}: {{school.institutionInfo.contacts.webpageAddress}}">{{ school.institutionInfo.contacts.webpageAddress }}</a>
-											</td>
-											<td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail"
-												attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-												<a class="rowspan-btn" role="button" href="javascript:void(0)"
-													(click)="openDialog(school.id, school.institutionInfo)"
-													attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
-											</td>
-										</tr>
-										<tr
-											*ngIf="school.institutionInfo.address && school.institutionInfo.address.adsOid">
-											<td>{{ 'event.aadress' | translate }}</td>
-											<td class="light">
-												{{ school.institutionInfo.address.addressFull }}
-											</td>
-											<td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress"
-												attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
-												<a class="rowspan-btn" role="button" href="javascript:void(0)"
-													(click)="openDialog(school.id, school.institutionInfo)"
-													attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
-											</td>
-										</tr>
-										<tr
-											*ngIf="school.institutionInfo.generalData && school.institutionInfo.generalData.studyInstitutionTypeType">
-											<td>{{ 'dashboard.studyInstitutionType' | translate }}</td>
-											<td colspan="2" class="light">
-												{{
+				<accordion-item *ngFor="let school of data.educationalInstitutions; let first = first; let ind = index;"
+					[active]="data.educationalInstitutions.length === 1 && first"
+					[title]="school.institutionInfo.generalData.name">
+					<!-- general data -->
+					<ng-container *ngIf="school.institutionInfo">
+						<scrollableContent>
+							<table htm-table class="dashboard-table highCells scrollableTable small-text">
+								<tbody>
+									<tr
+										*ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.contactPhone">
+										<td>{{ 'event.participant_phone' | translate }}</td>
+										<td class="light underlineHover">
+											<a class="sm-show"
+												href="tel:{{school.institutionInfo.contacts.contactPhone}}" role="link"
+												attr.aria-label="{{'event.participant_phone' | translate}}: {{school.institutionInfo.contacts.contactPhone}}">{{ school.institutionInfo.contacts.contactPhone }}</a>
+											<span
+												class="sm-hide">{{ school.institutionInfo.contacts.contactPhone }}</span>
+										</td>
+										<td attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
+											<a class="rowspan-btn" role="button" href="javascript:void(0)"
+												(click)="loadInstitutionModal(school.id, school.institutionInfo)"
+												attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+										</td>
+									</tr>
+									<tr
+										*ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.contactEmail">
+										<td>{{ 'event.participant_email' | translate }}</td>
+										<td class="light underlineHover first-small">
+											<a href="mailto:{{school.institutionInfo.contacts.contactEmail}}"
+												attr.aria-label="{{'event.participant_email' | translate}}: {{school.institutionInfo.contacts.contactEmail}}">{{ school.institutionInfo.contacts.contactEmail }}</a>
+										</td>
+										<td *ngIf="school.institutionInfo.contacts && !school.institutionInfo.contacts.contactPhone"
+											attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
+											<a class="rowspan-btn" role="button" href="javascript:void(0)"
+												(click)="openDialog(school.id, school.institutionInfo)"
+												attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+										</td>
+									</tr>
+									<tr
+										*ngIf="school.institutionInfo.contacts && school.institutionInfo.contacts.webpageAddress">
+										<td>{{ 'school.website' | translate }}</td>
+										<td class="light underlineHover first-small">
+											<a [href]="school.institutionInfo.contacts.webpageAddress | url"
+												target="_blank"
+												attr.aria-label="{{'school.website' | translate}}: {{school.institutionInfo.contacts.webpageAddress}}">{{ school.institutionInfo.contacts.webpageAddress }}</a>
+										</td>
+										<td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail"
+											attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
+											<a class="rowspan-btn" role="button" href="javascript:void(0)"
+												(click)="openDialog(school.id, school.institutionInfo)"
+												attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+										</td>
+									</tr>
+									<tr *ngIf="school.institutionInfo.address && school.institutionInfo.address.adsOid">
+										<td>{{ 'event.aadress' | translate }}</td>
+										<td class="light">
+											{{ school.institutionInfo.address.addressFull }}
+										</td>
+										<td *ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress"
+											attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
+											<a class="rowspan-btn" role="button" href="javascript:void(0)"
+												(click)="openDialog(school.id, school.institutionInfo)"
+												attr.aria-label="{{ 'button.edit' | translate }}">{{ 'button.edit' | translate }}</a>
+										</td>
+									</tr>
+									<tr
+										*ngIf="school.institutionInfo.generalData && school.institutionInfo.generalData.studyInstitutionTypeType">
+										<td>{{ 'dashboard.studyInstitutionType' | translate }}</td>
+										<td colspan="2" class="light">
+											{{
 																	selectLanguage(school.institutionInfo.generalData.studyInstitutionTypeType)
 																	}}
-											</td>
-										</tr>
-										<tr
-											*ngIf="school.institutionInfo.generalData && school.institutionInfo.generalData.ownershipTypeType">
-											<td>{{ 'school.ownership' | translate }}</td>
-											<td colspan="2" class="light">
-												{{
+										</td>
+									</tr>
+									<tr
+										*ngIf="school.institutionInfo.generalData && school.institutionInfo.generalData.ownershipTypeType">
+										<td>{{ 'school.ownership' | translate }}</td>
+										<td colspan="2" class="light">
+											{{
 																	selectLanguage(school.institutionInfo.generalData.ownershipTypeType)
 																	}}
-											</td>
-										</tr>
-										<tr
-											*ngIf="school.institutionInfo.generalData && school.institutionInfo.generalData.ownerTypeType">
-											<td>{{ 'dashboard.ownerType' | translate }}</td>
-											<td colspan="2" class="light">
-												{{
+										</td>
+									</tr>
+									<tr
+										*ngIf="school.institutionInfo.generalData && school.institutionInfo.generalData.ownerTypeType">
+										<td>{{ 'dashboard.ownerType' | translate }}</td>
+										<td colspan="2" class="light">
+											{{
 																	selectLanguage(school.institutionInfo.generalData.ownerTypeType)
 																	}}
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</scrollableContent>
-						</ng-container>
-						<!-- /general data -->
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</scrollableContent>
+					</ng-container>
+					<!-- /general data -->
 
-						<alerts small="true" [id]="school.acceptable_forms.length ? toString(school.id) : ''"></alerts>
-						{{ !createdMessage[school.id] ? createMessage(school) : ''}}
+					<alerts small="true" [id]="school.acceptable_forms.length ? toString(school.id) : ''"></alerts>
+					{{ !createdMessage[school.id] ? createMessage(school) : ''}}
 
-						<!-- acceptable_forms -->
-						<ng-container *ngIf="school.acceptable_forms">
-							<h4 class="title-lg-padding">
-								{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' |
+					<!-- acceptable_forms -->
+					<ng-container *ngIf="school.acceptable_forms">
+						<h4 class="title-lg-padding">
+							{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_label' |
 													translate }}
-							</h4>
-							<div class="text-center" *ngIf="!school.acceptable_forms.length">
-								{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_notfound'
+						</h4>
+						<div class="text-center" *ngIf="!school.acceptable_forms.length">
+							{{ 'frontpage.dashboard_tabs_applications_acceptable_forms_notfound'
 													| translate }}
+						</div>
+
+						<ng-container *ngIf="school.acceptable_forms.length">
+							<div class="row">
+								<ng-container *ngFor="let form of school.acceptable_forms; let i = index;">
+									<ng-container
+										*ngIf="(acceptableFormsListRestricted && i < acceptableFormsLimiter) || !acceptableFormsListRestricted">
+										<div class="col-6 form-item">
+											<a [routerLink]="form.form_path"
+												[queryParams]="{ id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined, eksisteerib: form.status === 'Registreeritud' || form.status === 'Esitatud' ? true : undefined }"
+												class="grid-item">
+												<span *ngIf="form.title"
+													class="grid-link">{{ selectLanguage(form.title) }} {{ form.description
+																			}}</span>
+											</a>
+										</div>
+									</ng-container>
+								</ng-container>
 							</div>
 
-							<ng-container *ngIf="school.acceptable_forms.length">
-								<div class="row">
-									<ng-container *ngFor="let form of school.acceptable_forms; let i = index;">
-										<ng-container
-											*ngIf="(acceptableFormsListRestricted && i < acceptableFormsLimiter) || !acceptableFormsListRestricted">
-											<div class="col-6 form-item">
-												<a [routerLink]="form.form_path"
-													[queryParams]="{ id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined, eksisteerib: form.status === 'Registreeritud' || form.status === 'Esitatud' ? true : undefined }"
-													class="grid-item">
-													<span *ngIf="form.title"
-														class="grid-link">{{ selectLanguage(form.title) }} {{ form.description
-																			}}</span>
-												</a>
-											</div>
-										</ng-container>
-									</ng-container>
-								</div>
-
-								<div class="grid-load"
-									*ngIf="school.acceptable_forms.length > 4 && acceptableFormsListRestricted">
-									<a href="javascript:void(0);" (click)="toggleAcceptableFormsList()">+
-										{{ 'button.show_more' | translate }} ({{
+							<div class="grid-load"
+								*ngIf="school.acceptable_forms.length > 4 && acceptableFormsListRestricted">
+								<a href="javascript:void(0);" (click)="toggleAcceptableFormsList()">+
+									{{ 'button.show_more' | translate }} ({{
 															school.acceptable_forms.length - 4 }})</a>
-								</div>
+							</div>
 
-								<div class="grid-load"
-									*ngIf="school.acceptable_forms.length > 4 && !acceptableFormsListRestricted">
-									<a href="javascript:void(0);" (click)="toggleAcceptableFormsList()">-
-										{{ 'button.show_less' | translate }}</a>
-								</div>
-							</ng-container>
+							<div class="grid-load"
+								*ngIf="school.acceptable_forms.length > 4 && !acceptableFormsListRestricted">
+								<a href="javascript:void(0);" (click)="toggleAcceptableFormsList()">-
+									{{ 'button.show_less' | translate }}</a>
+							</div>
 						</ng-container>
-						<!-- /acceptable_forms -->
+					</ng-container>
+					<!-- /acceptable_forms -->
 
-						<!-- financial reports -->
-						<!-- 				<ng-container>
+					<!-- financial reports -->
+					<!-- 				<ng-container>
 												<h4>{{ 'frontpage.dashboard_tabs_financial_report_drafts_label' | translate }}</h4>
 												<table htm-table class="dashboard-table highCells small-text" *ngIf="!school.drafts.length">
 													<thead>
@@ -391,168 +388,167 @@
 													</scrollableContent>
 											</ng-container> -->
 
-						<!-- drafts -->
-						<ng-container>
-							<h4>
-								{{ 'frontpage.dashboard_tabs_applications_drafts_label' | translate
+					<!-- drafts -->
+					<ng-container>
+						<h4>
+							{{ 'frontpage.dashboard_tabs_applications_drafts_label' | translate
 													}}
-							</h4>
+						</h4>
 
-							<table htm-table class="dashboard-table highCells small-text" *ngIf="!school.drafts.length">
+						<table htm-table class="dashboard-table highCells small-text" *ngIf="!school.drafts.length">
+							<thead>
+								<tr>
+									<th>
+										{{ 'frontpage.dashboard_tabs_applications_document_name' |
+																translate }}
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td class="text-center font-normal" colspan="2">
+										{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' |
+																translate }}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<scrollableContent *ngIf="school.drafts.length">
+							<table htm-table class="dashboard-table highCells scrollableTable small-text">
 								<thead>
 									<tr>
 										<th>
 											{{ 'frontpage.dashboard_tabs_applications_document_name' |
-																translate }}
+																	translate }}
+										</th>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_date' |
+																	translate }}
+										</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<ng-container *ngFor="let form of school.drafts">
+										<tr [class.description]="form.description">
+											<td>
+												<ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}
+												</ng-container>
+											</td>
+											<td>
+												<ng-container *ngIf="form.document_date">{{ form.document_date }}
+												</ng-container>
+											</td>
+											<td class="text-center">
+												<a class="rowspan-btn" *ngIf="form.form_path"
+													attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
+													[routerLink]="form.form_path"
+													[queryParams]="{mustand:'true', id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined}">
+													{{ 'button.continue_filling' | translate }}
+												</a>
+											</td>
+										</tr>
+										<tr class="description-bottom" *ngIf="form.description">
+											<td colspan="3">
+												<p>{{ form. description }}</p>
+											</td>
+										</tr>
+									</ng-container>
+								</tbody>
+							</table>
+						</scrollableContent>
+					</ng-container>
+					<!-- drafts -->
+
+					<!-- documents -->
+					<ng-container>
+						<h4>
+							{{ 'frontpage.dashboard_tabs_applications_documents_label' |
+													translate }}
+						</h4>
+
+						<scrollableContent *ngIf="!school.documents.length">
+							<table htm-table class="dashboard-table highCells scrollableTable small-text">
+								<thead>
+									<tr>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_name' |
+																	translate }}
+										</th>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_date' |
+																	translate }}
+										</th>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_status' |
+																	translate }}
 										</th>
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
-										<td class="text-center font-normal" colspan="2">
-											{{ 'frontpage.dashboard_tabs_applications_drafts_notfound' |
-																translate }}
+										<td class="text-center font-normal" colspan="3">
+											{{
+																	'frontpage.dashboard_tabs_applications_documents_notfound' |
+																	translate }}
 										</td>
 									</tr>
 								</tbody>
 							</table>
-							<scrollableContent *ngIf="school.drafts.length">
-								<table htm-table class="dashboard-table highCells scrollableTable small-text">
-									<thead>
-										<tr>
-											<th>
-												{{ 'frontpage.dashboard_tabs_applications_document_name' |
-																	translate }}
-											</th>
-											<th>
-												{{ 'frontpage.dashboard_tabs_applications_document_date' |
-																	translate }}
-											</th>
-											<th></th>
-										</tr>
-									</thead>
-									<tbody>
-										<ng-container *ngFor="let form of school.drafts">
-											<tr [class.description]="form.description">
-												<td>
-													<ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}
-													</ng-container>
-												</td>
-												<td>
-													<ng-container *ngIf="form.document_date">{{ form.document_date }}
-													</ng-container>
-												</td>
-												<td class="text-center">
-													<a class="rowspan-btn" *ngIf="form.form_path"
-														attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
-														[routerLink]="form.form_path"
-														[queryParams]="{mustand:'true', id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined}">
-														{{ 'button.continue_filling' | translate }}
-													</a>
-												</td>
-											</tr>
-											<tr class="description-bottom" *ngIf="form.description">
-												<td colspan="3">
-													<p>{{ form. description }}</p>
-												</td>
-											</tr>
-										</ng-container>
-									</tbody>
-								</table>
-							</scrollableContent>
-						</ng-container>
-						<!-- drafts -->
+						</scrollableContent>
 
-						<!-- documents -->
-						<ng-container>
-							<h4>
-								{{ 'frontpage.dashboard_tabs_applications_documents_label' |
-													translate }}
-							</h4>
-
-							<scrollableContent *ngIf="!school.documents.length">
-								<table htm-table class="dashboard-table highCells scrollableTable small-text">
-									<thead>
-										<tr>
-											<th>
-												{{ 'frontpage.dashboard_tabs_applications_document_name' |
+						<scrollableContent *ngIf="school.documents.length">
+							<table htm-table class="dashboard-table highCells scrollableTable small-text">
+								<thead>
+									<tr>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_name' |
 																	translate }}
-											</th>
-											<th>
-												{{ 'frontpage.dashboard_tabs_applications_document_date' |
+										</th>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_date' |
 																	translate }}
-											</th>
-											<th>
-												{{ 'frontpage.dashboard_tabs_applications_document_status' |
+										</th>
+										<th>
+											{{ 'frontpage.dashboard_tabs_applications_document_status' |
 																	translate }}
-											</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td class="text-center font-normal" colspan="3">
-												{{
-																	'frontpage.dashboard_tabs_applications_documents_notfound' |
-																	translate }}
+										</th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<ng-container *ngFor="let form of school.documents">
+										<tr [class.description]="form.description">
+											<td>
+												<ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}
+												</ng-container>
+											</td>
+											<td>
+												<span *ngIf="form.document_date">{{ form.document_date }}</span>
+											</td>
+											<td>
+												<span *ngIf="form.status">{{ form.status }}</span>
+											</td>
+											<td class="text-center">
+												<a class="rowspan-btn" *ngIf="form.form_path"
+													attr.aria-label="{{'button.open' | translate}} {{'frontpage.dokument' | translate}}"
+													[routerLink]="form.form_path"
+													[queryParams]="{eksisteerib:'true', id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined }">
+													{{ 'button.open' | translate }}
+												</a>
 											</td>
 										</tr>
-									</tbody>
-								</table>
-							</scrollableContent>
-
-							<scrollableContent *ngIf="school.documents.length">
-								<table htm-table class="dashboard-table highCells scrollableTable small-text">
-									<thead>
-										<tr>
-											<th>
-												{{ 'frontpage.dashboard_tabs_applications_document_name' |
-																	translate }}
-											</th>
-											<th>
-												{{ 'frontpage.dashboard_tabs_applications_document_date' |
-																	translate }}
-											</th>
-											<th>
-												{{ 'frontpage.dashboard_tabs_applications_document_status' |
-																	translate }}
-											</th>
-											<th></th>
+										<tr class="description-bottom" *ngIf="form.description">
+											<td colspan="4">
+												<p>{{ form.description }}</p>
+											</td>
 										</tr>
-									</thead>
-									<tbody>
-										<ng-container *ngFor="let form of school.documents">
-											<tr [class.description]="form.description">
-												<td>
-													<ng-container *ngIf="form.title">{{ selectLanguage(form.title) }}
-													</ng-container>
-												</td>
-												<td>
-													<span *ngIf="form.document_date">{{ form.document_date }}</span>
-												</td>
-												<td>
-													<span *ngIf="form.status">{{ form.status }}</span>
-												</td>
-												<td class="text-center">
-													<a class="rowspan-btn" *ngIf="form.form_path"
-														attr.aria-label="{{'button.open' | translate}} {{'frontpage.dokument' | translate}}"
-														[routerLink]="form.form_path"
-														[queryParams]="{eksisteerib:'true', id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined }">
-														{{ 'button.open' | translate }}
-													</a>
-												</td>
-											</tr>
-											<tr class="description-bottom" *ngIf="form.description">
-												<td colspan="4">
-													<p>{{ form.description }}</p>
-												</td>
-											</tr>
-										</ng-container>
-									</tbody>
-								</table>
-							</scrollableContent>
-						</ng-container>
-					</accordion-item>
-				</ng-container>
+									</ng-container>
+								</tbody>
+							</table>
+						</scrollableContent>
+					</ng-container>
+				</accordion-item>
 			</accordion>
 		</ng-container><!-- /ngFor -->
 	</div>
