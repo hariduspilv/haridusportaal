@@ -37,6 +37,7 @@
 					[(ngModel)]="searchTerm"
 					name="homeSearch"
 					(autoCompleteChanged)="searchRoute($event)"
+					[eventTracker]="getSearchObject()"
 				>
 				</formItem>
 			</div>

@@ -183,6 +183,13 @@ export class HeaderComponent implements OnInit {
     this.activatedRoute.snapshot.firstChild.routeConfig.path !== 'otsing';
   }
 
+  getSearchObject() {
+    return {
+      category: 'search',
+      action: 'submit',
+    };
+  }
+
   // wtf
   openLogOutDropdown(event: Event) {
     if (!this.logoutActive) {
