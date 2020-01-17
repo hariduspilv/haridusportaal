@@ -234,9 +234,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   this.alertsService
                     .info(response.error.message_text.et, 'general', 'applications', false, false);
                 } else if (this.currentRole === 'natural_person') {
-                  this.data.acceptable_forms = response['acceptable_forms'];
-                  this.data.drafts = response['drafts'];
-                  this.data.documents = response['documents'];
+                  this.data.acceptable_forms = response['acceptable_forms'] || [];
+                  this.data.drafts = response['drafts'] || [];
+                  this.data.documents = response['documents'] || [];
                   this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
                   this.data.drafts = this.sortList(this.data.drafts, 'title');
                   this.data.documents = this.sortList(this.data.documents, 'date');
@@ -247,7 +247,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                     this.loading.initial = false;
                   }
                 } else {
-                  if (response['educationalInstitutions']) {
+                  if (response['educationalInstitutions'] && response['educationalInstitutions'] !== null) {
                     const responseData = response['educationalInstitutions'].map((elem) => {
                       elem.documents = this.sortList(elem.documents, 'date');
                       this.alertsService.info(elem.message, String(elem.id), false);
@@ -275,7 +275,8 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                     }
 
                     this.data.educationalInstitutions.forEach((school, ind) => {
-                      if (school.institutionInfo.address.addressFull === null) {
+                      if (school.institutionInfo && school.institutionInfo.address &&
+                        school.institutionInfo.address.addressFull === null) {
                         this.getInAds(school);
                       }
                     });
