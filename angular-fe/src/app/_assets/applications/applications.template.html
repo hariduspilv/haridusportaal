@@ -175,7 +175,7 @@
 			<accordion>
 				<accordion-item *ngFor="let school of data.educationalInstitutions; let first = first; let ind = index;"
 					[active]="data.educationalInstitutions.length === 1 && first"
-					[title]="school.institutionInfo.generalData.name">
+					[title]="school.institutionInfo && school.institutionInfo.generalData ? school.institutionInfo.generalData.name : ''">
 					<!-- general data -->
 					<ng-container *ngIf="school.institutionInfo">
 						<scrollableContent>
