@@ -2,6 +2,7 @@ package ee.htm.portal.services.client;
 
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysDokumentResponseDocument.MtsysDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaDocument.MtsysEsitaTegevusluba;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaResponseDocument.MtsysEsitaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadDocument.MtsysEsitaTegevusnaitajad;
@@ -34,7 +35,7 @@ import java.math.BigInteger;
 /**
  * <code>ehis</code> EHIS (Eesti Hariduse Infosüsteem -- Haridus- ja Teadusministeerium) database
  * X-tee v6 service.
- *
+ * <p>
  * parameter userId - if null gets its value from xroad.properties id-code
  */
 public interface EhisXRoadService {
@@ -88,4 +89,7 @@ public interface EhisXRoadService {
 
   MtsysEsitaTegevusnaitajadResponse mtsysEsitaTegevusnaitajad(MtsysEsitaTegevusnaitajad request,
       String userId) throws XRoadServiceConsumptionException;
+
+  MtsysDokumentResponse mtsysDokument(Integer identifier, Integer documentId, String userId)
+      throws XRoadServiceConsumptionException;
 }

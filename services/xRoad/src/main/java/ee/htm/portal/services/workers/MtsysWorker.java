@@ -10,6 +10,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Aa
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Dokumendid;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Dokument;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EhisKlassifikaator;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysDokumentResponseDocument.MtsysDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaDocument.MtsysEsitaTegevusluba;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaResponseDocument.MtsysEsitaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadDocument.MtsysEsitaTegevusnaitajad;
@@ -484,9 +485,22 @@ public class MtsysWorker extends Worker {
                 .put("file_name", dokument.getFailiNimi())
                 .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId());
 
-            redisTemplate.opsForHash()
-                .put(personalCode, MTSYSFILE_KEY + "_" + dokument.getDokumentId(),
-                    dokument.getContent());
+            byte[] dokumentByteArray = dokument.getContent();
+            if (dokumentByteArray == null || dokumentByteArray.length == 0) {
+              try {
+                MtsysDokumentResponse dokumentResponse = ehisXRoadService
+                    .mtsysDokument(response.getTegevusloaAndmed().getId().intValue(),
+                        (int) dokument.getDokumentId(), personalCode);
+                dokumentByteArray = dokumentResponse.getByteArrayValue();
+              } catch (Exception e) {
+                LOGGER.error(e, e);
+              }
+            }
+
+            redisFileTemplate.opsForHash()
+                .put(MTSYS_REDIS_KEY, MTSYSFILE_KEY + "_" + dokument.getDokumentId(),
+                    Base64.getEncoder().encodeToString(dokumentByteArray));
+            redisFileTemplate.expire(MTSYS_REDIS_KEY, redisExpire, TimeUnit.MINUTES);
           });
 
       stepZeroDataElementsNode.putObject("lisainfo")
@@ -616,10 +630,22 @@ public class MtsysWorker extends Worker {
           }
         });
 
-        redisTemplate.opsForHash()
-            .put(personalCode, MTSYSFILE_KEY + "_" + item.getDokumentId(),
-                item.getContent());
-        redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
+        byte[] dokumentByteArray = item.getContent();
+        if (dokumentByteArray == null || dokumentByteArray.length == 0) {
+          try {
+            MtsysDokumentResponse dokumentResponse = ehisXRoadService
+                .mtsysDokument(response.getTegevusloaAndmed().getId().intValue(),
+                    (int) item.getDokumentId(), personalCode);
+            dokumentByteArray = dokumentResponse.getByteArrayValue();
+          } catch (Exception e) {
+            LOGGER.error(e, e);
+          }
+        }
+
+        redisFileTemplate.opsForHash()
+            .put(MTSYS_REDIS_KEY, MTSYSFILE_KEY + "_" + item.getDokumentId(),
+                Base64.getEncoder().encodeToString(dokumentByteArray));
+        redisFileTemplate.expire(MTSYS_REDIS_KEY, redisExpire, TimeUnit.MINUTES);
       });
 
       ((ObjectNode) stepAndmedDataElements.get("kommentaar"))
