@@ -123,7 +123,6 @@ class EhisConnectorService {
         $params['headers'] = [
           'Content-Type' => 'application/json'
         ];
-        dump($params);
         $response = $client->post($this->loime_url.$service_name, $params);
       }else{
         //TODO throw error
@@ -304,8 +303,6 @@ class EhisConnectorService {
     $post_data = [
       'json' => $data
     ];
-
-    dump($post_data);
 
     return $this->invoke('postEducationalInstitution/'.$this->getCurrentUserIdRegCode(TRUE) , $post_data, 'post');
   }
