@@ -665,6 +665,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
           return true;
         }
         return false;
+      } else {
+        return true;
       }
     }
   }
