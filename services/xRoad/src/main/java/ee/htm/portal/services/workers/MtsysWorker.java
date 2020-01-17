@@ -1250,18 +1250,20 @@ public class MtsysWorker extends Worker {
 
       if (jsonNodeRequest.get("educationalInstitution").get("generalData") != null) {
         MtsysOppeasutusAndmed oppeasutusAndmed = MtsysOppeasutusAndmed.Factory.newInstance();
-        if (jsonNodeRequest.get("educationalInstitution").get("generalData").get("owner") != null
+        if (!jsonNodeRequest.get("educationalInstitution").get("generalData").get("owner")
+            .asText().equalsIgnoreCase("")
             && !jsonNodeRequest.get("educationalInstitution").get("generalData").get("owner")
-            .asText().equalsIgnoreCase("")) {
+            .asText().equalsIgnoreCase("null")) {
           oppeasutusAndmed.setOmanik(jsonNodeRequest.get("educationalInstitution")
               .get("generalData").get("owner")
               .asText()); //optional olemas kui on muutmine, muidu tühi
         }
         oppeasutusAndmed.setOppeasutuseNimetus(jsonNodeRequest.get("educationalInstitution")
             .get("generalData").get("name").asText()); //lenght < 255
-        if (jsonNodeRequest.get("educationalInstitution").get("generalData")
-            .get("nameENG") != null && !jsonNodeRequest.get("educationalInstitution")
-            .get("generalData").get("nameENG").asText().equalsIgnoreCase("")) {
+        if (!jsonNodeRequest.get("educationalInstitution").get("generalData").get("nameENG")
+            .asText().equalsIgnoreCase("")
+            && !jsonNodeRequest.get("educationalInstitution").get("generalData").get("nameENG")
+            .asText().equalsIgnoreCase("null")) {
           oppeasutusAndmed.setOppeasutuseNimetusIngliseKeeles(
               jsonNodeRequest.get("educationalInstitution").get("generalData")
                   .get("nameENG").asText()); //optional , lenght < 255
