@@ -107,6 +107,16 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
   }
 
+  gaPageTrack():void {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const page = window.location.href;
+        (<any>window).ga('send', 'pageview', page);
+
+      }
+    });
+  }
+
   ngAfterViewInit(): void {
     // this.cookieAlert();
     this.initCookies();
@@ -129,6 +139,8 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       });
     }
+
+    this.gaPageTrack();
 
     // this.addPlumbrScript();
   }
