@@ -4,6 +4,8 @@ import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
 import ee.htm.portal.services.database.EhisXRoadDatabaseImpl;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartDocument.EeIsikukaart;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysDokumentDocument.MtsysDokument;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysDokumentResponseDocument.MtsysDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaDocument.MtsysEsitaTegevusluba;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaResponseDocument.MtsysEsitaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadDocument.MtsysEsitaTegevusnaitajad;
@@ -214,5 +216,16 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
     }
 
     return mtsysEsitaTegevusnaitajadV1(request, userId);
+  }
+
+  public MtsysDokumentResponse mtsysDokument(Integer identifier, Integer documentId, String userId)
+      throws XRoadServiceConsumptionException {
+    MtsysDokument request = MtsysDokument.Factory.newInstance();
+    request.setTaotlusId(identifier);
+    request.setDokumentId(documentId);
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysDokumentV1(request);
+    }
+    return mtsysDokumentV1(request, userId);
   }
 }
