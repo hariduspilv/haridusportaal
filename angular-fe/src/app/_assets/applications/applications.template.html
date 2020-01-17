@@ -206,7 +206,7 @@
 												<a href="mailto:{{school.institutionInfo.contacts.contactEmail}}"
 													attr.aria-label="{{'event.participant_email' | translate}}: {{school.institutionInfo.contacts.contactEmail}}">{{ school.institutionInfo.contacts.contactEmail }}</a>
 											</td>
-											<td *ngIf="!school.institutionInfo.contacts.contactPhone"
+											<td *ngIf="school.institutionInfo.contacts && !school.institutionInfo.contacts.contactPhone"
 												attr.rowspan="{{institutionInfoFieldSum(school)}}" class="text-center">
 												<a class="rowspan-btn" role="button" href="javascript:void(0)"
 													(click)="openDialog(school.id, school.institutionInfo)"
