@@ -13,9 +13,6 @@ export class AnalyticsEvent {
       .ga('send', 'event', this.option.category,
           this.option.action, this.option.label, {
             hitCallback: () => {
-
-              console.log('Tracking is successful');
-
             },
 
           });

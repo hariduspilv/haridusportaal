@@ -20,6 +20,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   public eventsTags;
   public eventsTypesSet;
   public eventsTagsObs;
+  public searchTitle = '';
   showFilter: boolean = true;
   filterFull: boolean = false;
   private subscriptions: Subscription[] = [];
@@ -72,6 +73,20 @@ export class EventsViewComponent implements OnDestroy, OnInit{
 
     this.subscriptions = [...this.subscriptions, typesSubscription];
 
+  }
+
+  getGoogleAnalyticsObject() {
+    console.log({
+      category: 'eventsSearch',
+      action: 'submit',
+      label: this.searchTitle,
+    });
+    
+    return {
+      category: 'eventsSearch',
+      action: 'submit',
+      label: this.searchTitle,
+    };
   }
 
   getTags() {

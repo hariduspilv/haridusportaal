@@ -116,7 +116,7 @@ export class HeaderComponent implements OnInit {
       },
       () => {
         this.loading = false;
-      }
+      },
     );
   }
 
@@ -172,23 +172,31 @@ export class HeaderComponent implements OnInit {
   }
 
   searchRoute(e, timeout: boolean = false) {
-    const url = `/otsing?term=${!e ? this.searchTerm : e}`;
+
+    const term = !e ? this.searchTerm : (
+      e instanceof Event ? e.target['0'].value : e
+    );
+
+    const url = `/otsing?term=${term}`;
     this.searchTerm = '';
+    this.sendAnalyticsData(term);
     this.cdr.detectChanges();
     this.router.navigateByUrl(url);
   }
 
   headerSearchEnabled() {
     return this.activatedRoute.snapshot.firstChild &&
-    this.activatedRoute.snapshot.firstChild.routeConfig.path !== 'otsing';
+      this.activatedRoute.snapshot.firstChild.routeConfig.path !== 'otsing';
   }
 
-  getSearchObject() {
-    return {
-      category: 'search',
-      action: 'submit',
-      label: this.searchTerm,
-    };
+  sendAnalyticsData(term) {
+    this.analyticsDataSent = true;
+    (<any>window)
+      .ga('send', 'event', 'homeSearch', 'submit', term, {
+        hitCallback: () => {
+        },
+
+      });
   }
 
   // wtf

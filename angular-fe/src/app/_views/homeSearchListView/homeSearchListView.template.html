@@ -2,7 +2,7 @@
 	<div class="inline">
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 	</div><!--/inline-->
-	<form (submit)="getResults(param, [])" class="filter-wrapper">
+	<form (submit)="getResults(param, [])" class="filter-wrapper" [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">
 			<div class="main-container">
 				<div class="row">

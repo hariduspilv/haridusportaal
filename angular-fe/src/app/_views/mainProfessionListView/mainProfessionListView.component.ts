@@ -21,6 +21,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   fixedLabels: any;
   fixedLabelSelection: any;
   competitionSelection: any;
+  searchTitle = '';
   showFilter = true;
   filterFull = false;
   sortDirection = 'ASC';
@@ -68,6 +69,14 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     const responsive = this.filterToggle.nativeElement.clientWidth;
     this.showFilter = responsive ? false : true;
     this.filterFull = responsive ? true : false;
+  }
+
+  getGoogleAnalyticsObject() {
+    return {
+      category: 'mainProfessionSearch',
+      action: 'submit',
+      label: this.searchTitle,
+    };
   }
 
   getFilters() {
