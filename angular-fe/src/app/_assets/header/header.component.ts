@@ -190,7 +190,6 @@ export class HeaderComponent implements OnInit {
   }
 
   sendAnalyticsData(term) {
-    this.analyticsDataSent = true;
     (<any>window)
       .ga('send', 'event', 'homeSearch', 'submit', term, {
         hitCallback: () => {
