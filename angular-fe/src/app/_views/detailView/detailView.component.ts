@@ -177,9 +177,10 @@ export class DetailViewComponent {
 
   private parseData(data):void {
     this.data = FieldVaryService(data);
+
     if (Array.isArray(this.data.video) && this.data.video.length > 1) {
       this.data.additionalVideos = this.data.video.slice(1, 10);
-      this.data.video.splice(0, 1);
+      this.data.video = this.data.video[0];
     }
 
     this.data['fieldAccordion'] = this.data.reverseFieldOskaFieldParagraph &&
