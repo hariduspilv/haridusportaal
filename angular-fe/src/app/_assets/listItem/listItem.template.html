@@ -1,18 +1,22 @@
 <div #content *ngIf="list && list.length > 0">
     <ng-container *ngFor="let item of list; let i = index">
+
         <div class="list__item {{ addonClass }}">
             <div class="list__item__titlebox">
                 <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
                     <div [class]="type === 'school' ? 'list__item__head sm-hide' : 'list__item__head'"
                         *ngIf="item.head">
                         {{ returnEntityString(item.head) }}</div>
-                    <div class="flex flex-center flex-wrap">
+                    <div class="flex flex-center flex-wrap list__item__titleWrapper">
                         <a [routerLink]="item.url.path ? item.url.path : item.url" class="list__item__title">
-                            <h1>{{ item.title }}</h1>
-                        </a>
-                        <div href="javascript:void(0);" class="nonActive--blue"
-                            *ngIf="item.admissionStatus && item.fieldAdmissionStatus !== 'avatud' && item.fieldAdmissionStatus !== 'Avatud'">
-                            {{'studyProgramme.non_active' | translate}}</div>
+													<h1>{{ item.title }}</h1>
+												</a>
+                        <span *ngIf="type === 'studyProgramme' && item.admissionStatus !== 'avatud' && item.admissionStatus !== 'Avatud'">
+													<labels
+														[data]="[{entity: {entityLabel: 'studyProgramme.non_active'}}]"
+														type="aqua">
+													</labels>
+												</span>
                     </div>
                     <div class="author" *ngIf="item.author || item.created">
                         {{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>

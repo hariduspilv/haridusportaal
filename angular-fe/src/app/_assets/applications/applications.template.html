@@ -2,6 +2,7 @@
 	<more-block id="1" [content]="currentRole === 'natural_person' ? 'abitekst.taotlused' : 'abitekst.jur_taotlused'">
 	</more-block>
 </div>
+
 <loader *ngIf="loading.initial === true"></loader>
 
 <ng-container *ngIf="requestError && !loading.initial">

@@ -112,7 +112,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (event instanceof NavigationEnd) {
         const page = window.location.href;
         (<any>window).ga('send', 'pageview', page);
-
       }
     });
   }

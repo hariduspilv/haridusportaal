@@ -79,6 +79,7 @@
 		</block>
 		<ng-container *ngIf="data">
 			<relatedStudyProgrammesList *ngIf="type === 'studyProgramme' && data.nid" [nid]="data.nid"></relatedStudyProgrammesList>
+			<relatedStudyProgrammesList *ngIf="type === 'school' && data.nid" [nid]="data.nid" type="school" title="studyProgramme.label"></relatedStudyProgrammesList>
 			<relatedEvents *ngIf="type === 'event' && data.nid && data.group" [nid]="data.nid" [groupID]="data.group.targetId"></relatedEvents>
 		</ng-container>
 	</article-layout>

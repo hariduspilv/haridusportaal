@@ -117,7 +117,6 @@ $grid-columns: 12;
         cursor: pointer;
       }
       &__title {
-        width: 100%;
         font-size: $medium;
         line-height: $large;
         text-decoration: none;
@@ -128,6 +127,16 @@ $grid-columns: 12;
         // }
         h1 {
           color: $blue;
+        }
+      }
+      &__titleWrapper{
+        labels {
+          margin: 0;
+          ::ng-deep {
+            div {
+              margin: 0;
+            }
+          }
         }
       }
       &__head {
@@ -237,6 +246,9 @@ $grid-columns: 12;
     }
 
     .bar {
+      &:first-child {
+        display: none;
+      }
       color: $gray;
       font-weight: 300;
       padding: 0 0.375rem;

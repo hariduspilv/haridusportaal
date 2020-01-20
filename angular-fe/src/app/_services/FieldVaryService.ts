@@ -39,6 +39,7 @@ const requestMap = {
   additional: ['fieldAdditional', 'fieldPracticalInformation'],
   fieldPros: ['fieldOskaFieldPros'],
   fieldCons: ['fieldOskaFieldCons'],
+  admissionStatus: ['fieldAdmissionStatus', 'FieldAdmissionStatus', 'admissionStatus'],
 };
 // tslint:enable
 export default(data) => {

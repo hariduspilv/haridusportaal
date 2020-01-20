@@ -1,3 +1,3 @@
 <ng-container *ngFor="let label of data;">
-  <div [ngStyle]="!type && childStyles" *ngIf="label.entityLabel || label.value">{{label.entityLabel || label.value | titlecase}}</div>
+  <div [ngStyle]="!type && childStyles" *ngIf="label.entityLabel || label.value">{{label.entityLabel || label.value | translate }}</div>
 </ng-container>

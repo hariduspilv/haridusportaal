@@ -1,16 +1,47 @@
-<block>
-  <block-title>{{ 'studyProgramme.related_label' | translate | uppercase }}</block-title>
-  <block-content>
-    <form [formGroup]="relatedProgrammesForm" class="filter-wrapper">
-      <formItem title="{{ 'studyProgramme.related_filter_location' | translate }}" type="text" formControlName="address"></formItem>
-      <button (click)="getRelatedStudyprogrammes(nid)" type="button" htm-button>{{ 'button.search' | translate}}</button>
-    </form>
-    <loader *ngIf="loading"></loader>
-    <listItems *ngIf="!loading" [list]="list" type="studyProgramme" compare="studyProgrammeComparison"></listItems>
-  </block-content>
-</block>
-<div class="loadMore-wrapper">
-  <loader *ngIf="loadingMore"></loader>
-  <button *ngIf="!loadingMore && (totalItems > ((1 + page)  * 24))" htm-button (click)="loadMore()" type="button">{{ 'button.load_more' | translate }}</button>
-</div>
+<ng-container *ngIf="type == 'school'; else related">
+  <loader *ngIf="loading"></loader>
+  <ng-container *ngIf="!loading && list.length">
+    <block>
+      <block-title>{{ title | translate | uppercase }}</block-title>
+      <block-content>
+        <listItems [list]="list" type="studyProgramme" compare="studyProgrammeComparison"></listItems>
+        <div class="text-center" *ngIf="!loading && !list.length">
+          {{ 'studyProgramme.no_results' | translate }}
+        </div><!--/text-center-->
+      </block-content>
+    </block>
+  </ng-container>
+  <div class="loadMore-wrapper">
+    <loader *ngIf="loadingMore"></loader>
+    <button *ngIf="!loadingMore && (totalItems+1 > ((1 + page)  * 24))" htm-button (click)="loadMore()" type="button">{{ 'button.load_more' | translate }}</button>
+  </div><!--/loadMore-->
+</ng-container>
+
+<ng-template #related>
+  <div class="text-center" *ngIf="!loading && list.length && !showList">
+    <button
+      htm-button
+      (click)="showListItems()">{{ 'studyProgramme.view_similar' | translate }}</button>
+  </div><!--/text-center-->
+  <block *ngIf="showList">
+    <block-title>{{ title | translate | uppercase }}</block-title>
+    <block-content>
+
+      <form [formGroup]="relatedProgrammesForm" class="filter-wrapper" (submit)="getRelatedStudyprogrammes(nid)" filters>
+        <formItem title="{{ 'studyProgramme.related_filter_location' | translate }}" type="text" name="address" formControlName="address"></formItem>
+        <button type="button" htm-button>{{ 'button.search' | translate}}</button>
+      </form>
+      <loader *ngIf="loading"></loader>
+      <div class="text-center" *ngIf="!loading && !list.length">
+        {{ 'studyProgramme.related_no_results' | translate }}
+      </div><!--/text-center-->
+      <listItems *ngIf="!loading" [list]="list" type="studyProgramme" compare="studyProgrammeComparison"></listItems>
+    </block-content>
+  </block>
+  <div class="loadMore-wrapper">
+    <loader *ngIf="loadingMore"></loader>
+    <button *ngIf="!loadingMore && (totalItems+1 > ((1 + page)  * 24))" htm-button (click)="loadMore()" type="button">{{ 'button.load_more' | translate }}</button>
+  </div>
+</ng-template>
+
 

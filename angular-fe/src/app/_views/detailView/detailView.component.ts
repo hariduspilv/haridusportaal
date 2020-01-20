@@ -220,7 +220,7 @@ export class DetailViewComponent {
   private initialize(type: string = undefined) {
     this.userData = this.auth.userData;
     if (this.route.snapshot.data) {
-      this.path = this.storyPath || decodeURI(this.location.path());
+      this.path = this.storyPath || decodeURI(this.location.path().split('?')[0]);
       this.type = this.storyType || type || this.route.snapshot.data['type'];
     }
 
