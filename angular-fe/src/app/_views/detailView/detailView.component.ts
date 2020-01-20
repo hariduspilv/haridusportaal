@@ -33,7 +33,7 @@ export class DetailViewComponent {
   public favoriteLimit = false;
   private paramsWatcher: Subscription = new Subscription();
   public isPreview: boolean = false;
-
+  public missingData: boolean = false;
   @Input() storyPath: string;
   @Input() storyType: string;
 
@@ -139,10 +139,14 @@ export class DetailViewComponent {
 
     const subscription = this.http.get(path).subscribe((response) => {
 
-      this.origData = response['data']['route']['entity'];
-      this.parseData(response['data']['route']['entity']);
-      subscription.unsubscribe();
+      try {
+        this.origData = response['data']['route']['entity'];
+        this.parseData(response['data']['route']['entity']);
+      } catch (err) {
+        this.missingData = true;
+      }
 
+      subscription.unsubscribe();
     });
 
   }

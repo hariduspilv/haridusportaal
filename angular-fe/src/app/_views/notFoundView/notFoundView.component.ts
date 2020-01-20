@@ -1,39 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { ModalService } from '@app/_services';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'notFound-view',
-  templateUrl: './notFoundView.template.html',
-  styleUrls: ['./notFoundView.styles.scss'],
+  template: '<notFound></notFound>',
 })
-export class NotFoundViewComponent implements OnInit {
-
-  public redirectUrl: string;
-  public loading: boolean = true;
-
-  constructor(
-    private route: ActivatedRoute,
-    private modalService: ModalService,
-    private router: Router) {
-    this.redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
-  }
-
-  ngOnInit() {
-    if (this.redirectUrl) {
-      document.getElementById('headerLogin').click();
-      sessionStorage.setItem('redirectUrl', this.redirectUrl);
-    } else {
-      document.getElementById('toFront').focus();
-    }
-  }
-
-  action() {
-    if (this.redirectUrl) {
-      this.modalService.open('login'); //document.getElementById('headerLogin').click();
-      sessionStorage.setItem('redirectUrl', this.redirectUrl);
-    } else {
-      this.router.navigate(['/']);
-    }
-  }
+export class NotFoundViewComponent {
 }

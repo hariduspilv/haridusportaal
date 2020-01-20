@@ -109,6 +109,7 @@ import { AppPipes } from '@app/_pipes';
 import { RelatedStudyProgrammesListComponent } from './relatedStudyprogrammesList/relatedStudyProgrammesList.component';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { RelatedEventsComponent } from './relatedEvents';
+import { NotFoundComponent } from './notFound';
 
 const declarations = [
   BlockComponent,
@@ -187,6 +188,7 @@ const declarations = [
   RelatedStudyProgrammesListComponent,
   RelatedEventsComponent,
   AnalyticsEvent,
+  NotFoundComponent,
 ];
 
 const exports = [

@@ -1,4 +1,6 @@
-<div class="inline">
+<notFound *ngIf="missingData"></notFound>
+
+<div class="inline" *ngIf="!missingData">
 	<ng-container *ngIf="isPreview">
 		<div class="preview">
 			<button role="button" htm-button (click)="editPost()">{{ 'button.back' | translate }}</button>
