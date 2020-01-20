@@ -1,9 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><definitions xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:repr="http://x-road.eu/xsd/representation.xsd" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://producers.ehis.xtee.riik.ee/producer/ehis" xmlns:xroad="http://x-road.eu/xsd/xroad.xsd" name="ehis" targetNamespace="http://producers.ehis.xtee.riik.ee/producer/ehis">
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd"
+	xmlns:repr="http://x-road.eu/xsd/representation.xsd"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:tns="http://producers.ehis.xtee.riik.ee/producer/ehis"
+	xmlns:xroad="http://x-road.eu/xsd/xroad.xsd" name="ehis" targetNamespace="http://producers.ehis.xtee.riik.ee/producer/ehis">
 
     <types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://producers.ehis.xtee.riik.ee/producer/ehis">
-            <import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
-			<import namespace="http://x-road.eu/xsd/representation.xsd" schemaLocation="http://x-road.eu/xsd/representation.xsd"/>
+					<import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
+					<import namespace="http://x-road.eu/xsd/representation.xsd" schemaLocation="http://x-road.eu/xsd/representation.xsd"/>
+					<import namespace="http://ws-i.org/profiles/basic/1.1/xsd" schemaLocation="http://ws-i.org/profiles/basic/1.1/swaref.xsd"/>
 			<!-- =================================== adsTeenus =================================== -->
 		    <element name="adsTeenus">
 		        <complexType>
@@ -1057,7 +1064,7 @@
 			<element name="vpTaotlusDokumentV2Response">
 				<complexType>
 					<sequence>
-						<element name="contentOut" nillable="true" type="anyURI">
+						<element name="contentOut" nillable="true" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title xml:lang="et">Vastusele lisatud attachment Content-Id cid:</xroad:title>
@@ -1107,7 +1114,7 @@
 		               			</appinfo>
 		           			</annotation>
 						</element>
-		                <element minOccurs="0" name="contentOut" type="anyURI">
+		                <element minOccurs="0" name="contentOut" type="wsi:swaRef">
 		                    <annotation>
 		                        <appinfo>
 		                            <xroad:title xml:lang="et">Vastusele lisatud Content-Id cid:</xroad:title>
@@ -3671,7 +3678,7 @@
                                 </appinfo>
                             </annotation>
                         </element>
-                        <element name="contentOut" nillable="true" type="anyURI">
+                        <element name="contentOut" nillable="true" type="wsi:swaRef">
                             <annotation>
                                 <appinfo>
                                     <xroad:title xml:lang="et">Vastusele lisatud attachment Content-Id cid:</xroad:title>
@@ -3700,7 +3707,7 @@
                                 </appinfo>
                             </annotation>
                         </element>
-                        <element name="contentOut" nillable="true" type="anyURI">
+                        <element name="contentOut" nillable="true" type="wsi:swaRef">
                             <annotation>
                                 <appinfo>
                                     <xroad:title xml:lang="et">Vastusele lisatud attachment Content-Id cid:</xroad:title>
@@ -7925,7 +7932,7 @@
 								<documentation>Mingi võimalik veateade vea korral</documentation>
 							</annotation>
 						</element>
-						<element name="contentOut" nillable="true" type="anyURI">
+						<element name="contentOut" nillable="true" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title xml:lang="et">Vastusele lisatud attachment Content-Id cid:</xroad:title>
@@ -7950,7 +7957,7 @@
 								<documentation>Kuupäev, millest alates muudatused võetakse. Täisnimekirja puhul ei kasutata.</documentation>
 							</annotation>
 						</element>
-						<element name="contentIn" type="anyURI">
+						<element name="contentIn" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title>Kokkupakitud vormingus fail.</xroad:title>
@@ -7979,7 +7986,7 @@
 								</sequence>
 							</complexType>
 						</element>
-						<element name="contentOut" nillable="true" type="anyURI">
+						<element name="contentOut" nillable="true" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title xml:lang="et">Vastusele lisatud attachment Content-Id cid:</xroad:title>
@@ -7994,7 +8001,7 @@
 			<element name="pankOppelaenTase">
 				<complexType>
 					<sequence>
-						<element name="contentIn" type="anyURI">
+						<element name="contentIn" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title xml:lang="et">Päringule lisatud attachment Content-Id cid:</xroad:title>
@@ -9054,7 +9061,7 @@
 								</appinfo>
 							</annotation>
 						</element>
-						<element name="contentOut" nillable="true" type="anyURI">
+						<element name="contentOut" nillable="true" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title xml:lang="et">Vastusele lisatud attachment Content-Id cid:</xroad:title>
@@ -9076,7 +9083,7 @@
 								</appinfo>
 							</annotation>
 						</element>
-						<element name="contentIn" type="anyURI">
+						<element name="contentIn" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title xml:lang="et">Päringule lisatud attachment Content-Id cid:</xroad:title>
@@ -9103,7 +9110,7 @@
 								</appinfo>
 							</annotation>
 						</element>
-						<element name="contentOut" nillable="true" type="anyURI">
+						<element name="contentOut" nillable="true" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title xml:lang="et">Vastusele lisatud attachment Content-Id cid:</xroad:title>
@@ -9403,7 +9410,7 @@
 								</appinfo>
 							</annotation>
 						</element>
-						<element name="contentOut" nillable="true" type="anyURI">
+						<element name="contentOut" nillable="true" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title xml:lang="et">Vastusele lisatud attachment Content-Id cid:</xroad:title>
@@ -12418,7 +12425,7 @@
 								</appinfo>
 							</annotation>
 						</element>
-						<element name="contentIn" type="anyURI">
+						<element name="contentIn" type="wsi:swaRef">
 							<annotation>
 								<appinfo>
 									<xroad:title>Kokkupakitud Base64 formaadis fail.</xroad:title>
