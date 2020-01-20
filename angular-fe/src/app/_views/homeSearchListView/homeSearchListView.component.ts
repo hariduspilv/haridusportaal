@@ -91,6 +91,14 @@ export class HomeSearchListViewComponent {
     this.param = e.target.value;
   }
 
+  getGoogleAnalyticsObject() {
+    return {
+      category: 'homeSearch',
+      action: 'submit',
+      label: this.param,
+    };
+  }
+
   getResults(term, type) {
     if (this.dataSubscription !== undefined) {
       this.dataSubscription.unsubscribe();

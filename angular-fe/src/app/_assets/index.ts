@@ -48,6 +48,7 @@ import {
   RippleDirective,
   FiltersDirective,
   RotateTableDirective,
+  AnalyticsEvent,
  } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
@@ -185,6 +186,7 @@ const declarations = [
   BlockSubTitleComponent,
   RelatedStudyProgrammesListComponent,
   RelatedEventsComponent,
+  AnalyticsEvent,
 ];
 
 const exports = [

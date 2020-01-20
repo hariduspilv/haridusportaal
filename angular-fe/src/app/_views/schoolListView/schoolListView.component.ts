@@ -20,6 +20,7 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
   params: any;
   tags: any;
   selectedTag: any;
+  searchTitle: '';
   showFilter = true;
   filterFull = false;
   isLanguageDisabled = false;
@@ -79,6 +80,14 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
     this.showFilter = responsive ? false : true;
     this.filterFull = responsive ? true : false;
     this.cdr.detectChanges();
+  }
+
+  getGoogleAnalyticsObject() {
+    return {
+      category: 'schoolSearch',
+      action: 'submit',
+      label: this.searchTitle,
+    };
   }
 
   setSecondaryTypes() {

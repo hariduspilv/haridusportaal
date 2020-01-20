@@ -2,7 +2,7 @@
 	<div class="inline">
 		<breadcrumbs path="/erialad"></breadcrumbs>
 	</div><!--/inline-->
-	<form class="filter-wrapper" filters #filters>
+	<form class="filter-wrapper" filters #filters [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
 				<a href="javascript:void(0);" (click)="toggleFilters()">
@@ -13,7 +13,8 @@
 			<ng-container *ngIf="showFilter">
 				<div class="row form-first-row">
 					<div class="col-4 sm-12">
-						<formItem type="text" title="{{ 'studyProgramme.filter_title' | translate }}" name="title"></formItem>
+						<formItem type="text" title="{{ 'studyProgramme.filter_title' | translate }}" name="title"
+						[(ngModel)]="searchTitle"></formItem>
 					</div>
 					<!--/col-4-->
 					<div class="col-5 sm-12">

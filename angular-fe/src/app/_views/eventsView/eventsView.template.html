@@ -4,7 +4,7 @@
   </div><!--/inline-->
 
   <div class="filters">
-    <form class="filter-wrapper" filters>
+    <form class="filter-wrapper" filters [eventTracker]="getGoogleAnalyticsObject()">
       <div class="inline">
         <div #filterToggle class="sm-show text-right filter-control">
           <a href="javascript:void(0);" (click)="showFilter = !showFilter">
@@ -14,7 +14,8 @@
         </div>
         <div class="row" *ngIf="showFilter">
           <div class="col-4 sm-12" [class.col-9]="hasCalendar">
-            <formItem type="text" title="{{ 'news.filter_name' | translate }}" name="title"></formItem>
+            <formItem type="text" title="{{ 'news.filter_name' | translate }}" name="title"
+             [(ngModel)]="searchTitle"></formItem>
           </div>
           <!--/col-4-->
           <div class="col-25 sm-12" *ngIf="!hasCalendar">

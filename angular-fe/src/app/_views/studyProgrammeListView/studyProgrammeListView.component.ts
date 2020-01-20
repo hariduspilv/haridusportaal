@@ -21,6 +21,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   selectedTag: any;
   showFilter = true;
   filterFull = false;
+  searchTitle = '';
   typeFilters = [];
   selectedTypes = [];
   levelFilters = [];
@@ -67,6 +68,14 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   toggleFilters() {
     this.showFilter = !this.showFilter;
     this.fillFilters();
+  }
+
+  getGoogleAnalyticsObject() {
+    return {
+      category: 'studyProgrammeSearch',
+      action: 'submit',
+      label: this.searchTitle,
+    };
   }
 
   fillFilters() {

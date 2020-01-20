@@ -2,7 +2,7 @@
 	<div class="inline">
 		<breadcrumbs path="/ametialad"></breadcrumbs>
 	</div><!--/inline-->
-	<form class="filter-wrapper" filters>
+	<form class="filter-wrapper" filters [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
 				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
@@ -13,7 +13,8 @@
 			<ng-container *ngIf="showFilter">
 				<div class="row first">
 					<div class="col-4 sm-12">
-						<formItem type="text" title="{{ 'search.keyword' | translate }}" name="title"></formItem>
+						<formItem type="text" title="{{ 'search.keyword' | translate }}" name="title"
+						[(ngModel)]="searchTitle"></formItem>
 					</div>
 					<div class="col-5 sm-12">
 						<formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" name="oskaField"

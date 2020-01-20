@@ -17,6 +17,7 @@ export class NewsListViewComponent implements AfterViewInit {
   params: any;
   tags: any;
   selectedTag: any;
+  searchTitle: any;
   filterFull = false;
   public showFilter = true;
   public breadcrumbs = [
@@ -45,6 +46,14 @@ export class NewsListViewComponent implements AfterViewInit {
     this.showFilter = responsive ? false : true;
     this.filterFull = responsive ? true : false;
     this.cdr.detectChanges();
+  }
+
+  getGoogleAnalyticsObject() {
+    return {
+      category: 'newsSearch',
+      action: 'submit',
+      label: this.searchTitle,
+    };
   }
 
   getTags() {
