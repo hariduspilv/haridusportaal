@@ -426,9 +426,7 @@ class EhisConnectorService {
 
     if($params['init'] && !isset($response['redis_hit'])){
       $init = $this->invokeWithRedis('eeIsikukaartGDPR', $params, FALSE);
-      if(!isset($init['MESSAGE']) && $init['MESSAGE'] != 'WORKING') {
-        throw new RequestException('Service down');
-      }
+      dump($init);
     }
 
     return $response;
