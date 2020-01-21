@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
-	xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd"
+<definitions name="ehis"
+	targetNamespace="http://producers.ehis.xtee.riik.ee/producer/ehis"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
 	xmlns:repr="http://x-road.eu/xsd/representation.xsd"
 	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
 	xmlns:tns="http://producers.ehis.xtee.riik.ee/producer/ehis"
-	xmlns:xroad="http://x-road.eu/xsd/xroad.xsd" name="ehis" targetNamespace="http://producers.ehis.xtee.riik.ee/producer/ehis">
+	xmlns:xroad="http://x-road.eu/xsd/xroad.xsd"
+	xmlns:wsi="http://ws-i.org/profiles/basic/1.1/xsd">
 
     <types>
         <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://producers.ehis.xtee.riik.ee/producer/ehis">
-					<import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
-					<import namespace="http://x-road.eu/xsd/representation.xsd" schemaLocation="http://x-road.eu/xsd/representation.xsd"/>
+            <import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
+			<import namespace="http://x-road.eu/xsd/representation.xsd" schemaLocation="http://x-road.eu/xsd/representation.xsd"/>
 					<import namespace="http://ws-i.org/profiles/basic/1.1/xsd" schemaLocation="http://ws-i.org/profiles/basic/1.1/swaref.xsd"/>
 			<!-- =================================== adsTeenus =================================== -->
 		    <element name="adsTeenus">
@@ -1096,7 +1098,21 @@
 									<element maxOccurs="unbounded" minOccurs="0" name="andmeplokk" type="string">
 										<annotation>
 											<appinfo>
-												<xroad:title xml:lang="et">Rida andmeplokkidest, mida soovitakse tulemuses näha</xroad:title>
+												<xroad:title xml:lang="et">Rida andmeplokkidest, mida soovitakse näha</xroad:title>
+											</appinfo>
+										</annotation>
+									</element>
+									<element maxOccurs="unbounded" minOccurs="0" name="andmekirje" type="string">
+										<annotation>
+											<appinfo>
+												<xroad:title xml:lang="et">Väljastatakse ainult vastavad andmekirjed.</xroad:title>
+											</appinfo>
+										</annotation>
+									</element>
+									<element maxOccurs="unbounded" minOccurs="0" name="valjundiTyyp" type="string">
+										<annotation>
+											<appinfo>
+												<xroad:title xml:lang="et">Võimalikud väärtused: "WITH_ID"</xroad:title>
 											</appinfo>
 										</annotation>
 									</element>
@@ -1333,6 +1349,13 @@
 		    <!-- =================================== eeIsikukaartOpingud =================================== -->
 		    <complexType name="eeIsikukaartOping">
 		        <sequence>
+							<element maxOccurs="1" minOccurs="0" name="id" type="string">
+								<annotation>
+									<appinfo>
+										<xroad:title xml:lang="et">rea ID</xroad:title>
+									</appinfo>
+								</annotation>
+							</element>
 		            <element name="haridustase" type="string">
 		            	<annotation>
 		            		<appinfo>
@@ -1616,6 +1639,13 @@
 		    <!-- =================================== eeIsikukaartTootamised =================================== -->
 		    <complexType name="eeIsikukaartTootamine">
 		        <sequence>
+							<element maxOccurs="1" minOccurs="0" name="id" type="string">
+								<annotation>
+									<appinfo>
+										<xroad:title xml:lang="et">rea ID</xroad:title>
+									</appinfo>
+								</annotation>
+							</element>
 		            <element name="liik" type="string">
 		            	<annotation>
 		            		<appinfo>
@@ -1780,6 +1810,13 @@
 		    <!-- =================================== eeIsikukaartTaiendkoolitus =================================== -->
 		    <complexType name="eeIsikukaartTaiendkoolitus">
 		        <sequence>
+							<element maxOccurs="1" minOccurs="0" name="id" type="string">
+								<annotation>
+									<appinfo>
+										<xroad:title xml:lang="et">rea ID</xroad:title>
+									</appinfo>
+								</annotation>
+							</element>
 		            <element minOccurs="0" name="oppeasutus" type="string">
 		            	<annotation>
 		            		<appinfo>
@@ -1820,6 +1857,13 @@
 		    <!-- =================================== eeIsikukaartTasemeharidus - PEDA =================================== -->
 		    <complexType name="eeIsikukaartTasemeharidus">
 		        <sequence>
+							<element maxOccurs="1" minOccurs="0" name="id" type="string">
+								<annotation>
+									<appinfo>
+										<xroad:title xml:lang="et">rea ID</xroad:title>
+									</appinfo>
+								</annotation>
+							</element>
 		            <element minOccurs="0" name="kvalDokument" type="string">
 		            	<annotation>
 		            		<appinfo>
@@ -1867,6 +1911,13 @@
 		    <!-- =================================== eeIsikukaartKvalifikatsioon - OPJ =================================== -->
 		    <complexType name="eeIsikukaartKvalifikatsioon">
 		        <sequence>
+							<element maxOccurs="1" minOccurs="0" name="id" type="string">
+								<annotation>
+									<appinfo>
+										<xroad:title xml:lang="et">rea ID</xroad:title>
+									</appinfo>
+								</annotation>
+							</element>
 		            <element minOccurs="0" name="oppeasutus" type="string">
 		            	<annotation>
 		            		<appinfo>
@@ -10873,7 +10924,7 @@
 
 			<simpleType name="ehisAttachmentFormat">
 				<restriction base="string">
-					<pattern value="(html|xml)"/>
+					<pattern value="(html|xml|bdoc)"/>
 				</restriction>
 			</simpleType>
 
