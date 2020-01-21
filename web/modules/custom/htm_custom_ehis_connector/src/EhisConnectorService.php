@@ -509,8 +509,6 @@ class EhisConnectorService {
    * @return mixed
    */
   private function filterPersonalCard($input, $tab){
-    dump($input);
-    dump($tab);
     switch ($tab){
       case 'studies':
         $keys = ['oping', 'isikuandmed'];
@@ -520,9 +518,6 @@ class EhisConnectorService {
         break;
       case 'personal_data':
         $keys = ['isikuandmed'];
-        break;
-      case 'gdprlog':
-        $keys = ['eeIsikukaartGDPR'];
         break;
       default:
         $keys = [];
