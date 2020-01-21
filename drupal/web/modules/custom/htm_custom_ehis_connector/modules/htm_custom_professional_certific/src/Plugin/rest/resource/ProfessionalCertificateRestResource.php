@@ -123,7 +123,7 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		  	break;
       case 'gdprlog':
         $method = 'getGdprLogs';
-        $params = [];
+        $params = ['init' => (boolean) $tab];
         break;
 			default:
 				throw new BadRequestHttpException('Service name not found');
