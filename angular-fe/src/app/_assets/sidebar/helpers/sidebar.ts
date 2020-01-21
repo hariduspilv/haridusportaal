@@ -14,7 +14,7 @@ export const collection = {
   'fieldQualificationStandard': 'links',
   'fieldOskaResults': 'links',
   'fieldQuickFind': 'links',
-  'fieldOskaFieldQuickFind' : 'links',
+  'fieldOskaFieldQuickFind': 'links',
   'fieldRelatedArticle': 'links',
   'fieldRelatedPages': 'links',
   'fieldHyperlinks': 'links',
@@ -80,27 +80,35 @@ export const parseProfessionData = (inputData, translate) => {
     let searchParams = '?open_admission=true';
     try {
       const iDetailed = mappedData['fieldIscedfSearchLink']
-        ['entity']['iscedf_detailed'][0]['entity']['entityId'];
-      searchParams = `${searchParams}&iscedf_detailed=${iDetailed}`;
-    } catch (err) {}
+      ['entity']['iscedf_detailed'].map((val) => {
+        return val.entity.entityId;
+      });
+      searchParams = `${searchParams}&iscedf_detailed=${iDetailed.join(';')}`;
+    } catch (err) { }
 
     try {
       const iNarrow = mappedData['fieldIscedfSearchLink']
-        ['entity']['iscedf_narrow'][0]['entity']['entityId'];
-      searchParams = `${searchParams}&iscedf_narrow=${iNarrow}`;
-    } catch (err) {}
+      ['entity']['iscedf_narrow'].map((val) => {
+        return val.entity.entityId;
+      });
+      searchParams = `${searchParams}&iscedf_narrow=${iNarrow.join(';')}`;
+    } catch (err) { }
 
     try {
       const iBroad = mappedData['fieldIscedfSearchLink']
-        ['entity']['iscedf_broad'][0]['entity']['entityId'];
-      searchParams = `${searchParams}&iscedf_broad=${iBroad}`;
-    } catch (err) {}
+      ['entity']['iscedf_broad'].map((val) => {
+        return val.entity.entityId;
+      });
+      searchParams = `${searchParams}&iscedf_broad=${iBroad.join(';')}`;
+    } catch (err) { }
 
     try {
       const iLevel = mappedData['fieldIscedfSearchLink']
-        ['entity']['level'][0]['entity']['entityId'];
-      searchParams = `${searchParams}&level=${iLevel}`;
-    } catch (err) {}
+      ['entity']['level'].map((val) => {
+        return val.entity.entityId;
+      });
+      searchParams = `${searchParams}&level=${iLevel.join(';')}`;
+    } catch (err) { }
 
     mappedData['fieldLearningOpportunities'] = [
       {
@@ -113,7 +121,7 @@ export const parseProfessionData = (inputData, translate) => {
     ];
 
 
-  } catch (err) {}
+  } catch (err) { }
 
   try {
     mappedData['fieldOskaField'] = mappedData['fieldOskaField'].map((item) => {
@@ -122,7 +130,7 @@ export const parseProfessionData = (inputData, translate) => {
         url: item.entity.entityUrl,
       };
     });
-  } catch (err) {}
+  } catch (err) { }
 
   try {
     mappedData['fieldJobs'] = mappedData['fieldJobs'].map((item) => {
@@ -166,33 +174,33 @@ export const parseProfessionData = (inputData, translate) => {
         mappedData['fieldQuickFind'].unshift(item);
       }
     });
-  } catch (err) {}
+  } catch (err) { }
 
   try {
     if (!mappedData['indicator'].entities.length) {
       delete mappedData['indicator'];
     }
-  } catch (err) {}
+  } catch (err) { }
 
   try {
     if (!mappedData['fillingBar'].entities.length) {
       delete mappedData['fillingBar'];
     }
-  } catch (err) {}
+  } catch (err) { }
 
   mappedData = getIndicators(mappedData);
 
   try {
     delete mappedData['links'];
-  } catch (err) {}
+  } catch (err) { }
 
   try {
-    if (!mappedData['fieldContact']['entity']['fieldEmail'] && 
-      !mappedData['fieldContact']['entity']['fieldPerson'] && 
+    if (!mappedData['fieldContact']['entity']['fieldEmail'] &&
+      !mappedData['fieldContact']['entity']['fieldPerson'] &&
       !mappedData['fieldContact']['entity']['fieldPhone']) {
       delete mappedData['fieldContact'];
     }
-  } catch(err) {}
+  } catch (err) { }
 
 
   return mappedData;
@@ -200,25 +208,25 @@ export const parseProfessionData = (inputData, translate) => {
 
 
 const getFieldNumberEmployedIcon = (val) => {
-  if(val < 10000) {
+  if (val < 10000) {
     return 1
-  } else if ( val >= 10000 && val < 15000) {
+  } else if (val >= 10000 && val < 15000) {
     return 2
-  } else if ( val >= 15000 && val < 20000) {
+  } else if (val >= 15000 && val < 20000) {
     return 3
-  } else if ( val >= 20000 && val < 25000) {
+  } else if (val >= 20000 && val < 25000) {
     return 4
-  } else if ( val >= 25000 && val < 30000) {
+  } else if (val >= 25000 && val < 30000) {
     return 5
-  } else if ( val >= 30000 && val < 35000) {
+  } else if (val >= 30000 && val < 35000) {
     return 6
-  } else if ( val >= 35000 && val < 45000) {
+  } else if (val >= 35000 && val < 45000) {
     return 7
-  } else if ( val >= 45000 && val < 55000) {
+  } else if (val >= 45000 && val < 55000) {
     return 8
-  } else if ( val >= 55000 && val < 65000) {
+  } else if (val >= 55000 && val < 65000) {
     return 9
-  } else if ( val >= 65000 && val < 75000) {
+  } else if (val >= 65000 && val < 75000) {
     return 10
   } else {
     return 11;
@@ -227,9 +235,9 @@ const getFieldNumberEmployedIcon = (val) => {
 
 const getIndicators = (mappedData) => {
   try {
-    const indicators = { entities: []};
+    const indicators = { entities: [] };
     let hasFieldNumberEmployed = false;
-    if(mappedData.fieldNumberEmployed) {
+    if (mappedData.fieldNumberEmployed) {
       indicators['entities'].push({
         oskaId: 1,
         value: mappedData.fieldNumberEmployed,
@@ -238,7 +246,7 @@ const getIndicators = (mappedData) => {
       })
       hasFieldNumberEmployed = true;
     }
-    if(mappedData.fieldEmploymentChange && hasFieldNumberEmployed){
+    if (mappedData.fieldEmploymentChange && hasFieldNumberEmployed) {
       indicators['entities'].push({
         oskaId: 2,
         value: mappedData.fieldEmploymentChange,
@@ -250,7 +258,7 @@ const getIndicators = (mappedData) => {
     if (indicators.entities.length) {
       mappedData['indicator'] = indicators;
     }
-  } catch (err) {}
+  } catch (err) { }
 
   return mappedData;
 }
@@ -299,22 +307,22 @@ export const parseFieldData = (inputData, translate) => {
         mappedData['fieldQuickFind'].unshift(item);
       }
     });
-  } catch (err) {}
+  } catch (err) { }
 
   if (mappedData.links) {
-    mappedData['fieldQuickFind'] = [...mappedData['fieldQuickFind'], ... mappedData.links];
+    mappedData['fieldQuickFind'] = [...mappedData['fieldQuickFind'], ...mappedData.links];
     delete mappedData.links;
   }
-  
+
   mappedData = getIndicators(mappedData);
 
   try {
-    if (!mappedData['fieldOskaFieldContact']['entity']['fieldEmail'] && 
-      !mappedData['fieldOskaFieldContact']['entity']['fieldPerson'] && 
+    if (!mappedData['fieldOskaFieldContact']['entity']['fieldEmail'] &&
+      !mappedData['fieldOskaFieldContact']['entity']['fieldPerson'] &&
       !mappedData['fieldOskaFieldContact']['entity']['fieldPhone']) {
       delete mappedData['fieldOskaFieldContact'];
     }
-  } catch(err) {}
+  } catch (err) { }
 
   delete mappedData['fieldOskaFieldQuickFind'];
 
