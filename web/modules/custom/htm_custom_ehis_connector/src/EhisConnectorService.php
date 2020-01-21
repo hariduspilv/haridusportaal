@@ -504,6 +504,8 @@ class EhisConnectorService {
    * @return mixed
    */
   private function filterPersonalCard($input, $tab){
+    dump($input);
+    dump($tab);
     switch ($tab){
       case 'studies':
         $keys = ['oping', 'isikuandmed'];
