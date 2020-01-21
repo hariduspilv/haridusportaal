@@ -425,7 +425,7 @@ class EhisConnectorService {
     $response = $this->invokeWithRedis('eeIsikukaartGDPR', $params);
 
     if($params['init'] && !isset($response['redis_hit'])){
-      $init = $this->invokeWithRedis('eeIsikukaartGDPR', $params, FALSE);
+      $init = $this->invokeWithRedis('getDocuments', $params, FALSE);
       dump($init);
     }
 
