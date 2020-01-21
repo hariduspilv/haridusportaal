@@ -514,6 +514,9 @@ class EhisConnectorService {
       case 'personal_data':
         $keys = ['isikuandmed'];
         break;
+      case 'gdprlog':
+        $keys = ['eeIsikukaartGDPR'];
+        break;
       default:
         $keys = [];
         break;
