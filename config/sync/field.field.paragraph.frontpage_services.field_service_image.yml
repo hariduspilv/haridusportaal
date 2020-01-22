@@ -1,0 +1,27 @@
+uuid: 89840137-ddb1-4fc0-a0c0-f8a9675e3e83
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_service_image
+    - paragraphs.paragraphs_type.frontpage_services
+  module:
+    - file
+id: paragraph.frontpage_services.field_service_image
+field_name: field_service_image
+entity_type: paragraph
+bundle: frontpage_services
+label: 'Teenuse pilt'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: svg
+  max_filesize: ''
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

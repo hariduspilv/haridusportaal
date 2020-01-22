@@ -1,0 +1,61 @@
+uuid: ed922963-16f2-4a6f-9b45-d95ec83a1ec4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.frontpage_services.field_service_content
+    - field.field.paragraph.frontpage_services.field_service_image
+    - field.field.paragraph.frontpage_services.field_service_link
+    - field.field.paragraph.frontpage_services.field_service_title
+    - paragraphs.paragraphs_type.frontpage_services
+  module:
+    - file
+    - link
+    - maxlength
+id: paragraph.frontpage_services.default
+targetEntityType: paragraph
+bundle: frontpage_services
+mode: default
+content:
+  field_service_content:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_service_image:
+    weight: 3
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_service_link:
+    weight: 2
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_service_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
