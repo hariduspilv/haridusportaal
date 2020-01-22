@@ -57,6 +57,9 @@
     },
     "depend_on": {
       "type": "string"
+    },
+    "submit_on_change": {
+      "type": "boolean"
     }
   },
   "required": [
