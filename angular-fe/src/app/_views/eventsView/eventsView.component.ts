@@ -25,12 +25,26 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   filterFull: boolean = false;
   private subscriptions: Subscription[] = [];
   private hasCalendar: boolean = false;
+  private activatedFilters: boolean = false;
+
   constructor(
     private settings:SettingsService,
     private http: HttpClient,
     private route: ActivatedRoute,
     private device: DeviceDetectorService,
   ) {}
+
+  toggleFilters(): void {
+    const filters = Object.keys(this.route.snapshot.queryParams).filter((item) => {
+      if (item !== 'title' && item !== 'dateFrom' && item !== 'dateTo') {
+        return item;
+      }
+    });
+    if (filters.length > 0) {
+      this.activatedFilters = true;
+    }
+  }
+
 
   getTypes() {
 
@@ -107,11 +121,20 @@ export class EventsViewComponent implements OnDestroy, OnInit{
     this.subscriptions = [...this.subscriptions, tagSubscription];
   }
   ngAfterViewInit() {
-    const responsive = this.filterToggle.nativeElement.clientWidth;
-    this.showFilter = responsive ? false : true;
-    this.filterFull = responsive ? true : false;
+    setTimeout(
+      () => {
+        const responsive = this.filterToggle.nativeElement.clientWidth;
+        this.showFilter = responsive ? false : true;
+        let fullFilters = responsive ? true : false;
+        if (!responsive && this.activatedFilters) {
+          fullFilters = true;
+        }
+        this.filterFull = fullFilters;
+      },
+      0);
   }
   ngOnInit() {
+    this.toggleFilters();
     this.getTags();
     this.getTypes();
     this.hasCalendar = this.route.snapshot.data.calendar;

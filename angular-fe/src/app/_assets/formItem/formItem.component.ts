@@ -382,6 +382,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.autocompleteUpdate(value);
     }
 
+    this.checkInitialValue();
     this.update('blur');
     this.propagateChange(this.field);
   }
@@ -433,7 +434,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
     if (this.field
       && typeof this.field !== 'object'
-      && !this.field.match(/\D/)
+      && (typeof this.field === 'string' && !this.field.match(/\D/) )
       && this.type !== 'date') {
       this.field = parseFloat(this.field);
     }
@@ -457,6 +458,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       } catch (err) {
 
       }
+    } else if (this.field && this.field !== '') {
+      this.filledField = true;
     }
 
     this.detectChanges();

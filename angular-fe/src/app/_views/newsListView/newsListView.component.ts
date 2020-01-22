@@ -2,6 +2,7 @@ import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorR
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'newsList-view',
@@ -19,6 +20,7 @@ export class NewsListViewComponent implements AfterViewInit {
   selectedTag: any;
   searchTitle: any;
   filterFull = false;
+  private activatedFilters: boolean = false;
   public showFilter = true;
   public breadcrumbs = [
     {
@@ -35,17 +37,18 @@ export class NewsListViewComponent implements AfterViewInit {
     private settings: SettingsService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
+    private route: ActivatedRoute,
   ) {}
 
-  ngOnInit() {
-    this.getTags();
-  }
-
-  ngAfterViewInit() {
-    const responsive = this.filterToggle.nativeElement.clientWidth;
-    this.showFilter = responsive ? false : true;
-    this.filterFull = responsive ? true : false;
-    this.cdr.detectChanges();
+  toggleFilters(): void {
+    const filters = Object.keys(this.route.snapshot.queryParams).filter((item) => {
+      if (item !== 'title' && item !== 'minDate' && item !== 'maxDate') {
+        return item;
+      }
+    });
+    if (filters.length > 0) {
+      this.activatedFilters = true;
+    }
   }
 
   getGoogleAnalyticsObject() {
@@ -77,4 +80,25 @@ export class NewsListViewComponent implements AfterViewInit {
       subscribe.unsubscribe();
     });
   }
+
+  ngAfterViewInit() {
+    setTimeout(
+      () => {
+        const responsive = this.filterToggle.nativeElement.clientWidth;
+        this.showFilter = responsive ? false : true;
+        let fullFilters = responsive ? true : false;
+        if (!responsive && this.activatedFilters) {
+          fullFilters = true;
+        }
+        this.filterFull = fullFilters;
+        this.cdr.detectChanges();
+      },
+      0);
+  }
+
+  ngOnInit() {
+    this.toggleFilters();
+    this.getTags();
+  }
+
 }

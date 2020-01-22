@@ -3,6 +3,7 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'mainProfessionList-view',
@@ -27,6 +28,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   sortDirection = 'ASC';
   sortField: any;
   sort: any;
+  activatedFilters: boolean = false;
   competitionLabels = [
     'oska.simple_extended',
     'oska.quite_simple_extended',
@@ -51,11 +53,8 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     private settings: SettingsService,
     private http: HttpClient,
     private translateService: TranslateService,
+    private route: ActivatedRoute,
   ) {}
-
-  ngOnInit() {
-    this.getFilters();
-  }
 
   setSortDirection() {
     if (this.sort) {
@@ -66,9 +65,17 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   }
 
   ngAfterViewInit() {
-    const responsive = this.filterToggle.nativeElement.clientWidth;
-    this.showFilter = responsive ? false : true;
-    this.filterFull = responsive ? true : false;
+    setTimeout(
+      () => {
+        const responsive = this.filterToggle.nativeElement.clientWidth;
+        this.showFilter = responsive ? false : true;
+        let fullFilters = responsive ? true : false;
+        if (!responsive && this.activatedFilters) {
+          fullFilters = true;
+        }
+        this.filterFull = fullFilters;
+      },
+      0);
   }
 
   getGoogleAnalyticsObject() {
@@ -111,5 +118,21 @@ export class MainProfessionListViewComponent implements AfterViewInit {
 
       subscribe.unsubscribe();
     });
+  }
+
+  toggleFilters(): void {
+    const filters = Object.keys(this.route.snapshot.queryParams).filter((item) => {
+      if (item !== 'title' && item !== 'oskaField') {
+        return item;
+      }
+    });
+    if (filters.length > 0) {
+      this.activatedFilters = true;
+    }
+  }
+
+  ngOnInit() {
+    this.toggleFilters();
+    this.getFilters();
   }
 }

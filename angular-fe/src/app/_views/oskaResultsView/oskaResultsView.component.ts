@@ -168,7 +168,20 @@ export class OskaResultsView extends FiltersService implements OnInit {
           });
           this.filterItemValues['field'] = Array.from(new Set(this.filterItemValues.field)).sort();
           this.filterItemValues['responsible'] = this.filterItemValues['responsible'].sort();
-          this.filterItemValues['proposalStatus'] = this.filterItemValues['proposalStatus'].sort();
+          this.filterItemValues['proposalStatus'] = this.filterItemValues['proposalStatus']
+            .sort()
+            .map((item) => {
+              let output = item;
+              if (typeof item === 'string') {
+                output = {
+                  key: item,
+                  value: item,
+                };
+              }
+
+              return output;
+            });
+
           for (const key in this.filterItemValues) {
             this.filterItemValues[key].unshift({ key: 'Kõik', value: '' });
           }
@@ -195,11 +208,33 @@ export class OskaResultsView extends FiltersService implements OnInit {
     // }
   }
 
+  toggleFilters(): void {
+    setTimeout(
+      () => {
+        let activatedFilters = false;
+        const filters = Object.keys(this.route.snapshot.queryParams).filter((item) => {
+          if (item !== 'field' && item !== 'responsible') {
+            return item;
+          }
+        });
+        if (filters.length > 0) {
+          activatedFilters = true;
+        }
+
+        this.showFilter = window.innerWidth > 1024;
+        let fullFilters = window.innerWidth < 1024;
+        if (!fullFilters && activatedFilters) {
+          fullFilters = true;
+        }
+        this.filterFull = fullFilters;
+      },
+      0);
+  }
+
   ngOnInit() {
+    this.toggleFilters();
     this.getTableData();
     this.watchSearch();
-    this.showFilter = window.innerWidth > 1024;
-    this.filterFull = window.innerWidth < 1024;
   }
 
   watchSearch() {
