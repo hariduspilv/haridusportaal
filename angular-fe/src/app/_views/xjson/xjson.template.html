@@ -203,7 +203,7 @@
                         </div>
 
                         <div class="loaded-files-list">
-                          <ng-container *ngIf="data_elements[element].value">
+                          <ng-container *ngIf="data_elements[element].value && !data_elements[element].submit_on_change">
                             <ng-container *ngFor="let file of data_elements[element].value">
                               <div class="uploaded-file">
                                 <a class="file-icon" [href]="fileDownloadlink(file)"

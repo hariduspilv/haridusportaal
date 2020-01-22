@@ -358,6 +358,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
             this.uploadFile(files, element);
           } else {
             this.fileLoading[element] = false;
+            if (model.submit_on_change) {
+              this.saveFormWithFile();
+            }
           }
           subscription.unsubscribe();
         },
@@ -432,6 +435,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
           subscription.unsubscribe();
         });
     };
+  }
+
+  saveFormWithFile() {
+    this.data.header.parameters.fileSubmit = true;
+    this.submitForm('SAVE');
   }
 
   fileEventHandler(e, element) {
