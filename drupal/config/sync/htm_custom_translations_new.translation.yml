@@ -1505,8 +1505,8 @@ studyProgramme:
     en: 'Only open to reception'
   no_results:
     translation_type: textarea
-    et: 'Otsingutulemused puuduvad'
-    en: 'No Search Results'
+    et: 'Erialad puuduvad.'
+    en: 'Erialad puuduvad.'
   related_label:
     translation_type: textarea
     et: 'Sarnased erialad'
@@ -1591,6 +1591,10 @@ studyProgramme:
     translation_type: textarea
     et: Kutsestandard(id)
     en: 'Qualification standard(s)'
+  view_similar:
+    translation_type: textarea
+    et: 'Vaata sarnaseid erialasid'
+    en: 'Vaata sarnaseid erialasid'
 login:
   username:
     translation_type: textarea
