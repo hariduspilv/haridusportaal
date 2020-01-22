@@ -1,0 +1,94 @@
+uuid: b571c7fc-ec47-4993-b1da-1430456f922a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_frontpage_topics
+    - node.type.frontpage_new
+    - paragraphs.paragraphs_type.homepage_topics
+  module:
+    - entity_reference_revisions
+id: node.frontpage_new.field_frontpage_topics
+field_name: field_frontpage_topics
+entity_type: node
+bundle: frontpage_new
+label: 'Avalehe teemad'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      homepage_topics: homepage_topics
+    target_bundles_drag_drop:
+      accordion:
+        weight: 23
+        enabled: false
+      additional_section:
+        weight: 24
+        enabled: false
+      block:
+        weight: 25
+        enabled: false
+      contact_section:
+        weight: 26
+        enabled: false
+      event_date:
+        weight: 27
+        enabled: false
+      favorite_item:
+        weight: 28
+        enabled: false
+      file_mandatory_description:
+        weight: 29
+        enabled: false
+      homepage_topics:
+        enabled: true
+        weight: 30
+      information_system_accordion:
+        weight: 31
+        enabled: false
+      information_system_lower:
+        weight: 32
+        enabled: false
+      information_system_sidebar:
+        weight: 33
+        enabled: false
+      iscedf_search:
+        weight: 34
+        enabled: false
+      job:
+        weight: 35
+        enabled: false
+      link:
+        weight: 36
+        enabled: false
+      main_profession_accordion:
+        weight: 37
+        enabled: false
+      main_profession_sidebar:
+        weight: 38
+        enabled: false
+      oska_field_sidebar:
+        weight: 39
+        enabled: false
+      registration_period:
+        weight: 40
+        enabled: false
+      right_sidebar_section_info:
+        weight: 41
+        enabled: false
+      school_location:
+        weight: 42
+        enabled: false
+      supernews:
+        weight: 43
+        enabled: false
+      survey_page_accordion:
+        weight: 44
+        enabled: false
+field_type: entity_reference_revisions
