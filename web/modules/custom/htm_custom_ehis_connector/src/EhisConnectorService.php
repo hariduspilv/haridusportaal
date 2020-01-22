@@ -127,6 +127,9 @@ class EhisConnectorService {
       }else{
         //TODO throw error
       }
+      if($service_name === 'postDocument') {
+        \Drupal::logger('xjson')->notice('<pre><code>ehis response before decode' . print_r($response, TRUE) . '</code></pre>' );
+      }
       $response = json_decode($response->getBody()->getContents(), TRUE);
       return $response;
     }catch (RequestException $e){
