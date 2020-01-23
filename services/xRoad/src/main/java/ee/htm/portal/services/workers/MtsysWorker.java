@@ -988,39 +988,41 @@ public class MtsysWorker extends Worker {
     Aadressid aadressid = Aadressid.Factory.newInstance();
     aadressid.setOnValismaa(dataObjectNode.get("valisAadress").get("value").asBoolean());
     dataObjectNode.get("aadressid").get("value").forEach(item0 -> {
-      ObjectNode item = (ObjectNode) item0.get("aadress");
-      Aadress aadress = Aadress.Factory.newInstance();
-      if (!item.get("seqNo").asText("").equals("")) {
-        aadress.setJrkNr(item.get("seqNo").asLong());
+      if (!item0.get("aadress").isArray()) {
+        ObjectNode item = (ObjectNode) item0.get("aadress");
+        Aadress aadress = Aadress.Factory.newInstance();
+        if (!item.get("seqNo").asText("").equals("")) {
+          aadress.setJrkNr(item.get("seqNo").asLong());
+        }
+        if (!item.get("adsId").asText("").equals("")) {
+          aadress.setAdsId(BigInteger.valueOf(item.get("adsId").asLong()));
+        }
+        if (!item.get("adsOid").asText("").equals("")) {
+          aadress.setAdsOid(item.get("adsOid").asText());
+        }
+        if (!item.get("klElukoht").asText("").equals("")) {
+          aadress.setKlElukoht(BigInteger.valueOf(item.get("klElukoht").asLong()));
+        }
+        if (!item.get("county").asText("").equals("")) {
+          aadress.setMaakond(item.get("county").asText());
+        }
+        if (!item.get("localGovernment").asText("").equals("")) {
+          aadress.setOmavalitsus(item.get("localGovernment").asText());
+        }
+        if (!item.get("settlementUnit").asText("").equals("")) {
+          aadress.setAsula(item.get("settlementUnit").asText());
+        }
+        if (!item.get("address").asText("").equals("")) {
+          aadress.setAdsAadress(item.get("address").asText());
+        }
+        if (!item.get("addressFull").asText("").equals("")) {
+          aadress.setTaisAadress(item.get("addressFull").asText());
+        }
+        if (!item.get("addressHumanReadable").asText("").equals("")) {
+          aadress.setAdsAadressHumanReadable(item.get("addressHumanReadable").asText());
+        }
+        aadressid.getAadressList().add(aadress);
       }
-      if (!item.get("adsId").asText("").equals("")) {
-        aadress.setAdsId(BigInteger.valueOf(item.get("adsId").asLong()));
-      }
-      if (!item.get("adsOid").asText("").equals("")) {
-        aadress.setAdsOid(item.get("adsOid").asText());
-      }
-      if (!item.get("klElukoht").asText("").equals("")) {
-        aadress.setKlElukoht(BigInteger.valueOf(item.get("klElukoht").asLong()));
-      }
-      if (!item.get("county").asText("").equals("")) {
-        aadress.setMaakond(item.get("county").asText());
-      }
-      if (!item.get("localGovernment").asText("").equals("")) {
-        aadress.setOmavalitsus(item.get("localGovernment").asText());
-      }
-      if (!item.get("settlementUnit").asText("").equals("")) {
-        aadress.setAsula(item.get("settlementUnit").asText());
-      }
-      if (!item.get("address").asText("").equals("")) {
-        aadress.setAdsAadress(item.get("address").asText());
-      }
-      if (!item.get("addressFull").asText("").equals("")) {
-        aadress.setTaisAadress(item.get("addressFull").asText());
-      }
-      if (!item.get("addressHumanReadable").asText("").equals("")) {
-        aadress.setAdsAadressHumanReadable(item.get("addressHumanReadable").asText());
-      }
-      aadressid.getAadressList().add(aadress);
     });
     taotlus.setAadressid(aadressid);
 
