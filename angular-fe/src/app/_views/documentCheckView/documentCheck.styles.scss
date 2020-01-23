@@ -24,7 +24,10 @@
     input {
       -webkit-appearance: none;
     }
-    [htm-button] {
+    ::ng-deep formitem .formItem__icon {
+      position: absolute !important;
+    }
+    [htm-button][type="submit"] {
       margin-top: 1.5rem;
       font-weight: 300;
       width: auto;
