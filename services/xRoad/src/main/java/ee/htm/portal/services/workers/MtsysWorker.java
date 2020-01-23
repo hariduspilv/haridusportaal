@@ -774,16 +774,16 @@ public class MtsysWorker extends Worker {
       logForDrupal.setMessage("postMtsysTegevusluba step_andmed json loodud");
     } else if (currentStep.equalsIgnoreCase("step_andmed")) {
       try {
+        jsonNode.get("body").get("steps").get("step_andmed").get("messages")
+            .forEach(t -> ((ObjectNode) jsonNode.get("messages")).remove(t.asText()));
+        ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+            .removeAll();
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SAVE")) {
-          saveMtsysTegevusluba(jsonNode, applicationId, personalCode, "step_andmed");
+          saveMtsysTegevusluba(jsonNode, applicationId, personalCode);
           logForDrupal
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
         }
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SUBMIT")) {
-          jsonNode.get("body").get("steps").get("step_andmed").get("messages")
-              .forEach(t -> ((ObjectNode) jsonNode.get("messages")).remove(t.asText()));
-          ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
-              .removeAll();
           AtomicBoolean repeatStepAndmed = new AtomicBoolean(false);
           if (jsonNode.get("body").get("steps").get("step_andmed").get("data_elements")
               .get("oppeTasemed").get("required").asBoolean()
@@ -846,12 +846,7 @@ public class MtsysWorker extends Worker {
             return jsonNode;
           }
 
-//          ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_esitamise_tagasiside")
-//              .putObject("data_elements");
-//          ((ObjectNode) jsonNode.get("body").get("steps").get("step_esitamise_tagasiside"))
-//              .putArray("messages");
-
-          saveMtsysTegevusluba(jsonNode, applicationId, personalCode, "step_andmed");
+          saveMtsysTegevusluba(jsonNode, applicationId, personalCode);
           logForDrupal
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
           logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -871,8 +866,8 @@ public class MtsysWorker extends Worker {
             if (response.getInfotekst().equalsIgnoreCase("Tegevusloa taotlus on esitatud!")
                 || response.getInfotekst().equalsIgnoreCase("Majandustegevusteade on esitatud!")) {
               int infotekstSaveIndex = 0;
-              for (JsonNode item : ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed")
-                  .get("messages"))) {
+              for (JsonNode item : jsonNode.get("body").get("steps").get("step_andmed")
+                  .get("messages")) {
                 if (item.asText().equalsIgnoreCase("infotekst_save")) {
                   break;
                 }
@@ -908,7 +903,7 @@ public class MtsysWorker extends Worker {
   }
 
   private void saveMtsysTegevusluba(ObjectNode jsonNode, Long applicationId,
-      String applicantPersonalCode, String step)
+      String applicantPersonalCode)
       throws ParseException, XRoadServiceConsumptionException {
     ObjectNode dataObjectNode = (ObjectNode) jsonNode.get("body").get("steps")
         .get("step_andmed").get("data_elements");
@@ -1069,7 +1064,7 @@ public class MtsysWorker extends Worker {
         .mtsysLaeTegevusluba(request, applicantPersonalCode);
 
     if (response.isSetInfotekst()) {
-      ((ArrayNode) jsonNode.get("body").get("steps").get(step).get("messages"))
+      ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
           .add("infotekst_save");
       ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_save")
           .put("message_type", "NOTICE")
@@ -1563,6 +1558,10 @@ public class MtsysWorker extends Worker {
     logForDrupal.setSeverity("notice");
 
     try {
+      jsonNode.get("body").get("steps").get("step_aruanne").get("messages")
+          .forEach(t -> ((ObjectNode) jsonNode.get("messages")).remove(t.asText()));
+      ((ArrayNode) jsonNode.get("body").get("steps").get("step_aruanne").get("messages"))
+          .removeAll();
       if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SAVE")) {
         if (setTegevusnaitajadSaveVeatekst(jsonNode, identifier, personalCode)) {
           return jsonNode;
@@ -1585,7 +1584,7 @@ public class MtsysWorker extends Worker {
         logForDrupal
             .setMessage("EHIS - mtsysEsitaTegevusnaitajad.v1 teenuselt andmete pärimine õnnestus.");
 
-        setLaeTeenusteResponseInfotekst(jsonNode,
+        setLaeTegevusnaitajadResponseInfotekst(jsonNode,
             response.isSetInfotekst() ? response.getInfotekst() : null,
             response.isSetVeatekst() ? response.getVeatekst() : null,
             response.isSetAruandeId() ? response.getAruandeId() : null);
@@ -1603,13 +1602,47 @@ public class MtsysWorker extends Worker {
     return jsonNode;
   }
 
+  public ObjectNode getDocumentFile(String documentId, Long identifier, String personalCode) {
+    ObjectNode documentResponse = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - mtsysDokument.v1");
+    logForDrupal.setSeverity("notice");
+
+    try {
+      long id = Long.parseLong(documentId.replace(MTSYSFILE_KEY + "_", ""));
+
+      MtsysDokumentResponse response = ehisXRoadService.mtsysDokument(identifier.intValue(),
+          (int) id, personalCode);
+
+      documentResponse.put("fileName", response.getFilename()).put("size", response.getSize())
+          .put("mediaType", response.getMediatype()).put("value", response.getByteArrayValue());
+
+      logForDrupal.setMessage("EHIS - mtsysDokument.v1 teenuselt andmete pärimine õnnestus.");
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
+
+      documentResponse.putObject("error")
+          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
+
+    return documentResponse;
+  }
+
   private void saveMtsysTegevusNaitaja(ObjectNode jsonNode, Long identifier,
       String applicantPersonalCode) throws XRoadServiceConsumptionException {
     MtsysLaeTegevusnaitajad request = MtsysLaeTegevusnaitajad.Factory.newInstance();
     ObjectNode dataElementNode = (ObjectNode) jsonNode.get("body").get("steps")
         .get("step_aruanne").get("data_elements");
-    Long educationalInstitutionsId = dataElementNode.get("oppeasutusId").get("value").asLong();
-    Long year = dataElementNode.get("aasta").get("value").asLong();
+    long educationalInstitutionsId = dataElementNode.get("oppeasutusId").get("value").asLong();
+    long year = dataElementNode.get("aasta").get("value").asLong();
 
     if (identifier != null) {
       request.setAruandeId(BigInteger.valueOf(identifier));
@@ -1657,7 +1690,7 @@ public class MtsysWorker extends Worker {
     MtsysLaeTegevusnaitajadResponse response = ehisXRoadService
         .mtsysLaeTegevusnaitajad(request, applicantPersonalCode);
 
-    setLaeTeenusteResponseInfotekst(jsonNode,
+    setLaeTegevusnaitajadResponseInfotekst(jsonNode,
         response.isSetInfotekst() ? response.getInfotekst() : null,
         response.isSetVeatekst() ? response.getVeatekst() : null,
         response.isSetAruandeId() ? response.getAruandeId() : null);
@@ -1678,8 +1711,9 @@ public class MtsysWorker extends Worker {
 
   private void setMtsysTegevusnaitajaTaotlus(Long year, Long educationalInstitutionsId,
       ObjectNode jsonNode, MtsysTegevusnaitajaResponse response) {
-    ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
-        .putObject("step_aruanne").putObject("data_elements");
+    ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_aruanne").putArray("messages");
+    ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps")
+        .get("step_aruanne")).putObject("data_elements");
 
     dataElementsNode.putObject("aasta").put("value", year);
     dataElementsNode.putObject("oppeasutusId").put("value", educationalInstitutionsId);
@@ -1913,13 +1947,14 @@ public class MtsysWorker extends Worker {
       String personalCode) throws XRoadServiceConsumptionException {
     saveMtsysTegevusNaitaja(jsonNode, identifier, personalCode);
 
-    List<String> bodyMessages = new ArrayList<>();
-    jsonNode.get("body").get("messages").forEach(i -> bodyMessages.add(i.asText()));
+    List<String> stepMessages = new ArrayList<>();
+    jsonNode.get("body").get("steps").get("step_aruanne").get("messages")
+        .forEach(i -> stepMessages.add(i.asText()));
 
     logForDrupal
         .setMessage("EHIS - mtsysLaeTegevusnaitajad.v1 teenuselt andmete pärimine õnnestus.");
 
-    if (bodyMessages.contains("veatekst")) {
+    if (stepMessages.contains("veatekst")) {
       logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
       LOGGER.info(logForDrupal);
 
@@ -1928,11 +1963,12 @@ public class MtsysWorker extends Worker {
     return false;
   }
 
-  private void setLaeTeenusteResponseInfotekst(ObjectNode jsonNode, String infotekst,
+  private void setLaeTegevusnaitajadResponseInfotekst(ObjectNode jsonNode, String infotekst,
       String veatekst, BigInteger aruandeId) {
     long timestamp = System.currentTimeMillis();
     if (infotekst != null) {
-      ((ArrayNode) jsonNode.get("body").get("messages")).add("infotekst_" + timestamp);
+      ((ArrayNode) jsonNode.get("body").get("steps").get("step_aruanne").get("messages"))
+          .add("infotekst_" + timestamp);
       ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_" + timestamp)
           .put("message_type", "NOTICE")
           .putObject("message_text")
@@ -1940,7 +1976,8 @@ public class MtsysWorker extends Worker {
     }
 
     if (veatekst != null) {
-      ((ArrayNode) jsonNode.get("body").get("messages")).add("veatekst_" + timestamp);
+      ((ArrayNode) jsonNode.get("body").get("steps").get("step_aruanne").get("messages"))
+          .add("veatekst_" + timestamp);
       ((ObjectNode) jsonNode.get("messages")).putObject("veatekst_" + timestamp)
           .put("message_type", "ERROR")
           .putObject("message_text")

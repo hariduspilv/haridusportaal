@@ -131,10 +131,14 @@ public class HPortalRestController {
       produces = "application/json;charset=UTF-8")
   public ResponseEntity<?> getDockumentFile(
       @PathVariable("documentId") String documentId,
-      @PathVariable("personalCode") String personalCode) {
+      @PathVariable("personalCode") String personalCode,
+      @RequestParam(value = "identifier", required = false) String identifier) {
     if (documentId.startsWith("VPT_")) {
       return new ResponseEntity<>(vptWorker.getDocumentFile(documentId, personalCode),
           HttpStatus.OK);
+    } else if (documentId.startsWith("mtsysFile_")) {
+      return new ResponseEntity<>(mtsysWorker.getDocumentFile(documentId, Long.valueOf(identifier),
+          personalCode), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request documentId - " + documentId);
