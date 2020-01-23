@@ -169,11 +169,11 @@ const routes: Routes = [
     loadChildren: () => import('./_views/certificateCheckView')
       .then(m => m.CertificateCheckViewModule),
   },
-  // {
-  //   path: 'lõpudokumentide-kehtivuse-kontroll',
-  //   loadChildren: () => import('./_views/documentCheckView')
-  //     .then(m => m.DocumentCheckViewModule),
-  // },
+  {
+    path: 'lõpudokumentide-kehtivuse-kontroll',
+    loadChildren: () => import('./_views/documentCheckView')
+      .then(m => m.DocumentCheckViewModule),
+  },
   {
     path: 'töölaud/taotlused/:id',
     loadChildren: () => import('./_views/xjson').then(m => m.XjsonModule),
@@ -184,11 +184,11 @@ const routes: Routes = [
     loadChildren: () => import('./_views/messagesView').then(m => m.MessagesViewModule),
     canActivate: [AuthService],
   },
-  // {
-  //   path: 'töölaud/gdpr',
-  //   loadChildren: () => import('./_views/gdprView').then(m => m.GdprViewModule),
-  //   canActivate: [AuthService],
-  // },
+  {
+    path: 'töölaud/gdpr',
+    loadChildren: () => import('./_views/gdprView').then(m => m.GdprViewModule),
+    canActivate: [AuthService],
+  },
   {
     path: 'preview',
     loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),

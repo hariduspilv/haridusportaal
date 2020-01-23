@@ -47,50 +47,40 @@ export class GdprViewComponent implements OnInit{
     private router: ActivatedRoute,
   ) {}
 
-  private groupBySender() {
-    this.groupedData = [...new Set(this.data.value.GDPR.map(el => el.sender))].map((el) => {
-      return {
-        institution: el,
-        queries: this.data.value.GDPR.filter((query) => {
-          if (query.sender === el) {
-            return true;
-          }
-          return false;
-        }),
-      };
-    });
+  private groupByReceiver() {
+    this.groupedData = [
+      ...new Set(this.data.value.GDPR.map(el => el.receiver))]
+        .sort().map((el) => {
+          return {
+            institution: el,
+            queries: this.data.value.GDPR.filter((query) => {
+              if (query.receiver === el) {
+                return true;
+              }
+              return false;
+            }),
+          };
+        });
     console.log(this.groupedData);
     this.loading = false;
   }
 
   getData(init = true) {
     this.loading = true;
-    const delay = init ? 0 : this.requestIteratorTimeout;
-    this.requestCounter = this.requestCounter + 1;
-    this.requestIterator = setTimeout(
-      () => {
-        const subscription = this.http
-          .get(`${this.settings.url}/dashboard/gdprlog/1?_format=json`)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(
-            (response: any) => {
-              console.log(response);
-              if (!response || !response.redis_hit) {
-                this.getData(false);
-              };
-              if (response.redis_hit && response.value) {
-                this.loading = false;
-                this.data = response;
-                this.groupBySender();
-              }
-              if (response.redis_hit && !response.value) {
-                this.loading = false;
-                this.data = false;
-              }
-              subscription.unsubscribe();
-            });
-      },
-      delay);
+    this.http
+    .get(`${this.settings.url}/dashboard/eeIsikukaart/eeIsikukaartGDPR`)
+    .subscribe(
+      (response: any) => {
+        if (response.redis_hit && response.value) {
+          this.loading = false;
+          this.data = response;
+          this.groupByReceiver();
+        }
+        if (response.redis_hit && !response.value) {
+          this.loading = false;
+          this.data = false;
+        }
+      });
   }
   ngOnInit() {
     this.router.queryParams.pipe(takeUntil(this.destroy$)).subscribe((val) => {

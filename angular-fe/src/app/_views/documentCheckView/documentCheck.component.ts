@@ -56,9 +56,6 @@ export class DocumentCheckComponent {
 
   submit() {
     this.alertsService.clear('documentCheck');
-    this.http.get('https://ehis2.twn.zone/dehis/avaandmed/rest/lopudokumendid/38603052378/-/024017/JSON').subscribe((val) => {
-      console.log(val);
-    })
     if (this.model.controls.captcha.invalid) {
       this.alertsService.error(this.translate.get('errors.captcha'), 'documentCheck', false);
       return;
