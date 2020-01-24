@@ -782,8 +782,8 @@ frontpage:
     en: 'Dokumendi number - eng'
   document_owner_id:
     translation_type: textarea
-    et: Isikukood
-    en: 'Isikukood - eng'
+    et: 'Isikukood või sünnikuupäev'
+    en: 'Isikukood või sünnikuupäev - eng'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -3006,7 +3006,7 @@ login_mobile:
 error:
   ehis_connection:
     translation_type: textarea
-    et: 'Ei saanud EHIS-ga ühendust!'
+    et: 'Ei saanud EHIS-ega ühendust!'
     en: 'Couldn''t connect to Ehis!'
 sort:
   descending:
