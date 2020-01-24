@@ -1,20 +1,17 @@
-uuid: b7ccdbb5-57f2-4a19-bed9-8280010dd4c8
+uuid: 33416604-921c-4f20-8a7c-f5d889244538
 langcode: et
 status: true
 dependencies:
   module:
-    - file
+    - entity_reference_revisions
     - paragraphs
 id: paragraph.field_service_image
 field_name: field_service_image
 entity_type: paragraph
-type: file
+type: entity_reference_revisions
 settings:
-  display_field: false
-  display_default: false
-  uri_scheme: public
-  target_type: file
-module: file
+  target_type: paragraph
+module: entity_reference_revisions
 locked: false
 cardinality: 1
 translatable: true
