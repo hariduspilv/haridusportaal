@@ -8,6 +8,8 @@ $create-font-face: false;
 
 html{font-family: Rubik, Arial, Helvetica, sans-serif;}
 
+span:focus {outline:none;}
+
 body {
   -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
