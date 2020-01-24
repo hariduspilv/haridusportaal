@@ -9,7 +9,7 @@ dependencies:
     - field.field.paragraph.frontpage_services.field_service_title
     - paragraphs.paragraphs_type.frontpage_services
   module:
-    - file
+    - entity_reference_revisions
     - link
 id: paragraph.frontpage_services.default
 targetEntityType: paragraph
@@ -24,12 +24,13 @@ content:
     type: basic_string
     region: content
   field_service_image:
+    type: entity_reference_revisions_entity_view
     weight: 3
     label: above
     settings:
-      use_description_as_link_text: true
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: file_default
     region: content
   field_service_link:
     weight: 2
