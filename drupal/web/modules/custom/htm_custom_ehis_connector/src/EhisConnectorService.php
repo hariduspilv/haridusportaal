@@ -345,6 +345,7 @@ class EhisConnectorService {
     if(isset($params['doc_id'])) {
       $params['url'][] = $params['doc_id'];
     }
+    dump($params);
     return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
   }
 
