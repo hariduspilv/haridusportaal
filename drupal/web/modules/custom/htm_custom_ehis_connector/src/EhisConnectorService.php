@@ -118,7 +118,6 @@ class EhisConnectorService {
         if($service_name === 'getDocument'){
           $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
         } else {
-          dump($this->loime_url.$service_name . '/' . implode($params['url'], '/').'?'. implode($params['params'], '&'));
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
         }
       }elseif($type === 'post'){
