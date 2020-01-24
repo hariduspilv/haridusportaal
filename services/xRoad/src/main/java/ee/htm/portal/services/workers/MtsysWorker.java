@@ -477,31 +477,13 @@ public class MtsysWorker extends Worker {
       stepZeroDataElementsNode.putObject("dokumendid").put("hidden", klOkLiik.equals(18098L))
           .putArray("value");
       response.getDokumendid().getDokumentList().forEach(
-          dokument -> {
-            ((ArrayNode) stepZeroDataElementsNode.get("dokumendid").get("value")).addObject()
-                .put("liik", String.valueOf(dokument.getKlLiik()))
-                .put("kommentaar", dokument.getKommentaar())
-                .putArray("fail").addObject()
-                .put("file_name", dokument.getFailiNimi())
-                .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId());
-
-            byte[] dokumentByteArray = dokument.getContent();
-            if (dokumentByteArray == null || dokumentByteArray.length == 0) {
-              try {
-                MtsysDokumentResponse dokumentResponse = ehisXRoadService
-                    .mtsysDokument(response.getTegevusloaAndmed().getId().intValue(),
-                        (int) dokument.getDokumentId(), personalCode);
-                dokumentByteArray = dokumentResponse.getByteArrayValue();
-              } catch (Exception e) {
-                LOGGER.error(e, e);
-              }
-            }
-
-            redisFileTemplate.opsForHash()
-                .put(MTSYS_REDIS_KEY, MTSYSFILE_KEY + "_" + dokument.getDokumentId(),
-                    Base64.getEncoder().encodeToString(dokumentByteArray));
-            redisFileTemplate.expire(MTSYS_REDIS_KEY, redisExpire, TimeUnit.MINUTES);
-          });
+          dokument ->
+              ((ArrayNode) stepZeroDataElementsNode.get("dokumendid").get("value")).addObject()
+                  .put("liik", String.valueOf(dokument.getKlLiik()))
+                  .put("kommentaar", dokument.getKommentaar())
+                  .putArray("fail").addObject()
+                  .put("file_name", dokument.getFailiNimi())
+                  .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId()));
 
       stepZeroDataElementsNode.putObject("lisainfo")
           .put("hidden", !response.getTegevusloaAndmed().isSetLisainfo())
@@ -629,23 +611,6 @@ public class MtsysWorker extends Worker {
                 .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
           }
         });
-
-        byte[] dokumentByteArray = item.getContent();
-        if (dokumentByteArray == null || dokumentByteArray.length == 0) {
-          try {
-            MtsysDokumentResponse dokumentResponse = ehisXRoadService
-                .mtsysDokument(response.getTegevusloaAndmed().getId().intValue(),
-                    (int) item.getDokumentId(), personalCode);
-            dokumentByteArray = dokumentResponse.getByteArrayValue();
-          } catch (Exception e) {
-            LOGGER.error(e, e);
-          }
-        }
-
-        redisFileTemplate.opsForHash()
-            .put(MTSYS_REDIS_KEY, MTSYSFILE_KEY + "_" + item.getDokumentId(),
-                Base64.getEncoder().encodeToString(dokumentByteArray));
-        redisFileTemplate.expire(MTSYS_REDIS_KEY, redisExpire, TimeUnit.MINUTES);
       });
 
       ((ObjectNode) stepAndmedDataElements.get("kommentaar"))
@@ -1051,12 +1016,18 @@ public class MtsysWorker extends Worker {
       if (item.get("fail") != null && item.get("fail").get(0) != null
           && item.get("fail").get(0).get("file_identifier") != null) {
         Dokument dokument = Dokument.Factory.newInstance();
+        String fileIdentifier = item.get("fail").get(0).get("file_identifier").asText();
+        if (fileIdentifier.startsWith(MTSYSFILE_KEY + "_")) {
+          dokument.setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
+        } else {
+          dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
+              redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY, fileIdentifier))));
+        }
         dokument.setKlLiik(item.get("klLiik").asInt());
         dokument.setFailiNimi(item.get("fail").get(0).get("file_name").asText());
-        dokument.setKommentaar(item.get("kommentaar").asText());
-        dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
-            redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY,
-                item.get("fail").get(0).get("file_identifier").asText()))));
+        if (!item.get("kommentaar").asText("").equals("")) {
+          dokument.setKommentaar(item.get("kommentaar").asText());
+        }
         dokumendid.getDokumentList().add(dokument);
       }
     });
