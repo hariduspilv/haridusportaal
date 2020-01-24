@@ -92,7 +92,7 @@ class EhisConnectorService {
         return ['found' => NULL];
 
         break;
-      default: bash
+      default:
         if($redis_response = $this->getValue($params['key'], $params['hash'])){
           $redis_response['redis_hit'] = TRUE;
           return $redis_response;
