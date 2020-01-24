@@ -553,6 +553,10 @@
     "_fileName": "layout.svg"
   },
   {
+    "_name": "library",
+    "_fileName": "library.svg"
+  },
+  {
     "_name": "life-buoy",
     "_fileName": "life-buoy.svg"
   },
