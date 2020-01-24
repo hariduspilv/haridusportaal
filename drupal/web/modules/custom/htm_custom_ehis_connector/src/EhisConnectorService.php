@@ -115,6 +115,7 @@ class EhisConnectorService {
       /*TODO make post URL configurable*/
       if($type === 'get'){
         if($service_name === 'getDocument'){
+          dump($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
           $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
         } else {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
@@ -341,6 +342,9 @@ class EhisConnectorService {
    */
   public function getDocumentFile(array $params = []){
     $params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode(TRUE)];
+    if(isset($params['doc_id'])) {
+      $params['url'][] = $params['doc_id'];
+    }
     return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
   }
 
