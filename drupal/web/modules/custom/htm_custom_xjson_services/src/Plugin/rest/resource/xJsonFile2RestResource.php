@@ -132,6 +132,8 @@ class xJsonFile2RestResource extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
 
+    dump($request);
+
     $params = [
       'hash' => $file_id
     ];
