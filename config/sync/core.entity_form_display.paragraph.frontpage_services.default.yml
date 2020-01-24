@@ -9,9 +9,9 @@ dependencies:
     - field.field.paragraph.frontpage_services.field_service_title
     - paragraphs.paragraphs_type.frontpage_services
   module:
-    - file
     - link
     - maxlength
+    - paragraphs
 id: paragraph.frontpage_services.default
 targetEntityType: paragraph
 bundle: frontpage_services
@@ -31,11 +31,16 @@ content:
     type: string_textarea
     region: content
   field_service_image:
+    type: entity_reference_paragraphs
     weight: 3
     settings:
-      progress_indicator: throbber
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: file_generic
     region: content
   field_service_link:
     weight: 2
