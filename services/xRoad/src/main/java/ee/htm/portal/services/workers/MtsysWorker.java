@@ -1560,10 +1560,9 @@ public class MtsysWorker extends Worker {
     logForDrupal.setSeverity("notice");
 
     try {
-      jsonNode.get("body").get("steps").get("step_aruanne").get("messages")
+      jsonNode.get("body").get("messages")
           .forEach(t -> ((ObjectNode) jsonNode.get("messages")).remove(t.asText()));
-      ((ArrayNode) jsonNode.get("body").get("steps").get("step_aruanne").get("messages"))
-          .removeAll();
+      ((ArrayNode) jsonNode.get("body").get("messages")).removeAll();
       if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SAVE")) {
         if (setTegevusnaitajadSaveVeatekst(jsonNode, identifier, personalCode)) {
           return jsonNode;
@@ -1713,9 +1712,8 @@ public class MtsysWorker extends Worker {
 
   private void setMtsysTegevusnaitajaTaotlus(Long year, Long educationalInstitutionsId,
       ObjectNode jsonNode, MtsysTegevusnaitajaResponse response) {
-    ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_aruanne").putArray("messages");
-    ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps")
-        .get("step_aruanne")).putObject("data_elements");
+    ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
+        .putObject("step_aruanne").putObject("data_elements");
 
     dataElementsNode.putObject("aasta").put("value", year);
     dataElementsNode.putObject("oppeasutusId").put("value", educationalInstitutionsId);
@@ -1949,14 +1947,13 @@ public class MtsysWorker extends Worker {
       String personalCode) throws XRoadServiceConsumptionException {
     saveMtsysTegevusNaitaja(jsonNode, identifier, personalCode);
 
-    List<String> stepMessages = new ArrayList<>();
-    jsonNode.get("body").get("steps").get("step_aruanne").get("messages")
-        .forEach(i -> stepMessages.add(i.asText()));
+    List<String> bodyMessages = new ArrayList<>();
+    jsonNode.get("body").get("messages").forEach(i -> bodyMessages.add(i.asText()));
 
     logForDrupal
         .setMessage("EHIS - mtsysLaeTegevusnaitajad.v1 teenuselt andmete pärimine õnnestus.");
 
-    if (stepMessages.contains("veatekst")) {
+    if (bodyMessages.contains("veatekst")) {
       logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
       LOGGER.info(logForDrupal);
 
@@ -1969,8 +1966,7 @@ public class MtsysWorker extends Worker {
       String veatekst, BigInteger aruandeId) {
     long timestamp = System.currentTimeMillis();
     if (infotekst != null) {
-      ((ArrayNode) jsonNode.get("body").get("steps").get("step_aruanne").get("messages"))
-          .add("infotekst_" + timestamp);
+      ((ArrayNode) jsonNode.get("body").get("messages")).add("infotekst_" + timestamp);
       ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_" + timestamp)
           .put("message_type", "NOTICE")
           .putObject("message_text")
@@ -1978,8 +1974,7 @@ public class MtsysWorker extends Worker {
     }
 
     if (veatekst != null) {
-      ((ArrayNode) jsonNode.get("body").get("steps").get("step_aruanne").get("messages"))
-          .add("veatekst_" + timestamp);
+      ((ArrayNode) jsonNode.get("body").get("messages")).add("veatekst_" + timestamp);
       ((ObjectNode) jsonNode.get("messages")).putObject("veatekst_" + timestamp)
           .put("message_type", "ERROR")
           .putObject("message_text")
