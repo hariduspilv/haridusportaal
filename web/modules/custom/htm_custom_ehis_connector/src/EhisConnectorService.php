@@ -92,7 +92,7 @@ class EhisConnectorService {
         return ['found' => NULL];
 
         break;
-      default:
+      default: bash
         if($redis_response = $this->getValue($params['key'], $params['hash'])){
           $redis_response['redis_hit'] = TRUE;
           return $redis_response;
@@ -117,7 +117,7 @@ class EhisConnectorService {
         if($service_name === 'getDocument'){
           $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
         } else {
-          $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
+          $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/') . '?'. implode($params['params'], '&'));
         }
       }elseif($type === 'post'){
         $params['headers'] = [
