@@ -93,6 +93,7 @@ class EhisConnectorService {
 
         break;
       default:
+        return $this->invoke($service_name, $params);
         if($redis_response = $this->getValue($params['key'], $params['hash'])){
           $redis_response['redis_hit'] = TRUE;
           return $redis_response;
@@ -345,7 +346,6 @@ class EhisConnectorService {
     if(isset($params['doc_id'])) {
       $params['url'][] = $params['doc_id'];
     }
-    dump($params);
     return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
   }
 
