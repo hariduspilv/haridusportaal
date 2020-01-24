@@ -1,9 +1,8 @@
-
-<div class="noResults" *ngIf="!list.length && !loading">
+<div class="noResults" *ngIf="!list?.length && !loading">
   {{ 'news.no_results' | translate }}
 </div>
 <listItems
-  *ngIf="this.list.length"
+  *ngIf="list?.length"
   [type]="type"
   [list]="list"
   [compare]="compare"
