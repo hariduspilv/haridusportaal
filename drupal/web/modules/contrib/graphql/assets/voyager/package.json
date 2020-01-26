@@ -6,7 +6,7 @@
     "lint": "eslint src"
   },
   "dependencies": {
-    "graphql": "^0.11.7",
+    "graphql": "^14.6.0",
     "graphql-voyager": "^1.0.0-rc.9",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
