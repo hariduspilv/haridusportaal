@@ -1,0 +1,56 @@
+uuid: f910601d-c6c9-4048-9003-43418f5a4996
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.frontpage_services.field_service_content
+    - field.field.paragraph.frontpage_services.field_service_image
+    - field.field.paragraph.frontpage_services.field_service_link
+    - field.field.paragraph.frontpage_services.field_service_title
+    - paragraphs.paragraphs_type.frontpage_services
+  module:
+    - entity_reference_revisions
+    - link
+id: paragraph.frontpage_services.default
+targetEntityType: paragraph
+bundle: frontpage_services
+mode: default
+content:
+  field_service_content:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_service_image:
+    type: entity_reference_revisions_entity_view
+    weight: 3
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_service_link:
+    weight: 2
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_service_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  search_api_excerpt: true
