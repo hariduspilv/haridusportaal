@@ -142,11 +142,18 @@ query infoSystemPage($path: String!) {
             entity {
               ... on ParagraphInformationSystemSidebar {
                 fieldEhisLinks {
-                  url {
-                    routed
-                    path
+                  entity {
+                    ... on ParagraphEhisLinks {
+                      fieldEhisLink{
+                        url {
+                          routed
+                          path
+                        }
+                        title
+                      }
+                      fieldLinkIcon
+                    }
                   }
-                  title
                 }
                 fieldButton {
                   url {
