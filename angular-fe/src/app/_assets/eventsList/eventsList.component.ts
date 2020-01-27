@@ -311,13 +311,13 @@ export class EventsListComponent extends FiltersService implements OnInit {
       // if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
       //   this.listEnd = true;
       // }
+      if (this.eventListRaw && this.eventListRaw.length === this.count) {
+        this.listEnd = true;
+      }
       this.scrollRestoration.restorationValues.next({
         ...this.scrollRestorationValues,
         'eventsList': { values: this.params, list: this.eventListRaw, canLoadMore: !this.listEnd },
       });
-      if (this.eventListRaw && this.eventListRaw.length === this.count) {
-        this.listEnd = true;
-      }
       subscriber.unsubscribe();
     });
   }
@@ -369,6 +369,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
         this.filterRetrieveParams(tmpParams);
         this.generateCalendar();
         if (this.scrollRestoration.popstateNavigation && values && values['eventsList']) {
+          console.log(values['eventsList']);
           this.getData(this.scrollRestorationValues);
         } else if (!this.scrollRestoration.popstateNavigation && values && values['eventsList']) {
           this.scrollRestoration.restorationValues.next({ ...values, 'eventsList': null });
