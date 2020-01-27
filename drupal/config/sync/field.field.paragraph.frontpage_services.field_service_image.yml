@@ -1,0 +1,100 @@
+uuid: c79283f0-c685-4357-a13e-a9eb6c6da79b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_service_image
+    - paragraphs.paragraphs_type.frontpage_service_image
+    - paragraphs.paragraphs_type.frontpage_services
+  module:
+    - entity_reference_revisions
+id: paragraph.frontpage_services.field_service_image
+field_name: field_service_image
+entity_type: paragraph
+bundle: frontpage_services
+label: 'Teenuse pilt'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      frontpage_service_image: frontpage_service_image
+    target_bundles_drag_drop:
+      accordion:
+        weight: 25
+        enabled: false
+      additional_section:
+        weight: 26
+        enabled: false
+      block:
+        weight: 27
+        enabled: false
+      contact_section:
+        weight: 28
+        enabled: false
+      event_date:
+        weight: 29
+        enabled: false
+      favorite_item:
+        weight: 30
+        enabled: false
+      file_mandatory_description:
+        weight: 31
+        enabled: false
+      frontpage_service_image:
+        enabled: true
+        weight: 32
+      frontpage_services:
+        weight: 33
+        enabled: false
+      homepage_topics:
+        weight: 34
+        enabled: false
+      information_system_accordion:
+        weight: 35
+        enabled: false
+      information_system_lower:
+        weight: 36
+        enabled: false
+      information_system_sidebar:
+        weight: 37
+        enabled: false
+      iscedf_search:
+        weight: 38
+        enabled: false
+      job:
+        weight: 39
+        enabled: false
+      link:
+        weight: 40
+        enabled: false
+      main_profession_accordion:
+        weight: 41
+        enabled: false
+      main_profession_sidebar:
+        weight: 42
+        enabled: false
+      oska_field_sidebar:
+        weight: 43
+        enabled: false
+      registration_period:
+        weight: 44
+        enabled: false
+      right_sidebar_section_info:
+        weight: 45
+        enabled: false
+      school_location:
+        weight: 46
+        enabled: false
+      supernews:
+        weight: 47
+        enabled: false
+      survey_page_accordion:
+        weight: 48
+        enabled: false
+field_type: entity_reference_revisions

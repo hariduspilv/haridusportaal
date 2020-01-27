@@ -1,0 +1,9 @@
+uuid: 1a6ca77d-ffc4-4331-9e46-fb96c97d1b8b
+langcode: et
+status: true
+dependencies: {  }
+id: frontpage_services
+label: 'Avalehe teenused'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

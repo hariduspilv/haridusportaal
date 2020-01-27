@@ -1,0 +1,19 @@
+uuid: 51ee8838-976e-40e8-9d4a-8c9480b8f4c7
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_frontpage_contact_phone
+    - node.type.frontpage_new
+id: node.frontpage_new.field_frontpage_contact_phone
+field_name: field_frontpage_contact_phone
+entity_type: node
+bundle: frontpage_new
+label: 'Kontakti telefon'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

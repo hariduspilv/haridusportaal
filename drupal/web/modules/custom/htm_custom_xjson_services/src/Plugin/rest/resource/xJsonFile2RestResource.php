@@ -142,7 +142,13 @@ class xJsonFile2RestResource extends ResourceBase {
     $file_obj['fileName'] = $file_name;
 
     if(!$file_obj['value']){
-      $file_obj = $this->ehisService->getDocumentFile(['file_id' => $file_id]);
+      $docParams = [
+        'file_id' => $file_id
+      ];
+      if($request->query->get('doc_id') !== NULL) {
+        $docParams['doc_id'] = $request->query->get('doc_id');
+      }
+      $file_obj = $this->ehisService->getDocumentFile($docParams);
     }
 
     if($file_obj && ($file_obj['fileName'] && $file_obj['value'])){

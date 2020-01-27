@@ -1,0 +1,19 @@
+uuid: cb0f592c-525b-4a25-bde3-db95af026aff
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_frontpage_contact_name
+    - node.type.frontpage_new
+id: node.frontpage_new.field_frontpage_contact_name
+field_name: field_frontpage_contact_name
+entity_type: node
+bundle: frontpage_new
+label: 'Kontakti nimi'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

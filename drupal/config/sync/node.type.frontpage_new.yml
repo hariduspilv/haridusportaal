@@ -1,0 +1,30 @@
+uuid: 5ff0374e-0ee6-4c67-8ec0-e90e1d750d00
+langcode: et
+status: true
+dependencies:
+  module:
+    - menu_ui
+    - scheduler
+third_party_settings:
+  menu_ui:
+    available_menus: {  }
+    parent: ''
+  scheduler:
+    expand_fieldset: when_required
+    fields_display_mode: vertical_tab
+    publish_enable: false
+    publish_past_date: error
+    publish_past_date_created: false
+    publish_required: false
+    publish_revision: false
+    publish_touch: false
+    unpublish_enable: false
+    unpublish_required: false
+    unpublish_revision: false
+name: 'Avaleht UUS'
+type: frontpage_new
+description: ''
+help: ''
+new_revision: true
+preview_mode: 1
+display_submitted: true

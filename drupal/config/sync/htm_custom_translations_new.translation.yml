@@ -782,8 +782,8 @@ frontpage:
     en: 'Dokumendi number - eng'
   document_owner_id:
     translation_type: textarea
-    et: Isikukood
-    en: 'Isikukood - eng'
+    et: 'Isikukood või sünnikuupäev'
+    en: 'Isikukood või sünnikuupäev - eng'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1505,8 +1505,8 @@ studyProgramme:
     en: 'Only open to reception'
   no_results:
     translation_type: textarea
-    et: 'Otsingutulemused puuduvad'
-    en: 'No Search Results'
+    et: 'Erialad puuduvad.'
+    en: 'Erialad puuduvad.'
   related_label:
     translation_type: textarea
     et: 'Sarnased erialad'
@@ -1591,6 +1591,10 @@ studyProgramme:
     translation_type: textarea
     et: Kutsestandard(id)
     en: 'Qualification standard(s)'
+  view_similar:
+    translation_type: textarea
+    et: 'Vaata sarnaseid erialasid'
+    en: 'Vaata sarnaseid erialasid'
 login:
   username:
     translation_type: textarea
@@ -3002,7 +3006,7 @@ login_mobile:
 error:
   ehis_connection:
     translation_type: textarea
-    et: 'Ei saanud EHIS-ga ühendust!'
+    et: 'Ei saanud EHIS-ega ühendust!'
     en: 'Couldn''t connect to Ehis!'
 sort:
   descending:

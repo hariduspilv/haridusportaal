@@ -117,7 +117,7 @@ class EhisConnectorService {
         if($service_name === 'getDocument'){
           $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
         } else {
-          $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/'));
+          $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/') . '?'. implode($params['params'], '&'));
         }
       }elseif($type === 'post'){
         $params['headers'] = [
@@ -130,6 +130,7 @@ class EhisConnectorService {
       $response = json_decode($response->getBody()->getContents(), TRUE);
       return $response;
     }catch (RequestException $e){
+      \Drupal::logger('xjson')->notice('<pre><code>ehis response error' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
       return false;
     }
   }
@@ -275,7 +276,12 @@ class EhisConnectorService {
     $params['hash'] = 'eeIsikukaart';
     $response = $this->invokeWithRedis('eeIsikukaart', $params, FALSE);
     \Drupal::logger('xjson')->notice('<pre><code>Personal card response: '. print_r($response, TRUE). '</code></pre>' );
-    return $this->filterPersonalCard($response, $params['tab']);
+    if($params['tab'] !== 'eeIsikukaartGDPR') {
+      return $this->filterPersonalCard($response, $params['tab']);
+    } else {
+      $params['hash'] = 'eeIsikukaartGDPR';
+      return $this->invokeWithRedis('', $params, TRUE);
+    }
   }
 
   /**
@@ -335,6 +341,9 @@ class EhisConnectorService {
    */
   public function getDocumentFile(array $params = []){
     $params['url'] = [$params['file_id'], $this->getCurrentUserIdRegCode(TRUE)];
+    if(isset($params['doc_id'])) {
+      $params['params'][] = 'identifier='.$params['doc_id'];
+    }
     return $this->invokeWithRedis('getDocumentFile', $params, FALSE);
   }
 
@@ -438,7 +447,7 @@ class EhisConnectorService {
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
     // we need to start getDocument service
-    if($params['init'] && !$response['redis_hit']){
+    if($params['init'] && !isset($response['redis_hit'])){
       $queryparams = $params;
       $queryparams['hash'] = 'getDocuments';
       $init = $this->invokeWithRedis('getDocuments', $queryparams, FALSE);
