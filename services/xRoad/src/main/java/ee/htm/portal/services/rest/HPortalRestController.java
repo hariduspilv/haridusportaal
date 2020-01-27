@@ -174,6 +174,17 @@ public class HPortalRestController {
     return new ResponseEntity<>(eeIsikukaartWorker.getGDPRLog(personalcode), HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/eeIsikukaartBdoc/{personalCode}/",
+      method = RequestMethod.POST,
+      produces = "application/json;charset=UTF-8",
+      consumes = "application/json;charset=UTF-8")
+  public ResponseEntity<?> getEeIsikukaartBdoc(
+      @PathVariable("personalCode") String personalCode,
+      @RequestBody ObjectNode requestJson) {
+    return new ResponseEntity<>(eeIsikukaartWorker.getEeIsikukaartBdoc(personalCode, requestJson),
+        HttpStatus.OK);
+  }
+
   @RequestMapping(value = "/mtsysKlfTeenus",
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")
