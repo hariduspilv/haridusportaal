@@ -117,7 +117,7 @@ class JwtTokenRenewRestResource extends ResourceBase {
 			return new ModifiedResourceResponse('Authentication failed', 403);
 		}
 
-	  $response['message'] = $this->t('Login succeeded');
+	  $response['message'] = $this->t('Renewal succeeded');
 	  $response['token'] = $this->authenticator->generateToken();
 	  return new ModifiedResourceResponse($response, 200);
   }
