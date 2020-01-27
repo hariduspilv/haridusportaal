@@ -1693,6 +1693,7 @@ public class MtsysWorker extends Worker {
       MtsysTegevusnaitajaResponse tegevusnaitajaResponse = ehisXRoadService
           .mtsysTegevusnaitaja(tegevusnaitajaRequest, applicantPersonalCode);
 
+      ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
       setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode,
           tegevusnaitajaResponse);
     }
@@ -1709,7 +1710,7 @@ public class MtsysWorker extends Worker {
     String redisHK =
         "mtsys_tegevusnaitajad_aruanne_eeltaidetud_" + educationalInstitutionsId + "_" + year;
     dataElementsNode.putObject("eeltaidetudCSV").putArray("value").addObject()
-        .put("file_name", response.getCsvFail().getFilename())
+        .put("file_name", "tegevusnaitajad.csv")
         .put("file_identifier", redisHK);
     redisFileTemplate.opsForHash()
         .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
