@@ -292,7 +292,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
 
     this.loadFlag = true;
 
-    this.eventsConfig.offset = this.eventListRaw.length;
+    this.eventsConfig.offset = this.eventListRaw.length + 1;
   
     let variables = this.eventsConfig.getApollo(this.lang.toUpperCase());
 
