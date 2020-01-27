@@ -3,9 +3,7 @@
     <a *ngIf="icons" [href]="item.url.path">
       <div class="row">
         <div class="col-1 padding center-flex">
-          <icon *ngIf="item.url.path.includes('educationalInstitution')" size="medium" glyph="library"></icon>
-          <icon *ngIf="item.url.path.includes('curriculums')" size="medium" glyph="book"></icon>
-          <icon *ngIf="item.url.path.includes('operatingRights')" size="medium" glyph="file-text"></icon>
+          <icon size="medium" [glyph]="item.icon ? item.icon : 'file-text'"></icon>
         </div>
         <span class="col-11 padding text" role="text">{{ item.title }}</span>
       </div>
