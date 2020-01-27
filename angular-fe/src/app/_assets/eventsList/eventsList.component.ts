@@ -7,8 +7,7 @@ import { HttpClient } from '@angular/common/http';
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { FiltersService } from '@app/_services/filterService';
 import { filter, delay } from 'rxjs/operators';
-import { SettingsService } from '@app/_services';
-
+import { SettingsService, ScrollRestorationService, ListRestorationType } from '@app/_services';
 export class EventsConfig {
 
   constructor(
@@ -66,6 +65,7 @@ export class EventsConfig {
 
 export class EventsListComponent extends FiltersService implements OnInit {
   @ViewChild('content', {static: false}) content: ElementRef;
+  private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
 
   objectKeys = Object.keys;
   parseInt = parseInt;
@@ -115,6 +115,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
     private http: HttpClient,
     public device: DeviceDetectorService,
     private settings: SettingsService,
+    private scrollRestoration: ScrollRestorationService,
   ) {
     super(null, null);
     let subscription = router.events.pipe(
@@ -264,6 +265,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
         sessionStorage.setItem("events.view", view);
     switch(view) {
       case 'calendar':
+        this.scrollRestoration.restorationValues.next({ ...this.scrollRestorationValues, 'eventsList': null });
         this.router.navigate(['/sündmused/kalender'], {queryParamsHandling: "preserve"});
         break;
       case 'list':
@@ -309,6 +311,10 @@ export class EventsListComponent extends FiltersService implements OnInit {
       // if ( data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit) ){
       //   this.listEnd = true;
       // }
+      this.scrollRestoration.restorationValues.next({
+        ...this.scrollRestorationValues,
+        'eventsList': { values: this.params, list: this.eventListRaw, canLoadMore: !this.listEnd },
+      });
       if (this.eventListRaw && this.eventListRaw.length === this.count) {
         this.listEnd = true;
       }
@@ -354,14 +360,24 @@ export class EventsListComponent extends FiltersService implements OnInit {
       } else {
         this.queryString = '';
       }
-
-      this.params = tmpParams;
-      this.eventList = false;
-      this.listEnd = false;
-      this.status = false;
-      this.filterRetrieveParams(tmpParams);
-      this.generateCalendar();
-      this.getData();
+      const scrollSub = this.scrollRestoration.restorationValues.subscribe((values) => {
+        this.scrollRestorationValues = values;
+        this.params = tmpParams;
+        this.eventList = false;
+        this.listEnd = false;
+        this.status = false;
+        this.filterRetrieveParams(tmpParams);
+        this.generateCalendar();
+        if (this.scrollRestoration.popstateNavigation && values && values['eventsList']) {
+          this.getData(this.scrollRestorationValues);
+        } else if (!this.scrollRestoration.popstateNavigation && values && values['eventsList']) {
+          this.scrollRestoration.restorationValues.next({ ...values, 'eventsList': null });
+          this.getData();
+        } else {
+          this.getData();
+        }
+      });
+      scrollSub.unsubscribe();
       
     });
 
@@ -558,7 +574,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
       this.eventsTags = [...selected, ...otherValues];
     }
   }
-  getData() {
+  getData(listValues?: any) {
     this.loadFlag = true;
         if(!this.filterFull) {
           this.filterFull = this.filterFullProperties.some(property => this.params[property] !== undefined );
@@ -645,58 +661,82 @@ export class EventsListComponent extends FiltersService implements OnInit {
 
         this.calendarDataEntries = "none";
 
-        const path = this.settings.query('getEventList', variables);
-        this.dataSubscription = this.http.get(path).subscribe((response) => {
-
-          let data = response['data'];
-
-          try {
-            data['nodeQuery']['entities'] = data['nodeQuery']['entities'].map((item) => {
-              const type = [{ ... item.fieldEventType.entity} ];
-              const tags = item.hashTags.map((tag) => {
-                return tag.entity || false;
-              }).filter((tag) => {
-                return tag;
-              });
-              item.tags = [ ...type, ...tags];
-              return item;
-            });
-          } catch (err) {}
-          
-          if( this.status ){ return false; }
-
+        if (listValues && listValues['eventsList']) {
           this.status = false;
-
-          if( this.view == "list" ){
-
-            this.count = data['nodeQuery']['count'];
-            this.eventListRaw = data['nodeQuery']['entities'];
+          this.listEnd = !listValues['eventsList'].canLoadMore;
+          this.eventListRaw = listValues['eventsList'].list;
+          this.eventList = this.organizeList( this.eventListRaw );
+          this.loadFlag = false;
+          const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
+            setTimeout(() => {
+              document.querySelector('.app-content').scrollTo({
+                top: position['eventsList'],
+              });
+            },         0);
+          });
+          scrollSub.unsubscribe();
+        } else {
+          const path = this.settings.query('getEventList', variables);
+          this.dataSubscription = this.http.get(path).subscribe((response) => {
+  
+            let data = response['data'];
+  
+            try {
+              data['nodeQuery']['entities'] = data['nodeQuery']['entities'].map((item) => {
+                const type = [{ ... item.fieldEventType.entity} ];
+                const tags = item.hashTags.map((tag) => {
+                  return tag.entity || false;
+                }).filter((tag) => {
+                  return tag;
+                });
+                item.tags = [ ...type, ...tags];
+                return item;
+              });
+            } catch (err) {}
             
-            this.eventList = this.organizeList( this.eventListRaw );
-            // if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
-            //   this.listEnd = true;
-            // }
-            if (this.eventListRaw && this.eventListRaw.length === this.count) {
-              this.listEnd = true;
+            if( this.status ){ return false; }
+  
+            this.status = false;
+  
+            if( this.view == "list" ){
+  
+              this.count = data['nodeQuery']['count'];
+              this.eventListRaw = data['nodeQuery']['entities'];
+              
+              this.eventList = this.organizeList( this.eventListRaw );
+              // if (data['nodeQuery']['entities'] && (data['nodeQuery']['entities'].length < this.eventsConfig.limit)){
+              //   this.listEnd = true;
+              // }
+              if (this.eventListRaw && this.eventListRaw.length === this.count) {
+                this.listEnd = true;
+              }
+              this.scrollRestoration.restorationValues.next({
+                ...this.scrollRestorationValues,
+                'eventsList': { values: this.params, list: this.eventListRaw, canLoadMore: !this.listEnd },
+              });
+            }else{
+              this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
             }
-          }else{
-            this.dataToCalendar( JSON.stringify( data['nodeQuery']['entities'] ) );
-          }
-          
-          this.loadFlag = false;
-          this.dataSubscription.unsubscribe();
-          this.dataSubscription = false;
-          
-        }, (err) => {
-          this.eventList = [];
-          this.listEnd = true;
-          this.loadFlag = false;
-          this.dataSubscription.unsubscribe();
-          this.dataSubscription = false;
-        });
+            
+            this.loadFlag = false;
+            this.dataSubscription.unsubscribe();
+            this.dataSubscription = false;
+            
+          }, (err) => {
+            this.eventList = [];
+            this.listEnd = true;
+            this.loadFlag = false;
+            this.dataSubscription.unsubscribe();
+            this.dataSubscription = false;
+          });
+        }
   }
   
   ngOnDestroy() {
+    this.scrollRestoration.restorationPosition.next({
+      ...this.scrollRestoration.restorationPosition.getValue(),
+      ['eventsList']: document.querySelector('.app-content').scrollTop,
+    });
     for (let sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
         sub.unsubscribe();
