@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  *   id = "jwt_token_renew_rest_resource",
  *   label = @Translation("Jwt token renew rest resource"),
  *   uri_paths = {
- *     "create" = "/api/v1/token-renew",
+ *     "canonical" = "/api/v1/token-renew",
  *   }
  * )
  */
@@ -112,7 +112,7 @@ class JwtTokenRenewRestResource extends ResourceBase {
    * @throws \Symfony\Component\HttpKernel\Exception\HttpException
    *   Throws exception expected.
    */
-  public function post($data) {
+  public function get() {
     if($this->currentUser->isAnonymous()){
 			return new ModifiedResourceResponse('Authentication failed', 403);
 		}
