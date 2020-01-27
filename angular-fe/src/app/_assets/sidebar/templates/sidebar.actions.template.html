@@ -8,6 +8,7 @@
         <span class="col-11 padding text" role="text">{{ item.title }}</span>
       </div>
     </a>
-    <button *ngIf="!icons" role="link" [routerLink]="[item.url.path]" htm-button>{{ item.title }}</button>
+    <button *ngIf="!icons && item.url.routed" role="link" [routerLink]="[item.url.path]" htm-button>{{ item.title }}</button>
+    <a *ngIf="!icons && !item.url.routed" [href]="[item.url.path]"><button role="link" htm-button>{{ item.title }}</button></a>
   </li>
 </ul>
