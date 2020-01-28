@@ -60,6 +60,7 @@ public class VPTWorker extends Worker {
     documentsResponse.putArray("documents");
     documentsResponse.putArray("acceptable_forms");
     documentsResponse.putArray("drafts");
+    documentsResponse.putArray("messages");
 
     try {
       VpTaotlusOpingudResponse response = ehisXRoadService
@@ -88,6 +89,21 @@ public class VPTWorker extends Worker {
               .put("form_name", "VPT_TAOTLUS");
         }
       }
+
+      response.getHoiatusDto().getErrorMessagesList().forEach(
+          errorMessage -> ((ArrayNode) documentsResponse.get("messages")).addObject()
+              .put("message_type", "ERROR")
+              .putObject("message_text").put("et", errorMessage.getKirjeldus()));
+
+      response.getHoiatusDto().getWarningMessagesList().forEach(
+          warningMessage -> ((ArrayNode) documentsResponse.get("messages")).addObject()
+              .put("message_type", "WARNING")
+              .putObject("message_text").put("et", warningMessage.getKirjeldus()));
+
+      response.getHoiatusDto().getSuccessMessagesList()
+          .forEach(successMessage -> ((ArrayNode) documentsResponse.get("messages")).addObject()
+              .put("message_type", "NOTICE")
+              .putObject("message_text").put("et", successMessage.getKirjeldus()));
 
       logForDrupal.setMessage("EHIS - VpTaotlusOpingud.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
