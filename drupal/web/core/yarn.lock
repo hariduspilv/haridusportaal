@@ -1233,10 +1233,10 @@ chownr@^1.1.1:
   resolved "https://registry.yarnpkg.com/chownr/-/chownr-1.1.2.tgz#a18f1e0b269c8a6a5d3c86eb298beb14c3dd7bf6"
   integrity sha512-GkfeAQh+QNy3wquu9oIZr6SS5x7wGdSgNQvD10X3r+AZr1Oys22HW8kAmDMvNg2+Dm0TeGaEuO8gFwdBXxwO8A==
 
-chromedriver@^75.1.0:
-  version "75.1.0"
-  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-75.1.0.tgz#edfef5d7a9b16b6f8a12ddb58cbac76ae52732fd"
-  integrity sha512-N2P0fg6FS4c+tTG0R7cCOD5qiVo+E6uAz6xVjmbZesYv1xs1iGdcCUo0IqOY+ppD/4OOObG+XWV1CFWXT6UIgA==
+chromedriver@^79.0.1:
+  version "79.0.1"
+  resolved "https://registry.yarnpkg.com/chromedriver/-/chromedriver-79.0.1.tgz#5184ad2bb57e1ad13ae519ad37d41eee184e8239"
+  integrity sha512-Ha20bHKVeA6k+WTp9J8uxv8/G2d3oJwy0PMFfDx2yRs9OGXwoRf/QBBef/AxDXWaBFA6RapEblXW77JkBgQo3Q==
   dependencies:
     del "^4.1.1"
     extract-zip "^1.6.7"
