@@ -126,6 +126,21 @@ public class HPortalRestController {
     return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
   }
 
+  @RequestMapping(value = "/deleteDocument/{formName}/{identifier}/{personalCode}",
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> deleteDocument(@PathVariable("formName") String formName,
+      @PathVariable("identifier") String identifier,
+      @PathVariable("personalCode") String personalCode) {
+    if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA")) {
+      return new ResponseEntity<>(
+          mtsysWorker.delelteDocument(Integer.parseInt(identifier), personalCode), HttpStatus.OK);
+    }
+
+    LOGGER.error("Tundmatu request formName - " + formName);
+    return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
+  }
+
   @RequestMapping(value = "/getDocumentFile/{documentId}/{personalCode}",
       method = RequestMethod.GET,
       produces = "application/json;charset=UTF-8")

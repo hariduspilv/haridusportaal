@@ -11,6 +11,8 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Mt
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadDocument.MtsysEsitaTegevusnaitajad;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadResponseDocument.MtsysEsitaTegevusnaitajadResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKustutaTegevuslubaDocument.MtsysKustutaTegevusluba;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKustutaTegevuslubaResponseDocument.MtsysKustutaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusDocument.MtsysLaeOppeasutus;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusResponseDocument.MtsysLaeOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaDocument.MtsysLaeTegevusluba;
@@ -122,7 +124,7 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
   public MtsysKlfTeenusResponse mtsysKlfTeenus(String userId)
       throws XRoadServiceConsumptionException {
     if (userId == null || userId.equalsIgnoreCase("-")) {
-      return mtsysKlfTeenusV1(XmlObject.Factory.newInstance(), userId);
+      return mtsysKlfTeenusV1(XmlObject.Factory.newInstance());
     }
 
     return mtsysKlfTeenusV1(XmlObject.Factory.newInstance(), userId);
@@ -209,8 +211,8 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
     return mtsysLaeTegevusnaitajadV1(request, userId);
   }
 
-  public MtsysEsitaTegevusnaitajadResponse mtsysEsitaTegevusnaitajad(MtsysEsitaTegevusnaitajad request,
-      String userId) throws XRoadServiceConsumptionException {
+  public MtsysEsitaTegevusnaitajadResponse mtsysEsitaTegevusnaitajad(
+      MtsysEsitaTegevusnaitajad request, String userId) throws XRoadServiceConsumptionException {
     if (userId == null || userId.equalsIgnoreCase("-")) {
       return mtsysEsitaTegevusnaitajadV1(request);
     }
@@ -227,5 +229,16 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
       return mtsysDokumentV1(request);
     }
     return mtsysDokumentV1(request, userId);
+  }
+
+  public MtsysKustutaTegevuslubaResponse mtsysKustutaTegevusluba(Integer identifier, String userId)
+      throws XRoadServiceConsumptionException {
+    MtsysKustutaTegevusluba request = MtsysKustutaTegevusluba.Factory.newInstance();
+    request.setRegNr(userId);
+    request.setTaotlusId(BigInteger.valueOf(identifier));
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysKustutaTegevuslubaV1(request);
+    }
+    return mtsysKustutaTegevuslubaV1(request, userId);
   }
 }
