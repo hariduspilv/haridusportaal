@@ -11,6 +11,9 @@
       font-weight: normal;
     }
   }
+  [htm-table] td span {
+    word-break: normal;
+  }
   ::ng-deep accordion-item {
     .accordion__title {
       font-weight: 500;
