@@ -194,7 +194,7 @@ public class VPTWorker extends Worker {
                         : null)
                 .put("study_programme", item.getOppekavaNimi())
                 .put("study_programme_EHISid", item.getOppekavaKood())
-                .put("start_date",ehisDateFormat(item.getAlustamiseKuupaev()))
+                .put("start_date", ehisDateFormat(item.getAlustamiseKuupaev()))
                 .put("learning_load", item.getOppekoormusTyyp())
                 .put("learning_load_code",
                     item.isSetOppekoormusTyypKL() ?
@@ -220,7 +220,8 @@ public class VPTWorker extends Worker {
 //endregion;
 
         logForDrupal.setType("EHIS - VpTaotlusOpingud.v1");
-        logForDrupal.setMessage("EHIS - VpTaotlusOpingud.v1 teenuselt andmete pärimine õnnestus.");
+        logForDrupal
+            .setMessage("EHIS - VpTaotlusOpingud.v1 teenuselt andmete pärimine õnnestus.");
 //endregion;
       } else if (currentStep.equalsIgnoreCase("step_0")) {
 //region STEP_0
@@ -589,7 +590,8 @@ public class VPTWorker extends Worker {
 
         ((ObjectNode) jsonNode.get("body").get("steps").get("step_3")).putArray("messages");
         setMessages(jsonNode, response.getHoiatusDto().getErrorMessagesList(), "ERROR", null);
-        setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING", "step_3");
+        setMessages(jsonNode, response.getHoiatusDto().getWarningMessagesList(), "WARNING",
+            "step_3");
         setMessages(jsonNode, response.getHoiatusDto().getSuccessMessagesList(), "NOTICE", null);
 
         ((ObjectNode) jsonNode.get("header")).put("current_step", "step_3");
@@ -630,10 +632,11 @@ public class VPTWorker extends Worker {
             .putObject("step_submit_result").putObject("data_elements");
         submitDataElement.putObject("id").put("value", response.getTaotlusInfoDto().getId());
         submitDataElement.putObject("submit_date").put("value",
-            response.getTaotlusInfoDto().isSetEsitamiseKuupaev() ? ehisDateFormat((Calendar) response.getTaotlusInfoDto().getEsitamiseKuupaev())
-                : null)
+            response.getTaotlusInfoDto().isSetEsitamiseKuupaev() ? ehisDateFormat(
+                (Calendar) response.getTaotlusInfoDto().getEsitamiseKuupaev()) : null)
             .put("hidden", !response.getTaotlusInfoDto().isSetEsitamiseKuupaev());
-        submitDataElement.putObject("status").put("value", response.getTaotlusInfoDto().getOlek());
+        submitDataElement.putObject("status")
+            .put("value", response.getTaotlusInfoDto().getOlek());
         submitDataElement.putObject("application_file").putArray("value").addObject()
             .put("file_name", "taotlus.zip")
             .put("file_identifier", "VPT_TAOTLUS_ZIP_" + response.getTaotlusInfoDto().getId());
