@@ -118,11 +118,13 @@ class xJsonRestResource extends ResourceBase {
         if(!isset($checked_data['form_info']) && (isset($checked_data['identifier']) || isset($checked_data['year']))){
           if(isset($checked_data['identifier'])){
             if (isset($checked_data['status']) && ($checked_data['status'] === 'draft' || $checked_data['status'] === 'submitted')) {
+              dump($this->returnDynamicXjson($checked_data));
               return $this->returnDynamicXjson($checked_data);
             } else {
               return new ModifiedResourceResponse('Status missing or status value wrong', 400);
             }
           } else {
+            dump($this->returnDynamicXjson($checked_data));
             return $this->returnDynamicXjson($checked_data);
           }
         }
