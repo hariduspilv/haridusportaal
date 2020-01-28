@@ -41,8 +41,6 @@ public class VPTWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(VPTWorker.class);
 
-  private static final String VPT_FILES_KEY = "VPT_documents";
-
   @Resource
   private EhisXRoadService ehisXRoadService;
 
@@ -398,7 +396,7 @@ public class VPTWorker extends Worker {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
             failInfoDto.setContent(Base64.getDecoder().decode(((String) Objects
                 .requireNonNull(redisFileTemplate.opsForHash()
-                    .get(VPT_FILES_KEY, item.get("file_identifier").asText())))));
+                    .get(applicantPersonalCode, item.get("file_identifier").asText())))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             custodyFiles.add(failInfoDto);
           });
@@ -410,7 +408,7 @@ public class VPTWorker extends Worker {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
             failInfoDto.setContent(Base64.getDecoder().decode(((String) Objects
                 .requireNonNull(redisFileTemplate.opsForHash()
-                    .get(VPT_FILES_KEY, item.get("file_identifier").asText())))));
+                    .get(applicantPersonalCode, item.get("file_identifier").asText())))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             personFailInfoDtoList.add(failInfoDto);
           });
@@ -552,7 +550,7 @@ public class VPTWorker extends Worker {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
             failInfoDto.setContent(Base64.getDecoder().decode(((String) Objects
                 .requireNonNull(redisFileTemplate.opsForHash()
-                    .get(VPT_FILES_KEY, item.get("file_identifier").asText())))));
+                    .get(applicantPersonalCode, item.get("file_identifier").asText())))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             addedFiles.add(failInfoDto);
           });
@@ -566,7 +564,7 @@ public class VPTWorker extends Worker {
             FailInfoDto failInfoDto = FailInfoDto.Factory.newInstance();
             failInfoDto.setContent(Base64.getDecoder().decode(((String) Objects
                 .requireNonNull(redisFileTemplate.opsForHash()
-                    .get(VPT_FILES_KEY, item.get("file_identifier").asText())))));
+                    .get(applicantPersonalCode, item.get("file_identifier").asText())))));
             failInfoDto.setFailiNimi(item.get("file_name").asText());
             nonResidentFiles.add(failInfoDto);
           });

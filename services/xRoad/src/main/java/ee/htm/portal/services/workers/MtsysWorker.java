@@ -64,7 +64,6 @@ public class MtsysWorker extends Worker {
 
   private static final String MTSYSKLF_KEY = "klassifikaator";
   private static final String MTSYSFILE_KEY = "mtsysFile";
-  private static final String MTSYS_REDIS_KEY = "MTSYS_documents";
 
   @Resource
   private EhisXRoadService ehisXRoadService;
@@ -1039,7 +1038,7 @@ public class MtsysWorker extends Worker {
             dokument.setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
           } else {
             dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
-                redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY, fileIdentifier))));
+                redisFileTemplate.opsForHash().get(applicantPersonalCode, fileIdentifier))));
           }
           dokument.setKlLiik(item.get("klLiik").asInt());
           dokument.setFailiNimi(fileItem.get("file_name").asText());
@@ -1518,7 +1517,8 @@ public class MtsysWorker extends Worker {
       MtsysTegevusnaitajaResponse response = ehisXRoadService
           .mtsysTegevusnaitaja(request, personalCode);
 
-      setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode, response);
+      setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode, response,
+          personalCode);
 
       logForDrupal.setMessage("EHIS - mtsysTegevusnaitaja.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
@@ -1641,7 +1641,7 @@ public class MtsysWorker extends Worker {
 
     if (jsonNode.get("header").get("parameters").get("fileSubmit").asBoolean()) {
       request.setFail(Base64.getDecoder().decode((String) Objects.requireNonNull(
-          redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY,
+          redisFileTemplate.opsForHash().get(applicantPersonalCode,
               dataElementNode.get("esitamiseksCSV").get("value").get(0).get("file_identifier")
                   .asText()))));
     } else {
@@ -1695,12 +1695,12 @@ public class MtsysWorker extends Worker {
 
       ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
       setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode,
-          tegevusnaitajaResponse);
+          tegevusnaitajaResponse, applicantPersonalCode);
     }
   }
 
   private void setMtsysTegevusnaitajaTaotlus(Long year, Long educationalInstitutionsId,
-      ObjectNode jsonNode, MtsysTegevusnaitajaResponse response) {
+      ObjectNode jsonNode, MtsysTegevusnaitajaResponse response, String personalCode) {
     ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
         .putObject("step_aruanne").putObject("data_elements");
 
@@ -1713,8 +1713,8 @@ public class MtsysWorker extends Worker {
         .put("file_name", "tegevusnaitajad.csv")
         .put("file_identifier", redisHK);
     redisFileTemplate.opsForHash()
-        .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
-    redisFileTemplate.expire(MTSYS_REDIS_KEY, redisFileExpire, TimeUnit.MINUTES);
+        .put(personalCode, redisHK, response.getCsvFail().getStringValue());
+    redisFileTemplate.expire(personalCode, redisFileExpire, TimeUnit.MINUTES);
 
     dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true)
         .putArray("value");
