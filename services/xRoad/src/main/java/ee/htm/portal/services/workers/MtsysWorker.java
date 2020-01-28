@@ -477,13 +477,25 @@ public class MtsysWorker extends Worker {
       stepZeroDataElementsNode.putObject("dokumendid").put("hidden", klOkLiik.equals(18098L))
           .putArray("value");
       response.getDokumendid().getDokumentList().forEach(
-          dokument ->
+          dokument -> {
+            AtomicBoolean insertNewDokument = new AtomicBoolean(true);
+            stepZeroDataElementsNode.get("dokumendid").get("value").forEach(item -> {
+              if (item.get("liik").asText().equals(String.valueOf(dokument.getKlLiik()))) {
+                insertNewDokument.set(false);
+                ((ArrayNode) item.get("fail")).addObject()
+                    .put("file_name", dokument.getFailiNimi())
+                    .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId());
+              }
+            });
+            if (insertNewDokument.get()) {
               ((ArrayNode) stepZeroDataElementsNode.get("dokumendid").get("value")).addObject()
                   .put("liik", String.valueOf(dokument.getKlLiik()))
                   .put("kommentaar", dokument.getKommentaar())
                   .putArray("fail").addObject()
                   .put("file_name", dokument.getFailiNimi())
-                  .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId()));
+                  .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId());
+            }
+          });
 
       stepZeroDataElementsNode.putObject("lisainfo")
           .put("hidden", !response.getTegevusloaAndmed().isSetLisainfo())
@@ -593,22 +605,29 @@ public class MtsysWorker extends Worker {
 
         fileType.get("okLiik").forEach(i -> {
           if (fileTypeKlOkLiik.equalsIgnoreCase(i.get("klOkLiik").asText())) {
-            for (int j = 0; j < stepAndmedDataElements.get("dokumendid").get("value").size(); j++) {
-              if (stepAndmedDataElements.get("dokumendid").get("value").get(j).get("klLiik").asInt()
-                  == item.getKlLiik()) {
-                ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).remove(j);
-                break;
+            AtomicBoolean insertNeDokument = new AtomicBoolean(true);
+            stepAndmedDataElements.get("dokumendid").get("value").forEach(failItem -> {
+              if (failItem.get("klLiik").asInt() == item.getKlLiik()) {
+                insertNeDokument.set(false);
+                if (failItem.get("fail") == null) {
+                  ((ObjectNode) failItem).putArray("fail");
+                }
+                ((ArrayNode) failItem.get("fail")).addObject()
+                    .put("file_name", item.getFailiNimi())
+                    .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
               }
+            });
+            if (insertNeDokument.get()) {
+              ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
+                  .put("liik", i.get("required").asBoolean() ?
+                      fileType.get("et").asText() + " *" :
+                      fileType.get("et").asText())
+                  .put("klLiik", item.getKlLiik())
+                  .put("kommentaar", item.getKommentaar())
+                  .putArray("fail").addObject()
+                  .put("file_name", item.getFailiNimi())
+                  .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
             }
-            ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
-                .put("liik", i.get("required").asBoolean() ?
-                    fileType.get("et").asText() + " *" :
-                    fileType.get("et").asText())
-                .put("klLiik", item.getKlLiik())
-                .put("kommentaar", item.getKommentaar())
-                .putArray("fail").addObject()
-                .put("file_name", item.getFailiNimi())
-                .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
           }
         });
       });
@@ -1012,25 +1031,23 @@ public class MtsysWorker extends Worker {
     request.setKontaktandmed(kontaktandmed);
 
     Dokumendid dokumendid = Dokumendid.Factory.newInstance();
-    dataObjectNode.get("dokumendid").get("value").forEach(item -> {
-      if (item.get("fail") != null && item.get("fail").get(0) != null
-          && item.get("fail").get(0).get("file_identifier") != null) {
-        Dokument dokument = Dokument.Factory.newInstance();
-        String fileIdentifier = item.get("fail").get(0).get("file_identifier").asText();
-        if (fileIdentifier.startsWith(MTSYSFILE_KEY + "_")) {
-          dokument.setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
-        } else {
-          dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
-              redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY, fileIdentifier))));
-        }
-        dokument.setKlLiik(item.get("klLiik").asInt());
-        dokument.setFailiNimi(item.get("fail").get(0).get("file_name").asText());
-        if (!item.get("kommentaar").asText("").equals("")) {
-          dokument.setKommentaar(item.get("kommentaar").asText());
-        }
-        dokumendid.getDokumentList().add(dokument);
-      }
-    });
+    dataObjectNode.get("dokumendid").get("value").forEach(item ->
+        item.get("fail").forEach(fileItem -> {
+          Dokument dokument = Dokument.Factory.newInstance();
+          String fileIdentifier = fileItem.get("file_identifier").asText();
+          if (fileIdentifier.startsWith(MTSYSFILE_KEY + "_")) {
+            dokument.setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
+          } else {
+            dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
+                redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY, fileIdentifier))));
+          }
+          dokument.setKlLiik(item.get("klLiik").asInt());
+          dokument.setFailiNimi(fileItem.get("file_name").asText());
+          if (!item.get("kommentaar").asText("").equals("")) {
+            dokument.setKommentaar(item.get("kommentaar").asText());
+          }
+          dokumendid.getDokumentList().add(dokument);
+        }));
     request.setDokumendid(dokumendid);
 
     MtsysLaeTegevuslubaResponse response = ehisXRoadService
@@ -1676,6 +1693,7 @@ public class MtsysWorker extends Worker {
       MtsysTegevusnaitajaResponse tegevusnaitajaResponse = ehisXRoadService
           .mtsysTegevusnaitaja(tegevusnaitajaRequest, applicantPersonalCode);
 
+      ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
       setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode,
           tegevusnaitajaResponse);
     }
@@ -1692,7 +1710,7 @@ public class MtsysWorker extends Worker {
     String redisHK =
         "mtsys_tegevusnaitajad_aruanne_eeltaidetud_" + educationalInstitutionsId + "_" + year;
     dataElementsNode.putObject("eeltaidetudCSV").putArray("value").addObject()
-        .put("file_name", response.getCsvFail().getFilename())
+        .put("file_name", "tegevusnaitajad.csv")
         .put("file_identifier", redisHK);
     redisFileTemplate.opsForHash()
         .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
