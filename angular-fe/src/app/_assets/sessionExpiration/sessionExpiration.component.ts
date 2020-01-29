@@ -18,7 +18,7 @@ export class SessionExpirationComponent implements OnInit, OnDestroy {
   public counterInterval;
   public modalTitle: string = this.translate.get('session.expiring');
   private loginSubscription: Subscription;
-  private renewLoader: boolean = false;
+  public renewLoader: boolean = false;
 
   constructor(
     public modalService: ModalService,
