@@ -259,6 +259,16 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  public function deleteDocument(array $params = []){
+    $params['url'] = [$params['form_name'], $params['id'], $this->getCurrentUserIdRegCode()];
+
+    return $this->invoke('deleteDocument', $params);
+  }
+
+  /**
+   * @param array $params
+   * @return array|mixed|\Psr\Http\Message\ResponseInterface
+   */
   public function getCertificatePublic(array $params = []){
     $params['url'] = [$params['id_code'], $params['certificate_id'], time()];
     $params['key'] = $params['id_code'];
