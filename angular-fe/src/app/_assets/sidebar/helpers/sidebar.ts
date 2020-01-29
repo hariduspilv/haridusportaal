@@ -86,13 +86,15 @@ export const parseInfosystemData = (inputData) => {
 export const parseProfessionData = (inputData, translate) => {
   let mappedData = inputData;
   try {
-    let searchParams = '?open_admission=true';
+    let searchParams = {
+      open_admission: true,
+    };
     try {
       const iDetailed = mappedData['fieldIscedfSearchLink']
       ['entity']['iscedf_detailed'].map((val) => {
         return val.entity.entityId;
       });
-      searchParams = `${searchParams}&iscedf_detailed=${iDetailed.join(';')}`;
+      searchParams['iscedf_detailed'] = iDetailed.join(';');
     } catch (err) { }
 
     try {
@@ -100,7 +102,7 @@ export const parseProfessionData = (inputData, translate) => {
       ['entity']['iscedf_narrow'].map((val) => {
         return val.entity.entityId;
       });
-      searchParams = `${searchParams}&iscedf_narrow=${iNarrow.join(';')}`;
+      searchParams['iscedf_narrow'] = iNarrow.join(';');
     } catch (err) { }
 
     try {
@@ -108,22 +110,26 @@ export const parseProfessionData = (inputData, translate) => {
       ['entity']['iscedf_broad'].map((val) => {
         return val.entity.entityId;
       });
-      searchParams = `${searchParams}&iscedf_broad=${iBroad.join(';')}`;
+      searchParams['iscedf_broad'] = iBroad.join(';');
     } catch (err) { }
 
     try {
-      const iLevel = mappedData['fieldIscedfSearchLink']
-      ['entity']['level'].map((val) => {
-        return val.entity.entityId;
+      const iLevel = mappedData['fieldIscedfSearchLink']['entity']['level'].map((val) => {
+        return val.entity ? val.entity.entityId : false;
+      }).filter((val) => {
+        return val;
       });
-      searchParams = `${searchParams}&level=${iLevel.join(';')}`;
-    } catch (err) { }
+      searchParams['level'] = iLevel.join(';');
+    } catch (err) {
+      console.log(err);
+    }
 
     mappedData['fieldLearningOpportunities'] = [
       {
         title: translate.get('professions.go_to_subjects'),
         url: {
-          path: `/erialad${searchParams}`,
+          path: `/erialad`,
+          params: searchParams,
           routed: true,
         },
       },

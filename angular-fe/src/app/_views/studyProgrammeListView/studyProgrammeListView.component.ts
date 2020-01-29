@@ -3,6 +3,7 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ActivatedRoute, Router } from '@angular/router';
+// tslint:disable: radix
 
 @Component({
   selector: 'studyProgrammeList-view',
@@ -40,6 +41,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   sortField: any;
   sort: any;
   openAdmission = true;
+  isced;
 
   constructor(
     private settings: SettingsService,
@@ -104,8 +106,31 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
       this.filterFull = true;
     }
 
+    this.populateParentFilters();
+
     this.setIscedfFilters('narrow');
     // this.cdr.detectChanges();
+  }
+
+  populateParentFilters() {
+    if (this.selectedIscedfDetailed.length && !this.selectedIscedfNarrow.length) {
+      const narrowId = this.isced.filter((e) => {
+        if (this.selectedIscedfDetailed[0] === e.entityId) {
+          return true;
+        }
+      })[0].parentId.toString();
+
+      this.selectedIscedfNarrow = [narrowId];
+    }
+
+    if (this.selectedIscedfNarrow.length && !this.selectedIscedfBroad.length) {
+      const broadId = this.isced.filter((e) => {
+        if (this.selectedIscedfNarrow[0] === e.entityId) {
+          return true;
+        }
+      })[0].parentId.toString();
+      this.selectedIscedfBroad = [broadId];
+    }
   }
 
   resetFilters() {
@@ -189,6 +214,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
         return { value: String(el.tid), key: el.entityLabel };
       });
 
+      this.isced = data.isced_f.entities;
       data.isced_f.entities.map((el) => {
         if (!el.parentId) {
           this.iscedfBroadFilters.push({ value: el.entityId, key: el.entityLabel });
