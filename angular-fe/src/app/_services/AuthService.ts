@@ -144,6 +144,15 @@ export class AuthService implements CanActivate {
     return false;
   }
 
+  public expireTime() {
+    const token = sessionStorage.getItem('token');
+    const tokenPayload = token ? this.decodeToken(token) : {};
+    if (tokenPayload.exp) {
+      return tokenPayload.exp * 1000;
+    }
+    return false;
+  }
+
   public canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

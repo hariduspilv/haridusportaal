@@ -5,24 +5,24 @@
 	<div class="inline">
 		<block>
 			<block-title>
-				SINU ANDMETE KASUTAJAD
+				{{'gdpr_title' | translate}}
 			</block-title>
 			<block-secondary-title
-				>Päring minu andmete vaatamise kohta<a routerLink="/töölaud"
-					>Tagasi töölauale</a
+				>{{'gdpr_yourDataRequests' | translate}}<a routerLink="/töölaud"
+					>{{'button.back_to_dashboard' | translate}}</a
 				></block-secondary-title
 			>
 			<block-content>
 				<loader *ngIf="loading"></loader>
 				<p *ngIf="!loading && (!data || groupedData.length === 0)">
-					Andmed puuduvad
+					{{'xjson.data_missing' | translate}}
 				</p>
 				<accordion *ngIf="!loading && groupedData.length > 0">
 					<accordion-item [title]="group.institution + ' <span>(' + group.queries.length + ' päringut)</span>'" *ngFor="let group of groupedData" >
 						<table htm-table>
 							<tr *ngFor="let query of group.queries">
-								<td>{{query.logTime}}</td>
-								<td>{{query.action}}</td>
+								<td><span>{{query.logTime}}</span></td>
+								<td [innerHTML]="query.action"></td>
 							</tr>
 						</table>
 					</accordion-item>

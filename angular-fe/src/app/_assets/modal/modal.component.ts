@@ -78,12 +78,13 @@ export class ModalComponent implements OnInit {
   }
 
   stateChange(state: boolean): void {
+    const isOpened = this.modalService.modalOpened[this.id];
     this.modalService.modalOpened[this.id] = state;
     if (this.opened && !state && this.reloadOnClose) {
       window.location.reload();
     }
     this.opened = state;
-    if (!state) {
+    if (isOpened && !state) {
       this.onClose.emit(true);
     }
   }

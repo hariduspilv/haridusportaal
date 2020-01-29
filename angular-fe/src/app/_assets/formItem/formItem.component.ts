@@ -336,7 +336,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.propagateChange(this.field);
   }
 
-  writeValue(value: string) {
+  writeValue(value: any) {
     if (this.type === 'multi-select') {
 
       if (value) {
@@ -363,7 +363,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     } else if (this.type === 'date') {
       this.dateField = value || this.field;
     } else {
-      this.field = value || '';
+      this.field = (value || value === 0) ? value : '';
     }
 
     if (this.field === 'null') {

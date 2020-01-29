@@ -465,6 +465,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     if (files && files.length > 0) {
       this.tableUpload ? this.uploadTableFile(files) : this.uploadFile(files, element);
+    } else {
+      this.fileLoading[element] = false;
     }
   }
 
