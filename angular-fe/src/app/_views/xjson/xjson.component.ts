@@ -259,7 +259,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const id = file.file_identifier;
     const name = file.file_name;
     const token = sessionStorage.getItem('token');
+    const docId = this.data.header.identifier;
 
+    if (this.formKey === 'MTSYS') {
+      return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}/${this.formKey}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}&doc_id=${docId}`;
+    }
     return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}/${this.formKey}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}`;
   }
 
@@ -453,6 +457,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     if (files && files.length > 0) {
       this.tableUpload ? this.uploadTableFile(files) : this.uploadFile(files, element);
+    } else {
+      this.fileLoading[element] = false;
     }
   }
 

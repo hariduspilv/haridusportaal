@@ -1,6 +1,6 @@
 import { Component, Input, HostBinding, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
 import { SidebarService, SettingsService, ModalService } from '@app/_services';
-import { collection, titleLess, parseProfessionData, parseFieldData } from './helpers/sidebar';
+import { collection, titleLess, parseProfessionData, parseFieldData, parseInfosystemData } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import conf from '@app/_core/conf';
@@ -79,6 +79,10 @@ export class SidebarComponent implements OnInit, OnChanges {
       }
 
       this.mappedData = this.sidebarService.mapUniformKeys(FieldVaryService(this.data));
+
+      if (this.type === 'infosystem') {
+        this.mappedData = parseInfosystemData(this.mappedData);
+      }
 
       if (this.type === 'profession') {
         this.mappedData = parseProfessionData(this.mappedData, this.translate);
@@ -233,6 +237,10 @@ export class SidebarDataComponent {
 export class SidebarActionsComponent {
   @Input() data;
   @Input() icons;
+
+  ngOnInit() {
+    console.log(this.data);
+  }
 }
 @Component({
   selector: 'sidebar-location',

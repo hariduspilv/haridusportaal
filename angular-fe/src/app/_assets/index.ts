@@ -26,10 +26,10 @@ import { RecaptchaModule, RECAPTCHA_LANGUAGE, RecaptchaFormsModule } from 'ng-re
 import {
   RippleService,
   NgbDateCustomParserFormatter,
-  AlertsService,
   SidemenuService,
   SidebarService,
   ModalService,
+  ScrollRestorationService,
   SettingsService,
   AuthService,
   UploadService,
@@ -211,6 +211,7 @@ const providers = [
   UploadService,
   AuthService,
   QueryParamsService,
+  ScrollRestorationService,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',

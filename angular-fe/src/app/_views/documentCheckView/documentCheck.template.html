@@ -7,49 +7,25 @@
 			</block-title>
 			<block-content>
 				<h1>{{ "frontpage.document_check" | translate }}</h1>
-				<div
-					class="introduction"
-					innerHtml="{{ 'frontpage.document_check_body' | translate }}"
-				></div>
+				<div class="introduction" innerHtml="{{ 'frontpage.document_check_body' | translate }}"></div>
 				<!--/introduction-->
 				<form [formGroup]="model">
-					<formItem
-					required
-					name="document_id"
-					type="text"
-					formControlName="document_id"
-					title="{{ 'frontpage.document_id' | translate }}"
-				>
-				</formItem>
-					<formItem
-						required
-						pattern="idCode"
-						errorMessage="Vigane isikukood"
-						name="id_code"
-						type="number"
-						formControlName="id_code"
-						title="{{ 'frontpage.document_owner_id' | translate }}"
-					>
+						<formItem required name="document_id" type="text" formControlName="document_id"
+							title="{{ 'frontpage.document_id' | translate }}">
+						</formItem>
+					<formItem required name="id_code" type="date" formControlName="id_code"
+						title="{{ 'frontpage.document_owner_id' | translate }}">
 					</formItem>
-					<re-captcha
-						required
-						attr.aria-label="'Recaptcha'"
-						#captchaRef="reCaptcha"
-						siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90"
-						formControlName="captcha"
-						name="captcha"
-					>
-					</re-captcha>
-					<button htm-button type="submit" theme="default" (click)="submit()">
-						{{ "button.search" | translate }}
-					</button>
+				<re-captcha required attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha"
+					siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" formControlName="captcha" name="captcha">
+				</re-captcha>
+				<button htm-button type="submit" theme="default" (click)="submit()">
+					{{ "button.search" | translate }}
+				</button>
 				</form>
 				<div class="footer">
 					<loader *ngIf="loading"></loader>
-					<alerts
-						small="true"
-						id="documentCheck"
-					></alerts>
+					<alerts small="true" id="documentCheck"></alerts>
 				</div>
 			</block-content>
 		</block>

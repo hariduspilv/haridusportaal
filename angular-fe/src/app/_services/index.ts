@@ -10,3 +10,4 @@ export * from './CompareService';
 export * from './SettingsService';
 export * from './AuthService';
 export * from './UploadService';
+export * from './ScrollRestorationService';

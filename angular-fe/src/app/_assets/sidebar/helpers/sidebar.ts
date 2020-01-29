@@ -74,6 +74,15 @@ export const titleLess = {
   'event': false,
 };
 
+export const parseInfosystemData = (inputData) => {
+  inputData['fieldEhisLinks'] = inputData['fieldEhisLinks'].map((val) => {
+    const object = val.entity.fieldEhisLink;
+    object.icon = val.entity.fieldLinkIcon;
+    return object;
+  });
+  return inputData;
+}
+
 export const parseProfessionData = (inputData, translate) => {
   let mappedData = inputData;
   try {

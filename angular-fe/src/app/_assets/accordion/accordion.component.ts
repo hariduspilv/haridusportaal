@@ -83,6 +83,9 @@ export class AccordionItemComponent {
     }
 
     const slug = this.title.toLowerCase()
+    .replace(/span/g, '')
+    .replace(/<a href=".+?>/g, '')
+    .replace(/<\/a>/g, '')
     .replace(/ /g, '-')
     .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
     const newUrl = this.router.url.split('#')[0];

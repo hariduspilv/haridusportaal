@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { AlertsService, SettingsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { HttpClient } from '@angular/common/http';
@@ -17,7 +17,7 @@ export class DocumentCheckComponent {
 
   public model: FormGroup = this.formBuilder.group({
     captcha: ['', Validators.required],
-    id_code: ['', Validators.required],
+    id_code: ['', [Validators.required, this.validateIdCodeOrBirthday]],
     document_id: ['', Validators.required],
   });
 
@@ -39,6 +39,13 @@ export class DocumentCheckComponent {
     private location: Location,
   ) { }
 
+  validateIdCodeOrBirthday(control: AbstractControl) {
+    if (!control.value.match(/([1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4})|(([0-9]{2}\.)([0-9]{2}\.)[0-9]{4})/g)) {
+      return { errors: false };
+    }
+    return null;
+  }
+
   initialTableCheck(id) {
     const element = document.getElementById(id);
     if (element) {
@@ -56,21 +63,21 @@ export class DocumentCheckComponent {
 
   submit() {
     this.alertsService.clear('documentCheck');
-    this.http.get('https://ehis2.twn.zone/dehis/avaandmed/rest/lopudokumendid/38603052378/-/024017/JSON').subscribe((val) => {
-      console.log(val);
-    })
     if (this.model.controls.captcha.invalid) {
       this.alertsService.error(this.translate.get('errors.captcha'), 'documentCheck', false);
       return;
     }
     if (!this.model.controls.document_id.value) {
       this.alertsService
-        .error('"Dokumendi nr." väärtus on sisestamata', 'documentCheck', false);
+        .error('"Dokumendi number." väärtus on sisestamata', 'documentCheck', false);
       return;
-      }
-    if (!this.model.controls.id_code.value) {
+    }
+    if (this.model.controls.id_code.invalid) {
       this.alertsService
-        .error('"Isikukood" väärtus on sisestamata või ei vasta vormingule', 'documentCheck', false);
+        .error(
+          '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule', 'documentCheck',
+          false,
+        );
       return;
     }
     this.loading = true;
@@ -88,7 +95,6 @@ export class DocumentCheckComponent {
         },
       },
     };
-    // whatever dudeman
     this.http.post(`${this.settings.url}/es-public/tunnistused/_search`, elasticQuery).subscribe(
       (response: any) => {
         if (response.hits.total.value === 0) {
@@ -100,8 +106,12 @@ export class DocumentCheckComponent {
           this.loading = false;
           return;
         }
-        const document = response.hits.hits
-          .find(el => el._source.SAAJA_ISIKUKOOD === `${this.model.controls.id_code.value}`)
+        let document = response.hits.hits
+          .find(el => el._source.SAAJA_ISIKUKOOD === `${this.model.controls.id_code.value}`);
+        if (!document) {
+          document = response.hits.hits
+            .find(el => el._source.SYNNI_KP === `${this.model.controls.id_code.value}`);
+        }
         if (!document) {
           this.alertsService.warning(
             'Sisestatud andmetega dokumenti pole antud isikule väljastatud',

@@ -7,8 +7,8 @@ import {
   AfterViewInit,
 } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
-import { SettingsService } from '@app/_services/SettingsService';
+import { ActivatedRoute } from '@angular/router';
+import { SettingsService, ScrollRestorationService, ListRestorationType } from '@app/_services';
 import * as moment from 'moment';
 import {
   searchResultKeys,
@@ -46,11 +46,13 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   private debounceDelay: number = 300;
   public canLoadMore: boolean = true;
   public loadingMore: boolean = false;
+  private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
 
   constructor(
     private http: HttpClient,
     private route: ActivatedRoute,
     private settings: SettingsService,
+    private scrollRestoration: ScrollRestorationService,
     private cdr: ChangeDetectorRef,
   ) {}
 
@@ -146,13 +148,25 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
 
   private watchParams() {
     this.paramsWatcher = this.route.queryParams.subscribe((queryParams) => {
-      const values = this.parseValues({ ... queryParams });
+      const paramsValues = this.parseValues({ ... queryParams });
       this.offset = 0;
-      this.getData({ ... values });
+      const scrollSub = this.scrollRestoration.restorationValues.subscribe((values) => {
+        this.scrollRestorationValues = values;
+        console.log(values);
+        if (this.scrollRestoration.popstateNavigation && values && values[this.type]) {
+          this.getData({ ...values[this.type].values }, false, values[this.type].list);
+        } else if (!this.scrollRestoration.popstateNavigation && values && values[this.type]) {
+          this.scrollRestoration.restorationValues.next({ ...values, [this.type]: null });
+          this.getData({ ... paramsValues });
+        } else {
+          this.getData({ ... paramsValues });
+        }
+      });
+      scrollSub.unsubscribe();
     });
   }
 
-  private getData(values, append: boolean = false): void {
+  private getData(values, append?: boolean, listValue?: Object[]): void {
     clearTimeout(this.getDataDebounce);
     this.httpWatcher.unsubscribe();
     this.getDataDebounce = setTimeout(
@@ -160,7 +174,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
         values.lang = 'ET';
         values.offset = this.offset;
         values.limit = this.limit;
-
         let query = `queryName=${this.queryName}`;
         // TODO @KOKK: FIX SO WE DONT NEED THIS HACK
         if (this.queryName === 'schoolMapQuery') {
@@ -182,11 +195,26 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           this.loading = true;
         }
 
-        if (!append) {
+        if (listValue) {
+          this.list = listValue;
+        } else if (!append) {
           this.list = [];
         }
 
-        this.httpWatcher = this.http.get(path).subscribe(
+        if (listValue) {
+          this.loading = false;
+          this.loadingMore = false;
+          this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
+          const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
+            setTimeout(() => {
+              document.querySelector('.app-content').scrollTo({
+                top: position[this.type],
+              });
+            },         0);
+          });
+          scrollSub.unsubscribe();
+        } else {
+          this.httpWatcher = this.http.get(path).subscribe(
           (response) => {
             if (!this.loadingMore) {
               this.loading = false;
@@ -214,11 +242,16 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
             } else {
               this.list = tmpList;
             }
+            this.scrollRestoration.restorationValues.next({
+              ...this.scrollRestorationValues,
+              [this.type]: { values, list: this.list, canLoadMore: this.canLoadMore },
+            });
           },
           (err) => {
             this.loading = false;
             this.loadingMore = false;
           });
+        }
       },
       this.debounceDelay);
   }
@@ -253,6 +286,11 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   ngOnDestroy() {
+    document.querySelectorAll('img').forEach(item => item.style.height = '0');
+    this.scrollRestoration.restorationPosition.next({
+      ...this.scrollRestoration.restorationPosition.getValue(),
+      [this.type]: document.querySelector('.app-content').scrollTop,
+    });
     this.paramsWatcher.unsubscribe();
     this.httpWatcher.unsubscribe();
   }
