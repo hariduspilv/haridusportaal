@@ -125,6 +125,9 @@ export class AutocompleteComponent implements OnDestroy {
           address.addressHumanReadable = address.pikkaadress;
         }
         address.seqNo = address.unik;
+        if (!address.ehak) {
+          address.ehak = address.ehakov ? address.ehakov : address.ehakmk;
+        }
       });
 
       if (this.valueType === 'string') {
