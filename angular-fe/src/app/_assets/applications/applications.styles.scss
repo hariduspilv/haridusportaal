@@ -72,6 +72,20 @@
   
   .text-center {
     text-align: center;
+    a {
+      text-decoration: underline;
+      cursor: pointer;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .modal-center {
+    text-align: center;
+    div {
+      margin-bottom: 2rem;
+    }
   }
   
   .rowspan-btn {

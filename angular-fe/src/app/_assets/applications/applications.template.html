@@ -427,6 +427,7 @@
 																	translate }}
 										</th>
 										<th></th>
+										<th></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -446,6 +447,13 @@
 													[routerLink]="form.form_path"
 													[queryParams]="{mustand:'true', id: form.id, 'õppeasutus': school.id, aasta: isNumber(form.description) ? form.description : undefined}">
 													{{ 'button.continue_filling' | translate }}
+												</a>
+											</td>
+											<td class="text-center">
+												<a class="rowspan-btn" *ngIf="form.form_path"
+													attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.delete' | translate}}"
+													(click)="loadDeleteModal(form.id)">
+													{{ 'button.delete' | translate }}
 												</a>
 											</td>
 										</tr>
@@ -622,5 +630,14 @@
 				</div>
 			</div>
 		</ng-container>
+	</modal-content>
+</htm-modal>
+
+<htm-modal id="deleteDocModal" modalTitle="{{ 'button.delete' | translate }}" [titleExists]="modalTitleExists"
+	size="medium" [topAction]="true" [bottomAction]="true" [reloadOnClose]="viewReload">
+	<modal-content class="modal-center">
+		<div>{{ 'dashboard.delete_doc' | translate }}</div>
+		<button htm-button tabindex="0" theme="default" (click)="deleteDocument()">{{ 'button.delete' | translate }}
+			</button>
 	</modal-content>
 </htm-modal>
