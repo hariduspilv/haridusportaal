@@ -27,7 +27,7 @@ export class SettingsService {
     '10.0.2.2': 'https://htm.wiseman.ee',
     '192.168.2.253': 'https://htm.wiseman.ee',
     'test.edu.ee': 'https://apitest.hp.edu.ee',
-    localhost: 'https://apitest.hp.edu.ee',
+    localhost: 'https://htm.wiseman.ee',
     otherwise: 'https://api.hp.edu.ee',
   };
 

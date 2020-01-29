@@ -3,6 +3,8 @@ import { ModalService, AuthService, SettingsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'sessionExpiration',
@@ -18,7 +20,7 @@ export class SessionExpirationComponent implements OnInit, OnDestroy {
   public counterInterval;
   public modalTitle: string = this.translate.get('session.expiring');
   private loginSubscription: Subscription;
-  private renewLoader: boolean = false;
+  public renewLoader: boolean = false;
 
   constructor(
     public modalService: ModalService,
@@ -87,7 +89,12 @@ export class SessionExpirationComponent implements OnInit, OnDestroy {
       this.timeLeft = Math.ceil((expires - currentTime) / 1000);
 
       /* Debug timer */
-      // this.timeLeft = this.countDownTime + 2;
+      const sessionTest = window.location.href.match('sessionTest') ? true : false;
+
+      console.log(sessionTest);
+      if (sessionTest) {
+        this.timeLeft = this.countDownTime + 2;
+      }
       const countDown = this.timeLeft - this.countDownTime;
 
       this.timeout = setTimeout(
@@ -114,6 +121,7 @@ export class SessionExpirationComponent implements OnInit, OnDestroy {
     // tslint:disable-next-line: radix
     this.countDownTime = parseInt(this.translate.get('session.timeout'));
     this.watchLogin();
+
   }
 
   ngOnDestroy() {
