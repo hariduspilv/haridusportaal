@@ -262,6 +262,7 @@ class EhisConnectorService {
   public function deleteDocument(array $params = []){
     $params['url'] = [$params['form_name'], $params['id'], $this->getCurrentUserIdRegCode()];
 
+    $this->deleteKeyFromredis($this->getCurrentUserIdRegCode());
     return $this->invoke('deleteDocument', $params);
   }
 
