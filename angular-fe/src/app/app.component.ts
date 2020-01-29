@@ -58,6 +58,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   initCookies() {
     const cookiesAuth = this.cookieService.isAuthorized();
+
     if (cookiesAuth !== 'not_allowed') {
       if (cookiesAuth) {
         // this.showChat();
