@@ -112,6 +112,10 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 				$method = 'getPersonalCard';
 				$params = ['tab' => $tab];
 				break;
+      case 'deleteDoc':
+        $method = 'deleteDocument';
+        $params = ['id' => $tab, 'form_name' => 'MTSYS_TEGEVUSLUBA'];
+        break;
 			case 'applications':
 				$method = 'getApplications';
 				#$this->certificate->testApplications();
