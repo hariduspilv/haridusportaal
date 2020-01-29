@@ -352,9 +352,7 @@ class EhisConnectorService {
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
   public function getDocumentFileFromRedis(array $params = []){
-    if(!isset($params['key'])){
-      $params['key'] = 'VPT_documents';
-    }
+    $params['key'] = $this->getCurrentUserIdRegCode();
     return $this->client->hGet($params['key'], $params['hash']);
   }
 

@@ -136,8 +136,6 @@ class xJsonFile2RestResource extends ResourceBase {
       'hash' => $file_id
     ];
 
-    $params['key'] = $form_key.'_documents';
-
     $file_obj['value'] = $this->ehisService->getDocumentFileFromRedis($params);
     $file_obj['fileName'] = $file_name;
 
