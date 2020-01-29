@@ -11,6 +11,8 @@ import { RippleService } from '@app/_services';
 })
 
 export class ButtonComponent {
+  @Input() class: string;
+
   constructor(
     private el: ElementRef,
     private ripple: RippleService,
@@ -19,7 +21,7 @@ export class ButtonComponent {
   @Input() theme: string = 'default';
 
   @HostBinding('class') get hostClasses(): string {
-    return `button--${this.theme}`;
+    return `button--${this.theme} ${this.class}`;
   }
   animateRipple($event) {
     const rippleColor = this.theme === 'plain' ? 'dark' : 'light';

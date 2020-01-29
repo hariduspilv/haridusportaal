@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { AuthService, SidemenuService, AlertsService, SettingsService, Alert, AlertType } from './_services';
+import { AuthService, SidemenuService, AlertsService, SettingsService, Alert, AlertType, ModalService } from './_services';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
 import { AmpService } from './_services/ampService';
@@ -25,6 +25,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private settingsService: SettingsService,
     private translate: TranslateService,
     private cookieService: CookieService,
+    public modalService: ModalService,
   ) {
     this.sidemenuIsVisible = sidemenuService.isVisible;
   }

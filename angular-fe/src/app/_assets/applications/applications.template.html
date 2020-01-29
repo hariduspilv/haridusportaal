@@ -566,8 +566,13 @@
 			<div ngForm [formGroup]="formGroup" class="row margin">
 				<ng-container *ngFor="let item of institutionModalFields">
 					<div class="col-{{ item.col }} sm-12">
-						<formItem [type]="item.type" [query]="item.query ? item.query : false" [error]="item.error"
-							appendTo="body" [valueType]="item.type === 'autocomplete' ? 'object' : false"
+						<formItem
+							[type]="item.type"
+							[query]="item.query ? item.query : false"
+							[error]="item.error"
+							appendTo="body"
+							(change)="validateField(item.modelName)"
+							[valueType]="item.type === 'autocomplete' ? 'object' : false"
 							[formControlName]="item.modelName"
 							title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
 							[options]="formOptions[item.modelName]"></formItem>
@@ -578,9 +583,10 @@
 						(keyup.enter)="modalService.close('institutionModal')">
 						{{ 'button.close' | translate }}
 					</button>
-					<button htm-button theme="default" (click)="createInstitution()"
+
+					<button [class]="this.formGroup.valid ? '' : 'button--disabled'" htm-button (click)="this.formGroup.valid ? createInstitution() : $event.preventDefault();"
 						(keyup.enter)="createInstitution()">
-						{{ 'button.save' | translate }}
+						{{ 'button.add' | translate }}
 					</button>
 				</div>
 			</div>
@@ -609,7 +615,8 @@
 						(keyup.enter)="modalService.close('editInstitutionModal')">
 						{{ 'button.close' | translate }}
 					</button>
-					<button htm-button theme="default" (click)="editInstitution()" (keyup.enter)="editInstitution()">
+					<button [class]="this.formGroup.valid ? '' : 'button--disabled'" htm-button (click)="this.formGroup.valid ? editInstitution() : $event.preventDefault();"
+						(keyup.enter)="this.formGroup.valid ? editInstitution() : $event.preventDefault();">
 						{{ 'button.save_draft' | translate }}
 					</button>
 				</div>

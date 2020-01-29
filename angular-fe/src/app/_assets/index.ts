@@ -110,6 +110,7 @@ import { RelatedStudyProgrammesListComponent } from './relatedStudyprogrammesLis
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { RelatedEventsComponent } from './relatedEvents';
 import { NotFoundComponent } from './notFound';
+import { SessionExpirationComponent } from './sessionExpiration';
 
 const declarations = [
   BlockComponent,
@@ -189,6 +190,7 @@ const declarations = [
   RelatedEventsComponent,
   AnalyticsEvent,
   NotFoundComponent,
+  SessionExpirationComponent,
 ];
 
 const exports = [

@@ -1,0 +1,40 @@
+<htm-modal
+  id="sessionExpirationModal"
+  [modalTitle]="modalTitle"
+	[bottomAction]="false"
+	(onClose)="modalClosed($event)"
+  size="medium">
+  <modal-content>
+		<ng-container *ngIf="renewLoader; else renewTemplate">
+			<loader></loader>
+		</ng-container>
+		<ng-template #renewTemplate>
+
+			<div class="text-container">
+				<ng-container *ngIf="timeLeft > 0; else timeout">
+					{{ 'session.time_left' | translate }} {{ timeLeft }} sekundit
+				</ng-container>
+				<ng-template #timeout>
+					{{ 'session.login' | translate }}
+				</ng-template>
+			</div><!--/text-container-->
+			<div class="button-container">
+					<button
+					htm-button
+					theme="plain"
+					(click)="logOut(); modalService.close('sessionExpirationModal')"
+					(keyup.enter)="logOut(); modalService.close('sessionExpirationModal')">
+					{{ 'button.close' | translate }}
+				</button>
+				
+				<button
+				*ngIf="timeLeft > 0"
+				htm-button
+				(click)="renewLogin()"
+				(keyup.enter)="renewLogin()">
+				{{ 'session.continue' | translate }}
+			</button>
+		</div>
+	</ng-template>
+</modal-content>
+</htm-modal>

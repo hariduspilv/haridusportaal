@@ -17,10 +17,23 @@ import {
 } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { TableService } from '@app/_services/tableService';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
 const acceptableFormsRestrictedLength = 4;
+
+const autocompleteValidator = (control: FormControl) => {
+  let output = null;
+  console.log(control.value);
+  console.log(typeof control.value);
+  if (typeof control.value !== 'object') {
+    output = {
+      wrongFormat: true,
+    };
+  }
+  console.log(output);
+  return output;
+}
 
 @Component({
   selector: 'applications',
@@ -354,7 +367,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'contactEmail',
           required: true,
           error: false,
-          formControl: this.formBuilder.control('', Validators.required),
+          formControl: this.formBuilder.control('', [Validators.required, Validators.email]),
         },
         {
           col: 12,
@@ -365,7 +378,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'address',
           required: true,
           error: false,
-          formControl: this.formBuilder.control('', Validators.required),
+          formControl: this.formBuilder.control('', [Validators.required, autocompleteValidator]),
         },
         {
           col: 6,
@@ -427,7 +440,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'contactEmail',
           required: false,
           error: false,
-          formControl: this.formBuilder.control(''),
+          formControl: this.formBuilder.control('', [Validators.email]),
         },
         {
           col: 12,
@@ -514,6 +527,18 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       });
   }
 
+  validateField(modelName) {
+    this.institutionModalFields.forEach((item, index) => {
+      if (item.modelName === modelName) {
+        setTimeout(
+          () => {
+            this.institutionModalFields[index].error = this.formGroup.controls[modelName].invalid;
+          },
+          0);
+      }
+    });
+  }
+  
   editInstitution() {
     this.error = false;
     this.modalLoading = true;

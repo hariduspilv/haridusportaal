@@ -13,6 +13,12 @@
       h1 + .row {
         margin-top: 1rem;
       }
+      .button-container {
+        .button--disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
     }
     #modal-institutionModal {
       @include break-on(md, min) {
@@ -20,7 +26,6 @@
       }
     }
   }
-
 
   .alerts {
     margin-top: 2rem;
