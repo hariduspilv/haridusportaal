@@ -172,8 +172,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       }
     }
 
-    console.log(this.field);
-
     if (action === 'focus') {
       this.focused = true;
       this.filledField = true;

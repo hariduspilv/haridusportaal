@@ -54,6 +54,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   private debounce;
   private delay: number = 200;
 
+  deleteId = '';
   dummyDataVersion: string;
   startTime;
   endViewCheck: boolean = false;
@@ -489,6 +490,19 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
         sub.unsubscribe();
       });
 
+  }
+
+  deleteDocument() {
+    this.viewReload = true;
+    const url = `${this.settings.url}/dashboard/deleteDoc/${this.deleteId}`;
+    this.http.get(url).subscribe((response) => {
+      this.modalService.close('deleteDocModal');
+    });
+  }
+
+  loadDeleteModal(id) {
+    this.deleteId = id;
+    this.modalService.open('deleteDocModal');
   }
 
   getItemAddress(item) {
