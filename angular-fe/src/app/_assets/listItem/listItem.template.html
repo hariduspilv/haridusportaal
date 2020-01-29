@@ -102,7 +102,11 @@
                             *ngIf="fieldName === 'educationalInstitution' || fieldName === 'phone' || fieldName === 'address' || fieldName === 'studyProgrammeLevel' || fieldName === 'fieldSchoolName'">{{ item[fieldName].entity ? item[fieldName].entity.entityLabel : item[fieldName] }}</span>
                         <span class="item" *ngIf="fieldName === 'teachingLanguage' && item[fieldName].length">
                             <ng-container *ngFor="let item of item[fieldName]; let i = index;">
-                                <span><span *ngIf="i > 0">, </span>{{ item.entity.entityLabel | ucfirst }}</span>
+                                <span>
+                                    <span *ngIf="i > 0">, </span>
+                                    <span *ngIf="i === 0">{{ item.entity.entityLabel | ucfirst }}</span>
+                                    <span *ngIf="i !== 0">{{ item.entity.entityLabel }}</span>
+                                </span>
                             </ng-container>
                         </span>
                         <span class="item" *ngIf="fieldName === 'webpage' && item[fieldName]">
