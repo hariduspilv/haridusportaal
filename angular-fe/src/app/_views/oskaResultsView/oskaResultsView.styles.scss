@@ -169,6 +169,10 @@
 					}
 				}
 			}
+			&.hidden {
+				border-top: none;
+      	border-bottom: none;
+			}
 		}
 		td,
 		th {
@@ -197,6 +201,7 @@
 			&.hidden {
 				opacity: 1;
 				background: #ffe7c1;
+				border-bottom: none;
 			}
 		}
 	}
@@ -349,9 +354,6 @@
 			}
 		}
 	}
-	.separator {
-		padding: 0;
-	}
 	.vertical {
 		position: relative;
 	}
@@ -363,9 +365,16 @@
 		white-space: nowrap;
 		font-weight: 400;
 		font-size: 0.875rem;
-		left: 0.5rem;
+		left: 0.75rem;
 		top: 1rem;
 		z-index: 1;
+	}
+	.separator {
+    padding: 0;
+    min-width: .1875rem;
+    width: .1875rem;
+    background: #fff;
+    border: none;
 	}
 	.hide {
 		display: none;

@@ -109,6 +109,7 @@
     color: $blue;
     line-height: 1.5rem;
     &:hover {
+      cursor: pointer;
       text-decoration: none;
     }
     &--holder {

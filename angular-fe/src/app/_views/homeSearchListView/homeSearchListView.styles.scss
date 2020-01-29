@@ -87,6 +87,34 @@
 		}
 	}
 
+	.inline__items {
+    padding-top: 0.375rem;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+
+    .item {
+      font-weight: 500;
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+      color: $dark-gray;
+      white-space: nowrap;
+
+      .dark {
+        color: $darker-gray;
+      }
+    }
+
+    .bar {
+      &:first-child {
+        display: none;
+      }
+      color: $gray;
+      font-weight: 300;
+      padding: 0 0.375rem;
+    }
+	}
+	
 	.alert {
 		padding: $large $medium;
 		font-size: $medium;

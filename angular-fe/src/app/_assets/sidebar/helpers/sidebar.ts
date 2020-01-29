@@ -274,7 +274,7 @@ const getIndicators = (mappedData) => {
 
 export const parseFieldData = (inputData, translate) => {
   let mappedData = inputData;
-
+  console.log(mappedData)
   mappedData['fieldOskaResults'] = [{
     title: translate.get('oska.go_to_results'),
     url: {
@@ -323,6 +323,11 @@ export const parseFieldData = (inputData, translate) => {
     delete mappedData.links;
   }
 
+  if (mappedData['fieldOskaFieldQuickFind']) {
+    mappedData['fieldQuickFind'] = [...mappedData['fieldQuickFind'], ...mappedData['fieldOskaFieldQuickFind']];
+    delete mappedData['fieldOskaFieldQuickFind'];
+  }
+
   mappedData = getIndicators(mappedData);
 
   try {
@@ -332,8 +337,6 @@ export const parseFieldData = (inputData, translate) => {
       delete mappedData['fieldOskaFieldContact'];
     }
   } catch (err) { }
-
-  delete mappedData['fieldOskaFieldQuickFind'];
 
   return mappedData;
 }

@@ -674,7 +674,16 @@
       text-decoration: underline;
       font-size: 1rem;
       white-space: nowrap;
+      display: flex;
+      align-items: center;
+      span {
+        white-space: pre-wrap;
+      }
     }
+  }
+  .uploaded-file .close-icn {
+    display: flex;
+    align-items: center;
   }
 
   .round-input__field {
