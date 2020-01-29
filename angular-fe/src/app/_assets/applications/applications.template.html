@@ -426,7 +426,7 @@
 											{{ 'frontpage.dashboard_tabs_applications_document_date' |
 																	translate }}
 										</th>
-										<th></th>
+										<th colspan="2"></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -440,7 +440,7 @@
 												<ng-container *ngIf="form.document_date">{{ form.document_date }}
 												</ng-container>
 											</td>
-											<td class="text-center">
+											<td class="text-center" [attr.colspan]="form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS' ? 1 : 2">
 												<a class="rowspan-btn" *ngIf="form.form_path"
 													attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
 													[routerLink]="form.form_path"
@@ -448,9 +448,16 @@
 													{{ 'button.continue_filling' | translate }}
 												</a>
 											</td>
+											<td class="text-center" *ngIf="form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS'">
+												<a class="rowspan-btn" *ngIf="form.form_path && form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS'"
+													attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.delete' | translate}}"
+													(click)="loadDeleteModal(form.id)">
+													{{ 'button.delete' | translate }}
+												</a>
+											</td>
 										</tr>
 										<tr class="description-bottom" *ngIf="form.description">
-											<td colspan="3">
+											<td colspan="4">
 												<p>{{ form. description }}</p>
 											</td>
 										</tr>
@@ -622,5 +629,14 @@
 				</div>
 			</div>
 		</ng-container>
+	</modal-content>
+</htm-modal>
+
+<htm-modal id="deleteDocModal" modalTitle="{{ 'button.delete' | translate }}" [titleExists]="modalTitleExists"
+	size="medium" [topAction]="true" [bottomAction]="true" [reloadOnClose]="viewReload">
+	<modal-content class="modal-center">
+		<div>{{ 'dashboard.delete_doc' | translate }}</div>
+		<button htm-button tabindex="0" theme="default" (click)="deleteDocument()">{{ 'button.delete' | translate }}
+			</button>
 	</modal-content>
 </htm-modal>
