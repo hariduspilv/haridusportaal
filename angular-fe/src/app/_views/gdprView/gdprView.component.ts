@@ -61,7 +61,20 @@ export class GdprViewComponent implements OnInit{
             }),
           };
         });
-    console.log(this.groupedData);
+    this.groupedData = this.groupedData.map((el) => {
+      if (el.institution.match(/<a href=".+?>.+<\/a>/g, '')) {
+        return {
+          institution: el.institution.replace(/<a href=".+?>/g, '').replace(/<\/a>/g, ''),
+          queries: el.queries,
+          link: el.institution.replace('href=', 'target="_blank" href='),
+        };
+      }
+      return {
+        institution: el.institution.replace(/<a href=".+?>/g, '').replace(/<\/a>/g, ''),
+        queries: el.queries,
+        link: false,
+      };
+    });
     this.loading = false;
   }
 

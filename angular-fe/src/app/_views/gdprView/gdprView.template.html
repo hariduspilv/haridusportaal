@@ -19,6 +19,9 @@
 				</p>
 				<accordion *ngIf="!loading && groupedData.length > 0">
 					<accordion-item [title]="group.institution + ' <span>(' + group.queries.length + ' päringut)</span>'" *ngFor="let group of groupedData" >
+						<div class="check-website" *ngIf="group.link">
+							Vaata kodulehte: <span [innerHTML]="group.link"></span>
+						</div>
 						<table htm-table>
 							<tr *ngFor="let query of group.queries">
 								<td><span>{{query.logTime}}</span></td>
