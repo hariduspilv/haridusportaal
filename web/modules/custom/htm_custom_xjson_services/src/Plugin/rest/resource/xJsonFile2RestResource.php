@@ -197,7 +197,7 @@ class xJsonFile2RestResource extends ResourceBase {
 
     // now make our own file for xjson
     $file = new Base64Image($file_hash, $temp_file_path, $filename);
-    
+
     if(!$this->ehisService->saveFileToRedis($file, $redis_key)){
       return new ModifiedResourceResponse('Failed to save', 400);
     }
