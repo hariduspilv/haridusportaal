@@ -1632,7 +1632,9 @@ public class MtsysWorker extends Worker {
             dokument.setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
           } else {
             dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
-                redisFileTemplate.opsForHash().get(applicantPersonalCode, fileIdentifier))));
+                redisFileTemplate.opsForHash().get(
+                    jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
+                    fileIdentifier))));
           }
           dokument.setKlLiik(item.get("klLiik").asInt());
           dokument.setFailiNimi(fileItem.get("file_name").asText());
@@ -1675,7 +1677,8 @@ public class MtsysWorker extends Worker {
 
     if (jsonNode.get("header").get("parameters").get("fileSubmit").asBoolean()) {
       request.setFail(Base64.getDecoder().decode((String) Objects.requireNonNull(
-          redisFileTemplate.opsForHash().get(applicantPersonalCode,
+          redisFileTemplate.opsForHash().get(
+              jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
               dataElementNode.get("esitamiseksCSV").get("value").get(0).get("file_identifier")
                   .asText()))));
     } else {
