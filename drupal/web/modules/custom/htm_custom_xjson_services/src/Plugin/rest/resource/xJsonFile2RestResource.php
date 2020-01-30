@@ -169,7 +169,7 @@ class xJsonFile2RestResource extends ResourceBase {
     $validators = isset($request_body->table_element) ? $validators = $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name, $request_body->table_element) : $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name);
 
     $file_hash = $request_body->file;
-    $redis_key = $request_body->form_key.'_documents';
+    $redis_key = $this->ehisService->getCurrentUserIdRegCode();
 
     $destination = $this->getUploadLocation();
     $prepared_filename = $this->prepareFileName($filename, $validators);
