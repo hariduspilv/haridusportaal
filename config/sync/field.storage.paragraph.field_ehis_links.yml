@@ -1,16 +1,17 @@
-uuid: e9515eee-236a-4761-854a-40e6e33a8bb4
-langcode: en
+uuid: 21f045e0-641c-411a-ad67-354d79b1d99d
+langcode: et
 status: true
 dependencies:
   module:
-    - link
+    - entity_reference_revisions
     - paragraphs
 id: paragraph.field_ehis_links
 field_name: field_ehis_links
 entity_type: paragraph
-type: link
-settings: {  }
-module: link
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
 locked: false
 cardinality: 3
 translatable: true
