@@ -122,7 +122,6 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
         if(isset($args['content_type']) && $args['content_type'] == true){
             $responsevalues = $this->getContentTypeLabels($responsevalues);
         }
-        dump($responsevalues);
         if(count($responsevalues) > 0){
             foreach($responsevalues as $value){
                 foreach($value['_source'] as $key => $keyvalue){
