@@ -1,5 +1,6 @@
 import { Router, ActivatedRoute } from '@angular/router';
 import * as _moment from 'moment';
+import { Injectable } from '@angular/core';
 const moment = _moment;
 
 export const DATEPICKER_FORMAT = {
@@ -14,6 +15,7 @@ export const DATEPICKER_FORMAT = {
   },
 };
 
+@Injectable()
 export class FiltersService {
 
   filterFormItems: any = {};

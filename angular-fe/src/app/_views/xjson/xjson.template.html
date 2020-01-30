@@ -209,7 +209,8 @@
                                 <a class="file-icon" [href]="fileDownloadlink(file)"
                                   attr.aria-label="{{ file.file_name }}" target="_blank">
                                   <span class="file-name">
-                                    <icon glyph="file-text"></icon>{{ file.file_name }}
+                                    <icon glyph="file-text"></icon>
+                                    <span>{{ file.file_name }}</span>
                                   </span>
                                 </a>
                                 <a role="button" class="close-icn" href="javascript:void(0)"
@@ -604,7 +605,8 @@
               <a class="file-icon" [href]="fileDownloadlink(file)" attr.aria-label="{{ file.file_name }}"
                 target="_blank">
                 <span class="file-name">
-                  <icon glyph="file-text"></icon>{{ file.file_name }}
+                  <icon glyph="file-text"></icon>
+                  <span>{{ file.file_name }}</span>
                 </span>
               </a>
               <a role="button" class="close-icn" href="javascript:void(0)"

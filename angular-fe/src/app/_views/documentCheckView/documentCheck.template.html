@@ -13,17 +13,17 @@
 						<formItem required name="document_id" type="text" formControlName="document_id"
 							title="{{ 'frontpage.document_id' | translate }}">
 						</formItem>
-					<formItem required name="id_code" type="date" formControlName="id_code"
+					<formItem required name="id_code" type="date" [minDate]="{year: 1900, month: 1, day: 1}" formControlName="id_code"
 						title="{{ 'frontpage.document_owner_id' | translate }}">
 					</formItem>
-				<re-captcha required attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha"
+				<re-captcha *ngIf="!loginStatus" required attr.aria-label="'Recaptcha'" #captchaRef="reCaptcha"
 					siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90" formControlName="captcha" name="captcha">
 				</re-captcha>
 				<button htm-button type="submit" theme="default" (click)="submit()">
 					{{ "button.search" | translate }}
 				</button>
 				</form>
-				<div class="footer">
+				<div #scrollTarget class="footer">
 					<loader *ngIf="loading"></loader>
 					<alerts small="true" id="documentCheck"></alerts>
 				</div>

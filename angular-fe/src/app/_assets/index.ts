@@ -26,10 +26,10 @@ import { RecaptchaModule, RECAPTCHA_LANGUAGE, RecaptchaFormsModule } from 'ng-re
 import {
   RippleService,
   NgbDateCustomParserFormatter,
-  AlertsService,
   SidemenuService,
   SidebarService,
   ModalService,
+  ScrollRestorationService,
   SettingsService,
   AuthService,
   UploadService,
@@ -110,6 +110,7 @@ import { RelatedStudyProgrammesListComponent } from './relatedStudyprogrammesLis
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { RelatedEventsComponent } from './relatedEvents';
 import { NotFoundComponent } from './notFound';
+import { SessionExpirationComponent } from './sessionExpiration';
 
 const declarations = [
   BlockComponent,
@@ -189,6 +190,7 @@ const declarations = [
   RelatedEventsComponent,
   AnalyticsEvent,
   NotFoundComponent,
+  SessionExpirationComponent,
 ];
 
 const exports = [
@@ -209,6 +211,7 @@ const providers = [
   UploadService,
   AuthService,
   QueryParamsService,
+  ScrollRestorationService,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',

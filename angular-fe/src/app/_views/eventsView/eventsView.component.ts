@@ -90,12 +90,7 @@ export class EventsViewComponent implements OnDestroy, OnInit{
   }
 
   getGoogleAnalyticsObject() {
-    console.log({
-      category: 'eventsSearch',
-      action: 'submit',
-      label: this.searchTitle,
-    });
-    
+
     return {
       category: 'eventsSearch',
       action: 'submit',

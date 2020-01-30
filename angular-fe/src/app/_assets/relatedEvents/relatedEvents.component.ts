@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { SettingsService } from '@app/_services';
 import FieldVaryService from '@app/_services/FieldVaryService';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'relatedEvents',
@@ -21,10 +22,12 @@ export class RelatedEventsComponent implements OnInit, OnDestroy {
   public data = [];
   public loading: boolean = true;
   private subscription: Subscription = new Subscription;
+  private routerSub: Subscription;
 
   constructor(
     private http: HttpClient,
     private settings: SettingsService,
+    private router: Router,
   ) {}
 
   private parseResponse(response):void {
@@ -53,9 +56,15 @@ export class RelatedEventsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getData();
+    this.routerSub = this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        window.scrollTo(0, 0);
+      }
+    });
   }
 
   ngOnDestroy() {
     this.subscription.unsubscribe();
+    this.routerSub.unsubscribe();
   }
 }

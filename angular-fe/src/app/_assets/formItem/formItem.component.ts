@@ -21,6 +21,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { ParseInAddsPipe } from '@app/_pipes/parseInAdds.pipe';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
 
 export interface FormItemOption {
   key: string;
@@ -71,6 +72,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() sortOptions: boolean = true;
   @Input() search: boolean = true;
   @Input() appendTo: string = '';
+  @Input() minDate: NgbDateStruct = { year: 2010, month: 1, day: 1 };
+  @Input() maxDate: NgbDateStruct = { year: 2035, month: 12, day: 31 };
 
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
@@ -336,7 +339,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.propagateChange(this.field);
   }
 
-  writeValue(value: string) {
+  writeValue(value: any) {
     if (this.type === 'multi-select') {
 
       if (value) {
@@ -363,7 +366,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     } else if (this.type === 'date') {
       this.dateField = value || this.field;
     } else {
-      this.field = value || '';
+      this.field = (value || value === 0) ? value : '';
     }
 
     if (this.field === 'null') {

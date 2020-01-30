@@ -202,7 +202,9 @@ export class DetailViewComponent {
         this.data.accordion = [{
           entity: {
             fieldTitle: this.translate.get('oskaProfessions.label'),
-            professions: this.data.fieldAccordion,
+            professions: this.data.fieldAccordion.map((item) => {
+              return FieldVaryService(item);
+            }),
           },
         }, ... this.data.accordion];
       } catch (err) {}

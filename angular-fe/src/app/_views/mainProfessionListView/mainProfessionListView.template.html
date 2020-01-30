@@ -37,7 +37,7 @@
 				<!--/row-->
 				<div class="row" *ngIf="filterFull">
 					<div class="col-4 sm-12">
-						<formItem type="multi-select" title="{{ 'oska.competition' | translate }}" name="fillingBar"
+						<formItem type="multi-select" title="{{ 'oska.competition' | translate }}" name="fillingBar" [sortOptions]="false"
 							[options]="competitionFilters">
 						</formItem>
 					</div>

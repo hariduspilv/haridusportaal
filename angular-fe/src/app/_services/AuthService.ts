@@ -37,6 +37,7 @@ export class AuthService implements CanActivate {
   }
 
   public login(data: any) {
+    console.log('LOGGING');
     return this.http
       .post(`${this.settings.url}/api/v1/token?_format=json`, data)
       .pipe(map((response:any) => {
@@ -68,11 +69,13 @@ export class AuthService implements CanActivate {
           this.hasEhisToken.next(true);
         }
         const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
+        console.log(redirectUrl);
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
       },
       (err) => {
         const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
+        console.log(redirectUrl);
       }
     );
   }
@@ -137,6 +140,15 @@ export class AuthService implements CanActivate {
     const tokenPayload = this.decodeToken(token);
     if (Date.now() >= tokenPayload.exp * 1000) {
       return true;
+    }
+    return false;
+  }
+
+  public expireTime() {
+    const token = sessionStorage.getItem('token');
+    const tokenPayload = token ? this.decodeToken(token) : {};
+    if (tokenPayload.exp) {
+      return tokenPayload.exp * 1000;
     }
     return false;
   }
