@@ -37,12 +37,16 @@ content:
     type: link_default
     region: content
   field_ehis_links:
+    type: entity_reference_paragraphs
     weight: 5
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: link_default
     region: content
   field_legislation_block:
     weight: 2
