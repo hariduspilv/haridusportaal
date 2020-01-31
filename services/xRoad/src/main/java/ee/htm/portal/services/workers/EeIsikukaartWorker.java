@@ -41,7 +41,7 @@ public class EeIsikukaartWorker extends Worker {
       response.getIsikukaart().getGdprlogList().forEach(item ->
           gdprArrayNode.addObject().put("id", item.getId())
               .put("personCode", item.getPersoncode())
-              .put("logTime", ehisDateFormat(item.getLogtime()))
+              .put("logTime", ehisDateTimeFormat(item.getLogtime()))
               .put("action", item.getAction())
               .put("sender", item.getSender())
               .put("receiver", item.getReceiver()));
@@ -316,7 +316,7 @@ public class EeIsikukaartWorker extends Worker {
       response.getIsikukaart().getGdprlogList().forEach(item ->
           GDPRNode.addObject().put("id", item.getId())
           .put("personCode", item.getPersoncode())
-          .put("logTime", ehisDateFormat(item.getLogtime()))
+          .put("logTime", ehisDateTimeFormat(item.getLogtime()))
           .put("action", item.getAction())
           .put("sender", item.getSender())
           .put("receiver", item.getReceiver()));
