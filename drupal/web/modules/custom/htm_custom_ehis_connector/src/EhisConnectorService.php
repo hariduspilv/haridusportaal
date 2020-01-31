@@ -259,6 +259,17 @@ class EhisConnectorService {
    * @param array $params
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
+  public function deleteDocument(array $params = []){
+    $params['url'] = [$params['form_name'], $params['id'], $this->getCurrentUserIdRegCode()];
+
+    $this->deleteKeyFromredis($this->getCurrentUserIdRegCode());
+    return $this->invoke('deleteDocument', $params);
+  }
+
+  /**
+   * @param array $params
+   * @return array|mixed|\Psr\Http\Message\ResponseInterface
+   */
   public function getCertificatePublic(array $params = []){
     $params['url'] = [$params['id_code'], $params['certificate_id'], time()];
     $params['key'] = $params['id_code'];
@@ -352,9 +363,7 @@ class EhisConnectorService {
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
   public function getDocumentFileFromRedis(array $params = []){
-    if(!isset($params['key'])){
-      $params['key'] = 'VPT_documents';
-    }
+    $params['key'] = $this->getCurrentUserIdRegCode();
     return $this->client->hGet($params['key'], $params['hash']);
   }
 

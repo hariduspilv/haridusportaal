@@ -7,6 +7,7 @@ import ee.htm.portal.services.model.LogForDrupal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +29,11 @@ public class Worker {
 
   protected JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
 
-  protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
+  private Locale locale = new Locale("et", "EE");
+
+  protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy", locale);
+
+  protected SimpleDateFormat simpleDateTimeFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss", locale);
 
   protected LogForDrupal logForDrupal = new LogForDrupal(null, "notice",
       new Timestamp(System.currentTimeMillis()), null,
@@ -62,5 +67,9 @@ public class Worker {
   protected String ehisDateFormat(Calendar cal) {
     cal.set(Calendar.HOUR, 12);
     return simpleDateFormat.format(cal.getTime());
+  }
+
+  protected String ehisDateTimeFormat(Calendar cal) {
+    return simpleDateTimeFormat.format(cal.getTime());
   }
 }

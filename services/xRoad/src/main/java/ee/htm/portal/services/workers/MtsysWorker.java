@@ -16,6 +16,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Mt
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadDocument.MtsysEsitaTegevusnaitajad;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadResponseDocument.MtsysEsitaTegevusnaitajadResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKustutaTegevuslubaResponseDocument.MtsysKustutaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusDocument.MtsysLaeOppeasutus;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusResponseDocument.MtsysLaeOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaDocument.MtsysLaeTegevusluba;
@@ -64,7 +65,6 @@ public class MtsysWorker extends Worker {
 
   private static final String MTSYSKLF_KEY = "klassifikaator";
   private static final String MTSYSFILE_KEY = "mtsysFile";
-  private static final String MTSYS_REDIS_KEY = "MTSYS_documents";
 
   @Resource
   private EhisXRoadService ehisXRoadService;
@@ -477,13 +477,25 @@ public class MtsysWorker extends Worker {
       stepZeroDataElementsNode.putObject("dokumendid").put("hidden", klOkLiik.equals(18098L))
           .putArray("value");
       response.getDokumendid().getDokumentList().forEach(
-          dokument ->
+          dokument -> {
+            AtomicBoolean insertNewDokument = new AtomicBoolean(true);
+            stepZeroDataElementsNode.get("dokumendid").get("value").forEach(item -> {
+              if (item.get("liik").asText().equals(String.valueOf(dokument.getKlLiik()))) {
+                insertNewDokument.set(false);
+                ((ArrayNode) item.get("fail")).addObject()
+                    .put("file_name", dokument.getFailiNimi())
+                    .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId());
+              }
+            });
+            if (insertNewDokument.get()) {
               ((ArrayNode) stepZeroDataElementsNode.get("dokumendid").get("value")).addObject()
                   .put("liik", String.valueOf(dokument.getKlLiik()))
                   .put("kommentaar", dokument.getKommentaar())
                   .putArray("fail").addObject()
                   .put("file_name", dokument.getFailiNimi())
-                  .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId()));
+                  .put("file_identifier", MTSYSFILE_KEY + "_" + dokument.getDokumentId());
+            }
+          });
 
       stepZeroDataElementsNode.putObject("lisainfo")
           .put("hidden", !response.getTegevusloaAndmed().isSetLisainfo())
@@ -593,22 +605,29 @@ public class MtsysWorker extends Worker {
 
         fileType.get("okLiik").forEach(i -> {
           if (fileTypeKlOkLiik.equalsIgnoreCase(i.get("klOkLiik").asText())) {
-            for (int j = 0; j < stepAndmedDataElements.get("dokumendid").get("value").size(); j++) {
-              if (stepAndmedDataElements.get("dokumendid").get("value").get(j).get("klLiik").asInt()
-                  == item.getKlLiik()) {
-                ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).remove(j);
-                break;
+            AtomicBoolean insertNeDokument = new AtomicBoolean(true);
+            stepAndmedDataElements.get("dokumendid").get("value").forEach(failItem -> {
+              if (failItem.get("klLiik").asInt() == item.getKlLiik()) {
+                insertNeDokument.set(false);
+                if (failItem.get("fail") == null) {
+                  ((ObjectNode) failItem).putArray("fail");
+                }
+                ((ArrayNode) failItem.get("fail")).addObject()
+                    .put("file_name", item.getFailiNimi())
+                    .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
               }
+            });
+            if (insertNeDokument.get()) {
+              ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
+                  .put("liik", i.get("required").asBoolean() ?
+                      fileType.get("et").asText() + " *" :
+                      fileType.get("et").asText())
+                  .put("klLiik", item.getKlLiik())
+                  .put("kommentaar", item.getKommentaar())
+                  .putArray("fail").addObject()
+                  .put("file_name", item.getFailiNimi())
+                  .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
             }
-            ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
-                .put("liik", i.get("required").asBoolean() ?
-                    fileType.get("et").asText() + " *" :
-                    fileType.get("et").asText())
-                .put("klLiik", item.getKlLiik())
-                .put("kommentaar", item.getKommentaar())
-                .putArray("fail").addObject()
-                .put("file_name", item.getFailiNimi())
-                .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
           }
         });
       });
@@ -865,188 +884,6 @@ public class MtsysWorker extends Worker {
     LOGGER.info(logForDrupal);
 
     return jsonNode;
-  }
-
-  private void saveMtsysTegevusluba(ObjectNode jsonNode, Long applicationId,
-      String applicantPersonalCode)
-      throws ParseException, XRoadServiceConsumptionException {
-    ObjectNode dataObjectNode = (ObjectNode) jsonNode.get("body").get("steps")
-        .get("step_andmed").get("data_elements");
-    Calendar cal = Calendar.getInstance();
-
-    MtsysLaeTegevusluba request = MtsysLaeTegevusluba.Factory.newInstance();
-    request.setRegNr(jsonNode.get("header").get("agents").get(0).get("owner_id").asText());
-
-    Oppekava oppekava = Oppekava.Factory.newInstance();
-    oppekava.setKlOkLiik(
-        BigInteger.valueOf(dataObjectNode.get("tegevusloaLiik").get("value").asLong()));
-    oppekava.setKoolId(BigInteger.valueOf(
-        jsonNode.get("header").get("agents").get(0).get("educationalInstitutions_id")
-            .asLong()));
-    request.setOppekava(oppekava);
-
-    Taotlus taotlus = Taotlus.Factory.newInstance();
-    if (applicationId != null) {
-      taotlus.setId(BigInteger.valueOf(applicationId));
-    }
-    if (!dataObjectNode.get("oppekavaNimetus").get("value").asText("").equals("")) {
-      taotlus.setNimetus(dataObjectNode.get("oppekavaNimetus").get("value").asText());
-    }
-    if (!dataObjectNode.get("laagriNimetus").get("value").asText("").equals("")) {
-      taotlus.setLaagriNimetus(dataObjectNode.get("laagriNimetus").get("value").asText());
-    }
-    if (!dataObjectNode.get("kohtadeArvLaagris").get("value").asText("").equals("")) {
-      taotlus.setKohtadeArvLaagris(BigInteger.valueOf(
-          dataObjectNode.get("kohtadeArvLaagris").get("value").asLong()));
-    }
-    if (!dataObjectNode.get("alguseKuupaev").get("value").asText("").equals("")) {
-      cal.setTime(simpleDateFormat.parse(
-          dataObjectNode.get("alguseKuupaev").get("value").asText()));
-      taotlus.setKehtibAlates(cal);
-    }
-    if (!dataObjectNode.get("lopuKuupaev").get("value").asText("").equals("")) {
-      cal.setTime(simpleDateFormat.parse(dataObjectNode.get("lopuKuupaev").get("value").asText()));
-      taotlus.setKehtibKuni(cal);
-    }
-    if (!dataObjectNode.get("tkkLiik").get("value").asText("").equals("")
-        && !dataObjectNode.get("tkkLiik").get("value").asText("").equalsIgnoreCase("null")) {
-      taotlus.setKlTkkLiik(BigInteger.valueOf(dataObjectNode.get("tkkLiik").get("value").asLong()));
-    }
-    if (!dataObjectNode.get("keeleTase").get("value").asText("").equals("")
-        && !dataObjectNode.get("keeleTase").get("value").asText("").equalsIgnoreCase("null")) {
-      taotlus
-          .setKlEkTase(BigInteger.valueOf(dataObjectNode.get("keeleTase").get("value").asLong()));
-    }
-    if (!dataObjectNode.get("soidukiteKategooria").get("value").asText("").equals("")
-        && !dataObjectNode.get("soidukiteKategooria").get("value").asText("")
-        .equalsIgnoreCase("null")) {
-      taotlus.setKlSoidukiKategooria(BigInteger.valueOf(
-          dataObjectNode.get("soidukiteKategooria").get("value").asLong()));
-    }
-    if (dataObjectNode.get("oppeTasemed").get("required").asBoolean()) {
-      ObjectNode klfOppekavaOppetasemed = getKlfNode("oppekavaOppetasemed");
-      OppekavaOppetasemed oppetasemed = OppekavaOppetasemed.Factory.newInstance();
-      dataObjectNode.get("oppeTasemed").get("value").forEach(item -> {
-        EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
-        klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
-        klf.setNimetus(klfOppekavaOppetasemed.get(item.get("nimetus").asText()).get("et").asText());
-        klf.setOnKehtiv(
-            klfOppekavaOppetasemed.get(item.get("nimetus").asText()).get("valid").asBoolean());
-        oppetasemed.getOppekavaOppetaseList().add(klf);
-      });
-      taotlus.setOppetasemed(oppetasemed);
-    }
-    if (dataObjectNode.get("oppekavaRuhmad").get("required").asBoolean()) {
-      ObjectNode klfOppekavaRyhmad = getKlfNode("opperyhmad");
-      Opperyhmad opperyhmad = Opperyhmad.Factory.newInstance();
-      dataObjectNode.get("oppekavaRuhmad").get("value").forEach(item -> {
-        EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
-        klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
-        klf.setNimetus(klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("et").asText());
-        klf.setOnKehtiv(
-            klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("valid").asBoolean());
-        opperyhmad.getOpperyhmList().add(klf);
-      });
-      taotlus.setOpperyhmad(opperyhmad);
-    }
-
-    Aadressid aadressid = Aadressid.Factory.newInstance();
-    aadressid.setOnValismaa(dataObjectNode.get("valisAadress").get("value").asBoolean());
-    dataObjectNode.get("aadressid").get("value").forEach(item0 -> {
-      if (!item0.get("aadress").isArray()) {
-        ObjectNode item = (ObjectNode) item0.get("aadress");
-        Aadress aadress = Aadress.Factory.newInstance();
-        if (!item.get("seqNo").asText("").equals("")) {
-          aadress.setJrkNr(item.get("seqNo").asLong());
-        }
-        if (!item.get("adsId").asText("").equals("")) {
-          aadress.setAdsId(BigInteger.valueOf(item.get("adsId").asLong()));
-        }
-        if (!item.get("adsOid").asText("").equals("")) {
-          aadress.setAdsOid(item.get("adsOid").asText());
-        }
-        if (!item.get("klElukoht").asText("").equals("")) {
-          aadress.setKlElukoht(BigInteger.valueOf(item.get("klElukoht").asLong()));
-        }
-        if (!item.get("county").asText("").equals("")) {
-          aadress.setMaakond(item.get("county").asText());
-        }
-        if (!item.get("localGovernment").asText("").equals("")) {
-          aadress.setOmavalitsus(item.get("localGovernment").asText());
-        }
-        if (!item.get("settlementUnit").asText("").equals("")) {
-          aadress.setAsula(item.get("settlementUnit").asText());
-        }
-        if (!item.get("address").asText("").equals("")) {
-          aadress.setAdsAadress(item.get("address").asText());
-        }
-        if (!item.get("addressFull").asText("").equals("")) {
-          aadress.setTaisAadress(item.get("addressFull").asText());
-        }
-        if (!item.get("addressHumanReadable").asText("").equals("")) {
-          aadress.setAdsAadressHumanReadable(item.get("addressHumanReadable").asText());
-        }
-        aadressid.getAadressList().add(aadress);
-      }
-    });
-    taotlus.setAadressid(aadressid);
-
-    if (!dataObjectNode.get("kommentaar").get("value").asText("").equals("")) {
-      taotlus.setLisainfo(dataObjectNode.get("kommentaar").get("value").asText());
-    }
-    request.setTaotlus(taotlus);
-
-    MtsysTaotlusKontaktandmed kontaktandmed = MtsysTaotlusKontaktandmed.Factory.newInstance();
-    if (!dataObjectNode.get("oppeasutuseNimetus").get("value").asText("").equals("")) {
-      kontaktandmed
-          .setKooliNimetus(dataObjectNode.get("oppeasutuseNimetus").get("value").asText());
-    }
-    if (!dataObjectNode.get("omanik").get("value").asText("").equals("")) {
-      kontaktandmed.setOmanik(dataObjectNode.get("omanik").get("value").asText());
-    }
-    kontaktandmed.setKontaktisik(dataObjectNode.get("kontaktisik").get("value").asText());
-    kontaktandmed
-        .setOppeasutuseYldtelefon(dataObjectNode.get("telefon").get("value").asText());
-    kontaktandmed.setOppeasutuseEpost(dataObjectNode.get("epost").get("value").asText());
-    kontaktandmed.setKoduleht(dataObjectNode.get("koduleht").get("value").asText());
-    request.setKontaktandmed(kontaktandmed);
-
-    Dokumendid dokumendid = Dokumendid.Factory.newInstance();
-    dataObjectNode.get("dokumendid").get("value").forEach(item -> {
-      if (item.get("fail") != null && item.get("fail").get(0) != null
-          && item.get("fail").get(0).get("file_identifier") != null) {
-        Dokument dokument = Dokument.Factory.newInstance();
-        String fileIdentifier = item.get("fail").get(0).get("file_identifier").asText();
-        if (fileIdentifier.startsWith(MTSYSFILE_KEY + "_")) {
-          dokument.setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
-        } else {
-          dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
-              redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY, fileIdentifier))));
-        }
-        dokument.setKlLiik(item.get("klLiik").asInt());
-        dokument.setFailiNimi(item.get("fail").get(0).get("file_name").asText());
-        if (!item.get("kommentaar").asText("").equals("")) {
-          dokument.setKommentaar(item.get("kommentaar").asText());
-        }
-        dokumendid.getDokumentList().add(dokument);
-      }
-    });
-    request.setDokumendid(dokumendid);
-
-    MtsysLaeTegevuslubaResponse response = ehisXRoadService
-        .mtsysLaeTegevusluba(request, applicantPersonalCode);
-
-    if (response.isSetInfotekst()) {
-      ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
-          .add("infotekst_save");
-      ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_save")
-          .put("message_type", "NOTICE")
-          .putObject("message_text")
-          .put("et", response.getInfotekst());
-    }
-
-    ((ObjectNode) jsonNode.get("header"))
-        .put("identifier", response.getTaotlusId().longValue());
   }
 
   public ObjectNode getMtsysEsitaTegevusluba(String formName, Long identifier,
@@ -1501,7 +1338,8 @@ public class MtsysWorker extends Worker {
       MtsysTegevusnaitajaResponse response = ehisXRoadService
           .mtsysTegevusnaitaja(request, personalCode);
 
-      setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode, response);
+      setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode, response,
+          personalCode);
 
       logForDrupal.setMessage("EHIS - mtsysTegevusnaitaja.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
@@ -1574,6 +1412,39 @@ public class MtsysWorker extends Worker {
     return jsonNode;
   }
 
+  public ObjectNode delelteDocument(Integer identifier, String personalCode) {
+    ObjectNode responseNode = nodeFactory.objectNode();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - mtsysKustutaTegevusluba.v1");
+    logForDrupal.setSeverity("notice");
+    try {
+      MtsysKustutaTegevuslubaResponse response = ehisXRoadService
+          .mtsysKustutaTegevusluba(identifier, personalCode);
+
+      responseNode.putArray("messages").addObject().put("message_type",
+          response.getInfotekst().equalsIgnoreCase("Tegevusloa taotlus on kustutatud!") ? "NOTICE"
+              : "ERROR").putObject("message_text").put("et", response.getInfotekst());
+
+      logForDrupal
+          .setMessage("EHIS - mtsysKustutaTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
+    } catch (Exception e) {
+      LOGGER.error(e, e);
+
+      logForDrupal.setSeverity("ERROR");
+      logForDrupal.setMessage(e.getMessage());
+
+      responseNode.putObject("error")
+          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
+
+    return responseNode;
+  }
+
   public ObjectNode getDocumentFile(String documentId, Long identifier, String personalCode) {
     ObjectNode documentResponse = nodeFactory.objectNode();
 
@@ -1608,6 +1479,188 @@ public class MtsysWorker extends Worker {
     return documentResponse;
   }
 
+  private void saveMtsysTegevusluba(ObjectNode jsonNode, Long applicationId,
+      String applicantPersonalCode)
+      throws ParseException, XRoadServiceConsumptionException {
+    ObjectNode dataObjectNode = (ObjectNode) jsonNode.get("body").get("steps")
+        .get("step_andmed").get("data_elements");
+    Calendar cal = Calendar.getInstance();
+
+    MtsysLaeTegevusluba request = MtsysLaeTegevusluba.Factory.newInstance();
+    request.setRegNr(jsonNode.get("header").get("agents").get(0).get("owner_id").asText());
+
+    Oppekava oppekava = Oppekava.Factory.newInstance();
+    oppekava.setKlOkLiik(
+        BigInteger.valueOf(dataObjectNode.get("tegevusloaLiik").get("value").asLong()));
+    oppekava.setKoolId(BigInteger.valueOf(
+        jsonNode.get("header").get("agents").get(0).get("educationalInstitutions_id")
+            .asLong()));
+    request.setOppekava(oppekava);
+
+    Taotlus taotlus = Taotlus.Factory.newInstance();
+    if (applicationId != null) {
+      taotlus.setId(BigInteger.valueOf(applicationId));
+    }
+    if (!dataObjectNode.get("oppekavaNimetus").get("value").asText("").equals("")) {
+      taotlus.setNimetus(dataObjectNode.get("oppekavaNimetus").get("value").asText());
+    }
+    if (!dataObjectNode.get("laagriNimetus").get("value").asText("").equals("")) {
+      taotlus.setLaagriNimetus(dataObjectNode.get("laagriNimetus").get("value").asText());
+    }
+    if (!dataObjectNode.get("kohtadeArvLaagris").get("value").asText("").equals("")) {
+      taotlus.setKohtadeArvLaagris(BigInteger.valueOf(
+          dataObjectNode.get("kohtadeArvLaagris").get("value").asLong()));
+    }
+    if (!dataObjectNode.get("alguseKuupaev").get("value").asText("").equals("")) {
+      cal.setTime(simpleDateFormat.parse(
+          dataObjectNode.get("alguseKuupaev").get("value").asText()));
+      taotlus.setKehtibAlates(cal);
+    }
+    if (!dataObjectNode.get("lopuKuupaev").get("value").asText("").equals("")) {
+      cal.setTime(simpleDateFormat.parse(dataObjectNode.get("lopuKuupaev").get("value").asText()));
+      taotlus.setKehtibKuni(cal);
+    }
+    if (!dataObjectNode.get("tkkLiik").get("value").asText("").equals("")
+        && !dataObjectNode.get("tkkLiik").get("value").asText("").equalsIgnoreCase("null")) {
+      taotlus.setKlTkkLiik(BigInteger.valueOf(dataObjectNode.get("tkkLiik").get("value").asLong()));
+    }
+    if (!dataObjectNode.get("keeleTase").get("value").asText("").equals("")
+        && !dataObjectNode.get("keeleTase").get("value").asText("").equalsIgnoreCase("null")) {
+      taotlus
+          .setKlEkTase(BigInteger.valueOf(dataObjectNode.get("keeleTase").get("value").asLong()));
+    }
+    if (!dataObjectNode.get("soidukiteKategooria").get("value").asText("").equals("")
+        && !dataObjectNode.get("soidukiteKategooria").get("value").asText("")
+        .equalsIgnoreCase("null")) {
+      taotlus.setKlSoidukiKategooria(BigInteger.valueOf(
+          dataObjectNode.get("soidukiteKategooria").get("value").asLong()));
+    }
+    if (dataObjectNode.get("oppeTasemed").get("required").asBoolean()) {
+      ObjectNode klfOppekavaOppetasemed = getKlfNode("oppekavaOppetasemed");
+      OppekavaOppetasemed oppetasemed = OppekavaOppetasemed.Factory.newInstance();
+      dataObjectNode.get("oppeTasemed").get("value").forEach(item -> {
+        EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
+        klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
+        klf.setNimetus(klfOppekavaOppetasemed.get(item.get("nimetus").asText()).get("et").asText());
+        klf.setOnKehtiv(
+            klfOppekavaOppetasemed.get(item.get("nimetus").asText()).get("valid").asBoolean());
+        oppetasemed.getOppekavaOppetaseList().add(klf);
+      });
+      taotlus.setOppetasemed(oppetasemed);
+    }
+    if (dataObjectNode.get("oppekavaRuhmad").get("required").asBoolean()) {
+      ObjectNode klfOppekavaRyhmad = getKlfNode("opperyhmad");
+      Opperyhmad opperyhmad = Opperyhmad.Factory.newInstance();
+      dataObjectNode.get("oppekavaRuhmad").get("value").forEach(item -> {
+        EhisKlassifikaator klf = EhisKlassifikaator.Factory.newInstance();
+        klf.setId(BigInteger.valueOf(item.get("nimetus").asLong()));
+        klf.setNimetus(klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("et").asText());
+        klf.setOnKehtiv(
+            klfOppekavaRyhmad.get(item.get("nimetus").asText()).get("valid").asBoolean());
+        opperyhmad.getOpperyhmList().add(klf);
+      });
+      taotlus.setOpperyhmad(opperyhmad);
+    }
+
+    Aadressid aadressid = Aadressid.Factory.newInstance();
+    aadressid.setOnValismaa(dataObjectNode.get("valisAadress").get("value").asBoolean());
+    dataObjectNode.get("aadressid").get("value").forEach(item0 -> {
+      if (!item0.get("aadress").isArray()) {
+        ObjectNode item = (ObjectNode) item0.get("aadress");
+        Aadress aadress = Aadress.Factory.newInstance();
+        if (!item.get("seqNo").asText("").equals("")) {
+          aadress.setJrkNr(item.get("seqNo").asLong());
+        }
+        if (!item.get("adsId").asText("").equals("")) {
+          aadress.setAdsId(BigInteger.valueOf(item.get("adsId").asLong()));
+        }
+        if (!item.get("adsOid").asText("").equals("")) {
+          aadress.setAdsOid(item.get("adsOid").asText());
+        }
+        if (!item.get("klElukoht").asText("").equals("")) {
+          aadress.setKlElukoht(BigInteger.valueOf(item.get("klElukoht").asLong()));
+        }
+        if (!item.get("county").asText("").equals("")) {
+          aadress.setMaakond(item.get("county").asText());
+        }
+        if (!item.get("localGovernment").asText("").equals("")) {
+          aadress.setOmavalitsus(item.get("localGovernment").asText());
+        }
+        if (!item.get("settlementUnit").asText("").equals("")) {
+          aadress.setAsula(item.get("settlementUnit").asText());
+        }
+        if (!item.get("address").asText("").equals("")) {
+          aadress.setAdsAadress(item.get("address").asText());
+        }
+        if (!item.get("addressFull").asText("").equals("")) {
+          aadress.setTaisAadress(item.get("addressFull").asText());
+        }
+        if (!item.get("addressHumanReadable").asText("").equals("")) {
+          aadress.setAdsAadressHumanReadable(item.get("addressHumanReadable").asText());
+        }
+        aadressid.getAadressList().add(aadress);
+      }
+    });
+    taotlus.setAadressid(aadressid);
+
+    if (!dataObjectNode.get("kommentaar").get("value").asText("").equals("")) {
+      taotlus.setLisainfo(dataObjectNode.get("kommentaar").get("value").asText());
+    }
+    request.setTaotlus(taotlus);
+
+    MtsysTaotlusKontaktandmed kontaktandmed = MtsysTaotlusKontaktandmed.Factory.newInstance();
+    if (!dataObjectNode.get("oppeasutuseNimetus").get("value").asText("").equals("")) {
+      kontaktandmed
+          .setKooliNimetus(dataObjectNode.get("oppeasutuseNimetus").get("value").asText());
+    }
+    if (!dataObjectNode.get("omanik").get("value").asText("").equals("")) {
+      kontaktandmed.setOmanik(dataObjectNode.get("omanik").get("value").asText());
+    }
+    kontaktandmed.setKontaktisik(dataObjectNode.get("kontaktisik").get("value").asText());
+    kontaktandmed
+        .setOppeasutuseYldtelefon(dataObjectNode.get("telefon").get("value").asText());
+    kontaktandmed.setOppeasutuseEpost(dataObjectNode.get("epost").get("value").asText());
+    kontaktandmed.setKoduleht(dataObjectNode.get("koduleht").get("value").asText());
+    request.setKontaktandmed(kontaktandmed);
+
+    Dokumendid dokumendid = Dokumendid.Factory.newInstance();
+    dataObjectNode.get("dokumendid").get("value").forEach(item ->
+        item.get("fail").forEach(fileItem -> {
+          Dokument dokument = Dokument.Factory.newInstance();
+          String fileIdentifier = fileItem.get("file_identifier").asText();
+          if (fileIdentifier.startsWith(MTSYSFILE_KEY + "_")) {
+            dokument.setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
+          } else {
+            dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
+                redisFileTemplate.opsForHash().get(
+                    jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
+                    fileIdentifier))));
+          }
+          dokument.setKlLiik(item.get("klLiik").asInt());
+          dokument.setFailiNimi(fileItem.get("file_name").asText());
+          if (!item.get("kommentaar").asText("").equals("")) {
+            dokument.setKommentaar(item.get("kommentaar").asText());
+          }
+          dokumendid.getDokumentList().add(dokument);
+        }));
+    request.setDokumendid(dokumendid);
+
+    MtsysLaeTegevuslubaResponse response = ehisXRoadService
+        .mtsysLaeTegevusluba(request, applicantPersonalCode);
+
+    if (response.isSetInfotekst()) {
+      ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
+          .add("infotekst_save");
+      ((ObjectNode) jsonNode.get("messages")).putObject("infotekst_save")
+          .put("message_type", "NOTICE")
+          .putObject("message_text")
+          .put("et", response.getInfotekst());
+    }
+
+    ((ObjectNode) jsonNode.get("header"))
+        .put("identifier", response.getTaotlusId().longValue());
+  }
+
   private void saveMtsysTegevusNaitaja(ObjectNode jsonNode, Long identifier,
       String applicantPersonalCode) throws XRoadServiceConsumptionException {
     MtsysLaeTegevusnaitajad request = MtsysLaeTegevusnaitajad.Factory.newInstance();
@@ -1624,7 +1677,8 @@ public class MtsysWorker extends Worker {
 
     if (jsonNode.get("header").get("parameters").get("fileSubmit").asBoolean()) {
       request.setFail(Base64.getDecoder().decode((String) Objects.requireNonNull(
-          redisFileTemplate.opsForHash().get(MTSYS_REDIS_KEY,
+          redisFileTemplate.opsForHash().get(
+              jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
               dataElementNode.get("esitamiseksCSV").get("value").get(0).get("file_identifier")
                   .asText()))));
     } else {
@@ -1676,13 +1730,14 @@ public class MtsysWorker extends Worker {
       MtsysTegevusnaitajaResponse tegevusnaitajaResponse = ehisXRoadService
           .mtsysTegevusnaitaja(tegevusnaitajaRequest, applicantPersonalCode);
 
+      ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
       setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode,
-          tegevusnaitajaResponse);
+          tegevusnaitajaResponse, applicantPersonalCode);
     }
   }
 
   private void setMtsysTegevusnaitajaTaotlus(Long year, Long educationalInstitutionsId,
-      ObjectNode jsonNode, MtsysTegevusnaitajaResponse response) {
+      ObjectNode jsonNode, MtsysTegevusnaitajaResponse response, String personalCode) {
     ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
         .putObject("step_aruanne").putObject("data_elements");
 
@@ -1692,11 +1747,11 @@ public class MtsysWorker extends Worker {
     String redisHK =
         "mtsys_tegevusnaitajad_aruanne_eeltaidetud_" + educationalInstitutionsId + "_" + year;
     dataElementsNode.putObject("eeltaidetudCSV").putArray("value").addObject()
-        .put("file_name", response.getCsvFail().getFilename())
+        .put("file_name", "tegevusnaitajad.csv")
         .put("file_identifier", redisHK);
     redisFileTemplate.opsForHash()
-        .put(MTSYS_REDIS_KEY, redisHK, response.getCsvFail().getStringValue());
-    redisFileTemplate.expire(MTSYS_REDIS_KEY, redisFileExpire, TimeUnit.MINUTES);
+        .put(personalCode, redisHK, response.getCsvFail().getStringValue());
+    redisFileTemplate.expire(personalCode, redisFileExpire, TimeUnit.MINUTES);
 
     dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true)
         .putArray("value");
