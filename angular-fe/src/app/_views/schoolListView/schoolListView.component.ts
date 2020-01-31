@@ -26,6 +26,8 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
   isLanguageDisabled = false;
   schoolType = [];
   primaryTypes = [];
+  selectedLanguage = [];
+  selectedOwnership = [];
   selectedPrimaryTypes = [];
   selectedSecondaryTypes = [];
   secondaryTypes = [];
@@ -148,6 +150,58 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
     this.subPlaceholder = output;
   }
 
+  updateFormItems(): void {
+    const params = this.route.snapshot.queryParams;
+    const formItems = [
+      {
+        model: this.selectedPrimaryTypes,
+        param: 'primaryTypes',
+      },
+      {
+        model: this.selectedSecondaryTypes,
+        param: 'secondaryTypes',
+      },
+      {
+        model: this.selectedLanguage,
+        param: 'language',
+      },
+      {
+        model: this.selectedOwnership,
+        param: 'ownership',
+      },
+    ];
+
+    let openFilters = false;
+    formItems.forEach((item) => {
+      if (params[item.param]) {
+        openFilters = true;
+        let value = params[item.param];
+        const type = typeof item.model;
+        if (type === 'object') {
+          value = value.split(';');
+        }
+        item.model = value;
+      }
+      if (item.param === 'primaryTypes') {
+        this.setSecondaryTypes();
+      }
+      if (item.param === 'setTypeValue') {
+        this.setTypeValue();
+      }
+    });
+    if (openFilters) {
+      this.filterFull = true;
+    }
+    setTimeout(
+      () => {
+        this.setSecondaryTypes();
+        this.setTypeValue();
+        this.cdr.detectChanges();
+        console.log(this.selectedPrimaryTypes);
+      },
+      0);
+  }
+
   getTags() {
 
     const variables = {
@@ -172,6 +226,7 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
           this.ownershipFilters.push({ value: el.entityId, key: el.entityLabel });
         }
       });
+      this.updateFormItems();
       subscribe.unsubscribe();
     });
   }

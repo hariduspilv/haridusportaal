@@ -182,7 +182,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
             values.typeEnabled = true;
           }
           if (values.secondaryTypes) {
-            values.type = [...values.type, ...values.secondaryTypes.split(';')];
+            values.type = [...values.secondaryTypes.split(';')];
             values.typeEnabled = true;
           }
         }

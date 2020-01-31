@@ -55,12 +55,12 @@
 						</formItem>
 					</div> -->
 					<div class="col-4 sm-12" [class.disabled]="isLanguageDisabled">
-						<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language" [options]="languageFilters"  sortOptions="true">
+						<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language" [(ngModel)]="selectedLanguage" [options]="languageFilters"  sortOptions="true">
 						</formItem>
 					</div>
 
 					<div class="col-5 sm-12">
-						<formItem type="multi-select" title="{{ 'school.ownership' | translate }}" name="ownership" [options]="ownershipFilters"  sortOptions="true">
+						<formItem type="multi-select" title="{{ 'school.ownership' | translate }}" name="ownership" [(ngModel)]="selectedOwnership" [options]="ownershipFilters"  sortOptions="true">
 						</formItem>
 					</div>
 

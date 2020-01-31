@@ -1,4 +1,4 @@
-import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
@@ -28,6 +28,8 @@ export class SchoolListMapComponent implements AfterViewInit {
   selectedSecondaryTypes = [];
   secondaryTypes = [];
   secondaryFilteredTypes = [];
+  selectedLanguage = [];
+  selectedOwnership = [];
   selectedTypes = [];
   languageFilters = [];
   ownershipFilters = [];
@@ -60,6 +62,7 @@ export class SchoolListMapComponent implements AfterViewInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private mapService: MapService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -123,6 +126,7 @@ export class SchoolListMapComponent implements AfterViewInit {
   watchParams() {
     if (this.paramsSub) this.paramsSub.unsubscribe();
     this.paramsSub = this.route.queryParams.subscribe((params: any) => {
+      this.params = params;
       this.getData(params);
     });
   }
@@ -186,6 +190,58 @@ export class SchoolListMapComponent implements AfterViewInit {
     return entities;
   }
 
+  updateFormItems(): void {
+    const params = this.route.snapshot.queryParams;
+    const formItems = [
+      {
+        model: this.selectedPrimaryTypes,
+        param: 'primaryTypes',
+      },
+      {
+        model: this.selectedSecondaryTypes,
+        param: 'secondaryTypes',
+      },
+      {
+        model: this.selectedLanguage,
+        param: 'language',
+      },
+      {
+        model: this.selectedOwnership,
+        param: 'ownership',
+      },
+    ];
+
+    let openFilters = false;
+    formItems.forEach((item) => {
+      if (params[item.param]) {
+        openFilters = true;
+        let value = params[item.param];
+        const type = typeof item.model;
+        if (type === 'object') {
+          value = value.split(';');
+        }
+        item.model = value;
+      }
+      if (item.param === 'primaryTypes') {
+        this.setSecondaryTypes();
+      }
+      if (item.param === 'setTypeValue') {
+        this.setTypeValue();
+      }
+    });
+    if (openFilters) {
+      this.filterFull = true;
+    }
+    setTimeout(
+      () => {
+        this.setSecondaryTypes();
+        this.setTypeValue();
+        this.cdr.detectChanges();
+        console.log(this.selectedPrimaryTypes);
+      },
+      0);
+  }
+
   getTags() {
 
     const variables = {
@@ -210,7 +266,7 @@ export class SchoolListMapComponent implements AfterViewInit {
           this.ownershipFilters.push({ value: el.entityId, key: el.entityLabel });
         }
       });
-
+      this.updateFormItems();
       subscribe.unsubscribe();
     });
   }
