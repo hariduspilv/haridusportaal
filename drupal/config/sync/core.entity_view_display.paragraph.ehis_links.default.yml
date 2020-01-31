@@ -1,0 +1,37 @@
+uuid: afc68449-5090-4457-bcae-d83d979e0af0
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.ehis_links.field_ehis_link
+    - field.field.paragraph.ehis_links.field_link_icon
+    - paragraphs.paragraphs_type.ehis_links
+  module:
+    - link
+    - options
+id: paragraph.ehis_links.default
+targetEntityType: paragraph
+bundle: ehis_links
+mode: default
+content:
+  field_ehis_link:
+    weight: 0
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_link_icon:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+hidden:
+  search_api_excerpt: true

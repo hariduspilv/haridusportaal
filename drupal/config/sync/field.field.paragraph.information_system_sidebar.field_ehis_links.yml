@@ -1,12 +1,13 @@
-uuid: f979a575-9cee-41f1-8c2b-5fd270338a30
-langcode: en
+uuid: 693d45f5-6b4e-42a0-9a19-34e13b076784
+langcode: et
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_ehis_links
+    - paragraphs.paragraphs_type.ehis_links
     - paragraphs.paragraphs_type.information_system_sidebar
   module:
-    - link
+    - entity_reference_revisions
 id: paragraph.information_system_sidebar.field_ehis_links
 field_name: field_ehis_links
 entity_type: paragraph
@@ -18,6 +19,85 @@ translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
-  link_type: 17
-  title: 2
-field_type: link
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      ehis_links: ehis_links
+    target_bundles_drag_drop:
+      accordion:
+        weight: 26
+        enabled: false
+      additional_section:
+        weight: 27
+        enabled: false
+      block:
+        weight: 28
+        enabled: false
+      contact_section:
+        weight: 29
+        enabled: false
+      ehis_links:
+        enabled: true
+        weight: 30
+      event_date:
+        weight: 31
+        enabled: false
+      favorite_item:
+        weight: 32
+        enabled: false
+      file_mandatory_description:
+        weight: 33
+        enabled: false
+      frontpage_service_image:
+        weight: 34
+        enabled: false
+      frontpage_services:
+        weight: 35
+        enabled: false
+      homepage_topics:
+        weight: 36
+        enabled: false
+      information_system_accordion:
+        weight: 37
+        enabled: false
+      information_system_lower:
+        weight: 38
+        enabled: false
+      information_system_sidebar:
+        weight: 39
+        enabled: false
+      iscedf_search:
+        weight: 40
+        enabled: false
+      job:
+        weight: 41
+        enabled: false
+      link:
+        weight: 42
+        enabled: false
+      main_profession_accordion:
+        weight: 43
+        enabled: false
+      main_profession_sidebar:
+        weight: 44
+        enabled: false
+      oska_field_sidebar:
+        weight: 45
+        enabled: false
+      registration_period:
+        weight: 46
+        enabled: false
+      right_sidebar_section_info:
+        weight: 47
+        enabled: false
+      school_location:
+        weight: 48
+        enabled: false
+      supernews:
+        weight: 49
+        enabled: false
+      survey_page_accordion:
+        weight: 50
+        enabled: false
+field_type: entity_reference_revisions
