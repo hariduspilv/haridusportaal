@@ -9,6 +9,7 @@ import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.Mt
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadDocument.MtsysEsitaTegevusnaitajad;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadResponseDocument.MtsysEsitaTegevusnaitajadResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKustutaTegevuslubaResponseDocument.MtsysKustutaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusDocument.MtsysLaeOppeasutus;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusResponseDocument.MtsysLaeOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaDocument.MtsysLaeTegevusluba;
@@ -93,5 +94,8 @@ public interface EhisXRoadService {
       String userId) throws XRoadServiceConsumptionException;
 
   MtsysDokumentResponse mtsysDokument(Integer identifier, Integer documentId, String userId)
+      throws XRoadServiceConsumptionException;
+
+  MtsysKustutaTegevuslubaResponse mtsysKustutaTegevusluba(Integer identifier, String userId)
       throws XRoadServiceConsumptionException;
 }

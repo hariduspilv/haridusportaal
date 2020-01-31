@@ -38,16 +38,13 @@ content:
     type: link
     region: content
   field_ehis_links:
+    type: entity_reference_revisions_entity_view
     weight: 5
     label: above
     settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: link
     region: content
   field_legislation_block:
     weight: 2
