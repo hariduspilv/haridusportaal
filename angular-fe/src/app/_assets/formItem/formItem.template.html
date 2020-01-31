@@ -64,6 +64,8 @@
         [attr.placeholder]="titleDisabled && !focused ? placeholder : ''"
         [class.focused]="focused"
         #inputField
+        [minDate]="minDate"
+        [maxDate]="maxDate"
         type="text"
         (dateSelect)="update('datepicker')"
         (closed)="update('datepicker'); focused = false;"

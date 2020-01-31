@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, ViewChildren, QueryList, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { AlertsService, SettingsService } from '@app/_services';
+import { AlertsService, SettingsService, AuthService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { HttpClient } from '@angular/common/http';
 import { Location } from '@angular/common';
+import { take } from 'rxjs/operators';
 
 @Component({
   templateUrl: './documentCheck.template.html',
@@ -27,9 +28,10 @@ export class DocumentCheckComponent {
   public tableOverflown = false;
 
   public initialized = false;
+  public loginStatus = false;
 
   public path = this.location.path();
-
+  @ViewChild('scrollTarget', { static: false }) public scrollTarget;
   constructor(
     private formBuilder: FormBuilder,
     private alertsService: AlertsService,
@@ -37,7 +39,14 @@ export class DocumentCheckComponent {
     private settings: SettingsService,
     private http: HttpClient,
     private location: Location,
+    public auth: AuthService,
   ) { }
+
+  subscribeToAuth() {
+    this.auth.isAuthenticated.pipe(take(1)).subscribe((val) => {
+      this.loginStatus = val;
+    });
+  }
 
   validateIdCodeOrBirthday(control: AbstractControl) {
     if (!control.value.match(/([1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4})|(([0-9]{2}\.)([0-9]{2}\.)[0-9]{4})/g)) {
@@ -63,13 +72,25 @@ export class DocumentCheckComponent {
 
   submit() {
     this.alertsService.clear('documentCheck');
-    if (this.model.controls.captcha.invalid) {
+    if (this.model.controls.captcha.invalid && !this.loginStatus) {
       this.alertsService.error(this.translate.get('errors.captcha'), 'documentCheck', false);
+      window.setTimeout(
+        () => {
+          this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        },
+        1000,
+      );
       return;
     }
     if (!this.model.controls.document_id.value) {
       this.alertsService
         .error('"Dokumendi number." väärtus on sisestamata', 'documentCheck', false);
+      window.setTimeout(
+        () => {
+          this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        },
+        1000,
+      );
       return;
     }
     if (this.model.controls.id_code.invalid) {
@@ -78,6 +99,12 @@ export class DocumentCheckComponent {
           '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule', 'documentCheck',
           false,
         );
+      window.setTimeout(
+        () => {
+          this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
+        },
+        1000,
+      );
       return;
     }
     this.loading = true;
@@ -104,6 +131,12 @@ export class DocumentCheckComponent {
             false,
           );
           this.loading = false;
+          window.setTimeout(
+            () => {
+              this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
+            },
+            1000,
+          );
           return;
         }
         let document = response.hits.hits
@@ -119,6 +152,12 @@ export class DocumentCheckComponent {
             false,
           );
           this.loading = false;
+          window.setTimeout(
+            () => {
+              this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
+            },
+            1000,
+          );
           return;
         }
         if (document._source.DOKUMENDI_STAATUS === '0') {
@@ -128,6 +167,12 @@ export class DocumentCheckComponent {
             false,
           );
           this.loading = false;
+          window.setTimeout(
+            () => {
+              this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
+            },
+            1000,
+          );
           return;
         }
         if (
@@ -140,14 +185,27 @@ export class DocumentCheckComponent {
             false,
           );
         }
+        window.setTimeout(
+          () => {
+            this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
+          },
+          1000,
+        );
         this.loading = false;
       },
       (error) => {
         this.alertsService.error(this.translate.get('errors.request'), 'documentCheck', false);
         this.loading = false;
+        window.setTimeout(
+          () => {
+            this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
+          },
+          1000,
+        );
       });
   };
   ngOnInit() {
     this.alertsService.clear('general');
+    this.subscribeToAuth();
   }
 }
