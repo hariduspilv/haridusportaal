@@ -1,0 +1,9 @@
+uuid: 68ba581c-408d-49b0-940b-7d66ac86af1c
+langcode: et
+status: true
+dependencies: {  }
+id: ehis_links
+label: 'EHIS 2 viited'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }
