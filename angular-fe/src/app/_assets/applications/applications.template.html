@@ -13,6 +13,7 @@
 	<!--/center-->
 </ng-container>
 
+<alerts *ngIf="currentRole === 'natural_person'" small="true" id="natural_applications"></alerts>
 <ng-container *ngIf="!requestError && !loading.initial">
 
 	<ng-container *ngIf="loading.initial === false && currentRole === 'natural_person'">
