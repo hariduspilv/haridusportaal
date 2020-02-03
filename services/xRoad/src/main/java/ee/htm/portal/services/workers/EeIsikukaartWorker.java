@@ -1,12 +1,16 @@
 package ee.htm.portal.services.workers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
+import com.nortal.jroad.model.XRoadMessage;
 import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
 import java.sql.Timestamp;
+import java.util.Base64;
 import java.util.concurrent.TimeUnit;
+import javax.activation.DataHandler;
 import javax.annotation.Resource;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -34,14 +38,14 @@ public class EeIsikukaartWorker extends Worker {
         .put("key", "eeIsikukaartGDPR");
 
     try {
-      EeIsikukaartResponse response = ehisXRoadService
-          .eeIsikukaart(personalCode, "xml", personalCode);
+      EeIsikukaartResponse response = ehisXRoadService.eeIsikukaart(personalCode, "xml",
+          personalCode, null, null, new String[]{"WITH_ID"}).getContent();
 
       ArrayNode gdprArrayNode = gdprNode.putObject("value").putArray("GDPR");
       response.getIsikukaart().getGdprlogList().forEach(item ->
           gdprArrayNode.addObject().put("id", item.getId())
               .put("personCode", item.getPersoncode())
-              .put("logTime", ehisDateFormat(item.getLogtime()))
+              .put("logTime", ehisDateTimeFormat(item.getLogtime()))
               .put("action", item.getAction())
               .put("sender", item.getSender())
               .put("receiver", item.getReceiver()));
@@ -84,6 +88,7 @@ public class EeIsikukaartWorker extends Worker {
       response.getIsikukaart().getOpingList().forEach(oping -> {
         ObjectNode opingNode = opingArrayNode.addObject();
         opingNode.put("haridustase", oping.getHaridustase())
+            .put("id", oping.isSetId() ? oping.getId() : null)
             .put("oppeasutus", oping.getOppeasutus())
             .put("oppAlgus", oping.isSetOppAlgus() ? oping.getOppAlgus() : null)
             .put("oppLopp", oping.isSetOppLopp() ? oping.getOppLopp() : null);
@@ -184,6 +189,7 @@ public class EeIsikukaartWorker extends Worker {
       response.getIsikukaart().getTootamineList().forEach(tootamine -> {
         ObjectNode tootamineNode = tootamineArrayNode.addObject();
         tootamineNode.put("liik", tootamine.getLiik())
+            .put("id", tootamine.isSetId() ? tootamine.getId() : null)
             .put("oppeasutus", tootamine.getOppeasutus())
             .put("oppeasutusId", tootamine.getOppeasutusId().intValue())
             .put("ametikoht", tootamine.getAmetikoht())
@@ -230,6 +236,7 @@ public class EeIsikukaartWorker extends Worker {
       ArrayNode taiendkoolitusArrayNode = valueNode.putArray("taiendkoolitus");
       response.getIsikukaart().getTaiendkoolitusList()
           .forEach(taiendkoolitus -> taiendkoolitusArrayNode.addObject()
+              .put("id", taiendkoolitus.isSetId() ? taiendkoolitus.getId() : null)
               .put("oppeasutus",
                   taiendkoolitus.isSetOppeasutus() ? taiendkoolitus.getOppeasutus() : null)
               .put("nimetus", taiendkoolitus.isSetNimetus() ? taiendkoolitus.getNimetus() : null)
@@ -241,6 +248,7 @@ public class EeIsikukaartWorker extends Worker {
       ArrayNode tasemeharidusArrayNode = valueNode.putArray("tasemeharidus");
       response.getIsikukaart().getTasemeharidusList()
           .forEach(tasemeharidus -> tasemeharidusArrayNode.addObject()
+              .put("id", tasemeharidus.isSetId() ? tasemeharidus.getId() : null)
               .put("kvalDokument",
                   tasemeharidus.isSetKvalDokument() ? tasemeharidus.getKvalDokument() : null)
               .put("kvalVastavus",
@@ -257,6 +265,7 @@ public class EeIsikukaartWorker extends Worker {
       ArrayNode kvalifikatsioonArrayNode = valueNode.putArray("kvalifikatsioon");
       response.getIsikukaart().getKvalifikatsioonList()
           .forEach(kvalifikatsioon -> kvalifikatsioonArrayNode.addObject()
+              .put("id", kvalifikatsioon.isSetId() ? kvalifikatsioon.getId() : null)
               .put("oppeasutus",
                   kvalifikatsioon.isSetOppeasutus() ? kvalifikatsioon.getOppeasutus() : null)
               .put("dokument",
@@ -279,8 +288,10 @@ public class EeIsikukaartWorker extends Worker {
         responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
             .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
         responseNode.remove("value");
+        gdprNode.remove("value");
       } else {
         setError(LOGGER, responseNode, e);
+        gdprNode.remove("value");
       }
     }
 
@@ -309,14 +320,14 @@ public class EeIsikukaartWorker extends Worker {
         .put("key", "eeIsikukaartGDPR");
 
     try {
-      EeIsikukaartResponse response = ehisXRoadService
-          .eeIsikukaart(personalCode, "xml", personalCode);
+      EeIsikukaartResponse response = ehisXRoadService.eeIsikukaart(personalCode, "xml",
+          personalCode, new String[]{"ANDMETE_KASUTUS"}, null, null).getContent();
 
       ArrayNode GDPRNode = responseNode.putObject("value").putArray("GDPR");
       response.getIsikukaart().getGdprlogList().forEach(item ->
           GDPRNode.addObject().put("id", item.getId())
           .put("personCode", item.getPersoncode())
-          .put("logTime", ehisDateFormat(item.getLogtime()))
+          .put("logTime", ehisDateTimeFormat(item.getLogtime()))
           .put("action", item.getAction())
           .put("sender", item.getSender())
           .put("receiver", item.getReceiver()));
@@ -344,6 +355,63 @@ public class EeIsikukaartWorker extends Worker {
 
     redisTemplate.opsForHash().put(personalCode, "eeIsikukaartGDPR", responseNode);
     redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
+
+    return responseNode;
+  }
+
+  public ObjectNode getEeIsikukaartBdoc(String personalCode, ObjectNode requestJson) {
+    ObjectNode responseNode = nodeFactory.objectNode();
+    ObjectMapper mapper = new ObjectMapper();
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - eeIsikukaart.v1:bdoc");
+    logForDrupal.setSeverity("notice");
+
+    try {
+      String[] andmeplokk = mapper.reader().forType(String[].class)
+          .readValue(requestJson.get("andmeplokk"));
+      String[] andmekirje = mapper.reader().forType(String[].class)
+          .readValue(requestJson.get("andmekirje"));
+      String[] valjundiTyyp = mapper.reader().forType(String[].class)
+          .readValue(requestJson.get("valjundiTyyp"));
+      XRoadMessage<EeIsikukaartResponse> xRoadMessage = ehisXRoadService.eeIsikukaart(personalCode,
+          "bdoc", personalCode, andmeplokk, andmekirje, valjundiTyyp);
+
+      DataHandler dataHandler = xRoadMessage.getContent().getContentOutHandler();
+      if (dataHandler != null) {
+        int n = dataHandler.getInputStream().available();
+        byte[] bytes = new byte[n];
+        dataHandler.getInputStream().read(bytes, 0 , n);
+
+        responseNode
+            .put("fileName", "isikukaart.bdoc")
+            .putNull("size")
+            .put("mediaType", dataHandler.getContentType())
+            .put("value", Base64.getEncoder().encodeToString(bytes));
+      } else {
+        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
+            .put("et", "Tehniline viga!");
+      }
+
+    } catch (Exception e) {
+      if (e instanceof XRoadServiceConsumptionException
+          && ((XRoadServiceConsumptionException) e).getFaultString() != null
+          && (((XRoadServiceConsumptionException) e).getFaultString()
+          .equalsIgnoreCase("Paring ei ole lubatud")
+          || ((XRoadServiceConsumptionException) e).getFaultString()
+          .equalsIgnoreCase("Isiku kohta andmeid ei leitud."))) {
+        responseNode.removeAll();
+        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
+            .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
+      } else {
+        responseNode.removeAll();
+        setError(LOGGER, responseNode, e);
+      }
+    }
+
+    logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
+    LOGGER.info(logForDrupal);
 
     return responseNode;
   }

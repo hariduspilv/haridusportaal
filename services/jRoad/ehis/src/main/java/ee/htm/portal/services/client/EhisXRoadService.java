@@ -1,6 +1,7 @@
 package ee.htm.portal.services.client;
 
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
+import com.nortal.jroad.model.XRoadMessage;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysDokumentResponseDocument.MtsysDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaDocument.MtsysEsitaTegevusluba;
@@ -41,7 +42,8 @@ import java.math.BigInteger;
  */
 public interface EhisXRoadService {
 
-  EeIsikukaartResponse eeIsikukaart(String personalCode, String format, String userId)
+  XRoadMessage<EeIsikukaartResponse> eeIsikukaart(String personalCode, String format, String userId,
+      String[] andmeplokk, String[] andmekirje, String[] valjundiTyyp)
       throws XRoadServiceConsumptionException;
 
   VpTaotlusOpingudResponse vptOpingud(String personalCode, Object applicationId, String userId)
