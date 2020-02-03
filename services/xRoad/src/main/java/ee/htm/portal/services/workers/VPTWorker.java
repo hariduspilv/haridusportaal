@@ -306,7 +306,8 @@ public class VPTWorker extends Worker {
                 .put("personal_id", item.getIsikukood())
                 .put("last_name", item.getPerenimi())
                 .put("first_name", item.getEesnimi())
-                .put("birth_date", ehisDateFormat((Calendar) item.getSynniaeg()))
+                .put("birth_date", item.isSetSynniaeg() && !item.isNilSynniaeg()
+                    ? ehisDateFormat((Calendar) item.getSynniaeg()) : "")
                 .put("relationship", item.getSugulusaste().toString())
                 .put("family_member", item.getArvestatudPereliikmeks())
                 .put("studies", item.getOmandabHaridust())
@@ -319,7 +320,8 @@ public class VPTWorker extends Worker {
                 .put("personal_id", item.getIsikukood())
                 .put("last_name", item.getPerenimi())
                 .put("first_name", item.getEesnimi())
-                .put("birth_date", ehisDateFormat((Calendar) item.getSynniaeg()))
+                .put("birth_date", item.isSetSynniaeg() && !item.isNilSynniaeg()
+                    ? ehisDateFormat((Calendar) item.getSynniaeg()) : "")
                 .put("relationship", item.getSugulusaste().toString())
                 .put("family_member", item.getArvestatudPereliikmeks())
                 .put("studies", item.getOmandabHaridust())
@@ -722,12 +724,14 @@ public class VPTWorker extends Worker {
     person.setPerenimi(item.get("last_name").asText());
     person.setEesnimi(item.get("first_name").asText());
 
-    try {
-      Calendar cal = Calendar.getInstance();
-      cal.setTime(simpleDateFormat.parse(item.get("birth_date").asText()));
-      person.setSynniaeg(cal);
-    } catch (ParseException e) {
-      LOGGER.error(e, e);
+    if (!item.get("birth_date").asText("").equals("")) {
+      try {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(simpleDateFormat.parse(item.get("birth_date").asText()));
+        person.setSynniaeg(cal);
+      } catch (ParseException e) {
+        LOGGER.error(e, e);
+      }
     }
 
     person.setSugulusaste(Sugulusaste.Enum.forString(item.get("relationship").asText()));
