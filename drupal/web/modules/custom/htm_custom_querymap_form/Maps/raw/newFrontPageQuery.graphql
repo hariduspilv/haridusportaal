@@ -1,0 +1,63 @@
+query newFrontPageQuery($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "frontpage_new", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeFrontpageNew {
+        title
+        fieldFrontpageTopics {
+          entity {
+            ... on ParagraphHomepageTopics {
+              fieldTopicTitle
+              fieldTopicText
+              fieldTopicLink{
+                url {
+                  routed
+                  path
+                }
+              }
+            }
+          }
+        }
+        fieldFrontpageServices {
+          entity {
+            ... on ParagraphFrontpageServices {
+              fieldServiceTitle
+              fieldServiceContent
+              fieldServiceLink {
+                url {
+                  routed
+                  path
+                }
+                title
+              }
+              fieldServiceImage {
+                entity {
+                  ... on ParagraphFrontpageServiceImage {
+                    fieldServiceImg {
+                      entity {
+                        url
+                      }
+                    }
+                    fieldAlt
+                  }
+                }
+              }
+            }
+          }
+        }
+        fieldFrontpageNews {
+          entity {
+            entityId
+            entityUrl {
+              routed
+              path
+            }
+          }
+        }
+        fieldFrontpageQuote
+        fieldFrontpageContactName
+        fieldFrontpageContactEmail
+        fieldFrontpageContactPhone
+      }
+    }
+  }
+}
