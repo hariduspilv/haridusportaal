@@ -16,8 +16,22 @@
     position: relative;
     .navBlock {
       display: block;
-      background: url('/assets/img/homepage-1.svg') center top no-repeat;
+      background: url('/assets/img/homepage-1.svg') center bottom no-repeat;
       background-size: cover;
+      position: relative;
+      &:before {
+        background: linear-gradient(to bottom, rgba(190,227,232,1) 0%,rgba(190,227,232,1) 45%,rgba(190,227,232,0) 100%);
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 200px;
+      }
+      .inner {
+        position: relative;
+      }
       &__title {
         display: flex;
         align-items: center;
@@ -134,7 +148,7 @@
       &__image {
         flex-grow: 0;
         flex-shrink: 0;
-        width:28.125rem;
+        width:27.125rem;
         img {
           display: block;
           width: 100%;
@@ -162,7 +176,7 @@
         font-weight: bold;
         font-size: 2.5rem;
         line-height: 120%;
-        color: #383A45;
+        color: #333;
         margin: 0.75rem 0 1.25rem 0;
       }
     }
@@ -210,7 +224,7 @@
         align-items: center;
         cursor: pointer;
         color: #2E3374;
-        width: 3.9375rem;
+        width: 4.5625rem;
         icon i {
           font-size:2.8125rem !important;
           border-radius: 3.125rem;
@@ -220,11 +234,12 @@
           transition: background 0.25s;
         }
         &--left{
-          left: 0;
+          left: -10px;
         }
         &--right {
-          right: 0.625rem;
-          justify-content: right;
+          right: 0;
+          text-align: right;
+          justify-content: flex-end;
         }
         &:hover {
           icon i {
@@ -259,16 +274,17 @@
           padding: 1.5rem 1.75rem;
         }
         &__title {
-          margin: 0 0 0.375rem 0rem;
+          margin: 0 0 14px 0rem;
           font-weight: bold;
           font-size: 1.5rem;
-          line-height: 100%;
-          color: #383A45;
+          line-height: 133%;
+          color: #333;
+          text-align: center;
         }
         &__text {
           font-size: 1rem;
           line-height: 150%;
-          color: #383A45;
+          color: #333;
         }
         &__link {
           text-align: center;
@@ -278,6 +294,9 @@
         &:hover {
           transform: scale(1.05);
           box-shadow: 0rem 0rem 2.5rem rgba(44, 43, 43, 0.25);
+          .slides__elem__link a{
+            text-decoration: none;
+          }
         }
       }
     }
@@ -317,17 +336,16 @@
         }
       }
       &__category {
-        font-weight: 500;
         font-size: 1.125rem;
         line-height: 133%;
         letter-spacing: 0.0625rem;
-        color: #007E8F;
+        color: #333;
         text-transform: uppercase;
       }
       &__title {
         font-size: 2.5rem;
-        line-height: 135%;
-        color: #2E3374;
+        line-height: 125%;
+        color: #333;
         font-weight: bold;
         margin: 1.1875rem 0;
       }
@@ -358,7 +376,7 @@
         font-size: 1rem;
         line-height: 125%;
         text-align: center;
-        color: #383A45;
+        color: #333;
         margin: 1.0625rem 0 2.8125rem 0;
       }
       &__blocks {
@@ -402,19 +420,22 @@
           font-weight: bold;
           font-size: 1.5rem;
           line-height: 100%;
-          color: #383A45;
+          color: #333;
           text-align: center;
         }
         &__text {
           font-size: 1rem;
           line-height: 150%;
-          color: #383A45;
+          color: #333;
           text-align: center;
         }
 
         &:hover {
           transform: scale(1.05);
           box-shadow: 0rem 0rem 2.5rem rgba(44, 43, 43, 0.25);
+          .study__elem__text a{
+            text-decoration: none;
+          }
         }
       }
     }
@@ -446,7 +467,7 @@
         font-weight: 300;
         font-size: 2rem;
         line-height: 137%;
-        color: #383A45;
+        color: #333;
         margin-top: -1.25rem;
 
         &:first-child {
@@ -474,7 +495,7 @@
   homepage-footer {
     display: block;
     position: relative;
-    background: #383A45;
+    background: #333;
     padding: 0 0 3.1875rem 0;
     color: #fff;
     .inner {
@@ -484,7 +505,7 @@
       color: #fff;
     }
     .st0 {
-      fill: #383A45;
+      fill: #333;
     }
     a {
       color: #fff;
@@ -510,7 +531,7 @@
           input {
             background: #565861;
             border-color: #565861 !important;
-            color: #DDDEDF !important;
+            color: #fff !important;
           }
         }
         &__title {
@@ -547,6 +568,7 @@
     height: 0;
     padding-bottom: 4%;
     transform:translateY(-100%);
+    margin-top: 1px;
     overflow: hidden;
     svg {
       display: block;
