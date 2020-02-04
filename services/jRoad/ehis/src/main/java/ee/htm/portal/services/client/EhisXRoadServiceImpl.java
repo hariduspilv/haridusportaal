@@ -1,6 +1,8 @@
 package ee.htm.portal.services.client;
 
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
+import com.nortal.jroad.model.XRoadMessage;
+import com.nortal.jroad.model.XmlBeansXRoadMessage;
 import ee.htm.portal.services.database.EhisXRoadDatabaseImpl;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartDocument.EeIsikukaart;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
@@ -46,17 +48,27 @@ import org.springframework.stereotype.Service;
 @Service("ehisXRoadService")
 public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisXRoadService {
 
-  public EeIsikukaartResponse eeIsikukaart(String personalCode, String format, String userId)
+  public XRoadMessage<EeIsikukaartResponse> eeIsikukaart(String personalCode, String format,
+      String userId, String[] andmeplokk, String[] andmekirje, String[] valjundiTyyp)
       throws XRoadServiceConsumptionException {
     EeIsikukaart request = EeIsikukaart.Factory.newInstance();
     request.setIsikukood(personalCode);
     request.setFormat(format);
-
-    if (userId == null || userId.equalsIgnoreCase("-")) {
-      return eeIsikukaartV1(request);
+    if (andmeplokk != null && andmeplokk.length != 0) {
+      request.setAndmeplokkArray(andmeplokk);
+    }
+    if (andmekirje != null && andmekirje.length != 0) {
+      request.setAndmekirjeArray(andmekirje);
+    }
+    if (valjundiTyyp != null && valjundiTyyp.length != 0) {
+      request.setValjundiTyypArray(valjundiTyyp);
     }
 
-    return eeIsikukaartV1(request, userId);
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return send(new XmlBeansXRoadMessage<EeIsikukaart>(request), "eeIsikukaart", "v1");
+    }
+
+    return send(new XmlBeansXRoadMessage<EeIsikukaart>(request), "eeIsikukaart", "v1", userId);
   }
 
   public VpTaotlusOpingudResponse vptOpingud(String personalCode, Object applicationId,

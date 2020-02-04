@@ -1383,6 +1383,10 @@ public class MtsysWorker extends Worker {
           return jsonNode;
         }
 
+        jsonNode.get("body").get("messages")
+            .forEach(t -> ((ObjectNode) jsonNode.get("messages")).remove(t.asText()));
+        ((ArrayNode) jsonNode.get("body").get("messages")).removeAll();
+
         MtsysEsitaTegevusnaitajad request = MtsysEsitaTegevusnaitajad.Factory.newInstance();
         request.setOperatsioon("ESITAMINE");
         request.setAruandeId(jsonNode.get("header").get("identifier").bigIntegerValue());

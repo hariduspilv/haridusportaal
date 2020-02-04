@@ -1,0 +1,21 @@
+uuid: c9799e72-8864-4d62-8a4b-bffe4a590ba3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_link_icon
+    - paragraphs.paragraphs_type.ehis_links
+  module:
+    - options
+id: paragraph.ehis_links.field_link_icon
+field_name: field_link_icon
+entity_type: paragraph
+bundle: ehis_links
+label: 'Lingi ikoon'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string
