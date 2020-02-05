@@ -24,16 +24,13 @@ const acceptableFormsRestrictedLength = 4;
 
 const autocompleteValidator = (control: FormControl) => {
   let output = null;
-  console.log(control.value);
-  console.log(typeof control.value);
   if (typeof control.value !== 'object') {
     output = {
       wrongFormat: true,
     };
   }
-  console.log(output);
   return output;
-}
+};
 
 @Component({
   selector: 'applications',
@@ -254,6 +251,15 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
                   this.data.drafts = this.sortList(this.data.drafts, 'title');
                   this.data.documents = this.sortList(this.data.documents, 'date');
+                  if (response.messages && response.messages.length) {
+                    response.messages.map((val) => {
+                      if (val.message_type === 'ERROR') {
+                        this.alertsService.error(
+                          val.message_text.et, 'natural_applications', false,
+                        );
+                      }
+                    });
+                  }
                   try {
                     this.acceptableFormsList =
                       this.formatAcceptableForms(this.data.acceptable_forms);
@@ -552,7 +558,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       }
     });
   }
-  
+
   editInstitution() {
     this.error = false;
     this.modalLoading = true;
