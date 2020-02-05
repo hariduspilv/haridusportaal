@@ -92,12 +92,9 @@ class GetDigiSignedData extends ResourceBase {
     if (!$this->currentUser->hasPermission('access content')) {
       throw new AccessDeniedHttpException();
     }
-    if(isset($params['id_code'])){
-    	$response = $this->ehisConnector->getDigiSigned($params);
-    	return new ModifiedResourceResponse($response);
-    }
 
-    return new ModifiedResourceResponse('Parameters missing', 400);
+    $response = $this->ehisConnector->getDigiSigned($params);
+    return new ModifiedResourceResponse($response);
   }
 
 }
