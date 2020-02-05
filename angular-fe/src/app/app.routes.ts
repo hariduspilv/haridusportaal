@@ -190,6 +190,11 @@ const routes: Routes = [
     canActivate: [AuthService],
   },
   {
+    path: 'töölaud/digitempel',
+    loadChildren: () => import('./_views/digitalSign').then(m => m.DigitalSignModule),
+    canActivate: [AuthService],
+  },
+  {
     path: 'preview',
     loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
