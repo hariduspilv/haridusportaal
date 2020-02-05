@@ -1,6 +1,10 @@
 <div class="unpadded">
   <more-block id="2" content="abitekst.opingud"></more-block>
 </div>
+<div class="digital-sign-wrapper">
+  <a>{{ 'dashboard.digital_sign.button' | translate }}</a>
+  <icon glyph="help-circle" ngbTooltip="{{ 'dashboard.digital_sign.tooltip' | translate }}" placement="bottom"></icon>
+</div>
 <ng-container *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
   <h2>{{ 'frontpage.oppelaenOigus' | translate }}</h2>
   <table htm-table class="mb">
@@ -23,8 +27,10 @@
 <h2 class="middleTitle">
   <span>{{ 'frontpage.studies_data' | translate }}</span>
   <ng-container *ngIf="content && content.length">
-    <a *ngIf="totalAccordions > activeAccordions" (click)="openAllAccordions();">{{ 'frontpage.studies.openAll' | translate }}</a>
-    <a *ngIf="totalAccordions === activeAccordions" (click)="closeAllAccordions();">{{ 'frontpage.studies.closeAll' | translate }}</a>
+    <a *ngIf="totalAccordions > activeAccordions"
+      (click)="openAllAccordions();">{{ 'frontpage.studies.openAll' | translate }}</a>
+    <a *ngIf="totalAccordions === activeAccordions"
+      (click)="closeAllAccordions();">{{ 'frontpage.studies.closeAll' | translate }}</a>
   </ng-container>
 </h2>
 
