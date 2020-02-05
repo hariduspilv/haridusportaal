@@ -279,6 +279,14 @@ class EhisConnectorService {
 
   /**
    * @param array $params
+   * @return array|mixed|\Psr\Http\Message\ResponseInterface
+   */
+  public function getDigiSigned(array $params = []){
+    return $this->invoke('eeIsikukaartBdoc', $params, 'post');
+  }
+
+  /**
+   * @param array $params
    * @return mixed
    */
   public function getPersonalCard(array $params = []){
