@@ -1,19 +1,19 @@
 <ul *ngIf="parsedData && parsedData.length && !blocks">
   <ng-container *ngFor="let item of parsedData">
     <li *ngIf="item.url">
-      <ng-container *ngIf="item.url.routed; externalLink">
+      
+      <ng-container *ngIf="item.url.routed">
         <a [routerLink]="item.url.path" [queryParams]="item.url.params || false">
           <icon size="medium" glyph="link-2"></icon>
           <span role="text">{{ item.title }}</span>
         </a>
       </ng-container>
-      <ng-template #externalLink>
+      <ng-container *ngIf="!item.url.routed">
         <a [href]="item.url.path">
           <icon size="medium" glyph="external-link"></icon>
           <span role="text">{{ item.title }}</span>
         </a>
-      </ng-template> 
-
+      </ng-container>
     </li>
     <li *ngIf="!item.url && item.url !== ''" class="text-instance">
       {{ item }}

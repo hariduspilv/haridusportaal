@@ -1,4 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { SettingsService } from '@app/_services';
 
 @Component({
   selector: 'homepage-line',
@@ -12,7 +14,9 @@ export class HomePageLineComponent {
   selector: 'homepage-navblock',
   templateUrl: 'blocks/homePageView.navblock.html',
 })
-export class HomePageNavBlockComponent {}
+export class HomePageNavBlockComponent {
+  @Input() data;
+}
 
 @Component({
   selector: 'homepage-articles',
@@ -30,7 +34,8 @@ export class HomePageSlidesComponent {}
   selector: 'homepage-topical',
   templateUrl: 'blocks/homePageView.topical.html',
 })
-export class HomePageTopicalComponent {}
+export class HomePageTopicalComponent {
+}
 
 @Component({
   selector: 'homepage-study',
@@ -56,6 +61,29 @@ export class HomePageFooterComponent {}
   styleUrls: ['homePageView.styles.scss'],
 })
 
-export class HomePageViewComponent {
+export class HomePageViewComponent implements OnInit {
+  public topics: [] = [];
+  constructor(
+    private http: HttpClient,
+    private settings: SettingsService,
+  ) {}
 
+  private getData(): void {
+    const variables = {
+      lang: 'ET',
+      language: 'ET',
+    };
+
+    const path = this.settings.query('frontPageQuery', variables);
+    const topicsSubscription = this.http.get(path).subscribe((response) => {
+      try {
+        this.topics = response['data']['nodeQuery']['entities'][0]['fieldTopics'];
+        console.log({ topics: this.topics });
+      } catch (err) {}
+      topicsSubscription.unsubscribe();
+    });
+  }
+  ngOnInit() {
+    this.getData();
+  }
 }

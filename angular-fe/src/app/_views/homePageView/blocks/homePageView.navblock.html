@@ -7,17 +7,9 @@
     
     <div class="navBlock__buttons">
       <ul>
-        <li>
-          <a routerLink="/">Õppimine <icon glyph="chevrons-down"></icon></a>
-        </li>
-        <li>
-          <a routerLink="/">Õpetamine <icon glyph="chevrons-down"></icon></a>
-        </li>
-        <li>
-          <a routerLink="/">Karjäär <icon glyph="chevrons-down"></icon></a>
-        </li>
-        <li>
-          <a routerLink="/">Teenused <icon glyph="chevrons-down"></icon></a>
+        <li *ngFor="let item of data">
+          <a *ngIf="item.entity.fieldTopicLink.url && item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">{{ item.entity.fieldTopicTitle }} <icon glyph="chevrons-down"></icon></a>
+          <a *ngIf="item.entity.fieldTopicLink.url && !item.entity.fieldTopicLink.url.routed" [href]="item.entity.fieldTopicLink.url.path" target="_blank" >{{ item.entity.fieldTopicTitle }} <icon glyph="chevrons-down"></icon></a>
         </li>
       </ul>
     </div><!--/navBlock__buttons-->
