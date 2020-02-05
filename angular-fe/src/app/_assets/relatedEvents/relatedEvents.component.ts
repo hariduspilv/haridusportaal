@@ -58,7 +58,7 @@ export class RelatedEventsComponent implements OnInit, OnDestroy {
     this.getData();
     this.routerSub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        window.scrollTo(0, 0);
+        document.querySelector('.app-content').scrollTop = 0;
       }
     });
   }

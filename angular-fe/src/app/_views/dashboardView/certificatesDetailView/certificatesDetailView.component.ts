@@ -14,6 +14,8 @@ export class CertificatesDetailView implements OnInit {
 
   public certificate: any;
   public examResults: any;
+  public dashboardLink: string = '/töölaud/tunnistused';
+  public examinationYear: string;
   public labels: any = [];
   public breadcrumbs = [
     {
@@ -34,6 +36,7 @@ export class CertificatesDetailView implements OnInit {
   ];
   constructor(
     public router: Router,
+    public route: ActivatedRoute,
     public location: Location,
     public translate: TranslateService,
     public settings: SettingsService,
@@ -54,6 +57,7 @@ export class CertificatesDetailView implements OnInit {
       return;
     }
     if (window.history.state.exams) {
+      this.examinationYear = window.history.state.exams;
       this.examInit();
       return;
     }
@@ -69,11 +73,13 @@ export class CertificatesDetailView implements OnInit {
       this.labels = [...this.labels, { value: 'Duplikaat' }];
     }
   }
+
   examInit() {
     this.http
-      .get(`${this.settings.url}/state-exams/${window.history.state.exams}?_format=json`).subscribe((res) => {
-        this.examResults = res;
-      });
+      .get(`${this.settings.url}/state-exams/${this.route.snapshot.params.id}?_format=json`)
+        .subscribe((res) => {
+          this.examResults = res['value'];
+        });
   }
 
   parseTypeTranslation(type) {

@@ -1,5 +1,5 @@
 <div class="noResults" *ngIf="!list?.length && !loading">
-  {{ 'news.no_results' | translate }}
+  {{ noResultStringByType | translate }}
 </div>
 <listItems
   *ngIf="list?.length"
