@@ -93,7 +93,7 @@ class GetDigiSignedData extends ResourceBase {
       throw new AccessDeniedHttpException();
     }
     if(isset($params['id_code'])){
-    	$response = $this->ehisConnector->getCertificatePublic($params);
+    	$response = $this->ehisConnector->getDigiSigned($params);
     	return new ModifiedResourceResponse($response);
     }
 
