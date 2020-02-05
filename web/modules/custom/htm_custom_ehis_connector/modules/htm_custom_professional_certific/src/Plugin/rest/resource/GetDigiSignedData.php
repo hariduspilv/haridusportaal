@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
  *
  * @RestResource(
  *   id = "get_signed_file",
- *   label = @Translation("Get certificate public rest resource"),
+ *   label = @Translation("Get signed file rest resource"),
  *   uri_paths = {
  *     "create" = "/digi-signed"
  *   }
