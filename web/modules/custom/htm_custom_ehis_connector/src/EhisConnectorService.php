@@ -532,6 +532,9 @@ class EhisConnectorService {
       case 'personal_data':
         $keys = ['isikuandmed'];
         break;
+      case 'digital_sign_data':
+        $keys = ['oping', 'tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon'];
+        break;
       default:
         $keys = [];
         break;
