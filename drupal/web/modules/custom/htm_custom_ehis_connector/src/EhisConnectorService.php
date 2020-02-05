@@ -282,6 +282,7 @@ class EhisConnectorService {
    * @return array|mixed|\Psr\Http\Message\ResponseInterface
    */
   public function getDigiSigned(array $params = []){
+    $service_name = 'eeIsikukaartBdoc/'.$params['id_code'];
     return $this->invoke('eeIsikukaartBdoc', $params, 'post');
   }
 
