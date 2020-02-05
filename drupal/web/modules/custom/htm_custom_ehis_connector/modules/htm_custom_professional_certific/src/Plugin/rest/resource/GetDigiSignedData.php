@@ -6,19 +6,15 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
-use Drupal\rest\ResourceResponse;
-use Hshn\Base64EncodedFile\HttpFoundation\File\Base64EncodedFile;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\BinaryFileResponse;
-use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 /**
  * Provides a resource to get view modes by entity and bundle.
  *
  * @RestResource(
- *   id = "get_certificate_public_rest_resource",
+ *   id = "get_signed_file",
  *   label = @Translation("Get certificate public rest resource"),
  *   uri_paths = {
  *     "create" = "/digi-signed"
