@@ -194,6 +194,10 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
             values.typeEnabled = true;
           }
         }
+        if (values.open_admission) {
+          values.onlyOpenAdmission = values.open_admission === 'true' ? true : false;
+          delete values.open_admission;
+        }
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;
 
