@@ -5,7 +5,7 @@ export const viewOptions = {
 }
 export const maxItems = {
   studyProgrammeComparison: 3,
-  oskaProfessionsCompare: 3,
+  oskaProfessionsComparison: 3,
   'default': 10
 }
 export const translationsPerType = {
