@@ -29,23 +29,25 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
 
-@Service
 public class VPTWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(VPTWorker.class);
 
-  @Resource
   private EhisXRoadService ehisXRoadService;
 
-  @Autowired
-  protected RedisTemplate<String, String> redisFileTemplate;
+  private RedisTemplate<String, String> redisFileTemplate;
+
+  public VPTWorker(EhisXRoadService ehisXRoadService, RedisTemplate<String, Object> redisTemplate,
+      RedisTemplate<String, String> redisFileTemplate, Long redisExpire, Long redisFileExpire,
+      Long redisKlfExpire) {
+    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
+    this.ehisXRoadService = ehisXRoadService;
+    this.redisFileTemplate = redisFileTemplate;
+  }
 
   public void getDocuments(String personalCode) {
     ObjectNode documentsResponse = nodeFactory.objectNode();

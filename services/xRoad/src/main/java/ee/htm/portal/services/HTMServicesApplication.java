@@ -3,6 +3,7 @@ package ee.htm.portal.services;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.nortal.jroad.client.service.configuration.provider.XRoadServiceConfigurationProvider;
 import java.io.File;
+import java.util.Objects;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
@@ -46,7 +47,7 @@ public class HTMServicesApplication {
     redisTemplate.setKeySerializer(new StringRedisSerializer());
     redisTemplate.setValueSerializer(new StringRedisSerializer());
     redisTemplate.setHashKeySerializer(new StringRedisSerializer());
-    redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer(ObjectNode.class));
+    redisTemplate.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(ObjectNode.class));
     return redisTemplate;
   }
 
@@ -73,7 +74,8 @@ public class HTMServicesApplication {
   @PostConstruct
   void postConstruct() {
     if (!stunnel) {
-      File filePath = new File(getClass().getClassLoader().getResource(trustStore).getFile());
+      File filePath = new File(
+          Objects.requireNonNull(getClass().getClassLoader().getResource(trustStore)).getFile());
       System.setProperty("javax.net.ssl.trustStore", filePath.getAbsolutePath());
       System.setProperty("javax.net.ssl.trustStorePassword", trustStorePassword);
     }

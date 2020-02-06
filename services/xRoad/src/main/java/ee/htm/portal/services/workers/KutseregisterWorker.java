@@ -7,16 +7,20 @@ import ee.htm.portal.services.types.ee.riik.xtee.kutseregister.producers.produce
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.redis.core.RedisTemplate;
 
-@Service
 public class KutseregisterWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(KutseregisterWorker.class);
 
-  @Autowired
   private KutseregisterXRoadService kutseregisterXRoadService;
+
+  public KutseregisterWorker(KutseregisterXRoadService kutseregisterXRoadService,
+      RedisTemplate<String, Object> redisTemplate, Long redisExpire, Long redisFileExpire,
+      Long redisKlfExpire) {
+    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
+    this.kutseregisterXRoadService = kutseregisterXRoadService;
+  }
 
   public ObjectNode getKodanikKutsetunnistus(String personalCode, boolean invalidBoolean,
       Long timestamp) {
