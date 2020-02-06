@@ -160,7 +160,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       this.offset = 0;
       const scrollSub = this.scrollRestoration.restorationValues.subscribe((values) => {
         this.scrollRestorationValues = values;
-        console.log(values);
         if (this.scrollRestoration.popstateNavigation && values && values[this.type]) {
           this.getData({ ...values[this.type].values }, false, values[this.type].list);
         } else if (!this.scrollRestoration.popstateNavigation && values && values[this.type]) {
@@ -314,7 +313,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   ngOnDestroy() {
-    document.querySelectorAll('img').forEach(item => item.style.height = '0');
     this.scrollRestoration.restorationPosition.next({
       ...this.scrollRestoration.restorationPosition.getValue(),
       [this.type]: document.querySelector('.app-content').scrollTop,
