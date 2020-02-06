@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
 @Component({
@@ -32,6 +32,7 @@ export class CertificatesComponent implements OnInit {
 
   constructor(
     public router: Router,
+    private route: ActivatedRoute,
     public http: HttpClient,
     public settings: SettingsService,
   ) { }
@@ -106,7 +107,10 @@ export class CertificatesComponent implements OnInit {
   }
 
   ngOnInit() {
-  }
-  ngOnDestroy() {
+    if (this.route.snapshot.fragment) {
+      const initializeId = this.route.snapshot.fragment === 'riigieksamid'
+        ? 'state-exams' : 'professional-certificates';
+      this.dataController(initializeId);
+    }
   }
 }

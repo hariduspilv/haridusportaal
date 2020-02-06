@@ -5,6 +5,7 @@
         <block-title>{{ 'frontpage.dashboard_label' | translate | uppercase }}</block-title>
         <block-content>
           <alerts [id]="'certificates'" small></alerts>
+          <loader *ngIf="!certificate && !examResults"></loader>
           <ng-container *ngIf="certificate">
             <h1 *ngIf="certificate.nimi">{{ certificate.nimi }}</h1>
             <labels [data]="labels" type="aqua" *ngIf="labels.length"></labels>
