@@ -1,9 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'image',
-  templateUrl: 'image.template.html',
-  styleUrls: ['image.styles.scss'],
+  selector: 'images',
+  templateUrl: 'images.template.html',
+  styleUrls: ['images.styles.scss'],
   host: {
     class: 'image',
   },

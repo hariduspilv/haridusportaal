@@ -18,7 +18,7 @@
 
           <htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
 
-          <image *ngIf="!data.video && data.image" [image]="data.image"></image>
+          <images *ngIf="!data.video && data.image" [image]="data.image"></images>
 
           <picto *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
           
@@ -28,7 +28,7 @@
 
           <links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
 
-          <image *ngIf="data.video && data.image" [image]="data.image"></image>
+          <images *ngIf="data.video && data.image" [image]="data.image"></images>
         
           <htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 

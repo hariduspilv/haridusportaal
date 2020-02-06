@@ -356,7 +356,10 @@ export class EventsListComponent extends FiltersService implements OnInit {
         tmpParams[i] = params[i].replace(/\;/igm, ',');
       });
       if (Object.keys(params).length > 0) {
-        this.queryString = '?'+Object.keys(tmpParams).reduce(function(a,k){a.push(k+'='+encodeURIComponent(tmpParams[k]));return a},[]).join('&');
+        this.queryString = '?'+Object.keys(tmpParams).reduce((all, current) => {
+          all.push(current+'='+encodeURIComponent(tmpParams[current]));
+          return all;
+        }, []).join('&');
       } else {
         this.queryString = '';
       }

@@ -239,9 +239,10 @@ export class BlockComponent implements AfterContentInit, OnChanges{
   }
 
   navigateTo(tabLink, params = {}) {
-    this.router.navigate([tabLink], {
-      queryParams: params,
-    });
+    const flattenedParams = Object.keys(params)
+    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+    .join('&');
+    this.router.navigateByUrl(`${tabLink}?${flattenedParams}`);
   }
 
   ngAfterContentInit() {

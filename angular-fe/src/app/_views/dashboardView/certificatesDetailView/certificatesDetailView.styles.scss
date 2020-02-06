@@ -112,4 +112,38 @@
 			margin-bottom: 0.5rem;
 		}
 	}
+	.exam-block {
+		margin-top: 1.5rem;
+		ul {
+			list-style-type: none;
+			padding-left: 0;
+			li {
+				line-height: 1.57;
+			}
+			dl {
+				margin-top: 1rem;
+				margin-bottom: 1rem;
+			}
+			dt, dd {
+				display: inline-block;
+				font-size: 14px;
+				font-weight: 500;
+			}
+			dt {
+				color: #757575;
+				margin-right: 0.5rem;
+			}
+			dd {
+				margin-left: 0;
+				color: #333333;
+			}
+		}
+		hr {
+			border: solid 1px #c7c7c9;
+			margin: 1rem 0;
+		}
+	}
+	::ng-deep .examinations .accordion__inline {
+		padding-top: 0;
+	}
 }

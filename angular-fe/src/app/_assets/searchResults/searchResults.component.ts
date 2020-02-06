@@ -46,6 +46,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   private debounceDelay: number = 300;
   public canLoadMore: boolean = true;
   public loadingMore: boolean = false;
+  public noResultStringByType: string = 'news.no_results';
   private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
 
   constructor(
@@ -265,6 +266,8 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   ngAfterViewInit() {
+    this.noResultStringByType = this.type !== 'mainProfession'
+      ? `${this.type}.no_results` : 'news.no_results';
     setTimeout(
       () => {
         this.parsedType = this.type.toLowerCase();

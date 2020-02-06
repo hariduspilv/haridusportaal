@@ -89,7 +89,7 @@ import { Circles } from './shapes/circles/circles';
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
 }
-import { ImageComponent } from './image';
+import { ImageComponent } from './images';
 import { LinksComponent } from './links';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 
