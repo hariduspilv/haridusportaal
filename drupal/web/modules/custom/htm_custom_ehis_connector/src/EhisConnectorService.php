@@ -133,6 +133,7 @@ class EhisConnectorService {
       $response = json_decode($response->getBody()->getContents(), TRUE);
       return $response;
     }catch (RequestException $e){
+      dump($e);
       \Drupal::logger('xjson')->notice('<pre><code>ehis response error' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
       return false;
     }
@@ -286,7 +287,7 @@ class EhisConnectorService {
    */
   public function getDigiSigned(array $params = []){
     $id_code = $this->getCurrentUserIdRegCode(TRUE);
-    $service_name = 'eeIsikukaartBdoc/'.$id_code.'/';
+    $service_name = 'eeIsikukaartBdoc/'.$id_code;
     return $this->invoke($service_name, ['form_params' => $params], 'post');
   }
 
