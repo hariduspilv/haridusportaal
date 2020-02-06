@@ -90,7 +90,6 @@ class GetDigiSignedData extends ResourceBase {
     }
 
     $response = $this->ehisConnector->getDigiSigned($params);
-    dump($response);
     return new ModifiedResourceResponse($response);
   }
 
