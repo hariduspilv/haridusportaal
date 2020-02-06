@@ -133,7 +133,7 @@ class EhisConnectorService {
       $response = json_decode($response->getBody()->getContents(), TRUE);
       return $response;
     }catch (RequestException $e){
-      dump($e);
+      dump($e->getMessage());
       \Drupal::logger('xjson')->notice('<pre><code>ehis response error' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
       return false;
     }
