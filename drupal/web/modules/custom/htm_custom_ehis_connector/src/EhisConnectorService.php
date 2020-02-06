@@ -123,9 +123,7 @@ class EhisConnectorService {
         $params['headers'] = [
           'Content-Type' => 'application/json'
         ];
-        dump($this->loime_url.$service_name);
         $response = $client->post($this->loime_url.$service_name, $params);
-        dump($response);
       }else{
         //TODO throw error
       }
