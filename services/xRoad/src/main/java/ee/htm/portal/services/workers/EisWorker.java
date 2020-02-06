@@ -20,16 +20,19 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlBase64Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.data.redis.core.RedisTemplate;
 
-@Service
 public class EisWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(EisWorker.class);
 
-  @Autowired
   private EisXRoadService eisXRoadService;
+
+  public EisWorker(EisXRoadService eisXRoadService, RedisTemplate<String, Object> redisTemplate,
+      Long redisExpire, Long redisFileExpire, Long redisKlfExpire) {
+    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
+    this.eisXRoadService = eisXRoadService;
+  }
 
   public ObjectNode getTestsessioonidKod(String personalCode, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();
