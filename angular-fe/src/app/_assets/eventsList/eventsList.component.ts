@@ -673,9 +673,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
           this.loadFlag = false;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             setTimeout(() => {
-              document.querySelector('.app-content').scrollTo({
-                top: position['eventsList'],
-              });
+              document.querySelector('.app-content').scrollTop = position['eventsList'];
             },         0);
           });
           scrollSub.unsubscribe();
