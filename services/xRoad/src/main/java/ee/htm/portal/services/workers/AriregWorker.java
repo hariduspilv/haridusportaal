@@ -6,17 +6,21 @@ import ee.htm.portal.services.client.AriregXRoadService;
 import ee.htm.portal.services.types.eu.x_road.arireg.producer.EsindusV1Response;
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
-import javax.annotation.Resource;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
+import org.springframework.data.redis.core.RedisTemplate;
 
-@Service
 public class AriregWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(AriregWorker.class);
 
-  @Resource
   private AriregXRoadService ariregXRoadService;
+
+  public AriregWorker(AriregXRoadService ariregXRoadService,
+      RedisTemplate<String, Object> redisTemplate, Long redisExpire, Long redisFileExpire,
+      Long redisKlfExpire) {
+    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
+    this.ariregXRoadService = ariregXRoadService;
+  }
 
   public ObjectNode getEsindusOigus(String personalCode, String countryCode, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();

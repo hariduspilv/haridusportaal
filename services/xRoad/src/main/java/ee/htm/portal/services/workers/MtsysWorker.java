@@ -51,14 +51,10 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.annotation.Resource;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.stereotype.Service;
 
-@Service
 public class MtsysWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(MtsysWorker.class);
@@ -66,11 +62,17 @@ public class MtsysWorker extends Worker {
   private static final String MTSYSKLF_KEY = "klassifikaator";
   private static final String MTSYSFILE_KEY = "mtsysFile";
 
-  @Resource
   private EhisXRoadService ehisXRoadService;
 
-  @Autowired
-  protected RedisTemplate<String, String> redisFileTemplate;
+  private RedisTemplate<String, String> redisFileTemplate;
+
+  public MtsysWorker(EhisXRoadService ehisXRoadService, RedisTemplate<String, Object> redisTemplate,
+      RedisTemplate<String, String> redisFileTemplate, Long redisExpire, Long redisFileExpire,
+      Long redisKlfExpire) {
+    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
+    this.ehisXRoadService = ehisXRoadService;
+    this.redisFileTemplate = redisFileTemplate;
+  }
 
   public ObjectNode getMtsysKlf() {
     ObjectNode mtsysKlfResponse = nodeFactory.objectNode();
@@ -1434,13 +1436,25 @@ public class MtsysWorker extends Worker {
       logForDrupal
           .setMessage("EHIS - mtsysKustutaTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      if (e instanceof XRoadServiceConsumptionException && (
+          ((XRoadServiceConsumptionException) e).getFaultString()
+              .equalsIgnoreCase("Staatus peab olema Sisestamisel!")
+              || ((XRoadServiceConsumptionException) e).getFaultString()
+              .equalsIgnoreCase("Id does not exist"))) {
+        responseNode.putArray("messages").addObject()
+            .put("message_type", "ERROR")
+            .putObject("message_text")
+            .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
 
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
+      } else {
+        LOGGER.error(e, e);
 
-      responseNode.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+        logForDrupal.setSeverity("ERROR");
+        logForDrupal.setMessage(e.getMessage());
+
+        responseNode.putObject("error")
+            .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+      }
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
