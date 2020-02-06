@@ -1,5 +1,5 @@
 <div #content *ngIf="list && list.length > 0">
-    <ng-container *ngFor="let item of list; let i = index">
+    <ng-container *ngFor="let item of list; let i = index; let last = last">
 
         <div class="list__item {{ addonClass }}">
             <div class="list__item__titlebox">

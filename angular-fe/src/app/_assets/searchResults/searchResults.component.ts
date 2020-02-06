@@ -19,6 +19,7 @@ import {
   multiSelectFields,
 } from './searchResults.helper';
 import { HttpClient } from '@angular/common/http';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'searchResults',
@@ -48,6 +49,9 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   public loadingMore: boolean = false;
   public noResultStringByType: string = 'news.no_results';
   private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
+  private latestRestorationPosition: { [type: string]: number; };
+  private mobileOrTablet: boolean;
+  private mobileOrTabletScrolled: boolean;
 
   constructor(
     private http: HttpClient,
@@ -55,7 +59,10 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     private settings: SettingsService,
     private scrollRestoration: ScrollRestorationService,
     private cdr: ChangeDetectorRef,
-  ) {}
+    private deviceService: DeviceDetectorService,
+  ) {
+    this.mobileOrTablet = this.deviceService.isMobile() || this.deviceService.isTablet();
+  }
 
   private addRequiredFields(queryParams) {
     const tmp = { ...queryParams };
@@ -207,6 +214,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           this.loadingMore = false;
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
+            this.latestRestorationPosition = position;
             setTimeout(() => {
               document.querySelector('.app-content').scrollTop = position[this.type];
             },         0);
@@ -275,6 +283,21 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       },
       0);
 
+  }
+
+  ngAfterViewChecked() {
+    const lastImg = document.querySelector('.lastImg');
+    if (lastImg && this.mobileOrTablet && !this.mobileOrTabletScrolled
+      && this.latestRestorationPosition) {
+      const lastImgSrc = lastImg.getAttribute('src');
+      const image = new Image();
+      image.onload = () => {
+        document.querySelector('.app-content').scrollTop
+          = this.latestRestorationPosition[this.type];
+        this.mobileOrTabletScrolled = true;
+      };
+      image.src = lastImgSrc;
+    }
   }
 
   ngOnChanges() {

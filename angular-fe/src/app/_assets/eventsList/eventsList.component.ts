@@ -372,7 +372,6 @@ export class EventsListComponent extends FiltersService implements OnInit {
         this.filterRetrieveParams(tmpParams);
         this.generateCalendar();
         if (this.scrollRestoration.popstateNavigation && values && values['eventsList']) {
-          console.log(values['eventsList']);
           this.getData(this.scrollRestorationValues);
         } else if (!this.scrollRestoration.popstateNavigation && values && values['eventsList']) {
           this.scrollRestoration.restorationValues.next({ ...values, 'eventsList': null });
@@ -674,7 +673,7 @@ export class EventsListComponent extends FiltersService implements OnInit {
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             setTimeout(() => {
               document.querySelector('.app-content').scrollTop = position['eventsList'];
-            },         0);
+            },         250);
           });
           scrollSub.unsubscribe();
         } else {
