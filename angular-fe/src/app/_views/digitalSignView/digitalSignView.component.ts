@@ -6,11 +6,11 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
   selector: 'digitalSignView',
-  templateUrl: 'digitalSign.template.html',
-  styleUrls: ['digitalSign.styles.scss'],
+  templateUrl: 'digitalSignView.template.html',
+  styleUrls: ['digitalSignView.styles.scss'],
 })
 
-export class DigitalSignComponent implements OnInit {
+export class DigitalSignViewComponent implements OnInit {
 
   data = {};
   breadcrumbs: any = [
@@ -140,6 +140,15 @@ export class DigitalSignComponent implements OnInit {
       return type.toLocaleLowerCase();
     }
     return translation.toLocaleLowerCase();
+  }
+  getSignedFile() {
+    const url = `${this.settings.url}/digi-signed`;
+    const body = {
+
+    };
+    this.http.post(url, body).subscribe((response) => {
+      console.log(response);
+    });
   }
   ngOnInit() {
     this.fetchData();

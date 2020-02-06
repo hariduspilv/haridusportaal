@@ -7,17 +7,17 @@ import { FormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { AppPipes } from '@app/_pipes';
-import { DigitalSignComponent } from './digitalSign.component';
+import { DigitalSignViewComponent } from './digitalSignView.component';
 const routes: Routes = [
   {
     path: '',
-    component: DigitalSignComponent,
+    component: DigitalSignViewComponent,
   },
 ];
 
 @NgModule({
   declarations: [
-    DigitalSignComponent,
+    DigitalSignViewComponent,
   ],
   imports: [
     RouterModule.forChild(routes),
@@ -35,4 +35,4 @@ const routes: Routes = [
   ],
 })
 
-export class DigitalSignModule { }
+export class DigitalSignViewModule { }

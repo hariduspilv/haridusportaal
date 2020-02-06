@@ -191,7 +191,7 @@ const routes: Routes = [
   },
   {
     path: 'töölaud/digitempel',
-    loadChildren: () => import('./_views/digitalSign').then(m => m.DigitalSignModule),
+    loadChildren: () => import('./_views/digitalSignView').then(m => m.DigitalSignViewModule),
     canActivate: [AuthService],
   },
   {
