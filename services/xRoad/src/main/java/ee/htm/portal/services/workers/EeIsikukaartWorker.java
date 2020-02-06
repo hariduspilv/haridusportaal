@@ -11,17 +11,21 @@ import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import javax.activation.DataHandler;
-import javax.annotation.Resource;
 import org.apache.log4j.Logger;
-import org.springframework.stereotype.Service;
+import org.springframework.data.redis.core.RedisTemplate;
 
-@Service
 public class EeIsikukaartWorker extends Worker {
 
   private static final Logger LOGGER = Logger.getLogger(EeIsikukaartWorker.class);
 
-  @Resource
   private EhisXRoadService ehisXRoadService;
+
+  public EeIsikukaartWorker(EhisXRoadService ehisXRoadService,
+      RedisTemplate<String, Object> redisTemplate, Long redisExpire, Long redisFileExpire,
+      Long redisKlfExpire) {
+    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
+    this.ehisXRoadService = ehisXRoadService;
+  }
 
   public ObjectNode getEeIsikukaart(String personalCode, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();
@@ -279,20 +283,8 @@ public class EeIsikukaartWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - eeIsikukaart.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      if (e instanceof XRoadServiceConsumptionException
-          && ((XRoadServiceConsumptionException) e).getFaultString() != null
-          && (((XRoadServiceConsumptionException) e).getFaultString()
-          .equalsIgnoreCase("Paring ei ole lubatud")
-          || ((XRoadServiceConsumptionException) e).getFaultString()
-          .equalsIgnoreCase("Isiku kohta andmeid ei leitud."))) {
-        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
-            .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
-        responseNode.remove("value");
-        gdprNode.remove("value");
-      } else {
-        setError(LOGGER, responseNode, e);
-        gdprNode.remove("value");
-      }
+      checkExeption(responseNode, e);
+      gdprNode.remove("value");
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -326,26 +318,15 @@ public class EeIsikukaartWorker extends Worker {
       ArrayNode GDPRNode = responseNode.putObject("value").putArray("GDPR");
       response.getIsikukaart().getGdprlogList().forEach(item ->
           GDPRNode.addObject().put("id", item.getId())
-          .put("personCode", item.getPersoncode())
-          .put("logTime", ehisDateTimeFormat(item.getLogtime()))
-          .put("action", item.getAction())
-          .put("sender", item.getSender())
-          .put("receiver", item.getReceiver()));
+              .put("personCode", item.getPersoncode())
+              .put("logTime", ehisDateTimeFormat(item.getLogtime()))
+              .put("action", item.getAction())
+              .put("sender", item.getSender())
+              .put("receiver", item.getReceiver()));
 
       logForDrupal.setMessage("EHIS - eeIsikukaart.v1:GDPR teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      if (e instanceof XRoadServiceConsumptionException
-          && ((XRoadServiceConsumptionException) e).getFaultString() != null
-          && (((XRoadServiceConsumptionException) e).getFaultString()
-          .equalsIgnoreCase("Paring ei ole lubatud")
-          || ((XRoadServiceConsumptionException) e).getFaultString()
-          .equalsIgnoreCase("Isiku kohta andmeid ei leitud."))) {
-        responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
-            .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
-        responseNode.remove("value");
-      } else {
-        setError(LOGGER, responseNode, e);
-      }
+      checkExeption(responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -382,7 +363,7 @@ public class EeIsikukaartWorker extends Worker {
       if (dataHandler != null) {
         int n = dataHandler.getInputStream().available();
         byte[] bytes = new byte[n];
-        dataHandler.getInputStream().read(bytes, 0 , n);
+        dataHandler.getInputStream().read(bytes, 0, n);
 
         responseNode
             .put("fileName", "isikukaart.bdoc")
@@ -414,5 +395,20 @@ public class EeIsikukaartWorker extends Worker {
     LOGGER.info(logForDrupal);
 
     return responseNode;
+  }
+
+  private void checkExeption(ObjectNode responseNode, Exception e) {
+    if (e instanceof XRoadServiceConsumptionException
+        && ((XRoadServiceConsumptionException) e).getFaultString() != null
+        && (((XRoadServiceConsumptionException) e).getFaultString()
+        .equalsIgnoreCase("Paring ei ole lubatud")
+        || ((XRoadServiceConsumptionException) e).getFaultString()
+        .equalsIgnoreCase("Isiku kohta andmeid ei leitud."))) {
+      responseNode.putObject("error").put("message_type", "ERROR").putObject("message_text")
+          .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
+      responseNode.remove("value");
+    } else {
+      setError(LOGGER, responseNode, e);
+    }
   }
 }
