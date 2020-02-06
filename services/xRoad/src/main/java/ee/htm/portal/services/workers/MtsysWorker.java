@@ -1436,13 +1436,25 @@ public class MtsysWorker extends Worker {
       logForDrupal
           .setMessage("EHIS - mtsysKustutaTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      if (e instanceof XRoadServiceConsumptionException && (
+          ((XRoadServiceConsumptionException) e).getFaultString()
+              .equalsIgnoreCase("Staatus peab olema Sisestamisel!")
+              || ((XRoadServiceConsumptionException) e).getFaultString()
+              .equalsIgnoreCase("Id does not exist"))) {
+        responseNode.putArray("messages").addObject()
+            .put("message_type", "ERROR")
+            .putObject("message_text")
+            .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
 
-      logForDrupal.setSeverity("ERROR");
-      logForDrupal.setMessage(e.getMessage());
+      } else {
+        LOGGER.error(e, e);
 
-      responseNode.putObject("error")
-          .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+        logForDrupal.setSeverity("ERROR");
+        logForDrupal.setMessage(e.getMessage());
+
+        responseNode.putObject("error")
+            .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+      }
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
