@@ -119,7 +119,6 @@ class EhisConnectorService {
         } else {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/') . '?'. implode($params['params'], '&'));
         }
-        dump($response);
       }elseif($type === 'post'){
         $params['headers'] = [
           'Content-Type' => 'application/json'
@@ -129,10 +128,8 @@ class EhisConnectorService {
         //TODO throw error
       }
       $response = json_decode($response->getBody()->getContents(), TRUE);
-      dump($response);
       return $response;
     }catch (RequestException $e){
-      dump($e->getMessage());
       \Drupal::logger('xjson')->notice('<pre><code>ehis response error' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
       return false;
     }
