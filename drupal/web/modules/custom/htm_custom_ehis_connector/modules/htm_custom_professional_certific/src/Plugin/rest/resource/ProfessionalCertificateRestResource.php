@@ -138,7 +138,6 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		}
 
     $response = new ModifiedResourceResponse($json, 200);
-		dump($response);
     \Drupal::logger('xjson')->notice('<pre><code>Dashboard '.$service_name.' response: '. print_r($response, TRUE) . '</code></pre>' );
 
 		return $response;
