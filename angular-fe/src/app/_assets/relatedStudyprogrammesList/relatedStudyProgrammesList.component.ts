@@ -3,10 +3,9 @@ import {
   Input,
   OnInit,
 } from '@angular/core';
-import { SettingsService } from '@app/_services';
+import { SettingsService, ScrollRestorationService, ListRestorationType } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
-import { FormControl, FormGroup, FormBuilder } from '@angular/forms';
-import { iif } from 'rxjs';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'relatedStudyProgrammesList',
@@ -22,6 +21,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
+    private scrollRestoration: ScrollRestorationService,
   ) {}
   @Input() nid: number;
   @Input() type: string = '';
@@ -31,6 +31,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
   public list: Object[] = [];
   public loading: boolean = false;
   public loadingMore: boolean = false;
+  private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
 
   public page: number = 0;
   public totalItems: number = 0;
@@ -41,7 +42,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
       displayRelated: [''],
     },
   );
-  getRelatedStudyprogrammes (nid: Number, loadMore: boolean = false) {
+  getRelatedStudyprogrammes (nid: Number, loadMore: boolean = false, restoredList?: Object[]) {
     this.loading = this.loadingMore ? false : true;
     const variables = {
       offset: this.page * 24,
@@ -63,7 +64,7 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
       variables['address'] = this.relatedProgrammesForm.controls.address.value;
     }
 
-    if (this.showList){
+    if (this.showList) {
       setTimeout(
         () => {
           this.showListItems();
@@ -71,37 +72,58 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
         0);
     }
 
-    const query = this.settings.query(queryKey, variables);
-    this.http.get(query).subscribe(
-      (res: any) => {
-        if (!loadMore) {
-          if (this.type === 'school') {
-            this.totalItems = res.data.nodeQuery.entities.length;
-            this.list = this.localFieldVary(res.data.nodeQuery.entities);
-          } else {
-            this.totalItems = res.data.CustomStudyProgrammeElasticQuery2.count;
-            this.list = this.localFieldVary(res.data.CustomStudyProgrammeElasticQuery2.entities);
-          }
-        } else {
-
-          if (this.type === 'school') {
-            this.list = [
-              ...this.list,
-              ...this.localFieldVary(res.data.nodeQuery.entities),
-            ];
-          } else {
-            this.list = [
-              ...this.list,
-              ...this.localFieldVary(res.data.CustomStudyProgrammeElasticQuery2.entities),
-            ];
-          }
-
-          this.totalItems = this.list.length;
+    if (restoredList) {
+      const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
+        if (position[this.nid]) {
+          setTimeout(() => {
+            document.querySelector('.app-content').scrollTop = position[this.nid];
+          },         0);
         }
-        this.loading = false;
-        this.loadingMore = false;
-      },
-    );
+      });
+      scrollSub.unsubscribe();
+      this.list = restoredList;
+      this.loading = false;
+      this.loadingMore = false;
+    } else {
+      const query = this.settings.query(queryKey, variables);
+      this.http.get(query).subscribe(
+        (res: any) => {
+          if (!loadMore) {
+            if (this.type === 'school') {
+              this.totalItems = res.data.nodeQuery.entities.length;
+              this.list = this.localFieldVary(res.data.nodeQuery.entities);
+            } else {
+              this.totalItems = res.data.CustomStudyProgrammeElasticQuery2.count;
+              this.list = this.localFieldVary(res.data.CustomStudyProgrammeElasticQuery2.entities);
+            }
+          } else {
+
+            if (this.type === 'school') {
+              this.list = [
+                ...this.list,
+                ...this.localFieldVary(res.data.nodeQuery.entities),
+              ];
+            } else {
+              this.list = [
+                ...this.list,
+                ...this.localFieldVary(res.data.CustomStudyProgrammeElasticQuery2.entities),
+              ];
+            }
+
+            this.totalItems = this.list.length;
+          }
+          this.loading = false;
+          this.loadingMore = false;
+          this.scrollRestoration.restorationValues.next({
+            ...this.scrollRestorationValues,
+            [this.nid]: {
+              values: { ...variables, page: this.page, totalItems: this.totalItems },
+              list: this.list,
+              canLoadMore: this.totalItems + 1 > ((1 + this.page)  * 24) },
+          });
+        },
+      );
+    }
   }
   localFieldVary (data) {
     return data.map((el: any) => {
@@ -160,11 +182,32 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
   loadMore() {
     this.page += 1;
     this.loadingMore = true;
-    this.getRelatedStudyprogrammes(this.nid, true);
+    this.getRelatedStudyprogrammes(this.nid, true, null);
   }
 
   ngOnInit(): void {
     this.checkParams();
-    this.getRelatedStudyprogrammes(this.nid);
+    const scrollSub = this.scrollRestoration.restorationValues.subscribe((values) => {
+      this.scrollRestorationValues = values;
+      let restoredList: Object[] = null;
+      if (this.scrollRestoration.popstateNavigation && values && values[this.nid]) {
+        this.page = values[this.nid].values['page'];
+        this.totalItems = values[this.nid].values['totalItems'];
+        restoredList = values[this.nid].list;
+      } else if (!this.scrollRestoration.popstateNavigation && values
+        && values[this.nid]) {
+        this.scrollRestoration.restorationValues.next(
+          { ...values, [this.nid]: null });
+      }
+      this.getRelatedStudyprogrammes(this.nid, false, restoredList);
+    });
+    scrollSub.unsubscribe();
+  }
+
+  ngOnDestroy() {
+    this.scrollRestoration.restorationPosition.next({
+      ...this.scrollRestoration.restorationPosition.getValue(),
+      [this.nid]: document.querySelector('.app-content').scrollTop,
+    });
   }
 }

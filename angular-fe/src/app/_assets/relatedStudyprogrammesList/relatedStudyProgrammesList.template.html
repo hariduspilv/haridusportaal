@@ -38,7 +38,7 @@
       <listItems *ngIf="!loading" [list]="list" type="studyProgramme" compare="studyProgrammeComparison"></listItems>
     </block-content>
   </block>
-  <div class="loadMore-wrapper">
+  <div class="loadMore-wrapper" *ngIf="showList">
     <loader *ngIf="loadingMore"></loader>
     <button *ngIf="!loadingMore && (totalItems+1 > ((1 + page)  * 24))" htm-button (click)="loadMore()" type="button">{{ 'button.load_more' | translate }}</button>
   </div>
