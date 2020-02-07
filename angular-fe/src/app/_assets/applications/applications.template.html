@@ -441,7 +441,8 @@
 												<ng-container *ngIf="form.document_date">{{ form.document_date }}
 												</ng-container>
 											</td>
-											<td class="text-center" [attr.colspan]="form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS' ? 1 : 2">
+											<td class="text-center"
+												[attr.colspan]="form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS' ? 1 : 2">
 												<a class="rowspan-btn" *ngIf="form.form_path"
 													attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.continue_filling' | translate}}"
 													[routerLink]="form.form_path"
@@ -449,8 +450,10 @@
 													{{ 'button.continue_filling' | translate }}
 												</a>
 											</td>
-											<td class="text-center" *ngIf="form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS'">
-												<a class="rowspan-btn" *ngIf="form.form_path && form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS'"
+											<td class="text-center"
+												*ngIf="form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS'">
+												<a class="rowspan-btn"
+													*ngIf="form.form_path && form.form_name === 'MTSYS_TEGEVUSLUBA_TAOTLUS'"
 													attr.aria-label="{{'frontpage.dokument' | translate}}: {{'button.delete' | translate}}"
 													(click)="loadDeleteModal(form.id)">
 													{{ 'button.delete' | translate }}
@@ -574,12 +577,8 @@
 			<div ngForm [formGroup]="formGroup" class="row margin">
 				<ng-container *ngFor="let item of institutionModalFields">
 					<div class="col-{{ item.col }} sm-12">
-						<formItem
-							[type]="item.type"
-							[query]="item.query ? item.query : false"
-							[error]="item.error"
-							appendTo="body"
-							(change)="validateField(item.modelName)"
+						<formItem [type]="item.type" [query]="item.query ? item.query : false" [error]="item.error"
+							appendTo="body" (change)="validateField(item.modelName)"
 							[valueType]="item.type === 'autocomplete' ? 'object' : false"
 							[formControlName]="item.modelName"
 							title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
@@ -592,7 +591,8 @@
 						{{ 'button.close' | translate }}
 					</button>
 
-					<button [class]="this.formGroup.valid ? '' : 'button--disabled'" htm-button (click)="this.formGroup.valid ? createInstitution() : $event.preventDefault();"
+					<button [class]="this.formGroup.valid ? '' : 'button--disabled'" htm-button
+						(click)="this.formGroup.valid ? createInstitution() : $event.preventDefault();"
 						(keyup.enter)="createInstitution()">
 						{{ 'button.add' | translate }}
 					</button>
@@ -623,7 +623,8 @@
 						(keyup.enter)="modalService.close('editInstitutionModal')">
 						{{ 'button.close' | translate }}
 					</button>
-					<button [class]="this.formGroup.valid ? '' : 'button--disabled'" htm-button (click)="this.formGroup.valid ? editInstitution() : $event.preventDefault();"
+					<button [class]="this.formGroup.valid ? '' : 'button--disabled'" htm-button
+						(click)="this.formGroup.valid ? editInstitution() : $event.preventDefault();"
 						(keyup.enter)="this.formGroup.valid ? editInstitution() : $event.preventDefault();">
 						{{ 'button.save_draft' | translate }}
 					</button>
@@ -636,8 +637,12 @@
 <htm-modal id="deleteDocModal" modalTitle="{{ 'button.delete' | translate }}" [titleExists]="modalTitleExists"
 	size="medium" [topAction]="true" [bottomAction]="true" [reloadOnClose]="viewReload">
 	<modal-content class="modal-center">
-		<div>{{ 'dashboard.delete_doc' | translate }}</div>
-		<button htm-button tabindex="0" theme="default" (click)="deleteDocument()">{{ 'button.delete' | translate }}
+		<alerts id="deleteDoc"></alerts>
+		<loader *ngIf="modalLoading"></loader>
+		<ng-container *ngIf="!deleteDocSubmitted">
+			<div>{{ 'dashboard.delete_doc' | translate }}</div>
+			<button htm-button tabindex="0" theme="default" (click)="deleteDocument()">{{ 'button.delete' | translate }}
 			</button>
+		</ng-container>
 	</modal-content>
 </htm-modal>

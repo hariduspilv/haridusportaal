@@ -51,6 +51,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   private debounce;
   private delay: number = 200;
 
+  deleteDocSubmitted = false;
   deleteId = '';
   dummyDataVersion: string;
   startTime;
@@ -499,15 +500,30 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   deleteDocument() {
+    this.modalLoading = true;
     this.viewReload = true;
-    const url = `${this.settings.url}/dashboard/deleteDoc/${this.deleteId}`;
-    this.http.get(url).subscribe((response) => {
-      this.modalService.close('deleteDocModal');
+    const url = `${this.settings.url}/dashboard/deleteDoc/${this.deleteId}?_format=json`;
+    this.alertsService.clear('deleteDoc');
+    this.deleteDocSubmitted = true;
+    this.http.get(url).subscribe((response: any) => {
+      if (response.messages && response.messages.length) {
+        response.messages.map((val) => {
+          if (val.message_type === 'ERROR') {
+            this.viewReload = false;
+            this.alertsService.error(val.message_text.et, 'deleteDoc');
+          } else {
+            this.alertsService.info(val.message_text.et, 'deleteDoc');
+          }
+        });
+        this.modalLoading = false;
+      }
     });
   }
 
   loadDeleteModal(id) {
+    this.alertsService.clear('deleteDoc');
     this.deleteId = id;
+    this.deleteDocSubmitted = false;
     this.modalService.open('deleteDocModal');
   }
 
