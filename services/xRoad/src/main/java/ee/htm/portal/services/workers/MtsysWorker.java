@@ -370,7 +370,7 @@ public class MtsysWorker extends Worker {
   public ObjectNode getMtsysTegevusluba(String formName, Long identifier, String personalCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
-    setMtsysTegevuslubaXJSON(formName, identifier, personalCode, jsonNode);
+    createTegevuslubaXJSON(formName, identifier, personalCode, jsonNode);
     ((ObjectNode) jsonNode.get("header")).put("current_step", "step_0");
 
     try {
@@ -528,7 +528,7 @@ public class MtsysWorker extends Worker {
     ObjectNode jsonNode = nodeFactory.objectNode();
     ObjectNode klfFailiTyybid = getKlfNode("failiTyybid");
 
-    setMtsysTegevuslubaXJSON(formName, identifier, personalCode, jsonNode);
+    createTegevuslubaXJSON(formName, identifier, personalCode, jsonNode);
     ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
     ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("SAVE")
         .add("SUBMIT");
@@ -546,96 +546,8 @@ public class MtsysWorker extends Worker {
           .putObject("data_elements").putObject("tegevusloaLiik")
           .put("value", klOkLiik.toString());
 
-      getTegevuslubaXJSON(jsonNode, klOkLiik, klfFailiTyybid);
-
-      ObjectNode stepAndmedDataElements = (ObjectNode) jsonNode.get("body").get("steps")
-          .get("step_andmed").get("data_elements");
-
-      ((ObjectNode) stepAndmedDataElements.get("tegevusloaLiik"))
-          .put("value", klOkLiik.toString());
-      ((ObjectNode) stepAndmedDataElements.get("oppekavaNimetus"))
-          .put("value", response.getTegevusloaAndmed().getNimetus());
-      ((ObjectNode) stepAndmedDataElements.get("alguseKuupaev"))
-          .put("value", response.getTegevusloaAndmed().getKehtivAlates());
-      ((ObjectNode) stepAndmedDataElements.get("lopuKuupaev"))
-          .put("value", response.getTegevusloaAndmed().getKehtivKuni());
-      ((ObjectNode) stepAndmedDataElements.get("laagriNimetus"))
-          .put("value", response.getTegevusloaAndmed().getLaagriNimetus());
-      ((ObjectNode) stepAndmedDataElements.get("kohtadeArvLaagris"))
-          .put("value", response.getTegevusloaAndmed().isSetKohtadeArvLaagris() ?
-              response.getTegevusloaAndmed().getKohtadeArvLaagris().longValue() : null);
-      ((ObjectNode) stepAndmedDataElements.get("tkkLiik"))
-          .put("value", response.getTegevusloaAndmed().isSetKlTkkLiik() ?
-              response.getTegevusloaAndmed().getKlTkkLiik().longValue() : null);
-      ((ObjectNode) stepAndmedDataElements.get("keeleTase"))
-          .put("value", response.getTegevusloaAndmed().isSetKlEkTase() ?
-              response.getTegevusloaAndmed().getKlEkTase().longValue() : null);
-      ((ObjectNode) stepAndmedDataElements.get("soidukiteKategooria"))
-          .put("value", response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
-              response.getTegevusloaAndmed().getKlSoidukiKategooria().longValue() : null);
-
-      response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList()
-          .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppeTasemed").get("value"))
-              .addObject().put("nimetus", item.getId().toString()));
-
-      response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList()
-          .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppekavaRuhmad").get("value"))
-              .addObject().put("nimetus", item.getId().toString()));
-
-      setAadress(response.getTegevusloaAndmed().getAadressid(), stepAndmedDataElements);
-
-      ((ObjectNode) stepAndmedDataElements.get("oppeasutuseNimetus"))
-          .put("value", response.getKontaktandmed().getKooliNimetus())
-          .put("hidden", false);
-      ((ObjectNode) stepAndmedDataElements.get("omanik"))
-          .put("value", response.getKontaktandmed().getOmanik())
-          .put("hidden", false);
-      ((ObjectNode) stepAndmedDataElements.get("kontaktisik"))
-          .put("value", response.getKontaktandmed().getKontaktisik());
-      ((ObjectNode) stepAndmedDataElements.get("telefon"))
-          .put("value", response.getKontaktandmed().getOppeasutuseYldtelefon());
-      ((ObjectNode) stepAndmedDataElements.get("epost"))
-          .put("value", response.getKontaktandmed().getOppeasutuseEpost());
-      ((ObjectNode) stepAndmedDataElements.get("koduleht"))
-          .put("value", response.getKontaktandmed().getKoduleht());
-
-      response.getDokumendid().getDokumentList().forEach(item -> {
-        ObjectNode fileType = (ObjectNode) klfFailiTyybid.get(String.valueOf(item.getKlLiik()));
-        String fileTypeKlOkLiik =
-            fileType.get("okLiik").findValuesAsText("klOkLiik").contains(klOkLiik.toString())
-                ? klOkLiik.toString() : "0";
-
-        fileType.get("okLiik").forEach(i -> {
-          if (fileTypeKlOkLiik.equalsIgnoreCase(i.get("klOkLiik").asText())) {
-            AtomicBoolean insertNeDokument = new AtomicBoolean(true);
-            stepAndmedDataElements.get("dokumendid").get("value").forEach(failItem -> {
-              if (failItem.get("klLiik").asInt() == item.getKlLiik()) {
-                insertNeDokument.set(false);
-                if (failItem.get("fail") == null) {
-                  ((ObjectNode) failItem).putArray("fail");
-                }
-                ((ArrayNode) failItem.get("fail")).addObject()
-                    .put("file_name", item.getFailiNimi())
-                    .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
-              }
-            });
-            if (insertNeDokument.get()) {
-              ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
-                  .put("liik", i.get("required").asBoolean() ?
-                      fileType.get("et").asText() + " *" :
-                      fileType.get("et").asText())
-                  .put("klLiik", item.getKlLiik())
-                  .put("kommentaar", item.getKommentaar())
-                  .putArray("fail").addObject()
-                  .put("file_name", item.getFailiNimi())
-                  .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
-            }
-          }
-        });
-      });
-
-      ((ObjectNode) stepAndmedDataElements.get("kommentaar"))
-          .put("value", response.getTegevusloaAndmed().getLisainfo());
+      getTegevuslubaStepAndmedXJSON(jsonNode, klOkLiik, klfFailiTyybid);
+      setTegevuslubaStepAndmedXJSONData(jsonNode, klfFailiTyybid, response, klOkLiik);
 
       logForDrupal.setMessage("EHIS - mtsysTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
@@ -682,7 +594,7 @@ public class MtsysWorker extends Worker {
     } else if (currentStep.equalsIgnoreCase("step_liik")) {
       Long stepLiik = jsonNode.get("body").get("steps").get("step_liik")
           .get("data_elements").get("tegevusloaLiik").get("value").asLong();
-      getTegevuslubaXJSON(jsonNode, stepLiik, getKlfNode("failiTyybid"));
+      getTegevuslubaStepAndmedXJSON(jsonNode, stepLiik, getKlfNode("failiTyybid"));
       ObjectNode stepAndmed = (ObjectNode) jsonNode.get("body").get("steps").get("step_andmed")
           .get("data_elements");
 
@@ -1150,8 +1062,15 @@ public class MtsysWorker extends Worker {
         }
         if (!jsonNodeRequest.get("educationalInstitution").get("address").get("address")
             .asText("").equals("")) {
-          aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution")
-              .get("address").get("address").asText()); //optional
+          if (!jsonNodeRequest.get("educationalInstitution").get("address").get("apartment")
+              .asText("").equals("")) {
+            aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution").get("address")
+                .get("address").asText() + "-" + jsonNodeRequest.get("educationalInstitution")
+                .get("address").get("apartment").asText());
+          } else {
+            aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution")
+                .get("address").get("address").asText()); //optional
+          }
         }
         if (!jsonNodeRequest.get("educationalInstitution").get("address")
             .get("addressHumanReadable").asText("").equals("")) {
@@ -1608,7 +1527,12 @@ public class MtsysWorker extends Worker {
           aadress.setAsula(item.get("settlementUnit").asText());
         }
         if (!item.get("address").asText("").equals("")) {
-          aadress.setAdsAadress(item.get("address").asText());
+          if (!item.get("apartment").asText("").equals("")) {
+            aadress
+                .setAdsAadress(item.get("address").asText() + "-" + item.get("apartment").asText());
+          } else {
+            aadress.setAdsAadress(item.get("address").asText());
+          }
         }
         if (!item.get("addressFull").asText("").equals("")) {
           aadress.setTaisAadress(item.get("addressFull").asText());
@@ -1644,22 +1568,25 @@ public class MtsysWorker extends Worker {
     Dokumendid dokumendid = Dokumendid.Factory.newInstance();
     dataObjectNode.get("dokumendid").get("value").forEach(item ->
         item.get("fail").forEach(fileItem -> {
-          Dokument dokument = Dokument.Factory.newInstance();
-          String fileIdentifier = fileItem.get("file_identifier").asText();
-          if (fileIdentifier.startsWith(MTSYSFILE_KEY + "_")) {
-            dokument.setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
-          } else {
-            dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
-                redisFileTemplate.opsForHash().get(
-                    jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
-                    fileIdentifier))));
+          String fileIdentifier = fileItem.get("file_identifier").asText("");
+          if (!fileIdentifier.equals("")) {
+            Dokument dokument = Dokument.Factory.newInstance();
+            if (fileIdentifier.startsWith(MTSYSFILE_KEY + "_")) {
+              dokument
+                  .setDokumentId(Long.parseLong(fileIdentifier.replace(MTSYSFILE_KEY + "_", "")));
+            } else {
+              dokument.setContent(Base64.getDecoder().decode((String) Objects.requireNonNull(
+                  redisFileTemplate.opsForHash().get(
+                      jsonNode.get("header").get("agents").get(0).get("owner_id").asText(),
+                      fileIdentifier))));
+            }
+            dokument.setKlLiik(item.get("klLiik").asInt());
+            dokument.setFailiNimi(fileItem.get("file_name").asText());
+            if (!item.get("kommentaar").asText("").equals("")) {
+              dokument.setKommentaar(item.get("kommentaar").asText());
+            }
+            dokumendid.getDokumentList().add(dokument);
           }
-          dokument.setKlLiik(item.get("klLiik").asInt());
-          dokument.setFailiNimi(fileItem.get("file_name").asText());
-          if (!item.get("kommentaar").asText("").equals("")) {
-            dokument.setKommentaar(item.get("kommentaar").asText());
-          }
-          dokumendid.getDokumentList().add(dokument);
         }));
     request.setDokumendid(dokumendid);
 
@@ -1677,6 +1604,12 @@ public class MtsysWorker extends Worker {
 
     ((ObjectNode) jsonNode.get("header"))
         .put("identifier", response.getTaotlusId().longValue());
+
+    MtsysTegevuslubaResponse mtsysTegevuslubaResponse = ehisXRoadService
+        .mtsysTegevusluba(response.getTaotlusId(), applicantPersonalCode);
+
+    setTegevuslubaStepAndmedXJSONData(jsonNode, getKlfNode("failiTyybid"), mtsysTegevuslubaResponse,
+        null);
   }
 
   private void saveMtsysTegevusNaitaja(ObjectNode jsonNode, Long identifier,
@@ -1824,7 +1757,34 @@ public class MtsysWorker extends Worker {
     return result;
   }
 
-  private void getTegevuslubaXJSON(ObjectNode jsonNode, Long klOkLiik,
+  private void createTegevuslubaXJSON(String formName, Long identifier, String personalCode,
+      ObjectNode jsonNode) {
+    jsonNode.putObject("header")
+        .put("endpoint", "EHIS")
+        .put("form_name", formName)
+        .putNull("current_step")
+        .put("identifier", identifier)
+        .putArray("acceptable_activity").add("VIEW");
+
+    ((ObjectNode) jsonNode.get("header")).putArray("agents").addObject()
+        .put("person_id", personalCode)
+        .putNull("role")
+        .putNull("owner_id")
+        .putNull("educationalInstitutions_id");
+
+    ((ObjectNode) jsonNode.get("header")).putObject("parameters");
+
+    jsonNode.putObject("body").putObject("steps");
+    ((ObjectNode) jsonNode.get("body")).putArray("messages");
+    jsonNode.putObject("messages").put("default", "default");
+
+    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
+    logForDrupal.setUser(personalCode);
+    logForDrupal.setType("EHIS - mtsysTegevusluba.v1");
+    logForDrupal.setSeverity("notice");
+  }
+
+  private void getTegevuslubaStepAndmedXJSON(ObjectNode jsonNode, Long klOkLiik,
       ObjectNode klfFailiTyybid) {
     boolean laagerBoolean = klOkLiik.equals(18052L) || klOkLiik.equals(18189L);
 
@@ -1947,34 +1907,107 @@ public class MtsysWorker extends Worker {
         .put("hidden", false);
   }
 
-  private void setMtsysTegevuslubaXJSON(String formName, Long identifier, String personalCode,
-      ObjectNode jsonNode) {
-    jsonNode.putObject("header")
-        .put("endpoint", "EHIS")
-        .put("form_name", formName)
-        .putNull("current_step")
-        .put("identifier", identifier)
-        .putArray("acceptable_activity").add("VIEW");
+  private void setTegevuslubaStepAndmedXJSONData(ObjectNode jsonNode, ObjectNode klfFailiTyybid,
+      MtsysTegevuslubaResponse response, Long klOkLiik) {
+    klOkLiik = klOkLiik == null ? response.getTegevusloaAndmed().getKlLiik().longValue() : klOkLiik;
 
-    ((ObjectNode) jsonNode.get("header")).putArray("agents").addObject()
-        .put("person_id", personalCode)
-        .putNull("role")
-        .putNull("owner_id")
-        .putNull("educationalInstitutions_id");
+    ObjectNode stepAndmedDataElements = (ObjectNode) jsonNode.get("body").get("steps")
+        .get("step_andmed").get("data_elements");
 
-    ((ObjectNode) jsonNode.get("header")).putObject("parameters");
+    ((ObjectNode) stepAndmedDataElements.get("tegevusloaLiik"))
+        .put("value", klOkLiik.toString());
+    ((ObjectNode) stepAndmedDataElements.get("oppekavaNimetus"))
+        .put("value", response.getTegevusloaAndmed().getNimetus());
+    ((ObjectNode) stepAndmedDataElements.get("alguseKuupaev"))
+        .put("value", response.getTegevusloaAndmed().getKehtivAlates());
+    ((ObjectNode) stepAndmedDataElements.get("lopuKuupaev"))
+        .put("value", response.getTegevusloaAndmed().getKehtivKuni());
+    ((ObjectNode) stepAndmedDataElements.get("laagriNimetus"))
+        .put("value", response.getTegevusloaAndmed().getLaagriNimetus());
+    ((ObjectNode) stepAndmedDataElements.get("kohtadeArvLaagris"))
+        .put("value", response.getTegevusloaAndmed().isSetKohtadeArvLaagris() ?
+            response.getTegevusloaAndmed().getKohtadeArvLaagris().longValue() : null);
+    ((ObjectNode) stepAndmedDataElements.get("tkkLiik"))
+        .put("value", response.getTegevusloaAndmed().isSetKlTkkLiik() ?
+            response.getTegevusloaAndmed().getKlTkkLiik().longValue() : null);
+    ((ObjectNode) stepAndmedDataElements.get("keeleTase"))
+        .put("value", response.getTegevusloaAndmed().isSetKlEkTase() ?
+            response.getTegevusloaAndmed().getKlEkTase().longValue() : null);
+    ((ObjectNode) stepAndmedDataElements.get("soidukiteKategooria"))
+        .put("value", response.getTegevusloaAndmed().isSetKlSoidukiKategooria() ?
+            response.getTegevusloaAndmed().getKlSoidukiKategooria().longValue() : null);
 
-    jsonNode.putObject("body").putObject("steps");
-    ((ObjectNode) jsonNode.get("body")).putArray("messages");
-    jsonNode.putObject("messages").put("default", "default");
+    ((ArrayNode) stepAndmedDataElements.get("oppeTasemed").get("value")).removeAll();
+    response.getTegevusloaAndmed().getOppetasemed().getOppekavaOppetaseList()
+        .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppeTasemed").get("value"))
+            .addObject().put("nimetus", item.getId().toString()));
 
-    logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(personalCode);
-    logForDrupal.setType("EHIS - mtsysTegevusluba.v1");
-    logForDrupal.setSeverity("notice");
+    ((ArrayNode) stepAndmedDataElements.get("oppekavaRuhmad").get("value")).removeAll();
+    response.getTegevusloaAndmed().getOpperyhmad().getOpperyhmList()
+        .forEach(item -> ((ArrayNode) stepAndmedDataElements.get("oppekavaRuhmad").get("value"))
+            .addObject().put("nimetus", item.getId().toString()));
+
+    setAadress(response.getTegevusloaAndmed().getAadressid(), stepAndmedDataElements);
+
+    ((ObjectNode) stepAndmedDataElements.get("oppeasutuseNimetus"))
+        .put("value", response.getKontaktandmed().getKooliNimetus())
+        .put("hidden", false);
+    ((ObjectNode) stepAndmedDataElements.get("omanik"))
+        .put("value", response.getKontaktandmed().getOmanik())
+        .put("hidden", false);
+    ((ObjectNode) stepAndmedDataElements.get("kontaktisik"))
+        .put("value", response.getKontaktandmed().getKontaktisik());
+    ((ObjectNode) stepAndmedDataElements.get("telefon"))
+        .put("value", response.getKontaktandmed().getOppeasutuseYldtelefon());
+    ((ObjectNode) stepAndmedDataElements.get("epost"))
+        .put("value", response.getKontaktandmed().getOppeasutuseEpost());
+    ((ObjectNode) stepAndmedDataElements.get("koduleht"))
+        .put("value", response.getKontaktandmed().getKoduleht());
+
+    Long finalKlOkLiik = klOkLiik;
+    stepAndmedDataElements.get("dokumendid").get("value")
+        .forEach(failItem -> ((ObjectNode) failItem).remove("fail"));
+    response.getDokumendid().getDokumentList().forEach(item -> {
+      ObjectNode fileType = (ObjectNode) klfFailiTyybid.get(String.valueOf(item.getKlLiik()));
+      String fileTypeKlOkLiik =
+          fileType.get("okLiik").findValuesAsText("klOkLiik").contains(finalKlOkLiik.toString())
+              ? finalKlOkLiik.toString() : "0";
+
+      fileType.get("okLiik").forEach(i -> {
+        if (fileTypeKlOkLiik.equalsIgnoreCase(i.get("klOkLiik").asText())) {
+          AtomicBoolean insertNeDokument = new AtomicBoolean(true);
+          stepAndmedDataElements.get("dokumendid").get("value").forEach(failItem -> {
+            if (failItem.get("klLiik").asInt() == item.getKlLiik()) {
+              insertNeDokument.set(false);
+              if (failItem.get("fail") == null) {
+                ((ObjectNode) failItem).putArray("fail");
+              }
+              ((ArrayNode) failItem.get("fail")).addObject()
+                  .put("file_name", item.getFailiNimi())
+                  .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
+            }
+          });
+          if (insertNeDokument.get()) {
+            ((ArrayNode) stepAndmedDataElements.get("dokumendid").get("value")).addObject()
+                .put("liik", i.get("required").asBoolean() ?
+                    fileType.get("et").asText() + " *" :
+                    fileType.get("et").asText())
+                .put("klLiik", item.getKlLiik())
+                .put("kommentaar", item.getKommentaar())
+                .putArray("fail").addObject()
+                .put("file_name", item.getFailiNimi())
+                .put("file_identifier", MTSYSFILE_KEY + "_" + item.getDokumentId());
+          }
+        }
+      });
+    });
+
+    ((ObjectNode) stepAndmedDataElements.get("kommentaar"))
+        .put("value", response.getTegevusloaAndmed().getLisainfo());
   }
 
   private void setAadress(Aadressid aadressid, ObjectNode jsonNode) {
+    ((ArrayNode) jsonNode.get("aadressid").get("value")).removeAll();
     ((ObjectNode) jsonNode.get("valisAadress")).put("value", aadressid.getOnValismaa());
     aadressid.getAadressList().forEach(aadress ->
         ((ArrayNode) jsonNode.get("aadressid").get("value")).addObject().putObject("aadress")
