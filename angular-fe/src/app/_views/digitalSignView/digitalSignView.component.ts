@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { SettingsService, AuthService, AlertsService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'digitalSignView',
@@ -34,8 +35,11 @@ export class DigitalSignViewComponent implements OnInit {
   ];
   loading = false;
   currentDate: Date = new Date();
-
   error = false;
+  defaultChecked = true;
+  selectedCard = '';
+
+  formGroup: FormGroup = this.formBuilder.group({});
 
   constructor(
     private http: HttpClient,
@@ -44,6 +48,7 @@ export class DigitalSignViewComponent implements OnInit {
     public auth: AuthService,
     private router: ActivatedRoute,
     private translate: TranslateService,
+    public formBuilder: FormBuilder,
   ) { }
 
   fetchData() {
@@ -70,6 +75,9 @@ export class DigitalSignViewComponent implements OnInit {
               .map(elem => elem.typeName = 'kvalifikatsioon');
             this.data['kvalifikatsioonid'] =
               [...this.data['kvalifikatsioon'], ...this.data['tasemeharidus']];
+            delete this.data['kvalifikatsioon'];
+            delete this.data['tasemeharidus'];
+            this.initFormGroup();
           }
           sub.unsubscribe();
           this.loading = false;
@@ -80,6 +88,19 @@ export class DigitalSignViewComponent implements OnInit {
           this.alertsService
             .info('errors.studies_data_missing', 'studies');
         });
+  }
+  initFormGroup() {
+    const defaultValue = {};
+    Object.entries(this.data).map(([key, val]) => {
+      const block: any = val;
+      block.map((blockVal) => {
+        this.formGroup.addControl(blockVal.id, this.formBuilder.control(''));
+        defaultValue[blockVal.id] = this.defaultChecked;
+      });
+    });
+    this.formGroup.setValue(defaultValue);
+    this.formGroup.updateValueAndValidity();
+    //this.formGroup.addControl(el.modelName, el.formControl);
   }
   sortValue(key = '', value = []) {
     switch (key) {
@@ -142,13 +163,72 @@ export class DigitalSignViewComponent implements OnInit {
     return translation.toLocaleLowerCase();
   }
   getSignedFile() {
+    this.loading = true;
+    const checked = [];
+    Object.entries(this.formGroup.value).filter(([key, val]) => {
+      if (val) {
+        checked.push(key);
+      }
+    });
     const url = `${this.settings.url}/digi-signed`;
     const body = {
-
+      andmeplokk: [],
+      andmekirje: checked,
+      valjundiTyyp: [],
     };
-    this.http.post(url, body).subscribe((response) => {
-      console.log(response);
+    this.http.post(url, body).subscribe((response: any) => {
+      if (response.fileName && response.value) {
+        this.saveFile(response);
+      } else {
+        this.loading = false;
+      }
     });
+  }
+  toggleCard(key, index) {
+    this.data[key][index].selected = !this.data[key][index].selected;
+  }
+  toggleSelect(key, event) {
+    const checked = event.target.checked;
+    const newValue = this.formGroup.value;
+    this.data[key].map((val) => {
+      newValue[val.id] = checked;
+      //this.formGroup.value[val.id] = checked;
+    });
+    this.formGroup.setValue(newValue);
+    this.formGroup.updateValueAndValidity();
+  }
+  saveFile(file) {
+    const blob = this.b64toBlob(file.value, 'application/vnd.etsi.asic-e+zip');
+    if (window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveBlob(blob, file.fileName);
+    } else {
+      const elem = window.document.createElement('a');
+      elem.href = window.URL.createObjectURL(blob);
+      elem.download = file.fileName;
+      document.body.appendChild(elem);
+      elem.click();
+      document.body.removeChild(elem);
+    }
+    this.loading = false;
+  }
+  b64toBlob = (b64Data, contentType = '', sliceSize = 512) => {
+    const byteCharacters = atob(b64Data);
+    const byteArrays = [];
+
+    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+      const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+      const byteNumbers = new Array(slice.length);
+      for (let i = 0; i < slice.length; i++) {
+        byteNumbers[i] = slice.charCodeAt(i);
+      }
+
+      const byteArray = new Uint8Array(byteNumbers);
+      byteArrays.push(byteArray);
+    }
+
+    const blob = new Blob(byteArrays, { type: contentType });
+    return blob;
   }
   ngOnInit() {
     this.fetchData();

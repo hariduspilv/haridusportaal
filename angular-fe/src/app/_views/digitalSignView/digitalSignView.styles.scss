@@ -31,6 +31,10 @@
     .sub-content {
       margin-bottom: 1rem;
       margin-left: 1.6rem;
+      .title-wrapper {
+        display: flex;
+        justify-content: space-between;
+      }
     }
   }
   .table-wrapper {
