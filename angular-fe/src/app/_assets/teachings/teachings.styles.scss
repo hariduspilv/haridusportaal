@@ -1,3 +1,21 @@
-.text-center {
-  text-align: center;
+
+@import "typography.scss";
+
+:host {
+  .text-center {
+    text-align: center;
+  }
+  
+  ::ng-deep {
+    .digital-sign-wrapper {
+      margin-bottom: 2rem;
+      icon {
+        margin-left: 1rem;
+        i {
+          color: $blue;
+          font-size: 1.3rem;
+        }
+      }
+    }
+  }
 }
