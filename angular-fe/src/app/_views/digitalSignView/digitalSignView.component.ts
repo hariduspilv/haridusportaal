@@ -4,6 +4,7 @@ import { SettingsService, AuthService, AlertsService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'digitalSignView',
@@ -49,6 +50,7 @@ export class DigitalSignViewComponent implements OnInit {
     private router: ActivatedRoute,
     private translate: TranslateService,
     public formBuilder: FormBuilder,
+    private location: Location,
   ) { }
 
   fetchData() {
@@ -187,6 +189,10 @@ export class DigitalSignViewComponent implements OnInit {
   toggleCard(key, index) {
     this.data[key][index].selected = !this.data[key][index].selected;
   }
+  cancelEventHandler() {
+    this.location.back();
+  }
+
   toggleSelect(key, event) {
     const checked = event.target.checked;
     const newValue = this.formGroup.value;

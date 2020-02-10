@@ -37,6 +37,13 @@
       }
     }
   }
+  .bottom-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    button {
+      margin-left: 1rem;
+    }
+  }
   .table-wrapper {
     padding: 0.6rem 0rem 0.6rem 1.6rem;
     .dashboard-table {

@@ -394,7 +394,7 @@
 												label="{{ 'dashboard.digital_sign.work_title' | translate }}">
 											</formItem>
 										</div>
-										<div class="sub-content" *ngFor="let item of data[key]">
+										<div class="sub-content" *ngFor="let item of data[key]; let i = index">
 											<div class="title-wrapper">
 												<formItem type="checkbox" [formControlName]="item.id"
 													[label]="item.oppeasutus">
@@ -540,7 +540,7 @@
 												label="{{ 'dashboard.digital_sign.qualification_title' | translate }}">
 											</formItem>
 										</div>
-										<div class="sub-content" *ngFor="let item of data[key]">
+										<div class="sub-content" *ngFor="let item of data[key]; let i = index">
 											<div class="title-wrapper">
 												<formItem type="checkbox" [formControlName]="item.id"
 													[label]="item.oppeasutus">
@@ -629,7 +629,7 @@
 												label="{{ 'dashboard.digital_sign.extra_courses_title' | translate }}">
 											</formItem>
 										</div>
-										<div class="sub-content" *ngFor="let item of data[key]">
+										<div class="sub-content" *ngFor="let item of data[key]; let i = index">
 											<div class="title-wrapper">
 												<formItem type="checkbox" [formControlName]="item.id"
 													[label]="item.oppeasutus">
@@ -681,8 +681,13 @@
 							</form>
 						</div>
 					</div>
-					<button htm-button theme="default"
-						(click)="getSignedFile()">{{ 'dashboard.digital_sign.submit_button' | translate }}</button>
+					<div class="bottom-wrapper">
+						<button htm-button role="link" theme="inverted" (click)="cancelEventHandler()">
+							{{ 'dashboard.digital_sign.cancel' | translate }}
+						</button>
+						<button htm-button theme="default"
+							(click)="getSignedFile()">{{ 'dashboard.digital_sign.submit_button' | translate }}</button>
+					</div>
 				</ng-container>
 			</block-content>
 		</block>
