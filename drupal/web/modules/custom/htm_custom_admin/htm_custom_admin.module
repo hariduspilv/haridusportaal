@@ -229,7 +229,7 @@ function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterf
  */
 function htm_custom_admin_views_pre_view(ViewExecutable $view, $display_id, array &$args)
 {
-  if(isset($_COOKIE['DrupalLogin']) && $_COOKIE['DrupalLogin'] === 1) {
+  if(!isset($_COOKIE['DrupalLogin']) || $_COOKIE['DrupalLogin'] === 0) {
     $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
     $response = new RedirectResponse($fe_url);
     $response->send();
@@ -250,4 +250,7 @@ function htm_custom_admin_user_login(UserInterface $account)
 function htm_custom_admin_user_logout(AccountInterface $account)
 {
   unset($_COOKIE['DrupalLogin']);
+  $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+  $response = new RedirectResponse($fe_url);
+  $response->send();
 }
