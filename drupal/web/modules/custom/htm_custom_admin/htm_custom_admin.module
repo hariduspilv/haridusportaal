@@ -8,9 +8,7 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
-use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
-use Drupal\user\UserInterface;
 use \Drupal\views\ViewExecutable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -222,6 +220,18 @@ function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterf
 
     return $response;
     #die();
+}
+
+/**
+ * Implements hook_views_pre_view().
+ */
+function htm_custom_admin_views_pre_view(ViewExecutable $view, $display_id, array &$args)
+{
+  if($_COOKIE['DrupalLogin'] === 1) {
+    $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+    $response = new RedirectResponse($fe_url);
+    $response->send();
+  }
 }
 
 /**
