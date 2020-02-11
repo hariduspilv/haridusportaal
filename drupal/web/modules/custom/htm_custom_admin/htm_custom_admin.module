@@ -227,7 +227,7 @@ function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterf
  */
 function htm_custom_admin_views_pre_view(ViewExecutable $view, $display_id, array &$args)
 {
-  if($_COOKIE['DrupalLogin'] === 1) {
+  if(isset($_COOKIE['DrupalLogin']) && $_COOKIE['DrupalLogin'] === 1) {
     $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
     $response = new RedirectResponse($fe_url);
     $response->send();
