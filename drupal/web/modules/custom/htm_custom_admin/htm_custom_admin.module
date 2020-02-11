@@ -7,7 +7,12 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
-
+use Drupal\Core\Routing\TrustedRedirectResponse;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Url;
+use Drupal\user\UserInterface;
+use \Drupal\views\ViewExecutable;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
  * Implements hook_help().
@@ -217,4 +222,20 @@ function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterf
 
     return $response;
     #die();
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function htm_custom_admin_user_login(UserInterface $account)
+{
+  setcookie("DrupalLogin", true);
+}
+
+/**
+ * Implements hook_user_logout().
+ */
+function htm_custom_admin_user_logout(AccountInterface $account)
+{
+  unset($_COOKIE['DrupalLogin']);
 }
