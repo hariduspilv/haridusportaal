@@ -7,10 +7,6 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Routing\TrustedRedirectResponse;
-use Drupal\Core\Session\AccountInterface;
-use Drupal\Core\Url;
-use Drupal\user\UserInterface;
 use \Drupal\views\ViewExecutable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
@@ -229,28 +225,9 @@ function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterf
  */
 function htm_custom_admin_views_pre_view(ViewExecutable $view, $display_id, array &$args)
 {
-  if(!isset($_COOKIE['DrupalLogin']) || $_COOKIE['DrupalLogin'] === 0) {
+  if(\Drupal::currentUser()->isAnonymous() && $display_id === 'page_1') {
     $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
     $response = new RedirectResponse($fe_url);
     $response->send();
   }
-}
-
-/**
- * Implements hook_user_login().
- */
-function htm_custom_admin_user_login(UserInterface $account)
-{
-  setcookie("DrupalLogin", true);
-}
-
-/**
- * Implements hook_user_logout().
- */
-function htm_custom_admin_user_logout(AccountInterface $account)
-{
-  unset($_COOKIE['DrupalLogin']);
-  $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
-  $response = new RedirectResponse($fe_url);
-  $response->send();
 }
