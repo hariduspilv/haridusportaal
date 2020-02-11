@@ -231,3 +231,39 @@ function htm_custom_admin_views_pre_view(ViewExecutable $view, $display_id, arra
     $response->send();
   }
 }
+
+/**
+ * Implements hook_views_pre_execute().
+ */
+function htm_custom_admin_views_pre_execute(ViewExecutable $view)
+{
+  if(\Drupal::currentUser()->isAnonymous()) {
+    $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+    $response = new RedirectResponse($fe_url);
+    $response->send();
+  }
+}
+
+/**
+ * Implements hook_views_pre_build().
+ */
+function htm_custom_admin_views_pre_build(ViewExecutable $view)
+{
+  if(\Drupal::currentUser()->isAnonymous()) {
+    $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+    $response = new RedirectResponse($fe_url);
+    $response->send();
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function htm_custom_admin_views_pre_render(ViewExecutable $view)
+{
+  if(\Drupal::currentUser()->isAnonymous()) {
+    $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+    $response = new RedirectResponse($fe_url);
+    $response->send();
+  }
+}
