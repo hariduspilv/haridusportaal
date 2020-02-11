@@ -8,7 +8,9 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
+use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
+use Drupal\user\UserInterface;
 use \Drupal\views\ViewExecutable;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
