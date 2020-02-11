@@ -66,6 +66,7 @@
         "drupal/purge_queuer_url": "^1.0",
         "drupal/queue_ui": "2.x-dev",
         "drupal/readonly_field_widget": "^1.2",
+        "drupal/redirect": "^1.5",
         "drupal/redis": "^1.0",
         "drupal/restui": "^1.15",
         "drupal/reverse_entity_reference": "^2.7",
