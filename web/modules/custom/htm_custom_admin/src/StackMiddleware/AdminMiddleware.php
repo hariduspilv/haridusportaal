@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_admin\StackMiddleware;
 
+use Drupal\Core\Session\AccountProxyInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
@@ -18,6 +19,9 @@ class AdminMiddleware implements HttpKernelInterface {
    */
   protected $httpKernel;
 
+  protected $anonymous;
+
+  protected $query;
   /**
    * Creates a HTTP middleware handler.
    *
@@ -26,6 +30,8 @@ class AdminMiddleware implements HttpKernelInterface {
    */
   public function __construct(HttpKernelInterface $kernel) {
     $this->httpKernel = $kernel;
+    $this->anonymous = true;
+    $this->query = 'SESS';
   }
 
   /**
@@ -35,10 +41,17 @@ class AdminMiddleware implements HttpKernelInterface {
     $safePaths = [
       '/user/login',
       '/user',
-      '/graphql'
+      '/graphql',
+      ''
     ];
 
-    if($request->getRequestFormat() === 'html' && !in_array($request->getPathInfo(), $safePaths) && \Drupal::currentUser()->isAnonymous()){
+    foreach($request->cookies->keys() as $key) {
+      if(substr($key, 0, strlen($this->query)) === $this->query) {
+        $this->anonymous = false;
+      }
+    }
+
+    if($request->getRequestFormat() === 'html' && !in_array($request->getPathInfo(), $safePaths) && $this->anonymous){
       $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
       $response = new RedirectResponse($fe_url);
       $response->send();
