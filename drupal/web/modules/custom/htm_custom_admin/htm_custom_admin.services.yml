@@ -1,0 +1,5 @@
+services:
+  htm_custom_admin.event_subscriber:
+    class: Drupal\htm_custom_admin\EventSubscriber\AdminSubscriber
+    tags:
+      - {name: event_subscriber}
