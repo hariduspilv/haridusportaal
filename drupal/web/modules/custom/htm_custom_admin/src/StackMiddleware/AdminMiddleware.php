@@ -37,6 +37,8 @@ class AdminMiddleware implements HttpKernelInterface {
       '/user'
     ];
 
+    \Drupal::logger('middleware')->notice('<pre><code>test ' . print_r($request, TRUE) . '</code></pre>' );
+
     if(!in_array($request->getPathInfo(), $safePaths) && \Drupal::currentUser()->isAnonymous()){
       $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
       $response = new RedirectResponse($fe_url);
