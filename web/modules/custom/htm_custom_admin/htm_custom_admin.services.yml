@@ -1,5 +1,5 @@
 services:
-  htm_custom_admin.event_subscriber:
-    class: Drupal\htm_custom_admin\EventSubscriber\AdminSubscriber
+  http_middleware.htm_custom_admin:
+    class: Drupal\htm_custom_admin\StackMiddleware\AdminMiddleware
     tags:
-      - {name: event_subscriber}
+      - { name: http_middleware, priority: 210, responder: true }
