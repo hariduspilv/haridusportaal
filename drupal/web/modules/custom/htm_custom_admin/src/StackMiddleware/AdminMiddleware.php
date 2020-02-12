@@ -34,13 +34,8 @@ class AdminMiddleware implements HttpKernelInterface {
   public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
     $safePaths = [
       '/user/login',
-      '/user'
-    ];
-    $allowedMethods = [
-      'GET',
-      'OPTIONS',
-      'PUT',
-      'POST'
+      '/user',
+      '/graphql'
     ];
 
     if($request->getRequestFormat() === 'html' && !in_array($request->getPathInfo(), $safePaths) && \Drupal::currentUser()->isAnonymous()){
