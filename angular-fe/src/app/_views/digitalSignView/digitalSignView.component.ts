@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SettingsService, AuthService, AlertsService } from '@app/_services';
+import { SettingsService, AuthService, AlertsService, NgbDateCustomParserFormatter } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
+import * as _moment from 'moment';
+const moment = _moment;
 
 @Component({
   selector: 'digitalSignView',
@@ -192,7 +194,23 @@ export class DigitalSignViewComponent implements OnInit {
   cancelEventHandler() {
     this.location.back();
   }
-
+  getWorkingLabel(item) {
+    if (item.ametikohtLopp) {
+      return `${item.oppeasutus}, ${
+        this.translate.get('frontpage.lopetatud')
+      } ${item.ametikohtLopp}`;
+    }
+    return `${item.oppeasutus}`;
+  }
+  getQualificationLabel(item) {
+    if (item.aasta) {
+      return `${item.oppeasutus}, ${item.aasta}`;
+    }
+    if (item.lopetanud && item.lopetanud !== null) {
+      return `${item.oppeasutus}, ${moment(item.lopetanud, 'DD.MM.YYYY').year()}`;
+    }
+    return item.oppeasutus;
+  }
   toggleSelect(key, event) {
     const checked = event.target.checked;
     const newValue = this.formGroup.value;

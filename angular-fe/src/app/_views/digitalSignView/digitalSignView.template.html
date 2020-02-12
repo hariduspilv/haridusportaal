@@ -397,7 +397,7 @@
 										<div class="sub-content" *ngFor="let item of data[key]; let i = index">
 											<div class="title-wrapper">
 												<formItem type="checkbox" [formControlName]="item.id"
-													[label]="item.oppeasutus">
+													[label]="getWorkingLabel(item)">
 												</formItem>
 												<a href="javascript:void(0)" (click)="toggleCard(key, i)">
 													<ng-container *ngIf="item.selected">
@@ -543,7 +543,7 @@
 										<div class="sub-content" *ngFor="let item of data[key]; let i = index">
 											<div class="title-wrapper">
 												<formItem type="checkbox" [formControlName]="item.id"
-													[label]="item.oppeasutus">
+													[label]="getQualificationLabel(item)">
 												</formItem>
 												<a href="javascript:void(0)" (click)="toggleCard(key, i)">
 													<ng-container *ngIf="item.selected">
