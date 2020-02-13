@@ -9,11 +9,11 @@
     </p>
     <div class="cookie__buttons" *ngIf="alert.type === 'cookie'">
       <button htm-button (click)="cookies.agreeTerms()">{{ 'agree' | translate }}</button>
-      <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
+      <button attr.aria-label="{{ 'button.close' | translate }}" *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
         <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
       </button>
     </div>
-    <button *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
+    <button attr.aria-label="{{ 'button.close' | translate }}" *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
       <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
     </button>
   </div>

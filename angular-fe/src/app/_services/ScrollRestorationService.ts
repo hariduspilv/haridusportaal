@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { Router, NavigationStart, Event, NavigationEnd } from '@angular/router';
+import { Router, NavigationStart, Event } from '@angular/router';
 
 export interface ListRestorationType {
   values: Object;

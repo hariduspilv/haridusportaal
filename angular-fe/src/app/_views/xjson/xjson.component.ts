@@ -174,9 +174,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   scrollPositionController() {
-    document.querySelector('.app-content').scrollTo({
-      top: 0,
-    });
+    document.querySelector('.app-content').scrollTop = 0;
   }
 
   setDatepickerValue(event, element, rowindex, col) {

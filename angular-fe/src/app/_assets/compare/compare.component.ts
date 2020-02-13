@@ -44,10 +44,10 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           this.settingsService.compareObservable.next('info');
         }
-        this.addItemToLocalStorage(id, this.sessionStorageKey, this.compare);
+        this.addItemToLocalStorage(parseInt(id, 10), this.sessionStorageKey, this.compare);
       }
     } else if (!$event && this.isChecked(id)) {
-      this.removeItemFromLocalStorage(id, this.sessionStorageKey, this.compare);
+      this.removeItemFromLocalStorage(parseInt(id, 10), this.sessionStorageKey, this.compare);
       this.compare = this.readFromLocalStorage(this.sessionStorageKey);
       if (!this.compare.length) {
         this.alertsService.clear('compare');
@@ -58,7 +58,7 @@ export class CompareComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   isChecked(id) {
-    return this.compare.some(existing => existing === id);
+    return this.compare.some(existing => existing === parseInt(id, 10));
   }
 
   notify(type: string) {
