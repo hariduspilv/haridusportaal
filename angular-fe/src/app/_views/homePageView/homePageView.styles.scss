@@ -92,6 +92,7 @@
             letter-spacing: 0.0625rem;
             will-change: transform, box-shadow;
             transition: transform 0.25s, box-shadow 0.25s;
+            cursor: pointer;
             icon {
               position: absolute;
               bottom: 1.75rem;

@@ -1,46 +1,26 @@
 <homepage-line type="1"></homepage-line>
 <div class="inner">
-  <div class="instance">
-    <div class="instance__content">
-      <div class="instance__category">Mida siit leida?</div>
-      <div class="instance__title">Õppimisest ja õppijale</div>
-      <div class="instance__body">
-        <p>Siit leiad vajalikku infot, kui oled õpilane, kutseõppur, tudeng, täiskasvanud õppija, lapsevanem või lihtsalt huvitud kõigest, mis on seotud õppimisega.</p>
-      </div><!--/instance__body-->
-      <a class="instance__link" routerLink="/">Uuri lähemalt</a>
-    </div><!--/instance__content-->
-    <div class="instance__image">
-      <img src="/assets/img/homepage-articles-1.svg" />
-    </div><!--/instance__image-->
-  </div><!--/instance-->
+  <ng-container *ngFor="let item of data; let i = index;">
 
-  <div class="instance">
-    <div class="instance__image">
-      <img src="/assets/img/homepage-articles-2.svg" />
-    </div><!--/instance__image-->
-    <div class="instance__content">
-      <div class="instance__category">Mida siit leida?</div>
-      <div class="instance__title">Õpetamisest ja õpetajale</div>
-      <div class="instance__body">
-        <p>Siit leiad endale tarvilikku, kui oled alustav või juba töötav õpetaja või noorsootöötaja, samuti siis, kui alles plaanid õpetajaks õppida või tahad õpetajaametiga tutvust teha.</p>
-      </div><!--/instance__body-->
-      <a class="instance__link" routerLink="/">Uuri lähemalt</a>
-    </div><!--/instance__content-->
-  </div><!--/instance-->
-
-  <div class="instance">
-    <div class="instance__content">
-      <div class="instance__category">Mida siit leida?</div>
-      <div class="instance__title">Karjäärist - kõigile</div>
-      <div class="instance__body">
-        <p>Siit leiad kasulikku infot karjääri kujundamise, tööturuolukorra, erinevate ametite, praegu ja tulevikus vajalike oskuste, kutsete ja kutsetunnistuste kohta.</p>
-      </div><!--/instance__body-->
-      <a class="instance__link" routerLink="/">Uuri lähemalt</a>
-    </div><!--/instance__content-->
-    <div class="instance__image">
-      <img src="/assets/img/homepage-articles-3.svg" />
-    </div><!--/instance__image-->
-  </div><!--/instance-->
-
+    <div class="instance" [id]="'scrollTo-' + item.button">
+      <div class="instance__image" *ngIf="i % 2 === 1">
+        <img [src]="item.image" />
+      </div><!--/instance__image-->
+      
+      <div class="instance__content">
+        <div class="instance__category">Mida siit leida?</div>
+        <div class="instance__title">{{ item.title }}</div>
+        <div class="instance__body">
+          <p [innerHTML]="item.content"></p>
+        </div><!--/instance__body-->
+        <a class="instance__link" [routerLink]="item.link.url.path" *ngIf="item.link.url.routed">{{ item.link.title }}</a>
+        <a class="instance__link" [href]="item.link.url.path" *ngIf="!item.link.url.routed">{{ item.link.title }}</a>
+      </div><!--/instance__content-->
+      
+      <div class="instance__image" *ngIf="i % 2 === 0">
+        <img [src]="item.image" />
+      </div><!--/instance__image-->
+    </div><!--/instance-->
+  </ng-container>
   
 </div><!--/inner-->

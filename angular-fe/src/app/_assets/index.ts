@@ -49,6 +49,7 @@ import {
   FiltersDirective,
   RotateTableDirective,
   AnalyticsEvent,
+  ScrollToDirective,
  } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
@@ -138,6 +139,7 @@ const declarations = [
   FormItemComponent,
   RippleDirective,
   FiltersDirective,
+  ScrollToDirective,
   RotateTableDirective,
   ModalComponent,
   ModalContentComponent,

@@ -22,7 +22,9 @@ export class HomePageNavBlockComponent {
   selector: 'homepage-articles',
   templateUrl: 'blocks/homePageView.articles.html',
 })
-export class HomePageArticlesComponent {}
+export class HomePageArticlesComponent {
+  @Input() data: [] = [];
+}
 
 @Component({
   selector: 'homepage-slides',
@@ -63,6 +65,10 @@ export class HomePageFooterComponent {}
 
 export class HomePageViewComponent implements OnInit {
   public topics: [] = [];
+  public services: [] = [];
+  public contact: {};
+  public slogan: string = '';
+
   constructor(
     private http: HttpClient,
     private settings: SettingsService,
@@ -71,18 +77,65 @@ export class HomePageViewComponent implements OnInit {
   private getData(): void {
     const variables = {
       lang: 'ET',
-      language: 'ET',
     };
 
-    const path = this.settings.query('frontPageQuery', variables);
+    const path = this.settings.query('newFrontPageQuery', variables);
     const topicsSubscription = this.http.get(path).subscribe((response) => {
-      try {
-        this.topics = response['data']['nodeQuery']['entities'][0]['fieldTopics'];
-        console.log({ topics: this.topics });
-      } catch (err) {}
+      this.parseData(response['data']['nodeQuery']['entities'][0]);
       topicsSubscription.unsubscribe();
     });
   }
+
+  private parseData(data): void {
+    try {
+      this.topics = data.fieldFrontpageTopics.map((item) => {
+        return {
+          title: item.entity.fieldTopicTitle,
+          content: item.entity.fieldTopicText,
+          link: item.entity.fieldTopicLink,
+          image: item.entity.fieldTopicImage.entity.url,
+          button: item.entity.fieldTopicButtonText,
+        };
+      });
+    } catch (err) {}
+
+    try {
+      this.contact = {
+        email: data.fieldFrontpageContactEmail,
+        name: data.fieldFrontpageContactName,
+        phone: data.fieldFrontpageContactPhone,
+      };
+    } catch (err) {}
+
+    this.slogan = data.fieldFrontpageQuote;
+
+    try {
+      this.services = data.fieldFrontpageServices.map((item) => {
+        const image = item.entity.fieldServiceImage.entity;
+        const alt = image ? image.fieldAlt : undefined;
+        const url = image && image.fieldServiceImg.entity ?
+          image.fieldServiceImg.entity.url : undefined;
+
+        return {
+          title: item.entity.fieldServiceTitle,
+          link: item.entity.fieldServiceLink,
+          image: {
+            alt,
+            url,
+          },
+          content: item.entity.fieldServiceContent,
+        };
+      });
+    } catch (err) {}
+
+    console.log({
+      topics: this.topics,
+      services: this.services,
+      contact: this.contact,
+      slogan: this.slogan,
+    });
+  }
+
   ngOnInit() {
     this.getData();
   }

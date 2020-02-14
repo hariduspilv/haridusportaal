@@ -5,11 +5,13 @@
       <img src="/assets/img/homePage-navBlock.svg" />
     </div><!--/navBlock__title-->
     
-    <div class="navBlock__buttons">
+    <div class="navBlock__buttons" *ngIf="data.length">
       <ul>
         <li *ngFor="let item of data">
-          <a *ngIf="item.entity.fieldTopicLink.url && item.entity.fieldTopicLink.url.routed" [routerLink]="item.entity.fieldTopicLink.url.path">{{ item.entity.fieldTopicTitle }} <icon glyph="chevrons-down"></icon></a>
-          <a *ngIf="item.entity.fieldTopicLink.url && !item.entity.fieldTopicLink.url.routed" [href]="item.entity.fieldTopicLink.url.path" target="_blank" >{{ item.entity.fieldTopicTitle }} <icon glyph="chevrons-down"></icon></a>
+          <a [scrollTo]="item.button">{{ item.button }} <icon glyph="chevrons-down"></icon></a>
+        </li>
+        <li>
+          <a scrollTo="teenused">Teenused <icon glyph="chevrons-down"></icon></a>
         </li>
       </ul>
     </div><!--/navBlock__buttons-->
