@@ -56,6 +56,7 @@ export class DigitalSignViewComponent implements OnInit {
   ) { }
 
   fetchData() {
+    this.defaultChecked = true;
     this.loading = true;
     const sub = this.http
       .get(
@@ -96,6 +97,8 @@ export class DigitalSignViewComponent implements OnInit {
   initFormGroup() {
     const defaultValue = {};
     Object.entries(this.data).map(([key, val]) => {
+      this.formGroup.addControl(key, this.formBuilder.control(''));
+      defaultValue[key] = this.defaultChecked;
       const block: any = val;
       block.map((blockVal) => {
         this.formGroup.addControl(blockVal.id, this.formBuilder.control(''));
@@ -174,19 +177,25 @@ export class DigitalSignViewComponent implements OnInit {
         checked.push(key);
       }
     });
-    const url = `${this.settings.url}/digi-signed`;
-    const body = {
-      andmeplokk: [],
-      andmekirje: checked,
-      valjundiTyyp: [],
-    };
-    this.http.post(url, body).subscribe((response: any) => {
-      if (response.fileName && response.value) {
-        this.saveFile(response);
-      } else {
-        this.loading = false;
-      }
-    });
+    if (!checked.length) {
+      this.alertsService.error('errors.empty_selection', 'studies');
+      document.querySelector('.app-content').scrollTop = 0;
+      this.loading = false;
+    } else {
+      const url = `${this.settings.url}/digi-signed`;
+      const body = {
+        andmeplokk: [],
+        andmekirje: checked,
+        valjundiTyyp: [],
+      };
+      this.http.post(url, body).subscribe((response: any) => {
+        if (response.fileName && response.value) {
+          this.saveFile(response);
+        } else {
+          this.loading = false;
+        }
+      });
+    }
   }
   toggleCard(key, index) {
     this.data[key][index].selected = !this.data[key][index].selected;

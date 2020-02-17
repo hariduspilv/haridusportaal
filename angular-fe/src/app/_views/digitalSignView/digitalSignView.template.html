@@ -17,7 +17,7 @@
 									<ng-container *ngIf="key === 'oping' && data[key] && data[key].length">
 										<div class="heading">
 											<formItem type="checkbox" (change)="toggleSelect(key, $event)"
-												[value]="defaultChecked"
+											[formControlName]="key"
 												label="{{ 'dashboard.digital_sign.studies_title' | translate }}">
 											</formItem>
 										</div>
@@ -390,7 +390,7 @@
 									<ng-container *ngIf="key === 'tootamine' && data[key] && data[key].length">
 										<div class="heading">
 											<formItem type="checkbox" (change)="toggleSelect(key, $event)"
-												[value]="defaultChecked"
+											[formControlName]="key"
 												label="{{ 'dashboard.digital_sign.work_title' | translate }}">
 											</formItem>
 										</div>
@@ -536,7 +536,7 @@
 									<ng-container *ngIf="key === 'kvalifikatsioonid' && data[key] && data[key].length">
 										<div class="heading">
 											<formItem type="checkbox" (change)="toggleSelect(key, $event)"
-												[value]="defaultChecked"
+											[formControlName]="key"
 												label="{{ 'dashboard.digital_sign.qualification_title' | translate }}">
 											</formItem>
 										</div>
@@ -625,7 +625,7 @@
 									<ng-container *ngIf="key === 'taiendkoolitus' && data[key] && data[key].length">
 										<div class="heading">
 											<formItem type="checkbox" (change)="toggleSelect(key, $event)"
-												[value]="defaultChecked"
+											[formControlName]="key"
 												label="{{ 'dashboard.digital_sign.extra_courses_title' | translate }}">
 											</formItem>
 										</div>
