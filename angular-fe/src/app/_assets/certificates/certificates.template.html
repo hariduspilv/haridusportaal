@@ -3,7 +3,7 @@
 </div>
 <h2>{{ 'frontpage.certificates_data' | translate }}</h2>
 <accordion>
-	<accordion-item title="{{ 'frontpage.dashboard_tabs_certificates_graduation' | translate }}"
+	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_graduation' | translate"
 		(click)="dataController('graduation-certificates')">
 		<loader *ngIf="!error && !graduationCertificates"></loader>
 		<p *ngIf="graduationCertificates && graduationCertificates.length < 1"
@@ -32,7 +32,7 @@
 			</tbody>
 		</table>
 	</accordion-item>
-	<accordion-item title="{{ 'frontpage.dashboard_tabs_certificates_professional' | translate }}"
+	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_professional' | translate"
 		(click)="dataController('professional-certificates')">
 		<loader *ngIf="!error && !professionalCertificates"></loader>
 		<p *ngIf="error && !certificateErr" class="text-center text--substrong--head mb-0">
@@ -58,7 +58,7 @@
 			</tbody>
 		</table>
 	</accordion-item>
-	<accordion-item title="{{ 'frontpage.dashboard_tabs_certificates_examinations' | translate}}"
+	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_examinations' | translate"
 		(click)="dataController('state-exams')">
 		<loader *ngIf="!examResultsErr && !errRequest && !examResults"></loader>
 		<ng-container *ngIf="examResultsErr || errRequest">

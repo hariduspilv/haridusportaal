@@ -129,21 +129,25 @@ export class CertificatesComponent implements OnInit {
     }
   }
 
+  getId() {
+    let initializeId = '';
+    switch (this.route.snapshot.fragment) {
+      case 'lõputunnistused':
+        initializeId = 'graduation-certificates';
+        break;
+      case 'kutsetunnistused':
+        initializeId = 'professional-certificates';
+        break;
+      case 'riigieksamid':
+        initializeId = 'state-exams';
+        break;
+    }
+    return initializeId;
+  }
+
   ngOnInit() {
     if (this.route.snapshot.fragment) {
-      let initializeId = '';
-      switch (this.route.snapshot.fragment) {
-        case 'lõputunnistused':
-        case 'frontpage-dashboard-tabs-certificates-graduation': //for develop
-          initializeId = 'graduation-certificates';
-          break;
-        case 'kutsetunnistused':
-          initializeId = 'professional-certificates';
-          break;
-        case 'riigieksamid':
-          initializeId = 'state-exams';
-          break;
-      }
+      const initializeId = this.getId();
       this.dataController(initializeId);
     }
   }
