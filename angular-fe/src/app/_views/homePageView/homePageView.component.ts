@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
+import FieldVaryService from '@app/_services/FieldVaryService';
 
 @Component({
   selector: 'homepage-line',
@@ -30,13 +31,44 @@ export class HomePageArticlesComponent {
   selector: 'homepage-slides',
   templateUrl: 'blocks/homePageView.slides.html',
 })
-export class HomePageSlidesComponent {}
+export class HomePageSlidesComponent {
+  @Input() data: [] = [];
+}
 
 @Component({
   selector: 'homepage-topical',
   templateUrl: 'blocks/homePageView.topical.html',
 })
-export class HomePageTopicalComponent {
+export class HomePageTopicalComponent implements OnInit, OnChanges{
+  constructor(
+    private http: HttpClient,
+    private settings: SettingsService,
+  ) {}
+
+  @Input() data: string;
+  private article: {} = {};
+
+  private getData() {
+    if (!this.data) { return false; }
+    const variables = {
+      path: this.data,
+    };
+    const query = this.settings.query('newsSingel', variables);
+    const subscription = this.http.get(query).subscribe((response) => {
+      this.article = {
+        ... FieldVaryService(response['data']['route']['entity']),
+        path: this.data,
+      };
+      subscription.unsubscribe();
+    });
+  }
+
+  ngOnInit() {
+    this.getData();
+  }
+  ngOnChanges() {
+    this.getData();
+  }
 }
 
 @Component({
@@ -49,25 +81,30 @@ export class HomePageStudyComponent {}
   selector: 'homepage-slogan',
   templateUrl: 'blocks/homePageView.slogan.html',
 })
-export class HomePageSloganComponent {}
+export class HomePageSloganComponent {
+  @Input() data: string = '';
+}
 
 @Component({
   selector: 'homepage-footer',
   templateUrl: 'blocks/homePageView.footer.html',
 })
-export class HomePageFooterComponent {}
+export class HomePageFooterComponent {
+  @Input() data: {};
+}
 
 @Component({
   selector: 'homepage',
   templateUrl: 'homePageView.template.html',
-  styleUrls: ['homePageView.styles.scss'],
+  styleUrls: ['homePageView.styles.scss', 'homePageView.swiper.scss'],
 })
 
 export class HomePageViewComponent implements OnInit {
   public topics: [] = [];
-  public services: [] = [];
+  public services: any[] = [];
   public contact: {};
   public slogan: string = '';
+  public newsLink: string = '';
 
   constructor(
     private http: HttpClient,
@@ -126,6 +163,11 @@ export class HomePageViewComponent implements OnInit {
           content: item.entity.fieldServiceContent,
         };
       });
+      this.services = [ ...this.services, ...this.services ];
+    } catch (err) {}
+
+    try {
+      this.newsLink = data.fieldFrontpageNews.entity.entityUrl.path;
     } catch (err) {}
 
     console.log({
@@ -133,6 +175,7 @@ export class HomePageViewComponent implements OnInit {
       services: this.services,
       contact: this.contact,
       slogan: this.slogan,
+      newsLink: this.newsLink,
     });
   }
 

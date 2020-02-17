@@ -26,11 +26,13 @@ export class ScrollToDirective {
       scrollTop = scrollTop - (windowHeight / 2);
     }
 
+    /* for zö debugging pöörpos
     console.log({
       elemHeight,
       windowHeight,
       scrollTop,
     });
+    */
 
     appContent.scrollTo({
       top: scrollTop,

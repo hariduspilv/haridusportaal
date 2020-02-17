@@ -1,25 +1,25 @@
 <homepage-line type="4"></homepage-line>
 <div class="inner">
   <div class="footer">
-    <div class="contact">
-      <div class="contact__title">KONTAKT</div>
+    <div class="contact" *ngIf="data">
+      <div class="contact__title">{{ 'home.contact' | translate }}</div>
       <p>
-        Portaali peatoimetaja<br />
-        <a href="mailto:htm.haridusportaal@hm.ee">htm.haridusportaal@hm.ee</a><br />
-        + 372 5555 5555
+        {{ data.name }}<br />
+        <a [href]="'mailto:'+data.email">{{ data.email }}</a><br />
+        {{ data.phone }}
       </p>
     </div><!--/contact-->
     <div class="newsletter">
-      <div class="newsletter__title">UUDISKIRJA TELLIMINE</div>
+      <div class="newsletter__title">{{ 'home.newsletter_subscribe' | translate }}</div>
       <div class="newsletter__cols">
         <div class="newsletter__col">
-          <formItem placeholder="Sisesta oma e-mail"></formItem>
+          <formItem [placeholder]="'home.newsletter_email' | translate"></formItem>
         </div><!--/newsletter_col-->
         <div class="newsletter__col">
-          <button htm-button theme="outline-dark">Liitu</button>
+          <button htm-button theme="outline-dark">{{ 'home.newsletter_join' | translate }}</button>
         </div><!--/newsletter_col-->
         <div class="newsletter__col">
-          <a routerLink="/">Telli teemad RSS-iga</a>
+          <a routerLink="/">{{ 'home.newsletter_rss' | translate }}</a>
         </div><!--/newsletter_col-->
       </div><!--/newsletter__cols-->
     </div><!--/newsletter-->

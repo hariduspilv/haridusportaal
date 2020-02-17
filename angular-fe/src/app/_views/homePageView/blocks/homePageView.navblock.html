@@ -1,7 +1,7 @@
 <div class="navBlock">
   <div class="inner">
     <div class="navBlock__title">
-      <h1>Sinu <b>edu</b>ka <br /> teekonna algus</h1>
+      <h1 [innerHTML]="'home.slogan' | translate"></h1>
       <img src="/assets/img/homePage-navBlock.svg" />
     </div><!--/navBlock__title-->
     
@@ -11,7 +11,7 @@
           <a [scrollTo]="item.button">{{ item.button }} <icon glyph="chevrons-down"></icon></a>
         </li>
         <li>
-          <a scrollTo="teenused">Teenused <icon glyph="chevrons-down"></icon></a>
+          <a scrollTo="teenused">{{ 'home.services' | translate }} <icon glyph="chevrons-down"></icon></a>
         </li>
       </ul>
     </div><!--/navBlock__buttons-->

@@ -1,52 +1,39 @@
 <homepage-line type="2"></homepage-line>
 <div class="inner">
-  <div class="slides" id="scrollTo-teenused">
-    <div class="slides__title">Haridusvaldkonna e-teenused</div>
+
+  
+  <div class="slides" id="scrollTo-teenused" *ngIf="data.length">
+    <div class="slides__title">{{ 'home.services_title' | translate }}</div>
     <div class="slides__container">
       <div class="slides__arrow slides__arrow--left"><icon glyph="chevron-left"></icon></div>
       <div class="slides__arrow slides__arrow--right"><icon glyph="chevron-right"></icon></div>
 
-      <div class="slides__wrapper">
-        <div class="slides__instance">
-          <div class="slides__elem">
-            <div class="slides__elem__image">
-              <img src="/assets/img/homepage-slides-1.svg" />
-            </div><!--/slides__elem__image-->
-            <div class="slides__elem__body">
-              <div class="slides__elem__title">Tulemused</div>
-              <div class="slides__elem__text">Tunnistuste ja riigieksamite tulemused sisseloginud kasutajale.</div>
-              <div class="slides__elem__link"><a routerLink="/">Vaata rohkem</a></div>
-            </div><!--/slides__elem__body-->
-          </div><!--/slides__elem-->
-        </div><!--/slides__instance-->
+      <div class="swiper-container" [swiper]="config" [(index)]="index">
+        <div class="swiper-wrapper">
+          <ng-container *ngFor="let item of data">
+            <div class="swiper-slide">
+              <div class="slides__instance">
+                <div class="slides__elem">
+                  <div class="slides__elem__image">
+                    <img [src]="item.image.url" [alt]="item.image.alt" />
+                  </div><!--/slides__elem__image-->
+                  <div class="slides__elem__body">
+                    <div class="slides__elem__title">{{ item.title }}</div>
+                    <div class="slides__elem__text">{{ item.content }}</div>
+                    <div class="slides__elem__link"><a [routerLink]="item.link.url.path">{{ item.link.title }}</a></div>
+                  </div><!--/slides__elem__body-->
+                </div><!--/slides__elem-->
+              </div><!--/slides__instance-->
+            </div><!--/swiper-slide-->
+            </ng-container>
+        </div><!--/swiper-wrapper-->
 
-        <div class="slides__instance">
-          <div class="slides__elem">
-            <div class="slides__elem__image">
-              <img src="/assets/img/homepage-slides-2.svg" />
-            </div><!--/slides__elem__image-->
-            <div class="slides__elem__body">
-              <div class="slides__elem__title">Andmed EHIS-es</div>
-              <div class="slides__elem__text">Õpingute ja õpetamisega seotud andmed Eesti Hariduse Infosüsteemis.</div>
-              <div class="slides__elem__link"><a routerLink="/">Vaata rohkem</a></div>
-            </div><!--/slides__elem__body-->
-          </div><!--/slides__elem-->
-        </div><!--/slides__instance-->
+        <div class="swiper-pagination"></div>
 
-        <div class="slides__instance">
-          <div class="slides__elem">
-            <div class="slides__elem__image">
-              <img src="/assets/img/homepage-slides-3.svg" />
-            </div><!--/slides__elem__image-->
-            <div class="slides__elem__body">
-              <div class="slides__elem__title">Vajaduspõhine</div>
-              <div class="slides__elem__text">Üliõpilasele kõrghariduse omandamisega kaasnevate kulutuste katmiseks.</div>
-              <div class="slides__elem__link"><a routerLink="/">Vaata rohkem</a></div>
-            </div><!--/slides__elem__body-->
-          </div><!--/slides__elem-->
-        </div><!--/slides__instance-->
-        
-      </div><!--/slides__wrapper-->
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
+      </div><!--/swiper-container-->
+
     </div><!--/slides__container-->
     
     <div class="slides__bullets">
