@@ -69,7 +69,6 @@ const routes: Routes = [
     StudiesComponent,
     TeachingsComponent,
     CertificatesComponent,
-    MoreBlockComponent,
     StudiesDetailView,
     CertificatesDetailView,
   ],

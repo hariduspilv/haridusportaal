@@ -68,7 +68,7 @@ export class AuthService implements CanActivate {
           sessionStorage.setItem('ehisToken', response.jwt);
           this.hasEhisToken.next(true);
         }
-        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
+        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect') || sessionStorage.getItem('redirectUrl');
         console.log(redirectUrl);
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
       },

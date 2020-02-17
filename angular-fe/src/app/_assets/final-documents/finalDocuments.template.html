@@ -1,0 +1,23 @@
+<div class="unpadded">
+	<more-block id="e-tunnistused-main" content="abitekst.tunnistused"></more-block>
+</div>
+<accordion>
+	<accordion-item title="Enda tunnistuste vaatamine ja haldamine">
+    
+	</accordion-item>
+	<accordion-item title="Sinu isikukoodiga ligipääsetavad tunnistused">
+    <ng-container *ngIf="show; else certificatesWithIdInfo">
+
+    </ng-container>
+    <ng-template #certificatesWithIdInfo>
+      <more-block id="sinu-id-tunnistused" content="abitekst.sinu_id_tunnistused"></more-block>
+      <button htm-button *ngIf="(authService.isAuthenticated | async); else logInButton" (click)="showCertificates()">Vaata tunnistusi</button>
+      <ng-template #logInButton>
+        <button htm-button (click)="logIn()">Logi sisse ja vaata tunnistusi</button>
+      </ng-template>
+    </ng-template>
+  </accordion-item>
+  <accordion-item title="Tunnistuse vaatamine ligipääsukoodiga">
+		
+	</accordion-item>
+</accordion>

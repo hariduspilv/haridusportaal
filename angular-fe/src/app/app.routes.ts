@@ -14,6 +14,10 @@ const routes: Routes = [
     loadChildren: () => import('./_views/frontpageView').then(m => m.FrontpageViewModule),
   },
   {
+    path: 'tunnistused/lõpudokumendid',
+    loadChildren: () => import('./_views/certificatesView').then(m => m.CertificatesViewModule),
+  },
+  {
     path: 'oska',
     loadChildren: () => import('./_views/oskaFrontpageView').then(m => m.OskaFrontpageViewModule),
   },

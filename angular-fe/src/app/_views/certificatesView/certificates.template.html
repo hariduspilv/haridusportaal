@@ -1,0 +1,29 @@
+<div class="inline">
+	<article-layout>
+		<breadcrumbs [path]="path"></breadcrumbs>
+		<block [titleBorder]="false" tabStyle="middle">
+			<block-title>
+				Tunnistused
+			</block-title>
+			<block-secondary-title>
+        Lõpudokumendid
+      </block-secondary-title>
+			
+      <block-content
+				tabLabel="E-tunnistused"
+				tabIcon="file-text"
+				tabLink="e-tunnistused"
+			>
+				<final-documents></final-documents>
+			</block-content>
+		
+			<block-content
+				tabLabel="Kehtivuse kontroll"
+				tabIcon="file-text"
+				tabLink="kehtivuse-kontroll"
+			>
+				<h3>Kontroll</h3>
+			</block-content>
+		</block>
+	</article-layout>
+</div>
