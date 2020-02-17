@@ -171,6 +171,7 @@ export class DigitalSignViewComponent implements OnInit {
   }
   getSignedFile() {
     this.loading = true;
+    this.alertsService.clear('studies');
     const checked = [];
     Object.entries(this.formGroup.value).filter(([key, val]) => {
       if (val) {
