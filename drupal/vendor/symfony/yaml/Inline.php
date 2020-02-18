@@ -504,6 +504,11 @@ class Inline
             $isKeyQuoted = \in_array($mapping[$i], ['"', "'"], true);
             $key = self::parseScalar($mapping, $flags, [':', ' '], $i, false, [], true);
 
+            if ('!php/const' === $key) {
+                $key .= self::parseScalar($mapping, $flags, [':', ' '], $i, false, [], true);
+                $key = self::evaluateScalar($key, $flags);
+            }
+
             if (':' !== $key && false === $i = strpos($mapping, ':', $i)) {
                 break;
             }
@@ -735,11 +740,11 @@ class Inline
             // Optimize for returning strings.
             // no break
             case '+' === $scalar[0] || '-' === $scalar[0] || '.' === $scalar[0] || is_numeric($scalar[0]):
+                if (Parser::preg_match('{^[+-]?[0-9][0-9_]*$}', $scalar)) {
+                    $scalar = str_replace('_', '', (string) $scalar);
+                }
+
                 switch (true) {
-                    case Parser::preg_match('{^[+-]?[0-9][0-9_]*$}', $scalar):
-                        $scalar = str_replace('_', '', (string) $scalar);
-                        // omitting the break / return as integers are handled in the next case
-                        // no break
                     case ctype_digit($scalar):
                         $raw = $scalar;
                         $cast = (int) $scalar;
@@ -749,7 +754,7 @@ class Inline
                         $raw = $scalar;
                         $cast = (int) $scalar;
 
-                        return '0' == $scalar[1] ? octdec($scalar) : (((string) $raw === (string) $cast) ? $cast : $raw);
+                        return '0' == $scalar[1] ? -octdec(substr($scalar, 1)) : (($raw === (string) $cast) ? $cast : $raw);
                     case is_numeric($scalar):
                     case Parser::preg_match(self::getHexRegex(), $scalar):
                         $scalar = str_replace('_', '', $scalar);

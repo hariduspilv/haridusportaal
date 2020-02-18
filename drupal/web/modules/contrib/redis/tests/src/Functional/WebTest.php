@@ -29,6 +29,11 @@ class WebTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
+  protected $defaultTheme = 'classy';
+
+  /**
+   * {@inheritdoc}
+   */
   protected function setUp() {
     parent::setUp();
 
@@ -41,6 +46,7 @@ class WebTest extends BrowserTestBase {
     // Get REDIS_INTERFACE env variable.
     $redis_interface = self::getRedisInterfaceEnv();
     $settings['redis.connection']['interface'] = $redis_interface;
+    $settings['redis_compress_length'] = 100;
 
     $settings['cache'] = [
       'default' => 'cache.backend.redis',
@@ -83,6 +89,7 @@ class WebTest extends BrowserTestBase {
     // Add the container_yaml and cache definition.
     $contents .= "\n\n" . '$settings["container_yamls"][] = "' . drupal_get_path('module', 'redis') . '/example.services.yml";';
     $contents .= "\n\n" . '$settings["cache"] = ' . var_export($settings['cache'], TRUE) . ';';
+    $contents .= "\n\n" . '$settings["redis_compress_length"] = 100;';
 
     // Add the classloader.
     $contents .= "\n\n" . '$class_loader->addPsr4(\'Drupal\\\\redis\\\\\', \'' . drupal_get_path('module', 'redis') . '/src\');';

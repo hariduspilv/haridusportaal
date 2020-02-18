@@ -155,7 +155,7 @@ class SettingsForm extends ConfigFormBase {
     $form['derived_active_trail'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Derive MenuActiveTrail from RouteMatch'),
-      '#description' => $this->t('If FALSE, the injected @menu.active_trail service will be used.'),
+      '#description' => $this->t('If FALSE, the injected @menu.active_trail service will be used. If you have a multilingual site with unusually large menus, see <a target="_blank" href="https://www.drupal.org/project/menu_breadcrumb/issues/3083028">issue 3083028</a>.'),
       '#default_value' => $config->get('derived_active_trail'),
     ];
 

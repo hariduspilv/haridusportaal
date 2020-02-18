@@ -14,6 +14,7 @@ return array(
     'bd9634f2d41831496de0d3dfe4c94881' => $vendorDir . '/symfony/polyfill-php56/bootstrap.php',
     '25072dd6e2470089de65ae7bf11d3109' => $vendorDir . '/symfony/polyfill-php72/bootstrap.php',
     '667aeda72477189d0494fecd327c3641' => $vendorDir . '/symfony/var-dumper/Resources/functions/dump.php',
+    'f598d06aa772fa33d905e87be6398fb1' => $vendorDir . '/symfony/polyfill-intl-idn/bootstrap.php',
     'cf97c57bfe0f23854afd2f3818abb7a0' => $vendorDir . '/zendframework/zend-diactoros/src/functions/create_uploaded_file.php',
     '9bf37a3d0dad93e29cb4e1b1bfab04e9' => $vendorDir . '/zendframework/zend-diactoros/src/functions/marshal_headers_from_sapi.php',
     'ce70dccb4bcc2efc6e94d2ee526e6972' => $vendorDir . '/zendframework/zend-diactoros/src/functions/marshal_method_from_sapi.php',

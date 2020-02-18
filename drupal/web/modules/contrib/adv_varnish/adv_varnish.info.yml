@@ -1,12 +1,11 @@
 name: Adv Varnish
 type: module
 description: Advanced Varnish Integration
-# core: 8.x
+core: 8.x
 package: Cache
 configure: adv_varnish.settings
 
-# Information added by Drupal.org packaging script on 2018-01-19
-version: '8.x-2.1'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-02-18
+version: '8.x-2.2'
 project: 'adv_varnish'
-datestamp: 1516359789
+datestamp: 1582009944

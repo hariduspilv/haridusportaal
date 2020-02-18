@@ -443,6 +443,22 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->assertTrue($this->response->headers->has('Age'));
     }
 
+    public function testRevalidatesResponsesWithNoCacheDirectiveEvenIfFresh()
+    {
+        $this->setNextResponse(200, ['Cache-Control' => 'public, no-cache, max-age=10', 'ETag' => 'some-etag'], 'OK');
+        $this->request('GET', '/'); // warm the cache
+
+        sleep(5);
+
+        $this->setNextResponse(304, ['Cache-Control' => 'public, no-cache, max-age=10', 'ETag' => 'some-etag']);
+        $this->request('GET', '/');
+
+        $this->assertHttpKernelIsCalled(); // no-cache -> MUST have revalidated at origin
+        $this->assertTraceContains('valid');
+        $this->assertEquals('OK', $this->response->getContent());
+        $this->assertEquals(0, $this->response->getAge());
+    }
+
     public function testCachesResponsesWithAnExpirationHeader()
     {
         $time = \DateTime::createFromFormat('U', time() + 5);
@@ -1242,7 +1258,6 @@ class HttpCacheTest extends HttpCacheTestCase
         $this->request('GET', '/', [], [], true);
         $this->assertEquals('Hello World! My name is Bobby.', $this->response->getContent());
         $this->assertNull($this->response->getTtl());
-        $this->assertTrue($this->response->mustRevalidate());
         $this->assertTrue($this->response->headers->hasCacheControlDirective('private'));
         $this->assertTrue($this->response->headers->hasCacheControlDirective('no-cache'));
     }
@@ -1273,7 +1288,6 @@ class HttpCacheTest extends HttpCacheTestCase
         // This can neither be cached nor revalidated, so it should be private/no cache
         $this->assertEmpty($this->response->getContent());
         $this->assertNull($this->response->getTtl());
-        $this->assertTrue($this->response->mustRevalidate());
         $this->assertTrue($this->response->headers->hasCacheControlDirective('private'));
         $this->assertTrue($this->response->headers->hasCacheControlDirective('no-cache'));
     }

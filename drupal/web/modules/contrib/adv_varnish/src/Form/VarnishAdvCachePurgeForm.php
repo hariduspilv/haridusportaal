@@ -5,6 +5,7 @@ namespace Drupal\adv_varnish\Form;
 use Drupal\adv_varnish\VarnishInterface;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -13,10 +14,25 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class VarnishAdvCachePurgeForm extends FormBase {
 
   /**
+   * Stores the state storage service.
+   *
+   * @var \Drupal\adv_varnish\VarnishInterface
+   */
+  protected $varnishHandler;
+
+  /**
+   * The Messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(VarnishInterface $varnish_handler) {
+  public function __construct(VarnishInterface $varnish_handler, MessengerInterface $messenger) {
     $this->varnishHandler = $varnish_handler;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -24,7 +40,8 @@ class VarnishAdvCachePurgeForm extends FormBase {
    */
   public static function create(ContainerInterface $container) {
     return new static(
-      $container->get('adv_varnish.handler')
+      $container->get('adv_varnish.handler'),
+      $container->get('messenger')
     );
   }
 
@@ -49,15 +66,15 @@ class VarnishAdvCachePurgeForm extends FormBase {
 
     $_SESSION['messages'] = [];
     if (empty($backend_status)) {
-      drupal_set_message($this->t('Varnish backend is not set.'), 'warning');
+      $this->messenger->addMessage($this->t('Varnish backend is not set.'), 'warning');
     }
     else {
       foreach ($backend_status as $backend => $status) {
         if (empty($status)) {
-          drupal_set_message($this->t('Varnish at @backend not responding.', ['@backend' => $backend]), 'error');
+          $this->messenger->addMessage($this->t('Varnish at @backend not responding.', ['@backend' => $backend]), 'error');
         }
         else {
-          drupal_set_message($this->t('Varnish at @backend connected.', ['@backend' => $backend]));
+          $this->messenger->addMessage($this->t('Varnish at @backend connected.', ['@backend' => $backend]));
         }
       }
     }
@@ -125,12 +142,12 @@ class VarnishAdvCachePurgeForm extends FormBase {
 
     // Display information about results.
     if (empty($result)) {
-      drupal_set_message($this->t('Server refuse to execute command.'), 'error');
+      $this->messenger->addMessage($this->t('Server refuse to execute command.'), 'error');
     }
     else {
       foreach ($result as $server => $commands) {
         foreach ($commands as $command => $status) {
-          drupal_set_message($this->t('Server %server executed command %command successfully.', [
+          $this->messenger->addMessage($this->t('Server %server executed command %command successfully.', [
             '%server' => $server,
             '%command' => $command,
           ]));
