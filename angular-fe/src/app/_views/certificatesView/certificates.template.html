@@ -3,14 +3,14 @@
 		<breadcrumbs [path]="path"></breadcrumbs>
 		<block [titleBorder]="false" tabStyle="middle">
 			<block-title>
-				Tunnistused
+				{{'certificates.title' | translate }}
 			</block-title>
 			<block-secondary-title>
-        Lõpudokumendid
+        {{'certificates.final_documents' | translate }}
       </block-secondary-title>
 			
       <block-content
-				tabLabel="E-tunnistused"
+				[tabLabel]="'certificates.e_certificates' | translate"
 				tabIcon="file-text"
 				tabLink="e-tunnistused"
 			>
@@ -18,11 +18,11 @@
 			</block-content>
 		
 			<block-content
-				tabLabel="Kehtivuse kontroll"
+				[tabLabel]="'certificates.validity_check' | translate"
 				tabIcon="file-text"
 				tabLink="kehtivuse-kontroll"
 			>
-				<h3>Kontroll</h3>
+				<h3>PLACEHOLDER</h3>
 			</block-content>
 		</block>
 	</article-layout>

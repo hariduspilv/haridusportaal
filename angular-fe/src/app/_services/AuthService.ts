@@ -22,7 +22,6 @@ export class AuthService implements CanActivate {
     private settings: SettingsService,
   ) {
     this.isAuthenticated.next(this.isLoggedIn());
-    console.log('const')
   }
 
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
