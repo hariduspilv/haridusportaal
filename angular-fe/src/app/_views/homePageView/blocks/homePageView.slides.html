@@ -8,7 +8,7 @@
       <div class="slides__arrow slides__arrow--left"><icon glyph="chevron-left"></icon></div>
       <div class="slides__arrow slides__arrow--right"><icon glyph="chevron-right"></icon></div>
 
-      <div class="swiper-container" [swiper]="config" [(index)]="index">
+      <swiper [config]="config">
         <div class="swiper-wrapper">
           <ng-container *ngFor="let item of data">
             <div class="swiper-slide">
@@ -26,7 +26,7 @@
               </div><!--/slides__instance-->
             </div><!--/swiper-slide-->
             </ng-container>
-        </div><!--/swiper-wrapper-->
+          </swiper>
 
         <div class="swiper-pagination"></div>
 

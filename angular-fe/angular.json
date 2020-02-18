@@ -37,7 +37,8 @@
               "src/amp-php"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/swiper/css/swiper.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
@@ -70,9 +71,7 @@
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
                 }
-              ],
-              "serviceWorker": true,
-              "ngswConfigPath": "ngsw-config.json"
+              ]
             }
           }
         },

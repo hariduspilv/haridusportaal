@@ -15,15 +15,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
 import { TranslateModule } from '@app/_modules/translate';
 import { AppPipes } from '@app/_pipes';
-import { SwiperModule } from 'ngx-swiper-wrapper';
-import { SWIPER_CONFIG, SwiperConfigInterface } from 'ngx-swiper-wrapper';
-
-const DEFAULT_SWIPER_CONFIG: SwiperConfigInterface = {
-  direction: 'horizontal',
-  slidesPerView: 3,
-  autoplay: true,
-};
-
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 const routes: Routes = [
   {
     path: '',
@@ -49,13 +41,10 @@ const routes: Routes = [
     CommonModule,
     TranslateModule,
     AppPipes,
-    SwiperModule,
+    NgxUsefulSwiperModule,
   ],
   providers: [
-    {
-      provide: SWIPER_CONFIG,
-      useValue: DEFAULT_SWIPER_CONFIG,
-    },
+
   ],
   bootstrap: [],
 })
