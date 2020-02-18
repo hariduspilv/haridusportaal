@@ -1,0 +1,18 @@
+uuid: 807ac5c1-1d64-4383-9991-c47c8a252127
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_professional_certific
+    - jwt
+    - serialization
+id: get_signed_file
+plugin_id: get_signed_file
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - jwt_auth
