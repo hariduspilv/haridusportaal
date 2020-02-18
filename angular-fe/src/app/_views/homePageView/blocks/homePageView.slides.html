@@ -1,48 +1,28 @@
 <homepage-line type="2"></homepage-line>
 <div class="inner">
-
   
   <div class="slides" id="scrollTo-teenused" *ngIf="data.length">
     <div class="slides__title">{{ 'home.services_title' | translate }}</div>
     <div class="slides__container">
-      <div class="slides__arrow slides__arrow--left"><icon glyph="chevron-left"></icon></div>
-      <div class="slides__arrow slides__arrow--right"><icon glyph="chevron-right"></icon></div>
+      <div class="slides__wrapper">
 
-      <swiper [config]="config">
-        <div class="swiper-wrapper">
-          <ng-container *ngFor="let item of data">
-            <div class="swiper-slide">
-              <div class="slides__instance">
-                <div class="slides__elem">
-                  <div class="slides__elem__image">
-                    <img [src]="item.image.url" [alt]="item.image.alt" />
-                  </div><!--/slides__elem__image-->
-                  <div class="slides__elem__body">
-                    <div class="slides__elem__title">{{ item.title }}</div>
-                    <div class="slides__elem__text">{{ item.content }}</div>
-                    <div class="slides__elem__link"><a [routerLink]="item.link.url.path">{{ item.link.title }}</a></div>
-                  </div><!--/slides__elem__body-->
-                </div><!--/slides__elem-->
-              </div><!--/slides__instance-->
-            </div><!--/swiper-slide-->
-            </ng-container>
-          </swiper>
-
-        <div class="swiper-pagination"></div>
-
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div>
-      </div><!--/swiper-container-->
-
+        <ng-container *ngFor="let item of data">
+          <div class="slides__instance">
+            <div class="slides__elem">
+              <div class="slides__elem__image">
+                <img [src]="item.image.url" [alt]="item.image.alt" />
+              </div><!--/slides__elem__image-->
+              <div class="slides__elem__body">
+                <div class="slides__elem__title">{{ item.title }}</div>
+                <div class="slides__elem__text">{{ item.content }}</div>
+                <div class="slides__elem__link"><a [routerLink]="item.link.url.path">{{ item.link.title }}</a></div>
+              </div><!--/slides__elem__body-->
+            </div><!--/slides__elem-->
+          </div><!--/slides__instance-->
+        </ng-container>
+        
+      </div><!--/slides__wrapper-->
     </div><!--/slides__container-->
-    
-    <div class="slides__bullets">
-      <div class="slides__bullet slides__bullet--active"></div>
-      <div class="slides__bullet"></div>
-      <div class="slides__bullet"></div>
-      <div class="slides__bullet"></div>
-      <div class="slides__bullet"></div>
-    </div><!--/slides__bullets-->
-
+  
   </div><!--/slides-->
 </div><!--/inner-->

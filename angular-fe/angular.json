@@ -37,8 +37,7 @@
               "src/amp-php"
             ],
             "styles": [
-              "src/styles.scss",
-              "./node_modules/swiper/css/swiper.css"
+              "src/styles.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [

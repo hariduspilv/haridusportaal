@@ -1,4 +1,3 @@
-@import '~swiper/css/swiper.min.css';
 :host {
   display: block;
   background: #fff;
@@ -215,7 +214,6 @@
 
       &__instance {
         width: 100%;
-        height: 100%;
         padding:0 0.75rem;
         display: flex;
         flex-direction: column;

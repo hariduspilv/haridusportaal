@@ -2,7 +2,6 @@ import { Component, Input, OnInit, OnChanges } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
 import FieldVaryService from '@app/_services/FieldVaryService';
-import { SwiperOptions } from 'swiper';
 
 @Component({
   selector: 'homepage-line',
@@ -34,14 +33,6 @@ export class HomePageArticlesComponent {
 })
 export class HomePageSlidesComponent {
   @Input() data: [] = [];
-  config: SwiperOptions = {
-    pagination: { el: '.swiper-pagination', clickable: true },
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
-    spaceBetween: 30,
-  };
 }
 
 @Component({
@@ -172,7 +163,6 @@ export class HomePageViewComponent implements OnInit {
           content: item.entity.fieldServiceContent,
         };
       });
-      this.services = [ ...this.services, ...this.services ];
     } catch (err) {}
 
     try {
