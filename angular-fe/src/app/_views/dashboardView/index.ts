@@ -56,6 +56,10 @@ const routes: Routes = [
     component: StudiesDetailView,
   },
   {
+    path: 'tunnistused/lõputunnistused/:id',
+    component: CertificatesDetailView,
+  },
+  {
     path: 'tunnistused/:id',
     component: CertificatesDetailView,
   },
