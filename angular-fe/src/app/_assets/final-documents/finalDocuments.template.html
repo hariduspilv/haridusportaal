@@ -2,22 +2,46 @@
 	<more-block id="e-tunnistused-main" content="abitekst.tunnistused"></more-block>
 </div>
 <accordion>
-	<accordion-item title="Enda tunnistuste vaatamine ja haldamine">
+	<accordion-item [title]="'certificates.view_own_certificates' | translate">
     
 	</accordion-item>
-	<accordion-item title="Sinu isikukoodiga ligipääsetavad tunnistused">
-    <ng-container *ngIf="show; else certificatesWithIdInfo">
+	<accordion-item [title]="'certificates.access_with_idcode' | translate">
+    <more-block id="sinu-id-tunnistused" content="abitekst.sinu_id_tunnistused"></more-block>
 
-    </ng-container>
-    <ng-template #certificatesWithIdInfo>
-      <more-block id="sinu-id-tunnistused" content="abitekst.sinu_id_tunnistused"></more-block>
-      <button htm-button *ngIf="(authService.isAuthenticated | async); else logInButton" (click)="showCertificates()">Vaata tunnistusi</button>
-      <ng-template #logInButton>
-        <button htm-button (click)="logIn()">Logi sisse ja vaata tunnistusi</button>
+    <ng-container *ngIf="isLoggedIn; else logInButton">
+      <loader *ngIf="loading.certificatesById; else certificatesbyIdRef"></loader>
+      <ng-template #certificatesbyIdRef>
+        <table htm-table *ngIf="certificatesById && certificatesById.length > 0">
+          <thead>
+            <th>{{ 'certificates.owner_name' | translate }}</th>
+            <th>{{ 'certificates.issuer' | translate }}</th>
+            <th>{{ 'certificates.certificate_type' | translate }}</th>
+            <th></th>
+          </thead>
+          <tbody>
+            <tr *ngFor="let certificate of certificatesById">
+              <td>{{ certificate.ownerName }}</td>
+              <td>{{ certificate.issuerName }}</td>
+              <td>{{ certificate.typeName }}</td>
+              <td nowrap>
+                <a [routerLink]="'/tunnistused/lõputunnistused/' + certificate.id"
+                  >
+                  {{ 'button.open' | translate }}
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <p *ngIf="!certificatesById || certificatesById.length === 0">{{ 'certificates.no_access' | translate }}</p>
       </ng-template>
+    </ng-container>
+
+    <ng-template #logInButton>
+      <button htm-button (click)="logIn()">{{ 'certificates.login_to_view' | translate }}</button>
     </ng-template>
+
   </accordion-item>
-  <accordion-item title="Tunnistuse vaatamine ligipääsukoodiga">
+  <accordion-item [title]="'certificates.view_with_accesscode' | translate">
 		
 	</accordion-item>
 </accordion>
