@@ -1,3 +1,14 @@
+### [1.9.3] 2020-02-04
+
+  * Fixed GitHub deprecation of access_token query parameter, now using Authorization header
+
+### [1.9.2] 2020-01-14
+
+  * Fixed minor git driver bugs
+  * Fixed schema validation for version field to allow dev-* versions too
+  * Fixed external processes' output being formatted even though it should not
+  * Fixed issue with path repositories when trying to install feature branches
+
 ### [1.9.1] 2019-11-01
 
   * Fixed various credential handling issues with gitlab and github
@@ -776,6 +787,8 @@
 
   * Initial release
 
+[1.9.3]: https://github.com/composer/composer/compare/1.9.2...1.9.3
+[1.9.2]: https://github.com/composer/composer/compare/1.9.1...1.9.2
 [1.9.1]: https://github.com/composer/composer/compare/1.9.0...1.9.1
 [1.9.0]: https://github.com/composer/composer/compare/1.8.6...1.9.0
 [1.8.6]: https://github.com/composer/composer/compare/1.8.5...1.8.6
