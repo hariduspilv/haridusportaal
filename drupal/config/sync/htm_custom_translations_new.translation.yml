@@ -784,6 +784,14 @@ frontpage:
     en:
       value: "<h3>Lõpudokumentide alamregister pakub võimalust kontrollida lõpudokumentide kehtivust. Kontrollida saab alates 2004. aasta kevadest välja antud põhikooli ja/või gümnaasiumi lõputunnistuste andmeid.</h3>\r\n\r\n<p>Lõpudokumendi otsimiseks tuleb:</p>\r\n\r\n<ul>\r\n\t<li>sisestada dokumendi number</li>\r\n\t<li>omaniku isikukood või sünniaeg</li>\r\n</ul>\r\n\r\n<p>NB! Andmete õigsus sõltub õppeasutustest – kui korrektselt on õppeasutus andmed sisestanud. Kui otsingu tulemusena ei leita andmebaasist otsitavat dokumenti, ei tähenda see, et niisugust dokumenti pole olemas. Probleem võib olla selles, et õppeasutus ei ole vastavat lõpudokumenti andmebaasi veel sisestanud. Dokumendi õigsuse kontrollimiseks tuleks sel juhul pöörduda vastava õppeasutuse poole.</p>\r\n"
       format: custom_editor
+  dashboard_tabs_graduation_certificates_no_results:
+    translation_type: textarea
+    et: 'Kehtivad e-tunnistused puuduvad'
+    en: 'Kehtivad e-tunnistused puuduvad - eng'
+  dashboard_tabs_certificates_graduation:
+    translation_type: textarea
+    et: Lõputunnistused
+    en: 'Graduation certificates'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -2233,6 +2241,10 @@ errors:
     translation_type: textarea
     et: 'Ei saa serverit kätte. Palun kontrollige oma internetiühendust ning proovige uuesti.'
     en: 'Cannot connect to server. Please check your internet connectivity and try again.'
+  empty_selection:
+    translation_type: textarea
+    et: 'Viga! Ühtegi valikut ei ole tehtud'
+    en: 'Viga! Ühtegi valikut ei ole tehtud'
 search:
   label:
     translation_type: textarea
@@ -2872,6 +2884,55 @@ dashboard:
     translation_type: textarea
     et: 'Kas olete kindel, et soovite dokumendi kustutada?'
     en: 'Kas olete kindel, et soovite dokumendi kustutada?'
+  digital_sign:
+    button:
+      translation_type: textarea
+      et: 'Laadi alla digitempliga fail'
+      en: 'Laadi alla digitempliga fail'
+    tooltip:
+      translation_type: textarea
+      et: 'Mingi tooltipi tekst, mis on tõlgetest muudetav ja 250 tähemärki pikk. Mingi tooltipi tekst, mis on tõlgetest muudetav ja 250 tähemärki pikk. Mingi tooltipi tekst, mis on tõlgetest muudetav ja 250 tähemärki pikk. Mingi tooltipi tekst, mis on tõlgete.'
+      en: 'Mingi tooltipi tekst, mis on töölaual. Mingi tooltipi tekst, mis on töölaual. Mingi tooltipi tekst, mis on töölaual. Mingi tooltipi tekst, mis on töölaual.'
+    title:
+      translation_type: textarea
+      et: 'Digitembelda ja salvesta andmed'
+      en: 'Digitembelda ja salvesta andmed'
+    subtitle:
+      translation_type: textarea
+      et: 'Vali andmed'
+      en: 'Vali andmed'
+    studies_title:
+      translation_type: textarea
+      et: 'Õpingute andmed'
+      en: 'Õpingute andmed'
+    work_title:
+      translation_type: textarea
+      et: 'Pedagoogina ja õppejõuna töötamise andmed'
+      en: 'Pedagoogina ja õppejõuna töötamise andmed'
+    submit_button:
+      translation_type: textarea
+      et: 'Laadi alla digitempliga fail'
+      en: 'Laadi alla digitempliga fail'
+    show_data:
+      translation_type: textarea
+      et: 'Näita andmeid'
+      en: 'Näita andmeid'
+    hide_data:
+      translation_type: textarea
+      et: 'Peida andmed'
+      en: 'Peida andmed'
+    cancel:
+      translation_type: textarea
+      et: Tühista
+      en: Tühista
+    qualification_title:
+      translation_type: textarea
+      et: Kvalifikatsioonid
+      en: Kvalifikatsioonid
+    extra_courses_title:
+      translation_type: textarea
+      et: Täienduskoolitused
+      en: Täienduskoolitused
 general: {  }
 agree:
   translation_type: textarea
@@ -3034,6 +3095,10 @@ generic:
     translation_type: textarea
     et: 'Youtube video'
     en: 'Youtube video'
+  invalid:
+    translation_type: textarea
+    et: Kehtetu
+    en: Invalid
 sidemenu:
   support_text:
     translation_type: text_format
@@ -3358,3 +3423,81 @@ link:
     translation_type: textarea
     et: 'Dokumendi link'
     en: 'Link to a document'
+certificates:
+  institution_name:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi'
+    en: 'Õppeasutuse nimi - eng'
+  document_name:
+    translation_type: textarea
+    et: 'Dokumendi nimi'
+    en: 'Dokumendi nimi - eng'
+  issuing_date:
+    translation_type: textarea
+    et: 'Väljastamise kuupäev'
+    en: 'Väljastamise kuupäev - eng'
+home:
+  slogan:
+    translation_type: textarea
+    et: 'Sinu <b>edu</b>ka <br /> teekonna algus'
+    en: 'Sinu <b>edu</b>ka <br /> teekonna algus'
+  services:
+    translation_type: textarea
+    et: Teenused
+    en: Teenused
+  what_to_find:
+    translation_type: textarea
+    et: 'Mida siit leida?'
+    en: 'Mida siit leida?'
+  contact:
+    translation_type: textarea
+    et: Kontakt
+    en: Kontakt
+  newsletter_subscribe:
+    translation_type: textarea
+    et: 'Uudiskirja tellimine'
+    en: 'Uudiskirja tellimine'
+  newsletter_join:
+    translation_type: textarea
+    et: Liitu
+    en: Liitu
+  newsletter_rss:
+    translation_type: textarea
+    et: 'Telli teemad RSS-iga'
+    en: 'Telli teemad RSS-iga'
+  newsletter_email:
+    translation_type: textarea
+    et: 'Sisesta oma e-mail'
+    en: 'Sisesta oma e-mail'
+  services_title:
+    translation_type: textarea
+    et: 'Haldusvaldkonna e-teenused'
+    en: 'Haldusvaldkonna e-teenused'
+  study_title:
+    translation_type: textarea
+    et: 'Õppekavade ja ametialade võrdlus'
+    en: 'Õppekavade ja ametialade võrdlus'
+  study_intro:
+    translation_type: textarea
+    et: 'Võrdle erialasid ja ametialasid, et leida endale <br /> sobivaim õpitee'
+    en: 'Võrdle erialasid ja ametialasid, et leida endale <br /> sobivaim õpitee'
+  studyprogramme_compare:
+    translation_type: textarea
+    et: 'Õppekavade võrdlus'
+    en: 'Õppekavade võrdlus'
+  view_more:
+    translation_type: textarea
+    et: 'Uuri lähemalt'
+    en: 'Uuri lähemalt'
+  profession_compare:
+    translation_type: textarea
+    et: 'Ametialade võrdlus'
+    en: 'Ametialade võrdlus'
+  topical:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Päevakajaline
+  read_more:
+    translation_type: textarea
+    et: 'Loe lähemalt'
+    en: 'Loe lähemalt'
