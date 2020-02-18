@@ -3,17 +3,36 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.paragraph.homepage_topics.field_topic_button_text
+    - field.field.paragraph.homepage_topics.field_topic_image
     - field.field.paragraph.homepage_topics.field_topic_link
     - field.field.paragraph.homepage_topics.field_topic_text
     - field.field.paragraph.homepage_topics.field_topic_title
     - paragraphs.paragraphs_type.homepage_topics
   module:
+    - file
     - link
 id: paragraph.homepage_topics.default
 targetEntityType: paragraph
 bundle: homepage_topics
 mode: default
 content:
+  field_topic_button_text:
+    weight: 3
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_topic_image:
+    weight: 4
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
   field_topic_link:
     weight: 2
     label: above
@@ -41,4 +60,5 @@ content:
     third_party_settings: {  }
     type: string
     region: content
-hidden: {  }
+hidden:
+  search_api_excerpt: true
