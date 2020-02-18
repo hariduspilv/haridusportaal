@@ -32,7 +32,6 @@
     "moment": "^2.24.0",
     "ngx-clipboard": "^12.3.0",
     "ngx-device-detector": "^1.3.20",
-    "ngx-embed-video": "^1.0.4",
     "ngx-pipes": "^2.6.0",
     "ngx-swiper-wrapper": "^9.0.0",
     "ngx-useful-swiper": "^9.0.2",
