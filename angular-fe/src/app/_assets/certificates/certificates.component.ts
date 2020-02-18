@@ -53,15 +53,19 @@ export class CertificatesComponent implements OnInit {
     }
   }
 
+  compareCertificates(a, b) {
+    return a.issued < b.issued || a.issued == null ? 1 : -1;
+  }
+
   getGraduationCertificates(id) {
 
     this.loading[id] = true;
 
     if (!this.loaded[id]) {
       this.http.get(`${this.settings.url}/certificates/v1/certificates`).subscribe(
-        (res) => {
+        (res: any[]) => {
           this.loading[id] = false;
-          this.graduationCertificates = res;
+          this.graduationCertificates = res.sort(this.compareCertificates);
         },
         (err) => {
           this.graduationCertificates = [];

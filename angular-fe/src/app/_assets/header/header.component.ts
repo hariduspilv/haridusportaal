@@ -136,7 +136,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  openLoginModal() {
+  public openLoginModal() {
     this.loginForm.reset();
     this.mobileIdForm.reset();
     this.getAuthMethods();
