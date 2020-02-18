@@ -3,25 +3,30 @@
 namespace Drupal\Tests\maxlength\FunctionalJavascript;
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
  * Tests the custom widget support.
  *
  * @group maxlength
  */
-class MaxlengthCustomWidgetTest extends JavascriptTestBase {
+class MaxlengthCustomWidgetTest extends WebDriverTestBase {
 
   /**
    * {@inheritdoc}
    */
-  public static $modules = [
+  protected static $modules = [
     'node',
     'field',
     'field_ui',
     'maxlength',
     'maxlength_custom_widget_test',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'classy';
 
   /**
    * {@inheritdoc}
@@ -54,7 +59,6 @@ class MaxlengthCustomWidgetTest extends JavascriptTestBase {
     $this->drupalLogin($admin_user);
 
     $this->drupalGet('admin/structure/types/manage/article/form-display');
-    $this->assertSession()->statusCodeEquals(200);
     $page = $this->getSession()->getPage();
     $page->pressButton('edit-fields-body-settings-edit');
     $this->getSession()->wait(1000);
@@ -64,7 +68,6 @@ class MaxlengthCustomWidgetTest extends JavascriptTestBase {
     $this->assertSession()->responseContains('Max summary length: 123');
 
     $this->drupalGet('node/add/article');
-    $this->assertSession()->statusCodeEquals(200);
 
     // Give maxlength.js some time to manipulate the DOM.
     $this->getSession()->wait(1000, 'jQuery("div.counter").is(":visible")');

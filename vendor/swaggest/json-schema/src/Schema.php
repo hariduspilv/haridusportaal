@@ -798,7 +798,7 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
          * @var mixed $value
          */
         foreach ($array as $key => $value) {
-            if ($key === '' && PHP_VERSION_ID < 71000) {
+            if ($key === '' && PHP_VERSION_ID < 70100) {
                 $this->fail(new InvalidValue('Empty property name'), $path);
             }
 
@@ -911,7 +911,9 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
                     if ($found || !$import) {
                         $result->$propertyName = $value;
                     } elseif (!isset($result->$propertyName)) {
-                        $result->$propertyName = $value;
+                        if (self::PROP_REF !== $propertyName || empty($result->__fromRef)) {
+                            $result->$propertyName = $value;
+                        }
                     }
                 }
             }
