@@ -117,6 +117,10 @@ public class HPortalRestController {
         return new ResponseEntity<>(mtsysWorker
             .getMtsysEsitaTegevusluba(formName, Long.valueOf(identifier), personalCode),
             HttpStatus.OK);
+      } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_MUUTMINE_ARUANNE")) {
+        return new ResponseEntity<>(mtsysWorker
+            .getMtsysEsitaTegevusNaitaja(Long.valueOf(identifier), educationalInstitutionsId,
+                personalCode), HttpStatus.OK);
       }
     }
 

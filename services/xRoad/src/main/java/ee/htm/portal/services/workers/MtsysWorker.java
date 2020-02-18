@@ -292,13 +292,17 @@ public class MtsysWorker extends Worker {
                   if (tegevusluba.getMenetlusStaatus().equalsIgnoreCase("Sisestamisel")
                       || tegevusluba.getMenetlusStaatus()
                       .equalsIgnoreCase("Tagastatud puudustega")) {
+                    description = tegevusloaLiigidNode.get(tegevusluba.getLiik()).get("et")
+                        .asText();
+                    description += tegevusluba.getMenetlusStaatus()
+                        .equalsIgnoreCase("Tagastatud puudustega")
+                        ? ". Taotlus on puudustega ja tagastatud taotlejale täiendamiseks" : "";
                     ((ArrayNode) itemNode.get("drafts")).addObject()
                         .put("form_name", "MTSYS_TEGEVUSLUBA_TAOTLUS")
                         .put("id", tegevusluba.isSetId() ? tegevusluba.getId().intValue() : null)
                         .put("document_date",
                             tegevusluba.isSetLoomiseKp() ? tegevusluba.getLoomiseKp() : null)
-                        .put("description", tegevusloaLiigidNode.get(tegevusluba.getLiik())
-                            .get("et").asText());
+                        .put("description", description);
                   } else {
                     ((ArrayNode) itemNode.get("documents")).addObject()
                         .put("form_name", "MTSYS_TEGEVUSLUBA")
@@ -1145,6 +1149,10 @@ public class MtsysWorker extends Worker {
       MtsysTegevusnaitajaResponse response = ehisXRoadService
           .mtsysTegevusnaitaja(request, personalCode);
 
+      if (response.getSaabMuuta()) {
+        ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).add("CHANGE");
+      }
+
       ObjectNode step0DataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
           .putObject("step_0").putObject("data_elements");
 
@@ -1334,6 +1342,48 @@ public class MtsysWorker extends Worker {
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
     LOGGER.info(logForDrupal);
 
+    return jsonNode;
+  }
+
+  public ObjectNode getMtsysEsitaTegevusNaitaja(Long identifier, Long educationalInstitutionsId,
+      String personalCode) {
+    ObjectNode jsonNode = nodeFactory.objectNode();
+    try {
+      MtsysEsitaTegevusnaitajad request = MtsysEsitaTegevusnaitajad.Factory.newInstance();
+      request.setAruandeId(BigInteger.valueOf(identifier));
+      request.setOperatsioon("MUUTMINE");
+      MtsysEsitaTegevusnaitajadResponse response = ehisXRoadService
+          .mtsysEsitaTegevusnaitajad(request, personalCode);
+      if (!response.isSetInfotekst()) {
+        jsonNode = getMtsysTegevusNaitajaTaotlus("MTSYS_TEGEVUSNAITAJAD_ARUANNE",
+            identifier, null, educationalInstitutionsId, personalCode);
+      } else {
+        ((ArrayNode) jsonNode.get("body").get("messages")).add("error_message");
+        ((ObjectNode) jsonNode.get("messages")).putObject("error_message")
+            .put("message_type", "ERROR").putObject("message_text")
+            .put("et", response.getInfotekst());
+      }
+    } catch (Exception e) {
+      LOGGER.error(e);
+      jsonNode = getMtsysTegevusNaitaja("MTSYS_TEGEVUSNAITAJAD", identifier, personalCode);
+      ((ArrayNode) jsonNode.get("body").get("messages")).add("error_message");
+      if (e instanceof XRoadServiceConsumptionException) {
+        if (((XRoadServiceConsumptionException) e).getFaultString()
+            .equalsIgnoreCase("Vale operatsioon!")
+            || ((XRoadServiceConsumptionException) e).getFaultString()
+            .equalsIgnoreCase("Tegevusnäitajade aruanne peab olema staatuses Esitatud!")
+            || ((XRoadServiceConsumptionException) e).getFaultString()
+            .equalsIgnoreCase("Tegevusnäitajad peavad olema salvestatud!")) {
+          ((ObjectNode) jsonNode.get("messages")).putObject("error_message")
+              .put("message_type", "ERROR").putObject("message_text")
+              .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
+        }
+      } else {
+        ((ObjectNode) jsonNode.get("messages")).putObject("error_message")
+            .put("message_type", "ERROR").putObject("message_text")
+            .put("et", "Tehniline viga!");
+      }
+    }
     return jsonNode;
   }
 
