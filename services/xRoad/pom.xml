@@ -46,6 +46,28 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-data-redis</artifactId>
     </dependency>
+<!--
+    &lt;!&ndash; exclude logback , add log4j2 &ndash;&gt;
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-log4j2</artifactId>
+    </dependency>
+    &lt;!&ndash; https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core &ndash;&gt;
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+    </dependency>
+-->
 
     <!-- https://mvnrepository.com/artifact/org.springframework/spring-oxm -->
     <!-- needed because com.nortal.jroad/xtee-client-transport -->
@@ -81,6 +103,13 @@
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_KUTSEREGISTER_Client</artifactId>
       <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-log4j12 -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>2.0.0-alpha1</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/log4j/log4j -->
