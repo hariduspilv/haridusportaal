@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class Worker {
@@ -43,7 +43,7 @@ public class Worker {
   }
 
   protected void setXdzeisonError(Logger logger, ObjectNode jsonNode, Exception e) {
-    logger.error(e, e);
+    logger.error(e.getMessage(), e.getCause());
 
     logForDrupal.setSeverity("ERROR");
     logForDrupal.setMessage(e.getMessage());
@@ -57,7 +57,7 @@ public class Worker {
   }
 
   protected void setError(Logger logger, ObjectNode jsonNode, Exception e) {
-    logger.error(e, e);
+    logger.error(e.getMessage(), e.getCause());
 
     logForDrupal.setSeverity("ERROR");
     logForDrupal.setMessage(e.getMessage());

@@ -11,12 +11,13 @@ import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.concurrent.TimeUnit;
 import javax.activation.DataHandler;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class EeIsikukaartWorker extends Worker {
 
-  private static final Logger LOGGER = Logger.getLogger(EeIsikukaartWorker.class);
+  private static final Logger log = LoggerFactory.getLogger(EeIsikukaartWorker.class);
 
   private EhisXRoadService ehisXRoadService;
 
@@ -288,7 +289,7 @@ public class EeIsikukaartWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
     gdprNode.put("response_timestamp", System.currentTimeMillis());
@@ -330,7 +331,7 @@ public class EeIsikukaartWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
@@ -387,12 +388,12 @@ public class EeIsikukaartWorker extends Worker {
             .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
       } else {
         responseNode.removeAll();
-        setError(LOGGER, responseNode, e);
+        setError(log, responseNode, e);
       }
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return responseNode;
   }
@@ -408,7 +409,7 @@ public class EeIsikukaartWorker extends Worker {
           .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
       responseNode.remove("value");
     } else {
-      setError(LOGGER, responseNode, e);
+      setError(log, responseNode, e);
     }
   }
 }

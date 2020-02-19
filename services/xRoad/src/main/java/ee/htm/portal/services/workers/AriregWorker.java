@@ -6,12 +6,13 @@ import ee.htm.portal.services.client.AriregXRoadService;
 import ee.htm.portal.services.types.eu.x_road.arireg.producer.EsindusV1Response;
 import java.sql.Timestamp;
 import java.util.concurrent.TimeUnit;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class AriregWorker extends Worker {
 
-  private static final Logger LOGGER = Logger.getLogger(AriregWorker.class);
+  private static final Logger log = LoggerFactory.getLogger(AriregWorker.class);
 
   private AriregXRoadService ariregXRoadService;
 
@@ -93,12 +94,11 @@ public class AriregWorker extends Worker {
 
       logForDrupal.setMessage("ARIREG - esindus.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      setError(LOGGER, responseNode, e);
+      setError(log, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
-
+    log.info(logForDrupal.toString());
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "esindusOigus", responseNode);
