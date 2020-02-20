@@ -11,6 +11,8 @@ export class AuthInterceptor implements HttpInterceptor{
     private settings: SettingsService,
   ) {}
 
+  private ehisUrls = ['/messages/messages/receiver', 'certificates/v1/'];
+
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let request = req.clone();
     request = this.addAuthToken(request);
@@ -22,7 +24,7 @@ export class AuthInterceptor implements HttpInterceptor{
 
     let headers = request.headers;
 
-    if (this.authService.isLoggedIn() && !request.url.match(`${this.settings.url}/ehis/jwt`)) {
+    /*if (this.authService.isLoggedIn() && !request.url.match(`${this.settings.url}/ehis/jwt`)) {
       const token: string = sessionStorage.getItem('token');
       headers = headers
         .set('Authorization', `Bearer ${token}`);
@@ -33,6 +35,20 @@ export class AuthInterceptor implements HttpInterceptor{
       request.url.includes('/messages/messages/receiver')
     ) {
       const token = sessionStorage.getItem('ehisToken');
+      headers = headers
+      .set('Authorization', `Bearer ${token}`);
+    }*/
+
+    if (
+      this.authService.isLoggedIn()
+       && !request.url.match(`${this.settings.url}/ehis/jwt`)
+    ) {
+      let token;
+      if (this.ehisUrls.some(url => request.url.includes(url))) {
+        token = sessionStorage.getItem('ehisToken');
+      } else {
+        token = sessionStorage.getItem('token');
+      }
       headers = headers
       .set('Authorization', `Bearer ${token}`);
     }
