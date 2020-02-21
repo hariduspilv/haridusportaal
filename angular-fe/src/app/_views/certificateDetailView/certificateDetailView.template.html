@@ -7,7 +7,7 @@
 			</block-title>
 
 			<block-secondary-title>
-				<span *ngIf="!loading">Tunnistus nr {{documents.certificate.number}}</span>
+				{{ 'certificates.certificate_nr' | translate }} {{documents.certificate?.number}}
 			</block-secondary-title>			
 			
 			<block-content

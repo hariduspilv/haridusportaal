@@ -27,7 +27,6 @@ export class CertificateComponent{
   }
 
   calculateCertificateSize() {
-    console.log(this.el.nativeElement.offsetWidth)
     this.hostHeight = this.el.nativeElement.offsetWidth * 1.4142;
     this.certificate.nativeElement.style.transform = `scale(${this.el.nativeElement.offsetWidth / 700})`;
   }

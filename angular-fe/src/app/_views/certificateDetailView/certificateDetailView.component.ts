@@ -133,8 +133,6 @@ export class CertificateDetailView implements OnInit {
       this.breadcrumbs = [
         ...this.path, { title: `Tunnistus nr ${this.documents['certificate'].number}` }];
       this.loading = false;
-
-      console.log(this.documents);
     });
   }
 
