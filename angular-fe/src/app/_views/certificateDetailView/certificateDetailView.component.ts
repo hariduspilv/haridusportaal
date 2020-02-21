@@ -24,6 +24,7 @@ export class CertificateDetailView implements OnInit {
   public documents = {};
   private accessorCode = '';
   public title = '';
+  private accessType = '';
 
   @ViewChildren('certificate') public certificate:QueryList<any>;
 
@@ -63,9 +64,12 @@ export class CertificateDetailView implements OnInit {
   getCertificate() {
     const params = this.route.snapshot.params;
     this.accessorCode = params.accessorCode;
-    this.http.get(
-      `${this.settings.url}/certificates/v1/certificate/ACCESS_CODE/${params.certificateNr}/${this.accessorCode}`,
-    ).subscribe(
+
+    const URL = this.accessType === 'ACCESS_CODE'
+      ? `${this.settings.url}/certificates/v1/certificate/ACCESS_CODE/${params.certificateNr}/${this.accessorCode}`
+      : `${this.settings.url}/certificates/v1/certificate/${params.id}?accessType=ACCESS_TYPE:ID_CODE`;
+
+    this.http.get(URL).subscribe(
       (res: any) => {
         this.getLatestDocuments(res.index.documents);
       },
@@ -101,17 +105,15 @@ export class CertificateDetailView implements OnInit {
       });
     }
 
-    console.log(documents);
-
-    const URL = `${this.settings.url}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ACCESS_CODE&accessorCode=${this.accessorCode}`;
+    const URL = this.accessType === 'ACCESS_CODE'
+      ? `${this.settings.url}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ACCESS_CODE&accessorCode=${this.accessorCode}`
+      : `${this.settings.url}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ID_CODE`;
 
     const req = [
       this.http.get(URL.replace('{DOCUMENT_ID}', documents.certificate.id)).pipe(
         catchError(() => of(null)),
       ),
     ];
-
-    console.log(URL);
 
     if (documents['gradesheet']) {
       req.push(
@@ -122,7 +124,6 @@ export class CertificateDetailView implements OnInit {
     }
 
     forkJoin(req).subscribe((docs) => {
-      console.log(docs);
       this.documents['certificate'] = docs[0].document;
       this.documents['certificate'].content = JSON.parse(this.documents['certificate'].content);
       if (docs[1]) {
@@ -132,11 +133,15 @@ export class CertificateDetailView implements OnInit {
       this.breadcrumbs = [
         ...this.path, { title: `Tunnistus nr ${this.documents['certificate'].number}` }];
       this.loading = false;
+
+      console.log(this.documents);
     });
   }
 
   ngOnInit() {
     this.breadcrumbs = [...this.path];
+    const params = this.route.snapshot.params;
+    this.accessType = params.accessorCode && params.certificateNr ? 'ACCESS_CODE' : 'ID_CODE';
     this.getCertificate();
   }
 

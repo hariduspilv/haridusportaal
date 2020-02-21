@@ -85,7 +85,7 @@ export class FinalDocumentsComponent {
       `${this.settings.url}/certificates/v1/certificate/ACCESS_CODE/${formValue.certificateNr}/${formValue.accessCode}`,
     ).subscribe(
       (res: any) => {
-        this.router.navigate([`/tunnistused/lõpudokumendid/${formValue.certificateNr}/${formValue.accessCode}`]);
+        this.router.navigate([`/tunnistused/lõpudokumendid/${res.index.id}/${formValue.certificateNr}/${formValue.accessCode}`]);
         this.loading.certificatesByAccessCode = false;
       },
       (err) => {

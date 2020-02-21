@@ -4,12 +4,18 @@ import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
 import { TranslateModule } from '@app/_modules/translate';
 import { ReactiveFormsModule } from '@angular/forms';
+import { AuthInterceptor } from '@app/_interceptors';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppPipes } from '@app/_pipes';
 import { CertificateDetailView } from './certificateDetailView.component';
 
 const routes: Routes = [
   {
     path: '',
+    component: CertificateDetailView,
+  },
+  {
+    path: ':certificateNr/:accessorCode',
     component: CertificateDetailView,
   },
 ];
@@ -19,16 +25,18 @@ const routes: Routes = [
     CertificateDetailView,
   ],
   imports: [
+    AppPipes,
     RouterModule.forChild(routes),
     AssetsModule,
-    CommonModule,
     TranslateModule,
+    CommonModule,
     ReactiveFormsModule,
-    AppPipes,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  bootstrap: [],
+  exports: [
+  ],
 })
 
 export class CertificateDetailViewModule { }

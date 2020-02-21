@@ -18,7 +18,7 @@ const routes: Routes = [
     loadChildren: () => import('./_views/certificatesView').then(m => m.CertificatesViewModule),
   },
   {
-    path: 'tunnistused/lõpudokumendid/:certificateNr/:accessorCode',
+    path: 'tunnistused/lõpudokumendid/:id',
     loadChildren: () => import('./_views/certificateDetailView').then(m => m.CertificateDetailViewModule),
   },
   {
