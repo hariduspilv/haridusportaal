@@ -1,0 +1,36 @@
+<div class="inline">
+	<article-layout>
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+		<block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
+			<block-title>
+				{{'certificates.title' | translate }} <a routerLink="/tunnistused/lõpudokumendid"><icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}</a>
+			</block-title>
+
+			<block-secondary-title>
+				<span *ngIf="!loading">Tunnistus nr {{documents.certificate.number}}</span>
+			</block-secondary-title>			
+			
+			<block-content
+				[tabLabel]="'certificates.graduation_certificate' | translate"
+				tabIcon="columns"
+			>
+				<loader *ngIf="loading"></loader>
+				<ng-container *ngIf="!loading && !notFound">
+					<certificate [document]="documents.certificate" #certificate></certificate>
+				</ng-container>
+
+				<p class="text-center" *ngIf="notFound">
+					{{ 'certificates.no_certificate_or_access' | translate }}
+				</p>
+			</block-content>
+
+			<block-content
+				*ngIf="documents.gradesheet"
+				[tabLabel]="'certificates.grade_sheet' | translate"
+				tabIcon="file-text"
+			>
+				<grade-sheet [document]="documents.gradesheet"></grade-sheet>
+			</block-content>
+		</block>
+	</article-layout>
+</div>

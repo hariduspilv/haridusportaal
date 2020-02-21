@@ -14,21 +14,6 @@ const routes: Routes = [
   {
     path: '',
     component: CertificatesView,
-    children: [
-      {
-        path: '',
-        redirectTo: 'e-tunnistused',
-        pathMatch: 'full',
-      },
-      {
-        path: 'e-tunnistused',
-        component: CertificatesView,
-      },
-      {
-        path: 'kehtivuse-kontroll',
-        component: CertificatesView,
-      },
-    ],
   },
 
 ];

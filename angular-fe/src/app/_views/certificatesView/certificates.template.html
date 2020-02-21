@@ -1,6 +1,6 @@
 <div class="inline">
 	<article-layout>
-		<breadcrumbs [path]="path"></breadcrumbs>
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 		<block [titleBorder]="false" tabStyle="middle">
 			<block-title>
 				{{'certificates.title' | translate }}
@@ -12,7 +12,6 @@
       <block-content
 				[tabLabel]="'certificates.e_certificates' | translate"
 				tabIcon="file-text"
-				tabLink="e-tunnistused"
 			>
 				<final-documents></final-documents>
 			</block-content>
@@ -20,7 +19,6 @@
 			<block-content
 				[tabLabel]="'certificates.validity_check' | translate"
 				tabIcon="file-text"
-				tabLink="kehtivuse-kontroll"
 			>
 				<h3>PLACEHOLDER</h3>
 			</block-content>
