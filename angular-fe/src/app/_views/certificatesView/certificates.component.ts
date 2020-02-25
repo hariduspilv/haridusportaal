@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './certificates.template.html',
@@ -8,13 +7,22 @@ import { Location } from '@angular/common';
 export class CertificatesView implements OnInit {
 
   constructor(
-    private location: Location,
   ) { }
 
-  public path = decodeURI(this.location.path());
+  public breadcrumbs: any = [
+    {
+      title: 'Avaleht',
+      link: '/',
+    },
+    {
+      title: 'Tunnistused',
+    },
+    {
+      title: 'Lõpudokumendid',
+    },
+  ];
 
   ngOnInit() {
-    console.log(this.path);
   }
 
 }

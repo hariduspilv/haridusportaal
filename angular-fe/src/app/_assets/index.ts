@@ -113,6 +113,8 @@ import { RelatedEventsComponent } from './relatedEvents';
 import { NotFoundComponent } from './notFound';
 import { SessionExpirationComponent } from './sessionExpiration';
 import { MoreBlockComponent } from './more.block/more.block.component';
+import { CertificateComponent } from './certificate/certificate.component';
+import { GradeSheetComponent } from './grade-sheet/gradeSheet.component';
 
 const declarations = [
   BlockComponent,
@@ -194,6 +196,8 @@ const declarations = [
   NotFoundComponent,
   SessionExpirationComponent,
   MoreBlockComponent,
+  CertificateComponent,
+  GradeSheetComponent,
 ];
 
 const exports = [
