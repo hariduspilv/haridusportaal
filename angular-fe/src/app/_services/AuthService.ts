@@ -43,11 +43,12 @@ export class AuthService implements CanActivate {
       .pipe(map((response:any) => {
         if (response['token']) {
           sessionStorage.setItem('token', response['token']);
+          this.userData = this.decodeToken(response.token);
           if (this.settings.url === 'https://htm.wiseman.ee') {
             this.testNewJWT(response['token']);
+          } else {
+            this.isAuthenticated.next(true);
           }
-          this.userData = this.decodeToken(response.token);
-          this.isAuthenticated.next(true);
         } else {
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('ehisToken');
@@ -67,8 +68,9 @@ export class AuthService implements CanActivate {
         if (response.jwt) {
           sessionStorage.setItem('ehisToken', response.jwt);
           this.hasEhisToken.next(true);
+          this.isAuthenticated.next(true);
         }
-        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
+        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect') || sessionStorage.getItem('redirectUrl');
         console.log(redirectUrl);
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
       },
@@ -119,9 +121,9 @@ export class AuthService implements CanActivate {
       this.hasEhisToken.next(true);
     }
     this.userData = this.decodeToken(token);
-    if (!this.isAuthenticated.getValue()) {
+    /*if (!this.isAuthenticated.getValue()) {
       this.isAuthenticated.next(true);
-    }
+    }*/
   }
 
   public decodeToken(token) {

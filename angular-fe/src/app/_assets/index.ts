@@ -112,6 +112,7 @@ import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { RelatedEventsComponent } from './relatedEvents';
 import { NotFoundComponent } from './notFound';
 import { SessionExpirationComponent } from './sessionExpiration';
+import { MoreBlockComponent } from './more.block/more.block.component';
 
 const declarations = [
   BlockComponent,
@@ -192,6 +193,7 @@ const declarations = [
   AnalyticsEvent,
   NotFoundComponent,
   SessionExpirationComponent,
+  MoreBlockComponent,
 ];
 
 const exports = [
