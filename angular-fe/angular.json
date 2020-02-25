@@ -33,6 +33,7 @@
               "src/auth.html",
               "src/manifest.json",
               "src/redirect.php",
+              "src/robots.txt",
               "src/.htaccess",
               "src/amp-php"
             ],
@@ -77,6 +78,12 @@
               ]
             },
             "dev": {
+              "fileReplacements": [
+                {
+                  "replace": "src/robots.txt",
+                  "with": "src/robots-dev.txt"
+                }
+              ],
               "index": {
                 "input": "src/index.html",
                 "output": "index.html"
