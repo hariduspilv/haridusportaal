@@ -39,14 +39,21 @@ export class SessionExpirationComponent implements OnInit, OnDestroy {
         () => {
           this.timeLeft = this.timeLeft - 1;
           if (this.timeLeft === 0) {
-            this.modalTitle = this.translate.get('session.expired');
-            this.logOut();
-            clearInterval(this.counterInterval);
+            this.showLoginMessage();
           }
         },
         1000);
     } else {
       this.timeLeft = 0;
+    }
+  }
+
+  private showLoginMessage(): void {
+    this.logOut();
+    clearInterval(this.counterInterval);
+    this.modalTitle = this.translate.get('session.expired');
+    if (!this.modalService.isOpen('sessionExpirationModal')) {
+      this.modalService.open('sessionExpirationModal');
     }
   }
 
@@ -58,9 +65,7 @@ export class SessionExpirationComponent implements OnInit, OnDestroy {
   }
 
   public modalClosed($event):void {
-    if (!this.renewLoader) {
-      this.logOut();
-    }
+
   }
 
   public renewLogin(): void {
