@@ -1,0 +1,50 @@
+<div id="certificate" #certificate>
+  <img alt="Eesti vapp" src="../../../assets/img/vapp.svg" id="coat-of-arms">
+
+  <h1 id="certificate-title">{{ document.content.documentName.toUpperCase() }}</h1>
+
+  <ng-container *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' || document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE'">
+
+  <p>{{ document.content.registrationNumber }}</p>
+
+  <section id="info">
+    <p id="duplicate-badge" *ngIf="document.content.duplicateCertificateNumber">Duplikaat</p>
+  </section>
+  
+  <section id="graduate">
+    <p class="bold">{{ document.content.graduate.firstName }} {{ document.content.graduate.lastName }}</p>
+    <p>(ees- ja perekonnanimi)</p>
+  </section>
+
+  <section id="identity">
+    <p class="bold">
+      {{ 'isikukood ' + document.content.graduate.idCode }}
+      <ng-container *ngIf="!document.content.graduate.idCode && document.content.graduate.dateOfBirth">
+        {{ 'sünnikuupäev ' + document.content.graduate.dateOfBirth }}
+      </ng-container>
+    </p>
+    <p>
+      <ng-container *ngIf="document.content.graduate.idCode">
+        (isikukood)
+      </ng-container>
+      <ng-container *ngIf="!document.content.graduate.idCode && document.content.graduate.dateOfBirth">
+        (sünnikuupäev)
+      </ng-container>
+    </p>
+  </section>
+
+  <p>on lõpetanud</p>
+
+  <section id="institution">
+    <p class="bold">{{ document.content.educationalInstitution.locationToPrintout }}</p>
+    <p class="bold">{{ document.content.educationalInstitution.nameToPrintOut }}</p>
+    <p class="bold">{{ document.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' ? document.content.studies.curriculumName : document.content.studies.programme }}</p>
+    <p class="bold">{{ document.content.studies.honors }}</p>
+  </section>
+
+  <p>õppenõukogu otsusega nr {{ document.content.councilDecision.registrationNumber }}</p>
+  <p>{{ document.content.councilDecision.issueDateToPrintOut }}</p>
+
+  </ng-container>
+
+</div>

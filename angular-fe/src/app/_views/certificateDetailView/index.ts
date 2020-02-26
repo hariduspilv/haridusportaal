@@ -1,27 +1,28 @@
-import { NgModule, ChangeDetectorRef } from '@angular/core';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
 import { TranslateModule } from '@app/_modules/translate';
-import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from '@app/_interceptors';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppPipes } from '@app/_pipes';
-import { CertificatesView } from './certificates.component';
-import { FinalDocumentsComponent } from '@app/_assets/final-documents/finalDocuments.component';
+import { CertificateDetailView } from './certificateDetailView.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CertificatesView,
+    component: CertificateDetailView,
   },
-
+  {
+    path: ':certificateNr/:accessorCode',
+    component: CertificateDetailView,
+  },
 ];
 
 @NgModule({
   declarations: [
-    CertificatesView,
-    FinalDocumentsComponent,
+    CertificateDetailView,
   ],
   imports: [
     AppPipes,
@@ -38,4 +39,4 @@ const routes: Routes = [
   ],
 })
 
-export class CertificatesViewModule { }
+export class CertificateDetailViewModule { }

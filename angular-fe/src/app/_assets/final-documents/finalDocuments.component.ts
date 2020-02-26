@@ -4,6 +4,8 @@ import { HeaderComponent } from '../header';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'final-documents',
@@ -16,6 +18,8 @@ export class FinalDocumentsComponent {
     private authService: AuthService,
     public http: HttpClient,
     public settings: SettingsService,
+    public fb: FormBuilder,
+    private router: Router,
   ) {}
 
   public isLoggedIn = false;
@@ -24,7 +28,21 @@ export class FinalDocumentsComponent {
 
   public loading = {
     certificatesById: true,
+    certificatesByAccessCode: true,
   };
+
+  public notFound = {
+    certificatesByAccessCode: false,
+  };
+
+  public accessFormGroup = this.fb.group(
+    {
+      certificateNr: ['', Validators.required],
+      accessCode: ['', Validators.required],
+    },
+    {
+      updateOn: 'submit',
+    });
 
   compareCertificates(a, b) {
     return a.access.issued < b.access.issued || a.issued == null ? 1 : -1;
@@ -53,9 +71,32 @@ export class FinalDocumentsComponent {
       });
   }
 
-  logIn() {
+  getCertificateByAccessCode() {
+    if (this.accessFormGroup.invalid) {
+      for (const control in this.accessFormGroup.controls) {
+        this.accessFormGroup.controls[control].markAsDirty();
+      }
+      return;
+    }
+    this.loading.certificatesByAccessCode = true;
+    this.notFound.certificatesByAccessCode = false;
+    const formValue = this.accessFormGroup.value;
+    this.http.get(
+      `${this.settings.url}/certificates/v1/certificate/ACCESS_CODE/${formValue.certificateNr}/${formValue.accessCode}`,
+    ).subscribe(
+      (res: any) => {
+        this.router.navigate([`/tunnistused/lõpudokumendid/${res.index.id}/${formValue.certificateNr}/${formValue.accessCode}`]);
+        this.loading.certificatesByAccessCode = false;
+      },
+      (err) => {
+        this.notFound.certificatesByAccessCode = true;
+        this.loading.certificatesByAccessCode = false;
+      });
+  }
+
+  logIn(redirectUrl) {
     const loginButton: HTMLElement = document.querySelector('#headerLogin');
-    sessionStorage.setItem('redirectUrl', '/tunnistused/lõpudokumendid');
+    sessionStorage.setItem('redirectUrl', redirectUrl);
     loginButton.click();
   }
 
