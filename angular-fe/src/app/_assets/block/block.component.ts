@@ -8,6 +8,8 @@ import {
   ChangeDetectorRef,
   OnChanges,
   forwardRef,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { ModalService } from '@app/_services';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -149,6 +151,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
   @Input() theme: string = 'blue';
   @Input() titleBorder: boolean = true;
   @Input() tabStyle: string = 'default';
+  @Output() tabChange = new EventEmitter<any>();
 
   changeTab(title:string) {
     this.activeTab = title;
@@ -158,6 +161,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
     this.tabs.toArray().forEach(tab => tab.hide());
     tab.show();
     this.activeTab = tab.tabLabel;
+    this.tabChange.emit(tab.tabLabel);
     this.cdr.detectChanges();
   }
 

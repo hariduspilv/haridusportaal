@@ -8,6 +8,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService, MapService } from '@app/_services';
 
 @Component({
+  selector: 'oskaFieldMap-view',
   templateUrl: 'oskaFieldMap.template.html',
   styleUrls: ['oskaFieldMap.styles.scss'],
 })
@@ -93,6 +94,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
       this.mapService.polygonLayer.next(1);
     });
 
+    this.setRelatedFilter('mapIndicator', 'OSKAField');
     // Add subscription to main array for destroying
     this.subscriptions = [...this.subscriptions, subscribe];
   }

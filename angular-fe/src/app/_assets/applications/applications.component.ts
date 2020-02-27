@@ -24,6 +24,7 @@ const acceptableFormsRestrictedLength = 4;
 
 const autocompleteValidator = (control: FormControl) => {
   let output = null;
+
   if (typeof control.value !== 'object') {
     output = {
       wrongFormat: true,
@@ -528,9 +529,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   getItemAddress(item) {
-    if (item.formControl.value && item.formControl.value.addressHumanReadable) {
-      const address = item.formControl.value.addressHumanReadable;
-      const params = `ihist=1&appartment=1&address=${address}&results=10&callback=JSONP_CALLBACK`;
+    if (item.formControl.value && item.formControl.value.adsOid) {
+      const oid = item.formControl.value.adsOid;
+      const params = `ihist=1&appartment=1&adsoid=${oid}&results=10&callback=JSONP_CALLBACK`;
       const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
       const subscription = this.http.jsonp(path, 'callback').
         subscribe((response: any) => {

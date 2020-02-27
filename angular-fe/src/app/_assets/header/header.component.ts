@@ -1,5 +1,12 @@
 import { Component, OnInit, HostBinding, Input, ChangeDetectorRef } from '@angular/core';
-import { SidemenuService, ModalService, AuthService, SettingsService, AlertsService } from '@app/_services';
+import {
+  SidemenuService,
+  ModalService,
+  AuthService,
+  SettingsService,
+  AlertsService,
+  AnalyticsService,
+} from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -63,6 +70,7 @@ export class HeaderComponent implements OnInit {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private cdr: ChangeDetectorRef,
+    private analytics: AnalyticsService,
   ) { }
 
   public basicLogin(): void {
@@ -136,7 +144,7 @@ export class HeaderComponent implements OnInit {
     });
   }
 
-  openLoginModal() {
+  public openLoginModal() {
     this.loginForm.reset();
     this.mobileIdForm.reset();
     this.getAuthMethods();
@@ -190,12 +198,7 @@ export class HeaderComponent implements OnInit {
   }
 
   sendAnalyticsData(term) {
-    (<any>window)
-      .ga('send', 'event', 'homeSearch', 'submit', term, {
-        hitCallback: () => {
-        },
-
-      });
+    this.analytics.trackEvent('homeSearch', 'submit', term);
   }
 
   // wtf

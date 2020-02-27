@@ -32,6 +32,7 @@ import {
   SettingsService,
   AuthService,
   UploadService,
+  AnalyticsService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -111,6 +112,9 @@ import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { RelatedEventsComponent } from './relatedEvents';
 import { NotFoundComponent } from './notFound';
 import { SessionExpirationComponent } from './sessionExpiration';
+import { MoreBlockComponent } from './more.block/more.block.component';
+import { CertificateComponent } from './certificate/certificate.component';
+import { GradeSheetComponent } from './grade-sheet/gradeSheet.component';
 
 const declarations = [
   BlockComponent,
@@ -192,6 +196,9 @@ const declarations = [
   AnalyticsEvent,
   NotFoundComponent,
   SessionExpirationComponent,
+  MoreBlockComponent,
+  CertificateComponent,
+  GradeSheetComponent,
 ];
 
 const exports = [
@@ -212,6 +219,7 @@ const providers = [
   AuthService,
   QueryParamsService,
   ScrollRestorationService,
+  AnalyticsService,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',

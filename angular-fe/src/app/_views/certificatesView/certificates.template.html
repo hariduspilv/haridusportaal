@@ -1,0 +1,27 @@
+<div class="inline">
+	<article-layout>
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+		<block [titleBorder]="false" tabStyle="middle">
+			<block-title>
+				{{'certificates.title' | translate }}
+			</block-title>
+			<block-secondary-title>
+        {{'certificates.final_documents' | translate }}
+      </block-secondary-title>
+			
+      <block-content
+				[tabLabel]="'certificates.e_certificates' | translate"
+				tabIcon="file-text"
+			>
+				<final-documents></final-documents>
+			</block-content>
+		
+			<block-content
+				[tabLabel]="'certificates.validity_check' | translate"
+				tabIcon="file-text"
+			>
+				<h3>PLACEHOLDER</h3>
+			</block-content>
+		</block>
+	</article-layout>
+</div>
