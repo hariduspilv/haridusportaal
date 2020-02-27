@@ -1,5 +1,5 @@
 import { Component, ChangeDetectorRef } from '@angular/core';
-import { AuthService, SettingsService } from '@app/_services';
+import { AuthService, SettingsService, AlertsService } from '@app/_services';
 import { HeaderComponent } from '../header';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
@@ -20,6 +20,7 @@ export class FinalDocumentsComponent {
     public settings: SettingsService,
     public fb: FormBuilder,
     private router: Router,
+    private alertsService: AlertsService,
   ) {}
 
   public isLoggedIn = false;
@@ -28,10 +29,6 @@ export class FinalDocumentsComponent {
 
   public loading = {
     certificatesById: true,
-    certificatesByAccessCode: false,
-  };
-
-  public notFound = {
     certificatesByAccessCode: false,
   };
 
@@ -79,7 +76,6 @@ export class FinalDocumentsComponent {
       return;
     }
     this.loading.certificatesByAccessCode = true;
-    this.notFound.certificatesByAccessCode = false;
     const formValue = this.accessFormGroup.value;
     this.http.get(
       `${this.settings.url}/certificates/v1/certificate/ACCESS_CODE/${formValue.certificateNr}/${formValue.accessCode}`,
@@ -89,7 +85,8 @@ export class FinalDocumentsComponent {
         this.loading.certificatesByAccessCode = false;
       },
       (err) => {
-        this.notFound.certificatesByAccessCode = true;
+        console.log('HERE')
+        this.alertsService.error('certificates.no_certificate_or_access', 'certificatesByAccessCode','' , true)
         this.loading.certificatesByAccessCode = false;
       });
   }
