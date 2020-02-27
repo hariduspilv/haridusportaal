@@ -28,7 +28,7 @@ export class FinalDocumentsComponent {
 
   public loading = {
     certificatesById: true,
-    certificatesByAccessCode: true,
+    certificatesByAccessCode: false,
   };
 
   public notFound = {
