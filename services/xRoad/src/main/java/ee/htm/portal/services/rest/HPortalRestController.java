@@ -118,10 +118,6 @@ public class HPortalRestController {
         return new ResponseEntity<>(mtsysWorker
             .getMtsysEsitaTegevusluba(formName, Long.valueOf(identifier), personalCode),
             HttpStatus.OK);
-      } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_MUUTMINE_ARUANNE")) {
-        return new ResponseEntity<>(mtsysWorker
-            .getMtsysEsitaTegevusNaitaja(Long.valueOf(identifier), educationalInstitutionsId,
-                personalCode), HttpStatus.OK);
       }
     }
 
@@ -155,6 +151,26 @@ public class HPortalRestController {
     }
 
     LOGGER.error("Tundmatu request JSON - " + requestJson);
+    return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
+  }
+
+  @RequestMapping(value = {"/changeDocument/{formName}/{personalCode}"},
+      method = RequestMethod.GET,
+      produces = "application/json;charset=UTF-8")
+  public ResponseEntity<?> changeDocument(
+      @PathVariable("formName") String formName,
+      @PathVariable("personalCode") String personalCode,
+      @RequestParam(value = "identifier", required = false) String identifier,
+      @RequestParam(value = "educationalInstitutionsId", required = false) Long educationalInstitutionsId) {
+    MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
+        redisExpire, redisFileExpire, redisKlfExpire);
+    if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD")) {
+      return new ResponseEntity<>(mtsysWorker
+          .getMtsysEsitaTegevusNaitaja(Long.valueOf(identifier), educationalInstitutionsId,
+              personalCode), HttpStatus.OK);
+    }
+
+    LOGGER.error("Tundmatu request formName - " + formName);
     return new ResponseEntity<>("{\"ERROR\":\"Tehniline viga!\"}", HttpStatus.NOT_FOUND);
   }
 
