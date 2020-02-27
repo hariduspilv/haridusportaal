@@ -40,7 +40,7 @@
     h1#certificate-title {
       margin: 0 auto;
       width: 50%;
-      font-weight: 900;
+      font-weight: bold;
       font-size: 32px;
       margin-bottom: 8px;
     }
@@ -48,13 +48,12 @@
     p {
       font-size: 14px;
       &.bold {
-        font-weight: 700;
+        font-weight: bold;
         font-size: 22px;
         line-height: 28px;
       }
 
       &#duplicate-badge {
-        font-weight: 300;
         height: 40px;
         width: 180px;
         color: $error;
