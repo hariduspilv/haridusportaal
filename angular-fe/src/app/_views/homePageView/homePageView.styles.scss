@@ -1,6 +1,8 @@
+@import "typography.scss";
+
 :host {
   display: block;
-  background: #fff;
+  background: $white;
   min-height: 100%;
 }
 
@@ -16,7 +18,7 @@
     position: relative;
     .navBlock {
       display: block;
-      background: #bee3e8 url('/assets/img/homepage-1.svg') center bottom no-repeat;
+      background: $aqua url('/assets/img/homepage-1.svg') center bottom no-repeat;
       background-size: cover;
       position: relative;
       &:before {
@@ -44,7 +46,7 @@
           font-size: 3rem;
           line-height: 3.625rem;
           font-weight: 100;
-          color: #2E3374;
+          color: $blue;
           b {
             font-weight: 900;
           }
@@ -79,9 +81,9 @@
           a {
             position: relative;
             display: block;
-            background: #fff;
+            background: $white;
             font-size: 1rem;
-            color: #2E3374;
+            color: $blue;
             text-decoration: none;
             text-align: center;
             box-shadow: 0rem 0rem 1.25rem rgba(141, 141, 141, 0.25);
@@ -123,9 +125,9 @@
     display: block;
     position: relative;
     padding: 8.125rem 0 12.5rem 0;
-    background: #fff;
+    background: $white;
     .st0 {
-      fill: #fff;
+      fill: $white;
     }
     .instance {
       display: flex;
@@ -177,7 +179,7 @@
         font-weight: bold;
         font-size: 2.5rem;
         line-height: 120%;
-        color: #333;
+        color: $black;
         margin: 0.75rem 0 1.25rem 0;
       }
     }
@@ -186,10 +188,10 @@
   homepage-slides {
     display: block;
     position: relative;
-    background: #EEEEEE;
+    background: $light-gray;
     padding: 1.5rem 0 10.9375rem 0;
     .st0 {
-      fill: #eee;
+      fill: $light-gray;
     }
 
     .slides {
@@ -225,7 +227,7 @@
         display: flex;
         align-items: center;
         cursor: pointer;
-        color: #2E3374;
+        color: $blue;
         width: 4.3125rem;
         icon i {
           font-size:2.8125rem !important;
@@ -250,7 +252,7 @@
         }
       }
       &__elem {
-        background: #FFFFFF;
+        background: $white;
         box-shadow: 0rem 0rem 1.25rem rgba(141, 141, 141, 0.25);
         border-radius: 1.25rem;
         will-change: transform, box-shadow;
@@ -280,13 +282,13 @@
           font-weight: bold;
           font-size: 1.5rem;
           line-height: 133%;
-          color: #333;
+          color: $black;
           text-align: center;
         }
         &__text {
           font-size: 1rem;
           line-height: 150%;
-          color: #333;
+          color: $black;
         }
         &__link {
           text-align: center;
@@ -307,11 +309,11 @@
   homepage-topical {
     display: block;
     position: relative;
-    background: #BEE3E8;
+    background: $aqua;
     padding: 4.375rem 0 0 0;
     svg {
       .st0{
-        fill: #BEE3E8
+        fill: $aqua
       }
     }
     .topical {
@@ -341,13 +343,13 @@
         font-size: 1rem;
         line-height: 133%;
         letter-spacing: 0.0625rem;
-        color: #333;
+        color: $black;
         text-transform: uppercase;
       }
       &__title {
         font-size: 2.5rem;
         line-height: 125%;
-        color: #333;
+        color: $black;
         font-weight: bold;
         margin: 1.1875rem 0;
       }
@@ -357,11 +359,11 @@
   homepage-study {
     display: block;
     position: relative;
-    background: #fff;
+    background: $white;
     padding: 5rem 0 15.3125rem 0;
     svg {
       .st0{
-        fill: #fff
+        fill: $white
       }
     }
     .study {
@@ -379,7 +381,7 @@
         font-size: 1rem;
         line-height: 125%;
         text-align: center;
-        color: #333;
+        color: $black;
         margin: 1.0625rem 0 2.8125rem 0;
       }
       &__blocks {
@@ -393,7 +395,7 @@
         flex-direction: column;
       }
       &__elem {
-        background: #FFFFFF;
+        background: $white;
         box-shadow: 0rem 0rem 1.25rem rgba(141, 141, 141, 0.25);
         border-radius: 1.25rem;
         will-change: transform, box-shadow;
@@ -423,13 +425,13 @@
           font-weight: bold;
           font-size: 1.5rem;
           line-height: 100%;
-          color: #333;
+          color: $black;
           text-align: center;
         }
         &__text {
           font-size: 1rem;
           line-height: 150%;
-          color: #333;
+          color: $black;
           text-align: center;
         }
 
@@ -447,13 +449,13 @@
   homepage-slogan {
     display: block;
     position: relative;
-    background: #EEEEEE;
+    background: $light-gray;
     padding: 0 0 8.0625rem 0;
     .inner {
       position: relative;
     }
     .st0 {
-      fill: #eee;
+      fill: $light-gray;
     }
     .instance {
       display: flex;
@@ -470,7 +472,7 @@
         font-weight: 300;
         font-size: 2rem;
         line-height: 137%;
-        color: #333;
+        color: $black;
         margin-top: -1.25rem;
 
         &:first-child {
@@ -498,17 +500,48 @@
   homepage-footer {
     display: block;
     position: relative;
-    background: #333;
+    background: $black;
     padding: 0 0 3.1875rem 0;
-    color: #fff;
+    color: $white;
+    alerts {
+      margin-top: 1rem;
+    }
+    loader .loader--label{
+      color: $white !important;
+    }
+    .mt {
+      margin-top: 1rem;
+    }
+    modal-content{
+      text-align: center;
+      p {
+        font-size: 1.5rem;
+        color:$black;
+        margin: 0;
+        line-height: 1.875rem;
+        font-weight: 500;
+      }
+      span {
+        font-size: 1.5rem;
+        text-align: center;
+        color:$black;
+        margin: 0;
+        line-height: 1.875rem;
+        font-weight: 400;
+      }
+      a {
+        color: $blue;
+      }
+    }
+
     h1 {
-      color: #fff;
+      color: $white;
     }
     .st0 {
-      fill: #333;
+      fill: $black;
     }
     a {
-      color: #fff;
+      color: $white;
     }
     .footer {
       display: flex;
@@ -531,19 +564,19 @@
           input {
             background: #565861;
             border-color: #565861 !important;
-            color: #fff !important;
+            color: $white !important;
           }
           ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
-            color: #fff !important;
+            color: $white !important;
           }
           ::-moz-placeholder { /* Firefox 19+ */
-            color: #fff !important;
+            color: $white !important;
           }
           :-ms-input-placeholder { /* IE 10+ */
-            color: #fff !important;
+            color: $white !important;
           }
           :-moz-placeholder { /* Firefox 18- */
-            color: #fff !important;
+            color: $white !important;
           }
         }
         &__title {
