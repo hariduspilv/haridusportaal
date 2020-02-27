@@ -30,12 +30,13 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class VPTWorker extends Worker {
 
-  private static final Logger LOGGER = Logger.getLogger(VPTWorker.class);
+  private static final Logger log = LoggerFactory.getLogger(VPTWorker.class);
 
   private EhisXRoadService ehisXRoadService;
 
@@ -107,7 +108,7 @@ public class VPTWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - VpTaotlusOpingud.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      log.error(e.getMessage(), e.getCause());
 
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
@@ -117,7 +118,7 @@ public class VPTWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     redisTemplate.opsForHash().put(personalCode, "vpTaotlus", documentsResponse);
     redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
@@ -249,7 +250,7 @@ public class VPTWorker extends Worker {
             cal.setTime(simpleDateFormat.parse(item.get("start_date").asText()));
             oppimineDto.setAlustamiseKuupaev(cal); //Date
           } catch (ParseException e) {
-            LOGGER.error(e, e);
+            log.error(e.getMessage(), e.getCause());
           }
           oppimineDto.setOppekoormusTyyp(item.get("learning_load").asText()); //String
           if (!item.get("learning_load_code").isNull()) {
@@ -263,7 +264,7 @@ public class VPTWorker extends Worker {
               cal.setTime(simpleDateFormat.parse(item.get("academic_leave_start").asText()));
               oppimineDto.setAkadeemilisePuhkuseAlustamiseKuupaev(cal); //Date
             } catch (ParseException e) {
-              LOGGER.error(e, e);
+              log.error(e.getMessage(), e.getCause());
             }
           } else {
             oppimineDto.setNilAkadeemilisePuhkuseAlustamiseKuupaev();
@@ -273,7 +274,7 @@ public class VPTWorker extends Worker {
               cal.setTime(simpleDateFormat.parse(item.get("first_semester_end").asText()));
               oppimineDto.setEsimeseSemestriLoppKp(cal); //Date
             } catch (ParseException e) {
-              LOGGER.error(e, e);
+              log.error(e.getMessage(), e.getCause());
             }
           } else {
             oppimineDto.setNilEsimeseSemestriLoppKp();
@@ -663,11 +664,11 @@ public class VPTWorker extends Worker {
 //endregion;
       }
     } catch (Exception e) {
-      super.setXdzeisonError(LOGGER, jsonNode, e);
+      super.setXdzeisonError(log, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNode;
   }
@@ -705,7 +706,7 @@ public class VPTWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - vpTaotlusDokument.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      log.error(e.getMessage(), e.getCause());
 
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
@@ -715,7 +716,7 @@ public class VPTWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return documentResponse;
   }
@@ -732,7 +733,7 @@ public class VPTWorker extends Worker {
         cal.setTime(simpleDateFormat.parse(item.get("birth_date").asText()));
         person.setSynniaeg(cal);
       } catch (ParseException e) {
-        LOGGER.error(e, e);
+        log.error(e.getMessage(), e.getCause());
       }
     }
 
@@ -767,7 +768,7 @@ public class VPTWorker extends Worker {
       try {
         TimeUnit.MILLISECONDS.sleep(10L);
       } catch (InterruptedException e) {
-        e.printStackTrace();
+        log.error(e.getMessage(), e.getCause());
       }
     });
   }
