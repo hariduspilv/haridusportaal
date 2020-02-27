@@ -69,9 +69,7 @@
         </button>
       </form>
 
-      <p class="text-center" *ngIf="notFound.certificatesByAccessCode">
-        {{ 'certificates.no_certificate_or_access' | translate }}
-      </p>
     </ng-template>
+    <alerts small="true" id="certificatesByAccessCode"></alerts>
 	</accordion-item>
 </accordion>
