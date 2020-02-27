@@ -144,9 +144,7 @@ class xJsonRestResource extends ResourceBase {
       }
     }
     $params['form_name'] = $data['form_name'];
-    dump($params);
     $response = $this->ehisService->getDocument($params);
-    dump($response);
     \Drupal::logger('xjson')->notice('<pre><code>ehis response ' . print_r($response, TRUE) . '</code></pre>' );
     $response['header'] += [
       'endpoint' => 'empty'
