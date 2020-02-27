@@ -14,7 +14,8 @@ import ee.htm.portal.services.workers.VPTWorker;
 import java.math.BigInteger;
 import javax.annotation.Resource;
 import org.apache.commons.lang.math.NumberUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class HPortalRestController {
 
-  private static final Logger LOGGER = Logger.getLogger(HPortalRestController.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(HPortalRestController.class);
 
   @Resource
   private EhisXRoadService ehisXRoadService;

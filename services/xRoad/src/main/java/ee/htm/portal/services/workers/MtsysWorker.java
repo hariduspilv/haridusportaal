@@ -52,12 +52,13 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 public class MtsysWorker extends Worker {
 
-  private static final Logger LOGGER = Logger.getLogger(MtsysWorker.class);
+  private static final Logger log = LoggerFactory.getLogger(MtsysWorker.class);
 
   private static final String MTSYSKLF_KEY = "klassifikaator";
   private static final String MTSYSFILE_KEY = "mtsysFile";
@@ -196,7 +197,7 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysKlfTeenus.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      log.error(e.getMessage(), e.getCause());
 
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
@@ -206,7 +207,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return mtsysKlfResponse;
   }
@@ -355,7 +356,7 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysTegevuslaod.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      log.error(e.getMessage(), e.getCause());
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
 
@@ -365,7 +366,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     redisTemplate.opsForHash().put(identifier, "mtsys", jsonNode);
     redisTemplate.expire(identifier, redisExpire, TimeUnit.MINUTES);
@@ -518,11 +519,11 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      super.setXdzeisonError(LOGGER, jsonNode, e);
+      super.setXdzeisonError(log, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNode;
   }
@@ -555,11 +556,11 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      super.setXdzeisonError(LOGGER, jsonNode, e);
+      super.setXdzeisonError(log, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNode;
   }
@@ -627,7 +628,7 @@ public class MtsysWorker extends Worker {
           addAddress = false;
 
         } catch (Exception e) {
-          LOGGER.error(e, e);
+          log.error(e.getMessage(), e.getCause());
           addAddress = false;
 //          setXdzeisonError(LOGGER, jsonNode, e);
         }
@@ -636,20 +637,26 @@ public class MtsysWorker extends Worker {
       if (oppeasutusedNode != null) {
         if (addAddress) {
           ((ArrayNode) stepAndmed.get("aadressid").get("value")).addObject().putObject("aadress")
+              .put("seqNo", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("seqNo").asLong())
               .put("adsId", oppeasutusedNode.get("educationalInstitution")
                   .get("address").get("adsId").asLong())
               .put("adsOid", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("adsOid").asText())
+                  .get("address").get("adsOid").asText(""))
+              .put("klElukoht", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("klElukoht").asLong())
               .put("county", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("county").asText())
+                  .get("address").get("county").asText(""))
               .put("localGovernment", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("localGovernment").asText())
+                  .get("address").get("localGovernment").asText(""))
               .put("settlementUnit", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("settlementUnit").asText())
+                  .get("address").get("settlementUnit").asText(""))
               .put("address", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("address").asText())
+                  .get("address").get("address").asText(""))
+              .put("addressFull", oppeasutusedNode.get("educationalInstitution")
+                  .get("address").get("addressFull").asText(""))
               .put("addressHumanReadable", oppeasutusedNode.get("educationalInstitution")
-                  .get("address").get("addressHumanReadable").asText());
+                  .get("address").get("addressHumanReadable").asText(""));
         }
 
         stepAndmed.putObject("oppeasutuseNimetus")
@@ -744,7 +751,7 @@ public class MtsysWorker extends Worker {
           if (repeatStepAndmed.get()) {
             logForDrupal.setMessage("postMtsysTegevusluba step_andmed validation_error on SUBMIT");
             logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-            LOGGER.info(logForDrupal);
+            log.info(logForDrupal.toString());
             return jsonNode;
           }
 
@@ -752,7 +759,7 @@ public class MtsysWorker extends Worker {
           logForDrupal
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
           logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-          LOGGER.info(logForDrupal);
+          log.info(logForDrupal.toString());
 
           logForDrupal.setType("EHIS - mtsysEsitaTegevusluba.v1");
 
@@ -794,12 +801,12 @@ public class MtsysWorker extends Worker {
               .setMessage("EHIS - mtsysEsitaTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
         }
       } catch (Exception e) {
-        setXdzeisonError(LOGGER, jsonNode, e);
+        setXdzeisonError(log, jsonNode, e);
       }
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNode;
   }
@@ -882,11 +889,11 @@ public class MtsysWorker extends Worker {
           .setMessage("EHIS - mtsysEsitaTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
 
     } catch (Exception e) {
-      setXdzeisonError(LOGGER, jsonNode, e);
+      setXdzeisonError(log, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNode;
   }
@@ -956,7 +963,7 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysOppeasutus.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      log.error(e.getMessage(), e.getCause());
 
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
@@ -969,7 +976,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     redisTemplate.opsForHash().put(institutionId, "educationalInstitution_" + identifier, jsonNode);
     redisTemplate.expire(institutionId, redisExpire, TimeUnit.MINUTES);
@@ -1107,7 +1114,7 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysLaeOppeasutus.v1 teenusega andmete lisamine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      log.error(e.getMessage(), e.getCause());
 
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
@@ -1117,7 +1124,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNodeResponse;
   }
@@ -1216,11 +1223,11 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysTegevusnaitaja.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      super.setXdzeisonError(LOGGER, jsonNode, e);
+      super.setXdzeisonError(log, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNode;
   }
@@ -1272,11 +1279,11 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysTegevusnaitaja.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      super.setXdzeisonError(LOGGER, jsonNode, e);
+      super.setXdzeisonError(log, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNode;
   }
@@ -1336,11 +1343,11 @@ public class MtsysWorker extends Worker {
       }
 
     } catch (Exception e) {
-      setXdzeisonError(LOGGER, jsonNode, e);
+      setXdzeisonError(log, jsonNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return jsonNode;
   }
@@ -1364,7 +1371,7 @@ public class MtsysWorker extends Worker {
             .put("et", response.getInfotekst());
       }
     } catch (Exception e) {
-      LOGGER.error(e);
+      log.error(e.getMessage(), e.getCause());
       jsonNode = getMtsysTegevusNaitaja("MTSYS_TEGEVUSNAITAJAD", identifier, personalCode);
       ((ArrayNode) jsonNode.get("body").get("messages")).add("error_message");
       if (e instanceof XRoadServiceConsumptionException) {
@@ -1416,7 +1423,7 @@ public class MtsysWorker extends Worker {
             .put("et", ((XRoadServiceConsumptionException) e).getFaultString());
 
       } else {
-        LOGGER.error(e, e);
+        log.error(e.getMessage(), e.getCause());
 
         logForDrupal.setSeverity("ERROR");
         logForDrupal.setMessage(e.getMessage());
@@ -1427,7 +1434,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return responseNode;
   }
@@ -1451,7 +1458,7 @@ public class MtsysWorker extends Worker {
 
       logForDrupal.setMessage("EHIS - mtsysDokument.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      LOGGER.error(e, e);
+      log.error(e.getMessage(), e.getCause());
 
       logForDrupal.setSeverity("ERROR");
       logForDrupal.setMessage(e.getMessage());
@@ -1461,7 +1468,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     return documentResponse;
   }
@@ -2061,12 +2068,15 @@ public class MtsysWorker extends Worker {
     ((ObjectNode) jsonNode.get("valisAadress")).put("value", aadressid.getOnValismaa());
     aadressid.getAadressList().forEach(aadress ->
         ((ArrayNode) jsonNode.get("aadressid").get("value")).addObject().putObject("aadress")
+            .put("seqNo", aadress.getJrkNr())
             .put("adsId", aadress.getAdsId() != null ? aadress.getAdsId().longValue() : null)
             .put("adsOid", aadress.getAdsOid())
+            .put("klElukoht", aadress.getKlElukoht())
             .put("county", aadress.getMaakond())
             .put("localGovernment", aadress.getOmavalitsus())
             .put("settlementUnit", aadress.getAsula())
             .put("address", aadress.getAdsAadress())
+            .put("addressFull", aadress.getTaisAadress())
             .put("addressHumanReadable", aadress.getAdsAadressHumanReadable()));
   }
 
@@ -2082,7 +2092,7 @@ public class MtsysWorker extends Worker {
 
     if (bodyMessages.contains("veatekst")) {
       logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-      LOGGER.info(logForDrupal);
+      log.info(logForDrupal.toString());
 
       return true;
     }
