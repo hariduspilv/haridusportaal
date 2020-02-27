@@ -1,5 +1,14 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { AuthService, SidemenuService, AlertsService, SettingsService, Alert, AlertType, ModalService } from './_services';
+import {
+  AuthService,
+  SidemenuService,
+  AlertsService,
+  SettingsService,
+  Alert,
+  AlertType,
+  ModalService,
+  AnalyticsService,
+} from './_services';
 import { Router, NavigationEnd } from '@angular/router';
 import { Location } from '@angular/common';
 import { AmpService } from './_services/ampService';
@@ -26,6 +35,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private translate: TranslateService,
     private cookieService: CookieService,
     public modalService: ModalService,
+    private analytics: AnalyticsService,
   ) {
     this.sidemenuIsVisible = sidemenuService.isVisible;
   }
@@ -113,7 +123,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         const page = window.location.href;
-        (<any>window).ga('send', 'pageview', page);
+        this.analytics.trackPage(page);
       }
     });
   }

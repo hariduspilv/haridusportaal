@@ -21,7 +21,7 @@ export class CertificateDetailView implements OnInit {
 
   public loading = true;
   public notFound = false;
-  public documents = {};
+  public documents:any = {};
   private accessorCode = '';
   public title = '';
   private accessType = '';
