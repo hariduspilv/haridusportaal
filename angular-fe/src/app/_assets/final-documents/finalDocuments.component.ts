@@ -85,7 +85,6 @@ export class FinalDocumentsComponent {
         this.loading.certificatesByAccessCode = false;
       },
       (err) => {
-        console.log('HERE')
         this.alertsService.error('certificates.no_certificate_or_access', 'certificatesByAccessCode','' , true)
         this.loading.certificatesByAccessCode = false;
       });
