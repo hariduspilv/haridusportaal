@@ -16,7 +16,9 @@ export class AuthInterceptor implements HttpInterceptor{
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let request = req.clone();
-    request = this.addAuthToken(request);
+    if (!request.url.includes('/users/v1/haridusportaal/jwt')) {
+      request = this.addAuthToken(request);
+    }
     return next.handle(request);
   }
 
