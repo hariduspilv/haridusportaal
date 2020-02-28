@@ -58,7 +58,7 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
   ) {}
 
   @Input() data: string;
-  public article = {
+  public article: any = {
     title: '',
     path: '',
   };
@@ -238,9 +238,9 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
 })
 
 export class HomePageViewComponent implements OnInit {
-  public topics: [] = [];
+  public topics: any[] = [];
   public services: any[] = [];
-  public contact: {};
+  public contact: any;
   public slogan: string = '';
   public newsLink: string = '';
 
