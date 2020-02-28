@@ -144,9 +144,7 @@ class xJsonRestResource extends ResourceBase {
       }
     }
     $params['form_name'] = $data['form_name'];
-    $response = isset($data['activity']) && $data['activity'] === 'CHANGE' ?
-      $this->ehisService->changeDocument($params) :
-      $this->ehisService->getDocument($params);
+    $response = isset($data['activity']) && $data['activity'] === 'CHANGE' ? $this->ehisService->changeDocument($params) : $this->ehisService->getDocument($params);
     \Drupal::logger('xjson')->notice('<pre><code>ehis response ' . print_r($response, TRUE) . '</code></pre>' );
     $response['header'] += [
       'endpoint' => 'empty'
