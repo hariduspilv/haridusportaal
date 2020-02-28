@@ -9,7 +9,7 @@ import {
 } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { SettingsService } from './SettingsService';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -75,6 +75,18 @@ export class AuthService implements CanActivate {
     );
   }
 
+  // this just used for the refreshuser part
+  public getEhisToken(token) {
+    this.http
+    .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, { jwt: token })
+    .pipe(take(1))
+    .subscribe((res: any) => {
+      if (res.jwt) {
+        sessionStorage.setItem('ehisToken', res.jwt);
+      }
+    });
+  }
+
   public logout() {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('redirectUrl');
@@ -102,7 +114,7 @@ export class AuthService implements CanActivate {
       return false;
     }
     if (!sessionStorage.getItem('ehisToken')) {
-      this.testNewJWT(sessionStorage.getItem('token'));
+      this.getEhisToken(sessionStorage.getItem('token'));
     }
     this.refreshUser();
     return true;
