@@ -92,9 +92,9 @@ class JwtTranscoder implements JwtTranscoderInterface {
    *
    * @param \Firebase\JWT\JWT $php_jwt
    *   The JWT library object.
-   * @param ConfigFactoryInterface $configFactory
+   * @param Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   Drupal config factory to retrieve the configuration information.
-   * @param KeyRepositoryInterface $key_repo
+   * @param Drupal\key\KeyRepositoryInterface $key_repo
    *   The Key repository to retrieve the key.
    */
   public function __construct(JWT $php_jwt, ConfigFactoryInterface $configFactory, KeyRepositoryInterface $key_repo) {

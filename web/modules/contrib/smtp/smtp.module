@@ -44,7 +44,7 @@ function smtp_queue_info() {
   $queues['smtp_send_queue'] = [
     'worker callback' => 'smtp_send_queue_runner',
     'cron' => [
-      'time' => 60, // This is the max run time per cron run in seconds.
+      'time' => 60,
     ],
   ];
   return $queues;
@@ -73,7 +73,10 @@ function _smtp_mailer_send($variables) {
   $logger->info('Sending mail to: @to', ['@to' => $to]);
 
   // Try to send e-mail. If it fails, set watchdog entry.
-  if (!$mailer->Send()) {
+  try {
+    $mailer->Send();
+  }
+  catch (Exception $e) {
     $logger->error('Error sending e-mail from @from to @to: @error_message', [
       '@from' => $from,
       '@to' => $to,
