@@ -42,6 +42,8 @@ class AdminMiddleware implements HttpKernelInterface {
       '/user/login',
       '/user',
       '/graphql',
+      '/external-login/tara',
+      '/external-login/harid',
       ''
     ];
 
