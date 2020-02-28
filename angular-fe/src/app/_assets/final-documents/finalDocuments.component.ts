@@ -58,7 +58,7 @@ export class FinalDocumentsComponent {
 
   getCertificates() {
     this.loading.certificatesById = true;
-    this.http.get(`${this.settings.url}/certificates/v1/certificates?accessType=ACCESS_TYPE:ID_CODE`).subscribe(
+    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates?accessType=ACCESS_TYPE:ID_CODE`).subscribe(
       (res: any[]) => {
         this.certificatesById = res.sort(this.compareCertificates);
         this.loading.certificatesById = false;
@@ -78,7 +78,7 @@ export class FinalDocumentsComponent {
     this.loading.certificatesByAccessCode = true;
     const formValue = this.accessFormGroup.value;
     this.http.get(
-      `${this.settings.url}/certificates/v1/certificate/ACCESS_CODE/${formValue.certificateNr}/${formValue.accessCode}`,
+      `${this.settings.ehisUrl}/certificates/v1/certificate/ACCESS_CODE/${formValue.certificateNr}/${formValue.accessCode}`,
     ).subscribe(
       (res: any) => {
         this.router.navigate([`/tunnistused/lõpudokumendid/${res.index.id}/${formValue.certificateNr}/${formValue.accessCode}`]);

@@ -58,7 +58,7 @@ export class AuthService implements CanActivate {
       jwt: token,
     };
     this.http
-    .post(`${this.settings.url}/ehis/jwt`, data).subscribe(
+    .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, data).subscribe(
       (response: any) => {
         if (response.jwt) {
           sessionStorage.setItem('ehisToken', response.jwt);
