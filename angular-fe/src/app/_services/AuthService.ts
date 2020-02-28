@@ -91,9 +91,6 @@ export class AuthService implements CanActivate {
       }
       return false;
     }
-    if (!sessionStorage.getItem('ehisToken')) {
-      this.testNewJWT(sessionStorage.getItem('token'));
-    }
     if (this.isTokenExpired()) {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('ehisToken');
@@ -103,6 +100,9 @@ export class AuthService implements CanActivate {
         this.hasEhisToken.next(false);
       }
       return false;
+    }
+    if (!sessionStorage.getItem('ehisToken')) {
+      this.testNewJWT(sessionStorage.getItem('token'));
     }
     this.refreshUser();
     return true;
