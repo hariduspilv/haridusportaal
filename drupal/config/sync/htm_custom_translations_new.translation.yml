@@ -871,7 +871,7 @@ xjson:
     en: ''
   exceed_file_limit:
     translation_type: textarea
-    et: 'Laetud faili suurus ületab lubatud piirangut!'
+    et: 'Laaditud faili suurus ületab lubatud piirangut!'
     en: ''
   edit:
     translation_type: textarea
@@ -2036,7 +2036,7 @@ button:
     en: 'Delete row'
   upload:
     translation_type: textarea
-    et: 'Lae failid enda seadmest'
+    et: 'Laadi failid enda seadmest'
     en: 'Upload files from your device'
   hide_extra:
     translation_type: textarea
@@ -2126,6 +2126,14 @@ button:
     translation_type: textarea
     et: Kustuta
     en: Kustuta
+  exit:
+    translation_type: textarea
+    et: Välju
+    en: Exit
+  login_again:
+    translation_type: textarea
+    et: 'Logi uuesti sisse'
+    en: 'Login again'
 tooltip:
   share:
     translation_type: textarea
@@ -2245,6 +2253,10 @@ errors:
     translation_type: textarea
     et: 'Viga! Ühtegi valikut ei ole tehtud'
     en: 'Viga! Ühtegi valikut ei ole tehtud'
+  field_required:
+    translation_type: textarea
+    et: 'Väli on kohustuslik'
+    en: 'Field is required'
 search:
   label:
     translation_type: textarea
@@ -3099,6 +3111,10 @@ generic:
     translation_type: textarea
     et: Kehtetu
     en: Invalid
+  login_to_haridusportaal:
+    translation_type: textarea
+    et: 'Logi sisse Haridusportaali'
+    en: MISSING
 sidemenu:
   support_text:
     translation_type: text_format
@@ -3192,6 +3208,18 @@ abitekst:
     en:
       value: ''
       format: custom_editor
+  sinu_id_tunnistused:
+    translation_type: textarea
+    et: Tõlketekst
+    en: MISSING
+  ligipääsukoodiga_tunnistused:
+    translation_type: textarea
+    et: 'Otsit ligipääsuga tunnistusi. Otsit ligipääsuga tunnistusi. Otsit ligipääsuga tunnistusi. Otsit ligipääsuga tunnistusi. '
+    en: MISSING
+  enda_tunnistused:
+    translation_type: textarea
+    et: 'Sulle välja antud e-tunnistuste nägemiseks pead Haridusportaali sisse logima. Seal saad anda ka teistele isikutele e-tunnistuste vaatamiseks vajalikud ligipääsuõigused. '
+    en: MISSING
 feedback_add_comment:
   translation_type: textarea
   et: 'Soovi korral lisa kommentaar'
@@ -3436,6 +3464,82 @@ certificates:
     translation_type: textarea
     et: 'Väljastamise kuupäev'
     en: 'Väljastamise kuupäev - eng'
+  owner_name:
+    translation_type: textarea
+    et: 'Omaniku nimi'
+    en: 'Owner name'
+  issuer:
+    translation_type: textarea
+    et: Väljaandja
+    en: Issuer
+  certificate_type:
+    translation_type: textarea
+    et: 'Tunnistuse liik'
+    en: 'Certificate type'
+  access_with_idcode:
+    translation_type: textarea
+    et: 'Sinu isikukoodiga ligipääsetavad tunnistused'
+    en: 'Certificates accessed by your id-code'
+  view_own_certificates:
+    translation_type: textarea
+    et: 'Enda tunnistuste vaatamine ja haldamine'
+    en: 'Manage your certificates'
+  view_with_accesscode:
+    translation_type: textarea
+    et: 'Tunnistuse vaatamine ligipääsukoodiga'
+    en: MISSING
+  login_to_view:
+    translation_type: textarea
+    et: 'Logi sisse ja vaata tunnistusi'
+    en: 'Log in and view certificates'
+  no_access:
+    translation_type: textarea
+    et: 'Pole kehtivat ligipääsu ühelegi tunnistusele'
+    en: MISSING
+  final_documents:
+    translation_type: textarea
+    et: Lõpudokumendid
+    en: 'Graduation '
+  title:
+    translation_type: textarea
+    et: Tunnistused
+    en: Certificates
+  e_certificates:
+    translation_type: textarea
+    et: E-tunnistused
+    en: E-certificates
+  validity_check:
+    translation_type: textarea
+    et: 'Kehtivuse kontroll'
+    en: MISSING
+  no_certificate_or_access:
+    translation_type: textarea
+    et: 'Tunnistust ei leitud või ligipääsukood on vale või kehtetu'
+    en: MISSING
+  access_code_field:
+    translation_type: textarea
+    et: 'Ligipääsukood:*'
+    en: 'Access code:*'
+  document_nr_field:
+    translation_type: textarea
+    et: 'Tunnistuse number:*'
+    en: 'Certificate number:*'
+  graduation_certificate:
+    translation_type: textarea
+    et: Lõputunnistus
+    en: 'Graduation certificate'
+  grade_sheet:
+    translation_type: textarea
+    et: Hinneteleht
+    en: 'Grade sheet'
+  back_to_search:
+    translation_type: textarea
+    et: 'Tagasi lõputunnistuse otsingusse'
+    en: MISSING
+  certificate_nr:
+    translation_type: textarea
+    et: 'Tunnistus nr'
+    en: 'Certificate nr'
 home:
   slogan:
     translation_type: textarea
@@ -3501,3 +3605,51 @@ home:
     translation_type: textarea
     et: 'Loe lähemalt'
     en: 'Loe lähemalt'
+finalDocumentDownload:
+  translation_type: textarea
+  et: 'Laadi failid alla'
+  en: 'Laadi failid alla - eng'
+finalDocumentAccess:
+  translation_type: textarea
+  et: Ligipääsud
+  en: 'Ligipääsud - eng'
+finalDocumentHistory:
+  translation_type: textarea
+  et: Ajalugu
+  en: 'Ajalugu - eng'
+'finalDocument_ACTION_TYPE:ISSUING':
+  translation_type: textarea
+  et: 'Välja andmine'
+  en: 'Välja andmine - eng'
+'finalDocument_GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE':
+  translation_type: textarea
+  et: 'Põhikooli lõputunnistus'
+  en: 'Põhikooli lõputunnistus - eng'
+'finalDocument_GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_TRANSCRIPT_OF_GRADES':
+  translation_type: textarea
+  et: 'Põhikooli hinneteleht'
+  en: 'Põhikooli hinneteleht - eng'
+'finalDocument_ACTION_STATUS:CONFIRMED':
+  translation_type: textarea
+  et: Kinnitatud
+  en: 'Kinnitatud - eng'
+'finalDocument_ACTION_TYPE:ISSUING_DUPLICATE':
+  translation_type: textarea
+  et: 'Duplikaadi välja andmine'
+  en: 'Duplikaadi välja andmine - eng'
+'finalDocument_GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE':
+  translation_type: textarea
+  et: 'Gümnaasiumi lõputunnistus'
+  en: 'Gümnaasiumi lõputunnistus - eng'
+'finalDocument_GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES':
+  translation_type: textarea
+  et: 'Gümnaasiumi hinneteleht'
+  en: 'Gümnaasiumi hinneteleht'
+finalDocument_issue_ISSUER:
+  translation_type: textarea
+  et: 'Väljaandja õppeasutus'
+  en: 'Väljaandja õppeasutus - eng'
+finalDocument_issue_DISPLAY:
+  translation_type: textarea
+  et: Vaatamine
+  en: 'Vaatamine - eng'
