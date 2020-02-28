@@ -14,9 +14,7 @@ import {
   ModalService,
   AlertsService,
   UploadService,
-  AuthService,
 } from '@app/_services';
-import { TableService } from '@app/_services/tableService';
 
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
@@ -108,8 +106,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
     public modalService: ModalService,
     private alertsService: AlertsService,
     private uploadService: UploadService,
-    private tableService: TableService,
-    private authService: AuthService,
   ) { }
 
   pathWatcher() {
@@ -546,9 +542,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.formLoading = true;
     this.edit_step = true;
     this.data.header.current_step = this.opened_step;
-    this.data.header.acceptable_activity = ['SAVE'];
-    this.modalService.close('editStep');
-    this.viewController(this.data);
+    if (this.data.header.acceptable_activity.includes('CHANGE')) {
+      this.submitForm('CHANGE');
+      this.modalService.close('editStep');
+    } else {
+      this.data.header.acceptable_activity = ['SAVE'];
+      this.modalService.close('editStep');
+      this.viewController(this.data);
+    }
     this.formLoading = false;
   }
 
@@ -769,11 +770,14 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     if (activity === 'EDIT') {
       this.promptEditConfirmation();
+    } else if (activity === 'CHANGE') {
+      this.formLoading = true;
+      const payload = { form_name: this.form_route, activity: 'CHANGE' };
+      this.getData(payload);
     } else {
       this.formLoading = true;
       const activities = this.data.header.acceptable_activity;
 
-      console.log(activity);
       if ((activity === 'SAVE' && activities.includes('SAVE') && !activities.includes('SUBMIT'))
         || (activity !== 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT'))
         || activity === 'CONTINUE'
@@ -836,11 +840,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
   setActivityButtons(activities: string[]) {
     const output = { primary: [], secondary: [] };
     const editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
-    if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence && !this.edit_step) {
+    if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence
+      && !this.edit_step) {
       if (this.editableStep()) {
-        const displayEditButton = editableActivities.some(editable => this.isItemExisting(activities, editable));
-        if (displayEditButton) { output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' }); }
+        if (editableActivities.some(editable => this.isItemExisting(activities, editable))) {
+          output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' });
+        }
       }
+    } else if (this.data.header.acceptable_activity.includes('CHANGE')) {
+      output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' });
     } else {
       activities.forEach((activity) => {
         if (editableActivities.includes(activity)) {
@@ -989,6 +997,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.setMaxStep(response);
         }
 
+        if (response['header']['form_name']) {
+          this.form_route = `/töölaud/taotlused/${response['header']['form_name'].toLowerCase()}`;
+        }
+
         if (response['header']['acceptable_activity']) {
           if ((!(response['header']['acceptable_activity'] instanceof Array))) {
             return this.errorHandler('Acceptable activity is a string!');
@@ -1005,8 +1017,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
 
         this.stepController(response);
-
-        this.formLoading = false;
 
         subscription.unsubscribe();
       });
@@ -1077,6 +1087,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
       this.fillInAds();
       this.getStepViewStatus();
+      this.formLoading = false;
     }
   }
 

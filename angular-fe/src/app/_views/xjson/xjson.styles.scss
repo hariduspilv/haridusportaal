@@ -411,7 +411,7 @@
     display: flex;
     flex-basis: 100%;
     justify-content: flex-end;
-    padding-top: 1.875rem;
+    padding: 1.875rem .5rem;
     align-items: center;
     @include break-on(sm, max) {
       flex-direction: row;
