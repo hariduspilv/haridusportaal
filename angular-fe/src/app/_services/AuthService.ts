@@ -37,18 +37,13 @@ export class AuthService implements CanActivate {
   }
 
   public login(data: any) {
-    console.log('LOGGING');
     return this.http
       .post(`${this.settings.url}/api/v1/token?_format=json`, data)
       .pipe(map((response:any) => {
         if (response['token']) {
           sessionStorage.setItem('token', response['token']);
           this.userData = this.decodeToken(response.token);
-          if (this.settings.url === 'https://htm.wiseman.ee') {
-            this.testNewJWT(response['token']);
-          } else {
-            this.isAuthenticated.next(true);
-          }
+          this.testNewJWT(response['token']);
         } else {
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('ehisToken');
@@ -71,13 +66,11 @@ export class AuthService implements CanActivate {
           this.isAuthenticated.next(true);
         }
         const redirectUrl = this.route.snapshot.queryParamMap.get('redirect') || sessionStorage.getItem('redirectUrl');
-        console.log(redirectUrl);
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
       },
       (err) => {
         const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
-        console.log(redirectUrl);
       }
     );
   }
