@@ -135,7 +135,7 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
   public submit():void {
 
     const data = {
-      queryId: 'b6b08eb9a6d99bdfcfb3bf9f980830c2d7d3c3fb:1',
+      queryId: this.settings.queryID('newsletterSignup'),
       variables: {
         lang: this.lang,
         email: this.formGroup.controls.email.value,
@@ -167,8 +167,9 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
     this.modalService.toggle('subscribe');
     const data = {
       variables: { token },
-      queryId: '884704e2d1dd58c5b9eb3e1c237e46985301d36c:1',
+      queryId: this.settings.queryID('newsletterActivate'),
     };
+
     const query = `${this.settings.query('newsletterActivate')}`;
     const subscribe = this.http.post(query, data).subscribe((response) => {
     });
@@ -178,7 +179,7 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
   private unsubscriptionModal(token: string): void {
     this.modalService.toggle('unsubscribe');
     const data = {
-      queryId: '550a90c42d4bb032cab8fd8ff5fb3e3b448c9596:1',
+      queryId: this.settings.queryID('newsletterDeactivate'),
       variables: { token },
     };
     const query = `${this.settings.query('newsletterDeactivate')}`;
@@ -302,13 +303,6 @@ export class HomePageViewComponent implements OnInit {
       this.newsLink = data.fieldFrontpageNews.entity.entityUrl.path;
     } catch (err) {}
 
-    console.log({
-      topics: this.topics,
-      services: this.services,
-      contact: this.contact,
-      slogan: this.slogan,
-      newsLink: this.newsLink,
-    });
   }
 
   ngOnInit() {
