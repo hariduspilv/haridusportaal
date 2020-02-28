@@ -1041,6 +1041,10 @@
     "_fileName": "user-check.svg"
   },
   {
+    "_name": "user-filled",
+    "_fileName": "user-filled.svg"
+  },
+  {
     "_name": "user-minus",
     "_fileName": "user-minus.svg"
   },

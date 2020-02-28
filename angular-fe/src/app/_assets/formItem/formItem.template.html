@@ -207,7 +207,7 @@
           <div class="formItem__radio__wrapper">
             <input
             type="radio"
-            name="field"
+            [name]="name"
             [value]="item.value"
             [(ngModel)]="field"
             (change)="update()"

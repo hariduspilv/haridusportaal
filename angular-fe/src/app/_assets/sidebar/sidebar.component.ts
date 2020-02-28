@@ -1,12 +1,12 @@
 import { Component, Input, HostBinding, OnInit, OnChanges, ChangeDetectorRef } from '@angular/core';
-import { SidebarService, SettingsService, ModalService } from '@app/_services';
+import { SidebarService, SettingsService, ModalService, AlertsService } from '@app/_services';
 import { collection, titleLess, parseProfessionData, parseFieldData, parseInfosystemData } from './helpers/sidebar';
 import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import conf from '@app/_core/conf';
 import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 
 interface SidebarType {
@@ -25,7 +25,7 @@ const sidebarOrder = {
   infosystem: ['fieldEhisLinks', 'fieldButton', 'fieldLegislationBlock'],
   field: ['indicator', 'prosCons', 'fieldOskaResults', 'fieldQuickFind', 'fieldRelatedPages'],
   resultPage: ['additional', 'fieldContactSection', 'fieldHyperlinks', 'fieldRelatedArticle'],
-  dashboard: ['gdpr', 'notifications', 'favourites', 'events'],
+  dashboard: ['gdpr', 'notifications', 'favourites', 'events', 'finalDocumentDownload', 'finalDocumentAccess', 'finalDocumentHistory'],
 };
 // tslint:enable
 
@@ -100,7 +100,6 @@ export class SidebarComponent implements OnInit, OnChanges {
       }
 
       this.keys = Object.keys(this.mappedData);
-
       if (sidebarOrder[this.type]) {
         this.orderedKeys = [...sidebarOrder[this.type]];
       }
@@ -485,5 +484,206 @@ export class SidebarNotificationsComponent {
   templateUrl: './templates/sidebar.gdpr.template.html',
 })
 export class SidebarGdprComponent {
+  @Input() data: any;
+}
+
+@Component({
+  selector: 'sidebar-finaldocument-access',
+  templateUrl: './templates/sidebar.finaldocument-access.template.html',
+})
+export class SidebarFinalDocumentAccessComponent implements OnInit{
+  @Input() data: any;
+  constructor (
+    public modal: ModalService,
+    private formBuilder: FormBuilder,
+    private settings: SettingsService,
+    private http: HttpClient,
+    private route: ActivatedRoute,
+  ) {}
+
+  public addAccessForm: FormGroup = this.formBuilder.group({
+    receiver: [],
+    email: [],
+    idCode: [],
+    withGradesheet: [false],
+    endDate: [''],
+    noEndDate: [false],
+  });
+
+  public addAccessOptions = {
+    receiver: [
+      {
+        key: 'Isikukoodiga',
+        value: 'ACCESS_TYPE:ID_CODE',
+      },
+      {
+        key: 'E-postiga',
+        value: 'ACCESS_TYPE:ACCESS_CODE',
+      },
+    ],
+    withGradesheet: [
+      {
+        key: 'Lõputunnistus',
+        value: 'ACCESS_SCOPE:MAIN_DOCUMENT',
+      },
+      {
+        key: 'Lõputunnistus koos hinnetelehega',
+        value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS',
+      },
+    ],
+  };
+
+  public activeAccesses: any = [];
+  public inactiveAccesses: any = [];
+  public openedAccess: any = {};
+  public openedAccessLabelType: any;
+  public openedAccessLabel = [];
+  public accessAction = 'add';
+  public issuingHistory = [];
+  public actionHistory = [];
+
+  openAccess(access) {
+    this.modal.toggle('finalDocument-access');
+    this.openedAccess = access;
+    this.openedAccessLabel = [{ value: access.status === 'ACCESS_STATUS:VALID' ? 'kehtiv ligipääs' : 'kehtetu ligipääs' }];
+    this.openedAccessLabelType = access.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
+  }
+
+  changeAccess(access) {
+    this.accessAction = 'edit';
+    this.modal.toggle('finalDocument-addAccess');
+    this.addAccessForm.controls.receiver
+      .setValue(access.type);
+    this.addAccessForm.controls.email
+      .setValue(access.emailAddress ? access.emailAddress : null);
+    this.addAccessForm.controls.idCode
+      .setValue(!access.emailAddress ? access.accessorCode : null);
+    this.addAccessForm.controls.withGradesheet
+      .setValue(access.scope);
+    this.addAccessForm.controls.endDate
+      .setValue(access.endDate ? access.endDate.split('-').reverse().join('.') : null);
+    this.addAccessForm.controls.noEndDate
+      .setValue(!access.endDate ? true : false);
+  }
+  addAccess () {
+    const form = this.addAccessForm.value;
+    const indexId = this.route.snapshot.params.id;
+    const accessDTO = {
+      indexId,
+      access: {
+        type: form.receiver,
+        scope: form.withGradesheet,
+        endDate: form.noEndDate ? null : form.endDate.split('.').reverse().join('-'),
+        accessorCode: form.receiver === 'ACCESS_TYPE:ID_CODE' ? form.idCode : null,
+        emailAddress: form.receiver === 'ACCESS_TYPE:ACCESS_CODE' ? form.email : null,
+      },
+    };
+    this.http
+      .post(`${this.settings.url}/certificates/v1/certificateAccess`, accessDTO)
+      .subscribe((val) => {
+        this.modal.toggle('finalDocument-addAccess');
+        this.addAccessForm.reset();
+        this.getData();
+      });
+  }
+  modifyAccess () {
+    const form = this.addAccessForm.value;
+    const indexId = this.route.snapshot.params.id;
+    const accessDTO = {
+      indexId,
+      access: {
+        id: indexId,
+        scope: form.withGradesheet,
+        endDate: form.noEndDate ? null : form.endDate.split('.').reverse().join('-'),
+        endDateSet: !this.openedAccess.endDate && form.endDate ? true : false,
+        scopeSet: this.openedAccess.scope !== form.withGradesheet ? true : false,
+      },
+    };
+    this.http
+      .patch(`${this.settings.url}/certificates/v1/certificateAccess`, accessDTO)
+      .subscribe((val) => {
+        this.modal.toggle('finalDocument-addAccess');
+        this.addAccessForm.reset();
+        this.getData();
+      });
+  }
+
+  invalidateAccess() {
+    const accessId = this.openedAccess.id;
+    const certificateId = this.route.snapshot.params.id;
+    this.http
+      .delete(`${this.settings.url}/certificates/v1/certificateAccess?indexId=${certificateId}&accessId=${accessId}`)
+      .subscribe((res: any) => {
+        this.getData();
+        this.openedAccess = res;
+        this.openedAccessLabel = [{ value: res.status === 'ACCESS_STATUS:VALID' ? 'kehtiv ligipääs' : 'kehtetu ligipääs' }];
+        this.openedAccessLabelType = res.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
+      });
+  }
+  getData () {
+    const id = this.route.snapshot.params.id;
+    // tslint:disable
+    this.http
+      .get(`${this.settings.url}/certificates/v1/certificateAccess?indexId=${id}&status=ACCESS_STATUS:VALID`)
+      .subscribe((val) => {
+        this.activeAccesses = val;
+      });
+    // tslint:enable
+    // tslint:disable
+    this.http
+      .get(`${this.settings.url}/certificates/v1/certificateAccess?indexId=${id}&status=ACCESS_STATUS:INVALID`)
+      .subscribe((val) => {
+        this.inactiveAccesses = val;
+      });
+    // tslint:enable
+  }
+  ngOnInit () {
+    this.getData();
+  }
+}
+
+@Component({
+  selector: 'sidebar-finaldocument-history',
+  templateUrl: './templates/sidebar.finaldocument-history.template.html',
+})
+export class SidebarFinalDocumentHistoryComponent implements OnInit {
+  constructor (
+    private http: HttpClient,
+    private settings: SettingsService,
+    private route: ActivatedRoute,
+    private modal: ModalService,
+    private alertsService: AlertsService,
+  ) {}
+  @Input() data: any;
+  public issuingHistory = [];
+  public actionHistory = [];
+  getData() {
+    const id = this.route.snapshot.params.id;
+    this.http
+      .get(`${this.settings.url}/certificates/v1/certificateActions/${id}`)
+      .subscribe((res: any) => {
+        this.actionHistory = res.actions;
+      });
+    this.http
+      .get(`${this.settings.url}/certificates/v1/certificateDataIssues/${id}`)
+      .subscribe((res: any) => {
+        this.issuingHistory = res.filter(el =>  el.issueBase !== 'OWNER').reverse();
+        if (this.issuingHistory.length === 0) {
+          this.alertsService.info(
+            'Vaatamise ajaloo kirjeid ei leitud', 'historyModalAlerts', false,
+          );
+        }
+      });
+  }
+  ngOnInit() {
+    this.getData();
+  }
+}
+
+@Component({
+  selector: 'sidebar-finaldocument-download',
+  templateUrl: './templates/sidebar.finaldocument-download.template.html',
+})
+export class SidebarFinalDocumentDownloadComponent {
   @Input() data: any;
 }

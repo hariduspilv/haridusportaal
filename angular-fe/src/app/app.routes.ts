@@ -177,11 +177,11 @@ const routes: Routes = [
     loadChildren: () => import('./_views/certificateCheckView')
       .then(m => m.CertificateCheckViewModule),
   },
-  {
-    path: 'lõpudokumentide-kehtivuse-kontroll',
-    loadChildren: () => import('./_views/documentCheckView')
-      .then(m => m.DocumentCheckViewModule),
-  },
+  // {
+  //   path: 'lõpudokumentide-kehtivuse-kontroll',
+  //   loadChildren: () => import('./_views/documentCheckView')
+  //     .then(m => m.DocumentCheckViewModule),
+  // },
   {
     path: 'töölaud/taotlused/:id',
     loadChildren: () => import('./_views/xjson').then(m => m.XjsonModule),

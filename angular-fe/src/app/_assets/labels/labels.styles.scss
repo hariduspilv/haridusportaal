@@ -36,4 +36,9 @@
 		background: $aqua;
 		border: .0625rem solid $white;
 	}
+	&.green * {
+		background: $success-light;
+		color: $success;
+		border: 0;
+	}
 }

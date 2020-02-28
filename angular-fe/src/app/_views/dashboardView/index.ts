@@ -16,6 +16,8 @@ import { XjsonComponent } from '../xjson/xjson.component';
 import { AppPipes } from '@app/_pipes';
 import { StudiesDetailView } from './studiesDetailView/studiesDetailView.component';
 import { CertificatesDetailView } from './certificatesDetailView/certificatesDetailView.component';
+import { FinalDocumentDashboardDetailViewComponent }
+  from '../finalDocumentDashboardDetailView/finalDocumentDashboardDetailView.component';
 
 const routes: Routes = [
   {
@@ -57,7 +59,7 @@ const routes: Routes = [
   },
   {
     path: 'tunnistused/lõputunnistused/:id',
-    component: CertificatesDetailView,
+    component: FinalDocumentDashboardDetailViewComponent,
   },
   {
     path: 'tunnistused/:id',
@@ -75,6 +77,7 @@ const routes: Routes = [
     CertificatesComponent,
     StudiesDetailView,
     CertificatesDetailView,
+    FinalDocumentDashboardDetailViewComponent,
   ],
   imports: [
     AppPipes,

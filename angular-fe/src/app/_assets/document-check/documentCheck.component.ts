@@ -9,6 +9,7 @@ import { take } from 'rxjs/operators';
 @Component({
   templateUrl: './documentCheck.template.html',
   styleUrls: ['documentCheck.styles.scss'],
+  selector: 'document-check',
 })
 export class DocumentCheckComponent {
   public resultSetIds = {
@@ -108,6 +109,8 @@ export class DocumentCheckComponent {
       return;
     }
     this.loading = true;
+    this.model.controls.document_id
+      .setValue(this.model.controls.document_id.value.replace(/\s|\//g, ''));
     const elasticQuery = {
       size: 10000,
       query: {
@@ -115,7 +118,7 @@ export class DocumentCheckComponent {
           must: [
             {
               match: {
-                NR_QUERY: this.model.controls.document_id.value.replace(/\s|\//g, ''),
+                NR_QUERY: this.model.controls.document_id.value,
               },
             },
           ],

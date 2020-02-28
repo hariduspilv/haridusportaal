@@ -76,6 +76,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
 
   private centerArrows(): void {
     const wrapperHeight = this.wrapper.offsetHeight;
+    console.log(wrapperHeight);
     this.arrows.forEach((item:HTMLElement) => {
       const el:HTMLElement = item.querySelector('icon');
       el.style.transform = `translateY(${wrapperHeight / 2}px)`;

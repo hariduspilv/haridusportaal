@@ -16,6 +16,11 @@
 	font-family: Rubik, sans-serif;
 
 	&.button--default {
+		text-decoration: none !important;
+		&:visited {
+			color: $white !important;
+			text-decoration: none !important;
+		}
 		background: $blue;
 		&:hover {
 			background: lighten($blue, 10);

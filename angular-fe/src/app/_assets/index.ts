@@ -60,7 +60,7 @@ import {
   SidebarContactComponent, SidebarArticlesComponent, SidebarDataComponent,
   SidebarActionsComponent, SidebarFactsComponent, SidebarLocationComponent,
   SidebarProgressComponent, SidebarRegisterComponent, SidebarEventsComponent,
-  SidebarNotificationsComponent, SidebarGdprComponent,
+  SidebarNotificationsComponent, SidebarGdprComponent, SidebarFinalDocumentAccessComponent, SidebarFinalDocumentDownloadComponent, SidebarFinalDocumentHistoryComponent,
 } from './sidebar';
 import { ProgressBarComponent } from './progressBar';
 import { MapComponent } from './map';
@@ -115,6 +115,7 @@ import { SessionExpirationComponent } from './sessionExpiration';
 import { MoreBlockComponent } from './more.block/more.block.component';
 import { CertificateComponent } from './certificate/certificate.component';
 import { GradeSheetComponent } from './grade-sheet/gradeSheet.component';
+import { DocumentCheckComponent } from './document-check/documentCheck.component';
 
 const declarations = [
   BlockComponent,
@@ -162,6 +163,9 @@ const declarations = [
   SidebarEventsComponent,
   SidebarNotificationsComponent,
   SidebarGdprComponent,
+  SidebarFinalDocumentAccessComponent,
+  SidebarFinalDocumentDownloadComponent,
+  SidebarFinalDocumentHistoryComponent,
   StudyProgrammesComponent,
   SchoolsComponent,
   ProgressBarComponent,
@@ -188,6 +192,7 @@ const declarations = [
   InlineArticlesComponent,
   ArticlesSingleComponent,
   NewsletterOrderComponent,
+  //
   PictoComponent,
   BlockSubTitleComponent,
   RelatedStudyProgrammesListComponent,
@@ -198,6 +203,7 @@ const declarations = [
   MoreBlockComponent,
   CertificateComponent,
   GradeSheetComponent,
+  DocumentCheckComponent,
 ];
 
 const exports = [

@@ -1,0 +1,22 @@
+<div class="inline">
+<article-layout [sidebar]="sidebar">
+  <breadcrumbs [data]="path"></breadcrumbs>
+  <block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
+    <block-title>Tunnistused</block-title>
+    <block-content
+      [tabLabel]="'certificates.graduation_certificate' | translate"
+      tabIcon="columns"
+    >
+      <certificate *ngIf="!loading" [document]="documents.certificate" #certificate></certificate>
+    </block-content
+    >
+    <block-content
+      *ngIf="documents.gradesheet"
+      [tabLabel]="'certificates.grade_sheet' | translate"
+      tabIcon="file-text"
+    >
+      <grade-sheet [document]="documents.gradesheet"></grade-sheet>
+    </block-content>
+  </block>
+</article-layout>
+</div>

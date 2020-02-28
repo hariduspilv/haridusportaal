@@ -1,0 +1,68 @@
+@import 'colors.scss';
+@import 'breakpoints.scss';
+
+:host {
+  ::ng-deep .button-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    button:first-child {
+      margin-right: 1.5rem;
+    }
+  }
+  ::ng-deep #modal-finalDocument-addAccess {
+    min-width: unset;
+    max-width: 33rem;
+    .split {
+      display: flex;
+      align-items: center;
+      formItem {
+        width: 100%;
+        &:first-child {
+          margin-right: 1.5rem;
+        }
+        &.formItem--checkbox {
+          text-align: center;
+        }
+      }
+    }
+  }
+  ::ng-deep #modal-finalDocument-access {
+    min-width: unset;
+    max-width: 27.5rem;
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+    labels div {
+      margin-bottom: 0;
+    }
+    .line {
+      display: flex;
+      justify-content: flex-start;
+      h2 {
+        margin-right: 0.75rem;
+        margin-bottom: 0;
+      }
+      labels {
+        margin-right: 1rem;
+      }
+      @include break-on(xs, max) {
+        flex-direction: column;
+        align-items: flex-start;
+        h2, labels {
+          margin-bottom: 0.5rem;
+        }
+        button {
+          text-align: left;
+        }
+      }
+    }
+  }
+  ::ng-deep #modal-finalDocument-invalidAccesses {
+    table {
+      icon {
+        color: $dark-gray;
+      }
+    }
+  }
+}
