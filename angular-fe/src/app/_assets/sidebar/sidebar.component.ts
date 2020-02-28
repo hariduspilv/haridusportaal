@@ -509,6 +509,14 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
     endDate: [''],
     noEndDate: [false],
   });
+  public view: FormGroup = this.formBuilder.group({
+    receiver: [],
+    email: [],
+    idCode: [],
+    withGradesheet: [false],
+    endDate: [''],
+    noEndDate: [false],
+  });
 
   public addAccessOptions = {
     receiver: [
