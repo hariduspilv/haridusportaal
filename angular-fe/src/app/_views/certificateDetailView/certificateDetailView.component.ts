@@ -66,8 +66,8 @@ export class CertificateDetailView implements OnInit {
     this.accessorCode = params.accessorCode;
 
     const URL = this.accessType === 'ACCESS_CODE'
-      ? `${this.settings.url}/certificates/v1/certificate/ACCESS_CODE/${params.certificateNr}/${this.accessorCode}`
-      : `${this.settings.url}/certificates/v1/certificate/${params.id}?accessType=ACCESS_TYPE:ID_CODE`;
+      ? `${this.settings.ehisUrl}/certificates/v1/certificate/ACCESS_CODE/${params.certificateNr}/${this.accessorCode}`
+      : `${this.settings.ehisUrl}/certificates/v1/certificate/${params.id}?accessType=ACCESS_TYPE:ID_CODE`;
 
     this.http.get(URL).subscribe(
       (res: any) => {
@@ -106,8 +106,8 @@ export class CertificateDetailView implements OnInit {
     }
 
     const URL = this.accessType === 'ACCESS_CODE'
-      ? `${this.settings.url}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ACCESS_CODE&accessorCode=${this.accessorCode}`
-      : `${this.settings.url}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ID_CODE`;
+      ? `${this.settings.ehisUrl}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ACCESS_CODE&accessorCode=${this.accessorCode}`
+      : `${this.settings.ehisUrl}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ID_CODE`;
 
     const req = [
       this.http.get(URL.replace('{DOCUMENT_ID}', documents.certificate.id)).pipe(

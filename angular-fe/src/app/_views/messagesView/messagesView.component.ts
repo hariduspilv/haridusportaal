@@ -54,7 +54,7 @@ export class MessagesViewComponent implements OnInit{
     const query = `&${Object.keys(queryParams).map(key => `${key}=${queryParams[key]}`).join('&')}`;
     this.loading = true;
     this.http
-      .get(`${this.settings.url}/messages/messages/receiver?orderBy=sentAt&sort=DESC${query ? `${query}` : ''}`)
+      .get(`${this.settings.ehisUrl}/messages/messages/receiver?orderBy=sentAt&sort=DESC${query ? `${query}` : ''}`)
       .subscribe(
         (val: any) => {
           this.data = val;

@@ -22,6 +22,7 @@
 		}
 	}
 
+	
 	&.button--plain {
 		background: none;
 		color: $blue;
@@ -88,6 +89,12 @@
 			background: $light-gray;
 		}
 	}
+	&.button--outline-dark {
+		background: transparent;
+		border: 1px solid $white;
+		color: $white;
+	}
+	
 
 	.button--label {
 		position: relative;
