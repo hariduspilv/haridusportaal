@@ -19,7 +19,7 @@
 
 
     h1#grade-sheet-title {
-      font-weight: 900;
+      font-weight: bold;
       font-size: 2rem;
       margin-bottom: 0.5rem;
       text-align: center;
@@ -40,7 +40,7 @@
         margin-top: 0.25rem;
 
         .subject-type {
-          font-weight: 500;
+          font-weight: bold;
           margin-bottom: 0.5rem;
         }
 
@@ -70,7 +70,7 @@
             font-size: 0.75rem;
             &.highlight {
               background: $light-gray;
-              font-weight: 700;
+              font-weight: bold;
             }
             &:not(.last-cell):not(.highlight) {
               border-bottom: 0.0625rem solid $gray;
@@ -107,12 +107,9 @@
     }
 
     .bold {
-      font-weight: 700;
+      font-weight: bold;
     }
 
-    .medium {
-      font-weight: 500;
-    }
 
   }
 }

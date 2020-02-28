@@ -48,7 +48,7 @@
   <accordion-item [title]="'certificates.view_with_accesscode' | translate">
     <more-block id="ligipääsukoodiga-tunnistused" content="abitekst.ligipääsukoodiga_tunnistused"></more-block>
 
-    <loader *ngIf="loading.certificatesbyAccessCode; else certificatesbyAccessCodeRef"></loader>
+    <loader *ngIf="loading.certificatesByAccessCode; else certificatesbyAccessCodeRef"></loader>
 
     <ng-template #certificatesbyAccessCodeRef>
       <form [formGroup]="accessFormGroup" (submit)="getCertificateByAccessCode()">
@@ -69,9 +69,7 @@
         </button>
       </form>
 
-      <p class="text-center" *ngIf="notFound.certificatesByAccessCode">
-        {{ 'certificates.no_certificate_or_access' | translate }}
-      </p>
     </ng-template>
+    <alerts small="true" id="certificatesByAccessCode"></alerts>
 	</accordion-item>
 </accordion>

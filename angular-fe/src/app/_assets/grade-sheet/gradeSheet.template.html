@@ -18,7 +18,7 @@
 
   <section id="info">
     <p class="bold">{{ document.content.graduate.firstName }} {{ document.content.graduate.lastName }}</p>
-    <p>õppis {{ document.content.curriculumNameToPrintOut }}</p>
+    <p class="bold">õppis {{ document.content.curriculumNameToPrintOut }}</p>
     <p>Õppekeel: {{ document.content.studies.language }}</p>
   </section>
 
@@ -28,7 +28,7 @@
     <ng-container *ngIf="document.content.studies.curriculumName === 'põhikooli lihtsustatud riiklik õppekava toimetulekuõpe' || document.content.studies.curriculumName === 'põhikooli lihtsustatud riiklik õppekava hooldusõpe'; else gradesTable">
       <p class="subject-type">Kohustuslikud ained:</p>
       <div *ngFor="let subject of mandatorySubjects" class="subject-grade">
-        <p class="medium">
+        <p class="bold">
           {{subject.subject}}
         </p>
         <p>
@@ -38,7 +38,7 @@
 
       <p class="subject-type" *ngIf="electives.length > 0">Valikained:</p>
       <div *ngFor="let subject of electives" class="subject-grade">
-        <p class="medium">
+        <p class="bold">
           {{subject.subject}}
         </p>
         <p>

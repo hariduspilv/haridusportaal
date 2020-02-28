@@ -18,23 +18,38 @@
 					{{ 'session.login' | translate }}
 				</ng-template>
 			</div><!--/text-container-->
-			<div class="button-container">
+			<ng-container *ngIf="timeLeft > 0; else timeoutButtons">
+				<div class="button-container">
 					<button
 					htm-button
 					theme="plain"
 					(click)="logOut(); modalService.close('sessionExpirationModal')"
 					(keyup.enter)="logOut(); modalService.close('sessionExpirationModal')">
-					{{ 'button.close' | translate }}
-				</button>
+					{{ 'button.exit' | translate }}
+					</button>
 				
+					<button
+					htm-button
+					(click)="renewLogin()"
+					(keyup.enter)="renewLogin()">
+					{{ 'session.continue' | translate }}
+				</button>
+			</div><!--/button-container-->
+		</ng-container>
+
+		<ng-template #timeoutButtons>
+			<div class="button-container">
 				<button
-				*ngIf="timeLeft > 0"
+					htm-button
+					theme="plain"
+					(click)="modalService.close('sessionExpirationModal');"
+					(keyup.enter)="modalService.close('sessionExpirationModal')">{{ 'button.close' | translate }}</button>
+				<button
 				htm-button
-				(click)="renewLogin()"
-				(keyup.enter)="renewLogin()">
-				{{ 'session.continue' | translate }}
-			</button>
-		</div>
+				(click)="modalService.close('sessionExpirationModal'); modalService.open('login')"
+				(keyup.enter)="modalService.close('sessionExpirationModal'); modalService.open('login')">{{ 'button.login_again' | translate }}</button>
+			</div>
+		</ng-template>
 	</ng-template>
 </modal-content>
 </htm-modal>
