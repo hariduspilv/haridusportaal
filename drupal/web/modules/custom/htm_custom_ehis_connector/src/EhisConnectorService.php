@@ -319,6 +319,18 @@ class EhisConnectorService {
 
   /**
    * @param array $params
+   * @return array|mixed|\Psr\Http\Message\ResponseInterface
+   */
+  /*@TODO something wrong here*/
+  public function changeDocument(array $params = [], $regcode = false){
+    if(!$regcode) {
+      $params['idcode'] = $this->getCurrentUserIdRegCode();
+    }
+    return $this->invokeWithRedis('changeDocument', $params, FALSE);
+  }
+
+  /**
+   * @param array $params
    * @return mixed|\Psr\Http\Message\ResponseInterface
    */
   public function postDocument(array $params = []){
