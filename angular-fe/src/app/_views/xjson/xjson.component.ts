@@ -997,7 +997,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.setMaxStep(response);
         }
 
-        if (response['header']['form_name']) {
+        if (response['header']['form_name'] && response['header']['acceptable_activity'].includes('CHANGE')) {
           this.form_route = `/töölaud/taotlused/${response['header']['form_name'].toLowerCase()}`;
         }
 
