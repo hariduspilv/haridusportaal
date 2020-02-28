@@ -33,8 +33,8 @@ Orginal release information:
 
 namespace Drupal\smtp\PHPMailer;
 
-use Drupal\smtp\PHPMailer\SMTP;
 use Drupal\smtp\Exception\PHPMailerException;
+use Drupal\smtp\PHPMailer\SMTP;
 
 /**
  * PHPMailer - PHP email transport class
@@ -781,10 +781,12 @@ class PHPMailer {
 
   /**
    * Initiates a connection to an SMTP server.
-   * Returns FALSE if the operation failed.
+   * Returns TRUE if the operation succeeded, otherwise throws an exception.
    * @uses SMTP
    * @access public
    * @return bool
+   *   TRUE if the operation succeeded.
+   * @throws \Drupal\smtp\Exception\PHPMailerException
    */
   public function SmtpConnect() {
     if (is_null($this->smtp)) {
@@ -1474,24 +1476,8 @@ class PHPMailer {
         }
       }
       $magic_quotes = get_magic_quotes_runtime();
-      if ($magic_quotes) {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-          set_magic_quotes_runtime(0);
-        }
-        else {
-          ini_set('magic_quotes_runtime', 0);
-        }
-      }
       $file_buffer  = file_get_contents($path);
       $file_buffer  = $this->EncodeString($file_buffer, $encoding);
-      if ($magic_quotes) {
-        if (version_compare(PHP_VERSION, '5.3.0', '<')) {
-          set_magic_quotes_runtime($magic_quotes);
-        }
-        else {
-          ini_set('magic_quotes_runtime', $magic_quotes);
-        }
-      }
       return $file_buffer;
     } catch (Exception $e) {
       $this->SetError($e->getMessage());

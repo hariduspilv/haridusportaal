@@ -6,6 +6,7 @@
  */
 
 use Drupal\Core\Url;
+use Drupal\smtp\ConnectionTester\ConnectionTester;
 
 /**
  * Implements hook_uninstall().
@@ -29,8 +30,27 @@ function smtp_uninstall() {
  * Implements hook_install().
  */
 function smtp_install() {
+  /** @var \Drupal\Core\Routing\RouteBuilderInterface $routeBuilder $route_builder */
+  $route_builder = \Drupal::service('router.builder');
+
+  // Makes the 'smtp.config' route available here, see hook_install doc.
+  $route_builder->rebuild();
+
   drupal_set_message(t('Thanks for installing SMTP Authentication Support'));
   drupal_set_message(t('Settings on <a href="@url_settings">Home &raquo; Admin &raquo; Config &raquo; System &raquo; SMTP</a> or <a href="@url_settings">@url_settings</a>', [
     '@url_settings' => Url::fromRoute('smtp.config')->toString(),
   ]));
+}
+
+/**
+ * Implements hook_requirements().
+ */
+function smtp_requirements(string $phase) {
+  $return = [];
+  // If the phase is not runtime, ConnectionTester might be unavailable.
+  if ($phase == 'runtime') {
+    $tester = new ConnectionTester();
+    $return = $tester->hookRequirements($phase);
+  }
+  return $return;
 }

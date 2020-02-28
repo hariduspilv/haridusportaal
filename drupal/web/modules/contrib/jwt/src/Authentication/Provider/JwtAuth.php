@@ -105,7 +105,7 @@ class JwtAuth implements AuthenticationProviderInterface {
   /**
    * Gets a raw JsonWebToken from the current request.
    *
-   * @param Request $request
+   * @param Symfony\Component\HttpFoundation\Request $request
    *   The request.
    *
    * @return string|bool
@@ -113,7 +113,7 @@ class JwtAuth implements AuthenticationProviderInterface {
    */
   protected function getJwtFromRequest(Request $request) {
     $auth_header = $request->headers->get('Authorization');
-    $matches = array();
+    $matches = [];
     if (!$hasJWT = preg_match('/^Bearer (.*)/', $auth_header, $matches)) {
       return FALSE;
     }

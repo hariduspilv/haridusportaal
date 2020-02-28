@@ -36,8 +36,8 @@ class JwtAuthConsumerSubscriber implements EventSubscriberInterface {
    * {@inheritdoc}
    */
   public static function getSubscribedEvents() {
-    $events[JwtAuthEvents::VALIDATE][] = array('validate');
-    $events[JwtAuthEvents::VALID][] = array('loadUser');
+    $events[JwtAuthEvents::VALIDATE][] = ['validate'];
+    $events[JwtAuthEvents::VALID][] = ['loadUser'];
 
     return $events;
   }

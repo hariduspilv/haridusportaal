@@ -1,4 +1,3 @@
-
 jwt.jwt_config_form:
   path: '/admin/config/system/jwt'
   defaults:
