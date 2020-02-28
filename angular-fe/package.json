@@ -9,8 +9,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "storybook": "start-storybook -p 4300",
-    "deploy-storybook": "build-storybook -c .storybook -o storybook-dist && node scripts/deploy-storybook.js",
-    "deploy": "ng build --configuration dev && node scripts/deploy-edu.js"
+    "deploy-storybook": "build-storybook -c .storybook -o dist/storybook && node scripts/deploy-storybook.js",
+    "deploy-app": "ng build --configuration dev && node scripts/deploy-edu.js",
+    "deploy": "npm run deploy-app && npm run deploy-storybook"
   },
   "private": true,
   "dependencies": {

@@ -58,7 +58,10 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
   ) {}
 
   @Input() data: string;
-  public article: {} = {};
+  public article = {
+    title: '',
+    path: '',
+  };
 
   private getData() {
     if (!this.data) { return false; }
@@ -68,6 +71,7 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
     const query = this.settings.query('newsSingel', variables);
     const subscription = this.http.get(query).subscribe((response) => {
       this.article = {
+        title: '',
         ... FieldVaryService(response['data']['route']['entity']),
         path: this.data,
       };
