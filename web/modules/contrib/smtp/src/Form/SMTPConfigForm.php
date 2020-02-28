@@ -344,12 +344,13 @@ class SMTPConfigForm extends ConfigFormBase {
         $mail_config->set('interface.default', $mail_system)->save();
       }
 
-      \Drupal::service('plugin.manager.mail')->mail('smtp', 'smtp-test', $test_address, $account->getPreferredLangcode(), $params);
+      if (\Drupal::service('plugin.manager.mail')->mail('smtp', 'smtp-test', $test_address, $account->getPreferredLangcode(), $params)) {
+        $this->messenger->addMessage($this->t('A test e-mail has been sent to @email via SMTP. You may want to check the log for any error messages.', ['@email' => $test_address]));
+      }
       if (!$config->get('smtp_on')) {
         $mail_config->set('interface', $original)->save();
       }
 
-      $this->messenger->addMessage($this->t('A test e-mail has been sent to @email via SMTP. You may want to check the log for any error messages.', ['@email' => $test_address]));
     }
 
     parent::submitForm($form, $form_state);

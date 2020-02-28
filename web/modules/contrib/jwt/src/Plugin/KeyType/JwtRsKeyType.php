@@ -40,14 +40,14 @@ class JwtRsKeyType extends KeyTypeBase implements KeyPluginFormInterface {
 
     $algorithm = $this->getConfiguration()['algorithm'];
 
-    $form['algorithm'] = array(
+    $form['algorithm'] = [
       '#type' => 'select',
       '#title' => $this->t('JWT Algorithm'),
       '#description' => $this->t('The JWT Algorithm to use with this key.'),
       '#options' => $algorithm_options,
       '#default_value' => $algorithm,
       '#required' => TRUE,
-    );
+    ];
 
     return $form;
   }
