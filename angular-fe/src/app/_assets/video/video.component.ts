@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { EmbedVideoService } from 'ngx-embed-video';
 import { DomSanitizer } from '@angular/platform-browser';
 
 export interface VideoItem {
@@ -25,7 +24,6 @@ export class VideoComponent {
   public embeddedInputs: VideoItem[] = [];
 
   constructor(
-    private embedService: EmbedVideoService,
     private sanitizer: DomSanitizer,
   ) {}
 
@@ -38,16 +36,12 @@ export class VideoComponent {
     }
 
     try {
-      return this.videoArray.forEach((vid) => {
-        return this.embeddedInputs.push(this.embedService.embed(vid.input));
-      });
-    } catch {
       this.videoArray = this.videoArray.map((vid) => {
         const url = `${window.location.protocol}//www.youtube.com/embed/${vid.videoId}`;
         vid.finalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
         return vid;
       });
       this.embedFailed = true;
-    }
+    } catch {}
   }
 }

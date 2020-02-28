@@ -1,0 +1,26 @@
+<homepage-line type="1"></homepage-line>
+<div class="inner">
+  <ng-container *ngFor="let item of data; let i = index;">
+
+    <div class="instance" [id]="'scrollTo-' + item.button">
+      <div class="instance__image" *ngIf="i % 2 === 1">
+        <img [src]="item.image" />
+      </div><!--/instance__image-->
+      
+      <div class="instance__content">
+        <div class="instance__category">{{ 'home.what_to_find' | translate }}</div>
+        <div class="instance__title">{{ item.title }}</div>
+        <div class="instance__body">
+          <p [innerHTML]="item.content"></p>
+        </div><!--/instance__body-->
+        <a class="instance__link" [routerLink]="item.link.url.path" *ngIf="item.link.url.routed">{{ item.link.title }}</a>
+        <a class="instance__link" [href]="item.link.url.path" *ngIf="!item.link.url.routed">{{ item.link.title }}</a>
+      </div><!--/instance__content-->
+      
+      <div class="instance__image" *ngIf="i % 2 === 0">
+        <img [src]="item.image" />
+      </div><!--/instance__image-->
+    </div><!--/instance-->
+  </ng-container>
+  
+</div><!--/inner-->

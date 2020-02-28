@@ -55,6 +55,10 @@ export class SettingsService {
     return path;
   }
 
+  public queryID(name: string = '') {
+    return this.get(`request.${name}`);
+  }
+
   public get(key:string = '') {
     this.findObj(this.data, key);
     let output = this.findObj(this.data, key) || undefined;

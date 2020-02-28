@@ -1,9 +1,8 @@
-import { Component, OnInit, Input, Output, OnDestroy, RootRenderer, ChangeDetectorRef, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
 import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { RootScopeService } from '@app/_services/RootScopeService';
 import { AccordionComponent } from '../accordion';
 
 @Component({

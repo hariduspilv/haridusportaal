@@ -17,7 +17,6 @@ import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { TableComponent, SchoolTable, StudyProgrammeTable } from './table';
 import { AlertsComponent } from './alerts';
-import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
@@ -50,6 +49,7 @@ import {
   FiltersDirective,
   RotateTableDirective,
   AnalyticsEvent,
+  ScrollToDirective,
  } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
@@ -142,6 +142,7 @@ const declarations = [
   FormItemComponent,
   RippleDirective,
   FiltersDirective,
+  ScrollToDirective,
   RotateTableDirective,
   ModalComponent,
   ModalContentComponent,
@@ -205,7 +206,6 @@ const exports = [
 ];
 
 const providers = [
-  EmbedVideoService,
   RippleService,
   { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ModalService,
