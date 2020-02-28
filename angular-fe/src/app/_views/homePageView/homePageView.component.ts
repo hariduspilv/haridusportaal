@@ -58,7 +58,7 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
   ) {}
 
   @Input() data: string;
-  private article: {} = {};
+  public article: {} = {};
 
   private getData() {
     if (!this.data) { return false; }
