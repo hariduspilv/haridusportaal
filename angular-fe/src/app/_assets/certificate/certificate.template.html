@@ -18,9 +18,9 @@
 
   <section id="identity">
     <p class="bold">
-      {{ 'isikukood ' + document.content.graduate.idCode }}
+      {{ document.content.graduate.idCode }}
       <ng-container *ngIf="!document.content.graduate.idCode && document.content.graduate.dateOfBirth">
-        {{ 'sünnikuupäev ' + document.content.graduate.dateOfBirth }}
+        {{ document.content.graduate.dateOfBirth }}
       </ng-container>
     </p>
     <p>
