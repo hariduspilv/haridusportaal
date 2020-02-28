@@ -91,6 +91,9 @@ export class AuthService implements CanActivate {
       }
       return false;
     }
+    if (!sessionStorage.getItem('ehisToken')) {
+      this.testNewJWT(sessionStorage.getItem('token'));
+    }
     if (this.isTokenExpired()) {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('ehisToken');
