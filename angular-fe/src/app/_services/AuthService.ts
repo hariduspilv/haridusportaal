@@ -113,9 +113,6 @@ export class AuthService implements CanActivate {
       }
       return false;
     }
-    if (!sessionStorage.getItem('ehisToken')) {
-      this.getEhisToken(sessionStorage.getItem('token'));
-    }
     this.refreshUser();
     return true;
   }
@@ -170,6 +167,10 @@ export class AuthService implements CanActivate {
       this.router.navigate(['/auth'], {
         queryParams: { redirect: decodeURIComponent(state.url) },
       });
+    } else {
+      if (!sessionStorage.getItem('ehisToken')) {
+        this.getEhisToken(sessionStorage.getItem('token'));
+      }
     }
     return true;
   }
