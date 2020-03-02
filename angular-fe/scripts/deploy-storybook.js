@@ -21,7 +21,7 @@ class Log {
 const log = new Log();
 let conf = '';
 try{
-  conf = require(path.resolve(__dirname, './conf-storybook'));
+  conf = require(path.resolve(__dirname, './conf-edu')).storybook;
   log.success('/scripts/conf-storybook.js present');
 }catch(err) {
   log.error('/scripts/conf-storybook.js file not found!');

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { SettingsService } from '@app/_services/SettingsService';
 @Component({
@@ -14,6 +14,7 @@ export class CertificatesComponent implements OnInit {
   public loading = {};
   public error: boolean = false;
   public professionalCertificates: any;
+  public graduationCertificates: any;
   public examResults: any;
   public examResultsErr: string;
   public certificateErr: any;
@@ -21,6 +22,7 @@ export class CertificatesComponent implements OnInit {
   public errRequest: boolean;
   public headers: HttpHeaders;
   public loaded = {
+    'graduation-certificates': false,
     'professional-certificates': false,
     'state-exams': false,
   };
@@ -32,18 +34,44 @@ export class CertificatesComponent implements OnInit {
 
   constructor(
     public router: Router,
+    private route: ActivatedRoute,
     public http: HttpClient,
     public settings: SettingsService,
   ) { }
 
   dataController(id: string) {
     switch (id) {
+      case 'graduation-certificates':
+        this.getGraduationCertificates(id);
+        break;
       case 'professional-certificates':
         this.getProfessionalCertificates(id);
         break;
       case 'state-exams':
         this.getExamResults(id);
         break;
+    }
+  }
+
+  compareCertificates(a, b) {
+    return a.issued < b.issued || a.issued == null ? 1 : -1;
+  }
+
+  getGraduationCertificates(id) {
+
+    this.loading[id] = true;
+
+    if (!this.loaded[id]) {
+      this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`).subscribe(
+        (res: any[]) => {
+          this.loading[id] = false;
+          this.graduationCertificates = res.sort(this.compareCertificates);
+        },
+        (err) => {
+          this.graduationCertificates = [];
+          this.loading[id] = false;
+        });
+      this.loaded[id] = true;
     }
   }
 
@@ -105,8 +133,26 @@ export class CertificatesComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  getId() {
+    let initializeId = '';
+    switch (this.route.snapshot.fragment) {
+      case 'lõputunnistused':
+        initializeId = 'graduation-certificates';
+        break;
+      case 'kutsetunnistused':
+        initializeId = 'professional-certificates';
+        break;
+      case 'riigieksamid':
+        initializeId = 'state-exams';
+        break;
+    }
+    return initializeId;
   }
-  ngOnDestroy() {
+
+  ngOnInit() {
+    if (this.route.snapshot.fragment) {
+      const initializeId = this.getId();
+      this.dataController(initializeId);
+    }
   }
 }

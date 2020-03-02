@@ -1,0 +1,17 @@
+:host {
+  ::ng-deep block {
+    .block__title {
+
+      display: block;
+      
+      &__text a {
+        text-transform: none;
+      }
+
+      block-title {
+        display: flex;
+        justify-content: space-between;
+      }
+    }
+  }
+}

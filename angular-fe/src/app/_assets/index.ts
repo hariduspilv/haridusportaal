@@ -17,7 +17,6 @@ import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { TableComponent, SchoolTable, StudyProgrammeTable } from './table';
 import { AlertsComponent } from './alerts';
-import { EmbedVideoService } from 'ngx-embed-video';
 import { VideoComponent } from './video';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
@@ -33,6 +32,7 @@ import {
   SettingsService,
   AuthService,
   UploadService,
+  AnalyticsService,
 } from '@app/_services';
 import {
   NgbDatepickerModule,
@@ -49,6 +49,7 @@ import {
   FiltersDirective,
   RotateTableDirective,
   AnalyticsEvent,
+  ScrollToDirective,
  } from '@app/_directives';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ModalComponent, ModalContentComponent } from './modal';
@@ -89,7 +90,7 @@ import { Circles } from './shapes/circles/circles';
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
 }
-import { ImageComponent } from './image';
+import { ImageComponent } from './images';
 import { LinksComponent } from './links';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 
@@ -111,6 +112,9 @@ import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { RelatedEventsComponent } from './relatedEvents';
 import { NotFoundComponent } from './notFound';
 import { SessionExpirationComponent } from './sessionExpiration';
+import { MoreBlockComponent } from './more.block/more.block.component';
+import { CertificateComponent } from './certificate/certificate.component';
+import { GradeSheetComponent } from './grade-sheet/gradeSheet.component';
 
 const declarations = [
   BlockComponent,
@@ -138,6 +142,7 @@ const declarations = [
   FormItemComponent,
   RippleDirective,
   FiltersDirective,
+  ScrollToDirective,
   RotateTableDirective,
   ModalComponent,
   ModalContentComponent,
@@ -191,6 +196,9 @@ const declarations = [
   AnalyticsEvent,
   NotFoundComponent,
   SessionExpirationComponent,
+  MoreBlockComponent,
+  CertificateComponent,
+  GradeSheetComponent,
 ];
 
 const exports = [
@@ -198,7 +206,6 @@ const exports = [
 ];
 
 const providers = [
-  EmbedVideoService,
   RippleService,
   { provide: NgbDateParserFormatter, useClass: NgbDateCustomParserFormatter },
   ModalService,
@@ -212,6 +219,7 @@ const providers = [
   AuthService,
   QueryParamsService,
   ScrollRestorationService,
+  AnalyticsService,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',

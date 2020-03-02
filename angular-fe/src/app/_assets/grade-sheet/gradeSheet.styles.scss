@@ -1,0 +1,115 @@
+@import 'colors.scss';
+
+:host {
+  
+  * {
+    margin: 0;
+  }
+
+  div#grade-sheet {
+    font-family: Roboto;
+    width: 100%;
+    padding: 2.5rem;
+    border: 1px solid $gray;
+    background-color: $white;
+    background-image: url(../../../assets/img/certificate-background.svg);
+    background-size: 55%;
+    background-position: center 97px; 
+    background-repeat: no-repeat;
+
+
+    h1#grade-sheet-title {
+      font-weight: bold;
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      text-align: center;
+    }
+
+    section {
+      &#header {
+        margin-top: 2.5rem;
+        margin-bottom: 0.75rem;
+        text-align: center;
+      }
+
+      &#info {
+        margin-bottom: 1rem;
+      }
+
+      &#grades {
+        margin-top: 0.25rem;
+
+        .subject-type {
+          font-weight: bold;
+          margin-bottom: 0.5rem;
+        }
+
+        .subject-grade {
+
+          p {
+            font-size: 0.625rem;
+          }
+          
+          margin-left: 1.25rem;
+          margin-bottom: 0.75rem;
+
+          .medium {
+            margin-bottom: 0.25rem;
+          }
+        }
+
+
+        table {
+          width: 100%;
+          border: 0.0625rem solid $gray;
+          border-collapse: collapse;
+          table-layout: fixed;
+          margin-bottom: 1rem;
+          tr {
+            height: 1.875rem;
+            font-size: 0.75rem;
+            &.highlight {
+              background: $light-gray;
+              font-weight: bold;
+            }
+            &:not(.last-cell):not(.highlight) {
+              border-bottom: 0.0625rem solid $gray;
+            }
+          }
+
+          td {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-left: 0.25rem;
+            .numeric-grade {
+              margin-right: 1rem;
+            }
+            &:first-child {
+              width: 60%;
+              padding-left: 2.5rem;
+            }
+            &:last-child {
+              width: 25%;
+              padding-right: 2.5rem;
+            }
+          }
+        }
+      }
+
+      &.additional-info {
+        margin-bottom: 1rem;
+      }
+    }
+
+    p {
+      font-size: 0.75rem;
+    }
+
+    .bold {
+      font-weight: bold;
+    }
+
+
+  }
+}

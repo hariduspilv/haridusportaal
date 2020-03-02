@@ -3,7 +3,7 @@
 ## Usage
 
 ```html
-<image [images]="data"></image>
+<images [images]="data"></images>
 ```
 
 ## Properties

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="et-EE">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Haridusportaal edu.ee</title>
+	<base href="/" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta name="theme-color" content="#275489" />
+	<meta name="msapplication-navbutton-color" content="#275489" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="#275489" />
+	<meta name="format-detection" content="telephone=no" />
+	<link rel="icon" type="image/x-icon" href="favicon.ico" />
+	<!-- <link rel="manifest" href="manifest.json" /> -->
+	<link rel="apple-touch-icon" sizes="72x72" href="assets/pwa/icon-72x72.png" />
+	<link rel="apple-touch-icon" sizes="96x96" href="assets/pwa/icon-96x96.png" />
+	<link rel="apple-touch-icon" sizes="128x128" href="assets/pwa/icon-128x128.png" />
+	<link rel="apple-touch-icon" sizes="144x144" href="assets/pwa/icon-144x144.png" />
+	<link rel="apple-touch-icon" sizes="152x152" href="assets/pwa/icon-152x152.png" />
+	<link rel="apple-touch-icon" sizes="192x192" href="assets/pwa/icon-192x192.png" />
+	<link rel="apple-touch-icon" sizes="384x384" href="assets/pwa/icon-384x384.png" />
+	<link rel="apple-touch-icon" sizes="512x512" href="assets/pwa/icon-512x512.png" />
+	<link rel="apple-touch-startup-image" href="assets/pwa/launch-640x1136.png"
+		media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+	<link rel="apple-touch-startup-image" href="assets/pwa/launch-750x1294.png"
+		media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)" />
+	<link rel="apple-touch-startup-image" href="assets/pwa/launch-1242x2148.png"
+		media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+	<link rel="apple-touch-startup-image" href="assets/pwa/launch-1125x2436.png"
+		media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)" />
+	<link rel="apple-touch-startup-image" href="assets/pwa/launch-1536x2048.png"
+		media="(min-device-width: 768px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)" />
+	<link rel="apple-touch-startup-image" href="assets/pwa/launch-1668x2224.png"
+		media="(min-device-width: 834px) and (max-device-width: 834px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)" />
+	<link rel="apple-touch-startup-image" href="assets/pwa/launch-2048x2732.png"
+		media="(min-device-width: 1024px) and (max-device-width: 1024px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait)" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<style>
+		body {
+			background: #fafafa;
+		}
+
+		.loader {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding: 14px;
+		}
+
+		.loader--page {
+			height: 100vh;
+			width: 100vw;
+			position: absolute;
+			left: 0;
+			top: 0;
+		}
+
+		.loader>svg {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			height: 50px;
+			width: 50px;
+			padding: 24px;
+			will-change: transforn;
+			animation: loaderRotate 2.4s cubic-bezier(0.77, 0, 0.175, 1) 0s infinite normal forwards;
+		}
+
+		@keyframes loaderRotate {
+			0% {
+				transform: rotateZ(0deg);
+			}
+
+			100% {
+				transform: rotateZ(360deg);
+			}
+		}
+	</style>
+	</script>
+	<script src="https://browser.plumbr.io/pa.js" crossorigin="anonymous" data-plumbr='{
+        "accountId":"43h3pmh6v5en84nqkms3m3ikge",
+        "appName":"edu.ee",
+        "serverUrl":"https://bdr.plumbr.io"
+    }'>
+	</script>
+	<script>
+		(function (i, s, o, g, r, a, m) {
+			i["GoogleAnalyticsObject"] = r;
+			(i[r] =
+				i[r] ||
+				function () {
+					(i[r].q = i[r].q || []).push(arguments);
+				}),
+				(i[r].l = 1 * new Date());
+			(a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+			a.async = 1;
+			a.src = g;
+			m.parentNode.insertBefore(a, m);
+		})(
+			window,
+			document,
+			"script",
+			"https://www.google-analytics.com/analytics.js",
+			"ga"
+		);
+		ga("create", "UA-139356334-1", "auto");
+	</script>
+	<!-- <link rel="icon" type="image/x-icon" href="assets/pwa/icon-96x96.png" /> -->
+	<script>
+		var mapFailed = false;
+		if (window.console && console.error) {
+			var old = console.error;
+		}
+	</script>
+</head>
+
+<body>
+	<app-root>
+		<div class="loader loader--page" aria-busy="true" aria-live="polite">
+			<svg viewBox="0 0 109 103" xmlns="http://www.w3.org/2000/svg">
+				<g>
+					<path fill="#F8B243"
+						d="m16.402533,32.598156c9.018882,0 16.330172,-7.290305 16.330172,-16.2833c0,-8.992995 -7.31129,-16.2833 -16.330172,-16.2833c-9.018882,0 -16.330172,7.290305 -16.330172,16.2833c0,8.992995 7.31129,16.2833 16.330172,16.2833z" />
+					<path fill="#D5401A"
+						d="m49.062876,103.159124c12.024994,0 21.773562,-9.720588 21.773562,-21.711067c0,-11.99048 -9.748568,-21.711067 -21.773562,-21.711067c-12.025212,0 -21.773562,9.720588 -21.773562,21.711067c0,11.99048 9.74835,21.711067 21.773562,21.711067z" />
+					<path fill="#15ADC2"
+						d="m92.61,48.881457c9.019154,0 16.330172,-7.290034 16.330172,-16.2833c0,-8.992995 -7.311018,-16.2833 -16.330172,-16.2833c-9.019154,0 -16.330172,7.290305 -16.330172,16.2833c0,8.993267 7.311018,16.2833 16.330172,16.2833z" />
+				</g>
+			</svg>
+		</div>
+	</app-root>
+</body>
+
+</html>

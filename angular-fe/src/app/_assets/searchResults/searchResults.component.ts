@@ -19,6 +19,7 @@ import {
   multiSelectFields,
 } from './searchResults.helper';
 import { HttpClient } from '@angular/common/http';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'searchResults',
@@ -46,7 +47,11 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   private debounceDelay: number = 300;
   public canLoadMore: boolean = true;
   public loadingMore: boolean = false;
+  public noResultStringByType: string = 'news.no_results';
   private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
+  private latestRestorationPosition: { [type: string]: number; };
+  private mobileOrTablet: boolean;
+  private mobileOrTabletScrolled: boolean;
 
   constructor(
     private http: HttpClient,
@@ -54,7 +59,10 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     private settings: SettingsService,
     private scrollRestoration: ScrollRestorationService,
     private cdr: ChangeDetectorRef,
-  ) {}
+    private deviceService: DeviceDetectorService,
+  ) {
+    this.mobileOrTablet = this.deviceService.isMobile() || this.deviceService.isTablet();
+  }
 
   private addRequiredFields(queryParams) {
     const tmp = { ...queryParams };
@@ -152,7 +160,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       this.offset = 0;
       const scrollSub = this.scrollRestoration.restorationValues.subscribe((values) => {
         this.scrollRestorationValues = values;
-        console.log(values);
         if (this.scrollRestoration.popstateNavigation && values && values[this.type]) {
           this.getData({ ...values[this.type].values }, false, values[this.type].list);
         } else if (!this.scrollRestoration.popstateNavigation && values && values[this.type]) {
@@ -182,9 +189,13 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
             values.typeEnabled = true;
           }
           if (values.secondaryTypes) {
-            values.type = [...values.type, ...values.secondaryTypes.split(';')];
+            values.type = [...values.secondaryTypes.split(';')];
             values.typeEnabled = true;
           }
+        }
+        if (values.open_admission) {
+          values.onlyOpenAdmission = values.open_admission === 'true' ? true : false;
+          delete values.open_admission;
         }
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;
@@ -206,10 +217,9 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           this.loadingMore = false;
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
+            this.latestRestorationPosition = position;
             setTimeout(() => {
-              document.querySelector('.app-content').scrollTo({
-                top: position[this.type],
-              });
+              document.querySelector('.app-content').scrollTop = position[this.type];
             },         0);
           });
           scrollSub.unsubscribe();
@@ -265,6 +275,8 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   ngAfterViewInit() {
+    this.noResultStringByType = this.type !== 'mainProfession'
+      ? `${this.type}.no_results` : 'news.no_results';
     setTimeout(
       () => {
         this.parsedType = this.type.toLowerCase();
@@ -274,6 +286,21 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
       },
       0);
 
+  }
+
+  ngAfterViewChecked() {
+    const lastImg = document.querySelector('.lastImg');
+    if (lastImg && this.mobileOrTablet && !this.mobileOrTabletScrolled
+      && this.latestRestorationPosition) {
+      const lastImgSrc = lastImg.getAttribute('src');
+      const image = new Image();
+      image.onload = () => {
+        document.querySelector('.app-content').scrollTop
+          = this.latestRestorationPosition[this.type];
+        this.mobileOrTabletScrolled = true;
+      };
+      image.src = lastImgSrc;
+    }
   }
 
   ngOnChanges() {
@@ -286,7 +313,6 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   }
 
   ngOnDestroy() {
-    document.querySelectorAll('img').forEach(item => item.style.height = '0');
     this.scrollRestoration.restorationPosition.next({
       ...this.scrollRestoration.restorationPosition.getValue(),
       [this.type]: document.querySelector('.app-content').scrollTop,

@@ -24,16 +24,14 @@ const acceptableFormsRestrictedLength = 4;
 
 const autocompleteValidator = (control: FormControl) => {
   let output = null;
-  console.log(control.value);
-  console.log(typeof control.value);
+
   if (typeof control.value !== 'object') {
     output = {
       wrongFormat: true,
     };
   }
-  console.log(output);
   return output;
-}
+};
 
 @Component({
   selector: 'applications',
@@ -54,6 +52,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   private debounce;
   private delay: number = 200;
 
+  deleteDocSubmitted = false;
   deleteId = '';
   dummyDataVersion: string;
   startTime;
@@ -254,6 +253,15 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                   this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
                   this.data.drafts = this.sortList(this.data.drafts, 'title');
                   this.data.documents = this.sortList(this.data.documents, 'date');
+                  if (response.messages && response.messages.length) {
+                    response.messages.map((val) => {
+                      if (val.message_type === 'ERROR') {
+                        this.alertsService.error(
+                          val.message_text.et, 'natural_applications', false,
+                        );
+                      }
+                    });
+                  }
                   try {
                     this.acceptableFormsList =
                       this.formatAcceptableForms(this.data.acceptable_forms);
@@ -493,22 +501,37 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   }
 
   deleteDocument() {
+    this.modalLoading = true;
     this.viewReload = true;
-    const url = `${this.settings.url}/dashboard/deleteDoc/${this.deleteId}`;
-    this.http.get(url).subscribe((response) => {
-      this.modalService.close('deleteDocModal');
+    const url = `${this.settings.url}/dashboard/deleteDoc/${this.deleteId}?_format=json`;
+    this.alertsService.clear('deleteDoc');
+    this.deleteDocSubmitted = true;
+    this.http.get(url).subscribe((response: any) => {
+      if (response.messages && response.messages.length) {
+        response.messages.map((val) => {
+          if (val.message_type === 'ERROR') {
+            this.viewReload = false;
+            this.alertsService.error(val.message_text.et, 'deleteDoc');
+          } else {
+            this.alertsService.info(val.message_text.et, 'deleteDoc');
+          }
+        });
+        this.modalLoading = false;
+      }
     });
   }
 
   loadDeleteModal(id) {
+    this.alertsService.clear('deleteDoc');
     this.deleteId = id;
+    this.deleteDocSubmitted = false;
     this.modalService.open('deleteDocModal');
   }
 
   getItemAddress(item) {
-    if (item.formControl.value && item.formControl.value.addressHumanReadable) {
-      const address = item.formControl.value.addressHumanReadable;
-      const params = `ihist=1&appartment=1&address=${address}&results=10&callback=JSONP_CALLBACK`;
+    if (item.formControl.value && item.formControl.value.adsOid) {
+      const oid = item.formControl.value.adsOid;
+      const params = `ihist=1&appartment=1&adsoid=${oid}&results=10&callback=JSONP_CALLBACK`;
       const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
       const subscription = this.http.jsonp(path, 'callback').
         subscribe((response: any) => {
@@ -552,7 +575,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       }
     });
   }
-  
+
   editInstitution() {
     this.error = false;
     this.modalLoading = true;

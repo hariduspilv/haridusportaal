@@ -14,6 +14,18 @@ const routes: Routes = [
     loadChildren: () => import('./_views/frontpageView').then(m => m.FrontpageViewModule),
   },
   {
+    path: 'home',
+    loadChildren: () => import('./_views/homePageView').then(m => m.HomePageViewModule),
+  },
+  {
+    path: 'tunnistused/lõpudokumendid',
+    loadChildren: () => import('./_views/certificatesView').then(m => m.CertificatesViewModule),
+  },
+  {
+    path: 'tunnistused/lõpudokumendid/:id',
+    loadChildren: () => import('./_views/certificateDetailView').then(m => m.CertificateDetailViewModule),
+  },
+  {
     path: 'oska',
     loadChildren: () => import('./_views/oskaFrontpageView').then(m => m.OskaFrontpageViewModule),
   },
@@ -187,6 +199,11 @@ const routes: Routes = [
   {
     path: 'töölaud/gdpr',
     loadChildren: () => import('./_views/gdprView').then(m => m.GdprViewModule),
+    canActivate: [AuthService],
+  },
+  {
+    path: 'töölaud/digitempel',
+    loadChildren: () => import('./_views/digitalSignView').then(m => m.DigitalSignViewModule),
     canActivate: [AuthService],
   },
   {

@@ -356,7 +356,10 @@ export class EventsListComponent extends FiltersService implements OnInit {
         tmpParams[i] = params[i].replace(/\;/igm, ',');
       });
       if (Object.keys(params).length > 0) {
-        this.queryString = '?'+Object.keys(tmpParams).reduce(function(a,k){a.push(k+'='+encodeURIComponent(tmpParams[k]));return a},[]).join('&');
+        this.queryString = '?'+Object.keys(tmpParams).reduce((all, current) => {
+          all.push(current+'='+encodeURIComponent(tmpParams[current]));
+          return all;
+        }, []).join('&');
       } else {
         this.queryString = '';
       }
@@ -369,7 +372,6 @@ export class EventsListComponent extends FiltersService implements OnInit {
         this.filterRetrieveParams(tmpParams);
         this.generateCalendar();
         if (this.scrollRestoration.popstateNavigation && values && values['eventsList']) {
-          console.log(values['eventsList']);
           this.getData(this.scrollRestorationValues);
         } else if (!this.scrollRestoration.popstateNavigation && values && values['eventsList']) {
           this.scrollRestoration.restorationValues.next({ ...values, 'eventsList': null });
@@ -670,10 +672,8 @@ export class EventsListComponent extends FiltersService implements OnInit {
           this.loadFlag = false;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             setTimeout(() => {
-              document.querySelector('.app-content').scrollTo({
-                top: position['eventsList'],
-              });
-            },         0);
+              document.querySelector('.app-content').scrollTop = position['eventsList'];
+            },         250);
           });
           scrollSub.unsubscribe();
         } else {

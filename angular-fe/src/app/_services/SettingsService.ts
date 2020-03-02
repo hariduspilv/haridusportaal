@@ -16,9 +16,15 @@ export class SettingsService {
     } else {
       this.url = this.urlTemplates.otherwise;
     }
+    if (this.ehisUrlTemplates[document.domain]) {
+      this.ehisUrl = this.ehisUrlTemplates[document.domain];
+    } else {
+      this.ehisUrl = this.ehisUrlTemplates.otherwise;
+    }
   }
 
   public url: string = '';
+  public ehisUrl: string = '';
   private urlTemplates = {
     '192.168.6.193': 'https://htm.wiseman.ee',
     'edu.twn.ee': 'https://htm.wiseman.ee',
@@ -29,6 +35,15 @@ export class SettingsService {
     'test.edu.ee': 'https://apitest.hp.edu.ee',
     localhost: 'https://htm.wiseman.ee',
     otherwise: 'https://api.hp.edu.ee',
+  };
+
+  private ehisUrlTemplates = {
+    'edu.twn.ee': 'https://ehis2.twn.zone/api',
+    'test.edu.ee': 'https://tehis.edu.ee/api',
+    'edu.ee': 'https://ehis.edu.ee/api',
+    'www.edu.ee': 'https://ehis.edu.ee/api',
+    localhost: 'https://ehis2.twn.zone/api',
+    otherwise: 'https://ehis.edu.ee/api',
   };
 
   public login = '/api/v1/token?_format=json';
@@ -53,6 +68,10 @@ export class SettingsService {
       path = `${path}&variables=${encodeURI(JSON.stringify(variables))}`;
     }
     return path;
+  }
+
+  public queryID(name: string = '') {
+    return this.get(`request.${name}`);
   }
 
   public get(key:string = '') {

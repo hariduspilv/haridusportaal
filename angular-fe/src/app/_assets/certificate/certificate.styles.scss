@@ -1,0 +1,91 @@
+@import 'colors.scss';
+
+:host {
+  display: block;
+  position: relative;
+  width: 100%;
+
+  * {
+    margin: 0;
+  }
+
+
+
+  div#certificate {
+    font-family: Roboto;
+    transform-origin: top left;
+    position: absolute;
+    height: 1000px;
+    width: 700px;
+    border: 0.1rem solid $gray;
+    //background-color: lightskyblue;
+    background-image: url(../../../assets/img/certificate-background.svg);
+    background-size: 55%;
+    background-position: center 97px; 
+    background-repeat: no-repeat;
+
+    text-align: center;
+
+    > * {
+      text-align: center;
+    }
+
+    img#coat-of-arms {
+      height: 135px;
+      margin-top: 120px;
+      margin-bottom: 41px;
+      line-height: 36px;
+    }
+
+    h1#certificate-title {
+      margin: 0 auto;
+      width: 50%;
+      font-weight: bold;
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    p {
+      font-size: 14px;
+      &.bold {
+        font-weight: bold;
+        font-size: 22px;
+        line-height: 28px;
+      }
+
+      &#duplicate-badge {
+        height: 40px;
+        width: 180px;
+        color: $error;
+        background-color: rgba($color: $error, $alpha: 0.1);
+        border-radius: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+      }
+    }
+
+    section {
+      &#institution {
+        margin-top: 13px;
+        height: 130px;
+        margin-bottom: 75px;
+      }
+
+      &#identity{
+        margin-bottom: 23px;
+      }
+
+      &#graduate {
+        margin-bottom: 60px;
+      }
+      &#info {
+        margin-top: 10px;
+        height: 40px;
+        margin-bottom: 14px;
+      }
+    }
+  }
+
+}

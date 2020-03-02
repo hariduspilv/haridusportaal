@@ -1,0 +1,22 @@
+:host {
+  ::ng-deep accordion-item {
+    button {
+      margin: 0 auto;
+      display: block;
+    }
+
+    [htm-button][type="submit"] {
+      margin-top: 1.5rem;
+      font-weight: 300;
+    }
+    
+    .formItem {
+      width: 50%;
+      margin: 0 auto;
+    }    
+
+    alerts#certificatesByAccessCode {
+      margin-top: 1rem;
+    }
+  }
+}
