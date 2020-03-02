@@ -578,14 +578,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
   changeAccess() {
     this.accessAction = 'edit';
     this.addAccessForm.reset();
-    this.addAccessForm.setValue({
-      receiver: this.openedAccess.type,
-      email: this.openedAccess.emailAddress ? this.openedAccess.emailAddress : null,
-      idCode: !this.openedAccess.emailAddress ? this.openedAccess.accessorCode : null,
-      withGradesheet: this.openedAccess.scope,
-      endDate: this.openedAccess.endDate ? this.openedAccess.endDate.split('-').reverse().join('.') : null,
-      noEndDate: !this.openedAccess.endDate ? true : false,
-    });
+    this.addAccessForm.setValue(this.filledAccessForm.value);
     this.modal.toggle('finalDocument-addAccess');
   }
   addAccess () {
@@ -641,6 +634,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
         this.openedAccess = res;
         this.openedAccessLabel = [{ value: res.status === 'ACCESS_STATUS:VALID' ? 'kehtiv ligipääs' : 'kehtetu ligipääs' }];
         this.openedAccessLabelType = res.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
+        this.modal.toggle('finalDocument-confirmInvalidation');
       });
   }
   getData () {

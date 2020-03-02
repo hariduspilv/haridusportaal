@@ -71,4 +71,11 @@
       }
     }
   }
+  ::ng-deep #modal-finalDocument-confirmInvalidation {
+    max-width: 33rem;
+    min-width: unset;
+    h1 {
+      text-align: center;
+    }
+  }
 }

@@ -76,13 +76,13 @@
   </modal-content>
 </htm-modal>
 
-<htm-modal id="finalDocument-access" modalTitle="Ligipääs" [bottomAction]="false" wide>
+<htm-modal id="finalDocument-access" modalTitle="Ligipääs" [bottomAction]="false">
   <modal-content *ngIf="openedAccess">
       <ng-container *ngTemplateOutlet="openedAccess.type === 'ACCESS_TYPE:ACCESS_CODE' ? accessCode : idCode"></ng-container>
   </modal-content>
 </htm-modal>
 
-<htm-modal id="finalDocument-invalidAccesses" modalTitle="Ligipääs" [bottomAction]="true" wide>
+<htm-modal id="finalDocument-invalidAccesses" modalTitle="Ligipääs" [bottomAction]="true">
   <modal-content>
     <table htm-table>
       <tr>
@@ -108,11 +108,21 @@
   </modal-content>
 </htm-modal>
 
+<htm-modal modalTitle="Ligipääs" [bottomAction]="false" id="finalDocument-confirmInvalidation">
+  <modal-content>
+    <h1>Kas oled kindel, et soovid ligipääsu isikukoodile {{openedAccess.accessorCode}} kehtetuks muuta?</h1>
+    <div class="button-row">
+      <button htm-button (click)="modal.toggle('finalDocument-confirmInvalidation')" theme="link">Tühista</button>
+      <button htm-button (click)="invalidateAccess()">Muuda kehtetuks</button>
+    </div>
+  </modal-content>
+</htm-modal>
+
 <ng-template #accessCode>
   <h1>Ligipääsukood: {{openedAccess.accessorCode}}</h1>
   <div class="line">
     <labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
-    <button *ngIf="openedAccess.status === 'ACCESS_STATUS:VALID'" (click)="invalidateAccess()" htm-button theme="link">Muuda kehtetuks</button>
+    <button *ngIf="openedAccess.status === 'ACCESS_STATUS:VALID'" (click)="modal.toggle('finalDocument-confirmInvalidation')" htm-button theme="link">Muuda kehtetuks</button>
   </div>
   <form [formGroup]="filledAccessForm">
     <p>E-posti aadress, kuhu on saadetud ligipääsukood:</p>
@@ -135,7 +145,7 @@
   <h1>Isikukood: {{openedAccess.accessorCode}}</h1>
   <div class="line">
     <labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
-    <button *ngIf="openedAccess.status === 'ACCESS_STATUS:VALID'" (click)="invalidateAccess()" htm-button theme="link">Muuda kehtetuks</button>
+    <button *ngIf="openedAccess.status === 'ACCESS_STATUS:VALID'" (click)="modal.toggle('finalDocument-confirmInvalidation')" htm-button theme="link">Muuda kehtetuks</button>
   </div>
   <form [formGroup]="filledAccessForm">
     <h2>Tunnistuse väljastanud õppeasutus</h2>
