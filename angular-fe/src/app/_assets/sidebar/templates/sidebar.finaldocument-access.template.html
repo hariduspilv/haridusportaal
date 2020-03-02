@@ -63,7 +63,7 @@
       <formItem name="withGradesheet" formControlName="withGradesheet" type="radio" [options]="addAccessOptions.withGradesheet"></formItem>
       <p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
       <div class="split">
-        <formItem type="date" formControlName="endDate" placeholder="pp.kk.aaaa"></formItem>
+        <formItem type="date" formControlName="endDate" [disabled]="addAccessForm.controls.noEndDate.value" placeholder="pp.kk.aaaa"></formItem>
         <formItem type="checkbox" formControlName="noEndDate" label="Kehtib tähtajatult"></formItem>
       </div>
     </ng-container>
@@ -78,51 +78,7 @@
 
 <htm-modal id="finalDocument-access" modalTitle="Ligipääs" [bottomAction]="false" wide>
   <modal-content *ngIf="openedAccess">
-    <h1 *ngIf="openedAccess.type === 'ACCESS_TYPE:ID_CODE'">Isikukood: {{openedAccess.accessorCode}}</h1>
-    <h1 *ngIf="openedAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">Ligipääsukood: {{openedAccess.accessorCode}}</h1>
-    <div class="line"><labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels> <button *ngIf="openedAccess.status === 'ACCESS_STATUS:VALID'" (click)="invalidateAccess()" htm-button theme="link">Muuda kehtetuks</button></div>
-    <ng-container *ngIf="openedAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">
-      <p>E-posti aadress, kuhu on saadetud ligipääsukood:</p>
-      <formItem type="text" disabled></formItem>
-    </ng-container>
-    <p>Ligipääsu kehtivuse ulatus:</p>
-    <h2>{{openedAccess.scope === 'ACCESS_SCOPE:MAIN_DOCUMENT' ? 'Lõputunnistus' : 'Lõputunnistus koos hinnetelehega'}}</h2>
-    <p>Ligipääsu kehtivuse lõpp:</p>
-    <h2>{{openedAccess.endDate ? (openedAccess.endDate | date:"dd.MM.yyyy") : 'Tähtajatu'}}</h2>
-    <div class="button-row">
-      <button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">Tühista</button>
-      <button htm-button (click)="changeAccess(openedAccess)">Muuda</button>
-    </div>
-    <!----------------->
-    <form [formGroup]="filledAccessForm">
-      <h2>{{(accessAction === 'add') ? 'Lisa ligipääs' : 'Muuda ligipääsu'}}</h2>
-      <p>Vali kuidas soovid ligipääsu anda</p>
-      <formItem
-        type="radio"
-        formControlName="receiver"
-        [options]="addAccessOptions.receiver"
-        name="receiver"
-      ></formItem>
-      <ng-container *ngIf="addAccessForm.controls.receiver.value">
-        <ng-container *ngIf="addAccessForm.controls.receiver.value === 'ACCESS_TYPE:ACCESS_CODE'">
-          <h3>E-postiga ligipääs</h3>
-          <p>Sisesta e-posti aadress, kuhu saata ligipääs: *</p>
-          <formItem formControlName="email" placeholder="E-posti aadress" type="text"></formItem>
-        </ng-container>
-        <ng-container *ngIf="addAccessForm.controls.receiver.value === 'ACCESS_TYPE:ID_CODE'">
-          <h3>Isikukoodiga ligipääs</h3>
-          <p>Sisesta isikukood: *</p>
-          <formItem formControlName="idCode" type="text" placeholder="Isikukood"></formItem>
-        </ng-container>
-        <p>Vali ligipääsukoodi kehtivuse ulatus: *</p>
-        <formItem name="withGradesheet" formControlName="withGradesheet" type="radio" [options]="addAccessOptions.withGradesheet"></formItem>
-        <p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
-        <div class="split">
-          <formItem type="date" formControlName="endDate" placeholder="pp.kk.aaaa"></formItem>
-          <formItem type="checkbox" formControlName="noEndDate" label="Kehtib tähtajatult"></formItem>
-        </div>
-      </ng-container>
-    </form>
+      <ng-container *ngTemplateOutlet="openedAccess.type === 'ACCESS_TYPE:ACCESS_CODE' ? accessCode : idCode"></ng-container>
   </modal-content>
 </htm-modal>
 
@@ -151,3 +107,49 @@
     </table>
   </modal-content>
 </htm-modal>
+
+<ng-template #accessCode>
+  <h1>Ligipääsukood: {{openedAccess.accessorCode}}</h1>
+  <div class="line">
+    <labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
+    <button *ngIf="openedAccess.status === 'ACCESS_STATUS:VALID'" (click)="invalidateAccess()" htm-button theme="link">Muuda kehtetuks</button>
+  </div>
+  <form [formGroup]="filledAccessForm">
+    <p>E-posti aadress, kuhu on saadetud ligipääsukood:</p>
+    <formItem formControlName="email" [disabled]="true" placeholder="E-posti aadress" type="text"></formItem>
+    <p>Vali ligipääsukoodi kehtivuse ulatus: *</p>
+    <formItem name="withGradesheet" [disabled]="true" formControlName="withGradesheet" type="radio" [options]="addAccessOptions.withGradesheet"></formItem>
+    <p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
+    <div class="split">
+      <formItem type="text" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
+      <formItem type="checkbox" formControlName="noEndDate" [disabled]="true" label="Kehtib tähtajatult"></formItem>
+    </div>
+    </form>
+    <div class="button-row">
+      <button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">Tühista</button>
+      <button htm-button (click)="changeAccess(openedAccess)">Muuda andmeid</button>
+    </div>
+</ng-template>
+
+<ng-template #idCode>
+  <h1>Isikukood: {{openedAccess.accessorCode}}</h1>
+  <div class="line">
+    <labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
+    <button *ngIf="openedAccess.status === 'ACCESS_STATUS:VALID'" (click)="invalidateAccess()" htm-button theme="link">Muuda kehtetuks</button>
+  </div>
+  <form [formGroup]="filledAccessForm">
+    <h2>Tunnistuse väljastanud õppeasutus</h2>
+    <p>{{data.issuerInstitution}}</p>
+    <p>Isikukoodi kehtivuse ulatus: *</p>
+    <formItem name="withGradesheet" [disabled]="true" formControlName="withGradesheet" type="radio" [options]="addAccessOptions.withGradesheet"></formItem>
+    <p>Isikukoodi kehtivuse lõpp: *</p>
+    <div class="split">
+      <formItem type="text" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
+      <formItem type="checkbox" formControlName="noEndDate" [disabled]="true" label="Kehtib tähtajatult"></formItem>
+    </div>
+  </form>
+  <div class="button-row">
+    <button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">Tühista</button>
+    <button htm-button (click)="changeAccess(openedAccess)">Muuda andmeid</button>
+  </div>
+</ng-template>

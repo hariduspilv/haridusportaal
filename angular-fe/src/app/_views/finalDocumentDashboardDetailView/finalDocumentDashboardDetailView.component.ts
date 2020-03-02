@@ -26,7 +26,9 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
 
   public sidebar = {
     entity: {
-      finalDocumentAccess: true,
+      finalDocumentAccess: {
+        issuerInstitution: '',
+      },
       finalDocumentDownload: true,
       finalDocumentHistory: {
         issuerInstitution: '',
@@ -113,6 +115,8 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
         this.documents['gradesheet'].content = JSON.parse(this.documents['gradesheet'].content);
       }
       this.sidebar.entity.finalDocumentHistory.issuerInstitution
+        = this.documents['certificate'].content.educationalInstitution.name;
+      this.sidebar.entity.finalDocumentAccess.issuerInstitution
         = this.documents['certificate'].content.educationalInstitution.name;
       this.loading = false;
     });

@@ -10,22 +10,22 @@
       margin-right: 1.5rem;
     }
   }
+  ::ng-deep .split {
+    display: flex;
+    align-items: center;
+    formItem {
+      width: 100%;
+      &:first-child {
+        margin-right: 1.5rem;
+      }
+      &.formItem--checkbox {
+        text-align: center;
+      }
+    }
+  }
   ::ng-deep #modal-finalDocument-addAccess {
     min-width: unset;
     max-width: 33rem;
-    .split {
-      display: flex;
-      align-items: center;
-      formItem {
-        width: 100%;
-        &:first-child {
-          margin-right: 1.5rem;
-        }
-        &.formItem--checkbox {
-          text-align: center;
-        }
-      }
-    }
   }
   ::ng-deep #modal-finalDocument-access {
     min-width: unset;
@@ -38,7 +38,10 @@
     }
     .line {
       display: flex;
-      justify-content: flex-start;
+      justify-content: space-between;
+      border-bottom: 1px solid $gray; 
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
       h2 {
         margin-right: 0.75rem;
         margin-bottom: 0;
@@ -62,6 +65,9 @@
     table {
       icon {
         color: $dark-gray;
+      }
+      td:nth-child(2) {
+        word-break: break-all;
       }
     }
   }

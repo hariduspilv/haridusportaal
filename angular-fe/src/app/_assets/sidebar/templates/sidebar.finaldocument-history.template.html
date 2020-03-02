@@ -10,6 +10,7 @@
 <htm-modal id="finalDocument-actionHistory" modalTitle="Ajalugu" [bottomAction]="true" wide>
   <modal-content>
     <ng-container *ngIf="actionHistory.length > 0; else noResults">
+      <scrollableContent>
       <table htm-table>
         <tr>
           <th>Tegevuse liik</th>
@@ -26,6 +27,7 @@
           <td>{{'finalDocument_' + action.status | translate}}</td>
         </tr>
       </table>
+    </scrollableContent>
     </ng-container>
   </modal-content>
 </htm-modal>
@@ -43,7 +45,7 @@
       </tr>
       <ng-container *ngFor="let issue of issuingHistory">
         <tr>
-          <td>{{issue.issueTime | date:"dd.MM.yyyy hh:mm"}}</td>
+          <td>{{issue.issueTime | date:"dd.MM.yyyy HH:mm"}}</td>
           <td>
             <ng-container *ngIf="issue.issueBase === 'USER' && issue.certificateAccess">{{issue.certificateAccess.accessorCode}}</ng-container>
             <ng-container *ngIf="issue.issueBase === 'ISSUER'">{{data.issuerInstitution}}</ng-container>

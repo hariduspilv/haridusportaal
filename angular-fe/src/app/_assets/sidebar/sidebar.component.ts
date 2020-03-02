@@ -501,22 +501,30 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
     private route: ActivatedRoute,
   ) {}
 
-  public addAccessForm: FormGroup = this.formBuilder.group({
-    receiver: [],
-    email: [],
-    idCode: [],
-    withGradesheet: [false],
-    endDate: [''],
-    noEndDate: [false],
-  });
-  public view: FormGroup = this.formBuilder.group({
-    receiver: [],
-    email: [],
-    idCode: [],
-    withGradesheet: [false],
-    endDate: [''],
-    noEndDate: [false],
-  });
+  public addAccessForm: FormGroup = this.formBuilder.group(
+    {
+      receiver: [],
+      email: [],
+      idCode: [],
+      withGradesheet: [false],
+      endDate: [''],
+      noEndDate: [false],
+    },
+    {
+      updateOn: 'change',
+    });
+  public filledAccessForm: FormGroup = this.formBuilder.group(
+    {
+      receiver: ['', { disabled: true }],
+      email: ['', { disabled: true }],
+      idCode: ['', { disabled: true }],
+      withGradesheet: [false, { disabled: true }],
+      endDate: ['', { disabled: true }],
+      noEndDate: [false, { disabled: true }],
+    },
+    {
+      updateOn: 'change',
+    });
 
   public addAccessOptions = {
     receiver: [
@@ -551,27 +559,34 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
   public actionHistory = [];
 
   openAccess(access) {
-    this.modal.toggle('finalDocument-access');
     this.openedAccess = access;
-    this.openedAccessLabel = [{ value: access.status === 'ACCESS_STATUS:VALID' ? 'kehtiv ligipääs' : 'kehtetu ligipääs' }];
+    this.openedAccessLabel =
+    [{ value: access.status === 'ACCESS_STATUS:VALID' ? 'kehtiv ligipääs' : 'kehtetu ligipääs' }];
     this.openedAccessLabelType = access.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
+    this.filledAccessForm.reset();
+    this.filledAccessForm.setValue({
+      receiver: this.openedAccess.type,
+      email: access.emailAddress ? this.openedAccess.emailAddress : null,
+      idCode: !this.openedAccess.emailAddress ? this.openedAccess.accessorCode : null,
+      withGradesheet: this.openedAccess.scope,
+      endDate: this.openedAccess.endDate ? this.openedAccess.endDate.split('-').reverse().join('.') : '',
+      noEndDate: !this.openedAccess.endDate ? true : false,
+    });
+    this.modal.toggle('finalDocument-access');
   }
 
-  changeAccess(access) {
+  changeAccess() {
     this.accessAction = 'edit';
+    this.addAccessForm.reset();
+    this.addAccessForm.setValue({
+      receiver: this.openedAccess.type,
+      email: this.openedAccess.emailAddress ? this.openedAccess.emailAddress : null,
+      idCode: !this.openedAccess.emailAddress ? this.openedAccess.accessorCode : null,
+      withGradesheet: this.openedAccess.scope,
+      endDate: this.openedAccess.endDate ? this.openedAccess.endDate.split('-').reverse().join('.') : null,
+      noEndDate: !this.openedAccess.endDate ? true : false,
+    });
     this.modal.toggle('finalDocument-addAccess');
-    this.addAccessForm.controls.receiver
-      .setValue(access.type);
-    this.addAccessForm.controls.email
-      .setValue(access.emailAddress ? access.emailAddress : null);
-    this.addAccessForm.controls.idCode
-      .setValue(!access.emailAddress ? access.accessorCode : null);
-    this.addAccessForm.controls.withGradesheet
-      .setValue(access.scope);
-    this.addAccessForm.controls.endDate
-      .setValue(access.endDate ? access.endDate.split('-').reverse().join('.') : null);
-    this.addAccessForm.controls.noEndDate
-      .setValue(!access.endDate ? true : false);
   }
   addAccess () {
     const form = this.addAccessForm.value;
@@ -675,7 +690,15 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
     this.http
       .get(`${this.settings.url}/certificates/v1/certificateDataIssues/${id}`)
       .subscribe((res: any) => {
-        this.issuingHistory = res.filter(el =>  el.issueBase !== 'OWNER').reverse();
+        this.issuingHistory = res.filter(el =>  el.issueBase !== 'OWNER').sort((a, b) => {
+          if (new Date(a.issueTime) > new Date(b.issueTime)) {
+            return -1;
+          }
+          if (new Date(a.issueTime) < new Date(b.issueTime)) {
+            return 1;
+          }
+          return 0;
+        });
         if (this.issuingHistory.length === 0) {
           this.alertsService.info(
             'Vaatamise ajaloo kirjeid ei leitud', 'historyModalAlerts', false,
