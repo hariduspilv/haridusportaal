@@ -9,7 +9,7 @@ import {
 } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { SettingsService } from './SettingsService';
-import { map } from 'rxjs/operators';
+import { map, take } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -37,18 +37,13 @@ export class AuthService implements CanActivate {
   }
 
   public login(data: any) {
-    console.log('LOGGING');
     return this.http
       .post(`${this.settings.url}/api/v1/token?_format=json`, data)
       .pipe(map((response:any) => {
         if (response['token']) {
           sessionStorage.setItem('token', response['token']);
           this.userData = this.decodeToken(response.token);
-          if (this.settings.url === 'https://htm.wiseman.ee') {
-            this.testNewJWT(response['token']);
-          } else {
-            this.isAuthenticated.next(true);
-          }
+          this.testNewJWT(response['token']);
         } else {
           sessionStorage.removeItem('token');
           sessionStorage.removeItem('ehisToken');
@@ -63,7 +58,7 @@ export class AuthService implements CanActivate {
       jwt: token,
     };
     this.http
-    .post(`${this.settings.url}/ehis/jwt`, data).subscribe(
+    .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, data).subscribe(
       (response: any) => {
         if (response.jwt) {
           sessionStorage.setItem('ehisToken', response.jwt);
@@ -71,15 +66,25 @@ export class AuthService implements CanActivate {
           this.isAuthenticated.next(true);
         }
         const redirectUrl = this.route.snapshot.queryParamMap.get('redirect') || sessionStorage.getItem('redirectUrl');
-        console.log(redirectUrl);
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
       },
       (err) => {
         const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
-        console.log(redirectUrl);
       }
     );
+  }
+
+  // this just used for the refreshuser part
+  public getEhisToken(token) {
+    this.http
+    .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, { jwt: token })
+    .pipe(take(1))
+    .subscribe((res: any) => {
+      if (res.jwt) {
+        sessionStorage.setItem('ehisToken', res.jwt);
+      }
+    });
   }
 
   public logout() {
@@ -162,6 +167,10 @@ export class AuthService implements CanActivate {
       this.router.navigate(['/auth'], {
         queryParams: { redirect: decodeURIComponent(state.url) },
       });
+    } else {
+      if (!sessionStorage.getItem('ehisToken')) {
+        this.getEhisToken(sessionStorage.getItem('token'));
+      }
     }
     return true;
   }

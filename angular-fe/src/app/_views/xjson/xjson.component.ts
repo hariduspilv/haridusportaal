@@ -440,7 +440,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   removeFileUploadErrorInMs(timeout: number) {
     setTimeout(() => {
       this.error[this.fileUploadElement] = {};
-    },         timeout || 0);
+    }, timeout || 0);
   }
 
   saveFormWithFile() {
@@ -864,9 +864,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   cancelEventHandler() {
-    if (!this.edit_step) {
-      this.location.back();
-    }
+    this.location.back();
   }
 
   compileAcceptableFormList() {
@@ -999,6 +997,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
         if (response['header']['form_name']) {
           this.form_route = `/töölaud/taotlused/${response['header']['form_name'].toLowerCase()}`;
+          this.getFormName();
         }
 
         if (response['header']['acceptable_activity']) {

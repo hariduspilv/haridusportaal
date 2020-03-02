@@ -44,7 +44,7 @@ export class MessageViewComponent implements OnInit{
     const id = this.route.snapshot.params.messageId;
     this.loading = true;
     this.http
-      .get(`${this.settings.url}/messages/messages/receiver/${id}`)
+      .get(`${this.settings.ehisUrl}/messages/messages/receiver/${id}`)
       .subscribe(
         (val: any) => {
           this.data = val;
@@ -58,7 +58,7 @@ export class MessageViewComponent implements OnInit{
 
   deleteMessage() {
     const id = this.data.messageAddressee[0].id;
-    this.http.delete(`${this.settings.url}/messages/messages/receiver/messageAddressee/${id}`, {responseType: 'text'})
+    this.http.delete(`${this.settings.ehisUrl}/messages/messages/receiver/messageAddressee/${id}`, {responseType: 'text'})
     .subscribe(
       (res) => {
         this.router.navigate(['../'], { relativeTo: this.route });

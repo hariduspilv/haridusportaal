@@ -375,10 +375,10 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       list: [],
     };
     if (this.auth.hasEhisToken.getValue()) {
-      this.http.get(`${this.settings.url}/messages/messages/receiver/unreadmessagecount`).subscribe((val: any) => {
+      this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver/unreadmessagecount`).subscribe((val: any) => {
         notifications.unread = val.UnreadMessagesQty;
       });
-      this.http.get(`${this.settings.url}/messages/messages/receiver?orderby=sentAt&sort=DESC`).subscribe((val: any) => {
+      this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver?orderby=sentAt&sort=DESC`).subscribe((val: any) => {
         if (val.messages.length > 5) {
           notifications.list = [...val.messages.splice(0, 5)];
         } else {

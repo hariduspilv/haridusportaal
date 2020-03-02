@@ -11,11 +11,13 @@ export class AuthInterceptor implements HttpInterceptor{
     private settings: SettingsService,
   ) {}
 
-  private ehisUrls = ['/messages/messages/receiver', 'certificates/v1/'];
+  private ehisUrls = ['/messages/messages/receiver', '/certificates/v1/'];
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let request = req.clone();
-    request = this.addAuthToken(request);
+    if (!request.url.includes('/users/v1/haridusportaal/jwt')) {
+      request = this.addAuthToken(request);
+    }
     return next.handle(request);
   }
 
