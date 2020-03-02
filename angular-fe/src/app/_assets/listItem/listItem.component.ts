@@ -18,6 +18,7 @@ export class ListItemComponent implements OnInit, OnChanges{
   @Input() type: string;
   @Input() compare: string;
   @Input() addonClass: string = '';
+  @Input() orderBy: string | boolean  = false;
 
   public closeTime: number = 5000;
   private translationsPerType = translationsPerType;
@@ -57,10 +58,22 @@ export class ListItemComponent implements OnInit, OnChanges{
     private alertsService: AlertsService,
   ) {}
 
+  sortByKey(array, key) {
+    return array.sort((a, b) => {
+      const x = a[key]; const y = b[key];
+      return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+    });
+  }
+
   parseList():void {
     this.list.forEach((element, index) => {
       this.list[index] = FieldVaryService(element);
     });
+
+    if (this.orderBy) {
+      this.list = this.sortByKey(this.list, 'title');
+    }
+
   }
   ngOnInit() {
     this.parseList();
