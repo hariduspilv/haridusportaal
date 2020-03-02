@@ -199,7 +199,7 @@ class xJsonRestResource extends ResourceBase {
   private function checkxJsonForm ($data) {
     $path = $data['form_name'];
     if(isset($data['form_info'])){
-      $this->formAction = $data['form_info']['header']['activity'];
+      $this->formAction = $data['form_info']['header']['activity'] || $data['activity'];
     }
 
     $path = \Drupal::service('path.alias_manager')->getPathByAlias($path);
