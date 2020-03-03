@@ -53,6 +53,8 @@ class AdminMiddleware implements HttpKernelInterface {
       }
     }
 
+    dump($request->getPathInfo());
+
     if($request->getRequestFormat() === 'html' &&
       !in_array($request->getPathInfo(), $safePaths) &&
       $this->anonymous &&
