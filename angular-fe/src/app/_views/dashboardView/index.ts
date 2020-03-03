@@ -18,6 +18,7 @@ import { StudiesDetailView } from './studiesDetailView/studiesDetailView.compone
 import { CertificatesDetailView } from './certificatesDetailView/certificatesDetailView.component';
 import { FinalDocumentDashboardDetailViewComponent }
   from '../finalDocumentDashboardDetailView/finalDocumentDashboardDetailView.component';
+import { A11yModule } from '@angular/cdk/a11y';
 
 const routes: Routes = [
   {
@@ -86,6 +87,7 @@ const routes: Routes = [
     TranslateModule,
     CommonModule,
     ReactiveFormsModule,
+    A11yModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

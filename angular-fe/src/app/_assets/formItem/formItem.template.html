@@ -75,7 +75,7 @@
         (keyup)="triggerOnUpdate()"
         [attr.disabled]="disabled"
         [(ngModel)]="dateField" />
-      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" ripple="dark" [attr.disabled]="disabled">
+      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [attr.disabled]="disabled">
         <icon glyph="calendar"></icon>
       </button>
     </ng-container>

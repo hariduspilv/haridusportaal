@@ -63,7 +63,8 @@
       <formItem name="withGradesheet" formControlName="withGradesheet" type="radio" [options]="addAccessOptions.withGradesheet"></formItem>
       <p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
       <div class="split">
-        <formItem type="date" formControlName="endDate" [disabled]="addAccessForm.controls.noEndDate.value" placeholder="pp.kk.aaaa"></formItem>
+        <formItem type="text" *ngIf="addAccessForm.controls.noEndDate.value" [disabled]="addAccessForm.controls.noEndDate.value" placeholder="pp.kk.aaaa"></formItem>
+        <formItem type="date" formControlName="endDate" *ngIf="!addAccessForm.controls.noEndDate.value" placeholder="pp.kk.aaaa"></formItem>
         <formItem type="checkbox" formControlName="noEndDate" label="Kehtib tähtajatult"></formItem>
       </div>
     </ng-container>
@@ -83,7 +84,8 @@
 </htm-modal>
 
 <htm-modal id="finalDocument-invalidAccesses" modalTitle="Ligipääs" [bottomAction]="true">
-  <modal-content>
+  <modal-content >
+    <scrollableContent>
     <table htm-table>
       <tr>
         <th>Liik</th>
@@ -105,14 +107,15 @@
         <td>{{access.emailAddress || '-'}}</td>
       </tr>
     </table>
-  </modal-content>
+  </scrollableContent>
+  </modal-content >
 </htm-modal>
 
 <htm-modal modalTitle="Ligipääs" [bottomAction]="false" id="finalDocument-confirmInvalidation">
   <modal-content>
     <h1>Kas oled kindel, et soovid ligipääsu isikukoodile {{openedAccess.accessorCode}} kehtetuks muuta?</h1>
     <div class="button-row">
-      <button htm-button (click)="modal.toggle('finalDocument-confirmInvalidation')" theme="link">Tühista</button>
+      <button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">Tühista</button>
       <button htm-button (click)="invalidateAccess()">Muuda kehtetuks</button>
     </div>
   </modal-content>

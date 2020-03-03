@@ -499,6 +499,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
     private settings: SettingsService,
     private http: HttpClient,
     private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   public addAccessForm: FormGroup = this.formBuilder.group(
@@ -559,17 +560,16 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
   public actionHistory = [];
 
   openAccess(access) {
-    this.openedAccess = access;
+    this.openedAccess = { ...access };
     this.openedAccessLabel =
     [{ value: access.status === 'ACCESS_STATUS:VALID' ? 'kehtiv ligipääs' : 'kehtetu ligipääs' }];
     this.openedAccessLabelType = access.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
-    this.filledAccessForm.reset();
     this.filledAccessForm.setValue({
       receiver: this.openedAccess.type,
       email: access.emailAddress ? this.openedAccess.emailAddress : null,
       idCode: !this.openedAccess.emailAddress ? this.openedAccess.accessorCode : null,
       withGradesheet: this.openedAccess.scope,
-      endDate: this.openedAccess.endDate ? this.openedAccess.endDate.split('-').reverse().join('.') : '',
+      endDate: this.openedAccess.endDate ? this.openedAccess.endDate.split('-').reverse().join('.') : null,
       noEndDate: !this.openedAccess.endDate ? true : false,
     });
     this.modal.toggle('finalDocument-access');
@@ -577,8 +577,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
 
   changeAccess() {
     this.accessAction = 'edit';
-    this.addAccessForm.reset();
-    this.addAccessForm.setValue(this.filledAccessForm.value);
+    console.log('HOW DOES THIS HAVE A VALUE', this.filledAccessForm.controls.endDate.value);
+    this.addAccessForm.controls.receiver.setValue(this.filledAccessForm.controls.receiver.value);
+    this.addAccessForm.controls.email.setValue(this.filledAccessForm.controls.email.value);
+    this.addAccessForm.controls.idCode.setValue(this.filledAccessForm.controls.idCode.value);
+    this.addAccessForm.controls.withGradesheet.setValue(this.filledAccessForm.controls.withGradesheet.value);
+    this.addAccessForm.controls.endDate.setValue(this.filledAccessForm.controls.endDate.value || '');
+    this.addAccessForm.controls.noEndDate.setValue(this.filledAccessForm.controls.noEndDate.value);
     this.modal.toggle('finalDocument-addAccess');
   }
   addAccess () {

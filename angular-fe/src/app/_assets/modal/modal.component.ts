@@ -6,6 +6,8 @@ import {
   HostBinding,
   Output,
   EventEmitter,
+  ViewChildren,
+  QueryList,
 } from '@angular/core';
 import { ModalService } from '@app/_services';
 
@@ -20,7 +22,7 @@ export class ModalContentComponent {
   @Input() loading: boolean = false;
   constructor(private modalService: ModalService) {}
   ngOnInit() {
-    this.modalService.focusLock();
+    // this.modalService.focusLock();
   }
 }
 
@@ -44,6 +46,7 @@ export class ModalComponent implements OnInit {
   // Modal opening button for story
   @Input() stateButton: boolean = false;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
+  @ViewChildren('modalContent') contents: QueryList<any> = new QueryList();
 
   @HostBinding('class') get hostClasses(): string {
     const classes = [];

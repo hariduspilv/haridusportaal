@@ -1,6 +1,6 @@
 <div class="modal">
   <div class="modal__backdrop">
-      <div class="modal__block" role="modal" attr.id="modal-{{id}}" tabindex="0">
+      <div class="modal__block" cdkTrapFocus #modalContent role="modal" attr.id="modal-{{id}}" tabindex="-1">
         <ng-container *ngIf="opened">
           <div class="modal__header" *ngIf="titleExists || topAction" [ngClass]="{ 'justify-end': !titleExists }">
             <h2 *ngIf="titleExists">{{ modalTitle }}</h2>
