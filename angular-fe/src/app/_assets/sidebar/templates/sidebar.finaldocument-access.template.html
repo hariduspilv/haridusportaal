@@ -8,7 +8,7 @@
       </div>
     </li>
     <li class="accesses" *ngFor="let activeAccess of activeAccesses">
-      {{activeAccess | json}}
+      {{activeAccess.endDate | json}}
       <ng-container *ngIf="activeAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">
         <icon size="medium" glyph="key"></icon>
         <div>
@@ -64,7 +64,7 @@
       <formItem name="scope" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
       <p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
       <div class="split">
-        <formItem type="date" formControlName="endDate" placeholder="pp.kk.aaaa"></formItem>
+        <formItem type="text" formControlName="endDate" placeholder="pp.kk.aaaa"></formItem>
         <formItem type="checkbox" formControlName="noEndDate" label="Kehtib tähtajatult"></formItem>
       </div>
     </ng-container>
@@ -135,7 +135,7 @@
     <formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
     <p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
     <div class="split">
-      <formItem type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
+      <formItem type="text" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
       <formItem type="checkbox" formControlName="noEndDate" [disabled]="true" label="Kehtib tähtajatult"></formItem>
     </div>
     </form>
@@ -158,7 +158,7 @@
     <formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
     <p>Isikukoodi kehtivuse lõpp: *</p>
     <div class="split">
-      <formItem type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
+      <formItem type="text" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
       <formItem type="checkbox" formControlName="noEndDate" [disabled]="true" label="Kehtib tähtajatult"></formItem>
     </div>
   </form>

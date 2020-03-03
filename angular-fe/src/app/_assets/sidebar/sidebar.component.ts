@@ -549,15 +549,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
     this.openedAccessLabel =
     [{ value: access.status === 'ACCESS_STATUS:VALID' ? 'kehtiv ligipääs' : 'kehtetu ligipääs' }];
     this.openedAccessLabelType = access.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
-    this.addAccessForm.reset({
-      type: null,
-      emailAddress: null,
-      accessorCode: null,
-      scope: null,
-      endDate: null,
-      noEndDate: false,
-      accessId: null,
-    });
+    this.addAccessForm.reset();
     this.addAccessForm.setValue({
       type: access.type,
       emailAddress: access.emailAddress ? access.emailAddress : null,
@@ -567,6 +559,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
       noEndDate: !access.endDate ? true : false,
       accessId: access.id,
     });
+
     this.modal.toggle('finalDocument-access');
   }
 
