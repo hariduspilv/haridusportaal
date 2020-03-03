@@ -8,9 +8,9 @@
           </span>
       </span>
     </div><!--/menu-burger-->
-    
+
     <a role="link" attr.aria-label="{{'frontpage.lead' | translate}}" [routerLink]="[logoLink]" class="header-logo">
-      <img src="assets/img/logo.svg" />
+      <img src="assets/img/logo.svg" alt="edu.ee logo"/>
     </a>
     <!-- This fills the remaining space of the current row -->
     <!-- <div class="head-container"> -->
@@ -20,20 +20,20 @@
         <span class="search" *ngIf="!hideElement">
           <input type="text"
             (keyup.enter)="searchRoute(searchParam)"
-            attr.aria-label="{{ 'frontpage.enter_keyword_and_search' | translate }}" 
-            class="search-input round-input" placeholder="{{'frontpage.enter_keyword_and_search' | translate}}" 
-            [(ngModel)]='searchParam' 
+            attr.aria-label="{{ 'frontpage.enter_keyword_and_search' | translate }}"
+            class="search-input round-input" placeholder="{{'frontpage.enter_keyword_and_search' | translate}}"
+            [(ngModel)]='searchParam'
             (focus)="populateSuggestionList(searchParam, 300)"
             role="combobox"
             aria-autocomplete="both"
             spellcheck="false"
             autocomplete="off"
             aria-owns="matAutocomplete"
-            name="searchParam" 
+            name="searchParam"
             id="searchParam"
             [matAutocomplete]="auto"
             (ngModelChange)="populateSuggestionList(searchParam, 300)"/>
-          <mat-autocomplete #auto="matAutocomplete" 
+          <mat-autocomplete #auto="matAutocomplete"
             role="listbox"
             id="matAutocomplete"
             (optionSelected)="autocompleteLoader = false;suggestionList = [];searchRoute(searchParam)">
@@ -73,7 +73,7 @@
               <a href="javascript:void(0)" [matMenuTriggerFor]="appMenu" >{{activeLanguage === 'et' ? 'EST' : 'ENG'}}<span class="htm-icon" aria-hidden="true">keyboard_arrow_down</span></a>
             </div>
 
-    
+
 
           </div>
         </div>
