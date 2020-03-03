@@ -47,7 +47,7 @@ export class BlockContentComponent {
       () => {
         try {
           this.scrollable.forEach((item) => {
-            item.detectWidth();
+            //item.detectWidth();
             item.checkArrows();
           });
         } catch (err) {

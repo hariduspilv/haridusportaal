@@ -1,6 +1,11 @@
 @import 'colors.scss';
+@import 'breakpoints.scss';
 
 :host {
+
+  ::ng-deep scrollablecontent .arrow {
+    position: absolute;
+  }
   
   * {
     margin: 0;
@@ -26,6 +31,17 @@
     }
 
     section {
+
+      &#duplicate-info {
+        position: absolute;
+        right: 2rem;
+        top: 1.875rem;
+
+        p {
+          font-size: 0.625rem;
+        }
+      }
+
       &#header {
         margin-top: 2.5rem;
         margin-bottom: 0.75rem;
@@ -94,6 +110,20 @@
               padding-right: 2.5rem;
             }
           }
+          @include break-on(xs, max) {
+            table-layout: auto;
+            td {
+              padding-left: 1.5rem;
+              &:first-child {
+                width: auto;
+                padding-left: 1.5rem;
+              }
+              &:last-child {
+                width: auto;
+                padding-right: 1.5rem;  
+              }
+            }
+          }
         }
       }
 
@@ -111,5 +141,20 @@
     }
 
 
+    @include break-on(xs, max) {
+      background: $white;
+      border: none;
+
+      section {
+        &#header {
+          margin: 0;
+          text-align: left;
+
+          h1#grade-sheet-title {
+            display: none;
+          }
+        }
+      }
+    }
   }
 }

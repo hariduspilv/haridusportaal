@@ -10,27 +10,29 @@
 			class="text-center text--substrong--head mb-0">
 			{{ 'frontpage.dashboard_tabs_graduation_certificates_no_results' | translate }}
 		</p>
-		<table htm-table *ngIf="!error && graduationCertificates && graduationCertificates.length > 0">
-			<thead>
-				<th>{{ 'certificates.institution_name' | translate }}</th>
-				<th>{{ 'certificates.document_name' | translate }}</th>
-				<th>{{ 'certificates.issuing_date' | translate }}</th>
-				<th></th>
-			</thead>
-			<tbody>
-				<tr *ngFor="let certificate of graduationCertificates">
-					<td>{{ certificate.issuerName }}</td>
-					<td>{{ certificate.typeName }}</td>
-					<td>{{ certificate.status === 'CERTIFICATE_STATUS:VALID' ? (certificate.issued | date: 'dd.MM.yyyy') : ('generic.invalid' | translate) }}</td>
-					<td nowrap>
-						<a [routerLink]="'tunnistused/lõputunnistused/' + certificate.id"
-							>
-							{{ 'button.open' | translate }}
-						</a>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+		<scrollableContent>
+			<table htm-table *ngIf="!error && graduationCertificates && graduationCertificates.length > 0">
+				<thead>
+					<th></th>
+					<th>{{ 'certificates.institution_name' | translate }}</th>
+					<th>{{ 'certificates.document_name' | translate }}</th>
+					<th>{{ 'certificates.issuing_date' | translate }}</th>
+				</thead>
+				<tbody>
+					<tr *ngFor="let certificate of graduationCertificates">
+						<td nowrap>
+							<a [routerLink]="'tunnistused/lõputunnistused/' + certificate.id"
+								>
+								{{ 'button.open' | translate }}
+							</a>
+						</td>
+						<td>{{ certificate.issuerName }}</td>
+						<td>{{ certificate.typeName }}</td>
+						<td>{{ certificate.status === 'CERTIFICATE_STATUS:VALID' ? (certificate.issued | date: 'dd.MM.yyyy') : ('generic.invalid' | translate) }}</td>
+					</tr>
+				</tbody>
+			</table>
+		</scrollableContent>
 	</accordion-item>
 	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_professional' | translate"
 		(click)="dataController('professional-certificates')">
