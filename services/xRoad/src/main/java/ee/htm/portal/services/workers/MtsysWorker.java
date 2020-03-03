@@ -1249,9 +1249,6 @@ public class MtsysWorker extends Worker {
         .putNull("owner_id")
         .put("educationalInstitutions_id", educationalInstitutionsId);
 
-    ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("aasta", year);
-    ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
-
     jsonNode.putObject("body").putObject("steps");
     ((ObjectNode) jsonNode.get("body")).putArray("messages");
     jsonNode.putObject("messages").put("default", "default");
@@ -1273,6 +1270,13 @@ public class MtsysWorker extends Worker {
 
       MtsysTegevusnaitajaResponse response = ehisXRoadService
           .mtsysTegevusnaitaja(request, personalCode);
+
+      if (year == null) {
+        year = response.getAasta().longValue();
+      }
+
+      ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("aasta", year);
+      ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
 
       setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode, response,
           personalCode);
