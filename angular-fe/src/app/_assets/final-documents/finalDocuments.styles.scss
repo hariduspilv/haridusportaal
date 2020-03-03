@@ -1,3 +1,5 @@
+@import "breakpoints.scss";
+
 :host {
   ::ng-deep accordion-item {
     button {
@@ -13,10 +15,22 @@
     .formItem {
       width: 50%;
       margin: 0 auto;
-    }    
+    } 
+    
+    th {
+      white-space: nowrap;
+    }
 
     alerts#certificatesByAccessCode {
       margin-top: 1rem;
+    }
+
+    scrollableContent {
+      th {
+        @include break-on(xs, max) {
+          white-space: nowrap;
+        }
+      }
     }
   }
 }

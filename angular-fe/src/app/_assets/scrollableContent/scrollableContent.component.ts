@@ -18,7 +18,7 @@ import { fromEvent, Subscription } from 'rxjs';
 
 export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
 
-  public isScrollable: boolean = false;
+  //public isScrollable: boolean = false;
   public scrollRunner: any;
   private debounce: any;
   private wrapper: HTMLElement;
@@ -27,8 +27,8 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
   private arrows: NodeList;
   private arrowsPositionDebounce: any = false;
   public scrollDirection: number = 0;
-  public canScrollLeft: boolean = false;
-  public canScrollRight: boolean = false;
+  /*public canScrollLeft: boolean = false;
+  public canScrollRight: boolean = false;*/
 
   @Input() changed: any;
 
@@ -59,7 +59,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     }
   }
 
-  resizeListener: Subscription;
+  /*resizeListener: Subscription;
   onResize(event) {
     clearTimeout(this.debounce);
     this.debounce = setTimeout(
@@ -67,7 +67,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
         this.detectWidth();
       },
       300);
-  }
+  }*/
 
   constructor(
     private el: ElementRef,
@@ -86,7 +86,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     const wrapperTop = this.wrapper.offsetTop;
     const windowHeight = window.innerHeight;
     const wrapperHeight = this.wrapper.offsetHeight;
-    const scrollTop = window.pageYOffset;
+    const scrollTop = document.querySelector('div.app-content').scrollTop;
     let top = (windowHeight / 2);
 
     if (scrollTop - wrapperTop + (windowHeight / 2) > wrapperHeight - (windowHeight / 2)) {
@@ -101,7 +101,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     });
   }
 
-  public detectWidth(): void {
+  /*public detectWidth(): void {
     // this.scroller.style.width = '9999px';
     const inline = this.el.nativeElement.querySelector('.scrollable__inline');
     inline.style.width = 'auto';
@@ -112,15 +112,44 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
         inline.style.width = `${inlineWidth}px`;
         this.scroller.style.width = '100%';
         const mainWidth = this.el.nativeElement.offsetWidth;
-        this.isScrollable = mainWidth < inlineWidth;
+        //this.isScrollable = mainWidth < inlineWidth;
       },
       0);
+  }*/
+
+  get isScrollable() {
+    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
+    if (!el) {
+      return false;
+    }
+    return el.scrollWidth > el.clientWidth;
+  }
+
+  get canScrollLeft() {
+    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
+    if (!el) {
+      return false;
+    }
+    return el.scrollLeft > 0;
+  }
+
+  get canScrollRight() {
+    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
+    if (!el) {
+      return false;
+    }
+    return Math.ceil(el.scrollLeft) < el.scrollWidth - el.clientWidth;
+
   }
 
   public checkArrows(): void {
-    this.canScrollLeft = this.scroller.scrollLeft <= 0 ? false : true;
+    /*this.canScrollLeft = this.scroller.scrollLeft <= 0 ? false : true;
     const maxScroll = this.scroller.scrollLeft + this.scroller.offsetWidth;
-    this.canScrollRight = this.scroller.scrollWidth <= maxScroll ? false : true;
+    this.canScrollRight = this.scroller.scrollWidth <= maxScroll ? false : true;*/
+
+    this.arrows.forEach((item:HTMLElement) => {
+      item.style.position = 'absolute';
+    });
   }
 
   public scroll(direction:number = 1): void {
@@ -139,17 +168,17 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   bindListeners() {
-    this.resizeListener = fromEvent(window, 'resize').subscribe((e) => {
+    /*this.resizeListener = fromEvent(window, 'resize').subscribe((e) => {
       this.onResize(e);
-    });
-    this.scrollListener = fromEvent(window, 'scroll').subscribe((e) => {
+    });*/
+    this.scrollListener = fromEvent(document.querySelector('div.app-content'), 'scroll').subscribe((e) => {
       this.onScroll();
     });
 
   }
 
   destroyListeners() {
-    if (this.resizeListener) this.resizeListener.unsubscribe();
+    //if (this.resizeListener) this.resizeListener.unsubscribe();
     if (this.scrollListener) this.scrollListener.unsubscribe();
   }
 
@@ -160,7 +189,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     this.arrows = this.el.nativeElement.querySelectorAll('.arrow');
     setTimeout(
       () => {
-        this.detectWidth();
+        //detectWidth();
         this.onScroll();
         this.checkArrows();
         this.bindListeners();
@@ -174,7 +203,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
   ngOnChanges() {
     setTimeout(
       () => {
-        this.detectWidth();
+        //this.detectWidth();
         this.onScroll();
         this.checkArrows();
       },
