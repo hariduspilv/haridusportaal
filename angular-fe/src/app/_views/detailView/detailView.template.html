@@ -56,7 +56,7 @@
 								<links *ngIf="item.entity.fieldRelatedArticle && item.entity.fieldRelatedArticle.length > 0" [data]="item.entity.fieldRelatedArticle"></links>
 							</ng-container>
 							<ng-container *ngIf="item.entity.professions">
-								<listItems [list]="item.entity.professions" type='mainProfession' compare="oskaProfessionsComparison" addonClass="list__item--detailedProfession"></listItems>
+								<listItems [list]="item.entity.professions" orderBy="title" type='mainProfession' compare="oskaProfessionsComparison" addonClass="list__item--detailedProfession"></listItems>
 							</ng-container>
 						</accordion-item>
 					</accordion>

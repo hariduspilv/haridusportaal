@@ -122,7 +122,7 @@ export class DocumentCheckComponent {
         },
       },
     };
-    this.http.post(`${this.settings.url}/es-public/tunnistused/_search`, elasticQuery).subscribe(
+    this.http.post(`${this.settings.ehisUrl}/es-public/tunnistused/_search`, elasticQuery).subscribe(
       (response: any) => {
         if (response.hits.total.value === 0) {
           this.alertsService.warning(

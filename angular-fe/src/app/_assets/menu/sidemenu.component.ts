@@ -125,12 +125,14 @@ export class MenuComponent implements OnInit, OnDestroy {
         return true;
       }
     });
+
     const activeCategory = categories.find((el) => {
       return el.item.links.find((link) => {
-        if (link.url.path === path.split('?')[0]) {
+        if (link.url.path === path.split('?')[0].split('#')[0]) {
           return true;
         }
         const pathRoot = path.split('/');
+
         if (link.url.path.includes(`${pathRoot[0]}/${pathRoot[1]}`)) {
           return true;
         }

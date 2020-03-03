@@ -9,8 +9,8 @@
   <loader *ngIf="loading && !error"></loader>
   <alerts [id]="'teachings'" small="true"></alerts>
   <accordion *ngIf="!error && !loading">
-    <accordion-item *ngFor="let type of contentTypes; let first = first; let ind = index;"
-      title="{{ parseTypeTranslation(type) | titleCase }}">
+    <ng-container *ngFor="let type of contentTypes; let first = first; let ind = index;">
+      <accordion-item  title="{{ parseTypeTranslation(type) | titleCase }}" *ngIf="content[type].length">
       <table htm-table>
         <tbody>
           <tr *ngFor="let work of content[type];">
@@ -18,14 +18,15 @@
               <span>{{ work.oppeasutus }}</span>
               <span *ngIf="work.ametikohtLopp && isDateInPast(work.ametikohtLopp)">,
                 {{ 'frontpage.lopetatud' | translate }} {{ work.ametikohtLopp }}</span>
-              <span *ngIf="work.aasta">, {{ work.aasta }}</span>
-              <span *ngIf="work.aastaLopetanud">, {{ work.aastaLopetanud }}</span>
-            </td>
-            <td class="text-center"><a [routerLink]="'õpetan/' + routeType[type]"
+                <span *ngIf="work.aasta">, {{ work.aasta }}</span>
+                <span *ngIf="work.aastaLopetanud">, {{ work.aastaLopetanud }}</span>
+              </td>
+              <td class="text-center"><a [routerLink]="'õpetan/' + routeType[type]"
                 [state]="{ data: work, type: type }">{{ 'button.view_more' | translate }}</a></td>
-          </tr>
-        </tbody>
-      </table>
-    </accordion-item>
+              </tr>
+            </tbody>
+          </table>
+        </accordion-item>
+    </ng-container>
   </accordion>
 </div>
