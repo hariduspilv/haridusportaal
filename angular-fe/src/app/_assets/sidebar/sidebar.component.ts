@@ -504,31 +504,17 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
 
   public addAccessForm: FormGroup = this.formBuilder.group(
     {
-      receiver: [],
-      email: [],
-      idCode: [],
-      withGradesheet: [false],
+      type: [],
+      emailAddress: [],
+      accessorCode: [],
+      scope: [],
       endDate: [''],
       noEndDate: [false],
+      accessId: [''],
     },
-    {
-      updateOn: 'change',
-    });
-  public filledAccessForm: FormGroup = this.formBuilder.group(
-    {
-      receiver: ['', { disabled: true }],
-      email: ['', { disabled: true }],
-      idCode: ['', { disabled: true }],
-      withGradesheet: [false, { disabled: true }],
-      endDate: ['', { disabled: true }],
-      noEndDate: [false, { disabled: true }],
-    },
-    {
-      updateOn: 'change',
-    });
-
+  );
   public addAccessOptions = {
-    receiver: [
+    type: [
       {
         key: 'Isikukoodiga',
         value: 'ACCESS_TYPE:ID_CODE',
@@ -538,7 +524,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
         value: 'ACCESS_TYPE:ACCESS_CODE',
       },
     ],
-    withGradesheet: [
+    scope: [
       {
         key: 'Lõputunnistus',
         value: 'ACCESS_SCOPE:MAIN_DOCUMENT',
@@ -560,30 +546,32 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
   public actionHistory = [];
 
   openAccess(access) {
-    this.openedAccess = { ...access };
     this.openedAccessLabel =
     [{ value: access.status === 'ACCESS_STATUS:VALID' ? 'kehtiv ligipääs' : 'kehtetu ligipääs' }];
     this.openedAccessLabelType = access.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
-    this.filledAccessForm.setValue({
-      receiver: this.openedAccess.type,
-      email: access.emailAddress ? this.openedAccess.emailAddress : null,
-      idCode: !this.openedAccess.emailAddress ? this.openedAccess.accessorCode : null,
-      withGradesheet: this.openedAccess.scope,
-      endDate: this.openedAccess.endDate ? this.openedAccess.endDate.split('-').reverse().join('.') : null,
-      noEndDate: !this.openedAccess.endDate ? true : false,
+    this.addAccessForm.reset({
+      type: null,
+      emailAddress: null,
+      accessorCode: null,
+      scope: null,
+      endDate: null,
+      noEndDate: false,
+      accessId: null,
+    });
+    this.addAccessForm.setValue({
+      type: access.type,
+      emailAddress: access.emailAddress ? access.emailAddress : null,
+      accessorCode: access.accessorCode,
+      scope: access.scope,
+      endDate: access.endDate ? access.endDate.split('-').reverse().join('.') : null,
+      noEndDate: !access.endDate ? true : false,
+      accessId: access.id,
     });
     this.modal.toggle('finalDocument-access');
   }
 
   changeAccess() {
     this.accessAction = 'edit';
-    console.log('HOW DOES THIS HAVE A VALUE', this.filledAccessForm.controls.endDate.value);
-    this.addAccessForm.controls.receiver.setValue(this.filledAccessForm.controls.receiver.value);
-    this.addAccessForm.controls.email.setValue(this.filledAccessForm.controls.email.value);
-    this.addAccessForm.controls.idCode.setValue(this.filledAccessForm.controls.idCode.value);
-    this.addAccessForm.controls.withGradesheet.setValue(this.filledAccessForm.controls.withGradesheet.value);
-    this.addAccessForm.controls.endDate.setValue(this.filledAccessForm.controls.endDate.value || '');
-    this.addAccessForm.controls.noEndDate.setValue(this.filledAccessForm.controls.noEndDate.value);
     this.modal.toggle('finalDocument-addAccess');
   }
   addAccess () {
@@ -592,11 +580,11 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
     const accessDTO = {
       indexId,
       access: {
-        type: form.receiver,
-        scope: form.withGradesheet,
+        type: form.type,
+        scope: form.scope,
         endDate: form.noEndDate ? null : form.endDate.split('.').reverse().join('-'),
-        accessorCode: form.receiver === 'ACCESS_TYPE:ID_CODE' ? form.idCode : null,
-        emailAddress: form.receiver === 'ACCESS_TYPE:ACCESS_CODE' ? form.email : null,
+        accessorCode: form.type === 'ACCESS_TYPE:ID_CODE' ? form.accessorCode : null,
+        emailAddress: form.type === 'ACCESS_TYPE:ACCESS_CODE' ? form.emailAddress : null,
       },
     };
     this.http
@@ -613,11 +601,11 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
     const accessDTO = {
       indexId,
       access: {
-        id: indexId,
-        scope: form.withGradesheet,
+        id: form.accessId,
+        scope: form.scope,
         endDate: form.noEndDate ? null : form.endDate.split('.').reverse().join('-'),
-        endDateSet: !this.openedAccess.endDate && form.endDate ? true : false,
-        scopeSet: this.openedAccess.scope !== form.withGradesheet ? true : false,
+        endDateSet: form.endDate ? true : false,
+        scopeSet: form.scope ? true : false,
       },
     };
     this.http
@@ -630,7 +618,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
   }
 
   invalidateAccess() {
-    const accessId = this.openedAccess.id;
+    const accessId = this.addAccessForm.value.accessId;
     const certificateId = this.route.snapshot.params.id;
     this.http
       .delete(`${this.settings.url}/certificates/v1/certificateAccess?indexId=${certificateId}&accessId=${accessId}`)
