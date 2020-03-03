@@ -136,6 +136,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     });
   }
 
+  getFormPath(form_name: string) {
+    const url = `${this.settings.url}/xjson_service/form_path/${form_name}?_format=json`;
+
+    const subscription = this.http.get(url).subscribe((response: any) => {
+      this.form_route = response.path;
+      subscription.unsubscribe();
+    });
+  }
+
   changeView(key) {
     this.view = key;
   }
@@ -440,7 +449,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   removeFileUploadErrorInMs(timeout: number) {
     setTimeout(() => {
       this.error[this.fileUploadElement] = {};
-    },         timeout || 0);
+    }, timeout || 0);
   }
 
   saveFormWithFile() {
@@ -864,9 +873,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   cancelEventHandler() {
-    if (!this.edit_step) {
-      this.location.back();
-    }
+    this.location.back();
   }
 
   compileAcceptableFormList() {
@@ -997,8 +1004,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.setMaxStep(response);
         }
 
-        if (response['header']['form_name'] && response['header']['acceptable_activity'].includes('CHANGE')) {
-          this.form_route = `/töölaud/taotlused/${response['header']['form_name'].toLowerCase()}`;
+        if (response['header']['form_name']) {
+          this.getFormPath(response['header']['form_name']);
         }
 
         if (response['header']['acceptable_activity']) {

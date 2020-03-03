@@ -56,6 +56,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy{
     });
   }
   ngOnInit() {
+    console.log(this.path);
     if (this.path && this.path.length !== 0) {
       this.getData();
     } else {
