@@ -38,13 +38,19 @@ class AdminMiddleware implements HttpKernelInterface {
    * {@inheritdoc}
    */
   public function handle(Request $request, $type = self::MASTER_REQUEST, $catch = TRUE) {
+    $safeUrl = false;
+
     $safePaths = [
-      '/user/login',
+      '',
+    ];
+
+    $endsWith = [
+      '/login',
       '/user',
       '/graphql',
       '/external-login/tara',
       '/external-login/harid',
-      ''
+      '/VPT'
     ];
 
     foreach($request->cookies->keys() as $key) {
@@ -53,9 +59,14 @@ class AdminMiddleware implements HttpKernelInterface {
       }
     }
 
-    dump($request->getPathInfo());
+    foreach($endsWith as $endpoint) {
+      if($this->endsWith($request->getPathInfo(), $endpoint)) {
+        $safeUrl = true;
+      }
+    }
 
     if($request->getRequestFormat() === 'html' &&
+      !$safeUrl &&
       !in_array($request->getPathInfo(), $safePaths) &&
       $this->anonymous &&
       !$request->headers->get('authorization')){
@@ -65,5 +76,14 @@ class AdminMiddleware implements HttpKernelInterface {
     }
 
     return $this->httpKernel->handle($request, $type, $catch);
+  }
+
+  private function endsWith($string, $endString)
+  {
+    $len = strlen($endString);
+    if ($len == 0) {
+      return true;
+    }
+    return (substr($string, -$len) === $endString);
   }
 }
