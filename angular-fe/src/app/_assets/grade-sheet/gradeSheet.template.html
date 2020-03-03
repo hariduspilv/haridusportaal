@@ -7,7 +7,7 @@
 
   <section id="header">
     <h1 id="grade-sheet-title">{{ document.content.documentName.toUpperCase() }}</h1>
-    <p>lõputunnistuse nr {{ document.content.registrationNumber }} juurde</p>
+    <p id="for-certificate">lõputunnistuse nr {{ document.content.registrationNumber }} juurde</p>
     <p>
       <ng-container *ngIf="document.content.graduate.idCode">
         isikukood
@@ -23,7 +23,7 @@
 
   <section id="info">
     <p class="bold">{{ document.content.graduate.firstName }} {{ document.content.graduate.lastName }}</p>
-    <p [class.bold]="toimetulekuOpe">õppis {{ document.content.curriculumNameToPrintOut }}</p>
+    <p [class.bold]="toimetulekuOpe">õppis {{ document.content.studies.curriculumNameToPrintOut }}</p>
     <p>Õppekeel: {{ document.content.studies.language }}</p>
   </section>
 

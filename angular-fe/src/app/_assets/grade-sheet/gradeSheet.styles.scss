@@ -142,6 +142,9 @@
 
 
     @include break-on(xs, max) {
+
+      padding: 0;
+
       background: $white;
       border: none;
 
@@ -152,6 +155,21 @@
 
           h1#grade-sheet-title {
             display: none;
+          }
+
+          .bold {
+            font-weight: normal;
+          }
+
+          #for-certificate {
+            font-weight: bold;
+            text-transform: capitalize;
+          }
+        }
+
+        &#info {
+          .bold {
+            font-weight: normal;
           }
         }
       }
