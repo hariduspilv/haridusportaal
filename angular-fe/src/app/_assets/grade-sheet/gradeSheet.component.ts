@@ -18,12 +18,6 @@ export class GradeSheetComponent{
   public hasIndividualProgramme = false;
   public toimetulekuOpe = false;
 
-  public changed = false;
-
-  change() {
-    this.changed = true;
-  }
-
   ngOnInit() {
 
     if (this.document.content.studies.curriculumName ===

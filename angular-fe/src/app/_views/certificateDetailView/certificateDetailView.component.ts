@@ -27,7 +27,6 @@ export class CertificateDetailView implements OnInit {
   private accessType = '';
 
   @ViewChildren('certificate') public certificate:QueryList<any>;
-  @ViewChildren('gradeSheet') public gradeSheet:QueryList<any>;
 
   public breadcrumbs = [];
 
@@ -59,10 +58,6 @@ export class CertificateDetailView implements OnInit {
     }*/
     if (!this.loading && tab === this.translate.get('certificates.graduation_certificate')) {
       this.certificate.first.calculateCertificateSize();
-    }
-
-    if (!this.loading && tab === this.translate.get('certificates.grade_sheet')) {
-      // this.gradeSheet.first.change();
     }
   }
 
