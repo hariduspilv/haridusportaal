@@ -1,5 +1,10 @@
 <div id="grade-sheet" #gradeSheet>
 
+  <section id="duplicate-info" *ngIf="document.content.duplicateCertificateNumber">
+    <p>Lõputunnistuse nr. {{document.content.duplicateCertificateNumber}}</p>
+    <p>duplikaat {{document.content.duplicateIssueDate | date: 'dd.MM.yyyy'}}</p>
+  </section>
+
   <section id="header">
     <h1 id="grade-sheet-title">{{ document.content.documentName.toUpperCase() }}</h1>
     <p>lõputunnistuse nr {{ document.content.registrationNumber }} juurde</p>
@@ -18,14 +23,14 @@
 
   <section id="info">
     <p class="bold">{{ document.content.graduate.firstName }} {{ document.content.graduate.lastName }}</p>
-    <p class="bold">õppis {{ document.content.curriculumNameToPrintOut }}</p>
+    <p [class.bold]="toimetulekuOpe">õppis {{ document.content.curriculumNameToPrintOut }}</p>
     <p>Õppekeel: {{ document.content.studies.language }}</p>
   </section>
 
   <p class="bold">Õppimise ajal hinnati tema oskuseid järgnevalt:</p>
 
   <section id="grades">
-    <ng-container *ngIf="document.content.studies.curriculumName === 'põhikooli lihtsustatud riiklik õppekava toimetulekuõpe' || document.content.studies.curriculumName === 'põhikooli lihtsustatud riiklik õppekava hooldusõpe'; else gradesTable">
+    <ng-container *ngIf="toimetulekuOpe; else gradesTable">
       <p class="subject-type">Kohustuslikud ained:</p>
       <div *ngFor="let subject of mandatorySubjects" class="subject-grade">
         <p class="bold">
@@ -48,69 +53,70 @@
     </ng-container>
     
     <ng-template #gradesTable>
-      <table>
-        <tbody>
-          <tr class="highlight">
-            <td>Kohustuslikud ained</td>
-            <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">Kursusi</td>
-            <td>Hinne</td>
-          </tr>
-          <tr *ngFor="let subject of mandatorySubjects; let last = last" [class.last-cell]="last && !document.content.graduationStudy">
-            <td>
-              {{subject.subject}}
-              <ng-container *ngIf="subject.subjectDetail">({{subject.subjectDetail}})</ng-container>
-              <ng-container *ngIf="subject.studyProgrammeType === 'individuaalne õppekava'">*</ng-container>
-            </td>
-            <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">
-              {{subject.amount}}
-            </td>
-            <td>
-              <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
-              <ng-container *ngIf="!subject.resultNumeric && !subject.resultInWords && subject.studyProgrammeType !== 'individuaalne õppekava'">{{subject.studyProgrammeType}}</ng-container>
-            </td>
-          </tr>
-
-          <tr *ngIf="document.content.graduationStudy" class="last-cell">
-            <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">{{ document.content.graduationStudy.type }}: {{ document.content.graduationStudy.subject }}</td>
-            <td><span *ngIf="document.content.graduationStudy.resultNumeric != null" class="numeric-grade">{{document.content.graduationStudy.resultNumeric}}</span>{{document.content.graduationStudy.resultInWords}}</td>
-          </tr>
-
-          <tr class="highlight" *ngIf="electives.length > 0">
-            <td>Valikained</td>
-            <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">Kursusi</td>
-            <td>Hinne</td>
-          </tr>
-          <tr *ngFor="let subject of electives; let last = last" [class.last-cell]="last">
-            <td>
-              {{subject.subject}}
-              <ng-container *ngIf="subject.subjectDetail">({{subject.subjectDetail}})</ng-container>
-              <ng-container *ngIf="subject.studyProgrammeType === 'individuaalne õppekava'">*</ng-container>
-            </td>
-            <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">
-              {{subject.amount}}
-            </td>
-            <td>
-              <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
-              <ng-container *ngIf="!subject.resultNumeric && !subject.resultInWords && subject.studyProgrammeType !== 'individuaalne õppekava'">{{subject.studyProgrammeType}}</ng-container>
-            </td>
-          </tr>
-          <tr class="highlight">
-            <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">Lõpueksamid</td>
-            <td>Hinne</td>
-          </tr>
-          <tr *ngFor="let subject of document.content.graduationExaminations; let last = last" [class.last-cell]="last">
-            <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">
-              {{subject.subject}}
-              <ng-container *ngIf="subject.type === 'koolieksam'">*</ng-container>
-            </td>
-            <td>
-              <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <scrollableContent>
+        <table>
+          <tbody>
+            <tr class="highlight">
+              <td>Kohustuslikud ained</td>
+              <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">Kursusi</td>
+              <td>Hinne</td>
+            </tr>
+            <tr *ngFor="let subject of mandatorySubjects; let last = last" [class.last-cell]="last && !document.content.graduationStudy">
+              <td>
+                {{subject.subject}}
+                <ng-container *ngIf="subject.subjectDetail">({{subject.subjectDetail}})</ng-container>
+                <ng-container *ngIf="subject.studyProgrammeType === 'individuaalne õppekava'">*</ng-container>
+              </td>
+              <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">
+                {{subject.amount}}
+              </td>
+              <td>
+                <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
+                <ng-container *ngIf="!subject.resultNumeric && !subject.resultInWords && subject.studyProgrammeType !== 'individuaalne õppekava'">{{subject.studyProgrammeType}}</ng-container>
+              </td>
+            </tr>
+  
+            <tr *ngIf="document.content.graduationStudy" class="last-cell">
+              <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">{{ document.content.graduationStudy.type }}: {{ document.content.graduationStudy.subject }}</td>
+              <td><span *ngIf="document.content.graduationStudy.resultNumeric != null" class="numeric-grade">{{document.content.graduationStudy.resultNumeric}}</span>{{document.content.graduationStudy.resultInWords}}</td>
+            </tr>
+  
+            <tr class="highlight" *ngIf="electives.length > 0">
+              <td>Valikained</td>
+              <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">Kursusi</td>
+              <td>Hinne</td>
+            </tr>
+            <tr *ngFor="let subject of electives; let last = last" [class.last-cell]="last">
+              <td>
+                {{subject.subject}}
+                <ng-container *ngIf="subject.subjectDetail">({{subject.subjectDetail}})</ng-container>
+                <ng-container *ngIf="subject.studyProgrammeType === 'individuaalne õppekava'">*</ng-container>
+              </td>
+              <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">
+                {{subject.amount}}
+              </td>
+              <td>
+                <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
+                <ng-container *ngIf="!subject.resultNumeric && !subject.resultInWords && subject.studyProgrammeType !== 'individuaalne õppekava'">{{subject.studyProgrammeType}}</ng-container>
+              </td>
+            </tr>
+            <tr class="highlight">
+              <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">Lõpueksamid</td>
+              <td>Hinne</td>
+            </tr>
+            <tr *ngFor="let subject of document.content.graduationExaminations; let last = last" [class.last-cell]="last">
+              <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">
+                {{subject.subject}}
+                <ng-container *ngIf="subject.type === 'koolieksam'">*</ng-container>
+              </td>
+              <td>
+                <span *ngIf="subject.resultNumeric != null" class="numeric-grade">{{subject.resultNumeric}}</span>{{subject.resultInWords}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </scrollableContent>
     </ng-template>
-    
   </section>
 
   <section class="additional-info" *ngIf="hasIndividualProgramme || hasSchoolExam">
@@ -127,7 +133,7 @@
     <p>õppenõukogu otsusel {{ document.content.councilDecision.issueDateToPrintOut }}</p>
   </section>
 
-  <section class="additional-info" *ngIf="document.content.studies.curriculumName === 'põhikooli lihtsustatud riiklik õppekava toimetulekuõpe' || document.content.studies.curriculumName === 'põhikooli lihtsustatud riiklik õppekava hooldusõpe'">
+  <section class="additional-info" *ngIf="toimetulekuOpe">
     <p>Hinneteleht on kehtiv koos põhikooli lõputunnistusega</p>
   </section>
 

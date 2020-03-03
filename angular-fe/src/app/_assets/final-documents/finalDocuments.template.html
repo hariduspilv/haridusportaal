@@ -15,27 +15,28 @@
     <ng-container *ngIf="isLoggedIn; else logInButton">
       <loader *ngIf="loading.certificatesById; else certificatesbyIdRef"></loader>
       <ng-template #certificatesbyIdRef>
-        <table htm-table *ngIf="certificatesById && certificatesById.length > 0">
-          <thead>
-            <th>{{ 'certificates.owner_name' | translate }}</th>
-            <th>{{ 'certificates.issuer' | translate }}</th>
-            <th>{{ 'certificates.certificate_type' | translate }}</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <tr *ngFor="let certificate of certificatesById">
-              <td>{{ certificate.ownerName }}</td>
-              <td>{{ certificate.issuerName }}</td>
-              <td>{{ certificate.typeName }}</td>
-              <td nowrap>
-                <a [routerLink]="'/tunnistused/lõpudokumendid/' + certificate.id"
-                  >
-                  {{ 'button.open' | translate }}
-                </a>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <scrollableContent>
+          <table htm-table *ngIf="certificatesById && certificatesById.length > 0">
+            <thead>
+              <th></th>
+              <th>{{ 'certificates.owner_name' | translate }}</th>
+              <th>{{ 'certificates.issuer' | translate }}</th>
+              <th>{{ 'certificates.certificate_type' | translate }}</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let certificate of certificatesById">
+                <td nowrap>
+                  <a [routerLink]="'/tunnistused/lõpudokumendid/' + certificate.id">
+                    {{ 'button.open' | translate }}
+                  </a>
+                </td>
+                <td>{{ certificate.ownerName }}</td>
+                <td>{{ certificate.issuerName }}</td>
+                <td>{{ certificate.typeName }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </scrollableContent>
         <p *ngIf="!certificatesById || certificatesById.length === 0" class="text-center">{{ 'certificates.no_access' | translate }}</p>
       </ng-template>
     </ng-container>

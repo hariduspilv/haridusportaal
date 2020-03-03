@@ -16,10 +16,22 @@ export class GradeSheetComponent{
   public electives = [];
   public hasSchoolExam = false;
   public hasIndividualProgramme = false;
+  public toimetulekuOpe = false;
+
+  public changed = false;
+
+  change() {
+    this.changed = true;
+  }
 
   ngOnInit() {
 
-    console.log(this.document)
+    if (this.document.content.studies.curriculumName ===
+      'põhikooli lihtsustatud riiklik õppekava toimetulekuõpe'
+    || this.document.content.studies.curriculumName ===
+    'põhikooli lihtsustatud riiklik õppekava hooldusõpe') {
+      this.toimetulekuOpe = true;
+    }
 
     this.mandatorySubjects =
       this.document.content.studySubjects.filter((subject) => {

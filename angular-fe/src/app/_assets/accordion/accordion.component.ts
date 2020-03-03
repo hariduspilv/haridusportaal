@@ -75,7 +75,7 @@ export class AccordionItemComponent {
     if (this.active) {
       try {
         this.scrollable.forEach((item) => {
-          item.detectWidth();
+          //item.detectWidth();
           item.checkArrows();
         });
       } catch (err) {}
