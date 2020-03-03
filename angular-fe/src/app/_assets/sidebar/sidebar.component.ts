@@ -512,6 +512,9 @@ export class SidebarFinalDocumentAccessComponent implements OnInit{
       noEndDate: [false],
       accessId: [''],
     },
+    {
+      updateOn: 'change',
+    },
   );
   public addAccessOptions = {
     type: [

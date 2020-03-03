@@ -64,7 +64,7 @@
       <formItem name="scope" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
       <p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
       <div class="split">
-        <formItem type="text" formControlName="endDate" placeholder="pp.kk.aaaa"></formItem>
+        <formItem type="date" formControlName="endDate" [disabled]="addAccessForm.value.noEndDate" placeholder="pp.kk.aaaa"></formItem>
         <formItem type="checkbox" formControlName="noEndDate" label="Kehtib tähtajatult"></formItem>
       </div>
     </ng-container>
@@ -123,7 +123,7 @@
 </htm-modal>
 
 <ng-template #accessCode>
-  <h1>Ligipääsukood: {{addAccessForm.value.accessorCode}}</h1>
+  <h1 style="word-break: break-word">Ligipääsukood: {{addAccessForm.value.accessorCode}}</h1>
   <div class="line">
     <labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
     <button (click)="modal.toggle('finalDocument-confirmInvalidation')" htm-button theme="link">Muuda kehtetuks</button>
@@ -135,7 +135,7 @@
     <formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
     <p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
     <div class="split">
-      <formItem type="text" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
+      <formItem type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
       <formItem type="checkbox" formControlName="noEndDate" [disabled]="true" label="Kehtib tähtajatult"></formItem>
     </div>
     </form>
@@ -158,7 +158,7 @@
     <formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
     <p>Isikukoodi kehtivuse lõpp: *</p>
     <div class="split">
-      <formItem type="text" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
+      <formItem type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
       <formItem type="checkbox" formControlName="noEndDate" [disabled]="true" label="Kehtib tähtajatult"></formItem>
     </div>
   </form>
