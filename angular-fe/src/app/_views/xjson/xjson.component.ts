@@ -15,6 +15,7 @@ import {
   AlertsService,
   UploadService,
 } from '@app/_services';
+import { AddressService } from '@app/_services/AddressService';
 
 const XJSON_DATEPICKER_FORMAT = {
   parse: {
@@ -106,6 +107,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     public modalService: ModalService,
     private alertsService: AlertsService,
     private uploadService: UploadService,
+    private addressService: AddressService,
   ) { }
 
   pathWatcher() {
@@ -132,15 +134,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
     const subscription = this.http.post(url, { form_path: this.form_route }).subscribe((response: any) => {
       this.form_name = response;
-      subscription.unsubscribe();
-    });
-  }
-
-  getFormPath(form_name: string) {
-    const url = `${this.settings.url}/xjson_service/form_path/${form_name}?_format=json`;
-
-    const subscription = this.http.get(url).subscribe((response: any) => {
-      this.form_route = response.path;
       subscription.unsubscribe();
     });
   }
@@ -449,7 +442,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   removeFileUploadErrorInMs(timeout: number) {
     setTimeout(() => {
       this.error[this.fileUploadElement] = {};
-    }, timeout || 0);
+    },         timeout || 0);
   }
 
   saveFormWithFile() {
@@ -873,7 +866,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   cancelEventHandler() {
-    this.location.back();
+    if (!this.edit_step) {
+      this.location.back();
+    }
   }
 
   compileAcceptableFormList() {
@@ -1004,8 +999,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.setMaxStep(response);
         }
 
-        if (response['header']['form_name']) {
-          this.getFormPath(response['header']['form_name']);
+        if (response['header']['form_name'] && response['header']['acceptable_activity'].includes('CHANGE')) {
+          this.form_route = `/töölaud/taotlused/${response['header']['form_name'].toLowerCase()}`;
         }
 
         if (response['header']['acceptable_activity']) {
@@ -1107,7 +1102,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
           const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
           const subscription = this.http.jsonp(path, 'callback').
             subscribe((response: any) => {
-              this.data_elements.aadressid.value[index].aadress = response.addresses[0];
+              this.data_elements.aadressid.value[index].aadress = this.addressService.inAdsFormatValue(response.addresses[0]);
+              console.log(response.addresses[0]);
+              console.log(this.addressService.inAdsFormatValue(response.addresses[0]));
             });
         });
       }
