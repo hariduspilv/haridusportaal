@@ -1,15 +1,15 @@
 <div class="text-center">
 	<button style="width: 100%"
 		(click)="this.modal.toggle('finalDocument-addAccess'); addAccessForm.reset(); accessAction='add'" htm-button>
-		Lisa ligipääs
+		{{'finaldocuments.add_access' | translate}}
 	</button>
 </div>
 <div class="currentAccess">
-	<block-title>Kehtivad ligipääsud</block-title>
+	<block-title>{{'finaldocuments.valid_accesses' | translate}}</block-title>
 	<ul>
 		<li *ngIf="activeAccesses.length === 0">
 			<div>
-				<span>Puuduvad kehtivad ligipääsud</span>
+				<span>{{'finaldocuments.no_valid_accesses' | translate}}</span>
 			</div>
 		</li>
 		<li class="accesses" *ngFor="let activeAccess of activeAccesses">
@@ -17,13 +17,13 @@
 				<icon size="medium" glyph="key"></icon>
 				<div>
 					<button htm-button theme="link" (click)="openAccess(activeAccess)">
-						Ligipääsukoodiga
+						{{'finaldocuments.with_access_code' | translate}}
 					</button>
 					<ng-container *ngIf="activeAccess.endDate">
-						<span>Kehtiv kuni {{activeAccess.endDate}}</span>
+						<span>{{'finaldocuments.valid_until' | translate}} {{activeAccess.endDate | date:"dd.MM.yyyy"}}</span>
 					</ng-container>
 					<ng-container *ngIf="!activeAccess.endDate">
-						<span>Kehtib tähtajatult</span>
+						<span>{{'finaldocuments.valid_indefinitely' | translate}}</span>
 					</ng-container>
 				</div>
 			</ng-container>
@@ -34,10 +34,10 @@
 						{{'frontpage.isikukood' | translate}}: {{activeAccess.accessorCode}}
 					</button>
 					<ng-container *ngIf="activeAccess.endDate">
-						<span>Kehtiv kuni {{activeAccess.endDate | date:"dd.MM.yyyy"}}</span>
+						<span>{{'finaldocuments.valid_until' | translate}} {{activeAccess.endDate | date:"dd.MM.yyyy"}}</span>
 					</ng-container>
 					<ng-container *ngIf="!activeAccess.endDate">
-						<span>Kehtib tähtajatult</span>
+						<span>{{'finaldocuments.valid_indefinitely' | translate}}</span>
 					</ng-container>
 				</div>
 			</ng-container>
@@ -46,37 +46,37 @@
 </div>
 <div class="text-center">
 	<button (click)="modal.toggle('finalDocument-invalidAccesses')" htm-button theme="link">
-		Näita kehtetuid ligipääse
+		{{'finaldocuments.show_invalid_accesses' | translate}}
 	</button>
 </div>
 
-<htm-modal id="finalDocument-addAccess" [modalTitle]="accessAction === 'edit' ? 'Muuda ligipääsu' : 'Lisa ligipääs'"
+<htm-modal id="finalDocument-addAccess" [modalTitle]="accessAction === 'edit' ? ('finaldocuments.modify_access' | translate) : ('finaldocuments.add_access' | translate)"
 	[bottomAction]="false" wide>
 	<ng-template>
 		<form [formGroup]="addAccessForm">
 			<h2>
-				{{(accessAction === 'add') ? 'Lisa ligipääs' : 'Muuda ligipääsu'}}
+				{{(accessAction === 'add') ? ('finaldocuments.add_access' | translate) : ('finaldocuments.modify_access' | translate)}}
 			</h2>
-			<p>Vali kuidas soovid ligipääsu anda</p>
+			<p>{{'finaldocuments.choose_access_type' | translate}}</p>
 			<formItem type="radio" formControlName="type" [options]="addAccessOptions.type" name="type"></formItem>
 			<ng-container *ngIf="addAccessForm.value.type">
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
-					<h3>E-postiga ligipääs</h3>
-					<p>Sisesta e-posti aadress, kuhu saata ligipääs: *</p>
+					<h3>{{'finaldocuments.access_with_email' | translate}}</h3>
+					<p>{{'finaldocuments.insert_email' | translate}}</p>
 					<formItem formControlName="emailAddress" placeholder="E-posti aadress" type="text"></formItem>
 				</ng-container>
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ID_CODE'">
-					<h3>Isikukoodiga ligipääs</h3>
-					<p>Sisesta isikukood: *</p>
+					<h3>{{'finaldocuments.access_with_idcode' | translate}}</h3>
+					<p>{{'finaldocuments.insert_id_code' | translate}}</p>
 					<formItem formControlName="accessorCode" type="text" placeholder="Isikukood"></formItem>
 				</ng-container>
-				<p>Vali ligipääsukoodi kehtivuse ulatus: *</p>
+				<p>{{'finaldocuments.choose_access_scope' | translate}}</p>
 				<formItem name="scope" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
 				<p>{{'finaldocuments.choose_access_end_date' | translate}}</p>
 				<div class="split">
 					<formItem type="date" formControlName="endDate" [disabled]="addAccessForm.value.noEndDate"
 						placeholder="pp.kk.aaaa"></formItem>
-					<formItem type="checkbox" formControlName="noEndDate" label="Kehtib tähtajatult"></formItem>
+					<formItem type="checkbox" formControlName="noEndDate" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 				</div>
 			</ng-container>
 		</form>
@@ -106,12 +106,12 @@
 		<scrollableContent>
 			<table htm-table>
 				<tr>
-					<th>Liik</th>
-					<th>Isikukood / ligipääsukood</th>
-					<th>Kehtivuse algus</th>
-					<th>Kehtivuse lõpp</th>
-					<th>Ulatus</th>
-					<th>E-post</th>
+					<th>{{'finaldocuments.th.type' | translate}}</th>
+					<th>{{'finaldocuments.th.idcode_accesscode' | translate}}</th>
+					<th>{{'finaldocuments.th.valid_from' | translate}}</th>
+					<th>{{'finaldocuments.th.valid_until' | translate}}</th>
+					<th>{{'finaldocuments.th.scope' | translate}}</th>
+					<th>{{'finaldocuments.th.email' | translate}}</th>
 				</tr>
 				<tr *ngFor="let access of inactiveAccesses">
 					<td>
@@ -124,8 +124,8 @@
 						<ng-container *ngIf="!access.endDate">-</ng-container>
 					</td>
 					<td>
-						{{(access.scope === 'ACCESS_SCOPE:MAIN_DOCUMENT') ? 'Lõputunnistus'
-						: 'Lõputunnistus koos hinnetelehega'}}
+						{{(access.scope === 'ACCESS_SCOPE:MAIN_DOCUMENT') ? ('finaldocuments.main_document' | translate)
+						: ('finaldocuments.main_document_with_grades' | translate)}}
 					</td>
 					<td>{{access.emailAddress || '-'}}</td>
 				</tr>
@@ -137,80 +137,78 @@
 <htm-modal modalTitle="Ligipääs" [bottomAction]="false" id="finalDocument-confirmInvalidation">
 	<ng-template>
 		<h1 *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ID_CODE'">
-			Kas oled kindel, et soovid ligipääsu isikukoodile
-			{{addAccessForm.value.accessorCode}} kehtetuks muuta?
+			{{('finaldocuments.confirm_invalidate_accessorcode' | translate).replace('%ACCESSORCODE%', addAccessForm.value.accessorCode)}}
 		</h1>
 		<h1 *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
-			Kas oled kindel, et soovid ligipääsu e-mailile
-			{{addAccessForm.value.emailAddress}} kehtetuks muuta?
+			{{('finaldocuments.confirm_invalidate_email' | translate).replace('%EMAIL%', addAccessForm.value.emailAddress)}}
 		</h1>
 		<div class="button-row">
 			<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
-				Tühista
+				{{'generic.cancel' | translate}}
 			</button>
-			<button htm-button (click)="invalidateAccess()">Muuda kehtetuks</button>
+			<button htm-button (click)="invalidateAccess()">{{'finaldocuments.invalidate_access' | translate}}</button>
 		</div>
 	</ng-template>
 </htm-modal>
 
 <ng-template #accessCode>
 	<h1 style="word-break: break-word">
-		Ligipääsukood: {{addAccessForm.value.accessorCode}}
+		{{'finaldocuments.accessCode' | translate}}: {{addAccessForm.value.accessorCode}}
 	</h1>
 	<div class="line">
 		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
 		<button (click)="modal.toggle('finalDocument-confirmInvalidation')" htm-button theme="link">
-			Muuda kehtetuks
+			{{'finaldocuments.invalidate_access' | translate}}
 		</button>
 	</div>
 	<form [formGroup]="addAccessForm">
-		<p>E-posti aadress, kuhu on saadetud ligipääsukood:</p>
+		<p>{{'finaldocuments.accessCode_recipient' | translate}}:</p>
 		<formItem formControlName="emailAddress" [disabled]="true" placeholder="E-posti aadress" type="text"></formItem>
-		<p>Vali ligipääsukoodi kehtivuse ulatus: *</p>
+		<p>{{'finaldocuments.select_scope' | translate}}: *</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
-		<p>Vali ligipääsukoodi kehtivuse lõpp: *</p>
+		<p>{{'finaldocuments.select_end_date' | translate}}: *</p>
 		<div class="split">
 			<formItem type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
-			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true" label="Kehtib tähtajatult"></formItem>
+			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 		</div>
 	</form>
 	<div class="button-row">
 		<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
-			Tühista
+			{{'generic.cancel' | translate}}
 		</button>
 		<button htm-button (click)="changeAccess(openedAccess)">
-			Muuda andmeid
+			{{'button.edit_data' | translate}}
 		</button>
 	</div>
 </ng-template>
 
 <ng-template #idCode>
-	<h1>Isikukood: {{addAccessForm.value.accessorCode}}</h1>
+	<h1>{{'finaldocument.idcode' | translate}}: {{addAccessForm.value.accessorCode}}</h1>
 	<div class="line">
 		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
 		<button (click)="modal.toggle('finalDocument-confirmInvalidation')" htm-button theme="link">
-			Muuda kehtetuks
+			{{'finaldocuments.invalidate_access' | translate}}
 		</button>
 	</div>
 	<form [formGroup]="addAccessForm">
-		<h2>Tunnistuse väljastanud õppeasutus</h2>
+		<h2>{{'finaldocuments.issuer' | translate}}</h2>
 		<p>{{data.issuerInstitution}}</p>
-		<p>Isikukoodi kehtivuse ulatus: *</p>
+		<p>{{'finaldocuments.idcode_scope' | translate}}</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
-		<p>Isikukoodi kehtivuse lõpp: *</p>
+		<p>{{'finaldocuments.idcode_end_date' | translate}}</p>
 		<div class="split">
 			<formItem type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
-			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true" label="Kehtib tähtajatult"></formItem>
+			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 		</div>
 	</form>
 	<div class="button-row">
 		<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
-			Tühista
+			{{'generic.cancel' | translate}}
 		</button>
 		<button htm-button (click)="changeAccess(openedAccess)">
-			Muuda andmeid
+			{{'button.edit_data' | translate}}
 		</button>
 	</div>
 </ng-template>
