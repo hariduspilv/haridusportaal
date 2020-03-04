@@ -1,10 +1,9 @@
 <ul>
   <li>
-    <button htm-button (click)="modal.toggle('finalDocument-actionHistory')" theme="outline">Väljaandmise
-      ajalugu</button>
+    <button htm-button (click)="modal.toggle('finalDocument-actionHistory')" theme="outline">{{'finaldocuments.action_history' | translate}}</button>
   </li>
   <li>
-    <button htm-button (click)="modal.toggle('finalDocument-issueHistory')" theme="outline">Vaatamise ajalugu</button>
+    <button htm-button (click)="modal.toggle('finalDocument-issueHistory')" theme="outline">{{'finaldocuments.issue_history' | translate}}</button>
   </li>
 </ul>
 
@@ -14,11 +13,11 @@
       <scrollableContent>
         <table htm-table>
           <tr>
-            <th>Tegevuse liik</th>
-            <th>Dokumendi liik</th>
-            <th>Aeg</th>
-            <th>Otsuse nr ja kuupäev</th>
-            <th>Põhjus</th>
+            <th>{{'finaldocuments.th.action_type' | translate}}</th>
+            <th>{{'finaldocuments.th.document_type' | translate}}</th>
+            <th>{{'finaldocuments.th.time' | translate}}</th>
+            <th>{{'finaldocuments.date_of_decision' | translate}}</th>
+            <th>{{'finaldocuments.th.reason' | translate}}</th>
           </tr>
           <tr *ngFor="let action of actionHistory">
             <td>{{'finalDocument_' + action.type | translate}}</td>
@@ -39,10 +38,10 @@
       <scrollableContent>
         <table htm-table>
           <tr>
-            <th>Aeg</th>
-            <th>Andmete kasutaja</th>
-            <th>Ligipääsu alus</th>
-            <th>Tegevus</th>
+            <th>{{'finaldocuments.th.time' | translate}}</th>
+            <th>{{'finaldocuments.th.user' | translate}}</th>
+            <th>{{'finaldocuments.th.access_type' | translate}}</th>
+            <th>{{'finaldocuments.th.action' | translate}}</th>
           </tr>
           <ng-container *ngFor="let issue of issuingHistory">
             <tr>
@@ -56,9 +55,9 @@
                 <td>{{'finalDocument_issue_' + issue.issueBase | translate}}</td>
               </ng-container>
               <ng-container *ngIf="issue.issueBase === 'USER'">
-                <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ID_CODE'">Isikukood</td>
+                <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ID_CODE'">{{'frontpage.isikukood' | translate}}</td>
                 <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">
-                  <p>Ligipääsukood</p>
+                  <p>{{'finaldocuments.accessCode' | translate}}</p>
                   <p>{{issue.certificateAccess.emailAddress}}</p>
                 </td>
               </ng-container>
