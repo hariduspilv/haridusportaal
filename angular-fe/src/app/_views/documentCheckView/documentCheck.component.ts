@@ -42,35 +42,21 @@ export class DocumentCheckComponent {
     public auth: AuthService,
   ) { }
 
-  subscribeToAuth() {
+  private subscribeToAuth(): void {
     this.auth.isAuthenticated.pipe(take(1)).subscribe((val) => {
       this.loginStatus = val;
     });
   }
 
-  validateIdCodeOrBirthday(control: AbstractControl) {
-    if (!control.value.match(/([1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4})|(([0-9]{2}\.)([0-9]{2}\.)[0-9]{4})/g)) {
+  private validateIdCodeOrBirthday(control: AbstractControl): {[key: string]: any} | null {
+    if (!control.value.match(
+          /([1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4})|(([0-9]{2}\.)([0-9]{2}\.)[0-9]{4})/g,
+        )) {
       return { errors: false };
     }
     return null;
   }
-
-  initialTableCheck(id) {
-    const element = document.getElementById(id);
-    if (element) {
-      this.tableOverflown = (element.scrollWidth - element.scrollLeft) > element.clientWidth;
-      this.initialized = true;
-    }
-  }
-
-  downloadLink() {
-    if (this.resultSetIds['id_code'] && this.resultSetIds['certificate_id']) {
-      return `${this.settings.url}/certificate-public-download/${this.resultSetIds['id_code']}/${this.resultSetIds['certificate_id']}`;
-    }
-    this.alertsService.error('errors.file', 'general', false);
-  }
-
-  submit() {
+  public submit(): void {
     this.alertsService.clear('documentCheck');
     if (this.model.controls.captcha.invalid && !this.loginStatus) {
       this.alertsService.error(this.translate.get('errors.captcha'), 'documentCheck', false);
@@ -96,7 +82,8 @@ export class DocumentCheckComponent {
     if (this.model.controls.id_code.invalid) {
       this.alertsService
         .error(
-          '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule', 'documentCheck',
+          '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule',
+          'documentCheck',
           false,
         );
       window.setTimeout(
@@ -122,7 +109,8 @@ export class DocumentCheckComponent {
         },
       },
     };
-    this.http.post(`${this.settings.ehisUrl}/es-public/tunnistused/_search`, elasticQuery).subscribe(
+    this.http
+    .post(`${this.settings.ehisUrl}/es-public/tunnistused/_search`, elasticQuery).subscribe(
       (response: any) => {
         if (response.hits.total.value === 0) {
           this.alertsService.warning(
@@ -180,7 +168,9 @@ export class DocumentCheckComponent {
           document._source.DOKUMENDI_STAATUS === '1'
         ) {
           this.alertsService.success(
-            `Leiti kehtiv "${response.hits.hits[0]._source.LIIK_NIMETUS}" dokument. Dokument vastab hetke tasemele "${response.hits.hits[0]._source.VASTAVUS_NIMETUS}"`,
+            `Leiti kehtiv "${response.hits.hits[0]._source.LIIK_NIMETUS}" \
+            dokument. Dokument vastab hetke tasemele \
+            "${response.hits.hits[0]._source.VASTAVUS_NIMETUS}"`,
             'documentCheck',
             false,
           );
@@ -203,8 +193,8 @@ export class DocumentCheckComponent {
           1000,
         );
       });
-  };
-  ngOnInit() {
+  }
+  public ngOnInit(): void {
     this.alertsService.clear('general');
     this.subscribeToAuth();
   }

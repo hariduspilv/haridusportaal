@@ -23,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: 'tunnistused/lõpudokumendid/:id',
-    loadChildren: () => import('./_views/certificateDetailView').then(m => m.CertificateDetailViewModule),
+    loadChildren: () => import('./_views/certificateDetailView')
+      .then(m => m.CertificateDetailViewModule),
   },
   {
     path: 'oska',
@@ -181,11 +182,11 @@ const routes: Routes = [
     loadChildren: () => import('./_views/certificateCheckView')
       .then(m => m.CertificateCheckViewModule),
   },
-  // {
-  //   path: 'lõpudokumentide-kehtivuse-kontroll',
-  //   loadChildren: () => import('./_views/documentCheckView')
-  //     .then(m => m.DocumentCheckViewModule),
-  // },
+  {
+    path: 'lõpudokumentide-kehtivuse-kontroll',
+    loadChildren: () => import('./_views/documentCheckView')
+      .then(m => m.DocumentCheckViewModule),
+  },
   {
     path: 'töölaud/taotlused/:id',
     loadChildren: () => import('./_views/xjson').then(m => m.XjsonModule),

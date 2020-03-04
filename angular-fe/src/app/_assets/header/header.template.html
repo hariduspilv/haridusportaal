@@ -18,17 +18,16 @@
 		<div class="header__assets--grid">
 			<div [class.hidden]="!headerSearchEnabled()" class="header__search">
 				<icon glyph="search" size="default"></icon>
- 				<form>
+				<form>
 					<formItem type="autocomplete" query="testAutocomplete" titleDisabled="true"
 						placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" name="homeSearch"
 						(autoCompleteChanged)="searchRoute($event)">
 					</formItem>
- 				</form>
+				</form>
 			</div>
 			<div class="header__actions">
-				<button htm-button [class.active]="modalService.modalOpened['search']"
-					(click)="modalService.toggle('search')" theme="plain"
-					attr.aria-label="{{ 'button.search' | translate }}">
+				<button htm-button [class.active]="modalService.modalOpened['search']" (click)="modalService.toggle('search')"
+					theme="plain" attr.aria-label="{{ 'button.search' | translate }}">
 					<icon aria-hidden="true" glyph="search" size="medium"></icon>
 				</button>
 
@@ -115,8 +114,7 @@
 								</formItem>
 							</div>
 							<div>
-								<formItem type="password" formControlName="password"
-									title="{{ 'login.password' | translate }}">
+								<formItem type="password" formControlName="password" title="{{ 'login.password' | translate }}">
 								</formItem>
 							</div>
 							<div>
@@ -135,8 +133,7 @@
 						<h1>{{this.mobileId.challengeId}}</h1>
 						<p class="mb-0">Seejärel sisesta PIN1</p>
 						<p class="mt-0">Ootame Mobiil-ID vastust…</p>
-						<button (click)="mobileIdCancel()" htm-button
-							theme="plain">{{"button.cancel" | translate}}</button>
+						<button (click)="mobileIdCancel()" htm-button theme="plain">{{"button.cancel" | translate}}</button>
 					</div>
 				</ng-template>
 			</div>
