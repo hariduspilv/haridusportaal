@@ -158,9 +158,6 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 				if ($uid) {
 					$this->flood->clear('json_authentication_provider.failed_login_user', $uid);
 					return $this->entityManager->getStorage('user')->load($uid);
-				} else {
-					// Register a per-user failed login event.
-					$this->flood->register('json_authentication_provider.failed_login_user', $flood_config->get('user_window'), $uid);
 				}
 			} else {
 				$accounts = $this->entityManager->getStorage('user')->loadByProperties(['name' => $username, 'status' => 1]);
@@ -171,16 +168,11 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 					} else {
 						$identifier = $account->id() . '-' . $request->getClientIP();
 					}
-					if ($this->flood->isAllowed('json_authentication_provider.failed_login_user', $flood_config->get('user_limit'), $flood_config->get('user_window'), $identifier)) {
 						$uid = $this->userAuth->authenticate($username, $password);
 						if ($uid) {
 							$this->flood->clear('json_authentication_provider.failed_login_user', $identifier);
 							return $this->entityManager->getStorage('user')->load($uid);
-						} else {
-							// Register a per-user failed login event.
-							$this->flood->register('json_authentication_provider.failed_login_user', $flood_config->get('user_window'), $identifier);
 						}
-					}
 				}
 			}
 		//}
