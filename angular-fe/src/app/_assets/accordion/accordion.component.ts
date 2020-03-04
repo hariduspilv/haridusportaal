@@ -11,6 +11,8 @@ import {
   forwardRef,
   Output,
   EventEmitter,
+  TemplateRef,
+  ContentChild,
 } from '@angular/core';
 
 import {
@@ -52,6 +54,7 @@ export class AccordionItemComponent {
   private scroll: boolean = false;
   @ContentChildren(forwardRef(() => ScrollableContentComponent))
     scrollable: QueryList<ScrollableContentComponent>;
+  @ContentChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
   @Input() title: string = '';
   @Input() active: boolean = false;
   @HostBinding('class') get hostClasses(): string {

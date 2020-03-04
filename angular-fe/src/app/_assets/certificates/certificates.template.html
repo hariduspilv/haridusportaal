@@ -5,6 +5,7 @@
 <accordion>
 	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_graduation' | translate"
 		(click)="dataController('graduation-certificates')">
+		<ng-template>
 		<loader *ngIf="!error && !graduationCertificates"></loader>
 		<p *ngIf="graduationCertificates && graduationCertificates.length < 1"
 			class="text-center text--substrong--head mb-0">
@@ -33,9 +34,11 @@
 				</tbody>
 			</table>
 		</scrollableContent>
+	</ng-template>
 	</accordion-item>
 	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_professional' | translate"
 		(click)="dataController('professional-certificates')">
+		<ng-template>
 		<loader *ngIf="!error && !professionalCertificates"></loader>
 		<p *ngIf="error && !certificateErr" class="text-center text--substrong--head mb-0">
 			{{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}
@@ -59,9 +62,11 @@
 				</tr>
 			</tbody>
 		</table>
+	</ng-template>
 	</accordion-item>
 	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_examinations' | translate"
 		(click)="dataController('state-exams')">
+		<ng-template>
 		<loader *ngIf="!examResultsErr && !errRequest && !examResults"></loader>
 		<ng-container *ngIf="examResultsErr || errRequest">
 			<p class="text-center text--substrong--head mb-0" *ngIf="examResultsErr">
@@ -90,5 +95,6 @@
 				</tr>
 			</tbody>
 		</table>
+	</ng-template>
 	</accordion-item>
 </accordion>

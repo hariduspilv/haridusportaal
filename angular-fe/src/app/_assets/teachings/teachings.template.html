@@ -11,6 +11,7 @@
   <accordion *ngIf="!error && !loading">
     <ng-container *ngFor="let type of contentTypes; let first = first; let ind = index;">
       <accordion-item  title="{{ parseTypeTranslation(type) | titleCase }}" *ngIf="content[type].length">
+        <ng-template>
       <table htm-table>
         <tbody>
           <tr *ngFor="let work of content[type];">
@@ -26,6 +27,7 @@
               </tr>
             </tbody>
           </table>
+        </ng-template>
         </accordion-item>
     </ng-container>
   </accordion>

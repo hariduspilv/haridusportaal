@@ -178,6 +178,7 @@
 				<accordion-item *ngFor="let school of data.educationalInstitutions; let first = first; let ind = index;"
 					[active]="data.educationalInstitutions.length === 1 && first"
 					[title]="school.institutionInfo && school.institutionInfo.generalData ? school.institutionInfo.generalData.name : ''">
+					<ng-template>
 					<!-- general data -->
 					<ng-container *ngIf="school.institutionInfo">
 						<scrollableContent>
@@ -560,6 +561,7 @@
 							</table>
 						</scrollableContent>
 					</ng-container>
+				</ng-template>
 				</accordion-item>
 			</accordion>
 		</ng-container><!-- /ngFor -->

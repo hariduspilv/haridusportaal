@@ -3,6 +3,7 @@
 </div>
 <accordion>
 	<accordion-item [title]="'certificates.view_own_certificates' | translate">
+    <ng-template>
     <more-block id="enda-tunnistused" content="abitekst.enda_tunnistused"></more-block>
 
     <button htm-button routerLink="/töölaud/tunnistused" *ngIf="isLoggedIn">{{ 'certificates.manage_certificates' | translate }}</button>
@@ -44,9 +45,10 @@
     <ng-template #logInButton>
       <button htm-button (click)="logIn('/tunnistused/lõpudokumendid')">{{ 'certificates.login_to_view' | translate }}</button>
     </ng-template>
-
+  </ng-template>
   </accordion-item>
   <accordion-item [title]="'certificates.view_with_accesscode' | translate">
+    <ng-template>
     <more-block id="ligipääsukoodiga-tunnistused" content="abitekst.ligipääsukoodiga_tunnistused"></more-block>
 
     <loader *ngIf="loading.certificatesByAccessCode; else certificatesbyAccessCodeRef"></loader>
@@ -72,5 +74,6 @@
 
     </ng-template>
     <alerts small="true" id="certificatesByAccessCode"></alerts>
+  </ng-template>
 	</accordion-item>
 </accordion>

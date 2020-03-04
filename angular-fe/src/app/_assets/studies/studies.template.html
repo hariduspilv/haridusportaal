@@ -39,6 +39,7 @@
 <accordion #sudiesAccordion *ngIf="!loading && !error" (onChange)="accordionChange($event);">
   <accordion-item *ngFor="let item of content; let first = first;let ind = index;"
     [title]="item.oppeasutus + (item.staatus ? ', ' + parseTypeTranslation(item.staatus) : '') + (item.oppLopp ? ' ' + item.oppLopp : '')">
+    <ng-template>
     <loader *ngIf="!error && !content"></loader>
     <p *ngIf="error && !certificateErr" class="text-center text--substrong--head mb-0">
       {{ 'frontpage.dashboard_tabs_certificates_error_technical' | translate }}</p>
@@ -274,5 +275,6 @@
         <!--kutseKoolitus-->
       </tbody>
     </table>
+  </ng-template>
   </accordion-item>
 </accordion>
