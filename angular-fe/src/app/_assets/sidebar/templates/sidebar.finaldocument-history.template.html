@@ -10,7 +10,7 @@
 <htm-modal id="finalDocument-actionHistory" modalTitle="Ajalugu" [bottomAction]="true" wide>
   <ng-template>
     <ng-container *ngIf="actionHistory.length > 0; else noResults">
-      <scrollableContent>
+      <scrollableContent scrollParentClass="modal__block">
         <table htm-table>
           <tr>
             <th>{{'finaldocuments.th.action_type' | translate}}</th>
@@ -35,7 +35,7 @@
 <htm-modal id="finalDocument-issueHistory" modalTitle="Ajalugu" [bottomAction]="true" wide>
   <ng-template>
     <ng-container *ngIf="issuingHistory.length > 0; else noResults">
-      <scrollableContent>
+      <scrollableContent scrollParentClass="modal__block">
         <table htm-table>
           <tr>
             <th>{{'finaldocuments.th.time' | translate}}</th>
