@@ -1,5 +1,4 @@
 <ul *ngIf="parsedData && parsedData.length && !blocks">
-  {{ parsedData | json }}
   <ng-container *ngFor="let item of parsedData">
     <li *ngIf="item.url">
 
