@@ -8,7 +8,6 @@
       </div>
     </li>
     <li class="accesses" *ngFor="let activeAccess of activeAccesses">
-      {{activeAccess.endDate | json}}
       <ng-container *ngIf="activeAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">
         <icon size="medium" glyph="key"></icon>
         <div>
