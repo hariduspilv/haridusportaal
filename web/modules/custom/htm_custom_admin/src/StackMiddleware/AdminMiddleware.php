@@ -44,13 +44,12 @@ class AdminMiddleware implements HttpKernelInterface {
       '',
     ];
 
-    $endsWith = [
+    $contains = [
       '/login',
       '/user',
       '/graphql',
-      '/external-login/tara',
-      '/external-login/harid',
-      '/VPT'
+      '/external-login',
+      '/documentFile'
     ];
 
     foreach($request->cookies->keys() as $key) {
@@ -59,8 +58,8 @@ class AdminMiddleware implements HttpKernelInterface {
       }
     }
 
-    foreach($endsWith as $endpoint) {
-      if($this->endsWith($request->getPathInfo(), $endpoint)) {
+    foreach($contains as $string) {
+      if(strpos($request-getPathInfo(), $string)) {
         $safeUrl = true;
       }
     }
