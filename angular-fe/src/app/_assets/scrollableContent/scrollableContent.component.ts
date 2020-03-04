@@ -7,8 +7,10 @@ import {
   Input,
   Renderer2,
   OnDestroy,
+  ChangeDetectorRef,
 } from '@angular/core';
-import { fromEvent, Subscription } from 'rxjs';
+import { fromEvent, Subscription, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'scrollableContent',
@@ -18,7 +20,6 @@ import { fromEvent, Subscription } from 'rxjs';
 
 export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
 
-  //public isScrollable: boolean = false;
   public scrollRunner: any;
   private debounce: any;
   private wrapper: HTMLElement;
@@ -27,10 +28,63 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
   private arrows: NodeList;
   private arrowsPositionDebounce: any = false;
   public scrollDirection: number = 0;
-  /*public canScrollLeft: boolean = false;
-  public canScrollRight: boolean = false;*/
+  private scrollParent: HTMLElement;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  private scrollable = false;
+  private checkedScrollable = false;
+  private scrollLeft = false;
+  private checkedScrollLeft = false;
+  private scrollRight = false;
+  private checkedScrollRight = false;
+
+  get isScrollable() {
+    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
+    const newVal = !el ? false : el.scrollWidth > el.clientWidth;
+    if (newVal !== this.scrollable && !this.checkedScrollable) {
+      this.checkedScrollable = true;
+      setTimeout(
+        () => {
+          this.scrollable = newVal;
+          this.checkedScrollable = false;
+        },
+        100);
+    }
+    return this.scrollable;
+  }
+
+  get canScrollLeft() {
+    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
+    const newVal = !el ? false : el.scrollLeft > 0;
+    if (newVal !== this.scrollLeft && !this.checkedScrollLeft) {
+      this.checkedScrollLeft = true;
+      setTimeout(
+        () => {
+          this.scrollLeft = newVal;
+          this.checkedScrollLeft = false;
+        },
+        100);
+    }
+    return this.scrollLeft;
+  }
+
+  get canScrollRight() {
+    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
+    const newVal = !el ? false : Math.ceil(el.scrollLeft) < el.scrollWidth - el.clientWidth;
+    if (newVal !== this.scrollRight && !this.checkedScrollRight) {
+      this.checkedScrollRight = true;
+      setTimeout(
+        () => {
+          this.scrollRight = newVal;
+          this.checkedScrollRight = false;
+        },
+        100);
+    }
+    return this.scrollRight;
+  }
 
   @Input() changed: any;
+  @Input() scrollParentClass = 'app-content';
 
   scrollListener: Subscription;
   onScroll() {
@@ -51,7 +105,6 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     }
   }
 
-  mouseUpListener: Subscription;
   onMouseUp(event) {
     if (this.scrollRunner) {
       clearInterval(this.scrollRunner);
@@ -59,24 +112,13 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     }
   }
 
-  /*resizeListener: Subscription;
-  onResize(event) {
-    clearTimeout(this.debounce);
-    this.debounce = setTimeout(
-      () => {
-        this.detectWidth();
-      },
-      300);
-  }*/
-
   constructor(
     private el: ElementRef,
-    private renderer: Renderer2,
   ) {}
 
   private centerArrows(): void {
     const wrapperHeight = this.wrapper.offsetHeight;
-    console.log(wrapperHeight);
+    // console.log(wrapperHeight);
     this.arrows.forEach((item:HTMLElement) => {
       const el:HTMLElement = item.querySelector('icon');
       el.style.transform = `translateY(${wrapperHeight / 2}px)`;
@@ -87,7 +129,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     const wrapperTop = this.wrapper.offsetTop;
     const windowHeight = window.innerHeight;
     const wrapperHeight = this.wrapper.offsetHeight;
-    const scrollTop = document.querySelector('div.app-content').scrollTop;
+    const scrollTop = this.scrollParent.scrollTop;
     let top = (windowHeight / 2);
 
     if (scrollTop - wrapperTop + (windowHeight / 2) > wrapperHeight - (windowHeight / 2)) {
@@ -102,52 +144,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     });
   }
 
-  /*public detectWidth(): void {
-    // this.scroller.style.width = '9999px';
-    const inline = this.el.nativeElement.querySelector('.scrollable__inline');
-    inline.style.width = 'auto';
-
-    setTimeout(
-      () => {
-        const inlineWidth = inline.offsetWidth === 0 ? '100%' : inline.offsetWidth;
-        inline.style.width = `${inlineWidth}px`;
-        this.scroller.style.width = '100%';
-        const mainWidth = this.el.nativeElement.offsetWidth;
-        //this.isScrollable = mainWidth < inlineWidth;
-      },
-      0);
-  }*/
-
-  get isScrollable() {
-    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
-    if (!el) {
-      return false;
-    }
-    return el.scrollWidth > el.clientWidth;
-  }
-
-  get canScrollLeft() {
-    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
-    if (!el) {
-      return false;
-    }
-    return el.scrollLeft > 0;
-  }
-
-  get canScrollRight() {
-    const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
-    if (!el) {
-      return false;
-    }
-    return Math.ceil(el.scrollLeft) < el.scrollWidth - el.clientWidth;
-
-  }
-
   public checkArrows(): void {
-    /*this.canScrollLeft = this.scroller.scrollLeft <= 0 ? false : true;
-    const maxScroll = this.scroller.scrollLeft + this.scroller.offsetWidth;
-    this.canScrollRight = this.scroller.scrollWidth <= maxScroll ? false : true;*/
-
     this.arrows.forEach((item:HTMLElement) => {
       item.style.position = 'absolute';
     });
@@ -169,29 +166,41 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   bindListeners() {
-    /*this.resizeListener = fromEvent(window, 'resize').subscribe((e) => {
-      this.onResize(e);
-    });*/
-    this.scrollListener = fromEvent(document.querySelector('div.app-content'), 'scroll').subscribe((e) => {
+    this.scrollListener = fromEvent(this.scrollParent, 'scroll').pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((e) => {
       this.onScroll();
     });
-
   }
 
-  destroyListeners() {
-    //if (this.resizeListener) this.resizeListener.unsubscribe();
-    if (this.scrollListener) this.scrollListener.unsubscribe();
+  getScrollParent() {
+    let scrollParent = this.el.nativeElement;
+    let parentFound = false;
+    console.log(this.el);
+
+    while (!parentFound) {
+      scrollParent = scrollParent.parentElement;
+      if (!scrollParent || scrollParent.className.split(' ').includes(this.scrollParentClass)) {
+        parentFound = true;
+      }
+    }
+
+    if (!scrollParent) {
+      scrollParent = window;
+    }
+
+    this.scrollParent = scrollParent;
   }
 
   ngOnInit() {
-    console.log('ALKSPDOKAPSKDOAKSDPOKAPOSDK');
+    // console.log('ALKSPDOKAPSKDOAKSDPOKAPOSDK');
     this.wrapper = this.el.nativeElement.querySelector('.scrollable__wrapper');
     this.scroller = this.el.nativeElement.querySelector('.scrollable__scroller');
     this.inline = this.el.nativeElement.querySelector('.scrollable__inline');
     this.arrows = this.el.nativeElement.querySelectorAll('.arrow');
+    this.getScrollParent();
     setTimeout(
       () => {
-        //detectWidth();
         this.onScroll();
         this.checkArrows();
         this.bindListeners();
@@ -200,14 +209,14 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   ngOnDestroy() {
-    this.destroyListeners();
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
   ngOnChanges() {
     setTimeout(
       () => {
-        //this.detectWidth();
         this.onScroll();
-        this.checkArrows();
+        //this.checkArrows();
       },
       100);
   }

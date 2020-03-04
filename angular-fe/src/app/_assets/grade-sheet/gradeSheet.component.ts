@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, ElementRef, HostListener, ViewChild, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'grade-sheet',
@@ -17,12 +17,6 @@ export class GradeSheetComponent{
   public hasSchoolExam = false;
   public hasIndividualProgramme = false;
   public toimetulekuOpe = false;
-
-  public changed = false;
-
-  change() {
-    this.changed = true;
-  }
 
   ngOnInit() {
 
