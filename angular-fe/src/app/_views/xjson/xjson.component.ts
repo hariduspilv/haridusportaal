@@ -136,6 +136,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
     });
   }
 
+  getFormPath(form_name: string) {
+    const url = `${this.settings.url}/xjson_service/form_path/${form_name}?_format=json`;
+
+    const subscription = this.http.get(url).subscribe((response: any) => {
+      this.form_route = response.path;
+      subscription.unsubscribe();
+    });
+  }
+
   changeView(key) {
     this.view = key;
   }
@@ -996,8 +1005,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         }
 
         if (response['header']['form_name']) {
-          this.form_route = `/töölaud/taotlused/${response['header']['form_name'].toLowerCase()}`;
-          this.getFormName();
+          this.getFormPath(response['header']['form_name']);
         }
 
         if (response['header']['acceptable_activity']) {
