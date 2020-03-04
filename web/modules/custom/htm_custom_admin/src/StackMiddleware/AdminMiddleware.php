@@ -59,7 +59,7 @@ class AdminMiddleware implements HttpKernelInterface {
     }
 
     foreach($contains as $string) {
-      if(strpos($request-getPathInfo(), $string)) {
+      if(strpos($request->getPathInfo(), $string)) {
         $safeUrl = true;
       }
     }
