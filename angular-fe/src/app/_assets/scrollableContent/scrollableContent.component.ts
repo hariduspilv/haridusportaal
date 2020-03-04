@@ -184,6 +184,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
   }
 
   ngOnInit() {
+    console.log('ALKSPDOKAPSKDOAKSDPOKAPOSDK');
     this.wrapper = this.el.nativeElement.querySelector('.scrollable__wrapper');
     this.scroller = this.el.nativeElement.querySelector('.scrollable__scroller');
     this.inline = this.el.nativeElement.querySelector('.scrollable__inline');

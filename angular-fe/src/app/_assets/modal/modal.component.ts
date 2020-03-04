@@ -8,6 +8,8 @@ import {
   EventEmitter,
   ViewChildren,
   QueryList,
+  ContentChild,
+  TemplateRef,
 } from '@angular/core';
 import { ModalService } from '@app/_services';
 
@@ -20,8 +22,11 @@ import { ModalService } from '@app/_services';
 export class ModalContentComponent {
   @Input() id: string;
   @Input() loading: boolean = false;
+
+  @ContentChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
   constructor(private modalService: ModalService) {}
   ngOnInit() {
+    console.log(this.templateRef);
     // this.modalService.focusLock();
   }
 }
@@ -47,6 +52,7 @@ export class ModalComponent implements OnInit {
   @Input() stateButton: boolean = false;
   @Output() onClose: EventEmitter<any> = new EventEmitter();
   @ViewChildren('modalContent') contents: QueryList<any> = new QueryList();
+  @ContentChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
 
   @HostBinding('class') get hostClasses(): string {
     const classes = [];

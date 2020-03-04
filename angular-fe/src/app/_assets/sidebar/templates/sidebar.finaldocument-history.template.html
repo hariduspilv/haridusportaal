@@ -8,7 +8,7 @@
 </ul>
 
 <htm-modal id="finalDocument-actionHistory" modalTitle="Ajalugu" [bottomAction]="true" wide>
-  <modal-content>
+  <ng-template>
     <ng-container *ngIf="actionHistory.length > 0; else noResults">
       <scrollableContent>
       <table htm-table>
@@ -29,11 +29,11 @@
       </table>
     </scrollableContent>
     </ng-container>
-  </modal-content>
+  </ng-template>
 </htm-modal>
 
 <htm-modal id="finalDocument-issueHistory" modalTitle="Ajalugu" [bottomAction]="true" wide>
-  <modal-content>
+  <ng-template>
     <ng-container  *ngIf="issuingHistory.length > 0; else noResults">
     <scrollableContent>
     <table htm-table>
@@ -63,7 +63,7 @@
     </table>
   </scrollableContent>
 </ng-container>
-  </modal-content>
+  </ng-template>
 </htm-modal>
 
 <ng-template #noResults>

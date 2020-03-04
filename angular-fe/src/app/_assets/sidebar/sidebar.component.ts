@@ -8,6 +8,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { saveAs } from 'file-saver';
 
 interface SidebarType {
   [key: string]: string;
@@ -700,4 +701,23 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 })
 export class SidebarFinalDocumentDownloadComponent {
   @Input() data: any;
+  constructor (
+    private http: HttpClient,
+    private settings: SettingsService,
+    private route: ActivatedRoute,
+  ) {}
+
+  downloadTranscript() {
+    const id = this.route.snapshot.params.id;
+    this.http
+    .get(
+      `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}`,
+      {
+        headers: { 'Content-Type': 'application/*' },
+        responseType: 'blob',
+      })
+    .subscribe((res: any) => {
+      saveAs(new File([res], 'nimi + lõputunnistus + tunnistusenumber', { type: 'application/pdf' }));
+    });
+  }
 }

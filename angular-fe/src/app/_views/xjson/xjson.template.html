@@ -568,34 +568,41 @@
 
 <htm-modal id="deleteTableRow" modalTitle="{{ 'xjson.table_delete_row_confirm_modal_title' | translate}}"
   [bottomAction]="true" [topAction]="true" size="medium">
-  <modal-content class="modal-center">
+  <ng-template>
+    <div class="modal-center">
     <div>{{ 'xjson.table_delete_row_confirm_modal_content' | translate }}</div>
     <button htm-button tabindex="0" theme="default" (click)="confirmRowDelete()">{{ 'button.yes_delete' | translate }}
     </button>
-  </modal-content>
+  </div>
+  </ng-template>
 </htm-modal>
 
 <htm-modal id="editStep" modalTitle="{{ 'xjson.edit_step_confirm_modal_title' | translate}}" [bottomAction]="true"
   [topAction]="true" size="medium">
-  <modal-content class="modal-center">
+  <ng-template>
+    <div class="modal-center">
     <div>{{ 'xjson.edit_step_confirm_modal_content' | translate }}</div>
     <button htm-button tabindex="0" theme="default" (click)="toggleStepEdit()">{{ 'button.yes_change' | translate }}
     </button>
-  </modal-content>
+  </div>
+  </ng-template>
 </htm-modal>
 
 <htm-modal id="dashboardReturn" [bottomAction]="true" modalTitle="{{ 'xjson.cancel_modal_title' | translate }}"
   [topAction]="true" size="medium">
-  <modal-content class="modal-center">
+  <ng-template>
+    <div class="modal-center">
     <div>{{ 'xjson.return_dashboard' | translate }}</div>
     <button htm-button tabindex="0" theme="default" (click)="cancelEventHandler()">{{ 'modal.confirm' | translate }}
     </button>
-  </modal-content>
+  </div>
+  </ng-template>
 </htm-modal>
 
 <htm-modal id="addFile" [bottomAction]="true" [topAction]="true" modalTitle="{{ 'xjson.add_files' | translate }}"
   size="medium">
-  <modal-content class="modal-center">
+  <ng-template>
+    <div class="modal-center">
     <ng-container *ngIf="fileUploadElement && fileUploadCol && modalService.isOpen('addFile')">
       <div class="loaded-files-list">
         <ng-container
@@ -661,6 +668,6 @@
         {{ error[fileUploadElement].message }}
       </div>
     </ng-container>
-
-  </modal-content>
+  </div>
+  </ng-template>
 </htm-modal>

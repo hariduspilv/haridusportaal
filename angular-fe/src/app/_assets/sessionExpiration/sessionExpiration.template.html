@@ -4,7 +4,7 @@
 	[bottomAction]="false"
 	(onClose)="modalClosed($event)"
   size="medium">
-  <modal-content>
+  <ng-template>
 		<ng-container *ngIf="renewLoader; else renewTemplate">
 			<loader></loader>
 		</ng-container>
@@ -51,5 +51,5 @@
 			</div>
 		</ng-template>
 	</ng-template>
-</modal-content>
+</ng-template>
 </htm-modal>

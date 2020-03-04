@@ -8,7 +8,10 @@
               <icon glyph="x" size="medium"></icon>
             </button>
           </div>
-          <ng-content select="modal-content"></ng-content>
+          <!-- <ng-content select="modal-content"></ng-content> -->
+          <div class="modal-content">
+            <ng-template  [ngTemplateOutlet]="templateRef"></ng-template>
+          </div>
           <div class="modal__footer" *ngIf="bottomAction">
             <button (blur)="modalService.focusLock()" htm-button theme="plain" attr.aria-label="{{ 'button.close' | translate }}" (click)="modalService.close(id)">{{ 'button.close' | translate }}</button>
           </div>
