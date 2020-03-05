@@ -115,7 +115,7 @@ class EducationalFormRestResource extends ResourceBase {
 		  case 'add':
 		  	if($validation[0]){
 					$response = $this->ehisConnector->addInstitution(['data' => $data]);
-          $this->ehisConnector->deleteKeyFromredis($this->ehisConnector->getCurrentUserIdRegCode(FALSE));
+          $this->ehisConnector->deleteFromRedis($this->ehisConnector->getCurrentUserIdRegCode(FALSE), 'mtsys');
 				  return new ModifiedResourceResponse($response);
 			  }else{
 		  		return new ModifiedResourceResponse($validation[1] . " missing from body", 400);
@@ -125,7 +125,7 @@ class EducationalFormRestResource extends ResourceBase {
 			  if($validation[0]){
 			  	$response = $this->ehisConnector->editInstitution(['data' => $data]);
 			  	if(isset($response['message'])){
-            $this->ehisConnector->deleteKeyFromredis($this->ehisConnector->getCurrentUserIdRegCode(FALSE));
+            $this->ehisConnector->deleteFromRedis($this->ehisConnector->getCurrentUserIdRegCode(FALSE), 'mtsys');
           }
 				  return new ModifiedResourceResponse($response);
 			  }else{

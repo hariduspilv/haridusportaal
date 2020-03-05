@@ -179,9 +179,14 @@ class xJsonRestResource extends ResourceBase {
   private function returnBuildedResponse ($response) {
     $builded_response = $this->xJsonService->buildFormv2($response);
     if (empty($builded_response)) return new ModifiedResourceResponse('Form building failed!', 500);
-    if($this->formAction === 'SAVE' || $this->formAction === 'SUBMIT' || $this->formAction === 'CHANGE'){
-      $this->ehisService->deleteKeyFromredis($this->ehisService->getCurrentUserIdRegCode(FALSE));
+    switch($this->formAction){
+      case 'SAVE';
+      case 'SUBMIT';
+      case 'CHANGE';
+        $this->ehisService->deleteFromRedis($this->ehisService->getCurrentUserIdRegCode(FALSE), 'mtsys');
+        break;
     }
+
     \Drupal::logger('xjson')->notice('<pre><code>builded response ' . print_r($builded_response, TRUE) . '</code></pre>' );
     return new ModifiedResourceResponse($builded_response, 200);
   }

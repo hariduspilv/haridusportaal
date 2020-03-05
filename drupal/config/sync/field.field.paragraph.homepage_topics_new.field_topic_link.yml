@@ -1,23 +1,23 @@
-uuid: 69499caf-ce03-422d-a23a-05c91c902b28
+uuid: 7f78db6c-1132-4afb-bc5e-e2507b0e0c37
 langcode: et
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_topic_link
-    - paragraphs.paragraphs_type.homepage_topics
+    - paragraphs.paragraphs_type.homepage_topics_new
   module:
     - link
-id: paragraph.homepage_topics.field_topic_link
+id: paragraph.homepage_topics_new.field_topic_link
 field_name: field_topic_link
 entity_type: paragraph
-bundle: homepage_topics
+bundle: homepage_topics_new
 label: 'Teema link'
 description: ''
-required: false
-translatable: false
+required: true
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
   link_type: 17
-  title: 0
+  title: 1
 field_type: link
