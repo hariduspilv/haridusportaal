@@ -76,7 +76,7 @@
         (keyup)="triggerOnUpdate()"
         [attr.disabled]="disabled"
         [(ngModel)]="dateField" />
-      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" ripple="dark" [attr.disabled]="disabled">
+      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [attr.disabled]="disabled">
         <icon glyph="calendar"></icon>
       </button>
     </ng-container>
@@ -208,7 +208,7 @@
           <div class="formItem__radio__wrapper">
             <input
             type="radio"
-            name="field"
+            [name]="name"
             [value]="item.value"
             [(ngModel)]="field"
             (change)="update()"

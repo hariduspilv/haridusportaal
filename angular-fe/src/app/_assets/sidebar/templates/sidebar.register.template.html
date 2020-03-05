@@ -21,7 +21,7 @@
     [bottomAction]="false"
     (onClose)="clearModal()"
   >
-    <modal-content id="register" *ngIf="modal.modalOpened['register']">
+    <ng-template id="register">
       <ng-container *ngIf="!loading && step === 1">
         <h2 class="eventTitle">{{ pageData.title }}</h2>
         <div class="dialog__time" tabindex="0"> 
@@ -103,7 +103,7 @@
         </div><!--/registerResponse-->
       </ng-container>
       <loader *ngIf="loading"></loader>
-    </modal-content>
+    </ng-template>
   </htm-modal>
 </ng-container>
 

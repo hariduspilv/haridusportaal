@@ -137,6 +137,24 @@
         background: #eee;
         color: #757575;
       }
+      .formItem__check {
+        input:checked  {
+          + .formItem__check__indicator {
+            border-color: $gray !important;
+            icon, icon i::before {
+              color: $dark-gray !important;
+            }
+          }
+        }
+      }
+      .formItem__radio .formItem__radio__wrapper {
+        input:checked + .formItem__radio__indicator {
+          border-color: $dark-gray !important;
+          &::before {
+            background-color: $dark-gray;
+          }
+        }
+      }
       .ng-arrow{
         color: #757575 !important;
       }

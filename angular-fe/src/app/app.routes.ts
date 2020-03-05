@@ -23,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: 'tunnistused/lõpudokumendid/:id',
-    loadChildren: () => import('./_views/certificateDetailView').then(m => m.CertificateDetailViewModule),
+    loadChildren: () => import('./_views/certificateDetailView')
+      .then(m => m.CertificateDetailViewModule),
   },
   {
     path: 'oska',
@@ -205,6 +206,11 @@ const routes: Routes = [
     path: 'töölaud/digitempel',
     loadChildren: () => import('./_views/digitalSignView').then(m => m.DigitalSignViewModule),
     canActivate: [AuthService],
+  },
+  {
+    path: 'töölaud/tunnistused/lõputunnistused/:id',
+    canActivate: [AuthService],
+    loadChildren: () => import('./_views/finalDocumentDashboardDetailView').then(m => m.FinalDocumentDashboardDetailViewModule),
   },
   {
     path: 'preview',

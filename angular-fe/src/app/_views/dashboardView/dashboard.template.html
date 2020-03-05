@@ -110,7 +110,8 @@
 	[bottomAction]="bottomAction"
 	size="medium"
 >
-	<modal-content [loading]="loading">
+<ng-template>
+	<loader *ngIf="loading"></loader>
 		<alerts
 			class="notifications notifications--small"
 			id="personalData"
@@ -135,7 +136,7 @@
 				</ng-container>
 			</table>
 		</ng-container>
-	</modal-content>
+		</ng-template>
 </htm-modal>
 
 <htm-modal
@@ -146,7 +147,8 @@
 	[bottomAction]="roleBottomAction"
 	size="small"
 >
-	<modal-content [loading]="loading">
+	<ng-template>
+		<loader *ngIf="loading"></loader>
 		<alerts class="notifications notifications--small" id="roles"></alerts>
 		<ng-container *ngIf="!loading && !error">
 			<h1 class="role-title">{{ 'modal.choose_role' | translate }}</h1>
@@ -222,5 +224,5 @@
 				{{ 'modal.confirm' | translate }}
 			</button>
 		</div>
-	</modal-content>
+	</ng-template>
 </htm-modal>
