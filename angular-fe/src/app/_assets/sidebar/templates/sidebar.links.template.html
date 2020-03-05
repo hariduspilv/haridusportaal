@@ -31,18 +31,6 @@
           </a>
         </ng-container>
       </ng-container>
-      <ng-container *ngIf="item.url.routed; externalLink">
-        <a [routerLink]="item.url.path" [queryParams]="item.url.params || false">
-          <icon size="medium" ariaLabel="lehe sisene link" glyph="link-2"></icon>
-          <span role="text">{{ item.title }}</span>
-        </a>
-      </ng-container>
-      <ng-template #externalLink>
-        <a [href]="item.url.path">
-          <icon size="medium" ariaLabel="lehe väline link" glyph="external-link"></icon>
-          <span role="text">{{ item.title }}</span>
-        </a>
-      </ng-template>
 
     </li>
     <li *ngIf="!item.url && item.url !== ''" class="text-instance">
