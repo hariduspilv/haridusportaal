@@ -8,20 +8,22 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { SharedModule } from '@app/_core/shared.module';
 import { LoginModule } from '@app/_components/login/login.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import {TranslateModule} from '../../../../../angular-fe/src/app/_modules/translate';
 
 @NgModule({
   providers: [
     SideMenuService
   ],
-  imports: [
-    MaterialModule,
-    RouterModule,
-    CommonModule,
-    SharedModule,
-    LoginModule,
-    FormsModule,
-    ReactiveFormsModule
-  ],
+            imports: [
+              MaterialModule,
+              RouterModule,
+              CommonModule,
+              SharedModule,
+              LoginModule,
+              FormsModule,
+              ReactiveFormsModule,
+              TranslateModule
+            ],
   declarations: [
     HeaderComponent
   ],

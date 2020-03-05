@@ -51,6 +51,7 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
+				(keydown)="keyDownFn($event)"
         [attr.disabled]="disabled"
         [(ngModel)]="field" />
     </ng-container>
@@ -139,7 +140,7 @@
           </ng-template>
         </ng-select>
       </ng-container>
-      
+
     </ng-container>
 
     <ng-container *ngSwitchCase="'select'">
@@ -150,14 +151,14 @@
           (blur)="update('blur')"
           [attr.disabled]="disabled"
           [(ngModel)]="field">
-          
+
           <ng-container *ngIf="sortOptions">
             <option *ngFor="let item of options | orderBy: 'key'" [value]="item.value">{{ item.key }}</option>
           </ng-container>
           <ng-container *ngIf="!sortOptions">
             <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
           </ng-container>
-          
+
         </select>
         <button class="formItem__icon" type="button">
           <icon glyph="chevron-down"></icon>
@@ -231,6 +232,8 @@
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
         type="text"
+				autocomplete="off"
+				[id]="domID"
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur', autocompleteElem);"
