@@ -24,7 +24,7 @@ import FieldVaryService from "@app/_services/FieldVaryService";
 import conf from "@app/_core/conf";
 import { Router, ActivatedRoute } from "@angular/router";
 import { TranslateService } from "@app/_modules/translate/translate.service";
-import { FormBuilder, Validators, FormGroup } from "@angular/forms";
+import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { saveAs } from "file-saver";
 
@@ -578,22 +578,41 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		private settings: SettingsService,
 		private http: HttpClient,
 		private route: ActivatedRoute,
-		private cdr: ChangeDetectorRef
+		private cdr: ChangeDetectorRef,
+		private alertsService: AlertsService,
 	) {}
+
+	public errors = {
+		'required': 'Väli on kohustuslik',
+	}
+
+	private emailAddressOrIdCodeValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+		const accessorCode = control.get('accessorCode');
+		const emailAddress = control.get('emailAddress');
+		if (accessorCode.value === null && emailAddress.value === null) {
+			return { 'required': true }
+		}
+		return null
+	}
+	private endDateOrNoEndDateValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+		const noEndDate = control.get('noEndDate');
+		const endDate = control.get('endDate');
+		if (noEndDate.value === null && endDate.value === null) {
+			return { 'required': true };
+		}
+		return null;
+	}
 
 	public addAccessForm: FormGroup = this.formBuilder.group(
 		{
-			type: [],
-			emailAddress: [],
-			accessorCode: [],
-			scope: [],
+			type: [''],
+			emailAddress: ['', { validators: [Validators.email]}],
+			accessorCode: ['', { validators: [Validators.required]}],
+			scope: ['ACCESS_SCOPE:MAIN_DOCUMENT', { validators: [Validators.required]}],
 			endDate: [""],
 			noEndDate: [false],
 			accessId: [""]
 		},
-		{
-			updateOn: "change"
-		}
 	);
 	public addAccessOptions = {
 		type: [
@@ -662,8 +681,21 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		this.modal.toggle("finalDocument-addAccess");
 	}
 	public addAccess(): void {
+		this.addAccessForm.clearValidators();
+		this.addAccessForm.setValidators([this.emailAddressOrIdCodeValidator, this.endDateOrNoEndDateValidator]);
+		this.addAccessForm.updateValueAndValidity();
+		if (this.addAccessForm.invalid) {
+			return;
+		}
 		const form = this.addAccessForm.value;
 		const indexId = this.route.snapshot.params.id;
+		if (form.accessorCode) {
+			const startsWithLetters = Number.isNaN(form.accessorCode.charAt(0)) && Number.isNaN(form.accessorCode.charAt(1));
+			if (!startsWithLetters) {
+				this.addAccessForm.controls.accessorCode.setValue(`EE${form.accessorCode.trim()}`);
+				form.accessorCode = this.addAccessForm.controls.accessorCode.value;
+			}
+		}
 		const accessDTO = {
 			indexId,
 			access: {
@@ -682,12 +714,17 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 			}
 		};
 		this.http
-			.post(`${this.settings.url}/certificates/v1/certificateAccess`, accessDTO)
-			.subscribe(val => {
-				this.modal.toggle("finalDocument-addAccess");
-				this.addAccessForm.reset();
-				this.getData();
-			});
+			.post(`${this.settings.ehisUrl}/certificates/v1/certificateAccess`, accessDTO)
+			.subscribe(
+				(val) => {
+					this.modal.toggle("finalDocument-addAccess");
+					this.addAccessForm.reset();
+					this.getData();
+				},
+				(err) => {
+					this.alertsService.error(err.error.errors[0].message, 'addAccessErrors', 'accessErrors', true);
+				}
+			);
 	}
 	public modifyAccess(): void {
 		const form = this.addAccessForm.value;
@@ -709,7 +746,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		};
 		this.http
 			.patch(
-				`${this.settings.url}/certificates/v1/certificateAccess`,
+				`${this.settings.ehisUrl}/certificates/v1/certificateAccess`,
 				accessDTO
 			)
 			.subscribe(val => {
@@ -724,7 +761,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		const certificateId = this.route.snapshot.params.id;
 		this.http
 			.delete(
-				`${this.settings.url}/certificates/v1/certificateAccess\
+				`${this.settings.ehisUrl}/certificates/v1/certificateAccess\
 				?indexId=${certificateId}&accessId=${accessId}`
 			)
 			.subscribe((res: any) => {
@@ -745,26 +782,22 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 	}
 	private getData(): void {
 		const id = this.route.snapshot.params.id;
-		// tslint:disable
 		this.http
 			.get(
-				`${this.settings.url}/certificates/v1/certificateAccess\
+				`${this.settings.ehisUrl}/certificates/v1/certificateAccess\
 				?indexId=${id}&status=ACCESS_STATUS:VALID`
 			)
 			.subscribe(val => {
 				this.activeAccesses = val;
 			});
-		// tslint:enable
-		// tslint:disable
 		this.http
 			.get(
-				`${this.settings.url}/certificates/v1/certificateAccess\
+				`${this.settings.ehisUrl}/certificates/v1/certificateAccess\
 				?indexId=${id}&status=ACCESS_STATUS:INVALID`
 			)
 			.subscribe(val => {
 				this.inactiveAccesses = val;
 			});
-		// tslint:enable
 	}
 	public ngOnInit(): void {
 		this.getData();
@@ -789,12 +822,12 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 	private getData(): void {
 		const id = this.route.snapshot.params.id;
 		this.http
-			.get(`${this.settings.url}/certificates/v1/certificateActions/${id}`)
+			.get(`${this.settings.ehisUrl}/certificates/v1/certificateActions/${id}`)
 			.subscribe((res: any) => {
 				this.actionHistory = res.actions;
 			});
 		this.http
-			.get(`${this.settings.url}/certificates/v1/certificateDataIssues/${id}`)
+			.get(`${this.settings.ehisUrl}/certificates/v1/certificateDataIssues/${id}`)
 			.subscribe((res: any) => {
 				this.issuingHistory = res
 					.filter(el => el.issueBase !== "OWNER")
