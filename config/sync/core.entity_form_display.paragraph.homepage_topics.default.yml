@@ -3,14 +3,11 @@ langcode: et
 status: true
 dependencies:
   config:
-    - field.field.paragraph.homepage_topics.field_topic_button_text
-    - field.field.paragraph.homepage_topics.field_topic_image
     - field.field.paragraph.homepage_topics.field_topic_link
     - field.field.paragraph.homepage_topics.field_topic_text
     - field.field.paragraph.homepage_topics.field_topic_title
     - paragraphs.paragraphs_type.homepage_topics
   module:
-    - file
     - link
     - maxlength
 id: paragraph.homepage_topics.default
@@ -18,21 +15,6 @@ targetEntityType: paragraph
 bundle: homepage_topics
 mode: default
 content:
-  field_topic_button_text:
-    weight: 0
-    settings:
-      size: 60
-      placeholder: ''
-    third_party_settings: {  }
-    type: string_textfield
-    region: content
-  field_topic_image:
-    weight: 4
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: file_generic
-    region: content
   field_topic_link:
     weight: 3
     settings:
