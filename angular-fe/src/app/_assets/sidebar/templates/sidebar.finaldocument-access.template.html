@@ -63,20 +63,20 @@
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
 					<h3>{{'finaldocuments.access_with_email' | translate}}</h3>
 					<p>{{'finaldocuments.insert_email' | translate}}</p>
-					<formItem [error]="addAccessForm.errors?.emailOrIdCodeMissing" [errorMessage]="'Väli on kohustuslik'" formControlName="emailAddress" placeholder="E-posti aadress" type="text"></formItem>
+					<formItem [error]="addAccessForm.errors?.emailOrIdCodeMissing" [errorMessage]="'errors.field_required' | translate" formControlName="emailAddress" placeholder="E-posti aadress" type="text"></formItem>
 				</ng-container>
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ID_CODE'">
 					<h3>{{'finaldocuments.access_with_idcode' | translate}}</h3>
 					<p>{{'finaldocuments.insert_id_code' | translate}}</p>
-					<formItem [error]="addAccessForm.errors?.emailOrIdCodeMissing" [errorMessage]="'Väli on kohustuslik'" formControlName="accessorCode" type="text" placeholder="Isikukood"></formItem>
+					<formItem [error]="addAccessForm.errors?.emailOrIdCodeMissing" [errorMessage]="'errors.field_required' | translate" formControlName="accessorCode" type="text" placeholder="Isikukood"></formItem>
 				</ng-container>
 				<p>{{'finaldocuments.choose_access_scope' | translate}}</p>
 				<formItem name="scope" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
 				<p>{{'finaldocuments.choose_access_end_date' | translate}}</p>
 				<div class="split">
-					<formItem type="date" [error]="addAccessForm.errors?.endDateOrNoEndDateMissing" [errorMessage]="'Väli on kohustuslik'" formControlName="endDate" [disabled]="addAccessForm.value.noEndDate"
+					<formItem type="date" [error]="addAccessForm.errors?.mustHaveEndDateOption" [errorMessage]="'errors.field_required' | translate" formControlName="endDate" [disabled]="addAccessForm.value.noEndDate"
 						placeholder="pp.kk.aaaa"></formItem>
-					<formItem type="checkbox" [error]="addAccessForm.errors?.endDateOrNoEndDateMissing" [errorMessage]="'Väli on kohustuslik'" formControlName="noEndDate" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
+					<formItem type="checkbox" [error]="addAccessForm.errors?.mustHaveEndDateOption" [errorMessage]="'errors.field_required' | translate" formControlName="noEndDate" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 				</div>
 			</ng-container>
 		</form>

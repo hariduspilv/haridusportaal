@@ -713,6 +713,12 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 	}
 	public modifyAccess(): void {
 		const form = this.addAccessForm.value;
+		this.addAccessForm.clearValidators();
+		this.addAccessForm.setValidators([this.emailAddressOrIdCodeValidator, this.endDateOrNoEndDateValidator]);
+		this.addAccessForm.updateValueAndValidity();
+		if (this.addAccessForm.invalid) {
+			return;
+		}
 		const indexId = this.route.snapshot.params.id;
 		const accessDTO = {
 			indexId,
@@ -789,15 +795,15 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		const accessorCode = control.get('accessorCode');
 		const emailAddress = control.get('emailAddress');
 		if (accessorCode.value === null && emailAddress.value === null) {
-			return { 'required': true }
+			return { 'emailOrIdCodeMissing': true }
 		}
 		return null
 	}
 	private endDateOrNoEndDateValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
 		const noEndDate = control.get('noEndDate');
 		const endDate = control.get('endDate');
-		if (noEndDate.value === null && endDate.value === null) {
-			return { 'required': true };
+		if ((noEndDate.value === null || !noEndDate.value) && endDate.value === null ) {
+			return { 'mustHaveEndDateOption': true };
 		}
 		return null;
 	}
