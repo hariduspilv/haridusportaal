@@ -27,7 +27,7 @@
     <p>Õppekeel: {{ document.content.studies.language }}</p>
   </section>
 
-  <p class="bold">Õppimise ajal hinnati tema oskuseid järgnevalt:</p>
+  <p class="bold">>Õppimise ajal hinnati tema teadmisi ja oskusi järgnevalt:</p>
 
   <section id="grades">
     <ng-container *ngIf="toimetulekuOpe; else gradesTable">
@@ -139,5 +139,9 @@
 
   <section class="additional-info">
     <p>{{ document.content.qualificationToPrintOut }}</p>
+  </section>
+
+  <section id="grade-sheet-number" *ngIf="document.number">
+    <p>{{ document.number }}</p>
   </section>
 </div>

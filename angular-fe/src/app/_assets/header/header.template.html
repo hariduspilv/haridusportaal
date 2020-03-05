@@ -9,18 +9,19 @@
 		</div>
 	</button>
 </div>
-<a routerLink="/" class="header__logo pointer" role="link" attr.aria-label="{{ 'frontpage.lead' | translate }}">
+<a routerLink="/" class="header__logo pointer" role="link" aria-label="edu.ee">
 	<!-- <icon glyph="logo" size="medium"></icon> -->
-	<img aria-hidden="true" src="/assets/img/logo.svg" />
+	<img aria-hidden="true" src="/assets/img/logo.svg" alt="edu.ee logo"/>
 </a>
 <div class="header__assets">
 	<div class="inline">
 		<div class="header__assets--grid">
 			<div [class.hidden]="!headerSearchEnabled()" class="header__search">
 				<icon glyph="search" size="default"></icon>
-				<form>
+ 				<form>
+					<label class="hidden-label" for="homeSearch">Sisesta märksõna ja vajuta Enter</label>
 					<formItem type="autocomplete" query="testAutocomplete" titleDisabled="true"
-						placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" name="homeSearch"
+						placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" domID="homeSearch"
 						(autoCompleteChanged)="searchRoute($event)">
 					</formItem>
 				</form>
@@ -96,8 +97,10 @@
 							</div>
 							<div>
 								<form [formGroup]="mobileIdForm">
-									<formItem type="text" formControlName="phoneNumber"
-										title="{{ 'dashboard.contactPhone' | translate }}">
+									<formItem type="number"
+														[keyDownFn]="isNumber"
+														formControlName="phoneNumber"
+														title="{{ 'dashboard.contactPhone' | translate }}">
 									</formItem>
 								</form>
 							</div>
