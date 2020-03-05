@@ -19,12 +19,12 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
 
   public sidebar = {
     entity: {
-      finalDocumentAccess: {
-        issuerInstitution: '',
-      },
       finalDocumentDownload: {
         certificateName: '',
         certificateNumber: '',
+      },
+      finalDocumentAccess: {
+        issuerInstitution: '',
       },
       finalDocumentHistory: {
         issuerInstitution: '',
