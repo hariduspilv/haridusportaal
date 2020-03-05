@@ -1,20 +1,20 @@
-uuid: 81ca0565-3208-4a5c-bae6-24556df76a1f
+uuid: c793becf-959e-4c20-ada9-086f07bdd978
 langcode: et
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_topic_image
-    - paragraphs.paragraphs_type.homepage_topics
+    - paragraphs.paragraphs_type.homepage_topics_new
   module:
     - file
-id: paragraph.homepage_topics.field_topic_image
+id: paragraph.homepage_topics_new.field_topic_image
 field_name: field_topic_image
 entity_type: paragraph
-bundle: homepage_topics
+bundle: homepage_topics_new
 label: 'Teema pilt'
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:

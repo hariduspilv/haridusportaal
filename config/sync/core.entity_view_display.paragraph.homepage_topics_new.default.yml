@@ -1,0 +1,64 @@
+uuid: 61403393-dad4-4a89-be90-9c7c2403049b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.homepage_topics_new.field_topic_button_text
+    - field.field.paragraph.homepage_topics_new.field_topic_image
+    - field.field.paragraph.homepage_topics_new.field_topic_link
+    - field.field.paragraph.homepage_topics_new.field_topic_text
+    - field.field.paragraph.homepage_topics_new.field_topic_title
+    - paragraphs.paragraphs_type.homepage_topics_new
+  module:
+    - file
+    - link
+id: paragraph.homepage_topics_new.default
+targetEntityType: paragraph
+bundle: homepage_topics_new
+mode: default
+content:
+  field_topic_button_text:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_topic_image:
+    weight: 4
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+  field_topic_link:
+    weight: 3
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  field_topic_text:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_topic_title:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  search_api_excerpt: true
