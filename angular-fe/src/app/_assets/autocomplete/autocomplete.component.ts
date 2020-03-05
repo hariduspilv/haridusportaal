@@ -10,7 +10,7 @@ import {
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { NgbRadio } from '@ng-bootstrap/ng-bootstrap';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { map } from 'rxjs/operators';
 
 @Component({
@@ -43,6 +43,7 @@ export class AutocompleteComponent implements OnDestroy {
     private http: HttpClient,
     private el: ElementRef,
     private cdr: ChangeDetectorRef,
+		private liveAnnouncer: LiveAnnouncer,
   ) {}
 
   public search(value: string = '', $event: any = false): void {
@@ -89,6 +90,9 @@ export class AutocompleteComponent implements OnDestroy {
                 this.searched = true;
                 this.loading = false;
                 this.subscription.unsubscribe();
+                this.data.length
+									? this.liveAnnouncer.announce('liikuge nooltega tulemuste peale')
+									: '';
               });
             } else {
               this.subscription = this.http.get(path).subscribe((response) => {
@@ -103,6 +107,9 @@ export class AutocompleteComponent implements OnDestroy {
                 this.loading = false;
                 this.positionElement();
                 this.subscription.unsubscribe();
+                this.data.length
+									? this.liveAnnouncer.announce('liikuge nooltega tulemuste peale')
+									: '';
               });
             }
           } else {
@@ -168,7 +175,6 @@ export class AutocompleteComponent implements OnDestroy {
   }
 
   private chooseOption(value: any = false): void {
-
     if (this.activeItem || this.activeItem === 0) {
       this.onValueSelected.emit(this.data[this.activeItem]);
     } else {

@@ -1,15 +1,5 @@
-import {
-  Component,
-  OnInit,
-  ElementRef,
-  OnChanges,
-  HostListener,
-  Input,
-  Renderer2,
-  OnDestroy,
-  ChangeDetectorRef,
-} from '@angular/core';
-import { fromEvent, Subscription, Subject } from 'rxjs';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit } from '@angular/core';
+import { fromEvent, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
@@ -18,25 +8,32 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./scrollableContent.styles.scss'],
 })
 
-export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
+export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy {
 
   public scrollRunner: any;
+  public scrollDirection: number = 0;
+  @Input() changed: any;
+  @Input() scrollParentClass = 'app-content';
+  scrollListener: Subscription;
   private debounce: any;
   private wrapper: HTMLElement;
   private inline: HTMLElement;
   private scroller: HTMLElement;
   private arrows: NodeList;
   private arrowsPositionDebounce: any = false;
-  public scrollDirection: number = 0;
   private scrollParent: HTMLElement;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-
   private scrollable = false;
   private checkedScrollable = false;
   private scrollLeft = false;
   private checkedScrollLeft = false;
   private scrollRight = false;
   private checkedScrollRight = false;
+
+  constructor(
+    private el: ElementRef,
+  ) {
+  }
 
   get isScrollable() {
     const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
@@ -83,10 +80,6 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     return this.scrollRight;
   }
 
-  @Input() changed: any;
-  @Input() scrollParentClass = 'app-content';
-
-  scrollListener: Subscription;
   onScroll() {
     if (this.isScrollable) {
       const timing = this.arrowsPositionDebounce ? 60 : 0;
@@ -112,44 +105,13 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     }
   }
 
-  constructor(
-    private el: ElementRef,
-  ) {}
-
-  private centerArrows(): void {
-    const wrapperHeight = this.wrapper.offsetHeight;
-    this.arrows.forEach((item:HTMLElement) => {
-      const el:HTMLElement = item.querySelector('icon');
-      el.style.transform = `translateY(${wrapperHeight / 2}px)`;
-    });
-  }
-
-  private positionArrows(): void {
-    const wrapperTop = this.wrapper.offsetTop;
-    const windowHeight = window.innerHeight;
-    const wrapperHeight = this.wrapper.offsetHeight;
-    const scrollTop = this.scrollParent.scrollTop;
-    let top = (windowHeight / 2);
-
-    if (scrollTop - wrapperTop + (windowHeight / 2) > wrapperHeight - (windowHeight / 2)) {
-      top = wrapperHeight - (windowHeight / 2);
-    } else if (wrapperTop < scrollTop) {
-      top += scrollTop - wrapperTop;
-    }
-
-    this.arrows.forEach((item:HTMLElement) => {
-      const el:HTMLElement = item.querySelector('icon');
-      el.style.transform = `translateY(${top}px)`;
-    });
-  }
-
   public checkArrows(): void {
-    this.arrows.forEach((item:HTMLElement) => {
+    this.arrows.forEach((item: HTMLElement) => {
       item.style.position = 'absolute';
     });
   }
 
-  public scroll(direction:number = 1): void {
+  public scroll(direction: number = 1): void {
 
     this.scrollDirection = direction;
 
@@ -209,12 +171,40 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy{
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
+
   ngOnChanges() {
     setTimeout(
       () => {
         this.onScroll();
-        //this.checkArrows();
+        // this.checkArrows();
       },
       100);
+  }
+
+  private centerArrows(): void {
+    const wrapperHeight = this.wrapper.offsetHeight;
+    this.arrows.forEach((item: HTMLElement) => {
+      const el: HTMLElement = item.querySelector('icon');
+      el.style.transform = `translateY(${wrapperHeight / 2}px)`;
+    });
+  }
+
+  private positionArrows(): void {
+    const wrapperTop = this.wrapper.offsetTop;
+    const windowHeight = window.innerHeight;
+    const wrapperHeight = this.wrapper.offsetHeight;
+    const scrollTop = this.scrollParent.scrollTop;
+    let top = (windowHeight / 2);
+
+    if (scrollTop - wrapperTop + (windowHeight / 2) > wrapperHeight - (windowHeight / 2)) {
+      top = wrapperHeight - (windowHeight / 2);
+    } else if (wrapperTop < scrollTop) {
+      top += scrollTop - wrapperTop;
+    }
+
+    this.arrows.forEach((item: HTMLElement) => {
+      const el: HTMLElement = item.querySelector('icon');
+      el.style.transform = `translateY(${top}px)`;
+    });
   }
 }

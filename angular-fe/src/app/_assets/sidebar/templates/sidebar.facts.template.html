@@ -1,19 +1,18 @@
 <ng-container *ngFor="let indicator of entitiesData; let last = last;">
-  
   <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
 		<h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
 			{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}
 		</h2>
 		<div aria-hidden="true">{{ 'oska.compared_to_other_professions' | translate }}</div>
 		<div class="list" aria-hidden="true">
-			<div class="image" *ngFor="let item of createArr(indicator.icon)"><img alt="icon" src="/assets/img/person_filled.svg" /></div>
-			<div class="image" *ngFor="let elem of createArr(11 - indicator.icon)"><img alt="icon" src="/assets/img/person.svg" /></div>
+			<div class="image" *ngFor="let item of createArr(indicator.icon)"><img alt="inimese ikoon (värvitud)" src="/assets/img/person_filled.svg" /></div>
+			<div class="image" *ngFor="let elem of createArr(11 - indicator.icon)"><img alt="inimese ikoon" src="/assets/img/person.svg" /></div>
 		</div>
 		<hr aria-hidden="true" *ngIf="!last">
   </ng-container>
-  
+
 	<ng-container *ngIf="indicator.oskaId === 2 && indicator.icon > 0 && indicator.icon < 6">
-    <h2 attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}: {{trendingValues[indicator.icon - 1].text | translate}}">
+    <h2 attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}:">
       {{ 'oska.numberEmployedChange' | translate }}:
     </h2>
     <ul>
@@ -32,9 +31,9 @@
       {{ 'oska.wage' | translate }}: {{ indicator.value | localeNumber }} €
     </h2>
     <div class="list label__tag--pointer" aria-hidden="true">
-      <div class="image" *ngFor="let item of createArr((indicator.icon - (indicator.icon % 2)) / 2)"><img alt="icon" src="/assets/img/coin_full.svg" /></div>
-      <div class="image" *ngFor="let item of createArr(indicator.icon % 2)" ><img alt="icon" src="/assets/img/coin_half.svg" /></div>
-      <div class="image" *ngFor="let elem of createArr((20 - indicator.icon) / 2)" ><img alt="icon" src="/assets/img/coin.svg" /></div>
+      <div class="image" *ngFor="let item of createArr((indicator.icon - (indicator.icon % 2)) / 2)"><img alt="euromüntide ikoon (värvitud)" src="/assets/img/coin_full.svg" /></div>
+      <div class="image" *ngFor="let item of createArr(indicator.icon % 2)" ><img alt="euromüntide ikoon (pooleldi värvitud)" src="/assets/img/coin_half.svg" /></div>
+      <div class="image" *ngFor="let elem of createArr((20 - indicator.icon) / 2)" ><img alt="euromüntide ikoon" src="/assets/img/coin.svg" /></div>
     </div>
     <hr aria-hidden="true" *ngIf="!last">
   </ng-container>

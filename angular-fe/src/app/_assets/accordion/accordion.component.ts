@@ -1,28 +1,22 @@
 import {
-  Component,
-  Input,
-  HostBinding,
-  ContentChildren,
-  QueryList,
   AfterContentInit,
+  Component,
+  ContentChildren,
+  ElementRef,
+  EventEmitter,
+  forwardRef,
+  HostBinding,
+  Input,
   OnChanges,
   OnDestroy,
-  ElementRef,
-  forwardRef,
   Output,
-  EventEmitter,
+  QueryList,
 } from '@angular/core';
 
-import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Subject } from 'rxjs';
 import { RippleService } from '@app/_services';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SlugifyPipe } from 'ngx-pipes';
 import { ScrollableContentComponent } from '../scrollableContent';
@@ -49,14 +43,11 @@ export class AccordionItemComponent {
   public change = new Subject<any>();
   public statusUpdate = new Subject<any>();
   public id: string = Math.random().toString(36).substr(2, 9);
-  private scroll: boolean = false;
   @ContentChildren(forwardRef(() => ScrollableContentComponent))
-    scrollable: QueryList<ScrollableContentComponent>;
+  scrollable: QueryList<ScrollableContentComponent>;
   @Input() title: string = '';
   @Input() active: boolean = false;
-  @HostBinding('class') get hostClasses(): string {
-    return 'accordion__item';
-  }
+  private scroll: boolean = false;
 
   constructor(
     private ripple: RippleService,
@@ -64,7 +55,12 @@ export class AccordionItemComponent {
     private location: Location,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) {
+  }
+
+  @HostBinding('class') get hostClasses(): string {
+    return 'accordion__item';
+  }
 
   public openAccordion() {
 
@@ -75,19 +71,20 @@ export class AccordionItemComponent {
     if (this.active) {
       try {
         this.scrollable.forEach((item) => {
-          //item.detectWidth();
+          // item.detectWidth();
           item.checkArrows();
         });
-      } catch (err) {}
+      } catch (err) {
+      }
       this.change.next();
     }
 
     const slug = this.title.toLowerCase()
-    .replace(/span/g, '')
-    .replace(/<a href=".+?>/g, '')
-    .replace(/<\/a>/g, '')
-    .replace(/ /g, '-')
-    .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
+      .replace(/span/g, '')
+      .replace(/<a href=".+?>/g, '')
+      .replace(/<\/a>/g, '')
+      .replace(/ /g, '-')
+      .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
     const newUrl = this.router.url.split('#')[0];
     this.statusUpdate.next();
     if (this.active) {
@@ -118,8 +115,8 @@ export class AccordionItemComponent {
 
   ngOnInit(): void {
     const slug = this.title.toLowerCase()
-    .replace(/ /g, '-')
-    .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
+      .replace(/ /g, '-')
+      .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
     if (this.route.snapshot.fragment === slug) {
       this.scroll = true;
       setTimeout(
@@ -137,22 +134,23 @@ export class AccordionItemComponent {
   styleUrls: ['./accordion.styles.scss'],
 })
 
-export class AccordionComponent implements AfterContentInit, OnChanges, OnDestroy{
+export class AccordionComponent implements AfterContentInit, OnChanges, OnDestroy {
+
+  @Input() collapsible: boolean = false;
+  @Output() onChange: EventEmitter<any> = new EventEmitter();
+  @ContentChildren(forwardRef(() => AccordionItemComponent))
+  items: QueryList<AccordionItemComponent>;
+  private subscriptions = [];
 
   constructor(
     private router: Router,
     private location: Location,
-  ) {}
-  private subscriptions = [];
-  @Input() collapsible: boolean = false;
-  @Output() onChange: EventEmitter<any> = new EventEmitter();
+  ) {
+  }
 
   @HostBinding('class') get hostClasses(): string {
     return 'accordion';
   }
-
-  @ContentChildren(forwardRef(() => AccordionItemComponent))
-    items: QueryList<AccordionItemComponent>;
 
   closeOthers() {
     if (this.collapsible && this.items) {
@@ -179,6 +177,7 @@ export class AccordionComponent implements AfterContentInit, OnChanges, OnDestro
     });
     this.countAccordions();
   }
+
   openAll() {
     const items = this.items.toArray();
     items.forEach((item) => {

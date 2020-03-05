@@ -74,6 +74,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() appendTo: string = '';
   @Input() minDate: NgbDateStruct = { year: 2010, month: 1, day: 1 };
   @Input() maxDate: NgbDateStruct = { year: 2035, month: 12, day: 31 };
+  @Input() domID = '';
+  @Input() keyDownFn = (...args) => {};
 
   @HostBinding('class') get hostClasses(): string {
     const classes = ['formItem', `formItem--${this.type}`];
@@ -94,7 +96,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       `formItem--focused ${classes.join(' ')}` :
       `${classes.join(' ')}`;
   }
-
   propagateChange = (_: any) => { };
   public field: any;
   public dateField;
@@ -295,7 +296,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   autocompleteUpdate(value: any = ''): void {
-
     if (this.valueType === 'string') {
       this.field = value === '' ? this.field : value;
     } else {
@@ -437,7 +437,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
     if (this.field
       && typeof this.field !== 'object'
-      && (typeof this.field === 'string' && !this.field.match(/\D/) )
+      && (typeof this.field === 'string' && !this.field.match(/\D/))
       && this.type !== 'date') {
       this.field = parseFloat(this.field);
     }

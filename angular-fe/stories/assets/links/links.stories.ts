@@ -6,10 +6,12 @@ import {
 } from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
 import linksMd from './links.md';
+import { TranslateModule } from '@app/_modules/translate';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+    TranslateModule.forRoot(),
   ],
 };
 
