@@ -20,7 +20,7 @@
 				<icon glyph="search" size="default"></icon>
  				<form>
 					<label class="hidden-label" for="homeSearch">Sisesta märksõna ja vajuta Enter</label>
-					<formItem type="autocomplete" query="testAutocomplete" titleDisabled="true"
+					<formItem type="autocomplete" query="testAutocomplete" titleDisabled="true" name="homeSearch"
 						placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" domID="homeSearch"
 						(autoCompleteChanged)="searchRoute($event)">
 					</formItem>
@@ -64,15 +64,15 @@
 
 <htm-modal id="search" modalTitle="{{ 'button.search' | translate }}" [bottomAction]="false">
 	<ng-template id="search" *ngIf="modalService.modalOpened['search']">
-		<formItem type="text" [(ngModel)]="search" title="Märksõna"
-			(keyup.enter)="searchRoute(search); modalService.close('search')"> </formItem>
+		<formItem type="text" [(ngModel)]="searchString" title="Märksõna"
+			(keyup.enter)="searchRoute(searchString); modalService.close('search')"> </formItem>
 		<button (blur)="modalService.focusLock()" htm-button style="margin: 1rem 0; width: 100%;"
-			(click)="searchRoute(search); modalService.close('search')">
+			(click)="searchRoute(searchString); modalService.close('search')">
 			Otsi
 		</button>
 	</ng-template>
 </htm-modal>
-<htm-modal id="login" modalTitle="{{ 'button.login' | translate }}" [bottomAction]="false">
+<htm-modal id="login" modalTitle="{{ 'button.login' | translate }}" [bottomAction]="false" myAutofocus>
 	<ng-template id="login">
 		<alerts id="login-modal" small></alerts>
 		<loader *ngIf="loading"></loader>
