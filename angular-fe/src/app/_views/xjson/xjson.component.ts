@@ -1103,8 +1103,6 @@ export class XjsonComponent implements OnInit, OnDestroy {
           const subscription = this.http.jsonp(path, 'callback').
             subscribe((response: any) => {
               this.data_elements.aadressid.value[index].aadress = this.addressService.inAdsFormatValue(response.addresses[0]);
-              console.log(response.addresses[0]);
-              console.log(this.addressService.inAdsFormatValue(response.addresses[0]));
             });
         });
       }

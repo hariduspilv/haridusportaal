@@ -72,23 +72,23 @@ export class AddressService {
   }
 
   inAdsFormatValue(address){
-    if(address.apartment != undefined) return address;
+    if (address.apartment != undefined) return address;
     return {
-      "seqNo": address.unik || '',
-      "adsId" : address.adr_id || '',
-      "adsOid" : address.ads_oid || '',
-      "klElukoht": address.tehn_id2 || '',
-      "addressFull": address.pikkaadress || '',
-      "addressCoded" : address.koodaadress || '',
-      "county" : address.maakond || '',
-      "countyEHAK" : address.ehakmk || '',
-      "localGovernment" : address.omavalitsus || '',
-      "localGovernmentEHAK" : address.ehakov || '',
-      "settlementUnit" : address.asustusyksus || '',
-      "settlementUnitEHAK" : address.ehak || '',
-      "address" : address.aadresstekst || '',
-      "apartment" : address.kort_nr || '',
-      "addressHumanReadable" : address.addressHumanReadable || address.pikkaadress,
+      seqNo: address.unik || '',
+      adsId : address.kort_adr_id || address.adr_id || '',
+      adsOid : address.kort_ads_oid || address.ads_oid || '',
+      klElukoht: address.tehn_id2 || '',
+      addressFull: address.pikkaadress || '',
+      addressCoded : address.koodaadress || '',
+      county : address.maakond || '',
+      countyEHAK : address.ehakmk || '',
+      localGovernment : address.omavalitsus || '',
+      localGovernmentEHAK : address.ehakov || '',
+      settlementUnit : address.asustusyksus || '',
+      settlementUnitEHAK : address.ehak || '',
+      address : address.aadresstekst || '',
+      apartment : address.kort_nr || '',
+      addressHumanReadable : address.addressHumanReadable || address.pikkaadress,
       }
   }
   
