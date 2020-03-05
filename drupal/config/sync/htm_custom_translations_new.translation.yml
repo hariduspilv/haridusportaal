@@ -3115,6 +3115,10 @@ generic:
     translation_type: textarea
     et: 'Logi sisse Haridusportaali'
     en: MISSING
+  cancel:
+    translation_type: textarea
+    et: Tühista
+    en: 'Tühista - eng'
 sidemenu:
   support_text:
     translation_type: text_format
@@ -3653,3 +3657,207 @@ finalDocument_issue_DISPLAY:
   translation_type: textarea
   et: Vaatamine
   en: 'Vaatamine - eng'
+documentCheck:
+  doc_nr_missing:
+    translation_type: textarea
+    et: '"Dokumendi number." väärtus on sisestamata'
+    en: '"Dokumendi number." väärtus on sisestamata - eng'
+  idcode_or_bday_missing:
+    translation_type: textarea
+    et: '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule'
+    en: '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule - eng'
+  no_results:
+    translation_type: textarea
+    et: 'Sisestatud andmetega dokumenti ei leitud andmebaasist'
+    en: 'Sisestatud andmetega dokumenti ei leitud andmebaasist - eng'
+  exists_but_not_for_user:
+    translation_type: textarea
+    et: 'Sisestatud andmetega dokumenti pole antud isikule väljastatud'
+    en: 'Sisestatud andmetega dokumenti pole antud isikule väljastatud'
+  invalid_document:
+    translation_type: textarea
+    et: 'Sisestatud andmetega dokument on kehtetu'
+    en: 'Sisestatud andmetega dokument on kehtetu - eng'
+  found_result:
+    translation_type: textarea
+    et: 'Leiti kehtiv "%LIIK%" dokument. Dokument vastab hetke tasemele "%VASTAVUS%"'
+    en: 'Leiti kehtiv "%LIIK%" dokument. Dokument vastab hetke tasemele "%VASTAVUS%" - eng'
+finaldocuments:
+  modify_access:
+    translation_type: textarea
+    et: 'Muuda ligipääsu'
+    en: 'Muuda ligipääsu - eng'
+  add_access:
+    translation_type: textarea
+    et: 'Lisa ligipääs'
+    en: 'Lisa ligipääs'
+  choose_access_end_date:
+    translation_type: textarea
+    et: 'Vali ligipääsukoodi kehtivuse lõpp: *'
+    en: 'Vali ligipääsukoodi kehtivuse lõpp: *'
+  choose_access_scope:
+    translation_type: textarea
+    et: 'Vali ligipääsukoodi kehtivuse ulatus: *'
+    en: 'Vali ligipääsukoodi kehtivuse ulatus: *'
+  insert_id_code:
+    translation_type: textarea
+    et: 'Sisesta isikukood: *'
+    en: 'Sisesta isikukood: *'
+  access_with_idcode:
+    translation_type: textarea
+    et: 'Isikukoodiga ligipääs'
+    en: 'Isikukoodiga ligipääs'
+  insert_email:
+    translation_type: textarea
+    et: 'Sisesta e-posti aadress, kuhu saata ligipääs: *'
+    en: 'Sisesta e-posti aadress, kuhu saata ligipääs: *'
+  access_with_email:
+    translation_type: textarea
+    et: 'E-postiga ligipääs'
+    en: 'E-postiga ligipääs'
+  choose_access_type:
+    translation_type: textarea
+    et: 'Vali kuidas soovid ligipääsu anda'
+    en: 'Vali kuidas soovid ligipääsu anda'
+  show_invalid_accesses:
+    translation_type: textarea
+    et: 'Näita kehtetuid ligipääse'
+    en: 'Näita kehtetuid ligipääse'
+  valid_indefinitely:
+    translation_type: textarea
+    et: 'Kehtib tähtajatult'
+    en: 'Kehtib tähtajatult'
+  valid_until:
+    translation_type: textarea
+    et: 'Kehtiv kuni'
+    en: 'Kehtiv kuni'
+  with_access_code:
+    translation_type: textarea
+    et: Ligipääsukoodiga
+    en: Ligipääsukoodiga
+  no_valid_accesses:
+    translation_type: textarea
+    et: 'Puuduvad kehtivad ligipääsud'
+    en: 'Puuduvad kehtivad ligipääsud'
+  valid_accesses:
+    translation_type: textarea
+    et: 'Kehtivad ligipääsud'
+    en: 'Kehtivad ligipääsud'
+  confirm_invalidate_email:
+    translation_type: textarea
+    et: "Kas oled kindel, et soovid ligipääsu e-mailile\t%EMAIL% kehtetuks muuta?"
+    en: "Kas oled kindel, et soovid ligipääsu e-mailile\t%EMAIL% kehtetuks muuta?"
+  confirm_invalidate_accessorcode:
+    translation_type: textarea
+    et: 'Kas oled kindel, et soovid ligipääsu isikukoodile %ACCESSORCODE% kehtetuks muuta?'
+    en: 'Kas oled kindel, et soovid ligipääsu isikukoodile %ACCESSORCODE% kehtetuks muuta?'
+  invalidate_access:
+    translation_type: textarea
+    et: 'Muuda kehtetuks'
+    en: 'Muuda kehtetuks'
+  th:
+    type:
+      translation_type: textarea
+      et: Liik
+      en: Liik
+    idcode_accesscode:
+      translation_type: textarea
+      et: 'Isikukood / ligipääsukood'
+      en: 'Isikukood / ligipääsukood'
+    valid_from:
+      translation_type: textarea
+      et: 'Kehtivuse algus'
+      en: 'Kehtivuse algus'
+    valid_until:
+      translation_type: textarea
+      et: 'Kehtivuse lõpp'
+      en: 'Kehtivuse lõpp'
+    email:
+      translation_type: textarea
+      et: E-post
+      en: E-post
+    scope:
+      translation_type: textarea
+      et: Ulatus
+      en: Ulatus
+    reason:
+      translation_type: textarea
+      et: Põhjus
+      en: Põhjus
+    time:
+      translation_type: textarea
+      et: Aeg
+      en: Aeg
+    action_type:
+      translation_type: textarea
+      et: finaldocuments.th.action_type
+      en: finaldocuments.th.action_type
+    document_type:
+      translation_type: textarea
+      et: 'Dokumendi liik'
+      en: 'Dokumendi liik'
+    user:
+      translation_type: textarea
+      et: 'Andmete kasutaja'
+      en: 'Andmete kasutaja'
+    access_type:
+      translation_type: textarea
+      et: 'Ligipääsu alus'
+      en: 'Ligipääsu alus'
+    action:
+      translation_type: textarea
+      et: Tegevus
+      en: Tegevus
+  accessCode:
+    translation_type: textarea
+    et: Ligipääsukood
+    en: Ligipääsukood
+  accessCode_recipient:
+    translation_type: textarea
+    et: 'E-posti aadress, kuhu on saadetud ligipääsukood'
+    en: 'E-posti aadress, kuhu on saadetud ligipääsukood'
+  select_scope:
+    translation_type: textarea
+    et: 'Vali ligipääsukoodi kehtivuse ulatus'
+    en: 'Vali ligipääsukoodi kehtivuse ulatus'
+  select_end_date:
+    translation_type: textarea
+    et: 'Vali ligipääsukoodi kehtivuse lõpp'
+    en: 'Vali ligipääsukoodi kehtivuse lõpp'
+  issuer:
+    translation_type: textarea
+    et: 'Tunnistuse väljastanud õppeasutus'
+    en: 'Tunnistuse väljastanud õppeasutus'
+  idcode_scope:
+    translation_type: textarea
+    et: 'Isikukoodi kehtivuse ulatus: *'
+    en: 'Isikukoodi kehtivuse ulatus: *'
+  idcode_end_date:
+    translation_type: textarea
+    et: 'Isikukoodi kehtivuse lõpp: *'
+    en: 'Isikukoodi kehtivuse lõpp: *'
+  main_document:
+    translation_type: textarea
+    et: Lõputunnistus
+    en: Lõputunnistus
+  main_document_with_grades:
+    translation_type: textarea
+    et: 'Lõputunnistus koos hinnetelehega'
+    en: 'Lõputunnistus koos hinnetelehega'
+  action_history:
+    translation_type: textarea
+    et: 'Väljaandmise ajalugu'
+    en: 'Väljaandmise ajalugu'
+  issue_history:
+    translation_type: textarea
+    et: 'Vaatamise ajalugu'
+    en: 'Vaatamise ajalugu'
+  date_of_decision:
+    translation_type: textarea
+    et: 'Otsuse nr ja kuupäev'
+    en: 'Otsuse nr ja kuupäev'
+finaldocument:
+  idcode:
+    translation_type: textarea
+    et: Isikukood
+    en: Isikukood

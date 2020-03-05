@@ -157,7 +157,7 @@ class EhisConnectorService {
     return $this->client->hset($key, $img->getFileIdentifier(), $img->getRawData());
   }
 
-  private function deleteFromRedis($key, $hash){
+  public function deleteFromRedis($key, $hash){
     $response = $this->client->hDel($key, $hash);
     return $response;
   }

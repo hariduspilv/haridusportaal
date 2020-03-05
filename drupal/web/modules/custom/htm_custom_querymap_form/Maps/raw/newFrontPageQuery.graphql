@@ -5,7 +5,7 @@ query newFrontPageQuery($lang: LanguageId!) {
         title
         fieldFrontpageTopics {
           entity {
-            ... on ParagraphHomepageTopics {
+            ... on ParagraphHomepageTopicsNew {
               fieldTopicButtonText
               fieldTopicTitle
               fieldTopicText
