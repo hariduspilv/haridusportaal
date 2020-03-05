@@ -812,7 +812,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 		private http: HttpClient,
 		private settings: SettingsService,
 		private route: ActivatedRoute,
-		private modal: ModalService,
+		public modal: ModalService,
 		private alertsService: AlertsService
 	) {}
 	@Input() data: any;

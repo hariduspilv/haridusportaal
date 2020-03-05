@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Component({
   templateUrl: './documentCheckView.template.html',
@@ -6,6 +7,7 @@ import { Component } from '@angular/core';
 })
 export class DocumentCheckViewComponent {
   constructor(
-
+    private location: Location,
   ) { }
+  public path = this.location.path();
 }

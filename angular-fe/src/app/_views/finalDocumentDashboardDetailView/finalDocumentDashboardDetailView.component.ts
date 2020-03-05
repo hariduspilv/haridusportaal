@@ -22,7 +22,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
     private formBuilder: FormBuilder,
     private translate: TranslateService,
   ) {}
-  public documents = [];
+  public documents: any = {};
 
   public sidebar = {
     entity: {
@@ -62,7 +62,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
   getData() {
     const id = this.route.snapshot.params.id;
     this.http
-      .get(`${this.settings.url}/certificates/v1/certificate/${id}`).subscribe((val: any) => {
+      .get(`${this.settings.ehisUrl}/certificates/v1/certificate/${id}`).subscribe((val: any) => {
         this.path = [...this.path, { title: val.index.typeName, link: '' }];
         this.getLatestDocuments(val.index.documents);
       });
@@ -94,7 +94,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
     }
 
     const URL =
-      `${this.settings.url}/certificates/v1/certificateDocument/{DOCUMENT_ID}`;
+      `${this.settings.ehisUrl}/certificates/v1/certificateDocument/{DOCUMENT_ID}`;
 
     const req = [
       this.http.get(URL.replace('{DOCUMENT_ID}', documents.certificate.id)).pipe(

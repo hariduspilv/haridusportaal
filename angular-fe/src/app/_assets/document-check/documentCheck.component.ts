@@ -90,7 +90,7 @@ export class DocumentCheckComponent {
 		}
 		if (this.model.controls.id_code.invalid) {
 			this.alertsService.error(
-        this.translate.get("documentCheck.idcode_or_bday_missing"),
+				this.translate.get("documentCheck.idcode_or_bday_missing"),
 				"documentCheck",
 				false
 			);
@@ -178,12 +178,14 @@ export class DocumentCheckComponent {
 						document._source.LIIK_NIMETUS &&
 						document._source.DOKUMENDI_STAATUS === "1"
 					) {
-            const string = this.translate.get("documentCheck.found_result").replace('%LIIK%', response.hits.hits[0]._source.LIIK_NIMETUS).replace('%VASTAVUS%', response.hits.hits[0]._source.VASTAVUS_NIMETUS)
-						this.alertsService.success(
-							string,
-							"documentCheck",
-							false
-						);
+						const string = this.translate
+							.get("documentCheck.found_result")
+							.replace("%LIIK%", response.hits.hits[0]._source.LIIK_NIMETUS)
+							.replace(
+								"%VASTAVUS%",
+								response.hits.hits[0]._source.VASTAVUS_NIMETUS
+							);
+						this.alertsService.success(string, "documentCheck", false);
 					}
 					window.setTimeout(() => {
 						this.scrollTarget.nativeElement.scrollIntoView({

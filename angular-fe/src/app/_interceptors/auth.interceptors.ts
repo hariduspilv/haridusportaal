@@ -11,7 +11,7 @@ export class AuthInterceptor implements HttpInterceptor{
     private settings: SettingsService,
   ) {}
 
-  private ehisUrls = ['/messages/messages/receiver', 'certificates/v1/'];
+  private ehisUrls = [this.settings.ehisUrl, '/messages/messages/receiver', 'certificates/v1/'];
   private urlsWithNoHeaders = ['/es-public/'];
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -42,11 +42,16 @@ export class AuthInterceptor implements HttpInterceptor{
       .set('Authorization', `Bearer ${token}`);
     }*/
 
+    console.log(this.authService.isLoggedIn());
+    console.log(request.url.match(`${this.settings.url}/ehis/jwt`));
+
     if (
       this.authService.isLoggedIn()
        && !request.url.match(`${this.settings.url}/ehis/jwt`)
     ) {
       let token;
+      console.log(request.url);
+      console.log(this.ehisUrls.some(url => request.url.includes(url)));
       if (this.ehisUrls.some(url => request.url.includes(url))) {
         token = sessionStorage.getItem('ehisToken');
       } else {

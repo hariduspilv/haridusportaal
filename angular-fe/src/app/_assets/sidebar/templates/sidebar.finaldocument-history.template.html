@@ -1,9 +1,11 @@
 <ul>
   <li>
-    <button htm-button (click)="modal.toggle('finalDocument-actionHistory')" theme="outline">{{'finaldocuments.action_history' | translate}}</button>
+    <button htm-button (click)="modal.toggle('finalDocument-actionHistory')"
+      theme="outline">{{'finaldocuments.action_history' | translate}}</button>
   </li>
   <li>
-    <button htm-button (click)="modal.toggle('finalDocument-issueHistory')" theme="outline">{{'finaldocuments.issue_history' | translate}}</button>
+    <button htm-button (click)="modal.toggle('finalDocument-issueHistory')"
+      theme="outline">{{'finaldocuments.issue_history' | translate}}</button>
   </li>
 </ul>
 
@@ -55,7 +57,8 @@
                 <td>{{'finalDocument_issue_' + issue.issueBase | translate}}</td>
               </ng-container>
               <ng-container *ngIf="issue.issueBase === 'USER'">
-                <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ID_CODE'">{{'frontpage.isikukood' | translate}}</td>
+                <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ID_CODE'">{{'frontpage.isikukood' | translate}}
+                </td>
                 <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">
                   <p>{{'finaldocuments.accessCode' | translate}}</p>
                   <p>{{issue.certificateAccess.emailAddress}}</p>
