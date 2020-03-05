@@ -39,6 +39,7 @@ registerLocaleData(localeEt);
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AmpService,
     Location,
+
   ],
   bootstrap: [
     AppComponent,

@@ -464,7 +464,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     } else if (this.field && this.field !== '') {
       this.filledField = true;
     }
-
     this.detectChanges();
   }
 

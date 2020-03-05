@@ -3,8 +3,8 @@
 
 :host {
   ::ng-deep{
-    modal-content {
-      .alerts{
+    .modal-content {
+      ::ng-deep .alerts{
         margin-top: 0 !important;
         &--active {
           margin-top: 2rem !important;

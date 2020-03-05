@@ -35,6 +35,9 @@ export const collection = {
   'fieldBlocks': 'links',
   'notifications': 'notifications',
   'gdpr': 'gdpr',
+  'finalDocumentAccess': 'finalDocumentAccess',
+  'finalDocumentHistory': 'finalDocumentHistory',
+  'finalDocumentDownload': 'finalDocumentDownload',
 }
 
 export const uniformTypes = {

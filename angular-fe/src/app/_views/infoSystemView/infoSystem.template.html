@@ -51,6 +51,7 @@
             <accordion>
                 <accordion-item *ngFor="let accordion of data.accordion.entity.fieldLowerParagraph; let ind = index"
                     [title]="accordion.entity.fieldParagraphTitle">
+                    <ng-template>
                     <div class="accordion__body" *ngIf="accordion.entity.fieldParagraphContent"
                         [innerHTML]="accordion.entity.fieldParagraphContent.processed"></div>
                     <div class="accordion__links"
@@ -68,6 +69,7 @@
                             </ng-container>
                         </ul>
                     </div>
+                </ng-template>
                 </accordion-item>
             </accordion>
         </block-content>

@@ -512,7 +512,7 @@
     .mt {
       margin-top: 1rem;
     }
-    modal-content{
+    ::ng-deep .modal-content{
       text-align: center;
       p {
         font-size: 1.5rem;

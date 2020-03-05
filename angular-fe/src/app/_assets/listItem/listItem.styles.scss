@@ -296,7 +296,7 @@ $grid-columns: 12;
     }
   }
 
-  ::ng-deep modal-content {
+  ::ng-deep .modal-content {
     font-size: 1.5rem;
     text-align: center;
     color: $black;

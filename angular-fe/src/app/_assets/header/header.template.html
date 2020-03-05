@@ -24,12 +24,11 @@
 						placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" domID="homeSearch"
 						(autoCompleteChanged)="searchRoute($event)">
 					</formItem>
- 				</form>
+				</form>
 			</div>
 			<div class="header__actions">
-				<button htm-button [class.active]="modalService.modalOpened['search']"
-					(click)="modalService.toggle('search')" theme="plain"
-					attr.aria-label="{{ 'button.search' | translate }}">
+				<button htm-button [class.active]="modalService.modalOpened['search']" (click)="modalService.toggle('search')"
+					theme="plain" attr.aria-label="{{ 'button.search' | translate }}">
 					<icon aria-hidden="true" glyph="search" size="medium"></icon>
 				</button>
 
@@ -64,17 +63,17 @@
 <!--/header__assets-->
 
 <htm-modal id="search" modalTitle="{{ 'button.search' | translate }}" [bottomAction]="false">
-	<modal-content id="search" *ngIf="modalService.modalOpened['search']">
+	<ng-template id="search" *ngIf="modalService.modalOpened['search']">
 		<formItem type="text" [(ngModel)]="search" title="Märksõna"
 			(keyup.enter)="searchRoute(search); modalService.close('search')"> </formItem>
 		<button (blur)="modalService.focusLock()" htm-button style="margin: 1rem 0; width: 100%;"
 			(click)="searchRoute(search); modalService.close('search')">
 			Otsi
 		</button>
-	</modal-content>
+	</ng-template>
 </htm-modal>
 <htm-modal id="login" modalTitle="{{ 'button.login' | translate }}" [bottomAction]="false">
-	<modal-content id="login" *ngIf="modalService.modalOpened['login']">
+	<ng-template id="login">
 		<alerts id="login-modal" small></alerts>
 		<loader *ngIf="loading"></loader>
 		<div class="login__methods">
@@ -118,8 +117,7 @@
 								</formItem>
 							</div>
 							<div>
-								<formItem type="password" formControlName="password"
-									title="{{ 'login.password' | translate }}">
+								<formItem type="password" formControlName="password" title="{{ 'login.password' | translate }}">
 								</formItem>
 							</div>
 							<div>
@@ -138,11 +136,10 @@
 						<h1>{{this.mobileId.challengeId}}</h1>
 						<p class="mb-0">Seejärel sisesta PIN1</p>
 						<p class="mt-0">Ootame Mobiil-ID vastust…</p>
-						<button (click)="mobileIdCancel()" htm-button
-							theme="plain">{{"button.cancel" | translate}}</button>
+						<button (click)="mobileIdCancel()" htm-button theme="plain">{{"button.cancel" | translate}}</button>
 					</div>
 				</ng-template>
 			</div>
 		</div>
-	</modal-content>
+	</ng-template>
 </htm-modal>
