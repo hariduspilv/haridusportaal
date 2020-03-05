@@ -570,36 +570,9 @@ export class SidebarGdprComponent {
 	templateUrl: "./templates/sidebar.finaldocument-access.template.html"
 })
 export class SidebarFinalDocumentAccessComponent implements OnInit {
-	@Input() data: any;
-	constructor(
-		public modal: ModalService,
-		private formBuilder: FormBuilder,
-		private settings: SettingsService,
-		private http: HttpClient,
-		private route: ActivatedRoute,
-		private cdr: ChangeDetectorRef,
-		private alertsService: AlertsService,
-	) {}
-
+	@Input() public data: any;
 	public errors = {
 		'required': 'Väli on kohustuslik',
-	}
-
-	private emailAddressOrIdCodeValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-		const accessorCode = control.get('accessorCode');
-		const emailAddress = control.get('emailAddress');
-		if (accessorCode.value === null && emailAddress.value === null) {
-			return { 'required': true }
-		}
-		return null
-	}
-	private endDateOrNoEndDateValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
-		const noEndDate = control.get('noEndDate');
-		const endDate = control.get('endDate');
-		if (noEndDate.value === null && endDate.value === null) {
-			return { 'required': true };
-		}
-		return null;
 	}
 
 	public addAccessForm: FormGroup = this.formBuilder.group(
@@ -645,6 +618,19 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 	public issuingHistory = [];
 	public actionHistory = [];
 
+	constructor(
+		public modal: ModalService,
+		private formBuilder: FormBuilder,
+		private settings: SettingsService,
+		private http: HttpClient,
+		private route: ActivatedRoute,
+		private cdr: ChangeDetectorRef,
+		private alertsService: AlertsService,
+	) {}
+
+	public ngOnInit(): void {
+		this.getData();
+	}
 	public openAccess(access): void {
 		this.openedAccessLabel = [
 			{
@@ -798,8 +784,22 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 				this.inactiveAccesses = val;
 			});
 	}
-	public ngOnInit(): void {
-		this.getData();
+
+	private emailAddressOrIdCodeValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+		const accessorCode = control.get('accessorCode');
+		const emailAddress = control.get('emailAddress');
+		if (accessorCode.value === null && emailAddress.value === null) {
+			return { 'required': true }
+		}
+		return null
+	}
+	private endDateOrNoEndDateValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+		const noEndDate = control.get('noEndDate');
+		const endDate = control.get('endDate');
+		if (noEndDate.value === null && endDate.value === null) {
+			return { 'required': true };
+		}
+		return null;
 	}
 }
 
@@ -808,6 +808,10 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 	templateUrl: "./templates/sidebar.finaldocument-history.template.html"
 })
 export class SidebarFinalDocumentHistoryComponent implements OnInit {
+	@Input() data: any;
+	public issuingHistory = [];
+	public actionHistory = [];
+
 	constructor(
 		private http: HttpClient,
 		private settings: SettingsService,
@@ -815,9 +819,10 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 		public modal: ModalService,
 		private alertsService: AlertsService
 	) {}
-	@Input() data: any;
-	public issuingHistory = [];
-	public actionHistory = [];
+
+	public ngOnInit() {
+		this.getData();
+	}
 	private getData(): void {
 		const id = this.route.snapshot.params.id;
 		this.http
@@ -848,9 +853,6 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 				}
 			});
 	}
-	ngOnInit() {
-		this.getData();
-	}
 }
 
 @Component({
@@ -858,7 +860,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 	templateUrl: "./templates/sidebar.finaldocument-download.template.html"
 })
 export class SidebarFinalDocumentDownloadComponent {
-	@Input() data: any;
+	@Input() public data: any;
 	constructor(
 		private http: HttpClient,
 		private settings: SettingsService,

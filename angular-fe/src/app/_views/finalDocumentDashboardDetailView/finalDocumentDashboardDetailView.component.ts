@@ -14,14 +14,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 })
 
 export class FinalDocumentDashboardDetailViewComponent implements OnInit {
-  constructor (
-    private location: Location,
-    private route: ActivatedRoute,
-    private http: HttpClient,
-    private settings: SettingsService,
-    private formBuilder: FormBuilder,
-    private translate: TranslateService,
-  ) {}
+
   public documents: any = {};
 
   public sidebar = {
@@ -49,17 +42,29 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       link: '/töölaud/tunnistused',
     },
   ];
+  @ViewChildren('certificate') public certificate:QueryList<any>;
+
 
 
   public loading = true;
-  @ViewChildren('certificate') public certificate:QueryList<any>;
+  constructor (
+    private location: Location,
+    private route: ActivatedRoute,
+    private http: HttpClient,
+    private settings: SettingsService,
+    private formBuilder: FormBuilder,
+    private translate: TranslateService,
+  ) {}
+  public ngOnInit() {
+    this.getData();
+  }
 
-  tabChanged(tab) {
+  public tabChanged(tab) {
     if (!this.loading && tab === this.translate.get('certificates.graduation_certificate')) {
       this.certificate.first.calculateCertificateSize();
     }
   }
-  getData() {
+  private getData() {
     const id = this.route.snapshot.params.id;
     this.http
       .get(`${this.settings.ehisUrl}/certificates/v1/certificate/${id}`).subscribe((val: any) => {
@@ -68,7 +73,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       });
   }
 
-  getLatestDocuments(documentsArray) {
+  private getLatestDocuments(documentsArray) {
     const documents: any = {};
 
     const certificates = documentsArray.filter((doc) => {
@@ -82,13 +87,13 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
     });
 
     if (certificates.length > 0) {
-      documents['certificate'] = certificates.reduce((next, current) => {
+      documents.certificate = certificates.reduce((next, current) => {
         return next.revision > current.revision ? next : current;
       });
     }
 
     if (transcriptsOfgrades.length > 0) {
-      documents['gradesheet'] = transcriptsOfgrades.reduce((next, current) => {
+      documents.gradesheet = transcriptsOfgrades.reduce((next, current) => {
         return next.revision > current.revision ? next : current;
       });
     }
@@ -102,7 +107,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       ),
     ];
 
-    if (documents['gradesheet']) {
+    if (documents.gradesheet) {
       req.push(
         this.http.get(URL.replace('{DOCUMENT_ID}', documents.gradesheet.id)).pipe(
           catchError(() => of(null)),
@@ -111,25 +116,21 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
     }
 
     forkJoin(req).subscribe((docs) => {
-      this.documents['certificate'] = docs[0].document;
-      this.documents['certificate'].content = JSON.parse(this.documents['certificate'].content);
+      this.documents.certificate = docs[0].document;
+      this.documents.certificate.content = JSON.parse(this.documents.certificate.content);
       if (docs[1]) {
-        this.documents['gradesheet'] = docs[1].document;
-        this.documents['gradesheet'].content = JSON.parse(this.documents['gradesheet'].content);
+        this.documents.gradesheet = docs[1].document;
+        this.documents.gradesheet.content = JSON.parse(this.documents.gradesheet.content);
       }
       this.sidebar.entity.finalDocumentHistory.issuerInstitution
-        = this.documents['certificate'].content.educationalInstitution.name;
+        = this.documents.certificate.content.educationalInstitution.name;
       this.sidebar.entity.finalDocumentAccess.issuerInstitution
-        = this.documents['certificate'].content.educationalInstitution.name;
+        = this.documents.certificate.content.educationalInstitution.name;
       this.sidebar.entity.finalDocumentDownload.certificateName =
-        `${this.documents['certificate'].content.graduate.firstName} ${this.documents['certificate'].content.graduate.lastName}`;
+        `${this.documents.certificate.content.graduate.firstName} ${this.documents.certificate.content.graduate.lastName}`;
       this.sidebar.entity.finalDocumentDownload.certificateNumber =
-        this.documents['certificate'].content.registrationNumber;
+        this.documents.certificate.content.registrationNumber;
       this.loading = false;
     });
-  }
-
-  ngOnInit() {
-    this.getData();
   }
 }

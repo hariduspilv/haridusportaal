@@ -48,23 +48,12 @@ export class DocumentCheckComponent {
 		public auth: AuthService
 	) {}
 
-	subscribeToAuth() {
-		this.auth.isAuthenticated.pipe(take(1)).subscribe(val => {
-			this.loginStatus = val;
-		});
+	public ngOnInit() {
+		this.alertsService.clear("general");
+		this.subscribeToAuth();
 	}
 
-	validateIdCodeOrBirthday(control: AbstractControl) {
-		if (
-			!control.value.match(
-				/([1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4})|(([0-9]{2}\.)([0-9]{2}\.)[0-9]{4})/g
-			)
-		) {
-			return { errors: false };
-		}
-		return null;
-	}
-	submit() {
+	public submit() {
 		this.alertsService.clear("documentCheck");
 		if (this.model.controls.captcha.invalid && !this.loginStatus) {
 			this.alertsService.error(
@@ -209,8 +198,21 @@ export class DocumentCheckComponent {
 				}
 			);
 	}
-	ngOnInit() {
-		this.alertsService.clear("general");
-		this.subscribeToAuth();
+
+	private subscribeToAuth() {
+		this.auth.isAuthenticated.pipe(take(1)).subscribe(val => {
+			this.loginStatus = val;
+		});
+	}
+
+	private validateIdCodeOrBirthday(control: AbstractControl) {
+		if (
+			!control.value.match(
+				/([1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4})|(([0-9]{2}\.)([0-9]{2}\.)[0-9]{4})/g
+			)
+		) {
+			return { errors: false };
+		}
+		return null;
 	}
 }

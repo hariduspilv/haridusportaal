@@ -6,8 +6,8 @@ import { Location } from '@angular/common';
   styleUrls: ['documentCheckView.styles.scss'],
 })
 export class DocumentCheckViewComponent {
+  public path = this.location.path();
   constructor(
     private location: Location,
   ) { }
-  public path = this.location.path();
 }
