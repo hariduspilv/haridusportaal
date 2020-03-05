@@ -435,7 +435,7 @@
                                           </ng-template>
                                           <ng-template #readonlyDisplayAddress>
                                             <span
-                                              [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].address || row[col].pikkaadress }}</span>
+                                              [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].addressHumanReadable || row[col].pikkaadress }}</span>
                                           </ng-template>
 
                                         </td>
@@ -507,7 +507,7 @@
 
                 <div tabindex="-1" class="primary-buttons">
                   <div>
-                    <button htm-button tabindex="0" role="link" theme="inverted"
+                    <button htm-button tabindex="0" *ngIf="!edit_step" role="link" theme="inverted"
                       (click)="numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? cancelEventHandler() : modalService.toggle('dashboardReturn')">
                       {{ (saved || numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
                     </button>

@@ -1,4 +1,10 @@
 <div id="certificate" #certificate>
+
+  <section id="duplicate-info" *ngIf="document.content.duplicateCertificateNumber">
+    <p>Lõputunnistuse nr. {{document.content.duplicateCertificateNumber}}</p>
+    <p>duplikaat {{document.content.duplicateIssueDate | date: 'dd.MM.yyyy'}}</p>
+  </section>
+
   <img alt="Eesti vapp" src="../../../assets/img/vapp.svg" id="coat-of-arms">
 
   <h1 id="certificate-title">{{ document.content.documentName.toUpperCase() }}</h1>

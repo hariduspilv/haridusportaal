@@ -1,6 +1,36 @@
 <ul *ngIf="parsedData && parsedData.length && !blocks">
   <ng-container *ngFor="let item of parsedData">
     <li *ngIf="item.url">
+
+      <ng-container *ngIf="item.url && !item.url.url">
+        <ng-container *ngIf="item.url.routed">
+          <a [routerLink]="item.url.path" [queryParams]="item.url.params || false">
+            <icon size="medium" ariaLabel="lehe sisene link" glyph="link-2"></icon>
+            <span role="text">{{ item.title }}</span>
+          </a>
+        </ng-container>
+        <ng-container *ngIf="!item.url.routed">
+          <a [href]="item.url.path">
+            <icon size="medium" ariaLabel="lehe väline link" glyph="external-link"></icon>
+            <span role="text">{{ item.title }}</span>
+          </a>
+        </ng-container>
+      </ng-container>
+
+      <ng-container *ngIf="item.url.url">
+        <ng-container *ngIf="item.url.url.routed">
+          <a [routerLink]="item.url.url.path" [queryParams]="item.url.url.params || false">
+            <icon size="medium" glyph="link-2"></icon>
+            <span role="text">{{ item.title }}</span>
+          </a>
+        </ng-container>
+        <ng-container *ngIf="!item.url.url.routed">
+          <a [href]="item.url.url.path">
+            <icon size="medium" glyph="external-link"></icon>
+            <span role="text">{{ item.title }}</span>
+          </a>
+        </ng-container>
+      </ng-container>
       <ng-container *ngIf="item.url.routed; externalLink">
         <a [routerLink]="item.url.path" [queryParams]="item.url.params || false">
           <icon size="medium" ariaLabel="lehe sisene link" glyph="link-2"></icon>
@@ -9,7 +39,7 @@
       </ng-container>
       <ng-template #externalLink>
         <a [href]="item.url.path">
-          <icon size="medium"  ariaLabel="lehe väline link" glyph="external-link"></icon>
+          <icon size="medium" ariaLabel="lehe väline link" glyph="external-link"></icon>
           <span role="text">{{ item.title }}</span>
         </a>
       </ng-template>
