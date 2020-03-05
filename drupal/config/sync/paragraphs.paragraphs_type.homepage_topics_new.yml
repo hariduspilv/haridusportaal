@@ -1,0 +1,10 @@
+uuid: a5873322-4a94-4ae6-aea0-11330a208364
+langcode: et
+status: true
+dependencies: {  }
+id: homepage_topics_new
+label: 'Avalehe teemad UUS'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
