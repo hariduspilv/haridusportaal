@@ -29,7 +29,10 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       finalDocumentAccess: {
         issuerInstitution: '',
       },
-      finalDocumentDownload: true,
+      finalDocumentDownload: {
+        certificateName: '',
+        certificateNumber: '',
+      },
       finalDocumentHistory: {
         issuerInstitution: '',
       },
@@ -118,6 +121,10 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
         = this.documents['certificate'].content.educationalInstitution.name;
       this.sidebar.entity.finalDocumentAccess.issuerInstitution
         = this.documents['certificate'].content.educationalInstitution.name;
+      this.sidebar.entity.finalDocumentDownload.certificateName =
+        `${this.documents['certificate'].content.graduate.firstName} ${this.documents['certificate'].content.graduate.lastName}`;
+      this.sidebar.entity.finalDocumentDownload.certificateNumber =
+        this.documents['certificate'].content.registrationNumber;
       this.loading = false;
     });
   }

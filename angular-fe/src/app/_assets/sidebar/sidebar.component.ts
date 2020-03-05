@@ -21,8 +21,7 @@ import {
 } from "./helpers/sidebar";
 import { arrayOfLength, parseUnixDate } from "@app/_core/utility";
 import FieldVaryService from "@app/_services/FieldVaryService";
-import conf from "@app/_core/conf";
-import { Router, ActivatedRoute } from "@angular/router";
+import { ActivatedRoute } from "@angular/router";
 import { TranslateService } from "@app/_modules/translate/translate.service";
 import { FormBuilder, Validators, FormGroup, ValidatorFn, ValidationErrors } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
@@ -878,7 +877,7 @@ export class SidebarFinalDocumentDownloadComponent {
 			)
 			.subscribe((res: any) => {
 				saveAs(
-					new File([res], "nimi + lõputunnistus + tunnistusenumber", {
+					new File([res], `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}`, {
 						type: "application/pdf"
 					})
 				);
