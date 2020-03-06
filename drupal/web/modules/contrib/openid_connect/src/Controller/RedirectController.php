@@ -183,6 +183,13 @@ class RedirectController extends ControllerBase implements AccessInterface {
             drupal_set_message($this->t('Connecting with @provider could not be completed due to an error.', $provider_param), 'error');
           }
         }
+      } else {
+        $variables = [
+          '@error' => t("Couldn't parse tokens from return code"),
+        ];
+        $message = 'Authorization failed: @error. Details: @details';
+        $this->loggerFactory->get('openid_connect_' . $client_name)->error($message, $variables);
+        drupal_set_message(t('Could not authenticate with @provider.', $provider_param), 'error');
       }
     }
 
