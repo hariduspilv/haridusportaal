@@ -314,6 +314,7 @@ permissions:
   - 'view article revisions'
   - 'view avaleht revisions'
   - 'view event revisions'
+  - 'view frontpage_new revisions'
   - 'view information_system_page revisions'
   - 'view main_profession_comparison_page revisions'
   - 'view media'

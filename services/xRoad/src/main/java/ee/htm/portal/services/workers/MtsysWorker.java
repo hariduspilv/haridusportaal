@@ -1073,7 +1073,8 @@ public class MtsysWorker extends Worker {
         }
         if (!jsonNodeRequest.get("educationalInstitution").get("address").get("address")
             .asText("").equals("")) {
-          if (!jsonNodeRequest.get("educationalInstitution").get("address").get("apartment")
+          if (jsonNodeRequest.get("educationalInstitution").get("address").get("apartment") != null
+              && !jsonNodeRequest.get("educationalInstitution").get("address").get("apartment")
               .asText("").equals("")) {
             aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution").get("address")
                 .get("address").asText() + "-" + jsonNodeRequest.get("educationalInstitution")
@@ -1588,7 +1589,8 @@ public class MtsysWorker extends Worker {
           aadress.setAsula(item.get("settlementUnit").asText());
         }
         if (!item.get("address").asText("").equals("")) {
-          if (!item.get("apartment").asText("").equals("")) {
+          if (item.get("apartment") != null
+              && !item.get("apartment").asText("").equals("")) {
             aadress
                 .setAdsAadress(item.get("address").asText() + "-" + item.get("apartment").asText());
           } else {

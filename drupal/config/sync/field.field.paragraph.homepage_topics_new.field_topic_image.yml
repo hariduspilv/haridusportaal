@@ -1,0 +1,27 @@
+uuid: c793becf-959e-4c20-ada9-086f07bdd978
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_topic_image
+    - paragraphs.paragraphs_type.homepage_topics_new
+  module:
+    - file
+id: paragraph.homepage_topics_new.field_topic_image
+field_name: field_topic_image
+entity_type: paragraph
+bundle: homepage_topics_new
+label: 'Teema pilt'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: svg
+  max_filesize: ''
+  description_field: true
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file
