@@ -829,6 +829,10 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 	@Input() public data: any;
 	public issuingHistory = [];
 	public actionHistory = [];
+	public documentCache = {};
+	public loadingDocument: boolean = true;
+	public loadingDocumentError: boolean = false;
+	public documentToShow: number;
 
 	constructor(
 		private http: HttpClient,
@@ -841,6 +845,33 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 	public ngOnInit() {
 		this.getData();
 	}
+
+	public getDocument(documentId) {
+		this.loadingDocumentError = false;
+		this.loadingDocument = true;
+    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificateDocument/${documentId}`).subscribe(
+      (res: any) => {
+				const document = res.document;
+				document.content = JSON.parse(document.content);
+				this.documentCache[res.document.id] = document;
+				this.loadingDocument = false;
+      },
+      () => {
+				this.loadingDocumentError = true;
+				this.loadingDocument = false;
+				this.alertsService.error('certificates.loading_error', 'documentAlerts', '', true);
+      });
+  }
+
+	public openDocument(document) {
+		this.modal.close('finalDocument-actionHistory');
+		this.documentToShow = document;
+		if (!this.documentCache[document.id]) {
+			this.getDocument(document.id);
+		}
+		this.modal.toggle('finalDocument-document');
+	}
+
 	private getData(): void {
 		const id = this.route.snapshot.params.id;
 		this.http
