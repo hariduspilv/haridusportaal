@@ -5,7 +5,7 @@ dependencies:
   config:
     - field.storage.node.field_frontpage_topics
     - node.type.frontpage_new
-    - paragraphs.paragraphs_type.homepage_topics
+    - paragraphs.paragraphs_type.homepage_topics_new
   module:
     - entity_reference_revisions
 id: node.frontpage_new.field_frontpage_topics
@@ -23,7 +23,7 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      homepage_topics: homepage_topics
+      homepage_topics_new: homepage_topics_new
     target_bundles_drag_drop:
       accordion:
         weight: 23
@@ -47,8 +47,11 @@ settings:
         weight: 29
         enabled: false
       homepage_topics:
-        enabled: true
         weight: 30
+        enabled: false
+      ehis_links:
+        weight: 31
+        enabled: false
       information_system_accordion:
         weight: 31
         enabled: false
@@ -61,8 +64,14 @@ settings:
       iscedf_search:
         weight: 34
         enabled: false
+      frontpage_service_image:
+        weight: 35
+        enabled: false
       job:
         weight: 35
+        enabled: false
+      frontpage_services:
+        weight: 36
         enabled: false
       link:
         weight: 36
@@ -70,6 +79,9 @@ settings:
       main_profession_accordion:
         weight: 37
         enabled: false
+      homepage_topics_new:
+        enabled: true
+        weight: 38
       main_profession_sidebar:
         weight: 38
         enabled: false
