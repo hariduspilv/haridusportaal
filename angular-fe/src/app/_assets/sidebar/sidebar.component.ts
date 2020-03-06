@@ -440,19 +440,21 @@ export class SidebarRegisterComponent {
 		marked: [""]
 	});
 
+	@Input() public data: any;
+	public loading: boolean = false;
+	public step: number = 1;
+	public response;
+	private unix: number;
+	private iCalUrl: string;
+
 	constructor(
 		private settings: SettingsService,
 		public modal: ModalService,
 		private formBuilder: FormBuilder,
 		private http: HttpClient
 	) {}
-	@Input() data: any;
-	private unix: number;
-	private iCalUrl: string;
-	public loading: boolean = false;
-	public step: number = 1;
-	public response;
-	ngOnInit() {
+
+	public ngOnInit() {
 		try {
 			this.pageData = {
 				...this.pageData,
@@ -866,14 +868,10 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 	templateUrl: "./templates/sidebar.finaldocument-download.template.html"
 })
 export class SidebarFinalDocumentDownloadComponent {
+	public hasAccessToAccompanyingDocuments = false;
 	@Input() public data: any;
 
-	public downloadForm: FormGroup = this.fb.group(
-		{
-			scope: ['', { validators: Validators.required }],
-			fileFormat: ['', { validators: Validators.required }],
-		},
-	);
+	public downloadForm: FormGroup;
 	public downloadOptions = {
 		fileFormat: [
 			{
@@ -924,5 +922,21 @@ export class SidebarFinalDocumentDownloadComponent {
 					})
 				);
 			});
+	}
+
+	public ngOnInit() {
+		this.hasAccessToAccompanyingDocuments = !this.data.withAccess
+			|| this.data.accessScope === 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS';
+		this.initializeForm();
+	}
+
+	private initializeForm() {
+
+		this.downloadForm = this.fb.group(
+			{
+				scope: [this.hasAccessToAccompanyingDocuments ? 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS' : 'ACCESS_SCOPE:MAIN_DOCUMENT'],
+				fileFormat: ['PDF'],
+			},
+		);
 	}
 }

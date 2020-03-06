@@ -35,14 +35,7 @@ export class CertificateDetailView implements OnInit {
     },
   ];
 
-  public sidebar = {
-    entity: {
-      finalDocumentDownload: {
-        certificateName: '',
-        certificateNumber: '',
-      },
-    },
-  };
+  public sidebar;
   private accessorCode = '';
   private accessType = '';
 
@@ -85,6 +78,17 @@ export class CertificateDetailView implements OnInit {
     this.http.get(URL).subscribe(
       (res: any) => {
         this.getLatestDocuments(res.index.documents);
+
+        this.sidebar = {
+          entity: {
+            finalDocumentDownload: {
+              certificateName: '',
+              certificateNumber: '',
+              withAccess: true,
+              accessScope: res.role.accessScope,
+            },
+          },
+        }
       },
       (err) => {
         this.loading = false;

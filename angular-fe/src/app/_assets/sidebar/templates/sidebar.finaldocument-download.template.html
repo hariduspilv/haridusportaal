@@ -9,7 +9,7 @@
     <h1>Laadi alla</h1>
     <span class="small">Tärniga (*) tähistatud väljad on kohustuslikud.</span>
     <form [formGroup]="downloadForm">
-      <div class="group">
+      <div class="group" *ngIf="hasAccessToAccompanyingDocuments">
         <p>Vali sisu, mida soovid alla laadida</p>
         <formItem type="radio" formControlName="scope" [options]="downloadOptions.scope" name="scope"></formItem>
       </div>
