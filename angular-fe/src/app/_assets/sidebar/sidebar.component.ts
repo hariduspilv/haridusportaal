@@ -826,7 +826,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 	templateUrl: "./templates/sidebar.finaldocument-history.template.html"
 })
 export class SidebarFinalDocumentHistoryComponent implements OnInit {
-	@Input() data: any;
+	@Input() public data: any;
 	public issuingHistory = [];
 	public actionHistory = [];
 
