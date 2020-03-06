@@ -1,14 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   templateUrl: './certificates.template.html',
   styleUrls: ['./certificates.styles.scss'],
 })
-export class CertificatesView implements OnInit {
+export class CertificatesView {
 
-  constructor(
+  constructor (
+    private cdr: ChangeDetectorRef,
+    private router: Router,
   ) { }
-
   public breadcrumbs: any = [
     {
       title: 'Avaleht',
@@ -21,8 +23,4 @@ export class CertificatesView implements OnInit {
       title: 'Lõpudokumendid',
     },
   ];
-
-  ngOnInit() {
-  }
-
 }

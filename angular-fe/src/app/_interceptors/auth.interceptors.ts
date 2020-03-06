@@ -11,7 +11,8 @@ export class AuthInterceptor implements HttpInterceptor{
     private settings: SettingsService,
   ) {}
 
-  private ehisUrls = ['/messages/messages/receiver', '/certificates/v1/'];
+  private ehisUrls = [this.settings.ehisUrl, '/messages/messages/receiver', 'certificates/v1/'];
+  private urlsWithNoHeaders = ['/es-public/'];
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     let request = req.clone();
@@ -55,10 +56,15 @@ export class AuthInterceptor implements HttpInterceptor{
       .set('Authorization', `Bearer ${token}`);
     }
 
-    headers = headers
+    // for some reason extra headers kill preflight request to elasticsearch
+    if (this.urlsWithNoHeaders.some(url => request.url.includes(url))) {
+      headers = headers.delete('Authorization');
+    } else {
+      headers = headers
       .set('Cache-Control', 'no-cache')
       .set('Pragma', 'no-cache')
       .set('Expires', '-1');
+    }
 
     request = request.clone({
       headers,

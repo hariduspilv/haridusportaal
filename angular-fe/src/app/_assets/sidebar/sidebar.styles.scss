@@ -484,6 +484,55 @@
           }
         }
       }
+      sidebar-finaldocument-access {
+        alerts .alert {
+          margin-top: 1rem;
+        }
+        .currentAccess {
+          border-bottom: 1px solid $light-gray;
+          border-top: 1px solid $light-gray;
+          padding: 1.5rem;
+          margin: 1.5rem -1.5rem 1rem -1.5rem;
+          ul {
+            margin-top: 0.5rem;
+          }
+          li {
+            display: flex;
+            align-items: center;
+            button.button--link {
+              text-align: left;
+            }
+            icon {
+              width: 2.5rem;
+              height: 2.5rem;
+              flex-shrink: 0;
+              flex-grow: 0;
+              background-color: $light-gray;
+              border-radius: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              color: $dark-gray;
+              margin-right: 1rem;
+            }
+            > div {
+              display: flex;
+              flex-direction: column;
+              justify-content: center;
+              > span {
+                font-size: 0.875rem;
+                color: $dark-gray;
+              }
+            }
+          }
+        }
+      }
+      sidebar-finaldocument-download {
+        button {
+          width: 100%;
+          display: block;
+        }
+      }
     }
   }
 }

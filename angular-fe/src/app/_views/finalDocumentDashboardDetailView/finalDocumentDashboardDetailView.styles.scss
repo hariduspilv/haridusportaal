@@ -1,0 +1,77 @@
+@import 'colors.scss';
+@import 'breakpoints.scss';
+
+:host {
+  ::ng-deep .button-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    button:first-child {
+      margin-right: 1.5rem;
+    }
+  }
+  ::ng-deep .split {
+    display: flex;
+    align-items: center;
+    formItem {
+      width: 100%;
+      &:first-child {
+        margin-right: 1.5rem;
+      }
+      &.formItem--checkbox {
+        text-align: center;
+      }
+    }
+  }
+  ::ng-deep #modal-finalDocument-addAccess {
+    min-width: unset;
+    max-width: 27.5rem;
+  }
+  ::ng-deep #modal-finalDocument-access {
+    min-width: unset;
+    max-width: 27.5rem;
+    h1 {
+      margin-bottom: 0.5rem;
+    }
+    labels div {
+      margin-bottom: 0;
+    }
+    .line {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid $gray; 
+      padding-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      h2 {
+        margin-right: 0.75rem;
+        margin-bottom: 0;
+      }
+      labels {
+        margin-right: 1rem;
+      }
+      @include break-on(xs, max) {
+        button {
+          text-align: left;
+        }
+      }
+    }
+  }
+  ::ng-deep #modal-finalDocument-invalidAccesses {
+    table {
+      icon {
+        color: $dark-gray;
+      }
+      td:nth-child(2) {
+        word-break: break-all;
+      }
+    }
+  }
+  ::ng-deep #modal-finalDocument-confirmInvalidation {
+    max-width: 33rem;
+    min-width: unset;
+    h1 {
+      text-align: center;
+    }
+  }
+}

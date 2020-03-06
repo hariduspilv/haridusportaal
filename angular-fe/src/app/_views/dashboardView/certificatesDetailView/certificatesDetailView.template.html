@@ -157,6 +157,7 @@
               [routerLink]="[dashboardLink]">{{ 'button.back_to_dashboard' | translate }}</a>
             <accordion class="examinations" *ngIf="examResults?.testid_kod_jada && examResults?.testid_kod_jada?.length">
               <accordion-item *ngFor="let item of examResults.testid_kod_jada; let first = first; let ind = index;" [title]="createAccordionTitle(item)">
+                <ng-template>
                 <ng-container *ngIf="item.osad && item.osad.length">
                   <div class="exam-block">
                     <ng-container *ngFor="let elem of item.osad; let last = last">
@@ -216,6 +217,7 @@
                     </ng-container>
                   </div>
                 </ng-container>
+              </ng-template>
               </accordion-item>
             </accordion>
           </div>

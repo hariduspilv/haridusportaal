@@ -24,6 +24,9 @@
           <sidebar-progress *ngSwitchCase="'progress'" [data]="mappedData[keyVal]"></sidebar-progress>
           <sidebar-register *ngSwitchCase="'register'" [data]="mappedData[keyVal]" [pageData]="data"></sidebar-register>
           <sidebar-events *ngSwitchCase="'events'" [data]="mappedData[keyVal]"></sidebar-events>
+          <sidebar-finaldocument-access *ngSwitchCase="'finalDocumentAccess'" [data]="mappedData[keyVal]"></sidebar-finaldocument-access>
+          <sidebar-finaldocument-history *ngSwitchCase="'finalDocumentHistory'" [data]="mappedData[keyVal]"></sidebar-finaldocument-history>
+          <sidebar-finaldocument-download *ngSwitchCase="'finalDocumentDownload'" [data]="mappedData[keyVal]"></sidebar-finaldocument-download>
         </block-content>
       </block>
     </ng-container>

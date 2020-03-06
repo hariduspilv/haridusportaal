@@ -361,10 +361,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
               }
             });
           }
-        } catch (err) { }
+        } catch (err) {}
       }
     } else if (this.type === 'date') {
-      this.dateField = value || this.field;
+      this.dateField = value; // || this.field;
     } else {
       this.field = (value || value === 0) ? value : '';
     }
@@ -464,7 +464,6 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     } else if (this.field && this.field !== '') {
       this.filledField = true;
     }
-
     this.detectChanges();
   }
 

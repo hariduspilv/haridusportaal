@@ -8,7 +8,7 @@
 </button>
 
 <htm-modal id="favourites" [modalTitle]="'tooltip.favourites' | translate" size="medium">
-  <modal-content id="favourites" *ngIf="modalService.modalOpened['favourites']">
+  <ng-template>
     <div innerHTML="{{ 'frontpage.favourites_limit_modal_content' | translate }}"></div>
     <button htm-button
       ripple
@@ -16,7 +16,7 @@
       role="link">
         {{ 'button.back_to_dashboard' | translate }}
     </button>
-  </modal-content>
+  </ng-template>
 </htm-modal>
 
 <alerts [closeMs]="closeTime" global id="favourites"></alerts>

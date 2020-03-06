@@ -116,7 +116,7 @@
     }
   }
 
-  .modal-center {
+  ::ng-deep .modal-center {
     display: flex;
     justify-content: center;
     flex-direction: column;
