@@ -3861,3 +3861,11 @@ finaldocument:
     translation_type: textarea
     et: Isikukood
     en: Isikukood
+gdpr_intro:
+  translation_type: text_format
+  et:
+    value: "<p>Teil on võimalus vaadata, kes, millal ja mis eesmärgil on teie Eesti hariduse infosüsteemis olevaid andmeid kasutanud. Näete poole aasta jooksul teie kohta tehtud päringuid.</p>\r\n"
+    format: custom_editor
+  en:
+    value: ''
+    format: custom_editor
