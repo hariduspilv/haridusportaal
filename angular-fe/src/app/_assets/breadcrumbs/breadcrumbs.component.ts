@@ -17,6 +17,7 @@ interface BreadcrumbsItem {
 export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy{
   @Input() data: BreadcrumbsItem[] = [];
   @Input() path: string = '';
+  @Input() ellipsis: boolean = true;
 
   constructor(
     private settings: SettingsService,
@@ -56,7 +57,6 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy{
     });
   }
   ngOnInit() {
-    console.log(this.path);
     if (this.path && this.path.length !== 0) {
       this.getData();
     } else {

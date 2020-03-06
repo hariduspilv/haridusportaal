@@ -248,7 +248,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       }
 
     }
-    if (this.type !== 'autocomplete') {
+    if (this.type !== 'autocomplete' || this.query === 'testAutocomplete') {
       this.propagateChange(this.field);
     }
 
@@ -361,10 +361,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
               }
             });
           }
-        } catch (err) { }
+        } catch (err) {}
       }
     } else if (this.type === 'date') {
-      this.dateField = value || this.field;
+      this.dateField = value; // || this.field;
     } else {
       this.field = (value || value === 0) ? value : '';
     }
