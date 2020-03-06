@@ -1,0 +1,19 @@
+uuid: 290dca29-1db5-4a7f-b43a-a4a0eedc8530
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_topic_text
+    - paragraphs.paragraphs_type.homepage_topics_new
+id: paragraph.homepage_topics_new.field_topic_text
+field_name: field_topic_text
+entity_type: paragraph
+bundle: homepage_topics_new
+label: 'Teema sisu'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
