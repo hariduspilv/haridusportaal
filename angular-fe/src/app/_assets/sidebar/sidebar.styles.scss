@@ -528,7 +528,19 @@
         }
       }
       sidebar-finaldocument-download {
-        button {
+        #modal-finalDocument-download {
+          min-width: unset;
+          max-width: 27rem;
+        }
+        .small {
+          font-size: 0.875rem;
+          margin-bottom: 1.5rem;
+          display: block;
+        }
+        .group {
+          margin-bottom: 1.5rem;
+        }
+        li > button {
           width: 100%;
           display: block;
         }

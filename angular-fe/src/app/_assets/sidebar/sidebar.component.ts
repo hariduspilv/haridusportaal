@@ -440,19 +440,21 @@ export class SidebarRegisterComponent {
 		marked: [""]
 	});
 
+	@Input() public data: any;
+	public loading: boolean = false;
+	public step: number = 1;
+	public response;
+	private unix: number;
+	private iCalUrl: string;
+
 	constructor(
 		private settings: SettingsService,
 		public modal: ModalService,
 		private formBuilder: FormBuilder,
 		private http: HttpClient
 	) {}
-	@Input() data: any;
-	private unix: number;
-	private iCalUrl: string;
-	public loading: boolean = false;
-	public step: number = 1;
-	public response;
-	ngOnInit() {
+
+	public ngOnInit() {
 		try {
 			this.pageData = {
 				...this.pageData,
@@ -546,7 +548,7 @@ export class SidebarRegisterComponent {
 	templateUrl: "./templates/sidebar.events.template.html"
 })
 export class SidebarEventsComponent {
-	@Input() data: any;
+	@Input() public data: any;
 }
 
 @Component({
@@ -554,7 +556,7 @@ export class SidebarEventsComponent {
 	templateUrl: "./templates/sidebar.notifications.template.html"
 })
 export class SidebarNotificationsComponent {
-	@Input() data: any;
+	@Input() public data: any;
 }
 
 @Component({
@@ -562,7 +564,7 @@ export class SidebarNotificationsComponent {
 	templateUrl: "./templates/sidebar.gdpr.template.html"
 })
 export class SidebarGdprComponent {
-	@Input() data: any;
+	@Input() public data: any;
 }
 
 @Component({
@@ -578,8 +580,8 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 	public addAccessForm: FormGroup = this.formBuilder.group(
 		{
 			type: [''],
-			emailAddress: ['', { validators: [Validators.email]}],
-			accessorCode: ['', { validators: [Validators.required]}],
+			emailAddress: ['', { validators: [Validators.email], updateOn: 'submit'}],
+			accessorCode: [''],
 			scope: ['ACCESS_SCOPE:MAIN_DOCUMENT', { validators: [Validators.required]}],
 			endDate: [""],
 			noEndDate: [false],
@@ -661,6 +663,16 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		this.modal.toggle("finalDocument-access");
 	}
 
+	public openNewAccessModal() {
+		this.modal.toggle('finalDocument-addAccess');
+		this.addAccessForm.reset();
+		const date = new Date();
+		this.addAccessForm.controls.endDate.setValue(
+			new Date(date.setMonth(date.getMonth() + 1)).toLocaleDateString(),
+		)
+		this.accessAction = 'add'
+	}
+
 	public changeAccess(): void {
 		this.accessAction = "edit";
 		this.modal.toggle("finalDocument-addAccess");
@@ -675,7 +687,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		const form = this.addAccessForm.value;
 		const indexId = this.route.snapshot.params.id;
 		if (form.accessorCode) {
-			const startsWithLetters = Number.isNaN(form.accessorCode.charAt(0)) && Number.isNaN(form.accessorCode.charAt(1));
+			const startsWithLetters = isNaN(form.accessorCode.charAt(0)) && isNaN(form.accessorCode.charAt(1));
 			if (!startsWithLetters) {
 				this.addAccessForm.controls.accessorCode.setValue(`EE${form.accessorCode.trim()}`);
 				form.accessorCode = this.addAccessForm.controls.accessorCode.value;
@@ -866,15 +878,45 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 	templateUrl: "./templates/sidebar.finaldocument-download.template.html"
 })
 export class SidebarFinalDocumentDownloadComponent {
+	public hasAccessToAccompanyingDocuments = false;
 	@Input() public data: any;
+
+	public downloadForm: FormGroup;
+	public downloadOptions = {
+		fileFormat: [
+			{
+				value: "PDF",
+				key: "PDF (allkirjastamata fail)"
+			},
+			{
+				value: "ASICE",
+				key: "ASICE (allkirjastatud fail)"
+			}
+		],
+		scope: [
+			{
+				key: "Lõputunnistus",
+				value: "ACCESS_SCOPE:MAIN_DOCUMENT"
+			},
+			{
+				key: "Lõputunnistus koos hinnetelehega",
+				value: "ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS"
+			}
+		]
+	};
 	constructor(
 		private http: HttpClient,
 		private settings: SettingsService,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private fb: FormBuilder,
+		public modal: ModalService,
 	) {}
 
 	public downloadTranscript(): void {
 		const id = this.route.snapshot.params.id;
+		if (this.downloadForm.invalid) {
+			return;
+		}
 		this.http
 			.get(
 				`${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}`,
@@ -890,5 +932,21 @@ export class SidebarFinalDocumentDownloadComponent {
 					})
 				);
 			});
+	}
+
+	public ngOnInit() {
+		this.hasAccessToAccompanyingDocuments = !this.data.withAccess
+			|| this.data.accessScope === 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS';
+		this.initializeForm();
+	}
+
+	private initializeForm() {
+
+		this.downloadForm = this.fb.group(
+			{
+				scope: [this.hasAccessToAccompanyingDocuments ? 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS' : 'ACCESS_SCOPE:MAIN_DOCUMENT'],
+				fileFormat: ['PDF'],
+			},
+		);
 	}
 }
