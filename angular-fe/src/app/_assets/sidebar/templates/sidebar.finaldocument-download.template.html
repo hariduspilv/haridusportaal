@@ -1,5 +1,28 @@
 <ul>
   <li>
-    <button (click)="downloadTranscript()" htm-button class="text-center">{{'finalDocumentDownload' | translate}}</button>
+    <button (click)="modal.toggle('finalDocument-download')" htm-button class="text-center">{{'finalDocumentDownload' | translate}}</button>
   </li>
 </ul>
+
+<htm-modal id="finalDocument-download" modalTitle="Laadi alla" [bottomAction]="false">
+	<ng-template>
+    <h1>Laadi alla</h1>
+    <span class="small">Tärniga (*) tähistatud väljad on kohustuslikud.</span>
+    <form [formGroup]="downloadForm">
+      <div class="group">
+        <p>Vali sisu, mida soovid alla laadida</p>
+        <formItem type="radio" formControlName="scope" [options]="downloadOptions.scope" name="scope"></formItem>
+      </div>
+      <div class="group">
+        <p>Vali faili tüüp, mida soovid alla laadida: *</p>
+        <formItem type="radio" formControlName="fileFormat" [options]="downloadOptions.fileFormat" name="fileFormat"></formItem>
+      </div>
+      <div class="button-row">
+        <button htm-button (click)="modal.toggle('finalDocument-download')" theme="link">
+          {{'generic.cancel' | translate}}
+        </button>
+        <button htm-button (click)="downloadTranscript()">Laadi alla</button>
+      </div>
+    </form>
+	</ng-template>
+</htm-modal>

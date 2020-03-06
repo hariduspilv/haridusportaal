@@ -867,14 +867,48 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 })
 export class SidebarFinalDocumentDownloadComponent {
 	@Input() public data: any;
+
+	public downloadForm: FormGroup = this.fb.group(
+		{
+			scope: ['', { validators: Validators.required }],
+			fileFormat: ['', { validators: Validators.required }],
+		},
+	);
+	public downloadOptions = {
+		fileFormat: [
+			{
+				value: "PDF",
+				key: "PDF (allkirjastamata fail)"
+			},
+			{
+				value: "ASICE",
+				key: "ASICE (allkirjastatud fail)"
+			}
+		],
+		scope: [
+			{
+				key: "Lõputunnistus",
+				value: "ACCESS_SCOPE:MAIN_DOCUMENT"
+			},
+			{
+				key: "Lõputunnistus koos hinnetelehega",
+				value: "ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS"
+			}
+		]
+	};
 	constructor(
 		private http: HttpClient,
 		private settings: SettingsService,
-		private route: ActivatedRoute
+		private route: ActivatedRoute,
+		private fb: FormBuilder,
+		public modal: ModalService,
 	) {}
 
 	public downloadTranscript(): void {
 		const id = this.route.snapshot.params.id;
+		if (this.downloadForm.invalid) {
+			return;
+		}
 		this.http
 			.get(
 				`${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}`,
