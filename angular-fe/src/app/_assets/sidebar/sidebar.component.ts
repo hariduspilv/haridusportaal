@@ -548,7 +548,7 @@ export class SidebarRegisterComponent {
 	templateUrl: "./templates/sidebar.events.template.html"
 })
 export class SidebarEventsComponent {
-	@Input() data: any;
+	@Input() public data: any;
 }
 
 @Component({
@@ -556,7 +556,7 @@ export class SidebarEventsComponent {
 	templateUrl: "./templates/sidebar.notifications.template.html"
 })
 export class SidebarNotificationsComponent {
-	@Input() data: any;
+	@Input() public data: any;
 }
 
 @Component({
@@ -564,7 +564,7 @@ export class SidebarNotificationsComponent {
 	templateUrl: "./templates/sidebar.gdpr.template.html"
 })
 export class SidebarGdprComponent {
-	@Input() data: any;
+	@Input() public data: any;
 }
 
 @Component({
@@ -580,8 +580,8 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 	public addAccessForm: FormGroup = this.formBuilder.group(
 		{
 			type: [''],
-			emailAddress: ['', { validators: [Validators.email]}],
-			accessorCode: ['', { validators: [Validators.required]}],
+			emailAddress: ['', { validators: [Validators.email], updateOn: 'submit'}],
+			accessorCode: [''],
 			scope: ['ACCESS_SCOPE:MAIN_DOCUMENT', { validators: [Validators.required]}],
 			endDate: [""],
 			noEndDate: [false],
@@ -663,6 +663,16 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		this.modal.toggle("finalDocument-access");
 	}
 
+	public openNewAccessModal() {
+		this.modal.toggle('finalDocument-addAccess');
+		this.addAccessForm.reset();
+		const date = new Date();
+		this.addAccessForm.controls.endDate.setValue(
+			new Date(date.setMonth(date.getMonth() + 1)).toLocaleDateString(),
+		)
+		this.accessAction = 'add'
+	}
+
 	public changeAccess(): void {
 		this.accessAction = "edit";
 		this.modal.toggle("finalDocument-addAccess");
@@ -677,7 +687,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 		const form = this.addAccessForm.value;
 		const indexId = this.route.snapshot.params.id;
 		if (form.accessorCode) {
-			const startsWithLetters = Number.isNaN(form.accessorCode.charAt(0)) && Number.isNaN(form.accessorCode.charAt(1));
+			const startsWithLetters = isNaN(form.accessorCode.charAt(0)) && isNaN(form.accessorCode.charAt(1));
 			if (!startsWithLetters) {
 				this.addAccessForm.controls.accessorCode.setValue(`EE${form.accessorCode.trim()}`);
 				form.accessorCode = this.addAccessForm.controls.accessorCode.value;
