@@ -67,7 +67,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
 
   get canScrollRight() {
     const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
-    const newVal = !el ? false : Math.ceil(el.scrollLeft) < el.scrollWidth - el.clientWidth;
+    const newVal = !el ? false : Math.ceil(el.scrollLeft) < el.scrollWidth - el.clientWidth - 1;
     if (newVal !== this.scrollRight && !this.checkedScrollRight) {
       this.checkedScrollRight = true;
       setTimeout(
