@@ -24,7 +24,7 @@
           </tr>
           <tr *ngFor="let action of actionHistory">
             <td>
-              <button htm-button theme="plain" *ngIf="action.document" (click)="openDocument(action.document)">Ava</button>
+              <button htm-button theme="plain" *ngIf="action.document" (click)="openDocument(action.document)">{{ 'button.open' | translate }}</button>
             </td>
             <td>{{'finalDocument_' + action.type | translate}}</td>
             <td>{{'finalDocument_' + action.document.type | translate}}</td>
