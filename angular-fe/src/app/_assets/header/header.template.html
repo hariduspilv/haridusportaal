@@ -17,7 +17,7 @@
 	<div class="inline">
 		<div class="header__assets--grid">
 			<div [class.hidden]="!headerSearchEnabled()" class="header__search">
-				<icon glyph="search" size="default"></icon>
+				<icon (click)="searchClick()" glyph="search" size="default"></icon>
  				<form>
 					<label class="hidden-label" for="homeSearch">Sisesta märksõna ja vajuta Enter</label>
 					<formItem type="autocomplete" query="testAutocomplete" titleDisabled="true"

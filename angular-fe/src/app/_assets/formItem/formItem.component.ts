@@ -248,7 +248,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       }
 
     }
-    if (this.type !== 'autocomplete') {
+    if (this.type !== 'autocomplete' || this.query === 'testAutocomplete') {
       this.propagateChange(this.field);
     }
 
