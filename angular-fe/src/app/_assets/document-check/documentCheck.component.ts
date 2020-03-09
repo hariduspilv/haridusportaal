@@ -1,11 +1,6 @@
-import { Component, ViewChildren, QueryList, ViewChild } from "@angular/core";
-import {
-	FormBuilder,
-	FormGroup,
-	Validators,
-	AbstractControl
-} from "@angular/forms";
-import { AlertsService, SettingsService, AuthService } from "@app/_services";
+import { Component, ViewChild } from "@angular/core";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AlertsService, AuthService, SettingsService } from "@app/_services";
 import { TranslateService } from "@app/_modules/translate/translate.service";
 import { HttpClient } from "@angular/common/http";
 import { Location } from "@angular/common";
