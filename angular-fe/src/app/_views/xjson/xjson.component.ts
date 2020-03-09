@@ -108,24 +108,24 @@ export class XjsonComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  public pathWatcher() {
+  pathWatcher() {
     const strings = this.route.queryParams.subscribe(
       (strings: ActivatedRoute) => {
-        this.test = (strings.test === 'true');
-        if (strings.aasta !== undefined) {
-          this.queryStrings.year = Number(strings.aasta);
+        this.test = (strings['test'] === 'true');
+        if (strings['aasta'] !== undefined) {
+          this.queryStrings['year'] = Number(strings['aasta']);
         }
-        if (strings.mustand === 'true') {
-          this.queryStrings.status = 'draft';
+        if (strings['mustand'] === 'true') {
+          this.queryStrings['status'] = 'draft';
         }
-        if (strings.eksisteerib === 'true') {
-          this.queryStrings.status = 'submitted';
+        if (strings['eksisteerib'] === 'true') {
+          this.queryStrings['status'] = 'submitted';
         }
-        if (strings.õppeasutus) {
-          this.queryStrings.educationalInstitutionsId = Number(strings.õppeasutus);
+        if (strings['õppeasutus']) {
+          this.queryStrings['educationalInstitutionsId'] = Number(strings['õppeasutus']);
         }
-        if (strings.id !== undefined) {
-          this.queryStrings.identifier = Number(strings.id);
+        if (strings['id'] !== undefined) {
+          this.queryStrings['identifier'] = Number(strings['id']);
         }
       },
     );
@@ -133,11 +133,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.subscriptions = [...this.subscriptions, strings];
   }
 
-  public isArray(obj: any) {
+  isArray(obj: any) {
     return Array.isArray(obj);
   }
 
-  public getFormName() {
+  getFormName() {
     const url = `${this.settings.url}/xjson_service/form_name?_format=json`;
 
     const subscription = this.http.post(url, { form_path: this.form_route }).subscribe((response: any) => {
@@ -146,11 +146,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     });
   }
 
-  public changeView(key) {
+  changeView(key) {
     this.view = key;
   }
 
-  public scrollableTableDeterminant(label) {
+  scrollableTableDeterminant(label) {
     const _opened_step = this.opened_step;
     const _scrollableTables = this.scrollableTables;
     if (_opened_step) {
@@ -166,12 +166,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public tableVisibleColumns(label, columns) {
+  tableVisibleColumns(label, columns) {
     let visibleColumns = 0;
     const _visibleTableLength = this.visibleTableLength;
 
     Object.values(columns).forEach((elem) => {
-      if (!elem.hidden) {
+      if (!elem['hidden']) {
         visibleColumns = visibleColumns + 1;
       }
     });
@@ -179,11 +179,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     _visibleTableLength[label] = visibleColumns;
   }
 
-  public scrollPositionController() {
+  scrollPositionController() {
     document.querySelector('.app-content').scrollTop = 0;
   }
 
-  public setDatepickerValue(event, element, rowindex, col) {
+  setDatepickerValue(event, element, rowindex, col) {
     if (!this.datepickerFocus) {
       if (!(event instanceof FocusEvent)) {
         const dateval = event.value.format('L');
@@ -194,7 +194,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public getDatepickerValue(element, rowindex, col) {
+  getDatepickerValue(element, rowindex, col) {
     const date = rowindex === undefined || col === undefined
       ? this.data_elements[element].value
       : this.data_elements[element].value[rowindex][col];
@@ -202,11 +202,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return date ? moment((String(date).split('.')).reverse().join('-')) : '';
   }
 
-  public selectListCompare(a, b) {
+  selectListCompare(a, b) {
     return a && b ? a === b : a === b;
   }
 
-  public isFieldDisabled(readonly): boolean {
+  isFieldDisabled(readonly): boolean {
     if (readonly === true) {
       return true;
 
@@ -218,7 +218,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return !this.current_acceptable_activity.some(key => ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key));
   }
 
-  public isFieldHidden(element): boolean {
+  isFieldHidden(element): boolean {
     const model = this.data_elements[element];
 
     if (model) {
@@ -241,7 +241,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  public parseAcceptableExtentsions(list: string[]) {
+  parseAcceptableExtentsions(list: string[]) {
     if (!list) {
       return '*/*';
     }
@@ -249,7 +249,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  public displayAcceptableExtentsions(list: string[]) {
+  displayAcceptableExtentsions(list: string[]) {
     if (!list) {
       return this.translate.get('button.all') || '';
     }
@@ -257,7 +257,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  public fileDownloadlink(file) {
+  fileDownloadlink(file) {
     const id = file.file_identifier;
     const name = file.file_name;
     const token = sessionStorage.getItem('token');
@@ -269,7 +269,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}/${this.formKey}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}`;
   }
 
-  public fileModal(element, col, row) {
+  fileModal(element, col, row) {
     this.fileUploadElement = element;
     if (this.error[this.fileUploadElement]) {
       this.error[this.fileUploadElement] = {};
@@ -280,11 +280,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.modalService.toggle('addFile');
   }
 
-  public stopFileUpload(element) {
+  stopFileUpload(element) {
     this.fileLoading[element] = false;
   }
 
-  public canUploadFile(element, table = false): boolean {
+  canUploadFile(element, table = false): boolean {
 
     const fieldVal = table ?
       this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol] :
@@ -300,17 +300,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return !singeFileRestrictionApplies;
   }
 
-  public fileDelete(id, model) {
+  fileDelete(id, model) {
     const target = model.value.find(file => file.file_identifier === id);
     model.value.splice(model.value.indexOf(target), 1);
   }
 
-  public tableFileDelete(id, model) {
+  tableFileDelete(id, model) {
     const target = model.find(file => file.file_identifier === id);
     model.splice(model.indexOf(target), 1);
   }
 
-  public uploadFile(files, element) {
+  uploadFile(files, element) {
     if (!this.data_elements[element].value) {
       this.data_elements[element].value = [];
     }
@@ -356,7 +356,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
           const new_file = {
             file_name: file.name,
-            file_identifier: response.id,
+            file_identifier: response['id'],
           };
           model.value.push(new_file);
           files.shift();
@@ -379,7 +379,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     };
   }
 
-  public uploadTableFile(files) {
+  uploadTableFile(files) {
     if (!this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol]) {
       this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol] = [];
     }
@@ -428,7 +428,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
           const new_file = {
             file_name: file.name,
-            file_identifier: response.id,
+            file_identifier: response['id'],
           };
           this.data_elements[this.fileUploadElement].value[this.fileUploadRow][this.fileUploadCol].push(new_file);
           files.shift();
@@ -449,18 +449,18 @@ export class XjsonComponent implements OnInit, OnDestroy {
     };
   }
 
-  public removeFileUploadErrorInMs(timeout: number) {
+  removeFileUploadErrorInMs(timeout: number) {
     setTimeout(() => {
       this.error[this.fileUploadElement] = {};
     }, timeout || 0);
   }
 
-  public saveFormWithFile() {
+  saveFormWithFile() {
     this.data.header.parameters.fileSubmit = true;
     this.submitForm('SAVE');
   }
 
-  public fileEventHandler(e, element) {
+  fileEventHandler(e, element) {
     this.fileLoading[element] = true;
     if (this.error[element]) {
       delete this.error[element];
@@ -476,19 +476,19 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public byteToMegabyte(bytes) {
+  byteToMegabyte(bytes) {
     return bytes / Math.pow(1024, 2);
   }
 
-  public tableColumnName(element, index) {
+  tableColumnName(element, index) {
     return Object.keys(this.data_elements[element].table_columns)[index];
   }
 
-  public tableColumnAttribute(element, index, attribute) {
+  tableColumnAttribute(element, index, attribute) {
     return this.data_elements[element].table_columns[this.tableColumnName(element, index)][attribute];
   }
 
-  public tableAddRow(element) {
+  tableAddRow(element) {
     const table = this.data_elements[element];
     const newRow = {};
 
@@ -512,7 +512,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.scrollableTableDeterminant(element);
   }
 
-  public confirmRowDelete() {
+  confirmRowDelete() {
     const element = this.deleteTableElement;
     const rowIndex = this.deleteTableRow;
     this.data_elements[element].value.splice(rowIndex, 1);
@@ -542,17 +542,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.scrollableTableDeterminant(element);
   }
 
-  public tableDeleteRow(element, rowIndex) {
+  tableDeleteRow(element, rowIndex) {
     this.modalRef = this.modalService.toggle('deleteTableRow');
     this.deleteTableElement = element;
     this.deleteTableRow = rowIndex;
   }
 
-  public promptEditConfirmation() {
+  promptEditConfirmation() {
     this.modalRef = this.modalService.toggle('editStep');
   }
 
-  public toggleStepEdit() {
+  toggleStepEdit() {
     this.formLoading = true;
     this.edit_step = true;
     this.data.header.current_step = this.opened_step;
@@ -567,22 +567,22 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.formLoading = false;
   }
 
-  public isItemExisting(list, target): boolean {
+  isItemExisting(list, target): boolean {
     return list.some(item => item === target);
   }
 
-  public selectLanguage(obj: object) {
+  selectLanguage(obj: object) {
     if (obj[this.lang]) {
       return obj[this.lang];
     }
-    return obj.et;
+    return obj['et'];
   }
 
-  public setNavigationLinks(list, opened): Array<{}> {
+  setNavigationLinks(list, opened): {}[] {
     if (list.length === 0) {
       return [];
     }
-    const output: Array<{}> = [];
+    const output: {}[] = [];
 
     if (list[0] !== opened) {
       const previous = list[list.indexOf(opened) - 1];
@@ -599,7 +599,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return output;
   }
 
-  public isStepDisabled(step): boolean {
+  isStepDisabled(step): boolean {
     const max_step = this.max_step;
     const steps = Object.keys(this.data.body.steps);
     const isAfterCurrentStep = steps.indexOf(step) > steps.indexOf(max_step);
@@ -611,7 +611,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return isAfterCurrentStep;
   }
 
-  public isValidField(field) {
+  isValidField(field) {
     // check for required field
     if (field.required === true) {
       if (field.type === 'address' && field.value !== '' && !field.value.addressHumanReadable) {
@@ -707,7 +707,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return { valid: true, message: 'valid' };
   }
 
-  public showTableAddRow(element) {
+  showTableAddRow(element) {
     if (element.add_del_rows && !this.isFieldDisabled(element.readonly)) {
       if (element.value && !element.value.length) {
         return true;
@@ -733,7 +733,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public tableValidation(table) {
+  tableValidation(table) {
     let valid = true;
     let validationResult = { valid };
     const validationRows = [];
@@ -757,17 +757,17 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
     }
     if (validationRows.length) {
-      validationResult.rows = validationRows;
+      validationResult['rows'] = validationRows;
     }
 
     return valid ? { valid: true, message: 'valid' } : validationResult;
   }
 
-  public isNumeric(n) {
+  isNumeric(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
   }
 
-  public validateForm(elements): void {
+  validateForm(elements): void {
     const NOT_FOR_VALIDATION = ['heading', 'helpertext'];
 
     for (const field in elements) {
@@ -805,7 +805,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public submitForm(activity: string) {
+  submitForm(activity: string) {
     this.error = {};
     this.alertsService.clear('upperAlert');
 
@@ -829,7 +829,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (Object.keys(this.error).length === 0) {
         this.edit_step = false;
         this.error_alert = false;
-        this.data.header.activity = activity;
+        this.data.header['activity'] = activity;
         const payload = { form_name: this.form_route, form_info: this.data };
         if (activity === 'SAVE') {
           this.saved = true;
@@ -850,19 +850,19 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public errorHandler(message) {
+  errorHandler(message) {
     console.log('DEBUG_ERROR: ', message);
   }
 
-  public closeError() {
+  closeError() {
     this.error_alert = false;
   }
 
-  public closeMessage(i) {
+  closeMessage(i) {
     this.data_messages.splice(i, 1);
   }
 
-  public selectStep(step) {
+  selectStep(step) {
     if (step === this.opened_step) {
       return; // to nothing
     }
@@ -874,33 +874,33 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  public editableStep() {
+  editableStep() {
     return this.data.body.steps[this.opened_step].editable;
   }
 
-  public setActivityButtons(activities: string[]) {
+  setActivityButtons(activities: string[]) {
     const output = { primary: [], secondary: [] };
     const editableActivities = ['SUBMIT', 'SAVE', 'CONTINUE'];
     if (this.data.body.steps[this.opened_step].sequence < this.data.body.steps[this.max_step].sequence
       && !this.edit_step) {
       if (this.editableStep()) {
         if (editableActivities.some(editable => this.isItemExisting(activities, editable))) {
-          output.primary.push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' });
+          output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' });
         }
       }
     } else if (this.data.header.acceptable_activity.includes('CHANGE')) {
-      output.primary.push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' });
+      output['primary'].push({ label: 'xjson.edit', action: 'EDIT', style: 'primary' });
     } else {
       activities.forEach((activity) => {
         if (editableActivities.includes(activity)) {
           if (activity === 'SAVE' && activities.includes('SAVE') && activities.includes('SUBMIT')) {
-            output.primary.push({
+            output['primary'].push({
               label: 'button.save_draft',
               action: activity,
               style: 'primary',
             });
           } else {
-            output.primary.push({
+            output['primary'].push({
               label: `button.${activity.toLowerCase()}`,
               action: activity,
               style: 'primary',
@@ -912,13 +912,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
     return output;
   }
 
-  public cancelEventHandler() {
+  cancelEventHandler() {
     if (!this.edit_step) {
       this.location.back();
     }
   }
 
-  public compileAcceptableFormList() {
+  compileAcceptableFormList() {
 
     this.acceptable_forms = this.acceptable_forms_list_restricted ?
       this.data.header.acceptable_form.slice(0, this.acceptable_forms_limit) :
@@ -947,27 +947,27 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  public toggleAcceptableFormList() {
+  toggleAcceptableFormList() {
     this.acceptable_forms_list_restricted = !this.acceptable_forms_list_restricted;
     this.compileAcceptableFormList();
   }
 
-  public getUpperInfoText() {
+  getUpperInfoText() {
     const infoTextTranslationKey = `xjson.${this.form_name}_infotext`;
     const infoTextTranslation = this.translate.get(infoTextTranslationKey);
     this.upperInfoText = infoTextTranslation.replace(/[?]/g, '') === infoTextTranslationKey ? false : infoTextTranslation;
   }
 
-  public getStepViewStatus() {
+  getStepViewStatus() {
     this.viewOnlyStep = true;
     for (const [label, elem] of Object.entries(this.data_elements)) {
-      if (elem.type === 'table') {
+      if (elem['type'] === 'table') {
         this.scrollableTableDeterminant(label);
-        this.tableVisibleColumns(label, elem.table_columns);
+        this.tableVisibleColumns(label, elem['table_columns']);
 
-        for (const key in elem.table_columns) {
+        for (const key in elem['table_columns']) {
           if (this.viewOnlyStep) {
-            this.isViewOnlyStep(elem.table_columns[key]);
+            this.isViewOnlyStep(elem['table_columns'][key]);
           }
         }
       } else if (this.viewOnlyStep) {
@@ -976,13 +976,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public isViewOnlyStep(element) {
-    if (!(element.hidden || element.readonly)) {
+  isViewOnlyStep(element) {
+    if (!(element['hidden'] || element['readonly'])) {
       this.viewOnlyStep = false;
     }
   }
 
-  public promptDebugDialog(data) {
+  promptDebugDialog(data) {
 
     if (this.test) {
       return this.getData(data);
@@ -1000,18 +1000,18 @@ export class XjsonComponent implements OnInit, OnDestroy {
 
   }
 
-  public setMaxStep(xjson) {
-    if (!Object.keys(xjson.body.steps).length) {
+  setMaxStep(xjson) {
+    if (!Object.keys(xjson['body']['steps']).length) {
       return this.errorHandler('No steps available');
     }
-    if (!Object.keys(xjson.body.steps).some(step => step === xjson.header.current_step)) {
-      this.max_step = Object.keys(xjson.body.steps)[0];
+    if (!Object.keys(xjson['body']['steps']).some(step => step === xjson['header']['current_step'])) {
+      this.max_step = Object.keys(xjson['body']['steps'])[0];
     } else {
-      this.max_step = xjson.header.current_step;
+      this.max_step = xjson['header']['current_step'];
     }
   }
 
-  public populateAlerts() {
+  populateAlerts() {
     this.alertsService.clear('upperAlert');
     this.data_messages.forEach((element) => {
       const message = this.data.messages[element];
@@ -1021,7 +1021,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     });
   }
 
-  public getData(inputData) {
+  getData(inputData) {
 
     let data = { ...inputData };
     if (this.test) {
@@ -1035,42 +1035,42 @@ export class XjsonComponent implements OnInit, OnDestroy {
     const subscription = this.http.post(`${this.settings.url}/xjson_service?_format=json`, data)
       .subscribe((response) => {
 
-        if (!response.header) {
+        if (!response['header']) {
           return this.errorHandler('Missing header from response');
         }
-        if (!response.body) {
+        if (!response['body']) {
           return this.errorHandler('Missing body from response');
         }
-        if (!response.body.steps) {
+        if (!response['body']['steps']) {
           return this.errorHandler('Missing body.steps from response');
         }
 
-        if (response.body.steps.length === 0) {
+        if (response['body']['steps'].length === 0) {
           this.empty_data = true;
         }
 
-        if (response.header.current_step) {
+        if (response['header']['current_step']) {
           this.setMaxStep(response);
         }
 
-        if (response.header.form_name &&
-          (response.header.acceptable_activity.includes('CHANGE') ||
+        if (response['header']['form_name'] &&
+          (response['header']['acceptable_activity'].includes('CHANGE') ||
             (data.activity && data.activity === 'CHANGE'))) {
-          this.form_route = `/töölaud/taotlused/${response.header.form_name.toLowerCase()}`;
-          this.form_name = response.header.form_name;
+          this.form_route = `/töölaud/taotlused/${response['header']['form_name'].toLowerCase()}`;
+          this.form_name = response['header']['form_name'];
         }
 
-        if (response.header.acceptable_activity) {
-          if ((!(response.header.acceptable_activity instanceof Array))) {
+        if (response['header']['acceptable_activity']) {
+          if ((!(response['header']['acceptable_activity'] instanceof Array))) {
             return this.errorHandler('Acceptable activity is a string!');
           }
-          this.current_acceptable_activity = response.header.acceptable_activity;
+          this.current_acceptable_activity = response['header']['acceptable_activity'];
 
           const acceptableActivityIncludesTarget = this.current_acceptable_activity.some((key) => {
             return ['SUBMIT', 'SAVE', 'CONTINUE'].includes(key);
           });
 
-          if (acceptableActivityIncludesTarget && !response.header.current_step) {
+          if (acceptableActivityIncludesTarget && !response['header']['current_step']) {
             return this.errorHandler('Missing "current_step" while "acceptable_activity" is SUBMIT, SAVE or CONTINUE');
           }
         }
@@ -1081,12 +1081,12 @@ export class XjsonComponent implements OnInit, OnDestroy {
       });
   }
 
-  public stepController(xjson) {
+  stepController(xjson) {
     this.opened_step = this.max_step;
     this.viewController(xjson);
   }
 
-  public viewController(xjson) {
+  viewController(xjson) {
     this.tableCountPerStep = 0;
     this.tableIndexes = [];
     this.tableOverflown = {};
@@ -1114,7 +1114,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.data_elements) {
       // Count table elements and set initial settings
       Object.values(this.data_elements).forEach((elem, index) => {
-        if (elem.type === 'table') {
+        if (elem['type'] === 'table') {
           this.tableIndexes.push(index);
         }
       });
@@ -1136,10 +1136,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
 
       for (const [label, elem] of Object.entries(this.data_elements)) {
-        if (elem.type === 'table') {
+        if (elem['type'] === 'table') {
           this.scrollableTableDeterminant(label);
         }
-        if (elem.type === 'selectlist') {
+        if (elem['type'] === 'selectlist') {
           this.data_elements[label].value = String(this.data_elements[label].value);
         }
       }
@@ -1150,7 +1150,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public fillInAds() {
+  fillInAds() {
     try {
       if (this.data_elements.aadressid) {
         this.data_elements.aadressid.value.forEach((item, index) => {
@@ -1166,7 +1166,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.path = decodeURI(this.location.path().split('?')[0]);
     this.form_route = decodeURI(this.router.url).split('?')[0];
     this.lang = 'et';
@@ -1183,7 +1183,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  public ngOnDestroy() {
+  ngOnDestroy() {
     /* Clear all subscriptions */
     for (const sub of this.subscriptions) {
       if (sub && sub.unsubscribe) {
