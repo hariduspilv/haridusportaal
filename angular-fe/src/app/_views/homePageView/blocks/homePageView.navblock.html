@@ -8,10 +8,10 @@
     <div class="navBlock__buttons" *ngIf="data.length">
       <ul>
         <li *ngFor="let item of data">
-          <a [scrollTo]="item.button">{{ item.button }} <icon glyph="chevrons-down"></icon></a>
+          <button [scrollTo]="item.button">{{ item.button }} <icon glyph="chevrons-down"></icon></button>
         </li>
         <li>
-          <a scrollTo="teenused">{{ 'home.services' | translate }} <icon glyph="chevrons-down"></icon></a>
+          <button scrollTo="teenused">{{ 'home.services' | translate }} <icon glyph="chevrons-down"></icon></button>
         </li>
       </ul>
     </div><!--/navBlock__buttons-->

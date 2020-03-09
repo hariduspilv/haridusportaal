@@ -21,6 +21,7 @@
  				<form>
 					<label class="hidden-label" for="homeSearch">Sisesta märksõna ja vajuta Enter</label>
 					<formItem type="autocomplete" query="testAutocomplete" titleDisabled="true"
+						aria-label="Otsing"
 						placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" domID="homeSearch" name="searchTerm"
 						(autoCompleteChanged)="searchRoute($event)">
 					</formItem>

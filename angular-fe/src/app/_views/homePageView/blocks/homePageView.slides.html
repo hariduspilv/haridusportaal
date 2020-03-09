@@ -6,14 +6,14 @@
     <div class="slides__container">
       <div class="slides__wrapper">
 
-        <ng-container *ngFor="let item of data">
-          <div class="slides__instance">
+        <ng-container *ngFor="let item of data; let i = index">
+          <div class="slides__instance" *ngIf="i < 3">
             <div class="slides__elem">
               <div class="slides__elem__image">
-                <img [src]="item.image.url" [alt]="item.image.alt" />
+                <img [src]="item.image.url" [alt]="" />
               </div><!--/slides__elem__image-->
               <div class="slides__elem__body">
-                <div class="slides__elem__title">{{ item.title }}</div>
+                <h3 class="slides__elem__title">{{ item.title }}</h3>
                 <div class="slides__elem__text">{{ item.content }}</div>
                 <div class="slides__elem__link"><a [routerLink]="item.link.url.path">{{ item.link.title }}</a></div>
               </div><!--/slides__elem__body-->

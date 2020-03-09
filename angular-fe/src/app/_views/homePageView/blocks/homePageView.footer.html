@@ -11,7 +11,7 @@
       </p>
     </div><!--/contact-->
     <div class="newsletter">
-      <div class="newsletter__title">{{ 'home.newsletter_subscribe' | translate }}</div>
+      <h3 class="newsletter__title">{{ 'home.newsletter_subscribe' | translate }}</h3>
       <ng-container *ngIf="loading">
         <loader></loader>
       </ng-container>
@@ -19,7 +19,10 @@
         <div class="newsletter__cols" *ngIf="!subscribedStatus && !subscribedError">
           <div class="newsletter__col">
             <formItem
+              [attr.aria-label]="'home.newsletter_email' | translate"
               [placeholder]="'home.newsletter_email' | translate"
+              name="email"
+              domID="email"
               formControlName="email"></formItem>
           </div><!--/newsletter_col-->
           <div class="newsletter__col">

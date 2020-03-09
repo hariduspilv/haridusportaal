@@ -387,6 +387,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'address',
           required: true,
           error: false,
+          errorMessage: this.translate.get('form.invalid_address'),
           formControl: this.formBuilder.control('', [Validators.required, autocompleteValidator]),
         },
         {

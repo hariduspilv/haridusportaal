@@ -746,6 +746,7 @@
 							[type]="item.type"
 							[query]="item.query ? item.query : false"
 							[error]="item.error"
+							[errorMessage]="item.errorMessage"
 							appendTo="body"
 							(change)="validateField(item.modelName)"
 							(autoCompleteChanged)="validateField(item.modelName)"
