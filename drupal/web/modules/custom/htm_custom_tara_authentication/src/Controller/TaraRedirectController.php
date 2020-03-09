@@ -136,7 +136,14 @@ class TaraRedirectController extends RedirectController{
 						$this->messenger()->addError($this->t('Connecting with @provider could not be completed due to an error.', $provider_param));
 					}
 				}
-			}
+			} else {
+        $variables = [
+          '@error' => t("Couldn't parse tokens from return code"),
+        ];
+        $message = 'Authorization failed: @error. Details: @details';
+        $this->loggerFactory->get('openid_connect_' . $client_name)->error($message, $variables);
+        drupal_set_message(t('Could not authenticate with @provider.', $provider_param), 'error');
+      }
 		}
 
 		$fe_url = $this->config('htm_custom_admin_form.customadmin')->get('general.fe_url').'/auth.html';
