@@ -3,7 +3,7 @@
 </div>
 <h2>{{ 'frontpage.certificates_data' | translate }}</h2>
 <accordion>
-	<!-- <accordion-item [title]="'frontpage.dashboard_tabs_certificates_graduation' | translate"
+	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_graduation' | translate"
 		(click)="dataController('graduation-certificates')">
 		<ng-template>
 			<loader *ngIf="!error && !graduationCertificates"></loader>
@@ -36,7 +36,7 @@
 				</table>
 			</scrollableContent>
 		</ng-template>
-	</accordion-item> -->
+	</accordion-item>
 	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_professional' | translate"
 		(click)="dataController('professional-certificates')">
 		<ng-template>
