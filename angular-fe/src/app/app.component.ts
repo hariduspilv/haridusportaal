@@ -137,21 +137,22 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.sidemenuIsVisible = val;
     });
 
-    if (this.settingsService.url.match('haridusportaal.edu')) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const path = `${window.location.origin}/amp${window.location.pathname}`;
+        this.amp.removeTag('rel=amphtml');
+        console.log(path);
+        this.amp.addTag({
+          href: path,
+          rel: 'amphtml',
+        });
+      }
+    });
 
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          const path = `${window.location.origin}/amp${window.location.pathname}`;
-          this.amp.removeTag('rel=amphtml');
-          this.amp.addTag({
-            href: path,
-            rel: 'amphtml',
-          });
-        }
-      });
+    if (this.settingsService.url.match('haridusportaal.edu')) {
+      this.gaPageTrack();
     }
 
-    this.gaPageTrack();
 
     // this.addPlumbrScript();
   }
