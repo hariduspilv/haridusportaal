@@ -2257,6 +2257,10 @@ errors:
     translation_type: textarea
     et: 'Väli on kohustuslik'
     en: 'Field is required'
+  invalid_email:
+    translation_type: textarea
+    et: 'Sisestage korrektne email'
+    en: 'Enter valid email'
 search:
   label:
     translation_type: textarea
@@ -3218,7 +3222,7 @@ abitekst:
     en: MISSING
   ligipääsukoodiga_tunnistused:
     translation_type: textarea
-    et: 'Otsit ligipääsuga tunnistusi. Otsit ligipääsuga tunnistusi. Otsit ligipääsuga tunnistusi. Otsit ligipääsuga tunnistusi. '
+    et: 'Siin saad vaadata tunnistusi, mille kohta oled saanud ligipääsukoodi. Ligipääsukoodi saab anda tunnistuse omanik või väljaandja. '
     en: MISSING
   enda_tunnistused:
     translation_type: textarea
@@ -3522,11 +3526,11 @@ certificates:
     en: MISSING
   access_code_field:
     translation_type: textarea
-    et: 'Ligipääsukood:*'
+    et: 'Ligipääsukood*'
     en: 'Access code:*'
   document_nr_field:
     translation_type: textarea
-    et: 'Tunnistuse number:*'
+    et: 'Tunnistuse number*'
     en: 'Certificate number:*'
   graduation_certificate:
     translation_type: textarea
@@ -3544,6 +3548,10 @@ certificates:
     translation_type: textarea
     et: 'Tunnistus nr'
     en: 'Certificate nr'
+  loading_error:
+    translation_type: textarea
+    et: 'Viga dokumendi laadimisel'
+    en: MISSING
 home:
   slogan:
     translation_type: textarea
@@ -3869,3 +3877,8 @@ gdpr_intro:
   en:
     value: ''
     format: custom_editor
+form:
+  invalid_address:
+    translation_type: textarea
+    et: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
+    en: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
