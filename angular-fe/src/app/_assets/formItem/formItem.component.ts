@@ -274,7 +274,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   public detectChanges() {
-    if (!this.cdr.destroyed) {
+    if (!this.cdr[`destroyed`]) {
       this.cdr.detectChanges();
     }
   }

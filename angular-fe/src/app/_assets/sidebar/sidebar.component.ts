@@ -1,19 +1,19 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit } from "@angular/core";
-import { AlertsService, ModalService, SettingsService, SidebarService } from "@app/_services";
+import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit } from '@angular/core';
+import { AlertsService, ModalService, SettingsService, SidebarService } from '@app/_services';
 import {
   collection,
   parseFieldData,
   parseInfosystemData,
   parseProfessionData,
   titleLess
-} from "./helpers/sidebar";
-import { arrayOfLength, parseUnixDate } from "@app/_core/utility";
-import FieldVaryService from "@app/_services/FieldVaryService";
-import { ActivatedRoute } from "@angular/router";
-import { TranslateService } from "@app/_modules/translate/translate.service";
-import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
-import { saveAs } from "file-saver";
+} from './helpers/sidebar';
+import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
+import FieldVaryService from '@app/_services/FieldVaryService';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { saveAs } from 'file-saver';
 
 interface SidebarType {
   [key: string]: string;
@@ -26,65 +26,65 @@ interface TitleLess {
 // tslint:disable
 const sidebarOrder = {
   article: [
-    "additional",
-    "fieldContactSection",
-    "fieldHyperlinks",
-    "fieldRelatedArticle"
+    'additional',
+    'fieldContactSection',
+    'fieldHyperlinks',
+    'fieldRelatedArticle'
   ],
-  school: ["fieldContact", "fieldSchoolLocation"],
+  school: ['fieldContact', 'fieldSchoolLocation'],
   profession: [
-    "fillingBar",
-    "indicator",
-    "prosCons",
-    "fieldOskaField",
-    "fieldLearningOpportunities",
-    "fieldJobOpportunities",
-    "fieldQualificationStandard",
-    "fieldJobs",
-    "fieldQuickFind",
-    "fieldContact"
+    'fillingBar',
+    'indicator',
+    'prosCons',
+    'fieldOskaField',
+    'fieldLearningOpportunities',
+    'fieldJobOpportunities',
+    'fieldQualificationStandard',
+    'fieldJobs',
+    'fieldQuickFind',
+    'fieldContact'
   ],
   event: [
-    "fieldRegistration",
-    "fieldEventLocation",
-    "fieldContact",
-    "additional"
+    'fieldRegistration',
+    'fieldEventLocation',
+    'fieldContact',
+    'additional'
   ],
-  infosystem: ["fieldEhisLinks", "fieldButton", "fieldLegislationBlock"],
+  infosystem: ['fieldEhisLinks', 'fieldButton', 'fieldLegislationBlock'],
   field: [
-    "indicator",
-    "prosCons",
-    "fieldOskaResults",
-    "fieldQuickFind",
-    "fieldRelatedPages"
+    'indicator',
+    'prosCons',
+    'fieldOskaResults',
+    'fieldQuickFind',
+    'fieldRelatedPages'
   ],
   resultPage: [
-    "additional",
-    "fieldContactSection",
-    "fieldHyperlinks",
-    "fieldRelatedArticle"
+    'additional',
+    'fieldContactSection',
+    'fieldHyperlinks',
+    'fieldRelatedArticle'
   ],
   dashboard: [
-    "gdpr",
-    "notifications",
-    "favourites",
-    "events",
-    "finalDocumentDownload",
-    "finalDocumentAccess",
-    "finalDocumentHistory"
+    'gdpr',
+    'notifications',
+    'favourites',
+    'events',
+    'finalDocumentDownload',
+    'finalDocumentAccess',
+    'finalDocumentHistory'
   ]
 };
 
 // tslint:enable
 
 @Component({
-  selector: "sidebar",
-  templateUrl: "./sidebar.template.html",
-  styleUrls: ["./sidebar.styles.scss"]
+  selector: 'sidebar',
+  templateUrl: './sidebar.template.html',
+  styleUrls: ['./sidebar.styles.scss']
 })
 export class SidebarComponent implements OnInit, OnChanges {
-  @Input() public data: any;
-  @Input() public feedbackNid: string = "";
+  @Input() data: any;
+  @Input() feedbackNid: string = '';
   public isArray = Array.isArray;
   public mappedData: any;
   private type: string;
@@ -103,15 +103,15 @@ export class SidebarComponent implements OnInit, OnChanges {
     }
   }
 
-  @HostBinding("class") get hostClasses(): string {
-    return "sidebar";
+  @HostBinding('class') get hostClasses(): string {
+    return 'sidebar';
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.getData();
   }
 
-  public ngOnChanges() {
+  ngOnChanges() {
     this.getData();
   }
 
@@ -121,12 +121,12 @@ export class SidebarComponent implements OnInit, OnChanges {
       // Try to determine if its news data
       try {
         if (
-          this.data.nodeQuery.entities[0].entityUrl.path.match(
-            "uudised"
+          this.data['nodeQuery']['entities'][0]['entityUrl']['path'].match(
+            'uudised'
           )
         ) {
-          this.data.newsQuery = this.data.nodeQuery;
-          delete this.data.nodeQuery;
+          this.data['newsQuery'] = this.data['nodeQuery'];
+          delete this.data['nodeQuery'];
         }
       } catch (err) {
       }
@@ -141,22 +141,22 @@ export class SidebarComponent implements OnInit, OnChanges {
         FieldVaryService(this.data)
       );
 
-      if (this.type === "infosystem") {
+      if (this.type === 'infosystem') {
         this.mappedData = parseInfosystemData(this.mappedData);
       }
 
-      if (this.type === "profession") {
+      if (this.type === 'profession') {
         this.mappedData = parseProfessionData(this.mappedData, this.translate);
       }
 
-      if (this.type === "field") {
+      if (this.type === 'field') {
         this.mappedData = parseFieldData(this.mappedData, this.translate);
       }
 
       if (
-        this.type === "resultPage" ||
-        this.type === "surveyPage" ||
-        this.type === "event"
+        this.type === 'resultPage' ||
+        this.type === 'surveyPage' ||
+        this.type === 'event'
       ) {
         delete this.mappedData.links;
       }
@@ -177,34 +177,34 @@ export class SidebarComponent implements OnInit, OnChanges {
 
 // Subcomponents
 @Component({
-  selector: "sidebar-links",
-  templateUrl: "./templates/sidebar.links.template.html"
+  selector: 'sidebar-links',
+  templateUrl: './templates/sidebar.links.template.html'
 })
 export class SidebarLinksComponent implements OnInit, OnChanges {
-  @Input() public data: Object[];
+  @Input() data: Object[];
   public parsedData: Object[];
   public blocks;
 
   constructor() {
   }
 
-  public parseData() {
+  parseData() {
     this.parsedData = this.data.map((item: any) => {
-      if (item.entity && item.entity.entityLabel) {
+      if (item['entity'] && item['entity'].entityLabel) {
         return {
-          title: item.entity.entityLabel,
+          title: item['entity'].entityLabel,
           url: {
-            path: item.entity.entityUrl.path,
+            path: item['entity'].entityUrl.path,
             routed: true
           }
         };
       }
-      if (item.entity && item.entity.fieldJobName) {
+      if (item['entity'] && item['entity'].fieldJobName) {
         return {
-          title: item.entity.fieldJobName,
+          title: item['entity'].fieldJobName,
           url: {
-            path: item.entity.fieldJobLink.url.path,
-            routed: item.entity.fieldJobLink.url.routed
+            path: item['entity'].fieldJobLink.url.path,
+            routed: item['entity'].fieldJobLink.url.routed
           }
         };
       }
@@ -216,9 +216,9 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
       try {
         const blocks = [];
         this.data.forEach(item => {
-          if (item.entity.fieldBlockLinks) {
+          if (item['entity']['fieldBlockLinks']) {
             let links = [];
-            links = item.entity.fieldBlockLinks.map(link => {
+            links = item['entity']['fieldBlockLinks'].map(link => {
               return {
                 title: link.entity.fieldLinkName,
                 url: link.entity.fieldWebpageLink
@@ -226,7 +226,7 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
             });
             blocks.push({
               links,
-              title: item.entity.fieldBlockTitle
+              title: item['entity']['fieldBlockTitle']
             });
           }
         });
@@ -236,37 +236,37 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
     }
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.parseData();
   }
 
-  public ngOnChanges() {
+  ngOnChanges() {
     this.parseData();
   }
 }
 
 @Component({
-  selector: "sidebar-categories",
-  templateUrl: "./templates/sidebar.categories.template.html"
+  selector: 'sidebar-categories',
+  templateUrl: './templates/sidebar.categories.template.html'
 })
 export class SidebarCategoriesComponent implements OnInit {
-  @Input() public data: Object[];
+  @Input() data: Object[];
   public entriesData: any[];
 
-  public ngOnInit() {
+  ngOnInit() {
     this.entriesData = Object.entries(this.data);
   }
 }
 
 @Component({
-  selector: "sidebar-contact",
-  templateUrl: "./templates/sidebar.contact.template.html"
+  selector: 'sidebar-contact',
+  templateUrl: './templates/sidebar.contact.template.html'
 })
 export class SidebarContactComponent {
-  @Input() public data: any;
+  @Input() data: any;
   public parsedData: any;
 
-  public ngOnInit() {
+  ngOnInit() {
     if (this.data.entity) {
       this.parsedData = FieldVaryService(this.data.entity);
     } else {
@@ -276,36 +276,40 @@ export class SidebarContactComponent {
 }
 
 @Component({
-  selector: "sidebar-articles",
-  templateUrl: "./templates/sidebar.articles.template.html"
+  selector: 'sidebar-articles',
+  templateUrl: './templates/sidebar.articles.template.html'
 })
 export class SidebarArticlesComponent {
-  @Input() public data;
+  @Input() data;
 }
 
 @Component({
-  selector: "sidebar-data",
-  templateUrl: "./templates/sidebar.data.template.html"
+  selector: 'sidebar-data',
+  templateUrl: './templates/sidebar.data.template.html'
 })
 export class SidebarDataComponent {
-  @Input() public data;
+  @Input() data;
 }
 
 @Component({
-  selector: "sidebar-actions",
-  templateUrl: "./templates/sidebar.actions.template.html"
+  selector: 'sidebar-actions',
+  templateUrl: './templates/sidebar.actions.template.html'
 })
 export class SidebarActionsComponent {
-  @Input() public data;
-  @Input() public icons;
+  @Input() data;
+  @Input() icons;
+
+  ngOnInit() {
+    console.log(this.data);
+  }
 }
 
 @Component({
-  selector: "sidebar-location",
-  templateUrl: "./templates/sidebar.location.template.html"
+  selector: 'sidebar-location',
+  templateUrl: './templates/sidebar.location.template.html'
 })
 export class SidebarLocationComponent {
-  @Input() public data: any;
+  @Input() data: any;
   private markers: any[] = [];
   private options = {
     centerLat: null,
@@ -319,12 +323,12 @@ export class SidebarLocationComponent {
     draggable: false
   };
 
-  public parseData() {
+  parseData() {
     if (this.data && this.data.length) {
       try {
         this.data.forEach(loc => {
-          const lat = parseFloat(loc.entity.fieldCoordinates.lat);
-          const lon = parseFloat(loc.entity.fieldCoordinates.lon);
+          const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
+          const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
           this.options.centerLat = lat;
           this.options.centerLng = lon;
           this.markers.push({ Lat: lat, Lon: lon });
@@ -335,8 +339,8 @@ export class SidebarLocationComponent {
       try {
         this.data.educationalInstitution.entity.fieldSchoolLocation.forEach(
           loc => {
-            const lat = parseFloat(loc.entity.fieldCoordinates.lat);
-            const lon = parseFloat(loc.entity.fieldCoordinates.lon);
+            const lat = parseFloat(loc['entity'].fieldCoordinates.lat);
+            const lon = parseFloat(loc['entity'].fieldCoordinates.lon);
             this.options.centerLat = lat;
             this.options.centerLng = lon;
             this.markers.push({ Lat: lat, Lon: lon });
@@ -363,38 +367,38 @@ export class SidebarLocationComponent {
     }
   }
 
-  public ngOnChanges() {
+  ngOnChanges() {
     this.parseData();
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     this.parseData();
   }
 }
 
 @Component({
-  selector: "sidebar-facts",
-  templateUrl: "./templates/sidebar.facts.template.html"
+  selector: 'sidebar-facts',
+  templateUrl: './templates/sidebar.facts.template.html'
 })
 export class SidebarFactsComponent implements OnInit {
-  @Input() public data: any;
+  @Input() data: any;
   public entitiesData: any[];
   private graduatesToJobsValues = [
-    { class: "first with-bg", text: "oska.more_graduates" },
-    { class: "first with-bg", text: "oska.less_graduates" },
-    { class: "second with-bg", text: "oska.enough_graduates" },
-    { class: "third with-bg", text: "oska.graduates_work_outside_field" },
-    { class: "fourth with-bg", text: "oska.no_graduates" }
+    { class: 'first with-bg', text: 'oska.more_graduates' },
+    { class: 'first with-bg', text: 'oska.less_graduates' },
+    { class: 'second with-bg', text: 'oska.enough_graduates' },
+    { class: 'third with-bg', text: 'oska.graduates_work_outside_field' },
+    { class: 'fourth with-bg', text: 'oska.no_graduates' }
   ];
   private trendingValues = [
-    { icon: "arrow-up", class: "second", text: "oska.big_increase" },
-    { icon: "arrow-up-right", class: "second", text: "oska.increase" },
-    { icon: "arrow-right", class: "third", text: "oska.stagnant" },
-    { icon: "arrow-down-right", class: "first", text: "oska.decline" },
-    { icon: "arrow-down", class: "first", text: "oska.big_decline" }
+    { icon: 'arrow-up', class: 'second', text: 'oska.big_increase' },
+    { icon: 'arrow-up-right', class: 'second', text: 'oska.increase' },
+    { icon: 'arrow-right', class: 'third', text: 'oska.stagnant' },
+    { icon: 'arrow-down-right', class: 'first', text: 'oska.decline' },
+    { icon: 'arrow-down', class: 'first', text: 'oska.big_decline' }
   ];
 
-  public ngOnInit() {
+  ngOnInit() {
     this.entitiesData = this.data.entities;
   }
 
@@ -404,21 +408,21 @@ export class SidebarFactsComponent implements OnInit {
 }
 
 @Component({
-  selector: "sidebar-progress",
-  templateUrl: "./templates/sidebar.progress.template.html"
+  selector: 'sidebar-progress',
+  templateUrl: './templates/sidebar.progress.template.html'
 })
 export class SidebarProgressComponent {
-  @Input() public data: any;
+  @Input() data: any;
   public level: number;
   private competitionLabels = [
-    "oska.simple",
-    "oska.quite_simple",
-    "oska.medium",
-    "oska.quite_difficult",
-    "oska.difficult"
+    'oska.simple',
+    'oska.quite_simple',
+    'oska.medium',
+    'oska.quite_difficult',
+    'oska.difficult'
   ];
 
-  public ngOnInit() {
+  ngOnInit() {
     if (this.data.entities && this.data.entities.length) {
       this.level = this.data.entities[0].value;
     }
@@ -426,24 +430,23 @@ export class SidebarProgressComponent {
 }
 
 @Component({
-  selector: "sidebar-register",
-  templateUrl: "./templates/sidebar.register.template.html"
+  selector: 'sidebar-register',
+  templateUrl: './templates/sidebar.register.template.html'
 })
 export class SidebarRegisterComponent {
-  @Input() public pageData;
+  @Input() pageData;
 
   public formSubmitted: boolean = false;
 
   public form = this.formBuilder.group({
-    firstName: ["", Validators.required],
-    lastName: ["", Validators.required],
-    companyName: [""],
-    email: ["", [Validators.required, Validators.email]],
-    telephone: [""],
-    marked: [""]
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    companyName: [''],
+    email: ['', [Validators.required, Validators.email]],
+    telephone: [''],
+    marked: ['']
   });
-
-  @Input() public data: any;
+  @Input() data: any;
   public loading: boolean = false;
   public step: number = 1;
   public response;
@@ -458,7 +461,7 @@ export class SidebarRegisterComponent {
   ) {
   }
 
-  public ngOnInit() {
+  ngOnInit() {
     try {
       this.pageData = {
         ...this.pageData,
@@ -483,7 +486,7 @@ export class SidebarRegisterComponent {
     this.formSubmitted = false;
   }
 
-  public hasError(name: string = "") {
+  public hasError(name: string = '') {
     return this.form.controls[name].invalid;
   }
 
@@ -493,10 +496,10 @@ export class SidebarRegisterComponent {
       this.loading = true;
 
       const data = {
-        queryId: "cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1",
+        queryId: 'cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1',
         variables: {
           event_id: this.pageData.nid,
-          lang: "ET",
+          lang: 'ET',
           ...this.form.value
         }
       };
@@ -505,8 +508,8 @@ export class SidebarRegisterComponent {
         .post(`${this.settings.url}/graphql`, data)
         .subscribe(
           response => {
-            const data = response.data;
-            this.response = data.createEventRegistration;
+            const data = response['data'];
+            this.response = data['createEventRegistration'];
             this.step = 2;
             this.loading = false;
             register.unsubscribe();
@@ -518,7 +521,7 @@ export class SidebarRegisterComponent {
     }
   }
 
-  public canRegister() {
+  canRegister() {
     let firstDate;
     let lastDate;
     try {
@@ -540,80 +543,80 @@ export class SidebarRegisterComponent {
         this.pageData.RegistrationCount >=
         this.pageData.fieldMaxNumberOfParticipants
       ) {
-        return "full";
+        return 'full';
       }
       if (lastDate >= this.unix && firstDate <= this.unix) return true;
-      if (firstDate > this.unix) return "not_started";
-      if (lastDate < this.unix) return "ended";
+      if (firstDate > this.unix) return 'not_started';
+      if (lastDate < this.unix) return 'ended';
     } catch (err) {
     }
   }
 }
 
 @Component({
-  selector: "sidebar-events",
-  templateUrl: "./templates/sidebar.events.template.html"
+  selector: 'sidebar-events',
+  templateUrl: './templates/sidebar.events.template.html'
 })
 export class SidebarEventsComponent {
-  @Input() public data: any;
+  @Input() data: any;
 }
 
 @Component({
-  selector: "sidebar-notifications",
-  templateUrl: "./templates/sidebar.notifications.template.html"
+  selector: 'sidebar-notifications',
+  templateUrl: './templates/sidebar.notifications.template.html'
 })
 export class SidebarNotificationsComponent {
-  @Input() public data: any;
+  @Input() data: any;
 }
 
 @Component({
-  selector: "sidebar-gdpr",
-  templateUrl: "./templates/sidebar.gdpr.template.html"
+  selector: 'sidebar-gdpr',
+  templateUrl: './templates/sidebar.gdpr.template.html'
 })
 export class SidebarGdprComponent {
-  @Input() public data: any;
+  @Input() data: any;
 }
 
 @Component({
-  selector: "sidebar-finaldocument-access",
-  templateUrl: "./templates/sidebar.finaldocument-access.template.html"
+  selector: 'sidebar-finaldocument-access',
+  templateUrl: './templates/sidebar.finaldocument-access.template.html'
 })
 export class SidebarFinalDocumentAccessComponent implements OnInit {
   @Input() public data: any;
   public errors = {
-    'required': 'Väli on kohustuslik',
+    'required': 'Väli on kohustuslik'
   }
 
   public addAccessForm: FormGroup = this.formBuilder.group(
     {
       type: [''],
-      emailAddress: ['', { validators: [Validators.email], updateOn: 'submit' }],
-      accessorCode: [''],
+      emailAddress: ['', { validators: [Validators.email] }],
+      accessorCode: ['', { validators: [Validators.required] }],
       scope: ['ACCESS_SCOPE:MAIN_DOCUMENT', { validators: [Validators.required] }],
-      endDate: [""],
+      endDate: [''],
       noEndDate: [false],
-      accessId: [""]
-    },
+      accessId: ['']
+    }
   );
   public addAccessOptions = {
     type: [
       {
-        key: "Isikukoodiga",
-        value: "ACCESS_TYPE:ID_CODE"
+        key: 'Isikukoodiga',
+        value: 'ACCESS_TYPE:ID_CODE'
       },
       {
-        key: "E-postiga",
-        value: "ACCESS_TYPE:ACCESS_CODE"
+        key: 'E-postiga',
+        value: 'ACCESS_TYPE:ACCESS_CODE'
       }
     ],
     scope: [
       {
-        key: "Lõputunnistus",
-        value: "ACCESS_SCOPE:MAIN_DOCUMENT"
+        key: 'Lõputunnistus',
+        value: 'ACCESS_SCOPE:MAIN_DOCUMENT'
       },
       {
-        key: "Lõputunnistus koos hinnetelehega",
-        value: "ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS"
+        key: 'Lõputunnistus koos hinnetelehega',
+        value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS'
       }
     ]
   };
@@ -623,7 +626,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
   public openedAccess: any = {};
   public openedAccessLabelType: any;
   public openedAccessLabel = [];
-  public accessAction = "add";
+  public accessAction = 'add';
   public issuingHistory = [];
   public actionHistory = [];
 
@@ -634,7 +637,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
-    private alertsService: AlertsService,
+    private alertsService: AlertsService
   ) {
   }
 
@@ -646,13 +649,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     this.openedAccessLabel = [
       {
         value:
-          access.status === "ACCESS_STATUS:VALID"
-            ? "kehtiv ligipääs"
-            : "kehtetu ligipääs"
+          access.status === 'ACCESS_STATUS:VALID'
+            ? 'kehtiv ligipääs'
+            : 'kehtetu ligipääs'
       }
     ];
     this.openedAccessLabelType =
-      access.status === "ACCESS_STATUS:VALID" ? "green" : "red";
+      access.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
     this.addAccessForm.reset();
     this.addAccessForm.setValue({
       type: access.type,
@@ -661,30 +664,20 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
       scope: access.scope,
       endDate: access.endDate
         ? access.endDate
-          .split("-")
+          .split('-')
           .reverse()
-          .join(".")
+          .join('.')
         : null,
       noEndDate: !access.endDate ? true : false,
       accessId: access.id
     });
 
-    this.modal.toggle("finalDocument-access");
-  }
-
-  public openNewAccessModal() {
-    this.modal.toggle('finalDocument-addAccess');
-    this.addAccessForm.reset();
-    const date = new Date();
-    this.addAccessForm.controls.endDate.setValue(
-      new Date(date.setMonth(date.getMonth() + 1)).toLocaleDateString(),
-    )
-    this.accessAction = 'add'
+    this.modal.toggle('finalDocument-access');
   }
 
   public changeAccess(): void {
-    this.accessAction = "edit";
-    this.modal.toggle("finalDocument-addAccess");
+    this.accessAction = 'edit';
+    this.modal.toggle('finalDocument-addAccess');
   }
 
   public addAccess(): void {
@@ -697,7 +690,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     const form = this.addAccessForm.value;
     const indexId = this.route.snapshot.params.id;
     if (form.accessorCode) {
-      const startsWithLetters = isNaN(form.accessorCode.charAt(0)) && isNaN(form.accessorCode.charAt(1));
+      const startsWithLetters = Number.isNaN(form.accessorCode.charAt(0)) && Number.isNaN(form.accessorCode.charAt(1));
       if (!startsWithLetters) {
         this.addAccessForm.controls.accessorCode.setValue(`EE${form.accessorCode.trim()}`);
         form.accessorCode = this.addAccessForm.controls.accessorCode.value;
@@ -711,20 +704,20 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         endDate: form.noEndDate
           ? null
           : form.endDate
-            .split(".")
+            .split('.')
             .reverse()
-            .join("-"),
+            .join('-'),
         accessorCode:
-          form.type === "ACCESS_TYPE:ID_CODE" ? form.accessorCode : null,
+          form.type === 'ACCESS_TYPE:ID_CODE' ? form.accessorCode : null,
         emailAddress:
-          form.type === "ACCESS_TYPE:ACCESS_CODE" ? form.emailAddress : null
+          form.type === 'ACCESS_TYPE:ACCESS_CODE' ? form.emailAddress : null
       }
     };
     this.http
       .post(`${this.settings.ehisUrl}/certificates/v1/certificateAccess`, accessDTO)
       .subscribe(
         (val) => {
-          this.modal.toggle("finalDocument-addAccess");
+          this.modal.toggle('finalDocument-addAccess');
           this.addAccessForm.reset();
           this.getData();
         },
@@ -751,9 +744,9 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         endDate: form.noEndDate
           ? null
           : form.endDate
-            .split(".")
+            .split('.')
             .reverse()
-            .join("-"),
+            .join('-'),
         endDateSet: form.endDate ? true : false,
         scopeSet: form.scope ? true : false
       }
@@ -764,7 +757,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         accessDTO
       )
       .subscribe(val => {
-        this.modal.toggle("finalDocument-addAccess");
+        this.modal.toggle('finalDocument-addAccess');
         this.addAccessForm.reset();
         this.getData();
       });
@@ -784,14 +777,14 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         this.openedAccessLabel = [
           {
             value:
-              res.status === "ACCESS_STATUS:VALID"
-                ? "kehtiv ligipääs"
-                : "kehtetu ligipääs"
+              res.status === 'ACCESS_STATUS:VALID'
+                ? 'kehtiv ligipääs'
+                : 'kehtetu ligipääs'
           }
         ];
         this.openedAccessLabelType =
-          res.status === "ACCESS_STATUS:VALID" ? "green" : "red";
-        this.modal.toggle("finalDocument-confirmInvalidation");
+          res.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
+        this.modal.toggle('finalDocument-confirmInvalidation');
       });
   }
 
@@ -834,17 +827,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 }
 
 @Component({
-  selector: "sidebar-finaldocument-history",
-  templateUrl: "./templates/sidebar.finaldocument-history.template.html"
+  selector: 'sidebar-finaldocument-history',
+  templateUrl: './templates/sidebar.finaldocument-history.template.html'
 })
 export class SidebarFinalDocumentHistoryComponent implements OnInit {
-  @Input() public data: any;
+  @Input() data: any;
   public issuingHistory = [];
   public actionHistory = [];
-  public documentCache = {};
-  public loadingDocument: boolean = true;
-  public loadingDocumentError: boolean = false;
-  public documentToShow: number;
 
   constructor(
     private http: HttpClient,
@@ -859,32 +848,6 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
     this.getData();
   }
 
-  public getDocument(documentId) {
-    this.loadingDocumentError = false;
-    this.loadingDocument = true;
-    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificateDocument/${documentId}`).subscribe(
-      (res: any) => {
-        const document = res.document;
-        document.content = JSON.parse(document.content);
-        this.documentCache[res.document.id] = document;
-        this.loadingDocument = false;
-      },
-      () => {
-        this.loadingDocumentError = true;
-        this.loadingDocument = false;
-        this.alertsService.error('certificates.loading_error', 'documentAlerts', '', true);
-      });
-  }
-
-  public openDocument(document) {
-    this.modal.close('finalDocument-actionHistory');
-    this.documentToShow = document;
-    if (!this.documentCache[document.id]) {
-      this.getDocument(document.id);
-    }
-    this.modal.toggle('finalDocument-document');
-  }
-
   private getData(): void {
     const id = this.route.snapshot.params.id;
     this.http
@@ -896,7 +859,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
       .get(`${this.settings.ehisUrl}/certificates/v1/certificateDataIssues/${id}`)
       .subscribe((res: any) => {
         this.issuingHistory = res
-          .filter(el => el.issueBase !== "OWNER")
+          .filter(el => el.issueBase !== 'OWNER')
           .sort((a, b) => {
             if (new Date(a.issueTime) > new Date(b.issueTime)) {
               return -1;
@@ -908,8 +871,8 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
           });
         if (this.issuingHistory.length === 0) {
           this.alertsService.info(
-            "Vaatamise ajaloo kirjeid ei leitud",
-            "historyModalAlerts",
+            'Vaatamise ajaloo kirjeid ei leitud',
+            'historyModalAlerts',
             false
           );
         }
@@ -918,81 +881,35 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
 }
 
 @Component({
-  selector: "sidebar-finaldocument-download",
-  templateUrl: "./templates/sidebar.finaldocument-download.template.html"
+  selector: 'sidebar-finaldocument-download',
+  templateUrl: './templates/sidebar.finaldocument-download.template.html'
 })
 export class SidebarFinalDocumentDownloadComponent {
-  public hasAccessToAccompanyingDocuments = false;
   @Input() public data: any;
-
-  public downloadForm: FormGroup;
-  public downloadOptions = {
-    fileFormat: [
-      {
-        value: "PDF",
-        key: "PDF (allkirjastamata fail)"
-      },
-      {
-        value: "ASICE",
-        key: "ASICE (allkirjastatud fail)"
-      }
-    ],
-    scope: [
-      {
-        key: "Lõputunnistus",
-        value: "ACCESS_SCOPE:MAIN_DOCUMENT"
-      },
-      {
-        key: "Lõputunnistus koos hinnetelehega",
-        value: "ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS"
-      }
-    ]
-  };
 
   constructor(
     private http: HttpClient,
     private settings: SettingsService,
-    private route: ActivatedRoute,
-    private fb: FormBuilder,
-    public modal: ModalService,
+    private route: ActivatedRoute
   ) {
   }
 
   public downloadTranscript(): void {
     const id = this.route.snapshot.params.id;
-    if (this.downloadForm.invalid) {
-      return;
-    }
     this.http
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}`,
         {
-          headers: { "Content-Type": "application/*" },
-          responseType: "blob"
+          headers: { 'Content-Type': 'application/*' },
+          responseType: 'blob'
         }
       )
       .subscribe((res: any) => {
         saveAs(
           new File([res], `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}`, {
-            type: "application/pdf"
+            type: 'application/pdf'
           })
         );
       });
-  }
-
-  public ngOnInit() {
-    this.hasAccessToAccompanyingDocuments = !this.data.withAccess
-      || this.data.accessScope === 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS';
-    this.initializeForm();
-  }
-
-  private initializeForm() {
-
-    this.downloadForm = this.fb.group(
-      {
-        scope: [this.hasAccessToAccompanyingDocuments ? 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS' : 'ACCESS_SCOPE:MAIN_DOCUMENT'],
-        fileFormat: ['PDF'],
-      },
-    );
   }
 }
