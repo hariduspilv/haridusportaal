@@ -244,6 +244,8 @@
 					position: absolute;
 					left: 1rem;
 					color: $white;
+					z-index: 20;
+					cursor: pointer;
 					::ng-deep i {
 						font-size: 1.25rem;
 					}

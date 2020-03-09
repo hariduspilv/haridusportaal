@@ -1,4 +1,4 @@
-<ul>
+<ul [class.ellipsis]="ellipsis">
   <li *ngFor="let item of data; let i = index;">
     <span class="arrow" *ngIf="i > 0">
       <icon glyph="chevron-right"></icon>

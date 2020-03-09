@@ -1,11 +1,11 @@
-import { Component, OnInit, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
-import { switchMap, catchError } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { forkJoin, of } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
@@ -19,12 +19,12 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
 
   public sidebar = {
     entity: {
-      finalDocumentAccess: {
-        issuerInstitution: '',
-      },
       finalDocumentDownload: {
         certificateName: '',
         certificateNumber: '',
+      },
+      finalDocumentAccess: {
+        issuerInstitution: '',
       },
       finalDocumentHistory: {
         issuerInstitution: '',
@@ -42,19 +42,21 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       link: '/töölaud/tunnistused',
     },
   ];
-  @ViewChildren('certificate') public certificate:QueryList<any>;
-
+  @ViewChildren('certificate') public certificate: QueryList<any>;
 
 
   public loading = true;
-  constructor (
+
+  constructor(
     private location: Location,
     private route: ActivatedRoute,
     private http: HttpClient,
     private settings: SettingsService,
     private formBuilder: FormBuilder,
     private translate: TranslateService,
-  ) {}
+  ) {
+  }
+
   public ngOnInit() {
     this.getData();
   }
@@ -64,13 +66,14 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       this.certificate.first.calculateCertificateSize();
     }
   }
+
   private getData() {
     const id = this.route.snapshot.params.id;
     this.http
       .get(`${this.settings.ehisUrl}/certificates/v1/certificate/${id}`).subscribe((val: any) => {
-        this.path = [...this.path, { title: val.index.typeName, link: '' }];
-        this.getLatestDocuments(val.index.documents);
-      });
+      this.path = [...this.path, { title: val.index.typeName, link: '' }];
+      this.getLatestDocuments(val.index.documents);
+    });
   }
 
   private getLatestDocuments(documentsArray) {

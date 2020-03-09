@@ -1,17 +1,16 @@
 import {
-  Component,
-  Input,
-  Output,
-  ElementRef,
-  ContentChildren,
-  OnInit,
-  HostBinding,
-  forwardRef,
   ChangeDetectorRef,
+  Component,
+  ContentChildren,
+  ElementRef,
   EventEmitter,
-  HostListener,
+  forwardRef,
+  HostBinding,
+  Input,
   OnChanges,
   OnDestroy,
+  OnInit,
+  Output,
 } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -21,7 +20,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { ParseInAddsPipe } from '@app/_pipes/parseInAdds.pipe';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
-import { NgbDateStruct, NgbDate } from '@ng-bootstrap/ng-bootstrap';
+import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 
 export interface FormItemOption {
   key: string;
@@ -46,57 +45,35 @@ export interface FormItemOption {
 })
 
 export class FormItemComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
-  @ContentChildren('#inputField') inputField: ElementRef;
-  @Input() title: string = '';
-  @Input() placeholder: string = '';
-  @Input() type: string = 'text';
-  @Input() label: string = '';
+  @ContentChildren('#inputField') public inputField: ElementRef;
+  @Input() public title: string = '';
+  @Input() public placeholder: string = '';
+  @Input() public type: string = 'text';
+  @Input() public label: string = '';
   @Input() public value: string = '';
-  @Input() staticTitle: string;
-  @Input() errorMessage: string = '';
-  @Input() error: boolean = false;
-  @Input() success: boolean = false;
-  @Input() titleDisabled: boolean = false;
-  @Input() height: number;
-  @Input() options: FormItemOption[] = [];
-  @Input() pattern: any = false;
-  @Output() onChange: EventEmitter<any> = new EventEmitter();
-  @Output() onUpdate: EventEmitter<any> = new EventEmitter();
-  @Output() autoCompleteChanged: EventEmitter<any> = new EventEmitter();
-  @Input() name: string = '';
-  @Input() checked: string;
-  @Input() query: string = '';
-  @Input() disabled: boolean;
-  @Input() valueType: string = 'string';
-  @Input() browserAutocomplete: string = '';
-  @Input() sortOptions: boolean = true;
-  @Input() search: boolean = true;
-  @Input() appendTo: string = '';
-  @Input() minDate: NgbDateStruct = { year: 2010, month: 1, day: 1 };
-  @Input() maxDate: NgbDateStruct = { year: 2035, month: 12, day: 31 };
-  @Input() domID = '';
-  @Input() keyDownFn = (...args) => {};
-
-  @HostBinding('class') get hostClasses(): string {
-    const classes = ['formItem', `formItem--${this.type}`];
-    if (this.error) {
-      classes.push('formItem--error');
-    }
-    if (this.success) {
-      classes.push('formItem--success');
-    }
-    if (this.titleDisabled) {
-      classes.push('formItem--titleDisabled');
-    }
-    if (this.disabled) {
-      classes.push('formItem--disabled');
-    }
-
-    return this.focused ?
-      `formItem--focused ${classes.join(' ')}` :
-      `${classes.join(' ')}`;
-  }
-  propagateChange = (_: any) => { };
+  @Input() public staticTitle: string;
+  @Input() public errorMessage: string = '';
+  @Input() public error: boolean = false;
+  @Input() public success: boolean = false;
+  @Input() public titleDisabled: boolean = false;
+  @Input() public height: number;
+  @Input() public options: FormItemOption[] = [];
+  @Input() public pattern: any = false;
+  @Output() public onChange: EventEmitter<any> = new EventEmitter();
+  @Output() public onUpdate: EventEmitter<any> = new EventEmitter();
+  @Output() public autoCompleteChanged: EventEmitter<any> = new EventEmitter();
+  @Input() public name: string = '';
+  @Input() public checked: string;
+  @Input() public query: string = '';
+  @Input() public disabled: boolean;
+  @Input() public valueType: string = 'string';
+  @Input() public browserAutocomplete: string = '';
+  @Input() public sortOptions: boolean = true;
+  @Input() public search: boolean = true;
+  @Input() public appendTo: string = '';
+  @Input() public minDate: NgbDateStruct = { year: 2010, month: 1, day: 1 };
+  @Input() public maxDate: NgbDateStruct = { year: 2035, month: 12, day: 31 };
+  @Input() public domID = '';
   public field: any;
   public dateField;
   public dirty: boolean = false;
@@ -117,23 +94,49 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.isMobile = !this.deviceService.isDesktop();
   }
 
-  animateRipple($event) {
+  @HostBinding('class') get hostClasses(): string {
+    const classes = ['formItem', `formItem--${this.type}`];
+    if (this.error) {
+      classes.push('formItem--error');
+    }
+    if (this.success) {
+      classes.push('formItem--success');
+    }
+    if (this.titleDisabled) {
+      classes.push('formItem--titleDisabled');
+    }
+    if (this.disabled) {
+      classes.push('formItem--disabled');
+    }
+
+    return this.focused ?
+      `formItem--focused ${classes.join(' ')}` :
+      `${classes.join(' ')}`;
+  }
+
+  @Input() public keyDownFn = (...args) => {
+  };
+
+  public propagateChange = (_: any) => {
+  };
+
+  public animateRipple($event) {
     this.ripple.animate($event, 'dark');
   }
 
-  dateString(dateField) {
+  public dateString(dateField) {
     const day = dateField.day < 10 ? `0${dateField.day}` : dateField.day;
     const month = dateField.month < 10 ? `0${dateField.month}` : dateField.month;
     const year = dateField.year;
     return `${day}.${month}.${year}`;
   }
 
-  focusField() {
+  public focusField() {
     this.filledField = true;
     this.focused = true;
   }
 
-  removeComma() {
+  public removeComma() {
     setTimeout(
       () => {
         const values = this.el.nativeElement.querySelectorAll('.ng-value-label');
@@ -156,19 +159,22 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
             textContainerEl.appendChild(textContainerChildEl);
             mainContainer.insertBefore(textContainerEl, firstChild);
             textContainer = this.el.nativeElement.querySelector('.ng-value-text-child');
-          } catch (err) { }
+          } catch (err) {
+          }
         }
 
         try {
           textContainer.innerHTML = valuesText;
-        } catch (err) { }
+        } catch (err) {
+        }
 
         this.detectChanges();
       },
       0);
 
   }
-  update(action: string = '', elem = undefined) {
+
+  public update(action: string = '', elem = undefined) {
 
     if (action === 'datepicker') {
       if (this.dateField && this.dateField.year) {
@@ -248,7 +254,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       }
 
     }
-    if (this.type !== 'autocomplete') {
+    if (this.type !== 'autocomplete' || this.query === 'testAutocomplete') {
       this.propagateChange(this.field);
     }
 
@@ -267,13 +273,13 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.detectChanges();
   }
 
-  detectChanges() {
-    if (!this.cdr['destroyed']) {
+  public detectChanges() {
+    if (!this.cdr.destroyed) {
       this.cdr.detectChanges();
     }
   }
 
-  undefinedAddressValue() {
+  public undefinedAddressValue() {
     return {
       adr_id: undefined,
       ads_oid: undefined,
@@ -295,7 +301,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     };
   }
 
-  autocompleteUpdate(value: any = ''): void {
+  public autocompleteUpdate(value: any = ''): void {
     if (this.valueType === 'string') {
       this.field = value === '' ? this.field : value;
     } else {
@@ -311,25 +317,25 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
           value.seqNo = value.unik;
         }
 
-        if (value['unik'] && value['pikkaadress']) {
+        if (value.unik && value.pikkaadress) {
           this.field = {
-            seqNo: value['unik'],
-            klElukoht: value['ehak'],
-            adr_id: value['adr_id'],
-            ads_oid: value['ads_oid'],
-            adsId: value['adr_id'],
-            adsOid: value['ads_oid'],
-            addressFull: value['pikkaadress'],
-            addressCoded: value['koodaadress'],
-            county: value['maakond'],
-            countyEHAK: value['ehakmk'],
-            localGovernment: value['omavalitsus'],
-            localGovernmentEHAK: value['ehakov'],
-            settlementUnit: value['asustusyksus'],
-            settlementUnitEHAK: value['ehak'],
-            address: value['aadresstekst'],
-            apartment: value['kort_nr'],
-            addressHumanReadable: value['addressHumanReadable'],
+            seqNo: value.unik,
+            klElukoht: value.ehak,
+            adr_id: value.adr_id,
+            ads_oid: value.ads_oid,
+            adsId: value.adr_id,
+            adsOid: value.ads_oid,
+            addressFull: value.pikkaadress,
+            addressCoded: value.koodaadress,
+            county: value.maakond,
+            countyEHAK: value.ehakmk,
+            localGovernment: value.omavalitsus,
+            localGovernmentEHAK: value.ehakov,
+            settlementUnit: value.asustusyksus,
+            settlementUnitEHAK: value.ehak,
+            address: value.aadresstekst,
+            apartment: value.kort_nr,
+            addressHumanReadable: value.addressHumanReadable,
           };
         }
       }
@@ -339,7 +345,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.propagateChange(this.field);
   }
 
-  writeValue(value: any) {
+  public writeValue(value: any) {
     if (this.type === 'multi-select') {
 
       if (value) {
@@ -361,10 +367,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
               }
             });
           }
-        } catch (err) { }
+        } catch (err) {
+        }
       }
     } else if (this.type === 'date') {
-      this.dateField = value || this.field;
+      this.dateField = value; // || this.field;
     } else {
       this.field = (value || value === 0) ? value : '';
     }
@@ -390,15 +397,15 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.propagateChange(this.field);
   }
 
-  registerOnChange(fn) {
+  public registerOnChange(fn) {
     this.propagateChange = fn;
   }
 
-  registerOnTouched() {
+  public registerOnTouched() {
 
   }
 
-  checkInitialValue(): void {
+  public checkInitialValue(): void {
     this.checkDisabled();
 
     if (this.name) {
@@ -467,7 +474,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.detectChanges();
   }
 
-  checkDisabled(): void {
+  public checkDisabled(): void {
 
     if (typeof this.disabled === 'string') {
       this.disabled = this.disabled === 'true' ? true : undefined;
@@ -477,11 +484,11 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     this.detectChanges();
   }
 
-  triggerOnUpdate(): void {
+  public triggerOnUpdate(): void {
     this.onUpdate.emit(true);
   }
 
-  getValue() {
+  public getValue() {
     return {
       name: this.name,
       value: this.field,
@@ -489,20 +496,21 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     };
   }
 
-  setValue(value) {
+  public setValue(value) {
     this.writeValue(value);
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     this.checkInitialValue();
     this.checkDisabled();
     this.detectChanges();
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.checkInitialValue();
   }
-  ngOnDestroy(): void {
+
+  public ngOnDestroy(): void {
     this.cdr.detach();
   }
 }

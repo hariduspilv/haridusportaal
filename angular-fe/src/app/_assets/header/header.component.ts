@@ -178,6 +178,10 @@ export class HeaderComponent implements OnInit {
       });
   }
 
+  public searchClick() {
+    this.searchRoute(this.searchTerm);
+  }
+
   public searchRoute(e, timeout: boolean = false) {
 
     const term = !e ? this.searchTerm : (

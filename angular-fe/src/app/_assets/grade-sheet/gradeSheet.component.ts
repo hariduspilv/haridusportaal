@@ -7,10 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class GradeSheetComponent{
 
-  constructor (
-  ) {}
-
-  @Input() document: any = {};
+  @Input() public document: any = {};
 
   public mandatorySubjects = [];
   public electives = [];
@@ -18,7 +15,7 @@ export class GradeSheetComponent{
   public hasIndividualProgramme = false;
   public toimetulekuOpe = false;
 
-  ngOnInit() {
+  public ngOnInit() {
 
     if (this.document.content.studies.curriculumName ===
       'põhikooli lihtsustatud riiklik õppekava toimetulekuõpe'

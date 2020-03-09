@@ -13,7 +13,7 @@
 				></block-secondary-title
 			>
 			<block-content>
-				{{'gdpr_intro' | translate}}
+				<div class="gdpr_intro" [innerHTML]="'gdpr_intro' | translate"></div>
 				<loader *ngIf="loading"></loader>
 				<p *ngIf="!loading && (!data || groupedData.length === 0)">
 					{{'xjson.data_missing' | translate}}
