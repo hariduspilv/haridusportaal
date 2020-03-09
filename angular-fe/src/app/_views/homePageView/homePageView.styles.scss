@@ -294,12 +294,14 @@
         &__link {
           text-align: center;
           margin: 0.625rem 0;
+          color: $blue;
+          text-decoration: underline;
         }
 
         &:hover {
           transform: scale(1.05);
           box-shadow: 0rem 0rem 2.5rem rgba(44, 43, 43, 0.25);
-          .slides__elem__link a{
+          .slides__elem__link{
             text-decoration: none;
           }
         }

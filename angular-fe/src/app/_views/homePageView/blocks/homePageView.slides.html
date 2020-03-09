@@ -7,15 +7,15 @@
       <div class="slides__wrapper">
 
         <ng-container *ngFor="let item of data; let i = index">
-          <div class="slides__instance" *ngIf="i < 3">
+          <div class="slides__instance" *ngIf="i < 3" [routerLink]="item.link.url.path">
             <div class="slides__elem">
               <div class="slides__elem__image">
                 <img [src]="item.image.url" [alt]="" />
               </div><!--/slides__elem__image-->
               <div class="slides__elem__body">
                 <h3 class="slides__elem__title">{{ item.title }}</h3>
-                <div class="slides__elem__text">{{ item.content }}</div>
-                <div class="slides__elem__link"><a [routerLink]="item.link.url.path">{{ item.link.title }}</a></div>
+                <p class="slides__elem__text">{{ item.content }}</p>
+                <div class="slides__elem__link">{{ item.link.title }}</div>
               </div><!--/slides__elem__body-->
             </div><!--/slides__elem-->
           </div><!--/slides__instance-->

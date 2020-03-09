@@ -34,10 +34,16 @@ export class ScrollToDirective {
     });
     */
 
-    appContent.scrollTo({
-      top: scrollTop,
-      behavior: 'smooth',
-    });
+    const isIE11 = !!window['MSInputMethodContext'] && !!document['documentMode'];
+
+    if (isIE11) {
+      appContent.scrollTop = scrollTop;
+    } else {
+      appContent.scrollTo({
+        top: scrollTop,
+        behavior: 'smooth',
+      });
+    }
 
   }
 

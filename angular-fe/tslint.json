@@ -1,12 +1,3 @@
 {
-  "extends": ["tslint:recommended", "tslint-config-airbnb", "tslint-config-prettier"],
-  "rules": {
-    "max-classes-per-file": false,
-    "ordered-imports": false,
-    "no-console": {
-      "severity": "warning"
-    },
-    "object-literal-sort-keys": false,
-    "interface-name": false
-  }
+  "extends": ["tslint-config-airbnb"]
 }
