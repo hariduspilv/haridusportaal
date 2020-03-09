@@ -1,21 +1,26 @@
 <div class="modal">
   <div class="modal__backdrop">
-      <div class="modal__block" cdkTrapFocus #modalContent role="modal" attr.id="modal-{{id}}" tabindex="-1">
-        <ng-container *ngIf="opened">
-          <div class="modal__header" *ngIf="titleExists || topAction" [ngClass]="{ 'justify-end': !titleExists }">
-            <h2 tabindex="-1" *ngIf="titleExists">{{ modalTitle }}</h2>
-            <button *ngIf="topAction" attr.aria-label="{{ 'button.close' | translate }}" htm-button theme="icon" (click)="modalService.close(id)">
-              <icon glyph="x" size="medium"></icon>
-            </button>
-          </div>
-          <!-- <ng-content select="modal-content"></ng-content> -->
-          <div class="modal-content">
-            <ng-template  [ngTemplateOutlet]="templateRef"></ng-template>
-          </div>
-          <div class="modal__footer" *ngIf="bottomAction">
-            <button (blur)="modalService.focusLock()" htm-button theme="plain" attr.aria-label="{{ 'button.close' | translate }}" (click)="modalService.close(id)">{{ 'button.close' | translate }}</button>
-          </div>
-        </ng-container>
+    <div class="modal__block" cdkTrapFocus #modalContent role="modal" attr.id="modal-{{id}}"
+         tabindex="-1">
+      <ng-container *ngIf="opened">
+        <div class="modal__header" *ngIf="titleExists || topAction"
+             [ngClass]="{ 'justify-end': !titleExists }">
+          <h2 tabindex="-1" *ngIf="titleExists">{{ modalTitle }}</h2>
+          <button *ngIf="topAction" attr.aria-label="{{ 'button.close' | translate }}" htm-button
+                  theme="icon" (click)="modalService.close(id)">
+            <icon glyph="x" size="medium"></icon>
+          </button>
+        </div>
+        <!-- <ng-content select="modal-content"></ng-content> -->
+        <div class="modal-content">
+          <ng-template [ngTemplateOutlet]="templateRef"></ng-template>
+        </div>
+        <div class="modal__footer" *ngIf="bottomAction">
+          <button (blur)="modalService.focusLock()" htm-button theme="plain"
+                  attr.aria-label="{{ 'button.close' | translate }}"
+                  (click)="modalService.close(id)">{{ 'button.close' | translate }}</button>
+        </div>
+      </ng-container>
     </div>
   </div>
 </div>
@@ -24,9 +29,10 @@
   <formItem
     type="select"
     title="Modaal"
-		[(ngModel)]="modalId"
+    [(ngModel)]="modalId"
     [options]="modalIds">
   </formItem>
-  <button htm-button (click)="modalService.toggle(modalId)">Ava modaal</button><br>
+  <button htm-button (click)="modalService.toggle(modalId)">Ava modaal</button>
+  <br>
 </div>
 <!-- / -->

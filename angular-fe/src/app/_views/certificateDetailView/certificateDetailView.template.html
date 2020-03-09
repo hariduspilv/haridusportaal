@@ -1,5 +1,5 @@
 <div class="inline">
-	<article-layout>
+	<article-layout [sidebar]="sidebar">
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 		<block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
 			<block-title>
@@ -8,8 +8,8 @@
 
 			<block-secondary-title>
 				{{ 'certificates.certificate_nr' | translate }} {{documents.certificate?.number}}
-			</block-secondary-title>			
-			
+			</block-secondary-title>
+
 			<block-content
 				[tabLabel]="'certificates.graduation_certificate' | translate"
 				tabIcon="columns"

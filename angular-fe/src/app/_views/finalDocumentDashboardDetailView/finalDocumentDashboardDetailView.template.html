@@ -2,7 +2,13 @@
 <article-layout [sidebar]="sidebar">
   <breadcrumbs [data]="path"></breadcrumbs>
   <block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
-    <block-title>Tunnistused</block-title>
+        
+    <block-title>{{'certificates.title' | translate }}</block-title>
+
+    <block-secondary-title>
+      {{ 'certificates.certificate_nr' | translate }} {{documents.certificate?.number}}
+    </block-secondary-title>
+    
     <block-content
       [tabLabel]="'certificates.graduation_certificate' | translate"
       tabIcon="columns"

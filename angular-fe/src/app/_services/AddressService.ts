@@ -15,7 +15,7 @@ export class AddressService {
   constructor(private http: HttpClient) {
   }
 
-  addressAutocomplete(searchText, debounceTime, selectOnMatch,
+  public addressAutocomplete(searchText, debounceTime, selectOnMatch,
                       limit: number, ihist: number, apartment: number) {
     if (searchText.length < 3) {
       this.addressSelectionValue = {};
@@ -37,7 +37,7 @@ export class AddressService {
 
     const subscription = this.http.get(url).subscribe((response: any) => {
       this.autocompleteLoader = false;
-      this.resultSet = response['addresses'] || [];
+      this.resultSet = response.addresses || [];
       this.resultSet = this.resultSet.filter(address =>
         (address.kood6 !== '0000' || address.kood7 !== '0000'));
       this.resultSet.forEach((address) => {
@@ -57,7 +57,7 @@ export class AddressService {
     });
   }
 
-  addressAutocompleteSelectionValidation(humanReadable) {
+  public addressAutocompleteSelectionValidation(humanReadable) {
     if (this.resultSet === undefined) return false;
     const match = this.resultSet.find((address) => {
       return address.addressHumanReadable === humanReadable;
@@ -70,30 +70,30 @@ export class AddressService {
     }
   }
 
-  validateInAdsField(element) {
+  public validateInAdsField(element) {
     if (!this.addressFieldFocus) {
       this.addressAutocompleteSelectionValidation(element);
     }
   }
 
-  inAdsFormatValue(address) {
+  public inAdsFormatValue(address) {
     if (address.apartment !== undefined) return address;
     return {
       seqNo: address.unik || '',
-      adsId : address.kort_adr_id || address.adr_id || '',
-      adsOid : address.kort_ads_oid || address.ads_oid || '',
+      adsId: address.kort_adr_id || address.adr_id || '',
+      adsOid: address.kort_ads_oid || address.ads_oid || '',
       klElukoht: address.tehn_id2 || '',
       addressFull: address.pikkaadress || '',
-      addressCoded : address.koodaadress || '',
-      county : address.maakond || '',
-      countyEHAK : address.ehakmk || '',
-      localGovernment : address.omavalitsus || '',
-      localGovernmentEHAK : address.ehakov || '',
-      settlementUnit : address.asustusyksus || '',
-      settlementUnitEHAK : address.ehak || '',
-      address : address.aadresstekst || '',
-      apartment : address.kort_nr || '',
-      addressHumanReadable : address.addressHumanReadable || address.pikkaadress,
+      addressCoded: address.koodaadress || '',
+      county: address.maakond || '',
+      countyEHAK: address.ehakmk || '',
+      localGovernment: address.omavalitsus || '',
+      localGovernmentEHAK: address.ehakov || '',
+      settlementUnit: address.asustusyksus || '',
+      settlementUnitEHAK: address.ehak || '',
+      address: address.aadresstekst || '',
+      apartment: address.kort_nr || '',
+      addressHumanReadable: address.addressHumanReadable || address.pikkaadress,
     }
   }
 }

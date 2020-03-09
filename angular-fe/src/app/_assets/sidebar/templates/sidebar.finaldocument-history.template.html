@@ -15,6 +15,7 @@
       <scrollableContent scrollParentClass="modal__block">
         <table htm-table>
           <tr>
+            <th></th>
             <th>{{'finaldocuments.th.action_type' | translate}}</th>
             <th>{{'finaldocuments.th.document_type' | translate}}</th>
             <th>{{'finaldocuments.th.time' | translate}}</th>
@@ -22,6 +23,9 @@
             <th>{{'finaldocuments.th.reason' | translate}}</th>
           </tr>
           <tr *ngFor="let action of actionHistory">
+            <td>
+              <button htm-button theme="plain" *ngIf="action.document" (click)="openDocument(action.document)">{{ 'button.open' | translate }}</button>
+            </td>
             <td>{{'finalDocument_' + action.type | translate}}</td>
             <td>{{'finalDocument_' + action.document.type | translate}}</td>
             <td>{{action.added | date:"dd.MM.yyyy HH:mm"}}</td>
@@ -70,6 +74,21 @@
         </table>
       </scrollableContent>
     </ng-container>
+  </ng-template>
+</htm-modal>
+
+<htm-modal id="finalDocument-document" modalTitle="Dokument" [bottomAction]="true" wide>
+  <ng-template>
+    <loader *ngIf="loadingDocument"></loader>
+    <ng-container *ngIf="!loadingDocument && !loadingDocumentError">
+      <certificate [document]="documentCache[documentToShow.id]"
+        *ngIf="documentToShow.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' || documentToShow.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE'; else gradeSheet">
+      </certificate>
+      <ng-template #gradeSheet>
+        <grade-sheet [document]="documentCache[documentToShow.id]"></grade-sheet>
+      </ng-template>
+    </ng-container>
+    <alerts small="true" id="documentAlerts"></alerts>
   </ng-template>
 </htm-modal>
 

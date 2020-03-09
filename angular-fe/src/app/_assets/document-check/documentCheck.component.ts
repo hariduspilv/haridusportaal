@@ -1,11 +1,6 @@
-import { Component, ViewChildren, QueryList, ViewChild } from "@angular/core";
-import {
-	FormBuilder,
-	FormGroup,
-	Validators,
-	AbstractControl
-} from "@angular/forms";
-import { AlertsService, SettingsService, AuthService } from "@app/_services";
+import { Component, ViewChild } from "@angular/core";
+import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AlertsService, AuthService, SettingsService } from "@app/_services";
 import { TranslateService } from "@app/_modules/translate/translate.service";
 import { HttpClient } from "@angular/common/http";
 import { Location } from "@angular/common";
@@ -89,99 +84,45 @@ export class DocumentCheckComponent {
 			return;
 		}
 		this.loading = true;
-		this.model.controls.document_id.setValue(
-			this.model.controls.document_id.value.replace(/\s|\//g, "")
-		);
-		const elasticQuery = {
-			size: 10000,
-			query: {
-				bool: {
-					must: [
-						{
-							match: {
-								NR_QUERY: this.model.controls.document_id.value
-							}
-						}
-					]
-				}
-			}
-		};
+		let urlPartial = "";
+		if (this.model.value.id_code.includes(".")) {
+			urlPartial = `-/${this.model.value.id_code}`;
+		} else {
+			urlPartial = `${this.model.value.id_code}/-`;
+		}
 		this.http
-			.post(`${this.settings.url}/es-public/tunnistused/_search`, elasticQuery)
+			.get(
+				`${this.settings.ehisUrl}/avaandmed/lopudokumendid/${urlPartial}/${encodeURIComponent(this.model.value.document_id)}/JSON`
+			)
 			.subscribe(
-				(response: any) => {
-					if (response.hits.total.value === 0) {
-						this.alertsService.warning(
-							this.translate.get("documentCheck.no_results"),
-							"documentCheck",
-							false
-						);
-						this.loading = false;
-						window.setTimeout(() => {
-							this.scrollTarget.nativeElement.scrollIntoView({
-								behavior: "smooth"
-							});
-						}, 1000);
-						return;
-					}
-					let document = response.hits.hits.find(
-						el =>
-							el._source.SAAJA_ISIKUKOOD ===
-							`${this.model.controls.id_code.value}`
-					);
-					if (!document) {
-						document = response.hits.hits.find(
-							el =>
-								el._source.SYNNI_KP === `${this.model.controls.id_code.value}`
-						);
-					}
-					if (!document) {
-						this.alertsService.warning(
-							this.translate.get("documentCheck.exists_but_not_for_user"),
-							"documentCheck",
-							false
-						);
-						this.loading = false;
-						window.setTimeout(() => {
-							this.scrollTarget.nativeElement.scrollIntoView({
-								behavior: "smooth"
-							});
-						}, 1000);
-						return;
-					}
-					if (document._source.DOKUMENDI_STAATUS === "0") {
-						this.alertsService.error(
-							this.translate.get("documentCheck.invalid_document"),
-							"documentCheck",
-							false
-						);
-						this.loading = false;
-						window.setTimeout(() => {
-							this.scrollTarget.nativeElement.scrollIntoView({
-								behavior: "smooth"
-							});
-						}, 1000);
-						return;
-					}
-					if (
-						document._source.LIIK_NIMETUS &&
-						document._source.DOKUMENDI_STAATUS === "1"
-					) {
+				(res: any) => {
+					this.loading = false;
+					if (res.body.vastuseKood === 0) {
 						const string = this.translate
 							.get("documentCheck.found_result")
-							.replace("%LIIK%", response.hits.hits[0]._source.LIIK_NIMETUS)
+							.replace(
+								"%LIIK%",
+								res.body.lopudokumendid.lopudokument[0]
+									.pohiDokumendiLiigiNimetus
+							)
 							.replace(
 								"%VASTAVUS%",
-								response.hits.hits[0]._source.VASTAVUS_NIMETUS
+								res.body.lopudokumendid.lopudokument[0].vastavuseNimetus
 							);
 						this.alertsService.success(string, "documentCheck", false);
+					}
+					if (res.body.vastuseKood === 1) {
+						this.alertsService.warning(
+							res.body.koodiSelgitus,
+							"documentCheck",
+							false
+						);
 					}
 					window.setTimeout(() => {
 						this.scrollTarget.nativeElement.scrollIntoView({
 							behavior: "smooth"
 						});
 					}, 1000);
-					this.loading = false;
 				},
 				error => {
 					this.alertsService.error(

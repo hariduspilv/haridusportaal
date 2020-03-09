@@ -3,18 +3,18 @@ import { fromEvent, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-	selector: "scrollableContent",
-	templateUrl: "scrollableContent.template.html",
-	styleUrls: ["./scrollableContent.styles.scss"]
+  selector: "scrollableContent",
+  templateUrl: "scrollableContent.template.html",
+  styleUrls: ["./scrollableContent.styles.scss"]
 })
 
 export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy {
 
   public scrollRunner: any;
   public scrollDirection: number = 0;
-  @Input() changed: any;
-  @Input() scrollParentClass = 'app-content';
-  scrollListener: Subscription;
+  @Input() public changed: any;
+  @Input() public scrollParentClass = 'app-content';
+  public scrollListener: Subscription;
   private debounce: any;
   private wrapper: HTMLElement;
   private inline: HTMLElement;
@@ -67,7 +67,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
 
   get canScrollRight() {
     const el = this.el.nativeElement.querySelector('div.scrollable__scroller');
-    const newVal = !el ? false : Math.ceil(el.scrollLeft) < el.scrollWidth - el.clientWidth;
+    const newVal = !el ? false : Math.ceil(el.scrollLeft) < el.scrollWidth - el.clientWidth - 1;
     if (newVal !== this.scrollRight && !this.checkedScrollRight) {
       this.checkedScrollRight = true;
       setTimeout(
@@ -80,7 +80,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
     return this.scrollRight;
   }
 
-  onScroll() {
+  public onScroll() {
     if (this.isScrollable) {
       const timing = this.arrowsPositionDebounce ? 60 : 0;
       clearTimeout(this.arrowsPositionDebounce);
@@ -98,7 +98,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  onMouseUp(event) {
+  public onMouseUp(event) {
     if (this.scrollRunner) {
       clearInterval(this.scrollRunner);
       this.scrollRunner = false;
@@ -126,7 +126,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
     });
   }
 
-  bindListeners() {
+  public bindListeners() {
     this.scrollListener = fromEvent(this.scrollParent, 'scroll').pipe(
       takeUntil(this.destroy$),
     ).subscribe((e) => {
@@ -134,7 +134,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
     });
   }
 
-  getScrollParent() {
+  public getScrollParent() {
     let scrollParent = this.el.nativeElement;
     let parentFound = false;
 
@@ -152,7 +152,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
     this.scrollParent = scrollParent;
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     this.wrapper = this.el.nativeElement.querySelector('.scrollable__wrapper');
     this.scroller = this.el.nativeElement.querySelector('.scrollable__scroller');
     this.inline = this.el.nativeElement.querySelector('.scrollable__inline');
@@ -167,12 +167,12 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
       100);
   }
 
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  ngOnChanges() {
+  public ngOnChanges() {
     setTimeout(
       () => {
         this.onScroll();
