@@ -115,7 +115,7 @@ class EducationalFormRestResource extends ResourceBase {
 		  case 'add':
 		  	if($validation[0]){
 					$response = $this->ehisConnector->addInstitution(['data' => $data]);
-          \Drupal::logger('xjson')->notice('<pre><code>School code ' . print_r($this->ehisConnector->getCurrentUserIdRegCode(FALSE), TRUE) . '</code></pre>' );
+          \Drupal::logger('xjson')->notice('<pre><code>Add school regcode ' . print_r($this->ehisConnector->getCurrentUserIdRegCode(FALSE), TRUE) . '</code></pre>' );
           $this->ehisConnector->deleteKeyFromredis($this->ehisConnector->getCurrentUserIdRegCode(FALSE));
 				  return new ModifiedResourceResponse($response);
 			  }else{
@@ -126,7 +126,7 @@ class EducationalFormRestResource extends ResourceBase {
 			  if($validation[0]){
 			  	$response = $this->ehisConnector->editInstitution(['data' => $data]);
 			  	if(isset($response['message'])){
-            \Drupal::logger('xjson')->notice('<pre><code>School code ' . print_r($this->ehisConnector->getCurrentUserIdRegCode(FALSE), TRUE) . '</code></pre>' );
+            \Drupal::logger('xjson')->notice('<pre><code>Edit school regcode ' . print_r($this->ehisConnector->getCurrentUserIdRegCode(FALSE), TRUE) . '</code></pre>' );
             $this->ehisConnector->deleteKeyFromredis($this->ehisConnector->getCurrentUserIdRegCode(FALSE));
           }
 				  return new ModifiedResourceResponse($response);
