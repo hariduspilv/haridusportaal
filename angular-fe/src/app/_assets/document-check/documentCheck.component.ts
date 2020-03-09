@@ -43,6 +43,7 @@ export class DocumentCheckComponent {
 		public auth: AuthService
 	) {}
 
+	//tslint:disable
 	public ngOnInit() {
 		this.alertsService.clear("general");
 		this.subscribeToAuth();
@@ -117,6 +118,13 @@ export class DocumentCheckComponent {
 							"documentCheck",
 							false
 						);
+					}
+					if (res.body.vastuseKood === 2) {
+						this.alertsService.error((
+							res.body.koodiSelgitus,
+							"documentCheck",
+							false
+						));
 					}
 					window.setTimeout(() => {
 						this.scrollTarget.nativeElement.scrollIntoView({
