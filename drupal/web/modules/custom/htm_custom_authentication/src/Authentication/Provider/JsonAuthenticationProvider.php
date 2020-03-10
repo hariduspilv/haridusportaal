@@ -228,6 +228,7 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 	 *    Role id
 	 */
 	private function setRole ($type, $id) {
+	  dump($type);
 		switch ($type) {
 			case 'juridical':
 				$this->roleSwitcher->setJuridicalPerson($id);
