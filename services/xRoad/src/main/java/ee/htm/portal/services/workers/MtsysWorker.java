@@ -212,18 +212,18 @@ public class MtsysWorker extends Worker {
     return mtsysKlfResponse;
   }
 
-  public void getMtsystegevusLoad(String identifier) {
+  public void getMtsystegevusLoad(String ownerRegCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(identifier);
+    logForDrupal.setUser(ownerRegCode);
     logForDrupal.setType("EHIS - mtsysTegevuslaod.v1");
     logForDrupal.setSeverity("notice");
 
     try {
       ObjectNode tegevusloaLiigidNode = getKlfNode("tegevusloaLiigid");
 
-      MtsysTegevusloadResponse response = ehisXRoadService.mtsysTegevusload(identifier, null);
+      MtsysTegevusloadResponse response = ehisXRoadService.mtsysTegevusload(ownerRegCode, null);
 
       jsonNode.put("message", response.isSetInfotekst() ? response.getInfotekst() : null)
           .put("ownerid", response.isSetAsutus() ? response.getAsutus().getRegNr() : null);
@@ -368,19 +368,19 @@ public class MtsysWorker extends Worker {
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
     log.info(logForDrupal.toString());
 
-    redisTemplate.opsForHash().put(identifier, "mtsys", jsonNode);
-    redisTemplate.expire(identifier, redisExpire, TimeUnit.MINUTES);
+    redisTemplate.opsForHash().put(ownerRegCode, "mtsys", jsonNode);
+    redisTemplate.expire(ownerRegCode, redisExpire, TimeUnit.MINUTES);
   }
 
-  public ObjectNode getMtsysTegevusluba(String formName, Long identifier, String personalCode) {
+  public ObjectNode getMtsysTegevusluba(String formName, Long identifier, String ownerRegCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
-    createTegevuslubaXJSON(formName, identifier, personalCode, jsonNode);
+    createTegevuslubaXJSON(formName, identifier, ownerRegCode, jsonNode);
     ((ObjectNode) jsonNode.get("header")).put("current_step", "step_0");
 
     try {
       MtsysTegevuslubaResponse response = ehisXRoadService
-          .mtsysTegevusluba(BigInteger.valueOf(identifier), personalCode);
+          .mtsysTegevusluba(BigInteger.valueOf(identifier), ownerRegCode);
 
       Long klOkLiik = response.getTegevusloaAndmed().getKlLiik().longValue();
       Long klStaatus = response.getTegevusloaAndmed().getKlStaatus().longValue();
@@ -529,18 +529,18 @@ public class MtsysWorker extends Worker {
   }
 
   public ObjectNode getMtsysTegevuslubaTaotlus(String formName, Long identifier,
-      String personalCode) {
+      String ownerRegCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
     ObjectNode klfFailiTyybid = getKlfNode("failiTyybid");
 
-    createTegevuslubaXJSON(formName, identifier, personalCode, jsonNode);
+    createTegevuslubaXJSON(formName, identifier, ownerRegCode, jsonNode);
     ((ObjectNode) jsonNode.get("header")).put("current_step", "step_andmed");
     ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("SAVE")
         .add("SUBMIT");
 
     try {
       MtsysTegevuslubaResponse response = ehisXRoadService
-          .mtsysTegevusluba(BigInteger.valueOf(identifier), personalCode);
+          .mtsysTegevusluba(BigInteger.valueOf(identifier), ownerRegCode);
 
       ((ObjectNode) jsonNode.get("header")).put("identifier",
           response.getTegevusloaAndmed().isSetId() ?
@@ -571,7 +571,7 @@ public class MtsysWorker extends Worker {
     Long applicationId = jsonNode.get("header").get("identifier").isNull()
         || Long.valueOf(0).equals(jsonNode.get("header").get("identifier").longValue()) ?
         null : jsonNode.get("header").get("identifier").asLong();
-    String personalCode = jsonNode.get("header").get("agents").get(0).get("person_id")
+    String ownerRegCode = jsonNode.get("header").get("agents").get(0).get("owner_id")
         .asText();
 
     if (isAcceptableActivityView(jsonNode)) {
@@ -579,7 +579,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(personalCode);
+    logForDrupal.setUser(ownerRegCode);
     logForDrupal.setType("EHIS - mtsysLaeTegevusluba.v1");
     logForDrupal.setSeverity("notice");
 
@@ -618,7 +618,7 @@ public class MtsysWorker extends Worker {
                   .asLong()));
 
           MtsysTegevusnaitajaResponse response = ehisXRoadService
-              .mtsysTegevusnaitaja(request, personalCode);
+              .mtsysTegevusnaitaja(request, ownerRegCode);
 
           response.getOpperyhmad().getOpperyhmList().forEach(item ->
               ((ArrayNode) stepAndmed.get("oppekavaRuhmad").get("value"))
@@ -688,7 +688,7 @@ public class MtsysWorker extends Worker {
         ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
             .removeAll();
         if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SAVE")) {
-          saveMtsysTegevusluba(jsonNode, applicationId, personalCode);
+          saveMtsysTegevusluba(jsonNode, applicationId, ownerRegCode);
           logForDrupal
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
         }
@@ -755,7 +755,7 @@ public class MtsysWorker extends Worker {
             return jsonNode;
           }
 
-          saveMtsysTegevusluba(jsonNode, applicationId, personalCode);
+          saveMtsysTegevusluba(jsonNode, applicationId, ownerRegCode);
           logForDrupal
               .setMessage("EHIS - mtsysLaeTegevusluba.v1 teenuselt andmete pärimine õnnestus.");
           logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
@@ -769,7 +769,7 @@ public class MtsysWorker extends Worker {
           request.setAlgusKp(Calendar.getInstance());
           request.setLoppKp(Calendar.getInstance());
           MtsysEsitaTegevuslubaResponse response = ehisXRoadService
-              .mtsysEsitaTegevusluba(request, personalCode);
+              .mtsysEsitaTegevusluba(request, ownerRegCode);
 
           if (response.isSetInfotekst()) {
             if (response.getInfotekst().equalsIgnoreCase("Tegevusloa taotlus on esitatud!")
@@ -812,7 +812,7 @@ public class MtsysWorker extends Worker {
   }
 
   public ObjectNode getMtsysEsitaTegevusluba(String formName, Long identifier,
-      String personalCode) {
+      String ownerRegCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
     jsonNode.putObject("header")
@@ -823,9 +823,9 @@ public class MtsysWorker extends Worker {
         .putArray("acceptable_activity").add("SUBMIT");
 
     ((ObjectNode) jsonNode.get("header")).putArray("agents").addObject()
-        .put("person_id", personalCode)
+        .putNull("person_id")
         .putNull("role")
-        .putNull("owner_id")
+        .put("owner_id", ownerRegCode)
         .putNull("educationalInstitutions_id");
 
     jsonNode.putObject("body").putObject("steps").putObject("step_0").putObject("data_elements");
@@ -842,7 +842,7 @@ public class MtsysWorker extends Worker {
 
   public ObjectNode postMtsysEsitaTegevusluba(ObjectNode jsonNode) {
     String formName = jsonNode.get("header").get("form_name").asText();
-    String applicantPersonalCode = jsonNode.get("header").get("agents").get(0).get("person_id")
+    String ownerRegCode = jsonNode.get("header").get("agents").get(0).get("owner_id")
         .asText();
 
     if (isAcceptableActivityView(jsonNode)) {
@@ -850,7 +850,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(applicantPersonalCode);
+    logForDrupal.setUser(ownerRegCode);
     logForDrupal.setType("EHIS - mtsysEsitaTegevusluba.v1");
     logForDrupal.setSeverity("notice");
 
@@ -874,7 +874,7 @@ public class MtsysWorker extends Worker {
       request.setLoppKp(Calendar.getInstance());
 
       MtsysEsitaTegevuslubaResponse response = ehisXRoadService
-          .mtsysEsitaTegevusluba(request, applicantPersonalCode);
+          .mtsysEsitaTegevusluba(request, ownerRegCode);
 
       if (response.isSetInfotekst()) {
         ((ObjectNode) jsonNode.get("body").get("steps")).putObject("step_1")
@@ -1131,7 +1131,7 @@ public class MtsysWorker extends Worker {
   }
 
   public ObjectNode getMtsysTegevusNaitaja(String formName, Long identifier,
-      String personalCode) {
+      String ownerRegCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
     jsonNode.putObject("header")
@@ -1146,7 +1146,7 @@ public class MtsysWorker extends Worker {
     jsonNode.putObject("messages").put("default", "default");
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(personalCode);
+    logForDrupal.setUser(ownerRegCode);
     logForDrupal.setType("EHIS - mtsysTegevusnaitaja.v1");
     logForDrupal.setSeverity("notice");
 
@@ -1155,7 +1155,7 @@ public class MtsysWorker extends Worker {
       request.setAruandeId(BigInteger.valueOf(identifier));
 
       MtsysTegevusnaitajaResponse response = ehisXRoadService
-          .mtsysTegevusnaitaja(request, personalCode);
+          .mtsysTegevusnaitaja(request, ownerRegCode);
 
       if (response.getSaabMuuta()) {
         ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).add("CHANGE");
@@ -1234,7 +1234,7 @@ public class MtsysWorker extends Worker {
   }
 
   public ObjectNode getMtsysTegevusNaitajaTaotlus(String formName, Long identifier, Long year,
-      Long educationalInstitutionsId, String personalCode) {
+      Long educationalInstitutionsId, String ownerRegCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
 
     jsonNode.putObject("header")
@@ -1245,9 +1245,9 @@ public class MtsysWorker extends Worker {
         .putArray("acceptable_activity").add("SAVE").add("SUBMIT");
 
     ((ObjectNode) jsonNode.get("header")).putArray("agents").addObject()
-        .put("person_id", personalCode)
+        .putNull("person_id")
         .putNull("role")
-        .putNull("owner_id")
+        .put("owner_id", ownerRegCode)
         .put("educationalInstitutions_id", educationalInstitutionsId);
 
     jsonNode.putObject("body").putObject("steps");
@@ -1255,7 +1255,7 @@ public class MtsysWorker extends Worker {
     jsonNode.putObject("messages").put("default", "default");
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(personalCode);
+    logForDrupal.setUser(ownerRegCode);
     logForDrupal.setType("EHIS - mtsysTegegevusnaitja.v1");
     logForDrupal.setSeverity("notice");
 
@@ -1270,7 +1270,7 @@ public class MtsysWorker extends Worker {
       request.setOppeasutusId(BigInteger.valueOf(educationalInstitutionsId));
 
       MtsysTegevusnaitajaResponse response = ehisXRoadService
-          .mtsysTegevusnaitaja(request, personalCode);
+          .mtsysTegevusnaitaja(request, ownerRegCode);
 
       if (year == null) {
         year = response.getAasta().longValue();
@@ -1280,7 +1280,7 @@ public class MtsysWorker extends Worker {
       ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
 
       setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode, response,
-          personalCode);
+          ownerRegCode);
 
       logForDrupal.setMessage("EHIS - mtsysTegevusnaitaja.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
@@ -1297,7 +1297,7 @@ public class MtsysWorker extends Worker {
     Long identifier = jsonNode.get("header").get("identifier").isNull()
         || Long.valueOf(0).equals(jsonNode.get("header").get("identifier").longValue()) ?
         null : jsonNode.get("header").get("identifier").asLong();
-    String personalCode = jsonNode.get("header").get("agents").get(0).get("person_id")
+    String ownerRegCode = jsonNode.get("header").get("agents").get(0).get("owner_id")
         .asText();
 
     if (isAcceptableActivityView(jsonNode)) {
@@ -1305,7 +1305,7 @@ public class MtsysWorker extends Worker {
     }
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(personalCode);
+    logForDrupal.setUser(ownerRegCode);
     logForDrupal.setType("EHIS - mtsysLaeTegevusnaitajad.v1");
     logForDrupal.setSeverity("notice");
 
@@ -1314,13 +1314,13 @@ public class MtsysWorker extends Worker {
           .forEach(t -> ((ObjectNode) jsonNode.get("messages")).remove(t.asText()));
       ((ArrayNode) jsonNode.get("body").get("messages")).removeAll();
       if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SAVE")) {
-        if (setTegevusnaitajadSaveVeatekst(jsonNode, identifier, personalCode)) {
+        if (setTegevusnaitajadSaveVeatekst(jsonNode, identifier, ownerRegCode)) {
           return jsonNode;
         }
       }
 
       if (jsonNode.get("header").get("activity").asText().equalsIgnoreCase("SUBMIT")) {
-        if (setTegevusnaitajadSaveVeatekst(jsonNode, identifier, personalCode)) {
+        if (setTegevusnaitajadSaveVeatekst(jsonNode, identifier, ownerRegCode)) {
           return jsonNode;
         }
 
@@ -1333,7 +1333,7 @@ public class MtsysWorker extends Worker {
         request.setAruandeId(jsonNode.get("header").get("identifier").bigIntegerValue());
 
         MtsysEsitaTegevusnaitajadResponse response = ehisXRoadService
-            .mtsysEsitaTegevusnaitajad(request, personalCode);
+            .mtsysEsitaTegevusnaitajad(request, ownerRegCode);
 
         logForDrupal.setType("EHIS - mtsysEsitaTegevusnaitajad.v1");
         logForDrupal
@@ -1358,17 +1358,17 @@ public class MtsysWorker extends Worker {
   }
 
   public ObjectNode getMtsysEsitaTegevusNaitaja(Long identifier, Long educationalInstitutionsId,
-      String personalCode) {
+      String ownerRegCode) {
     ObjectNode jsonNode = nodeFactory.objectNode();
     try {
       MtsysEsitaTegevusnaitajad request = MtsysEsitaTegevusnaitajad.Factory.newInstance();
       request.setAruandeId(BigInteger.valueOf(identifier));
       request.setOperatsioon("MUUTMINE");
       MtsysEsitaTegevusnaitajadResponse response = ehisXRoadService
-          .mtsysEsitaTegevusnaitajad(request, personalCode);
+          .mtsysEsitaTegevusnaitajad(request, ownerRegCode);
       if (!response.isSetInfotekst()) {
         jsonNode = getMtsysTegevusNaitajaTaotlus("MTSYS_TEGEVUSNAITAJAD_ARUANNE",
-            identifier, null, educationalInstitutionsId, personalCode);
+            identifier, null, educationalInstitutionsId, ownerRegCode);
       } else {
         ((ArrayNode) jsonNode.get("body").get("messages")).add("error_message");
         ((ObjectNode) jsonNode.get("messages")).putObject("error_message")
@@ -1377,7 +1377,7 @@ public class MtsysWorker extends Worker {
       }
     } catch (Exception e) {
       log.error(e.getMessage(), e.getCause());
-      jsonNode = getMtsysTegevusNaitaja("MTSYS_TEGEVUSNAITAJAD", identifier, personalCode);
+      jsonNode = getMtsysTegevusNaitaja("MTSYS_TEGEVUSNAITAJAD", identifier, ownerRegCode);
       ((ArrayNode) jsonNode.get("body").get("messages")).add("error_message");
       if (e instanceof XRoadServiceConsumptionException) {
         if (((XRoadServiceConsumptionException) e).getFaultString()
@@ -1399,16 +1399,16 @@ public class MtsysWorker extends Worker {
     return jsonNode;
   }
 
-  public ObjectNode delelteDocument(Integer identifier, String personalCode) {
+  public ObjectNode deleteDocument(Integer identifier, String ownerRegCode) {
     ObjectNode responseNode = nodeFactory.objectNode();
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(personalCode);
+    logForDrupal.setUser(ownerRegCode);
     logForDrupal.setType("EHIS - mtsysKustutaTegevusluba.v1");
     logForDrupal.setSeverity("notice");
     try {
       MtsysKustutaTegevuslubaResponse response = ehisXRoadService
-          .mtsysKustutaTegevusluba(identifier, personalCode);
+          .mtsysKustutaTegevusluba(identifier, ownerRegCode);
 
       responseNode.putArray("messages").addObject().put("message_type",
           response.getInfotekst().equalsIgnoreCase("Tegevusloa taotlus on kustutatud!") ? "NOTICE"
@@ -1479,7 +1479,7 @@ public class MtsysWorker extends Worker {
   }
 
   private void saveMtsysTegevusluba(ObjectNode jsonNode, Long applicationId,
-      String applicantPersonalCode)
+      String ownerRegCode)
       throws ParseException, XRoadServiceConsumptionException {
     ObjectNode dataObjectNode = (ObjectNode) jsonNode.get("body").get("steps")
         .get("step_andmed").get("data_elements");
@@ -1654,7 +1654,7 @@ public class MtsysWorker extends Worker {
     request.setDokumendid(dokumendid);
 
     MtsysLaeTegevuslubaResponse response = ehisXRoadService
-        .mtsysLaeTegevusluba(request, applicantPersonalCode);
+        .mtsysLaeTegevusluba(request, ownerRegCode);
 
     if (response.isSetInfotekst()) {
       ((ArrayNode) jsonNode.get("body").get("steps").get("step_andmed").get("messages"))
@@ -1669,14 +1669,14 @@ public class MtsysWorker extends Worker {
         .put("identifier", response.getTaotlusId().longValue());
 
     MtsysTegevuslubaResponse mtsysTegevuslubaResponse = ehisXRoadService
-        .mtsysTegevusluba(response.getTaotlusId(), applicantPersonalCode);
+        .mtsysTegevusluba(response.getTaotlusId(), ownerRegCode);
 
     setTegevuslubaStepAndmedXJSONData(jsonNode, getKlfNode("failiTyybid"), mtsysTegevuslubaResponse,
         null);
   }
 
   private void saveMtsysTegevusNaitaja(ObjectNode jsonNode, Long identifier,
-      String applicantPersonalCode) throws XRoadServiceConsumptionException {
+      String ownerRegCode) throws XRoadServiceConsumptionException {
     MtsysLaeTegevusnaitajad request = MtsysLaeTegevusnaitajad.Factory.newInstance();
     ObjectNode dataElementNode = (ObjectNode) jsonNode.get("body").get("steps")
         .get("step_aruanne").get("data_elements");
@@ -1728,7 +1728,7 @@ public class MtsysWorker extends Worker {
     }
 
     MtsysLaeTegevusnaitajadResponse response = ehisXRoadService
-        .mtsysLaeTegevusnaitajad(request, applicantPersonalCode);
+        .mtsysLaeTegevusnaitajad(request, ownerRegCode);
 
     setLaeTegevusnaitajadResponseInfotekst(jsonNode,
         response.isSetInfotekst() ? response.getInfotekst() : null,
@@ -1742,16 +1742,16 @@ public class MtsysWorker extends Worker {
       tegevusnaitajaRequest.setAasta(BigInteger.valueOf(year));
 
       MtsysTegevusnaitajaResponse tegevusnaitajaResponse = ehisXRoadService
-          .mtsysTegevusnaitaja(tegevusnaitajaRequest, applicantPersonalCode);
+          .mtsysTegevusnaitaja(tegevusnaitajaRequest, ownerRegCode);
 
       ((ObjectNode) jsonNode.get("header")).putObject("parameters").put("fileSubmit", false);
       setMtsysTegevusnaitajaTaotlus(year, educationalInstitutionsId, jsonNode,
-          tegevusnaitajaResponse, applicantPersonalCode);
+          tegevusnaitajaResponse, ownerRegCode);
     }
   }
 
   private void setMtsysTegevusnaitajaTaotlus(Long year, Long educationalInstitutionsId,
-      ObjectNode jsonNode, MtsysTegevusnaitajaResponse response, String personalCode) {
+      ObjectNode jsonNode, MtsysTegevusnaitajaResponse response, String ownerRegCode) {
     ObjectNode dataElementsNode = ((ObjectNode) jsonNode.get("body").get("steps"))
         .putObject("step_aruanne").putObject("data_elements");
 
@@ -1764,8 +1764,8 @@ public class MtsysWorker extends Worker {
         .put("file_name", "tegevusnaitajad.csv")
         .put("file_identifier", redisHK);
     redisFileTemplate.opsForHash()
-        .put(personalCode, redisHK, response.getCsvFail().getStringValue());
-    redisFileTemplate.expire(personalCode, redisFileExpire, TimeUnit.MINUTES);
+        .put(ownerRegCode, redisHK, response.getCsvFail().getStringValue());
+    redisFileTemplate.expire(ownerRegCode, redisFileExpire, TimeUnit.MINUTES);
 
     dataElementsNode.putObject("majandustegevuseTeateTabel").put("hidden", true)
         .putArray("value");
@@ -1820,7 +1820,7 @@ public class MtsysWorker extends Worker {
     return result;
   }
 
-  private void createTegevuslubaXJSON(String formName, Long identifier, String personalCode,
+  private void createTegevuslubaXJSON(String formName, Long identifier, String ownerRegCode,
       ObjectNode jsonNode) {
     jsonNode.putObject("header")
         .put("endpoint", "EHIS")
@@ -1830,9 +1830,9 @@ public class MtsysWorker extends Worker {
         .putArray("acceptable_activity").add("VIEW");
 
     ((ObjectNode) jsonNode.get("header")).putArray("agents").addObject()
-        .put("person_id", personalCode)
+        .putNull("person_id")
         .putNull("role")
-        .putNull("owner_id")
+        .put("owner_id", ownerRegCode)
         .putNull("educationalInstitutions_id");
 
     ((ObjectNode) jsonNode.get("header")).putObject("parameters");
@@ -1842,7 +1842,7 @@ public class MtsysWorker extends Worker {
     jsonNode.putObject("messages").put("default", "default");
 
     logForDrupal.setStartTime(new Timestamp(System.currentTimeMillis()));
-    logForDrupal.setUser(personalCode);
+    logForDrupal.setUser(ownerRegCode);
     logForDrupal.setType("EHIS - mtsysTegevusluba.v1");
     logForDrupal.setSeverity("notice");
   }
@@ -2087,8 +2087,8 @@ public class MtsysWorker extends Worker {
   }
 
   private boolean setTegevusnaitajadSaveVeatekst(ObjectNode jsonNode, Long identifier,
-      String personalCode) throws XRoadServiceConsumptionException {
-    saveMtsysTegevusNaitaja(jsonNode, identifier, personalCode);
+      String ownerRegCode) throws XRoadServiceConsumptionException {
+    saveMtsysTegevusNaitaja(jsonNode, identifier, ownerRegCode);
 
     List<String> bodyMessages = new ArrayList<>();
     jsonNode.get("body").get("messages").forEach(i -> bodyMessages.add(i.asText()));
