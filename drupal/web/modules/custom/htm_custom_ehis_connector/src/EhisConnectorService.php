@@ -66,7 +66,7 @@ class EhisConnectorService {
     $this->currentUser = $current_user;
     $this->client = $client_factory->getClient();
     $this->logger = $logger->get('ehis_connector_service');
-    $this->currentRole = \Drupal::service('current_user.role_switcher');
+    $this->currentRole = \Drupal::service('current_user.role_switcher')->getCurrentRole();
     $this->loime_url = settings::get('loime_default_url');
   }
 
@@ -195,7 +195,6 @@ class EhisConnectorService {
    * @return bool
    */
   public function useReg(){
-    dump($this->currentRole->getCurrentRole());
     if($this->currentRole['current_role']['type'] === 'juridical_person') return true;
     return false;
   }

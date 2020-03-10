@@ -228,7 +228,7 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 	 *    Role id
 	 */
 	private function setRole ($type, $id) {
-	  dump($type);
+    \Drupal::logger('roleswitcher')->notice('<pre><code>Role set: ' . print_r($type, TRUE) . '</code></pre>' );
 		switch ($type) {
 			case 'juridical':
 				$this->roleSwitcher->setJuridicalPerson($id);
