@@ -197,7 +197,6 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
         this.setSecondaryTypes();
         this.setTypeValue();
         this.cdr.detectChanges();
-        console.log(this.selectedPrimaryTypes);
       },
       0);
   }

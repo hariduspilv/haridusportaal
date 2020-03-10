@@ -96,7 +96,6 @@ export class SessionExpirationComponent implements OnInit, OnDestroy {
       /* Debug timer */
       const sessionTest = window.location.href.match('sessionTest') ? true : false;
 
-      console.log(sessionTest);
       if (sessionTest) {
         this.timeLeft = this.countDownTime + 2;
       }

@@ -15,8 +15,15 @@ export class AddressService {
   constructor(private http: HttpClient) {
   }
 
-  public addressAutocomplete(searchText, debounceTime, selectOnMatch,
-                      limit: number, ihist: number, apartment: number) {
+  public addressAutocomplete(
+    searchText,
+    debounceTime,
+    selectOnMatch,
+    limit: number,
+    ihist: number,
+    apartment: number,
+  ) {
+
     if (searchText.length < 3) {
       this.addressSelectionValue = {};
       return;
@@ -55,6 +62,7 @@ export class AddressService {
       }
       subscription.unsubscribe();
     });
+
   }
 
   public addressAutocompleteSelectionValidation(humanReadable) {
@@ -77,12 +85,19 @@ export class AddressService {
   }
 
   public inAdsFormatValue(address) {
-    if (address.apartment !== undefined) return address;
-    return {
+    if (address.adsId) return address;
+
+    let addressHumanReadable = address.addressHumanReadable || address.pikkaadress;
+    if (address.kort_nr && address.adr_id) {
+      addressHumanReadable = `${addressHumanReadable}-${address.kort_nr}`;
+    }
+
+    const output = {
+      addressHumanReadable,
       seqNo: address.unik || '',
       adsId: address.kort_adr_id || address.adr_id || '',
       adsOid: address.kort_ads_oid || address.ads_oid || '',
-      klElukoht: address.tehn_id2 || '',
+      klElukoht: address.ehak || address.ehakov || address.ehakmk || '',
       addressFull: address.pikkaadress || '',
       addressCoded: address.koodaadress || '',
       county: address.maakond || '',
@@ -93,7 +108,8 @@ export class AddressService {
       settlementUnitEHAK: address.ehak || '',
       address: address.aadresstekst || '',
       apartment: address.kort_nr || '',
-      addressHumanReadable: address.addressHumanReadable || address.pikkaadress,
-    }
+    };
+
+    return output;
   }
 }

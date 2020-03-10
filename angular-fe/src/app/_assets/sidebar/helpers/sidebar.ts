@@ -283,7 +283,7 @@ const getIndicators = (mappedData) => {
 
 export const parseFieldData = (inputData, translate) => {
   let mappedData = inputData;
-  console.log(mappedData)
+
   mappedData['fieldOskaResults'] = [{
     title: translate.get('oska.go_to_results'),
     url: {

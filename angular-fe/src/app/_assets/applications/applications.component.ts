@@ -553,11 +553,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     school.institutionInfo.address.addressFull = '';
     const subscription = this.http.jsonp(path, 'callback').
       subscribe((response: any) => {
-        school.institutionInfo.address.addressFull =
-          response.addresses && response.addresses[0] && response.addresses[0].pikkaadress ?
-            response.addresses[0].pikkaadress :
-            school.institutionInfo.address.addressHumanReadable;
-
         if (this.cdr && !(this.cdr as ViewRef).destroyed) {
           this.cdr.detectChanges();
         }

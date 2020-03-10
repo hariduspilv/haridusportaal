@@ -322,7 +322,7 @@
 										>
 											<td>{{ 'event.aadress' | translate }}</td>
 											<td class="light">
-												{{ school.institutionInfo.address.addressFull }}
+												{{ school.institutionInfo.address.addressHumanReadable }}
 											</td>
 											<td
 												*ngIf="!school.institutionInfo.contacts.contactPhone && !school.institutionInfo.contacts.contactEmail && !school.institutionInfo.contacts.webpageAddress"

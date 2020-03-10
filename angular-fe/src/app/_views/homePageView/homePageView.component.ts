@@ -207,7 +207,6 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
         }).join(', ');
       } catch (err) {}
 
-      console.log(this.tags);
     });
     this.subscriptions.push(subscription);
   }
@@ -272,6 +271,7 @@ export class HomePageViewComponent implements OnInit {
           button: item.entity.fieldTopicButtonText,
         };
       });
+
     } catch (err) {}
 
     try {

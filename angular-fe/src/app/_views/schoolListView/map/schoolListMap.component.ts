@@ -237,7 +237,6 @@ export class SchoolListMapComponent implements AfterViewInit {
         this.setSecondaryTypes();
         this.setTypeValue();
         this.cdr.detectChanges();
-        console.log(this.selectedPrimaryTypes);
       },
       0);
   }

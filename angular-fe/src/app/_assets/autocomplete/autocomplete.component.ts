@@ -12,6 +12,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { map } from 'rxjs/operators';
+import { AddressService } from '@app/_services/AddressService';
 
 @Component({
   selector: 'autocomplete',
@@ -43,7 +44,8 @@ export class AutocompleteComponent implements OnDestroy {
     private http: HttpClient,
     private el: ElementRef,
     private cdr: ChangeDetectorRef,
-		private liveAnnouncer: LiveAnnouncer,
+    private liveAnnouncer: LiveAnnouncer,
+    private addressService: AddressService,
   ) {}
 
   public search(value: string = '', $event: any = false): void {
@@ -125,21 +127,13 @@ export class AutocompleteComponent implements OnDestroy {
     let resultSet = data || [];
     resultSet = resultSet.filter(address => (address.kood6 !== '0000' || address.kood7 !== '0000'));
     try {
-      resultSet.forEach((address) => {
-        if (address.kort_nr) {
-          address.addressHumanReadable = `${address.pikkaadress}-${address.kort_nr}`;
-        } else {
-          address.addressHumanReadable = address.pikkaadress;
-        }
-        address.seqNo = address.unik;
-        if (!address.ehak) {
-          address.ehak = address.ehakov ? address.ehakov : address.ehakmk;
-        }
+      resultSet.forEach((address, index) => {
+        resultSet[index] = this.addressService.inAdsFormatValue(address);
       });
 
       if (this.valueType === 'string') {
         resultSet = resultSet.map((item) => {
-          return item.ipikkaadress;
+          return item.addressHumanReadable;
         });
       }
     } catch (err) {

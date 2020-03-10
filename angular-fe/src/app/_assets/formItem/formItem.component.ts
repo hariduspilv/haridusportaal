@@ -21,6 +21,7 @@ import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { ParseInAddsPipe } from '@app/_pipes/parseInAdds.pipe';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+import { AddressService } from '@app/_services/AddressService';
 
 export interface FormItemOption {
   key: string;
@@ -89,6 +90,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     private deviceService: DeviceDetectorService,
     private inAddsPipe: ParseInAddsPipe,
     private queryParams: QueryParamsService,
+    private addressService: AddressService,
   ) {
     this.patterns = conf.patterns;
     this.isMobile = !this.deviceService.isDesktop();
@@ -307,37 +309,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
     } else {
 
       if (typeof value !== 'string') {
-
-        if (!value.addressHumanReadable) {
-          if (value.kort_nr) {
-            value.addressHumanReadable = `${value.pikkaadress}-${value.kort_nr}`;
-          } else {
-            value.addressHumanReadable = value.pikkaadress;
-          }
-          value.seqNo = value.unik;
-        }
-
-        if (value.unik && value.pikkaadress) {
-          this.field = {
-            seqNo: value.unik,
-            klElukoht: value.ehak,
-            adr_id: value.adr_id,
-            ads_oid: value.ads_oid,
-            adsId: value.adr_id,
-            adsOid: value.ads_oid,
-            addressFull: value.pikkaadress,
-            addressCoded: value.koodaadress,
-            county: value.maakond,
-            countyEHAK: value.ehakmk,
-            localGovernment: value.omavalitsus,
-            localGovernmentEHAK: value.ehakov,
-            settlementUnit: value.asustusyksus,
-            settlementUnitEHAK: value.ehak,
-            address: value.aadresstekst,
-            apartment: value.kort_nr,
-            addressHumanReadable: value.addressHumanReadable,
-          };
-        }
+        this.field = this.addressService.inAdsFormatValue(value);
       }
     }
 

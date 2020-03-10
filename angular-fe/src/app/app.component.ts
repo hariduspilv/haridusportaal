@@ -141,7 +141,6 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (event instanceof NavigationEnd) {
         const path = `${window.location.origin}/amp${window.location.pathname}`;
         this.amp.removeTag('rel=amphtml');
-        console.log(path);
         this.amp.addTag({
           href: path,
           rel: 'amphtml',
@@ -153,7 +152,5 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.gaPageTrack();
     }
 
-
-    // this.addPlumbrScript();
   }
 }
