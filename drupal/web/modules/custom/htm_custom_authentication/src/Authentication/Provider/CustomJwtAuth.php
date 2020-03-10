@@ -79,8 +79,6 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
       throw new AccessDeniedHttpException($validate->invalidReason());
     }
 
-    dump($jwt);
-
     $valid = new JwtAuthValidEvent($jwt);
     $this->eventDispatcher->dispatch(JwtAuthEvents::VALID, $valid);
     $user = $valid->getUser();
