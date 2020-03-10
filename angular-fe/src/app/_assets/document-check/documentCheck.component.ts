@@ -1,5 +1,10 @@
 import { Component, ViewChild } from "@angular/core";
-import { AbstractControl, FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+	AbstractControl,
+	FormBuilder,
+	FormGroup,
+	Validators
+} from "@angular/forms";
 import { AlertsService, AuthService, SettingsService } from "@app/_services";
 import { TranslateService } from "@app/_modules/translate/translate.service";
 import { HttpClient } from "@angular/common/http";
@@ -42,7 +47,6 @@ export class DocumentCheckComponent {
 		private location: Location,
 		public auth: AuthService
 	) {}
-
 	public ngOnInit() {
 		this.alertsService.clear("general");
 		this.subscribeToAuth();
@@ -92,7 +96,11 @@ export class DocumentCheckComponent {
 		}
 		this.http
 			.get(
-				`${this.settings.ehisUrl}/avaandmed/lopudokumendid/${urlPartial}/${encodeURIComponent(this.model.value.document_id)}/JSON`
+				`${
+					this.settings.ehisUrl
+				}/avaandmed/lopudokumendid/${urlPartial}/${encodeURIComponent(
+					this.model.value.document_id.replace(/\s/g, "").replace(/\//g, "'")
+				)}/JSON`
 			)
 			.subscribe(
 				(res: any) => {
@@ -113,6 +121,13 @@ export class DocumentCheckComponent {
 					}
 					if (res.body.vastuseKood === 1) {
 						this.alertsService.warning(
+							res.body.koodiSelgitus,
+							"documentCheck",
+							false
+						);
+					}
+					if (res.body.vastuseKood === 2) {
+						this.alertsService.error(
 							res.body.koodiSelgitus,
 							"documentCheck",
 							false
