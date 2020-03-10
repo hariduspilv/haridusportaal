@@ -183,7 +183,6 @@ class xJsonRestResource extends ResourceBase {
       case 'SAVE';
       case 'SUBMIT';
       case 'CHANGE';
-      \Drupal::logger('xjson')->notice('<pre><code>Regcode delete mtsys key ' . print_r($this->ehisConnector->getCurrentUserIdRegCode(FALSE), TRUE) . '</code></pre>' );
         $this->ehisService->deleteFromRedis($this->ehisService->getCurrentUserIdRegCode(FALSE), 'mtsys');
         break;
     }
