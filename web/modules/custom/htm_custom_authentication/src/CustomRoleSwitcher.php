@@ -53,6 +53,7 @@ class CustomRoleSwitcher {
 	}
 
 	public function getCurrentRole(){
+	  dump($this->userData->get('CustomRoleSwitcher', $this->currentUser->getIdCode()));
 		return $this->userData->get('CustomRoleSwitcher', $this->currentUser->getIdCode());
 	}
 
