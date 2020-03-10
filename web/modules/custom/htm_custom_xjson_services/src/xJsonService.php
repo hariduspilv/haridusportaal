@@ -89,8 +89,8 @@ class xJsonService implements xJsonServiceInterface {
             [
               'role' => 'TAOTLEJA',
               'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
-              'owner_id' => $this->ehisconnector->getCurrentUserIdRegCode(FALSE),
-              'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
+              'owner_id' => $this->ehisconnector->useReg() ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
+              'owner_name' => $this->ehisconnector->useReg() ? $this->ehisconnector->getCurrentUserName() : null,
               'educationalInstitutions_id' => isset($educationalInstitutions_id) ? $educationalInstitutions_id : null,
               'educationalInstitutions_name' => isset($educationalInstitutions_name) ? $educationalInstitutions_name : null,
             ]
@@ -117,8 +117,8 @@ class xJsonService implements xJsonServiceInterface {
             [
               'role' => 'TAOTLEJA',
               'person_id' => $this->ehisconnector->getCurrentUserIdRegCode(TRUE),
-              'owner_id' => $this->ehisconnector->getCurrentUserIdRegCode(FALSE),
-              'owner_name' => ($this->ehisconnector->useReg()) ? $this->ehisconnector->getCurrentUserName() : null,
+              'owner_id' => $this->ehisconnector->useReg() ? $this->ehisconnector->getCurrentUserIdRegCode() : null,
+              'owner_name' => $this->ehisconnector->useReg() ? $this->ehisconnector->getCurrentUserName() : null,
               'educationalInstitutions_id' => isset($educationalInstitutions_id) ? $educationalInstitutions_id : null,
               'educationalInstitutions_name' => isset($educationalInstitutions_name) ? $educationalInstitutions_name : null,
             ]
