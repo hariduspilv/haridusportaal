@@ -195,7 +195,6 @@ class EhisConnectorService {
    * @return bool
    */
   public function useReg(){
-    dump($this->currentRole);
     if($this->currentRole['current_role']['type'] === 'juridical_person') return true;
     return false;
   }
