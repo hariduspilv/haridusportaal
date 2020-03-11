@@ -913,9 +913,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   cancelEventHandler() {
-    if (!this.edit_step) {
-      this.location.back();
-    }
+    this.location.back();
   }
 
   compileAcceptableFormList() {
