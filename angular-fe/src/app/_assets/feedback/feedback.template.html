@@ -1,18 +1,26 @@
 <ng-container *ngIf="status == 'vote'">
-  <p  attr.aria-label="{{ 'feedback_heading' | translate }}"><b>{{ 'feedback_heading' | translate }}</b></p>
+  <p attr.aria-label="{{ 'feedback_heading' | translate }}">
+    <b>{{ 'feedback_heading' | translate }}</b></p>
   <div class="options">
     <button (click)="vote(true)" attr.aria-label="{{ 'feedback_yes' | translate }}">
-      <icon glyph="thumbs-up" bg="true"></icon>{{ 'feedback_yes' | translate }}
+      <icon glyph="thumbs-up" bg="true"></icon>
+      {{ 'feedback_yes' | translate }}
     </button>
-    <button (click)="vote(false)" class="negative" attr.aria-label="{{ 'feedback_no' | translate }}">
-      <icon glyph="thumbs-down" bg="true"></icon>{{ 'feedback_no' | translate }}
+    <button (click)="vote(false)" class="negative"
+            attr.aria-label="{{ 'feedback_no' | translate }}">
+      <icon glyph="thumbs-down" bg="true"></icon>
+      {{ 'feedback_no' | translate }}
     </button>
   </div><!--/options-->
 </ng-container>
 
 <ng-container *ngIf="status == 'add_comment'">
-  <p  attr.aria-label="{{ 'feedback_how_to_improve' | translate }}" role="alert" *ngIf="!values.vote"><b>{{ 'feedback_how_to_improve' | translate }}</b></p>
-  <p  attr.aria-label="{{ 'feedback_add_comment' | translate }}" role="alert" *ngIf="values.vote"><b>{{ 'feedback_add_comment' | translate }}</b></p>
+  <p role="alert" *ngIf="!values.vote">
+    <b>{{ 'feedback_how_to_improve' | translate }}</b>
+  </p>
+  <p role="alert" *ngIf="values.vote">
+    <b>{{ 'feedback_add_comment' | translate }}</b>
+  </p>
   <div class="comment">
     <div class="formItem">
       <formItem
@@ -34,13 +42,17 @@
         [errorMessage]="'feedback_comment_error' | translate"
         [title]="'feedback_comment_required' | translate"></formItem>
     </div><!--/formItem-->
-    <button htm-button theme="plain" (click)="cancel()" attr.aria-label="{{ 'feedback_cancel' | translate }}">{{ 'feedback_cancel' | translate }}</button>
-    <button htm-button (click)="sendVote()" attr.aria-label="{{ 'feedback_send' | translate }}">{{ 'feedback_send' | translate }}</button>
+    <button htm-button theme="plain" (click)="cancel()"
+            attr.aria-label="{{ 'feedback_cancel' | translate }}">{{ 'feedback_cancel' | translate }}</button>
+    <button htm-button (click)="sendVote()"
+            attr.aria-label="{{ 'feedback_send' | translate }}">{{ 'feedback_send' | translate }}</button>
   </div><!--/comment-->
 </ng-container>
 
 <ng-container *ngIf="status == 'response'">
   <div class="response">
-    <p  attr.aria-label="{{ 'feedback_thanks' | translate }}"  role="alert"><b>{{ 'feedback_thanks' | translate }}</b></p>
+    <p role="alert">
+      <b>{{ 'feedback_thanks' | translate }}</b>
+    </p>
   </div><!--/response-->
 </ng-container>

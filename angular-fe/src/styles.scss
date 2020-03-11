@@ -21,6 +21,22 @@ a{color: #2e3374;
   &:hover{text-decoration: none;}
 }
 
+.corner-logo {
+  z-index: 10;
+  position: fixed;
+  bottom: 0;
+	right: 1.5rem;
+	transition: transform 0.2s;
+	transform: translateY(0);
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+}
+
+.corner-logo.hidden {
+	transform: translateY(100%);
+}
+
 @keyframes ripple {
 	0% {
 		opacity: 0.3;

@@ -5,7 +5,7 @@
     </span>
     <a [routerLink]="[item.link]" *ngIf="item.link">{{ item.title }}</a>
     <ng-container *ngIf="!item.link">
-      {{ item.title }}
+      <span>{{ item.title }}</span>
     </ng-container>
   </li>
 </ul>
