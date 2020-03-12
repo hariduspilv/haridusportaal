@@ -1,0 +1,10 @@
+uuid: 25e6393b-d8b9-42d7-b462-b7e1a3213080
+langcode: et
+status: true
+dependencies: {  }
+id: career_contact
+label: 'Career contact'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
