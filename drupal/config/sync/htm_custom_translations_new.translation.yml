@@ -3798,7 +3798,7 @@ finaldocuments:
       en: Aeg
     action_type:
       translation_type: textarea
-      et: finaldocuments.th.action_type
+      et: 'Tegevuse liik'
       en: finaldocuments.th.action_type
     document_type:
       translation_type: textarea

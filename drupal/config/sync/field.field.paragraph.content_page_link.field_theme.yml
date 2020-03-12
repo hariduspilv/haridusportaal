@@ -1,0 +1,19 @@
+uuid: 6c627cf7-aba8-4486-9649-0a161f7b9746
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_theme
+    - paragraphs.paragraphs_type.content_page_link
+id: paragraph.content_page_link.field_theme
+field_name: field_theme
+entity_type: paragraph
+bundle: content_page_link
+label: Teema
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
