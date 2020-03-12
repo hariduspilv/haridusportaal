@@ -184,7 +184,7 @@ public class HPortalRestController {
       MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(
-          mtsysWorker.delelteDocument(Integer.parseInt(identifier), personalCode), HttpStatus.OK);
+          mtsysWorker.deleteDocument(Integer.parseInt(identifier), personalCode), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request formName - " + formName);
