@@ -110,7 +110,7 @@ export class DocumentCheckComponent {
               .get('documentCheck.found_result')
               .replace(
                 '%LIIK%',
-                res.body.lopudokumendid.lopudokument[0].onHinneteleht
+                res.body.lopudokumendid.lopudokument[0].onHinneteleht === '1'
                   ? res.body.lopudokumendid.lopudokument[0].hinneteleheNimetus
                   : res.body.lopudokumendid.lopudokument[0]
                       .pohiDokumendiLiigiNimetus,
