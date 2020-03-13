@@ -45,6 +45,7 @@
 					</div>
 					<div class="col-5 sm-12" [class.disabled]="secondaryFilteredTypes.length > 0 ? false : true">
 						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"  sortOptions="true"
+							[disabled]="secondaryFilteredTypes.length > 0 ? false : true"
 							[title]="subPlaceholder" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
 						</formItem>
 					</div>

@@ -69,6 +69,7 @@
       }
     }
     &__title {font-size: $small;line-height: 2;color: $dark-gray; padding: 1rem 1.5rem; flex-basis: 50%;
+      
     }
     &__month {padding: 3rem $medium 0 $medium; 
       &:first-child{
@@ -90,6 +91,8 @@
         &.highlighted {color: $red;}
       }
       &__separator {position: relative;top: .625rem;
+        left: 20px;
+        width: 100%;
         .dot {height: 0.6875rem;width: 0.6875rem;background-color: $black;border-radius: 50%;position: relative;bottom: .375rem;right: .375rem;
           &__highlighted {@extend .dot;background-color: $red;}
         }
@@ -102,8 +105,8 @@
         a:visited, a:visited h1 { color: $visited; }
         a h1, a { text-decoration: none;}
         a h1:hover { text-decoration: underline; }
-        h1 {font-weight: 500;
-          @include break-on(sm, min) {font-size: 1.5rem; color: $blue; padding-bottom: $gutter;line-height:1.33;}
+        h1 {font-weight: 500; color: $blue;
+          @include break-on(sm, min) {font-size: 1.5rem;  padding-bottom: $gutter;line-height:1.33;}
           @include break-on(sm, max) {font-size: 0.875rem;}
         }
 
