@@ -1,19 +1,19 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit } from "@angular/core";
-import { AlertsService, ModalService, SettingsService, SidebarService } from "@app/_services";
+import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit } from '@angular/core';
+import { AlertsService, ModalService, SettingsService, SidebarService } from '@app/_services';
 import {
   collection,
   parseFieldData,
   parseInfosystemData,
   parseProfessionData,
   titleLess
-} from "./helpers/sidebar";
-import { arrayOfLength, parseUnixDate } from "@app/_core/utility";
-import FieldVaryService from "@app/_services/FieldVaryService";
-import { ActivatedRoute } from "@angular/router";
-import { TranslateService } from "@app/_modules/translate/translate.service";
-import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from "@angular/forms";
-import { HttpClient } from "@angular/common/http";
-import { saveAs } from "file-saver";
+} from './helpers/sidebar';
+import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
+import FieldVaryService from '@app/_services/FieldVaryService';
+import { ActivatedRoute } from '@angular/router';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { saveAs } from 'file-saver';
 
 interface SidebarType {
   [key: string]: string;
@@ -78,13 +78,13 @@ const sidebarOrder = {
 // tslint:enable
 
 @Component({
-  selector: "sidebar",
-  templateUrl: "./sidebar.template.html",
-  styleUrls: ["./sidebar.styles.scss"]
+  selector: 'sidebar',
+  templateUrl: './sidebar.template.html',
+  styleUrls: ['./sidebar.styles.scss']
 })
 export class SidebarComponent implements OnInit, OnChanges {
   @Input() public data: any;
-  @Input() public feedbackNid: string = "";
+  @Input() public feedbackNid: string = '';
   public isArray = Array.isArray;
   public mappedData: any;
   private type: string;
@@ -103,8 +103,8 @@ export class SidebarComponent implements OnInit, OnChanges {
     }
   }
 
-  @HostBinding("class") get hostClasses(): string {
-    return "sidebar";
+  @HostBinding('class') get hostClasses(): string {
+    return 'sidebar';
   }
 
   public ngOnInit() {
@@ -122,7 +122,7 @@ export class SidebarComponent implements OnInit, OnChanges {
       try {
         if (
           this.data.nodeQuery.entities[0].entityUrl.path.match(
-            "uudised"
+            'uudised'
           )
         ) {
           this.data.newsQuery = this.data.nodeQuery;
@@ -141,22 +141,22 @@ export class SidebarComponent implements OnInit, OnChanges {
         FieldVaryService(this.data)
       );
 
-      if (this.type === "infosystem") {
+      if (this.type === 'infosystem') {
         this.mappedData = parseInfosystemData(this.mappedData);
       }
 
-      if (this.type === "profession") {
+      if (this.type === 'profession') {
         this.mappedData = parseProfessionData(this.mappedData, this.translate);
       }
 
-      if (this.type === "field") {
+      if (this.type === 'field') {
         this.mappedData = parseFieldData(this.mappedData, this.translate);
       }
 
       if (
-        this.type === "resultPage" ||
-        this.type === "surveyPage" ||
-        this.type === "event"
+        this.type === 'resultPage' ||
+        this.type === 'surveyPage' ||
+        this.type === 'event'
       ) {
         delete this.mappedData.links;
       }
@@ -177,8 +177,8 @@ export class SidebarComponent implements OnInit, OnChanges {
 
 // Subcomponents
 @Component({
-  selector: "sidebar-links",
-  templateUrl: "./templates/sidebar.links.template.html"
+  selector: 'sidebar-links',
+  templateUrl: './templates/sidebar.links.template.html'
 })
 export class SidebarLinksComponent implements OnInit, OnChanges {
   @Input() public data: Object[];
@@ -246,8 +246,8 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
 }
 
 @Component({
-  selector: "sidebar-categories",
-  templateUrl: "./templates/sidebar.categories.template.html"
+  selector: 'sidebar-categories',
+  templateUrl: './templates/sidebar.categories.template.html'
 })
 export class SidebarCategoriesComponent implements OnInit {
   @Input() public data: Object[];
@@ -259,8 +259,8 @@ export class SidebarCategoriesComponent implements OnInit {
 }
 
 @Component({
-  selector: "sidebar-contact",
-  templateUrl: "./templates/sidebar.contact.template.html"
+  selector: 'sidebar-contact',
+  templateUrl: './templates/sidebar.contact.template.html'
 })
 export class SidebarContactComponent {
   @Input() public data: any;
@@ -276,24 +276,24 @@ export class SidebarContactComponent {
 }
 
 @Component({
-  selector: "sidebar-articles",
-  templateUrl: "./templates/sidebar.articles.template.html"
+  selector: 'sidebar-articles',
+  templateUrl: './templates/sidebar.articles.template.html'
 })
 export class SidebarArticlesComponent {
   @Input() public data;
 }
 
 @Component({
-  selector: "sidebar-data",
-  templateUrl: "./templates/sidebar.data.template.html"
+  selector: 'sidebar-data',
+  templateUrl: './templates/sidebar.data.template.html'
 })
 export class SidebarDataComponent {
   @Input() public data;
 }
 
 @Component({
-  selector: "sidebar-actions",
-  templateUrl: "./templates/sidebar.actions.template.html"
+  selector: 'sidebar-actions',
+  templateUrl: './templates/sidebar.actions.template.html'
 })
 export class SidebarActionsComponent {
   @Input() public data;
@@ -301,8 +301,8 @@ export class SidebarActionsComponent {
 }
 
 @Component({
-  selector: "sidebar-location",
-  templateUrl: "./templates/sidebar.location.template.html"
+  selector: 'sidebar-location',
+  templateUrl: './templates/sidebar.location.template.html'
 })
 export class SidebarLocationComponent {
   @Input() public data: any;
@@ -373,25 +373,25 @@ export class SidebarLocationComponent {
 }
 
 @Component({
-  selector: "sidebar-facts",
-  templateUrl: "./templates/sidebar.facts.template.html"
+  selector: 'sidebar-facts',
+  templateUrl: './templates/sidebar.facts.template.html'
 })
 export class SidebarFactsComponent implements OnInit {
   @Input() public data: any;
   public entitiesData: any[];
   private graduatesToJobsValues = [
-    { class: "first with-bg", text: "oska.more_graduates" },
-    { class: "first with-bg", text: "oska.less_graduates" },
-    { class: "second with-bg", text: "oska.enough_graduates" },
-    { class: "third with-bg", text: "oska.graduates_work_outside_field" },
-    { class: "fourth with-bg", text: "oska.no_graduates" }
+    { class: 'first with-bg', text: 'oska.more_graduates' },
+    { class: 'first with-bg', text: 'oska.less_graduates' },
+    { class: 'second with-bg', text: 'oska.enough_graduates' },
+    { class: 'third with-bg', text: 'oska.graduates_work_outside_field' },
+    { class: 'fourth with-bg', text: 'oska.no_graduates' }
   ];
   private trendingValues = [
-    { icon: "arrow-up", class: "second", text: "oska.big_increase" },
-    { icon: "arrow-up-right", class: "second", text: "oska.increase" },
-    { icon: "arrow-right", class: "third", text: "oska.stagnant" },
-    { icon: "arrow-down-right", class: "first", text: "oska.decline" },
-    { icon: "arrow-down", class: "first", text: "oska.big_decline" }
+    { icon: 'arrow-up', class: 'second', text: 'oska.big_increase' },
+    { icon: 'arrow-up-right', class: 'second', text: 'oska.increase' },
+    { icon: 'arrow-right', class: 'third', text: 'oska.stagnant' },
+    { icon: 'arrow-down-right', class: 'first', text: 'oska.decline' },
+    { icon: 'arrow-down', class: 'first', text: 'oska.big_decline' }
   ];
 
   public ngOnInit() {
@@ -404,18 +404,18 @@ export class SidebarFactsComponent implements OnInit {
 }
 
 @Component({
-  selector: "sidebar-progress",
-  templateUrl: "./templates/sidebar.progress.template.html"
+  selector: 'sidebar-progress',
+  templateUrl: './templates/sidebar.progress.template.html'
 })
 export class SidebarProgressComponent {
   @Input() public data: any;
   public level: number;
   private competitionLabels = [
-    "oska.simple",
-    "oska.quite_simple",
-    "oska.medium",
-    "oska.quite_difficult",
-    "oska.difficult"
+    'oska.simple',
+    'oska.quite_simple',
+    'oska.medium',
+    'oska.quite_difficult',
+    'oska.difficult'
   ];
 
   public ngOnInit() {
@@ -426,8 +426,8 @@ export class SidebarProgressComponent {
 }
 
 @Component({
-  selector: "sidebar-register",
-  templateUrl: "./templates/sidebar.register.template.html"
+  selector: 'sidebar-register',
+  templateUrl: './templates/sidebar.register.template.html'
 })
 export class SidebarRegisterComponent {
   @Input() public pageData;
@@ -435,12 +435,12 @@ export class SidebarRegisterComponent {
   public formSubmitted: boolean = false;
 
   public form = this.formBuilder.group({
-    firstName: ["", Validators.required],
-    lastName: ["", Validators.required],
-    companyName: [""],
-    email: ["", [Validators.required, Validators.email]],
-    telephone: [""],
-    marked: [""]
+    firstName: ['', Validators.required],
+    lastName: ['', Validators.required],
+    companyName: [''],
+    email: ['', [Validators.required, Validators.email]],
+    telephone: [''],
+    marked: ['']
   });
 
   @Input() public data: any;
@@ -483,7 +483,7 @@ export class SidebarRegisterComponent {
     this.formSubmitted = false;
   }
 
-  public hasError(name: string = "") {
+  public hasError(name: string = '') {
     return this.form.controls[name].invalid;
   }
 
@@ -493,10 +493,10 @@ export class SidebarRegisterComponent {
       this.loading = true;
 
       const data = {
-        queryId: "cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1",
+        queryId: 'cfad8e08bfdf881d6c7c6533744dc5eb20d3d160:1',
         variables: {
           event_id: this.pageData.nid,
-          lang: "ET",
+          lang: 'ET',
           ...this.form.value
         }
       };
@@ -540,49 +540,49 @@ export class SidebarRegisterComponent {
         this.pageData.RegistrationCount >=
         this.pageData.fieldMaxNumberOfParticipants
       ) {
-        return "full";
+        return 'full';
       }
       if (lastDate >= this.unix && firstDate <= this.unix) return true;
-      if (firstDate > this.unix) return "not_started";
-      if (lastDate < this.unix) return "ended";
+      if (firstDate > this.unix) return 'not_started';
+      if (lastDate < this.unix) return 'ended';
     } catch (err) {
     }
   }
 }
 
 @Component({
-  selector: "sidebar-events",
-  templateUrl: "./templates/sidebar.events.template.html"
+  selector: 'sidebar-events',
+  templateUrl: './templates/sidebar.events.template.html'
 })
 export class SidebarEventsComponent {
   @Input() public data: any;
 }
 
 @Component({
-  selector: "sidebar-notifications",
-  templateUrl: "./templates/sidebar.notifications.template.html"
+  selector: 'sidebar-notifications',
+  templateUrl: './templates/sidebar.notifications.template.html'
 })
 export class SidebarNotificationsComponent {
   @Input() public data: any;
 }
 
 @Component({
-  selector: "sidebar-gdpr",
-  templateUrl: "./templates/sidebar.gdpr.template.html"
+  selector: 'sidebar-gdpr',
+  templateUrl: './templates/sidebar.gdpr.template.html'
 })
 export class SidebarGdprComponent {
   @Input() public data: any;
 }
 
 @Component({
-  selector: "sidebar-finaldocument-access",
-  templateUrl: "./templates/sidebar.finaldocument-access.template.html"
+  selector: 'sidebar-finaldocument-access',
+  templateUrl: './templates/sidebar.finaldocument-access.template.html'
 })
 export class SidebarFinalDocumentAccessComponent implements OnInit {
   @Input() public data: any;
   public errors = {
     'required': 'Väli on kohustuslik',
-  }
+  };
 
   public addAccessForm: FormGroup = this.formBuilder.group(
     {
@@ -590,30 +590,30 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
       emailAddress: ['', { validators: [Validators.email], updateOn: 'submit' }],
       accessorCode: [''],
       scope: ['ACCESS_SCOPE:MAIN_DOCUMENT', { validators: [Validators.required] }],
-      endDate: [""],
+      endDate: [''],
       noEndDate: [false],
-      accessId: [""]
+      accessId: ['']
     },
   );
   public addAccessOptions = {
     type: [
       {
-        key: "Isikukoodiga",
-        value: "ACCESS_TYPE:ID_CODE"
+        key: 'Isikukoodiga',
+        value: 'ACCESS_TYPE:ID_CODE'
       },
       {
-        key: "E-postiga",
-        value: "ACCESS_TYPE:ACCESS_CODE"
+        key: 'E-postiga',
+        value: 'ACCESS_TYPE:ACCESS_CODE'
       }
     ],
     scope: [
       {
-        key: "Lõputunnistus",
-        value: "ACCESS_SCOPE:MAIN_DOCUMENT"
+        key: 'Lõputunnistus',
+        value: 'ACCESS_SCOPE:MAIN_DOCUMENT'
       },
       {
-        key: "Lõputunnistus koos hinnetelehega",
-        value: "ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS"
+        key: 'Lõputunnistus koos hinnetelehega',
+        value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS'
       }
     ]
   };
@@ -623,7 +623,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
   public openedAccess: any = {};
   public openedAccessLabelType: any;
   public openedAccessLabel = [];
-  public accessAction = "add";
+  public accessAction = 'add';
   public issuingHistory = [];
   public actionHistory = [];
 
@@ -646,13 +646,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     this.openedAccessLabel = [
       {
         value:
-          access.status === "ACCESS_STATUS:VALID"
-            ? "kehtiv ligipääs"
-            : "kehtetu ligipääs"
+          access.status === 'ACCESS_STATUS:VALID'
+            ? 'kehtiv ligipääs'
+            : 'kehtetu ligipääs',
       }
     ];
     this.openedAccessLabelType =
-      access.status === "ACCESS_STATUS:VALID" ? "green" : "red";
+      access.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
     this.addAccessForm.reset();
     this.addAccessForm.setValue({
       type: access.type,
@@ -661,15 +661,15 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
       scope: access.scope,
       endDate: access.endDate
         ? access.endDate
-          .split("-")
+          .split('-')
           .reverse()
-          .join(".")
+          .join('.')
         : null,
       noEndDate: !access.endDate ? true : false,
       accessId: access.id
     });
 
-    this.modal.toggle("finalDocument-access");
+    this.modal.toggle('finalDocument-access');
   }
 
   public openNewAccessModal() {
@@ -678,18 +678,22 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     const date = new Date();
     this.addAccessForm.controls.endDate.setValue(
       new Date(date.setMonth(date.getMonth() + 1)).toLocaleDateString(),
-    )
-    this.accessAction = 'add'
+    );
+    this.accessAction = 'add';
   }
 
   public changeAccess(): void {
-    this.accessAction = "edit";
-    this.modal.toggle("finalDocument-addAccess");
+    this.accessAction = 'edit';
+    this.modal.toggle('finalDocument-addAccess');
   }
 
   public addAccess(): void {
     this.addAccessForm.clearValidators();
-    this.addAccessForm.setValidators([this.emailAddressOrIdCodeValidator, this.endDateOrNoEndDateValidator]);
+    this.addAccessForm.setValidators(
+      [
+        this.emailAddressOrIdCodeValidator,
+        this.endDateOrNoEndDateValidator,
+      ]);
     this.addAccessForm.updateValueAndValidity();
     if (this.addAccessForm.invalid) {
       return;
@@ -697,7 +701,8 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     const form = this.addAccessForm.value;
     const indexId = this.route.snapshot.params.id;
     if (form.accessorCode) {
-      const startsWithLetters = isNaN(form.accessorCode.charAt(0)) && isNaN(form.accessorCode.charAt(1));
+      const startsWithLetters =
+        isNaN(form.accessorCode.charAt(0)) && isNaN(form.accessorCode.charAt(1));
       if (!startsWithLetters) {
         this.addAccessForm.controls.accessorCode.setValue(`EE${form.accessorCode.trim()}`);
         form.accessorCode = this.addAccessForm.controls.accessorCode.value;
@@ -711,25 +716,26 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         endDate: form.noEndDate
           ? null
           : form.endDate
-            .split(".")
+            .split('.')
             .reverse()
-            .join("-"),
+            .join('-'),
         accessorCode:
-          form.type === "ACCESS_TYPE:ID_CODE" ? form.accessorCode : null,
+          form.type === 'ACCESS_TYPE:ID_CODE' ? form.accessorCode : null,
         emailAddress:
-          form.type === "ACCESS_TYPE:ACCESS_CODE" ? form.emailAddress : null
+          form.type === 'ACCESS_TYPE:ACCESS_CODE' ? form.emailAddress : null
       }
     };
     this.http
       .post(`${this.settings.ehisUrl}/certificates/v1/certificateAccess`, accessDTO)
       .subscribe(
         (val) => {
-          this.modal.toggle("finalDocument-addAccess");
+          this.modal.toggle('finalDocument-addAccess');
           this.addAccessForm.reset();
           this.getData();
         },
         (err) => {
-          this.alertsService.error(err.error.errors[0].message, 'addAccessErrors', 'accessErrors', true);
+          this.alertsService
+            .error(err.error.errors[0].message, 'addAccessErrors', 'accessErrors', true);
         }
       );
   }
@@ -737,7 +743,8 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
   public modifyAccess(): void {
     const form = this.addAccessForm.value;
     this.addAccessForm.clearValidators();
-    this.addAccessForm.setValidators([this.emailAddressOrIdCodeValidator, this.endDateOrNoEndDateValidator]);
+    this.addAccessForm
+      .setValidators([this.emailAddressOrIdCodeValidator, this.endDateOrNoEndDateValidator]);
     this.addAccessForm.updateValueAndValidity();
     if (this.addAccessForm.invalid) {
       return;
@@ -751,20 +758,20 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         endDate: form.noEndDate
           ? null
           : form.endDate
-            .split(".")
+            .split('.')
             .reverse()
-            .join("-"),
+            .join('-'),
         endDateSet: form.endDate ? true : false,
-        scopeSet: form.scope ? true : false
-      }
+        scopeSet: form.scope ? true : false,
+      },
     };
     this.http
       .patch(
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess`,
-        accessDTO
+        accessDTO,
       )
-      .subscribe(val => {
-        this.modal.toggle("finalDocument-addAccess");
+      .subscribe((val) => {
+        this.modal.toggle('finalDocument-addAccess');
         this.addAccessForm.reset();
         this.getData();
       });
@@ -776,7 +783,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     this.http
       .delete(
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess\
-				?indexId=${certificateId}&accessId=${accessId}`
+				?indexId=${certificateId}&accessId=${accessId}`,
       )
       .subscribe((res: any) => {
         this.getData();
@@ -784,15 +791,28 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         this.openedAccessLabel = [
           {
             value:
-              res.status === "ACCESS_STATUS:VALID"
-                ? "kehtiv ligipääs"
-                : "kehtetu ligipääs"
-          }
+              res.status === 'ACCESS_STATUS:VALID'
+                ? 'kehtiv ligipääs'
+                : 'kehtetu ligipääs',
+          },
         ];
         this.openedAccessLabelType =
-          res.status === "ACCESS_STATUS:VALID" ? "green" : "red";
-        this.modal.toggle("finalDocument-confirmInvalidation");
+          res.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
+        this.modal.toggle('finalDocument-confirmInvalidation');
       });
+  }
+
+  public openInvalidAccesses(): void {
+    this.modal.toggle('finalDocument-invalidAccesses');
+    if (this.inactiveAccesses.length === 0) {
+      window.setTimeout(() => {
+        this.alertsService.info(
+          'Kehtetuid ligipääse pole',
+          'invalidAccessesAlerts',
+          false,
+        );
+      }, 1);
+    }
   }
 
   private getData(): void {
@@ -800,42 +820,55 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     this.http
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess\
-				?indexId=${id}&status=ACCESS_STATUS:VALID`
+				?indexId=${id}&status=ACCESS_STATUS:VALID`,
       )
-      .subscribe(val => {
+      .subscribe((val) => {
         this.activeAccesses = val;
       });
     this.http
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess\
-				?indexId=${id}&status=ACCESS_STATUS:INVALID`
+				?indexId=${id}&status=ACCESS_STATUS:INVALID`,
       )
-      .subscribe(val => {
+      .subscribe((val) => {
         this.inactiveAccesses = val;
+        this.inactiveAccesses = this.inactiveAccesses.sort((a, b) => {
+          if (a.issued > b.issued) {
+            return -1;
+          }
+          if (a.issued < b.issued) {
+            return 1;
+          }
+          if (a.issued === b.issued) {
+            return 0;
+          }
+        });
       });
   }
 
-  private emailAddressOrIdCodeValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+  private emailAddressOrIdCodeValidator: ValidatorFn
+  = (control: FormGroup): ValidationErrors | null => {
     const accessorCode = control.get('accessorCode');
     const emailAddress = control.get('emailAddress');
     if (accessorCode.value === null && emailAddress.value === null) {
-      return { 'emailOrIdCodeMissing': true }
+      return { emailOrIdCodeMissing: true };
     }
-    return null
+    return null;
   }
-  private endDateOrNoEndDateValidator: ValidatorFn = (control: FormGroup): ValidationErrors | null => {
+  private endDateOrNoEndDateValidator: ValidatorFn
+  = (control: FormGroup): ValidationErrors | null => {
     const noEndDate = control.get('noEndDate');
     const endDate = control.get('endDate');
     if ((noEndDate.value === null || !noEndDate.value) && endDate.value === null) {
-      return { 'mustHaveEndDateOption': true };
+      return { mustHaveEndDateOption: true };
     }
     return null;
   }
 }
 
 @Component({
-  selector: "sidebar-finaldocument-history",
-  templateUrl: "./templates/sidebar.finaldocument-history.template.html"
+  selector: 'sidebar-finaldocument-history',
+  templateUrl: './templates/sidebar.finaldocument-history.template.html'
 })
 export class SidebarFinalDocumentHistoryComponent implements OnInit {
   @Input() public data: any;
@@ -851,7 +884,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
     private settings: SettingsService,
     private route: ActivatedRoute,
     public modal: ModalService,
-    private alertsService: AlertsService
+    private alertsService: AlertsService,
   ) {
   }
 
@@ -862,7 +895,8 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
   public getDocument(documentId) {
     this.loadingDocumentError = false;
     this.loadingDocument = true;
-    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificateDocument/${documentId}`).subscribe(
+    this.http.get(
+      `${this.settings.ehisUrl}/certificates/v1/certificateDocument/${documentId}`).subscribe(
       (res: any) => {
         const document = res.document;
         document.content = JSON.parse(document.content);
@@ -885,6 +919,32 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
     this.modal.toggle('finalDocument-document');
   }
 
+  public openIssueHistory() {
+    this.modal.toggle('finalDocument-issueHistory');
+    if (this.issuingHistory.length === 0) {
+      window.setTimeout(() => {
+        this.alertsService.info(
+          'Vaatamise ajaloo kirjeid ei leitud',
+          'historyModalAlerts',
+          false,
+        );
+      }, 1);
+    }
+  }
+
+  public openActionHistory() {
+    this.modal.toggle('finalDocument-actionHistory');
+    if (this.actionHistory.length === 0) {
+      window.setTimeout(() => {
+        this.alertsService.info(
+          'Väljastamise ajaloo kirjeid ei leitud',
+          'actionHistoryModalAlerts',
+          false,
+        );
+      }, 1);
+    }
+  }
+
   private getData(): void {
     const id = this.route.snapshot.params.id;
     this.http
@@ -896,7 +956,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
       .get(`${this.settings.ehisUrl}/certificates/v1/certificateDataIssues/${id}`)
       .subscribe((res: any) => {
         this.issuingHistory = res
-          .filter(el => el.issueBase !== "OWNER")
+          .filter(el => el.issueBase !== 'OWNER')
           .sort((a, b) => {
             if (new Date(a.issueTime) > new Date(b.issueTime)) {
               return -1;
@@ -906,20 +966,13 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
             }
             return 0;
           });
-        if (this.issuingHistory.length === 0) {
-          this.alertsService.info(
-            "Vaatamise ajaloo kirjeid ei leitud",
-            "historyModalAlerts",
-            false
-          );
-        }
       });
   }
 }
 
 @Component({
-  selector: "sidebar-finaldocument-download",
-  templateUrl: "./templates/sidebar.finaldocument-download.template.html"
+  selector: 'sidebar-finaldocument-download',
+  templateUrl: './templates/sidebar.finaldocument-download.template.html'
 })
 export class SidebarFinalDocumentDownloadComponent {
   public hasAccessToAccompanyingDocuments = false;
@@ -929,22 +982,22 @@ export class SidebarFinalDocumentDownloadComponent {
   public downloadOptions = {
     fileFormat: [
       {
-        value: "PDF",
-        key: "PDF (allkirjastamata fail)"
+        value: 'PDF',
+        key: 'PDF (allkirjastamata fail)'
       },
       {
-        value: "ASICE",
-        key: "ASICE (allkirjastatud fail)"
+        value: 'ASICE',
+        key: 'ASICE (allkirjastatud fail)'
       }
     ],
     scope: [
       {
-        key: "Lõputunnistus",
-        value: "ACCESS_SCOPE:MAIN_DOCUMENT"
+        key: 'Lõputunnistus',
+        value: 'ACCESS_SCOPE:MAIN_DOCUMENT'
       },
       {
-        key: "Lõputunnistus koos hinnetelehega",
-        value: "ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS"
+        key: 'Lõputunnistus koos hinnetelehega',
+        value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS'
       }
     ]
   };
@@ -967,14 +1020,14 @@ export class SidebarFinalDocumentDownloadComponent {
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}`,
         {
-          headers: { "Content-Type": "application/*" },
-          responseType: "blob"
+          headers: { 'Content-Type': 'application/*' },
+          responseType: 'blob'
         }
       )
       .subscribe((res: any) => {
         saveAs(
           new File([res], `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}`, {
-            type: "application/pdf"
+            type: 'application/pdf'
           })
         );
       });

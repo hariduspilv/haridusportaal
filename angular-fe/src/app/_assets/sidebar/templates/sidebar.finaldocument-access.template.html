@@ -45,7 +45,7 @@
 	</ul>
 </div>
 <div class="text-center">
-	<button (click)="modal.toggle('finalDocument-invalidAccesses')" htm-button theme="link">
+	<button (click)="openInvalidAccesses()" htm-button theme="link">
 		{{'finaldocuments.show_invalid_accesses' | translate}}
 	</button>
 </div>
@@ -63,7 +63,7 @@
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
 					<h3>{{'finaldocuments.access_with_email' | translate}}</h3>
 					<p>{{'finaldocuments.insert_email' | translate}}</p>
-					<formItem 
+					<formItem
 						[error]="addAccessForm.errors?.emailOrIdCodeMissing || addAccessForm.controls.emailAddress.errors?.email"
 						[errorMessage]="(addAccessForm.errors?.emailOrIdCodeMissing ? 'errors.field_required' : 'errors.invalid_email') | translate"
 						formControlName="emailAddress"
@@ -109,9 +109,9 @@
 	</ng-template>
 </htm-modal>
 
-<htm-modal id="finalDocument-invalidAccesses" modalTitle="Ligipääs" [bottomAction]="true">
+<htm-modal id="finalDocument-invalidAccesses" modalTitle="Kehtetud ligipääsud" [bottomAction]="true">
 	<ng-template>
-		<scrollableContent>
+		<scrollableContent *ngIf="inactiveAccesses.length > 0; else noResults">
 			<table htm-table>
 				<tr>
 					<th>{{'finaldocuments.th.type' | translate}}</th>
@@ -219,4 +219,8 @@
 			{{'button.edit_data' | translate}}
 		</button>
 	</div>
+</ng-template>
+
+<ng-template #noResults>
+  <alerts small="true" id="invalidAccessesAlerts"></alerts>
 </ng-template>
