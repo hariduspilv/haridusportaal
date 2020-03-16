@@ -592,7 +592,8 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
       scope: ['ACCESS_SCOPE:MAIN_DOCUMENT', { validators: [Validators.required] }],
       endDate: [''],
       noEndDate: [false],
-      accessId: ['']
+      accessId: [''],
+      provider: [''],
     },
   );
   public addAccessOptions = {
@@ -667,8 +668,8 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         : null,
       noEndDate: !access.endDate ? true : false,
       accessId: access.id,
+      provider: access.accessProvider,
     });
-
     this.modal.toggle('finalDocument-access');
   }
 
@@ -722,8 +723,8 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
         accessorCode:
           form.type === 'ACCESS_TYPE:ID_CODE' ? form.accessorCode : null,
         emailAddress:
-          form.type === 'ACCESS_TYPE:ACCESS_CODE' ? form.emailAddress : null
-      }
+          form.type === 'ACCESS_TYPE:ACCESS_CODE' ? form.emailAddress : null,
+      },
     };
     this.http
       .post(`${this.settings.ehisUrl}/certificates/v1/certificateAccess`, accessDTO)
