@@ -65,7 +65,7 @@
         ngbDatepicker #d="ngbDatepicker"
         container="body"
         outsideDays="collapsed"
-        [attr.placeholder]="titleDisabled && !focused ? placeholder : ''"
+        [attr.placeholder]="forcePlaceholder && disabled ? placeholder : (titleDisabled && !focused ? placeholder : '')"
         [class.focused]="focused"
         #inputField
         [minDate]="minDate"
@@ -77,9 +77,9 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
-        [attr.disabled]="disabled"
+        [disabled]="disabled"
         [(ngModel)]="dateField" />
-      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [attr.disabled]="disabled">
+      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [disabled]="disabled">
         <icon glyph="calendar"></icon>
       </button>
     </ng-container>
@@ -221,7 +221,7 @@
             />
             <div class="formItem__radio__indicator"></div>
           </div><!--/formItem__check__wrapper-->
-          <div class="formItem__radio__title">
+          <div class="formItem__radio__title"  [class.selected]="item.value === field">
             {{ item.key }}
           </div><!--/formItem__check__title-->
         </label><!--/formItem__check-->

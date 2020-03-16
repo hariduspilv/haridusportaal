@@ -77,6 +77,8 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() public domID = '';
   @Input() public ariaLabel = '';
 
+  // not going to break anything
+  @Input() public forcePlaceholder = false;
   public field: any;
   public dateField;
   public dirty: boolean = false;

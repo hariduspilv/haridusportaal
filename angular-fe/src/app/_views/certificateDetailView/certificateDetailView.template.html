@@ -1,5 +1,6 @@
 <div class="inline">
-	<article-layout [sidebar]="sidebar">
+	<loader *ngIf="loading"></loader>
+	<article-layout [sidebar]="sidebar" *ngIf="!loading">
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 		<block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
 			<block-title>
