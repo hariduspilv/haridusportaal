@@ -8,6 +8,7 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use \Drupal\views\ViewExecutable;
+use Drupal\Core\Cache\Cache;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
 /**
@@ -18,18 +19,18 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
  * @return string
  */
 function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
-    switch ($route_name) {
-        // Main module help for the form_alter_hook module.
-        case 'help.page.form_alter_hook':
-            $output = '';
-            $output .= '<h3>' . t('About') . '</h3>';
-            $output .= '<p>' . t('Module for altering forms') . '</p>';
-            return $output;
-            break;
-        default:
-            return '';
-            break;
-    }
+  switch ($route_name) {
+    // Main module help for the form_alter_hook module.
+    case 'help.page.form_alter_hook':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Module for altering forms') . '</p>';
+      return $output;
+      break;
+    default:
+      return '';
+      break;
+  }
 }
 
 /**
@@ -41,32 +42,36 @@ function htm_custom_admin_help($route_name, RouteMatchInterface $route_match) {
  */
 function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $form_id) {
 
-    if($form_id === 'taxonomy_term_tags_form'){
-        if($form['tid']['#value'] == NULL){
-            $form['#validate'][] = 'htm_custom_admin_tags_validate';
-        }
+  if($form_id === 'taxonomy_term_tags_form'){
+    if($form['tid']['#value'] == NULL){
+      $form['#validate'][] = 'htm_custom_admin_tags_validate';
     }
+  }
 
-    if(isset($form['field_teaching_language']['widget']['#options']['_none'])){
-        unset($form['field_teaching_language']['widget']['#options']['_none']);
-    }
+  if(isset($form['field_teaching_language']['widget']['#options']['_none'])){
+    unset($form['field_teaching_language']['widget']['#options']['_none']);
+  }
 
-    if ($form_id === 'node_event_form' || $form_id === 'node_event_edit_form') {
-        //hide remove button from date entry
-        $form['field_registration_date']['widget']['0']['top']['links']['remove_button']['#access'] = FALSE;
+  if ($form_id === 'node_event_form' || $form_id === 'node_event_edit_form') {
+    //hide remove button from date entry
+    $form['field_registration_date']['widget']['0']['top']['links']['remove_button']['#access'] = FALSE;
 
-        //use function test_validate for custom validation
-        $form['#validate'][] = 'htm_custom_admin_validate';
-        array_unshift($form['actions']['submit']['#submit'], 'submit_event_form');
+    //use function test_validate for custom validation
+    $form['#validate'][] = 'htm_custom_admin_validate';
+    array_unshift($form['actions']['submit']['#submit'], 'submit_event_form');
+  }
 
-    }
-    if ($form_id === 'node_school_form' || $form_id === 'node_school_edit_form'){
-        unset($form['status']['widget']['#options']['_none']);
-    }
+  if ($form_id === 'node_news_form' || $form_id === 'node_news_edit_form') {
+    array_unshift($form['actions']['submit']['#submit'], 'submit_news_form');
+  }
 
-    if($form_id === 'system_performance_settings'){
-        $form['caching']['page_cache_maximum_age']['#options']['2592000'] = t('1 month');
-    }
+  if ($form_id === 'node_school_form' || $form_id === 'node_school_edit_form'){
+    unset($form['status']['widget']['#options']['_none']);
+  }
+
+  if($form_id === 'system_performance_settings'){
+    $form['caching']['page_cache_maximum_age']['#options']['2592000'] = t('1 month');
+  }
 }
 
 /**
@@ -75,9 +80,18 @@ function htm_custom_admin_form_alter(&$form, FormStateInterface $form_state, $fo
  * @param FormStateInterface $form_state
  */
 function submit_event_form(&$form, FormStateInterface $form_state){
-    if($form_state->getValue('field_entry_type')[0]['value'] != 'register'){
-        $form_state->unsetValue('field_registration_date');
-    }
+  if($form_state->getValue('field_entry_type')[0]['value'] != 'register'){
+    $form_state->unsetValue('field_registration_date');
+  }
+}
+
+/**
+ * Event admin form news submit
+ * @param                    $form
+ * @param FormStateInterface $form_state
+ */
+function submit_news_form(&$form, FormStateInterface $form_state){
+  Cache::invalidateTags(['node_list']);
 }
 
 /**
@@ -87,49 +101,49 @@ function submit_event_form(&$form, FormStateInterface $form_state){
  */
 function htm_custom_admin_validate(&$form, FormStateInterface $form_state){
 
-    $main_event_date = $form_state->getValue('field_event_main_date')[0]['value'];
+  $main_event_date = $form_state->getValue('field_event_main_date')[0]['value'];
 
-    if($main_event_date instanceof Drupal\Core\DateTime\DrupalDateTime){
-        $main_event_date = $main_event_date->getPhpDateTime()->getTimestamp();
-        $event_field_values = $form_state->getValue('field_event_date');
-        foreach($event_field_values as $key => $value){
-            if(is_int($key) && isset($event_field_values[$key]['subform'])){
-                $event_dates[] = $event_field_values[$key]['subform']['field_event_additional_date'][0]['value']->getPhpDateTime()->getTimestamp();
-            }
-        }
-
-        if(isset($event_dates)){
-            foreach($event_dates as $key => $event_date){
-                if($event_date < $main_event_date){
-                    $error_element = 'field_event_date]['.$key.'][subform][field_event_additional_date][0';
-                    $form_state->setErrorByName($error_element, t('Event additional date should be later than main date.'));
-                }
-            }
-        }
+  if($main_event_date instanceof Drupal\Core\DateTime\DrupalDateTime){
+    $main_event_date = $main_event_date->getPhpDateTime()->getTimestamp();
+    $event_field_values = $form_state->getValue('field_event_date');
+    foreach($event_field_values as $key => $value){
+      if(is_int($key) && isset($event_field_values[$key]['subform'])){
+        $event_dates[] = $event_field_values[$key]['subform']['field_event_additional_date'][0]['value']->getPhpDateTime()->getTimestamp();
+      }
     }
 
-    if($form_state->getTriggeringElement()['#id'] == 'edit-submit'){
-
-        if(sizeof($form_state->getValue('field_entry_type')) != 0 && $form_state->getValue('field_entry_type')[0]['value'] === 'register'){
-            $first_rform_element = 'field_registration_date][0][subform][field_registration_first_date][0';
-            $second_rform_element = 'field_registration_date][0][subform][field_registration_last_date][0';
-
-            //get values for registration first and last date
-            if(isset($form_state->getValue('field_registration_date')[0]['subform'])){
-                $fregdate = $form_state->getValue('field_registration_date')[0]['subform'];
-                $start = $fregdate['field_registration_first_date'][0]['value'];
-                $end = $fregdate['field_registration_last_date'][0]['value'];
-
-                //get fields for error display
-                if(!is_array($end) && !is_array($start)){
-                    if($start->format('U') > $end->format('U')){
-                        $form_state->setErrorByName($first_rform_element, t('Registration start date must be smaller than end date'));
-                        $form_state->setErrorByName($second_rform_element, t('Registration end date must be greater than start date'));
-                    }
-                }
-            }
+    if(isset($event_dates)){
+      foreach($event_dates as $key => $event_date){
+        if($event_date < $main_event_date){
+          $error_element = 'field_event_date]['.$key.'][subform][field_event_additional_date][0';
+          $form_state->setErrorByName($error_element, t('Event additional date should be later than main date.'));
         }
+      }
     }
+  }
+
+  if($form_state->getTriggeringElement()['#id'] == 'edit-submit'){
+
+    if(sizeof($form_state->getValue('field_entry_type')) != 0 && $form_state->getValue('field_entry_type')[0]['value'] === 'register'){
+      $first_rform_element = 'field_registration_date][0][subform][field_registration_first_date][0';
+      $second_rform_element = 'field_registration_date][0][subform][field_registration_last_date][0';
+
+      //get values for registration first and last date
+      if(isset($form_state->getValue('field_registration_date')[0]['subform'])){
+        $fregdate = $form_state->getValue('field_registration_date')[0]['subform'];
+        $start = $fregdate['field_registration_first_date'][0]['value'];
+        $end = $fregdate['field_registration_last_date'][0]['value'];
+
+        //get fields for error display
+        if(!is_array($end) && !is_array($start)){
+          if($start->format('U') > $end->format('U')){
+            $form_state->setErrorByName($first_rform_element, t('Registration start date must be smaller than end date'));
+            $form_state->setErrorByName($second_rform_element, t('Registration end date must be greater than start date'));
+          }
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -139,16 +153,16 @@ function htm_custom_admin_validate(&$form, FormStateInterface $form_state){
  */
 function htm_custom_admin_tags_validate(&$form, FormStateInterface $form_state){
 
-    $tags_limit = 24;
-    $langcode = $form_state->getValue('langcode')[0]['value'];
+  $tags_limit = 24;
+  $langcode = $form_state->getValue('langcode')[0]['value'];
 
-    $query = \Drupal::entityQuery('taxonomy_term');
-    $query->condition('vid', ['tags', 'event_type'], 'IN');
-    $query->condition('langcode', $langcode);
-    $tags_count = count($query->execute());
-    if($tags_count >= $tags_limit){
-        $form_state->setErrorByName('TagsLimit', t('You can only have '.$tags_limit.' tags per language.'));
-    }
+  $query = \Drupal::entityQuery('taxonomy_term');
+  $query->condition('vid', ['tags', 'event_type'], 'IN');
+  $query->condition('langcode', $langcode);
+  $tags_count = count($query->execute());
+  if($tags_count >= $tags_limit){
+    $form_state->setErrorByName('TagsLimit', t('You can only have '.$tags_limit.' tags per language.'));
+  }
 }
 
 /**
@@ -157,8 +171,8 @@ function htm_custom_admin_tags_validate(&$form, FormStateInterface $form_state){
  * @return mixed
  */
 function htm_custom_admin_hms_format_alter(&$format){
-    $format['hh:mm'] = 'hh:mm';
-    return $format;
+  $format['hh:mm'] = 'hh:mm';
+  return $format;
 }
 
 /**
@@ -166,56 +180,56 @@ function htm_custom_admin_hms_format_alter(&$format){
  * @param $variables
  */
 function htm_custom_admin_preprocess_views_view_row_rss(&$variables){
-    $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
-    foreach($variables['item_elements'] as &$item_element){
-        if($item_element['key'] === 'guid'){
-            /* @var $item_value \Drupal\Core\Render\Markup */
-            $item_value = $item_element['value'];
-            $item_element['value'] = urldecode($fe_url . $item_value);
+  $fe_url = \Drupal::config('htm_custom_admin_form.customadmin')->get('general.fe_url');
+  foreach($variables['item_elements'] as &$item_element){
+    if($item_element['key'] === 'guid'){
+      /* @var $item_value \Drupal\Core\Render\Markup */
+      $item_value = $item_element['value'];
+      $item_element['value'] = urldecode($fe_url . $item_value);
 
-            // change link to external aswell
-            $variables['link'] = $item_element['value'];
-        }
+      // change link to external aswell
+      $variables['link'] = $item_element['value'];
     }
+  }
 }
 
 function htm_custom_admin_form_editor_file_dialog_alter(&$form, FormStateInterface $form_state){
-    $form['actions']['save_modal']['#ajax']['callback'] = '_htm_custom_admin_form_editor_file_dialog_submit';
-    #dump($form);
+  $form['actions']['save_modal']['#ajax']['callback'] = '_htm_custom_admin_form_editor_file_dialog_submit';
+  #dump($form);
 }
 
 function _htm_custom_admin_form_editor_file_dialog_submit($form, FormStateInterface $form_state){
 
-    $response = new \Drupal\Core\Ajax\AjaxResponse();
-    // Convert any uploaded files from the FID values to data-entity-uuid
-    // attributes and set data-entity-type to 'file'.
-    $fid = $form_state->getValue(array('fid', 0));
-    if (!empty($fid)) {
-        $file = Drupal::entityTypeManager()->getStorage('file')->load($fid);
-        $file_url = file_create_url($file->getFileUri());
-        // Transform absolute file URLs to relative file URLs: prevent problems
-        // on multisite set-ups and prevent mixed content errors.
+  $response = new \Drupal\Core\Ajax\AjaxResponse();
+  // Convert any uploaded files from the FID values to data-entity-uuid
+  // attributes and set data-entity-type to 'file'.
+  $fid = $form_state->getValue(array('fid', 0));
+  if (!empty($fid)) {
+    $file = Drupal::entityTypeManager()->getStorage('file')->load($fid);
+    $file_url = file_create_url($file->getFileUri());
+    // Transform absolute file URLs to relative file URLs: prevent problems
+    // on multisite set-ups and prevent mixed content errors.
 
-        //remove this line because we need absolute urls :( #decoupled
-        #$file_url = file_url_transform_relative($file_url);
-        $form_state->setValue(array('attributes', 'href'), $file_url);
-        $form_state->setValue(array('attributes', 'data-entity-uuid'), $file->uuid());
-        $form_state->setValue(array('attributes', 'data-entity-type'), 'file');
-    }
+    //remove this line because we need absolute urls :( #decoupled
+    #$file_url = file_url_transform_relative($file_url);
+    $form_state->setValue(array('attributes', 'href'), $file_url);
+    $form_state->setValue(array('attributes', 'data-entity-uuid'), $file->uuid());
+    $form_state->setValue(array('attributes', 'data-entity-type'), 'file');
+  }
 
-    if ($form_state->getErrors()) {
-        unset($form['#prefix'], $form['#suffix']);
-        $form['status_messages'] = [
-            '#type' => 'status_messages',
-            '#weight' => -10,
-        ];
-        $response->addCommand(new \Drupal\Core\Ajax\HtmlCommand('#editor-file-dialog-form', $form));
-    }
-    else {
-        $response->addCommand(new \Drupal\editor\Ajax\EditorDialogSave($form_state->getValues()));
-        $response->addCommand(new \Drupal\Core\Ajax\CloseModalDialogCommand());
-    }
+  if ($form_state->getErrors()) {
+    unset($form['#prefix'], $form['#suffix']);
+    $form['status_messages'] = [
+      '#type' => 'status_messages',
+      '#weight' => -10,
+    ];
+    $response->addCommand(new \Drupal\Core\Ajax\HtmlCommand('#editor-file-dialog-form', $form));
+  }
+  else {
+    $response->addCommand(new \Drupal\editor\Ajax\EditorDialogSave($form_state->getValues()));
+    $response->addCommand(new \Drupal\Core\Ajax\CloseModalDialogCommand());
+  }
 
-    return $response;
-    #die();
+  return $response;
+  #die();
 }
