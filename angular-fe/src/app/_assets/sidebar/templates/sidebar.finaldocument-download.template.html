@@ -4,24 +4,23 @@
   </li>
 </ul>
 
-<htm-modal id="finalDocument-download" modalTitle="Laadi alla" [bottomAction]="false">
+<htm-modal id="finalDocument-download" [modalTitle]="'finalDocumentDownload' | translate" [bottomAction]="false">
 	<ng-template>
-    <h1>Laadi alla</h1>
-    <span class="small">Tärniga (*) tähistatud väljad on kohustuslikud.</span>
+    <h1>{{'generic.download' | translate}}</h1>
     <form [formGroup]="downloadForm">
       <div class="group" *ngIf="hasAccessToAccompanyingDocuments">
-        <p>Vali sisu, mida soovid alla laadida</p>
+        <p>{{ 'certificates.download_choose_content' | translate }}:</p>
         <formItem type="radio" formControlName="scope" [options]="downloadOptions.scope" name="scope"></formItem>
       </div>
       <div class="group">
-        <p>Vali faili tüüp, mida soovid alla laadida: *</p>
+        <p>{{ 'certificates.download_choose_type' | translate }}:</p>
         <formItem type="radio" formControlName="fileFormat" [options]="downloadOptions.fileFormat" name="fileFormat"></formItem>
       </div>
       <div class="button-row">
         <button htm-button (click)="modal.toggle('finalDocument-download')" theme="link">
           {{'generic.cancel' | translate}}
         </button>
-        <button htm-button (click)="downloadTranscript()">Laadi alla</button>
+        <button htm-button (click)="downloadTranscript()">{{ 'button.download' | translate }}</button>
       </div>
     </form>
 	</ng-template>

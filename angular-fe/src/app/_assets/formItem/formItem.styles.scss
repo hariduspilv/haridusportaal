@@ -257,6 +257,9 @@
       &.noPadding{
         padding-right:0;
       }
+      &__title.selected {
+        font-weight: bold;
+      }
       &__wrapper{
         position: relative;
         width: 1.25rem;
