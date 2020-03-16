@@ -7,6 +7,9 @@ $create-font-face: false;
 @import 'overrides/index.scss';
 
 html{font-family: Rubik, Arial, Helvetica, sans-serif;}
+html, body {
+	overflow-x: hidden;
+}
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -17,8 +20,15 @@ body {
 
 *{box-sizing: border-box;}
 
-a{color: #2e3374;
-  &:hover{text-decoration: none;}
+.device-desktop{
+	a{color: #2e3374;
+		&:hover{text-decoration: none;}
+	}
+}
+.device-mobile {
+	a{
+		color: #2e3374;
+	}
 }
 
 .corner-logo {
@@ -47,4 +57,11 @@ a{color: #2e3374;
 		opacity: 0;
 		transform: scale(30);
 	}
+}
+
+
+.cdk-live-announcer-element {
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }

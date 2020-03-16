@@ -77,7 +77,7 @@
       }
       @include break-on(sm, min) {padding-left: 8.5rem;}
       h1{color: $black;}}
-      &__header {display: flex;margin-bottom:-$gutter; margin-right:-1.5rem;
+      &__header {display: flex;margin-bottom:-$gutter; margin-right:-1.5rem; position: relative;
         &.highlighted{
           .day, .date{color:$red;}
           .dot, .border{background-color:$red;}
@@ -91,8 +91,12 @@
         &.highlighted {color: $red;}
       }
       &__separator {position: relative;top: .625rem;
-        left: 20px;
-        width: 100%;
+        position: absolute;
+        top: 2rem;
+        left: 7rem;
+        right: 0;
+        width: auto !important;
+
         .dot {height: 0.6875rem;width: 0.6875rem;background-color: $black;border-radius: 50%;position: relative;bottom: .375rem;right: .375rem;
           &__highlighted {@extend .dot;background-color: $red;}
         }

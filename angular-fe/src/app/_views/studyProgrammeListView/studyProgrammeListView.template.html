@@ -116,6 +116,11 @@
 							</a>
 						</div>
 						<div class="button-row">
+							<a role="button" class="pointer sm-show" (keyup.enter)="resetFilters()"
+								(click)="resetFilters()" tabindex="0" aria-expanded="false">
+								<icon glyph="x"></icon>
+								<span>{{ 'button.clear_fields' | translate}}</span>
+							</a>
 							<button htm-button>{{ 'button.search' | translate }}</button>
 						</div>
 					</div>

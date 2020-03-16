@@ -13,6 +13,7 @@ import { AuthInterceptor } from './_interceptors';
 import { AmpService } from './_services/ampService';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { DeviceDetectorModule } from 'ngx-device-detector';
 // We dont need short month names at all!
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -32,6 +33,7 @@ registerLocaleData(localeEt);
     HttpClientModule,
     HttpClientJsonpModule,
     TranslateModule.forRoot(),
+    DeviceDetectorModule.forRoot(),
     /* ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }), */
   ],
   providers: [

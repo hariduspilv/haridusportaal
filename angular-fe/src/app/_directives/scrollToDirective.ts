@@ -18,7 +18,6 @@ export class ScrollToDirective {
     const windowHeight = appContent.offsetHeight;
     const headerHeight = appContent.getBoundingClientRect().top;
 
-    console.log(id, elem, appContent);
     let scrollTop = elem.getBoundingClientRect().top +
       appContent.scrollTop -
       headerHeight;
@@ -48,6 +47,19 @@ export class ScrollToDirective {
       });
     }
 
+    setTimeout(
+      () => {
+        if (elem.querySelector('h1')) {
+          elem.querySelector('h1').focus();
+        } else if (elem.querySelector('h2')) {
+          elem.querySelector('h2').focus();
+        } else if (elem.querySelector('h3')) {
+          elem.querySelector('h3').focus();
+        } else if (elem.querySelector('button')) {
+          elem.querySelector('button').focus();
+        }
+      },
+      500);
   }
 
 }
