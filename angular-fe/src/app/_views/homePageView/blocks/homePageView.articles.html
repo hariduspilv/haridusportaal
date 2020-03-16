@@ -2,7 +2,7 @@
 <div class="inner">
   <ng-container *ngFor="let item of data; let i = index;">
 
-    <div class="instance" [id]="'scrollTo-' + item.button">
+    <div class="instance" [id]="'scrollTo-' + (item.button | slugify)">
       <div class="instance__image" *ngIf="i % 2 === 1">
         <img [src]="item.image" />
       </div><!--/instance__image-->

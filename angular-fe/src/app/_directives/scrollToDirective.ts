@@ -17,6 +17,8 @@ export class ScrollToDirective {
     const elemHeight = elem.offsetHeight;
     const windowHeight = appContent.offsetHeight;
     const headerHeight = appContent.getBoundingClientRect().top;
+
+    console.log(id, elem, appContent);
     let scrollTop = elem.getBoundingClientRect().top +
       appContent.scrollTop -
       headerHeight;
@@ -35,8 +37,9 @@ export class ScrollToDirective {
     */
 
     const isIE11 = !!window['MSInputMethodContext'] && !!document['documentMode'];
+    const isEdge = window.navigator.userAgent.indexOf('Edge') > -1;
 
-    if (isIE11) {
+    if (isIE11 || isEdge) {
       appContent.scrollTop = scrollTop;
     } else {
       appContent.scrollTo({

@@ -18,6 +18,8 @@ import { AppPipes } from '@app/_pipes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
+import { NgPipesModule } from 'ngx-pipes';
+
 const routes: Routes = [
   {
     path: '',
@@ -44,6 +46,7 @@ const routes: Routes = [
     TranslateModule,
     AppPipes,
     ReactiveFormsModule,
+    NgPipesModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

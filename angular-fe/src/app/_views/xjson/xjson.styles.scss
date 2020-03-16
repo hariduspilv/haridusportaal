@@ -863,8 +863,11 @@
       }
     }
   }
-  .scrollableTable th {
-    padding: $gutter $gutter;
+  .scrollableTable{
+    table-layout: fixed;
+    th {
+      padding: $gutter $gutter;
+    }
   }
   input.contnent-input {
     height: 1.875rem;
