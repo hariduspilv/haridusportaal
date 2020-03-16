@@ -8,13 +8,13 @@
       </div><!--/instance__image-->
       
       <div class="instance__content">
-        <h2 class="instance__category" [attr.aria-label]="'home.what_to_find' | translate" tabindex="0">{{ 'home.what_to_find' | translate }}</h2>
-        <h3 class="instance__title" [attr.aria-label]="item.title" tabindex="0">{{ item.title }}</h3>
+        <h2 class="instance__category" [attr.aria-label]="'home.what_to_find' | translate" >{{ 'home.what_to_find' | translate }}</h2>
+        <h3 class="instance__title" [attr.aria-label]="item.title" >{{ item.title }}</h3>
         <div class="instance__body">
-          <p [innerHTML]="item.content" tabindex="0"></p>
+          <p [innerHTML]="item.content" ></p>
         </div><!--/instance__body-->
-        <button class="instance__link" [routerLink]="item.link.url.path" *ngIf="item.link.url.routed" tabindex="0">{{ item.link.title }}</button>
-        <a class="instance__link" [href]="item.link.url.path" *ngIf="!item.link.url.routed" tabindex="0">{{ item.link.title }}</a>
+        <button class="instance__link" [routerLink]="item.link.url.path" *ngIf="item.link.url.routed" >{{ item.link.title }}</button>
+        <a class="instance__link" [href]="item.link.url.path" *ngIf="!item.link.url.routed" >{{ item.link.title }}</a>
       </div><!--/instance__content-->
       
       <div class="instance__image" *ngIf="i % 2 === 0">
