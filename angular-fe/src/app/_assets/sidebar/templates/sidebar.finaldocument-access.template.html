@@ -161,7 +161,7 @@
 
 <ng-template #accessCode>
 	<h1 style="word-break: break-word">
-		{{'finaldocuments.accessCode' | translate}}: {{addAccessForm.value.accessorCode}}
+		{{'finaldocuments.accessCode' | translate}}: <span style="font-weight: normal;">{{addAccessForm.value.accessorCode}}</span>
 	</h1>
 	<div class="line">
 		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
@@ -177,8 +177,8 @@
 		</formItem>
 		<p>{{'finaldocuments.select_end_date' | translate}}: *</p>
 		<div class="split">
-			<formItem type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
-			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
+			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
+			<formItem forcePlaceholder="true" type="checkbox" formControlName="noEndDate" [disabled]="true" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 		</div>
 	</form>
 	<div class="button-row">
@@ -192,7 +192,7 @@
 </ng-template>
 
 <ng-template #idCode>
-	<h1>{{'finaldocument.idcode' | translate}}: {{addAccessForm.value.accessorCode}}</h1>
+	<h1>{{'finaldocument.idcode' | translate}}: <span style="font-weight: normal;">{{addAccessForm.value.accessorCode}}</span></h1>
 	<div class="line">
 		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
 		<button (click)="modal.toggle('finalDocument-confirmInvalidation')" htm-button theme="link">
@@ -200,14 +200,14 @@
 		</button>
 	</div>
 	<form [formGroup]="addAccessForm">
-		<h2>{{'finaldocuments.issuer' | translate}}</h2>
-		<p>{{data.issuerInstitution}}</p>
+		<p>{{'finaldocuments.issuer' | translate}}</p>
+		<h2>{{data.issuerInstitution}}</h2>
 		<p>{{'finaldocuments.idcode_scope' | translate}}</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
 		<p>{{'finaldocuments.idcode_end_date' | translate}}</p>
 		<div class="split">
-			<formItem type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
+			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
 			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 		</div>
 	</form>

@@ -581,7 +581,7 @@ export class SidebarGdprComponent {
 export class SidebarFinalDocumentAccessComponent implements OnInit {
   @Input() public data: any;
   public errors = {
-    'required': 'Väli on kohustuslik',
+    required: 'Väli on kohustuslik',
   };
 
   public addAccessForm: FormGroup = this.formBuilder.group(
@@ -599,21 +599,21 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     type: [
       {
         key: 'Isikukoodiga',
-        value: 'ACCESS_TYPE:ID_CODE'
+        value: 'ACCESS_TYPE:ID_CODE',
       },
       {
         key: 'E-postiga',
-        value: 'ACCESS_TYPE:ACCESS_CODE'
+        value: 'ACCESS_TYPE:ACCESS_CODE',
       }
     ],
     scope: [
       {
         key: 'Lõputunnistus',
-        value: 'ACCESS_SCOPE:MAIN_DOCUMENT'
+        value: 'ACCESS_SCOPE:MAIN_DOCUMENT',
       },
       {
         key: 'Lõputunnistus koos hinnetelehega',
-        value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS'
+        value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS',
       }
     ]
   };
@@ -666,7 +666,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
           .join('.')
         : null,
       noEndDate: !access.endDate ? true : false,
-      accessId: access.id
+      accessId: access.id,
     });
 
     this.modal.toggle('finalDocument-access');

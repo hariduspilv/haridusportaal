@@ -46,7 +46,7 @@
         }
       }
     }
-   
+
     &--checkbox{
       .formItem__title{display:none;}
     }
@@ -80,10 +80,10 @@
           /* was ist das??? : color:white; */
         }
       }
-      & > input[type=number]::-webkit-inner-spin-button, 
-      & > input[type=number]::-webkit-outer-spin-button { 
-        -webkit-appearance: none; 
-        margin: 0; 
+      & > input[type=number]::-webkit-inner-spin-button,
+      & > input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
       }
       & > input[type=number] {
         -moz-appearance:textfield;
@@ -100,7 +100,7 @@
       padding:0.3125rem 1rem;
       text-align: left;
     }
-    
+
     &--error{
       &>.formItem__wrapper{
         & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
@@ -400,7 +400,7 @@
     }
 
   }
-  
+
   ngb-datepicker{
     box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
     z-index: 2;
