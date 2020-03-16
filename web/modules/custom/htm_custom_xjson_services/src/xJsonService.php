@@ -247,7 +247,7 @@ class xJsonService implements xJsonServiceInterface {
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
    * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    */
-  public function getEntityFormPathValue ($form_name)
+  public function getEntityChangedFormName ($form_name)
   {
     $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_entity');
     $connection = \Drupal::database();
@@ -255,7 +255,7 @@ class xJsonService implements xJsonServiceInterface {
     $result = $query->fetchField();
     if ($result) {
       $entity = $entityStorage->load($result);
-      return urldecode($entity->toUrl()->toString());
+      return $entity->label();
     }
     return false;
   }
