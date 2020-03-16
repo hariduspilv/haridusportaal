@@ -22,6 +22,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       finalDocumentDownload: {
         certificateName: '',
         certificateNumber: '',
+        hasGradeSheet: false,
       },
       finalDocumentAccess: {
         issuerInstitution: '',
@@ -63,7 +64,9 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
 
   public tabChanged(tab) {
     if (!this.loading && tab === this.translate.get('certificates.graduation_certificate')) {
-      this.certificate.first.calculateCertificateSize();
+      setTimeout(() => {
+        this.certificate.first.calculateCertificateSize();
+      });
     }
   }
 
@@ -125,6 +128,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
         this.documents.gradesheet = docs[1].document;
         this.documents.gradesheet.content = JSON.parse(this.documents.gradesheet.content);
       }
+      this.sidebar.entity.finalDocumentDownload.hasGradeSheet = this.documents.gradesheet != null;
       this.sidebar.entity.finalDocumentHistory.issuerInstitution
         = this.documents.certificate.content.educationalInstitution.name;
       this.sidebar.entity.finalDocumentAccess.issuerInstitution

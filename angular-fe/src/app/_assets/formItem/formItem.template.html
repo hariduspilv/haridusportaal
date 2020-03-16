@@ -220,7 +220,7 @@
             />
             <div class="formItem__radio__indicator"></div>
           </div><!--/formItem__check__wrapper-->
-          <div class="formItem__radio__title">
+          <div class="formItem__radio__title"  [class.selected]="item.value === field">
             {{ item.key }}
           </div><!--/formItem__check__title-->
         </label><!--/formItem__check-->

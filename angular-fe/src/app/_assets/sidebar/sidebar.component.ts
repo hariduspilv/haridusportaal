@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { AlertsService, ModalService, SettingsService, SidebarService } from '@app/_services';
 import {
   collection,
@@ -812,7 +812,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
           'invalidAccessesAlerts',
           false,
         );
-      }, 1);
+      },                1);
     }
   }
 
@@ -929,7 +929,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
           'historyModalAlerts',
           false,
         );
-      }, 1);
+      },                1);
     }
   }
 
@@ -942,7 +942,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
           'actionHistoryModalAlerts',
           false,
         );
-      }, 1);
+      },                1);
     }
   }
 
@@ -984,21 +984,21 @@ export class SidebarFinalDocumentDownloadComponent {
     fileFormat: [
       {
         value: 'PDF',
-        key: 'PDF (allkirjastamata fail)'
+        key: 'PDF (allkirjastamata fail)',
       },
       {
         value: 'ASICE',
-        key: 'ASICE (allkirjastatud fail)'
-      }
+        key: 'ASICE (allkirjastatud fail)',
+      },
     ],
     scope: [
       {
         key: 'Lõputunnistus',
-        value: 'ACCESS_SCOPE:MAIN_DOCUMENT'
+        value: 'MAIN_DOCUMENT',
       },
       {
         key: 'Lõputunnistus koos hinnetelehega',
-        value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS'
+        value: 'WITH_ACCOMPANYING_DOCUMENTS',
       }
     ]
   };
@@ -1017,26 +1017,34 @@ export class SidebarFinalDocumentDownloadComponent {
     if (this.downloadForm.invalid) {
       return;
     }
+
+    this.modal.close('finalDocument-download');
+
+    const form = this.downloadForm.value;
+
     this.http
       .get(
-        `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}`,
+        `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}?scope=${form.scope}&fileFormat=${form.fileFormat}`,
         {
           headers: { 'Content-Type': 'application/*' },
-          responseType: 'blob'
-        }
+          responseType: 'blob',
+        },
       )
       .subscribe((res: any) => {
         saveAs(
-          new File([res], `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}`, {
-            type: 'application/pdf'
-          })
+          new File(
+            [res], `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}`,
+            {
+              type: 'application/pdf',
+            },
+          ),
         );
       });
   }
 
   public ngOnInit() {
-    this.hasAccessToAccompanyingDocuments = !this.data.withAccess
-      || this.data.accessScope === 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS';
+    this.hasAccessToAccompanyingDocuments = this.data.hasGradeSheet && (!this.data.withAccess
+      || this.data.accessScope === 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS');
     this.initializeForm();
   }
 
@@ -1044,7 +1052,7 @@ export class SidebarFinalDocumentDownloadComponent {
 
     this.downloadForm = this.fb.group(
       {
-        scope: [this.hasAccessToAccompanyingDocuments ? 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS' : 'ACCESS_SCOPE:MAIN_DOCUMENT'],
+        scope: [this.hasAccessToAccompanyingDocuments ? 'WITH_ACCOMPANYING_DOCUMENTS' : 'MAIN_DOCUMENT'],
         fileFormat: ['PDF'],
       },
     );
