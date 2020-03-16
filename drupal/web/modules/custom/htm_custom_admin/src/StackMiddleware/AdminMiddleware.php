@@ -49,7 +49,8 @@ class AdminMiddleware implements HttpKernelInterface {
       '/user',
       '/graphql',
       '/external-login',
-      '/documentFile'
+      '/documentFile',
+      '/session'
     ];
 
     foreach($request->cookies->keys() as $key) {
@@ -57,7 +58,7 @@ class AdminMiddleware implements HttpKernelInterface {
         $this->anonymous = false;
       }
     }
-    
+
     foreach($contains as $string) {
       if(strpos($request->getPathInfo(), $string) !== FALSE) {
         $safeUrl = true;
