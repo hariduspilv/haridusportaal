@@ -3123,6 +3123,10 @@ generic:
     translation_type: textarea
     et: Tühista
     en: 'Tühista - eng'
+  download:
+    translation_type: textarea
+    et: 'Laadi alla'
+    en: Download
 sidemenu:
   support_text:
     translation_type: text_format
@@ -3551,6 +3555,14 @@ certificates:
   loading_error:
     translation_type: textarea
     et: 'Viga dokumendi laadimisel'
+    en: MISSING
+  download_choose_content:
+    translation_type: textarea
+    et: 'Vali sisu, mida soovid alla laadida'
+    en: MISSING
+  download_choose_type:
+    translation_type: textarea
+    et: 'Vali failitüüp, mida soovid alla laadida'
     en: MISSING
 home:
   slogan:
