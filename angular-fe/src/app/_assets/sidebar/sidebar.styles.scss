@@ -545,6 +545,14 @@
           display: block;
         }
       }
+      sidebar-finaldocument-history {
+        #modal-finalDocument-issueHistory {
+          td:nth-child(2) {
+            word-break: break-word;
+            max-width: 20rem;
+          }
+        }
+      }
     }
   }
 }

@@ -1,15 +1,14 @@
 <ul>
   <li>
-    <button htm-button (click)="modal.toggle('finalDocument-actionHistory')"
+    <button htm-button (click)="openActionHistory()"
       theme="outline">{{'finaldocuments.action_history' | translate}}</button>
   </li>
   <li>
-    <button htm-button (click)="modal.toggle('finalDocument-issueHistory')"
-      theme="outline">{{'finaldocuments.issue_history' | translate}}</button>
+    <button htm-button (click)="openIssueHistory()" theme="outline">{{'finaldocuments.issue_history' | translate}}</button>
   </li>
 </ul>
 
-<htm-modal id="finalDocument-actionHistory" modalTitle="Ajalugu" [bottomAction]="true" wide>
+<htm-modal id="finalDocument-actionHistory" modalTitle="Väljaandmise Ajalugu" [bottomAction]="true" wide>
   <ng-template>
     <ng-container *ngIf="actionHistory.length > 0; else noResults">
       <scrollableContent scrollParentClass="modal__block">
@@ -24,7 +23,8 @@
           </tr>
           <tr *ngFor="let action of actionHistory">
             <td>
-              <button htm-button theme="plain" *ngIf="action.document" (click)="openDocument(action.document)">{{ 'button.open' | translate }}</button>
+              <button htm-button theme="link" *ngIf="action.document"
+                (click)="openDocument(action.document)">{{ 'button.open' | translate }}</button>
             </td>
             <td>{{'finalDocument_' + action.type | translate}}</td>
             <td>{{'finalDocument_' + action.document.type | translate}}</td>
@@ -38,7 +38,7 @@
   </ng-template>
 </htm-modal>
 
-<htm-modal id="finalDocument-issueHistory" modalTitle="Ajalugu" [bottomAction]="true" wide>
+<htm-modal id="finalDocument-issueHistory" modalTitle="Vaatamise ajalugu" [bottomAction]="true" wide>
   <ng-template>
     <ng-container *ngIf="issuingHistory.length > 0; else noResults">
       <scrollableContent scrollParentClass="modal__block">
@@ -94,4 +94,5 @@
 
 <ng-template #noResults>
   <alerts small="true" id="historyModalAlerts"></alerts>
+  <alerts small="true" id="actionHistoryModalAlerts"></alerts>
 </ng-template>
