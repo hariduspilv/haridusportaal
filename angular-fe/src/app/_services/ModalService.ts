@@ -53,6 +53,9 @@ export class ModalService {
   public open(id: string) {
     const modal = this.modals.find(x => x.id === id);
     modal.stateChange(true);
+    modal.contents.changes.pipe(take(1)).subscribe((val) => {
+      val.first.nativeElement.querySelector('.modal__header h2').focus();
+    });
   }
 
   public isOpen(id: string) {
@@ -61,9 +64,9 @@ export class ModalService {
 
   public focusLock() {
     // const openedArr = Object.keys(this.modalOpened).filter(elem => this.modalOpened[elem]);
-    // if (openedArr.length) {
-    //   const id = `modal-${openedArr.reduce(elem => elem)}`;
-    //   focus(id);
-    // }
+    //     // if (openedArr.length) {
+    //     //   const id = `modal-${openedArr.reduce(elem => elem)}`;
+    //     //   focus(id);
+    //     // }
   }
 }

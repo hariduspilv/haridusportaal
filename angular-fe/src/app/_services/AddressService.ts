@@ -106,7 +106,7 @@ export class AddressService {
       localGovernmentEHAK: address.ehakov || '',
       settlementUnit: address.asustusyksus || '',
       settlementUnitEHAK: address.ehak || '',
-      address: address.aadresstekst || '',
+      address: addressHumanReadable || address.aadresstekst || '',
       apartment: address.kort_nr || '',
     };
 

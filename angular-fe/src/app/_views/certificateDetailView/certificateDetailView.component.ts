@@ -59,7 +59,9 @@ export class CertificateDetailView implements OnInit {
       this.title = `Hinneteleht nr ${this.documents['gradesheet'].number}`;
     }*/
     if (!this.loading && tab === this.translate.get('certificates.graduation_certificate')) {
-      this.certificate.first.calculateCertificateSize();
+      setTimeout(() => {
+        this.certificate.first.calculateCertificateSize();
+      });
     }
 
     if (!this.loading && tab === this.translate.get('certificates.grade_sheet')) {
@@ -150,9 +152,11 @@ export class CertificateDetailView implements OnInit {
       this.breadcrumbs = [
         ...this.path, { title: `Tunnistus nr ${this.documents.certificate.number}` }];
       this.sidebar.entity.finalDocumentDownload.certificateName =
-        `${this.documents.certificate.content.graduate.firstName} ${this.documents.certificate.content.graduate.lastName}`;
+        `${this.documents.certificate.content.graduate.firstName} \
+        ${this.documents.certificate.content.graduate.lastName}`;
       this.sidebar.entity.finalDocumentDownload.certificateNumber =
         this.documents.certificate.content.registrationNumber;
+      this.sidebar.entity.finalDocumentDownload.hasGradeSheet = this.documents.gradesheet != null;
       this.loading = false;
     });
   }

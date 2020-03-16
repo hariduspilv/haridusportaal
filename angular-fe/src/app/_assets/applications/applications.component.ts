@@ -19,6 +19,7 @@ import { HttpClient } from '@angular/common/http';
 import { TableService } from '@app/_services/tableService';
 import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { AddressService } from '@app/_services/AddressService';
 
 const acceptableFormsRestrictedLength = 4;
 
@@ -112,6 +113,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     public formBuilder: FormBuilder,
     public cdr: ChangeDetectorRef,
     private translate: TranslateService,
+    private address: AddressService,
   ) { }
 
   pathWatcher() {
@@ -554,6 +556,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const subscription = this.http.jsonp(path, 'callback').
       subscribe((response: any) => {
         if (this.cdr && !(this.cdr as ViewRef).destroyed) {
+          try {
+            school.institutionInfo.address.addressHumanReadable = this.address.inAdsFormatValue(response.addresses[0]).addressHumanReadable;
+          } catch (err) {}
           this.cdr.detectChanges();
         }
         subscription.unsubscribe();

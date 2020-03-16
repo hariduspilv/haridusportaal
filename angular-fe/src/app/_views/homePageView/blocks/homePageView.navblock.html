@@ -8,7 +8,7 @@
     <div class="navBlock__buttons" *ngIf="data.length">
       <ul>
         <li *ngFor="let item of data">
-          <button [scrollTo]="item.button">{{ item.button }} <icon glyph="chevrons-down"></icon></button>
+          <button [scrollTo]="item.button | slugify">{{ item.button }} <icon glyph="chevrons-down"></icon></button>
         </li>
         <li>
           <button scrollTo="teenused">{{ 'home.services' | translate }} <icon glyph="chevrons-down"></icon></button>

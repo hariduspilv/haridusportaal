@@ -1,6 +1,5 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import conf from '@app/_core/conf';
 import { SettingsService } from '@app/_services';
 
 @Component({
@@ -11,7 +10,7 @@ import { SettingsService } from '@app/_services';
 
 export class FeedbackComponent {
 
-  @Input() nid: number|string;
+  @Input() nid: number | string;
   public feedbackError: boolean = false;
   public status: String = 'vote';
   public values: Object = {};
@@ -23,6 +22,7 @@ export class FeedbackComponent {
   ) {
 
   }
+
   public cancel(): void {
     this.values['vote'] = false;
     this.values['comment'] = '';
@@ -30,11 +30,11 @@ export class FeedbackComponent {
     this.feedbackError = false;
   }
 
-  public vote(flag: boolean):void {
+  public vote(flag: boolean): void {
     this.values['vote'] = flag;
     if (flag) {
       this.status = 'add_comment';
-    }else {
+    } else {
       this.status = 'add_comment';
     }
   }
@@ -42,11 +42,7 @@ export class FeedbackComponent {
   public sendVote() {
 
     if (!this.values['vote']) {
-      if (!this.values['comment'] || this.values['comment'] === '') {
-        this.feedbackError = true;
-      } else {
-        this.feedbackError = false;
-      }
+      this.feedbackError = !this.values['comment'] || this.values['comment'] === '';
     }
 
     if (this.feedbackError) {

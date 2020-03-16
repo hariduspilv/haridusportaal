@@ -179,6 +179,7 @@ export class AutocompleteComponent implements OnDestroy {
 
   public close(noDelay: boolean = false): void {
     const delay = noDelay ? 0 : 200;
+    
     setTimeout(
       () => {
         this.active = false;

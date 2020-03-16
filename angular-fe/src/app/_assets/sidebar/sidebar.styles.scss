@@ -544,6 +544,17 @@
           width: 100%;
           display: block;
         }
+        h1 {
+          margin-bottom: 1.5rem;
+        }
+      }
+      sidebar-finaldocument-history {
+        #modal-finalDocument-issueHistory {
+          td:nth-child(2) {
+            word-break: break-word;
+            max-width: 20rem;
+          }
+        }
       }
     }
   }

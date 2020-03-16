@@ -97,7 +97,7 @@
             box-shadow: 0rem 0rem 1.25rem rgba(141, 141, 141, 0.25);
             border-radius: 0.8125rem;
             text-transform: uppercase;
-            padding: 3rem 0;
+            padding: 0 0 3rem 0;
             min-height: 8.875rem;
             letter-spacing: 0.0625rem;
             will-change: transform, box-shadow;
@@ -169,8 +169,10 @@
         font-size: 1rem;
         line-height: 1.5rem;
         letter-spacing: 0.0625rem;
-        color: #007F86;
+        color: #00747A;
         text-transform: uppercase;
+        font-weight: normal;
+        margin: 0;
       }
 
       &__body {
@@ -210,8 +212,9 @@
         text-align: center;
         letter-spacing: 0.0625rem;
         text-transform: uppercase;
-        color: #007F86;
+        color: #00747A;
         margin:0 0 3.75rem 0;
+        font-weight: normal;
       }
       &__container {
         position: relative;
@@ -227,6 +230,7 @@
         padding:0 0.75rem;
         display: flex;
         flex-direction: column;
+        text-decoration: none;
       }
       &__arrow {
         position: absolute;
@@ -267,6 +271,8 @@
         transition: transform 0.25s, box-shadow 0.25s;
         cursor: pointer;
         min-height: 100%;
+        display: flex;
+        flex-direction: column;
         &__image {
           border-radius: 1.25rem 1.25rem 0 0;
           overflow: hidden;
@@ -284,6 +290,9 @@
 
         &__body {
           padding: 1.5rem 1.75rem;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
         }
         &__title {
           margin: 0 0 0.875rem 0rem;
@@ -297,12 +306,19 @@
           font-size: 1rem;
           line-height: 150%;
           color: $black;
+          flex-grow: 1;
         }
         &__link {
           text-align: center;
           margin: 0.625rem 0;
           color: $blue;
           text-decoration: underline;
+          padding: 0;
+          border: none;
+          font-size: 1rem;
+          background: none;
+          display: block;
+          width: 100%;
         }
 
         &:hover {
@@ -355,6 +371,8 @@
         letter-spacing: 0.0625rem;
         color: $black;
         text-transform: uppercase;
+        font-weight: normal;
+        margin: 0;
       }
       &__title {
         font-size: 2.5rem;
@@ -383,8 +401,10 @@
         line-height: 133%;
         text-align: center;
         letter-spacing: 0.0625rem;
-        color: #007E8F;
+        color: #00747A;
         text-transform: uppercase;
+        font-weight: normal;
+        margin: 0;
       }
       &__intro {
         font-weight: 300;
@@ -562,6 +582,7 @@
         &__title {
           letter-spacing: 0.0625rem;
           margin: 0 0 2.0625rem 0;
+          font-weight: normal;
         }
         p {
           line-height: 1.5rem;

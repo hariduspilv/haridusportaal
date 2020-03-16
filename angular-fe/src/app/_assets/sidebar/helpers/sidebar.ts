@@ -123,21 +123,22 @@ export const parseProfessionData = (inputData, translate) => {
         return val;
       });
       searchParams['level'] = iLevel.join(';');
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) { }
 
-    mappedData['fieldLearningOpportunities'] = [
-      {
-        title: translate.get('professions.go_to_subjects'),
-        url: {
-          path: `/erialad`,
-          params: searchParams,
-          routed: true,
+    if (Object.keys(searchParams).length > 1) {
+
+      mappedData['fieldLearningOpportunities'] = [
+        {
+          title: translate.get('professions.go_to_subjects'),
+          url: {
+            path: `/erialad`,
+            params: searchParams,
+            routed: true,
+          },
         },
-      },
-    ];
-
+      ];
+    }
+      
 
   } catch (err) { }
 

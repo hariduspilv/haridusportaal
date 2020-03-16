@@ -20,6 +20,12 @@
       &.filtersActive {
         display: block;
       }
+      .button-row{
+        width: 100%;
+        button {
+          width: 100%;
+        }
+      }
     }
     .filter-control {
       padding: 1.5rem 0rem 0.5rem;

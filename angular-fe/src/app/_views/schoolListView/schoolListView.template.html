@@ -5,9 +5,11 @@
 	<form class="filter-wrapper" filters [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
-				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
-					<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
-					<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+				<a href="javascript:void(0);" (click)="showFilter = !showFilter" *ngIf="!showFilter">
+					<span>{{ 'button.filter' | translate }}</span>
+				</a>
+				<a href="javascript:void(0);" (click)="showFilter = !showFilter" *ngIf="showFilter">
+					<span>{{ 'button.filter_close' | translate }}</span>
 				</a>
 			</div>
 			<ng-container *ngIf="showFilter">
@@ -45,6 +47,7 @@
 					</div>
 					<div class="col-5 sm-12" [class.disabled]="secondaryFilteredTypes.length > 0 ? false : true">
 						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"  sortOptions="true"
+							[disabled]="secondaryFilteredTypes.length > 0 ? false : true"
 							[title]="subPlaceholder" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
 						</formItem>
 					</div>

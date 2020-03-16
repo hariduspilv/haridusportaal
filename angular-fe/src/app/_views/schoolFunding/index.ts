@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { AppPipes } from '@app/_pipes';
 import { SchoolFundingViewComponent } from './schoolFundingView.component';
 import { SchoolFundingAreasViewComponent } from './areas/schoolFundingAreasView.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from '@app/_interceptors';
 
 const routes: Routes = [
   {
@@ -35,6 +37,7 @@ const routes: Routes = [
   exports: [
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor , multi: true },
   ],
 })
 

@@ -7,6 +7,9 @@ $create-font-face: false;
 @import 'overrides/index.scss';
 
 html{font-family: Rubik, Arial, Helvetica, sans-serif;}
+html, body {
+	overflow-x: hidden;
+}
 
 body {
   -webkit-font-smoothing: antialiased;
@@ -17,8 +20,31 @@ body {
 
 *{box-sizing: border-box;}
 
-a{color: #2e3374;
-  &:hover{text-decoration: none;}
+.device-desktop{
+	a{color: #2e3374;
+		&:hover{text-decoration: none;}
+	}
+}
+.device-mobile {
+	a{
+		color: #2e3374;
+	}
+}
+
+.corner-logo {
+  z-index: 10;
+  position: fixed;
+  bottom: 0;
+	right: 1.5rem;
+	transition: transform 0.2s;
+	transform: translateY(0);
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+	-moz-box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+	box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.25);
+}
+
+.corner-logo.hidden {
+	transform: translateY(100%);
 }
 
 @keyframes ripple {
@@ -31,4 +57,11 @@ a{color: #2e3374;
 		opacity: 0;
 		transform: scale(30);
 	}
+}
+
+
+.cdk-live-announcer-element {
+  position: fixed;
+  bottom: 0;
+  left: 0;
 }
