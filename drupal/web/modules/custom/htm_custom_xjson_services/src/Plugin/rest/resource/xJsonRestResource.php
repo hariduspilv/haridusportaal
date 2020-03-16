@@ -149,9 +149,8 @@ class xJsonRestResource extends ResourceBase {
     $response['header'] += [
       'endpoint' => 'empty'
     ];
-    $form_name = $this->xJsonService->getEntityChangedFormName($response['header']['form_name']);
+    $form_name = $response['header']['form_name'];
 
-    dump($form_name);
     $builded_header = $this->xJsonService->getBasexJsonForm(false, $response, $form_name);
     if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
 
