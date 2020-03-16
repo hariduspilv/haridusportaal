@@ -3846,16 +3846,16 @@ finaldocuments:
     en: 'Vali ligipääsukoodi kehtivuse lõpp'
   issuer:
     translation_type: textarea
-    et: 'Tunnistuse väljastanud õppeasutus'
-    en: 'Tunnistuse väljastanud õppeasutus'
+    et: 'Tunnistuse väljastanud õppeasutus:'
+    en: 'Tunnistuse väljastanud õppeasutus:'
   idcode_scope:
     translation_type: textarea
-    et: 'Isikukoodi kehtivuse ulatus: *'
-    en: 'Isikukoodi kehtivuse ulatus: *'
+    et: 'Isikukoodi kehtivuse ulatus:'
+    en: 'Isikukoodi kehtivuse ulatus:'
   idcode_end_date:
     translation_type: textarea
-    et: 'Isikukoodi kehtivuse lõpp: *'
-    en: 'Isikukoodi kehtivuse lõpp: *'
+    et: 'Isikukoodi kehtivuse lõpp:'
+    en: 'Isikukoodi kehtivuse lõpp:'
   main_document:
     translation_type: textarea
     et: Lõputunnistus
