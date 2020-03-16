@@ -1,0 +1,58 @@
+uuid: 855f0bf8-7dd3-48cf-a335-a36085a8e560
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_internal_link
+    - node.type.article
+    - node.type.avaleht
+    - node.type.event
+    - node.type.frontpage_new
+    - node.type.information_system_page
+    - node.type.main_profession_comparison_page
+    - node.type.news
+    - node.type.oska_field_comparison_page
+    - node.type.oska_field_page
+    - node.type.oska_front_page
+    - node.type.oska_main_profession_page
+    - node.type.oska_result_page
+    - node.type.oska_survey_page
+    - node.type.page
+    - node.type.school
+    - node.type.study_programme
+    - paragraphs.paragraphs_type.content_page_link
+id: paragraph.content_page_link.field_internal_link
+field_name: field_internal_link
+entity_type: paragraph
+bundle: content_page_link
+label: Siselink
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      avaleht: avaleht
+      frontpage_new: frontpage_new
+      information_system_page: information_system_page
+      school: school
+      page: page
+      article: article
+      oska_main_profession_page: oska_main_profession_page
+      oska_result_page: oska_result_page
+      oska_survey_page: oska_survey_page
+      oska_field_page: oska_field_page
+      oska_field_comparison_page: oska_field_comparison_page
+      main_profession_comparison_page: main_profession_comparison_page
+      oska_front_page: oska_front_page
+      event: event
+      news: news
+      study_programme: study_programme
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: avaleht
+field_type: entity_reference
