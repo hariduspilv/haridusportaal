@@ -1,0 +1,19 @@
+uuid: 94e05633-7a92-4f4a-8786-0a64f68a8c6e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_name_occupation
+    - paragraphs.paragraphs_type.career_contact
+id: paragraph.career_contact.field_name_occupation
+field_name: field_name_occupation
+entity_type: paragraph
+bundle: career_contact
+label: 'Nimi või ametikoht'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
