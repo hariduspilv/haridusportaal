@@ -1,0 +1,61 @@
+uuid: 9945b20a-490e-4bd2-baa2-665fd3f6635d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.career_contact.field_email
+    - field.field.paragraph.career_contact.field_institution
+    - field.field.paragraph.career_contact.field_name_occupation
+    - field.field.paragraph.career_contact.field_skype
+    - paragraphs.paragraphs_type.career_contact
+  module:
+    - maxlength
+id: paragraph.career_contact.default
+targetEntityType: paragraph
+bundle: career_contact
+mode: default
+content:
+  field_email:
+    weight: 2
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: email_default
+    region: content
+  field_institution:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_name_occupation:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_skype:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
