@@ -30,7 +30,7 @@
             <td>{{'finalDocument_' + action.document.type | translate}}</td>
             <td>{{action.added | date:"dd.MM.yyyy HH:mm"}}</td>
             <td>{{action.decisionNumber}} {{action.dateOfDecision | date:"dd.MM.yyyy"}}</td>
-            <td>{{'finalDocument_' + action.status | translate}}</td>
+            <td>{{action.reason || '-'}}</td>
           </tr>
         </table>
       </scrollableContent>

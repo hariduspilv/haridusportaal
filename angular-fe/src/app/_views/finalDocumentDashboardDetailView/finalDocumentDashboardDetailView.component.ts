@@ -134,10 +134,16 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       this.sidebar.entity.finalDocumentAccess.issuerInstitution
         = this.documents.certificate.content.educationalInstitution.name;
       this.sidebar.entity.finalDocumentDownload.certificateName =
-        `${this.documents.certificate.content.graduate.firstName} ${this.documents.certificate.content.graduate.lastName}`;
+        `${this.documents.certificate.content.graduate.firstName} /
+        ${this.documents.certificate.content.graduate.lastName}`;
       this.sidebar.entity.finalDocumentDownload.certificateNumber =
         this.documents.certificate.content.registrationNumber;
       this.loading = false;
+
+      setTimeout(() => {
+        (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
+        .focus();
+      });
     });
   }
 }

@@ -47,25 +47,10 @@ export class CertificateDetailView implements OnInit {
   ) { }
 
   public tabChanged(tab) {
-    /*if (tab === this.translate.get('certificates.graduation_certificate')) {
-      if (this.documents['certificate']) {
-        this.breadcrumbs = [
-          ...this.path, { title: `Tunnistus nr ${this.documents['certificate'].number}` }];
-        this.title = `Tunnistus nr ${this.documents['certificate'].number}`;
-      }
-    } else {
-      this.breadcrumbs = [
-        ...this.path, { title: `Hinneteleht nr ${this.documents['gradesheet'].number}` }];
-      this.title = `Hinneteleht nr ${this.documents['gradesheet'].number}`;
-    }*/
     if (!this.loading && tab === this.translate.get('certificates.graduation_certificate')) {
       setTimeout(() => {
         this.certificate.first.calculateCertificateSize();
       });
-    }
-
-    if (!this.loading && tab === this.translate.get('certificates.grade_sheet')) {
-      // this.gradeSheet.first.change();
     }
   }
 
@@ -158,6 +143,11 @@ export class CertificateDetailView implements OnInit {
         this.documents.certificate.content.registrationNumber;
       this.sidebar.entity.finalDocumentDownload.hasGradeSheet = this.documents.gradesheet != null;
       this.loading = false;
+
+      setTimeout(() => {
+        (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
+        .focus();
+      });
     });
   }
 

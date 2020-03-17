@@ -1,0 +1,9 @@
+  <button 
+    type="button"
+    [ngbTooltip]="tipContent"
+    [placement]="placement"
+    class="button--tooltip"
+  >{{tooltipSymbol[type]}}</button>
+  
+  <ng-template #tipContent><ng-content></ng-content></ng-template>
+

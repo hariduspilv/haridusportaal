@@ -57,9 +57,10 @@
 			<h2>
 				{{(accessAction === 'add') ? ('finaldocuments.add_access' | translate) : ('finaldocuments.modify_access' | translate)}}
 			</h2>
-			<p>{{'finaldocuments.choose_access_type' | translate}}</p>
+			<p class="required-info">Tärniga (*) tähistatud väljad on kohustuslikud.<p>
+			<p>{{'finaldocuments.choose_access_type' | translate}}:</p>
 			<formItem type="radio" formControlName="type" [options]="addAccessOptions.type" name="type"></formItem>
-			<ng-container *ngIf="addAccessForm.value.type">
+			<div class="border-top" *ngIf="addAccessForm.value.type">
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
 					<h3>{{'finaldocuments.access_with_email' | translate}}</h3>
 					<p>{{'finaldocuments.insert_email' | translate}}</p>
@@ -68,13 +69,21 @@
 						[errorMessage]="(addAccessForm.errors?.emailOrIdCodeMissing ? 'errors.field_required' : 'errors.invalid_email') | translate"
 						formControlName="emailAddress"
 						placeholder="E-posti aadress"
-						type="text">
+						type="text"
+						[disabled]="accessAction === 'edit'">
 					</formItem>
 				</ng-container>
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ID_CODE'">
 					<h3>{{'finaldocuments.access_with_idcode' | translate}}</h3>
 					<p>{{'finaldocuments.insert_id_code' | translate}}</p>
-					<formItem [error]="addAccessForm.errors?.emailOrIdCodeMissing" [errorMessage]="'errors.field_required' | translate" formControlName="accessorCode" type="text" placeholder="Isikukood"></formItem>
+					<formItem
+						[error]="addAccessForm.errors?.emailOrIdCodeMissing"
+						[errorMessage]="'errors.field_required' | translate"
+						formControlName="accessorCode"
+						type="text"
+						placeholder="Isikukood"
+						[disabled]="accessAction === 'edit'"
+					></formItem>
 				</ng-container>
 				<p>{{'finaldocuments.choose_access_scope' | translate}}</p>
 				<formItem name="scope" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
@@ -84,7 +93,7 @@
 						placeholder="pp.kk.aaaa"></formItem>
 					<formItem type="checkbox" [error]="addAccessForm.errors?.mustHaveEndDateOption" [errorMessage]="'errors.field_required' | translate" formControlName="noEndDate" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 				</div>
-			</ng-container>
+			</div>
 
 			<alerts small="true" id="addAccessErrors"></alerts>
 			<div class="button-row">
