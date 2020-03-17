@@ -3564,6 +3564,10 @@ certificates:
     translation_type: textarea
     et: 'Vali failitüüp, mida soovid alla laadida'
     en: MISSING
+  manage_certificates:
+    translation_type: textarea
+    et: 'Vaata enda tunnistusi'
+    en: MISSING
 home:
   slogan:
     translation_type: textarea

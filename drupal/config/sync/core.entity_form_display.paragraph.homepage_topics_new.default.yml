@@ -12,6 +12,7 @@ dependencies:
   module:
     - file
     - link
+    - maxlength
 id: paragraph.homepage_topics_new.default
 targetEntityType: paragraph
 bundle: homepage_topics_new
@@ -45,7 +46,12 @@ content:
     settings:
       rows: 5
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
     type: string_textarea
     region: content
   field_topic_title:
@@ -53,7 +59,10 @@ content:
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
     type: string_textfield
     region: content
 hidden:
