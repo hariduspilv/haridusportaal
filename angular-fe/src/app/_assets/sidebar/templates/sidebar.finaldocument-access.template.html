@@ -1,6 +1,5 @@
 <div class="text-center">
-	<button style="width: 100%"
-		(click)="openNewAccessModal()" htm-button>
+	<button style="width: 100%" (click)="openNewAccessModal()" htm-button>
 		{{'finaldocuments.add_access' | translate}}
 	</button>
 </div>
@@ -50,7 +49,8 @@
 	</button>
 </div>
 
-<htm-modal id="finalDocument-addAccess" [modalTitle]="accessAction === 'edit' ? ('finaldocuments.modify_access' | translate) : ('finaldocuments.add_access' | translate)"
+<htm-modal id="finalDocument-addAccess"
+	[modalTitle]="accessAction === 'edit' ? ('finaldocuments.modify_access' | translate) : ('finaldocuments.add_access' | translate)"
 	[bottomAction]="false" wide>
 	<ng-template>
 		<form [formGroup]="addAccessForm">
@@ -65,8 +65,10 @@
 					<h3>{{'finaldocuments.access_with_email' | translate}}</h3>
 					<p>{{'finaldocuments.insert_email' | translate}}</p>
 					<formItem
-						[error]="addAccessForm.errors?.emailOrIdCodeMissing || addAccessForm.controls.emailAddress.errors?.email"
-						[errorMessage]="(addAccessForm.errors?.emailOrIdCodeMissing ? 'errors.field_required' : 'errors.invalid_email') | translate"
+					[error]="
+					addAccessForm.errors?.emailMissing ||
+					addAccessForm.controls.emailAddress.errors?.email
+				" [errorMessage]="addAccessForm.errors && addAccessForm.errors[(addAccessForm.errors | keyvalue)[0].key] ? errors[(addAccessForm.errors | keyvalue)[0].key]: ''"
 						formControlName="emailAddress"
 						placeholder="E-posti aadress"
 						type="text"
@@ -76,37 +78,39 @@
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ID_CODE'">
 					<h3>{{'finaldocuments.access_with_idcode' | translate}}</h3>
 					<p>{{'finaldocuments.insert_id_code' | translate}}</p>
-					<formItem
-						[error]="addAccessForm.errors?.emailOrIdCodeMissing"
-						[errorMessage]="'errors.field_required' | translate"
-						formControlName="accessorCode"
-						type="text"
-						placeholder="Isikukood"
-						[disabled]="accessAction === 'edit'"
-					></formItem>
+					<formItem [error]="
+							addAccessForm.errors?.idCodeMissing ||
+							addAccessForm.errors?.idCodeFormat
+						" [errorMessage]="addAccessForm.errors
+							&& addAccessForm.errors[(addAccessForm.errors | keyvalue)[0].key] ? errors[(addAccessForm.errors | keyvalue)[0].key]: ''"
+						formControlName="accessorCode" type="text" [disabled]="accessAction === 'edit'" placeholder="Isikukood">
+					</formItem>
 				</ng-container>
 				<p>{{'finaldocuments.choose_access_scope' | translate}}</p>
-				<formItem name="scope" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
+				<formItem
+				 name="scope" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
 				<p>{{'finaldocuments.choose_access_end_date' | translate}}</p>
 				<div class="split">
-					<formItem forcePlaceholder="true" type="date" [error]="addAccessForm.errors?.mustHaveEndDateOption" [errorMessage]="'errors.field_required' | translate" formControlName="endDate" [disabled]="addAccessForm.value.noEndDate"
-						placeholder="pp.kk.aaaa"></formItem>
-					<formItem type="checkbox" [error]="addAccessForm.errors?.mustHaveEndDateOption" [errorMessage]="'errors.field_required' | translate" formControlName="noEndDate" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
+					<formItem forcePlaceholder="true" type="date" [error]="
+					addAccessForm.errors?.invalidDate
+				" [errorMessage]="addAccessForm.errors && addAccessForm.errors.invalidDate ? errors.invalidDate : ''" formControlName="endDate"
+						[disabled]="addAccessForm.value.noEndDate" placeholder="pp.kk.aaaa"></formItem>
+					<formItem type="checkbox" formControlName="noEndDate"
+						[label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 				</div>
-			</div>
-
-			<alerts small="true" id="addAccessErrors"></alerts>
-			<div class="button-row">
-				<button htm-button (click)="modal.toggle('finalDocument-addAccess')" theme="link">
-					{{'generic.cancel' | translate}}
-				</button>
-				<button htm-button *ngIf="accessAction === 'edit'" type="submit" (click)="modifyAccess()">
-					{{'finaldocuments.modify_access' | translate}}
-				</button>
-				<button htm-button *ngIf="accessAction === 'add'" type="submit" (click)="addAccess()">
-					{{'finaldocuments.add_access' | translate}}
-				</button>
-			</div>
+				<alerts small="true" id="addAccessErrors"></alerts>
+				<div class="button-row">
+					<button htm-button (click)="modal.toggle('finalDocument-addAccess')" theme="link">
+						{{'generic.cancel' | translate}}
+					</button>
+					<button htm-button *ngIf="accessAction === 'edit'" type="submit" (click)="modifyAccess()">
+						{{'button.save_changes' | translate}}
+					</button>
+					<button htm-button *ngIf="accessAction === 'add'" type="submit" (click)="addAccess()">
+						{{'finaldocuments.add_access' | translate}}
+					</button>
+				</div>
+				</div>
 		</form>
 	</ng-template>
 </htm-modal>
@@ -170,7 +174,8 @@
 
 <ng-template #accessCode>
 	<h1 style="word-break: break-word">
-		{{'finaldocuments.accessCode' | translate}}: <span style="font-weight: normal;">{{addAccessForm.value.accessorCode}}</span>
+		{{'finaldocuments.accessCode' | translate}}: <span
+			style="font-weight: normal;">{{addAccessForm.value.accessorCode}}</span>
 	</h1>
 	<div class="line">
 		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
@@ -181,13 +186,15 @@
 	<form [formGroup]="addAccessForm">
 		<p>{{'finaldocuments.accessCode_recipient' | translate}}:</p>
 		<formItem formControlName="emailAddress" [disabled]="true" placeholder="E-posti aadress" type="text"></formItem>
-		<p>{{'finaldocuments.select_scope' | translate}}: *</p>
+		<p>{{'finaldocuments.select_scope' | translate}}:</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
-		<p>{{'finaldocuments.select_end_date' | translate}}: *</p>
+		<p>{{'finaldocuments.select_end_date' | translate}}:</p>
 		<div class="split">
-			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
-			<formItem forcePlaceholder="true" type="checkbox" formControlName="noEndDate" [disabled]="true" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
+			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true"
+				placeholder="pp.kk.aaaa"></formItem>
+			<formItem forcePlaceholder="true" type="checkbox" formControlName="noEndDate" [disabled]="true"
+				[label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 		</div>
 		<h2 *ngIf="addAccessForm.value.provider === 'ACCESS_PROVIDER:ISSUER'">Ligipääsu andis tunnistuse väljaandja</h2>
 	</form>
@@ -202,7 +209,8 @@
 </ng-template>
 
 <ng-template #idCode>
-	<h1>{{'finaldocument.idcode' | translate}}: <span style="font-weight: normal;">{{addAccessForm.value.accessorCode}}</span></h1>
+	<h1>{{'finaldocument.idcode' | translate}}: <span
+			style="font-weight: normal;">{{addAccessForm.value.accessorCode}}</span></h1>
 	<div class="line">
 		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
 		<button (click)="modal.toggle('finalDocument-confirmInvalidation')" htm-button theme="link">
@@ -210,21 +218,23 @@
 		</button>
 	</div>
 	<form [formGroup]="addAccessForm">
-		<p>{{'finaldocuments.issuer' | translate}}</p>
-		<h2>{{data.issuerInstitution}}</h2>
+		<!-- <p>{{'finaldocuments.issuer' | translate}}</p>
+		<h2>{{data.issuerInstitution}}</h2> -->
 		<p>{{'finaldocuments.idcode_scope' | translate}}</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
 		<p>{{'finaldocuments.idcode_end_date' | translate}}</p>
 		<div class="split">
-			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true" placeholder="pp.kk.aaaa"></formItem>
-			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true" [label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
+			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true"
+				placeholder="pp.kk.aaaa"></formItem>
+			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true"
+				[label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
 		</div>
 		<h2 *ngIf="addAccessForm.value.provider === 'ACCESS_PROVIDER:ISSUER'">Ligipääsu andis tunnistuse väljaandja</h2>
 	</form>
 	<div class="button-row">
 		<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
-			{{'generic.cancel' | translate}}
+			{{'button.close' | translate}}
 		</button>
 		<button htm-button (click)="changeAccess(openedAccess)">
 			{{'button.edit_data' | translate}}
@@ -233,5 +243,5 @@
 </ng-template>
 
 <ng-template #noResults>
-  <alerts small="true" id="invalidAccessesAlerts"></alerts>
+	<alerts small="true" id="invalidAccessesAlerts"></alerts>
 </ng-template>
