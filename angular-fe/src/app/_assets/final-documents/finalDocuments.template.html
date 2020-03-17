@@ -6,9 +6,9 @@
     <ng-template>
       <more-block id="enda-tunnistused" content="abitekst.enda_tunnistused"></more-block>
 
-      <button htm-button routerLink="/töölaud/tunnistused"
+      <button htm-button routerLink="/töölaud/tunnistused" fragment="lõputunnistused"
         *ngIf="isLoggedIn">{{ 'certificates.manage_certificates' | translate }}</button>
-      <button htm-button (click)="logIn('/töölaud/tunnistused')"
+      <button htm-button (click)="logIn('/töölaud/tunnistused#lõputunnistused')"
         *ngIf="!isLoggedIn">{{ 'generic.login_to_haridusportaal' | translate }}</button>
     </ng-template>
   </accordion-item>

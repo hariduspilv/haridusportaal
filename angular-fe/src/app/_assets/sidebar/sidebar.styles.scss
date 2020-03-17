@@ -485,6 +485,11 @@
         }
       }
       sidebar-finaldocument-access {
+
+        .tooltip-inner {
+          max-width: 200px;
+        }
+
         alerts .alert {
           margin-top: 1rem;
         }
