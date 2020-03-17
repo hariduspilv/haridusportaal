@@ -731,7 +731,6 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         this.endDateOrNoEndDateValidator,
       ]);
     this.addAccessForm.updateValueAndValidity();
-    console.log(this.addAccessForm.errors);
     if (this.addAccessForm.invalid) {
       return;
     }
