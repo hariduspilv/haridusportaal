@@ -725,7 +725,6 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         this.endDateOrNoEndDateValidator,
       ]);
     this.addAccessForm.updateValueAndValidity();
-    console.log(this.addAccessForm.value)
     if (this.addAccessForm.invalid) {
       return;
     }
@@ -765,7 +764,6 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
           this.getData();
         },
         (err) => {
-          console.log(err);
           this.alertsService
             .error(err.error.errors[0].message, 'addAccessErrors', 'accessErrors', true);
         }

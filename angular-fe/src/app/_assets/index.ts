@@ -135,7 +135,6 @@ import { CertificateComponent } from "./certificate/certificate.component";
 import { GradeSheetComponent } from "./grade-sheet/gradeSheet.component";
 import { DocumentCheckComponent } from "./document-check/documentCheck.component";
 import { A11yModule } from "@angular/cdk/a11y";
-import { from } from 'rxjs';
 
 const declarations = [
 	BlockComponent,
