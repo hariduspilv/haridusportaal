@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, Input, OnChanges, OnInit, SimpleChanges, OnDestroy } from '@angular/core';
 import { AlertsService, ModalService, SettingsService, SidebarService } from '@app/_services';
 import {
   collection,
@@ -14,6 +14,8 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
+import { Subject } from 'rxjs';
+import { takeUntil, distinctUntilChanged } from 'rxjs/operators';
 
 interface SidebarType {
   [key: string]: string;
@@ -576,24 +578,25 @@ export class SidebarGdprComponent {
 
 @Component({
   selector: 'sidebar-finaldocument-access',
-  templateUrl: './templates/sidebar.finaldocument-access.template.html'
+  templateUrl: './templates/sidebar.finaldocument-access.template.html',
 })
-export class SidebarFinalDocumentAccessComponent implements OnInit {
+export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   @Input() public data: any;
   public errors = {
     required: 'Väli on kohustuslik',
   };
+  private destroy$: Subject<boolean> = new Subject();
 
   public addAccessForm: FormGroup = this.formBuilder.group(
     {
-      type: [''],
-      emailAddress: ['', { validators: [Validators.email], updateOn: 'submit' }],
-      accessorCode: [''],
+      type: [],
+      emailAddress: [],
+      accessorCode: [],
       scope: ['ACCESS_SCOPE:MAIN_DOCUMENT', { validators: [Validators.required] }],
-      endDate: [''],
+      endDate: [],
       noEndDate: [false],
-      accessId: [''],
-      provider: [''],
+      accessId: [],
+      provider: [],
     },
   );
   public addAccessOptions = {
@@ -601,11 +604,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
       {
         key: 'Isikukoodiga',
         value: 'ACCESS_TYPE:ID_CODE',
+        info: this.translate.get('certificates.access_code_info'),
       },
       {
         key: 'E-postiga',
         value: 'ACCESS_TYPE:ACCESS_CODE',
-      }
+        info: this.translate.get('certificates.id_code_info'),
+      },
     ],
     scope: [
       {
@@ -615,8 +620,8 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
       {
         key: 'Lõputunnistus koos hinnetelehega',
         value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS',
-      }
-    ]
+      },
+    ],
   };
 
   public activeAccesses: any = [];
@@ -636,11 +641,29 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
     private route: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private alertsService: AlertsService,
+    private translate: TranslateService,
   ) {
   }
 
   public ngOnInit(): void {
     this.getData();
+    this.formChanges();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  public formChanges() {
+    this.addAccessForm.controls.noEndDate.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      distinctUntilChanged(),
+    ).subscribe((val) => {
+      if (val) {
+        this.addAccessForm.controls.endDate.reset();
+      }
+    });
   }
 
   public openAccess(access): void {
@@ -650,7 +673,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
           access.status === 'ACCESS_STATUS:VALID'
             ? 'kehtiv ligipääs'
             : 'kehtetu ligipääs',
-      }
+      },
     ];
     this.openedAccessLabelType =
       access.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
@@ -676,9 +699,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
   public openNewAccessModal() {
     this.modal.toggle('finalDocument-addAccess');
     this.addAccessForm.reset();
+    this.addAccessForm.clearValidators();
+    this.addAccessForm.controls.scope.setValue('ACCESS_SCOPE:MAIN_DOCUMENT');
     const date = new Date();
     this.addAccessForm.controls.endDate.setValue(
-      new Date(date.setMonth(date.getMonth() + 1)).toLocaleDateString(),
+      new Date(date.setMonth(date.getMonth() + 1)).toISOString().slice(0, 10).split('-')
+      .reverse()
+      .join('.'),
     );
     this.accessAction = 'add';
   }
@@ -690,12 +717,15 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
 
   public addAccess(): void {
     this.addAccessForm.clearValidators();
+    this.addAccessForm.controls.emailAddress.setValidators([Validators.email]);
+    this.addAccessForm.controls.emailAddress.updateValueAndValidity();
     this.addAccessForm.setValidators(
       [
         this.emailAddressOrIdCodeValidator,
         this.endDateOrNoEndDateValidator,
       ]);
     this.addAccessForm.updateValueAndValidity();
+    console.log(this.addAccessForm.value)
     if (this.addAccessForm.invalid) {
       return;
     }
@@ -735,6 +765,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
           this.getData();
         },
         (err) => {
+          console.log(err);
           this.alertsService
             .error(err.error.errors[0].message, 'addAccessErrors', 'accessErrors', true);
         }
@@ -851,7 +882,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
   = (control: FormGroup): ValidationErrors | null => {
     const accessorCode = control.get('accessorCode');
     const emailAddress = control.get('emailAddress');
-    if (accessorCode.value === null && emailAddress.value === null) {
+    if (!accessorCode.value && !emailAddress.value) {
       return { emailOrIdCodeMissing: true };
     }
     return null;
@@ -860,7 +891,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit {
   = (control: FormGroup): ValidationErrors | null => {
     const noEndDate = control.get('noEndDate');
     const endDate = control.get('endDate');
-    if ((noEndDate.value === null || !noEndDate.value) && endDate.value === null) {
+    if (!noEndDate.value && !endDate.value) {
       return { mustHaveEndDateOption: true };
     }
     return null;
@@ -951,7 +982,15 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
     this.http
       .get(`${this.settings.ehisUrl}/certificates/v1/certificateActions/${id}`)
       .subscribe((res: any) => {
-        this.actionHistory = res.actions;
+        this.actionHistory = res.actions.sort((a, b) => {
+          if (new Date(a.added) > new Date(b.added)) {
+            return -1;
+          }
+          if (new Date(a.issueTime) < new Date(b.added)) {
+            return 1;
+          }
+          return 0;
+        });
       });
     this.http
       .get(`${this.settings.ehisUrl}/certificates/v1/certificateDataIssues/${id}`)

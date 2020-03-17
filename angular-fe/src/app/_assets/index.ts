@@ -103,6 +103,7 @@ import { AutocompleteComponent } from "./autocomplete";
 import { DropdownListComponent } from "./dropdown-list/dropdown-list.component";
 import { Triangles } from "./shapes/triangles/triangles";
 import { Circles } from "./shapes/circles/circles";
+import { TooltipComponent } from './tooltip';
 
 export function settingsProviderFactory(provider: SettingsService) {
 	return () => provider.load();
@@ -134,6 +135,7 @@ import { CertificateComponent } from "./certificate/certificate.component";
 import { GradeSheetComponent } from "./grade-sheet/gradeSheet.component";
 import { DocumentCheckComponent } from "./document-check/documentCheck.component";
 import { A11yModule } from "@angular/cdk/a11y";
+import { from } from 'rxjs';
 
 const declarations = [
 	BlockComponent,
@@ -223,7 +225,8 @@ const declarations = [
 	MoreBlockComponent,
 	CertificateComponent,
 	GradeSheetComponent,
-	DocumentCheckComponent
+	DocumentCheckComponent,
+	TooltipComponent,
 ];
 
 const exports = [NgbTooltipModule];
