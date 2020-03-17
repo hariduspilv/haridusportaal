@@ -3,7 +3,7 @@
   <form [formGroup]="formGroup" (submit)="submit()">
   <div class="footer">
     <div class="contact" *ngIf="data">
-      <div class="contact__title">{{ 'home.contact' | translate }}</div>
+      <h2 class="contact__title">{{ 'home.contact' | translate }}</h2>
       <p>
         {{ data.name }}<br />
         <a [href]="'mailto:'+data.email">{{ data.email }}</a><br />
@@ -19,9 +19,10 @@
         <div class="newsletter__cols" *ngIf="!subscribedStatus && !subscribedError">
           <div class="newsletter__col">
             <formItem
-              [attr.aria-label]="'home.newsletter_email' | translate"
               [placeholder]="'home.newsletter_email' | translate"
               domID="e-mail"
+              browserAutocomplete="email"
+              [ariaLabel]="'home.newsletter_email' | translate"
               formControlName="email"></formItem>
           </div><!--/newsletter_col-->
           <div class="newsletter__col">

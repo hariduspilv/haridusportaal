@@ -1051,11 +1051,15 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.setMaxStep(response);
         }
 
-        if (response['header']['form_name'] &&
-          (response['header']['acceptable_activity'].includes('CHANGE') ||
-            (data.activity && data.activity === 'CHANGE'))) {
-          this.form_route = `/töölaud/taotlused/${response['header']['form_name'].toLowerCase()}`;
+        if (response['header']['form_name'] && (response['header']['acceptable_activity'].includes('CHANGE')
+        || data.activity && data.activity === 'CHANGE')) {
           this.form_name = response['header']['form_name'];
+          const path = `${this.settings.url}/xjson_service/form_path/${this.form_name}`;
+          this.http.get(path).subscribe((response: any) => {
+            if (response.path) {
+              this.form_route = response.path;
+            }
+          });
         }
 
         if (response['header']['acceptable_activity']) {

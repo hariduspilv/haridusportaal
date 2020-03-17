@@ -20,6 +20,7 @@
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
         [attr.disabled]="disabled"
+        [attr.aria-label]="ariaLabel"
         [id]="domID"
         [attr.name]="domID"
         [(ngModel)]="field" />

@@ -104,6 +104,14 @@
 		button {
 			width: 100%;
 		}
+		.pointer {
+			display: block;
+			width: 100%;
+			text-align: center;
+			margin: 0 0 1rem 0;
+			text-decoration: underline;
+			cursor: pointer;
+		}
 	}
 
 	.xxs-show {

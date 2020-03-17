@@ -72,7 +72,7 @@
                     <a [routerLink]="item.url.path ? item.url.path : item.url" class="mb-0">
                         <h1 class="title">{{ item.title }}</h1>
                     </a>
-                    <div class="author">{{ item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
+                    <div class="author">{{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                 </div>
             </ng-container>
 

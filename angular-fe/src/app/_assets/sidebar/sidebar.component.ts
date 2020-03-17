@@ -584,6 +584,12 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   @Input() public data: any;
   public errors = {
     required: 'Väli on kohustuslik',
+    idCodeMissing: 'Sisesta isikukood',
+    emailMissing: 'Sisesta e-mail',
+    email: 'Sisesta korrektne e-mail',
+    idCodeFormat: 'Sisesta korrektne isikukood',
+    mustHaveEndDateOption: 'Vali kehtivuse lõpp',
+    invalidDate: 'Sisesta korrektne kuupäev',
   };
   private destroy$: Subject<boolean> = new Subject();
 
@@ -725,17 +731,17 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         this.endDateOrNoEndDateValidator,
       ]);
     this.addAccessForm.updateValueAndValidity();
+    console.log(this.addAccessForm.errors);
     if (this.addAccessForm.invalid) {
       return;
     }
     const form = this.addAccessForm.value;
     const indexId = this.route.snapshot.params.id;
-    if (form.accessorCode) {
+    if (form.accessorCode && form.accessType === 'ACCESS_TYPE:ACCESS_CODE') {
       const startsWithLetters =
         isNaN(form.accessorCode.charAt(0)) && isNaN(form.accessorCode.charAt(1));
       if (!startsWithLetters) {
-        this.addAccessForm.controls.accessorCode.setValue(`EE${form.accessorCode.trim()}`);
-        form.accessorCode = this.addAccessForm.controls.accessorCode.value;
+        form.accessorCode = `EE${form.accessorCode.trim()}`;
       }
     }
     const accessDTO = {
@@ -746,7 +752,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         endDate: form.noEndDate
           ? null
           : form.endDate
-            .split('.')
+            .split(/\.|\//g)
             .reverse()
             .join('-'),
         accessorCode:
@@ -780,6 +786,9 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       return;
     }
     const indexId = this.route.snapshot.params.id;
+    if (form.endDate) {
+
+    }
     const accessDTO = {
       indexId,
       access: {
@@ -788,7 +797,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         endDate: form.noEndDate
           ? null
           : form.endDate
-            .split('.')
+            .split(/\.|\//g)
             .reverse()
             .join('-'),
         endDateSet: form.endDate ? true : false,
@@ -880,25 +889,47 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   = (control: FormGroup): ValidationErrors | null => {
     const accessorCode = control.get('accessorCode');
     const emailAddress = control.get('emailAddress');
-    if (!accessorCode.value && !emailAddress.value) {
-      return { emailOrIdCodeMissing: true };
+    const accessType = control.get('type');
+    if (accessType.value === 'ACCESS_TYPE:ID_CODE') {
+      if (!accessorCode.value) {
+        return { idCodeMissing: true };
+      }
+      if (accessorCode.value &&
+        !`${accessorCode.value}`.match(/([1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4})/g)
+      ) {
+        return { idCodeFormat: true };
+      }
     }
-    return null;
+    if (accessType.value === 'ACCESS_TYPE:ACCESS_CODE') {
+      if (emailAddress.errors) {
+        return emailAddress.errors;
+      }
+      if (!emailAddress.value) {
+        return { emailMissing: true };
+      }
+    }
+
+    return {};
   }
   private endDateOrNoEndDateValidator: ValidatorFn
   = (control: FormGroup): ValidationErrors | null => {
     const noEndDate = control.get('noEndDate');
     const endDate = control.get('endDate');
     if (!noEndDate.value && !endDate.value) {
-      return { mustHaveEndDateOption: true };
+      return { invalidDate: true };
     }
-    return null;
+    if (!noEndDate.value
+      && endDate.value
+      && !`${endDate.value}`.match(/[0-3][0-9)]\.[0-9][1-9]\.[0-9]{4}/g)) {
+      return { invalidDate: true };
+    }
+    return {};
   }
 }
 
 @Component({
   selector: 'sidebar-finaldocument-history',
-  templateUrl: './templates/sidebar.finaldocument-history.template.html'
+  templateUrl: './templates/sidebar.finaldocument-history.template.html',
 })
 export class SidebarFinalDocumentHistoryComponent implements OnInit {
   @Input() public data: any;

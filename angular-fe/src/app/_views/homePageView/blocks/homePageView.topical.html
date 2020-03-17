@@ -2,9 +2,9 @@
 <div class="inner">
   <div class="topical">
     <div class="topical__content">
-      <div class="topical__category">{{ 'home.topical' | translate }}</div>
-      <h3 class="topical__title">{{ article.title }}</h3>
-      <a [routerLink]="article.path" class="topical__link">{{ 'button.read_more' | translate }}</a>
+      <h2 class="topical__category"  [attr.aria-label]="'home.topical' | translate">{{ 'home.topical' | translate }}</h2>
+      <h3 class="topical__title"  [attr.aria-label]="article.title">{{ article.title }}</h3>
+      <a [routerLink]="article.path" class="topical__link" role="button"  [attr.aria-label]="'button.read_more' | translate">{{ 'button.read_more' | translate }}</a>
     </div><!--/topical__content-->
     <div class="topical__image">
       <img src="/assets/img/homepage-topical-1.svg" alt="" />

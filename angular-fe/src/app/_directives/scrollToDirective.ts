@@ -17,6 +17,7 @@ export class ScrollToDirective {
     const elemHeight = elem.offsetHeight;
     const windowHeight = appContent.offsetHeight;
     const headerHeight = appContent.getBoundingClientRect().top;
+
     let scrollTop = elem.getBoundingClientRect().top +
       appContent.scrollTop -
       headerHeight;
@@ -35,8 +36,9 @@ export class ScrollToDirective {
     */
 
     const isIE11 = !!window['MSInputMethodContext'] && !!document['documentMode'];
+    const isEdge = window.navigator.userAgent.indexOf('Edge') > -1;
 
-    if (isIE11) {
+    if (isIE11 || isEdge) {
       appContent.scrollTop = scrollTop;
     } else {
       appContent.scrollTo({
@@ -45,6 +47,19 @@ export class ScrollToDirective {
       });
     }
 
+    setTimeout(
+      () => {
+        if (elem.querySelector('h1')) {
+          elem.querySelector('h1').focus();
+        } else if (elem.querySelector('h2')) {
+          elem.querySelector('h2').focus();
+        } else if (elem.querySelector('h3')) {
+          elem.querySelector('h3').focus();
+        } else if (elem.querySelector('button')) {
+          elem.querySelector('button').focus();
+        }
+      },
+      500);
   }
 
 }
