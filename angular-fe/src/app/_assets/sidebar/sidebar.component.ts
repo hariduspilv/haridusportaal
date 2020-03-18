@@ -736,10 +736,10 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     }
     const form = this.addAccessForm.value;
     const indexId = this.route.snapshot.params.id;
-    if (form.accessorCode && form.accessType === 'ACCESS_TYPE:ACCESS_CODE') {
+    if (form.accessorCode && form.type === 'ACCESS_TYPE:ID_CODE') {
       const startsWithLetters =
-        isNaN(form.accessorCode.charAt(0)) && isNaN(form.accessorCode.charAt(1));
-      if (!startsWithLetters) {
+        !isNaN(form.accessorCode.charAt(0)) && !isNaN(form.accessorCode.charAt(1));
+      if (startsWithLetters) {
         form.accessorCode = `EE${form.accessorCode.trim()}`;
       }
     }
