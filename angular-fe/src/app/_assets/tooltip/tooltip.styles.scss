@@ -23,6 +23,9 @@
 
 		&:hover {
 			cursor: pointer;
+		}
+
+		&.tooltip-visible {
 			color: $white;
 			background: $dark-gray;
 		}
