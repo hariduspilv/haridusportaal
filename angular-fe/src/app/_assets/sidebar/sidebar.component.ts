@@ -610,12 +610,12 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       {
         key: 'Isikukoodiga',
         value: 'ACCESS_TYPE:ID_CODE',
-        info: this.translate.get('certificates.access_code_info'),
+        info: this.translate.get('certificates.id_code_info'),
       },
       {
         key: 'E-postiga',
         value: 'ACCESS_TYPE:ACCESS_CODE',
-        info: this.translate.get('certificates.id_code_info'),
+        info: this.translate.get('certificates.access_code_info'),
       },
     ],
     scope: [
