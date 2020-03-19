@@ -76,6 +76,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() public maxDate: NgbDateStruct = { year: 2035, month: 12, day: 31 };
   @Input() public domID = '';
   @Input() public ariaLabel = '';
+  @Input() public excludeFromSearch: boolean = false;
 
   // not going to break anything
   @Input() public forcePlaceholder = false;

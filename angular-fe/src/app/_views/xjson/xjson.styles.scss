@@ -434,9 +434,22 @@
       button {
         margin-left: 0.625rem;
       }
+      @include break-on(xs, max) {
+        flex-wrap: wrap;
+        width: 100%;
+        div {
+          width: 100%;
+        }
+        button {
+          width: 100%;
+        }
+      }
     }
     .secondary-buttons {
       margin-left: 0.5rem;
+      @include break-on(xs, max) {
+        width: 100%;
+      }
     }
     a,
     button {
@@ -522,6 +535,9 @@
       border: 0rem;
       &.highlighted {
         font-weight: 500;
+      }
+      a {
+        white-space: nowrap;
       }
     }
     td.hidden,

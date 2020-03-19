@@ -7,6 +7,7 @@ import {
   AfterViewInit,
   OnDestroy,
   Injectable,
+  Input,
 } from '@angular/core';
 import { FormItemComponent } from '@app/_assets/formItem';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,7 +23,6 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
   @ContentChildren(FormItemComponent) formItems: QueryList<FormItemComponent>;
 
   private paramsWatcher: Subscription = new Subscription();
-
   constructor(
     private el: ElementRef,
     private router: Router,
@@ -42,7 +42,7 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
 
     this.formItems.forEach((item) => {
       const data = item.getValue();
-      if (data.search) {
+      if (data.search && !item.excludeFromSearch) {
         if (data.name && data.name !== '' && data.value && data.value !== '') {
           queryParams[data.name] = data.value;
         }
