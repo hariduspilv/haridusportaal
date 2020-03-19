@@ -16,7 +16,7 @@
         sünnikuupäev
       </ng-container>
       <span class="bold">
-        {{ document.content.graduate.idCode || document.content.graduate.dateOfBirth || '' }}
+        {{ (document.content.graduate.idCode | idCode) || document.content.graduate.dateOfBirth || '' }}
       </span>
     </p>
   </section>
