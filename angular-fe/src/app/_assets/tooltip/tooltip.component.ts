@@ -13,5 +13,11 @@ export class TooltipComponent {
   @Input() placement : string = 'right';
   @Input() type: string = 'info';
 
+  public visible = false;
+
   public tooltipSymbol = TooltipSymbol;
+
+  public toggleVisibility(state) {
+    this.visible = state;
+  }
 }

@@ -15,7 +15,7 @@
     }
   }
 
-  .button-row {
+  ::ng-deep .button-row {
     display: flex;
     justify-content: flex-end;
     margin-top: 2rem;

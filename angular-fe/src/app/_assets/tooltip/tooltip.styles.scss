@@ -1,4 +1,5 @@
 @import "colors.scss";
+@import 'breakpoints.scss';
 
 :host {
 	
@@ -23,8 +24,23 @@
 
 		&:hover {
 			cursor: pointer;
+		}
+
+		&.tooltip-visible {
 			color: $white;
 			background: $dark-gray;
+		}
+	}
+
+	::ng-deep .tooltip {
+		@include break-on(xxs, max) {
+			display: block;
+		}
+
+		.tooltip-inner {
+			@include break-on(xxs, max) {
+				max-width: 10rem;
+			}
 		}
 	}
 }
