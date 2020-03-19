@@ -77,6 +77,7 @@ export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy 
         },
         100);
     }
+    console.log(this.scrollRight);
     return this.scrollRight;
   }
 
