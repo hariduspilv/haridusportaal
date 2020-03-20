@@ -56,38 +56,36 @@ export class FiltersService {
   }
 
   filterParseDate(dateString: string) {
-    let tmpDate = new Date(dateString);
-    let year = tmpDate.getFullYear();
+    const tmpDate = new Date(dateString);
+    const year = tmpDate.getFullYear();
     let month:any = tmpDate.getMonth() + 1;
     let day:any = tmpDate.getDate();
 
     if (month < 10) {
-      month = '0'+ month;
+      month = `0${month}`;
     }
 
     if (day < 10) {
-      day = '0'+ day;
+      day = `0${day}`;
     }
 
-    return day +'-'+ month + "-" + year;
+    return `${day}-${month}-${year}`;
   }
 
   filterRetrieveParams(params:object) {
 
-    for (var i in params) {
+    for (const i in params) {
 
       if (i.match('date')) {
         this.filterFormItems[i] = _moment(params[i], 'DD-MM-YYYY');
-      }
-      else if (i == 'tags' || i == 'types' ) {
+      } else if (i === 'tags' || i === 'types') {
         // skip it and leave it to tags code to retrieve it
-      }
-      else {
+      } else {
         this.filterFormItems[i] = params[i];
       }
     }
 
-    for (let i in this.filterFormItems) {
+    for (const i in this.filterFormItems) {
       if (!params[i]) {
         this.filterFormItems[i] = '';
       }

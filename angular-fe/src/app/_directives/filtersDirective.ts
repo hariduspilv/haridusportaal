@@ -1,15 +1,13 @@
 import {
-  Directive,
-  OnInit,
-  ElementRef,
-  ContentChildren,
-  QueryList,
   AfterViewInit,
+  ContentChildren,
+  Directive,
+  ElementRef,
   OnDestroy,
-  Injectable,
+  QueryList,
 } from '@angular/core';
 import { FormItemComponent } from '@app/_assets/formItem';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 
@@ -17,7 +15,7 @@ import { QueryParamsService } from '@app/_services/QueryParams.service';
   selector: '[filters]',
 })
 
-export class FiltersDirective implements AfterViewInit, OnDestroy{
+export class FiltersDirective implements AfterViewInit, OnDestroy {
 
   @ContentChildren(FormItemComponent) formItems: QueryList<FormItemComponent>;
 
@@ -28,7 +26,8 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
     private router: Router,
     private route: ActivatedRoute,
     private filters: QueryParamsService,
-  ) {}
+  ) {
+  }
 
   bindEvents(): void {
     this.el.nativeElement.addEventListener('submit', (e) => {
@@ -42,7 +41,7 @@ export class FiltersDirective implements AfterViewInit, OnDestroy{
 
     this.formItems.forEach((item) => {
       const data = item.getValue();
-      if (data.search) {
+      if (data.search && !item.excludeFromSearch) {
         if (data.name && data.name !== '' && data.value && data.value !== '') {
           queryParams[data.name] = data.value;
         }

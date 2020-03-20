@@ -99,6 +99,7 @@ import { AutocompleteComponent } from './autocomplete';
 import { DropdownListComponent } from './dropdown-list/dropdown-list.component';
 import { Triangles } from './shapes/triangles/triangles';
 import { Circles } from './shapes/circles/circles';
+import { TooltipComponent } from './tooltip';
 import { ImageComponent } from './images';
 import { LinksComponent } from './links';
 import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
@@ -113,8 +114,7 @@ import { PictoComponent } from './picto';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
 import { AppPipes } from '@app/_pipes';
-import { RelatedStudyProgrammesListComponent }
-from './relatedStudyprogrammesList/relatedStudyProgrammesList.component';
+import { RelatedStudyProgrammesListComponent } from './relatedStudyprogrammesList/relatedStudyProgrammesList.component';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { RelatedEventsComponent } from './relatedEvents';
 import { NotFoundComponent } from './notFound';
@@ -220,6 +220,7 @@ const declarations = [
   CertificateComponent,
   GradeSheetComponent,
   DocumentCheckComponent,
+  TooltipComponent,
 ];
 
 const exports = [NgbTooltipModule];

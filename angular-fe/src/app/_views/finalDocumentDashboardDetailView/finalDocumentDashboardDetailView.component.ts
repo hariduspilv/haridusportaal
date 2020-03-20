@@ -45,7 +45,6 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
   ];
   @ViewChildren('certificate') public certificate: QueryList<any>;
 
-
   public loading = true;
 
   constructor(
@@ -74,9 +73,9 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
     const id = this.route.snapshot.params.id;
     this.http
       .get(`${this.settings.ehisUrl}/certificates/v1/certificate/${id}`).subscribe((val: any) => {
-      this.path = [...this.path, { title: val.index.typeName, link: '' }];
-      this.getLatestDocuments(val.index.documents);
-    });
+        this.path = [...this.path, { title: val.index.typeName, link: '' }];
+        this.getLatestDocuments(val.index.documents);
+      });
   }
 
   private getLatestDocuments(documentsArray) {
@@ -134,10 +133,16 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       this.sidebar.entity.finalDocumentAccess.issuerInstitution
         = this.documents.certificate.content.educationalInstitution.name;
       this.sidebar.entity.finalDocumentDownload.certificateName =
-        `${this.documents.certificate.content.graduate.firstName} ${this.documents.certificate.content.graduate.lastName}`;
+        `${this.documents.certificate.content.graduate.firstName} /
+        ${this.documents.certificate.content.graduate.lastName}`;
       this.sidebar.entity.finalDocumentDownload.certificateNumber =
         this.documents.certificate.content.registrationNumber;
       this.loading = false;
+
+      setTimeout(() => {
+        (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
+        .focus();
+      });
     });
   }
 }
