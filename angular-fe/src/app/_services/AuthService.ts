@@ -57,7 +57,13 @@ export class AuthService implements CanActivate {
   }
 
   private setPlumbrId() {
+    console.log('plumbr');
+    console.log(this.plumbr);
     if (this.plumbr) {
+      console.log(this.userData);
+      console.log(this.userData.drupal);
+      console.log(this.userData.drupal.uid);
+      console.log(this.plumbr.setUserId(this.userData.drupal.uid));
       this.plumbr.setUserId(this.userData.drupal.uid);
     }
   }
