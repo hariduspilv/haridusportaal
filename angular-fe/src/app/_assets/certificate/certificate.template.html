@@ -24,7 +24,7 @@
 
   <section id="identity">
     <p class="bold">
-      {{ document.content.graduate.idCode }}
+      {{ document.content.graduate.idCode | idCode }}
       <ng-container *ngIf="!document.content.graduate.idCode && document.content.graduate.dateOfBirth">
         {{ document.content.graduate.dateOfBirth | date: 'dd.MM.yyyy' }}
       </ng-container>

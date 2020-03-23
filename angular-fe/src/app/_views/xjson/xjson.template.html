@@ -276,183 +276,163 @@
 
                         <div class="xjson__table" [attr.id]="element + 'Table'">
                           <div class="xjson__scrollable">
-                            <div class="xjson__scrollable__table" [attr.id]="'xjsonTable_' + index"
-                              (scroll)="tableOverflown[index] = tableService.isOverflownWhileScrolling($event); elemAtStart[index] = tableService.isElemAtStart('xjsonTable_'+index)">
-                              <div *ngIf="scrollableTables[element]">
-                                <div aria-hidden="true"
-                                  class="xjson__scrollable__rectangle xjson__scrollable__rectangle--left pointer"
-                                  *ngIf="!elemAtStart[index]"
-                                  (touchstart)="tableService.scrollStart('xjsonTable_'+index)"
-                                  (mousedown)="tableService.scrollStart('xjsonTable_'+index)"
-                                  (touchend)="tableService.scrollEnd()" (mouseup)="tableService.scrollEnd()">
-                                  <div class="htm-icon">
-                                    <icon glyph="chevron-left"></icon>
-                                  </div>
-                                </div>
-                                <div aria-hidden="true"
-                                  class="xjson__scrollable__rectangle xjson__scrollable__rectangle--right pointer"
-                                  *ngIf="tableOverflown[index]"
-                                  (touchstart)="tableService.scrollStart('xjsonTable_'+index, true)"
-                                  (mousedown)="tableService.scrollStart('xjsonTable_'+index, true)"
-                                  (touchend)="tableService.scrollEnd(true)" (mouseup)="tableService.scrollEnd(true)">
-                                  <div class="htm-icon">
-                                    <icon glyph="chevron-right"></icon>
-                                  </div>
-                                </div>
-                              </div>
-                              <table htm-table class="scrollableTable" [attr.id]="element + 'Content'"
-                                [rotateTable]="data_elements[element].vertical">
-                                <thead>
-                                  <tr>
-                                    <ng-container
-                                      *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
-                                      <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
-                                        <th attr.aria-hidden="true">
-                                          {{selectLanguage(data_elements[element].table_columns[col].title)}}
-                                          {{data_elements[element].table_columns[col].required ? '*' : ''}}
-                                        </th>
+                            <div class="xjson__scrollable__table" [attr.id]="'xjsonTable_' + index" >
+                              
+                              <scrollableContent>
+                                <table htm-table class="scrollableTable" [attr.id]="element + 'Content'"
+                                  [rotateTable]="data_elements[element].vertical">
+                                  <thead>
+                                    <tr>
+                                      <ng-container
+                                        *ngFor="let col of objectKeys(data_elements[element].table_columns); let index = index">
+                                        <ng-container *ngIf="!tableColumnAttribute(element, index, 'hidden')">
+                                          <th attr.aria-hidden="true">
+                                            {{selectLanguage(data_elements[element].table_columns[col].title)}}
+                                            {{data_elements[element].table_columns[col].required ? '*' : ''}}
+                                          </th>
+                                        </ng-container>
                                       </ng-container>
-                                    </ng-container>
 
-                                    <th aria-hidden="true" tabindex="-1"
-                                      *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                                      <!-- extra column for action buttons -->
-                                    </th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-                                  <tr
-                                    *ngIf="(!data_elements[element].value || !data_elements[element].value.length) && !data_elements[element].add_del_rows">
-                                    <td
-                                      [attr.colspan]="data_elements[element].add_del_rows ? visibleTableLength[element]+1 : visibleTableLength[element]">
-                                      {{'xjson.data_missing' | translate }}
-                                    </td>
-                                  </tr>
-                                  <ng-container *ngFor="let row of data_elements[element].value; let rowIndex = index;">
-                                    <tr
-                                      [class]="error[element] && error[element].rows && error[element].rows.includes(rowIndex) ? 'invalid-row' : 'valid-row'">
-                                      <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
-
-                                        <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')"
-                                          class="bold-text">
-                                          <ng-container
-                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
-                                            <formItem
-                                              *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                              type="text" [(ngModel)]="row[col]"
-                                              name="{{element + '_' + rowIndex + '_' + colIndex}}">
-                                            </formItem>
-                                          </ng-container> <!-- /TEXT -->
-
-                                          <ng-container
-                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
-                                            <formItem
-                                              *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplayAddress"
-                                              type="autocomplete" query="inaadress" valueType="object"
-                                              placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'placeholder'))}}"
-                                              [(ngModel)]="row[col]"
-                                              name="{{element + '_' + rowIndex + '_' + colIndex}}">
-                                            </formItem>
-                                          </ng-container> <!-- /ADDRESS -->
-
-                                          <ng-container
-                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
-                                            <formItem
-                                              *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                              type="text" [(ngModel)]="row[col]"
-                                              name="{{element + '_' + rowIndex + '_' + colIndex}}" [error]="row[col]">
-                                            </formItem>
-                                          </ng-container> <!-- /EMAIL -->
-
-                                          <ng-container
-                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
-                                            <formItem
-                                              *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                              type="number" [(ngModel)]="row[col]"
-                                              name="{{element + '_' + rowIndex + '_' + colIndex}}">
-                                            </formItem>
-                                          </ng-container> <!-- /NUMBER -->
-
-                                          <ng-container
-                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
-                                            <ng-container
-                                              *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ">
-                                              {{ 'xjson.count_added_files' | translate }}
-                                              {{ row[col] && row[col].length ? row[col].length : '0'}} | <a
-                                                class="underline"
-                                                (click)="fileModal(element, col, rowIndex)">{{ 'xjson.add_file' | translate }}</a>
-                                            </ng-container>
-                                            <ng-container
-                                              *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && !isArray(row[col])">
-                                              <a class="file-icon" [href]="fileDownloadlink(row[col])" target="_blank">
-                                                <span class="file-name">{{ row[col].file_name }}</span>
-                                              </a>
-                                            </ng-container>
-                                            <ng-container
-                                              *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' && isArray(row[col])">
-                                              <a *ngFor="let file of row[col]; let i = index" class="file-icon" [href]="fileDownloadlink(row[col][0])"
-                                                target="_blank">
-                                                <span class="file-name">{{ file.file_name }}{{ i < row[col].length - 1 ? ', ' : ''}}</span>
-                                              </a>
-                                            </ng-container>
-                                          </ng-container> <!-- /file -->
-
-                                          <ng-container
-                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
-                                            <formItem class="datepicker"
-                                              name="{{element + '_' + rowIndex + '_' + colIndex}}"
-                                              *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
-                                              type="date" [(ngModel)]="row[col]"></formItem>
-                                          </ng-container><!-- /DATE -->
-
-                                          <ng-container
-                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
-                                            <formItem
-                                              *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else checkboxReadonlyDisplay"
-                                              type="checkbox" [(ngModel)]="row[col]"
-                                              name="{{element + '_' + rowIndex + '_' + colIndex}}"></formItem>
-                                          </ng-container> <!-- /CHECKBOX -->
-                                          <ng-template #checkboxReadonlyDisplay>
-                                            <span>{{ (row[col] ? 'true' : 'false') | translate }}</span>
-                                          </ng-template> <!-- /CHECKBOX DISABLED -->
-
-                                          <ng-container
-                                            *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
-                                            <formItem type="select" name="{{element + '_' + rowIndex + '_' + colIndex}}" appendTo="body"
-                                              [(ngModel)]="row[col]"
-                                              [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
-                                              [options]="tableColumnAttribute(element, colIndex, 'options')">
-                                            </formItem>
-                                          </ng-container> <!-- /SELECTLIST -->
-
-                                          <ng-template #readonlyDisplay>
-                                            <span
-                                              [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] !== 'undefined' ? row[col] : '' }}</span>
-                                          </ng-template>
-                                          <ng-template #fileReadonlyDisplay>
-                                            <span
-                                              [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' ? row[col][0].file_name : '' }}</span>
-                                          </ng-template>
-                                          <ng-template #readonlyDisplayAddress>
-                                            <span
-                                              [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].addressHumanReadable || row[col].pikkaadress }}</span>
-                                          </ng-template>
-
-                                        </td>
-                                      </ng-container> <!-- END OF *NGFOR COLUMNS-->
-                                      <td
+                                      <th aria-hidden="true" tabindex="-1"
                                         *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
-                                        <div>
-                                          <a role="button" class="table-link" href="javascript:void(0);"
-                                            (click)="tableDeleteRow(element, rowIndex)">
-                                            {{ 'button.delete_table_row' | translate }}
-                                          </a>
-                                        </div>
+                                        <!-- extra column for action buttons -->
+                                      </th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr
+                                      *ngIf="(!data_elements[element].value || !data_elements[element].value.length) && !data_elements[element].add_del_rows">
+                                      <td
+                                        [attr.colspan]="data_elements[element].add_del_rows ? visibleTableLength[element]+1 : visibleTableLength[element]">
+                                        {{'xjson.data_missing' | translate }}
                                       </td>
                                     </tr>
-                                  </ng-container> <!-- END OF *NGFOR COLUMNS-->
-                                </tbody>
-                              </table>
+                                    <ng-container *ngFor="let row of data_elements[element].value; let rowIndex = index;">
+                                      <tr
+                                        [class]="error[element] && error[element].rows && error[element].rows.includes(rowIndex) ? 'invalid-row' : 'valid-row'">
+                                        <ng-container *ngFor="let col of objectKeys(row); let colIndex = index;">
+
+                                          <td *ngIf="!tableColumnAttribute(element, colIndex, 'hidden')"
+                                            class="bold-text">
+                                            <ng-container
+                                              *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'text'">
+                                              <formItem
+                                                *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                                type="text" [(ngModel)]="row[col]"
+                                                name="{{element + '_' + rowIndex + '_' + colIndex}}">
+                                              </formItem>
+                                            </ng-container> <!-- /TEXT -->
+
+                                            <ng-container
+                                              *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'address'">
+                                              <formItem
+                                                *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplayAddress"
+                                                type="autocomplete" query="inaadress" valueType="object"
+                                                placeholder="{{selectLanguage(tableColumnAttribute(element, colIndex, 'placeholder'))}}"
+                                                [(ngModel)]="row[col]"
+                                                name="{{element + '_' + rowIndex + '_' + colIndex}}">
+                                              </formItem>
+                                            </ng-container> <!-- /ADDRESS -->
+
+                                            <ng-container
+                                              *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'email'">
+                                              <formItem
+                                                *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                                type="text" [(ngModel)]="row[col]"
+                                                name="{{element + '_' + rowIndex + '_' + colIndex}}" [error]="row[col]">
+                                              </formItem>
+                                            </ng-container> <!-- /EMAIL -->
+
+                                            <ng-container
+                                              *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'number'">
+                                              <formItem
+                                                *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                                type="number" [(ngModel)]="row[col]"
+                                                name="{{element + '_' + rowIndex + '_' + colIndex}}">
+                                              </formItem>
+                                            </ng-container> <!-- /NUMBER -->
+
+                                            <ng-container
+                                              *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'file'">
+                                              <ng-container
+                                                *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) ">
+                                                {{ 'xjson.count_added_files' | translate }}
+                                                {{ row[col] && row[col].length ? row[col].length : '0'}} | <a
+                                                  class="underline"
+                                                  (click)="fileModal(element, col, rowIndex)">{{ 'xjson.add_file' | translate }}</a>
+                                              </ng-container>
+                                              <ng-container
+                                                *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && !isArray(row[col])">
+                                                <a class="file-icon" [href]="fileDownloadlink(row[col])" target="_blank">
+                                                  <span class="file-name">{{ row[col].file_name }}</span>
+                                                </a>
+                                              </ng-container>
+                                              <ng-container
+                                                *ngIf="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')) && row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' && isArray(row[col])">
+                                                <a *ngFor="let file of row[col]; let i = index" class="file-icon" [href]="fileDownloadlink(row[col][0])"
+                                                  target="_blank">
+                                                  <span class="file-name">{{ file.file_name }}{{ i < row[col].length - 1 ? ', ' : ''}}</span>
+                                                </a>
+                                              </ng-container>
+                                            </ng-container> <!-- /file -->
+
+                                            <ng-container
+                                              *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'date'">
+                                              <formItem class="datepicker"
+                                                name="{{element + '_' + rowIndex + '_' + colIndex}}"
+                                                *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else readonlyDisplay"
+                                                type="date" [(ngModel)]="row[col]"></formItem>
+                                            </ng-container><!-- /DATE -->
+
+                                            <ng-container
+                                              *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'checkbox'">
+                                              <formItem
+                                                *ngIf="!isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly')); else checkboxReadonlyDisplay"
+                                                type="checkbox" [(ngModel)]="row[col]"
+                                                name="{{element + '_' + rowIndex + '_' + colIndex}}"></formItem>
+                                            </ng-container> <!-- /CHECKBOX -->
+                                            <ng-template #checkboxReadonlyDisplay>
+                                              <span>{{ (row[col] ? 'true' : 'false') | translate }}</span>
+                                            </ng-template> <!-- /CHECKBOX DISABLED -->
+
+                                            <ng-container
+                                              *ngIf="tableColumnAttribute(element, colIndex, 'type') == 'selectlist'">
+                                              <formItem type="select" name="{{element + '_' + rowIndex + '_' + colIndex}}" appendTo="body"
+                                                [(ngModel)]="row[col]"
+                                                [disabled]="isFieldDisabled(tableColumnAttribute(element, colIndex, 'readonly'))"
+                                                [options]="tableColumnAttribute(element, colIndex, 'options')">
+                                              </formItem>
+                                            </ng-container> <!-- /SELECTLIST -->
+
+                                            <ng-template #readonlyDisplay>
+                                              <span
+                                                [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] !== 'undefined' ? row[col] : '' }}</span>
+                                            </ng-template>
+                                            <ng-template #fileReadonlyDisplay>
+                                              <span
+                                                [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] && row[col] !== 'undefined' && row[col][0] !== 'undefined' ? row[col][0].file_name : '' }}</span>
+                                            </ng-template>
+                                            <ng-template #readonlyDisplayAddress>
+                                              <span
+                                                [attr.aria-label]="row[col].address ? row[col].address : 'blank'">{{ row[col].addressHumanReadable || row[col].pikkaadress }}</span>
+                                            </ng-template>
+
+                                          </td>
+                                        </ng-container> <!-- END OF *NGFOR COLUMNS-->
+                                        <td
+                                          *ngIf="data_elements[element].add_del_rows && !isFieldDisabled(data_elements[element].readonly)">
+                                          <div>
+                                            <a role="button" class="table-link" href="javascript:void(0);"
+                                              (click)="tableDeleteRow(element, rowIndex)">
+                                              {{ 'button.delete_table_row' | translate }}
+                                            </a>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                    </ng-container> <!-- END OF *NGFOR COLUMNS-->
+                                  </tbody>
+                                </table>
+                              </scrollableContent>
                             </div>
                           </div>
 

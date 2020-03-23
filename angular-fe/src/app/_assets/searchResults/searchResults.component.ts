@@ -97,6 +97,18 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
     const values = {};
     const tmpParams = this.addRequiredFields(queryParams);
 
+    if (tmpParams.sort) {
+      if (tmpParams.sort.indexOf('_') === -1) {
+        tmpParams['sortField'] = tmpParams.sort;
+        tmpParams['sortDirection'] = 'ASC';
+      } else {
+        const splitValues = tmpParams.sort.split('_');
+        tmpParams['sortField'] = splitValues.splice(0, splitValues.length - 1).join('_');
+        tmpParams['sortDirection'] = splitValues[splitValues.length - 1].toUpperCase();
+        delete tmpParams['sort'];
+      }
+    }
+
     Object.keys(tmpParams).forEach((item) => {
       let tmpItem;
       if (item.match(/date/gmi)) {
