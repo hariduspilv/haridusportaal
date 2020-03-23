@@ -58,7 +58,7 @@
 						</formItem>
 					</div> -->
 					<div class="col-4 sm-12" [class.disabled]="isLanguageDisabled">
-						<formItem type="multi-select" title="{{ 'school.language' | translate }}" name="language" [(ngModel)]="selectedLanguage" [options]="languageFilters"  sortOptions="true">
+						<formItem type="multi-select" [disabled]="isLanguageDisabled" title="{{ 'school.language' | translate }}" name="language" [(ngModel)]="selectedLanguage" [options]="languageFilters"  sortOptions="true">
 						</formItem>
 					</div>
 
