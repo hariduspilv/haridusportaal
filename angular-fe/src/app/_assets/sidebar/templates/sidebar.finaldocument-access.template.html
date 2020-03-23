@@ -58,8 +58,10 @@
 				{{(accessAction === 'add') ? ('finaldocuments.add_access' | translate) : ('finaldocuments.modify_access' | translate)}}
 			</h2>
 			<p class="required-info">Tärniga (*) tähistatud väljad on kohustuslikud.<p>
-			<p>{{'finaldocuments.choose_access_type' | translate}}:</p>
-			<formItem type="radio" formControlName="type" [options]="addAccessOptions.type" name="type"></formItem>
+			<ng-container *ngIf="accessAction === 'add'">
+				<p>{{'finaldocuments.choose_access_type' | translate}}:</p>
+				<formItem type="radio" formControlName="type" [options]="addAccessOptions.type" name="type"></formItem>
+			</ng-container>
 			<div class="border-top" *ngIf="addAccessForm.value.type">
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
 					<h3>{{'finaldocuments.access_with_email' | translate}}</h3>
