@@ -1073,16 +1073,8 @@ public class MtsysWorker extends Worker {
         }
         if (!jsonNodeRequest.get("educationalInstitution").get("address").get("address")
             .asText("").equals("")) {
-          if (jsonNodeRequest.get("educationalInstitution").get("address").get("apartment") != null
-              && !jsonNodeRequest.get("educationalInstitution").get("address").get("apartment")
-              .asText("").equals("")) {
-            aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution").get("address")
-                .get("address").asText() + "-" + jsonNodeRequest.get("educationalInstitution")
-                .get("address").get("apartment").asText());
-          } else {
-            aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution")
-                .get("address").get("address").asText()); //optional
-          }
+          aadress.setAdsAadress(jsonNodeRequest.get("educationalInstitution")
+              .get("address").get("address").asText()); //optional
         }
         if (!jsonNodeRequest.get("educationalInstitution").get("address")
             .get("addressHumanReadable").asText("").equals("")) {
@@ -1589,13 +1581,7 @@ public class MtsysWorker extends Worker {
           aadress.setAsula(item.get("settlementUnit").asText());
         }
         if (!item.get("address").asText("").equals("")) {
-          if (item.get("apartment") != null
-              && !item.get("apartment").asText("").equals("")) {
-            aadress
-                .setAdsAadress(item.get("address").asText() + "-" + item.get("apartment").asText());
-          } else {
-            aadress.setAdsAadress(item.get("address").asText());
-          }
+          aadress.setAdsAadress(item.get("address").asText());
         }
         if (!item.get("addressFull").asText("").equals("")) {
           aadress.setTaisAadress(item.get("addressFull").asText());
