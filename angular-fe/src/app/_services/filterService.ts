@@ -78,7 +78,7 @@ export class FiltersService {
 
       if (i.match('date')) {
         this.filterFormItems[i] = _moment(params[i], 'DD-MM-YYYY');
-      } else if (i === 'tags' || i === 'types' ) {
+      } else if (i === 'tags' || i === 'types') {
         // skip it and leave it to tags code to retrieve it
       } else {
         this.filterFormItems[i] = params[i];

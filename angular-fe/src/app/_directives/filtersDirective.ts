@@ -1,16 +1,13 @@
 import {
-  Directive,
-  OnInit,
-  ElementRef,
-  ContentChildren,
-  QueryList,
   AfterViewInit,
+  ContentChildren,
+  Directive,
+  ElementRef,
   OnDestroy,
-  Injectable,
-  Input,
+  QueryList,
 } from '@angular/core';
 import { FormItemComponent } from '@app/_assets/formItem';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 
@@ -18,17 +15,19 @@ import { QueryParamsService } from '@app/_services/QueryParams.service';
   selector: '[filters]',
 })
 
-export class FiltersDirective implements AfterViewInit, OnDestroy{
+export class FiltersDirective implements AfterViewInit, OnDestroy {
 
   @ContentChildren(FormItemComponent) formItems: QueryList<FormItemComponent>;
 
   private paramsWatcher: Subscription = new Subscription();
+
   constructor(
     private el: ElementRef,
     private router: Router,
     private route: ActivatedRoute,
     private filters: QueryParamsService,
-  ) {}
+  ) {
+  }
 
   bindEvents(): void {
     this.el.nativeElement.addEventListener('submit', (e) => {

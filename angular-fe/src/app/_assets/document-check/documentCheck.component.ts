@@ -62,7 +62,7 @@ export class DocumentCheckComponent {
       );
       window.setTimeout(() => {
         this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }, 1000);
+      },                1000);
       return;
     }
     if (!this.model.controls.document_id.value) {
@@ -73,7 +73,7 @@ export class DocumentCheckComponent {
       );
       window.setTimeout(() => {
         this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }, 1000);
+      },                1000);
       return;
     }
     if (this.model.controls.id_code.invalid) {
@@ -84,7 +84,7 @@ export class DocumentCheckComponent {
       );
       window.setTimeout(() => {
         this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }, 1000);
+      },                1000);
       return;
     }
     this.loading = true;
@@ -140,7 +140,7 @@ export class DocumentCheckComponent {
             this.scrollTarget.nativeElement.scrollIntoView({
               behavior: 'smooth',
             });
-          }, 1000);
+          },                1000);
         },
         (error) => {
           this.alertsService.error(
@@ -153,7 +153,7 @@ export class DocumentCheckComponent {
             this.scrollTarget.nativeElement.scrollIntoView({
               behavior: 'smooth',
             });
-          }, 1000);
+          },                1000);
         },
       );
   }

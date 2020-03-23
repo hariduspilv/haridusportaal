@@ -45,7 +45,6 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
   ];
   @ViewChildren('certificate') public certificate: QueryList<any>;
 
-
   public loading = true;
 
   constructor(
@@ -74,9 +73,9 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
     const id = this.route.snapshot.params.id;
     this.http
       .get(`${this.settings.ehisUrl}/certificates/v1/certificate/${id}`).subscribe((val: any) => {
-      this.path = [...this.path, { title: val.index.typeName, link: '' }];
-      this.getLatestDocuments(val.index.documents);
-    });
+        this.path = [...this.path, { title: val.index.typeName, link: '' }];
+        this.getLatestDocuments(val.index.documents);
+      });
   }
 
   private getLatestDocuments(documentsArray) {
