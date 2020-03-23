@@ -169,6 +169,7 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 						$identifier = $account->id() . '-' . $request->getClientIP();
 					}
 						$uid = $this->userAuth->authenticate($username, $password);
+					dump($uid);
 						if ($uid) {
 							$this->flood->clear('json_authentication_provider.failed_login_user', $identifier);
 							return $this->entityManager->getStorage('user')->load($uid);
