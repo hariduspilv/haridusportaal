@@ -46,6 +46,9 @@ class UserAuth implements UserAuthInterface {
   public function authenticate($username, $password) {
     $uid = FALSE;
 
+    dump($username);
+    dump($password);
+
     if (!empty($username) && strlen($password) > 0) {
       $account_search = $this->entityManager->getStorage('user')->loadByProperties(['name' => $username]);
 
