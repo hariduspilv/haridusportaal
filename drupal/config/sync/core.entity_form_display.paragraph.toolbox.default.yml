@@ -1,0 +1,74 @@
+uuid: bd4111a6-210d-4313-a621-3268e263d6a0
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.toolbox.field_content
+    - field.field.paragraph.toolbox.field_internal_link
+    - field.field.paragraph.toolbox.field_link_name
+    - field.field.paragraph.toolbox.field_title
+    - field.field.paragraph.toolbox.field_toolbox_image
+    - paragraphs.paragraphs_type.toolbox
+  module:
+    - file
+    - maxlength
+id: paragraph.toolbox.default
+targetEntityType: paragraph
+bundle: toolbox
+mode: default
+content:
+  field_content:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_internal_link:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_link_name:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_toolbox_image:
+    weight: 4
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+hidden:
+  created: true
+  status: true
