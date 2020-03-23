@@ -168,6 +168,8 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 					} else {
 						$identifier = $account->id() . '-' . $request->getClientIP();
 					}
+					dump($username);
+					dump($password);
 						$uid = $this->userAuth->authenticate($username, $password);
 					dump($uid);
 						if ($uid) {
