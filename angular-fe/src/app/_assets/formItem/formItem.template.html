@@ -108,7 +108,7 @@
           (focus)="update('focus')"
           (blur)="update('blur')"
           multiple
-          [attr.disabled]="disabled"
+          [disabled]="disabled"
           [(ngModel)]="field">
           <ng-container *ngIf="sortOptions">
             <option *ngFor="let item of options | orderBy: 'key'" [value]="item.value">{{ item.key }}</option>
