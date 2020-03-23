@@ -1,0 +1,16 @@
+uuid: 5cb03083-6d22-4c2c-9496-2cee2e4a481c
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.teaching_home_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.teaching_home_page
+target_entity_type_id: node
+target_bundle: teaching_home_page
+default_langcode: site_default
+language_alterable: true

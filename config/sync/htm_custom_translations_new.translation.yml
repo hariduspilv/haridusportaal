@@ -1261,6 +1261,10 @@ event:
     translation_type: textarea
     et: 'Sarnased sündmused puuduvad'
     en: 'Sarnased sündmused puuduvad'
+  email:
+    translation_type: textarea
+    et: E-mail
+    en: Email
 school:
   label:
     translation_type: textarea
@@ -2134,6 +2138,10 @@ button:
     translation_type: textarea
     et: 'Logi uuesti sisse'
     en: 'Login again'
+  save_changes:
+    translation_type: textarea
+    et: 'Salvesta muudatused'
+    en: 'Salvesta muudatused'
 tooltip:
   share:
     translation_type: textarea
@@ -3463,6 +3471,10 @@ link:
     translation_type: textarea
     et: 'Dokumendi link'
     en: 'Link to a document'
+  internal:
+    translation_type: textarea
+    et: 'Sisemine link'
+    en: 'Internal link'
 certificates:
   institution_name:
     translation_type: textarea
@@ -3567,6 +3579,14 @@ certificates:
   manage_certificates:
     translation_type: textarea
     et: 'Vaata enda tunnistusi'
+    en: MISSING
+  access_code_info:
+    translation_type: textarea
+    et: 'Sisestatud e-posti aadressile saadetakse ligipääsukood, mis võimaldab tunnsitust näha'
+    en: MISSING
+  id_code_info:
+    translation_type: textarea
+    et: 'Sisesta selle inimese isikukood, kellele soovid ligipääsu jagada'
     en: MISSING
 home:
   slogan:
@@ -3717,12 +3737,12 @@ finaldocuments:
     en: 'Lisa ligipääs'
   choose_access_end_date:
     translation_type: textarea
-    et: 'Vali ligipääsukoodi kehtivuse lõpp: *'
-    en: 'Vali ligipääsukoodi kehtivuse lõpp: *'
+    et: 'Vali ligipääsu kehtivuse lõpp: *'
+    en: 'Vali ligipääsu kehtivuse lõpp: *'
   choose_access_scope:
     translation_type: textarea
-    et: 'Vali ligipääsukoodi kehtivuse ulatus: *'
-    en: 'Vali ligipääsukoodi kehtivuse ulatus: *'
+    et: 'Vali ligipääsu kehtivuse ulatus:'
+    en: 'Vali ligipääsu kehtivuse ulatus:'
   insert_id_code:
     translation_type: textarea
     et: 'Sisesta isikukood: *'
@@ -3854,12 +3874,12 @@ finaldocuments:
     en: 'Tunnistuse väljastanud õppeasutus:'
   idcode_scope:
     translation_type: textarea
-    et: 'Isikukoodi kehtivuse ulatus:'
-    en: 'Isikukoodi kehtivuse ulatus:'
+    et: 'Ligipääsu kehtivuse ulatus:'
+    en: 'Ligipääsu kehtivuse ulatus:'
   idcode_end_date:
     translation_type: textarea
-    et: 'Isikukoodi kehtivuse lõpp:'
-    en: 'Isikukoodi kehtivuse lõpp:'
+    et: 'Ligipääsu kehtivuse lõpp:'
+    en: 'Ligipääsu kehtivuse lõpp:'
   main_document:
     translation_type: textarea
     et: Lõputunnistus
@@ -3898,3 +3918,8 @@ form:
     translation_type: textarea
     et: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
     en: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
+wcag:
+  suggestions_opened:
+    translation_type: textarea
+    et: 'Avati nimekiri soovitustest.'
+    en: 'A list of suggestions was opened.'
