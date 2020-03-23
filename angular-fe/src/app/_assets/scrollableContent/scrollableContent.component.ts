@@ -3,9 +3,9 @@ import { fromEvent, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Component({
-  selector: "scrollableContent",
-  templateUrl: "scrollableContent.template.html",
-  styleUrls: ["./scrollableContent.styles.scss"]
+  selector: 'scrollableContent',
+  templateUrl: 'scrollableContent.template.html',
+  styleUrls: ['./scrollableContent.styles.scss'],
 })
 
 export class ScrollableContentComponent implements OnInit, OnChanges, OnDestroy {

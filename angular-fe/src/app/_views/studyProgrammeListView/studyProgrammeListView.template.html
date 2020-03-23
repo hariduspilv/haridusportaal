@@ -87,12 +87,12 @@
 					</div>
 
 					<div class="hidden">
-						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
+						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField" [excludeFromSearch]="true"
 							[(ngModel)]="sortField">
 						</formItem>
 					</div>
 					<div class="hidden">
-						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection" [(ngModel)]="sortDirection">
+						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection" [(ngModel)]="sortDirection" [excludeFromSearch]="true">
 						</formItem>
 					</div>
 

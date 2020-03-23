@@ -3,6 +3,10 @@
     [ngbTooltip]="tipContent"
     [placement]="placement"
     class="button--tooltip"
+    [class.tooltip-visible]="visible"
+    triggers="click"
+    (shown)="toggleVisibility(true)"
+    (hidden)="toggleVisibility(false)"
   >{{tooltipSymbol[type]}}</button>
   
   <ng-template #tipContent><ng-content></ng-content></ng-template>

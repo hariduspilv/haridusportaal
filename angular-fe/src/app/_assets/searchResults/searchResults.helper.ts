@@ -209,12 +209,14 @@ export const multiSelectFields = {
     'type',
     'language',
     'ownership',
+    'language',
   ],
   studyprogramme: [
     'level',
     'iscedf_broad',
     'iscedf_narrow',
     'iscedf_detailed',
+    'language',
   ],
   news: [
     'tagValue',
@@ -223,5 +225,6 @@ export const multiSelectFields = {
     'fillingBarValues',
     'oskaFieldValue',
     'fixedLabelValue',
+    'language',
   ],
 };

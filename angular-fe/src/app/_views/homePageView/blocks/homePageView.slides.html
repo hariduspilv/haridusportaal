@@ -2,7 +2,7 @@
 <div class="inner">
   
   <div class="slides" id="scrollTo-teenused" *ngIf="data.length">
-    <h2 class="slides__title"  [attr.aria-label]="'home.services_title' | translate">{{ 'home.services_title' | translate }}</h2>
+    <h2 class="slides__title"  [attr.aria-label]="'home.services_title' | translate" tabindex="-1">{{ 'home.services_title' | translate }}</h2>
     <div class="slides__container">
       <div class="slides__wrapper">
 
@@ -14,8 +14,8 @@
               </div><!--/slides__elem__image-->
               <div class="slides__elem__body">
                 <h3 class="slides__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
-                <p class="slides__elem__text" >{{ item.content }}</p>
-                <button class="slides__elem__link"  [routerLink]="item.link.url.path">{{ item.link.title }}</button>
+                <p class="slides__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content }}</p>
+                <button class="slides__elem__link"  [routerLink]="item.link.url.path" [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</button>
               </div><!--/slides__elem__body-->
             </div><!--/slides__elem-->
           </div><!--/slides__instance-->
