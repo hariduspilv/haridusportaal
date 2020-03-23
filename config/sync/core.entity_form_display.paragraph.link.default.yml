@@ -8,6 +8,7 @@ dependencies:
     - paragraphs.paragraphs_type.link
   module:
     - link
+    - maxlength
 id: paragraph.link.default
 targetEntityType: paragraph
 bundle: link
@@ -18,7 +19,10 @@ content:
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
     type: string_textfield
     region: content
   field_webpage_link:

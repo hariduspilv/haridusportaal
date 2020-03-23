@@ -1,0 +1,19 @@
+uuid: c5185598-3c40-44d9-9806-4397caf76dc7
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_quote_author_occupation
+    - node.type.teaching_home_page
+id: node.teaching_home_page.field_quote_author_occupation
+field_name: field_quote_author_occupation
+entity_type: node
+bundle: teaching_home_page
+label: 'Tsitaadi autori ametikoht'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,19 @@
+uuid: feccc8c4-490f-49e2-a051-323b69e32a1e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_link_name
+    - paragraphs.paragraphs_type.toolbox
+id: paragraph.toolbox.field_link_name
+field_name: field_link_name
+entity_type: paragraph
+bundle: toolbox
+label: 'Lingi nimetus'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
