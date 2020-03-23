@@ -79,7 +79,7 @@
 					<h3>{{'finaldocuments.access_with_idcode' | translate}}</h3>
 					<p>{{'finaldocuments.insert_id_code' | translate}}</p>
 
-					<formItem 
+					<formItem
 						*ngIf="accessAction === 'add'"
 						[error]="
 							addAccessForm.errors?.idCodeMissing ||
@@ -209,7 +209,7 @@
 	</form>
 	<div class="button-row">
 		<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
-			{{'generic.cancel' | translate}}
+			{{'button.close' | translate}}
 		</button>
 		<button htm-button (click)="changeAccess(openedAccess)">
 			{{'button.edit_data' | translate}}
