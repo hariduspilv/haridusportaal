@@ -186,10 +186,10 @@
 	<form [formGroup]="addAccessForm">
 		<p>{{'finaldocuments.accessCode_recipient' | translate}}:</p>
 		<formItem formControlName="emailAddress" [disabled]="true" placeholder="E-posti aadress" type="text"></formItem>
-		<p>{{'finaldocuments.select_scope' | translate}}:</p>
+		<p>{{'finaldocuments.idcode_scope' | translate}}:</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
-		<p>{{'finaldocuments.select_end_date' | translate}}:</p>
+		<p>{{'finaldocuments.idcode_end_date' | translate}}:</p>
 		<div class="split">
 			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true"
 				placeholder="pp.kk.aaaa"></formItem>
