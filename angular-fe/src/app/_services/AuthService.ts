@@ -43,9 +43,9 @@ export class AuthService implements CanActivate {
       .post(`${this.settings.url}/api/v1/token?_format=json`, data)
       .pipe(map((response:any) => {
         if (response['token']) {
-          this.setPlumbrId(response['token']);
           sessionStorage.setItem('token', response['token']);
           this.userData = this.decodeToken(response.token);
+          this.setPlumbrId();
           this.testNewJWT(response['token']);
         } else {
           sessionStorage.removeItem('token');
@@ -56,9 +56,9 @@ export class AuthService implements CanActivate {
       }));
   }
 
-  private setPlumbrId(id: string) {
+  private setPlumbrId() {
     if (this.plumbr) {
-      this.plumbr.setUserId(id);
+      this.plumbr.setUserId(this.userData.drupal.uid);
     }
   }
 
@@ -70,7 +70,6 @@ export class AuthService implements CanActivate {
     .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, data).subscribe(
       (response: any) => {
         if (response.jwt) {
-          this.setPlumbrId(response.jwt);
           sessionStorage.setItem('ehisToken', response.jwt);
           this.hasEhisToken.next(true);
           this.isAuthenticated.next(true);
