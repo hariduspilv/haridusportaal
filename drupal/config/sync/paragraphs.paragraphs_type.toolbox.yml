@@ -1,9 +1,9 @@
-uuid: 25e6393b-d8b9-42d7-b462-b7e1a3213080
+uuid: e12e0b75-b936-4d7e-a47e-80076ba93611
 langcode: et
 status: true
 dependencies: {  }
-id: career_contact
-label: Kontakt
+id: toolbox
+label: Tööriistakast
 icon_uuid: null
 icon_default: null
 description: ''

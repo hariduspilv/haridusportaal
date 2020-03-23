@@ -1,9 +1,9 @@
-uuid: 25e6393b-d8b9-42d7-b462-b7e1a3213080
+uuid: 5ba61af5-4009-429a-8f14-895e633bf521
 langcode: et
 status: true
 dependencies: {  }
-id: career_contact
-label: Kontakt
+id: teaching_themes
+label: 'Õpetamise teemad'
 icon_uuid: null
 icon_default: null
 description: ''
