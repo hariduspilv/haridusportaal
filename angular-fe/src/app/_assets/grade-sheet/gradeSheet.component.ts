@@ -17,12 +17,17 @@ export class GradeSheetComponent{
 
   public ngOnInit() {
 
-    if (this.document.content.studies.curriculumName ===
+    if (this.document.content.studies.curriculumCode === '1010109'
+    || this.document.content.studies.curriculumCode === '1010107') {
+      this.toimetulekuOpe = true;
+    }
+
+    /*if (this.document.content.studies.curriculumName ===
       'põhikooli lihtsustatud riiklik õppekava toimetulekuõpe'
     || this.document.content.studies.curriculumName ===
     'põhikooli lihtsustatud riiklik õppekava hooldusõpe') {
       this.toimetulekuOpe = true;
-    }
+    }*/
 
     this.mandatorySubjects =
       this.document.content.studySubjects.filter((subject) => {

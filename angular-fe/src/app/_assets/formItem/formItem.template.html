@@ -80,7 +80,7 @@
         [disabled]="disabled"
         [(ngModel)]="dateField" />
       <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [disabled]="disabled">
-        <icon glyph="calendar"></icon>
+        <icon glyph="calendar" aria-label="kuupäev"></icon>
       </button>
     </ng-container>
 
@@ -108,7 +108,7 @@
           (focus)="update('focus')"
           (blur)="update('blur')"
           multiple
-          [attr.disabled]="disabled"
+          [disabled]="disabled"
           [(ngModel)]="field">
           <ng-container *ngIf="sortOptions">
             <option *ngFor="let item of options | orderBy: 'key'" [value]="item.value">{{ item.key }}</option>
@@ -222,7 +222,7 @@
             <div class="formItem__radio__indicator"></div>
           </div><!--/formItem__check__wrapper-->
           <div class="formItem__radio__title"  [class.selected]="item.value === field">
-            {{ item.key }}
+            {{ item.key }} <tooltip *ngIf="item.info">{{ item.info }}</tooltip>
           </div><!--/formItem__check__title-->
         </label><!--/formItem__check-->
       </ng-container>

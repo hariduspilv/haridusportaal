@@ -88,8 +88,11 @@ export class AddressService {
     if (address.adsId) return address;
 
     let addressHumanReadable = address.addressHumanReadable || address.pikkaadress;
+    let aadresstekst = address.aadresstekst || '';
+
     if (address.kort_nr && address.adr_id) {
       addressHumanReadable = `${addressHumanReadable}-${address.kort_nr}`;
+      aadresstekst = `${address.aadresstekst}-${address.kort_nr}`;
     }
 
     const output = {
@@ -106,7 +109,7 @@ export class AddressService {
       localGovernmentEHAK: address.ehakov || '',
       settlementUnit: address.asustusyksus || '',
       settlementUnitEHAK: address.ehak || '',
-      address: addressHumanReadable || address.aadresstekst || '',
+      address: aadresstekst,
       apartment: address.kort_nr || '',
     };
 

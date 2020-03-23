@@ -19,17 +19,16 @@ body {
 }
 
 *{box-sizing: border-box;}
-
+a{color: #2e3374;
+	&:hover{text-decoration: none;}
+}
 .device-desktop{
-	a{color: #2e3374;
+	a{
 		&:hover{text-decoration: none;}
 	}
 }
-.device-mobile {
-	a{
-		color: #2e3374;
-	}
-}
+
+.device-mobile {}
 
 .corner-logo {
   z-index: 10;

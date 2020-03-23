@@ -16,6 +16,7 @@ import { NumbersOnly } from './numbersOnly.pipe';
 import { UrlDecodePipe } from './urlDecode.pipe';
 import { ParseInAddsPipe } from './parseInAdds.pipe';
 import { CapitalizePipe } from './capitalize.pipe';
+import { IdCodePipe } from './idCode.pipe';
 ​
 const pipes = [
   EllipsisPipe,
@@ -41,6 +42,7 @@ const pipes = [
   UrlDecodePipe,
   ParseInAddsPipe,
   CapitalizePipe,
+  IdCodePipe,
 ];
 ​
 @NgModule({

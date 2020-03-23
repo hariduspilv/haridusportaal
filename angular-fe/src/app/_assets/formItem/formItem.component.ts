@@ -76,6 +76,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() public maxDate: NgbDateStruct = { year: 2035, month: 12, day: 31 };
   @Input() public domID = '';
   @Input() public ariaLabel = '';
+  @Input() public excludeFromSearch: boolean = false;
 
   // not going to break anything
   @Input() public forcePlaceholder = false;
@@ -121,10 +122,10 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   @Input() public keyDownFn = (...args) => {
-  };
+  }
 
   public propagateChange = (_: any) => {
-  };
+  }
 
   public animateRipple($event) {
     this.ripple.animate($event, 'dark');
@@ -280,7 +281,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   public detectChanges() {
-    if (!this.cdr[`destroyed`]) {
+    if (!this.cdr['destroyed']) {
       this.cdr.detectChanges();
     }
   }

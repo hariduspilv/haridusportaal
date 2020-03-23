@@ -2,12 +2,12 @@
   <div ripple="light" class="arrow arrow--left" [class.scrolling]="scrollDirection == -1" [hidden]="!isScrollable" [class.disabled]="!canScrollLeft" (click)="scroll(-1)">
     <icon glyph="chevron-left"></icon>
   </div><!--/arrow arrow--left-->
+  <div class="arrow arrow--right" ripple="light" [class.scrolling]="scrollDirection == 1"  [hidden]="!isScrollable" [class.disabled]="!canScrollRight" (click)="scroll(1)">
+    <icon glyph="chevron-right"></icon>
+  </div>
   <div class="scrollable__scroller" (scroll)="checkArrows()">
     <div class="scrollable__inline">
       <ng-content></ng-content>
     </div><!--/scrollable__inline-->
   </div><!--/scrollable__scroller-->
-  <div class="arrow arrow--right" ripple="light" [class.scrolling]="scrollDirection == 1"  [hidden]="!isScrollable" [class.disabled]="!canScrollRight" (click)="scroll(1)">
-    <icon glyph="chevron-right"></icon>
-  </div>
 </div><!--/scrollable-wrapper-->

@@ -62,7 +62,7 @@ export class DocumentCheckComponent {
       );
       window.setTimeout(() => {
         this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }, 1000);
+      },                1000);
       return;
     }
     if (!this.model.controls.document_id.value) {
@@ -73,7 +73,7 @@ export class DocumentCheckComponent {
       );
       window.setTimeout(() => {
         this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }, 1000);
+      },                1000);
       return;
     }
     if (this.model.controls.id_code.invalid) {
@@ -84,7 +84,7 @@ export class DocumentCheckComponent {
       );
       window.setTimeout(() => {
         this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      }, 1000);
+      },                1000);
       return;
     }
     this.loading = true;
@@ -111,13 +111,14 @@ export class DocumentCheckComponent {
               .replace(
                 '%LIIK%',
                 res.body.lopudokumendid.lopudokument[0].onHinneteleht === '1'
-                  ? res.body.lopudokumendid.lopudokument[0].hinneteleheNimetus
+                  ? res.body.lopudokumendid.lopudokument[0]
+                    .hinneteleheNimetus.replace(/&apos;/g, "'")
                   : res.body.lopudokumendid.lopudokument[0]
-                      .pohiDokumendiLiigiNimetus,
+                      .pohiDokumendiLiigiNimetus.replace(/&apos;/g, "'"),
               )
               .replace(
                 '%VASTAVUS%',
-                res.body.lopudokumendid.lopudokument[0].vastavuseNimetus,
+                res.body.lopudokumendid.lopudokument[0].vastavuseNimetus.replace(/&apos;/g, "'"),
               );
             this.alertsService.success(string, 'documentCheck', false);
           }
@@ -139,7 +140,7 @@ export class DocumentCheckComponent {
             this.scrollTarget.nativeElement.scrollIntoView({
               behavior: 'smooth',
             });
-          }, 1000);
+          },                1000);
         },
         (error) => {
           this.alertsService.error(
@@ -152,7 +153,7 @@ export class DocumentCheckComponent {
             this.scrollTarget.nativeElement.scrollIntoView({
               behavior: 'smooth',
             });
-          }, 1000);
+          },                1000);
         },
       );
   }
