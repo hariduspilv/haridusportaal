@@ -45,7 +45,6 @@ export class AuthService implements CanActivate {
         if (response['token']) {
           sessionStorage.setItem('token', response['token']);
           this.userData = this.decodeToken(response.token);
-          this.setPlumbrId();
           this.testNewJWT(response['token']);
         } else {
           sessionStorage.removeItem('token');
@@ -57,13 +56,7 @@ export class AuthService implements CanActivate {
   }
 
   private setPlumbrId() {
-    console.log('plumbr');
-    console.log(this.plumbr);
     if (this.plumbr) {
-      console.log(this.userData);
-      console.log(this.userData.drupal);
-      console.log(this.userData.drupal.uid);
-      console.log(this.plumbr.setUserId(this.userData.drupal.uid));
       this.plumbr.setUserId(this.userData.drupal.uid);
     }
   }
@@ -141,6 +134,7 @@ export class AuthService implements CanActivate {
       this.hasEhisToken.next(true);
     }
     this.userData = this.decodeToken(token);
+    this.setPlumbrId();
     /*if (!this.isAuthenticated.getValue()) {
       this.isAuthenticated.next(true);
     }*/
