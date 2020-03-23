@@ -50,7 +50,10 @@ class UserAuth implements UserAuthInterface {
       $account_search = $this->entityManager->getStorage('user')->loadByProperties(['name' => $username]);
 
       if ($account = reset($account_search)) {
+        dump($password);
+        dump($account->getPassword());
         if ($this->passwordChecker->check($password, $account->getPassword())) {
+          dump($account);
           // Successful authentication.
           $uid = $account->id();
 
