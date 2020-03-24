@@ -17,8 +17,8 @@ export class GradeSheetComponent{
 
   public ngOnInit() {
 
-    if (this.document.content.studies.curriculumCode === '1010109'
-    || this.document.content.studies.curriculumCode === '1010107') {
+    if (this.document.content.studies.curriculumCode === 'OPPEKAVA:1010109'
+    || this.document.content.studies.curriculumCode === 'OPPEKAVA:1010107') {
       this.toimetulekuOpe = true;
     }
 
