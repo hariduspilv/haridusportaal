@@ -1,109 +1,119 @@
 @import "typography.scss";
 
 :host {
-	color: $white;
-	border-radius: 99px;
-	appearance: none;
-	border: none;
-	font-size: 1rem;
-	line-height: 100%;
-	padding: 0.75rem 2.5rem;
-	cursor: pointer;
-	transition: color 0.25s, background 0.25s;
-	position: relative;
-	overflow: hidden;
-	box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
-	font-family: Rubik, sans-serif;
+  color: $white;
+  border-radius: 99px;
+  appearance: none;
+  border: none;
+  font-size: 1rem;
+  line-height: 100%;
+  padding: 0.75rem 2.5rem;
+  cursor: pointer;
+  transition: color 0.25s, background 0.25s;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, .2), 0 2px 2px 0 rgba(0, 0, 0, .14), 0 1px 5px 0 rgba(0, 0, 0, .12);
+  font-family: Rubik, sans-serif;
 
-	&.button--default {
-		text-decoration: none !important;
-		&:visited {
-			color: $white !important;
-			text-decoration: none !important;
-		}
-		background: $blue;
-		&:hover {
-			background: lighten($blue, 10);
-		}
-	}
+  &.button--default {
+    text-decoration: none !important;
 
-	
-	&.button--plain {
-		background: none;
-		color: $blue;
-		text-decoration: underline;
-		box-shadow: none;
-		&:hover {
-			background: darken($white, 5);
-			text-decoration: none;
-		}
-		&-link {
-			padding: 0;
-			border-radius: 0;
-		}
-	}
+    &:visited {
+      color: $white !important;
+      text-decoration: none !important;
+    }
 
-	&.button--link {
-		background: none;
-		color: $blue;
-		text-decoration: underline;
-		box-shadow: none;
-		padding: 0;
-		border-radius: 0;
-		&:hover {
-			text-decoration: none;
-		}
-	}
-	&.button--logout {
-		background: none;
-		color: $black;
-		box-shadow: none;
-		padding: 1rem 1.5rem;
-		border-radius: 0;
-		text-decoration: none;
-		font-size: 0.875rem;
-		&:hover {
-			background: $light-gray;
-		}
-	}
+    background: $blue;
 
-	&.button--icon {
-		padding: 0;
-		background: none;
-		border-radius: 0;
-		color: $blue;
-		text-decoration: none;
-		box-shadow: none;
-	}
+    &:hover, &:focus {
+      background: lighten($blue, 10);
+    }
+  }
 
-	&.button--inverted {
-		background: $white;
-		color: $black;
-		&:hover {
-			background: $aqua;
-		}
-	}
+  &.button--plain {
+    background: none;
+    color: $blue;
+    text-decoration: underline;
+    box-shadow: none;
 
-	&.button--outline {
-		background: $white;
-		color: $blue;
-		border:1px solid $blue;
-		width: 100%;
-		box-shadow: none;
-		&:hover {
-			background: $light-gray;
-		}
-	}
-	&.button--outline-dark {
-		background: transparent;
-		border: 1px solid $white;
-		color: $white;
-	}
-	
+    &:hover, &:focus {
+      background: darken($white, 5);
+      text-decoration: none;
+    }
 
-	.button--label {
-		position: relative;
-		z-index: 2;
-		pointer-events: none;
-	}
+    &-link {
+      padding: 0;
+      border-radius: 0;
+    }
+  }
+
+  &.button--link {
+    background: none;
+    color: $blue;
+    text-decoration: underline;
+    box-shadow: none;
+    padding: 0;
+    border-radius: 0;
+
+    &:hover, &:focus {
+      text-decoration: none;
+    }
+  }
+
+  &.button--logout {
+    background: none;
+    color: $black;
+    box-shadow: none;
+    padding: 1rem 1.5rem;
+    border-radius: 0;
+    text-decoration: none;
+    font-size: 0.875rem;
+
+    &:hover, &:focus {
+      background: $light-gray;
+    }
+  }
+
+  &.button--icon {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+    color: $blue;
+    text-decoration: none;
+    box-shadow: none;
+  }
+
+  &.button--inverted {
+    background: $white;
+    color: $black;
+
+    &:hover, &:focus {
+      background: $aqua;
+    }
+  }
+
+  &.button--outline {
+    background: $white;
+    color: $blue;
+    border: 1px solid $blue;
+    width: 100%;
+    box-shadow: none;
+
+    &:hover, &:focus {
+      background: $light-gray;
+    }
+  }
+
+  &.button--outline-dark {
+    background: transparent;
+    border: 1px solid $white;
+    color: $white;
+  }
+
+
+  .button--label {
+    position: relative;
+    z-index: 2;
+    pointer-events: none;
+  }
 }

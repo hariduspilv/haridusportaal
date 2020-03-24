@@ -1,5 +1,5 @@
 <ng-container *ngIf="status == 'vote'">
-  <p attr.aria-label="{{ 'feedback_heading' | translate }}">
+  <p role=contentinfo>
     <b>{{ 'feedback_heading' | translate }}</b></p>
   <div class="options">
     <button (click)="vote(true)" attr.aria-label="{{ 'feedback_yes' | translate }}">

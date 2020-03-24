@@ -6,13 +6,13 @@
 	</ng-container>
 	<ng-container *ngIf="!loading && searched && !data.length">
 		<ul>
-			<li role="alert">{{ 'autocomplete.no_result' | translate }}</li>
+			<li>{{ 'autocomplete.no_result' | translate }}</li>
 		</ul>
 	</ng-container>
 	<ng-container *ngIf="!loading && data.length">
-		<ul class="autocomplete__results">
+		<ul class="autocomplete__results" role="list">
 			<ng-container *ngFor="let item of data; let i = index;">
-				<li (click)="onClick(item)" (keypress.enter)="onClick(item)"
+				<li role="listitem" [attr.aria-label]="activeItem" (click)="onClick(item)" (keypress.enter)="onClick(item)"
 						[class.autocomplete__active]="i == activeItem">
 					{{ item | parseInAdds }}
 				</li>

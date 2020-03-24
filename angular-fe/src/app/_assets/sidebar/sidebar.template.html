@@ -3,7 +3,7 @@
     <ng-container *ngIf="keyVal !== 'fieldBlocks'">
       <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
         <block-title *ngIf="!titleLess[collection[keyVal]]" [ngClass]="'type-'+[collection[keyVal]]">
-          <ng-container>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</ng-container>
+          <h1>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</h1>
           <div *ngIf="keyVal === 'notifications' && mappedData.notifications.unread > 0" class="unreadMessages">
             {{mappedData.notifications.unread}}
           </div>

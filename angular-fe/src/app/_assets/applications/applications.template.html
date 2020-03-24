@@ -754,6 +754,7 @@
 							[formControlName]="item.modelName"
 							title="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
 							[options]="formOptions[item.modelName]"
+              ariaLabel="{{ item.title | translate }} {{ item.required ? ' *' : '' }}"
 						></formItem>
 					</div>
 				</ng-container>

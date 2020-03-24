@@ -39,6 +39,7 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
+        [attr.aria-label]="ariaLabel"
         [attr.disabled]="disabled"
         [(ngModel)]="field" />
     </ng-container>
@@ -56,6 +57,7 @@
         (keyup)="triggerOnUpdate()"
 				(keydown)="keyDownFn($event)"
         [attr.disabled]="disabled"
+        [attr.aria-label]="ariaLabel"
         [(ngModel)]="field" />
     </ng-container>
 
@@ -101,7 +103,6 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'multi-select'">
-
       <ng-container *ngIf="isMobile">
         <select
           (change)="update()"
@@ -109,7 +110,8 @@
           (blur)="update('blur')"
           multiple
           [attr.disabled]="disabled"
-          [(ngModel)]="field">
+          [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel">
           <ng-container *ngIf="sortOptions">
             <option *ngFor="let item of options | orderBy: 'key'" [value]="item.value">{{ item.key }}</option>
           </ng-container>
@@ -136,7 +138,8 @@
           [appendTo]="appendTo"
           [disabled]="disabled"
           *ngIf="options"
-          [(ngModel)]="field">
+          [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel">
 
           <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
             <formItem type="checkbox" [label]="item.key" [ngModel]="item$.selected"></formItem>
@@ -153,7 +156,8 @@
           (focus)="update('focus')"
           (blur)="update('blur')"
           [attr.disabled]="disabled"
-          [(ngModel)]="field">
+          [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel">
 
           <ng-container *ngIf="sortOptions">
             <option *ngFor="let item of options | orderBy: 'key'" [value]="item.value">{{ item.key }}</option>
@@ -179,7 +183,8 @@
           [appendTo]="appendTo"
           [disabled]="disabled"
           [placeholder]="placeholder"
-          [(ngModel)]="field">
+          [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel">
         </ng-select>
       </ng-container>
     </ng-container>
@@ -242,7 +247,8 @@
         (blur)="update('blur', autocompleteElem);"
         (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
         (ngModelChange)="field = $event"
-        [ngModel]="field | parseInAdds" />
+        [ngModel]="field | parseInAdds"
+        [attr.aria-label]="ariaLabel"/>
       <autocomplete
         [valueType]="valueType"
         #autocompleteElem
@@ -260,7 +266,8 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         [attr.disabled]="disabled"
-        [(ngModel)]="field">
+        [(ngModel)]="field"
+        [attr.aria-label]="ariaLabel">
         <option value="" *ngIf="placeholder">{{ placeholder }}</option>
         <option value="0">Yki</option>
         <option value="1">Kaki</option>

@@ -1,8 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import conf from '@app/_core/conf';
 import { Subscription } from 'rxjs';
-import { AlertsService, ModalService, SettingsService, AuthService } from '@app/_services';
+import { AlertsService, AuthService, ModalService, SettingsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
@@ -15,8 +14,8 @@ export class FavouriteComponent {
   @Input() id: string;
   @Input() state: boolean;
   @Input() limit: boolean;
-  private subscription: Subscription;
   public closeTime: any = false;
+  private subscription: Subscription;
   private maxCount = 10;
 
   constructor(
@@ -26,7 +25,8 @@ export class FavouriteComponent {
     public modalService: ModalService,
     private settings: SettingsService,
     private auth: AuthService,
-  ) { }
+  ) {
+  }
 
   handleStateChange() {
     if (this.subscription !== undefined) {
@@ -83,7 +83,7 @@ export class FavouriteComponent {
     });
   }
 
-  request({ data, message = '', link, closeable = false, state = false }) {
+  request({ data, message = '', link, closeable = true, state = false }) {
     return this.http.post(`${this.settings.url}/graphql`, data).subscribe((response) => {
       this.alertsService.success(
         message,
@@ -93,7 +93,8 @@ export class FavouriteComponent {
         link,
       );
       this.state = state;
-    }, (err) => { });
+    }, (err) => {
+    });
   }
 
   ngOnDestroy() {

@@ -1,5 +1,5 @@
 <ng-container *ngFor="let alert of alerts">
-  <div @transform [ngClass]="'alert alert--' + alert.type" role="alert" aria-label="alert"> 
+  <div @transform [ngClass]="'alert alert--' + alert.type" role="alert" aria-label="alert">
     <div class="alert__icon">
       <icon glyph="{{alertIcons[alert.type]}}" [size]="small ? 'medium' : 'large'"></icon>
     </div>
