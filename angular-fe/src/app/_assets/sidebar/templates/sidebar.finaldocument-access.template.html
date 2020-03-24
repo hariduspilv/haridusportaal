@@ -69,7 +69,7 @@
 					<formItem
 					[error]="
 					addAccessForm.errors?.emailMissing ||
-					addAccessForm.controls.emailAddress.errors?.email
+					addAccessForm.errors?.email
 				" [errorMessage]="addAccessForm.errors && addAccessForm.errors[(addAccessForm.errors | keyvalue)[0].key] ? errors[(addAccessForm.errors | keyvalue)[0].key]: ''"
 						formControlName="emailAddress"
 						placeholder="E-posti aadress"
