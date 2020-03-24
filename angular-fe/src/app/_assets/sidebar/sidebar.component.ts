@@ -729,8 +729,6 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
 
   public addAccess(): void {
     this.addAccessForm.clearValidators();
-    this.addAccessForm.controls.emailAddress.setValidators([Validators.email]);
-    this.addAccessForm.controls.emailAddress.updateValueAndValidity();
     this.addAccessForm.setValidators(
       [
         this.emailAddressOrIdCodeValidator,
@@ -743,6 +741,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     const form = this.addAccessForm.value;
     const indexId = this.route.snapshot.params.id;
     if (form.accessorCode && form.type === 'ACCESS_TYPE:ID_CODE') {
+      form.accessorCode = form.accessorCode.toString();
       const startsWithLetters =
         !isNaN(form.accessorCode.charAt(0)) && !isNaN(form.accessorCode.charAt(1));
       if (startsWithLetters) {
@@ -897,21 +896,21 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       const accessType = control.get('type');
       if (accessType.value === 'ACCESS_TYPE:ID_CODE') {
         if (!accessorCode.value) {
-        return { idCodeMissing: true };
-      }
+          return { idCodeMissing: true };
+        }
         if (accessorCode.value &&
         !`${accessorCode.value}`.match(/([1-6][0-9]{2}[0,1][0-9][0,1,2,3][0-9][0-9]{4})/g)
       ) {
-        return { idCodeFormat: true };
-      }
+          return { idCodeFormat: true };
+        }
       }
       if (accessType.value === 'ACCESS_TYPE:ACCESS_CODE') {
-        if (emailAddress.errors) {
-        return emailAddress.errors;
-      }
+        if (Validators.email(emailAddress).email) {
+          return Validators.email(emailAddress);
+        }
         if (!emailAddress.value) {
-        return { emailMissing: true };
-      }
+          return { emailMissing: true };
+        }
       }
 
       return {};

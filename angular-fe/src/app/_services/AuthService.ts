@@ -15,6 +15,8 @@ import { map, take } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class AuthService implements CanActivate {
+  plumbr = (<any>window).PLUMBR;
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -51,6 +53,12 @@ export class AuthService implements CanActivate {
         }
         return response;
       }));
+  }
+
+  private setPlumbrId() {
+    if (this.plumbr) {
+      this.plumbr.setUserId(this.userData.drupal.uid);
+    }
   }
 
   public testNewJWT(token) {
@@ -126,6 +134,7 @@ export class AuthService implements CanActivate {
       this.hasEhisToken.next(true);
     }
     this.userData = this.decodeToken(token);
+    this.setPlumbrId();
     /*if (!this.isAuthenticated.getValue()) {
       this.isAuthenticated.next(true);
     }*/

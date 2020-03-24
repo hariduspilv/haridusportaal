@@ -58,8 +58,10 @@
 				{{(accessAction === 'add') ? ('finaldocuments.add_access' | translate) : ('finaldocuments.modify_access' | translate)}}
 			</h2>
 			<p class="required-info">Tärniga (*) tähistatud väljad on kohustuslikud.<p>
-			<p>{{'finaldocuments.choose_access_type' | translate}}:</p>
-			<formItem type="radio" formControlName="type" [options]="addAccessOptions.type" name="type"></formItem>
+			<ng-container *ngIf="accessAction === 'add'">
+				<p>{{'finaldocuments.choose_access_type' | translate}}:</p>
+				<formItem type="radio" formControlName="type" [options]="addAccessOptions.type" name="type"></formItem>
+			</ng-container>
 			<div class="border-top" *ngIf="addAccessForm.value.type">
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
 					<h3>{{'finaldocuments.access_with_email' | translate}}</h3>
@@ -67,7 +69,7 @@
 					<formItem
 					[error]="
 					addAccessForm.errors?.emailMissing ||
-					addAccessForm.controls.emailAddress.errors?.email
+					addAccessForm.errors?.email
 				" [errorMessage]="addAccessForm.errors && addAccessForm.errors[(addAccessForm.errors | keyvalue)[0].key] ? errors[(addAccessForm.errors | keyvalue)[0].key]: ''"
 						formControlName="emailAddress"
 						placeholder="E-posti aadress"
@@ -79,7 +81,7 @@
 					<h3>{{'finaldocuments.access_with_idcode' | translate}}</h3>
 					<p>{{'finaldocuments.insert_id_code' | translate}}</p>
 
-					<formItem 
+					<formItem
 						*ngIf="accessAction === 'add'"
 						[error]="
 							addAccessForm.errors?.idCodeMissing ||
@@ -195,10 +197,10 @@
 	<form [formGroup]="addAccessForm">
 		<p>{{'finaldocuments.accessCode_recipient' | translate}}:</p>
 		<formItem formControlName="emailAddress" [disabled]="true" placeholder="E-posti aadress" type="text"></formItem>
-		<p>{{'finaldocuments.select_scope' | translate}}:</p>
+		<p>{{'finaldocuments.idcode_scope' | translate}}:</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
-		<p>{{'finaldocuments.select_end_date' | translate}}:</p>
+		<p>{{'finaldocuments.idcode_end_date' | translate}}:</p>
 		<div class="split">
 			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true"
 				placeholder="pp.kk.aaaa"></formItem>
@@ -209,7 +211,7 @@
 	</form>
 	<div class="button-row">
 		<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
-			{{'generic.cancel' | translate}}
+			{{'button.close' | translate}}
 		</button>
 		<button htm-button (click)="changeAccess(openedAccess)">
 			{{'button.edit_data' | translate}}
