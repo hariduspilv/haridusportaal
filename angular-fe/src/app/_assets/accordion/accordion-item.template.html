@@ -1,6 +1,6 @@
 <div class="accordion__wrapper" [class.accordion__wrapper--active]="this.styleState">
   <div class="accordion__title" role="button" tabindex="0" [attr.aria-expanded]="active" aria-disabled="false"
-       (keyDown.enter)="openAccordion()" (keyDown.space)="openAccordion()"
+       (keyDown.enter)="openAccordion()" (keyDown.space)="openAccordion($event)"
        (click)="openAccordion()" ripple="light">
     <div [innerHTML]="title"></div>
     <div class="accordion__indicator" [class.accordion__indicator--active]="active">
