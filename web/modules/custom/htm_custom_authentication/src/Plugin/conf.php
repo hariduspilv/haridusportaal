@@ -12,7 +12,7 @@ use Drupal\Core\Site\Settings;
 /**
  * Service name for the MID services in DDS (Will be displayed to users mobile phones screen during signing process)
  */
-define('DDS_MID_SERVICE_NAME', 'MOBILE-ID Haridusportaal');
+define('DDS_MID_SERVICE_NAME', 'MOBILE-ID DEMO');
 
 /**
  * Explanatory message for the MID services in DDS. (Will be displayed to users mobile phones screen during signing
