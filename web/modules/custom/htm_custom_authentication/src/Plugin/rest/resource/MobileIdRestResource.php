@@ -88,6 +88,7 @@ class MobileIdRestResource extends ResourceBase {
   public function post($data) {
     if(isset($data['telno'])){
       $dds = DigiDocService::Instance();
+      dump($dds);
       $data['telno'] = str_replace(' ', '', $data['telno']);
       if (substr($data['telno'], 0, 1) != '+') {
         $data['telno'] = '+372'.$data['telno'];
