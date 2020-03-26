@@ -2325,6 +2325,10 @@ breadcrumbs:
     translation_type: textarea
     et: leivapuru
     en: breadcrumb
+  current_page:
+    translation_type: textarea
+    et: 'Asud lehel'
+    en: 'Current page'
 modal:
   confirm:
     translation_type: textarea
@@ -3704,8 +3708,8 @@ finalDocument_issue_DISPLAY:
 documentCheck:
   doc_nr_missing:
     translation_type: textarea
-    et: '"Dokumendi number." väärtus on sisestamata'
-    en: '"Dokumendi number." väärtus on sisestamata - eng'
+    et: '"Dokumendi number" väärtus on sisestamata'
+    en: '"Dokumendi number" väärtus on sisestamata - eng'
   idcode_or_bday_missing:
     translation_type: textarea
     et: '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule'
@@ -3918,8 +3922,20 @@ form:
     translation_type: textarea
     et: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
     en: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
+  invalid_email:
+    translation_type: textarea
+    et: 'Palun sisesta e-posti aadress kujul: info@info.ee'
+    en: "\r\nPlease enter your email address in the form: info@info.ee"
 wcag:
   suggestions_opened:
     translation_type: textarea
     et: 'Avati nimekiri soovitustest.'
     en: 'A list of suggestions was opened.'
+  address_suggestions_opened:
+    translation_type: textarea
+    et: 'Valige üks järgnevatest aadressidest.'
+    en: 'Please select one of the following addresses.'
+finalDocument_issue_DOWNLOAD:
+  translation_type: textarea
+  et: Allalaadimine
+  en: Download

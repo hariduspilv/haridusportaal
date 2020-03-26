@@ -1,0 +1,19 @@
+:root{
+}
+
+.file{
+  min-height:1.0625rem;
+  padding-left:1.5rem;
+  background-position:left 0.0625rem;
+  background-size:1rem 1rem;
+  font-size:0.889rem;
+  line-height:1.125rem;
+}
+
+[dir="rtl"] .file{
+  padding-right:1.5rem;
+}
+
+.file__size{
+  color:#545560;
+}
