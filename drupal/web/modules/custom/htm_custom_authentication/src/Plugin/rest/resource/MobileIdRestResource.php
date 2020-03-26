@@ -105,6 +105,7 @@ class MobileIdRestResource extends ResourceBase {
           "ReturnCertData" => false,
           "ReturnRevocationData" => FALSE
         );
+        dump($params);
         $result = $dds->MobileAuthenticate($params);
         if(isset($result['Status']) && $result['Status'] === 'OK'){
           $keys = DDS_TELNO_RETURN_FIELDS;
@@ -122,7 +123,7 @@ class MobileIdRestResource extends ResourceBase {
               $message = 'login.invalid_number';
               break;
             case 104:
-              $message = 'login.acces_denied';
+              $message = 'login.access_denied';
               break;
             case 301:
               $message = 'login.not_mobile_id_client';
