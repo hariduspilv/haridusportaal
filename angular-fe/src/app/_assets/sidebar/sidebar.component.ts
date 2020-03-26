@@ -865,15 +865,20 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess\
 				?indexId=${id}&status=ACCESS_STATUS:VALID`,
       )
-      .subscribe((val) => {
+      .subscribe(
+      (val) => {
         this.activeAccesses = val;
+      },
+      (err) => {
+        this.activeAccesses = [];
       });
     this.http
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess\
 				?indexId=${id}&status=ACCESS_STATUS:INVALID`,
       )
-      .subscribe((val) => {
+      .subscribe(
+      (val) => {
         this.inactiveAccesses = val;
         this.inactiveAccesses = this.inactiveAccesses.sort((a, b) => {
           if (a.issued > b.issued) {
@@ -886,6 +891,9 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
             return 0;
           }
         });
+      },
+      (err) => {
+        this.inactiveAccesses = [];
       });
   }
 
@@ -905,7 +913,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         }
       }
       if (accessType.value === 'ACCESS_TYPE:ACCESS_CODE') {
-        if (Validators.email(emailAddress).email) {
+        if (Validators.email(emailAddress)) {
           return Validators.email(emailAddress);
         }
         if (!emailAddress.value) {
@@ -1097,7 +1105,7 @@ export class SidebarFinalDocumentDownloadComponent {
     this.http
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}?scope=${form.scope}&fileFormat=${form.fileFormat}`,
-      {
+        {
         headers: { 'Content-Type': 'application/*' },
         responseType: 'blob',
       },

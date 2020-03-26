@@ -104,8 +104,7 @@
               </div>
               <div>
                 <form [formGroup]="mobileIdForm">
-                  <formItem type="number"
-                            ariaLabel="{{ 'dashboard.contactPhone' | translate }}"
+                  <formItem ariaLabel="{{ 'dashboard.contactPhone' | translate }}"
                             [keyDownFn]="isNumber"
                             formControlName="phoneNumber"
                             title="{{ 'dashboard.contactPhone' | translate }}">

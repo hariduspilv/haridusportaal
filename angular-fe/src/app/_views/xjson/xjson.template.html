@@ -177,7 +177,7 @@
                       </ng-container> <!-- /ADDRESS -->
 
                       <ng-container *ngIf="data_elements[element].type == 'date'">
-                        <formItem class="datepicker" *ngIf="!isFieldDisabled(data_elements[element].readonly)"
+                        <formItem class="datepicker" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           type="date" placeholder="pp.kk.aaaa" [name]="element"
                           [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{ data_elements[element].required ? '*' : ''}}"
