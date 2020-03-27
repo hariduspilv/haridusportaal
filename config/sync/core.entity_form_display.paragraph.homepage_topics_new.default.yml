@@ -48,7 +48,7 @@ content:
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 100
+        maxlength_js: 200
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
         maxlength_js_enforce: false
         maxlength_js_truncate_html: false
