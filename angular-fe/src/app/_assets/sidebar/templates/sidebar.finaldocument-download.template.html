@@ -1,6 +1,6 @@
 <ul>
   <li>
-    <button (click)="modal.toggle('finalDocument-download')" htm-button class="text-center">{{'finalDocumentDownload' | translate}}</button>
+    <button [disabled]="data.invalid" (click)="modal.toggle('finalDocument-download')" htm-button class="text-center">{{'finalDocumentDownload' | translate}}</button>
   </li>
 </ul>
 
