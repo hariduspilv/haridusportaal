@@ -53,7 +53,7 @@ class DynamicGraphWidgetType extends WidgetBase {
 
     $element['graph_source_file'] = [
       '#title' => $this->t('Graph source file'),
-      '#size' => 256,
+      '#size' => 1,
       '#type' => 'select',
       '#default_value' => isset($data['graph_source_file']) ? $data['graph_source_file'] : NULL,
       '#options' => $source_file_options,
@@ -70,7 +70,7 @@ class DynamicGraphWidgetType extends WidgetBase {
       '#prefix' => '<div id="graph_source' . $delta . '">',
       '#suffix' => '</div>',
       '#title' => $this->t('Graph type'),
-      '#size' => 256,
+      '#size' => 1,
       '#type' => 'select',
       '#default_value' => isset($items[$delta]->graph_type) ? $items[$delta]->graph_type : NULL,
       '#options' => [
@@ -147,6 +147,7 @@ class DynamicGraphWidgetType extends WidgetBase {
           '#type' => 'select',
           '#options' => $indicator_options,
           '#multiple' => TRUE,
+          '#description' => $this->t('To select multiple values, use CTRL click.'),
           '#required' => FALSE,
           '#default_value' => isset($data['graph_indicator']) ? $data['graph_indicator'] : NULL,
           '#ajax' => [
@@ -194,6 +195,7 @@ class DynamicGraphWidgetType extends WidgetBase {
             '#title' => $this->t('Indicator'),
             '#type' => 'select',
             '#options' => $indicator_options,
+            '#size' => 1,
             '#multiple' => FALSE,
             '#required' => FALSE,
             '#empty_option' => '-',
@@ -211,6 +213,7 @@ class DynamicGraphWidgetType extends WidgetBase {
             '#type' => 'select',
             '#options' => $indicator_options,
             '#multiple' => TRUE,
+            '#description' => $this->t('To select multiple values, use CTRL click.'),
             '#required' => FALSE,
             '#default_value' => isset($data['indicators'][$i]['indicator_set']['secondary_graph_indicator']) ? $data['indicators'][$i]['indicator_set']['secondary_graph_indicator'] : NULL,
             '#ajax' => [
@@ -224,7 +227,7 @@ class DynamicGraphWidgetType extends WidgetBase {
 
       $element['graph_options']['graph_v_axis'] = [
         '#title' => $this->t('Graph v-axis'),
-        '#size' => 256,
+        '#size' => 1,
         '#type' => 'select',
         '#default_value' => isset($data['graph_v_axis']) ? $data['graph_v_axis'] : NULL,
         '#options' => $fields,
@@ -236,9 +239,9 @@ class DynamicGraphWidgetType extends WidgetBase {
 
       $element['graph_options']['graph_group_by'] = [
         '#title' => $this->t('Group results'),
-        '#size' => 256,
         '#type' => 'select',
         '#multiple' => TRUE,
+        '#description' => $this->t('To select multiple values, use CTRL click.'),
         '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
         '#options' => $group_by_options,
         '#element_validate' => array(array($this, 'validateChartInput')),
@@ -296,6 +299,7 @@ class DynamicGraphWidgetType extends WidgetBase {
           '#type' => 'select',
           '#options' => $selection,
           '#multiple' => TRUE,
+          '#description' => $this->t('To select multiple values, use CTRL click.'),
           '#required' => FALSE,
           '#default_value' => isset($data['graph_filters'][$key]) ? $data['graph_filters'][$key] : NULL,
         ];
@@ -324,7 +328,7 @@ class DynamicGraphWidgetType extends WidgetBase {
 
         $element['graph_options']['secondary_graph_type'] = [
           '#title' => $this->t('Secondary graph type'),
-          '#size' => 256,
+          '#size' => 1,
           '#type' => 'select',
           '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
           '#options' => [
@@ -339,6 +343,7 @@ class DynamicGraphWidgetType extends WidgetBase {
       $element['graph_options']['graph_y_unit'] = [
         '#title' => $this->t('Graph Y unit'),
         '#type' => 'select',
+        '#size' => 1,
         '#options' => [
           'summa' => $this->t('summa'),
           'euro' => $this->t('euro'),
