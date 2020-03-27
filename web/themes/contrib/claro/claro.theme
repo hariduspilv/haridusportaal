@@ -818,11 +818,8 @@ function claro_preprocess_input(&$variables) {
     $variables['attributes']['title'] = (string) $variables['element']['#title'];
   }
 
-if(!isset($variables['attributes']['type'])) {
-dump($variables);
-}
   $type_api = $variables['element']['#type'];
-  $type_html = $variables['attributes']['type'];
+  $type_html = isset($variables['attributes']['type']) ? $variables['attributes']['type'] : '';
   $text_types_html = [
     'text',
     'email',
