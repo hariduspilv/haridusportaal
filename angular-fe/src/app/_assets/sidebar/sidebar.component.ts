@@ -1123,7 +1123,6 @@ export class SidebarFinalDocumentDownloadComponent {
   }
 
   public ngOnInit() {
-    console.log(this.data)
     this.hasAccessToAccompanyingDocuments = this.data.hasGradeSheet && (!this.data.withAccess
       || this.data.accessScope === 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS');
     this.initializeForm();

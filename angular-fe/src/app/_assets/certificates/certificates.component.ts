@@ -66,7 +66,6 @@ export class CertificatesComponent implements OnInit {
         (res: any[]) => {
           this.loading[id] = false;
           this.graduationCertificates = res.sort(this.compareCertificates);
-          console.log(this.graduationCertificates);
         },
         (err) => {
           this.graduationCertificates = [];
