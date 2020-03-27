@@ -11,7 +11,7 @@ field_name: field_tag
 entity_type: node
 bundle: event
 label: Sildid
-description: 'Maks. <b>4</b> Sildid eralda komaga'
+description: 'Hoia all "CTRL" klahvi mitme valiku tegemiseks. Kuni <b>4</b> valikut'
 required: false
 translatable: true
 default_value: {  }
