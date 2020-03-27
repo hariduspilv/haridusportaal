@@ -35,6 +35,9 @@
 
       &#duplicate-info {
         position: absolute;
+        @include break-on(xs, max) {
+          position: static;
+        }
         right: 2rem;
         top: 1.875rem;
 
@@ -148,6 +151,22 @@
 
     p {
       font-size: 0.75rem;
+
+      &.info-badge {
+        height: 40px;
+        width: 180px;
+        color: $error;
+        background-color: rgba($color: $error, $alpha: 0.1);
+        border-radius: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        margin-bottom: 0.75rem;
+        @include break-on(xs, max) {
+          margin: 0.5rem 0;
+        }
+      }
     }
 
     .bold {

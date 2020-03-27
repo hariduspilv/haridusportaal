@@ -25,6 +25,10 @@
 		&:hover {
 			background: lighten($blue, 10);
 		}
+		&:disabled {
+			background: $dark-gray;
+			cursor: default;
+		}
 	}
 
 	
