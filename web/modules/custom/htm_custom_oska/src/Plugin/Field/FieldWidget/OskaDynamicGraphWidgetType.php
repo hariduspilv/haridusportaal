@@ -47,6 +47,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         $element['graph_type'] = [
             '#title' => $this->t('Graph type'),
             '#type' => 'select',
+            '#size' => 1,
             '#default_value' => isset($items[$delta]->graph_type) ? $items[$delta]->graph_type : NULL,
             '#options' => [
                 'line' => $this->t('line'),
@@ -162,6 +163,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         '#title' => $this->t('OSKA indicator'),
                         '#type' => 'select',
                         '#options' => $indicator_options,
+                        '#size' => 1,
                         '#multiple' => FALSE,
                         '#required' => FALSE,
                         '#empty_option'  => '-',
@@ -196,6 +198,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#default_value' => isset($data['graph_v_axis']) ? $data['graph_v_axis'] : NULL,
                 '#options' =>  $fields,
                 '#empty_option'  => '-',
+                '#size' => 1,
                 '#required' => FALSE,
                 '#element_validate' => array(array($this, 'validateChartInput')),
                 '#delta' => $delta,
@@ -292,6 +295,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 $element['graph_options']['secondary_graph_type'] = [
                     '#title' => $this->t('Secondary graph type'),
                     '#type' => 'select',
+                    '#size' => 1,
                     '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
                     '#options' => [
                         'line' => $this->t('line'),
@@ -305,6 +309,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             $element['graph_options']['graph_y_unit'] = [
                 '#title' => $this->t('Graph Y unit'),
                 '#type' => 'select',
+                '#size' => 1,
                 '#options' => [
                     'summa' => $this->t('summa'),
                     'euro' => $this->t('euro'),
