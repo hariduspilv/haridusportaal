@@ -65,7 +65,10 @@ export class AccordionItemComponent {
     return 'accordion__item';
   }
 
-  public openAccordion() {
+  public openAccordion($event?) {
+    if ($event) {
+      $event.preventDefault();
+    }
 
     if (this.styleState === this.active) {
       this.active = !this.active;

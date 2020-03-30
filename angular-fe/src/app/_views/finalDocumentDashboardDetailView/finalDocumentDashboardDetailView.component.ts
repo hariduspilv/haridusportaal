@@ -23,6 +23,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
         certificateName: '',
         certificateNumber: '',
         hasGradeSheet: false,
+        invalid: false,
       },
       finalDocumentAccess: {
         issuerInstitution: '',
@@ -127,7 +128,8 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
         this.documents.gradesheet = docs[1].document;
         this.documents.gradesheet.content = JSON.parse(this.documents.gradesheet.content);
       }
-      this.sidebar.entity.finalDocumentDownload.hasGradeSheet = this.documents.gradesheet != null;
+      this.sidebar.entity.finalDocumentDownload.hasGradeSheet = this.documents.gradesheet != null
+        && this.documents.gradesheet.status !== 'CERT_DOCUMENT_STATUS:INVALID';
       this.sidebar.entity.finalDocumentHistory.issuerInstitution
         = this.documents.certificate.content.educationalInstitution.name;
       this.sidebar.entity.finalDocumentAccess.issuerInstitution
@@ -137,6 +139,8 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
         ${this.documents.certificate.content.graduate.lastName}`;
       this.sidebar.entity.finalDocumentDownload.certificateNumber =
         this.documents.certificate.content.registrationNumber;
+      this.sidebar.entity.finalDocumentDownload.invalid =
+        this.documents.certificate.status === 'CERT_DOCUMENT_STATUS:INVALID';
       this.loading = false;
 
       setTimeout(() => {

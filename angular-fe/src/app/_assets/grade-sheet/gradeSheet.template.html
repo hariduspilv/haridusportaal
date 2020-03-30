@@ -22,6 +22,7 @@
   </section>
 
   <section id="info">
+    <p class="info-badge" *ngIf="document.status === 'CERT_DOCUMENT_STATUS:INVALID'">Kehtetu</p>
     <p class="bold">{{ document.content.graduate.firstName }} {{ document.content.graduate.lastName }}</p>
     <p [class.bold]="toimetulekuOpe">õppis {{ document.content.studies.curriculumNameToPrintOut }}</p>
     <p>Õppekeel: {{ document.content.studies.language }}</p>

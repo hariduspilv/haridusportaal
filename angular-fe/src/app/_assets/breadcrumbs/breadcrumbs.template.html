@@ -5,7 +5,9 @@
     </span>
     <a [routerLink]="[item.link]" *ngIf="item.link">{{ item.title }}</a>
     <ng-container *ngIf="!item.link">
-      <span>{{ item.title }}</span>
+      <span role="textbox" attr.aria-label="{{ ('breadcrumbs.current_page' | translate) + ' ' + item.title }}">
+        {{ item.title }}
+      </span>
     </ng-container>
   </li>
 </ul>

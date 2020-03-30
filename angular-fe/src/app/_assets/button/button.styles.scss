@@ -28,6 +28,11 @@
     &:hover, &:focus {
       background: lighten($blue, 10);
     }
+
+    &:disabled {
+      background: $dark-gray;
+      cursor: default;
+    }
   }
 
   &.button--plain {
@@ -109,7 +114,6 @@
     border: 1px solid $white;
     color: $white;
   }
-
 
   .button--label {
     position: relative;
