@@ -1,0 +1,84 @@
+query teachingPage($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "teaching_home_page", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeTeachingHomePage {
+        fieldTeachingThemes{
+          entity {
+            ... on ParagraphTeachingThemes {
+              fieldThemeTitle
+              fieldInternalLink {
+                entity {
+                  entityUrl {
+                    routed
+                    path
+                  }
+                }
+              }
+            }
+          }
+        }
+        fieldTeachingNews {
+          entity {
+            ... on NodeNews {
+              entityUrl{
+                path
+                routed
+              }
+              title
+              fieldShortDescription
+            }
+          }
+        }
+        fieldToolbox {
+          entity {
+            ... on ParagraphToolbox {
+              fieldTitle
+              fieldContent
+              fieldInternalLink{
+                entity {
+                  entityUrl {
+                    routed
+                    path
+                  }
+                }
+              }
+              fieldLinkName
+              fieldToolboxImage {
+                entity {
+                  ... on File {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+        fieldQuoteText
+        fieldQuoteAuthor
+        fieldQuoteAuthorOccupation
+        fieldContact {
+          entity {
+            ... on ParagraphCareerContact {
+              fieldSkype
+              fieldEmail
+              fieldInstitution
+              fieldNameOccupation
+            }
+          }
+        }
+        fieldExternal {
+          entity {
+            ... on ParagraphLink {
+              fieldLinkName
+              fieldWebpageLink {
+                url {
+                  path
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
