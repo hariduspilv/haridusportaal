@@ -9,7 +9,7 @@
     <ng-container *ngSwitchCase="'text'">
       <input
         [class.hideText]="!filledField && !focused"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
+        [attr.placeholder]="titleDisabled ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
@@ -29,7 +29,7 @@
     <ng-container *ngSwitchCase="'password'">
       <input
         [class.hideText]="!filledField && !focused"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
+        [attr.placeholder]="titleDisabled ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
@@ -46,7 +46,7 @@
     <ng-container *ngSwitchCase="'number'">
       <input
         [class.hideText]="!filledField"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
+        [attr.placeholder]="titleDisabled ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
@@ -89,7 +89,7 @@
     <ng-container *ngSwitchCase="'textarea'">
       <textarea
         [class.hideText]="!filledField"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
+        [attr.placeholder]="titleDisabled ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         type="text"
@@ -235,7 +235,7 @@
     <ng-container *ngSwitchCase="'autocomplete'">
       <input
         [class.hideText]="!filledField && !focused"
-        [attr.placeholder]="(titleDisabled && !focused) || (!titleDisabled && !focused) ? placeholder : ''"
+        [attr.placeholder]="titleDisabled ? placeholder : ''"
         [class.focused]="focused"
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"

@@ -1,11 +1,18 @@
-<homepage-line type="2"></homepage-line>
+<homepage-line [type]="line"></homepage-line>
 <div class="inner">
   <div class="instance">
     <div class="instance__image">
-      <img src="/assets/img/homepage-slogan-1.svg" alt="" />
+      <img src="/assets/img/homepage-slogan-1.svg" alt="" *ngIf="theme === 'default'"/>
+      <img src="/assets/img/homepage-slogan-teachers.svg" alt="" *ngIf="theme === 'teachers'"/>
     </div><!--/instance__image-->
     <div class="instance__content">
-      <p [innerHTML]="data" ></p>
+      <p [innerHTML]="title" ></p>
+      <p class="author" *ngIf="person || company">
+        - <b *ngIf="person">{{ person }}<span *ngIf="company">,</span></b>
+        <ng-container *ngIf="company">
+          {{ company }}
+        </ng-container>
+      </p>
     </div><!--/instance__content-->
   </div><!--/instance-->
 </div><!--/inner-->

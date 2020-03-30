@@ -6,6 +6,7 @@ import {
   OnDestroy,
   AfterViewInit,
   ChangeDetectorRef,
+  HostBinding,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService, AlertsService, ModalService } from '@app/_services';
@@ -14,13 +15,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'homepage-line',
   templateUrl: 'homePageView.line.html',
 })
 export class HomePageLineComponent {
-  @Input() type: string = '1';
+  @Input() type: number = 1;
 }
 
 @Component({
@@ -29,6 +31,12 @@ export class HomePageLineComponent {
 })
 export class HomePageNavBlockComponent {
   @Input() data;
+  @Input() title: string;
+  @Input() description: string;
+  @Input() theme: string;
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
 }
 
 @Component({
@@ -37,6 +45,28 @@ export class HomePageNavBlockComponent {
 })
 export class HomePageArticlesComponent {
   @Input() data: [] = [];
+  @Input() theme: string;
+  @Input() line: number = 1;
+
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
+}
+
+@Component({
+  selector: 'homepage-events',
+  templateUrl: 'blocks/homePageView.events.html',
+})
+export class HomePageEventsComponent {
+  @Input() data: [] = [];
+  @Input() theme: string;
+  @Input() title: string;
+  @Input() description: string;
+  @Input() line: number = 1;
+
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
 }
 
 @Component({
@@ -44,7 +74,13 @@ export class HomePageArticlesComponent {
   templateUrl: 'blocks/homePageView.slides.html',
 })
 export class HomePageSlidesComponent {
+  @Input() title: string;
   @Input() data: [] = [];
+  @Input() theme: string;
+  @Input() line: number = 2;
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
 }
 
 @Component({
@@ -58,6 +94,11 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
   ) {}
 
   @Input() data: string;
+  @Input() theme: string;
+  @Input() line: number = 2;
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
   public article: any = {
     title: '',
     path: '',
@@ -91,14 +132,27 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
   selector: 'homepage-study',
   templateUrl: 'blocks/homePageView.study.html',
 })
-export class HomePageStudyComponent {}
+export class HomePageStudyComponent {
+  @Input() theme: string;
+  @Input() line: number = 3;
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
+}
 
 @Component({
   selector: 'homepage-slogan',
   templateUrl: 'blocks/homePageView.slogan.html',
 })
 export class HomePageSloganComponent {
-  @Input() data: string = '';
+  @Input() title: string = '';
+  @Input() person: string;
+  @Input() company: string;
+  @Input() theme: string;
+  @Input() line: number = 2;
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
 }
 
 @Component({
@@ -107,6 +161,12 @@ export class HomePageSloganComponent {
 })
 export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
   @Input() data: {};
+  @Input() theme: string;
+  @Input() line: number = 4;
+
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
 
   private lang: string = 'ET';
 
@@ -238,14 +298,18 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
 
 export class HomePageViewComponent implements OnInit {
   public topics: any[] = [];
+  public articles: any[];
   public services: any[] = [];
   public contact: any;
   public slogan: string = '';
   public newsLink: string = '';
+  public theme: string = 'default';
+  public events: any[] = [];
 
   constructor(
     private http: HttpClient,
     private settings: SettingsService,
+    private route: ActivatedRoute,
   ) {}
 
   private getData(): void {
@@ -262,16 +326,51 @@ export class HomePageViewComponent implements OnInit {
 
   private parseData(data): void {
     try {
-      this.topics = data.fieldFrontpageTopics.map((item) => {
-        return {
-          title: item.entity.fieldTopicTitle,
-          content: item.entity.fieldTopicText,
-          link: item.entity.fieldTopicLink,
-          image: item.entity.fieldTopicImage.entity.url,
-          button: item.entity.fieldTopicButtonText,
-        };
-      });
-
+      if (this.theme === 'teachers') {
+        // TODO
+        this.topics = [
+          {
+            title: 'Õpetaja',
+            link: {
+              title: 'Uuri lähemalt',
+              url: {
+                routed: false,
+                path: 'https://www.neti.ee',
+              },
+            },
+          },
+          {
+            title: 'Koolijuht',
+            link: {
+              title: 'Uuri lähemalt',
+              url: {
+                routed: true,
+                path: '/sündmused',
+              },
+            },
+          },
+          {
+            title: 'Noortevaldkonna töötaja',
+            link: {
+              title: 'Uuri lähemalt',
+              url: {
+                routed: false,
+                path: 'https://www.google.ee',
+              },
+            },
+          },
+        ];
+      } else {
+        this.topics = data.fieldFrontpageTopics.map((item) => {
+          return {
+            title: item.entity.fieldTopicTitle,
+            content: item.entity.fieldTopicText,
+            link: item.entity.fieldTopicLink,
+            image: item.entity.fieldTopicImage.entity.url,
+            button: item.entity.fieldTopicButtonText,
+          };
+        });
+      }
     } catch (err) {}
 
     try {
@@ -280,6 +379,56 @@ export class HomePageViewComponent implements OnInit {
         name: data.fieldFrontpageContactName,
         phone: data.fieldFrontpageContactPhone,
       };
+
+      if (this.theme === 'teachers') {
+        // TODO
+        this.contact.contacts = [
+          {
+            company: 'SA Kutsekoda',
+            name: 'Doris-Marii Maxwell',
+            email: 'doris-marii.maxwell@kutsekoda.ee',
+          },
+          {
+            company: 'Eesti Töötukassa',
+            name: 'Teele Traumann',
+            email: 'karjaar@tootukassa.ee',
+            skype: 'tootukassa',
+          },
+        ];
+
+        this.contact.logos = ['/assets/img/homepage-teachers.svg'];
+
+        this.contact.links = [
+          {
+            url: {
+              title: 'Haridus- ja Teadusministeerium',
+              path: 'http://www.neti.ee',
+              routed: false,
+            },
+          },
+          {
+            url: {
+              title: 'Eesti Haridustöötajate Liit',
+              path: 'http://www.neti.ee',
+              routed: false,
+            },
+          },
+          {
+            url: {
+              title: 'Eesti Õpetajate Liit',
+              path: 'http://www.neti.ee',
+              routed: false,
+            },
+          },
+          {
+            url: {
+              title: 'SA Innove',
+              path: '/sündmused',
+              routed: true,
+            },
+          },
+        ];
+      }
     } catch (err) {}
 
     this.slogan = data.fieldFrontpageQuote;
@@ -307,9 +456,73 @@ export class HomePageViewComponent implements OnInit {
       this.newsLink = data.fieldFrontpageNews.entity.entityUrl.path;
     } catch (err) {}
 
+    if (this.theme === 'teachers') {
+
+      try {
+        // tslint:disable
+        this.events = [
+          //TODO
+          {
+            title: 'Seminar “Meediapädevuse ja infokriitilisuse roll noorteinfotöös” noorsootöötajatele Tallinnas',
+            author: 'Valgamaa Kutseõppekeskus',
+            created: 1529585470,
+            content: 'Turvalise interneti päeva töötuba digitaalse ohutuse toetamiseks, mida korraldavad Lastekaitse Liit, TalTech ja HITSA, turvalise interneti päeva töötuba digitaalse...',
+            link: {
+              title: 'Loe rohkem',
+              url: {
+                path: '/sündmused',
+              }
+            },
+            image: {
+              url: 'http://htm.wiseman.ee/sites/default/files/2020-02/homepage-slides-1.svg',
+            },
+          },
+          {
+            title: 'Inglise keele riigieksam',
+            created: 1529585470,
+            link: {
+              title: 'Loe rohkem',
+              url: {
+                path: '/sündmused',
+              }
+            },
+            image: {
+              url: 'http://htm.wiseman.ee/sites/default/files/2020-02/homepage-slides-2.svg',
+            },
+          },
+          
+        ];
+        // tslint:enable
+      } catch (err) {}
+    }
+
+    if (this.articles) {
+      this.articles = this.articles.map((item, index) => {
+        let position = index % 2 ? 'left' : 'right';
+        return {
+          position,
+          ...item,
+        };
+      });
+    }
+
+    if (this.topics) {
+      this.topics = this.topics.map((item, index) => {
+        let position = index % 2 ? 'left' : 'right';
+
+        return {
+          position,
+          ...item,
+        };
+      });
+    }
+
   }
 
   ngOnInit() {
-    this.getData();
+    this.route.data.subscribe((response) => {
+      this.theme = response.theme || this.theme;
+      this.getData();
+    });
   }
 }

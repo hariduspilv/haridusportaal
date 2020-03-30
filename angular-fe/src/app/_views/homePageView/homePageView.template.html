@@ -1,7 +1,55 @@
-<homepage-navblock [data]="topics"></homepage-navblock>
-<homepage-articles [data]="topics"></homepage-articles>
-<homepage-slides [data]="services"></homepage-slides>
-<homepage-topical [data]="newsLink"></homepage-topical>
-<homepage-study></homepage-study>
-<homepage-slogan [data]="slogan"></homepage-slogan>
-<homepage-footer [data]="contact"></homepage-footer>
+<ng-container [ngSwitch]="theme">
+
+  <ng-container *ngSwitchCase="'default'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'home.slogan' | translate"></homepage-navblock>
+    <homepage-articles
+      [data]="topics"
+      [theme]="theme"></homepage-articles>
+    <homepage-slides
+      [data]="services"
+      [title]="'home.services_title' | translate"
+      [theme]="theme"></homepage-slides>
+    <homepage-topical
+      [data]="newsLink"
+      [theme]="theme"></homepage-topical>
+    <homepage-study
+      [theme]="theme"></homepage-study>
+    <homepage-slogan
+      [title]="slogan"
+      [theme]="theme"></homepage-slogan>
+    <homepage-footer
+      [data]="contact"
+      [theme]="theme"></homepage-footer>    
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'teachers'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'Õpetajad loovad<br />homse Eesti'"></homepage-navblock>
+    <homepage-events
+      [data]="events"
+      [theme]="theme"
+      title="Sündmused"
+      description="Lorem ipsum dolor sit amet, consectetur adipiscing <br />elit, lorem ipsum dolor"></homepage-events>
+    <homepage-topical
+      [data]="newsLink" [theme]="theme"></homepage-topical>
+    <homepage-slides
+      [data]="services"
+      title="Tööriistakast" 
+      [line]="3"
+      [theme]="theme"></homepage-slides>
+    <homepage-slogan
+      title="“Tänu edu.ee lehele leidsin enda jaoks robootika eriala ning sealt edasi on kõik juba ajalugu...”"
+      person="Toomas Tool"
+      company="Cleveron AS tootmisjuht"
+      [theme]="theme"></homepage-slogan>
+    <homepage-footer
+      [data]="contact"
+      [theme]="theme"></homepage-footer>
+  </ng-container>
+
+</ng-container>

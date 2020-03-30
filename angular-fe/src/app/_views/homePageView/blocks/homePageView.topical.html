@@ -1,4 +1,4 @@
-<homepage-line type="2"></homepage-line>
+<homepage-line [type]="line"></homepage-line>
 <div class="inner">
   <div class="topical">
     <div class="topical__content">
@@ -7,7 +7,8 @@
       <a [routerLink]="article.path" class="topical__link" role="button"  [attr.aria-label]="'button.read_more' | translate">{{ 'button.read_more' | translate }}</a>
     </div><!--/topical__content-->
     <div class="topical__image">
-      <img src="/assets/img/homepage-topical-1.svg" alt="" />
+      <img src="/assets/img/homepage-topical-1.svg" alt="" *ngIf="theme === 'default'" />
+      <img src="/assets/img/homepage-topical-teachers.svg" alt="" *ngIf="theme === 'teachers'" />
     </div><!--/topical__image-->
   </div><!--/topical-->
 </div><!--/inner-->

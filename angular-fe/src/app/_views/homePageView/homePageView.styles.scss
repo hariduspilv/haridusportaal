@@ -22,6 +22,22 @@
     display: block;
     position: relative;
 
+    &.theme--teachers {
+      .navBlock {
+        background: url('/assets/img/homepage-1-teachers.svg') center bottom no-repeat rgb(228, 227, 245);
+        background-size: cover;
+        &:before {
+          background: linear-gradient(to bottom, rgba(193, 190, 232, 1) 0%,rgba(193, 190, 232, 1) 45%,rgba(193, 190, 232, 0) 100%);
+        }
+        &__buttons {
+          button, a {
+            color: #642BB0;
+            font-size: 1.125rem;
+          }
+        }
+      }
+    }
+
     .navBlock {
       display: block;
       background: $aqua url('/assets/img/homepage-1.svg') center bottom no-repeat;
@@ -59,10 +75,15 @@
           padding-top: 4.1875rem;
         }
 
-        h1 {
-          flex-shrink: 0;
+        &__inner {
           flex-grow: 1;
           padding-right: 3.125rem;
+          p {
+            font-size: 1.125rem;
+            line-height: 1.875rem;
+          }
+        }
+        h1 {
           font-size: 3rem;
           line-height: 3.625rem;
           font-weight: 100;
@@ -90,6 +111,7 @@
           @include break-on(sm, max) {
             width: auto;
           }
+          flex-shrink: 1;
         }
       }
 
@@ -132,10 +154,8 @@
               padding: 0.5rem;
             }
           }
-
-          button {
+          button, a{
             position: relative;
-            display: block;
             background: $white;
             font-size: 1rem;
             color: $blue;
@@ -143,8 +163,11 @@
             text-align: center;
             appearance: none;
             border: none;
-            width: 100%;
-            box-shadow: 0 0 1.25rem rgba(141, 141, 141, 0.25);
+            width:100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0rem 0rem 1.25rem rgba(141, 141, 141, 0.25);
             border-radius: 0.8125rem;
             text-transform: uppercase;
             padding: 0 0 3rem 0;
@@ -192,7 +215,18 @@
                 }
               }
             }
-
+            .label {
+              position: absolute;
+              bottom: 1.75rem;
+              left: 0;
+              right: 0;
+              text-align: center;
+              color: $blue;
+              font-size: 1rem !important;
+              font-weight: normal;
+              text-transform: initial;
+              text-decoration: underline;
+            }
             &:hover {
               transform: scale(1.05);
               box-shadow: 0 0 2.5rem rgba(44, 43, 43, 0.25);
@@ -201,7 +235,126 @@
               icon {
                 transform: translateY(0.3125rem);
               }
+              .label {
+                text-decoration: none;
+              }
             }
+          }
+        }
+      }
+    }
+  }
+
+  homepage-events {
+    display: block;
+    position: relative;
+    padding: 8.125rem 0 12.5rem 0;
+    background: $white;
+    .st0 {
+      fill: $white;
+    }
+    .events {
+
+      &__head {
+        margin:0 0 47px 0;
+        h2 {
+          font-weight: normal;
+          font-size: 1.125rem;
+          line-height: 133%;
+          text-align: center;
+          text-transform: uppercase;
+          color: #642BB0;
+          margin: 0 0 1rem 0;
+        }
+        p {
+          font-size: 1rem;
+          line-height: 125%;
+          text-align:center; 
+        }
+      }
+      &__elem {
+        background: $white;
+        box-shadow: 0rem 0rem 1.25rem rgba(141, 141, 141, 0.25);
+        border-radius: 1.25rem;
+        will-change: transform, box-shadow;
+        transition: transform 0.25s, box-shadow 0.25s;
+        cursor: pointer;
+        width: 100%;
+        display: flex;
+        margin-bottom: 2.5rem;
+        &:last-child {
+          margin-bottom: 0;
+        }
+        &__image {
+          border-radius: 0 1.25rem 1.25rem 0;
+          overflow: hidden;
+          position: relative;
+          width: 320px;
+          flex-shrink: 0;
+          &:first-child {
+            border-radius: 1.25rem 0 0 1.25rem;
+          }
+          &__inner {
+            display: block; 
+            padding-bottom: 80%;
+            min-height: 100%;
+            overflow: hidden;
+            position: relative;
+            background: center center no-repeat #2E3374;
+            background-size: contain;
+            
+          }
+          img {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            opacity: 0;
+          }
+        }
+        &__body {
+          padding: 1.5rem 1.75rem;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+        }
+        &__date {
+          color: $black;
+          margin: 6px 0 1rem 0;
+        }
+        &__title {
+          margin: 0 0 1rem 0rem;
+          font-weight: bold;
+          font-size: 1.5rem;
+          line-height: 133%;
+          color: $black;
+          text-align: left;
+        }
+        &__text {
+          font-size: 1rem;
+          line-height: 150%;
+          color: $black;
+          margin: 0 0 1rem 0;
+        }
+        &__link {
+          text-align: left;
+          margin: 0 0 0.625rem 0;
+          color: $blue;
+          text-decoration: underline;
+          padding: 0;
+          border: none;
+          font-size: 1rem;
+          background: none;
+          display: block;
+          width: 100%;
+        }
+
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: 0rem 0rem 2.5rem rgba(44, 43, 43, 0.25);
+          .slides__elem__link{
+            text-decoration: none;
           }
         }
       }
@@ -335,6 +488,13 @@
     background: $light-gray;
     padding: 1.5rem 0 10.9375rem 0;
 
+    &.theme--teachers {
+      padding-top: 2.5rem;
+      .slides__title {
+        color: #642BB0;
+        font-size: 1.125rem;
+      }
+    }
     .st0 {
       fill: $light-gray;
     }
@@ -511,6 +671,13 @@
     background: $aqua;
     padding: 4.375rem 0 0 0;
 
+    &.theme--teachers {
+      background: #C1BEE8;
+      svg .st0 {
+        fill: #C1BEE8;
+      }
+    }
+    
     svg {
       .st0 {
         fill: $aqua
@@ -695,6 +862,19 @@
     background: $light-gray;
     padding: 0 0 8.0625rem 0;
 
+    &.theme--teachers {
+      background: $white;
+      padding-top: 4rem;
+      .st0 {
+        fill: $white;
+      }
+      .instance {
+        &__image {
+          width: 13.75rem;
+          margin-top: 0;
+        }
+      }
+    }
     .inner {
       position: relative;
     }
@@ -745,6 +925,10 @@
             padding-left: 0;
             text-align: center;
           }
+        }
+        .author {
+          font-size: 1rem;
+          margin-top: -20px;
         }
       }
 
@@ -823,15 +1007,24 @@
     a {
       color: $white !important;
     }
-
+    .logos {
+      margin-top:2.5rem;
+      display: flex;
+      justify-content: center;
+      img {
+        max-height: 90px;
+        display: block;
+        margin:0 1.1875rem;
+      }
+    }
     .footer {
       display: flex;
+      box-sizing: border-box;
       @include break-on(sm, max) {
         flex-direction: column;
       }
-
       .contact {
-        width: 23.125rem;
+        width: 22.125rem;
         flex-shrink: 0;
         flex-grow: 0;
 
@@ -839,13 +1032,69 @@
           letter-spacing: 0.0625rem;
           margin: 0 0 2.0625rem 0;
           font-weight: normal;
+          text-transform: uppercase;
         }
 
         p {
           line-height: 1.5rem;
         }
       }
-
+      .links {
+        padding-right: 4.625rem;
+        box-sizing: border-box;
+        white-space: nowrap;
+        &__title {
+          letter-spacing: 0.0625rem;
+          margin: 0 0 2.0625rem 0;
+          font-weight: normal;
+        }
+        ul, li {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+        }
+        li {
+          margin-bottom: 0.9rem;
+        }
+        a, button {
+          display: block;
+          font-size: 1rem;
+          color: $white;
+          text-decoration: underline;
+          appearance: none;
+          background: none;
+          border: none;
+          padding: 0;
+          margin: 0;
+          cursor: pointer;
+          &:hover {
+            text-emphasis: none;
+          }
+          ::ng-deep {
+            icon{
+              margin-left: 0.3125rem;
+              .icon {
+                font-size: 1.2rem;
+              }
+            }
+          }
+        }
+        &+.newsletter {
+          .newsletter__cols{
+            flex-wrap: wrap;
+          }
+          .newsletter__col {
+            width: 50%;
+            &:nth-child(1){
+              width: 100%;
+              padding-bottom: 1rem;
+            }
+            button, a {
+              margin: 0;
+            }
+          }
+        }
+      }
       .newsletter {
         flex-grow: 1;
         flex-shrink: 1;
@@ -902,6 +1151,10 @@
             width: 100%
           }
 
+          &:nth-child(2){
+            order: 3;
+            text-align: right;
+          }
           &:first-child {
             flex-grow: 1;
             flex-shrink: 1;
