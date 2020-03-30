@@ -3242,7 +3242,7 @@ abitekst:
     en: MISSING
   enda_tunnistused:
     translation_type: textarea
-    et: 'Sulle välja antud e-tunnistuste nägemiseks pead Haridusportaali sisse logima. Seal saad anda ka teistele isikutele e-tunnistuste vaatamiseks vajalikud ligipääsuõigused. '
+    et: 'Sulle välja antud e-tunnistuste nägemiseks pead olema Haridusportaali sisse logitud. LIsaks saad anda ka teistele isikutele e-tunnistuste vaatamiseks vajalikud ligipääsuõiguseid. '
     en: MISSING
 feedback_add_comment:
   translation_type: textarea
@@ -3657,6 +3657,14 @@ home:
     translation_type: textarea
     et: 'Loe lähemalt'
     en: 'Loe lähemalt'
+  external_links:
+    translation_type: textarea
+    et: Välislingid
+    en: Välislingid
+  future_career:
+    translation_type: textarea
+    et: 'Karjäär tulevikus'
+    en: 'Karjäär tulevikus'
 finalDocumentDownload:
   translation_type: textarea
   et: 'Laadi failid alla'
