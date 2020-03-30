@@ -14,7 +14,6 @@ import { APP_BASE_HREF } from '@angular/common';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription, Subject, Observable, of } from 'rxjs';
 import { APP_INITIALIZER } from '@angular/core';
-import { EmbedVideoService } from 'ngx-embed-video';
 import { InfoSystemViewComponent } from '@app/_views/infoSystemView/infoSystem.component';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 
@@ -39,7 +38,6 @@ stories.add(
           SettingsService,
           RippleService,
           ModalService,
-          EmbedVideoService,
           QueryParamsService,
           {
             provide: ActivatedRoute,

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { MapService } from '@app/_services';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
   selector: 'schoolList-map',
@@ -34,6 +35,7 @@ export class SchoolListMapComponent implements AfterViewInit {
   languageFilters = [];
   ownershipFilters = [];
   typeOptions = [];
+  subPlaceholder: string;
   public loading: boolean = false;
   private mapLimit: number = 3000;
   private boundsEnabled: boolean = false;
@@ -63,6 +65,7 @@ export class SchoolListMapComponent implements AfterViewInit {
     private route: ActivatedRoute,
     private mapService: MapService,
     private cdr: ChangeDetectorRef,
+    private translate: TranslateService,
   ) { }
 
   ngOnInit() {
@@ -107,6 +110,7 @@ export class SchoolListMapComponent implements AfterViewInit {
     });
     this.removeHangingTypes();
     this.setTypeValue();
+    this.subtypePlaceholder();
   }
 
   removeHangingTypes() {
@@ -237,11 +241,25 @@ export class SchoolListMapComponent implements AfterViewInit {
         this.setSecondaryTypes();
         this.setTypeValue();
         this.cdr.detectChanges();
-        console.log(this.selectedPrimaryTypes);
       },
       0);
   }
 
+  subtypePlaceholder() {
+    let output;
+    if (
+      this.selectedPrimaryTypes &&
+      this.selectedPrimaryTypes.length > 0 &&
+      this.secondaryFilteredTypes.length === 0
+    ) {
+      output = this.translate.get('school.no_subtype');
+    } else if (this.selectedPrimaryTypes.length > 0) {
+      output = this.translate.get('school.institution_sublevel');
+    } else {
+      output = this.translate.get('school.institution_select_type');
+    }
+    this.subPlaceholder = output;
+  }
   getTags() {
 
     const variables = {

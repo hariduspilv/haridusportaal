@@ -371,10 +371,10 @@ export class ChartComponent implements OnInit {
           let colorCounter = 0;
 
           for (const i in filters['näitaja2']) {
-            const index = titleCaseValues[0].findIndex(item =>
+            const index = titleCaseValues.length ? titleCaseValues[0].findIndex(item =>
               typeof item === 'string'
                 ? filters['näitaja2'][i].toLowerCase() === item.toLowerCase()
-                : null);
+                : null) : false;
             tmp.options.colors[index - 2] = lineColors[colorCounter];
             tmp.options['series'][index - 2] = {
               type: secondaryGraphType,

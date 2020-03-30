@@ -3,7 +3,7 @@
     <ng-container *ngIf="keyVal !== 'fieldBlocks'">
       <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
         <block-title *ngIf="!titleLess[collection[keyVal]]" [ngClass]="'type-'+[collection[keyVal]]">
-          <ng-container>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</ng-container>
+          <h1>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</h1>
           <div *ngIf="keyVal === 'notifications' && mappedData.notifications.unread > 0" class="unreadMessages">
             {{mappedData.notifications.unread}}
           </div>
@@ -24,6 +24,9 @@
           <sidebar-progress *ngSwitchCase="'progress'" [data]="mappedData[keyVal]"></sidebar-progress>
           <sidebar-register *ngSwitchCase="'register'" [data]="mappedData[keyVal]" [pageData]="data"></sidebar-register>
           <sidebar-events *ngSwitchCase="'events'" [data]="mappedData[keyVal]"></sidebar-events>
+          <sidebar-finaldocument-access *ngSwitchCase="'finalDocumentAccess'" [data]="mappedData[keyVal]"></sidebar-finaldocument-access>
+          <sidebar-finaldocument-history *ngSwitchCase="'finalDocumentHistory'" [data]="mappedData[keyVal]"></sidebar-finaldocument-history>
+          <sidebar-finaldocument-download *ngSwitchCase="'finalDocumentDownload'" [data]="mappedData[keyVal]"></sidebar-finaldocument-download>
         </block-content>
       </block>
     </ng-container>

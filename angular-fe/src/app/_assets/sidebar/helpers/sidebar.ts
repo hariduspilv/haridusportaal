@@ -35,6 +35,9 @@ export const collection = {
   'fieldBlocks': 'links',
   'notifications': 'notifications',
   'gdpr': 'gdpr',
+  'finalDocumentAccess': 'finalDocumentAccess',
+  'finalDocumentHistory': 'finalDocumentHistory',
+  'finalDocumentDownload': 'finalDocumentDownload',
 }
 
 export const uniformTypes = {
@@ -120,21 +123,22 @@ export const parseProfessionData = (inputData, translate) => {
         return val;
       });
       searchParams['level'] = iLevel.join(';');
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) { }
 
-    mappedData['fieldLearningOpportunities'] = [
-      {
-        title: translate.get('professions.go_to_subjects'),
-        url: {
-          path: `/erialad`,
-          params: searchParams,
-          routed: true,
+    if (Object.keys(searchParams).length > 1) {
+
+      mappedData['fieldLearningOpportunities'] = [
+        {
+          title: translate.get('professions.go_to_subjects'),
+          url: {
+            path: `/erialad`,
+            params: searchParams,
+            routed: true,
+          },
         },
-      },
-    ];
-
+      ];
+    }
+      
 
   } catch (err) { }
 
@@ -280,7 +284,7 @@ const getIndicators = (mappedData) => {
 
 export const parseFieldData = (inputData, translate) => {
   let mappedData = inputData;
-  console.log(mappedData)
+
   mappedData['fieldOskaResults'] = [{
     title: translate.get('oska.go_to_results'),
     url: {

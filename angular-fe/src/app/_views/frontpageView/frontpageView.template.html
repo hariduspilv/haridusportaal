@@ -86,17 +86,17 @@
 </div><!--/frontpage-->
 
 <htm-modal id="unsubscribe" modalTitle="{{'newsletter.unsubscribe_title' | translate}}" size="medium">
-  <modal-content>
+  <ng-template>
     <br /><br />
     <div [innerHTML]="'newsletter.unsubscribe_content' | translate"></div>
     <br /><br />
-  </modal-content>
+  </ng-template>
 </htm-modal>
   
 <htm-modal id="subscribe" modalTitle="{{'newsletter.modal_title' | translate}}" size="medium">
-  <modal-content>
+  <ng-template>
     <br /><br />
     <div [innerHTML]="'newsletter.modal_content' | translate"></div>
     <br /><br />
-  </modal-content>
+  </ng-template>
 </htm-modal>

@@ -16,6 +16,10 @@ import { XjsonComponent } from '../xjson/xjson.component';
 import { AppPipes } from '@app/_pipes';
 import { StudiesDetailView } from './studiesDetailView/studiesDetailView.component';
 import { CertificatesDetailView } from './certificatesDetailView/certificatesDetailView.component';
+import { FinalDocumentDashboardDetailViewComponent }
+  from '../finalDocumentDashboardDetailView/finalDocumentDashboardDetailView.component';
+import { A11yModule } from '@angular/cdk/a11y';
+import { FinalDocumentDashboardDetailViewModule } from '../finalDocumentDashboardDetailView';
 
 const routes: Routes = [
   {
@@ -56,10 +60,6 @@ const routes: Routes = [
     component: StudiesDetailView,
   },
   {
-    path: 'tunnistused/lõputunnistused/:id',
-    component: CertificatesDetailView,
-  },
-  {
     path: 'tunnistused/:id',
     component: CertificatesDetailView,
   },
@@ -83,6 +83,7 @@ const routes: Routes = [
     TranslateModule,
     CommonModule,
     ReactiveFormsModule,
+    A11yModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },

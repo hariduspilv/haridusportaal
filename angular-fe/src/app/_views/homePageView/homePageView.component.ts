@@ -58,7 +58,10 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
   ) {}
 
   @Input() data: string;
-  private article: {} = {};
+  public article: any = {
+    title: '',
+    path: '',
+  };
 
   private getData() {
     if (!this.data) { return false; }
@@ -68,6 +71,7 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
     const query = this.settings.query('newsSingel', variables);
     const subscription = this.http.get(query).subscribe((response) => {
       this.article = {
+        title: '',
         ... FieldVaryService(response['data']['route']['entity']),
         path: this.data,
       };
@@ -203,7 +207,6 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
         }).join(', ');
       } catch (err) {}
 
-      console.log(this.tags);
     });
     this.subscriptions.push(subscription);
   }
@@ -234,9 +237,9 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
 })
 
 export class HomePageViewComponent implements OnInit {
-  public topics: [] = [];
+  public topics: any[] = [];
   public services: any[] = [];
-  public contact: {};
+  public contact: any;
   public slogan: string = '';
   public newsLink: string = '';
 
@@ -268,6 +271,7 @@ export class HomePageViewComponent implements OnInit {
           button: item.entity.fieldTopicButtonText,
         };
       });
+
     } catch (err) {}
 
     try {

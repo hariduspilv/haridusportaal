@@ -21,7 +21,7 @@ class Log {
 const log = new Log();
 let conf = '';
 try{
-  conf = require(path.resolve(__dirname, './conf-edu'));
+  conf = require(path.resolve(__dirname, './conf-edu')).app;
   log.success('/scripts/conf-edu.js present');
 }catch(err) {
   log.error('/scripts/conf-edu.js file not found!');

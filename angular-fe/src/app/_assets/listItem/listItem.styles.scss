@@ -224,7 +224,7 @@ $grid-columns: 12;
     font-size: 0.875rem;
     line-height: 1.43;
     color: $dark-gray;
-    font-weight: 500;
+    font-weight: 400;
   }
 
   .inline__items {
@@ -296,7 +296,7 @@ $grid-columns: 12;
     }
   }
 
-  ::ng-deep modal-content {
+  ::ng-deep .modal-content {
     font-size: 1.5rem;
     text-align: center;
     color: $black;

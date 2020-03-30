@@ -1,26 +1,31 @@
 import {
   Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
+  HostListener,
   Input,
   OnInit,
-  ElementRef,
-  HostBinding,
   Output,
-  EventEmitter,
+  QueryList,
+  TemplateRef,
+  ViewChildren,
 } from '@angular/core';
 import { ModalService } from '@app/_services';
 
 @Component({
   selector: 'modal-content',
-  template: '<ng-content *ngIf="!loading"></ng-content>' +
-  '<loader *ngIf="loading"></loader>',
+  template:
+    '<ng-content *ngIf="!loading"></ng-content>' +
+    '<loader *ngIf="loading"></loader>',
 })
-
 export class ModalContentComponent {
-  @Input() id: string;
-  @Input() loading: boolean = false;
-  constructor(private modalService: ModalService) {}
-  ngOnInit() {
-    this.modalService.focusLock();
+  @Input() public id: string;
+  @Input() public loading: boolean = false;
+  @ContentChild(TemplateRef, { static: false }) public templateRef: TemplateRef<any>;
+
+  constructor(private modalService: ModalService) {
   }
 }
 
@@ -29,21 +34,27 @@ export class ModalContentComponent {
   templateUrl: './modal.template.html',
   styleUrls: ['./modal.styles.scss'],
 })
-
 export class ModalComponent implements OnInit {
-  @Input() id: string;
-  @Input() modalTitle: string = '';
+
+  @Input() public id: string;
+  @Input() public modalTitle: string = '';
   public opened: boolean = false;
-  private element: any;
   public modalIds: any;
-  @Input() titleExists: boolean = true;
-  @Input() topAction: boolean = true;
-  @Input() bottomAction: boolean = true;
-  @Input() size: string = 'default';
-  @Input() reloadOnClose: boolean = false;
+  @Input() public titleExists: boolean = true;
+  @Input() public topAction: boolean = true;
+  @Input() public bottomAction: boolean = true;
+  @Input() public size: string = 'default';
+  @Input() public reloadOnClose: boolean = false;
   // Modal opening button for story
-  @Input() stateButton: boolean = false;
-  @Output() onClose: EventEmitter<any> = new EventEmitter();
+  @Input() public stateButton: boolean = false;
+  @Output() public onClose: EventEmitter<any> = new EventEmitter();
+  @ViewChildren('modalContent') public contents: QueryList<any> = new QueryList();
+  @ContentChild(TemplateRef, { static: false }) public templateRef: TemplateRef<any>;
+  private element: any;
+
+  constructor(private elem: ElementRef, private modalService: ModalService) {
+    this.element = elem.nativeElement;
+  }
 
   @HostBinding('class') get hostClasses(): string {
     const classes = [];
@@ -52,20 +63,15 @@ export class ModalComponent implements OnInit {
     return classes.join(' ');
   }
 
-  constructor(
-    private elem: ElementRef,
-    private modalService: ModalService,
-  ) {
-    this.element = elem.nativeElement;
+  @HostListener('document:keydown', ['$event'])
+  public onKeyDownHandler(event: KeyboardEvent) {
+    if (event.key === 'Escape') {
+      this.stateChange(false);
+    }
   }
 
-  ngOnInit() {
+  public ngOnInit() {
     // Outside click close
-    this.element.addEventListener('click', (el) => {
-      if (el.target.className && el.target.className.includes('modal__backdrop')) {
-        this.stateChange(false);
-      }
-    });
     this.modalService.add(this);
     // Modal selection in story
     if (this.modalService.modals && this.modalService.modals.length) {
@@ -73,11 +79,11 @@ export class ModalComponent implements OnInit {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.modalService.remove(this.id);
   }
 
-  stateChange(state: boolean): void {
+  public stateChange(state: boolean): void {
     const isOpened = this.modalService.modalOpened[this.id];
     this.modalService.modalOpened[this.id] = state;
     if (this.opened && !state && this.reloadOnClose) {

@@ -1,104 +1,110 @@
-
 <div class="inline" *ngIf="data">
-    <article-layout [sidebar]="data.sidebar" [feedbackNid]="data.nid">
+  <article-layout [sidebar]="data.sidebar" [feedbackNid]="data.nid">
     <breadcrumbs [path]="path"></breadcrumbs>
     <block [loading]="true" *ngIf="!data">
     </block>
     <block *ngIf="data" tabStyle="middle" [titleBorder]="true">
-        <block-title>
-            {{ 'infosystem.label' | translate }}
-        </block-title>
-        <block-secondary-title>
-            {{ data.title }}
-        </block-secondary-title>
-        <block-content [tabLabel]="data.subtitle" tabIcon="file-text">
-            <div class="logo" *ngIf="data.image">
-                <img src="{{data.image.derivative.url}}" alt="{{data.image.alt}}">
-            </div>
-            <h2 class="intro" *ngIf="data.introductionText">{{data.introductionText}}</h2>
-            <div class="description" *ngIf="data.content" [innerHTML]="data.content.processed"></div>
-            <ul class="link-list mt-0">
-                <ng-container *ngIf="data.webpage">
-                    <ng-container *ngTemplateOutlet="links;context:{linksData:data.webpage}">
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="data.attachmentFile && data.attachmentFile.length">
-                    <li *ngFor="let file of data.attachmentFile;let ind = index;">
-                        <a href="{{file.entity.fieldAttachment.entity.url}}" target="_blank"
-                            attr.aria-label="{{file.entity.fieldName}}" class="link">
-                            <icon glyph="copy"></icon><span class="label">{{file.entity.fieldName}}</span>
-                        </a>
-                    </li>
-                </ng-container>
-            </ul>
-        </block-content>
-        <block-content [tabLabel]="data.accordion.entity.fieldAccordionTitle" tabIcon="file-text">
-            <div *ngIf="data.accordion && data.accordion.entity && data.accordion.entity.fieldBody" class="description"
-                [innerHTML]="data.accordion.entity.fieldBody.processed"></div>
-            <ul class="link-list mt-0"
-                *ngIf="data.accordion && data.accordion.entity && (data.accordion.entity.fieldLinks || data.fieldInfosystemAccordion.entity.fieldAttachmentFile)">
+      <block-title>
+        {{ 'infosystem.label' | translate }}
+      </block-title>
+      <block-secondary-title>
+        {{ data.title }}
+      </block-secondary-title>
+      <block-content [tabLabel]="data.subtitle" tabIcon="file-text">
+        <div class="logo" *ngIf="data.image">
+          <img src="{{data.image.derivative.url}}" alt="{{data.image.alt}}">
+        </div>
+        <h2 class="intro" *ngIf="data.introductionText">{{data.introductionText}}</h2>
+        <div class="description" *ngIf="data.content" [innerHTML]="data.content.processed"></div>
+        <ul class="link-list mt-0">
+          <ng-container *ngIf="data.webpage">
+            <ng-container *ngTemplateOutlet="links;context:{linksData:data.webpage}">
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="data.attachmentFile && data.attachmentFile.length">
+            <li *ngFor="let file of data.attachmentFile;let ind = index;">
+              <a href="{{file.entity.fieldAttachment.entity.url}}" target="_blank" class="link">
+                <icon ariaLabel="dokument" glyph="copy"></icon>
+                <span class="label">{{file.entity.fieldName}}</span>
+              </a>
+            </li>
+          </ng-container>
+        </ul>
+      </block-content>
+      <block-content [tabLabel]="data.accordion.entity.fieldAccordionTitle" tabIcon="file-text">
+        <div *ngIf="data.accordion && data.accordion.entity && data.accordion.entity.fieldBody"
+             class="description"
+             [innerHTML]="data.accordion.entity.fieldBody.processed"></div>
+        <ul class="link-list mt-0"
+            *ngIf="data.accordion && data.accordion.entity && (data.accordion.entity.fieldLinks || data.fieldInfosystemAccordion.entity.fieldAttachmentFile)">
 
-                <ng-container *ngIf="data.accordion.entity.fieldLinks">
-                    <ng-container *ngTemplateOutlet="links;context:{linksData:data.accordion.entity.fieldLinks}">
-                    </ng-container>
-                </ng-container>
-                <ng-container *ngIf="data.accordion.entity.fieldAttachmentFile">
+          <ng-container *ngIf="data.accordion.entity.fieldLinks">
+            <ng-container
+              *ngTemplateOutlet="links;context:{linksData:data.accordion.entity.fieldLinks}">
+            </ng-container>
+          </ng-container>
+          <ng-container *ngIf="data.accordion.entity.fieldAttachmentFile">
+            <ng-container
+              *ngTemplateOutlet="files;context:{filesData:data.accordion.entity.fieldAttachmentFile}">
+            </ng-container>
+          </ng-container>
+        </ul>
+
+        <accordion>
+          <accordion-item
+            *ngFor="let accordion of data.accordion.entity.fieldLowerParagraph; let ind = index"
+            [title]="accordion.entity.fieldParagraphTitle">
+            <ng-template>
+              <div class="accordion__body" *ngIf="accordion.entity.fieldParagraphContent"
+                   [innerHTML]="accordion.entity.fieldParagraphContent.processed"></div>
+              <div class="accordion__links"
+                   *ngIf="(accordion.entity.fieldParagraphLink && accordion.entity.fieldParagraphLink.length) || (accordion.entity.fieldParagraphAttachment && accordion.entity.fieldParagraphAttachment.length)">
+                <ul class="link-list mt-0 mb-0">
+                  <ng-container *ngIf="accordion.entity.fieldParagraphLink">
                     <ng-container
-                        *ngTemplateOutlet="files;context:{filesData:data.accordion.entity.fieldAttachmentFile}">
+                      *ngTemplateOutlet="links;context:{linksData:accordion.entity.fieldParagraphLink}">
                     </ng-container>
-                </ng-container>
-            </ul>
-
-            <accordion>
-                <accordion-item *ngFor="let accordion of data.accordion.entity.fieldLowerParagraph; let ind = index"
-                    [title]="accordion.entity.fieldParagraphTitle">
-                    <div class="accordion__body" *ngIf="accordion.entity.fieldParagraphContent"
-                        [innerHTML]="accordion.entity.fieldParagraphContent.processed"></div>
-                    <div class="accordion__links"
-                        *ngIf="(accordion.entity.fieldParagraphLink && accordion.entity.fieldParagraphLink.length) || (accordion.entity.fieldParagraphAttachment && accordion.entity.fieldParagraphAttachment.length)">
-                        <ul class="link-list mt-0 mb-0">
-                            <ng-container *ngIf="accordion.entity.fieldParagraphLink">
-                                <ng-container
-                                    *ngTemplateOutlet="links;context:{linksData:accordion.entity.fieldParagraphLink}">
-                                </ng-container>
-                            </ng-container>
-                            <ng-container *ngIf="accordion.entity.fieldParagraphAttachment">
-                                <ng-container
-                                    *ngTemplateOutlet="files;context:{filesData:accordion.entity.fieldParagraphAttachment}">
-                                </ng-container>
-                            </ng-container>
-                        </ul>
-                    </div>
-                </accordion-item>
-            </accordion>
-        </block-content>
+                  </ng-container>
+                  <ng-container *ngIf="accordion.entity.fieldParagraphAttachment">
+                    <ng-container
+                      *ngTemplateOutlet="files;context:{filesData:accordion.entity.fieldParagraphAttachment}">
+                    </ng-container>
+                  </ng-container>
+                </ul>
+              </div>
+            </ng-template>
+          </accordion-item>
+        </accordion>
+      </block-content>
     </block>
-</article-layout>
+  </article-layout>
 </div>
+<img cornerLogo alt="Euroopa Regionaalarengu fondi logo" src="/assets/img/esf-logo.svg">
 
 <ng-template #links let-linksData="linksData">
-    <li *ngFor="let link of linksData;let ind = index;">
-        <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" attr.aria-label="{{link.title}}"
-            class="link">
+  <li *ngFor="let link of linksData;let ind = index;">
+    <a href="{{link.url.path}}" [attr.target]="!link.url.routed ? '_blank' : ''" class="link">
             <span>
                 <ng-container *ngIf="link.url.routed">
-                    <icon glyph="link-2"></icon><span class="label">{{link.title}}</span>
+                    <icon ariaLabel="{{'link.internal' | translate }}" glyph="link-2"></icon><span
+                  class="label">{{link.title}}</span>
                 </ng-container>
                 <ng-container *ngIf="!link.url.routed">
-                    <icon glyph="external-link"></icon><span class="label">{{link.title}}</span>
+                    <icon ariaLabel="{{'link.external' | translate }}" glyph="external-link"></icon><span
+                  class="label">{{link.title}}</span>
                 </ng-container>
             </span>
-        </a>
-    </li>
+    </a>
+  </li>
 </ng-template>
 <!-- links -->
 
 <ng-template #files let-filesData="filesData">
-    <li *ngFor="let file of filesData;let ind = index;">
-        <a href="{{file.entity.fieldAttachment.entity.url}}" target="_blank" attr.aria-label="{{file.entity.fieldName}}"
-            class="link">
-            <icon glyph="copy"></icon><span class="label">{{file.entity.fieldName}}</span>
-        </a>
-    </li>
+  <li *ngFor="let file of filesData;let ind = index;">
+    <a href="{{file.entity.fieldAttachment.entity.url}}" target="_blank" class="link">
+      <icon ariaLabel="dokument" glyph="copy"></icon>
+      <span class="label">{{file.entity.fieldName}}</span>
+    </a>
+  </li>
 </ng-template>
 <!-- files -->

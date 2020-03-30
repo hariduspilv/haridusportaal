@@ -1,0 +1,98 @@
+<ul>
+  <li>
+    <button htm-button (click)="openActionHistory()"
+      theme="outline">{{'finaldocuments.action_history' | translate}}</button>
+  </li>
+  <li>
+    <button htm-button (click)="openIssueHistory()" theme="outline">{{'finaldocuments.issue_history' | translate}}</button>
+  </li>
+</ul>
+
+<htm-modal id="finalDocument-actionHistory" modalTitle="Väljaandmise Ajalugu" [bottomAction]="true" wide>
+  <ng-template>
+    <ng-container *ngIf="actionHistory.length > 0; else noResults">
+      <scrollableContent scrollParentClass="modal__block">
+        <table htm-table>
+          <tr>
+            <th></th>
+            <th>{{'finaldocuments.th.action_type' | translate}}</th>
+            <th>{{'finaldocuments.th.document_type' | translate}}</th>
+            <th>{{'finaldocuments.th.time' | translate}}</th>
+            <th>{{'finaldocuments.date_of_decision' | translate}}</th>
+            <th>{{'finaldocuments.th.reason' | translate}}</th>
+          </tr>
+          <tr *ngFor="let action of actionHistory">
+            <td>
+              <button htm-button theme="link" *ngIf="action.document"
+                (click)="openDocument(action.document)">{{ 'button.open' | translate }}</button>
+            </td>
+            <td>{{'finalDocument_' + action.type | translate}}</td>
+            <td>{{'finalDocument_' + action.document.type | translate}}</td>
+            <td>{{action.added | date:"dd.MM.yyyy HH:mm"}}</td>
+            <td>{{action.decisionNumber}} {{action.dateOfDecision | date:"dd.MM.yyyy"}}</td>
+            <td>{{action.reason || '-'}}</td>
+          </tr>
+        </table>
+      </scrollableContent>
+    </ng-container>
+  </ng-template>
+</htm-modal>
+
+<htm-modal id="finalDocument-issueHistory" modalTitle="Vaatamise ajalugu" [bottomAction]="true" wide>
+  <ng-template>
+    <ng-container *ngIf="issuingHistory.length > 0; else noResults">
+      <scrollableContent scrollParentClass="modal__block">
+        <table htm-table>
+          <tr>
+            <th>{{'finaldocuments.th.time' | translate}}</th>
+            <th>{{'finaldocuments.th.user' | translate}}</th>
+            <th>{{'finaldocuments.th.access_type' | translate}}</th>
+            <th>{{'finaldocuments.th.action' | translate}}</th>
+          </tr>
+          <ng-container *ngFor="let issue of issuingHistory">
+            <tr>
+              <td>{{issue.issueTime | date:"dd.MM.yyyy HH:mm"}}</td>
+              <td>
+                <ng-container *ngIf="issue.issueBase === 'USER' && issue.certificateAccess">
+                  {{issue.certificateAccess.accessorCode}}</ng-container>
+                <ng-container *ngIf="issue.issueBase === 'ISSUER'">{{data.issuerInstitution}}</ng-container>
+              </td>
+              <ng-container *ngIf="issue.issueBase === 'ISSUER'">
+                <td>{{'finalDocument_issue_' + issue.issueBase | translate}}</td>
+              </ng-container>
+              <ng-container *ngIf="issue.issueBase === 'USER'">
+                <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ID_CODE'">{{'frontpage.isikukood' | translate}}
+                </td>
+                <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">
+                  <p>{{'finaldocuments.accessCode' | translate}}</p>
+                  <p>{{issue.certificateAccess.emailAddress}}</p>
+                </td>
+              </ng-container>
+              <td>{{'finalDocument_issue_' + issue.issueType | translate}}</td>
+            </tr>
+          </ng-container>
+        </table>
+      </scrollableContent>
+    </ng-container>
+  </ng-template>
+</htm-modal>
+
+<htm-modal id="finalDocument-document" modalTitle="Dokument" [bottomAction]="true" wide>
+  <ng-template>
+    <loader *ngIf="loadingDocument"></loader>
+    <ng-container *ngIf="!loadingDocument && !loadingDocumentError">
+      <certificate [document]="documentCache[documentToShow.id]"
+        *ngIf="documentToShow.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' || documentToShow.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE'; else gradeSheet">
+      </certificate>
+      <ng-template #gradeSheet>
+        <grade-sheet [document]="documentCache[documentToShow.id]"></grade-sheet>
+      </ng-template>
+    </ng-container>
+    <alerts small="true" id="documentAlerts"></alerts>
+  </ng-template>
+</htm-modal>
+
+<ng-template #noResults>
+  <alerts small="true" id="historyModalAlerts"></alerts>
+  <alerts small="true" id="actionHistoryModalAlerts"></alerts>
+</ng-template>

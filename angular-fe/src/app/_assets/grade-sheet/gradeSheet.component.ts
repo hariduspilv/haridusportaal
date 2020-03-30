@@ -1,4 +1,4 @@
-import { Component, Input, HostBinding, ElementRef, HostListener, ViewChild, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'grade-sheet',
@@ -7,19 +7,27 @@ import { Component, Input, HostBinding, ElementRef, HostListener, ViewChild, Sim
 })
 export class GradeSheetComponent{
 
-  constructor (
-  ) {}
-
-  @Input() document: any = {};
+  @Input() public document: any = {};
 
   public mandatorySubjects = [];
   public electives = [];
   public hasSchoolExam = false;
   public hasIndividualProgramme = false;
+  public toimetulekuOpe = false;
 
-  ngOnInit() {
+  public ngOnInit() {
 
-    console.log(this.document)
+    if (this.document.content.studies.curriculumCode === 'OPPEKAVA:1010109'
+    || this.document.content.studies.curriculumCode === 'OPPEKAVA:1010107') {
+      this.toimetulekuOpe = true;
+    }
+
+    /*if (this.document.content.studies.curriculumName ===
+      'põhikooli lihtsustatud riiklik õppekava toimetulekuõpe'
+    || this.document.content.studies.curriculumName ===
+    'põhikooli lihtsustatud riiklik õppekava hooldusõpe') {
+      this.toimetulekuOpe = true;
+    }*/
 
     this.mandatorySubjects =
       this.document.content.studySubjects.filter((subject) => {

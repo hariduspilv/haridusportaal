@@ -135,9 +135,18 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
 
   resetFilters() {
     this.router.navigate(['.'], {
+      skipLocationChange: true,
       relativeTo: this.route,
-      queryParams: {},
+      queryParams: {
+        dummy: 'true',
+      },
+    }).then(() =>{
+      this.router.navigate(['.'], {
+        relativeTo: this.route,
+        queryParams: {},
+      });
     });
+
   }
 
   ngAfterViewInit() {

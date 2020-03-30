@@ -53,7 +53,7 @@
         line-height: 28px;
       }
 
-      &#duplicate-badge {
+      &.info-badge {
         height: 40px;
         width: 180px;
         color: $error;
@@ -67,6 +67,16 @@
     }
 
     section {
+
+      &#duplicate-info {
+        position: absolute;
+        left: 470px;
+        top: 35px;
+        max-width: 200px;
+
+        text-align: left;
+      }
+
       &#institution {
         margin-top: 13px;
         height: 130px;

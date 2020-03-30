@@ -34,7 +34,9 @@
 
           <accordion *ngIf="data.accordion">
             <accordion-item *ngFor="let item of data.accordion" [title]="item.entity.fieldTitle || item.entity.fieldSurveyAccordionTitle || item.entity.fieldAccordionTitle">
+              <ng-template>
               <div [innerHTML]="item.entity.fieldBody ? item.entity.fieldBody.value : item.entity.fieldSurveyAccordionContent.value"></div>
+            </ng-template>
             </accordion-item>
           </accordion>
   

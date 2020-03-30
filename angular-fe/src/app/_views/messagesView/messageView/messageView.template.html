@@ -50,11 +50,11 @@
 	</div>
 </base-layout>
 <htm-modal id="delete" modalTitle="{{'messages.delete' | translate}}" [bottomAction]="false">
-  <modal-content>
+  <ng-template>
     <p>{{'messages.deleteMessage' | translate}}</p>
     <div class="button-container">
       <button htm-button theme="plain" (click)="modal.toggle('delete')">{{'messages.decline' | translate}}</button>
       <button htm-button (click)="deleteMessage(); modal.close('delete')">{{'messages.acceptDelete' | translate}}</button>
     </div>
-  </modal-content>
+  </ng-template>
 </htm-modal>

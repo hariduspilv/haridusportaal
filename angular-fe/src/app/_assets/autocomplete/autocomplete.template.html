@@ -1,21 +1,22 @@
 <ng-container *ngIf="active">
-  <ng-container *ngIf="loading">
-    <ul>
-      <li>{{ 'autocomplete.loading' | translate }}</li>
-    </ul>
-  </ng-container>
-  <ng-container *ngIf="!loading && searched && !data.length">
-    <ul>
-      <li>{{ 'autocomplete.no_result' | translate }}</li>
-    </ul>
-  </ng-container>
-  <ng-container *ngIf="!loading && data.length">
-    <ul class="autocomplete__results">
-      <ng-container *ngFor="let item of data; let i = index;" >
-        <li (click)="onClick(item)" (keypress.enter)="onClick(item)" [class.autocomplete__active]="i == activeItem">
-          {{ item | parseInAdds }}
-        </li>
-      </ng-container>
-    </ul>
-  </ng-container>
+	<ng-container *ngIf="loading">
+		<ul>
+			<li>{{ 'autocomplete.loading' | translate }}</li>
+		</ul>
+	</ng-container>
+	<ng-container *ngIf="!loading && searched && !data.length">
+		<ul>
+			<li>{{ 'autocomplete.no_result' | translate }}</li>
+		</ul>
+	</ng-container>
+	<ng-container *ngIf="!loading && data.length">
+		<ul class="autocomplete__results" role="list">
+			<ng-container *ngFor="let item of data; let i = index;">
+				<li role="listitem" [attr.aria-label]="activeItem" (click)="onClick(item)" (keypress.enter)="onClick(item)"
+						[class.autocomplete__active]="i == activeItem">
+					{{ item | parseInAdds }}
+				</li>
+			</ng-container>
+		</ul>
+	</ng-container>
 </ng-container>

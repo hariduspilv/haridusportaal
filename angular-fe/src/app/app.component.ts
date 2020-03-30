@@ -14,6 +14,7 @@ import { Location } from '@angular/common';
 import { AmpService } from './_services/ampService';
 import { TranslateService } from './_modules/translate/translate.service';
 import { CookieService } from './_services/CookieService';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'app-root',
@@ -36,8 +37,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     private cookieService: CookieService,
     public modalService: ModalService,
     private analytics: AnalyticsService,
+    private device: DeviceDetectorService,
   ) {
     this.sidemenuIsVisible = sidemenuService.isVisible;
+    if (this.device.isDesktop()) {
+      document.querySelector('html').className = 'device-desktop';
+    } else {
+      document.querySelector('html').className = 'device-mobile';
+    }
   }
   public onActivate(): void {
     try {
@@ -137,22 +144,20 @@ export class AppComponent implements OnInit, AfterViewInit {
       this.sidemenuIsVisible = val;
     });
 
-    if (this.settingsService.url.match('haridusportaal.edu')) {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        const path = `${window.location.origin}/amp${window.location.pathname}`;
+        this.amp.removeTag('rel=amphtml');
+        this.amp.addTag({
+          href: path,
+          rel: 'amphtml',
+        });
+      }
+    });
 
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-          const path = `${window.location.origin}/amp${window.location.pathname}`;
-          this.amp.removeTag('rel=amphtml');
-          this.amp.addTag({
-            href: path,
-            rel: 'amphtml',
-          });
-        }
-      });
+    if (this.settingsService.url.match('haridusportaal.edu')) {
+      this.gaPageTrack();
     }
 
-    this.gaPageTrack();
-
-    // this.addPlumbrScript();
   }
 }

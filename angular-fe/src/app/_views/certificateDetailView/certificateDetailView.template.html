@@ -1,5 +1,6 @@
 <div class="inline">
-	<article-layout>
+	<loader *ngIf="loading"></loader>
+	<article-layout [sidebar]="sidebar" *ngIf="!loading">
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 		<block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
 			<block-title>
@@ -8,8 +9,8 @@
 
 			<block-secondary-title>
 				{{ 'certificates.certificate_nr' | translate }} {{documents.certificate?.number}}
-			</block-secondary-title>			
-			
+			</block-secondary-title>
+
 			<block-content
 				[tabLabel]="'certificates.graduation_certificate' | translate"
 				tabIcon="columns"
@@ -29,7 +30,7 @@
 				[tabLabel]="'certificates.grade_sheet' | translate"
 				tabIcon="file-text"
 			>
-				<grade-sheet [document]="documents.gradesheet"></grade-sheet>
+				<grade-sheet [document]="documents.gradesheet" #gradeSheet></grade-sheet>
 			</block-content>
 		</block>
 	</article-layout>

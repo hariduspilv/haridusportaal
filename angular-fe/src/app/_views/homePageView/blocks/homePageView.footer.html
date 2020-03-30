@@ -3,7 +3,7 @@
   <form [formGroup]="formGroup" (submit)="submit()">
   <div class="footer">
     <div class="contact" *ngIf="data">
-      <div class="contact__title">{{ 'home.contact' | translate }}</div>
+      <h2 class="contact__title">{{ 'home.contact' | translate }}</h2>
       <p>
         {{ data.name }}<br />
         <a [href]="'mailto:'+data.email">{{ data.email }}</a><br />
@@ -11,7 +11,7 @@
       </p>
     </div><!--/contact-->
     <div class="newsletter">
-      <div class="newsletter__title">{{ 'home.newsletter_subscribe' | translate }}</div>
+      <h3 class="newsletter__title">{{ 'home.newsletter_subscribe' | translate }}</h3>
       <ng-container *ngIf="loading">
         <loader></loader>
       </ng-container>
@@ -20,6 +20,9 @@
           <div class="newsletter__col">
             <formItem
               [placeholder]="'home.newsletter_email' | translate"
+              domID="e-mail"
+              browserAutocomplete="email"
+              [ariaLabel]="'home.newsletter_email' | translate"
               formControlName="email"></formItem>
           </div><!--/newsletter_col-->
           <div class="newsletter__col">
@@ -49,17 +52,17 @@
 </div><!--/inner-->
 
 <htm-modal id="unsubscribe" modalTitle="{{'newsletter.unsubscribe_title' | translate}}" size="medium">
-  <modal-content>
+  <ng-template>
     <br /><br />
     <div [innerHTML]="'newsletter.unsubscribe_content' | translate"></div>
     <br /><br />
-  </modal-content>
+  </ng-template>
 </htm-modal>
   
 <htm-modal id="subscribe" modalTitle="{{'newsletter.modal_title' | translate}}" size="medium">
-  <modal-content>
+  <ng-template>
     <br /><br />
     <div [innerHTML]="'newsletter.modal_content' | translate"></div>
     <br /><br />
-  </modal-content>
+  </ng-template>
 </htm-modal>

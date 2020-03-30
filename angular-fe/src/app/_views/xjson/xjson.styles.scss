@@ -2,6 +2,15 @@
 @import "breakpoints.scss";
 @import "grid.scss";
 :host {
+  ::ng-deep{
+    .scrollable__wrapper table {
+      table-layout: auto !important;
+      width: auto !important;
+      min-width: 100% !important;
+      td {white-space: normal;}
+    }
+  }
+
   input {
     font-size: 0.875rem;
   }
@@ -116,7 +125,7 @@
     }
   }
 
-  .modal-center {
+  ::ng-deep .modal-center {
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -411,7 +420,7 @@
     display: flex;
     flex-basis: 100%;
     justify-content: flex-end;
-    padding-top: 1.875rem;
+    padding: 1.875rem .5rem;
     align-items: center;
     @include break-on(sm, max) {
       flex-direction: row;
@@ -425,9 +434,22 @@
       button {
         margin-left: 0.625rem;
       }
+      @include break-on(xs, max) {
+        flex-wrap: wrap;
+        width: 100%;
+        div {
+          width: 100%;
+        }
+        button {
+          width: 100%;
+        }
+      }
     }
     .secondary-buttons {
       margin-left: 0.5rem;
+      @include break-on(xs, max) {
+        width: 100%;
+      }
     }
     a,
     button {
@@ -513,6 +535,9 @@
       border: 0rem;
       &.highlighted {
         font-weight: 500;
+      }
+      a {
+        white-space: nowrap;
       }
     }
     td.hidden,
@@ -799,6 +824,7 @@
     margin: -0.5rem 1rem 0rem 0rem;
     display: block !important;
   }
+  
   .xjson__component ::ng-deep {
     &.mat-select-value {
       height: 1.5rem;
@@ -863,8 +889,11 @@
       }
     }
   }
-  .scrollableTable th {
-    padding: $gutter $gutter;
+  .scrollableTable{
+    table-layout: fixed;
+    th {
+      padding: $gutter $gutter;
+    }
   }
   input.contnent-input {
     height: 1.875rem;

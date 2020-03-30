@@ -7,6 +7,7 @@ import { RippleService } from '@app/_services';
   styleUrls: ['./button.styles.scss'],
   host: {
     '(mousedown)': 'animateRipple($event)',
+    '(keydown.enter)' : 'animateRipple($event)',
   },
 })
 

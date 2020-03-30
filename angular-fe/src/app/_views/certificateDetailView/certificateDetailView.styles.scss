@@ -14,4 +14,13 @@
       }
     }
   }
+
+  ::ng-deep .button-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    button:first-child {
+      margin-right: 1.5rem;
+    }
+  }
 }

@@ -1,24 +1,19 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  ViewRef,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef, } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {
-  AlertsService,
-  ModalService,
-  AuthService,
-  SettingsService,
   Alert,
+  AlertsService,
   AlertType,
+  AuthService,
+  ModalService,
+  SettingsService,
 } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { TableService } from '@app/_services/tableService';
-import { FormBuilder, Validators, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { AddressService } from '@app/_services/AddressService';
 
 const acceptableFormsRestrictedLength = 4;
 
@@ -48,10 +43,6 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   public requestCounter: number = 0;
   public maxRequests: number = 10;
   public requestError: boolean = false;
-
-  private debounce;
-  private delay: number = 200;
-
   deleteDocSubmitted = false;
   deleteId = '';
   dummyDataVersion: string;
@@ -71,24 +62,19 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
   requestIterator;
   requestIteratorTimeout = 1000;
   currentRole: string = '';
-
   institutionData = [];
   editableInstitution = {};
   editableId = '';
-
   modalTitleExists = true;
   modalTopAction = false;
   modalBottomAction = true;
   institutionModalFields = [];
   viewReload = false;
-
   acceptableFormsList = [];
   acceptableFormsListRestricted: boolean = true;
   tableOverflown: any = [{ 0: false, 1: false }];
   elemAtStart: any = [{ 0: true, 1: true }];
   initialized: any = [{ 0: false, 1: false }];
-  private subscriptions: Subscription[] = [];
-  private locSubscriptions: Subscription[] = [];
   userData;
   error = false;
   modalLoading = false;
@@ -98,8 +84,11 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     studyInstitutionType: [],
   };
   formOptionsQueried = false;
-
   public formGroup: FormGroup = this.formBuilder.group({});
+  private debounce;
+  private delay: number = 200;
+  private subscriptions: Subscription[] = [];
+  private locSubscriptions: Subscription[] = [];
 
   constructor(
     public alertsService: AlertsService,
@@ -112,7 +101,9 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     public formBuilder: FormBuilder,
     public cdr: ChangeDetectorRef,
     private translate: TranslateService,
-  ) { }
+    private address: AddressService,
+  ) {
+  }
 
   pathWatcher() {
     const queryParams = this.route.queryParams.subscribe(
@@ -156,6 +147,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     };
 
     const regex = /(\d{2}).(\d{2}).(\d{4})/;
+
     function compareDate(a: any, b: any) {
       if (!a['document_date'] || !b['document_date']) return -1;
       // tslint:disable-next-line: max-line-length
@@ -376,6 +368,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'contactEmail',
           required: true,
           error: false,
+          errorMessage: this.translate.get('form.invalid_email'),
           formControl: this.formBuilder.control('', [Validators.required, Validators.email]),
         },
         {
@@ -387,6 +380,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'address',
           required: true,
           error: false,
+          errorMessage: this.translate.get('form.invalid_address'),
           formControl: this.formBuilder.control('', [Validators.required, autocompleteValidator]),
         },
         {
@@ -449,6 +443,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
           modelName: 'contactEmail',
           required: false,
           error: false,
+          errorMessage: this.translate.get('form.invalid_email'),
           formControl: this.formBuilder.control('', [Validators.email]),
         },
         {
@@ -533,11 +528,10 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
       const oid = item.formControl.value.adsOid;
       const params = `ihist=1&appartment=1&adsoid=${oid}&results=10&callback=JSONP_CALLBACK`;
       const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
-      const subscription = this.http.jsonp(path, 'callback').
-        subscribe((response: any) => {
-          const value = { ...response.addresses[0] };
-          item.formControl.setValue(value);
-        });
+      const subscription = this.http.jsonp(path, 'callback').subscribe((response: any) => {
+        const value = { ...response.addresses[0] };
+        item.formControl.setValue(value);
+      });
     }
   }
 
@@ -550,18 +544,16 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const params = `ihist=1&appartment=1&address=${id}&results=10&callback=JSONP_CALLBACK`;
     const path = `https://inaadress.maaamet.ee/inaadress/gazetteer?${params}`;
     school.institutionInfo.address.addressFull = '';
-    const subscription = this.http.jsonp(path, 'callback').
-      subscribe((response: any) => {
-        school.institutionInfo.address.addressFull =
-          response.addresses && response.addresses[0] && response.addresses[0].pikkaadress ?
-            response.addresses[0].pikkaadress :
-            school.institutionInfo.address.addressHumanReadable;
-
-        if (this.cdr && !(this.cdr as ViewRef).destroyed) {
-          this.cdr.detectChanges();
+    const subscription = this.http.jsonp(path, 'callback').subscribe((response: any) => {
+      if (this.cdr && !(this.cdr as ViewRef).destroyed) {
+        try {
+          school.institutionInfo.address.addressHumanReadable = this.address.inAdsFormatValue(response.addresses[0]).addressHumanReadable;
+        } catch (err) {
         }
-        subscription.unsubscribe();
-      });
+        this.cdr.detectChanges();
+      }
+      subscription.unsubscribe();
+    });
   }
 
   validateField(modelName) {

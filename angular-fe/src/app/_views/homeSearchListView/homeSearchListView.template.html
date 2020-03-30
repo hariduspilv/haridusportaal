@@ -1,6 +1,6 @@
 <base-layout>
 	<div class="inline">
-		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+		<breadcrumbs [data]="breadcrumbs" [ellipsis]="false"></breadcrumbs>
 	</div><!--/inline-->
 	<form (submit)="getResults(param, [])" class="filter-wrapper" [eventTracker]="getGoogleAnalyticsObject()">
 		<div class="inline">

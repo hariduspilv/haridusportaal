@@ -65,6 +65,9 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
       this.isLanguageDisabled =
         this.selectedPrimaryTypes.includes('3441') || this.selectedPrimaryTypes.includes('3440')
           ? true : false;
+      if (this.isLanguageDisabled) {
+        this.selectedLanguage = [];
+      }
       return;
     }
 
@@ -72,6 +75,9 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
       this.isLanguageDisabled =
         this.selectedPrimaryTypes.includes('3441') && this.selectedPrimaryTypes.includes('3440')
           ? true : false;
+      if (this.isLanguageDisabled) {
+        this.selectedLanguage = [];
+      }
       return;
     }
     this.isLanguageDisabled = false;
@@ -197,7 +203,6 @@ export class SchoolListViewComponent implements AfterViewInit, OnDestroy {
         this.setSecondaryTypes();
         this.setTypeValue();
         this.cdr.detectChanges();
-        console.log(this.selectedPrimaryTypes);
       },
       0);
   }

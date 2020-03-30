@@ -20,6 +20,9 @@
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
         [attr.disabled]="disabled"
+        [attr.aria-label]="ariaLabel"
+        [id]="domID"
+        [attr.name]="domID"
         [(ngModel)]="field" />
     </ng-container>
 
@@ -36,6 +39,7 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
+        [attr.aria-label]="ariaLabel"
         [attr.disabled]="disabled"
         [(ngModel)]="field" />
     </ng-container>
@@ -51,7 +55,9 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
+				(keydown)="keyDownFn($event)"
         [attr.disabled]="disabled"
+        [attr.aria-label]="ariaLabel"
         [(ngModel)]="field" />
     </ng-container>
 
@@ -61,7 +67,7 @@
         ngbDatepicker #d="ngbDatepicker"
         container="body"
         outsideDays="collapsed"
-        [attr.placeholder]="titleDisabled && !focused ? placeholder : ''"
+        [attr.placeholder]="forcePlaceholder && disabled ? placeholder : (titleDisabled && !focused ? placeholder : '')"
         [class.focused]="focused"
         #inputField
         [minDate]="minDate"
@@ -73,10 +79,10 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
-        [attr.disabled]="disabled"
+        [disabled]="disabled"
         [(ngModel)]="dateField" />
-      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" ripple="dark" [attr.disabled]="disabled">
-        <icon glyph="calendar"></icon>
+      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [disabled]="disabled">
+        <icon glyph="calendar" aria-label="kuupäev"></icon>
       </button>
     </ng-container>
 
@@ -97,7 +103,6 @@
     </ng-container>
 
     <ng-container *ngSwitchCase="'multi-select'">
-
       <ng-container *ngIf="isMobile">
         <select
           (change)="update()"
@@ -105,7 +110,8 @@
           (blur)="update('blur')"
           multiple
           [attr.disabled]="disabled"
-          [(ngModel)]="field">
+          [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel">
           <ng-container *ngIf="sortOptions">
             <option *ngFor="let item of options | orderBy: 'key'" [value]="item.value">{{ item.key }}</option>
           </ng-container>
@@ -132,14 +138,15 @@
           [appendTo]="appendTo"
           [disabled]="disabled"
           *ngIf="options"
-          [(ngModel)]="field">
+          [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel">
 
           <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
             <formItem type="checkbox" [label]="item.key" [ngModel]="item$.selected"></formItem>
           </ng-template>
         </ng-select>
       </ng-container>
-      
+
     </ng-container>
 
     <ng-container *ngSwitchCase="'select'">
@@ -149,15 +156,16 @@
           (focus)="update('focus')"
           (blur)="update('blur')"
           [attr.disabled]="disabled"
-          [(ngModel)]="field">
-          
+          [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel">
+
           <ng-container *ngIf="sortOptions">
             <option *ngFor="let item of options | orderBy: 'key'" [value]="item.value">{{ item.key }}</option>
           </ng-container>
           <ng-container *ngIf="!sortOptions">
             <option *ngFor="let item of options" [value]="item.value">{{ item.key }}</option>
           </ng-container>
-          
+
         </select>
         <button class="formItem__icon" type="button">
           <icon glyph="chevron-down"></icon>
@@ -175,7 +183,8 @@
           [appendTo]="appendTo"
           [disabled]="disabled"
           [placeholder]="placeholder"
-          [(ngModel)]="field">
+          [(ngModel)]="field"
+          [attr.aria-label]="ariaLabel">
         </ng-select>
       </ng-container>
     </ng-container>
@@ -207,7 +216,7 @@
           <div class="formItem__radio__wrapper">
             <input
             type="radio"
-            name="field"
+            [name]="name"
             [value]="item.value"
             [(ngModel)]="field"
             (change)="update()"
@@ -217,8 +226,8 @@
             />
             <div class="formItem__radio__indicator"></div>
           </div><!--/formItem__check__wrapper-->
-          <div class="formItem__radio__title">
-            {{ item.key }}
+          <div class="formItem__radio__title"  [class.selected]="item.value === field">
+            {{ item.key }} <tooltip *ngIf="item.info">{{ item.info }}</tooltip>
           </div><!--/formItem__check__title-->
         </label><!--/formItem__check-->
       </ng-container>
@@ -231,12 +240,15 @@
         #inputField
         pattern="{{ pattern ? patterns[pattern] : '' }}"
         type="text"
+				autocomplete="off"
+				[id]="domID"
         (change)="update()"
         (focus)="update('focus')"
         (blur)="update('blur', autocompleteElem);"
         (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
         (ngModelChange)="field = $event"
-        [ngModel]="field | parseInAdds" />
+        [ngModel]="field | parseInAdds"
+        [attr.aria-label]="ariaLabel"/>
       <autocomplete
         [valueType]="valueType"
         #autocompleteElem
@@ -254,7 +266,8 @@
         (focus)="update('focus')"
         (blur)="update('blur')"
         [attr.disabled]="disabled"
-        [(ngModel)]="field">
+        [(ngModel)]="field"
+        [attr.aria-label]="ariaLabel">
         <option value="" *ngIf="placeholder">{{ placeholder }}</option>
         <option value="0">Yki</option>
         <option value="1">Kaki</option>

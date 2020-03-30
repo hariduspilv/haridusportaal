@@ -1,0 +1,1 @@
+export * from './documentCheck.component';

@@ -115,7 +115,7 @@ export const parseData = (data) => {
       }).join(', ');
     }
 
-    if (item.join) {
+    if (item.join && value !== null && value !== '0' && value) {
       value = `${value} ${findObj(data, item.join)}`;
     }
 

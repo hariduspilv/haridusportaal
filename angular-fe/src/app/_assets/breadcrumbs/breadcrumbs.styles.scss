@@ -22,11 +22,12 @@ li {
 	padding: 0;
 	margin: 0;
 	display: inline;
-	max-width: 12.5rem;
-	overflow: hidden;
-	text-overflow: ellipsis;
 	white-space: nowrap;
 	color: $black;
+}
+.ellipsis li {
+	max-width: 12.5rem;
+	text-overflow: ellipsis;
 }
 
 .arrow {

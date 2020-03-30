@@ -1,17 +1,17 @@
-import { Component, OnInit, HostBinding, Input, ChangeDetectorRef } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
 import {
-  SidemenuService,
-  ModalService,
-  AuthService,
-  SettingsService,
   AlertsService,
   AnalyticsService,
+  AuthService,
+  ModalService,
+  SettingsService,
+  SidemenuService,
 } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'htm-header',
@@ -21,39 +21,30 @@ import { Router, ActivatedRoute } from '@angular/router';
 
 export class HeaderComponent implements OnInit {
   public active: boolean;
-  @Input() loginStatus: boolean = false;
-  @Input() user: string = '';
-  @HostBinding('class') get hostClasses(): string {
-    return 'header';
-  }
-  @HostBinding('attr.aria-label') ariaLabel: string = this.translate.get('frontpage.header');
-  @HostBinding('attr.role') role: string = 'banner';
+  @Input() public loginStatus: boolean = false;
+  @Input() public user: string = '';
+  @HostBinding('attr.aria-label') public ariaLabel: string = this.translate.get('frontpage.header');
+  @HostBinding('attr.role') public role: string = 'banner';
   public searchTerm: any;
   public logoutActive = false;
-
   public searchString = '';
-
   public loading = false;
   public mobileId = {
     challengeId: '',
   };
-
   public authMethods = {
     harid: false,
     tara: false,
     mobile_id: false,
     basic: false,
   };
-
   public availableAuthMethods = [];
-
   public mobileIdRequest: Subscription = new Subscription();
   public offClickHandler: any;
   public loginForm: FormGroup = this.formBuilder.group({
     password: ['', Validators.required],
     username: ['', Validators.required],
   });
-
   public mobileIdForm: FormGroup = this.formBuilder.group({
     phoneNumber: ['', Validators.required],
   });
@@ -71,7 +62,18 @@ export class HeaderComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private cdr: ChangeDetectorRef,
     private analytics: AnalyticsService,
-  ) { }
+  ) {
+  }
+
+  @HostBinding('class') get hostClasses(): string {
+    return 'header';
+  }
+
+  public isNumber(e): boolean {
+    const charCode = (e.which) ? e.which : e.keyCode;
+
+    return !(charCode > 31 && (charCode < 48 || charCode > 57));
+  }
 
   public basicLogin(): void {
     this.alertsService.clear('login-modal');
@@ -117,10 +119,7 @@ export class HeaderComponent implements OnInit {
                 .error(this.translate.get(err.error.message), 'login-modal', false, true);
               this.mobileId.challengeId = '';
             },
-            () => {
-            });
-      },
-      (err: any) => {
+          );
       },
       () => {
         this.loading = false;
@@ -128,17 +127,17 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  toggleSidemenu(): void {
+  public toggleSidemenu(): void {
     this.sidemenuService.toggle();
     this.active = this.sidemenuService.isVisible;
   }
 
-  mobileIdCancel() {
+  public mobileIdCancel() {
     this.mobileId.challengeId = '';
     this.mobileIdRequest.unsubscribe();
   }
 
-  subscribeToAuth() {
+  public subscribeToAuth() {
     this.auth.isAuthenticated.subscribe((val) => {
       this.loginStatus = val;
     });
@@ -151,7 +150,7 @@ export class HeaderComponent implements OnInit {
     this.modalService.toggle('login');
   }
 
-  getAuthMethods() {
+  public getAuthMethods() {
     this.loading = true;
     if (
       this.settings.url === 'https://htm.wiseman.ee' ||
@@ -162,8 +161,8 @@ export class HeaderComponent implements OnInit {
       this.authMethods.mobile_id = true;
     }
     this.http.get(`${this.settings.url}/auth_methods?_format=json`).subscribe(
-      (response) => {
-        this.authMethods = Object.assign({}, this.authMethods, { ...response['auth_methods'] });
+      (response: any) => {
+        this.authMethods = Object.assign({}, this.authMethods, { ...response.auth_methods });
         this.availableAuthMethods =
           Object.entries(this.authMethods).filter(method => method[1]);
         if (!this.availableAuthMethods.length) {
@@ -179,7 +178,11 @@ export class HeaderComponent implements OnInit {
       });
   }
 
-  searchRoute(e, timeout: boolean = false) {
+  public searchClick() {
+    this.searchRoute(this.searchTerm);
+  }
+
+  public searchRoute(e, timeout: boolean = false) {
 
     const term = !e ? this.searchTerm : (
       e instanceof Event ? e.target['0'].value : e
@@ -192,17 +195,17 @@ export class HeaderComponent implements OnInit {
     this.router.navigateByUrl(url);
   }
 
-  headerSearchEnabled() {
+  public headerSearchEnabled() {
     return this.activatedRoute.snapshot.firstChild &&
       this.activatedRoute.snapshot.firstChild.routeConfig.path !== 'otsing';
   }
 
-  sendAnalyticsData(term) {
+  public sendAnalyticsData(term) {
     this.analytics.trackEvent('homeSearch', 'submit', term);
   }
 
   // wtf
-  openLogOutDropdown(event: Event) {
+  public openLogOutDropdown(event: Event) {
     if (!this.logoutActive) {
       document.addEventListener(
         'click',
@@ -211,7 +214,7 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  offClickListener() {
+  public offClickListener() {
     if (this.logoutActive) {
       document.removeEventListener('click', this.offClickHandler);
       this.logoutActive = false;
@@ -220,13 +223,13 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  logOut() {
+  public logOut() {
     document.removeEventListener('click', this.offClickHandler);
     this.logoutActive = false;
     this.auth.logout();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.active = this.sidemenuService.isVisible;
     this.loginStatus = this.auth.isAuthenticated.getValue();
     this.subscribeToAuth();

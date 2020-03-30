@@ -58,6 +58,7 @@
 
 					<div class="col-5 sm-12" [class.disabled]="selectedIscedfBroad.length ? false : true" >
 						<formItem type="multi-select" [(ngModel)]="selectedIscedfNarrow" (onChange)="setIscedfFilters('detailed')"
+						[disabled]="selectedIscedfBroad.length ? false : true"
 						title="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}" name="iscedf_narrow" [options]="iscedfNarrowFilters">
 						</formItem>
 					</div>
@@ -69,6 +70,7 @@
 
 					<div class="col-5 sm-12" [class.disabled]="selectedIscedfNarrow.length ? false : true">
 						<formItem type="multi-select" [(ngModel)]="selectedIscedfDetailed" 
+						[disabled]="selectedIscedfNarrow.length ? false : true"
 						title="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}" name="iscedf_detailed" [options]="iscedfDetailedFilters">
 						</formItem>
 					</div>
@@ -85,16 +87,16 @@
 					</div>
 
 					<div class="hidden">
-						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
+						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField" [excludeFromSearch]="true"
 							[(ngModel)]="sortField">
 						</formItem>
 					</div>
 					<div class="hidden">
-						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection" [(ngModel)]="sortDirection">
+						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection" [(ngModel)]="sortDirection" [excludeFromSearch]="true">
 						</formItem>
 					</div>
 
-					<div class="col-6">
+					<div class="col-6 sm-12">
 						<formItem type="checkbox" [(ngModel)]="openAdmission"
 						label="{{ 'studyProgramme.filter_open_admission' | translate }}" name="onlyOpenAdmission">
 						</formItem>
@@ -114,6 +116,11 @@
 							</a>
 						</div>
 						<div class="button-row">
+							<a role="button" class="pointer sm-show" (keyup.enter)="resetFilters()"
+								(click)="resetFilters()" tabindex="0" aria-expanded="false">
+								<icon glyph="x"></icon>
+								<span>{{ 'button.clear_fields' | translate}}</span>
+							</a>
 							<button htm-button>{{ 'button.search' | translate }}</button>
 						</div>
 					</div>

@@ -1,7 +1,7 @@
-@import "typography.scss"; 
+@import "typography.scss";
 @import "breakpoints.scss";
 :host {
-  
+
 }
 .frontpage {
   background-color: $white;
@@ -63,7 +63,7 @@
 }
 
 :host {
-  ::ng-deep modal-content {
+  ::ng-deep .modal-content {
     text-align: center;
     span {
       font-size:$medium;text-align:center;color:$black; margin: 0;line-height:1.875rem;font-weight:normal;

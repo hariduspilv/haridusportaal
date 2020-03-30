@@ -2,7 +2,6 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import videoMd from './video.md';
 import { TranslateModule } from '@app/_modules/translate';
-import { EmbedVideoService } from 'ngx-embed-video';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -12,7 +11,6 @@ const moduleMetadata = {
     TranslateModule.forRoot(),
   ],
   providers: [
-    EmbedVideoService,
     QueryParamsService,
     { provide: ActivatedRoute, useValue: {} },
   ],

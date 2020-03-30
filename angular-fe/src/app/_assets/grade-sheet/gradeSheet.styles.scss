@@ -1,12 +1,18 @@
 @import 'colors.scss';
+@import 'breakpoints.scss';
 
 :host {
-  
+
+  ::ng-deep scrollablecontent .arrow {
+    position: absolute;
+  }
+
   * {
     margin: 0;
   }
 
   div#grade-sheet {
+    position: relative;
     font-family: Roboto;
     width: 100%;
     padding: 2.5rem;
@@ -14,7 +20,7 @@
     background-color: $white;
     background-image: url(../../../assets/img/certificate-background.svg);
     background-size: 55%;
-    background-position: center 97px; 
+    background-position: center 97px;
     background-repeat: no-repeat;
 
 
@@ -26,6 +32,20 @@
     }
 
     section {
+
+      &#duplicate-info {
+        position: absolute;
+        @include break-on(xs, max) {
+          position: static;
+        }
+        right: 2rem;
+        top: 1.875rem;
+
+        p {
+          font-size: 0.625rem;
+        }
+      }
+
       &#header {
         margin-top: 2.5rem;
         margin-bottom: 0.75rem;
@@ -36,10 +56,15 @@
         margin-bottom: 1rem;
       }
 
+      &#grade-sheet-number {
+        text-align: center;
+      }
+
       &#grades {
         margin-top: 0.25rem;
 
         .subject-type {
+          font-weight: bold;
           margin-bottom: 0.5rem;
         }
 
@@ -48,7 +73,7 @@
           p {
             font-size: 0.625rem;
           }
-          
+
           margin-left: 1.25rem;
           margin-bottom: 0.75rem;
 
@@ -64,13 +89,16 @@
           border-collapse: collapse;
           table-layout: fixed;
           margin-bottom: 1rem;
+
           tr {
             height: 1.875rem;
             font-size: 0.75rem;
+
             &.highlight {
               background: $light-gray;
               font-weight: bold;
             }
+
             &:not(.last-cell):not(.highlight) {
               border-bottom: 0.0625rem solid $gray;
             }
@@ -81,16 +109,36 @@
             overflow: hidden;
             text-overflow: ellipsis;
             margin-left: 0.25rem;
+
             .numeric-grade {
               margin-right: 1rem;
             }
+
             &:first-child {
               width: 60%;
               padding-left: 2.5rem;
             }
+
             &:last-child {
               width: 25%;
               padding-right: 2.5rem;
+            }
+          }
+
+          @include break-on(xs, max) {
+            table-layout: auto;
+            td {
+              padding-left: 1.5rem;
+
+              &:first-child {
+                width: auto;
+                padding-left: 1.5rem;
+              }
+
+              &:last-child {
+                width: auto;
+                padding-right: 1.5rem;
+              }
             }
           }
         }
@@ -103,15 +151,61 @@
 
     p {
       font-size: 0.75rem;
+
+      &.info-badge {
+        height: 40px;
+        width: 180px;
+        color: $error;
+        background-color: rgba($color: $error, $alpha: 0.1);
+        border-radius: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 0 auto;
+        margin-bottom: 0.75rem;
+        @include break-on(xs, max) {
+          margin: 0.5rem 0;
+        }
+      }
     }
 
     .bold {
       font-weight: bold;
     }
 
-    .medium {
-      font-weight: 500;
-    }
 
+    @include break-on(xs, max) {
+
+      padding: 0;
+
+      background: $white;
+      border: none;
+
+      section {
+        &#header {
+          margin: 0;
+          text-align: left;
+
+          h1#grade-sheet-title {
+            display: none;
+          }
+
+          .bold {
+            font-weight: normal;
+          }
+
+          #for-certificate {
+            font-weight: bold;
+            text-transform: capitalize;
+          }
+        }
+
+        &#info {
+          .bold {
+            font-weight: normal;
+          }
+        }
+      }
+    }
   }
 }

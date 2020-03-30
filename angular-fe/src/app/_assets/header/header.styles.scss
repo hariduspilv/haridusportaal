@@ -9,17 +9,22 @@
 	height: 4rem;
 	box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0,0,0,.2), 0 0.125rem 0.125rem 0 rgba(0,0,0,.14), 0 0.0625rem 0.3125rem 0 rgba(0,0,0,.12);
 	grid-area: header;
-	-ms-grid-row:1; 
-	-ms-grid-column:1; 
+	-ms-grid-row:1;
+	-ms-grid-column:1;
 	-ms-grid-column-span:3;
 	display: flex;
+	.hidden-label {
+		opacity: 0;
+		z-index: -10000;
+		position: absolute;
+	}
 	> .modal-open {
 		position: static;
 		width: auto;
 		height: auto;
 	}
-	.header { 
-		&__logo { 
+	.header {
+		&__logo {
 			cursor: pointer;
 			margin-top: 1.125rem;
 		}
@@ -57,7 +62,7 @@
 				}
 			}
 		}
-		&__assets {	
+		&__assets {
 			flex-grow: 1;
 			position: relative;
 			.inline{
@@ -166,11 +171,11 @@
 			}
 		}
 	}
-	modal-content#login {
+	.modal-content#login {
 		display: flex;
 		flex-direction: column;
 	}
-	
+
 	.header__hamburger, .header__assets {
 		> button, .header__actions > button {
 			height: 4rem;
@@ -200,7 +205,7 @@
 							margin-right: 0.5rem;
 							position: absolute;
 							top: 0.9rem;
-							left: 2.3rem;					
+							left: 2.3rem;
 							z-index: 3;
 							@include break-on(sm, min) {
 								left: 1rem;
@@ -225,7 +230,7 @@
 
 	@include break-on(sm, min) {
 		.header {
-			&__logo { padding: 0 1.5rem; 
+			&__logo { padding: 0 1.5rem;
 				width: 16.25rem;
 			}
 			&__search {
@@ -239,6 +244,8 @@
 					position: absolute;
 					left: 1rem;
 					color: $white;
+					z-index: 20;
+					cursor: pointer;
 					::ng-deep i {
 						font-size: 1.25rem;
 					}

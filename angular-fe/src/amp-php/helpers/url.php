@@ -64,7 +64,7 @@
     }
 
     function getRequestID() {
-      $path = $this->getPrefix().'/variables';
+      $path = $this->getPrefix().'/variables?_format=json&lang=et';
       $data = json_decode(file_get_contents($path));
       $key = $this->requestKey();
       return $data->request->$key.':1';
@@ -82,6 +82,7 @@
 
     function getData() {
       $id = $this->getRequestID();
+
       $path = $this->getPrefix().'/graphql?queryId='.$id.'&variables={%22lang%22:%22ET%22,%22path%22:%22'.$this->getPath().'%22}';
       $data = json_decode(file_get_contents($path), false);
       return $data->data->route ? $data->data->route->entity : false;

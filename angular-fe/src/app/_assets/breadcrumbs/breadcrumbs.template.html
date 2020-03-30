@@ -1,11 +1,13 @@
-<ul>
+<ul [class.ellipsis]="ellipsis">
   <li *ngFor="let item of data; let i = index;">
     <span class="arrow" *ngIf="i > 0">
       <icon glyph="chevron-right"></icon>
     </span>
     <a [routerLink]="[item.link]" *ngIf="item.link">{{ item.title }}</a>
     <ng-container *ngIf="!item.link">
-      {{ item.title }}
+      <span role="textbox" attr.aria-label="{{ ('breadcrumbs.current_page' | translate) + ' ' + item.title }}">
+        {{ item.title }}
+      </span>
     </ng-container>
   </li>
 </ul>

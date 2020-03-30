@@ -43,9 +43,10 @@
 						</formItem>
 					</div>
 
-					<div *ngIf="secondaryFilteredTypes" class="col-5 sm-12" [class.disabled]="selectedPrimaryTypes.length ? false : true">
-						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"
-							title="{{ 'school.institution_sublevel' | translate }}" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
+					<div *ngIf="secondaryFilteredTypes" class="col-5 sm-12" [class.disabled]="secondaryFilteredTypes.length > 0 ? false : true">
+						<formItem type="multi-select" [(ngModel)]="selectedSecondaryTypes"  sortOptions="true"
+							[disabled]="secondaryFilteredTypes.length > 0 ? false : true"
+							[title]="subPlaceholder" name="secondaryTypes" [options]="secondaryFilteredTypes" (onChange)="setTypeValue()">
 						</formItem>
 					</div>
 

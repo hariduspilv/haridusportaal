@@ -1,15 +1,15 @@
 import {
-  Component,
-  Input,
-  HostBinding,
-  ContentChildren,
-  QueryList,
   AfterContentInit,
   ChangeDetectorRef,
-  OnChanges,
-  forwardRef,
-  Output,
+  Component,
+  ContentChildren,
   EventEmitter,
+  forwardRef,
+  HostBinding,
+  Input,
+  OnChanges,
+  Output,
+  QueryList,
 } from '@angular/core';
 import { ModalService } from '@app/_services';
 import { DeviceDetectorService } from 'ngx-device-detector';
@@ -34,7 +34,8 @@ export class BlockContentComponent {
 
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+  }
 
   hide() {
     this.active = false;
@@ -47,7 +48,7 @@ export class BlockContentComponent {
       () => {
         try {
           this.scrollable.forEach((item) => {
-            item.detectWidth();
+            // item.detectWidth();
             item.checkArrows();
           });
         } catch (err) {
@@ -66,7 +67,8 @@ export class BlockContentComponent {
 export class BlockTitleComponent {
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+  }
 
   detectChanges() {
     this.cdr.detectChanges();
@@ -81,7 +83,8 @@ export class BlockTitleComponent {
 export class BlockSecondaryTitleComponent {
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+  }
 
   detectChanges() {
     this.cdr.detectChanges();
@@ -96,7 +99,8 @@ export class BlockSecondaryTitleComponent {
 export class BlockSubTitleComponent {
   constructor(
     private cdr: ChangeDetectorRef,
-  ) {}
+  ) {
+  }
 
   detectChanges() {
     this.cdr.detectChanges();
@@ -108,7 +112,8 @@ export class BlockSubTitleComponent {
   template: '<ng-content></ng-content>',
 })
 
-export class BlockTabsComponent {}
+export class BlockTabsComponent {
+}
 
 @Component({
   selector: 'block',
@@ -116,7 +121,7 @@ export class BlockTabsComponent {}
   styleUrls: ['./block.styles.scss'],
 })
 
-export class BlockComponent implements AfterContentInit, OnChanges{
+export class BlockComponent implements AfterContentInit, OnChanges {
 
   @Input() loading: boolean = false;
 
@@ -127,6 +132,16 @@ export class BlockComponent implements AfterContentInit, OnChanges{
   labeledTabs: number = 0;
   hasTitle: boolean = false;
   hasSecondaryTitle: boolean = false;
+  @ContentChildren(forwardRef(() => BlockContentComponent))
+  tabs: QueryList<BlockContentComponent>;
+  @ContentChildren(forwardRef(() => BlockTitleComponent))
+  titleComponent: QueryList<BlockTitleComponent>;
+  @ContentChildren(forwardRef(() => BlockSecondaryTitleComponent))
+  secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
+  @Input() theme: string = 'blue';
+  @Input() titleBorder: boolean = true;
+  @Input() tabStyle: string = 'default';
+  @Output() tabChange = new EventEmitter<any>();
 
   constructor(
     private cdr: ChangeDetectorRef,
@@ -141,19 +156,7 @@ export class BlockComponent implements AfterContentInit, OnChanges{
     return `block--${this.theme}`;
   }
 
-  @ContentChildren(forwardRef(() => BlockContentComponent))
-    tabs: QueryList<BlockContentComponent>;
-  @ContentChildren(forwardRef(() => BlockTitleComponent))
-    titleComponent: QueryList<BlockTitleComponent>;
-  @ContentChildren(forwardRef(() => BlockSecondaryTitleComponent))
-    secondaryTitleComponent: QueryList<BlockSecondaryTitleComponent>;
-
-  @Input() theme: string = 'blue';
-  @Input() titleBorder: boolean = true;
-  @Input() tabStyle: string = 'default';
-  @Output() tabChange = new EventEmitter<any>();
-
-  changeTab(title:string) {
+  changeTab(title: string) {
     this.activeTab = title;
   }
 
@@ -167,59 +170,22 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   countLabels() {
     this.labeledTabs = this.tabs.filter((tab) => {
-      return tab.tabLabel ? true : false;
+      return !!tab.tabLabel;
     }).length;
   }
 
   checkTitle() {
     try {
-      if (this.titleComponent.toArray().length > 0) {
-        this.hasTitle = true;
-      } else {
-        this.hasTitle = false;
-      }
-    } catch (err) {}
+      this.hasTitle = this.titleComponent.toArray().length > 0;
+    } catch (err) {
+    }
   }
 
   checkSecondaryTitle() {
     try {
-      if (this.secondaryTitleComponent.toArray().length > 0) {
-        this.hasSecondaryTitle = true;
-      } else {
-        this.hasSecondaryTitle = false;
-      }
-    } catch (err) {}
-  }
-
-  private contentInit() {
-    try {
-      let activeTabs;
-      this.tabs.forEach((item) => {
-        if (item.tabActive) {
-          activeTabs = [item];
-        }
-      });
-
-      if (!activeTabs) {
-        activeTabs = this.tabs.filter(tab => tab.active);
-      }else {
-        activeTabs[0].active = true;
-      }
-      if (activeTabs.length === 0) {
-        this.selectTab(this.tabs.first || this.tabs[0]);
-      }   else {
-        this.activeTab = activeTabs[0].tabLabel;
-      }
-      if (this.tabs.length > 2 && this.isMobile) {
-        this.constructViewTabs();
-      } else {
-        this.viewTabs = [this.tabs];
-      }
-      this.countLabels();
-    } catch (err) {}
-
-    this.checkTitle();
-    this.checkSecondaryTitle();
+      this.hasSecondaryTitle = this.secondaryTitleComponent.toArray().length > 0;
+    } catch (err) {
+    }
   }
 
   public navigateTabs(navigation: number) {
@@ -244,8 +210,8 @@ export class BlockComponent implements AfterContentInit, OnChanges{
 
   navigateTo(tabLink, params = {}) {
     const flattenedParams = Object.keys(params)
-    .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
-    .join('&');
+      .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`)
+      .join('&');
     this.router.navigateByUrl(`${tabLink}?${flattenedParams}`);
   }
 
@@ -256,6 +222,38 @@ export class BlockComponent implements AfterContentInit, OnChanges{
   ngOnChanges() {
     this.cdr.detectChanges();
     this.contentInit();
+  }
+
+  private contentInit() {
+    try {
+      let activeTabs;
+      this.tabs.forEach((item) => {
+        if (item.tabActive) {
+          activeTabs = [item];
+        }
+      });
+
+      if (!activeTabs) {
+        activeTabs = this.tabs.filter(tab => tab.active);
+      } else {
+        activeTabs[0].active = true;
+      }
+      if (activeTabs.length === 0) {
+        this.selectTab(this.tabs.first || this.tabs[0]);
+      } else {
+        this.activeTab = activeTabs[0].tabLabel;
+      }
+      if (this.tabs.length > 2 && this.isMobile) {
+        this.constructViewTabs();
+      } else {
+        this.viewTabs = [this.tabs];
+      }
+      this.countLabels();
+    } catch (err) {
+    }
+
+    this.checkTitle();
+    this.checkSecondaryTitle();
   }
 
 }
