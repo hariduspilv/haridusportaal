@@ -1,20 +1,19 @@
 <button htm-button
-  [ngbTooltip]="state ? ('tooltip.favourites_remove' | translate) : ('tooltip.favourites' | translate)"
-  ripple
-  theme="icon" 
-  (click)="handleStateChange()"
-  attr.aria-label="{{ 'tooltip.favourites' | translate }}">
-    <icon [glyph]="state ? 'star-filled' : 'star'" size="medium"></icon>
+        [ngbTooltip]="state ? ('tooltip.favourites_remove' | translate) : ('tooltip.favourites' | translate)"
+        ripple
+        theme="icon"
+        (click)="handleStateChange()">
+  <icon [glyph]="state ? 'star-filled' : 'star'" size="medium"></icon>
 </button>
 
 <htm-modal id="favourites" [modalTitle]="'tooltip.favourites' | translate" size="medium">
   <ng-template>
     <div innerHTML="{{ 'frontpage.favourites_limit_modal_content' | translate }}"></div>
     <button htm-button
-      ripple
-      theme="default"
-      role="link">
-        {{ 'button.back_to_dashboard' | translate }}
+            ripple
+            theme="default"
+            role="link">
+      {{ 'button.back_to_dashboard' | translate }}
     </button>
   </ng-template>
 </htm-modal>

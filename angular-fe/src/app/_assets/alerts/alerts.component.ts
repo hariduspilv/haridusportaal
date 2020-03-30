@@ -1,19 +1,7 @@
-import {
-  Component,
-  HostBinding,
-  OnDestroy,
-  Input,
-  OnChanges,
-  ChangeDetectorRef,
-} from '@angular/core';
-import {
-  animate,
-  style,
-  transition,
-  trigger,
-} from '@angular/animations';
+import { Component, ElementRef, HostBinding, Input, OnDestroy, } from '@angular/core';
+import { animate, style, transition, trigger, } from '@angular/animations';
 import { Subscription } from 'rxjs';
-import { AlertsService, Alert } from '../../_services/AlertsService';
+import { Alert, AlertsService } from '../../_services/AlertsService';
 import { CookieService } from '@app/_services/CookieService';
 
 enum AlertIcon {
@@ -47,11 +35,6 @@ export class AlertsComponent implements OnDestroy {
   @Input() alerts: Alert[] = [];
   @Input() small: boolean = false;
   @Input() closeMs: number;
-
-  @HostBinding('class') get hostClasses(): string {
-    const addonClass = this.alerts.length ? 'alerts--active' : '';
-    return `alerts ${addonClass}`;
-  }
   public alertIcons = AlertIcon;
   private alertSubscription: Subscription = new Subscription;
   private subscriptions: Subscription[] = [];
@@ -60,27 +43,44 @@ export class AlertsComponent implements OnDestroy {
   constructor(
     private alertService: AlertsService,
     private cookies: CookieService,
-  ) { }
+    private el: ElementRef,
+  ) {
+  }
+
+  @HostBinding('class') get hostClasses(): string {
+    const addonClass = this.alerts.length ? 'alerts--active' : '';
+
+    return `alerts ${addonClass}`;
+  }
 
   ngOnInit(): void {
     this.alertSubscription = this.alertService.getAlertsFromBlock(this.id).subscribe(
       (alert: Alert) => {
         if (!alert.message) {
           this.alerts = [];
+
           return;
         }
+
         clearTimeout(this.removeTimeout);
         // only one error per category
         if (alert.category !== undefined) {
           this.alerts = this.alerts.filter((x: Alert) => x.category !== alert.category);
+
           setTimeout(() => this.alerts.push(alert), 250);
         } else {
           this.alerts.push(alert);
         }
+
         if (this.closeMs) {
           this.removeTimeout = setTimeout(() => this.remove(alert), this.closeMs);
         }
+
+        if (alert.closeable) {
+          setTimeout(() => this.el.nativeElement.querySelector('.alert__close').focus(), 500);
+        }
       });
+
     this.subscriptions.push(this.alertSubscription);
   }
 
@@ -97,5 +97,4 @@ export class AlertsComponent implements OnDestroy {
   ngOnDestroy() {
     this.destroySubscriptions();
   }
-
 }

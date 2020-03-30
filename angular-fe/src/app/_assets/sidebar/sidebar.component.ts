@@ -1105,7 +1105,7 @@ export class SidebarFinalDocumentDownloadComponent {
     this.http
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}?scope=${form.scope}&fileFormat=${form.fileFormat}`,
-      {
+        {
         headers: { 'Content-Type': 'application/*' },
         responseType: 'blob',
       },

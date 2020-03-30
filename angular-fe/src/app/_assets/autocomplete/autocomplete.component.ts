@@ -1,11 +1,11 @@
 import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  ElementRef,
   ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
   OnDestroy,
+  Output,
 } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { map } from 'rxjs/operators';
 import { AddressService } from '@app/_services/AddressService';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
   selector: 'autocomplete',
@@ -26,18 +27,16 @@ import { AddressService } from '@app/_services/AddressService';
 export class AutocompleteComponent implements OnDestroy {
   @Input() type: string = '';
   @Input() valueType: string = 'string';
-
-  private debounce;
-  private delay: number = 300;
-  public data:[] = [];
+  public data: [] = [];
   public active: boolean = false;
   public loading: boolean = false;
+  public activeItem: number = -1;
+  @Output() onValueSelected: EventEmitter<any> = new EventEmitter;
+  private debounce;
+  private delay: number = 300;
   private subscription: Subscription;
   private minChars: number = 3;
   private searched = false;
-  public activeItem: number = -1;
-
-  @Output() onValueSelected: EventEmitter<any> = new EventEmitter;
 
   constructor(
     private settings: SettingsService,
@@ -46,7 +45,9 @@ export class AutocompleteComponent implements OnDestroy {
     private cdr: ChangeDetectorRef,
     private liveAnnouncer: LiveAnnouncer,
     private addressService: AddressService,
-  ) {}
+    private translateService: TranslateService,
+  ) {
+  }
 
   public search(value: string = '', $event: any = false): void {
     if (this.active && ($event.key === 'ArrowUp' || $event.key === 'ArrowDown')) {
@@ -69,13 +70,14 @@ export class AutocompleteComponent implements OnDestroy {
         params = params.set('appartment', '1');
         params = params.set('results', '10');
       }
-
       clearTimeout(this.debounce);
       if (this.subscription) this.subscription.unsubscribe();
       this.debounce = setTimeout(
         () => {
           if (value.length >= this.minChars) {
             this.loading = true;
+            this.liveAnnouncer.announce(this.translateService.get('autocomplete.loading'));
+
             if (this.type === 'inaadress') {
               const jsonP = this.http.jsonp<any>(
                 `https://inaadress.maaamet.ee/inaadress/gazetteer?${params.toString()}`,
@@ -88,13 +90,16 @@ export class AutocompleteComponent implements OnDestroy {
               ).subscribe((response) => {
                 this.parseInAds(response);
                 this.positionElement();
-              },          () => {}, () => {
+              }, () => {
+              }, () => {
                 this.searched = true;
                 this.loading = false;
                 this.subscription.unsubscribe();
                 this.data.length
-									? this.liveAnnouncer.announce('liikuge nooltega tulemuste peale')
-									: '';
+                  ? this.liveAnnouncer.announce(
+                  this.translateService.get('wcag.address_suggestions_opened'))
+                  : this.liveAnnouncer.announce(
+                  this.translateService.get('autocomplete.no_result'));
               });
             } else {
               this.subscription = this.http.get(path).subscribe((response) => {
@@ -110,8 +115,10 @@ export class AutocompleteComponent implements OnDestroy {
                 this.positionElement();
                 this.subscription.unsubscribe();
                 this.data.length
-									? this.liveAnnouncer.announce('liikuge nooltega tulemuste peale')
-									: '';
+                  ? this.liveAnnouncer.announce(
+                    this.translateService.get('wcag.suggestions_opened'))
+                  : this.liveAnnouncer.announce(
+                  this.translateService.get('autocomplete.no_result'));
               });
             }
           } else {
@@ -121,6 +128,33 @@ export class AutocompleteComponent implements OnDestroy {
         },
         this.delay);
     }
+  }
+
+  public close(noDelay: boolean = false): void {
+    const delay = noDelay ? 0 : 200;
+
+    setTimeout(
+      () => {
+        this.active = false;
+        this.loading = false;
+        this.activeItem = -1;
+        this.data = [];
+        this.searched = false;
+        clearTimeout(this.debounce);
+        if (this.subscription) {
+          this.subscription.unsubscribe();
+        }
+        this.unbindScroll();
+      },
+      delay);
+  }
+
+  public onClick(value: string = ''): void {
+    this.onValueSelected.emit(value);
+  }
+
+  ngOnDestroy() {
+    this.unbindScroll();
   }
 
   private parseInAds(data) {
@@ -162,7 +196,8 @@ export class AutocompleteComponent implements OnDestroy {
         () => {
           try {
             this.el.nativeElement.querySelector('.autocomplete__active').scrollIntoView();
-          } catch (err) {}
+          } catch (err) {
+          }
         },
         0);
     }
@@ -175,29 +210,6 @@ export class AutocompleteComponent implements OnDestroy {
       this.onValueSelected.emit(value);
     }
     this.close(true);
-  }
-
-  public close(noDelay: boolean = false): void {
-    const delay = noDelay ? 0 : 200;
-    
-    setTimeout(
-      () => {
-        this.active = false;
-        this.loading = false;
-        this.activeItem = -1;
-        this.data = [];
-        this.searched = false;
-        clearTimeout(this.debounce);
-        if (this.subscription) {
-          this.subscription.unsubscribe();
-        }
-        this.unbindScroll();
-      },
-      delay);
-  }
-
-  public onClick(value: string = ''): void {
-    this.onValueSelected.emit(value);
   }
 
   private handleScroll() {
@@ -224,10 +236,6 @@ export class AutocompleteComponent implements OnDestroy {
     this.el.nativeElement.id = '';
     this.el.nativeElement.opacity = '0';
     document.removeEventListener('scroll', this.handleScroll, true);
-  }
-
-  ngOnDestroy() {
-    this.unbindScroll();
   }
 
 }

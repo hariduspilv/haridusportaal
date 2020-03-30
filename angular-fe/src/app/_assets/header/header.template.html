@@ -11,7 +11,7 @@
 </div>
 <a routerLink="/" class="header__logo pointer" role="link" aria-label="edu.ee">
   <!-- <icon glyph="logo" size="medium"></icon> -->
-  <img aria-hidden="true" src="/assets/img/logo.svg" alt="edu.ee logo"/>
+  <img aria-hidden="true" src="/assets/img/logo.svg" alt="edu.ee logo" />
 </a>
 <div class="header__assets">
   <div class="inline">
@@ -104,7 +104,7 @@
               </div>
               <div>
                 <form [formGroup]="mobileIdForm">
-                  <formItem
+                  <formItem ariaLabel="{{ 'dashboard.contactPhone' | translate }}"
                             [keyDownFn]="isNumber"
                             formControlName="phoneNumber"
                             title="{{ 'dashboard.contactPhone' | translate }}">
@@ -119,12 +119,14 @@
             </div>
             <form class="login__method" *ngIf="method[0] === 'basic'" [formGroup]="loginForm">
               <div>
-                <formItem type="text" formControlName="username" browserAutocomplete="username"
+                <formItem ariaLabel="{{ 'login.username' | translate }}" type="text"
+                          formControlName="username" browserAutocomplete="username"
                           title="{{ 'login.username' | translate }}">
                 </formItem>
               </div>
               <div>
-                <formItem type="password" formControlName="password"
+                <formItem ariaLabel="{{ 'login.password' | translate }}" type="password"
+                          formControlName="password" browserAutocomplete="password"
                           title="{{ 'login.password' | translate }}">
                 </formItem>
               </div>

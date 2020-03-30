@@ -1,6 +1,10 @@
 <ul>
   <li *ngFor="let item of data">
-    <a [href]="item.url.path" target="_blank" *ngIf="type === 'external'" attr.aria-label="{{ 'link.external' | translate }}"><icon glyph="external-link"></icon>{{ item.title }}</a>
-    <a [href]="item.entity.url" target="_blank" *ngIf="type === 'document'" attr.aria-label="{{ 'link.document' | translate }}"><icon glyph="file"></icon>{{ item.description || item.entity.entityLabel }}</a>
+    <a [href]="item.url.path" target="_blank" *ngIf="type === 'external'">
+      <icon ariaLabel="{{ 'link.external' | translate }}" glyph="external-link"></icon>
+      {{ item.title }}</a>
+    <a [href]="item.entity.url" target="_blank" *ngIf="type === 'document'">
+      <icon ariaLabel="{{ 'link.document' | translate }}" glyph="file"></icon>
+      {{ item.description || item.entity.entityLabel }}</a>
   </li>
 </ul>
