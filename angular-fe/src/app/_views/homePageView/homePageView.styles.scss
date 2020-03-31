@@ -213,8 +213,11 @@
     position: relative;
     padding: 8.125rem 0 12.5rem 0;
     background: $white;
+    @include break-on(sm, max) {
+      padding-bottom: 7rem;
+    }
     @include break-on(xxs, max) {
-      padding: 6rem 0 12.5rem 0;
+      padding: 6rem 0 6rem 0;
     }
 
     .st0 {
@@ -239,6 +242,12 @@
       &__content {
         flex-shrink: 1;
         width: 100%;
+        @include break-on(sm, max) {
+          width: 50%;
+        }
+        @include break-on(xxs, max) {
+          width: 100%;
+        }
 
         a {
           font-size: 1rem;
@@ -268,13 +277,14 @@
       &__image {
         flex-grow: 0;
         flex-shrink: 0;
-        width: 27.125rem;
+        width: 44%;
         @include break-on(sm, max) {
-          width: 20.9rem;
+          width: 50%;
         }
         @include break-on(xxs, max) {
           padding-top: 1.3rem;
           order: 2;
+          width: 100%;
         }
 
         img {
@@ -334,6 +344,9 @@
     position: relative;
     background: $light-gray;
     padding: 1.5rem 0 10.9375rem 0;
+    @include break-on(sm, max) {
+      padding-bottom: 6.5625rem;
+    }
 
     .st0 {
       fill: $light-gray;
@@ -341,6 +354,9 @@
 
     .slides {
       margin: 0 -0.75rem;
+      @include break-on(sm, max) {
+        padding-top: 1.5rem;
+      }
 
       &__title {
         font-size: 1.125rem;
@@ -510,6 +526,9 @@
     position: relative;
     background: $aqua;
     padding: 4.375rem 0 0 0;
+    @include break-on(sm, max) {
+      padding-top: 3.5rem;
+    }
 
     svg {
       .st0 {
@@ -572,8 +591,11 @@
         font-weight: bold;
         margin: 1.5rem 0;
         z-index: 5;
+        @include break-on(sm, max) {
+          font-size: 1.9rem;
+        }
         @include break-on(xxs, max) {
-          font-size: 1.5rem;
+          font-size: 1.4rem;
         }
       }
     }
@@ -584,6 +606,9 @@
     position: relative;
     background: $white;
     padding: 5rem 0 15.3125rem 0;
+    @include break-on(sm, max) {
+      padding: 5rem 0 6rem 0;;
+    }
 
     svg {
       .st0 {
@@ -611,6 +636,9 @@
         text-align: center;
         color: $black;
         margin: 1.0625rem 0 2.8125rem 0;
+        @include break-on(sm, max) {
+          margin: 1.4375rem 0 1.4375rem 0;
+        }
       }
 
       &__blocks {
@@ -694,6 +722,9 @@
     position: relative;
     background: $light-gray;
     padding: 0 0 8.0625rem 0;
+    @include break-on(sm, max) {
+      padding-bottom: 2rem;
+    }
 
     .inner {
       position: relative;
@@ -710,7 +741,7 @@
       font-size: 1.125rem;
       line-height: 1.5rem;
       margin-bottom: 3.3125rem;
-      @include break-on(xxs, max) {
+      @include break-on(sm, max) {
         flex-direction: column;
       }
 
@@ -726,7 +757,7 @@
         line-height: 137%;
         color: $black;
         margin-top: -1.25rem;
-        @include break-on(xxs, max) {
+        @include break-on(sm, max) {
           margin-top: 0;
         }
 
@@ -753,11 +784,12 @@
         flex-shrink: 0;
         width: 27.375rem;
         @include break-on(sm, max) {
-          width: 18rem
+          width: 18rem;
+          margin-top: -2.75rem;
         }
         margin-top: -8.75rem;
         @include break-on(xxs, max) {
-          margin-top: -2.35rem
+          margin-top: -2.35rem;
         }
 
         img {
@@ -828,6 +860,7 @@
       display: flex;
       @include break-on(sm, max) {
         flex-direction: column;
+        padding-top: 4.5rem;
       }
 
       .contact {
