@@ -331,6 +331,9 @@
         line-height: 120%;
         color: $black;
         margin: 0.75rem 0 1.25rem 0;
+        @include break-on(sm, max) {
+          font-size: 1.8rem;
+        }
         @include break-on(xxs, max) {
           font-size: 1.75rem;
           margin: 2rem 0 1.25rem 0;
@@ -377,6 +380,12 @@
         position: relative;
         margin: 0 -2.8125rem;
         padding: 0 2.9375rem;
+        @include break-on(sm, max) {
+          margin: 0 -1.7125rem
+        }
+        @include break-on(xxs, max) {
+          margin: 0px -0.2125rem
+        }
       }
 
       &__wrapper {
@@ -595,7 +604,7 @@
           font-size: 1.9rem;
         }
         @include break-on(xxs, max) {
-          font-size: 1.4rem;
+          font-size: 1.2rem;
         }
       }
     }
@@ -867,9 +876,13 @@
         width: 23.125rem;
         flex-shrink: 0;
         flex-grow: 0;
+        @include break-on(xxs, max) {
+          width: 100%;
+        }
 
         &__title {
-          letter-spacing: 0.0625rem;
+          text-transform: uppercase;
+          letter-spacing: 0.125rem;
           margin: 0 0 2.0625rem 0;
           font-weight: normal;
         }
@@ -913,7 +926,7 @@
         }
 
         &__title {
-          letter-spacing: 0.0625rem;
+          letter-spacing: 0.125rem;
           margin: 0 0 2.0625rem 0;
           text-transform: uppercase;
           font-weight: normal;
