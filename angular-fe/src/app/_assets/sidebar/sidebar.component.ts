@@ -790,9 +790,6 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       return;
     }
     const indexId = this.route.snapshot.params.id;
-    if (form.endDate) {
-
-    }
     const accessDTO = {
       indexId,
       access: {
@@ -804,7 +801,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
             .split(/\.|\//g)
             .reverse()
             .join('-'),
-        endDateSet: form.endDate ? true : false,
+        endDateSet: form.endDate || form.noEndDate ? true : false,
         scopeSet: form.scope ? true : false,
       },
     };
