@@ -3542,7 +3542,7 @@ certificates:
     en: MISSING
   no_certificate_or_access:
     translation_type: textarea
-    et: 'Tunnistust ei leitud või ligipääsukood on vale või kehtetu'
+    et: 'Tunnistust ei leitud. Ligipääsukood võib olla vale või kehtetu'
     en: MISSING
   access_code_field:
     translation_type: textarea
@@ -3635,7 +3635,7 @@ home:
     en: 'Õppekavade ja ametialade võrdlus'
   study_intro:
     translation_type: textarea
-    et: 'Võrdle erialasid ja ametialasid, et leida endale <br /> sobivaim õpitee'
+    et: 'Võrdle erialasid ja ametialasid, et leida endale sobivaim õpitee'
     en: 'Võrdle erialasid ja ametialasid, et leida endale <br /> sobivaim õpitee'
   studyprogramme_compare:
     translation_type: textarea
