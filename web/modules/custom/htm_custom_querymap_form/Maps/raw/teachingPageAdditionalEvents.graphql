@@ -1,0 +1,17 @@
+query teachingPageAdditionalEvents($lang: LanguageId!) {
+  nodeQuery(limit: 2, sort: {field: "created", direction: DESC}, filter: {conditions: [
+    {field: "type", value: "event", language: $lang}
+  ]
+  }) {
+    entities(language: $lang) {
+      ... on NodeEvent {
+        created
+        entityLabel
+        fieldDescriptionSummary
+        fieldEventMainDate {
+          unix
+        }
+      }
+    }
+  }
+}
