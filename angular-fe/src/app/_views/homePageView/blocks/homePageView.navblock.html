@@ -9,6 +9,7 @@
       </div><!--/navBlock__title__inner-->
       <img src="/assets/img/homePage-navBlock.svg" alt="" *ngIf="theme === 'default'" />
       <img src="/assets/img/homePage-navBlock-teachers.svg" alt="" *ngIf="theme === 'teachers'" />
+      <img src="/assets/img/homePage-navBlock-career.svg" alt="" *ngIf="theme === 'career'" />
     </div><!--/navBlock__title-->
     
     <ng-container *ngIf="theme === 'default'">
@@ -24,7 +25,7 @@
       </div><!--/navBlock__buttons-->
     </ng-container>
 
-    <ng-container *ngIf="theme === 'teachers'">
+    <ng-container *ngIf="theme === 'teachers' || theme === 'career'">
       <div class="navBlock__buttons" *ngIf="data.length">
         <ul>
           <li *ngFor="let item of data">

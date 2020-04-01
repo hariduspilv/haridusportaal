@@ -37,7 +37,21 @@
         }
       }
     }
-
+    &.theme--career {
+      .navBlock {
+        background: url('/assets/img/homepage-1-career.svg') center bottom no-repeat #D4F0DA;
+        background-size: cover;
+        &:before {
+          background: linear-gradient(to bottom, rgba(190, 232, 199, 1) 0%,rgba(190, 232, 199, 1) 45%,rgba(190, 232, 199, 0) 100%);
+        }
+        &__buttons {
+          button, a {
+            color: #0F6722;
+            font-size: 1.125rem;
+          }
+        }
+      }
+    }
     .navBlock {
       display: block;
       background: $aqua url('/assets/img/homepage-1.svg') center bottom no-repeat;
@@ -677,7 +691,12 @@
         fill: #C1BEE8;
       }
     }
-    
+    &.theme--career {
+      background: #BEE8C7;
+      svg .st0 {
+        fill: #BEE8C7;
+      }
+    }
     svg {
       .st0 {
         fill: $aqua

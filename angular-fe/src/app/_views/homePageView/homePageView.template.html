@@ -29,12 +29,12 @@
     <homepage-navblock
       [data]="topics"
       [theme]="theme"
-      [title]="'Õpetajad loovad<br />homse Eesti'"></homepage-navblock>
+      [title]="'home.teachers_slogan' | translate"></homepage-navblock>
     <homepage-events
       [data]="events"
       [theme]="theme"
-      title="Sündmused"
-      description="Lorem ipsum dolor sit amet, consectetur adipiscing <br />elit, lorem ipsum dolor"></homepage-events>
+      [title]="'home.events' | translate"
+      [description]="'home.events_text' | translate"></homepage-events>
     <homepage-topical
       [data]="newsLink" [theme]="theme"></homepage-topical>
     <homepage-slides
@@ -43,13 +43,28 @@
       [line]="3"
       [theme]="theme"></homepage-slides>
     <homepage-slogan
-      title="“Tänu edu.ee lehele leidsin enda jaoks robootika eriala ning sealt edasi on kõik juba ajalugu...”"
-      person="Toomas Tool"
-      company="Cleveron AS tootmisjuht"
+      [title]="slogan.title"
+      [person]="slogan.person"
+      [company]="slogan.company"
       [theme]="theme"></homepage-slogan>
     <homepage-footer
       [data]="contact"
       [theme]="theme"></homepage-footer>
   </ng-container>
 
+  <ng-container *ngSwitchCase="'career'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'Mingisugune <b>slogan</b> <br />karjäärist'"
+      [description]="'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.'"></homepage-navblock>
+
+    <homepage-articles
+      [data]="articles"
+      [theme]="theme"></homepage-articles>
+
+    <homepage-topical
+      [data]="newsLink"
+      [theme]="theme"></homepage-topical>
+  </ng-container>
 </ng-container>

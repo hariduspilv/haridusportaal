@@ -300,8 +300,8 @@ export class HomePageViewComponent implements OnInit {
   public topics: any[] = [];
   public articles: any[];
   public services: any[] = [];
-  public contact: any;
-  public slogan: string = '';
+  public contact: any = {};
+  public slogan: any = '';
   public newsLink: string = '';
   public theme: string = 'default';
   public events: any[] = [];
@@ -310,6 +310,7 @@ export class HomePageViewComponent implements OnInit {
     private http: HttpClient,
     private settings: SettingsService,
     private route: ActivatedRoute,
+    private translate: TranslateService,
   ) {}
 
   private getData(): void {
@@ -317,7 +318,11 @@ export class HomePageViewComponent implements OnInit {
       lang: 'ET',
     };
 
-    const path = this.settings.query('newFrontPageQuery', variables);
+    let query = 'newFrontPageQuery';
+    if (this.theme === 'teachers') {
+      query = 'teachingPage';
+    }
+    const path = this.settings.query(query, variables);
     const topicsSubscription = this.http.get(path).subscribe((response) => {
       this.parseData(response['data']['nodeQuery']['entities'][0]);
       topicsSubscription.unsubscribe();
@@ -325,12 +330,14 @@ export class HomePageViewComponent implements OnInit {
   }
 
   private parseData(data): void {
+
     try {
-      if (this.theme === 'teachers') {
-        // TODO
-        this.topics = [
+      const topics = data.fieldFrontpageTopics || data.fieldTeachingThemes;
+      if (this.theme === 'career') {
+
+        this.articles = [
           {
-            title: 'Õpetaja',
+            title: 'VALDKONNAD TÖÖTURUL',
             link: {
               title: 'Uuri lähemalt',
               url: {
@@ -338,122 +345,130 @@ export class HomePageViewComponent implements OnInit {
                 path: 'https://www.neti.ee',
               },
             },
-          },
-          {
-            title: 'Koolijuht',
-            link: {
-              title: 'Uuri lähemalt',
-              url: {
-                routed: true,
-                path: '/sündmused',
-              },
-            },
-          },
-          {
-            title: 'Noortevaldkonna töötaja',
-            link: {
-              title: 'Uuri lähemalt',
-              url: {
-                routed: false,
-                path: 'https://www.google.ee',
-              },
-            },
+            content: 'Kümme aastat tagasi ei olnud veel olemaski kümmet 2020. aasta nõutuimat ametit. Töömaailm on kiires muutumises ning need muutused ei jäta puudutamata ka Eestit. ',
+            button: 'Valdkonnad tööturul',
+            image: '/assets/img/homepage-articles-career-1.svg',
           },
         ];
+        // tslint:enable
       } else {
-        this.topics = data.fieldFrontpageTopics.map((item) => {
+        this.topics = topics.map((item) => {
+          let image = false;
+          let link;
+
+          if (this.theme === 'default') {
+            image = item.entity.fieldTopicImage.entity.url;
+            link = item.entity.fieldTopicLink;
+          } else if (this.theme === 'teachers') {
+            link = {
+              title: this.translate.get('home.view_more'),
+              url: {
+                path: item.entity.fieldInternalLink.entity.entityUrl.path,
+                routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
+              },
+            };
+          }
+
           return {
-            title: item.entity.fieldTopicTitle,
-            content: item.entity.fieldTopicText,
-            link: item.entity.fieldTopicLink,
-            image: item.entity.fieldTopicImage.entity.url,
-            button: item.entity.fieldTopicButtonText,
+            image,
+            link,
+            title: item.entity.fieldTopicTitle || item.entity.fieldThemeTitle,
+            content: item.entity.fieldTopicText || false,
+            button: item.entity.fieldTopicButtonText || false,
+          };
+        });
+        console.log(topics);
+        console.log(this.topics);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+
+    try {
+      if (this.theme === 'teachers') {
+        this.contact.contacts = data.fieldContact.map((item) => {
+          return {
+            company: item.entity.fieldInstitution || false,
+            name: item.entity.fieldNameOccupation || false,
+            email: item.entity.fieldEmail || false,
+            skype: item.entity.fieldSkype || false,
+          };
+        });
+
+        this.contact.logos = ['/assets/img/homepage-teachers.svg'];
+
+        this.contact.links = data.fieldExternal.map((item) => {
+          return {
+            url: {
+              title: item.entity.fieldLinkName,
+              path: item.entity.fieldWebpageLink.url.path,
+              routed: false,
+            },
+          };
+        });
+      } else {
+        this.contact = {
+          email: data.fieldFrontpageContactEmail,
+          name: data.fieldFrontpageContactName,
+          phone: data.fieldFrontpageContactPhone,
+        };
+      }
+    } catch (err) {
+
+    }
+
+    try {
+      if (this.theme === 'teachers') {
+        this.slogan = {
+          title: data.fieldQuoteText || false,
+          person: data.fieldQuoteAuthor || false,
+          company: data.fieldQuoteAuthorOccupation || false,
+        };
+      } else {
+        this.slogan = data.fieldFrontpageQuote;
+      }
+    } catch (err) {}
+
+    try {
+      if (this.theme === 'default') {
+        this.services = data.fieldFrontpageServices.map((item) => {
+          const image = item.entity.fieldServiceImage.entity;
+          const alt = image ? image.fieldAlt : undefined;
+          const url = image && image.fieldServiceImg.entity ?
+          image.fieldServiceImg.entity.url : undefined;
+          return {
+            title: item.entity.fieldServiceTitle,
+            link: item.entity.fieldServiceLink,
+            image: {
+              alt,
+              url,
+            },
+            content: item.entity.fieldServiceContent,
+          };
+        });
+      } else {
+        this.services = data.fieldToolbox.map((item) => {
+          const image = item.entity.fieldToolboxImage.entity.url;
+          return {
+            title: item.entity.fieldTitle,
+            link: {
+              url: item.entity.fieldInternalLink.entity.entityUrl,
+            },
+            image: {
+              url: image,
+            },
+            content: item.entity.fieldContent,
           };
         });
       }
     } catch (err) {}
 
     try {
-      this.contact = {
-        email: data.fieldFrontpageContactEmail,
-        name: data.fieldFrontpageContactName,
-        phone: data.fieldFrontpageContactPhone,
-      };
-
       if (this.theme === 'teachers') {
-        // TODO
-        this.contact.contacts = [
-          {
-            company: 'SA Kutsekoda',
-            name: 'Doris-Marii Maxwell',
-            email: 'doris-marii.maxwell@kutsekoda.ee',
-          },
-          {
-            company: 'Eesti Töötukassa',
-            name: 'Teele Traumann',
-            email: 'karjaar@tootukassa.ee',
-            skype: 'tootukassa',
-          },
-        ];
-
-        this.contact.logos = ['/assets/img/homepage-teachers.svg'];
-
-        this.contact.links = [
-          {
-            url: {
-              title: 'Haridus- ja Teadusministeerium',
-              path: 'http://www.neti.ee',
-              routed: false,
-            },
-          },
-          {
-            url: {
-              title: 'Eesti Haridustöötajate Liit',
-              path: 'http://www.neti.ee',
-              routed: false,
-            },
-          },
-          {
-            url: {
-              title: 'Eesti Õpetajate Liit',
-              path: 'http://www.neti.ee',
-              routed: false,
-            },
-          },
-          {
-            url: {
-              title: 'SA Innove',
-              path: '/sündmused',
-              routed: true,
-            },
-          },
-        ];
+        this.newsLink = data.fieldTeachingNews.entity.entityUrl.path;
+      } else {
+        this.newsLink = data.fieldFrontpageNews.entity.entityUrl.path;
       }
-    } catch (err) {}
-
-    this.slogan = data.fieldFrontpageQuote;
-
-    try {
-      this.services = data.fieldFrontpageServices.map((item) => {
-        const image = item.entity.fieldServiceImage.entity;
-        const alt = image ? image.fieldAlt : undefined;
-        const url = image && image.fieldServiceImg.entity ?
-          image.fieldServiceImg.entity.url : undefined;
-
-        return {
-          title: item.entity.fieldServiceTitle,
-          link: item.entity.fieldServiceLink,
-          image: {
-            alt,
-            url,
-          },
-          content: item.entity.fieldServiceContent,
-        };
-      });
-    } catch (err) {}
-
-    try {
-      this.newsLink = data.fieldFrontpageNews.entity.entityUrl.path;
     } catch (err) {}
 
     if (this.theme === 'teachers') {
@@ -499,6 +514,9 @@ export class HomePageViewComponent implements OnInit {
     if (this.articles) {
       this.articles = this.articles.map((item, index) => {
         let position = index % 2 ? 'left' : 'right';
+        if (this.theme === 'career') {
+          position = index % 2 ? 'right' : 'left';
+        }
         return {
           position,
           ...item,
@@ -509,7 +527,9 @@ export class HomePageViewComponent implements OnInit {
     if (this.topics) {
       this.topics = this.topics.map((item, index) => {
         let position = index % 2 ? 'left' : 'right';
-
+        if (this.theme === 'career') {
+          position = index % 2 ? 'right' : 'left';
+        }
         return {
           position,
           ...item,
