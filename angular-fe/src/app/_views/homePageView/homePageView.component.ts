@@ -160,7 +160,10 @@ export class HomePageSloganComponent {
   templateUrl: 'blocks/homePageView.footer.html',
 })
 export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
-  @Input() data: {};
+  @Input() data: {
+    links,
+    logos,
+  };
   @Input() theme: string;
   @Input() line: number = 4;
 

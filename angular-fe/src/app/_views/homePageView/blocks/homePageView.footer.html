@@ -44,6 +44,7 @@
           <div class="newsletter__cols" *ngIf="!subscribedStatus && !subscribedError">
             <div class="newsletter__col">
               <formItem
+                [titleDisabled]="true"
                 [placeholder]="'home.newsletter_email' | translate"
                 domID="e-mail"
                 browserAutocomplete="email"
