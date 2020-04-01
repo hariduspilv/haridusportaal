@@ -7,6 +7,10 @@ query teachingPageAdditionalEvents($lang: LanguageId!) {
       ... on NodeEvent {
         created
         entityLabel
+        entityUrl {
+          routed
+          path
+        }
         fieldDescriptionSummary
         fieldEventMainDate {
           unix
