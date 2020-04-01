@@ -4,13 +4,11 @@ status: true
 dependencies:
   config:
     - field.field.paragraph.homepage_topics_new.field_topic_button_text
-    - field.field.paragraph.homepage_topics_new.field_topic_image
     - field.field.paragraph.homepage_topics_new.field_topic_link
     - field.field.paragraph.homepage_topics_new.field_topic_text
     - field.field.paragraph.homepage_topics_new.field_topic_title
     - paragraphs.paragraphs_type.homepage_topics_new
   module:
-    - file
     - link
     - maxlength
 id: paragraph.homepage_topics_new.default
@@ -23,15 +21,11 @@ content:
     settings:
       size: 60
       placeholder: ''
-    third_party_settings: {  }
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
     type: string_textfield
-    region: content
-  field_topic_image:
-    weight: 4
-    settings:
-      progress_indicator: throbber
-    third_party_settings: {  }
-    type: file_generic
     region: content
   field_topic_link:
     weight: 3
