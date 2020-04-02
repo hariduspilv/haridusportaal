@@ -945,7 +945,8 @@
           flex-grow: 0;
           flex-shrink: 0;
           @include break-on(xxs, max) {
-            width: 100%
+            width: 100%;
+            text-align: center;
           }
 
           &:first-child {
@@ -959,15 +960,14 @@
           a {
             margin-left: 1.5rem;
             @include break-on(xxs, max) {
-              display: none;
+              margin-left: auto;
             }
           }
 
           button {
             margin-left: 1rem;
             @include break-on(xxs, max) {
-              margin-top: 1rem;
-              margin-left: 0;
+              margin: 1rem 0;
               width: 100%;
             }
           }
