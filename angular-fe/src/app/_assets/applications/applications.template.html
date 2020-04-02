@@ -773,6 +773,7 @@
 						htm-button
 						(click)="this.formGroup.valid ? createInstitution() : $event.preventDefault();"
 						(keyup.enter)="createInstitution()"
+            [attr.aria-disabled]="!this.formGroup.valid"
 					>
 						{{ 'button.add' | translate }}
 					</button>
