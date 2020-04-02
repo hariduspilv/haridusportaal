@@ -1,17 +1,23 @@
 <ng-container *ngFor="let indicator of entitiesData; let last = last;">
-  <ng-container *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
-		<h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
-			{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}
-		</h2>
-		<div aria-hidden="true">{{ 'oska.compared_to_other_professions' | translate }}</div>
-		<div class="list" aria-hidden="true">
-			<div class="image" *ngFor="let item of createArr(indicator.icon)"><img alt="inimese ikoon (värvitud)" src="/assets/img/person_filled.svg" /></div>
-			<div class="image" *ngFor="let elem of createArr(11 - indicator.icon)"><img alt="inimese ikoon" src="/assets/img/person.svg" /></div>
-		</div>
-		<hr aria-hidden="true" *ngIf="!last">
+  <ng-container
+    *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
+    <h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
+      {{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}
+    </h2>
+    <span role="textbox"
+          attr.aria-label="{{ 'oska.compared_to_other_professions' | translate }}: {{numToESTtext(indicator.icon)}} kümnest">
+      {{ 'oska.compared_to_other_professions' | translate }}
+    </span>
+    <div class="list" aria-hidden="true">
+      <div class="image" *ngFor="let item of createArr(indicator.icon)"><img
+        alt="inimese ikoon (värvitud)" src="/assets/img/person_filled.svg" /></div>
+      <div class="image" *ngFor="let elem of createArr(11 - indicator.icon)"><img
+        alt="inimese ikoon" src="/assets/img/person.svg" /></div>
+    </div>
+    <hr aria-hidden="true" *ngIf="!last">
   </ng-container>
 
-	<ng-container *ngIf="indicator.oskaId === 2 && indicator.icon > 0 && indicator.icon < 6">
+  <ng-container *ngIf="indicator.oskaId === 2 && indicator.icon > 0 && indicator.icon < 6">
     <h2 attr.aria-label="{{ 'oska.numberEmployedChange' | translate }}:">
       {{ 'oska.numberEmployedChange' | translate }}:
     </h2>
@@ -20,7 +26,8 @@
         <div class="icon__wrapper {{ trendingValues[indicator.icon - 1].class }}">
           <icon [glyph]="trendingValues[indicator.icon - 1].icon" bg="true"></icon>
         </div>
-        <span role="text" attr.aria-label="{{trendingValues[indicator.icon - 1].text | translate}}">{{trendingValues[indicator.icon - 1].text | translate}}</span>
+        <span role="text"
+              attr.aria-label="{{trendingValues[indicator.icon - 1].text | translate}}">{{trendingValues[indicator.icon - 1].text | translate}}</span>
       </li>
     </ul>
     <hr aria-hidden="true" *ngIf="!last">
@@ -30,15 +37,19 @@
     <h2 attr.aria-label="{{ 'oska.wage' | translate }}: {{ indicator.value }} €">
       {{ 'oska.wage' | translate }}: {{ indicator.value | localeNumber }} €
     </h2>
-    <div class="list label__tag--pointer" aria-hidden="true">
-      <div class="image" *ngFor="let item of createArr((indicator.icon - (indicator.icon % 2)) / 2)"><img alt="euromüntide ikoon (värvitud)" src="/assets/img/coin_full.svg" /></div>
-      <div class="image" *ngFor="let item of createArr(indicator.icon % 2)" ><img alt="euromüntide ikoon (pooleldi värvitud)" src="/assets/img/coin_half.svg" /></div>
-      <div class="image" *ngFor="let elem of createArr((20 - indicator.icon) / 2)" ><img alt="euromüntide ikoon" src="/assets/img/coin.svg" /></div>
+    <div class="list label__tag--pointer">
+      <div class="image" aria-hidden="true"
+           *ngFor="let item of createArr((indicator.icon - (indicator.icon % 2)) / 2)"><img
+        alt="euromüntide ikoon (värvitud)" src="/assets/img/coin_full.svg" /></div>
+      <div class="image" aria-hidden="true" *ngFor="let item of createArr(indicator.icon % 2)"><img
+        alt="euromüntide ikoon (pooleldi värvitud)" src="/assets/img/coin_half.svg" /></div>
+      <div class="image" aria-hidden="true" *ngFor="let elem of createArr((20 - indicator.icon) / 2)"><img
+        alt="euromüntide ikoon" src="/assets/img/coin.svg" /></div>
     </div>
     <hr aria-hidden="true" *ngIf="!last">
   </ng-container>
 
-	<ng-container *ngIf="indicator.oskaId === 4 && indicator.icon > 0 && indicator.icon < 6">
+  <ng-container *ngIf="indicator.oskaId === 4 && indicator.icon > 0 && indicator.icon < 6">
     <h2 attr.aria-label="{{ 'oska.graduation_to_jobs_rate' | translate }}">
       {{ 'oska.graduation_to_jobs_rate' | translate }}:
     </h2>
@@ -47,7 +58,8 @@
         <div class="icon__wrapper {{graduatesToJobsValues[indicator.icon - 1].class}}">
           <icon glyph="circle" bg="true"></icon>
         </div>
-        <span role="text" attr.aria-label="{{graduatesToJobsValues[indicator.icon - 1].text | translate}}">{{graduatesToJobsValues[indicator.icon - 1].text | translate}}</span>
+        <span role="text"
+              attr.aria-label="{{graduatesToJobsValues[indicator.icon - 1].text | translate}}">{{graduatesToJobsValues[indicator.icon - 1].text | translate}}</span>
       </li>
     </ul>
     <hr aria-hidden="true" *ngIf="!last">
