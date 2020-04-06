@@ -54,11 +54,12 @@
     }
 
     .emblem {
-      position: fixed;
-      top: 0;
+      position: absolute;
+      top: 50%;
       right:0;
       width: 82px;
       height:147px;
+      margin-top:-74px;
       background: url('/assets/img/homepage-eu.svg') center center no-repeat;
       background-size: contain;
     }
