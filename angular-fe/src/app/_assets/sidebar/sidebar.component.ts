@@ -408,6 +408,23 @@ export class SidebarFactsComponent implements OnInit {
     this.entitiesData = this.data.entities;
   }
 
+  private numToESTtext(number: number): string {
+    const numbers = {
+      1: 'üks',
+      2: 'kaks',
+      3: 'kolm',
+      4: 'neli',
+      5: 'viis',
+      6: 'kuus',
+      7: 'seitse',
+      8: 'kaheksa',
+      9: 'üheksa',
+      10: 'kümme',
+    };
+
+    return numbers[number];
+  }
+
   private createArr(len) {
     return arrayOfLength(len);
   }
@@ -643,6 +660,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   public accessAction = 'add';
   public issuingHistory = [];
   public actionHistory = [];
+  public invalidateLoader = false;
   private destroy$: Subject<boolean> = new Subject();
 
   constructor(
@@ -820,6 +838,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   public invalidateAccess(): void {
     const accessId = this.addAccessForm.value.accessId;
     const certificateId = this.route.snapshot.params.id;
+    this.invalidateLoader = true;
     this.http
       .delete(
         `${this.settings.ehisUrl}/certificates/v1/certificateAccess\
@@ -838,6 +857,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         ];
         this.openedAccessLabelType =
           res.status === 'ACCESS_STATUS:VALID' ? 'green' : 'red';
+        this.invalidateLoader = false;
         this.modal.toggle('finalDocument-confirmInvalidation');
       });
   }
@@ -1102,7 +1122,7 @@ export class SidebarFinalDocumentDownloadComponent {
     this.http
       .get(
         `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}?scope=${form.scope}&fileFormat=${form.fileFormat}`,
-        {
+      {
         headers: { 'Content-Type': 'application/*' },
         responseType: 'blob',
       },

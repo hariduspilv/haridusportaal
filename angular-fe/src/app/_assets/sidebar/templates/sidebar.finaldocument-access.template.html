@@ -168,18 +168,21 @@
 
 <htm-modal modalTitle="Ligipääs" [bottomAction]="false" id="finalDocument-confirmInvalidation">
 	<ng-template>
+		
 		<h1 *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ID_CODE'">
 			{{('finaldocuments.confirm_invalidate_accessorcode' | translate).replace('%ACCESSORCODE%', addAccessForm.value.accessorCode | idCode)}}
 		</h1>
 		<h1 *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
 			{{('finaldocuments.confirm_invalidate_email' | translate).replace('%EMAIL%', addAccessForm.value.emailAddress)}}
 		</h1>
-		<div class="button-row">
+		<div class="button-row" *ngIf="!invalidateLoader">
 			<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
 				{{'generic.cancel' | translate}}
 			</button>
 			<button htm-button (click)="invalidateAccess()">{{'finaldocuments.invalidate_access' | translate}}</button>
 		</div>
+
+		<loader *ngIf="invalidateLoader"></loader>
 	</ng-template>
 </htm-modal>
 
