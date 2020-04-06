@@ -25,7 +25,7 @@
     "prettier": "prettier --write \"./**/*.es6.js\" \"./tests/Drupal/Nightwatch/**/*.js\""
   },
   "devDependencies": {
-    "autoprefixer": "^9.6.1",
+    "autoprefixer": "^9.7.6",
     "babel-core": "^6.26.0",
     "babel-plugin-add-header-comment": "^1.0.3",
     "babel-preset-env": "^1.4.0",
