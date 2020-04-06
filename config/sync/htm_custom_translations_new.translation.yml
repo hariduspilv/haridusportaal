@@ -3665,6 +3665,18 @@ home:
     translation_type: textarea
     et: 'Karjäär tulevikus'
     en: 'Karjäär tulevikus'
+  events:
+    translation_type: textarea
+    et: 'Sündmused test'
+    en: Sündmused
+  events_text:
+    translation_type: textarea
+    et: 'Sisuhalduse tõlgetest muudetav tekst Sisuhalduse tõlgetest muudetav tekst Sisuhalduse tõlgetest muudetav tekst Sisuhalduse tõlgetest muudetav tekst'
+    en: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor'
+  teachers_slogan:
+    translation_type: textarea
+    et: 'Õpetajad loovad homse Eesti ja kasvatavad pättidest inimesed'
+    en: 'Õpetajad loovad<br />homse Eesti'
 finalDocumentDownload:
   translation_type: textarea
   et: 'Laadi failid alla'

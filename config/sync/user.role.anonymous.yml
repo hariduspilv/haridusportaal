@@ -34,6 +34,7 @@ permissions:
   - 'search content'
   - 'view any article content'
   - 'view any avaleht content'
+  - 'view any career_home_page content'
   - 'view any event content'
   - 'view any frontpage_new content'
   - 'view any information_system_page content'
