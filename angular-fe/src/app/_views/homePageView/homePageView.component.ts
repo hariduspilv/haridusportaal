@@ -15,7 +15,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'homepage-line',
@@ -37,19 +36,47 @@ export class HomePageNavBlockComponent {
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;
   }
+
 }
 
 @Component({
   selector: 'homepage-articles',
   templateUrl: 'blocks/homePageView.articles.html',
 })
-export class HomePageArticlesComponent {
-  @Input() data: [] = [];
+export class HomePageArticlesComponent implements OnChanges {
+  @Input() data: any[] = [];
   @Input() theme: string;
   @Input() line: number = 1;
 
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;
+  }
+
+  private imageList: string[] = [
+    'homepage-articles-1.svg',
+    'homepage-articles-2.svg',
+    'homepage-articles-3.svg',
+  ];
+
+  private assignImages() {
+    let counter = 0;
+    this.data = this.data.map((item, index) => {
+      if (counter >= this.imageList.length) {
+        counter = 0;
+      }
+      const image = `/assets/img/${this.imageList[counter]}`;
+      counter = counter + 1;
+      return {
+        ... item,
+        image,
+      };
+    });
+  }
+
+  ngOnChanges() {
+    if (this.data) {
+      this.assignImages();
+    }
   }
 }
 
@@ -57,15 +84,158 @@ export class HomePageArticlesComponent {
   selector: 'homepage-events',
   templateUrl: 'blocks/homePageView.events.html',
 })
-export class HomePageEventsComponent {
-  @Input() data: [] = [];
+export class HomePageEventsComponent implements OnInit{
+  @Input() data: any[] = [];
   @Input() theme: string;
   @Input() title: string;
   @Input() description: string;
   @Input() line: number = 1;
 
+  private eventsAmount = 2;
+
+  private imageList: string[] = [
+    'homePage-events-1.svg',
+    'homePage-events-2.svg',
+  ];
+
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;
+  }
+
+  constructor(
+    private http: HttpClient,
+    private settings: SettingsService,
+    private translate: TranslateService,
+  ) {}
+
+  private assignImages() {
+    let counter = 0;
+    this.data = this.data.map((item, index) => {
+      if (counter >= this.imageList.length) {
+        counter = 0;
+      }
+      const image = `/assets/img/${this.imageList[counter]}`;
+      counter = counter + 1;
+      return {
+        ... item,
+        image: {
+          url: image,
+        },
+      };
+    });
+  }
+
+  private getAdditional(entities): void {
+    const variables = {
+      lang: 'ET',
+    };
+    const query = this.settings.query('teachingPageAdditionalEvents', variables);
+    const subscription = this.http.get(query).subscribe((response:any) => {
+      try {
+        this.data = [
+          ...this.parseEvents(entities),
+          ...this.parseEvents(response.data.nodeQuery.entities),
+        ].slice(0, this.eventsAmount);
+        this.assignImages();
+      } catch (err) {}
+    });
+  }
+
+  private parseEvents(items) {
+    return items.map((item) => {
+      return {
+        title: item.entityLabel,
+        author: item.fieldOrganizer,
+        created: item.fieldEventMainDate.unix,
+        content: item.fieldDescriptionSummary,
+        link: {
+          title: this.translate.get('button.read_more'),
+          url: {
+            path: item.entityUrl.path,
+          },
+        },
+        image: {
+          url: 'http://htm.wiseman.ee/sites/default/files/2020-02/homepage-slides-1.svg',
+        },
+      };
+    });
+  }
+  private getData():void {
+
+    const variables = {
+      lang: 'ET',
+    };
+    const query = this.settings.query('teachingPageEvents', variables);
+
+    const subscription = this.http.get(query).subscribe((response:any) => {
+      try {
+        if (response.data.nodeQuery.entities.length < this.eventsAmount) {
+          this.getAdditional(response.data.nodeQuery.entities);
+        } else {
+          this.data = this.parseEvents(response.data.nodeQuery.entities);
+          this.assignImages();
+        }
+      } catch (err) {}
+      subscription.unsubscribe();
+    });
+  }
+
+  ngOnInit() {
+    this.getData();
+  }
+}
+
+@Component({
+  selector: 'homepage-careerDevelopment',
+  templateUrl: 'blocks/homePageView.careerDevelopment.html',
+})
+export class HomePageCareerDevelopmentComponent implements OnInit{
+  @Input() title: string;
+  @Input() description: string;
+  @Input() url: string;
+  @Input() theme: string;
+  @Input() line: number = 3;
+  public data: any[] = [];
+
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
+
+  constructor(
+    private http: HttpClient,
+    private settings: SettingsService,
+  ) {}
+
+  private getData(): void {
+    const variables = {
+      path: this.url,
+    };
+    const query = this.settings.query('getArticle', variables);
+    const subscription = this.http.get(query).subscribe((response:any) => {
+      try {
+        const accordionData = response.data.route.entity.fieldAccordionSection;
+        this.data = accordionData.map((item) => {
+          const slug = item.entity.fieldAccordionTitle.toLowerCase()
+            .replace(/span/g, '')
+            .replace(/<a href=".+?>/g, '')
+            .replace(/<\/a>/g, '')
+            .replace(/ /g, '-')
+            .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
+          return {
+            slug,
+            title: item.entity.fieldAccordionTitle,
+            path: this.url,
+          };
+        });
+      } catch (err) {}
+      subscription.unsubscribe();
+    });
+  }
+
+  ngOnInit() {
+    if (this.url) {
+      this.getData();
+    }
   }
 }
 
@@ -163,6 +333,7 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
   @Input() data: {
     links,
     logos,
+    contacts: [],
   };
   @Input() theme: string;
   @Input() line: number = 4;
@@ -308,6 +479,7 @@ export class HomePageViewComponent implements OnInit {
   public newsLink: string = '';
   public theme: string = 'default';
   public events: any[] = [];
+  public careerDevelopment: string;
 
   constructor(
     private http: HttpClient,
@@ -324,7 +496,10 @@ export class HomePageViewComponent implements OnInit {
     let query = 'newFrontPageQuery';
     if (this.theme === 'teachers') {
       query = 'teachingPage';
+    } else if (this.theme === 'career') {
+      query = 'careerPage';
     }
+
     const path = this.settings.query(query, variables);
     const topicsSubscription = this.http.get(path).subscribe((response) => {
       this.parseData(response['data']['nodeQuery']['entities'][0]);
@@ -335,33 +510,66 @@ export class HomePageViewComponent implements OnInit {
   private parseData(data): void {
 
     try {
-      const topics = data.fieldFrontpageTopics || data.fieldTeachingThemes;
+      if (this.theme === 'career') {
+        this.careerDevelopment = data.fieldCareer.entity.entityUrl.path;
+      }
+    } catch (err) {}
+
+    try {
+      const topics = data.fieldFrontpageTopics ||
+        data.fieldTeachingThemes ||
+        data.fieldContentPageLink;
+
       if (this.theme === 'career') {
 
-        this.articles = [
+        const item = topics;
+        this.articles = [{
+          title: item.entity.fieldTitle,
+          content: item.entity.fieldText,
+          link: {
+            title: item.entity.fieldInternalLink.entity.entityLabel,
+            url: {
+              routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
+              path: item.entity.fieldInternalLink.entity.entityUrl.path,
+            },
+          },
+          image: '/assets/img/homepage-articles-career-1.svg',
+        }];
+
+        this.topics = [
           {
             title: 'VALDKONNAD TÖÖTURUL',
             link: {
-              title: 'Uuri lähemalt',
+              title: this.translate.get('home.view_more'),
               url: {
-                routed: false,
-                path: 'https://www.neti.ee',
+                path: '/valdkonnad',
+                routed: true,
               },
             },
-            content: 'Kümme aastat tagasi ei olnud veel olemaski kümmet 2020. aasta nõutuimat ametit. Töömaailm on kiires muutumises ning need muutused ei jäta puudutamata ka Eestit. ',
-            button: 'Valdkonnad tööturul',
-            image: '/assets/img/homepage-articles-career-1.svg',
+          },
+          {
+            title: 'AMETIALAD',
+            link: {
+              title: this.translate.get('home.view_more'),
+              url: {
+                path: '/ametialad',
+                routed: true,
+              },
+            },
           },
         ];
-        // tslint:enable
       } else {
         this.topics = topics.map((item) => {
-          let image = false;
+          let image:any = false;
           let link;
+          let scrollTo: boolean | string = false;
 
           if (this.theme === 'default') {
-            image = item.entity.fieldTopicImage.entity.url;
+            image = '';
             link = item.entity.fieldTopicLink;
+            if (link.url.path.match('scrollTo:')) {
+              scrollTo = link.url.path.split('scrollTo:')[1];
+            }
           } else if (this.theme === 'teachers') {
             link = {
               title: this.translate.get('home.view_more'),
@@ -375,21 +583,19 @@ export class HomePageViewComponent implements OnInit {
           return {
             image,
             link,
+            scrollTo,
             title: item.entity.fieldTopicTitle || item.entity.fieldThemeTitle,
             content: item.entity.fieldTopicText || false,
             button: item.entity.fieldTopicButtonText || false,
           };
         });
-        console.log(topics);
-        console.log(this.topics);
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
 
     try {
-      if (this.theme === 'teachers') {
-        this.contact.contacts = data.fieldContact.map((item) => {
+      if (this.theme === 'teachers' || this.theme === 'career') {
+        const contact = data.fieldContact || data.fieldCareerContact;
+        this.contact.contacts = contact.map((item) => {
           return {
             company: item.entity.fieldInstitution || false,
             name: item.entity.fieldNameOccupation || false,
@@ -398,9 +604,18 @@ export class HomePageViewComponent implements OnInit {
           };
         });
 
-        this.contact.logos = ['/assets/img/homepage-teachers.svg'];
+        if (this.theme === 'teachers') {
+          this.contact.logos = ['/assets/img/homepage-teachers.svg'];
+        } else if (this.theme === 'career') {
+          this.contact.logos = [
+            '/assets/img/homepage-footer-career-1.svg',
+            '/assets/img/homepage-footer-career-2.svg',
+            '/assets/img/homepage-footer-career-3.svg',
+          ];
+        }
 
-        this.contact.links = data.fieldExternal.map((item) => {
+        const links = data.fieldExternal || data.fieldExternalLinks;
+        this.contact.links = links.map((item) => {
           return {
             url: {
               title: item.entity.fieldLinkName,
@@ -416,12 +631,10 @@ export class HomePageViewComponent implements OnInit {
           phone: data.fieldFrontpageContactPhone,
         };
       }
-    } catch (err) {
-
-    }
+    } catch (err) {}
 
     try {
-      if (this.theme === 'teachers') {
+      if (this.theme === 'teachers' || this.theme === 'career') {
         this.slogan = {
           title: data.fieldQuoteText || false,
           person: data.fieldQuoteAuthor || false,
@@ -455,6 +668,7 @@ export class HomePageViewComponent implements OnInit {
           return {
             title: item.entity.fieldTitle,
             link: {
+              title: item.entity.fieldLinkName,
               url: item.entity.fieldInternalLink.entity.entityUrl,
             },
             image: {
@@ -474,49 +688,14 @@ export class HomePageViewComponent implements OnInit {
       }
     } catch (err) {}
 
-    if (this.theme === 'teachers') {
-
-      try {
-        // tslint:disable
-        this.events = [
-          //TODO
-          {
-            title: 'Seminar “Meediapädevuse ja infokriitilisuse roll noorteinfotöös” noorsootöötajatele Tallinnas',
-            author: 'Valgamaa Kutseõppekeskus',
-            created: 1529585470,
-            content: 'Turvalise interneti päeva töötuba digitaalse ohutuse toetamiseks, mida korraldavad Lastekaitse Liit, TalTech ja HITSA, turvalise interneti päeva töötuba digitaalse...',
-            link: {
-              title: 'Loe rohkem',
-              url: {
-                path: '/sündmused',
-              }
-            },
-            image: {
-              url: 'http://htm.wiseman.ee/sites/default/files/2020-02/homepage-slides-1.svg',
-            },
-          },
-          {
-            title: 'Inglise keele riigieksam',
-            created: 1529585470,
-            link: {
-              title: 'Loe rohkem',
-              url: {
-                path: '/sündmused',
-              }
-            },
-            image: {
-              url: 'http://htm.wiseman.ee/sites/default/files/2020-02/homepage-slides-2.svg',
-            },
-          },
-          
-        ];
-        // tslint:enable
-      } catch (err) {}
+    if (!this.articles && this.topics) {
+      this.articles = this.topics;
     }
 
     if (this.articles) {
       this.articles = this.articles.map((item, index) => {
         let position = index % 2 ? 'left' : 'right';
+
         if (this.theme === 'career') {
           position = index % 2 ? 'right' : 'left';
         }
@@ -524,6 +703,8 @@ export class HomePageViewComponent implements OnInit {
           position,
           ...item,
         };
+      }).filter((item) => {
+        return item.title !== '-';
       });
     }
 

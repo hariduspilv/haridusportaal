@@ -52,6 +52,16 @@
         }
       }
     }
+
+    .emblem {
+      position: fixed;
+      top: 0;
+      right:0;
+      width: 82px;
+      height:147px;
+      background: url('/assets/img/homepage-eu.svg') center center no-repeat;
+      background-size: contain;
+    }
     .navBlock {
       display: block;
       background: $aqua url('/assets/img/homepage-1.svg') center bottom no-repeat;
@@ -173,6 +183,8 @@
             background: $white;
             font-size: 1rem;
             color: $blue;
+            align-items: center;
+            align-content: center;
             text-decoration: none;
             text-align: center;
             appearance: none;
@@ -181,10 +193,11 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            justify-items: center;
             box-shadow: 0rem 0rem 1.25rem rgba(141, 141, 141, 0.25);
             border-radius: 0.8125rem;
             text-transform: uppercase;
-            padding: 0 0 3rem 0;
+            padding: 0 1rem 3rem 1rem;
             min-height: 8.875rem;
             letter-spacing: 0.125rem;
             will-change: transform, box-shadow;
@@ -332,6 +345,7 @@
           display: flex;
           flex-direction: column;
           flex-grow: 1;
+          width: 100%;
         }
         &__date {
           color: $black;
@@ -344,12 +358,14 @@
           line-height: 133%;
           color: $black;
           text-align: left;
+          width: 100%;
         }
         &__text {
           font-size: 1rem;
           line-height: 150%;
           color: $black;
           margin: 0 0 1rem 0;
+          width: 100%;
         }
         &__link {
           text-align: left;
@@ -371,6 +387,81 @@
             text-decoration: none;
           }
         }
+      }
+    }
+  }
+
+  homepage-careerDevelopment {
+    display: block;
+    position: relative;
+    padding: 2.125rem 0 12.5rem 0;
+    background: #EEEEEE;
+
+    .st0 {
+      fill: #EEEEEE;
+    }
+    h2 {
+      color: #0F6722;
+      font-size: 1.125rem;
+      line-height: 1.5rem;
+      text-transform: uppercase;
+      margin: 0;
+      font-weight: normal;
+    }
+    .intro {
+      text-align: center;
+      p {
+        font-weight: 300;
+        font-size: 1rem;
+        line-height: 1.25rem;
+        margin: 25px 0;
+      }
+    }
+    .links {
+      max-width:920px;
+      min-height: 470px;
+      background: url('/assets/img/homepage-career-imago.svg') center 55px no-repeat;
+      margin: 3.0625rem auto 0 auto;
+      ul, li {
+        display: block;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        text-align: center;
+      }
+      ul {
+        display: block;
+        max-width: 395px;
+        margin: 0 auto;
+      }
+      button {
+        display: block;
+        background: $white;
+        box-shadow: 0px 0px 20px rgba(141, 141, 141, 0.25);
+        border-radius: 0.8125rem;
+        appearance: none;
+        padding: 0;
+        font-size: 1.125rem;
+        line-height: 120%;
+        cursor: pointer;
+        color: $blue;
+        width: 100%;
+        border: none;
+        text-transform: uppercase;
+        padding: 1.375rem 1.25rem;
+        font-weight: 500;
+      }
+      icon{
+        display: inline-block;
+        margin: 0.5rem 0;
+        .icon{
+          font-size: 1.6875rem;
+          color: $blue;
+        }
+      }
+     
+      li:last-child icon {
+        display: none;
       }
     }
   }
@@ -406,6 +497,20 @@
         margin-bottom: 0;
       }
 
+      &__link {
+        color: $blue;
+        font-size: 1rem;
+        text-decoration: underline;
+        appearance: none;
+        padding: 0;
+        margin: 0;
+        border: none;
+        background: none;
+        cursor: pointer;
+        &:hover {
+          text-decoration: none;
+        }
+      }
       &__content {
         flex-shrink: 1;
         width: 100%;
@@ -934,6 +1039,22 @@
         }
       }
     }
+
+    &.theme--career {
+      background: $white;
+      padding-top: 4rem;
+      .st0 {
+        fill: $white;
+      }
+      .instance {
+        &__image {
+          width: 16rem;
+          margin-top: 0;
+        }
+      }
+    }
+    
+
     .inner {
       position: relative;
     }
@@ -989,6 +1110,9 @@
           font-size: 1rem;
           margin-top: -20px;
         }
+        b {
+          font-weight: 400;
+        }
       }
 
       &__image {
@@ -1023,12 +1147,25 @@
       margin-top: 1rem;
     }
 
+    ::ng-deep {
+      formItem.formItem--titleDisabled .formItem__wrapper input{
+        padding-left: 1rem !important;
+      }
+    }
+
     loader .loader--label {
       color: $white !important;
     }
 
     .mt {
       margin-top: 1rem;
+    }
+
+    &.theme--teachers, &.theme--career {
+      .newsletter__col:nth-child(2) {
+          order: 3;
+          text-align: right;
+      }
     }
 
     ::ng-deep .modal-content {
@@ -1112,6 +1249,7 @@
           letter-spacing: 0.0625rem;
           margin: 0 0 2.0625rem 0;
           font-weight: normal;
+          text-transform: uppercase;
         }
         ul, li {
           list-style: none;
@@ -1132,8 +1270,12 @@
           padding: 0;
           margin: 0;
           cursor: pointer;
+          max-width: 200px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
           &:hover {
-            text-emphasis: none;
+            text-decoration: none;
           }
           ::ng-deep {
             icon{
@@ -1163,6 +1305,7 @@
       .newsletter {
         flex-grow: 1;
         flex-shrink: 1;
+        width: 100%;
         @include break-on(sm, max) {
           padding-top: 3rem;
         }
@@ -1216,10 +1359,6 @@
             width: 100%
           }
 
-          &:nth-child(2){
-            order: 3;
-            text-align: right;
-          }
           &:first-child {
             flex-grow: 1;
             flex-shrink: 1;
@@ -1259,7 +1398,6 @@
     transform: translateY(-100%);
     margin-top: 1px;
     overflow: hidden;
-
     svg {
       display: block;
       width: 100%;

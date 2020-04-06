@@ -11,6 +11,7 @@ import {
   HomePageSloganComponent,
   HomePageFooterComponent,
   HomePageEventsComponent,
+  HomePageCareerDevelopmentComponent,
 } from './homePageView.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
@@ -33,6 +34,13 @@ const routes: Routes = [
       theme: 'teachers',
     },
   },
+  {
+    path: 'homeCareer',
+    component: HomePageViewComponent,
+    data: {
+      theme: 'career',
+    },
+  },
 ];
 
 @NgModule({
@@ -47,6 +55,7 @@ const routes: Routes = [
     HomePageSloganComponent,
     HomePageFooterComponent,
     HomePageEventsComponent,
+    HomePageCareerDevelopmentComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

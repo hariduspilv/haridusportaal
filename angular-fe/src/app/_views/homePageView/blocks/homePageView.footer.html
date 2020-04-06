@@ -7,7 +7,7 @@
       <ng-container *ngIf="!data.contacts">
         <p>
           <ng-container *ngIf="data.name">{{ data.name }}<br /></ng-container>
-          <ng-container *ngIf="data.name"><a [href]="'mailto:'+data.email">{{ data.email }}</a><br /></ng-container>
+          <ng-container *ngIf="data.email"><a [href]="'mailto:'+data.email">{{ data.email }}</a><br /></ng-container>
           <ng-container *ngIf="data.phone">{{ data.phone }}</ng-container>
         </p>
       </ng-container>
@@ -17,7 +17,7 @@
           <p>
             <ng-container *ngIf="item.company"><b>{{ item.company }}</b><br /></ng-container>
             <ng-container *ngIf="item.name">{{ item.name }}<br /></ng-container>
-            <ng-container *ngIf="item.email">{{ item.email }}<br /></ng-container>
+            <ng-container *ngIf="item.email"><a [href]="'mailto:' + item.email">{{ item.email }}</a><br /></ng-container>
             <ng-container *ngIf="item.skype">Skype: {{ item.skype }}<br /></ng-container>
 
           </p>
