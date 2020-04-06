@@ -1,19 +1,42 @@
 <div class="navBlock">
+  <div class="emblem" id="emblem" *ngIf="theme === 'career'"></div>
   <div class="inner">
     <div class="navBlock__title">
-      <h1 [innerHTML]="'home.slogan' | translate"></h1>
-      <img src="/assets/img/homePage-navBlock.svg" alt="" />
+      <div class="navBlock__title__inner">
+        <h1 [innerHTML]="title"></h1>
+        <ng-container *ngIf="description">
+          <p>{{ description }}</p>
+        </ng-container>
+      </div><!--/navBlock__title__inner-->
+      <img src="/assets/img/homePage-navBlock.svg" alt="" *ngIf="theme === 'default'" />
+      <img src="/assets/img/homePage-navBlock-teachers.svg" alt="" *ngIf="theme === 'teachers'" />
+      <img src="/assets/img/homePage-navBlock-career.svg" alt="" *ngIf="theme === 'career'" />
     </div><!--/navBlock__title-->
     
-    <div class="navBlock__buttons" *ngIf="data.length">
-      <ul>
-        <li *ngFor="let item of data">
-          <button [scrollTo]="item.button | slugify">{{ item.button }} <icon glyph="chevrons-down"></icon></button>
-        </li>
-        <li>
-          <button scrollTo="teenused">{{ 'home.services' | translate }} <icon glyph="chevrons-down"></icon></button>
-        </li>
-      </ul>
-    </div><!--/navBlock__buttons-->
+    <ng-container *ngIf="theme === 'default'">
+      <div class="navBlock__buttons" *ngIf="data.length" >
+        <ul>
+          <ng-container *ngFor="let item of data">
+            <li *ngIf="!item.scrollTo">
+              <button [scrollTo]="item.button | slugify">{{ item.button }} <icon glyph="chevrons-down"></icon></button>
+            </li>
+            <li *ngIf="item.scrollTo">
+              <button [scrollTo]="item.scrollTo">{{ 'home.services' | translate }} <icon glyph="chevrons-down"></icon></button>
+            </li>
+          </ng-container>
+        </ul>
+      </div><!--/navBlock__buttons-->
+    </ng-container>
+
+    <ng-container *ngIf="theme === 'teachers' || theme === 'career'">
+      <div class="navBlock__buttons" *ngIf="data.length">
+        <ul>
+          <li *ngFor="let item of data">
+            <button *ngIf="item.link.url.routed" [routerLink]="item.link.url.path">{{ item.title }} <span class="label">{{ item.link.title }}</span></button>
+            <a *ngIf="!item.link.url.routed" target="_blank" [href]="item.link.url.path">{{ item.title }}  <span class="label">{{ item.link.title }}</span></a>
+          </li>
+        </ul>
+      </div><!--/navBlock__buttons-->
+    </ng-container>
   </div><!--/inner-->
 </div><!--/navBlock-->

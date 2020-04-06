@@ -1,54 +1,84 @@
-<homepage-line type="4"></homepage-line>
+<homepage-line [type]="line"></homepage-line>
 <div class="inner">
-  <form [formGroup]="formGroup" (submit)="submit()">
   <div class="footer">
     <div class="contact" *ngIf="data">
       <h2 class="contact__title">{{ 'home.contact' | translate }}</h2>
-      <p>
-        {{ data.name }}<br />
-        <a [href]="'mailto:'+data.email">{{ data.email }}</a><br />
-        <a [href]="'tel:'+data.phone">{{ data.phone }}</a>
-      </p>
-    </div><!--/contact-->
-    <div class="newsletter">
-      <h3 class="newsletter__title">{{ 'home.newsletter_subscribe' | translate }}</h3>
-      <ng-container *ngIf="loading">
-        <loader></loader>
-      </ng-container>
-      <ng-container *ngIf="!loading">
-        <div class="newsletter__cols" *ngIf="!subscribedStatus && !subscribedError">
-          <div class="newsletter__col">
-            <formItem
-              [placeholder]="'home.newsletter_email' | translate"
-              domID="e-mail"
-              browserAutocomplete="email"
-              [ariaLabel]="'home.newsletter_email' | translate"
-              formControlName="email"></formItem>
-          </div><!--/newsletter_col-->
-          <div class="newsletter__col">
-            <button htm-button theme="outline-dark">{{ 'home.newsletter_join' | translate }}</button>
-          </div><!--/newsletter_col-->
-          <div class="newsletter__col">
-            <a [href]="settings.url + '/custom/rss'" target="_blank">{{ 'home.newsletter_rss' | translate }}</a>
-          </div><!--/newsletter_col-->
-        </div><!--/newsletter__cols-->
-  
-        <alerts id="newsletter-order" small="true"></alerts>
-  
-        <div *ngIf="subscribedStatus">
-          <div>{{ 'newsletter.subscription_thanks_content' | translate }}</div>
-          <div>{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{ formGroup.controls.email.value }}</b>.</div>
-        </div><!--/subscribedStatus-->  
 
-        <div *ngIf="subscribedError">
-          <div>{{ 'newsletter.subscription_failed' | translate }}</div>
-          <button class="mt" theme="outline-dark" (click)="resetView()" attr.aria-label="{{'button.try_again' | translate}}" htm-button>{{ 'button.try_again' | translate }} </button>
-        </div>
+      <ng-container *ngIf="!data.contacts">
+        <p>
+          <ng-container *ngIf="data.name">{{ data.name }}<br /></ng-container>
+          <ng-container *ngIf="data.email"><a [href]="'mailto:'+data.email">{{ data.email }}</a><br /></ng-container>
+          <ng-container *ngIf="data.phone">{{ data.phone }}</ng-container>
+        </p>
       </ng-container>
-      
+
+      <ng-container *ngIf="data.contacts">
+        <ng-container *ngFor="let item of data.contacts">
+          <p>
+            <ng-container *ngIf="item.company"><b>{{ item.company }}</b><br /></ng-container>
+            <ng-container *ngIf="item.name">{{ item.name }}<br /></ng-container>
+            <ng-container *ngIf="item.email"><a [href]="'mailto:' + item.email">{{ item.email }}</a><br /></ng-container>
+            <ng-container *ngIf="item.skype">Skype: {{ item.skype }}<br /></ng-container>
+
+          </p>
+        </ng-container>
+      </ng-container>
+
+    </div><!--/contact-->
+    <div class="links" *ngIf="data && data.links">
+      <h2 class="links__title">{{ 'home.external_links' | translate }}</h2>
+      <ul>
+        <ng-container *ngFor="let item of data.links">
+          <li *ngIf="item.url.routed"><button [routerLink]="item.url.path">{{ item.url.title }}</button></li>
+          <li *ngIf="!item.url.routed"><a [href]="item.url.path" target="_blank">{{ item.url.title }}<icon glyph="external-link"></icon></a></li>
+        </ng-container>
+      </ul>
+    </div><!--/links-->
+    <div class="newsletter">
+      <form [formGroup]="formGroup" (submit)="submit()">
+        <h3 class="newsletter__title">{{ 'home.newsletter_subscribe' | translate }}</h3>
+        <ng-container *ngIf="loading">
+          <loader></loader>
+        </ng-container>
+        <ng-container *ngIf="!loading">
+          <div class="newsletter__cols" *ngIf="!subscribedStatus && !subscribedError">
+            <div class="newsletter__col">
+              <formItem
+                [titleDisabled]="true"
+                [placeholder]="'home.newsletter_email' | translate"
+                domID="e-mail"
+                browserAutocomplete="email"
+                [ariaLabel]="'home.newsletter_email' | translate"
+                formControlName="email"></formItem>
+            </div><!--/newsletter_col-->
+            <div class="newsletter__col">
+              <button htm-button theme="outline-dark">{{ 'home.newsletter_join' | translate }}</button>
+            </div><!--/newsletter_col-->
+            <div class="newsletter__col">
+              <a [href]="settings.url + '/custom/rss'" target="_blank">{{ 'home.newsletter_rss' | translate }}</a>
+            </div><!--/newsletter_col-->
+          </div><!--/newsletter__cols-->
+    
+          <alerts id="newsletter-order" small="true"></alerts>
+    
+          <div *ngIf="subscribedStatus">
+            <div>{{ 'newsletter.subscription_thanks_content' | translate }}</div>
+            <div>{{ 'newsletter.subscription_thanks_subcontent' | translate }} <b>{{ formGroup.controls.email.value }}</b>.</div>
+          </div><!--/subscribedStatus-->  
+
+          <div *ngIf="subscribedError">
+            <div>{{ 'newsletter.subscription_failed' | translate }}</div>
+            <button class="mt" theme="outline-dark" (click)="resetView()" attr.aria-label="{{'button.try_again' | translate}}" htm-button>{{ 'button.try_again' | translate }} </button>
+          </div>
+        </ng-container>
+      </form>
     </div><!--/newsletter-->
   </div><!--/footer-->
-  </form>
+  <div class="logos" *ngIf="data && data.logos">
+    <ng-container *ngFor="let item of data.logos">
+      <img [src]="item" />
+    </ng-container>
+  </div><!--/logos-->
 </div><!--/inner-->
 
 <htm-modal id="unsubscribe" modalTitle="{{'newsletter.unsubscribe_title' | translate}}" size="medium">

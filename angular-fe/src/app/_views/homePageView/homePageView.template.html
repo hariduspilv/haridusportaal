@@ -1,7 +1,88 @@
-<homepage-navblock [data]="topics"></homepage-navblock>
-<homepage-articles [data]="topics"></homepage-articles>
-<homepage-slides [data]="services"></homepage-slides>
-<homepage-topical [data]="newsLink"></homepage-topical>
-<homepage-study></homepage-study>
-<homepage-slogan [data]="slogan"></homepage-slogan>
-<homepage-footer [data]="contact"></homepage-footer>
+<ng-container [ngSwitch]="theme">
+
+  <ng-container *ngSwitchCase="'default'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'home.slogan' | translate"></homepage-navblock>
+    <homepage-articles
+      [data]="articles"
+      [theme]="theme"></homepage-articles>
+    <homepage-slides
+      [data]="services"
+      [title]="'home.services_title' | translate"
+      [theme]="theme"></homepage-slides>
+    <homepage-topical
+      [data]="newsLink"
+      [theme]="theme"></homepage-topical>
+    <homepage-study
+      [theme]="theme"></homepage-study>
+    <homepage-slogan
+      [title]="slogan"
+      [theme]="theme"></homepage-slogan>
+    <homepage-footer
+      [data]="contact"
+      [theme]="theme"></homepage-footer>    
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'teachers'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'home.teachers_slogan' | translate"></homepage-navblock>
+    <homepage-events
+      [data]="events"
+      [theme]="theme"
+      [title]="'home.events' | translate"
+      [description]="'home.events_text' | translate"></homepage-events>
+    <homepage-topical
+      [data]="newsLink" [theme]="theme"></homepage-topical>
+    <homepage-slides
+      [data]="services"
+      title="Tööriistakast" 
+      [line]="3"
+      [theme]="theme"></homepage-slides>
+    <homepage-slogan
+      [title]="slogan.title"
+      [person]="slogan.person"
+      [company]="slogan.company"
+      [theme]="theme"></homepage-slogan>
+    <homepage-footer
+      [data]="contact"
+      [theme]="theme"></homepage-footer>
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'career'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'home.career_slogan' | translate"
+      [description]="'home.career_slogan_description' | translate"></homepage-navblock>
+
+    <homepage-articles
+      [data]="articles"
+      [theme]="theme"></homepage-articles>
+
+    <homepage-careerDevelopment
+      *ngIf="careerDevelopment"
+      [url]="careerDevelopment"
+      [title]="'home.careerDevelopment_title' | translate"
+      [description]="'home.careerDevelopment_description' | translate"></homepage-careerDevelopment>
+
+    <homepage-topical
+      [data]="newsLink"
+      [line]="4"
+      [theme]="theme"></homepage-topical>
+
+    <homepage-slogan
+      [title]="slogan.title"
+      [person]="slogan.person"
+      [company]="slogan.company"
+      [line]="3"
+      [theme]="theme"></homepage-slogan>
+
+    <homepage-footer
+      [data]="contact"
+      [theme]="theme"></homepage-footer>  
+  </ng-container>
+</ng-container>

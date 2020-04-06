@@ -10,6 +10,8 @@ import {
   HomePageStudyComponent,
   HomePageSloganComponent,
   HomePageFooterComponent,
+  HomePageEventsComponent,
+  HomePageCareerDevelopmentComponent,
 } from './homePageView.component';
 import { Routes, RouterModule } from '@angular/router';
 import { AssetsModule } from '@app/_assets';
@@ -22,8 +24,22 @@ import { NgPipesModule } from 'ngx-pipes';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomePageViewComponent,
+  },
+  {
+    path: 'homeOska',
+    component: HomePageViewComponent,
+    data: {
+      theme: 'teachers',
+    },
+  },
+  {
+    path: 'homeCareer',
+    component: HomePageViewComponent,
+    data: {
+      theme: 'career',
+    },
   },
 ];
 
@@ -38,6 +54,8 @@ const routes: Routes = [
     HomePageStudyComponent,
     HomePageSloganComponent,
     HomePageFooterComponent,
+    HomePageEventsComponent,
+    HomePageCareerDevelopmentComponent,
   ],
   imports: [
     RouterModule.forChild(routes),

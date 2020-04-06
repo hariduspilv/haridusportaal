@@ -45,7 +45,7 @@ export class SchoolFundingViewComponent implements OnInit {
 
   public options: Object = {
     polygonType: 'investment', // ...
-    zoom: 7.4,
+    zoom: 7.9,
     maxZoom: 16,
     minZoom: 7,
     draggable: true,
