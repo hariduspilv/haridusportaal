@@ -210,6 +210,8 @@
               height: 6.375rem;
             }
             @include break-on(xxs, max) {
+              display: block;
+              align-items: normal;
               padding: 1rem 2rem;
               min-height: 0;
               height: 100%;

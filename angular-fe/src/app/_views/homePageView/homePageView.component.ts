@@ -1,15 +1,16 @@
 import {
-  Component,
-  Input,
-  OnInit,
-  OnChanges,
-  OnDestroy,
   AfterViewInit,
   ChangeDetectorRef,
+  Component,
   HostBinding,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SettingsService, AlertsService, ModalService } from '@app/_services';
+import { AlertsService, ModalService, SettingsService } from '@app/_services';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
@@ -33,6 +34,7 @@ export class HomePageNavBlockComponent {
   @Input() title: string;
   @Input() description: string;
   @Input() theme: string;
+
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;
   }
@@ -47,16 +49,21 @@ export class HomePageArticlesComponent implements OnChanges {
   @Input() data: any[] = [];
   @Input() theme: string;
   @Input() line: number = 1;
-
-  @HostBinding('class') get hostClasses(): string {
-    return `theme--${this.theme}`;
-  }
-
   private imageList: string[] = [
     'homepage-articles-1.svg',
     'homepage-articles-2.svg',
     'homepage-articles-3.svg',
   ];
+
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
+
+  ngOnChanges() {
+    if (this.data) {
+      this.assignImages();
+    }
+  }
 
   private assignImages() {
     let counter = 0;
@@ -67,16 +74,10 @@ export class HomePageArticlesComponent implements OnChanges {
       const image = `/assets/img/${this.imageList[counter]}`;
       counter = counter + 1;
       return {
-        ... item,
+        ...item,
         image,
       };
     });
-  }
-
-  ngOnChanges() {
-    if (this.data) {
-      this.assignImages();
-    }
   }
 }
 
@@ -84,7 +85,7 @@ export class HomePageArticlesComponent implements OnChanges {
   selector: 'homepage-events',
   templateUrl: 'blocks/homePageView.events.html',
 })
-export class HomePageEventsComponent implements OnInit{
+export class HomePageEventsComponent implements OnInit {
   @Input() data: any[] = [];
   @Input() theme: string;
   @Input() title: string;
@@ -98,15 +99,20 @@ export class HomePageEventsComponent implements OnInit{
     'homePage-events-2.svg',
   ];
 
-  @HostBinding('class') get hostClasses(): string {
-    return `theme--${this.theme}`;
-  }
-
   constructor(
     private http: HttpClient,
     private settings: SettingsService,
     private translate: TranslateService,
-  ) {}
+  ) {
+  }
+
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
+
+  ngOnInit() {
+    this.getData();
+  }
 
   private assignImages() {
     let counter = 0;
@@ -117,7 +123,7 @@ export class HomePageEventsComponent implements OnInit{
       const image = `/assets/img/${this.imageList[counter]}`;
       counter = counter + 1;
       return {
-        ... item,
+        ...item,
         image: {
           url: image,
         },
@@ -130,14 +136,15 @@ export class HomePageEventsComponent implements OnInit{
       lang: 'ET',
     };
     const query = this.settings.query('teachingPageAdditionalEvents', variables);
-    const subscription = this.http.get(query).subscribe((response:any) => {
+    const subscription = this.http.get(query).subscribe((response: any) => {
       try {
         this.data = [
           ...this.parseEvents(entities),
           ...this.parseEvents(response.data.nodeQuery.entities),
         ].slice(0, this.eventsAmount);
         this.assignImages();
-      } catch (err) {}
+      } catch (err) {
+      }
     });
   }
 
@@ -160,14 +167,15 @@ export class HomePageEventsComponent implements OnInit{
       };
     });
   }
-  private getData():void {
+
+  private getData(): void {
 
     const variables = {
       lang: 'ET',
     };
     const query = this.settings.query('teachingPageEvents', variables);
 
-    const subscription = this.http.get(query).subscribe((response:any) => {
+    const subscription = this.http.get(query).subscribe((response: any) => {
       try {
         if (response.data.nodeQuery.entities.length < this.eventsAmount) {
           this.getAdditional(response.data.nodeQuery.entities);
@@ -175,13 +183,10 @@ export class HomePageEventsComponent implements OnInit{
           this.data = this.parseEvents(response.data.nodeQuery.entities);
           this.assignImages();
         }
-      } catch (err) {}
+      } catch (err) {
+      }
       subscription.unsubscribe();
     });
-  }
-
-  ngOnInit() {
-    this.getData();
   }
 }
 
@@ -189,7 +194,7 @@ export class HomePageEventsComponent implements OnInit{
   selector: 'homepage-careerDevelopment',
   templateUrl: 'blocks/homePageView.careerDevelopment.html',
 })
-export class HomePageCareerDevelopmentComponent implements OnInit{
+export class HomePageCareerDevelopmentComponent implements OnInit {
   @Input() title: string;
   @Input() description: string;
   @Input() url: string;
@@ -197,21 +202,28 @@ export class HomePageCareerDevelopmentComponent implements OnInit{
   @Input() line: number = 3;
   public data: any[] = [];
 
+  constructor(
+    private http: HttpClient,
+    private settings: SettingsService,
+  ) {
+  }
+
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;
   }
 
-  constructor(
-    private http: HttpClient,
-    private settings: SettingsService,
-  ) {}
+  ngOnInit() {
+    if (this.url) {
+      this.getData();
+    }
+  }
 
   private getData(): void {
     const variables = {
       path: this.url,
     };
     const query = this.settings.query('getArticle', variables);
-    const subscription = this.http.get(query).subscribe((response:any) => {
+    const subscription = this.http.get(query).subscribe((response: any) => {
       try {
         const accordionData = response.data.route.entity.fieldAccordionSection;
         this.data = accordionData.map((item) => {
@@ -227,15 +239,10 @@ export class HomePageCareerDevelopmentComponent implements OnInit{
             path: this.url,
           };
         });
-      } catch (err) {}
+      } catch (err) {
+      }
       subscription.unsubscribe();
     });
-  }
-
-  ngOnInit() {
-    if (this.url) {
-      this.getData();
-    }
   }
 }
 
@@ -248,6 +255,7 @@ export class HomePageSlidesComponent {
   @Input() data: [] = [];
   @Input() theme: string;
   @Input() line: number = 2;
+
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;
   }
@@ -257,25 +265,37 @@ export class HomePageSlidesComponent {
   selector: 'homepage-topical',
   templateUrl: 'blocks/homePageView.topical.html',
 })
-export class HomePageTopicalComponent implements OnInit, OnChanges{
-  constructor(
-    private http: HttpClient,
-    private settings: SettingsService,
-  ) {}
-
+export class HomePageTopicalComponent implements OnInit, OnChanges {
   @Input() data: string;
   @Input() theme: string;
   @Input() line: number = 2;
-  @HostBinding('class') get hostClasses(): string {
-    return `theme--${this.theme}`;
-  }
   public article: any = {
     title: '',
     path: '',
   };
 
+  constructor(
+    private http: HttpClient,
+    private settings: SettingsService,
+  ) {
+  }
+
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
+
+  ngOnInit() {
+    this.getData();
+  }
+
+  ngOnChanges() {
+    this.getData();
+  }
+
   private getData() {
-    if (!this.data) { return false; }
+    if (!this.data) {
+      return false;
+    }
     const variables = {
       path: this.data,
     };
@@ -283,18 +303,11 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
     const subscription = this.http.get(query).subscribe((response) => {
       this.article = {
         title: '',
-        ... FieldVaryService(response['data']['route']['entity']),
+        ...FieldVaryService(response['data']['route']['entity']),
         path: this.data,
       };
       subscription.unsubscribe();
     });
-  }
-
-  ngOnInit() {
-    this.getData();
-  }
-  ngOnChanges() {
-    this.getData();
   }
 }
 
@@ -305,6 +318,7 @@ export class HomePageTopicalComponent implements OnInit, OnChanges{
 export class HomePageStudyComponent {
   @Input() theme: string;
   @Input() line: number = 3;
+
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;
   }
@@ -320,6 +334,7 @@ export class HomePageSloganComponent {
   @Input() company: string;
   @Input() theme: string;
   @Input() line: number = 2;
+
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;
   }
@@ -329,7 +344,7 @@ export class HomePageSloganComponent {
   selector: 'homepage-footer',
   templateUrl: 'blocks/homePageView.footer.html',
 })
-export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
+export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
   @Input() data: {
     links,
     logos,
@@ -337,22 +352,16 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
   };
   @Input() theme: string;
   @Input() line: number = 4;
-
-  @HostBinding('class') get hostClasses(): string {
-    return `theme--${this.theme}`;
-  }
-
-  private lang: string = 'ET';
-
-  private subscriptions: Subscription[] = [];
   public subscribedStatus: boolean = false;
   public subscribedError: boolean = false;
   public loading: boolean = false;
-  private tags: string = '';
-
   public formGroup: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
+  @ViewChild('scrollTarget', { static: false }) public scrollTarget;
+  private lang: string = 'ET';
+  private subscriptions: Subscription[] = [];
+  private tags: string = '';
 
   constructor(
     public settings: SettingsService,
@@ -363,14 +372,20 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
     private cdr: ChangeDetectorRef,
     private modalService: ModalService,
     private route: ActivatedRoute,
-  ) {}
+  ) {
+  }
+
+  @HostBinding('class') get hostClasses(): string {
+    return `theme--${this.theme}`;
+  }
 
   public resetView(): void {
     this.subscribedError = false;
     this.subscribedStatus = false;
     this.alertsService.clear('newsletter-order');
   }
-  public submit():void {
+
+  public submit(): void {
 
     const data = {
       queryId: this.settings.queryID('newsletterSignup'),
@@ -386,6 +401,9 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
 
     if (this.formGroup.invalid) {
       this.alertsService.error(this.translate.get('newsletter.valid_email'), 'newsletter-order');
+      window.setTimeout(() => {
+        this.scrollTarget.el.nativeElement.scrollIntoView({ behavior: 'smooth' });
+      },                100);
     } else {
       this.loading = true;
       const subscription = this.http.post(query, data).subscribe(
@@ -401,10 +419,29 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
     }
   }
 
+  ngOnInit() {
+    this.getTags();
+  }
+
+  ngAfterViewInit(): void {
+    if (this.route.snapshot.queryParams['confirmsubscription']) {
+      this.subscriptionModal(this.route.snapshot.queryParams['confirmsubscription']);
+    } else if (this.route.snapshot.queryParams['unsubscribe']) {
+      this.unsubscriptionModal(this.route.snapshot.queryParams['unsubscribe']);
+    }
+    this.cdr.detectChanges();
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((element) => {
+      element.unsubscribe();
+    });
+  }
+
   private subscriptionModal(token: string): void {
     this.modalService.toggle('subscribe');
     const data = {
-      variables: { token },
+      variables: { token },
       queryId: this.settings.queryID('newsletterActivate'),
     };
 
@@ -439,28 +476,11 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit{
         this.tags = response['data'].taxonomyTermQuery.entities.map((item) => {
           return item.entityId;
         }).join(', ');
-      } catch (err) {}
+      } catch (err) {
+      }
 
     });
     this.subscriptions.push(subscription);
-  }
-
-  ngOnInit() {
-    this.getTags();
-  }
-  ngAfterViewInit(): void {
-    if (this.route.snapshot.queryParams['confirmsubscription']) {
-      this.subscriptionModal(this.route.snapshot.queryParams['confirmsubscription']);
-    } else if (this.route.snapshot.queryParams['unsubscribe']) {
-      this.unsubscriptionModal(this.route.snapshot.queryParams['unsubscribe']);
-    }
-    this.cdr.detectChanges();
-  }
-
-  ngOnDestroy() {
-    this.subscriptions.forEach((element) => {
-      element.unsubscribe();
-    });
   }
 }
 
@@ -486,7 +506,15 @@ export class HomePageViewComponent implements OnInit {
     private settings: SettingsService,
     private route: ActivatedRoute,
     private translate: TranslateService,
-  ) {}
+  ) {
+  }
+
+  ngOnInit() {
+    this.route.data.subscribe((response) => {
+      this.theme = response.theme || this.theme;
+      this.getData();
+    });
+  }
 
   private getData(): void {
     const variables = {
@@ -513,7 +541,8 @@ export class HomePageViewComponent implements OnInit {
       if (this.theme === 'career') {
         this.careerDevelopment = data.fieldCareer.entity.entityUrl.path;
       }
-    } catch (err) {}
+    } catch (err) {
+    }
 
     try {
       const topics = data.fieldFrontpageTopics ||
@@ -560,7 +589,7 @@ export class HomePageViewComponent implements OnInit {
         ];
       } else {
         this.topics = topics.map((item) => {
-          let image:any = false;
+          let image: any = false;
           let link;
           let scrollTo: boolean | string = false;
 
@@ -590,7 +619,8 @@ export class HomePageViewComponent implements OnInit {
           };
         });
       }
-    } catch (err) {}
+    } catch (err) {
+    }
 
     try {
       if (this.theme === 'teachers' || this.theme === 'career') {
@@ -631,7 +661,8 @@ export class HomePageViewComponent implements OnInit {
           phone: data.fieldFrontpageContactPhone,
         };
       }
-    } catch (err) {}
+    } catch (err) {
+    }
 
     try {
       if (this.theme === 'teachers' || this.theme === 'career') {
@@ -643,7 +674,8 @@ export class HomePageViewComponent implements OnInit {
       } else {
         this.slogan = data.fieldFrontpageQuote;
       }
-    } catch (err) {}
+    } catch (err) {
+    }
 
     try {
       if (this.theme === 'default') {
@@ -651,7 +683,7 @@ export class HomePageViewComponent implements OnInit {
           const image = item.entity.fieldServiceImage.entity;
           const alt = image ? image.fieldAlt : undefined;
           const url = image && image.fieldServiceImg.entity ?
-          image.fieldServiceImg.entity.url : undefined;
+            image.fieldServiceImg.entity.url : undefined;
           return {
             title: item.entity.fieldServiceTitle,
             link: item.entity.fieldServiceLink,
@@ -678,7 +710,8 @@ export class HomePageViewComponent implements OnInit {
           };
         });
       }
-    } catch (err) {}
+    } catch (err) {
+    }
 
     try {
       if (this.theme === 'teachers') {
@@ -686,7 +719,8 @@ export class HomePageViewComponent implements OnInit {
       } else {
         this.newsLink = data.fieldFrontpageNews.entity.entityUrl.path;
       }
-    } catch (err) {}
+    } catch (err) {
+    }
 
     if (!this.articles && this.topics) {
       this.articles = this.topics;
@@ -721,12 +755,5 @@ export class HomePageViewComponent implements OnInit {
       });
     }
 
-  }
-
-  ngOnInit() {
-    this.route.data.subscribe((response) => {
-      this.theme = response.theme || this.theme;
-      this.getData();
-    });
   }
 }
