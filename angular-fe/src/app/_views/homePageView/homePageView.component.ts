@@ -275,6 +275,7 @@ export class HomePageTopicalComponent implements OnInit, OnChanges {
   @Input() data: string;
   @Input() theme: string;
   @Input() line: number = 2;
+  @Input() category: string;
   public article: any = {
     title: '',
     path: '',

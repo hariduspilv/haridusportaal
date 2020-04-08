@@ -2,7 +2,7 @@
 <div class="inner">
   <div class="topical">
     <div class="topical__content">
-      <h2 class="topical__category"  [attr.aria-label]="'home.topical' | translate">{{ 'home.topical' | translate }}</h2>
+      <h2 class="topical__category"  [attr.aria-label]="category">{{ category }}</h2>
       <h3 class="topical__title"  [attr.aria-label]="article.title" role="button" [routerLink]="article.path">{{ article.title }}</h3>
       <button [routerLink]="article.path" class="topical__link" role="button"  [attr.aria-label]="'button.read_more' | translate">{{ 'button.read_more' | translate }}</button>
     </div><!--/topical__content-->

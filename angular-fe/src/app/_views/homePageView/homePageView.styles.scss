@@ -383,6 +383,10 @@
           background: none;
           display: block;
           width: 100%;
+          cursor: pointer;
+          &:hover {
+            text-decoration: none;
+          }
         }
 
         &:hover {

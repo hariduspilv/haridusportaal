@@ -21,7 +21,7 @@
             </ng-container>
           </div>
           <h3 class="events__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
-          <p class="events__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content }}</p>
+          <p class="events__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content | ellipsis:150 }}</p>
           <button class="events__elem__link" [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</button>
         </div><!--/events__elem__body-->
 
