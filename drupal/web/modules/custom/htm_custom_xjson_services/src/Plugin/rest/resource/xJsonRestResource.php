@@ -114,10 +114,7 @@ class xJsonRestResource extends ResourceBase {
           throw new AccessDeniedHttpException();
         }
 
-        dump($checked_data);
-        die();
-
-        return isset($checked_data['form_info']) ? $this->postXJsonXmlForm($checked_data) : $this->getXJsonForm($checked_data);
+        return isset($checked_data['form_info']) ? $this->postXJsonXmlForm($checked_data) : $this->getXJsonXmlForm($checked_data);
       } else {
 
         // Use current user after pass authentication to validate access.
@@ -206,14 +203,29 @@ class xJsonRestResource extends ResourceBase {
     return ($definition) ? new ModifiedResourceResponse($definition, 200) : new ModifiedResourceResponse('form_name unknown', 400);
   }
 
+  private function getXJsonXmlForm ($data) {
+
+    $builded_header = $this->xJsonService->getBasexJsonForm(false, [], $data['form_name']);
+    if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
+
+    return $this->returnBuildedResponse($builded_header);
+  }
+
   private function postXJsonForm ($data) {
     $result = $this->xJsonFormService->postXJsonFormValues($data);
     return new ModifiedResourceResponse($result['form_info'], 200);
   }
 
   private function postXJsonXmlForm ($data) {
-    $result = $this->xJsonService->getEntityJsonObject($this->xJsonService->getEntityFormName($data['form_name']));
-    return new ModifiedResourceResponse($result['form_info'], 200);
+
+    if (isset($data['form_info'])) {
+      $request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info'], $data['form_name']);
+    } else {
+      $request_body = $this->xJsonService->getBasexJsonForm(true, [], $data['form_name']);
+    }
+
+    if (empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
+    return $this->returnBuildedResponse($request_body);
   }
 
   private function checkxJsonForm ($data) {
