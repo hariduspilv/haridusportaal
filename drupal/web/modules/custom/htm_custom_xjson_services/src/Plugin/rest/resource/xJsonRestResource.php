@@ -204,14 +204,8 @@ class xJsonRestResource extends ResourceBase {
   }
 
   private function getXJsonXmlForm ($data) {
-
-    dump($data);
-    $builded_header = $this->xJsonService->getBasexJsonForm(false, [], $data['form_name']);
-    dump($builded_header);
-    die();
-    if (empty($builded_header)) return new ModifiedResourceResponse('form_name unknown', 400);
-
-    return $this->returnBuildedResponse($builded_header);
+    $definition = $this->xJsonService->getXJsonXmlDefinition($data);
+    return ($definition) ? new ModifiedResourceResponse($definition, 200) : new ModifiedResourceResponse('form_name unknown', 400);
   }
 
   private function postXJsonForm ($data) {
@@ -220,15 +214,8 @@ class xJsonRestResource extends ResourceBase {
   }
 
   private function postXJsonXmlForm ($data) {
-
-    if (isset($data['form_info'])) {
-      $request_body = $this->xJsonService->getBasexJsonForm(false, $data['form_info'], $data['form_name']);
-    } else {
-      $request_body = $this->xJsonService->getBasexJsonForm(true, [], $data['form_name']);
-    }
-
-    if (empty($request_body)) return new ModifiedResourceResponse('form_name unknown', 400);
-    return $this->returnBuildedResponse($request_body);
+    $result = $this->xJsonFormService->postXJsonFormValues($data);
+    return new ModifiedResourceResponse($result['form_info'], 200);
   }
 
   private function checkxJsonForm ($data) {

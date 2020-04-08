@@ -63,6 +63,9 @@ class xJsonService implements xJsonServiceInterface {
     return $this->getEntityJsonObject($form_name)['messages'];
   }
 
+  public function getBasexJsonXmlForm ($form_name = null) {
+
+  }
 
   public function getBasexJsonForm ($first = false, $response_info = [], $form_name = null) {
     $baseJson = [];
@@ -153,6 +156,18 @@ class xJsonService implements xJsonServiceInterface {
 
     if(!empty($xjson_definition)){
       $xjson_definition['header']['identifier'] = '0';
+      $xjson_definition['header']['current_step'] = '1';
+      $xjson_definition['header']['acceptable_activity'] = ['SUBMIT'];
+    }
+
+    return $xjson_definition;
+  }
+
+  public function getXJsonXmlDefinition($data){
+
+    $xjson_definition = $this->getEntityJsonObject($data['form_name']);
+
+    if(!empty($xjson_definition)){
       $xjson_definition['header']['current_step'] = '1';
       $xjson_definition['header']['acceptable_activity'] = ['SUBMIT'];
     }
