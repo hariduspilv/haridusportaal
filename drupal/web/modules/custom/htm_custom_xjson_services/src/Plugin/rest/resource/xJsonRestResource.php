@@ -114,6 +114,9 @@ class xJsonRestResource extends ResourceBase {
           throw new AccessDeniedHttpException();
         }
 
+        dump($checked_data);
+        die();
+
         return isset($checked_data['form_info']) ? $this->postXJsonXmlForm($checked_data) : $this->getXJsonForm($checked_data);
       } else {
 
