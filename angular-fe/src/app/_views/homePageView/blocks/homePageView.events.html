@@ -6,7 +6,7 @@
   </div><!--/events__head-->
   <div class="events__list">
     <ng-container *ngFor="let item of data; let i = index;">
-      <div class="events__elem">
+      <div class="events__elem"  [routerLink]="item.link.url.path">
         <div class="events__elem__image" *ngIf="i % 2 == 1">
           <div class="events__elem__image__inner" [ngStyle]="{'background-image': 'url('+ item.image.url +')'}">
             <img [src]="item.image.url" [alt]="" />
@@ -22,7 +22,7 @@
           </div>
           <h3 class="events__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
           <p class="events__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content }}</p>
-          <button class="events__elem__link"  [routerLink]="item.link.url.path" [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</button>
+          <button class="events__elem__link" [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</button>
         </div><!--/events__elem__body-->
 
         <div class="events__elem__image" *ngIf="i % 2 !== 1">

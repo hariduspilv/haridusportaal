@@ -573,7 +573,7 @@ export class HomePageViewComponent implements OnInit {
 
         this.topics = [
           {
-            title: 'VALDKONNAD TÖÖTURUL',
+            title: this.translate.get('home.topics_areas'),
             link: {
               title: this.translate.get('home.view_more'),
               url: {
@@ -583,7 +583,7 @@ export class HomePageViewComponent implements OnInit {
             },
           },
           {
-            title: 'AMETIALAD',
+            title: this.translate.get('home.topics_professions'),
             link: {
               title: this.translate.get('home.view_more'),
               url: {

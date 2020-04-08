@@ -926,6 +926,10 @@
         font-weight: bold;
         margin: 1.5rem 0;
         z-index: 5;
+        cursor: pointer;
+        &:hover {
+          text-decoration: underline;
+        }
         @include break-on(sm, max) {
           font-size: 1.9rem;
         }
