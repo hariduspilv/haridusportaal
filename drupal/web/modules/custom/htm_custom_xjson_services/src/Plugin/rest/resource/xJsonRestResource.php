@@ -209,7 +209,7 @@ class xJsonRestResource extends ResourceBase {
   }
 
   private function postXJsonXmlForm ($data) {
-    $result = $this->xJsonFormService->postXJsonXmlFormValues($data);
+    $result = $this->xJsonService->getEntityJsonObject($this->xJsonService->getEntityFormName($data['form_name']));
     return new ModifiedResourceResponse($result['form_info'], 200);
   }
 
