@@ -21,7 +21,7 @@
   homepage-navblock {
     display: block;
     position: relative;
-
+    color: $black;
     &.theme--teachers {
       .navBlock {
         background: url('/assets/img/homepage-1-teachers.svg') center bottom no-repeat rgb(228, 227, 245);
@@ -57,9 +57,9 @@
       position: absolute;
       top: 50%;
       right:0;
-      width: 82px;
-      height:147px;
-      margin-top:-74px;
+      width: 5rem;
+      height:8.625rem;
+      margin-top:-4.325rem;
       background: url('/assets/img/homepage-eu.svg') center center no-repeat;
       background-size: contain;
     }
@@ -106,6 +106,7 @@
           p {
             font-size: 1.125rem;
             line-height: 1.875rem;
+            font-weight: 300;
           }
         }
         h1 {
@@ -274,6 +275,7 @@
   }
 
   homepage-events {
+    color: $black;
     display: block;
     position: relative;
     padding: 8.125rem 0 12.5rem 0;
@@ -393,6 +395,7 @@
   }
 
   homepage-careerDevelopment {
+    color: $black;
     display: block;
     position: relative;
     padding: 2.125rem 0 12.5rem 0;
@@ -451,6 +454,11 @@
         text-transform: uppercase;
         padding: 1.375rem 1.25rem;
         font-weight: 500;
+        transition: 0.25s transform, box-shadow 0.25s;
+        &:hover {
+          transform: scale(1.05);
+          box-shadow: 0 0 2.5rem rgba(44, 43, 43, 0.25);
+        }
       }
       icon{
         display: inline-block;
@@ -468,6 +476,7 @@
   }
 
   homepage-articles {
+    color: $black;
     display: block;
     position: relative;
     padding: 8.125rem 0 12.5rem 0;
@@ -616,6 +625,7 @@
   }
 
   homepage-slides {
+    color: $black;
     display: block;
     position: relative;
     background: $light-gray;
@@ -811,6 +821,7 @@
   }
 
   homepage-topical {
+    color: $black;
     display: block;
     position: relative;
     background: $aqua;
@@ -824,11 +835,17 @@
       svg .st0 {
         fill: #C1BEE8;
       }
+      .topical__category {
+        color: $black;
+      }
     }
     &.theme--career {
       background: #BEE8C7;
       svg .st0 {
         fill: #BEE8C7;
+      }
+      .topical__category {
+        color: $black;
       }
     }
     svg {
@@ -875,6 +892,21 @@
         }
       }
 
+      &__link {
+        font-size: 1rem;
+        color: $blue;
+        text-decoration: underline;
+        appearance: none;
+        background: none;
+        padding: 0;
+        margin: 0;
+        border: none;
+        cursor: pointer;
+        align-self: flex-start;
+        &:hover {
+          text-decoration: none;
+        }
+      }
       &__category {
         font-size: 1.125rem;
         line-height: 133%;
@@ -903,6 +935,7 @@
   }
 
   homepage-study {
+    color: $black;
     display: block;
     position: relative;
     background: $white;
@@ -1004,6 +1037,20 @@
           line-height: 150%;
           color: $black;
           text-align: center;
+          a, button {
+            font-size: 1rem;
+            color: $blue;
+            text-decoration: underline;
+            appearance: none;
+            background: none;
+            padding: 0;
+            margin: 0;
+            border: none;
+            cursor: pointer;
+            &:hover {
+              text-decoration: none;
+            }
+          }
         }
 
         &:hover {
@@ -1019,6 +1066,7 @@
   }
 
   homepage-slogan {
+    color: $black;
     display: block;
     position: relative;
     background: $light-gray;

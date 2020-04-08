@@ -59,6 +59,12 @@ export class HomePageArticlesComponent implements OnChanges {
   ];
 
   private assignImages() {
+
+    if (this.theme === 'career') {
+      this.imageList = [
+        'homepage-articles-career-1.svg',
+      ];
+    }
     let counter = 0;
     this.data = this.data.map((item, index) => {
       if (counter >= this.imageList.length) {
@@ -527,7 +533,7 @@ export class HomePageViewComponent implements OnInit {
           title: item.entity.fieldTitle,
           content: item.entity.fieldText,
           link: {
-            title: item.entity.fieldInternalLink.entity.entityLabel,
+            title: this.translate.get('home.view_more'),
             url: {
               routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
               path: item.entity.fieldInternalLink.entity.entityUrl.path,
@@ -605,12 +611,26 @@ export class HomePageViewComponent implements OnInit {
         });
 
         if (this.theme === 'teachers') {
-          this.contact.logos = ['/assets/img/homepage-teachers.svg'];
+          this.contact.logos = [
+            {
+              src: '/assets/img/homepage-teachers.svg',
+              label: 'Logo - Õpetajad loovad homse eesti',
+            },
+          ];
         } else if (this.theme === 'career') {
           this.contact.logos = [
-            '/assets/img/homepage-footer-career-1.svg',
-            '/assets/img/homepage-footer-career-2.svg',
-            '/assets/img/homepage-footer-career-3.svg',
+            {
+              src: '/assets/img/homepage-footer-career-1.svg',
+              label: 'Logo - sihtasutus Kutsekoda',
+            },
+            {
+              src: '/assets/img/homepage-footer-career-2.svg',
+              label: 'Logo - OSKA',
+            },
+            {
+              src: '/assets/img/homepage-footer-career-3.svg',
+              label: 'Logo - Eesti töötukassa',
+            },
           ];
         }
 

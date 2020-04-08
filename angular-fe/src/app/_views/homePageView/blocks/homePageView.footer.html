@@ -75,7 +75,7 @@
   </div><!--/footer-->
   <div class="logos" *ngIf="data && data.logos">
     <ng-container *ngFor="let item of data.logos">
-      <img [src]="item" />
+      <img [src]="item.src" [attr.aria-label]="item.label" />
     </ng-container>
   </div><!--/logos-->
 </div><!--/inner-->
