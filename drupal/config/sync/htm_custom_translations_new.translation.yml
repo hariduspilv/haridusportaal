@@ -3603,8 +3603,8 @@ home:
     en: Teenused
   what_to_find:
     translation_type: textarea
-    et: 'Mida siit leida?'
-    en: 'Mida siit leida?'
+    et: 'Mida siit leiad?'
+    en: 'Mida siit leiad?'
   contact:
     translation_type: textarea
     et: Kontakt
@@ -3659,7 +3659,7 @@ home:
     en: 'Loe lähemalt'
   external_links:
     translation_type: textarea
-    et: Välislingid
+    et: VÄLISLINGID
     en: Välislingid
   future_career:
     translation_type: textarea
@@ -3671,12 +3671,52 @@ home:
     en: Sündmused
   events_text:
     translation_type: textarea
-    et: 'Sisuhalduse tõlgetest muudetav tekst Sisuhalduse tõlgetest muudetav tekst Sisuhalduse tõlgetest muudetav tekst Sisuhalduse tõlgetest muudetav tekst'
+    et: 'Mingi tekst, mis räägib millegist pikemalt pikemalt pikemalt pikemalt pikemalt'
     en: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor'
   teachers_slogan:
     translation_type: textarea
     et: 'Õpetajad loovad homse Eesti ja kasvatavad pättidest inimesed'
     en: 'Õpetajad loovad<br />homse Eesti'
+  career_slogan_description:
+    translation_type: textarea
+    et: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta.'
+    en: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta.'
+  career_slogan:
+    translation_type: textarea
+    et: 'Sinu teekond <b>unistuste</b> tööni'
+    en: 'Mingisugune <b>slogan</b> <br />karjäärist'
+  careerDevelopment_title:
+    translation_type: textarea
+    et: 'Karjääri kujundamine'
+    en: 'Karjääri kujundamine'
+  careerDevelopment_description:
+    translation_type: textarea
+    et: ' Karjäär on teekond, mille kujundavad sinu teadlikud valikud'
+    en: 'Karjääri kujundamise sammud, consectetur adipiscing elit, lorem ipsum dolor sit.'
+  topics_areas:
+    translation_type: textarea
+    et: 'VALDKONNAD TÖÖTURUL'
+    en: 'VALDKONNAD TÖÖTURUL'
+  topics_professions:
+    translation_type: textarea
+    et: AMETIALAD
+    en: AMETIALAD
+  toolbox:
+    translation_type: textarea
+    et: Tööriistakast
+    en: Tööriistakast
+  topical_default:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Päevakajaline
+  topical_career:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Päevakajaline
+  topical_teachers:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Päevakajaline
 finalDocumentDownload:
   translation_type: textarea
   et: 'Laadi failid alla'
