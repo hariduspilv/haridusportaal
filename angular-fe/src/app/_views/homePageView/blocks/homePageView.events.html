@@ -16,8 +16,8 @@
         <div class="events__elem__body">
           <div class="events__elem__date">
             {{ item.created * 1000 | date:"dd.MM.yyyy"}}
-            <ng-container *ngIf="item.author">
-              | {{ item.author }}
+            <ng-container *ngIf="item.location">
+              | {{ item.location }}
             </ng-container>
           </div>
           <h3 class="events__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>

@@ -161,6 +161,7 @@ export class HomePageEventsComponent implements OnInit {
         author: item.fieldOrganizer,
         created: item.fieldEventMainDate.unix,
         content: item.fieldDescriptionSummary,
+        location: item.fieldEventLocation ? item.fieldEventLocation.name : false,
         link: {
           title: this.translate.get('button.read_more'),
           url: {
