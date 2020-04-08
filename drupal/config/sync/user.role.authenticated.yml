@@ -64,6 +64,7 @@ permissions:
   - 'use text format editor'
   - 'view any article content'
   - 'view any avaleht content'
+  - 'view any career_home_page content'
   - 'view any dashboard content'
   - 'view any event content'
   - 'view any frontpage_new content'
