@@ -277,23 +277,8 @@ class xJsonService implements xJsonServiceInterface {
 
     if($definition){
       return $definition->header->form_name;
-    } else {
-      return null;
     }
-
-
-    $entityStorage = \Drupal::entityTypeManager()->getStorage('x_json_entity');
-    $connection = \Drupal::database();
-    $query = $connection->query("SELECT id FROM x_json_entity WHERE xjson_definition->'header'->>'form_name' = :id ", [':id' => $form_name]);
-    $result = $query->fetchField();
-    if ($result) {
-      $entity = $entityStorage->load($result);
-      $response = [
-        'path' => urldecode($entity->toUrl()->toString())
-      ];
-      return $response;
-    }
-    return false;
+    return null;
   }
 
   /**
