@@ -14,3 +14,10 @@ xjson_form_csv.list:
     _title: 'View xJson Form Data CSVs'
   requirements:
     _permission: 'access content'
+htm_custom_xjson_services.classificator_import_data_form:
+  path: '/admin/structure/classificator/import'
+  defaults:
+    _form: '\Drupal\htm_custom_xjson_services\Form\xJsonClassificatorImportDataForm'
+    _title: 'xJsonClassificatorImportDataForm'
+  requirements:
+    _permission: 'access content'
