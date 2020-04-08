@@ -108,7 +108,14 @@ class xJsonRestResource extends ResourceBase {
         }
 
         return isset($checked_data['form_info']) ? $this->postXJsonForm($checked_data) : $this->getXJsonForm($checked_data);
-      }else{
+      } else if ($checked_data['endpoint'] === 'HP BE'){
+
+        if (!$this->currentUser->isAuthenticated()) {
+          throw new AccessDeniedHttpException();
+        }
+
+        return isset($checked_data['form_info']) ? $this->postXJsonXmlForm($checked_data) : $this->getXJsonForm($checked_data);
+      } else {
 
         // Use current user after pass authentication to validate access.
         if (!$this->currentUser->isAuthenticated()) {
@@ -198,6 +205,11 @@ class xJsonRestResource extends ResourceBase {
 
   private function postXJsonForm ($data) {
     $result = $this->xJsonFormService->postXJsonFormValues($data);
+    return new ModifiedResourceResponse($result['form_info'], 200);
+  }
+
+  private function postXJsonXmlForm ($data) {
+    $result = $this->xJsonFormService->postXJsonXmlFormValues($data);
     return new ModifiedResourceResponse($result['form_info'], 200);
   }
 
