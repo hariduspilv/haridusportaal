@@ -9,6 +9,9 @@ query teachingPageEvents($lang: LanguageId!) {
         created
         fieldOrganizer
         entityLabel
+        fieldEventLocation {
+          name
+        }
         entityUrl {
           routed
           path
