@@ -8,3 +8,8 @@ entity.x_json_form_entity.add_form:
   title: 'Add xJson form entity'
   appears_on:
     - entity.x_json_form_entity.collection
+htm_custom_xjson_services.classificator_import_data_form:
+  route_name: htm_custom_xjson_services.classificator_import_data_form
+  title: 'Add Classificator XML'
+  appears_on:
+    - htm_custom_xjson_services.classificator_list_form
