@@ -17,7 +17,7 @@ class xJsonClassificatorDeleteForm extends FormBase {
 	 * {@inheritdoc}
 	 */
 	public function getFormId() {
-		return 'infograph_delete';
+		return 'classificator_delete';
 	}
 
 	/**
@@ -32,13 +32,13 @@ class xJsonClassificatorDeleteForm extends FormBase {
       '#button_type' => 'primary',
     ];
 
-		$form['actions']['submit']['#value'] = $this->t('Delete infograph');
+		$form['actions']['submit']['#value'] = $this->t('Delete classificators');
 		$form['file_to_delete'] = [
 			'#type' => 'hidden',
 			'#value' =>  $filename,
 		] ;
 		$form['text'] = [
-			'#markup' => $this->t('<p>Are you sure you want to delete <b>@key</b>.csv infograph?</p>', ['@key' => $filename]),
+			'#markup' => $this->t('<p>Are you sure you want to delete <b>@key</b>.csv classificators?</p>', ['@key' => $filename]),
 		];
 
 		return $form;
@@ -46,13 +46,9 @@ class xJsonClassificatorDeleteForm extends FormBase {
 
 	public function submitForm(array &$form, FormStateInterface $form_state) {
 	  $filename = $form_state->getValue('file_to_delete');
-	  $file_path = '/app/drupal/web/sites/default/files/private/infograph/'.$filename;
-	  $filters_path = '/app/drupal/web/sites/default/files/private/infograph_filters/'.pathinfo($filename, PATHINFO_FILENAME);
-    array_map( 'unlink', array_filter((array) glob($filters_path."/*")));
-    rmdir($filters_path);
+	  $file_path = '/sites/default/files/private/classificator/'.$filename;
 	  unlink($file_path);
-    Cache::invalidateTags([pathinfo($filename, PATHINFO_FILENAME).'_csv']);
-    \Drupal::logger('htm_custom_infograph')->notice($filename.' has been deleted.');
-		$form_state->setRedirect('htm_custom_infograph.infograph_csv_list_form');
+    \Drupal::logger('htm_custom_xjson_services')->notice($filename.' has been deleted.');
+		$form_state->setRedirect('htm_custom_xjson_services.classificator_list_form');
 	}
 }
