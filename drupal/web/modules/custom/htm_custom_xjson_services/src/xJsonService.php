@@ -170,14 +170,53 @@ class xJsonService implements xJsonServiceInterface {
     $xjson_definition = $this->getEntityJsonObject($data['form_name']);
 
     if(!empty($xjson_definition)){
-      $xjson_definition['header']['identifier'] = date('dmYHis');
-      $xjson_definition['header']['current_step'] = '1';
-      $xjson_definition['header']['acceptable_activity'] = ['SUBMIT'];
+      switch($xjson_definition) {
+        case 'KUTSE_OMISTAMISE_TAOTLUS':
+          $xjson_definition = $this->createVocationHeaders($xjson_definition);
+          break;
+        default:
+          $xjson_definition = $this->createDefaultHeaders($xjson_definition);
+      }
+
     }
 
     $xjson_definition = $this->buildFormv2($xjson_definition);
 
     return $xjson_definition;
+  }
+
+  public function postXJsonXmlValues($data){
+
+    dump($data);
+    die();
+    
+    switch($data['header']['form_name']) {
+      case 'KUTSE_OMISTAMISE_TAOTLUS':
+        //$response = $this->createVocationHeaders($xjson_definition);
+        break;
+      default:
+        //$response = $this->createDefaultHeaders($xjson_definition);
+    }
+
+    $xjson_definition = $this->buildFormv2($xjson_definition);
+
+    return $xjson_definition;
+  }
+
+  private function createVocationHeaders($definition) {
+    $definition['header']['identifier'] = date('dmYHis');
+    $definition['header']['current_step'] = '1';
+    $definition['header']['acceptable_activity'] = ['SAVE'];
+
+    return $definition;
+  }
+
+  private function createDefaultHeaders($definition) {
+    $definition['header']['identifier'] = '1';
+    $definition['header']['current_step'] = '1';
+    $definition['header']['acceptable_activity'] = ['SUBMIT'];
+
+    return $definition;
   }
 
   public function checkAcceptableForms($checkJson){
