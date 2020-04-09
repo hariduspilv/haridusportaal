@@ -215,7 +215,10 @@ class xJsonService implements xJsonServiceInterface {
     if($data['header']['current_step'] = '2') {
       $keys = array_keys($data['body']['steps']);
       foreach($data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements'] as $key => &$value) {
-        $value['value'] = $data['body']['steps'][$keys[intval($data['header']['current_step']) - 2]]['data_elements'][$key]['value'];
+        $value = $data['body']['steps'][$keys[intval($data['header']['current_step']) - 2]]['data_elements'][$key]['value'];
+        if($value) {
+          $value['value'] = $value;
+        }
       }
       dump($data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements']);
       die();
