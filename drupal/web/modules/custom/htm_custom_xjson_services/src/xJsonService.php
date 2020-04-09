@@ -571,8 +571,8 @@ class xJsonService implements xJsonServiceInterface {
 
         if(($parsed_date_from < $now || !$parsed_date_from) && ($parsed_date_to > $now || !$parsed_date_to)) {
           $options_list[] = [
-            'key' => $value,
-            'value' => $value,
+            'key' => $value->nimetus,
+            'value' => $value->nimetus,
           ];
         }
       }
