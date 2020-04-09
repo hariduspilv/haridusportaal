@@ -187,6 +187,8 @@ class xJsonService implements xJsonServiceInterface {
 
   public function postXJsonXmlValues($data){
 
+    dump($data);
+    die();
     switch($data['header']['form_name']) {
       case 'KUTSE_OMISTAMISE_TAOTLUS':
         $response = $this->createVocationResponse($data);
