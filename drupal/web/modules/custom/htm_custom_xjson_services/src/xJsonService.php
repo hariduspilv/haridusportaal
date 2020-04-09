@@ -214,6 +214,9 @@ class xJsonService implements xJsonServiceInterface {
     if($data['header']['activity'] === 'SAVE') $data['header']['acceptable_activity'] = ['SUBMIT'];
     if($data['header']['current_step'] = '2') {
       $keys = array_keys($data['body']['steps']);
+      dump($data['body']['steps']);
+      dump($keys[$data['header']['current_step']]);
+      die();
       foreach($data['body']['steps'][$keys[$data['header']['current_step']]] as &$value) {
         dump($value);
       }
