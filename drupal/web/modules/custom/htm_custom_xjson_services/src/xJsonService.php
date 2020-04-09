@@ -569,7 +569,7 @@ class xJsonService implements xJsonServiceInterface {
         $parsed_date_to = $date_to ? DateTime::createFromFormat('d.m.Y', $date_to) : false;
         $now = new DateTime();
 
-        if(($parsed_date_from < $now || !$parsed_date_from) && ($parsed_date_to > $now || !$parsed_date_to)) {
+        if(($parsed_date_from <= $now || !$parsed_date_from) && ($parsed_date_to >= $now || !$parsed_date_to)) {
           $options_list[] = [
             'key' => $value->nimetus,
             'value' => $value->nimetus,
