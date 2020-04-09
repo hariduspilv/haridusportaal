@@ -263,6 +263,7 @@ class xJsonService implements xJsonServiceInterface {
 
   private function saveFileFromRedis($file, $identifier) {
     $classificator_value_path = '/app/drupal/web/sites/default/files/private/application-files/'.$identifier;
+    if(!file_exists($classificator_value_path)) mkdir($classificator_value_path, 0744, true);
 
     $params = [
       'hash' => $file['file_identifier']
