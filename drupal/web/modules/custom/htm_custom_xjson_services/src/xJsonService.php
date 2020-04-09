@@ -648,9 +648,7 @@ class xJsonService implements xJsonServiceInterface {
 
     foreach($xml_data as $xml_item) {
       $name = strtolower(((Array)$xml_item->nimetus)[0]);
-      dump($name);
-      dump($value);
-      if($name === $value) {
+      if($name === strtolower($value)) {
         dump($name);
         dump($value);
         dump(((Array)$xml_item->nimetus)[0]);
