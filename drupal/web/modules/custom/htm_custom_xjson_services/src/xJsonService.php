@@ -187,18 +187,15 @@ class xJsonService implements xJsonServiceInterface {
 
   public function postXJsonXmlValues($data){
 
-    dump($data);
-    die();
-
     switch($data['header']['form_name']) {
       case 'KUTSE_OMISTAMISE_TAOTLUS':
-        //$response = $this->createVocationHeaders($xjson_definition);
+        $response = $this->createVocationResponse($data);
         break;
       default:
         //$response = $this->createDefaultHeaders($xjson_definition);
     }
 
-    $xjson_definition = $this->buildFormv2($xjson_definition);
+    $xjson_definition = $this->buildFormv2($response);
 
     return $xjson_definition;
   }
@@ -209,6 +206,17 @@ class xJsonService implements xJsonServiceInterface {
     $definition['header']['acceptable_activity'] = ['SAVE'];
 
     return $definition;
+  }
+
+  private function createVocationResponse($data) {
+    $data['header']['current_step'] = intval($data['header']['current_step']) + 1;
+    if($data['header']['activity'] === 'SAVE') $data['header']['acceptable_activity'] = ['SUBMIT'];
+    if($data['header']['current_step'] = '2') {
+      $keys = array_keys($data['body']['steps']);
+      dump($keys);
+      die();
+      //$data['body']
+    }
   }
 
   private function createDefaultHeaders($definition) {
