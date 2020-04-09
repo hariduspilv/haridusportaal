@@ -458,6 +458,8 @@ class xJsonService implements xJsonServiceInterface {
         else $additional_keys = ['multiple', 'empty_option', 'options', 'options_list'];
         if (isset($element['options_list'])) {
           $element['options'] = $this->checkForXmlClassificator($element['options_list']);
+          dump($element['options']);
+          die();
           if(empty($element['options'])) {
             $params['hash'] = $element['options_list'];
             $element['options'] = $this->ehisconnector->getOptionsTaxonomy($params);
