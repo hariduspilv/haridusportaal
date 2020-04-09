@@ -560,7 +560,7 @@ class xJsonService implements xJsonServiceInterface {
       $file_data = file_get_contents($classificator_path);
       dump($file_data);
       $xml_data =  new SimpleXMLElement($file_data);
-      dump($xml_data);
+      dump($xml_data->kutse);
       die();
     }
   }
