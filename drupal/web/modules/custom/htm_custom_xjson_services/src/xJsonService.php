@@ -187,9 +187,7 @@ class xJsonService implements xJsonServiceInterface {
 
   public function postXJsonXmlValues($data){
 
-    dump($data);
-    die();
-    switch($data['header']['form_name']) {
+    switch($data['form_info']['header']['form_name']) {
       case 'KUTSE_OMISTAMISE_TAOTLUS':
         $response = $this->createVocationResponse($data);
         break;
@@ -214,8 +212,6 @@ class xJsonService implements xJsonServiceInterface {
 
     $data['header']['current_step'] = intval($data['header']['current_step']) + 1;
     if($data['header']['activity'] === 'SAVE') $data['header']['acceptable_activity'] = ['SUBMIT'];
-    dump($data);
-    die();
     if($data['header']['current_step'] = '2') {
       $keys = array_keys($data['body']['steps']);
       dump($keys);
