@@ -170,6 +170,7 @@ class xJsonService implements xJsonServiceInterface {
     $xjson_definition = $this->getEntityJsonObject($data['form_name']);
 
     if(!empty($xjson_definition)){
+      $xjson_definition['header']['identifier'] = date('dmYHis');
       $xjson_definition['header']['current_step'] = '1';
       $xjson_definition['header']['acceptable_activity'] = ['SUBMIT'];
     }
