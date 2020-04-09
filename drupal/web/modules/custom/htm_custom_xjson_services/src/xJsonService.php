@@ -515,6 +515,7 @@ class xJsonService implements xJsonServiceInterface {
     switch ($element_type) {
       case 'heading':
       case 'iban':
+      case 'idcode':
       case 'helpertext':
         $acceptable_keys = ['type', 'title', 'hidden'];
         break;
