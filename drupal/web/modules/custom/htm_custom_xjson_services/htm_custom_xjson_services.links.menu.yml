@@ -32,3 +32,15 @@ x_json_form_entity.admin.structure.settings:
   description: 'Configure xJson form entity entities'
   route_name: x_json_form_entity.settings
   parent: system.admin_structure
+
+htm_custom_xjson_services.classificator_import_data_form:
+  title: 'xJson Classificator Import'
+  route_name: htm_custom_xjson_services.classificator_import_data_form
+  description: 'Import xjson classificator data'
+  parent: system.admin_structure
+
+htm_custom_xjson_services.classificator_list_form:
+  title: "xJson Classificator XML list"
+  route_name: htm_custom_xjson_services.classificator_list_form
+  description: 'View and delete xJson classificator XML'
+  parent: system.admin_structure
