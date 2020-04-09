@@ -29,8 +29,7 @@
       ]
     },
     "default_value": {
-      "type": "string",
-      "pattern": "\\d{2}(\\.|-)\\d{2}(\\.|-)\\d{4}"
+      "type": "string"
     },
     "width": {
       "type": "integer"
