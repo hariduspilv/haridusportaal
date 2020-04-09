@@ -213,18 +213,15 @@ class xJsonService implements xJsonServiceInterface {
     $keys = array_keys($data['body']['steps']);
     $sequence = $data['body']['steps'][$data['header']['current_step']]['sequence'];
     $data['header']['current_step'] = $keys[$sequence + 1];
-    if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 2) {
+    if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 1) {
       $data['header']['acceptable_activity'] = ['SUBMIT'];
 
       # show last step data in new step
-      if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 1) {
-        foreach($data['body']['steps'][$data['header']['current_step']]['data_elements'] as $key => &$value) {
-          $new_value = $data['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence'] - 1]]['data_elements'][$key]['value'];
-          if($new_value) {
-            $value['value'] = $new_value;
-          }
+      foreach($data['body']['steps'][$data['header']['current_step']]['data_elements'] as $key => &$value) {
+        $new_value = $data['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence'] - 1]]['data_elements'][$key]['value'];
+        if($new_value) {
+          $value['value'] = $new_value;
         }
-        //$data['body']
       }
 
       $current_step_value = $data['body']['steps'][$data['header']['current_step']]['data_elements'];
@@ -244,7 +241,7 @@ class xJsonService implements xJsonServiceInterface {
       $data['body']['steps'][$data['header']['current_step']]['data_elements'] = $current_step_value;
     }
 
-    if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 3) {
+    if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 2) {
       $data['header']['acceptable_activity'] = ['VIEW'];
 
       $data['body']['steps'][$data['header']['current_step']]['messages'] = ['application_submitted'];
