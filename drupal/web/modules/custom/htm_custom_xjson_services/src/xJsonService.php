@@ -213,34 +213,42 @@ class xJsonService implements xJsonServiceInterface {
     $keys = array_keys($data['body']['steps']);
     $sequence = $data['body']['steps'][$data['header']['current_step']]['sequence'];
     $data['header']['current_step'] = $keys[$sequence + 1];
-    if($data['header']['activity'] === 'SAVE') $data['header']['acceptable_activity'] = ['SUBMIT'];
+    if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 2) {
+      $data['header']['acceptable_activity'] = ['SUBMIT'];
 
-    # show last step data in new step
-    if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 1) {
-      foreach($data['body']['steps'][$data['header']['current_step']]['data_elements'] as $key => &$value) {
-        $new_value = $data['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence'] - 1]]['data_elements'][$key]['value'];
-        if($new_value) {
-          $value['value'] = $new_value;
+      # show last step data in new step
+      if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 1) {
+        foreach($data['body']['steps'][$data['header']['current_step']]['data_elements'] as $key => &$value) {
+          $new_value = $data['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence'] - 1]]['data_elements'][$key]['value'];
+          if($new_value) {
+            $value['value'] = $new_value;
+          }
         }
+        //$data['body']
       }
-      //$data['body']
+
+      $current_step_value = $data['body']['steps'][$data['header']['current_step']]['data_elements'];
+      # conditional field
+      $required_values = ['kutseharidus', 'kõrgharidus'];
+      if(in_array($current_step_value['education']['value'], $required_values)) {
+        $current_step_value['diploma_file']['hidden'] = false;
+        $current_step_value['diploma_file']['required'] = true;
+      }
+
+      # check conditions from xml file
+      $proof_file_is_required = $this->checkForXmlRequirement($current_step_value['vocation']['options_list'], $current_step_value['vocation']['value'], ['portfoolio', 'õpimapp', 'ametialase tegevuse kirjeldus']);
+      if($proof_file_is_required) {
+        $current_step_value['requirement_proof_file']['required'] = true;
+        $current_step_value['requirement_proof_file']['hidden'] = false;
+      }
+      $data['body']['steps'][$data['header']['current_step']]['data_elements'] = $current_step_value;
     }
 
-    $current_step_value = $data['body']['steps'][$data['header']['current_step']]['data_elements'];
-    # conditional field
-    $required_values = ['kutseharidus', 'kõrgharidus'];
-    if(in_array($current_step_value['education']['value'], $required_values)) {
-      $current_step_value['diploma_file']['hidden'] = false;
-      $current_step_value['diploma_file']['required'] = true;
-    }
+    if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 3) {
+      $data['header']['acceptable_activity'] = ['VIEW'];
 
-    # check conditions from xml file
-    $proof_file_is_required = $this->checkForXmlRequirement($current_step_value['vocation']['options_list'], $current_step_value['vocation']['value'], ['portfoolio', 'õpimapp', 'ametialase tegevuse kirjeldus']);
-    if($proof_file_is_required) {
-      $current_step_value['requirement_proof_file']['required'] = true;
-      $current_step_value['requirement_proof_file']['hidden'] = false;
+      $data['body']['steps'][$data['header']['current_step']]['messages'] = ['application_submitted'];
     }
-    $data['body']['steps'][$data['header']['current_step']]['data_elements'] = $current_step_value;
 
     return $data;
   }
