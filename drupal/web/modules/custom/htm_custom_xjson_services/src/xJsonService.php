@@ -557,7 +557,9 @@ class xJsonService implements xJsonServiceInterface {
     if($classificator) {
       $classificator_path = '/app/drupal/web/sites/default/files/private/classificator/'.$classificator.'.xml';
 
-      $xml_data =  new SimpleXMLElement(file_get_contents($classificator_path));
+      $file_data = file_get_contents($classificator_path);
+      dump($file_data);
+      $xml_data =  new SimpleXMLElement($file_data);
       dump($xml_data);
       die();
     }
