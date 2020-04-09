@@ -257,11 +257,9 @@ class xJsonService implements xJsonServiceInterface {
     $classificator_value_path = '/app/drupal/web/sites/default/files/private/classificator-values/';
 
     $xml = new DOMDocument();
-    foreach($data as $key => $value) {
-      dump($key);
-      dump($value);
+    foreach($data as $key => $element) {
       $xml_field = $xml->createElement($key);
-      $xml_field_value = $xml->createElement($value);
+      $xml_field_value = $xml->createElement($element['value']);
       $xml_field->appendChild($xml_field_value);
       $xml->appendChild($xml_field);
     }
