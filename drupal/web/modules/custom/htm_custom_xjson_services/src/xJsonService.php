@@ -286,7 +286,7 @@ class xJsonService implements xJsonServiceInterface {
     $file_obj['value'] = $this->ehisconnector->getDocumentFileFromRedis($params);
 
     $data = base64_decode($file_obj['value']);
-    
+
     file_put_contents($classificator_value_path.'/'.$file['file_name'], $data);
   }
 

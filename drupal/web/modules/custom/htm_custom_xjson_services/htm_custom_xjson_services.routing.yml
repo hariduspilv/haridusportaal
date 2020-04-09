@@ -21,3 +21,17 @@ htm_custom_xjson_services.classificator_import_data_form:
     _title: 'xJsonClassificatorImportDataForm'
   requirements:
     _permission: 'access content'
+htm_custom_xjson_services.classificator_list_form:
+  path: '/admin/structure/classificator/list'
+  defaults:
+    _form: '\Drupal\htm_custom_xjson_services\Form\xJsonClassificatorListForm'
+    _title: 'xJsonClassificatorImportDataForm'
+  requirements:
+    _permission: 'access content'
+htm_custom_xjson_services.classificator_delete_data_form:
+  path: '/admin/structure/classificator/delete/{filename}'
+  defaults:
+    _form: '\Drupal\htm_custom_xjson_services\Form\xJsonClassificatorDeleteForm'
+    _title: 'xJsonClassificatorDeleteDataForm'
+  requirements:
+    _permission: 'access content'
