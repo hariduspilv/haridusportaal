@@ -38,7 +38,7 @@ class xJsonClassificatorDeleteForm extends FormBase {
 			'#value' =>  $filename,
 		] ;
 		$form['text'] = [
-			'#markup' => $this->t('<p>Are you sure you want to delete <b>@key</b>.csv classificators?</p>', ['@key' => $filename]),
+			'#markup' => $this->t('<p>Are you sure you want to delete <b>@key</b> classificators?</p>', ['@key' => $filename]),
 		];
 
 		return $form;
