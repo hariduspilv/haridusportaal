@@ -273,6 +273,8 @@ class xJsonService implements xJsonServiceInterface {
 
     $data = base64_decode($file_obj['value']);
 
+    dump($file);
+    die();
     file_put_contents($classificator_value_path.'/'.$file['file_name'], $data);
   }
 
