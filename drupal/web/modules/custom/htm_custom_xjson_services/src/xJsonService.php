@@ -645,9 +645,11 @@ class xJsonService implements xJsonServiceInterface {
 
     $file_data = file_get_contents($classificator_path);
     $xml_data =  new SimpleXMLElement($file_data);
-    
+
     foreach($xml_data as $xml_item) {
       $name = strtolower(((Array)$xml_item->nimetus)[0]);
+      dump($name);
+      dump($value);
       if($name === $value) {
         dump($name);
         dump($value);
