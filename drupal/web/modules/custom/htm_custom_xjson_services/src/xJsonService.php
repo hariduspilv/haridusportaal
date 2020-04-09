@@ -555,13 +555,12 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   private function checkForXmlClassificator($classificator) {
+    $options_list = [];
     if($classificator) {
-      $options_list = [];
       $classificator_path = '/app/drupal/web/sites/default/files/private/classificator/'.$classificator.'.xml';
 
       $file_data = file_get_contents($classificator_path);
       $xml_data =  new SimpleXMLElement($file_data);
-      dump($xml_data);
       foreach($xml_data as $value) {
         $date_from = ((Array)$value->kehtivAlates)[0];
         $date_to = ((Array)$value->kehtivKuni)[0];
@@ -576,9 +575,8 @@ class xJsonService implements xJsonServiceInterface {
           ];
         }
       }
-      dump($options_list);
-      die();
     }
+    return $options_list;
   }
 
   protected function sortTableValues ($table_element) {
