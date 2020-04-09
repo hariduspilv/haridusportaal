@@ -3,6 +3,7 @@
 namespace Drupal\htm_custom_xjson_services;
 
 use DateTime;
+use DOMDocument;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Session\AccountProxyInterface;
@@ -244,10 +245,25 @@ class xJsonService implements xJsonServiceInterface {
     if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 2) {
       $data['header']['acceptable_activity'] = ['VIEW'];
 
+      $this->saveDataToXml($data['body']['steps']['step_1']['data_elements'], $data['header']['identifier']);
+
       $data['body']['steps'][$data['header']['current_step']]['messages'] = ['application_submitted'];
     }
 
     return $data;
+  }
+
+  private function saveDataToXml($data, $identifier) {
+    $classificator_value_path = '/app/drupal/web/sites/default/files/private/classificator-values/';
+
+    $xml = new DOMDocument();
+    foreach($data as $key => $value) {
+      $xml_field = $xml->createElement($key);
+      $xml_field_value = $xml->createElement($value);
+      $xml_field->appendChild($xml_field_value);
+      $xml->appendChild($xml_field);
+    }
+    $xml->save($classificator_value_path.$identifier.'.xml');
   }
 
   private function createDefaultHeaders($definition) {
