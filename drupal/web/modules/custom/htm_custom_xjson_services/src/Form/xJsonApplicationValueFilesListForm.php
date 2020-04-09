@@ -6,34 +6,46 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
-class xJsonApplicationListForm extends FormBase {
+class xJsonApplicationValueFilesListForm extends FormBase {
 
   public function getFormId() {
-    return 'application_forms_list';
+    return 'application_value_files_list';
   }
 
-  public function buildForm(array $form, FormStateInterface $form_state)
+  public function buildForm(array $form, FormStateInterface $form_state, $form_name = NULL, $identifier = NULL)
   {
-    $directory = "/app/drupal/web/sites/default/files/private/application-values";
+    $list = [];
 
-    $application_list = array_diff(scandir($directory), array('.', '..'));
+    $result_directory = "/app/drupal/web/sites/default/files/private/application-values/".$form_name;
+    $identifier_list = array_diff(scandir($result_directory), array('.', '..'));
+    foreach($identifier_list as $value) {
+      $url = '/sites/default/files/private/application-values/'.$form_name.'/'.$value;
+      $list[$value] = $url;
+    }
+
+    $file_directory = "/app/drupal/web/sites/default/files/private/application-files/".$identifier;
+    $file_list = array_diff(scandir($file_directory), array('.', '..'));
+    foreach($file_list as $value) {
+      $url = '/sites/default/files/private/application-files/'.$identifier.'/'.$value;
+      $list[$value] = $url;
+    }
 
     $header = [
-      'form_name' => $this->t('Form name'),
+      'file_name' => $this->t('File name'),
     ];
 
     $form['table'] = [
       '#type' => 'table',
       '#header' => $header,
-      '#empty' => t('No XMLs found.'),
+      '#empty' => t('No files found.'),
     ];
 
-    foreach($application_list as $key => $application_form){
+    foreach($list as $key => $file_url){
 
       $form['table'][$key]['form_name'] = [
         '#type' => 'link',
-        '#title' => $application_form,
-        '#url' => Url::fromRoute('htm_custom_xjson_services.identifier_list_form', ['form_name' => $application_form]),
+        '#title' => $key,
+        '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$file_url),
       ];
     }
 

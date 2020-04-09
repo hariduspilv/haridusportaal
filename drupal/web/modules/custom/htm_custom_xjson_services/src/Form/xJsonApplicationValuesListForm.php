@@ -6,22 +6,20 @@ use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Url;
 
-class xJsonApplicationListForm extends FormBase {
+class xJsonApplicationValuesListForm extends FormBase {
 
   public function getFormId() {
-    return 'application_results_list';
+    return 'application_identifiers_list';
   }
 
-  public function buildForm(array $form, FormStateInterface $form_state)
+  public function buildForm(array $form, FormStateInterface $form_state, $form_name = NULL)
   {
-    $directory = "/app/drupal/web/sites/default/files/private/application-values";
+    $directory = "/app/drupal/web/sites/default/files/private/application-values/".$form_name;
 
-    $application_list = array_diff(scandir($directory), array('.', '..'));
+    $identifier_list = array_diff(scandir($directory), array('.', '..'));
 
     $header = [
-      'form_name' => $this->t('Form name'),
-      //'file' => $this->t('File'),
-      //'delete' => $this->t('Delete'),
+      'identifier' => $this->t('Identifier'),
     ];
 
     $form['table'] = [
@@ -30,27 +28,15 @@ class xJsonApplicationListForm extends FormBase {
       '#empty' => t('No XMLs found.'),
     ];
 
-    foreach($application_list as $key => $application_form){
+    foreach($identifier_list as $key => $identifier){
 
-      //$entity_id = preg_replace('/\\.[^.\\s]{3,4}$/', '', $xml_name);
+      $parsed_identifier = preg_replace('/\\.[^.\\s]{3,4}$/', '', $identifier);
 
-      $form['table'][$key]['form_name'] = [
+      $form['table'][$key]['identifier'] = [
         '#type' => 'link',
-        '#title' => $application_form,
-        '#url' => Url::fromUri('https://www.google.com')
+        '#title' => $parsed_identifier,
+        '#url' => Url::fromRoute('htm_custom_xjson_services.identifier_files_list_form', ['identifier' => $parsed_identifier, 'form_name' => $form_name]),
       ];
-
-/*      $form['table'][$key]['file'] = [
-        '#type' => 'link',
-        '#title' => $this->t('Download'),
-        '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/sites/default/files/private/classificator/'.$xml_name),
-      ];
-
-      $form['table'][$key]['delete'] = [
-        '#type' => 'link',
-        '#title' => $this->t('Delete'),
-        '#url' => Url::fromRoute('htm_custom_xjson_services.classificator_delete_data_form', ['filename' => $xml_name]),
-      ];*/
     }
 
     return $form;

@@ -35,6 +35,20 @@ htm_custom_xjson_services.application_list_form:
     _title: 'xJsonApplicationListForm'
   requirements:
     _permission: 'access content'
+htm_custom_xjson_services.identifier_list_form:
+  path: '/admin/structure/applications/identifiers/{form_name}'
+  defaults:
+    _form: '\Drupal\htm_custom_xjson_services\Form\xJsonApplicationValuesListForm'
+    _title: 'xJsonApplicationIdentifiersListForm'
+  requirements:
+    _permission: 'access content'
+htm_custom_xjson_services.identifier_files_list_form:
+  path: '/admin/structure/applications/{form_name}/files/{identifier}'
+  defaults:
+    _form: '\Drupal\htm_custom_xjson_services\Form\xJsonApplicationValueFilesListForm'
+    _title: 'xJsonApplicationIdentifiersListForm'
+  requirements:
+    _permission: 'access content'
 htm_custom_xjson_services.classificator_delete_data_form:
   path: '/admin/structure/classificator/delete/{filename}'
   defaults:

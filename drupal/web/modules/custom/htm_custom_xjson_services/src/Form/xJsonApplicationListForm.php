@@ -9,7 +9,7 @@ use Drupal\Core\Url;
 class xJsonApplicationListForm extends FormBase {
 
   public function getFormId() {
-    return 'application_results_list';
+    return 'application_forms_list';
   }
 
   public function buildForm(array $form, FormStateInterface $form_state)
@@ -20,8 +20,6 @@ class xJsonApplicationListForm extends FormBase {
 
     $header = [
       'form_name' => $this->t('Form name'),
-      //'file' => $this->t('File'),
-      //'delete' => $this->t('Delete'),
     ];
 
     $form['table'] = [
@@ -32,24 +30,11 @@ class xJsonApplicationListForm extends FormBase {
 
     foreach($application_list as $key => $application_form){
 
-      //$entity_id = preg_replace('/\\.[^.\\s]{3,4}$/', '', $xml_name);
-
       $form['table'][$key]['form_name'] = [
         '#type' => 'link',
         '#title' => $application_form,
+        '#url' => Url::fromRoute('htm_custom_xjson_services.identifier_list_form', ['form_name' => $application_form]),
       ];
-
-/*      $form['table'][$key]['file'] = [
-        '#type' => 'link',
-        '#title' => $this->t('Download'),
-        '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/sites/default/files/private/classificator/'.$xml_name),
-      ];
-
-      $form['table'][$key]['delete'] = [
-        '#type' => 'link',
-        '#title' => $this->t('Delete'),
-        '#url' => Url::fromRoute('htm_custom_xjson_services.classificator_delete_data_form', ['filename' => $xml_name]),
-      ];*/
     }
 
     return $form;
