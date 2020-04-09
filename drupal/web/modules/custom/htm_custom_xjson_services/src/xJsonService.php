@@ -187,7 +187,7 @@ class xJsonService implements xJsonServiceInterface {
 
   public function postXJsonXmlValues($data){
 
-    dump($data['header']);
+    dump($data);
     die();
     switch($data['header']['form_name']) {
       case 'KUTSE_OMISTAMISE_TAOTLUS':
