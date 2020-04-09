@@ -563,13 +563,13 @@ class xJsonService implements xJsonServiceInterface {
       $xml_data =  new SimpleXMLElement($file_data);
       dump($xml_data);
       foreach($xml_data as $value) {
-        $test = DateTime::createFromFormat('d.m.Y', ((Array)$value->kehtivAlates)[0]);
-        $date_from = date_parse_from_format("d.m.Y", ((Array)$value->kehtivAlates)[0]);
-        $date_to = date_parse_from_format("d.m.Y", ((Array)$value->kehtivKuni)[0]);
+        $date_from = DateTime::createFromFormat('d.m.Y', ((Array)$value->kehtivAlates)[0]);
+        $date_to = DateTime::createFromFormat('d.m.Y', ((Array)$value->kehtivKuni)[0]);
         dump($value);
-        dump($test);
         dump($date_from);
         dump($date_to);
+        dump(date('d.m.Y'));
+        die();
         $options_list[] = [
           'key' => $value,
           'value' => $value,
