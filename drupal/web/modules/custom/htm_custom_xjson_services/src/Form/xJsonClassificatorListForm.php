@@ -48,7 +48,7 @@ class xJsonClassificatorListForm extends FormBase {
       $form['table'][$key]['delete'] = [
         '#type' => 'link',
         '#title' => $this->t('Delete'),
-        '#url' => Url::fromRoute('htm_custom_xjson_services.delete_classificator', ['filename' => $xml_name]),
+        '#url' => Url::fromRoute('htm_custom_xjson_services.classificator_delete_data_form', ['filename' => $xml_name]),
       ];
     }
 
