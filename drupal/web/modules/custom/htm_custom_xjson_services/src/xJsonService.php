@@ -555,12 +555,21 @@ class xJsonService implements xJsonServiceInterface {
 
   private function checkForXmlClassificator($classificator) {
     if($classificator) {
+      $options_list = [];
       $classificator_path = '/app/drupal/web/sites/default/files/private/classificator/'.$classificator.'.xml';
 
       $file_data = file_get_contents($classificator_path);
-      dump($file_data);
       $xml_data =  new SimpleXMLElement($file_data);
-      foreach($xml_data as $key => $value) {
+      foreach($xml_data as $value) {
+        $date_from = date_parse_from_format("d.m.y", $value->kehtivAlates);
+        $date_to = date_parse_from_format("d.m.y", $value->kehtivKuni);
+        dump($date_from);
+        dump($date_to);
+        die();
+        $options_list[] = [
+          'key' => $value,
+          'value' => $value,
+        ];
         dump($key);
         dump($value);
       }
