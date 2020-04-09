@@ -19,8 +19,11 @@ class xJsonApplicationValueFilesListForm extends FormBase {
     $result_directory = "/app/drupal/web/sites/default/files/private/application-values/".$form_name;
     $identifier_list = array_diff(scandir($result_directory), array('.', '..'));
     foreach($identifier_list as $value) {
-      $url = '/sites/default/files/private/application-values/'.$form_name.'/'.$value;
-      $list[$value] = $url;
+      $parsed_identifier = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value);
+      if($parsed_identifier === $identifier) {
+        $url = '/sites/default/files/private/application-values/'.$form_name.'/'.$value;
+        $list[$value] = $url;
+      }
     }
 
     $file_directory = "/app/drupal/web/sites/default/files/private/application-files/".$identifier;
