@@ -259,9 +259,7 @@ class xJsonService implements xJsonServiceInterface {
 
     $xml = new DOMDocument();
     foreach($data as $key => $element) {
-      if($element['value']) {
-        dump($key);
-        dump($element);
+      if($element['value'] && $element['type'] !== 'file') {
         $xml_field = $xml->createElement($key);
         $xml_field_value = $xml->createTextNode($element['value']);
         $xml_field->appendChild($xml_field_value);
