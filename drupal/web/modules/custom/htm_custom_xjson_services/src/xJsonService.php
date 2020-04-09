@@ -254,7 +254,8 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   private function saveDataToXml($data, $identifier) {
-    $classificator_value_path = '/app/drupal/web/sites/default/files/private/classificator-values/';
+    $classificator_value_path = '/app/drupal/web/sites/default/files/private/classificator-values';
+    if(!file_exists($classificator_value_path)) mkdir($classificator_value_path, 0744, true);
 
     $xml = new DOMDocument();
     foreach($data as $key => $element) {
@@ -264,7 +265,7 @@ class xJsonService implements xJsonServiceInterface {
       $xml->appendChild($xml_field);
     }
     dump($xml);
-    $xml->save($classificator_value_path.$identifier.'.xml');
+    $xml->save($classificator_value_path.'/'.$identifier.'.xml');
   }
 
   private function createDefaultHeaders($definition) {

@@ -72,6 +72,8 @@ class xJsonClassificatorImportDataForm extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
+    if(!file_exists($this->classificator_path)) mkdir($this->classificator_path, 0744, true);
+
     $file = $form_state->getValue('file');
     $file_path = $file['tmp_name']['file'];
     $file_name = $file['name']['file'];
