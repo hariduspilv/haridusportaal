@@ -189,7 +189,7 @@ class xJsonService implements xJsonServiceInterface {
 
     switch($data['form_info']['header']['form_name']) {
       case 'KUTSE_OMISTAMISE_TAOTLUS':
-        $response = $this->createVocationResponse($data);
+        $data['form_info'] = $this->createVocationResponse($data['form_info']);
         break;
       default:
         //$response = $this->createDefaultHeaders($xjson_definition);
