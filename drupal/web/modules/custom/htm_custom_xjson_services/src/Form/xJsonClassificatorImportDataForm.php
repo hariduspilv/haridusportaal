@@ -82,15 +82,12 @@ class xJsonClassificatorImportDataForm extends FormBase {
     } else {
       kint("$file_path is NOT a valid document");
     }
-    die();
+
     $xml_content = file_get_contents($file_path);
     $file = fopen($this->classificator_path.'/'.$file_name, 'w');
     fwrite($file, $xml_content);
 
-    kint($form_state->getValue('file'));
-    die();
-
-    Cache::invalidateTags([$filename.'_csv']);
+    //Cache::invalidateTags([$filename.'_csv']);
     $form_state->setRedirect('htm_custom_infograph.infograph_csv_list_form');
   }
 
