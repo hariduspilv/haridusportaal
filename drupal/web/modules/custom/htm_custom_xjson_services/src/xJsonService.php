@@ -170,7 +170,7 @@ class xJsonService implements xJsonServiceInterface {
     $xjson_definition = $this->getEntityJsonObject($data['form_name']);
 
     if(!empty($xjson_definition)){
-      switch($xjson_definition) {
+      switch($xjson_definition['header']['form_name']) {
         case 'KUTSE_OMISTAMISE_TAOTLUS':
           $xjson_definition = $this->createVocationHeaders($xjson_definition);
           break;
@@ -189,7 +189,7 @@ class xJsonService implements xJsonServiceInterface {
 
     dump($data);
     die();
-    
+
     switch($data['header']['form_name']) {
       case 'KUTSE_OMISTAMISE_TAOTLUS':
         //$response = $this->createVocationHeaders($xjson_definition);
