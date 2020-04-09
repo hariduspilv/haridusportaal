@@ -247,12 +247,26 @@ class xJsonService implements xJsonServiceInterface {
 
       $this->saveDataToXml($data['header']['form_name'], $data['body']['steps']['step_1']['data_elements'], $data['header']['identifier']);
 
-      if($data['body']['steps']['step_1']['data_elements']['diploma_file']['value']) {
-        $this->saveFileFromRedis($data['body']['steps']['step_1']['data_elements']['diploma_file']['value'], $data['header']['identifier']);
+      $diploma_file_field = $data['body']['steps']['step_1']['data_elements']['diploma_file']['value'];
+      if($diploma_file_field) {
+        if(is_array($diploma_file_field)) {
+          foreach($diploma_file_field as $file_value) {
+            $this->saveFileFromRedis($file_value, $data['header']['identifier']);
+          }
+        } else {
+          $this->saveFileFromRedis($diploma_file_field, $data['header']['identifier']);
+        }
       }
 
-      if($data['body']['steps']['step_1']['data_elements']['requirement_proof_file']['value']) {
-        $this->saveFileFromRedis($data['body']['steps']['step_1']['data_elements']['requirement_proof_file']['value'], $data['header']['identifier']);
+      $requirement_proof_file_field = $data['body']['steps']['step_1']['data_elements']['requirement_proof_file']['value'];
+      if($requirement_proof_file_field) {
+        if(is_array($requirement_proof_file_field)){
+          foreach($requirement_proof_file_field as $file_value) {
+            $this->saveFileFromRedis($file_value, $data['header']['identifier']);
+          }
+        } else {
+          $this->saveFileFromRedis($requirement_proof_file_field, $data['header']['identifier']);
+        }
       }
 
       $data['body']['steps'][$data['header']['current_step']]['messages'] = ['application_submitted'];
