@@ -260,6 +260,7 @@ class xJsonService implements xJsonServiceInterface {
     foreach($data as $key => $element) {
       dump($key);
       dump($element['value']);
+      if($element['value'] === '09.04.2020') $element['value'] = '2';
       $xml_field = $xml->createElement($key);
       $xml_field_value = $xml->createElement($element['value']);
       $xml_field->appendChild($xml_field_value);
