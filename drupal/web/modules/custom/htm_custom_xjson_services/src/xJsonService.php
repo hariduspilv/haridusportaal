@@ -209,6 +209,8 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   private function createVocationResponse($data) {
+    dump($data);
+    die();
     $data['header']['current_step'] = intval($data['header']['current_step']) + 1;
     if($data['header']['activity'] === 'SAVE') $data['header']['acceptable_activity'] = ['SUBMIT'];
     if($data['header']['current_step'] = '2') {
