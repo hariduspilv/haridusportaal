@@ -265,6 +265,7 @@ class xJsonService implements xJsonServiceInterface {
       $xml_field->appendChild($xml_field_value);
       $xml->appendChild($xml_field);
     }
+    dump($xml);
     $xml->save($classificator_value_path.$identifier.'.xml');
   }
 
