@@ -449,7 +449,7 @@ class xJsonService implements xJsonServiceInterface {
         if ($table) $additional_keys = ['width', 'min', 'max'];
         else $additional_keys = ['min', 'max'];
         if (isset($element['default_value'])) {
-          $element['value'] = $element['default_value'];
+          $element['value'] = $element['default_value'] === 'today' ? date('d.m.Y') : $element['default_value'];
         }
         break;
       case 'number':
