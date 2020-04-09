@@ -562,8 +562,8 @@ class xJsonService implements xJsonServiceInterface {
       $xml_data =  new SimpleXMLElement($file_data);
       dump($xml_data);
       foreach($xml_data as $value) {
-        $date_from = date_parse_from_format("d.m.y", ((Array)$value->kehtivAlates)[0]);
-        $date_to = date_parse_from_format("d.m.y", ((Array)$value->kehtivKuni)[0]);
+        $date_from = date_parse_from_format("d.m.Y", ((Array)$value->kehtivAlates)[0]);
+        $date_to = date_parse_from_format("d.m.Y", ((Array)$value->kehtivKuni)[0]);
         dump($value);
         dump($date_from);
         dump($date_to);
