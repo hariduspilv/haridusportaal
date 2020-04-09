@@ -195,9 +195,9 @@ class xJsonService implements xJsonServiceInterface {
         //$response = $this->createDefaultHeaders($xjson_definition);
     }
 
-    $xjson_definition = $this->buildFormv2($response);
+    //$xjson_definition = $this->buildFormv2($response);
 
-    return $xjson_definition;
+    return $data;
   }
 
   private function createVocationHeaders($definition) {
@@ -212,6 +212,8 @@ class xJsonService implements xJsonServiceInterface {
 
     $data['header']['current_step'] = intval($data['header']['current_step']) + 1;
     if($data['header']['activity'] === 'SAVE') $data['header']['acceptable_activity'] = ['SUBMIT'];
+
+    # show last step data in new step
     if($data['header']['current_step'] = '2') {
       $keys = array_keys($data['body']['steps']);
       foreach($data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements'] as $key => &$value) {
@@ -220,10 +222,26 @@ class xJsonService implements xJsonServiceInterface {
           $value['value'] = $new_value;
         }
       }
-      dump($data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements']);
-      die();
       //$data['body']
     }
+
+    $current_step_value = $data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements'];
+    # conditional field
+    $required_values = ['kutseharidus', 'kõrgharidus'];
+    if(in_array($current_step_value['education']['value'], $required_values)) {
+      $current_step_value['diploma_file']['hidden'] = false;
+      $current_step_value['diploma_file']['required'] = true;
+    }
+
+    # check conditions from xml file
+    $proof_file_is_required = $this->checkForXmlRequirement($current_step_value['vocation']['options_list'], $current_step_value['vocation']['value'], ['portfoolio', 'õpimapp', 'ametialase tegevuse kirjeldus']);
+    if($proof_file_is_required) {
+      $current_step_value['requirement_proof_file']['required'] = true;
+      $current_step_value['requirement_proof_file']['hidden'] = false;
+    }
+    $data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements'] = $current_step_value;
+
+    return $data;
   }
 
   private function createDefaultHeaders($definition) {
@@ -612,6 +630,24 @@ class xJsonService implements xJsonServiceInterface {
     } else {
       return null;
     }
+  }
+
+  private function checkForXmlRequirement($classificator, $value, $required = []) {
+
+    $classificator_path = '/app/drupal/web/sites/default/files/private/classificator/'.$classificator.'.xml';
+
+    $file_data = file_get_contents($classificator_path);
+    $xml_data =  new SimpleXMLElement($file_data);
+
+    foreach($xml_data as $xml_item) {
+      $name = strtolower(((Array)$xml_item->nimetus)[0]);
+      if($name === $value) {
+        if(in_array(((Array)$xml_item->eelnõue)[0], $required)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private function checkForXmlClassificator($classificator) {
