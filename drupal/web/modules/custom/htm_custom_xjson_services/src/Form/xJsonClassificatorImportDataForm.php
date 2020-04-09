@@ -88,7 +88,7 @@ class xJsonClassificatorImportDataForm extends FormBase {
     }
 
     //Cache::invalidateTags([$filename.'_csv']);
-    $form_state->setRedirect('htm_custom_infograph.infograph_csv_list_form');
+    $form_state->setRedirect('htm_custom_xjson_services.classificator_list_form');
   }
 
 }
