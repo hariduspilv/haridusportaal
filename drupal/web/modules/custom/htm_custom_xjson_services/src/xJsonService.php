@@ -201,23 +201,24 @@ class xJsonService implements xJsonServiceInterface {
   }
 
   private function createVocationHeaders($definition) {
+    $keys = array_keys($definition['body']['steps']);
     $definition['header']['identifier'] = date('dmYHis');
-    $definition['header']['current_step'] = '1';
+    $definition['header']['current_step'] = $keys[0];
     $definition['header']['acceptable_activity'] = ['SAVE'];
 
     return $definition;
   }
 
   private function createVocationResponse($data) {
-
-    $data['header']['current_step'] = intval($data['header']['current_step']) + 1;
+    $keys = array_keys($data['body']['steps']);
+    $sequence = $data['body']['steps'][$data['header']['current_step']]['sequence'];
+    $data['header']['current_step'] = $keys[$sequence + 1];
     if($data['header']['activity'] === 'SAVE') $data['header']['acceptable_activity'] = ['SUBMIT'];
 
     # show last step data in new step
-    if($data['header']['current_step'] = '2') {
-      $keys = array_keys($data['body']['steps']);
-      foreach($data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements'] as $key => &$value) {
-        $new_value = $data['body']['steps'][$keys[intval($data['header']['current_step']) - 2]]['data_elements'][$key]['value'];
+    if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 1) {
+      foreach($data['body']['steps'][$data['header']['current_step']]['data_elements'] as $key => &$value) {
+        $new_value = $data['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence'] - 1]]['data_elements'][$key]['value'];
         if($new_value) {
           $value['value'] = $new_value;
         }
@@ -225,7 +226,7 @@ class xJsonService implements xJsonServiceInterface {
       //$data['body']
     }
 
-    $current_step_value = $data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements'];
+    $current_step_value = $data['body']['steps'][$data['header']['current_step']]['data_elements'];
     # conditional field
     $required_values = ['kutseharidus', 'kõrgharidus'];
     if(in_array($current_step_value['education']['value'], $required_values)) {
@@ -239,7 +240,7 @@ class xJsonService implements xJsonServiceInterface {
       $current_step_value['requirement_proof_file']['required'] = true;
       $current_step_value['requirement_proof_file']['hidden'] = false;
     }
-    $data['body']['steps'][$keys[intval($data['header']['current_step']) - 1]]['data_elements'] = $current_step_value;
+    $data['body']['steps'][$data['header']['current_step']]['data_elements'] = $current_step_value;
 
     return $data;
   }
