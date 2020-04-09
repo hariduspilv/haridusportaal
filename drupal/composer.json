@@ -16,7 +16,9 @@
         }
     ],
     "require": {
+        "ext-SimpleXML": "^7.1",
         "ext-curl": "*",
+        "ext-dom": "*",
         "composer/installers": "^1.2",
         "cweagans/composer-patches": "^1.6.5",
         "drupal-composer/drupal-scaffold": "^2.5",
@@ -95,8 +97,7 @@
         "symfony/dom-crawler": "v3.4.9",
         "vlucas/phpdotenv": "^2.4",
         "webflo/drupal-finder": "^1.0.0",
-        "webmozart/path-util": "^2.3",
-        "ext-dom": "*"
+        "webmozart/path-util": "^2.3"
     },
     "require-dev": {
         "webflo/drupal-core-require-dev": "^8.6.0"

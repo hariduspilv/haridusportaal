@@ -8,6 +8,7 @@ use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
 use Drupal\rest\ModifiedResourceResponse;
 use Drupal\user\Entity\User;
+use SimpleXMLElement;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
@@ -453,6 +454,7 @@ class xJsonService implements xJsonServiceInterface {
         if ($table) $additional_keys = ['width', 'multiple', 'empty_option', 'options', 'options_list'];
         else $additional_keys = ['multiple', 'empty_option', 'options', 'options_list'];
         if (isset($element['options_list'])) {
+          $this->checkForXmlClassificator($element['options_list']);
           $params['hash'] = $element['options_list'];
           $element['options'] = $this->ehisconnector->getOptionsTaxonomy($params);
         }
@@ -546,6 +548,16 @@ class xJsonService implements xJsonServiceInterface {
       return $this->buildFormv2(Json::decode($entity->get('xjson_definition_test')->value));
     } else {
       return null;
+    }
+  }
+
+  private function checkForXmlClassificator($classificator) {
+    if($classificator) {
+      $classificator_path = '/app/drupal/web/sites/default/files/private/classificator/'.$classificator.'.xml';
+
+      $xml_data =  new SimpleXMLElement(file_get_contents($classificator_path));
+      dump($xml_data);
+      die();
     }
   }
 

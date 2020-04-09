@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "35b236d331603e7263eb3dd86b9f1273",
+    "content-hash": "4511155fc9e0217bc054dd6b6535cace",
     "packages": [
         {
             "name": "alchemy/zippy",
@@ -4142,8 +4142,7 @@
             "support": {
                 "source": "http://cgit.drupalcode.org/elasticsearch_connector_autocomp",
                 "issues": "https://www.drupal.org/project/issues/elasticsearch_connector_autocomp"
-            },
-            "time": "2019-11-27T02:35:07+00:00"
+            }
         },
         {
             "name": "drupal/embed",
@@ -4653,7 +4652,8 @@
             "homepage": "https://github.com/drupal-graphql/graphql-metatag",
             "support": {
                 "source": "http://cgit.drupalcode.org/graphql_metatag"
-            }
+            },
+            "time": "2018-06-13T18:24:32+00:00"
         },
         {
             "name": "drupal/hms_field",
@@ -8214,6 +8214,7 @@
                     "email": "jakub.onderka@gmail.com"
                 }
             ],
+            "abandoned": "php-parallel-lint/php-console-color",
             "time": "2018-09-29T17:23:10+00:00"
         },
         {
@@ -8260,6 +8261,7 @@
                 }
             ],
             "description": "Highlight PHP code in terminal",
+            "abandoned": "php-parallel-lint/php-console-highlighter",
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
@@ -14599,7 +14601,9 @@
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
-        "ext-curl": "*"
+        "ext-simplexml": "^7.1",
+        "ext-curl": "*",
+        "ext-dom": "*"
     },
     "platform-dev": []
 }
