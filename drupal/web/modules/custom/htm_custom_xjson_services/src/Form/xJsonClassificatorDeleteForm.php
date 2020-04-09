@@ -46,7 +46,7 @@ class xJsonClassificatorDeleteForm extends FormBase {
 
 	public function submitForm(array &$form, FormStateInterface $form_state) {
 	  $filename = $form_state->getValue('file_to_delete');
-	  $file_path = 'app/drupal/web/sites/default/files/private/classificator/'.$filename;
+	  $file_path = '/app/drupal/web/sites/default/files/private/classificator/'.$filename;
 	  unlink($file_path);
     \Drupal::logger('htm_custom_xjson_services')->notice($filename.' has been deleted.');
 		$form_state->setRedirect('htm_custom_xjson_services.classificator_list_form');
