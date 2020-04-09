@@ -166,6 +166,7 @@ class xJsonFile2RestResource extends ResourceBase {
   {
     $request_body = json_decode($request->getContent());
     $filename = $this->validateAndParseContentDispositionHeader($request);
+
     $validators = isset($request_body->table_element) ? $validators = $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name, $request_body->table_element) : $this->validateAndLoadxJsonFieldDefinition($form_name, $field_name);
 
     $file_hash = $request_body->file;

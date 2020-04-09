@@ -245,7 +245,15 @@ class xJsonService implements xJsonServiceInterface {
     if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 2) {
       $data['header']['acceptable_activity'] = ['VIEW'];
 
-      $this->saveDataToXml($data['body']['steps']['step_1']['data_elements'], $data['header']['identifier']);
+      $this->saveDataToXml($data['header']['form_name'], $data['body']['steps']['step_1']['data_elements'], $data['header']['identifier']);
+
+      if($data['body']['steps']['step_1']['data_elements']['diploma_file']['value']) {
+        $this->saveFileFromRedis($data['body']['steps']['step_1']['data_elements']['diploma_file']['value'], $data['header']['identifier']);
+      }
+
+      if($data['body']['steps']['step_1']['data_elements']['requirement_proof_file']['value']) {
+        $this->saveFileFromRedis($data['body']['steps']['step_1']['data_elements']['requirement_proof_file']['value'], $data['header']['identifier']);
+      }
 
       $data['body']['steps'][$data['header']['current_step']]['messages'] = ['application_submitted'];
     }
@@ -253,9 +261,23 @@ class xJsonService implements xJsonServiceInterface {
     return $data;
   }
 
-  private function saveDataToXml($data, $identifier) {
-    $classificator_value_path = '/app/drupal/web/sites/default/files/private/classificator-values';
-    if(!file_exists($classificator_value_path)) mkdir($classificator_value_path, 0744, true);
+  private function saveFileFromRedis($file, $identifier) {
+    $classificator_value_path = '/app/drupal/web/sites/default/files/private/application-files/'.$identifier;
+
+    $params = [
+      'hash' => $file['file_identifier']
+    ];
+
+    $file_obj['value'] = $this->ehisconnector->getDocumentFileFromRedis($params);
+
+    $data = base64_decode($file_obj['value']);
+
+    file_put_contents($classificator_value_path.'/'.$file['file_name'], $data);
+  }
+
+  private function saveDataToXml($form_name, $data, $identifier) {
+    $application_value_path = '/app/drupal/web/sites/default/files/private/application-values/'.$form_name;
+    if(!file_exists($application_value_path)) mkdir($application_value_path, 0744, true);
 
     $xml = new DOMDocument();
     foreach($data as $key => $element) {
@@ -266,7 +288,7 @@ class xJsonService implements xJsonServiceInterface {
         $xml->appendChild($xml_field);
       }
     }
-    $xml->save($classificator_value_path.'/'.$identifier.'.xml');
+    $xml->save($application_value_path.'/'.$identifier.'.xml');
   }
 
   private function createDefaultHeaders($definition) {
