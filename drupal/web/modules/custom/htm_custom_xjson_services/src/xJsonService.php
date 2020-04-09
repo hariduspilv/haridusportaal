@@ -173,6 +173,8 @@ class xJsonService implements xJsonServiceInterface {
       $xjson_definition['header']['acceptable_activity'] = ['SUBMIT'];
     }
 
+    $xjson_definition = $this->buildFormv2($xjson_definition);
+
     return $xjson_definition;
   }
 

@@ -205,6 +205,7 @@ class xJsonRestResource extends ResourceBase {
 
   private function getXJsonXmlForm ($data) {
     $definition = $this->xJsonService->getXJsonXmlDefinition($data);
+
     return ($definition) ? new ModifiedResourceResponse($definition, 200) : new ModifiedResourceResponse('form_name unknown', 400);
   }
 
