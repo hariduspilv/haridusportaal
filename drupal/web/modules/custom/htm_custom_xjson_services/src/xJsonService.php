@@ -568,7 +568,7 @@ class xJsonService implements xJsonServiceInterface {
         dump($value);
         dump($date_from);
         dump($date_to);
-        dump(date('d.m.Y'));
+        dump(DateTime::createFromFormat('d.m.Y', 'now'));
         die();
         $options_list[] = [
           'key' => $value,
