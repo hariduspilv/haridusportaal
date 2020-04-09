@@ -216,8 +216,8 @@ class xJsonService implements xJsonServiceInterface {
       $keys = array_keys($data['body']['steps']);
       foreach($data['body']['steps'][$keys[$data['header']['current_step']]] as &$value) {
         dump($value);
-        die();
       }
+      die();
       //$data['body']
     }
   }
