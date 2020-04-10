@@ -14,6 +14,7 @@
       [theme]="theme"></homepage-slides>
     <homepage-topical
       [data]="newsLink"
+      [category]="'home.topical_default' | translate"
       [theme]="theme"></homepage-topical>
     <homepage-study
       [theme]="theme"></homepage-study>
@@ -36,10 +37,11 @@
       [title]="'home.events' | translate"
       [description]="'home.events_text' | translate"></homepage-events>
     <homepage-topical
+      [category]="'home.topical_teachers' | translate"
       [data]="newsLink" [theme]="theme"></homepage-topical>
     <homepage-slides
       [data]="services"
-      title="Tööriistakast" 
+      [title]="'home.toolbox' | translate" 
       [line]="3"
       [theme]="theme"></homepage-slides>
     <homepage-slogan
@@ -70,6 +72,7 @@
       [description]="'home.careerDevelopment_description' | translate"></homepage-careerDevelopment>
 
     <homepage-topical
+      [category]="'home.topical_career' | translate"
       [data]="newsLink"
       [line]="4"
       [theme]="theme"></homepage-topical>

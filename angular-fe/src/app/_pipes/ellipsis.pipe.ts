@@ -26,9 +26,12 @@ export class EllipsisPipe implements PipeTransform {
       retLen += strAry[i].length + 1;
     }
 
-    value = strAry.slice(0, i).join(' ') + '...';
+    let str = strAry.slice(0, i).join(' ');
+    if (str.slice(-1) === '.') {
+      str = str.slice(0, str.length - 1);
+    }
 
-    return value;
+    return `${str}...`;
 
   }
 
