@@ -72,7 +72,7 @@
 
                       <ng-container *ngIf="data_elements[element].type == 'helpertext'">
                         <p tabindex="-1" role="text"
-                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ selectLanguage(data_elements[element].helpertext) }}"
+                          attr.aria-label="{{ selectLanguage(data_elements[element].title) + ' help button.' }} {{ data_elements[element].helpertext ? selectLanguage(data_elements[element].helpertext) : ''}}"
                           *ngIf="data_elements[element].title">
                           {{ selectLanguage(data_elements[element].title) }}
                         </p>
@@ -85,7 +85,7 @@
                       </ng-container> <!-- /HEADING -->
 
                       <ng-container
-                        *ngIf="(data_elements[element].type === 'text' || data_elements[element].type === 'iban' || data_elements[element].type === 'email')">
+                        *ngIf="(data_elements[element].type === 'text' || data_elements[element].type === 'iban' || data_elements[element].type === 'idcode' || data_elements[element].type === 'email')">
                         <formItem type="text" [disabled]="isFieldDisabled(data_elements[element].readonly)"
                           title="{{selectLanguage(data_elements[element].title)}}{{data_elements[element].required ? '*': ''}}"
                           [(ngModel)]="data_elements[element].value" [name]="element"

@@ -266,6 +266,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (this.formKey === 'MTSYS') {
       return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}/${this.formKey}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}&doc_id=${docId}`;
     }
+    if (this.formKey === 'KUTSE') {
+      return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}/${this.formKey}?jwt_token=${token}`;
+    }
     return `${this.settings.url}/xjson_service/documentFile2/${id}/${name}/${this.formKey}?jwt_token=${token}&id=${this.data.header.agents[0].owner_id}`;
   }
 
@@ -703,6 +706,13 @@ export class XjsonComponent implements OnInit, OnDestroy {
           return { valid: false, message: this.translate.get('xjson.enter_valid_iban') };
         }
       }
+
+      if (field.type === 'idcode') {
+        const reg = /^\d{11}$/;
+        if (!reg.test(field.value)) {
+          return { valid: false, message: this.translate.get('xjson.enter_valid_idcode') };
+        }
+      }
     }
     return { valid: true, message: 'valid' };
   }
@@ -1098,7 +1108,9 @@ export class XjsonComponent implements OnInit, OnDestroy {
     if (typeof this.opened_step !== 'undefined') {
       this.data_elements = this.data.body.steps[this.opened_step].data_elements;
       // Concat. all message arrays and display them at all times
-      this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
+      if (this.data.body.messages && this.data.body.steps[this.opened_step].messages) {
+        this.data_messages = [...this.data.body.messages, ...this.data.body.steps[this.opened_step].messages];
+      }
     } else {
       this.data_messages = this.data.body.messages;
     }
