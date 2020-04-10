@@ -295,14 +295,16 @@ class xJsonService implements xJsonServiceInterface {
     if(!file_exists($application_value_path)) mkdir($application_value_path, 0744, true);
 
     $xml = new DOMDocument();
+    $xml_parent = $xml->createElement('fields');
     foreach($data as $key => $element) {
       if($element['value'] && $element['type'] !== 'file') {
         $xml_field = $xml->createElement($key);
         $xml_field_value = $xml->createTextNode($element['value']);
         $xml_field->appendChild($xml_field_value);
-        $xml->appendChild($xml_field);
+        $xml_parent->appendChild($xml_field);
       }
     }
+    $xml->appendChild($xml_parent);
     $xml->save($application_value_path.'/'.$identifier.'.xml');
   }
 
