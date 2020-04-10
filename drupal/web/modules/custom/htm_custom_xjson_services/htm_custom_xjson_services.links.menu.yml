@@ -44,3 +44,9 @@ htm_custom_xjson_services.classificator_list_form:
   route_name: htm_custom_xjson_services.classificator_list_form
   description: 'View and delete xJson classificator XML'
   parent: system.admin_structure
+
+htm_custom_xjson_services.application_list_form:
+  title: "xJson Application list"
+  route_name: htm_custom_xjson_services.application_list_form
+  description: 'View xJson applications'
+  parent: system.admin_structure
