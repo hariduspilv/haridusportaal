@@ -423,7 +423,9 @@
     position: relative;
     padding: 2.125rem 0 12.5rem 0;
     background: #EEEEEE;
-
+    @include break-on(xxs, max) {
+      padding: 5rem 0;
+    }
     .st0 {
       fill: #EEEEEE;
     }
@@ -449,6 +451,9 @@
       min-height: 470px;
       background: url('/assets/img/homepage-career-imago.svg') center 55px no-repeat;
       margin: 3.0625rem auto 0 auto;
+      @include break-on(xxs, max) {
+        background-image:url('/assets/img/homepage-career-imago-mobile.svg');
+      }
       ul, li {
         display: block;
         list-style: none;
