@@ -629,6 +629,9 @@ class EhisConnectorService {
       }
     }, $form_topics);
 
+    dump($obj);
+    die();
+
     return $obj;
   }
 
