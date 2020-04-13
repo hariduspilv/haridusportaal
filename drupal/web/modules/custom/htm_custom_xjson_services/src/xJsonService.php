@@ -216,9 +216,11 @@ class xJsonService implements xJsonServiceInterface {
     $data['header']['current_step'] = $keys[$sequence + 1];
     if($data['body']['steps'][$data['header']['current_step']]['sequence'] === 1) {
       $data['header']['acceptable_activity'] = ['SUBMIT'];
+      $xjson_definition = $this->getEntityJsonObject($data['form_info']['header']['form_name']);
+      $current_step_value = $xjson_definition['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence'] - 1]]['data_elements'];
 
       # show last step data in new step
-      foreach($data['body']['steps'][$data['header']['current_step']]['data_elements'] as $key => &$value) {
+      foreach($current_step_value as $key => &$value) {
         $new_value = $data['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence'] - 1]]['data_elements'][$key]['value'];
         if($new_value) {
           $value['value'] = $new_value;
