@@ -238,7 +238,7 @@ class xJsonService implements xJsonServiceInterface {
       # check conditions from xml file
       $proof_file_is_required = $this->checkForXmlRequirement($current_step_value['vocation']['options_list'], $current_step_value['vocation']['value'], ['portfoolio', 'õpimapp', 'ametialase tegevuse kirjeldus']);
       if($proof_file_is_required) {
-        switch(strtolower($current_step_value['vocation']['value'])) {
+        switch(strtolower($proof_file_is_required)) {
           case 'portfoolio':
             $current_step_value['requirement_proof_file_portfoolio']['required'] = true;
             $current_step_value['requirement_proof_file_portfoolio']['hidden'] = false;
@@ -728,7 +728,7 @@ class xJsonService implements xJsonServiceInterface {
       $name = strtolower(((Array)$xml_item->nimetus)[0]);
       if($name === strtolower($value)) {
         if(in_array(((Array)$xml_item->eelnõue)[0], $required)) {
-          return true;
+          return ((Array)$xml_item->eelnõue)[0];
         }
       }
     }
