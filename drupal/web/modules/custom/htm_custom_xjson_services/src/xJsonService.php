@@ -231,13 +231,33 @@ class xJsonService implements xJsonServiceInterface {
       if(in_array($current_step_value['education']['value'], $required_values)) {
         $current_step_value['diploma_file']['hidden'] = false;
         $current_step_value['diploma_file']['required'] = true;
+        $current_step_value['intro_1']['hidden'] = true;
+        $current_step_value['intro_2']['hidden'] = false;
       }
 
       # check conditions from xml file
       $proof_file_is_required = $this->checkForXmlRequirement($current_step_value['vocation']['options_list'], $current_step_value['vocation']['value'], ['portfoolio', 'õpimapp', 'ametialase tegevuse kirjeldus']);
       if($proof_file_is_required) {
-        $current_step_value['requirement_proof_file']['required'] = true;
-        $current_step_value['requirement_proof_file']['hidden'] = false;
+        switch($current_step_value['vocation']['value']) {
+          case 'portfoolio':
+            $current_step_value['requirement_proof_file_portfoolio']['required'] = true;
+            $current_step_value['requirement_proof_file_portfoolio']['hidden'] = false;
+            $current_step_value['intro_1']['hidden'] = true;
+            $current_step_value['intro_2']['hidden'] = false;
+            break;
+          case 'õpimapp':
+            $current_step_value['requirement_proof_file_opimapp']['required'] = true;
+            $current_step_value['requirement_proof_file_opimapp']['hidden'] = false;
+            $current_step_value['intro_1']['hidden'] = true;
+            $current_step_value['intro_2']['hidden'] = false;
+            break;
+          case 'ametialase tegevuse kirjeldus':
+            $current_step_value['requirement_proof_file_ametiala']['required'] = true;
+            $current_step_value['requirement_proof_file_ametiala']['hidden'] = false;
+            $current_step_value['intro_1']['hidden'] = true;
+            $current_step_value['intro_2']['hidden'] = false;
+            break;
+        }
       }
       $data['body']['steps'][$data['header']['current_step']]['data_elements'] = $current_step_value;
     }
