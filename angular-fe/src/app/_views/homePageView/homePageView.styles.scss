@@ -33,8 +33,12 @@
           button, a {
             color: #642BB0;
             font-size: 1.125rem;
+            @include break-on(xxs, max) {
+              padding-bottom: 4rem;
+            }
           }
         }
+
       }
     }
     &.theme--career {
@@ -48,6 +52,9 @@
           button, a {
             color: #0F6722;
             font-size: 1.125rem;
+            @include break-on(xxs, max) {
+              padding-bottom: 4rem;
+            }
           }
         }
       }
@@ -314,6 +321,9 @@
         width: 100%;
         display: flex;
         margin-bottom: 2.5rem;
+        @include break-on(xxs, max) {
+          flex-wrap: wrap;
+        }
         &:last-child {
           margin-bottom: 0;
         }
@@ -325,6 +335,10 @@
           flex-shrink: 0;
           &:first-child {
             border-radius: 1.25rem 0 0 1.25rem;
+          }
+          @include break-on(xxs, max) {
+            border-radius: 1.25rem 1.25rem 0 0 !important;
+            width: 100%;
           }
           &__inner {
             display: block; 
@@ -351,6 +365,9 @@
           flex-direction: column;
           flex-grow: 1;
           width: 100%;
+          @include break-on(xxs, max) {
+            order: 2;
+          }
         }
         &__date {
           color: $black;
@@ -1224,6 +1241,21 @@
       .newsletter__col:nth-child(2) {
           order: 3;
           text-align: right;
+      }
+      @include break-on(xxs, max) {
+        .rss {
+          display: none;
+        }
+        .links a {
+          max-width: 100% !important;
+        }
+        .button--outline-dark{
+          width: 100%;
+        }
+        .newsletter__col {
+          width: 100% !important;
+        }
+
       }
     }
 
