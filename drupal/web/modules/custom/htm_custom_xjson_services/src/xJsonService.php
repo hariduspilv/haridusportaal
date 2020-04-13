@@ -721,19 +721,21 @@ class xJsonService implements xJsonServiceInterface {
       $classificator_path = '/app/drupal/web/sites/default/files/private/classificator/'.$classificator.'.xml';
 
       $file_data = file_get_contents($classificator_path);
-      $xml_data =  new SimpleXMLElement($file_data);
-      foreach($xml_data as $value) {
-        $date_from = ((Array)$value->kehtivAlates)[0];
-        $date_to = ((Array)$value->kehtivKuni)[0];
-        $parsed_date_from = $date_from ? DateTime::createFromFormat('d.m.Y', $date_from) : false;
-        $parsed_date_to = $date_to ? DateTime::createFromFormat('d.m.Y', $date_to) : false;
-        $now = new DateTime();
+      if($file_data) {
+        $xml_data =  new SimpleXMLElement($file_data);
+        foreach($xml_data as $value) {
+          $date_from = ((Array)$value->kehtivAlates)[0];
+          $date_to = ((Array)$value->kehtivKuni)[0];
+          $parsed_date_from = $date_from ? DateTime::createFromFormat('d.m.Y', $date_from) : false;
+          $parsed_date_to = $date_to ? DateTime::createFromFormat('d.m.Y', $date_to) : false;
+          $now = new DateTime();
 
-        if(($parsed_date_from <= $now || !$parsed_date_from) && ($parsed_date_to >= $now || !$parsed_date_to)) {
-          $options_list[] = [
-            'key' => ((Array)$value->nimetus)[0],
-            'value' => ((Array)$value->nimetus)[0],
-          ];
+          if(($parsed_date_from <= $now || !$parsed_date_from) && ($parsed_date_to >= $now || !$parsed_date_to)) {
+            $options_list[] = [
+              'key' => ((Array)$value->nimetus)[0],
+              'value' => ((Array)$value->nimetus)[0],
+            ];
+          }
         }
       }
     }
