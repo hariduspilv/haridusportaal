@@ -620,7 +620,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
       if (field.type === 'address' && field.value !== '' && !field.value.addressHumanReadable) {
         return { valid: false, message: this.translate.get('xjson.missing_required_value') };
       }
-      if (field.value === undefined || field.value === null ||
+      if (field.value === undefined || field.value === 'undefined' || field.value === null ||
         (field.type === 'selectlist' && field.value === 'null') || field.value === ''
         || (Array.isArray(field.value) && !field.value.length)) {
         return { valid: false, message: this.translate.get('xjson.missing_required_value') };
@@ -641,7 +641,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
         if (field.value.length > field.maxlength) {
           return {
             valid: false,
-            message: `${this.translate.get('xjson.value_min_length_is')} ${field.maxlength}`,
+            message: `${this.translate.get('xjson.value_max_length_is')} ${field.maxlength}`,
           };
         }
       }
