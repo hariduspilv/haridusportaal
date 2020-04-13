@@ -220,6 +220,7 @@ class xJsonService implements xJsonServiceInterface {
       $current_step_value = $data['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence'] - 1]]['data_elements'];
       dump($current_step_value);
       $current_step_value = $xjson_definition['body']['steps'][$keys[$data['body']['steps'][$data['header']['current_step']]['sequence']]]['data_elements'];
+      dump($xjson_definition);
       dump($current_step_value);
       die();
 
