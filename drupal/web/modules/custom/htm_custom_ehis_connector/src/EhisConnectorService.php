@@ -631,9 +631,10 @@ class EhisConnectorService {
 
     $vocation_form = self::getxJsonService()->getEntityJsonObject('KUTSE_OMISTAMISE_TAOTLUS');
     if($vocation_form) {
+      $path = self::getxJsonService()->getEntityFormPath('KUTSE_OMISTAMISE_TAOTLUS');
       $obj['acceptable_forms'][] = [
         'form_name' => 'KUTSE_OMISTAMISE_TAOTLUS',
-        'form_path' => self::getxJsonService()->getEntityFormPath('KUTSE_OMISTAMISE_TAOTLUS'),
+        'form_path' => $path && $path['path'] ? $path['path'] : '',
         'title' => $vocation_form['body']['title'],
       ];
     }
