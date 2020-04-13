@@ -629,9 +629,15 @@ class EhisConnectorService {
       }
     }, $form_topics);
 
-    dump($obj);
-    die();
-
+    $vocation_form = self::getxJsonService()->getEntityJsonObject('KUTSE_OMISTAMISE_TAOTLUS');
+    if($vocation_form) {
+      $obj['acceptable_forms'][] = [
+        'form_name' => 'KUTSE_OMISTAMISE_TAOTLUS',
+        'form_path' => $this->xJsonService->getEntityFormPath('KUTSE_OMISTAMISE_TAOTLUS'),
+        'title' => $vocation_form['body']['title'],
+      ];
+    }
+    
     return $obj;
   }
 
