@@ -9,6 +9,7 @@ import {
 import { ModalService, RippleService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { AddressService } from '@app/_services/AddressService';
 
 const moduleMetadata = {
   imports: [
@@ -18,6 +19,7 @@ const moduleMetadata = {
   providers: [
     ModalService,
     RippleService,
+    AddressService,
     QueryParamsService,
     { provide: ActivatedRoute, useValue: {} },
   ],
@@ -78,8 +80,10 @@ stories.add(
         topAction,
         bottomAction,
         loading,
+        modal: new ModalService(),
       },
       template: `
+        <button htm-button (click)="modal.toggle('search')">Search modal</button>
           <htm-modal id="search" title="Otsing"
           [titleExists]="titleExists === 'yes'" [topAction]="topAction === 'yes'"
           [bottomAction]="bottomAction === 'yes'">

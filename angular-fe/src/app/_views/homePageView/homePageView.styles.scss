@@ -115,6 +115,9 @@
             line-height: 1.875rem;
             font-weight: 300;
           }
+          @include break-on(xxs, max) {
+            padding-right: 0;
+          }
         }
         h1 {
           font-size: 3rem;

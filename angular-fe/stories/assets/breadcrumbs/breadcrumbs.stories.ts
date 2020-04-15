@@ -5,6 +5,7 @@ import { withKnobs, select } from '@storybook/addon-knobs';
 import breadcrumbsMd from './breadcrumbs.md';
 import { AssetsModule } from '@app/_assets';
 import { RippleService } from '@app/_services';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 const moduleMetadata = {
   imports: [
@@ -14,7 +15,8 @@ const moduleMetadata = {
   ],
   providers: [
     RippleService,
-  ]
+    TranslateService,
+  ],
 };
 
 const stories = storiesOf('Assets', module);

@@ -20,7 +20,7 @@
           <sidebar-articles *ngSwitchCase="'news'" [data]="mappedData[keyVal]"></sidebar-articles>
           <sidebar-data *ngSwitchCase="'data'" [data]="mappedData[keyVal]"></sidebar-data>
           <sidebar-location *ngSwitchCase="'location'" [data]="mappedData[keyVal]"></sidebar-location>
-          <sidebar-facts *ngSwitchCase="'facts'" [data]="mappedData[keyVal]"></sidebar-facts>
+          <sidebar-facts *ngSwitchCase="'facts'" [data]="mappedData[keyVal]" [theme]="type"></sidebar-facts>
           <sidebar-progress *ngSwitchCase="'progress'" [data]="mappedData[keyVal]"></sidebar-progress>
           <sidebar-register *ngSwitchCase="'register'" [data]="mappedData[keyVal]" [pageData]="data"></sidebar-register>
           <sidebar-events *ngSwitchCase="'events'" [data]="mappedData[keyVal]"></sidebar-events>

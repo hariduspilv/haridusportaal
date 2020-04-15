@@ -51,6 +51,7 @@ export class AuthService implements CanActivate {
           sessionStorage.removeItem('ehisToken');
           sessionStorage.removeItem('redirectUrl');
         }
+        this.isAuthenticated.next(this.isLoggedIn());
         return response;
       }));
   }

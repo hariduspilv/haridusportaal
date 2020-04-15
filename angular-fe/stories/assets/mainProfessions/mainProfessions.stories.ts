@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RippleService, ModalService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { AddressService } from '@app/_services/AddressService';
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -20,6 +21,7 @@ const moduleMetadata = {
     RippleService,
     ModalService,
     QueryParamsService,
+    AddressService,
     { provide: ActivatedRoute, useValue: {} },
   ],
 };

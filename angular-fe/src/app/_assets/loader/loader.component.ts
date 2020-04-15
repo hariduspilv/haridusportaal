@@ -15,7 +15,7 @@ export class LoaderComponent implements OnInit{
   ) {}
 
   startTimeout() {
-    const timeOut = this.settings.data.loader
+    const timeOut = this.settings.data && this.settings.data.loader
     && this.settings.data.loader.timeout
     ? this.settings.data.loader.timeout
     : 3000;
