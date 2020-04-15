@@ -1,7 +1,8 @@
 query teachingPageAdditionalEvents($lang: LanguageId!) {
   nodeQuery(limit: 2, sort: {field: "created", direction: DESC}, filter: {conditions: [
     {field: "type", value: "event", language: $lang},
-    {field: "status", value: "1", language: $lang}
+    {field: "status", value: "1", language: $lang},
+    {field: "field_tag.entity.name", operator:NOT_IN, value: ["õpetaja" , "noorsootöötaja" , "koolijuht"], language: $lang},
   ]
   }) {
     entities(language: $lang) {
