@@ -128,6 +128,12 @@
       * {
         pointer-events: none !important;
       }
+      &.formItem--textarea{
+        pointer-events: initial !important;
+        * {
+          pointer-events: initial !important;
+        }
+      }
       &>.formItem__wrapper{
         & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
           background:#eee;

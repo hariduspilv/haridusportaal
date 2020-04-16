@@ -23,6 +23,6 @@
       [disabled]="item.disabled">
     </formItem>
     </td>
-    <td *ngIf="!isMobile">{{ item.value }}</td>
+    <td *ngIf="!isMobile">{{ item.value | ellipsis: 100 }}</td>
   </tr>
 </table>

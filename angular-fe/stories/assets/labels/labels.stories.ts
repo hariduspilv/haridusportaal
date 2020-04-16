@@ -7,10 +7,14 @@ import {
   object,
   select,
 } from '@storybook/addon-knobs';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+  ],
+  providers: [
+    TranslateService,
   ],
 };
 

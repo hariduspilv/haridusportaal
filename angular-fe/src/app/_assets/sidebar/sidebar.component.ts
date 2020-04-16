@@ -388,6 +388,8 @@ export class SidebarLocationComponent {
 })
 export class SidebarFactsComponent implements OnInit {
   @Input() public data: any;
+  @Input() theme: string;
+
   public entitiesData: any[];
   private graduatesToJobsValues = [
     { class: 'first with-bg', text: 'oska.more_graduates' },

@@ -11,15 +11,16 @@ import {
 } from '@storybook/addon-knobs';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     TranslateModule.forRoot(),
+    RouterTestingModule,
   ],
   providers: [
     QueryParamsService,
-    { provide: ActivatedRoute, useValue: {} },
   ],
 };
 
@@ -219,6 +220,7 @@ stories.add('Map', () => {
         [type]='typeControl'
         [options]='optionsData'
         [markers]='markers'
+        [legendLabels]="{}"
         [parameters]="parameters">
       </map>
     `,

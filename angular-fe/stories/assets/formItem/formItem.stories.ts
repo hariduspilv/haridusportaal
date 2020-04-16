@@ -17,6 +17,8 @@ import {
 import { RippleService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { AddressService } from '@app/_services/AddressService';
+import { AppPipes } from '@app/_pipes';
 
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -25,11 +27,13 @@ registerLocaleData(localeEt);
 
 const moduleMetadata = {
   imports: [
+    AppPipes,
     AssetsModule,
     TranslateModule.forRoot(),
   ],
   providers: [
     RippleService,
+    AddressService,
     { provide: LOCALE_ID, useValue:'et' },
     QueryParamsService,
     { provide: ActivatedRoute, useValue: {} },

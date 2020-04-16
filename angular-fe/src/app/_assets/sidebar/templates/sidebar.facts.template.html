@@ -4,10 +4,18 @@
     <h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
       {{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}
     </h2>
-    <span role="textbox"
-          attr.aria-label="{{ 'oska.compared_to_other_professions' | translate }}: {{numToESTtext(indicator.icon)}} kümnest">
-      {{ 'oska.compared_to_other_professions' | translate }}
-    </span>
+    <ng-container *ngIf="theme === 'field'; else otherExplanation">
+      <span role="textbox"
+        attr.aria-label="{{ 'oska.compared_to_other_fields' | translate }}: {{numToESTtext(indicator.icon)}} kümnest">
+        {{ 'oska.compared_to_other_fields' | translate }}
+      </span>
+    </ng-container>
+    <ng-template #otherExplanation>
+      <span role="textbox"
+        attr.aria-label="{{ 'oska.compared_to_other_professions' | translate }}: {{numToESTtext(indicator.icon)}} kümnest">
+        {{ 'oska.compared_to_other_professions' | translate }}
+      </span>
+    </ng-template>
     <div class="list" aria-hidden="true">
       <div class="image" *ngFor="let item of createArr(indicator.icon)"><img
         alt="inimese ikoon (värvitud)" src="/assets/img/person_filled.svg" /></div>

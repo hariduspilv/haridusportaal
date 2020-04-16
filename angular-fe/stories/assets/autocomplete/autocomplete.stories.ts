@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
+import { AddressService } from '@app/_services/AddressService';
 
 const moduleMetadata = {
   imports: [
@@ -23,6 +24,7 @@ const moduleMetadata = {
     TranslateService,
     RippleService,
     ModalService,
+    AddressService,
     QueryParamsService,
     { provide: ActivatedRoute, useValue: {} },
   ],
@@ -36,6 +38,8 @@ stories.add('Autocomplete', () => {
   return {
     moduleMetadata,
     props: {
+      general: '',
+      inads: '',
     },
     template: autocompleteHtml,
   };

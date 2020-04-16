@@ -6,6 +6,7 @@ import { TranslateModule } from '@app/_modules/translate';
 import { RippleService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import { AddressService } from '@app/_services/AddressService';
 
 const moduleMetadata = {
   imports: [
@@ -15,6 +16,7 @@ const moduleMetadata = {
   providers: [
     RippleService,
     QueryParamsService,
+    AddressService,
     { provide: ActivatedRoute, useValue: {} },
   ],
 };
