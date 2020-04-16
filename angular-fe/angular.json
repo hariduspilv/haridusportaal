@@ -35,7 +35,8 @@
               "src/redirect.php",
               "src/robots.txt",
               "src/.htaccess",
-              "src/amp-php"
+              "src/amp-php",
+              "src/stats"
             ],
             "styles": [
               "src/styles.scss"
