@@ -1,4 +1,5 @@
 <?php
+
   class URL {
     function getPrefix() {
       $server = $_SERVER['SERVER_NAME'];
@@ -7,7 +8,7 @@
         "edu.ee" => "https://api.hp.edu.ee",
         "www.edu.ee" => "https://api.hp.edu.ee",
         "test.edu.ee" => "https://apitest.hp.edu.ee",
-        "localhost" => "https://htm.wiseman.ee",
+        "htm.local" => "https://htm.wiseman.ee",
         "haridusportaal.edu.ee" => "https://api.hp.edu.ee",
         "fallback" => "https://api.hp.edu.ee"
       ];
@@ -82,11 +83,20 @@
 
     function getData() {
       $id = $this->getRequestID();
-
       $path = $this->getPrefix().'/graphql?queryId='.$id.'&variables={%22lang%22:%22ET%22,%22path%22:%22'.$this->getPath().'%22}';
       $data = json_decode(file_get_contents($path), false);
-      return $data->data->route ? $data->data->route->entity : false;
+      if (isset($data->data->route) && isset($data->data->route->entity)){
+        $output = $data->data->route->entity;
+        
+        if( isset($output->fieldPictogram) && isset($output->fieldPictogram->entity->url) ){
+          $output->picto = $output->fieldPictogram->entity->url;
+        }
+        return $output;
+      } else {
+        return false;
+      }
     }
+
   }
 
   $URL = new URL();
