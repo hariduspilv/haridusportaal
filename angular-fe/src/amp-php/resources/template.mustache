@@ -29,10 +29,17 @@
   <meta name="description" content="{{ shortDescription }}" />
   <meta property="og:description" content="{{ shortDescription }}" />
 
-  {{#image}}
-    <meta name="twitter:image" content="{{ image.derivative.url }}" />
-    <meta property="og:image" content="{{ image.derivative.url }}" />
-  {{/image}}
+  {{#picto}}
+    <meta name="twitter:image" content="{{ /amp/picto?src={{ picto }} }}" />
+    <meta property="og:image" content="{{ /amp/picto?src={{ picto }}}}" />
+  {{/picto}}
+  {{^picto}}
+    {{#image}}
+      <meta name="twitter:image" content="{{ image.derivative.url }}" />
+      <meta property="og:image" content="{{ image.derivative.url }}" />
+    {{/image}}
+  {{/picto}}
+  
 
   {{#fieldPictogram}}
     <meta name="twitter:image" content="{{ fieldPictogram.entity.url }}" />
@@ -56,11 +63,19 @@
       "@id": "{{ fullPath }}"
     },
     "headline": "{{ title }}",
-    {{#image}}
+    
+    {{#picto}}
     "image": [
-      "{{ image.derivative.url }}"
+      "/amp/picto?src={{ picto }}"
     ],
-    {{/image}}
+    {{/picto}}
+    {{^picto}}
+      {{#image}}
+      "image": [
+        "{{ image.derivative.url }}"
+      ],
+      {{/image}}
+    {{/picto}}
     {{#author}}
     "author": {
       "@type": "Person",
@@ -82,6 +97,7 @@
   </script>
 </head>
 <body>
+
   <div class="header">
     <a href="{{ fullPath }}" class="icon"><amp-img width="20" height="20" src="/assets/img/menu.svg" ></amp-img></a>
     <a href="{{ fullPath }}" class="logo">
@@ -131,6 +147,10 @@
         <div class="mediaTitle">{{ image.title }}</div>
       {{/image}}
     {{/video.0}}
+
+    {{#picto}}
+      <img class="picto" src="/amp/picto?src={{ picto }}">
+    {{/picto}}
 
     {{#description}}
       {{{ description.value }}}

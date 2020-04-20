@@ -8,7 +8,7 @@ RewriteCond %{HTTPS} on
 RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
 RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
 
-RewriteRule ^amp/(.*)$ amp-php/index.php?url=$1 [L]
+RewriteRule ^amp/(.*)$ amp-php/index.php?url=$1 [L,QSA]
 
 <FilesMatch "\.(html)$">
     <IfModule mod_expires.c>

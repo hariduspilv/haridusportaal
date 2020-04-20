@@ -44,6 +44,8 @@ body{
   height: 1.25rem;
 }
 
+
+
 .mediaTitle{
   font-size: 0.875rem;
   color:#333333;
@@ -117,6 +119,12 @@ table th{
 .block img{
   width: 100%;
   display: block;
+}
+
+.block .picto {
+  float:right;
+  width: 30%;
+  margin:0 0 1rem 1rem;
 }
 
 h1{
