@@ -14,10 +14,6 @@ const routes: Routes = [
     path: '',
     component: CertificateDetailView,
   },
-  {
-    path: ':certificateNr/:accessorCode',
-    component: CertificateDetailView,
-  },
 ];
 
 @NgModule({
