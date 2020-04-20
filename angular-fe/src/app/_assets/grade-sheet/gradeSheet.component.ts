@@ -22,13 +22,6 @@ export class GradeSheetComponent{
       this.toimetulekuOpe = true;
     }
 
-    /*if (this.document.content.studies.curriculumName ===
-      'põhikooli lihtsustatud riiklik õppekava toimetulekuõpe'
-    || this.document.content.studies.curriculumName ===
-    'põhikooli lihtsustatud riiklik õppekava hooldusõpe') {
-      this.toimetulekuOpe = true;
-    }*/
-
     this.mandatorySubjects =
       this.document.content.studySubjects.filter((subject) => {
         return subject.type === 'kohustuslik';
