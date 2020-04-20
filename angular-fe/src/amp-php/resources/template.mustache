@@ -30,22 +30,15 @@
   <meta property="og:description" content="{{ shortDescription }}" />
 
   {{#picto}}
-    <meta name="twitter:image" content="{{ /amp/picto?src={{ picto }} }}" />
-    <meta property="og:image" content="{{ /amp/picto?src={{ picto }}}}" />
+    <meta name="twitter:image" content="/amp/picto?src={{ picto }}" />
+    <meta property="og:image" content="/amp/picto?src={{ picto }}" />
   {{/picto}}
-  {{^picto}}
+  {{^picto }}
     {{#image}}
       <meta name="twitter:image" content="{{ image.derivative.url }}" />
       <meta property="og:image" content="{{ image.derivative.url }}" />
     {{/image}}
   {{/picto}}
-  
-
-  {{#fieldPictogram}}
-    <meta name="twitter:image" content="{{ fieldPictogram.entity.url }}" />
-    <meta property="og:image" content="{{ fieldPictogram.entity.url }}" />
-  {{/fieldPictogram}}
-
   
   <meta name="keywords" content="{{#tags}}{{ entity.entityLabel }}, {{/tags}}" />
   
