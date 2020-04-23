@@ -75,7 +75,7 @@ module.exports.getRequestParams = (articlePath, api) => {
           api,
           ...mapValues,
           queryId: data.request[mapValues.queryKey],
-          path: articlePath,
+          path: encodeURI(articlePath),
         });
       } else {
         resolve({});
@@ -87,11 +87,19 @@ module.exports.getRequestParams = (articlePath, api) => {
 module.exports.getData = (opts) => {
   return new Promise(async (resolve, reject) => {
     let url = `${opts.api}/graphql?queryId=${opts.queryId}:1&variables={%22lang%22:%22ET%22,%22path%22:%22${opts.path}%22}`;
-    url = decodeURI(url);
-    request.get(url, (err, response) => {
+
+    console.log(url);
+    request.get({
+      url,
+      headers: {
+        'User-Agent': 'request',
+        'content-type': 'application/json',
+      },
+      json: true,
+    }, (err, response) => {
       let data = {};
       try {
-        data = JSON.parse(response.body).data.route || {};
+        data = response.body.data.route || {};
       } catch (err) {}
       
       resolve(data);
