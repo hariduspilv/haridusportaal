@@ -10,7 +10,6 @@ import { AppPipes } from '@app/_pipes';
 import { OskaFieldMapComponent } from './oskaFieldMap.component';
 import { AgmCoreModule } from '@agm/core';
 import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
-import { RootScopeService } from '@app/_services/RootScopeService';
 
 const routes: Routes = [
   {
@@ -37,7 +36,6 @@ const routes: Routes = [
     OskaFieldMapComponent,
   ],
   providers: [
-    RootScopeService,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })

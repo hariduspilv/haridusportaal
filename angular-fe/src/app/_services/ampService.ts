@@ -1,4 +1,4 @@
-import { Injectable, Optional, RendererFactory2, ViewEncapsulation, Inject } from '@angular/core';
+import { Injectable, RendererFactory2, ViewEncapsulation, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 @Injectable()
@@ -7,9 +7,13 @@ export class AmpService {
     private rendererFactory: RendererFactory2,
     @Inject(DOCUMENT) private document,
   ) {
-
   }
 
+  /**
+   * Adds AMP tag to head
+   * @param tag - LinkDefinition type
+   * @param [forceCreation] - -f the creation of the tag
+   */
   addTag(tag: LinkDefinition, forceCreation?: boolean) {
 
     try {
@@ -37,10 +41,13 @@ export class AmpService {
       renderer.appendChild(head, link);
 
     } catch (e) {
-      console.error('Error within linkService : ', e);
     }
   }
 
+  /**
+   * Removes AMP tag from HEAD
+   * @param attrSelector - attribute to search the AMP tag by
+   */
   removeTag(attrSelector: string) {
     if (attrSelector) {
       try {
@@ -59,7 +66,6 @@ export class AmpService {
           renderer.removeChild(head, link);
         }
       } catch (e) {
-        console.log(`Error while removing tag ${e.message}`);
       }
     }
   }

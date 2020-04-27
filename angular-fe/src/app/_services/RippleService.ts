@@ -3,6 +3,11 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class RippleService {
 
+  /**
+   * Ripple animation
+   * @param $event - click event
+   * @param [theme] - light/dark. Color of ripple effect
+   */
   animate($event, theme:string = 'light') {
     const target = $event.originalTarget || $event.target;
 

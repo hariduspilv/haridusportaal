@@ -53,6 +53,12 @@ export class SettingsService {
   public compareObservable = new Subject<any>();
   public activeLang: string = 'ET';
 
+  /**
+   * Finds an entity from objects
+   * @param obj - key:value object
+   * @param path - eq. name or name.name2 or name.name2.name3
+   * @returns - value of given path
+   */
   private findObj(obj, path) {
     return path
     .replace(/\[|\]\.?/g, '.')
@@ -61,6 +67,12 @@ export class SettingsService {
     .reduce((acc, val) => acc && acc[val], obj);
   }
 
+  /**
+   * Compiles GraphQL query string from query name and variables
+   * @param [name] - query name. Found in variables API request
+   * @param [variables] - variables object. Usually consists of path, lang etc.
+   * @returns - url string to use in http request
+   */
   public query(name: string = '', variables: object = {}) {
     const requestName = this.get(`request.${name}`);
     let path = `${this.url}/graphql?queryName=${name}&queryId=${requestName}`;
@@ -70,10 +82,19 @@ export class SettingsService {
     return path;
   }
 
+  /**
+   * Get query ID
+   * @param [name] - query name found in variables API request
+   * @returns - query id string
+   */
   public queryID(name: string = '') {
     return this.get(`request.${name}`);
   }
 
+  /**
+   * @param [key] - query name found in variables API request
+   * @returns - query string with appended :1
+   */
   public get(key:string = '') {
     this.findObj(this.data, key);
     let output = this.findObj(this.data, key) || undefined;
@@ -83,6 +104,10 @@ export class SettingsService {
     return output;
   }
 
+  /**
+   * Loads settings service on app init
+   * @returns - boolean
+   */
   public load() {
     return new Promise((resolve, reject) => {
       const path = `${this.url}/variables?_format=json&lang=et`;

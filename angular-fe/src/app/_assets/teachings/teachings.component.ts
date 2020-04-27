@@ -3,7 +3,6 @@ import { AlertsService } from '@app/_services';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { RootScopeService } from '@app/_services/RootScopeService';
 import { SettingsService } from '@app/_services/SettingsService';
 
 @Component({
@@ -102,7 +101,7 @@ export class TeachingsComponent implements OnInit {
                       return elem;
                     });
                   } catch (err) {
-                    console.log(err);
+
                   }
                   this.content.kvalifikatsioon
                     .sort((a, b) => b.aasta - a.aasta)

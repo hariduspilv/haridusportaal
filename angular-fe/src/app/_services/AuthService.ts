@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   Router,
@@ -26,18 +26,37 @@ export class AuthService implements CanActivate {
     this.isAuthenticated.next(this.isLoggedIn());
   }
 
+  /**
+   * Determines whether if the user is authenticated
+   */
   public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
+  /**
+   * Determines whether the user has EHIS token
+   */
   public hasEhisToken: BehaviorSubject<boolean> = new BehaviorSubject(false);
   public user: any = {};
 
+  /**
+   * Gets user data
+   */
   get userData() {
     return this.user;
   }
 
+  /**
+   * Sets user data
+   * User data is decoded from JWT token
+   */
   set userData(data) {
     this.user = data;
   }
 
+  /**
+   * Logins auth service
+   * @param data - Username, Password
+   * @returns http Observable
+   */
   public login(data: any) {
     return this.http
       .post(`${this.settings.url}/api/v1/token?_format=json`, data)
@@ -62,6 +81,10 @@ export class AuthService implements CanActivate {
     }
   }
 
+  /**
+   * Tests new JSON web token
+   * @param token - jwt token
+   */
   public testNewJWT(token) {
     const data = {
       jwt: token,
@@ -74,17 +97,22 @@ export class AuthService implements CanActivate {
           this.hasEhisToken.next(true);
           this.isAuthenticated.next(true);
         }
-        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect') || sessionStorage.getItem('redirectUrl');
+        const redirectUrl = this.route.snapshot.queryParamMap.get('redirect') ||
+          sessionStorage.getItem('redirectUrl');
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
       },
       (err) => {
         const redirectUrl = this.route.snapshot.queryParamMap.get('redirect');
         this.router.navigateByUrl(redirectUrl || '/töölaud', { replaceUrl: !!(redirectUrl) });
-      }
+      },
     );
   }
 
-  // this just used for the refreshuser part
+  /**
+   * Gets ehis token
+   * Used to refresh users token
+   * @param token - JWT token
+   */
   public getEhisToken(token) {
     this.http
     .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, { jwt: token })
@@ -96,6 +124,9 @@ export class AuthService implements CanActivate {
     });
   }
 
+  /**
+   * Logs user out of the page and navigates the user to homepage
+   */
   public logout() {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('redirectUrl');
@@ -105,6 +136,10 @@ export class AuthService implements CanActivate {
     this.router.navigateByUrl('/');
   }
 
+  /**
+   * Determines whether the user is logged in
+   * @returns boolean
+   */
   public isLoggedIn() {
     if (!sessionStorage.getItem('token')) {
       if (this.isAuthenticated.getValue()) {
@@ -126,6 +161,11 @@ export class AuthService implements CanActivate {
     return true;
   }
 
+  /**
+   * Refreshs user
+   * Updates users storage and plumbrID
+   * @param [newToken] - JWT token
+   */
   public refreshUser(newToken:any = false) {
     if (newToken) {
       sessionStorage.setItem('token', newToken);
@@ -141,6 +181,11 @@ export class AuthService implements CanActivate {
     }*/
   }
 
+  /**
+   * Decodes token
+   * @param token - JWT token
+   * @returns - decoded token
+   */
   public decodeToken(token) {
     const payload = JSON.parse(
       decodeURIComponent(
@@ -161,6 +206,10 @@ export class AuthService implements CanActivate {
     return false;
   }
 
+  /**
+   * JWT expiration
+   * @returns Time when the token expires
+   */
   public expireTime() {
     const token = sessionStorage.getItem('token');
     const tokenPayload = token ? this.decodeToken(token) : {};
@@ -170,6 +219,10 @@ export class AuthService implements CanActivate {
     return false;
   }
 
+  /**
+   * Auth guard
+   * @returns activate
+   */
   public canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {

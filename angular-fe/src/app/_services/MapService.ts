@@ -29,6 +29,13 @@ export class MapService {
     fontSize: '13px',
     fontWeight: 'regular',
   };
+
+  /**
+   * Generates heat map
+   * @param type - type of map: investment, oskaFields
+   * @param data - Map data from API
+   * @returns - parsed map data
+   */
   generateHeatMap (type, data) {
     let maxSum = 0;
     const sumArray = [];
@@ -75,10 +82,18 @@ export class MapService {
         this.fieldMaxRanges = fieldSums;
         return sumArray;
       default:
-        console.error('Error generating heatmap (MapService.ts).');
         return null;
     }
   }
+
+  /**
+   * Maps polygon data
+   * @param type - polygon map type: investment, oskaFields
+   * @param polygonData - data from API
+   * @param requestData - data from API
+   * @param heatmap - heatmap from MapService
+   * @returns - parsed data
+   */
   mapPolygonData (type, polygonData, requestData, heatmap) {
     switch (type) {
       case 'investment':
@@ -147,6 +162,14 @@ export class MapService {
     }
     return polygonData;
   }
+
+  /**
+   * Maps polygon labels
+   * @param polygons - polygon data from MapService
+   * @param extraLabels - should add extra labels?
+   * @param polygonType - investment or empty
+   * @returns - parsed polygon data
+   */
   mapPolygonLabels (polygons, extraLabels, polygonType) {
     if (polygons && polygons['features']) {
       const extraLabelArr = [];
@@ -186,6 +209,12 @@ export class MapService {
       return [...polygonMarkers, ...extraLabelArr];
     }
   }
+
+  /**
+   * Polygons styles
+   * @param feature - polygon style data from API
+   * @returns  - changed colors and values
+   */
   polygonStyles(feature) {
     let color = '#cfcfcf';
     const keys = Object.keys(feature).join(',').split(',');
@@ -205,6 +234,11 @@ export class MapService {
       clickable: true,
     };
   }
+  /**
+   * Layers click event
+   * @param $event - event handler
+   * @param type - investment
+   */
   layerClick($event, type) {
     switch (type) {
       case 'investment':
@@ -227,6 +261,10 @@ export class MapService {
     }
   }
 
+  /**
+   * Sets map viewport bounds
+   * @param markers - Array of markers objects
+   */
   setBounds(markers: Object[]) {
     let hasBounds: boolean = false;
     if (markers) {
@@ -242,6 +280,9 @@ export class MapService {
     }
   }
 
+  /**
+   * Resets map center position
+   */
   resetCenter() {
     if (this.activeMap) {
       this.activeMap.setCenter(conf.defaultMapOptions.center);
@@ -249,6 +290,11 @@ export class MapService {
     }
   }
 
+  /**
+   * Groups investmend deadline years
+   * @param data - data from API
+   * @returns - grouped data as Array
+   */
   groupYears(data) {
     const output = [];
 
@@ -264,6 +310,11 @@ export class MapService {
     return output;
   }
 
+  /**
+   * Parses info window marker data
+   * @param data - API data array
+   * @returns - parsed info window marker data
+   */
   parseInfoWindowMarkerData(data: any): any {
     for (const i in data) {
       const current = data[i];

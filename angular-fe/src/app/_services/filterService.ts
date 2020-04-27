@@ -34,11 +34,19 @@ export class FiltersService {
 
   }
 
+  /**
+   * Check if field is valid or not
+   * @param id - field ID
+   * @returns boolean
+   */
   checkValidity(id) {
     const classes = document.getElementById(id).classList;
     return classes.contains('ng-invalid') && !classes.contains('ng-untouched');
   }
 
+  /**
+   * Sets min and max dates
+   */
   dateminmax() {
     let minDate = this.filterFormItems.dateFrom;
     let maxDate = this.filterFormItems.dateTo;
@@ -55,6 +63,11 @@ export class FiltersService {
 
   }
 
+  /**
+   * Parse filter date
+   * @param dateString - VALID string of date
+   * @returns parsed date eq. 20.02.2020
+   */
   filterParseDate(dateString: string) {
     const tmpDate = new Date(dateString);
     const year = tmpDate.getFullYear();
@@ -72,6 +85,10 @@ export class FiltersService {
     return `${day}-${month}-${year}`;
   }
 
+  /**
+   * Parse filter values
+   * @param params - filter params object
+   */
   filterRetrieveParams(params:object) {
 
     for (const i in params) {
@@ -92,9 +109,18 @@ export class FiltersService {
     }
   }
 
+  /**
+   * Clears filter field
+   * @param name - string
+   */
   clearField(name:any) {
     this.filterFormItems[name] = '';
   }
+
+  /**
+   * Submit filters
+   * @param [$event]
+   */
   filterSubmit($event:any = false) {
 
   }

@@ -11,6 +11,11 @@ interface UniformType {
 export class SidebarService {
   private types: UniformType = uniformTypes;
 
+  /**
+   * Maps uniform keys
+   * @param data - data from API
+   * @returns - map data for easier templating
+   */
   public mapUniformKeys(data) {
     const uniforms: string[] = [
       'prosCons',

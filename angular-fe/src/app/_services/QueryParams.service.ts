@@ -1,12 +1,18 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { multiSelectFields } from '@app/_assets/searchResults/searchResults.helper';
+
 @Injectable()
 export class QueryParamsService {
   constructor(
     private route: ActivatedRoute,
   ) {}
 
+  /**
+   * Get query parameter values
+   * @param [key] - query param key
+   * @param [type] - obsolete
+   * @returns - query param value OR full array of queryParams with values when key is empty
+   */
   public getValues(key: string = undefined, type: string = '') {
     const tmpParams = { ... this.route.snapshot.queryParams } || {};
     Object.keys(tmpParams).forEach((item) => {

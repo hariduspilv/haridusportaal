@@ -1,13 +1,9 @@
-import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Subject } from 'rxjs';
+import { Injectable } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class CompareService {
 
-  constructor(
-    private http: HttpClient,
-  ) {}
+  constructor() {}
 
   // StudyProgrammes
   public existingFields: String[] = [];
@@ -50,6 +46,9 @@ export class CompareService {
     { icon: 'arrow-down', class: 'first', text: 'oska.big_decline' },
   ];
 
+  /**
+   * Resets all compare values
+   */
   resetValues() {
     this.oskaFields = {};
     this.finalFields = [];
@@ -64,6 +63,12 @@ export class CompareService {
     this.competitionLabel = [];
   }
 
+  /**
+   * Formats comparable data
+   * @param data - all comparable data
+   * @param compare - single entity
+   * @param key - compare category
+   */
   formatData(data, compare, key) {
     switch (key) {
       case 'oskaProfessionsComparison':
@@ -233,6 +238,10 @@ export class CompareService {
         break;
     }
   }
+  /**
+   * Determines whether the string is empty
+   * @returns boolean
+   */
   isEmptyString(element, index, array) {
     return element === '';
   }
