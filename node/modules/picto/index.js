@@ -1,9 +1,10 @@
 const Jimp = require('jimp');
 const fs = require('fs');
 const request = require('request');
-const { convert } = require('convert-svg-to-png');
+const sharp = require('sharp');
 const path = require('path');
 const botCheck = require('../botCheck');
+const cheerio = require('cheerio');
 
 const imageSize = 756;
 
@@ -35,11 +36,15 @@ const getSvgFile = async(url) => {
     if (!url){resolve(false);}
     const file = request.get(url, async (err, file) => {
       const body = file.body.replace(/#.+?;/igm, '#2e3374');
-      const svg = await convert(body, {
-        height: imageSize,
+      const $ = cheerio.load(body);
+      $('svg').attr({
         width: imageSize,
+        height: imageSize,
       });
-      const img = Jimp.read(svg);
+      const buffer = Buffer.from($('body').html());
+      const svg = await sharp(buffer).toBuffer();
+
+      const img = await Jimp.read(svg);
       resolve(img);
     });
   });
@@ -83,8 +88,8 @@ const generatePNG = async (req, res) => {
 
 module.exports.serve = async (req, res) => {
   const exists = await checkFileExistance(req.query.url, req);
-  //generatePNG(req,res,);
-  exists ? servePNG(req, res) : generatePNG(req, res);
+  generatePNG(req,res,);
+  //exists ? servePNG(req, res) : generatePNG(req, res);
 }
 
 /*
