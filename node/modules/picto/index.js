@@ -83,7 +83,7 @@ const generatePNG = async (req, res) => {
 
 module.exports.serve = async (req, res) => {
   const exists = await checkFileExistance(req.query.url, req);
-  generatePNG(req,res,);
+  //generatePNG(req,res,);
   exists ? servePNG(req, res) : generatePNG(req, res);
 }
 
