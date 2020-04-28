@@ -60,7 +60,7 @@ const compileImage = async (svg, url, req) => {
     png = await png.composite(svg, 0, 0);
 
     if (botCheck.isBot(req)) {
-      const extraHeight = (imageSize/2);
+      const extraHeight = imageSize;
       const artboard = await new Jimp(imageSize + extraHeight, imageSize, 'white');
       png = await artboard.composite(png, extraHeight / 2, 0);
     }
@@ -88,8 +88,8 @@ const generatePNG = async (req, res) => {
 
 module.exports.serve = async (req, res) => {
   const exists = await checkFileExistance(req.query.url, req);
-  generatePNG(req,res,);
-  //exists ? servePNG(req, res) : generatePNG(req, res);
+  //generatePNG(req,res,);
+  exists ? servePNG(req, res) : generatePNG(req, res);
 }
 
 /*
