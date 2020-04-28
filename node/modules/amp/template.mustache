@@ -27,9 +27,9 @@
   <meta property="og:description" content="{{ shortDescription }}" />
 
   {{#picto}}
-    <meta name="twitter:image" content="{{{ fullPath }}}" />
-    <meta property="og:image" content="{{{ fullPath }}}" />
-    <meta name="twitter:card" content="{{{ fullPath }}}" />
+    <meta name="twitter:image" content="{{{ picto }}}" />
+    <meta property="og:image" content="{{{ picto }}}" />
+    <meta name="twitter:card" content="{{{ picto }}}" />
   {{/picto}}
   {{^picto }}
     {{#image}}
@@ -58,7 +58,7 @@
     
     {{#picto}}
     "image": [
-      "/picto?url={{ picto }}"
+      "{{{ picto }}}"
     ],
     {{/picto}}
     {{^picto}}
@@ -118,7 +118,7 @@
     {{/shortDescription}}
 
     {{#picto}}
-      <img class="picto" src="/picto?url={{ picto }}">
+      <img class="picto" src="{{{ picto }}}">
     {{/picto}}
     {{^picto}}
       {{#video.0}}
