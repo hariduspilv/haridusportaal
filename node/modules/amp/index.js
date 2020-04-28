@@ -101,6 +101,12 @@ module.exports.getData = (opts) => {
   });
 }
 
+module.exports.getFullPath = (req) => {
+  return new Promise(async (resolve, reject) => {
+    resolve(req.protocol + '://' + req.get('host'));
+  });
+}
+
 module.exports.serve = async (req, res) => {
   const articlePath = req.params[0];
   const apiPrefix = await this.getPrefix(req.get('host'));
@@ -118,12 +124,18 @@ module.exports.serve = async (req, res) => {
   const styles = await fs.readFileSync(path.resolve('./modules/amp/', 'styles.css'), 'utf8');
   const template = await fs.readFileSync(path.resolve('./modules/amp/', 'template.mustache'), 'utf8');
 
+
   const picto = parsedData.fieldPictogram && parsedData.fieldPictogram.entity
     ? parsedData.fieldPictogram.entity.url : false;
+
+  let fullPath = await this.getFullPath(req);
+  fullPath = fullPath + '/picto?url=' + picto;
+
   const output = Mustache.render(template, {
     ...parsedData,
     styles,
     picto,
+    fullPath,
     pageTitle: requestOptions.pageTitle,
   });
 
