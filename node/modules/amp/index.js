@@ -86,10 +86,11 @@ module.exports.getRequestParams = (articlePath, api) => {
 
 module.exports.getData = (opts) => {
   return new Promise(async (resolve, reject) => {
-    let url = `${opts.api}/graphql?queryId=${opts.queryId}:1&variables={%22lang%22:%22ET%22,%22path%22:%22${opts.path}%22}`;
-    url = decodeURI(url);
+    let url = `${opts.api}/graphql?queryId=${opts.queryId}:1&variables={%22lang%22:%22ET%22,%22path%22:%22${encodeURI(opts.path)}%22}`;
 
+    console.log(url);
     request.get(url, (err, response) => {
+      console.log(response.body);
       let data = {};
       try {
         data = JSON.parse(response.body).data.route || {};
