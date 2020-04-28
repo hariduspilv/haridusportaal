@@ -88,11 +88,13 @@ module.exports.getData = (opts) => {
   return new Promise(async (resolve, reject) => {
     let url = `${opts.api}/graphql?queryId=${opts.queryId}:1&variables={%22lang%22:%22ET%22,%22path%22:%22${opts.path}%22}`;
     url = decodeURI(url);
+
     request.get(url, (err, response) => {
       let data = {};
       try {
         data = JSON.parse(response.body).data.route || {};
-      } catch (err) {}
+      } catch (err) {
+      }
       
       resolve(data);
     });

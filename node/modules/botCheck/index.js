@@ -1,7 +1,7 @@
 const path = require('path');
 const amp = require(path.resolve('./', 'modules/amp'));
 
-module.exports = (req, res, next) => {
+module.exports.isBot = (req) => {
   var isBotTest = false;
   var botReq = "";
   var botID= ""; //Just so we know why we think it is a bot
@@ -30,12 +30,13 @@ module.exports = (req, res, next) => {
       }
   }
 
+  return isBotTest;
+}
 
-  if (isBotTest == true) {
-    // bot
+module.exports.redirect = (req, res, next, ) => {
+  if (this.isBot(req)) {
     amp.serve(req,res);
   } else {
-    // no bot
     return next();
   }
 

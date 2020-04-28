@@ -31,7 +31,7 @@ app.use('/', express.static(`${__dirname}/dist`, {
 app.get('/amp/*', amp.serve);
 app.get('/picto', picto.serve);
 
-app.get('*', botCheck, (req, res, next) => {
+app.get('*', botCheck.redirect, (req, res, next) => {
   res.sendFile(`${__dirname}/dist/index.html`);
 });
 
