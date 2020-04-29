@@ -925,6 +925,10 @@ xjson:
     translation_type: textarea
     et: Katkestamine
     en: ''
+  enter_valid_idcode:
+    translation_type: textarea
+    et: 'Sisestage korrektne isikukood'
+    en: 'Sisestage korrektne isikukood'
 article:
   label:
     translation_type: textarea
@@ -3234,7 +3238,7 @@ abitekst:
       format: custom_editor
   sinu_id_tunnistused:
     translation_type: textarea
-    et: Tõlketekst
+    et: 'Siin näed sinuga jagatud e-tunnistusi.'
     en: MISSING
   ligipääsukoodiga_tunnistused:
     translation_type: textarea
@@ -3679,7 +3683,7 @@ home:
     en: 'Õpetajad loovad<br />homse Eesti'
   career_slogan_description:
     translation_type: textarea
-    et: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta.'
+    et: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta. Pikem tekst kas läheb logo taha? Haridus- ja Teadusministeerium'
     en: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta.'
   career_slogan:
     translation_type: textarea
