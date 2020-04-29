@@ -486,6 +486,12 @@
       }
       sidebar-finaldocument-access {
 
+        #finalDocument-invalidAccesses {
+          h1 {
+            margin-bottom: 1.5rem;
+          }
+        }
+
         .tooltip-inner {
           max-width: 200px;
         }
@@ -559,6 +565,10 @@
             word-break: break-word;
             max-width: 20rem;
           }
+        }
+
+        h1 {
+          margin-bottom: 1.5rem;
         }
       }
     }
