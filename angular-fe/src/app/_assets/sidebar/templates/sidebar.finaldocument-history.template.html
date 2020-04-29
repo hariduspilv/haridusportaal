@@ -8,8 +8,9 @@
   </li>
 </ul>
 
-<htm-modal id="finalDocument-actionHistory" modalTitle="Väljaandmise Ajalugu" [bottomAction]="true" wide>
+<htm-modal id="finalDocument-actionHistory" [modalTitle]="'finalDocumentHistory' | translate" [bottomAction]="true" wide>
   <ng-template>
+    <h1>{{'finaldocuments.action_history' | translate}}</h1>
     <ng-container *ngIf="actionHistory.length > 0; else noResults">
       <scrollableContent scrollParentClass="modal__block">
         <table htm-table>
@@ -38,8 +39,9 @@
   </ng-template>
 </htm-modal>
 
-<htm-modal id="finalDocument-issueHistory" modalTitle="Vaatamise ajalugu" [bottomAction]="true" wide>
+<htm-modal id="finalDocument-issueHistory" [modalTitle]="'finalDocumentHistory' | translate" [bottomAction]="true" wide>
   <ng-template>
+    <h1>{{'finaldocuments.issue_history' | translate}}</h1>
     <ng-container *ngIf="issuingHistory.length > 0; else noResults">
       <scrollableContent scrollParentClass="modal__block">
         <table htm-table>
