@@ -11,10 +11,6 @@ export class DummyViewComponent {}
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./_views/frontpageView').then(m => m.FrontpageViewModule),
-  },
-  {
-    path: '',
     loadChildren: () => import('./_views/homePageView').then(m => m.HomePageViewModule),
   },
   {

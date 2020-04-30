@@ -24,22 +24,26 @@ import { NgPipesModule } from 'ngx-pipes';
 
 const routes: Routes = [
   {
-    path: 'home',
+    path: '',
     component: HomePageViewComponent,
   },
   {
-    path: 'homeOska',
+    path: 'opetaja',
     component: HomePageViewComponent,
     data: {
       theme: 'teachers',
     },
   },
   {
-    path: 'homeCareer',
+    path: 'karjäär',
     component: HomePageViewComponent,
     data: {
       theme: 'career',
     },
+  },
+  {
+    path: 'oska',
+    redirectTo: 'karjäär',
   },
 ];
 
