@@ -5,7 +5,6 @@ import FieldVaryService from '@app/_services/FieldVaryService';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Subscription } from 'rxjs';
-import { UserService } from '@app/_services/userService';
 import { AuthService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 

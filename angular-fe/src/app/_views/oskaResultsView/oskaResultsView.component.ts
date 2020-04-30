@@ -7,7 +7,6 @@ import { FiltersService } from '@app/_services/filterService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { Location } from '@angular/common';
 
-
 @Component({
   selector: 'oskaResultsTable',
   templateUrl: 'oskaResultsView.template.html',
@@ -49,7 +48,6 @@ export class OskaResultsView extends FiltersService implements OnInit {
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
     // private tableService: TableService,
-    // private rootScope: RootScopeService,
     public route: ActivatedRoute,
     public settingsService: SettingsService,
     public router: Router,
@@ -63,7 +61,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
     if (this.tableData) {
       if (!this.params.field &&
         !this.params.responsible &&
-        !this.params.proposalStatus ) {
+        !this.params.proposalStatus) {
         this.filteredTableData = this.tableData;
       }
       let filteredData = this.tableData;
@@ -93,12 +91,14 @@ export class OskaResultsView extends FiltersService implements OnInit {
     this.field = field;
     if (field === 'field') {
       this.filteredTableData = this.filteredTableData.sort((a, b) => {
+        // tslint:disable-next-line: max-line-length
         const aField = a['oskaField'] && a['oskaField'][0] ? a['oskaField'][0]['entity']['title'].toLowerCase() : '';
+        // tslint:disable-next-line: max-line-length
         const bField = b['oskaField'] && b['oskaField'][0] ? b['oskaField'][0]['entity']['title'].toLowerCase() : '';
         if (aField < bField) { return this.modifier ? -1 : 1; }
         if (aField > bField) { return this.modifier ? 1 : -1; }
         return 0;
-      })
+      });
     } else {
       this.filteredTableData = this.filteredTableData.sort((a, b) => {
         const aField = a[field] ? a[field].toLowerCase() : '';
@@ -106,7 +106,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
         if (aField < bField) { return this.modifier ? -1 : 1; }
         if (aField > bField) { return this.modifier ? 1 : -1; }
         return 0;
-      })
+      });
     }
   }
 
@@ -124,6 +124,7 @@ export class OskaResultsView extends FiltersService implements OnInit {
 
   removeAllRedundantClasses() {
     const elems = document.querySelectorAll('[class*="elem-"]');
+    // tslint:disable-next-line: no-increment-decrement
     for (let i = 0; i < elems.length; i++) {
       Array.from(elems[i].classList).forEach((className: any) => {
         if (className.startsWith('elem')) {
@@ -191,7 +192,6 @@ export class OskaResultsView extends FiltersService implements OnInit {
         subscription.unsubscribe();
       },
       (err) => {
-        console.log(err);
         this.error = true;
       });
   }
@@ -200,10 +200,12 @@ export class OskaResultsView extends FiltersService implements OnInit {
     // this doesnt do anything in live?
     // if (sortedBy) {
     //   let modifierValue = this.modifier ? 'sort.descending' : 'sort.ascending';
+    // tslint:disable-next-line: max-line-length
     //   let sortLabel = `${this.translate.get(sortedBy)['value']} - ${this.translate.get(modifierValue)['value']}`;
     //   this.alertText = `${this.translate.get('button.sorted_by')['value']} ${sortLabel}`;
     // } else {
     //   let commentValue = this.commentVisible ? 'button.column_opened' : 'button.column_closed';
+    // tslint:disable-next-line: max-line-length
     //   this.alertText = `${this.translate.get('oska.table_experts_comment')['value']} ${this.translate.get(commentValue)['value']}`;
     // }
   }

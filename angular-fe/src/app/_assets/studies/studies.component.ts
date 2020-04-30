@@ -32,7 +32,6 @@ export class StudiesComponent implements OnInit {
     private alertsService: AlertsService,
     private translate: TranslateService,
     private cdr: ChangeDetectorRef,
-    // private rootScope: RootScopeService,
   ) { }
 
   ngOnInit() {

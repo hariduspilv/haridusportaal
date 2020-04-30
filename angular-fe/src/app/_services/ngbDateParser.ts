@@ -4,18 +4,38 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
 
+  /**
+   * Change input value to Integer
+   * @param value - string
+   * @returns - parsed value as integer
+   */
   toInteger(value: any) {
     return parseInt(value, 0);
   }
 
+  /**
+   * Check if value is number
+   * @param value - any
+   * @returns - boolean
+   */
   isNumber(value: any) {
     return typeof value === 'number';
   }
 
+  /**
+   * Add 0 in front of number IF the number is below 10
+   * @param value - number
+   * @returns - string;
+   */
   padNumber(value: number) {
     return value < 10 ? `0${value}` : value;
   }
 
+  /**
+   * Parses date string to object
+   * @param value - string
+   * @returns - date object { day, month, year }
+   */
   parse(value: string): NgbDateStruct {
     let output = null;
     if (value) {
@@ -44,6 +64,11 @@ export class NgbDateCustomParserFormatter extends NgbDateParserFormatter {
     return output;
   }
 
+  /**
+   * Format date object to string
+   * @param date - date object {day, month, year}
+   * @returns - date string dd.mm.yyyy
+   */
   format(date: NgbDateStruct): string {
     const output = date ? `
       ${this.isNumber(date.day) ? this.padNumber(date.day) : ''}.

@@ -15,6 +15,17 @@ export class AddressService {
   constructor(private http: HttpClient) {
   }
 
+  /**
+   * InAddress autocomplete service
+   * @param {string} searchText - Passed to inAds API
+   * @param {number} debounceTime - Keystrokes delay before making a request
+   * @param {boolean} selectOnMatch - Choose option if searchText matches any of the results
+   * @param {number} limit - How many results to show
+   * @param {number} ihist - 0 = dont search
+   * historical addresses. Any other year ex 1988 means that
+   * API retrieves results starting from that year
+   * @param {number} apartment - Apartment number
+  */
   public addressAutocomplete(
     searchText,
     debounceTime,
@@ -65,6 +76,10 @@ export class AddressService {
 
   }
 
+  /**
+   * Validate human readable address against API results
+   * @param {string} humanReadable - Inputs address string
+   */
   public addressAutocompleteSelectionValidation(humanReadable) {
     if (this.resultSet === undefined) return false;
     const match = this.resultSet.find((address) => {
@@ -78,12 +93,20 @@ export class AddressService {
     }
   }
 
+  /**
+   * Validate fields value against API
+   * @param {object} element - One object from inAds API
+   */
   public validateInAdsField(element) {
     if (!this.addressFieldFocus) {
       this.addressAutocompleteSelectionValidation(element);
     }
   }
 
+  /**
+   * Format inAds value to our own structure
+   * @param {object} address -  Chosen inAds object
+   */
   public inAdsFormatValue(address) {
     if (address.adsId) return address;
 

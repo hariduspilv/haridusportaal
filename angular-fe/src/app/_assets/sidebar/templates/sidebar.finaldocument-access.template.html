@@ -49,20 +49,22 @@
 	</button>
 </div>
 
+<!--[modalTitle]="accessAction === 'edit' ? ('finaldocuments.modify_access' | translate) : ('finaldocuments.add_access' | translate)"-->
+
 <htm-modal id="finalDocument-addAccess"
-	[modalTitle]="accessAction === 'edit' ? ('finaldocuments.modify_access' | translate) : ('finaldocuments.add_access' | translate)"
+	[modalTitle]="'finalDocumentAccess' | translate"
 	[bottomAction]="false" wide>
 	<ng-template>
 		<form [formGroup]="addAccessForm">
-			<h2>
+			<h1>
 				{{(accessAction === 'add') ? ('finaldocuments.add_access' | translate) : ('finaldocuments.modify_access' | translate)}}
-			</h2>
+			</h1>
 			<p class="required-info">Tärniga (*) tähistatud väljad on kohustuslikud.<p>
 			<ng-container *ngIf="accessAction === 'add'">
 				<p>{{'finaldocuments.choose_access_type' | translate}}:</p>
 				<formItem type="radio" formControlName="type" [options]="addAccessOptions.type" name="type"></formItem>
 			</ng-container>
-			<div class="border-top" *ngIf="addAccessForm.value.type">
+			<div [class.border-top]="accessAction === 'add'" *ngIf="addAccessForm.value.type">
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
 					<h3>{{'finaldocuments.access_with_email' | translate}}</h3>
 					<p>{{'finaldocuments.insert_email' | translate}}</p>
@@ -133,8 +135,9 @@
 	</ng-template>
 </htm-modal>
 
-<htm-modal id="finalDocument-invalidAccesses" modalTitle="Kehtetud ligipääsud" [bottomAction]="true">
+<htm-modal id="finalDocument-invalidAccesses" [modalTitle]="'finalDocumentAccess' | translate" [bottomAction]="true">
 	<ng-template>
+		<h1>{{'finaldocuments.inactive_accesses' | translate}}</h1>
 		<scrollableContent *ngIf="inactiveAccesses.length > 0; else noResults">
 			<table htm-table>
 				<tr>
@@ -166,7 +169,7 @@
 	</ng-template>
 </htm-modal>
 
-<htm-modal modalTitle="Ligipääs" [bottomAction]="false" id="finalDocument-confirmInvalidation">
+<htm-modal [modalTitle]="'finalDocumentAccess' | translate" [bottomAction]="false" id="finalDocument-confirmInvalidation">
 	<ng-template>
 		
 		<h1 *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ID_CODE'">

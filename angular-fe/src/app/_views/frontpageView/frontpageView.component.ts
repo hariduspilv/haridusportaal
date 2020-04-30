@@ -56,14 +56,13 @@ export class FrontpageViewComponent implements OnInit {
   public fieldTopicLabels: Object = {
     title: 'fieldTopicTitle',
     description: 'fieldTopicText',
-    url: 'fieldTopicLink'
+    url: 'fieldTopicLink',
   };
   public fieldTopicImage: Object = {
     standard: '/assets/img/frontpage/frontpage-button-default.svg',
     hover: '/assets/img/frontpage/frontpage-button-hover.svg',
   };
   constructor (
-    // private rootScope:RootScopeService,
     // private metaTags: MetaTagsService,
     private translate: TranslateService,
     private router: Router,
@@ -119,14 +118,14 @@ export class FrontpageViewComponent implements OnInit {
               author: this.generalData[0]
                 .fieldSupernews[0].entity.fieldSupernewsNode.entity.fieldAuthor,
               date: this.generalData[0].fieldSupernews[0].entity.fieldSupernewsNode.entity.created,
-            }
+            };
           }
           if (this.superNewsShown['second']) {
             this.superNewsSubtext[1] = {
               author: this.generalData[0]
                 .fieldSupernews[1].entity.fieldSupernewsNode.entity.fieldAuthor,
               date: this.generalData[0].fieldSupernews[1].entity.fieldSupernewsNode.entity.created,
-            }
+            };
           }
         }
       },

@@ -5,7 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 
 export class CapitalizePipe implements PipeTransform {
-
   transform(value: any): any {
     let output;
     if (typeof value !== 'string') {
@@ -16,5 +15,4 @@ export class CapitalizePipe implements PipeTransform {
     return output;
 
   }
-
 }

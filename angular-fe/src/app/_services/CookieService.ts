@@ -9,12 +9,19 @@ export class CookieService {
     private alertsService: AlertsService,
   ) {}
 
+  /**
+   * Agree to terms and services and clear cookie notification
+   */
   agreeTerms() {
     this.authorize();
     // this.showCookieNotification = false;
     this.alertsService.clear('cookie');
     // this.showChat();
   }
+  /**
+   * Checks whether DoNotTrack is enabled
+   * @returns boolean
+   */
   checkDnT() {
     // Do not Track
     let enabled = false;
@@ -49,6 +56,10 @@ export class CookieService {
     return enabled;
   }
 
+  /**
+   * Check whether cookies are allowed or not
+   * @returns boolean
+   */
   cookiesAllowed() {
     let allowed = true;
 
@@ -62,6 +73,10 @@ export class CookieService {
     return allowed;
   }
 
+  /**
+   * Check if cookies are allowed
+   * @returns boolean
+   */
   isAuthorized() {
 
     this.cookiesAllowed();
@@ -72,14 +87,26 @@ export class CookieService {
     return this.get('cookies_allowed') === '1' ? true : false;
   }
 
+  /**
+   * Save allowed preference
+   */
   authorize() {
     this.set('cookies_allowed', '1');
   }
 
+  /**
+   * Save declined preference
+   */
   decline() {
     this.set('cookies_allowed', '0');
   }
 
+  /**
+   * Set cookie value
+   * @param name - cookie name
+   * @param value - cookie value
+   * @param [days] - cookie expiration in days
+   */
   set (name: any, value: any, days = 365) {
     let expires = '';
     if (days) {
@@ -91,6 +118,11 @@ export class CookieService {
     // document.cookie = name + "=" + (value || "")  + expires + "; path=/";
   }
 
+  /**
+   * Get cookie
+   * @param name - cookie name
+   * @returns cookie value
+   */
   get (name) {
     const nameEQ = `${name}=`;
     const ca = document.cookie.split(';');
@@ -102,6 +134,10 @@ export class CookieService {
     return null;
   }
 
+  /**
+   * Delete cookie
+   * @param name
+   */
   remove(name) {
     document.cookie = `${name}=; Max-Age=-99999999;`;
   }

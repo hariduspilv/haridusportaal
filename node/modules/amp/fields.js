@@ -41,9 +41,8 @@ const requestMap = {
   fieldCons: ['fieldOskaFieldCons'],
   admissionStatus: ['fieldAdmissionStatus', 'FieldAdmissionStatus', 'admissionStatus'],
 };
-
 // tslint:enable
-export default(data) => {
+module.exports = (data) => {
   const tmp = {};
   Object.keys(data).forEach((item) => {
     let match = false;

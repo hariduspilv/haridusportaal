@@ -29,6 +29,11 @@ export class AlertsService {
 
   private subject:Subject<Alert> = new Subject<Alert>();
 
+  /**
+   * Retrieve single alert instance from alerts service
+   * @param {string} id - Alerts ID
+   */
+
   getAlertsFromBlock(id: string) {
     return this.subject.asObservable().pipe(
       filter((alert: Alert) => alert && alert.id === id),
@@ -36,6 +41,14 @@ export class AlertsService {
   }
 
   warning(...args);
+  /**
+   * Warning alerts service
+   * @param message - Message to show in the alert
+   * @param [id] - Alerts ID
+   * @param [category] - Group alert by category
+   * @param [closeable] - Can the user close this alert
+   * @param [link] - Generates a link in the notification
+   */
   warning(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
       category,
@@ -48,6 +61,14 @@ export class AlertsService {
   }
 
   success(...args);
+  /**
+   * Success alerts service
+   * @param message - Message to show in the alert
+   * @param [id] - Alerts ID
+   * @param [category] - Group alert by category
+   * @param [closeable] - Can the user close this alert
+   * @param [link] - Generates a link in the notification
+   */
   success(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
       category,
@@ -60,6 +81,14 @@ export class AlertsService {
   }
 
   info(...args);
+  /**
+   * Info alerts service
+   * @param message - Message to show in the alert
+   * @param [id] - Alerts ID
+   * @param [category] - Group alert by category
+   * @param [closeable] - Can the user close this alert
+   * @param [link] - Generates a link in the notification
+   */
   info(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
       category,
@@ -72,6 +101,14 @@ export class AlertsService {
   }
 
   error(...args);
+  /**
+   * Error alerts service
+   * @param message - Message to show in the alert
+   * @param [id] - Alerts ID
+   * @param [category] - Group alert by category
+   * @param [closeable] - Can the user close this alert
+   * @param [link] - Generates a link in the notification
+   */
   error(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
     this.notify(new Alert({
       category,
@@ -83,11 +120,19 @@ export class AlertsService {
     }));
   }
 
+  /**
+   * Notifys alerts service
+   * @param alert - Alert service object
+   */
   notify(alert: Alert) {
     const normalizedAlert = { ...alert, message: alert.message ? alert.message.toString() : '' };
     this.subject.next(normalizedAlert);
   }
 
+  /**
+   * Clears alerts service
+   * @param id - Which alert to clear
+   */
   clear(id: string) {
     this.notify(new Alert({ id }));
   }
