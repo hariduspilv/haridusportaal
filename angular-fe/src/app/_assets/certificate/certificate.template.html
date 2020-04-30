@@ -48,7 +48,7 @@
     <p class="bold">{{ document.content.studies.honors }}</p>
   </section>
 
-  <p>õppenõukogu otsusega{{ 'document.content.councilDecision.registrationNumber' !== 'XXX' ? ' nr ' + document.content.councilDecision.registrationNumber : '' }}</p>
+  <p>õppenõukogu otsusega{{ document.content.councilDecision.registrationNumber !== 'XXX' ? ' nr ' + document.content.councilDecision.registrationNumber : '' }}</p>
   <p>{{ document.content.councilDecision.issueDateToPrintOut }}</p>
 
   </ng-container>
