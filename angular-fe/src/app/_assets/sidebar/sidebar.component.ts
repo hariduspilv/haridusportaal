@@ -1126,7 +1126,7 @@ export class SidebarFinalDocumentDownloadComponent {
 ?scope=${form.scope}&fileFormat=${form.fileFormat}&accessType=ACCESS_TYPE:ACCESS_CODE\
 &accessorCode=${this.route.snapshot.params.accessorCode}`
     : `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}\
-?scope=${form.scope}&fileFormat=${form.fileFormat}`;
+?scope=${form.scope}&fileFormat=${form.fileFormat}${this.data.accessType ? `&accessType=ACCESS_TYPE:${this.data.accessType}` : ''}`;
 
     this.http
       .get(
