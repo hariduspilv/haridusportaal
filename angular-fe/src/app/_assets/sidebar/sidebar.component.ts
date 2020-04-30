@@ -1121,9 +1121,16 @@ export class SidebarFinalDocumentDownloadComponent {
 
     const form = this.downloadForm.value;
 
+    const requestUrl = this.data.accessType === 'ACCESS_CODE' ?
+    `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${this.data.id}\
+?scope=${form.scope}&fileFormat=${form.fileFormat}&accessType=ACCESS_TYPE:ACCESS_CODE\
+&accessorCode=${this.route.snapshot.params.accessorCode}`
+    : `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}\
+?scope=${form.scope}&fileFormat=${form.fileFormat}`;
+
     this.http
       .get(
-        `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}?scope=${form.scope}&fileFormat=${form.fileFormat}`,
+        requestUrl,
       {
         headers: { 'Content-Type': 'application/*' },
         responseType: 'blob',
