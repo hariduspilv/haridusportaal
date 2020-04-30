@@ -69,10 +69,12 @@ export class CertificateDetailView implements OnInit {
         this.sidebar = {
           entity: {
             finalDocumentDownload: {
+              id: res.index.id,
               certificateName: '',
               certificateNumber: '',
               withAccess: true,
               accessScope: res.role.accessScope,
+              accessType: this.accessType,
             },
           },
         }
