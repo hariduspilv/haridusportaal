@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { SettingsService, AuthService } from '@app/_services';
+import { SettingsService, AuthService, AlertsService } from '@app/_services';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
   selector: 'gdprView',
@@ -37,7 +38,6 @@ export class GdprViewComponent implements OnInit{
   public requestIterator: any;
   public requestIteratorTimeout = 1000;
   public requestCounter: number = 0;
-  
 
   constructor (
     private http: HttpClient,
@@ -45,6 +45,8 @@ export class GdprViewComponent implements OnInit{
     private location: Location,
     public auth: AuthService,
     private router: ActivatedRoute,
+    private alerts: AlertsService,
+    private translate: TranslateService, 
   ) {}
 
   private groupByReceiver() {
@@ -92,6 +94,9 @@ export class GdprViewComponent implements OnInit{
         if (response.redis_hit && !response.value) {
           this.loading = false;
           this.data = false;
+        }
+        if (this.groupedData.length === 0) {
+          this.alerts.info(this.translate.get('xjson.data_missing'), 'no-results');
         }
       });
   }
