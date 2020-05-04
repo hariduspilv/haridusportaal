@@ -1,4 +1,4 @@
-<article-layout>
+<base-layout>
 	<div class="inline">
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 	</div>
@@ -15,9 +15,8 @@
 			<block-content>
 				<div class="gdpr_intro" [innerHTML]="'gdpr_intro' | translate"></div>
 				<loader *ngIf="loading"></loader>
-				<p *ngIf="!loading && (!data || groupedData.length === 0)">
-					{{'xjson.data_missing' | translate}}
-				</p>
+				<alerts id="no-results" small>				
+				</alerts>
 				<accordion *ngIf="!loading && groupedData.length > 0">
 					<accordion-item [title]="group.institution + ' <span>(' + group.queries.length + ' päringut)</span>'" *ngFor="let group of groupedData" >
 						<ng-template>
@@ -36,6 +35,6 @@
 			</block-content>
 		</block>
 	</div>
-</article-layout>
+</base-layout>
 
 <img cornerLogo alt="Euroopa Regionaalarengu fondi logo" src="/assets/img/esf-logo.svg">
