@@ -24,7 +24,7 @@
   <section id="info">
     <p class="info-badge" *ngIf="document.status === 'CERT_DOCUMENT_STATUS:INVALID'">Kehtetu</p>
     <p class="bold">{{ document.content.graduate.firstName }} {{ document.content.graduate.lastName }}</p>
-    <p [class.bold]="toimetulekuOpe">õppis {{ document.content.studies.curriculumNameToPrintOut }}</p>
+    <p [class.bold]="toimetulekuOpe">õppis <span class="bold">{{ document.content.studies.curriculumNameToPrintOut }}.</span></p>
     <p>Õppekeel: {{ document.content.studies.language }}</p>
   </section>
 
@@ -130,8 +130,8 @@
   </section>
 
   <section class="additional-info">
-    <p>Hinneteleht on välja antud {{ document.content.issuer.nameToPrintOut }}</p>
-    <p>õppenõukogu otsusel {{ document.content.councilDecision.issueDateToPrintOut }}</p>
+    <p>Hinneteleht on välja antud <span class="bold">{{ document.content.issuer.nameToPrintOut }}</span></p>
+    <p>õppenõukogu otsusel {{ document.content.councilDecision.issueDateToPrintOut }}. aastal.</p>
   </section>
 
   <section class="additional-info" *ngIf="toimetulekuOpe">
