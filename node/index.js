@@ -7,7 +7,7 @@ const angularImporter = require(`${__dirname}/modules/import`);
 const compression = require('compression')
 const botCheck = require(`${__dirname}/modules/botCheck`);
 const serveStatic = require('serve-static');
-
+const stats = require(`${__dirname}/modules/stats`);
 const port = 80;
 
 angularImporter();
@@ -30,6 +30,7 @@ app.use('/', express.static(`${__dirname}/dist`, {
 
 app.get('/amp/*', amp.serve);
 app.get('/picto', picto.serve);
+app.get('/stats', stats);
 
 app.get('*', botCheck.redirect, (req, res, next) => {
   res.sendFile(`${__dirname}/dist/index.html`);
