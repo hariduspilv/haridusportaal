@@ -373,6 +373,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     const notifications = {
       unread: 0,
       list: [],
+      loading: true,
     };
     if (this.auth.hasEhisToken.getValue()) {
       this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver/unreadmessagecount`).subscribe((val: any) => {
@@ -384,6 +385,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
         } else {
           notifications.list = [...val.messages];
         }
+        notifications.loading = false;
       });
     }
     this.sidebar.entity['notifications'] = notifications;

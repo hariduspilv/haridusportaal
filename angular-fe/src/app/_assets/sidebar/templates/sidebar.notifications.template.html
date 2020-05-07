@@ -1,3 +1,4 @@
+<loader *ngIf="data.loading"></loader>
 <ul *ngIf="data.list.length > 0">
   <li *ngFor="let item of data.list | slice:0:3">
     <a [routerLink]="'/töölaud/teavitused/' + item.id" class="message" [class.unread]="!item.read">
@@ -6,7 +7,7 @@
     </a>
   </li>
 </ul>
-<ul class="no-messages" *ngIf="data.list.length === 0">
+<ul class="no-messages" *ngIf="data.list.length === 0 && !data.loading">
   <li>
     Sulle ei ole ühtegi teavitust.
   </li>
