@@ -23,7 +23,6 @@ export class DocumentCheckComponent {
   };
 
   public model: FormGroup = this.formBuilder.group({
-    captcha: ['', Validators.required],
     id_code: ['', [Validators.required, this.validateIdCodeOrBirthday]],
     document_id: ['', Validators.required],
   });
@@ -54,17 +53,6 @@ export class DocumentCheckComponent {
 
   public submit() {
     this.alertsService.clear('documentCheck');
-    if (this.model.controls.captcha.invalid && !this.loginStatus) {
-      this.alertsService.error(
-        this.translate.get('errors.captcha'),
-        'documentCheck',
-        false,
-      );
-      window.setTimeout(() => {
-        this.scrollTarget.nativeElement.scrollIntoView({ behavior: 'smooth' });
-      },                1000);
-      return;
-    }
     if (!this.model.controls.document_id.value) {
       this.alertsService.error(
         this.translate.get('documentCheck.doc_nr_missing'),
