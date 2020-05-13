@@ -67,7 +67,7 @@
     "ngx-embed-video": "1.0.3",
     "ngx-textarea-autosize": "2.0.0",
     "node-sass": "4.12.0",
-    "protractor": "~5.4.2",
+    "protractor": "~7.0.0",
     "raw-loader": "1.0.0",
     "sass-loader": "7.1.0",
     "ts-node": "~7.0.1",
