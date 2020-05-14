@@ -150,6 +150,9 @@
 		.text-right {
 			text-align: right;
 		}
+		@include break-on(sm, max) {
+			margin: 1rem 0;
+		}
 	}
 
 	.grow.full {

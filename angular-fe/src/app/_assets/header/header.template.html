@@ -70,7 +70,7 @@
 <!--/header__assets-->
 
 <htm-modal id="search" modalTitle="{{ 'button.search' | translate }}" [bottomAction]="false">
-  <ng-template id="search" *ngIf="modalService.modalOpened['search']">
+  <ng-template id="search">
     <formItem type="text" [(ngModel)]="searchString" title="Märksõna"
               (keyup.enter)="searchRoute(searchString); modalService.close('search')"></formItem>
     <button (blur)="modalService.focusLock()" htm-button style="margin: 1rem 0; width: 100%;"
