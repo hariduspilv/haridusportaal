@@ -1,5 +1,6 @@
 package ee.htm.portal.services.rest;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.client.AriregXRoadService;
 import ee.htm.portal.services.client.EhisXRoadService;
@@ -138,6 +139,31 @@ public class HPortalRestController {
     } else {
       MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
+
+      if (requestJson.get("header").get("agents").get(0).get("owner_id") == null
+          || requestJson.get("header").get("agents").get(0).get("owner_id")
+          .asText(null) == null
+          || requestJson.get("header").get("agents").get(0).get("owner_id")
+          .asText(null).equalsIgnoreCase("NULL")) {
+        LOGGER.info("OwnerId is null: " + requestJson.toString());
+
+        long timestamp = System.currentTimeMillis();
+        ((ArrayNode) requestJson.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+
+        if (requestJson.get("body") == null) {
+          requestJson.putObject("body").putArray("messages");
+        }
+        ((ArrayNode) requestJson.get("body").get("messages")).add("error_" + timestamp);
+
+        if (requestJson.get("messages") == null) {
+          requestJson.putObject("messages");
+        }
+        ((ObjectNode) requestJson.get("messages")).putObject("error_" + timestamp)
+            .put("message_type", "ERROR").putObject("message_text").put("et", "Tehniline viga!");
+
+        return new ResponseEntity<>(requestJson, HttpStatus.OK);
+      }
+
       if (formName.equalsIgnoreCase("MTSYS_TEGEVUSLUBA_TAOTLUS")) {
         return new ResponseEntity<>(mtsysWorker.postMtsysTegevusluba(requestJson), HttpStatus.OK);
       } else if (formName.equalsIgnoreCase("MTSYS_TEGEVUSNAITAJAD_ARUANNE")) {
