@@ -1128,9 +1128,8 @@ export class SidebarFinalDocumentDownloadComponent {
     : `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}\
 ?scope=${form.scope}&fileFormat=${form.fileFormat}${this.data.accessType ? `&accessType=ACCESS_TYPE:${this.data.accessType}` : ''}`;
 
-    this.http
-      .get(
-        requestUrl,
+    this.http.get(
+      requestUrl,
       {
         headers: { 'Content-Type': 'application/*' },
         responseType: 'blob',
@@ -1138,12 +1137,8 @@ export class SidebarFinalDocumentDownloadComponent {
       )
       .subscribe((res: any) => {
         saveAs(
-          new File(
-            [res], `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}`,
-            {
-              type: 'application/pdf',
-            },
-          ),
+          res,
+          `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}.${form.fileFormat.toLowerCase()}`,
         );
       });
   }
