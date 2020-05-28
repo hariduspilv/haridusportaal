@@ -27,9 +27,7 @@ class MetatagField extends DrupalSqlBase {
    * {@inheritdoc}
    */
   public function fields() {
-    $fields = [
-      'entity_type' => $this->t('Entity type'),
-    ];
+    $fields = ['entity_type' => $this->t('Entity type')];
     return $fields;
   }
 

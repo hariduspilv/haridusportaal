@@ -12,7 +12,7 @@ class MetatagTagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $tags = [
+  private $tags = [
     'abstract',
     'cache_control',
     'canonical_url',
@@ -41,14 +41,13 @@ class MetatagTagsTest extends MetatagTagsTestBase {
     'set_cookie',
     'shortlink',
     'standout',
-    // @todo The title tag needs to be handled differently.
-    // 'title',
+    'title',
   ];
 
   /**
    * Each of these meta tags has a different tag name vs its internal name.
    */
-  protected function getTestTagName($tag_name) {
+  private function getTestTagName($tag_name) {
     if ($tag_name == 'geo_placename') {
       $tag_name = 'geo.placename';
     }
@@ -67,12 +66,6 @@ class MetatagTagsTest extends MetatagTagsTestBase {
     elseif ($tag_name == 'set_cookie') {
       $tag_name = 'set-cookie';
     }
-    elseif ($tag_name == 'cache_control') {
-      $tag_name = 'cache-control';
-    }
-    elseif ($tag_name == 'revisit_after') {
-      $tag_name = 'revisit-after';
-    }
 
     return $tag_name;
   }
@@ -80,154 +73,147 @@ class MetatagTagsTest extends MetatagTagsTestBase {
   /**
    * Implements {tag_name}TestFieldXpath() for 'abstract'.
    */
-  protected function abstractTestFieldXpath() {
+  private function abstractTestFieldXpath() {
     return "//textarea[@name='abstract']";
   }
 
   /**
    * Implements {tag_name}TestNameAttribute() for 'author'.
    */
-  protected function authorTestOutputXpath() {
+  private function authorTestOutputXpath() {
     return "//link[@rel='author']";
   }
 
   /**
    * Implements {tag_name}TestValueAttribute() for 'author'.
    */
-  protected function authorTestValueAttribute() {
+  private function authorTestValueAttribute() {
     return 'href';
   }
 
   /**
    * Implements {tag_name}TestNameAttribute() for 'canonical_url'.
    */
-  protected function canonicalUrlTestOutputXpath() {
+  private function canonicalUrlTestOutputXpath() {
     return "//link[@rel='canonical']";
   }
 
   /**
    * Implements {tag_name}TestValueAttribute() for 'canonical_url'.
    */
-  protected function canonicalUrlTestValueAttribute() {
+  private function canonicalUrlTestValueAttribute() {
     return 'href';
   }
 
   /**
    * Implements {tag_name}TestNameAttribute() for 'content_language'.
    */
-  protected function contentLanguageTestNameAttribute() {
+  private function contentLanguageTestNameAttribute() {
     return 'http-equiv';
   }
 
   /**
    * Implements {tag_name}TestNameAttribute() for 'set_cookie'.
    */
-  protected function setCookieTestNameAttribute() {
+  private function setCookieTestNameAttribute() {
     return 'http-equiv';
   }
 
   /**
    * Implements {tag_name}TestFieldXpath() for 'description'.
    */
-  protected function descriptionTestFieldXpath() {
+  private function descriptionTestFieldXpath() {
     return "//textarea[@name='description']";
   }
 
   /**
    * Implements {tag_name}TestOutputXpath() for 'image_src'.
    */
-  protected function imageSrcTestOutputXpath() {
+  private function imageSrcTestOutputXpath() {
     return "//link[@rel='image_src']";
   }
 
   /**
    * Implements {tag_name}TestValueAttribute() for 'image_src'.
    */
-  protected function imageSrcTestValueAttribute() {
+  private function imageSrcTestValueAttribute() {
     return 'href';
   }
 
   /**
    * Implements {tag_name}TestNameAttribute() for 'next'.
    */
-  protected function nextTestOutputXpath() {
+  private function nextUrlTestOutputXpath() {
     return "//link[@rel='next']";
   }
 
   /**
    * Implements {tag_name}TestValueAttribute() for 'next'.
    */
-  protected function nextTestValueAttribute() {
+  private function nextUrlTestValueAttribute() {
     return 'href';
   }
 
   /**
    * Implements {tag_name}TestNameAttribute() for 'prev'.
    */
-  protected function prevTestOutputXpath() {
+  private function prevUrlTestOutputXpath() {
     return "//link[@rel='prev']";
   }
 
   /**
    * Implements {tag_name}TestValueAttribute() for 'prev'.
    */
-  protected function prevTestValueAttribute() {
+  private function prevUrlTestValueAttribute() {
     return 'href';
   }
 
   /**
    * Implements {tag_name}TestFieldXpath() for 'referrer'.
    */
-  protected function referrerTestFieldXpath() {
+  private function referrerTestFieldXpath() {
     return "//select[@name='referrer']";
-  }
-
-  /**
-   * Implements {tag_name}TestValue() for 'referrer'.
-   */
-  protected function referrerTestValue() {
-    return 'origin';
-  }
-
-  /**
-   * Implements {tag_name}TestNameAttribute() for 'refresh'.
-   */
-  protected function refreshTestNameAttribute() {
-    return 'http-equiv';
   }
 
   /**
    * Implements {tag_name}TestFieldXpath() for 'robots'.
    */
-  protected function robotsTestFieldXpath() {
+  private function robotsTestFieldXpath() {
     return "//input[@name='robots[index]' and @type='checkbox']";
+  }
+
+  /**
+   * Implements {tag_name}TestValue() for 'referrer'.
+   */
+  private function referrerTestValue() {
+    return 'origin';
   }
 
   /**
    * Implements {tag_name}TestValue() for 'robots'.
    */
-  protected function robotsTestKey() {
+  private function robotsTestKey() {
     return 'robots[index]';
   }
 
   /**
    * Implements {tag_name}TestValue() for 'robots'.
    */
-  protected function robotsTestValue() {
-    return 'index';
+  private function robotsTestValue() {
+    return TRUE;
   }
 
   /**
    * Implements {tag_name}TestOutputXpath() for 'shortlink'.
    */
-  protected function shortlinkTestOutputXpath() {
+  private function shortlinkTestOutputXpath() {
     return "//link[@rel='shortlink']";
   }
 
   /**
    * Implements {tag_name}TestValueAttribute() for 'shortlink'.
    */
-  protected function shortlinkTestValueAttribute() {
+  private function shortlinkTestValueAttribute() {
     return 'href';
   }
 

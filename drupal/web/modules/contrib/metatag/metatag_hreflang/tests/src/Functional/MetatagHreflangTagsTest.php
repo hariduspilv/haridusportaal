@@ -15,28 +15,27 @@ class MetatagHreflangTagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $tags = [
+  private $tags = [
     'hreflang_xdefault',
-    // @todo Work out how to do this as these values are kinda complicated.
-    // 'hreflang_en',
-    // 'hreflang_es',
-    // 'hreflang_fr',
+    'hreflang_en',
+    'hreflang_es',
+    'hreflang_fr',
   ];
 
   /**
    * {@inheritdoc}
    */
-  protected $testTag = 'link';
+  private $testTag = 'link';
 
   /**
    * {@inheritdoc}
    */
-  protected $testNameAttribute = 'alternate';
+  private $testNameAttribute = 'alternate';
 
   /**
    * {@inheritdoc}
    */
-  protected $testValueAttribute = 'href';
+  private $testValueAttribute = 'href';
 
   /**
    * {@inheritdoc}
@@ -57,35 +56,35 @@ class MetatagHreflangTagsTest extends MetatagTagsTestBase {
   /**
    * Each of these meta tags has a different tag name vs its internal name.
    */
-  protected function getTestTagName($tag_name) {
+  private function getTestTagName($tag_name) {
     return str_replace('hreflang_', '', $tag_name);
   }
 
   /**
    * Implements {tag_name}TestOutputXpath() for 'hreflang_xdefault'.
    */
-  protected function hreflangXdefaultTestOutputXpath() {
+  private function hreflangXdefaultTestOutputXpath() {
     return "//link[@hreflang='x-default']";
   }
 
   /**
    * Implements {tag_name}TestOutputXpath() for 'hreflang_en'.
    */
-  protected function hreflangEnTestOutputXpath() {
+  private function hreflangEnTestOutputXpath() {
     return "//link[@hreflang='en']";
   }
 
   /**
    * Implements {tag_name}TestOutputXpath() for 'hreflang_es'.
    */
-  protected function hreflangEsTestOutputXpath() {
+  private function hreflangEsTestOutputXpath() {
     return "//link[@hreflang='es']";
   }
 
   /**
    * Implements {tag_name}TestOutputXpath() for 'hreflang_fr'.
    */
-  protected function hreflangFrTestOutputXpath() {
+  private function hreflangFrTestOutputXpath() {
     return "//link[@hreflang='fr']";
   }
 

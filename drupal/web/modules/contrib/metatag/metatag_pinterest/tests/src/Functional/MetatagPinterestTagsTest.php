@@ -14,26 +14,25 @@ class MetatagPinterestTagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $tags = [
+  private $tags = [
     'pinterest_description',
     'pinterest_id',
     'pinterest_media',
+    'pinterest_nopin',
+    'pinterest_nohover',
+    'pinterest_nosearch',
     'pinterest_url',
-    // @todo Fix these.
-    // 'pinterest_nopin',
-    // 'pinterest_nohover',
-    // 'pinterest_nosearch',
   ];
 
   /**
    * {@inheritdoc}
    */
-  protected $testTag = 'meta';
+  private $testTag = 'meta';
 
   /**
    * {@inheritdoc}
    */
-  protected $testNameAttribute = 'property';
+  private $testNameAttribute = 'property';
 
   /**
    * {@inheritdoc}
@@ -46,8 +45,8 @@ class MetatagPinterestTagsTest extends MetatagTagsTestBase {
   /**
    * Each of these meta tags has a different tag name vs its internal name.
    */
-  protected function getTestTagName($tag_name) {
-    if ($tag_name == 'pinterest_nopin' || $tag_name == 'pinterest_nohover' || $tag_name == 'pinterest_nosearch') {
+  private function getTestTagName($tag_name) {
+    if ($tag_name == ('pinterest_nopin' || 'pinterest_nohover' || 'pinterest_nosearch')) {
       $tag_name = 'pinterest';
     }
     else {
@@ -59,24 +58,24 @@ class MetatagPinterestTagsTest extends MetatagTagsTestBase {
   }
 
   /**
-   * Implements {tag_name}TestFieldXpath() for 'pinterest_nopin'.
+   * Implements {tag_name}TestFieldXpath() for 'pinterest'.
    */
-  protected function pinterestNopinTestFieldXpath() {
-    return "//input[@name='pinterest_nopin' and @type='checkbox']";
+  private function pinterestTestFieldXpath() {
+    return "//input[@name='pinterest[index]' and @type='checkbox']";
   }
 
   /**
-   * Implements {tag_name}TestFieldXpath() for 'pinterest_nohover'.
+   * Implements {tag_name}TestKey() for 'pinterest'.
    */
-  protected function pinterestNohoverTestFieldXpath() {
-    return "//input[@name='pinterest_nohover' and @type='checkbox']";
+  private function pinterestTestKey() {
+    return 'pinterest[index]';
   }
 
   /**
-   * Implements {tag_name}TestFieldXpath() for 'pinterest_nosearch'.
+   * Implements {tag_name}TestValue() for 'pinterest'.
    */
-  protected function pinterestNosearchTestFieldXpath() {
-    return "//input[@name='pinterest_nosearch' and @type='checkbox']";
+  private function pinterestTestValue() {
+    return TRUE;
   }
 
 }

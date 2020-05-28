@@ -8,7 +8,7 @@ use Drupal\migrate\ProcessPluginBase;
 use Drupal\migrate\Row;
 
 /**
- * Migrate entity data from Metatag on D7.
+ * Migrate data from Metatag-D7.
  *
  * @MigrateProcessPlugin(
  *   id = "d7_metatag_entities",
@@ -26,49 +26,51 @@ class MetatagEntities extends ProcessPluginBase {
       return NULL;
     }
 
-    // Re-shape D7 entries into for D8 entries.
-    $old_tags = unserialize($value);
-
-    // This is expected to be an array, if it isn't then something went wrong.
-    if (!is_array($old_tags)) {
-      throw new MigrateException('Data from Metatag-D7 was not a serialized array.');
-    }
-
     $tags_map = $this->tagsMap();
 
     $metatags = [];
 
-    foreach ($old_tags as $d7_metatag_name => $metatag_value) {
+    // Re-shape D7 entries into for D8 entries.
+    $old_tags = unserialize($value);
+
+    // This is expected to be an array, if it isn't something went wrong.
+    if (!is_array($old_tags)) {
+      throw new MigrateException('Data from Metatag was not a serialized array.');
+    }
+
+    foreach ($old_tags as $d7_metatag_name => $data) {
       // If there's no data for this tag, ignore everything.
-      if (empty($metatag_value)) {
+      if (empty($data)) {
         continue;
       }
 
       // @todo Skip these values for now, maybe some version supported these?
-      if (!is_array($metatag_value) || empty($metatag_value['value'])) {
+      if (!is_array($data) || empty($data['value'])) {
         continue;
       }
 
       // Convert the D7 meta tag name to the D8 equivalent. If this meta tag
       // is not recognized, skip it.
-      if (empty($tags_map[$d7_metatag_name])) {
+      if (empty([$d7_metatag_name])) {
         continue;
       }
+
+      // There's a D8 equivalent for this meta tag.
       $d8_metatag_name = $tags_map[$d7_metatag_name];
 
       // Convert the nested arrays to a flat structure.
-      if (is_array($metatag_value['value'])) {
+      if (is_array($data['value'])) {
         // Remove empty values.
-        $metatag_value['value'] = array_filter($metatag_value['value']);
+        $data['value'] = array_filter($data['value']);
         // Convert the array into a comma-separated list.
-        $metatag_value = implode(', ', $metatag_value['value']);
+        $data = implode(', ', $data['value']);
       }
       else {
-        $metatag_value = $metatag_value['value'];
+        $data = $data['value'];
       }
 
       // Keep the entire data structure.
-      $metatags[$d8_metatag_name] = $metatag_value;
+      $metatags[$d8_metatag_name] = $data;
     }
 
     return serialize($metatags);
@@ -80,7 +82,7 @@ class MetatagEntities extends ProcessPluginBase {
    * @return array
    *   An array of D7 tags to their D8 counterparts.
    */
-  protected function tagsMap() {
+  public function tagsMap() {
     $map = [
       // From the main Metatag module.
       'abstract' => 'abstract',
@@ -247,7 +249,10 @@ class MetatagEntities extends ProcessPluginBase {
       // 'hreflang_' . $langcode => 'hreflang_per_language',
       // From metatag_mobile.metatag.inc:
       'alternate_handheld' => 'alternate_handheld',
-      // @todo https://www.drupal.org/project/metatag/issues/3077781
+      // This won't be added, it should be handled by the system implementing
+      // the AMP specification. Also, AMP is dramatic overreach by Google to
+      // reshape and replatform the web to its monetary goals, and is an abuse
+      // of its monopolistic power over the internet.
       // 'amphtml' => '',
       'android-app-link-alternative' => 'android_app_link_alternative',
       'android-manifest' => 'android_manifest',
@@ -283,7 +288,7 @@ class MetatagEntities extends ProcessPluginBase {
       'x-ua-compatible' => 'x_ua_compatible',
 
       // From metatag_opengraph.metatag.inc:
-      // https://www.drupal.org/project/metatag/issues/3077782
+      // @todo https://www.drupal.org/project/metatag/issues/3077782
       'article:author' => 'article_author',
       'article:expiration_time' => 'article_expiration_time',
       'article:modified_time' => 'article_modified_time',
@@ -326,7 +331,7 @@ class MetatagEntities extends ProcessPluginBase {
       'og:updated_time' => 'og_updated_time',
       'og:url' => 'og_url',
       // @todo '' => 'og_video',
-      // https://www.drupal.org/project/metatag/issues/3089445
+      // @todo https://www.drupal.org/project/metatag/issues/3089445
       // @todo '' => 'og_video_duration',
       'og:video:height' => 'og_video_height',
       'og:video:secure_url' => 'og_video_secure_url',
@@ -347,7 +352,7 @@ class MetatagEntities extends ProcessPluginBase {
       // @todo 'video:writer' => '',
 
       // From metatag_opengraph_products.metatag.inc:
-      // https://www.drupal.org/project/metatag/issues/2835925
+      // @todo https://www.drupal.org/project/metatag/issues/2835925
       'product:price:amount' => 'product_price_amount',
       'product:price:currency' => 'product_price_currency',
       // @todo 'product:availability' => '',
@@ -376,6 +381,7 @@ class MetatagEntities extends ProcessPluginBase {
       // @todo 'product:condition' => '',
 
       // Pinterest.
+      // @todo https://www.drupal.org/project/metatag/issues/2957361
       // @todo '' => 'pinterest_id',
       // @todo '' => 'pinterest_description',
       // @todo '' => 'pinterest_nohover',
@@ -428,8 +434,9 @@ class MetatagEntities extends ProcessPluginBase {
       'msvalidate.01' => 'google',
       'norton-safeweb-site-verification' => 'norton_safe_web',
       'p:domain_verify' => 'pinterest',
-      // @todo '' => 'pocket',
+      'pocket-site-verification' => 'pocket',
       'yandex-verification' => 'yandex',
+      'zoom-domain-verification' => 'zoom-domain-verification',
     ];
 
     // Trigger hook_metatag_migrate_metatagd7_tags_map_alter().

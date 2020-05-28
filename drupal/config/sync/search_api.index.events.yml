@@ -64,7 +64,6 @@ field_settings:
         - field.storage.node.field_event_type
       module:
         - taxonomy
-        - taxonomy
   field_organizer:
     label: Organiseerija
     datasource_id: 'entity:node'
@@ -82,7 +81,6 @@ field_settings:
       config:
         - field.storage.node.field_tag
       module:
-        - taxonomy
         - taxonomy
   langcode:
     label: Keel
@@ -128,6 +126,7 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  language_with_fallback: {  }
   rendered_item: {  }
 tracker_settings:
   default:

@@ -14,7 +14,7 @@ class MetatagGoogleCSETagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $tags = [
+  private $tags = [
     'audience',
     'department',
     'doc_status',
@@ -33,7 +33,7 @@ class MetatagGoogleCSETagsTest extends MetatagTagsTestBase {
   /**
    * Implements {tag_name}TestTagName() for 'google_rating'.
    */
-  protected function googleRatingTestTagName() {
+  private function googleRatingTestTagName() {
     return 'rating';
   }
 

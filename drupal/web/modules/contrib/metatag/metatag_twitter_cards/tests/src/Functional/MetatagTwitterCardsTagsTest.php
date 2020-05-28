@@ -14,7 +14,7 @@ class MetatagTwitterCardsTagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $tags = [
+  private $tags = [
     'twitter_cards_app_id_googleplay',
     'twitter_cards_app_id_ipad',
     'twitter_cards_app_id_iphone',
@@ -31,12 +31,18 @@ class MetatagTwitterCardsTagsTest extends MetatagTagsTestBase {
     'twitter_cards_data2',
     'twitter_cards_description',
     'twitter_cards_donottrack',
+    'twitter_cards_gallery_image0',
+    'twitter_cards_gallery_image1',
+    'twitter_cards_gallery_image2',
+    'twitter_cards_gallery_image3',
+    'twitter_cards_image',
     'twitter_cards_image_alt',
     'twitter_cards_image_height',
     'twitter_cards_image_width',
     'twitter_cards_label1',
     'twitter_cards_label2',
     'twitter_cards_page_url',
+    'twitter_cards_player',
     'twitter_cards_player_height',
     'twitter_cards_player_stream',
     'twitter_cards_player_stream_content_type',
@@ -45,13 +51,6 @@ class MetatagTwitterCardsTagsTest extends MetatagTagsTestBase {
     'twitter_cards_site_id',
     'twitter_cards_title',
     'twitter_cards_type',
-    // @todo Fix test coverage for these tags.
-    // 'twitter_cards_gallery_image0',
-    // 'twitter_cards_gallery_image1',
-    // 'twitter_cards_gallery_image2',
-    // 'twitter_cards_gallery_image3',
-    // 'twitter_cards_image',
-    // 'twitter_cards_player',
   ];
 
   /**
@@ -67,7 +66,7 @@ class MetatagTwitterCardsTagsTest extends MetatagTagsTestBase {
    *
    * They also don't have "cards" in their name.
    */
-  protected function getTestTagName($tag_name) {
+  private function getTestTagName($tag_name) {
     $tag_name = str_replace('twitter_cards', 'twitter', $tag_name);
     $tag_name = str_replace('_', ':', $tag_name);
 
@@ -93,14 +92,14 @@ class MetatagTwitterCardsTagsTest extends MetatagTagsTestBase {
   /**
    * Implements {tag_name}TestFieldXpath() for 'twitter_cards_type'.
    */
-  protected function twitterCardsTypeTestFieldXpath() {
+  private function twitterCardsTypeTestFieldXpath() {
     return "//select[@name='twitter_cards_type']";
   }
 
   /**
    * Implements {tag_name}TestValue() for 'twitter_cards_type'.
    */
-  protected function twitterCardsTypeTestValue() {
+  private function twitterCardsTypeTestValue() {
     return 'summary_large_image';
   }
 
