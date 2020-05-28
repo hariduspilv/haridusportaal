@@ -11,9 +11,10 @@
 function filelog_install() {
   $config = Drupal::configFactory()->getEditable('filelog.settings');
   $path = $config->get('location');
+  $fileSystem = Drupal::service('file_system');
 
   // Set up the logging directory.
-  if (file_prepare_directory($path, FILE_CREATE_DIRECTORY) || !file_save_htaccess($path)) {
+  if ($fileSystem->prepareDirectory($path, $fileSystem::CREATE_DIRECTORY) || !file_save_htaccess($path)) {
     $config->set('enabled', TRUE);
   }
   else {

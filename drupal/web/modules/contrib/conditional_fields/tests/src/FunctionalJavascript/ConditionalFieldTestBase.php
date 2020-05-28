@@ -92,8 +92,7 @@ abstract class ConditionalFieldTestBase extends WebDriverTestBase {
    * Helper to change Field value with Javascript.
    */
   protected function changeField($selector, $value = '') {
-    $this->getSession()
-      ->executeScript("jQuery('" . $selector . "').val('" . $value . "').trigger('keyup').trigger('change');");
+    $this->getSession()->executeScript("jQuery('" . $selector . "').val('" . $value . "').trigger('keyup').trigger('change');");
   }
 
   /**

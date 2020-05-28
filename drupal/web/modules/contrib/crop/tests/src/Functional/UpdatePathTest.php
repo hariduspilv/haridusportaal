@@ -15,7 +15,7 @@ class UpdatePathTest extends UpdatePathTestBase {
    */
   protected function setDatabaseDumpFiles() {
     $this->databaseDumpFiles = [
-      $this->root . '/core/modules/system/tests/fixtures/update/drupal-8.4.0.bare.standard.php.gz',
+      $this->root . '/core/modules/system/tests/fixtures/update/drupal-8.8.0.bare.standard.php.gz',
       __DIR__ . '/../../fixtures/crop-1.0-alpha2-installed.php',
     ];
   }

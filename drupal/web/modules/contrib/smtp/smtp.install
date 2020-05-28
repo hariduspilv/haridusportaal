@@ -27,17 +27,36 @@ function smtp_uninstall() {
 }
 
 /**
+ * Add SMTP timeout configuration and change default to 30.
+ */
+function smtp_update_8001() {
+  \Drupal::configFactory()->getEditable('smtp.settings')
+    ->set('smtp_timeout', 30)
+    ->save(TRUE);
+}
+
+/**
+ * Add SMTP keepalive configuration and set default to FALSE.
+ */
+function smtp_update_8002() {
+  \Drupal::configFactory()->getEditable('smtp.settings')
+    ->set('smtp_keepalive', FALSE)
+    ->save(TRUE);
+}
+
+/**
  * Implements hook_install().
  */
 function smtp_install() {
-  /** @var \Drupal\Core\Routing\RouteBuilderInterface $routeBuilder $route_builder */
+  $messenger = \Drupal::messenger();
+  // @var \Drupal\Core\Routing\RouteBuilderInterface $routeBuilder $route_builder.
   $route_builder = \Drupal::service('router.builder');
 
   // Makes the 'smtp.config' route available here, see hook_install doc.
   $route_builder->rebuild();
 
-  drupal_set_message(t('Thanks for installing SMTP Authentication Support'));
-  drupal_set_message(t('Settings on <a href="@url_settings">Home &raquo; Admin &raquo; Config &raquo; System &raquo; SMTP</a> or <a href="@url_settings">@url_settings</a>', [
+  $messenger->addMessage(t('Thanks for installing SMTP Authentication Support'));
+  $messenger->addMessage(t('Server settings on <a href="@url_settings">SMTP Authentication Support</a>', [
     '@url_settings' => Url::fromRoute('smtp.config')->toString(),
   ]));
 }
@@ -46,11 +65,31 @@ function smtp_install() {
  * Implements hook_requirements().
  */
 function smtp_requirements(string $phase) {
-  $return = [];
-  // If the phase is not runtime, ConnectionTester might be unavailable.
+
+  $requirements = [];
   if ($phase == 'runtime') {
+    // Ensure PHPMailer exists.
+    if (!class_exists(\PHPMailer\PHPMailer\PHPMailer::class)) {
+      $config = \Drupal::service('config.factory');
+      $smtp_config = $config->getEditable('smtp.settings');
+      $smtp_config->set('smtp_on', FALSE)->save();
+      $requirements['smtp_phpmailer']['title'] = t('SMTP: PHPMailer Library');
+      $requirements['smtp_phpmailer']['severity'] = REQUIREMENT_ERROR;
+      $requirements['smtp_phpmailer']['description'] = t('PHPMailer is Required for SMTP to function.');
+
+      return $requirements;
+    }
+    else {
+      $reflector = new \ReflectionClass('\PHPMailer\PHPMailer\PHPMailer');
+      $dirname = file(dirname($reflector->getFileName()) . '/../VERSION');
+      $phpMailerVersion = array_shift($dirname);
+      $requirements['smtp_phpmailer']['title'] = t('SMTP: PHPMailer Library');
+      $requirements['smtp_phpmailer']['severity'] = REQUIREMENT_INFO;
+      $requirements['smtp_phpmailer']['description'] = t('PHPMailer %version is located at %path', ['%version' => $phpMailerVersion, '%path' => $reflector->getFileName()]);
+    }
+
     $tester = new ConnectionTester();
-    $return = $tester->hookRequirements($phase);
+    $requirements = array_merge($requirements, $tester->hookRequirements($phase));
   }
-  return $return;
+  return $requirements;
 }

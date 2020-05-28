@@ -32,6 +32,8 @@ class GoogleMapFieldDefaultFormatter extends FormatterBase {
         '#zoom' => $item->zoom,
         '#type' => $item->type,
         '#show_marker' => $item->marker === "1" ? "true" : "false",
+        '#marker_icon' => $item->marker_icon,
+        '#traffic' => $item->traffic === "1" ? "true" : "false",
         '#show_controls' => $item->controls === "1" ? "true" : "false",
         '#width' => $item->width ? $item->width : '320px',
         '#height' => $item->height ? $item->height : '200px',

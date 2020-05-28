@@ -437,7 +437,7 @@ class ConditionalFieldTextfieldTest extends ConditionalFieldTestBase implements
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-   // 
+   //
 
     $this->waitUntilHidden($this->targetFieldWrapp, 0, '01. Article Body field is visible');
 

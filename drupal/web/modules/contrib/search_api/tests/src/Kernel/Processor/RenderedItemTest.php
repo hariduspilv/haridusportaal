@@ -172,8 +172,8 @@ class RenderedItemTest extends ProcessorTestBase {
     // Enable the classy and stable themes as the tests rely on markup from
     // that. Set stable as the active theme, but make classy the default. The
     // processor should switch to classy to perform the rendering.
-    \Drupal::service('theme_handler')->install(['classy']);
-    \Drupal::service('theme_handler')->install(['stable']);
+    \Drupal::service('theme_installer')->install(['classy']);
+    \Drupal::service('theme_installer')->install(['stable']);
     \Drupal::configFactory()->getEditable('system.theme')->set('default', 'classy')->save();
     \Drupal::theme()->setActiveTheme(\Drupal::service('theme.initialization')->initTheme('stable'));
   }
@@ -402,9 +402,9 @@ class RenderedItemTest extends ProcessorTestBase {
   public function testAlterPropertyDefinitions() {
     // Check for added properties when no datasource is given.
     $properties = $this->processor->getPropertyDefinitions(NULL);
-    $this->assertTrue(array_key_exists('rendered_item', $properties), 'The Properties where modified with the "rendered_item".');
+    $this->assertArrayHasKey('rendered_item', $properties, 'The Properties where modified with the "rendered_item".');
     $this->assertInstanceOf('Drupal\search_api\Plugin\search_api\processor\Property\RenderedItemProperty', $properties['rendered_item'], 'Added property has the correct class.');
-    $this->assertTrue(($properties['rendered_item'] instanceof DataDefinitionInterface), 'The "rendered_item" contains a valid DataDefinition instance.');
+    $this->assertInstanceOf(DataDefinitionInterface::class, $properties['rendered_item'], 'The "rendered_item" contains a valid DataDefinition instance.');
     $this->assertEquals('search_api_html', $properties['rendered_item']->getDataType(), 'Correct DataType set in the DataDefinition.');
 
     // Verify that there are no properties if a datasource is given.

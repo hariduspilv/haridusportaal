@@ -1,0 +1,12 @@
+name: JWT Path Authentication
+type: module
+description: Authenticate using JWT in the query string applicable to a path.
+core_version_requirement: ^8.7.12 || ^9.0
+package: Web services
+dependencies:
+  - jwt:jwt
+
+# Information added by Drupal.org packaging script on 2020-05-20
+version: '8.x-1.0-beta3'
+project: 'jwt'
+datestamp: 1589986033

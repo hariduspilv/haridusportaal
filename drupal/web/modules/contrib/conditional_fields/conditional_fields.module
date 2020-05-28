@@ -206,7 +206,7 @@ function conditional_fields_element_after_build($element, FormStateInterface &$f
       if (isset($dependencies['dependents'][$field_name])) {
         foreach ($dependencies['dependents'][$field_name] as $id => $dependency) {
           if (!isset($form['#conditional_fields'][$field_name]['dependees'][$id]) || conditional_fields_is_priority_field($field)) {
-            conditional_fields_attach_dependency($form, ['#field_name' => $dependency['dependee']], $field, $dependency['options'], $id);
+            conditional_fields_attach_dependency($form, $form_state, ['#field_name' => $dependency['dependee']], $field, $dependency['options'], $id);
           }
         }
       }
@@ -214,7 +214,7 @@ function conditional_fields_element_after_build($element, FormStateInterface &$f
       if (isset($dependencies['dependees'][$field_name])) {
         foreach ($dependencies['dependees'][$field_name] as $id => $dependency) {
           if (!isset($form['#conditional_fields'][$field_name]['dependents'][$id]) || conditional_fields_is_priority_field($field)) {
-            conditional_fields_attach_dependency($form, $field, ['#field_name' => $dependency['dependent']], $dependency['options'], $id);
+            conditional_fields_attach_dependency($form, $form_state, $field, ['#field_name' => $dependency['dependent']], $dependency['options'], $id);
           }
         }
       }
@@ -331,7 +331,7 @@ function conditional_fields_load_dependencies($entity_type, $bundle) {
  *   Note that you don't need to manually set all these options, since default
  *   settings are always provided.
  */
-function conditional_fields_attach_dependency(&$form, $dependee, $dependent, $options, $id = 0) {
+function conditional_fields_attach_dependency(&$form, &$form_state, $dependee, $dependent, $options, $id = 0) {
   module_load_include('inc', 'conditional_fields', 'conditional_fields.api');
   // The absence of the $id parameter identifies a custom dependency.
   if (!$id) {
@@ -371,6 +371,11 @@ function conditional_fields_attach_dependency(&$form, $dependee, $dependent, $op
   // Attach dependent.
   if (!empty($dependent['#parents'])) {
     $dependent_parents = $dependent['#parents'];
+    // If the field type is Date, we need to remove the last "date" parent key,
+    // since it is not part of the $form_state value when we validate it.
+    if ($dependent['#type'] == 'date') {
+      array_pop($dependent_parents);
+    }
   }
   elseif (isset($dependent['#field_parents'])) {
     $dependent_parents = $dependent['#field_parents'];
@@ -382,11 +387,6 @@ function conditional_fields_attach_dependency(&$form, $dependee, $dependent, $op
       'options' => $options,
     ];
   }
-
-  // Actual processing is done in
-  // \Drupal\conditional_fields\ConditionalFieldsFormHelper::afterBuild().
-  // Append the property so the callback runs last.
-  ConditionalFieldsFormHelper::elementAddProperty($form, '#after_build', [ConditionalFieldsFormHelper::class, 'afterBuild'], 'append');
 }
 
 /**
@@ -464,4 +464,37 @@ function conditional_fields_is_priority_field( array $field ) {
     return TRUE;
   }
   return FALSE;
+}
+
+/**
+ * Implements hook_form_alter().
+ *
+ * Hook_form_alter() that attaches an 'afterbuild' function to the form.
+ *
+ * @param $form
+ *   The form to attach the callback to.
+ * @param $form_state
+ *   Not used, part of the hook interface.
+ * @param $form_id
+ *   Not used, part of the hook interface.
+ */
+function conditional_fields_form_alter(&$form, &$form_state, $form_id) {
+  $form['#after_build'][] = 'conditional_fields_form_after_build';
+}
+
+/**
+ * Runs the 'afterbuild' validation of a form with dependencies.
+ *
+ * This function will run only once per form.
+ *
+ * @param $form
+ *   The form to validate
+ * @param $form_state
+ *   The form's state.
+ *
+ * @return mixed
+ *   The form.
+ */
+function conditional_fields_form_after_build($form, &$form_state) {
+  return (new ConditionalFieldsFormHelper())->afterBuild($form, $form_state);
 }

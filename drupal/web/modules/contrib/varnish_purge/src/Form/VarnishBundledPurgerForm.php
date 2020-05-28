@@ -2,8 +2,6 @@
 
 namespace Drupal\varnish_purger\Form;
 
-use Drupal\varnish_purger\Form\VarnishPurgerFormBase;
-
 /**
  * Configuration form for the Varnish Purger.
  */

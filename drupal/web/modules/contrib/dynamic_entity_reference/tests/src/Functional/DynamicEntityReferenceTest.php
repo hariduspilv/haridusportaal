@@ -69,7 +69,7 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
   /**
    * Sets the test up.
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->adminUser = $this->drupalCreateUser($this->permissions);
     $this->anotherUser = $this->drupalCreateUser();
@@ -253,6 +253,10 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
     $input = $assert_session->fieldExists('field_foobar[0][target_id]');
     $settings = FieldConfig::loadByName('entity_test', 'entity_test', 'field_foobar')->getSettings();
     $selection_settings = $settings['entity_test_computed_field']['handler_settings'] ?: [];
+    $selection_settings += [
+      'match_operator' => 'CONTAINS',
+      'match_limit' => 10,
+    ];
     $data = serialize($selection_settings) . 'entity_test_computed_field' . $settings['entity_test_computed_field']['handler'];
     $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
     $expected_autocomplete_path = Url::fromRoute('system.entity_autocomplete', [
@@ -260,7 +264,7 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
       'selection_handler' => $settings['entity_test_computed_field']['handler'],
       'selection_settings_key' => $selection_settings_key,
     ])->toString();
-    $this->assertContains($input->getAttribute('data-autocomplete-path'), $expected_autocomplete_path);
+    $this->assertStringContainsString($input->getAttribute('data-autocomplete-path'), $expected_autocomplete_path);
 
     // Add some extra dynamic entity reference fields.
     $this->getSession()->getPage()->findButton('Add another item')->click();
@@ -300,6 +304,10 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
     // Ensure that the autocomplete path is correct.
     foreach (['0' => 'user', '1' => 'entity_test', '2' => 'entity_test'] as $index => $expected_entity_type) {
       $selection_settings = $settings[$expected_entity_type]['handler_settings'] ?: [];
+      $selection_settings += [
+        'match_operator' => 'CONTAINS',
+        'match_limit' => 10,
+      ];
       $data = serialize($selection_settings) . $expected_entity_type . $settings[$expected_entity_type]['handler'];
       $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
       $input = $assert_session->fieldExists('field_foobar[' . $index . '][target_id]');
@@ -308,7 +316,7 @@ class DynamicEntityReferenceTest extends BrowserTestBase {
         'selection_handler' => $settings[$expected_entity_type]['handler'],
         'selection_settings_key' => $selection_settings_key,
       ])->toString();
-      $this->assertContains($input->getAttribute('data-autocomplete-path'), $expected_autocomplete_path);
+      $this->assertStringContainsString($input->getAttribute('data-autocomplete-path'), $expected_autocomplete_path);
     }
 
     $edit = [

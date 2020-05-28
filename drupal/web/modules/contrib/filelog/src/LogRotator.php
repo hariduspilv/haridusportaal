@@ -5,9 +5,18 @@ namespace Drupal\filelog;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Component\Render\PlainTextOutput;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Utility\Token;
 use Drupal\filelog\Logger\FileLog;
+use function date;
+use function dirname;
+use function fclose;
+use function file_get_contents;
+use function file_put_contents;
+use function fopen;
+use function gzencode;
+use function rename;
 
 class LogRotator {
 
@@ -37,6 +46,11 @@ class LogRotator {
   protected $fileLog;
 
   /**
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  protected $fileSystem;
+
+  /**
    * LogRotator constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $configFactory
@@ -44,18 +58,21 @@ class LogRotator {
    * @param \Drupal\Core\Utility\Token                 $token
    * @param \Drupal\Component\Datetime\TimeInterface   $time
    * @param \Drupal\filelog\Logger\FileLog             $fileLog
+   * @param \Drupal\Core\File\FileSystemInterface      $fileSystem
    */
   public function __construct(ConfigFactoryInterface $configFactory,
                               StateInterface $state,
                               Token $token,
                               TimeInterface $time,
-                              FileLog $fileLog
+                              FileLog $fileLog,
+                              FileSystemInterface $fileSystem
   ) {
     $this->config = $configFactory->get('filelog.settings');
     $this->state = $state;
     $this->token = $token;
     $this->time = $time;
     $this->fileLog = $fileLog;
+    $this->fileSystem = $fileSystem;
   }
 
   /**
@@ -88,13 +105,13 @@ class LogRotator {
     $last = $this->state->get('filelog.rotation');
     switch ($this->config->get('rotation.schedule')) {
       case 'monthly':
-        return \date('m', $last) !== \date('m', $now);
+        return date('m', $last) !== date('m', $now);
 
       case 'weekly':
-        return \date('W', $last) !== \date('W', $now);
+        return date('W', $last) !== date('W', $now);
 
       case 'daily':
-        return \date('d', $last) !== \date('d', $now);
+        return date('d', $last) !== date('d', $now);
     }
 
     return FALSE;
@@ -117,24 +134,24 @@ class LogRotator {
       );
       $destination = PlainTextOutput::renderFromHtml($destination);
       $destination = $this->config->get('location') . '/' . $destination;
-      $directory = \dirname($destination);
-      \file_prepare_directory($directory, FILE_CREATE_DIRECTORY);
+      $directory = dirname($destination);
+      $this->fileSystem->prepareDirectory($directory, $this->fileSystem::CREATE_DIRECTORY);
       if ($this->config->get('rotation.gzip')) {
         $truncate = TRUE;
-        $data = \file_get_contents($logFile);
-        if (!\file_put_contents($destination . '.gz', \gzencode($data))) {
+        $data = file_get_contents($logFile);
+        if (!file_put_contents($destination . '.gz', gzencode($data))) {
           throw new FileLogException("Log file could not be compressed from $logFile to $destination.gz.");
         }
       }
-      else if (!\rename($logFile, $destination)) {
+      else if (!rename($logFile, $destination)) {
         throw new FileLogException("Log file could not be moved from $logFile to $destination.");
       }
     }
 
     if ($truncate) {
       // Simply truncate the log file, to save some file-system operations.
-      $file = \fopen($logFile, 'wb');
-      if (!$file || !\fclose($file)) {
+      $file = fopen($logFile, 'wb');
+      if (!$file || !fclose($file)) {
         throw new FileLogException("Log file $logFile could not be truncated.");
       }
     }

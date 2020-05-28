@@ -136,7 +136,7 @@ class JsonFeed extends Feed {
       $build['#markup'] = ViewsRenderPipelineMarkup::create($build['#markup']);
     }
 
-    parent::applyDisplayCachablityMetadata($build);
+    parent::applyDisplayCacheabilityMetadata($build);
 
     return $build;
   }

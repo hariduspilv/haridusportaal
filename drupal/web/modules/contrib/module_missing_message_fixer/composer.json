@@ -5,10 +5,13 @@
   "keywords": ["Drupal"],
   "license": "GPL-2.0+",
   "homepage": "https://www.drupal.org/project/module_missing_message_fixer",
+  "require": {
+    "drupal/core": "~8"
+  },
   "authors": [
     {
-      "name": "See contributors",
-      "homepage": "https://www.drupal.org/node/2951176/committers",
+      "name": "John Ouellet",
+      "homepage": "https://www.drupal.org/u/labboy0276",
       "role": "Developer"
     }
   ],

@@ -347,7 +347,7 @@ class Inline
                 $output = $match[1];
                 $i += \strlen($output);
             } else {
-                throw new ParseException(sprintf('Malformed inline YAML string: %s.', $scalar), self::$parsedLineNumber + 1, null, self::$parsedFilename);
+                throw new ParseException(sprintf('Malformed inline YAML string: "%s".', $scalar), self::$parsedLineNumber + 1, null, self::$parsedFilename);
             }
 
             // a non-quoted string cannot start with @ or ` (reserved) nor with a scalar indicator (| or >)
@@ -380,7 +380,7 @@ class Inline
     private static function parseQuotedScalar($scalar, &$i)
     {
         if (!Parser::preg_match('/'.self::REGEX_QUOTED_STRING.'/Au', substr($scalar, $i), $match)) {
-            throw new ParseException(sprintf('Malformed inline YAML string: %s.', substr($scalar, $i)), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
+            throw new ParseException(sprintf('Malformed inline YAML string: "%s".', substr($scalar, $i)), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
         }
 
         $output = substr($match[0], 1, \strlen($match[0]) - 2);
@@ -463,7 +463,7 @@ class Inline
             ++$i;
         }
 
-        throw new ParseException(sprintf('Malformed inline YAML string: %s.', $sequence), self::$parsedLineNumber + 1, null, self::$parsedFilename);
+        throw new ParseException(sprintf('Malformed inline YAML string: "%s".', $sequence), self::$parsedLineNumber + 1, null, self::$parsedFilename);
     }
 
     /**
@@ -506,7 +506,12 @@ class Inline
 
             if ('!php/const' === $key) {
                 $key .= self::parseScalar($mapping, $flags, [':', ' '], $i, false, [], true);
-                $key = self::evaluateScalar($key, $flags);
+                if ('!php/const:' === $key && ':' !== $mapping[$i]) {
+                    $key = '';
+                    --$i;
+                } else {
+                    $key = self::evaluateScalar($key, $flags);
+                }
             }
 
             if (':' !== $key && false === $i = strpos($mapping, ':', $i)) {
@@ -607,7 +612,7 @@ class Inline
             }
         }
 
-        throw new ParseException(sprintf('Malformed inline YAML string: %s.', $mapping), self::$parsedLineNumber + 1, null, self::$parsedFilename);
+        throw new ParseException(sprintf('Malformed inline YAML string: "%s".', $mapping), self::$parsedLineNumber + 1, null, self::$parsedFilename);
     }
 
     /**
@@ -692,6 +697,10 @@ class Inline
                         return null;
                     case 0 === strpos($scalar, '!php/object'):
                         if (self::$objectSupport) {
+                            if (!isset($scalar[12])) {
+                                return false;
+                            }
+
                             return unserialize(self::parseScalar(substr($scalar, 12)));
                         }
 
@@ -711,12 +720,16 @@ class Inline
                             throw new ParseException(sprintf('The constant "%s" is not defined.', $const), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
                         }
                         if (self::$exceptionOnInvalidType) {
-                            throw new ParseException(sprintf('The string "%s" could not be parsed as a constant. Have you forgotten to pass the "Yaml::PARSE_CONSTANT" flag to the parser?', $scalar), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
+                            throw new ParseException(sprintf('The string "%s" could not be parsed as a constant. Did you forget to pass the "Yaml::PARSE_CONSTANT" flag to the parser?', $scalar), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
                         }
 
                         return null;
                     case 0 === strpos($scalar, '!php/const'):
                         if (self::$constantSupport) {
+                            if (!isset($scalar[11])) {
+                                return '';
+                            }
+
                             $i = 0;
                             if (\defined($const = self::parseScalar(substr($scalar, 11), 0, null, $i, false))) {
                                 return \constant($const);
@@ -725,7 +738,7 @@ class Inline
                             throw new ParseException(sprintf('The constant "%s" is not defined.', $const), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
                         }
                         if (self::$exceptionOnInvalidType) {
-                            throw new ParseException(sprintf('The string "%s" could not be parsed as a constant. Have you forgotten to pass the "Yaml::PARSE_CONSTANT" flag to the parser?', $scalar), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
+                            throw new ParseException(sprintf('The string "%s" could not be parsed as a constant. Did you forget to pass the "Yaml::PARSE_CONSTANT" flag to the parser?', $scalar), self::$parsedLineNumber + 1, $scalar, self::$parsedFilename);
                         }
 
                         return null;

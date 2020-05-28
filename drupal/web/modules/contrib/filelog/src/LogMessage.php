@@ -4,6 +4,11 @@ namespace Drupal\filelog;
 
 use Drupal\Core\Logger\RfcLogLevel;
 use Drupal\user\Entity\User;
+use Drupal\user\UserInterface;
+use function in_array;
+use function str_replace;
+use function strip_tags;
+use function strtr;
 
 class LogMessage {
 
@@ -66,7 +71,7 @@ class LogMessage {
 
     // Strip the variable format prefixes.
     foreach ($variables as $key => $value) {
-      if (\in_array($key[0], ['%', '!', '@', ':'], TRUE)) {
+      if (in_array($key[0], ['%', '!', '@', ':'], TRUE)) {
         $variables[substr($key, 1)] = $value;
         unset($variables[$key]);
       }
@@ -121,9 +126,9 @@ class LogMessage {
     if (!$this->text) {
       $this->text = $this->message;
       if (!empty($this->placeholders)) {
-        $this->text = \strtr($this->text, $this->placeholders);
+        $this->text = strtr($this->text, $this->placeholders);
       }
-      $this->text = \str_replace("\n", '\n', \strip_tags($this->text));
+      $this->text = str_replace("\n", '\n', strip_tags($this->text));
     }
     return $this->text;
   }
@@ -170,7 +175,7 @@ class LogMessage {
   /**
    * @return \Drupal\user\UserInterface
    */
-  public function getUser(): \Drupal\user\UserInterface {
+  public function getUser(): UserInterface {
     if (!$this->user) {
       $this->user = User::load($this->context['uid']);
     }

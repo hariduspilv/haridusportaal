@@ -391,6 +391,9 @@ class Highlight extends ProcessorPluginBase implements PluginFormInterface {
     }
 
     $keywords_in = preg_split(static::$split, $keys);
+    if (!$keywords_in) {
+      return [];
+    }
     // Assure there are no duplicates. (This is actually faster than
     // array_unique() by a factor of 3 to 4.)
     // Remove quotes from keywords.

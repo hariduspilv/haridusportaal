@@ -69,10 +69,10 @@ class ConfigurationCheck extends DiagnosticCheckBase implements DiagnosticCheckI
     }
 
     // Perform checks against configuration.
-    $labels  = $this->purgePurgers->getLabels();
+    $labels = $this->purgePurgers->getLabels();
     foreach ($plugins as $id => $settings) {
       $t = ['@purger' => $labels[$id]];
-       foreach (['name', 'hostname', 'port', 'request_method', 'scheme'] as $f) {
+      foreach (['name', 'hostname', 'port', 'request_method', 'scheme'] as $f) {
         if (empty($settings->$f)) {
           $this->recommendation = $this->t("@purger not configured.", $t);
           return SELF::SEVERITY_ERROR;

@@ -791,7 +791,7 @@ function token_tokens($type, array $tokens, array $data = [], array $options = [
     if ($arg_tokens = \Drupal::token()->findWithPrefix($tokens, 'arg')) {
       $path = ltrim(\Drupal::service('path.current')->getPath(), '/');
       // Make sure its a system path.
-      $path = \Drupal::service('path.alias_manager')->getPathByAlias($path);
+      $path = \Drupal::service('path_alias.manager')->getPathByAlias($path);
       foreach ($arg_tokens as $name => $original) {
         $parts = explode('/', $path);
         if (is_numeric($name) && isset($parts[$name])) {
@@ -848,13 +848,13 @@ function token_tokens($type, array $tokens, array $data = [], array $options = [
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'path':
-          $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode) : $path;
+          $value = !($url->getOption('alias')) ? \Drupal::service('path_alias.manager')->getAliasByPath($path, $langcode) : $path;
           $replacements[$original] = $value;
           break;
 
         case 'alias':
           // @deprecated
-          $alias = \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode);
+          $alias = \Drupal::service('path_alias.manager')->getAliasByPath($path, $langcode);
           $replacements[$original] = $alias;
           break;
 
@@ -876,7 +876,7 @@ function token_tokens($type, array $tokens, array $data = [], array $options = [
           break;
 
         case 'args':
-          $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode) : $path;
+          $value = !($url->getOption('alias')) ? \Drupal::service('path_alias.manager')->getAliasByPath($path, $langcode) : $path;
           $replacements[$original] = token_render_array(explode('/', $value), $options);
           break;
       }
@@ -884,7 +884,7 @@ function token_tokens($type, array $tokens, array $data = [], array $options = [
 
     // [url:args:*] chained tokens.
     if ($arg_tokens = \Drupal::token()->findWithPrefix($tokens, 'args')) {
-      $value = !($url->getOption('alias')) ? \Drupal::service('path.alias_manager')->getAliasByPath($path, $langcode) : $path;
+      $value = !($url->getOption('alias')) ? \Drupal::service('path_alias.manager')->getAliasByPath($path, $langcode) : $path;
       $replacements += \Drupal::token()->generate('array', $arg_tokens, ['array' => explode('/', ltrim($value, '/'))], $options, $bubbleable_metadata);
     }
 
@@ -1024,7 +1024,7 @@ function token_tokens($type, array $tokens, array $data = [], array $options = [
       $algos = hash_algos();
       foreach ($hash_tokens as $name => $original) {
         if (in_array($name, $algos)) {
-          $replacements[$original] = hash($name, Crypt::randomBytes(55));
+          $replacements[$original] = hash($name, random_bytes(55));
         }
       }
     }
@@ -1630,7 +1630,7 @@ function field_tokens($type, $tokens, array $data = [], array $options = [], Bub
           $field_output = $entity->$field_name->view($display_options);
           // If we are displaying all field items we need this #pre_render
           // callback.
-          $field_output['#pre_render'][] = 'token_pre_render_field_token';
+          $field_output['#pre_render'][] = '\Drupal\token\TokenFieldRender::preRender';
         }
         $field_output['#token_options'] = $options;
         $replacements[$original] = \Drupal::service('renderer')->renderPlain($field_output);
@@ -1772,29 +1772,4 @@ function field_tokens($type, $tokens, array $data = [], array $options = [], Bub
     }
   }
   return $replacements;
-}
-
-/**
- * Pre-render callback for field output used with tokens.
- */
-function token_pre_render_field_token($elements) {
-  // Remove the field theme hook, attachments, and JavaScript states.
-  unset($elements['#theme']);
-  unset($elements['#states']);
-  unset($elements['#attached']);
-
-  // Prevent multi-value fields from appearing smooshed together by appending
-  // a join suffix to all but the last value.
-  $deltas = Element::getVisibleChildren($elements);
-  $count = count($deltas);
-  if ($count > 1) {
-    $join = isset($elements['#token_options']['join']) ? $elements['#token_options']['join'] : ", ";
-    foreach ($deltas as $index => $delta) {
-      // Do not add a suffix to the last item.
-      if ($index < ($count - 1)) {
-        $elements[$delta] += ['#suffix' => $join];
-      }
-    }
-  }
-  return $elements;
 }

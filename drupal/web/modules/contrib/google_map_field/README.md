@@ -28,7 +28,16 @@ fieldable entity).
 -   To submit bug reports and feature suggestions, or to track changes:
     <https://www.drupal.org/project/issues/google_map_field>
 
+Default formatter has limited usage. If you require free plugin for any number 
+of loads, use "Google Map Field Embed Place" field formatter.
  
+-   For more information about different types of Google Map embeds:
+    <https://developers.google.com/maps/documentation/embed/guide#view_mode>
+
+-   For more information about Google Map pricing:
+    <https://developers.google.com/maps/billing/understanding-cost-of-use>
+
+
 
 PLEASE NOTE
 -----------
@@ -79,7 +88,7 @@ If the map is not being displayed, check the following:
 
 -   Did you configured the “marker” options in the content map field?
 
--   Did you upgraded from a previous release? If so check the release notes for
+-   Did you upgrade from a previous release? If so check the release notes for
     upgrade steps.
 
 -   Do you have any Javascript errors on the page you have the map?
@@ -91,10 +100,5 @@ MAINTAINERS
 
 Current maintainers:
 
+-   Scot Hubbard (scot.hubbard) - <https://www.drupal.org/u/scothubbard>
 -   Paulo Gomes (pauloamgomes) - <https://www.drupal.org/u/pauloamgomes>
-
--   Scott Hubbard (scot.hubbard) - <https://www.drupal.org/u/scothubbard>
-
- 
-
- 

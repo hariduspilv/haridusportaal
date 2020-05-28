@@ -20,6 +20,11 @@ class KeyRepositoryServiceTest extends BrowserTestBase {
   protected static $modules = ['key'];
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Test key provider methods.
    */
   public function testKeyRepositoryService() {

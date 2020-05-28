@@ -47,7 +47,7 @@ function theme_search_api_admin_fields_table(array $variables) {
     }
   }
 
-  $note = isset($form['note']) ? $form['note'] : '';
+  $note = $form['note'] ?? '';
   unset($form['note'], $form['submit']);
   $output = '';
   foreach (Element::children($form) as $key) {

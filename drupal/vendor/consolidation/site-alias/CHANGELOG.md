@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.0.1 2020-05-27
+
+* Symfony 5 support
+* Remove 'experimental' designation from wildcard environments.
+
 ### 3.0.0 2019-03-12
 
 * Make self.site.yml more discoverable. (#33)

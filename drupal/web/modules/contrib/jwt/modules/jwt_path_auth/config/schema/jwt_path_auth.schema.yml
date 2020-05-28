@@ -1,0 +1,10 @@
+
+jwt_path_auth.config:
+  type: config_object
+  label: 'JWT Path Authentication settings'
+  mapping:
+    allowed_path_prefixes:
+      type: sequence
+      label: 'Path prefixes'
+      sequence:
+        - type: string

@@ -80,18 +80,22 @@ class ConfigSnapshotStorageTest extends ConfigStorageTestBase {
   protected function delete($name) {
     /* @var \Drupal\config_snapshot\Entity\ConfigSnapshot $config_snapshot */
     $config_snapshot = ConfigSnapshot::load('example.module.example_module');
-    $config_snapshot
-      ->clearItem($this->collection, $name)
-      ->save();
+    // Check first if the name to delete exists.
+    if ($this->storage->exists($name)) {
+      $config_snapshot
+        ->clearItem($this->storage->getCollectionName(), $name)
+        ->save();
 
-    return TRUE;
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /**
    * {@inheritdoc}
    */
   public function testInvalidStorage() {
-    // No-op as this test does not make sense.
+    $this->markTestSkipped('ConfigSnapshotStorage cannot be invalid.');
   }
 
   /**

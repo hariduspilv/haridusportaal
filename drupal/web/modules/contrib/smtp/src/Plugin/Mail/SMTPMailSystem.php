@@ -2,14 +2,16 @@
 
 namespace Drupal\smtp\Plugin\Mail;
 
-use Drupal\Component\Utility\EmailValidator;
+use Drupal\Component\Utility\EmailValidatorInterface;
 use Drupal\Component\Utility\Unicode;
+use Drupal\Core\File\FileSystemInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
 use Drupal\Core\Mail\MailFormatHelper;
 use Drupal\Core\Mail\MailInterface;
 use Drupal\Core\Messenger\Messenger;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Drupal\smtp\PHPMailer\PHPMailer;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
+use PHPMailer\PHPMailer\PHPMailer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -24,6 +26,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
+
+  use StringTranslationTrait;
+
   protected $AllowHtml;
   protected $smtpConfig;
 
@@ -44,7 +49,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
   /**
    * Email validator.
    *
-   * @var \Drupal\Component\Utility\EmailValidator
+   * @var \Drupal\Component\Utility\EmailValidatorInterface
    */
   protected $emailValidator;
 
@@ -61,10 +66,15 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    *   The logger object.
    * @param \Drupal\Core\Messenger\Messenger $messenger
    *   The messenger object.
-   * @param \Drupal\Component\Utility\EmailValidator $emailValidator
+   * @param \Drupal\Component\Utility\EmailValidatorInterface $emailValidator
    *   The messenger object.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, LoggerChannelFactoryInterface $logger, Messenger $messenger, EmailValidator $emailValidator) {
+  public function __construct(array $configuration,
+                              $plugin_id,
+                              $plugin_definition,
+                              LoggerChannelFactoryInterface $logger,
+                              Messenger $messenger,
+                              EmailValidatorInterface $emailValidator) {
     $this->smtpConfig = \Drupal::config('smtp.settings');
     $this->logger = $logger;
     $this->messenger = $messenger;
@@ -130,9 +140,13 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
    * @return mixed
    *   TRUE if the mail was successfully accepted, otherwise FALSE.
    *
+   * @throws \Drupal\smtp\Exception\PHPMailerException
+   *
    * @see drupal_mail()
    */
   public function mail(array $message) {
+    $logger = $this->logger->get('smtp');
+
     $to = $message['to'];
     $from = $message['from'];
     $body = $message['body'];
@@ -141,10 +155,17 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
 
     // Create a new PHPMailer object - autoloaded from registry.
     $mailer = new PHPMailer(TRUE);
+    $mailer->Timeout = $this->smtpConfig->get('smtp_timeout');
 
     // Turn on debugging, if requested.
-    if ($this->smtpConfig->get('smtp_debugging') && \Drupal::currentUser()->hasPermission('administer smtp module')) {
+    if ($this->smtpConfig->get('smtp_debugging')
+      && \Drupal::currentUser()->hasPermission('administer smtp module')) {
       $mailer->SMTPDebug = TRUE;
+    }
+
+    // Turn on KeepAlive feature if requested.
+    if ($this->smtpConfig->get('smtp_keepalive')) {
+      $mailer->SMTPKeepAlive = TRUE;
     }
 
     // The $from address might contain the "name" part. If it does, split it,
@@ -167,11 +188,12 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     }
 
     // Set SMTP module email from.
-    if ($this->emailValidator->isValid($this->smtpConfig->get('smtp_from'))) {
-      $from = $this->smtpConfig->get('smtp_from');
-      $headers['Sender'] = $from;
-      $headers['Return-Path'] = $from;
-      $headers['Reply-To'] = $from;
+    $smtp_from = $this->smtpConfig->get('smtp_from');
+    if ($this->emailValidator->isValid($smtp_from)) {
+      $from = $smtp_from;
+      $headers['Sender'] = $smtp_from;
+      $headers['Return-Path'] = $smtp_from;
+      $headers['Reply-To'] = $smtp_from;
     }
 
     // Defines the From value to what we expect.
@@ -275,8 +297,11 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
 
             default:
               // Everything else is unsupported by PHPMailer.
-              $this->messenger->addMessage($this->t('The %header of your message is not supported by PHPMailer and will be sent as text/plain instead.', ['%header' => "Content-Type: $value"]), 'error');
-              $this->logger->error(t('The %header of your message is not supported by PHPMailer and will be sent as text/plain instead.', ['%header' => "Content-Type: $value"]));
+              $this->messenger->addMessage($this->t('The %header of your message is not supported by PHPMailer and will be sent as text/plain instead.',
+                ['%header' => "Content-Type: $value"]),
+                'error');
+              $logger->error($this->t('The %header of your message is not supported by PHPMailer and will be sent as text/plain instead.',
+                ['%header' => "Content-Type: $value"]));
 
               // Force the Content-Type to be text/plain.
               $mailer->IsHTML(FALSE);
@@ -310,17 +335,17 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
           break;
 
         case 'cc':
-          $ccrecipients = explode(',', $value);
-          foreach ($ccrecipients as $ccrecipient) {
-            $cc_comp = $this->getComponents($ccrecipient);
+          $cc_recipients = explode(',', $value);
+          foreach ($cc_recipients as $cc_recipient) {
+            $cc_comp = $this->getComponents($cc_recipient);
             $mailer->AddCC($cc_comp['email'], $cc_comp['name']);
           }
           break;
 
         case 'bcc':
-          $bccrecipients = explode(',', $value);
-          foreach ($bccrecipients as $bccrecipient) {
-            $bcc_comp = $this->getComponents($bccrecipient);
+          $bcc_recipients = explode(',', $value);
+          foreach ($bcc_recipients as $bcc_recipient) {
+            $bcc_comp = $this->getComponents($bcc_recipient);
             $mailer->AddBCC($bcc_comp['email'], Unicode::mimeHeaderEncode($bcc_comp['name']));
           }
           break;
@@ -337,16 +362,15 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
     // Add one last header item, but not if it has already been added.
     // $errors_to = FALSE;
     // foreach ($mailer->CustomHeader as $custom_header) {
-    // if ($custom_header[0] = '') {
-    // $errors_to = TRUE;
-    // }
+    //   if ($custom_header[0] = '') {
+    //     $errors_to = TRUE;
+    //   }
     // }
     // if ($errors_to) {
-    // $mailer->AddCustomHeader('Errors-To: '. $from);
-    // }
-    //
+    //   $mailer->AddCustomHeader('Errors-To: '. $from);
+    // }.
     // Add the message's subject.
-    $mailer->Subject = Unicode::mimeHeaderEncode($subject);
+    $mailer->Subject = $subject;
 
     // Processes the message's body.
     switch ($content_type) {
@@ -485,7 +509,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
               }
 
               $attachment_new_filename = \Drupal::service('file_system')->tempnam('temporary://', 'smtp');
-              $file_path = file_save_data($attachment, $attachment_new_filename, FILE_EXISTS_REPLACE);
+              $file_path = file_save_data($attachment, $attachment_new_filename, FileSystemInterface::EXISTS_REPLACE);
               $real_path = \Drupal::service('file_system')->realpath($file_path->uri);
 
               if (!$mailer->AddAttachment($real_path, $file_name)) {
@@ -540,6 +564,8 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
         $mailer->SMTPSecure = '';
     }
 
+    $mailer->SMTPAutoTLS = $this->smtpConfig->get('smtp_autotls');
+
     // Set other connection settings.
     $mailer->Host = $this->smtpConfig->get('smtp_host') . ';' . $this->smtpConfig->get('smtp_hostbackup');
     $mailer->Port = $this->smtpConfig->get('smtp_port');
@@ -551,7 +577,7 @@ class SMTPMailSystem implements MailInterface, ContainerFactoryPluginInterface {
       'from' => $from,
     ];
     if ($this->smtpConfig->get('smtp_queue')) {
-      $this->logger->info(t('Queue sending mail to: @to', ['@to' => $to]));
+      $logger->info($this->t('Queue sending mail to: @to', ['@to' => $to]));
       smtp_send_queue($mailerArr);
     }
     else {

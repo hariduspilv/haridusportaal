@@ -279,8 +279,9 @@ class JsonFeedSerializer extends StylePluginBase {
       return NULL;
     }
 
+    $pager_manager = \Drupal::service('pager.manager');
     $options = [
-      'query' => pager_query_add_page([], 0, $pager->getCurrentPage() + 1),
+      'query' => $pager_manager->getUpdatedParameters([], 0, $pager->getCurrentPage() + 1),
     ];
     return Url::fromRoute('<current>', [], $options)->setAbsolute()->toString();
   }

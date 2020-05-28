@@ -7,7 +7,6 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Utility\Token;
 use Drupal\purge\Plugin\Purge\Purger\PurgerBase;
 use Drupal\purge\Plugin\Purge\Purger\PurgerInterface;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
 use Drupal\varnish_purger\Entity\VarnishPurgerSettings;
 
 /**
@@ -30,7 +29,7 @@ abstract class VarnishPurgerBase extends PurgerBase implements PurgerInterface {
   /**
    * The token service.
    *
-   * @var \Drupal\Core\Utility\Token.
+   * @var \Drupal\Core\Utility\Token
    */
   protected $token;
 
@@ -48,7 +47,7 @@ abstract class VarnishPurgerBase extends PurgerBase implements PurgerInterface {
    * @param \Drupal\Core\Utility\Token $token
    *   The token service.
    */
-  function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client, Token $token) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, ClientInterface $http_client, Token $token) {
     parent::__construct($configuration, $plugin_id, $plugin_definition);
     $this->settings = VarnishPurgerSettings::load($this->getId());
     $this->client = $http_client;
@@ -130,7 +129,6 @@ abstract class VarnishPurgerBase extends PurgerBase implements PurgerInterface {
    *
    * @param array $token_data
    *   An array of keyed objects, to pass on to the token service.
-   *
    *
    * @return mixed[]
    *   Associative array with option/value pairs.

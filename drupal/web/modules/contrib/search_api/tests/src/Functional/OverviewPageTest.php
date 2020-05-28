@@ -108,10 +108,6 @@ class OverviewPageTest extends SearchApiBrowserTestBase {
     \Drupal::getContainer()
       ->get('search_api.task_manager')
       ->addTask('deleteItems', $server, $index, ['']);
-    // Due to an (apparent) Core bug we need to clear the cache, otherwise the
-    // "local actions" block gets displayed from cache (without the link). See
-    // #2722237.
-    \Drupal::cache('render')->invalidateAll();
     $this->drupalGet($this->overviewPageUrl);
     $this->assertSession()->linkExists('Execute pending tasks', 0);
   }

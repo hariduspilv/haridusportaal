@@ -12,6 +12,13 @@ use Drupal\Tests\BrowserTestBase;
 class ConfigUpdateTest extends BrowserTestBase {
 
   /**
+   * Default theme.
+   *
+   * @var string
+   */
+  protected $defaultTheme = 'classy';
+
+  /**
    * Modules to enable.
    *
    * Use the Search module because it has two included config items in its

@@ -40,9 +40,6 @@
   padding: 3px;
 }
 
-#centre_on button {
-}
-
 #centre_map_results a {
   cursor: pointer;
 }
@@ -64,15 +61,43 @@
 }
 
 #google_map_map_container {
-  flex: 1;
+  flex: 1 75%;
 }
 
 #google_map_field_options {
-  flex: 0 0 9em;
+  flex: 0 0 25%;
   order: 1;
 }
 
+#google_map_field_options select,
+#google_map_field_options input[type="text"] {
+  box-sizing: border-box;
+  width: 100%;
+}
 
+#google_map_field_options .form-checkbox::after {
+  clear: both;
+  content: " ";
+  display: table;
+}
 
+#google_map_field_options .form-checkbox {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
 
+#google_map_field_options .form-checkbox input,
+#google_map_field_options .form-checkbox label {
+  float: left;
+}
 
+#google_map_field_options .form-checkbox label {
+  margin-top: 2px;
+  padding-left: 5px;
+}
+
+p.marker-text {
+  font-size: 0.8em;
+  line-height: 1em;
+  margin-top: 0.5em;
+}

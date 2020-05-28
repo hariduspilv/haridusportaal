@@ -1,0 +1,6 @@
+services:
+  jwt_path_auth.authentication.jwt:
+    class: Drupal\jwt_path_auth\Authentication\Provider\JwtPathAuth
+    arguments: [ '@jwt.transcoder', '@config.factory' , '@entity_type.manager', '@page_cache_kill_switch']
+    tags:
+      - { name: authentication_provider, provider_id: 'jwt_path_auth', global: TRUE, priority: 50 }

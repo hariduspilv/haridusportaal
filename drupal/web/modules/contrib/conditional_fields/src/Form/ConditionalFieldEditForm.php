@@ -276,10 +276,10 @@ class ConditionalFieldEditForm extends FormBase {
       if (in_array($form_state->getValue('values_set'), $allowed_values_set) &&
         mb_strlen(trim($form_state->getValue('values')) === 0)
       ) {
-        $form_state->setErrorByName('values', $this->t('@name field is required.', ['@name' => $this->t('Set of values')]));
+        $form_state->setErrorByName('values', $this->t('Field %name is required.', ['%name' => $this->t('Set of values')]));
       }
       elseif ($form_state->getValue('values_set') == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX && mb_strlen(trim($form_state->getValue('regex'))) == 0) {
-        $form_state->setErrorByName('regex', $this->t('@name field is required.', ['@name' => $this->t('Regular expression')]));
+        $form_state->setErrorByName('regex', $this->t('Field %name is required.', ['%name' => $this->t('Regular expression')]));
       }
     }
     parent::validateForm($form, $form_state);

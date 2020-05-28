@@ -5,7 +5,7 @@ core: 8.x
 package: Security
 configure: entity.key.collection
 
-# Information added by Drupal.org packaging script on 2019-11-15
-version: '8.x-1.12'
+# Information added by Drupal.org packaging script on 2020-04-27
+version: '8.x-1.13'
 project: 'key'
-datestamp: 1573783099
+datestamp: 1588008017

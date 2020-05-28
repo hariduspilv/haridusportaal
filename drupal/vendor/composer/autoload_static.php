@@ -47,6 +47,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             'nodespark\\DESConnector\\' => 23,
         ),
+        'e' => 
+        array (
+            'enshrined\\svgSanitize\\' => 22,
+        ),
         'c' => 
         array (
             'cweagans\\Composer\\' => 18,
@@ -129,6 +133,7 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Prophecy\\' => 9,
             'PhpParser\\' => 10,
             'PhpLang\\' => 8,
+            'PHPMailer\\PHPMailer\\' => 20,
         ),
         'M' => 
         array (
@@ -145,8 +150,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'J' => 
         array (
             'JsonSchema\\' => 11,
-            'JakubOnderka\\PhpConsoleHighlighter\\' => 35,
-            'JakubOnderka\\PhpConsoleColor\\' => 29,
         ),
         'I' => 
         array (
@@ -189,6 +192,8 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Drupal\\Console\\Composer\\Plugin\\' => 31,
             'Drupal\\Console\\' => 15,
             'Drupal\\Component\\' => 17,
+            'Drupal\\' => 7,
+            'DrupalPractice\\' => 15,
             'DrupalComposer\\DrupalScaffold\\' => 30,
             'DrupalCodeGenerator\\' => 20,
             'Dotenv\\' => 7,
@@ -244,6 +249,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'nodespark\\DESConnector\\' => 
         array (
             0 => __DIR__ . '/..' . '/nodespark/des-connector/src/DESConnector',
+        ),
+        'enshrined\\svgSanitize\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/enshrined/svg-sanitize/src',
         ),
         'cweagans\\Composer\\' => 
         array (
@@ -481,6 +490,10 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         array (
             0 => __DIR__ . '/..' . '/phplang/scope-exit/src',
         ),
+        'PHPMailer\\PHPMailer\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpmailer/phpmailer/src',
+        ),
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
@@ -508,14 +521,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'JsonSchema\\' => 
         array (
             0 => __DIR__ . '/..' . '/justinrainbow/json-schema/src/JsonSchema',
-        ),
-        'JakubOnderka\\PhpConsoleHighlighter\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jakub-onderka/php-console-highlighter/src',
-        ),
-        'JakubOnderka\\PhpConsoleColor\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/jakub-onderka/php-console-color/src',
         ),
         'Interop\\Container\\' => 
         array (
@@ -612,6 +617,14 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
         'Drupal\\Component\\' => 
         array (
             0 => __DIR__ . '/../..' . '/web/core/lib/Drupal/Component',
+        ),
+        'Drupal\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/drupal/coder/coder_sniffer/Drupal',
+        ),
+        'DrupalPractice\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/drupal/coder/coder_sniffer/DrupalPractice',
         ),
         'DrupalComposer\\DrupalScaffold\\' => 
         array (
@@ -777,14 +790,6 @@ class ComposerStaticInit71f1f0d53ec6ae32c7e1c6bd173a621c
             'Drupal\\Monolog' => 
             array (
                 0 => __DIR__ . '/../..' . '/web/modules/contrib/monolog/src',
-            ),
-            'Drupal\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/drupal/coder/coder_sniffer/Drupal',
-            ),
-            'DrupalPractice\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/drupal/coder/coder_sniffer/DrupalPractice',
             ),
             'Dflydev\\PlaceholderResolver' => 
             array (

@@ -313,19 +313,8 @@ class SvgImageWidget extends FileWidget {
   public static function validateRequiredFields($element, FormStateInterface $formState) {
     // Only do validation if the function is triggered from other places than
     // the image process form.
-    $triggeringElement = $formState->getTriggeringElement();
-    if (empty($triggeringElement['#submit']) || !in_array('file_managed_file_submit', $triggeringElement['#submit'])) {
-      // If the image is not there, we do not check for empty values.
-      $parents = $element['#parents'];
-      $field = array_pop($parents);
-      $imageField = NestedArray::getValue($formState->getUserInput(), $parents);
-      // We check for the array key, so that it can be NULL (like if the user
-      // submits the form without using the "upload" button).
-      if (!array_key_exists($field, $imageField)) {
-        return;
-      }
-    }
-    else {
+    $triggering_element = $formState->getTriggeringElement();
+    if (!empty($triggering_element['#submit']) && in_array('file_managed_file_submit', $triggering_element['#submit'], TRUE)) {
       $formState->setLimitValidationErrors([]);
     }
   }

@@ -26,6 +26,7 @@ class AutocompleteTest extends KernelTestBase {
     'entity_test',
     'field',
     'system',
+    'filter',
     'text',
     'user',
     'search_api',

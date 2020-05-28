@@ -8,11 +8,17 @@ use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\DependencyInjection\DependencySerializationTrait;
 use Drupal\Core\Logger\LogMessageParserInterface;
 use Drupal\Core\Logger\RfcLoggerTrait;
+use Drupal\Core\Render\BubbleableMetadata;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Utility\Token;
 use Drupal\filelog\FileLogException;
+use Drupal\filelog\LogFileManagerInterface;
 use Drupal\filelog\LogMessage;
 use Psr\Log\LoggerInterface;
+use function file_exists;
+use function fopen;
+use function fwrite;
+use function watchdog_exception;
 
 class FileLog implements LoggerInterface {
 
@@ -52,6 +58,16 @@ class FileLog implements LoggerInterface {
   protected $logFile;
 
   /**
+   * @var resource
+   */
+  protected $stderr;
+
+  /**
+   * @var \Drupal\filelog\LogFileManagerInterface
+   */
+  protected $fileManager;
+
+  /**
    * FileLog constructor.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface    $configFactory
@@ -59,17 +75,20 @@ class FileLog implements LoggerInterface {
    * @param \Drupal\Core\Utility\Token                    $token
    * @param \Drupal\Component\Datetime\TimeInterface      $time
    * @param \Drupal\Core\Logger\LogMessageParserInterface $parser
+   * @param \Drupal\filelog\LogFileManagerInterface       $fileManager
    */
   public function __construct(ConfigFactoryInterface $configFactory,
                               StateInterface $state,
                               Token $token,
                               TimeInterface $time,
-                              LogMessageParserInterface $parser) {
+                              LogMessageParserInterface $parser,
+                              LogFileManagerInterface $fileManager) {
     $this->config = $configFactory->get('filelog.settings');
     $this->state = $state;
     $this->token = $token;
     $this->time = $time;
     $this->parser = $parser;
+    $this->fileManager = $fileManager;
   }
 
   /**
@@ -79,16 +98,6 @@ class FileLog implements LoggerInterface {
    */
   public function getFileName(): string {
     return $this->config->get('location') . '/' . self::FILENAME;
-  }
-
-  /**
-   * Ensure that the log directory exists.
-   *
-   * @return bool
-   */
-  protected function ensurePath(): bool {
-    $path = $this->config->get('location');
-    return \file_prepare_directory($path, FILE_CREATE_DIRECTORY);
   }
 
   /**
@@ -106,12 +115,12 @@ class FileLog implements LoggerInterface {
 
     // When creating a new log file, save the creation timestamp.
     $filename = $this->getFileName();
-    $create = !\file_exists($filename);
-    if (!$this->ensurePath()) {
-      $this->logFile = STDERR;
+    $create = !file_exists($filename);
+    if (!$this->fileManager->ensurePath()) {
+      $this->logFile = $this->stderr();
       throw new FileLogException('The log directory has disappeared.');
     }
-    if ($this->logFile = \fopen($filename, 'ab')) {
+    if ($this->logFile = fopen($filename, 'ab')) {
       if ($create) {
         $this->state->set('filelog.rotation', $this->time->getRequestTime());
       }
@@ -119,7 +128,7 @@ class FileLog implements LoggerInterface {
     }
 
     // Log errors to STDERR until the end of the current request.
-    $this->logFile = STDERR;
+    $this->logFile = $this->stderr();
     throw new FileLogException('The logfile could not be opened for writing. Logging to STDERR.');
   }
 
@@ -139,10 +148,10 @@ class FileLog implements LoggerInterface {
     } catch (FileLogException $error) {
       // Log the exception, unless we were already logging a filelog error.
       if ($context['channel'] !== 'filelog') {
-        \watchdog_exception('filelog', $error);
+        watchdog_exception('filelog', $error);
       }
       // Write the message directly to STDERR.
-      \fwrite(STDERR, $entry . "\n");
+      fwrite($this->stderr(), $entry . "\n");
     }
   }
 
@@ -174,12 +183,31 @@ class FileLog implements LoggerInterface {
   protected function render($level, $message, array $context = []): string {
     // Populate the message placeholders.
     $variables = $this->parser->parseMessagePlaceholders($message, $context);
+    // Pass in bubbleable metadata that are just discarded later to prevent a
+    // LogicException due to too early rendering. The metadata of the string
+    // is not needed as it is not used for cacheable output but for writing to a
+    // logfile.
+    $bubbleable_metadata_to_discard = new BubbleableMetadata();
     $log = new LogMessage($level, $message, $variables, $context);
     $entry = $this->token->replace(
       $this->config->get('format'),
-      ['log' => $log]
+      ['log' => $log],
+      [],
+      $bubbleable_metadata_to_discard
     );
     return PlainTextOutput::renderFromHtml($entry);
+  }
+
+  /**
+   * Open STDERR resource, or use STDERR constant if available.
+   *
+   * @return resource
+   */
+  protected function stderr() {
+    if ($this->stderr === NULL) {
+      $this->stderr = defined('STDERR') ? STDERR : fopen('php://stderr', 'wb');
+    }
+    return $this->stderr;
   }
 
   /**
@@ -190,7 +218,7 @@ class FileLog implements LoggerInterface {
    * @throws \Drupal\filelog\FileLogException
    */
   protected function write($entry): void {
-    if (!\fwrite($this->logFile, $entry . "\n")) {
+    if (!fwrite($this->logFile, $entry . "\n")) {
       throw new FileLogException('The message could not be written to the logfile.');
     }
   }

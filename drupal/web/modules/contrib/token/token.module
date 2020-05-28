@@ -673,6 +673,7 @@ function token_entity_base_field_info(EntityTypeInterface $entity_type) {
       ->setDescription(t('Computed menu link for the node (only available during node saving).'))
       ->setRevisionable(TRUE)
       ->setSetting('target_type', 'menu_link_content')
+      ->setClass('\Drupal\token\MenuLinkFieldItemList')
       ->setTranslatable(TRUE)
       ->setInternal(TRUE)
       ->setDisplayOptions('view', [
@@ -699,12 +700,6 @@ function token_entity_base_field_info(EntityTypeInterface $entity_type) {
  */
 function token_form_node_form_alter(&$form, FormStateInterface $form_state) {
   if (!\Drupal::moduleHandler()->moduleExists('menu_ui')) {
-    return;
-  }
-  /** @var \Drupal\node\NodeForm $form_object */
-  if (!\Drupal::currentUser()->hasPermission('administer menu')) {
-    // We're only interested in when the node is unsaved and the editor has
-    // permission to create new menu links.
     return;
   }
   $form['#entity_builders'][] = 'token_node_menu_link_submit';

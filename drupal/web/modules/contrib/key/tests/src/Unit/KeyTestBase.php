@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\key\Unit;
 
+use Drupal\Component\Utility\Crypt;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Tests\UnitTestCase;
 
@@ -83,7 +84,7 @@ abstract class KeyTestBase extends UnitTestCase {
    *   A hashed string that could be confused as some secret token.
    */
   protected function createToken() {
-    return strtoupper(hash('ripemd128', md5($this->getRandomGenerator()->string(30))));
+    return strtoupper(hash('ripemd128', Crypt::hashBase64($this->getRandomGenerator()->string(30))));
   }
 
 }

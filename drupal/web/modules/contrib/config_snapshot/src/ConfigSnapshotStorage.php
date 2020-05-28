@@ -207,8 +207,8 @@ class ConfigSnapshotStorage implements StorageInterface {
    * {@inheritdoc}
    */
   public function deleteAll($prefix = '') {
-    $items = $this->configSnapshot->getItems();
-    $collection = $this->collection;
+    $original_items = $items = $this->configSnapshot->getItems();
+    $collection = $this->getCollectionName();
     $collection_items = array_filter($items, function ($item) use ($collection) {
       return ($item['collection'] === $collection);
     });
@@ -222,11 +222,15 @@ class ConfigSnapshotStorage implements StorageInterface {
         }
       }
     }
-    $this->configSnapshot
-      ->setItems($items)
-      ->save();
+    // Determine if any items have changed.
+    if ($items !== $original_items) {
+      $this->configSnapshot
+        ->setItems($items)
+        ->save();
 
-    return TRUE;
+      return TRUE;
+    }
+    return FALSE;
   }
 
   /**
