@@ -30,6 +30,15 @@
 		}
 		&__actions {
 			display: flex;
+			#headerLogin {
+				overflow: unset;
+				.tooltip {
+					z-index: 1;
+					position: absolute;
+					top: 2.5rem;
+					right: -1rem;
+				}
+			}
 		}
 		&__logout {
 			background-color: $white;
