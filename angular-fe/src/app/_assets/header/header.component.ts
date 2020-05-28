@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, Input, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
 import {
   AlertsService,
   AnalyticsService,
@@ -12,6 +12,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NgbTooltip } from '@ng-bootstrap/ng-bootstrap';
+import { TooltipComponent } from '../tooltip';
 
 @Component({
   selector: 'htm-header',
@@ -25,6 +27,7 @@ export class HeaderComponent implements OnInit {
   @Input() public user: string = '';
   @HostBinding('attr.aria-label') public ariaLabel: string = this.translate.get('frontpage.header');
   @HostBinding('attr.role') public role: string = 'banner';
+  public loginTooltip = this.settings.data.login_tooltip;
   public searchTerm: any;
   public logoutActive = false;
   public searchString = '';

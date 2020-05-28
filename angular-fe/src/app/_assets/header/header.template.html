@@ -20,33 +20,27 @@
         <icon (click)="searchClick()" glyph="search" size="default"></icon>
         <form>
           <label class="hidden-label" for="homeSearch">Sisesta märksõna ja vajuta Enter</label>
-          <formItem type="autocomplete" query="testAutocomplete" titleDisabled="true"
-                    name="homeSearch"
-                    placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm"
-                    domID="homeSearch"
-                    (autoCompleteChanged)="searchRoute($event)">
+          <formItem type="autocomplete" query="testAutocomplete" titleDisabled="true" name="homeSearch"
+            placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" domID="homeSearch"
+            (autoCompleteChanged)="searchRoute($event)">
           </formItem>
         </form>
       </div>
       <div class="header__actions">
-        <button htm-button [class.active]="modalService.modalOpened['search']"
-                (click)="modalService.toggle('search')"
-                theme="plain" attr.aria-label="{{ 'button.search' | translate }}">
+        <button htm-button [class.active]="modalService.modalOpened['search']" (click)="modalService.toggle('search')"
+          theme="plain" attr.aria-label="{{ 'button.search' | translate }}">
           <icon aria-hidden="true" glyph="search" size="medium"></icon>
         </button>
 
-        <button *ngIf="loginStatus; else other" theme="plain" (click)="openLogOutDropdown($event)"
-                htm-button>
+        <button *ngIf="loginStatus; else other" theme="plain" (click)="openLogOutDropdown($event)" htm-button>
           <div class="label--logged">
             <icon aria-hidden="true" glyph="user" size="medium"></icon>
             <span>
-							<ng-container
-                *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
+              <ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
                 {{ auth.user.lastname }}</ng-container>
-							<ng-container
-                *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}
-							</ng-container>
-						</span>
+              <ng-container *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}
+              </ng-container>
+            </span>
           </div>
         </button>
         <div *ngIf="logoutActive" class="header__logout">
@@ -56,10 +50,13 @@
         </div>
         <ng-template #other>
           <button id="headerLogin" htm-button [class.active]="modalService.modalOpened['login']"
-                  (click)="openLoginModal()" theme="plain"
-                  attr.aria-label="{{ 'button.login' | translate }}">
+            (click)="openLoginModal()" theme="plain" attr.aria-label="{{ 'button.login' | translate }}">
             <icon aria-hidden="true" glyph="user" size="medium"></icon>
             <span>{{ "button.login" | translate }}</span>
+            <div *ngIf="loginTooltip === 'enabled'" class="tooltip show bs-tooltip-bottom sm-hide">
+              <div class="arrow"></div>
+              <div class="tooltip-inner">{{ 'login.tooltip-text' | translate }}</div>
+            </div>
           </button>
         </ng-template>
       </div>
@@ -72,9 +69,9 @@
 <htm-modal id="search" modalTitle="{{ 'button.search' | translate }}" [bottomAction]="false">
   <ng-template id="search">
     <formItem type="text" [(ngModel)]="searchString" title="Märksõna"
-              (keyup.enter)="searchRoute(searchString); modalService.close('search')"></formItem>
+      (keyup.enter)="searchRoute(searchString); modalService.close('search')"></formItem>
     <button (blur)="modalService.focusLock()" htm-button style="margin: 1rem 0; width: 100%;"
-            (click)="searchRoute(searchString); modalService.close('search')">
+      (click)="searchRoute(searchString); modalService.close('search')">
       Otsi
     </button>
   </ng-template>
@@ -104,10 +101,8 @@
               </div>
               <div>
                 <form [formGroup]="mobileIdForm">
-                  <formItem ariaLabel="{{ 'dashboard.contactPhone' | translate }}"
-                            [keyDownFn]="isNumber"
-                            formControlName="phoneNumber"
-                            title="{{ 'dashboard.contactPhone' | translate }}">
+                  <formItem ariaLabel="{{ 'dashboard.contactPhone' | translate }}" [keyDownFn]="isNumber"
+                    formControlName="phoneNumber" title="{{ 'dashboard.contactPhone' | translate }}">
                   </formItem>
                 </form>
               </div>
@@ -119,15 +114,13 @@
             </div>
             <form class="login__method" *ngIf="method[0] === 'basic'" [formGroup]="loginForm">
               <div>
-                <formItem ariaLabel="{{ 'login.username' | translate }}" type="text"
-                          formControlName="username" browserAutocomplete="username"
-                          title="{{ 'login.username' | translate }}">
+                <formItem ariaLabel="{{ 'login.username' | translate }}" type="text" formControlName="username"
+                  browserAutocomplete="username" title="{{ 'login.username' | translate }}">
                 </formItem>
               </div>
               <div>
-                <formItem ariaLabel="{{ 'login.password' | translate }}" type="password"
-                          formControlName="password" browserAutocomplete="password"
-                          title="{{ 'login.password' | translate }}">
+                <formItem ariaLabel="{{ 'login.password' | translate }}" type="password" formControlName="password"
+                  browserAutocomplete="password" title="{{ 'login.password' | translate }}">
                 </formItem>
               </div>
               <div>
@@ -146,8 +139,7 @@
             <h1>{{this.mobileId.challengeId}}</h1>
             <p class="mb-0">Seejärel sisesta PIN1</p>
             <p class="mt-0">Ootame Mobiil-ID vastust…</p>
-            <button (click)="mobileIdCancel()" htm-button
-                    theme="plain">{{"button.cancel" | translate}}</button>
+            <button (click)="mobileIdCancel()" htm-button theme="plain">{{"button.cancel" | translate}}</button>
           </div>
         </ng-template>
       </div>
