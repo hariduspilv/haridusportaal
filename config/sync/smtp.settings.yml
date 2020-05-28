@@ -16,3 +16,5 @@ prev_mail_system: php_mail
 _core:
   default_config_hash: WEa5Ex_IeAcm6Bm0hmQ4vU_nDwJDB8hW-vxT1qpGIbM
 langcode: et
+smtp_timeout: 30
+smtp_keepalive: false

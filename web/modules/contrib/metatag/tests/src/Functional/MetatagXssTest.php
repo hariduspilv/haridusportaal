@@ -3,7 +3,6 @@
 namespace Drupal\Tests\metatag\Functional;
 
 use Drupal\Tests\BrowserTestBase;
-use Drupal\Core\StringTranslation\StringTranslationTrait;
 
 /**
  * Ensures that meta tags do not allow xss vulnerabilities.
@@ -11,8 +10,6 @@ use Drupal\Core\StringTranslation\StringTranslationTrait;
  * @group metatag
  */
 class MetatagXssTest extends BrowserTestBase {
-
-  use StringTranslationTrait;
 
   /**
    * String that causes an alert when page titles aren't filtered for xss.
@@ -75,11 +72,6 @@ class MetatagXssTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $defaultTheme = 'stark';
-
-  /**
-   * {@inheritdoc}
-   */
   protected function setUp() {
     parent::setUp();
 
@@ -105,14 +97,14 @@ class MetatagXssTest extends BrowserTestBase {
 
     // Add a metatag field to the content type.
     $this->drupalGet('admin/structure/types/manage/metatag_node/fields/add-field');
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertResponse(200);
     $edit = [
       'label' => 'Metatag',
       'field_name' => 'metatag_field',
       'new_storage_type' => 'metatag',
     ];
-    $this->drupalPostForm(NULL, $edit, $this->t('Save and continue'));
-    $this->drupalPostForm(NULL, [], $this->t('Save field settings'));
+    $this->drupalPostForm(NULL, $edit, t('Save and continue'));
+    $this->drupalPostForm(NULL, [], t('Save field settings'));
   }
 
   /**
@@ -120,7 +112,7 @@ class MetatagXssTest extends BrowserTestBase {
    */
   public function testXssMetatagConfig() {
     $this->drupalGet('admin/config/search/metatag/global');
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertResponse(200);
     $values = [
       'title' => $this->xssTitleString,
       'abstract' => $this->xssString,
@@ -132,8 +124,8 @@ class MetatagXssTest extends BrowserTestBase {
 
     // Load the Views-based front page.
     $this->drupalGet('node');
-    $this->assertSession()->statusCodeEquals(200);
-    $this->assertText($this->t('No front page content has been created yet.'));
+    $this->assertResponse(200);
+    $this->assertText(t('No front page content has been created yet.'));
 
     // Check for the title tag, which will have the HTML tags removed and then
     // be lightly HTML encoded.
@@ -153,10 +145,10 @@ class MetatagXssTest extends BrowserTestBase {
    * Verify XSS injected in the entity metatag override field is not rendered.
    */
   public function testXssEntityOverride() {
-    $save_label = (floatval(\Drupal::VERSION) <= 8.3) ? $this->t('Save and publish') : $this->t('Save');
+    $save_label = (floatval(\Drupal::VERSION) <= 8.3) ? t('Save and publish') : t('Save');
 
     $this->drupalGet('node/add/metatag_node');
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertResponse(200);
     $edit = [
       'title[0][value]' => $this->randomString(32),
       'field_metatag_field[0][basic][title]' => $this->xssTitleString,
@@ -183,10 +175,10 @@ class MetatagXssTest extends BrowserTestBase {
    * Verify XSS injected in the entity titles are not rendered.
    */
   public function testXssEntityTitle() {
-    $save_label = (floatval(\Drupal::VERSION) <= 8.3) ? $this->t('Save and publish') : $this->t('Save');
+    $save_label = (floatval(\Drupal::VERSION) <= 8.3) ? t('Save and publish') : t('Save');
 
     $this->drupalGet('node/add/metatag_node');
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertResponse(200);
     $edit = [
       'title[0][value]' => $this->xssTitleString,
       'body[0][value]' => $this->randomString() . ' ' . $this->randomString(),
@@ -203,10 +195,10 @@ class MetatagXssTest extends BrowserTestBase {
    * Verify XSS injected in the entity fields are not rendered.
    */
   public function testXssEntityBody() {
-    $save_label = (floatval(\Drupal::VERSION) <= 8.3) ? $this->t('Save and publish') : $this->t('Save');
+    $save_label = (floatval(\Drupal::VERSION) <= 8.3) ? t('Save and publish') : t('Save');
 
     $this->drupalGet('node/add/metatag_node');
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertResponse(200);
     $edit = [
       'title[0][value]' => $this->randomString(),
       'body[0][value]' => $this->xssTitleString,

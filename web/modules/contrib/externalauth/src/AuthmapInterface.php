@@ -82,14 +82,10 @@ interface AuthmapInterface {
   /**
    * Delete authmap entries for a given Drupal user ID.
    *
-   * Deletion will be restricted to the specified provider, if passed.
-   *
    * @param int $uid
    *   The Drupal user ID.
-   * @param string $provider
-   *   (optional) The name of the service providing external authentication.
    */
-  public function delete($uid, $provider = NULL);
+  public function delete($uid);
 
   /**
    * Delete all authmap entries for a given provider.

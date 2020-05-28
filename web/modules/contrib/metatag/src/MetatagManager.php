@@ -504,25 +504,6 @@ class MetatagManager implements MetatagManagerInterface {
       return [];
     }
 
-    // Prepare any tokens that might exist.
-    $token_replacements = [];
-    if ($entity) {
-      // @todo This needs a better way of discovering the context.
-      if ($entity instanceof ViewEntityInterface) {
-        // Views tokens require the ViewExecutable, not the config entity.
-        // @todo Can we move this into metatag_views somehow?
-        $token_replacements = ['view' => $entity->getExecutable()];
-      }
-      elseif ($entity instanceof ContentEntityInterface) {
-        $token_replacements = [$entity->getEntityTypeId() => $entity];
-      }
-    }
-
-    // Ge the current language code.
-    $langcode = \Drupal::languageManager()
-      ->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)
-      ->getId();
-
     $rawTags = [];
 
     $metatag_tags = $this->tagPluginManager->getDefinitions();
@@ -543,13 +524,27 @@ class MetatagManager implements MetatagManagerInterface {
         // Get an instance of the plugin.
         $tag = $this->tagPluginManager->createInstance($tag_name);
 
+        // Render any tokens in the value.
+        $token_replacements = [];
+        if ($entity) {
+          // @todo This needs a better way of discovering the context.
+          if ($entity instanceof ViewEntityInterface) {
+            // Views tokens require the ViewExecutable, not the config entity.
+            // @todo Can we move this into metatag_views somehow?
+            $token_replacements = ['view' => $entity->getExecutable()];
+          }
+          elseif ($entity instanceof ContentEntityInterface) {
+            $token_replacements = [$entity->getEntityTypeId() => $entity];
+          }
+        }
+
         // Set the value as sometimes the data needs massaging, such as when
         // field defaults are used for the Robots field, which come as an array
         // that needs to be filtered and converted to a string.
         // @see Robots::setValue()
         $tag->setValue($value);
+        $langcode = \Drupal::languageManager()->getCurrentLanguage(LanguageInterface::TYPE_CONTENT)->getId();
 
-        // Obtain the processed value.
         $processed_value = PlainTextOutput::renderFromHtml(htmlspecialchars_decode($this->tokenService->replace($tag->value(), $token_replacements, ['langcode' => $langcode])));
 
         // Now store the value with processed tokens back into the plugin.

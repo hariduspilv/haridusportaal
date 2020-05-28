@@ -33,11 +33,6 @@ class MaintenanceMode extends BrowserTestBase {
   ];
 
   /**
-   * {@inheritdoc}
-   */
-  protected $defaultTheme = 'stark';
-
-  /**
    * Put the site into maintenance mode, see what the meta tags are.
    */
   public function testUser1() {

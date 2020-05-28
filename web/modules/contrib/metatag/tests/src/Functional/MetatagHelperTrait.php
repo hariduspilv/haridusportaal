@@ -115,7 +115,7 @@ trait MetatagHelperTrait {
       $this->assertSame($status, SAVED_NEW, (new FormattableMarkup('Created vocabulary %type.', ['%type' => $vocab->id()]))->__toString());
     }
     else {
-      self::assertEquals($status, SAVED_NEW, (new FormattableMarkup('Created vocabulary %type.', ['%type' => $vocab->id()]))->__toString());
+      $this->assertEqual($status, SAVED_NEW, (new FormattableMarkup('Created vocabulary %type.', ['%type' => $vocab->id()]))->__toString());
     }
 
     return $vocab;
@@ -148,7 +148,7 @@ trait MetatagHelperTrait {
       $this->assertSame($status, SAVED_NEW, (new FormattableMarkup('Created term %name.', ['%name' => $term->label()]))->__toString());
     }
     else {
-      self::assertEquals($status, SAVED_NEW, (new FormattableMarkup('Created term %name.', ['%name' => $term->label()]))->__toString());
+      $this->assertEqual($status, SAVED_NEW, (new FormattableMarkup('Created term %name.', ['%name' => $term->label()]))->__toString());
     }
 
     return $term;

@@ -71,7 +71,6 @@ field_settings:
         - field.storage.node.field_tag
       module:
         - taxonomy
-        - taxonomy
   langcode:
     label: Keel
     datasource_id: 'entity:node'
@@ -116,6 +115,7 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  language_with_fallback: {  }
   rendered_item: {  }
 tracker_settings:
   default:

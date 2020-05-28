@@ -2,7 +2,7 @@
 
 namespace Drupal\metatag\Plugin\migrate\source\d7;
 
-use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
+use Drupal\Core\Entity\EntityTypeBundleInfo;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate_drupal\Plugin\migrate\source\DrupalSqlBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -18,30 +18,33 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class MetatagFieldInstance extends DrupalSqlBase {
 
   /**
-   * The entity type bundle service.
+   * The EntityTypeBundleInfo for this entity type.
    *
-   * @var \Drupal\Core\Entity\EntityTypeBundleInfoInterface
+   * @var \Drupal\Core\Entity\EntityTypeBundleInfo
    */
   protected $entityTypeBundleInfo;
 
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = NULL) {
-    /** @var static $source */
-    $source = parent::create($container, $configuration, $plugin_id, $plugin_definition, $migration);
-    $source->setEntityTypeBundleInfo($container->get('entity_type.bundle.info'));
-    return $source;
+  public function __construct($configuration, $plugin_id, $plugin_definition, $migration, $state, $entity_manager, $entity_type_bundle_info) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $migration, $state, $entity_manager);
+    $this->entityTypeBundleInfo = $entity_type_bundle_info;
   }
 
   /**
-   * Sets the entity type bundle info service.
-   *
-   * @param \Drupal\Core\Entity\EntityTypeBundleInfoInterface $entity_type_bundle_info
-   *   The entity type bundle info service.
+   * {@inheritdoc}
    */
-  public function setEntityTypeBundleInfo(EntityTypeBundleInfoInterface $entity_type_bundle_info) {
-    $this->entityTypeBundleInfo = $entity_type_bundle_info;
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration = NULL) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $migration,
+      $container->get('state'),
+      $container->get('entity.manager'),
+      $container->get('entity_type.bundle.info')
+    );
   }
 
   /**

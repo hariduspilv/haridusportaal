@@ -13,8 +13,8 @@ dependencies:
     - field.storage.node.body
     - field.storage.node.field_introduction
     - field.storage.node.field_sidebar
-    - field.storage.paragraph.field_jobs
     - field.storage.paragraph.field_job_name
+    - field.storage.paragraph.field_jobs
     - field.storage.paragraph.field_oska_field
     - search_api.server.elasticsearch_server
 id: oska_main_profession
@@ -80,10 +80,9 @@ field_settings:
     dependencies:
       config:
         - field.storage.node.field_sidebar
-        - field.storage.paragraph.field_jobs
         - field.storage.paragraph.field_job_name
+        - field.storage.paragraph.field_jobs
       module:
-        - paragraphs
         - paragraphs
   field_oska_field:
     label: 'Sidebar » Paragraph » OSKA Field » Sisu » Pealkiri'
@@ -95,9 +94,8 @@ field_settings:
         - field.storage.node.field_sidebar
         - field.storage.paragraph.field_oska_field
       module:
+        - node
         - paragraphs
-        - node
-        - node
   langcode:
     label: Keel
     datasource_id: 'entity:node'
@@ -142,6 +140,7 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  language_with_fallback: {  }
   rendered_item: {  }
 tracker_settings:
   default:

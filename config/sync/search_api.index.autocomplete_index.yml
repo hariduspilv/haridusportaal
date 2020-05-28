@@ -213,7 +213,8 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
-  entity_status: {  }
+  language_with_fallback: {  }
+  rendered_item: {  }
   html_filter:
     all_fields: true
     fields:
@@ -245,6 +246,7 @@ processor_settings:
     weights:
       preprocess_index: -15
       preprocess_query: -15
+  entity_status: {  }
   ignore_character:
     ignorable: '[()''¿¡!?,.:;]'
     ignorable_classes: {  }
@@ -252,7 +254,6 @@ processor_settings:
     weights:
       preprocess_index: -10
       preprocess_query: -10
-  rendered_item: {  }
 tracker_settings:
   default:
     indexing_order: fifo

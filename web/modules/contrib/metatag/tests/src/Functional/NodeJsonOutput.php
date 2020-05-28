@@ -36,12 +36,10 @@ class NodeJsonOutput extends BrowserTestBase {
     'serialization',
     'hal',
     'rest',
-  ];
 
-  /**
-   * {@inheritdoc}
-   */
-  protected $defaultTheme = 'bartik';
+    // Need this to make the configuration sane.
+    'restui',
+  ];
 
   /**
    * Create an entity, view its JSON output, confirm Metatag data exists.
@@ -55,12 +53,12 @@ class NodeJsonOutput extends BrowserTestBase {
 
     // Load the node's page.
     $this->drupalGet($url);
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertResponse(200);
 
     // Load the JSON output.
     $url->setOption('query', ['_format' => 'json']);
     $response = $this->drupalGet($url);
-    $this->assertSession()->statusCodeEquals(200);
+    $this->assertResponse(200);
 
     // Decode the JSON output.
     $response = $this->getRawContent();

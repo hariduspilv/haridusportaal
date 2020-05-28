@@ -14,7 +14,7 @@ class MetatagOpenGraphTagsTest extends MetatagTagsTestBase {
   /**
    * {@inheritdoc}
    */
-  protected $tags = [
+  private $tags = [
     'article_author',
     'article_expiration_time',
     'article_modified_time',
@@ -24,16 +24,19 @@ class MetatagOpenGraphTagsTest extends MetatagTagsTestBase {
     'article_tag',
     'book_author',
     'book_isbn',
-    'book_release_date',
+    'book_releasedate',
     'book_tag',
     'og_country_name',
     'og_description',
     'og_determiner',
     'og_email',
     'og_fax_number',
+    'og_image',
     'og_image_alt',
     'og_image_height',
+    'og_image_secure_url',
     'og_image_type',
+    'og_image_url',
     'og_image_width',
     'og_latitude',
     'og_locale',
@@ -49,28 +52,24 @@ class MetatagOpenGraphTagsTest extends MetatagTagsTestBase {
     'og_title',
     'og_type',
     'og_updated_time',
+    'og_url',
+    'og_video',
     'og_video_height',
+    'og_video_secure_url',
     'og_video_type',
     'og_video_width',
     'og_video_duration',
-    // @todo Fix these.
-    // 'og_image',
-    // 'og_image_secure_url',
-    // 'og_image_url',
-    // 'og_url',
-    // 'og_video',
-    // 'og_video_secure_url',
   ];
 
   /**
    * {@inheritdoc}
    */
-  protected $testTag = 'meta';
+  private $testTag = 'meta';
 
   /**
    * {@inheritdoc}
    */
-  protected $testNameAttribute = 'property';
+  private $testNameAttribute = 'property';
 
   /**
    * {@inheritdoc}
@@ -83,7 +82,7 @@ class MetatagOpenGraphTagsTest extends MetatagTagsTestBase {
   /**
    * Each of these meta tags has a different tag name vs its internal name.
    */
-  protected function getTestTagName($tag_name) {
+  private function getTestTagName($tag_name) {
     // Replace the first underline with a colon.
     $tag_name = str_replace('og_', 'og:', $tag_name);
     $tag_name = str_replace('article_', 'article:', $tag_name);
@@ -99,13 +98,6 @@ class MetatagOpenGraphTagsTest extends MetatagTagsTestBase {
     }
 
     return $tag_name;
-  }
-
-  /**
-   * Implements TestFieldXpath() callback for og_description.
-   */
-  protected function ogDescriptionTestFieldXpath() {
-    return '//textarea[@name="og_description"]';
   }
 
 }
