@@ -3,7 +3,7 @@
 namespace Drupal\Tests\smtp\Unit\ConnectionTester;
 
 use Drupal\smtp\ConnectionTester\ConnectionTester;
-use Drupal\smtp\Exception\PHPMailerException;
+use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use Drupal\Tests\UnitTestCase;
 
 /**
@@ -42,26 +42,35 @@ class ConnectionTesterTest extends UnitTestCase {
 
     $object->method('phpMailer')
       ->willReturn(new class($exception, $result) {
-         function __construct($exception, $result) {
-           $this->exception = $exception;
-           $this->result = $result;
-         }
-         function SmtpConnect() {
-           if ($this->exception) {
-             $class = $this->exception;
-             throw new $class('EXCEPTION MESSAGE');
-           }
-           return $this->result;
-         }
+
+        /**
+         * Class Constructor.
+         */
+        function __construct($exception, $result) {
+          $this->exception = $exception;
+          $this->result = $result;
+        }
+
+        /**
+         * Mock function for connection.
+         */
+        function smtpConnect() {
+          if ($this->exception) {
+            $class = $this->exception;
+            throw new $class('EXCEPTION MESSAGE');
+          }
+          return $this->result;
+        }
+
       });
     $object->method('configGet')
-      ->will($this->returnCallback(function($param) use ($smtp_on) {
+      ->will($this->returnCallback(function ($param) use ($smtp_on) {
         if ($param == 'smtp_on') {
           return $smtp_on;
         }
       }));
     $object->method('t')
-      ->will($this->returnCallback(function($x, $y = []) {
+      ->will($this->returnCallback(function ($x, $y = []) {
         return serialize([$x, $y]);
       }));
 
@@ -90,7 +99,7 @@ class ConnectionTesterTest extends UnitTestCase {
         'result' => TRUE,
         'exception' => '',
         'expected' => [
-          'smtp_connection'=> [
+          'smtp_connection' => [
             'title' => serialize(['SMTP connection', []]),
             'value' => serialize(['SMTP module is enabled, turned on, and connection is valid.', []]),
             'severity' => ConnectionTester::REQUIREMENT_OK,
@@ -103,9 +112,9 @@ class ConnectionTesterTest extends UnitTestCase {
         'result' => FALSE,
         'exception' => '',
         'expected' => [
-          'smtp_connection'=> [
+          'smtp_connection' => [
             'title' => serialize(['SMTP connection', []]),
-            'value' => serialize(['SMTP module is enabled, turned on, but SmtpConnect() returned FALSE.', []]),
+            'value' => serialize(['SMTP module is enabled, turned on, but SmtpConnect() threw an unexpected exception', []]),
             'severity' => ConnectionTester::REQUIREMENT_ERROR,
           ],
         ],
@@ -116,11 +125,12 @@ class ConnectionTesterTest extends UnitTestCase {
         'result' => FALSE,
         'exception' => PHPMailerException::class,
         'expected' => [
-          'smtp_connection'=> [
+          'smtp_connection' => [
             'title' => serialize(['SMTP connection', []]),
             'value' => serialize(['SMTP module is enabled, turned on, but SmtpConnect() threw exception @e', [
               '@e' => 'EXCEPTION MESSAGE',
-            ]]),
+            ],
+            ]),
             'severity' => ConnectionTester::REQUIREMENT_ERROR,
           ],
         ],
@@ -131,7 +141,7 @@ class ConnectionTesterTest extends UnitTestCase {
         'result' => FALSE,
         'exception' => \Exception::class,
         'expected' => [
-          'smtp_connection'=> [
+          'smtp_connection' => [
             'title' => serialize(['SMTP connection', []]),
             'value' => serialize(['SMTP module is enabled, turned on, but SmtpConnect() threw an unexpected exception', []]),
             'severity' => ConnectionTester::REQUIREMENT_ERROR,
@@ -144,7 +154,7 @@ class ConnectionTesterTest extends UnitTestCase {
         'result' => FALSE,
         'exception' => '',
         'expected' => [
-          'smtp_connection'=> [
+          'smtp_connection' => [
             'title' => serialize(['SMTP connection', []]),
             'value' => serialize(['SMTP module is enabled but turned off.', []]),
             'severity' => ConnectionTester::REQUIREMENT_OK,

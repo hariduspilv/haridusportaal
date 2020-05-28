@@ -1,14 +1,13 @@
 name: Varnish Focal Point Purger
 type: module
 description: Purge image styles after a focal point entity needs to be updated
-# core: 8.x
+core: 8.x
 package: "Purge - reverse proxies & CDNs"
 dependencies:
-  - varnish_purger
-  - purge
+  - varnish_purger:varnish_purger
+  - purge:purge
 
-# Information added by Drupal.org packaging script on 2018-07-03
-version: '8.x-1.11'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-02-29
+version: '8.x-1.12'
 project: 'varnish_purge'
-datestamp: 1530614942
+datestamp: 1582973949

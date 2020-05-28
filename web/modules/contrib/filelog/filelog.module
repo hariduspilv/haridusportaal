@@ -30,7 +30,7 @@ function filelog_help($route_name) {
  * Implements hook_cron().
  */
 function filelog_cron() {
-  \Drupal::service('filelog.rotator')->run();
+  Drupal::service('filelog.rotator')->run();
 }
 
 /**
@@ -54,7 +54,7 @@ function filelog_theme() {
  * @param array $form
  */
 function filelog_form_system_logging_settings_alter(array &$form) {
-  $config = \Drupal::configFactory()->getEditable('filelog.settings');
+  $config = Drupal::configFactory()->getEditable('filelog.settings');
 
   $form['filelog_enabled'] = [
     '#type'          => 'checkbox',
@@ -186,7 +186,7 @@ function filelog_form_system_logging_settings_alter(array &$form) {
     ],
   ];
 
-  if (\Drupal::moduleHandler()->moduleExists('token')) {
+  if (Drupal::moduleHandler()->moduleExists('token')) {
     // Show the token help relevant to this pattern type.
     $form['filelog']['help']['tokens'] = [
       '#theme'       => 'token_tree_link',
@@ -209,7 +209,7 @@ function filelog_form_system_logging_settings_alter(array &$form) {
 function filelog_logging_settings_validate(array $form,
                                            FormStateInterface $formState) {
   /** @var \Drupal\Core\File\FileSystemInterface $fileSystem */
-  $fileSystem = \Drupal::service('file_system');
+  $fileSystem = Drupal::service('file_system');
   // Ignore the settings if logging is disabled.
   if ($formState->getValue('filelog_enabled')) {
     // Place relative paths into the public files directory.
@@ -220,7 +220,7 @@ function filelog_logging_settings_validate(array $form,
     }
 
     // Set up the logging directory.
-    if (!file_prepare_directory($location, FILE_CREATE_DIRECTORY) ||
+    if (!$fileSystem->prepareDirectory($location, $fileSystem::CREATE_DIRECTORY) ||
         !file_save_htaccess($location)
     ) {
       $formState->setError($form['filelog']['location'],
@@ -250,7 +250,7 @@ function filelog_logging_settings_validate(array $form,
  */
 function filelog_logging_settings_submit(array $form,
                                          FormStateInterface $formState) {
-  $config = \Drupal::configFactory()->getEditable('filelog.settings');
+  $config = Drupal::configFactory()->getEditable('filelog.settings');
   $config->set('enabled', $formState->getValue('filelog_enabled'));
   foreach ((array) $formState->getValue('filelog') as $key => $value) {
     $config->set($key, $value);

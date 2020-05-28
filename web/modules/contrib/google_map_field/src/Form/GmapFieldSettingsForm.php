@@ -8,6 +8,8 @@ namespace Drupal\google_map_field\Form;
  */
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 // Enumerate options for type of API authentication.
 define('GOOGLE_MAP_FIELD_AUTH_KEY', 1);
@@ -17,6 +19,32 @@ define('GOOGLE_MAP_FIELD_AUTH_WORK', 2);
  * Administration settings form.
  */
 class GmapFieldSettingsForm extends ConfigFormBase {
+
+  /**
+   * Drupal\Core\Config\ConfigFactoryInterface definition.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * The construct method.
+   *
+   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
+   *   The config factory.
+   */
+  public function __construct(ConfigFactoryInterface $config_factory) {
+    $this->configFactory = $config_factory;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container) {
+    return new static(
+    $container->get('config.factory')
+    );
+  }
 
   /**
    * Implements \Drupal\Core\Form\FormInterface::getFormID().
@@ -100,10 +128,11 @@ class GmapFieldSettingsForm extends ConfigFormBase {
    * Implements \Drupal\Core\Form\FormInterface:submitForm()
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    $config = \Drupal::service('config.factory')->getEditable('google_map_field.settings');
+    $config = $this->configFactory->getEditable('google_map_field.settings');
     $config->set('google_map_field_auth_method', $form_state->getValue('google_map_field_auth_method'))
       ->set('google_map_field_apikey', $form_state->getValue('google_map_field_apikey'))
       ->set('google_map_field_map_client_id', $form_state->getValue('google_map_field_map_client_id'))
+      ->set('google_map_field_icon', $form_state->getValue('google_map_field_icon'))
       ->save();
     parent::submitForm($form, $form_state);
   }

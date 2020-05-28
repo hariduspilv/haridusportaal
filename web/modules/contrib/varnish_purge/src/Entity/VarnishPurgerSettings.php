@@ -21,7 +21,6 @@ class VarnishPurgerSettings extends PurgerSettingsBase implements PurgerSettings
   //
   // Instance metadata:
   //
-
   /**
    * The readable name of this purger.
    *
@@ -39,7 +38,6 @@ class VarnishPurgerSettings extends PurgerSettingsBase implements PurgerSettings
   //
   // Primary request information:
   //
-
   /**
    * The host or IP-address to connect to.
    *
@@ -87,7 +85,6 @@ class VarnishPurgerSettings extends PurgerSettingsBase implements PurgerSettings
   //
   // Request headers (outbound):
   //
-
   /**
    * Configured outgoing HTTP headers.
    *
@@ -119,7 +116,7 @@ class VarnishPurgerSettings extends PurgerSettingsBase implements PurgerSettings
 
   /**
    * Number of seconds to wait after one or more invalidations took place (so
-   * that other purgers get fresh content).'
+   * that other purgers get fresh content).'.
    *
    * @var float
    */
@@ -137,7 +134,6 @@ class VarnishPurgerSettings extends PurgerSettingsBase implements PurgerSettings
   //
   // Success resolution:
   //
-
   /**
    * Whether 4xx and 5xx responses need to be treated as failures or not.
    *
@@ -153,6 +149,6 @@ class VarnishPurgerSettings extends PurgerSettingsBase implements PurgerSettings
    *
    * @var array
    */
-  public $settings= '';
+  public $settings = '';
 
 }

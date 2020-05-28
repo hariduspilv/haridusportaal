@@ -1,0 +1,14 @@
+{
+    "name": "drupal/json_feed",
+    "description": "Extends Views to provide a JSON Feed (an alternative or supplement to RSS or Atom) display plugin.",
+    "type": "drupal-module",
+    "keywords": ["Drupal"],
+    "license": "GPL-2.0+",
+    "homepage": "https://www.drupal.org/project/json_feed",
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/json_feed",
+        "source": "https://git.drupalcode.org/project/json_feed"
+    },
+    "require": {}
+}

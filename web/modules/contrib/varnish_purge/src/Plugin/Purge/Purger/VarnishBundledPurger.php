@@ -4,10 +4,9 @@ namespace Drupal\varnish_purger\Plugin\Purge\Purger;
 
 use Drupal\purge\Plugin\Purge\Purger\PurgerInterface;
 use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
-use Drupal\varnish_purger\Plugin\Purge\Purger\VarnishPurgerBase;
 
 /**
- * Varnish Bundled Purger
+ * Varnish Bundled Purger.
  *
  * @PurgePurger(
  *   id = "varnishbundled",
@@ -27,7 +26,7 @@ class VarnishBundledPurger extends VarnishPurgerBase implements PurgerInterface 
   public function invalidate(array $invalidations) {
 
     // Create a simple closure to mass-update states on the objects.
-    $set_state = function($state) use($invalidations) {
+    $set_state = function ($state) use ($invalidations) {
       foreach ($invalidations as $invalidation) {
         $invalidation->setState($state);
       }
@@ -50,8 +49,11 @@ class VarnishBundledPurger extends VarnishPurgerBase implements PurgerInterface 
       unset($opt['headers']);
       $debug = json_encode(str_replace("\n", ' ', [
         'msg' => $e->getMessage(),
-        'uri' => $uri, 'method' => $this->settings->request_method,
-        'guzzle_opt' => $opt, 'headers' => $headers]));
+        'uri' => $uri,
+        'method' => $this->settings->request_method,
+        'guzzle_opt' => $opt,
+        'headers' => $headers,
+      ]));
       $this->logger()->emergency("item failed due @e, details (JSON): @debug",
         ['@e' => get_class($e), '@debug' => $debug]);
     }

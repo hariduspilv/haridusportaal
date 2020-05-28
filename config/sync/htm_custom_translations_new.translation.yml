@@ -1692,6 +1692,10 @@ login:
     translation_type: textarea
     et: 'Sisselogitud '
     en: ''
+  tooltip-text:
+    translation_type: textarea
+    et: '2020 üldhariduse lõpudokumendid'
+    en: '2020 üldhariduse lõpudokumendid'
 time:
   january:
     translation_type: textarea
@@ -3725,10 +3729,6 @@ finalDocumentDownload:
   translation_type: textarea
   et: 'Laadi failid alla'
   en: 'Laadi failid alla - eng'
-finalDocumentAccess:
-  translation_type: textarea
-  et: Ligipääsud
-  en: 'Ligipääsud - eng'
 finalDocumentHistory:
   translation_type: textarea
   et: Ajalugu
@@ -3968,6 +3968,10 @@ finaldocuments:
     translation_type: textarea
     et: 'Otsuse nr ja kuupäev'
     en: 'Otsuse nr ja kuupäev'
+  inactive_accesses:
+    translation_type: textarea
+    et: 'Kehtetud ligipääsud'
+    en: 'Inactive accesses'
 finaldocument:
   idcode:
     translation_type: textarea
@@ -4003,3 +4007,11 @@ finalDocument_issue_DOWNLOAD:
   translation_type: textarea
   et: Allalaadimine
   en: Download
+finalDocumentAccesses:
+  translation_type: textarea
+  et: Ligipääsud
+  en: 'Ligipääsud - eng'
+finalDocumentAccess:
+  translation_type: textarea
+  et: Ligipääs
+  en: Access

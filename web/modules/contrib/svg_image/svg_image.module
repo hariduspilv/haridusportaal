@@ -24,12 +24,36 @@ function svg_image_field_formatter_info_alter(array &$info) {
 }
 
 /**
+ * Prepares variables for image style templates.
+ *
+ * This is a workaround till full/partial images styles support will be added.
+ * It allows to still display the original SVG image with a special class,
+ * so you can adjust width/height at least.
+ *
+ * @see template_preprocess_image_style()
+ */
+function svg_image_preprocess_image_style(array &$variables) {
+  if (isset($variables['image']['#access']) && !$variables['image']['#access']) {
+    $files = \Drupal::entityTypeManager()->getStorage('file')
+      ->loadByProperties(['uri' => $variables['uri']]);
+    if ($files) {
+      $imageFile = reset($files);
+
+      if (svg_image_is_file_svg($imageFile)) {
+        $variables['image']['#access'] = TRUE;
+        $variables['image']['#attributes']['class'] = 'no-image-style';
+      }
+    }
+  }
+}
+
+/**
  * Provides image file dimensions.
  *
  * @param \Drupal\file\Entity\File $file
  *   SVG file.
  *
- * @return array
+ * @return integer[]
  *   Dimensions array.
  */
 function svg_image_get_image_file_dimensions(File $file) {

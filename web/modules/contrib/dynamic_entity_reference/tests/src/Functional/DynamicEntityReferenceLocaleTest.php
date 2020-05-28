@@ -23,7 +23,7 @@ class DynamicEntityReferenceLocaleTest extends DynamicEntityReferenceTest {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $file = new \stdClass();

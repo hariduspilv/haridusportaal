@@ -1,11 +1,13 @@
 name: 'Module Missing Message Fixer'
 description: 'This module displays a list of missing modules that appear on your site and lets you fix the entries.'
 package: Administration
-# core: 8.x
+core: 8.x
 type: module
+core_version_requirement: ^8
 
-# Information added by Drupal.org packaging script on 2019-06-27
-version: '8.x-1.1'
-core: '8.x'
+configure: module_missing_message_fixer.form
+
+# Information added by Drupal.org packaging script on 2020-04-03
+version: '8.x-1.2'
 project: 'module_missing_message_fixer'
-datestamp: 1561651390
+datestamp: 1585919604

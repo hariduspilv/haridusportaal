@@ -96,7 +96,7 @@ function editor_advanced_link_form_editor_link_dialog_alter(&$form, FormStateInt
   $form['attributes']['id'] = [
     '#type' => 'textfield',
     '#title' => t('ID'),
-    '#description' => t('Allows linking to this content using a <a href="https://en.wikipedia.org/wiki/Fragment_identifier">URL fragment</a>). Must be unique.'),
+    '#description' => t('Allows linking to this content using a <a href="https://en.wikipedia.org/wiki/Fragment_identifier" target="_blank">URL fragment</a>. Must be unique.'),
     '#default_value' => $get_default_value('id'),
     '#maxlength' => 512,
     '#access' => $is_accessible('id'),
@@ -104,8 +104,9 @@ function editor_advanced_link_form_editor_link_dialog_alter(&$form, FormStateInt
   ];
 
   $form['attributes']['target'] = [
-    '#title' => t('Open in new window'),
+    '#title' => t('Open in new window/tab'),
     '#type' => 'checkbox',
+    '#description' => t('See WCAG guidance on <a href="https://www.w3.org/WAI/WCAG21/Techniques/general/G200" target="_blank">opening links in new windows/tabs</a>.'),
     '#default_value' => $get_default_value('target', FALSE),
     '#return_value' => '_blank',
     '#access' => $is_accessible('target'),
@@ -132,6 +133,15 @@ function editor_advanced_link_form_editor_link_dialog_alter(&$form, FormStateInt
 
   // Add #validate callback that handles empty attributes.
   array_unshift($form['#validate'], '_editor_advanced_link_attributes_validate');
+}
+
+/**
+ * Implements hook_form_FORM_ID_alter().
+ *
+ * LinkIt 5.x module compatibility.
+ */
+function editor_advanced_link_form_linkit_editor_dialog_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  editor_advanced_link_form_editor_link_dialog_alter($form, $form_state, $form_id);
 }
 
 /**

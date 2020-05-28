@@ -49,7 +49,7 @@ class DynamicEntityReferenceItemTest extends FieldKernelTestBase {
   /**
    * Sets up the test.
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->installEntitySchema('taxonomy_term');
@@ -266,6 +266,32 @@ class DynamicEntityReferenceItemTest extends FieldKernelTestBase {
     $entity = EntityTest::create();
     // Now assign the unsaved term to the field.
     $entity->field_der->entity = $term;
+    $entity->name->value = $this->randomMachineName();
+    // This is equal to storing an entity to tempstore or cache and retrieving
+    // it back. An example for this is node preview.
+    $entity = serialize($entity);
+    $entity = unserialize($entity);
+    // And then the entity.
+    $entity->save();
+    $term = $this->container->get('entity.repository')->loadEntityByUuid($term->getEntityTypeId(), $term->uuid());
+    $this->assertEquals($entity->field_der->entity->id(), $term->id());
+  }
+
+  /**
+   * Tests entity auto create with property.
+   */
+  public function testEntityReferenceWithProperty() {
+    // The term entity is unsaved here.
+    $term = Term::create([
+      'name' => $this->randomMachineName(),
+      'vid' => $this->term->bundle(),
+      'langcode' => LanguageInterface::LANGCODE_NOT_SPECIFIED,
+    ]);
+    $term->save();
+    $entity = EntityTest::create();
+    // Now assign the unsaved term to the field.
+    $entity->field_der->target_id = $term->id();
+    $entity->field_der->target_type = $term->getEntityTypeId();
     $entity->name->value = $this->randomMachineName();
     // This is equal to storing an entity to tempstore or cache and retrieving
     // it back. An example for this is node preview.

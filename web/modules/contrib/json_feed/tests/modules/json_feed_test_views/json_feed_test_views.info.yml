@@ -2,13 +2,12 @@ name: 'JSON Feed Test Views'
 type: module
 description: 'Provides default views for json_feed tests.'
 package: Testing
-# core: 8.x
+core_version_requirement: ^8.7.7 || ^9
 dependencies:
-  - views
-  - json_feed
+  - drupal:views
+  - json_feed:json_feed
 
-# Information added by Drupal.org packaging script on 2018-01-31
-version: '8.x-1.1'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-04-24
+version: '8.x-1.2'
 project: 'json_feed'
-datestamp: 1517409185
+datestamp: 1587737665

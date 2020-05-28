@@ -1,0 +1,9 @@
+jwt_path_auth.config_form:
+  path: '/admin/config/system/jwt/path-auth'
+  defaults:
+    _form: '\Drupal\jwt_path_auth\Form\PathConfigForm'
+    _title: 'JWT Path Configuration'
+  requirements:
+    _permission: 'administer jwt'
+  options:
+    _admin_route: TRUE

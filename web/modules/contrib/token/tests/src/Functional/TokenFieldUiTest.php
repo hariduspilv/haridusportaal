@@ -88,7 +88,7 @@ class TokenFieldUiTest extends TokenTestBase {
       'bundle' => 'article',
     ])->save();
 
-    entity_get_form_display('node', 'article', 'default')
+    \Drupal::service('entity_display.repository')->getFormDisplay('node', 'article', 'default')
       ->setComponent('field_body', [
         'type' => 'text_textarea_with_summary',
         'settings' => [

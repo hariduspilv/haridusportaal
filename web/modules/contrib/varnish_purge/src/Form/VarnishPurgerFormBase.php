@@ -9,7 +9,6 @@ use Drupal\purge\Plugin\Purge\Invalidation\InvalidationsServiceInterface;
 use Drupal\purge_ui\Form\PurgerConfigFormBase;
 use Drupal\varnish_purger\Entity\VarnishPurgerSettings;
 
-
 /**
  * Abstract form base for Varnish based configurable purgers.
  */
@@ -47,7 +46,6 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
    * @var array
    */
   protected $tokenGroups = '';
-
 
   /**
    * Constructs a \Drupal\varnish_purger\Form\ConfigurationForm object.
@@ -91,7 +89,7 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
     $settings = VarnishPurgerSettings::load($this->getId($form_state));
-    $form['tabs'] = ['#type' => 'vertical_tabs', '#weight' => 10,];
+    $form['tabs'] = ['#type' => 'vertical_tabs', '#weight' => 10];
     $this->buildFormMetadata($form, $form_state, $settings);
     $this->buildFormRequest($form, $form_state, $settings);
     $this->buildFormHeaders($form, $form_state, $settings);
@@ -121,7 +119,7 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
     ];
     $types = [];
     foreach ($this->purgeInvalidationFactory->getPlugins() as $type => $definition) {
-      $types[$type] = (string)$definition['label'];
+      $types[$type] = (string) $definition['label'];
     }
     $form['invalidationtype'] = [
       '#type' => 'select',
@@ -148,7 +146,7 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
       '#type' => 'details',
       '#group' => 'tabs',
       '#title' => $this->t('Request'),
-      '#description' => $this->t('In this section you configure how a single HTTP request looks like.')
+      '#description' => $this->t('In this section you configure how a single HTTP request looks like.'),
     ];
     $form['request']['hostname'] = [
       '#title' => $this->t('Hostname'),
@@ -185,8 +183,8 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
       '#states' => [
         'visible' => [
           ':input[name="scheme"]' => ['value' => 'https'],
-        ]
-      ]
+        ],
+      ],
     ];
   }
 
@@ -211,14 +209,14 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
       '#title' => $this->t('Headers'),
       '#description' => $this->t('Configure the outbound HTTP headers, leave
       empty to delete. Example for Tag as Type: Cache-Tags for Header and
-      [invalidation:expression] for Value.')
+      [invalidation:expression] for Value.'),
     ];
     $form['headers']['headers'] = [
       '#tree' => TRUE,
       '#type' => 'table',
       '#header' => [$this->t('Header'), $this->t('Value')],
       '#prefix' => '<div id="headers-wrapper">',
-      '#suffix' => '</div>'
+      '#suffix' => '</div>',
     ];
     for ($i = 0; $i < $form_state->get('headers_items_count'); $i++) {
       if (!isset($form['headers']['headers'][$i])) {
@@ -256,6 +254,7 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
    *   An associative array containing the structure of the form.
    * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The current state of the form.
+   *
    * @return array
    */
   public function buildFormHeadersRebuild(array &$form, FormStateInterface $form_state) {
@@ -301,7 +300,7 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
       '#title' => $this->t('Cooldown time'),
       '#default_value' => $settings->cooldown_time,
       '#required' => TRUE,
-      '#description' => $this->t('Number of seconds to wait after a group of HTTP requests (so that other purgers get fresh content)')
+      '#description' => $this->t('Number of seconds to wait after a group of HTTP requests (so that other purgers get fresh content)'),
     ];
     $form['performance']['max_requests'] = [
       '#type' => 'number',
@@ -311,7 +310,7 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
       '#title' => $this->t('Maximum requests'),
       '#default_value' => $settings->max_requests,
       '#required' => TRUE,
-      '#description' => $this->t("Maximum number of HTTP requests that can be made during Drupal's execution lifetime. Usually PHP resource restraints lower this value dynamically, but can be met at the CLI.")
+      '#description' => $this->t("Maximum number of HTTP requests that can be made during Drupal's execution lifetime. Usually PHP resource restraints lower this value dynamically, but can be met at the CLI."),
     ];
     $form['performance']['runtime_measurement'] = [
       '#title' => $this->t('Runtime measurement'),
@@ -322,10 +321,10 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
       '#type' => 'item',
       '#states' => [
         'visible' => [
-          ':input[name="runtime_measurement"]' => ['checked' => FALSE]
-        ]
+          ':input[name="runtime_measurement"]' => ['checked' => FALSE],
+        ],
       ],
-      '#description' => $this->t('When you uncheck this setting, capacity will be based on the sum of both timeouts. By default, capacity will automatically adjust (up and down) based on measured time data.')
+      '#description' => $this->t('When you uncheck this setting, capacity will be based on the sum of both timeouts. By default, capacity will automatically adjust (up and down) based on measured time data.'),
     ];
     $form['performance']['timeout'] = [
       '#type' => 'number',
@@ -337,10 +336,10 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
       '#required' => TRUE,
       '#states' => [
         'visible' => [
-          ':input[name="runtime_measurement"]' => ['checked' => FALSE]
-        ]
+          ':input[name="runtime_measurement"]' => ['checked' => FALSE],
+        ],
       ],
-      '#description' => $this->t('The timeout of the request in seconds.')
+      '#description' => $this->t('The timeout of the request in seconds.'),
     ];
     $form['performance']['connect_timeout'] = [
       '#type' => 'number',
@@ -352,10 +351,10 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
       '#required' => TRUE,
       '#states' => [
         'visible' => [
-          ':input[name="runtime_measurement"]' => ['checked' => FALSE]
-        ]
+          ':input[name="runtime_measurement"]' => ['checked' => FALSE],
+        ],
       ],
-      '#description' => $this->t('The number of seconds to wait while trying to connect to a server.')
+      '#description' => $this->t('The number of seconds to wait while trying to connect to a server.'),
     ];
   }
 
@@ -389,11 +388,11 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
         '#header' => [
           'token' => [
             'data' => $this->t('Token'),
-            'class' => [RESPONSIVE_PRIORITY_MEDIUM]
+            'class' => [RESPONSIVE_PRIORITY_MEDIUM],
           ],
           'description' => [
             'data' => $this->t('Description'),
-            'class' => [RESPONSIVE_PRIORITY_LOW]
+            'class' => [RESPONSIVE_PRIORITY_LOW],
           ],
         ],
       ];
@@ -407,7 +406,7 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
             ),
           ];
           $form['tokens']['table'][$token]['description'] = [
-            '#markup' => $info['description']
+            '#markup' => $info['description'],
           ];
         }
       }
@@ -459,7 +458,6 @@ abstract class VarnishPurgerFormBase extends PurgerConfigFormBase {
    */
   public function submitFormSuccess(array &$form, FormStateInterface $form_state) {
     $settings = VarnishPurgerSettings::load($this->getId($form_state));
-
 
     // Rewrite 'headers' so that it contains the exact right format for CMI.
     if (!is_null($submitted_headers = $form_state->getValue('headers'))) {

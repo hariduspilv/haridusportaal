@@ -100,23 +100,31 @@ class JwtRsKeyType extends KeyTypeBase implements KeyPluginFormInterface {
     // Validate the key.
     $algorithm = $form_state->getValue('algorithm');
 
-    $key_resource = openssl_pkey_get_private($key_value);
+    if (strpos($key_value, '-----BEGIN PUBLIC KEY-----') !== FALSE) {
+      $key_resource = openssl_pkey_get_public($key_value);
+    }
+    else {
+      $key_resource = openssl_pkey_get_private($key_value);
+    }
+
     if ($key_resource === FALSE) {
-      $form_state->setErrorByName('algorithm', $this->t('Invalid Private Key.'));
+      $form_state->setErrorByName('key_type', $this->t('Invalid Key.'));
+      return;
     }
 
     $key_details = openssl_pkey_get_details($key_resource);
     if ($key_details === FALSE) {
-      $form_state->setErrorByName('algorithm', $this->t('Unable to get private key details.'));
+      $form_state->setErrorByName('key_type', $this->t('Unable to get key details.'));
+      return;
     }
 
     $required_bits = self::getAlgorithmKeysize()[$algorithm];
     if ($key_details['bits'] < $required_bits) {
-      $form_state->setErrorByName('algorithm', $this->t('Key size (%size bits) is too small for algorithm chosen. Algorithm requires a minimum of %required bits.', ['%size' => $key_details['bits'], '%required' => $required_bits]));
+      $form_state->setErrorByName('key_type', $this->t('Key size (%size bits) is too small for algorithm chosen. Algorithm requires a minimum of %required bits.', ['%size' => $key_details['bits'], '%required' => $required_bits]));
     }
 
     if ($key_details['type'] != OPENSSL_KEYTYPE_RSA) {
-      $form_state->setErrorByName('algorithm', $this->t('Key must be RSA.'));
+      $form_state->setErrorByName('key_type', $this->t('Key must be RSA.'));
     }
 
     openssl_pkey_free($key_resource);

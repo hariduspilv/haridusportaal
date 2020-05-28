@@ -693,7 +693,7 @@ class InlineTest extends TestCase
     public function testNotSupportedMissingValue()
     {
         $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
-        $this->expectExceptionMessage('Malformed inline YAML string: {this, is not, supported} at line 1.');
+        $this->expectExceptionMessage('Malformed inline YAML string: "{this, is not, supported}" at line 1.');
         Inline::parse('{this, is not, supported}');
     }
 
@@ -797,6 +797,49 @@ class InlineTest extends TestCase
         return [
             'positive octal number' => [28, '034'],
             'negative octal number' => [-28, '-034'],
+        ];
+    }
+
+    /**
+     * @dataProvider phpObjectTagWithEmptyValueProvider
+     */
+    public function testPhpObjectWithEmptyValue($expected, $value)
+    {
+        $this->assertSame($expected, Inline::parse($value, Yaml::PARSE_OBJECT));
+    }
+
+    public function phpObjectTagWithEmptyValueProvider()
+    {
+        return [
+            [false, '!php/object'],
+            [false, '!php/object '],
+            [false, '!php/object  '],
+            [[false], '[!php/object]'],
+            [[false], '[!php/object ]'],
+            [[false, 'foo'], '[!php/object  , foo]'],
+        ];
+    }
+
+    /**
+     * @dataProvider phpConstTagWithEmptyValueProvider
+     */
+    public function testPhpConstTagWithEmptyValue($expected, $value)
+    {
+        $this->assertSame($expected, Inline::parse($value, Yaml::PARSE_CONSTANT));
+    }
+
+    public function phpConstTagWithEmptyValueProvider()
+    {
+        return [
+            ['', '!php/const'],
+            ['', '!php/const '],
+            ['', '!php/const  '],
+            [[''], '[!php/const]'],
+            [[''], '[!php/const ]'],
+            [['', 'foo'], '[!php/const  , foo]'],
+            [['' => 'foo'], '{!php/const: foo}'],
+            [['' => 'foo'], '{!php/const : foo}'],
+            [['' => 'foo', 'bar' => 'ccc'], '{!php/const  : foo, bar: ccc}'],
         ];
     }
 }

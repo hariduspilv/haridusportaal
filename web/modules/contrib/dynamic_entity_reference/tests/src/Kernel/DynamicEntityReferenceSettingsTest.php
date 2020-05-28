@@ -53,7 +53,7 @@ class DynamicEntityReferenceSettingsTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setup();
 
     $this->installEntitySchema('node');

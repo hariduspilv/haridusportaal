@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\filelog\Unit;
 
+use Drupal;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\Entity\EntityStorageInterface;
@@ -14,6 +15,10 @@ use Drupal\Core\Utility\Token;
 use Drupal\filelog\LogMessage;
 use Drupal\Tests\UnitTestCase;
 use Drupal\user\Entity\User;
+use function count;
+use function dirname;
+use function explode;
+use function filelog_tokens;
 
 /**
  * Test the filelog message token integration.
@@ -49,7 +54,7 @@ class FileLogTokenTest extends UnitTestCase {
     parent::setUp();
 
     // Get from filelog/tests/src/Unit to filelog/.
-    $root = \dirname(__DIR__, 3);
+    $root = dirname(__DIR__, 3);
     require_once $root . '/filelog.tokens.inc';
 
     $this->logMessageParser = new LogMessageParser();
@@ -64,19 +69,16 @@ class FileLogTokenTest extends UnitTestCase {
     $this->userStorage = $this->createMock(EntityStorageInterface::class);
 
     // Mock the User entity type resolution.
-    $entityTypeRepository->expects($this->any())
-      ->method('getEntityTypeFromClass')
+    $entityTypeRepository->method('getEntityTypeFromClass')
       ->with(User::class)
       ->willReturn('user');
 
     // Mock the user entity storage (actual user-loading mocked each test.
-    $entityTypeManager->expects($this->any())
-      ->method('getStorage')
+    $entityTypeManager->method('getStorage')
       ->with('user')
       ->willReturn($this->userStorage);
 
-    $this->token->expects($this->any())
-      ->method('findWithPrefix')
+    $this->token->method('findWithPrefix')
       ->willReturnCallback([static::class, 'tokenFindWithPrefix']);
 
     // Set up the container with the required mocks.
@@ -85,7 +87,7 @@ class FileLogTokenTest extends UnitTestCase {
     $container->set('date.formatter', $this->dateFormatter);
     $container->set('entity_type.manager', $entityTypeManager);
     $container->set('entity_type.repository', $entityTypeRepository);
-    \Drupal::setContainer($container);
+    Drupal::setContainer($container);
   }
 
   /**
@@ -179,7 +181,7 @@ class FileLogTokenTest extends UnitTestCase {
         ]
       );
 
-    $values = \filelog_tokens(
+    $values = filelog_tokens(
       'log',
       $tokens,
       ['log' => $logMessage],
@@ -193,7 +195,7 @@ class FileLogTokenTest extends UnitTestCase {
     }
 
     // Make sure that nothing else was replaced.
-    $this->assertCount(\count($expectedTokens), $values);
+    $this->assertCount(count($expectedTokens), $values);
   }
 
   /**
@@ -257,8 +259,8 @@ class FileLogTokenTest extends UnitTestCase {
   public static function tokenFindWithPrefix(array $tokens, $prefix, $delimiter = ':'): array {
     $results = [];
     foreach ($tokens as $token => $raw) {
-      $parts = \explode($delimiter, $token, 2);
-      if (\count($parts) === 2 && $parts[0] === $prefix) {
+      $parts = explode($delimiter, $token, 2);
+      if (count($parts) === 2 && $parts[0] === $prefix) {
         $results[$parts[1]] = $raw;
       }
     }

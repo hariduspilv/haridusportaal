@@ -41,7 +41,7 @@ class DynamicEntityReferenceFieldDependencyTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
 
     $this->installEntitySchema('entity_test');
@@ -78,7 +78,7 @@ class DynamicEntityReferenceFieldDependencyTest extends KernelTestBase {
     $module_dependencies = $this->entityTypeProviders;
     $module_dependencies[] = 'dynamic_entity_reference';
 
-    $this->assertEquals(['module' => $module_dependencies], $this->fieldStorage->getDependencies(), '', 0, 10, TRUE);
+    $this->assertEqualsCanonicalizing(['module' => $module_dependencies], $this->fieldStorage->getDependencies());
   }
 
   /**
@@ -98,7 +98,7 @@ class DynamicEntityReferenceFieldDependencyTest extends KernelTestBase {
     // Remove entity_test_provider.
     $module_dependencies = array_diff($module_dependencies, ['dynamic_entity_reference_test_entity_provider']);
 
-    $this->assertEquals(['module' => $module_dependencies], $this->fieldStorage->getDependencies(), '', 0, 10, TRUE);
+    $this->assertEqualsCanonicalizing(['module' => $module_dependencies], $this->fieldStorage->getDependencies());
   }
 
   /**
@@ -116,7 +116,7 @@ class DynamicEntityReferenceFieldDependencyTest extends KernelTestBase {
     $module_dependencies[] = 'dynamic_entity_reference_test_entity_provider';
     $module_dependencies[] = 'dynamic_entity_reference';
 
-    $this->assertEquals(['module' => $module_dependencies], $this->fieldStorage->getDependencies(), '', 0, 10, TRUE);
+    $this->assertEqualsCanonicalizing(['module' => $module_dependencies], $this->fieldStorage->getDependencies());
   }
 
   /**
@@ -131,7 +131,7 @@ class DynamicEntityReferenceFieldDependencyTest extends KernelTestBase {
     $module_dependencies[] = 'entity_test';
     $module_dependencies[] = 'dynamic_entity_reference';
 
-    $this->assertEquals(['module' => $module_dependencies], $this->fieldStorage->getDependencies(), '', 0, 10, TRUE);
+    $this->assertEqualsCanonicalizing(['module' => $module_dependencies], $this->fieldStorage->getDependencies());
   }
 
 }

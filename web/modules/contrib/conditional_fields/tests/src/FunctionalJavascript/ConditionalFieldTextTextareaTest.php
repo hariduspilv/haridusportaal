@@ -161,7 +161,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $this->createScreenshot($this->screenshotPath . '01-' . $this->testName . __FUNCTION__ . '.png');
 
     // Set up conditions.
-    $text = [$this->randomString(), $this->randomString()];
+    $text = [$this->randomMachineName(), $this->randomMachineName()];
     $data = [
       'condition' => 'value',
       'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
@@ -378,7 +378,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $this->createCondition($this->targetFieldName, 'field_' . $this->fieldName, 'visible', 'value');
     $this->createScreenshot($this->screenshotPath . '01-' . $this->testName . __FUNCTION__ . '.png');
     // Set up conditions.
-    $text = [$this->randomString(), $this->randomString()];
+    $text = [$this->randomMachineName(), $this->randomMachineName()];
     $data = [
       'condition' => 'value',
       'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,

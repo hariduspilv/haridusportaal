@@ -184,7 +184,7 @@ class RestUIForm extends ConfigFormBase {
 
     // Granularity selection.
     $form['granularity'] = [
-      '#title' => t('Granularity'),
+      '#title' => $this->t('Granularity'),
       '#type' => 'select',
       '#options' => [
         RestResourceConfigInterface::RESOURCE_GRANULARITY => $this->t('Resource'),

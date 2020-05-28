@@ -4,10 +4,11 @@ description: 'Provides a generic framework for modules offering search capabilit
 package: Search
 core: 8.x
 configure: search_api.overview
+php: 7.0
 dependencies:
-  - drupal:system (>=8.6)
+  - drupal:system (>=8.7.4)
 
-# Information added by Drupal.org packaging script on 2019-11-07
-version: '8.x-1.15'
+# Information added by Drupal.org packaging script on 2020-04-08
+version: '8.x-1.16'
 project: 'search_api'
-datestamp: 1573122789
+datestamp: 1586374703

@@ -1227,6 +1227,9 @@ class PHP extends Tokenizer
                 // detect the T_FN token more easily.
                 $tokens[$stackPtr][0] = T_FN;
                 $token[0] = T_FN;
+                if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                    echo "\t\t* token $stackPtr changed from T_STRING to T_FN".PHP_EOL;
+                }
             }
 
             /*
@@ -1241,18 +1244,25 @@ class PHP extends Tokenizer
                 || $token[0] === T_FN)
                 && $finalTokens[$lastNotEmptyToken]['code'] !== T_USE
             ) {
-                for ($x = ($stackPtr + 1); $x < $numTokens; $x++) {
-                    if (is_array($tokens[$x]) === false
-                        || isset(Util\Tokens::$emptyTokens[$tokens[$x][0]]) === false
-                    ) {
-                        // Non-empty content.
-                        break;
+                if ($token[0] === T_FUNCTION) {
+                    for ($x = ($stackPtr + 1); $x < $numTokens; $x++) {
+                        if (is_array($tokens[$x]) === false
+                            || isset(Util\Tokens::$emptyTokens[$tokens[$x][0]]) === false
+                        ) {
+                            // Non-empty content.
+                            break;
+                        }
                     }
-                }
 
-                if ($x < $numTokens && is_array($tokens[$x]) === true) {
-                    $tokens[$x][0] = T_STRING;
-                }
+                    if ($x < $numTokens && is_array($tokens[$x]) === true) {
+                        if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                            $oldType = Util\Tokens::tokenName($tokens[$x][0]);
+                            echo "\t\t* token $x changed from $oldType to T_STRING".PHP_EOL;
+                        }
+
+                        $tokens[$x][0] = T_STRING;
+                    }
+                }//end if
 
                 /*
                     This is a special condition for T_ARRAY tokens used for
@@ -1841,10 +1851,18 @@ class PHP extends Tokenizer
                             T_CLOSE_TAG            => true,
                         ];
 
-                        $inTernary = false;
+                        $inTernary    = false;
+                        $lastEndToken = null;
 
                         for ($scopeCloser = ($arrow + 1); $scopeCloser < $numTokens; $scopeCloser++) {
                             if (isset($endTokens[$this->tokens[$scopeCloser]['code']]) === true) {
+                                if ($lastEndToken !== null
+                                    && $this->tokens[$scopeCloser]['code'] === T_CLOSE_PARENTHESIS
+                                    && $this->tokens[$scopeCloser]['parenthesis_opener'] < $arrow
+                                ) {
+                                    $scopeCloser = $lastEndToken;
+                                }
+
                                 break;
                             }
 
@@ -1857,12 +1875,14 @@ class PHP extends Tokenizer
                             }
 
                             if (isset($this->tokens[$scopeCloser]['parenthesis_closer']) === true) {
-                                $scopeCloser = $this->tokens[$scopeCloser]['parenthesis_closer'];
+                                $scopeCloser  = $this->tokens[$scopeCloser]['parenthesis_closer'];
+                                $lastEndToken = $scopeCloser;
                                 continue;
                             }
 
                             if (isset($this->tokens[$scopeCloser]['bracket_closer']) === true) {
-                                $scopeCloser = $this->tokens[$scopeCloser]['bracket_closer'];
+                                $scopeCloser  = $this->tokens[$scopeCloser]['bracket_closer'];
+                                $lastEndToken = $scopeCloser;
                                 continue;
                             }
 
@@ -1885,6 +1905,10 @@ class PHP extends Tokenizer
                             if (PHP_CODESNIFFER_VERBOSITY > 1) {
                                 $line = $this->tokens[$i]['line'];
                                 echo "\t=> token $i on line $line processed as arrow function".PHP_EOL;
+                                echo "\t\t* scope opener set to $arrow *".PHP_EOL;
+                                echo "\t\t* scope closer set to $scopeCloser *".PHP_EOL;
+                                echo "\t\t* parenthesis opener set to $x *".PHP_EOL;
+                                echo "\t\t* parenthesis closer set to $closer *".PHP_EOL;
                             }
 
                             $this->tokens[$i]['code']            = T_FN;
@@ -1894,7 +1918,7 @@ class PHP extends Tokenizer
                             $this->tokens[$i]['scope_closer']    = $scopeCloser;
                             $this->tokens[$i]['parenthesis_owner']  = $i;
                             $this->tokens[$i]['parenthesis_opener'] = $x;
-                            $this->tokens[$i]['parenthesis_closer'] = $this->tokens[$x]['parenthesis_closer'];
+                            $this->tokens[$i]['parenthesis_closer'] = $closer;
 
                             $this->tokens[$arrow]['code'] = T_FN_ARROW;
                             $this->tokens[$arrow]['type'] = 'T_FN_ARROW';
@@ -1918,6 +1942,18 @@ class PHP extends Tokenizer
                         }//end if
                     }//end if
                 }//end if
+
+                // If after all that, the extra tokens are not set, this is not an arrow function.
+                if (isset($this->tokens[$i]['scope_closer']) === false) {
+                    if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                        $line = $this->tokens[$i]['line'];
+                        echo "\t=> token $i on line $line is not an arrow function".PHP_EOL;
+                        echo "\t\t* token changed from T_FN to T_STRING".PHP_EOL;
+                    }
+
+                    $this->tokens[$i]['code'] = T_STRING;
+                    $this->tokens[$i]['type'] = 'T_STRING';
+                }
             } else if ($this->tokens[$i]['code'] === T_OPEN_SQUARE_BRACKET) {
                 if (isset($this->tokens[$i]['bracket_closer']) === false) {
                     continue;

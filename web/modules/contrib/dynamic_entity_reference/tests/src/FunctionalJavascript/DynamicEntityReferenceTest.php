@@ -81,7 +81,7 @@ class DynamicEntityReferenceTest extends WebDriverTestBase {
   /**
    * Sets the test up.
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->adminUser = $this->drupalCreateUser($this->permissions);
     $this->anotherUser = $this->drupalCreateUser();
@@ -256,11 +256,14 @@ class DynamicEntityReferenceTest extends WebDriverTestBase {
    * @param string $target_type
    *   The entity type id.
    *
-   * @return array
+   * @return string
    *   Auto complete paths for the target type.
    */
   protected function createAutoCompletePath($target_type) {
-    $selection_settings = [];
+    $selection_settings = [
+      'match_operator' => 'CONTAINS',
+      'match_limit' => 10,
+    ];
     $data = serialize($selection_settings) . $target_type . "default:$target_type";
     $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
     return Url::fromRoute('system.entity_autocomplete', [

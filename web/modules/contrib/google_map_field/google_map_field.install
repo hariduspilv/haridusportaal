@@ -65,8 +65,6 @@ function google_map_field_add_columns_to_schema(array $columns_to_add) {
   $entity_storage_schema_sql = \Drupal::keyValue('entity.storage_schema.sql');
   $entity_definitions_installed = \Drupal::keyValue('entity.definitions.installed');
 
-  $processed_fields = [];
-
   foreach ($entity_field_map as $entity_type_id => $field_map) {
     $entity_storage = $entity_type_manager->getStorage($entity_type_id);
     // Only SQL storage based entities are supported / throw known exception.
@@ -163,4 +161,30 @@ function google_map_field_update_8002() {
   $processed_fields = google_map_field_add_columns_to_schema($columns_to_add);
 
   \Drupal::state()->set('google_map_field_8102_processed', $processed_fields);
+}
+
+/**
+ * Adds custom marker field.
+ */
+function google_map_field_update_8003() {
+  $columns_to_add = ['marker_icon'];
+  $processed_fields = google_map_field_add_columns_to_schema($columns_to_add);
+
+  \Drupal::state()->set('google_map_field_8103_processed', $processed_fields);
+}
+
+/**
+ * Adds traffic layer field.
+ */
+function google_map_field_update_8104() {
+  $columns_to_add = ['traffic'];
+  $processed_fields = google_map_field_add_columns_to_schema($columns_to_add);
+
+  // Set correct state for previous updates.
+  \Drupal::state()->set('google_map_field_8001_processed', $processed_fields);
+  \Drupal::state()->set('google_map_field_8002_processed', $processed_fields);
+  \Drupal::state()->set('google_map_field_8003_processed', $processed_fields);
+
+  // Set state for this update.
+  \Drupal::state()->set('google_map_field_8104_processed', $processed_fields);
 }

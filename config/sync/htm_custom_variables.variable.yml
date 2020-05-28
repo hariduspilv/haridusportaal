@@ -5,3 +5,5 @@ langcode: et
 cookie_link: /artiklid/kasutustingimused
 loader:
   timeout: '10000'
+login-tooltip: {  }
+login_tooltip: enabled

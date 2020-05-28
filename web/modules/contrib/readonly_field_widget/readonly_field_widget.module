@@ -51,9 +51,27 @@ function readonly_field_widget_form_alter(&$form, FormStateInterface $form_state
         $items->filterEmptyItems();
         $form[$name]['#access'] = $items->access('view');
       }
-
     }
+  }
+}
 
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function readonly_field_widget_theme_suggestions_alter(array &$suggestions, array $variables, $hook) {
+  if ($hook !== 'field') {
+    return;
   }
 
+  // 'field' template is already in the suggestions array, but core overrides it
+  // for node titles, which collides with readonly_field_widget behavior. Make
+  // 'field' the last template for titles when readonly is configured for it.
+  $parents = [];
+  if (isset($variables['element']['#parents'])) {
+    $parents = $variables['element']['#parents'];
+  }
+  $field_name = $variables['element']['#field_name'];
+  if (in_array('readonly_field', $parents) && $field_name == 'title') {
+    $suggestions[] = 'field';
+  }
 }

@@ -12,7 +12,7 @@ CONTENTS OF THIS FILE
 INTRODUCTION
 ------------
 
-The D8 Editor File upload module allows users to add a button in the Drupal 8
+The Editor File upload module allows users to add a button in the Drupal 8
 rich text editor active toolbar to directly upload and link files into the
 content. Without this module, the writer would have to upload the files on the
 webserver via a file field or a FTP connection then manually create the link.
@@ -33,16 +33,16 @@ This module requires no modules outside of Drupal core.
 RECOMMENDED MODULES
 -------------------
 
-D8 Editor Advanced link to be able to add more attributes (title, id, class,
+Editor Advanced link to be able to add more attributes (title, id, class,
 etc.) on the link.
 
- * D8 Editor Advanced link - https://www.drupal.org/project/editor_advanced_link
+ * Editor Advanced link - https://www.drupal.org/project/editor_advanced_link
 
 
 INSTALLATION
 ------------
 
-Install the D8 Editor File upload module as you would normally install a
+Install the Editor File upload module as you would normally install a
 contributed Drupal module. Visit https://www.drupal.org/node/1897420 for further
 information.
 

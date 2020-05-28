@@ -1,0 +1,41 @@
+{
+    "name": "drupal/queue_ui",
+    "description": "Interface and manager for Drupal queues.",
+    "type": "drupal-module",
+    "license": "GPL-2.0+",
+    "keywords": [
+        "php",
+        "queue",
+        "drupal"
+    ],
+    "homepage": "https://www.drupal.org/project/queue_ui",
+    "minimum-stability": "dev",
+    "require": {
+        "drupal/core": "^8.8 || ^9"
+    },
+    "authors": [
+        {
+            "name": "floretan",
+            "role": "Maintainer"
+        },
+        {
+            "name": "coltrane",
+            "role": "Maintainer"
+        },
+        {
+            "name": "tsphethean",
+            "role": "Maintainer"
+        },
+        {
+            "name": "bceyssens",
+            "role": "Maintainer"
+        },
+        {
+            "name": "voleger",
+            "role": "Maintainer"
+        }
+    ],
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/queue_ui"
+    }
+}

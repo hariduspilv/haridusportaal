@@ -13,6 +13,7 @@ use Drupal\file\Entity\File;
 use Drupal\image\Plugin\Field\FieldFormatter\ImageFormatter;
 use Drupal\Core\Cache\Cache;
 use Psr\Log\LoggerInterface;
+use enshrined\svgSanitize\Sanitizer;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -99,7 +100,7 @@ class SvgImageFormatter extends ImageFormatter {
     $cacheTags = [];
     if (!empty($imageStyleSetting)) {
       $imageStyle = $this->imageStyleStorage->load($imageStyleSetting);
-      $cacheTags = $imageStyle->getCacheTags();
+      $cacheTags = $imageStyle ? $imageStyle->getCacheTags() : [];
     }
 
     $svg_attributes = $this->getSetting('svg_attributes');
@@ -147,16 +148,29 @@ class SvgImageFormatter extends ImageFormatter {
         // Render as SVG tag.
         $svgRaw = $this->fileGetContents($file);
         if ($svgRaw) {
-          $svgRaw = str_replace('<?xml version="1.0" encoding="UTF-8"?>', '', $svgRaw);
+          $svgRaw = preg_replace(['/<\?xml.*\?>/i', '/<!DOCTYPE((.|\n|\r)*?)">/i'], '', $svgRaw);
           $svgRaw = trim($svgRaw);
 
-          $elements[$delta] = [
-            '#markup' => Markup::create($svgRaw),
-            '#cache' => [
-              'tags' => $cacheTags,
-              'contexts' => $cacheContexts,
-            ],
-          ];
+          if ($url) {
+            $elements[$delta] = [
+              '#type' => 'link',
+              '#url' => $url,
+              '#title' => Markup::create($svgRaw),
+              '#cache' => [
+                'tags' => $cacheTags,
+                'contexts' => $cacheContexts,
+              ],
+            ];
+          }
+          else {
+            $elements[$delta] = [
+              '#markup' => Markup::create($svgRaw),
+              '#cache' => [
+                'tags' => $cacheTags,
+                'contexts' => $cacheContexts,
+              ],
+            ];
+          }
         }
       }
     }
@@ -226,7 +240,10 @@ class SvgImageFormatter extends ImageFormatter {
     $fileUri = $file->getFileUri();
 
     if (file_exists($fileUri)) {
-      return file_get_contents($fileUri);
+      // Make sure that SVG is safe
+      $rawSvg = file_get_contents($fileUri);
+      $svgSanitizer = new Sanitizer();
+      return $svgSanitizer->sanitize($rawSvg);
     }
 
     $this->logger->error(

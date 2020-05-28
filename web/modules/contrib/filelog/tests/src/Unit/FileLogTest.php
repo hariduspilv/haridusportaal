@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\filelog\Unit;
 
+use Drupal;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\File\FileSystem;
@@ -10,11 +11,14 @@ use Drupal\Core\Site\Settings;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\StreamWrapper\StreamWrapperManagerInterface;
 use Drupal\Core\Utility\Token;
+use Drupal\filelog\LogFileManager;
 use Drupal\filelog\Logger\FileLog;
 use Drupal\filelog\LogMessage;
 use Drupal\Tests\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
 use Psr\Log\LoggerInterface;
+use function file_get_contents;
+use function strtr;
 
 /**
  * Test the file logger.
@@ -41,6 +45,11 @@ class FileLogTest extends UnitTestCase {
   /**
    * @var \org\bovigo\vfs\vfsStreamDirectory
    */
+  protected $virtualFileSystem;
+
+  /**
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
   protected $fileSystem;
 
   /**
@@ -55,17 +64,15 @@ class FileLogTest extends UnitTestCase {
       ->disableOriginalConstructor()
       ->getMock();
 
-    $this->token->expects($this->any())
-      ->method('replace')
+    $this->token->method('replace')
       ->willReturnCallback([static::class, 'tokenReplace']);
 
     $this->time = $this->createMock(TimeInterface::class);
-    $this->time->expects($this->any())
-      ->method('getRequestTime')
+    $this->time->method('getRequestTime')
       ->willReturn($_SERVER['REQUEST_TIME']);
 
     $this->logMessageParser = new LogMessageParser();
-    $this->fileSystem = vfsStream::setup('filelog');
+    $this->virtualFileSystem = vfsStream::setup('filelog');
 
     $container = new ContainerBuilder();
     /** @var \Drupal\Core\StreamWrapper\StreamWrapperManagerInterface $swManager */
@@ -73,9 +80,9 @@ class FileLogTest extends UnitTestCase {
     $settings = new Settings([]);
     /** @var \Psr\Log\LoggerInterface $logger */
     $logger = $this->createMock(LoggerInterface::class);
-    $fileSystem = new FileSystem($swManager, $settings, $logger);
-    $container->set('file_system', $fileSystem);
-    \Drupal::setContainer($container);
+    $this->fileSystem = new FileSystem($swManager, $settings, $logger);
+    $container->set('file_system', $this->fileSystem);
+    Drupal::setContainer($container);
   }
 
   /**
@@ -97,17 +104,15 @@ class FileLogTest extends UnitTestCase {
     /** @var StateInterface|\PHPUnit_Framework_MockObject_MockObject $state */
     $state_data = ['filelog.rotation' => 0];
     $state = $this->createMock(StateInterface::class);
-    $state->expects($this->any())
-      ->method('get')
+    $state->method('get')
       ->willReturnCallback(
-        function ($key) use (&$state_data) {
+        static function ($key) use (&$state_data) {
           return $state_data[$key];
         }
       );
-    $state->expects($this->any())
-      ->method('set')
+    $state->method('set')
       ->willReturnCallback(
-        function ($key, $value) use (&$state_data) {
+        static function ($key, $value) use (&$state_data) {
           $state_data[$key] = $value;
         }
       );
@@ -117,7 +122,8 @@ class FileLogTest extends UnitTestCase {
       $state,
       $this->token,
       $this->time,
-      $this->logMessageParser
+      $this->logMessageParser,
+      new LogFileManager($configFactory, $this->fileSystem)
     );
 
     foreach ($events as $event) {
@@ -126,11 +132,11 @@ class FileLogTest extends UnitTestCase {
 
     // Read log output and remove file for the next test.
     $content = '';
-    if ($this->fileSystem->hasChild(FileLog::FILENAME)) {
-      $content = \file_get_contents(
-        $this->fileSystem->getChild(FileLog::FILENAME)->url()
+    if ($this->virtualFileSystem->hasChild(FileLog::FILENAME)) {
+      $content = file_get_contents(
+        $this->virtualFileSystem->getChild(FileLog::FILENAME)->url()
       );
-      $this->fileSystem->removeChild(FileLog::FILENAME);
+      $this->virtualFileSystem->removeChild(FileLog::FILENAME);
     }
 
     $this->assertEquals($expected, $content);
@@ -204,7 +210,7 @@ class FileLogTest extends UnitTestCase {
   public static function tokenReplace($text, array $data): string {
     /** @var \Drupal\filelog\LogMessage $message */
     $message = $data['log'];
-    return \strtr(
+    return strtr(
       $text,
       [
         '[log:message]' => $message->getText(),

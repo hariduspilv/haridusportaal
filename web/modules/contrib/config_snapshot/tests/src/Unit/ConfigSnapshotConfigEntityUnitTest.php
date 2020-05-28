@@ -61,15 +61,15 @@ class ConfigSnapshotConfigEntityUnitTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp() {
-    $this->entityType = $this->getMock('\Drupal\Core\Entity\EntityTypeInterface');
+    $this->entityType = $this->createMock('\Drupal\Core\Entity\EntityTypeInterface');
     $this->entityType->expects($this->any())
       ->method('getProvider')
       ->will($this->returnValue('entity'));
 
     $this->entityManager = new EntityManager();
-    $this->entityTypeManager = $this->getMock(EntityTypeManagerInterface::class);
+    $this->entityTypeManager = $this->createMock(EntityTypeManagerInterface::class);
 
-    $this->uuid = $this->getMock('\Drupal\Component\Uuid\UuidInterface');
+    $this->uuid = $this->createMock('\Drupal\Component\Uuid\UuidInterface');
 
     $container = new ContainerBuilder();
     $container->set('entity.manager', $this->entityManager);

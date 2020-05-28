@@ -7,7 +7,7 @@ the 7.x-1.x version of this module!
 
 ## REQUIREMENTS ##
 
-- PHP 5.5 or greater
+- PHP 7.0 or greater
 - Availability of a memcached daemon: http://memcached.org/
 - One of the two PECL memcache packages:
   - http://pecl.php.net/package/memcache (recommended)
@@ -136,14 +136,19 @@ services:
     factory: memcache.lock.factory:get
 
 ## Cache Container on bootstrap (with cache tags on database) ##
-By default Drupal starts the cache_container on the database, in order to override that you can use the following code on your settings.php file. Make sure that the $class_load->addPsr4 is poiting to the right location of memcache (on this case modules/contrib/memcache/src)
+By default Drupal starts the cache_container on the database, in order to
+override that you can use the following code on your settings.php file. Make
+sure that the $class_load->addPsr4 is pointing to the right location of
+memcache (in this case modules/contrib/memcache/src)
 
-In this mode, the database is still bootstrapped so that cache tag invalidation can be handled. If you want to avoid database bootstrap, see the container definition in the next section instead.
+In this mode, the database is still bootstrapped so that cache tag invalidation
+can be handled. If you want to avoid database bootstrap, see the container
+definition in the next section instead.
 
 $memcache_exists = class_exists('Memcache', FALSE);
 $memcached_exists = class_exists('Memcached', FALSE);
 if ($memcache_exists || $memcached_exists) {
-  $class_loader->addPsr4('Drupal\\memcache\\', 'modules/contrib/memcache/src');
+  $class_loader->addPsr4('Drupal\\memcache\\', $app_root . '/modules/contrib/memcache/src');
 
   // Define custom bootstrap container definition to use Memcache for cache.container.
   $settings['bootstrap_container_definition'] = [
@@ -189,7 +194,10 @@ if ($memcache_exists || $memcached_exists) {
 }
 
 ## Cache Container on bootstrap (pure memcache) ##
-By default Drupal starts the cache_container on the database, in order to override that you can use the following code on your settings.php file. Make sure that the $class_load->addPsr4 is poiting to the right location of memcache (on this case modules/contrib/memcache/src)
+By default Drupal starts the cache_container on the database, in order to
+override that you can use the following code on your settings.php file.
+Make sure that the $class_load->addPsr4 is pointing to the right location
+of memcache (in this case modules/contrib/memcache/src)
 
 For this mode to work correctly, you must be using the overridden cache_tags.invalidator.checksum service.
 See example.services.yml for the corresponding configuration.

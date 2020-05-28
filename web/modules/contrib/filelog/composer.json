@@ -13,12 +13,13 @@
   "authors": [
     {
       "name": "Christoph Burschka",
-      "email": "christoph.burschka@pwc-digital.ch",
-      "homepage": "https://github.com/cburschka-pwc",
+      "email": "christoph@burschka.de",
+      "homepage": "https://github.com/cburschka",
       "role": "Maintainer"
     }
   ],
   "require": {
-    "php": "^7.1"
+    "php": "^7.1",
+    "ext-zlib": "*"
   }
 }

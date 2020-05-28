@@ -6,7 +6,7 @@ package: Fields
 dependencies:
   - drupal:field
 
-# Information added by Drupal.org packaging script on 2019-08-28
-version: '8.x-1.0-alpha6'
+# Information added by Drupal.org packaging script on 2020-05-27
+version: '8.x-1.0-alpha8'
 project: 'conditional_fields'
-datestamp: 1567032731
+datestamp: 1590591576

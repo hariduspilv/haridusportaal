@@ -82,7 +82,7 @@ class JwtHsKeyType extends KeyTypeBase implements KeyPluginFormInterface {
     else {
       $bytes = $algorithm_keysize['HS256'] / 8;
     }
-    $random_key = Crypt::randomBytes($bytes);
+    $random_key = random_bytes($bytes);
 
     return $random_key;
   }

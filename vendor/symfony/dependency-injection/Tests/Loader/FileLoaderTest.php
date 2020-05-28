@@ -134,6 +134,13 @@ class FileLoaderTest extends TestCase
             ],
             array_keys($container->getAliases())
         );
+
+        $loader->registerClasses(
+            new Definition(),
+            'Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype\\',
+            'Prototype/*',
+            'Prototype/NotExistingDir'
+        );
     }
 
     public function testNestedRegisterClasses()
@@ -212,7 +219,7 @@ class FileLoaderTest extends TestCase
             );
         } catch (InvalidArgumentException $e) {
             $this->assertEquals(
-                sprintf('Invalid "exclude" pattern when importing classes for "Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype\": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s)', $excludePattern, $resourcePattern),
+                sprintf('Invalid "exclude" pattern when importing classes for "Symfony\Component\DependencyInjection\Tests\Fixtures\Prototype\": make sure your "exclude" pattern (%s) is a subset of the "resource" pattern (%s).', $excludePattern, $resourcePattern),
                 $e->getMessage()
             );
         }

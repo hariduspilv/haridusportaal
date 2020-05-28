@@ -17,7 +17,7 @@ use Drupal\contact\Entity\Message;
 use Drupal\Component\Utility\Html;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\language\Entity\ConfigurableLanguage;
-use Drupal\Tests\taxonomy\Functional\TaxonomyTestTrait;
+use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
 
 /**
  * Tests field tokens.
@@ -401,7 +401,7 @@ class FieldTest extends KernelTestBase {
       'targetEntityType' => 'node',
     ]);
     $view_mode->save();
-    $entity_display = entity_get_display('node', 'article', 'token');
+    $entity_display = \Drupal::service('entity_display.repository')->getViewDisplay('node', 'article', 'token');
     $entity_display->setComponent('test_field', [
       'type' => 'text_trimmed',
       'settings' => [

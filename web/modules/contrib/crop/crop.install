@@ -14,14 +14,9 @@ use Drupal\crop\Entity\Crop;
 function crop_requirements($phase) {
   $requirements = [];
 
-  // This branch of Crop API shouldn't be used with core < 8.4.x or with
-  // media_entity 1.x enabled.
+  // This branch of Crop API shouldn't be used with media_entity 1.x enabled.
   $incompatible = FALSE;
-  $drupal_version = explode('.', \Drupal::VERSION);
-  if ($drupal_version[1] < 4) {
-    $incompatible = TRUE;
-  }
-  elseif (\Drupal::moduleHandler()->moduleExists('media_entity')) {
+  if (\Drupal::moduleHandler()->moduleExists('media_entity')) {
     $info = \Drupal::service('extension.list.module')->getExtensionInfo('media_entity');
     if (version_compare($info['version'], '8.x-2') < 0) {
       $incompatible = TRUE;

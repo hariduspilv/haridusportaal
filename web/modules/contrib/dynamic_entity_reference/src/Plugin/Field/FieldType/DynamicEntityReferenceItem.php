@@ -132,6 +132,13 @@ class DynamicEntityReferenceItem extends EntityReferenceItem {
     elseif ($property_name == 'entity') {
       $this->writePropertyValue('target_type', $entity_property->getValue()->getEntityTypeId());
     }
+    elseif ($property_name == 'target_id') {
+      // Just in case target_id is set before target_type then set it to empty
+      // string instead of NULL so that
+      // \Drupal\Core\Entity\Plugin\DataType\EntityReference::setValue
+      // doesn't throw "InvalidArgumentException: Value is not a valid entity".
+      $entity_property->getTargetDefinition()->setEntityTypeId($this->get('target_type')->getValue() ?: '');
+    }
     parent::onChange($property_name, $notify);
   }
 

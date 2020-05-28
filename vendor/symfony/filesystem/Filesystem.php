@@ -101,9 +101,9 @@ class Filesystem
                 if (!is_dir($dir)) {
                     // The directory was not created by a concurrent process. Let's throw an exception with a developer friendly error message if we have one
                     if (self::$lastError) {
-                        throw new IOException(sprintf('Failed to create "%s": %s.', $dir, self::$lastError), 0, null, $dir);
+                        throw new IOException(sprintf('Failed to create "%s": '.self::$lastError, $dir), 0, null, $dir);
                     }
-                    throw new IOException(sprintf('Failed to create "%s"', $dir), 0, null, $dir);
+                    throw new IOException(sprintf('Failed to create "%s".', $dir), 0, null, $dir);
                 }
             }
         }
@@ -171,16 +171,16 @@ class Filesystem
             if (is_link($file)) {
                 // See https://bugs.php.net/52176
                 if (!(self::box('unlink', $file) || '\\' !== \DIRECTORY_SEPARATOR || self::box('rmdir', $file)) && file_exists($file)) {
-                    throw new IOException(sprintf('Failed to remove symlink "%s": %s.', $file, self::$lastError));
+                    throw new IOException(sprintf('Failed to remove symlink "%s": '.self::$lastError, $file));
                 }
             } elseif (is_dir($file)) {
                 $this->remove(new \FilesystemIterator($file, \FilesystemIterator::CURRENT_AS_PATHNAME | \FilesystemIterator::SKIP_DOTS));
 
                 if (!self::box('rmdir', $file) && file_exists($file)) {
-                    throw new IOException(sprintf('Failed to remove directory "%s": %s.', $file, self::$lastError));
+                    throw new IOException(sprintf('Failed to remove directory "%s": '.self::$lastError, $file));
                 }
             } elseif (!self::box('unlink', $file) && file_exists($file)) {
-                throw new IOException(sprintf('Failed to remove file "%s": %s.', $file, self::$lastError));
+                throw new IOException(sprintf('Failed to remove file "%s": '.self::$lastError, $file));
             }
         }
     }
@@ -362,7 +362,7 @@ class Filesystem
         }
 
         if (!is_file($originFile)) {
-            throw new FileNotFoundException(sprintf('Origin file "%s" is not a file', $originFile));
+            throw new FileNotFoundException(sprintf('Origin file "%s" is not a file.', $originFile));
         }
 
         foreach ($this->toIterable($targetFiles) as $targetFile) {
@@ -388,10 +388,10 @@ class Filesystem
     {
         if (self::$lastError) {
             if ('\\' === \DIRECTORY_SEPARATOR && false !== strpos(self::$lastError, 'error code(1314)')) {
-                throw new IOException(sprintf('Unable to create %s link due to error code 1314: \'A required privilege is not held by the client\'. Do you have the required Administrator-rights?', $linkType), 0, null, $target);
+                throw new IOException(sprintf('Unable to create "%s" link due to error code 1314: \'A required privilege is not held by the client\'. Do you have the required Administrator-rights?', $linkType), 0, null, $target);
             }
         }
-        throw new IOException(sprintf('Failed to create %s link from "%s" to "%s".', $linkType, $origin, $target), 0, null, $target);
+        throw new IOException(sprintf('Failed to create "%s" link from "%s" to "%s".', $linkType, $origin, $target), 0, null, $target);
     }
 
     /**

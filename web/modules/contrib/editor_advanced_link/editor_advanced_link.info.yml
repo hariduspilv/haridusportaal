@@ -2,10 +2,11 @@ name: 'Advanced Link'
 description: 'Add title, target etc. attributes to Text Editor''s link dialog if the text format allows them.'
 type: module
 core: 8.x
+core_version_requirement: ^8 || ^9
 dependencies:
   - drupal:editor
 
-# Information added by Drupal.org packaging script on 2019-12-24
-version: '8.x-1.6'
+# Information added by Drupal.org packaging script on 2020-05-06
+version: '8.x-1.8'
 project: 'editor_advanced_link'
-datestamp: 1577188402
+datestamp: 1588757017
