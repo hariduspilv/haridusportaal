@@ -120,6 +120,7 @@ export class AuthService implements CanActivate {
     .subscribe((res: any) => {
       if (res.jwt) {
         sessionStorage.setItem('ehisToken', res.jwt);
+        this.hasEhisToken.next(true);
       }
     });
   }
