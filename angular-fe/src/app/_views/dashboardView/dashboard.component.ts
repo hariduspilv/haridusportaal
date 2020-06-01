@@ -402,7 +402,6 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.pathWatcher();
   }
 
-
   ngAfterViewInit() {
     this.bindIntroLinks();
   }
@@ -414,6 +413,6 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.setRoleSubscription.unsubscribe();
     this.getFavouritesSubscription.unsubscribe();
     this.eventListSubscription.unsubscribe();
-
+    this.auth.hasEhisToken.unsubscribe();
   }
 }
