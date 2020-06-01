@@ -20,9 +20,10 @@ import { ApplicationsComponent } from '@app/_assets/applications/applications.co
 import { ActivatedRoute, Router, NavigationEnd, NavigationStart } from '@angular/router';
 import { NavigationEvent } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-view-model';
 import { BlockComponent, BlockContentComponent } from '@app/_assets/block';
-import { Subscription } from 'rxjs';
+import { Subscription, Subject } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ThrowStmt } from '@angular/compiler';
+import { takeUntil } from 'rxjs/operators';
 const moment = _moment;
 @Component({
   selector: 'dashboard-view',
@@ -57,6 +58,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   roleNaturalOptions: any;
   roleJuridicalOptions: [];
   pageLoading: boolean = false;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   sidebar = {
     entity: {
@@ -376,7 +378,9 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       loading: true,
     };
     let firstRequest = true;
-    this.auth.hasEhisToken.subscribe((val: boolean) => {
+    this.auth.hasEhisToken.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((val: boolean) => {
       if (val && firstRequest) {
         firstRequest = false;
         this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver/unreadmessagecount`).subscribe((val: any) => {
@@ -413,6 +417,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     this.setRoleSubscription.unsubscribe();
     this.getFavouritesSubscription.unsubscribe();
     this.eventListSubscription.unsubscribe();
-    this.auth.hasEhisToken.unsubscribe();
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
