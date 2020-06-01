@@ -375,21 +375,25 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
       list: [],
       loading: true,
     };
-    if (this.auth.hasEhisToken.getValue()) {
-      this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver/unreadmessagecount`).subscribe((val: any) => {
-        notifications.unread = val.UnreadMessagesQty;
-      });
-      this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver?orderby=sentAt&sort=DESC`).subscribe((val: any) => {
-        if (val.messages) {
-          if (val.messages.length > 5) {
-            notifications.list = [...val.messages.splice(0, 5)];
-          } else {
-            notifications.list = [...val.messages];
+    let firstRequest = true;
+    this.auth.hasEhisToken.subscribe((val: boolean) => {
+      if (val && firstRequest) {
+        firstRequest = false;
+        this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver/unreadmessagecount`).subscribe((val: any) => {
+          notifications.unread = val.UnreadMessagesQty;
+        });
+        this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver?orderby=sentAt&sort=DESC`).subscribe((val: any) => {
+          if (val.messages) {
+            if (val.messages.length > 5) {
+              notifications.list = [...val.messages.splice(0, 5)];
+            } else {
+              notifications.list = [...val.messages];
+            }
           }
-        }
-        notifications.loading = false;
-      });
-    }
+          notifications.loading = false;
+        });
+      }
+    })
     this.sidebar.entity['notifications'] = notifications;
   }
 
