@@ -34,7 +34,7 @@ registerLocaleData(localeEt);
     HttpClientJsonpModule,
     TranslateModule.forRoot(),
     DeviceDetectorModule.forRoot(),
-    /* ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }), */
+    ServiceWorkerModule.register('/ngsw-worker.js'),
   ],
   providers: [
     { provide: LOCALE_ID, useValue:'et-EE' },

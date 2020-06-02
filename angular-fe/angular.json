@@ -36,8 +36,10 @@
               "src/robots.txt",
               "src/.htaccess",
               "src/amp-php",
-              "src/stats"
+              "src/stats",
+              "src/ngsw-worker.js" 
             ],
+            "serviceWorker": true,
             "styles": [
               "src/styles.scss"
             ],
@@ -70,6 +72,8 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
