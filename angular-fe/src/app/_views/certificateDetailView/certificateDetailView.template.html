@@ -4,7 +4,7 @@
 		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
 		<block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
 			<block-title>
-				{{'certificates.title' | translate }} <a routerLink="/tunnistused/lõpudokumendid"><icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}</a>
+				{{'certificates.title' | translate }} <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ID_CODE'"><icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}</a>
 			</block-title>
 
 			<block-secondary-title>
