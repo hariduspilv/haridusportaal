@@ -403,9 +403,7 @@ export class InfographComponent implements OnInit {
     this.data = this.data.map((item) => {
       try {
         item.filterValues = JSON.parse(item.filterValues);
-      } catch (err) {
-        console.log('Error parsing JSON');
-      }
+      } catch (err) {}
       item.id = this.generateID();
 
       item.graph_group_by = item.filterValues.graph_options.graph_group_by;
@@ -470,9 +468,7 @@ export class InfographComponent implements OnInit {
 
         item.filters = tmpFilters;
 
-      } catch (err) {
-        console.error("Couldn't parse filters!");
-      }
+      } catch (err) {}
 
       let hasGroups = false;
 
@@ -524,9 +520,7 @@ export class InfographComponent implements OnInit {
           key: 'näitaja',
           multiple: false,
         });
-      } catch (err) {
-        console.error("Couldn't parse indicators!");
-      }
+      } catch (err) {}
 
       this.setInitialValues(item.id);
 

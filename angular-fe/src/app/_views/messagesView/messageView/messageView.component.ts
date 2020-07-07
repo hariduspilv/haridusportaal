@@ -58,14 +58,13 @@ export class MessageViewComponent implements OnInit{
 
   deleteMessage() {
     const id = this.data.messageAddressee[0].id;
-    this.http.delete(`${this.settings.ehisUrl}/messages/messages/receiver/messageAddressee/${id}`, {responseType: 'text'})
+    const path = `${this.settings.ehisUrl}/messages/messages/receiver/messageAddressee/${id}`;
+    this.http.delete(path, { responseType: 'text' })
     .subscribe(
       (res) => {
         this.router.navigate(['../'], { relativeTo: this.route });
       },
-      (err) => {
-        console.log(err);
-      }
+      (err) => {},
     );
   }
   ngOnDestroy(): void {

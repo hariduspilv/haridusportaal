@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnInit, ElementRef, ViewChild, AfterViewInit } from '@angular/core';
+import { ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
 import {
   AlertsService,
   AnalyticsService,

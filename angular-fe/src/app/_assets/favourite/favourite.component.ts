@@ -84,17 +84,19 @@ export class FavouriteComponent {
   }
 
   request({ data, message = '', link, closeable = true, state = false }) {
-    return this.http.post(`${this.settings.url}/graphql`, data).subscribe((response) => {
-      this.alertsService.success(
-        message,
-        'global',
-        'favourites',
-        closeable,
-        link,
-      );
-      this.state = state;
-    }, (err) => {
-    });
+    return this.http.post(`${this.settings.url}/graphql`, data).subscribe(
+      (response) => {
+        this.alertsService.success(
+          message,
+          'global',
+          'favourites',
+          closeable,
+          link,
+        );
+        this.state = state;
+      },
+      (err) => {
+      });
   }
 
   ngOnDestroy() {

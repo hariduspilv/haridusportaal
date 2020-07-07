@@ -30,10 +30,9 @@ export class LinksComponent implements OnInit {
           }
           return output;
         });
-      } catch (err) {
-        console.log(err);
-      }
-    } else if (this.type === 'webpage'){
+      } catch (err) {}
+
+    } else if (this.type === 'webpage') {
 
     }
   }

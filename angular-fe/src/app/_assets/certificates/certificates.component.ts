@@ -28,8 +28,14 @@ export class CertificatesComponent implements OnInit {
   };
 
   public accordionSection: {}[] = [
-    { _id: 'professional-certificates', label: 'frontpage.dashboard_tabs_certificates_professional' },
-    { _id: 'state-exams', label: 'frontpage.dashboard_tabs_certificates_examinations' },
+    {
+      _id: 'professional-certificates',
+      label: 'frontpage.dashboard_tabs_certificates_professional',
+    },
+    {
+      _id: 'state-exams',
+      label: 'frontpage.dashboard_tabs_certificates_examinations',
+    },
   ];
 
   constructor(
@@ -80,33 +86,41 @@ export class CertificatesComponent implements OnInit {
     this.loading[id] = true;
 
     if (!this.loaded[id]) {
-      const sub = this.http.get(this.settings.url + '/dashboard/certificates/getProfessionalCertificate?_format=json').subscribe(response => {
-        this.loading[id] = false;
 
-        if (response['error']) {
-          this.certificateErr = (response['error'] && response['error']['message_text'] && response['error']['message_text']['et']) ? response['error']['message_text']['et'] : false;
-          this.error = true;
-        } else {
-          this.professionalCertificates = response['value']['kutsetunnistused'];
+      const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getProfessionalCertificate?_format=json`).subscribe(
+        (response) => {
+          this.loading[id] = false;
 
-          if (this.professionalCertificates.length) {
-            this.professionalCertificates.forEach(certificate => {
-              certificate.path = decodeURI(this.router.url + '/' + certificate.registrinumber);
-            });
-            const regex = /(\d{2}).(\d{2}).(\d{4})/;
-            this.professionalCertificates = this.professionalCertificates.sort(function (a, b) {
-              return Number(new Date(b.valjaantud.replace(regex, '$2/$1/$3'))) - Number(new Date(a.valjaantud.replace(regex, '$2/$1/$3')));
-            });
-            this.professionalCertificates.forEach((certificate) => {
-              certificate.valjaantud = certificate.valjaantud.split('-').reverse().join('.');
-            });
+          if (response['error']) {
+            this.certificateErr = (response['error'] &&
+            response['error']['message_text'] &&
+            response['error']['message_text']['et']) ?
+            response['error']['message_text']['et'] : false;
+            this.error = true;
+          } else {
+            this.professionalCertificates = response['value']['kutsetunnistused'];
+
+            if (this.professionalCertificates.length) {
+              this.professionalCertificates.forEach((certificate) => {
+                certificate.path = decodeURI(`${this.router.url}/${certificate.registrinumber}`);
+              });
+              const regex = /(\d{2}).(\d{2}).(\d{4})/;
+              this.professionalCertificates = this.professionalCertificates.sort((a, b) => {
+                const x = Number(new Date(b.valjaantud.replace(regex, '$2/$1/$3')));
+                const y = Number(new Date(a.valjaantud.replace(regex, '$2/$1/$3')));
+                return x - y;
+              });
+              this.professionalCertificates.forEach((certificate) => {
+                certificate.valjaantud = certificate.valjaantud.split('-').reverse().join('.');
+              });
+            }
+
+            sub.unsubscribe();
           }
-
-          sub.unsubscribe();
-        }
-      }, (err) => {
-        this.loading[id] = false;
-      });
+        },
+        (err) => {
+          this.loading[id] = false;
+        });
       this.loaded[id] = true;
     }
   }
@@ -116,19 +130,22 @@ export class CertificatesComponent implements OnInit {
     this.loading[id] = true;
 
     if (!this.loaded[id]) {
-      const sub = this.http.get(this.settings.url + '/dashboard/certificates/getTestSessions?_format=json').subscribe(response => {
-        if ((response['value'] && response['value']['teade']) || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et']) || response['value']['testsessioonid_kod_jada'] === []) {
-          const message = (response['error'] && response['error']['message_text']) ? response['error']['message_text']['et'] : response['value']['teade'];
-          this.examResultsErr = message;
-        } else {
-          this.examResults = response['value']['testsessioonid_kod_jada'].sort((a, b) => b.oppeaasta - a.oppeaasta);
-        }
-        this.loading[id] = false;
-        sub.unsubscribe();
-      }, (err) => {
-        this.errRequest = true;
-        this.loading[id] = false;
-      });
+      const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getTestSessions?_format=json`).subscribe(
+        (response) => {
+          if ((response['value'] && response['value']['teade']) || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et']) || response['value']['testsessioonid_kod_jada'] === []) {
+            const message = (response['error'] && response['error']['message_text']) ? response['error']['message_text']['et'] : response['value']['teade'];
+            this.examResultsErr = message;
+          } else {
+            this.examResults = response['value']['testsessioonid_kod_jada']
+              .sort((a, b) => b.oppeaasta - a.oppeaasta);
+          }
+          this.loading[id] = false;
+          sub.unsubscribe();
+        },
+        (err) => {
+          this.errRequest = true;
+          this.loading[id] = false;
+        });
       this.loaded[id] = true;
     }
   }

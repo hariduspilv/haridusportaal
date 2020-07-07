@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertsService, SettingsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { HttpClient } from '@angular/common/http';
-import value from '*.scss';
 import { Location } from '@angular/common';
 
 @Component({
@@ -88,7 +87,8 @@ export class CertificateCheckComponent {
         this.alertsService.error(this.translate.get('errors.request'), 'certificateCheck', false);
         this.loading = false;
       });
-  };
+  }
+
   ngOnInit() {
     this.alertsService.clear('general');
   }

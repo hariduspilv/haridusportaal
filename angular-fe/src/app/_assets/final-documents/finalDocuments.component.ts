@@ -85,7 +85,12 @@ export class FinalDocumentsComponent {
         this.loading.certificatesByAccessCode = false;
       },
       (err) => {
-        this.alertsService.error('certificates.no_certificate_or_access', 'certificatesByAccessCode','' , true)
+        this.alertsService.error(
+          'certificates.no_certificate_or_access',
+          'certificatesByAccessCode',
+          '' ,
+          true,
+        );
         this.loading.certificatesByAccessCode = false;
       });
   }

@@ -112,17 +112,19 @@ export class ShareComponent {
 
     this.clipboardService.copyFromContent(this.copyLink);
 
-    setTimeout(() => {
-      this.alertsService.success(
-        this.translateService.get('url.copied_to_clipboard'),
-        'global',
-        'share',
-        true,
-        false,
-      );
-      this.isFocused = false;
-      this.isHovered = false;
-    }, 0);
+    setTimeout(
+      () => {
+        this.alertsService.success(
+          this.translateService.get('url.copied_to_clipboard'),
+          'global',
+          'share',
+          true,
+          false,
+        );
+        this.isFocused = false;
+        this.isHovered = false;
+      },
+      0);
   }
 
 }

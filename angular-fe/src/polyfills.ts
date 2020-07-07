@@ -1,3 +1,4 @@
+// tslint:disable
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -25,7 +26,6 @@ import 'core-js/es7/object';
 import 'core-js/es7/array';
 import 'core-js/es7/string';
 import './custom-polyfills/nodelist-foreach.js';
-
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
 // import 'classlist.js';  // Run `npm install --save classlist.js`.

@@ -87,20 +87,22 @@ export class AutocompleteComponent implements OnDestroy {
                 map((data) => {
                   return data.addresses;
                 }),
-              ).subscribe((response) => {
-                this.parseInAds(response);
-                this.positionElement();
-              }, () => {
-              }, () => {
-                this.searched = true;
-                this.loading = false;
-                this.subscription.unsubscribe();
-                this.data.length
-                  ? this.liveAnnouncer.announce(
-                  this.translateService.get('wcag.address_suggestions_opened'))
-                  : this.liveAnnouncer.announce(
-                  this.translateService.get('autocomplete.no_result'));
-              });
+              ).subscribe(
+                (response) => {
+                  this.parseInAds(response);
+                  this.positionElement();
+                },
+                () => {},
+                () => {
+                  this.searched = true;
+                  this.loading = false;
+                  this.subscription.unsubscribe();
+                  this.data.length
+                    ? this.liveAnnouncer.announce(
+                    this.translateService.get('wcag.address_suggestions_opened'))
+                    : this.liveAnnouncer.announce(
+                    this.translateService.get('autocomplete.no_result'));
+                });
             } else {
               this.subscription = this.http.get(path).subscribe((response) => {
                 try {
@@ -171,7 +173,6 @@ export class AutocompleteComponent implements OnDestroy {
         });
       }
     } catch (err) {
-      console.log(err);
     }
 
     this.data = resultSet;

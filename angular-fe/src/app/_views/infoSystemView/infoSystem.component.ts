@@ -37,7 +37,7 @@ export class InfoSystemViewComponent implements OnInit {
     };
 
     const path = this.settings.query('infoSystemPage', variables);
-    console.log(variables);
+
     const subscription = this.http.get(path).subscribe((response) => {
 
       this.origData = response['data']['route']['entity'];

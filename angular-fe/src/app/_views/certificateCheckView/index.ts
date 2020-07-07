@@ -10,7 +10,6 @@ import { AppPipes } from '@app/_pipes';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 
-
 const routes: Routes = [
   {
     path: '',

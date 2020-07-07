@@ -142,7 +142,7 @@ export class SidebarComponent implements OnInit, OnChanges {
       }
 
       if (this.data.sidebar && this.data.sidebar.entity) {
-        Object.keys(this.data.sidebar.entity).forEach(elem => {
+        Object.keys(this.data.sidebar.entity).forEach((elem) => {
           this.data[elem] = this.data.sidebar.entity[elem];
         });
       }
@@ -176,7 +176,7 @@ export class SidebarComponent implements OnInit, OnChanges {
         this.orderedKeys = [...sidebarOrder[this.type]];
       }
 
-      this.keys.forEach(item => {
+      this.keys.forEach((item) => {
         if (this.orderedKeys.indexOf(item) === -1) {
           this.orderedKeys.push(item);
         }
@@ -332,7 +332,7 @@ export class SidebarLocationComponent {
   public parseData() {
     if (this.data && this.data.length) {
       try {
-        this.data.forEach(loc => {
+        this.data.forEach((loc) => {
           const lat = parseFloat(loc.entity.fieldCoordinates.lat);
           const lon = parseFloat(loc.entity.fieldCoordinates.lon);
           this.options.centerLat = lat;
@@ -344,7 +344,7 @@ export class SidebarLocationComponent {
     } else if (this.data.educationalInstitution) {
       try {
         this.data.educationalInstitution.entity.fieldSchoolLocation.forEach(
-          loc => {
+          (loc) => {
             const lat = parseFloat(loc.entity.fieldCoordinates.lat);
             const lon = parseFloat(loc.entity.fieldCoordinates.lon);
             this.options.centerLat = lat;

@@ -19,7 +19,7 @@ export class Circles {
   constructor() {}
   ngOnInit() {
     // const { small, large } = this;
-    this.smallChild[`background-color`] = `${this.small}`;
-    this.largeChild[`background-color`] = `${this.large}`;
+    this.smallChild['background-color'] = `${this.small}`;
+    this.largeChild['background-color'] = `${this.large}`;
   }
 }

@@ -107,7 +107,7 @@ export class DigitalSignViewComponent implements OnInit {
     });
     this.formGroup.setValue(defaultValue);
     this.formGroup.updateValueAndValidity();
-    //this.formGroup.addControl(el.modelName, el.formControl);
+    // this.formGroup.addControl(el.modelName, el.formControl);
   }
   sortValue(key = '', value = []) {
     switch (key) {
@@ -226,7 +226,7 @@ export class DigitalSignViewComponent implements OnInit {
     const newValue = this.formGroup.value;
     this.data[key].map((val) => {
       newValue[val.id] = checked;
-      //this.formGroup.value[val.id] = checked;
+      // this.formGroup.value[val.id] = checked;
     });
     this.formGroup.setValue(newValue);
     this.formGroup.updateValueAndValidity();
@@ -252,7 +252,8 @@ export class DigitalSignViewComponent implements OnInit {
     for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
       const slice = byteCharacters.slice(offset, offset + sliceSize);
 
-      const byteNumbers = new Array(slice.length);
+      const byteNumbers = Array(slice.length);
+      // tslint:disable-next-line: no-increment-decrement
       for (let i = 0; i < slice.length; i++) {
         byteNumbers[i] = slice.charCodeAt(i);
       }

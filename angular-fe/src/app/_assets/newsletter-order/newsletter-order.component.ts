@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ChangeDetectorRef, ɵConsole } from '@angular/core';
-import { Router, ActivatedRoute, Params } from '@angular/router'
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService, ModalService, AlertsService } from '@app/_services';
@@ -8,7 +8,7 @@ import { HttpClient } from '@angular/common/http';
 @Component({
   selector: 'newsletter-order',
   templateUrl: './newsletter-order.component.html',
-  styleUrls: ['./newsletter-order.component.scss']
+  styleUrls: ['./newsletter-order.component.scss'],
 })
 
 export class NewsletterOrderComponent implements OnInit, OnDestroy {
@@ -48,7 +48,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
   updateRSSLink() {
     this.rssIDs = '/';
 
-    for (let i in this.formItems) {
+    for (const i in this.formItems) {
       if (this.formItems[i]) {
         if (this.rssIDs !== '/') { this.rssIDs += ','; }
         this.rssIDs += i;
@@ -80,8 +80,8 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
 
         this.subscriptions = [...this.subscriptions];
 
-      }
-    )
+      },
+    );
     this.subscriptions = [...this.subscriptions, paramsSub];
   }
   resetView() {
@@ -90,17 +90,6 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
     this.initialize();
   }
 
-  // scrollElementIntoView = (element: HTMLElement, behavior?: 'smooth' | 'instant' | 'auto') => {
-
-  //   let scrollTop = window.pageYOffset || element.scrollTop;
-  //   const headerOutsideIframe = window.parent.document.getElementsByClassName('maincontent')[0].clientHeight;
-  //   const finalOffset = element.getBoundingClientRect().top + scrollTop + headerOutsideIframe;
-
-  //   window.parent.scrollTo({
-  //     top: finalOffset,
-  //     behavior: behavior || 'auto'
-  //   })
-  // }
   scrollElementIntoView(element) {
     try {
       element.scrollIntoView(true);
@@ -138,6 +127,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
     let output = '';
 
     let counter = 0;
+    // tslint:disable-next-line: prefer-const
     for (let i in this.formItems) {
       if (!this.formItems[i]) { continue; }
       output += output === '' ? i : `, ${i}`;
@@ -154,7 +144,8 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
     }
 
     let errorCounter = 0;
-    for (const i in this.errors) {
+    // tslint:disable-next-line: prefer-const
+    for (let i in this.errors) {
       if (this.errors[i]) {
         errorCounter += 1;
       }
@@ -207,7 +198,7 @@ export class NewsletterOrderComponent implements OnInit, OnDestroy {
   unsubscriptionModal(token: string) {
     this.modalService.toggle('unsubscribe');
     const data = {
-      queryId: "550a90c42d4bb032cab8fd8ff5fb3e3b448c9596:1",
+      queryId: '550a90c42d4bb032cab8fd8ff5fb3e3b448c9596:1',
       variables: { token },
     };
     const query = `${this.settings.query('newsletterDeactivate')}`;

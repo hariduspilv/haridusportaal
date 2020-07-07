@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
-
 @Component({
   selector: 'inline-links',
   templateUrl: './inline-links.component.html',

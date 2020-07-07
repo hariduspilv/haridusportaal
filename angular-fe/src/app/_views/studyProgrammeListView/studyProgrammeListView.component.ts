@@ -81,7 +81,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
   }
 
   fillFilters() {
-    let params = { ... this.route.snapshot.queryParams };
+    const params = { ... this.route.snapshot.queryParams };
     if (params['iscedf_broad']) {
       this.selectedIscedfBroad = params['iscedf_broad'].split(';');
     }
@@ -93,7 +93,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
     }
 
     Object.keys(params).forEach((item) => {
-      if(
+      if (
         item === 'title' ||
         item === 'type' ||
         item === 'onlyOpenAdmission'
@@ -140,7 +140,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
       queryParams: {
         dummy: 'true',
       },
-    }).then(() =>{
+    }).then(() => {
       this.router.navigate(['.'], {
         relativeTo: this.route,
         queryParams: {},
@@ -207,7 +207,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
 
   getFilters() {
 
-    let variables = {
+    const variables = {
       lang: 'ET',
     };
 
@@ -229,9 +229,13 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
           this.iscedfBroadFilters.push({ value: el.entityId, key: el.entityLabel });
         } else {
           if (!this.secondaryIscedfFilters[el.parentId]) {
-            this.secondaryIscedfFilters[el.parentId] = [{ value: el.entityId, key: el.entityLabel }];
+            this.secondaryIscedfFilters[el.parentId] = [
+              { value: el.entityId, key: el.entityLabel },
+            ];
           } else {
-            this.secondaryIscedfFilters[el.parentId].push({ value: el.entityId, key: el.entityLabel });
+            this.secondaryIscedfFilters[el.parentId].push(
+              { value: el.entityId, key: el.entityLabel },
+            );
           }
         }
       });

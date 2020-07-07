@@ -1,4 +1,14 @@
-import { Component, Input, HostBinding, AfterViewInit, ViewChild, ElementRef, ChangeDetectorRef, AfterViewChecked, OnInit, AfterContentChecked } from '@angular/core';
+import {
+  Component,
+  Input,
+  HostBinding,
+  ViewChild,
+  ElementRef,
+  ChangeDetectorRef,
+  OnInit,
+  AfterContentChecked,
+} from '@angular/core';
+
 import { DeviceDetectorService } from 'ngx-device-detector';
 import { BehaviorSubject } from 'rxjs';
 import { TranslateService } from '@app/_modules/translate/translate.service';
@@ -36,7 +46,11 @@ export class MoreBlockComponent implements AfterContentChecked, OnInit {
     this.translatedContent = this.translate.get(this.content);
   }
   ngAfterContentChecked(): void {
-    if(this.moreContentElem && this.moreContentElem.nativeElement.clientHeight !== 0 && this.translatedContent && !this.hasInitialized) {
+    if (this.moreContentElem &&
+      this.moreContentElem.nativeElement.clientHeight !== 0 &&
+      this.translatedContent &&
+      !this.hasInitialized
+    ) {
       const contentElem = this.moreContentElem.nativeElement;
       this.links = document.querySelectorAll(`#moreContent-${this.id} a`);
       this.setInnerLinkStates(this.show);

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef, } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import {
@@ -261,6 +261,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
                     this.loading.initial = false;
                   }
                 } else {
+                  // tslint:disable-next-line: max-line-length
                   if (response['educationalInstitutions'] && response['educationalInstitutions'] !== null) {
                     const responseData = response['educationalInstitutions'].map((elem) => {
                       elem.documents = this.sortList(elem.documents, 'date');
@@ -547,6 +548,7 @@ export class ApplicationsComponent implements OnDestroy, OnInit {
     const subscription = this.http.jsonp(path, 'callback').subscribe((response: any) => {
       if (this.cdr && !(this.cdr as ViewRef).destroyed) {
         try {
+          // tslint:disable-next-line: max-line-length
           school.institutionInfo.address.addressHumanReadable = this.address.inAdsFormatValue(response.addresses[0]).addressHumanReadable;
         } catch (err) {
         }

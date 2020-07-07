@@ -18,6 +18,7 @@ export class EllipsisPipe implements PipeTransform {
 
     let i = 0;
 
+    // tslint:disable-next-line: no-increment-decrement
     for (i = 1; i < strAry.length; i++) {
       if (retLen === length || retLen + strAry[i].length + 1 > length) {
         break;

@@ -62,7 +62,7 @@ export class MessagesViewComponent implements OnInit{
         },
         (err) => {
           this.loading = false;
-        }
+        },
       );
   }
   ngOnInit() {

@@ -412,9 +412,7 @@ export class ChartComponent implements OnInit {
     this.data = this.data.map((item) => {
       try {
         item.filterValues = JSON.parse(item.filterValues);
-      } catch (err) {
-        console.log('Error parsing JSON');
-      }
+      } catch (err) {}
       item.id = this.generateID();
       item.graph_group_by = item.filterValues.graph_options.graph_group_by;
       item.graph_v_axis = item.filterValues.graph_options.graph_v_axis;
@@ -478,9 +476,7 @@ export class ChartComponent implements OnInit {
 
         item.filters = tmpFilters;
 
-      } catch (err) {
-        console.error("Couldn't parse filters!");
-      }
+      } catch (err) {}
 
       let hasGroups = false;
 
@@ -532,9 +528,8 @@ export class ChartComponent implements OnInit {
           key: 'näitaja',
           multiple: false,
         });
-      } catch (err) {
-        console.error("Couldn't parse indicators!");
-      }
+      } catch (err) {}
+
       this.setInitialValues(item.id);
 
       this.getGraphData(item.id);
@@ -654,33 +649,33 @@ export class ChartComponent implements OnInit {
         = '/graphql?queryName=googleChartData&queryId=9bdca5d7f53e0755482e65d091682f48ee77b635:1';
       url += `&variables=${JSON.stringify(tmpVariables)}`;
       url = encodeURI(url);
-      this.requestSubscription[id]
-        = this.http.get(`${this.settings.url}${url}`).subscribe((response) => {
-          const data = response['data'].GoogleChartQuery.map((item) => {
+      this.requestSubscription[id] = this.http.get(`${this.settings.url}${url}`).subscribe(
+          (response) => {
+            const data = response['data'].GoogleChartQuery.map((item) => {
+              const type = variables['graphType'];
 
-            const type = variables['graphType'];
+              return {
+                graphType: type,
+                /*graphIndicator: 'Mis ma siia panen? :O',*/
+                graphTitle: current.graphTitle,
+                value: item.ChartValue,
+                secondaryGraphType: variables['secondaryGraphType'],
+                secondaryGraphIndicator: null,
+                options: current['filterValues']['graph_options'],
+                id: current['id'],
+              };
+            });
 
-            return {
-              graphType: type,
-              /*graphIndicator: 'Mis ma siia panen? :O',*/
-              graphTitle: current.graphTitle,
-              value: item.ChartValue,
-              secondaryGraphType: variables['secondaryGraphType'],
-              secondaryGraphIndicator: null,
-              options: current['filterValues']['graph_options'],
-              id: current['id'],
-            };
+            this.filtersData[current.id] = this.compileData(data);
+
+            this.filtersData[current.id].loading = false;
+
+            this.requestSubscription[id].unsubscribe();
+            this.requestSubscription[id] = false;
+          },
+          (err) => {
+            this.filtersData[current.id].loading = false;
           });
-
-          this.filtersData[current.id] = this.compileData(data);
-
-          this.filtersData[current.id].loading = false;
-
-          this.requestSubscription[id].unsubscribe();
-          this.requestSubscription[id] = false;
-        },                                                    (err) => {
-          this.filtersData[current.id].loading = false;
-        });
     },                                    300);
 
   }

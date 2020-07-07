@@ -453,9 +453,11 @@ export class XjsonComponent implements OnInit, OnDestroy {
   }
 
   removeFileUploadErrorInMs(timeout: number) {
-    setTimeout(() => {
-      this.error[this.fileUploadElement] = {};
-    }, timeout || 0);
+    setTimeout(
+      () => {
+        this.error[this.fileUploadElement] = {};
+      },
+      timeout || 0);
   }
 
   saveFormWithFile() {
@@ -860,9 +862,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     }
   }
 
-  errorHandler(message) {
-    console.log('DEBUG_ERROR: ', message);
-  }
+  errorHandler(message) {}
 
   closeError() {
     this.error_alert = false;

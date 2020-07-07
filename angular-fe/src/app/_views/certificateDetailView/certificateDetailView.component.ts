@@ -77,7 +77,7 @@ export class CertificateDetailView implements OnInit {
               accessType: this.accessType,
             },
           },
-        }
+        };
       },
       (err) => {
         this.loading = false;

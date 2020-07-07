@@ -211,7 +211,8 @@ const routes: Routes = [
   {
     path: 'töölaud/tunnistused/lõputunnistused/:id',
     canActivate: [AuthService],
-    loadChildren: () => import('./_views/finalDocumentDashboardDetailView').then(m => m.FinalDocumentDashboardDetailViewModule),
+    loadChildren: () => import('./_views/finalDocumentDashboardDetailView')
+    .then(m => m.FinalDocumentDashboardDetailViewModule),
   },
   {
     path: 'preview',

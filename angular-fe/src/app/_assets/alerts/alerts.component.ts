@@ -1,5 +1,5 @@
-import { Component, ElementRef, HostBinding, Input, OnDestroy, } from '@angular/core';
-import { animate, style, transition, trigger, } from '@angular/animations';
+import { Component, ElementRef, HostBinding, Input, OnDestroy } from '@angular/core';
+import { animate, style, transition, trigger } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { Alert, AlertsService } from '../../_services/AlertsService';
 import { CookieService } from '@app/_services/CookieService';

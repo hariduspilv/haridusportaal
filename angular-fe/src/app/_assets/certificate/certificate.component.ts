@@ -1,4 +1,14 @@
-import { Component, Input, HostBinding, ElementRef, HostListener, ViewChild, SimpleChanges, ChangeDetectorRef, Host } from '@angular/core';
+import {
+  Component,
+  Input,
+  HostBinding,
+  ElementRef,
+  HostListener,
+  ViewChild,
+  SimpleChanges,
+  ChangeDetectorRef,
+  Host,
+} from '@angular/core';
 
 @Component({
   selector: 'certificate',

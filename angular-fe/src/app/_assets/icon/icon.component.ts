@@ -15,6 +15,6 @@ export class IconComponent {
     return this.bg ? `${this.size} with-bg` : `${this.size}`;
   }
   @HostBinding('attr.aria-label') get label(): string {
-  	return this.ariaLabel;
+    return this.ariaLabel;
   }
 }

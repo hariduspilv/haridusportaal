@@ -116,16 +116,14 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
           });
 
           this.blockComponent.selectTab(activeTab);
-        } catch (err) {
-          console.log(err);
-        }
+        } catch (err) {}
 
         this.detectChanges();
       }
     });
   }
 
-  redirectTo(uri:string){
+  redirectTo(uri:string) {
     this.router.navigateByUrl('/dummy', { skipLocationChange: true }).then(() =>
     this.router.navigate([uri]));
   }
@@ -238,7 +236,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
         (response: any) => {
           if (response['token']) {
             this.auth.refreshUser(response['token']);
-            //this.router.navigateByUrl('/töölaud/taotlused');
+            // this.router.navigateByUrl('/töölaud/taotlused');
           }
           this.setRoleSubscription.unsubscribe();
           this.modalService.close('roleModal');
@@ -351,7 +349,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   bindIntroLinks(): void {
-    if (this.intro){
+    if (this.intro) {
       this.intro.nativeElement.querySelectorAll('a').forEach((item) => {
         item.addEventListener('click', (e) => {
           e.preventDefault();
@@ -383,10 +381,12 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
     ).subscribe((val: boolean) => {
       if (val && firstRequest) {
         firstRequest = false;
-        this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver/unreadmessagecount`).subscribe((val: any) => {
+        const unreadUrl = `${this.settings.ehisUrl}/messages/messages/receiver/unreadmessagecount`;
+        this.http.get(unreadUrl).subscribe((val: any) => {
           notifications.unread = val.UnreadMessagesQty;
         });
-        this.http.get(`${this.settings.ehisUrl}/messages/messages/receiver?orderby=sentAt&sort=DESC`).subscribe((val: any) => {
+        const receiverUrl = `${this.settings.ehisUrl}/messages/messages/receiver?orderby=sentAt&sort=DESC`;
+        this.http.get(receiverUrl).subscribe((val: any) => {
           if (val.messages) {
             if (val.messages.length > 5) {
               notifications.list = [...val.messages.splice(0, 5)];
@@ -397,7 +397,7 @@ export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
           notifications.loading = false;
         });
       }
-    })
+    });
     this.sidebar.entity['notifications'] = notifications;
   }
 

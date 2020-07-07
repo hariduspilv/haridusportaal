@@ -46,7 +46,7 @@ export class GdprViewComponent implements OnInit{
     public auth: AuthService,
     private router: ActivatedRoute,
     private alerts: AlertsService,
-    private translate: TranslateService, 
+    private translate: TranslateService,
   ) {}
 
   private groupByReceiver() {

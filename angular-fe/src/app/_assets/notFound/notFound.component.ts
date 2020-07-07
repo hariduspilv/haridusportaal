@@ -31,7 +31,7 @@ export class NotFoundComponent implements OnInit {
 
   action() {
     if (this.redirectUrl) {
-      this.modalService.open('login'); //document.getElementById('headerLogin').click();
+      this.modalService.open('login'); // document.getElementById('headerLogin').click();
       sessionStorage.setItem('redirectUrl', this.redirectUrl);
     } else {
       this.router.navigate(['/']);
