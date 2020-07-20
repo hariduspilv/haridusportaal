@@ -1,0 +1,36 @@
+<div class="notFound">
+  <div class="flex">
+    <div aria-hidden="true" class="error__head">{{'frontpage.message' | translate}}</div>
+    <div *ngIf="!redirectUrl; else auth"
+      aria-hidden="true"
+      class="error__explanation"
+      innerHtml="{{ 'notFound.explanation' | translate }}">
+    </div>
+    <ng-template #auth>
+      <div class="error__explanation" aria-hidden="true">   
+        {{'frontpage.login_required_message' | translate}}
+      </div>
+    </ng-template>
+    <div class="error__button">
+      <button
+        id="toFront"
+        htm-button
+        aria-live="assertive"
+        attr.aria-label="{{ 'frontpage.message' | translate }}, {{ !redirectUrl ? ('Tundub, et otsitud lehte ei leitud. Veakood: 404.') : ('notFound.auth_explanation' | translate) }}"
+        theme="default"
+        (click)="action()">
+        <ng-container *ngIf="!redirectUrl; else authLabel">
+          {{ 'frontpage.navigate' | translate }}
+        </ng-container>
+        <ng-template #authLabel>
+          {{ 'button.login' | translate }}
+        </ng-template>
+      </button>
+    </div>
+    <div class="error__links">
+      <a routerLink="/kool" role="link" attr.aria-label="{{'school.maps' | translate}}" tabindex="0"><span>{{'school.maps' | translate}}</span></a>
+      <a routerLink="/sündmused" role="link" attr.aria-label="{{'event.label' | translate}}" tabindex="0"><span>{{'event.label' | translate}}</span></a>
+      <a routerLink="/uudised" role="link" attr.aria-label="{{'news.label' | translate}}" tabindex="0"><span>{{'news.label' | translate}}</span></a>
+    </div>
+  </div>
+</div>

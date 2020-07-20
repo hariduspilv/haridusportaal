@@ -1,0 +1,207 @@
+@import 'typography.scss';
+@import 'breakpoints.scss';
+
+:host {
+  block {
+    overflow-y: auto;
+  }
+  .heading {
+    display: flex;
+    align-items: center;
+    h1 {
+      color: $black;
+      margin-bottom: 1rem;
+    }
+  }
+  table {
+    table-layout: fixed;
+    tr {
+      &.shade {
+        background: $light-gray;
+        td {
+          text-align: center;
+          border-bottom: .0625rem solid $white;
+        }
+      }
+      &.slim {
+        td {
+          padding: .375rem 1rem;
+          &.lastCell {
+            padding-bottom: 1rem;
+          }
+        }
+        &.firstSlim td {
+          padding-top: 1rem;
+        }
+        td.another {
+          padding-top: 1.125rem;
+        }
+        .groupCell {
+          padding-top: 0;
+        }
+      }
+    }
+    td {
+      line-height: 1.38rem;
+      font-size: .875rem;
+      padding: .75rem 1rem;
+      text-align:left;
+      border: .0625rem solid $gray;
+      text-align: left;
+      font-weight: 400;
+      &.groupCell {
+        padding-top: 0;
+        border-bottom: .0625rem solid $white;
+      }
+      &.firstCell {
+        padding-top: 1rem;
+      }
+      &.centered {
+        text-align: center;
+      }
+      &.bold {
+        font-weight: 500;
+      }
+      &.lastCell {
+        padding-bottom: 1rem;
+        border-bottom: .0625rem solid $white;
+        &.withBottom {
+          border-bottom: .0625rem solid $gray;
+        }
+      }
+      &.layoutCell {
+        // width: 100%;
+        box-sizing: border-box;
+        font-size: 1rem;
+      }
+      &.xHidden {
+        overflow-x: hidden;
+      }
+      &.borderless {
+        border-bottom: .0625rem solid $white;
+      }
+      &.dark {
+        font-weight: 500;
+      }
+      &.hidden {
+        border-top: none;
+        border-bottom: none;
+        &.last {
+          border-bottom: .0625rem solid $gray;
+        }
+        &.vertical {
+          position: relative;
+        }
+        .vertical__text {
+          position: absolute;
+          writing-mode: tb-rl;
+          white-space: nowrap;
+          font-weight: 500;
+          font-size: .875rem;
+          left: $gutter;
+          top: $half-gutter;
+        }
+      }
+    }
+    td.hidden {
+      min-width:1.5rem;
+      width: 1.5rem;
+      background: $light-gray;
+      padding:$gutter;
+    }
+    .separator {
+      padding: 0;
+      min-width: .125rem;
+      width: .125rem;
+      background: #fff;
+      border:none;
+    }
+    @include break-on(sm, max) {
+      table-layout: auto;
+      td {
+        min-width: 13rem;
+      }
+    }
+  }
+  td ::ng-deep labels {
+    justify-content: center;
+    line-height: 1rem;
+    > div  {
+      margin: 0;
+    }
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+    li {
+      display: flex;
+      align-items: center;
+      span {
+        margin-left: 1rem;
+      }
+      &.proColor {
+        icon {
+          color: $light-blue;
+        }
+      }
+      &.neutralColor {
+        icon {
+          color: $orange;
+        }
+      }
+      &.conColor {
+        icon {
+          color: $red;
+        }
+      }
+    }
+  }
+  ::ng-deep .icon__wrapper {
+    i {
+      border-radius: .5rem;
+    }
+    &.first {
+      i {
+        color: $red;
+      }
+      &.with-bg i {
+        background: $red;
+      }
+    }
+    &.second {
+      i {
+        color: $light-blue;
+      }
+      &.with-bg i {
+        background: $light-blue;
+      }
+    }
+    &.third {
+      i {
+        color: $dark-orange;
+      }
+      &.with-bg i {
+        background: $dark-orange;
+      }
+    }
+    &.fourth {
+      i {
+        color: $gray;
+      }
+      &.with-bg i {
+        background: $gray;
+      }
+    }
+  }
+  .icon-wrapper {
+    margin-right: 1rem;
+  }
+  .notification--alert {
+    position: absolute;
+    overflow: hidden;
+    span {
+      position: relative;
+      right: 100%;
+    }
+  }
+}

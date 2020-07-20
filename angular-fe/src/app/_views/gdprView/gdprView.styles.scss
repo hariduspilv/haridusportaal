@@ -1,0 +1,32 @@
+@import 'colors.scss';
+@import 'breakpoints.scss';
+
+:host {
+  ::ng-deep block-secondary-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    a {
+      font-size: 1rem;
+      font-weight: normal;
+    }
+  }
+  [htm-table] td span {
+    word-break: normal;
+  }
+  ::ng-deep accordion-item {
+    .accordion__title {
+      font-weight: 500;
+      span {
+        font-weight: normal;
+      }
+    }
+  }
+  .check-website {
+    margin-bottom: 1.5rem;
+  }
+
+  .gdpr_intro {
+    margin-bottom: 1.5rem;
+  }
+}

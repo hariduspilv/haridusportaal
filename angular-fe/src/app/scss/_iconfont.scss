@@ -1,0 +1,384 @@
+$__iconfont__data: map-merge(if(global_variable_exists('__iconfont__data'), $__iconfont__data, ()), (
+	"iconfont": (
+		"activity": "\ea01",
+		"airplay": "\ea02",
+		"alert-circle": "\ea03",
+		"alert-octagon": "\ea04",
+		"alert-triangle": "\ea05",
+		"align-center": "\ea06",
+		"align-justify": "\ea07",
+		"align-left": "\ea08",
+		"align-right": "\ea09",
+		"anchor": "\ea0a",
+		"aperture": "\ea0b",
+		"archive": "\ea0c",
+		"arrow-down-circle": "\ea0d",
+		"arrow-down-left": "\ea0e",
+		"arrow-down-right": "\ea0f",
+		"arrow-down": "\ea10",
+		"arrow-left-circle": "\ea11",
+		"arrow-left": "\ea12",
+		"arrow-right-circle": "\ea13",
+		"arrow-right": "\ea14",
+		"arrow-up-circle": "\ea15",
+		"arrow-up-left": "\ea16",
+		"arrow-up-right": "\ea17",
+		"arrow-up": "\ea18",
+		"at-sign": "\ea19",
+		"award": "\ea1a",
+		"bar-chart-2": "\ea1b",
+		"bar-chart": "\ea1c",
+		"battery-charging": "\ea1d",
+		"battery": "\ea1e",
+		"bell-off": "\ea1f",
+		"bell": "\ea20",
+		"bluetooth": "\ea21",
+		"bold": "\ea22",
+		"book-open": "\ea23",
+		"book": "\ea24",
+		"bookmark": "\ea25",
+		"box": "\ea26",
+		"briefcase": "\ea27",
+		"calendar": "\ea28",
+		"camera-off": "\ea29",
+		"camera": "\ea2a",
+		"cast": "\ea2b",
+		"check-circle": "\ea2c",
+		"check-square": "\ea2d",
+		"check": "\ea2e",
+		"chevron-down": "\ea2f",
+		"chevron-left": "\ea30",
+		"chevron-right": "\ea31",
+		"chevron-up": "\ea32",
+		"chevrons-down": "\ea33",
+		"chevrons-left": "\ea34",
+		"chevrons-right": "\ea35",
+		"chevrons-up": "\ea36",
+		"chrome": "\ea37",
+		"circle": "\ea38",
+		"class": "\ea39",
+		"clipboard": "\ea3a",
+		"clock": "\ea3b",
+		"cloud-drizzle": "\ea3c",
+		"cloud-lightning": "\ea3d",
+		"cloud-off": "\ea3e",
+		"cloud-rain": "\ea3f",
+		"cloud-snow": "\ea40",
+		"cloud": "\ea41",
+		"code": "\ea42",
+		"codepen": "\ea43",
+		"codesandbox": "\ea44",
+		"coffee": "\ea45",
+		"columns": "\ea46",
+		"command": "\ea47",
+		"compass": "\ea48",
+		"copy": "\ea49",
+		"corner-down-left": "\ea4a",
+		"corner-down-right": "\ea4b",
+		"corner-left-down": "\ea4c",
+		"corner-left-up": "\ea4d",
+		"corner-right-down": "\ea4e",
+		"corner-right-up": "\ea4f",
+		"corner-up-left": "\ea50",
+		"corner-up-right": "\ea51",
+		"cpu": "\ea52",
+		"credit-card": "\ea53",
+		"crop": "\ea54",
+		"crosshair": "\ea55",
+		"database": "\ea56",
+		"delete": "\ea57",
+		"disc": "\ea58",
+		"dollar-sign": "\ea59",
+		"download-cloud": "\ea5a",
+		"download": "\ea5b",
+		"droplet": "\ea5c",
+		"edit-2": "\ea5d",
+		"edit-3": "\ea5e",
+		"edit": "\ea5f",
+		"external-link": "\ea60",
+		"eye-off": "\ea61",
+		"eye": "\ea62",
+		"facebook": "\ea63",
+		"fast-forward": "\ea64",
+		"feather": "\ea65",
+		"figma": "\ea66",
+		"file-minus": "\ea67",
+		"file-plus": "\ea68",
+		"file-text": "\ea69",
+		"file": "\ea6a",
+		"film": "\ea6b",
+		"filter": "\ea6c",
+		"flag": "\ea6d",
+		"folder-minus": "\ea6e",
+		"folder-plus": "\ea6f",
+		"folder": "\ea70",
+		"framer": "\ea71",
+		"frown": "\ea72",
+		"gift": "\ea73",
+		"git-branch": "\ea74",
+		"git-commit": "\ea75",
+		"git-merge": "\ea76",
+		"git-pull-request": "\ea77",
+		"github": "\ea78",
+		"gitlab": "\ea79",
+		"globe": "\ea7a",
+		"grid": "\ea7b",
+		"hard-drive": "\ea7c",
+		"hash": "\ea7d",
+		"headphones": "\ea7e",
+		"heart": "\ea7f",
+		"help-circle": "\ea80",
+		"hexagon": "\ea81",
+		"home": "\ea82",
+		"image": "\ea83",
+		"inbox": "\ea84",
+		"info": "\ea85",
+		"instagram": "\ea86",
+		"italic": "\ea87",
+		"key": "\ea88",
+		"layers": "\ea89",
+		"layout": "\ea8a",
+		"library": "\ea8b",
+		"life-buoy": "\ea8c",
+		"link-2": "\ea8d",
+		"link": "\ea8e",
+		"linkedin": "\ea8f",
+		"list": "\ea90",
+		"loader": "\ea91",
+		"local-library": "\ea92",
+		"lock": "\ea93",
+		"log-in": "\ea94",
+		"log-out": "\ea95",
+		"mail": "\ea96",
+		"map-pin": "\ea97",
+		"map": "\ea98",
+		"maximize-2": "\ea99",
+		"maximize": "\ea9a",
+		"meh": "\ea9b",
+		"menu": "\ea9c",
+		"message-circle": "\ea9d",
+		"message-square": "\ea9e",
+		"mic-off": "\ea9f",
+		"mic": "\eaa0",
+		"minimize-2": "\eaa1",
+		"minimize": "\eaa2",
+		"minus-circle": "\eaa3",
+		"minus-square": "\eaa4",
+		"minus": "\eaa5",
+		"monitor": "\eaa6",
+		"moon": "\eaa7",
+		"more-horizontal": "\eaa8",
+		"more-vertical": "\eaa9",
+		"mouse-pointer": "\eaaa",
+		"move": "\eaab",
+		"music": "\eaac",
+		"navigation-2": "\eaad",
+		"navigation": "\eaae",
+		"octagon": "\eaaf",
+		"package": "\eab0",
+		"paperclip": "\eab1",
+		"pause-circle": "\eab2",
+		"pause": "\eab3",
+		"pen-tool": "\eab4",
+		"percent": "\eab5",
+		"phone-call": "\eab6",
+		"phone-forwarded": "\eab7",
+		"phone-incoming": "\eab8",
+		"phone-missed": "\eab9",
+		"phone-off": "\eaba",
+		"phone-outgoing": "\eabb",
+		"phone": "\eabc",
+		"pie-chart": "\eabd",
+		"play-circle": "\eabe",
+		"play": "\eabf",
+		"plus-circle": "\eac0",
+		"plus-square": "\eac1",
+		"plus": "\eac2",
+		"pocket": "\eac3",
+		"power": "\eac4",
+		"printer": "\eac5",
+		"radio": "\eac6",
+		"refresh-ccw": "\eac7",
+		"refresh-cw": "\eac8",
+		"repeat": "\eac9",
+		"rewind": "\eaca",
+		"rotate-ccw": "\eacb",
+		"rotate-cw": "\eacc",
+		"rss": "\eacd",
+		"save": "\eace",
+		"school": "\eacf",
+		"scissors": "\ead0",
+		"search": "\ead1",
+		"send": "\ead2",
+		"server": "\ead3",
+		"settings": "\ead4",
+		"share-2": "\ead5",
+		"share": "\ead6",
+		"shield-off": "\ead7",
+		"shield": "\ead8",
+		"shopping-bag": "\ead9",
+		"shopping-cart": "\eada",
+		"shuffle": "\eadb",
+		"sidebar": "\eadc",
+		"skip-back": "\eadd",
+		"skip-forward": "\eade",
+		"slack": "\eadf",
+		"slash": "\eae0",
+		"sliders": "\eae1",
+		"smartphone": "\eae2",
+		"smile": "\eae3",
+		"speaker": "\eae4",
+		"square": "\eae5",
+		"star-filled": "\eae6",
+		"star": "\eae7",
+		"stop-circle": "\eae8",
+		"sun": "\eae9",
+		"sunrise": "\eaea",
+		"sunset": "\eaeb",
+		"tablet": "\eaec",
+		"tag": "\eaed",
+		"target": "\eaee",
+		"terminal": "\eaef",
+		"thermometer": "\eaf0",
+		"thumbs-down": "\eaf1",
+		"thumbs-up": "\eaf2",
+		"toggle-left": "\eaf3",
+		"toggle-right": "\eaf4",
+		"trash-2": "\eaf5",
+		"trash": "\eaf6",
+		"trello": "\eaf7",
+		"trending-down": "\eaf8",
+		"trending-up": "\eaf9",
+		"triangle": "\eafa",
+		"truck": "\eafb",
+		"tv": "\eafc",
+		"twitter": "\eafd",
+		"type": "\eafe",
+		"umbrella": "\eaff",
+		"underline": "\eb00",
+		"unlock": "\eb01",
+		"upload-cloud": "\eb02",
+		"upload": "\eb03",
+		"user-check": "\eb04",
+		"user-filled": "\eb05",
+		"user-minus": "\eb06",
+		"user-plus": "\eb07",
+		"user-x": "\eb08",
+		"user": "\eb09",
+		"users": "\eb0a",
+		"video-off": "\eb0b",
+		"video": "\eb0c",
+		"voicemail": "\eb0d",
+		"volume-1": "\eb0e",
+		"volume-2": "\eb0f",
+		"volume-x": "\eb10",
+		"volume": "\eb11",
+		"watch": "\eb12",
+		"wifi-off": "\eb13",
+		"wifi": "\eb14",
+		"wind": "\eb15",
+		"x-circle": "\eb16",
+		"x-octagon": "\eb17",
+		"x-square": "\eb18",
+		"x": "\eb19",
+		"youtube-play": "\eb1a",
+		"youtube": "\eb1b",
+		"zap-off": "\eb1c",
+		"zap": "\eb1d",
+		"zoom-in": "\eb1e",
+		"zoom-out": "\eb1f"
+	)
+));
+
+
+$create-font-face: true !default; // should the @font-face tag get created?
+
+// should there be a custom class for each icon? will be .filename
+$create-icon-classes: true !default; 
+
+// what is the common class name that icons share? in this case icons need to have .icon.filename in their classes
+// this requires you to have 2 classes on each icon html element, but reduced redeclaration of the font family
+// for each icon
+$icon-common-class: 'icon' !default;
+
+// if you whish to prefix your filenames, here you can do so.
+// if this string stays empty, your classes will use the filename, for example
+// an icon called star.svg will result in a class called .star
+// if you use the prefix to be 'icon-' it would result in .icon-star
+$icon-prefix: '' !default; 
+
+// helper function to get the correct font group
+@function iconfont-group($group: null) {
+  @if (null == $group) {
+    $group: nth(map-keys($__iconfont__data), 1);
+  }
+  @if (false == map-has-key($__iconfont__data, $group)) {
+    @warn 'Undefined Iconfont Family!';
+    @return ();
+  }
+  @return map-get($__iconfont__data, $group);
+}
+
+// helper function to get the correct icon of a group
+@function iconfont-item($name) {
+  $slash: str-index($name, '/');
+  $group: null;
+  @if ($slash) {
+    $group: str-slice($name, 0, $slash - 1);
+    $name: str-slice($name, $slash + 1);
+  } @else {
+    $group: nth(map-keys($__iconfont__data), 1);
+  }
+  $group: iconfont-group($group);
+  @if (false == map-has-key($group, $name)) {
+    @warn 'Undefined Iconfont Glyph!';
+    @return '';
+  }
+  @return map-get($group, $name);
+}
+
+// complete mixing to include the icon
+// usage:
+// .my_icon{ @include iconfont('star') }
+@mixin iconfont($icon) {
+  $slash: str-index($icon, '/');
+  $group: null;
+  @if ($slash) {
+    $group: str-slice($icon, 0, $slash - 1);
+  } @else {
+    $group: nth(map-keys($__iconfont__data), 1);
+  }
+  &:before {
+    font-family: $group;
+    font-style: normal;
+    font-weight: 400;
+    content: iconfont-item($icon);
+  }
+}
+
+// creates the font face tag if the variable is set to true (default)
+@if $create-font-face == true {
+  @font-face {
+   font-family: "iconfont";
+   src: url('../../assets/fonts/iconfont.eot'); /* IE9 Compat Modes */
+   src: url('../../assets/fonts/iconfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+      url('../../assets/fonts/iconfont.woff') format('woff'), /* Pretty Modern Browsers */
+      url('../../assets/fonts/iconfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+      url('../../assets/fonts/iconfont.svg') format('svg'); /* Legacy iOS */
+  }
+}
+
+// creates icon classes for each individual loaded svg (default)
+@if $create-icon-classes == true {
+  .#{$icon-common-class} {
+    font-style: normal;
+    font-weight: 400;
+
+    @each $icon, $content in map-get($__iconfont__data, "iconfont") {
+      &.#{$icon-prefix}#{$icon}:before {
+        font-family: "iconfont";
+        content: iconfont-item("iconfont/#{$icon}");
+      }
+    }
+  }
+}

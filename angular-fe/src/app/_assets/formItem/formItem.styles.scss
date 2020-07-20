@@ -1,0 +1,514 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+::ng-deep {
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    opacity: 1;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    opacity: 1;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    opacity: 1;
+  }
+	.formItem {
+    display: block;
+    position: relative;
+    z-index: 1;
+
+    @include break-on(sm, max) {
+      input, select, textarea{
+        font-size: 16px !important;
+      }
+    }
+
+    &+.formItem:not([type="checkbox"]){
+      margin-top:1.25rem;
+    }
+
+    &--focused{
+      z-index: 10;
+    }
+    &--titleDisabled{
+      .formItem__wrapper input {
+        padding-left: 2.5rem !important;
+        color: $white !important;
+        background-color: rgba(255,255,255,.1) !important;
+        border: .0625rem solid rgba(255,255,255,0)!important;
+        &::placeholder {
+          color: $light-purple;
+        }
+        &:-moz-placeholder, &::-moz-placeholder {
+          color: $light-purple;
+          opacity: 1;
+        }
+      }
+    }
+
+    &--checkbox{
+      .formItem__title{display:none;}
+    }
+    &__relative{
+      position: relative;
+    }
+    &__wrapper{
+      position: relative;
+      & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select {
+        display: block;
+        width: 100%;
+        appearance: none;
+        border: $gray 1px solid;
+        padding: 0 1rem;
+        font-family: Rubik, Arial, Helvetica, sans-serif;
+        border-radius: 1.25rem;
+        height: 2.5rem;
+        line-height: 120%;
+        color: $black;
+        font-size: 0.875rem;
+        z-index: 0;
+        transition:border-color 0.25s, color 0.25s;
+        will-change:border-clor, color;
+        outline: none;
+        min-width: 5rem;
+        max-width: 100%;
+        &.focused{
+          border-color: $blue;
+        }
+        &.hideText{
+          /* was ist das??? : color:white; */
+        }
+      }
+      & > input[type=number]::-webkit-inner-spin-button,
+      & > input[type=number]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+      & > input[type=number] {
+        -moz-appearance:textfield;
+      }
+    }
+    &__staticTitle{
+      padding:0 0 0.625rem 0;
+      font-size:0.875rem;
+    }
+    &__error{
+      color: $error;
+      font-size:0.875rem;
+      line-height:120%;
+      padding:0.3125rem 1rem;
+      text-align: left;
+    }
+
+    &--error{
+      &>.formItem__wrapper{
+        & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+          border-color:$error;
+        }
+        .ng-select .ng-select-container{
+          border-color: $error !important;
+        }
+      }
+    }
+
+    &--success{
+      &>.formItem__wrapper{
+        & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+          border-color:$success;
+        }
+        .ng-select .ng-select-container{
+          border-color: $success !important;
+        }
+      }
+    }
+
+    &--disabled{
+      pointer-events: none;
+      * {
+        pointer-events: none !important;
+      }
+      &.formItem--textarea{
+        pointer-events: initial !important;
+        * {
+          pointer-events: initial !important;
+        }
+      }
+      &>.formItem__wrapper{
+        & > input[type="text"], & > input[type="password"], & > input[type="number"], & > textarea, & > select, & > .formItem__check .formItem__check__indicator, & > .formItem__radio .formItem__radio__indicator, .ng-select .ng-select-container{
+          background:#eee;
+        }
+        & > select {
+          color: #eee;
+        }
+      }
+      .formItem__icon{
+        background: #eee;
+        color: #757575;
+      }
+      .formItem__check {
+        input:checked  {
+          + .formItem__check__indicator {
+            border-color: $gray !important;
+            icon, icon i::before {
+              color: $dark-gray !important;
+            }
+          }
+        }
+      }
+      .formItem__radio .formItem__radio__wrapper {
+        input:checked + .formItem__radio__indicator {
+          border-color: $dark-gray !important;
+          &::before {
+            background-color: $dark-gray;
+          }
+        }
+      }
+      .ng-arrow{
+        color: #757575 !important;
+      }
+    }
+
+    &--checkbox, &--radio{
+      .formItem__error{
+        padding-left:0;
+      }
+    }
+    textarea{
+      height: 12.5rem;
+      min-height: 12.5rem;
+      border-radius: 0.25rem;
+      line-height: 150%;
+      padding-top:0.5rem;
+      padding-bottom:0.5rem;
+    }
+    &__check{
+      cursor: pointer;
+      display: inline-flex;
+      padding-right:1.25rem;
+      &.noPadding{
+        padding-right:0;
+      }
+      &__wrapper{
+        position: relative;
+        width: 1.125rem;
+        min-width: 1.125rem;
+        height: 1.125rem;
+        display: inline-block;
+        line-height:1.125rem;
+        background: $white;
+        flex-shrink: 0;
+        flex-grow: 0;
+        input{
+          position:absolute;
+          top:0;
+          left:0;
+          width: 100%;
+          height:100%;
+          cursor:pointer;
+          appearance: none;
+          border:none;
+          padding: 0;
+          margin:0;
+          z-index: 2;
+          opacity: 0;
+        }
+        input:checked + .formItem__check__indicator{
+          border-color: $blue;
+          background: $white;
+          icon {
+            opacity:1;
+            transform: translateY(0);
+            i:before{
+              color: $blue;
+            }
+          }
+        }
+        input:focus + .formItem__check__indicator{
+          border-color: $blue !important;
+        }
+      }
+      &__indicator{
+        position:absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height:100%;
+        border: $gray 1px solid;
+        border-radius:2px;
+        icon{
+          color: $blue;
+          margin-top:-2px;
+          display:block;
+          opacity:0;
+          transform: translateY(-2px);
+          transition:opacity 0.25s, transform 0.25s;
+        }
+      }
+      &__title{
+        display: inline-block;
+        font-size:0.875rem;
+        padding-left: 0.625rem;
+        line-height:1.25rem;
+        vertical-align: top;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+
+    &__radio{
+      &+.formItem__radio{
+        margin-top:0.625rem;
+      }
+      cursor: pointer;
+      display: flex;
+      padding-right:1.25rem;
+      &.noPadding{
+        padding-right:0;
+      }
+      &__title.selected {
+        font-weight: 500;
+      }
+      &__wrapper{
+        position: relative;
+        width: 1.25rem;
+        height: 1.25rem;
+        display: inline-block;
+        line-height:1.25rem;
+        background: $white;
+        input{
+          position:absolute;
+          top:0;
+          left:0;
+          width: 100%;
+          height:100%;
+          cursor:pointer;
+          appearance: none;
+          border:none;
+          padding: 0;
+          margin:0;
+          z-index: 2;
+        }
+        input:checked + .formItem__radio__indicator{
+          border-color: $blue !important;
+          &:before{
+            opacity: 1;
+            transform: scale(1);
+          }
+        }
+        input:focus + .formItem__radio__indicator{
+          border-color: $blue !important;
+        }
+      }
+      &__indicator{
+        position:absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height:100%;
+        border: $gray 1px solid;
+        border-radius:1.25rem;
+        &:before{
+          display: block;
+          content: ' ';
+          position: absolute;
+          width: 0.875rem;
+          height: 0.875rem;
+          border-radius: 0.875rem;
+          top:50%;
+          left: 50%;
+          margin:-0.4375rem 0 0 -0.4375rem;
+          background:$blue;
+          opacity: 0;
+          transform: scale(0.5);
+          transition:opacity 0.25s, transform 0.25s;
+          will-change: opacity, transform;
+        }
+      }
+      &__title{
+        display: inline-block;
+        font-size:0.875rem;
+        padding-left: 0.625rem;
+        line-height:1.25rem;
+        vertical-align: top;
+      }
+    }
+
+    &__title{
+      position: absolute;
+      top: 0.5625rem;
+      left: 0;
+      padding:0 0.5rem;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      z-index: 10;
+      pointer-events: none;
+      transition: all 0.25s;
+      line-height: 125%;
+      text-align:left;
+      will-change: top, left, color, padding, font-size;
+      span{
+        padding:0 2.5rem 0 0.5rem;
+        color: $dark-gray;
+        font-size: 0.875rem;
+        line-height: 0.875rem;
+        transition: all 0.25s;
+        background: transparent;
+        will-change: top, left, color, padding, font-size;
+        white-space: nowrap;
+        line-height:155%;
+        display: inline-block;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      &--top{
+        top:-0.55rem;
+        padding-left: 1rem;
+        span{
+          color: $black;
+          font-size: 0.75rem;
+          background: $white;
+          padding-right:0.5rem;
+        }
+      }
+      &.focused{
+        span{
+          color: $blue;
+        }
+      }
+    }
+
+    &__icon{
+      position: absolute;
+      top: 4px;
+      right: 2px;
+      border-radius:2.5rem;
+      bottom: 4px;
+      appearance: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      border:none;
+      background:none;
+      cursor: pointer;
+      color: $error;
+      align-items: center;
+      justify-content: center;
+      width:2.5rem;
+      overflow: hidden;
+      background: $white;
+      z-index: 10;
+      border-radius:2.5rem;
+      .icon{
+        margin-top:-0.125rem;
+        font-size:1.375rem;
+      }
+    }
+    &__icon *{
+      pointer-events: none;
+    }
+
+  }
+
+  ngb-datepicker{
+    box-shadow:0 2px 4px -1px rgba(0,0,0,.2),0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12);
+    z-index: 2;
+    background: $white;
+    border-radius:0.25rem;
+    width:21.25rem;
+    .ngb-dp-header{
+      background: none;
+      padding:1.25rem 0 0.625rem 0;
+    }
+    .ngb-dp-month{
+      width: 100%;
+    }
+    .ngb-dp-week{
+      margin: 0 0 0.625rem 0;
+    }
+    .ngb-dp-weekday{
+      font-style: normal;
+      font-size:0.75rem;
+      color: $dark-gray;
+    }
+    .ngb-dp-day, .ngb-dp-week-number, .ngb-dp-weekday{
+      flex-grow: 1;
+    }
+    .ngb-dp-arrow{
+      flex-grow: 0;
+      width:2.5rem;
+      .btn{
+        width: 2.5rem;
+        height:2.5rem;
+        cursor: pointer;
+        margin-top:-0.125rem;
+      }
+    }
+    .ngb-dp-day{
+      width: 2.25rem;
+      height: 2.25rem;
+      text-align: center;
+      font-size:0.8125rem;
+      &:hover{
+        .btn-light{
+          background:rgba(0,0,0,.04);
+        }
+      }
+      .btn-light{
+        width:2.25rem;
+        height:2.25rem;
+        line-height:2.125rem;
+        border-radius: 2.25rem;
+        border:transparent 1px solid;
+        display: inline-block;
+      }
+      .bg-primary{
+        background: $blue !important;
+        color: $white;
+      }
+    }
+    .ngb-dp-today{
+      .btn-light{
+        border-color:rgba(0,0,0,.38);
+      }
+    }
+    select{
+      display: block;
+      width: 100%;
+			appearance: none;
+			border: $gray 1px solid;
+			padding: 0 1rem !important;
+			font-family: Rubik, Arial, Helvetica, sans-serif;
+			border-radius: 1.25rem;
+			height: 2.5rem !important;
+			line-height: 2.375rem;
+      color: $black;
+      font-size: 0.875rem;
+      transition:border-color 0.25s, color 0.25s;
+      will-change:border-clor, color;
+      text-transform: capitalize;
+      background:url(assets/img/chevron-down.svg);
+      background-size:1.5rem;
+      background-position: right 0.625rem center;
+      background-repeat: no-repeat;
+      flex-grow: 0;
+      width:5.625rem;
+      &:first-of-type{
+        width: 8.75rem;
+      }
+      &:after{
+        content: '';
+        display:block;
+        width: 0.625rem;
+        height:0.625rem;
+        background:red;
+      }
+      &+select{
+        margin-left: 1rem;
+      }
+    }
+  }
+}

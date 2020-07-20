@@ -1,0 +1,21 @@
+<div class="triangles" [ngClass]="{ 'triangles__topmost': position === 'top', 'triangles__topmost--left': position === 'topLeft', 'triangles__bottommost': position === 'rightLower'}">
+  <div class="triangles__wrapper">
+    <div class="triangles__child" [ngStyle]="smallChild"
+      [ngClass]="{ 
+        'triangles--smallTopLeft': position === 'topLeft',
+        'triangles--smallTop': position === 'top',
+        'triangles--smallRight': position === 'right',
+        'triangles--smallRightLower': position === 'rightLower',
+        'triangles--smallLeft': position === 'left', 
+        'triangles--smallLeft--swapped': position === 'leftSwapped' 
+      }"></div>
+    <div class="triangles__child" [ngStyle]="largeChild"
+      [ngClass]="{ 
+        'triangles--largeTopLeft': position === 'topLeft',
+        'triangles--largeTop': position === 'top',
+        'triangles--largeRight': position === 'right',
+        'triangles--largeRightLower': position === 'rightLower',
+        'triangles--largeLeft': position === 'left' || position === 'leftSwapped'  
+      }"></div>
+  </div>
+</div>

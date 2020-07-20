@@ -1,0 +1,90 @@
+<ng-container *ngIf="!loading">
+  <div class="block__title" [class.block__title--border]="titleBorder" *ngIf="hasTitle">
+    <div class="block__title__container">
+      <div class="block__title__text">
+        <ng-content select="block-title"></ng-content>
+      </div>
+      <!--/block__title__text-->
+    </div>
+    <div class="block__title__tabs" *ngIf="labeledTabs > 0 && tabStyle === 'default' ">
+      <ng-content select="block-tabs"></ng-content>
+      <button class="navigation__icon" *ngIf="isMobile && viewTabs && currentViewTabs > 0" (click)="navigateTabs(-1)" htm-button theme="icon">
+        <icon glyph="chevron-left"></icon>
+      </button>
+      <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
+        <ng-container *ngIf="tab.tabVisible">
+
+          <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <span class="button__contents">
+              <ng-container *ngIf="tab.tabIcon">
+                <icon size="medium" [glyph]="tab.tabIcon"></icon>
+              </ng-container>
+              {{ tab.tabLabel }}
+            </span>
+            <!--/button__contents-->
+          </button>
+          
+          <button *ngIf="tab.tabLink" (click)="navigateTo(tab.tabLink, tab.queryParams)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <span class="button__contents">
+              <ng-container *ngIf="tab.tabIcon">
+                <icon size="medium" [glyph]="tab.tabIcon"></icon>
+              </ng-container>
+              {{ tab.tabLabel }}
+            </span><!--/button__contents-->
+          </button>
+        </ng-container>
+      </ng-container>
+      <button class="navigation__icon" *ngIf="isMobile && viewTabs && viewTabs[currentViewTabs + 1]" (click)="navigateTabs(1)" htm-button theme="icon">
+        <icon glyph="chevron-right"></icon>
+      </button>
+    </div>
+    <!--/block__title__Tabs-->
+  </div>
+  <ng-content select="block-sub-title"></ng-content>
+  <!--/title-area-->
+  
+  <h1 class="block__title__secondary__text" *ngIf="hasSecondaryTitle">
+    <ng-content select="block-secondary-title"></ng-content>
+  </h1>
+  <div class="block__title__middle-tabs" *ngIf="labeledTabs > 0 && tabStyle === 'middle' ">
+      <ng-content select="block-tabs"></ng-content>
+      <button class="navigation__icon" *ngIf="isMobile && viewTabs && currentViewTabs > 0" (click)="navigateTabs(-1)" htm-button theme="icon">
+        <icon glyph="chevron-left"></icon>
+      </button>
+      <ng-container *ngFor="let tab of viewTabs[currentViewTabs]">
+        <ng-container *ngIf="tab.tabVisible">
+          <button *ngIf="tab.tabLink" (click)="selectTab(tab)"  [routerLink]="tab.tabLink" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <span class="button__contents">
+              <ng-container *ngIf="tab.tabIcon">
+                <icon [glyph]="tab.tabIcon"></icon>
+              </ng-container>
+              <div class="title">{{ tab.tabLabel }}</div>
+            </span>
+            <!--/button__contents-->
+          </button>
+          <button *ngIf="!tab.tabLink" (click)="selectTab(tab)" ripple="dark" [class.active]="tab.tabLabel == activeTab">
+            <span class="button__contents">
+              <ng-container *ngIf="tab.tabIcon">
+                <icon [glyph]="tab.tabIcon"></icon>
+              </ng-container>
+              <div class="title">{{ tab.tabLabel }}</div>
+            </span>
+            <!--/button__contents-->
+          </button>
+        </ng-container>
+      </ng-container>
+      <button class="navigation__icon" *ngIf="isMobile && viewTabs && viewTabs[currentViewTabs + 1]" (click)="navigateTabs(1)" htm-button theme="icon">
+        <icon glyph="chevron-right"></icon>
+      </button>
+    </div>
+    <!--/block__title__middle-tabs-->
+  <!--/block__title__middle__text-->
+  <ng-content select="block-content"></ng-content>
+</ng-container>
+
+<ng-container *ngIf="loading">
+  <div class="block__content">
+    
+    <skeleton type="article"></skeleton>
+  </div><!--/block__content-->
+</ng-container>

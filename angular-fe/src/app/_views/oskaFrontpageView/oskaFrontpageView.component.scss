@@ -1,0 +1,62 @@
+@import "typography.scss";
+@import "breakpoints.scss"; 
+@import "grid.scss";
+
+:host {
+  .frontpage {
+    background-color:$white;
+    &__section {padding-bottom: 8rem;
+      &--short {padding-bottom: 5rem;}
+      &.main-container {
+        @include break-on(sm, max) {
+          @include break-on(xxs, min) {margin-left: auto!important;margin-right: auto!important;max-width: 590px;}
+        }
+      }
+      &--middle.main-container {
+        @include break-on(sm, max) {
+          @include break-on(xxs, min) {max-width: inherit;}
+        }
+      }
+    }
+    &__title {color: $black;line-height: 2rem;z-index: 1;position: relative;    
+      overflow: hidden;
+      text-overflow: ellipsis;
+      ::ng-deep p {margin: 0;}
+      &--padded {padding: 6rem 0 3rem;
+        @include break-on(sm, max) {padding-top: 8rem;}
+      }
+      &--middle {padding-bottom: 1.5rem;}
+    }
+    &__description {color: $black;font-size: 1rem;line-height: 1.375rem;
+      &--middle {padding-bottom: 2rem;}
+      &__footer {font-size: 1.125rem;line-height: 1.5rem;
+        &--medium {font-weight: 500;margin-top: 1.5rem;}
+      }
+    }
+    &__footer {width: 60%;box-sizing: border-box;text-align: center;margin: 3rem auto 0;
+      @include break-on(sm, max) {margin: 3rem 2rem; width: auto;}
+    }
+    .middle {
+      &__child {flex-basis: 36%;margin-right: 2rem;z-index: 1;
+        @include break-on(sm, max) {padding: 0 6rem;margin-bottom: 4rem;margin-right: 0;}
+        @include break-on(xs, max) {padding: 0 2rem;}
+        &--last {margin-right: 0;
+          @include break-on(sm, max) {margin-bottom: 0;}
+        }
+      }
+      @include break-on(sm, max) {
+        flex-direction: column;
+      }
+    }
+    .scroll__past {overflow: hidden;margin: 0 3rem;
+      @include break-on(sm, max) {margin: 0 6rem;}
+      @include break-on(xs, max) {margin: 0 2rem;}
+      img {width: 7.5rem;}
+      .translate {transform: translateY(125%);transition: transform 300ms ease;}
+    }
+    .mat-raised-button.mat-primary {
+      @include break-on(xxs, min) {width: auto;}
+    }
+    @include break-on(sm, max) {margin-bottom: -10rem;}
+  }
+}

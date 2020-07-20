@@ -1,0 +1,31 @@
+<block>
+  <block-title>{{ 'event.related' | translate }}</block-title>
+  <block-content>
+    <ng-container *ngIf="!loading && data.length">
+      <div class="row">
+      <ng-container *ngFor="let item of data">
+          <div class="col-6 sm-12">
+            
+            <div class="entry" [routerLink]="[item.url.path]">
+              <span class="entry__date" *ngIf="item.fieldEventMainDate">{{ 'time.' + (item.fieldEventMainDate.unix*1000 | weekday: "unix") | translate }}, {{ item.fieldEventMainDate.unix*1000 | date: "dd.MM.yyyy" }}</span>
+              <h1 class="entry__title">{{ item.title }}</h1>
+              <span class="entry__author" *ngIf="item.person" tabindex="0" attr.aria-label="{{'author.author' | translate}} {{ item.person }}">{{ item.person }}</span>
+            </div>
+          </div><!--/col-6-->
+        </ng-container>
+      </div><!--/row-->
+    </ng-container>
+
+    <ng-container *ngIf="!loading && !data.length">
+      <div class="row">
+        <div class="col-12">
+          <div class="text-center">
+            {{ 'event.related_no_results' | translate }}
+          </div><!--/text-center-->
+        </div><!--/col-12-->
+      </div><!--/row-->
+    </ng-container>
+
+    <loader *ngIf="loading"></loader>
+  </block-content>
+</block>

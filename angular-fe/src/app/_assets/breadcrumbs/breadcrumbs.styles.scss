@@ -1,0 +1,35 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+	display: block;
+	font-size: .875rem;
+	line-height: 1rem;
+	margin-bottom: 1rem;
+	@include break-on(sm, max) {
+		display: none;
+	}
+}
+
+ul{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+}
+li {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: inline;
+	white-space: nowrap;
+	color: $black;
+}
+.ellipsis li {
+	max-width: 12.5rem;
+	text-overflow: ellipsis;
+}
+
+.arrow {
+	padding: 0 .5625rem;
+}

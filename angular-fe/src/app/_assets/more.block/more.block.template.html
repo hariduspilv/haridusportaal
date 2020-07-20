@@ -1,0 +1,22 @@
+<div *ngIf="translatedContent" class="content" 
+  role="group"
+  attr.aria-label="{{ show ? '' : (screenReaderContent | ellipsis) }}"
+  tabindex="0"
+  attr.id="wrapper-{{id}}">
+  <div *ngIf="active"
+    class="content__background" 
+    aria-hidden="true">
+  </div>
+  <div class="content__inner"
+    attr.aria-hidden="{{ !show }}"
+    [class.show]="show"
+    #moreContent
+    innerHTML="{{ translatedContent }}">
+  </div>
+</div>
+<p class="more" *ngIf="active">
+  <button theme="plain" htm-button (click)="changeState()">
+      <ng-container *ngIf="!show">{{ 'button.show_more' | translate }}</ng-container>
+      <ng-container *ngIf="show">{{ 'button.show_less' | translate }}</ng-container>
+  </button>
+</p>

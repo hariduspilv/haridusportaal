@@ -1,0 +1,36 @@
+@import "typography.scss";
+
+.line {
+	background: $gray;
+	height: 1.1875rem;
+	width: 100%;
+	animation: blokkFade 2s infinite;
+	margin-bottom: 1.0625rem;
+	&:last-child{
+		margin-bottom :0;
+	}
+}
+
+.image {
+	display: block;
+	height: 200px;
+	background: $gray;
+	position: relative;
+	z-index: 2;
+	animation: blokkFade 2s infinite;
+	margin-bottom: 1.0625rem;
+	&:last-child{
+		margin-bottom :0;
+	}
+}
+
+@keyframes blokkFade {
+
+	0%, 100% {
+		opacity: 0.4;
+	}
+
+	50% {
+		opacity: 0.7;
+	}
+}
