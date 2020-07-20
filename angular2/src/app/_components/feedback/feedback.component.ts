@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef } from "@angular/core";
 import { HttpService } from "@app/_services/httpService";
 
 @Component({
@@ -12,7 +12,7 @@ export class FeedbackComponent {
   @Input() nid: any;
 
   status: String = 'vote';
-
+  feedbackError = false;
   values: Object = {};
 
   constructor(
@@ -21,16 +21,33 @@ export class FeedbackComponent {
   ){
 
   }
+
+  cancel(): void {
+    this.values['vote'] = false;
+    this.values['comment'] = '';
+    this.status = 'vote';
+    this.feedbackError = false;
+  }
+
   vote( flag: boolean ){
     this.values['vote'] = flag;
-    if( flag ){
-      this.sendVote();
-    }else{
-      this.status = 'add_comment';
-    }
+    this.status = 'add_comment';
   }
 
   sendVote() {
+
+    if(!this.values['vote']) {
+      if (!this.values['comment'] || this.values['comment'] === ''){
+        this.feedbackError = true;
+      } else{
+        this.feedbackError = false;
+      }
+    }
+
+    if (this.feedbackError) {
+      return false;
+    }
+
     this.status = 'response';
 
     let data = {

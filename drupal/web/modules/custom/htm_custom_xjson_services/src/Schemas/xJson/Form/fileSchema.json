@@ -54,6 +54,12 @@
     },
     "max_size": {
       "type": "integer"
+    },
+    "depend_on": {
+      "type": "string"
+    },
+    "submit_on_change": {
+      "type": "boolean"
     }
   },
   "required": [

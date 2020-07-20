@@ -18,7 +18,8 @@ interface RuntimeMeasurementTrackerInterface extends DestructableInterface {
    * Set all purger plugin instances.
    *
    * @param \Drupal\purge\Plugin\Purge\Purger\PurgerInterface[] $purgers
-   *   All purger plugins instantiated by \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface.
+   *   All purger plugins instantiated by
+   *   \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface.
    */
   public function setPurgers(array $purgers);
 

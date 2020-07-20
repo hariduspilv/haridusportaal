@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\paragraphs_library\Functional;
 
-use Drupal\field_ui\Tests\FieldUiTestTrait;
+use Drupal\Tests\field_ui\Traits\FieldUiTestTrait;
 use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\Tests\BrowserTestBase;
@@ -35,6 +35,11 @@ class ParagraphsLibraryItemTranslationTest extends BrowserTestBase {
     'language',
     'content_translation',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * {@inheritdoc}
@@ -85,6 +90,7 @@ class ParagraphsLibraryItemTranslationTest extends BrowserTestBase {
       'settings[paragraph][text][translatable]' => TRUE,
       'settings[paragraph][text][fields][field_text]' => TRUE,
       'settings[paragraphs_library_item][paragraphs_library_item][translatable]' => TRUE,
+      'settings[node][paragraphed_test][settings][language][language_alterable]' => TRUE
     ];
     $this->drupalPostForm('admin/config/regional/content-language', $edit, t('Save configuration'));
 
@@ -143,6 +149,37 @@ class ParagraphsLibraryItemTranslationTest extends BrowserTestBase {
     $this->clickLink('Edit', 1);
     $assert_session->fieldValueEquals('Label', 'text: DE Library text');
     $assert_session->fieldValueEquals('Text', 'DE Library text');
+
+    // Add a node with a text paragraph.
+    $this->drupalGet('node/add/paragraphed_test');
+    $this->drupalPostForm(NULL, NULL, 'Add text');
+    $edit = [
+      'title[0][value]' => 'DE Llama Test',
+      'langcode[0][value]' => 'de',
+      'field_paragraphs[0][subform][field_text][0][value]' => 'DE Text Paragraph',
+    ];
+    $this->drupalPostForm(NULL, $edit, 'Save');
+    $assert_session->pageTextContains('paragraphed_test DE Llama Test has been created.');
+
+    // Translate the node to the default language.
+    $this->clickLink('Translate');
+    $this->clickLink('Add');
+    $edit = [
+      'title[0][value]' => 'EN Llama Test',
+      'field_paragraphs[0][subform][field_text][0][value]' => 'EN Library text',
+    ];
+    $this->drupalPostForm(NULL, $edit, 'Save (this translation)');
+    $assert_session->pageTextContains('paragraphed_test EN Llama Test has been updated.');
+
+    // Assert the original node can promote paragraphs to the library.
+    $node = $this->drupalGetNodeByTitle('DE Llama Test');
+    $this->drupalGet('de/node/' . $node->id() . '/edit');
+    $page->pressButton('field_paragraphs_0_promote_to_library');
+    $assert_session->fieldValueEquals('Reusable paragraph', 'text: DE Text Paragraph (2)');
+    $this->drupalPostForm(NULL, NULL, 'Save');
+    $assert_session->pageTextContains('paragraphed_test DE Llama Test has been updated.');
+    $this->drupalGet('node/' . $node->id() . '/edit');
+    $assert_session->pageTextContains('Reusable paragraph');
   }
 
 }

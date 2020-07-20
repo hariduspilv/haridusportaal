@@ -1,0 +1,2 @@
+algorithm: HS256
+key_id: jwt_test_hmac

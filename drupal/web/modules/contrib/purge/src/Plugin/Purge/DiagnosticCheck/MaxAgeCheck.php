@@ -2,10 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\DiagnosticCheck;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Tests if the TTL of your site is in a good shape.
@@ -28,7 +26,7 @@ class MaxAgeCheck extends DiagnosticCheckBase implements DiagnosticCheckInterfac
   protected $config;
 
   /**
-   * Constructs a \Drupal\purge\Plugin\Purge\DiagnosticCheck\MaxAgeCheck object.
+   * Construct a MaxAgeCheck object.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
    *   The factory for configuration objects.
@@ -64,27 +62,27 @@ class MaxAgeCheck extends DiagnosticCheckBase implements DiagnosticCheckInterfac
     $this->value = $this->valueTranslatable($max_age);
     if ($max_age === 0) {
       $this->recommendation = $this->t("Your site instructs external caching systems not to cache anything. Not only does this make cache invalidation futile, it is also a great danger to your website as any form of traffic can bring it down quickly!");
-      return SELF::SEVERITY_WARNING;
+      return self::SEVERITY_WARNING;
     }
     elseif ($max_age < 300) {
       $this->recommendation = $this->t("TTL settings below 5 minutes are very dangerous, as sudden traffic increases will quickly reach your webserver(s) and bring Drupal down.");
-      return SELF::SEVERITY_WARNING;
+      return self::SEVERITY_WARNING;
     }
     elseif ($max_age < 86400) {
       $this->recommendation = $this->t("TTL settings under 24 hours are dangerous, as sudden traffic increases will quickly reach your webserver(s) and can make Drupal slow.");
-      return SELF::SEVERITY_WARNING;
+      return self::SEVERITY_WARNING;
     }
     elseif ($max_age < 2764800) {
       $this->recommendation = $this->t("TTL settings under a month are not recommended, the longer you set it, the better your site will perform!");
-      return SELF::SEVERITY_WARNING;
+      return self::SEVERITY_WARNING;
     }
     elseif ($max_age < 31536000) {
       $this->recommendation = $this->t("Consider increasing your TTL to over a year, the better your site will perform!");
-      return SELF::SEVERITY_OK;
+      return self::SEVERITY_OK;
     }
     else {
       $this->recommendation = $this->t("Your TTL setting is great!");
-      return SELF::SEVERITY_OK;
+      return self::SEVERITY_OK;
     }
   }
 
@@ -95,6 +93,7 @@ class MaxAgeCheck extends DiagnosticCheckBase implements DiagnosticCheckInterfac
    *   The max_age setting to format.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The translated value.
    */
   protected function valueTranslatable($max_age) {
     if ($max_age === 0) {
@@ -104,31 +103,31 @@ class MaxAgeCheck extends DiagnosticCheckBase implements DiagnosticCheckInterfac
       return $this->t('1 minute');
     }
     elseif ($max_age < 3600) {
-      return $this->t('@num minutes', ['@num' => round($max_age/60)]);
+      return $this->t('@num minutes', ['@num' => round($max_age / 60)]);
     }
     elseif ($max_age === 3600) {
       return $this->t('1 hour');
     }
     elseif ($max_age < 86400) {
-      return $this->t('@num hours', ['@num' => round($max_age/3600, 1)]);
+      return $this->t('@num hours', ['@num' => round($max_age / 3600, 1)]);
     }
     elseif ($max_age === 86400) {
       return $this->t('1 day');
     }
     elseif ($max_age < 604800) {
-      return $this->t('@num days', ['@num' => round($max_age/86400, 1)]);
+      return $this->t('@num days', ['@num' => round($max_age / 86400, 1)]);
     }
     elseif ($max_age === 604800) {
       return $this->t('1 week');
     }
     elseif ($max_age < 2764800) {
-      return $this->t('@num weeks', ['@num' => round($max_age/604800, 1)]);
+      return $this->t('@num weeks', ['@num' => round($max_age / 604800, 1)]);
     }
     elseif ($max_age === 2764800) {
       return $this->t('1 month');
     }
     elseif ($max_age < 31536000) {
-      return $this->t('@num months', ['@num' => round($max_age/2764800, 1)]);
+      return $this->t('@num months', ['@num' => round($max_age / 2764800, 1)]);
     }
     elseif ($max_age === 31536000) {
       return $this->t('1 year');

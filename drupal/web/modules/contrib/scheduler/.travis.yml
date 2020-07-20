@@ -3,22 +3,32 @@ language: php
 # sudo here.
 sudo: true
 
+notifications:
+  email:
+    recipients:
+      - jonathan1055@sandfordsolutions.com
+
 php:
-  - 5.5
   - 5.6
   - 7.0
 
+services:
+  - mysql
+
 env:
   global:
-    # Make the script re-usable for other modules.
     - MODULE=scheduler
   matrix:
-    - DRUPAL_CORE=8.3.x
-    - DRUPAL_CORE=8.4.x
-    - DRUPAL_CORE=8.5.x
+    - DRUPAL_CORE=8.6.x
+    - DRUPAL_CORE=8.7.x
+    - DRUPAL_CORE=8.8.x
 
 matrix:
   fast_finish: true
+  # Core 8.8 no longer supports PHP5, so don't run that combination.
+  exclude:
+    - php: 5.6
+      env: DRUPAL_CORE=8.8.x
 
 # Be sure to cache composer downloads.
 cache:
@@ -49,18 +59,22 @@ before_script:
   - DRUPAL_ROOT=$(pwd)
   - echo $DRUPAL_ROOT
 
-  # Make a directory for module and copy the built source into it.
+  # Make a directory for our module and copy the built source into it.
   - mkdir $DRUPAL_ROOT/modules/$MODULE
   - cp -R $TRAVIS_BUILD_DIR/* $DRUPAL_ROOT/modules/$MODULE/
 
   # Install dependencies.
   - travis_retry git clone --branch 8.x-3.x --depth 1 https://github.com/fago/rules.git modules/rules
-  - travis_retry git clone --branch 8.x-1.x --depth 1 http://git.drupal.org/project/devel.git modules/devel
-  - travis_retry git clone --branch 8.x-1.x --depth 1 http://git.drupal.org/project/typed_data.git modules/typed_data
+  - travis_retry git clone --branch 8.x-2.1 --depth 1 https://git.drupalcode.org/project/devel.git modules/devel
+  - travis_retry git clone --branch 8.x-1.x --depth 1 https://git.drupalcode.org/project/typed_data.git modules/typed_data
 
-  # Run composer install for Drupal 8.1 and up. We need an up-to-date composer
-  # when installing Drupal 8.1.
+  # Run composer self-update and install.
   - travis_retry composer self-update && travis_retry composer install
+  # If running Core 8.6 or 8.7 the following script will upgrade to phpunit 6
+  # which is required in PHP7. The script has now been deleted from Core 8.8.
+  - if [[ $DRUPAL_CORE == "8.6.x" || $DRUPAL_CORE == "8.7.x" ]]; then
+      travis_retry composer run-script drupal-phpunit-upgrade;
+    fi
 
   # Coder is already installed as part of composer install. We just need to set
   # the installed_paths to pick up the Drupal standards.
@@ -76,14 +90,14 @@ script:
   # Run the PHPUnit tests.
   - ./vendor/bin/phpunit -c ./core/phpunit.xml.dist ./modules/$MODULE/tests/
 
-  # Change directory to our module.
+  # Check for coding standards. First change directory to our module.
   - cd $DRUPAL_ROOT/modules/$MODULE
 
-  # Check for coding standards. First list all the sniffs to be used.
+  # List all the sniffs that were used.
   - $DRUPAL_ROOT/vendor/bin/phpcs -e
 
-  # Show the coding standards violations in detail.
-  - $DRUPAL_ROOT/vendor/bin/phpcs --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1
+  # Show the violations in detail and do not fail for any errors or warnings.
+  - $DRUPAL_ROOT/vendor/bin/phpcs --runtime-set ignore_warnings_on_exit 1 --runtime-set ignore_errors_on_exit 1
 
-  # Run again to give a summary and total count.
-  - $DRUPAL_ROOT/vendor/bin/phpcs --runtime-set ignore_errors_on_exit 1 --runtime-set ignore_warnings_on_exit 1 --report=summary
+  # Run again to give a summary and total count, and fail for errors (not warnings).
+  - $DRUPAL_ROOT/vendor/bin/phpcs --report=summary --runtime-set ignore_warnings_on_exit 1

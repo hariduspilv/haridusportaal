@@ -2,8 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\DiagnosticCheck;
 
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
+use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
 /**
  * Describes a diagnostic check that checks a specific purging requirement.
@@ -35,7 +35,7 @@ interface DiagnosticCheckInterface extends PluginInspectionInterface, ContainerF
    *
    * Diagnostic checks determine whether something you are checking for is in
    * shape, for instance CMI settings on which your plugin depends. Any check
-   * reporting SELF::SEVERITY_ERROR in their run() methods, will cause purge to
+   * reporting self::SEVERITY_ERROR in their run() methods, will cause purge to
    * stop working. Any other severity level will let the purgers proceed
    * operating but you may report any warning through getRecommendation() to be
    * shown on Drupal's status report, purge_ui or any other diagnostic listing.
@@ -43,17 +43,16 @@ interface DiagnosticCheckInterface extends PluginInspectionInterface, ContainerF
    * @code
    * public function run() {
    *   if (...check..) {
-   *     return SELF::SEVERITY_OK;
+   *     return self::SEVERITY_OK;
    *   }
-   *   return SELF::SEVERITY_WARNING;
+   *   return self::SEVERITY_WARNING;
    * }
    * @endcode
    *
    * @warning
    *   As diagnostic checks can be expensive, this method is called as rarely as
-   *   possible. Checks derived from \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckBase
-   *   will only see the check getting executed when any of the get* methods are
-   *   called.
+   *   possible. Checks derived from DiagnosticCheckBase will only see the check
+   *   getting executed when any of the getter methods are called.
    *
    * @throws \Drupal\purge\Plugin\Purge\DiagnosticCheck\Exception\CheckNotImplementedCorrectly
    *   Thrown when the return value is incorrect.
@@ -71,6 +70,7 @@ interface DiagnosticCheckInterface extends PluginInspectionInterface, ContainerF
    * Gets the title of the check.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The translated title.
    */
   public function getTitle();
 
@@ -78,6 +78,7 @@ interface DiagnosticCheckInterface extends PluginInspectionInterface, ContainerF
    * Gets the description of the check.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The translated description.
    */
   public function getDescription();
 
@@ -97,44 +98,28 @@ interface DiagnosticCheckInterface extends PluginInspectionInterface, ContainerF
    * Get the severity level as unprefixed string.
    *
    * @return string
-   *  The string comes without the 'SEVERITY_' prefix as on the constants.
+   *   The string comes without the 'SEVERITY_' prefix as on the constants.
    */
   public function getSeverityString();
 
   /**
    * Get a recommendation matching the severity level, may return NULL.
    *
-   * @return NULL or \Drupal\Core\StringTranslation\TranslatableMarkup
+   * @return null|\Drupal\Core\StringTranslation\TranslatableMarkup
+   *   Null when no recommendation exists, else a translated string.
    */
   public function getRecommendation();
 
   /**
    * Get an optional value for the check output, may return NULL.
    *
-   * @return NULL or \Drupal\Core\StringTranslation\TranslatableMarkup
+   * @return null|\Drupal\Core\StringTranslation\TranslatableMarkup
+   *   Null when no value exists, else a translated string.
    */
   public function getValue();
 
   /**
-   * Generates a hook_requirements() compatible item array.
-   *
-   * @return array
-   *   An associative array with the following elements:
-   *   - title: The name of this check.
-   *   - value: The current value (e.g., version, time, level, etc), will not
-   *     be set if not applicable.
-   *   - description: The description of the check.
-   *   - severity_status: severity string: 'info', 'ok', 'warning' or 'error'.
-   *   - severity: The check's result/severity level, one of:
-   *     - REQUIREMENT_INFO: For info only.
-   *     - REQUIREMENT_OK: The requirement is satisfied.
-   *     - REQUIREMENT_WARNING: The requirement failed with a warning.
-   *     - REQUIREMENT_ERROR: The requirement failed with an error.
-   */
-  public function getHookRequirementsArray();
-
-  /**
-   * Generates a status-report.html.twig compatible array.
+   * Generates a individual Drupal-like requirements array.
    *
    * @return array
    *   An associative array with the following elements:

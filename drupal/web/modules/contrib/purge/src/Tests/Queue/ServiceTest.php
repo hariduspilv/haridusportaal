@@ -2,8 +2,8 @@
 
 namespace Drupal\purge\Tests\Queue;
 
-use Drupal\purge\Tests\KernelServiceTestBase;
 use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
+use Drupal\purge\Tests\KernelServiceTestBase;
 
 /**
  * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService.
@@ -13,6 +13,12 @@ use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
  * @see \Drupal\purge\Plugin\Purge\Queue\QueueServiceInterface
  */
 class ServiceTest extends KernelServiceTestBase {
+
+  /**
+   * The name of the service as defined in services.yml.
+   *
+   * @var string
+   */
   protected $serviceId = 'purge.queue';
 
   /**
@@ -20,9 +26,15 @@ class ServiceTest extends KernelServiceTestBase {
    *
    * @var array
    */
-  public static $modules = ['system', 'purge_queuer_test', 'purge_purger_test'];
+  public static $modules = [
+    'system',
+    'purge_queuer_test',
+    'purge_purger_test',
+  ];
 
   /**
+   * The queuer plugin.
+   *
    * @var \Drupal\purge\Plugin\Purge\Queuer\QueuerInterface
    */
   protected $queuer;
@@ -39,7 +51,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::getPlugins
+   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::getPlugins.
    */
   public function testGetPlugins() {
     $this->assertTrue(is_array($this->service->getPlugins()));
@@ -50,10 +62,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests:
-   *   - \Drupal\purge\Plugin\Purge\Queue\QueueService::getPluginsEnabled
-   *   - \Drupal\purge\Plugin\Purge\Queue\QueueService::setPluginsEnabled
-   *   - \Drupal\purge\Plugin\Purge\Queue\QueueService::reload
+   * Tests ::getPluginsEnabled, ::setPluginsEnabled and ::reload.
    */
   public function testSettingAndGettingPlugins() {
     $this->service->setPluginsEnabled(['file']);
@@ -79,9 +88,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests:
-   *   - \Drupal\purge\Plugin\Purge\Queue\QueueService::add
-   *   - \Drupal\purge\Plugin\Purge\Queue\QueueService::claim
+   * Tests QueueService::add and QueueService::claim.
    */
   public function testAddClaim() {
     $this->assertTrue(empty($this->service->claim(10, 10)));
@@ -102,7 +109,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::emptyQueue
+   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::emptyQueue.
    */
   public function testEmptyQueue() {
     $this->service->add($this->queuer, $this->getInvalidations(10));
@@ -113,10 +120,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests:
-   *   - \Drupal\purge\Plugin\Purge\Queue\QueueService::reload
-   *   - \Drupal\purge\Plugin\Purge\Queue\QueueService::commit
-   *   - \Drupal\purge\Plugin\Purge\Queue\QueueService::claim
+   * Tests ::reload, ::reload, ::commit and ::claim.
    */
   public function testStateConsistency() {
     $this->service->setPluginsEnabled(['database']);
@@ -150,7 +154,7 @@ class ServiceTest extends KernelServiceTestBase {
     $this->assertTrue($claims[5]->getState() === InvalidationInterface::PROCESSING);
     $this->assertTrue($claims[6]->getState() === InvalidationInterface::FAILED);
     $this->assertTrue($claims[7]->getState() === InvalidationInterface::NOT_SUPPORTED);
-    // Switch to the context that created the properties and verify they're equal.
+    // Switch to the context that created the properties, then verify equality.
     foreach ($claims as $claim) {
       $claim->setStateContext('purger2');
     }
@@ -166,7 +170,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::release
+   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::release.
    */
   public function testRelease() {
     $this->assertTrue(empty($this->service->claim(10, 10)));
@@ -184,7 +188,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::delete
+   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::delete.
    */
   public function testDelete() {
     $this->assertTrue(empty($this->service->claim(10, 10)));
@@ -200,7 +204,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::handleResults
+   * Tests \Drupal\purge\Plugin\Purge\Queue\QueueService::handleResults.
    */
   public function testHandleResults() {
     $this->service->add($this->queuer, $this->getInvalidations(5));

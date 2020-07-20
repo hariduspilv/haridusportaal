@@ -87,6 +87,16 @@ query getArticle($path: String!) {
               }
             }
           }
+          fieldInfograph{
+            graphSet
+            graphTitle
+            graphVAxis
+            filterValues
+            filterValues
+            graphType
+            secondaryGraphType
+            graphText
+          }
         }
       }
     }

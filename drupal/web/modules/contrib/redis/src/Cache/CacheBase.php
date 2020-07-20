@@ -32,9 +32,9 @@ abstract class CacheBase implements CacheBackendInterface {
   const LIFETIME_PERM_DEFAULT = 31536000;
 
   /**
-   * Computed keys are let's say arround 60 characters length due to
+   * Computed keys are let's say around 60 characters length due to
    * key prefixing, which makes 1,000 keys DEL command to be something
-   * arround 50,000 bytes length: this is huge and may not pass into
+   * around 50,000 bytes length: this is huge and may not pass into
    * Redis, let's split this off.
    * Some recommend to never get higher than 1,500 bytes within the same
    * command which makes us forced to split this at a very low threshold:
@@ -63,7 +63,7 @@ abstract class CacheBase implements CacheBackendInterface {
    * Default TTL for CACHE_PERMANENT items.
    *
    * See "Default lifetime for permanent items" section of README.md
-   * file for a comprehensive explaination of why this exists.
+   * file for a comprehensive explanation of why this exists.
    *
    * @var int
    */
@@ -95,6 +95,13 @@ abstract class CacheBase implements CacheBackendInterface {
    * @var float
    */
   protected $lastDeleteAll = NULL;
+
+  /**
+   * Delayed deletions for deletions during a transaction.
+   *
+   * @var string[]
+   */
+  protected $delayedDeletions = [];
 
   /**
    * Get TTL for CACHE_PERMANENT items.
@@ -147,6 +154,49 @@ abstract class CacheBase implements CacheBackendInterface {
   /**
    * {@inheritdoc}
    */
+  public function deleteMultiple(array $cids) {
+    $in_transaction = \Drupal::database()->inTransaction();
+    if ($in_transaction) {
+      if (empty($this->delayedDeletions)) {
+        \Drupal::database()->addRootTransactionEndCallback([$this, 'postRootTransactionCommit']);
+      }
+      $this->delayedDeletions = array_unique(array_merge($this->delayedDeletions, $cids));
+    }
+    else {
+      $this->doDeleteMultiple($cids);
+    }
+  }
+
+  /**
+   * Execute the deletion.
+   *
+   * This can be delayed to avoid race conditions.
+   *
+   * @param array $cids
+   *   An array of cache IDs to delete.
+   *
+   * @see static::deleteMultiple()
+   */
+  protected abstract function doDeleteMultiple(array $cids);
+
+  /**
+   * Callback to be invoked after a database transaction gets committed.
+   *
+   * Invalidates all delayed cache deletions.
+   *
+   * @param bool $success
+   *   Whether or not the transaction was successful.
+   */
+  public function postRootTransactionCommit($success) {
+    if ($success) {
+      $this->doDeleteMultiple($this->delayedDeletions);
+    }
+    $this->delayedDeletions = [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
   public function removeBin() {
     $this->deleteAll();
   }
@@ -184,9 +234,8 @@ abstract class CacheBase implements CacheBackendInterface {
     if ($expire == Cache::PERMANENT || $expire > $this->permTtl) {
       return $this->permTtl;
     }
-    return $expire - REQUEST_TIME;
+    return $expire - \Drupal::time()->getRequestTime();
   }
-
   /**
    * Return the key for the tag used to specify the bin of cache-entries.
    */
@@ -252,6 +301,11 @@ abstract class CacheBase implements CacheBackendInterface {
       return FALSE;
     }
 
+    // Ignore items that are scheduled for deletion.
+    if (in_array($values['cid'], $this->delayedDeletions)) {
+      return FALSE;
+    }
+
     $cache = (object) $values;
 
     $cache->tags = explode(' ', $cache->tags);
@@ -275,6 +329,15 @@ abstract class CacheBase implements CacheBackendInterface {
 
     if (!$allow_invalid && !$cache->valid) {
       return FALSE;
+    }
+
+    if (!empty($cache->gz)) {
+      // Uncompress, suppress warnings e.g. for broken CRC32.
+      $cache->data = @gzuncompress($cache->data);
+      // In such cases, void the cache entry.
+      if ($cache->data === FALSE) {
+        return FALSE;
+      }
     }
 
     if ($cache->serialized) {
@@ -316,6 +379,11 @@ abstract class CacheBase implements CacheBackendInterface {
     else {
       $hash['data'] = $data;
       $hash['serialized'] = 0;
+    }
+
+    if (Settings::get('redis_compress_length', 0) && strlen($hash['data']) > Settings::get('redis_compress_length', 0)) {
+      $hash['data'] = @gzcompress($hash['data'], Settings::get('redis_compress_level', 1));
+      $hash['gz'] = TRUE;
     }
 
     return $hash;

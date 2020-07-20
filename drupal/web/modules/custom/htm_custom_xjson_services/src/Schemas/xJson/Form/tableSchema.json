@@ -31,6 +31,9 @@
     "add_del_rows": {
       "type": "boolean"
     },
+    "row_label": {
+      "type": "object"
+    },
     "table_columns": {
       "type": "object"
     },
@@ -42,6 +45,12 @@
     },
     "vertical": {
       "type": "boolean"
+    },
+    "value": {
+      "type": "array"
+    },
+    "depend_on": {
+      "type": "string"
     }
   },
   "required": [ "type", "title", "table_columns" ],

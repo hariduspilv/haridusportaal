@@ -148,7 +148,7 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 			$id_code = $content->id_code;
 		}
 
-		if ($this->flood->isAllowed('json_authentication_provider.failed_login_ip', $flood_config->get('ip_limit'), $flood_config->get('ip_window'))) {
+		//if ($this->flood->isAllowed('json_authentication_provider.failed_login_ip', $flood_config->get('ip_limit'), $flood_config->get('ip_window'))) {
 			if (isset($auth_method)) {
 				switch ($auth_method) {
 					case 'mobile_id':
@@ -158,9 +158,6 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 				if ($uid) {
 					$this->flood->clear('json_authentication_provider.failed_login_user', $uid);
 					return $this->entityManager->getStorage('user')->load($uid);
-				} else {
-					// Register a per-user failed login event.
-					$this->flood->register('json_authentication_provider.failed_login_user', $flood_config->get('user_window'), $uid);
 				}
 			} else {
 				$accounts = $this->entityManager->getStorage('user')->loadByProperties(['name' => $username, 'status' => 1]);
@@ -171,21 +168,16 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 					} else {
 						$identifier = $account->id() . '-' . $request->getClientIP();
 					}
-					if ($this->flood->isAllowed('json_authentication_provider.failed_login_user', $flood_config->get('user_limit'), $flood_config->get('user_window'), $identifier)) {
 						$uid = $this->userAuth->authenticate($username, $password);
 						if ($uid) {
 							$this->flood->clear('json_authentication_provider.failed_login_user', $identifier);
 							return $this->entityManager->getStorage('user')->load($uid);
-						} else {
-							// Register a per-user failed login event.
-							$this->flood->register('json_authentication_provider.failed_login_user', $flood_config->get('user_window'), $identifier);
 						}
-					}
 				}
 			}
-		}
+		//}
 		// Always register an IP-based failed login event.
-		$this->flood->register('json_authentication_provider.failed_login_ip', $flood_config->get('ip_window'));
+		//$this->flood->register('json_authentication_provider.failed_login_ip', $flood_config->get('ip_window'));
 		return [];
 	}
 
@@ -222,6 +214,8 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 		$this->eventDispatcher->dispatch(JwtAuthEvents::GENERATE, $event);
 		$event->addClaim('role', $this->roleSwitcher->getCurrentRole());
 		$event->addClaim('username', $this->roleSwitcher->returnUser()->getIdCode());
+    $event->addClaim('firstname', $this->roleSwitcher->returnUser()->getFirstName());
+    $event->addClaim('lastname', $this->roleSwitcher->returnUser()->getLastName());
 		$jwt = $event->getToken();
 		return $this->transcoder->encode($jwt);
 	}
@@ -234,6 +228,7 @@ class JsonAuthenticationProvider implements AuthenticationProviderInterface {
 	 *    Role id
 	 */
 	private function setRole ($type, $id) {
+    \Drupal::logger('roleswitcher')->notice('<pre><code>Role set: ' . print_r($type, TRUE) . '</code></pre>' );
 		switch ($type) {
 			case 'juridical':
 				$this->roleSwitcher->setJuridicalPerson($id);

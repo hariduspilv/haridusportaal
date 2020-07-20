@@ -101,14 +101,25 @@ class QueueUIBatch {
    * @param $operations
    */
   public static function finish($success, $results, $operations) {
-    \Drupal::messenger()->addMessage(
-      \Drupal::translation()->formatPlural(
-        count($results['processed']),
-        'Queue %queue: One item successfully processed.',
-        'Queue %queue: @count items successfully processed.',
-        ['%queue' => $results['queue_name']]
-      )
-    );
+    // Display success of no results.
+    if (!empty($results['processed'])) {
+      \Drupal::messenger()->addMessage(
+        \Drupal::translation()->formatPlural(
+          count($results['processed']),
+          'Queue %queue: One item successfully processed.',
+          'Queue %queue: @count items successfully processed.',
+          ['%queue' => $results['queue_name']]
+        )
+      );
+    }
+    elseif (!isset($results['processed'])) {
+      \Drupal::messenger()->addMessage(\Drupal::translation()
+        ->translate("Items were not processed. Try to release existing items or add new items to the queues."),
+        'warning'
+      );
+    }
+
+    // Display errors.
     if (!empty($results['errors'])) {
       \Drupal::messenger()->addError(
         \Drupal::translation()->formatPlural(

@@ -1,0 +1,23 @@
+uuid: 0f1cc69c-e13e-4e1c-9e94-074fe40440c5
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_service_link
+    - paragraphs.paragraphs_type.frontpage_services
+  module:
+    - link
+id: paragraph.frontpage_services.field_service_link
+field_name: field_service_link
+entity_type: paragraph
+bundle: frontpage_services
+label: 'Teenuse link'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

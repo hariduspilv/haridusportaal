@@ -17,6 +17,7 @@ use Drupal\Core\Url;
 use Drupal\Core\Utility\LinkGeneratorInterface;
 use Drupal\menu_link_content\MenuLinkContentStorageInterface;
 use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent;
+use Drupal\system\MenuStorage;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -112,7 +113,7 @@ class MenuForm extends EntityForm {
       '#type' => 'machine_name',
       '#title' => $this->t('Menu name'),
       '#default_value' => $menu->id(),
-      '#maxlength' => MENU_MAX_MENU_NAME_LENGTH_UI,
+      '#maxlength' => MenuStorage::MAX_ID_LENGTH,
       '#description' => $this->t('A unique name to construct the URL for the menu. It must only contain lowercase letters, numbers and hyphens.'),
       '#machine_name' => [
         'exists' => [$this, 'menuNameExists'],
@@ -281,9 +282,9 @@ class MenuForm extends EntityForm {
     ];
 
     $form['links']['#empty'] = $this->t('There are no menu links yet. <a href=":url">Add link</a>.', [
-      ':url' => $this->url('entity.menu.add_link_form', ['menu' => $this->entity->id()], [
+      ':url' => Url::fromRoute('entity.menu.add_link_form', ['menu' => $this->entity->id()], [
         'query' => ['destination' => $this->entity->toUrl('edit-form')->toString()],
-      ]),
+      ])->toString(),
     ]);
     $links = $this->buildOverviewTreeForm($tree, $delta);
 

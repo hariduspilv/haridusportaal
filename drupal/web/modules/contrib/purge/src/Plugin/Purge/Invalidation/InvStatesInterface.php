@@ -15,6 +15,8 @@ interface InvStatesInterface {
   const FRESH = 0;
 
   /**
+   * The invalidation is processing.
+   *
    * Invalidation is actively processing remotely and hasn't yet reached
    * its final state. The invalidation flows back to the queue so that the
    * purger conducting the multi-step invalidation, can put it to FAILED or

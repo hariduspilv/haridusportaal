@@ -132,6 +132,13 @@ class DynamicEntityReferenceItem extends EntityReferenceItem {
     elseif ($property_name == 'entity') {
       $this->writePropertyValue('target_type', $entity_property->getValue()->getEntityTypeId());
     }
+    elseif ($property_name == 'target_id') {
+      // Just in case target_id is set before target_type then set it to empty
+      // string instead of NULL so that
+      // \Drupal\Core\Entity\Plugin\DataType\EntityReference::setValue
+      // doesn't throw "InvalidArgumentException: Value is not a valid entity".
+      $entity_property->getTargetDefinition()->setEntityTypeId($this->get('target_type')->getValue() ?: '');
+    }
     parent::onChange($property_name, $notify);
   }
 
@@ -586,7 +593,7 @@ class DynamicEntityReferenceItem extends EntityReferenceItem {
                 // setting, disable the auto-creation feature completely.
                 $auto_create_bundle = !empty($handler_settings['auto_create_bundle']) ? $handler_settings['auto_create_bundle'] : FALSE;
                 if ($auto_create_bundle && $auto_create_bundle == $bundle->id()) {
-                  $handler_settings['auto_create'] = NULL;
+                  $handler_settings['auto_create'] = FALSE;
                   $handler_settings['auto_create_bundle'] = NULL;
                 }
 

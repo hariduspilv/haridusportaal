@@ -560,7 +560,11 @@ $grid-columns: 12;
       .sortable {&:hover { color: $dark-gray;}}
       .htm-icon {position: relative; top: $half-gutter; font-size: 1.12rem;&:hover { color: $dark-gray;}}
     }
-    th {white-space: nowrap;}
+    th {white-space: nowrap; background:$light-gray;}
+    tbody th{
+      width: 10px;
+    }
+    th+td{white-space: normal;}
     th, td {line-height: 1.38rem;font-size: 1rem;font-weight: 500;padding: $gutter $medium;text-align:left;border: .0625rem solid $gray;}
     td.hidden, th.hidden {min-width:1.5rem;width: 1.5rem; background: $light-gray;padding:0 $gutter;}
     th.hidden {text-align: center;border-bottom: none;}

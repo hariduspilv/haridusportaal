@@ -39,7 +39,7 @@ class ContainerControllerResolverTest extends ControllerResolverTest
 
         $controller = $resolver->getController($request);
 
-        $this->assertInstanceOf(\get_class($this), $controller[0]);
+        $this->assertInstanceOf(static::class, $controller[0]);
         $this->assertSame('controllerMethod1', $controller[1]);
     }
 
@@ -71,7 +71,7 @@ class ContainerControllerResolverTest extends ControllerResolverTest
     public function testGetControllerInvokableServiceWithClassNameAsName()
     {
         $invokableController = new InvokableController('bar');
-        $className = __NAMESPACE__.'\InvokableController';
+        $className = InvokableController::class;
 
         $container = $this->createMockContainer();
         $container->expects($this->once())
@@ -112,12 +112,10 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $this->assertSame([NonInstantiableController::class, 'action'], $controller);
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Controller "Symfony\Component\HttpKernel\Tests\Controller\ImpossibleConstructController" cannot be fetched from the container because it is private. Did you forget to tag the service with "controller.service_arguments"?
-     */
     public function testNonConstructController()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Controller "Symfony\Component\HttpKernel\Tests\Controller\ImpossibleConstructController" cannot be fetched from the container because it is private. Did you forget to tag the service with "controller.service_arguments"?');
         $container = $this->getMockBuilder(Container::class)->getMock();
         $container->expects($this->at(0))
             ->method('has')
@@ -179,12 +177,10 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $this->assertSame([$service, 'action'], $controller);
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Controller "app.my_controller" cannot be fetched from the container because it is private. Did you forget to tag the service with "controller.service_arguments"?
-     */
     public function testExceptionWhenUsingRemovedControllerService()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Controller "app.my_controller" cannot be fetched from the container because it is private. Did you forget to tag the service with "controller.service_arguments"?');
         $container = $this->getMockBuilder(Container::class)->getMock();
         $container->expects($this->at(0))
             ->method('has')
@@ -205,12 +201,10 @@ class ContainerControllerResolverTest extends ControllerResolverTest
         $resolver->getController($request);
     }
 
-    /**
-     * @expectedException \LogicException
-     * @expectedExceptionMessage Controller "app.my_controller" cannot be called without a method name. Did you forget an "__invoke" method?
-     */
     public function testExceptionWhenUsingControllerWithoutAnInvokeMethod()
     {
+        $this->expectException('LogicException');
+        $this->expectExceptionMessage('Controller "app.my_controller" cannot be called without a method name. Did you forget an "__invoke" method?');
         $container = $this->getMockBuilder(Container::class)->getMock();
         $container->expects($this->once())
             ->method('has')
@@ -235,14 +229,10 @@ class ContainerControllerResolverTest extends ControllerResolverTest
      */
     public function testGetControllerOnNonUndefinedFunction($controller, $exceptionName = null, $exceptionMessage = null)
     {
-        // All this logic needs to be duplicated, since calling parent::testGetControllerOnNonUndefinedFunction will override the expected excetion and not use the regex
+        // All this logic needs to be duplicated, since calling parent::testGetControllerOnNonUndefinedFunction will override the expected exception and not use the regex
         $resolver = $this->createControllerResolver();
-        if (method_exists($this, 'expectException')) {
-            $this->expectException($exceptionName);
-            $this->expectExceptionMessageRegExp($exceptionMessage);
-        } else {
-            $this->setExpectedExceptionRegExp($exceptionName, $exceptionMessage);
-        }
+        $this->expectException($exceptionName);
+        $this->expectExceptionMessageRegExp($exceptionMessage);
 
         $request = Request::create('/');
         $request->attributes->set('_controller', $controller);
@@ -258,7 +248,7 @@ class ContainerControllerResolverTest extends ControllerResolverTest
             [
                 'Symfony\Component\HttpKernel\Tests\Controller\ControllerResolverTest::bar',
                 \InvalidArgumentException::class,
-                '/.?[cC]ontroller(.*?) for URI "\/" is not callable\.( Expected method(.*) Available methods)?/',
+                '/.?[cC]ontroller(.*?) for URI "\/" is not callable:( Expected method(.*) Available methods)?/',
             ],
         ];
     }

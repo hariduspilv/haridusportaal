@@ -65,6 +65,7 @@ class EntityContentGenerator extends Generator
         $is_translatable = $parameters['is_translatable'];
         $revisionable = $parameters['revisionable'];
         $has_forms = $parameters['has_forms'];
+        $has_bundle_permissions = $parameters['has_bundle_permissions'];
 
         $moduleInstance = $this->extensionManager->getModule($module);
         $moduleDir = $moduleInstance->getPath();
@@ -223,11 +224,20 @@ class EntityContentGenerator extends Generator
         }
 
         if ($bundle_entity_type) {
+
             $this->renderFile(
                 'module/templates/entity-with-bundle-content-add-list-html.twig',
                 $moduleTemplatePath . '/' . str_replace('_', '-', $entity_name) . '-content-add-list.html.twig',
                 $parameters
             );
+
+            if ($has_bundle_permissions) {
+                $this->renderFile(
+                'module/src/entity-content-bundle-permissions.php.twig',
+                $moduleSourcePath . 'Permissions.php',
+                $parameters
+              );
+            }
 
             // Check for hook_theme() in module file and warn ...
             // Check if the module file exists.

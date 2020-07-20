@@ -323,6 +323,10 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
             return $this->validate($request, $entry, $catch);
         }
 
+        if ($entry->headers->hasCacheControlDirective('no-cache')) {
+            return $this->validate($request, $entry, $catch);
+        }
+
         $this->record($request, 'fresh');
 
         $entry->headers->set('Age', $entry->getAge());
@@ -352,7 +356,9 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         }
 
         // add our cached last-modified validator
-        $subRequest->headers->set('if_modified_since', $entry->headers->get('Last-Modified'));
+        if ($entry->headers->has('Last-Modified')) {
+            $subRequest->headers->set('if_modified_since', $entry->headers->get('Last-Modified'));
+        }
 
         // Add our cached etag validator to the environment.
         // We keep the etags from the client to handle the case when the client
@@ -432,9 +438,8 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
      * All backend requests (cache passes, fetches, cache validations)
      * run through this method.
      *
-     * @param Request  $request A Request instance
-     * @param bool     $catch   Whether to catch exceptions or not
-     * @param Response $entry   A Response instance (the stale entry if present, null otherwise)
+     * @param bool          $catch Whether to catch exceptions or not
+     * @param Response|null $entry A Response instance (the stale entry if present, null otherwise)
      *
      * @return Response A Response instance
      */
@@ -447,13 +452,37 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // always a "master" request (as the real master request can be in cache)
         $response = SubRequestHandler::handle($this->kernel, $request, HttpKernelInterface::MASTER_REQUEST, $catch);
 
-        // we don't implement the stale-if-error on Requests, which is nonetheless part of the RFC
-        if (null !== $entry && \in_array($response->getStatusCode(), [500, 502, 503, 504])) {
+        /*
+         * Support stale-if-error given on Responses or as a config option.
+         * RFC 7234 summarizes in Section 4.2.4 (but also mentions with the individual
+         * Cache-Control directives) that
+         *
+         *      A cache MUST NOT generate a stale response if it is prohibited by an
+         *      explicit in-protocol directive (e.g., by a "no-store" or "no-cache"
+         *      cache directive, a "must-revalidate" cache-response-directive, or an
+         *      applicable "s-maxage" or "proxy-revalidate" cache-response-directive;
+         *      see Section 5.2.2).
+         *
+         * https://tools.ietf.org/html/rfc7234#section-4.2.4
+         *
+         * We deviate from this in one detail, namely that we *do* serve entries in the
+         * stale-if-error case even if they have a `s-maxage` Cache-Control directive.
+         */
+        if (null !== $entry
+            && \in_array($response->getStatusCode(), [500, 502, 503, 504])
+            && !$entry->headers->hasCacheControlDirective('no-cache')
+            && !$entry->mustRevalidate()
+        ) {
             if (null === $age = $entry->headers->getCacheControlDirective('stale-if-error')) {
                 $age = $this->options['stale_if_error'];
             }
 
-            if (abs($entry->getTtl()) < $age) {
+            /*
+             * stale-if-error gives the (extra) time that the Response may be used *after* it has become stale.
+             * So we compare the time the $entry has been sitting in the cache already with the
+             * time it was fresh plus the allowed grace period.
+             */
+            if ($entry->getAge() <= $entry->getMaxAge() + $age) {
                 $this->record($request, 'stale-if-error');
 
                 return $entry;
@@ -646,8 +675,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Calculates the key we use in the "trace" array for a given request.
      *
-     * @param Request $request
-     *
      * @return string
      */
     private function getTraceKey(Request $request)
@@ -663,8 +690,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     /**
      * Checks whether the given (cached) response may be served as "stale" when a revalidation
      * is currently in progress.
-     *
-     * @param Response $entry
      *
      * @return bool true when the stale response may be served, false otherwise
      */

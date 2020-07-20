@@ -8,11 +8,14 @@ use Drupal\Core\Entity\EntityStorageException;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\search_api\ConsoleException;
+use Drupal\search_api\Event\ReindexScheduledEvent;
+use Drupal\search_api\Event\SearchApiEvents;
 use Drupal\search_api\IndexBatchHelper;
 use Drupal\search_api\IndexInterface;
 use Drupal\search_api\SearchApiException;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Provides functionality to be used by CLI tools.
@@ -50,6 +53,13 @@ class CommandHelper implements LoggerAwareInterface {
   protected $moduleHandler;
 
   /**
+   * The event dispatcher.
+   *
+   * @var \Drupal\Component\EventDispatcher\ContainerAwareEventDispatcher|null
+   */
+  protected $eventDispatcher;
+
+  /**
    * A callable for translating strings.
    *
    * @var callable
@@ -63,18 +73,24 @@ class CommandHelper implements LoggerAwareInterface {
    *   The entity type manager.
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
    *   The module handler.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+   *   The event dispatcher.
    * @param string|callable $translation_function
    *   (optional) A callable for translating strings.
    *
    * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   *   Thrown if the "search_api_index" or "search_api_server" entity types'
+   *   storage handlers couldn't be loaded.
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
    *   Thrown if the "search_api_index" or "search_api_server" entity types are
    *   unknown.
    */
-  public function __construct(EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler, $translation_function = 'dt') {
+  public function __construct(EntityTypeManagerInterface $entity_type_manager, ModuleHandlerInterface $module_handler, EventDispatcherInterface $event_dispatcher, $translation_function = 'dt') {
     $this->entityTypeManager = $entity_type_manager;
     $this->indexStorage = $entity_type_manager->getStorage('search_api_index');
     $this->serverStorage = $entity_type_manager->getStorage('search_api_server');
     $this->moduleHandler = $module_handler;
+    $this->eventDispatcher = $event_dispatcher;
     $this->translationFunction = $translation_function;
   }
 
@@ -248,7 +264,7 @@ class CommandHelper implements LoggerAwareInterface {
    *   index all items at once.
    *
    * @return bool
-   *   TRUE if any indexes could be loaded, FALSE otherwise.
+   *   TRUE if indexing for any index was queued, FALSE otherwise.
    *
    * @throws \Drupal\search_api\ConsoleException
    *   Thrown if an indexing batch process could not be created.
@@ -261,7 +277,7 @@ class CommandHelper implements LoggerAwareInterface {
       return FALSE;
     }
 
-    $batch_set = FALSE;
+    $batchSet = FALSE;
     foreach ($indexes as $index) {
       if (!$index->status() || $index->isReadOnly()) {
         continue;
@@ -276,7 +292,7 @@ class CommandHelper implements LoggerAwareInterface {
       else {
         $arguments = [
           '@remaining' => $remaining,
-          '@limit' => $limit ? $limit : $this->t('all'),
+          '@limit' => $limit ?: $this->t('all'),
           '@index' => $index->label(),
         ];
         $this->logger->info($this->t("Found @remaining items to index for @index. Indexing @limit items.", $arguments));
@@ -286,37 +302,40 @@ class CommandHelper implements LoggerAwareInterface {
       // to index all items.
       $current_limit = $limit ?: -1;
 
-      // Get the default batch size.
-      if (!$batchSize) {
+      // Get the batch size to use for this index (in case none was specified in
+      // the command).
+      $currentBatchSize = $batchSize;
+      if (!$currentBatchSize) {
         $cron_limit = $index->getOption('cron_limit');
-        $batchSize = $cron_limit ?: \Drupal::configFactory()
+        $currentBatchSize = $cron_limit ?: \Drupal::configFactory()
           ->get('search_api.settings')
           ->get('default_cron_limit');
       }
 
-      // Get the number items to index.
-      if (!is_int($current_limit += 0) || $current_limit <= 0) {
+      // Get the number of items to index.
+      $current_limit += 0;
+      if (!is_int($current_limit) || $current_limit <= 0) {
         $current_limit = $remaining;
       }
 
       $arguments = [
         '@index' => $index->label(),
         '@limit' => $current_limit,
-        '@batch_size' => $batchSize,
+        '@batch_size' => $currentBatchSize,
       ];
       $this->logger->info($this->t("Indexing a maximum number of @limit items (@batch_size items per batch run) for the index '@index'.", $arguments));
 
       // Create the batch.
       try {
-        IndexBatchHelper::create($index, $batchSize, $current_limit);
-        $batch_set = TRUE;
+        IndexBatchHelper::create($index, $currentBatchSize, $current_limit);
+        $batchSet = TRUE;
       }
       catch (SearchApiException $e) {
         throw new ConsoleException($this->t("Couldn't create a batch, please check the batch size and limit parameters."));
       }
     }
 
-    return $batch_set;
+    return $batchSet;
   }
 
   /**
@@ -354,7 +373,11 @@ class CommandHelper implements LoggerAwareInterface {
             $reindexed_datasources[] = $datasource->label();
           }
         }
-        $this->moduleHandler->invokeAll('search_api_index_reindex', [$index, FALSE]);
+        $description = 'This hook is deprecated in search_api 8.x-1.14 and will be removed in 9.x-1.0. Please use the "search_api.reindex_scheduled" event instead. See https://www.drupal.org/node/3059866';
+        $this->moduleHandler->invokeAllDeprecated($description, 'search_api_index_reindex', [$index, FALSE]);
+        $event_name = SearchApiEvents::REINDEX_SCHEDULED;
+        $event = new ReindexScheduledEvent($index, FALSE);
+        $this->eventDispatcher->dispatch($event_name, $event);
         $arguments = [
           '!index' => $index->label(),
           '!datasources' => implode(', ', $reindexed_datasources),

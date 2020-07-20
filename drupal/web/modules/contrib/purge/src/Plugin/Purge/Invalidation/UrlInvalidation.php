@@ -4,8 +4,6 @@ namespace Drupal\purge\Plugin\Purge\Invalidation;
 
 use Drupal\Component\Utility\UrlHelper;
 use Drupal\Core\Url;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationBase;
 use Drupal\purge\Plugin\Purge\Invalidation\Exception\InvalidExpressionException;
 
 /**
@@ -40,6 +38,7 @@ class UrlInvalidation extends InvalidationBase implements InvalidationInterface 
    * Get the URL object.
    *
    * @return \Drupal\Core\Url
+   *   The url object.
    */
   public function getUrl() {
     if (!is_null($this->url)) {

@@ -86,7 +86,7 @@ class IndexAddFieldsForm extends EntityForm {
    * Constructs an IndexAddFieldsForm object.
    *
    * @param \Drupal\Core\Entity\EntityTypeManagerInterface $entity_type_manager
-   *   The entity manager.
+   *   The entity type manager.
    * @param \Drupal\search_api\Utility\FieldsHelperInterface $fields_helper
    *   The fields helper.
    * @param \Drupal\search_api\Utility\DataTypeHelperInterface $data_type_helper
@@ -152,7 +152,7 @@ class IndexAddFieldsForm extends EntityForm {
    *   The parameter value.
    */
   public function getParameter($name, $default = NULL) {
-    return isset($this->parameters[$name]) ? $this->parameters[$name] : $default;
+    return $this->parameters[$name] ?? $default;
   }
 
   /**
@@ -357,6 +357,7 @@ class IndexAddFieldsForm extends EntityForm {
           $item['expand_link'] = [
             '#type' => 'link',
             '#title' => '(-) ',
+            '#attributes' => ['data-disable-refocus' => ['true']],
             '#url' => $link_url,
             '#ajax' => [
               'wrapper' => $this->formIdAttribute,
@@ -372,6 +373,7 @@ class IndexAddFieldsForm extends EntityForm {
           $item['expand_link'] = [
             '#type' => 'link',
             '#title' => '(+) ',
+            '#attributes' => ['data-disable-refocus' => ['true']],
             '#url' => $link_url,
             '#ajax' => [
               'wrapper' => $this->formIdAttribute,
@@ -391,6 +393,7 @@ class IndexAddFieldsForm extends EntityForm {
           '#name' => Utility::createCombinedId($datasource_id, $this_path),
           '#value' => $this->t('Add'),
           '#submit' => ['::addField', '::save'],
+          '#attributes' => ['data-disable-refocus' => ['true']],
           '#property' => $property,
           '#prefixed_label' => $label_prefix . $label,
           '#data_type' => $type_mapping[$type],

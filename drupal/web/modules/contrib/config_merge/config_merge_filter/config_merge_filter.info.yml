@@ -1,0 +1,13 @@
+name: 'Config Merge Filter'
+type: module
+description: "Provides a Config Filter plugin that safely merges configuration updates into the site's active configuration."
+# core: 8.x
+package: Config
+dependencies:
+ - config_merge:config_merge
+
+# Information added by Drupal.org packaging script on 2019-02-14
+version: '8.x-1.0-rc1'
+core: '8.x'
+project: 'config_merge'
+datestamp: 1550188083

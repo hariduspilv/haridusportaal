@@ -459,7 +459,7 @@ function twig_date_modify_filter(Environment $env, $date, $modifier)
  * @param \DateTime|\DateTimeInterface|string|null $date     A date
  * @param \DateTimeZone|string|false|null          $timezone The target timezone, null to use the default, false to leave unchanged
  *
- * @return \DateTime
+ * @return \DateTimeInterface
  */
 function twig_date_converter(Environment $env, $date = null, $timezone = null)
 {
@@ -790,7 +790,7 @@ function twig_join_filter($value, $glue = '', $and = null)
  */
 function twig_split_filter(Environment $env, $value, $delimiter, $limit = null)
 {
-    if (!empty($delimiter)) {
+    if (\strlen($delimiter) > 0) {
         return null === $limit ? explode($delimiter, $value) : explode($delimiter, $value, $limit);
     }
 
@@ -1505,6 +1505,10 @@ function twig_test_empty($value)
 {
     if ($value instanceof \Countable) {
         return 0 == \count($value);
+    }
+
+    if ($value instanceof \Traversable) {
+        return !iterator_count($value);
     }
 
     if (\is_object($value) && method_exists($value, '__toString')) {

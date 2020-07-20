@@ -2,6 +2,7 @@
 
 namespace Drupal\dblog\Controller;
 
+use Drupal\Component\Render\FormattableMarkup;
 use Drupal\Component\Utility\Html;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Component\Utility\Xss;
@@ -188,14 +189,14 @@ class DbLogController extends ControllerBase {
         $log_text = Unicode::truncate($title, 56, TRUE, TRUE);
         // The link generator will escape any unsafe HTML entities in the final
         // text.
-        $message = $this->l($log_text, new Url('dblog.event', ['event_id' => $dblog->wid], [
+        $message = Link::fromTextAndUrl($log_text, new Url('dblog.event', ['event_id' => $dblog->wid], [
           'attributes' => [
             // Provide a title for the link for useful hover hints. The
             // Attribute object will escape any unsafe HTML entities in the
             // final text.
             'title' => $title,
           ],
-        ]));
+        ]))->toString();
       }
       $username = [
         '#theme' => 'username',
@@ -362,6 +363,12 @@ class DbLogController extends ControllerBase {
       }
       // Message to translate with injected variables.
       else {
+        // Ensure backtrace strings are properly formatted.
+        if (isset($variables['@backtrace_string'])) {
+          $variables['@backtrace_string'] = new FormattableMarkup(
+            '<pre class="backtrace">@backtrace_string</pre>', $variables
+          );
+        }
         $message = $this->t(Xss::filterAdmin($row->message), $variables);
       }
     }

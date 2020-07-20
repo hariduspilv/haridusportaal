@@ -43,6 +43,11 @@ class Varnish implements VarnishInterface {
   protected $account;
 
   /**
+   * @var \Drupal\Core\Config\ImmutableConfig
+   */
+  protected $config;
+
+  /**
    * Class constructor.
    */
   public function __construct(ConfigFactoryInterface $config_factory, LoggerInterface $logger, AccountProxyInterface $account) {
@@ -61,13 +66,13 @@ class Varnish implements VarnishInterface {
   public function varnishGetHost() {
     global $base_url;
     $parts = parse_url($base_url);
-    return $parts['host'];
+    return is_array( $parts) && isset($parts['host'] ) ? $parts['host'] : '';
   }
 
   /**
    * Execute varnish command and get response.
    *
-   * @param string $client
+   * @param resource $client
    *   Terminal settings.
    * @param string $command
    *   Command line to execute.
@@ -108,7 +113,7 @@ class Varnish implements VarnishInterface {
    */
   public function varnishReadSocket($client, $retry = 2) {
     // Status and length info is always 13 characters.
-    $header = socket_read($client, 13, PHP_BINARY_READ);
+    $header = socket_read($client, 13, SO_TYPE);
     if ($header == FALSE) {
       $error = socket_last_error();
       // 35 = socket-unavailable, so it might be blocked from our write.
@@ -144,7 +149,7 @@ class Varnish implements VarnishInterface {
   public function varnishTerminalRun($commands) {
     if (!extension_loaded('sockets')) {
       // Prevent fatal errors if people don't have requirements.
-      return FALSE;
+      return [];
     }
     // Convert single commands to an array so we
     // can handle everything in the same way.
@@ -159,21 +164,28 @@ class Varnish implements VarnishInterface {
     $microseconds = (int) ($timeout % 1000 * 1000);
     foreach ($terminals as $terminal) {
       list($server, $port) = explode(':', $terminal);
-      $client = socket_create(AF_INET, SOCK_STREAM, getprotobyname('tcp'));
+      $client = socket_create(AF_INET, SOCK_STREAM, (int)getprotobyname('tcp'));
+      if (!$client) {
+        $this->logger->log(RfcLogLevel::ERROR, 'Unable to create the server socket: %error', [
+          '%error' => socket_strerror(socket_last_error()),
+        ]);
+        $ret[$terminal] = FALSE;
+        continue;
+      }
       socket_set_option($client, SOL_SOCKET, SO_SNDTIMEO, ['sec' => $seconds, 'usec' => $microseconds]);
       socket_set_option($client, SOL_SOCKET, SO_RCVTIMEO, ['sec' => $seconds, 'usec' => $microseconds]);
-      if (!socket_connect($client, $server, $port)) {
+      if (!@socket_connect($client, $server, (int)$port)) {
         $this->logger->log(RfcLogLevel::ERROR, 'Unable to connect to server socket @server:@port: %error', [
           '@server' => $server,
           '@port' => $port,
           '%error' => socket_strerror(socket_last_error($client)),
         ]);
         $ret[$terminal] = FALSE;
+        \Drupal::messenger()->addMessage($this->t('Unable to connect to server socket @server:@port.', ['@server' => $server, '@port' => $port]), \Drupal::messenger()::TYPE_WARNING);
 
         // If a varnish server is unavailable, move on to the next in the list.
         continue;
       }
-
       // If there is a CLI banner message (varnish >= 2.1.x),
       // try to read it and move on.
       $varnish_version = $this->configFactory->get('advanced_varnish_cache.settings')->get('varnish_version');
@@ -233,7 +245,7 @@ class Varnish implements VarnishInterface {
    *
    * @param string $setting
    *   Setting key.
-   * @param string $default
+   * @param mixed $default
    *   Default setting value.
    *
    * @return mixed
@@ -313,9 +325,9 @@ class Varnish implements VarnishInterface {
 
     // Log action.
     if ($this->getSettings('general.logging', FALSE)) {
-      $message = $this->t('u=@uid purge !command_line', [
+      $message = $this->t('u=@uid purge @command_line', [
         '@uid' => $this->account->id(),
-        '!command_line' => $command_line,
+        '@command_line' => $command_line,
       ]);
       $this->logger->notice($message);
     }

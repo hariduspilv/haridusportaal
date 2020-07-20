@@ -11,6 +11,7 @@
 
 namespace Symfony\Component\Serializer\Tests\Normalizer;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Serializer\Normalizer\JsonSerializableNormalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
@@ -28,7 +29,7 @@ class JsonSerializableNormalizerTest extends TestCase
     private $normalizer;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|SerializerInterface
+     * @var MockObject|SerializerInterface
      */
     private $serializer;
 
@@ -51,7 +52,7 @@ class JsonSerializableNormalizerTest extends TestCase
             ->expects($this->once())
             ->method('normalize')
             ->willReturnCallback(function ($data) {
-                $this->assertArraySubset(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], $data);
+                $this->assertSame(['foo' => 'a', 'bar' => 'b', 'baz' => 'c'], array_diff_key($data, ['qux' => '']));
 
                 return 'string_object';
             })
@@ -60,11 +61,9 @@ class JsonSerializableNormalizerTest extends TestCase
         $this->assertEquals('string_object', $this->normalizer->normalize(new JsonSerializableDummy()));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Serializer\Exception\CircularReferenceException
-     */
     public function testCircularNormalize()
     {
+        $this->expectException('Symfony\Component\Serializer\Exception\CircularReferenceException');
         $this->normalizer->setCircularReferenceLimit(1);
 
         $this->serializer
@@ -80,12 +79,10 @@ class JsonSerializableNormalizerTest extends TestCase
         $this->assertEquals('string_object', $this->normalizer->normalize(new JsonSerializableDummy()));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Serializer\Exception\InvalidArgumentException
-     * @expectedExceptionMessage The object must implement "JsonSerializable".
-     */
     public function testInvalidDataThrowException()
     {
+        $this->expectException('Symfony\Component\Serializer\Exception\InvalidArgumentException');
+        $this->expectExceptionMessage('The object must implement "JsonSerializable".');
         $this->normalizer->normalize(new \stdClass());
     }
 }

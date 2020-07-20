@@ -16,7 +16,28 @@ trait ObjectItemTrait
     /** @var ObjectItemContract[] */
     protected $__nestedObjects;
     protected $__documentPath;
+    /** @var null|string[] */
     protected $__fromRef;
+
+    protected $__hasResolvedValue = false;
+    protected $__resolvedValue;
+
+    public function setResolvedValue($value)
+    {
+        $this->__hasResolvedValue = true;
+        $this->__resolvedValue = $value;
+        return $this;
+    }
+
+    public function getResolvedValue()
+    {
+        return $this->__resolvedValue;
+    }
+
+    public function hasResolvedValue()
+    {
+        return $this->__hasResolvedValue;
+    }
 
     public function getNestedObject($className)
     {
@@ -112,7 +133,7 @@ trait ObjectItemTrait
     }
 
     /**
-     * @return string
+     * @return string|null
      * @deprecated use ObjectItemContract::getFromRefs
      * @see ObjectItemContract::getFromRefs
      * @todo remove

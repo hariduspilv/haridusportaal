@@ -2,9 +2,9 @@
 
 namespace Drupal\purge_ui_remove_block_plugins_test;
 
-use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Plugin\DefaultPluginManager;
 
 /**
  * PluginManager that will never deliver any plugins (for testing purposes).

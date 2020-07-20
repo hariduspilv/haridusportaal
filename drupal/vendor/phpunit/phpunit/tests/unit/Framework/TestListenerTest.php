@@ -7,106 +7,54 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace PHPUnit\Framework;
 
-class TestListenerTest extends TestCase implements TestListener
+use MyTestListener;
+
+final class TestListenerTest extends TestCase
 {
-    protected $endCount;
-    protected $errorCount;
-    protected $failureCount;
-    protected $warningCount;
-    protected $notImplementedCount;
-    protected $riskyCount;
-    protected $skippedCount;
-    protected $result;
-    protected $startCount;
+    /**
+     * @var TestResult
+     */
+    private $result;
 
-    public function addError(Test $test, \Exception $e, $time)
+    /**
+     * @var MyTestListener
+     */
+    private $listener;
+
+    protected function setUp(): void
     {
-        $this->errorCount++;
+        $this->result   = new TestResult;
+        $this->listener = new MyTestListener;
+
+        $this->result->addListener($this->listener);
     }
 
-    public function addWarning(Test $test, Warning $e, $time)
-    {
-        $this->warningCount++;
-    }
-
-    public function addFailure(Test $test, AssertionFailedError $e, $time)
-    {
-        $this->failureCount++;
-    }
-
-    public function addIncompleteTest(Test $test, \Exception $e, $time)
-    {
-        $this->notImplementedCount++;
-    }
-
-    public function addRiskyTest(Test $test, \Exception $e, $time)
-    {
-        $this->riskyCount++;
-    }
-
-    public function addSkippedTest(Test $test, \Exception $e, $time)
-    {
-        $this->skippedCount++;
-    }
-
-    public function startTestSuite(TestSuite $suite)
-    {
-    }
-
-    public function endTestSuite(TestSuite $suite)
-    {
-    }
-
-    public function startTest(Test $test)
-    {
-        $this->startCount++;
-    }
-
-    public function endTest(Test $test, $time)
-    {
-        $this->endCount++;
-    }
-
-    protected function setUp()
-    {
-        $this->result = new TestResult;
-        $this->result->addListener($this);
-
-        $this->endCount            = 0;
-        $this->failureCount        = 0;
-        $this->notImplementedCount = 0;
-        $this->riskyCount          = 0;
-        $this->skippedCount        = 0;
-        $this->startCount          = 0;
-    }
-
-    public function testError()
+    public function testError(): void
     {
         $test = new \TestError;
         $test->run($this->result);
 
-        $this->assertEquals(1, $this->errorCount);
-        $this->assertEquals(1, $this->endCount);
+        $this->assertEquals(1, $this->listener->errorCount());
+        $this->assertEquals(1, $this->listener->endCount());
     }
 
-    public function testFailure()
+    public function testFailure(): void
     {
         $test = new \Failure;
         $test->run($this->result);
 
-        $this->assertEquals(1, $this->failureCount);
-        $this->assertEquals(1, $this->endCount);
+        $this->assertEquals(1, $this->listener->failureCount());
+        $this->assertEquals(1, $this->listener->endCount());
     }
 
-    public function testStartStop()
+    public function testStartStop(): void
     {
         $test = new \Success;
         $test->run($this->result);
 
-        $this->assertEquals(1, $this->startCount);
-        $this->assertEquals(1, $this->endCount);
+        $this->assertEquals(1, $this->listener->startCount());
+        $this->assertEquals(1, $this->listener->endCount());
     }
 }

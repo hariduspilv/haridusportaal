@@ -2,10 +2,8 @@
 
 namespace Drupal\purge\Tests\TagsHeader;
 
-use Drupal\purge\Tests\KernelTestBase;
 use Drupal\purge\Tests\KernelServiceTestBase;
-use Drupal\purge\Plugin\Purge\TagsHeader\TagsHeadersServiceInterface;
-use Drupal\purge\Plugin\Purge\TagsHeader\TagsHeaderInterface;
+use Drupal\purge\Tests\KernelTestBase;
 
 /**
  * Tests \Drupal\purge\Plugin\Purge\TagsHeader\TagsHeadersService.
@@ -15,7 +13,19 @@ use Drupal\purge\Plugin\Purge\TagsHeader\TagsHeaderInterface;
  * @see \Drupal\purge\Plugin\Purge\TagsHeader\TagsHeadersServiceInterface
  */
 class ServiceTest extends KernelServiceTestBase {
+
+  /**
+   * The name of the service as defined in services.yml.
+   *
+   * @var string
+   */
   protected $serviceId = 'purge.tagsheaders';
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
   public static $modules = ['purge_tagsheader_test'];
 
   /**
@@ -32,14 +42,14 @@ class ServiceTest extends KernelServiceTestBase {
   /**
    * Set up the test.
    */
-  public function setUp() {
+  public function setUp($switch_to_memory_queue = TRUE) {
 
     // Skip parent::setUp() as we don't want the service initialized here.
     KernelTestBase::setUp();
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\TagsHeader\TagsHeadersService::count
+   * Tests TagsHeadersService::count.
    */
   public function testCount() {
     $this->initializeService();
@@ -48,7 +58,7 @@ class ServiceTest extends KernelServiceTestBase {
   }
 
   /**
-   * Tests \Drupal\purge\Plugin\Purge\TagsHeader\TagsHeadersService::getPluginsEnabled
+   * Tests TagsHeadersService::getPluginsEnabled.
    */
   public function testGetPluginsEnabled() {
     $this->initializeService();
@@ -69,8 +79,9 @@ class ServiceTest extends KernelServiceTestBase {
    */
   public function testIteration() {
     $this->initializeService();
-    $this->assertIterator('\Drupal\purge\Plugin\Purge\TagsHeader\TagsHeaderInterface',
-      $this->plugins
+    $this->assertIterator(
+      $this->plugins,
+      '\Drupal\purge\Plugin\Purge\TagsHeader\TagsHeaderInterface'
     );
   }
 

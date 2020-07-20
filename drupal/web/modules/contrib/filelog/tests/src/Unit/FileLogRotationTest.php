@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\filelog\Unit;
 
+use Drupal;
 use Drupal\Component\Datetime\TimeInterface;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Core\File\FileSystem;
@@ -15,6 +16,15 @@ use Drupal\filelog\LogRotator;
 use Drupal\Tests\UnitTestCase;
 use org\bovigo\vfs\vfsStream;
 use Psr\Log\LoggerInterface;
+use function date;
+use function date_default_timezone_set;
+use function file_get_contents;
+use function gzencode;
+use function preg_match;
+use function preg_match_all;
+use function scandir;
+use function strtr;
+use function unlink;
 
 /**
  * Tests the log rotation of the file logger.
@@ -26,7 +36,7 @@ class FileLogRotationTest extends UnitTestCase {
   /**
    * @var \org\bovigo\vfs\vfsStreamDirectory
    */
-  protected $fileSystem;
+  protected $virtualFileSystem;
 
   /**
    * @var \Drupal\filelog\Logger\FileLog
@@ -44,6 +54,11 @@ class FileLogRotationTest extends UnitTestCase {
   protected $time;
 
   /**
+   * @var \Drupal\Core\File\FileSystemInterface
+   */
+  protected $fileSystem;
+
+  /**
    * {@inheritdoc}
    */
   protected function setUp() {
@@ -51,29 +66,26 @@ class FileLogRotationTest extends UnitTestCase {
 
     require_once $this->root . '/core/includes/file.inc';
 
-    $this->fileSystem = vfsStream::setup('filelog');
+    $this->virtualFileSystem = vfsStream::setup('filelog');
 
     // Force UTC time to avoid platform-specific effects.
-    \date_default_timezone_set('UTC');
+    date_default_timezone_set('UTC');
 
     $this->fileLog = $this->getMockBuilder(FileLog::class)
                           ->disableOriginalConstructor()
                           ->getMock();
-    $this->fileLog->expects($this->any())
-                  ->method('getFileName')
+    $this->fileLog->method('getFileName')
                   ->willReturn('vfs://filelog/drupal.log');
 
     $this->token = $this->getMockBuilder(Token::class)
                         ->disableOriginalConstructor()
                         ->getMock();
-    $this->token->expects($this->any())
-                ->method('replace')
+    $this->token->method('replace')
                 ->willReturnCallback([static::class, 'tokenReplace']);
 
     $this->time = $this->getMockBuilder(TimeInterface::class)
       ->getMock();
-    $this->time->expects($this->any())
-      ->method('getRequestTime')
+    $this->time->method('getRequestTime')
       ->willReturn(86401);
 
     $container = new ContainerBuilder();
@@ -82,9 +94,9 @@ class FileLogRotationTest extends UnitTestCase {
     $settings = new Settings([]);
     /** @var \Psr\Log\LoggerInterface $logger */
     $logger = $this->createMock(LoggerInterface::class);
-    $fileSystem = new FileSystem($swManager, $settings, $logger);
-    $container->set('file_system', $fileSystem);
-    \Drupal::setContainer($container);
+    $this->fileSystem = new FileSystem($swManager, $settings, $logger);
+    $container->set('file_system', $this->fileSystem);
+    Drupal::setContainer($container);
   }
 
   /**
@@ -113,17 +125,17 @@ class FileLogRotationTest extends UnitTestCase {
 
     /** @var StateInterface|\PHPUnit_Framework_MockObject_MockObject $state */
     $state = $this->createMock(StateInterface::class);
-    $state->expects($this->any())
-      ->method('get')
+    $state->method('get')
       ->with('filelog.rotation')
       ->willReturn($timestamp);
 
-    \file_put_contents($logFile, $data);
+    file_put_contents($logFile, $data);
     $rotator = new LogRotator($configFactory,
                               $state,
                               $this->token,
                               $this->time,
-                              $this->fileLog);
+                              $this->fileLog,
+                              $this->fileSystem);
     try {
       $rotator->run();
     }
@@ -134,17 +146,17 @@ class FileLogRotationTest extends UnitTestCase {
     // Check that all the expected files have the correct content.
     foreach ($files as $name) {
       $path = "$root/$name";
-      $compressed = \preg_match('/\.gz$/', $name) === 1;
-      $expected = $compressed ? \gzencode($data) : $data;
-      $content = \file_get_contents($path);
+      $compressed = preg_match('/\.gz$/', $name) === 1;
+      $expected = $compressed ? gzencode($data) : $data;
+      $content = file_get_contents($path);
       $this->assertEquals($expected, $content);
 
       // Delete the file after checking.
-      \unlink($path);
+      unlink($path);
     }
 
     // Check that no other files exist.
-    foreach (\scandir('vfs://filelog', 0) as $name) {
+    foreach (scandir('vfs://filelog', 0) as $name) {
       if ($name === '.htaccess') {
         continue;
       }
@@ -234,27 +246,6 @@ class FileLogRotationTest extends UnitTestCase {
   }
 
   /**
-   * Flatten nested arrays into the top level as dotted keys.
-   *
-   * Original keys remain intact.
-   *
-   * @param array  $config
-   * @param string $prefix
-   *
-   * @return array
-   */
-  private static function flatten(array $config, $prefix = ''): array {
-    $flat = [];
-    foreach ($config as $name => $value) {
-      $flat[$prefix . $name] = $value;
-      if (\is_array($value)) {
-        $flat += self::flatten($value, $prefix . $name . '.');
-      }
-    }
-    return $flat;
-  }
-
-  /**
    * Mock Token::replace() only for [date:custom:...]
    *
    * @param string $text
@@ -263,12 +254,12 @@ class FileLogRotationTest extends UnitTestCase {
    * @return string
    */
   public static function tokenReplace($text, array $data): string {
-    \preg_match_all('/\[date:custom:(.*?)\]/', $text, $matches, PREG_SET_ORDER);
+    preg_match_all('/\[date:custom:(.*?)]/', $text, $matches, PREG_SET_ORDER);
     $replace = [];
     foreach ((array) $matches as $match) {
-      $replace[$match[0]] = \date($match[1], $data['date']);
+      $replace[$match[0]] = date($match[1], $data['date']);
     }
-    return \strtr($text, $replace);
+    return strtr($text, $replace);
   }
 
 }

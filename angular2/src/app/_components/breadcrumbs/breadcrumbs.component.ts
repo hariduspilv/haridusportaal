@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { MetaTagsService } from '@app/_services/metaTagsService';
 import { HttpService } from '@app/_services/httpService';
 import { RootScopeService } from '@app/_services';
+import { Location } from '@angular/common';
 @Component({
   selector: 'breadcrumbs',
   templateUrl: 'breadcrumbs.component.html',
@@ -24,6 +25,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private location: Location,
     private metaTags: MetaTagsService,
     private http: HttpService,
     private rootScope: RootScopeService
@@ -52,7 +54,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
     this.subscriptions = [...this.subscriptions, breadcrumbSubscription];
   }
   private updateBreadcrumbs(){
-    this.path = this.router.url.split('?')[0];
+    this.path = this.location.path().split('?')[0];
     if( this.path !== this.prevPath && this.path.includes('/t%C3%B6%C3%B6laud/') && this.prevPath.includes('/t%C3%B6%C3%B6laud/')){
       this.prevPath = this.path;
       let title = decodeURIComponent(this.path.split('/')[2]);
@@ -66,7 +68,7 @@ export class BreadcrumbsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.lang = this.rootScope.get("lang");
     const eventsSub = this.router.events.subscribe((event) => {
-      if (event instanceof NavigationEnd) {       
+      if (event instanceof NavigationEnd) {
         this.updateBreadcrumbs();
       }
     });

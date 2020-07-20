@@ -4,6 +4,7 @@ namespace Drupal\adv_varnish\Form;
 
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Messenger\MessengerInterface;
 use Drupal\Core\State\StateInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -30,13 +31,30 @@ class VarnishAdvCacheSettingsForm extends ConfigFormBase {
   protected $varnishHandler;
 
   /**
+   * @var DateFormatter
+   */
+  protected $dateFormatter;
+
+  /**
+   * The Messenger service.
+   *
+   * @var \Drupal\Core\Messenger\MessengerInterface
+   */
+  protected $messenger;
+
+  /**
    * {@inheritdoc}
    */
-  public function __construct(ConfigFactoryInterface $config_factory, StateInterface $state, DateFormatter $date_formatter, VarnishInterface $varnish_handler) {
+  public function __construct(ConfigFactoryInterface $config_factory,
+                              StateInterface $state,
+                              DateFormatter $date_formatter,
+                              VarnishInterface $varnish_handler,
+                              MessengerInterface $messenger) {
     parent::__construct($config_factory);
     $this->state = $state;
     $this->dateFormatter = $date_formatter;
     $this->varnishHandler = $varnish_handler;
+    $this->messenger = $messenger;
   }
 
   /**
@@ -47,7 +65,8 @@ class VarnishAdvCacheSettingsForm extends ConfigFormBase {
       $container->get('config.factory'),
       $container->get('state'),
       $container->get('date.formatter'),
-      $container->get('adv_varnish.handler')
+      $container->get('adv_varnish.handler'),
+      $container->get('messenger')
     );
   }
 
@@ -225,15 +244,15 @@ class VarnishAdvCacheSettingsForm extends ConfigFormBase {
 
     $_SESSION['messages'] = [];
     if (empty($backend_status)) {
-      drupal_set_message($this->t('Varnish backend is not set.'), 'warning');
+      $this->messenger->addMessage($this->t('Varnish backend is not set.'), 'warning');
     }
     else {
       foreach ($backend_status as $backend => $status) {
         if (empty($status)) {
-          drupal_set_message($this->t('Varnish at @backend not responding.', ['@backend' => $backend]), 'error');
+          $this->messenger->addMessage($this->t('Varnish at @backend not responding.', ['@backend' => $backend]), 'error');
         }
         else {
-          drupal_set_message($this->t('Varnish at @backend connected.', ['@backend' => $backend]));
+          $this->messenger->addMessage($this->t('Varnish at @backend connected.', ['@backend' => $backend]));
         }
       }
     }

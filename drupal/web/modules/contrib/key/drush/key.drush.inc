@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Drush 8 commands.
+ */
+
+/**
  * Implements hook_drush_help().
  */
 function key_drush_help($section) {

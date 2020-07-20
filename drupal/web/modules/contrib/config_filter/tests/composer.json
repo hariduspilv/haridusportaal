@@ -1,0 +1,24 @@
+{
+  "name": "nuvoleweb/config-filter-test-site",
+  "description": "Config Filter test site.",
+  "type": "project",
+  "require": {
+    "composer/installers": "^1.2",
+    "drupal-composer/drupal-scaffold": "^2.2",
+    "drupal/core": "~8",
+    "drush/drush": "~8.0",
+    "drupal/coder": "^8.2",
+    "squizlabs/php_codesniffer": "^2.8",
+    "phpunit/phpunit": "5.5.*",
+    "bovigo/assert": "~1.7",
+    "mikey179/vfsStream": "*"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "repositories": [
+    {"type": "composer", "url": "https://packages.drupal.org/8"}
+  ],
+  "conflict": {
+    "drupal/drupal": "*"
+  }
+}

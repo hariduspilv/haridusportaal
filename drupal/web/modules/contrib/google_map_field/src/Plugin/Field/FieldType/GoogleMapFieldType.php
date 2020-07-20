@@ -68,6 +68,16 @@ class GoogleMapFieldType extends FieldItemBase {
           'length' => 10,
           'not null' => FALSE,
         ],
+        'traffic' => [
+          'type' => 'int',
+          'length' => 10,
+          'not null' => FALSE,
+        ],
+        'marker_icon' => [
+          'type' => 'varchar',
+          'length' => 512,
+          'not null' => FALSE,
+        ],
         'controls' => [
           'type' => 'int',
           'length' => 10,
@@ -117,6 +127,12 @@ class GoogleMapFieldType extends FieldItemBase {
 
     $properties['marker'] = DataDefinition::create('integer')
       ->setLabel(new TranslatableMarkup('Show marker'));
+
+    $properties['traffic'] = DataDefinition::create('integer')
+      ->setLabel(new TranslatableMarkup('Traffic Layer'));
+
+    $properties['marker_icon'] = DataDefinition::create('string')
+      ->setLabel(new TranslatableMarkup('Custom marker'));
 
     $properties['controls'] = DataDefinition::create('integer')
       ->setLabel(new TranslatableMarkup('Show controls'));

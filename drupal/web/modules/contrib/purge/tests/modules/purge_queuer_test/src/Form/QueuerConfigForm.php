@@ -22,7 +22,7 @@ class QueuerConfigForm extends QueuerConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_queuer_test.configform';
   }
 
@@ -32,7 +32,7 @@ class QueuerConfigForm extends QueuerConfigFormBase {
   public function buildForm(array $form, FormStateInterface $form_state) {
     $form['textfield'] = [
       '#type' => 'textfield',
-      '#title' => t('Test'),
+      '#title' => $this->t('Test'),
       '#required' => FALSE,
     ];
     return parent::buildForm($form, $form_state);

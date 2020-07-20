@@ -1,14 +1,20 @@
 package ee.htm.portal.services.client;
 
 import com.nortal.jroad.client.exception.XRoadServiceConsumptionException;
+import com.nortal.jroad.model.XRoadMessage;
+import com.nortal.jroad.model.XmlBeansXRoadMessage;
 import ee.htm.portal.services.database.EhisXRoadDatabaseImpl;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartDocument.EeIsikukaart;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.EeIsikukaartResponseDocument.EeIsikukaartResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysDokumentDocument.MtsysDokument;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysDokumentResponseDocument.MtsysDokumentResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaDocument.MtsysEsitaTegevusluba;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevuslubaResponseDocument.MtsysEsitaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadDocument.MtsysEsitaTegevusnaitajad;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysEsitaTegevusnaitajadResponseDocument.MtsysEsitaTegevusnaitajadResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKlfTeenusResponseDocument.MtsysKlfTeenusResponse;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKustutaTegevuslubaDocument.MtsysKustutaTegevusluba;
+import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysKustutaTegevuslubaResponseDocument.MtsysKustutaTegevuslubaResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusDocument.MtsysLaeOppeasutus;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeOppeasutusResponseDocument.MtsysLaeOppeasutusResponse;
 import ee.htm.portal.services.types.ee.riik.xtee.ehis.producers.producer.ehis.MtsysLaeTegevuslubaDocument.MtsysLaeTegevusluba;
@@ -42,17 +48,27 @@ import org.springframework.stereotype.Service;
 @Service("ehisXRoadService")
 public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisXRoadService {
 
-  public EeIsikukaartResponse eeIsikukaart(String personalCode, String format, String userId)
+  public XRoadMessage<EeIsikukaartResponse> eeIsikukaart(String personalCode, String format,
+      String userId, String[] andmeplokk, String[] andmekirje, String[] valjundiTyyp)
       throws XRoadServiceConsumptionException {
     EeIsikukaart request = EeIsikukaart.Factory.newInstance();
     request.setIsikukood(personalCode);
     request.setFormat(format);
-
-    if (userId == null || userId.equalsIgnoreCase("-")) {
-      return eeIsikukaartV1(request);
+    if (andmeplokk != null && andmeplokk.length != 0) {
+      request.setAndmeplokkArray(andmeplokk);
+    }
+    if (andmekirje != null && andmekirje.length != 0) {
+      request.setAndmekirjeArray(andmekirje);
+    }
+    if (valjundiTyyp != null && valjundiTyyp.length != 0) {
+      request.setValjundiTyypArray(valjundiTyyp);
     }
 
-    return eeIsikukaartV1(request, userId);
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return send(new XmlBeansXRoadMessage<EeIsikukaart>(request), "eeIsikukaart", "v1");
+    }
+
+    return send(new XmlBeansXRoadMessage<EeIsikukaart>(request), "eeIsikukaart", "v1", userId);
   }
 
   public VpTaotlusOpingudResponse vptOpingud(String personalCode, Object applicationId,
@@ -120,7 +136,7 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
   public MtsysKlfTeenusResponse mtsysKlfTeenus(String userId)
       throws XRoadServiceConsumptionException {
     if (userId == null || userId.equalsIgnoreCase("-")) {
-      return mtsysKlfTeenusV1(XmlObject.Factory.newInstance(), userId);
+      return mtsysKlfTeenusV1(XmlObject.Factory.newInstance());
     }
 
     return mtsysKlfTeenusV1(XmlObject.Factory.newInstance(), userId);
@@ -207,12 +223,34 @@ public class EhisXRoadServiceImpl extends EhisXRoadDatabaseImpl implements EhisX
     return mtsysLaeTegevusnaitajadV1(request, userId);
   }
 
-  public MtsysEsitaTegevusnaitajadResponse mtsysEsitaTegevusnaitajad(MtsysEsitaTegevusnaitajad request,
-      String userId) throws XRoadServiceConsumptionException {
+  public MtsysEsitaTegevusnaitajadResponse mtsysEsitaTegevusnaitajad(
+      MtsysEsitaTegevusnaitajad request, String userId) throws XRoadServiceConsumptionException {
     if (userId == null || userId.equalsIgnoreCase("-")) {
       return mtsysEsitaTegevusnaitajadV1(request);
     }
 
     return mtsysEsitaTegevusnaitajadV1(request, userId);
+  }
+
+  public MtsysDokumentResponse mtsysDokument(Integer identifier, Integer documentId, String userId)
+      throws XRoadServiceConsumptionException {
+    MtsysDokument request = MtsysDokument.Factory.newInstance();
+    request.setTaotlusId(identifier);
+    request.setDokumentId(documentId);
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysDokumentV1(request);
+    }
+    return mtsysDokumentV1(request, userId);
+  }
+
+  public MtsysKustutaTegevuslubaResponse mtsysKustutaTegevusluba(Integer identifier, String userId)
+      throws XRoadServiceConsumptionException {
+    MtsysKustutaTegevusluba request = MtsysKustutaTegevusluba.Factory.newInstance();
+    request.setRegNr(userId);
+    request.setTaotlusId(BigInteger.valueOf(identifier));
+    if (userId == null || userId.equalsIgnoreCase("-")) {
+      return mtsysKustutaTegevuslubaV1(request);
+    }
+    return mtsysKustutaTegevuslubaV1(request, userId);
   }
 }

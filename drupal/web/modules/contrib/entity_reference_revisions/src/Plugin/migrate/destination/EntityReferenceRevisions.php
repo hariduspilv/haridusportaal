@@ -2,17 +2,12 @@
 
 namespace Drupal\entity_reference_revisions\Plugin\migrate\destination;
 
-use Drupal\Component\Plugin\ConfigurablePluginInterface;
-use Drupal\Component\Utility\NestedArray;
+use Drupal\Component\Plugin\ConfigurableInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
-use Drupal\Core\Entity\EntityManagerInterface;
-use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Drupal\Core\TypedData\TranslatableInterface;
 use Drupal\migrate\MigrateException;
 use Drupal\migrate\Plugin\migrate\destination\EntityRevision;
 use Drupal\migrate\Plugin\MigrateIdMapInterface;
-use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Row;
 
 /**
@@ -28,24 +23,13 @@ use Drupal\migrate\Row;
  *   deriver = "Drupal\entity_reference_revisions\Plugin\Derivative\MigrateEntityReferenceRevisions"
  * )
  */
-class EntityReferenceRevisions extends EntityRevision implements ConfigurablePluginInterface {
-
-  /**
-   * {@inheritdoc}
-   */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, EntityStorageInterface $storage, array $bundles, EntityManagerInterface $entity_manager, FieldTypePluginManagerInterface $field_type_manager) {
-    parent::__construct($configuration, $plugin_id, $plugin_definition, $migration, $storage, $bundles, $entity_manager, $field_type_manager);
-    $this->setConfiguration($configuration);
-  }
+class EntityReferenceRevisions extends EntityRevision implements ConfigurableInterface {
 
   /**
    * {@inheritdoc}
    */
   public function setConfiguration(array $configuration) {
-    $this->configuration = NestedArray::mergeDeep(
-      $this->defaultConfiguration(),
-      $configuration
-    );
+    $this->configuration = $configuration;
   }
 
   /**
@@ -135,7 +119,7 @@ class EntityReferenceRevisions extends EntityRevision implements ConfigurablePlu
     // supplied that exists, update it.
     elseif (!empty($entity_id) && ($entity = $this->storage->load($entity_id))) {
       // If so configured, create a new revision while updating.
-      if ($this->getConfiguration()['new_revisions']) {
+      if (!empty($this->configuration['new_revisions'])) {
         $entity->setNewRevision(TRUE);
       }
       $entity = $this->updateEntity($entity, $row) ?: $entity;
@@ -182,8 +166,8 @@ class EntityReferenceRevisions extends EntityRevision implements ConfigurablePlu
     $entity = $this->storage->loadRevision(array_pop($destination_identifiers));
     if ($entity && $entity instanceof TranslatableInterface) {
       if ($key = $this->getKey('langcode')) {
-        if (isset($destination_identifier[$key])) {
-          $langcode = $destination_identifier[$key];
+        if (isset($destination_identifiers[$key])) {
+          $langcode = $destination_identifiers[$key];
           if ($entity->hasTranslation($langcode)) {
             // Make sure we don't remove the default translation.
             $translation = $entity->getTranslation($langcode);

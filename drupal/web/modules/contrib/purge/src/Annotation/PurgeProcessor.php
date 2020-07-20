@@ -21,18 +21,16 @@ class PurgeProcessor extends Plugin {
   /**
    * The human-readable name of the processor plugin.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   * @ingroup plugin_translatable
    */
   public $label;
 
   /**
    * The description of the processor plugin.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   * @ingroup plugin_translatable
    */
   public $description;
 
@@ -41,9 +39,11 @@ class PurgeProcessor extends Plugin {
    *
    * @var bool
    */
-  public $enable_by_default = FALSE;
+  public $enable_by_default = FALSE; // phpcs:ignore -- annotation property!
 
   /**
+   * Class name of the configuration form of your processor.
+   *
    * Full class name of the configuration form of your processor, with leading
    * backslash. Class must extend \Drupal\purge_ui\Form\ProcessorConfigFormBase.
    *

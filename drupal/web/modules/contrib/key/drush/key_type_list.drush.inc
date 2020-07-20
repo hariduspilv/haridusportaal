@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Display a list of available key types.
+ */
+
+/**
  * Get a list of available key types.
  */
 function drush_key_type_list() {

@@ -2,8 +2,8 @@
 
 namespace Drupal\purge_queuer_coretags\Plugin\Purge\Queuer;
 
-use Drupal\purge\Plugin\Purge\Queuer\QueuerInterface;
 use Drupal\purge\Plugin\Purge\Queuer\QueuerBase;
+use Drupal\purge\Plugin\Purge\Queuer\QueuerInterface;
 
 /**
  * Queues every tag that Drupal invalidates internally.

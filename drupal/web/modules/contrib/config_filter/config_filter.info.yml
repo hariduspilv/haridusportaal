@@ -1,0 +1,11 @@
+name: Config Filter
+type: module
+description: Config Filter allows other modules to interact with a ConfigStorage through filter plugins.
+core: 8.x
+core_version_requirement: ^8 || ^9
+package: Config
+
+# Information added by Drupal.org packaging script on 2019-10-31
+version: '8.x-1.5'
+project: 'config_filter'
+datestamp: 1572542290

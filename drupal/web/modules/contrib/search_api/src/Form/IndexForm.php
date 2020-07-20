@@ -169,8 +169,8 @@ class IndexForm extends EntityForm {
 
     $form['datasources'] = [
       '#type' => 'checkboxes',
-      '#title' => $this->t('Data sources'),
-      '#description' => $this->t('Select one or more data sources of items that will be stored in this index.'),
+      '#title' => $this->t('Datasources'),
+      '#description' => $this->t('Select one or more datasources of items that will be stored in this index.'),
       '#default_value' => $index->getDatasourceIds(),
       '#multiple' => TRUE,
       '#required' => TRUE,
@@ -419,7 +419,7 @@ class IndexForm extends EntityForm {
     if ($tracker instanceof PluginFormInterface) {
       // Get the "sub-form state" and appropriate form part to send to
       // buildConfigurationForm().
-      $tracker_form = !empty($form['tracker_config']) ? $form['tracker_config'] : [];
+      $tracker_form = $form['tracker_config'] ?? [];
       $tracker_form_state = SubformState::createForSubform($tracker_form, $form, $form_state);
       $form['tracker_config'] = $tracker->buildConfigurationForm($tracker_form, $tracker_form_state);
 

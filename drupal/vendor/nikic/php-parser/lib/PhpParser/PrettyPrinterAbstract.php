@@ -756,20 +756,13 @@ abstract class PrettyPrinterAbstract
                 $itemEndPos = $origArrItem->getEndTokenPos();
                 \assert($itemStartPos >= 0 && $itemEndPos >= 0);
 
-                if ($itemEndPos < $itemStartPos) {
-                    // End can be before start for Nop nodes, because offsets refer to non-whitespace
-                    // locations, which for an "empty" node might result in an inverted order.
-                    assert($origArrItem instanceof Stmt\Nop);
-                    continue;
-                }
-
                 $origIndentLevel = $this->indentLevel;
                 $lastElemIndentLevel = $this->origTokens->getIndentationBefore($itemStartPos) + $indentAdjustment;
                 $this->setIndentLevel($lastElemIndentLevel);
 
                 $comments = $arrItem->getComments();
                 $origComments = $origArrItem->getComments();
-                $commentStartPos = $origComments ? $origComments[0]->getTokenPos() : $itemStartPos;
+                $commentStartPos = $origComments ? $origComments[0]->getStartTokenPos() : $itemStartPos;
                 \assert($commentStartPos >= 0);
 
                 $commentsChanged = $comments !== $origComments;
@@ -1295,6 +1288,7 @@ abstract class PrettyPrinterAbstract
             //'Expr_ShellExec->parts' => '', // TODO These need to be treated more carefully
             //'Scalar_Encapsed->parts' => '',
             'Stmt_Catch->types' => '|',
+            'UnionType->types' => '|',
             'Stmt_If->elseifs' => ' ',
             'Stmt_TryCatch->catches' => ' ',
 
@@ -1396,6 +1390,7 @@ abstract class PrettyPrinterAbstract
              * Stmt_TraitUseAdaptation_Precedence->insteadof
              * Stmt_Unset->vars
              * Stmt_Use->uses
+             * UnionType->types
              */
 
             /* TODO

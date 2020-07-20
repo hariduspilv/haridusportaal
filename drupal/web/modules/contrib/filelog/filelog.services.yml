@@ -7,8 +7,15 @@ services:
       - '@token'
       - '@datetime.time'
       - '@logger.log_message_parser'
+      - '@filelog.file_manager'
     tags:
       - { name: logger }
+  filelog.file_manager:
+    class: Drupal\filelog\LogFileManager
+    arguments:
+      - '@config.factory'
+      - '@file_system'
+    lazy: true
   filelog.rotator:
     class: Drupal\filelog\LogRotator
     arguments:
@@ -17,3 +24,4 @@ services:
       - '@token'
       - '@datetime.time'
       - '@logger.filelog'
+      - '@file_system'

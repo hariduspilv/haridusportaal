@@ -2,7 +2,11 @@
 
 namespace Drupal\Tests\search_api\Functional;
 
+use Drupal\block\Entity\Block;
+use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Extension\MissingDependencyException;
 use Drupal\search_api\Entity\Index;
+use Drupal\search_api\Entity\Task;
 
 /**
  * Tests the cacheability metadata of Search API.
@@ -50,11 +54,72 @@ class CacheabilityTest extends SearchApiBrowserTestBase {
     $this->drupalGet('search-api-test');
     $this->assertSession()->statusCodeEquals(200);
     $this->assertSession()->responseHeaderEquals('x-drupal-dynamic-cache', 'UNCACHEABLE');
-    $this->assertTrue(strpos($this->drupalGetHeader('cache-control'), 'no-cache'));
+    $this->assertContains('no-cache', $this->drupalGetHeader('cache-control'));
 
     // Verify that the search results are displayed.
     $this->assertSession()->pageTextContains('foo test');
     $this->assertSession()->pageTextContains('foo baz');
+  }
+
+  /**
+   * Tests the cache metadata of the "Execute pending tasks" action.
+   */
+  public function testExecuteTasksAction() {
+    // Enable the "Local actions" block so we can verify which local actions are
+    // displayed.
+    try {
+      $success = $this->container->get('module_installer')->install(['block'], TRUE);
+      $this->assertTrue($success, new FormattableMarkup('Enabled modules: %modules', ['%modules' => 'block']));
+    }
+    catch (MissingDependencyException $e) {
+      // The exception message has all the details.
+      $this->fail($e->getMessage());
+    }
+    Block::create([
+      'id' => 'classy_local_actions',
+      'theme' => 'classy',
+      'weight' => -20,
+      'plugin' => 'local_actions_block',
+      'region' => 'content',
+    ])->save();
+
+    $assert_session = $this->assertSession();
+    $admin_path = 'admin/config/search/search-api';
+
+    $this->drupalLogin($this->adminUser);
+
+    // At first, the action should not be present.
+    $this->drupalGet($admin_path);
+    $assert_session->statusCodeEquals(200);
+    $assert_session->pageTextNotContains('Execute pending tasks');
+    $this->drupalGet($admin_path);
+    $assert_session->statusCodeEquals(200);
+    $assert_session->pageTextNotContains('Execute pending tasks');
+
+    // Create one task.
+    $task = Task::create([
+
+    ]);
+    $task->save();
+
+    // Now the action should be shown.
+    $this->drupalGet($admin_path);
+    $assert_session->statusCodeEquals(200);
+    $assert_session->pageTextContains('Execute pending tasks');
+    $this->drupalGet($admin_path);
+    $assert_session->statusCodeEquals(200);
+    $assert_session->pageTextContains('Execute pending tasks');
+
+    // Delete the task again.
+    $task->delete();
+
+    // Now the action should be hidden again.
+    $this->drupalGet($admin_path);
+    $assert_session->statusCodeEquals(200);
+    $assert_session->pageTextNotContains('Execute pending tasks');
+    $this->drupalGet($admin_path);
+    $assert_session->statusCodeEquals(200);
+    $assert_session->pageTextNotContains('Execute pending tasks');
   }
 
   /**

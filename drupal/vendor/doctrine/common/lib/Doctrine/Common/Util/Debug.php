@@ -2,7 +2,7 @@
 namespace Doctrine\Common\Util;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Persistence\Proxy;
+use Doctrine\Persistence\Proxy;
 
 /**
  * Static class containing most used debug methods.
@@ -103,7 +103,7 @@ final class Debug
             return $var;
         }
 
-        $return = new \stdclass();
+        $return = new \stdClass();
         if ($var instanceof \DateTimeInterface) {
             $return->__CLASS__ = get_class($var);
             $return->date      = $var->format('c');

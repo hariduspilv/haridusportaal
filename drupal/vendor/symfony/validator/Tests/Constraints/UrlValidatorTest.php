@@ -47,11 +47,9 @@ class UrlValidatorTest extends ConstraintValidatorTestCase
         $this->assertNoViolation();
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\UnexpectedTypeException
-     */
     public function testExpectsStringCompatibleType()
     {
+        $this->expectException('Symfony\Component\Validator\Exception\UnexpectedTypeException');
         $this->validator->validate(new \stdClass(), new Url());
     }
 
@@ -69,11 +67,13 @@ class UrlValidatorTest extends ConstraintValidatorTestCase
     {
         return [
             ['http://a.pl'],
-            ['http://www.google.com'],
-            ['http://www.google.com.'],
-            ['http://www.google.museum'],
-            ['https://google.com/'],
-            ['https://google.com:80/'],
+            ['http://www.example.com'],
+            ['http://www.example.com.'],
+            ['http://www.example.museum'],
+            ['https://example.com/'],
+            ['https://example.com:80/'],
+            ['http://examp_le.com'],
+            ['http://www.sub_domain.examp_le.com'],
             ['http://www.example.coop/'],
             ['http://www.test-example.com/'],
             ['http://www.symfony.com/'],
@@ -117,9 +117,13 @@ class UrlValidatorTest extends ConstraintValidatorTestCase
             ['http://☎.com/'],
             ['http://username:password@symfony.com'],
             ['http://user.name:password@symfony.com'],
+            ['http://user_name:pass_word@symfony.com'],
             ['http://username:pass.word@symfony.com'],
             ['http://user.name:pass.word@symfony.com'],
             ['http://user-name@symfony.com'],
+            ['http://user_name@symfony.com'],
+            ['http://u%24er:password@symfony.com'],
+            ['http://user:pa%24%24word@symfony.com'],
             ['http://symfony.com?'],
             ['http://symfony.com?query=1'],
             ['http://symfony.com/?query=1'],
@@ -150,15 +154,14 @@ class UrlValidatorTest extends ConstraintValidatorTestCase
     public function getInvalidUrls()
     {
         return [
-            ['google.com'],
-            ['://google.com'],
-            ['http ://google.com'],
-            ['http:/google.com'],
-            ['http://goog_le.com'],
-            ['http://google.com::aa'],
-            ['http://google.com:aa'],
-            ['ftp://google.fr'],
-            ['faked://google.fr'],
+            ['example.com'],
+            ['://example.com'],
+            ['http ://example.com'],
+            ['http:/example.com'],
+            ['http://example.com::aa'],
+            ['http://example.com:aa'],
+            ['ftp://example.fr'],
+            ['faked://example.fr'],
             ['http://127.0.0.1:aa/'],
             ['ftp://[::1]/'],
             ['http://[::1'],
@@ -167,6 +170,8 @@ class UrlValidatorTest extends ConstraintValidatorTestCase
             ['http://:password@@symfony.com'],
             ['http://username:passwordsymfony.com'],
             ['http://usern@me:password@symfony.com'],
+            ['http://nota%hex:password@symfony.com'],
+            ['http://username:nota%hex@symfony.com'],
             ['http://example.com/exploit.html?<script>alert(1);</script>'],
             ['http://example.com/exploit.html?hel lo'],
             ['http://example.com/exploit.html?not_a%hex'],
@@ -191,7 +196,7 @@ class UrlValidatorTest extends ConstraintValidatorTestCase
     public function getValidCustomUrls()
     {
         return [
-            ['ftp://google.com'],
+            ['ftp://example.com'],
             ['file://127.0.0.1'],
             ['git://[::1]/'],
         ];
@@ -281,11 +286,11 @@ class UrlValidatorTest extends ConstraintValidatorTestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\Validator\Exception\InvalidOptionsException
      * @requires function Symfony\Bridge\PhpUnit\DnsMock::withMockedHosts
      */
     public function testCheckDnsWithInvalidType()
     {
+        $this->expectException('Symfony\Component\Validator\Exception\InvalidOptionsException');
         DnsMock::withMockedHosts(['example.com' => [['type' => 'A']]]);
 
         $constraint = new Url([

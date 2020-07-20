@@ -10,6 +10,8 @@ namespace Drupal\Tests\purge\Unit;
 trait FixGetConfigFactoryStubTrait {
 
   /**
+   * Overrides ::getConfigFactoryStub().
+   *
    * @see \Drupal\Tests\UnitTestCase::getConfigFactoryStub
    *
    * @todo
@@ -17,18 +19,18 @@ trait FixGetConfigFactoryStubTrait {
    *   work in unit tests, e.g.: ->getEditable()->set()->save().
    *   This hasn't yet been reported to drupal.org, feel free!
    */
-  public function getConfigFactoryStub(array $configs = array()) {
-    $config_get_map = array();
-    $config_editable_map = array();
+  public function getConfigFactoryStub(array $configs = []) {
+    $config_get_map = [];
+    $config_editable_map = [];
     // Construct the desired configuration object stubs, each with its own
     // desired return map.
     foreach ($configs as $config_name => $config_values) {
-      $map = array();
+      $map = [];
       foreach ($config_values as $key => $value) {
-        $map[] = array($key, $value);
+        $map[] = [$key, $value];
       }
       // Also allow to pass in no argument.
-      $map[] = array('', $config_values);
+      $map[] = ['', $config_values];
 
       $immutable_config_object = $this->getMockBuilder('Drupal\Core\Config\ImmutableConfig')
         ->disableOriginalConstructor()
@@ -36,7 +38,7 @@ trait FixGetConfigFactoryStubTrait {
       $immutable_config_object->expects($this->any())
         ->method('get')
         ->will($this->returnValueMap($map));
-      $config_get_map[] = array($config_name, $immutable_config_object);
+      $config_get_map[] = [$config_name, $immutable_config_object];
 
       $mutable_config_object = $this->getMockBuilder('Drupal\Core\Config\Config')
         ->disableOriginalConstructor()
@@ -50,7 +52,7 @@ trait FixGetConfigFactoryStubTrait {
       $mutable_config_object->expects($this->any())
         ->method('save')
         ->will($this->returnValue($mutable_config_object));
-      $config_editable_map[] = array($config_name, $mutable_config_object);
+      $config_editable_map[] = [$config_name, $mutable_config_object];
     }
     // Construct a config factory with the array of configuration object stubs
     // as its return map.

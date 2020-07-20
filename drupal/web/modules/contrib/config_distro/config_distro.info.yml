@@ -1,0 +1,14 @@
+name: Configuration Distribution
+type: module
+description: Framework for managing configuration updates from distributions.
+# core: 8.x
+package: Config
+dependencies:
+  - drupal:config
+  - config_filter:config_filter (>=8.x-1.2)
+
+# Information added by Drupal.org packaging script on 2018-10-09
+version: '8.x-1.0-alpha3'
+core: '8.x'
+project: 'config_distro'
+datestamp: 1539071283

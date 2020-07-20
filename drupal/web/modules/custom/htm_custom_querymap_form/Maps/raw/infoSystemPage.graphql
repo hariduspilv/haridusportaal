@@ -141,6 +141,27 @@ query infoSystemPage($path: String!) {
           fieldInfosystemSidebar {
             entity {
               ... on ParagraphInformationSystemSidebar {
+                fieldEhisLinks {
+                  entity {
+                    ... on ParagraphEhisLinks {
+                      fieldEhisLink{
+                        url {
+                          routed
+                          path
+                        }
+                        title
+                      }
+                      fieldLinkIcon
+                    }
+                  }
+                }
+                fieldButton {
+                  url {
+                    routed
+                    path
+                  }
+                  title
+                }
                 fieldLegislationBlock {
                   url {
                     routed
@@ -167,13 +188,6 @@ query infoSystemPage($path: String!) {
                       }
                     }
                   }
-                }
-                fieldButton {
-                  url {
-                    routed
-                    path
-                  }
-                  title
                 }
               }
             }

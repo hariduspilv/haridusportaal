@@ -1,0 +1,33 @@
+uuid: 9a9513fa-fb8f-4877-9627-4ecd53a6447b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.frontpage_service_image.field_alt
+    - field.field.paragraph.frontpage_service_image.field_service_img
+    - paragraphs.paragraphs_type.frontpage_service_image
+  module:
+    - file
+id: paragraph.frontpage_service_image.default
+targetEntityType: paragraph
+bundle: frontpage_service_image
+mode: default
+content:
+  field_alt:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_service_img:
+    weight: 0
+    label: above
+    settings:
+      use_description_as_link_text: true
+    third_party_settings: {  }
+    type: file_default
+    region: content
+hidden:
+  search_api_excerpt: true

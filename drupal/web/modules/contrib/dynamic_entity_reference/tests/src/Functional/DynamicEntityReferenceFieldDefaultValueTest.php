@@ -28,7 +28,7 @@ class DynamicEntityReferenceFieldDefaultValueTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'dynamic_entity_reference',
     'field_ui',
     'node',
@@ -50,7 +50,12 @@ class DynamicEntityReferenceFieldDefaultValueTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected $defaultTheme = 'stark';
+
+  /**
+   * {@inheritdoc}
+   */
+  protected function setUp(): void {
     parent::setUp();
 
     // Create default content type.

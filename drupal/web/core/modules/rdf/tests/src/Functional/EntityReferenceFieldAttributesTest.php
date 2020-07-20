@@ -4,6 +4,7 @@ namespace Drupal\Tests\rdf\Functional;
 
 use Drupal\Core\Url;
 use Drupal\Core\Field\FieldStorageDefinitionInterface;
+use Drupal\Tests\rdf\Traits\RdfParsingTrait;
 use Drupal\Tests\taxonomy\Functional\TaxonomyTestBase;
 
 /**
@@ -13,12 +14,26 @@ use Drupal\Tests\taxonomy\Functional\TaxonomyTestBase;
  */
 class EntityReferenceFieldAttributesTest extends TaxonomyTestBase {
 
+  use RdfParsingTrait;
+
   /**
    * Modules to enable.
    *
    * @var array
    */
   public static $modules = ['rdf', 'field_test', 'file', 'image'];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
+   * URI of the front page of the Drupal site.
+   *
+   * @var string
+   */
+  protected $baseUri;
 
   /**
    * The name of the taxonomy term reference field used in the test.
@@ -51,10 +66,13 @@ class EntityReferenceFieldAttributesTest extends TaxonomyTestBase {
     ];
     $this->createEntityReferenceField('node', 'article', $this->fieldName, 'Tags', 'taxonomy_term', 'default', $handler_settings, FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
 
-    entity_get_form_display('node', 'article', 'default')
+    /** @var \Drupal\Core\Entity\EntityDisplayRepositoryInterface $display_repository */
+    $display_repository = \Drupal::service('entity_display.repository');
+
+    $display_repository->getFormDisplay('node', 'article')
       ->setComponent($this->fieldName, ['type' => 'options_select'])
       ->save();
-    entity_get_display('node', 'article', 'full')
+    $display_repository->getViewDisplay('node', 'article', 'full')
       ->setComponent($this->fieldName, ['type' => 'entity_reference_label'])
       ->save();
 
@@ -70,6 +88,9 @@ class EntityReferenceFieldAttributesTest extends TaxonomyTestBase {
       ->setBundleMapping(['types' => ['skos:Concept']])
       ->setFieldMapping('name', ['properties' => ['rdfs:label']])
       ->save();
+
+    // Prepares commonly used URIs.
+    $this->baseUri = Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString();
   }
 
   /**
@@ -80,7 +101,8 @@ class EntityReferenceFieldAttributesTest extends TaxonomyTestBase {
    */
   public function testNodeTeaser() {
     // Set the teaser display to show this field.
-    entity_get_display('node', 'article', 'teaser')
+    \Drupal::service('entity_display.repository')
+      ->getViewDisplay('node', 'article', 'teaser')
       ->setComponent($this->fieldName, ['type' => 'entity_reference_label'])
       ->save();
 
@@ -98,14 +120,10 @@ class EntityReferenceFieldAttributesTest extends TaxonomyTestBase {
     ]);
 
     // Render the node.
-    $node_render_array = entity_view_multiple([$node], 'teaser');
+    $node_render_array = \Drupal::entityTypeManager()
+      ->getViewBuilder('node')
+      ->view($node, 'teaser');
     $html = \Drupal::service('renderer')->renderRoot($node_render_array);
-
-    // Parse the teaser.
-    $parser = new \EasyRdf_Parser_Rdfa();
-    $graph = new \EasyRdf_Graph();
-    $base_uri = Url::fromRoute('<front>', [], ['absolute' => TRUE])->toString();
-    $parser->parse($graph, $html, 'rdfa', $base_uri);
 
     // Node relations to taxonomy terms.
     $node_uri = $node->toUrl('canonical', ['absolute' => TRUE])->toString();
@@ -113,12 +131,12 @@ class EntityReferenceFieldAttributesTest extends TaxonomyTestBase {
       'type' => 'uri',
       'value' => $taxonomy_term_1_uri,
     ];
-    $this->assertTrue($graph->hasProperty($node_uri, 'http://purl.org/dc/terms/subject', $expected_value), 'Node to term relation found in RDF output (dc:subject).');
+    $this->assertTrue($this->hasRdfProperty($html, $this->baseUri, $node_uri, 'http://purl.org/dc/terms/subject', $expected_value), 'Node to term relation found in RDF output (dc:subject).');
     $expected_value = [
       'type' => 'uri',
       'value' => $taxonomy_term_2_uri,
     ];
-    $this->assertTrue($graph->hasProperty($node_uri, 'http://purl.org/dc/terms/subject', $expected_value), 'Node to term relation found in RDF output (dc:subject).');
+    $this->assertTrue($this->hasRdfProperty($html, $this->baseUri, $node_uri, 'http://purl.org/dc/terms/subject', $expected_value), 'Node to term relation found in RDF output (dc:subject).');
     // Taxonomy terms triples.
     // Term 1.
     $expected_value = [

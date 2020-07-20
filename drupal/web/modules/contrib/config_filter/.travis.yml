@@ -1,0 +1,41 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+
+env:
+  global:
+    - PATH=$PATH:/home/travis/.composer/vendor/bin
+
+install:
+  - composer self-update
+
+before_script:
+  # Set sendmail so drush doesn't throw an error during site install.
+  - echo "sendmail_path=`which true`" >> `php --ini | grep "Loaded Configuration" | awk '{print $4}'`
+  # Create database.
+  - mysql -e 'create database drupal'
+  # Install Drupal 8 target site.
+  - cd tests
+  - mkdir -p themes modules profiles
+  - composer install --prefer-dist
+  - ./vendor/bin/drush si standard -y --db-url=mysql://travis:@127.0.0.1/drupal
+  # Test latest commit on current branch.
+  - git clone --branch=$TRAVIS_BRANCH https://github.com/$TRAVIS_REPO_SLUG.git modules/config_filter
+  - ./vendor/bin/drush en config_filter -y
+  # Run Drush web server.
+  - ./vendor/bin/drush --debug runserver :8888 > ~/debug.txt 2>&1 &
+  - sleep 4s
+  - chmod -R ug+w sites
+
+script:
+  - cd $TRAVIS_BUILD_DIR
+  - cd tests
+  - ./vendor/bin/phpcs --config-set installed_paths ../../drupal/coder/coder_sniffer
+  - ./vendor/bin/phpcs --config-set show_progress 1
+  - ./vendor/bin/phpcs --warning-severity=0 --standard=Drupal,DrupalPractice ../src
+  - ./vendor/bin/phpunit
+
+notifications:
+  email: false

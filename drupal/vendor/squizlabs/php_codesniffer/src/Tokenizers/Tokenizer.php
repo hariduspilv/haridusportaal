@@ -9,7 +9,7 @@
 
 namespace PHP_CodeSniffer\Tokenizers;
 
-use PHP_CodeSniffer\Exceptions\RuntimeException;
+use PHP_CodeSniffer\Exceptions\TokenizerException;
 use PHP_CodeSniffer\Util;
 
 abstract class Tokenizer
@@ -332,6 +332,7 @@ abstract class Tokenizer
                             }
 
                             if ($this->tokens[$prev]['code'] === T_WHITESPACE
+                                || $this->tokens[$prev]['code'] === T_DOC_COMMENT_WHITESPACE
                                 || ($this->tokens[$prev]['code'] === T_INLINE_HTML
                                 && trim($this->tokens[$prev]['content']) === '')
                             ) {
@@ -340,7 +341,9 @@ abstract class Tokenizer
 
                             $lineHasOtherTokens = true;
 
-                            if ($this->tokens[$prev]['code'] === T_OPEN_TAG) {
+                            if ($this->tokens[$prev]['code'] === T_OPEN_TAG
+                                || $this->tokens[$prev]['code'] === T_DOC_COMMENT_STAR
+                            ) {
                                 continue;
                             }
 
@@ -367,6 +370,7 @@ abstract class Tokenizer
                             }
 
                             if ($this->tokens[$next]['code'] === T_WHITESPACE
+                                || $this->tokens[$next]['code'] === T_DOC_COMMENT_WHITESPACE
                                 || ($this->tokens[$next]['code'] === T_INLINE_HTML
                                 && trim($this->tokens[$next]['content']) === '')
                             ) {
@@ -691,13 +695,26 @@ abstract class Tokenizer
                 $this->tokens[$i]['parenthesis_closer'] = null;
                 $this->tokens[$i]['parenthesis_owner']  = $i;
                 $openOwner = $i;
+
+                if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                    echo str_repeat("\t", (count($openers) + 1));
+                    echo "=> Found parenthesis owner at $i".PHP_EOL;
+                }
             } else if ($this->tokens[$i]['code'] === T_OPEN_PARENTHESIS) {
                 $openers[] = $i;
                 $this->tokens[$i]['parenthesis_opener'] = $i;
                 if ($openOwner !== null) {
+                    if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                        echo str_repeat("\t", count($openers));
+                        echo "=> Found parenthesis opener at $i for $openOwner".PHP_EOL;
+                    }
+
                     $this->tokens[$openOwner]['parenthesis_opener'] = $i;
                     $this->tokens[$i]['parenthesis_owner']          = $openOwner;
                     $openOwner = null;
+                } else if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                    echo str_repeat("\t", count($openers));
+                    echo "=> Found unowned parenthesis opener at $i".PHP_EOL;
                 }
             } else if ($this->tokens[$i]['code'] === T_CLOSE_PARENTHESIS) {
                 // Did we set an owner for this set of parenthesis?
@@ -709,12 +726,20 @@ abstract class Tokenizer
 
                         $this->tokens[$owner]['parenthesis_closer'] = $i;
                         $this->tokens[$i]['parenthesis_owner']      = $owner;
+
+                        if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                            echo str_repeat("\t", (count($openers) + 1));
+                            echo "=> Found parenthesis closer at $i for $owner".PHP_EOL;
+                        }
+                    } else if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                        echo str_repeat("\t", (count($openers) + 1));
+                        echo "=> Found unowned parenthesis closer at $i for $opener".PHP_EOL;
                     }
 
                     $this->tokens[$i]['parenthesis_opener']      = $opener;
                     $this->tokens[$i]['parenthesis_closer']      = $i;
                     $this->tokens[$opener]['parenthesis_closer'] = $i;
-                }
+                }//end if
             }//end if
 
             /*
@@ -879,6 +904,7 @@ abstract class Tokenizer
      * @param int $ignore   How many curly braces we are ignoring.
      *
      * @return int The position in the stack that closed the scope.
+     * @throws \PHP_CodeSniffer\Exceptions\TokenizerException If the nesting level gets too deep.
      */
     private function recurseScopeMap($stackPtr, $depth=1, &$ignore=0)
     {
@@ -1215,7 +1241,7 @@ abstract class Tokenizer
                             echo '* reached maximum nesting level; aborting *'.PHP_EOL;
                         }
 
-                        throw new RuntimeException('Maximum nesting level reached; file could not be processed');
+                        throw new TokenizerException('Maximum nesting level reached; file could not be processed');
                     }
 
                     $oldDepth = $depth;
@@ -1288,15 +1314,45 @@ abstract class Tokenizer
                 }//end if
 
                 if ($ignore === 0 || $tokenType !== T_OPEN_CURLY_BRACKET) {
-                    // We found the opening scope token for $currType.
-                    if (PHP_CODESNIFFER_VERBOSITY > 1) {
-                        $type = $this->tokens[$stackPtr]['type'];
-                        echo str_repeat("\t", $depth);
-                        echo "=> Found scope opener for $stackPtr:$type".PHP_EOL;
-                    }
+                    $openerNested = isset($this->tokens[$i]['nested_parenthesis']);
+                    $ownerNested  = isset($this->tokens[$stackPtr]['nested_parenthesis']);
 
-                    $opener = $i;
+                    if (($openerNested === true && $ownerNested === false)
+                        || ($openerNested === false && $ownerNested === true)
+                        || ($openerNested === true
+                        && $this->tokens[$i]['nested_parenthesis'] !== $this->tokens[$stackPtr]['nested_parenthesis'])
+                    ) {
+                        // We found the a token that looks like the opener, but it's nested differently.
+                        if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                            $type = $this->tokens[$i]['type'];
+                            echo str_repeat("\t", $depth);
+                            echo "* ignoring possible opener $i:$type as nested parenthesis don't match *".PHP_EOL;
+                        }
+                    } else {
+                        // We found the opening scope token for $currType.
+                        if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                            $type = $this->tokens[$stackPtr]['type'];
+                            echo str_repeat("\t", $depth);
+                            echo "=> Found scope opener for $stackPtr:$type".PHP_EOL;
+                        }
+
+                        $opener = $i;
+                    }
+                }//end if
+            } else if ($tokenType === T_SEMICOLON
+                && $opener === null
+                && (isset($this->tokens[$stackPtr]['parenthesis_closer']) === false
+                || $i > $this->tokens[$stackPtr]['parenthesis_closer'])
+            ) {
+                // Found the end of a statement but still haven't
+                // found our opener, so we are never going to find one.
+                if (PHP_CODESNIFFER_VERBOSITY > 1) {
+                    $type = $this->tokens[$stackPtr]['type'];
+                    echo str_repeat("\t", $depth);
+                    echo "=> Found end of statement before scope opener for $stackPtr:$type, continuing".PHP_EOL;
                 }
+
+                return ($i - 1);
             } else if ($tokenType === T_OPEN_PARENTHESIS) {
                 if (isset($this->tokens[$i]['parenthesis_owner']) === true) {
                     $owner = $this->tokens[$i]['parenthesis_owner'];
@@ -1306,7 +1362,7 @@ abstract class Tokenizer
                         // If we get into here, then we opened a parenthesis for
                         // a scope (eg. an if or else if) so we need to update the
                         // start of the line so that when we check to see
-                        // if the closing parenthesis is more than 3 lines away from
+                        // if the closing parenthesis is more than n lines away from
                         // the statement, we check from the closing parenthesis.
                         $startLine = $this->tokens[$this->tokens[$i]['parenthesis_closer']]['line'];
                     }
@@ -1433,12 +1489,12 @@ abstract class Tokenizer
                 echo str_repeat("\t", ($level + 1));
                 echo "Process token $i on line $line [col:$col;len:$len;lvl:$level;";
                 if (empty($conditions) !== true) {
-                    $condString = 'conds;';
+                    $conditionString = 'conds;';
                     foreach ($conditions as $condition) {
-                        $condString .= Util\Tokens::tokenName($condition).',';
+                        $conditionString .= Util\Tokens::tokenName($condition).',';
                     }
 
-                    echo rtrim($condString, ',').';';
+                    echo rtrim($conditionString, ',').';';
                 }
 
                 echo "]: $type => $content".PHP_EOL;

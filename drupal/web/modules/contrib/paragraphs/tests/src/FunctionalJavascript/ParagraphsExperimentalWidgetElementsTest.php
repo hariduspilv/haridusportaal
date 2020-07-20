@@ -2,7 +2,7 @@
 
 namespace Drupal\Tests\paragraphs\FunctionalJavascript;
 
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 use Drupal\language\Entity\ConfigurableLanguage;
 
 /**
@@ -10,7 +10,7 @@ use Drupal\language\Entity\ConfigurableLanguage;
  *
  * @group paragraphs
  */
-class ParagraphsExperimentalWidgetElementsTest extends JavascriptTestBase {
+class ParagraphsExperimentalWidgetElementsTest extends WebDriverTestBase {
 
   use LoginAdminTrait;
   use ParagraphsTestBaseTrait;
@@ -30,6 +30,11 @@ class ParagraphsExperimentalWidgetElementsTest extends JavascriptTestBase {
     'text',
     'content_translation',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
 
   /**
    * Test paragraphs drag handler during translation.
@@ -66,8 +71,8 @@ class ParagraphsExperimentalWidgetElementsTest extends JavascriptTestBase {
     $page = $this->getSession()->getPage();
     $this->drupalGet('node/add/paragraphed_content_demo');
     $page->pressButton('Add Paragraph');
-    $this->assertSession()->assertWaitOnAjaxRequest();
-    $page->pressButton('text');
+    $paragraphs_dialog = $this->assertSession()->waitForElementVisible('css', 'div.ui-dialog');
+    $paragraphs_dialog->pressButton('text');
     $this->assertSession()->assertWaitOnAjaxRequest();
     // Assert the draghandle is visible.
     $style_selector = $page->find('css', '.tabledrag-handle');
@@ -82,7 +87,7 @@ class ParagraphsExperimentalWidgetElementsTest extends JavascriptTestBase {
     $this->drupalGet('node/' . $node->id() . '/translations/add/en/sr');
     $page = $this->getSession()->getPage();
     // Assert that the draghandle is not displayed.
-    $this->assertNull($page->find('css', '.tabledrag-handle'));
+    $this->assertEmpty($page->find('css', '.tabledrag-handle'));
   }
 
 }

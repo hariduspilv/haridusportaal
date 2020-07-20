@@ -2,9 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\DiagnosticCheck;
 
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\purge\ServiceInterface;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 
 /**
  * Describes a service that interacts with diagnostic checks.
@@ -12,60 +11,52 @@ use Drupal\purge\ServiceInterface;
 interface DiagnosticsServiceInterface extends ServiceInterface, ContainerAwareInterface, \Iterator, \Countable {
 
   /**
-   * Generates a hook_requirements() compatible array.
+   * Get only SEVERITY_INFO level checks.
    *
-   * @warning
-   *   Although it shares the same name, this method doesn't return a individual
-   *   item array as \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface::
-   *     getHookRequirementsArray() does. It returns a full array (as
-   *   hook_requirements() expects) for all checks.
-   *
-   * @return array
-   *   An associative array where the keys are arbitrary but unique (check id)
-   *   and the values themselves are associative arrays with these elements:
-   *   - title: The name of this check.
-   *   - value: The current value (e.g., version, time, level, etc), will not
-   *     be set if not applicable.
-   *   - description: The description of the check.
-   *   - severity_status: severity string: 'info', 'ok', 'warning' or 'error'.
-   *   - severity: The checks result/severity level, one of:
-   *     - REQUIREMENT_INFO: For info only.
-   *     - REQUIREMENT_OK: The requirement is satisfied.
-   *     - REQUIREMENT_WARNING: The requirement failed with a warning.
-   *     - REQUIREMENT_ERROR: The requirement failed with an error.
+   * @return \Iterator[]
+   *   \Iterator object that yields DiagnosticCheckInterface instances.
    */
-  public function getHookRequirementsArray();
+  public function filterInfo();
 
   /**
-   * Generates a status-report.html.twig compatible array.
+   * Get only SEVERITY_OK level checks.
    *
-   * The main difference with ::getHookRequirementsArray is that this helper is
-   * not intended to be used in a hook_requirements() implementation but rather
-   * when rendering status reports directly using #theme = 'status_report',
-   *
-   * @return array
-   *   An associative array where the keys are arbitrary but unique (check id)
-   *   and the values themselves are associative arrays with these elements:
-   *   - title: The name of this check.
-   *   - value: The current value (e.g., version, time, level, etc), will not
-   *     be set if not applicable.
-   *   - description: The description of the check.
-   *   - severity_status: severity string: 'info', 'ok', 'warning' or 'error'.
-   *   - severity: The checks result/severity level, one of:
-   *     - REQUIREMENT_INFO: For info only.
-   *     - REQUIREMENT_OK: The requirement is satisfied.
-   *     - REQUIREMENT_WARNING: The requirement failed with a warning.
-   *     - REQUIREMENT_ERROR: The requirement failed with an error.
+   * @return \Iterator[]
+   *   \Iterator object that yields DiagnosticCheckInterface instances.
    */
-  public function getRequirementsArray();
+  public function filterOk();
+
+  /**
+   * Get only SEVERITY_WARNING level checks.
+   *
+   * @return \Iterator[]
+   *   \Iterator object that yields DiagnosticCheckInterface instances.
+   */
+  public function filterWarnings();
+
+  /**
+   * Get only SEVERITY_WARNING and SEVERITY_ERROR level checks.
+   *
+   * @return \Iterator[]
+   *   \Iterator object that yields DiagnosticCheckInterface instances.
+   */
+  public function filterWarningAndErrors();
+
+  /**
+   * Get only SEVERITY_ERROR level checks.
+   *
+   * @return \Iterator[]
+   *   \Iterator object that yields DiagnosticCheckInterface instances.
+   */
+  public function filterErrors();
 
   /**
    * Reports if any of the diagnostic checks report a SEVERITY_ERROR severity.
    *
    * This method provides a simple - boolean evaluable - way to determine if
-   * a \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface::SEVERITY_ERROR severity
-   * was reported by one of the checks. If SEVERITY_ERROR was reported, purging
-   * cannot continue and should happen once all problems are resolved.
+   * a DiagnosticCheckInterface::SEVERITY_ERROR severity was reported by one of
+   * the checks. If SEVERITY_ERROR was reported, purging cannot continue and
+   * should happen once all problems are resolved.
    *
    * @return false|\Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface
    *   The SEVERITY_ERROR reporting check, or FALSE when everything was fine.
@@ -76,13 +67,37 @@ interface DiagnosticsServiceInterface extends ServiceInterface, ContainerAwareIn
    * Reports if any of the diagnostic checks report a SEVERITY_WARNING severity.
    *
    * This method provides a - boolean evaluable - way to determine if a check
-   * reported a \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface::SEVERITY_WARNING.
-   * If SEVERITY_WARNING was reported, cache invalidation can continue but it is
-   * important that the site administrator gets notified.
+   * reported a DiagnosticCheckInterface::SEVERITY_WARNING. If SEVERITY_WARNING
+   * was reported, cache invalidation can continue but it is important that the
+   * site administrator gets notified.
    *
    * @return false|\Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface
    *   The SEVERITY_WARNING reporting check, or FALSE when everything was fine.
    */
   public function isSystemShowingSmoke();
+
+  /**
+   * Generate a status_messages #message_list argument array.
+   *
+   * @param \Iterator $checks
+   *   Iterator yielding DiagnosticCheckInterface objects.
+   *
+   * @return array[]
+   *   Array with typed arrays, in each typed array are messages.
+   */
+  public function toMessageList(\Iterator $checks);
+
+  /**
+   * Generate a Drupal-like requirements array.
+   *
+   * @param \Iterator $checks
+   *   Iterator yielding DiagnosticCheckInterface objects.
+   * @param bool $prefix_title
+   *   When TRUE, this prefixes titles with "Purge" to mark their origin.
+   *
+   * @return array[]
+   *   Array with Drupal-like requirement arrays as values.
+   */
+  public function toRequirementsArray(\Iterator $checks, $prefix_title = FALSE);
 
 }

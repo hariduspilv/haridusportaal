@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\scheduler\Functional;
 
-use Drupal\node\Entity\NodeType;
-
 /**
  * Tests deletion of nodes enabled for Scheduler.
  *
@@ -52,14 +50,14 @@ class SchedulerDeleteNodeTest extends SchedulerBrowserTestBase {
     // normally made hidden from browsers but will be in the page source.
     // It is also good when testing for the absense of something to also test
     // for the presence of text, hence the second assertion for each check.
-    $this->assertNoRaw(t('Error message'), 'No error messages are shown when trying to delete a published node with no scheduling information.');
-    $this->assertRaw(t('Are you sure you want to delete the content'), 'The deletion warning message is shown immediately when trying to delete a published node with no scheduling information.');
+    $this->assertNoText('Error message', 'No error messages are shown when trying to delete a published node with no scheduling information.');
+    $this->assertText('Are you sure you want to delete the content', 'The deletion warning message is shown immediately when trying to delete a published node with no scheduling information.');
 
     // Do the same test for the unpublished node.
     $this->drupalGet('node/' . $unpublished_node->id() . '/edit');
     $this->clickLink('Delete');
-    $this->assertNoRaw(t('Error message'), 'No error messages are shown when trying to delete an unpublished node with no scheduling information.');
-    $this->assertRaw(t('Are you sure you want to delete the content'), 'The deletion warning message is shown immediately when trying to delete an unpublished node with no scheduling information.');
+    $this->assertNoText('Error message', 'No error messages are shown when trying to delete an unpublished node with no scheduling information.');
+    $this->assertText('Are you sure you want to delete the content', 'The deletion warning message is shown immediately when trying to delete an unpublished node with no scheduling information.');
   }
 
   /**
@@ -89,14 +87,14 @@ class SchedulerDeleteNodeTest extends SchedulerBrowserTestBase {
     // Attempt to delete the published node and check for no validation error.
     $this->drupalGet('node/' . $published_node->id() . '/edit');
     $this->clickLink('Delete');
-    $this->assertNoRaw(t('Error message'), 'No error messages are shown when trying to delete a node with an unpublish date in the past.');
-    $this->assertRaw(t('Are you sure you want to delete the content'), 'The deletion warning message is shown immediately when trying to delete a node with an unpublish date in the past.');
+    $this->assertNoText('Error message', 'No error messages are shown when trying to delete a node with an unpublish date in the past.');
+    $this->assertText('Are you sure you want to delete the content', 'The deletion warning message is shown immediately when trying to delete a node with an unpublish date in the past.');
 
     // Attempt to delete the unpublished node and check for no validation error.
     $this->drupalGet('node/' . $unpublished_node->id() . '/edit');
     $this->clickLink('Delete');
-    $this->assertNoRaw(t('Error message'), 'No error messages are shown when trying to delete a node with a publish date in the past.');
-    $this->assertRaw(t('Are you sure you want to delete the content'), 'The deletion warning message is shown immediately when trying to delete a node with a publish date in the past.');
+    $this->assertNoText('Error message', 'No error messages are shown when trying to delete a node with a publish date in the past.');
+    $this->assertText('Are you sure you want to delete the content', 'The deletion warning message is shown immediately when trying to delete a node with a publish date in the past.');
   }
 
 }

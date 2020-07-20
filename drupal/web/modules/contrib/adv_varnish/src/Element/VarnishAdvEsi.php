@@ -2,6 +2,7 @@
 
 namespace Drupal\adv_varnish\Element;
 
+use Drupal\Core\GeneratedUrl;
 use Drupal\Core\Render\Element\RenderElement;
 use Drupal\Core\Render\Markup;
 use Drupal\Core\Url;
@@ -82,8 +83,12 @@ class VarnishAdvEsi extends RenderElement {
     }
     // TODO create placeholder based on ['#callback' => ''].
     if (!empty($src)) {
+      $src_string = $src->toString();
+      if ( $src_string instanceof GeneratedUrl ) {
+        $src_string = $src_string->getGeneratedUrl();
+      }
       $element['esi'] = [
-        '#markup' => Markup::create('<esi:include src="' . $src->toString() . '" max-age="0" />'),
+        '#markup' => Markup::create('<esi:include src="' . $src_string . '" max-age="0" />'),
       ];
     }
     return $element;

@@ -3,7 +3,6 @@
 namespace Drupal\Tests\user\Functional;
 
 use Drupal\Core\Url;
-use Drupal\Core\Database\Database;
 use Drupal\dynamic_page_cache\EventSubscriber\DynamicPageCacheSubscriber;
 use Drupal\Tests\BrowserTestBase;
 
@@ -20,6 +19,11 @@ class UserBlocksTest extends BrowserTestBase {
    * @var array
    */
   public static $modules = ['block', 'views'];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'classy';
 
   /**
    * A user with the 'administer blocks' permission.
@@ -121,16 +125,6 @@ class UserBlocksTest extends BrowserTestBase {
     $this->assertText(t('Unrecognized username or password. Forgot your password?'));
     $this->drupalGet('filter/tips');
     $this->assertNoText(t('Unrecognized username or password. Forgot your password?'));
-  }
-
-  /**
-   * Updates the access column for a user.
-   */
-  private function updateAccess($uid, $access = REQUEST_TIME) {
-    Database::getConnection()->update('users_field_data')
-      ->condition('uid', $uid)
-      ->fields(['access' => $access])
-      ->execute();
   }
 
 }

@@ -34,7 +34,7 @@ trait KeyTestTrait {
     foreach ($routes as $route => $parameters) {
       $url = Url::fromRoute($route, $parameters);
       $this->drupalGet($url);
-      $this->assertResponse($response);
+      $this->assertSession()->statusCodeEquals($response);
     }
   }
 

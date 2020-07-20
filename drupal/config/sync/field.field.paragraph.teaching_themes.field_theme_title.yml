@@ -1,0 +1,19 @@
+uuid: a996153a-9b24-47b8-9969-891ae8493533
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_theme_title
+    - paragraphs.paragraphs_type.teaching_themes
+id: paragraph.teaching_themes.field_theme_title
+field_name: field_theme_title
+entity_type: paragraph
+bundle: teaching_themes
+label: Pealkiri
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

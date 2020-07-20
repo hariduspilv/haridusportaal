@@ -21,13 +21,14 @@ class PurgePurger extends Plugin {
   /**
    * The human-readable name of the purger plugin.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   * @ingroup plugin_translatable
    */
   public $label;
 
   /**
+   * Class name of the configuration form of your purger.
+   *
    * Full class name of the configuration form of your purger, with leading
    * backslash. Class must extend \Drupal\purge_ui\Form\PurgerConfigFormBase.
    *
@@ -48,14 +49,13 @@ class PurgePurger extends Plugin {
    *
    * @var float
    */
-  public $cooldown_time = 0.0;
+  public $cooldown_time = 0.0; // phpcs:ignore -- annotation property!
 
   /**
    * The description of the purger plugin.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   * @ingroup plugin_translatable
    */
   public $description;
 
@@ -64,23 +64,25 @@ class PurgePurger extends Plugin {
    *
    * When you set 'multi_instance = TRUE' in your plugin annotation, it
    * becomes possible for end-users to create multiple instances of your
-   * purger. With \Drupal\purge\Plugin\Purge\Purger\PurgerInterface::getId(), you can read
-   * the unique identifier of your instance to keep multiple instances apart.
+   * purger. With \Drupal\purge\Plugin\Purge\Purger\PurgerInterface::getId(),
+   * you can read the unique identifier of your instance to keep multiple
+   * instances apart.
    *
    * @var bool
    */
-  public $multi_instance = FALSE;
+  public $multi_instance = FALSE; // phpcs:ignore -- annotation property!
 
   /**
+   * Types supported by the purger.
+   *
    * A list of invalidation types that are supported by the purger plugin, for
    * instance 'tag', 'path' or 'url'. The plugin will only receive invalidation
    * requests for the given types, others fail with state NOT_SUPPORTED. It
    * is possible to dynamically provide this list by overloading the base
-   * implementation of \Drupal\purge\Plugin\Purge\Purger\PurgerInterface::getTypes().
-   *
-   * @see \Drupal\purge\Plugin\Purge\Purger\PurgerInterface::getTypes()
+   * implementation.
    *
    * @var string[]
+   * @see \Drupal\purge\Plugin\Purge\Purger\PurgerInterface::getTypes()
    */
   public $types = [];
 

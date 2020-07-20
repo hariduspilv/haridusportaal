@@ -2,7 +2,7 @@
 
 namespace Drupal\purge\Logger;
 
-use \Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareInterface;
 
 /**
  * Describes logging services for purge components.
@@ -16,6 +16,7 @@ interface PurgeLoggerAwareInterface extends LoggerAwareInterface {
    *   Thrown when the logger is unavailable.
    *
    * @return null|\Drupal\purge\Logger\LoggerChannelPartInterface
+   *   The part logger instance.
    */
   public function logger();
 

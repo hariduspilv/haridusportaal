@@ -3,7 +3,6 @@
 namespace Drupal\purge\Plugin\Purge\Invalidation;
 
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\purge\Plugin\Purge\Invalidation\ImmutableInvalidationInterface;
 
 /**
  * Provides base implementations the immutable invalidation object.
@@ -16,16 +15,14 @@ use Drupal\purge\Plugin\Purge\Invalidation\ImmutableInvalidationInterface;
 abstract class ImmutableInvalidationBase extends PluginBase implements ImmutableInvalidationInterface {
 
   /**
-   * Unique runtime ID for this instance, this ID isn't the same as underlying
-   * 'item_id' properties stored in the queue.
+   * Unique runtime ID for this instance.
    *
    * @var int
    */
   protected $id;
 
   /**
-   * The instance ID of the purger that is about to process this object, or
-   * NULL when no longer any purgers are processing it. NULL is the default.
+   * The instance ID of the purger that is about to process this object.
    *
    * @var string|null
    */
@@ -39,14 +36,18 @@ abstract class ImmutableInvalidationBase extends PluginBase implements Immutable
   protected $expression = NULL;
 
   /**
-   * Associative array in which the keys point to purger instances and where
-   * each value represents a associative array with key-value stored metadata.
+   * Purger metadata.
+   *
+   * This property is a associative array, each purger has its own key. Values
+   * are also associated arrays, in which metadata is stored key-value.
    *
    * @var array[]
    */
   protected $properties = [];
 
   /**
+   * Invalidation states per purger.
+   *
    * Associative list of which the keys refer to purger instances and the values
    * are \Drupal\purge\Plugin\Purge\Invalidation\InvStatesInterface constants.
    *
@@ -55,16 +56,18 @@ abstract class ImmutableInvalidationBase extends PluginBase implements Immutable
   protected $states = [];
 
   /**
-   * Valid states invalidations can be set to by a purger instance. Here FRESH
-   * is clearly missing, but it also protects us against bad behaving purgers.
+   * Valid post-processing states.
+   *
+   * When a purger is done processing, it can't leave objects as FRESH. This
+   * list is basically a whitelist that's checked after processing.
    *
    * @var int[]
    */
-  protected $states_after_processing = [
-    SELF::NOT_SUPPORTED,
-    SELF::PROCESSING,
-    SELF::SUCCEEDED,
-    SELF::FAILED,
+  protected $statesAfterProcessing = [
+    self::NOT_SUPPORTED,
+    self::PROCESSING,
+    self::SUCCEEDED,
+    self::FAILED,
   ];
 
   /**
@@ -111,12 +114,12 @@ abstract class ImmutableInvalidationBase extends PluginBase implements Immutable
 
     // Regardless of the context, when there are no states stored we're FRESH.
     if (empty($this->states)) {
-      return SELF::FRESH;
+      return self::FRESH;
     }
 
     // In general context, we need to resolve what the invalidation state is.
     if ($this->context === NULL) {
-      $totals = [SELF::SUCCEEDED => 0, SELF::NOT_SUPPORTED => 0];
+      $totals = [self::SUCCEEDED => 0, self::NOT_SUPPORTED => 0];
       $total = count($this->states);
       foreach ($this->states as $state) {
         if (isset($totals[$state])) {
@@ -125,32 +128,32 @@ abstract class ImmutableInvalidationBase extends PluginBase implements Immutable
       }
 
       // If all purgers failed to support it, its unsupported.
-      if ($totals[SELF::NOT_SUPPORTED] === $total) {
-        return SELF::NOT_SUPPORTED;
+      if ($totals[self::NOT_SUPPORTED] === $total) {
+        return self::NOT_SUPPORTED;
       }
       // If all purgers succeeded, it succeeded.
-      elseif ($totals[SELF::SUCCEEDED] === $total) {
-        return SELF::SUCCEEDED;
+      elseif ($totals[self::SUCCEEDED] === $total) {
+        return self::SUCCEEDED;
       }
       // Failure and processing are the only states left we can be in, when any
       // of those are found, that's what the general state will reflect.
-      elseif (in_array(SELF::FAILED, $this->states)) {
-        return SELF::FAILED;
+      elseif (in_array(self::FAILED, $this->states)) {
+        return self::FAILED;
       }
-      elseif (in_array(SELF::PROCESSING, $this->states)) {
-        return SELF::PROCESSING;
+      elseif (in_array(self::PROCESSING, $this->states)) {
+        return self::PROCESSING;
       }
       // Catch combination states where one or more purgers added NOT_SUPPORTED
       // but other purgers added states as well.
-      elseif (in_array(SELF::NOT_SUPPORTED, $this->states)) {
-        if (in_array(SELF::FAILED, $this->states)) {
-          return SELF::FAILED;
+      elseif (in_array(self::NOT_SUPPORTED, $this->states)) {
+        if (in_array(self::FAILED, $this->states)) {
+          return self::FAILED;
         }
-        elseif (in_array(SELF::PROCESSING, $this->states)) {
-          return SELF::PROCESSING;
+        elseif (in_array(self::PROCESSING, $this->states)) {
+          return self::PROCESSING;
         }
-        elseif (in_array(SELF::SUCCEEDED, $this->states)) {
-          return SELF::SUCCEEDED;
+        elseif (in_array(self::SUCCEEDED, $this->states)) {
+          return self::SUCCEEDED;
         }
       }
       throw new \LogicException("Invalidation state data integrity violation");
@@ -161,7 +164,7 @@ abstract class ImmutableInvalidationBase extends PluginBase implements Immutable
       if (isset($this->states[$this->context])) {
         return $this->states[$this->context];
       }
-      return SELF::FRESH;
+      return self::FRESH;
     }
   }
 
@@ -170,11 +173,11 @@ abstract class ImmutableInvalidationBase extends PluginBase implements Immutable
    */
   public function getStateString() {
     $mapping = [
-      SELF::FRESH         => 'FRESH',
-      SELF::PROCESSING    => 'PROCESSING',
-      SELF::SUCCEEDED     => 'SUCCEEDED',
-      SELF::FAILED        => 'FAILED',
-      SELF::NOT_SUPPORTED => 'NOT_SUPPORTED',
+      self::FRESH         => 'FRESH',
+      self::PROCESSING    => 'PROCESSING',
+      self::SUCCEEDED     => 'SUCCEEDED',
+      self::FAILED        => 'FAILED',
+      self::NOT_SUPPORTED => 'NOT_SUPPORTED',
     ];
     return $mapping[$this->getState()];
   }
@@ -184,11 +187,11 @@ abstract class ImmutableInvalidationBase extends PluginBase implements Immutable
    */
   public function getStateStringTranslated() {
     $mapping = [
-      SELF::FRESH         => $this->t('New'),
-      SELF::PROCESSING    => $this->t('Currently invalidating'),
-      SELF::SUCCEEDED     => $this->t('Succeeded'),
-      SELF::FAILED        => $this->t('Failed'),
-      SELF::NOT_SUPPORTED => $this->t('Not supported'),
+      self::FRESH         => $this->t('New'),
+      self::PROCESSING    => $this->t('Currently invalidating'),
+      self::SUCCEEDED     => $this->t('Succeeded'),
+      self::FAILED        => $this->t('Failed'),
+      self::NOT_SUPPORTED => $this->t('Not supported'),
     ];
     return $mapping[$this->getState()];
   }

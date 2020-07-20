@@ -80,7 +80,6 @@ field_settings:
         - field.storage.node.field_degree_or_diploma_awarded
       module:
         - taxonomy
-        - taxonomy
   field_duration:
     label: 'Nominaalkestus (kuud)'
     datasource_id: 'entity:node'
@@ -98,7 +97,6 @@ field_settings:
       config:
         - field.storage.node.field_iscedf_detailed
       module:
-        - taxonomy
         - taxonomy
   field_qualification_standard_id:
     label: 'Kutsestandardi identifikaator'
@@ -126,7 +124,6 @@ field_settings:
         - field.storage.node.field_educational_institution
       module:
         - node
-        - node
   field_school_website:
     label: 'School website'
     datasource_id: 'entity:node'
@@ -145,7 +142,6 @@ field_settings:
         - field.storage.node.field_study_programme_level
       module:
         - taxonomy
-        - taxonomy
   field_study_programme_type:
     label: 'Õppekava tüüp » Taxonomy term » Nimi'
     datasource_id: 'entity:node'
@@ -155,7 +151,6 @@ field_settings:
       config:
         - field.storage.node.field_study_programme_type
       module:
-        - taxonomy
         - taxonomy
   field_teaching_language:
     label: Õppekeel
@@ -217,8 +212,9 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
-  entity_status: {  }
+  language_with_fallback: {  }
   rendered_item: {  }
+  entity_status: {  }
 tracker_settings:
   default:
     indexing_order: fifo

@@ -6,7 +6,7 @@ htm_custom_tara_authentication.redirect_controller_redirect:
   #requirements:
   #  _permission: 'access content'
   requirements:
-    _custom_access: '\Drupal\openid_connect\Controller\RedirectController::access'
+    _custom_access: '\Drupal\htm_custom_tara_authentication\Controller\TaraRedirectController::access'
   options:
     no_cache: 'TRUE'
 

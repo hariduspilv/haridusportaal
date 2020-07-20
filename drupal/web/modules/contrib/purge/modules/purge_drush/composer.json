@@ -1,0 +1,22 @@
+{
+    "name": "drupal/purge_drush",
+    "license":  "GPL-2.0-only",
+    "description": "Administrative Drush commands for Purge.",
+    "type": "drupal-drush",
+    "authors": [
+        {
+            "name": "Niels van Mourik",
+            "homepage": "http://www.nielsvm.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.6.0"
+    },
+    "extra": {
+        "drush": {
+            "services": {
+                "drush.services.yml": "^9"
+            }
+        }
+    }
+}

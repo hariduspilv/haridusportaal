@@ -2,8 +2,6 @@
 
 namespace Drupal\purge\Tests\Invalidation;
 
-use Drupal\purge\Tests\Invalidation\PluginTestBase;
-
 /**
  * Tests \Drupal\purge\Plugin\Purge\Invalidation\PathInvalidation.
  *
@@ -11,7 +9,19 @@ use Drupal\purge\Tests\Invalidation\PluginTestBase;
  * @see \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface
  */
 class PathInvalidationTest extends PluginTestBase {
-  protected $plugin_id = 'path';
+
+  /**
+   * The plugin ID of the invalidation type being tested.
+   *
+   * @var string
+   */
+  protected $pluginId = 'path';
+
+  /**
+   * String expressions valid to the invalidation type being tested.
+   *
+   * @var string[]|null
+   */
   protected $expressions = [
     '',
     '?page=0',
@@ -21,6 +31,12 @@ class PathInvalidationTest extends PluginTestBase {
     'news/article-1',
     'news/article-1?page=0&secondparam=1',
   ];
+
+  /**
+   * String expressions invalid to the invalidation type being tested.
+   *
+   * @var string[]|null
+   */
   protected $expressionsInvalid = [
     NULL,
     '/news',

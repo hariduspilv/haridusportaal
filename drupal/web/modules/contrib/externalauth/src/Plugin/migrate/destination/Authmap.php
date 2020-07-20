@@ -3,10 +3,10 @@
 namespace Drupal\externalauth\Plugin\migrate\destination;
 
 use Drupal\externalauth\AuthmapInterface;
-use Drupal\user\Entity\User;
 use Drupal\migrate\Plugin\MigrationInterface;
 use Drupal\migrate\Row;
 use Drupal\migrate\Plugin\migrate\destination\DestinationBase;
+use Drupal\user\UserStorageInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 
@@ -27,6 +27,13 @@ class Authmap extends DestinationBase implements ContainerFactoryPluginInterface
   protected $authmap;
 
   /**
+   * User storage.
+   *
+   * @var \Drupal\user\UserStorageInterface
+   */
+  protected $userStorage;
+
+  /**
    * Constructs an entity destination plugin.
    *
    * @param array $configuration
@@ -39,10 +46,13 @@ class Authmap extends DestinationBase implements ContainerFactoryPluginInterface
    *   The migration.
    * @param \Drupal\externalauth\AuthmapInterface $authmap
    *   The Authmap handling class.
+   * @param \Drupal\user\UserStorageInterface $user_storage
+   *   The user storage.
    */
-  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, AuthmapInterface $authmap) {
+  public function __construct(array $configuration, $plugin_id, $plugin_definition, MigrationInterface $migration, AuthmapInterface $authmap, UserStorageInterface $user_storage) {
     parent::__construct($configuration, $plugin_id, $plugin_definition, $migration);
     $this->authmap = $authmap;
+    $this->userStorage = $user_storage;
   }
 
   /**
@@ -54,7 +64,8 @@ class Authmap extends DestinationBase implements ContainerFactoryPluginInterface
       $plugin_id,
       $plugin_definition,
       $migration,
-      $container->get('externalauth.authmap')
+      $container->get('externalauth.authmap'),
+      $container->get('entity_type.manager')->getStorage('user')
     );
   }
 
@@ -85,7 +96,7 @@ class Authmap extends DestinationBase implements ContainerFactoryPluginInterface
    */
   public function import(Row $row, array $old_destination_id_values = []) {
     /** @var \Drupal\user\UserInterface $account */
-    $account = User::load($row->getDestinationProperty('uid'));
+    $account = $this->userStorage->load($row->getDestinationProperty('uid'));
     $provider = $row->getDestinationProperty('provider');
     $authname = $row->getDestinationProperty('authname');
     $this->authmap->save($account, $provider, $authname);

@@ -29,20 +29,20 @@ class SchedulerAdminSettingsTest extends SchedulerBrowserTestBase {
       'allow_date_only' => TRUE,
       'default_time' => '6:30',
     ];
-    $this->drupalPostForm('admin/config/content/scheduler', $settings, t('Save configuration'));
+    $this->drupalPostForm('admin/config/content/scheduler', $settings, 'Save configuration');
 
     // Verify that the values have been saved correctly.
     $this->assertTrue($this->config('scheduler.settings')->get('allow_date_only'), 'The config setting for allow_date_only is stored correctly.');
-    $this->assertEqual($this->config('scheduler.settings')->get('default_time'), $this->seconds_formatted, 'The config setting for default_time is stored correctly.');
+    $this->assertEquals($this->seconds_formatted, $this->config('scheduler.settings')->get('default_time'), 'The config setting for default_time is stored correctly.');
 
     // Try to save an invalid time value.
     $settings = [
       'allow_date_only' => TRUE,
       'default_time' => '123',
     ];
-    $this->drupalPostForm('admin/config/content/scheduler', $settings, t('Save configuration'));
+    $this->drupalPostForm('admin/config/content/scheduler', $settings, 'Save configuration');
     // Verify that an error is displayed and the value has not been saved.
-    $this->assertEqual($this->config('scheduler.settings')->get('default_time'), $this->seconds_formatted, 'The config setting for default_time has not changed.');
+    $this->assertEquals($this->seconds_formatted, $this->config('scheduler.settings')->get('default_time'), 'The config setting for default_time has not changed.');
     $this->assertText('The default time should be in the format HH:MM:SS', 'When an invalid default time is entered the correct error message is displayed.');
 
     // Show the status report, which includes the Scheduler timecheck.

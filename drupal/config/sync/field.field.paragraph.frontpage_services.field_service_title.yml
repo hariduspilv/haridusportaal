@@ -1,0 +1,19 @@
+uuid: 8cf9ee1a-f6c1-49e6-bace-24d36e72b985
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_service_title
+    - paragraphs.paragraphs_type.frontpage_services
+id: paragraph.frontpage_services.field_service_title
+field_name: field_service_title
+entity_type: paragraph
+bundle: frontpage_services
+label: 'Teenuse pealkiri'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

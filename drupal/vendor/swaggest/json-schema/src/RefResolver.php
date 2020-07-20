@@ -131,7 +131,7 @@ class RefResolver
     /**
      * @param string $referencePath
      * @return Ref
-     * @throws InvalidValue
+     * @throws Exception
      */
     public function resolveReference($referencePath)
     {
@@ -194,6 +194,10 @@ class RefResolver
                     $this->setResolutionScope($url);
                     if (null === $refResolver) {
                         $rootData = $rootResolver->getRefProvider()->getSchemaData($url);
+                        if ($rootData === null || $rootData === false) {
+                            throw new Exception("Failed to decode content from $url", Exception::RESOLVE_FAILED);
+                        }
+
                         $refResolver = new RefResolver($rootData);
                         $refResolver->rootResolver = $rootResolver;
                         $refResolver->refProvider = $this->refProvider;

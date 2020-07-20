@@ -56,6 +56,11 @@ query ($path: String!) {
                         videoDescription
                         videoId
                     }
+                    fieldVideoThumbnail {
+                        derivative(style: CROP_LARGE) {
+                            url
+                        }
+                    }
                     entityUrl {
                         ... on EntityCanonicalUrl {
                             languageSwitchLinks {

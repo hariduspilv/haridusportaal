@@ -3,7 +3,6 @@
 namespace Drupal\purge_ui\Tests;
 
 use Drupal\Core\Url;
-use Drupal\purge_ui\Tests\DashboardTestBase;
 
 /**
  * Tests \Drupal\purge_ui\Controller\DashboardController::buildPurgers().
@@ -30,7 +29,7 @@ class DashboardPurgersTest extends DashboardTestBase {
    * @see \Drupal\purge_ui\Controller\DashboardController::buildPurgers
    */
   public function testPurgersSection() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     // Assert that without any enabled purgers, the form stays empty.
     $this->initializePurgersService();
     $this->drupalGet($this->route);
@@ -81,11 +80,11 @@ class DashboardPurgersTest extends DashboardTestBase {
     $this->assertNoRaw('<img supports="id1-wildcardurl"');
     $this->assertNoRaw('<img supports="id1-url"');
     $this->assertNoRaw('<img supports="id1-everything"');
-    // Assert that the 'Add purger' button only shows up when it actually should.
-    $this->assertRaw(t('Add purger'));
+    // Assert that 'Add purger' only shows up when it actually should.
+    $this->assertRaw('Add purger');
     $this->initializePurgersService(['a', 'b', 'c', 'withform', 'good']);
     $this->drupalGet($this->route);
-    $this->assertNoRaw(t('Add purger'));
+    $this->assertNoRaw('Add purger');
   }
 
 }

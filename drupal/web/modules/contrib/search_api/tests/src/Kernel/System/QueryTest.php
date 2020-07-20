@@ -101,7 +101,7 @@ class QueryTest extends KernelTestBase {
       $query->setProcessingLevel($level);
     }
     $this->assertEquals($level, $query->getProcessingLevel());
-    $query->addTag('andrew_hill');
+    $query->addTag('andrew_hill')->addTag('views_search_api_test_view');
 
     \Drupal::messenger()->deleteAll();
     $query->execute();
@@ -114,18 +114,19 @@ class QueryTest extends KernelTestBase {
         MessengerInterface::TYPE_STATUS => [
           'Funky blue note',
           'Search id: ',
+          'Freeland',
           'Stepping into tomorrow',
           'Llama',
         ],
       ];
       $this->assertEquals($expected, $messages);
-      $this->assertTrue($query->getOption('tag query alter hook'));
+      $this->assertNotEmpty($query->getOption('tag query alter hook'));
       $this->assertContains('preprocessSearchQuery', $methods);
       $this->assertContains('postprocessSearchResults', $methods);
     }
     else {
       $this->assertEmpty($messages);
-      $this->assertFalse($query->getOption('tag query alter hook'));
+      $this->assertNull($query->getOption('tag query alter hook'));
       $this->assertNotContains('preprocessSearchQuery', $methods);
       $this->assertNotContains('postprocessSearchResults', $methods);
     }

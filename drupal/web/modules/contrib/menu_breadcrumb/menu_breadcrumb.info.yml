@@ -1,11 +1,11 @@
 name: Menu Breadcrumb
 type: module
 description: 'Create breadcrumbs from nested menu titles and/or taxonomy membership.'
-# core: '8.x'
+core: '8.x'
+core_version_requirement: ^8 || ^9
 configure: menu_breadcrumb.settings
 
-# Information added by Drupal.org packaging script on 2019-04-11
-version: '8.x-1.9'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-02-12
+version: '8.x-1.12'
 project: 'menu_breadcrumb'
-datestamp: 1554988699
+datestamp: 1581496469

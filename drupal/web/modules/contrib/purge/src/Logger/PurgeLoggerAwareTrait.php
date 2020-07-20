@@ -2,7 +2,7 @@
 
 namespace Drupal\purge\Logger;
 
-use \Psr\Log\LoggerAwareTrait;
+use Psr\Log\LoggerAwareTrait;
 
 /**
  * Provides logging services for purge components.

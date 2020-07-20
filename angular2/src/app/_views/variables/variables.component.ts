@@ -8,7 +8,6 @@ import { SettingsService } from '@app/_services/settings.service';
 export class VariablesComponent implements OnInit{
 
   data: any = [];
-
   constructor(
     private settings: SettingsService
   ){}

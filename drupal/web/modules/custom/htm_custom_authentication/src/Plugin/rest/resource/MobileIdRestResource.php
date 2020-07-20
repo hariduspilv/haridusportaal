@@ -122,7 +122,7 @@ class MobileIdRestResource extends ResourceBase {
               $message = 'login.invalid_number';
               break;
             case 104:
-              $message = 'login.acces_denied';
+              $message = 'login.access_denied';
               break;
             case 301:
               $message = 'login.not_mobile_id_client';

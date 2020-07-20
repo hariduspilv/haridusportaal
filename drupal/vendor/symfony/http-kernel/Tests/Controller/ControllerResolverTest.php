@@ -90,11 +90,9 @@ class ControllerResolverTest extends TestCase
         $this->assertInstanceOf('Symfony\Component\HttpKernel\Tests\Controller\ControllerResolverTest', $controller);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testGetControllerOnObjectWithoutInvokeMethod()
     {
+        $this->expectException('InvalidArgumentException');
         $resolver = $this->createControllerResolver();
 
         $request = Request::create('/');
@@ -118,12 +116,8 @@ class ControllerResolverTest extends TestCase
     public function testGetControllerOnNonUndefinedFunction($controller, $exceptionName = null, $exceptionMessage = null)
     {
         $resolver = $this->createControllerResolver();
-        if (method_exists($this, 'expectException')) {
-            $this->expectException($exceptionName);
-            $this->expectExceptionMessage($exceptionMessage);
-        } else {
-            $this->setExpectedException($exceptionName, $exceptionMessage);
-        }
+        $this->expectException($exceptionName);
+        $this->expectExceptionMessage($exceptionMessage);
 
         $request = Request::create('/');
         $request->attributes->set('_controller', $controller);
@@ -137,10 +131,10 @@ class ControllerResolverTest extends TestCase
             ['foo', 'InvalidArgumentException', 'Unable to find controller "foo".'],
             ['oof::bar', 'InvalidArgumentException', 'Class "oof" does not exist.'],
             ['stdClass', 'InvalidArgumentException', 'Unable to find controller "stdClass".'],
-            ['Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::staticsAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable. Expected method "staticsAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest", did you mean "staticAction"?'],
-            ['Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::privateAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable. Method "privateAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest" should be public and non-abstract'],
-            ['Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::protectedAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable. Method "protectedAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest" should be public and non-abstract'],
-            ['Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::undefinedAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable. Expected method "undefinedAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest". Available methods: "publicAction", "staticAction"'],
+            ['Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::staticsAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable: Expected method "staticsAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest", did you mean "staticAction"?'],
+            ['Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::privateAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable: Method "privateAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest" should be public and non-abstract'],
+            ['Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::protectedAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable: Method "protectedAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest" should be public and non-abstract'],
+            ['Symfony\Component\HttpKernel\Tests\Controller\ControllerTest::undefinedAction', 'InvalidArgumentException', 'The controller for URI "/" is not callable: Expected method "undefinedAction" on class "Symfony\Component\HttpKernel\Tests\Controller\ControllerTest". Available methods: "publicAction", "staticAction"'],
         ];
     }
 
@@ -234,11 +228,11 @@ class ControllerResolverTest extends TestCase
     }
 
     /**
-     * @expectedException \RuntimeException
      * @group legacy
      */
     public function testIfExceptionIsThrownWhenMissingAnArgument()
     {
+        $this->expectException('RuntimeException');
         $resolver = new ControllerResolver();
         $request = Request::create('/');
 

@@ -1,0 +1,11 @@
+htm_custom_infograph.infograph_import_data_form:
+  title: 'Infograph Import'
+  route_name: htm_custom_infograph.infograph_import_data_form
+  description: 'Import general infograph data'
+  parent: system.admin_structure
+
+htm_custom_infograph.infograph_csv_list_form:
+  title: "Infograph CSV list"
+  route_name: htm_custom_infograph.infograph_csv_list_form
+  description: 'View and delete infograph CSV'
+  parent: system.admin_structure

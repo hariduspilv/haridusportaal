@@ -128,7 +128,9 @@
             </agm-data-layer>
             
             <ng-container *ngIf="polygons && polygons.features && polygonLabels && polygonLabels.length && polygonLayer == 'county'">
-              <agm-marker *ngFor="let item of polygonLabels" [iconUrl]="icon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
+              <ng-container *ngFor="let item of polygonLabels">
+                <agm-marker *ngIf="item.labelOptions && item.labelOptions.text" [iconUrl]="icon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
+              </ng-container>
             </ng-container>
 
             <ng-container *ngIf="sumWindowStatus">

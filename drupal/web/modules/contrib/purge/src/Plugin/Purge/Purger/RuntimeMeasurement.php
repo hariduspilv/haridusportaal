@@ -2,9 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\Purger;
 
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
-use Drupal\purge\Plugin\Purge\Purger\RuntimeMeasurementInterface;
 use Drupal\purge\Counter\Counter;
+use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
 
 /**
  * Provides a execution time measurer for invalidation processing.

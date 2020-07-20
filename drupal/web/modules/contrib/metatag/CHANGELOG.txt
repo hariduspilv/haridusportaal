@@ -1,3 +1,92 @@
+Metatag 8.x-1.11, 2019-12-20
+----------------------------
+#3074603 by jrockowitz, thejimbirch, cindytwilliams, DamienMcKenna: Add
+  og:video:duration tag.
+#3084547 by baikho, DamienMcKenna, SerShevchyk: Move submodule tests in
+  /tests/Functional folder.
+#3082119 by thejimbirch, cindytwilliams, DamienMcKenna: Add option name in
+  ROBOTS selector.
+#3052628 by Neslee Canil Pinto, cindytwilliams, DamienMcKenna: Capitalize the
+  name of the favicons submodule.
+#3077780 by thejimbirch, volkswagenchick, DamienMcKenna: Add new meta tag:
+  Google's new "handheld" link alternate URL.
+#3077773 by gueguerreiro, cindytwilliams, DamienMcKenna: Add new meta tags:
+  rel=prev / rel=next.
+#3077774 by thejimbirch, cindytwilliams, DamienMcKenna: Add new meta tag:
+  Refresh.
+#3077776 by DamienMcKenna, thejimbirch, cindytwilliams: Add new meta tag:
+  Revisit-After.
+#3077772 by DamienMcKenna, thejimbirch, volkswagenchick, cindytwilliams: Add new
+  meta tags: pragma, cache-control, expires.
+#3001387 by mbovan, Berdir, kell.mcnaughton, DamienMcKenna: Extend meta tag
+  definition to allow some tags to use a textarea instead of text field, e.g.
+  og:description.
+#2908527 by lapek, DamienMcKenna, christian.rolf, DrColossos: Views overwritten
+  title in contextual filter.
+#3087329 by Martijn de Wit, DamienMcKenna: Use HTTPS links instead of HTTP to
+  external sites in metatag_open_graph.module.
+#3057582 by jrearick, DamienMcKenna, Dave Reid, sunset_bill, dspachos:
+  SchemaWebPageTest not found.
+#3080314 by matteodem, DamienMcKenna: Load metatag defaults based on entity
+  language.
+#3072165 by vuil, DamienMcKenna: Coding standards improvements.
+#3074350 by jrockowitz, DamienMcKenna: Create Meta plugin report.
+#3074350 by DamienMcKenna: Follow-up to fix some API mismatches.
+#3096936 by DamienMcKenna, thejimbirch, rubyji: Add new tag: Zoom domain
+  verification.
+#3101288 by chr.fritsch: Fix namespace and imports.
+#3090002 by DamienMcKenna: Rename migrate plugins to follow naming conventions.
+#3099168 by jedihe, DamienMcKenna, docans: Remove "title" meta tag, leave the
+  regular title tag.
+#3101567 by DamienMcKenna: Update migrations/state/metatag.migrate_drupal.yml
+  for recent changes.
+#3080665 by DamienMcKenna, Chris Matthews: Add status message when site is in
+  maintenance mode that no meta data will be output.
+#3087677 by DamienMcKenna: Update MetatagD7Entities for new meta tags in 7.x.
+
+
+Metatag 8.x-1.10, 2019-08-29
+----------------------------
+#2971271 by subson, idebr, nkoporec, DamienMcKenna, Michelle: Replace
+  drupal_set_message().
+#2997834 by thejimbirch, volkswagenchick: itemprop="itemprop:description"
+  instead of itemprop="description".
+#3025142 by thejimbirch, bum-dee-dum, volkswagenchick: Add meta tag: Pocket site
+  verification.
+#3005466 by dbgilbert, DamienMcKenna, thejimbirch: Allow multiple Google
+  verification tags.
+#1498762 by DamienMcKenna, thejimbirch, vipul tulse: Add new meta tag: Rating.
+#3000748 by robpowell, DamienMcKenna: Allow dev-level dependencies to be used.
+#3045460 by Berdir: MetatagFirehose::formElement() should pass current entity
+  explicitly to metatag_get_default_tags().
+#3046976 by idebr, chr.fritsch: Schema for entity_type_groups is incorrect.
+By samuel.mortenson, Berdir, DamienMcKenna: Test coverage for data handling.
+#3048615 by thalles, idebr: Replace MetatagManager by MetatagManagerInterface.
+#3048566 by thejimbirch, sean_e_dietrich: Pinterest and Yandex URLs in
+  Verification need updating.
+#3042739 by DamienMcKenna: Fix tests on Metatag 8.x-1.x branch.
+#2820214 by DamienMcKenna, Lendude, KarenS, idebr: Update tests to use
+  BrowserTestBase instead of WebTestBase.
+#3073826 by chr.fritsch: Move tests in /tests/Functional folder.
+#3071678 by idebr, DamienMcKenna: metatag_defaults @ConfigEntityType annotation
+  is missing a config_export key.
+#3076572 by davps: Metatag manager - incorrect default tags for an entity.
+#2898941 by thejimbirch, cindytwilliams, feddovdm: Expand the referrer-policy
+  dropdown.
+#3059963 by jzech: Improve description for Open Graph.
+#2563649 by DamienMcKenna, Jo Fitzgerald, marvil07, pobster, oliverpolden,
+  WidgetsBurritos, socketwench, marcelovani, Benia, heddn, Steven Jones,
+  benjifisher, mglaman, tedfordgif, mikeryan, a.milkovsky, drupalninja99, cruno,
+  ccarrascal, PapaGrande, pcranston: Migrations: Metatag-D7 basic entities.
+#3077784 by davps: Fix compatibility / tests against core 8.8.x.
+#3045560 by DamienMcKenna, heddn: Add a .migrate_drupal.yml file.
+
+
+Metatag 8.x-1.9, 2019-07-24
+---------------------------
+By DamienMcKenna, anton.shloma: Improved maintenance mode identification.
+
+
 Metatag 8.x-1.8, 2019-02-20
 ---------------------------
 By samuel.mortenson, Berdir, DamienMcKenna: Fix data property definition.

@@ -1,0 +1,9 @@
+services:
+  config_distro.storage.active:
+    class: Drupal\config_filter\Config\GhostStorage
+    arguments: ['@config.storage']
+    public: false
+  config_distro.storage.distro:
+    class: Drupal\config_filter\Config\FilteredStorage
+    factory: config_filter.storage_factory:getFilteredStorage
+    arguments: ['@config_distro.storage.active', ['config_distro.storage.distro']]

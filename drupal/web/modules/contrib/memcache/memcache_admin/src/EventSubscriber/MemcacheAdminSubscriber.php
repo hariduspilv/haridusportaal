@@ -57,7 +57,7 @@ class MemcacheAdminSubscriber implements EventSubscriberInterface {
       // }.
       // @codingStandardsIgnoreEnd
       // Try not to break non-HTML pages.
-      if ($response instanceof HTMLResponse) {
+      if ($response instanceof HtmlResponse) {
 
         // This should only apply to page content.
         if (stripos($response->headers->get('content-type'), 'text/html') !== FALSE) {

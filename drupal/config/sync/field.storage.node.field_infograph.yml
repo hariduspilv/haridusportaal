@@ -1,0 +1,19 @@
+uuid: 0ec822d9-2be0-43c8-8045-8ab66ceda48d
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_infograph
+    - node
+id: node.field_infograph
+field_name: field_infograph
+entity_type: node
+type: dynamic_graph_field
+settings: {  }
+module: htm_custom_infograph
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

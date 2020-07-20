@@ -1,0 +1,18 @@
+uuid: cb59e9c0-d8b7-4fe4-9657-2efa1fa732e7
+langcode: et
+status: true
+dependencies:
+  module:
+    - htm_custom_authentication
+    - jwt
+    - serialization
+id: jwt_token_renew_rest_resource
+plugin_id: jwt_token_renew_rest_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - jwt_auth

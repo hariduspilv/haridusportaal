@@ -3,12 +3,14 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.user.user.field_firstname
+    - field.field.user.user.field_lastname
     - field.field.user.user.field_user_idcode
     - field.field.user.user.user_picture
     - image.style.thumbnail
   module:
-    - image
     - path
+    - svg_image
     - user
 _core:
   default_config_hash: K-1rBM8mTIkFp9RqOC2tMRUukOQ1xbRCfSKK8dEddnA
@@ -27,6 +29,22 @@ content:
     region: content
     settings: {  }
     third_party_settings: {  }
+  field_firstname:
+    weight: 32
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_lastname:
+    weight: 33
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
   field_user_idcode:
     weight: 31
     settings:

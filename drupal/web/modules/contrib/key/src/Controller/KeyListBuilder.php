@@ -25,6 +25,8 @@ class KeyListBuilder extends ConfigEntityListBuilder {
   protected $entityTypeManager;
 
   /**
+   * Overrides.
+   *
    * @var array
    */
   protected $overrides;
@@ -121,7 +123,6 @@ class KeyListBuilder extends ConfigEntityListBuilder {
     $build['table']['#empty'] = $this->t('No keys are available. <a href=":link">Add a key</a>.', [':link' => Url::fromRoute('entity.key.add_form')->toString()]);
     return $build;
   }
-
 
   /**
    * Get any overrides associated with a key.

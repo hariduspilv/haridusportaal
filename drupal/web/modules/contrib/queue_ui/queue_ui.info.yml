@@ -1,7 +1,6 @@
 name: Queue UI
 type: module
-description: 'Interface and manager for Drupal queues.'
+description: Interface and manager for Drupal queues.
 package: Queues
-version: VERSION
-core: 8.x
-configure: 'queue_ui.overview_form'
+core_version_requirement: ^8.8 || ^9
+configure: queue_ui.overview_form

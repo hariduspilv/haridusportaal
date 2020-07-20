@@ -7,5 +7,9 @@
     "issues": "https://www.drupal.org/project/issues/memcache"
   },
   "license": "GPL-2.0+",
-  "require": { }
+  "extra": {
+    "branch-alias": {
+      "dev-8.x-2.x": "2.x-dev"
+    }
+  }
 }

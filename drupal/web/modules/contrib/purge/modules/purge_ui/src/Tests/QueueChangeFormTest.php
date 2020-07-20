@@ -13,9 +13,11 @@ use Drupal\purge\Tests\WebTestBase;
 class QueueChangeFormTest extends WebTestBase {
 
   /**
+   * The Drupal user entity.
+   *
    * @var \Drupal\user\Entity\User
    */
-  protected $admin_user;
+  protected $adminUser;
 
   /**
    * The route that renders the form.
@@ -34,9 +36,9 @@ class QueueChangeFormTest extends WebTestBase {
   /**
    * Setup the test.
    */
-  public function setUp() {
-    parent::setUp();
-    $this->admin_user = $this->drupalCreateUser(['administer site configuration']);
+  public function setUp($switch_to_memory_queue = TRUE) {
+    parent::setUp($switch_to_memory_queue);
+    $this->adminUser = $this->drupalCreateUser(['administer site configuration']);
   }
 
   /**
@@ -45,7 +47,7 @@ class QueueChangeFormTest extends WebTestBase {
   public function testAccess() {
     $this->drupalGet(Url::fromRoute($this->route, []));
     $this->assertResponse(403);
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route, []));
     $this->assertResponse(200);
   }
@@ -57,7 +59,7 @@ class QueueChangeFormTest extends WebTestBase {
    * @see \Drupal\purge_ui\Form\CloseDialogTrait::closeDialog
    */
   public function testChangeForm() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet(Url::fromRoute($this->route, []));
     // Assert some of the page presentation.
     $this->assertRaw('Change queue engine');
@@ -69,15 +71,15 @@ class QueueChangeFormTest extends WebTestBase {
     // Assert that 'memory' is selected queue.
     $this->assertFieldChecked('edit-plugin-id-memory');
     // Assert that submitting a different queue changes it.
-    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route, [])->toString(), [], ['op' => t('Change'), 'plugin_id' => 'b']);
+    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route, [])->toString(), [], ['op' => 'Change', 'plugin_id' => 'b']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual('redirect', $json[2]['command']);
     $this->assertEqual(3, count($json));
-    $this->drupalPostForm(Url::fromRoute($this->route, []), ['plugin_id' => 'b'], t('Change'));
+    $this->drupalPostForm(Url::fromRoute($this->route, []), ['plugin_id' => 'b'], 'Change');
     $this->drupalGet(Url::fromRoute($this->route, []));
     $this->assertFieldChecked('edit-plugin-id-b');
     // // Assert that closing the dialog functions as expected.
-    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route, [])->toString(), [], ['op' => t('Cancel')]);
+    $json = $this->drupalPostAjaxForm(Url::fromRoute($this->route, [])->toString(), [], ['op' => 'Cancel']);
     $this->assertEqual('closeDialog', $json[1]['command']);
     $this->assertEqual(2, count($json));
   }

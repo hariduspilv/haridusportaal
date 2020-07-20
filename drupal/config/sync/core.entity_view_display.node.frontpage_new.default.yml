@@ -1,0 +1,85 @@
+uuid: dc5017c0-a6c7-457b-8e6f-53c976585beb
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.frontpage_new.field_frontpage_contact_email
+    - field.field.node.frontpage_new.field_frontpage_contact_name
+    - field.field.node.frontpage_new.field_frontpage_contact_phone
+    - field.field.node.frontpage_new.field_frontpage_news
+    - field.field.node.frontpage_new.field_frontpage_quote
+    - field.field.node.frontpage_new.field_frontpage_services
+    - field.field.node.frontpage_new.field_frontpage_topics
+    - node.type.frontpage_new
+  module:
+    - entity_reference_revisions
+    - user
+id: node.frontpage_new.default
+targetEntityType: node
+bundle: frontpage_new
+mode: default
+content:
+  field_frontpage_contact_email:
+    weight: 107
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_frontpage_contact_name:
+    weight: 106
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_frontpage_contact_phone:
+    weight: 108
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_frontpage_news:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_frontpage_quote:
+    weight: 105
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_frontpage_services:
+    type: entity_reference_revisions_entity_view
+    weight: 103
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_frontpage_topics:
+    type: entity_reference_revisions_entity_view
+    weight: 102
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

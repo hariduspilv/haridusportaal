@@ -12,6 +12,8 @@ use Drupal\user\Entity\User;
  * The test method is provided by the MigrateUpgradeTestBase class.
  *
  * @group migrate_drupal_ui
+ *
+ * @group legacy
  */
 class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
 
@@ -62,7 +64,7 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       'block' => 25,
       'block_content' => 1,
       'block_content_type' => 1,
-      'comment' => 3,
+      'comment' => 4,
       // The 'standard' profile provides the 'comment' comment type, and the
       // migration creates 6 comment types, one per node type.
       'comment_type' => 7,
@@ -72,22 +74,23 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       'contact_form' => 3,
       'contact_message' => 0,
       'editor' => 2,
-      'field_config' => 72,
+      'field_config' => 73,
       'field_storage_config' => 55,
       'file' => 3,
       'filter_format' => 7,
       'image_style' => 6,
-      'language_content_settings' => 11,
+      'language_content_settings' => 18,
       'node' => 6,
       'node_type' => 6,
       'rdf_mapping' => 8,
       'search_page' => 2,
       'shortcut' => 6,
       'shortcut_set' => 2,
-      'action' => 17,
+      'action' => 19,
       'menu' => 6,
       'taxonomy_term' => 24,
       'taxonomy_vocabulary' => 7,
+      'path_alias' => 8,
       'tour' => 5,
       'user' => 4,
       'user_role' => 3,
@@ -98,7 +101,7 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       'entity_form_mode' => 1,
       'entity_view_display' => 28,
       'entity_view_mode' => 14,
-      'base_field_override' => 9,
+      'base_field_override' => 4,
     ];
   }
 
@@ -108,7 +111,7 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
   protected function getEntityCountsIncremental() {
     $counts = $this->getEntityCounts();
     $counts['block_content'] = 2;
-    $counts['comment'] = 4;
+    $counts['comment'] = 5;
     $counts['file'] = 4;
     $counts['menu_link_content'] = 13;
     $counts['node'] = 7;
@@ -128,23 +131,24 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       'color',
       'comment',
       'contact',
+      'ctools',
       'date',
       'dblog',
       'email',
+      'entity_translation',
       'entityreference',
       'field',
       'field_sql_storage',
       'file',
       'filter',
       'forum',
+      'i18n_block',
+      'i18n_sync',
       'i18n_variable',
       'image',
-      'language',
       'link',
       'list',
-      'locale',
       'menu',
-      'node',
       'number',
       'options',
       'path',
@@ -156,10 +160,10 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
       'system',
       'taxonomy',
       'text',
+      'title',
       'user',
       // Include modules that do not have an upgrade path and are enabled in the
-      // source database, defined in the $noUpgradePath property
-      // in MigrateUpgradeForm.
+      // source database.
       'blog',
       'contextual',
       'date_api',
@@ -180,6 +184,12 @@ class Upgrade7Test extends MigrateUpgradeExecuteTestBase {
   protected function getMissingPaths() {
     return [
       'i18n',
+      'i18n_field',
+      'i18n_string',
+      'i18n_taxonomy',
+      'i18n_translation',
+      'locale',
+      'node',
       'variable',
       'variable_realm',
       'variable_store',

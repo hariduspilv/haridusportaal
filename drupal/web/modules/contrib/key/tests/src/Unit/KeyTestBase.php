@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\key\Unit;
 
+use Drupal\Component\Utility\Crypt;
 use Drupal\Core\DependencyInjection\ContainerBuilder;
 use Drupal\Tests\UnitTestCase;
 
@@ -11,25 +12,33 @@ use Drupal\Tests\UnitTestCase;
 abstract class KeyTestBase extends UnitTestCase {
 
   /**
+   * Config.
+   *
    * @var \Drupal\Core\Config\ImmutableConfig
    */
   protected $config;
 
   /**
+   * Configuration storage.
+   *
    * @var \Drupal\Core\Config\Entity\ConfigEntityStorage
    */
   protected $configStorage;
 
   /**
+   * Entity type manager instance.
+   *
    * @var \Drupal\Core\Entity\EntityTypeManager
    */
   protected $entityTypeManager;
 
   /**
-   * @var \Drupal\Core\DependencyInjection\ContainerBuilder
+   * Container builder.
    *
    * This should be used sparingly by test cases to add to the container as
    * necessary for tests.
+   *
+   * @var \Drupal\Core\DependencyInjection\ContainerBuilder
    */
   protected $container;
 
@@ -75,7 +84,7 @@ abstract class KeyTestBase extends UnitTestCase {
    *   A hashed string that could be confused as some secret token.
    */
   protected function createToken() {
-    return strtoupper(hash('ripemd128', md5($this->getRandomGenerator()->string(30))));
+    return strtoupper(hash('ripemd128', Crypt::hashBase64($this->getRandomGenerator()->string(30))));
   }
 
 }

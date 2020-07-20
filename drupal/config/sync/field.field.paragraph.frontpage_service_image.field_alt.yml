@@ -1,0 +1,19 @@
+uuid: f4758da2-baaf-40ed-bbb8-4cbf975aee06
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_alt
+    - paragraphs.paragraphs_type.frontpage_service_image
+id: paragraph.frontpage_service_image.field_alt
+field_name: field_alt
+entity_type: paragraph
+bundle: frontpage_service_image
+label: Alt
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

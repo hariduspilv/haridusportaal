@@ -20,7 +20,7 @@ class Checkbox extends ConditionalFieldsHandlerBase {
    */
   public function statesHandler($field, $field_info, $options) {
     $state = [];
-
+    $checked = FALSE;
     switch ($options['values_set']) {
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $widget_value = $this->getWidgetValue($options['value_form']);

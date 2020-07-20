@@ -170,7 +170,7 @@ class Writer extends AbstractCsv
      *
      * @see https://php.net/manual/en/function.fputcsv.php
      *
-     * @return int|bool
+     * @return int|false
      */
     protected function addRecord(array $record)
     {
@@ -204,13 +204,13 @@ class Writer extends AbstractCsv
      *
      * The LF character is added at the end of each record to mimic fputcsv behavior
      *
-     * @return int|bool
+     * @return int|false
      */
     protected function addRFC4180CompliantRecord(array $record)
     {
         foreach ($record as &$field) {
             $field = (string) $field;
-            if (preg_match($this->rfc4180_regexp, $field)) {
+            if (1 === preg_match($this->rfc4180_regexp, $field)) {
                 $field = $this->enclosure.str_replace($this->enclosure, $this->rfc4180_enclosure, $field).$this->enclosure;
             }
         }
@@ -318,7 +318,7 @@ class Writer extends AbstractCsv
         }
 
         if (null !== $threshold && 1 > $threshold) {
-            throw new Exception(__METHOD__.'() expects 1 Argument to be null or a valid integer greater or equal to 1');
+            throw new InvalidArgument(__METHOD__.'() expects 1 Argument to be null or a valid integer greater or equal to 1');
         }
 
         $this->flush_threshold = $threshold;

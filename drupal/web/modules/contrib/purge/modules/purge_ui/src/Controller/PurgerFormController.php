@@ -2,10 +2,10 @@
 
 namespace Drupal\purge_ui\Controller;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller for purger configuration forms.
@@ -13,6 +13,8 @@ use Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface;
 class PurgerFormController extends ControllerBase {
 
   /**
+   * The 'purge.purgers' service.
+   *
    * @var \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface
    */
   protected $purgePurgers;
@@ -38,6 +40,7 @@ class PurgerFormController extends ControllerBase {
    * Render the purger add form.
    *
    * @return array
+   *   The render array.
    */
   public function addForm() {
     if (count($this->purgePurgers->getPluginsAvailable())) {
@@ -64,23 +67,6 @@ class PurgerFormController extends ControllerBase {
   }
 
   /**
-   * Retrieve the plugin definition for the given instance ID.
-   *
-   * @param string $id
-   *   Unique instance ID for the purger instance requested.
-   *
-   * @return array|false
-   *   The definition or FALSE when it doesn't exist.
-   */
-  protected function getPluginDefinition($id, $service) {
-    $enabled = $this->purgePurgers->getPluginsEnabled();
-    if (!isset($enabled[$id])) {
-      return FALSE;
-    }
-    return $this->purgePurgers->getPlugins()[$enabled[$id]];
-  }
-
-  /**
    * Render the purger configuration form.
    *
    * @param string $id
@@ -89,6 +75,7 @@ class PurgerFormController extends ControllerBase {
    *   Determines if the modal dialog variant of the form should be rendered.
    *
    * @return array
+   *   The render array.
    */
   public function configForm($id, $dialog) {
     if ($definition = $this->getPurgerPluginDefinition($id)) {
@@ -131,6 +118,7 @@ class PurgerFormController extends ControllerBase {
    *   Unique instance ID for the purger instance.
    *
    * @return array
+   *   The render array.
    */
   public function deleteForm($id) {
     // Although it might look like a logic bug that we aren't checking whether
@@ -152,6 +140,7 @@ class PurgerFormController extends ControllerBase {
    *   Unique instance ID for the purger instance.
    *
    * @return array
+   *   The render array.
    */
   public function detailForm($id) {
     if ($definition = $this->getPurgerPluginDefinition($id)) {
@@ -185,6 +174,7 @@ class PurgerFormController extends ControllerBase {
    *   Either 'up' or 'down' are valid directions to move execution order in.
    *
    * @return array
+   *   The render array.
    */
   public function moveForm($id, $direction) {
     if ($definition = $this->getPurgerPluginDefinition($id)) {

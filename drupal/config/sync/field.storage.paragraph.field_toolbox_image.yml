@@ -1,0 +1,23 @@
+uuid: 51d3d95f-3489-44a5-aea5-643d2389a29b
+langcode: et
+status: true
+dependencies:
+  module:
+    - file
+    - paragraphs
+id: paragraph.field_toolbox_image
+field_name: field_toolbox_image
+entity_type: paragraph
+type: file
+settings:
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  target_type: file
+module: file
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

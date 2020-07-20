@@ -2,10 +2,9 @@
 
 namespace Drupal\purge\Plugin\Purge\Purger;
 
-use Drupal\purge\ServiceInterface;
 use Drupal\purge\ModifiableServiceInterface;
-use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
 use Drupal\purge\Plugin\Purge\Processor\ProcessorInterface;
+use Drupal\purge\ServiceInterface;
 
 /**
  * Describes a service that distributes access to one or more purgers.
@@ -19,7 +18,8 @@ interface PurgersServiceInterface extends ServiceInterface, ModifiableServiceInt
    * always hold a single capacity tracker instance. The capacity tracker tracks
    * runtime resource consumption and predicts capacity information.
    *
-   * @return \Drupal\purge\Plugin\Purge\Purger\CapacityTrackerInterface;
+   * @return \Drupal\purge\Plugin\Purge\Purger\CapacityTrackerInterface
+   *   The capacity tracker.
    */
   public function capacityTracker();
 
@@ -33,6 +33,7 @@ interface PurgersServiceInterface extends ServiceInterface, ModifiableServiceInt
    * @see \Drupal\purge\Plugin\Purge\Purger\PurgerInterface::getId()
    *
    * @return string
+   *   The unique instance ID.
    */
   public function createId();
 
@@ -58,8 +59,8 @@ interface PurgersServiceInterface extends ServiceInterface, ModifiableServiceInt
   /**
    * Retrieve the list of supported invalidation types per purger instance.
    *
-   * @see \Drupal\purge\Annotation\PurgePurger::$types.
-   * @see \Drupal\purge\Plugin\Purge\Purger\PurgerInterface::getId().
+   * @see \Drupal\purge\Annotation\PurgePurger::$types
+   * @see \Drupal\purge\Plugin\Purge\Purger\PurgerInterface::getId()
    *
    * @return string[]
    *   Array with the purger instance ID as key, and list of invalidation types.
@@ -113,8 +114,11 @@ interface PurgersServiceInterface extends ServiceInterface, ModifiableServiceInt
    *   \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface.
    *
    * @throws \Drupal\purge\Plugin\Purge\Purger\Exception\DiagnosticsException
-   *   Thrown when ::isSystemOnFire() of the diagnostics service reported a
-   *   SEVERITY_ERROR level issue, this forces all purging to be halted.
+   *   Thrown by ::invalidate after a diagnostic of type SEVERITY_ERROR has
+   *   been detected, which is established after calling
+   *   DiagnosticsServiceInterface::::isSystemOnFire. Errors by definition
+   *   force all cache invalidation to be prevented, until the user resolved
+   *   the issue.
    *
    * @throws \Drupal\purge\Plugin\Purge\Purger\Exception\CapacityException
    *   Thrown when the capacity tracker's global resource limit returns zero or
@@ -127,8 +131,6 @@ interface PurgersServiceInterface extends ServiceInterface, ModifiableServiceInt
    *
    * @see \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface::setState()
    * @see \Drupal\purge\Plugin\Purge\Purger\PurgerCapacityDataInterface::getTimeHint()
-   *
-   * @return void
    */
   public function invalidate(ProcessorInterface $processor, array $invalidations);
 
@@ -142,8 +144,6 @@ interface PurgersServiceInterface extends ServiceInterface, ModifiableServiceInt
    *   Thrown when $purger_instance_id is not enabled or does not exist.
    *
    * @see \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface::setPluginsEnabled()
-   *
-   * @return void
    */
   public function movePurgerDown($purger_instance_id);
 
@@ -157,8 +157,6 @@ interface PurgersServiceInterface extends ServiceInterface, ModifiableServiceInt
    *   Thrown when $purger_instance_id is not enabled or does not exist.
    *
    * @see \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface::setPluginsEnabled()
-   *
-   * @return void
    */
   public function movePurgerUp($purger_instance_id);
 

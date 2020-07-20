@@ -17,7 +17,6 @@ description: ''
 tag: ''
 base_table: htm_custom_feedback_score
 base_field: id
-core: 8.x
 display:
   default:
     display_plugin: default
@@ -36,7 +35,7 @@ display:
         type: views_query
         options:
           disable_sql_rewrite: false
-          distinct: false
+          distinct: true
           replica: false
           query_comment: ''
           query_tags: {  }
@@ -454,6 +453,8 @@ display:
             remember_roles:
               authenticated: authenticated
             reduce: false
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''
@@ -482,6 +483,15 @@ display:
           relationship: none
           group_type: group
           admin_label: 'admin feedback score'
+          required: false
+          plugin_id: standard
+        feedback_nid:
+          id: feedback_nid
+          table: htm_custom_feedback_score
+          field: feedback_nid
+          relationship: none
+          group_type: group
+          admin_label: 'admin feedback'
           required: false
           plugin_id: standard
       arguments: {  }
@@ -1397,6 +1407,8 @@ display:
             placeholder: ''
             min_placeholder: ''
             max_placeholder: ''
+            operator_limit_selection: false
+            operator_list: {  }
           is_grouped: false
           group_info:
             label: ''

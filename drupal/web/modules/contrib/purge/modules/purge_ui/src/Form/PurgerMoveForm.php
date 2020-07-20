@@ -2,14 +2,12 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Form\ConfirmFormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface;
-use Drupal\purge_ui\Form\CloseDialogTrait;
-use Drupal\purge_ui\Form\ReloadConfigFormCommand;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Move purger {id} in the purger execution order - 'up' or 'down'.
@@ -39,17 +37,17 @@ class PurgerMoveForm extends ConfirmFormBase {
   protected $direction;
 
   /**
+   * The 'purge.purgers' service.
+   *
    * @var \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface
    */
   protected $purgePurgers;
 
   /**
-   * Constructs a PurgerMoveForm object.
+   * Construct a PurgerMoveForm object.
    *
    * @param \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface $purge_purgers
    *   The purgers service.
-   *
-   * @return void
    */
   public function __construct(PurgersServiceInterface $purge_purgers) {
     $this->purgePurgers = $purge_purgers;
@@ -72,7 +70,7 @@ class PurgerMoveForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_ui.purger_move_form';
   }
 
@@ -146,6 +144,7 @@ class PurgerMoveForm extends ConfirmFormBase {
    *   The current state of the form.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The AJAX response object.
    */
   public function movePurger(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();

@@ -1,0 +1,16 @@
+.compact-link{
+  margin:0 0 0.5em 0;
+}
+
+small .admin-link:before{
+  content:" [";
+}
+
+small .admin-link:after{
+  content:"]";
+}
+
+.system-cron-settings__link{
+  overflow-wrap:break-word;
+  word-wrap:break-word;
+}

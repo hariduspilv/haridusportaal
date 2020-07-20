@@ -2,19 +2,14 @@
 
 namespace Drupal\Tests\paragraphs\Functional;
 
-use Drupal\paragraphs\Tests\Classic\ParagraphsCoreVersionUiTestTrait;
-use Drupal\Tests\BrowserTestBase;
-use Drupal\Tests\paragraphs\FunctionalJavascript\ParagraphsTestBaseTrait;
+use Drupal\Tests\paragraphs\Functional\Experimental\ParagraphsExperimentalTestBase;
 
 /**
  * Tests support for Paragraphs behavior plugins.
  *
  * @group paragraphs
  */
-class ParagraphsExperimentalBehaviorsTest extends BrowserTestBase {
-
-  use ParagraphsCoreVersionUiTestTrait;
-  use ParagraphsTestBaseTrait;
+class ParagraphsExperimentalBehaviorsTest extends ParagraphsExperimentalTestBase {
 
   /**
    * Modules to enable.
@@ -51,6 +46,7 @@ class ParagraphsExperimentalBehaviorsTest extends BrowserTestBase {
       'behavior_plugins[test_bold_text][enabled]' => TRUE,
     ];
     $this->drupalPostForm(NULL, $edit, 'Save');
+    $this->assertSame(['test_bold_text' => ['enabled' => TRUE]], \Drupal::config("paragraphs.paragraphs_type.$paragraph_type")->get('behavior_plugins'));
 
     // Add a note that uses the behavior plugin give it an empty setting.
     $this->drupalGet('node/add/paragraphed_test');
@@ -61,7 +57,7 @@ class ParagraphsExperimentalBehaviorsTest extends BrowserTestBase {
     ];
     $this->drupalPostForm(NULL, $edit, 'Save');
     $bolded_elements = $this->getSession()->getPage()->findAll('css', '.bold_plugin_text');
-    $this->assertFalse(count($bolded_elements), 'Test plugin did not add a CSS class.');
+    $this->assertEmpty(count($bolded_elements), 'Test plugin did not add a CSS class.');
 
     // Check that empty leaves are not saved in the behavior settings.
     $node = $this->getNodeByTitle('Test Node', TRUE);
@@ -79,7 +75,7 @@ class ParagraphsExperimentalBehaviorsTest extends BrowserTestBase {
     ];
     $this->drupalPostForm(NULL, $edit, 'Save');
     $bolded_elements = $this->getSession()->getPage()->findAll('css', '.bold_plugin_text');
-    $this->assertTrue(count($bolded_elements), 'Test plugin added a CSS class.');
+    $this->assertGreaterThan(0, count($bolded_elements), 'Test plugin added a CSS class.');
 
     // Check that non-empty leaves are saved in the behavior settings.
     \Drupal::entityTypeManager()->getStorage('paragraph')->resetCache();

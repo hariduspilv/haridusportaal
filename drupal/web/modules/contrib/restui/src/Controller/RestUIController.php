@@ -2,6 +2,7 @@
 
 namespace Drupal\restui\Controller;
 
+use Drupal\Core\Config\Entity\ConfigEntityInterface;
 use Drupal\Core\Entity\EntityStorageInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -129,7 +130,7 @@ class RestUIController implements ContainerInjectionInterface {
         '#header' => [
           'resource_name' => [
             'data' => $this->t('Resource name'),
-            'class' => ['rest-ui-name']
+            'class' => ['rest-ui-name'],
           ],
           'path' => [
             'data' => $this->t('Path'),
@@ -174,7 +175,7 @@ class RestUIController implements ContainerInjectionInterface {
         ]);
 
         // @todo Remove this when https://www.drupal.org/node/2300677 is fixed.
-        $is_config_entity = isset($resource['serialization_class']) && is_subclass_of($resource['serialization_class'], \Drupal\Core\Config\Entity\ConfigEntityInterface::class, TRUE);
+        $is_config_entity = isset($resource['serialization_class']) && is_subclass_of($resource['serialization_class'], ConfigEntityInterface::class, TRUE);
         if ($is_config_entity) {
           $available_methods = array_diff($available_methods, ['POST', 'PATCH', 'DELETE']);
           $create_uri_path = FALSE;
@@ -190,7 +191,9 @@ class RestUIController implements ContainerInjectionInterface {
           $disabled_methods = array_diff($available_methods, $enabled_methods);
           $configured_methods = array_merge(
             array_intersect($available_methods, $enabled_methods),
-            array_map(function ($method) { return "<del>$method</del>"; }, $disabled_methods)
+            array_map(function ($method) {
+              return "<del>$method</del>";
+            }, $disabled_methods)
           );
         }
         else {
@@ -201,7 +204,7 @@ class RestUIController implements ContainerInjectionInterface {
         $canonical_methods = implode(', ', array_diff($configured_methods, ['POST']));
         if ($canonical_uri_path && $create_uri_path) {
           $uri_paths = "<code>$canonical_uri_path</code>: $canonical_methods";
-          $uri_paths.= "</br><code>$create_uri_path</code>: POST";
+          $uri_paths .= "</br><code>$create_uri_path</code>: POST";
         }
         else {
           if ($canonical_uri_path) {

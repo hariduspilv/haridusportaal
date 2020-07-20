@@ -82,10 +82,10 @@ function filelog_token_info() {
  * @return array
  */
 function filelog_tokens($type, array $tokens, array $data, array $options, BubbleableMetadata $metadata) {
-  $token_service = \Drupal::token();
+  $token_service = Drupal::token();
 
   /** @var \Drupal\Core\Datetime\DateFormatterInterface $date_service */
-  $date_service = \Drupal::service('date.formatter');
+  $date_service = Drupal::service('date.formatter');
 
   $replacements = [];
 

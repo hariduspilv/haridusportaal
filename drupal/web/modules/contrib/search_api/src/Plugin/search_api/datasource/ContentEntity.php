@@ -2,6 +2,10 @@
 
 namespace Drupal\search_api\Plugin\search_api\datasource;
 
+use Drupal\Component\Utility\Crypt;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Entity\ContentEntityInterface;
 use Drupal\Core\Entity\EntityDisplayRepositoryInterface;
@@ -16,6 +20,7 @@ use Drupal\Core\Language\LanguageInterface;
 use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
 use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\State\StateInterface;
 use Drupal\Core\TypedData\ComplexDataDefinitionInterface;
 use Drupal\Core\TypedData\ComplexDataInterface;
 use Drupal\Core\TypedData\TypedDataManagerInterface;
@@ -25,6 +30,7 @@ use Drupal\search_api\Datasource\DatasourcePluginBase;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Plugin\PluginFormTrait;
 use Drupal\search_api\IndexInterface;
+use Drupal\search_api\Utility\Dependencies;
 use Drupal\search_api\Utility\FieldsHelperInterface;
 use Drupal\search_api\Utility\Utility;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -37,9 +43,30 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  *   deriver = "Drupal\search_api\Plugin\search_api\datasource\ContentEntityDeriver"
  * )
  */
-class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInterface, PluginFormInterface {
+class ContentEntity extends DatasourcePluginBase implements PluginFormInterface {
 
   use PluginFormTrait;
+
+  /**
+   * The key for accessing last tracked ID information in site state.
+   *
+   * @todo Make protected once we depend on PHP 7.1+.
+   */
+  const TRACKING_PAGE_STATE_KEY = 'search_api.datasource.entity.last_ids';
+
+  /**
+   * The entity memory cache.
+   *
+   * @var \Drupal\Core\Cache\CacheBackendInterface
+   */
+  protected $memoryCache;
+
+  /**
+   * The state service.
+   *
+   * @var \Drupal\Core\State\StateInterface
+   */
+  protected $state;
 
   /**
    * The entity type manager.
@@ -101,7 +128,7 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
    * {@inheritdoc}
    */
   public function __construct(array $configuration, $plugin_id, array $plugin_definition) {
-    if (!empty($configuration['#index']) && $configuration['#index'] instanceof IndexInterface) {
+    if (($configuration['#index'] ?? NULL) instanceof IndexInterface) {
       $this->setIndex($configuration['#index']);
       unset($configuration['#index']);
     }
@@ -129,6 +156,8 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
     $datasource->setConfigFactory($container->get('config.factory'));
     $datasource->setLanguageManager($container->get('language_manager'));
     $datasource->setFieldsHelper($container->get('search_api.fields_helper'));
+    $datasource->setState($container->get('state'));
+    $datasource->setEntityMemoryCache($container->get('entity.memory_cache'));
 
     return $datasource;
   }
@@ -345,6 +374,52 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
    */
   public function setFieldsHelper(FieldsHelperInterface $fields_helper) {
     $this->fieldsHelper = $fields_helper;
+    return $this;
+  }
+
+  /**
+   * Retrieves the state service.
+   *
+   * @return \Drupal\Core\State\StateInterface
+   *   The entity type manager.
+   */
+  public function getState() {
+    return $this->state ?: \Drupal::state();
+  }
+
+  /**
+   * Sets the state service.
+   *
+   * @param \Drupal\Core\State\StateInterface $state
+   *   The state service.
+   *
+   * @return $this
+   */
+  public function setState(StateInterface $state) {
+    $this->state = $state;
+    return $this;
+  }
+
+  /**
+   * Retrieves the entity memory cache service.
+   *
+   * @return \Drupal\Core\Cache\CacheBackendInterface|null
+   *   The memory cache, or NULL.
+   */
+  public function getEntityMemoryCache() {
+    return $this->memoryCache;
+  }
+
+  /**
+   * Sets the entity memory cache service.
+   *
+   * @param \Drupal\Core\Cache\CacheBackendInterface $memory_cache
+   *   The memory cache.
+   *
+   * @return $this
+   */
+  public function setEntityMemoryCache(CacheBackendInterface $memory_cache) {
+    $this->memoryCache = $memory_cache;
     return $this;
   }
 
@@ -608,13 +683,14 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
   /**
    * {@inheritdoc}
    */
-  public function checkItemAccess(ComplexDataInterface $item, AccountInterface $account = NULL) {
-    if ($entity = $this->getEntity($item)) {
+  public function getItemAccessResult(ComplexDataInterface $item, AccountInterface $account = NULL) {
+    $entity = $this->getEntity($item);
+    if ($entity) {
       return $this->getEntityTypeManager()
         ->getAccessControlHandler($this->getEntityTypeId())
-        ->access($entity, 'view', $account);
+        ->access($entity, 'view', $account, TRUE);
     }
-    return FALSE;
+    return AccessResult::neutral('Item is not an entity, so cannot check access');
   }
 
   /**
@@ -680,6 +756,17 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
     // When tracking items, we never want access checks.
     $select->accessCheck(FALSE);
 
+    // Build up the context for tracking the last ID for this batch page.
+    $batch_page_context = [
+      'index_id' => $this->getIndex()->id(),
+      // The derivative plugin ID includes the entity type ID.
+      'datasource_id' => $this->getPluginId(),
+      'bundles' => $bundles,
+      'languages' => $languages,
+    ];
+    $context_key = Crypt::hashBase64(serialize($batch_page_context));
+    $last_ids = $this->getState()->get(self::TRACKING_PAGE_STATE_KEY, []);
+
     // We want to determine all entities of either one of the given bundles OR
     // one of the given languages. That means we can't just filter for $bundles
     // if $languages is given. Instead, we have to filter for all bundles we
@@ -707,16 +794,47 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
     if (isset($page)) {
       $page_size = $this->getConfigValue('tracking_page_size');
       assert($page_size, 'Tracking page size is not set.');
-      $select->range($page * $page_size, $page_size);
-      // For paging to reliably work, a sort should be present.
       $entity_id = $this->getEntityType()->getKey('id');
+
+      // If known, use a condition on the last tracked ID for paging instead of
+      // the offset, for performance reasons on large sites.
+      $offset = $page * $page_size;
+      if ($page > 0) {
+        // We only handle the case of picking up from where the last page left
+        // off. (This will cause an infinite loop if anyone ever wants to index
+        // Search API tasks in an index, so check for that to be on the safe
+        // side.)
+        if (isset($last_ids[$context_key])
+            && $last_ids[$context_key]['page'] == ($page - 1)
+            && $this->getEntityTypeId() !== 'search_api_task') {
+          $select->condition($entity_id, $last_ids[$context_key]['last_id'], '>');
+          $offset = 0;
+        }
+      }
+      $select->range($offset, $page_size);
+
+      // For paging to reliably work, a sort should be present.
       $select->sort($entity_id);
     }
 
     $entity_ids = $select->execute();
 
     if (!$entity_ids) {
+      if (isset($page)) {
+        // Clean up state tracking of last ID.
+        unset($last_ids[$context_key]);
+        $this->getState()->set(self::TRACKING_PAGE_STATE_KEY, $last_ids);
+      }
       return NULL;
+    }
+
+    // Remember the last tracked ID for the next call.
+    if (isset($page)) {
+      $last_ids[$context_key] = [
+        'page' => (int) $page,
+        'last_id' => end($entity_ids),
+      ];
+      $this->getState()->set(self::TRACKING_PAGE_STATE_KEY, $last_ids);
     }
 
     // For all loaded entities, compute all their item IDs (one for each
@@ -754,7 +872,7 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
       // When running in the CLI, this might be executed for all entities from
       // within a single process. To avoid running out of memory, reset the
       // static cache after each batch.
-      $this->getEntityStorage()->resetCache($entity_ids);
+      $this->getEntityMemoryCache()->deleteAll();
     }
 
     return $item_ids;
@@ -780,7 +898,7 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
     $function = $configuration['bundles']['default'] ? 'array_diff_key' : 'array_intersect_key';
     $entity_bundles = $function($entity_bundles, $selected_bundles);
     foreach ($entity_bundles as $bundle_id => $bundle_info) {
-      $bundles[$bundle_id] = isset($bundle_info['label']) ? $bundle_info['label'] : $bundle_id;
+      $bundles[$bundle_id] = $bundle_info['label'] ?? $bundle_id;
     }
     return $bundles ?: [$this->getEntityTypeId() => $this->label()];
   }
@@ -917,27 +1035,25 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
    *   mapping dependency types to arrays of dependency names.
    */
   protected function getPropertyPathDependencies($property_path, array $properties) {
-    $dependencies = [];
-
     list($key, $nested_path) = Utility::splitPropertyPath($property_path, FALSE);
     if (!isset($properties[$key])) {
-      return $dependencies;
+      return [];
     }
 
+    $dependencies = new Dependencies();
     $property = $properties[$key];
     if ($property instanceof FieldConfigInterface) {
       $storage = $property->getFieldStorageDefinition();
       if ($storage instanceof FieldStorageConfigInterface) {
         $name = $storage->getConfigDependencyName();
-        $dependencies[$storage->getConfigDependencyKey()][$name] = $name;
+        $dependencies->addDependency($storage->getConfigDependencyKey(), $name);
       }
     }
 
     // The field might be provided by a module which is not the provider of the
     // entity type, therefore we need to add a dependency on that module.
     if ($property instanceof FieldStorageDefinitionInterface) {
-      $provider = $property->getProvider();
-      $dependencies['module'][$provider] = $provider;
+      $dependencies->addDependency('module', $property->getProvider());
     }
 
     $property = $this->getFieldsHelper()->getInnerProperty($property);
@@ -947,7 +1063,7 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
         ->getDefinition($property->getEntityTypeId());
       if ($entity_type_definition) {
         $module = $entity_type_definition->getProvider();
-        $dependencies['module'][$module] = $module;
+        $dependencies->addDependency('module', $module);
       }
     }
 
@@ -955,13 +1071,10 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
         && $property instanceof ComplexDataDefinitionInterface) {
       $nested = $this->getFieldsHelper()->getNestedProperties($property);
       $nested_dependencies = $this->getPropertyPathDependencies($nested_path, $nested);
-      foreach ($nested_dependencies as $type => $names) {
-        $dependencies += [$type => []];
-        $dependencies[$type] += $names;
-      }
+      $dependencies->addDependencies($nested_dependencies);
     }
 
-    return array_map('array_values', $dependencies);
+    return $dependencies->toArray();
   }
 
   /**
@@ -1041,6 +1154,15 @@ class ContentEntity extends DatasourcePluginBase implements EntityDatasourceInte
       }
     }
     return $valid_ids;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getListCacheContexts() {
+    $contexts = parent::getListCacheContexts();
+    $entity_list_contexts = $this->getEntityType()->getListCacheContexts();
+    return Cache::mergeContexts($entity_list_contexts, $contexts);
   }
 
 }

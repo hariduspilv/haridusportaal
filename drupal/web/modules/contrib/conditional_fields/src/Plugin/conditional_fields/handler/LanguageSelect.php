@@ -16,39 +16,47 @@ class LanguageSelect extends ConditionalFieldsHandlerBase {
   /**
    * {@inheritdoc}
    */
-  public function statesHandler($field, $field_info, $options) {
-    $state = [];
+  public function statesHandler( $field, $field_info, $options ) {
+    $state         = [];
     $select_states = [];
 
-    switch ($options['values_set']) {
+    switch ($options[ 'values_set' ]) {
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
-        $state[$options['state']][$options['selector']] = [
-          'value' => $this->getWidgetValue($options['value_form']),
+        $state[ $options[ 'state' ] ][ $options[ 'selector' ] ] = [
+          'value' => $this->getWidgetValue( $options[ 'value_form' ] ),
         ];
-        return $state;
-
+        break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
-        return $state;
-
+        break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
-        $select_states[$options['state']][] = 'xor';
-
+        $select_states[ $options[ 'state' ] ][] = [
+          $options[ 'selector' ] => [
+            $options[ 'condition' ] => [ 'xor' => $options['values'] ],
+          ],
+        ];
+        $state = $select_states;
+        break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
-        $regex = TRUE;
+          $select_states[ $options[ 'state' ] ][] = [
+            $options[ 'selector' ] => [
+              $options[ 'condition' ] => [ 'regex' => $options['regex'] ],
+            ],
+          ];
+        $state = $select_states;
+        break;
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+        $options['state'] = '!' . $options['state'];
       case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
-        foreach ($options['values'] as $value) {
-          $select_states[$options['state']][] = [
-            $options['selector'] => [
-              $options['condition'] => empty($regex) ? [$value] : $options['value'],
+        foreach ( $options[ 'values' ] as $value ) {
+          $select_states[ $options['state'] ][] = [
+            $options[ 'selector' ] => [
+              $options[ 'condition' ] => empty( $regex ) ? [ $value ] : $options[ 'value' ],
             ],
           ];
         }
+        $state = $select_states;
         break;
     }
-
-    $state = $select_states;
-
     return $state;
   }
 

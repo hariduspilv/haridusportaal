@@ -57,7 +57,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: ''
+      default_paragraph_type: _none
     third_party_settings: {  }
     region: content
   field_job_opportunities:
@@ -95,9 +95,13 @@ content:
     region: content
   field_oska_field:
     weight: 3
-    settings: {  }
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
     third_party_settings: {  }
-    type: options_select
+    type: entity_reference_autocomplete_tags
     region: content
   field_pros:
     weight: 0

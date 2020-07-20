@@ -19,6 +19,13 @@ use Drupal\Core\PageCache\ResponsePolicyInterface;
 class AdvCacheableResponseSubscriber extends FinishResponseSubscriber {
 
   /**
+   * Varnish controller
+   *
+   * @var \Drupal\adv_varnish\Controller\VarnishAdvController
+   */
+  protected $controller;
+
+  /**
    * Constructs a FinishResponseSubscriber object.
    *
    * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
@@ -37,12 +44,7 @@ class AdvCacheableResponseSubscriber extends FinishResponseSubscriber {
    *   (optional) Whether to send cacheability headers for debugging purposes.
    */
   public function __construct(LanguageManagerInterface $language_manager, ConfigFactoryInterface $config_factory, RequestPolicyInterface $request_policy, ResponsePolicyInterface $response_policy, CacheContextsManager $cache_contexts_manager, VarnishAdvController $controller, $http_response_debug_cacheability_headers = FALSE) {
-    $this->languageManager = $language_manager;
-    $this->config = $config_factory->get('system.performance');
-    $this->requestPolicy = $request_policy;
-    $this->responsePolicy = $response_policy;
-    $this->cacheContextsManager = $cache_contexts_manager;
-    $this->debugCacheabilityHeaders = $http_response_debug_cacheability_headers;
+    parent::__construct($language_manager, $config_factory, $request_policy, $response_policy, $cache_contexts_manager, $http_response_debug_cacheability_headers);
     $this->controller = $controller;
   }
 

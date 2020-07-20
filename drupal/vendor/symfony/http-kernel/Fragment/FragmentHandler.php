@@ -100,7 +100,7 @@ class FragmentHandler
     protected function deliver(Response $response)
     {
         if (!$response->isSuccessful()) {
-            throw new \RuntimeException(sprintf('Error when rendering "%s" (Status code is %s).', $this->requestStack->getCurrentRequest()->getUri(), $response->getStatusCode()));
+            throw new \RuntimeException(sprintf('Error when rendering "%s" (Status code is %d).', $this->requestStack->getCurrentRequest()->getUri(), $response->getStatusCode()));
         }
 
         if (!$response instanceof StreamedResponse) {
@@ -108,5 +108,7 @@ class FragmentHandler
         }
 
         $response->sendContent();
+
+        return null;
     }
 }

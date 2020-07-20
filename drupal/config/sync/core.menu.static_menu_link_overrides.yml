@@ -1,10 +1,10 @@
 definitions:
   standard__front_page:
-    enabled: true
+    weight: 2
     menu_name: main
     parent: 'menu_link_content:6d8f74f2-d525-4b98-8d5a-16c41fd373e6'
     expanded: false
-    weight: 1
+    enabled: true
   config__conditional_field:
     weight: -96
     menu_name: admin

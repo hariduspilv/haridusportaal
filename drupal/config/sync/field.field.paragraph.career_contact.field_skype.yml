@@ -1,0 +1,19 @@
+uuid: c3f2f747-5130-4f11-bcd2-cc225de7ede1
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_skype
+    - paragraphs.paragraphs_type.career_contact
+id: paragraph.career_contact.field_skype
+field_name: field_skype
+entity_type: paragraph
+bundle: career_contact
+label: Skype
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

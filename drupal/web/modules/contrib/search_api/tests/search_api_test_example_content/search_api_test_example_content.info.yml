@@ -1,14 +1,13 @@
 type: module
 name: 'Example Content'
 description: 'Provides field definitions for example content.'
-package: 'Search API'
+package: Testing
 dependencies:
   - drupal:entity_test
-# core: 8.x
+core: 8.x
 hidden: true
 
-# Information added by Drupal.org packaging script on 2019-05-07
-version: '8.x-1.13'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-04-08
+version: '8.x-1.16'
 project: 'search_api'
-datestamp: 1557244700
+datestamp: 1586374703

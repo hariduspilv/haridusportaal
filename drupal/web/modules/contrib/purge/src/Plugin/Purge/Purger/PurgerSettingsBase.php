@@ -3,7 +3,6 @@
 namespace Drupal\purge\Plugin\Purge\Purger;
 
 use Drupal\Core\Config\Entity\ConfigEntityBase;
-use Drupal\purge\Plugin\Purge\Purger\PurgerSettingsInterface;
 
 /**
  * Provides an interface for purgers storing settings through config entities.

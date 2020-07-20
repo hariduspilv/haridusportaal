@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - htm_custom_variables
+    - jwt
     - serialization
     - user
 id: variables_rest_resource
@@ -15,4 +16,5 @@ configuration:
   formats:
     - json
   authentication:
+    - jwt_auth
     - cookie

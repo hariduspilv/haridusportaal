@@ -6,3 +6,10 @@ htm_custom_feedback.feedback_controller_AllFeedbacks:
     _title: 'Feedbacks'
   requirements:
     _permission: 'access content'
+htm_custom_feedback.feedback_controller_downloadFeedback:
+  path: '/admin/feedback/download'
+  defaults:
+    _controller: '\Drupal\htm_custom_feedback\Controller\FeedbackController::downloadFeedback'
+    _title: 'Feedback download'
+  requirements:
+    _permission: 'access content'

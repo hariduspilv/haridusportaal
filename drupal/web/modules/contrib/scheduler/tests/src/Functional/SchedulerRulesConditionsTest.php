@@ -8,6 +8,9 @@ use Drupal\rules\Context\ContextConfig;
  * Tests the four conditions that Scheduler provides for use in Rules module.
  *
  * @group scheduler
+ * @group legacy
+ * @todo Remove the 'legacy' tag when Rules no longer uses deprecated code.
+ * @see https://www.drupal.org/project/scheduler/issues/2924353
  */
 class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
 
@@ -225,7 +228,7 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
     $edit = [
       'body[0][value]' => $this->randomString(30),
     ];
-    $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, t('Save'));
+    $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, 'Save');
 
     $this->assertText($message5, '"' . $message5 . '" is shown');
     $this->assertText($message6, '"' . $message6 . '" is shown');
@@ -234,10 +237,10 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
 
     // Edit the node and set a publish_on date.
     $edit = [
-      'publish_on[0][value][date]' => date('Y-m-d', strtotime('+1 day', REQUEST_TIME)),
-      'publish_on[0][value][time]' => date('H:i:s', strtotime('+1 day', REQUEST_TIME)),
+      'publish_on[0][value][date]' => date('Y-m-d', strtotime('+1 day', $this->requestTime)),
+      'publish_on[0][value][time]' => date('H:i:s', strtotime('+1 day', $this->requestTime)),
     ];
-    $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, t('Save'));
+    $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, 'Save');
 
     $this->assertNoText($message5, '"' . $message5 . '" is not shown');
     $this->assertText($message6, '"' . $message6 . '" is shown');
@@ -246,10 +249,10 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
 
     // Edit the node and set an unpublish_on date.
     $edit = [
-      'unpublish_on[0][value][date]' => date('Y-m-d', strtotime('+2 day', REQUEST_TIME)),
-      'unpublish_on[0][value][time]' => date('H:i:s', strtotime('+2 day', REQUEST_TIME)),
+      'unpublish_on[0][value][date]' => date('Y-m-d', strtotime('+2 day', $this->requestTime)),
+      'unpublish_on[0][value][time]' => date('H:i:s', strtotime('+2 day', $this->requestTime)),
     ];
-    $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, t('Save'));
+    $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, 'Save');
 
     $this->assertNoText($message5, '"' . $message5 . '" is not shown');
     $this->assertNoText($message6, '"' . $message6 . '" is not shown');

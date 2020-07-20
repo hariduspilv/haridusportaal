@@ -59,14 +59,15 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   lastHeatMapRange: {} = {}
   activeFontSize: string = '';
   fontSizes: Object = {
-    md: '10px',
-    lg: '18px',
+    sm: '9px',
+    md: '18px',
+    lg: '22px',
   }
   labelOptions = {
     fontFamily: "'Rubik', sans-serif",
     lightColor: 'white',
     color: 'black',
-    fontSize: '10px',
+    fontSize: '9px',
     fontWeight: 'regular',
   }
   icon = {
@@ -198,9 +199,11 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
     if (!polygonValueLabels) {
       return;
     }
-    if ($event < 9 && activeFontSize !== fontSizes['md']) {
+    if ($event < 9 && activeFontSize !== fontSizes['sm']) {
+      this.getPolygonCenterCoords(fontSizes['sm'], polygonValueLabels, polygonValueColors);
+    } else if ($event === 9 && activeFontSize !== fontSizes['md']) {
       this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels, polygonValueColors);
-    } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
+    } else if ($event === 10 && activeFontSize !== fontSizes['lg']) {
       this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels, polygonValueColors);
     }
   }
@@ -365,6 +368,7 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   getPolygons() {
     let url = "/assets/polygons/"+this.polygonLayer+".json";
     let subscription = this.http.get(url).subscribe( data => {
+      this.polygonValueLabels = false;
       this.polygons = this.assignPolygonsColors(data);
       this.loading = false;
       subscription.unsubscribe();
@@ -431,14 +435,25 @@ export class SchoolsFundingComponent extends FiltersService implements OnInit, O
   mapPolyLabels (fontSize, polygons, polygonColors) {
     this.activeFontSize = fontSize || this.labelOptions.fontSize;
     this.polygonLabels.map(elem => {
-      let match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
-      let textLabel = match ? `${elem.label}\n${new EuroCurrencyPipe().transform(match)}` : elem.label;
+      const match = polygons && polygons[elem.NIMI] ? polygons[elem.NIMI] : '';
+      const matchLabel = match ? `${new EuroCurrencyPipe().transform(match)}` : '';
+      if (!elem.latitude || (elem.latitudeSm && elem.latitudeMd && elem.latitudeLg)) {
+        if (this.activeFontSize === this.fontSizes['sm']) {
+          elem.latitude = elem.latitudeSm;
+        }
+        if (this.activeFontSize === this.fontSizes['md']) {
+          elem.latitude = elem.latitudeMd;
+        }
+        if (this.activeFontSize === this.fontSizes['lg']) {
+          elem.latitude = elem.latitudeLg;
+        }
+      }
       elem['labelOptions'] = {
         color: polygonColors[elem.NIMI] ? this.labelOptions.lightColor : this.labelOptions.color,
-        fontSize: fontSize || this.labelOptions.fontSize,
+        fontSize: this.activeFontSize,
         fontWeight: this.labelOptions.fontWeight,
-        text: textLabel
-      }
+        text: elem.label ? elem.label : matchLabel
+      };
     });
   }
 

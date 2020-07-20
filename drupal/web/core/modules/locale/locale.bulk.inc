@@ -97,7 +97,10 @@ function locale_translate_get_interface_translation_files(array $projects = [], 
   // {project}-{version}.{langcode}.po.
   // Only files of known projects and languages will be returned.
   $directory = \Drupal::config('locale.settings')->get('translation.path');
-  $result = file_scan_directory($directory, '![a-z_]+(\-[0-9a-z\.\-\+]+|)\.[^\./]+\.po$!', ['recurse' => FALSE]);
+  $result = [];
+  if (is_dir($directory)) {
+    $result = \Drupal::service('file_system')->scanDirectory($directory, '![a-z_]+(\-[0-9a-z\.\-\+]+|)\.[^\./]+\.po$!', ['recurse' => FALSE]);
+  }
 
   foreach ($result as $file) {
     // Update the file object with project name and version from the file name.
@@ -382,6 +385,11 @@ function locale_translate_batch_finished($success, array $results) {
       // file), simply do nothing.
       if ($results && isset($results['stats'])) {
         foreach ($results['stats'] as $filepath => $report) {
+          if ($filepath === 'config') {
+            // Ignore the config entry. It is processed in
+            // locale_config_batch_finished() below.
+            continue;
+          }
           $additions += $report['additions'];
           $updates += $report['updates'];
           $deletes += $report['deletes'];

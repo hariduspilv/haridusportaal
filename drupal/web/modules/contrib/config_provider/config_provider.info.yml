@@ -1,0 +1,13 @@
+name: 'Configuration Provider'
+type: module
+description: 'Enables provision of configuration by extensions.'
+# core: 8.x
+package: Config
+dependencies:
+ - 'drupal:config'
+
+# Information added by Drupal.org packaging script on 2019-02-16
+version: '8.x-2.0-rc1'
+core: '8.x'
+project: 'config_provider'
+datestamp: 1550290689

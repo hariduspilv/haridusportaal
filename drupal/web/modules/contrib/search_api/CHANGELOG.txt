@@ -1,3 +1,151 @@
+Search API 1.16 (2020-04-08):
+-----------------------------
+- #3120997 by thalles, drunken monkey: Updated the "source" composer value.
+- #3117171 by claudiu.cristea, drunken monkey, pfrenssen: Added support for the
+  Views Bulk Form field.
+- #3115214 by mpp, drunken monkey: Added Search API support for the Behat
+  Drupal extension.
+- #3118224 by JeroenT, drunken monkey: Fixed DisplayPluginManager no longer
+  implementing DisplayPluginManagerInterface.
+- #3111130 by bwaindwain, drunken monkey: Fixed reference to out-dated
+  "Drupal.WhiteSpace.OperatorSpacing" PhpCs sniff.
+- #3106515 by drunken monkey, nbaosullivan: Added support for Views filters on
+  any bundle entity type.
+- #3056940 by drunken monkey: Fixed error handling in the "Add hierarchy"
+  processor.
+- #3102603 by drunken monkey: Deprecated EntityDatasourceInterface.
+- #3103594 by drunken monkey: Cleaned up the Database backend plugin code.
+- #3103585 by drunken monkey: Converted hook_search_api_db_query_alter() to an
+  event.
+- #3044782 by drunken monkey, stefvanlooveren: Increased PHP version
+  requirement to 7.0.
+- #3100556 by JeroenT, drunken monkey: Fixed "Rendered entity" Views row style
+  not immediately available when creating first index.
+- #3101607 by manuel.adan, drunken monkey: Added support for nested data
+  properties.
+- #3109755 by Vladimirrem, drunken monkey: Added $view property to entities
+  when viewed via the Views "Rendered entity" row plugin.
+- #3111635 by alexpott, drunken monkey, borisson_: Fixed duplicate dependencies
+  in index config.
+- #3098350 by abrar_arshad, drunken monkey: Fixed immediate indexing of items
+  marked during indexing.
+- #3102662 by drunken monkey: Declared IndexingItemsEvent class as final.
+- #3099001 by drunken monkey, mkalkbrenner: Marked PluginDependencyTrait
+  methods in ConfigurablePluginBase as deprecated.
+- #3099048 by andreyjan, drunken monkey, Berdir: Fixed Drupal 8.8 deprecations
+  that do not require Drupal 8.8.
+- #3096581 by andreyjan, drunken monkey: Converted TaxonomyTermArgumentTest to
+  a unit test.
+- #3101998 by lostkangaroo, drunken monkey: Fixed small bug in "results alter"
+  event processing.
+- #3004270 by stefvanlooveren, drunken monkey: Fixed caching of the "Execute
+  pending tasks" local action.
+- #3092347 by drunken monkey: Fixed batch size when indexing for multiple
+  indexes via Drush.
+- #3091785 by cedric_a, drunken monkey, borisson_: Improved styling of disabled
+  servers/indexes in overview.
+- #3096573 by mudassar774, drunken monkey: Fixed warning in Highlight processor
+  in some edge cases.
+- #2824640 by pfrenssen, drunken monkey, sardara, idimopoulos, geek.merlin aka
+  axel.rutz, borisson_, claudiu.cristea: Fixed caching of Views results.
+- #3001743 by drunken monkey: Adapted to use the new
+  ConditionInterface::alwaysFalse() method.
+- #3098722 by drunken monkey, milindk: Increased the Core version requirement to
+  8.7.
+- #3065112 by gdejonghe, mbovan, wengerk, drunken monkey: Adapted the
+  SearchApiTerm Views argument plugin to use dependency injection for loading
+  terms.
+- #2381823 by cedric_a, drunken monkey, borisson_: Added a link to the
+  documentation to the Processors tab.
+
+Search API 1.15 (2019-11-07):
+-----------------------------
+- #3022881 by MahtabAlam, drunken monkey, borisson_: Fixed unintentional
+  scrolling in the "Add fields" dialog.
+- #3068180 by drunken monkey: Fixed ambiguous column names in SQL queries
+  constructed by the database backend.
+- #3068645 by drunken monkey: Fixed problem with entity references in Views.
+- #3081885 by mkalkbrenner, drunken monkey, borisson_: Changed discouraged
+  processors to be visible but disabled in UI.
+- #3089960 by drunken monkey, borisson_: Changed to use PHP ternary operator
+  where possible.
+- #3064479 by ducktape, drunken monkey, mpp, borisson_: Fixed taxonomy term
+  Views argument title not translated.
+- #2931562 by drunken monkey, RajabNatshah, nedjo, borisson_: Fixed problem
+  running batch process during module install.
+- #2916534 by drunken monkey, Johnny vd Laar, ricovandevin, Marty2081: Fixed
+  duplicate results for partial matching with database backend.
+- #3084839 by ckaotik, drunken monkey: Fixed missing config schema for Views
+  date filter.
+- #3083923 by aalin, drunken monkey: Fixed ResultRow name conflict in PHP 5.
+- #3083269 by leontin, drunken monkey: Fixed error when combining multiple
+  fulltext keywords.
+- #3086004 by drunken monkey: Fixed failing tests.
+- #3079147 by drunken monkey: Fixed Views click-sorting for ID and datasource.
+- #3067640 by DamienMcKenna, drunken monkey: Fixed "missing module" error for
+  search_api_views_taxonomy.
+- #3071591 by pfrenssen, drunken monkey: Fixed plugin not found error during
+  site/config install.
+- #3075417 by Adrian Liegmann, drunken monkey: Fixed handling of 'is_list' =>
+  FALSE in property definitions.
+- #3074852 by littlepixiez, drunken monkey: Fixed message class for failed
+  status change.
+- #3068196 by Adrian Liegmann, lpeabody, drunken monkey: Fixed problem with
+  multiple Drush batch operations in Drush 9.6+.
+- #1960684 by drunken monkey, geek.merlin aka axel.rutz, mkalkbrenner,
+  borisson_, andypost, DanielVeza: Added support for language fallbacks.
+- #3067143 by drunken monkey, mpp, borisson_: Fixed potential fatal error when
+  accessing parse mode of broken Views.
+- #3073283 by mkalkbrenner, idebr, drunken monkey: Fixed failing tests on Drupal
+  Core 8.8.x.
+- #3062400 by drunken monkey, jonathan_hunt, borisson_: Fixed the reindexing
+  message in the UI.
+
+Search API 1.14 (2019-07-08):
+-----------------------------
+- #3065550 by mkalkbrenner, drunken monkey: Declared a conflict for most older
+  Search API Solr versions.
+- #2983606 by StryKaizer, borisson_, drunken monkey, sgurlt: Added an excerpt
+  field to use in view modes.
+- #3065359 by mkalkbrenner, drunken monkey, borisson_: Fixed fatal error in all
+  Drush commands.
+- #2718045 by drunken monkey, joelpittet: Fixed "Rendered entity" Views row
+  style being available for all base tables in some cases.
+- #3023704 by legolasbo, drunken monkey, borisson_: Converted all hooks to
+  events.
+- #3059312 by drunken monkey, borisson_: Fixed warning when trying to add
+  hierarchical data to fulltext fields.
+- #2674750 by drunken monkey, Niklan, borisson_: Fixed display of computed
+  fields in Views.
+- #3015114 by legolasbo, drunken monkey, borisson_, weseze: Improved the
+  performance of the Highlight processor.
+- #3053200 by drunken monkey, mkalkbrenner, borisson_: Increased Core version
+  requirement to 8.6.
+- #3055151 by drunken monkey, borisson_: Content Access Index Processor
+  statusFixed data type plugins to properly convert values.
+- #3058300 by pfrenssen, drunken monkey, borisson_: Changed access methods to
+  work with AccessResult objects instead of booleans.
+- #3059070 by fconnolly, borisson_, drunken monkey: Fixed Item::__toString() to
+  not extract fields.
+- #3055775 by legolasbo, drunken monkey: Fixed documentation of
+  hook_search_api_query_alter().
+- #3054875 by mpp, drunken monkey, borisson_: Fixed help text for
+  "Type-specific boosting" processor.
+- #3052877 by legolasbo, drunken monkey, borisson_: Fixed "no backend plugins"
+  case in "Add server" form.
+- #2986222 by idebr, drunken monkey: Switched Javascript tests to
+  WebDriverTestBase.
+- #2840272 by drunken monkey: Fixed fatal error in certain Views error
+  conditions.
+- #3057510 by drunken monkey, borisson_: Fixed inconsistent package names for
+  test modules.
+- #3031621 by drunken monkey, DeFr, borisson_: Fixed fields returned by backend
+  sometimes ignored by Views.
+- #3053603 by drunken monkey, borisson_: Fixed reported cardinality of
+  entity-valued processor properties.
+- #2881689 by pwolanin, drunken monkey, borisson_: Added performance
+  improvement for initial tracking of existing entities.
+
 Search API 1.13 (2019-05-07):
 -----------------------------
 - #3043930 by kfritsche, drunken monkey, borisson_: Fixed issue with nested

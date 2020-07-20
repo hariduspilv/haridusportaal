@@ -84,9 +84,9 @@ interface KeyRepositoryInterface {
    * @param array $filters
    *   An array of filters to apply to the list of options.
    *
-   * @return array An array of key names, indexed by id.
+   * @return array
    *   An array of key names, indexed by id.
    */
-  public function getKeyNamesAsOptions($filters);
+  public function getKeyNamesAsOptions(array $filters);
 
 }

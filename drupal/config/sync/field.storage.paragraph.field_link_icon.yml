@@ -1,0 +1,30 @@
+uuid: c8d8b08a-b8bd-4da2-bf68-5ea96ec29060
+langcode: et
+status: true
+dependencies:
+  module:
+    - options
+    - paragraphs
+id: paragraph.field_link_icon
+field_name: field_link_icon
+entity_type: paragraph
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: library
+      label: school
+    -
+      value: book
+      label: book
+    -
+      value: file-text
+      label: file-text
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

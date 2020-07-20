@@ -1,0 +1,36 @@
+uuid: 5116c91a-69e2-4bb1-9c46-dbbde57de64a
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.frontpage_new.field_frontpage_contact_email
+    - field.field.node.frontpage_new.field_frontpage_contact_name
+    - field.field.node.frontpage_new.field_frontpage_contact_phone
+    - field.field.node.frontpage_new.field_frontpage_news
+    - field.field.node.frontpage_new.field_frontpage_quote
+    - field.field.node.frontpage_new.field_frontpage_services
+    - field.field.node.frontpage_new.field_frontpage_topics
+    - node.type.frontpage_new
+  module:
+    - user
+id: node.frontpage_new.teaser
+targetEntityType: node
+bundle: frontpage_new
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_frontpage_contact_email: true
+  field_frontpage_contact_name: true
+  field_frontpage_contact_phone: true
+  field_frontpage_news: true
+  field_frontpage_quote: true
+  field_frontpage_services: true
+  field_frontpage_topics: true
+  langcode: true
+  search_api_excerpt: true

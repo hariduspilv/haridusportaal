@@ -2,8 +2,6 @@
 
 namespace Drupal\purge\Plugin\Purge\Purger;
 
-use Drupal\purge\Plugin\Purge\Purger\RuntimeMeasurementInterface;
-
 /**
  * Describes what capacity tracking expects from purger implementations.
  */
@@ -20,7 +18,7 @@ interface PurgerCapacityDataInterface {
    * higher this value is, the less processing can happen per request. Platforms
    * that clear instantly (e.g.: via a socket) are best off leaving this at 0.0.
    *
-   * @see \Drupal\purge\Annotation\PurgePurger::$cooldown_time.
+   * @see \Drupal\purge\Annotation\PurgePurger::$cooldown_time
    * @see \Drupal\purge\Plugin\Purge\Purger\CapacityTrackerInterface::getCooldownTime()
    *
    * @return float
@@ -95,19 +93,19 @@ interface PurgerCapacityDataInterface {
    * Indicates whether your purger utilizes dynamic runtime measurement.
    *
    * Implementations of this method should simply return TRUE or FALSE but the
-   * consequences of it have to be thouroughly understood. Either scenarios and
+   * consequences of it have to be thoroughly understood. Either scenarios and
    * the resulting behavior explained:
    *
    * Dynamic runtime measurement enabled (TRUE):
-   *  - A counter for your purger will be injected using ::setRuntimeMeasurement().
-   *  - The injected counter will be returned by ::getRuntimeMeasurement().
+   *  - ::setRuntimeMeasurement() will inject a counter to your purger instance.
+   *  - ::getRuntimeMeasurement() returns the injected counter.
    *  - RuntimeMeasurementInterface::start() is called before ::invalidate().
-   *  - RuntimeMeasurementInterface::stopped() is called after ::invalidate().
+   *  - RuntimeMeasurementInterface::stop() is called after ::invalidate().
    *  - Your ::getTimeHint() implementation is assumed to utilize the latest
    *    runtime measurement by calling RuntimeMeasurementInterface::get().
    *
    * In other words, returning TRUE will give you automatic adaptive performance
-   * throthling based on data, gathered by automatically set performance
+   * throttling based on data, gathered by automatically set performance
    * counters. When your purgers execute slow, less will be fed in the next
    * call to ::invalidate(). When it performs much better, it will incrementally
    * increase the amount it feeds, over the several next calls to ::invalidate.
@@ -123,7 +121,7 @@ interface PurgerCapacityDataInterface {
    * complex, because real-world circumstances (e.g. HTTP delays) can cause
    * sudden drops in productivity, which cannot come at the expense of Drupal's
    * overal stability. This is why Purge rather throttles its own work, than
-   * letting things explode in front of the end-user. 
+   * letting things explode in front of the end-user.
    *
    * @return bool
    *   Whether dynamic runtime measurement is used and should be injected.
@@ -135,8 +133,6 @@ interface PurgerCapacityDataInterface {
    *
    * @param \Drupal\purge\Plugin\Purge\Purger\RuntimeMeasurementInterface $measurement
    *   The runtime measurement counter.
-   *
-   * @return void
    */
   public function setRuntimeMeasurement(RuntimeMeasurementInterface $measurement);
 

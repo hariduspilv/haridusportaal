@@ -7,12 +7,11 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace PHPUnit\Framework\Constraint;
 
 class CountTest extends ConstraintTestCase
 {
-    public function testCount()
+    public function testCount(): void
     {
         $countConstraint = new Count(3);
         $this->assertTrue($countConstraint->evaluate([1, 2, 3], '', true));
@@ -30,7 +29,7 @@ class CountTest extends ConstraintTestCase
         $this->assertTrue($countConstraint->evaluate($ia2, '', true));
     }
 
-    public function testCountDoesNotChangeIteratorKey()
+    public function testCountDoesNotChangeIteratorKey(): void
     {
         $countConstraint = new Count(2);
 
@@ -97,7 +96,7 @@ class CountTest extends ConstraintTestCase
         $this->assertFalse($it->valid());
     }
 
-    public function testCountGeneratorsDoNotRewind()
+    public function testCountGeneratorsDoNotRewind(): void
     {
         $generatorMaker = new \TestGeneratorMaker;
 
@@ -129,7 +128,7 @@ class CountTest extends ConstraintTestCase
         $this->assertEquals(null, $generator->current());
     }
 
-    public function testCountTraversable()
+    public function testCountTraversable(): void
     {
         $countConstraint = new Count(5);
 
@@ -142,5 +141,15 @@ class CountTest extends ConstraintTestCase
         $this->assertNotInstanceOf(\Iterator::class, $datePeriod);
         $this->assertNotInstanceOf(\IteratorAggregate::class, $datePeriod);
         $this->assertTrue($countConstraint->evaluate($datePeriod, '', true));
+    }
+
+    /**
+     * @ticket https://github.com/sebastianbergmann/phpunit/issues/3743
+     */
+    public function test_EmptyIterator_is_handled_correctly(): void
+    {
+        $constraint = new Count(0);
+
+        $this->assertTrue($constraint->evaluate(new \EmptyIterator, '', true));
     }
 }

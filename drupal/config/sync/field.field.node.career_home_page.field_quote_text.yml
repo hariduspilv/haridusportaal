@@ -1,0 +1,19 @@
+uuid: e202e6f6-941f-4965-adae-b926b86a5d46
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_quote_text
+    - node.type.career_home_page
+id: node.career_home_page.field_quote_text
+field_name: field_quote_text
+entity_type: node
+bundle: career_home_page
+label: 'Tsitaadi tekst'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

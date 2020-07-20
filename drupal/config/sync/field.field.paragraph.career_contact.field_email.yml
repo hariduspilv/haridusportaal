@@ -1,0 +1,19 @@
+uuid: f7cd5a1b-e0a8-40ec-acb8-d46c2bb5915f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_email
+    - paragraphs.paragraphs_type.career_contact
+id: paragraph.career_contact.field_email
+field_name: field_email
+entity_type: paragraph
+bundle: career_contact
+label: E-post
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: email

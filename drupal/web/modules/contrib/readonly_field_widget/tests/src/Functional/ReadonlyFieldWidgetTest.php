@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\readonly_field_widget\Functional;
 
+use Behat\Mink\Element\NodeElement;
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
 use Drupal\Tests\BrowserTestBase;
@@ -24,7 +25,17 @@ class ReadonlyFieldWidgetTest extends BrowserTestBase {
    */
   protected $strictConfigSchema = FALSE;
 
+  /**
+   * An admin user for testing.
+   *
+   * @var \Drupal\user\UserInterface
+   */
   protected $admin;
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'classy';
 
   /**
    * {@inheritdoc}
@@ -107,6 +118,7 @@ class ReadonlyFieldWidgetTest extends BrowserTestBase {
     $this->drupalGet('/admin/structure/types/manage/page/form-display');
     $this->submitForm([
       'fields[field_restricted_text][type]' => 'readonly_field_widget',
+      'fields[title][type]' => 'readonly_field_widget',
     ], 'Save');
     $this->submitForm([], 'field_restricted_text_settings_edit');
     $this->submitForm([
@@ -117,6 +129,18 @@ class ReadonlyFieldWidgetTest extends BrowserTestBase {
     ], 'Update');
     $this->submitForm([], 'Save');
 
+    // Set the title to be read-only.
+    $this->submitForm([
+      'fields[title][type]' => 'readonly_field_widget',
+    ], 'Save');
+    $this->submitForm([], 'title_settings_edit');
+    $this->submitForm([
+      'fields[title][settings_edit_form][settings][label]' => 'inline',
+      'fields[title][settings_edit_form][settings][formatter_type]' => 'string',
+      'fields[title][settings_edit_form][settings][show_description]' => TRUE,
+      'fields[title][settings_edit_form][settings][formatter_settings][string][link_to_entity]' => FALSE,
+    ], 'Update');
+    $this->submitForm([], 'Save');
   }
 
   /**
@@ -149,24 +173,31 @@ class ReadonlyFieldWidgetTest extends BrowserTestBase {
     $this->drupalLogin($this->admin);
     $this->drupalGet('node/' . $page->id() . '/edit');
 
+    // Test the title field shows with a label.
+    $field_wrapper = $assert->elementExists('css', '#edit-title-wrapper');
+    $assert->elementNotExists('css', 'input', $field_wrapper);
+    $assert->elementNotExists('css', 'a', $field_wrapper);
+    $this->assertFieldWrapperContainsString('Title', $field_wrapper);
+    $this->assertFieldWrapperContainsString($page->label(), $field_wrapper);
+
     $field_wrapper = $assert->elementExists('css', '#edit-field-some-plain-text-wrapper');
-    $this->assertContains($test_string, $field_wrapper->getHtml());
+    $this->assertFieldWrapperContainsString($test_string, $field_wrapper);
     $assert->elementNotExists('css', 'input', $field_wrapper);
 
     // This shouldn't be editable by admin, but they can view it.
     $field_wrapper = $assert->elementExists('css', '#edit-field-restricted-text-wrapper');
-    $this->assertContains($restricted_test_string, $field_wrapper->getHtml());
+    $this->assertFieldWrapperContainsString($restricted_test_string, $field_wrapper);
     $assert->elementNotExists('css', 'input', $field_wrapper);
 
     $field_wrapper = $assert->elementExists('css', '#edit-field-article-reference-wrapper');
-    $this->assertContains('test-article', $field_wrapper->getHtml());
+    $this->assertFieldWrapperContainsString('test-article', $field_wrapper);
     $title_element = $assert->elementExists('css', 'h2 a span', $field_wrapper);
     $this->assertEquals($title_element->getText(), 'test-article');
     $assert->elementNotExists('css', 'input', $field_wrapper);
     $assert->elementNotExists('css', 'select', $field_wrapper);
 
     $field_wrapper = $assert->elementExists('css', '#edit-field-term-reference-wrapper');
-    $this->assertContains('test-tag', $field_wrapper->getHtml());
+    $this->assertFieldWrapperContainsString('test-tag', $field_wrapper);
     $title_element = $assert->elementExists('css', '.field__item a', $field_wrapper);
     $this->assertEquals($title_element->getText(), 'test-tag');
     $assert->elementNotExists('css', 'input', $field_wrapper);
@@ -177,26 +208,33 @@ class ReadonlyFieldWidgetTest extends BrowserTestBase {
     $this->drupalLogin($user);
     $this->drupalGet('node/' . $page->id() . '/edit');
     $field_wrapper = $assert->elementExists('css', '#edit-field-some-plain-text-wrapper');
-    $this->assertContains($test_string, $field_wrapper->getHtml());
+    $this->assertFieldWrapperContainsString($test_string, $field_wrapper);
     $assert->elementNotExists('css', 'input', $field_wrapper);
 
     // This field is restricted via hooks in readonly_field_widget_test.module.
     $assert->elementNotExists('css', '#edit-field-restricted-text-wrapper');
-    $this->assertNotContains($restricted_test_string, $this->getTextContent());
+    $this->assertSession()->responseNotContains($restricted_test_string);
 
     $field_wrapper = $assert->elementExists('css', '#edit-field-article-reference-wrapper');
-    $this->assertContains('test-article', $field_wrapper->getHtml());
+    $this->assertFieldWrapperContainsString('test-article', $field_wrapper);
     $title_element = $assert->elementExists('css', 'h2 a span', $field_wrapper);
     $this->assertEquals($title_element->getText(), 'test-article');
     $assert->elementNotExists('css', 'input', $field_wrapper);
     $assert->elementNotExists('css', 'select', $field_wrapper);
 
     $field_wrapper = $assert->elementExists('css', '#edit-field-term-reference-wrapper');
-    $this->assertContains('test-tag', $field_wrapper->getHtml());
+    $this->assertFieldWrapperContainsString('test-tag', $field_wrapper);
     $title_element = $assert->elementExists('css', '.field__item a', $field_wrapper);
     $this->assertEquals($title_element->getText(), 'test-tag');
     $assert->elementNotExists('css', 'input', $field_wrapper);
     $assert->elementNotExists('css', 'select', $field_wrapper);
+  }
+
+  /**
+   * Check if the field widget wrapper contains the passed in string.
+   */
+  private function assertFieldWrapperContainsString($string, NodeElement $element) {
+    $this->assertTrue((bool) preg_match('/' . $string . '/', $element->getHtml()), "field wrapper contains '" . $string . "'");
   }
 
 }

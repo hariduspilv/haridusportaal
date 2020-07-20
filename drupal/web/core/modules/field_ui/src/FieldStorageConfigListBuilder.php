@@ -10,12 +10,13 @@ use Drupal\Core\Entity\EntityTypeInterface;
 use Drupal\Core\Entity\EntityTypeBundleInfoInterface;
 use Drupal\Core\Field\FieldTypePluginManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\Core\Link;
 
 /**
  * Defines a class to build a listing of fields.
  *
- * @see \Drupal\field\Entity\Field
- * @see field_ui_entity_info()
+ * @see \Drupal\field\Entity\FieldStorageConfig
+ * @see field_ui_entity_type_build()
  */
 class FieldStorageConfigListBuilder extends ConfigEntityListBuilder {
   use DeprecatedServicePropertyTrait;
@@ -122,7 +123,7 @@ class FieldStorageConfigListBuilder extends ConfigEntityListBuilder {
     $usage = [];
     foreach ($field_storage->getBundles() as $bundle) {
       if ($route_info = FieldUI::getOverviewRouteInfo($entity_type_id, $bundle)) {
-        $usage[] = \Drupal::l($this->bundles[$entity_type_id][$bundle]['label'], $route_info);
+        $usage[] = Link::fromTextAndUrl($this->bundles[$entity_type_id][$bundle]['label'], $route_info)->toRenderable();
       }
       else {
         $usage[] = $this->bundles[$entity_type_id][$bundle]['label'];

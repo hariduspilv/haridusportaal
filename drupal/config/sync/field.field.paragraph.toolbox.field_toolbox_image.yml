@@ -1,0 +1,27 @@
+uuid: 82a2be3b-ea0d-4abb-950e-e21f8f45597b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_toolbox_image
+    - paragraphs.paragraphs_type.toolbox
+  module:
+    - file
+id: paragraph.toolbox.field_toolbox_image
+field_name: field_toolbox_image
+entity_type: paragraph
+bundle: toolbox
+label: Pilt
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: svg
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

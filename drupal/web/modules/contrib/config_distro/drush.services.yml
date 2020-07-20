@@ -1,0 +1,11 @@
+services:
+  config_distro.commands:
+    class: \Drupal\config_distro\Commands\ConfigDistroCommands
+    arguments:
+      - '@config.storage'
+      - '@config_distro.storage.distro'
+      - '@config.manager'
+      - '@config.import.commands'
+      - '@event_dispatcher'
+    tags:
+      - { name: drush.command }

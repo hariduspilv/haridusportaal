@@ -46,8 +46,8 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
         $element['graph_type'] = [
             '#title' => $this->t('Graph type'),
-            '#size' => 256,
             '#type' => 'select',
+            '#size' => 1,
             '#default_value' => isset($items[$delta]->graph_type) ? $items[$delta]->graph_type : NULL,
             '#options' => [
                 'line' => $this->t('line'),
@@ -100,8 +100,10 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             $indicator_data = json_decode(file_get_contents($oska_filters_path.'naitaja'), TRUE);
             $indicator_options = [];
 
-            foreach($indicator_data as $key => $value){
+            if($indicator_data){
+              foreach($indicator_data as $key => $value){
                 $indicator_options[$key] = $key;
+              }
             }
 
             $group_by_options = $fields;
@@ -112,6 +114,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#title' => $this->t('OSKA indicator'),
                     '#type' => 'select',
                     '#options' => $indicator_options,
+                    '#description' => $this->t('To select multiple values, use CTRL click.'),
                     '#multiple' => TRUE,
                     '#required' => FALSE,
                     '#default_value' => isset($data['graph_indicator']) ? $data['graph_indicator'] : NULL,
@@ -160,6 +163,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         '#title' => $this->t('OSKA indicator'),
                         '#type' => 'select',
                         '#options' => $indicator_options,
+                        '#size' => 1,
                         '#multiple' => FALSE,
                         '#required' => FALSE,
                         '#empty_option'  => '-',
@@ -190,11 +194,11 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
             $element['graph_options']['graph_v_axis'] = [
                 '#title' => $this->t('Graph v-axis'),
-                '#size' => 256,
                 '#type' => 'select',
                 '#default_value' => isset($data['graph_v_axis']) ? $data['graph_v_axis'] : NULL,
                 '#options' =>  $fields,
                 '#empty_option'  => '-',
+                '#size' => 1,
                 '#required' => FALSE,
                 '#element_validate' => array(array($this, 'validateChartInput')),
                 '#delta' => $delta,
@@ -202,9 +206,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
             $element['graph_options']['graph_group_by'] = [
                 '#title' => $this->t('Group results'),
-                '#size' => 256,
                 '#type' => 'select',
                 '#multiple' => TRUE,
+                '#description' => $this->t('To select multiple values, use CTRL click.'),
                 '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
                 '#options' =>  $group_by_options,
                 '#empty_option'  => '-',
@@ -261,6 +265,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                     '#type' => 'select',
                     '#options' => $selection,
                     '#multiple' => TRUE,
+                    '#description' => $this->t('To select multiple values, use CTRL click.'),
                     '#required' => FALSE,
                     '#default_value' => isset($data['graph_filters'][$key]) ? $data['graph_filters'][$key] : NULL,
                 ];
@@ -289,8 +294,8 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
                 $element['graph_options']['secondary_graph_type'] = [
                     '#title' => $this->t('Secondary graph type'),
-                    '#size' => 256,
                     '#type' => 'select',
+                    '#size' => 1,
                     '#default_value' => isset($items[$delta]->secondary_graph_type) ? $items[$delta]->secondary_graph_type : NULL,
                     '#options' => [
                         'line' => $this->t('line'),
@@ -304,6 +309,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             $element['graph_options']['graph_y_unit'] = [
                 '#title' => $this->t('Graph Y unit'),
                 '#type' => 'select',
+                '#size' => 1,
                 '#options' => [
                     'summa' => $this->t('summa'),
                     'euro' => $this->t('euro'),

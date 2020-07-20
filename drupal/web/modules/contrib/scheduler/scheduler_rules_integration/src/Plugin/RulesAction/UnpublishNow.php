@@ -30,7 +30,7 @@ class UnpublishNow extends RulesActionBase {
    */
   public function doExecute() {
     $node = $this->getContextValue('node');
-    $node->setPublished(FALSE);
+    $node->setUnpublished();
   }
 
 }

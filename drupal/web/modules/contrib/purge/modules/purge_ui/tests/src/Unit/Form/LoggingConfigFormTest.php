@@ -2,10 +2,10 @@
 
 namespace Drupal\Tests\purge_ui\Unit\Form;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Drupal\Tests\UnitTestCase;
 use Drupal\Core\Form\FormState;
 use Drupal\purge_ui\Form\LoggingConfigForm;
+use Drupal\Tests\UnitTestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 /**
  * @coversDefaultClass \Drupal\purge_ui\Form\LoggingConfigForm
@@ -38,7 +38,12 @@ class LoggingConfigFormTest extends UnitTestCase {
    * {@inheritdoc}
    */
   protected function setUp() {
-    $defaults = [['id' => 'testchannel', 'grants' => [2,4,1]]];
+    $defaults = [
+      [
+        'id' => 'testchannel',
+        'grants' => [2, 4, 1],
+      ],
+    ];
     $this->purgeLogger = $this->getMock('Drupal\purge\Logger\LoggerServiceInterface');
     $this->purgeLogger->method('getChannels')->willReturn($defaults);
     $this->purgeLogger->method('hasChannel')
@@ -112,7 +117,7 @@ class LoggingConfigFormTest extends UnitTestCase {
     // Verify that correct data does lead to a write.
     $this->purgeLogger->expects($this->once())
       ->method('setChannel')
-      ->with($this->equalTo('testchannel'), $this->equalTo([0,1]));
+      ->with($this->equalTo('testchannel'), $this->equalTo([0, 1]));
     $submitted = new FormState();
     $submitted->setValue('table', ['testchannel' => ["1", "1", "0", 0]]);
     $ajax = $this->form->setChannels($form, $submitted);
@@ -136,7 +141,7 @@ class LoggingConfigFormTest extends UnitTestCase {
     // Verify that correct data does lead to a write.
     $this->purgeLogger->expects($this->once())
       ->method('setChannel')
-      ->with($this->equalTo('testchannel'), $this->equalTo([0,1]));
+      ->with($this->equalTo('testchannel'), $this->equalTo([0, 1]));
     $submitted = new FormState();
     $submitted->setValue('table', ['testchannel' => ["1", "1", "0", 0]]);
     $this->assertTrue($this->form->submitForm($form, $submitted));

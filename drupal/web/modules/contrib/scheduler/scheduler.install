@@ -17,7 +17,7 @@ function scheduler_requirements($phase) {
   if ($phase === 'runtime') {
     $user = \Drupal::currentUser();
 
-    $now = REQUEST_TIME;
+    $now = \Drupal::time()->getRequestTime();
     $system_date = \Drupal::config('system.date');
     $date_default_timezone = $system_date->get('timezone.default') ?: date_default_timezone_get();
     $date_formatter = \Drupal::service('date.formatter');
@@ -71,8 +71,6 @@ function scheduler_requirements($phase) {
  * Implements hook_install().
  */
 function scheduler_install() {
-  // Add our base fields to the schema.
-  \Drupal::service('entity.definition_update_manager')->applyUpdates();
   // Set cron access key value, as this is now required in SchedulerCronForm.
   $config = \Drupal::service('config.factory')->getEditable('scheduler.settings');
   $config->set('lightweight_cron_access_key', substr(md5(rand()), 0, 20))
@@ -83,8 +81,6 @@ function scheduler_install() {
  * Implements hook_uninstall().
  */
 function scheduler_uninstall() {
-  // Remove our base fields from the schema.
-  \Drupal::service('entity.definition_update_manager')->applyUpdates();
   // Delete the scheduled content view.
   \Drupal::configFactory()->getEditable('views.view.scheduler_scheduled_content')->delete();
 }

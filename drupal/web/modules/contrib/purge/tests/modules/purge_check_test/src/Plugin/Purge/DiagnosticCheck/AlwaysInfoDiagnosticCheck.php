@@ -2,8 +2,8 @@
 
 namespace Drupal\purge_check_test\Plugin\Purge\DiagnosticCheck;
 
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
 use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckBase;
+use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
 
 /**
  * Checks if there is a purger plugin that invalidates an external cache.
@@ -23,7 +23,7 @@ class AlwaysInfoDiagnosticCheck extends DiagnosticCheckBase implements Diagnosti
    */
   public function run() {
     $this->recommendation = $this->t("This is info for testing.");
-    return SELF::SEVERITY_INFO;
+    return self::SEVERITY_INFO;
   }
 
 }

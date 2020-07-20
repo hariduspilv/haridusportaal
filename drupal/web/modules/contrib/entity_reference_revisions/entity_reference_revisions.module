@@ -7,10 +7,13 @@
 
 use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Entity\ContentEntityInterface;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
 use Drupal\Core\Entity\TranslatableRevisionableStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Render\Element;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\entity_reference_revisions\Plugin\Field\FieldType\EntityReferenceRevisionsItem;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\FieldStorageConfigInterface;
@@ -249,6 +252,11 @@ function entity_reference_revisions_entity_revision_create(ContentEntityInterfac
 
           $values = [];
           foreach ($items as $delta => $item) {
+            // If the target entity is missing, let's skip it.
+            if (empty($item->entity)) {
+              continue;
+            }
+
             // Use the item from the translation if it exists.
             // If we have translation items, use that if one with the matching
             // target id exists.
@@ -275,6 +283,67 @@ function entity_reference_revisions_entity_revision_create(ContentEntityInterfac
             $values[$delta] = $revised_entity;
           }
           $new_revision->set($field_name, $values);
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Batch callback to dispatch the orphan composite batch operation to a service.
+ */
+function _entity_reference_revisions_orphan_purger_batch_dispatcher() {
+  $args = func_get_args();
+  list($service, $method) = explode(':', array_shift($args));
+  // The second argument (context) is passed by reference.
+  $values = $args[1];
+  $args[1] = &$values;
+  call_user_func_array([\Drupal::service($service), $method], $args);
+}
+
+/**
+ * Implements hook_entity_delete().
+ *
+ * Performs garbage collection for composite entities that were not removed
+ * by EntityReferenceRevisionsItem.
+ */
+function entity_reference_revisions_entity_delete(EntityInterface $entity) {
+  if (!$entity instanceof FieldableEntityInterface) {
+    return;
+  }
+
+  $entity_type_manager = \Drupal::entityTypeManager();
+  /** @var \Drupal\Core\Field\FieldTypePluginManager $field_type_manager */
+  $field_type_manager = \Drupal::service('plugin.manager.field.field_type');
+  foreach ($entity->getFieldDefinitions() as $field_name => $field_definition) {
+    $field_class = $field_type_manager->getPluginClass($field_definition->getType());
+    if ($field_class == EntityReferenceRevisionsItem::class || is_subclass_of($field_class, EntityReferenceRevisionsItem::class)) {
+      $target_entity_type_id = $field_definition->getSetting('target_type');
+      $target_entity_storage = $entity_type_manager->getStorage($target_entity_type_id);
+      $target_entity_type = $target_entity_storage->getEntityType();
+
+      $parent_type_field = $target_entity_type->get('entity_revision_parent_type_field');
+      $parent_id_field = $target_entity_type->get('entity_revision_parent_id_field');
+      $parent_name_field = $target_entity_type->get('entity_revision_parent_field_name_field');
+
+      if ($parent_type_field && $parent_id_field && $parent_name_field) {
+        $entity_ids = $target_entity_storage
+          ->getQuery()
+          ->allRevisions()
+          ->condition($parent_type_field, $entity->getEntityTypeId())
+          ->condition($parent_id_field, $entity->id())
+          ->condition($parent_name_field, $field_name)
+          ->execute();
+
+        if (empty($entity_ids)) {
+          continue;
+        }
+        $entity_ids = array_unique($entity_ids);
+        foreach ($entity_ids as $revision_id => $entity_id) {
+          \Drupal::queue('entity_reference_revisions_orphan_purger')->createItem([
+            'entity_id' => $entity_id,
+            'entity_type_id' => $target_entity_type_id,
+          ]);
         }
       }
     }

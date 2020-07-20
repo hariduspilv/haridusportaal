@@ -14,7 +14,6 @@ public class LogForDrupal {
   private String responseId;
 
   public LogForDrupal() {
-    super();
   }
 
   public LogForDrupal(String type, String severity, Timestamp startTime, Timestamp endTime,

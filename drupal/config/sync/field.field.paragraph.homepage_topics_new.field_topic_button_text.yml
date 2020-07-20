@@ -1,0 +1,19 @@
+uuid: e7863698-2f30-4e9e-86a8-110aca199513
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_topic_button_text
+    - paragraphs.paragraphs_type.homepage_topics_new
+id: paragraph.homepage_topics_new.field_topic_button_text
+field_name: field_topic_button_text
+entity_type: paragraph
+bundle: homepage_topics_new
+label: 'Teema nupu tekst'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

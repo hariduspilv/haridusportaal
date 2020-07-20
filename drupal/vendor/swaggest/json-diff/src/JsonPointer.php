@@ -104,7 +104,7 @@ class JsonPointer
         $ref = &$holder;
         while (null !== $key = array_shift($pathItems)) {
             if ($ref instanceof \stdClass || is_object($ref)) {
-                if (PHP_VERSION_ID < 71000 && '' === $key) {
+                if (PHP_VERSION_ID < 70100 && '' === $key) {
                     throw new Exception('Empty property name is not supported by PHP <7.1',
                         Exception::EMPTY_PROPERTY_NAME_UNSUPPORTED);
                 }
@@ -134,17 +134,17 @@ class JsonPointer
                 } else {
                     if ($flags & self::RECURSIVE_KEY_CREATION && $ref === null) $ref = array();
                     if ('-' === $key) {
-                        $ref = &$ref[];
+                        $ref = &$ref[count($ref)];
                     } else {
-                        if (is_array($ref) && array_key_exists($key, $ref) && empty($pathItems)) {
-                            array_splice($ref, $key, 0, array($value));
-                        }
                         if (false === $intKey) {
                             if (0 === ($flags & self::TOLERATE_ASSOCIATIVE_ARRAYS)) {
                                 throw new Exception('Invalid key for array operation');
                             }
                             $ref = &$ref[$key];
                             continue;
+                        }
+                        if (is_array($ref) && array_key_exists($key, $ref) && empty($pathItems)) {
+                            array_splice($ref, $intKey, 0, array($value));
                         }
                         if (0 === ($flags & self::TOLERATE_ASSOCIATIVE_ARRAYS)) {
                             if ($intKey > count($ref) && 0 === ($flags & self::RECURSIVE_KEY_CREATION)) {
@@ -202,7 +202,7 @@ class JsonPointer
         $ref = $holder;
         while (null !== $key = array_shift($pathItems)) {
             if ($ref instanceof \stdClass) {
-                if (PHP_VERSION_ID < 71000 && '' === $key) {
+                if (PHP_VERSION_ID < 70100 && '' === $key) {
                     throw new Exception('Empty property name is not supported by PHP <7.1',
                         Exception::EMPTY_PROPERTY_NAME_UNSUPPORTED);
                 }
@@ -282,7 +282,6 @@ class JsonPointer
                 unset($parent->$refKey);
             } else {
                 $isAssociative = false;
-                $ff = $flags & self::TOLERATE_ASSOCIATIVE_ARRAYS;
                 if ($flags & self::TOLERATE_ASSOCIATIVE_ARRAYS) {
                     $i = 0;
                     foreach ($parent as $index => $value) {

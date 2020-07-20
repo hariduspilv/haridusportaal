@@ -3,7 +3,6 @@
 namespace Drupal\purge_ui\Tests;
 
 use Drupal\Core\Url;
-use Drupal\purge_ui\Tests\DashboardTestBase;
 
 /**
  * Tests \Drupal\purge_ui\Controller\DashboardController::buildLoggingSection().
@@ -18,7 +17,7 @@ class DashboardLoggingTest extends DashboardTestBase {
    * @see \Drupal\purge_ui\Controller\DashboardController::buildLoggingSection
    */
   public function testLoggingSection() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet($this->route);
     $this->assertRaw('Logging');
     $this->assertRaw('Configure logging behavior');

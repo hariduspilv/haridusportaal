@@ -137,11 +137,12 @@ export class OskaSectorsComponent implements OnInit {
     }
 
     try{
-      let tmpList = this.modal.reverseFieldOskaFieldParagraph.entities.map( item => {
+      let tmpList = this.modal.reverseFieldOskaFieldParagraph.entities.filter(item => item !== null).map( item => {
         return item.paragraphReference[0];
       });
       this.modal.list = this.sortByKey(tmpList, 'entityLabel');
-    }catch(err){}
+    }catch(err){
+    }
 
     let elem = document.querySelector('#block_'+index);
 

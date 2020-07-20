@@ -6,7 +6,6 @@ use Drupal\Core\Entity\EntityForm;
 use Drupal\Core\Config\Entity\ConfigEntityStorageInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\key\Entity\Key;
-use Drupal\key\Exception\KeyValueNotSetException;
 use Drupal\key\Plugin\KeyPluginFormInterface;
 use Drupal\key\Plugin\KeyProviderSettableValueInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -26,7 +25,7 @@ abstract class KeyFormBase extends EntityForm {
   /**
    * The original key.
    *
-   * @var \Drupal\key\Entity\Key|NULL
+   * @var \Drupal\key\Entity\Key|null
    *   The original key entity or NULL if this is a new key.
    */
   protected $originalKey = NULL;
@@ -320,28 +319,18 @@ abstract class KeyFormBase extends EntityForm {
    * {@inheritdoc}
    */
   public function save(array $form, FormStateInterface $form_state) {
-    /* @var $key \Drupal\key\Entity\Key */
-    $key = $this->entity;
+    // Allow exceptions to percolate, per EntityFormInterface.
+    $status = parent::save($form, $form_state);
 
-    // Save the key, catching exceptions.
-    try {
-      $status = $key->save();
-    }
-    catch (KeyValueNotSetException $e) {
-      drupal_set_message($this->t('The key was not saved because the key value could not be set. @message', ['@message' => $e->getMessage()]), 'error');
-      return;
-    }
-
-    $t_args = ['%name' => $key->label()];
-
+    $t_args = ['%name' => $this->entity->label()];
     if ($status == SAVED_UPDATED) {
-      drupal_set_message($this->t('The key %name has been updated.', $t_args));
+      $this->messenger()->addStatus($this->t('The key %name has been updated.', $t_args));
     }
     elseif ($status == SAVED_NEW) {
-      drupal_set_message(t('The key %name has been added.', $t_args));
+      $this->messenger()->addStatus($this->t('The key %name has been added.', $t_args));
     }
-
     $form_state->setRedirectUrl($this->entity->toUrl('collection'));
+    return $status;
   }
 
   /**
@@ -496,10 +485,10 @@ abstract class KeyFormBase extends EntityForm {
    *
    * @param string $type
    *   The plugin type ID.
-   * @param FormStateInterface $form_state
+   * @param \Drupal\Core\Form\FormStateInterface $form_state
    *   The form state to copy values from.
    *
-   * @return FormStateInterface
+   * @return \Drupal\Core\Form\FormStateInterface
    *   A clone of the form state object with values from the plugin.
    */
   protected function createPluginFormState($type, FormStateInterface $form_state) {

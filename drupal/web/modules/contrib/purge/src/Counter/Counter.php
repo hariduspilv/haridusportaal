@@ -3,7 +3,6 @@
 namespace Drupal\purge\Counter;
 
 use Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException;
-use Drupal\purge\Counter\CounterInterface;
 
 /**
  * Provides a numeric counter.
@@ -22,21 +21,21 @@ class Counter implements CounterInterface {
    *
    * @var bool
    */
-  protected $permission_decrement = TRUE;
+  protected $permissionDecrement = TRUE;
 
   /**
    * Whether it is possible to call ::increment() or not.
    *
    * @var bool
    */
-  protected $permission_increment = TRUE;
+  protected $permissionIncrement = TRUE;
 
   /**
    * Whether it is possible to call ::set() or not.
    *
    * @var bool
    */
-  protected $permission_set = TRUE;
+  protected $permissionSet = TRUE;
 
   /**
    * The value of the counter.
@@ -56,21 +55,21 @@ class Counter implements CounterInterface {
    * {@inheritdoc}
    */
   public function disableDecrement() {
-    $this->permission_decrement = FALSE;
+    $this->permissionDecrement = FALSE;
   }
 
   /**
    * {@inheritdoc}
    */
   public function disableIncrement() {
-    $this->permission_increment = FALSE;
+    $this->permissionIncrement = FALSE;
   }
 
   /**
    * {@inheritdoc}
    */
   public function disableSet() {
-    $this->permission_set = FALSE;
+    $this->permissionSet = FALSE;
   }
 
   /**
@@ -91,7 +90,7 @@ class Counter implements CounterInterface {
    * {@inheritdoc}
    */
   public function set($value) {
-    if (!$this->permission_set) {
+    if (!$this->permissionSet) {
       throw new \LogicException('No ::set() permission on this object.');
     }
     $this->setDirectly($value);
@@ -125,10 +124,12 @@ class Counter implements CounterInterface {
     if ($value < 0.0) {
       throw new BadBehaviorException('Given $value can only be zero or positive.');
     }
-    $this->value = $value;
-    if (!is_null($this->callback)) {
-      $callback = $this->callback;
-      $callback($value);
+    if ($value !== $this->value) {
+      $this->value = $value;
+      if (!is_null($this->callback)) {
+        $callback = $this->callback;
+        $callback($value);
+      }
     }
   }
 
@@ -136,7 +137,7 @@ class Counter implements CounterInterface {
    * {@inheritdoc}
    */
   public function decrement($amount = 1.0) {
-    if (!$this->permission_decrement) {
+    if (!$this->permissionDecrement) {
       throw new \LogicException('No ::decrement() permission on this object.');
     }
     if (!(is_float($amount) || is_int($amount))) {
@@ -159,7 +160,7 @@ class Counter implements CounterInterface {
    * {@inheritdoc}
    */
   public function increment($amount = 1.0) {
-    if (!$this->permission_increment) {
+    if (!$this->permissionIncrement) {
       throw new \LogicException('No ::increment() permission on this object.');
     }
     if (!(is_float($amount) || is_int($amount))) {

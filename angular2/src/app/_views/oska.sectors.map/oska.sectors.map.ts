@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { RootScopeService } from '@app/_services/rootScopeService';
 import { TranslateService } from '@ngx-translate/core';
 import { LocaleNumberPipe } from '@app/_pipes/localeNumber.pipe';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   templateUrl: "oska.sectors.map.html",
@@ -24,6 +25,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   map: any;
   data:any;
   filterData: any = {};
+  private indicatorLegendLabels: {} = {};
 
   params:any = {};
   path: string;
@@ -55,20 +57,22 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   heatMapColors = ["#FBE5C4","#FBD291","#F8B243","#F89229","#E2770D","#D5401A","#8B2F17"];
   heatMapRanges: Array<Object> = [];
+  private fieldMaxRanges: {} = {};
 
   infoWindowFunding:any = false;
   infoLayer:any = false;
 
   activeFontSize: string = '';
   fontSizes: Object = {
-    md: '9px',
-    lg: '18px',
+    sm: '14px',
+    md: '18px',
+    lg: '22px',
   }
 
   labelOptions = {
     lightColor: 'white',
     color: 'black',
-    fontSize: '9px',
+    fontSize: '14px',
     fontWeight: 'regular',
   }
   icon = {
@@ -84,6 +88,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       lat: 58.5822061,
       lng: 24.7065513
     },
+    minZoom: 7.4,
+    maxZoom: 10,
     zoom: 7.4,
     clusterStyles: [
       {
@@ -100,7 +106,8 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     public route: ActivatedRoute,
     public rootScope: RootScopeService,
     private changeDetectorRef: ChangeDetectorRef,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private deviceService: DeviceDetectorService,
   ) {
     super(null, null);
   }
@@ -140,9 +147,11 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
     if (!polygonValueLabels) {
       return;
     }
-    if ($event < 9 && activeFontSize !== fontSizes['md']) {
+    if ($event < 9 && activeFontSize !== fontSizes['sm']) {
+      this.getPolygonCenterCoords(fontSizes['sm'], polygonValueLabels, polygonValueColors);
+    } else if ($event === 9 && activeFontSize !== fontSizes['md']) {
       this.getPolygonCenterCoords(fontSizes['md'], polygonValueLabels, polygonValueColors);
-    } else if ($event >= 9 && activeFontSize !== fontSizes['lg']) {
+    } else if ($event === 10 && activeFontSize !== fontSizes['lg']) {
       this.getPolygonCenterCoords(fontSizes['lg'], polygonValueLabels, polygonValueColors);
     }
   }
@@ -162,7 +171,7 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       });
       if (!this.filterData[sibling].length) {
         this.filterFormItems[sibling] = '';
-      } else if (this.filterData[sibling].length && !this.filterFormItems[sibling]) {
+      } else if (this.filterData[sibling].length && !this.filterData[sibling].includes(this.filterFormItems[sibling])) {
         this.filterFormItems[sibling] = this.filterData[sibling][0];
       }
     }
@@ -215,14 +224,18 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   }
 
   getUniqueFilters(arr) {
-    let field = [];
-    let indicator = [];
+    const field = [];
+    const indicator = [];
     arr.forEach((obj) => {
       if (field && !field.includes(obj['OSKAField'])) {
         field.push(obj['OSKAField']);
       }
       if (indicator && !indicator.includes(obj['mapIndicator'])) {
         indicator.push(obj['mapIndicator']);
+        this.indicatorLegendLabels[obj.mapIndicator] = {
+          start: obj.startLabel,
+          end: obj.endLabel,
+        };
       }
     });
     this.filterData['OSKAField'] = field;
@@ -231,30 +244,29 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
 
   generateHeatmapColors() {
     let maxSum = 0;
-
-    for( let i in this.polygonData ){
-      if( this.polygonData[i]['division'] > maxSum ){
-        maxSum = this.polygonData[i]['division'];
+    const fieldSums = {};
+    this.polygonData.forEach((item) => {
+      if (item['division'] > maxSum) {
+        maxSum = item['division'];
       }
-    }
-
-    if( maxSum < 1 ){ maxSum = 7; }
-
-    let sumPartial = maxSum / this.heatMapColors.length;
-
-    let sumArray = [];
-
-    for( var i in this.heatMapColors ){
-      let multiplier:number = parseFloat(i)+1;
-      let tmpArray = {
-        amount: multiplier * sumPartial
+      if (item['division'] > fieldSums[item.mapIndicator] || (!fieldSums[item.mapIndicator])) {
+        fieldSums[item.mapIndicator] = item['division'];
       }
+    });
+    // let sumPartial = maxSum / this.heatMapColors.length;
 
-      tmpArray['color'] = this.heatMapColors[i];
+    const sumArray = [];
 
+    this.heatMapColors.forEach((item, index) => {
+      // let multiplier:number = parseFloat(i)+1;
+      const tmpArray = {
+        amount: index + 1,
+        color: item,
+      };
       sumArray.push(tmpArray);
-    }
+    });
 
+    this.fieldMaxRanges = fieldSums;
     this.heatMapRanges = sumArray;
 
   }
@@ -330,13 +342,23 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
       if (match && match.length && !match.includes('%')) {
         match = new LocaleNumberPipe('et').transform(match);
       }
-      let textLabel = match ? `${elem.label} ${match}` : elem.label;
+      if (!elem.latitude || (elem.latitudeSm && elem.latitudeMd && elem.latitudeLg)) {
+        if (this.activeFontSize === this.fontSizes['sm']) {
+          elem.latitude = elem.latitudeSm;
+        }
+        if (this.activeFontSize === this.fontSizes['md']) {
+          elem.latitude = elem.latitudeMd;
+        }
+        if (this.activeFontSize === this.fontSizes['lg']) {
+          elem.latitude = elem.latitudeLg;
+        }
+      }
       elem['labelOptions'] = {
         color: polygonColors[elem.NIMI] === 7 ? this.labelOptions.lightColor : this.labelOptions.color,
-        fontSize: fontSize || this.labelOptions.fontSize,
+        fontSize: this.activeFontSize,
         fontWeight: this.labelOptions.fontWeight,
-        text: textLabel
-      }
+        text: elem.label ? elem.label : match
+      };
     });
   }
 
@@ -349,7 +371,6 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   polygonStyles(feature) {
     let color = "#cfcfcf";
     let keys = Object.keys(feature).join(",").split(",");
-
     for( let i in keys ){
       let key = keys[i];
       if( feature[key] && feature[key]['color'] ){
@@ -405,6 +426,9 @@ export class OskaSectorsMapComponent extends FiltersService implements OnInit, O
   }
 
   ngOnInit() {
+    if (this.deviceService.isMobile()) {
+      this.mapOptions.minZoom = 6;
+    }
     this.mapOptions.styles = this.rootScope.get("mapStyles");
     this.getData();
   }

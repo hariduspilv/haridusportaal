@@ -58,25 +58,22 @@ class InlineTest extends TestCase
             ['!php/const PHP_INT_MAX', PHP_INT_MAX],
             ['[!php/const PHP_INT_MAX]', [PHP_INT_MAX]],
             ['{ foo: !php/const PHP_INT_MAX }', ['foo' => PHP_INT_MAX]],
+            ['{ !php/const PHP_INT_MAX: foo }', [PHP_INT_MAX => 'foo']],
             ['!php/const NULL', null],
         ];
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessage The constant "WRONG_CONSTANT" is not defined
-     */
     public function testParsePhpConstantThrowsExceptionWhenUndefined()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        $this->expectExceptionMessage('The constant "WRONG_CONSTANT" is not defined');
         Inline::parse('!php/const WRONG_CONSTANT', Yaml::PARSE_CONSTANT);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessageRegExp #The string "!php/const PHP_INT_MAX" could not be parsed as a constant.*#
-     */
     public function testParsePhpConstantThrowsExceptionOnInvalidType()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        $this->expectExceptionMessageRegExp('#The string "!php/const PHP_INT_MAX" could not be parsed as a constant.*#');
         Inline::parse('!php/const PHP_INT_MAX', Yaml::PARSE_EXCEPTION_ON_INVALID_TYPE);
     }
 
@@ -97,6 +94,7 @@ class InlineTest extends TestCase
             ['!php/const:PHP_INT_MAX', PHP_INT_MAX],
             ['[!php/const:PHP_INT_MAX]', [PHP_INT_MAX]],
             ['{ foo: !php/const:PHP_INT_MAX }', ['foo' => PHP_INT_MAX]],
+            ['{ !php/const:PHP_INT_MAX: foo }', [PHP_INT_MAX => 'foo']],
             ['!php/const:NULL', null],
         ];
     }
@@ -136,7 +134,7 @@ class InlineTest extends TestCase
             }
 
             $this->assertEquals('1.2', Inline::dump(1.2));
-            $this->assertContains('fr', strtolower(setlocale(LC_NUMERIC, 0)));
+            $this->assertStringContainsStringIgnoringCase('fr', setlocale(LC_NUMERIC, 0));
         } finally {
             setlocale(LC_NUMERIC, $locale);
         }
@@ -149,46 +147,36 @@ class InlineTest extends TestCase
         $this->assertSame($value, Inline::parse(Inline::dump($value)));
     }
 
-    /**
-     * @expectedException        \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessage Found unknown escape character "\V".
-     */
     public function testParseScalarWithNonEscapedBlackslashShouldThrowException()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        $this->expectExceptionMessage('Found unknown escape character "\V".');
         Inline::parse('"Foo\Var"');
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     */
     public function testParseScalarWithNonEscapedBlackslashAtTheEndShouldThrowException()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
         Inline::parse('"Foo\\"');
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     */
     public function testParseScalarWithIncorrectlyQuotedStringShouldThrowException()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
         $value = "'don't do somthin' like that'";
         Inline::parse($value);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     */
     public function testParseScalarWithIncorrectlyDoubleQuotedStringShouldThrowException()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
         $value = '"don"t do somthin" like that"';
         Inline::parse($value);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     */
     public function testParseInvalidMappingKeyShouldThrowException()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
         $value = '{ "foo " bar": "bar" }';
         Inline::parse($value);
     }
@@ -203,20 +191,22 @@ class InlineTest extends TestCase
         Inline::parse('{1:""}');
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     */
     public function testParseInvalidMappingShouldThrowException()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
         Inline::parse('[foo] bar');
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     */
     public function testParseInvalidSequenceShouldThrowException()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
         Inline::parse('{ foo: bar } bar');
+    }
+
+    public function testParseInvalidTaggedSequenceShouldThrowException()
+    {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        Inline::parse('!foo { bar: baz } qux', Yaml::PARSE_CUSTOM_TAGS);
     }
 
     public function testParseScalarWithCorrectlyQuotedStringShouldReturnString()
@@ -281,21 +271,17 @@ class InlineTest extends TestCase
         $this->assertSame([$foo], Inline::parse('[*foo]', false, false, false, ['foo' => $foo]));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessage A reference must contain at least one character at line 1.
-     */
     public function testParseUnquotedAsterisk()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        $this->expectExceptionMessage('A reference must contain at least one character at line 1.');
         Inline::parse('{ foo: * }');
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessage A reference must contain at least one character at line 1.
-     */
     public function testParseUnquotedAsteriskFollowedByAComment()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        $this->expectExceptionMessage('A reference must contain at least one character at line 1.');
         Inline::parse('{ foo: * #foo }');
     }
 
@@ -304,12 +290,8 @@ class InlineTest extends TestCase
      */
     public function testParseUnquotedScalarStartingWithReservedIndicator($indicator)
     {
-        if (method_exists($this, 'expectExceptionMessage')) {
-            $this->expectException(ParseException::class);
-            $this->expectExceptionMessage(sprintf('cannot start a plain scalar; you need to quote the scalar at line 1 (near "%sfoo ").', $indicator));
-        } else {
-            $this->setExpectedException(ParseException::class, sprintf('cannot start a plain scalar; you need to quote the scalar at line 1 (near "%sfoo ").', $indicator));
-        }
+        $this->expectException(ParseException::class);
+        $this->expectExceptionMessage(sprintf('cannot start a plain scalar; you need to quote the scalar at line 1 (near "%sfoo ").', $indicator));
 
         Inline::parse(sprintf('{ foo: %sfoo }', $indicator));
     }
@@ -324,12 +306,8 @@ class InlineTest extends TestCase
      */
     public function testParseUnquotedScalarStartingWithScalarIndicator($indicator)
     {
-        if (method_exists($this, 'expectExceptionMessage')) {
-            $this->expectException(ParseException::class);
-            $this->expectExceptionMessage(sprintf('cannot start a plain scalar; you need to quote the scalar at line 1 (near "%sfoo ").', $indicator));
-        } else {
-            $this->setExpectedException(ParseException::class, sprintf('cannot start a plain scalar; you need to quote the scalar at line 1 (near "%sfoo ").', $indicator));
-        }
+        $this->expectException(ParseException::class);
+        $this->expectExceptionMessage(sprintf('cannot start a plain scalar; you need to quote the scalar at line 1 (near "%sfoo ").', $indicator));
 
         Inline::parse(sprintf('{ foo: %sfoo }', $indicator));
     }
@@ -693,15 +671,11 @@ class InlineTest extends TestCase
 
     /**
      * @dataProvider getInvalidBinaryData
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
      */
     public function testParseInvalidBinaryData($data, $expectedMessage)
     {
-        if (method_exists($this, 'expectException')) {
-            $this->expectExceptionMessageRegExp($expectedMessage);
-        } else {
-            $this->setExpectedExceptionRegExp(ParseException::class, $expectedMessage);
-        }
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        $this->expectExceptionMessageRegExp($expectedMessage);
 
         Inline::parse($data);
     }
@@ -716,12 +690,10 @@ class InlineTest extends TestCase
         ];
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessage Malformed inline YAML string: {this, is not, supported} at line 1.
-     */
     public function testNotSupportedMissingValue()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        $this->expectExceptionMessage('Malformed inline YAML string: "{this, is not, supported}" at line 1.');
         Inline::parse('{this, is not, supported}');
     }
 
@@ -805,12 +777,69 @@ class InlineTest extends TestCase
         $this->assertSame(['foo' => 'bar'], Inline::parse('{ foo: !str bar }'));
     }
 
-    /**
-     * @expectedException \Symfony\Component\Yaml\Exception\ParseException
-     * @expectedExceptionMessage Unexpected end of line, expected one of ",}" at line 1 (near "{abc: 'def'").
-     */
     public function testUnfinishedInlineMap()
     {
+        $this->expectException('Symfony\Component\Yaml\Exception\ParseException');
+        $this->expectExceptionMessage('Unexpected end of line, expected one of ",}" at line 1 (near "{abc: \'def\'").');
         Inline::parse("{abc: 'def'");
+    }
+
+    /**
+     * @dataProvider getTestsForOctalNumbers
+     */
+    public function testParseOctalNumbers($expected, $yaml)
+    {
+        self::assertSame($expected, Inline::parse($yaml));
+    }
+
+    public function getTestsForOctalNumbers()
+    {
+        return [
+            'positive octal number' => [28, '034'],
+            'negative octal number' => [-28, '-034'],
+        ];
+    }
+
+    /**
+     * @dataProvider phpObjectTagWithEmptyValueProvider
+     */
+    public function testPhpObjectWithEmptyValue($expected, $value)
+    {
+        $this->assertSame($expected, Inline::parse($value, Yaml::PARSE_OBJECT));
+    }
+
+    public function phpObjectTagWithEmptyValueProvider()
+    {
+        return [
+            [false, '!php/object'],
+            [false, '!php/object '],
+            [false, '!php/object  '],
+            [[false], '[!php/object]'],
+            [[false], '[!php/object ]'],
+            [[false, 'foo'], '[!php/object  , foo]'],
+        ];
+    }
+
+    /**
+     * @dataProvider phpConstTagWithEmptyValueProvider
+     */
+    public function testPhpConstTagWithEmptyValue($expected, $value)
+    {
+        $this->assertSame($expected, Inline::parse($value, Yaml::PARSE_CONSTANT));
+    }
+
+    public function phpConstTagWithEmptyValueProvider()
+    {
+        return [
+            ['', '!php/const'],
+            ['', '!php/const '],
+            ['', '!php/const  '],
+            [[''], '[!php/const]'],
+            [[''], '[!php/const ]'],
+            [['', 'foo'], '[!php/const  , foo]'],
+            [['' => 'foo'], '{!php/const: foo}'],
+            [['' => 'foo'], '{!php/const : foo}'],
+            [['' => 'foo', 'bar' => 'ccc'], '{!php/const  : foo, bar: ccc}'],
+        ];
     }
 }

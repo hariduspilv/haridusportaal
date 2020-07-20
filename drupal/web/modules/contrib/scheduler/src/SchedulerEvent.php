@@ -13,7 +13,7 @@ class SchedulerEvent extends Event {
   /**
    * Node object.
    *
-   * @var Drupal\Core\Entity\EntityInterface
+   * @var \Drupal\Core\Entity\EntityInterface
    */
   protected $node;
 

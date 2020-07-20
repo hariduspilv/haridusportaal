@@ -411,11 +411,9 @@ abstract class AbstractTest extends AbstractValidatorTest
         $this->assertCount(0, $violations);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\ConstraintDefinitionException
-     */
     public function testExpectTraversableIfTraversalEnabledOnClass()
     {
+        $this->expectException('Symfony\Component\Validator\Exception\ConstraintDefinitionException');
         $entity = new Entity();
 
         $this->metadata->addConstraint(new Traverse(true));
@@ -511,7 +509,7 @@ abstract class AbstractTest extends AbstractValidatorTest
                 ->setParameter('%param%', 'value')
                 ->setInvalidValue('Invalid value')
                 ->setPlural(2)
-                ->setCode(42)
+                ->setCode('42')
                 ->addViolation();
         };
 
@@ -528,7 +526,7 @@ abstract class AbstractTest extends AbstractValidatorTest
         $this->assertSame($entity, $violations[0]->getRoot());
         $this->assertSame('Invalid value', $violations[0]->getInvalidValue());
         $this->assertSame(2, $violations[0]->getPlural());
-        $this->assertSame(42, $violations[0]->getCode());
+        $this->assertSame('42', $violations[0]->getCode());
     }
 
     public function testNoDuplicateValidationIfClassConstraintInMultipleGroups()
@@ -569,11 +567,9 @@ abstract class AbstractTest extends AbstractValidatorTest
         $this->assertCount(1, $violations);
     }
 
-    /**
-     * @expectedException \Symfony\Component\Validator\Exception\RuntimeException
-     */
     public function testValidateFailsIfNoConstraintsAndNoObjectOrArray()
     {
+        $this->expectException('Symfony\Component\Validator\Exception\RuntimeException');
         $this->validate('Foobar');
     }
 
@@ -704,5 +700,26 @@ abstract class AbstractTest extends AbstractValidatorTest
         $violations = $this->validator->validate($entity, null, ['Default', 'group1']);
 
         $this->assertCount(2, $violations);
+    }
+
+    public function testNestedObjectIsValidatedInMultipleGroupsIfGroupInValidConstraintIsValidated()
+    {
+        $entity = new Entity();
+        $entity->firstName = null;
+
+        $reference = new Reference();
+        $reference->value = null;
+
+        $entity->childA = $reference;
+
+        $this->metadata->addPropertyConstraint('firstName', new NotBlank());
+        $this->metadata->addPropertyConstraint('childA', new Valid(['groups' => ['group1', 'group2']]));
+
+        $this->referenceMetadata->addPropertyConstraint('value', new NotBlank(['groups' => 'group1']));
+        $this->referenceMetadata->addPropertyConstraint('value', new NotNull(['groups' => 'group2']));
+
+        $violations = $this->validator->validate($entity, null, ['Default', 'group1', 'group2']);
+
+        $this->assertCount(3, $violations);
     }
 }

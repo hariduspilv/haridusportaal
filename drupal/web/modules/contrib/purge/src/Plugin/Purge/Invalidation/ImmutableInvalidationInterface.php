@@ -3,7 +3,6 @@
 namespace Drupal\purge\Plugin\Purge\Invalidation;
 
 use Drupal\Component\Plugin\PluginInspectionInterface;
-use Drupal\purge\Plugin\Purge\Invalidation\InvStatesInterface;
 
 /**
  * Describes the immutable invalidation.
@@ -131,4 +130,5 @@ interface ImmutableInvalidationInterface extends InvStatesInterface, PluginInspe
    *   The plugin ID of the invalidation.
    */
   public function getType();
+
 }

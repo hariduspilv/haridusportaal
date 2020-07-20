@@ -1,0 +1,23 @@
+uuid: 81f844f1-14c1-4b5a-ab99-5559700cfa08
+langcode: et
+status: true
+dependencies:
+  module:
+    - file
+    - paragraphs
+id: paragraph.field_service_img
+field_name: field_service_img
+entity_type: paragraph
+type: file
+settings:
+  display_field: false
+  display_default: false
+  uri_scheme: public
+  target_type: file
+module: file
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

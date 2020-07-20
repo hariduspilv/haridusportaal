@@ -2,11 +2,9 @@
 
 namespace Drupal\purge\Plugin\Purge\Purger;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\purge\Logger\PurgeLoggerAwareTrait;
-use Drupal\purge\Plugin\Purge\Purger\PurgerInterface;
-use Drupal\purge\Plugin\Purge\Purger\RuntimeMeasurementInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Provides a base class for all purgers - the cache invalidation executors.
@@ -29,7 +27,7 @@ abstract class PurgerBase extends PluginBase implements PurgerInterface {
   protected $runtimeMeasurement = NULL;
 
   /**
-   * Constructs a \Drupal\Component\Plugin\PluginBase derivative.
+   * Construct a PurgerBase derivative.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -117,8 +115,8 @@ abstract class PurgerBase extends PluginBase implements PurgerInterface {
   }
 
   /**
-  * {@inheritdoc}
-  */
+   * {@inheritdoc}
+   */
   public function getTimeHint() {
     if (!$this->hasRuntimeMeasurement()) {
       throw new \LogicException('Since ::hasRuntimeMeasurement() returns FALSE, ::getTimeHint() needs to be implemented! Please read the PurgerCapacityDataInterface::hasRuntimeMeasurement() documentation.');

@@ -269,6 +269,10 @@ class RenderedItem extends ProcessorPluginBase {
 
       try {
         $build = $datasource->viewItem($item->getOriginalObject(), $view_mode);
+        // Add the excerpt to the render array to allow adding it to view modes.
+        if ($item->getExcerpt()) {
+          $build['#search_api_excerpt'] = $item->getExcerpt();
+        }
         $value = (string) $this->getRenderer()->renderPlain($build);
         if ($value) {
           $field->addValue($value);
@@ -348,17 +352,19 @@ class RenderedItem extends ProcessorPluginBase {
       $field_config = $field->getConfiguration();
       $view_modes = $field_config['view_mode'];
       foreach ($this->index->getDatasources() as $datasource_id => $datasource) {
-        if (!empty($view_modes[$datasource_id]) && ($entity_type_id = $datasource->getEntityTypeId())) {
-          foreach ($view_modes[$datasource_id] as $bundle => $view_mode_id) {
-            if ($view_mode_id) {
-              /** @var \Drupal\Core\Entity\EntityViewModeInterface $view_mode */
-              $view_mode = EntityViewMode::load($entity_type_id . '.' . $view_mode_id);
-              if ($view_mode) {
-                $dependency_key = $view_mode->getConfigDependencyKey();
-                $dependency_name = $view_mode->getConfigDependencyName();
-                if (!empty($dependencies[$dependency_key][$dependency_name])) {
-                  unset($view_modes[$datasource_id][$bundle]);
-                }
+        $entity_type_id = $datasource->getEntityTypeId();
+        if (!$entity_type_id) {
+          continue;
+        }
+        foreach ($view_modes[$datasource_id] ?? [] as $bundle => $view_mode_id) {
+          if ($view_mode_id) {
+            /** @var \Drupal\Core\Entity\EntityViewModeInterface $view_mode */
+            $view_mode = EntityViewMode::load($entity_type_id . '.' . $view_mode_id);
+            if ($view_mode) {
+              $dependency_key = $view_mode->getConfigDependencyKey();
+              $dependency_name = $view_mode->getConfigDependencyName();
+              if (!empty($dependencies[$dependency_key][$dependency_name])) {
+                unset($view_modes[$datasource_id][$bundle]);
               }
             }
           }

@@ -109,6 +109,7 @@ class RolesRestResource extends ResourceBase {
 
 	  /*@TODO mby add default userRole aswell to response*/
 	  $roles = $this->roleSwitcher->getAvailableRoles();
+    \Drupal::logger('xjson')->notice('<pre><code>Worked roles response ' . print_r($roles, TRUE) . '</code></pre>' );
 	  $response = new ResourceResponse($roles, 200);
 
 	  $cache_metadata = new CacheableMetadata();

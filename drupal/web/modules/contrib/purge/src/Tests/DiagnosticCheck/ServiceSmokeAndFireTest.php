@@ -2,8 +2,8 @@
 
 namespace Drupal\purge\Tests\DiagnosticCheck;
 
-use Drupal\purge\Tests\KernelServiceTestBase;
 use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
+use Drupal\purge\Tests\KernelServiceTestBase;
 
 /**
  * Tests \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticsService.
@@ -13,7 +13,19 @@ use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
  * @see \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticsServiceInterface
  */
 class ServiceSmokeAndFireTest extends KernelServiceTestBase {
+
+  /**
+   * The name of the service as defined in services.yml.
+   *
+   * @var string
+   */
   protected $serviceId = 'purge.diagnostics';
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
   public static $modules = ['purge_purger_test', 'purge_processor_test'];
 
   /**

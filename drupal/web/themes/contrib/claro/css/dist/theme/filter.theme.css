@@ -1,0 +1,67 @@
+:root{
+}
+
+.text-full > .form-item{
+  margin-bottom:0;
+}
+
+.form-element--editor-format{
+  vertical-align:top;
+}
+
+@media screen and (max-width: 600px){
+  .form-element.form-element--editor-format{
+    width:auto;
+  }
+}
+
+.filter-wrapper{
+  margin-top:0.5em;
+  margin-bottom:0.5em;
+}
+
+.filter-wrapper .form-item{
+  margin:0;
+}
+
+.filter-help{
+  float:right;
+  padding-top:0.25em;
+  padding-bottom:0.25em;
+  font-size:0.75em;
+}
+
+[dir="rtl"] .filter-help{
+  float:left;
+}
+
+.compose-tips__item{
+  margin-top:1.5em;
+  margin-bottom:1.5em;
+}
+
+.filter-guidelines__item{
+  margin-top:0.5em;
+  color:#545560;
+  font-size:0.75em;
+}
+
+.filter-guidelines p{
+  margin-top:0.3333em;
+  margin-bottom:0;
+}
+
+.filter-tips--long{
+  margin-bottom:1.5em;
+}
+
+.filter-tips__item,
+.filter-tips--long p{
+  margin-top:0.75em;
+  margin-bottom:0.75em;
+}
+
+.filter-tips__item--short{
+  margin-top:0.3333em;
+  margin-bottom:0;
+}

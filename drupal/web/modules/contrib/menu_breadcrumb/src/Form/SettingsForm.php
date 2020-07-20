@@ -134,11 +134,15 @@ class SettingsForm extends ConfigFormBase {
       '#description' => $this->t('If TRUE will add a link to the &lt;front&gt; page if it doesn\'t already begin the breadcrumb trail: ensuring that the first breadcrumb of every page is the site home. If both "add" and "remove" are set, when displaying the &lt;front&gt; page and its menu children the "remove" option will take precedence.'),
     ];
 
-    $form['home_as_site_name'] = [
-      '#type' => 'checkbox',
-      '#title' => $this->t('Use site name instead of "Home" link'),
-      '#description' => $this->t('Uses the site name from the configuration settings: if this option is not set, a translated value for "Home" will be used.'),
-      '#default_value' => $config->get('home_as_site_name'),
+    $form['front_title'] = [
+      '#type' => 'radios',
+      '#title' => $this->t('Home title'),
+      '#default_value' => $config->get('front_title'),
+      '#options' => [
+        0 => $this->t('Use "Home" as title'),
+        1 => $this->t('Uses the site name from the configuration settings: if this option is not set, a translated value for "Home" will be used.'),
+        2 => $this->t('Use title menu parent'),
+      ],
     ];
 
     $form['exclude_empty_url'] = [
@@ -151,7 +155,7 @@ class SettingsForm extends ConfigFormBase {
     $form['derived_active_trail'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Derive MenuActiveTrail from RouteMatch'),
-      '#description' => $this->t('If FALSE, the injected @menu.active_trail service will be used.'),
+      '#description' => $this->t('If FALSE, the injected @menu.active_trail service will be used. If you have a multilingual site with unusually large menus, see <a target="_blank" href="https://www.drupal.org/project/menu_breadcrumb/issues/3083028">issue 3083028</a>.'),
       '#default_value' => $config->get('derived_active_trail'),
     ];
 
@@ -228,7 +232,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('stop_on_first_match', (boolean) $form_state->getValue('stop_on_first_match'))
       ->set('append_member_page', (boolean) $form_state->getValue('append_member_page'))
       ->set('member_page_as_link', (boolean) $form_state->getValue('member_page_as_link'))
-      ->set('home_as_site_name', (boolean) $form_state->getValue('home_as_site_name'))
+      ->set('front_title', $form_state->getValue('front_title'))
       ->set('remove_home', (boolean) $form_state->getValue('remove_home'))
       ->set('add_home', (boolean) $form_state->getValue('add_home'))
       ->set('menu_breadcrumb_menus', $form_state->getValue('menu_breadcrumb_menus'))

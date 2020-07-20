@@ -12,14 +12,14 @@
 
 namespace PHP_CodeSniffer;
 
-use PHP_CodeSniffer\Files\FileList;
-use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Exceptions\DeepExitException;
+use PHP_CodeSniffer\Exceptions\RuntimeException;
 use PHP_CodeSniffer\Files\DummyFile;
+use PHP_CodeSniffer\Files\File;
+use PHP_CodeSniffer\Files\FileList;
 use PHP_CodeSniffer\Util\Cache;
 use PHP_CodeSniffer\Util\Common;
 use PHP_CodeSniffer\Util\Standards;
-use PHP_CodeSniffer\Exceptions\RuntimeException;
-use PHP_CodeSniffer\Exceptions\DeepExitException;
 
 class Runner
 {
@@ -233,7 +233,7 @@ class Runner
      * Exits if the minimum requirements of PHP_CodeSniffer are not met.
      *
      * @return array
-     * @throws \PHP_CodeSniffer\Exceptions\DeepExitException
+     * @throws \PHP_CodeSniffer\Exceptions\DeepExitException If the requirements are not met.
      */
     public function checkRequirements()
     {
@@ -281,7 +281,7 @@ class Runner
      * Init the rulesets and other high-level settings.
      *
      * @return void
-     * @throws \PHP_CodeSniffer\Exceptions\DeepExitException
+     * @throws \PHP_CodeSniffer\Exceptions\DeepExitException If a referenced standard is not installed.
      */
     public function init()
     {
@@ -708,7 +708,7 @@ class Runner
      *
      * @param array $childProcs An array of child processes to wait for.
      *
-     * @return void
+     * @return bool
      */
     private function processChildProcs($childProcs)
     {

@@ -33,7 +33,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
   public list: any = false;
   public search_address;
   public scrollPositionSet: boolean = false;
-  
+  public oldSearchAddress;
 
   constructor (
     public route: ActivatedRoute, 
@@ -47,10 +47,10 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
 
   watchSearch() {
 
-
+    
     let subscribe = this.route.queryParams.subscribe((params: ActivatedRoute) => {
       this.params = params;
-      this.getData()
+      this.getData();
     });
 
     this.filterRetrieveParams( this.params );
@@ -67,6 +67,12 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
       limit: this.limit,
       offset: this.list ? this.list.length : 0
     }
+
+    if (this.oldSearchAddress !== this.params['location']) {
+      variables.offset = 0;
+      this.list = [];
+    }
+    this.oldSearchAddress = this.params['location'];
 
     this.initialScrollRestorationSetup(variables);
 
@@ -126,7 +132,7 @@ export class RelatedStudyProgrammesComponent extends FiltersService implements O
     this.lang = this.rootScope.get("lang");
 
     //make sure related study programmes are opened when user returns to this url via browser back button/link share
-    this.filterFormItems['displayRelated'] = true;
+    this.filterFormItems['displayRelated'] = 'true';
     this.filterSubmit();
     this.watchSearch();
   }

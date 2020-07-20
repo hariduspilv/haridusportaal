@@ -157,6 +157,8 @@ abstract class ExtensionList {
    * We don't reset statically added filenames, as it is a static cache which
    * logically can't change. This is done for performance reasons of the
    * installer.
+   *
+   * @return $this
    */
   public function reset() {
     $this->extensions = NULL;
@@ -559,6 +561,23 @@ abstract class ExtensionList {
     $info += $this->defaults;
 
     return $info;
+  }
+
+  /**
+   * Tests the compatibility of an extension.
+   *
+   * @param string $name
+   *   The extension name to check.
+   *
+   * @return bool
+   *   TRUE if the extension is incompatible and FALSE if not.
+   *
+   * @throws \Drupal\Core\Extension\Exception\UnknownExtensionException
+   *   If there is no extension with the supplied name.
+   */
+  public function checkIncompatibility($name) {
+    $extension = $this->get($name);
+    return $extension->info['core_incompatible'] || (isset($extension->info['php']) && version_compare(phpversion(), $extension->info['php']) < 0);
   }
 
 }

@@ -3,12 +3,15 @@
 namespace Drupal\adv_varnish\Controller;
 
 use Drupal\adv_varnish\VarnishInterface;
+use Drupal\Core\Routing\AdminContext;
+use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StreamWrapper\PrivateStream;
 use Drupal\Core\StreamWrapper\PublicStream;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Drupal\Core\Routing\LocalRedirectResponse;
 
 /**
  * Main Varnish controller.
@@ -56,6 +59,25 @@ class VarnishAdvController {
   protected $account;
 
   /**
+   * The route match.
+   *
+   * @var \Drupal\Core\Routing\RouteMatchInterface
+   */
+  protected $routeMatch;
+
+  /**
+   * The route admin context to determine whether a route is an admin one.
+   *
+   * @var \Drupal\Core\Routing\AdminContext
+   */
+  protected $adminContext;
+
+  /**
+   * @var object|null handle the Response object.
+   */
+  protected $response;
+
+  /**
    * VarnishAdvController constructor.
    *
    * @param \Drupal\adv_varnish\VarnishInterface $varnishHandler
@@ -64,11 +86,17 @@ class VarnishAdvController {
    *   Request stack service.
    * @param \Drupal\Core\Session\AccountProxyInterface $account
    *   The current account.
+   * @param \Drupal\Core\Routing\RouteMatchInterface $route_match
+   *   The route match.
+   * @param \Drupal\Core\Routing\AdminContext $admin_context
+   *   The route admin context to determine whether the route is an admin one.
    */
-  public function __construct(VarnishInterface $varnishHandler, RequestStack $request, AccountProxyInterface $account) {
+  public function __construct(VarnishInterface $varnishHandler, RequestStack $request, AccountProxyInterface $account, RouteMatchInterface $route_match, AdminContext $admin_context) {
     $this->varnishHandler = $varnishHandler;
     $this->account = $account;
     $this->request = $request->getCurrentRequest();
+    $this->routeMatch = $route_match;
+    $this->adminContext = $admin_context;
   }
 
   /**
@@ -79,7 +107,7 @@ class VarnishAdvController {
     // Update cookie.
     $this->cookieUpdate();
     // Reload page with updated cookies if needed.
-    $needs_update = $this->needsReload ?: FALSE;
+    $needs_update = $this->needsReload && !($this->response instanceof LocalRedirectResponse) ?: FALSE;
     if ($needs_update) {
       $this->reload();
     }
@@ -93,6 +121,7 @@ class VarnishAdvController {
    * Set varnish specific response headers.
    */
   protected function setResponseHeaders($cache_settings) {
+    // If response not sets
     // Get debug settings.
     $debug_mode = $this->varnishHandler->getSettings('general.debug');
     // And check if we need to enable debug mode.
@@ -118,7 +147,7 @@ class VarnishAdvController {
     $newResponse = new RedirectResponse($path);
     // Send response.
     $newResponse->send();
-    return FALSE;
+     return FALSE;
   }
 
   /**
@@ -146,16 +175,17 @@ class VarnishAdvController {
     }
     else {
       // Bin for anon user.
-      $cookie_inf = $cookie_bin = 'anonymous';
+      $cookie_inf = $cookie_bin = '';
     }
 
     // Set BIN header for debug.
-    if ($this->varnishHandler->getSettings('general.debug')) {
+    if ($this->response && $this->varnishHandler->getSettings('general.debug')) {
       $this->response->headers->set(static::ADV_VARNISH_HEADER_BIN_ROLE_DEBUG, $cookie_inf);
     }
 
     // Update cookies if did not match.
-    if (empty($_COOKIE[static::ADV_VARNISH_COOKIE_BIN]) || ($_COOKIE[static::ADV_VARNISH_COOKIE_BIN] != $cookie_bin)) {
+    $old_cookie = $_COOKIE[static::ADV_VARNISH_COOKIE_BIN] ?? '';
+    if ($old_cookie != $cookie_bin) {
 
       // Update cookies.
       $params = session_get_cookie_params();
@@ -234,6 +264,12 @@ class VarnishAdvController {
     if (!$this->varnishHandler->getSettings('general.enabled')) {
       return FALSE;
     }
+
+    // Disable varnish for admin pages.
+    if ($this->adminContext->isAdminRoute($this->routeMatch->getRouteObject())) {
+      return FALSE;
+    }
+
     // Check if user is authenticated and we can use cache for such users.
     $authenticated = $this->account->isAuthenticated();
     $cache_authenticated = $this->varnishHandler->getSettings('available.authenticated_users');

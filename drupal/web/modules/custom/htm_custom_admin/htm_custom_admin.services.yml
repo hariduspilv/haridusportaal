@@ -1,0 +1,5 @@
+services:
+  http_middleware.htm_custom_admin:
+    class: Drupal\htm_custom_admin\StackMiddleware\AdminMiddleware
+    tags:
+      - { name: http_middleware, priority: 210, responder: true }

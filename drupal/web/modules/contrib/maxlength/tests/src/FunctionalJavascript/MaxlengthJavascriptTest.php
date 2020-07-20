@@ -6,19 +6,24 @@ use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\entity_test\Entity\EntityTest;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
-use Drupal\FunctionalJavascriptTests\JavascriptTestBase;
+use Drupal\FunctionalJavascriptTests\WebDriverTestBase;
 
 /**
  * Tests Javascript behaviour of Maxlength module.
  *
  * @group maxlength
  */
-class MaxlengthJavascriptTest extends JavascriptTestBase {
+class MaxlengthJavascriptTest extends WebDriverTestBase {
 
   /**
    * {@inheritdoc}
    */
   public static $modules = ['entity_test', 'maxlength'];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'classy';
 
   /**
    * Tests that a single maxlength message is displayed to a formatted textarea.

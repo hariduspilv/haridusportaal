@@ -14,7 +14,6 @@
         },
         {
             "name": "Twig Team",
-            "homepage": "https://twig.symfony.com/contributors",
             "role": "Contributors"
         },
         {
@@ -24,12 +23,11 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.5.0",
         "symfony/polyfill-ctype": "^1.8"
     },
     "require-dev": {
-        "symfony/phpunit-bridge": "^3.4.19|^4.1.8|^5.0",
-        "symfony/debug": "^2.7",
+        "symfony/phpunit-bridge": "^4.4|^5.0",
         "psr/container": "^1.0"
     },
     "autoload": {
@@ -38,6 +36,11 @@
         },
         "psr-4" : {
             "Twig\\" : "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4" : {
+            "Twig\\Tests\\" : "tests"
         }
     },
     "extra": {

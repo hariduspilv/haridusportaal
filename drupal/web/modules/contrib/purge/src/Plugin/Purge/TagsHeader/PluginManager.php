@@ -2,9 +2,9 @@
 
 namespace Drupal\purge\Plugin\Purge\TagsHeader;
 
-use Drupal\Core\Plugin\DefaultPluginManager;
 use Drupal\Core\Cache\CacheBackendInterface;
 use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Plugin\DefaultPluginManager;
 
 /**
  * The tagsheader plugin manager.

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration name="htm-liides" status="DEBUG" monitorInterval="30">
+  <Appenders>
+    <Console name="Console" target="SYSTEM_OUT">
+      <PatternLayout
+        pattern="%d{dd.MM.yyyy HH:mm:ss.S} %highlight{%-5level }[%style{%t}{bright,blue}] %style{%C{1.}:%L}{bright,yellow} %msg%n%throwable" />
+    </Console>
+
+    <RollingFile name="RollingFile"
+      fileName="/logs/$${date:yyyy-MM}/htm-services_loime.log"
+      filePattern="/logs/$${date:yyyy-MM}/htm-services_loime-%d{dd.MM.yyyy}.log.gz">
+<!--      filePattern="/logs/$${date:yyyy-MM}/htm-services_loime-%d{dd.MM.yyyy}-%i.log.gz">-->
+      <PatternLayout>
+        <pattern>%d{dd.MM.yyyy HH:mm:ss.S} %-5p [%t] %C{1.}:%L %m%n%ex</pattern>
+      </PatternLayout>
+      <Policies>
+        <!-- rollover on startup, daily and when the file reaches 10 MegaBytes -->
+<!--        <OnStartupTriggeringPolicy />-->
+<!--        <SizeBasedTriggeringPolicy size="10 MB" />-->
+        <TimeBasedTriggeringPolicy />
+      </Policies>
+    </RollingFile>
+  </Appenders>
+
+  <Loggers>
+    <!-- LOG everything at WARN level -->
+    <Root level="WARN">
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="RollingFile" />
+    </Root>
+
+    <!-- LOG "ee.htm*" at TRACE level -->
+    <Logger name="ee.htm" level="trace" additivity="false">
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="RollingFile" />
+    </Logger>
+
+    <!-- Xtee request, response, fault to log -->
+    <Logger name="com.nortal.jroad.client.util.WSConsumptionLoggingInterceptor" level="DEBUG" additivity="false">
+      <AppenderRef ref="Console" />
+      <AppenderRef ref="RollingFile" />
+    </Logger>
+  </Loggers>
+</Configuration>

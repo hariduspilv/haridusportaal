@@ -13,6 +13,7 @@ interface QueuerInterface extends PluginInspectionInterface {
    * Retrieve the title of this queuer.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The translated label.
    */
   public function getLabel();
 
@@ -20,6 +21,7 @@ interface QueuerInterface extends PluginInspectionInterface {
    * Retrieve the description of this queuer.
    *
    * @return \Drupal\Core\StringTranslation\TranslatableMarkup
+   *   The translated description.
    */
   public function getDescription();
 

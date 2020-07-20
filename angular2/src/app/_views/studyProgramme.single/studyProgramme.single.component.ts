@@ -67,6 +67,15 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
   toggleDisplayRelatedStudyProgrammes(value){
     this.displayRelatedStudyProgrammes = value;
   }
+
+  returnEntityString (entity) {
+    if (Array.isArray(entity)) {
+      const values = entity.map(val => val.entity.entityLabel);
+      return values.join(', ');
+    }
+    return entity;
+  }
+
   getData() {
 
     this.data = false;
@@ -98,7 +107,7 @@ export class StudyProgrammeSingleComponent extends FiltersService implements OnI
     this.route.params.subscribe( params => {
       
       if(this.path !== this.router.url ){
-        this.path = this.router.url;
+        this.path = this.router.url.split("?")[0];
         this.getData();
         if(this.params['displayRelated']) {
           this.toggleDisplayRelatedStudyProgrammes(true);

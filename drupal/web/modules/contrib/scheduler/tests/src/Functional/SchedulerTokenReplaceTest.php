@@ -14,11 +14,9 @@ class SchedulerTokenReplaceTest extends SchedulerBrowserTestBase {
    */
   public function testSchedulerTokenReplacement() {
     $this->drupalLogin($this->schedulerUser);
-    $date_formatter = \Drupal::service('date.formatter');
-
     // Define timestamps for consistent use when repeated throughout this test.
-    $publish_on_timestamp = REQUEST_TIME + 3600;
-    $unpublish_on_timestamp = REQUEST_TIME + 7200;
+    $publish_on_timestamp = $this->requestTime + 3600;
+    $unpublish_on_timestamp = $this->requestTime + 7200;
 
     // Create an unpublished page with scheduled dates.
     $node = $this->drupalCreateNode([
@@ -48,7 +46,7 @@ class SchedulerTokenReplaceTest extends SchedulerBrowserTestBase {
       $edit = [
         'body[0][value]' => 'Publish on: [node:scheduler-publish' . $test_data['token_format'] . ']. Unpublish on: [node:scheduler-unpublish' . $test_data['token_format'] . '].',
       ];
-      $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, t('Save'));
+      $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
       $this->drupalGet('node/' . $node->id());
 
       // Refresh the node and get the body output value.
@@ -57,11 +55,11 @@ class SchedulerTokenReplaceTest extends SchedulerBrowserTestBase {
       $body_output = \Drupal::token()->replace($node->body->value, ['node' => $node]);
 
       // Create the expected text for the body.
-      $publish_on_date = $date_formatter->format($publish_on_timestamp, $test_data['date_format'], $test_data['custom']);
-      $unpublish_on_date = $date_formatter->format($unpublish_on_timestamp, $test_data['date_format'], $test_data['custom']);
+      $publish_on_date = $this->dateFormatter->format($publish_on_timestamp, $test_data['date_format'], $test_data['custom']);
+      $unpublish_on_date = $this->dateFormatter->format($unpublish_on_timestamp, $test_data['date_format'], $test_data['custom']);
       $expected_output = 'Publish on: ' . $publish_on_date . '. Unpublish on: ' . $unpublish_on_date . '.';
       // Check that the actual text matches the expected value.
-      $this->assertEqual($body_output, $expected_output, 'Scheduler tokens replaced correctly for ' . $test_data['token_format'] . ' format.');
+      $this->assertEquals($expected_output, $body_output, 'Scheduler tokens replaced correctly for ' . $test_data['token_format'] . ' format.');
     }
   }
 

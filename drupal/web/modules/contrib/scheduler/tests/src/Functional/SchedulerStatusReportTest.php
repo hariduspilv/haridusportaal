@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\scheduler\Functional;
 
+use Drupal\Core\Url;
+
 /**
  * Tests the Scheduler section of the status report.
  *
@@ -19,13 +21,13 @@ class SchedulerStatusReportTest extends SchedulerBrowserTestBase {
     $this->assertText('Scheduler Time Check');
     $this->assertText('In most cases the server time should match Coordinated Universal Time (UTC) / Greenwich Mean Time (GMT)');
 
-    $admin_regional_settings = \Drupal::url('system.regional_settings');
+    $admin_regional_settings = Url::fromRoute('system.regional_settings');
     $this->assertLink('changed by admin users');
-    $this->assertLinkByHref($admin_regional_settings);
+    $this->assertLinkByHref($admin_regional_settings->toString());
 
-    $account_edit = \Drupal::url('entity.user.edit_form', ['user' => $this->adminUser->id()]);
+    $account_edit = Url::fromRoute('entity.user.edit_form', ['user' => $this->adminUser->id()]);
     $this->assertLink('user account');
-    $this->assertLinkByHref($account_edit);
+    $this->assertLinkByHref($account_edit->toString());
   }
 
 }

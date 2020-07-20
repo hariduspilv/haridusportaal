@@ -2,26 +2,31 @@
 
 namespace Drupal\scheduler;
 
-use Drupal\Core\Config\ConfigFactory;
-use Drupal\Core\Datetime\DateFormatter;
-use Drupal\Core\Entity\EntityManager;
+use Drupal\Component\Datetime\TimeInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Datetime\DateFormatterInterface;
+use Drupal\Core\Entity\EntityTypeManagerInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use Drupal\Core\Link;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
-use Drupal\Core\Extension\ModuleHandler;
-use Drupal\node\Entity\Node;
 use Drupal\node\NodeInterface;
 use Drupal\scheduler\Exception\SchedulerMissingDateException;
 use Drupal\scheduler\Exception\SchedulerNodeTypeNotEnabledException;
 use Psr\Log\LoggerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Defines a scheduler manager.
  */
 class SchedulerManager {
 
+  use StringTranslationTrait;
+
   /**
    * Date formatter service object.
    *
-   * @var \Drupal\Core\Datetime\DateFormatter
+   * @var \Drupal\Core\Datetime\DateFormatterInterface
    */
   protected $dateFormatter;
 
@@ -35,33 +40,49 @@ class SchedulerManager {
   /**
    * Module handler service object.
    *
-   * @var \Drupal\Core\Extension\ModuleHandler
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
    */
   protected $moduleHandler;
 
   /**
-   * Entity Manager service object.
+   * Entity Type Manager service object.
    *
-   * @var \Drupal\Core\Entity\EntityManager
+   * @var \Drupal\Core\Entity\EntityTypeManagerInterface
    */
-  protected $entityManager;
+  protected $entityTypeManager;
 
   /**
    * Config Factory service object.
    *
-   * @var \Drupal\Core\Config\ConfigFactory
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
 
   /**
+   * The event dispatcher.
+   *
+   * @var \Symfony\Component\EventDispatcher\EventDispatcherInterface
+   */
+  protected $eventDispatcher;
+
+  /**
+   * The time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $time;
+
+  /**
    * Constructs a SchedulerManager object.
    */
-  public function __construct(DateFormatter $dateFormatter, LoggerInterface $logger, ModuleHandler $moduleHandler, EntityManager $entityManager, ConfigFactory $configFactory) {
+  public function __construct(DateFormatterInterface $dateFormatter, LoggerInterface $logger, ModuleHandlerInterface $moduleHandler, EntityTypeManagerInterface $entityTypeManager, ConfigFactoryInterface $configFactory, EventDispatcherInterface $eventDispatcher, TimeInterface $time) {
     $this->dateFormatter = $dateFormatter;
     $this->logger = $logger;
     $this->moduleHandler = $moduleHandler;
-    $this->entityManager = $entityManager;
+    $this->entityTypeManager = $entityTypeManager;
     $this->configFactory = $configFactory;
+    $this->eventDispatcher = $eventDispatcher;
+    $this->time = $time;
   }
 
   /**
@@ -74,11 +95,6 @@ class SchedulerManager {
    * @throws \Drupal\scheduler\Exception\SchedulerNodeTypeNotEnabledException
    */
   public function publish() {
-    // @TODO: \Drupal calls should be avoided in classes.
-    // Replace \Drupal::service with dependency injection?
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
-    $dispatcher = \Drupal::service('event_dispatcher');
-
     $result = FALSE;
     $action = 'publish';
 
@@ -87,12 +103,11 @@ class SchedulerManager {
     $nids = [];
     $scheduler_enabled_types = array_keys(_scheduler_get_scheduler_enabled_node_types($action));
     if (!empty($scheduler_enabled_types)) {
-      // @TODO: \Drupal calls should be avoided in classes.
-      // Replace \Drupal::entityQuery with dependency injection?
-      $query = \Drupal::entityQuery('node')
+      $query = $this->entityTypeManager->getStorage('node')->getQuery()
         ->exists('publish_on')
-        ->condition('publish_on', REQUEST_TIME, '<=')
+        ->condition('publish_on', $this->time->getRequestTime(), '<=')
         ->condition('type', $scheduler_enabled_types, 'IN')
+        ->latestRevision()
         ->sort('publish_on')
         ->sort('nid');
       // Disable access checks for this query.
@@ -111,9 +126,8 @@ class SchedulerManager {
     // unlike 7.x where each translation was a separate node. This means that
     // the list of node ids returned above may have some translations that need
     // processing now and others that do not.
-    $nodes = Node::loadMultiple($nids);
-    // @TODO: Node::loadMultiple calls should be avoided in classes.
-    // Replace with dependency injection?
+    /** @var \Drupal\node\NodeInterface[] $nodes */
+    $nodes = $this->loadNodes($nids);
     foreach ($nodes as $node_multilingual) {
 
       // The API calls could return nodes of types which are not enabled for
@@ -131,7 +145,7 @@ class SchedulerManager {
         // If the current translation does not have a publish on value, or it is
         // later than the date we are processing then move on to the next.
         $publish_on = $node->publish_on->value;
-        if (empty($publish_on) || $publish_on > REQUEST_TIME) {
+        if (empty($publish_on) || $publish_on > $this->time->getRequestTime()) {
           continue;
         }
 
@@ -140,13 +154,13 @@ class SchedulerManager {
           continue;
         }
 
-        // $node->set('changed', $publish_on) will fail badly if an API call has
+        // $node->setChangedTime($publish_on) will fail badly if an API call has
         // removed the date. Trap this as an exception here and give a
         // meaningful message.
         // @TODO This will now never be thrown due to the empty(publish_on)
         // check above to cater for translations. Remove this exception?
         if (empty($node->publish_on->value)) {
-          $field_definitions = $this->entityManager->getFieldDefinitions('node', $node->getType());
+          $field_definitions = $this->entityTypeManager->getFieldDefinitions('node', $node->getType());
           $field = (string) $field_definitions['publish_on']->getLabel();
           throw new SchedulerMissingDateException(sprintf("Node %d '%s' will not be published because field '%s' has no value", $node->id(), $node->getTitle(), $field));
         }
@@ -154,46 +168,79 @@ class SchedulerManager {
         // Trigger the PRE_PUBLISH event so that modules can react before the
         // node is published.
         $event = new SchedulerEvent($node);
-        $dispatcher->dispatch(SchedulerEvents::PRE_PUBLISH, $event);
+        $this->eventDispatcher->dispatch(SchedulerEvents::PRE_PUBLISH, $event);
         $node = $event->getNode();
 
-        // Update timestamps.
-        $node->set('changed', $publish_on);
+        // Update 'changed' timestamp.
+        $node->setChangedTime($publish_on);
         $old_creation_date = $node->getCreatedTime();
-        if ($node->type->entity->getThirdPartySetting('scheduler', 'publish_touch', $this->setting('default_publish_touch'))) {
+        $msg_extra = '';
+        // If required, set the created date to match published date.
+        if ($node->type->entity->getThirdPartySetting('scheduler', 'publish_touch', $this->setting('default_publish_touch')) ||
+          ($node->getCreatedTime() > $publish_on && $node->type->entity->getThirdPartySetting('scheduler', 'publish_past_date_created', $this->setting('default_publish_past_date_created')))
+        ) {
           $node->setCreatedTime($publish_on);
+          $msg_extra = $this->t('The previous creation date was @old_creation_date, now updated to match the publishing date.', [
+            '@old_creation_date' => $this->dateFormatter->format($old_creation_date, 'short'),
+          ]);
         }
 
         $create_publishing_revision = $node->type->entity->getThirdPartySetting('scheduler', 'publish_revision', $this->setting('default_publish_revision'));
         if ($create_publishing_revision) {
           $node->setNewRevision();
           // Use a core date format to guarantee a time is included.
-          // @TODO: 't' calls should be avoided in classes.
-          // Replace with dependency injection?
-          $node->revision_log = t('Node published by Scheduler on @now. Previous creation date was @date.', [
-            '@now' => $this->dateFormatter->format(REQUEST_TIME, 'short'),
-            '@date' => $this->dateFormatter->format($old_creation_date, 'short'),
-          ]);
+          $revision_log_message = rtrim($this->t('Published by Scheduler. The scheduled publishing date was @publish_on.', [
+            '@publish_on' => $this->dateFormatter->format($publish_on, 'short'),
+          ]) . ' ' . $msg_extra);
+          $node->setRevisionLogMessage($revision_log_message)
+            ->setRevisionCreationTime($this->time->getRequestTime());
         }
         // Unset publish_on so the node will not get rescheduled by subsequent
         // calls to $node->save().
         $node->publish_on->value = NULL;
 
-        // Log the fact that a scheduled publication is about to take place.
-        $view_link = $node->link(t('View node'));
-        $nodetype_url = Url::fromRoute('entity.node_type.edit_form', ['node_type' => $node->getType()]);
-        // @TODO: \Drupal calls should be avoided in classes.
-        // Replace \Drupal::l with dependency injection?
-        $nodetype_link = \Drupal::l(node_get_type_label($node) . ' ' . t('settings'), $nodetype_url);
-        $logger_variables = [
-          '@type' => node_get_type_label($node),
-          '%title' => $node->getTitle(),
-          'link' => $nodetype_link . ' ' . $view_link,
-        ];
-        $this->logger->notice('@type: scheduled publishing of %title.', $logger_variables);
+        // Invoke all implementations of hook_scheduler_publish_action() to
+        // allow other modules to do the "publishing" process instead of
+        // Scheduler.
+        $hook = 'scheduler_publish_action';
+        $processed = FALSE;
+        $failed = FALSE;
+        foreach ($this->moduleHandler->getImplementations($hook) as $module) {
+          $function = $module . '_' . $hook;
+          $return = $function($node);
+          $processed = $processed || ($return === 1);
+          $failed = $failed || ($return === -1);
+        }
 
-        // Use the actions system to publish the node.
-        $this->entityManager->getStorage('action')->load('node_publish_action')->getPlugin()->execute($node);
+        // Log the fact that a scheduled publication is about to take place.
+        $view_link = $node->toLink($this->t('View node'));
+        $node_type = $this->entityTypeManager->getStorage('node_type')->load($node->bundle());
+        $node_type_link = $node_type->toLink($this->t('@label settings', ['@label' => $node_type->label()]), 'edit-form');
+        $logger_variables = [
+          '@type' => $node_type->label(),
+          '%title' => $node->getTitle(),
+          'link' => $node_type_link->toString() . ' ' . $view_link->toString(),
+          '@hook' => 'hook_' . $hook,
+        ];
+
+        if ($failed) {
+          // At least one hook function returned a failure or exception, so stop
+          // processing this node and move on to the next one.
+          $this->logger->warning('Publishing failed for %title. Calls to @hook returned a failure code.', $logger_variables);
+          continue;
+        }
+        elseif ($processed) {
+          // The node had 'publishing' processed by a module implementing the
+          // hook, so no need to do anything more, apart from log this result.
+          $this->logger->notice('@type: scheduled processing of %title completed by calls to @hook.', $logger_variables);
+        }
+        else {
+          // None of the above hook calls processed the node and there were no
+          // errors detected so fall back to the standard actions system to
+          // publish the node.
+          $this->logger->notice('@type: scheduled publishing of %title.', $logger_variables);
+          $this->entityTypeManager->getStorage('action')->load('node_publish_action')->getPlugin()->execute($node);
+        }
 
         // Invoke the event to tell Rules that Scheduler has published the node.
         if ($this->moduleHandler->moduleExists('scheduler_rules_integration')) {
@@ -203,7 +250,7 @@ class SchedulerManager {
         // Trigger the PUBLISH event so that modules can react after the node is
         // published.
         $event = new SchedulerEvent($node);
-        $dispatcher->dispatch(SchedulerEvents::PUBLISH, $event);
+        $this->eventDispatcher->dispatch(SchedulerEvents::PUBLISH, $event);
         $event->getNode()->save();
 
         $result = TRUE;
@@ -223,11 +270,6 @@ class SchedulerManager {
    * @throws \Drupal\scheduler\Exception\SchedulerNodeTypeNotEnabledException
    */
   public function unpublish() {
-    // @TODO: \Drupal calls should be avoided in classes.
-    // Replace \Drupal::service with dependency injection?
-    /** @var \Symfony\Component\EventDispatcher\EventDispatcherInterface $dispatcher */
-    $dispatcher = \Drupal::service('event_dispatcher');
-
     $result = FALSE;
     $action = 'unpublish';
 
@@ -236,12 +278,11 @@ class SchedulerManager {
     $nids = [];
     $scheduler_enabled_types = array_keys(_scheduler_get_scheduler_enabled_node_types($action));
     if (!empty($scheduler_enabled_types)) {
-      // @TODO: \Drupal calls should be avoided in classes.
-      // Replace \Drupal::entityQuery with dependency injection?
-      $query = \Drupal::entityQuery('node')
+      $query = $this->entityTypeManager->getStorage('node')->getQuery()
         ->exists('unpublish_on')
-        ->condition('unpublish_on', REQUEST_TIME, '<=')
+        ->condition('unpublish_on', $this->time->getRequestTime(), '<=')
         ->condition('type', $scheduler_enabled_types, 'IN')
+        ->latestRevision()
         ->sort('unpublish_on')
         ->sort('nid');
       // Disable access checks for this query.
@@ -256,9 +297,8 @@ class SchedulerManager {
     // Allow other modules to alter the list of nodes to be unpublished.
     $this->moduleHandler->alter('scheduler_nid_list', $nids, $action);
 
-    // @TODO: Node::loadMultiple calls should be avoided in classes.
-    // Replace with dependency injection?
-    $nodes = Node::loadMultiple($nids);
+    /** @var \Drupal\node\NodeInterface[] $nodes */
+    $nodes = $this->loadNodes($nids);
     foreach ($nodes as $node_multilingual) {
       // The API calls could return nodes of types which are not enabled for
       // scheduled unpublishing. Do not process these.
@@ -274,7 +314,7 @@ class SchedulerManager {
         // If the current translation does not have an unpublish on value, or it
         // is later than the date we are processing then move on to the next.
         $unpublish_on = $node->unpublish_on->value;
-        if (empty($unpublish_on) || $unpublish_on > REQUEST_TIME) {
+        if (empty($unpublish_on) || $unpublish_on > $this->time->getRequestTime()) {
           continue;
         }
 
@@ -283,7 +323,7 @@ class SchedulerManager {
         // by one of the hook functions we provide, and is still being blocked
         // now that the unpublishing time has been reached.
         $publish_on = $node->publish_on->value;
-        if (!empty($publish_on) && $publish_on <= REQUEST_TIME) {
+        if (!empty($publish_on) && $publish_on <= $this->time->getRequestTime()) {
           continue;
         }
 
@@ -292,13 +332,13 @@ class SchedulerManager {
           continue;
         }
 
-        // $node->set('changed', $unpublish_on) will fail badly if an API call
+        // $node->setChangedTime($unpublish_on) will fail badly if an API call
         // has removed the date. Trap this as an exception here and give a
         // meaningful message.
         // @TODO This will now never be thrown due to the empty(unpublish_on)
         // check above to cater for translations. Remove this exception?
         if (empty($unpublish_on)) {
-          $field_definitions = $this->entityManager->getFieldDefinitions('node', $node->getType());
+          $field_definitions = $this->entityTypeManager->getFieldDefinitions('node', $node->getType());
           $field = (string) $field_definitions['unpublish_on']->getLabel();
           throw new SchedulerMissingDateException(sprintf("Node %d '%s' will not be unpublished because field '%s' has no value", $node->id(), $node->getTitle(), $field));
         }
@@ -306,53 +346,79 @@ class SchedulerManager {
         // Trigger the PRE_UNPUBLISH event so that modules can react before the
         // node is unpublished.
         $event = new SchedulerEvent($node);
-        $dispatcher->dispatch(SchedulerEvents::PRE_UNPUBLISH, $event);
+        $this->eventDispatcher->dispatch(SchedulerEvents::PRE_UNPUBLISH, $event);
         $node = $event->getNode();
 
-        // Update timestamps.
-        $old_change_date = $node->getChangedTime();
-        $node->set('changed', $unpublish_on);
+        // Update 'changed' timestamp.
+        $node->setChangedTime($unpublish_on);
 
         $create_unpublishing_revision = $node->type->entity->getThirdPartySetting('scheduler', 'unpublish_revision', $this->setting('default_unpublish_revision'));
         if ($create_unpublishing_revision) {
           $node->setNewRevision();
           // Use a core date format to guarantee a time is included.
-          // @TODO: 't' calls should be avoided in classes.
-          // Replace with dependency injection?
-          $node->revision_log = t('Node unpublished by Scheduler on @now. Previous change date was @date.', [
-            '@now' => $this->dateFormatter->format(REQUEST_TIME, 'short'),
-            '@date' => $this->dateFormatter->format($old_change_date, 'short'),
+          $revision_log_message = $this->t('Unpublished by Scheduler. The scheduled unpublishing date was @unpublish_on.', [
+            '@unpublish_on' => $this->dateFormatter->format($unpublish_on, 'short'),
           ]);
+          // Create the new revision, setting message and revision timestamp.
+          $node->setRevisionLogMessage($revision_log_message)
+            ->setRevisionCreationTime($this->time->getRequestTime());
         }
         // Unset unpublish_on so the node will not get rescheduled by subsequent
-        // calls to $node->save(). Save the value for use when calling Rules.
+        // calls to $node->save().
         $node->unpublish_on->value = NULL;
 
-        // Log the fact that a scheduled unpublication is about to take place.
-        $view_link = $node->link(t('View node'));
-        $nodetype_url = Url::fromRoute('entity.node_type.edit_form', ['node_type' => $node->getType()]);
-        // @TODO: \Drupal calls should be avoided in classes.
-        // Replace \Drupal::l with dependency injection?
-        $nodetype_link = \Drupal::l(node_get_type_label($node) . ' ' . t('settings'), $nodetype_url);
-        $logger_variables = [
-          '@type' => node_get_type_label($node),
-          '%title' => $node->getTitle(),
-          'link' => $nodetype_link . ' ' . $view_link,
-        ];
-        $this->logger->notice('@type: scheduled unpublishing of %title.', $logger_variables);
+        // Invoke all implementations of hook_scheduler_unpublish_action() to
+        // allow other modules to do the "unpublishing" process instead of
+        // Scheduler.
+        $hook = 'scheduler_unpublish_action';
+        $processed = FALSE;
+        $failed = FALSE;
+        foreach ($this->moduleHandler->getImplementations($hook) as $module) {
+          $function = $module . '_' . $hook;
+          $return = $function($node);
+          $processed = $processed || ($return === 1);
+          $failed = $failed || ($return === -1);
+        }
 
-        // Use the actions system to publish the node.
-        $this->entityManager->getStorage('action')->load('node_unpublish_action')->getPlugin()->execute($node);
+        // Set up the log variables.
+        $view_link = $node->toLink($this->t('View node'));
+        $node_type = $this->entityTypeManager->getStorage('node_type')->load($node->bundle());
+        $node_type_link = $node_type->toLink($this->t('@label settings', ['@label' => $node_type->label()]), 'edit-form');
+        $logger_variables = [
+          '@type' => $node_type->label(),
+          '%title' => $node->getTitle(),
+          'link' => $node_type_link->toString() . ' ' . $view_link->toString(),
+          '@hook' => 'hook_' . $hook,
+        ];
+
+        if ($failed) {
+          // At least one hook function returned a failure or exception, so stop
+          // processing this node and move on to the next one.
+          $this->logger->warning('Unpublishing failed for %title. Calls to @hook returned a failure code.', $logger_variables);
+          continue;
+        }
+        elseif ($processed) {
+          // The node has 'unpublishing' processed by a module implementing the
+          // hook, so no need to do anything more, apart from log this result.
+          $this->logger->notice('@type: scheduled processing of %title completed by calls to @hook.', $logger_variables);
+        }
+        else {
+          // None of the above hook calls processed the node and there were no
+          // errors detected so fall back to the standard actions system to
+          // unpublish the node.
+          $this->logger->notice('@type: scheduled unpublishing of %title.', $logger_variables);
+          $this->entityTypeManager->getStorage('action')->load('node_unpublish_action')->getPlugin()->execute($node);
+        }
 
         // Invoke event to tell Rules that Scheduler has unpublished this node.
         if ($this->moduleHandler->moduleExists('scheduler_rules_integration')) {
           _scheduler_rules_integration_dispatch_cron_event($node, 'unpublish');
         }
 
-        // Trigger the UNPUBLISH event so that modules can react before the node
+        // Trigger the UNPUBLISH event so that modules can react after the node
         // is unpublished.
         $event = new SchedulerEvent($node);
-        $dispatcher->dispatch(SchedulerEvents::UNPUBLISH, $event);
+        $this->eventDispatcher->dispatch(SchedulerEvents::UNPUBLISH, $event);
         $event->getNode()->save();
 
         $result = TRUE;
@@ -426,11 +492,25 @@ class SchedulerManager {
    * This function is called from the external crontab job via url
    * /scheduler/cron/{access key} or it can be run interactively from the
    * Scheduler configuration page at /admin/config/content/scheduler/cron.
+   * It is also executed when running Scheduler Cron via drush.
+   *
+   * @param array $options
+   *   Options passed from drush command or admin form.
    */
-  public function runLightweightCron() {
-    $log = $this->setting('log');
+  public function runLightweightCron(array $options = []) {
+    // When calling via drush the log messages can be avoided by using --nolog.
+    $log = $this->setting('log') && empty($options['nolog']);
     if ($log) {
-      $this->logger->notice('Lightweight cron run activated.');
+      if (array_key_exists('nolog', $options)) {
+        $trigger = 'drush command';
+      }
+      elseif (array_key_exists('admin_form', $options)) {
+        $trigger = 'admin user form';
+      }
+      else {
+        $trigger = 'url';
+      }
+      $this->logger->notice('Lightweight cron run activated by @trigger.', ['@trigger' => $trigger]);
     }
     scheduler_cron();
     if (ob_get_level() > 0) {
@@ -440,9 +520,8 @@ class SchedulerManager {
       }
     }
     if ($log) {
-      // @TODO: \Drupal calls should be avoided in classes.
-      // Replace \Drupal::l with dependency injection?
-      $this->logger->notice('Lightweight cron run completed.', ['link' => \Drupal::l(t('settings'), Url::fromRoute('scheduler.cron_form'))]);
+      $link = Link::fromTextAndUrl($this->t('settings'), Url::fromRoute('scheduler.cron_form'));
+      $this->logger->notice('Lightweight cron run completed.', ['link' => $link->toString()]);
     }
   }
 
@@ -457,6 +536,33 @@ class SchedulerManager {
    */
   protected function setting($key) {
     return $this->configFactory->get('scheduler.settings')->get($key);
+  }
+
+  /**
+   * Helper method to load latest revision of each node.
+   *
+   * @param array $nids
+   *   Array of node ids.
+   *
+   * @return array
+   *   Array of loaded nodes.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   */
+  protected function loadNodes(array $nids) {
+    $node_storage = $this->entityTypeManager->getStorage('node');
+    $nodes = [];
+
+    // Load the latest revision for each node.
+    foreach ($nids as $nid) {
+      $node = $node_storage->load($nid);
+      $revision_ids = $node_storage->revisionIds($node);
+      $vid = end($revision_ids);
+      $nodes[] = $node_storage->loadRevision($vid);
+    }
+
+    return $nodes;
   }
 
 }

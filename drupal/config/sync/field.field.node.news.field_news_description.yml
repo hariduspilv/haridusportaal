@@ -11,7 +11,7 @@ id: node.news.field_news_description
 field_name: field_news_description
 entity_type: node
 bundle: news
-label: Description
+label: 'Sisu tekst'
 description: ''
 required: true
 translatable: true
@@ -19,4 +19,5 @@ default_value: {  }
 default_value_callback: ''
 settings:
   display_summary: false
+  required_summary: false
 field_type: text_with_summary

@@ -1,0 +1,22 @@
+uuid: 0792f135-6506-45bf-b83b-8f29eaaca2b7
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.career_home_page
+id: node.career_home_page.promote
+field_name: promote
+entity_type: node
+bundle: career_home_page
+label: 'Ülendatud esilehele'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean

@@ -141,9 +141,9 @@ class ConditionalFieldForm extends FormBase {
           $field_instance->isRequired() &&
           in_array($state, ['!visible', 'disabled', '!required'])
         ) {
-          $form_state->setErrorByName('state', $this->t('Field !field is required and can not have state !state.', [
-            '!field' => $field_instance->getLabel() . ' (' . $field_instance->getName() . ')',
-            '!state' => $all_states[$state],
+          $form_state->setErrorByName('state', $this->t('Field %field is required and can not have state %state.', [
+            '%field' => $field_instance->getLabel() . ' (' . $field_instance->getName() . ')',
+            '%state' => $all_states[$state],
           ]));
         }
       }

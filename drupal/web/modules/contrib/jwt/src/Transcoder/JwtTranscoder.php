@@ -92,9 +92,9 @@ class JwtTranscoder implements JwtTranscoderInterface {
    *
    * @param \Firebase\JWT\JWT $php_jwt
    *   The JWT library object.
-   * @param ConfigFactoryInterface $configFactory
+   * @param Drupal\Core\Config\ConfigFactoryInterface $configFactory
    *   Drupal config factory to retrieve the configuration information.
-   * @param KeyRepositoryInterface $key_repo
+   * @param Drupal\key\KeyRepositoryInterface $key_repo
    *   The Key repository to retrieve the key.
    */
   public function __construct(JWT $php_jwt, ConfigFactoryInterface $configFactory, KeyRepositoryInterface $key_repo) {
@@ -111,8 +111,13 @@ class JwtTranscoder implements JwtTranscoderInterface {
           $this->setSecret($key_value);
         }
         elseif ($this->algorithmType == 'jwt_rs') {
-          // Asymmetric algorithm so we set the private key.
-          $this->setPrivateKey($key_value);
+          // Asymmetric algorithm so we set the private key if possible.
+          if (strpos($key_value, '-----BEGIN PUBLIC KEY-----') !== FALSE) {
+            $this->setPublicKey($key_value);
+          }
+          else {
+            $this->setPrivateKey($key_value);
+          }
         }
       }
     }
@@ -138,6 +143,9 @@ class JwtTranscoder implements JwtTranscoderInterface {
    */
   public function setPrivateKey($private_key, $derive_public_key = TRUE) {
     $key_context = openssl_pkey_get_private($private_key);
+    if ($key_context === FALSE) {
+      return FALSE;
+    }
     $key_details = openssl_pkey_get_details($key_context);
     if ($key_details === FALSE || $key_details['type'] != OPENSSL_KEYTYPE_RSA) {
       return FALSE;
@@ -156,6 +164,9 @@ class JwtTranscoder implements JwtTranscoderInterface {
    */
   public function setPublicKey($public_key) {
     $key_context = openssl_pkey_get_public($public_key);
+    if ($key_context === FALSE){
+      return FALSE;
+    }
     $key_details = openssl_pkey_get_details($key_context);
     if ($key_details === FALSE || $key_details['type'] != OPENSSL_KEYTYPE_RSA) {
       return FALSE;

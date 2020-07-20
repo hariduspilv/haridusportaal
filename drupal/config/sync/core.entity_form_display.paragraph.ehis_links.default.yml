@@ -1,0 +1,32 @@
+uuid: 561f7694-a8c2-4542-89cf-729daf398614
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.ehis_links.field_ehis_link
+    - field.field.paragraph.ehis_links.field_link_icon
+    - paragraphs.paragraphs_type.ehis_links
+  module:
+    - link
+id: paragraph.ehis_links.default
+targetEntityType: paragraph
+bundle: ehis_links
+mode: default
+content:
+  field_ehis_link:
+    weight: 0
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_link_icon:
+    weight: 1
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+hidden:
+  created: true
+  status: true

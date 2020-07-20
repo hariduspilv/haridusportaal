@@ -12,7 +12,8 @@ function purge_requirements($phase) {
   if ($phase !== 'runtime') {
     return [];
   }
-  return \Drupal::service('purge.diagnostics')->getHookRequirementsArray();
+  $checks = \Drupal::service('purge.diagnostics');
+  return $checks->toRequirementsArray($checks->filterWarningAndErrors(), TRUE);
 }
 
 /**

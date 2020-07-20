@@ -20,10 +20,28 @@ function google_map_field_theme($existing, $type, $theme, $path) {
         'width' => NULL,
         'height' => NULL,
         'show_marker' => NULL,
+        'marker_icon' => NULL,
+        'traffic' => NULL,
         'show_controls' => NULL,
         'infowindow' => NULL,
       ],
       'template' => 'google_map_field',
+    ],
+    'google_map_field_embed' => [
+      'variables' => [
+        'name' => NULL,
+        'lat' => NULL,
+        'lon' => NULL,
+        'zoom' => NULL,
+        'type' => NULL,
+        'width' => NULL,
+        'height' => NULL,
+        'show_marker' => NULL,
+        'show_controls' => NULL,
+        'infowindow' => NULL,
+        'api_key' => NULL,
+      ],
+      'template' => 'google_map_field_embed',
     ],
   ];
 }

@@ -1,11 +1,5 @@
 <div><breadcrumbs></breadcrumbs></div>
-<div class="sm-show text-right filter-control">
-  <a href="javascript:void(0);" (click)="showFilter = !showFilter">
-    <span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
-    <span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
-  </a> 
-</div>
-<form (submit)="filterSubmit($event)" class="filter-wrapper" [class.filtersActive]="showFilter">
+<form (submit)="filterSubmit($event)" class="filter-wrapper">
   <div class="main-container">
     <div class="row">
       <div class="col-4 sm-12">
@@ -81,38 +75,50 @@
       <div class="map-loader" *ngIf="loading" >
         <loader></loader>
       </div><!--/map-loader-->
-      <agm-map (zoomChange)="zoomChange($event)" (mapReady)="mapReady($event)" minZoom="7.4" maxZoom="10" style="height:525px" [styles]="mapOptions.styles">
+      <agm-map (zoomChange)="zoomChange($event)" (mapReady)="mapReady($event)" [minZoom]="mapOptions.minZoom" [maxZoom]="mapOptions.maxZoom" [streetViewControl]="false" style="height:525px" [styles]="mapOptions.styles">
   
         <agm-data-layer *ngIf="polygons" [geoJson]="polygons" [style]="polygonStyles" (layerClick)="kmlClick($event)">
         </agm-data-layer>
         
         <ng-container *ngIf="polygons && polygons.features && polygonLabels && polygonLabels.length">
-          <agm-marker *ngFor="let item of polygonLabels" [iconUrl]="icon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
+          <ng-container *ngFor="let item of polygonLabels">
+            <agm-marker *ngIf="item.labelOptions && item.labelOptions.text" [iconUrl]="icon" [latitude]="item.latitude" [longitude]="item.longitude" [label]="item.labelOptions"></agm-marker>
+          </ng-container>
         </ng-container>
   
         <ng-container *ngIf="sumWindowStatus">
-          <agm-snazzy-info-window [closeWhenOthersOpen]="true" #sumLayer isOpen="sumWindowStatus" [latitude]="sumWindowLat" [longitude]="sumWindowLon" (isOpenChange)="kmlClickStatus($event)" >
+          <!-- <agm-snazzy-info-window [closeWhenOthersOpen]="true" #sumLayer isOpen="sumWindowStatus" [latitude]="sumWindowLat" [longitude]="sumWindowLon" (isOpenChange)="kmlClickStatus($event)" >
             <ng-template>
               <b>{{ infoLayer.name }}</b><br />
               <span *ngIf="infoLayer.field">{{ infoLayer.field }}<br /></span>
-              {{ infoLayer.value }}
+              <span *ngIf="infoLayer.value">{{ infoLayer.value }}</span>
             </ng-template>
-          </agm-snazzy-info-window>
+          </agm-snazzy-info-window> -->
         </ng-container>
       </agm-map>
-      <!-- <div class="polygons-toggle" *ngIf="polygons">
-        <button (click)="changeLayer('county')" [class.active]="polygonLayer == 'county'">{{ 'school.counties' | translate }}</button>
-        <button (click)="changeLayer('kov')" [class.active]="polygonLayer == 'kov'">{{ 'school.municipalities_detailed' | translate }}</button>
+      <div class="map__additions">
+        <div class="pair" *ngIf="params && params.mapIndicator">
+          <div class="pair__label">{{ 'oskaProfessions.indicator' | translate }}:</div> 
+          <div class="pair__value">{{ params.mapIndicator | ellipsis:20 }}</div>
+        </div>
+        <div class="pair" *ngIf="params && params.OSKAField">
+          <div class="pair__label">{{ 'oska.title_field' | translate }}:</div> 
+          <div class="pair__value">{{ params.OSKAField | ellipsis:20 }}</div>
+        </div>
       </div>
-      <img src="/assets/img/placeholder-50.gif" /> -->
     </div><!--/map-wrapper-->
   
     <ng-container *ngIf="heatMapRanges.length > 0">
       <div class="mapLegend">
-        <div class="mapLegend__block" *ngFor="let item of heatMapRanges">
-          <div class="mapLegend__color" [style.background-color]="item.color"></div>
-          {{ item.amount | number }}
-        </div>
+        <ng-container *ngFor="let item of heatMapRanges">
+          <div class="mapLegend__block" *ngIf="params && params.mapIndicator && fieldMaxRanges[params.mapIndicator] && item.amount <= fieldMaxRanges[params.mapIndicator]">
+            <div class="mapLegend__color" [style.background-color]="item.color"></div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="mapLegend__labels" *ngIf="indicatorLegendLabels[params.mapIndicator]">
+        <div>{{ indicatorLegendLabels[params.mapIndicator].start }}</div>
+        <div>{{ indicatorLegendLabels[params.mapIndicator].end }}</div>
       </div>
     </ng-container>
   

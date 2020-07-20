@@ -215,7 +215,7 @@ class Common
      * Prepares token content for output to screen.
      *
      * Replaces invisible characters so they are visible. On non-Windows
-     * OSes it will also colour the invisible characters.
+     * operating systems it will also colour the invisible characters.
      *
      * @param string   $content The content to prepare.
      * @param string[] $exclude A list of characters to leave invisible.
@@ -320,12 +320,12 @@ class Common
             $lastCharWasCaps = $classFormat;
 
             for ($i = 1; $i < $length; $i++) {
-                $ascii = ord($string{$i});
+                $ascii = ord($string[$i]);
                 if ($ascii >= 48 && $ascii <= 57) {
                     // The character is a number, so it cant be a capital.
                     $isCaps = false;
                 } else {
-                    if (strtoupper($string{$i}) === $string{$i}) {
+                    if (strtoupper($string[$i]) === $string[$i]) {
                         $isCaps = true;
                     } else {
                         $isCaps = false;
@@ -371,7 +371,7 @@ class Common
                     continue;
                 }
 
-                if ($bit{0} !== strtoupper($bit{0})) {
+                if ($bit[0] !== strtoupper($bit[0])) {
                     $validName = false;
                     break;
                 }

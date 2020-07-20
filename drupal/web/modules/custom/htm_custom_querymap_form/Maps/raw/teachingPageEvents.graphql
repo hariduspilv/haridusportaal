@@ -1,0 +1,27 @@
+query teachingPageEvents($lang: LanguageId!) {
+  nodeQuery(limit: 2, sort: {field: "created", direction: DESC}, filter: {conditions: [
+    {field: "field_tag.entity.name", value: ["õpetaja" , "noorsootöötaja" , "koolijuht"], language: $lang},
+    {field: "type", value: "event", language: $lang},
+    {field: "status", value: "1", language: $lang}
+  ]
+  }) {
+    entities(language: $lang) {
+      ... on NodeEvent {
+        created
+        fieldOrganizer
+        entityLabel
+        fieldEventLocation {
+          name
+        }
+        entityUrl {
+          routed
+          path
+        }
+        fieldDescriptionSummary
+        fieldEventMainDate {
+          unix
+        }
+      }
+    }
+  }
+}

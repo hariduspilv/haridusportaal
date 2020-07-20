@@ -78,7 +78,7 @@ function hook_scheduler_allow_publishing(NodeInterface $node) {
     // If publication is denied then inform the user why. This message will be
     // displayed during node edit and save.
     if (!$allowed) {
-      drupal_set_message(t('The content will only be published after approval by the CEO.'), 'status', FALSE);
+      \Drupal::messenger()->addMessage(t('The content will only be published after approval by the CEO.'), 'status', FALSE);
     }
   }
 
@@ -111,11 +111,127 @@ function hook_scheduler_allow_unpublishing(NodeInterface $node) {
     // If unpublication is denied then inform the user why. This message will be
     // displayed during node edit and save.
     if (!$allowed) {
-      drupal_set_message(t('The competition will only be unpublished after all prizes have been claimed by the winners.'));
+      \Drupal::messenger()->addMessage(t('The competition will only be unpublished after all prizes have been claimed by the winners.'));
     }
   }
 
   return $allowed;
+}
+
+/**
+ * Hook function to hide the Publish On field.
+ *
+ * This hook is called from scheduler_form_node_form_alter(). It gives modules
+ * the ability to hide the scheduler publish_on input field on the node edit
+ * form. Note that it does not give the ability to force the field to be
+ * displayed, as that could override a more significant setting. It can only be
+ * used to hide the field.
+ *
+ * This hook was introduced for scheduler_content_moderation_integration.
+ *
+ * @param array $form
+ *   An associative array containing the structure of the form, as used in
+ *   hook_form_alter().
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form, as used in hook_form_alter().
+ * @param \Drupal\node\NodeInterface $node
+ *   The $node object of the node being editted.
+ *
+ * @see https://www.drupal.org/project/scheduler/issues/2798689
+ *
+ * @return bool
+ *   TRUE to hide the publish_on field.
+ *   FALSE or NULL to leave the setting unchanged.
+ */
+function hook_scheduler_hide_publish_on_field(array $form, FormStateInterface $form_state, NodeInterface $node) {
+  return FALSE;
+}
+
+/**
+ * Hook function to hide the Unpublish On field.
+ *
+ * This hook is called from scheduler_form_node_form_alter(). It gives modules
+ * the ability to hide the scheduler unpublish_on input field on the node edit
+ * form. Note that it does not give the ability to force the field to be
+ * displayed, as that could override a more significant setting. It can only be
+ * used to hide the field.
+ *
+ * This hook was introduced for scheduler_content_moderation_integration.
+ *
+ * @param array $form
+ *   An associative array containing the structure of the form, as used in
+ *   hook_form_alter().
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The current state of the form, as used in hook_form_alter().
+ * @param \Drupal\node\NodeInterface $node
+ *   The $node object of the node being editted.
+ *
+ * @see https://www.drupal.org/project/scheduler/issues/2798689
+ *
+ * @return bool
+ *   TRUE to hide the unpublish_on field.
+ *   FALSE or NULL to leave the setting unchanged.
+ */
+function hook_scheduler_hide_unpublish_on_field(array $form, FormStateInterface $form_state, NodeInterface $node) {
+  return FALSE;
+}
+
+/**
+ * Hook function to process the publish action for a node.
+ *
+ * This hook is called from schedulerManger::publish() and allows oher modules
+ * to process the publish action on a node during a cron run. The other module
+ * may require different functionality to be executed instead of the default
+ * publish process. If none of the invoked hook functions return a TRUE value
+ * then Scheduler will process the node using the default publish action, just
+ * as if no other hooks had been called.
+ *
+ * This hook was introduced for scheduler_content_moderation_integration.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   The $node object of the node being published.
+ *
+ * @see https://www.drupal.org/project/scheduler/issues/2798689
+ *
+ * @return int
+ *   1 if this function has published the node or performed other such action
+ *     meaning that Scheduler should NOT process the default publish action.
+ *   0 if nothing has been done and Scheduler should process the default publish
+ *     action just as if this hook function did not exist.
+ *   -1 if an error has occurred and Scheduler should abandon processing this
+ *     node with no further action and move on to the next one.
+ */
+function hook_scheduler_publish_action(NodeInterface $node) {
+  return 0;
+}
+
+/**
+ * Hook function to process the unpublish action for a node.
+ *
+ * This hook is called from schedulerManger::unpublish() and allows oher modules
+ * to process the unpublish action on a node during a cron run. The other module
+ * may require different functionality to be executed instead of the default
+ * unpublish process. If none of the invoked hook functions return a TRUE value
+ * then Scheduler will process the node using the default unpublish action, just
+ * as if no other hooks had been called.
+ *
+ * This hook was introduced for scheduler_content_moderation_integration.
+ *
+ * @param \Drupal\node\NodeInterface $node
+ *   The $node object of the node being unpublished.
+ *
+ * @see https://www.drupal.org/project/scheduler/issues/2798689
+ *
+ * @return int
+ *   1 if this function has published the node or performed other such action
+ *     meaning that Scheduler should NOT process the default publish action.
+ *   0 if nothing has been done and Scheduler should process the default publish
+ *     action just as if this hook function did not exist.
+ *   -1 if an error has occurred and Scheduler should abandon processing this
+ *     node with no further action and move on to the next one.
+ */
+function hook_scheduler_unpublish_action(NodeInterface $node) {
+  return 0;
 }
 
 /**

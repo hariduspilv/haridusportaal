@@ -1,4 +1,3 @@
-
 var google_map_field_map;
 
 (function ($, Drupal) {
@@ -6,13 +5,15 @@ var google_map_field_map;
   Drupal.behaviors.google_map_field_renderer = {
     attach: function (context) {
 
-      $('.google-map-field .map-container').once('.google-map-field-processed').each(function(index, item) {
+      $('.google-map-field .map-container').once('.google-map-field-processed').each(function (index, item) {
         // Get the settings for the map from the Drupal.settings object.
         var lat = $(this).attr('data-lat');
         var lon = $(this).attr('data-lon');
         var zoom = parseInt($(this).attr('data-zoom'));
         var type = $(this).attr('data-type');
         var show_marker = $(this).attr('data-marker-show') === "true";
+        var traffic = $(this).attr('data-traffic') === "true";
+        var marker_icon = $(this).attr('data-marker-icon');
         var show_controls = $(this).attr('data-controls-show') === "true";
         var info_window = $(this).attr('data-infowindow') === "true";
 
@@ -28,7 +29,12 @@ var google_map_field_map;
 
         var google_map_field_map = new google.maps.Map(this, mapOptions);
 
-        google.maps.event.addDomListener(window, 'resize', function() {
+        if (traffic) {
+          var trafficLayer = new google.maps.TrafficLayer();
+          trafficLayer.setMap(google_map_field_map);
+        }
+
+        google.maps.event.addDomListener(window, 'resize', function () {
           var center = google_map_field_map.getCenter();
           google.maps.event.trigger(google_map_field_map, "resize");
           google_map_field_map.setCenter(center);
@@ -39,6 +45,7 @@ var google_map_field_map;
           position: latlng,
           optimized: false,
           visible: show_marker,
+          icon: marker_icon,
           map: google_map_field_map
         });
 

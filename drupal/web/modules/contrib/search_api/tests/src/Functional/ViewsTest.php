@@ -12,7 +12,6 @@ use Drupal\language\Entity\ConfigurableLanguage;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\Utility\Utility;
 use Drupal\views\Entity\View;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Tests the Views integration of the Search API.
@@ -34,6 +33,11 @@ class ViewsTest extends SearchApiBrowserTestBase {
     'search_api_test_views',
     'views_ui',
   ];
+
+  /**
+   * {@inheritdoc}
+   */
+  protected static $additionalBundles = TRUE;
 
   /**
    * {@inheritdoc}
@@ -317,7 +321,8 @@ class ViewsTest extends SearchApiBrowserTestBase {
     $this->assertArrayHasKey('views_rest:search_api_test_view__rest_export_1', $displays, 'A display plugin was created for the test view block display.');
     $this->assertEquals('/search-api-test', $displays[$display_id]->getPath(), 'Display returns the correct path.');
     $view_url = Url::fromUserInput('/search-api-test')->toString();
-    $this->assertEquals($view_url, $displays[$display_id]->getUrl()->toString(), 'Display returns the correct URL.');
+    $display_url = Url::fromUserInput($displays[$display_id]->getPath())->toString();
+    $this->assertEquals($view_url, $display_url, 'Display returns the correct URL.');
     $this->assertNull($displays['views_block:search_api_test_view__block_1']->getPath(), 'Block display returns the correct path.');
     $this->assertEquals('/search-api-rest-test', $displays['views_rest:search_api_test_view__rest_export_1']->getPath(), 'REST display returns the correct path.');
 
@@ -997,25 +1002,42 @@ class ViewsTest extends SearchApiBrowserTestBase {
     $options['query']['search_api_fulltext'] = 'foo';
     $this->drupalGet($path, $options);
     $this->assertSession()->responseContains('<strong>foo</strong> bar baz');
+
+    $options['query']['search_api_fulltext'] = 'bar';
+    $this->drupalGet($path, $options);
+    $this->assertSession()->responseContains('foo <strong>bar</strong> baz');
   }
 
   /**
-   * {@inheritdoc}
+   * Verifies that our row plugin is available without clearing cache.
    */
-  protected function initConfig(ContainerInterface $container) {
-    parent::initConfig($container);
+  public function testCreatingIndexClearsRowPluginCache() {
+    $this->drupalLogin($this->drupalCreateUser([
+      'administer search_api',
+      'access administration pages',
+      'administer views',
+    ]));
 
-    // This will just set the Drupal state to include the necessary bundles for
-    // our test entity type. Otherwise, fields from those bundles won't be found
-    // and thus removed from the test index. (We can't do it in setUp(), before
-    // calling the parent method, since the container isn't set up at that
-    // point.)
-    $bundles = [
-      'entity_test_mulrev_changed' => ['label' => 'Entity Test Bundle'],
-      'item' => ['label' => 'item'],
-      'article' => ['label' => 'article'],
-    ];
-    \Drupal::state()->set('entity_test_mulrev_changed.bundles', $bundles);
+    $index_id = 'my_custom_index';
+    Index::create([
+      'name' => 'My custom index',
+      'id' => $index_id,
+      'status' => TRUE,
+      'datasource_settings' => [
+        'entity:node' => [],
+        'entity:user' => [],
+      ],
+    ])->save();
+
+    $this->drupalGet('/admin/structure/views/add');
+    $this->submitForm([
+      'label' => 'Test view',
+      'id' => 'test',
+      'show[wizard_key]' => "standard:search_api_index_$index_id",
+    ], 'Save and edit');
+
+    $this->drupalGet('/admin/structure/views/nojs/display/test/default/row');
+    $this->assertSession()->elementExists('css', '#edit-row-type [value="search_api"]');
   }
 
 }

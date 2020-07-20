@@ -1,4 +1,5 @@
 <?php
+
 namespace Robo\Config;
 
 use Consolidation\Config\Util\ConfigOverlay;
@@ -70,6 +71,10 @@ class Config extends ConfigOverlay implements GlobalOptionDefaultValuesInterface
 
     /**
      * Remove the 'options.' prefix from the global options list.
+     *
+     * @param array $globalOptions
+     *
+     * @return array
      */
     protected function trimPrefixFromGlobalOptions($globalOptions)
     {

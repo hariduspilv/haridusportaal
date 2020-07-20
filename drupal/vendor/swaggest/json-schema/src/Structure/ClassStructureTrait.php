@@ -92,16 +92,33 @@ trait ClassStructureTrait
 
     protected $__validateOnSet = true; // todo skip validation during import
 
+    /**
+     * @return \stdClass
+     */
     public function jsonSerialize()
     {
         $result = new \stdClass();
         $schema = static::schema();
         $properties = $schema->getProperties();
+        $processed = array();
         if (null !== $properties) {
             foreach ($properties->getDataKeyMap() as $propertyName => $dataName) {
                 $value = $this->$propertyName;
-                if ((null !== $value) || array_key_exists($propertyName, $this->__arrayOfData)) {
+
+                // Value is exported if exists.
+                if (null !== $value || array_key_exists($propertyName, $this->__arrayOfData)) {
                     $result->$dataName = $value;
+                    $processed[$propertyName] = true;
+                    continue;
+                }
+
+                // Non-existent value is only exported if belongs to nullable property (having 'null' in type array).
+                $property = $schema->getProperty($propertyName);
+                if ($property instanceof Schema) {
+                    $types = $property->type;
+                    if ($types === Schema::NULL || (is_array($types) && in_array(Schema::NULL, $types))) {
+                        $result->$dataName = $value;
+                    }
                 }
             }
         }
@@ -111,6 +128,14 @@ trait ClassStructureTrait
             if (null !== $nested) {
                 foreach ((array)$nested->jsonSerialize() as $key => $value) {
                     $result->$key = $value;
+                }
+            }
+        }
+
+        if (!empty($this->__arrayOfData)) {
+            foreach ($this->__arrayOfData as $name => $value) {
+                if (!isset($processed[$name])) {
+                    $result->$name = $this->{$name};
                 }
             }
         }

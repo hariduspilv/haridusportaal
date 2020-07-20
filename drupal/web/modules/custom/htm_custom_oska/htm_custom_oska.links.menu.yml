@@ -60,3 +60,9 @@ oska_map_csv.import:
   route_name: oska_map_csv.import
   description: 'Import OSKA Map Data'
   parent: system.admin_structure
+
+oska_studies.import:
+  title: 'Import OSKA Main Profession Studies'
+  route_name: oska_studies.import
+  description: 'Import OSKA Main Profession Studies'
+  parent: system.admin_structure

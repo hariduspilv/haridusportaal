@@ -33,6 +33,11 @@ class ExposedFormTest extends ViewTestBase {
    */
   public static $modules = ['node', 'views_ui', 'block', 'entity_test'];
 
+  /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'classy';
+
   protected function setUp($import_test_views = TRUE) {
     parent::setUp($import_test_views);
 
@@ -328,6 +333,27 @@ class ExposedFormTest extends ViewTestBase {
     $this->drupalGet('test_exposed_form_sort_items_per_page', ['query' => ['sort_order' => 'DESC', 'items_per_page' => 25, 'offset' => 10]]);
     $this->assertCacheContexts($contexts);
     $this->assertIds(range(40, 16, 1));
+
+    // Change the label to something with special characters.
+    $view = Views::getView('test_exposed_form_sort_items_per_page');
+    $view->setDisplay();
+    $sorts = $view->display_handler->getOption('sorts');
+    $sorts['id']['expose']['label'] = $expected_label = "<script>alert('unsafe&dangerous');</script>";
+    $view->display_handler->setOption('sorts', $sorts);
+    $view->save();
+
+    $this->drupalGet('test_exposed_form_sort_items_per_page');
+    $options = $this->xpath('//select[@id=:id]/option', [':id' => 'edit-sort-by']);
+    $this->assertCount(1, $options);
+    $this->assertSession()->optionExists('edit-sort-by', $expected_label);
+    $escape_1 = Html::escape($expected_label);
+    $escape_2 = Html::escape($escape_1);
+    // Make sure we see the single-escaped string in the raw output.
+    $this->assertRaw($escape_1);
+    // But no double-escaped string.
+    $this->assertNoRaw($escape_2);
+    // And not the raw label, either.
+    $this->assertNoRaw($expected_label);
   }
 
   /**
@@ -369,14 +395,14 @@ class ExposedFormTest extends ViewTestBase {
     $this->drupalGet('views_test_data_error_form_page');
     $this->assertResponse(200);
     $form = $this->cssSelect('form.views-exposed-form');
-    $this->assertTrue($form, 'The exposed form element was found.');
+    $this->assertNotEmpty($form, 'The exposed form element was found.');
     $this->assertRaw(t('Apply'), 'Ensure the exposed form is rendered before submitting the normal form.');
     $this->assertRaw('<div class="views-row">', 'Views result shown.');
 
     $this->drupalPostForm(NULL, [], t('Submit'));
     $this->assertResponse(200);
     $form = $this->cssSelect('form.views-exposed-form');
-    $this->assertTrue($form, 'The exposed form element was found.');
+    $this->assertNotEmpty($form, 'The exposed form element was found.');
     $this->assertRaw(t('Apply'), 'Ensure the exposed form is rendered after submitting the normal form.');
     $this->assertRaw('<div class="views-row">', 'Views result shown.');
   }

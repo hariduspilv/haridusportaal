@@ -1,0 +1,13 @@
+name: SVG image
+description: Overrides the standard image formatter and widget to support SVG files.
+core: 8.x
+type: module
+package: Media
+
+dependencies:
+  - drupal:image
+
+# Information added by Drupal.org packaging script on 2020-03-28
+version: '8.x-1.13'
+project: 'svg_image'
+datestamp: 1585379084

@@ -2,8 +2,6 @@
 
 namespace Drupal\varnish_purger\Tests;
 
-use Drupal\varnish_purger\Tests\VarnishPurgerFormTestBase;
-
 /**
  * Tests \Drupal\varnish_purger\Form\VarnishBundledPurgerForm.
  *

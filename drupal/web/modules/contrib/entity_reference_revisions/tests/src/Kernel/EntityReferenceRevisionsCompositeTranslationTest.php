@@ -440,6 +440,188 @@ class EntityReferenceRevisionsCompositeTranslationTest extends EntityKernelTestB
   }
 
   /**
+   * Tests that composite translations affects the host entity's translations.
+   */
+  public function testCompositeTranslation() {
+    /** @var \Drupal\node\NodeStorageInterface $node_storage */
+    $node_storage = $this->entityTypeManager->getStorage('node');
+
+    // Create a composite entity.
+    $composite = EntityTestCompositeRelationship::create([
+      'langcode' => 'en',
+      'name' => 'Initial Source Composite',
+    ]);
+    $composite->save();
+
+    // Create a node with a reference to the test composite entity.
+    $node = Node::create([
+      'langcode' => 'en',
+      'title' => 'Initial Source Node',
+      'type' => 'article',
+      'composite_reference' => $composite,
+    ]);
+    $node->save();
+
+    /** @var \Drupal\node\NodeInterface $node */
+    $node = $node_storage->load($node->id());
+
+    // Assert that there is only 1 revision when creating a node.
+    $this->assertRevisionCount(1, $node);
+    // Assert that there is only 1 affected revision when creating a node.
+    $this->assertAffectedRevisionCount(1, $node);
+    // Assert there is no new composite revision after creating a host entity.
+    $this->assertRevisionCount(1, $composite);
+
+    $node_de = $node->addTranslation('de', ['title' => 'New Node #1 DE'] + $node->toArray());
+    $node_de = $node_storage->createRevision($node_de, FALSE);
+
+    $node_de->get('composite_reference')->entity->getTranslation('de')->set('name', 'New Composite #1 DE');
+    $node_de->isDefaultRevision(TRUE);
+    $violations = $node_de->validate();
+    foreach ($violations as $violation) {
+      $this->fail($violation->getPropertyPath() . ': ' . $violation->getMessage());
+    }
+    $this->assertEquals(0, count($violations));
+    $node_de->save();
+    $this->assertAffectedRevisionCount(1, $node_de);
+    $this->assertAffectedRevisionCount(1, $node);
+
+    // Test that changing composite non default language (DE) reference results
+    // in translation changes for this language but not for the default
+    // language.
+    $node_de->get('composite_reference')->entity->getTranslation('de')->set('name', 'Change Composite #1 DE');
+    $node_de->setNewRevision();
+    $node_de->save();
+
+    $this->assertEquals('Change Composite #1 DE', $node_de->get('composite_reference')->entity->getTranslation('de')->getName());
+
+    // Make sure the node DE has one more affected translation revision.
+    $this->assertAffectedRevisionCount(2, $node_de);
+    // Make sure the node EN has only one 1 affected translation revision.
+    $this->assertAffectedRevisionCount(1, $node);
+
+    // Test that changing composite in default language (EN) results in
+    // translation changes for this language but not for the DE language.
+    $node = $node_storage->load($node->id());
+    $node->get('composite_reference')->entity->set('name', 'Update Source #1');
+    $node->setNewRevision();
+    $node->save();
+
+    $this->assertEquals('Update Source #1', $node->get('composite_reference')->entity->getTranslation('en')->getName());
+
+    // The node EN now has 2 affected translation revision.
+    $this->assertAffectedRevisionCount(2, $node);
+    // The node DE still has 2 affected translation revisions.
+    $this->assertAffectedRevisionCount(2, $node_de);
+  }
+
+  /**
+   * Tests that nested composite translations affects the host translations.
+   */
+  public function testNestedCompositeTranslation() {
+    /** @var \Drupal\node\NodeStorageInterface $node_storage */
+    $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+    // Create a nested composite entity.
+    $nested_composite = EntityTestCompositeRelationship::create([
+      'langcode' => 'en',
+      'name' => 'Initial Nested Source Composite',
+    ]);
+    $nested_composite->addTranslation('de', ['name' => 'Nested Source Composite DE'] + $nested_composite->toArray());
+    $nested_composite->save();
+
+    // Create a composite entity.
+    $composite = EntityTestCompositeRelationship::create([
+      'langcode' => 'en',
+      'name' => 'Initial Source Composite',
+      'field_untranslatable' => 'Initial untranslatable field',
+      'composite_reference' => $nested_composite,
+    ]);
+    $composite->addTranslation('de', ['name' => 'Source Composite DE'] + $composite->toArray());
+    $composite->save();
+
+    // Create a node with a reference to the test composite entity.
+    $node = Node::create([
+      'langcode' => 'en',
+      'title' => 'Initial Source Node',
+      'type' => 'article',
+      'composite_reference' => $composite,
+    ]);
+    $node->save();
+    /** @var \Drupal\node\NodeInterface $node */
+    $node = $node_storage->load($node->id());
+
+    // Assert that there is only 1 revision when creating a node.
+    $this->assertRevisionCount(1, $node);
+    // Assert that there is only 1 affected revision when creating a node.
+    $this->assertAffectedRevisionCount(1, $node);
+    // Assert there is no new composite revision after creating a host entity.
+    $this->assertRevisionCount(1, $composite);
+    // Assert there is no new nested composite revision after creating a host
+    // entity.
+    $this->assertRevisionCount(1, $nested_composite);
+
+    $node_de = $node->addTranslation('de', ['title' => 'New Node #1 DE'] + $node->toArray());
+    $node_de = $node_storage->createRevision($node_de, FALSE);
+
+    $node_de->get('composite_reference')->entity->getTranslation('de')->get('composite_reference')->entity->getTranslation('de')->set('name', 'New Nested Composite #1 DE');
+    $node_de->isDefaultRevision(TRUE);
+    $node_de->save();
+    $this->assertAffectedRevisionCount(1, $node_de);
+    $this->assertAffectedRevisionCount(1, $node);
+
+    // Test that changing nested composite non default language (DE) reference
+    // results in translation changes for this language but not for the default
+    // language.
+    $node_de->get('composite_reference')->entity->getTranslation('de')->get('composite_reference')->entity->getTranslation('de')->set('name', 'Change Nested Composite #1 DE');
+    $node_de->setNewRevision();
+    $node_de->save();
+
+    $this->assertEquals('Change Nested Composite #1 DE', $node_de->get('composite_reference')->entity->getTranslation('de')->get('composite_reference')->entity->getTranslation('de')->getName());
+
+    // Make sure the node DE has one more affected translation revision.
+    $this->assertAffectedRevisionCount(2, $node_de);
+    // Make sure the node EN has only one 1 affected translation revision.
+    $this->assertAffectedRevisionCount(1, $node);
+
+    // Test that changing nested composite in default language (EN) results in
+    // translation changes for this language but not for the DE language.
+    $node = $node_storage->load($node->id());
+    $node->get('composite_reference')->entity->get('composite_reference')->entity->set('name', 'Update Nested Source #1');
+    $node->setNewRevision();
+    $node->save();
+
+    $this->assertEquals('Update Nested Source #1', $node->get('composite_reference')->entity->getTranslation('en')->get('composite_reference')->entity->getTranslation('en')->getName());
+
+    // The node EN now has 2 affected translation revision.
+    $this->assertAffectedRevisionCount(2, $node);
+    // The node DE still has 2 affected translation revisions.
+    $this->assertAffectedRevisionCount(2, $node_de);
+  }
+
+  /**
+   * Asserts the affected revision count of a certain entity.
+   *
+   * @param int $expected
+   *   The expected count.
+   * @param \Drupal\Core\Entity\EntityInterface $entity
+   *   The entity.
+   */
+  protected function assertAffectedRevisionCount($expected, EntityInterface $entity) {
+    $entity_type = $entity->getEntityType();
+    $affected_revisions_count = $this->entityTypeManager->getStorage($entity_type->id())
+      ->getQuery()
+      ->condition($entity_type->getKey('id'), $entity->id())
+      ->condition($entity_type->getKey('langcode'), $entity->language()->getId())
+      ->condition($entity_type->getKey('revision_translation_affected'), 1)
+      ->allRevisions()
+      ->count()
+      ->execute();
+
+    $this->assertEquals($expected, $affected_revisions_count);
+  }
+
+  /**
    * Asserts the revision count of an entity.
    *
    * @param int $expected

@@ -93,6 +93,7 @@ class LocalFile extends File
         }
 
         $hash  = md5_file($this->path);
+        $hash .= fileperms($this->path);
         $cache = Cache::get($this->path);
         if ($cache !== false && $cache['hash'] === $hash) {
             // We can't filter metrics, so just load all of them.
@@ -171,6 +172,8 @@ class LocalFile extends File
         $this->warningCount = 0;
         $this->fixableCount = 0;
 
+        $this->replayingErrors = true;
+
         foreach ($errors as $line => $lineErrors) {
             foreach ($lineErrors as $column => $colErrors) {
                 foreach ($colErrors as $error) {
@@ -206,6 +209,8 @@ class LocalFile extends File
                 }
             }
         }
+
+        $this->replayingErrors = false;
 
     }//end replayErrors()
 

@@ -2,9 +2,9 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Shares the closeDialog AJAX form callback.
@@ -24,6 +24,7 @@ trait CloseDialogTrait {
    *   The current state of the form.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The AJAX response object.
    */
   public function closeDialog(array &$form, FormStateInterface $form_state) {
     $response = new AjaxResponse();

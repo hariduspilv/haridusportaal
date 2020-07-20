@@ -2,10 +2,13 @@
 
 namespace Drupal\Tests\smtp\Unit;
 
+use Drupal\Component\Utility\EmailValidatorInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\FormState;
+use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Messenger\Messenger;
+use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\smtp\Form\SMTPConfigForm;
 use Drupal\Tests\UnitTestCase;
@@ -13,7 +16,7 @@ use Prophecy\Argument;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Validate requirements for ProceedingsRealmNegotiator.
+ * Validate requirements for SMTPConfigForm.
  *
  * @group SMTP
  */
@@ -33,10 +36,16 @@ class SMTPConfigFormTest extends UnitTestCase {
     $this->mockConfigFactory->get('system.site')->willReturn($this->mockConfigSystemSite->reveal());
 
     $this->mockMessenger = $this->prophesize(Messenger::class);
+    $this->mockEmailValidator = $this->prophesize(EmailValidatorInterface::class);
+    $this->mockCurrentUser = $this->prophesize(AccountProxyInterface::class);
+    $this->mockMailManager = $this->prophesize(MailManagerInterface::class);
 
     $mockContainer = $this->mockContainer = $this->prophesize(ContainerInterface::class);
     $mockContainer->get('config.factory')->willReturn($this->mockConfigFactory->reveal());
     $mockContainer->get('messenger')->willReturn($this->mockMessenger->reveal());
+    $mockContainer->get('email.validator')->willReturn($this->mockEmailValidator->reveal());
+    $mockContainer->get('current_user')->willReturn($this->mockCurrentUser->reveal());
+    $mockContainer->get('plugin.manager.mail')->willReturn($this->mockMailManager->reveal());
 
     $mockStringTranslation = $this->prophesize(TranslationInterface::class);
     $mockStringTranslation->translate(Argument::any())->willReturnArgument(0);
@@ -56,6 +65,8 @@ class SMTPConfigFormTest extends UnitTestCase {
     $this->mockConfig->get('smtp_hostbackup')->willReturn('');
     $this->mockConfig->get('smtp_port')->willReturn('');
     $this->mockConfig->get('smtp_protocol')->willReturn('');
+    $this->mockConfig->get('smtp_autotls')->willReturn(TRUE);
+    $this->mockConfig->get('smtp_timeout')->willReturn('');
     $this->mockConfig->get('smtp_username')->willReturn('');
     $this->mockConfig->get('smtp_password')->willReturn('');
     $this->mockConfig->get('smtp_from')->willReturn('');
@@ -64,6 +75,7 @@ class SMTPConfigFormTest extends UnitTestCase {
     $this->mockConfig->get('smtp_client_hostname')->willReturn('');
     $this->mockConfig->get('smtp_client_helo')->willReturn('');
     $this->mockConfig->get('smtp_debugging')->willReturn('');
+    $this->mockConfig->get('smtp_keepalive')->willReturn(FALSE);
   }
 
   /**
@@ -92,6 +104,16 @@ class SMTPConfigFormTest extends UnitTestCase {
     $form = [];
     $formBuilder->buildForm($form, new FormState());
     $this->mockMessenger->addMessage(Argument::which('getUntranslatedString', 'SMTP module is INACTIVE.'))->shouldHaveBeenCalled();
+  }
+
+  /**
+   * Test form id.
+   */
+  public function testGetFormId() {
+    $formBuilder = SMTPConfigForm::create($this->mockContainer->reveal());
+
+    $form_id = $formBuilder->getFormId();
+    $this->assertEquals('smtp_admin_settings', $form_id);
   }
 
 }

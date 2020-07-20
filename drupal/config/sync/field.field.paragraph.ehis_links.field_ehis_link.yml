@@ -1,0 +1,23 @@
+uuid: 60a1a9bc-7c49-4fc2-b884-3ee12ae1fcdf
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_ehis_link
+    - paragraphs.paragraphs_type.ehis_links
+  module:
+    - link
+id: paragraph.ehis_links.field_ehis_link
+field_name: field_ehis_link
+entity_type: paragraph
+bundle: ehis_links
+label: 'ehis link'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

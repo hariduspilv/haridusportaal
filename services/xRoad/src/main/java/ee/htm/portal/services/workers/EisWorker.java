@@ -18,18 +18,22 @@ import java.sql.Timestamp;
 import java.util.Base64;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.apache.log4j.Logger;
 import org.apache.xmlbeans.XmlBase64Binary;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 
-@Service
 public class EisWorker extends Worker {
 
-  private static final Logger LOGGER = Logger.getLogger(EisWorker.class);
+  private static final Logger log = LoggerFactory.getLogger(EisWorker.class);
 
-  @Autowired
   private EisXRoadService eisXRoadService;
+
+  public EisWorker(EisXRoadService eisXRoadService, RedisTemplate<String, Object> redisTemplate,
+      Long redisExpire, Long redisFileExpire, Long redisKlfExpire) {
+    super(redisTemplate, redisExpire, redisFileExpire, redisKlfExpire);
+    this.eisXRoadService = eisXRoadService;
+  }
 
   public ObjectNode getTestsessioonidKod(String personalCode, Long timestamp) {
     ObjectNode responseNode = nodeFactory.objectNode();
@@ -61,16 +65,16 @@ public class EisWorker extends Worker {
 
       logForDrupal.setMessage("EIS - testsessioonid_kod.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      setError(LOGGER, responseNode, e);
+      setError(log, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "testsessioonidKod", responseNode);
-    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
+    redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
 
     return responseNode;
   }
@@ -126,16 +130,16 @@ public class EisWorker extends Worker {
 
       logForDrupal.setMessage("EIS - testid_kod.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      setError(LOGGER, responseNode, e);
+      setError(log, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "testidKod_" + testSessionId, responseNode);
-    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
+    redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
 
     return responseNode;
   }
@@ -168,16 +172,16 @@ public class EisWorker extends Worker {
 
       logForDrupal.setMessage("EIS - e_tunnistus_kod.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      setError(LOGGER, responseNode, e);
+      setError(log, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "eTunnistusKod_" + tunnistusId, responseNode);
-    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
+    redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
 
     return responseNode;
   }
@@ -220,16 +224,16 @@ public class EisWorker extends Worker {
 
       logForDrupal.setMessage("EIS - e_tunnistus_kehtivus.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
-      setError(LOGGER, responseNode, e);
+      setError(log, responseNode, e);
     }
 
     logForDrupal.setEndTime(new Timestamp(System.currentTimeMillis()));
-    LOGGER.info(logForDrupal);
+    log.info(logForDrupal.toString());
 
     responseNode.put("response_timestamp", System.currentTimeMillis());
 
     redisTemplate.opsForHash().put(personalCode, "eTunnistusKehtivus_" + tunnistusNr, responseNode);
-    redisTemplate.expire(personalCode, 30L, TimeUnit.MINUTES);
+    redisTemplate.expire(personalCode, redisExpire, TimeUnit.MINUTES);
 
     return responseNode;
   }

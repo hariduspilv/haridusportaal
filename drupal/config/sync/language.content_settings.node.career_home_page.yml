@@ -1,0 +1,16 @@
+uuid: b89cc9eb-8a1d-497f-8525-7dcc862df767
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.career_home_page
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.career_home_page
+target_entity_type_id: node
+target_bundle: career_home_page
+default_langcode: site_default
+language_alterable: true

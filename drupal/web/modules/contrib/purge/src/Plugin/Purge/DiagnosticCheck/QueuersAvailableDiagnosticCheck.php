@@ -2,10 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\DiagnosticCheck;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckBase;
 use Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Queuers.
@@ -21,12 +19,14 @@ use Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface;
 class QueuersAvailableDiagnosticCheck extends DiagnosticCheckBase implements DiagnosticCheckInterface {
 
   /**
+   * The 'purge.queuers' service.
+   *
    * @var \Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface
    */
   protected $purgeQueuers;
 
   /**
-   * Constructs a \Drupal\purge\Plugin\Purge\DiagnosticCheck\PurgerAvailableCheck object.
+   * Construct a QueuersAvailableDiagnosticCheck object.
    *
    * @param \Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface $purge_queuers
    *   The purge queuers service.
@@ -61,14 +61,14 @@ class QueuersAvailableDiagnosticCheck extends DiagnosticCheckBase implements Dia
     if (count($this->purgeQueuers) === 0) {
       $this->value = '';
       $this->recommendation = $this->t("You have no queuers populating the queue!");
-      return SELF::SEVERITY_WARNING;
+      return self::SEVERITY_WARNING;
     }
     elseif (count($this->purgeQueuers) === 1) {
       $plugin_id = current($this->purgeQueuers->getPluginsEnabled());
       $queuer = $this->purgeQueuers->get($plugin_id);
       $this->value = $queuer->getLabel();
       $this->recommendation = $queuer->getDescription();
-      return SELF::SEVERITY_OK;
+      return self::SEVERITY_OK;
     }
     else {
       $this->value = [];
@@ -77,7 +77,7 @@ class QueuersAvailableDiagnosticCheck extends DiagnosticCheckBase implements Dia
       }
       $this->value = implode(', ', $this->value);
       $this->recommendation = $this->t("You have multiple queuers populating the queue.");
-      return SELF::SEVERITY_OK;
+      return self::SEVERITY_OK;
     }
   }
 

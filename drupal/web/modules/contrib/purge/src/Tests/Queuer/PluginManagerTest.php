@@ -2,10 +2,10 @@
 
 namespace Drupal\purge\Tests\Queuer;
 
-use Drupal\purge\Tests\KernelServiceTestBase;
-use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Component\Plugin\Discovery\CachedDiscoveryInterface;
+use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\purge\Tests\KernelServiceTestBase;
 
 /**
  * Tests \Drupal\purge\Plugin\Purge\Queuer\PluginManager.
@@ -14,7 +14,19 @@ use Drupal\Core\Plugin\DefaultPluginManager;
  * @see \Drupal\Core\Plugin\DefaultPluginManager
  */
 class PluginManagerTest extends KernelServiceTestBase {
+
+  /**
+   * The name of the service as defined in services.yml.
+   *
+   * @var string
+   */
   protected $serviceId = 'plugin.manager.purge.queuer';
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
   public static $modules = ['purge_queuer_test'];
 
   /**

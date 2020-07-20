@@ -11,7 +11,6 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { DashboardFormDialog } from '@app/_components/dialogs/dashboard.form/dashboard.form.dialog';
 
 const ACCEPTABLE_FORMS_RESTRICTED_LENGTH = 4;
-const REQUEST_ITERATOR_LIFETIME = 30;
 
 @Component({
   selector: 'applications',
@@ -19,9 +18,9 @@ const REQUEST_ITERATOR_LIFETIME = 30;
   styleUrls: ['../certificates/certificates.styles.scss']
 })
 
-export class ApplicationsComponent implements OnInit, OnDestroy{
+export class ApplicationsComponent implements OnInit, OnDestroy {
   public loading = {
-    initial: false,
+    initial: true,
     interval: false
   };
   public dummyDataVersion: string; //Delete this row after testing is done
@@ -78,6 +77,15 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     else return obj['et'];
   }
 
+  compileXjsonFormLink(form_name) {
+
+    if (!form_name) { return ''; }
+
+    const subscription = this.http.get('/xjson_service/form_path/' + form_name + '?_format=json').subscribe(response => {
+      subscription.unsubscribe();
+    });
+  }
+
   compileXjsonLink(form_name){
     if(!form_name) return "";
     return form_name
@@ -122,72 +130,48 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms);
   }
 
-  fetchData(update){
-    let request_boolean = this.loading['initial'] === true ? 1 : 0;
-   
-    let subscription = this.http.get('/dashboard/applications/'+ request_boolean +'?_format=json').subscribe(response => {
-      if (response && response['found'] === null) {
-        console.log('skip');
-      } else {
-        if (response['error'] && response['error']['message_text']) {
-          this.notificationService.info(response['error']['message_text']['et'], 'general', false);
-        } else if (this.currentRole === 'natural_person') {
-          this.data.acceptable_forms = response['acceptable_forms']; 
-          // dummyData[this.dummyDataVersion].acceptable_forms || 
-          this.data.drafts = response['drafts'];
-          // dummyData[this.dummyDataVersion].drafts || 
-          this.data.documents = response['documents'];
-          // dummyData[this.dummyDataVersion].documents ||
-          this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
-          this.data.drafts = this.sortList(this.data.drafts, 'title');
-          this.data.documents = this.sortList(this.data.documents, 'date');
-          
-          this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms); 
+  fetchData() {
+    setTimeout(() => {
+      const subscription = this.http.get('/dashboard/applications/1?_format=json').subscribe((response: any) => {
+        if (typeof response.found !== undefined && response.found === null) {
+          this.fetchData();
         } else {
-          // let keysToSort = [ 'documents', 'acceptable_forms', 'drafts' ];
-          let responseData = response['educationalInstitutions'].map(elem => {
-            elem.documents = this.sortList(elem.documents, 'date');
-            elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
-            elem.drafts = this.sortList(elem.drafts, 'title');
-            return elem;
-          })
-          if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
-            this.data.educationalInstitutions = responseData;
-            // && response['educationalInstitutions'].length ? response['educationalInstitutions'] : juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
-            if (response['message']) {
-              this.notificationService.info(response['message'], 'general', false);
-            }
-            // || juridicalDummyData[this.dummyDataVersion].message;
-            // this.data.educationalInstitutions = juridicalDummyData[this.dummyDataVersion].educationalInstitutions;
-            // this.data.message = juridicalDummyData[this.dummyDataVersion].message || response['message'];
-            if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
-              this.data.educationalInstitutions.forEach((elem, index) => {
-                this.tableOverflown[index] = {0: false, 1: false, 2: false};
-                this.elemAtStart[index] = {0: true, 1: true, 2: true};
-                this.initialized[index] = {0: false, 1: false, 2: false};
-              })
+          if (response['error'] && response['error']['message_text']) {
+            this.notificationService.info(response['error']['message_text']['et'], 'general', false);
+          } else if (this.currentRole === 'natural_person') {
+            this.data.acceptable_forms = response['acceptable_forms'];
+            this.data.drafts = response['drafts'];
+            this.data.documents = response['documents'];
+            this.data.acceptable_forms = this.sortList(this.data.acceptable_forms, 'title');
+            this.data.drafts = this.sortList(this.data.drafts, 'title');
+            this.data.documents = this.sortList(this.data.documents, 'date');
+            this.acceptable_forms_list = this.formatAcceptableForms(this.data.acceptable_forms);
+          } else {
+            const responseData = response['educationalInstitutions'].map(elem => {
+              elem.documents = this.sortList(elem.documents, 'date');
+              elem.acceptable_forms = this.sortList(elem.acceptable_forms, 'title');
+              elem.drafts = this.sortList(elem.drafts, 'title');
+              return elem;
+            })
+            if (JSON.stringify(this.data.educationalInstitutions) !== JSON.stringify(responseData)) {
+              this.data.educationalInstitutions = responseData;
+              if (response['message']) {
+                this.notificationService.info(response['message'], 'general', false);
+              }
+              if (this.data.educationalInstitutions && this.data.educationalInstitutions.length) {
+                this.data.educationalInstitutions.forEach((elem, index) => {
+                  this.tableOverflown[index] = {0: false, 1: false, 2: false};
+                  this.elemAtStart[index] = {0: true, 1: true, 2: true};
+                  this.initialized[index] = {0: false, 1: false, 2: false};
+                });
+              }
             }
           }
+          this.loading['initial'] = false;
         }
-      }
-      
-      if (this.loading.initial === true && !update && !(response && response['found'] === null)) {
-        this.loading.initial = false;
-      }
-      subscription.unsubscribe();
-
-      if((Date.now() - this.startTime)/1000 < REQUEST_ITERATOR_LIFETIME ){
-        this.request_iterator_timeout += (0.25 * this.request_iterator_timeout);
-        this.loading['interval'] = true;
-        let self = this;
-        this.request_iterator = setTimeout(() => {
-          self.fetchData(false);
-        }, this.request_iterator_timeout);
-      } else {
-        this.loading['interval'] = false;
-      }
-     
-    });
+        subscription.unsubscribe();
+      });
+    }, 1000);
   }
 
   initialTableCheck(id, parentIndex, index) {
@@ -220,7 +204,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
         this.startTime = Date.now();
         this.loading['initial'] = true;
         this.request_iterator_timeout = 2000;
-        this.fetchData(true);
+        this.fetchData();
       }
 		});
 	}
@@ -231,8 +215,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy{
     this.currentRole = this.userData['role']['current_role']['type'];
     this.pathWatcher();
     this.startTime = Date.now();
-    this.loading['initial'] = true;
-    this.fetchData(false);
+    this.fetchData();
   }
   
   ngAfterViewChecked() {

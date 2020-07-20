@@ -29,9 +29,9 @@ menu_breadcrumb.settings:
     add_home:
       type: boolean
       label: 'Ensure that the very first link is the designated <front> page link.'
-    home_as_site_name:
-      type: boolean
-      label: 'Use the site name from the configuration settings.'
+    front_title:
+      type: integer
+      label: 'Choose how to show home title in breadcrumb'
     exclude_empty_url:
       type: boolean
       label: 'Exclude menu items with empty URLs.'

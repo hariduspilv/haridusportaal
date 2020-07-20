@@ -2,11 +2,8 @@
 
 namespace Drupal\purge_ui\Tests;
 
-use Drupal\Core\Url;
-use Drupal\purge_ui\Tests\DashboardTestBase;
-
 /**
- * Tests \Drupal\purge_ui\Controller\DashboardController::buildDiagnosticReport().
+ * Tests \Drupal\purge_ui\Controller\DashboardController::buildDiagnosticReport.
  *
  * @group purge_ui
  */
@@ -29,7 +26,7 @@ class DashboardDiagnosticsTest extends DashboardTestBase {
    * @see \Drupal\purge_ui\Controller\DashboardController::buildDiagnosticReport
    */
   public function testDiagnosticReport() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet($this->route);
     $this->assertRaw('purge-ui-diagnostic-report');
     $this->assertRaw('purge-ui-diagnostic-report__entry--warning');

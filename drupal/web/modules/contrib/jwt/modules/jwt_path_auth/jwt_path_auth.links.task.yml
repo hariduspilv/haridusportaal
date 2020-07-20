@@ -1,0 +1,5 @@
+jwt_path_auth.config_form:
+  title: 'JWT Path Authentication'
+  route_name: jwt_path_auth.config_form
+  base_route: jwt.jwt_config_form
+  weight: 99

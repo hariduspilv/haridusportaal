@@ -5,6 +5,7 @@ namespace Drupal\memcache_admin\Controller;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Datetime\DateFormatter;
 use Drupal\Core\Link;
+use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\Url;
 use Drupal\Component\Render\HtmlEscapedText;
 
@@ -12,6 +13,8 @@ use Drupal\Component\Render\HtmlEscapedText;
  * Memcache Statistics.
  */
 class MemcacheStatisticsController extends ControllerBase {
+
+  use MessengerTrait;
 
   /**
    * Callback for the Memcache Stats page.
@@ -34,7 +37,7 @@ class MemcacheStatisticsController extends ControllerBase {
 
     if (empty($stats[$bin])) {
 
-      // Break this out to make drupal_set_message easier to read.
+      // Break this out to make Drupal Messenger service easier to read.
       $additional_message = $this->t(
         '@enable the memcache module',
         [
@@ -52,15 +55,14 @@ class MemcacheStatisticsController extends ControllerBase {
 
       // Failed to load statistics. Provide a useful error about where to get
       // more information and help.
-      drupal_set_message(
+      $this->messenger()->addError(
         t(
           'There may be a problem with your Memcache configuration. Please review @readme and :more for more information.',
           [
             '@readme' => 'README.txt',
             ':more'   => $additional_message,
           ]
-        ),
-        'error'
+        )
       );
     }
     else {
@@ -76,12 +78,12 @@ class MemcacheStatisticsController extends ControllerBase {
         }
         else {
           $version = t('Unknown');
-          drupal_set_message(t('Failed to detect the memcache PECL extension.'), 'error');
+          $this->messenger()->addError(t('Failed to detect the memcache PECL extension.'));
         }
 
         foreach ($stats as $server => $statistics) {
           if (empty($statistics['uptime'])) {
-            drupal_set_message(t('Failed to connect to server at :address.', [':address' => $server]), 'error');
+            $this->messenger()->addError(t('Failed to connect to server at :address.', [':address' => $server]));
           }
           else {
             $servers[] = $server;
@@ -221,7 +223,7 @@ class MemcacheStatisticsController extends ControllerBase {
     }
     else {
       $output = $this->statsTablesRawOutput($cluster, $server, [], $type);
-      drupal_set_message(t('No @type statistics for this bin.', ['@type' => $type]));
+      $this->messenger()->addMessage(t('No @type statistics for this bin.', ['@type' => $type]));
     }
 
     return $output;

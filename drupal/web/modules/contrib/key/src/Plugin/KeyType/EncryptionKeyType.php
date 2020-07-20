@@ -62,8 +62,8 @@ class EncryptionKeyType extends KeyTypeBase implements KeyPluginFormInterface {
       '#title_display' => 'invisible',
       '#description' => $this->t('Enter a custom key size in bits.'),
       '#default_value' => $key_size_other_value,
-      '#maxlength'=> 20,
-      '#size'=> 20,
+      '#maxlength' => 20,
+      '#size' => 20,
       '#states' => [
         'visible' => [
           'select[name="key_type_settings[key_size]"]' => ['value' => 'other'],

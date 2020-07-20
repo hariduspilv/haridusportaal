@@ -1,0 +1,72 @@
+query careerPage($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "career_home_page", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeCareerHomePage {
+        fieldContentPageLink {
+          entity {
+            ... on ParagraphContentPageLink {
+              fieldTheme
+              fieldTitle
+              fieldText
+              fieldInternalLink {
+                entity {
+                  entityLabel
+                  entityUrl{
+                    path
+                    routed
+                  }
+                }
+              }
+            }
+          }
+        }
+        fieldCareer {
+          entity {
+            entityLabel
+            entityUrl {
+              path
+              routed
+            }
+          }
+        }
+        fieldFrontpageNews {
+          entity {
+            ... on NodeNews {
+              entityLabel
+              entityUrl {
+                path
+                routed
+              }
+            }
+          }
+        }
+        fieldQuoteText
+        fieldQuoteAuthor
+        fieldQuoteAuthorOccupation
+        fieldCareerContact {
+          entity {
+            ... on ParagraphCareerContact {
+              fieldInstitution
+              fieldNameOccupation
+              fieldEmail
+              fieldSkype
+            }
+          }
+        }
+        fieldExternalLinks {
+          entity {
+            ... on ParagraphLink {
+              fieldWebpageLink {
+                url {
+                  routed
+                  path
+                }
+              }
+              fieldLinkName
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+uuid: 0d7660db-9b4e-4bfc-9f6c-4907e83726f6
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.teaching_home_page.field_contact
+    - field.field.node.teaching_home_page.field_external
+    - field.field.node.teaching_home_page.field_quote_author
+    - field.field.node.teaching_home_page.field_quote_author_occupation
+    - field.field.node.teaching_home_page.field_quote_text
+    - field.field.node.teaching_home_page.field_teaching_news
+    - field.field.node.teaching_home_page.field_teaching_themes
+    - field.field.node.teaching_home_page.field_toolbox
+    - node.type.teaching_home_page
+  module:
+    - user
+id: node.teaching_home_page.teaser
+targetEntityType: node
+bundle: teaching_home_page
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_contact: true
+  field_external: true
+  field_quote_author: true
+  field_quote_author_occupation: true
+  field_quote_text: true
+  field_teaching_news: true
+  field_teaching_themes: true
+  field_toolbox: true
+  langcode: true
+  search_api_excerpt: true

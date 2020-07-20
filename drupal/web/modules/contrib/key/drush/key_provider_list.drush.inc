@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Display a list of available key providers.
+ */
+
+/**
  * Get a list of available key providers.
  */
 function drush_key_provider_list() {

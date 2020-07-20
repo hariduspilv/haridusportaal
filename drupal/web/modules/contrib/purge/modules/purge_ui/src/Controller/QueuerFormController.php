@@ -2,10 +2,10 @@
 
 namespace Drupal\purge_ui\Controller;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Controller for queuer configuration forms.
@@ -13,6 +13,8 @@ use Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface;
 class QueuerFormController extends ControllerBase {
 
   /**
+   * The 'purge.queuers' service.
+   *
    * @var \Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface
    */
   protected $purgeQueuers;
@@ -38,6 +40,7 @@ class QueuerFormController extends ControllerBase {
    * Render the queuer add form.
    *
    * @return array
+   *   The render array.
    */
   public function addForm() {
     if (count($this->purgeQueuers->getPluginsAvailable())) {
@@ -55,6 +58,7 @@ class QueuerFormController extends ControllerBase {
    *   Determines if the modal dialog variant of the form should be rendered.
    *
    * @return array
+   *   The render array.
    */
   public function configForm($id, $dialog) {
     if ($this->purgeQueuers->isPluginEnabled($id)) {
@@ -98,6 +102,7 @@ class QueuerFormController extends ControllerBase {
    *   The plugin id of the queuer to retrieve.
    *
    * @return array
+   *   The render array.
    */
   public function deleteForm($id) {
     if ($this->purgeQueuers->isPluginEnabled($id)) {
@@ -130,6 +135,7 @@ class QueuerFormController extends ControllerBase {
    *   The plugin id of the queuer to retrieve.
    *
    * @return array
+   *   The render array.
    */
   public function detailForm($id) {
     if ($this->purgeQueuers->isPluginEnabled($id)) {

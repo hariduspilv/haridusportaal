@@ -282,6 +282,24 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
         }
       }
       if ($needs_save) {
+
+        // Because ContentEntityBase::hasTranslationChanges() does not check for
+        // EntityReferenceRevisionsFieldItemList::hasAffectingChanges() on field
+        // items that are not translatable, hidden on translation forms and not
+        // in the default translation, this has to be handled here by setting
+        // setRevisionTranslationAffected on host translations that holds a
+        // reference that has been changed.
+        if ($is_affected && $host instanceof TranslatableRevisionableInterface) {
+          $languages = $host->getTranslationLanguages();
+          foreach ($languages as $langcode => $language) {
+            $translation = $host->getTranslation($langcode);
+            if ($this->entity->hasTranslation($langcode) && $this->entity->getTranslation($langcode)->hasTranslationChanges() && $this->target_revision_id != $this->entity->getRevisionId()) {
+              $translation->setRevisionTranslationAffected(TRUE);
+              $translation->setRevisionTranslationAffectedEnforced(TRUE);
+            }
+          }
+        }
+
         $this->entity->save();
       }
     }
@@ -392,7 +410,10 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
     if ($this->entity && $this->entity->getEntityType()->get('entity_revision_parent_type_field') && $this->entity->getEntityType()->get('entity_revision_parent_id_field')) {
       // Only delete composite entities if the host field is not translatable.
       if (!$this->getFieldDefinition()->isTranslatable()) {
-        $this->entity->delete();
+        \Drupal::queue('entity_reference_revisions_orphan_purger')->createItem([
+          'entity_id' => $this->entity->id(),
+          'entity_type_id' => $this->entity->getEntityTypeId(),
+        ]);
       }
     }
   }
@@ -402,8 +423,8 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
    */
   public static function onDependencyRemoval(FieldDefinitionInterface $field_definition, array $dependencies) {
     $changed = FALSE;
-    $entity_manager = \Drupal::entityManager();
-    $target_entity_type = $entity_manager->getDefinition($field_definition->getFieldStorageDefinition()
+    $entity_type_manager = \Drupal::entityTypeManager();
+    $target_entity_type = $entity_type_manager->getDefinition($field_definition->getFieldStorageDefinition()
       ->getSetting('target_type'));
     $handler_settings = $field_definition->getSetting('handler_settings');
 
@@ -411,7 +432,7 @@ class EntityReferenceRevisionsItem extends EntityReferenceItem implements Option
     // has been removed.
     if (!empty($handler_settings['target_bundles'])) {
       if ($bundle_entity_type_id = $target_entity_type->getBundleEntityType()) {
-        if ($storage = $entity_manager->getStorage($bundle_entity_type_id)) {
+        if ($storage = $entity_type_manager->getStorage($bundle_entity_type_id)) {
           foreach ($storage->loadMultiple($handler_settings['target_bundles']) as $bundle) {
             if (isset($dependencies[$bundle->getConfigDependencyKey()][$bundle->getConfigDependencyName()])) {
               unset($handler_settings['target_bundles'][$bundle->id()]);

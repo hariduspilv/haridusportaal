@@ -179,6 +179,17 @@ class SiteProcessTest extends TestCase
                 ['exclude' => 'vendor'],
                 NULL,
             ],
+
+            [
+                "env foo=bar baz=zong drush status",
+                false,
+                false,
+                ['env-vars' => ['foo' => 'bar', 'baz' => 'zong']],
+                ['drush', 'status'],
+                [],
+                [],
+                NULL,
+            ],
         ];
     }
 
@@ -227,7 +238,7 @@ class SiteProcessTest extends TestCase
                 'LINUX',
             ],
             [
-                'Unable to decode output into JSON.',
+                "Unable to decode output into JSON: Syntax error\n\nNo json data here",
                 'No json data here',
                 NULL,
             ],

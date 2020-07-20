@@ -4,12 +4,12 @@ description: Provides an example PHP formatter for computed fields where the cod
 # core: 8.x
 package: Field types
 dependencies:
-  - computed_field
+  - computed_field:computed_field
 
 hidden: true
 
-# Information added by Drupal.org packaging script on 2018-12-28
-version: '8.x-2.0-beta1'
+# Information added by Drupal.org packaging script on 2019-07-22
+version: '8.x-2.0'
 core: '8.x'
 project: 'computed_field'
-datestamp: 1546032484
+datestamp: 1563825488

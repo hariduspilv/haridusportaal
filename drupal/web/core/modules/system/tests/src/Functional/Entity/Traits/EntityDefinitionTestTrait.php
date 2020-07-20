@@ -227,12 +227,19 @@ trait EntityDefinitionTestTrait {
    * @param bool $is_revisionable
    *   (optional) If the base field should be revisionable or not. Defaults to
    *   FALSE.
+   *  @param bool $set_label
+   *   (optional) If the base field should have a label or not. Defaults to
+   *   TRUE.
    */
-  protected function addBaseField($type = 'string', $entity_type_id = 'entity_test_update', $is_revisionable = FALSE) {
+  protected function addBaseField($type = 'string', $entity_type_id = 'entity_test_update', $is_revisionable = FALSE, $set_label = TRUE) {
     $definitions['new_base_field'] = BaseFieldDefinition::create($type)
       ->setName('new_base_field')
-      ->setRevisionable($is_revisionable)
-      ->setLabel(t('A new base field'));
+      ->setRevisionable($is_revisionable);
+
+    if ($set_label) {
+      $definitions['new_base_field']->setLabel(t('A new base field'));
+    }
+
     $this->state->set($entity_type_id . '.additional_base_field_definitions', $definitions);
   }
 
@@ -311,12 +318,18 @@ trait EntityDefinitionTestTrait {
    *
    * @param string $type
    *   (optional) The field type for the new field. Defaults to 'string'.
+   * @param bool $revisionable
+   *   (optional) Whether the field should be revisionable. Defaults to FALSE.
+   * @param bool $translatable
+   *   (optional) Whether the field should be translatable. Defaults to FALSE.
    */
-  protected function addBundleField($type = 'string') {
+  protected function addBundleField($type = 'string', $revisionable = FALSE, $translatable = FALSE) {
     $definitions['new_bundle_field'] = FieldStorageDefinition::create($type)
       ->setName('new_bundle_field')
       ->setLabel(t('A new bundle field'))
-      ->setTargetEntityTypeId('entity_test_update');
+      ->setTargetEntityTypeId('entity_test_update')
+      ->setRevisionable($revisionable)
+      ->setTranslatable($translatable);
     $this->state->set('entity_test_update.additional_field_storage_definitions', $definitions);
     $this->state->set('entity_test_update.additional_bundle_field_definitions.test_bundle', $definitions);
   }
@@ -456,7 +469,6 @@ trait EntityDefinitionTestTrait {
     $this->container->get('entity_type.manager')->clearCachedDefinitions();
     $this->container->get('entity_type.bundle.info')->clearCachedBundles();
     $this->container->get('entity_field.manager')->clearCachedFieldDefinitions();
-    $this->container->get('entity_type.repository')->clearCachedDefinitions();
 
     return $entity_type;
   }

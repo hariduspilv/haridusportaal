@@ -2,10 +2,10 @@
 
 namespace Drupal\purge\Tests\Processor;
 
-use Drupal\purge\Tests\KernelServiceTestBase;
-use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Component\Plugin\Discovery\CachedDiscoveryInterface;
+use Drupal\Component\Plugin\PluginManagerInterface;
 use Drupal\Core\Plugin\DefaultPluginManager;
+use Drupal\purge\Tests\KernelServiceTestBase;
 
 /**
  * Tests \Drupal\purge\Plugin\Purge\Processor\PluginManager.
@@ -14,7 +14,19 @@ use Drupal\Core\Plugin\DefaultPluginManager;
  * @see \Drupal\Core\Plugin\DefaultPluginManager
  */
 class PluginManagerTest extends KernelServiceTestBase {
+
+  /**
+   * The name of the service as defined in services.yml.
+   *
+   * @var string
+   */
   protected $serviceId = 'plugin.manager.purge.processor';
+
+  /**
+   * Modules to enable.
+   *
+   * @var array
+   */
   public static $modules = ['purge_processor_test'];
 
   /**

@@ -1,6 +1,11 @@
 <?php
 
 /**
+ * @file
+ * Get a key value.
+ */
+
+/**
  * Get a key value.
  *
  * TODO: Only return the value (without the index), so the label can be

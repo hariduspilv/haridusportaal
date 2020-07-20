@@ -107,7 +107,7 @@ class AuthmapTest extends UnitTestCase {
    * @covers ::__construct
    */
   public function testSave() {
-    $account = $this->getMock('Drupal\user\UserInterface');
+    $account = $this->createMock('Drupal\user\UserInterface');
 
     $merge = $this->getMockBuilder('Drupal\Core\Database\Query\Merge')
       ->disableOriginalConstructor()

@@ -2,6 +2,8 @@
 
 namespace Drupal\Tests\taxonomy\Functional\Update;
 
+use Drupal\Core\Database\Database;
+use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\FunctionalTests\Update\UpdatePathTestBase;
 use Drupal\user\Entity\User;
 use Drupal\views\Entity\View;
@@ -22,6 +24,8 @@ class TaxonomyTermUpdatePathTest extends UpdatePathTestBase {
     $this->databaseDumpFiles = [
       __DIR__ . '/../../../../../system/tests/fixtures/update/drupal-8.filled.standard.php.gz',
       __DIR__ . '/../../../fixtures/update/drupal-8.views-taxonomy-term-publishing-status-2981887.php',
+      __DIR__ . '/../../../fixtures/update/drupal-8.taxonomy-term-publishing-status-ui-2899923.php',
+      __DIR__ . '/../../../fixtures/update/drupal-8.taxonomy-term-null-data-3056543.php',
     ];
   }
 
@@ -90,6 +94,22 @@ class TaxonomyTermUpdatePathTest extends UpdatePathTestBase {
   }
 
   /**
+   * Tests taxonomy term views updates succeed even if Views is not installed.
+   */
+  public function testPublishingStatusUpdateForTaxonomyTermViewsWithoutViews() {
+    // Uninstalling Views will trigger some activity in the menu tree storage
+    // system, which will cause errors until system_update_8001() is run. This
+    // is because, in the drupal-8.filled.standard database fixture used for
+    // this update test, the menu link titles are not serialized (this is what
+    // gets done by system_update_8001()). Since this method is not testing
+    // anything relating to menu links, it's OK to just truncate the menu_tree
+    // table before uninstalling Views.
+    $this->container->get('database')->truncate('menu_tree')->execute();
+    $this->container->get('module_installer')->uninstall(['views']);
+    $this->runUpdates();
+  }
+
+  /**
    * Tests handling of the publishing status in taxonomy term views updates.
    *
    * @see taxonomy_post_update_handle_publishing_status_addition_in_views()
@@ -135,7 +155,25 @@ class TaxonomyTermUpdatePathTest extends UpdatePathTestBase {
    * @see taxonomy_post_update_make_taxonomy_term_revisionable()
    */
   public function testConversionToRevisionable() {
+    // Set the batch size to 1 to test multiple steps.
+    drupal_rewrite_settings([
+      'settings' => [
+        'update_sql_batch_size' => (object) [
+          'value' => 1,
+          'required' => TRUE,
+        ],
+      ],
+    ]);
+
+    // Check that there are broken terms in the taxonomy tables, initially.
+    $this->assertTermName(997, '');
+    $this->assertTermName(998, '');
+    $this->assertTermName(999, 'tag999-es');
+
     $this->runUpdates();
+
+    // Check that the update function returned the expected message.
+    $this->assertSession()->pageTextContains('Taxonomy terms have been converted to be revisionable. 2 terms with data integrity issues were restored. More details have been logged.');
 
     // Check the database tables and the field storage definitions.
     $schema = \Drupal::database()->schema();
@@ -188,6 +226,64 @@ class TaxonomyTermUpdatePathTest extends UpdatePathTestBase {
     $this->assertEquals('article', $term->bundle());
     $this->assertEquals('Initial revision.', $term->getRevisionLogMessage());
     $this->assertTrue($term->isPublished());
+
+    // Check that two terms were restored and one was ignored. The latter cannot
+    // be manually restored, since we would end up with two data table records
+    // having "default_langcode" equalling 1, which would not make sense.
+    $this->assertTermName(997, 'tag997');
+    $this->assertTermName(998, 'tag998');
+    $this->assertTermName(999, 'tag999-es');
+  }
+
+  /**
+   * Assert that a term name matches the expectation.
+   *
+   * @param string $id
+   *   The term ID.
+   * @param string $expected_name
+   *   The expected term name.
+   */
+  protected function assertTermName($id, $expected_name) {
+    $database = \Drupal::database();
+    $query = $database->select('taxonomy_term_field_data', 'd');
+    $query->join('taxonomy_term_data', 't', 't.tid = d.tid AND d.default_langcode = 1');
+    $name = $query
+      ->fields('d', ['name'])
+      ->condition('d.tid', $id)
+      ->execute()
+      ->fetchField();
+
+    $this->assertSame($expected_name, $name ?: '');
+  }
+
+  /**
+   * Test the update hook requirements check for revisionable terms.
+   *
+   * @see taxonomy_post_update_make_taxonomy_term_revisionable()
+   * @see taxonomy_requirements()
+   */
+  public function testMissingDataUpdateRequirementsCheck() {
+    // Insert invalid data for a non-existent taxonomy term.
+    Database::getConnection()->insert('taxonomy_term_data')
+      ->fields([
+        'tid' => '6',
+        'vid' => 'tags',
+        'uuid' => 'd5fd282b-df66-4d50-b0d1-76bf9eede9c5',
+        'langcode' => 'en',
+      ])
+      ->execute();
+    $this->writeSettings([
+      'settings' => [
+        'update_free_access' => (object) [
+          'value' => TRUE,
+          'required' => TRUE,
+        ],
+      ],
+    ]);
+    $this->drupalGet($this->updateUrl);
+
+    $this->assertSession()->pageTextContains('Errors found');
+    $this->assertSession()->elementTextContains('css', '.system-status-report__entry--error', 'The make_taxonomy_term_revisionable database update cannot be run until the data has been fixed.');
   }
 
   /**
@@ -195,6 +291,52 @@ class TaxonomyTermUpdatePathTest extends UpdatePathTestBase {
    */
   protected function replaceUser1() {
     // Do not replace the user from our dump.
+  }
+
+  /**
+   * Tests that the taxonomy_term entity form has the status checkbox.
+   *
+   * @see taxonomy_post_update_configure_status_field_widget()
+   */
+  public function testStatusCheckbox() {
+    $ids = \Drupal::entityQuery('entity_form_display')
+      ->condition('targetEntityType', 'taxonomy_term')
+      ->execute();
+
+    // Make sure we have the expected values before the update.
+    $config_keys = [];
+    foreach ($ids as $id) {
+      $config_keys[] = 'core.entity_form_display.' . $id;
+    }
+    /* @var \Drupal\Core\Config\ImmutableConfig[] $form_display_configs */
+    $form_display_configs = $this->container->get('config.factory')->loadMultiple($config_keys);
+    foreach ($form_display_configs as $config) {
+      $status_config = $config->get('content.status');
+      if ($config->getName() == 'core.entity_form_display.taxonomy_term.tags.default') {
+        $this->assertNotNull($status_config);
+        $this->assertEquals(['display_label' => FALSE], $status_config['settings']);
+      }
+      else {
+        $this->assertNull($status_config);
+      }
+    }
+
+    // Run updates.
+    $this->runUpdates();
+
+    /* @var \Drupal\Core\Entity\Display\EntityDisplayInterface[] $form_displays */
+    $form_displays = EntityFormDisplay::loadMultiple($ids);
+    foreach ($form_displays as $form_display) {
+      $component = $form_display->getComponent('status');
+      if ($form_display->id() == 'taxonomy_term.tags.default') {
+        // Display label should not have been set to TRUE by the upgrade path.
+        $this->assertEquals(['display_label' => FALSE], $component['settings']);
+      }
+      else {
+        $this->assertEquals('boolean_checkbox', $component['type']);
+        $this->assertEquals(['display_label' => TRUE], $component['settings']);
+      }
+    }
   }
 
 }

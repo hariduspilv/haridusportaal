@@ -1,0 +1,28 @@
+# Schema for the configuration files of the JWT module.
+
+jwt.config:
+  type: config_object
+  label: 'JWT settings'
+  mapping:
+    algorithm:
+      type: string
+      label: 'The algorithm to use'
+    key_id:
+      type: string
+      label: 'The key ID to use'
+
+key.type.jwt_hs:
+  type: mapping
+  label: 'JWT HMAC Key'
+  mapping:
+    algorithm:
+      type: string
+      label: 'Algorithm'
+
+key.type.jwt_rs:
+  type: mapping
+  label: 'JWT RSA Key'
+  mapping:
+    algorithm:
+      type: string
+      label: 'Algorithm'

@@ -29,6 +29,7 @@ interface InvalidationsServiceInterface extends ServiceInterface {
    *   Thrown when no purgers support the requested type.
    *
    * @return \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface
+   *   The invalidation object.
    */
   public function get($plugin_id, $expression = NULL);
 
@@ -50,6 +51,7 @@ interface InvalidationsServiceInterface extends ServiceInterface {
    *   not deemed valid for the type of invalidation.
    *
    * @return \Drupal\purge\Plugin\Purge\Invalidation\ImmutableInvalidationInterface
+   *   The immutable invalidation object.
    */
   public function getImmutable($plugin_id, $expression = NULL);
 
@@ -67,6 +69,7 @@ interface InvalidationsServiceInterface extends ServiceInterface {
    *   not deemed valid for the type of invalidation.
    *
    * @return \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface
+   *   The invalidation object.
    */
   public function getFromQueueData($item_data);
 
@@ -84,6 +87,7 @@ interface InvalidationsServiceInterface extends ServiceInterface {
    *   not deemed valid for the type of invalidation.
    *
    * @return \Drupal\purge\Plugin\Purge\Invalidation\ImmutableInvalidationInterface
+   *   The immutable invalidation object.
    */
   public function getImmutableFromQueueData($item_data);
 

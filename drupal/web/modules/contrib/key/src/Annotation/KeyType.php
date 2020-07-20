@@ -3,7 +3,6 @@
 namespace Drupal\key\Annotation;
 
 use Drupal\Component\Annotation\Plugin;
-use Drupal\Core\Annotation\Translation;
 
 /**
  * Defines a key type annotation object.
@@ -22,18 +21,18 @@ class KeyType extends Plugin {
   /**
    * The human-readable name of the key type.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
    */
   public $label;
 
   /**
    * The description of the key type.
    *
-   * @ingroup plugin_translatable
-   *
    * @var \Drupal\Core\Annotation\Translation
+   *
+   * @ingroup plugin_translatable
    */
   public $description;
 
@@ -82,7 +81,7 @@ class KeyType extends Plugin {
    */
   public $multivalue = [
     'enabled' => FALSE,
-    'fields' => []
+    'fields' => [],
   ];
 
 }

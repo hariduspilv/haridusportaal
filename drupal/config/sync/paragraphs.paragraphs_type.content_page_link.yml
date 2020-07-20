@@ -1,0 +1,10 @@
+uuid: 86483630-48af-4f71-b2be-bf577568193e
+langcode: et
+status: true
+dependencies: {  }
+id: content_page_link
+label: 'Esile toodud sisuleht'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

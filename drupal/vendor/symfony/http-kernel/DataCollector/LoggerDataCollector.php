@@ -72,11 +72,6 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
         }
     }
 
-    /**
-     * Gets the logs.
-     *
-     * @return array An array of logs
-     */
     public function getLogs()
     {
         return isset($this->data['logs']) ? $this->data['logs'] : [];
@@ -177,7 +172,7 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
                 continue;
             }
 
-            $message = $log['message'];
+            $message = '_'.$log['message'];
             $exception = $log['context']['exception'];
 
             if ($exception instanceof SilencedErrorContext) {

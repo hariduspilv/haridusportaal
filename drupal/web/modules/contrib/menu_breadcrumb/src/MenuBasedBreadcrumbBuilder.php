@@ -333,7 +333,7 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
 
     // Create a breadcrumb for <front> which may be either added or replaced:
     $langcode = $this->contentLanguage;
-    $label = $this->config->get('home_as_site_name') ?
+    $label = $this->config->get('front_title') ?
       $this->configFactory->get('system.site')->get('name') :
       $this->t('Home', [], ['langcode' => $langcode]);
     // (https://www.drupal.org/docs/develop/standards/coding-standards#array)
@@ -358,7 +358,7 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
       if ($this->config->get('remove_home')) {
         array_shift($links);
       }
-      else {
+      elseif ($this->config->get('front_title') != 2) {
         $links[0] = $home_link;
       }
     }

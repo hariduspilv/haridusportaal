@@ -2,10 +2,9 @@
 
 namespace Drupal\purge_ui\Controller;
 
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\purge\Plugin\Purge\Queue\QueueServiceInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Controller for queue configuration forms.
@@ -13,6 +12,8 @@ use Drupal\purge\Plugin\Purge\Queue\QueueServiceInterface;
 class QueueFormController extends ControllerBase {
 
   /**
+   * The 'purge.queue' service.
+   *
    * @var \Drupal\purge\Plugin\Purge\Queue\QueueServiceInterface
    */
   protected $purgeQueue;
@@ -38,6 +39,7 @@ class QueueFormController extends ControllerBase {
    * Render the queue detail form.
    *
    * @return array
+   *   The render array.
    */
   public function detailForm() {
     return $this->formBuilder()->getForm(

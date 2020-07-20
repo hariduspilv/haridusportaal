@@ -2,9 +2,8 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Form\FormBase;
-use Drupal\purge_ui\Form\CloseDialogTrait;
+use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Render plugin details.
@@ -22,7 +21,7 @@ class PluginDetailsForm extends FormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_ui.plugin_details_form';
   }
 

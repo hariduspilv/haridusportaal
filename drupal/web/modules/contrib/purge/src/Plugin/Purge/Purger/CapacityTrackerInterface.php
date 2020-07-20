@@ -83,7 +83,7 @@ interface CapacityTrackerInterface {
   /**
    * Estimate how long a call to ::invalidate() takes for X amount of objects.
    *
-   * @param int $number_of_objects
+   * @param int $items
    *   The number of objects about to be offered to the purgers service.
    *
    * @throws \Drupal\purge\Plugin\Purge\Purger\Exception\BadBehaviorException
@@ -180,7 +180,7 @@ interface CapacityTrackerInterface {
    * Set all purger plugin instances.
    *
    * @param \Drupal\purge\Plugin\Purge\Purger\PurgerInterface[] $purgers
-   *   All purger plugins instantiated by \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface.
+   *   All purger plugins instantiated by PurgersServiceInterface.
    */
   public function setPurgers(array $purgers);
 
@@ -211,8 +211,6 @@ interface CapacityTrackerInterface {
    *
    * @see \Drupal\purge\Plugin\Purge\Purger\CapacityTrackerInterface::getCooldownTime()
    * @see \Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface::invalidate()
-   *
-   * @return void
    */
   public function waitCooldownTime($purger_instance_id);
 

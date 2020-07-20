@@ -3,11 +3,14 @@
 namespace Drupal\Tests\paragraphs\Kernel;
 
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
+use Drupal\Core\Field\FieldStorageDefinitionInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\paragraphs\Entity\Paragraph;
 use Drupal\paragraphs\Entity\ParagraphsType;
 use Drupal\KernelTests\KernelTestBase;
+use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
+use Drupal\Tests\user\Traits\UserCreationTrait;
 
 /**
  * Tests the collapsed summary options.
@@ -15,6 +18,9 @@ use Drupal\KernelTests\KernelTestBase;
  * @group paragraphs
  */
 class ParagraphsCollapsedSummaryTest extends KernelTestBase {
+
+  use EntityReferenceTestTrait;
+  use UserCreationTrait;
 
   /**
    * Modules to enable.
@@ -26,6 +32,7 @@ class ParagraphsCollapsedSummaryTest extends KernelTestBase {
     'user',
     'system',
     'field',
+    'entity_reference',
     'entity_reference_revisions',
     'paragraphs_test',
     'file',
@@ -149,6 +156,33 @@ class ParagraphsCollapsedSummaryTest extends KernelTestBase {
     $info = $paragraph_nested_2->getIcons();
     $this->assertEquals($info['count']['#prefix'], '<span class="paragraphs-badge" title="2 children">');
     $this->assertEquals($info['count']['#suffix'], '</span>');
+  }
+
+  /**
+   * Tests multiple entity references are visible in the paragraph summary.
+   */
+  public function testMultipleEntityReferences() {
+    $user1 = $this->createUser([], 'bob');
+    $user2 = $this->createUser([], 'pete');
+    $paragraphs_type = ParagraphsType::create([
+      'label' => 'Multiple entity references',
+      'id' => 'multiple_entity_references',
+    ]);
+    $paragraphs_type->save();
+    $this->createEntityReferenceField('paragraph', 'multiple_entity_references', 'field_user_references', 'Users', 'user', 'default', [], FieldStorageDefinitionInterface::CARDINALITY_UNLIMITED);
+    EntityFormDisplay::create([
+      'targetEntityType' => 'paragraph',
+      'bundle' => 'multiple_entity_references',
+      'mode' => 'default',
+      'status' => TRUE,
+    ])->setComponent('field_user_references', ['type' => 'options_select'])->save();
+    $paragraph_with_multiple_entity_references = Paragraph::create([
+      'type' => 'multiple_entity_references',
+    ]);
+    $paragraph_with_multiple_entity_references->get('field_user_references')->appendItem($user1->id());
+    $paragraph_with_multiple_entity_references->get('field_user_references')->appendItem($user2->id());
+    $paragraph_with_multiple_entity_references->save();
+    $this->assertEquals('<div class="paragraphs-description paragraphs-collapsed-description"><div class="paragraphs-content-wrapper"><span class="summary-content">bob</span>, <span class="summary-content">pete</span></div></div>', $paragraph_with_multiple_entity_references->getSummary());
   }
 
   /**

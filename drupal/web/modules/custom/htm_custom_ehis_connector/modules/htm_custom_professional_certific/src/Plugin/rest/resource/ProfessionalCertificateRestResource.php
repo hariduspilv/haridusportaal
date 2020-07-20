@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_professional_certific\Plugin\rest\resource;
 use Drupal\Core\Cache\CacheableMetadata;
 use Drupal\Core\Session\AccountProxyInterface;
 use Drupal\htm_custom_ehis_connector\EhisConnectorService;
+use Drupal\rest\ModifiedResourceResponse;
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
 use GuzzleHttp\Exception\RequestException;
@@ -111,15 +112,19 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 				$method = 'getPersonalCard';
 				$params = ['tab' => $tab];
 				break;
+      case 'deleteDoc':
+        $method = 'deleteDocument';
+        $params = ['id' => $tab, 'form_name' => 'MTSYS_TEGEVUSLUBA'];
+        break;
 			case 'applications':
 				$method = 'getApplications';
 				#$this->certificate->testApplications();
 				$params = ['init' => (boolean) $tab, 'get_edi_data' => TRUE];
-				break;
+        break;
 		  case 'educational_institution':
 		  	$method = 'getEducationalInstitution';
 		  	$params = ['id' => $tab, 'addTitle' => true];
-		  	breaK;
+		  	break;
 			default:
 				throw new BadRequestHttpException('Service name not found');
 				break;
@@ -128,13 +133,12 @@ class ProfessionalCertificateRestResource extends ResourceBase {
 		try{
 			$json = $this->certificate->{$method}($params);
 		}catch (RequestException $e){
+      \Drupal::logger('xjson')->notice('<pre><code>Dashboard '.$service_name.' response: '. print_r($e->getMessage(), TRUE) . '</code></pre>' );
 			return new ResourceResponse($e->getMessage(), $e->getCode());
 		}
 
-		$response = new ResourceResponse($json, 200);
-		$cache_metadata = new CacheableMetadata();
-		$cache_metadata->addCacheContexts(['url.query_args', 'user']);
-		$response->addCacheableDependency($cache_metadata);
+    $response = new ModifiedResourceResponse($json, 200);
+    \Drupal::logger('xjson')->notice('<pre><code>Dashboard '.$service_name.' response: '. print_r($response, TRUE) . '</code></pre>' );
 
 		return $response;
 	}

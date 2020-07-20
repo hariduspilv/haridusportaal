@@ -1,0 +1,99 @@
+:root{
+}
+
+.table-file-multiple-widget tbody{
+  vertical-align:top;
+}
+
+.table-file-multiple-widget .tabledrag-cell-content{
+  position:relative;
+  display:block;
+  height:auto;
+}
+
+.table-file-multiple-widget .tabledrag-cell-content > *{
+  display:block;
+}
+
+.table-file-multiple-widget .tabledrag-cell-content__item{
+  padding:0;
+}
+
+.table-file-multiple-widget .tabledrag-handle{
+  float:left;
+}
+
+[dir="rtl"] .table-file-multiple-widget .tabledrag-handle{
+  float:right;
+}
+
+.table-file-multiple-widget .tabledrag-changed{
+  float:left;
+  line-height:2.0625rem;
+}
+
+[dir="rtl"] .table-file-multiple-widget .tabledrag-changed{
+  float:left;
+}
+
+.table-file-multiple-widget td{
+  height:3rem;
+}
+
+.table-file-multiple-widget td > :first-child{
+  margin-top:0;
+}
+
+.table-file-multiple-widget td > :last-child{
+  margin-bottom:0;
+}
+
+.table-file-multiple-widget .button.button{
+  margin:0;
+}
+
+.table-file-multiple-widget th{
+  height:2rem;
+  color:#545560;
+  background:#f3f4f9;
+  font-size:0.889rem;
+}
+
+.table-file-multiple-widget td{
+  padding-top:1rem;
+  padding-bottom:1rem;
+}
+
+.table-file-multiple-widget .tabledrag-cell{
+  padding-top:0.5rem;
+  padding-bottom:0.5rem;
+}
+
+.table-file-multiple-widget .checkbox .form-type--boolean{
+  line-height:3rem;
+}
+
+.no-touchevents .table-file-multiple-widget .checkbox .form-type--boolean{
+  line-height:1.5;
+}
+
+.file-operations-cell{
+  width:1px;
+  white-space:nowrap;
+}
+
+.table-file-multiple-widget--no-upload > tbody:last-child > tr:last-child{
+  border-bottom:0;
+}
+
+@media screen and (max-width: 37.5em){
+  .claro-details__wrapper .file-widget-multiple__table-wrapper{
+    margin-right:-1rem;
+    margin-left:-1rem;
+  }
+
+  .claro-details__wrapper .file-widget-multiple__table-wrapper > :not(table){
+    margin-right:1rem;
+    margin-left:1rem;
+  }
+}

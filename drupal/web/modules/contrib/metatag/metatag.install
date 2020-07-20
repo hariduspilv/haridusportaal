@@ -11,7 +11,7 @@
 function metatag_install() {
   // Don't display the message during site installation, it looks funny.
   if (!drupal_installation_attempted()) {
-    drupal_set_message(t("To adjust global defaults, go to admin/config/search/metatag. If you need to set meta tags for a specific entity, edit its bundle and add the Metatag field."));
+    \Drupal::messenger()->addMessage(t("To adjust global defaults, go to admin/config/search/metatag. If you need to set meta tags for a specific entity, edit its bundle and add the Metatag field."));
   }
 }
 
@@ -22,6 +22,17 @@ function metatag_requirements($phase) {
   $requirements = [];
 
   if ($phase == 'runtime') {
+    // Note that no meta tags will be output while the site is in maintenance
+    // mode.
+    if (\Drupal::state()->get('system.maintenance_mode')) {
+      $requirements['metatag_maintenance_mode'] = [
+        'severity' => REQUIREMENT_WARNING,
+        'title' => 'Metatag',
+        'value' => t('Not enabled while in maintenance mode'),
+        'description' => t('Please note that while the site is in maintenance mode none of the usual meta tags will be output.'),
+      ];
+    }
+
     // Recommend the Schema.org Metatag module.
     if (!\Drupal::moduleHandler()->moduleExists('schema_metatag')) {
       $requirements['metatag_schema'] = [

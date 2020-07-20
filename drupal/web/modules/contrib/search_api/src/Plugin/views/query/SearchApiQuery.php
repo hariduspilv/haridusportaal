@@ -3,6 +3,8 @@
 namespace Drupal\search_api\Plugin\views\query;
 
 use Drupal\Component\Render\FormattableMarkup;
+use Drupal\Core\Cache\Cache;
+use Drupal\Core\Cache\CacheableDependencyInterface;
 use Drupal\Core\Database\Query\ConditionInterface;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
@@ -13,9 +15,11 @@ use Drupal\Core\Url;
 use Drupal\search_api\Entity\Index;
 use Drupal\search_api\LoggerTrait;
 use Drupal\search_api\ParseMode\ParseModeInterface;
+use Drupal\search_api\Plugin\search_api\parse_mode\Terms;
 use Drupal\search_api\Plugin\views\field\SearchApiStandard;
 use Drupal\search_api\Plugin\views\ResultRow;
 use Drupal\search_api\Processor\ConfigurablePropertyInterface;
+use Drupal\search_api\Query\ConditionGroup;
 use Drupal\search_api\Query\ConditionGroupInterface;
 use Drupal\search_api\Query\QueryInterface;
 use Drupal\search_api\Query\ResultSetInterface;
@@ -258,7 +262,7 @@ class SearchApiQuery extends QueryPluginBase {
       if ($display_type === 'rest_export') {
         $display_type = 'rest';
       }
-      $this->query->setSearchId("views_$display_type:" . $view->id() . '__' . $view->current_display);
+      $this->query->setSearchId("views_$display_type:" . $view->id() . '__' . $display->display['id']);
       $this->query->setOption('search_api_view', $view);
     }
     catch (\Exception $e) {
@@ -326,6 +330,18 @@ class SearchApiQuery extends QueryPluginBase {
    * @see \Drupal\search_api\Plugin\views\query\SearchApiQuery::addRetrievedFieldValue()
    */
   public function addField($table, $field, $alias = '', array $params = []) {
+    // Ignore calls for built-in fields which don't need to be retrieved.
+    $built_in = [
+      'search_api_id' => TRUE,
+      'search_api_datasource' => TRUE,
+      'search_api_language' => TRUE,
+      'search_api_relevance' => TRUE,
+      'search_api_excerpt' => TRUE,
+    ];
+    if (isset($built_in[$field])) {
+      return $field;
+    }
+
     foreach ($this->getIndex()->getFields(TRUE) as $field_id => $field_object) {
       if ($field_object->getCombinedPropertyPath() === $field) {
         $this->addRetrievedFieldValue($field_id);
@@ -637,7 +653,7 @@ class SearchApiQuery extends QueryPluginBase {
       // avoid them being individually loaded inside checkAccess().
       $result_set->preLoadResultItems();
       foreach ($results as $item_id => $result) {
-        if (!$result->checkAccess($account)) {
+        if (!$result->getAccessResult($account)->isAllowed()) {
           unset($results[$item_id]);
         }
       }
@@ -685,6 +701,49 @@ class SearchApiQuery extends QueryPluginBase {
 
       $view->result[] = new ResultRow($values);
     }
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheContexts() {
+    $query = $this->getSearchApiQuery();
+    if ($query instanceof CacheableDependencyInterface) {
+      return $query->getCacheContexts();
+    }
+
+    // We are not returning the cache contexts from the parent class since these
+    // are based on the default SQL storage from Views, while our results are
+    // coming from the search engine.
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheTags() {
+    $tags = parent::getCacheTags();
+
+    $query = $this->getSearchApiQuery();
+    if ($query instanceof CacheableDependencyInterface) {
+      $tags = Cache::mergeTags($query->getCacheTags(), $tags);
+    }
+
+    return $tags;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function getCacheMaxAge() {
+    $max_age = parent::getCacheMaxAge();
+
+    $query = $this->getSearchApiQuery();
+    if ($query instanceof CacheableDependencyInterface) {
+      $max_age = Cache::mergeMaxAges($query->getCacheMaxAge(), $max_age);
+    }
+
+    return $max_age;
   }
 
   /**
@@ -781,8 +840,8 @@ class SearchApiQuery extends QueryPluginBase {
   /**
    * Retrieves the parse mode.
    *
-   * @return \Drupal\search_api\ParseMode\ParseModeInterface|null
-   *   The parse mode, or NULL if the query was aborted.
+   * @return \Drupal\search_api\ParseMode\ParseModeInterface
+   *   The parse mode.
    *
    * @see \Drupal\search_api\Query\QueryInterface::getParseMode()
    */
@@ -790,7 +849,7 @@ class SearchApiQuery extends QueryPluginBase {
     if (!$this->shouldAbort()) {
       return $this->query->getParseMode();
     }
-    return NULL;
+    return new Terms([], 'terms', []);
   }
 
   /**
@@ -861,7 +920,7 @@ class SearchApiQuery extends QueryPluginBase {
     if (!$this->shouldAbort()) {
       return $this->query->createConditionGroup($conjunction, $tags);
     }
-    return NULL;
+    return new ConditionGroup($conjunction, $tags);
   }
 
   /**
@@ -1193,21 +1252,18 @@ class SearchApiQuery extends QueryPluginBase {
    * ignored.
    *
    * @param string|null $table
-   *   The table this field is part of. If a formula, enter NULL. If you want to
-   *   order the results randomly, use "rand" as table and nothing else.
+   *   The table this field is part of. If you want to order the results
+   *   randomly, use "rand" as table and nothing else. Otherwise, use NULL.
    * @param string|null $field
-   *   (optional) The field or formula to sort on. If already a field, enter
-   *   NULL and put in the alias.
+   *   (optional) Ignored.
    * @param string $order
-   *   (optional) Either ASC or DESC.
+   *   (optional) Either ASC or DESC. (Lowercase variants will be uppercased.)
    * @param string $alias
-   *   (optional) The alias to add the field as. In SQL, all fields in the order
-   *   by must also be in the SELECT portion. If an $alias isn't specified one
-   *   will be generated for from the $field; however, if the $field is a
-   *   formula, this alias will likely fail.
+   *   (optional) The field to sort on. Unless sorting randomly, "search_api_id"
+   *   and "search_api_datasource" are supported.
    * @param array $params
-   *   (optional) Any parameters that should be passed through to the addField()
-   *   call.
+   *   (optional) For sorting randomly, additional random sort parameters can be
+   *   passed through here. Otherwise, the parameter is ignored.
    *
    * @throws \Drupal\search_api\SearchApiException
    *   Thrown if the searched index's server couldn't be loaded.
@@ -1227,6 +1283,10 @@ class SearchApiQuery extends QueryPluginBase {
         $variables['%server'] = $server->label();
         $this->getLogger()->warning('Tried to sort results randomly on server %server which does not support random sorting.', $variables);
       }
+    }
+    elseif (in_array($alias, ['search_api_id', 'search_api_datasource'])) {
+      $order = strtoupper($order) === 'DESC' ? 'DESC' : 'ASC';
+      $this->sort($alias, $order);
     }
   }
 

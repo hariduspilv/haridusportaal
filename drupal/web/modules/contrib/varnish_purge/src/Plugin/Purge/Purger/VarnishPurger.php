@@ -4,10 +4,9 @@ namespace Drupal\varnish_purger\Plugin\Purge\Purger;
 
 use Drupal\purge\Plugin\Purge\Purger\PurgerInterface;
 use Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface;
-use Drupal\varnish_purger\Plugin\Purge\Purger\VarnishPurgerBase;
 
 /**
- * HTTP Purger
+ * HTTP Purger.
  *
  * @PurgePurger(
  *   id = "varnish",
@@ -44,8 +43,11 @@ class VarnishPurger extends VarnishPurgerBase implements PurgerInterface {
         unset($opt['headers']);
         $debug = json_encode(str_replace("\n", ' ', [
           'msg' => $e->getMessage(),
-          'uri' => $uri, 'method' => $this->settings->request_method,
-          'guzzle_opt' => $opt, 'headers' => $headers]));
+          'uri' => $uri,
+          'method' => $this->settings->request_method,
+          'guzzle_opt' => $opt,
+          'headers' => $headers,
+        ]));
         $this->logger()->emergency("item failed due @e, details (JSON): @debug",
           ['@e' => get_class($e), '@debug' => $debug]);
       }

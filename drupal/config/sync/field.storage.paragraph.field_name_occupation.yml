@@ -1,0 +1,21 @@
+uuid: ebf09175-b1a3-44df-b360-2a3f5099ecfb
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_name_occupation
+field_name: field_name_occupation
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -103,14 +103,40 @@ class TranslatorManager implements TranslatorManagerInterface
         $language,
         $directoryRoot
     ) {
+        $output = new ConsoleOutput();
+        $input = new ArrayInput([]);
+        $io = new DrupalStyle($input, $output);
+        
         $coreLanguageDirectory =
             $directoryRoot .
             sprintf(
                 DRUPAL_CONSOLE_LANGUAGE,
                 $language
             );
+        $installersLanguageDirectory =
+          $directoryRoot .
+          sprintf(
+            DRUPAL_CONSOLE_LANGUAGE_INSTALLERS,
+            $language
+          );
 
-        if (!is_dir($coreLanguageDirectory)) {
+        $languageDirectory = null;
+        foreach ([$coreLanguageDirectory, $installersLanguageDirectory] as $candidate) {
+            if (is_dir($candidate)) {
+              $languageDirectory = $candidate;
+            }
+        }
+
+        if (!isset($languageDirectory)) {
+            if ($language == 'en') {
+              throw new \Exception('No languages found. Make sure you have installed a console language package in a supported directory');
+            }else{
+                $io->warning(
+                    sprintf(
+                        'Language not available please execute this command in order to get the language locally using composer, run composer require drupal/console-'.$language.''
+                    )
+                );
+            }
             return $this->buildCoreLanguageDirectory('en', $directoryRoot);
         }
 
@@ -118,7 +144,7 @@ class TranslatorManager implements TranslatorManagerInterface
             $this->coreLanguageRoot = $directoryRoot;
         }
 
-        return [$language, $coreLanguageDirectory];
+        return [$language, $languageDirectory];
     }
 
     /**

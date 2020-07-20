@@ -1,0 +1,12 @@
+name: Config Distro Test
+type: module
+# core: 8.x
+package: Testing
+dependencies:
+  - config_distro:config_distro
+
+# Information added by Drupal.org packaging script on 2018-10-09
+version: '8.x-1.0-alpha3'
+core: '8.x'
+project: 'config_distro'
+datestamp: 1539071283

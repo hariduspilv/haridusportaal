@@ -2,8 +2,8 @@
 
 namespace Drupal\purge;
 
-use Drupal\Core\DependencyInjection\ServiceProviderInterface;
 use Drupal\Core\DependencyInjection\ServiceModifierInterface;
+use Drupal\Core\DependencyInjection\ServiceProviderInterface;
 
 /**
  * Describes a generic service for all DIC-registered service classes by Purge.
@@ -34,7 +34,8 @@ interface ServiceInterface extends ServiceProviderInterface, ServiceModifierInte
    * @param string $plugin_id
    *   The plugin_id of the plugin you want to check for.
    *
-   * @return true|false
+   * @return bool
+   *   Whether the plugin is enabled.
    */
   public function isPluginEnabled($plugin_id);
 

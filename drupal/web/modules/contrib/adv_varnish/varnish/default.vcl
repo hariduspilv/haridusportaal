@@ -3,8 +3,8 @@ vcl 4.0;
 import std;
 
 backend default {
-  .host                   = "test-htm.wiseman.ee";
-  .port                   = "30000";
+  .host                   = "127.0.0.1";
+  .port                   = "81";
   .connect_timeout        = 600s;
   .first_byte_timeout     = 600s;
   .between_bytes_timeout  = 600s;

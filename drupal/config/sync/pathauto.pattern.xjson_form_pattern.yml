@@ -7,7 +7,7 @@ dependencies:
 id: xjson_form_pattern
 label: 'xJson Form pattern'
 type: 'canonical_entities:x_json_form_entity'
-pattern: '/vormid/[x_json_form_entity:name]'
+pattern: 'vormid/[x_json_form_entity:name]'
 selection_criteria: {  }
 selection_logic: and
 weight: 0

@@ -2,13 +2,12 @@
 
 namespace Drupal\purge_ui\Form;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
-use Drupal\Core\Form\FormStateInterface;
-use Drupal\Core\Form\ConfirmFormBase;
 use Drupal\Core\Ajax\AjaxResponse;
 use Drupal\Core\Ajax\CloseModalDialogCommand;
+use Drupal\Core\Form\ConfirmFormBase;
+use Drupal\Core\Form\FormStateInterface;
 use Drupal\purge\Plugin\Purge\Queue\QueueServiceInterface;
-use Drupal\purge_ui\Form\CloseDialogTrait;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Empty the queue.
@@ -17,17 +16,17 @@ class QueueEmptyForm extends ConfirmFormBase {
   use CloseDialogTrait;
 
   /**
+   * The 'purge.queue' service.
+   *
    * @var \Drupal\purge\Plugin\Purge\Queue\QueueServiceInterface
    */
   protected $purgeQueue;
 
   /**
-   * Constructs a QueueClearForm object.
+   * Construct a QueueClearForm object.
    *
    * @param \Drupal\purge\Plugin\Purge\Queue\QueueServiceInterface $purge_queue
    *   The purge queue service.
-   *
-   * @return void
    */
   public function __construct(QueueServiceInterface $purge_queue) {
     $this->purgeQueue = $purge_queue;
@@ -50,7 +49,7 @@ class QueueEmptyForm extends ConfirmFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormID() {
+  public function getFormId() {
     return 'purge_ui.queue_empty_form';
   }
 
@@ -114,6 +113,7 @@ class QueueEmptyForm extends ConfirmFormBase {
    *   The current state of the form.
    *
    * @return \Drupal\Core\Ajax\AjaxResponse
+   *   The AJAX response object.
    */
   public function emptyQueue(array &$form, FormStateInterface $form_state) {
     $this->purgeQueue->emptyQueue();

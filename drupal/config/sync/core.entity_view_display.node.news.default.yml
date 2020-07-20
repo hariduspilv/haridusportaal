@@ -13,9 +13,11 @@ dependencies:
     - field.field.node.news.field_news_video
     - field.field.node.news.field_short_description
     - field.field.node.news.field_tag
+    - field.field.node.news.field_video_thumbnail
     - node.type.news
   module:
     - htm_custom_video_field
+    - image
     - link
     - metatag
     - text
@@ -88,6 +90,15 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
+  field_video_thumbnail:
+    weight: 115
+    label: above
+    settings:
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
   links:
     weight: 100
     region: content
@@ -97,3 +108,4 @@ hidden:
   field_additional_images: true
   field_introduction_image: true
   langcode: true
+  search_api_excerpt: true

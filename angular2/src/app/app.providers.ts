@@ -12,6 +12,7 @@ import { LOCATION_INITIALIZED, registerLocaleData } from '@angular/common';
 import { CookieService } from './_services/cookieService';
 
 import localeEt from '@angular/common/locales/et';
+import { AuthGuard } from './_services/authGuard';
 
 registerLocaleData(localeEt);
 
@@ -20,7 +21,7 @@ export function appInitializerFactory(translate: TranslateService, injector: Inj
 
     const locationInitialized = injector.get(LOCATION_INITIALIZED, Promise.resolve(null));
     locationInitialized.then(() => {
-      
+
       /*
       let langToSet = window.location.pathname.split("/")[1];
       if( langToSet == "" ) { langToSet = "et"; }
@@ -54,6 +55,7 @@ export const AppProviders = [
   UserService,
   CookieService,
   NotificationService,
+  AuthGuard,
   {
     provide: APP_INITIALIZER,
     useFactory: appInitializerFactory,

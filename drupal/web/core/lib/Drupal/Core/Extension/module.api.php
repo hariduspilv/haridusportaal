@@ -7,6 +7,7 @@
 
 use Drupal\Core\Database\Database;
 use Drupal\Core\File\FileSystemInterface;
+use Drupal\Core\Link;
 use Drupal\Core\Url;
 use Drupal\Core\Utility\UpdateException;
 
@@ -226,7 +227,7 @@ function hook_modules_installed($modules) {
  */
 function hook_install() {
   // Create the styles directory and ensure it's writable.
-  $directory = file_default_scheme() . '://styles';
+  $directory = \Drupal::config('system.file')->get('default_scheme') . '://styles';
   \Drupal::service('file_system')->prepareDirectory($directory, FileSystemInterface::CREATE_DIRECTORY | FileSystemInterface::MODIFY_PERMISSIONS);
 }
 
@@ -283,7 +284,7 @@ function hook_modules_uninstalled($modules) {
  */
 function hook_uninstall() {
   // Remove the styles directory and generated images.
-  \Drupal::service('file_system')->deleteRecursive(file_default_scheme() . '://styles');
+  \Drupal::service('file_system')->deleteRecursive(\Drupal::config('system.file')->get('default_scheme') . '://styles');
 }
 
 /**
@@ -713,6 +714,7 @@ function hook_update_N(&$sandbox) {
  * @ingroup update_api
  *
  * @see hook_update_N()
+ * @see hook_removed_post_updates()
  */
 function hook_post_update_NAME(&$sandbox) {
   // Example of updating some content.
@@ -729,7 +731,7 @@ function hook_post_update_NAME(&$sandbox) {
   $block_update_8001 = \Drupal::keyValue('update_backup')->get('block_update_8001', []);
 
   $block_ids = array_keys($block_update_8001);
-  $block_storage = \Drupal::entityManager()->getStorage('block');
+  $block_storage = \Drupal::entityTypeManager()->getStorage('block');
   $blocks = $block_storage->loadMultiple($block_ids);
   /** @var $blocks \Drupal\block\BlockInterface[] */
   foreach ($blocks as $block) {
@@ -744,6 +746,30 @@ function hook_post_update_NAME(&$sandbox) {
   }
 
   return $result;
+}
+
+/**
+ * Return an array of removed hook_post_update_NAME() function names.
+ *
+ * This should be used to indicate post-update functions that have existed in
+ * some previous version of the module, but are no longer available.
+ *
+ * This implementation has to be placed in a MODULE.post_update.php file.
+ *
+ * @return string[]
+ *   An array where the keys are removed post-update function names, and the
+ *   values are the first stable version in which the update was removed.
+ *
+ * @ingroup update_api
+ *
+ * @see hook_post_update_NAME()
+ */
+function hook_removed_post_updates() {
+  return [
+    'mymodule_post_update_foo' => '8.x-2.0',
+    'mymodule_post_update_bar' => '8.x-3.0',
+    'mymodule_post_update_baz' => '8.x-3.0',
+  ];
 }
 
 /**
@@ -952,7 +978,7 @@ function hook_requirements($phase) {
   // Test PHP version
   $requirements['php'] = [
     'title' => t('PHP'),
-    'value' => ($phase == 'runtime') ? \Drupal::l(phpversion(), new Url('system.php')) : phpversion(),
+    'value' => ($phase == 'runtime') ? Link::fromTextAndUrl(phpversion(), Url::fromRoute('system.php'))->toString() : phpversion(),
   ];
   if (version_compare(phpversion(), DRUPAL_MINIMUM_PHP) < 0) {
     $requirements['php']['description'] = t('Your PHP installation is too old. Drupal requires at least PHP %version.', ['%version' => DRUPAL_MINIMUM_PHP]);

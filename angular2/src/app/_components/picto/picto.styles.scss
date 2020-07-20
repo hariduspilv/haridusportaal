@@ -1,0 +1,35 @@
+@import "../../../assets/styles/typography.scss";
+
+::ng-deep {
+  .picto {
+    .image {
+      position: relative;
+      float: right !important;
+      height: 7rem;
+      z-index: 5;
+      margin-right: 4rem;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+      margin-left: 2.5rem;
+      @include break-on(xs, max) {
+        margin-right: 8rem;
+        margin-left: 8rem;
+      }
+    }
+    .circle {
+      position: relative;
+      float: right;
+      width: 1em;
+      height: 1em;
+      border-radius: 1em;
+    }
+    .triangle {
+      position: relative;
+      float: right;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-style: inset;
+    }
+  }
+}

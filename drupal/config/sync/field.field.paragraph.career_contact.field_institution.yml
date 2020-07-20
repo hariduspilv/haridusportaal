@@ -1,0 +1,19 @@
+uuid: 5f584f16-2ab9-4a8a-bfb4-d965f57e4833
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_institution
+    - paragraphs.paragraphs_type.career_contact
+id: paragraph.career_contact.field_institution
+field_name: field_institution
+entity_type: paragraph
+bundle: career_contact
+label: Asutus
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

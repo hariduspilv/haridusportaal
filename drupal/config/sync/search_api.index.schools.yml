@@ -80,7 +80,6 @@ field_settings:
         - field.storage.node.field_educational_institution_ty
       module:
         - taxonomy
-        - taxonomy
   field_educational_institution_ty_id:
     label: 'Õppeasutuse liik » Taxonomy term » Termini ID'
     datasource_id: 'entity:node'
@@ -90,7 +89,6 @@ field_settings:
       config:
         - field.storage.node.field_educational_institution_ty
       module:
-        - taxonomy
         - taxonomy
   field_ehis_id:
     label: 'EHIS id'
@@ -120,7 +118,6 @@ field_settings:
       config:
         - field.storage.node.field_ownership_type
       module:
-        - taxonomy
         - taxonomy
   field_ownership_type_id:
     label: Omandivorm
@@ -166,7 +163,6 @@ field_settings:
       module:
         - paragraphs
         - taxonomy
-        - taxonomy
   field_school_name:
     label: Pealkiri
     datasource_id: 'entity:node'
@@ -208,7 +204,6 @@ field_settings:
       config:
         - field.storage.node.field_teaching_language
       module:
-        - taxonomy
         - taxonomy
   field_teaching_language_id:
     label: Õppekeel
@@ -294,6 +289,7 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  language_with_fallback: {  }
   rendered_item: {  }
 tracker_settings:
   default:

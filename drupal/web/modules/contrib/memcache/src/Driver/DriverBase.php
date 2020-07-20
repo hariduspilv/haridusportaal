@@ -193,6 +193,7 @@ abstract class DriverBase implements DrupalMemcacheInterface {
         'pid',
         'time',
         'version',
+        'libevent',
         'pointer_size',
         'accepting_conns',
         'listen_disabled_num',

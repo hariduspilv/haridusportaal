@@ -28,6 +28,9 @@ scheduler.settings:
     default_publish_past_date:
       type: string
       label: 'Default value for nodetype setting publish_past_date'
+    default_publish_past_date_created:
+      type: boolean
+      label: 'Default value for nodetype setting publish_past_date_created'
     default_publish_required:
       type: boolean
       label: 'Default value for nodetype setting publish_required'
@@ -78,6 +81,9 @@ node.type.*.third_party.scheduler:
     publish_past_date:
       type: string
       label: 'Action to be taken for publication dates in the past'
+    publish_past_date_created:
+      type: boolean
+      label: 'Change content creation date for past dates to avoid "changed" being earlier than "created"'
     publish_required:
       type: boolean
       label: 'Require scheduled publishing'

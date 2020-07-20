@@ -4,6 +4,7 @@ status: true
 dependencies:
   module:
     - htm_custom_translations_new
+    - jwt
     - serialization
     - user
 id: translations_rest_resource
@@ -15,4 +16,5 @@ configuration:
   formats:
     - json
   authentication:
+    - jwt_auth
     - cookie

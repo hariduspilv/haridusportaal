@@ -1,0 +1,28 @@
+uuid: 2bd6334e-670b-4bc3-8d25-e29350543463
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_frontpage_news
+    - node.type.career_home_page
+    - node.type.news
+id: node.career_home_page.field_frontpage_news
+field_name: field_frontpage_news
+entity_type: node
+bundle: career_home_page
+label: Uudis
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -3,7 +3,6 @@
 namespace Drupal\purge_ui\Tests;
 
 use Drupal\Core\Url;
-use Drupal\purge_ui\Tests\DashboardTestBase;
 
 /**
  * Tests \Drupal\purge_ui\Controller\DashboardController::buildQueuersQueueProcessors().
@@ -25,7 +24,7 @@ class DashboardQueuersQueueProcessorsTest extends DashboardTestBase {
    * @see \Drupal\purge_ui\Controller\DashboardController::buildQueuersQueueProcessors
    */
   public function testQueuersSection() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet($this->route);
     $this->assertRaw('Queuers add items to the queue upon certain events, that processors process later on.');
     $this->assertRaw('Queuer A');
@@ -60,7 +59,7 @@ class DashboardQueuersQueueProcessorsTest extends DashboardTestBase {
    * @see \Drupal\purge_ui\Controller\DashboardController::buildQueuersQueueProcessors
    */
   public function testQueueSection() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet($this->route);
     $this->assertRaw("Memory");
     $this->assertText("Inspect");
@@ -78,7 +77,7 @@ class DashboardQueuersQueueProcessorsTest extends DashboardTestBase {
    * @see \Drupal\purge_ui\Controller\DashboardController::buildQueuersQueueProcessors
    */
   public function testProcessorsSection() {
-    $this->drupalLogin($this->admin_user);
+    $this->drupalLogin($this->adminUser);
     $this->drupalGet($this->route);
     $this->assertRaw('Processors are responsible for emptying the queue and putting the purgers to work each time they process. Processors can work the queue constantly or at timed intervals, it is up to you to configure a policy that makes sense for the traffic nature of your website. Multiple processors will not lead to any parallel-processing or conflicts, instead it simply means the queue is checked more often.');
     $this->assertRaw('Processor A');

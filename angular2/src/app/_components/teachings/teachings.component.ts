@@ -57,13 +57,20 @@ export class TeachingsComponent{
               });
             }catch(err){}
 
-            try{
+            try {
               this.content.tasemeharidus.sort((a, b) => {
-                let obj = this.convertDates(a.lopetanud, b.lopetanud);
+                const obj = this.convertDates(a.lopetanud, b.lopetanud);
                 return +new Date(obj.valB) - +new Date(obj.valA);
-              }).map(elem => elem.typeName = 'tasemeharidus');
-            }catch(err){}
-              
+              }).map((elem) => {
+                if (elem.lopetanud) {
+                  elem.aastaLopetanud = elem.lopetanud.split('.')[2];
+                }
+                elem.typeName = 'tasemeharidus';
+                return elem;
+              });
+            } catch (err) {
+              console.log(err);
+            }
             this.content.kvalifikatsioon.sort((a, b) => b.aasta - a.aasta).map(elem => elem.typeName = 'kvalifikatsioon');
             this.content.kvalifikatsioonid = [...this.content.kvalifikatsioon, ...this.content.tasemeharidus];
           }
@@ -71,7 +78,6 @@ export class TeachingsComponent{
             throw new Error();
           }
         }catch(err){
-          console.log(err);
           this.notificationService.info('errors.teachings_data_missing', 'teachings', false);
 
         }
@@ -88,10 +94,16 @@ export class TeachingsComponent{
   }
 
   convertDates(dateA, dateB) {
-    let arrA = dateA.split('.');
-    let valA = arrA[2] + "-" + arrA[1] + "-" + arrA[0];
-    let arrB = dateB.split('.');
-    let valB = arrB[2] + "-" + arrB[1] + "-" + arrB[0];
+    let valA = null;
+    let valB = null;
+    if (dateA) {
+      const arrA = dateA.split('.');
+      valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
+    }
+    if (dateB) {
+      const arrB = dateB.split('.');
+      valB = `${arrB[2]}-${arrB[1]}-${arrB[0]}`;
+    }
     return {valA, valB};
   }
 

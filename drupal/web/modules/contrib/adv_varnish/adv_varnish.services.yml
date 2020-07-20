@@ -14,7 +14,7 @@ services:
 
   adv_varnish.controller:
     class: Drupal\adv_varnish\Controller\VarnishAdvController
-    arguments: ['@adv_varnish.handler', '@request_stack', '@current_user']
+    arguments: ['@adv_varnish.handler', '@request_stack', '@current_user', '@current_route_match', '@router.admin_context']
 
   adv_varnish.logger:
     class: Drupal\Core\Logger\LoggerChannel
@@ -23,7 +23,5 @@ services:
 
   cache_tags.invalidator.adv_varnish:
     class: Drupal\adv_varnish\Cache\VarnishAdvCacheTagsInvalidator
-    properties:
-      varnishHandler: "@adv_varnish.handler"
     tags:
       - { name: cache_tags_invalidator}

@@ -10,14 +10,12 @@ use Drupal\file\Entity\File;
 use Drupal\image\Entity\ImageStyle;
 use Drupal\Core\Entity\EntityInterface;
 use GuzzleHttp\Client;
-use Drupal\Core\Link;
 use Drupal\file\FileInterface;
 
 /**
  * Implements hook_help().
  */
 function varnish_focal_point_purge_help($route_name, RouteMatchInterface $route_match) {
-
 
   switch ($route_name) {
     case 'help.page.varnish_focal_point_purge':

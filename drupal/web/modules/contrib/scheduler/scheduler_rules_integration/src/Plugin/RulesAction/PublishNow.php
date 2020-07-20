@@ -30,7 +30,7 @@ class PublishNow extends RulesActionBase {
    */
   public function doExecute() {
     $node = $this->getContextValue('node');
-    $node->setPublished(TRUE);
+    $node->setPublished();
   }
 
 }

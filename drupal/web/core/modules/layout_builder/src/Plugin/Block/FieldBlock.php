@@ -156,6 +156,7 @@ class FieldBlock extends BlockBase implements ContextAwarePluginInterface, Conta
    */
   public function build() {
     $display_settings = $this->getConfiguration()['formatter'];
+    $display_settings['third_party_settings']['layout_builder']['view_mode'] = $this->getContextValue('view_mode');
     $entity = $this->getEntity();
     try {
       $build = $entity->get($this->fieldName)->view($display_settings);
@@ -168,7 +169,7 @@ class FieldBlock extends BlockBase implements ContextAwarePluginInterface, Conta
       $build = [];
       $this->logger->warning('The field "%field" failed to render with the error of "%error".', ['%field' => $this->fieldName, '%error' => $e->getMessage()]);
     }
-    CacheableMetadata::createFromObject($this)->applyTo($build);
+    CacheableMetadata::createFromRenderArray($build)->addCacheableDependency($this)->applyTo($build);
     return $build;
   }
 

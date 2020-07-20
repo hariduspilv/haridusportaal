@@ -135,7 +135,7 @@ export class CompareComponent implements OnInit, OnDestroy{
         duration: 600000,
         panelClass: panelClass
       });
-
+      
       snackBarRef.afterDismissed().subscribe((obj) => {
         if (obj.dismissedByAction) {
           if (this.keydown) {
@@ -166,17 +166,19 @@ export class CompareComponent implements OnInit, OnDestroy{
     this.displayViewLink(this.compare);
     this.openCompareSnackbar("info");
 
-    this.sessionStorageSubscription = this.rootScope.get("compareObservable").subscribe(data => {
-      this.compare = this.readFromLocalStorage(this.sessionStorageKey);
-      this.displayViewLink(this.compare);
-      this.openCompareSnackbar()
-    });
+    if (!this.rootScope.get("compareObservable").observers.length) {
+      this.sessionStorageSubscription = this.rootScope.get("compareObservable").subscribe(data => {
+        this.compare = this.readFromLocalStorage(this.sessionStorageKey);
+        this.displayViewLink(this.compare);
+        this.openCompareSnackbar()
+      });
+    }
   }
 
   ngOnDestroy() {
-    this.sessionStorageSubscription.unsubscribe();
-    this.snackbar.dismiss()
+    if (this.sessionStorageSubscription) this.sessionStorageSubscription.unsubscribe();
+    this.snackbar.dismiss();
     this.snackBarOpen = false;
   }
-   
+
 }

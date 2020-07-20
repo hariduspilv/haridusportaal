@@ -25,7 +25,7 @@ frontpage:
     en: 'You don''t have any favourites added. You can do so by clicking on the star icon on topic pages and lists.'
   favourites_snackbar_message:
     translation_type: textarea
-    et: 'Lehekülg lisatud lemmikuks. Lemmikuid näed enda Töölaualt.'
+    et: 'Lehekülg on lisatud lemmikuks. Lemmikuid näed enda Töölaualt.'
     en: 'This page has been added to favourites. Favourites can be viewed from the Dashboard.'
   favourites_snackbar_message_remove:
     translation_type: textarea
@@ -205,8 +205,8 @@ frontpage:
     en: Haridustase-ENG
   oppekava:
     translation_type: textarea
-    et: Õppekava(d)
-    en: Õppekava(d)-ENG
+    et: Õppekava
+    en: Õppekava
   oppekeel:
     translation_type: textarea
     et: Õppekeel
@@ -739,6 +739,59 @@ frontpage:
     translation_type: textarea
     et: 'Kõrgeim haridustase'
     en: 'Kõrgeim haridustase'
+  check_dashboard:
+    translation_type: textarea
+    et: 'Vaata oma töölauda'
+    en: ''
+  studies:
+    openAll:
+      translation_type: textarea
+      et: 'Ava kõik õpingute andmed'
+      en: ''
+    closeAll:
+      translation_type: textarea
+      et: 'Sulge kõik õpingute andmed'
+      en: ''
+  login_required_message:
+    translation_type: textarea
+    et: 'Soovitud teenus eeldab sisse logimist.'
+    en: 'Soovitud teenus nõuab sisse logimist.'
+  dashboard_tabs_financial_report_drafts_label:
+    translation_type: textarea
+    et: Tegevusnäitajad
+    en: ''
+  document_check_title:
+    translation_type: textarea
+    et: Dokumendid
+    en: 'Dokumendid - eng'
+  document_check:
+    translation_type: textarea
+    et: 'Lõpudokumendi kehtivuse kontroll'
+    en: 'Lõpudokumendi kehtivuse kontroll - eng'
+  document_id:
+    translation_type: textarea
+    et: 'Dokumendi number'
+    en: 'Dokumendi number - eng'
+  document_owner_id:
+    translation_type: textarea
+    et: 'Isikukood või sünnikuupäev'
+    en: 'Isikukood või sünnikuupäev - eng'
+  document_check_body:
+    translation_type: text_format
+    et:
+      value: "<h3>Lõpudokumentide alamregister pakub võimalust kontrollida lõpudokumentide kehtivust. Kontrollida saab alates 2004. aasta kevadest välja antud põhikooli ja/või gümnaasiumi lõputunnistuste andmeid.</h3>\r\n\r\n<p>Lõpudokumendi otsimiseks tuleb:</p>\r\n\r\n<ul>\r\n\t<li>sisestada dokumendi number</li>\r\n\t<li>omaniku isikukood või sünniaeg</li>\r\n</ul>\r\n\r\n<p>NB! Andmete õigsus sõltub õppeasutustest – kui korrektselt on õppeasutus andmed sisestanud. Kui otsingu tulemusena ei leita andmebaasist otsitavat dokumenti, ei tähenda see, et niisugust dokumenti pole olemas. Probleem võib olla selles, et õppeasutus ei ole vastavat lõpudokumenti andmebaasi veel sisestanud. Dokumendi õigsuse kontrollimiseks tuleks sel juhul pöörduda vastava õppeasutuse poole.</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<h3>Lõpudokumentide alamregister pakub võimalust kontrollida lõpudokumentide kehtivust. Kontrollida saab alates 2004. aasta kevadest välja antud põhikooli ja/või gümnaasiumi lõputunnistuste andmeid.</h3>\r\n\r\n<p>Lõpudokumendi otsimiseks tuleb:</p>\r\n\r\n<ul>\r\n\t<li>sisestada dokumendi number</li>\r\n\t<li>omaniku isikukood või sünniaeg</li>\r\n</ul>\r\n\r\n<p>NB! Andmete õigsus sõltub õppeasutustest – kui korrektselt on õppeasutus andmed sisestanud. Kui otsingu tulemusena ei leita andmebaasist otsitavat dokumenti, ei tähenda see, et niisugust dokumenti pole olemas. Probleem võib olla selles, et õppeasutus ei ole vastavat lõpudokumenti andmebaasi veel sisestanud. Dokumendi õigsuse kontrollimiseks tuleks sel juhul pöörduda vastava õppeasutuse poole.</p>\r\n"
+      format: custom_editor
+  dashboard_tabs_graduation_certificates_no_results:
+    translation_type: textarea
+    et: 'Kehtivad e-tunnistused puuduvad'
+    en: 'Kehtivad e-tunnistused puuduvad - eng'
+  dashboard_tabs_certificates_graduation:
+    translation_type: textarea
+    et: Lõputunnistused
+    en: 'Graduation certificates'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -796,10 +849,6 @@ xjson:
     translation_type: textarea
     et: 'Seda vormi saab täita ainult sisse logitud kasutaja. Palun logige sisse.'
     en: 'You must be logged in to see this form.'
-  required_fields_infotext:
-    translation_type: textarea
-    et: '* märgitud väljad on kohustuslikud'
-    en: '* fields are required'
   data_missing:
     translation_type: textarea
     et: 'Andmed puuduvad'
@@ -812,6 +861,74 @@ xjson:
     translation_type: textarea
     et: 'Vormi täitmisel on esinenud vigu.'
     en: ''
+  allowed_filetypes:
+    translation_type: textarea
+    et: 'Lubatud failitüübid: '
+    en: ''
+  max_size:
+    translation_type: textarea
+    et: 'Maksimaalne lubatud failisuurus on '
+    en: ''
+  exceed_file_limit:
+    translation_type: textarea
+    et: 'Laaditud faili suurus ületab lubatud piirangut!'
+    en: ''
+  edit:
+    translation_type: textarea
+    et: 'Muuda andmeid'
+    en: ''
+  forms_title:
+    translation_type: textarea
+    et: Vormid
+    en: ''
+  enter_valid_iban:
+    translation_type: textarea
+    et: 'Palun sisesta sobilik IBAN kontonumber'
+    en: ''
+  enter_valid_number:
+    translation_type: textarea
+    et: 'Sisestage korrektne number'
+    en: ''
+  unacceptable_extension:
+    translation_type: textarea
+    et: 'Üles laaditud faili tüüp pole lubatud!'
+    en: ''
+  required_fields_infotext:
+    translation_type: textarea
+    et: 'Tärniga ( * ) märgitud väljad on kohustuslikud'
+    en: ''
+  VPT_TAOTLUS_infotext:
+    translation_type: text_format
+    et:
+      value: "<p>Kui teil on küsimusi vajaduspõhise õppetoetuse kohta, kirjutage aadressil&nbsp;oppetoetused@rtk.ee.&nbsp;<a href=\"https://www.rtk.ee/vajadusp%C3%B5hine-%C3%B5ppetoetusneeds-based-study-allowance\" target=\"_blank\">Täpsem info.</a></p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  return_dashboard:
+    translation_type: textarea
+    et: 'Kas olete kindel, et soovite tegevuse katkestada?'
+    en: ''
+  count_added_files:
+    translation_type: textarea
+    et: 'Faile lisatud:'
+    en: ''
+  add_file:
+    translation_type: textarea
+    et: 'Lisa fail'
+    en: ''
+  add_files:
+    translation_type: textarea
+    et: 'Failide lisamine'
+    en: ''
+  cancel_modal_title:
+    translation_type: textarea
+    et: Katkestamine
+    en: ''
+  enter_valid_idcode:
+    translation_type: textarea
+    et: 'Sisestage korrektne isikukood'
+    en: 'Sisestage korrektne isikukood'
 article:
   label:
     translation_type: textarea
@@ -1144,6 +1261,14 @@ event:
     translation_type: textarea
     et: 'Välise registreerimisega'
     en: 'External registration'
+  related_no_results:
+    translation_type: textarea
+    et: 'Sarnased sündmused puuduvad'
+    en: 'Sarnased sündmused puuduvad'
+  email:
+    translation_type: textarea
+    et: E-mail
+    en: Email
 school:
   label:
     translation_type: textarea
@@ -1313,6 +1438,10 @@ school:
     translation_type: textarea
     et: 'Õppeasutuse alamtase puudub'
     en: 'Õppeasutuse alamtase puudub-eng'
+  institution_name:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi'
+    en: 'Institution name'
 studyProgramme:
   label:
     translation_type: textarea
@@ -1392,8 +1521,8 @@ studyProgramme:
     en: 'Only open to reception'
   no_results:
     translation_type: textarea
-    et: 'Otsingutulemused puuduvad'
-    en: 'No Search Results'
+    et: 'Erialad puuduvad.'
+    en: 'Erialad puuduvad.'
   related_label:
     translation_type: textarea
     et: 'Sarnased erialad'
@@ -1408,7 +1537,7 @@ studyProgramme:
     en: 'No related study programmes'
   compare_modal_title:
     translation_type: textarea
-    et: 'Erialade võrdlemine'
+    et: 'Erialade võrdlus'
     en: 'Study programme comparison'
   compare_modal_content:
     translation_type: text_format
@@ -1452,7 +1581,7 @@ studyProgramme:
     en: 'Course not active'
   added_to_comparison:
     translation_type: textarea
-    et: 'Eriala(d) lisatud võrdlusesse'
+    et: 'Eriala(d) on lisatud võrdlusesse'
     en: 'Programme added to comparison'
   in_comparison:
     translation_type: textarea
@@ -1466,6 +1595,22 @@ studyProgramme:
     translation_type: textarea
     et: 'Kestuse järgi kahanevalt'
     en: 'Kestuse järgi kahanevalt-eng'
+  introduction:
+    translation_type: textarea
+    et: Lühikirjeldus
+    en: Introduction
+  describing_website:
+    translation_type: textarea
+    et: 'Õppekava kirjeldava veebilehe aadress'
+    en: 'Studyprogramme link'
+  qualification_standards:
+    translation_type: textarea
+    et: Kutsestandard(id)
+    en: 'Qualification standard(s)'
+  view_similar:
+    translation_type: textarea
+    et: 'Vaata sarnaseid erialasid'
+    en: 'Vaata sarnaseid erialasid'
 login:
   username:
     translation_type: textarea
@@ -1543,6 +1688,14 @@ login:
     translation_type: textarea
     et: 'Autoriseerimine ebaõnnestus, palun proovige uuesti.'
     en: 'Authorizing failed, please try again.'
+  logged_in:
+    translation_type: textarea
+    et: 'Sisselogitud '
+    en: ''
+  tooltip-text:
+    translation_type: textarea
+    et: '2020 üldhariduse lõpudokumendid'
+    en: '2020 üldhariduse lõpudokumendid'
 time:
   january:
     translation_type: textarea
@@ -1811,7 +1964,7 @@ button:
     en: 'Add to favourites'
   add_to_favourites_add_success:
     translation_type: textarea
-    et: 'Lemmik edukalt lisatud'
+    et: 'Lemmik on edukalt lisatud'
     en: 'Successfully added to favourites'
   add_to_favourites_remove:
     translation_type: textarea
@@ -1855,7 +2008,7 @@ button:
     en: Previous
   next:
     translation_type: textarea
-    et: Järgmine
+    et: Edasi
     en: Next
   cancel:
     translation_type: textarea
@@ -1895,8 +2048,8 @@ button:
     en: 'Delete row'
   upload:
     translation_type: textarea
-    et: 'Lae failid enda arvutist'
-    en: 'Upload files from your computer'
+    et: 'Laadi failid enda seadmest'
+    en: 'Upload files from your device'
   hide_extra:
     translation_type: textarea
     et: 'Näita vähem'
@@ -1907,8 +2060,8 @@ button:
     en: Close
   save_draft:
     translation_type: textarea
-    et: 'Salvesta ja jätka'
-    en: 'Save and continue'
+    et: Salvesta
+    en: Save
   rss_order:
     translation_type: textarea
     et: 'Telli teemad RSS-iga'
@@ -1969,6 +2122,34 @@ button:
     translation_type: textarea
     et: 'Tühjenda filtrites tehtud valikud'
     en: 'Tühjenda filtrites tehtud valikud-eng'
+  add:
+    translation_type: textarea
+    et: Lisa
+    en: Add
+  read_on:
+    translation_type: textarea
+    et: 'Loe edasi'
+    en: 'Read on'
+  return:
+    translation_type: textarea
+    et: 'Tagasi töölauale'
+    en: 'Back to dashboard'
+  delete:
+    translation_type: textarea
+    et: Kustuta
+    en: Kustuta
+  exit:
+    translation_type: textarea
+    et: Välju
+    en: Exit
+  login_again:
+    translation_type: textarea
+    et: 'Logi uuesti sisse'
+    en: 'Login again'
+  save_changes:
+    translation_type: textarea
+    et: 'Salvesta muudatused'
+    en: 'Salvesta muudatused'
 tooltip:
   share:
     translation_type: textarea
@@ -2002,6 +2183,14 @@ notFound:
       format: custom_editor
     en:
       value: "<p>It looks like the page you were looking for was not found.<br />\r\nError code: <strong> 404 </strong></p>\r\n"
+      format: custom_editor
+  auth_explanation:
+    translation_type: text_format
+    et:
+      value: "<p>Soovitud teenus nõuab sisse logimist, logi sisse!</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Soovitud teenus nõuab sisse logimist, logi sisse!</p>\r\n"
       format: custom_editor
 errors:
   enter_valid_date:
@@ -2076,6 +2265,18 @@ errors:
     translation_type: textarea
     et: 'Ei saa serverit kätte. Palun kontrollige oma internetiühendust ning proovige uuesti.'
     en: 'Cannot connect to server. Please check your internet connectivity and try again.'
+  empty_selection:
+    translation_type: textarea
+    et: 'Viga! Ühtegi valikut ei ole tehtud'
+    en: 'Viga! Ühtegi valikut ei ole tehtud'
+  field_required:
+    translation_type: textarea
+    et: 'Väli on kohustuslik'
+    en: 'Field is required'
+  invalid_email:
+    translation_type: textarea
+    et: 'Sisestage korrektne email'
+    en: 'Enter valid email'
 search:
   label:
     translation_type: textarea
@@ -2132,6 +2333,10 @@ breadcrumbs:
     translation_type: textarea
     et: leivapuru
     en: breadcrumb
+  current_page:
+    translation_type: textarea
+    et: 'Asud lehel'
+    en: 'Current page'
 modal:
   confirm:
     translation_type: textarea
@@ -2259,7 +2464,7 @@ oskaProfessions:
     en: Indicator
   added_to_comparison:
     translation_type: textarea
-    et: 'Ametiala(d) lisatud võrdlusesse.'
+    et: 'Ametiala(d) on lisatud võrdlusesse.'
     en: 'Professions added to comparison.'
   indicators:
     translation_type: textarea
@@ -2595,6 +2800,14 @@ oska:
     translation_type: textarea
     et: 'võrreldes teiste ametialadega'
     en: 'compared to other professions'
+  large_proportion:
+    translation_type: textarea
+    et: 'Suur osakaal'
+    en: ''
+  small_proportion:
+    translation_type: textarea
+    et: 'Väike osakaal'
+    en: ''
 oskaProfession:
   view_field_info:
     translation_type: textarea
@@ -2693,8 +2906,69 @@ dashboard:
     en: 'Educational institution information saved!'
   educational_institution_data_saved:
     translation_type: textarea
-    et: 'Õppeasutuse andmed lisatud!'
+    et: 'Õppeasutuse andmed on lisatud!'
     en: 'Educational institution information saved!'
+  intro:
+    translation_type: text_format
+    et:
+      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"modal-roleModal\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Selleks, et esitada majandustegevusteadet, <a href=\"modal-roleModal\">valige rolliks ettevõtja roll</a>.</p>\r\n\r\n<p><a href=\"/töölaud/taotlused\">Taotluste</a> saki all saate esitada vajaduspõhiste õpetoetust.</p>\r\n\r\n<p><a href=\"/töölaud/õpingud\">Õpingute</a> all saate vaadata, mis õppimise info Teie khota on Eesti Hariduse Infosüsteemis.</p>\r\n"
+      format: custom_editor
+  delete_doc:
+    translation_type: textarea
+    et: 'Kas olete kindel, et soovite dokumendi kustutada?'
+    en: 'Kas olete kindel, et soovite dokumendi kustutada?'
+  digital_sign:
+    button:
+      translation_type: textarea
+      et: 'Laadi alla digitempliga fail'
+      en: 'Laadi alla digitempliga fail'
+    tooltip:
+      translation_type: textarea
+      et: 'Mingi tooltipi tekst, mis on tõlgetest muudetav ja 250 tähemärki pikk. Mingi tooltipi tekst, mis on tõlgetest muudetav ja 250 tähemärki pikk. Mingi tooltipi tekst, mis on tõlgetest muudetav ja 250 tähemärki pikk. Mingi tooltipi tekst, mis on tõlgete.'
+      en: 'Mingi tooltipi tekst, mis on töölaual. Mingi tooltipi tekst, mis on töölaual. Mingi tooltipi tekst, mis on töölaual. Mingi tooltipi tekst, mis on töölaual.'
+    title:
+      translation_type: textarea
+      et: 'Digitembelda ja salvesta andmed'
+      en: 'Digitembelda ja salvesta andmed'
+    subtitle:
+      translation_type: textarea
+      et: 'Vali andmed'
+      en: 'Vali andmed'
+    studies_title:
+      translation_type: textarea
+      et: 'Õpingute andmed'
+      en: 'Õpingute andmed'
+    work_title:
+      translation_type: textarea
+      et: 'Pedagoogina ja õppejõuna töötamise andmed'
+      en: 'Pedagoogina ja õppejõuna töötamise andmed'
+    submit_button:
+      translation_type: textarea
+      et: 'Laadi alla digitempliga fail'
+      en: 'Laadi alla digitempliga fail'
+    show_data:
+      translation_type: textarea
+      et: 'Näita andmeid'
+      en: 'Näita andmeid'
+    hide_data:
+      translation_type: textarea
+      et: 'Peida andmed'
+      en: 'Peida andmed'
+    cancel:
+      translation_type: textarea
+      et: Tühista
+      en: Tühista
+    qualification_title:
+      translation_type: textarea
+      et: Kvalifikatsioonid
+      en: Kvalifikatsioonid
+    extra_courses_title:
+      translation_type: textarea
+      et: Täienduskoolitused
+      en: Täienduskoolitused
 general: {  }
 agree:
   translation_type: textarea
@@ -2834,7 +3108,11 @@ login_mobile:
   translation_type: textarea
   et: 'Sisene Mobiil ID-ga'
   en: 'Mobile ID login'
-error: {  }
+error:
+  ehis_connection:
+    translation_type: textarea
+    et: 'Ei saanud EHIS-ega ühendust!'
+    en: 'Couldn''t connect to Ehis!'
 sort:
   descending:
     translation_type: textarea
@@ -2853,6 +3131,22 @@ generic:
     translation_type: textarea
     et: 'Youtube video'
     en: 'Youtube video'
+  invalid:
+    translation_type: textarea
+    et: Kehtetu
+    en: Invalid
+  login_to_haridusportaal:
+    translation_type: textarea
+    et: 'Logi sisse Haridusportaali'
+    en: MISSING
+  cancel:
+    translation_type: textarea
+    et: Tühista
+    en: 'Tühista - eng'
+  download:
+    translation_type: textarea
+    et: 'Laadi alla'
+    en: Download
 sidemenu:
   support_text:
     translation_type: text_format
@@ -2868,3 +3162,856 @@ date:
     translation_type: textarea
     et: pp.kk.aaaa
     en: dd.mm.yyyy
+nodeQuery:
+  translation_type: textarea
+  et: Artiklid
+  en: Articles
+fieldContact:
+  translation_type: textarea
+  et: Kontakt
+  en: Contact
+fieldQualificationStandard:
+  translation_type: textarea
+  et: Kutsestandardid
+  en: Qualifications
+fieldQuickFind:
+  translation_type: textarea
+  et: 'Leia kiiresti'
+  en: Quickfind
+fieldAdditional:
+  translation_type: textarea
+  et: Lisainfo
+  en: ''
+fieldRegistration:
+  translation_type: textarea
+  et: Registreerumine
+  en: ''
+prosCons:
+  translation_type: textarea
+  et: 'Tasub teada'
+  en: ''
+reverseOskaMainProfessionOskaFillingBarEntity:
+  translation_type: textarea
+  et: 'Konkurents tööturul'
+  en: ''
+reverseOskaMainProfessionOskaIndicatorEntity:
+  translation_type: textarea
+  et: Faktid
+  en: ''
+helper: {  }
+abitekst:
+  opingud:
+    translation_type: text_format
+    et:
+      value: "<h3>Eesti hariduse infosüsteemist (EHIS) saab vaadata enda huvi-, alus-, üld-, kutse- või kõrghariduse andmeid.</h3>\r\n\r\n<p>EHISes näeb:</p>\r\n\r\n<ul>\r\n\t<li>isiku üldandmeid (ja saab kontrollida, kas on võimalik saada riigi tagatisel õppelaenu)</li>\r\n\t<li>õpingute andmeid</li>\r\n\t<li>õpetaja või õppejõuna töötamise andmeid.</li>\r\n</ul>\r\n\r\n<p><em>Lisaks kuvatakse pedagoogide omandatud tasemehariduse ja täienduskoolituse andmeid ning õppejõudude kvalifikatsiooni andmeid.</em></p>\r\n\r\n<p>EHISesse ei kanta välisriigi õppeasutustes omandatud hariduse või seal töötamise andmeid.</p>\r\n\r\n<p>Üld-, kutse- ja kõrghariduse õppurite ning üld- ja kutsehariduse õpetajate kohta on andmed alates 2005. aastast. Lisaks on toonasest õpilaste ja üliõpilaste registrist EHISesse üle kantud 1998.–2005. aasta kutsehariduse õpilaste ja kõrgkoolide üliõpilaste andmed.</p>\r\n\r\n<p>Üldhariduse lõpudokumentide andmed on registris alates 2004. aastast.</p>\r\n\r\n<p><strong>NB!</strong> EHISesse sisestavad andmeid õppeasutused. Kui andmed teie käimasolevate õpingute kohta on puudulikud või valed, pöörduge andmete täpsustamiseks enda õppeasutuse poole.</p>\r\n\r\n<p><a href=\"mailto:ehis.tugi@hm.ee\">ehis.tugi@hm.ee</a>&nbsp;või Eesti hariduse infosüsteemi (EHIS) kasutajatoe telefon +372 5512<strong>&nbsp;</strong>5050<strong> </strong>(E–R 9.00–16.00).</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  opetan:
+    translation_type: text_format
+    et:
+      value: "<p>Esitage põnevaid küsimusi ning olge aktiivsed, et saada parimad teadmised,\" innustab minister Reps õpilasi uuest õppeaastast võimalikult palju teadmisi ammutama. Mailis Reps tunnustab õpetajaid hariduse tipptaseme hoidmisel ja parimal võimalikul viisil teadmiste edasi andmisel. Samuti on oluline ka lapsevanemate tugi - vaid üheskoos, toetudes perele ja kogukonnale, saab laste omandatav haridus vaid parimaks võimalikuks. Minister avaldab lootust, et uus õppeaasta kujuneb meeldejäädavaks tänu uute ja mitmekesiste võimaluste kasutamisel.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  taotlused:
+    translation_type: text_format
+    et:
+      value: "<h3>Vajaduspõhine õppetoetus</h3>\r\n\r\n<p>Alates 2013/2014. õppeaastast&nbsp;toetab riik vähemkindlustatud perekondadest pärit tudengeid kõrghariduse omandamisega kaasnevate lisakulude katmisel. Vajaduspõhine õppetoetus on kehtestatud&nbsp;<a href=\"https://www.riigiteataja.ee/akt/122122012008?leiaKehtiv\" target=\"_blank\">õppetoetuste ja õppelaenu seadusega.</a></p>\r\n\r\n<p>Alates 2016/2017. õppeaastast saavad vajaduspõhist õppetoetust taotleda ka üliõpilased, kes immatrikuleeriti enne 2013/2014. õppeaastat.</p>\r\n\r\n<p>Vajaduspõhist õppetoetust saab tudeng:</p>\r\n\r\n<ul>\r\n\t<li>kes õpib täiskoormusega ja täidab õppekava nõudeid 75% ulatuses, kusjuures õppe mahu arvestus on semestrite lõikes kumulatiivne. Esimesel semestril õppetoetuse taotlemisel on piisav ainult täiskoormuse nõude täitmine;</li>\r\n\t<li>kelle perekonna kuusissetulek ühe pereliikme kohta on kuni 468 eurot.</li>\r\n</ul>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  tunnistused:
+    translation_type: text_format
+    et:
+      value: "<p>See on abitekst, mis on aga lühikene tupac tupac tupac kaks.</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  jur_taotlused:
+    translation_type: text_format
+    et:
+      value: "<p>Täiskasvanute täienduskoolituste korraldajad peavad sõltuvalt valdkonnast taotlema õppe korraldamiseks&nbsp;<strong>tegevusloa&nbsp;</strong>või&nbsp;<strong>esitama majandustegevusteate.</strong>&nbsp;<strong>Sama koolituse</strong>&nbsp;kohta ei saa taotleda korraga tegevusluba ja esitada majandustegevusteadet.<br />\r\nTegevusloa taotlusele tuleb lisada asjaomase valdkonna eriseaduses&nbsp;<strong>nõutud dokumendid ja kinnitused</strong>. Tegevusloa taotluse lahendab haridus- ja teadusministeerium või olenevalt valdkonnast ka muu asutus.&nbsp;<br />\r\nNoortelaagrite korraldajad peavad vastavalt noorsootöö seadusele taotlema tegevusloa kas haridus- ja teadusministeeriumilt (püsilaagrid) või kohalikult omavalitsuselt, mille territooriumil laager korraldatakse (projektlaagrid).&nbsp;<br />\r\n<strong>Tegevusluba peavad taotlema</strong>:</p>\r\n\r\n<ul>\r\n\t<li>mootorsõidukijuhtide koolitust korraldavad ettevõtjad,</li>\r\n\t<li>eesti keele tasemeeksami tegemiseks ettevalmistavat eesti keele õpet korraldavad ettevõtjad,</li>\r\n\t<li>turvatöötajate õppe korraldajad,</li>\r\n\t<li>vedurijuhtide koolituse korraldajad,</li>\r\n\t<li>noorte püsi- ja projektlaagrite korraldajad.</li>\r\n</ul>\r\n\r\n<p>Kõigis teistes koolitusvaldkondades&nbsp;<strong>saab esitada majandustegevusteate</strong>. Teate esitamine ei ole kohustuslik, kuid sellega kaasnevad eelised ja kohustused kohalduvad üksnes koolitajatele, kes on majandustegevusteate esitanud.<br />\r\nMajandustegevusteade&nbsp;<strong>loetakse esitatuks hetkest</strong>, mil koolitaja selle kinnitab. Lisaks majandustegevusteate esitamisele&nbsp;<strong>peab koolitaja oma veebilehel avalikustama</strong>&nbsp;õppetöö korraldust ja õppe sisu käsitlevad dokumendid.<br />\r\nLisainfo täiskasvanute täienduskoolituste ning noorte püsi- ja projektlaagrite korraldamiseks väljastatavate tegevuslubade taotlemise ning majandustegevusteate esitamise kohta&nbsp;haridus- ja teadusministeeriumi kodulehelt<br />\r\n<a href=\"mailto:ehis.tugi@hm.ee\" target=\"_blank\">ehis.tugi@hm.ee</a>&nbsp;või Eesti hariduse infosüsteemi (EHIS) kasutajatoe telefon&nbsp;<strong>765 5050&nbsp;</strong>&nbsp;(E-R 9.00–16.00).<br />\r\nTeksti koostanud haridus- ja teadusministeerium</p>\r\n"
+      format: custom_editor
+    en:
+      value: ''
+      format: custom_editor
+  sinu_id_tunnistused:
+    translation_type: textarea
+    et: 'Siin näed sinuga jagatud e-tunnistusi.'
+    en: MISSING
+  ligipääsukoodiga_tunnistused:
+    translation_type: textarea
+    et: 'Siin saad vaadata tunnistusi, mille kohta oled saanud ligipääsukoodi. Ligipääsukoodi saab anda tunnistuse omanik või väljaandja. '
+    en: MISSING
+  enda_tunnistused:
+    translation_type: textarea
+    et: 'Sulle välja antud e-tunnistuste nägemiseks pead olema Haridusportaali sisse logitud. LIsaks saad anda ka teistele isikutele e-tunnistuste vaatamiseks vajalikud ligipääsuõiguseid. '
+    en: MISSING
+feedback_add_comment:
+  translation_type: textarea
+  et: 'Soovi korral lisa kommentaar'
+  en: 'Add comment optionally'
+feedback_cancel:
+  translation_type: textarea
+  et: Tühista
+  en: Cancel
+favourites:
+  translation_type: textarea
+  et: 'Minu lemmikud'
+  en: ''
+feedback_comment_error:
+  translation_type: textarea
+  et: '* Kommentaari välja täitmine on kohustustlik'
+  en: '* Comment field must be filled'
+feedback_comment_required:
+  translation_type: textarea
+  et: 'Kommentaar (kohustuslik)'
+  en: 'Comment (required)'
+infosystem:
+  label:
+    translation_type: textarea
+    et: Infosüsteemid
+    en: ''
+fieldLegislationBlock:
+  translation_type: textarea
+  et: Õigusaktid
+  en: ''
+fieldBlocks:
+  translation_type: textarea
+  et: 'Leia kiiresti'
+  en: ''
+newsQuery:
+  translation_type: textarea
+  et: Uudised
+  en: News
+fieldContactSection:
+  translation_type: textarea
+  et: Kontakt
+  en: Contact
+fieldRelatedArticle:
+  translation_type: textarea
+  et: 'Sarnased teemad'
+  en: 'Related articles'
+fieldOskaField:
+  translation_type: textarea
+  et: Valdkonnad
+  en: Fields
+fieldLearningOpportunities:
+  translation_type: textarea
+  et: Õppimisvõimalused
+  en: 'Learning opportunities'
+fieldJobOpportunities:
+  translation_type: textarea
+  et: Töövõimalused
+  en: 'Job opportunities'
+fieldJobs:
+  translation_type: textarea
+  et: Ametid
+  en: Jobs
+indicator:
+  translation_type: textarea
+  et: Faktid
+  en: Facts
+fieldOskaResults:
+  translation_type: textarea
+  et: Tulemused
+  en: Results
+fieldRelatedPages:
+  translation_type: textarea
+  et: 'Sarnased teemad'
+  en: 'Related topics'
+fieldOskaFieldContact:
+  translation_type: textarea
+  et: Kontakt
+  en: Contact
+educationalInstitution:
+  translation_type: textarea
+  et: Kontakt
+  en: Contact
+fieldHyperlinks:
+  translation_type: textarea
+  et: 'Leia kiiresti'
+  en: 'Quick links'
+autocomplete:
+  no_result:
+    translation_type: textarea
+    et: 'Tulemusi ei leitud!'
+    en: ''
+  loading:
+    translation_type: textarea
+    et: 'Otsin, palun oodake...'
+    en: ''
+fillingBar:
+  translation_type: textarea
+  et: 'Konkurents tööturul'
+  en: ''
+KVALIFIKATSIOONID:
+  translation_type: textarea
+  et: KVALIFIKATSIOONID
+  en: ''
+Kvalifikatsioonid:
+  translation_type: textarea
+  et: KVALIFIKATSIOONID
+  en: QUALIFICATIONS
+messages:
+  highPriority:
+    translation_type: textarea
+    et: Kõrge
+    en: 'Kõrge -eng'
+  subject:
+    translation_type: textarea
+    et: Pealkiri
+    en: 'Pealkiri - eng'
+  body:
+    translation_type: textarea
+    et: Sisu
+    en: 'Sisu - eng'
+  priority:
+    translation_type: textarea
+    et: Prioriteet
+    en: 'Prioriteet - eng'
+  replyTo:
+    translation_type: textarea
+    et: 'E-postiga teatele vastamise aadress'
+    en: 'E-postiga teatele vastamise aadress - eng'
+  sentAt:
+    translation_type: textarea
+    et: 'Saatmise aeg'
+    en: 'Saatmise aeg -eng'
+  deleteMessage:
+    translation_type: textarea
+    et: 'Kas olete kindel, et soovite teate kustutada?'
+    en: 'Kas olete kindel, et soovite teate kustutada? - eng'
+  acceptDelete:
+    translation_type: textarea
+    et: 'Jah, soovin'
+    en: 'Jah, soovin'
+  decline:
+    translation_type: textarea
+    et: 'Ei soovi'
+    en: 'Ei soovi - eng'
+  delete:
+    translation_type: textarea
+    et: Kustuta
+    en: 'Kustuta - eng'
+notifications:
+  translation_type: textarea
+  et: Teavitused
+  en: 'Teavitused - eng'
+gdpr:
+  translation_type: textarea
+  et: 'Sinu andmete kasutajad'
+  en: 'Sinu andmete kasutajad - eng'
+  checkData:
+    translation_type: textarea
+    et: 'Vaata andmete kasutajaid'
+    en: 'Vaata andmete kasutajaid - eng'
+  checkdata:
+    translation_type: textarea
+    et: laksjdlakjsdlkajsd
+    en: aekglkajeg
+  requestsAboutMyData:
+    translation_type: textarea
+    et: 'Päring minu andmete vaatamise kohta'
+    en: 'Päring minu andmete vaatamise kohta - eng'
+  title:
+    translation_type: textarea
+    et: 'SINU ANDMETE KASUTAJAD'
+    en: 'SINU ANDMETE KASUTAJAD - eng'
+gdpr_button:
+  checkdata:
+    translation_type: textarea
+    et: 'Vaata andmete kasutajaid'
+    en: 'Vaata andmete kasutajaid-eng'
+loader:
+  text:
+    translation_type: text_format
+    et:
+      value: "<p>Uh-Oh! Tundub, et server jäi magama.<br />\r\nPalun varu kannatust!</p>\r\n"
+      format: custom_editor
+    en:
+      value: "<p>Uh-Oh! Tundub, et server jäi magama.<br />\r\nPalun varu kannatust!</p>\r\n"
+      format: custom_editor
+add:
+  translation_type: textarea
+  et: Lisa
+  en: Add
+session:
+  expiring:
+    translation_type: textarea
+    et: 'Teie sessioon aegub!'
+    en: 'Teie sessioon aegub!'
+  time_left:
+    translation_type: textarea
+    et: 'Teie sessioon aegub peatselt: '
+    en: 'Teie sessioon aegub peatselt: '
+  login:
+    translation_type: textarea
+    et: 'Palun logige uuesti sisse!'
+    en: 'Palun logige uuesti sisse!'
+  continue:
+    translation_type: textarea
+    et: Jätka
+    en: Jätka
+  expired:
+    translation_type: textarea
+    et: 'Teie sessioon on aegunud!'
+    en: 'Teie sessioon on aegunud!'
+  timeout:
+    translation_type: textarea
+    et: '100'
+    en: '100'
+gdpr_title:
+  translation_type: textarea
+  et: 'SINU ANDMETE KASUTAJAD'
+  en: 'SINU ANDMETE KASUTAJAD - eng'
+gdpr_yourDataRequests:
+  translation_type: textarea
+  et: 'Päring minu andmete vaatamise kohta'
+  en: 'Päring minu andmete vaatamise kohta - eng'
+link:
+  external:
+    translation_type: textarea
+    et: 'Väline link'
+    en: 'External link'
+  document:
+    translation_type: textarea
+    et: 'Dokumendi link'
+    en: 'Link to a document'
+  internal:
+    translation_type: textarea
+    et: 'Sisemine link'
+    en: 'Internal link'
+certificates:
+  institution_name:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi'
+    en: 'Õppeasutuse nimi - eng'
+  document_name:
+    translation_type: textarea
+    et: 'Dokumendi nimi'
+    en: 'Dokumendi nimi - eng'
+  issuing_date:
+    translation_type: textarea
+    et: 'Väljastamise kuupäev'
+    en: 'Väljastamise kuupäev - eng'
+  owner_name:
+    translation_type: textarea
+    et: 'Omaniku nimi'
+    en: 'Owner name'
+  issuer:
+    translation_type: textarea
+    et: Väljaandja
+    en: Issuer
+  certificate_type:
+    translation_type: textarea
+    et: 'Tunnistuse liik'
+    en: 'Certificate type'
+  access_with_idcode:
+    translation_type: textarea
+    et: 'Sinu isikukoodiga ligipääsetavad tunnistused'
+    en: 'Certificates accessed by your id-code'
+  view_own_certificates:
+    translation_type: textarea
+    et: 'Enda tunnistuste vaatamine ja haldamine'
+    en: 'Manage your certificates'
+  view_with_accesscode:
+    translation_type: textarea
+    et: 'Tunnistuse vaatamine ligipääsukoodiga'
+    en: MISSING
+  login_to_view:
+    translation_type: textarea
+    et: 'Logi sisse ja vaata tunnistusi'
+    en: 'Log in and view certificates'
+  no_access:
+    translation_type: textarea
+    et: 'Pole kehtivat ligipääsu ühelegi tunnistusele'
+    en: MISSING
+  final_documents:
+    translation_type: textarea
+    et: Lõpudokumendid
+    en: 'Graduation '
+  title:
+    translation_type: textarea
+    et: Tunnistused
+    en: Certificates
+  e_certificates:
+    translation_type: textarea
+    et: E-tunnistused
+    en: E-certificates
+  validity_check:
+    translation_type: textarea
+    et: 'Kehtivuse kontroll'
+    en: MISSING
+  no_certificate_or_access:
+    translation_type: textarea
+    et: 'Tunnistust ei leitud. Ligipääsukood võib olla vale või kehtetu'
+    en: MISSING
+  access_code_field:
+    translation_type: textarea
+    et: 'Ligipääsukood*'
+    en: 'Access code:*'
+  document_nr_field:
+    translation_type: textarea
+    et: 'Tunnistuse number*'
+    en: 'Certificate number:*'
+  graduation_certificate:
+    translation_type: textarea
+    et: Lõputunnistus
+    en: 'Graduation certificate'
+  grade_sheet:
+    translation_type: textarea
+    et: Hinneteleht
+    en: 'Grade sheet'
+  back_to_search:
+    translation_type: textarea
+    et: 'Tagasi lõputunnistuse otsingusse'
+    en: MISSING
+  certificate_nr:
+    translation_type: textarea
+    et: 'Tunnistus nr'
+    en: 'Certificate nr'
+  loading_error:
+    translation_type: textarea
+    et: 'Viga dokumendi laadimisel'
+    en: MISSING
+  download_choose_content:
+    translation_type: textarea
+    et: 'Vali sisu, mida soovid alla laadida'
+    en: MISSING
+  download_choose_type:
+    translation_type: textarea
+    et: 'Vali failitüüp, mida soovid alla laadida'
+    en: MISSING
+  manage_certificates:
+    translation_type: textarea
+    et: 'Vaata enda tunnistusi'
+    en: MISSING
+  access_code_info:
+    translation_type: textarea
+    et: 'Sisestatud e-posti aadressile saadetakse ligipääsukood, mis võimaldab tunnsitust näha'
+    en: MISSING
+  id_code_info:
+    translation_type: textarea
+    et: 'Sisesta selle inimese isikukood, kellele soovid ligipääsu jagada'
+    en: MISSING
+home:
+  slogan:
+    translation_type: textarea
+    et: 'Sinu <b>edu</b>ka <br /> teekonna algus'
+    en: 'Sinu <b>edu</b>ka <br /> teekonna algus'
+  services:
+    translation_type: textarea
+    et: Teenused
+    en: Teenused
+  what_to_find:
+    translation_type: textarea
+    et: 'Mida siit leiad?'
+    en: 'Mida siit leiad?'
+  contact:
+    translation_type: textarea
+    et: Kontakt
+    en: Kontakt
+  newsletter_subscribe:
+    translation_type: textarea
+    et: 'Uudiskirja tellimine'
+    en: 'Uudiskirja tellimine'
+  newsletter_join:
+    translation_type: textarea
+    et: Liitu
+    en: Liitu
+  newsletter_rss:
+    translation_type: textarea
+    et: 'Telli teemad RSS-iga'
+    en: 'Telli teemad RSS-iga'
+  newsletter_email:
+    translation_type: textarea
+    et: 'Sisesta oma e-mail'
+    en: 'Sisesta oma e-mail'
+  services_title:
+    translation_type: textarea
+    et: 'Haldusvaldkonna e-teenused'
+    en: 'Haldusvaldkonna e-teenused'
+  study_title:
+    translation_type: textarea
+    et: 'Õppekavade ja ametialade võrdlus'
+    en: 'Õppekavade ja ametialade võrdlus'
+  study_intro:
+    translation_type: textarea
+    et: 'Võrdle erialasid ja ametialasid, et leida endale sobivaim õpitee'
+    en: 'Võrdle erialasid ja ametialasid, et leida endale <br /> sobivaim õpitee'
+  studyprogramme_compare:
+    translation_type: textarea
+    et: 'Õppekavade võrdlus'
+    en: 'Õppekavade võrdlus'
+  view_more:
+    translation_type: textarea
+    et: 'Uuri lähemalt'
+    en: 'Uuri lähemalt'
+  profession_compare:
+    translation_type: textarea
+    et: 'Ametialade võrdlus'
+    en: 'Ametialade võrdlus'
+  topical:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Päevakajaline
+  read_more:
+    translation_type: textarea
+    et: 'Loe lähemalt'
+    en: 'Loe lähemalt'
+  external_links:
+    translation_type: textarea
+    et: VÄLISLINGID
+    en: Välislingid
+  future_career:
+    translation_type: textarea
+    et: 'Karjäär tulevikus'
+    en: 'Karjäär tulevikus'
+  events:
+    translation_type: textarea
+    et: 'Sündmused test'
+    en: Sündmused
+  events_text:
+    translation_type: textarea
+    et: 'Mingi tekst, mis räägib millegist pikemalt pikemalt pikemalt pikemalt pikemalt'
+    en: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor'
+  teachers_slogan:
+    translation_type: textarea
+    et: 'Õpetajad loovad homse Eesti ja kasvatavad pättidest inimesed'
+    en: 'Õpetajad loovad<br />homse Eesti'
+  career_slogan_description:
+    translation_type: textarea
+    et: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta. Pikem tekst kas läheb logo taha? Haridus- ja Teadusministeerium'
+    en: 'Siit leiad praktilisi nõuandeid oma karjääri kujundamiseks ning kasulikku infot tulevikutöö ja -oskuste kohta.'
+  career_slogan:
+    translation_type: textarea
+    et: 'Sinu teekond <b>unistuste</b> tööni'
+    en: 'Mingisugune <b>slogan</b> <br />karjäärist'
+  careerDevelopment_title:
+    translation_type: textarea
+    et: 'Karjääri kujundamine'
+    en: 'Karjääri kujundamine'
+  careerDevelopment_description:
+    translation_type: textarea
+    et: ' Karjäär on teekond, mille kujundavad sinu teadlikud valikud'
+    en: 'Karjääri kujundamise sammud, consectetur adipiscing elit, lorem ipsum dolor sit.'
+  topics_areas:
+    translation_type: textarea
+    et: 'VALDKONNAD TÖÖTURUL'
+    en: 'VALDKONNAD TÖÖTURUL'
+  topics_professions:
+    translation_type: textarea
+    et: AMETIALAD
+    en: AMETIALAD
+  toolbox:
+    translation_type: textarea
+    et: Tööriistakast
+    en: Tööriistakast
+  topical_default:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Päevakajaline
+  topical_career:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Päevakajaline
+  topical_teachers:
+    translation_type: textarea
+    et: Päevakajaline
+    en: Päevakajaline
+finalDocumentDownload:
+  translation_type: textarea
+  et: 'Laadi failid alla'
+  en: 'Laadi failid alla - eng'
+finalDocumentHistory:
+  translation_type: textarea
+  et: Ajalugu
+  en: 'Ajalugu - eng'
+'finalDocument_ACTION_TYPE:ISSUING':
+  translation_type: textarea
+  et: 'Välja andmine'
+  en: 'Välja andmine - eng'
+'finalDocument_GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE':
+  translation_type: textarea
+  et: 'Põhikooli lõputunnistus'
+  en: 'Põhikooli lõputunnistus - eng'
+'finalDocument_GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_TRANSCRIPT_OF_GRADES':
+  translation_type: textarea
+  et: 'Põhikooli hinneteleht'
+  en: 'Põhikooli hinneteleht - eng'
+'finalDocument_ACTION_STATUS:CONFIRMED':
+  translation_type: textarea
+  et: Kinnitatud
+  en: 'Kinnitatud - eng'
+'finalDocument_ACTION_TYPE:ISSUING_DUPLICATE':
+  translation_type: textarea
+  et: 'Duplikaadi välja andmine'
+  en: 'Duplikaadi välja andmine - eng'
+'finalDocument_GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE':
+  translation_type: textarea
+  et: 'Gümnaasiumi lõputunnistus'
+  en: 'Gümnaasiumi lõputunnistus - eng'
+'finalDocument_GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES':
+  translation_type: textarea
+  et: 'Gümnaasiumi hinneteleht'
+  en: 'Gümnaasiumi hinneteleht'
+finalDocument_issue_ISSUER:
+  translation_type: textarea
+  et: 'Väljaandja õppeasutus'
+  en: 'Väljaandja õppeasutus - eng'
+finalDocument_issue_DISPLAY:
+  translation_type: textarea
+  et: Vaatamine
+  en: 'Vaatamine - eng'
+documentCheck:
+  doc_nr_missing:
+    translation_type: textarea
+    et: '"Dokumendi number" väärtus on sisestamata'
+    en: '"Dokumendi number" väärtus on sisestamata - eng'
+  idcode_or_bday_missing:
+    translation_type: textarea
+    et: '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule'
+    en: '"Isikukood või sünnipäev" väärtus on sisestamata või ei vasta vormingule - eng'
+  no_results:
+    translation_type: textarea
+    et: 'Sisestatud andmetega dokumenti ei leitud andmebaasist'
+    en: 'Sisestatud andmetega dokumenti ei leitud andmebaasist - eng'
+  exists_but_not_for_user:
+    translation_type: textarea
+    et: 'Sisestatud andmetega dokumenti pole antud isikule väljastatud'
+    en: 'Sisestatud andmetega dokumenti pole antud isikule väljastatud'
+  invalid_document:
+    translation_type: textarea
+    et: 'Sisestatud andmetega dokument on kehtetu'
+    en: 'Sisestatud andmetega dokument on kehtetu - eng'
+  found_result:
+    translation_type: textarea
+    et: 'Leiti kehtiv "%LIIK%" dokument. Dokument vastab hetke tasemele "%VASTAVUS%"'
+    en: 'Leiti kehtiv "%LIIK%" dokument. Dokument vastab hetke tasemele "%VASTAVUS%" - eng'
+finaldocuments:
+  modify_access:
+    translation_type: textarea
+    et: 'Muuda ligipääsu'
+    en: 'Muuda ligipääsu - eng'
+  add_access:
+    translation_type: textarea
+    et: 'Lisa ligipääs'
+    en: 'Lisa ligipääs'
+  choose_access_end_date:
+    translation_type: textarea
+    et: 'Vali ligipääsu kehtivuse lõpp: *'
+    en: 'Vali ligipääsu kehtivuse lõpp: *'
+  choose_access_scope:
+    translation_type: textarea
+    et: 'Vali ligipääsu kehtivuse ulatus:'
+    en: 'Vali ligipääsu kehtivuse ulatus:'
+  insert_id_code:
+    translation_type: textarea
+    et: 'Sisesta isikukood: *'
+    en: 'Sisesta isikukood: *'
+  access_with_idcode:
+    translation_type: textarea
+    et: 'Isikukoodiga ligipääs'
+    en: 'Isikukoodiga ligipääs'
+  insert_email:
+    translation_type: textarea
+    et: 'Sisesta e-posti aadress, kuhu saata ligipääs: *'
+    en: 'Sisesta e-posti aadress, kuhu saata ligipääs: *'
+  access_with_email:
+    translation_type: textarea
+    et: 'E-postiga ligipääs'
+    en: 'E-postiga ligipääs'
+  choose_access_type:
+    translation_type: textarea
+    et: 'Vali kuidas soovid ligipääsu anda'
+    en: 'Vali kuidas soovid ligipääsu anda'
+  show_invalid_accesses:
+    translation_type: textarea
+    et: 'Näita kehtetuid ligipääse'
+    en: 'Näita kehtetuid ligipääse'
+  valid_indefinitely:
+    translation_type: textarea
+    et: 'Kehtib tähtajatult'
+    en: 'Kehtib tähtajatult'
+  valid_until:
+    translation_type: textarea
+    et: 'Kehtiv kuni'
+    en: 'Kehtiv kuni'
+  with_access_code:
+    translation_type: textarea
+    et: Ligipääsukoodiga
+    en: Ligipääsukoodiga
+  no_valid_accesses:
+    translation_type: textarea
+    et: 'Puuduvad kehtivad ligipääsud'
+    en: 'Puuduvad kehtivad ligipääsud'
+  valid_accesses:
+    translation_type: textarea
+    et: 'Kehtivad ligipääsud'
+    en: 'Kehtivad ligipääsud'
+  confirm_invalidate_email:
+    translation_type: textarea
+    et: "Kas oled kindel, et soovid ligipääsu e-mailile\t%EMAIL% kehtetuks muuta?"
+    en: "Kas oled kindel, et soovid ligipääsu e-mailile\t%EMAIL% kehtetuks muuta?"
+  confirm_invalidate_accessorcode:
+    translation_type: textarea
+    et: 'Kas oled kindel, et soovid ligipääsu isikukoodile %ACCESSORCODE% kehtetuks muuta?'
+    en: 'Kas oled kindel, et soovid ligipääsu isikukoodile %ACCESSORCODE% kehtetuks muuta?'
+  invalidate_access:
+    translation_type: textarea
+    et: 'Muuda kehtetuks'
+    en: 'Muuda kehtetuks'
+  th:
+    type:
+      translation_type: textarea
+      et: Liik
+      en: Liik
+    idcode_accesscode:
+      translation_type: textarea
+      et: 'Isikukood / ligipääsukood'
+      en: 'Isikukood / ligipääsukood'
+    valid_from:
+      translation_type: textarea
+      et: 'Kehtivuse algus'
+      en: 'Kehtivuse algus'
+    valid_until:
+      translation_type: textarea
+      et: 'Kehtivuse lõpp'
+      en: 'Kehtivuse lõpp'
+    email:
+      translation_type: textarea
+      et: E-post
+      en: E-post
+    scope:
+      translation_type: textarea
+      et: Ulatus
+      en: Ulatus
+    reason:
+      translation_type: textarea
+      et: Põhjus
+      en: Põhjus
+    time:
+      translation_type: textarea
+      et: Aeg
+      en: Aeg
+    action_type:
+      translation_type: textarea
+      et: 'Tegevuse liik'
+      en: finaldocuments.th.action_type
+    document_type:
+      translation_type: textarea
+      et: 'Dokumendi liik'
+      en: 'Dokumendi liik'
+    user:
+      translation_type: textarea
+      et: 'Andmete kasutaja'
+      en: 'Andmete kasutaja'
+    access_type:
+      translation_type: textarea
+      et: 'Ligipääsu alus'
+      en: 'Ligipääsu alus'
+    action:
+      translation_type: textarea
+      et: Tegevus
+      en: Tegevus
+  accessCode:
+    translation_type: textarea
+    et: Ligipääsukood
+    en: Ligipääsukood
+  accessCode_recipient:
+    translation_type: textarea
+    et: 'E-posti aadress, kuhu on saadetud ligipääsukood'
+    en: 'E-posti aadress, kuhu on saadetud ligipääsukood'
+  select_scope:
+    translation_type: textarea
+    et: 'Vali ligipääsukoodi kehtivuse ulatus'
+    en: 'Vali ligipääsukoodi kehtivuse ulatus'
+  select_end_date:
+    translation_type: textarea
+    et: 'Vali ligipääsukoodi kehtivuse lõpp'
+    en: 'Vali ligipääsukoodi kehtivuse lõpp'
+  issuer:
+    translation_type: textarea
+    et: 'Tunnistuse väljastanud õppeasutus:'
+    en: 'Tunnistuse väljastanud õppeasutus:'
+  idcode_scope:
+    translation_type: textarea
+    et: 'Ligipääsu kehtivuse ulatus:'
+    en: 'Ligipääsu kehtivuse ulatus:'
+  idcode_end_date:
+    translation_type: textarea
+    et: 'Ligipääsu kehtivuse lõpp:'
+    en: 'Ligipääsu kehtivuse lõpp:'
+  main_document:
+    translation_type: textarea
+    et: Lõputunnistus
+    en: Lõputunnistus
+  main_document_with_grades:
+    translation_type: textarea
+    et: 'Lõputunnistus koos hinnetelehega'
+    en: 'Lõputunnistus koos hinnetelehega'
+  action_history:
+    translation_type: textarea
+    et: 'Väljaandmise ajalugu'
+    en: 'Väljaandmise ajalugu'
+  issue_history:
+    translation_type: textarea
+    et: 'Vaatamise ajalugu'
+    en: 'Vaatamise ajalugu'
+  date_of_decision:
+    translation_type: textarea
+    et: 'Otsuse nr ja kuupäev'
+    en: 'Otsuse nr ja kuupäev'
+  inactive_accesses:
+    translation_type: textarea
+    et: 'Kehtetud ligipääsud'
+    en: 'Inactive accesses'
+finaldocument:
+  idcode:
+    translation_type: textarea
+    et: Isikukood
+    en: Isikukood
+gdpr_intro:
+  translation_type: text_format
+  et:
+    value: "<p>Teil on võimalus vaadata, kes, millal ja mis eesmärgil on teie Eesti hariduse infosüsteemis olevaid andmeid kasutanud. Näete poole aasta jooksul teie kohta tehtud päringuid.</p>\r\n"
+    format: custom_editor
+  en:
+    value: ''
+    format: custom_editor
+form:
+  invalid_address:
+    translation_type: textarea
+    et: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
+    en: 'Ei leitud vastet. Sisesta täpne aadress, nt ''Kase 4-12'' ja vali sobiv variant avanevast rippmenüüst.'
+  invalid_email:
+    translation_type: textarea
+    et: 'Palun sisesta e-posti aadress kujul: info@info.ee'
+    en: "\r\nPlease enter your email address in the form: info@info.ee"
+wcag:
+  suggestions_opened:
+    translation_type: textarea
+    et: 'Avati nimekiri soovitustest.'
+    en: 'A list of suggestions was opened.'
+  address_suggestions_opened:
+    translation_type: textarea
+    et: 'Valige üks järgnevatest aadressidest.'
+    en: 'Please select one of the following addresses.'
+finalDocument_issue_DOWNLOAD:
+  translation_type: textarea
+  et: Allalaadimine
+  en: Download
+finalDocumentAccesses:
+  translation_type: textarea
+  et: Ligipääsud
+  en: 'Ligipääsud - eng'
+finalDocumentAccess:
+  translation_type: textarea
+  et: Ligipääs
+  en: Access

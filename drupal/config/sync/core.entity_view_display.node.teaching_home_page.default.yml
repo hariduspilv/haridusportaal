@@ -1,0 +1,97 @@
+uuid: 02b4b152-e177-4e62-ae80-9c08227a13d9
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.teaching_home_page.field_contact
+    - field.field.node.teaching_home_page.field_external
+    - field.field.node.teaching_home_page.field_quote_author
+    - field.field.node.teaching_home_page.field_quote_author_occupation
+    - field.field.node.teaching_home_page.field_quote_text
+    - field.field.node.teaching_home_page.field_teaching_news
+    - field.field.node.teaching_home_page.field_teaching_themes
+    - field.field.node.teaching_home_page.field_toolbox
+    - node.type.teaching_home_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.teaching_home_page.default
+targetEntityType: node
+bundle: teaching_home_page
+mode: default
+content:
+  field_contact:
+    type: entity_reference_revisions_entity_view
+    weight: 109
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_external:
+    type: entity_reference_revisions_entity_view
+    weight: 110
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_quote_author:
+    weight: 107
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_quote_author_occupation:
+    weight: 108
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_quote_text:
+    weight: 106
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_teaching_news:
+    weight: 103
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_teaching_themes:
+    type: entity_reference_revisions_entity_view
+    weight: 102
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_toolbox:
+    type: entity_reference_revisions_entity_view
+    weight: 104
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

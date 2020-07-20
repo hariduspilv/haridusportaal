@@ -199,7 +199,7 @@ class ModuleCommand extends Command
         // Check that it is an absolute path or otherwise create an absolute path using appRoot
         $modulePath = $input->getOption('module-path');
         if(is_null($modulePath)) {
-            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $uri = $this->site->getMultisiteName($input);
             $defaultModulePath = 'modules/custom';
             $modulePath = $this->site->multisiteMode($uri)? 'sites/'.$this->site->getMultisiteDir($uri).'/'.$defaultModulePath : $defaultModulePath;
         }
@@ -210,9 +210,9 @@ class ModuleCommand extends Command
             $this->validator->validateMachineName($input->getOption('machine-name'))
             :$this->stringConverter->createMachineName($module);
 
-        $description = $input->getOption('description');
-        $core = $input->getOption('core');
-        $package = $input->getOption('package');
+        $description = $input->getOption('description')?:$this->trans('commands.generate.module.suggestions.my-awesome-module');
+        $core = $input->getOption('core')?:'8.x';
+        $package = $input->getOption('package')?:'Custom';
         $moduleFile = $input->getOption('module-file');
         $featuresBundle = $input->getOption('features-bundle');
         $composer = $input->getOption('composer');
@@ -315,7 +315,7 @@ class ModuleCommand extends Command
 
         $modulePath = $input->getOption('module-path');
         if (!$modulePath) {
-            $uri = parse_url($input->getParameterOption(['--uri', '-l'], 'default'), PHP_URL_HOST);
+            $uri = $this->site->getMultisiteName($input);
             $defaultModulePath = 'modules/custom';
             $modulePath = $this->getIo()->ask(
                 $this->trans('commands.generate.module.questions.module-path'),

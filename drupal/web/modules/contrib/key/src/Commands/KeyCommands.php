@@ -1,18 +1,18 @@
 <?php
+
 namespace Drupal\key\Commands;
 
 use Consolidation\OutputFormatters\StructuredData\RowsOfFields;
 use Drupal\Component\Serialization\Json;
 use Drupal\Core\Entity\EntityTypeManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
-use Drupal\key\Entity\Key;
 use Drupal\key\KeyRepositoryInterface;
 use Drupal\key\Plugin\KeyPluginManager;
 use Drush\Commands\DrushCommands;
 use Drush\Utils\StringUtils;
 
 /**
- * Class KeyCommands
+ * Class KeyCommands.
  *
  * @package Drupal\key\Commands
  */
@@ -53,6 +53,9 @@ class KeyCommands extends DrushCommands {
    */
   protected $keyProviderPluginManager;
 
+  /**
+   * Constructs a new KeyCommands drush command.
+   */
   public function __construct(
     KeyRepositoryInterface $repository,
     LoggerChannelFactoryInterface $logger,
@@ -70,9 +73,16 @@ class KeyCommands extends DrushCommands {
   /**
    * Save a key.
    *
+   * @param string $id
+   *   The ID (machine name) of the key to save.
+   * @param string $key_value
+   *   A key value to save. May or may not be allowed or required, depending on
+   *   the key provider.
+   * @param array $options
+   *   Options array.
+   *
    * @command key:save
-   * @param string $id The ID (machine name) of the key to save.
-   * @param string $key_value A key value to save. May or may not be allowed or required, depending on the key provider
+   *
    * @option label The human-readable label of the key.
    * @option description A short description of the key.
    * @option key-type The key type. To see a list of available key types, use `drush key-type-list`.
@@ -82,7 +92,8 @@ class KeyCommands extends DrushCommands {
    * @option key-input The key input method.
    * @option key-input-settings Settings specific to the defined key input, in JSON format.
    * @usage drush key-save secret_password 'pA$$w0rd' --label="Secret password" --key-type=authentication --key-provider=config --key-input=text_field
-   *   Define a key for a password to use for authentication using the Configuration key provider.
+   *   Define a key for a password to use for authentication using the
+   *   Configuration key provider.
    * @usage drush key-save encryption_key --label="Encryption key" --key-type=encryption --key-type-settings='{"key_size":256}' --key-provider=file --key-provider-settings='{"file_location":"private://keys/encryption.key", "base64_encoded":true}' --key-input=none
    *   Define a key to use for encryption using the File key provider.
    * @aliases key-save
@@ -90,15 +101,15 @@ class KeyCommands extends DrushCommands {
   public function save(
     $id,
     $key_value = NULL,
-    $options = [
-      'label' => null,
-      'description' => null,
-      'key-type' => null,
-      'key-type-settings' => null,
-      'key-provider' => null,
-      'key-provider-settings' => null,
-      'key-input' => null,
-      'key-input-settings' => null,
+    array $options = [
+      'label' => NULL,
+      'description' => NULL,
+      'key-type' => NULL,
+      'key-type-settings' => NULL,
+      'key-provider' => NULL,
+      'key-provider-settings' => NULL,
+      'key-input' => NULL,
+      'key-input-settings' => NULL,
     ]
   ) {
     $values = [];
@@ -177,12 +188,17 @@ class KeyCommands extends DrushCommands {
   /**
    * Delete a key.
    *
+   * @param string $id
+   *   The ID (machine name) of the key to delete.
+   * @param array $options
+   *   Options array.
+   *
    * @command key:delete
-   * @param string $id The ID (machine name) of the key to delete.
+   *
    * @aliases key-delete
    * @format table
    */
-  public function delete($id, $options = []) {
+  public function delete($id, array $options = []) {
     // Look for a key with the specified ID. If one does not exist, set an
     // error and abort.
     /* @var $key \Drupal\key\Entity\Key */
@@ -195,7 +211,7 @@ class KeyCommands extends DrushCommands {
     $this->logger->warning('Be extremely careful when deleting a key! It may result in losing access to a service or making encrypted data unreadable.');
     $this->output->writeln(dt('The following key will be deleted: !id', ['!id' => $id]));
     if (!$this->io()->confirm(dt('Do you want to continue?'))) {
-      // Removing drush_user_abort(), no current implemenation of that
+      // Removing drush_user_abort(), no current implemenation of that.
       return;
     }
 
@@ -216,13 +232,16 @@ class KeyCommands extends DrushCommands {
   /**
    * Display a list of available keys.
    *
+   * @param array $options
+   *   Options array.
+   *
    * @command key:list
    * @option key-type An optional, comma-delimited list of key types. To see a list of available key types, use `drush key-type-list`.
    * @option key-provider An optional, comma-delimited list of key providers. To see a list of available key providers, use `drush key-provider-list`.
    * @aliases key-list
    * @format table
    */
-  public function keyList($options = ['key-type' => null, 'key-provider' => null]) {
+  public function keyList(array $options = ['key-type' => NULL, 'key-provider' => NULL]) {
     $result = [];
 
     /* @var $key \Drupal\key\Entity\Key */
@@ -268,7 +287,7 @@ class KeyCommands extends DrushCommands {
    * @aliases key-type-list
    * @format table
    */
-  public function typeList($options = ['group' => null]) {
+  public function typeList($options = ['group' => NULL]) {
     $result = [];
 
     $group = $options['group'];
@@ -295,7 +314,7 @@ class KeyCommands extends DrushCommands {
    * @aliases key-provider-list
    * @format table
    */
-  public function providerList($options = ['storage-method' => null]) {
+  public function providerList($options = ['storage-method' => NULL]) {
     $result = [];
 
     $storage_method = $options['storage-method'];
@@ -317,13 +336,18 @@ class KeyCommands extends DrushCommands {
   /**
    * Display a list of available key providers.
    *
+   * @param string $id
+   *   The ID (machine name) of the key whose value should be retrieved.
+   * @param array $options
+   *   Options array.
+   *
    * @command key:value-get
-   * @param string $id The ID (machine name) of the key whose value should be retrieved.
+   *
    * @option base64 Base64-encode the key value. This is useful in the case of binary encryption keys that would otherwise not be displayed in a readable way.
    * @aliases key-value-get, key-value
    * @format table
    */
-  public function valueGet($id, $options = ['base64' => null]) {
+  public function valueGet($id, array $options = ['base64' => NULL]) {
     $result = [];
     // Look for a key with the specified ID. If one does not exist, set an
     // error and abort.
@@ -343,7 +367,7 @@ class KeyCommands extends DrushCommands {
     }
 
     $row = [];
-    $row ['Key value'] = $key_value;
+    $row['Key value'] = $key_value;
     $result[] = $row;
 
     return new RowsOfFields($result);
@@ -386,6 +410,5 @@ class KeyCommands extends DrushCommands {
       ],
     ];
   }
-
 
 }

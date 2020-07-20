@@ -584,11 +584,6 @@ to host all the specific tags and filters you want to add to Twig.
     recompile your templates whenever you make a change to it (when
     ``auto_reload`` is enabled).
 
-.. note::
-
-    Before writing your own extensions, have a look at the Twig official
-    extension repository: https://github.com/twigphp/Twig-extensions.
-
 An extension is a class that implements the following interface::
 
     interface Twig_ExtensionInterface
@@ -665,7 +660,7 @@ An extension is a class that implements the following interface::
 
 To keep your extension class clean and lean, inherit from the built-in
 ``\Twig\Extension\AbstractExtension`` class instead of implementing the interface as it provides
-empty implementations for all methods:
+empty implementations for all methods::
 
     class Project_Twig_Extension extends \Twig\Extension\AbstractExtension
     {
@@ -851,7 +846,7 @@ This is very convenient but not recommended as it makes template compilation
 depend on runtime dependencies even if they are not needed (think for instance
 as a dependency that connects to a database engine).
 
-As of Twig 1.26, you can easily decouple the extension definitions from their
+As of Twig 1.26, you can decouple the extension definitions from their
 runtime implementations by registering a ``\Twig\RuntimeLoader\RuntimeLoaderInterface``
 instance on the environment that knows how to instantiate such runtime classes
 (runtime classes must be autoload-able)::
@@ -943,7 +938,7 @@ The ``IntegrationTest.php`` file should look like this::
 
         public function getFixturesDir()
         {
-            return dirname(__FILE__).'/Fixtures/';
+            return __DIR__.'/Fixtures/';
         }
     }
 
@@ -958,5 +953,5 @@ Testing the node visitors can be complex, so extend your test cases from
 `tests/Twig/Node`_ directory.
 
 .. _`rot13`:                   https://secure.php.net/manual/en/function.str-rot13.php
-.. _`tests/Twig/Fixtures`:     https://github.com/twigphp/Twig/tree/master/test/Twig/Tests/Fixtures
-.. _`tests/Twig/Node`:         https://github.com/twigphp/Twig/tree/master/test/Twig/Tests/Node
+.. _`tests/Twig/Fixtures`:     https://github.com/twigphp/Twig/tree/1.x/tests/Fixtures
+.. _`tests/Twig/Node`:         https://github.com/twigphp/Twig/tree/1.x/tests/Node

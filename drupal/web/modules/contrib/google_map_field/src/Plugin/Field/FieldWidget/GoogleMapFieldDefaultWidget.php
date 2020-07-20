@@ -23,7 +23,9 @@ class GoogleMapFieldDefaultWidget extends WidgetBase {
    * {@inheritdoc}
    */
   public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
-    $instance_delta = $items->getName() . '-' . $delta;
+    static $unique = 0;
+    $unique = $unique + 1;
+    $instance_delta = $items->getName() . '-' . $delta . '-' . $unique;
     $element += [
       '#type' => 'fieldset',
       '#title' => $this->t('Map'),
@@ -119,6 +121,22 @@ class GoogleMapFieldDefaultWidget extends WidgetBase {
       '#default_value' => isset($items[$delta]->marker) ? $items[$delta]->marker : "1",
       '#attributes' => [
         'data-marker-delta' => $instance_delta,
+      ],
+    ];
+
+    $element['traffic'] = [
+      '#type' => 'hidden',
+      '#default_value' => isset($items[$delta]->traffic) ? $items[$delta]->traffic : "",
+      '#attributes' => [
+        'data-traffic-delta' => $instance_delta,
+      ],
+    ];
+
+    $element['marker_icon'] = [
+      '#type' => 'hidden',
+      '#default_value' => isset($items[$delta]->marker_icon) ? $items[$delta]->marker_icon : "",
+      '#attributes' => [
+        'data-marker-icon-delta' => $instance_delta,
       ],
     ];
 

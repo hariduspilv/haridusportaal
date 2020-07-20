@@ -1,0 +1,9 @@
+uuid: c07eff47-0dbd-4d02-9e43-2696a3511c16
+langcode: et
+status: true
+dependencies: {  }
+id: frontpage_service_image
+label: 'Teenuse pilt'
+icon_uuid: null
+description: ''
+behavior_plugins: {  }

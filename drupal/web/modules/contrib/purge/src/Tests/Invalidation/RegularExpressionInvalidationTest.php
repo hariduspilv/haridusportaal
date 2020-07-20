@@ -2,8 +2,6 @@
 
 namespace Drupal\purge\Tests\Invalidation;
 
-use Drupal\purge\Tests\Invalidation\PluginTestBase;
-
 /**
  * Tests \Drupal\purge\Plugin\Purge\Invalidation\RegularExpressionInvalidation.
  *
@@ -11,8 +9,26 @@ use Drupal\purge\Tests\Invalidation\PluginTestBase;
  * @see \Drupal\purge\Plugin\Purge\Invalidation\InvalidationInterface
  */
 class RegularExpressionInvalidationTest extends PluginTestBase {
-  protected $plugin_id = 'regex';
+
+  /**
+   * The plugin ID of the invalidation type being tested.
+   *
+   * @var string
+   */
+  protected $pluginId = 'regex';
+
+  /**
+   * String expressions valid to the invalidation type being tested.
+   *
+   * @var string[]|null
+   */
   protected $expressions = ['\.(jpg|jpeg|css|js)$'];
+
+  /**
+   * String expressions invalid to the invalidation type being tested.
+   *
+   * @var string[]|null
+   */
   protected $expressionsInvalid = [NULL, ''];
 
 }

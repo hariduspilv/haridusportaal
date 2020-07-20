@@ -1,0 +1,38 @@
+uuid: f8e2236c-0c8b-4d63-a6e8-5e8bb9a36e4d
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.career_home_page.field_career
+    - field.field.node.career_home_page.field_career_contact
+    - field.field.node.career_home_page.field_content_page_link
+    - field.field.node.career_home_page.field_external_links
+    - field.field.node.career_home_page.field_frontpage_news
+    - field.field.node.career_home_page.field_quote_author
+    - field.field.node.career_home_page.field_quote_author_occupation
+    - field.field.node.career_home_page.field_quote_text
+    - node.type.career_home_page
+  module:
+    - user
+id: node.career_home_page.teaser
+targetEntityType: node
+bundle: career_home_page
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_career: true
+  field_career_contact: true
+  field_content_page_link: true
+  field_external_links: true
+  field_frontpage_news: true
+  field_quote_author: true
+  field_quote_author_occupation: true
+  field_quote_text: true
+  langcode: true
+  search_api_excerpt: true

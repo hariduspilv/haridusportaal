@@ -53,7 +53,7 @@ class XliffFileLoader implements LoaderInterface
         try {
             $dom = XmlUtils::loadFile($resource);
         } catch (\InvalidArgumentException $e) {
-            throw new InvalidResourceException(sprintf('Unable to load "%s": %s', $resource, $e->getMessage()), $e->getCode(), $e);
+            throw new InvalidResourceException(sprintf('Unable to load "%s": '.$e->getMessage(), $resource), $e->getCode(), $e);
         }
 
         $xliffVersion = $this->getVersionNumber($dom);
@@ -116,9 +116,7 @@ class XliffFileLoader implements LoaderInterface
     }
 
     /**
-     * @param \DOMDocument     $dom
-     * @param MessageCatalogue $catalogue
-     * @param string           $domain
+     * @param string $domain
      */
     private function extractXliff2(\DOMDocument $dom, MessageCatalogue $catalogue, $domain)
     {
@@ -182,9 +180,8 @@ class XliffFileLoader implements LoaderInterface
     /**
      * Validates and parses the given file into a DOMDocument.
      *
-     * @param string       $file
-     * @param \DOMDocument $dom
-     * @param string       $schema source of the schema
+     * @param string $file
+     * @param string $schema source of the schema
      *
      * @throws InvalidResourceException
      */
@@ -197,7 +194,7 @@ class XliffFileLoader implements LoaderInterface
         if (!@$dom->schemaValidateSource($schema)) {
             libxml_disable_entity_loader($disableEntities);
 
-            throw new InvalidResourceException(sprintf('Invalid resource provided: "%s"; Errors: %s', $file, implode("\n", $this->getXmlErrors($internalErrors))));
+            throw new InvalidResourceException(sprintf('Invalid resource provided: "%s"; Errors: '.implode("\n", $this->getXmlErrors($internalErrors)), $file));
         }
 
         libxml_disable_entity_loader($disableEntities);
@@ -284,8 +281,6 @@ class XliffFileLoader implements LoaderInterface
      * Gets xliff file version based on the root "version" attribute.
      * Defaults to 1.2 for backwards compatibility.
      *
-     * @param \DOMDocument $dom
-     *
      * @throws InvalidArgumentException
      *
      * @return string
@@ -302,7 +297,7 @@ class XliffFileLoader implements LoaderInterface
             $namespace = $xliff->attributes->getNamedItem('xmlns');
             if ($namespace) {
                 if (0 !== substr_compare('urn:oasis:names:tc:xliff:document:', $namespace->nodeValue, 0, 34)) {
-                    throw new InvalidArgumentException(sprintf('Not a valid XLIFF namespace "%s"', $namespace));
+                    throw new InvalidArgumentException(sprintf('Not a valid XLIFF namespace "%s".', $namespace));
                 }
 
                 return substr($namespace, 34);
@@ -314,8 +309,7 @@ class XliffFileLoader implements LoaderInterface
     }
 
     /**
-     * @param \SimpleXMLElement|null $noteElement
-     * @param string|null            $encoding
+     * @param string|null $encoding
      *
      * @return array
      */

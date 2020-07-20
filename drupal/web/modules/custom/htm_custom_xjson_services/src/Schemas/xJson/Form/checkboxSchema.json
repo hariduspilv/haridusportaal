@@ -42,6 +42,9 @@
     },
     "default_value": {
       "type": "boolean"
+    },
+    "depend_on": {
+      "type": "string"
     }
   },
   "required": [

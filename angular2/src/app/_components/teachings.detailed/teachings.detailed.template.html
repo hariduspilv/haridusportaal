@@ -167,7 +167,7 @@
                     <td class="normal" colspan="3" *ngIf="content.aasta">{{ 'frontpage.aasta' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.lopetanud || content.aasta }}</td>
                   </tr>
-                  <tr *ngIf="content.dokument && content.typeName === 'tasemeharidus'">
+                  <tr *ngIf="content.dokument && content.typeName !== 'kvalifikatsioon'">
                     <td class="normal" colspan="3">{{ 'frontpage.dokumentNr' | translate }}</td>
                     <td class="normal" colspan="2">{{ content.dokument }}</td>
                   </tr>

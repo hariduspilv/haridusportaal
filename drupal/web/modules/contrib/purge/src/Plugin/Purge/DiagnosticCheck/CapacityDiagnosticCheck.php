@@ -2,10 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\DiagnosticCheck;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\purge\Plugin\Purge\Purger\PurgersServiceInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckBase;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Checks if there is purging capacity available.
@@ -28,7 +26,7 @@ class CapacityDiagnosticCheck extends DiagnosticCheckBase implements DiagnosticC
   protected $purgePurgers;
 
   /**
-   * Constructs a CapacityCheck object.
+   * Construct a CapacityCheck object.
    *
    * @param array $configuration
    *   A configuration array containing information about the plugin instance.
@@ -67,15 +65,15 @@ class CapacityDiagnosticCheck extends DiagnosticCheckBase implements DiagnosticC
 
     if ($this->value === 0) {
       $this->recommendation = $this->t("There is no purging capacity available.");
-      return SELF::SEVERITY_WARNING;
+      return self::SEVERITY_WARNING;
     }
     elseif ($this->value < 5) {
       $this->recommendation = $this->t("Your system invalidates just @limit items through webserver-initiated processing. If you notice that purge cannot keep up with its queue, reconsider your configuration.", $placeholders);
-      return SELF::SEVERITY_WARNING;
+      return self::SEVERITY_WARNING;
     }
     else {
       $this->recommendation = $this->t("Your system can invalidate @limit items when you're processing through webserver-initiated requests. Under ideal conditions - for example via Drush - the capacity would be @ideallimit.", $placeholders);
-      return SELF::SEVERITY_OK;
+      return self::SEVERITY_OK;
     }
   }
 

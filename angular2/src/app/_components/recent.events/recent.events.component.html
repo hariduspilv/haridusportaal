@@ -4,7 +4,7 @@
       <div class="title"><h1>{{'event.registration' | translate}}</h1></div>
 
       <div class="events__list__item__body">
-        <span class="child" *ngIf="canRegister() == true" tabindex="0">
+        <span class="child" *ngIf="content.entity && content.entity.fieldRegistrationDate && content.entity.fieldRegistrationDate.entity && canRegister() == true" tabindex="0">
           {{'button.register' | translate}} {{'time.from' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationFirstDate.unix*1000 | date:'dd.MM.yyyy' }} {{'time.to' | translate | lowercase}} {{ content.entity.fieldRegistrationDate.entity.fieldRegistrationLastDate.unix*1000 | date:'dd.MM.yyyy' }}
         </span>
         <span class="error" *ngIf="canRegister() == 'ended'" role="alert">{{'event.registration_ended' | translate}}</span>

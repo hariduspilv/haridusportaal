@@ -1,0 +1,39 @@
+uuid: 93d126a8-0b14-4756-9729-80d99efe5314
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.teaching_themes.field_internal_link
+    - field.field.paragraph.teaching_themes.field_theme_title
+    - paragraphs.paragraphs_type.teaching_themes
+  module:
+    - maxlength
+id: paragraph.teaching_themes.default
+targetEntityType: paragraph
+bundle: teaching_themes
+mode: default
+content:
+  field_internal_link:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_theme_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

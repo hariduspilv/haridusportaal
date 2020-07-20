@@ -1,0 +1,10 @@
+uuid: 5ba61af5-4009-429a-8f14-895e633bf521
+langcode: et
+status: true
+dependencies: {  }
+id: teaching_themes
+label: 'Õpetamise teemad'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

@@ -137,8 +137,27 @@ interface DatasourceInterface extends IndexPluginInterface {
    *
    * @return bool
    *   TRUE if access is granted, FALSE otherwise.
+   *
+   * @deprecated in search_api:8.x-1.14 and is removed from search_api:9.x-1.0.
+   *   Use getItemAccessResult() instead.
+   *
+   * @see https://www.drupal.org/node/3051902
    */
   public function checkItemAccess(ComplexDataInterface $item, AccountInterface $account = NULL);
+
+  /**
+   * Checks whether a user has permission to view the given item.
+   *
+   * @param \Drupal\Core\TypedData\ComplexDataInterface $item
+   *   An item of this datasource's type.
+   * @param \Drupal\Core\Session\AccountInterface|null $account
+   *   (optional) The user session for which to check access, or NULL to check
+   *   access for the current user.
+   *
+   * @return \Drupal\Core\Access\AccessResultInterface
+   *   The access result.
+   */
+  public function getItemAccessResult(ComplexDataInterface $item, AccountInterface $account = NULL);
 
   /**
    * Returns the available view modes for this datasource.
@@ -237,5 +256,21 @@ interface DatasourceInterface extends IndexPluginInterface {
    *   with dependency names.
    */
   public function getFieldDependencies(array $fields);
+
+  /**
+   * Returns the list cache contexts associated with this datasource.
+   *
+   * List cache contexts ensure that if items from a datasource are included in
+   * a list that any caches containing this list are varied as necessary. For
+   * example a view might contain a number of items from this datasource that
+   * are visible only by users that have a certain role. These list cache
+   * contexts will ensure that separate cached versions exist for users with
+   * this role and without it. These contexts should be included whenever a list
+   * is rendered that contains items from this datasource.
+   *
+   * @return string[]
+   *   The list cache contexts associated with this datasource.
+   */
+  public function getListCacheContexts();
 
 }

@@ -1,0 +1,6 @@
+{
+    "name": "drupal/purge",
+    "type": "drupal-module",
+    "description": "Provides a generic external cache invalidation API and queue service.",
+    "license": "GPL-2.0-or-later"
+}

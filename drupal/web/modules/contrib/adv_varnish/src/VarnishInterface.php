@@ -42,4 +42,17 @@ interface VarnishInterface {
    */
   public function varnishTerminalRun($commands);
 
+  /**
+   * Return module settings.
+   *
+   * @param string $setting
+   *   Setting key.
+   * @param string $default
+   *   Default setting value.
+   *
+   * @return mixed
+   *   Setting value by key.
+   */
+  public function getSettings($setting, $default = NULL);
+
 }

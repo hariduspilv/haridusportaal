@@ -1,13 +1,12 @@
 name: JWT Authentication Issuer
 type: module
 description: Provides an endpoint which will issue JWTs.
-# core: 8.x
+core_version_requirement: ^8.7.12 || ^9.0
 package: Web services
 dependencies:
-  - jwt
+  - jwt:jwt
 
-# Information added by Drupal.org packaging script on 2017-02-23
-version: '8.x-1.0-alpha6'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-05-20
+version: '8.x-1.0-beta3'
 project: 'jwt'
-datestamp: 1487876585
+datestamp: 1589986033

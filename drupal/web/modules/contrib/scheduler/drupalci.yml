@@ -1,0 +1,12 @@
+build:
+  assessment:
+    validate_codebase:
+      phplint:
+      container_composer:
+      csslint:
+      eslint:
+      phpcs:
+    testing:
+      run_tests.standard:
+        types: 'PHPUnit-Functional'
+        suppress-deprecations: false

@@ -1,0 +1,23 @@
+htm_custom_infograph.infograph_import_data_form:
+  path: '/admin/structure/infograph/import'
+  defaults:
+    _form: '\Drupal\htm_custom_infograph\Form\InfographImportDataForm'
+    _title: 'InfographImportDataForm'
+  requirements:
+    _permission: 'access content'
+
+htm_custom_infograph.infograph_csv_list_form:
+  path: '/admin/structure/infograph/list'
+  defaults:
+    _form: '\Drupal\htm_custom_infograph\Form\InfographCsvListForm'
+    _title: 'InfographCsvListForm'
+  requirements:
+    _permission: 'access content'
+
+htm_custom_infograph.delete_infograph:
+  path: '/admin/config/infograph/delete/{filename}'
+  defaults:
+    _form: '\Drupal\htm_custom_infograph\Form\InfographDeleteCsvForm'
+    _title: 'Delete infograph'
+  requirements:
+    _permission: 'access content'

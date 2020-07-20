@@ -1,9 +1,33 @@
 <div class="notFound">
   <div class="flex">
     <div aria-hidden="true" class="error__head">{{'frontpage.message' | translate}}</div>
-    <div aria-hidden="true" class="error__explanation" innerHtml="{{getLang() !== 'en' ? 'Tundub, et otsitud lehte ei leitud. <br>Veakood: <b>404</b>' : 'It looks like the page you were looking for was not found. <br> Error code: <b> 404 </b>'}}"></div>
+    <div *ngIf="!redirectUrl; else auth"
+      aria-hidden="true"
+      class="error__explanation"
+      innerHtml="{{ 'notFound.explanation' | translate }}">
+    </div>
+    <ng-template #auth>
+      <div class="error__explanation" aria-hidden="true">   
+        {{'frontpage.login_required_message' | translate}}
+      </div>
+    </ng-template>
     <div class="error__button">
-      <button id="toFront" role="link" aria-live="assertive" attr.aria-label="{{'frontpage.message' | translate}}, {{'tundub, et otsitud lehte ei leitud. Veakood: 404,'}} {{'frontpage.navigate' | translate}}" mat-raised-button routerLink="{{toFrontpage()}}" color="primary" tabindex="0">{{'frontpage.navigate' | translate}}</button>
+      <button
+        id="toFront"
+        role="link"
+        aria-live="assertive"
+        attr.aria-label="{{ 'frontpage.message' | translate }}, {{ !redirectUrl ? ('Tundub, et otsitud lehte ei leitud. Veakood: 404.') : ('notFound.auth_explanation' | translate) }}"
+        mat-raised-button
+        (click)="action()"
+        tabindex="0"
+        color="primary">
+        <ng-container *ngIf="!redirectUrl; else authLabel">
+          {{ 'frontpage.navigate' | translate }}
+        </ng-container>
+        <ng-template #authLabel>
+          {{ 'button.login' | translate }}
+        </ng-template>
+      </button>
     </div>
     <div class="error__links">
       <a routerLink="{{constructUrl('school')}}" role="link" attr.aria-label="{{'school.maps' | translate}}" tabindex="0"><span>{{'school.maps' | translate}}</span></a>

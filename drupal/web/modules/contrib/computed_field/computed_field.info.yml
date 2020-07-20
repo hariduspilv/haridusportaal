@@ -4,8 +4,8 @@ description: Defines a field type that allows values to be "computed" via PHP co
 # core: 8.x
 package: Field types
 
-# Information added by Drupal.org packaging script on 2018-12-28
-version: '8.x-2.0-beta1'
+# Information added by Drupal.org packaging script on 2019-07-22
+version: '8.x-2.0'
 core: '8.x'
 project: 'computed_field'
-datestamp: 1546032484
+datestamp: 1563825488

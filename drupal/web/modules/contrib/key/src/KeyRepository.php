@@ -118,7 +118,7 @@ class KeyRepository implements KeyRepositoryInterface {
   /**
    * {@inheritdoc}
    */
-  public function getKeyNamesAsOptions($filters = []) {
+  public function getKeyNamesAsOptions(array $filters = []) {
     $options = [];
     $keys = $this->getKeys();
 
@@ -127,12 +127,15 @@ class KeyRepository implements KeyRepositoryInterface {
         case 'type':
           $keys = array_intersect_key($this->getKeysByType($filter), $keys);
           break;
+
         case 'provider':
           $keys = array_intersect_key($this->getKeysByProvider($filter), $keys);
           break;
+
         case 'type_group':
           $keys = array_intersect_key($this->getKeysByTypeGroup($filter), $keys);
           break;
+
         case 'storage_method':
           $keys = array_intersect_key($this->getKeysByStorageMethod($filter), $keys);
           break;

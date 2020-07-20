@@ -161,8 +161,6 @@
 .squared-input {
   &__wrapper {
     margin-top: -1.125rem;
-    padding-right: 0.125rem;
-    overflow: hidden;
     text-overflow: ellipsis;
     font-size: 1rem;
             @include break-on(sm, max) { font-size: 1rem; } 

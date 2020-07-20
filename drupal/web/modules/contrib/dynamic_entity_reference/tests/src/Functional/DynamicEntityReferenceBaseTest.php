@@ -28,7 +28,7 @@ class DynamicEntityReferenceBaseTest extends BrowserTestBase {
    *
    * @var array
    */
-  public static $modules = [
+  protected static $modules = [
     'field_ui',
     'dynamic_entity_reference',
     'entity_test',
@@ -47,9 +47,14 @@ class DynamicEntityReferenceBaseTest extends BrowserTestBase {
   ];
 
   /**
+   * {@inheritdoc}
+   */
+  protected $defaultTheme = 'stark';
+
+  /**
    * Sets the test up.
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     $this->adminUser = $this->drupalCreateUser($this->permissions);
   }
@@ -78,6 +83,10 @@ class DynamicEntityReferenceBaseTest extends BrowserTestBase {
     $input = $this->xpath('//input[@name=:name]', [':name' => 'dynamic_references[0][target_id]'])[0];
     $settings = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions('entity_test')['dynamic_references']->getSettings();
     $selection_settings = $settings['entity_test']['handler_settings'] ?: [];
+    $selection_settings += [
+      'match_operator' => 'CONTAINS',
+      'match_limit' => 10,
+    ];
     $data = serialize($selection_settings) . 'entity_test' . $settings['entity_test']['handler'];
     $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
     $expected_autocomplete_path = Url::fromRoute('system.entity_autocomplete', [
@@ -227,6 +236,10 @@ class DynamicEntityReferenceBaseTest extends BrowserTestBase {
     $input = $assert_session->fieldExists('dynamic_references[0][target_id]');
     $settings = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions('entity_test')['dynamic_references']->getSettings();
     $selection_settings = $settings['entity_test']['handler_settings'] ?: [];
+    $selection_settings += [
+      'match_operator' => 'CONTAINS',
+      'match_limit' => 10,
+    ];
     $data = serialize($selection_settings) . 'entity_test' . $settings['entity_test']['handler'];
     $selection_settings_key = Crypt::hmacBase64($data, Settings::getHashSalt());
     $expected_autocomplete_path = Url::fromRoute('system.entity_autocomplete', [
@@ -234,7 +247,7 @@ class DynamicEntityReferenceBaseTest extends BrowserTestBase {
       'selection_handler' => $settings['entity_test']['handler'],
       'selection_settings_key' => $selection_settings_key,
     ])->toString();
-    $this->assertContains($input->getAttribute('data-autocomplete-path'), $expected_autocomplete_path);
+    $this->assertStringContainsString($input->getAttribute('data-autocomplete-path'), $expected_autocomplete_path);
 
     // Add some extra dynamic entity reference fields.
     $this->getSession()->getPage()->findButton('Add another item')->click();

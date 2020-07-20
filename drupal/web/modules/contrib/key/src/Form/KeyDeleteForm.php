@@ -11,6 +11,7 @@ use Drupal\key\Plugin\KeyPluginDeleteFormInterface;
  * Builds the form to delete a Key.
  */
 class KeyDeleteForm extends EntityDeleteForm {
+
   /**
    * {@inheritdoc}
    */
@@ -65,18 +66,21 @@ class KeyDeleteForm extends EntityDeleteForm {
   /**
    * {@inheritdoc}
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
-    $this->entity->delete();
-    drupal_set_message($this->t('The key %label has been deleted.', ['%label' => $this->entity->label()]));
+  public function getDeletionMessage() {
+    return $this->t('The key %label has been deleted.', ['%label' => $this->entity->label()]);
+  }
 
+  /**
+   * {@inheritdoc}
+   */
+  public function submitForm(array &$form, FormStateInterface $form_state) {
+    parent::submitForm($form, $form_state);
     // Allow the plugins to perform additional actions.
     foreach ($this->entity->getPlugins() as $plugin) {
       if ($plugin instanceof KeyPluginDeleteFormInterface) {
         $plugin->submitDeleteForm($form, $form_state);
       }
     }
-
-    $form_state->setRedirectUrl($this->getCancelUrl());
   }
 
 }

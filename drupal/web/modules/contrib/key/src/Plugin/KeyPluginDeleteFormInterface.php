@@ -24,7 +24,7 @@ interface KeyPluginDeleteFormInterface {
    * @return array
    *   The form structure.
    */
-  public function buildDeleteForm(array $form, FormStateInterface $form_state);
+  public function buildDeleteForm(array &$form, FormStateInterface $form_state);
 
   /**
    * Form validation handler.

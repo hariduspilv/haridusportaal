@@ -66,21 +66,21 @@ function purge_tokens_tokens($type, $tokens, array $data, array $options, Bubble
       switch ($name) {
         case 'expression':
           if (is_string($expression = $data['invalidation']->getExpression())) {
-            $bubbleable_metadata->setCacheMaxAge(0);
             $replacements[$original] = $expression;
           }
           break;
+
         case 'type':
-          $bubbleable_metadata->setCacheMaxAge(0);
           $replacements[$original] = $data['invalidation']->getType();
           break;
+
       }
     }
   }
 
   // Replace tokens for sets of invalidation objects.
   elseif (($type == 'invalidations') && ($data['invalidations'][0] instanceof InvalidationInterface)) {
-    $join = function($invalidations, $separator) {
+    $join = function ($invalidations, $separator) {
       $expressions = [];
       foreach ($invalidations as $invalidation) {
         if (is_string($expression = $invalidation->getExpression())) {
@@ -93,17 +93,17 @@ function purge_tokens_tokens($type, $tokens, array $data, array $options, Bubble
     foreach ($tokens as $name => $original) {
       switch ($name) {
         case 'separated_pipe':
-          $bubbleable_metadata->setCacheMaxAge(0);
           $replacements[$original] = $join($data['invalidations'], '|');
           break;
+
         case 'separated_comma':
-          $bubbleable_metadata->setCacheMaxAge(0);
           $replacements[$original] = $join($data['invalidations'], ',');
           break;
+
         case 'separated_tab':
-          $bubbleable_metadata->setCacheMaxAge(0);
           $replacements[$original] = $join($data['invalidations'], "\t");
           break;
+
       }
     }
   }

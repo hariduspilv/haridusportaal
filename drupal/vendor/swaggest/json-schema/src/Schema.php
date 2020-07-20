@@ -25,6 +25,7 @@ use Swaggest\JsonSchema\Structure\ClassStructure;
 use Swaggest\JsonSchema\Structure\Egg;
 use Swaggest\JsonSchema\Structure\ObjectItem;
 use Swaggest\JsonSchema\Structure\ObjectItemContract;
+use Swaggest\JsonSchema\Structure\WithResolvedValue;
 
 /**
  * Class Schema
@@ -203,7 +204,7 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
      * @throws InvalidValue
      * @throws \Exception
      */
-    private function processType($data, Context $options, $path = '#')
+    private function processType(&$data, Context $options, $path = '#')
     {
         if ($options->tolerateStrings && is_string($data)) {
             $valid = Type::readString($this->type, $data);
@@ -228,7 +229,13 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
     {
         $enumOk = false;
         foreach ($this->enum as $item) {
-            if ($item === $data) {
+            if ($item === $data ||
+                ( // Int and float equality check.
+                    (is_int($item) || is_float($item)) &&
+                    (is_int($data) || is_float($data)) &&
+                    $item == $data
+                )
+            ) {
                 $enumOk = true;
                 break;
             } else {
@@ -254,7 +261,13 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
      */
     private function processConst($data, $path)
     {
-        if ($this->const !== $data) {
+        if ($this->const !== $data &&
+            !( // Int and float equality.
+                (is_int($this->const) || is_float($this->const)) &&
+                (is_int($data) || is_float($data)) &&
+                $this->const == $data
+            )
+        ) {
             if ((is_object($this->const) && is_object($data))
                 || (is_array($this->const) && is_array($data))) {
                 $diff = new JsonDiff($this->const, $data,
@@ -592,10 +605,13 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
 
                 if ($this->useObjectAsArray) {
                     $result = array();
-                } elseif (!$result instanceof ObjectItemContract) {
+                } else {
                     //* todo check performance impact
                     if (null === $this->objectItemClass) {
-                        $result = new ObjectItem();
+                        if (!$result instanceof ObjectItemContract) {
+                            $result = new ObjectItem();
+                            $result->setDocumentPath($path);
+                        }
                     } else {
                         $className = $this->objectItemClass;
                         if ($options->objectItemClassMapping !== null) {
@@ -603,26 +619,23 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
                                 $className = $options->objectItemClassMapping[$className];
                             }
                         }
-                        $result = new $className;
-                    }
-                    //*/
-
-
-                    if ($result instanceof ClassStructure) {
-                        if ($result->__validateOnSet) {
-                            $result->__validateOnSet = false;
-                            /** @noinspection PhpUnusedLocalVariableInspection */
-                            /* todo check performance impact
-                            $validateOnSetHandler = new ScopeExit(function () use ($result) {
-                                $result->__validateOnSet = true;
-                            });
+                        if (null === $result || get_class($result) !== $className) {
+                            $result = new $className;
+                            //* todo check performance impact
+                            if ($result instanceof ClassStructure) {
+                                $result->setDocumentPath($path);
+                                if ($result->__validateOnSet) {
+                                    $result->__validateOnSet = false;
+                                    /** @noinspection PhpUnusedLocalVariableInspection */
+                                    /* todo check performance impact
+                                    $validateOnSetHandler = new ScopeExit(function () use ($result) {
+                                        $result->__validateOnSet = true;
+                                    });
+                                    //*/
+                                }
+                            }
                             //*/
                         }
-                    }
-
-                    //* todo check performance impact
-                    if ($result instanceof ObjectItemContract) {
-                        $result->setDocumentPath($path);
                     }
                     //*/
                 }
@@ -662,13 +675,20 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
             try {
 
                 $refProperty = null;
-                $dereference = true;
+                $dereference = $options->dereference;
 
-                if (isset($array[self::PROP_REF])) {
-                    $refProperty = $this->properties[self::PROP_REF];
+                if ($this->properties !== null && isset($array[self::PROP_REF])) {
+                    $refPropName = self::PROP_REF;
+                    if ($hasMapping) {
+                        if (isset($this->properties->__dataToProperty[$options->mapping][self::PROP_REF])) {
+                            $refPropName = $this->properties->__dataToProperty[$options->mapping][self::PROP_REF];
+                        }
+                    }
 
-                    if (isset($refProperty) && ($refProperty->format !== Format::URI_REFERENCE)) {
-                        $dereference = false;
+                    $refProperty = $this->properties[$refPropName];
+
+                    if (isset($refProperty)) {
+                        $dereference = $refProperty->format === Format::URI_REFERENCE;
                     }
                 }
 
@@ -695,6 +715,7 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
                     });
 
                     $ref = $refResolver->resolveReference($refString);
+                    $unresolvedData = $data;
                     $data = self::unboolSchemaData($ref->getData());
                     if (!$options->validateOnly) {
                         if ($ref->isImported()) {
@@ -703,6 +724,7 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
                         }
                         $ref->setImported($result);
                         try {
+                            // Best effort dereference delivery.
                             $refResult = $this->process($data, $options, $path . '->$ref:' . $refString, $result);
                             if ($refResult instanceof ObjectItemContract) {
                                 if ($refResult->getFromRefs()) {
@@ -711,11 +733,27 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
                                 $refResult->setFromRef($refString);
                             }
                             $ref->setImported($refResult);
+                            return $refResult;
                         } catch (InvalidValue $exception) {
                             $ref->unsetImported();
-                            throw $exception;
+                            $skipValidation = $options->skipValidation;
+                            $options->skipValidation = true;
+                            $refResult = $this->process($data, $options, $path . '->$ref:' . $refString);
+                            if ($refResult instanceof ObjectItemContract) {
+                                if ($refResult->getFromRefs()) {
+                                    $refResult = clone $refResult; // @todo check performance, consider option
+                                }
+                                $refResult->setFromRef($refString);
+                            }
+                            $options->skipValidation = $skipValidation;
+
+                            if ($result instanceof WithResolvedValue) {
+                                $result->setResolvedValue($refResult);
+                            }
+
+                            // Proceeding with unresolved data.
+                            $data = $unresolvedData;
                         }
-                        return $refResult;
                     } else {
                         $this->process($data, $options, $path . '->$ref:' . $refString);
                     }
@@ -772,7 +810,7 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
          * @var mixed $value
          */
         foreach ($array as $key => $value) {
-            if ($key === '' && PHP_VERSION_ID < 71000) {
+            if ($key === '' && PHP_VERSION_ID < 70100) {
                 $this->fail(new InvalidValue('Empty property name'), $path);
             }
 
@@ -885,7 +923,9 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
                     if ($found || !$import) {
                         $result->$propertyName = $value;
                     } elseif (!isset($result->$propertyName)) {
-                        $result->$propertyName = $value;
+                        if (self::PROP_REF !== $propertyName || empty($result->__fromRef)) {
+                            $result->$propertyName = $value;
+                        }
                     }
                 }
             }
@@ -1090,10 +1130,6 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
             $data = $options->dataPreProcessor->process($data, $this, $import);
         }
 
-        if ($result === null) {
-            $result = $data;
-        }
-
         if ($options->skipValidation) {
             goto skipValidation;
         }
@@ -1127,6 +1163,10 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
         }
 
         skipValidation:
+
+        if ($result === null) {
+            $result = $data;
+        }
 
         if ($this->oneOf !== null) {
             $result = $this->processOneOf($data, $options, $path);
@@ -1309,12 +1349,12 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
     }
 
     /**
-     * Resolves boolean schema into Schema instance
+     * Resolves boolean schema into Schema instance.
      *
      * @param mixed $schema
      * @return mixed|Schema
      */
-    private static function unboolSchema($schema)
+    public static function unboolSchema($schema)
     {
         static $trueSchema;
         static $falseSchema;
@@ -1337,10 +1377,12 @@ class Schema extends JsonSchema implements MetaHolder, SchemaContract
     }
 
     /**
+     * Converts bool value into an object schema.
+     *
      * @param mixed $data
      * @return \stdClass
      */
-    private static function unboolSchemaData($data)
+    public static function unboolSchemaData($data)
     {
         static $trueSchema;
         static $falseSchema;

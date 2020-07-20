@@ -41,7 +41,7 @@ class PathautoCommands extends DrushCommands {
   /**
    * The alias storage helper.
    *
-   * @var \Drupal\pathauto\AliasStorageHelper
+   * @var \Drupal\pathauto\AliasStorageHelperInterface
    */
   protected $aliasStorageHelper;
 

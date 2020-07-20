@@ -5,14 +5,21 @@ dependencies:
   config:
     - core.entity_view_mode.node.teaser
     - field.field.node.oska_main_profession_page.body
+    - field.field.node.oska_main_profession_page.field_bruto
+    - field.field.node.oska_main_profession_page.field_change_in_employment
     - field.field.node.oska_main_profession_page.field_dynamic_graph
+    - field.field.node.oska_main_profession_page.field_education_indicator
+    - field.field.node.oska_main_profession_page.field_filling_bar
+    - field.field.node.oska_main_profession_page.field_fixed_label
     - field.field.node.oska_main_profession_page.field_introduction
     - field.field.node.oska_main_profession_page.field_main_profession_accordion
     - field.field.node.oska_main_profession_page.field_main_profession_picture
     - field.field.node.oska_main_profession_page.field_main_profession_tag
+    - field.field.node.oska_main_profession_page.field_number_of_employees
     - field.field.node.oska_main_profession_page.field_oska_main_profession_file
     - field.field.node.oska_main_profession_page.field_oska_main_profession_links
     - field.field.node.oska_main_profession_page.field_oska_main_profession_video
+    - field.field.node.oska_main_profession_page.field_pictogram
     - field.field.node.oska_main_profession_page.field_sidebar
     - node.type.oska_main_profession_page
   module:
@@ -39,18 +46,26 @@ content:
 hidden:
   field_accordion: true
   field_attachment_file: true
+  field_bruto: true
+  field_change_in_employment: true
   field_dynamic_graph: true
+  field_education_indicator: true
+  field_filling_bar: true
+  field_fixed_label: true
   field_introduction: true
   field_main_profession_accordion: true
   field_main_profession_picture: true
   field_main_profession_tag: true
+  field_number_of_employees: true
   field_oska_graph: true
   field_oska_main_profession_file: true
   field_oska_main_profession_links: true
   field_oska_main_profession_tags: true
   field_oska_main_profession_video: true
+  field_pictogram: true
   field_picture: true
   field_sidebar: true
   field_video: true
   field_web_page_address: true
   langcode: true
+  search_api_excerpt: true

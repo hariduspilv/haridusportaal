@@ -3,7 +3,6 @@
 namespace Drupal\purge\Plugin\Purge\Queuer;
 
 use Drupal\Core\Plugin\PluginBase;
-use Drupal\purge\Plugin\Purge\Queuer\QueuerInterface;
 
 /**
  * Provides base implementations for queuers.

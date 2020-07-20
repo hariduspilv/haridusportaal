@@ -11,7 +11,7 @@ id: paragraph.information_system_sidebar.field_button
 field_name: field_button
 entity_type: paragraph
 bundle: information_system_sidebar
-label: Nupud
+label: 'EHIS nupud'
 description: ''
 required: false
 translatable: false

@@ -100,7 +100,7 @@ class SchedulerAdminForm extends ConfigFormBase {
       '#description' => $this->t('This is the time that will be used if the user does not enter a value. Format: HH:MM:SS.'),
       '#states' => [
         'visible' => [
-          ':input[name="scheduler_allow_date_only"]' => ['checked' => TRUE],
+          ':input[name="allow_date_only"]' => ['checked' => TRUE],
         ],
       ],
     ];

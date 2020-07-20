@@ -23,6 +23,12 @@ query getEventSingle(
           nid
           RegistrationCount
           fieldMaxNumberOfParticipants
+        fieldEventVideo {
+          input
+          videoDomain
+          videoDescription
+          videoId
+        }
           fieldPicture {
             derivative(style:CROP_LARGE){
               url

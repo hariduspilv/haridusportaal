@@ -20,6 +20,7 @@ dependencies:
     - field.field.node.event.field_event_main_end_time
     - field.field.node.event.field_event_main_start_time
     - field.field.node.event.field_event_type
+    - field.field.node.event.field_event_video
     - field.field.node.event.field_external_id
     - field.field.node.event.field_max_number_of_participants
     - field.field.node.event.field_metatags
@@ -38,6 +39,7 @@ dependencies:
     - file
     - google_map_field
     - hms_field
+    - htm_custom_video_field
     - link
     - metatag
     - options
@@ -193,6 +195,13 @@ content:
     third_party_settings: {  }
     type: entity_reference_label
     region: content
+  field_event_video:
+    weight: 32
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: custom_video_formatter_type
+    region: content
   field_external_id:
     weight: 29
     label: above
@@ -281,3 +290,4 @@ hidden:
   field_picture: true
   langcode: true
   links: true
+  search_api_excerpt: true

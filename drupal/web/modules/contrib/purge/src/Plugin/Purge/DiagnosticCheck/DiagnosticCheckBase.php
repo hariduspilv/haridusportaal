@@ -2,10 +2,9 @@
 
 namespace Drupal\purge\Plugin\Purge\DiagnosticCheck;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\Core\Plugin\PluginBase;
 use Drupal\purge\Plugin\Purge\DiagnosticCheck\Exception\CheckNotImplementedCorrectly;
-use Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Describes a diagnostic check that tests a specific purging requirement.
@@ -27,11 +26,13 @@ abstract class DiagnosticCheckBase extends PluginBase implements DiagnosticCheck
   private $description;
 
   /**
-   * The severity of the outcome of this check, maps to any of these constants:
-   *    - \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface::SEVERITY_INFO
-   *    - \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface::SEVERITY_OK
-   *    - \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface::SEVERITY_WARNING
-   *    - \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface::SEVERITY_ERROR
+   * The severity of the outcome of this check.
+   *
+   * This value corresponds to one of these constants:
+   *    - DiagnosticCheckInterface::SEVERITY_INFO
+   *    - DiagnosticCheckInterface::SEVERITY_OK
+   *    - DiagnosticCheckInterface::SEVERITY_WARNING
+   *    - DiagnosticCheckInterface::SEVERITY_ERROR.
    *
    * @var int
    */
@@ -63,8 +64,7 @@ abstract class DiagnosticCheckBase extends PluginBase implements DiagnosticCheck
   }
 
   /**
-   * Assures that \Drupal\purge\Plugin\Purge\DiagnosticCheck\DiagnosticCheckInterface::run() is executed
-   * and that the severity gets set on the object. Tests for invalid responses.
+   * Late runtime helper to assure that ::run() got called (and only once).
    */
   protected function runCheck() {
     if (!is_null($this->severity)) {
@@ -117,10 +117,10 @@ abstract class DiagnosticCheckBase extends PluginBase implements DiagnosticCheck
   public function getSeverityString() {
     $this->runCheck();
     $mapping = [
-      SELF::SEVERITY_INFO      => 'INFO',
-      SELF::SEVERITY_OK        => 'OK',
-      SELF::SEVERITY_WARNING   => 'WARNING',
-      SELF::SEVERITY_ERROR     => 'ERROR',
+      self::SEVERITY_INFO      => 'INFO',
+      self::SEVERITY_OK        => 'OK',
+      self::SEVERITY_WARNING   => 'WARNING',
+      self::SEVERITY_ERROR     => 'ERROR',
     ];
     return $mapping[$this->getSeverity()];
   }
@@ -144,20 +144,6 @@ abstract class DiagnosticCheckBase extends PluginBase implements DiagnosticCheck
   public function getValue() {
     $this->runCheck();
     return $this->value;
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getHookRequirementsArray() {
-    $this->runCheck();
-    return [
-      'title' => $this->t('Purge - @title', ['@title' => $this->getTitle()]),
-      'value' => (string) $this->getValue(),
-      'description' => (string) $this->getRecommendation(),
-      'severity_status' => strtolower($this->getSeverityString()),
-      'severity' => $this->getRequirementsSeverity(),
-    ];
   }
 
   /**
@@ -188,10 +174,10 @@ abstract class DiagnosticCheckBase extends PluginBase implements DiagnosticCheck
       // than just a objectification of hook_requirements we need to assure
       // that this lasts over time, and thus map the constants.
       $mapping = [
-        SELF::SEVERITY_INFO      => REQUIREMENT_INFO,
-        SELF::SEVERITY_OK        => REQUIREMENT_OK,
-        SELF::SEVERITY_WARNING   => REQUIREMENT_WARNING,
-        SELF::SEVERITY_ERROR     => REQUIREMENT_ERROR,
+        self::SEVERITY_INFO      => REQUIREMENT_INFO,
+        self::SEVERITY_OK        => REQUIREMENT_OK,
+        self::SEVERITY_WARNING   => REQUIREMENT_WARNING,
+        self::SEVERITY_ERROR     => REQUIREMENT_ERROR,
       ];
     }
     return $mapping[$this->getSeverity()];

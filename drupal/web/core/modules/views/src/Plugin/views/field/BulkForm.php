@@ -121,7 +121,7 @@ class BulkForm extends FieldPluginBase implements CacheableDependencyInterface {
       $configuration,
       $plugin_id,
       $plugin_definition,
-      $container->get('entity.manager'),
+      $container->get('entity_type.manager'),
       $container->get('language_manager'),
       $container->get('messenger'),
       $container->get('entity.repository')
@@ -422,6 +422,12 @@ class BulkForm extends FieldPluginBase implements CacheableDependencyInterface {
         $entities[$bulk_form_key] = $entity;
       }
 
+      // If there were entities selected but the action isn't allowed on any of
+      // them, we don't need to do anything further.
+      if (!$count) {
+        return;
+      }
+
       $action->execute($entities);
 
       $operation_definition = $action->getPluginDefinition();
@@ -434,11 +440,9 @@ class BulkForm extends FieldPluginBase implements CacheableDependencyInterface {
       else {
         // Don't display the message unless there are some elements affected and
         // there is no confirmation form.
-        if ($count) {
-          $this->messenger->addStatus($this->formatPlural($count, '%action was applied to @count item.', '%action was applied to @count items.', [
-            '%action' => $action->label(),
-          ]));
-        }
+        $this->messenger->addStatus($this->formatPlural($count, '%action was applied to @count item.', '%action was applied to @count items.', [
+          '%action' => $action->label(),
+        ]));
       }
     }
   }

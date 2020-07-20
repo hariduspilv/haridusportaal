@@ -44,13 +44,20 @@ interface ExternalAuthInterface {
   /**
    * Register a Drupal user based on an external authname.
    *
+   * The Drupal username of the account to be created defaults to the external
+   * authentication name prefixed with the provider ID. The caller may enforce
+   * a custom Drupal username by setting that value in $account_data['name'].
+   *
    * @param string $authname
    *   The unique, external authentication name provided by authentication
    *   provider.
    * @param string $provider
    *   The module providing external authentication.
    * @param array $account_data
-   *   An array of additional properties to be saved with the user entity.
+   *   An array of additional properties to be saved with the user entity. If
+   *   the array contains a 'name' string value, it will be used as local Drupal
+   *   username, otherwise a default local Drupal username will be computed as
+   *   "{$provider}_{$authname}".
    * @param mixed $authmap_data
    *   Additional data to be stored in the authmap entry.
    *

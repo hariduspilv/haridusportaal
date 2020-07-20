@@ -22,10 +22,10 @@ class SelectionPluginManager extends CoreSelectionPluginManager {
       return parent::getSelectionHandler($field_definition, $entity);
     }
     $settings = $field_definition->getSettings();
-    $options = [
+    $options = $settings[$target_type]['handler_settings'] ?? [];
+    $options += [
       'target_type' => $target_type,
       'handler' => $settings[$target_type]['handler'],
-      'handler_settings' => $settings[$target_type]['handler_settings'],
       'entity' => $entity,
     ];
     return $this->getInstance($options);

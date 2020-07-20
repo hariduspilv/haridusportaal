@@ -2,9 +2,8 @@
 
 namespace Drupal\purge\Plugin\Purge\Queuer;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Component\Plugin\PluginManagerInterface;
-use Drupal\purge\Plugin\Purge\Queuer\QueuersServiceInterface;
+use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\purge\IteratingServiceBaseTrait;
 use Drupal\purge\ModifiableServiceBaseTrait;
 use Drupal\purge\ServiceBase;
@@ -17,19 +16,14 @@ class QueuersService extends ServiceBase implements QueuersServiceInterface {
   use ModifiableServiceBaseTrait;
 
   /**
+   * The factory for configuration objects.
+   *
    * @var \Drupal\Core\Config\ConfigFactoryInterface
    */
   protected $configFactory;
 
   /**
-   * The plugin manager for queuers.
-   *
-   * @var \Drupal\purge\Plugin\Purge\Queuer\PluginManager
-   */
-  protected $pluginManager;
-
-  /**
-   * Construct \Drupal\purge\Plugin\Purge\Processor\ProcessorsService.
+   * Construct the queuers service.
    *
    * @param \Drupal\Component\Plugin\PluginManagerInterface $pluginManager
    *   The plugin manager for this service.
@@ -43,6 +37,7 @@ class QueuersService extends ServiceBase implements QueuersServiceInterface {
 
   /**
    * {@inheritdoc}
+   *
    * @ingroup countable
    */
   public function count() {
@@ -67,13 +62,13 @@ class QueuersService extends ServiceBase implements QueuersServiceInterface {
    * {@inheritdoc}
    */
   public function getPluginsEnabled() {
-    if (is_null($this->plugins_enabled)) {
+    if (is_null($this->pluginsEnabled)) {
 
       // Build a mapping of all plugins and whether they are enabled by default.
-      $this->plugins_enabled = [];
+      $this->pluginsEnabled = [];
       foreach ($this->getPlugins() as $plugin_id => $definition) {
         $enable_by_default = ($definition['enable_by_default'] === TRUE);
-        $this->plugins_enabled[$plugin_id] = $enable_by_default;
+        $this->pluginsEnabled[$plugin_id] = $enable_by_default;
       }
 
       // Override the mapping with information stored in CMI, then filter out
@@ -81,19 +76,19 @@ class QueuersService extends ServiceBase implements QueuersServiceInterface {
       $queuers = $this->configFactory->get('purge.plugins')->get('queuers');
       if (!is_null($queuers)) {
         foreach ($queuers as $inst) {
-          if (isset($this->plugins_enabled[$inst['plugin_id']])) {
-            $this->plugins_enabled[$inst['plugin_id']] = $inst['status'];
+          if (isset($this->pluginsEnabled[$inst['plugin_id']])) {
+            $this->pluginsEnabled[$inst['plugin_id']] = $inst['status'];
           }
         }
       }
-      foreach ($this->plugins_enabled as $plugin_id => $status) {
+      foreach ($this->pluginsEnabled as $plugin_id => $status) {
         if (!$status) {
-          unset($this->plugins_enabled[$plugin_id]);
+          unset($this->pluginsEnabled[$plugin_id]);
         }
       }
-      $this->plugins_enabled = array_keys($this->plugins_enabled);
+      $this->pluginsEnabled = array_keys($this->pluginsEnabled);
     }
-    return $this->plugins_enabled;
+    return $this->pluginsEnabled;
   }
 
   /**
@@ -103,9 +98,11 @@ class QueuersService extends ServiceBase implements QueuersServiceInterface {
     parent::reload();
     // Without this, the tests will throw "failed to instantiate user-supplied
     // statement class: CREATE TABLE {cache_config}".
+    // phpcs:ignore DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
     $this->configFactory = \Drupal::configFactory();
     // Drush commands appreciate it when the config cache gets cleared.
     if (php_sapi_name() === 'cli') {
+      // phpcs:ignore DrupalPractice.Objects.GlobalDrupal.GlobalDrupal
       \Drupal::cache('config')->deleteAll();
     }
     $this->reloadIterator();

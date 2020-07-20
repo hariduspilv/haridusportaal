@@ -1,0 +1,28 @@
+uuid: 45f8b36d-7f74-4e8a-b732-cc5d9f01060f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_frontpage_news
+    - node.type.frontpage_new
+    - node.type.news
+id: node.frontpage_new.field_frontpage_news
+field_name: field_frontpage_news
+entity_type: node
+bundle: frontpage_new
+label: 'Avalehe uudis'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

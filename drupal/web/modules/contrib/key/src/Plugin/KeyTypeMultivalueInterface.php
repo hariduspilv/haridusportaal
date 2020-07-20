@@ -11,7 +11,7 @@ interface KeyTypeMultivalueInterface {
    * Serialize an array of key values into a string.
    *
    * @param array $array
-   *   An array of key values
+   *   An array of key values.
    *
    * @return string
    *   A serialized string of key values.

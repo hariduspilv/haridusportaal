@@ -1,0 +1,5 @@
+htm_custom_infograph.infograph_import_data_form:
+  route_name: htm_custom_infograph.infograph_import_data_form
+  title: 'Add Infograph CSV'
+  appears_on:
+    - htm_custom_infograph.infograph_csv_list_form

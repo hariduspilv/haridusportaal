@@ -29,14 +29,14 @@ class KeyConfigOverrideListBuilder extends ConfigEntityListBuilder {
   /**
    * The configuration manager.
    *
-   * @var \Drupal\Core\Config\ConfigManagerInterface;
+   * @var \Drupal\Core\Config\ConfigManagerInterface
    */
   protected $configManager;
 
   /**
    * The key repository.
    *
-   * @var \Drupal\key\KeyRepositoryInterface;
+   * @var \Drupal\key\KeyRepositoryInterface
    */
   protected $keyRepository;
 
