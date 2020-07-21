@@ -136,6 +136,8 @@ export class DetailViewComponent {
     };
     const path = this.settings.query(this.queryKey, variables);
 
+    this.sidebar = undefined;
+
     const subscription = this.http.get(path).subscribe((response) => {
 
       try {
