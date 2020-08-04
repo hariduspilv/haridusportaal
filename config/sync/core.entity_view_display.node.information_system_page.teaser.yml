@@ -4,9 +4,16 @@ status: true
 dependencies:
   config:
     - core.entity_view_mode.node.teaser
+    - field.field.node.information_system_page.field_alert
+    - field.field.node.information_system_page.field_content_text
+    - field.field.node.information_system_page.field_file
+    - field.field.node.information_system_page.field_infosystem_accordion
+    - field.field.node.information_system_page.field_infosystem_sidebar
     - field.field.node.information_system_page.field_introduction_text
     - field.field.node.information_system_page.field_logo
     - field.field.node.information_system_page.field_subtitle
+    - field.field.node.information_system_page.field_support
+    - field.field.node.information_system_page.field_webpage_link
     - node.type.information_system_page
   module:
     - user
@@ -21,7 +28,15 @@ content:
     third_party_settings: {  }
     region: content
 hidden:
+  field_alert: true
+  field_content_text: true
+  field_file: true
+  field_infosystem_accordion: true
+  field_infosystem_sidebar: true
   field_introduction_text: true
   field_logo: true
   field_subtitle: true
+  field_support: true
+  field_webpage_link: true
   langcode: true
+  search_api_excerpt: true

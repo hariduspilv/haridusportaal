@@ -1,0 +1,19 @@
+uuid: 00423f7a-3e99-469c-b870-c0e826468c26
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_support_title
+    - paragraphs.paragraphs_type.infosystem_support
+id: paragraph.infosystem_support.field_support_title
+field_name: field_support_title
+entity_type: paragraph
+bundle: infosystem_support
+label: 'Vahelehe pealkiri'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

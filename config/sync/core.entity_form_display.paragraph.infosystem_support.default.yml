@@ -1,0 +1,38 @@
+uuid: d759fe9a-4b19-4c70-b1f6-6ff1379be4c6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.infosystem_support.field_support_content
+    - field.field.paragraph.infosystem_support.field_support_title
+    - paragraphs.paragraphs_type.infosystem_support
+  module:
+    - maxlength
+    - text
+id: paragraph.infosystem_support.default
+targetEntityType: paragraph
+bundle: infosystem_support
+mode: default
+content:
+  field_support_content:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: text_textarea
+    region: content
+  field_support_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

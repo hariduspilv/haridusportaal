@@ -1,0 +1,21 @@
+uuid: a4e1dc11-d93a-49dd-8127-1c6cde3d6cd4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_support_content
+    - paragraphs.paragraphs_type.infosystem_support
+  module:
+    - text
+id: paragraph.infosystem_support.field_support_content
+field_name: field_support_content
+entity_type: paragraph
+bundle: infosystem_support
+label: 'Vahelehe sisu'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

@@ -1,21 +1,19 @@
-uuid: c9799e72-8864-4d62-8a4b-bffe4a590ba3
+uuid: 125bc5b9-2029-4365-bbec-b2261f1c6d64
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.paragraph.field_link_icon
+    - field.storage.paragraph.field_ehis_link_title
     - paragraphs.paragraphs_type.ehis_links
-  module:
-    - options
-id: paragraph.ehis_links.field_link_icon
-field_name: field_link_icon
+id: paragraph.ehis_links.field_ehis_link_title
+field_name: field_ehis_link_title
 entity_type: paragraph
 bundle: ehis_links
-label: 'Lingi ikoon'
+label: 'Teemaploki nimetus'
 description: ''
 required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
 settings: {  }
-field_type: list_string
+field_type: string
