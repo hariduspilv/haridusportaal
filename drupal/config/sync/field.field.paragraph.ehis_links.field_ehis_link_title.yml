@@ -1,0 +1,19 @@
+uuid: 125bc5b9-2029-4365-bbec-b2261f1c6d64
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_ehis_link_title
+    - paragraphs.paragraphs_type.ehis_links
+id: paragraph.ehis_links.field_ehis_link_title
+field_name: field_ehis_link_title
+entity_type: paragraph
+bundle: ehis_links
+label: 'Teemaploki nimetus'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

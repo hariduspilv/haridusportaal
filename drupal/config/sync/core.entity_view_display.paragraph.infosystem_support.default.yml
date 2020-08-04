@@ -1,0 +1,32 @@
+uuid: f8718f26-efc6-43ca-bbbc-37e53bee6cc7
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.infosystem_support.field_support_content
+    - field.field.paragraph.infosystem_support.field_support_title
+    - paragraphs.paragraphs_type.infosystem_support
+  module:
+    - text
+id: paragraph.infosystem_support.default
+targetEntityType: paragraph
+bundle: infosystem_support
+mode: default
+content:
+  field_support_content:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+  field_support_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  search_api_excerpt: true

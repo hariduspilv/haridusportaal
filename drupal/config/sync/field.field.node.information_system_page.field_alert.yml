@@ -1,0 +1,19 @@
+uuid: 94178a42-7fb6-468a-bfd8-f2de0d5253e3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_alert
+    - node.type.information_system_page
+id: node.information_system_page.field_alert
+field_name: field_alert
+entity_type: node
+bundle: information_system_page
+label: Teavitus
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

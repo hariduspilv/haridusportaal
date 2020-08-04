@@ -212,9 +212,9 @@ datasource_settings:
 processor_settings:
   add_url: {  }
   aggregated_field: {  }
+  entity_status: {  }
   language_with_fallback: {  }
   rendered_item: {  }
-  entity_status: {  }
 tracker_settings:
   default:
     indexing_order: fifo
