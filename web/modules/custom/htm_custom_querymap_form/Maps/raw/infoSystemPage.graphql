@@ -19,6 +19,7 @@ query infoSystemPage($path: String!) {
           nid
           title
           fieldSubtitle
+          fieldAlert
           fieldLogo {
             derivative(style: CROP_LARGE) {
               url
@@ -144,6 +145,7 @@ query infoSystemPage($path: String!) {
                 fieldEhisLinks {
                   entity {
                     ... on ParagraphEhisLinks {
+                      fieldEhisLinkTitle
                       fieldEhisLink{
                         url {
                           routed
