@@ -1,0 +1,28 @@
+$breakpoints: (
+  xxs: 480px,
+  xs: 720px,
+  sm: 1024px,
+  md: 1280px,
+  lg: 1440px,
+  xl: 1920px,
+  xxl: 2580px
+);
+
+@mixin break-on($breakpoint, $type) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    $mediaValue: map-get($breakpoints, $breakpoint);
+    @if $type == min {
+      @media (min-width: $mediaValue) {
+        @content;
+      }
+    } @else if ($type == max) {
+      @media (max-width: $mediaValue) {
+        @content;
+      }
+    } @else {
+      @warn "Unknown `#{$type}` in $media query type";
+    }
+  } @else {
+    @warn "Unknown `#{$breakpoint}` in $breakpoints";
+  }
+}

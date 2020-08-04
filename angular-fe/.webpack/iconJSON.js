@@ -42,3 +42,4 @@ Plugin.prototype.main = function(options) {
 };
 
 module.exports = Plugin;
+
