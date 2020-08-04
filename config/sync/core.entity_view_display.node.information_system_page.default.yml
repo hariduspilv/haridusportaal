@@ -3,6 +3,7 @@ langcode: et
 status: true
 dependencies:
   config:
+    - field.field.node.information_system_page.field_alert
     - field.field.node.information_system_page.field_content_text
     - field.field.node.information_system_page.field_file
     - field.field.node.information_system_page.field_infosystem_accordion
@@ -10,12 +11,13 @@ dependencies:
     - field.field.node.information_system_page.field_introduction_text
     - field.field.node.information_system_page.field_logo
     - field.field.node.information_system_page.field_subtitle
+    - field.field.node.information_system_page.field_support
     - field.field.node.information_system_page.field_webpage_link
     - node.type.information_system_page
   module:
     - entity_reference_revisions
-    - image
     - link
+    - svg_image
     - text
     - user
 id: node.information_system_page.default
@@ -23,6 +25,13 @@ targetEntityType: node
 bundle: information_system_page
 mode: default
 content:
+  field_alert:
+    weight: 111
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
   field_content_text:
     weight: 105
     label: above
@@ -81,6 +90,15 @@ content:
     third_party_settings: {  }
     type: string
     region: content
+  field_support:
+    type: entity_reference_revisions_entity_view
+    weight: 112
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
   field_webpage_link:
     weight: 106
     label: above
@@ -100,3 +118,4 @@ content:
     region: content
 hidden:
   langcode: true
+  search_api_excerpt: true
