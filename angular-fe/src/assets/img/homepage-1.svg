@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg enable-background="new 0 0 1280 648" version="1.1" viewBox="0 0 1280 648" xml:space="preserve" xmlns="http://www.w3.org/2000/svg">
+<style type="text/css">
+	.st0{fill:url(#a);}
+	.st1{fill:#BEE3E8;}
+</style>
+<linearGradient id="a" x1="654.17" x2="626.58" y1="698.87" y2="5.8871" gradientTransform="matrix(1 0 0 -1 0 650)" gradientUnits="userSpaceOnUse">
+	<stop stop-color="#BEE3E8" offset=".2708"/>
+	<stop stop-color="#DCF5F9" offset="1"/>
+</linearGradient>
+<path class="st0" d="M0,0h1280v614H0V0z"/>
+<path class="st1" d="m180.8 372.1c22 2.9 41.9 14.2 61.8 24.1 30.9 15.4 63.3 27.9 96.5 37.3 25.5 7.2 52 12.6 78.2 9.3 61.4-7.8 107-61.3 135.4-116.4s46.5-116.3 85.1-164.7c38.6-48.5 107.7-81.2 163.1-53.5 40.5 20.3 60.8 65.4 81.3 105.9s49.5 83.4 94.2 90.8c33.3 5.6 65.9-10.4 97.6-22.2s70.1-18.7 97 1.8c27.9 21.3 30.3 61.4 39.8 95.2 9.4 33.4 55.8 76.8 69.3 78.3v189.5c-17.5 7-1236.1 1.1-1280-0.1v-87.9l-0.1-120.5c35-42.5 128.6-73.8 180.8-66.9z"/>
+</svg>

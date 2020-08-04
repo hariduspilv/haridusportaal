@@ -1,0 +1,150 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+	&.size-small {
+		.modal__block {
+			min-width: 0;
+			max-width: 540px;
+		}
+	}
+	&.size-medium {
+		.modal__block {
+			min-width: 0;
+			max-width: 700px;
+		}
+	}
+	.modal {
+		&__backdrop {
+			opacity: 0;
+			transition: opacity .25s cubic-bezier(.25,.8,.25,1);
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			background:rgba(51, 51, 51, 0.9);
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			right: 0;
+			z-index: 1000;
+		}
+		&__block {
+			outline: none;
+			transition: transform 0.25s;
+			max-height: 90vh;
+			min-width: 50vw;
+			max-width: 75vw;
+			margin: 4rem 0 auto; 
+			overflow: auto;
+			background: $white;
+			border-top: .625rem solid $dark-orange;
+			border-radius: .25rem;
+			box-shadow: 0 0.6875rem 0.9375rem -0.4375rem rgba(0,0,0,.2), 0 1.5rem 2.375rem 0.1875rem rgba(0,0,0,.14), 0 0.5625rem 2.875rem 0.5rem rgba(0,0,0,.12);
+			padding: 1.5rem;
+			position: relative;
+			flex-basis: 100%;
+		}
+		&__header {
+			padding-bottom: 1.5rem;
+			display: flex;
+			justify-content: space-between;
+			align-items: baseline;
+			h2, button {
+				font-weight: normal;
+				margin: 0;
+				color: $dark-gray;
+				font-size: 1rem;
+				text-transform: uppercase;
+			}
+			h2 {
+				line-height: 1.5rem;
+			}
+			&.justify-end {
+				justify-content: flex-end;
+			}
+		}
+		&__footer {
+			padding-top: .75rem;
+			display: flex;
+			justify-content: center;
+		}
+	}
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	z-index: 100;
+	top: 0;
+	left: 0;
+	.modal{
+		
+		.modal__backdrop {
+			opacity: 1;
+		}
+	}
+	&.modal-hidden {
+		position: absolute;
+		top: 0;
+		left: 0;
+		visibility: hidden;
+		pointer-events: none;
+		.modal__block {
+			transform: translateY(-4rem);
+		}
+	}
+	&.modal-open {
+		position: fixed;
+		width: 100%;
+		height: 100%;
+		z-index: 100;
+		.modal{
+			visibility: visible;
+			.modal__backdrop {
+				opacity: 1;
+			}
+			.modal__block {
+				transform: translateY(0);
+			}
+		}
+	}
+	::ng-deep .modal-content {
+		color: $black;
+		line-height: 1rem;
+		display: block;
+		p:last-child {
+			margin: 0;
+		}
+	}
+	.states {
+		display: flex;
+		flex-direction: column;
+		formItem, button {
+			margin-top: 1rem;
+		}
+	}
+	@include break-on(sm, max) {
+		.modal__block {
+			min-width: 30rem;
+		}
+	}
+	@include break-on(md, min) {
+		.modal__block {
+			margin: auto 0;
+		}
+	}
+	@include break-on(xxs, max) {
+		.modal {
+			&__backdrop {
+				// For mobile header
+				margin-top: 4rem;
+			}
+			&__block {
+				max-width: inherit;
+				min-width: 20rem;
+				width: 100%;
+				border-radius: 0;
+				margin-top: 0;
+			}
+		}
+	}
+}

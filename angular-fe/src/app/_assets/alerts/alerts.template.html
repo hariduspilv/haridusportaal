@@ -1,0 +1,20 @@
+<ng-container *ngFor="let alert of alerts">
+  <div @transform [ngClass]="'alert alert--' + alert.type" role="alert" aria-label="alert">
+    <div class="alert__icon">
+      <icon glyph="{{alertIcons[alert.type]}}" [size]="small ? 'medium' : 'large'"></icon>
+    </div>
+    <p>
+      {{ alert.message | translate }}
+      <a *ngIf="alert.link" class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
+    </p>
+    <div class="cookie__buttons" *ngIf="alert.type === 'cookie'">
+      <button htm-button (click)="cookies.agreeTerms()">{{ 'agree' | translate }}</button>
+      <button attr.aria-label="{{ 'button.close' | translate }}" *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
+        <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
+      </button>
+    </div>
+    <button attr.aria-label="{{ 'button.close' | translate }}" *ngIf="alert.closeable" class="alert__close" (click)="remove(alert)">
+      <icon glyph="x" [size]="small ? 'medium' : 'medium'"></icon>
+    </button>
+  </div>
+</ng-container>

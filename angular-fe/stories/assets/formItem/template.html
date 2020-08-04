@@ -1,0 +1,28 @@
+<table htm-table style="max-width: 100%; table-layout: fixed;">
+  <tr>
+    <th>
+      Form item
+    </th>
+    <th *ngIf="!isMobile">
+      Model value
+    </th>
+  </tr>
+  <tr *ngFor="let item of formItems">
+    <td style="width:50%" [style.background-color]="item.titleDisabled ? '#2e3374' : false">
+      <formItem
+      [type]="item.type"
+      [(ngModel)]="item.value"
+      [placeholder]="item.placeholder"
+      [title]="item.title"
+      [titleDisabled]="item.titleDisabled"
+      [options]="item.options"
+      [label]="item.label"
+      [error]="status == 'error'"
+      [success]="status == 'success'"
+      [errorMessage]="item.errorMessage"
+      [disabled]="item.disabled">
+    </formItem>
+    </td>
+    <td *ngIf="!isMobile">{{ item.value | ellipsis: 100 }}</td>
+  </tr>
+</table>

@@ -1,0 +1,18 @@
+<base-layout>
+	<div class="inline">
+		<breadcrumbs path="/valdkonnad"></breadcrumbs>
+	</div><!--/inline-->
+	<div class="inline">
+		<block titleBorder="true" tabStyle="default">
+			<block-title>{{ 'oskaProfessions.fields' | translate }}</block-title>
+			<block-content class="block-content--no-padding" tabLabel="{{ 'oskaProfessions.fields' | translate }}" tabIcon="grid" tabLink="/valdkonnad">
+				<loader *ngIf=!data></loader>
+				<dropdown-list *ngIf="data" [data]="data"></dropdown-list>
+			</block-content>
+			<block-content tabLabel="{{ 'oska.data' | translate }}" tabIcon="info"  tabLink="/valdkonnad/andmed">
+			</block-content>
+			<block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="/valdkonnad/kaart">
+			</block-content>
+		</block>
+	</div><!--/inline-->
+</base-layout>

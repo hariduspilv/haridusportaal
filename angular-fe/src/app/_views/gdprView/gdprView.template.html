@@ -1,0 +1,40 @@
+<base-layout>
+	<div class="inline">
+		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+	</div>
+	<div class="inline">
+		<block>
+			<block-title>
+				{{'gdpr_title' | translate}}
+			</block-title>
+			<block-secondary-title
+				>{{'gdpr_yourDataRequests' | translate}}<a routerLink="/töölaud"
+					>{{'button.back_to_dashboard' | translate}}</a
+				></block-secondary-title
+			>
+			<block-content>
+				<div class="gdpr_intro" [innerHTML]="'gdpr_intro' | translate"></div>
+				<loader *ngIf="loading"></loader>
+				<alerts id="no-results" small>				
+				</alerts>
+				<accordion *ngIf="!loading && groupedData.length > 0">
+					<accordion-item [title]="group.institution + ' <span>(' + group.queries.length + ' päringut)</span>'" *ngFor="let group of groupedData" >
+						<ng-template>
+						<div class="check-website" *ngIf="group.link">
+							Vaata kodulehte: <span [innerHTML]="group.link"></span>
+						</div>
+						<table htm-table>
+							<tr *ngFor="let query of group.queries">
+								<td><span>{{query.logTime}}</span></td>
+								<td [innerHTML]="query.action"></td>
+							</tr>
+						</table>
+					</ng-template>
+					</accordion-item>
+				</accordion>
+			</block-content>
+		</block>
+	</div>
+</base-layout>
+
+<img cornerLogo alt="Euroopa Regionaalarengu fondi logo" src="/assets/img/esf-logo.svg">

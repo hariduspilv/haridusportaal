@@ -1,0 +1,33 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+.outer__wrapper {
+  &--light {background-color: #ffe7c1;}
+  &--dark {background-color: #bee3e8;}
+}
+.wrapper {padding: 4rem 3rem;
+  &__heading {display: flex;margin-bottom: 1rem;
+    & > * {flex: 1;font-size: 1rem;line-height: 2rem;}
+    &__label {color: $dark-gray;}
+    &__action {text-align: right;z-index: 1;}
+    @include break-on(xs, max) {
+      .wrapper__heading__label {line-height: 1.25rem;}
+      .wrapper__heading__action {align-self: flex-end;line-height: 1.38;}
+    }
+  }
+  
+  @include break-on(sm, max) {padding: 4rem 6rem;}
+  @include break-on(xs, max) {padding: 4rem 2rem;}
+}
+.article {text-decoration: none;margin-bottom: 2rem;
+  &:hover {
+    .article__title {
+      text-decoration: underline;
+    }
+  }
+  &__image {margin-bottom: 1rem;z-index: 1;position: relative;
+    img {width: 100%;display: block;height: auto;}
+  }
+  &__title {font-size: 1.25rem;line-height: 1.5rem;overflow: hidden;text-overflow: ellipsis;z-index: 1;position: relative;}
+  &__subtext, &__headtext {line-height: 1.25rem;font-size: .875rem;margin-top: .5rem;color: $dark-gray;z-index: 1;position: relative;}
+  &__headtext {margin-top: 0;margin-bottom: .5rem;color: $black;font-weight: 500;}
+}

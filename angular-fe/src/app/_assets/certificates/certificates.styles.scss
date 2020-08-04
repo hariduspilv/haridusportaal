@@ -1,0 +1,28 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+  .unpadded {
+    margin-bottom: 2rem;
+  }
+  
+  accordion {
+    margin: 0 !important;
+  }
+  
+  more-block {
+    padding: 0 !important;
+  }
+  
+  .text-center {
+    text-align: center;
+  }
+
+  scrollableContent {
+    th {
+      @include break-on(xs, max) {
+        white-space: nowrap;
+      }
+    }
+  }
+}

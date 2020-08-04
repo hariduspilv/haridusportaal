@@ -61,8 +61,8 @@ export class OskaFrontPageComponent {
     url: 'url'
   };
   public introImage: Object = {
-    standard: '/assets/img/frontpage-button-default.svg',
-    hover: '/assets/img/frontpage-button-hover.svg'
+    standard: '/assets/img/frontpage/frontpage-button-default.svg',
+    hover: '/assets/img/frontpage/frontpage-button-hover.svg'
   };
 	public lang: string;
   

@@ -1,0 +1,228 @@
+<div class="inline">
+	<article-layout
+		[sidebar]="
+			favouritesListDone && eventsListDone
+				? sidebar
+				: false
+		"
+	>
+		<breadcrumbs [path]="breadcrumbs"></breadcrumbs>
+		<block [titleBorder]="false" tabStyle="middle">
+			<block-title>
+				{{ "frontpage.dashboard_label" | translate }}
+			</block-title>
+			<block-sub-title>
+				<div class="block__sub__title">
+					<div class="identification">
+						<button
+							htm-button
+							theme="link"
+							*ngIf="currentRole === 'natural_person'"
+							attr.aria-label="{{ 'modal.modaler' | translate }}"
+							(click)="loadUserModal()"
+						>
+							<h1>
+								<ng-container *ngIf="auth.user.firstname && auth.user.lastname"
+									>{{ auth.user.firstname }} {{ auth.user.lastname
+									}}</ng-container
+								>
+								<ng-container
+									*ngIf="!auth.user.firstname && !auth.user.lastname"
+									>{{ auth.user.username }}</ng-container
+								>
+							</h1>
+						</button>
+						<h1 *ngIf="currentRole === 'juridical_person'">
+							{{ userData.role.current_role.data.nimi }}
+						</h1>
+					</div>
+					<div class="change-role">
+						<button
+							htm-button
+							theme="link"
+							attr.aria-label="{{ 'modal.change_role' | translate }}"
+							(click)="loadRoleChangeModal()"
+						>
+							{{ "modal.change_role" | translate }}
+						</button>
+					</div>
+				</div>
+			</block-sub-title>
+			
+
+			<block-content
+				[tabActive]="breadcrumbs === '/töölaud' && currentRole !== 'juridical_person'"
+				tabLink="intro"
+				tabLabel="intro"
+				[tabVisible]="false">
+				
+				<div #intro [innerHTML]="'dashboard.intro' | translate"></div>
+			</block-content>
+			
+			<block-content
+				*ngIf="currentRole === 'juridical_person' || currentRole === 'natural_person'"
+				tabLabel="Taotlused"
+				tabIcon="file-text"
+				tabLink="taotlused"
+				[tabActive]="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
+				<applications
+					#applications
+					*ngIf="breadcrumbs === '/töölaud/taotlused' || (currentRole === 'juridical_person' && breadcrumbs === '/töölaud')">
+				</applications>
+			</block-content>
+
+			<block-content
+				*ngIf="currentRole === 'natural_person'"
+				tabLabel="Tunnistused"
+				tabIcon="class"
+				tabLink="tunnistused"
+				[tabActive]="breadcrumbs === '/töölaud/tunnistused'"
+			>
+				<certificates *ngIf="breadcrumbs === '/töölaud/tunnistused'"></certificates>
+			</block-content>
+			<block-content
+				*ngIf="currentRole === 'natural_person'"
+				tabLabel="Õpingud"
+				tabIcon="local-library"
+				tabLink="õpingud"
+				[tabActive]="breadcrumbs === '/töölaud/õpingud'"
+			>
+				<studies *ngIf="breadcrumbs === '/töölaud/õpingud'"></studies>
+			</block-content>
+			<block-content
+				*ngIf="currentRole === 'natural_person'"
+				tabLabel="Õpetan"
+				tabIcon="school"
+				tabLink="õpetan"
+				[tabActive]="breadcrumbs === '/töölaud/õpetan'"
+			>
+				<teachings *ngIf="breadcrumbs === '/töölaud/õpetan'"></teachings>
+			</block-content>
+		</block>
+	</article-layout>
+</div>
+
+<htm-modal
+	id="userModal"
+	modalTitle="{{ 'frontpage.dashboard_tabs_personal_label' | translate }}"
+	[titleExists]="titleExists"
+	[topAction]="topAction"
+	[bottomAction]="bottomAction"
+	size="medium"
+>
+<ng-template>
+	<loader *ngIf="loading"></loader>
+		<alerts
+			class="notifications notifications--small"
+			id="personalData"
+		></alerts>
+		<ng-container *ngIf="!loading && !error && personalData">
+			<h1>
+				<ng-container *ngIf="auth.user.firstname && auth.user.lastname"
+					>{{ auth.user.firstname }} {{ auth.user.lastname }}</ng-container
+				>
+				<ng-container *ngIf="!auth.user.firstname && !auth.user.lastname"
+					>{{ auth.user.username }}</ng-container
+				>
+			</h1>
+			<table htm-table class="personal-data">
+				<ng-container *ngFor="let field of personalDataFields">
+					<tr *ngIf="personalData[field]">
+						<th>{{ "frontpage." + field | translate | titlecase }}</th>
+						<td>
+							{{ personalData[field] }}
+						</td>
+					</tr>
+				</ng-container>
+			</table>
+		</ng-container>
+		</ng-template>
+</htm-modal>
+
+<htm-modal
+	id="roleModal"
+	modalTitle="{{ 'modal.changing_role' | translate }}"
+	[titleExists]="titleExists"
+	[topAction]="topAction"
+	[bottomAction]="roleBottomAction"
+	size="small"
+>
+	<ng-template>
+		<loader *ngIf="loading"></loader>
+		<alerts class="notifications notifications--small" id="roles"></alerts>
+		<ng-container *ngIf="!loading && !error">
+			<h1 class="role-title">{{ 'modal.choose_role' | translate }}</h1>
+			<table htm-table class="natural-roles">
+				<thead>
+					<tr>
+						<th>{{ 'modal.me' | translate }}:</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td ngForm [formGroup]="formGroup">
+							<formItem
+								type="radio"
+								formControlName="roleSelection"
+								[options]="roleNaturalOptions"
+							>
+							</formItem>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<table htm-table>
+				<thead>
+					<tr>
+						<th>{{ 'modal.organizations' | translate }}:</th>
+					</tr>
+				</thead>
+				<tbody ngForm [formGroup]="formGroup">
+					<ng-container
+						*ngIf="roleJuridicalOptions && roleJuridicalOptions.length"
+					>
+						<tr *ngFor="let item of roleJuridicalOptions">
+							<td>
+								<formItem
+									type="radio"
+									formControlName="roleSelection"
+									(click)="codeSelection = item.ariregistri_kood"
+									(keyup.space)="codeSelection = item.ariregistri_kood"
+									[options]="[{ key: item.arinimi, value:'juridical-' + item.ariregistri_kood }]"
+								>
+								</formItem>
+							</td>
+						</tr>
+					</ng-container>
+					<ng-container
+						*ngIf="roleJuridicalOptions && !roleJuridicalOptions.length"
+					>
+						<tr>
+							<td class="text-center">
+								{{ 'modal.no_organizations' | translate }}
+							</td>
+						</tr>
+					</ng-container>
+				</tbody>
+			</table>
+		</ng-container>
+		<div class="button-container">
+			<button
+				htm-button
+				theme="plain"
+				(click)="closeRoleChangeModal()"
+				attr.aria-label="{{ 'event.registration_form_cancel' | translate }}"
+			>
+				{{ 'event.registration_form_cancel' | translate }}
+			</button>
+			<button
+				htm-button
+				theme="default"
+				(click)="roleChange()"
+				attr.aria-label="{{ 'modal.confirm' | translate }}"
+			>
+				{{ 'modal.confirm' | translate }}
+			</button>
+		</div>
+	</ng-template>
+</htm-modal>

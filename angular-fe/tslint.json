@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "tslint-config-airbnb"
+  ],
+  "rules": {
+    "no-console": {
+      "severity": "warning"
+    }
+  }
+}

@@ -1,0 +1,156 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+
+:host {
+  ::ng-deep{
+    .modal-content {
+      ::ng-deep .alerts{
+        margin-top: 0 !important;
+        &--active {
+          margin-top: 2rem !important;
+        }
+      }
+      h1 + .row {
+        margin-top: 1rem;
+      }
+      .button-container {
+        .button--disabled {
+          opacity: 0.5;
+          cursor: not-allowed;
+        }
+      }
+    }
+    #modal-institutionModal {
+      @include break-on(md, min) {
+        overflow: auto;
+      }
+    }
+  }
+
+  .alerts {
+    margin-top: 2rem;
+  }
+
+  ::ng-deep accordion-item {
+    @include break-on(xs, max) {
+      margin-left: -1.5rem;
+      margin-right: -1.5rem;
+    }
+  }
+
+  .center {
+    text-align: center;
+  }
+
+  h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.38;
+    text-align: left;
+    color: #333;
+    margin: 2rem 0 1rem;
+  }
+
+  .scrollable_table {
+    td {
+      padding: .75rem 1rem;
+      font-size: .875rem;
+    }
+  }
+  
+  .unpadded {
+    margin-bottom: 2rem;
+  }
+  
+  more-block {
+    padding: 0 !important;
+  }
+  
+  .acceptable-forms {
+    margin-bottom: 2rem;
+  }
+  
+  .text-center {
+    text-align: center;
+    a {
+      text-decoration: underline;
+      cursor: pointer;
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  }
+
+  .modal-center {
+    text-align: center;
+    div {
+      margin-bottom: 2rem;
+    }
+  }
+  
+  .rowspan-btn {
+    word-break: keep-all;
+  }
+
+  .description {
+    word-break: normal;
+  }
+  
+  .form-item {
+    text-decoration: none;
+    text-align: center;
+    padding: 1rem 0.5rem;
+    border-radius: 0.25rem;
+    border: 1px solid #c7c7c9;
+    background-color: #fff;
+    color: #2e3374;
+    font-weight: 500;
+    font-size: 0.875rem;
+    flex: 0;
+    margin: .25rem .25rem;
+    display: flex;
+    flex-basis: calc(50% - 0.5rem);
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .grid-load {
+    margin-top: 1rem;
+  }
+  
+  .block-btn {
+    width: 100%;
+    height: 5rem;
+    box-sizing: border-box;
+    border-radius: 0.125rem;
+    border: none;
+    margin-top: 2rem;
+    margin-bottom: 1.5rem;
+    background-color: $aqua;
+    font-size: 1rem;
+    text-decoration: underline;
+    color: $blue;
+    line-height: 1.5rem;
+    &:hover {
+      cursor: pointer;
+      text-decoration: none;
+    }
+    &--holder {
+      @include break-on(sm, max) {
+        margin: 0 -1.5rem;
+      }
+    }
+  }
+  
+  .button-container {
+    width: 100%;
+    padding: 0.5rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  [htm-table] {
+    font-size: .875rem;
+  }
+  
+}

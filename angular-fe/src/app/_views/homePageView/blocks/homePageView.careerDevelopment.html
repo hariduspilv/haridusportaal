@@ -1,0 +1,16 @@
+<homepage-line [type]="line"></homepage-line>
+<div class="inner">
+  <div class="intro">
+    <h2>{{ title }}</h2>
+    <p>{{ description }}</p>
+  </div><!--/intro-->
+
+  <div class="links">
+    <ul>
+      <li *ngFor="let item of data">
+        <button [routerLink]="item.path" [fragment]="item.slug">{{ item.title }}</button>
+        <icon glyph="chevrons-down"></icon>
+      </li>
+    </ul>
+  </div><!--/links-->
+</div><!--/inner-->

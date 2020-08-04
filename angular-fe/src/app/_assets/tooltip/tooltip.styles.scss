@@ -1,0 +1,47 @@
+@import "colors.scss";
+@import 'breakpoints.scss';
+
+:host {
+	
+	font-weight: normal;
+	
+	.button--tooltip {
+		display: inline-flex;
+		justify-content: center;
+		align-items: center;
+		margin: auto 0.5rem;
+		appearance: none;
+		height: 1rem;
+		width: 1rem;
+		border-radius: 100%;
+		border: 2px solid $dark-gray;
+		box-sizing: content-box;
+		color: $dark-gray;
+		background: $white;
+		font-size: 0.875rem;
+		font-weight: bold;
+		padding: 0;
+
+		&:hover {
+			cursor: pointer;
+		}
+
+		&.tooltip-visible {
+			color: $white;
+			background: $dark-gray;
+		}
+	}
+
+	::ng-deep .tooltip {
+		@include break-on(xxs, max) {
+			display: block;
+		}
+
+		.tooltip-inner {
+			@include break-on(xxs, max) {
+				max-width: 10rem;
+			}
+		}
+	}
+}
+
