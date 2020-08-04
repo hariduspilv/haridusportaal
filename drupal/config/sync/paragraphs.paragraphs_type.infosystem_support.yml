@@ -1,0 +1,10 @@
+uuid: 4a86ebc8-1d74-447f-b135-e33750ae7ace
+langcode: et
+status: true
+dependencies: {  }
+id: infosystem_support
+label: 'Kasutajatugi elemendid'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
