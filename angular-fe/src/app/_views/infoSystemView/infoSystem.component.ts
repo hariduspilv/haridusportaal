@@ -4,7 +4,7 @@ import {
   Input,
 } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
-import { SettingsService } from '@app/_services';
+import { SettingsService, AlertsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -29,6 +29,7 @@ export class InfoSystemViewComponent implements OnInit {
     private http: HttpClient,
     private route: ActivatedRoute,
     private location: Location,
+    private alertService: AlertsService,
   ) { }
 
   private getData():void {
@@ -48,11 +49,15 @@ export class InfoSystemViewComponent implements OnInit {
         this.data.additionalVideos = this.data.video.slice(1, 10);
         this.data.video = this.data.video[0];
       }
+
+      if (this.data.alert) { this.alertService.error(this.data.alert, 'infosystemAlert', 'infosystemAlert', false, '', 'alert-circle'); }
+
+      this.getSidebar();
+
       this.loading = false;
 
       // this.feedbackNid = this.data.nid;
 
-      // this.getSidebar();
       subscription.unsubscribe();
 
     });
@@ -63,6 +68,22 @@ export class InfoSystemViewComponent implements OnInit {
       this.data = false;
       this.initialize(true);
     });
+  }
+
+  private getSidebar() {
+    if (this.data.sidebar.entity.fieldButton.title) {
+      this.data.sidebar.entity.fieldButton = [
+        this.data.sidebar.entity.fieldButton,
+        {
+          title: 'infosystem.my-details',
+          color: 'white',
+          url: {
+            path: '/töölaud/õpingud',
+            routed: true,
+          },
+        },
+      ];
+    }
   }
 
   private initialize(forceNewPath = false) {

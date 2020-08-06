@@ -46,6 +46,7 @@
   <h1 class="block__title__secondary__text" *ngIf="hasSecondaryTitle">
     <ng-content select="block-secondary-title"></ng-content>
   </h1>
+  <ng-content select="block-secondary-title-subtext"></ng-content>
   <div class="block__title__middle-tabs" *ngIf="labeledTabs > 0 && tabStyle === 'middle' ">
       <ng-content select="block-tabs"></ng-content>
       <button class="navigation__icon" *ngIf="isMobile && viewTabs && currentViewTabs > 0" (click)="navigateTabs(-1)" htm-button theme="icon">
