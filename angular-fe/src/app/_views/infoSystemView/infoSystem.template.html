@@ -10,6 +10,14 @@
       <block-secondary-title>
         {{ data.title }}
       </block-secondary-title>
+      <block-secondary-title-subtext>
+        <div class="alert" *ngIf="data.alert">
+          <alerts
+          small="true"
+          id="infosystemAlert"
+        ></alerts>
+        </div>
+      </block-secondary-title-subtext>
       <block-content [tabLabel]="data.subtitle" tabIcon="file-text">
         <div class="logo" *ngIf="data.image">
           <img src="{{data.image.derivative.url}}" alt="{{data.image.alt}}">
@@ -75,6 +83,10 @@
             </ng-template>
           </accordion-item>
         </accordion>
+      </block-content>
+      <block-content *ngIf="data.support?.entity" [tabLabel]="data.support.entity.fieldSupportTitle" tabIcon="message-square">
+        <div *ngIf="data.support.entity?.fieldSupportContent?.processed"
+        [innerHTML]="data.support.entity.fieldSupportContent.processed"></div>
       </block-content>
     </block>
   </article-layout>

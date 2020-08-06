@@ -5,10 +5,10 @@
         <div class="col-1 padding center-flex">
           <icon aria-hidden="true" size="medium" [glyph]="item.icon ? item.icon : 'file-text'"></icon>
         </div>
-        <span class="col-11 padding text" role="text">{{ item.title }}</span>
+        <span class="col-11 padding text" role="text">{{ item.title | translate }}</span>
       </div>
     </a>
-    <button *ngIf="!icons && item.url.routed" role="link" [routerLink]="[item.url.path]" htm-button>{{ item.title }}</button>
-    <a *ngIf="!icons && !item.url.routed" [href]="[item.url.path]"><button role="link" htm-button>{{ item.title }}</button></a>
+    <button *ngIf="!icons && item.url.routed" role="link" theme="{{ item.color && item.color === 'white' ? 'outline' : 'default' }}" [routerLink]="[item.url.path]" htm-button>{{ item.title | translate }}</button>
+    <a *ngIf="!icons && !item.url.routed" [href]="[item.url.path]"><button role="link" htm-button>{{ item.title | translate }}</button></a>
   </li>
 </ul>

@@ -92,6 +92,14 @@ export class BlockSecondaryTitleComponent {
 }
 
 @Component({
+  selector: 'block-secondary-title-subtext',
+  template: '<ng-content></ng-content>',
+})
+
+export class BlockSecondaryTitleSubtextComponent {
+}
+
+@Component({
   selector: 'block-sub-title',
   template: '<ng-content></ng-content>',
 })

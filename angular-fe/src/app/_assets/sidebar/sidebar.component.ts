@@ -60,7 +60,7 @@ const sidebarOrder = {
     'fieldContact',
     'additional'
   ],
-  infosystem: ['fieldEhisLinks', 'fieldButton', 'fieldLegislationBlock'],
+  infosystem: ['fieldButton', 'fieldEhisLinks', 'fieldLegislationBlock'],
   field: [
     'indicator',
     'prosCons',
@@ -308,6 +308,14 @@ export class SidebarDataComponent {
 export class SidebarActionsComponent {
   @Input() public data;
   @Input() public icons;
+
+  constructor(private modalService: ModalService) {
+
+  }
+
+  openLoginModal() {
+    this.modalService.toggle('login');
+  }
 }
 
 @Component({

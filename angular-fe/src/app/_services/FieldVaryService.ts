@@ -1,6 +1,8 @@
 // tslint:disable
 const requestMap = {
   nid: ['entityId'],
+  alert: ['fieldAlert'],
+  support: ['fieldSupport'],
   tags: ['fieldArticleTags', 'fieldNewsTags', 'fieldTag', 'fieldMainProfessionTag', 'hashTags'],
   accordion: ['fieldNewsAccordion', 'fieldInfosystemAccordion', 'fieldMainProfessionAccordion', 'fieldOskaFieldAccordion', 'fieldSurveyPageAccordion', 'fieldAccordionSection'],
   shortDescription: ['fieldShortDescription', 'fieldDescriptionSummary', 'fieldIntroduction', 'fieldBodySummary'],
