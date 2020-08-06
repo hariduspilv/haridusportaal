@@ -20,6 +20,18 @@ query infoSystemPage($path: String!) {
           title
           fieldSubtitle
           fieldAlert
+          fieldSupport {
+            entity {
+              ... on ParagraphInfosystemSupport {
+                fieldSupportTitle
+                fieldSupportContent {
+                  value
+                  format
+                  processed
+                }
+              }
+            }
+          }
           fieldLogo {
             derivative(style: CROP_LARGE) {
               url
