@@ -158,14 +158,20 @@ query infoSystemPage($path: String!) {
                   entity {
                     ... on ParagraphEhisLinks {
                       fieldEhisLinkTitle
-                      fieldEhisLink{
-                        url {
-                          routed
-                          path
+                      fieldEhisBlockLinks {
+                        entity {
+                          ... on ParagraphEhisIconLink {
+                            fieldEhisLinkIcon
+                            fieldEhisParagraphLink {
+                              url {
+                                routed
+                                path
+                              }
+                              title
+                            }
+                          }
                         }
-                        title
                       }
-                      fieldLinkIcon
                     }
                   }
                 }
