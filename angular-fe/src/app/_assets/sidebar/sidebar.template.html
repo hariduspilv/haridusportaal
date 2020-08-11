@@ -1,6 +1,6 @@
 <ng-container *ngIf="mappedData">
   <ng-container *ngFor="let keyVal of orderedKeys">
-    <ng-container *ngIf="keyVal !== 'fieldBlocks'">
+    <ng-container *ngIf="keyVal !== 'fieldBlocks' && keyVal !== 'fieldEhisLinks'">
       <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
         <block-title *ngIf="!titleLess[collection[keyVal]]" [ngClass]="'type-'+[collection[keyVal]]">
           <h1>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</h1>
@@ -30,7 +30,7 @@
         </block-content>
       </block>
     </ng-container>
-    <ng-container *ngIf="keyVal === 'fieldBlocks'">
+    <ng-container *ngIf="keyVal === 'fieldBlocks' || keyVal === 'fieldEhisLinks'">
       <sidebar-links [data]="mappedData[keyVal]"></sidebar-links>
     </ng-container>
   </ng-container>
