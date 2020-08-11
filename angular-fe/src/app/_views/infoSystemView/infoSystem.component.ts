@@ -32,7 +32,7 @@ export class InfoSystemViewComponent implements OnInit {
     private alertService: AlertsService,
   ) { }
 
-  private getData():void {
+  private getData(): void {
     const variables = {
       path: this.path,
     };
@@ -45,12 +45,15 @@ export class InfoSystemViewComponent implements OnInit {
 
       this.data = FieldVaryService(response['data']['route']['entity']);
 
+      this.alertService.clear('infosystemAlert');
+      if (this.data.alert) {
+        this.alertService.error(this.data.alert, 'infosystemAlert', 'infosystemAlert', false, '', 'alert-circle');
+      }
+
       if (Array.isArray(this.data.video) && this.data.video.length > 1) {
         this.data.additionalVideos = this.data.video.slice(1, 10);
         this.data.video = this.data.video[0];
       }
-
-      if (this.data.alert) { this.alertService.error(this.data.alert, 'infosystemAlert', 'infosystemAlert', false, '', 'alert-circle'); }
 
       this.getSidebar();
 
@@ -77,6 +80,7 @@ export class InfoSystemViewComponent implements OnInit {
         {
           title: 'infosystem.my-details',
           color: 'white',
+          login: true,
           url: {
             path: '/töölaud/õpingud',
             routed: true,
@@ -98,7 +102,6 @@ export class InfoSystemViewComponent implements OnInit {
   }
   ngOnInit() {
     this.watchParams();
-    this.initialize();
   }
   ngOnDestroy(): void {
     this.paramsWatcher.unsubscribe();
