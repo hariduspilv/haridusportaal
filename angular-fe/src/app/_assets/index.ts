@@ -6,6 +6,7 @@ import {
   BlockSubTitleComponent,
   BlockTabsComponent,
   BlockTitleComponent,
+  BlockSecondaryTitleSubtextComponent,
 } from './block';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from './button';
@@ -136,6 +137,7 @@ const declarations = [
   BlockContentComponent,
   BlockTitleComponent,
   BlockSecondaryTitleComponent,
+  BlockSecondaryTitleSubtextComponent,
   BlockTabsComponent,
   ButtonComponent,
   LoaderComponent,

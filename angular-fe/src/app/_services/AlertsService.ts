@@ -17,6 +17,7 @@ export class Alert {
   closeable?: boolean;
   category?: string;
   link?: Object;
+  icon?: string;
   constructor(init?:Partial<Alert>) {
     Object.assign(this, { closeable: true, id: 'global' } , init);
   }
@@ -109,13 +110,14 @@ export class AlertsService {
    * @param [closeable] - Can the user close this alert
    * @param [link] - Generates a link in the notification
    */
-  error(message: string, id?: string, category?: string, closeable?: boolean, link?: any) {
+  error(message: string, id?: string, category?: string, closeable?: boolean, link?: any, icon?: string) {
     this.notify(new Alert({
       category,
       link,
       message,
       id,
       closeable,
+      icon,
       type: AlertType.Error,
     }));
   }
