@@ -39,7 +39,7 @@
           </ng-container>
         </ul>
       </block-content>
-      <block-content [tabLabel]="data.accordion.entity.fieldAccordionTitle" tabIcon="book-open">
+      <block-content [tabLabel]="data?.accordion?.entity?.fieldAccordionTitle" tabIcon="book-open">
         <div *ngIf="data.accordion && data.accordion.entity && data.accordion.entity.fieldBody"
              class="description"
              [innerHTML]="data.accordion.entity.fieldBody.processed"></div>
@@ -60,7 +60,7 @@
 
         <accordion>
           <accordion-item
-            *ngFor="let accordion of data.accordion.entity.fieldLowerParagraph; let ind = index"
+            *ngFor="let accordion of data?.accordion?.entity?.fieldLowerParagraph; let ind = index"
             [title]="accordion.entity.fieldParagraphTitle">
             <ng-template>
               <div class="accordion__body" *ngIf="accordion.entity.fieldParagraphContent"
