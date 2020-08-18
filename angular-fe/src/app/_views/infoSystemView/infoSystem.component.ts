@@ -88,6 +88,7 @@ export class InfoSystemViewComponent implements OnInit {
         },
       ];
     }
+    this.data.sidebar.entity.fieldEhisLinks = [this.data.sidebar.entity.fieldEhisLinks];
   }
 
   private initialize(forceNewPath = false) {
