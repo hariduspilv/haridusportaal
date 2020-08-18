@@ -1,0 +1,23 @@
+uuid: 4ef0e124-6a16-438c-88ac-bf4d22b1d031
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_ehis_paragraph_link
+    - paragraphs.paragraphs_type.ehis_icon_link
+  module:
+    - link
+id: paragraph.ehis_icon_link.field_ehis_paragraph_link
+field_name: field_ehis_paragraph_link
+entity_type: paragraph
+bundle: ehis_icon_link
+label: 'EHISe link'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 2
+field_type: link

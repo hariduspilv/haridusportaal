@@ -1,0 +1,10 @@
+uuid: cd067a2f-4a2b-45eb-89c9-7728ffa56983
+langcode: et
+status: true
+dependencies: {  }
+id: ehis_icon_link
+label: 'EHIS ikooniga link'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
