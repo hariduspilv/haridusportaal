@@ -3277,6 +3277,10 @@ infosystem:
     translation_type: textarea
     et: Infosüsteemid
     en: ''
+  my-details:
+    translation_type: textarea
+    et: 'Minu andmed'
+    en: 'Minu andmed'
 fieldLegislationBlock:
   translation_type: textarea
   et: Õigusaktid

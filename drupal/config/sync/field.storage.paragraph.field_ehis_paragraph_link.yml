@@ -1,12 +1,12 @@
-uuid: a8f3d928-e36f-4f65-9723-f8b8b5623881
+uuid: 9dcf5807-d761-4eb2-a3bc-0e5b04a04f71
 langcode: et
 status: true
 dependencies:
   module:
     - link
     - paragraphs
-id: paragraph.field_ehis_link
-field_name: field_ehis_link
+id: paragraph.field_ehis_paragraph_link
+field_name: field_ehis_paragraph_link
 entity_type: paragraph
 type: link
 settings: {  }

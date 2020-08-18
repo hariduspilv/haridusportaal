@@ -3,25 +3,28 @@ langcode: et
 status: true
 dependencies:
   config:
-    - field.field.paragraph.ehis_links.field_ehis_link
+    - field.field.paragraph.ehis_links.field_ehis_block_links
     - field.field.paragraph.ehis_links.field_ehis_link_title
-    - field.field.paragraph.ehis_links.field_link_icon
     - paragraphs.paragraphs_type.ehis_links
   module:
-    - link
     - maxlength
+    - paragraphs
 id: paragraph.ehis_links.default
 targetEntityType: paragraph
 bundle: ehis_links
 mode: default
 content:
-  field_ehis_link:
+  field_ehis_block_links:
+    type: entity_reference_paragraphs
     weight: 1
     settings:
-      placeholder_url: ''
-      placeholder_title: ''
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: ''
     third_party_settings: {  }
-    type: link_default
     region: content
   field_ehis_link_title:
     weight: 0
@@ -33,12 +36,6 @@ content:
         maxlength_js: 50
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
     type: string_textfield
-    region: content
-  field_link_icon:
-    weight: 2
-    settings: {  }
-    third_party_settings: {  }
-    type: options_select
     region: content
 hidden:
   created: true

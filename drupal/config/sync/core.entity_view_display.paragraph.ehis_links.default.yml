@@ -3,29 +3,24 @@ langcode: et
 status: true
 dependencies:
   config:
-    - field.field.paragraph.ehis_links.field_ehis_link
+    - field.field.paragraph.ehis_links.field_ehis_block_links
     - field.field.paragraph.ehis_links.field_ehis_link_title
-    - field.field.paragraph.ehis_links.field_link_icon
     - paragraphs.paragraphs_type.ehis_links
   module:
-    - link
-    - options
+    - entity_reference_revisions
 id: paragraph.ehis_links.default
 targetEntityType: paragraph
 bundle: ehis_links
 mode: default
 content:
-  field_ehis_link:
-    weight: 0
+  field_ehis_block_links:
+    type: entity_reference_revisions_entity_view
+    weight: 3
     label: above
     settings:
-      trim_length: 80
-      url_only: false
-      url_plain: false
-      rel: ''
-      target: ''
+      view_mode: default
+      link: ''
     third_party_settings: {  }
-    type: link
     region: content
   field_ehis_link_title:
     weight: 2
@@ -34,13 +29,6 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
-    region: content
-  field_link_icon:
-    weight: 1
-    label: above
-    settings: {  }
-    third_party_settings: {  }
-    type: list_default
     region: content
 hidden:
   search_api_excerpt: true
