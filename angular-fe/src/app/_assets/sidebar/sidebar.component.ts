@@ -7,7 +7,7 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { AlertsService, ModalService, SettingsService, SidebarService } from '@app/_services';
+import { AlertsService, ModalService, SettingsService, SidebarService, AuthService } from '@app/_services';
 import {
   collection,
   parseFieldData,
@@ -151,9 +151,9 @@ export class SidebarComponent implements OnInit, OnChanges {
         FieldVaryService(this.data),
       );
 
-      if (this.type === 'infosystem') {
+/*       if (this.type === 'infosystem') {
         this.mappedData = parseInfosystemData(this.mappedData);
-      }
+      } */
 
       if (this.type === 'profession') {
         this.mappedData = parseProfessionData(this.mappedData, this.translate);
@@ -221,7 +221,6 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
 
       return item;
     });
-
     if (this.data && this.data.length) {
       try {
         const blocks = [];
@@ -237,6 +236,21 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
             blocks.push({
               links,
               title: item.entity.fieldBlockTitle,
+            });
+          }
+
+          if (item.entity.fieldEhisBlockLinks) {
+            let links = [];
+            links = item.entity.fieldEhisBlockLinks.map((link) => {
+              return {
+                title: link.entity.fieldEhisParagraphLink.title,
+                url: link.entity.fieldEhisParagraphLink.url.path,
+                icon: link.entity.fieldEhisLinkIcon,
+              };
+            });
+            blocks.push({
+              links,
+              title: item.entity.fieldEhisLinkTitle,
             });
           }
         });
@@ -305,16 +319,37 @@ export class SidebarDataComponent {
   selector: 'sidebar-actions',
   templateUrl: './templates/sidebar.actions.template.html',
 })
-export class SidebarActionsComponent {
+export class SidebarActionsComponent implements OnInit{
   @Input() public data;
   @Input() public icons;
 
-  constructor(private modalService: ModalService) {
+  public isLoggedIn = false;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    private modalService: ModalService,
+    private authService: AuthService,
+              ) {
 
   }
 
-  openLoginModal() {
-    this.modalService.toggle('login');
+  ngOnInit() {
+    this.initializeAuth();
+  }
+
+  initializeAuth() {
+    this.authService.isAuthenticated.pipe(
+      takeUntil(this.destroy$),
+    ).subscribe((value) => {
+      this.isLoggedIn = value;
+    });
+  }
+
+  logIn(redirectUrl) {
+    const loginButton: HTMLElement = document.querySelector('#headerLogin');
+    sessionStorage.setItem('redirectUrl', redirectUrl);
+    loginButton.click();
   }
 }
 
