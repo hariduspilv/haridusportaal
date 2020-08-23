@@ -39,7 +39,7 @@
           </ng-container>
         </ul>
       </block-content>
-      <block-content [tabLabel]="data?.accordion?.entity?.fieldAccordionTitle" tabIcon="book-open">
+      <block-content [tabLabel]="data.accordion.entity.fieldAccordionTitle" tabIcon="book-open">
         <div *ngIf="data.accordion && data.accordion.entity && data.accordion.entity.fieldBody"
              class="description"
              [innerHTML]="data.accordion.entity.fieldBody.processed"></div>
@@ -50,6 +50,7 @@
             <ng-container
               *ngTemplateOutlet="links;context:{linksData:data.accordion.entity.fieldLinks}">
             </ng-container>
+
           </ng-container>
           <ng-container *ngIf="data.accordion.entity.fieldAttachmentFile">
             <ng-container

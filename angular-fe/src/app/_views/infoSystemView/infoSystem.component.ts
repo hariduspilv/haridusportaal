@@ -61,6 +61,8 @@ export class InfoSystemViewComponent implements OnInit {
 
       // this.feedbackNid = this.data.nid;
 
+      console.log(this.data);
+
       subscription.unsubscribe();
 
     });
