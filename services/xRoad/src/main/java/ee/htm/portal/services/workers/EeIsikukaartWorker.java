@@ -367,8 +367,8 @@ public class EeIsikukaartWorker extends Worker {
         dataHandler.getInputStream().read(bytes, 0, n);
 
         responseNode
-            .put("fileName", "isikukaart.bdoc")
-            .putNull("size")
+            .put("fileName", "isikukaart.asice")
+            .put("size", n)
             .put("mediaType", dataHandler.getContentType())
             .put("value", Base64.getEncoder().encodeToString(bytes));
       } else {
