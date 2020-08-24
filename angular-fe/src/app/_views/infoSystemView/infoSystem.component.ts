@@ -2,6 +2,7 @@ import {
   Component,
   OnInit,
   Input,
+  ChangeDetectorRef,
 } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { SettingsService, AlertsService } from '@app/_services';
@@ -30,6 +31,7 @@ export class InfoSystemViewComponent implements OnInit {
     private route: ActivatedRoute,
     private location: Location,
     private alertService: AlertsService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   private getData(): void {
@@ -45,11 +47,6 @@ export class InfoSystemViewComponent implements OnInit {
 
       this.data = FieldVaryService(response['data']['route']['entity']);
 
-      this.alertService.clear('infosystemAlert');
-      if (this.data.alert) {
-        this.alertService.error(this.data.alert, 'infosystemAlert', 'infosystemAlert', false, '', 'alert-circle');
-      }
-
       if (Array.isArray(this.data.video) && this.data.video.length > 1) {
         this.data.additionalVideos = this.data.video.slice(1, 10);
         this.data.video = this.data.video[0];
@@ -59,12 +56,11 @@ export class InfoSystemViewComponent implements OnInit {
 
       this.loading = false;
 
+      this.getAlert();
+
       // this.feedbackNid = this.data.nid;
 
-      console.log(this.data);
-
       subscription.unsubscribe();
-
     });
 
   }
@@ -75,6 +71,27 @@ export class InfoSystemViewComponent implements OnInit {
     });
   }
 
+  private getAlert() {
+    const observer = new MutationObserver((mutations, me) => {
+      // `mutations` is an array of mutations that occurred
+      // `me` is the MutationObserver instance
+      const canvas = document.getElementById('infosystemAlert');
+      if (canvas && this.data.alert) {
+        this.alertService.clear('infosystemAlert');
+        if (this.data.alert) {
+          this.alertService.error(this.data.alert, 'infosystemAlert', 'infosystemAlert', false, '', 'alert-circle');
+        }
+        me.disconnect(); // stop observing
+        return;
+      }
+    });
+
+    // start observing
+    observer.observe(document, {
+      childList: true,
+      subtree: true,
+    });
+  }
   private getSidebar() {
     if (this.data.sidebar.entity.fieldButton.title) {
       this.data.sidebar.entity.fieldButton = [
@@ -90,7 +107,7 @@ export class InfoSystemViewComponent implements OnInit {
         },
       ];
     }
-    this.data.sidebar.entity.fieldEhisLinks = [this.data.sidebar.entity.fieldEhisLinks];
+    this.data.sidebar.entity.fieldEhisLinks = this.data.sidebar.entity.fieldEhisLinks ? [this.data.sidebar.entity.fieldEhisLinks] : [];
   }
 
   private initialize(forceNewPath = false) {

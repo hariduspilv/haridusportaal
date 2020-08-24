@@ -30,7 +30,7 @@
         </block-content>
       </block>
     </ng-container>
-    <ng-container *ngIf="keyVal === 'fieldBlocks' || keyVal === 'fieldEhisLinks'">
+    <ng-container *ngIf="(keyVal === 'fieldBlocks' || keyVal === 'fieldEhisLinks') && mappedData[keyVal]">
       <sidebar-links [data]="mappedData[keyVal]"></sidebar-links>
     </ng-container>
   </ng-container>
