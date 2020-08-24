@@ -73,20 +73,17 @@ export class InfoSystemViewComponent implements OnInit {
 
   private getAlert() {
     const observer = new MutationObserver((mutations, me) => {
-      // `mutations` is an array of mutations that occurred
-      // `me` is the MutationObserver instance
       const canvas = document.getElementById('infosystemAlert');
       if (canvas && this.data.alert) {
         this.alertService.clear('infosystemAlert');
         if (this.data.alert) {
           this.alertService.error(this.data.alert, 'infosystemAlert', 'infosystemAlert', false, '', 'alert-circle');
         }
-        me.disconnect(); // stop observing
+        me.disconnect();
         return;
       }
     });
 
-    // start observing
     observer.observe(document, {
       childList: true,
       subtree: true,
