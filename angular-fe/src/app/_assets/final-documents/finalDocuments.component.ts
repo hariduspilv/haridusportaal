@@ -1,6 +1,5 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
-import { AuthService, SettingsService, AlertsService } from '@app/_services';
-import { HeaderComponent } from '../header';
+import { Component } from '@angular/core';
+import { AlertsService, AuthService, SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -59,8 +58,8 @@ export class FinalDocumentsComponent {
   getCertificates() {
     this.loading.certificatesById = true;
     this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates?accessType=ACCESS_TYPE:ID_CODE`).subscribe(
-      (res: any[]) => {
-        this.certificatesById = res.sort(this.compareCertificates);
+      (res: { certificates: [], responseInfo: {} }) => {
+        this.certificatesById = res.certificates.sort(this.compareCertificates);
         this.loading.certificatesById = false;
       },
       (err) => {
