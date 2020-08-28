@@ -8,7 +8,7 @@ use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
-use Drupal\openid_connect\Claims;
+use Drupal\openid_connect\OpenIDConnectClaims;
 use Drupal\openid_connect\Controller\RedirectController;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
 use Drupal\openid_connect\StateToken;
@@ -21,7 +21,7 @@ class TaraRedirectController extends RedirectController{
 
 	protected $jsonAuth;
 
-	public function __construct (OpenIDConnectClientManager $plugin_manager, RequestStack $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, Claims $claims, JsonAuthenticationProvider $jsonAuth) {
+	public function __construct (OpenIDConnectClientManager $plugin_manager, RequestStack $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, OpenIDConnectClaims $claims, JsonAuthenticationProvider $jsonAuth) {
 		parent::__construct($plugin_manager, $request_stack, $logger_factory, $current_user);
 		$this->claims = $claims;
 		$this->jsonAuth = $jsonAuth;
