@@ -71,7 +71,7 @@ export class CertificatesComponent implements OnInit {
       this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`).subscribe(
         (res: any[]) => {
           this.loading[id] = false;
-          this.graduationCertificates = res.sort(this.compareCertificates);
+          this.graduationCertificates = res['certificates'].sort(this.compareCertificates);
         },
         (err) => {
           this.graduationCertificates = [];
