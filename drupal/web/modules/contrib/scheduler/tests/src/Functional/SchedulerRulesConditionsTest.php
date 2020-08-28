@@ -19,7 +19,7 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['scheduler_rules_integration'];
+  protected static $modules = ['scheduler_rules_integration'];
 
   /**
    * {@inheritdoc}
@@ -116,13 +116,15 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
     ]);
     $config_entity->save();
 
+    $assert = $this->assertSession();
+
     // View the node and check the default position - that the node type is
     // enabled for both publishing and unpublishing.
     $this->drupalGet('node/' . $this->node->id());
-    $this->assertText($message1, '"' . $message1 . '" is shown');
-    $this->assertText($message2, '"' . $message2 . '" is shown');
-    $this->assertNoText($message3, '"' . $message3 . '" is not shown');
-    $this->assertNoText($message4, '"' . $message4 . '" is not shown');
+    $assert->pageTextContains($message1);
+    $assert->pageTextContains($message2);
+    $assert->pageTextNotContains($message3);
+    $assert->pageTextNotContains($message4);
 
     // Turn off scheduled publishing for the node type and check the rules.
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_enable', FALSE)->save();
@@ -130,19 +132,19 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
     // after converting to BrowserTestBase.
     drupal_flush_all_caches();
     $this->drupalGet('node/' . $this->node->id());
-    $this->assertNoText($message1, '"' . $message1 . '" is not shown');
-    $this->assertText($message2, '"' . $message2 . '" is shown');
-    $this->assertText($message3, '"' . $message3 . '" is shown');
-    $this->assertNoText($message4, '"' . $message4 . '" is not shown');
+    $assert->pageTextNotContains($message1);
+    $assert->pageTextContains($message2);
+    $assert->pageTextContains($message3);
+    $assert->pageTextNotContains($message4);
 
     // Turn off scheduled unpublishing for the node type and the check again.
     $this->nodetype->setThirdPartySetting('scheduler', 'unpublish_enable', FALSE)->save();
     drupal_flush_all_caches();
     $this->drupalGet('node/' . $this->node->id());
-    $this->assertNoText($message1, '"' . $message1 . '" is not shown');
-    $this->assertNoText($message2, '"' . $message2 . '" is not shown');
-    $this->assertText($message3, '"' . $message3 . '" is shown');
-    $this->assertText($message4, '"' . $message4 . '" is shown');
+    $assert->pageTextNotContains($message1);
+    $assert->pageTextNotContains($message2);
+    $assert->pageTextContains($message3);
+    $assert->pageTextContains($message4);
 
   }
 
@@ -204,6 +206,8 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
     ]);
     $config_entity->save();
 
+    $assert = $this->assertSession();
+
     // Create a reaction rule to display a message when a node is updated and
     // is scheduled for unpublishing.
     $rule8 = $this->expressionManager->createRule();
@@ -230,10 +234,10 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
     ];
     $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, 'Save');
 
-    $this->assertText($message5, '"' . $message5 . '" is shown');
-    $this->assertText($message6, '"' . $message6 . '" is shown');
-    $this->assertNoText($message7, '"' . $message7 . '" is not shown');
-    $this->assertNoText($message8, '"' . $message8 . '" is not shown');
+    $assert->pageTextContains($message5);
+    $assert->pageTextContains($message6);
+    $assert->pageTextNotContains($message7);
+    $assert->pageTextNotContains($message8);
 
     // Edit the node and set a publish_on date.
     $edit = [
@@ -242,10 +246,10 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
     ];
     $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, 'Save');
 
-    $this->assertNoText($message5, '"' . $message5 . '" is not shown');
-    $this->assertText($message6, '"' . $message6 . '" is shown');
-    $this->assertText($message7, '"' . $message7 . '" is shown');
-    $this->assertNoText($message8, '"' . $message8 . '" is not shown');
+    $assert->pageTextNotContains($message5);
+    $assert->pageTextContains($message6);
+    $assert->pageTextContains($message7);
+    $assert->pageTextNotContains($message8);
 
     // Edit the node and set an unpublish_on date.
     $edit = [
@@ -254,10 +258,10 @@ class SchedulerRulesConditionsTest extends SchedulerBrowserTestBase {
     ];
     $this->drupalPostForm('node/' . $this->node->id() . '/edit', $edit, 'Save');
 
-    $this->assertNoText($message5, '"' . $message5 . '" is not shown');
-    $this->assertNoText($message6, '"' . $message6 . '" is not shown');
-    $this->assertText($message7, '"' . $message7 . '" is shown');
-    $this->assertText($message8, '"' . $message8 . '" is shown');
+    $assert->pageTextNotContains($message5);
+    $assert->pageTextNotContains($message6);
+    $assert->pageTextContains($message7);
+    $assert->pageTextContains($message8);
 
   }
 

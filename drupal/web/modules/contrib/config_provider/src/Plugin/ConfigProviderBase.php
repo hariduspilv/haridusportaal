@@ -3,6 +3,7 @@
 namespace Drupal\config_provider\Plugin;
 
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Component\Utility\Crypt;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Config\ConfigManagerInterface;
 use Drupal\Core\Config\ExtensionInstallStorage;
@@ -112,7 +113,7 @@ abstract class ConfigProviderBase extends PluginBase implements ConfigProviderIn
    *   The configuration storage that provides the default configuration.
    */
   protected function getExtensionInstallStorage($directory, $collection = StorageInterface::DEFAULT_COLLECTION) {
-    return new ExtensionInstallStorage($this->getActiveStorages($collection), $directory, $collection);
+    return new ExtensionInstallStorage($this->getActiveStorages($collection), $directory, $collection, TRUE, $this->installProfile);
   }
 
   /**
@@ -290,6 +291,25 @@ abstract class ConfigProviderBase extends PluginBase implements ConfigProviderIn
    */
   protected function drupalGetProfile() {
     return $this->installProfile;
+  }
+
+  /**
+   * Adds default_config_hash for proper localization of the config objects.
+   *
+   * Use this method only on unchanged config from config/install or config/optional
+   * folders.
+   *
+   * @param array $data
+   *   Config to install read directly from config/install or config/optional.
+   *
+   * @return array
+   *   Config with default_config_hash property.
+   */
+  public function addDefaultConfigHash(array $data) {
+    if (empty($data['_core']['default_config_hash'])) {
+      $data['_core']['default_config_hash'] = Crypt::hashBase64(serialize($data));
+    }
+    return $data;
   }
 
 }

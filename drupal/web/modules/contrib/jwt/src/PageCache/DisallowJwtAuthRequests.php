@@ -3,6 +3,7 @@
 namespace Drupal\jwt\PageCache;
 
 use Drupal\Core\PageCache\RequestPolicyInterface;
+use Drupal\jwt\Authentication\Provider\JwtAuth;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -18,8 +19,7 @@ class DisallowJwtAuthRequests implements RequestPolicyInterface {
    * {@inheritdoc}
    */
   public function check(Request $request) {
-    $auth = $request->headers->get('Authorization');
-    if (preg_match('/^Bearer .+/', $auth)) {
+    if (JwtAuth::getJwtFromRequest($request)) {
       return self::DENY;
     }
 

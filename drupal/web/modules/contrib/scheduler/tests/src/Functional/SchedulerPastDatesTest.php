@@ -2,8 +2,6 @@
 
 namespace Drupal\Tests\scheduler\Functional;
 
-use Drupal\Component\Utility\Html;
-
 /**
  * Tests the options and processing when dates are entered in the past.
  *
@@ -31,18 +29,20 @@ class SchedulerPastDatesTest extends SchedulerBrowserTestBase {
       'publish_on[0][value][time]' => $this->dateFormatter->format(strtotime('-1 day', $this->requestTime), 'custom', 'H:i:s'),
     ];
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
-    $this->assertText("The 'publish on' date must be in the future", 'An error message is shown by default when the publication date is in the past.');
+    $this->assertSession()->pageTextContains("The 'publish on' date must be in the future");
 
     // Test the 'error' behavior explicitly.
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_past_date', 'error')->save();
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
-    $this->assertText("The 'publish on' date must be in the future", 'An error message is shown when the publication date is in the past and the "error" behavior is chosen.');
+    $this->assertSession()->pageTextContains("The 'publish on' date must be in the future");
 
     // Test the 'publish' behavior: the node should be published immediately.
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_past_date', 'publish')->save();
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
-    $this->assertNoText("The 'publish on' date must be in the future", 'No error message is shown when the publication date is in the past and the "publish" behavior is chosen.');
-    $this->assertText(sprintf('%s %s has been updated.', $this->typeName, Html::escape($edit['title[0][value]'])), 'The node is saved successfully when the publication date is in the past and the "publish" behavior is chosen.');
+    // Check that no error message is shown when the publication date is in the
+    // past and the "publish" behavior is chosen.
+    $this->assertSession()->pageTextNotContains("The 'publish on' date must be in the future");
+    $this->assertSession()->pageTextContains(sprintf('%s %s has been updated.', $this->typeName, $edit['title[0][value]']));
 
     // Reload the node.
     $this->nodeStorage->resetCache([$node->id()]);
@@ -60,9 +60,10 @@ class SchedulerPastDatesTest extends SchedulerBrowserTestBase {
     $node = $this->drupalCreateNode(['type' => $this->type, 'status' => FALSE]);
     $created_time = $node->getCreatedTime();
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
-    $this->assertNoText("The 'publish on' date must be in the future", 'No error message is shown when the publication date is in the past and the "schedule" behavior is chosen.');
-    $this->assertText(sprintf('%s %s has been updated.', $this->typeName, Html::escape($edit['title[0][value]'])), 'The node is saved successfully when the publication date is in the past and the "schedule" behavior is chosen.');
-    $this->assertText('will be published', 'The node is scheduled to be published when the publication date is in the past and the "schedule" behavior is chosen.');
+    // Check that no error is shown when the publish_on date is in the past.
+    $this->assertSession()->pageTextNotContains("The 'publish on' date must be in the future");
+    $this->assertSession()->pageTextContains(sprintf('%s is scheduled to be published', $edit['title[0][value]']));
+    $this->assertSession()->pageTextContains(sprintf('%s %s has been updated.', $this->typeName, $edit['title[0][value]']));
 
     // Reload the node.
     $this->nodeStorage->resetCache([$node->id()]);
@@ -116,7 +117,7 @@ class SchedulerPastDatesTest extends SchedulerBrowserTestBase {
       'unpublish_on[0][value][time]' => $this->dateFormatter->format($this->requestTime - 3600, 'custom', 'H:i:s'),
     ];
     $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
-    $this->assertText("The 'unpublish on' date must be in the future", 'An error message is shown when the unpublish date is in the past.');
+    $this->assertSession()->pageTextContains("The 'unpublish on' date must be in the future");
   }
 
 }

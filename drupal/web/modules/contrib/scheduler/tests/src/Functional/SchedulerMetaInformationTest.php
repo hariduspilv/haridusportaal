@@ -29,7 +29,7 @@ class SchedulerMetaInformationTest extends SchedulerBrowserTestBase {
 
     // Since we did not set an unpublish date, there should be no X-Robots-Tag
     // header on the response.
-    $this->assertFalse($this->drupalGetHeader('X-Robots-Tag'), 'X-Robots-Tag is not present when no unpublish date is set.');
+    $this->assertNull($this->drupalGetHeader('X-Robots-Tag'), 'X-Robots-Tag is not present when no unpublish date is set.');
 
     // Set a scheduler unpublish date on the node.
     $unpublish_date = strtotime('+1 day');

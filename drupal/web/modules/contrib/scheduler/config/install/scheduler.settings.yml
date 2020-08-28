@@ -10,6 +10,7 @@ default_publish_past_date_created: false
 default_publish_required: false
 default_publish_revision: false
 default_publish_touch: false
+default_show_message_after_update: true
 default_time: '00:00:00'
 default_unpublish_enable: false
 default_unpublish_required: false

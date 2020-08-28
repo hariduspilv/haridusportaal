@@ -18,7 +18,7 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['devel_generate'];
+  protected static $modules = ['devel_generate'];
 
   /**
    * {@inheritdoc}
@@ -37,11 +37,6 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
       'access content',
       'access content overview',
     ]);
-
-    // The majority of the tests use the standard Sceduler-enabled content type
-    // but we also verify that dates are not added for non-enabled types.
-    $this->non_scheduler_type = 'not_for_scheduler';
-    $this->drupalCreateContentType(['type' => $this->non_scheduler_type, 'name' => 'Not enabled for Scheduler']);
   }
 
   /**
@@ -109,7 +104,7 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
     // Use the minimum required settings to see what happens when everything
     // else is left as default.
     $generate_settings = [
-      "node_types[$this->type]" => TRUE,
+      "edit-node-types-$this->type" => TRUE,
     ];
     $this->drupalPostForm('admin/config/development/generate/content', $generate_settings, 'Generate');
     // Display the full content list and the scheduled list. Calls to these
@@ -120,8 +115,11 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
     // Delete all content for this type and generate new content with only
     // publish-on dates. Use 100% as this is how we can count the expected
     // number of scheduled nodes. The time range of 3600 is one hour.
+    // The number of nodes has to be lower than 50 until Devel issue with
+    // undefined index 'users' is available and we switch to using 8.x-3.0
+    // See https://www.drupal.org/project/devel/issues/3076613
     $generate_settings = [
-      "node_types[$this->type]" => TRUE,
+      "edit-node-types-$this->type" => TRUE,
       'num' => 40,
       'kill' => TRUE,
       'time_range' => 3600,
@@ -140,7 +138,7 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
     // Do similar for unpublish_on date. Delete all then generate new content
     // with only unpublish-on dates. Time range 86400 is one day.
     $generate_settings = [
-      "node_types[$this->type]" => TRUE,
+      "edit-node-types-$this->type" => TRUE,
       'num' => 30,
       'kill' => TRUE,
       'time_range' => 86400,
@@ -159,8 +157,9 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
     // Generate new content using the type which is not enabled for Scheduler.
     // The nodes should be created but no dates should be added even though the
     // scheduler values are set to 100.
+    $non_scheduler_id = $this->nonSchedulerNodeType->id();
     $generate_settings = [
-      "node_types[$this->non_scheduler_type]" => TRUE,
+      "edit-node-types-$non_scheduler_id" => TRUE,
       'num' => 20,
       'kill' => TRUE,
       'scheduler_publishing' => 100,
@@ -171,8 +170,8 @@ class SchedulerDevelGenerateTest extends SchedulerBrowserTestBase {
     $this->drupalGet('admin/content/scheduled');
 
     // Check we have the expected number of nodes but that none are scheduled.
-    $this->countScheduledNodes($this->non_scheduler_type, 'publish_on', 20, 0);
-    $this->countScheduledNodes($this->non_scheduler_type, 'unpublish_on', 20, 0);
+    $this->countScheduledNodes($non_scheduler_id, 'publish_on', 20, 0);
+    $this->countScheduledNodes($non_scheduler_id, 'unpublish_on', 20, 0);
   }
 
 }

@@ -126,7 +126,7 @@ class GoogleMapFieldDefaultWidget extends WidgetBase {
 
     $element['traffic'] = [
       '#type' => 'hidden',
-      '#default_value' => isset($items[$delta]->traffic) ? $items[$delta]->traffic : "",
+      '#default_value' => isset($items[$delta]->traffic) ? $items[$delta]->traffic : "0",
       '#attributes' => [
         'data-traffic-delta' => $instance_delta,
       ],

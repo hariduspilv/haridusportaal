@@ -22,7 +22,7 @@ class FilteredStorageTest extends CachedStorageTest {
   /**
    * {@inheritdoc}
    */
-  protected function setUp() {
+  protected function setUp(): void {
     parent::setUp();
     // The storage is a wrapper with a transparent filter.
     // So all inherited tests should still pass.
@@ -176,14 +176,6 @@ class FilteredStorageTest extends CachedStorageTest {
         'filterReadMultiple',
         [$this->randomArray(), FALSE],
         [$this->randomArray(), $this->randomArray()],
-      ],
-
-      [
-        $this->randomString(),
-        'listAll',
-        'filterListAll',
-        ['a' . $this->randomString(), 'b' . $this->randomString()],
-        ['a' . $this->randomString(), 'b' . $this->randomString()],
       ],
     ];
     // @codingStandardsIgnoreEnd

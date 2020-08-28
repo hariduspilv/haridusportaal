@@ -1,9 +1,14 @@
+/**
+ * @file
+ * JavaScript code to update Google Map Field from settings popup.
+ */
+
 (function ($, Drupal) {
 
   Drupal.behaviors.google_map_field_widget_renderer = {
     attach: function (context) {
 
-      // code here to read fields and set maps accordingly on page load.
+      // Code here to read fields and set maps accordingly on page load.
       googleMapFieldPreviews();
 
       $('.google-map-field-clear').bind('click', function (event) {

@@ -5,6 +5,7 @@ namespace Drupal\Tests\smtp\Unit;
 use Drupal\Component\Utility\EmailValidatorInterface;
 use Drupal\Core\Config\Config;
 use Drupal\Core\Config\ConfigFactoryInterface;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Form\FormState;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Messenger\Messenger;
@@ -39,6 +40,7 @@ class SMTPConfigFormTest extends UnitTestCase {
     $this->mockEmailValidator = $this->prophesize(EmailValidatorInterface::class);
     $this->mockCurrentUser = $this->prophesize(AccountProxyInterface::class);
     $this->mockMailManager = $this->prophesize(MailManagerInterface::class);
+    $this->mockModuleHandler = $this->prophesize(ModuleHandlerInterface::class);
 
     $mockContainer = $this->mockContainer = $this->prophesize(ContainerInterface::class);
     $mockContainer->get('config.factory')->willReturn($this->mockConfigFactory->reveal());
@@ -46,6 +48,7 @@ class SMTPConfigFormTest extends UnitTestCase {
     $mockContainer->get('email.validator')->willReturn($this->mockEmailValidator->reveal());
     $mockContainer->get('current_user')->willReturn($this->mockCurrentUser->reveal());
     $mockContainer->get('plugin.manager.mail')->willReturn($this->mockMailManager->reveal());
+    $mockContainer->get('module_handler')->willReturn($this->mockModuleHandler->reveal());
 
     $mockStringTranslation = $this->prophesize(TranslationInterface::class);
     $mockStringTranslation->translate(Argument::any())->willReturnArgument(0);

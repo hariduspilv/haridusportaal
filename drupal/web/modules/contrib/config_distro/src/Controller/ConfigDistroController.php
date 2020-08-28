@@ -18,7 +18,7 @@ class ConfigDistroController extends ConfigController implements ContainerInject
   public static function create(ContainerInterface $container) {
     $class = parent::create($container);
     // Substitute our storage for the default one.
-    $class->sourceStorage = $container->get('config_distro.storage.distro');
+    $class->syncStorage = $container->get('config_distro.storage.distro');
     return $class;
   }
 

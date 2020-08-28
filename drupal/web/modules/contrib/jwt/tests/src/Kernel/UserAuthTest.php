@@ -18,7 +18,16 @@ class UserAuthTest extends KernelTestBase {
   /**
    * {@inheritdoc}
    */
-  public static $modules = ['system', 'user', 'field', 'key', 'jwt', 'jwt_auth_issuer', 'jwt_auth_consumer', 'jwt_test'];
+  public static $modules = [
+    'system',
+    'user',
+    'field',
+    'key',
+    'jwt',
+    'jwt_auth_issuer',
+    'jwt_auth_consumer',
+    'jwt_test',
+  ];
 
   /**
    * {@inheritdoc}
@@ -38,6 +47,7 @@ class UserAuthTest extends KernelTestBase {
   public function testAuth() {
     $account = $this->createUser(['access content']);
     $this->setCurrentUser($account);
+    /** @var \Drupal\jwt\Authentication\Provider\JwtAuth $auth */
     $auth = $this->container->get('jwt.authentication.jwt');
     $token = $auth->generateToken();
     /** @var \Drupal\jwt\Transcoder\JwtTranscoderInterface $transcoder */
@@ -46,19 +56,22 @@ class UserAuthTest extends KernelTestBase {
     $this->assertEqual($account->id(), $decoded_jwt->getClaim(['drupal', 'uid']));
     /** @var \Drupal\Core\Authentication\AuthenticationProviderInterface $auth_service */
     $auth_service = $this->container->get('jwt.authentication.jwt');
-    $request = Request::create('/');
-    $request->headers->set('Authorization', 'Bearer ' . $token);
-    $this->assertTrue($auth_service->applies($request));
-    $user = $auth_service->authenticate($request);
-    $this->assertEqual($account->id(), $user->id());
-    // When blocked the account is no longer valid.
-    $account->block()->save();
-    try {
-      $auth_service->authenticate($request);
-      $this->fail('Exception not thrown');
-    }
-    catch (AccessDeniedHttpException $e) {
-      $this->assertEqual('User is blocked.', $e->getMessage());
+    foreach (['Authorization', 'JWT-Authorization'] as $header) {
+      $request = Request::create('/');
+      $request->headers->set($header, 'Bearer ' . $token);
+      $this->assertTrue($auth_service->applies($request));
+      $user = $auth_service->authenticate($request);
+      $this->assertEqual($account->id(), $user->id());
+      // When blocked the account is no longer valid.
+      $account->block()->save();
+      try {
+        $auth_service->authenticate($request);
+        $this->fail('Exception not thrown');
+      }
+      catch (AccessDeniedHttpException $e) {
+        $this->assertEqual('User is blocked.', $e->getMessage());
+      }
+      $account->activate()->save();
     }
   }
 

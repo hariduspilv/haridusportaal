@@ -3,6 +3,7 @@
 namespace Drupal\conditional_fields\Plugin\conditional_fields\handler;
 
 use Drupal\conditional_fields\ConditionalFieldsHandlerBase;
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 
 /**
  * Provides states handler for single on/off checkbox.
@@ -22,24 +23,24 @@ class Checkbox extends ConditionalFieldsHandlerBase {
     $state = [];
     $checked = FALSE;
     switch ($options['values_set']) {
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $widget_value = $this->getWidgetValue($options['value_form']);
         $checked = $field['#return_value'] == $widget_value;
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
         $checked = preg_match('/' . $options['value']['RegExp'] . '/', $field['#on_value']) ? TRUE : FALSE;
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         // ANDing values of a single checkbox doesn't make sense:
         // just use the first value.
         $checked = $options['values'][0] == $field['#on_value'] ? TRUE : FALSE;
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $checked = in_array($field['#on_value'], $options['values']) ? TRUE : FALSE;
         break;
     }

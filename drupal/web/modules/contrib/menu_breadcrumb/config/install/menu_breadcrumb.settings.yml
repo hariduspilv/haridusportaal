@@ -9,6 +9,7 @@ remove_home: false
 add_home: false
 front_title: 0
 exclude_empty_url: false
+exclude_disabled_menu_items: false
 derived_active_trail: false
 menu_breadcrumb_menus:
   main:

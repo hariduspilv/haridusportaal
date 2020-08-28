@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
@@ -93,7 +94,7 @@ class ConditionalFieldTextfieldTest extends ConditionalFieldTestBase implements
     $text = $this->getRandomGenerator()->word(8);
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       'field_' . $this->fieldName . '[0][value]' => $text,
       'grouping' => 'AND',
       'state' => 'visible',
@@ -130,7 +131,7 @@ class ConditionalFieldTextfieldTest extends ConditionalFieldTestBase implements
 
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       'regex' => '.*data\=[\d]+.*',
       'grouping' => 'AND',
       'state' => 'visible',
@@ -170,7 +171,7 @@ class ConditionalFieldTextfieldTest extends ConditionalFieldTestBase implements
 
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       'values' => implode( "\r\n", [
         $text_1,
         $text_2
@@ -218,7 +219,7 @@ class ConditionalFieldTextfieldTest extends ConditionalFieldTestBase implements
     $values = implode("\r\n", [$text1, $text2]);
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values' => $values,
       'grouping' => 'AND',
       'state' => 'visible',
@@ -267,7 +268,7 @@ class ConditionalFieldTextfieldTest extends ConditionalFieldTestBase implements
 
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       'values' => implode( "\r\n", [
         $text_1,
         $text_2
@@ -314,7 +315,7 @@ class ConditionalFieldTextfieldTest extends ConditionalFieldTestBase implements
 
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
       'values' => implode( "\n", [
         $text_1,
         $text_2

@@ -1,8 +1,11 @@
 <?php
+
 /**
  * @file
  * Conditional fields module's updates.
  */
+
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Entity\EntityInterface;
 
 /**
@@ -21,10 +24,10 @@ function conditional_fields_update_8001() {
         ->getStorage('entity_form_display')
         ->load("$etid.$bundle_name.default");
       // Replace keys.
-      if ( $entity instanceof EntityInterface ) {
+      if ($entity instanceof EntityInterface) {
         _conditional_fields_update_conditional_fields_settings($entity);
       }
-      if ( is_null($entity) ) {
+      if (is_null($entity)) {
         continue;
       }
     }
@@ -34,10 +37,10 @@ function conditional_fields_update_8001() {
 /**
  * Updates conditional fields entity's settings.
  *
- * @param \Drupal\Core\Entity\Entity\EntityFormDisplay $entity
+ * @param \Drupal\Core\Entity\Entity\EntityFormDisplayInterface $entity
  *   Config entity to update.
  */
-function _conditional_fields_update_conditional_fields_settings(&$entity) {
+function _conditional_fields_update_conditional_fields_settings(EntityFormDisplayInterface &$entity) {
   $needs_save = FALSE;
 
   foreach ($entity->getComponents() as $key => $content) {

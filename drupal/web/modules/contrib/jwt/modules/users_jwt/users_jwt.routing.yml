@@ -1,0 +1,45 @@
+users_jwt.key_add_form:
+  path: '/user/{user}/jwt-keys/add/new'
+  defaults:
+    _form: '\Drupal\users_jwt\Form\UsersKeyForm'
+    _title: 'User Key Add'
+  requirements:
+    user: '\d+'
+    _entity_access: 'user.update'
+
+users_jwt.key_generate_form:
+  path: '/user/{user}/jwt-keys/generate/new'
+  defaults:
+    _form: '\Drupal\users_jwt\Form\UsersGenerateKeyForm'
+    _title: 'Generate New Key'
+  requirements:
+    user: '\d+'
+    _entity_access: 'user.update'
+
+users_jwt.key_edit_form:
+  path: '/user/{user}/jwt-keys/{key_id}/edit'
+  defaults:
+    _form: '\Drupal\users_jwt\Form\UsersKeyForm'
+    _title: 'User Key Edit'
+  requirements:
+    user: '\d+'
+    _entity_access: 'user.update'
+
+users_jwt.key_delete_form:
+  path: '/user/{user}/jwt-keys/{key_id}/delete'
+  defaults:
+    _form: '\Drupal\users_jwt\Form\UsersKeyDeleteForm'
+    _title: 'User Key Form'
+  requirements:
+    user: '\d+'
+    _entity_access: 'user.update'
+
+users_jwt.key_list:
+  path: '/user/{user}/jwt-keys'
+  defaults:
+    _controller: '\Drupal\users_jwt\Controller\KeyListController::listKeys'
+    _title: 'JWT Keys'
+  requirements:
+    user: '\d+'
+    _entity_access: 'user.update'
+

@@ -4,6 +4,8 @@ namespace Drupal\config_sync\Plugin\ConfigFilter;
 
 use Drupal\config_filter\Plugin\ConfigFilterBase;
 use Drupal\config_merge\ConfigMerger;
+use Drupal\config_merge\Event\ConfigMergeEvent;
+use Drupal\config_merge\Event\ConfigMergeEvents;
 use Drupal\config_normalizer\Config\NormalizedReadOnlyStorage;
 use Drupal\config_normalizer\Config\NormalizedReadOnlyStorageInterface;
 use Drupal\config_normalizer\Plugin\ConfigNormalizerManager;
@@ -18,6 +20,7 @@ use Drupal\Core\Extension\Extension;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\State\StateInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 /**
  * Provides a sync filter that brings in updates from installed extensions.
@@ -69,7 +72,8 @@ class SyncFilter extends ConfigFilterBase implements ContainerFactoryPluginInter
       $container->get('config_provider.storage'),
       $container->get('config.storage'),
       $container->get('config.manager'),
-      $container->get('state')
+      $container->get('state'),
+      $container->get('event_dispatcher')
     );
     return new static(
       $configuration,
@@ -88,6 +92,8 @@ class SyncFilter extends ConfigFilterBase implements ContainerFactoryPluginInter
    *   The app root.
    * @param \Drupal\config_sync\Plugin\SyncConfigCollectorInterface $config_collector
    *   The config collector.
+   * @param \Drupal\config_sync\ConfigSyncListerInterface $config_sync_lister
+   *   The config sync lister.
    * @param \Drupal\config_normalizer\Plugin\ConfigNormalizerManager $normalizer_manager
    *   The normalizer plugin manager.
    * @param \Drupal\Core\Config\StorageInterface $provider_storage
@@ -98,13 +104,15 @@ class SyncFilter extends ConfigFilterBase implements ContainerFactoryPluginInter
    *   The configuration manager.
    * @param \Drupal\Core\State\StateInterface $state
    *   The state.
+   * @param \Symfony\Component\EventDispatcher\EventDispatcherInterface $event_dispatcher
+   *   The event dispatcher.
    *
    * @return \Drupal\Core\Config\StorageInterface
    *   The initialised sync source storage
    *
    * @throws \Exception
    */
-  protected static function initSyncSourceStorage(array $configuration, $root, SyncConfigCollectorInterface $config_collector, ConfigSyncListerInterface $config_sync_lister, ConfigNormalizerManager $normalizer_manager, StorageInterface $provider_storage, StorageInterface $active_storage, ConfigManagerInterface $config_manager, StateInterface $state) {
+  protected static function initSyncSourceStorage(array $configuration, $root, SyncConfigCollectorInterface $config_collector, ConfigSyncListerInterface $config_sync_lister, ConfigNormalizerManager $normalizer_manager, StorageInterface $provider_storage, StorageInterface $active_storage, ConfigManagerInterface $config_manager, StateInterface $state, EventDispatcherInterface $event_dispatcher) {
     $sync_source_storage = new MemoryStorage();
 
     $update_mode = $state->get('config_sync.update_mode', ConfigSyncListerInterface::DEFAULT_UPDATE_MODE);
@@ -163,6 +171,9 @@ class SyncFilter extends ConfigFilterBase implements ContainerFactoryPluginInter
                 $previous = $snapshot_storage->read($item_name);
                 $active = $active_storage->read($item_name);
                 $updated = $config_merger->mergeConfigItemStates($previous, $current, $active);
+                $logs = $config_merger->getLogs();
+                $event = new ConfigMergeEvent($item_name, $logs, $configuration['extension_type'], $configuration['extension_name']);
+                $event_dispatcher->dispatch(ConfigMergeEvents::POST_MERGE, $event);
                 break;
               // Reset to the currently provided value.
               case ConfigSyncListerInterface::UPDATE_MODE_PARTIAL_RESET:

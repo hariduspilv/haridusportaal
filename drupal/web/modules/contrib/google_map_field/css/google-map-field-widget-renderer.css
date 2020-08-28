@@ -96,6 +96,10 @@
   padding-left: 5px;
 }
 
+#google_map_field_options .form-textarea {
+  width: 98%;
+}
+
 p.marker-text {
   font-size: 0.8em;
   line-height: 1em;

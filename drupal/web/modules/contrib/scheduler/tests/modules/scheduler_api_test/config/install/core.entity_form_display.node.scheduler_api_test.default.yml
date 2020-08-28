@@ -26,12 +26,9 @@ content:
     settings: {  }
     third_party_settings: {  }
   uid:
-    type: entity_reference_autocomplete
+    type: number
     weight: 2
-    settings:
-      match_operator: CONTAINS
-      size: 60
-      placeholder: ''
+    settings: { }
     third_party_settings: {  }
   created:
     type: datetime_timestamp

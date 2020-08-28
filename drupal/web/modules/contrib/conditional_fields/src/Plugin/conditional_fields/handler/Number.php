@@ -3,6 +3,7 @@
 namespace Drupal\conditional_fields\Plugin\conditional_fields\handler;
 
 use Drupal\conditional_fields\ConditionalFieldsHandlerBase;
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 
 /**
  * Provides states handler for Number (integer, decimal and float).
@@ -20,7 +21,7 @@ class Number extends ConditionalFieldsHandlerBase {
     $state = [];
 
     switch ($options['values_set']) {
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         if ($options['field_cardinality'] == 1) {
           $state[$options['state']][$options['selector']] = [
             'value' => $this->getWidgetValue($options['value_form'])
@@ -40,14 +41,14 @@ class Number extends ConditionalFieldsHandlerBase {
         }
         return $state;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         // Implemented in DefaultStateHandler.
         return $state;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
         // Implemented in DefaultStateHandler.
         break;
     }

@@ -112,7 +112,6 @@ class OverviewForm extends FormBase {
       $container->get('current_user'),
       $container->get('state'),
       $container->get('module_handler'),
-
       $container->get('plugin.manager.queue_worker'),
       $container->get('plugin.manager.queue_ui'),
       $container->get('messenger')
@@ -133,11 +132,11 @@ class OverviewForm extends FormBase {
     $form['top'] = [
       'operation' => [
         '#type' => 'select',
-        '#title' => t('Action'),
+        '#title' => $this->t('Action'),
         '#options' => [
-          'submitBatch' => t('Batch process'),
-          'submitRelease' => t('Remove leases'),
-          'submitClear' => t('Clear'),
+          'submitBatch' => $this->t('Batch process'),
+          'submitRelease' => $this->t('Remove leases'),
+          'submitClear' => $this->t('Clear'),
         ],
       ],
       'actions' => [
@@ -149,7 +148,7 @@ class OverviewForm extends FormBase {
           '#type' => 'submit',
           '#tableselect' => TRUE,
           '#submit' => ['::submitBulkForm'],
-          '#value' => t('Apply to selected items'),
+          '#value' => $this->t('Apply to selected items'),
         ],
       ],
     ];
@@ -158,17 +157,18 @@ class OverviewForm extends FormBase {
       '#type' => 'table',
       '#tableselect' => TRUE,
       '#header' => [
-        'title' => t('Title'),
-        'items' => t('Number of items'),
-        'class' => t('Class'),
-        'cron' => t('Cron time limit (seconds)'),
-        'operations' => t('Operations'),
+        'title' => $this->t('Title'),
+        'items' => $this->t('Number of items'),
+        'class' => $this->t('Class'),
+        'cron' => $this->t('Cron time limit (seconds)'),
+        'operations' => $this->t('Operations'),
       ],
-      '#empty' => t('No queues defined'),
+      '#empty' => $this->t('No queues defined'),
     ];
 
-    if ($this->moduleHandler->moduleExists('queue_order')) {
-      // Add the dragable options for the form
+    $queue_order_installed = $this->moduleHandler->moduleExists('queue_order');
+    if ($queue_order_installed) {
+      // Add the dragable options for the form.
       $form['queues']['#tabledrag'] = [
         [
           'action' => 'order',
@@ -177,27 +177,28 @@ class OverviewForm extends FormBase {
         ],
       ];
 
-      // Add the weight to the table header
-      array_push($form['queues']['#header'], t('weight'));
+      // Add the weight to the table header.
+      $form['queues']['#header']['weight'] = $this->t('Weight');
+      $form['weight'] = [
+        '#type' => 'value',
+      ];
     }
 
     // Get queues names.
     $queues = $this->queueWorkerManager->getDefinitions();
     foreach ($queues as $name => $queue_definition) {
-      /** @var QueueInterface $queue */
       $queue = $this->queueFactory->get($name);
-      $weight = (isset($queue_definition['weight']) ? $queue_definition['weight'] : 10);
 
       $operations = [];
-      // If queue inspection is enabled for this implementation
+      // If queue inspection is enabled for this implementation.
       if ($queue_ui = $this->queueUIManager->fromQueueName($name)) {
         $operations['inspect'] = [
-          'title' => t('Inspect'),
+          'title' => $this->t('Inspect'),
           'url' => Url::fromRoute('queue_ui.inspect', ['queue_name' => $name]),
         ];
       }
 
-      $form['queues'][$name] = [
+      $row = [
         'title' => [
           '#markup' => (string) $queue_definition['title'],
         ],
@@ -209,9 +210,9 @@ class OverviewForm extends FormBase {
         ],
         'cron' => [
           '#type' => 'number',
-          '#title' => t('Cron Time'),
+          '#title' => $this->t('Cron Time'),
           '#title_display' => 'hidden',
-          '#placeholder' => t('Cron disabled'),
+          '#placeholder' => $this->t('Cron disabled'),
           '#value' => (isset($queue_definition['cron']['time']) ? $queue_definition['cron']['time'] : ''),
           '#parents' => [],
           '#name' => 'cron[' . $name . ']',
@@ -222,32 +223,28 @@ class OverviewForm extends FormBase {
         ],
       ];
 
-      // Enable sort if queue_order is enabled
-      if ($this->moduleHandler->moduleExists('queue_order')) {
-        $form['queues'][$name]['#attributes'] = ['class' => ['draggable']];
-        $form['queues'][$name]['#weight'] = $weight;
-        $form['queues'][$name]['weight'] = [
+      // Enable sort if queue_order is enabled.
+      if ($queue_order_installed) {
+        $weight = isset($queue_definition['weight']) ? $queue_definition['weight'] : 10;
+        $row['#attributes'] = ['class' => ['draggable']];
+        $row['#weight'] = $weight;
+        $row['weight'] = [
           '#type' => 'weight',
-          '#title' => t('Weight for @title', ['@title' => $name]),
+          '#title' => $this->t('Weight for @title', ['@title' => $name]),
           '#title_display' => 'invisible',
-          '#value' => $weight,
-          '#parents' => [],
+          '#default_value' => $weight,
           '#name' => 'weight[' . $name . ']',
           // Classify the weight element for #tabledrag.
           '#attributes' => ['class' => ['queue-order-weight']],
         ];
       }
+
+      $form['queues'][$name] = $row;
     }
 
     $form['cron'] = [
       '#type' => 'value',
     ];
-
-    if ($this->moduleHandler->moduleExists('queue_order')) {
-      $form['weight'] = [
-        '#type' => 'value',
-      ];
-    }
 
     $form['botton'] = [
       'actions' => [
@@ -259,11 +256,11 @@ class OverviewForm extends FormBase {
           '#type' => 'submit',
           '#tableselect' => TRUE,
           '#submit' => ['::submitBulkForm'],
-          '#value' => t('Apply to selected items'),
+          '#value' => $this->t('Apply to selected items'),
         ],
         'save' => [
           '#type' => 'submit',
-          '#value' => t('Save changes'),
+          '#value' => $this->t('Save changes'),
         ],
       ],
     ];
@@ -284,12 +281,14 @@ class OverviewForm extends FormBase {
       $this->state->set('queue_ui_cron_' . $name, $time);
     }
 
-    // Only save the weight if the queue_order module is available
-    if ($this->moduleHandler->moduleExists('queue_order')){
-      // Save the weight of the defined workers
+    // Only save the weight if the queue_order module is available.
+    if ($this->moduleHandler->moduleExists('queue_order')) {
+      $order_config = $this->configFactory()->getEditable('queue_order.settings');
+      // Save the weight of the defined workers.
       foreach ($form_state->getValue('weight') as $name => $weight) {
-        $this->state->set('queue_ui_weight_' . $name, intval($weight));
+        $order_config->set('order.' . $name, (int) $weight);
       }
+      $order_config->save();
     }
 
     // Clear the cached plugin definition so that changes come into effect.
@@ -346,7 +345,7 @@ class OverviewForm extends FormBase {
       if ($queue_ui = $this->queueUIManager->fromQueueName($queue_name)) {
         $num_updated = $queue_ui->releaseItems($queue_name);
 
-        $this->messenger->addMessage(t('@count lease reset in queue @name', [
+        $this->messenger->addMessage($this->t('@count lease reset in queue @name', [
           '@count' => $num_updated,
           '@name' => $queue_name
         ]));

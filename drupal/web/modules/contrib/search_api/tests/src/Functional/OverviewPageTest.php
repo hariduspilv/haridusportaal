@@ -66,8 +66,8 @@ class OverviewPageTest extends SearchApiBrowserTestBase {
     // Enable the "Local actions" block so we can verify which local actions are
     // displayed.
     Block::create([
-      'id' => 'classy_local_actions',
-      'theme' => 'classy',
+      'id' => 'local_actions',
+      'theme' => $this->defaultTheme,
       'weight' => -20,
       'plugin' => 'local_actions_block',
       'region' => 'content',

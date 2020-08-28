@@ -1,0 +1,11 @@
+users_jwt.key_add:
+  title: 'Add Key'
+  route_name: users_jwt.key_add_form
+  appears_on:
+    - users_jwt.key_list
+
+users_jwt.key_generate:
+  title: 'Generate Key'
+  route_name: users_jwt.key_generate_form
+  appears_on:
+    - users_jwt.key_list

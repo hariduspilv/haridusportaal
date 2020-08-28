@@ -133,6 +133,14 @@ class DOMTreeBuilderTest extends \Masterminds\HTML5\Tests\TestCase
         </html>', $doc->saveXML());
     }
 
+    public function testEntityAtEndOfFile()
+    {
+        $fragment = $this->parseFragment('&#');
+        $this->assertInstanceOf('DOMDocumentFragment', $fragment);
+        $this->assertSame('&#', $fragment->textContent);
+        $this->assertEquals('Line 1, Col 2: Expected &#DEC; &#HEX;, got EOF', $this->errors[0]);
+    }
+
     public function testStrangeCapitalization()
     {
         $html = '<!doctype html>
@@ -706,5 +714,30 @@ EOM;
 
         $this->assertSame('p', $audio->parentNode->nodeName);
         $this->assertSame(3, $audio->childNodes->length);
+    }
+
+    public function testClosingBr()
+    {
+                $html = <<<EOM
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>testClosingBr</title>
+    </head>
+    <body>
+    <p>
+        This line ends with a normal line break <br class="attribute-should-be-retained">
+        This line ends with a line break marked up as a closing tag </br class="attribute-should-be-discarded">
+     </p>
+    </body>
+</html>>
+</html>
+EOM;
+
+        $dom = $this->parse($html);
+
+        $this->assertSame(2, $dom->getElementsByTagName('br')->length);
+        $this->assertSame(1, $dom->getElementsByTagName('br')->item(0)->attributes->length);
+        $this->assertSame(0, $dom->getElementsByTagName('br')->item(1)->attributes->length);
     }
 }

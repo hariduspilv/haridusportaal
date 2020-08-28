@@ -68,6 +68,6 @@ function svg_image_uninstall() {
       'SVG was removed from the allowed extensions list in fields: @field_list.',
       ['@field_list' => implode(', ', $changedFields)]
     );
-    drupal_set_message($message, 'warning');
+    \Drupal::messenger()->addWarning($message);
   }
 }

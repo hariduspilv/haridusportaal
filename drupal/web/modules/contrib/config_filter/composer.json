@@ -20,10 +20,10 @@
   "homepage": "https://www.drupal.org/project/config_filter",
   "support": {
     "issues": "https://www.drupal.org/project/issues/config_filter",
-    "irc": "irc://irc.freenode.org/drupal-contribute",
-    "source": "http://cgit.drupalcode.org/config_filter"
+    "slack": "https://drupal.slack.com/archives/C45342CDD",
+    "source": "https://git.drupalcode.org/project/config_filter"
   },
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "require": {},
   "suggest": {
     "drupal/config_split": "Split site configuration for different environments."

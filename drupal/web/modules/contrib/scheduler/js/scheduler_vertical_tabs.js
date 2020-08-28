@@ -1,6 +1,6 @@
 /**
  * @file
- * jQuery to provide summary information inside vertical tabs.
+ * Defines jQuery to provide summary information inside vertical tabs.
  */
 
 (function ($) {

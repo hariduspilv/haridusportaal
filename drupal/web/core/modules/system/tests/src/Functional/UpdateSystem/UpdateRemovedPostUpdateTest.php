@@ -56,14 +56,16 @@ class UpdateRemovedPostUpdateTest extends BrowserTestBase {
       ->execute();
 
     $this->updateUrl = Url::fromRoute('system.db_update');
-    $this->updateUser = $this->drupalCreateUser(['administer software updates']);
+    $this->updateUser = $this->drupalCreateUser([
+      'administer software updates',
+    ]);
   }
 
   /**
    * Tests hook_post_update_NAME().
    */
   public function testRemovedPostUpdate() {
-    // Mimic the behaviour of ModuleInstaller::install().
+    // Mimic the behavior of ModuleInstaller::install().
     $key_value = \Drupal::service('keyvalue');
     $existing_updates = $key_value->get('post_update')->get('existing_updates', []);
 

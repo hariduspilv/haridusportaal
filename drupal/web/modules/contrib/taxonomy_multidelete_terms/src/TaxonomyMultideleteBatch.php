@@ -40,7 +40,7 @@ class TaxonomyMultideleteBatch {
     else {
       $message = t("Processed with errors");
     }
-    drupal_set_message($message);
+    \Drupal::messenger()->addMessage($message);
   }
 
 }

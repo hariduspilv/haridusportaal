@@ -2,6 +2,8 @@
 
 namespace Drupal\smtp\Form;
 
+use Drupal\Core\Extension\ModuleHandlerInterface;
+use PHPMailer\PHPMailer\PHPMailer;
 use Drupal\Component\Utility\EmailValidatorInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Form\ConfigFormBase;
@@ -9,6 +11,7 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\Messenger\Messenger;
 use Drupal\Core\Session\AccountProxyInterface;
+use Drupal\Core\Url;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -45,6 +48,13 @@ class SMTPConfigForm extends ConfigFormBase {
   protected $mailManager;
 
   /**
+   * The module handler service.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
    * Constructs $messenger and $config_factory objects.
    *
    * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
@@ -54,11 +64,12 @@ class SMTPConfigForm extends ConfigFormBase {
    * @param \Drupal\Component\Utility\EmailValidatorInterface $email_validator
    *   The Email Validator Service.
    */
-  public function __construct(ConfigFactoryInterface $config_factory, Messenger $messenger, EmailValidatorInterface $email_validator, AccountProxyInterface $current_user, MailManagerInterface $mail_manager) {
+  public function __construct(ConfigFactoryInterface $config_factory, Messenger $messenger, EmailValidatorInterface $email_validator, AccountProxyInterface $current_user, MailManagerInterface $mail_manager, ModuleHandlerInterface $module_handler) {
     $this->messenger = $messenger;
     $this->emailValidator = $email_validator;
     $this->currentUser = $current_user;
     $this->mailManager = $mail_manager;
+    $this->moduleHandler = $module_handler;
     parent::__construct($config_factory);
   }
 
@@ -71,7 +82,8 @@ class SMTPConfigForm extends ConfigFormBase {
       $container->get('messenger'),
       $container->get('email.validator'),
       $container->get('current_user'),
-      $container->get('plugin.manager.mail')
+      $container->get('plugin.manager.mail'),
+      $container->get('module_handler')
     );
   }
 
@@ -86,10 +98,19 @@ class SMTPConfigForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $config = $this->configFactory->get('smtp.settings');
+    $config = $this->configFactory->getEditable('smtp.settings');
+
+    // Don't overwrite the default if MailSystem module is enabled.
+    $mailsystem_enabled = $this->moduleHandler->moduleExists('mailsystem');
 
     if ($config->get('smtp_on')) {
       $this->messenger->addMessage($this->t('SMTP module is active.'));
+      if ($mailsystem_enabled) {
+        $this->messenger->addWarning($this->t('SMTP module will use the mailsystem module upon config save.'));
+      }
+    }
+    elseif ($mailsystem_enabled) {
+      $this->messenger->addMessage($this->t('SMTP module is managed by <a href=":mailsystem">the mail system module</a>', [':mailsystem' => Url::fromRoute('mailsystem.settings')->toString()]));
     }
     else {
       $this->messenger->addMessage($this->t('SMTP module is INACTIVE.'));
@@ -97,25 +118,31 @@ class SMTPConfigForm extends ConfigFormBase {
 
     $this->messenger->addMessage($this->t('Disabled fields are overridden in site-specific configuration file.'), 'warning');
 
-    $form['onoff'] = [
-      '#type'  => 'details',
-      '#title' => $this->t('Install options'),
-      '#open' => TRUE,
-    ];
-    $form['onoff']['smtp_on'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Turn this module on or off'),
-      '#default_value' => $config->get('smtp_on') ? 'on' : 'off',
-      '#options' => ['on' => $this->t('On'), 'off' => $this->t('Off')],
-      '#description' => $this->t('To uninstall this module you must turn it off here first.'),
-      '#disabled' => $this->isOverridden('smtp_on'),
-    ];
+    if ($mailsystem_enabled) {
+      $form['onoff']['smtp_on']['#type'] = 'value';
+      $form['onoff']['smtp_on']['#value'] = 'mailsystem';
+    }
+    else {
+      $form['onoff'] = [
+        '#type'  => 'details',
+        '#title' => $this->t('Install options'),
+        '#open' => TRUE,
+      ];
+      $form['onoff']['smtp_on'] = [
+        '#type' => 'radios',
+        '#title' => $this->t('Set SMTP as the default mailsystem'),
+        '#default_value' => $config->get('smtp_on') ? 'on' : 'off',
+        '#options' => ['on' => $this->t('On'), 'off' => $this->t('Off')],
+        '#description' => $this->t('When on, all mail is passed through the SMTP module.'),
+        '#disabled' => $this->isOverridden('smtp_on'),
+      ];
 
-    // Force Disabling if class doesn't exist.
-    if (!class_exists(\PHPMailer\PHPMailer\PHPMailer::class)) {
-      $form['onoff']['smtp_on']['#disabled'] = TRUE;
-      $form['onoff']['smtp_on']['#default_value'] = 'off';
-      $form['onoff']['smtp_on']['#description'] = $this->t('<strong>SMTP cannot be turned on because the PHPMailer library is missing.</strong>');
+      // Force Disabling if PHPmailer doesn't exist.
+      if (!class_exists(PHPMailer::class)) {
+        $form['onoff']['smtp_on']['#disabled'] = TRUE;
+        $form['onoff']['smtp_on']['#default_value'] = 'off';
+        $form['onoff']['smtp_on']['#description'] = $this->t('<strong>SMTP cannot be enabled because the PHPMailer library is missing.</strong>');
+      }
     }
 
     $form['server'] = [
@@ -184,8 +211,10 @@ class SMTPConfigForm extends ConfigFormBase {
     ];
 
     $form['server']['smtp_timeout'] = [
-      '#type' => 'textfield',
+      '#type' => 'number',
       '#title' => $this->t('Timeout'),
+      '#size' => 6,
+      '#maxlength' => 6,
       '#default_value' => $config->get('smtp_timeout'),
       '#description' => $this->t('Amount of seconds for the SMTP commands to timeout.'),
       '#disabled' => $this->isOverridden('smtp_timeout'),
@@ -312,13 +341,17 @@ class SMTPConfigForm extends ConfigFormBase {
   public function validateForm(array &$form, FormStateInterface $form_state) {
     $values = $form_state->getValues();
 
-    if ($values['smtp_on'] == 'on' && $values['smtp_host'] == '') {
+    if ($values['smtp_on'] !== 'off' && $values['smtp_host'] == '') {
       $form_state->setErrorByName('smtp_host', $this->t('You must enter an SMTP server address.'));
     }
 
-    if ($values['smtp_on'] == 'on' && $values['smtp_port'] == '') {
+    if ($values['smtp_on'] !== 'off' && $values['smtp_port'] == '') {
       $form_state->setErrorByName('smtp_port', $this->t('You must enter an SMTP port number.'));
     }
+
+    if ($values['smtp_timeout'] == '' || $values['smtp_timeout'] < 1) {
+      $form_state->setErrorByName('smtp_timeout', $this->t('You must enter a Timeout value greater than 0.'));
+    } 
 
     if ($values['smtp_from'] && !$this->emailValidator->isValid($values['smtp_from'])) {
       $form_state->setErrorByName('smtp_from', $this->t('The provided from e-mail address is not valid.'));

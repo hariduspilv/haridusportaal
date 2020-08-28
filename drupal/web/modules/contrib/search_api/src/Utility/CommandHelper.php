@@ -394,6 +394,31 @@ class CommandHelper implements LoggerAwareInterface {
   }
 
   /**
+   * Rebuilds the tracker for an index.
+   *
+   * @param string[]|null $indexIds
+   *   (optional) An array of index IDs, or NULL if we should reset the trackers
+   *   of all indexes.
+   *
+   * @return bool
+   *   TRUE if any index was affected, FALSE otherwise.
+   */
+  public function rebuildTrackerCommand(array $indexIds = NULL) {
+    $indexes = $this->loadIndexes($indexIds);
+    if (!$indexes) {
+      return FALSE;
+    }
+
+    foreach ($indexes as $index) {
+      if ($index->status()) {
+        $index->rebuildTracker();
+        $this->logger->info($this->t('The tracking information for search index %name will be rebuilt.', ['%name' => $index->label()]));
+      }
+    }
+    return TRUE;
+  }
+
+  /**
    * Deletes all items from one or more indexes.
    *
    * @param string[]|null $indexIds

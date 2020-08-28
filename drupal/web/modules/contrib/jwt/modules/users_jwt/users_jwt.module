@@ -1,0 +1,24 @@
+<?php
+
+/**
+ * @file
+ * Contains users_jwt.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function users_jwt_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the users_jwt module.
+    case 'help.page.users_jwt':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Manage one or more RSA public keys per user for JWT authentication') . '</p>';
+      return $output;
+
+    default:
+  }
+}

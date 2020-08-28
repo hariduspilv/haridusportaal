@@ -2,13 +2,15 @@
 
 namespace Drupal\openid_connect\Plugin;
 
+use Drupal\Component\Plugin\ConfigurableInterface;
+use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
 use Drupal\Core\Plugin\PluginFormInterface;
 
 /**
  * Defines an interface for OpenID Connect client plugins.
  */
-interface OpenIDConnectClientInterface extends PluginFormInterface, PluginInspectionInterface {
+interface OpenIDConnectClientInterface extends ConfigurableInterface, DependentPluginInterface, PluginFormInterface, PluginInspectionInterface {
 
   /**
    * Returns an array of endpoints.
@@ -51,12 +53,13 @@ interface OpenIDConnectClientInterface extends PluginFormInterface, PluginInspec
    * @param string $authorization_code
    *   Authorization code received as a result of the the authorization request.
    *
-   * @return array
+   * @return array|bool
    *   An associative array containing:
    *   - id_token: The ID token that holds user data.
    *   - access_token: Access token that can be used to obtain user profile
    *     information.
    *   - expire: Unix timestamp of the expiration date of the access token.
+   *   Or FALSE if tokens could not be retrieved.
    */
   public function retrieveTokens($authorization_code);
 
@@ -77,8 +80,8 @@ interface OpenIDConnectClientInterface extends PluginFormInterface, PluginInspec
    * @param string $access_token
    *   Access token.
    *
-   * @return array
-   *   User profile information.
+   * @return array|bool
+   *   User profile information array, or FALSE if retrieval failed.
    */
   public function retrieveUserInfo($access_token);
 

@@ -17,7 +17,7 @@ class SchedulerNodeAccessTest extends SchedulerBrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['scheduler_access_test'];
+  protected static $modules = ['scheduler_access_test'];
 
   /**
    * {@inheritdoc}
@@ -52,7 +52,7 @@ class SchedulerNodeAccessTest extends SchedulerBrowserTestBase {
     ];
 
     foreach ($test_data as $field => $data) {
-      // Create a node with the required scheduler date.
+      // Create a node with the necessary scheduler date.
       $settings = [
         'type' => $this->type,
         'status' => $data['status'],
@@ -61,7 +61,8 @@ class SchedulerNodeAccessTest extends SchedulerBrowserTestBase {
       ];
       $node = $this->drupalCreateNode($settings);
       $this->drupalGet('node/' . $node->id());
-      $this->assertResponse(403, 'Before cron, viewing the ' . $data['before'] . '  node returns "403 Not Authorized"');
+      // Before running cron, viewing the node should give "403 Not Authorized".
+      $this->assertSession()->statusCodeEquals(403);
 
       // Delay so that the date entered is now in the past, then run cron.
       sleep(2);
@@ -75,14 +76,15 @@ class SchedulerNodeAccessTest extends SchedulerBrowserTestBase {
 
       // Check the node is still not viewable.
       $this->drupalGet('node/' . $node->id());
-      $this->assertResponse(403, 'After cron, viewing the ' . $data['after'] . '  node returns "403 Not Authorized"');
+      // After cron, viewing the node should still give "403 Not Authorized".
+      $this->assertSession()->statusCodeEquals(403);
     }
 
-    // Log in and show the dblog for info only.
+    // Log in and assert that the two dblog messages are shown.
     $this->drupalLogin($this->adminUser);
     $this->drupalGet('admin/reports/dblog');
-    $this->assertText('scheduled publishing', '"Scheduled publishing" message is shown in the dblog');
-    $this->assertText('scheduled unpublishing', '"Scheduled unpublishing" message is shown in the dblog');
+    $this->assertSession()->pageTextContains('scheduled publishing');
+    $this->assertSession()->pageTextContains('scheduled unpublishing');
   }
 
 }

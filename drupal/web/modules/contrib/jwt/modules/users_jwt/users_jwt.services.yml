@@ -1,0 +1,16 @@
+services:
+  users_jwt.authentication.jwt:
+    class: Drupal\users_jwt\Authentication\Provider\UsersJwtAuth
+    arguments: ['@users_jwt.key_repository', '@entity_type.manager', '@settings', '@logger.factory']
+    tags:
+      - { name: authentication_provider, provider_id: users_jwt_auth, global: TRUE, priority: 150 }
+  users_jwt.page_cache_request_policy:
+    class: Drupal\users_jwt\PageCache\UsersJwtRequestPolicy
+    public: false
+    tags:
+      - { name: page_cache_request_policy }
+  users_jwt.key_repository:
+    class: Drupal\users_jwt\UsersJwtKeyRepository
+    arguments: ['@user.data', '@users_jwt.memory_cache', '@cache_tags.invalidator']
+  users_jwt.memory_cache:
+    class: Drupal\Core\Cache\MemoryCache\MemoryCache

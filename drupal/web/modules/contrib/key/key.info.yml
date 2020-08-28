@@ -1,11 +1,11 @@
 name: Key
 type: module
 description: Provides the ability to manage site-wide keys.
-core: 8.x
+core_version_requirement: ^8.7.7 || ^9
 package: Security
 configure: entity.key.collection
 
-# Information added by Drupal.org packaging script on 2020-04-27
-version: '8.x-1.13'
+# Information added by Drupal.org packaging script on 2020-06-10
+version: '8.x-1.14'
 project: 'key'
-datestamp: 1588008017
+datestamp: 1591765430

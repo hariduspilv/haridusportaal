@@ -97,6 +97,20 @@ $(document).bind('state:visible-fade', function(e) {
     }
   }
 })
+// Required/Not-Required.
+.bind('state:required', function (e) {
+    if (e.trigger) {
+      var fields_supporting_required = $(e.target).find('input, textarea');
+      var labels = $(e.target).find(':not(.form-item--editor-format, .form-type-radio)>label');
+      if (e.value) {
+        fields_supporting_required.attr('required', 'required');
+        labels.addClass("form-required");
+      } else {
+        fields_supporting_required.removeAttr('required');
+        labels.removeClass("form-required");
+      }
+    }
+})
 // Unchanged state. Do nothing.
 .bind('state:unchanged', function() {});
 

@@ -903,8 +903,9 @@ class IntegrationTest extends SearchApiBrowserTestBase {
    */
   protected function checkDataTypesTable() {
     $this->drupalGet($this->getIndexPath('fields'));
-    $rows = $this->xpath('//*[@id="search-api-data-types-table"]/*/table/tbody/tr');
-    $this->assertTrue(is_array($rows) && !empty($rows), 'Found a datatype listing.');
+    $rows = $this->xpath('//*[@id="search-api-data-types-table"]//table/tbody/tr');
+    $this->assertIsArray($rows);
+    $this->assertNotEmpty($rows);
 
     /** @var \Behat\Mink\Element\NodeElement $row */
     foreach ($rows as $row) {
@@ -1045,7 +1046,7 @@ class IntegrationTest extends SearchApiBrowserTestBase {
     // Find the "Remove" link for the "body" field.
     $links = $this->xpath('//a[@data-drupal-selector=:id]', [':id' => 'edit-fields-body-remove']);
     $this->assertNotEmpty($links, 'Found "Remove" link for body field');
-    $this->assertInternalType('array', $links);
+    $this->assertIsArray($links);
     $url_target = $this->getAbsoluteUrl($links[0]->getAttribute('href'));
     $this->drupalGet($url_target);
     $this->drupalGet($this->getIndexPath('fields'));
@@ -1106,7 +1107,7 @@ class IntegrationTest extends SearchApiBrowserTestBase {
     // Find the "Remove" link for the "title" field.
     $links = $this->xpath('//a[@data-drupal-selector=:id]', [':id' => 'edit-fields-title-remove']);
     $this->assertNotEmpty($links, 'Found "Remove" link for title field');
-    $this->assertInternalType('array', $links);
+    $this->assertIsArray($links);
     $url_target = $this->getAbsoluteUrl($links[0]->getAttribute('href'));
     $this->drupalGet($url_target);
 

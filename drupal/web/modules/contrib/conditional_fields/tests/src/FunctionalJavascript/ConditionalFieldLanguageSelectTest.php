@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\language\Entity\ContentLanguageSettings;
 use Drupal\Tests\conditional_fields\FunctionalJavascript\TestCases\ConditionalFieldValueInterface;
 
@@ -95,14 +96,14 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       $this->fieldName . '[0][value]' => $this->defaultLanguage,
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
     $this->submitForm( $data, 'Save settings');
-    
+
     $this->createScreenshot($this->screenshotPath . '02-language-select-post-add-list-options-filed-conditions.png');
 
     // Check if that configuration is saved.
@@ -112,7 +113,7 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     // Check that the field Body is visible.
     $this->createScreenshot($this->screenshotPath . '04-language-select-body-visible-when-controlled-field-has-default-value.png');
@@ -147,7 +148,7 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       "regex" => '^'. $this->langcodes[0] . '$',
       'grouping' => 'AND',
       'state' => 'visible',
@@ -199,7 +200,7 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       "values" => implode( "\r\n", $this->langcodes ),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -251,7 +252,7 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       "values" => implode( "\r\n", $this->langcodes ),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -303,7 +304,7 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       "values" => implode( "\r\n", $this->langcodes ),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -355,7 +356,7 @@ class ConditionalFieldLanguageSelectTest extends ConditionalFieldTestBase implem
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
       "values" => implode( "\r\n", $this->langcodes ),
       'grouping' => 'AND',
       'state' => 'visible',

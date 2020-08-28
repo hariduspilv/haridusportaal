@@ -79,7 +79,7 @@ class ConfirmClearForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getDescription() {
-    return t('All items in each queue will be deleted, regardless of if leases exist. This operation cannot be undone.');
+    return $this->t('All items in each queue will be deleted, regardless of if leases exist. This operation cannot be undone.');
   }
 
   /**

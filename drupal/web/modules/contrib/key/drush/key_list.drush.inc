@@ -5,6 +5,8 @@
  * Display a list of available keys.
  */
 
+use Drush\Utils\StringUtils;
+
 /**
  * Get a list of available keys.
  */
@@ -16,7 +18,7 @@ function drush_key_list() {
 
   // Filter by key type, if specified.
   if (drush_get_option('key-type')) {
-    $key_type_filter = _convert_csv_to_array(drush_get_option('key-type'));
+    $key_type_filter = StringUtils::csvToArray(drush_get_option('key-type'));
     foreach ($keys as $id => $key) {
       if (!in_array($key->getKeyType()->getPluginId(), $key_type_filter)) {
         unset($keys[$id]);
@@ -26,7 +28,7 @@ function drush_key_list() {
 
   // Filter by key provider, if specified.
   if (drush_get_option('key-provider')) {
-    $key_provider_filter = _convert_csv_to_array(drush_get_option('key-provider'));
+    $key_provider_filter = StringUtils::csvToArray(drush_get_option('key-provider'));
     foreach ($keys as $id => $key) {
       if (!in_array($key->getKeyProvider()->getPluginId(), $key_provider_filter)) {
         unset($keys[$id]);
