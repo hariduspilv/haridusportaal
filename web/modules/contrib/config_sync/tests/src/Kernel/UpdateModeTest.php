@@ -175,7 +175,7 @@ class UpdateModeTest extends KernelTestBase {
 
     $creates = $this->configImporter->getUnprocessedConfiguration('create');
     $updates = $this->configImporter->getUnprocessedConfiguration('update');
-    $this->assertEqual(0, count($this->configImporter->getUnprocessedConfiguration('delete')), 'There are no configuration items to delete.');
+    $this->assertEquals(0, count($this->configImporter->getUnprocessedConfiguration('delete')), 'There are no configuration items to delete.');
     // node.type.config_sync_test_2 was deleted from both the snapshot and
     // the active configuration and so should be created.
     // node.type.config_sync_test_3 was deleted from active but should not be
@@ -197,9 +197,9 @@ class UpdateModeTest extends KernelTestBase {
 
     // Verify that the expected config changes were made.
     $node_type_1 = NodeType::load($this->nodeTypeNames[1]);
-    $this->assertEqual('Custom name', $node_type_1->label());
-    $this->assertEqual('Provided description', $node_type_1->get('description'));
-    $this->assertEqual('Custom help', $node_type_1->get('help'));
+    $this->assertEquals('Custom name', $node_type_1->label());
+    $this->assertEquals('Provided description', $node_type_1->get('description'));
+    $this->assertEquals('Custom help', $node_type_1->get('help'));
 
     $this->verifySnapshot();
   }
@@ -210,7 +210,7 @@ class UpdateModeTest extends KernelTestBase {
 
     $creates = $this->configImporter->getUnprocessedConfiguration('create');
     $updates = $this->configImporter->getUnprocessedConfiguration('update');
-    $this->assertEqual(0, count($this->configImporter->getUnprocessedConfiguration('delete')), 'There are no configuration items to delete.');
+    $this->assertEquals(0, count($this->configImporter->getUnprocessedConfiguration('delete')), 'There are no configuration items to delete.');
     // node.type.config_sync_test_2 was deleted from both the snapshot and
     // the active configuration and so should be created.
     // node.type.config_sync_test_3 was deleted from active but should not be
@@ -231,9 +231,9 @@ class UpdateModeTest extends KernelTestBase {
 
     // Verify that the expected config changes were made.
     $node_type_1 = NodeType::load($this->nodeTypeNames[1]);
-    $this->assertEqual('Provided name', $node_type_1->label());
-    $this->assertEqual('Provided description', $node_type_1->get('description'));
-    $this->assertEqual('Provided help', $node_type_1->get('help'));
+    $this->assertEquals('Provided name', $node_type_1->label());
+    $this->assertEquals('Provided description', $node_type_1->get('description'));
+    $this->assertEquals('Provided help', $node_type_1->get('help'));
 
     $this->verifySnapshot();
   }
@@ -244,7 +244,7 @@ class UpdateModeTest extends KernelTestBase {
 
     $creates = $this->configImporter->getUnprocessedConfiguration('create');
     $updates = $this->configImporter->getUnprocessedConfiguration('update');
-    $this->assertEqual(0, count($this->configImporter->getUnprocessedConfiguration('delete')), 'There are no configuration items to delete.');
+    $this->assertEquals(0, count($this->configImporter->getUnprocessedConfiguration('delete')), 'There are no configuration items to delete.');
     // node.type.config_sync_test_2 was deleted from both the snapshot and
     // the active configuration and so should be created.
     // node.type.config_sync_test_3 was deleted from active and should be
@@ -270,9 +270,9 @@ class UpdateModeTest extends KernelTestBase {
     // Verify that all provided items are at their provided state.
     foreach (array_keys($this->configNames) as $index) {
       $node_type = NodeType::load($this->nodeTypeNames[$index]);
-      $this->assertEqual('Provided name', $node_type->label());
-      $this->assertEqual('Provided description', $node_type->get('description'));
-      $this->assertEqual('Provided help', $node_type->get('help'));
+      $this->assertEquals('Provided name', $node_type->label());
+      $this->assertEquals('Provided description', $node_type->get('description'));
+      $this->assertEquals('Provided help', $node_type->get('help'));
     }
 
     $this->verifySnapshot();
@@ -288,7 +288,7 @@ class UpdateModeTest extends KernelTestBase {
     // Verify that the snapshot is now fully updated.
     $extension_storage = $this->container->get('config_update.extension_storage');
     foreach (array_keys($this->configNames) as $index) {
-      $this->assertEqual($extension_storage->read($this->configNames[$index]), $test_snapshot_storage->read($this->configNames[$index]));
+      $this->assertEquals($extension_storage->read($this->configNames[$index]), $test_snapshot_storage->read($this->configNames[$index]));
     }
   }
 

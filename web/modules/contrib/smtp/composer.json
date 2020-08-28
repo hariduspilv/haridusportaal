@@ -9,11 +9,14 @@
   },
   "require": {
     "drupal/core": "^8.7.7 || ^9",
-    "phpmailer/phpmailer": "~6.0"
+    "phpmailer/phpmailer": "^6.1.5"
   },
   "extra": {
     "branch-alias": {
       "dev-8.x-1.x": "1.x-dev"
     }
+  },
+  "suggest": {
+    "drupal/mailsystem": "Allows using SMTP alongside other mail modules."
   }
 }

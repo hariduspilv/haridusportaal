@@ -1,0 +1,22 @@
+jwt_test.10:
+  path: '/jwt_test/test10'
+  options:
+    _auth: [ 'jwt_auth' ]
+  defaults:
+    _controller: '\Drupal\jwt_test\Controller\TestContent::test1'
+  requirements:
+    _access: 'TRUE'
+jwt_test.11.1:
+  path: '/jwt_test/test11_1'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+  defaults:
+    _controller: '\Drupal\jwt_test\Controller\TestContent::test11'
+jwt_test.11.2:
+  path: '/jwt_test/test11_2'
+  options:
+    _auth: [ 'jwt_auth', 'basic_auth', 'cookie' ]
+  requirements:
+    _user_is_logged_in: 'TRUE'
+  defaults:
+    _controller: '\Drupal\jwt_test\Controller\TestContent::test11'

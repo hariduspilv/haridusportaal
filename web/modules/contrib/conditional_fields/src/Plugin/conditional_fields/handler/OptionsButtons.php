@@ -3,6 +3,7 @@
 namespace Drupal\conditional_fields\Plugin\conditional_fields\handler;
 
 use Drupal\conditional_fields\ConditionalFieldsHandlerBase;
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 
 /**
  * Provides states handler for Check boxes/radio buttons.
@@ -36,7 +37,7 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
     $values_array  = $this->getConditionValues( $options );
     $state         = [];
     switch ($options[ 'values_set' ]) {
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         // TODO: Try to get key_column automatically.
         // like here:
         // @see \Drupal\conditional_fields\Plugin\conditional_fields\handler\Select::widgetCase()
@@ -53,7 +54,7 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         $state = [$options['state'] => $select_states];
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         if (is_array($values_array)) {
           // Will take the first value
           // because there is no possibility to choose more with radio buttons.
@@ -65,19 +66,19 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         $state = [$options['state'] => $select_states];
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
         // This just works.
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
         $select_states[$options['selector']] = [
           $options['condition'] => ['xor' => $values_array],
         ];
         $state = [$options['state'] => $select_states];
         break;
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $options['state'] = '!' . $options['state'];
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
         if (is_array($values_array)) {
           foreach ($values_array as $value) {
             $select_states[$options['selector']][] = [
@@ -108,7 +109,7 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
     $values_array         = $this->getConditionValues($options);
     $select               = conditional_fields_field_selector($field);
     switch ($options[ 'values_set' ]) {
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $values_array = $this->getWidgetValue($options['value_form']);
         //We are placed on the parent field with options
         if (isset($field['#options'])) {
@@ -134,7 +135,7 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         $state[$options['state']] = $checkboxes_selectors;
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
         // We interpret this as: checkboxes whose values match the regular
         // expression should be checked.
         if (isset($field['#options'])) {
@@ -149,7 +150,7 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         }
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         if (!empty($values_array)) {
           foreach ($values_array as $value) {
             if (isset($field[$value])) {
@@ -162,7 +163,7 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         $state[ $options[ 'state' ] ] = $checkboxes_selectors;
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
         foreach ($values_array as $index => $value) {
           if ($index > 0) {
             $checkboxes_selectors[] = 'xor';
@@ -172,9 +173,9 @@ class OptionsButtons extends ConditionalFieldsHandlerBase {
         $state[$options['state']] = $checkboxes_selectors;
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $options['state'] = '!' . $options['state'];
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
         foreach ( $values_array as $value ) {
           $checkboxes_selectors[] = [ conditional_fields_field_selector( $field[ $value ] ) => [ 'checked' => true ] ];
         }

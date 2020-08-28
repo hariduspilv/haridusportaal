@@ -1,3 +1,10 @@
+/**
+ * @file
+ * JavaScript Google Map Field renderer.
+ *
+ * Renders a Google maps field in front end pages.
+ */
+
 var google_map_field_map;
 
 (function ($, Drupal) {

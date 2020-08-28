@@ -257,6 +257,15 @@ class ConditionalFieldForm extends FormBase {
       ->getStorage('entity_form_display')
       ->load("$entity_type.$bundle_name.default");
 
+    if (empty($form_display_entity) && $entity_type == 'taxonomy_term') {
+      $form_display_entity = $this->entityTypeManager->getStorage('entity_form_display')->create([
+        'targetEntityType' => 'taxonomy_term',
+        'bundle' => $bundle_name,
+        'mode' => 'default',
+        'status' => TRUE,
+      ]);
+    }
+
     if (!$form_display_entity) {
       return $form['table'];
     }

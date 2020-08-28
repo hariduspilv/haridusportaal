@@ -24,9 +24,9 @@
   "support": {
     "issues": "http://drupal.org/project/google_map_field",
     "irc": "irc://irc.freenode.org/drupal-contribute",
-    "source": "http://cgit.drupalcode.org/google_map_field"
+    "source": "https://git.drupalcode.org/project/google_map_field"
   },
-  "license": "GPL-2.0+",
+  "license": "GPL-2.0-or-later",
   "minimum-stability": "dev",
   "require": {}
 }

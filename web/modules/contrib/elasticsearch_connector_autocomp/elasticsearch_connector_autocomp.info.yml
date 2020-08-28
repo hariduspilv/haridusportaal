@@ -2,7 +2,9 @@ name: 'Elasticsearch Connector Autocomplete'
 type: module
 description: 'This module ads the ability to configure the index and fields to index ngrams, which improves autcompletion results.'
 core: 8.x
+core_version_requirement: ^8 || ^9
 package: 'Custom'
 dependencies:
+  - drupal:system (>= 8.7.1)
   - elasticsearch_connector
   - search_api

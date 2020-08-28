@@ -38,7 +38,7 @@ class TextFieldKeyInput extends KeyInputBase {
       '#type' => 'textfield',
       '#title' => $this->t('Key value'),
       '#required' => $key->getKeyProvider()->getPluginDefinition()['key_value']['required'],
-      '#maxlength' => 255,
+      '#maxlength' => 4096,
       '#default_value' => $key_value_data['current'],
       // Tell the browser not to autocomplete this field.
       '#attributes' => ['autocomplete' => 'off'],

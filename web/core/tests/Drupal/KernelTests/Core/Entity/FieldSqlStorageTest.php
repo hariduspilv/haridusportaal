@@ -266,7 +266,7 @@ class FieldSqlStorageTest extends EntityKernelTestBase {
     $entity->{$this->fieldName} = NULL;
     $entity->save();
     $rows = $connection->select($this->table, 't')->fields('t')->execute()->fetchAllAssoc('delta', \PDO::FETCH_ASSOC);
-    $this->assertEqual(count($rows), 0);
+    $this->assertCount(0, $rows);
   }
 
   /**
@@ -339,13 +339,8 @@ class FieldSqlStorageTest extends EntityKernelTestBase {
 
     // Attempt to update the field in a way that would work without data.
     $field_storage->setSetting('scale', 3);
-    try {
-      $field_storage->save();
-      $this->fail('Cannot update field schema with data.');
-    }
-    catch (FieldStorageDefinitionUpdateForbiddenException $e) {
-      $this->pass('Cannot update field schema with data.');
-    }
+    $this->expectException(FieldStorageDefinitionUpdateForbiddenException::class);
+    $field_storage->save();
   }
 
   /**
@@ -373,7 +368,7 @@ class FieldSqlStorageTest extends EntityKernelTestBase {
       $this->fail('Update succeeded.');
     }
     catch (\Exception $e) {
-      $this->pass('Update properly failed.');
+      // Expected exception; just continue testing.
     }
 
     // Ensure that the field tables are still there.

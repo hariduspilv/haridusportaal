@@ -6,23 +6,19 @@
  */
 
 use Drupal\Core\Url;
-use Drupal\smtp\ConnectionTester\ConnectionTester;
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Implements hook_uninstall().
  */
 function smtp_uninstall() {
-  $config = \Drupal::service('config.factory');
-  $smtp_config = $config->getEditable('smtp.settings');
 
   // Restore previous mail system.
-  $default_system_mail = 'php_mail';
-  $mail_config = $config->getEditable('system.mail');
-  $default_interface = (!$smtp_config->get('prev_mail_system')) ? $smtp_config->get('prev_mail_system') : $default_system_mail;
-  $mail_config->set('interface.default', $default_interface)
-    ->save();
+  _disable_smtp();
 
   // Cleaning garbage.
+  $config = \Drupal::service('config.factory');
+  $smtp_config = $config->getEditable('smtp.settings');
   $smtp_config->delete();
 }
 
@@ -45,6 +41,16 @@ function smtp_update_8002() {
 }
 
 /**
+ * If mailsystem exists, disable smtp mailsystem automatically.
+ */
+function smtp_update_8004() {
+  $mailsystem_enabled = \Drupal::moduleHandler()->moduleExists('mailsystem');
+  if ($mailsystem_enabled) {
+    _disable_smtp();
+  }
+}
+
+/**
  * Implements hook_install().
  */
 function smtp_install() {
@@ -62,34 +68,91 @@ function smtp_install() {
 }
 
 /**
+ * Disable the SMTP mailsystem if the mailsystem module is installed.
+ *
+ * @param $modules
+ * @param $is_syncing
+ */
+function smtp_modules_installed($modules, $is_syncing = FALSE) {
+  if (in_array('mailsystem', $modules) && !$is_syncing) {
+    // If mailsystem module is enabled, make sure SMTP is disabled.
+    _disable_smtp();
+  }
+}
+
+/**
  * Implements hook_requirements().
  */
 function smtp_requirements(string $phase) {
-
   $requirements = [];
+
   if ($phase == 'runtime') {
     // Ensure PHPMailer exists.
-    if (!class_exists(\PHPMailer\PHPMailer\PHPMailer::class)) {
-      $config = \Drupal::service('config.factory');
-      $smtp_config = $config->getEditable('smtp.settings');
-      $smtp_config->set('smtp_on', FALSE)->save();
-      $requirements['smtp_phpmailer']['title'] = t('SMTP: PHPMailer Library');
-      $requirements['smtp_phpmailer']['severity'] = REQUIREMENT_ERROR;
-      $requirements['smtp_phpmailer']['description'] = t('PHPMailer is Required for SMTP to function.');
+    if (class_exists(PHPMailer::class)) {
+      $mail = new PHPMailer();
+    }
+    if (empty($mail)) {
+      $requirements['smtp_phpmailer'] = [
+        'title' => (string) t('SMTP: PHPMailer Library'),
+        'value' => (string) t('Missing'),
+        'severity' => REQUIREMENT_ERROR,
+        'description' => t('PHPMailer is Required for SMTP to function.'),
+      ];
+      // If PHPMailer is not found, SMTP should not be set as the mail system.
+      _disable_smtp();
 
       return $requirements;
     }
     else {
+      $required_version = '6.1.5';
+      $installed_version = $mail::VERSION;
       $reflector = new \ReflectionClass('\PHPMailer\PHPMailer\PHPMailer');
-      $dirname = file(dirname($reflector->getFileName()) . '/../VERSION');
-      $phpMailerVersion = array_shift($dirname);
-      $requirements['smtp_phpmailer']['title'] = t('SMTP: PHPMailer Library');
-      $requirements['smtp_phpmailer']['severity'] = REQUIREMENT_INFO;
-      $requirements['smtp_phpmailer']['description'] = t('PHPMailer %version is located at %path', ['%version' => $phpMailerVersion, '%path' => $reflector->getFileName()]);
-    }
 
-    $tester = new ConnectionTester();
-    $requirements = array_merge($requirements, $tester->hookRequirements($phase));
+      $requirements['smtp_phpmailer'] = [
+        'title' => (string) t('SMTP: PHPMailer library'),
+        'value' => $installed_version,
+        'description' => t('PHPMailer is located at %path', ['%path' => $reflector->getFileName()]),
+      ];
+      if (!version_compare($installed_version, $required_version, '>=')) {
+        $requirements['smtp_phpmailer']['severity'] = REQUIREMENT_ERROR;
+        $requirements['smtp_phpmailer']['description'] = (string) t("PHPMailer library @version or higher is required. Please install a newer version by executing 'composer update' in your site's root directory.", [
+          '@version' => $required_version,
+        ]);
+        // If incorrect version, SMTP should not be set as the mail system.
+        _disable_smtp();
+      }
+      else {
+        $requirements['smtp_phpmailer']['severity'] = REQUIREMENT_INFO;
+        /** @var \Drupal\smtp\ConnectionTester\ConnectionTester $tester */
+        $tester = \Drupal::service('smtp.connection_tester');
+        $tester->testConnection();
+        $requirements = array_merge($requirements, $tester->hookRequirements($phase));
+      }
+    }
   }
   return $requirements;
+}
+
+/**
+ * Helper function to disable SMTP and restore the default mailsystem.
+ */
+function _disable_smtp() {
+  $config = \Drupal::service('config.factory');
+  // Always make sure SMTP is disabled.
+  $smtp_config = $config->getEditable('smtp.settings');
+  if (!$smtp_config->get('smtp_on')) {
+    return;
+  }
+  // Set the internal SMTP module config off.
+  $smtp_config->set('smtp_on', FALSE)->save();
+
+  // Set the default back to either the previous mail system or php_mail.
+  $mail_config = $config->getEditable('system.mail');
+  $current_default = $mail_config->get('interface.default');
+  $system_default = 'php_mail';
+  if ($current_default == 'SMTPMailSystem') {
+    $default_interface = (!$smtp_config->get('prev_mail_system')) ? $smtp_config->get('prev_mail_system') : $system_default;
+    $mail_config->set('interface.default', $default_interface)
+      ->save();
+  }
 }

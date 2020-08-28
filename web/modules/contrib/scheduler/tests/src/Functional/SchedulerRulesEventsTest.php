@@ -19,7 +19,7 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['scheduler_rules_integration'];
+  protected static $modules = ['scheduler_rules_integration'];
 
   /**
    * {@inheritdoc}
@@ -75,6 +75,8 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
 
     $this->drupalLogin($this->schedulerUser);
 
+    $assert = $this->assertSession();
+
     // Create a node without any scheduled dates, using node/add/ not
     // drupalCreateNode(), and check that no events are triggered.
     $edit = [
@@ -83,24 +85,24 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
     ];
     $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertNoText($message[5], '"' . $message[5] . '" is not shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextNotContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Edit the node and check that no events are triggered.
     $edit = [
       'body[0][value]' => $this->randomString(30),
     ];
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertNoText($message[5], '"' . $message[5] . '" is not shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextNotContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Create a new node with a publish-on date, and check that only event 1 is
     // triggered.
@@ -112,12 +114,12 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
     ];
     $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
-    $this->assertText($message[1], '"' . $message[1] . '" IS shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertNoText($message[5], '"' . $message[5] . '" is not shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextNotContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Edit this node and check that only event 2 is triggered.
     $edit = [
@@ -125,24 +127,24 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'body[0][value]' => $this->randomString(30),
     ];
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertText($message[2], '"' . $message[2] . '" IS shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertNoText($message[5], '"' . $message[5] . '" is not shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextNotContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Delay to ensure that the date entered is now in the past so that the node
     // will be processed during cron, and assert that event 3 is triggered.
     sleep(5);
     $this->cronRun();
     $this->drupalGet('admin/reports/dblog');
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertText($message[3], '"' . $message[3] . '" IS shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertNoText($message[5], '"' . $message[5] . '" is not shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextNotContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Create a new node with an unpublish-on date, and check that only event 4
     // is triggered.
@@ -154,12 +156,12 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
     ];
     $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertText($message[4], '"' . $message[4] . '" IS shown');
-    $this->assertNoText($message[5], '"' . $message[5] . '" is not shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextContains($message[4]);
+    $assert->pageTextNotContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Edit this node and check that only event 5 is triggered.
     $edit = [
@@ -167,24 +169,24 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
       'body[0][value]' => $this->randomString(30),
     ];
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertText($message[5], '"' . $message[5] . '" IS shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Delay to ensure that the date entered is now in the past so that the node
     // will be processed during cron, and assert that event 6 is triggered.
     sleep(5);
     $this->cronRun();
     $this->drupalGet('admin/reports/dblog');
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertNoText($message[5], '"' . $message[5] . '" is not shown');
-    $this->assertText($message[6], '"' . $message[6] . '" IS shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextNotContains($message[5]);
+    $assert->pageTextContains($message[6]);
 
     // Create a new node with both publish-on and unpublish-on dates, and check
     // that events 1 and event 4 are both triggered.
@@ -198,12 +200,12 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
     ];
     $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
-    $this->assertText($message[1], '"' . $message[1] . '" IS shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertText($message[4], '"' . $message[4] . '" IS shown');
-    $this->assertNoText($message[5], '"' . $message[5] . '" is not shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextContains($message[4]);
+    $assert->pageTextNotContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Edit this node and check that events 2 and 5 are triggered.
     $edit = [
@@ -212,24 +214,24 @@ class SchedulerRulesEventsTest extends SchedulerBrowserTestBase {
     ];
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, 'Save');
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertText($message[2], '"' . $message[2] . '" IS shown');
-    $this->assertNoText($message[3], '"' . $message[3] . '" is not shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertText($message[5], '"' . $message[5] . '" IS shown');
-    $this->assertNoText($message[6], '"' . $message[6] . '" is not shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextContains($message[2]);
+    $assert->pageTextNotContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextContains($message[5]);
+    $assert->pageTextNotContains($message[6]);
 
     // Delay to ensure that the dates are now in the past so that the node will
     // be processed during cron, and assert that events 3, 5 & 6 are triggered.
     sleep(6);
     $this->cronRun();
     $this->drupalGet('admin/reports/dblog');
-    $this->assertNoText($message[1], '"' . $message[1] . '" is not shown');
-    $this->assertNoText($message[2], '"' . $message[2] . '" is not shown');
-    $this->assertText($message[3], '"' . $message[3] . '" IS shown');
-    $this->assertNoText($message[4], '"' . $message[4] . '" is not shown');
-    $this->assertText($message[5], '"' . $message[5] . '" IS shown');
-    $this->assertText($message[6], '"' . $message[6] . '" IS shown');
+    $assert->pageTextNotContains($message[1]);
+    $assert->pageTextNotContains($message[2]);
+    $assert->pageTextContains($message[3]);
+    $assert->pageTextNotContains($message[4]);
+    $assert->pageTextContains($message[5]);
+    $assert->pageTextContains($message[6]);
 
   }
 

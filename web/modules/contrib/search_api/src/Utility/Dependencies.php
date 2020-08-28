@@ -18,6 +18,7 @@ class Dependencies {
    * Gets the dependencies as an array as expected by configuration.
    *
    * @return array
+   *   The dependencies.
    */
   public function toArray(): array {
     return $this->dependencies;

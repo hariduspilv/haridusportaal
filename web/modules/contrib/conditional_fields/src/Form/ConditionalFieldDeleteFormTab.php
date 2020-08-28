@@ -12,13 +12,14 @@ use Drupal\Core\Url;
  */
 class ConditionalFieldDeleteFormTab extends ConditionalFieldDeleteForm {
 
+  protected $entity_type;
   protected $bundle;
 
   /**
    * {@inheritdoc}
    */
   public function getCancelUrl() {
-    return Url::fromRoute('conditional_fields.tab', [
+    return Url::fromRoute('conditional_fields.tab'. "." . $this->entity_type, [
       'node_type' => $this->bundle,
     ]);
   }
@@ -34,6 +35,7 @@ class ConditionalFieldDeleteFormTab extends ConditionalFieldDeleteForm {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state, $entity_type = NULL, $bundle = NULL, $field_name = NULL, $uuid = NULL) {
+    $this->entity_type = $entity_type;
     $this->bundle = $bundle;
     return parent::buildForm($form, $form_state, $entity_type, $bundle, $field_name, $uuid);
   }

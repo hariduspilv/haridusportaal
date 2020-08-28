@@ -3,12 +3,11 @@ type: module
 description: 'Support module for config_sync module testing.'
 package: Testing
 # version: VERSION
-# core: 8.x
+core: 8.x
 dependencies:
   - node
 
-# Information added by Drupal.org packaging script on 2019-02-16
-version: '8.x-2.0-beta5'
-core: '8.x'
+# Information added by Drupal.org packaging script on 2020-07-07
+version: '8.x-2.0-beta7'
 project: 'config_sync'
-datestamp: 1550290986
+datestamp: 1594083317

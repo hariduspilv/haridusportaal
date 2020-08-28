@@ -1,0 +1,103 @@
+.olmap-field-widget.left {
+  float: left;
+  width: 45%;
+}
+
+.olmap-field-widget.right {
+  float: right;
+  margin-right: 2%;
+}
+
+.olmap-field-preview {
+  -webkit-box-shadow: 0 0 2px 2px #ababab;
+  -moz-box-shadow: 0 0 2px 2px #ababab;
+  -o-box-shadow: 0 0 2px 2px #ababab;
+  box-shadow: 0 0 2px 2px #ababab;
+  background-color: #ccc;
+  width: 300px;
+  height: 180px;
+}
+
+.field-map-actions {
+  clear: both;
+}
+
+#olmf_container {
+  -webkit-box-shadow: 0 0 2px 2px #ababab;
+  -moz-box-shadow: 0 0 2px 2px #ababab;
+  -o-box-shadow: 0 0 2px 2px #ababab;
+  box-shadow: 0 0 2px 2px #ababab;
+  height: 300px;
+  margin-bottom: 10px;
+  width: 98%;
+}
+
+#centre_on label {
+  font-weight: normal;
+}
+
+#centre_on input {
+  padding: 3px;
+}
+
+#centre_map_results a {
+  cursor: pointer;
+}
+
+#centre_map_results a:not(:last-child):after {
+  content: ',';
+  padding-right: 5px;
+}
+
+#olmap_field_dialog {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+#olmap_field_container {
+  display: flex;
+  flex: 1;
+}
+
+#olmap_map_container {
+  flex: 1 75%;
+}
+
+#olmap_field_options {
+  flex: 0 0 25%;
+  order: 1;
+}
+
+#olmap_field_options select,
+#olmap_field_options input[type="text"] {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#olmap_field_options .form-checkbox::after {
+  clear: both;
+  content: " ";
+  display: table;
+}
+
+#olmap_field_options .form-checkbox {
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+#olmap_field_options .form-checkbox input,
+#olmap_field_options .form-checkbox label {
+  float: left;
+}
+
+#olmap_field_options .form-checkbox label {
+  margin-top: 2px;
+  padding-left: 5px;
+}
+
+p.marker-text {
+  font-size: 0.8em;
+  line-height: 1em;
+  margin-top: 0.5em;
+}

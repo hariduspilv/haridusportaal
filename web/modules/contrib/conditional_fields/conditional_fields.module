@@ -14,80 +14,6 @@ use Drupal\Core\Url;
 use Drupal\conditional_fields\ConditionalFieldsFormHelper;
 
 /**
- * Dependency is triggered if the dependee has a certain value.
- */
-define('CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET', 1);
-
-/**
- * Dependency is triggered if the dependee has all values.
- */
-define('CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND', 2);
-
-/**
- * Dependency is triggered if the dependee has any of the values.
- */
-define('CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR', 3);
-
-/**
- * Dependency is triggered if the dependee has only one of the values.
- */
-define('CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR', 4);
-
-/**
- * Dependency is triggered if the dependee does not have any of the values.
- */
-define('CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT', 5);
-
-/**
- * Dependency is triggered if the dependee values match a regular expression.
- */
-define('CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX', 6);
-
-/**
- * Field view setting. Dependent is shown only if the dependency is triggered.
- */
-define('CONDITIONAL_FIELDS_FIELD_VIEW_EVALUATE', 1);
-
-/**
- * Field view setting. Dependent is shown only if the dependee is shown as well.
- */
-define('CONDITIONAL_FIELDS_FIELD_VIEW_HIDE_ORPHAN', 2);
-
-/**
- * Field view setting. Dependent is highlighted if the dependency is not
- * triggered.
- */
-define('CONDITIONAL_FIELDS_FIELD_VIEW_HIGHLIGHT', 3);
-
-/**
- * Field view setting. Dependent has a textual description of the dependency.
- */
-define('CONDITIONAL_FIELDS_FIELD_VIEW_DESCRIBE', 4);
-
-/**
- * Field view setting. Dependent is shown only if the dependee is shown as well
- * and the dependency evaluates to TRUE.
- */
-define('CONDITIONAL_FIELDS_FIELD_VIEW_HIDE_UNTRIGGERED_ORPHAN', 5);
-
-/**
- * Field edit setting. Dependent is shown only if the dependee is shown as well.
- */
-define('CONDITIONAL_FIELDS_FIELD_EDIT_HIDE_ORPHAN', 1);
-
-/**
- * Field edit setting. Dependent is shown only if the dependee is shown as well
- * and the dependency evaluates to TRUE.
- */
-define('CONDITIONAL_FIELDS_FIELD_EDIT_HIDE_UNTRIGGERED_ORPHAN', 2);
-
-/**
- * Field edit setting. Dependent is reset to its default values if the
- * dependency was not triggered when the form is submitted.
- */
-define('CONDITIONAL_FIELDS_FIELD_EDIT_RESET_UNTRIGGERED', 3);
-
-/**
  * Implements hook_help().
  */
 function conditional_fields_help($route_name, RouteMatchInterface $route_match) {
@@ -129,7 +55,7 @@ function conditional_fields_entity_operation(EntityInterface $entity) {
   if ($entity->getEntityTypeId() == 'node_type') {
     $operations['dependencies'] = [
       'title' => t('Dependencies'),
-      'url' => Url::fromRoute('conditional_fields.tab', [$entity->getEntityTypeId() => $entity->id()]),
+      'url' => Url::fromRoute('conditional_fields.tab.node', [$entity->getEntityTypeId() => $entity->id()]),
       'weight' => 29,
     ];
   }
@@ -300,23 +226,23 @@ function conditional_fields_load_dependencies($entity_type, $bundle) {
  *   - condition: The condition for the dependency to be triggered. See
  *     conditionalFieldsConditions() for available conditions.
  *   - values_set: One of the following constants:
- *     - CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET: Dependency is
+ *     - ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET: Dependency is
  *       triggered if the dependee has a certain value defined in 'value'.
- *     - CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND: Dependency is triggered if
+ *     - ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND: Dependency is triggered if
  *       the dependee has all the values defined in 'values'.
- *     - CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR: Dependency is triggered if the
+ *     - ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR: Dependency is triggered if the
  *       dependee has any of the values defined in 'values'.
- *     - CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR: Dependency is triggered if
+ *     - ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR: Dependency is triggered if
  *       the dependee has only one of the values defined in 'values'.
- *     - CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT: Dependency is triggered if
+ *     - ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT: Dependency is triggered if
  *       the dependee does not have any of the values defined in 'values'.
  *   - value: The value to be tested when 'values_set' is
- *     CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET. An associative array with
+ *     ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET. An associative array with
  *     the same structure of the dependee field values as found in
  *     $form_states['values] when the form is submitted. You can use
  *     field_default_extract_form_values() to extract this array.
  *   - values: The array of values to be tested when 'values_set' is not
- *     CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET.
+ *     ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET.
  *   - value_form: An associative array with the same structure of the dependee
  *     field values as found in $form_state['input']['value']['field'] when the
  *     form is submitted.
@@ -496,5 +422,5 @@ function conditional_fields_form_alter(&$form, &$form_state, $form_id) {
  *   The form.
  */
 function conditional_fields_form_after_build($form, &$form_state) {
-  return (new ConditionalFieldsFormHelper())->afterBuild($form, $form_state);
+  return \Drupal::service('conditional_fields.form_helper')->afterBuild($form, $form_state);
 }

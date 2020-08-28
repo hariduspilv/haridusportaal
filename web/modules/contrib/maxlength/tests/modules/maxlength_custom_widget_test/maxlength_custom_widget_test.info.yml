@@ -8,7 +8,7 @@ dependencies:
 hidden: true
 core_version_requirement: ^8.7.7 || ^9
 
-# Information added by Drupal.org packaging script on 2020-01-29
-version: '8.x-1.0-beta5'
+# Information added by Drupal.org packaging script on 2020-06-26
+version: '8.x-1.0-rc1'
 project: 'maxlength'
-datestamp: 1580312230
+datestamp: 1593198220

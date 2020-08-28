@@ -16,6 +16,9 @@ class ConfigMergerTest extends UnitTestCase {
    */
   public $configMerger;
 
+  /**
+   * {@inheritdoc}
+   */
   public function setUp() {
     $this->configMerger = new ConfigMerger();
   }
@@ -85,15 +88,19 @@ class ConfigMergerTest extends UnitTestCase {
     $data = [];
 
     // Provide associative data.
-
     // Test the case that there is no change between previous and current.
     list($previous, $current, $active) = $this->getAssociativeStates();
 
-    // If there is no difference between previous and current, no changes should be
-    // made to active.
+    // If there is no difference between previous and current, no changes should
+    // be made to active.
     $expected = $active;
 
-    $data['associative no difference'] = [$previous, $current, $active, $expected];
+    $data['associative no difference'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Test additions.
     list($previous, $current, $active) = $this->getAssociativeStates();
@@ -118,7 +125,12 @@ class ConfigMergerTest extends UnitTestCase {
       array_slice($expected, 1)
     );
 
-    $data['associative additions'] = [$previous, $current, $active, $expected];
+    $data['associative additions'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Test deletions.
     list($previous, $current, $active) = $this->getAssociativeStates();
@@ -133,7 +145,12 @@ class ConfigMergerTest extends UnitTestCase {
     unset($expected['second'][array_search('two', $expected['second'])]);
     unset($expected['third']['one']);
 
-    $data['associative deletions'] = [$previous, $current, $active, $expected];
+    $data['associative deletions'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Test deletions when the value has been customized.
     // Expected is unchanged because a customized value should not be
@@ -142,7 +159,12 @@ class ConfigMergerTest extends UnitTestCase {
     unset($current['fifth']);
     $expected['fifth'] = 'customized';
 
-    $data['associative deletions with customization'] = [$previous, $current, $active, $expected];
+    $data['associative deletions with customization'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Test changes.
     list($previous, $current, $active) = $this->getAssociativeStates();
@@ -153,7 +175,12 @@ class ConfigMergerTest extends UnitTestCase {
     $expected['third']['one'] = 'change';
     $expected['fourth'] = 'change';
 
-    $data['associative changes'] = [$previous, $current, $active, $expected];
+    $data['associative changes'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Test changes with customization.
     // In this case, the active value should be retained despite the
@@ -161,20 +188,29 @@ class ConfigMergerTest extends UnitTestCase {
     $active['third']['one'] = 'active';
     $expected['third']['one'] = 'active';
 
-    $data['associative changes with customization'] = [$previous, $current, $active, $expected];
+    $data['associative changes with customization'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Provide indexed data.
-
     // Test the case that there is no change between previous and current.
     list($previous, $current, $active) = $this->getIndexedStates();
 
     $active[4] = 'fifth';
 
-    // If there is no difference between previous and current, no changes should be
-    // made to active.
+    // If there is no difference between previous and current, no changes should
+    // be made to active.
     $expected = $active;
 
-    $data['indexed no difference'] = [$previous, $current, $active, $expected];
+    $data['indexed no difference'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Test additions.
     list($previous, $current, $active) = $this->getIndexedStates();
@@ -186,7 +222,12 @@ class ConfigMergerTest extends UnitTestCase {
     // Current is changed but active is not, so we expect current.
     $expected = $current;
 
-    $data['indexed additions current'] = [$previous, $current, $active, $expected];
+    $data['indexed additions current'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     $current[2]['three'] = 'third';
     $active[1][] = 'something';
@@ -194,7 +235,12 @@ class ConfigMergerTest extends UnitTestCase {
     // Current is changed but active is also so we expect active.
     $expected = $active;
 
-    $data['indexed additions active'] = [$previous, $current, $active, $expected];
+    $data['indexed additions active'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Test deletions.
     list($previous, $current, $active) = $this->getIndexedStates();
@@ -209,7 +255,12 @@ class ConfigMergerTest extends UnitTestCase {
     unset($expected[1][array_search('two', $expected[1])]);
     unset($expected[2]['one']);
 
-    $data['indexed deletions'] = [$previous, $current, $active, $expected];
+    $data['indexed deletions'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     // Test changes.
     list($previous, $current, $active) = $this->getIndexedStates();
@@ -220,7 +271,12 @@ class ConfigMergerTest extends UnitTestCase {
     $expected[2]['one'] = 'change';
     $expected[3] = 'change';
 
-    $data['indexed changes'] = [$previous, $current, $active, $expected];
+    $data['indexed changes'] = [
+      $previous,
+      $current,
+      $active,
+      $expected,
+    ];
 
     return $data;
   }

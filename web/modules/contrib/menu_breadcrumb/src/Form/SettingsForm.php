@@ -152,6 +152,13 @@ class SettingsForm extends ConfigFormBase {
       '#default_value' => $config->get('exclude_empty_url'),
     ];
 
+    $form['exclude_disabled_menu_items'] = [
+      '#type' => 'checkbox',
+      '#title' => $this->t('Exclude disabled menu items'),
+      '#description' => $this->t('If TRUE, menu items that are disabled will not be included in the breadcrumb trail.'),
+      '#default_value' => $config->get('exclude_disabled_menu_items'),
+    ];
+
     $form['derived_active_trail'] = [
       '#type' => 'checkbox',
       '#title' => $this->t('Derive MenuActiveTrail from RouteMatch'),
@@ -237,6 +244,7 @@ class SettingsForm extends ConfigFormBase {
       ->set('add_home', (boolean) $form_state->getValue('add_home'))
       ->set('menu_breadcrumb_menus', $form_state->getValue('menu_breadcrumb_menus'))
       ->set('exclude_empty_url', $form_state->getValue('exclude_empty_url'))
+      ->set('exclude_disabled_menu_items', $form_state->getValue('exclude_disabled_menu_items'))
       ->set('derived_active_trail', $form_state->getValue('derived_active_trail'))
       ->save();
 

@@ -10,16 +10,65 @@ use Symfony\Component\Yaml\Inline;
 class ConfigMerger {
 
   /**
+   * Indicates update operation during config merge.
+   *
+   * Merge is successful, there were changes and they were merged in.
+   */
+  const OPERATION_UPDATE = 'update';
+
+  /**
+   * Indicates ignore operation during config merge. Default operation.
+   *
+   * 3 way merge was not possible, because module has changes and active storage
+   * was changed too.
+   */
+  const OPERATION_IGNORE = 'ignore';
+
+  /**
+   * Indicates substitute (replace) operation during config merge.
+   *
+   * In case of indexed(non-associated) arrays configuration is substituted (replaced)
+   * completely if the data is unchanged.
+   */
+  const OPERATION_SUBSTITUTE = 'substitute';
+
+  /**
+   * Config merge results log.
+   *
+   * @var array
+   */
+  protected static $logs = [];
+
+  /**
+   * Gets the logs of config merge results.
+   *
+   * @return array
+   *   Array of logs with operations on config as keys.
+   */
+  public static function getLogs() {
+    return self::$logs;
+  }
+
+  /**
    * Merges changes to a configuration item into the active storage.
    *
-   * @param $previous
+   * @param array $previous
    *   The configuration item as previously provided (from snapshot).
-   * @param $current
+   * @param array $current
    *   The configuration item as currently provided by an extension.
-   * @param $active
+   * @param array $active
    *   The configuration item as present in the active storage.
+   * @param array $parent_keys
+   *   The keys of the property being merged in case of nested structure.
+   * @param int $level
+   *   The level of recursion.
+   *
+   * @return array
    */
-  public static function mergeConfigItemStates(array $previous, array $current, array $active) {
+  public static function mergeConfigItemStates(array $previous, array $current, array $active, $parent_keys = [], $level = 0) {
+    if ($level === 0) {
+      self::$logs = [];
+    }
     // We are merging into the active configuration state.
     $result = $active;
 
@@ -60,12 +109,12 @@ class ConfigMerger {
       $merged = array_replace($current, $result);
       // Filter to keep array items from the merged set that ...
       $result = array_intersect_key(
-        // have keys that are either ...
+        // Have keys that are either ...
         $merged, array_flip(
           array_merge(
-            // in the original result set or ...
+            // In the original result set or ...
             array_keys($result),
-            // should be added.
+            // Should be added.
             array_keys($added)
           )
         )
@@ -76,13 +125,27 @@ class ConfigMerger {
         if (isset($previous[$key]) && $previous[$key] !== $value) {
           // If we have an array, recurse.
           if (is_array($value) && is_array($previous[$key]) && isset($active[$key]) && is_array($active[$key])) {
-            $result[$key] = self::mergeConfigItemStates($previous[$key], $value, $active[$key]);
+            $recursion_keys = $parent_keys;
+            $recursion_keys[] = $key;
+            $level++;
+            $result[$key] = self::mergeConfigItemStates($previous[$key], $value, $active[$key], $recursion_keys, $level);
           }
           else {
+            $operation = static::OPERATION_IGNORE;
             // Accept the new value only if the item hasn't been customized.
             if (isset($active[$key]) && $active[$key] === $previous[$key]) {
               $result[$key] = $value;
+              $operation = static::OPERATION_UPDATE;
             }
+            self::$logs[$operation][] = [
+              'name' => $key,
+              'state' => [
+                'active' => $active[$key],
+                'previous' => $previous[$key],
+                'new' => $value
+              ],
+              'parents' => $parent_keys,
+            ];
           }
         }
       }
@@ -92,11 +155,22 @@ class ConfigMerger {
     // than merging array values, we return either the active or the current
     // (new) state.
     else {
+      $operation = static::OPERATION_IGNORE;
       // If the data is unchanged, use the current value. Otherwise, retain any
       // customization by keeping with the active value set above.
       if ($previous === $active) {
         $result = $current;
+        $operation = static::OPERATION_SUBSTITUTE;
       }
+      self::$logs[$operation][] = [
+        'name' => end($parent_keys),
+        'state' => [
+          'active' => $active,
+          'previous' => $previous,
+          'new' => $current
+        ],
+        'parents' => $parent_keys,
+      ];
     }
 
     return $result;

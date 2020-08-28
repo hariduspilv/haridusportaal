@@ -1,7 +1,32 @@
+/**
+ * @file
+ * JavaScript renderer for Google Map Field popup.
+ *
+ * Renders the settings popup for a Google Maps Field.
+ */
 (function ($) {
 
   var dialog;
   var google_map_field_map;
+
+  getMarker = function (position, map) {
+    var markerIcon = $('#edit-marker-icon').val();
+    var isMarkerVisible = $('#edit-marker').prop('checked');
+
+    var settings = {
+      position: position,
+      optimized: false,
+      draggable: true,
+      visible: isMarkerVisible,
+      map: map
+    };
+
+    if (!!markerIcon) {
+      settings.icon = markerIcon;
+    }
+
+    return new google.maps.Marker(settings);
+  }
 
   googleMapFieldSetter = function (delta) {
 
@@ -54,7 +79,7 @@
     dialogHTML += '      </div>';
     dialogHTML += '      <div id="infowindow_container">';
     dialogHTML += '        <label for="edit-infowindow">' + Drupal.t('InfoWindow Popup text: (optional)') + '</label>';
-    dialogHTML += '        <textarea class="form-textarea" id="edit-infowindow" name="infowindow" rows="3" cols="70"></textarea>';
+    dialogHTML += '        <textarea class="form-textarea" id="edit-infowindow" name="infowindow" rows="3"></textarea>';
     dialogHTML += '      </div>';
     dialogHTML += '    </div>';
     dialogHTML += '    <div id="google_map_field_options">';
@@ -133,7 +158,7 @@
     })
 
     // Create the map setter map.
-    // get the lat/lon from form elements
+    // get the lat/lon from form elements.
     var lat = $('input[data-lat-delta="' + delta + '"]').attr('value');
     var lon = $('input[data-lon-delta="' + delta + '"]').attr('value');
     var zoom = $('input[data-zoom-delta="' + delta + '"]').attr('value');
@@ -174,35 +199,22 @@
       trafficLayer.setMap(google_map_field_map);
     }
 
-    // Add map listener
+    // Add map listener.
     google.maps.event.addListener(google_map_field_map, 'zoom_changed', function () {
       $('#edit-zoom').val(google_map_field_map.getZoom());
     });
 
-    // drop a marker at the specified lat/lng coords
-    marker = new google.maps.Marker({
-      position: latlng,
-      optimized: false,
-      draggable: true,
-      visible: show_marker,
-      icon: marker_icon,
-      map: google_map_field_map
-    });
+    // Drop a marker at the specified lat/lng coords.
+    marker = getMarker(latlng, google_map_field_map);
 
-    // add a click listener for marker placement
+    // Add a click listener for marker placement.
     google.maps.event.addListener(google_map_field_map, "click", function (event) {
       latlng = event.latLng;
       google_map_field_map.panTo(latlng);
       marker.setMap(null);
-      marker = new google.maps.Marker({
-        position: latlng,
-        optimized: false,
-        draggable: true,
-        visible: $('#edit-marker').prop('checked'),
-        icon: marker_icon,
-        map: google_map_field_map
-      });
+      marker = getMarker(latlng, google_map_field_map);
     });
+
     google.maps.event.addListener(marker, 'dragend', function (event) {
       google_map_field_map.panTo(event.latLng);
     });
@@ -213,13 +225,7 @@
     var latlng = new google.maps.LatLng(lat, lng);
     google_map_field_map.panTo(latlng);
     marker.setMap(null);
-    marker = new google.maps.Marker({
-      position: latlng,
-      draggable: true,
-      visible: $('#edit-marker').prop('checked'),
-      icon: marker_icon,
-      map: google_map_field_map
-    });
+    marker = getMarker(latlng, google_map_field_map);
     google.maps.event.addListener(marker, 'dragend', function (event) {
       google_map_field_map.panTo(event.latLng);
     });
@@ -243,6 +249,7 @@
       $('#centre_map_results').html('');
       if (status == 'OK') {
         doCentreLatLng(result[0].geometry.location.lat(), result[0].geometry.location.lng());
+
         $('#centre_map_results').html(Drupal.formatPlural(result.length, 'One result found.', '@count results found: '));
 
         if (result.length > 1) {
@@ -254,7 +261,8 @@
           }
         }
 
-      } else {
+      }
+      else {
         $('#map_error').html(Drupal.t('Could not find location.'));
       }
     });

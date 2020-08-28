@@ -13,6 +13,9 @@ openid_connect.settings:
     override_registration_settings:
       type: boolean
       label: 'Override registration settings'
+    user_login_display:
+      type: string
+      label: 'Show external providers in user login form'
     userinfo_mappings:
       type: mapping
       label: 'OpenID Connect settings'

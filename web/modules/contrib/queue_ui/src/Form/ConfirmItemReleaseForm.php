@@ -56,14 +56,14 @@ class ConfirmItemReleaseForm extends ConfirmFormBase {
    * {@inheritdoc}
    */
   public function getQuestion() {
-    return t('Are you sure you want to release queue item %queue_item?', ['%queue_item' => $this->queue_item]);
+    return $this->t('Are you sure you want to release queue item %queue_item?', ['%queue_item' => $this->queue_item]);
   }
 
   /**
    * {@inheritdoc}
    */
   public function getDescription() {
-    return t('This action cannot be undone and will force the release of the item even if it is currently being processed.');
+    return $this->t('This action cannot be undone and will force the release of the item even if it is currently being processed.');
   }
 
   /**

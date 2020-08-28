@@ -9,7 +9,7 @@ use Drupal\search_api\Item\Field;
 use Drupal\search_api\Query\Query;
 use Drupal\Tests\node\Traits\NodeCreationTrait;
 use Drupal\Tests\search_api\Kernel\ResultsTrait;
-use Drupal\Tests\taxonomy\Functional\TaxonomyTestTrait;
+use Drupal\Tests\taxonomy\Traits\TaxonomyTestTrait;
 
 /**
  * Tests the "Hierarchy" processor.

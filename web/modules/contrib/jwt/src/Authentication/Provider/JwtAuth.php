@@ -53,15 +53,14 @@ class JwtAuth implements AuthenticationProviderInterface {
    * {@inheritdoc}
    */
   public function applies(Request $request) {
-    $auth = $request->headers->get('Authorization');
-    return preg_match('/^Bearer .+/', $auth);
+    return (bool) self::getJwtFromRequest($request);
   }
 
   /**
    * {@inheritdoc}
    */
   public function authenticate(Request $request) {
-    $raw_jwt = $this->getJwtFromRequest($request);
+    $raw_jwt = self::getJwtFromRequest($request);
 
     // Decode JWT and validate signature.
     try {
@@ -105,20 +104,29 @@ class JwtAuth implements AuthenticationProviderInterface {
   /**
    * Gets a raw JsonWebToken from the current request.
    *
-   * @param Symfony\Component\HttpFoundation\Request $request
+   * @param \Symfony\Component\HttpFoundation\Request $request
    *   The request.
    *
    * @return string|bool
    *   Raw JWT String if on request, false if not.
    */
-  protected function getJwtFromRequest(Request $request) {
-    $auth_header = $request->headers->get('Authorization');
-    $matches = [];
-    if (!$hasJWT = preg_match('/^Bearer (.*)/', $auth_header, $matches)) {
-      return FALSE;
+  public static function getJwtFromRequest(Request $request) {
+    $auth_headers = [];
+    $auth = $request->headers->get('Authorization');
+    if ($auth) {
+      $auth_headers[] = $auth;
     }
-
-    return $matches[1];
+    // Check a second header used in combination with basic auth.
+    $fallback = $request->headers->get('JWT-Authorization');
+    if ($fallback) {
+      $auth_headers[] = $fallback;
+    }
+    foreach ($auth_headers as $value) {
+      if (preg_match('/^Bearer (.+)/', $value, $matches)) {
+        return $matches[1];
+      }
+    }
+    return FALSE;
   }
 
 }

@@ -56,7 +56,7 @@ class SchedulerCommands extends DrushCommands {
    * @aliases sch-cron, scheduler-cron
    */
   public function cron(array $options = ['nomsg' => NULL, 'nolog' => NULL]) {
-    $this->manager->runLightweightCron($options);
+    $this->schedulerManager->runLightweightCron($options);
 
     $options['nomsg'] ? NULL : $this->messenger->addMessage(dt('Scheduler lightweight cron completed.'));
   }

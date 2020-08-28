@@ -9,48 +9,48 @@
  * Implements hook_schema().
  */
 function openid_connect_schema() {
-  $schema['openid_connect_authmap'] = array(
+  $schema['openid_connect_authmap'] = [
     'description' => 'Stores OpenID Connect authentication mapping.',
-    'fields' => array(
-      'aid' => array(
+    'fields' => [
+      'aid' => [
         'description' => 'Primary Key: Unique authmap ID.',
         'type' => 'serial',
         'unsigned' => TRUE,
         'not null' => TRUE,
-      ),
-      'uid' => array(
+      ],
+      'uid' => [
         'type' => 'int',
         'not null' => TRUE,
         'default' => 0,
         'description' => "User's {users}.uid.",
-      ),
-      'client_name' => array(
+      ],
+      'client_name' => [
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '',
         'description' => 'The client name.',
-      ),
-      'sub' => array(
+      ],
+      'sub' => [
         'type' => 'varchar',
         'length' => 255,
         'not null' => TRUE,
         'default' => '',
         'description' => 'Unique subject identifier.',
-      ),
-    ),
-    'primary key' => array('aid'),
-    'indexes' => array(
-      'uid' => array('uid'),
-      'identifier' => array('client_name', 'sub'),
-    ),
-    'foreign keys' => array(
-      'user' => array(
+      ],
+    ],
+    'primary key' => ['aid'],
+    'indexes' => [
+      'uid' => ['uid'],
+      'identifier' => ['client_name', 'sub'],
+    ],
+    'foreign keys' => [
+      'user' => [
         'table' => 'users',
-        'columns' => array('uid' => 'uid'),
-      ),
-    ),
-  );
+        'columns' => ['uid' => 'uid'],
+      ],
+    ],
+  ];
 
   return $schema;
 }
@@ -62,7 +62,7 @@ function openid_connect_update_8101() {
   $config_factory = \Drupal::configFactory();
 
   $config = $config_factory->getEditable('openid_connect.settings.facebook');
-  $config->set('enabled', false);
+  $config->set('enabled', FALSE);
   $config->set('settings', [
     'client_id' => '',
     'client_secret' => '',
@@ -71,7 +71,7 @@ function openid_connect_update_8101() {
   $config->save(TRUE);
 
   $config = $config_factory->getEditable('openid_connect.settings.linkedin');
-  $config->set('enabled', false);
+  $config->set('enabled', FALSE);
   $config->set('settings', [
     'client_id' => '',
     'client_secret' => '',
@@ -86,7 +86,7 @@ function openid_connect_update_8102() {
   $config_factory = \Drupal::configFactory();
 
   $config = $config_factory->getEditable('openid_connect.settings.github');
-  $config->set('enabled', false);
+  $config->set('enabled', FALSE);
   $config->set('settings', [
     'client_id' => '',
     'client_secret' => '',
@@ -112,4 +112,21 @@ function openid_connect_update_8104() {
   $config = $config_factory->getEditable('openid_connect.settings');
   $config->set('connect_existing_users', FALSE);
   $config->save(TRUE);
+}
+
+/**
+ * Delete duplicate entries in the openid_connect_authmap table.
+ */
+function openid_connect_update_8105() {
+  $database = \Drupal::database();
+  // Get the IDs for the duplicate entries.
+  $query = $database->select('openid_connect_authmap', 'a1')->fields('a1', ['aid']);
+  $query->innerJoin('openid_connect_authmap', 'a2');
+  $query->where("a1.aid > a2.aid AND a1.uid = a2.uid AND a1.client_name = a2.client_name AND a1.sub = a2.sub");
+  $aids = $query->distinct()->execute()->fetchAllAssoc('aid');
+
+  if (!empty($aids)) {
+    // If duplicates exist, delete them.
+    $database->delete('openid_connect_authmap')->condition('aid', array_keys($aids), 'IN')->execute();
+  }
 }

@@ -180,28 +180,6 @@ class ConfigSyncSnapshotter implements ConfigSyncSnapshotterInterface {
   }
 
   /**
-   * Copies the content of one storage to another.
-   *
-   * @param \Drupal\Core\Config\StorageInterface $source_storage
-   *   The storage to synchronize configuration from.
-   * @param \Drupal\Core\Config\StorageInterface $snapshot_storage
-   *   The storage to synchronize configuration to.
-   */
-  protected function copyStorage($source_storage, $snapshot_storage) {
-    foreach ($source_storage->listAll() as $name) {
-      $snapshot_storage->write($name, $source_storage->read($name));
-    }
-    // Copy collections as well.
-    foreach ($source_storage->getAllCollectionNames() as $collection) {
-      $source_collection = $source_storage->createCollection($collection);
-      $snapshot_collection = $snapshot_storage->createCollection($collection);
-      foreach ($source_collection->listAll() as $name) {
-        $snapshot_collection->write($name, $source_collection->read($name));
-      }
-    }
-  }
-
-  /**
    * Returns a list of specified modules sorted in order of dependency.
    *
    * @param string[] $module_list

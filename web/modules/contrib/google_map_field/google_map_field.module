@@ -43,6 +43,21 @@ function google_map_field_theme($existing, $type, $theme, $path) {
       ],
       'template' => 'google_map_field_embed',
     ],
+    'olmap_field' => [
+      'variables' => [
+        'name' => NULL,
+        'lat' => NULL,
+        'lon' => NULL,
+        'zoom' => NULL,
+        'width' => NULL,
+        'height' => NULL,
+        'show_marker' => NULL,
+        'show_controls' => NULL,
+        'infowindow' => NULL,
+        'default_marker' => NULL,
+      ],
+      'template' => 'olmap_field',
+    ],
   ];
 }
 

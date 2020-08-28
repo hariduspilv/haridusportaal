@@ -4,6 +4,7 @@ namespace Drupal\conditional_fields\Plugin\conditional_fields\handler;
 
 use Drupal\conditional_fields\ConditionalFieldsHandlerBase;
 use Drupal\Component\Utility\Unicode;
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 
 /**
  * Provides states handler for text fields.
@@ -24,23 +25,23 @@ class DefaultStateHandler extends ConditionalFieldsHandlerBase {
     $values_set = $options['values_set'];
 
     switch ($values_set) {
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $values[$options['condition']] = $options['value_form'];
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
         $values[$options['condition']] = ['regex' => $options['regex']];
         break;
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
         $values[$options['condition']] = ['xor'=> $values_array];
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         $values[ $options[ 'condition' ] ] = count( $values_array ) == 1 ? $values_array[ 0 ] : $values_array;
         break;
 
       default:
-        if ( $options[ 'values_set' ] == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT ) {
+        if ( $options[ 'values_set' ] == ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT ) {
           $options['state'] = '!' . $options['state'];
         }
         // OR, NOT conditions are obtained with a nested array.

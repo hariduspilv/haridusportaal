@@ -1,0 +1,5 @@
+users_jwt.key_list:
+  title: 'JWT Keys'
+  route_name: users_jwt.key_list
+  base_route: entity.user.canonical
+  weight: 99

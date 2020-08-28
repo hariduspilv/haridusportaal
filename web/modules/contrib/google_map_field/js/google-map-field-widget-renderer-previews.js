@@ -1,3 +1,10 @@
+/**
+ * @file
+ * JavaScript Google Map Field Preview Renderer.
+ *
+ * Renders a preview of a Google Maps Field in entity edit forms.
+ */
+
 (function ($, Drupal) {
 
   googleMapFieldPreviews = function (delta) {
@@ -37,13 +44,13 @@
         };
         google_map_field_map = new google.maps.Map(this, mapOptions);
 
-        // see if we need to add a traffic layer
+        // See if we need to add a traffic layer.
         if (data_traffic) {
           var trafficLayer = new google.maps.TrafficLayer();
           trafficLayer.setMap(google_map_field_map);
         }
 
-        // drop a marker at the specified lat/lng coords
+        // Drop a marker at the specified lat/lng coords.
         marker = new google.maps.Marker({
           position: latlng,
           optimized: false,
@@ -60,8 +67,8 @@
 
       }
 
-    });  // end .each
-
+    });
+    // End .each.
   }
 
   googleMapFieldValidateLat = function (lat) {

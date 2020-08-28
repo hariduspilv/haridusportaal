@@ -60,7 +60,7 @@ const DRUPAL_MINIMUM_SUPPORTED_PHP = '7.0.8';
  * @todo Move this to an appropriate autoloadable class. See
  *   https://www.drupal.org/project/drupal/issues/2908079
  */
-const DRUPAL_RECOMMENDED_PHP = '7.2';
+const DRUPAL_RECOMMENDED_PHP = '7.3';
 
 /**
  * Minimum recommended value of PHP memory_limit.
@@ -681,11 +681,17 @@ function drupal_valid_test_ua($new_prefix = NULL) {
     // Ensure that no information leaks on production sites.
     $test_db = new TestDatabase($prefix);
     $key_file = DRUPAL_ROOT . '/' . $test_db->getTestSitePath() . '/.htkey';
-    if (!is_readable($key_file)) {
+    if (!is_readable($key_file) || is_dir($key_file)) {
       header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
       exit;
     }
     $private_key = file_get_contents($key_file);
+    // The string from drupal_generate_test_ua() is 74 bytes long. If we don't
+    // have it, tests cannot be allowed.
+    if (empty($private_key) || strlen($private_key) < 74) {
+      header($_SERVER['SERVER_PROTOCOL'] . ' 403 Forbidden');
+      exit;
+    }
     // The file properties add more entropy not easily accessible to others.
     $key = $private_key . filectime(__FILE__) . fileinode(__FILE__);
     $time_diff = REQUEST_TIME - $time;

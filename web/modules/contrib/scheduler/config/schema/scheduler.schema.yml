@@ -40,6 +40,9 @@ scheduler.settings:
     default_publish_touch:
       type: boolean
       label: 'Default value for nodetype setting publish_touch'
+    default_show_message_after_update:
+      type: boolean
+      label: 'Default value for nodetype setting show_message_after_update'
     default_time:
       type: string
       label: 'Default Scheduling Time. This is used with the option to allow date only'
@@ -93,6 +96,9 @@ node.type.*.third_party.scheduler:
     publish_touch:
       type: boolean
       label: 'Change content creation time to match the scheduled publish time'
+    show_message_after_update:
+      type: boolean
+      label: 'Show a message after updating content which is scheduled'
     unpublish_enable:
       type: boolean
       label: 'Enable scheduled unpublishing'

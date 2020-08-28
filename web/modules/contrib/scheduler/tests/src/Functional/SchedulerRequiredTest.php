@@ -211,12 +211,12 @@ class SchedulerRequiredTest extends SchedulerBrowserTestBase {
       switch ($test_case['expected']) {
         case 'required':
           $string = sprintf('The %s date is required.', ucfirst($test_case['required']) . ' on');
-          $this->assertText($string, $test_case['id'] . '. ' . $test_case['message']);
+          $this->assertSession()->pageTextContains($string);
           break;
 
         case 'not required':
           $string = sprintf('%s %s has been %s.', $this->typeName, $title, ($test_case['operation'] == 'add' ? 'created' : 'updated'));
-          $this->assertText($string, $test_case['id'] . '. ' . $test_case['message']);
+          $this->assertSession()->pageTextContains($string);
           break;
       }
     }

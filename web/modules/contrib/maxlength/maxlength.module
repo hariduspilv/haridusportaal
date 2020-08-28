@@ -10,6 +10,7 @@ use Drupal\Core\Field\FieldDefinitionInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Field\WidgetInterface;
+use Drupal\maxlength\MaxLengthCallbacks;
 
 /**
  * Implements hook_help().
@@ -31,28 +32,11 @@ function maxlength_help($route_name, RouteMatchInterface $route_match) {
  */
 function maxlength_element_info_alter(&$cache) {
   // Add prerender functions to textareas and text fields.
-  $cache['textfield']['#pre_render'][] = 'maxlength_pre_render';
-  $cache['textarea']['#pre_render'][] = 'maxlength_pre_render';
-  $cache['textarea']['#process'][] = 'maxlength_process_element';
-  $cache['text_format']['#pre_render'][] = 'maxlength_pre_render';
-  $cache['text_format']['#process'][] = 'maxlength_process_element';
-}
-
-/**
- * Pre render function to set maxlength attributes.
- */
-function maxlength_pre_render($element) {
-  if (isset($element['#maxlength_js']) && $element['#maxlength_js'] === TRUE) {
-    if (((isset($element['#attributes']['maxlength']) && $element['#attributes']['maxlength'] > 0)) ) {
-      $element['#attributes']['class'][] = 'maxlength';
-      $element['#attached']['library'][] = 'maxlength/maxlength';
-    }
-    if (((isset($element['summary']['#attributes']['maxlength']) && $element['summary']['#attributes']['maxlength'] > 0))) {
-      $element['summary']['#attributes']['class'][] = 'maxlength';
-      $element['summary']['#attached']['library'][] = 'maxlength/maxlength';
-    }
-  }
-  return $element;
+  $cache['textfield']['#pre_render'][] = [MaxLengthCallbacks::class, 'maxlengthPreRender'];
+  $cache['textarea']['#pre_render'][] = [MaxLengthCallbacks::class, 'maxlengthPreRender'];
+  $cache['textarea']['#process'][] = [MaxLengthCallbacks::class, 'processElement'];
+  $cache['text_format']['#pre_render'][] = [MaxLengthCallbacks::class, 'maxlengthPreRender'];
+  $cache['text_format']['#process'][] = [MaxLengthCallbacks::class, 'processElement'];
 }
 
 /**
@@ -110,11 +94,6 @@ function maxlength_field_widget_third_party_settings_form(WidgetInterface $plugi
         '#title' => t('Safe truncate html'),
         '#description' => t('Use this option if the input field may contain html and you want to exclude the html tag characters from the character count. This will also overwrite the maxlength validation from core, so that it will strip the tags before checking the length.'),
         '#default_value' => $plugin->getThirdPartySetting('maxlength', 'maxlength_js_truncate_html'),
-        '#states' => array(
-          'enabled' => array(
-            ':input[name="fields[' . $field_definition->getName() . '][settings_edit_form][third_party_settings][maxlength][maxlength_js_enforce]"]' => array('checked' => TRUE),
-          ),
-        ),
       );
     }
     return $element;
@@ -196,20 +175,4 @@ function maxlength_field_widget_form_alter(&$element, FormStateInterface $form_s
       $element['#attributes']['#maxlength_js_truncate_html'] = TRUE;
     }
   }
-}
-
-/**
- * Process handler for the form elements that can have maxlength attribute.
- * @param $element
- * @param $form_state
- * @return
- */
-function maxlength_process_element($element, FormStateInterface $form_state) {
-  if (isset($element['#attributes']['#maxlength_js_enforce']) && $element['#attributes']['#maxlength_js_enforce']) {
-    $element['#attributes']['class'][] = 'maxlength_js_enforce';
-  }
-  if (isset($element['#attributes']['#maxlength_js_truncate_html']) && $element['#attributes']['#maxlength_js_truncate_html']) {
-    $element['#attributes']['class'][] = 'maxlength_js_truncate_html';
-  }
-  return $element;
 }

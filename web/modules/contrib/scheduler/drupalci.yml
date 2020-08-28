@@ -1,3 +1,4 @@
+# See docs at https://www.drupal.org/drupalorg/docs/drupal-ci/customizing-drupalci-testing-for-projects
 build:
   assessment:
     validate_codebase:
@@ -6,7 +7,15 @@ build:
       csslint:
       eslint:
       phpcs:
+      # Static analysis for uses of @deprecated code.
+      phpstan:
+        halt-on-fail: false
     testing:
       run_tests.standard:
         types: 'PHPUnit-Functional'
-        suppress-deprecations: false
+        suppress-deprecations: true
+      run_tests.js:
+        types: 'PHPUnit-FunctionalJavascript'
+        suppress-deprecations: true
+        concurrency: 1
+        halt-on-fail: false

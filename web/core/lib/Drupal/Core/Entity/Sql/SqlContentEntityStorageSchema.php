@@ -568,6 +568,12 @@ class SqlContentEntityStorageSchema implements DynamicallyFieldableEntityStorage
       $this->fieldStorageDefinitions = $field_storage_definitions;
       $this->saveEntitySchemaData($entity_type, $new_entity_schema);
 
+      // The storage needs to use the updated definitions and table mapping
+      // before generating and saving the final field schema data.
+      $this->storage->setEntityType($entity_type);
+      $this->storage->setFieldStorageDefinitions($field_storage_definitions);
+      $this->storage->setTableMapping($new_table_mapping);
+
       // Store the updated field schema for each field storage.
       foreach ($field_storage_definitions as $field_storage_definition) {
         if ($new_table_mapping->requiresDedicatedTableStorage($field_storage_definition)) {
@@ -840,8 +846,19 @@ class SqlContentEntityStorageSchema implements DynamicallyFieldableEntityStorage
 
     // Add the bundle column.
     if ($bundle = $this->entityType->getKey('bundle')) {
-      if ($base_table) {
-        $select->join($base_table, 'base_table', "entity_table.{$this->entityType->getKey('id')} = %alias.{$this->entityType->getKey('id')}");
+      // The bundle field is not stored in the revision table, so we need to
+      // join the data (or base) table and retrieve it from there.
+      if ($base_table && $base_table !== $table_name) {
+        $join_condition = "entity_table.{$this->entityType->getKey('id')} = %alias.{$this->entityType->getKey('id')}";
+
+        // If the entity type is translatable, we also need to add the langcode
+        // to the join, otherwise we'll get duplicate rows for each language.
+        if ($this->entityType->isTranslatable()) {
+          $langcode = $this->entityType->getKey('langcode');
+          $join_condition .= " AND entity_table.{$langcode} = %alias.{$langcode}";
+        }
+
+        $select->join($base_table, 'base_table', $join_condition);
         $select->addField('base_table', $bundle, 'bundle');
       }
       else {
@@ -1446,31 +1463,31 @@ class SqlContentEntityStorageSchema implements DynamicallyFieldableEntityStorage
   /**
    * Processes the gathered schema for a base table.
    *
-   * @param \Drupal\Core\Entity\ContentEntityTypeInterface $entity_type
-   *   The entity type.
-   * @param array $schema
-   *   The table schema, passed by reference.
-   */
-  protected function processBaseTable(ContentEntityTypeInterface $entity_type, array &$schema) {
-    // Process the schema for the 'id' entity key only if it exists.
-    if ($entity_type->hasKey('id')) {
-      $this->processIdentifierSchema($schema, $entity_type->getKey('id'));
-    }
-  }
-
-  /**
-   * Processes the gathered schema for a base table.
+   * This function will be removed in Drupal 9.0.x.
    *
    * @param \Drupal\Core\Entity\ContentEntityTypeInterface $entity_type
    *   The entity type.
    * @param array $schema
    *   The table schema, passed by reference.
+   *
+   * @see https://www.drupal.org/node/3111613
+   */
+  protected function processBaseTable(ContentEntityTypeInterface $entity_type, array &$schema) {
+  }
+
+  /**
+   * Processes the gathered schema for a base table.
+   *
+   * This function will be removed in Drupal 9.0.x.
+   *
+   * @param \Drupal\Core\Entity\ContentEntityTypeInterface $entity_type
+   *   The entity type.
+   * @param array $schema
+   *   The table schema, passed by reference.
+   *
+   * @see https://www.drupal.org/node/3111613
    */
   protected function processRevisionTable(ContentEntityTypeInterface $entity_type, array &$schema) {
-    // Process the schema for the 'revision' entity key only if it exists.
-    if ($entity_type->hasKey('revision')) {
-      $this->processIdentifierSchema($schema, $entity_type->getKey('revision'));
-    }
   }
 
   /**
@@ -2089,6 +2106,7 @@ class SqlContentEntityStorageSchema implements DynamicallyFieldableEntityStorage
 
     $field_name = $storage_definition->getName();
     $base_table = $this->storage->getBaseTable();
+    $revision_table = $this->storage->getRevisionTable();
 
     // Define the initial values, if any.
     $initial_value = $initial_value_from_field = [];
@@ -2165,6 +2183,13 @@ class SqlContentEntityStorageSchema implements DynamicallyFieldableEntityStorage
 
     if (!empty($field_schema['foreign keys'])) {
       $schema['foreign keys'] = $this->getFieldForeignKeys($field_name, $field_schema, $column_mapping);
+    }
+
+    // Process the 'id' and 'revision' entity keys for the base and revision
+    // tables.
+    if (($table_name === $base_table && $field_name === $this->entityType->getKey('id')) ||
+      ($table_name === $revision_table && $field_name === $this->entityType->getKey('revision'))) {
+      $this->processIdentifierSchema($schema, $field_name);
     }
 
     return $schema;

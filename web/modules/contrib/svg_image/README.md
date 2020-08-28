@@ -33,9 +33,8 @@ Module was tested on Drupal versions:
 * 8.5.x
 
 ## INSTALLATION
-Install as you would normally install a contributed Drupal module. See:
-https://drupal.org/documentation/install/modules-themes/modules-7 for further
-information.
+Install as you would normally install a contributed Drupal module. Visit:
+https://www.drupal.org/docs/extending-drupal/installing-drupal-modules for further information.
 
 ## CONFIGURATION
 All configuration is available via Image field settings.

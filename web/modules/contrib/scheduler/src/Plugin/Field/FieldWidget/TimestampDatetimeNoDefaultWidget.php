@@ -47,6 +47,10 @@ class TimestampDatetimeNoDefaultWidget extends TimestampDatetimeWidget {
    * Callback function to add default time to the input date if needed.
    *
    * This will intercept the user input before form validation is processed.
+   * However, if the field is 'required' then the browser validation may have
+   * already failed before this point. The solution is to pre-fill the time
+   * using javascript - see js/scheduler_default_time.js. But that cannot be
+   * done when the date is not 'required' hence do the processing here too.
    */
   public static function valueCallback(&$element, $input, FormStateInterface $form_state) {
     if ($input !== FALSE) {

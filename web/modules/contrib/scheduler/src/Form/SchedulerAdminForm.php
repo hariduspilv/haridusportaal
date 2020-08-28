@@ -2,7 +2,6 @@
 
 namespace Drupal\scheduler\Form;
 
-use Drupal\Core\Config\ConfigFactoryInterface;
 use Drupal\Core\Datetime\DateFormatterInterface;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -21,35 +20,22 @@ class SchedulerAdminForm extends ConfigFormBase {
   protected $dateFormatter;
 
   /**
-   * The configuration factory.
-   *
-   * @var \Drupal\Core\Config\ConfigFactoryInterface
-   */
-  protected $configFactory;
-
-  /**
-   * Creates instance of SchedulerAdminForm.
-   *
-   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
-   *   The date formatter service.
-   * @param \Drupal\Core\Config\ConfigFactoryInterface $config_factory
-   *   The configuration factory.
-   */
-  public function __construct(DateFormatterInterface $date_formatter, ConfigFactoryInterface $config_factory) {
-    parent::__construct($config_factory);
-
-    $this->dateFormatter = $date_formatter;
-    $this->configFactory = $config_factory;
-  }
-
-  /**
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('date.formatter'),
-      $container->get('config.factory')
-    );
+    $instance = parent::create($container);
+    $instance->setDateFormatter($container->get('date.formatter'));
+    return $instance;
+  }
+
+  /**
+   * Sets the date formatter.
+   *
+   * @param \Drupal\Core\Datetime\DateFormatterInterface $date_formatter
+   *   The date formatter service.
+   */
+  protected function setDateFormatter(DateFormatterInterface $date_formatter) {
+    $this->dateFormatter = $date_formatter;
   }
 
   /**
@@ -70,15 +56,6 @@ class SchedulerAdminForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    $form['date_format_placeholder'] = [
-      '#type' => 'fieldset',
-      '#title' => $this->t('Date format'),
-      // Show this placeholder for info. Could remove after 8.x-1.0 release.
-      // @see https://www.drupal.org/node/2799869
-      '#description' => $this->t('The Scheduler date format is no longer used and is not configurable. For more details see <a href=":url">Scheduler issue 2799869</a>', [':url' => 'https://www.drupal.org/node/2799869']),
-      '#collapsible' => FALSE,
-    ];
-
     // Options for setting date-only with default time.
     $form['date_only_fieldset'] = [
       '#type' => 'fieldset',

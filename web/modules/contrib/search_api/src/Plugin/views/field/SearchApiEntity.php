@@ -230,7 +230,7 @@ class SearchApiEntity extends SearchApiStandard {
       return;
     }
 
-    $entities = $this->getEntityManager()
+    $entities = $this->getEntityTypeManager()
       ->getStorage($this->getTargetEntityTypeId())
       ->loadMultiple(array_keys($to_load));
     $account = $this->getQuery()->getAccessAccount();
@@ -316,7 +316,7 @@ class SearchApiEntity extends SearchApiStandard {
     }
 
     $view_mode = $this->options['display_methods'][$bundle]['view_mode'];
-    $build = $this->getEntityManager()
+    $build = $this->getEntityFieldManager()
       ->getViewBuilder($entity->getEntityTypeId())
       ->view($entity, $view_mode);
     return [

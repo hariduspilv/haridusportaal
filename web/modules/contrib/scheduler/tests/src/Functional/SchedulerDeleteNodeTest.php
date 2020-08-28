@@ -40,24 +40,20 @@ class SchedulerDeleteNodeTest extends SchedulerBrowserTestBase {
       ->save();
 
     // Check that deleting the nodes does not throw form validation errors.
-    // In 7.x the 'Delete' functionality was a button but in 8.x it is a link.
-    // Hence, we get the form then use clickLink('Delete') which is a stronger
-    // test than simply getting the 'node/<id>/delete' link directly.
     $this->drupalGet('node/' . $published_node->id() . '/edit');
     $this->clickLink('Delete');
-
     // The text 'error message' is used in a header h2 html tag which is
     // normally made hidden from browsers but will be in the page source.
     // It is also good when testing for the absense of something to also test
     // for the presence of text, hence the second assertion for each check.
-    $this->assertNoText('Error message', 'No error messages are shown when trying to delete a published node with no scheduling information.');
-    $this->assertText('Are you sure you want to delete the content', 'The deletion warning message is shown immediately when trying to delete a published node with no scheduling information.');
+    $this->assertSession()->pageTextNotContains('Error message');
+    $this->assertSession()->pageTextContains('Are you sure you want to delete the content');
 
     // Do the same test for the unpublished node.
     $this->drupalGet('node/' . $unpublished_node->id() . '/edit');
     $this->clickLink('Delete');
-    $this->assertNoText('Error message', 'No error messages are shown when trying to delete an unpublished node with no scheduling information.');
-    $this->assertText('Are you sure you want to delete the content', 'The deletion warning message is shown immediately when trying to delete an unpublished node with no scheduling information.');
+    $this->assertSession()->pageTextNotContains('Error message');
+    $this->assertSession()->pageTextContains('Are you sure you want to delete the content');
   }
 
   /**
@@ -87,14 +83,14 @@ class SchedulerDeleteNodeTest extends SchedulerBrowserTestBase {
     // Attempt to delete the published node and check for no validation error.
     $this->drupalGet('node/' . $published_node->id() . '/edit');
     $this->clickLink('Delete');
-    $this->assertNoText('Error message', 'No error messages are shown when trying to delete a node with an unpublish date in the past.');
-    $this->assertText('Are you sure you want to delete the content', 'The deletion warning message is shown immediately when trying to delete a node with an unpublish date in the past.');
+    $this->assertSession()->pageTextNotContains('Error message');
+    $this->assertSession()->pageTextContains('Are you sure you want to delete the content');
 
     // Attempt to delete the unpublished node and check for no validation error.
     $this->drupalGet('node/' . $unpublished_node->id() . '/edit');
     $this->clickLink('Delete');
-    $this->assertNoText('Error message', 'No error messages are shown when trying to delete a node with a publish date in the past.');
-    $this->assertText('Are you sure you want to delete the content', 'The deletion warning message is shown immediately when trying to delete a node with a publish date in the past.');
+    $this->assertSession()->pageTextNotContains('Error message');
+    $this->assertSession()->pageTextContains('Are you sure you want to delete the content');
   }
 
 }

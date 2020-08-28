@@ -19,16 +19,20 @@ For a fuller description of the module, visit the [project page on Drupal.org](h
 
 ## Integration with other modules
 
- * Rules (https://www.drupal.org/project/rules):
+ * [Rules](https://www.drupal.org/project/rules):
      Scheduler provides actions, conditions and events which can be used in
      Rules to build additional functionality.
 
- * Token (https://www.drupal.org/project/token):
+ * [Token](https://www.drupal.org/project/token):
      Scheduler provides tokens for the two scheduling dates.
 
- * Devel (https://www.drupal.org/project/devel):
+ * [Devel](https://www.drupal.org/project/devel):
      When generating new test content via Devel Generate, Scheduler can add
      publishing dates automatically.
+
+ * [Scheduler Content Moderation Integration](https://www.drupal.org/project/scheduler_content_moderation_integration)
+     If you use core Content Moderation then you should also install this
+     sub-module, contributed by the folks at [Thunder](https://www.drupal.org/thunder)
 
 ## Installation
 
@@ -79,16 +83,16 @@ For a fuller description of the module, visit the [project page on Drupal.org](h
 ## Maintainers
 
 Current maintainers:
-- Pieter Frenssen  2014(6.x)-           https://www.drupal.org/u/pfrenssen
-- Jonathan Smith   2013(6.x)-           https://www.drupal.org/u/jonathan1055
+- [Pieter Frenssen](https://www.drupal.org/u/pfrenssen) 2014(6.x)-current
+- [Jonathan Smith](https://www.drupal.org/u/jonathan1055) 2013(6.x)-current
 
 Previous maintainers:
-- Rick Manelius    2013(6.x)-2014(7.x)  https://www.drupal.org/u/rickmanelius
-- Eric Schaefer    2008(5.x)-2013(7.x)  https://www.drupal.org/u/eric-schaefer
-- Sami Kimini      2008(5.x)            https://www.drupal.org/u/skiminki
-- Ted Serbinski    2007(4.7)            https://www.drupal.org/u/m3avrck
-- Andy Kirkham     2006(4.7)-2008(6.x)  https://www.drupal.org/u/ajk
-- David Norman     2006(4.x)            https://www.drupal.org/u/deekayen
-- Tom Dobes        2004(4.x)            https://www.drupal.org/user/4179
-- Gábor Hojtsy	   2003(4.3)-2005(5.x)  https://www.drupal.org/u/gábor-hojtsy
-- Moshe Weitzman   2003(4.2)-2006(4.6)  https://www.drupal.org/u/moshe-weitzman
+- [Rick Manelius](https://www.drupal.org/u/rickmanelius) 2013(6.x)-2014(7.x)
+- [Eric Schaefer](https://www.drupal.org/u/eric-schaefer) 2008(5.x)-2013(7.x)
+- [Sami Kimini](https://www.drupal.org/u/skiminki) 2008(5.x)
+- [Ted Serbinski](https://www.drupal.org/u/m3avrck) 2007(4.7)
+- [Andy Kirkham](https://www.drupal.org/u/ajk) 2006(4.7)-2008(6.x)
+- [David Norman](https://www.drupal.org/u/deekayen) 2006(4.x)
+- [Tom Dobes](https://www.drupal.org/user/4179) 2004(4.x)
+- [Gábor Hojtsy](https://www.drupal.org/u/gábor-hojtsy) 2003(4.3)-2005(5.x)
+- [Moshe Weitzman](https://www.drupal.org/u/moshe-weitzman) 2003(4.2)-2006(4.6)

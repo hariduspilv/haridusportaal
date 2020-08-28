@@ -312,6 +312,11 @@ class MenuBasedBreadcrumbBuilder implements BreadcrumbBuilderInterface {
         continue;
       }
 
+      // Skip items that are disabled in the menu if the option is set.
+      if ($this->config->get('exclude_disabled_menu_items') && !$plugin->isEnabled()) {
+        continue;
+      }
+
       // Stop items when the first url matching occurs.
       if ($this->config->get('stop_on_first_match') && $plugin->getUrlObject()->toString() == Url::fromRoute('<current>')->toString()) {
         break;

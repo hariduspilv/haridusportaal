@@ -1,0 +1,7 @@
+users_jwt.config:
+  type: config_object
+  label: "Users' JWT Authentication Settings"
+  mapping:
+    max_expiration:
+      type: int
+      label: 'The maximum allowed lifetime for a user JWT (seconds).'

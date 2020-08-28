@@ -1,8 +1,9 @@
 <?php
 
-namespace Drupal\conditional_fields\Plugin\conditional_fields\handler;
+namespace Drupal\conditional_fields\Plugin\conditional_fields\handler\extra_contrib;
 
 use Drupal\conditional_fields\ConditionalFieldsHandlerBase;
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 
 /**
  * Provides states handler for links provided by the Addressfield module.
@@ -19,11 +20,11 @@ class LinkAddressfield extends ConditionalFieldsHandlerBase {
   public function statesHandler($field, $field_info, $options) {
     $state = [];
 
-    if ($options['values_set'] != CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET) {
+    if ($options['values_set'] != ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET) {
       return $state;
     }
 
-    $regex = $options['values_set'] == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX;
+    $regex = $options['values_set'] == ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX;
     $keys = [];
 
     if ($field['#handlers']['address']) {

@@ -31,7 +31,7 @@ function scheduler_token_info() {
 function scheduler_tokens($type, $tokens, array $data, array $options, BubbleableMetadata $bubbleable_metadata) {
   $token_service = \Drupal::token();
   $date_formatter = \Drupal::service('date.formatter');
-  $language_code = isset($options['language']) ? $options['language']->language : NULL;
+  $language_code = isset($options['langcode']) ? $options['langcode'] : NULL;
   $replacements = [];
 
   if ($type == 'node' && !empty($data['node'])) {
