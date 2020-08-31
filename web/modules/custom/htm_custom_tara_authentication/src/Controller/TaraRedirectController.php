@@ -32,7 +32,7 @@ class TaraRedirectController extends RedirectController{
 	public static function create (ContainerInterface $container) {
 		return new static(
 			$container->get('plugin.manager.openid_connect_client.processor'),
-			$container->get('request_stack'),
+      $container->get('openid_connect.openid_connect'),
 			$container->get('logger.factory'),
 			$container->get('current_user'),
 			$container->get('openid_connect.claims'),
