@@ -24,7 +24,7 @@ class TaraRedirectController extends RedirectController{
 
 	public function __construct (OpenIDConnectClientManager $plugin_manager, OpenIDConnect $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, OpenIDConnectClaims $claims, JsonAuthenticationProvider $jsonAuth) {
 		parent::__construct($plugin_manager, $request_stack, $logger_factory, $current_user);
-		$this->claims = $claims;al bash
+		$this->claims = $claims;
 
 		$this->jsonAuth = $jsonAuth;
 	}
