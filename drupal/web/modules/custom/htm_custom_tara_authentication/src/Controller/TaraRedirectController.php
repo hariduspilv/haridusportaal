@@ -22,8 +22,8 @@ class TaraRedirectController extends RedirectController{
 
 	protected $jsonAuth;
 
-	public function __construct (OpenIDConnectClientManager $plugin_manager, OpenIDConnect $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, OpenIDConnectClaims $claims, JsonAuthenticationProvider $jsonAuth) {
-		parent::__construct($plugin_manager, $request_stack, $logger_factory, $current_user);
+	public function __construct (OpenIDConnectClientManager $plugin_manager, OpenIDConnect $openid_connect, RequestStack $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, OpenIDConnectClaims $claims, JsonAuthenticationProvider $jsonAuth) {
+		parent::__construct($plugin_manager, $openid_connect, $request_stack, $logger_factory, $current_user);
 		$this->claims = $claims;
 
 		$this->jsonAuth = $jsonAuth;
@@ -33,6 +33,7 @@ class TaraRedirectController extends RedirectController{
 		return new static(
 			$container->get('plugin.manager.openid_connect_client.processor'),
       $container->get('openid_connect.openid_connect'),
+      $container->get('request_stack'),
 			$container->get('logger.factory'),
 			$container->get('current_user'),
 			$container->get('openid_connect.claims'),
