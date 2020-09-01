@@ -181,6 +181,16 @@ export class SidebarComponent implements OnInit, OnChanges {
           this.orderedKeys.push(item);
         }
       });
+
+      if (this.mappedData.fieldEhisLinks) {
+        this.mappedData.fieldEhisLinks = this.mappedData.fieldEhisLinks.map((item) => {
+          return item.entity.fieldEhisLinkTitle ? item : false;
+        }).filter(item => item);
+
+        if (this.mappedData.fieldEhisLinks.length === 0) {
+          delete this.mappedData.fieldEhisLinks;
+        }
+      }
     }
   }
 }
