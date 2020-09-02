@@ -181,6 +181,16 @@ export class SidebarComponent implements OnInit, OnChanges {
           this.orderedKeys.push(item);
         }
       });
+
+      if (this.mappedData.fieldEhisLinks) {
+        this.mappedData.fieldEhisLinks = this.mappedData.fieldEhisLinks.map((item) => {
+          return item.entity.fieldEhisLinkTitle ? item : false;
+        }).filter(item => item);
+
+        if (this.mappedData.fieldEhisLinks.length === 0) {
+          delete this.mappedData.fieldEhisLinks;
+        }
+      }
     }
   }
 }
@@ -994,7 +1004,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       }
       if (!noEndDate.value
       && endDate.value
-      && !`${endDate.value}`.match(/[0-3][0-9)]\.[0-9][1-9]\.[0-9]{4}/g)) {
+      && !`${endDate.value}`.match(/[0-3][0-9)]\.(0[1-9]|1[012])\.[0-9]{4}/g)) {
         return { invalidDate: true };
       }
       return {};
