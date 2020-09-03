@@ -102,6 +102,12 @@
       sidebar-links {
         icon {
           margin-right: 0.5rem;
+          .file-text {
+            margin-left: .17rem;
+          }
+          .library {
+            margin-left: .05rem;
+          }
         }
         .text-instance {
           color: #757575;
