@@ -13,7 +13,6 @@ import { AuthInterceptor } from './_interceptors';
 import { AmpService } from './_services/ampService';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DeviceDetectorModule } from 'ngx-device-detector';
-import { CookieService } from 'ngx-cookie-service';
 // We dont need short month names at all!
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -41,7 +40,6 @@ registerLocaleData(localeEt);
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AmpService,
     Location,
-    CookieService,
   ],
   bootstrap: [
     AppComponent,

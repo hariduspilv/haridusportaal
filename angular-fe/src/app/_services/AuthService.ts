@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import  { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
   ActivatedRoute,
@@ -10,7 +10,7 @@ import {
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SettingsService } from './SettingsService';
 import { map, take } from 'rxjs/operators';
-import { CookieService } from 'ngx-cookie-service';
+import { CookieService } from './CookieService';
 
 @Injectable({
   providedIn: 'root',
@@ -127,15 +127,14 @@ export class AuthService implements CanActivate {
    * @param token - JWT token
    */
   public saveEhisTokenInCookie(token) {
-    this.cookie
-      .set('ehisToken', token, 0, '/', window.location.hostname, true, 'Strict');
+    this.cookie.set('ehisToken', token, 0);
   }
 
   /**
    * Deletes ehis token from cookies
    */
   public deleteEhisTokenFromCookie() {
-    this.cookie.delete('ehisToken', '/', window.location.hostname);
+    this.cookie.remove('ehisToken');
   }
 
   /**
