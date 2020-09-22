@@ -703,8 +703,10 @@ export class XjsonComponent implements OnInit, OnDestroy {
       }
 
       if (field.type === 'iban') {
-        const reg = /^(?:(?:IT|SM)\d{2}[A-Z]\d{22}|CY\d{2}[A-Z]\d{23}|NL\d{2}[A-Z]{4}\d{10}|LV\d{2}[A-Z]{4}\d{13}|(?:BG|BH|GB|IE)\d{2}[A-Z]{4}\d{14}|GI\d{2}[A-Z]{4}\d{15}|RO\d{2}[A-Z]{4}\d{16}|KW\d{2}[A-Z]{4}\d{22}|MT\d{2}[A-Z]{4}\d{23}|NO\d{13}|(?:DK|FI|GL|FO)\d{16}|MK\d{17}|(?:AT|EE|KZ|LU|XK)\d{18}|(?:BA|HR|LI|CH|CR)\d{19}|(?:GE|DE|LT|ME|RS)\d{20}|IL\d{21}|(?:AD|CZ|ES|MD|SA)\d{22}|PT\d{23}|(?:BE|IS)\d{24}|(?:FR|MR|MC)\d{25}|(?:AL|DO|LB|PL)\d{26}|(?:AZ|HU)\d{27}|(?:GR|MU)\d{28})$/i;
-        if (!reg.test(field.value)) {
+        const reg = /^AL\d{10}[0-9A-Z]{16}$|^AD\d{10}[0-9A-Z]{12}$|^AT\d{18}$|^AZ\d{2}[A-Z]{4}[0-9A-Z]{20}$|^BH\d{2}[A-Z]{4}[0-9A-Z]{14}$|^BY\d{2}[A-Z]{4}[0-9A-Z]{20}$|^BE\d{14}$|^BA\d{18}$|^BR\d{10}[0-9A-Z]{17}$|^BG\d{2}[A-Z]{4}\d{6}[0-9A-Z]{8}$|^CR\d{20}$|^HR\d{19}$|^CY\d{10}[0-9A-Z]{16}$|^CZ\d{22}$|^DK\d{16}$|^FO\d{16}$|^GL\d{16}$|^GT\d{2}[0-9A-Z]{4}\d{20}$|^KW\d{2}[0-9A-Z]{4}\d{22}$|^MD\d{2}[0-9A-Z]{2}\d{18}$|^PK\d{2}[0-9A-Z]{4}\d{16}$|^PS\d{2}[0-9A-Z]{4}\d{21}$|^VA\d{2}\d{18}$|^KZ\d{2}\d{16}$|^DO\d{2}[0-9A-Z]{4}\d{20}$|^EG\d{2}[0-9A-Z]{4}\d{21}$|^SV\d{2}[0-9A-Z]{4}\d{20}$|^VG\d{2}[0-9A-Z]{4}\d{16}$|^EE\d{18}$|^FI\d{16}$|^UA\d{27}$|^FR\d{12}[0-9A-Z]{11}\d{2}$|^GE\d{2}[A-Z]{2}\d{16}$|^DE\d{20}$|^GI\d{2}[A-Z]{4}[0-9A-Z]{15}$|^JO\d{2}[A-Z]{4}[0-9A-Z]{22}$|^GR\d{9}[0-9A-Z]{16}$|^HU\d{26}$|^IS\d{24}$|^IQ\d{2}[0-9A-Z]{4}\d{15}$|^IE\d{2}[A-Z]{4}\d{14}$|^IL\d{21}$|^IT\d{2}[A-Z]\d{10}[0-9A-Z]{12}$|^KW\d{2}[A-Z]{4}22!$|^LV\d{2}[A-Z]{4}[0-9A-Z]{13}$|^LB\d{6}[0-9A-Z]{20}$|^LI\d{7}[0-9A-Z]{12}$|^LT\d{18}$|^LU\d{5}[0-9A-Z]{13}$|^MK\d{5}[0-9A-Z]{10}\d{2}$|^MT\d{2}[A-Z]{4}\d{5}[0-9A-Z]{18}$|^MR13\d{23}$|^MU\d{2}[A-Z]{4}\d{19}[A-Z]{3}$|^MC\d{12}[0-9A-Z]{11}\d{2}$|^ME\d{20}$|^NL\d{2}[A-Z]{4}\d{10}$|^QA\d{2}[A-Z]{4}\d{21}$|^LC\d{2}[A-Z]{4}\d{24}$|^SC\d{2}[A-Z]{4}\d{20}\d[A-Z]{3}$|^NO\d{13}$|^TL\d{21}$|^ST\d{23}$|^PL\d{26}$|^PT\d{23}$|^RO\d{2}[A-Z]{4}[0-9A-Z]{16}$|^SM\d{2}[A-Z]\d{10}[0-9A-Z]{12}$|^SA\d{4}[0-9A-Z]{18}$|^RS\d{20}$|^SK\d{22}$|^SI\d{17}$|^ES\d{22}$|^SE\d{22}$|^CH\d{7}[0-9A-Z]{12}$|^TN59\d{20}$|^TR\d{7}[0-9A-Z]{17}$|^AE\d{21}$|^GB\d{2}[A-Z]{4}\d{14}$/;
+        const basicReg = /^[0-9A-Za-z]{6,35}$/;
+        const stringTest = /^[A-Za-z]{2}/;
+        if ((stringTest.test(field.value) && !reg.test(field.value)) || (!stringTest.test(field.value) && !basicReg.test(field.value))) {
           return { valid: false, message: this.translate.get('xjson.enter_valid_iban') };
         }
       }
