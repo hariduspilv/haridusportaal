@@ -94,7 +94,7 @@ class CustomJwtAuth extends JwtAuth implements AuthenticationProviderInterface {
 	 * @param Request $request
 	 * @return bool|mixed|string
 	 */
-	protected function getJwtFromRequest (Request $request) {
+	public static function getJwtFromRequest (Request $request) {
 		$auth_header = $request->headers->get('Authorization');
 		$auth_param = $request->get('jwt_token');
 		$matches = [];

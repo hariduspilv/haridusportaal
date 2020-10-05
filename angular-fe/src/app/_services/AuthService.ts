@@ -1,41 +1,42 @@
-import { Injectable } from '@angular/core';
+import  { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {
-  Router,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  CanActivate,
   ActivatedRoute,
+  ActivatedRouteSnapshot,
+  CanActivate,
+  Router,
+  RouterStateSnapshot,
 } from '@angular/router';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { SettingsService } from './SettingsService';
 import { map, take } from 'rxjs/operators';
+import { CookieService } from './CookieService';
 
 @Injectable({
   providedIn: 'root',
 })
+
 export class AuthService implements CanActivate {
   plumbr = (<any>window).PLUMBR;
+  /**
+   * Determines whether if the user is authenticated
+   */
+  public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  /**
+   * Determines whether the user has EHIS token
+   */
+  public hasEhisToken: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  public user: any = {};
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private route: ActivatedRoute,
     private settings: SettingsService,
+    private cookie: CookieService,
   ) {
     this.isAuthenticated.next(this.isLoggedIn());
   }
-
-  /**
-   * Determines whether if the user is authenticated
-   */
-  public isAuthenticated: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-  /**
-   * Determines whether the user has EHIS token
-   */
-  public hasEhisToken: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  public user: any = {};
 
   /**
    * Gets user data
@@ -60,7 +61,7 @@ export class AuthService implements CanActivate {
   public login(data: any) {
     return this.http
       .post(`${this.settings.url}/api/v1/token?_format=json`, data)
-      .pipe(map((response:any) => {
+      .pipe(map((response: any) => {
         if (response['token']) {
           sessionStorage.setItem('token', response['token']);
           this.userData = this.decodeToken(response.token);
@@ -75,12 +76,6 @@ export class AuthService implements CanActivate {
       }));
   }
 
-  private setPlumbrId() {
-    if (this.plumbr) {
-      this.plumbr.setUserId(this.userData.drupal.uid);
-    }
-  }
-
   /**
    * Tests new JSON web token
    * @param token - jwt token
@@ -90,10 +85,11 @@ export class AuthService implements CanActivate {
       jwt: token,
     };
     this.http
-    .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, data).subscribe(
+      .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, data).subscribe(
       (response: any) => {
         if (response.jwt) {
           sessionStorage.setItem('ehisToken', response.jwt);
+          this.saveEhisTokenInCookie(response.jwt);
           this.hasEhisToken.next(true);
           this.isAuthenticated.next(true);
         }
@@ -115,14 +111,30 @@ export class AuthService implements CanActivate {
    */
   public getEhisToken(token) {
     this.http
-    .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, { jwt: token })
-    .pipe(take(1))
-    .subscribe((res: any) => {
-      if (res.jwt) {
-        sessionStorage.setItem('ehisToken', res.jwt);
-        this.hasEhisToken.next(true);
-      }
-    });
+      .post(`${this.settings.ehisUrl}/users/v1/haridusportaal/jwt`, { jwt: token })
+      .pipe(take(1))
+      .subscribe((res: any) => {
+        if (res.jwt) {
+          sessionStorage.setItem('ehisToken', res.jwt);
+          this.saveEhisTokenInCookie(res.jwt);
+          this.hasEhisToken.next(true);
+        }
+      });
+  }
+
+  /**
+   * Sets ehis token in cookies
+   * @param token - JWT token
+   */
+  public saveEhisTokenInCookie(token) {
+    this.cookie.set('ehisToken', token, 0);
+  }
+
+  /**
+   * Deletes ehis token from cookies
+   */
+  public deleteEhisTokenFromCookie() {
+    this.cookie.remove('ehisToken');
   }
 
   /**
@@ -132,6 +144,8 @@ export class AuthService implements CanActivate {
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('redirectUrl');
     sessionStorage.removeItem('ehisToken');
+    this.deleteEhisTokenFromCookie();
+
     this.isAuthenticated.next(false);
     this.hasEhisToken.next(false);
     this.router.navigateByUrl('/');
@@ -152,6 +166,8 @@ export class AuthService implements CanActivate {
       sessionStorage.removeItem('token');
       sessionStorage.removeItem('ehisToken');
       sessionStorage.removeItem('redirectUrl');
+      this.deleteEhisTokenFromCookie();
+
       if (this.isAuthenticated.getValue()) {
         this.isAuthenticated.next(false);
         this.hasEhisToken.next(false);
@@ -167,9 +183,10 @@ export class AuthService implements CanActivate {
    * Updates users storage and plumbrID
    * @param [newToken] - JWT token
    */
-  public refreshUser(newToken:any = false) {
+  public refreshUser(newToken: any = false) {
     if (newToken) {
       sessionStorage.setItem('token', newToken);
+      this.getEhisToken(newToken);
     }
     const token = sessionStorage.getItem('token');
     if (sessionStorage.getItem('ehisToken')) {
@@ -196,15 +213,6 @@ export class AuthService implements CanActivate {
       ),
     );
     return payload;
-  }
-
-  private isTokenExpired() {
-    const token = sessionStorage.getItem('token');
-    const tokenPayload = this.decodeToken(token);
-    if (Date.now() >= tokenPayload.exp * 1000) {
-      return true;
-    }
-    return false;
   }
 
   /**
@@ -237,5 +245,18 @@ export class AuthService implements CanActivate {
       }
     }
     return true;
+  }
+
+  private setPlumbrId() {
+    if (this.plumbr) {
+      this.plumbr.setUserId(this.userData.drupal.uid);
+    }
+  }
+
+  private isTokenExpired() {
+    const token = sessionStorage.getItem('token');
+    const tokenPayload = this.decodeToken(token);
+
+    return Date.now() >= tokenPayload.exp * 1000;
   }
 }

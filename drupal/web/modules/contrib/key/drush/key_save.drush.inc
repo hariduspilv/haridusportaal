@@ -6,7 +6,6 @@
  */
 
 use Drupal\Component\Serialization\Json;
-use Drush\Log\LogLevel;
 
 /**
  * Save a key.
@@ -33,7 +32,7 @@ function drush_key_save($id, $key_value = NULL) {
 
   // Add a warning about overwriting a key.
   if ($existing_key) {
-    drush_log(dt('Be extremely careful when overwriting a key! It may result in losing access to a service or making encrypted data unreadable.'), LogLevel::WARNING);
+    \Drupal::logger('key')->log('warning', (dt('Be extremely careful when overwriting a key! It may result in losing access to a service or making encrypted data unreadable.')));
   }
 
   // Confirm that the key should be saved.
@@ -94,5 +93,5 @@ function drush_key_save($id, $key_value = NULL) {
     return drush_set_error('DRUSH_KEY_NOT_SAVED', dt('Key !id was not saved.', ['!id' => $values['id']]));
   }
 
-  drush_log(dt('Key !id was saved successfully.', ['!id' => $values['id']]), LogLevel::OK);
+  \Drupal::logger('key')->log('success', (dt('Key !id was saved successfully.', ['!id' => $values['id']])));
 }

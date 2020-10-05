@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
 use Drupal\node\Entity\Node;
@@ -110,7 +111,7 @@ class ConditionalFieldEntityReferenceTagsTest extends ConditionalFieldTestBase {
     // Set up conditions.
     $data = [
       '[name="condition"]' => 'value',
-      '[name="values_set"]' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      '[name="values_set"]' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       $this->fieldSelector => $referenced_format_valid,
       '[name="grouping"]' => 'AND',
       '[name="state"]' => 'visible',
@@ -122,18 +123,18 @@ class ConditionalFieldEntityReferenceTagsTest extends ConditionalFieldTestBase {
 
     $this->getSession()->wait(1000, '!jQuery.active');
     $this->getSession()->executeScript("jQuery('#conditional-field-edit-form').submit();");
-    
+
     $this->createScreenshot($this->screenshotPath . '02-entity-reference-tags-post-add-list-options-filed-conditions.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    
+
     $this->createScreenshot($this->screenshotPath . '03-entity-reference-tags-submit-entity-reference-filed-conditions.png');
     $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-tags-body-invisible-when-controlled-field-has-no-value.png');

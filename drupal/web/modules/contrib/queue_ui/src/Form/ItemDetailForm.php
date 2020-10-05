@@ -65,31 +65,31 @@ class ItemDetailForm extends FormBase {
       $rows = [
         'id' => [
           'data' => [
-            'header' => t('Item ID'),
+            'header' => $this->t('Item ID'),
             'data' => $queue_item->item_id,
           ],
         ],
         'queue_name' => [
           'data' => [
-            'header' => t('Queue name'),
+            'header' => $this->t('Queue name'),
             'data' => $queue_item->name,
           ],
         ],
         'expire' => [
           'data' => [
-            'header' => t('Expire'),
+            'header' => $this->t('Expire'),
             'data' => ($queue_item->expire ? date(DATE_RSS, $queue_item->expire) : $queue_item->expire),
           ]
         ],
         'created' => [
           'data' => [
-            'header' => t('Created'),
+            'header' => $this->t('Created'),
             'data' => date(DATE_RSS, $queue_item->created),
           ],
         ],
         'data' => [
           'data' => [
-            'header' => ['data' => t('Data'), 'style' => 'vertical-align:top'],
+            'header' => ['data' => $this->t('Data'), 'style' => 'vertical-align:top'],
             'data' => $data,
           ],
         ],

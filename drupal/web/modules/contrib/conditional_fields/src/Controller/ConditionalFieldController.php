@@ -200,4 +200,61 @@ class ConditionalFieldController extends ControllerBase {
     return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'node', $node_type);
   }
 
+  /**
+   * Provide arguments for ConditionalFieldFormTab.
+   *
+   * @param string $node_type
+   *   Node type.
+   *
+   * @return array
+   *   Form array.
+   */
+  public function getMediaEditFormTab($media_type)
+  {
+    return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'media', $media_type);
+  }
+
+  /**
+   * Provide arguments for ConditionalFieldFormTab.
+   *
+   * @param string $node_type
+   *   Node type.
+   *
+   * @return array
+   *   Form array.
+   */
+  public function getBlockEditFormTab($block_content_type)
+  {
+    return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'block_content', $block_content_type);
+  }
+
+  /**
+   * Provide arguments for ConditionalFieldFormTab.
+   *
+   * @param string $node_type
+   *   Node type.
+   *
+   * @return array
+   *   Form array.
+   */
+  public function getCommentEditFormTab($comment_type)
+  {
+    return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'comment', $comment_type);
+  }
+
+  /**
+   * Provide arguments for ConditionalFieldFormTab.
+   *
+   * @param string $node_type
+   *   Node type.
+   *
+   * @return array
+   *   Form array.
+   */
+  public function getUserEditFormTab()
+  {
+    $user_type = "user";
+    return $this->formBuilder->getForm(ConditionalFieldFormTab::class, 'user', $user_type);
+  }
+
 }

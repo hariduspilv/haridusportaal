@@ -13,8 +13,8 @@ use Drupal\rules\Core\RulesConditionBase;
  *   category = @Translation("Scheduler"),
  *   context = {
  *     "node" = @ContextDefinition("entity:node",
- *       label = @Translation("The node to test for having a scheduled publishing date."),
- *       description = @Translation("Enter 'node' for the node being processed, or use data selection.")
+ *       label = @Translation("Scheduled Node"),
+ *       description = @Translation("The node to test for having a scheduled publishing date. Enter 'node' or use data selection.")
  *     )
  *   }
  * )

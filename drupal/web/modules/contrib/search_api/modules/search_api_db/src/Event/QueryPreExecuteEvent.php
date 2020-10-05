@@ -33,7 +33,7 @@ final class QueryPreExecuteEvent extends Event {
    * @param \Drupal\search_api\Query\QueryInterface $query
    *   The search query that is being executed.
    */
-  public function __construct(SelectInterface$db_query, QueryInterface $query) {
+  public function __construct(SelectInterface $db_query, QueryInterface $query) {
     $this->dbQuery = $db_query;
     $this->query = $query;
   }
@@ -58,16 +58,16 @@ final class QueryPreExecuteEvent extends Event {
    *
    * @return $this
    */
-  public function setDbQuery($dbQuery) {
+  public function setDbQuery(SelectInterface $dbQuery) {
     $this->dbQuery = $dbQuery;
     return $this;
   }
 
   /**
-   * Retrieves the created query.
+   * Retrieves the search query being executed.
    *
    * @return \Drupal\search_api\Query\QueryInterface
-   *   The created query.
+   *   The search query being executed.
    */
   public function getQuery() {
     return $this->query;

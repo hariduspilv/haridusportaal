@@ -148,7 +148,7 @@ class SchedulerRevisioningTest extends SchedulerBrowserTestBase {
     // Get the created date from the node and check that it has not changed.
     $created_after_cron = $node->created->value;
     $this->assertTrue($node->isPublished(), 'The node has been published.');
-    $this->assertEquals($created_after_cron, $created, 'The node creation date is not changed by default.');
+    $this->assertEquals($created, $created_after_cron, 'The node creation date is not changed by default.');
 
     // Set option to change the created date to match the publish_on date.
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_touch', TRUE)->save();
@@ -157,7 +157,7 @@ class SchedulerRevisioningTest extends SchedulerBrowserTestBase {
     $node = $this->schedule($node, 'publish');
     // Check that the created date has changed to match the publish_on date.
     $created_after_cron = $node->created->value;
-    $this->assertEqual(strtotime('-5 hour', $this->requestTime), $created_after_cron, "With 'touch' option set, the node creation date is changed to match the publishing date.");
+    $this->assertEquals(strtotime('-5 hour', $this->requestTime), $created_after_cron, "With 'touch' option set, the node creation date is changed to match the publishing date.");
 
   }
 

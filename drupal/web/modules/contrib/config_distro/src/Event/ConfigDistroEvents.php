@@ -17,10 +17,20 @@ final class ConfigDistroEvents {
    *
    * @Event
    *
-   * @see \Drupal\config_distro\Event\ImportEvent
-   *
    * @var string
    */
   const IMPORT = 'config_distro.import';
 
+  /**
+   * Name of the event fired when active storage is transformed.
+   *
+   * This event allows modules to perform transformation actions on active storage.
+   *
+   * @Event
+   *
+   * @see \Drupal\config_distro\Event\DistroStorageTransformEvent
+   *
+   * @var string
+   */
+  const TRANSFORM = 'config_distro.transform';
 }

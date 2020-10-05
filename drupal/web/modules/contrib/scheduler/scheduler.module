@@ -33,7 +33,7 @@ function scheduler_help($route_name, RouteMatchInterface $route_match) {
       break;
 
     case 'scheduler.admin_form':
-      $output = '<p>' . t('Some Scheduler options are set for each different content type, and are accessed via the <a href="@link">admin content type</a> list.', ['@link' => Url::fromRoute('entity.node_type.collection')->toString()]) . '</br>';
+      $output = '<p>' . t('Most of the Scheduler options are set for each different content type, and are accessed via the <a href="@link">admin content type</a> list.', ['@link' => Url::fromRoute('entity.node_type.collection')->toString()]) . '</br>';
       $output .= t('The options and settings below are common to all content types.') . '</p>';
       break;
 
@@ -108,7 +108,7 @@ function scheduler_form_node_form_alter(&$form, FormStateInterface $form_state) 
     return;
   }
 
-  $date_only_allowed = $config->get('allow_date_only');
+  $allow_date_only = $config->get('allow_date_only');
 
   // A publish_on date is required if the content type option is set and the
   // node is being created or it currently has a scheduled publishing date.
@@ -153,14 +153,22 @@ function scheduler_form_node_form_alter(&$form, FormStateInterface $form_state) 
   // Define the descriptions depending on whether the time can be skipped.
   $date_formatter = \Drupal::service('date.formatter');
   $descriptions = [];
-  if ($date_only_allowed) {
+  if ($allow_date_only) {
     $descriptions['format'] = t('Enter a date. The time part is optional.');
     // Show the default time so users know what they will get if they do not
     // enter a time.
     $default_time = strtotime($config->get('default_time'));
+    $default_time_formatted = $date_formatter->format($default_time, 'custom', 'H:i:s');
     $descriptions['default'] = t('The default time is @default_time.', [
-      '@default_time' => $date_formatter->format($default_time, 'custom', 'H:i:s'),
+      '@default_time' => $default_time_formatted,
     ]);
+
+    // Use javascript to pre-fill the time parts if the dates are required.
+    // See js/scheduler_default_time.js for more details.
+    if ($publishing_required || $unpublishing_required) {
+      $form['scheduler_settings']['#attached']['library'][] = 'scheduler/default-time';
+      $form['scheduler_settings']['#attached']['drupalSettings']['schedulerDefaultTime'] = $default_time_formatted;
+    }
   }
   else {
     $descriptions['format'] = t('Enter a date and time.');
@@ -284,6 +292,50 @@ function scheduler_form_devel_generate_form_content_alter(array &$form, FormStat
 }
 
 /**
+ * Implements hook_form_FORM_ID_alter() for language_content_settings_form.
+ */
+function scheduler_form_language_content_settings_form_alter(array &$form, FormStateInterface $form_state) {
+  // Add our validation function for the translation field settings form at
+  // admin/config/regional/content-language.
+  $form['#validate'][] = '_scheduler_translation_validate';
+}
+
+/**
+ * Validation handler for language_content_settings_form.
+ *
+ * If the content type is translatable and the field is enabled for Scheduler
+ * but the translation setting for the publish_on / unpublish_on field does not
+ * match the 'published status' field setting then throw a validation error.
+ *
+ * @see https://www.drupal.org/project/scheduler/issues/2871164
+ */
+function _scheduler_translation_validate($form, FormStateInterface $form_state) {
+  $content_types = $form_state->getValues()['settings']['node'];
+  $publishing_enabled_types = array_keys(_scheduler_get_scheduler_enabled_node_types('publish'));
+  $unpublishing_enabled_types = array_keys(_scheduler_get_scheduler_enabled_node_types('unpublish'));
+  $enabled = [];
+  foreach ($content_types as $name => $settings) {
+    $enabled['publish_on'] = in_array($name, $publishing_enabled_types);
+    $enabled['unpublish_on'] = in_array($name, $unpublishing_enabled_types);
+    if ($settings['translatable'] && ($enabled['publish_on'] || $enabled['unpublish_on'])) {
+      $params = [
+        '@type' => $form['settings']['node'][$name]['settings']['#label'],
+        '@status' => $form['settings']['node'][$name]['fields']['status']['#label'],
+      ];
+      foreach (['publish_on', 'unpublish_on'] as $var) {
+        $mismatch = $enabled[$var] && ($settings['fields'][$var] <> $settings['fields']['status']);
+        if ($mismatch) {
+          $params['@scheduler_field'] = $form['settings']['node'][$name]['fields'][$var]['#label'];
+          $message = t("Content type '@type' - Translatable settings for status field '@status' and Scheduler field '@scheduler_field' should match, either both on or both off", $params);
+          $form_state->setErrorByName("settings][node][$name][fields][status", $message);
+          $form_state->setErrorByName("settings][node][$name][fields][$var", $message);
+        }
+      }
+    }
+  }
+}
+
+/**
  * Implements hook_entity_base_field_info().
  */
 function scheduler_entity_base_field_info(EntityTypeInterface $entity_type) {
@@ -335,6 +387,8 @@ function scheduler_node_presave(EntityInterface $node) {
   $config = \Drupal::config('scheduler.settings');
   $entity = $node->type->entity;
   $request_time = \Drupal::time()->getRequestTime();
+  $publish_message = FALSE;
+  $unpublish_message = FALSE;
 
   // If there is no entity object or the class is incorrect then stop here. This
   // should not really happen but it has been observed, so better to be safe.
@@ -355,8 +409,9 @@ function scheduler_node_presave(EntityInterface $node) {
     if (!isset($publishing_enabled_types)) {
       $publishing_enabled_types = array_keys(_scheduler_get_scheduler_enabled_node_types('publish'));
       $unpublishing_enabled_types = array_keys(_scheduler_get_scheduler_enabled_node_types('unpublish'));
-      $publishing_percent = $node->devel_generate['scheduler_publishing'];
-      $unpublishing_percent = $node->devel_generate['scheduler_unpublishing'];
+      // The values may not be set if calling via drush, so default to zero.
+      $publishing_percent = @$node->devel_generate['scheduler_publishing'] ?: 0;
+      $unpublishing_percent = @$node->devel_generate['scheduler_unpublishing'] ?: 0;
       // Reuse the selected 'node creation' time range for our future date span.
       $time_range = $node->devel_generate['time_range'];
     }
@@ -417,12 +472,7 @@ function scheduler_node_presave(EntityInterface $node) {
       // Only inform the user that the node is scheduled if publication has not
       // been prevented by other modules. Those modules have to display a
       // message themselves explaining why publication is denied.
-      if ($publication_allowed) {
-        $date_formatter = \Drupal::service('date.formatter');
-        \Drupal::messenger()->addMessage(t('This post is unpublished and will be published @publish_time.', [
-          '@publish_time' => $date_formatter->format($node->publish_on->value, 'long'),
-        ]), 'status', FALSE);
-      }
+      $publish_message = ($publication_allowed && $entity->getThirdPartySetting('scheduler', 'show_message_after_update', $config->get('default_show_message_after_update')));
     }
   }
 
@@ -430,7 +480,32 @@ function scheduler_node_presave(EntityInterface $node) {
     // Scheduler does not do the same 'immediate' processing for unpublishing.
     // However, the api hook should still be called during presave as there may
     // be messages to be displayed if the unpublishing will be disallowed later.
-    \Drupal::service('scheduler.manager')->isAllowed($node, 'unpublish');
+    $unpublication_allowed = \Drupal::service('scheduler.manager')->isAllowed($node, 'unpublish');
+    $unpublish_message = ($unpublication_allowed && $entity->getThirdPartySetting('scheduler', 'show_message_after_update', $config->get('default_show_message_after_update')));
+  }
+
+  // Give one message, which will include the publish_on date, the unpublish_on
+  // date or both dates. Cannot make the title into a link here when the node
+  // is being created. But the node module gives the link in the next message.
+  $date_formatter = \Drupal::service('date.formatter');
+  if ($publish_message && $unpublish_message) {
+    \Drupal::messenger()->addMessage(t('%title is scheduled to be published @publish_time and unpublished @unpublish_time.', [
+      '%title' => $node->getTitle(),
+      '@publish_time' => $date_formatter->format($node->publish_on->value, 'long'),
+      '@unpublish_time' => $date_formatter->format($node->unpublish_on->value, 'long'),
+    ]), 'status', FALSE);
+  }
+  elseif ($publish_message) {
+    \Drupal::messenger()->addMessage(t('%title is scheduled to be published @publish_time.', [
+      '%title' => $node->getTitle(),
+      '@publish_time' => $date_formatter->format($node->publish_on->value, 'long'),
+    ]), 'status', FALSE);
+  }
+  elseif ($unpublish_message) {
+    \Drupal::messenger()->addMessage(t('%title is scheduled to be unpublished @unpublish_time.', [
+      '%title' => $node->getTitle(),
+      '@unpublish_time' => $date_formatter->format($node->unpublish_on->value, 'long'),
+    ]), 'status', FALSE);
   }
 }
 
@@ -589,14 +664,9 @@ function scheduler_feeds_set_target($source, $entity, $target, $value, $mapping)
   // then strtotime() must not be used, otherwise it returns the current time.
   if (!empty($value) && !is_numeric($value)) {
     if (!$timestamp = strtotime($value)) {
-      throw new FeedsValidationException(
-        // Throw an exception if the date format was not recognized.
-        t('Value %value for @source could not be converted to a valid %target date.', [
-          '@source' => $mapping['source'],
-          '%value' => $value,
-          '%target' => $target,
-        ])
-      );
+      // Throw an exception if the date format was not recognized.
+      $mapping_source = $mapping['source'];
+      throw new FeedsValidationException("Value '$value' for '$mapping_source' could not be converted to a valid '$target' date.");
     }
   }
   else {

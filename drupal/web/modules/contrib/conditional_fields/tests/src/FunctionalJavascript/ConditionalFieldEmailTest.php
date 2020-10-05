@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
@@ -128,25 +129,25 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       'field_' . $this->fieldName . '[0][value]' => $email,
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
    $this->submitForm( $data, 'Save settings' );
-    
+
     $this->createScreenshot($this->screenshotPath . '02-testEmailVisibleValueWidget.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    
+
     $this->createScreenshot($this->screenshotPath . '03-testEmailVisibleValueWidget.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     // Change a email that should not show the body.
     $this->changeField($this->fieldSelector, 'wrongmail@drupal.org');
@@ -180,7 +181,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       'regex' => '^test@.+\..+',
       'grouping' => 'AND',
       'state' => 'visible',
@@ -233,7 +234,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       'values' => "{$email}\r\n{$email_2}",
       'grouping' => 'AND',
       'state' => 'visible',
@@ -290,25 +291,25 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     $emails = implode("\r\n", [$email, $email2]);
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values' => $emails,
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
     $this->submitForm( $data, 'Save settings' );
-    
+
     $this->createScreenshot($this->screenshotPath . '02-testEmailTimeVisibleValueOr.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    
+
     $this->createScreenshot($this->screenshotPath . '03-testEmailTimeVisibleValueOr.png');
     $this->assertSession()->pageTextContains('body ' . 'field_' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-testEmailTimeVisibleValueOr.png');
@@ -352,7 +353,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     $emails = implode("\r\n", [$email, $email2]);
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       'values' => $emails,
       'grouping' => 'AND',
       'state' => 'visible',
@@ -413,7 +414,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
     $emails = implode("\r\n", [$email, $email2]);
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
       'values' => $emails,
       'grouping' => 'AND',
       'state' => 'visible',
@@ -473,7 +474,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     // Check that the field Body is not visible.
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is not visible');
@@ -496,7 +497,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     $this->waitUntilVisible('.field--name-body', 0, '01. Article Body field is visible');
     $this->changeField($this->fieldSelector, 'test@drupal.org');
@@ -518,7 +519,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     // Check that the field Body is not visible.
     $this->waitUntilVisible('.field--name-body', 0, '01. Article Body field is visible');
@@ -541,7 +542,7 @@ class ConditionalFieldEmailTest extends ConditionalFieldTestBase implements Cond
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     $this->waitUntilHidden('.field--name-body', 0, '01. Article Body field is not visible');
     $this->changeField($this->fieldSelector, 'test@drupal.org');

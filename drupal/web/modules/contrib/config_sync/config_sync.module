@@ -6,8 +6,8 @@
  */
 
 use Drupal\config_sync\ConfigSyncSnapshotterInterface;
-use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Url;
 
 /**
  * Implements hook_help().
@@ -20,7 +20,7 @@ function config_sync_help($route_name, RouteMatchInterface $route_match) {
       $output .= '<p>' . t('The Configuration Synchronizer module provides a way to import configuration changes from updated modules and themes.') . '</p>';
       $output .= '<p>' . t('When you update to a new version of a module or theme, it may come with configuration changes. For example, if you previously installed an <em>Event</em> module that provided an <em>Event</em> content type and related fields, some of those fields may have changed in the new version, while new fields may have been added. With Configuration Synchronizer you can import those changes.') . '</p>';
       $output .= '<h3>' . t('Usage') . '</h3>';
-      $output .= '<p>' . t('You can import available updates from your installed modules and themes on the <a href=":url">Distribution Updates</a> page.', array(':url' => \Drupal::url('config_distro.import'))) . ' </p>';
+      $output .= '<p>' . t('You can import available updates from your installed modules and themes on the <a href=":url">Distribution Updates</a> page.', [':url' => Url::fromRoute('config_distro.import')->toString()]) . ' </p>';
       return $output;
     case 'config_distro.import':
       $output = '';

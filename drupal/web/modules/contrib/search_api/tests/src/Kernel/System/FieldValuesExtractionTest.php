@@ -246,7 +246,7 @@ class FieldValuesExtractionTest extends KernelTestBase {
     ksort($values['foobar']);
     $this->assertArrayHasKey('a', $values['foobar']);
     $this->assertNotEmpty($values['foobar']['a']);
-    $this->assertContains('Article 1', $values['foobar']['a'][0]);
+    $this->assertStringContainsString('Article 1', $values['foobar']['a'][0]);
     unset($values['foobar']['a']);
     $this->assertEquals($expected, $values);
 
@@ -308,6 +308,7 @@ class FieldValuesExtractionTest extends KernelTestBase {
   public function testNestedComplexFieldValuesExtraction() {
     // Complex data definition structure.
 
+    // phpcs:disable Drupal.Commenting.InlineComment.NotCapital
     // data => ListDataDefinition (list) [
     //   itemDefinition => ComplexDataDefinition (map) [
     //     propertyDefinitions => [
@@ -323,6 +324,7 @@ class FieldValuesExtractionTest extends KernelTestBase {
     //     ]
     //   ]
     // ]
+    // phpcs:enable
 
     $properties_def = MapDataDefinition::create();
     $properties_def->setPropertyDefinition('property1', DataDefinition::create('string'));

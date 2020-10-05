@@ -16,7 +16,21 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['content_translation'];
+  protected static $modules = ['content_translation'];
+
+  /**
+   * A user with permission to translate content and use scheduler.
+   *
+   * @var \Drupal\Core\Session\AccountInterface
+   */
+  protected $translatorUser;
+
+  /**
+   * Array of language information for translations.
+   *
+   * @var array
+   */
+  protected $languages;
 
   /**
    * {@inheritdoc}
@@ -52,24 +66,23 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_past_date', 'schedule')->save();
 
     // Enable the content type for translation.
-    $this->ctm = $this->container->get('content_translation.manager');
-    $this->ctm->setEnabled('node', $this->type, TRUE);
+    $this->container->get('content_translation.manager')->setEnabled('node', $this->type, TRUE);
 
-    // Make three additional languages available.
-    // Do not add 'en' here.
-    $this->langcodes = ['am', 'bg', 'ca'];
-    ConfigurableLanguage::createFromLangcode($this->langcodes[0])->save();
-    ConfigurableLanguage::createFromLangcode($this->langcodes[1])->save();
-    ConfigurableLanguage::createFromLangcode($this->langcodes[2])->save();
+    // Make three additional languages available. 'en' is added here as the last
+    // code and it should not be defined as a configurable language.
+    $langcodes = ['am', 'bg', 'ca', 'en'];
+    ConfigurableLanguage::createFromLangcode($langcodes[0])->save();
+    ConfigurableLanguage::createFromLangcode($langcodes[1])->save();
+    ConfigurableLanguage::createFromLangcode($langcodes[2])->save();
 
     // Get the language names and store for later use.
     $languages = \Drupal::languageManager()->getLanguages();
-    $this->languages = [
-      0 => ['code' => $this->langcodes[0], 'name' => $languages[$this->langcodes[0]]->getName()],
-      1 => ['code' => $this->langcodes[1], 'name' => $languages[$this->langcodes[1]]->getName()],
-      2 => ['code' => $this->langcodes[2], 'name' => $languages[$this->langcodes[2]]->getName()],
-      3 => ['code' => 'en', 'name' => $languages['en']->getName()],
-    ];
+    foreach ($langcodes as $key => $code) {
+      $this->languages[$key] = [
+        'code' => $code,
+        'name' => $languages[$code]->getName(),
+      ];
+    }
   }
 
   /**
@@ -79,28 +92,26 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
    *   The node id of the node to check.
    * @param string $description
    *   Text explaining what part of the test is being checked.
-   * @param array $st
+   * @param array $status
    *   Array of expected status values for the translations. The original
    *   content status is first, followed by any number of translations.
    */
-  private function checkStatus($nid, $description, array $st) {
+  private function checkStatus($nid, $description, array $status) {
 
     // Reset the cache and reload the node.
     $this->nodeStorage->resetCache([$nid]);
     $node = $this->nodeStorage->load($nid);
 
-    foreach ($st as $key => $expected_status) {
+    foreach ($status as $key => $expected_status) {
       if ($key == 0) {
         // Key 0 is the original, so we just check $node.
         $this->assertEquals($expected_status, $node->isPublished(),
           sprintf('%s: The original content (%s) is %s', $description, $this->languages[$key]['name'], ($expected_status ? 'published' : 'unpublished')));
       }
       else {
-        // Key > 0 are the translations, which we get using the Content
-        // Translation Manager getTranslationMetadata() function.
-        $trans = $this->ctm->getTranslationMetadata($node->getTranslation($this->languages[$key]['code']));
-        $trans = $node->getTranslation($this->languages[$key]['code']);
-        $this->assertEquals($expected_status, $trans->isPublished(),
+        // Key > 0 are the translations.
+        $translation = $node->getTranslation($this->languages[$key]['code']);
+        $this->assertEquals($expected_status, $translation->isPublished(),
           sprintf('%s: Translation %d (%s) is %s', $description, $key, $this->languages[$key]['name'], ($expected_status ? 'published' : 'unpublished')));
       }
     }
@@ -111,7 +122,9 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
    *
    * @dataProvider dataPublishingTranslations()
    */
-  public function testPublishingTranslations($publish_on_translatable, $unpublish_on_translatable, array $expected_status_values_before, array $expected_status_values_after) {
+  public function testPublishingTranslations($publish_on_translatable, $unpublish_on_translatable, $status_translatable, array $expected_status_values_before, array $expected_status_values_after) {
+    // Show the languages, this is for info and debug only.
+    $this->drupalGet('admin/config/regional/language');
 
     // Set the scheduler fields to be translatable yes/no depending on the
     // parameters passed in.
@@ -120,12 +133,31 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
       'edit-settings-node-' . $this->type . '-settings-language-language-alterable' => TRUE,
       'edit-settings-node-' . $this->type . '-fields-publish-on' => $publish_on_translatable,
       'edit-settings-node-' . $this->type . '-fields-unpublish-on' => $unpublish_on_translatable,
+      'edit-settings-node-' . $this->type . '-fields-status' => $status_translatable,
     ];
     // The submit shows the updated values, so no need for second get.
     $this->submitForm($settings, 'Save configuration');
 
-    // Create a node. This will known as the 'original' before any translations.
-    // It is unpublished with no scheduled date.
+    $early_return = FALSE;
+    if ($publish_on_translatable <> $status_translatable) {
+      // Check for validation form error on status and publish_on.
+      $this->assertSession()->elementExists('xpath', '//input[@id = "edit-settings-node-' . $this->type . '-fields-publish-on" and contains(@class, "error")]');
+      $this->assertSession()->elementExists('xpath', '//input[@id = "edit-settings-node-' . $this->type . '-fields-status" and contains(@class, "error")]');
+      $early_return = TRUE;
+    }
+    if ($unpublish_on_translatable <> $status_translatable) {
+      // Check for validation form error on status and unpublish_on.
+      $this->assertSession()->elementExists('xpath', '//input[@id = "edit-settings-node-' . $this->type . '-fields-unpublish-on" and contains(@class, "error")]');
+      $this->assertSession()->elementExists('xpath', '//input[@id = "edit-settings-node-' . $this->type . '-fields-status" and contains(@class, "error")]');
+      $early_return = TRUE;
+    }
+    if ($early_return) {
+      // The rest of the test is meaningless so skip it and move to the next.
+      return;
+    }
+
+    // Create a node in the 'original' language, before any translations. It is
+    // unpublished with no scheduled date.
     $create = [
       'type' => $this->type,
       'title' => $this->languages[0]['name'] . '(0) - Unpublished and not scheduled',
@@ -133,64 +165,93 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
       'status' => FALSE,
     ];
     $node = $this->drupalCreateNode($create);
+    $nid = $node->id();
 
-    // Create the first translation, published now with no scheduled date.
-    $this->drupalGet('node/' . $node->id() . '/translations/add/' . $this->languages[0]['code'] . '/' . $this->languages[1]['code']);
+    // Create the first translation, published now with no scheduled dates.
+    $this->drupalGet('node/' . $nid . '/translations/add/' . $this->languages[0]['code'] . '/' . $this->languages[1]['code']);
     $edit = [
       'title[0][value]' => $this->languages[1]['name'] . '(1) - Published now',
       'publish_on[0][value][date]' => '',
       'publish_on[0][value][time]' => '',
+      'status[value]' => TRUE,
     ];
-    // At core 8.4 an enhancement will be committed to change the 'save and ...'
-    // button into a 'save' with a corresponding status checkbox. This test has
-    // to pass at 8.3 but the core change will not be backported. Hence derive
-    // the button text and whether we need a 'status'field.
-    // @see https://www.drupal.org/node/2873108
-    $checkbox = $this->xpath('//input[@type="checkbox" and @id="edit-status-value"]');
-    if ($checkbox) {
-      $edit['status[value]'] = TRUE;
-      $save_button_text = 'Save';
-    }
-    else {
-      $save_button_text = 'Save and publish';
-    }
-    $this->submitForm($edit, $save_button_text);
+    $this->submitForm($edit, 'Save');
 
-    // Create the second translation, to be published in the future.
-    $this->drupalGet('node/' . $node->id() . '/translations/add/' . $this->languages[0]['code'] . '/' . $this->languages[2]['code']);
+    // Create second translation, for publishing and unpublising in the future.
+    $this->drupalGet('node/' . $nid . '/translations/add/' . $this->languages[0]['code'] . '/' . $this->languages[2]['code']);
     $edit = [
       'title[0][value]' => $this->languages[2]['name'] . '(2) - Publish in the future',
       'publish_on[0][value][date]' => date('Y-m-d', strtotime('+2 day', $this->requestTime)),
       'publish_on[0][value][time]' => date('H:i:s', strtotime('+2 day', $this->requestTime)),
+      'unpublish_on[0][value][date]' => date('Y-m-d', strtotime('+3 day', $this->requestTime)),
+      'unpublish_on[0][value][time]' => date('H:i:s', strtotime('+3 day', $this->requestTime)),
     ];
-    $this->submitForm($edit, $save_button_text);
+    $this->submitForm($edit, 'Save');
+
+    // Reset the cache, reload the node, and check if the dates of translation
+    // 3 have been synchronized to the other translations, or not, as required.
+    $this->nodeStorage->resetCache([$nid]);
+    $node = $this->nodeStorage->load($nid);
+    $translation1 = $node->getTranslation($this->languages[1]['code']);
+    $translation2 = $node->getTranslation($this->languages[2]['code']);
+    if ($publish_on_translatable) {
+      $this->assertNotEquals($translation2->publish_on->value, $node->publish_on->value, 'Node publish_on');
+      $this->assertNotEquals($translation2->unpublish_on->value, $node->unpublish_on->value, 'Node unpublish_on');
+    }
+    else {
+      $this->assertEquals($translation2->publish_on->value, $node->publish_on->value, 'Node publish_on');
+      $this->assertEquals($translation2->unpublish_on->value, $node->unpublish_on->value, 'Node unpublish_on');
+      $this->assertEquals($translation2->publish_on->value, $translation1->publish_on->value, 'Translation 1 publish_on');
+      $this->assertEquals($translation2->unpublish_on->value, $translation1->unpublish_on->value, 'Translation 1 unpublish_on');
+    }
 
     // Create the third translation, to be published in the past.
-    $this->drupalGet('node/' . $node->id() . '/translations/add/' . $this->languages[0]['code'] . '/' . $this->languages[3]['code']);
+    $this->drupalGet('node/' . $nid . '/translations/add/' . $this->languages[0]['code'] . '/' . $this->languages[3]['code']);
     $edit = [
       'title[0][value]' => $this->languages[3]['name'] . '(3) - Publish in the past',
       'publish_on[0][value][date]' => date('Y-m-d', strtotime('-2 day', $this->requestTime)),
       'publish_on[0][value][time]' => date('H:i:s', strtotime('-2 day', $this->requestTime)),
     ];
-    $this->submitForm($edit, $save_button_text);
+    $this->submitForm($edit, 'Save');
+
+    // Reset the cache, reload the node, and check if the dates of translation
+    // 3 have been synchronized to the other translations, or not, as required.
+    $this->nodeStorage->resetCache([$nid]);
+    $node = $this->nodeStorage->load($nid);
+    $translation1 = $node->getTranslation($this->languages[1]['code']);
+    $translation2 = $node->getTranslation($this->languages[2]['code']);
+    $translation3 = $node->getTranslation($this->languages[3]['code']);
+    if ($publish_on_translatable) {
+      $this->assertNotEquals($translation3->publish_on->value, $translation2->publish_on->value, 'Node publish_on');
+      $this->assertNotEquals($translation3->unpublish_on->value, $translation2->unpublish_on->value, 'Node unpublish_on');
+    }
+    else {
+      // The scheduer dates should be synchronized across all translations.
+      $this->assertEquals($translation3->publish_on->value, $node->publish_on->value, 'Node publish_on');
+      $this->assertEquals($translation3->unpublish_on->value, $node->unpublish_on->value, 'Node unpublish_on');
+      $this->assertEquals($translation3->publish_on->value, $translation1->publish_on->value, 'Translation 1 publish_on');
+      $this->assertEquals($translation3->unpublish_on->value, $translation1->unpublish_on->value, 'Translation 1 unpublish_on');
+      $this->assertEquals($translation3->publish_on->value, $translation2->publish_on->value, 'Translation 2 publish_on');
+      $this->assertEquals($translation3->unpublish_on->value, $translation2->unpublish_on->value, 'Translation 2 unpublish_on');
+    }
 
     // For info only.
-    $this->drupalGet($this->languages[0]['code'] . '/node/' . $node->id() . '/translations');
+    $this->drupalGet($this->languages[0]['code'] . '/node/' . $nid . '/translations');
     $this->drupalGet('admin/content/scheduled');
 
-    // Check the status of all four pieces of content before running cron.
-    $this->checkStatus($node->id(), 'Before cron', $expected_status_values_before);
+    // Check that the status of all four pieces of content before running cron
+    // match the expected values.
+    $this->checkStatus($nid, 'Before cron', $expected_status_values_before);
+
+    // Check that the status after running cron matches the expected values.
     $this->cronRun();
+    $this->checkStatus($nid, 'After cron', $expected_status_values_after);
 
     // For info only.
     $this->drupalGet('admin/content/scheduled');
     $this->drupalGet('admin/content');
     $this->drupalGet('admin/reports/dblog');
-    $this->drupalGet($this->languages[0]['code'] . '/node/' . $node->id() . '/translations');
-
-    // Check all the status values after running cron.
-    $this->checkStatus($node->id(), 'After cron', $expected_status_values_after);
-
+    $this->drupalGet($this->languages[0]['code'] . '/node/' . $nid . '/translations');
   }
 
   /**
@@ -201,30 +262,32 @@ class SchedulerMultilingualTest extends SchedulerBrowserTestBase {
    *   consistent over all translations.
    *
    * @return array
-   *   The test data.
+   *   The test data. Each array element has the format:
+   *   Publish_on translatable
+   *   Unublish_on translatable
+   *   Status translatable
+   *   Expected status of four translations before cron
+   *   Expected status of four translations after cron
    */
   public function dataPublishingTranslations() {
+    // The key text relates to which fields are translatable.
     return [
-      'publish_on translatable' => [
-        TRUE,
-        FALSE,
+      'all fields' => [TRUE, TRUE, TRUE,
         [FALSE, TRUE, FALSE, FALSE],
         [FALSE, TRUE, FALSE, TRUE],
       ],
+
+      'no fields' => [FALSE, FALSE, FALSE,
+        [FALSE, FALSE, FALSE, FALSE],
+        [TRUE, TRUE, TRUE, TRUE],
+      ],
+      'only publish_on' => [TRUE, FALSE, FALSE, [], []],
+      'only unpublish_on' => [FALSE, TRUE, FALSE, [], []],
+      'only status' => [FALSE, FALSE, TRUE, [], []],
+      'publish_on and unpublish_on' => [TRUE, TRUE, FALSE, [], []],
+      'publish_on and status' => [TRUE, FALSE, TRUE, [], []],
+      'unpublish_on and status' => [FALSE, TRUE, TRUE, [], []],
     ];
-    /*
-    @TODO Fix module code before committing the 'publish_on not translatable'
-    test
-    // should be
-    'publish_on not translatable' => [FALSE, FALSE,
-    array(FALSE, FALSE, FALSE, FALSE), array(TRUE, TRUE, TRUE, TRUE)],
-    // actual before and after
-    'publish_on not translatable' => [FALSE, FALSE,
-    array(FALSE, TRUE, FALSE, FALSE), array(TRUE, TRUE, FALSE, FALSE)],
-    // actual before, but expected values after
-    'publish_on not translatable' => [FALSE, FALSE,
-    array(FALSE, TRUE, FALSE, FALSE), array(TRUE, TRUE, TRUE, TRUE)],
-     */
   }
 
 }

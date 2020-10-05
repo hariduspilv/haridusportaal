@@ -58,7 +58,7 @@ class ImportTest extends BrowserTestBase {
     $this->drupalGet('/admin/config/development/configuration/distro');
     $this->assertSession()->pageTextContains('Config sync tests');
     $this->assertSession()->pageTextContains('View differences');
-    $this->assertSession()->pageTextContains('Import');
+    $this->assertSession()->responseContains('Import');
     $this->assertSession()->pageTextNotContains('There are no configuration changes to import.');
 
     // Import the configuration.

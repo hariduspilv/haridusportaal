@@ -8,7 +8,8 @@ use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\Session\AccountInterface;
 use Drupal\Core\Url;
 use Drupal\htm_custom_authentication\Authentication\Provider\JsonAuthenticationProvider;
-use Drupal\openid_connect\Claims;
+use Drupal\openid_connect\OpenIDConnect;
+use Drupal\openid_connect\OpenIDConnectClaims;
 use Drupal\openid_connect\Controller\RedirectController;
 use Drupal\openid_connect\Plugin\OpenIDConnectClientManager;
 use Drupal\openid_connect\StateToken;
@@ -21,16 +22,18 @@ class TaraRedirectController extends RedirectController{
 
 	protected $jsonAuth;
 
-	public function __construct (OpenIDConnectClientManager $plugin_manager, RequestStack $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, Claims $claims, JsonAuthenticationProvider $jsonAuth) {
-		parent::__construct($plugin_manager, $request_stack, $logger_factory, $current_user);
+	public function __construct (OpenIDConnectClientManager $plugin_manager, OpenIDConnect $openid_connect, RequestStack $request_stack, LoggerChannelFactoryInterface $logger_factory, AccountInterface $current_user, OpenIDConnectClaims $claims, JsonAuthenticationProvider $jsonAuth) {
+		parent::__construct($plugin_manager, $openid_connect, $request_stack, $logger_factory, $current_user);
 		$this->claims = $claims;
+
 		$this->jsonAuth = $jsonAuth;
 	}
 
 	public static function create (ContainerInterface $container) {
 		return new static(
 			$container->get('plugin.manager.openid_connect_client.processor'),
-			$container->get('request_stack'),
+      $container->get('openid_connect.openid_connect'),
+      $container->get('request_stack'),
 			$container->get('logger.factory'),
 			$container->get('current_user'),
 			$container->get('openid_connect.claims'),

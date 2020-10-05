@@ -2,9 +2,14 @@
 
 namespace Drupal\smtp\ConnectionTester;
 
+use Drupal\Core\Config\ConfigFactory;
+use Drupal\Core\Mail\MailManager;
+use Drupal\Core\Mail\MailManagerInterface;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\mailsystem\MailsystemManager;
 use PHPMailer\PHPMailer\Exception as PHPMailerException;
 use PHPMailer\PHPMailer\PHPMailer;
+use Psr\Log\LoggerInterface;
 
 /**
  * Allows testing the SMTP connection.
@@ -33,36 +38,98 @@ class ConnectionTester {
   protected $value;
 
   /**
-   * Constructor.
+   * PHP Mailer Object.
    *
-   * The connection is tested, and the "severity" and "value" parameters are
-   * set during construction.
+   * @var \PHPMailer\PHPMailer\PHPMailer
    */
-  public function __construct() {
-    $this->testConnection();
+  protected $phpMailer;
+
+  /**
+   * The Config Factory.
+   *
+   * @var \Drupal\Core\Config\ConfigFactoryInterface
+   */
+  protected $configFactory;
+
+  /**
+   * The SMTP Config.
+   *
+   * @var \Drupal\Core\Config\Config
+   */
+  protected $smtpConfig;
+
+  /**
+   * The smtp logger channel.
+   *
+   * @var \Drupal\Core\Logger\LoggerChannelInterface
+   */
+  protected $logger;
+
+  /**
+   * The mail manager.
+   *
+   * @var \Drupal\Core\Mail\MailManagerInterface
+   */
+  protected $mailManager;
+
+  /**
+   * The SMTP ConnectionTester constructor.
+   *
+   * @param \Drupal\Core\Config\ConfigFactory $config_factory
+   * @param \Psr\Log\LoggerInterface $logger
+   *   The logger channel.
+   * @param \Drupal\Core\Mail\MailManagerInterface $mail_manager
+   *   The Mail manager.
+   */
+  public function __construct(ConfigFactory $config_factory, LoggerInterface $logger, MailManagerInterface $mail_manager) {
+    $this->configFactory = $config_factory;
+    $this->smtpConfig = $config_factory->get('smtp.settings');
+    $this->mailManager = $mail_manager;
+    $this->logger = $logger;
+
+    if (!class_exists(PHPMailer::class)) {
+      $this->logger->error('Unable to initialize PHPMailer, Class does not exist.');
+      return;
+    }
+    $this->phpMailer = new PHPMailer(TRUE);
+  }
+
+  public function setMailer(PHPMailer $mailer) {
+    $this->phpMailer = $mailer;
   }
 
   /**
    * Test SMTP connection.
    */
   public function testConnection() {
-    $mailer = $this->phpMailer();
+    if (!$this->configurePhpMailer()) {
+      $this->severity = self::REQUIREMENT_ERROR;
+      $this->value = $this->t('Unable to initialize PHPMailer.');
+      return FALSE;
+    }
 
-    if (!$this->configGet('smtp_on')) {
+    $smtp_enabled = $this->smtpConfig->get('smtp_on');
+    // Check to see if MailSystem is enabled and is using SMTPMailSystem.
+    if (\Drupal::moduleHandler()->moduleExists('mailsystem')) {
+      $mailsystem_defaults = $this->configFactory->get('mailsystem.settings')->get('defaults');
+      $smtp_enabled = in_array('SMTPMailSystem', $mailsystem_defaults);
+    }
+
+    if (!$smtp_enabled) {
       $this->severity = self::REQUIREMENT_OK;
       $this->value = $this->t('SMTP module is enabled but turned off.');
-      return;
+      return FALSE;
     }
 
     try {
-      if ($mailer->SmtpConnect()) {
+      if ($this->phpMailer->smtpConnect()) {
         $this->severity = self::REQUIREMENT_OK;
         $this->value = $this->t('SMTP module is enabled, turned on, and connection is valid.');
-        return;
+        return TRUE;
       }
       $this->severity = REQUIREMENT_ERROR;
       $this->value = $this->t('SMTP module is enabled, turned on, but SmtpConnect() returned FALSE.');
-      return;
+      return FALSE;
     }
     catch (PHPMailerException $e) {
       $this->value = $this->t('SMTP module is enabled, turned on, but SmtpConnect() threw exception @e', [
@@ -74,27 +141,7 @@ class ConnectionTester {
       $this->value = $this->t('SMTP module is enabled, turned on, but SmtpConnect() threw an unexpected exception');
       $this->severity = self::REQUIREMENT_ERROR;
     }
-
-  }
-
-  /**
-   * Get a string explaining the connection status.
-   *
-   * @return string
-   *   String explaining the current status of SMTP.
-   */
-  public function getValue() {
-    return $this->value;
-  }
-
-  /**
-   * Get the severity of the connection message (OK or error).
-   *
-   * @return int
-   *   REQUIREMENT_OK (0) or REQUIREMENT_ERROR (2)
-   */
-  public function getSeverity() {
-    return $this->severity;
+    return FALSE;
   }
 
   /**
@@ -104,9 +151,9 @@ class ConnectionTester {
     $requirements = [];
     if ($phase == 'runtime') {
       $requirements['smtp_connection'] = [
-        'title' => $this->t('SMTP connection'),
-        'value' => $this->getValue(),
-        'severity' => $this->getSeverity(),
+        'title' => $this->t('SMTP connection')->__toString(),
+        'value' => $this->value->__toString(),
+        'severity' => $this->severity,
       ];
     }
     return $requirements;
@@ -115,47 +162,44 @@ class ConnectionTester {
   /**
    * Get a PHPMailer object ready to be tested.
    *
-   * @return \PHPMailer\PHPMailer\PHPMailer
-   *   A PHPMailer object using the current configuration.
+   * @return bool
+   *   True if config was set, False if phpMailer didn't exist.
    */
-  public function phpMailer() {
-    static $mailer;
-
-    if (!$mailer) {
-      $mailer = new PHPMailer(TRUE);
+  protected function configurePhpMailer() {
+    if ($this->phpMailer) {
       // Set debug to FALSE for the connection test; further debugging can be
       // used when sending actual mails.
-      $mailer->SMTPDebug = FALSE;
-      $mailer->Host = $this->configGet('smtp_host') . ';' . $this->configGet('smtp_hostbackup');
-      $mailer->Port = $this->configGet('smtp_port');
-      $protocol = $this->configGet('smtp_protocol');
-      $mailer->SMTPSecure = in_array($protocol, ['ssl', 'tls'], TRUE) ? $protocol : '';
-      if ($helo = $this->configGet('smtp_client_helo')) {
-        $mailer->Helo = $helo;
+      $this->phpMailer->SMTPDebug = FALSE;
+      // Hardcoded Timeout for testing so the reports page doesn't stall out.
+      $this->phpMailer->Timeout = 5;
+
+      $this->phpMailer->Host = implode(';', array_filter(
+        [
+          $this->smtpConfig->get('smtp_host'),
+          $this->smtpConfig->get('smtp_hostbackup'),
+        ]
+        ));
+
+      $this->phpMailer->Port = $this->smtpConfig->get('smtp_port');
+      $protocol = $this->smtpConfig->get('smtp_protocol');
+      $this->phpMailer->SMTPAutoTLS = $this->smtpConfig->get('smtp_autotls');
+      $this->phpMailer->SMTPSecure = in_array($protocol, ['ssl', 'tls'], TRUE) ? $protocol : '';
+      if ($smtp_client_hostname = $this->smtpConfig->get('smtp_client_hostname')) {
+        $this->phpMailer->Hostname = $smtp_client_hostname;
       }
-      $username = $this->configGet('smtp_username');
-      $password = $this->configGet('smtp_password');
+      if ($helo = $this->smtpConfig->get('smtp_client_helo')) {
+        $this->phpMailer->Helo = $helo;
+      }
+      $username = $this->smtpConfig->get('smtp_username');
+      $password = $this->smtpConfig->get('smtp_password');
       if ($username && $password) {
-        $mailer->SMTPAuth = TRUE;
-        $mailer->Username = $username;
-        $mailer->Password = $password;
+        $this->phpMailer->SMTPAuth = TRUE;
+        $this->phpMailer->Username = $username;
+        $this->phpMailer->Password = $password;
       }
+      return TRUE;
     }
-
-    return $mailer;
-  }
-
-  /**
-   * Get smtp.settings configuration.
-   *
-   * @param string $var
-   *   The configuration variable, for example "smtp_username".
-   *
-   * @return mixed
-   *   The value of the configuration.
-   */
-  public function configGet(string $var) {
-    return \Drupal::config('smtp.settings')->get($var);
+    return FALSE;
   }
 
 }

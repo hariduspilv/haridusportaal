@@ -173,6 +173,10 @@ class FilteredStorage implements FilteredStorageInterface {
     foreach ($this->filters as $filter) {
       $data = $filter->filterListAll($prefix, $data);
     }
+    // Make sure that listAll does not return config names that don't exist.
+    $data = array_filter($data, function ($name) {
+      return $this->exists($name) && $this->read($name) !== FALSE;
+    });
     sort($data);
     return $data;
   }

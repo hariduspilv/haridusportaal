@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\Core\Entity\Display\EntityDisplayInterface;
 use Drupal\Core\Entity\Entity\EntityViewDisplay;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
@@ -112,7 +113,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       $this->fieldName . '[0][value][date]' => DrupalDateTime::createFromTimestamp(\Drupal::time()->getRequestTime())->format('m-d-Y'),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -164,7 +165,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       'regex' => '^' . $date_formatted . '$',
       'grouping' => 'AND',
       'state' => 'visible',
@@ -221,7 +222,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     ];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       'values' => implode("\r\n", $dates ),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -286,7 +287,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     ];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values' => implode("\r\n", $dates ),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -352,7 +353,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     ];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       'values' => implode("\r\n", $dates ),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -418,7 +419,7 @@ class ConditionalFieldDateTimeTest extends ConditionalFieldTestBase implements C
     ];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
       'values' => implode("\r\n", $dates ),
       'grouping' => 'AND',
       'state' => 'visible',

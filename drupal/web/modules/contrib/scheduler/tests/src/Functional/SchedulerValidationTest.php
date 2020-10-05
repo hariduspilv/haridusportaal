@@ -41,8 +41,10 @@ class SchedulerValidationTest extends SchedulerBrowserTestBase {
     $checkbox = $this->xpath('//input[@type="checkbox" and @id="edit-status-value"]');
 
     $this->submitForm($edit, $checkbox ? 'Save' : 'Save and keep unpublished');
-    $this->assertText("If you set a 'publish on' date then you must also set an 'unpublish on' date.", 'Validation prevents entering a publish-on date with no unpublish-on date if unpublishing is required.');
-    $this->assertNoText(sprintf('%s %s has been updated.', $this->typeName, $node->title->value), 'The node has not been saved.');
+    // Check that validation prevents entering a publish-on date with no
+    // unpublish-on date if unpublishing is required.
+    $this->assertSession()->pageTextContains("If you set a 'publish on' date then you must also set an 'unpublish on' date.");
+    $this->assertSession()->pageTextNotContains(sprintf('%s %s has been updated.', $this->typeName, $node->title->value));
 
     // Create an unpublished page node, then edit the node and check that if the
     // status is changed to published, then an unpublish-on date is also needed.
@@ -57,8 +59,10 @@ class SchedulerValidationTest extends SchedulerBrowserTestBase {
       $edit = [];
     }
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, $checkbox ? 'Save' : 'Save and publish');
-    $this->assertText("Either you must set an 'unpublish on' date or save this node as unpublished.", 'Validation prevents publishing the node directly without an unpublish-on date if unpublishing is required.');
-    $this->assertNoText(sprintf('%s %s has been updated.', $this->typeName, $node->title->value), 'The node has not been saved.');
+    // Check that validation prevents publishing the node directly without an
+    // unpublish-on date if unpublishing is required.
+    $this->assertSession()->pageTextContains("Either you must set an 'unpublish on' date or save this node as unpublished.");
+    $this->assertSession()->pageTextNotContains(sprintf('%s %s has been updated.', $this->typeName, $node->title->value));
 
     // Create an unpublished node, edit the node and check that if both dates
     // are entered then the unpublish date is later than the publish date.
@@ -73,8 +77,10 @@ class SchedulerValidationTest extends SchedulerBrowserTestBase {
       'unpublish_on[0][value][time]' => $this->dateFormatter->format($this->requestTime + 1800, 'custom', 'H:i:s'),
     ];
     $this->drupalPostForm('node/' . $node->id() . '/edit', $edit, $checkbox ? 'Save' : 'Save and keep unpublished');
-    $this->assertText("The 'unpublish on' date must be later than the 'publish on' date.", 'Validation prevents entering an unpublish-on date which is earlier than the publish-on date.');
-    $this->assertNoText(sprintf('%s %s has been updated.', $this->typeName, $node->title->value), 'The node has not been saved.');
+    // Check that validation prevents entering an unpublish-on date which is
+    // earlier than the publish-on date.
+    $this->assertSession()->pageTextContains("The 'unpublish on' date must be later than the 'publish on' date.");
+    $this->assertSession()->pageTextNotContains(sprintf('%s %s has been updated.', $this->typeName, $node->title->value));
   }
 
 }

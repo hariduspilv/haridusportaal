@@ -46,7 +46,7 @@ class SchedulerBasicTest extends SchedulerBrowserTestBase {
     $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
     // Verify that the node was created.
     $node = $this->drupalGetNodeByTitle($edit['title[0][value]']);
-    $this->assertTrue($node, sprintf('"%s" was created sucessfully.', $edit['title[0][value]']));
+    $this->assertNotEmpty($node, sprintf('"%s" was created sucessfully.', $edit['title[0][value]']));
     if (empty($node)) {
       $this->assert(FALSE, 'Test halted because node was not created.');
       return;

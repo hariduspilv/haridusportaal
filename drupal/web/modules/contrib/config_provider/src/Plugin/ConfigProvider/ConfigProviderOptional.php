@@ -112,6 +112,7 @@ class ConfigProviderOptional extends ConfigProviderBase {
         unset($all_config[$config_name]);
       }
       else {
+        $data = $this->addDefaultConfigHash($data);
         $this->providerStorage->write($config_name, $data);
       }
     }

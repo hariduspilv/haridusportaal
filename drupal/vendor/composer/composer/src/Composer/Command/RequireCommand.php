@@ -84,7 +84,7 @@ EOT
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (function_exists('pcntl_async_signals')) {
+        if (function_exists('pcntl_async_signals') && function_exists('pcntl_signal')) {
             pcntl_async_signals(true);
             pcntl_signal(SIGINT, array($this, 'revertComposerFile'));
             pcntl_signal(SIGTERM, array($this, 'revertComposerFile'));
@@ -237,9 +237,9 @@ EOT
             ->setClassMapAuthoritative($authoritative)
             ->setApcuAutoloader($apcu)
             ->setUpdate(true)
-            ->setUpdateWhitelist(array_keys($requirements))
-            ->setWhitelistTransitiveDependencies($input->getOption('update-with-dependencies'))
-            ->setWhitelistAllDependencies($input->getOption('update-with-all-dependencies'))
+            ->setUpdateAllowList(array_keys($requirements))
+            ->setAllowListTransitiveDependencies($input->getOption('update-with-dependencies'))
+            ->setAllowListAllDependencies($input->getOption('update-with-all-dependencies'))
             ->setIgnorePlatformRequirements($input->getOption('ignore-platform-reqs'))
             ->setPreferStable($input->getOption('prefer-stable'))
             ->setPreferLowest($input->getOption('prefer-lowest'))

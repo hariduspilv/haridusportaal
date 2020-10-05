@@ -5,7 +5,7 @@ core: '8.x'
 core_version_requirement: ^8 || ^9
 configure: menu_breadcrumb.settings
 
-# Information added by Drupal.org packaging script on 2020-02-12
-version: '8.x-1.12'
+# Information added by Drupal.org packaging script on 2020-06-01
+version: '8.x-1.13'
 project: 'menu_breadcrumb'
-datestamp: 1581496469
+datestamp: 1591033170

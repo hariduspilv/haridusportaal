@@ -3,6 +3,7 @@
 namespace Drupal\conditional_fields;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
+use Drupal\Core\Extension\ModuleHandlerInterface;
 
 /**
  * Provide conditional field's lists.
@@ -12,6 +13,23 @@ class Conditions {
   use StringTranslationTrait;
 
   /**
+   * The manages modules.
+   *
+   * @var \Drupal\Core\Extension\ModuleHandlerInterface
+   */
+  protected $moduleHandler;
+
+  /**
+   * The construct method.
+   *
+   * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
+   *   The manages modules.
+   */
+  public function __construct(ModuleHandlerInterface $module_handler) {
+    $this->moduleHandler = $module_handler;
+  }
+
+  /**
    * Provides default options for a dependency.
    */
   public function conditionalFieldsDependencyDefaultSettings() {
@@ -19,7 +37,7 @@ class Conditions {
       'state' => 'visible',
       'condition' => 'value',
       'grouping' => 'AND',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       // !Important.
       // The param default value MUST match to schema declaration.
       // @see conditional_fields.schema.yml
@@ -66,7 +84,7 @@ class Conditions {
     ];
 
     // Allow other modules to modify the states.
-    \Drupal::moduleHandler()->alter('conditionalFieldsStates', $states);
+    $this->moduleHandler->alter('conditionalFieldsStates', $states);
 
     return $states;
   }
@@ -152,7 +170,7 @@ class Conditions {
     ];
 
     // Allow other modules to modify the effects.
-    \Drupal::moduleHandler()->alter('conditionalFieldsEffects', $effects);
+    $this->moduleHandler->alter('conditionalFieldsEffects', $effects);
 
     return $effects;
   }
@@ -180,7 +198,7 @@ class Conditions {
     $conditions['value'] = $this->t('Value');
 
     // Allow other modules to modify the conditions.
-    \Drupal::moduleHandler()
+    $this->moduleHandler
       ->alter('conditionalFieldsConditions', $conditions);
 
     return $conditions;

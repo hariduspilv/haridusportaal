@@ -1,3 +1,29 @@
+Search API 1.17 (2020-06-02):
+-----------------------------
+- #3126751 by douggreen, drunken monkey, Berdir: Fixed calls to deprecated
+  PHPUnit methods.
+- #3121637 by mbovan, drunken monkey, Berdir: Replaced theme functions with
+  templates.
+- #3133011 by drunken monkey: Cleaned up
+  AutocompleteTest::assertSuggestionsEqual().
+- #3119335 by chr.fritsch, drunken monkey, Ivan616: Added a "rebuild-tracker"
+  Drush command.
+- #3115343 by drunken monkey: Fixed warning in Highlight processor when
+  preg_split() doesn't work.
+- #3116489 by drunken monkey: Improved the warning message for missing
+  "Rendered item" configuration during indexing.
+- #3123173 by drunken monkey: Fixed uncaught exception when trying to change
+  locked field type.
+- #3126120 by drunken monkey: Fixed coding standards.
+- #3125383 by marassa, drunken monkey: Added negation support to the "Multiple
+  words" parser.
+- #3125444 by Rajesh Kairamkonda, drunken monkey: Removed $this->container from
+  Functional tests.
+- #3120909 by drunken monkey: Cleaned up @throws tags in Drush code.
+- #3023170 by drunken monkey, Berdir, milindk, pfrenssen, phenaproxima,
+  geek-merlin, chr.fritsch: Updated Core requirement to 8.8 and removed all
+  use of deprecated Core code.
+
 Search API 1.16 (2020-04-08):
 -----------------------------
 - #3120997 by thalles, drunken monkey: Updated the "source" composer value.

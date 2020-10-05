@@ -14,6 +14,9 @@ class SchedulerDefaultTimeTest extends SchedulerBrowserTestBase {
 
   /**
    * Test the default time functionality during content creation and edit.
+   *
+   * This test covers the default scenario where the dates are optional and not
+   * required. A javascript test covers the cases where the dates are required.
    */
   public function testDefaultTime() {
     $this->drupalLogin($this->schedulerUser);
@@ -51,23 +54,26 @@ class SchedulerDefaultTimeTest extends SchedulerBrowserTestBase {
     ];
     // Create a node and check that the expected error messages are shown.
     $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
-    $this->assertSession()->pageTextContains($publish_validation_message, 'By default it is required to enter a time when scheduling content for publication.');
-    $this->assertSession()->pageTextContains($unpublish_validation_message, 'By default it is required to enter a time when scheduling content for unpublication.');
+    // By default it is required to enter a time when scheduling content for
+    // publishing and for unpublishing.
+    $this->assertSession()->pageTextContains($publish_validation_message);
+    $this->assertSession()->pageTextContains($unpublish_validation_message);
 
     // Allow the user to enter only a date with no time.
     $config->set('allow_date_only', TRUE)->save();
 
-    // Create a node and check that the expected error messages are not shown.
+    // Create a node and check that the validation messages are not shown.
     $this->drupalPostForm('node/add/' . $this->type, $edit, 'Save');
-    $this->assertSession()->pageTextNotContains($publish_validation_message, 'If the default time option is enabled the user can skip the time when scheduling content for publication.');
-    $this->assertSession()->pageTextNotContains($unpublish_validation_message, 'If the default time option is enabled the user can skip the time when scheduling content for unpublication.');
+    $this->assertSession()->pageTextNotContains($publish_validation_message);
+    $this->assertSession()->pageTextNotContains($unpublish_validation_message);
 
     // Get the pattern of the 'long' default date format.
     $date_format_storage = $this->container->get('entity_type.manager')->getStorage('date_format');
     $long_pattern = $date_format_storage->load('long')->getPattern();
 
     // Check that the scheduled information is shown after saving.
-    $this->assertText(sprintf('This post is unpublished and will be published %s', $publish_time->format($long_pattern)), 'The user is informed that the content will be published on the requested date, on the default time.');
+    $this->assertSession()->pageTextContains(sprintf('%s is scheduled to be published %s and unpublished %s',
+      $edit['title[0][value]'], $publish_time->format($long_pattern), $unpublish_time->format($long_pattern)));
 
     // Protect this section in case the node was not created.
     if ($node = $this->drupalGetNodeByTitle($edit['title[0][value]'])) {

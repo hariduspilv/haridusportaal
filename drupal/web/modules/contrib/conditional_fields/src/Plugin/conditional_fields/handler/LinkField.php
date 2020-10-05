@@ -4,6 +4,7 @@ namespace Drupal\conditional_fields\Plugin\conditional_fields\handler;
 
 use Drupal\Component\Utility\Tags;
 use Drupal\conditional_fields\ConditionalFieldsHandlerBase;
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 
 /**
  * Provides states handler for links provided by the Link module.
@@ -24,7 +25,7 @@ class LinkField extends ConditionalFieldsHandlerBase {
     $state = [];
 
     switch ($options['values_set']) {
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $values_array = [];
 
         // Get an array of values or string for comparing.
@@ -44,13 +45,13 @@ class LinkField extends ConditionalFieldsHandlerBase {
         $state[$options['state']][$options['selector']] = $values_array;
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
         // Works, there are not implementation here.
         break;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         // @todo: Send field settings to statesHandler to check field cardinality.
         break;
 

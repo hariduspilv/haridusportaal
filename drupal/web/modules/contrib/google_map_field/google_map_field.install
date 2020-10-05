@@ -20,18 +20,20 @@ function google_map_field_requirements($phase) {
   $config = \Drupal::config('google_map_field.settings');
   $settings = $config->get();
 
-  switch ($settings['google_map_field_auth_method']) {
-    case 1:
-      if (!empty($settings['google_map_field_apikey'])) {
-        $key_provided = TRUE;
-      }
-      break;
+  if (isset($settings['google_map_field_auth_method'])) {
+    switch ($settings['google_map_field_auth_method']) {
+      case 1:
+        if (!empty($settings['google_map_field_apikey'])) {
+          $key_provided = TRUE;
+        }
+        break;
 
-    case 2:
-      if (!empty($settings['google_map_field_map_client_id'])) {
-        $key_provided = TRUE;
-      }
-      break;
+      case 2:
+        if (!empty($settings['google_map_field_map_client_id'])) {
+          $key_provided = TRUE;
+        }
+        break;
+    }
   }
 
   if (!$key_provided) {
@@ -48,6 +50,8 @@ function google_map_field_requirements($phase) {
 }
 
 /**
+ * Add columns to field schema.
+ *
  * @param array $columns_to_add
  *   The column names to add.
  */
@@ -101,7 +105,6 @@ function google_map_field_add_columns_to_schema(array $columns_to_add) {
       $schema_key = "$entity_type_id.field_schema_data.$field_name";
       $field_schema_data = $entity_storage_schema_sql->get($schema_key);
 
-      $processed_fields[] = [$entity_type_id, $field_name];
       // Loop over each new column and add it as a schema column change.
       foreach ($columns_to_add as $column_id) {
         $column = $table_mapping->getFieldColumnName($field_storage_definition, $column_id);

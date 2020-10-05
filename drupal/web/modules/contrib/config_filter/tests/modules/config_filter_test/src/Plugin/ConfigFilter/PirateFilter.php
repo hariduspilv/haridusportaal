@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\config_filter_test\plugin\ConfigFilter;
+namespace Drupal\config_filter_test\Plugin\ConfigFilter;
 
 use Drupal\config_filter\Plugin\ConfigFilterBase;
 
@@ -23,6 +23,10 @@ class PirateFilter extends ConfigFilterBase {
       $data['name'] = $data['name'] . ' Arrr';
     }
 
+    if ($name === 'system.pirates' && \Drupal::state()->get('config_filter_test_bluff', FALSE)) {
+      $data['captain'] = 'n/a';
+    }
+
     return $data;
   }
 
@@ -35,6 +39,24 @@ class PirateFilter extends ConfigFilterBase {
     }
 
     return $data;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function filterListAll($prefix, array $data) {
+    return array_merge($data, ['system.pirates']);
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function filterExists($name, $exists) {
+    if ($name === 'system.pirates' && \Drupal::state()->get('config_filter_test_bluff', FALSE)) {
+      return TRUE;
+    }
+
+    return $exists;
   }
 
 }

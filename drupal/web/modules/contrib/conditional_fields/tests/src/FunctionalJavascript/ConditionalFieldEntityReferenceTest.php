@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
 use Drupal\Tests\field\Traits\EntityReferenceTestTrait;
 use Drupal\node\Entity\Node;
@@ -115,25 +116,25 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       'field_' . $this->fieldName . '[0][target_id]' => $referenced_format_1,
       'grouping' => 'AND',
       'state' => 'visible',
       'effect' => 'show',
     ];
     $this->submitForm( $data, 'Save settings');
-    
+
     $this->createScreenshot($this->screenshotPath . '02-entity-reference-post-add-list-options-filed-conditions.png');
 
     // Check if that configuration is saved.
     $this->drupalGet('admin/structure/types/manage/article/conditionals');
-    
+
     $this->createScreenshot($this->screenshotPath . '03-entity-reference-submit-entity-reference-filed-conditions.png');
     $this->assertSession()->pageTextContains('body field_' . $this->fieldName . ' visible value');
 
     // Visit Article Add form to check that conditions are applied.
     $this->drupalGet('node/add/article');
-    
+
 
     // Check that the field Body is not visible.
     $this->createScreenshot($this->screenshotPath . '04-entity-reference-body-invisible-when-controlled-field-has-no-value.png');
@@ -189,7 +190,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       'regex'  => '^.+\s\([\d]+\)',
       'grouping' => 'AND',
       'state' => 'visible',
@@ -268,7 +269,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       'values'  => "{$referenced_format_1}\r\n{$referenced_format_2}",
       'grouping' => 'AND',
       'state' => 'visible',
@@ -351,7 +352,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values'  => "{$referenced_format_1}\r\n{$referenced_format_2}",
       'grouping' => 'AND',
       'state' => 'visible',
@@ -430,7 +431,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       'values'  => "{$referenced_format_1}\r\n{$referenced_format_2}",
       'grouping' => 'AND',
       'state' => 'visible',
@@ -504,7 +505,7 @@ class ConditionalFieldEntityReferenceTest extends ConditionalFieldTestBase imple
     // Set up conditions.
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
       'values'  => "{$referenced_format_1}\r\n{$referenced_format_2}",
       'grouping' => 'AND',
       'state' => 'visible',

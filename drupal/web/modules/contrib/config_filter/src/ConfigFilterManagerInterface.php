@@ -26,7 +26,7 @@ interface ConfigFilterManagerInterface {
    * @param string $id
    *   The plugin id of the filter to load.
    *
-   * @return \Drupal\config_filter\Config\StorageFilterInterface
+   * @return \Drupal\config_filter\Config\StorageFilterInterface|null
    *   The ConfigFilter.
    */
   public function getFilterInstance($id);

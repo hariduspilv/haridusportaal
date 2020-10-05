@@ -154,12 +154,14 @@ function elasticsearch_connector_autocomp_form_search_api_index_form_submit(arra
   $formObject = $form_state->getFormObject();
   /** @var \Drupal\search_api\IndexInterface $index */
   $index = $formObject->getEntity();
-  $original = \Drupal::entityTypeManager()->getStorage('search_api_index')->loadUnchanged($index->id());
   $new_state = $index->getThirdPartySetting('elasticsearch_connector', 'ngram_filter_enabled', FALSE);
-  $current_state = $original->getThirdPartySetting('elasticsearch_connector', 'ngram_filter_enabled', FALSE);
-
   $new_state_config = $index->getThirdPartySetting('elasticsearch_connector', 'ngram_config', FALSE);
-  $current_state_config = $original->getThirdPartySetting('elasticsearch_connector','ngram_config', FALSE);
+
+  $original = \Drupal::entityTypeManager()->getStorage('search_api_index')->loadUnchanged($index->id());
+  if ($original) {
+    $current_state = $original->getThirdPartySetting('elasticsearch_connector', 'ngram_filter_enabled', FALSE);
+    $current_state_config = $original->getThirdPartySetting('elasticsearch_connector', 'ngram_config', FALSE);
+  }
 
   if ($form_state->has('eca_confirm_form_values') && $form_state->getValue('op') === 'Confirm') {
     $form_state->setValues($form_state->get('eca_confirm_form_values'));
@@ -169,11 +171,14 @@ function elasticsearch_connector_autocomp_form_search_api_index_form_submit(arra
     return;
   }
 
-  if (($new_state !== $current_state) || $new_state_config !== $current_state_config) {
-    $form_state->setRebuild();
-    $form_state->set('eca_confirm_form_values', $form_state->getValues());
-    return;
+  if ($original) {
+    if (($new_state !== $current_state) || $new_state_config !== $current_state_config) {
+      $form_state->setRebuild();
+      $form_state->set('eca_confirm_form_values', $form_state->getValues());
+      return;
+    }
   }
+
   // No confirmation required, defer to the existing submit handlers.
   $formObject->submitForm($form, $form_state);
   $formObject->save($form, $form_state);
@@ -187,15 +192,23 @@ function elasticsearch_connector_autocomp_form_search_api_index_fields_alter(&$f
   $index_entity = $form_state->getFormObject()->getEntity();
   $ngram_index_analyzer_enabled = $index_entity->getThirdPartySetting('elasticsearch_connector', 'ngram_filter_enabled', FALSE);
 
-  foreach ($form['entity:node']['fields'] as $field_id => &$field) {
-    if ($ngram_index_analyzer_enabled) {
-      // Show the boost select box if this data type is selected.
-      $field['boost']['#states']['visible'][':input[name="fields[' . $field_id . '][type]"]'][] = ['value' => 'text_ngram'];
+  $types = $index_entity->getEntityTypes();
+
+  foreach ($types as $entity_key => $entity_type) {
+
+    if (empty($form[$entity_key]['fields'])) {
+      continue;
     }
-    else {
-      // Hide this data type if ngrams are not enabled on this index.
-      unset($field['type']['#options']['text_ngram']);
+
+    foreach ($form[$entity_key]['fields'] as $field_id => &$field) {
+      if ($ngram_index_analyzer_enabled) {
+        // Show the boost select box if this data type is selected.
+        $field['boost']['#states']['visible'][':input[name="fields[' . $field_id . '][type]"]'][] = ['value' => 'text_ngram'];
+      }
+      else {
+        // Hide this data type if ngrams are not enabled on this index.
+        unset($field['type']['#options']['text_ngram']);
+      }
     }
   }
-
 }

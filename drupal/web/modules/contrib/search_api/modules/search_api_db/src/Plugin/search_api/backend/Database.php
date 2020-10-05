@@ -782,9 +782,9 @@ class Database extends BackendPluginBase implements PluginFormInterface {
    * @throws \Drupal\search_api\SearchApiException
    *   Thrown if creating the table failed.
    */
-  // @todo Make $field required but nullable (and $db required again) once we
-  //   depend on PHP 7.1+.
   protected function createFieldTable(FieldInterface $field = NULL, array $db = [], $type = 'field') {
+    // @todo Make $field required but nullable (and $db required again) once we
+    //   depend on PHP 7.1+.
     $new_table = !$this->database->schema()->tableExists($db['table']);
     if ($new_table) {
       $table = [

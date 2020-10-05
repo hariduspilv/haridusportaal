@@ -3,24 +3,28 @@
 namespace Drupal\openid_connect\Plugin;
 
 use Drupal\Component\Plugin\PluginBase;
+use Drupal\Component\Utility\NestedArray;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\GeneratedUrl;
 use Drupal\Core\Language\LanguageInterface;
+use Drupal\Core\Language\LanguageManagerInterface;
 use Drupal\Core\Logger\LoggerChannelFactoryInterface;
+use Drupal\Core\PageCache\ResponsePolicy\KillSwitch;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Core\Routing\TrustedRedirectResponse;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\Url;
-use Drupal\openid_connect\StateToken;
+use Drupal\openid_connect\OpenIDConnectStateToken;
 use Exception;
 use GuzzleHttp\ClientInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Drupal\Component\Datetime\TimeInterface;
 
 /**
  * Base class for OpenID Connect client plugins.
  */
 abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConnectClientInterface, ContainerFactoryPluginInterface {
-
   use StringTranslationTrait;
 
   /**
@@ -45,6 +49,27 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
   protected $loggerFactory;
 
   /**
+   * The datetime.time service.
+   *
+   * @var \Drupal\Component\Datetime\TimeInterface
+   */
+  protected $dateTime;
+
+  /**
+   * Page cache kill switch.
+   *
+   * @var \Drupal\Core\PageCache\ResponsePolicy\KillSwitch
+   */
+  protected $pageCacheKillSwitch;
+
+  /**
+   * The language manager.
+   *
+   * @var \Drupal\Core\Language\LanguageManagerInterface
+   */
+  protected $languageManager;
+
+  /**
    * The constructor.
    *
    * @param array $configuration
@@ -59,6 +84,12 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
    *   The http client.
    * @param \Drupal\Core\Logger\LoggerChannelFactoryInterface $logger_factory
    *   The logger factory.
+   * @param \Drupal\Component\Datetime\TimeInterface $datetime_time
+   *   The datetime.time service.
+   * @param \Drupal\Core\PageCache\ResponsePolicy\KillSwitch $page_cache_kill_switch
+   *   Policy evaluating to static::DENY when the kill switch was triggered.
+   * @param \Drupal\Core\Language\LanguageManagerInterface $language_manager
+   *   The language manager.
    */
   public function __construct(
       array $configuration,
@@ -66,7 +97,10 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
       $plugin_definition,
       RequestStack $request_stack,
       ClientInterface $http_client,
-      LoggerChannelFactoryInterface $logger_factory
+      LoggerChannelFactoryInterface $logger_factory,
+      TimeInterface $datetime_time = NULL,
+      KillSwitch $page_cache_kill_switch = NULL,
+      LanguageManagerInterface $language_manager = NULL
   ) {
     parent::__construct(
       $configuration,
@@ -77,6 +111,10 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
     $this->requestStack = $request_stack;
     $this->httpClient = $http_client;
     $this->loggerFactory = $logger_factory;
+    $this->dateTime = $datetime_time ?: \Drupal::time();
+    $this->pageCacheKillSwitch = $page_cache_kill_switch ?: \Drupal::service('page_cache_kill_switch');
+    $this->languageManager = $language_manager ?: \Drupal::languageManager();
+    $this->setConfiguration($configuration);
   }
 
   /**
@@ -94,27 +132,55 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
       $plugin_definition,
       $container->get('request_stack'),
       $container->get('http_client'),
-      $container->get('logger.factory')
+      $container->get('logger.factory'),
+      $container->get('datetime.time'),
+      $container->get('page_cache_kill_switch'),
+      $container->get('language_manager')
     );
   }
 
   /**
    * {@inheritdoc}
    */
-  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
-    $redirect_url = URL::fromRoute(
-      'openid_connect.redirect_controller_redirect',
-      [
-        'client_name' => $this->pluginId,
-      ],
-      [
-        'absolute' => TRUE,
-      ]
+  public function getConfiguration() {
+    return $this->configuration;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function setConfiguration(array $configuration) {
+    $this->configuration = NestedArray::mergeDeep(
+      $this->defaultConfiguration(),
+      $configuration
     );
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function defaultConfiguration() {
+    return [
+      'client_id' => '',
+      'client_secret' => '',
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function calculateDependencies() {
+    return [];
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public function buildConfigurationForm(array $form, FormStateInterface $form_state) {
     $form['redirect_url'] = [
       '#title' => $this->t('Redirect URL'),
       '#type' => 'item',
-      '#markup' => $redirect_url->toString(),
+      '#markup' => $this->getRedirectUrl()->toString(),
     ];
     $form['client_id'] = [
       '#title' => $this->t('Client ID'),
@@ -134,8 +200,22 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
    * {@inheritdoc}
    */
   public function validateConfigurationForm(array &$form, FormStateInterface $form_state) {
-    // No need to do anything, but make the function have a body anyway
-    // so that it's callable by overriding methods.
+    // Provider label as array for StringTranslationTrait::t() argument.
+    $provider = [
+      '@provider' => $this->getPluginDefinition()['label'],
+    ];
+
+    // Get plugin setting values.
+    $configuration = $form_state->getValues();
+
+    // Whether a client ID is given.
+    if (empty($configuration['client_id'])) {
+      $form_state->setErrorByName('client_id', $this->t('The client ID is missing for @provider.', $provider));
+    }
+    // Whether a client secret is given.
+    if (empty($configuration['client_secret'])) {
+      $form_state->setErrorByName('client_secret', $this->t('The client secret is missing for @provider.', $provider));
+    }
   }
 
   /**
@@ -147,44 +227,11 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
   }
 
   /**
-   * Implements OpenIDConnectClientInterface::getEndpoints().
-   */
-  public function getEndpoints() {
-    throw new Exception('Unimplemented method getEndpoints().');
-  }
-
-  /**
-   * Implements OpenIDConnectClientInterface::authorize().
-   *
-   * @param string $scope
-   *   A string of scopes.
-   *
-   * @return \Drupal\Core\Routing\TrustedRedirectResponse
-   *   A trusted redirect response object.
+   * {@inheritdoc}
    */
   public function authorize($scope = 'openid email') {
-    $language_none = \Drupal::languageManager()
-      ->getLanguage(LanguageInterface::LANGCODE_NOT_APPLICABLE);
-    $redirect_uri = Url::fromRoute(
-      'openid_connect.redirect_controller_redirect',
-      [
-        'client_name' => $this->pluginId,
-      ],
-      [
-        'absolute' => TRUE,
-        'language' => $language_none,
-      ]
-    )->toString(TRUE);
-
-    $url_options = [
-      'query' => [
-        'client_id' => $this->configuration['client_id'],
-        'response_type' => 'code',
-        'scope' => $scope,
-        'redirect_uri' => $redirect_uri->getGeneratedUrl(),
-        'state' => StateToken::create(),
-      ],
-    ];
+    $redirect_uri = $this->getRedirectUrl()->toString(TRUE);
+    $url_options = $this->getUrlOptions($scope, $redirect_uri);
 
     $endpoints = $this->getEndpoints();
     // Clear _GET['destination'] because we need to override it.
@@ -195,34 +242,40 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
     // We can't cache the response, since this will prevent the state to be
     // added to the session. The kill switch will prevent the page getting
     // cached for anonymous users when page cache is active.
-    \Drupal::service('page_cache_kill_switch')->trigger();
+    $this->pageCacheKillSwitch->trigger();
 
     return $response;
   }
 
   /**
-   * Implements OpenIDConnectClientInterface::retrieveIDToken().
+   * Helper function for URL options.
    *
-   * @param string $authorization_code
-   *   A authorization code string.
+   * @param string $scope
+   *   A string of scopes.
+   * @param \Drupal\Core\GeneratedUrl $redirect_uri
+   *   URI to redirect for authorization.
    *
-   * @return array|bool
-   *   A result array or false.
+   * @return array
+   *   Array with URL options.
+   */
+  protected function getUrlOptions($scope, GeneratedUrl $redirect_uri) {
+    return [
+      'query' => [
+        'client_id' => $this->configuration['client_id'],
+        'response_type' => 'code',
+        'scope' => $scope,
+        'redirect_uri' => $redirect_uri->getGeneratedUrl(),
+        'state' => OpenIDConnectStateToken::create(),
+      ],
+    ];
+  }
+
+  /**
+   * {@inheritdoc}
    */
   public function retrieveTokens($authorization_code) {
     // Exchange `code` for access token and ID token.
-    $language_none = \Drupal::languageManager()
-      ->getLanguage(LanguageInterface::LANGCODE_NOT_APPLICABLE);
-    $redirect_uri = Url::fromRoute(
-      'openid_connect.redirect_controller_redirect',
-      [
-        'client_name' => $this->pluginId,
-      ],
-      [
-        'absolute' => TRUE,
-        'language' => $language_none,
-      ]
-    )->toString();
+    $redirect_uri = $this->getRedirectUrl()->toString();
     $endpoints = $this->getEndpoints();
 
     $request_options = [
@@ -238,7 +291,6 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
       ],
     ];
 
-    /* @var \GuzzleHttp\ClientInterface $client */
     $client = $this->httpClient;
     try {
       $response = $client->post($endpoints['token'], $request_options);
@@ -250,7 +302,7 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
         'access_token' => isset($response_data['access_token']) ? $response_data['access_token'] : NULL,
       ];
       if (array_key_exists('expires_in', $response_data)) {
-        $tokens['expire'] = REQUEST_TIME + $response_data['expires_in'];
+        $tokens['expire'] = $this->dateTime->getRequestTime() + $response_data['expires_in'];
       }
       if (array_key_exists('refresh_token', $response_data)) {
         $tokens['refresh_token'] = $response_data['refresh_token'];
@@ -269,23 +321,17 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
   }
 
   /**
-   * Implements OpenIDConnectClientInterface::decodeIdToken().
+   * {@inheritdoc}
    */
   public function decodeIdToken($id_token) {
-    list($headerb64, $claims64, $signatureb64) = explode('.', $id_token);
+    list(, $claims64,) = explode('.', $id_token);
     $claims64 = str_replace(['-', '_'], ['+', '/'], $claims64);
     $claims64 = base64_decode($claims64);
     return json_decode($claims64, TRUE);
   }
 
   /**
-   * Implements OpenIDConnectClientInterface::retrieveUserInfo().
-   *
-   * @param string $access_token
-   *   An access token string.
-   *
-   * @return array|bool
-   *   A result array or false.
+   * {@inheritdoc}
    */
   public function retrieveUserInfo($access_token) {
     $request_options = [
@@ -312,6 +358,33 @@ abstract class OpenIDConnectClientBase extends PluginBase implements OpenIDConne
         ->error('@message. Details: @error_message', $variables);
       return FALSE;
     }
+  }
+
+  /**
+   * Returns the redirect URL.
+   *
+   * @param array $route_parameters
+   *   See \Drupal\Core\Url::fromRoute() for details.
+   * @param array $options
+   *   See \Drupal\Core\Url::fromRoute() for details.
+   *
+   * @return \Drupal\Core\Url
+   *   A new Url object for a routed (internal to Drupal) URL.
+   *
+   * @see \Drupal\Core\Url::fromRoute()
+   */
+  protected function getRedirectUrl(array $route_parameters = [], array $options = []) {
+    $language_none = $this->languageManager
+      ->getLanguage(LanguageInterface::LANGCODE_NOT_APPLICABLE);
+
+    $route_parameters += [
+      'client_name' => $this->pluginId,
+    ];
+    $options += [
+      'absolute' => TRUE,
+      'language' => $language_none,
+    ];
+    return Url::fromRoute('openid_connect.redirect_controller_redirect', $route_parameters, $options);
   }
 
 }

@@ -88,7 +88,8 @@ class UserBlocksTest extends BrowserTestBase {
     $this->assertEqual('MISS', $this->drupalGetHeader(DynamicPageCacheSubscriber::HEADER));
     $this->drupalPostForm(NULL, $edit, t('Log in'));
     $this->assertNoText(t('User login'), 'Logged in.');
-    $this->assertPattern('!<title.*?' . t('Compose tips') . '.*?</title>!', 'Still on the same page after login for allowed page');
+    // Verify that we are still on the same page after login for allowed page.
+    $this->assertPattern('!<title.*?Compose tips.*?</title>!');
 
     // Log out again and repeat with a non-403 page including query arguments.
     $this->drupalLogout();
@@ -96,8 +97,9 @@ class UserBlocksTest extends BrowserTestBase {
     $this->assertEqual('HIT', $this->drupalGetHeader(DynamicPageCacheSubscriber::HEADER));
     $this->drupalPostForm(NULL, $edit, t('Log in'));
     $this->assertNoText(t('User login'), 'Logged in.');
-    $this->assertPattern('!<title.*?' . t('Compose tips') . '.*?</title>!', 'Still on the same page after login for allowed page');
-    $this->assertTrue(strpos($this->getUrl(), '/filter/tips?foo=bar') !== FALSE, 'Correct query arguments are displayed after login');
+    // Verify that we are still on the same page after login for allowed page.
+    $this->assertPattern('!<title.*?Compose tips.*?</title>!');
+    $this->assertStringContainsString('/filter/tips?foo=bar', $this->getUrl(), 'Correct query arguments are displayed after login');
 
     // Repeat with different query arguments.
     $this->drupalLogout();
@@ -105,8 +107,9 @@ class UserBlocksTest extends BrowserTestBase {
     $this->assertEqual('HIT', $this->drupalGetHeader(DynamicPageCacheSubscriber::HEADER));
     $this->drupalPostForm(NULL, $edit, t('Log in'));
     $this->assertNoText(t('User login'), 'Logged in.');
-    $this->assertPattern('!<title.*?' . t('Compose tips') . '.*?</title>!', 'Still on the same page after login for allowed page');
-    $this->assertTrue(strpos($this->getUrl(), '/filter/tips?foo=baz') !== FALSE, 'Correct query arguments are displayed after login');
+    // Verify that we are still on the same page after login for allowed page.
+    $this->assertPattern('!<title.*?Compose tips.*?</title>!');
+    $this->assertStringContainsString('/filter/tips?foo=baz', $this->getUrl(), 'Correct query arguments are displayed after login');
 
     // Check that the user login block is not vulnerable to information
     // disclosure to third party sites.

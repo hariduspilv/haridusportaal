@@ -4,6 +4,7 @@ namespace Drupal\queue_ui\Plugin\QueueUI;
 
 use Drupal\Core\Database\Connection;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
+use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\queue_ui\QueueUIBase;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
@@ -16,6 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * )
  */
 class DatabaseQueue extends QueueUIBase implements ContainerFactoryPluginInterface {
+  use StringTranslationTrait;
 
   /**
    * @var \Drupal\Core\Database\Database
@@ -60,9 +62,9 @@ class DatabaseQueue extends QueueUIBase implements ContainerFactoryPluginInterfa
    */
   public function getOperations() {
     return [
-      'view' => t('View'),
-      'release' => t('Release'),
-      'delete' => t('Delete'),
+      'view' => $this->t('View'),
+      'release' => $this->t('Release'),
+      'delete' => $this->t('Delete'),
     ];
   }
 

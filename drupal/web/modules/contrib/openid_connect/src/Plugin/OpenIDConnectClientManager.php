@@ -36,10 +36,10 @@ class OpenIDConnectClientManager extends DefaultPluginManager {
       'Drupal\openid_connect\Annotation\OpenIDConnectClient'
     );
 
-    $this->alterInfo('openid_connect_openid_connect_client_info');
+    $this->alterInfo('openid_connect_client_info');
     $this->setCacheBackend(
       $cache_backend,
-      'openid_connect_openid_connect_client_plugins'
+      'openid_connect_client_plugins'
     );
   }
 

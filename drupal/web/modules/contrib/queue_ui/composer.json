@@ -13,6 +13,9 @@
     "require": {
         "drupal/core": "^8.8 || ^9"
     },
+    "require-dev": {
+        "drupal/queue_order": "^2"
+    },
     "authors": [
         {
             "name": "floretan",

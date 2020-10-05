@@ -14,7 +14,7 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
    *
    * @var array
    */
-  public static $modules = ['field_ui'];
+  protected static $modules = ['field_ui'];
 
   /**
    * {@inheritdoc}
@@ -41,34 +41,37 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
   public function testVerticalTabOrFieldset() {
     $this->drupalLogin($this->adminUser);
 
+    /** @var \Drupal\Tests\WebAssert $assert */
+    $assert = $this->assertSession();
+
     // Check that the dates are shown in a vertical tab by default.
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertTrue($this->xpath('//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]'), 'By default the scheduler dates are shown in a vertical tab.');
+    $assert->elementExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
 
-    // Check that the dates are shown as a fieldset when configured to do so.
+    // Check that the dates are shown as a fieldset when configured to do so,
+    // and that fieldset is collapsed by default.
     $this->nodetype->setThirdPartySetting('scheduler', 'fields_display_mode', 'fieldset')->save();
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertFalse($this->xpath('//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]'), 'The scheduler dates are not shown in a vertical tab when they are configured to show as a fieldset.');
-    $this->assertTrue($this->xpath('//details[@id = "edit-scheduler-settings"]'), 'The scheduler dates are shown in a fieldset when they are configured to show as a fieldset.');
-    $this->assertTrue($this->xpath('//details[@id = "edit-scheduler-settings" and not(@open = "open")]'), 'The scheduler dates fieldset is collapsed by default.');
+    $assert->elementNotExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
+    $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and not(@open = "open")]');
 
     // Check that the fieldset is expanded if either of the scheduling dates
     // are required.
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_required', TRUE)->save();
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertTrue($this->xpath('//details[@id = "edit-scheduler-settings" and @open = "open"]'), 'The scheduler dates are shown in an expanded fieldset when the publish-on date is required.');
+    $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and @open = "open"]');
 
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_required', FALSE)
       ->setThirdPartySetting('scheduler', 'unpublish_required', TRUE)->save();
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertTrue($this->xpath('//details[@id = "edit-scheduler-settings" and @open = "open"]'), 'The scheduler dates are shown in an expanded fieldset when the unpublish-on date is required.');
+    $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and @open = "open"]');
 
     // Check that the fieldset is expanded if the 'always' option is set.
     $this->nodetype->setThirdPartySetting('scheduler', 'publish_required', FALSE)
       ->setThirdPartySetting('scheduler', 'unpublish_required', FALSE)
       ->setThirdPartySetting('scheduler', 'expand_fieldset', 'always')->save();
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertTrue($this->xpath('//details[@id = "edit-scheduler-settings" and @open = "open"]'), 'The scheduler dates are shown in an expanded fieldset when the option to always expand is turned on.');
+    $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and @open = "open"]');
 
     // Check that the fieldset is expanded if the node already has a publish-on
     // date. This requires editing an existing scheduled node.
@@ -80,7 +83,7 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
     ];
     $node = $this->drupalCreateNode($options);
     $this->drupalGet('node/' . $node->id() . '/edit');
-    $this->assertTrue($this->xpath('//details[@id = "edit-scheduler-settings" and @open = "open"]'), 'The scheduler dates are shown in an expanded fieldset when a publish-on date already exists.');
+    $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and @open = "open"]');
 
     // Check that the fieldset is expanded if the node has an unpublish-on date.
     $options = [
@@ -90,13 +93,13 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
     ];
     $node = $this->drupalCreateNode($options);
     $this->drupalGet('node/' . $node->id() . '/edit');
-    $this->assertTrue($this->xpath('//details[@id = "edit-scheduler-settings" and @open = "open"]'), 'The scheduler dates are shown in an expanded fieldset when an unpublish-on date already exists.');
+    $assert->elementExists('xpath', '//details[@id = "edit-scheduler-settings" and @open = "open"]');
 
     // Check that the display reverts to a vertical tab again when specifically
     // configured to do so.
     $this->nodetype->setThirdPartySetting('scheduler', 'fields_display_mode', 'vertical_tab')->save();
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertTrue($this->xpath('//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]'), 'The scheduler dates are shown in a vertical tab when that option is set.');
+    $assert->elementExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
   }
 
   /**
@@ -110,7 +113,7 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
     // Check that the weight input field is displayed when the content type is
     // enabled for scheduling. This field still exists even with tabledrag on.
     $this->drupalGet('admin/structure/types/manage/' . $this->type . '/form-display');
-    $this->assertFieldById('edit-fields-scheduler-settings-weight', NULL, 'The scheduler settings row is shown when the content type is enabled for scheduling.');
+    $this->assertSession()->fieldExists('edit-fields-scheduler-settings-weight');
 
     // Check that the weight input field is not displayed when the content type
     // is not enabled for scheduling.
@@ -128,6 +131,9 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
   public function testDisabledFields() {
     $this->drupalLogin($this->adminUser2);
 
+    /** @var \Drupal\Tests\WebAssert $assert */
+    $assert = $this->assertSession();
+
     // 1. Set the publish_on field to 'hidden' in the node edit form.
     $edit = [
       'fields[publish_on][region]' => 'hidden',
@@ -136,7 +142,7 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
 
     // Check that a scheduler vertical tab is displayed.
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertTrue($this->xpath('//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]'), 'The scheduler input is a vertical tab.');
+    $assert->elementExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
     // Check the publish_on field is not shown, but the unpublish_on field is.
     $this->assertNoFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is not shown - 1');
     $this->assertFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is shown - 1');
@@ -150,7 +156,7 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
 
     // Check that a scheduler vertical tab is displayed.
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertTrue($this->xpath('//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]'), 'The scheduler input is a vertical tab.');
+    $assert->elementExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
     // Check the publish_on field is not shown, but the unpublish_on field is.
     $this->assertFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is shown - 2');
     $this->assertNoFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is not shown - 2');
@@ -164,7 +170,7 @@ class SchedulerFieldsDisplayTest extends SchedulerBrowserTestBase {
 
     // Check that no vertical tab is displayed.
     $this->drupalGet('node/add/' . $this->type);
-    $this->assertFalse($this->xpath('//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]'), 'The scheduler vertical tab is not shown.');
+    $assert->elementNotExists('xpath', '//div[contains(@class, "form-type-vertical-tabs")]//details[@id = "edit-scheduler-settings"]');
     // Check the neither field is displayed.
     $this->assertNoFieldByName('publish_on[0][value][date]', NULL, 'The Publish-on field is not shown - 3');
     $this->assertNoFieldByName('unpublish_on[0][value][date]', NULL, 'The Unpublish-on field is not shown - 3');

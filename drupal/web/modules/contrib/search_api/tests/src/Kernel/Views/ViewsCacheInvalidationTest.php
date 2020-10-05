@@ -401,10 +401,10 @@ class ViewsCacheInvalidationTest extends KernelTestBase {
     $node_titles = array_flip($node_titles);
     foreach ($this->nodes as $node_title => $node) {
       if (isset($node_titles[$node_title])) {
-        $this->assertContains($node_title, $html);
+        $this->assertStringContainsString($node_title, $html);
       }
       else {
-        $this->assertNotContains($node_title, $html);
+        $this->assertStringNotContainsString($node_title, $html);
       }
     }
   }

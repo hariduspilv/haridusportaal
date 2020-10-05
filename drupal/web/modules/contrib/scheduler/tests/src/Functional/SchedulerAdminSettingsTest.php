@@ -41,9 +41,9 @@ class SchedulerAdminSettingsTest extends SchedulerBrowserTestBase {
       'default_time' => '123',
     ];
     $this->drupalPostForm('admin/config/content/scheduler', $settings, 'Save configuration');
-    // Verify that an error is displayed and the value has not been saved.
+    // Verify that the value has not been saved and an error is displayed.
     $this->assertEquals($this->seconds_formatted, $this->config('scheduler.settings')->get('default_time'), 'The config setting for default_time has not changed.');
-    $this->assertText('The default time should be in the format HH:MM:SS', 'When an invalid default time is entered the correct error message is displayed.');
+    $this->assertSession()->pageTextContains('The default time should be in the format HH:MM:SS');
 
     // Show the status report, which includes the Scheduler timecheck.
     $this->drupalGet('admin/reports/status');

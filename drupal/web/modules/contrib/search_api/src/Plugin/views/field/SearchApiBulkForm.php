@@ -83,6 +83,7 @@ class SearchApiBulkForm extends BulkForm {
     return $value instanceof EntityInterface ? $value : NULL;
   }
 
+  // phpcs:disable Drupal.Commenting.FunctionComment.TypeHintMissing
   /**
    * Form constructor for the bulk form.
    *
@@ -96,6 +97,7 @@ class SearchApiBulkForm extends BulkForm {
    *   The current state of the form.
    */
   public function viewsForm(&$form, FormStateInterface $form_state) {
+    // phpcs:enable
     // Make sure we do not accidentally cache this form.
     // @todo Evaluate this again in https://www.drupal.org/node/2503009.
     $form['#cache']['max-age'] = 0;

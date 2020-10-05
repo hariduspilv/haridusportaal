@@ -236,10 +236,9 @@ class SchedulerManager {
         }
         else {
           // None of the above hook calls processed the node and there were no
-          // errors detected so fall back to the standard actions system to
-          // publish the node.
+          // errors detected so set the node to published.
           $this->logger->notice('@type: scheduled publishing of %title.', $logger_variables);
-          $this->entityTypeManager->getStorage('action')->load('node_publish_action')->getPlugin()->execute($node);
+          $node->setPublished();
         }
 
         // Invoke the event to tell Rules that Scheduler has published the node.
@@ -251,7 +250,15 @@ class SchedulerManager {
         // published.
         $event = new SchedulerEvent($node);
         $this->eventDispatcher->dispatch(SchedulerEvents::PUBLISH, $event);
-        $event->getNode()->save();
+
+        // Use the standard actions system to publish and save the node.
+        $node = $event->getNode();
+        $action_id = 'node_publish_action';
+        if ($this->moduleHandler->moduleExists('workbench_moderation_actions')) {
+          // workbench_moderation_actions module uses a custom action instead.
+          $action_id = 'state_change__node__published';
+        }
+        $this->entityTypeManager->getStorage('action')->load($action_id)->getPlugin()->execute($node);
 
         $result = TRUE;
       }
@@ -404,10 +411,9 @@ class SchedulerManager {
         }
         else {
           // None of the above hook calls processed the node and there were no
-          // errors detected so fall back to the standard actions system to
-          // unpublish the node.
+          // errors detected so set the node to unpublished.
           $this->logger->notice('@type: scheduled unpublishing of %title.', $logger_variables);
-          $this->entityTypeManager->getStorage('action')->load('node_unpublish_action')->getPlugin()->execute($node);
+          $node->setUnpublished();
         }
 
         // Invoke event to tell Rules that Scheduler has unpublished this node.
@@ -419,7 +425,15 @@ class SchedulerManager {
         // is unpublished.
         $event = new SchedulerEvent($node);
         $this->eventDispatcher->dispatch(SchedulerEvents::UNPUBLISH, $event);
-        $event->getNode()->save();
+
+        // Use the standard actions system to unpublish and save the node.
+        $node = $event->getNode();
+        $action_id = 'node_unpublish_action';
+        if ($this->moduleHandler->moduleExists('workbench_moderation_actions')) {
+          // workbench_moderation_actions module uses a custom action instead.
+          $action_id = 'state_change__node__archived';
+        }
+        $this->entityTypeManager->getStorage('action')->load($action_id)->getPlugin()->execute($node);
 
         $result = TRUE;
       }

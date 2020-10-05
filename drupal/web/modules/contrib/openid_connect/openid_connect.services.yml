@@ -1,16 +1,24 @@
 services:
+  openid_connect.openid_connect:
+    class: Drupal\openid_connect\OpenIDConnect
+    arguments: ['@config.factory', '@openid_connect.authmap', '@entity_type.manager', '@entity_field.manager', '@current_user', '@user.data', '@email.validator', '@messenger', '@module_handler', '@logger.factory', '@file_system']
+
   plugin.manager.openid_connect_client.processor:
     class: Drupal\openid_connect\Plugin\OpenIDConnectClientManager
     parent: default_plugin_manager
 
   openid_connect.authmap:
-    class: Drupal\openid_connect\Authmap
-    arguments: ["@database"]
+    class: Drupal\openid_connect\OpenIDConnectAuthmap
+    arguments: ['@database', '@entity_type.manager']
 
   openid_connect.claims:
-    class: Drupal\openid_connect\Claims
-    arguments: ["@config.factory", "@module_handler"]
+    class: Drupal\openid_connect\OpenIDConnectClaims
+    arguments: ['@config.factory', '@module_handler']
 
   openid_connect.state_token:
-    class: Drupal\openid_connect\StateToken
+    class: Drupal\openid_connect\OpenIDConnectStateToken
     arguments: []
+
+  openid_connect.session:
+    class: Drupal\openid_connect\OpenIDConnectSession
+    arguments: ['@path.current', '@request_stack']

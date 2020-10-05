@@ -8,6 +8,9 @@ use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
 use Drupal\Core\Field\WidgetBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\Core\Render\ElementInfoManager;
+use Drupal\conditional_fields\ConditionalFieldsHandlersManager;
+
 
 /**
  * Helper to interact with forms.
@@ -21,6 +24,17 @@ class ConditionalFieldsFormHelper {
   protected $dependent_form_field;
   /*  List of all form states. */
   protected $states;
+
+  /** @var \Drupal\Core\Render\ElementInfoManager */
+  protected $elementInfo;
+
+  /** @var \Drupal\conditional_fields\ConditionalFieldsHandlersManager */
+  protected $type;
+
+  public function __construct(ElementInfoManager $element_info, ConditionalFieldsHandlersManager $type) {
+    $this->elementInfo = $element_info;
+    $this->type = $type;
+  }
 
   /**
    * An after_build callback for forms with dependencies.
@@ -169,8 +183,6 @@ class ConditionalFieldsFormHelper {
     // @var EntityFormDisplayInterface $form_display
     $form_display = $this->form_state->getFormObject()->getFormDisplay($this->form_state);
     $state = [];
-    /** @var \Drupal\conditional_fields\ConditionalFieldsHandlersManager $type */
-    $type = \Drupal::service('plugin.manager.conditional_fields_handlers');
 
     if ($options['condition'] != 'value') {
       // Conditions different than "value" are always evaluated against TRUE.
@@ -199,14 +211,14 @@ class ConditionalFieldsFormHelper {
       if (isset($widget_id)) {
         $handler_id = 'states_handler_' . $widget_id;
         /** @var Drupal\conditional_fields\ConditionalFieldsHandlersPluginInterface $handler */
-        $handler = $type->createInstance($handler_id);
+        $handler = $this->type->createInstance($handler_id);
         $state = $handler->statesHandler($dependee_form_field, $dependee_form_state, $options);
       }
 
       if (empty($state)) {
         // If states empty Default plugin.
         /** @var Drupal\conditional_fields\ConditionalFieldsHandlersPluginInterface $default_handler */
-        $default_handler = $type->createInstance('states_handler_default_state');
+        $default_handler = $this->type->createInstance('states_handler_default_state');
         $state = $default_handler->statesHandler($dependee_form_field, $dependee_form_state, $options);
       }
     }
@@ -561,7 +573,7 @@ class ConditionalFieldsFormHelper {
    *   Can the dependency be triggered?
    */
   protected static function evaluateDependency($context, $values, $options) {
-    if ($options['values_set'] == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET) {
+    if ($options['values_set'] == ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET) {
       $dependency_values = $context == 'view' ? $options['value'] : $options['value_form'];
 
       if ($options['condition'] === '!empty') {
@@ -668,7 +680,7 @@ class ConditionalFieldsFormHelper {
     }
 
     // Regular expression method.
-    if ($options['values_set'] == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX) {
+    if ($options['values_set'] == ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX) {
       foreach ($reference_values as $reference_value) {
         if (!preg_match('/' . $options['regex'] . '/', $reference_value)) {
           return FALSE;
@@ -682,19 +694,19 @@ class ConditionalFieldsFormHelper {
     }
 
     switch ($options['values_set']) {
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         $diff = array_diff($options['values'], $reference_values);
         return empty($diff);
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR:
         $intersect = array_intersect($options['values'], $reference_values);
         return !empty($intersect);
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR:
         $intersect = array_intersect($options['values'], $reference_values);
         return count($intersect) == 1;
 
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT:
         $intersect = array_intersect($options['values'], $reference_values);
         return empty($intersect);
     }
@@ -715,7 +727,7 @@ class ConditionalFieldsFormHelper {
   public function elementAddProperty(&$element, $property, $value, $position = 'prepend') {
     // Avoid overriding default element properties that might not yet be set.
     if (!isset($element[$property])) {
-      $element[$property] = isset($element['#type']) ? element_info_property($element['#type'], $property, []) : [];
+      $element[$property] = isset($element['#type']) ? $this->elementInfo->getInfoProperty($element['#type'], $property, []) : [];
     }
     if (is_array($value)) {
       // A method callback, wrap it around.

@@ -2,11 +2,18 @@
     "name": "drupal/scheduler",
     "description": "Automatically publish and unpublish content at specified dates and times.",
     "type": "drupal-module",
-    "license": "GPL-2.0+",
+    "license": "GPL-2.0-or-later",
     "homepage": "https://drupal.org/project/scheduler",
     "require-dev": {
-        "drupal/devel_generate": "^2.0",
-        "drupal/coder": "^8.3.3"
+        "drupal/rules": "^3",
+        "drush/drush": "^9.0 || ^10",
+        "drupal/devel_generate": "^2.0 || 3.x-dev"
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
     },
     "authors": [
         {
@@ -32,7 +39,7 @@
     ],
     "support": {
         "issues": "https://www.drupal.org/project/issues/scheduler",
-        "source": "http://cgit.drupalcode.org/scheduler"
+        "source": "https://git.drupalcode.org/project/scheduler"
     },
     "extra": {
         "drush": {

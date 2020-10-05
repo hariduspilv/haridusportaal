@@ -2,6 +2,7 @@
 
 namespace Drupal\Tests\conditional_fields\FunctionalJavascript;
 
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\field\Entity\FieldConfig;
 use Drupal\field\Entity\FieldStorageConfig;
 use Drupal\Core\Entity\Entity\EntityFormDisplay;
@@ -118,7 +119,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = 'drupal test textarea';
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET,
       'field_' . $this->fieldName . '[0][value]' => $text,
       'grouping' => 'AND',
       'state' => 'visible',
@@ -164,7 +165,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = [$this->randomMachineName(), $this->randomMachineName()];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -220,7 +221,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = ['drupal textarea text first', 'drupal textarea text second'];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_OR,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -276,7 +277,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = 'drupal test textarea';
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX,
       'regex' => '.*data\=[\d]+.*',
       'grouping' => 'AND',
       'state' => 'visible',
@@ -330,7 +331,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = ["first string", "second string"];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',
@@ -381,7 +382,7 @@ class ConditionalFieldTextTextareaTest extends ConditionalFieldTestBase implemen
     $text = [$this->randomMachineName(), $this->randomMachineName()];
     $data = [
       'condition' => 'value',
-      'values_set' => CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
+      'values_set' => ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR,
       'values' => implode("\r\n", $text),
       'grouping' => 'AND',
       'state' => 'visible',

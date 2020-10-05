@@ -3,6 +3,7 @@
 namespace Drupal\conditional_fields\Plugin\conditional_fields\handler;
 
 use Drupal\conditional_fields\ConditionalFieldsHandlerBase;
+use Drupal\conditional_fields\ConditionalFieldsInterface;
 use Drupal\Core\Datetime\DrupalDateTime;
 use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
 
@@ -21,7 +22,7 @@ class DateList extends ConditionalFieldsHandlerBase {
   public function statesHandler($field, $field_info, $options) {
     $state = [];
     switch ( $options['values_set'] ){
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_WIDGET:
         $value = $this->getWidgetValue( $options['value_form'] );
         if ( ! $value ) {
           $value = 'now';
@@ -36,7 +37,7 @@ class DateList extends ConditionalFieldsHandlerBase {
           }
         }
         break;
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_REGEX:
         $pattern = "/\\\?[\/]+|[-\.\,\s]+/";
         $parts = preg_split( $pattern, $options['regex']);
         if ( is_array( $parts ) ) {
@@ -57,7 +58,7 @@ class DateList extends ConditionalFieldsHandlerBase {
             }
           }
         }
-      case CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
+      case ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_AND:
         $values_array = $this->getConditionValues( $options );
         foreach ( $values_array as $index => $value ) {
           $values_data = [];
@@ -74,9 +75,9 @@ class DateList extends ConditionalFieldsHandlerBase {
         }
         break;
       default:
-        if ( $options['values_set'] == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR ) {
+        if ( $options['values_set'] == ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_XOR ) {
           $separate_condition = 'xor';
-        } elseif ( $options['values_set'] == CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT ) {
+        } elseif ( $options['values_set'] == ConditionalFieldsInterface::CONDITIONAL_FIELDS_DEPENDENCY_VALUES_NOT ) {
           $options['state'] = '!' . $options['state'];
         }
         $values_array = $this->getConditionValues( $options );

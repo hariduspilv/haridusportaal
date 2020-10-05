@@ -5,8 +5,6 @@
  * Delete a key.
  */
 
-use Drush\Log\LogLevel;
-
 /**
  * Delete a key.
  *
@@ -26,7 +24,7 @@ function drush_key_delete($id) {
   }
 
   // Confirm that the key should be deleted.
-  drush_log(dt('Be extremely careful when deleting a key! It may result in losing access to a service or making encrypted data unreadable.'), LogLevel::WARNING);
+  \Drupal::logger('key')->log('warning', (dt('Be extremely careful when deleting a key! It may result in losing access to a service or making encrypted data unreadable.')));
   drush_print(dt('The following key will be deleted: !id', ['!id' => $id]));
   if (!drush_confirm(dt('Do you really want to continue?'))) {
     return drush_user_abort();
@@ -43,5 +41,5 @@ function drush_key_delete($id) {
     return drush_set_error('DRUSH_KEY_NOT_DELETED', dt('Key !id was not deleted.', ['!id' => $id]));
   }
 
-  drush_log(dt('Key !id was deleted successfully.', ['!id' => $id]), LogLevel::OK);
+  \Drupal::logger('key')->log('success', (dt('Key !id was deleted successfully.', ['!id' => $id])));
 }

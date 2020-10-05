@@ -4,3 +4,8 @@ vertical-tabs:
   dependencies:
       - core/jquery
       - core/drupal.ajax
+default-time:
+  js:
+    js/scheduler_default_time.js: {}
+  dependencies:
+    - core/jquery

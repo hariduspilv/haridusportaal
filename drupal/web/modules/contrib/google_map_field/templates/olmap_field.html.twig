@@ -1,0 +1,12 @@
+{% if infowindow is not empty %}
+  {% set showInfowindow = "true" %}
+{% endif %}
+<section class="olmap-field">
+  {% if name %}
+  <h2>{{ name }}</h2>
+  {% endif %}
+  {% if showInfowindow %}
+  <div class="map-infowindow" style="display:none;">{{ infowindow }}</div>
+  {% endif %}
+  <div class="map-container" style="width:{{ width }};height:{{ height }};" data-default-marker="{{ default_marker }}" data-controls-show="{{ show_controls }}" data-marker-show="{{ show_marker }}" data-lat="{{ lat }}" data-lon="{{ lon }}" data-zoom="{{ zoom }}" data-infowindow="{{ showInfowindow }}"></div>
+</section>

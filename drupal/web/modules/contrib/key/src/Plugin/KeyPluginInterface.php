@@ -2,14 +2,15 @@
 
 namespace Drupal\key\Plugin;
 
+use Drupal\Component\Plugin\ConfigurableInterface;
+use Drupal\Component\Plugin\DependentPluginInterface;
 use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
 use Drupal\Component\Plugin\PluginInspectionInterface;
-use Drupal\Component\Plugin\ConfigurablePluginInterface;
 
 /**
  * Provides an interface for all Key plugins.
  */
-interface KeyPluginInterface extends ContainerFactoryPluginInterface, PluginInspectionInterface, ConfigurablePluginInterface {
+interface KeyPluginInterface extends ContainerFactoryPluginInterface, PluginInspectionInterface, ConfigurableInterface, DependentPluginInterface {
 
   /**
    * Returns the type of plugin.
