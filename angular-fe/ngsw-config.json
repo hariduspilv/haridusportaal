@@ -4,16 +4,18 @@
   "assetGroups": [
     {
       "name": "app",
-      "installMode": "lazy",
+      "installMode": "prefetch",
       "resources": {
         "files": [
           "/favicon.ico",
           "/index.html",
+          "/manifest.webmanifest",
           "/*.css",
           "/*.js"
         ]
       }
-    }, {
+    },
+    {
       "name": "assets",
       "installMode": "lazy",
       "updateMode": "prefetch",
@@ -22,20 +24,6 @@
           "/assets/**",
           "/*.(eot|svg|cur|jpg|png|webp|gif|otf|ttf|woff|woff2|ani)"
         ]
-      }
-    }
-  ],
-  "dataGroups": [
-    {
-      "name": "All requests",
-      "urls": [
-        "https://api.edu.ee/*/**",
-        "https://htm.wiseman.ee/*/**"
-      ],
-      "cacheConfig": {
-        "maxSize": 10,
-        "maxAge": "1h",
-        "strategy": "freshness"
       }
     }
   ]
