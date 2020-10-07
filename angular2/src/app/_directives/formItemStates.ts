@@ -1,4 +1,4 @@
-import { Directive, OnInit, ElementRef, Renderer, HostListener } from '@angular/core';
+import { Directive, OnInit, ElementRef, Renderer2, HostListener } from '@angular/core';
 
 // Directive decorator
 @Directive({ selector: '[formItemStates]' })
@@ -13,27 +13,26 @@ export class FormItemStatesDirective {
 
   constructor(
     private _el: ElementRef,
-    private renderer: Renderer
+    private renderer: Renderer2
   ) {
 
   }
-  
   @HostListener('focus', ['$event']) onFocus(e) {
-    this.renderer.setElementClass( this._el.nativeElement.parentNode, this.focusClassName, true );
+    this.renderer.addClass( this._el.nativeElement.parentNode, this.focusClassName );
     return;
   }
 
   @HostListener('blur', ['$event']) onBlur(e) {
-    this.renderer.setElementClass( this._el.nativeElement.parentNode, this.focusClassName, false );
+    this.renderer.addClass( this._el.nativeElement.parentNode, this.focusClassName, false );
     return;
   }
 
   @HostListener('change', ['$event']) onChange(e) {
     let set = true;
-    if( this._el.nativeElement.value == '' ){
+    if ( this._el.nativeElement.value === '' ) {
       set = false;
     }
-    this.renderer.setElementClass( this._el.nativeElement.parentNode, this.filledClassName, set );
+    this.renderer.addClass( this._el.nativeElement.parentNode, this.filledClassName, set );
     return;
   }
 
