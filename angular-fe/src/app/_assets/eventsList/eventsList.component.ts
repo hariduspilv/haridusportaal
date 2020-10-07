@@ -64,7 +64,7 @@ export class EventsConfig {
 })
 
 export class EventsListComponent extends FiltersService implements OnInit {
-  @ViewChild('content', {static: false}) content: ElementRef;
+  @ViewChild('content') content: ElementRef;
   private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
 
   objectKeys = Object.keys;

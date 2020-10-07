@@ -22,7 +22,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 export class MoreBlockComponent implements AfterContentChecked, OnInit {
   @Input() content: any = false;
   @Input() id: string;
-  @ViewChild('moreContent', { static: false }) moreContentElem: ElementRef;
+  @ViewChild('moreContent') moreContentElem: ElementRef;
   public cutoffs: Object = {
     lg: 88,
     sm: 110,

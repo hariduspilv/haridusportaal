@@ -32,9 +32,9 @@ const moment = _moment;
 })
 
 export class DashboardComponent implements OnInit, OnDestroy, AfterViewInit {
-  @ViewChild(ApplicationsComponent, { static: false }) applicationsComponent: ApplicationsComponent;
-  @ViewChild('intro', { static: false }) intro;
-  @ViewChild(BlockComponent, { static: false }) blockComponent: BlockComponent;
+  @ViewChild(ApplicationsComponent) applicationsComponent: ApplicationsComponent;
+  @ViewChild('intro') intro;
+  @ViewChild(BlockComponent) blockComponent: BlockComponent;
   @ViewChildren(forwardRef(() => BlockContentComponent))
   blockContents: QueryList<BlockContentComponent>;
 

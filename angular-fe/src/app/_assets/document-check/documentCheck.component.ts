@@ -36,7 +36,7 @@ export class DocumentCheckComponent {
   public loginStatus = false;
 
   public path = this.location.path();
-  @ViewChild('scrollTarget', { static: false }) public scrollTarget;
+  @ViewChild('scrollTarget') public scrollTarget;
   constructor(
     private formBuilder: FormBuilder,
     private alertsService: AlertsService,

@@ -23,16 +23,12 @@ export class FormItemStatesDirective {
   }
 
   @HostListener('blur', ['$event']) onBlur(e) {
-    this.renderer.addClass( this._el.nativeElement.parentNode, this.focusClassName, false );
+    this.renderer.addClass( this._el.nativeElement.parentNode, this.focusClassName );
     return;
   }
 
   @HostListener('change', ['$event']) onChange(e) {
-    let set = true;
-    if ( this._el.nativeElement.value === '' ) {
-      set = false;
-    }
-    this.renderer.addClass( this._el.nativeElement.parentNode, this.filledClassName, set );
+    this.renderer.addClass( this._el.nativeElement.parentNode, this.filledClassName );
     return;
   }
 

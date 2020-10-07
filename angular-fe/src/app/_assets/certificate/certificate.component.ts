@@ -22,7 +22,7 @@ export class CertificateComponent{
 
   @HostBinding('style.height.px') hostHeight;
 
-  @ViewChild('certificate', { static: false }) certificate: ElementRef;
+  @ViewChild('certificate') certificate: ElementRef;
 
   @Input() document: any = {};
 

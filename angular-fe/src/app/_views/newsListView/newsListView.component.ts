@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 
 export class NewsListViewComponent implements AfterViewInit {
   @Input() path: string;
-  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  @ViewChild('filterToggle') filterToggle: ElementRef;
 
   lang: any;
   params: any;

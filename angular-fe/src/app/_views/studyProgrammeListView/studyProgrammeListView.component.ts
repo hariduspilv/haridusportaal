@@ -13,8 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 
 export class StudyProgrammeListViewComponent implements AfterViewInit {
   @Input() path: string;
-  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
-  @ViewChild('filters', { static: false }) filters: ElementRef;
+  @ViewChild('filterToggle') filterToggle: ElementRef;
+  @ViewChild('filters') filters: ElementRef;
 
   lang: any;
   params: any;

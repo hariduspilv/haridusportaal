@@ -14,7 +14,7 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 
 export class SchoolListMapComponent implements AfterViewInit {
   @Input() path: string;
-  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  @ViewChild('filterToggle') filterToggle: ElementRef;
 
   lang: any;
   params: any;

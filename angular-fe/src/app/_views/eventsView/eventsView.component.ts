@@ -14,7 +14,7 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 })
 
 export class EventsViewComponent implements OnDestroy, OnInit{
-  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  @ViewChild('filterToggle') filterToggle: ElementRef;
   public breadcrumbsPath: string = '/sündmused';
   public eventsTypes;
   public eventsTags;
