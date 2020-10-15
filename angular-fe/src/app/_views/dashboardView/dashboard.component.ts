@@ -4,7 +4,6 @@ import {
   ViewChild,
   ChangeDetectorRef,
   OnDestroy,
-  ContentChildren,
   forwardRef,
   QueryList,
   ViewChildren,
