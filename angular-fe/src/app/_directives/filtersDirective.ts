@@ -87,7 +87,4 @@ export class FiltersDirective implements AfterViewInit, OnDestroy {
     this.paramsWatcher.unsubscribe();
   }
 
-  ngOnChanges(changes) {
-    console.log(changes);
-  }
 }
