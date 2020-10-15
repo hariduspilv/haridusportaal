@@ -38,7 +38,6 @@ export class FiltersDirective implements AfterViewInit, OnDestroy {
   }
 
   gatherValues(): void {
-    console.log(this.formItems);
     const queryParams = {};
 
     this.formItems.forEach((item) => {
