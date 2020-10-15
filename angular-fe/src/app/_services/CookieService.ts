@@ -84,21 +84,21 @@ export class CookieService {
     if (this.cookiesAllowed() && this.checkDnT()) {
       return 'not_allowed';
     }
-    return this.get('cookies_allowed') === '1' ? true : false;
+    return this.get('cookiesAllowed') === '1' ? true : false;
   }
 
   /**
    * Save allowed preference
    */
   authorize() {
-    this.set('cookies_allowed', '1');
+    this.set('cookiesAllowed', '1');
   }
 
   /**
    * Save declined preference
    */
   decline() {
-    this.set('cookies_allowed', '0');
+    this.set('cookiesAllowed', '0');
   }
 
   /**
@@ -115,6 +115,9 @@ export class CookieService {
       expires = `; expires=${date.toUTCString()}`;
     }
     document.cookie = `${name}=${(value || '')}${expires}; path=/; SameSite=Strict; Secure`;
+    if (location.protocol === 'http:') {
+      document.cookie = `${name}=${(value || '')}${expires}; path=/; SameSite=Strict`;
+    }
     // document.cookie = name + "=" + (value || "")  + expires + "; path=/";
   }
 
@@ -140,5 +143,8 @@ export class CookieService {
    */
   remove(name) {
     document.cookie = `${name}=; Max-Age=-99999999; path=/; SameSite=Strict; Secure`;
+    if (location.protocol === 'http:') {
+      document.cookie = `${name}=; Max-Age=-99999999; path=/; SameSite=Strict`;
+    }
   }
 }
