@@ -27,7 +27,7 @@ export class HeaderComponent implements OnInit {
   @Input() public user: string = '';
   @HostBinding('attr.aria-label') public ariaLabel: string = this.translate.get('frontpage.header');
   @HostBinding('attr.role') public role: string = 'banner';
-  public loginTooltip = this.settings.data.login_tooltip;
+  public loginTooltip = this.settings?.data?.login_tooltip;
   public searchTerm: any;
   public logoutActive = false;
   public searchString = '';
