@@ -16,7 +16,7 @@ export class SchoolFundingViewComponent implements OnInit {
     private route: ActivatedRoute,
   ) { }
 
-  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  @ViewChild('filterToggle') filterToggle: ElementRef;
 
   public showFilter = true;
   public filterFull = false;

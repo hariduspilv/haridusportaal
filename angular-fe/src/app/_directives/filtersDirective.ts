@@ -17,7 +17,8 @@ import { QueryParamsService } from '@app/_services/QueryParams.service';
 
 export class FiltersDirective implements AfterViewInit, OnDestroy {
 
-  @ContentChildren(FormItemComponent) formItems: QueryList<FormItemComponent>;
+  @ContentChildren(FormItemComponent, { descendants: true })
+    formItems: QueryList<FormItemComponent>;
 
   private paramsWatcher: Subscription = new Subscription();
 
@@ -85,4 +86,5 @@ export class FiltersDirective implements AfterViewInit, OnDestroy {
   ngOnDestroy() {
     this.paramsWatcher.unsubscribe();
   }
+
 }

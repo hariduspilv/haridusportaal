@@ -366,7 +366,7 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
   public formGroup: FormGroup = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
   });
-  @ViewChild('scrollTarget', { static: false }) public scrollTarget;
+  @ViewChild('scrollTarget') public scrollTarget;
   private lang: string = 'ET';
   private subscriptions: Subscription[] = [];
   private tags: string = '';

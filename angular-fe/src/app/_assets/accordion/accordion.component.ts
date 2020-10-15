@@ -45,9 +45,9 @@ export class AccordionItemComponent {
   public change = new Subject<any>();
   public statusUpdate = new Subject<any>();
   public id: string = Math.random().toString(36).substr(2, 9);
-  @ContentChildren(forwardRef(() => ScrollableContentComponent))
+  @ContentChildren(forwardRef(() => ScrollableContentComponent), { descendants: true })
     scrollable: QueryList<ScrollableContentComponent>;
-  @ContentChild(TemplateRef, { static: false }) templateRef: TemplateRef<any>;
+  @ContentChild(TemplateRef) templateRef: TemplateRef<any>;
   @Input() title: string = '';
   @Input() active: boolean = false;
   private scroll: boolean = false;

@@ -27,7 +27,7 @@
         </form>
       </div>
       <div class="header__actions">
-        <button htm-button [class.active]="modalService.modalOpened['search']" (click)="modalService.toggle('search')"
+        <button htm-button [class.active]="modalService.modalOpened['search'] || false" (click)="modalService.toggle('search')"
           theme="plain" attr.aria-label="{{ 'button.search' | translate }}">
           <icon aria-hidden="true" glyph="search" size="medium"></icon>
         </button>

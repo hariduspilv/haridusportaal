@@ -23,7 +23,7 @@ import { ModalService } from '@app/_services';
 export class ModalContentComponent {
   @Input() public id: string;
   @Input() public loading: boolean = false;
-  @ContentChild(TemplateRef, { static: false }) public templateRef: TemplateRef<any>;
+  @ContentChild(TemplateRef) public templateRef: TemplateRef<any>;
 
   constructor(private modalService: ModalService) {
   }
@@ -49,7 +49,7 @@ export class ModalComponent implements OnInit {
   @Input() public stateButton: boolean = false;
   @Output() public onClose: EventEmitter<any> = new EventEmitter();
   @ViewChildren('modalContent') public contents: QueryList<any> = new QueryList();
-  @ContentChild(TemplateRef, { static: false }) public templateRef: TemplateRef<any>;
+  @ContentChild(TemplateRef) public templateRef: TemplateRef<any>;
   private element: any;
 
   constructor(private elem: ElementRef, private modalService: ModalService) {

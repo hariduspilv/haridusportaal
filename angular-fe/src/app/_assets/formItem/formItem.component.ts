@@ -20,8 +20,22 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { ParseInAddsPipe } from '@app/_pipes/parseInAdds.pipe';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AddressService } from '@app/_services/AddressService';
+
+export interface NgbDateStruct {
+  /**
+   * The year, for example 2016
+   */
+  year: number;
+  /**
+   * The month, for example 1=Jan ... 12=Dec
+   */
+  month: number;
+  /**
+   * The day of month, starting at 1
+   */
+  day: number;
+}
 
 export interface FormItemOption {
   key: string;

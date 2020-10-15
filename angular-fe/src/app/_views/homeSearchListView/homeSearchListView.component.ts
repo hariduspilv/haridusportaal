@@ -10,7 +10,7 @@ import { SettingsService } from '@app/_services';
 })
 
 export class HomeSearchListViewComponent {
-  @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('content') content: ElementRef;
 
   public results: any = false;
   public filteredResults: any = false;

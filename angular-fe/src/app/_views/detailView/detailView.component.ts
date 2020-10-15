@@ -19,7 +19,7 @@ export class DetailViewComponent {
   @Input() path: string;
   @Input() data: any;
   @Input() origData: any;
-  @ViewChild('descriptionBlock', { static: false }) description: ElementRef;
+  @ViewChild('descriptionBlock') description: ElementRef;
 
   public feedbackNid: number;
   public loading: boolean = true;

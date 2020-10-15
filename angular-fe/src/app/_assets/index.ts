@@ -254,35 +254,38 @@ const providers = [
   },
 ];
 
+const imports = [
+  CommonModule,
+  RouterModule,
+  TranslateModule,
+  FormsModule,
+  AppPipes,
+  AgmJsMarkerClustererModule,
+  AgmCoreModule.forRoot({
+    apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
+    language: 'et',
+  }),
+  AgmSnazzyInfoWindowModule,
+  NgbDatepickerModule,
+  NgPipesModule,
+  NgSelectModule,
+  NgbTooltipModule,
+  RecaptchaModule,
+  RecaptchaFormsModule,
+  Ng2GoogleChartsModule,
+  DeviceDetectorModule.forRoot(),
+  HttpClientJsonpModule,
+  HttpClientModule,
+  ReactiveFormsModule,
+  A11yModule,
+];
+
 @NgModule({
+  imports,
   declarations: [...declarations],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TranslateModule,
-    FormsModule,
-    AppPipes,
-    AgmJsMarkerClustererModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyD0sqq4HN0rVOzSvsMmLhFerPYO67R_e7E',
-      language: 'et',
-    }),
-    AgmSnazzyInfoWindowModule,
-    NgbDatepickerModule,
-    NgPipesModule,
-    NgSelectModule,
-    NgbTooltipModule,
-    RecaptchaModule.forRoot(),
-    RecaptchaFormsModule,
-    Ng2GoogleChartsModule,
-    DeviceDetectorModule.forRoot(),
-    HttpClientJsonpModule,
-    HttpClientModule,
-    ReactiveFormsModule,
-    A11yModule,
-  ],
   exports: [...declarations, ...exports],
 })
+
 export class AssetsModule {
   static forRoot(): ModuleWithProviders {
     return {
