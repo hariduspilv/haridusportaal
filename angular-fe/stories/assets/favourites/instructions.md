@@ -1,4 +1,4 @@
-# Favourite
+# Favourites
 
 ## Usage
 

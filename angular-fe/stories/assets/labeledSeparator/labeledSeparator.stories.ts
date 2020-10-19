@@ -1,11 +1,7 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import labeledSeparatorMd from './labeledSeparator.md';
-import {
-  withKnobs,
-  text,
-  select,
-} from '@storybook/addon-knobs';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -13,33 +9,79 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
-stories.add('Labeled separator', () => {
-  const label = text('Label', 'Või');
-  const type = select(
-    'Type',
-    {
-      Horizontal: 'horizontal',
-      Vertical: 'vertical',
-      Login: 'login',
-    },
-    'horizontal',
-  );
+const stories = storiesOf('Assets/Labeled separator', module);
+
+stories.add('Horizontal', () => {
   return {
     moduleMetadata,
     path: '',
-    props: {
-      label,
-      type,
-    },
     template: `
       <labeled-separator
-        [label]="label"
-        [type]="type">
+        label="Või"
+        type="horizontal">
       </labeled-separator>
     `,
   };
 },          {
-  notes: { markdown: labeledSeparatorMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Vertical', () => {
+  return {
+    moduleMetadata,
+    path: '',
+    template: `
+      <labeled-separator
+        label="Või"
+        type="vertical">
+      </labeled-separator>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Login', () => {
+  return {
+    moduleMetadata,
+    path: '',
+    template: `
+      <labeled-separator
+        label="Või"
+        type="login">
+      </labeled-separator>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Horizontal with long label', () => {
+  return {
+    moduleMetadata,
+    path: '',
+    template: `
+      <labeled-separator
+        label="Lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+        type="horizontal">
+      </labeled-separator>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Vertical with long label', () => {
+  return {
+    moduleMetadata,
+    path: '',
+    template: `
+      <labeled-separator
+        label="Lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet lorem ipsum dolor sit amet"
+        type="vertical">
+      </labeled-separator>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

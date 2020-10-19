@@ -7,20 +7,14 @@
   [data]="data"
   type="plain">
 </labels>
-  <!-- background="#ffffff" -->
-  <!-- border="#c7c7c9" -->
 ```
 
 ## Properties
 
-NB! Type property overrides background and border.
-
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | data | - | - | Object[] | Label data
-| type | none | none, orange, plain | string | Label type
-| background | #ffffff | - | string | Background color for labels (storybook)
-| border | - | - | string | Border color for labels (storybook)
+| type | none | none, plain, aqua, orange | string | Label type
 
 ## Javascript
 ```javascript

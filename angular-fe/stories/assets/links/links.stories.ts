@@ -71,7 +71,6 @@ stories.add('Links', () => {
     template: `
     <h2>Default links</h2>
     <links [data]="links"></links>
-    
     <h2>Documents</h2>
     <links [data]="attachments" type="document"></links>
     `,

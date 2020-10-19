@@ -94,6 +94,7 @@
   p { padding: 0.5625rem 1rem; color: $black; margin: 0; width: 100%; }
 
   &__close { padding: 0.5625rem 1rem; }
+  &__close--link { padding: 0 1rem; }
 }
 
 @include break-on(xs, max) {

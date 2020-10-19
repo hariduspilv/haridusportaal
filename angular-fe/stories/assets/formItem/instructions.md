@@ -1,12 +1,24 @@
-# Form item
+# Form items
 
 ## Input: text
 ```html
 <formItem
   type="text"
-  placeholder="Start typing"
   [(ngModel)]="modelName"
   title="First name"
+  [error]="boolean"
+  [errorMessage]="string"
+  [success]="boolean"
+  [disabled]="boolean"
+></formItem>
+```
+
+## Input: number
+```html
+<formItem
+  type="number"
+  [(ngModel)]="modelName"
+  title="Number"
   [error]="boolean"
   [errorMessage]="string"
   [success]="boolean"

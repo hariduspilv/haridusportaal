@@ -1,5 +1,7 @@
 # Breadcrumbs
 
+#### Visible from **viewport width > 1024**.
+
 ## Usage
 
 ```html

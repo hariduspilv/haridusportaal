@@ -1,8 +1,8 @@
 import { storiesOf } from '@storybook/angular';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CommonModule } from '@angular/common';
-import { withKnobs, select } from '@storybook/addon-knobs';
-import breadcrumbsMd from './breadcrumbs.md';
+import documentationMd from './documentation.md';
+import instructionsMd from './instructions.md';
 import { AssetsModule } from '@app/_assets';
 import { RippleService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
@@ -19,12 +19,11 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
+const stories = storiesOf('Assets/Breadcrumbs', module);
 
-stories.add('Breadcrumbs', () => {
+stories.add('Short', () => {
 
-  const small = [
+  const short = [
     {
       title: 'Avaleht',
       link: '/',
@@ -33,6 +32,19 @@ stories.add('Breadcrumbs', () => {
       title: 'Sündmused',
     },
   ];
+
+  return {
+    moduleMetadata,
+    props: { short },
+    template: `
+      <breadcrumbs [data]="short"></breadcrumbs>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Medium', () => {
 
   const medium = [
     {
@@ -48,7 +60,20 @@ stories.add('Breadcrumbs', () => {
     },
   ];
 
-  const large = [
+  return {
+    moduleMetadata,
+    props: { medium },
+    template: `
+      <breadcrumbs [data]="medium"></breadcrumbs>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Long', () => {
+
+  const long = [
     {
       title: 'Avaleht',
       link: '/',
@@ -70,30 +95,13 @@ stories.add('Breadcrumbs', () => {
     },
   ];
 
-  const steps = select(
-    'Size',
-    {
-      Small: 'small',
-      Medium: 'medium',
-      Large: 'large',
-    },
-    'small',
-  );
-
   return {
     moduleMetadata,
-    props: {
-      small,
-      medium,
-      large,
-      steps,
-    },
+    props: { long },
     template: `
-      <breadcrumbs [data]="small" *ngIf="steps == 'small'"></breadcrumbs>
-      <breadcrumbs [data]="medium" *ngIf="steps == 'medium'"></breadcrumbs>
-      <breadcrumbs [data]="large" *ngIf="steps == 'large'"></breadcrumbs>
+      <breadcrumbs [data]="long"></breadcrumbs>
     `,
   };
 },          {
-  notes: { markdown: breadcrumbsMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

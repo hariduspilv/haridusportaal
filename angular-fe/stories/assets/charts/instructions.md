@@ -1,4 +1,4 @@
-# Chart
+# Charts
 
 ## Usage
 
