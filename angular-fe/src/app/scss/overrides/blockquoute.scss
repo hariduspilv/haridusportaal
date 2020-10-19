@@ -5,12 +5,11 @@
 blockquote {
   position: relative;
   font-size: 1.125rem;
+  font-style: italic;
   line-height: 1.33;
   color: $light-green;
   margin: 2rem 1rem 2rem 3.125rem;
-  @include break-on(xs, max) {
-    color: $blue;
-  }
+
   &:before{
     font-family: "iconfont";
     content: iconfont-item("iconfont/format-quote-outlined");
@@ -18,5 +17,6 @@ blockquote {
     line-height: 1.125rem;
     position: absolute;
     left: -2.25rem;
+    font-style: normal;
   }
 }

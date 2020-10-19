@@ -1,5 +1,6 @@
 # Blockquote
-Quote block in article and news content types.
+Quote block in article and news content types displayed in italic style.
+
 ## Usage
 
 ```html

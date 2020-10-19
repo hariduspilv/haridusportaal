@@ -1,0 +1,1 @@
+The `<blockquote>` tag specifies a section that is quoted from another source.
