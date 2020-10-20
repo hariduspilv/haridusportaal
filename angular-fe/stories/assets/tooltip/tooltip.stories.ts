@@ -1,12 +1,12 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import tooltipMd from './tooltip.md';
 import tooltipHtml from './tooltip.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { RippleService, ModalService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
-
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -20,17 +20,14 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/Tooltip', module);
 
-stories.add('Tooltip', () => {
+stories.add('Default', () => {
 
   return {
     moduleMetadata,
-    props: {
-
-    },
     template: tooltipHtml,
   };
 },          {
-  notes: { markdown: tooltipMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

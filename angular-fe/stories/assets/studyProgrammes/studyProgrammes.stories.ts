@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import studyProgrammesMd from './studyProgrammes.md';
 import studyProgrammesHtml from './studyProgrammes.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { list } from './studyProgrammes.data';
@@ -9,6 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ModalService, RippleService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
+import { AddressService } from '@app/_services/AddressService';
+
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -19,14 +22,15 @@ const moduleMetadata = {
   providers: [
     ModalService,
     RippleService,
+    AddressService,
     QueryParamsService,
     { provide: ActivatedRoute, useValue: {} },
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/List', module);
 
-stories.add('Study Programmes', () => {
+stories.add('Studyprogrammes', () => {
 
   return {
     moduleMetadata,
@@ -36,5 +40,5 @@ stories.add('Study Programmes', () => {
     template: studyProgrammesHtml,
   };
 },          {
-  notes: { markdown: studyProgrammesMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

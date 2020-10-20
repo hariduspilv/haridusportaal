@@ -1,12 +1,4 @@
 import { storiesOf } from '@storybook/angular';
-// import {
-//   withKnobs,
-//   optionsKnob as options,
-//   boolean,
-//   button,
-//   text,
-// } from '@storybook/addon-knobs';
-// import { manager } from '@storybook/addon-knobs/dist/registerKnobs.js';
 import { AssetsModule } from '@app/_assets';
 import documentationMd from './documentation.md';
 import instructionsMd from './instructions.md';

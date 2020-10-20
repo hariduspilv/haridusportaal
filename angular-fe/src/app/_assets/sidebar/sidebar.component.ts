@@ -108,7 +108,7 @@ export class SidebarComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private translate: TranslateService,
   ) {
-    if (route.snapshot.data.type) {
+    if (route.snapshot?.data?.type) {
       this.type = route.snapshot.data.type;
     }
   }
@@ -223,8 +223,8 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
         return {
           title: item.entity.fieldJobName,
           url: {
-            path: item.entity.fieldJobLink.url.path,
-            routed: item.entity.fieldJobLink.url.routed,
+            path: item.entity.fieldJobLink?.url.path,
+            routed: item.entity.fieldJobLink?.url.routed,
           },
         };
       }

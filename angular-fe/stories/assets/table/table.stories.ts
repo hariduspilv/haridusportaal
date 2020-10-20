@@ -1,9 +1,10 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import tableMd from './table.md';
 import { data } from './table.data';
 import { ActivatedRoute } from '@angular/router';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -15,9 +16,9 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/Table', module);
 
-stories.add('Table', () => {
+stories.add('Default', () => {
 
   const fields = Object.keys(data[0]);
   const tmpData = data.splice(0, 5);
@@ -62,5 +63,5 @@ stories.add('Table', () => {
     `,
   };
 },          {
-  notes: { markdown: tableMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

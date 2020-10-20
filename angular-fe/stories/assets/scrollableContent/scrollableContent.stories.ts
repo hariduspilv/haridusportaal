@@ -1,13 +1,12 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import scrollableContentMd from './scrollableContent.md';
 import { TranslateModule } from '@app/_modules/translate';
 import { data } from './table.data';
-import { ScrollableContentComponent } from '@app/_assets/scrollableContent';
-import { QueryList } from '@angular/core';
 import { RippleService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -21,9 +20,9 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/Scrollable content', module);
 
-stories.add('Scrollable content', () => {
+stories.add('Default', () => {
 
   const origFields = Object.keys(data[0]);
   const fields = [...origFields];
@@ -65,5 +64,5 @@ stories.add('Scrollable content', () => {
     `,
   };
 },          {
-  notes: { markdown: scrollableContentMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

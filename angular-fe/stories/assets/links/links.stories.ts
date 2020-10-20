@@ -1,12 +1,8 @@
 import { storiesOf } from '@storybook/angular';
-import {
-  withKnobs,
-  optionsKnob as options,
-  select,
-} from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
-import linksMd from './links.md';
 import { TranslateModule } from '@app/_modules/translate';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -15,8 +11,7 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
+const stories = storiesOf('Assets/Links', module);
 
 const links = [
   {
@@ -60,21 +55,32 @@ const attachments = [
   },
 ];
 
-stories.add('Links', () => {
+stories.add('Default', () => {
 
   return {
     moduleMetadata,
     props: {
       links,
+    },
+    template: `
+    <links [data]="links"></links>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Documents', () => {
+
+  return {
+    moduleMetadata,
+    props: {
       attachments,
     },
     template: `
-    <h2>Default links</h2>
-    <links [data]="links"></links>
-    <h2>Documents</h2>
     <links [data]="attachments" type="document"></links>
     `,
   };
 },          {
-  notes: { markdown: linksMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });
