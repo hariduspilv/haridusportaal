@@ -34,15 +34,15 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('List views', module);
+// const stories = storiesOf('List views', module);
 
-stories.add('Study programme', () => {
+// stories.add('Study programme', () => {
 
-  return {
-    moduleMetadata,
-    props: {},
-    template: studyProgrammeListViewStoriesHtml,
-  };
-},          {
-  notes: { markdown: studyProgrammeListViewStoriesMd },
-});
+//   return {
+//     moduleMetadata,
+//     props: {},
+//     template: studyProgrammeListViewStoriesHtml,
+//   };
+// },          {
+//   notes: { markdown: studyProgrammeListViewStoriesMd },
+// });

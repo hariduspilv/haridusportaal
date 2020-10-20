@@ -29,15 +29,15 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('List views', module);
+// const stories = storiesOf('List views', module);
 
-stories.add('School', () => {
+// stories.add('School', () => {
 
-  return {
-    moduleMetadata,
-    props: {},
-    template: schoolListViewHtml,
-  };
-},          {
-  notes: { markdown: schoolListViewMd },
-});
+//   return {
+//     moduleMetadata,
+//     props: {},
+//     template: schoolListViewHtml,
+//   };
+// },          {
+//   notes: { markdown: schoolListViewMd },
+// });

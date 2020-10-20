@@ -32,14 +32,14 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('List views', module);
+// const stories = storiesOf('List views', module);
 
-stories.add('News', () => {
+// stories.add('News', () => {
 
-  return {
-    moduleMetadata,
-    template: newsListViewHtml,
-  };
-},          {
-  notes: { markdown: newsListViewMd },
-});
+//   return {
+//     moduleMetadata,
+//     template: newsListViewHtml,
+//   };
+// },          {
+//   notes: { markdown: newsListViewMd },
+// });

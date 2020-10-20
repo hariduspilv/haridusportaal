@@ -39,16 +39,16 @@ const breadcrumbsData = [
   },
 ];
 
-const stories = storiesOf('Views', module);
+// const stories = storiesOf('Views/Compare', module);
 
-stories.add('Professions compare', () => {
-  return {
-    moduleMetadata,
-    props: {
-      breadcrumbsData,
-    },
-    template: professionsCompareStoriesTemplateHtml,
-  };
-},          {
-  notes: { markdown: professionsCompareStoriesMd },
-});
+// stories.add('Professions', () => {
+//   return {
+//     moduleMetadata,
+//     props: {
+//       breadcrumbsData,
+//     },
+//     template: professionsCompareStoriesTemplateHtml,
+//   };
+// },          {
+//   notes: { markdown: professionsCompareStoriesMd },
+// });

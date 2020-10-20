@@ -27,15 +27,15 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('List views', module);
+// const stories = storiesOf('List views', module);
 
-stories.add('Home search', () => {
+// stories.add('Home search', () => {
 
-  return {
-    moduleMetadata,
-    props: {},
-    template: homeSearchListViewHtml,
-  };
-},          {
-  notes: { markdown: homeSearchListViewMd },
-});
+//   return {
+//     moduleMetadata,
+//     props: {},
+//     template: homeSearchListViewHtml,
+//   };
+// },          {
+//   notes: { markdown: homeSearchListViewMd },
+// });

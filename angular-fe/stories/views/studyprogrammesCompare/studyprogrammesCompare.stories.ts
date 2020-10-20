@@ -40,16 +40,16 @@ const breadcrumbsData = [
   },
 ];
 
-const stories = storiesOf('Views', module);
+// const stories = storiesOf('Views/Compare', module);
 
-stories.add('Studyprogrammes compare', () => {
-  return {
-    moduleMetadata,
-    props: {
-      breadcrumbsData,
-    },
-    template: programmesCompareStoriesTemplateHtml,
-  };
-},          {
-  notes: { markdown: programmesCompareStoriesMd },
-});
+// stories.add('Studyprogrammes', () => {
+//   return {
+//     moduleMetadata,
+//     props: {
+//       breadcrumbsData,
+//     },
+//     template: programmesCompareStoriesTemplateHtml,
+//   };
+// },          {
+//   notes: { markdown: programmesCompareStoriesMd },
+// });
