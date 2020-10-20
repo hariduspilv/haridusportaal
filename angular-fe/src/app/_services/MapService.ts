@@ -181,7 +181,7 @@ export class MapService {
         const fontWeight = this.labelOptions.fontWeight;
         if (extraLabels && elem.geometry.center) {
           let text =
-            this.polygonValueLabels[current] && !this.polygonValueLabels[current].includes('%')
+            this.polygonValueLabels[current] && !((typeof this.polygonValueLabels[current] === 'string') && this.polygonValueLabels[current].includes('%'))
             ? `${new LocaleNumberPipe().transform(this.polygonValueLabels[current])}`
             : this.polygonValueLabels[current];
           if (polygonType === 'investment') {

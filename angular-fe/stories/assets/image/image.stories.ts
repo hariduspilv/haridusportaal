@@ -3,6 +3,8 @@ import { AssetsModule } from '@app/_assets';
 import imageHtml from './image.html';
 import imageMd from './image.md';
 import { TranslateModule } from '@app/_modules/translate';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -11,7 +13,7 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/Images', module);
 
 const images = [
   {
@@ -32,15 +34,15 @@ const images = [
   },
 ];
 
-stories.add('Image', () => {
+stories.add('Default', () => {
 
   return {
     moduleMetadata,
     props: {
-      images
+      images,
     },
     template: imageHtml,
   };
 },          {
-  notes: { markdown: imageMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

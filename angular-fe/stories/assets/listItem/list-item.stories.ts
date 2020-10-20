@@ -1,11 +1,13 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import listItemMd from './list-item.md';
 import listItemHtml from './list-item.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { list } from './list-item.data';
 import { ModalService } from '@app/_services';
 import { RouterTestingModule } from '@angular/router/testing';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
+
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -14,12 +16,12 @@ const moduleMetadata = {
   ],
   providers: [
     ModalService,
-  ]
+  ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/List item', module);
 
-stories.add('List item', () => {
+stories.add('Default', () => {
 
   return {
     moduleMetadata,
@@ -29,5 +31,5 @@ stories.add('List item', () => {
     template: listItemHtml,
   };
 },          {
-  notes: { markdown: listItemMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

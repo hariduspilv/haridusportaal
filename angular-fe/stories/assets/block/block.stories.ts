@@ -1,14 +1,15 @@
 import { storiesOf } from '@storybook/angular';
-import blockMd from './block.md';
-
-import {
-  withKnobs,
-  optionsKnob as options,
-  select,
-} from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
 import { ModalService, RippleService } from '@app/_services';
 import { RouterTestingModule } from '@angular/router/testing';
+import documentationMd from './documentation.md';
+import instructionsMd from './instructions.md';
+import defaultBlockHtml from './defaultBlock.html';
+import tabsBlockHtml from './tabsBlock.html';
+import middleTabsHtml from './middleTabs.html';
+import withoutTitleHtml from './withoutTitle.html';
+import orangeBlockHtml from './orangeBlock.html';
+import titleBorderlessHtml from './titleBorderless.html';
 
 const moduleMetadata = {
   imports: [
@@ -21,228 +22,67 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
-stories.add('Block', () => {
+const stories = storiesOf('Assets/Block', module);
 
-  const theme = select(
-    'Theme',
-    {
-      Default: 'default',
-      Orange: 'orange',
-    },
-    'default',
-  );
-
-  const titleBorder = options(
-    'Title border',
-    {
-      Yes: 'yes',
-      No: 'no',
-    },
-    'yes',
-    {
-      display: 'inline-radio',
-    });
-
-  const tabs = options(
-    'Tabs',
-    {
-      Yes: 'yes',
-      No: 'no',
-    },
-    'yes',
-    {
-      display: 'inline-radio',
-    });
-
-  const tabStyle = select(
-    'Tab style',
-    {
-      Default: 'default',
-      Middle: 'middle',
-    },
-    'default',
-  );
-
-  const title = options(
-    'Title',
-    {
-      Yes: 'yes',
-      No: 'no',
-    },
-    'yes',
-    {
-      display: 'inline-radio',
-    });
-
-  const loading = options(
-    'Loading',
-    {
-      Yes: 'yes',
-      No: 'no',
-    },
-    'no',
-    {
-      display: 'inline-radio',
-    });
-
+stories.add('Default theme', () => {
   return {
     moduleMetadata,
-    props: {
-      theme,
-      tabStyle,
-      loading,
-      titleBorder,
-      tabs,
-      title,
-    },
-    template: `
-      <block [titleBorder]="titleBorder == 'yes'" [tabStyle]="tabStyle"
-      [theme]="theme" [loading]="loading == 'yes'"
-      *ngIf="tabs == 'yes' && title == 'yes'">
-        <block-title>
-          Kasti pealkiri läheb siia
-        </block-title>
-        <block-content tabLabel="Ametialad" tabIcon="grid">
-          <p>Officia laboris cillum minim fugiat pariatur nisi tempor
-          quis dolor cillum amet dolor cupidatat.
-          Tempor cupidatat labore ullamco voluptate duis nisi nulla.
-          Aliqua nisi in cupidatat qui fugiat aute nulla veniam nisi.
-          In exercitation nisi sunt enim.</p>
-          <p>Ut pariatur nisi eu cupidatat ut aliquip.
-          Veniam sit veniam proident non quis consectetur cillum
-          et sit aliquip elit ipsum duis laborum. Enim cillum amet
-          consectetur veniam nulla aliqua qui. Sit officia qui do
-          sit et. Amet minim laborum adipisicing ea exercitation
-          adipisicing pariatur excepteur. Veniam amet laborum
-          deserunt officia sit pariatur consectetur. Lorem qui
-          occaecat elit deserunt sint consectetur labore minim
-          ea in occaecat.</p>
-          <p>Ipsum consectetur deserunt fugiat enim ex. Ex
-          laboris qui eu in tempor aliqua reprehenderit nulla.
-          Minim amet ullamco eiusmod do reprehenderit minim velit
-          ipsum sint. Do duis culpa laborum commodo ullamco dolore
-          qui. Id aute reprehenderit ad in elit laboris fugiat
-          reprehenderit sit. Cillum incididunt occaecat mollit
-          nulla voluptate fugiat sunt qui irure eu veniam amet non ullamco.
-          Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
-        </block-content>
-        <block-content tabLabel="Andmed" tabIcon="database">
-          <p><b>ANDMED</b></p>
-          <p>Ut pariatur nisi eu cupidatat ut aliquip.
-          Veniam sit veniam proident non quis consectetur cillum
-          et sit aliquip elit ipsum duis laborum. Enim cillum amet
-          consectetur veniam nulla aliqua qui. Sit officia qui do
-          sit et. Amet minim laborum adipisicing ea exercitation
-          adipisicing pariatur excepteur. Veniam amet laborum
-          deserunt officia sit pariatur consectetur. Lorem qui
-          occaecat elit deserunt sint consectetur labore minim
-          ea in occaecat.</p>
-          <p>Ipsum consectetur deserunt fugiat enim ex. Ex
-          laboris qui eu in tempor aliqua reprehenderit nulla.
-          Minim amet ullamco eiusmod do reprehenderit minim velit
-          ipsum sint. Do duis culpa laborum commodo ullamco dolore
-          qui. Id aute reprehenderit ad in elit laboris fugiat
-          reprehenderit sit. Cillum incididunt occaecat mollit
-          nulla voluptate fugiat sunt qui irure eu veniam amet non ullamco.
-          Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
-        </block-content>
-        <block-content tabLabel="Kaart" tabIcon="map">
-          <p><b>KAART</b></p>
-          <p>Ipsum consectetur deserunt fugiat enim ex. Ex
-          laboris qui eu in tempor aliqua reprehenderit nulla.
-          Minim amet ullamco eiusmod do reprehenderit minim velit
-          ipsum sint. Do duis culpa laborum commodo ullamco dolore
-          qui. Id aute reprehenderit ad in elit laboris fugiat
-          reprehenderit sit. Cillum incididunt occaecat mollit
-          nulla voluptate fugiat sunt qui irure eu veniam amet non ullamco.
-          Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
-        </block-content>
-        <block-content tabLabel="Uus" tabIcon="map">
-          <p><b>UUS</b></p>
-          <p>Ipsum consectetur deserunt fugiat enim ex. Ex
-          laboris qui eu in tempor aliqua reprehenderit nulla.
-          Minim amet ullamco eiusmod do reprehenderit minim velit
-          ipsum sint. Do duis culpa laborum commodo ullamco dolore
-          qui. Id aute reprehenderit ad in elit laboris fugiat
-          reprehenderit sit. Cillum incididunt occaecat mollit
-          nulla voluptate fugiat sunt qui irure eu veniam amet non ullamco.
-          Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
-        </block-content>
-        <block-content tabLabel="Viies" tabIcon="x">
-          <p><b>Viies</b></p>
-          <p>Ipsum consectetur deserunt fugiat enim ex. Ex
-          laboris qui eu in tempor aliqua reprehenderit nulla.
-          Minim amet ullamco eiusmod do reprehenderit minim velit
-          ipsum sint. Do duis culpa laborum commodo ullamco dolore
-          qui. Id aute reprehenderit ad in elit laboris fugiat
-          reprehenderit sit. Cillum incididunt occaecat mollit
-          nulla voluptate fugiat sunt qui irure eu veniam amet non ullamco.
-          Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
-        </block-content>
-      </block>
-
-      <block [titleBorder]="titleBorder == 'yes'" [theme]="theme" [loading]="loading == 'yes'"
-      *ngIf="tabs == 'no' && title == 'yes'">
-        <block-title>
-          Kasti pealkiri läheb siia
-        </block-title>
-        <block-content>
-          <p>Officia laboris cillum minim fugiat pariatur nisi tempor
-          quis dolor cillum amet dolor cupidatat.
-          Tempor cupidatat labore ullamco voluptate duis nisi nulla.
-          Aliqua nisi in cupidatat qui fugiat aute nulla veniam nisi.
-          In exercitation nisi sunt enim.</p>
-          <p>Ut pariatur nisi eu cupidatat ut aliquip.
-          Veniam sit veniam proident non quis consectetur cillum
-          et sit aliquip elit ipsum duis laborum. Enim cillum amet
-          consectetur veniam nulla aliqua qui. Sit officia qui do
-          sit et. Amet minim laborum adipisicing ea exercitation
-          adipisicing pariatur excepteur. Veniam amet laborum
-          deserunt officia sit pariatur consectetur. Lorem qui
-          occaecat elit deserunt sint consectetur labore minim
-          ea in occaecat.</p>
-          <p>Ipsum consectetur deserunt fugiat enim ex. Ex
-          laboris qui eu in tempor aliqua reprehenderit nulla.
-          Minim amet ullamco eiusmod do reprehenderit minim velit
-          ipsum sint. Do duis culpa laborum commodo ullamco dolore
-          qui. Id aute reprehenderit ad in elit laboris fugiat
-          reprehenderit sit. Cillum incididunt occaecat mollit
-          nulla voluptate fugiat sunt qui irure eu veniam amet non ullamco.
-          Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
-        </block-content>
-      </block>
-
-      <block [titleBorder]="titleBorder == 'yes'" [theme]="theme"
-      *ngIf="title == 'no'">
-        <block-content>
-          <p>Officia laboris cillum minim fugiat pariatur nisi tempor
-          quis dolor cillum amet dolor cupidatat.
-          Tempor cupidatat labore ullamco voluptate duis nisi nulla.
-          Aliqua nisi in cupidatat qui fugiat aute nulla veniam nisi.
-          In exercitation nisi sunt enim.</p>
-          <p>Ut pariatur nisi eu cupidatat ut aliquip.
-          Veniam sit veniam proident non quis consectetur cillum
-          et sit aliquip elit ipsum duis laborum. Enim cillum amet
-          consectetur veniam nulla aliqua qui. Sit officia qui do
-          sit et. Amet minim laborum adipisicing ea exercitation
-          adipisicing pariatur excepteur. Veniam amet laborum
-          deserunt officia sit pariatur consectetur. Lorem qui
-          occaecat elit deserunt sint consectetur labore minim
-          ea in occaecat.</p>
-          <p>Ipsum consectetur deserunt fugiat enim ex. Ex
-          laboris qui eu in tempor aliqua reprehenderit nulla.
-          Minim amet ullamco eiusmod do reprehenderit minim velit
-          ipsum sint. Do duis culpa laborum commodo ullamco dolore
-          qui. Id aute reprehenderit ad in elit laboris fugiat
-          reprehenderit sit. Cillum incididunt occaecat mollit
-          nulla voluptate fugiat sunt qui irure eu veniam amet non ullamco.
-          Deserunt eiusmod nisi sunt enim deserunt cillum ad.</p>
-        </block-content>
-      </block>
-    `,
+    template: defaultBlockHtml,
   };
 },          {
-  notes: { markdown: blockMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Orange theme', () => {
+  return {
+    moduleMetadata,
+    template: orangeBlockHtml,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('With tabs', () => {
+  return {
+    moduleMetadata,
+    template: tabsBlockHtml,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('With middle tabs', () => {
+  return {
+    moduleMetadata,
+    template: middleTabsHtml,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Without title', () => {
+  return {
+    moduleMetadata,
+    template: withoutTitleHtml,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Without title border', () => {
+  return {
+    moduleMetadata,
+    template: titleBorderlessHtml,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Loading state', () => {
+  return {
+    moduleMetadata,
+    template: '<block loading="true"></block>',
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

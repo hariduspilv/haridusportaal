@@ -2,7 +2,7 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
-import blockQuoteHtml from './regular/blockQuote.html';
+import blockQuoteHtml from './blockQuote.html';
 
 const moduleMetadata = {
   imports: [
@@ -12,7 +12,7 @@ const moduleMetadata = {
 
 const stories = storiesOf('Assets/BlockQuote', module);
 
-stories.add('Regular', () => {
+stories.add('Default', () => {
 
   return {
     moduleMetadata,

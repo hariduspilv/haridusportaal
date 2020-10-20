@@ -1,0 +1,15 @@
+<article-layout [sidebar]="[]">
+  
+  <block [titleBorder]="true">
+
+    <block-title>In Ads address search</block-title>
+    <block-content>
+      <formItem
+        type="autocomplete"
+        query="inaadress"
+        [(ngModel)]="inads"
+        title="inAds">
+      </formItem>
+    </block-content>
+  </block>
+</article-layout>

@@ -36,11 +36,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Teenindus"
@@ -93,11 +93,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Teenindus"
@@ -150,11 +150,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -207,11 +207,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -264,11 +264,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -326,11 +326,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -383,11 +383,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -445,11 +445,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -502,11 +502,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -559,11 +559,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -621,11 +621,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -678,11 +678,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -735,11 +735,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -792,11 +792,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -849,11 +849,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -906,11 +906,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -969,11 +969,11 @@ export const list = [
     "fieldAccreditationValidUntil": {
       "value": "2011-06-30"
     },
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Bakalaureuse\u00f5pe"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Humanitaaria ja kunstid"
@@ -1032,11 +1032,11 @@ export const list = [
     "fieldAccreditationValidUntil": {
       "value": "2009-05-23"
     },
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Magistri\u00f5pe"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Humanitaaria ja kunstid"
@@ -1089,11 +1089,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tervis ja heaolu"
@@ -1146,11 +1146,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "P\u00f5llumajandus, metsandus, kalandus ja veterinaaria"
@@ -1203,11 +1203,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "P\u00f5llumajandus, metsandus, kalandus ja veterinaaria"
@@ -1260,11 +1260,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "P\u00f5llumajandus, metsandus, kalandus ja veterinaaria"
@@ -1317,11 +1317,11 @@ export const list = [
     "fieldAdmissionStatus": "Avatud",
     "fieldAccreditationStatus": null,
     "fieldAccreditationValidUntil": null,
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Kutse\u00f5pe keskhariduse baasil"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "Tehnika, tootmine ja ehitus"
@@ -1380,11 +1380,11 @@ export const list = [
     "fieldAccreditationValidUntil": {
       "value": "2014-06-25"
     },
-    "fieldStudyProgrammeLevel": {
+    "fieldStudyProgrammeLevel": [{
       "entity": {
         "entityLabel": "Magistri\u00f5pe"
       }
-    },
+    }],
     "fieldIscedfBoard": {
       "entity": {
         "entityLabel": "P\u00f5llumajandus, metsandus, kalandus ja veterinaaria"

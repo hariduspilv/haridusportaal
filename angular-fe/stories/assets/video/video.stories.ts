@@ -1,9 +1,10 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import videoMd from './video.md';
 import { TranslateModule } from '@app/_modules/translate';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -16,9 +17,9 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/Video', module);
 
-stories.add('Video', () => {
+stories.add('Default', () => {
 
   const videos = [
     {
@@ -38,5 +39,5 @@ stories.add('Video', () => {
     `,
   };
 },          {
-  notes: { markdown: videoMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

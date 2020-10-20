@@ -31,17 +31,17 @@ const moduleMetadata = {
 
 const path = '/ametialad';
 
-const stories = storiesOf('List views', module);
+// const stories = storiesOf('List views', module);
 
-stories.add('Main professions', () => {
+// stories.add('Main professions', () => {
 
-  return {
-    moduleMetadata,
-    props: {
-      path,
-    },
-    template: mainProfessionListViewHtml,
-  };
-},          {
-  notes: { markdown: mainProfessionListViewMd },
-});
+//   return {
+//     moduleMetadata,
+//     props: {
+//       path,
+//     },
+//     template: mainProfessionListViewHtml,
+//   };
+// },          {
+//   notes: { markdown: mainProfessionListViewMd },
+// });

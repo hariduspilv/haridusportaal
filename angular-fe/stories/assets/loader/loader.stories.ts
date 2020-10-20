@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import loaderMd from './loader.md';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -12,9 +13,9 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/Loader', module);
 
-stories.add('Loader', () => {
+stories.add('Default', () => {
   return {
     moduleMetadata,
     template: `
@@ -22,5 +23,5 @@ stories.add('Loader', () => {
     `,
   };
 },          {
-  notes: { markdown: loaderMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

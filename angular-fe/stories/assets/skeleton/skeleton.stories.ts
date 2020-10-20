@@ -1,13 +1,9 @@
 import { storiesOf } from '@storybook/angular';
-import {
-  withKnobs,
-  optionsKnob as options,
-  select,
-} from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
-import skeletonMd from './skeleton.md';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -19,31 +15,28 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
+const stories = storiesOf('Assets/Skeleton', module);
 
-stories.add('Skeleton', () => {
-
-  const types = options(
-    'Types',
-    {
-      Article: 'article',
-      Line: 'Line',
-    },
-    'article',
-    {
-      display: 'inline-radio',
-    });
+stories.add('Article', () => {
 
   return {
     moduleMetadata,
-    props: {
-      types,
-    },
     template: `
-      <skeleton [type]="types"></skeleton>
+      <skeleton type="article"></skeleton>
     `,
   };
 },          {
-  notes: { markdown: skeletonMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Line', () => {
+
+  return {
+    moduleMetadata,
+    template: `
+      <skeleton type="line"></skeleton>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

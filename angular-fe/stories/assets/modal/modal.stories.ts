@@ -1,15 +1,12 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import modalMd from './modal.md';
 import { TranslateModule } from '@app/_modules/translate';
-import {
-  withKnobs,
-  optionsKnob as options,
-} from '@storybook/addon-knobs';
 import { ModalService, RippleService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
 import { AddressService } from '@app/_services/AddressService';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -25,61 +22,61 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
+const stories = storiesOf('Assets/Modals', module);
+
 stories.add(
   'Modal', () => {
-    const topAction = options(
-      'Upper close',
-      {
-        Yes: 'yes',
-        No: 'no',
-      },
-      'yes',
-      {
-        display: 'inline-radio',
-      },
-    );
-    const bottomAction = options(
-      'Lower close',
-      {
-        Yes: 'yes',
-        No: 'no',
-      },
-      'yes',
-      {
-        display: 'inline-radio',
-      },
-    );
-    const titleExists = options(
-      'Title',
-      {
-        Yes: 'yes',
-        No: 'no',
-      },
-      'yes',
-      {
-        display: 'inline-radio',
-      },
-    );
-    const loading = options(
-      'Loading',
-      {
-        Yes: 'yes',
-        No: 'no',
-      },
-      'no',
-      {
-        display: 'inline-radio',
-      },
-    );
+    // const topAction = options(
+    //   'Upper close',
+    //   {
+    //     Yes: 'yes',
+    //     No: 'no',
+    //   },
+    //   'yes',
+    //   {
+    //     display: 'inline-radio',
+    //   },
+    // );
+    // const bottomAction = options(
+    //   'Lower close',
+    //   {
+    //     Yes: 'yes',
+    //     No: 'no',
+    //   },
+    //   'yes',
+    //   {
+    //     display: 'inline-radio',
+    //   },
+    // );
+    // const titleExists = options(
+    //   'Title',
+    //   {
+    //     Yes: 'yes',
+    //     No: 'no',
+    //   },
+    //   'yes',
+    //   {
+    //     display: 'inline-radio',
+    //   },
+    // );
+    // const loading = options(
+    //   'Loading',
+    //   {
+    //     Yes: 'yes',
+    //     No: 'no',
+    //   },
+    //   'no',
+    //   {
+    //     display: 'inline-radio',
+    //   },
+    // );
     return {
       moduleMetadata,
       props: {
-        titleExists,
-        topAction,
-        bottomAction,
-        loading,
+        // titleExists,
+        // topAction,
+        // bottomAction,
+        // loading,
         modal: new ModalService(),
       },
       template: `
@@ -181,6 +178,6 @@ stories.add(
     };
   },
   {
-    notes: { markdown: modalMd },
+    notes: { Instructions: instructionsMd, Documentation: documentationMd },
   },
 );

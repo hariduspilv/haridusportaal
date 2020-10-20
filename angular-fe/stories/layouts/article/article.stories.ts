@@ -13,12 +13,7 @@ localeEt[14][0].replace(',', ' ');
 localeEt[14][1].replace(',', ' ');
 localeEt[14][2].replace(',', ' ');
 registerLocaleData(localeEt);
-import {
-  withKnobs,
-  object,
-} from '@storybook/addon-knobs';
 import { ModalService, RippleService } from '@app/_services';
-import { EmbedVideoService } from 'ngx-embed-video';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -97,7 +92,7 @@ const breadcrumbsData = [
 ];
 
 const stories = storiesOf('Layouts', module);
-stories.addDecorator(withKnobs);
+
 stories.add('Article Layout', () => {
   const sidebarData = {
     entity: {
@@ -441,7 +436,7 @@ stories.add('Article Layout', () => {
     },
   };
   const feedbackNid = '48788';
-  const sidebar = object('Sidebar', sidebarData);
+  const sidebar = sidebarData;
   return {
     moduleMetadata,
     props: {

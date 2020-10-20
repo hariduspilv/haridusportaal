@@ -1,16 +1,11 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import progressMd from './progress.md';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@app/_modules/translate';
-import {
-  withKnobs,
-  text,
-  optionsKnob as options,
-  select,
-} from '@storybook/addon-knobs';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 
 const moduleMetadata = {
   imports: [
@@ -24,41 +19,89 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
-stories.add('Progress', () => {
-  const start = text('Starting label', 'Kerge');
-  const end = text('Ending label', 'Raske');
-  const status = text('Status label', 'Staatus');
-  const level = select(
-    'Level',
-    {
-      1: 1,
-      2: 2,
-      3: 3,
-      4: 4,
-      5: 5,
-    },
-    1,
-  );
+const stories = storiesOf('Assets/Progress Bar', module);
+
+stories.add('Level 1', () => {
   return {
     moduleMetadata,
-    props: {
-      level,
-      start,
-      end,
-      status,
-    },
     template: `
       <progress-bar style="padding: 3rem 1rem; display: block;"
-        [level]="level"
-        [id]="level"
-        [statusLabel]="status"
-        [startLabel]="start"
-        [endLabel]="end">
+        level="1"
+        id="1"
+        statusLabel="Staatus"
+        startLabel="Kerge"
+        endLabel="Raske">
       </progress-bar>
     `,
   };
 },          {
-  notes: { markdown: progressMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Level 2', () => {
+  return {
+    moduleMetadata,
+    template: `
+      <progress-bar style="padding: 3rem 1rem; display: block;"
+        level="2"
+        id="2"
+        statusLabel="Staatus on ikka tõesti pikem silt"
+        startLabel="Kerge pikem silt"
+        endLabel="Raske pikem silt">
+      </progress-bar>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Level 3', () => {
+  return {
+    moduleMetadata,
+    template: `
+      <progress-bar style="padding: 3rem 1rem; display: block;"
+        level="3"
+        id="3"
+        statusLabel="Staatus"
+        startLabel="Kerge"
+        endLabel="Raske">
+      </progress-bar>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Level 4', () => {
+  return {
+    moduleMetadata,
+    template: `
+      <progress-bar style="padding: 3rem 1rem; display: block;"
+        level="4"
+        id="4"
+        statusLabel="Staatus"
+        startLabel="Kerge"
+        endLabel="Raske">
+      </progress-bar>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Level 5', () => {
+  return {
+    moduleMetadata,
+    template: `
+      <progress-bar style="padding: 3rem 1rem; display: block;"
+        level="5"
+        id="5"
+        statusLabel="Staatus"
+        startLabel="Kerge"
+        endLabel="Raske">
+      </progress-bar>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });
