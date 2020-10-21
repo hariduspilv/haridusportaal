@@ -151,7 +151,7 @@ export class MapComponent {
   }
 
   watchSearch() {
-    this.paramSub = this.route.queryParams.subscribe((params) => {
+    this.paramSub = this.route?.queryParams?.subscribe((params) => {
       this.params = params;
       this.paramValue = params[this.legendKey]
         || (this.parameters
@@ -164,7 +164,7 @@ export class MapComponent {
   }
 
   ngOnDestroy() {
-    this.paramSub.unsubscribe();
+    this.paramSub?.unsubscribe();
     if (this.polygonSub) this.polygonSub.unsubscribe();
   }
 

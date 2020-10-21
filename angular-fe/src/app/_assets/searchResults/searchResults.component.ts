@@ -327,7 +327,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   ngOnDestroy() {
     this.scrollRestoration.restorationPosition.next({
       ...this.scrollRestoration.restorationPosition.getValue(),
-      [this.type]: document.querySelector('.app-content').scrollTop,
+      [this.type]: document.querySelector('.app-content')?.scrollTop || 0,
     });
     this.paramsWatcher.unsubscribe();
     this.httpWatcher.unsubscribe();

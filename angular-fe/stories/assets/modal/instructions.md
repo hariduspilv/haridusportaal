@@ -3,11 +3,13 @@
 ## Usage
 
 ```html
-<htm-modal id="modal-1" title="Tiitel" titleExists="true"
-  topAction="true" bottomAction="true">
-  <modal-content id="modal-1" loading="true">
+<htm-modal id="search"
+  modalTitle="Otsing"
+  topAction="true"
+  bottomAction="false">
+  <ng-template id="search">
     ... content
-  </modal-content>
+  </ng-template>
 </htm-modal>
 ```
 
@@ -16,20 +18,14 @@
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | id | - | - | string | Unique identifier
-| title | - | - | string | Title
+| modalTitle | - | - | string | Title
 | titleExists | true | true, false | boolean | Title state
 | topAction | true | true, false | boolean | Top action button state
 | bottomAction | true | true, false | boolean | Bottom action button state
+| initializeAsOpen | false | true, false | boolean | opens modal when inserted into DOM.
 
 ## Events
 
 | Name  | Default  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | onClose | true | true | boolean | Activates on modal close
-
-## Modal Content properties
-
-| Name  | Default  | Values  |  Type | Description  |
-|---|---|---|---|---|
-| id | - | - | string | Parent identifier
-| loading | false | true, false | boolean | Loading state
