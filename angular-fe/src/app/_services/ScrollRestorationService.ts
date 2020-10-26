@@ -6,6 +6,7 @@ export interface ListRestorationType {
   values: Object;
   list: Object[];
   canLoadMore: boolean;
+  listItemCount?: number;
 }
 @Injectable({
   providedIn: 'root',

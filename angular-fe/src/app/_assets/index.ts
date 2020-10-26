@@ -111,6 +111,7 @@ import { InlineLinksComponent } from './inline-links/inline-links.component';
 import { InlineArticlesComponent } from './inline-articles/inline-articles.component';
 import { ArticlesSingleComponent } from './articles-single/articles-single.component';
 import { NewsletterOrderComponent } from './newsletter-order/newsletter-order.component';
+import { LabelCountComponent } from './label-count/label-count.component';
 import { PictoComponent } from './picto';
 import { TableService } from '@app/_services/tableService';
 import { AddressService } from '@app/_services/AddressService';
@@ -223,6 +224,7 @@ const declarations = [
   GradeSheetComponent,
   DocumentCheckComponent,
   TooltipComponent,
+  LabelCountComponent,
 ];
 
 const exports = [NgbTooltipModule];

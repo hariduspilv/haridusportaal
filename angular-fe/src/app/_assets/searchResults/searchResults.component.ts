@@ -52,6 +52,8 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   private latestRestorationPosition: { [type: string]: number; };
   private mobileOrTablet: boolean;
   private mobileOrTabletScrolled: boolean;
+  public listItemCount: number;
+  public searchWithParams: boolean = false;
 
   constructor(
     private http: HttpClient,
@@ -224,9 +226,12 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           this.list = [];
         }
 
+        this.searchWithParams = !!Object.values(this.route.snapshot.queryParams)
+          .filter(val => val)?.length;
         if (listValue) {
           this.loading = false;
           this.loadingMore = false;
+          this.listItemCount = this.scrollRestorationValues[this.type].listItemCount;
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             this.latestRestorationPosition = position;
@@ -246,8 +251,10 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
             try {
               if (response['data']['nodeQuery']) {
                 tmpList = response['data']['nodeQuery']['entities'];
+                this.listItemCount = response['data']['nodeQuery']['count'];
               } else if (response['data']['CustomElasticQuery']) {
                 tmpList = response['data']['CustomElasticQuery'];
+                if (response['data']['CustomElasticQuery']['count']) this.listItemCount = response['data']['CustomElasticQuery']['count'];
               }
               this.cdr.detectChanges();
             } catch (err) {
@@ -266,7 +273,11 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
             }
             this.scrollRestoration.restorationValues.next({
               ...this.scrollRestorationValues,
-              [this.type]: { values, list: this.list, canLoadMore: this.canLoadMore },
+              [this.type]: {
+                values,
+                list: this.list, canLoadMore: this.canLoadMore,
+                listItemCount: this.listItemCount,
+              },
             });
           },
           (err) => {
