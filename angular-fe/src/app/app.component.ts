@@ -129,8 +129,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   gaPageTrack():void {
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
-        const page = window.location.href;
-        this.analytics.trackPage(page);
+        this.analytics.trackPage(event);
       }
     });
   }
