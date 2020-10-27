@@ -86,8 +86,16 @@
           </div><!--/row-->
           <div class="buttons">
             <a htm-button theme="plain" (click)="modal.close('register')">{{'event.registration_form_cancel' | translate}}</a>
-            <button htm-button>{{'event.registration_form_send' | translate}}</button>
+            <button htm-button *ngIf="!loginStatus" type="button" (click)="captchaRef.execute()">{{'event.registration_form_send' | translate}}</button>
+            <button htm-button *ngIf="loginStatus">{{'event.registration_form_send' | translate}}</button>
           </div><!--/buttons-->
+          <re-captcha
+            [class.captchaHidden]="loginStatus"
+            #captchaRef="reCaptcha"
+            size="invisible"
+            siteKey="6LfDw2kUAAAAAOi8gknhV8quV2J_FdjsT36GSf90"
+            (resolved)="$event && submitForm($event)"
+          ></re-captcha>
         </form>
       </ng-container>
       <ng-container *ngIf="!loading && step == 2">
