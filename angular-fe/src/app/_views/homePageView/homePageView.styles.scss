@@ -1334,7 +1334,9 @@
         flex-shrink: 0;
         flex-grow: 0;
         &+.links {
-          margin-top: 2.5rem;
+          @include break-on(sm, max) {
+            margin-top: 2.5rem;
+          }
         }
         @include break-on(xxs, max) {
           width: 100%;
