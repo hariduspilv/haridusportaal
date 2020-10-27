@@ -31,6 +31,7 @@
     "@auth0/angular-jwt": "^3.0.0",
     "@ng-bootstrap/ng-bootstrap": "^6.2.0",
     "@ng-select/ng-select": "^3.7.3",
+    "angular-google-tag-manager": "^1.2.3",
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.6.11",
     "file-saver": "^2.0.2",

@@ -40,6 +40,7 @@ registerLocaleData(localeEt);
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     AmpService,
     Location,
+    { provide: 'googleTagManagerId', useValue: 'GTM-WK8H92C' },
   ],
   bootstrap: [
     AppComponent,
