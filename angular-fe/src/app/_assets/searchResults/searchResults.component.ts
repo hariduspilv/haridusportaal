@@ -235,9 +235,11 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             this.latestRestorationPosition = position;
-            setTimeout(() => {
-              document.querySelector('.app-content').scrollTop = position[this.type];
-            },         0);
+            if (position) {
+              setTimeout(() => {
+                document.querySelector('.app-content').scrollTop = position[this.type];
+              },         0);
+            }
           });
           scrollSub.unsubscribe();
         } else {

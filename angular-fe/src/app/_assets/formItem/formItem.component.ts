@@ -91,6 +91,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() public domID = '';
   @Input() public ariaLabel = '';
   @Input() public excludeFromSearch: boolean = false;
+  @Input() public outsideInitialization: boolean = false;
 
   // not going to break anything
   @Input() public forcePlaceholder = false;
@@ -398,8 +399,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   public checkInitialValue(): void {
     this.checkDisabled();
-
-    if (this.name) {
+    if (this.name && !this.outsideInitialization) {
       this.field = this.queryParams.getValues(this.name) || this.field;
     }
     if (this.type === 'select' || this.type === 'multi-select') {

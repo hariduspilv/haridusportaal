@@ -181,7 +181,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
     }
   }
 
-  removeHangingIscedf(type) {
+  removeHangingIscedf(type: string) {
     const field = this.uppercase(type);
     const options = [];
     const filterField = `iscedf${field}Filters`;
@@ -190,7 +190,7 @@ export class StudyProgrammeListViewComponent implements AfterViewInit {
     this[filterField].forEach((element) => {
       options.push(element.value);
     });
-    const oldValue = this.selectedIscedfNarrow;
+    const oldValue = this[selectionField];
     this[selectionField] = [];
     if (oldValue) {
       oldValue.forEach((element) => {
