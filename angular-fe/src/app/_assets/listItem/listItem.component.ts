@@ -5,7 +5,6 @@ import {
     OnChanges,
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
-import { ModalService, AlertsService } from '@app/_services';
 import { translationsPerType } from '../compare/helpers/compare';
 @Component({
   selector: 'listItems',
@@ -52,11 +51,6 @@ export class ListItemComponent implements OnInit, OnChanges{
     'oska.quite_difficult_extended',
     'oska.difficult_extended',
   ];
-
-  constructor(
-    private modalService: ModalService,
-    private alertsService: AlertsService,
-  ) {}
 
   sortByKey(array, key) {
     return array.sort((a, b) => {
