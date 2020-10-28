@@ -1,3 +1,5 @@
+import { ActivatedRoute } from '@angular/router';
+
 export function focus(id: string) {
   setTimeout(() => {
     const elem = document.getElementById(id);
@@ -15,4 +17,15 @@ export function parseUnixDate(input) {
   const month = tmpDate.getMonth();
   const day = tmpDate.getDate();
   return new Date(year, month, day, 0, 0).getTime();
+}
+
+export function paramsExist(route: ActivatedRoute): boolean {
+  return !!Object.values(route.snapshot.queryParams)
+    .filter(val => val)?.length;
+}
+
+export function scrollElementIntoView(selector: string): void {
+  setTimeout(() => {
+    document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
+  });
 }
