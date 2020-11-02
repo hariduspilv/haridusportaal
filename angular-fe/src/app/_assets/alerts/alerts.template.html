@@ -5,7 +5,7 @@
     </div>
     <p>
       {{ alert.message | translate }}
-      <a *ngIf="alert.link" class="alert__close" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
+      <a *ngIf="alert.link" class="alert__close alert__close--link" [routerLink]="[alert.link.url]">{{ alert.link.label }}</a>
     </p>
     <div class="cookie__buttons" *ngIf="alert.type === 'cookie'">
       <button htm-button (click)="cookies.agreeTerms()">{{ 'agree' | translate }}</button>

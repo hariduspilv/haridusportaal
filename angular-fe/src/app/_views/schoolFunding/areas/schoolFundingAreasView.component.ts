@@ -18,7 +18,7 @@ export class SchoolFundingAreasViewComponent {
     private mapService: MapService,
   ) { }
 
-  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  @ViewChild('filterToggle') filterToggle: ElementRef;
 
   public showFilter = true;
   public filterFull = false;

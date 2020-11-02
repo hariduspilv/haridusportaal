@@ -20,6 +20,7 @@ import {
 } from './searchResults.helper';
 import { HttpClient } from '@angular/common/http';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
 
 @Component({
   selector: 'searchResults',
@@ -230,9 +231,11 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             this.latestRestorationPosition = position;
-            setTimeout(() => {
-              document.querySelector('.app-content').scrollTop = position[this.type];
-            },         0);
+            if (position) {
+              setTimeout(() => {
+                document.querySelector('.app-content').scrollTop = position[this.type];
+              },         0);
+            }
           });
           scrollSub.unsubscribe();
         } else {
@@ -268,6 +271,9 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
               ...this.scrollRestorationValues,
               [this.type]: { values, list: this.list, canLoadMore: this.canLoadMore },
             });
+            if (this.deviceService.isMobile() && paramsExist(this.route)) {
+              scrollElementIntoView('block');
+            }
           },
           (err) => {
             this.loading = false;
@@ -327,7 +333,7 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
   ngOnDestroy() {
     this.scrollRestoration.restorationPosition.next({
       ...this.scrollRestoration.restorationPosition.getValue(),
-      [this.type]: document.querySelector('.app-content').scrollTop,
+      [this.type]: document.querySelector('.app-content')?.scrollTop || 0,
     });
     this.paramsWatcher.unsubscribe();
     this.httpWatcher.unsubscribe();

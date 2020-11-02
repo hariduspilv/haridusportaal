@@ -94,25 +94,19 @@ export const parseProfessionData = (inputData, translate) => {
     };
     try {
       const iDetailed = mappedData['fieldIscedfSearchLink']
-      ['entity']['iscedf_detailed'].map((val) => {
-        return val.entity.entityId;
-      });
+      ['entity']['iscedf_detailed'].filter(val => val.entity).map(val => val.entity.entityId);
       searchParams['iscedf_detailed'] = iDetailed.join(';');
     } catch (err) { }
 
     try {
       const iNarrow = mappedData['fieldIscedfSearchLink']
-      ['entity']['iscedf_narrow'].map((val) => {
-        return val.entity.entityId;
-      });
+      ['entity']['iscedf_narrow'].filter(val => val.entity).map(val => val.entity.entityId);
       searchParams['iscedf_narrow'] = iNarrow.join(';');
     } catch (err) { }
 
     try {
       const iBroad = mappedData['fieldIscedfSearchLink']
-      ['entity']['iscedf_broad'].map((val) => {
-        return val.entity.entityId;
-      });
+      ['entity']['iscedf_broad'].filter(val => val.entity).map(val => val.entity.entityId);
       searchParams['iscedf_broad'] = iBroad.join(';');
     } catch (err) { }
 

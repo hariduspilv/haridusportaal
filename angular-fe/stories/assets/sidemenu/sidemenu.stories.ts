@@ -1,16 +1,21 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import menuMd from './menu.md';
 import { data } from './menu.data';
 import { SidemenuService, RippleService } from '@app/_services';
 import { RouterTestingModule } from '@angular/router/testing';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
+import { TranslateModule } from '@app/_modules/translate';
+import { SettingsModule } from '@app/_modules/settings/settings.module';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
     RouterTestingModule,
+    TranslateModule.forRoot(),
+    SettingsModule.forRoot(),
   ],
   providers: [
     RippleService,
@@ -19,22 +24,23 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/Sidemenu', module);
 stories.add(
-  'Sidemenu',
+  'Default',
   () => {
     return {
       moduleMetadata,
       props: {
-        data,
         SidemenuService,
       },
       template: `
-        <sidemenu [data]="data"></sidemenu>
+        <div class="app-wrapper">
+          <sidemenu style="transform: none !important"></sidemenu>
+        </div>
       `,
     };
   },
   {
-    notes: { markdown: menuMd },
+    notes: { Instructions: instructionsMd, Documentation: documentationMd },
   },
 );

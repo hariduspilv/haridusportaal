@@ -13,7 +13,7 @@ import { AccordionComponent } from '../accordion';
 
 export class StudiesComponent implements OnInit {
   @Input() jwt;
-  @ViewChild('sudiesAccordion', { static: false }) accordion: AccordionComponent;
+  @ViewChild('sudiesAccordion') accordion: AccordionComponent;
   content: any = false;
   loading: boolean = true;
   error: boolean = false;

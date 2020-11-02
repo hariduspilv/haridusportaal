@@ -20,8 +20,22 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { ParseInAddsPipe } from '@app/_pipes/parseInAdds.pipe';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
-import { NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { AddressService } from '@app/_services/AddressService';
+
+export interface NgbDateStruct {
+  /**
+   * The year, for example 2016
+   */
+  year: number;
+  /**
+   * The month, for example 1=Jan ... 12=Dec
+   */
+  month: number;
+  /**
+   * The day of month, starting at 1
+   */
+  day: number;
+}
 
 export interface FormItemOption {
   key: string;
@@ -77,6 +91,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   @Input() public domID = '';
   @Input() public ariaLabel = '';
   @Input() public excludeFromSearch: boolean = false;
+  @Input() public outsideInitialization: boolean = false;
 
   // not going to break anything
   @Input() public forcePlaceholder = false;
@@ -384,8 +399,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
 
   public checkInitialValue(): void {
     this.checkDisabled();
-
-    if (this.name) {
+    if (this.name && !this.outsideInitialization) {
       this.field = this.queryParams.getValues(this.name) || this.field;
     }
     if (this.type === 'select' || this.type === 'multi-select') {

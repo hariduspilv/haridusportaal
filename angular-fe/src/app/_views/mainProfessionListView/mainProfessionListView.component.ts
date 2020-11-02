@@ -13,7 +13,7 @@ import { ActivatedRoute } from '@angular/router';
 
 export class MainProfessionListViewComponent implements AfterViewInit {
   @Input() path: string;
-  @ViewChild('filterToggle', { static: false }) filterToggle: ElementRef;
+  @ViewChild('filterToggle') filterToggle: ElementRef;
 
   lang: any;
   params: any;

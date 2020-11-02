@@ -1,12 +1,7 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import colorsScss from '../../../src/app/scss/colors.scss';
-import labelsMd from './labels.md';
-import {
-  withKnobs,
-  object,
-  select,
-} from '@storybook/addon-knobs';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 
 const moduleMetadata = {
@@ -18,67 +13,72 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
-stories.add('Labels', () => {
-  let colors:any = colorsScss.replace(/\r?\n|\r/g, '').replace(/\s/g, '').match(/\.(.*?)\}/gm);
-  const colorsObj = {};
-  colors = colors.map((item) => {
-    const color = /:([^;]+);/gm.exec(item)[1];
-    const name = /color-([^;]+){/gm.exec(item)[1];
-    colorsObj[name] = color;
-    return color;
-  });
-  const fieldTags = [
-    {
-      entity: {
-        entityLabel: 'kala',
-        tid: 2445,
-      },
+const stories = storiesOf('Assets/Labels', module);
+
+const fieldTags = [
+  {
+    entity: {
+      entityLabel: 'kala',
+      tid: 2445,
     },
-    {
-      entity: {
-        entityLabel: 'kaos',
-        tid: 2441,
-      },
+  },
+  {
+    entity: {
+      entityLabel: 'kaos',
+      tid: 2441,
     },
-    {
-      entity: {
-        entityLabel: 'õpetajate päev',
-        tid: 2582,
-      },
+  },
+  {
+    entity: {
+      entityLabel: 'õpetajate päev',
+      tid: 2582,
     },
-  ];
-  const type = select(
-    'Type',
-    {
-      None: '',
-      Default: 'default',
-      Plain: 'plain',
-      Orange: 'orange',
-      Aqua: 'aqua',
-    },
-    'default',
-  );
-  const background = select(
-    'Background color', colors, '#ffffff',
-  );
-  const border = select(
-    'Border color', colors, '#c7c7c9',
-  );
-  const data = object('Labels', fieldTags);
+  },
+];
+
+stories.add('Default', () => {
   return {
     moduleMetadata,
-    props: {
-      data,
-      border,
-      background,
-      type,
-    },
+    props: { fieldTags },
     template: `
-      <labels [data]="data" [type]="type" [border]="border" [background]="background"></labels>
+      <labels [data]="fieldTags"></labels>
     `,
   };
 },          {
-  notes: { markdown: labelsMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+stories.add('Plain', () => {
+  return {
+    moduleMetadata,
+    props: { fieldTags },
+    template: `
+      <labels [data]="fieldTags" type="plain"></labels>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Aqua', () => {
+  return {
+    moduleMetadata,
+    props: { fieldTags },
+    template: `
+      <labels [data]="fieldTags" type="aqua"></labels>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Orange', () => {
+  return {
+    moduleMetadata,
+    props: { fieldTags },
+    template: `
+      <labels [data]="fieldTags" type="orange"></labels>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

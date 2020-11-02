@@ -449,6 +449,14 @@
     "_fileName": "folder.svg"
   },
   {
+    "_name": "format-quote-outlined",
+    "_fileName": "format-quote-outlined.svg"
+  },
+  {
+    "_name": "format-quote",
+    "_fileName": "format-quote.svg"
+  },
+  {
     "_name": "framer",
     "_fileName": "framer.svg"
   },

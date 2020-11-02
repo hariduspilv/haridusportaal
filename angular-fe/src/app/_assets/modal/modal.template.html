@@ -24,15 +24,3 @@
     </div>
   </div>
 </div>
-<!-- For story -->
-<div class="states" *ngIf="stateButton && modalIds">
-  <formItem
-    type="select"
-    title="Modaal"
-    [(ngModel)]="modalId"
-    [options]="modalIds">
-  </formItem>
-  <button htm-button (click)="modalService.toggle(modalId)">Ava modaal</button>
-  <br>
-</div>
-<!-- / -->

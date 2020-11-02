@@ -47,6 +47,10 @@ import 'core-js/es6/reflect';
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
 import 'core-js/es7/reflect';
 
+/******************************************************************
+ * Load `$localize` - used if i18n tags appear in Angular templates.
+ */
+import '@angular/localize/init';
 
 /**
  * Required to support Web Animations `@angular/platform-browser/animations`.

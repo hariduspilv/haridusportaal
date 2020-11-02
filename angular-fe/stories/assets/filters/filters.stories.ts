@@ -4,11 +4,6 @@ import filtersMd from './filters.md';
 import filtersTemplateHtml from './filters.template.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SettingsService } from '@app/_services/SettingsService';
-import { RippleService, ModalService } from '@app/_services';
-import { ActivatedRoute, Params } from '@angular/router';
-import { QueryParamsService } from '@app/_services/QueryParams.service';
-import { Observable } from 'rxjs';
 
 const moduleMetadata = {
   imports: [
@@ -64,5 +59,3 @@ const storyData = (type) => {
 const stories = storiesOf('Filters', module);
 
 stories.add('News', () => { return storyData('news'); }, { notes });
-stories.add('School', () => { return storyData('school'); }, { notes });
-stories.add('studyProgramme', () => { return storyData('studyProgramme'); }, { notes });

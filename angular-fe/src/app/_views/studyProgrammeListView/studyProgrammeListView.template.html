@@ -45,8 +45,12 @@
 					</div>
 
 					<div class="col-5 sm-12">
-						<formItem type="multi-select" [(ngModel)]="selectedIscedfBroad" (onChange)="setIscedfFilters('narrow')"
-							title="{{ 'studyProgramme.filter_iscedf_broad' | translate }}" name="iscedf_broad" [options]="iscedfBroadFilters">
+						<formItem type="multi-select"
+							[(ngModel)]="selectedIscedfBroad" 
+							(onChange)="setIscedfFilters('narrow')"
+							title="{{ 'studyProgramme.filter_iscedf_broad' | translate }}"
+							name="iscedf_broad"
+							[options]="iscedfBroadFilters">
 						</formItem>
 					</div>
 
@@ -57,9 +61,14 @@
 					</div>
 
 					<div class="col-5 sm-12" [class.disabled]="selectedIscedfBroad.length ? false : true" >
-						<formItem type="multi-select" [(ngModel)]="selectedIscedfNarrow" (onChange)="setIscedfFilters('detailed')"
+						<formItem type="multi-select"
+						[(ngModel)]="selectedIscedfNarrow"
+						[outsideInitialization]="true"
+						(onChange)="setIscedfFilters('detailed')"
 						[disabled]="selectedIscedfBroad.length ? false : true"
-						title="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}" name="iscedf_narrow" [options]="iscedfNarrowFilters">
+						title="{{ 'studyProgramme.filter_iscedf_narrow' | translate }}"
+						name="iscedf_narrow"
+						[options]="iscedfNarrowFilters">
 						</formItem>
 					</div>
 
@@ -69,9 +78,13 @@
 					</div>
 
 					<div class="col-5 sm-12" [class.disabled]="selectedIscedfNarrow.length ? false : true">
-						<formItem type="multi-select" [(ngModel)]="selectedIscedfDetailed" 
+						<formItem type="multi-select" 
+						[(ngModel)]="selectedIscedfDetailed" 
+						[outsideInitialization]="true"
 						[disabled]="selectedIscedfNarrow.length ? false : true"
-						title="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}" name="iscedf_detailed" [options]="iscedfDetailedFilters">
+						title="{{ 'studyProgramme.filter_iscedf_detailed' | translate }}"
+						name="iscedf_detailed"
+						[options]="iscedfDetailedFilters">
 						</formItem>
 					</div>
 

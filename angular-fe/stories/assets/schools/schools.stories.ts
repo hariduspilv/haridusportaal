@@ -1,6 +1,5 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import schoolsMd from './schools.md';
 import schoolsHtml from './schools.html';
 import { TranslateModule } from '@app/_modules/translate';
 import { list } from './schools.data';
@@ -8,6 +7,9 @@ import { ModalService } from '@app/_services';
 import { RouterTestingModule } from '@angular/router/testing';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
+
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -21,7 +23,7 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/List', module);
 
 stories.add('Schools', () => {
 
@@ -33,5 +35,5 @@ stories.add('Schools', () => {
     template: schoolsHtml,
   };
 },          {
-  notes: { markdown: schoolsMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

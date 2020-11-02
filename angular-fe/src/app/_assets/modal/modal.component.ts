@@ -23,10 +23,7 @@ import { ModalService } from '@app/_services';
 export class ModalContentComponent {
   @Input() public id: string;
   @Input() public loading: boolean = false;
-  @ContentChild(TemplateRef, { static: false }) public templateRef: TemplateRef<any>;
-
-  constructor(private modalService: ModalService) {
-  }
+  @ContentChild(TemplateRef) public templateRef: TemplateRef<any>;
 }
 
 @Component({
@@ -39,17 +36,15 @@ export class ModalComponent implements OnInit {
   @Input() public id: string;
   @Input() public modalTitle: string = '';
   public opened: boolean = false;
-  public modalIds: any;
   @Input() public titleExists: boolean = true;
   @Input() public topAction: boolean = true;
   @Input() public bottomAction: boolean = true;
   @Input() public size: string = 'default';
   @Input() public reloadOnClose: boolean = false;
-  // Modal opening button for story
-  @Input() public stateButton: boolean = false;
+  @Input() public initializeAsOpen: boolean = false;
   @Output() public onClose: EventEmitter<any> = new EventEmitter();
   @ViewChildren('modalContent') public contents: QueryList<any> = new QueryList();
-  @ContentChild(TemplateRef, { static: false }) public templateRef: TemplateRef<any>;
+  @ContentChild(TemplateRef) public templateRef: TemplateRef<any>;
   private element: any;
 
   constructor(private elem: ElementRef, private modalService: ModalService) {
@@ -71,12 +66,8 @@ export class ModalComponent implements OnInit {
   }
 
   public ngOnInit() {
-    // Outside click close
     this.modalService.add(this);
-    // Modal selection in story
-    if (this.modalService.modals && this.modalService.modals.length) {
-      this.modalIds = this.modalService.modals.map(item => item.id);
-    }
+    if (this.initializeAsOpen) this.stateChange(true);
   }
 
   public ngOnDestroy(): void {

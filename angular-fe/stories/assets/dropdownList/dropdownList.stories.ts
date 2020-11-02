@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import dropdownListMd from './dropdownList.md';
-import dropdownListHtml from './dropdownList.html';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 import { TranslateModule } from '@app/_modules/translate';
 import { data } from './dropdownList.data';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -16,20 +16,19 @@ const moduleMetadata = {
   ],
   providers: [
     RippleService,
-  ]
+  ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/Dropdown List', module);
 
-stories.add('Dropdown List', () => {
-
+stories.add('Default', () => {
   return {
     moduleMetadata,
     props: {
       data,
     },
-    template: dropdownListHtml,
+    template: '<dropdown-list [data]="data.nodeQuery.entities"></dropdown-list>',
   };
 },          {
-  notes: { markdown: dropdownListMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

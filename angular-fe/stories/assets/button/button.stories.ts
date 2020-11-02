@@ -1,11 +1,7 @@
 import { storiesOf } from '@storybook/angular';
-import {
-  withKnobs,
-  optionsKnob as options,
-  select,
-} from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
-import buttonMd from './button.md';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 import { RippleService } from '@app/_services';
 
 const moduleMetadata = {
@@ -14,37 +10,50 @@ const moduleMetadata = {
   ],
   providers: [
     RippleService,
-  ]
+  ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
+const stories = storiesOf('Assets/Button', module);
 
-stories.add('Button', () => {
-
-  const theme = select(
-    'Theme',
-    {
-      Default: 'default',
-      Inverted: 'inverted',
-      Plain: 'plain',
-      Icon: 'icon',
-    },
-    'default',
-  );
-
+stories.add('Default', () => {
   return {
     moduleMetadata,
-    props: {
-      theme,
-    },
     template: `
-    <button htm-button *ngIf="theme !== 'icon'" [theme]="theme">Nupp</button>
-    <button htm-button *ngIf="theme == 'icon'" [theme]="theme">
-      <icon glyph="x" size="medium"></icon>
-    </button>
+      <button htm-button>Default</button>
     `,
   };
 },          {
-  notes: { markdown: buttonMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+stories.add('Inverted', () => {
+  return {
+    moduleMetadata,
+    template: `
+      <button htm-button theme="inverted">Inverted</button>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+stories.add('Plain', () => {
+  return {
+    moduleMetadata,
+    template: `
+      <button htm-button theme="plain">Plain</button>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+stories.add('Icon', () => {
+  return {
+    moduleMetadata,
+    template: `
+      <button htm-button theme="icon">
+        <icon glyph="x" size="medium"></icon>
+      </button>
+    `,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

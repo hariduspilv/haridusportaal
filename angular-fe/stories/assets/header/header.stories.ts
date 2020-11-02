@@ -1,12 +1,8 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import headerMd from './header.md';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
 import { TranslateModule } from '@app/_modules/translate';
-import {
-  withKnobs,
-  text,
-  optionsKnob as options,
-} from '@storybook/addon-knobs';
 import { ModalService, RippleService, AnalyticsService } from '@app/_services';
 import { RouterTestingModule } from '@angular/router/testing';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
@@ -27,36 +23,22 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
+const stories = storiesOf('Assets/Header', module);
+
 stories.add(
-  'Header', () => {
-    const user = text('Username', 'Mari Maasikas');
-    const logged = options(
-      'Logged in',
-      {
-        Yes: 'yes',
-        No: 'no',
-      },
-      'no',
-      {
-        display: 'inline-radio',
-      },
-    );
+  'Default', () => {
     return {
       moduleMetadata,
-      props: {
-        user,
-        logged,
-      },
       template: `
-        <htm-header
-          [loginStatus]="logged === 'yes'"
-          [user]="user">
-        </htm-header>`,
+        <div style="min-height: 500px">
+          <htm-header
+            [loginStatus]="false"
+            user="Mari Maasikas">
+          </htm-header>
+        </div>`,
     };
   },
   {
-    notes: { markdown: headerMd },
+    notes: { Instructions: instructionsMd, Documentation: documentationMd },
   },
 );

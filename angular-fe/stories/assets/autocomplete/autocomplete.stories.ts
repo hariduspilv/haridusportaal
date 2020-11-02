@@ -1,48 +1,57 @@
 import { storiesOf } from '@storybook/angular';
-import {
-  withKnobs,
-  optionsKnob as options,
-  select,
-} from '@storybook/addon-knobs';
 import { AssetsModule } from '@app/_assets';
-import autocompleteMd from './autocomplete.md';
-import autocompleteHtml from './autocomplete.html';
-import { TranslateService } from '@app/_modules/translate/translate.service';
+import documentationMd from './documentation.md';
+import instructionsMd from './instructions.md';
+import defaultAutocompleteHtml from './defaultAutocomplete.html';
+import inAdsAutocompleteHtml from './inAdsAutocomplete.html';
 import { RippleService, ModalService } from '@app/_services';
 import { ActivatedRoute } from '@angular/router';
-import { APP_BASE_HREF } from '@angular/common';
 import { RouterTestingModule } from '@angular/router/testing';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { AddressService } from '@app/_services/AddressService';
+import { HttpClient } from '@angular/common/http';
+import { SettingsModule } from '@app/_modules/settings/settings.module';
+import { TranslateModule } from '@app/_modules/translate';
 
 const moduleMetadata = {
   imports: [
     AssetsModule,
+    SettingsModule.forRoot(),
+    TranslateModule.forRoot(),
     RouterTestingModule,
   ],
   providers: [
-    TranslateService,
     RippleService,
     ModalService,
+    HttpClient,
     AddressService,
     QueryParamsService,
     { provide: ActivatedRoute, useValue: {} },
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
+const stories = storiesOf('Assets/Autocomplete', module);
 
-stories.add('Autocomplete', () => {
-
+stories.add('Default', () => {
   return {
     moduleMetadata,
     props: {
       general: '',
-      inads: '',
     },
-    template: autocompleteHtml,
+    template: defaultAutocompleteHtml,
   };
 },          {
-  notes: { markdown: autocompleteMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('InAds address search', () => {
+  return {
+    moduleMetadata,
+    props: {
+      inads: '',
+    },
+    template: inAdsAutocompleteHtml,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

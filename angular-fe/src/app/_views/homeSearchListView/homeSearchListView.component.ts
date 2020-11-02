@@ -3,6 +3,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
+import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
+import { DeviceDetectorService } from 'ngx-device-detector';
 @Component({
   selector: 'homeSearchList-view',
   templateUrl: './homeSearchListView.template.html',
@@ -10,7 +12,7 @@ import { SettingsService } from '@app/_services';
 })
 
 export class HomeSearchListViewComponent {
-  @ViewChild('content', { static: false }) content: ElementRef;
+  @ViewChild('content') content: ElementRef;
 
   public results: any = false;
   public filteredResults: any = false;
@@ -56,6 +58,7 @@ export class HomeSearchListViewComponent {
     private route: ActivatedRoute,
     private http: HttpClient,
     private settings: SettingsService,
+    private deviceService: DeviceDetectorService,
   ) {}
 
   ngOnInit() {
@@ -151,6 +154,9 @@ export class HomeSearchListViewComponent {
       this.breadcrumbs = this.constructCrumbs();
       this.listLength = this.filteredResults.length;
       this.loading = false;
+      if (this.deviceService.isMobile() && paramsExist(this.route)) {
+        scrollElementIntoView('block');
+      }
       this.dataSubscription.unsubscribe();
     });
   }

@@ -10,6 +10,9 @@ import { RippleService, ModalService } from '@app/_services';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { ActivatedRoute } from '@angular/router';
 import { AddressService } from '@app/_services/AddressService';
+import instructionsMd from './instructions.md';
+import documentationMd from './documentation.md';
+
 const moduleMetadata = {
   imports: [
     AssetsModule,
@@ -26,9 +29,9 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
+const stories = storiesOf('Assets/List', module);
 
-stories.add('Main Professions', () => {
+stories.add('Main professions', () => {
 
   return {
     moduleMetadata,
@@ -38,5 +41,5 @@ stories.add('Main Professions', () => {
     template: mainProfessionsHtml,
   };
 },          {
-  notes: { markdown: mainProfessionsMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

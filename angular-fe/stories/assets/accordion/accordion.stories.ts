@@ -1,16 +1,13 @@
 import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
-import accordionMd from './accordion.md';
-import {
-  withKnobs,
-  optionsKnob as options,
-} from '@storybook/addon-knobs';
+import documentationMd from './documentation.md';
+import instructionsMd from './instructions.md';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@app/_modules/translate';
-import accordionHtml from './accordion.html';
+import defaultAccordionHtml from './defaultAccordion.html';
+import collapsibleAccordionHtml from './collapsibleAccordion.html';
 import { RippleService } from '@app/_services';
 import { Location, LocationStrategy, PathLocationStrategy, APP_BASE_HREF } from '@angular/common';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 const moduleMetadata = {
@@ -28,28 +25,23 @@ const moduleMetadata = {
   ],
 };
 
-const stories = storiesOf('Assets', module);
-stories.addDecorator(withKnobs);
-stories.add('Accordion', () => {
+const stories = storiesOf('Assets/Accordion', module);
 
-  const collapsible = options(
-    'Collapsible',
-    {
-      True: '1',
-      False: '0',
-    },
-    '0',
-    {
-      display: 'inline-radio',
-    });
+stories.add('Default', () => {
+  return {
+    moduleMetadata,
+    template: defaultAccordionHtml,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Collapsible', () => {
 
   return {
     moduleMetadata,
-    props: {
-      collapsible,
-    },
-    template: accordionHtml,
+    template: collapsibleAccordionHtml,
   };
 },          {
-  notes: { markdown: accordionMd },
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });

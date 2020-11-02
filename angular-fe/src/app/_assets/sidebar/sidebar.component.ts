@@ -6,6 +6,7 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  ViewChild,
 } from '@angular/core';
 import { AlertsService, ModalService, SettingsService, SidebarService, AuthService } from '@app/_services';
 import {
@@ -22,8 +23,9 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { saveAs } from 'file-saver';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { RecaptchaComponent } from 'ng-recaptcha';
 
 interface SidebarType {
   [key: string]: string;
@@ -108,7 +110,7 @@ export class SidebarComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private translate: TranslateService,
   ) {
-    if (route.snapshot.data.type) {
+    if (route.snapshot?.data?.type) {
       this.type = route.snapshot.data.type;
     }
   }
@@ -223,8 +225,8 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
         return {
           title: item.entity.fieldJobName,
           url: {
-            path: item.entity.fieldJobLink.url.path,
-            routed: item.entity.fieldJobLink.url.routed,
+            path: item.entity.fieldJobLink?.url.path,
+            routed: item.entity.fieldJobLink?.url.routed,
           },
         };
       }
@@ -512,6 +514,7 @@ export class SidebarProgressComponent {
   templateUrl: './templates/sidebar.register.template.html',
 })
 export class SidebarRegisterComponent {
+  @ViewChild('captchaRef') reCaptcha: RecaptchaComponent;
   @Input() public pageData;
 
   public formSubmitted: boolean = false;
@@ -531,13 +534,20 @@ export class SidebarRegisterComponent {
   public response;
   private unix: number;
   private iCalUrl: string;
+  private authSub: Subscription;
+  public loginStatus: boolean;
 
   constructor(
     private settings: SettingsService,
     public modal: ModalService,
     private formBuilder: FormBuilder,
     private http: HttpClient,
+    private auth: AuthService,
   ) {
+  }
+
+  ngOnDestroy() {
+    this.authSub.unsubscribe();
   }
 
   public ngOnInit() {
@@ -550,9 +560,8 @@ export class SidebarRegisterComponent {
         eventEndTime: this.pageData.fieldEventMainEndTime,
         eventExtraDates: this.pageData.fieldEventDate,
       };
-    } catch (err) {
-    }
-
+    } catch (err) {}
+    this.subscribeToAuth();
     this.iCalUrl = `${this.settings.url}/calendarexport/`;
     this.unix = parseUnixDate(new Date().getTime() / 1000);
   }
@@ -563,6 +572,12 @@ export class SidebarRegisterComponent {
     this.step = 1;
     this.response = undefined;
     this.formSubmitted = false;
+  }
+
+  public subscribeToAuth() {
+    this.authSub = this.auth.isAuthenticated.subscribe((val) => {
+      this.loginStatus = val;
+    });
   }
 
   public hasError(name: string = '') {
