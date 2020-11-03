@@ -1,6 +1,6 @@
 <?php
 
-namespace Drupal\custom_logging_to_file\Controller;
+namespace Drupal\htm_custom_file_logging\Controller;
 
 use Drupal\Core\Controller\ControllerBase;
 

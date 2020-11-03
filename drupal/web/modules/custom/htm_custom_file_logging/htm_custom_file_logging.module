@@ -5,7 +5,7 @@
  * Contains custom_logging_to_file.module.
  */
 
-use Drupal\custom_logging_to_file\Controller\DeleteLogsController;
+use Drupal\htm_custom_file_logging\Controller\DeleteLogsController;
 use Drupal\Core\Queue\QueueFactory;
 use Drupal\Core\Queue\QueueInterface;
 
