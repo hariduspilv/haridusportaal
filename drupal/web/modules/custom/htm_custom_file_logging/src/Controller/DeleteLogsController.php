@@ -21,7 +21,6 @@ class DeleteLogsController extends ControllerBase {
 
   private function getOldYearDirectories(&$directories) {
     $year = date('Y');
-    $files = scandir($this->logpath);
-    dump($files);
+    $directories = array_diff(scandir($this->logpath), ['.', '..', $year]);
   }
 }
