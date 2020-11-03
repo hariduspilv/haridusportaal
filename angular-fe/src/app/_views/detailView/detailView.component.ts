@@ -45,15 +45,15 @@ export class DetailViewComponent {
     private location: Location,
     public auth: AuthService,
     private translate: TranslateService,
-  ) {}
+  ) { }
 
-  private getSidebar():void {
+  private getSidebar(): void {
     const variables = {
       lang: 'ET',
       nid: this.data.nid,
     };
 
-    let queryKey:string|boolean = false;
+    let queryKey: string | boolean = false;
 
     switch (this.type) {
       case 'news': queryKey = 'recentNews'; break;
@@ -130,14 +130,13 @@ export class DetailViewComponent {
     }
   }
 
-  private getData():void {
+  private getData(): void {
     const variables = {
       path: this.path,
     };
     const path = this.settings.query(this.queryKey, variables);
     this.sidebar = undefined;
     const subscription = this.http.get(path).subscribe((response) => {
-
       try {
         this.origData = response['data']['route']['entity'];
         this.parseData(response['data']['route']['entity']);
@@ -147,7 +146,6 @@ export class DetailViewComponent {
 
       subscription.unsubscribe();
     });
-
   }
 
   private getPreviewData(): void {
@@ -178,13 +176,15 @@ export class DetailViewComponent {
     window.location.href = href;
   }
 
-  private parseData(data):void {
+  private parseData(data) {
     this.data = FieldVaryService(data);
 
     if (Array.isArray(this.data.video) && this.data.video.length > 1) {
       this.data.additionalVideos = this.data.video.slice(1, 10);
       this.data.video = this.data.video[0];
     }
+
+    this.data.processedImages = [this.data.image, ...this.data.additionalImages];
 
     this.data['fieldAccordion'] = this.data.reverseFieldOskaFieldParagraph &&
       this.data.reverseFieldOskaFieldParagraph.entities.length ?
@@ -206,7 +206,7 @@ export class DetailViewComponent {
             }),
           },
         }, ... this.data.accordion];
-      } catch (err) {}
+      } catch (err) { }
     }
 
     this.loading = false;

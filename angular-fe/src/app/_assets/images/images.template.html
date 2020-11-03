@@ -1,4 +1,12 @@
-<div class="image__entity" *ngFor="let item of images">
+<!-- <div class="image__entity" *ngFor="let item of images">
   <img [src]="item.derivative.url" [title]="item.title" [alt]="item.alt" />
   <div class="image__title" *ngIf="item.title">{{ item.title }}</div>
-</div><!--/image__entity-->
+</div> -->
+<!--/image__entity-->
+
+<div class="gallery-container">
+  <div class="expand-gallery" (click)="openPreview()">
+    Vaata kõiki pilte ({{ galleryImages.length}})
+  </div>
+  <ngx-gallery id="gallery" [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+</div>

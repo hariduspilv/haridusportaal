@@ -35,7 +35,8 @@
 					<p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 
 					<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
-					<images *ngIf="(!data.video || data.video.length === 0) && data.image" [image]="data.image"></images>
+
+					<images *ngIf="(!data.video || data.video.length === 0) && data.image" [image]="data.processedImages"></images>
 
 					<picto tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
 					
