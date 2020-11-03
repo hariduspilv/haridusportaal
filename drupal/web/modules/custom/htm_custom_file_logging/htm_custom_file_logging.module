@@ -22,7 +22,7 @@ function delete_old_logs_cron() {
         /** @var QueueInterface $queue */
         $queue = $queue_factory->get('cron_delete_old_logs');
 
-        $directories = $import_controller->import();
+        $directories = $import_controller->old_list();
         $elapsedtime = time() - $starttime;
         $message = t('Tekitatud uued kirjed kustutamisele minevatele logide järjekorda. Kustutamisele kauste: @unpublished, Kulunud aeg (sekundid): @elapsedtime', array('@unpublished' => $deleted, '@elapsedtime' => $elapsedtime));
         \Drupal::service('htm_custom_file_logging.write')->write('notice', 'Vanade logikirjete kustutamine', $message);

@@ -11,7 +11,7 @@ class DeleteLogsController extends ControllerBase {
 
   public $logpath = '/app/drupal/web/sites/default/files/logs/';
 
-  public function import() {
+  public function old_list() {
     $directories = [];
     $month = date('m');
     $this->getOldYearDirectories($directories);

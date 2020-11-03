@@ -1,0 +1,8 @@
+
+htm_custom_file_logging.old_log_file_list:
+  path: '/htm_custom_file_logging/list'
+  defaults:
+    _controller: '\Drupal\htm_custom_file_logging\Controller\DeleteLogsController::list'
+    _title: 'import'
+  requirements:
+    _permission: 'access content'
