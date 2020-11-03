@@ -23,18 +23,6 @@ function delete_old_logs_cron() {
         $queue = $queue_factory->get('cron_delete_old_logs');
 
         $directories = $import_controller->import();
-        foreach($schoolnodes as $schoolnode){
-          $queue->createItem($schoolnode);
-          if(isset($schoolnode['school_field']['nid'])){
-            if($schoolnode['school_field']['status'] == '1'){
-              $updated++;
-            }else{
-              $unpublished++;
-            }
-          }else{
-            $added++;
-          }
-        }
         $elapsedtime = time() - $starttime;
         $message = t('Tekitatud uued kirjed kustutamisele minevatele logide järjekorda. Kustutamisele kauste: @unpublished, Kulunud aeg (sekundid): @elapsedtime', array('@unpublished' => $deleted, '@elapsedtime' => $elapsedtime));
         \Drupal::service('htm_custom_file_logging.write')->write('notice', 'Vanade logikirjete kustutamine', $message);
