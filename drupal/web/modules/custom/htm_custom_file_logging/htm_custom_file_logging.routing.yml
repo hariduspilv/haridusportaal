@@ -2,7 +2,7 @@
 htm_custom_file_logging.old_log_file_list:
   path: '/htm_custom_file_logging/list'
   defaults:
-    _controller: '\Drupal\htm_custom_file_logging\Controller\DeleteLogsController::list'
+    _controller: '\Drupal\htm_custom_file_logging\Controller\DeleteLogsController::old_list'
     _title: 'list'
   requirements:
     _permission: 'access content'
