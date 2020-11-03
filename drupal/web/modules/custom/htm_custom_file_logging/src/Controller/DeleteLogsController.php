@@ -19,7 +19,7 @@ class DeleteLogsController extends ControllerBase {
     die();
   }
 
-  private function getOldYearDirectiories(&$directories) {
+  private function getOldYearDirectories(&$directories) {
     $year = date('Y');
     $files = scandir($this->logpath);
     dump($files);
