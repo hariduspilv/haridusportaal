@@ -20,7 +20,7 @@ function htm_custom_file_logging_cron() {
   /** @var QueueFactory $queue_factory */
   $queue_factory = \Drupal::service('queue');
   /** @var QueueInterface $queue */
-  $queue = $queue_factory->get('cron_delete_old_logs');
+  $queue = $queue_factory->get('cron_htm_custom_file_logging');
 
   $directories = $import_controller->old_list();
   foreach($directories as $directory){
