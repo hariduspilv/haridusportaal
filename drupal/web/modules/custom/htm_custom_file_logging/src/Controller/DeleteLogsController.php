@@ -35,6 +35,6 @@ class DeleteLogsController extends ControllerBase {
       if($directory > $month || $month - $directory >= 2) {
         return $this->logpath . '/' . $directory;
       }
-    }, $directories);
+    }, $directories, $month);
   }
 }
