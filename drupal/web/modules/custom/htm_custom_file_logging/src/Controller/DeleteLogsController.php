@@ -25,6 +25,7 @@ class DeleteLogsController extends ControllerBase {
     $directories = array_map(function($directory) {
       return $this->logpath . $directory;
     }, $scanned);
+    dump($directories);
   }
 
   private function getOldMonthDirectories(&$directories) {
@@ -37,5 +38,6 @@ class DeleteLogsController extends ControllerBase {
         return $this->logpath . $year . '/' . $directory;
       }
     }, $scanned));
+    dump($directories);
   }
 }
