@@ -31,12 +31,14 @@ class DeleteLogsController extends ControllerBase {
     $year = date('Y');
     $month = (int) date('m');
     $scanned = array_diff(scandir($this->logpath . $year), ['.', '..', '.htaccess']);
-    $scannedDirectories = array_map(function($directory) use ($year, $month) {
-      $dirValue = (int) ltrim($directory, '0');
-      dump($dirValue);
-      if($dirValue > $month || $month - $dirValue >= 2) {
-        return $this->logpath . $year . '/' . $directory;
-      }
-    }, $scanned);
+    $scannedDirectories = array_filter(
+      array_map(function($directory) use ($year, $month) {
+        $dirValue = (int) ltrim($directory, '0');
+        if($dirValue > $month || $month - $dirValue >= 2) {
+          return $this->logpath . $year . '/' . $directory;
+        }
+      }, $scanned),
+      function($v) { return !is_null($v); });
+    dump($scannedDirectories);
   }
 }
