@@ -30,13 +30,11 @@ class DeleteLogsController extends ControllerBase {
   private function getOldMonthDirectories(&$directories) {
     $year = date('Y');
     $month = date('m');
-    dump($this->logpath . $year);
     $scanned = array_diff(scandir($this->logpath . $year), ['.', '..', '.htaccess']);
-    dump($scanned);
-    $directories = array_merge($directories, array_map(function($directory) use ($month) {
+    $directories = array_merge($directories, array_map(function($directory) use ($year, $month) {
       $dirValue = ltrim($directory, '0');
       if($dirValue > $month || $month - $dirValue >= 2) {
-        return $this->logpath . '/' . $directory;
+        return $this->logpath . $year . '/' . $directory;
       }
     }, $scanned));
   }
