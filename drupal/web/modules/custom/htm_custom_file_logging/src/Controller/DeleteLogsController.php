@@ -21,16 +21,16 @@ class DeleteLogsController extends ControllerBase {
 
   private function getOldYearDirectories(&$directories) {
     $year = date('Y');
-    $directories = array_diff(scandir($this->logpath), ['.', '..', '.htaccess', $year]);
+    $scanned = array_diff(scandir($this->logpath), ['.', '..', '.htaccess', $year]);
     $directories = array_map(function($directory) {
       return $this->logpath . $directory;
-    }, $directories);
+    }, $scanned);
   }
 
   private function getOldMonthDirectories(&$directories) {
     $year = date('Y');
     $month = date('m');
-    $directories = array_diff(scandir($this->logpath . $year), ['.', '..', '.htaccess']);
+    $scanned = array_diff(scandir($this->logpath . $year), ['.', '..', '.htaccess']);
     $directories = array_merge($directories, array_map(function($directory, $month) {
       $monthValue = (int) $month;
       $dirValue = (int) $directory;
@@ -39,6 +39,6 @@ class DeleteLogsController extends ControllerBase {
       if($dirValue > $monthValue || $monthValue - $dirValue >= 2) {
         return $this->logpath . '/' . $directory;
       }
-    }, $directories, $month));
+    }, $scanned, $month));
   }
 }
