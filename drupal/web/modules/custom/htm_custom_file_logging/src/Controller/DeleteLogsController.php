@@ -15,8 +15,7 @@ class DeleteLogsController extends ControllerBase {
     $directories = [];
     $this->getOldYearDirectories($directories);
     $this->getOldMonthDirectories($directories);
-    dump($directories);
-    die();
+    return $directories;
   }
 
   private function getOldYearDirectories(&$directories) {
