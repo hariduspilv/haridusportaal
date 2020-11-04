@@ -12,7 +12,7 @@ use Drupal\Core\Queue\QueueInterface;
 /**
  * Implements hook_cron().
  */
-function delete_old_logs_cron() {
+function htm_custom_file_logging_cron() {
   $import_controller = new DeleteLogsController();
   $starttime = time();
   $deleted = 0;

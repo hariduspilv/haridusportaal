@@ -18,6 +18,14 @@ class DeleteLogsController extends ControllerBase {
     return $directories;
   }
 
+  public function delete_log($path) {
+    if(!empty($path)) {
+      is_file($path) ?
+        @unlink($path) :
+        array_map(__FUNCTION__, glob($path.'/*')) == @rmdir($path);
+    }
+  }
+
   private function getOldYearDirectories(&$directories) {
     $year = date('Y');
     $scanned = array_diff(scandir($this->logpath), ['.', '..', '.htaccess', $year]);
