@@ -20,9 +20,7 @@ class DeleteLogsController extends ControllerBase {
 
   public function delete_log($path) {
     if(!empty($path)) {
-      is_file($path) ?
-        @unlink($path) :
-        array_map(__FUNCTION__, glob($path.'/*')) == @rmdir($path);
+      system("rm -rf ".escapeshellarg($path));
     }
   }
 
