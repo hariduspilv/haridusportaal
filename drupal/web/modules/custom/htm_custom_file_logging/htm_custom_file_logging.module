@@ -13,17 +13,21 @@ use Drupal\Core\Queue\QueueInterface;
  * Implements hook_cron().
  */
 function delete_old_logs_cron() {
-        $import_controller = new DeleteLogsController();
-        $starttime = time();
-        $deleted = 0;
+  $import_controller = new DeleteLogsController();
+  $starttime = time();
+  $deleted = 0;
 
-        /** @var QueueFactory $queue_factory */
-        $queue_factory = \Drupal::service('queue');
-        /** @var QueueInterface $queue */
-        $queue = $queue_factory->get('cron_delete_old_logs');
+  /** @var QueueFactory $queue_factory */
+  $queue_factory = \Drupal::service('queue');
+  /** @var QueueInterface $queue */
+  $queue = $queue_factory->get('cron_delete_old_logs');
 
-        $directories = $import_controller->old_list();
-        $elapsedtime = time() - $starttime;
-        $message = t('Tekitatud uued kirjed kustutamisele minevatele logide järjekorda. Kustutamisele kauste: @unpublished, Kulunud aeg (sekundid): @elapsedtime', array('@unpublished' => $deleted, '@elapsedtime' => $elapsedtime));
-        \Drupal::service('htm_custom_file_logging.write')->write('notice', 'Vanade logikirjete kustutamine', $message);
+  $directories = $import_controller->old_list();
+  foreach($directories as $directory){
+    $queue->createItem($directory);
+    $deleted++;
+  }
+  $elapsedtime = time() - $starttime;
+  $message = t('Tekitatud uued kirjed kustutamisele minevatele logide järjekorda. Kustutamisele kauste: @unpublished, Kulunud aeg (sekundid): @elapsedtime', array('@unpublished' => $deleted, '@elapsedtime' => $elapsedtime));
+  \Drupal::service('htm_custom_file_logging.write')->write('notice', 'Vanade logikirjete kustutamine', $message);
 }
