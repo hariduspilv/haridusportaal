@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:current-alpine
 MAINTAINER TWN
 
 ARG BUILD_VERSION=${BUILD_VERSION}
@@ -15,7 +15,7 @@ RUN	apk update && \
 	nodejs \
 	nodejs-npm
 
-RUN npm i -g @angular/cli@8.0.3
+RUN npm i -g @angular/cli
 
 RUN npm i -g npm@latest
 
