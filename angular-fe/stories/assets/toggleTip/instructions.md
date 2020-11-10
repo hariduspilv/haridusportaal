@@ -2,9 +2,8 @@
 
 ## Usage
 ```html
-<toggle-tip placement="auto">
+<toggle-tip placement="auto" [content]="'oska.fieldNumberEmployed_explanation' | translate">
   <span>i</span>
-  <div id="content">Tooltip content</div>
 </toggle-tip>
 ```
 
@@ -13,4 +12,5 @@
 | Name  | Required  | Values  |  Type | Description  |
 |---|---|---|---|---|
 | placement | true | auto; left; top; right; bottom | String | tooltip placement
+| content | true | - | String | tooltip content
 

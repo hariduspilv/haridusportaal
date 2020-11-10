@@ -2,9 +2,11 @@ import { storiesOf } from '@storybook/angular';
 import { AssetsModule } from '@app/_assets';
 import instructionsMd from './instructions.md';
 import documentationMd from './documentation.md';
+import { TranslateModule } from '@app/_modules/translate';
 const moduleMetadata = {
   imports: [
     AssetsModule,
+    TranslateModule.forRoot(),
   ],
 };
 
@@ -15,9 +17,8 @@ stories.add('Auto', () => {
   return {
     moduleMetadata,
     template: `<div style="display: flex; width: 100%; min-height: 25rem; justify-content: center; align-items: center;">
-      <toggle-tip placement="auto">
+      <toggle-tip placement="auto" [content]="'oska.fieldNumberEmployed_explanation' | translate">
         <span>i</span>
-        <div id="content">toggletip content</div>
       </toggle-tip>
     </div>`,
   };
@@ -30,9 +31,8 @@ stories.add('Right', () => {
   return {
     moduleMetadata,
     template: `<div style="display: flex; width: 100%; min-height: 25rem; justify-content: center; align-items: center;">
-      <toggle-tip placement="right">
+      <toggle-tip placement="right" [content]="'oska.fieldNumberEmployed_explanation' | translate">
         <span>i</span>
-        <div id="content">toggletip content</div>
       </toggle-tip>
     </div>`,
   };
@@ -45,9 +45,8 @@ stories.add('Left', () => {
   return {
     moduleMetadata,
     template: `<div style="display: flex; width: 100%; min-height: 25rem; justify-content: center; align-items: center;">
-      <toggle-tip placement="left">
+      <toggle-tip placement="left" [content]="'oska.fieldNumberEmployed_explanation' | translate">
         <span>i</span>
-        <div id="content">toggletip content</div>
       </toggle-tip>
     </div>`,
   };
@@ -60,9 +59,8 @@ stories.add('Bottom', () => {
   return {
     moduleMetadata,
     template: `<div style="display: flex; width: 100%; min-height: 25rem; justify-content: center; align-items: center;">
-      <toggle-tip placement="bottom">
+      <toggle-tip placement="bottom" [content]="'oska.fieldNumberEmployed_explanation' | translate">
         <span>i</span>
-        <div id="content">toggletip content</div>
       </toggle-tip>
     </div>`,
   };
@@ -75,9 +73,8 @@ stories.add('top', () => {
   return {
     moduleMetadata,
     template: `<div style="display: flex; width: 100%; min-height: 25rem; justify-content: center; align-items: center;">
-      <toggle-tip placement="top">
+      <toggle-tip placement="top" [content]="'oska.fieldNumberEmployed_explanation' | translate">
         <span>i</span>
-        <div id="content">toggletip content</div>
       </toggle-tip>
     </div>`,
   };
