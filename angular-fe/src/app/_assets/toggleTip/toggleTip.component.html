@@ -1,11 +1,10 @@
 <button type="button"
-  [ngbTooltip]="toggleContent"
+  [ngbTooltip]="content"
   [placement]="placement"
   class="toggletip"
   triggers="click"
+  aria-label="more-info"
+  (shown)="announceContent(toggleContent)"
 >
   <ng-content></ng-content>
-  <ng-template #toggleContent>
-    <ng-content select="div#content"></ng-content>
-  </ng-template>
 </button>
