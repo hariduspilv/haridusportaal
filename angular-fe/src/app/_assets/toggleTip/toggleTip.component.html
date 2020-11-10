@@ -1,0 +1,11 @@
+<button type="button"
+  [ngbTooltip]="toggleContent"
+  [placement]="placement"
+  class="toggletip"
+  triggers="click"
+>
+  <ng-content></ng-content>
+  <ng-template #toggleContent>
+    <ng-content select="div#content"></ng-content>
+  </ng-template>
+</button>

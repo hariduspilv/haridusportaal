@@ -60,7 +60,7 @@
             </div>
             <hr aria-hidden="true" />
 
-            <p *ngIf="modal.list && modal.list.length > 0"><b>{{ 'oskaProfessions.main_profession' | translate }}</b></p>
+            <p *ngIf="modal.list && modal.list.length > 0"><b>{{ 'oska.professions_and_jobs' | translate }}</b></p>
             <ul>
               <li *ngFor="let item of modal.list"><a [routerLink]="item.entityUrl.path" [title]="item.entityLabel" role="link" attr.aria-label="{{item.entityLabel}}" tabindex="0">{{ item.entityLabel }}</a></li>
             </ul>
