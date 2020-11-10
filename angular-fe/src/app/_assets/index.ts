@@ -125,6 +125,7 @@ import { CertificateComponent } from './certificate/certificate.component';
 import { GradeSheetComponent } from './grade-sheet/gradeSheet.component';
 import { DocumentCheckComponent } from './document-check/documentCheck.component';
 import { A11yModule } from '@angular/cdk/a11y';
+import { ToggletipComponent } from './toggleTip/toggleTip.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -133,6 +134,7 @@ export function settingsProviderFactory(provider: SettingsService) {
 const pipes = [];
 
 const declarations = [
+  ToggletipComponent,
   BlockComponent,
   BlockContentComponent,
   BlockTitleComponent,

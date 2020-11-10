@@ -95,14 +95,6 @@ const routes: Routes = [
       .then(m => m.MainProfessionListViewModule),
   },
   {
-    path: 'ametialad/võrdlus',
-    loadChildren: () => import('./_views/compareView').then(m => m.CompareViewModule),
-    data: {
-      type: 'oskaProfessionsComparison',
-      query: 'oskaMainProfessionListView',
-    },
-  },
-  {
     path: 'ametialad/andmed',
     loadChildren: () => import('./_views/mainProfessionDataView')
       .then(m => m.MainProfessionDataView),

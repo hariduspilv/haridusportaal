@@ -2,7 +2,11 @@
   <ng-container
     *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
     <h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
-      {{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}
+      <span>{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}</span>
+      <toggle-tip placement="bottom">
+        <span>i</span>
+        <div id="content">{{ 'oska.fieldNumberEmployed_explanation' | translate }}</div>
+      </toggle-tip>
     </h2>
     <ng-container *ngIf="theme === 'field'; else otherExplanation">
       <span role="textbox"
