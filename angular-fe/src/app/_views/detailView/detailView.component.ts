@@ -99,7 +99,6 @@ export class DetailViewComponent {
       case 'profession': {
         this.queryKey = 'oskaMainProfessionDetailView';
         this.title = 'oskaProfessions.label';
-        this.compareKey = 'oskaProfessionsComparison';
         break;
       }
       case 'field': {
@@ -200,7 +199,7 @@ export class DetailViewComponent {
         }
         this.data.accordion = [{
           entity: {
-            fieldTitle: this.translate.get('oskaProfessions.label'),
+            fieldTitle: this.translate.get('oska.professions_and_jobs'),
             professions: this.data.fieldAccordion.map((item) => {
               return FieldVaryService(item);
             }),
