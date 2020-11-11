@@ -1,0 +1,19 @@
+uuid: b499c92b-3173-4991-a1e2-b442aedd7b8e
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - text
+id: node.field_further_info
+field_name: field_further_info
+entity_type: node
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
