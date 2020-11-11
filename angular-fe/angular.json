@@ -31,13 +31,12 @@
               "src/assets",
               "src/favicon.ico",
               "src/auth.html",
-              "src/manifest.json",
+              "src/manifest.webmanifest",
               "src/redirect.php",
               "src/robots.txt",
               "src/.htaccess",
               "src/amp-php",
-              "src/stats",
-              "src/ngsw-worker.js" 
+              "src/stats"
             ],
             "serviceWorker": true,
             "styles": [
