@@ -201,7 +201,7 @@ export const parseProfessionData = (inputData, translate) => {
     }
   } catch (err) { }
 
-  mappedData = getIndicators(mappedData);
+  mappedData = getIndicators(mappedData, translate);
 
   try {
     delete mappedData['links'];
@@ -246,7 +246,7 @@ const getFieldNumberEmployedIcon = (val) => {
   }
 }
 
-const getIndicators = (mappedData) => {
+const getIndicators = (mappedData, translate) => {
   try {
     const indicators = { entities: [] };
     let hasFieldNumberEmployed = false;
@@ -254,7 +254,7 @@ const getIndicators = (mappedData) => {
       indicators['entities'].push({
         oskaId: 1,
         value: mappedData.fieldNumberEmployed,
-        oskaIndicator: "Hõivatute arv",
+        oskaIndicator: translate.get('oska.fieldNumberEmployed'),
         icon: getFieldNumberEmployedIcon(mappedData.fieldNumberEmployed),
       })
       hasFieldNumberEmployed = true;
@@ -263,7 +263,7 @@ const getIndicators = (mappedData) => {
       indicators['entities'].push({
         oskaId: 2,
         value: mappedData.fieldEmploymentChange,
-        oskaIndicator: "Hõive muutus",
+        oskaIndicator: translate.get('oska.numberEmployedChange'),
         icon: mappedData.fieldEmploymentChange,
       });
     }
@@ -332,7 +332,7 @@ export const parseFieldData = (inputData, translate) => {
     delete mappedData['fieldOskaFieldQuickFind'];
   }
 
-  mappedData = getIndicators(mappedData);
+  mappedData = getIndicators(mappedData, translate);
 
   try {
     if (!mappedData['fieldOskaFieldContact']['entity']['fieldEmail'] &&

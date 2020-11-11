@@ -1,0 +1,10 @@
+<button type="button"
+  [ngbTooltip]="content"
+  [placement]="placement"
+  class="toggletip"
+  triggers="click"
+  aria-label="more-info"
+  (shown)="announceContent()"
+>
+  <ng-content></ng-content>
+</button>
