@@ -1,0 +1,25 @@
+@import "typography.scss";
+@import "colors.scss";
+
+:host {
+	all: unset;
+	padding: .5rem 1.5rem;
+	cursor: pointer;
+	height: 2.175rem;
+	line-height: 1.175rem;
+	font-size: 0.875rem;
+	border-radius: 20px;
+	box-sizing: border-box;
+	background: $white;
+	border: 0.0625rem solid $gray;
+	&[active=true] {
+		border-color: transparent;
+		background: $aqua;
+	}
+	&:hover {
+		border-color: $blue;
+	}
+	&:focus {
+		outline: -webkit-focus-ring-color auto 1px;
+	}
+}

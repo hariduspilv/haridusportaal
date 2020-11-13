@@ -11,6 +11,9 @@
   &.block--orange {
     border-top-color: $dark-orange;
   }
+  &.block--transparent {
+    border-top: none;
+  }
 
   @include break-on(xs, max) {
     border-radius: 0 0 $half-gutter $half-gutter;

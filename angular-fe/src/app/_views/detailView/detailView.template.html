@@ -37,9 +37,19 @@
 					<htm-video *ngIf="data.video" [videos]="data.video"></htm-video>
 					<images *ngIf="(!data.video || data.video.length === 0) && data.image" [image]="data.image"></images>
 
-					<picto tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
+					<picto [class.shorterBottom]="type === 'profession'" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
 					
-					<div class="description" *ngIf="data.description && data.description.value" [innerHtml]="data.description.value"></div>
+					<div class="description"
+						[ngClass]="{ 'typeProfession': type === 'profession', 'shown': descriptionShown }"
+						*ngIf="data.description && data.description.value"
+						[innerHtml]="data.description.value">
+					</div>
+					<div aria-hidden="true" *ngIf="type === 'profession'" class="description__actions">
+						<button theme="plain" htm-button (click)="changeDescriptionState()">
+							<ng-container *ngIf="!descriptionShown">{{ 'button.read_on' | translate }}</ng-container>
+							<ng-container *ngIf="descriptionShown">{{ 'button.show_less' | translate }}</ng-container>
+						</button>
+					</div>
 
 					<links *ngIf="data.links" [data]="data.links"></links>
 
@@ -76,6 +86,11 @@
 					<div *ngIf="type === 'resultPage'" class="resultsNavigation">
 						<a htm-button routerLink="/oska-tulemused/ettepanekute-elluviimine">{{ 'oska.see_proposals' | translate }}</a>
 					</div>
+
+					<!-- Work in progress --> 
+					<p *ngIf="data.fieldFurtherInfo">
+						<b>{{ data.fieldFurtherInfo }}</b>
+					</p>
 
 					<feedback [nid]="data.nid"></feedback>
 				</ng-container>

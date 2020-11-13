@@ -80,7 +80,4 @@
 			margin-left: -6px;
 		}
 	}
-	@include break-on(xxs, max) {
-		display: none;
-	}
 }
