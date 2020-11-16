@@ -59,18 +59,6 @@ stories.add('Plain', () => {
   notes: { Instructions: instructionsMd, Documentation: documentationMd },
 });
 
-stories.add('Aqua', () => {
-  return {
-    moduleMetadata,
-    props: { fieldTags },
-    template: `
-      <labels [data]="fieldTags" type="aqua"></labels>
-    `,
-  };
-},          {
-  notes: { Instructions: instructionsMd, Documentation: documentationMd },
-});
-
 stories.add('Orange', () => {
   return {
     moduleMetadata,
