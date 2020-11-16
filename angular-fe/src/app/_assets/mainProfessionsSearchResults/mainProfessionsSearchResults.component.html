@@ -1,0 +1,15 @@
+<div class="noResults" *ngIf="!filteredList?.length && !loading">
+  {{ noResultStringByType | translate }}
+</div>
+<listItems
+  *ngIf="filteredList?.length"
+  [type]="type"
+  [list]="filteredList"
+  [manualLimit]="manualLimit"
+></listItems>
+<loader *ngIf="loading"></loader>
+<div class="loadMore" *ngIf="!loading && canLoadMore">
+  <button htm-button (click)="loadMore()">{{ 'button.load_more' | translate }}</button>
+</div><!--/loadMore-->
+
+

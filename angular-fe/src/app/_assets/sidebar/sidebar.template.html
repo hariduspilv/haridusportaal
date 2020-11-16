@@ -1,7 +1,8 @@
 <ng-container *ngIf="mappedData">
   <ng-container *ngFor="let keyVal of orderedKeys">
     <ng-container *ngIf="keyVal !== 'fieldBlocks' && keyVal !== 'fieldEhisLinks'">
-      <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal]">
+      <!-- TODO: Temporary 'fieldJobs' hack cuz dont wanna break anything, needs refactor -->
+      <block theme="sidebar" *ngIf="mappedData[keyVal] && collection[keyVal] && !(keyVal === 'fieldJobs' && !mappedData[keyVal].length)">
         <block-title *ngIf="!titleLess[collection[keyVal]]" [ngClass]="'type-'+[collection[keyVal]]">
           <h1>{{ (keyVal === 'event' ? 'event.label' : keyVal) | translate }}</h1>
           <div *ngIf="keyVal === 'notifications' && mappedData.notifications.unread > 0" class="unreadMessages">

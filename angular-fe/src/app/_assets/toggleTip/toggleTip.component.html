@@ -3,8 +3,10 @@
   [placement]="placement"
   class="toggletip"
   triggers="click"
-  aria-label="more-info"
-  (shown)="announceContent()"
+  aria-label="Rohkem infot"
+  [attr.aria-expanded]="isOpen"
+  (shown)="isOpen = true;"
+  (hidden)="isOpen = false"
 >
   <ng-content></ng-content>
 </button>

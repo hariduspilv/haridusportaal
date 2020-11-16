@@ -10,8 +10,13 @@
     padding: 1.5rem;
     background: #fff;
     @include break-on(sm, min) {
-      margin: 1rem -1.5rem 1.5rem;
+      margin: 1rem 0 1.5rem;
       padding: 0.5rem 1.5rem;
+      @include break-on(lg, max) {
+        .inline {
+          margin: 0 -1.5rem;
+        }
+      }
     }
     @include break-on(sm, max) {
       margin-bottom: 0;
@@ -31,6 +36,65 @@
     }
     .text-right {
       text-align: right;
+    }
+  }
+
+  .highlighted__job {
+    &__wrapper {
+      display: flex;
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+        h2 {
+          font-size: 1.25rem;
+          margin-bottom: 0.5rem;
+          color: $blue;
+        }
+      }
+      a.highlighted__job__footer__link {
+        text-decoration: underline;
+        &:hover {
+          text-decoration: none;
+        }
+        &.extra-styles {
+          display: flex;
+          justify-content: center;
+          margin-top: 1rem;
+        }
+      }
+    }
+    picto {
+      margin-right: -3rem;
+      margin-top: -1rem;
+      margin-bottom: -1.5rem;
+      &:focus {
+        outline: none;
+      }
+    }
+    .description {
+      color: $black;
+      font-size: $small;
+      overflow: hidden;
+      position: relative;
+      line-height: 1.375rem;
+      max-height: 2.75rem;
+      text-align: justify;
+      padding-right: $large;
+      margin-top: .5rem;
+      @include multiLineEllipsis($lineHeight: 1.375rem, $lineCount: 2, $bgColor: $white);
+      a[target="_blank"]::after {
+        -webkit-font-feature-settings: "liga";
+        font-feature-settings: "liga";
+        -ms-font-feature-settings: "liga";
+        font-family: "iconfont";
+        content: "" !important;
+        position: relative;
+        top: 0.125rem;
+        left: 0.125rem;
+        display: inline-block;
+      }
     }
   }
   
@@ -67,6 +131,15 @@
     }
   }
   
+  ::ng-deep block-content button[tag] {
+    margin: 1rem 1.5rem 1.5rem 0;
+    &:last-child() {
+      margin-right: 0;
+    }
+  }
+
+  
+
   div[class*="col-"] {
     padding: 0.5rem !important;
   }
