@@ -18,7 +18,7 @@ use Drupal\graphql\Utility\StringHelper;
  * @GraphQLField(
  *   id = "custom_elasticsearch_query",
  *   secure = true,
- *   type = "[CustomElastic]",
+ *   type = "[CustomElasticQueryResult]",
  *   name = "CustomElasticQuery",
  *   response_cache_contexts = {"languages:language_url"},
  *   arguments = {
