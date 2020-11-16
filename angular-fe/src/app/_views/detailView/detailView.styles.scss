@@ -24,7 +24,7 @@
     }
     .overflowExists {
       &:not(.shown) {
-        @include multiLineEllipsis($lineHeight: 1.375rem, $lineCount: 6, $bgColor: $white);
+        @include multiLineEllipsis($lineHeight: 1.375rem, $lineCount: 5, $bgColor: $white);
         p {
           margin-block-start: 0;
           margin-block-end: 0;
