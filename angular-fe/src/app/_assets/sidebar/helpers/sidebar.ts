@@ -172,14 +172,16 @@ export const parseProfessionData = (inputData, translate) => {
         title: translate.get('oskaProfessions.data'),
         url: {
           path: '/ametialad/andmed',
-          routed: true,
+          routed: false,
+          target: '_blank',
         },
       },
       {
         title: translate.get('oska.all_professions_and_jobs'),
         url: {
           path: '/ametialad',
-          routed: true,
+          routed: false,
+          target: '_blank',
         },
       },
     ];
