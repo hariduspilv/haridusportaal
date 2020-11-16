@@ -8,4 +8,6 @@ import { Component, Input } from '@angular/core';
 export class ToggletipComponent {
   @Input() placement: string = 'right';
   @Input() content: string;
+
+  public isOpen = false;
 }
