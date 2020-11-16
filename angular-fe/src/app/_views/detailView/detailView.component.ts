@@ -34,6 +34,7 @@ export class DetailViewComponent {
   private paramsWatcher: Subscription = new Subscription();
   public isPreview: boolean = false;
   public missingData: boolean = false;
+  public descriptionOverflown = false;
   @Input() storyPath: string;
   @Input() storyType: string;
 
@@ -218,6 +219,9 @@ export class DetailViewComponent {
     this.feedbackNid = this.data.nid;
 
     this.getSidebar();
+    setTimeout(() => {
+      this.descriptionOverflown = document.querySelector('.description').clientHeight >= 132;
+    });
   }
 
   private watchParams() {

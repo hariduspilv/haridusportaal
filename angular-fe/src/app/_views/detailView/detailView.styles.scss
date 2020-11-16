@@ -15,19 +15,30 @@
       }
     }
 
-    .typeProfession {
+    .furtherInfo {
+      p {
+        margin-block-start: .5rem;
+        margin-block-end: .5rem;
+      }
+      margin-bottom: 1rem;
+    }
+    .overflowExists {
       &:not(.shown) {
         @include multiLineEllipsis($lineHeight: 1.375rem, $lineCount: 6, $bgColor: $white);
         p {
-          margin-block-start: 1.375rem;
-          margin-block-end: 1.375rem;
+          margin-block-start: 0;
+          margin-block-end: 0;
         }
       }
     }
     @include break-on(sm, min) {
-      picto.shorterBottom .picto .image {
-        margin-bottom: 1rem;
-        margin-right: 0;
+      picto.shorterBottom {
+        position: relative;
+        top: -1rem;
+        .picto .image {
+          margin-bottom: 1rem;
+          margin-right: 0;
+        }
       }
     }
     .description__actions {
