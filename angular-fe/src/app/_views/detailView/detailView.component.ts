@@ -220,7 +220,7 @@ export class DetailViewComponent {
 
     this.getSidebar();
     setTimeout(() => {
-      this.descriptionOverflown = document.querySelector('.description').clientHeight >= 132;
+      this.descriptionOverflown = document.querySelector('.description').clientHeight >= 110;
     });
   }
 
