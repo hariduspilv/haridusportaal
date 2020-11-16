@@ -22,6 +22,7 @@ export class DetailViewComponent {
   @ViewChild('descriptionBlock') description: ElementRef;
 
   public feedbackNid: number;
+  public descriptionShown = false;
   public loading: boolean = true;
   public sidebar: object;
   public title: string;
@@ -33,6 +34,7 @@ export class DetailViewComponent {
   private paramsWatcher: Subscription = new Subscription();
   public isPreview: boolean = false;
   public missingData: boolean = false;
+  public descriptionOverflown = false;
   @Input() storyPath: string;
   @Input() storyType: string;
 
@@ -98,7 +100,7 @@ export class DetailViewComponent {
       }
       case 'profession': {
         this.queryKey = 'oskaMainProfessionDetailView';
-        this.title = 'oskaProfessions.label';
+        this.title = 'oska.professions_and_jobs';
         break;
       }
       case 'field': {
@@ -147,6 +149,10 @@ export class DetailViewComponent {
       subscription.unsubscribe();
     });
 
+  }
+
+  public changeDescriptionState(): void {
+    this.descriptionShown = !this.descriptionShown;
   }
 
   private getPreviewData(): void {
@@ -213,6 +219,10 @@ export class DetailViewComponent {
     this.feedbackNid = this.data.nid;
 
     this.getSidebar();
+    setTimeout(() => {
+      console.log(document.querySelector('.description').clientHeight);
+      this.descriptionOverflown = document.querySelector('.description').clientHeight >= 110;
+    });
   }
 
   private watchParams() {

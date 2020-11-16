@@ -120,7 +120,6 @@ export const parseProfessionData = (inputData, translate) => {
     } catch (err) { }
 
     if (Object.keys(searchParams).length > 1) {
-
       mappedData['fieldLearningOpportunities'] = [
         {
           title: translate.get('professions.go_to_subjects'),
@@ -131,8 +130,17 @@ export const parseProfessionData = (inputData, translate) => {
           },
         },
       ];
+    } else {
+      mappedData['fieldLearningOpportunities'] = [
+        {
+          title: translate.get('professions.go_to_subjects'),
+          url: {
+            path: `/erialad`,
+            routed: true,
+          },
+        },
+      ];
     }
-      
 
   } catch (err) { }
 
@@ -146,37 +154,41 @@ export const parseProfessionData = (inputData, translate) => {
   } catch (err) { }
 
   try {
-    mappedData['fieldJobs'] = mappedData['fieldJobs'].map((item) => {
-      return {
-        title: item.entity.fieldJobName,
-        url: item.entity.fieldJobLink || '',
-      };
-    });
-  } catch (err) {
-  }
+    mappedData['fieldJobs'] = mappedData['fieldJobs']
+      .filter(item => item?.entity?.fieldJobName).map((item) => {
+        return {
+          title: item.entity.fieldJobName,
+          url: item.entity.fieldJobLink || '',
+        };
+      });
+  } catch (err) {}
 
   try {
     if (!mappedData['fieldQuickFind']) {
       mappedData['fieldQuickFind'] = [];
     }
-    const additionalData = [
+    let additionalData = [
       {
-        title: 'Ametialade andmed',
+        title: translate.get('oskaProfessions.data'),
         url: {
           path: '/ametialad/andmed',
-          routed: true,
+          routed: false,
+          target: '_blank',
         },
       },
       {
-        title: 'Kõik ametialad',
+        title: translate.get('oska.all_professions_and_jobs'),
         url: {
           path: '/ametialad',
-          routed: true,
+          routed: false,
+          target: '_blank',
         },
       },
     ];
 
-    additionalData.forEach((item) => {
+    if (mappedData['fieldProfession']) additionalData = additionalData.slice(1);
+
+    additionalData.forEach((item, index) => {
       let match = false;
       mappedData['fieldQuickFind'].forEach((link) => {
         if (link.title === item.title) {

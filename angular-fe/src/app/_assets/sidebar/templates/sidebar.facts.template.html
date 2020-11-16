@@ -3,20 +3,18 @@
     *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
     <h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
       <span>{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}</span>
-      <toggle-tip placement="bottom" content="{{ 'oska.fieldNumberEmployed_explanation' | translate }}">
+      <toggle-tip placement="left" content="{{ (theme === 'field' ? 'oska.fieldNumberEmployed_explanation' : 'oska.professionNumberEmployed_explanation') | translate }}">
         <span>i</span>
       </toggle-tip>
     </h2>
     <ng-container *ngIf="theme === 'field'; else otherExplanation">
       <span role="textbox"
         attr.aria-label="{{ 'oska.compared_to_other_fields' | translate }}: {{numToESTtext(indicator.icon)}} kümnest">
-        {{ 'oska.compared_to_other_fields' | translate }}
       </span>
     </ng-container>
     <ng-template #otherExplanation>
       <span role="textbox"
         attr.aria-label="{{ 'oska.compared_to_other_professions' | translate }}: {{numToESTtext(indicator.icon)}} kümnest">
-        {{ 'oska.compared_to_other_professions' | translate }}
       </span>
     </ng-template>
     <div class="list" aria-hidden="true">
