@@ -101,40 +101,32 @@ class ElasticQuery extends FieldPluginBase implements ContainerFactoryPluginInte
     $params = $this->getElasticQuery($args);
     // add sort if set
 
-    $response = $client->search($params);
-    #dump($response);
-    if ($args['offset'] == null && $args['limit'] == null) {
-      while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
+    if($params == NULL){
+      return NULL;
+    }else{
+      $response = $client->search($params);
+      if($args['offset'] == null && $args['limit'] == null){
+        while (isset($response['hits']['hits']) && count($response['hits']['hits']) > 0) {
 
-        $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
+          $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
 
-        // When done, get the new scroll_id
-        // You must always refresh your _scroll_id!  It can change sometimes
-        $scroll_id = $response['_scroll_id'];
+          // When done, get the new scroll_id
+          // You must always refresh your _scroll_id!  It can change sometimes
+          $scroll_id = $response['_scroll_id'];
 
-        // Execute a Scroll request and repeat
-        $response = $client->scroll([
-            "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
-            "scroll" => "30s"           // and the same timeout window
-          ]
-        );
-      }
-    } else {
-      $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
-    }
-    if (isset($args['content_type']) && $args['content_type'] == true) {
-      $responsevalues = $this->getContentTypeLabels($responsevalues);
-    }
-    if (count($responsevalues) > 0) {
-      foreach ($responsevalues as $value) {
-        foreach ($value['_source'] as $key => $keyvalue) {
-          $value['_source'][StringHelper::camelCase($key)] = $keyvalue;
-          unset($value['_source'][$key]);
+          // Execute a Scroll request and repeat
+          $response = $client->scroll([
+              "scroll_id" => $scroll_id,  //...using our previously obtained _scroll_id
+              "scroll" => "30s"           // and the same timeout window
+            ]
+          );
         }
-        yield $value['_source'];
+      }else{
+        $responsevalues = array_merge($responsevalues, $response['hits']['hits']);
       }
+
+      yield ['count'=> $response['hits']['total'], 'values' => $responsevalues];
     }
-    yield ['count' => $response['hits']['total'], 'values' => $responsevalues];
   }
 
   protected function getContentTypeLabels($responsevalues)
