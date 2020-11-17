@@ -14,7 +14,7 @@ use GraphQL\Type\Definition\ResolveInfo;
  *   secure = true,
  *   name = "count",
  *   type = "Int",
- *   parents = {"CustomElasticQueryResult"}
+ *   parents = {"CustomElasticQueryResult", "CustomElastic"}
  * )
  */
 class ElasticQueryCount extends FieldPluginBase {
