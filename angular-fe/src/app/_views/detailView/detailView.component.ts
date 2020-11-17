@@ -22,7 +22,9 @@ export class DetailViewComponent {
   @ViewChild('descriptionBlock') description: ElementRef;
 
   public feedbackNid: number;
+  public descriptionElement: HTMLElement;
   public descriptionShown = false;
+  public descriptionLinks: NodeListOf<Element>;
   public loading: boolean = true;
   public sidebar: object;
   public title: string;
@@ -151,8 +153,26 @@ export class DetailViewComponent {
 
   }
 
+  public parseHTMLValue(content) {
+    return content.length > 250 ?
+      `${content.replace(/<[^>]*>/g, '').substring(0, 250)}...` :
+      content.replace(/<[^>]*>/g, '');
+  }
+
   public changeDescriptionState(): void {
+    const initialScrollTop = document.querySelector('.app-content').scrollTop;
+    this.descriptionElement.removeAttribute('tabIndex');
     this.descriptionShown = !this.descriptionShown;
+    this.descriptionLinks.forEach((link) => {
+      link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
+    });
+    setTimeout(() => {
+      if (this.descriptionShown) {
+        this.descriptionElement.tabIndex = 0;
+        this.descriptionElement.focus();
+        document.querySelector('.app-content').scrollTop = initialScrollTop;
+      }
+    });
   }
 
   private getPreviewData(): void {
@@ -220,7 +240,12 @@ export class DetailViewComponent {
 
     this.getSidebar();
     setTimeout(() => {
-      this.descriptionOverflown = document.querySelector('.description').clientHeight >= 110;
+      this.descriptionElement = document.querySelector('.description');
+      this.descriptionOverflown = (this.descriptionElement?.clientHeight || 0) >= 110;
+      this.descriptionLinks = document.querySelectorAll('.description a');
+      this.descriptionLinks.forEach((link) => {
+        link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
+      });
     });
   }
 

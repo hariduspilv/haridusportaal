@@ -39,13 +39,24 @@
 
 					<picto [class.shorterBottom]="type === 'profession' && descriptionOverflown" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
 					
+					<div class="description" *ngIf="type !== 'profession' && data?.description?.value" [innerHtml]="data.description.value"></div>
+
 					<div class="description"
-						[ngClass]="{ 'overflowExists': type === 'profession' && descriptionOverflown, 'shown': descriptionShown }"
-						*ngIf="data.description && data.description.value"
-						[innerHtml]="data.description.value">
+						id="description"
+						role="content"
+						*ngIf="data?.description?.value && type === 'profession'"
+						[attr.aria-label]="!descriptionShown ? parseHTMLValue(data.description?.value || '') : ('messages.body' | translate)"
+						[ngClass]="{ 'overflowExists': type === 'profession' && descriptionOverflown, 'shown': descriptionShown }">
+							<div [attr.aria-hidden]="!descriptionShown" [innerHtml]="data.description.value"></div>
 					</div>
-					<div aria-hidden="true" *ngIf="type === 'profession' && descriptionOverflown" class="description__actions">
-						<button theme="plain" htm-button (click)="changeDescriptionState()">
+					<div *ngIf="type === 'profession' && descriptionOverflown && data.description?.value"
+						class="description__actions">
+						<button type="button"
+							theme="plain"
+							[attr.aria-label]="descriptionShown ? ('button.show_less' | translate) : ('button.read_on' | translate)"
+							[attr.aria-expanded]="descriptionShown"
+							htm-button
+							(click)="changeDescriptionState()">
 							<ng-container *ngIf="!descriptionShown">{{ 'button.read_on' | translate }}</ng-container>
 							<ng-container *ngIf="descriptionShown">{{ 'button.show_less' | translate }}</ng-container>
 						</button>
