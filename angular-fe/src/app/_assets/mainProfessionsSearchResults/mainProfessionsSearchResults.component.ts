@@ -28,6 +28,7 @@ import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
 export class MainProfessionsSearchResultsComponent implements OnDestroy {
   @Input() limit: number = 10;
   @Input() filteredJob: Object;
+  @Input() filteredJobLoading: boolean = true;
   @Output() listEmitter = new EventEmitter<Object>(null);
 
   public type: string = 'mainProfession';
@@ -50,7 +51,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   private getDataDebounce;
   private debounceDelay: number = 300;
   public canLoadMore: boolean = true;
-  public loadingMore: boolean = false;
   public noResultStringByType: string = 'news.no_results';
   private scrollRestorationValues: { [type: string]: ListRestorationType } = null;
 
