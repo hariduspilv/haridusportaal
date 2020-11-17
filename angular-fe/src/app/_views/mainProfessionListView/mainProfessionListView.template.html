@@ -104,7 +104,7 @@
 							(click)="filterListByType(i)"
 							[active]="filter.active"
 							*ngIf="filter.sum"
-							attr.aria-label="Filter: {{filter.name | translate}}, status: {{filter.value ? 'On': 'Off'}}, count: {{ filter.sum }}">
+							attr.aria-label="Filter: {{filter.name | translate}}, status: {{filter.active ? 'On': 'Off'}}, count: {{ filter.sum }}">
 							{{ filter.name }} ({{ filter.sum }})
 						</button>
 					</ng-container>

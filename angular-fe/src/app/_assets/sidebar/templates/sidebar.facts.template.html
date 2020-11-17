@@ -1,12 +1,14 @@
 <ng-container *ngFor="let indicator of entitiesData; let last = last;">
   <ng-container
     *ngIf="indicator.oskaId === 1 && indicator.icon > 0 && indicator.icon < 12 && indicator.value">
-    <h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
-      <span>{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}</span>
+    <div class="d-flex">
+      <h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
+        <span>{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}</span>
+      </h2>
       <toggle-tip placement="left" content="{{ (theme === 'field' ? 'oska.fieldNumberEmployed_explanation' : 'oska.professionNumberEmployed_explanation') | translate }}">
         <span>i</span>
       </toggle-tip>
-    </h2>
+    </div>
     <ng-container *ngIf="theme === 'field'; else otherExplanation">
       <span role="textbox"
         attr.aria-label="{{ 'oska.compared_to_other_fields' | translate }}: {{numToESTtext(indicator.icon)}} kümnest">

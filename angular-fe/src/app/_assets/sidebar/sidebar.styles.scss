@@ -392,9 +392,11 @@
           font-size: 1rem;
           font-weight: 500;
           margin-bottom: 0;
+        }
+        .d-flex {
+          display: flex;
           toggle-tip {
-            position: relative;
-            bottom: 1rem;
+            margin-top: -1rem;
           }
         }
         ul li {
