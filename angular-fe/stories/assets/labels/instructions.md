@@ -5,7 +5,7 @@
 ```html
 <labels
   [data]="data"
-  type="plain">
+  type="orange">
 </labels>
 ```
 
