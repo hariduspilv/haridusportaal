@@ -95,7 +95,7 @@
 		<block titleBorder="true" tabStyle="default">
 			<block-title>{{ 'oska.professions_and_jobs' | translate }}</block-title>
 			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="/ametialad">
-				<ng-container *ngIf="!searchResults.loading && (typeFilters[0].sum || typeFilters[1].sum)">
+				<ng-container *ngIf="searchResults && !searchResults.loading && !jobLoading && (typeFilters[0].sum || typeFilters[1].sum)">
 					<div class="search__title--filter">{{ 'search.filter_results' | translate }}:</div>
 					<ng-container *ngFor="let filter of typeFilters; let i = index;">
 						<button tag
@@ -109,7 +109,7 @@
 						</button>
 					</ng-container>
 				</ng-container>
-				<mainProfessionsSearchResults #searchResults [filteredJob]="filteredJob" (listEmitter)="selectArbitraryHighlightedJob($event)" limit="24"></mainProfessionsSearchResults>
+				<mainProfessionsSearchResults [filteredJobLoading]="jobLoading" #searchResults [filteredJob]="filteredJob" (listEmitter)="selectArbitraryHighlightedJob($event)" limit="24"></mainProfessionsSearchResults>
 			</block-content>
 			<block-content tabLabel="{{ 'oska.professions_data' | translate }}" tabIcon="info"  tabLink="/ametialad/andmed">
 			</block-content>

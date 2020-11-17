@@ -18,6 +18,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
 
   jobsQuery: string = 'oskaMainProfessionListView';
   jobQuery: string = 'oskaMainProfessionDetailView';
+  jobLoading: boolean = true;
   filteredJob: Object;
   lang: any;
   params: any;
@@ -169,12 +170,14 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   }
 
   public selectArbitraryHighlightedJob({ list, highlight, activeFilters }): void {
+    this.jobLoading = true;
     const filtersExist = Object.keys(this.route.snapshot.queryParams).length;
     if (list && list.length) {
       this.typeFilters = activeFilters || this.typeFilters;
       if (highlight) {
         this.filteredJob = highlight;
         this.setFilterCounts(list);
+        this.jobLoading = false;
       } else {
         this.setFilterCounts(list);
         if (!this.filteredJob || !filtersExist) {
@@ -192,13 +195,21 @@ export class MainProfessionListViewComponent implements AfterViewInit {
                 this.filteredJob['path'] = initialFilteredJobPath;
                 this.filteredJob['label'] =
                   this.competitionLabels[initialFilteredJob['fieldFillingBar'] - 1];
+                this.jobLoading = false;
                 jobSubscription.unsubscribe();
+              }, () => {
+                this.jobLoading = false;
               });
+          } else {
+            this.jobLoading = false;
           }
+        } else {
+          this.jobLoading = false;
         }
       }
     } else {
       this.setFilterCounts(list);
+      this.jobLoading = false;
     }
     if (list && filtersExist && !highlight) {
       this.resetFilters();

@@ -58,6 +58,12 @@ html {
     position: absolute;
     right: 1.1875rem;
     bottom: 0;
+    height: $lineHeight;
+  }
+  @include break-on(xl, min) {
+    &:before {
+      height: $lineHeight + 0.1875rem;
+    }
   }
   &:after {
     content: '';
