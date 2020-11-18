@@ -4,7 +4,7 @@
 		<block theme="transparent" class="highlighted__job" *ngIf="filteredJob">
 			<block-content>
 				<div class="highlighted__job__wrapper">
-					<div>
+					<div class="highlighted__job__main">
 						<a *ngIf="filteredJob.path" [routerLink]="filteredJob.path">
 							<h2>{{ filteredJob.entityLabel }}</h2>
 						</a>
@@ -19,6 +19,9 @@
 					</div>
 					<picto tabindex="-1" aria-hidden="true" *ngIf="filteredJob?.fieldPictogram?.entity" [img]="filteredJob.fieldPictogram.entity.url"></picto>
 				</div>
+				<div class="highlighted__job__footer__mobile">
+					<a *ngIf="filteredJob.path" [routerLink]="filteredJob.path">{{ 'home.view_more' | translate }}</a>
+				</div>
 			</block-content>
 		</block>
 	</div><!--/inline-->
@@ -26,8 +29,8 @@
 		<div class="inline">
 			<div #filterToggle class="sm-show text-right filter-control">
 				<a href="javascript:void(0);" (click)="showFilter = !showFilter">
-					<span *ngIf="!showFilter">{{ 'button.filter' | translate }}</span>
-					<span *ngIf="showFilter">{{ 'button.filter_close' | translate }}</span>
+					<span *ngIf="!showFilter">{{ 'search.label' | translate }}</span>
+					<span *ngIf="showFilter">{{ 'button.close' | translate }}</span>
 				</a>
 			</div>
 			<ng-container *ngIf="showFilter">

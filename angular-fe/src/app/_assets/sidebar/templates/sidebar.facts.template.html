@@ -5,7 +5,7 @@
       <h2 attr.aria-label="{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value }}">
         <span>{{ 'oska.fieldNumberEmployed' | translate }}: {{ indicator.value | localeNumber }}</span>
       </h2>
-      <toggle-tip placement="left" content="{{ (theme === 'field' ? 'oska.fieldNumberEmployed_explanation' : 'oska.professionNumberEmployed_explanation') | translate }}">
+      <toggle-tip placement="auto" content="{{ (theme === 'field' ? 'oska.fieldNumberEmployed_explanation' : 'oska.professionNumberEmployed_explanation') | translate }}">
         <span>i</span>
       </toggle-tip>
     </div>
