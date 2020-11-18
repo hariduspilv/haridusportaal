@@ -1,0 +1,10 @@
+uuid: f2530717-7f6f-4fa1-8d9f-def692118b36
+langcode: et
+status: true
+dependencies: {  }
+id: learning_carousel
+label: 'Learning carousel'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

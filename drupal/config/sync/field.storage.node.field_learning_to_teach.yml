@@ -1,0 +1,21 @@
+uuid: 932df190-462f-4574-a991-97810866282f
+langcode: et
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - node
+    - paragraphs
+id: node.field_learning_to_teach
+field_name: field_learning_to_teach
+entity_type: node
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

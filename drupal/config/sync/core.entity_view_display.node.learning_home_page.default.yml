@@ -1,0 +1,107 @@
+uuid: b5e6e77e-dd1f-4b3f-8dc1-42ff8e105aa7
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.learning_home_page.field_learning_contact
+    - field.field.node.learning_home_page.field_learning_content_links
+    - field.field.node.learning_home_page.field_learning_external_links
+    - field.field.node.learning_home_page.field_learning_news
+    - field.field.node.learning_home_page.field_learning_path
+    - field.field.node.learning_home_page.field_learning_quote_author
+    - field.field.node.learning_home_page.field_learning_quote_text
+    - field.field.node.learning_home_page.field_learning_quote_work
+    - field.field.node.learning_home_page.field_learning_to_teach
+    - node.type.learning_home_page
+  module:
+    - entity_reference_revisions
+    - user
+id: node.learning_home_page.default
+targetEntityType: node
+bundle: learning_home_page
+mode: default
+content:
+  field_learning_contact:
+    type: entity_reference_revisions_entity_view
+    weight: 108
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_learning_content_links:
+    type: entity_reference_revisions_entity_view
+    weight: 101
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_learning_external_links:
+    type: entity_reference_revisions_entity_view
+    weight: 109
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_learning_news:
+    weight: 104
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_learning_path:
+    type: entity_reference_revisions_entity_view
+    weight: 102
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_learning_quote_author:
+    weight: 106
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_learning_quote_text:
+    weight: 105
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_learning_quote_work:
+    weight: 107
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_learning_to_teach:
+    type: entity_reference_revisions_entity_view
+    weight: 103
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  langcode: true
+  search_api_excerpt: true

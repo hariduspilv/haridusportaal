@@ -1,0 +1,21 @@
+uuid: 285048f9-3dc0-4cfe-a74e-701e07339a42
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_learning_to_teach_title
+field_name: field_learning_to_teach_title
+entity_type: paragraph
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

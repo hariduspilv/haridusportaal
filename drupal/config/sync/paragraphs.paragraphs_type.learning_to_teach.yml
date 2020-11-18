@@ -1,0 +1,10 @@
+uuid: 1c277f2f-d4e4-4e31-b2ba-332b9fd4154a
+langcode: et
+status: true
+dependencies: {  }
+id: learning_to_teach
+label: 'Õpi õpetajaks või noorsootöötajaks'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

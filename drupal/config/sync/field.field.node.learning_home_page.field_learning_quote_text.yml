@@ -1,0 +1,19 @@
+uuid: b403749c-8ff7-4b2f-b76e-2d410755cd26
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_learning_quote_text
+    - node.type.learning_home_page
+id: node.learning_home_page.field_learning_quote_text
+field_name: field_learning_quote_text
+entity_type: node
+bundle: learning_home_page
+label: 'Tsitaadi tekst'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

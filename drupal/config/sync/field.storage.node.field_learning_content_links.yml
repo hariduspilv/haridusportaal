@@ -1,0 +1,21 @@
+uuid: 8e3b45f3-8ba8-4c5d-a47a-865bd93f98a6
+langcode: et
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - node
+    - paragraphs
+id: node.field_learning_content_links
+field_name: field_learning_content_links
+entity_type: node
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
