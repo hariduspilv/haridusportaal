@@ -1,0 +1,19 @@
+uuid: 2e989af0-8b32-426a-8cf8-c452714c91e5
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_learning_quote_work
+    - node.type.learning_home_page
+id: node.learning_home_page.field_learning_quote_work
+field_name: field_learning_quote_work
+entity_type: node
+bundle: learning_home_page
+label: 'Tsitaadi ametikoht'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

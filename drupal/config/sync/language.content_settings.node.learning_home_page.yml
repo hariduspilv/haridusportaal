@@ -1,0 +1,11 @@
+uuid: 8cd766e9-f158-4801-8d43-50a483bc4e70
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.learning_home_page
+id: node.learning_home_page
+target_entity_type_id: node
+target_bundle: learning_home_page
+default_langcode: site_default
+language_alterable: false

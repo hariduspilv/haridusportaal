@@ -1,0 +1,19 @@
+uuid: 8ae3d1a8-7b69-4d1a-be26-60e7a0a1aae0
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_learning_carousel_content
+    - paragraphs.paragraphs_type.learning_carousel
+id: paragraph.learning_carousel.field_learning_carousel_content
+field_name: field_learning_carousel_content
+entity_type: paragraph
+bundle: learning_carousel
+label: Sisu
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long
