@@ -1,0 +1,19 @@
+uuid: 9e68425a-d935-49e7-bbb0-ce7e302491a0
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_learning_quote_author
+    - node.type.learning_home_page
+id: node.learning_home_page.field_learning_quote_author
+field_name: field_learning_quote_author
+entity_type: node
+bundle: learning_home_page
+label: 'Tsitaadi autor'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

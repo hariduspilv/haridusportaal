@@ -1,0 +1,39 @@
+uuid: 12307605-2e0c-4ee9-84f7-2fea2b71a088
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.learning_to_teach.field_learning_to_teach_sitelink
+    - field.field.paragraph.learning_to_teach.field_learning_to_teach_title
+    - paragraphs.paragraphs_type.learning_to_teach
+  module:
+    - maxlength
+id: paragraph.learning_to_teach.default
+targetEntityType: paragraph
+bundle: learning_to_teach
+mode: default
+content:
+  field_learning_to_teach_sitelink:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_learning_to_teach_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

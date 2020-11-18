@@ -1,0 +1,20 @@
+uuid: aad65e03-81f6-439c-bb7b-97cb96e83ef7
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+    - paragraphs
+id: paragraph.field_learning_carousel_link
+field_name: field_learning_carousel_link
+entity_type: paragraph
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

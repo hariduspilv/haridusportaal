@@ -1,0 +1,74 @@
+uuid: ed24e060-a76d-42df-9011-bb334dcccfe4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.learning_carousel.field_learn_carousel_link_title
+    - field.field.paragraph.learning_carousel.field_learning_carousel_content
+    - field.field.paragraph.learning_carousel.field_learning_carousel_image
+    - field.field.paragraph.learning_carousel.field_learning_carousel_link
+    - field.field.paragraph.learning_carousel.field_learning_carousel_title
+    - paragraphs.paragraphs_type.learning_carousel
+  module:
+    - file
+    - maxlength
+id: paragraph.learning_carousel.default
+targetEntityType: paragraph
+bundle: learning_carousel
+mode: default
+content:
+  field_learn_carousel_link_title:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_learning_carousel_content:
+    weight: 1
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 100
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_learning_carousel_image:
+    weight: 4
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_learning_carousel_link:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_learning_carousel_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 30
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
