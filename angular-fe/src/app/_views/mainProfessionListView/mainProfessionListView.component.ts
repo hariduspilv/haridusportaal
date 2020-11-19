@@ -74,6 +74,9 @@ export class MainProfessionListViewComponent implements AfterViewInit {
       const directionHelper = this.sort.split('_');
       this.sortDirection = (directionHelper.pop()).toUpperCase();
       this.sortField = directionHelper.join('_');
+    } else {
+      this.sortField = '';
+      this.sortDirection = '';
     }
   }
 
