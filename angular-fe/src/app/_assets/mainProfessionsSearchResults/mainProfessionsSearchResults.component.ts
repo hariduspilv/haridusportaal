@@ -210,7 +210,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
             this.dispatchListEmit(false, this.filteredList);
             this.updateRestorationValues(values);
             if (this.deviceService.isMobile() && paramsExist(this.route)) {
-              scrollElementIntoView('block');
+              scrollElementIntoView('block:not([theme="transparent"])');
             }
           },
           (err) => {
