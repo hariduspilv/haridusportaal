@@ -99,6 +99,7 @@
         }
       }
     }
+    
     .description {
       color: $black;
       font-size: $small;
@@ -132,7 +133,15 @@
       }
     }
   }
-  
+  @include break-on(xxs, max) {
+    ::ng-deep ngb-tooltip-window {
+      max-width: 275px !important;
+    }
+  }
+  .search__title__filter {
+    color: $black;
+    font-weight: 500;
+  }
   .row {
     margin: 0 -0.5rem;
     &.first {

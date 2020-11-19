@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ActivatedRoute } from '@angular/router';
 import { MainProfessionsSearchResultsComponent } from '@app/_assets/mainProfessionsSearchResults/mainProfessionsSearchResults.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'mainProfessionList-view',
@@ -42,6 +43,8 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     'oska.difficult_extended',
   ];
   competitionFilters = [];
+  public tooltipTriggerType = 'hover focus';
+  public tooltipPlacement = 'right';
   public typeFilters: any = [
     { name: this.translateService.get('oskaProfessions.label'),
       active: true,
@@ -67,6 +70,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     private http: HttpClient,
     private translateService: TranslateService,
     private route: ActivatedRoute,
+    private deviceService: DeviceDetectorService,
   ) {}
 
   setSortDirection() {
@@ -220,6 +224,10 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   }
 
   ngOnInit() {
+    if (!this.deviceService.isDesktop()) {
+      this.tooltipTriggerType = 'click';
+      this.tooltipPlacement = 'auto';
+    }
     this.toggleFilters();
     this.getFilters();
   }
