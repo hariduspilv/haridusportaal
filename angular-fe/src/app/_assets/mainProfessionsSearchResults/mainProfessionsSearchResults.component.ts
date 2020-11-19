@@ -110,7 +110,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
       tmpParams['sortDirection'] = '';
       tmpParams['sortField'] = '';
     }
-    console.log(tmpParams);
 
     Object.keys(tmpParams).forEach((item) => {
       let tmpItem;
@@ -141,7 +140,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
       }
 
     });
-    console.log(values);
     return values;
   }
 
