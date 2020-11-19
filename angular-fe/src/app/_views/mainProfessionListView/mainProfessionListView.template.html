@@ -103,7 +103,6 @@
 					<ng-container *ngFor="let filter of typeFilters; let i = index;">
 						<button tag
 							[ngbTooltip]="filter.tooltipText"
-							boundary="viewport"
 							[placement]="tooltipPlacement"
 							[triggers]="tooltipTriggerType"
 							(click)="filterListByType(i)"
