@@ -69,13 +69,13 @@
 							[(ngModel)]="sort" (onChange)="setSortDirection()">
 						</formItem>
 					</div>
-					<div class="hidden">
-						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortField"
+					<div class="hiddens">
+						<formItem [outsideInitialization]="true" type="text" title="{{ 'button.sort' | translate }}" name="sortField"
 							[(ngModel)]="sortField">
 						</formItem>
 					</div>
-					<div class="hidden">
-						<formItem type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
+					<div class="hiddens">
+						<formItem [outsideInitialization]="true" type="text" title="{{ 'button.sort' | translate }}" name="sortDirection"
 							[(ngModel)]="sortDirection">
 						</formItem>
 					</div>
