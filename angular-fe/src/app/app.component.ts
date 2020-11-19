@@ -153,8 +153,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         });
       }
     });
-
-    if (this.settingsService.url.match('haridusportaal.edu')) {
+    if (this.settingsService.url.match(this.settingsService.urlTemplates.otherwise)) {
       this.gaPageTrack();
     }
 
