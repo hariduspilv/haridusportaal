@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: learning_carousel
-label: 'Learning carousel'
+label: 'Õppimise karussell'
 icon_uuid: null
 icon_default: null
 description: ''
