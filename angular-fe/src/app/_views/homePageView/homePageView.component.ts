@@ -1,20 +1,10 @@
 import {
-  AfterViewInit,
-  ChangeDetectorRef,
   Component,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnDestroy,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { AlertsService, ModalService, SettingsService } from '@app/_services';
-import FieldVaryService from '@app/_services/FieldVaryService';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { SettingsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -22,7 +12,6 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: 'homePageView.template.html',
   styleUrls: ['homePageView.styles.scss'],
 })
-
 export class HomePageViewComponent implements OnInit {
   public topics: any[] = [];
   public articles: any[];
@@ -32,6 +21,7 @@ export class HomePageViewComponent implements OnInit {
   public newsLink: string = '';
   public theme: string = 'default';
   public events: any[] = [];
+  public study: any = {};
   public careerDevelopment: string;
 
   constructor(
@@ -59,17 +49,21 @@ export class HomePageViewComponent implements OnInit {
       query = 'teachingPage';
     } else if (this.theme === 'career') {
       query = 'careerPage';
+    } else if (this.theme === 'learning') {
+      query = 'learningHomePage';
     }
 
     const path = this.settings.query(query, variables);
-    const topicsSubscription = this.http.get(path).subscribe((response) => {
+    const topicsSubscription = this.http.get(path, {
+      // TODO: remove
+      withCredentials: true,
+    }).subscribe((response) => {
       this.parseData(response['data']['nodeQuery']['entities'][0]);
       topicsSubscription.unsubscribe();
     });
   }
 
-  private parseData(data): void {
-
+  private parseData(data: any): void {
     try {
       if (this.theme === 'career') {
         this.careerDevelopment = data.fieldCareer.entity.entityUrl.path;
@@ -83,7 +77,6 @@ export class HomePageViewComponent implements OnInit {
         data.fieldContentPageLink;
 
       if (this.theme === 'career') {
-
         const item = topics;
         this.articles = [{
           title: item.entity.fieldTitle,
@@ -120,10 +113,46 @@ export class HomePageViewComponent implements OnInit {
             },
           },
         ];
+      } else if (this.theme === 'learning') {
+        const item = data.fieldLearningContentLinks;
+        this.articles = item.map((article: any) => {
+          return {
+            title: article.entity.fieldTitle,
+            content: article.entity.fieldText,
+            link: {
+              title: this.translate.get('home.view_more'),
+              url: article.entity.fieldInternalLink.entity.entityUrl,
+            },
+            image: '/assets/img/homepage-articles-career-1.svg',
+          };
+        });
+
+        this.topics = [
+          {
+            title: this.translate.get('home.topics_curricula'),
+            link: {
+              title: this.translate.get('home.view_more'),
+              url: {
+                path: '/erialad',
+                routed: true,
+              },
+            },
+          },
+          {
+            title: this.translate.get('home.topics_institutions'),
+            link: {
+              title: this.translate.get('home.view_more'),
+              url: {
+                path: '/kool',
+                routed: true,
+              },
+            },
+          },
+        ];
       } else {
-        this.topics = topics.map((item) => {
+        this.topics = topics.map((item: any) => {
           let image: any = false;
-          let link;
+          let link: any;
           let scrollTo: boolean | string = false;
 
           if (this.theme === 'default') {
@@ -135,10 +164,7 @@ export class HomePageViewComponent implements OnInit {
           } else if (this.theme === 'teachers') {
             link = {
               title: this.translate.get('home.view_more'),
-              url: {
-                path: item.entity.fieldInternalLink.entity.entityUrl.path,
-                routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
-              },
+              url: item.entity.fieldInternalLink.entity.entityUrl,
             };
           }
 
@@ -156,9 +182,9 @@ export class HomePageViewComponent implements OnInit {
     }
 
     try {
-      if (this.theme === 'teachers' || this.theme === 'career') {
-        const contact = data.fieldContact || data.fieldCareerContact;
-        this.contact.contacts = contact.map((item) => {
+      if (this.theme === 'teachers' || this.theme === 'career' || this.theme === 'learning') {
+        const contact = data.fieldContact || data.fieldCareerContact || data.fieldLearningContact;
+        this.contact.contacts = contact.map((item: any) => {
           return {
             company: item.entity.fieldInstitution || false,
             name: item.entity.fieldNameOccupation || false,
@@ -189,10 +215,19 @@ export class HomePageViewComponent implements OnInit {
               label: 'Logo - Eesti töötukassa',
             },
           ];
+        } else if (this.theme === 'learning') {
+          this.contact.logos = [
+            {
+              src: '/assets/img/homepage-footer-learning-1.svg',
+              label: 'Logo - Innove',
+            },
+          ];
         }
 
-        const links = data.fieldExternal || data.fieldExternalLinks;
-        this.contact.links = links.map((item) => {
+        const links = data.fieldExternal ||
+          data.fieldExternalLinks ||
+          data.fieldLearningExternalLinks;
+        this.contact.links = links.map((item: any) => {
           return {
             url: {
               title: item.entity.fieldLinkName,
@@ -218,6 +253,15 @@ export class HomePageViewComponent implements OnInit {
           person: data.fieldQuoteAuthor || false,
           company: data.fieldQuoteAuthorOccupation || false,
         };
+      } else if (this.theme === 'learning') {
+        this.slogan = {
+          title: data.fieldLearningQuoteText || false,
+          person: data.fieldLearningQuoteAuthor || false,
+          company: data.fieldLearningQuoteWork || false,
+        };
+        if (this.slogan.title) {
+          this.slogan.title = `<q>${this.slogan.title}</q>`;
+        }
       } else {
         this.slogan = data.fieldFrontpageQuote;
       }
@@ -226,7 +270,7 @@ export class HomePageViewComponent implements OnInit {
 
     try {
       if (this.theme === 'default') {
-        this.services = data.fieldFrontpageServices.map((item) => {
+        this.services = data.fieldFrontpageServices.map((item: any) => {
           const image = item.entity.fieldServiceImage.entity;
           const alt = image ? image.fieldAlt : undefined;
           const url = image && image.fieldServiceImg.entity ?
@@ -241,8 +285,23 @@ export class HomePageViewComponent implements OnInit {
             content: item.entity.fieldServiceContent,
           };
         });
+      } else if (this.theme === 'learning') {
+        this.services = data.fieldLearningPath.map((item: any) => {
+          const image = item.entity.fieldLearningCarouselImage.entity.url;
+          return {
+            title: item.entity.fieldLearningCarouselTitle,
+            link: {
+              title: item.entity.fieldLearnCarouselLinkTitle,
+              url: item.entity.fieldLearningCarouselLink.entity.entityUrl,
+            },
+            image: {
+              url: image,
+            },
+            content: item.entity.fieldLearningCarouselContent,
+          };
+        });
       } else {
-        this.services = data.fieldToolbox.map((item) => {
+        this.services = data.fieldToolbox.map((item: any) => {
           const image = item.entity.fieldToolboxImage.entity.url;
           return {
             title: item.entity.fieldTitle,
@@ -263,6 +322,8 @@ export class HomePageViewComponent implements OnInit {
     try {
       if (this.theme === 'teachers') {
         this.newsLink = data.fieldTeachingNews.entity.entityUrl.path;
+      } else if (this.theme === 'learning') {
+        this.newsLink = data.fieldLearningNews.entity.entityUrl.path;
       } else {
         this.newsLink = data.fieldFrontpageNews.entity.entityUrl.path;
       }
@@ -302,5 +363,42 @@ export class HomePageViewComponent implements OnInit {
       });
     }
 
+    try {
+      if (this.theme === 'default') {
+        this.study = {
+          title: this.translate.get('home.study_title'),
+          intro: this.translate.get('home.study_intro'),
+          data: [{
+            title: this.translate.get('home.profession_compare'),
+            image: '/assets/img/homepage-study-1.svg',
+            url: {
+              path: '/ametialad',
+              routed: true,
+            },
+          },
+          {
+            title: this.translate.get('home.studyprogramme_compare'),
+            image: '/assets/img/homepage-study-2.svg',
+            url: {
+              path: '/erialad',
+              routed: true,
+            },
+          }],
+        };
+      } else if (this.theme === 'learning') {
+        this.study = {
+          title: this.translate.get('home.study_teaching'),
+          intro: this.translate.get('home.study_teaching_intro'),
+          data: data.fieldLearningToTeach.map((obj: any, i: number) => {
+            return {
+              title: obj.entity.fieldLearningToTeachTitle,
+              image: `/assets/img/homepage-learning-${i}.svg`,
+              url: obj.entity.fieldLearningToTeachSitelink.entity.entityUrl,
+            };
+          }),
+        };
+      }
+    } catch (err) {
+    }
   }
 }

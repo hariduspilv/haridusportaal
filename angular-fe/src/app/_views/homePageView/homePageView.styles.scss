@@ -59,6 +59,24 @@
         }
       }
     }
+    &.theme--learning {
+      .navBlock {
+        background: url('/assets/img/homepage-1-learning.svg') center bottom no-repeat #e4f1c0;
+        background-size: cover;
+        &:before {
+          background: linear-gradient(to top, #e4f1c0, rgba(228, 241, 192, 0.5));
+        }
+        &__buttons {
+          button, a {
+            color: #58730c;
+            font-size: 1.125rem;
+            @include break-on(xxs, max) {
+              padding-bottom: 4rem;
+            }
+          }
+        }
+      }
+    }
 
     .emblem {
       position: absolute;
@@ -657,6 +675,12 @@
         }
       }
     }
+
+    &.theme--learning {
+      .instance__category {
+        color: #58730c;
+      }
+    }
   }
 
   homepage-slides {
@@ -676,6 +700,13 @@
         font-size: 1.125rem;
       }
     }
+
+    &.theme--learning {
+      .slides__title {
+        color: #58730c;
+      }
+    }
+
     .st0 {
       fill: $light-gray;
     }
@@ -878,6 +909,15 @@
       background: #BEE8C7;
       svg .st0 {
         fill: #BEE8C7;
+      }
+      .topical__category {
+        color: $black;
+      }
+    }
+    &.theme--learning {
+      background: #E4F1C0;
+      svg .st0 {
+        fill: #E4F1C0;
       }
       .topical__category {
         color: $black;
@@ -1100,6 +1140,12 @@
             text-decoration: none;
           }
         }
+      }
+    }
+
+    &.theme--learning {
+      .study__category {
+        color: #58730c;
       }
     }
   }

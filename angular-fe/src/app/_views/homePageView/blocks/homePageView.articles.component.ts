@@ -30,6 +30,10 @@ export class HomePageArticlesComponent implements OnChanges {
       this.imageList = [
         'homepage-articles-career-1.svg',
       ];
+    } else if (this.theme === 'learning') {
+      this.imageList = [
+
+      ];
     }
     let counter = 0;
     this.data = this.data.map((item, index) => {

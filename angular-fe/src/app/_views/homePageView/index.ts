@@ -40,6 +40,13 @@ const routes: Routes = [
     },
   },
   {
+    path: 'learning',
+    component: HomePageViewComponent,
+    data: {
+      theme: 'learning',
+    },
+  },
+  {
     path: 'oska',
     redirectTo: 'karjäär',
   },

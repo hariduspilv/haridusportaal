@@ -17,6 +17,9 @@
       [category]="'home.topical_default' | translate"
       [theme]="theme"></homepage-topical>
     <homepage-study
+      [title]="study.title"
+      [intro]="study.intro"
+      [data]="study.data"
       [theme]="theme"></homepage-study>
     <homepage-slogan
       [title]="slogan"
@@ -87,5 +90,38 @@
     <homepage-footer
       [data]="contact"
       [theme]="theme"></homepage-footer>  
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'learning'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'home.learning_slogan' | translate"></homepage-navblock>
+    <homepage-articles
+      [data]="articles"
+      [theme]="theme"></homepage-articles>
+    <homepage-slides
+      [data]="services"
+      [title]="'home.learning_path_title' | translate"
+      [theme]="theme"></homepage-slides>
+    <homepage-study
+      [title]="study.title"
+      [intro]="study.intro"
+      [data]="study.data"
+      [learnMore]="false"
+      [theme]="theme"></homepage-study>
+    <homepage-topical
+      [data]="newsLink"
+      [category]="'home.topical_default' | translate"
+      [theme]="theme"></homepage-topical>
+    <homepage-slogan
+      [title]="slogan.title"
+      [person]="slogan.person"
+      [company]="slogan.company"
+      [line]="3"
+      [theme]="theme"></homepage-slogan>
+    <homepage-footer
+      [data]="contact"
+      [theme]="theme"></homepage-footer>
   </ng-container>
 </ng-container>
