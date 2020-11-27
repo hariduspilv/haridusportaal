@@ -54,10 +54,7 @@ export class HomePageViewComponent implements OnInit {
     }
 
     const path = this.settings.query(query, variables);
-    const topicsSubscription = this.http.get(path, {
-      // TODO: remove
-      withCredentials: true,
-    }).subscribe((response) => {
+    const topicsSubscription = this.http.get(path).subscribe((response) => {
       this.parseData(response['data']['nodeQuery']['entities'][0]);
       topicsSubscription.unsubscribe();
     });
