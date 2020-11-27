@@ -123,7 +123,6 @@ export class HomePageViewComponent implements OnInit {
               title: this.translate.get('home.view_more'),
               url: article.entity.fieldInternalLink.entity.entityUrl,
             },
-            image: '/assets/img/homepage-articles-career-1.svg',
           };
         });
 
@@ -392,7 +391,7 @@ export class HomePageViewComponent implements OnInit {
           data: data.fieldLearningToTeach.map((obj: any, i: number) => {
             return {
               title: obj.entity.fieldLearningToTeachTitle,
-              image: `/assets/img/homepage-learning-${i}.svg`,
+              image: `/assets/img/homepage-learning-${i + 1}.svg`,
               url: obj.entity.fieldLearningToTeachSitelink.entity.entityUrl,
             };
           }),

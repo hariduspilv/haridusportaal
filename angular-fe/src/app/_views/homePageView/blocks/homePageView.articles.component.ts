@@ -32,7 +32,8 @@ export class HomePageArticlesComponent implements OnChanges {
       ];
     } else if (this.theme === 'learning') {
       this.imageList = [
-
+        'homepage-articles-learning-1.svg',
+        'homepage-articles-learning-2.svg',
       ];
     }
     let counter = 0;

@@ -61,10 +61,10 @@
     }
     &.theme--learning {
       .navBlock {
-        background: url('/assets/img/homepage-1-learning.svg') center bottom no-repeat #e4f1c0;
+        background: url('/assets/img/homepage-1-learning.svg') center bottom no-repeat;
         background-size: cover;
         &:before {
-          background: linear-gradient(to top, #e4f1c0, rgba(228, 241, 192, 0.5));
+          background: linear-gradient(to bottom, rgba(228, 241, 192, 1), rgba(228, 241, 192, 0));
         }
         &__buttons {
           button, a {
@@ -1188,6 +1188,19 @@
       }
     }
     
+    &.theme--learning {
+      background: $white;
+      padding-top: 4rem;
+      .st0 {
+        fill: $white;
+      }
+      .instance {
+        &__image {
+          width: 14rem;
+          margin-top: 0;
+        }
+      }
+    }
 
     .inner {
       position: relative;
