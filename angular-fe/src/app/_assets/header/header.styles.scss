@@ -5,13 +5,8 @@
 	box-sizing: border-box;
 	padding: 0;
 	width: 100%;
-	background: $blue;
+	background: #bee3e8;
 	height: 4rem;
-	box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0,0,0,.2), 0 0.125rem 0.125rem 0 rgba(0,0,0,.14), 0 0.0625rem 0.3125rem 0 rgba(0,0,0,.12);
-	grid-area: header;
-	-ms-grid-row:1;
-	-ms-grid-column:1;
-	-ms-grid-column-span:3;
 	display: flex;
 	.hidden-label {
 		opacity: 0;
@@ -52,6 +47,9 @@
 		&__hamburger {
 			min-height: 1.25rem;
 			padding: 0;
+			&.active {
+				display: none;
+			}
 			.toggle {
 				width: 1.25rem;
 				display: flex;
@@ -192,7 +190,7 @@
 			padding: 0;
 			color: $white;
 			border: none;
-			background: $blue;
+			background: #bee3e8;
 			border-radius: 0;
 			::ng-deep	{
 				.button--label {
@@ -291,8 +289,17 @@
 				display: flex;
 				position: relative;
 				justify-content: flex-end;
+				
+				#headerLogin {
+					.button--label {
+						border: 1px solid $blue;
+						border-radius: 99px;
+					}
+					icon {
+						display: none;
+					}
+				}
 			}
-			&__hamburger { display: none; }
 			&__assets {
 				margin-right: 0;
 				&--grid {

@@ -79,6 +79,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     private router: Router,
   ) {}
 
+  closeSidemenu(): void {
+    this.sidemenuService.close();
+  }
+
   subscribeToService():void {
     this.subscription = this.sidemenuService.isVisibleSubscription.subscribe((value) => {
       this.isVisible = value;
