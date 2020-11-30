@@ -85,6 +85,7 @@ class EhisConnectorService {
           $diff_sec = $start_time->diff($current_time, TRUE)->s;
           dump($params['hash']);
           if(is_array($params['hash'])) {
+            dump('test1');
             $redis_response = [];
             foreach($params['hash'] as $hash) {
               $this->getValue($params['key'], $hash);
