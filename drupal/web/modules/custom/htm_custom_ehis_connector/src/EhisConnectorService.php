@@ -85,12 +85,14 @@ class EhisConnectorService {
           $diff_sec = $start_time->diff($current_time, TRUE)->s;
           if(is_array($params['hash'])) {
             $redis_response = [];
+            $redis_hits = 0;
             foreach($params['hash'] as $hash) {
               if($response = $this->getValue($params['key'], $hash)){
+                $redis_hits++;
                 $redis_response = array_merge($redis_response, $response);
               }
             }
-            if(!empty($redis_response)) {
+            if(!empty($redis_response) && $redis_hits === count($params['hash'])) {
               $redis_response['redis_hit'] = TRUE;
               return $redis_response;
             }
@@ -108,14 +110,16 @@ class EhisConnectorService {
       default:
         if(is_array($params['hash'])) {
           $redis_response = [];
+          $redis_hits = 0;
           foreach($params['hash'] as $hash) {
             if($response = $this->getValue($params['key'], $hash)){
+              $redis_hits++;
               $redis_response = array_merge($redis_response, $response);
             } else {
               return $this->invoke($service_name, $params);
             }
           }
-          if(!empty($redis_response)) {
+          if(!empty($redis_response) && $redis_hits === count($params['hash'])) {
             $redis_response['redis_hit'] = TRUE;
             return $redis_response;
           }
