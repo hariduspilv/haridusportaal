@@ -503,7 +503,11 @@ class EhisConnectorService {
       }
     }
 
-    $this->getFormDefinitionTitle($workedResponse, $params['hash']);
+    if(is_array($params['hash'])) {
+      foreach($params['hash'] as $hash) {
+        $this->getFormDefinitionTitle($workedResponse, $hash);
+      }
+    }
     if(isset($params['get_edi_data']) && $params['get_edi_data']){
       $this->addInstitutionData($workedResponse);
     }
@@ -601,6 +605,7 @@ class EhisConnectorService {
         }
         break;
       case 'vpTaotlus':
+      case 'OLT':
         $this->appendFormTitle($response, $form_topics);
         break;
     }
