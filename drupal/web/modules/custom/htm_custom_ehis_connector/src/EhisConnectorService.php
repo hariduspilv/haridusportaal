@@ -88,7 +88,8 @@ class EhisConnectorService {
             dump('test1');
             $redis_response = [];
             foreach($params['hash'] as $hash) {
-              $this->getValue($params['key'], $hash);
+              dump($hash);
+              dump($this->getValue($params['key'], $hash));
               if($response = $this->getValue($params['key'], $hash)){
                 $response['redis_hit'] = TRUE;
                 dump($response);
