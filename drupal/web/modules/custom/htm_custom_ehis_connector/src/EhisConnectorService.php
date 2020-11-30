@@ -83,6 +83,7 @@ class EhisConnectorService {
         do {
           $current_time = DateTimePlus::createFromDateTime(new \Datetime());
           $diff_sec = $start_time->diff($current_time, TRUE)->s;
+          dump($params['hash']);
           if(is_array($params['hash'])) {
             $redis_response = [];
             foreach($params['hash'] as $hash) {
