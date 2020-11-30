@@ -125,6 +125,7 @@ class EhisConnectorService {
         ];
         \Drupal::logger('xjson')->notice('<pre><code>Post request: ' . print_r(['url' => $this->loime_url.$service_name, 'params' => $params ], TRUE) . '</code></pre>' );
         $response = $client->post($this->loime_url.$service_name, $params);
+        dump($response);
       }else{
         //TODO throw error
       }
