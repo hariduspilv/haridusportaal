@@ -342,11 +342,13 @@ class xJsonService implements xJsonServiceInterface {
           }
           //Add step non data_elements
           unset($definition_body['steps'][$step_key]['data_elements']);
-          dump($return['body']['steps'][$step_key]);
-          dump($definition_body['steps'][$step_key]);
-          die();
-          $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
-          // add each step messages aswel
+
+          if($return['body']['steps'][$step_key]) {
+            $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
+          } else {
+            $return['body']['steps'][$step_key] = $definition_body['steps'][$step_key];
+          }
+          // add each step messages as well
           if (isset($response_body['steps'][$step_key]['messages'])) {
             $return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
           } else {
@@ -372,10 +374,6 @@ class xJsonService implements xJsonServiceInterface {
     // check if acceptable_forms is allowed
     if(isset($return['header']['acceptable_forms'])){
       $return = $this->checkAcceptableForms($return);
-    }
-
-    if(!empty($return)){
-
     }
 
     return $return;
