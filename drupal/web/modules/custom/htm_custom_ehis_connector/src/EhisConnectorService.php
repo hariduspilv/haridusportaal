@@ -143,8 +143,16 @@ class EhisConnectorService {
    */
   private function getValue($key, $hash){
     $response = [];
-    if($data = $this->client->hGet($key, $hash)){
-      $response = json_decode($data, TRUE);
+    if(is_array($hash)) {
+      foreach($hash as $value) {
+        if($data = $this->client->hGet($key, $value)){
+          $response = array_merge($response, json_decode($data, TRUE));
+        }
+      }
+    } else {
+      if($data = $this->client->hGet($key, $hash)){
+        $response = json_decode($data, TRUE);
+      }
     }
     return $response;
   }
@@ -474,7 +482,7 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
 
     if($this->useReg()) $params['hash'] = 'mtsys';
-    if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
+    if(!$this->useReg()) $params['hash'] = ['vpTaotlus', 'OLT'];
 
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
