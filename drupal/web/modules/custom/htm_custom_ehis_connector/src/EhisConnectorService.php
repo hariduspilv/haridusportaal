@@ -85,13 +85,18 @@ class EhisConnectorService {
           $diff_sec = $start_time->diff($current_time, TRUE)->s;
           if(is_array($params['hash'])) {
             $redis_response = [];
+            $redis_hits = 0;
             foreach($params['hash'] as $hash) {
               if($response = $this->getValue($params['key'], $hash)){
-                $response['redis_hit'] = TRUE;
-                $redis_response = array_merge($redis_response, $response);
+                $redis_hits++;
+                $redis_response = array_merge_recursive($redis_response, $response);
+
               }
             }
-            return $redis_response;
+            if(!empty($redis_response) && $redis_hits === count($params['hash'])) {
+              $redis_response['redis_hit'] = TRUE;
+              return $redis_response;
+            }
           } else {
             if($redis_response = $this->getValue($params['key'], $params['hash'])){
               $redis_response['redis_hit'] = TRUE;
@@ -104,11 +109,28 @@ class EhisConnectorService {
 
         break;
       default:
-        if($redis_response = $this->getValue($params['key'], $params['hash'])){
-          $redis_response['redis_hit'] = TRUE;
-          return $redis_response;
-        }else{
-          return $this->invoke($service_name, $params);
+        if(is_array($params['hash'])) {
+          $redis_response = [];
+          $redis_hits = 0;
+          foreach($params['hash'] as $hash) {
+            if($response = $this->getValue($params['key'], $hash)){
+              $redis_hits++;
+              $redis_response = array_merge_recursive($redis_response, $response);
+            } else {
+              return $this->invoke($service_name, $params);
+            }
+          }
+          if(!empty($redis_response) && $redis_hits === count($params['hash'])) {
+            $redis_response['redis_hit'] = TRUE;
+            return $redis_response;
+          }
+        } else {
+          if($redis_response = $this->getValue($params['key'], $params['hash'])){
+            $redis_response['redis_hit'] = TRUE;
+            return $redis_response;
+          } else {
+            return $this->invoke($service_name, $params);
+          }
         }
         break;
     }
@@ -496,7 +518,7 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
 
     if($this->useReg()) $params['hash'] = 'mtsys';
-    if(!$this->useReg()) $params['hash'] = ['vpTaotlus', 'OLT'];
+    if(!$this->useReg()) $params['hash'] = ['OLT', 'vpTaotlus'];
 
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
