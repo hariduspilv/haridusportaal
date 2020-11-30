@@ -124,12 +124,14 @@ class EhisConnectorService {
           'Content-Type' => 'application/json'
         ];
         \Drupal::logger('xjson')->notice('<pre><code>Post request: ' . print_r(['url' => $this->loime_url.$service_name, 'params' => $params ], TRUE) . '</code></pre>' );
+        dump('lõime url', $this->loime_url.$service_name);
+        dump('parameetrid', $params);
         $response = $client->post($this->loime_url.$service_name, $params);
       }else{
         //TODO throw error
       }
       $response = json_decode($response->getBody()->getContents(), TRUE);
-      dump($response);
+      dump('liidese vastus', $response);
       return $response;
     }catch (RequestException $e){
       \Drupal::logger('xjson')->notice('<pre><code>ehis response error' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
