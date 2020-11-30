@@ -349,6 +349,7 @@ class xJsonService implements xJsonServiceInterface {
             $return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
           } else {
             dump('test1');
+            dump($return['body']['steps'][$step_key]['messages']);
             $return['body']['steps'][$step_key]['messages'] = [];
           }
         } else {
