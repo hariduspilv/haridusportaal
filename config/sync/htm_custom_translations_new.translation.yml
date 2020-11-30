@@ -3770,6 +3770,34 @@ home:
     translation_type: textarea
     et: Päevakajaline
     en: Päevakajaline
+  topics_curricula:
+    translation_type: textarea
+    et: Õppekavad
+    en: Õppekavad
+  topics_institutions:
+    translation_type: textarea
+    et: Õppeasutused
+    en: Õppeasutused
+  learning_slogan:
+    translation_type: textarea
+    et: 'Mingisugune <b>slogan</b> õpilastele'
+    en: 'Mingisugune <b>slogan</b> õpilastele'
+  exam_period:
+    translation_type: textarea
+    et: Eksamiperiood
+    en: Eksamiperiood
+  learning_path_title:
+    translation_type: textarea
+    et: Õpitee
+    en: Õpitee
+  study_teaching:
+    translation_type: textarea
+    et: 'Õpi õpetajaks või noorsootöötajaks'
+    en: 'Õpi õpetajaks või noorsootöötajaks'
+  study_teaching_intro:
+    translation_type: textarea
+    et: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
+    en: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
 finalDocumentDownload:
   translation_type: textarea
   et: 'Laadi failid alla'
