@@ -83,9 +83,20 @@ class EhisConnectorService {
         do {
           $current_time = DateTimePlus::createFromDateTime(new \Datetime());
           $diff_sec = $start_time->diff($current_time, TRUE)->s;
-          if($redis_response = $this->getValue($params['key'], $params['hash'])){
-            $redis_response['redis_hit'] = TRUE;
+          if(is_array($params['hash'])) {
+            $redis_response = [];
+            foreach($params['hash'] as $hash) {
+              if($response = $this->getValue($params['key'], $hash)){
+                $response['redis_hit'] = TRUE;
+                $redis_response = array_merge($redis_response, $response);
+              }
+            }
             return $redis_response;
+          } else {
+            if($redis_response = $this->getValue($params['key'], $params['hash'])){
+              $redis_response['redis_hit'] = TRUE;
+              return $redis_response;
+            }
           }
         } while ($diff_sec < 3 && empty($redis_response));
 
