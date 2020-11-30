@@ -342,10 +342,10 @@ class xJsonService implements xJsonServiceInterface {
           }
           //Add step non data_elements
           unset($definition_body['steps'][$step_key]['data_elements']);
+          $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
           dump($return['body']['steps'][$step_key]);
           dump($definition_body['steps'][$step_key]);
           die();
-          $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
           // add each step messages aswel
           if (isset($response_body['steps'][$step_key]['messages'])) {
             $return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
