@@ -344,34 +344,38 @@ class xJsonService implements xJsonServiceInterface {
           unset($definition_body['steps'][$step_key]['data_elements']);
           $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
           // add each step messages aswel
-          dump(isset($response_body['steps'][$step_key]['messages']));
-          die();
           if (isset($response_body['steps'][$step_key]['messages'])) {
-            dump('tere');
+            dump('test');
             $return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
+            dump('test');
           } else {
             dump('test1');
-            dump($return['body']['steps'][$step_key]['messages']);
             $return['body']['steps'][$step_key]['messages'] = [];
+            dump('test1');
           }
         } else {
           dump('test2');
           // add all other steps aswel
           $return['body']['steps'][$step_key]['title'] = $step['title'];
+          dump('test2');
         }
       }
+      dump('test3');
       if (isset($response_body['messages'])) {
-        dump('test3');
-        $return['body']['messages'] = $response_body['messages'];
-      } else {
         dump('test4');
+        $return['body']['messages'] = $response_body['messages'];
+        dump('test4');
+      } else {
+        dump('test5');
         $return['body']['messages'] = [];
+        dump('test5');
       }
     } else {
-      dump('test5');
+      dump('test6');
       $return['body'] = $response_body;
+      dump('test6');
     }
-    dump('test6');
+    dump('test7');
     //Add body information
     unset($definition_body['steps']);
     $return['body'] += $definition_body;
