@@ -343,40 +343,43 @@ class xJsonService implements xJsonServiceInterface {
           //Add step non data_elements
           unset($definition_body['steps'][$step_key]['data_elements']);
           $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
-          dump($return['body']['steps'][$step_key]);
-          dump($definition_body['steps'][$step_key]);
-          die();
           // add each step messages aswel
           if (isset($response_body['steps'][$step_key]['messages'])) {
+            dump('tere');
             $return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
           } else {
+            dump('test1');
             $return['body']['steps'][$step_key]['messages'] = [];
           }
         } else {
+          dump('test2');
           // add all other steps aswel
           $return['body']['steps'][$step_key]['title'] = $step['title'];
         }
       }
       if (isset($response_body['messages'])) {
+        dump('test3');
         $return['body']['messages'] = $response_body['messages'];
       } else {
+        dump('test4');
         $return['body']['messages'] = [];
       }
     } else {
+      dump('test5');
       $return['body'] = $response_body;
     }
+    dump('test6');
     //Add body information
     unset($definition_body['steps']);
     $return['body'] += $definition_body;
+    dump('test7');
 
     // check if acceptable_forms is allowed
     if(isset($return['header']['acceptable_forms'])){
       $return = $this->checkAcceptableForms($return);
     }
-
-    if(!empty($return)){
-
-    }
+    dump('test8');
+    die();
 
     return $return;
   }
