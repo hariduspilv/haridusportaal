@@ -91,7 +91,9 @@ class EhisConnectorService {
                 $redis_response = array_merge($redis_response, $response);
               }
             }
-            return $redis_response;
+            if(!empty($redis_response)) {
+              return $redis_response;
+            }
           } else {
             if($redis_response = $this->getValue($params['key'], $params['hash'])){
               $redis_response['redis_hit'] = TRUE;
@@ -114,7 +116,9 @@ class EhisConnectorService {
               return $this->invoke($service_name, $params);
             }
           }
-          return $redis_response;
+          if(!empty($redis_response)) {
+            return $redis_response;
+          }
         } else {
           if($redis_response = $this->getValue($params['key'], $params['hash'])){
             $redis_response['redis_hit'] = TRUE;
