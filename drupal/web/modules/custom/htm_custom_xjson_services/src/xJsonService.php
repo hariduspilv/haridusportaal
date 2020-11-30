@@ -344,7 +344,7 @@ class xJsonService implements xJsonServiceInterface {
           unset($definition_body['steps'][$step_key]['data_elements']);
           $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
           // add each step messages aswel
-          dump($response_body);
+          dump($response_body['steps'][$step_key]);
           die();
           if (isset($response_body['steps'][$step_key]['messages'])) {
             dump('tere');
