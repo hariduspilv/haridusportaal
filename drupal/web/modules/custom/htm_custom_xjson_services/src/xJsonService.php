@@ -341,10 +341,7 @@ class xJsonService implements xJsonServiceInterface {
             $return['body']['steps'][$step_key]['data_elements'][$element_key] = $return_element;
           }
           //Add step non data_elements
-          dump('rida344', $definition_body['steps'][$step_key]['data_elements']);
           unset($definition_body['steps'][$step_key]['data_elements']);
-          dump('rida346', $return['body']['steps'][$step_key]);
-          dump('rida347', $definition_body['steps'][$step_key]);
           if($return['body']['steps'][$step_key]) {
             $return['body']['steps'][$step_key] += $definition_body['steps'][$step_key];
           } else {
@@ -352,50 +349,31 @@ class xJsonService implements xJsonServiceInterface {
           }
           // add each step messages as well
           if (isset($response_body['steps'][$step_key]['messages'])) {
-            dump('test');
             $return['body']['steps'][$step_key]['messages'] = $response_body['steps'][$step_key]['messages'];
-            dump($return['body']['steps'][$step_key]['messages']);
-            dump('test');
           } else {
-            dump('test1');
             $return['body']['steps'][$step_key]['messages'] = [];
-            dump($return['body']['steps'][$step_key]['messages']);
-            dump('test1');
           }
         } else {
-          dump('test2');
           // add all other steps aswel
           $return['body']['steps'][$step_key]['title'] = $step['title'];
-          dump('test2');
         }
       }
-      dump('test3');
       if (isset($response_body['messages'])) {
-        dump('test4');
         $return['body']['messages'] = $response_body['messages'];
-        dump('test4');
       } else {
-        dump('test5');
         $return['body']['messages'] = [];
-        dump('test5');
       }
     } else {
-      dump('test6');
       $return['body'] = $response_body;
-      dump('test6');
     }
-    dump('test7');
     //Add body information
     unset($definition_body['steps']);
     $return['body'] += $definition_body;
-    dump('test7');
 
     // check if acceptable_forms is allowed
     if(isset($return['header']['acceptable_forms'])){
       $return = $this->checkAcceptableForms($return);
     }
-    dump('test8');
-    die();
 
     return $return;
   }
