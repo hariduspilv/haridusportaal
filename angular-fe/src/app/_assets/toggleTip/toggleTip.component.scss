@@ -1,0 +1,18 @@
+@import "colors.scss";
+:host {
+  font-size: 0.75rem;
+  .toggletip {
+    all: unset;
+    border-radius: 50%;
+    height: 1.125rem;
+    min-width: 1.125rem;
+    line-height: 1.125rem;
+    cursor: pointer;
+    background: $light-orange;
+    color: $black;
+    text-align: center;
+    &:focus, &:hover {
+      outline: -webkit-focus-ring-color auto 1px;
+    }
+  }
+}

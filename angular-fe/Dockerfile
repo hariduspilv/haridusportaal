@@ -1,4 +1,4 @@
-FROM node:12-alpine
+FROM node:current-alpine
 MAINTAINER TWN
 
 ARG BUILD_VERSION=${BUILD_VERSION}
@@ -15,9 +15,11 @@ RUN	apk update && \
 	nodejs \
 	nodejs-npm
 
-RUN npm i -g @angular/cli@8.0.3
+RUN npm i -g @angular/cli
 
-RUN npm i -g npm@latest
+RUN apk --no-cache add --virtual native-deps \
+    g++ gcc libgcc libstdc++ linux-headers make python2 && \
+    npm install --quiet node-gyp -g
 
 WORKDIR /app
 RUN git init
@@ -30,11 +32,13 @@ RUN ls -la
 
 WORKDIR /app/angular-fe
 RUN npm version ${BUILD_VERSION}
-RUN npm i
+RUN npm ci
 RUN ng build --prod
 
 WORKDIR /app/node
 RUN npm i
+
+RUN apk del native-deps
 
 EXPOSE 80
 

@@ -1,0 +1,21 @@
+uuid: 2b485320-4391-4f7d-9908-ad72bfe382ad
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_learning_quote_work
+field_name: field_learning_quote_work
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

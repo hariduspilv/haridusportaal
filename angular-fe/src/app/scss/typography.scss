@@ -58,6 +58,7 @@ html {
     position: absolute;
     right: 1.1875rem;
     bottom: 0;
+    height: $lineHeight;
   }
   &:after {
     content: '';

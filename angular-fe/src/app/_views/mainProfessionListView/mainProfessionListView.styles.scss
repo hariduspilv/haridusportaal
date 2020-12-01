@@ -10,16 +10,21 @@
     padding: 1.5rem;
     background: #fff;
     @include break-on(sm, min) {
-      margin: 1rem -1.5rem 1.5rem;
+      margin: 1rem 0 1.5rem;
       padding: 0.5rem 1.5rem;
+      @include break-on(lg, max) {
+        .inline {
+          margin: 0 -1.5rem;
+        }
+      }
     }
     @include break-on(sm, max) {
       margin-bottom: 0;
-      // padding-top: 1rem;
+      padding: .75rem 1.5rem;
       .filter-control{
           padding: 0 !important;
           span {
-              margin-right: 1rem;
+              margin-right: 0;
           }
       }
       &.filtersActive {
@@ -33,12 +38,115 @@
       text-align: right;
     }
   }
-  
+
+  .highlighted__job {
+    &__main {
+      width: 100%;
+      box-sizing: border-box;
+    }
+    &__wrapper {
+      display: flex;
+      @include break-on(xs, max) {
+        flex-direction: column;
+      }
+      a {
+        text-decoration: none;
+        &:hover {
+          text-decoration: underline;
+        }
+        h2 {
+          font-size: 1.25rem;
+          margin-bottom: 0.5rem;
+          color: $blue;
+        }
+      }
+      a.highlighted__job__footer__link {
+        text-decoration: underline;
+        &:hover {
+          text-decoration: none;
+        }
+        &.extra-styles {
+          display: flex;
+          justify-content: center;
+          margin-top: 1rem;
+          @include break-on(xs, max) {
+            display: none;
+          }
+        }
+        @include break-on(xs, max) {
+          display: none;
+        }
+      }
+    }
+    picto {
+      margin-right: -3rem;
+      margin-top: -1rem;
+      margin-bottom: -1.5rem;
+      @include break-on(xs, max) {
+        margin: -1.5rem auto 0 auto;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    @include break-on(xs, max) {
+      ::ng-deep picto {
+        .image {
+          margin-bottom: 1rem;
+        }
+        .picto {
+          left: -1.5rem;
+        }
+      }
+    }
+    
+    .description {
+      color: $black;
+      font-size: $small;
+      overflow: hidden;
+      position: relative;
+      line-height: 1.375rem;
+      max-height: 2.75rem;
+      text-align: justify;
+      padding-right: $large;
+      margin-top: .5rem;
+      @include multiLineEllipsis($lineHeight: 1.375rem, $lineCount: 2, $bgColor: $white);
+      a[target="_blank"]::after {
+        -webkit-font-feature-settings: "liga";
+        font-feature-settings: "liga";
+        -ms-font-feature-settings: "liga";
+        font-family: "iconfont";
+        content: "" !important;
+        position: relative;
+        top: 0.125rem;
+        left: 0.125rem;
+        display: inline-block;
+      }
+      @include break-on(xs, max) {
+        display: none;
+      }
+    }
+    &__footer__mobile {
+      text-align: center;
+      @include break-on(xs, min) {
+        display: none;
+      }
+    }
+  }
+  @include break-on(xxs, max) {
+    ::ng-deep ngb-tooltip-window {
+      max-width: 275px !important;
+    }
+  }
+  .search__title__filter {
+    color: $black;
+    font-weight: 500;
+  }
   .row {
     margin: 0 -0.5rem;
     &.first {
 			@include break-on(sm, max) {
-				margin-top: 1rem;
+				margin-top: .5rem;
 			}
 		}
     .align-end {
@@ -67,6 +175,23 @@
     }
   }
   
+  ::ng-deep block-content button[tag] {
+    margin: 1rem 1.5rem 1.5rem 0;
+    &:last-of-type {
+      margin-right: 0;
+      margin-bottom: 2rem;
+    }
+    @include break-on(xs, max) {
+      margin: 1rem 1.5rem 0 0;
+      &:last-of-type {
+        margin-right: 0;
+        margin-bottom: 2.5rem;
+      }
+    }
+  }
+
+  
+
   div[class*="col-"] {
     padding: 0.5rem !important;
   }

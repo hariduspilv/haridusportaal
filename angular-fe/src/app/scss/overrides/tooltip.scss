@@ -10,6 +10,7 @@
 		padding:0.25rem 0.5rem;
 		font-size: 0.75rem;
 		color: $white;
+		font-weight: normal;
 	}
 	&.bs-tooltip-right{
 		margin-left: 0.875rem;
@@ -78,8 +79,5 @@
 			border-width: 6px;
 			margin-left: -6px;
 		}
-	}
-	@include break-on(xxs, max) {
-		display: none;
 	}
 }

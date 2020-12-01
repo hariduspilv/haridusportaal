@@ -20,6 +20,7 @@ import {
 } from './searchResults.helper';
 import { HttpClient } from '@angular/common/http';
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
 
 @Component({
   selector: 'searchResults',
@@ -281,6 +282,9 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
                 listItemCount: this.listItemCount,
               },
             });
+            if (this.deviceService.isMobile() && paramsExist(this.route)) {
+              scrollElementIntoView('block');
+            }
           },
           (err) => {
             this.loading = false;

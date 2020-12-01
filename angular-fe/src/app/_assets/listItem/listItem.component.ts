@@ -5,7 +5,6 @@ import {
     OnChanges,
   } from '@angular/core';
 import FieldVaryService from '@app/_services/FieldVaryService';
-import { ModalService, AlertsService } from '@app/_services';
 import { translationsPerType } from '../compare/helpers/compare';
 @Component({
   selector: 'listItems',
@@ -19,7 +18,9 @@ export class ListItemComponent implements OnInit, OnChanges{
   @Input() compare: string;
   @Input() addonClass: string = '';
   @Input() orderBy: string | boolean  = false;
+  @Input() manualLimit: number = 0;
 
+  public previousManualLimit = 0;
   public closeTime: number = 5000;
   private translationsPerType = translationsPerType;
   public clickedVideos = {};
@@ -53,11 +54,6 @@ export class ListItemComponent implements OnInit, OnChanges{
     'oska.difficult_extended',
   ];
 
-  constructor(
-    private modalService: ModalService,
-    private alertsService: AlertsService,
-  ) {}
-
   sortByKey(array, key) {
     return array.sort((a, b) => {
       const x = a[key]; const y = b[key];
@@ -73,7 +69,14 @@ export class ListItemComponent implements OnInit, OnChanges{
     if (this.orderBy) {
       this.list = this.sortByKey(this.list, 'title');
     }
-
+    // TODO: Refactor this, quick solution for mainProfessions.
+    setTimeout(() => {
+      const scrollElem = document.querySelector(`#listItem-${this.previousManualLimit - 1}`);
+      if (this.previousManualLimit !== this.manualLimit && scrollElem) {
+        scrollElem.scrollIntoView();
+      }
+      this.previousManualLimit = this.manualLimit;
+    });
   }
   ngOnInit() {
     this.parseList();

@@ -22,6 +22,9 @@ export class DetailViewComponent {
   @ViewChild('descriptionBlock') description: ElementRef;
 
   public feedbackNid: number;
+  public descriptionElement: HTMLElement;
+  public descriptionShown = false;
+  public descriptionLinks: NodeListOf<Element>;
   public loading: boolean = true;
   public sidebar: object;
   public title: string;
@@ -33,6 +36,7 @@ export class DetailViewComponent {
   private paramsWatcher: Subscription = new Subscription();
   public isPreview: boolean = false;
   public missingData: boolean = false;
+  public descriptionOverflown = false;
   @Input() storyPath: string;
   @Input() storyType: string;
 
@@ -98,8 +102,7 @@ export class DetailViewComponent {
       }
       case 'profession': {
         this.queryKey = 'oskaMainProfessionDetailView';
-        this.title = 'oskaProfessions.label';
-        this.compareKey = 'oskaProfessionsComparison';
+        this.title = 'oska.professions_and_jobs';
         break;
       }
       case 'field': {
@@ -148,6 +151,28 @@ export class DetailViewComponent {
       subscription.unsubscribe();
     });
 
+  }
+
+  public parseHTMLValue(content) {
+    return content.length > 250 ?
+      `${content.replace(/<[^>]*>/g, '').substring(0, 250)}...` :
+      content.replace(/<[^>]*>/g, '');
+  }
+
+  public changeDescriptionState(): void {
+    const initialScrollTop = document.querySelector('.app-content').scrollTop;
+    this.descriptionElement.removeAttribute('tabIndex');
+    this.descriptionShown = !this.descriptionShown;
+    this.descriptionLinks.forEach((link) => {
+      link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
+    });
+    setTimeout(() => {
+      if (this.descriptionShown) {
+        this.descriptionElement.tabIndex = 0;
+        this.descriptionElement.focus();
+        document.querySelector('.app-content').scrollTop = initialScrollTop;
+      }
+    });
   }
 
   private getPreviewData(): void {
@@ -200,7 +225,7 @@ export class DetailViewComponent {
         }
         this.data.accordion = [{
           entity: {
-            fieldTitle: this.translate.get('oskaProfessions.label'),
+            fieldTitle: this.translate.get('oska.professions_and_jobs'),
             professions: this.data.fieldAccordion.map((item) => {
               return FieldVaryService(item);
             }),
@@ -214,6 +239,14 @@ export class DetailViewComponent {
     this.feedbackNid = this.data.nid;
 
     this.getSidebar();
+    setTimeout(() => {
+      this.descriptionElement = document.querySelector('.description');
+      this.descriptionOverflown = (this.descriptionElement?.clientHeight || 0) >= 110;
+      this.descriptionLinks = document.querySelectorAll('.description a');
+      this.descriptionLinks.forEach((link) => {
+        link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
+      });
+    });
   }
 
   private watchParams() {

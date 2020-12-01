@@ -8,6 +8,8 @@ import { DeviceDetectorService } from 'ngx-device-detector';
 import { FiltersService } from '@app/_services/filterService';
 import { filter, delay } from 'rxjs/operators';
 import { SettingsService, ScrollRestorationService, ListRestorationType } from '@app/_services';
+import { paramsExist, scrollElementIntoView } from '@app/_core/utility';
+
 export class EventsConfig {
 
   constructor(
@@ -722,7 +724,9 @@ export class EventsListComponent extends FiltersService implements OnInit {
             this.loadFlag = false;
             this.dataSubscription.unsubscribe();
             this.dataSubscription = false;
-            
+            if (this.device.isMobile() && paramsExist(this.route)) {
+              scrollElementIntoView('block');
+            }
           }, (err) => {
             this.eventList = [];
             this.listEnd = true;

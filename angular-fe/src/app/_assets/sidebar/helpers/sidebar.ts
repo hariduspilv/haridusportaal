@@ -94,25 +94,19 @@ export const parseProfessionData = (inputData, translate) => {
     };
     try {
       const iDetailed = mappedData['fieldIscedfSearchLink']
-      ['entity']['iscedf_detailed'].map((val) => {
-        return val.entity.entityId;
-      });
+      ['entity']['iscedf_detailed'].filter(val => val.entity).map(val => val.entity.entityId);
       searchParams['iscedf_detailed'] = iDetailed.join(';');
     } catch (err) { }
 
     try {
       const iNarrow = mappedData['fieldIscedfSearchLink']
-      ['entity']['iscedf_narrow'].map((val) => {
-        return val.entity.entityId;
-      });
+      ['entity']['iscedf_narrow'].filter(val => val.entity).map(val => val.entity.entityId);
       searchParams['iscedf_narrow'] = iNarrow.join(';');
     } catch (err) { }
 
     try {
       const iBroad = mappedData['fieldIscedfSearchLink']
-      ['entity']['iscedf_broad'].map((val) => {
-        return val.entity.entityId;
-      });
+      ['entity']['iscedf_broad'].filter(val => val.entity).map(val => val.entity.entityId);
       searchParams['iscedf_broad'] = iBroad.join(';');
     } catch (err) { }
 
@@ -126,7 +120,6 @@ export const parseProfessionData = (inputData, translate) => {
     } catch (err) { }
 
     if (Object.keys(searchParams).length > 1) {
-
       mappedData['fieldLearningOpportunities'] = [
         {
           title: translate.get('professions.go_to_subjects'),
@@ -137,8 +130,17 @@ export const parseProfessionData = (inputData, translate) => {
           },
         },
       ];
+    } else {
+      mappedData['fieldLearningOpportunities'] = [
+        {
+          title: translate.get('professions.go_to_subjects'),
+          url: {
+            path: `/erialad`,
+            routed: true,
+          },
+        },
+      ];
     }
-      
 
   } catch (err) { }
 
@@ -152,37 +154,41 @@ export const parseProfessionData = (inputData, translate) => {
   } catch (err) { }
 
   try {
-    mappedData['fieldJobs'] = mappedData['fieldJobs'].map((item) => {
-      return {
-        title: item.entity.fieldJobName,
-        url: item.entity.fieldJobLink || '',
-      };
-    });
-  } catch (err) {
-  }
+    mappedData['fieldJobs'] = mappedData['fieldJobs']
+      .filter(item => item?.entity?.fieldJobName).map((item) => {
+        return {
+          title: item.entity.fieldJobName,
+          url: item.entity.fieldJobLink || '',
+        };
+      });
+  } catch (err) {}
 
   try {
     if (!mappedData['fieldQuickFind']) {
       mappedData['fieldQuickFind'] = [];
     }
-    const additionalData = [
+    let additionalData = [
       {
-        title: 'Ametialade andmed',
+        title: translate.get('oskaProfessions.data'),
         url: {
           path: '/ametialad/andmed',
-          routed: true,
+          routed: false,
+          target: '_blank',
         },
       },
       {
-        title: 'Kõik ametialad',
+        title: translate.get('oska.all_professions_and_jobs'),
         url: {
           path: '/ametialad',
-          routed: true,
+          routed: false,
+          target: '_blank',
         },
       },
     ];
 
-    additionalData.forEach((item) => {
+    if (mappedData['fieldProfession']) additionalData = additionalData.slice(1);
+
+    additionalData.forEach((item, index) => {
       let match = false;
       mappedData['fieldQuickFind'].forEach((link) => {
         if (link.title === item.title) {
@@ -207,7 +213,7 @@ export const parseProfessionData = (inputData, translate) => {
     }
   } catch (err) { }
 
-  mappedData = getIndicators(mappedData);
+  mappedData = getIndicators(mappedData, translate);
 
   try {
     delete mappedData['links'];
@@ -252,7 +258,7 @@ const getFieldNumberEmployedIcon = (val) => {
   }
 }
 
-const getIndicators = (mappedData) => {
+const getIndicators = (mappedData, translate) => {
   try {
     const indicators = { entities: [] };
     let hasFieldNumberEmployed = false;
@@ -260,7 +266,7 @@ const getIndicators = (mappedData) => {
       indicators['entities'].push({
         oskaId: 1,
         value: mappedData.fieldNumberEmployed,
-        oskaIndicator: "Hõivatute arv",
+        oskaIndicator: translate.get('oska.fieldNumberEmployed'),
         icon: getFieldNumberEmployedIcon(mappedData.fieldNumberEmployed),
       })
       hasFieldNumberEmployed = true;
@@ -269,7 +275,7 @@ const getIndicators = (mappedData) => {
       indicators['entities'].push({
         oskaId: 2,
         value: mappedData.fieldEmploymentChange,
-        oskaIndicator: "Hõive muutus",
+        oskaIndicator: translate.get('oska.numberEmployedChange'),
         icon: mappedData.fieldEmploymentChange,
       });
     }
@@ -338,7 +344,7 @@ export const parseFieldData = (inputData, translate) => {
     delete mappedData['fieldOskaFieldQuickFind'];
   }
 
-  mappedData = getIndicators(mappedData);
+  mappedData = getIndicators(mappedData, translate);
 
   try {
     if (!mappedData['fieldOskaFieldContact']['entity']['fieldEmail'] &&

@@ -1,19 +1,19 @@
 <div #content *ngIf="list && list.length > 0">
     <ng-container *ngFor="let item of list; let i = index; let last = last">
 
-        <div class="list__item {{ addonClass }}">
+        <div class="list__item {{ addonClass }}" *ngIf="!manualLimit || (manualLimit && manualLimit > i)">
             <div class="list__item__titlebox">
                 <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
                     <div [class]="type === 'school' ? 'list__item__head sm-hide' : 'list__item__head'"
                         *ngIf="item.head">
                         {{ returnEntityString(item.head) }}</div>
                     <div class="flex flex-center flex-wrap list__item__titleWrapper">
-                        <a [routerLink]="item.url.path ? item.url.path : item.url" class="list__item__title">
+                        <a [routerLink]="item.url.path ? item.url.path : item.url" attr.id="listItem-{{ i }}"class="list__item__title">
                             <h1>{{ item.title }}</h1>
                         </a>
                         <span
                             *ngIf="type === 'studyProgramme' && item.admissionStatus !== 'avatud' && item.admissionStatus !== 'Avatud'">
-                            <labels [data]="[{entity: {entityLabel: 'studyProgramme.non_active'}}]" type="aqua">
+                            <labels [data]="[{entity: {entityLabel: 'studyProgramme.non_active'}}]">
                             </labels>
                         </span>
                     </div>
@@ -118,7 +118,7 @@
                                 href="mailto:{{ item[fieldName]}}">{{ item[fieldName]}}</a>
                         </span>
 
-                        <ng-container *ngIf="fieldName === 'fillingBar'">
+                        <ng-container *ngIf="fieldName === 'fillingBar' && !item.fieldProfession">
                             <ng-container *ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value)
                                   || (item.indicator.entities && item.indicator.entities.length)">
                                 <ng-container *ngIf="item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
