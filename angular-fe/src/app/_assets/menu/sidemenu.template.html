@@ -10,8 +10,12 @@
 		</button>
 	</div>
 	<nav>
-		<ng-container *ngIf="data && data.menu && data.menu.links">
-			<sidemenu-item [items]="data.menu.links" [type]="'category'"></sidemenu-item>
+		<ng-container *ngIf="data && data.length">
+			<sidemenu-item [items]="data" [type]="'category'"></sidemenu-item>
 		</ng-container>
+		<div class="sidemenu__info">
+			<div class="version">{{ 'frontpage.version' | translate }} {{version}}</div>
+			<div class="support" innerHtml="{{ 'sidemenu.support_text' | translate }}"></div>
+		</div>
 	</nav>
 </aside>

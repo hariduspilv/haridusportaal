@@ -19,8 +19,7 @@
 		0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.14),
 		0 0.0625rem 0.3125rem 0 rgba(0, 0, 0, 0.12);
 	will-change: width;
-	transition: width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
-	transition: min-width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
+	transition: width, min-width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
 	&.is-visible {
 		z-index: 10;
 		min-width: 16.25rem;
@@ -37,7 +36,7 @@
 		height: 100%;
 	}
 	.space {
-    padding: 20px;
+    padding: 1rem 1.5rem;
 	}
 	.sidemenu__category {
 		&.expanded {
@@ -54,6 +53,7 @@
 		}
 		sidemenu-item {
 			.sidemenu__button {
+				padding: 0.8rem 1rem;
 				&:not(.with-submenu).active {
 					border-left-color: $theme-default-darker;
 					background-color: $theme-default;
@@ -71,7 +71,7 @@
 				border-left-color: $theme-default-darker;
 			}
 			sidemenu-item .sidemenu__button {
-				padding: 1.2rem 3rem;
+				padding: 0.8rem 3rem;
 			}
 			&#-ppimine {
 				.sidemenu__item.active.expanded .sidemenu__button {
@@ -120,7 +120,7 @@
 		width: 100%;
 		text-decoration: none;
 		border: none;
-		border-left: 0.5rem solid transparent;
+		border-left: 0.35rem solid transparent;
 		cursor: pointer;
 		color: $blue;
 		background: none;

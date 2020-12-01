@@ -5,12 +5,8 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  OnChanges,
   ViewChildren,
   QueryList,
-  Output,
-  EventEmitter,
-  HostListener,
 } from '@angular/core';
 import { RippleService, SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
@@ -49,7 +45,7 @@ export class MenuItemComponent {
     private location: Location) {}
 
   // Navigate or expand/hide
-  clickMenuItem(item: IMenuData, event: any) {
+  public clickMenuItem(item: IMenuData, event: any) {
     const path = decodeURI(this.location.path());
     const match = path.replace(/\?.*/, '') === item.url.path;
 
@@ -87,7 +83,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
-  @Input() public data: IMenuData;
+  @Input() public data: IMenuData[];
 
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
@@ -135,7 +131,11 @@ export class MenuComponent implements OnInit, OnDestroy {
     this.http.get(path, {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
     }).subscribe((response) => {
-      this.data = response['data'];
+      if (response['data'] &&
+          response['data']['menu'] &&
+          response['data']['menu']['links']) {
+        this.data = response['data']['menu']['links'];
+      }
       this.cdr.detectChanges();
       if (init) {
         this.makeActive();
@@ -146,7 +146,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   private hasActiveInTree(items: IMenuData[], path: string, depth: number): boolean {
     let hasExpanded = false;
     for (const item of items) {
-      const match = path.replace(/\?.*/, '') === item.url.path;
+      const s = path.split('/');
+      const match = (s.length > 2 && item.url.path === `${s[0]}/${s[1]}`) ||
+        path.replace(/\?.*/, '') === item.url.path;
 
       if (item.links && item.links.length) {
         const has = this.hasActiveInTree(item.links, path, depth + 1);
