@@ -486,13 +486,9 @@ class xJsonService implements xJsonServiceInterface {
           }
         }
 
-        dump($element);
-        dump($element['max_size']);
-        dump(ini_get('upload_max_filesize'));
         if(!$table && (!isset($element['max_size']) || $element['max_size'] > ini_get('upload_max_filesize'))) {
           $element['max_size'] = intval(preg_replace('/\D/', '', ini_get('upload_max_filesize')));
         }
-        dump($element['max_size']);
         break;
       case 'table':
         $additional_keys = ['row_label', 'add_del_rows', 'table_columns' , 'hidden', 'vertical'];
