@@ -1,0 +1,21 @@
+uuid: 615b1a3f-5f43-40ac-8546-217c3ebf37cb
+langcode: et
+status: true
+dependencies:
+  module:
+    - entity_reference_revisions
+    - node
+    - paragraphs
+id: node.field_learning_external_links
+field_name: field_learning_external_links
+entity_type: node
+type: entity_reference_revisions
+settings:
+  target_type: paragraph
+module: entity_reference_revisions
+locked: false
+cardinality: 6
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false
