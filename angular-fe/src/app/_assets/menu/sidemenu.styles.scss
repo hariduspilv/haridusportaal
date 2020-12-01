@@ -2,7 +2,8 @@
 @import "breakpoints.scss";
 
 ::ng-deep .sidemenu {
-	max-width: 0;
+	width: 0;
+	max-width: 16.25rem;
 	overflow: hidden;
 	height: calc(100vh - 4rem);
 	min-height: 100%;
@@ -12,18 +13,17 @@
 	border-right: 0.0625rem solid $gray;
 	box-sizing: border-box;
 	position: relative;
-	word-wrap: none;
-	white-space: nowrap;
+	word-wrap: break-word;
+	white-space: normal;
+	flex-shrink: 0;
 	box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0, 0, 0, 0.2),
 		0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.14),
 		0 0.0625rem 0.3125rem 0 rgba(0, 0, 0, 0.12);
-	will-change: max-width;
-	transition: max-width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
+	will-change: width;
+	transition: width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
 	&.is-visible {
 		z-index: 10;
-		max-width: 16.25rem;
-		word-wrap: break-word;
-		white-space: normal;
+		width: 16.25rem;
 	}
 	@include break-on(sm, max) {
 		position: fixed;
@@ -114,12 +114,12 @@
 		}
 	}
 	& .sidemenu__button {
+		width: 16.25rem;
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
 		overflow: hidden;
 		padding: 1rem 1.5rem;
-		width: 100%;
 		text-decoration: none;
 		border: none;
 		border-left: 0.35rem solid transparent;
@@ -127,7 +127,7 @@
 		color: $blue;
 		background: none;
 		font-family: inherit;
-		font-size: inherit;
+		font-size: 1rem;
 		text-align: left;
 		position: relative;
 		transition: border-left-color,
