@@ -47,8 +47,10 @@
 		&__hamburger {
 			min-height: 1.25rem;
 			padding: 0;
-			&.active {
-				display: none;
+			@include break-on(sm, min) {
+				&.active {
+					display: none;
+				}
 			}
 			.toggle {
 				width: 1.25rem;
@@ -62,11 +64,11 @@
 					background: $white;
 					transition: all .225s ease-in-out;
 				}
-				&.active {
-					.middle {background: transparent;}
-					.first {transform: translateY(0.375rem) rotate(-45deg)}
-					.last {transform: translateY(-0.375rem) rotate(45deg)}
-				}
+			}
+			&.active .toggle {
+				.middle {background: transparent;}
+				.first {transform: translateY(0.375rem) rotate(-45deg);}
+				.last {transform: translateY(-0.375rem) rotate(45deg);}
 			}
 		}
 		&__assets {

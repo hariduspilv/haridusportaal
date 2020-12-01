@@ -2,8 +2,7 @@
 @import "breakpoints.scss";
 
 ::ng-deep .sidemenu {
-	width: 0;
-	min-width: 0;
+	max-width: 0;
 	overflow: hidden;
 	height: calc(100vh - 4rem);
 	min-height: 100%;
@@ -18,13 +17,16 @@
 	box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0, 0, 0, 0.2),
 		0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.14),
 		0 0.0625rem 0.3125rem 0 rgba(0, 0, 0, 0.12);
-	will-change: width;
-	transition: width, min-width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
+	will-change: max-width;
+	transition: max-width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
 	&.is-visible {
 		z-index: 10;
-		min-width: 16.25rem;
+		max-width: 16.25rem;
 		word-wrap: break-word;
 		white-space: normal;
+	}
+	@include break-on(sm, max) {
+		position: fixed;
 	}
 	ul,
 	li {
