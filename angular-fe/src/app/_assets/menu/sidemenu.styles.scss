@@ -11,9 +11,10 @@
 	background: $white;
 	display: inline-block;
 	border-right: 0.0625rem solid $gray;
-	word-wrap: break-word;
 	box-sizing: border-box;
 	position: relative;
+	word-wrap: none;
+	white-space: nowrap;
 	box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0, 0, 0, 0.2),
 		0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.14),
 		0 0.0625rem 0.3125rem 0 rgba(0, 0, 0, 0.12);
@@ -23,6 +24,8 @@
 	&.is-visible {
 		z-index: 10;
 		min-width: 16.25rem;
+		word-wrap: break-word;
+		white-space: normal;
 	}
 	ul,
 	li {
@@ -109,10 +112,24 @@
 		}
 	}
 	& .sidemenu__button {
-		display: block;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		overflow: hidden;
 		padding: 1rem 1.5rem;
+		width: 100%;
 		text-decoration: none;
+		border: none;
 		border-left: 0.5rem solid transparent;
+		cursor: pointer;
+		color: $blue;
+		background: none;
+		font-family: inherit;
+		font-size: inherit;
+		text-align: left;
+		position: relative;
+		transition: border-left-color,
+			background-color 0.2s cubic-bezier(0.19, 1, 0.22, 1);
 		&:hover {
 			text-decoration: underline;
 		}

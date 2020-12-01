@@ -18,7 +18,6 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { NavigationEnd, RouterEvent, Router } from '@angular/router';
 import { environment } from '@env/environment';
-import { mergeAnalyzedFiles } from '@angular/compiler';
 
 interface IMenuURL {
   path: string;
@@ -43,17 +42,21 @@ interface IMenuData {
 export class MenuItemComponent {
   @Input() public items: IMenuData[];
   @Input() public type = 'item';
-  @Output() public toggle: EventEmitter<IMenuData> = new EventEmitter<IMenuData>();
 
-  constructor(private router: Router, private location: Location) {}
+  constructor(
+    private ripple: RippleService,
+    private router: Router,
+    private location: Location) {}
 
+  // Navigate or expand/hide
   clickMenuItem(item: IMenuData, event: any) {
-    event.stopPropagation();
     const path = decodeURI(this.location.path());
-    const match = item.url.path === path.split('?')[0].split('#')[0] ||
-                  path.includes(item.url.path);
+    const match = path.replace(/\?.*/, '') === item.url.path;
 
-    if (!match && item.url.path !== '#nolink') {
+    if (!match &&
+        item.url.path !== '#nolink' &&
+        item.url.path !== '#nocategory' &&
+        item.url.path !== '#category') {
       this.router.navigateByUrl(item.url.path);
     } else {
       if (item.links.length) {
@@ -63,9 +66,12 @@ export class MenuItemComponent {
         } else if (item.userClosed) {
           item.userClosed = false;
         }
-        this.toggle.emit(item);
       }
     }
+  }
+
+  public animateRipple(event: any) {
+    this.ripple.animate(event, 'dark');
   }
 }
 
@@ -76,127 +82,12 @@ export class MenuItemComponent {
 })
 export class MenuComponent implements OnInit, OnDestroy {
   public isVisible: boolean;
+  public version: any = environment.VERSION;
   private subscription: Subscription = new Subscription();
+  private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
-  public data = {
-    menu: {
-      links: [
-        {
-          description: null,
-          label: 'Õppimine',
-          links: [
-            {
-              description: null,
-              label: 'Õppeasutused',
-              links: [],
-              url: {
-                path: '/kool',
-                internal: true,
-              },
-            },
-            {
-              description: null,
-              label: 'Õppekavad',
-              links: [],
-              url: {
-                path: '/erialad',
-                internal: true,
-              },
-            },
-            {
-              description: null,
-              label: 'Õpitee',
-              links: [
-                {
-                  description: null,
-                  label: 'Algharidus',
-                  links: [],
-                  url: {
-                    path: '/artiklid/artikkel-mugudest',
-                    internal: true,
-                  },
-                },
-                {
-                  description: null,
-                  label: 'Põhiharidus',
-                  links: [],
-                  url: {
-                    path: '/artiklid/asdf',
-                    internal: true,
-                  },
-                },
-              ],
-              url: {
-                path: '#nolink',
-                internal: true,
-              },
-            },
-          ],
-          url: {
-            internal: true,
-            path: '/õppimine',
-          },
-        },
-        {
-          description: null,
-          label: 'Karjäär',
-          links: [
-            {
-              description: null,
-              label: 'Valdkonnad tööturul',
-              links: [],
-              url: {
-                path: '/artiklid/linkide-ja-failide-näide',
-                internal: true,
-              },
-            },
-            {
-              description: null,
-              label: 'Tööta ja õpi',
-              links: [
-                {
-                  description: null,
-                  label: 'Koolitused',
-                  links: [],
-                  url: {
-                    path: '/ametialad/oska-põhikutseala-test-05102018',
-                    internal: true,
-                  },
-                },
-                {
-                  description: null,
-                  label: 'õõõõ',
-                  links: [],
-                  url: {
-                    path: '/tööjõuprognoos/tööjõuprognoos-pilt-ja-videod-test',
-                    internal: true,
-                  },
-                },
-              ],
-              url: {
-                path: '#nolink',
-                internal: true,
-              },
-            },
-          ],
-          url: {
-            internal: true,
-            path: '/karjäär',
-          },
-        },
-        {
-          description: null,
-          label: 'Infosüsteemid',
-          links: [],
-          url: {
-            path: '/artiklid/afefewf',
-            internal: true,
-          },
-        },
-      ],
-    },
-  };
+  @Input() public data: IMenuData;
 
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
@@ -204,35 +95,60 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   constructor(
     private sidemenuService: SidemenuService,
+    private http: HttpClient,
+    private settings: SettingsService,
+    private auth: AuthService,
     private router: Router,
     private location: Location,
     private cdr: ChangeDetectorRef) {}
 
-  subscribeToRouter(): void {
+  public closeSidemenu(): void {
+    this.sidemenuService.close();
+  }
+
+  private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
       if (event instanceof NavigationEnd) {
-        /*if (this.isVisible) {
-          this.sidemenuService.close();
-        }*/
         this.makeActive();
       }
     });
   }
 
-  subscribeToService(): void {
+  private subscribeToAuth():void {
+    this.authSub = this.auth.isAuthenticated.subscribe((val) => {
+      this.getData();
+    });
+  }
+
+  private subscribeToService(): void {
     this.subscription = this.sidemenuService.isVisibleSubscription.subscribe((value) => {
       this.isVisible = value;
     });
   }
 
-  hasActiveInTree(items: IMenuData[], path: string, depth: number): boolean {
+  private getData(init: boolean = false):void {
+    const variables = {
+      language: this.settings.activeLang,
+    };
+    const path = this.settings.query('getMenu', variables);
+    // force to not use disk cache
+    this.http.get(path, {
+      headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
+    }).subscribe((response) => {
+      this.data = response['data'];
+      this.cdr.detectChanges();
+      if (init) {
+        this.makeActive();
+      }
+    });
+  }
+
+  private hasActiveInTree(items: IMenuData[], path: string, depth: number): boolean {
     let hasExpanded = false;
     for (const item of items) {
-      const match =
-        item.url.path === path.split('?')[0].split('#')[0] ||
-        path.includes(item.url.path);
+      const match = path.replace(/\?.*/, '') === item.url.path;
 
-      if (item.links.length) {
+      if (item.links && item.links.length) {
         const has = this.hasActiveInTree(item.links, path, depth + 1);
         if (depth === 1) {
           item.expanded = !item.userClosed;
@@ -261,22 +177,26 @@ export class MenuComponent implements OnInit, OnDestroy {
     return hasExpanded;
   }
 
-  makeActive(): void {
+  private makeActive(): void {
     const path = decodeURI(this.location.path());
 
-    this.cdr.detectChanges();
     for (const menu of this.menus) {
       this.hasActiveInTree(menu.items, path, 0);
     }
+
+    this.cdr.detectChanges();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.subscribeToAuth();
     this.subscribeToService();
     this.subscribeToRouter();
+    this.getData(true);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.routerSub.unsubscribe();
+    this.authSub.unsubscribe();
     this.subscription.unsubscribe();
   }
 }

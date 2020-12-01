@@ -5,7 +5,7 @@
 	box-sizing: border-box;
 	padding: 0;
 	width: 100%;
-	background: #bee3e8;
+	background: $blue;
 	height: 4rem;
 	display: flex;
 	.hidden-label {
@@ -190,7 +190,7 @@
 			padding: 0;
 			color: $white;
 			border: none;
-			background: #bee3e8;
+			background: $blue;
 			border-radius: 0;
 			::ng-deep	{
 				.button--label {
