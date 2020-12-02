@@ -18,10 +18,8 @@ class OskaIndicatorEntityForm extends ContentEntityForm {
   public function buildForm(array $form, FormStateInterface $form_state) {
     /* @var $entity \Drupal\htm_custom_oska\Entity\OskaIndicatorEntity */
     $form = parent::buildForm($form, $form_state);
-
-    kint($form);
-    die();
-    $entity = $this->entity;
+    
+    unset($form['actions']);
 
     return $form;
   }
