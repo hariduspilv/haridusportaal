@@ -53,14 +53,14 @@ html {
   max-height: $lineHeight * $lineCount; 
   text-align: justify;
   padding-right: 2rem;
-  &:before {
+  & .ellipsis {
     content: '...';
     position: absolute;
     right: 1.1875rem;
     bottom: 0;
     height: $lineHeight;
   }
-  &:after {
+  & .ellipsis-hide {
     content: '';
     position: absolute;
     right: 1.1875rem;
