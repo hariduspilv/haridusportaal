@@ -10,6 +10,7 @@ import middleTabsHtml from './middleTabs.html';
 import withoutTitleHtml from './withoutTitle.html';
 import orangeBlockHtml from './orangeBlock.html';
 import titleBorderlessHtml from './titleBorderless.html';
+import transparentBlockWithoutTitleHtml from './transparentBlockWithoutTitle.html';
 
 const moduleMetadata = {
   imports: [
@@ -64,6 +65,15 @@ stories.add('Without title', () => {
   return {
     moduleMetadata,
     template: withoutTitleHtml,
+  };
+},          {
+  notes: { Instructions: instructionsMd, Documentation: documentationMd },
+});
+
+stories.add('Transparent theme without title', () => {
+  return {
+    moduleMetadata,
+    template: transparentBlockWithoutTitleHtml,
   };
 },          {
   notes: { Instructions: instructionsMd, Documentation: documentationMd },

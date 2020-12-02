@@ -8,7 +8,7 @@
           <loader *ngIf="!certificate && !examResults"></loader>
           <ng-container *ngIf="certificate">
             <h1 *ngIf="certificate.nimi">{{ certificate.nimi }}</h1>
-            <labels [data]="labels" type="aqua" *ngIf="labels.length"></labels>
+            <labels [data]="labels" *ngIf="labels.length"></labels>
             <div class="table-holder">
               <table class="dashboard-table">
                 <tbody>

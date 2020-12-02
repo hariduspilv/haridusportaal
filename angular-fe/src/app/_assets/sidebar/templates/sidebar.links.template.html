@@ -4,13 +4,13 @@
 
       <ng-container *ngIf="item.url && !item.url.url">
         <ng-container *ngIf="item.url.routed">
-          <a [routerLink]="item.url.path || item.url" [queryParams]="item.url.params || false">
+          <a [routerLink]="item.url.path || item.url" [attr.target]="item.url?.target || '_self'" [queryParams]="item.url.params || false">
             <icon size="medium" ariaLabel="lehe sisene link" glyph="{{ item.icon ? item.icon : 'link-2' }}"></icon>
             <span role="text">{{ item.title }}</span>
           </a>
         </ng-container>
         <ng-container *ngIf="!item.url.routed">
-          <a [href]="item.url.path || item.url">
+          <a [href]="item.url.path || item.url" [attr.target]="item.url?.target || '_self'">
             <icon size="medium" ariaLabel="lehe väline link" glyph="{{ item.icon ? item.icon : 'external-link' }}"></icon>
             <span role="text">{{ item.title }}</span>
           </a>
@@ -19,13 +19,13 @@
 
       <ng-container *ngIf="item.url.url">
         <ng-container *ngIf="item.url.url.routed">
-          <a [routerLink]="item.url.url.path" [queryParams]="item.url.url.params || false">
+          <a [routerLink]="item.url.url.path" [attr.target]="item.url?.target || '_self'" [queryParams]="item.url.url.params || false">
             <icon size="medium" glyph="{{ item.icon ? item.icon : 'link-2' }}"></icon>
             <span role="text">{{ item.title }}</span>
           </a>
         </ng-container>
         <ng-container *ngIf="!item.url.url.routed">
-          <a [href]="item.url.url.path">
+          <a [href]="item.url.url.path" [attr.target]="item.url?.target || '_self'">
             <icon size="medium" glyph="{{ item.icon ? item.icon : 'external-link' }}"></icon>
             <span role="text">{{ item.title }}</span>
           </a>

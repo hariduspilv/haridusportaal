@@ -393,6 +393,12 @@
           font-weight: 500;
           margin-bottom: 0;
         }
+        .d-flex {
+          display: flex;
+          toggle-tip {
+            margin-top: -1rem;
+          }
+        }
         ul li {
           padding-top: 0.5rem;
           display: flex;

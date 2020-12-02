@@ -1,9 +1,10 @@
 import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
-import FieldVaryService from '@app/_services/FieldVaryService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { ActivatedRoute } from '@angular/router';
+import { MainProfessionsSearchResultsComponent } from '@app/_assets/mainProfessionsSearchResults/mainProfessionsSearchResults.component';
+import { DeviceDetectorService } from 'ngx-device-detector';
 
 @Component({
   selector: 'mainProfessionList-view',
@@ -14,7 +15,12 @@ import { ActivatedRoute } from '@angular/router';
 export class MainProfessionListViewComponent implements AfterViewInit {
   @Input() path: string;
   @ViewChild('filterToggle') filterToggle: ElementRef;
+  @ViewChild('searchResults') private searchResults: MainProfessionsSearchResultsComponent;
 
+  jobsQuery: string = 'oskaMainProfessionListView';
+  jobQuery: string = 'oskaMainProfessionDetailView';
+  jobLoading: boolean = true;
+  filteredJob: Object;
   lang: any;
   params: any;
   tags: any;
@@ -37,16 +43,26 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     'oska.difficult_extended',
   ];
   competitionFilters = [];
+  public tooltipTriggerType = 'hover focus';
+  public tooltipPlacement = 'right';
+  public typeFilters: any = [
+    { name: this.translateService.get('oskaProfessions.label'),
+      active: true,
+      sum: 0,
+      tooltipText: this.translateService.get('oska.professions_description'),
+    },
+    { name: this.translateService.get('oska.sample_jobs'),
+      active: true,
+      sum: 0,
+      tooltipText: this.translateService.get('oska.profession_job_description'),
+    },
+  ];
   sortedBy: object[] = [
     { key: 'Kõik', value: '' },
-    { key: 'Brutopalga järgi kasvavalt', value: 'field_bruto_asc' },
-    { key: 'Brutopalga järgi kahanevalt', value: 'field_bruto_desc' },
-    { key: 'Hariduse pakkumise järgi kasvavalt', value: 'field_education_indicator_asc' },
-    { key: 'Hariduse pakkumise järgi kahanevalt', value: 'field_education_indicator_desc' },
-    { key: 'Hõivatute arvu järgi kasvavalt', value: 'field_number_of_employees_asc' },
-    { key: 'Hõivatute arvu järgi kahanevalt', value: 'field_number_of_employees_desc' },
-    { key: 'Hõive muutuse järgi kasvavalt', value: 'field_change_in_employment_asc' },
-    { key: 'Hõive muutuse järgi kahanevalt', value: 'field_change_in_employment_desc' },
+    { key: 'Töötajate arvu järgi kasvavalt', value: 'field_number_of_employees_asc' },
+    { key: 'Töötajate arvu järgi kahanevalt', value: 'field_number_of_employees_desc' },
+    { key: 'Töökohtade arvu muutuse järgi kasvavalt', value: 'field_change_in_employment_asc' },
+    { key: 'Töökohtade arvu muutuse järgi kahanevalt', value: 'field_change_in_employment_desc' },
   ];
 
   constructor(
@@ -54,6 +70,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     private http: HttpClient,
     private translateService: TranslateService,
     private route: ActivatedRoute,
+    private deviceService: DeviceDetectorService,
   ) {}
 
   setSortDirection() {
@@ -61,6 +78,9 @@ export class MainProfessionListViewComponent implements AfterViewInit {
       const directionHelper = this.sort.split('_');
       this.sortDirection = (directionHelper.pop()).toUpperCase();
       this.sortField = directionHelper.join('_');
+    } else {
+      this.sortField = '';
+      this.sortDirection = '';
     }
   }
 
@@ -131,7 +151,83 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     }
   }
 
+  private resetFilters() {
+    this.typeFilters = this.typeFilters.map((elem) => {
+      elem['active'] = true;
+      return elem;
+    });
+    this.searchResults.filterListByTypes(this.typeFilters);
+  }
+
+  private setFilterCounts(list: any[]): void {
+    const jobCount: number = list.filter(elem => elem.fieldProfession).length;
+    this.typeFilters[0].sum = list.length - jobCount;
+    this.typeFilters[1].sum = jobCount;
+    this.searchResults.filterListByTypes(this.typeFilters);
+  }
+
+  public filterListByType(index) {
+    if (!(index === 0 && !this.typeFilters[1].active ||
+      index === 1 && !this.typeFilters[0].active) &&
+      !(index === 0 && !this.typeFilters[1].sum && this.typeFilters[0].active) &&
+      !(index === 1 && !this.typeFilters[0].sum && this.typeFilters[1].active)) {
+      this.typeFilters[index].active = !this.typeFilters[index].active;
+    }
+    this.searchResults.filterListByTypes(this.typeFilters);
+  }
+
+  public selectArbitraryHighlightedJob({ list, highlight, activeFilters }): void {
+    this.jobLoading = true;
+    const filtersExist = Object.keys(this.route.snapshot.queryParams).length;
+    if (list && list.length) {
+      this.typeFilters = activeFilters || this.typeFilters;
+      if (highlight) {
+        this.filteredJob = highlight;
+        this.setFilterCounts(list);
+        this.jobLoading = false;
+      } else {
+        this.setFilterCounts(list);
+        if (!this.filteredJob || !filtersExist) {
+          const filteredList: Object[] = list.filter(elem =>
+            elem.fieldFillingBar === 1 || elem.fieldFillingBar === 2);
+          if (filteredList.length) {
+            const filteredItem: number = Math.floor(Math.random() * filteredList.length);
+            const initialFilteredJob = filteredList[filteredItem];
+            const initialFilteredJobPath = initialFilteredJob['entityUrl'] ? initialFilteredJob['entityUrl']['path']
+            : initialFilteredJob['url']['path'];
+            const jobSubscription = this.http.get(
+              this.settings.query(this.jobQuery, { path: initialFilteredJobPath })).subscribe(
+              (response) => {
+                this.filteredJob = response['data']['route']['entity'];
+                this.filteredJob['path'] = initialFilteredJobPath;
+                this.filteredJob['label'] =
+                  this.competitionLabels[initialFilteredJob['fieldFillingBar'] - 1];
+                this.jobLoading = false;
+                jobSubscription.unsubscribe();
+              }, () => {
+                this.jobLoading = false;
+              });
+          } else {
+            this.jobLoading = false;
+          }
+        } else {
+          this.jobLoading = false;
+        }
+      }
+    } else {
+      this.setFilterCounts(list);
+      this.jobLoading = false;
+    }
+    if (list && filtersExist && !highlight) {
+      this.resetFilters();
+    }
+  }
+
   ngOnInit() {
+    if (!this.deviceService.isDesktop()) {
+      this.tooltipTriggerType = 'click';
+      this.tooltipPlacement = 'auto';
+    }
     this.toggleFilters();
     this.getFilters();
   }

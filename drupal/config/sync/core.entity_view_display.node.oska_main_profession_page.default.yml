@@ -10,6 +10,7 @@ dependencies:
     - field.field.node.oska_main_profession_page.field_education_indicator
     - field.field.node.oska_main_profession_page.field_filling_bar
     - field.field.node.oska_main_profession_page.field_fixed_label
+    - field.field.node.oska_main_profession_page.field_further_info
     - field.field.node.oska_main_profession_page.field_introduction
     - field.field.node.oska_main_profession_page.field_main_profession_accordion
     - field.field.node.oska_main_profession_page.field_main_profession_picture
@@ -19,6 +20,7 @@ dependencies:
     - field.field.node.oska_main_profession_page.field_oska_main_profession_links
     - field.field.node.oska_main_profession_page.field_oska_main_profession_video
     - field.field.node.oska_main_profession_page.field_pictogram
+    - field.field.node.oska_main_profession_page.field_profession
     - field.field.node.oska_main_profession_page.field_sidebar
     - node.type.oska_main_profession_page
   module:
@@ -92,6 +94,13 @@ content:
       link: true
     third_party_settings: {  }
     type: entity_reference_label
+    region: content
+  field_further_info:
+    weight: 20
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
     region: content
   field_introduction:
     weight: 2
@@ -169,6 +178,16 @@ content:
       use_description_as_link_text: true
     third_party_settings: {  }
     type: file_default
+    region: content
+  field_profession:
+    weight: 19
+    label: above
+    settings:
+      format: default
+      format_custom_false: ''
+      format_custom_true: ''
+    third_party_settings: {  }
+    type: boolean
     region: content
   field_sidebar:
     type: entity_reference_revisions_entity_view

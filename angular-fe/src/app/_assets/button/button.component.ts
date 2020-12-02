@@ -25,7 +25,6 @@ export class ButtonComponent {
     return `button--${this.theme} ${this.class}`;
   }
   animateRipple($event) {
-    const rippleColor = this.theme === 'plain' ? 'dark' : 'light';
-    this.ripple.animate($event, rippleColor);
+    if (this.theme !== 'plain') this.ripple.animate($event, 'light');
   }
 }
