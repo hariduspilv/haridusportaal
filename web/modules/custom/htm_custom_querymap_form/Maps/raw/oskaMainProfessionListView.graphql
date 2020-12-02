@@ -31,6 +31,11 @@ $fillingBarFilterEnabled: Boolean) {
       ... on NodeOskaMainProfessionPage {
         nid
         title
+                  fieldProfession
+                  fieldFurtherInfo {
+                    value
+                    processed
+                  }
         fieldFixedLabel {
           entity {
             ... on TaxonomyTermOskaFixedLabels {

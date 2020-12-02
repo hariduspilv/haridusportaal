@@ -2150,6 +2150,10 @@ button:
     translation_type: textarea
     et: 'Salvesta muudatused'
     en: 'Salvesta muudatused'
+  sort_professions:
+    translation_type: textarea
+    et: 'Sorteeri ametialasid'
+    en: 'Sorteeri ametialasid'
 tooltip:
   share:
     translation_type: textarea
@@ -2550,8 +2554,8 @@ fieldFixedLabel:
 oska:
   fieldNumberEmployed:
     translation_type: textarea
-    et: 'Hõivatute arv'
-    en: 'Employment rate'
+    et: 'Töötajate arv'
+    en: 'Töötajate arv'
   title_field:
     translation_type: textarea
     et: Valdkond
@@ -2698,8 +2702,8 @@ oska:
     en: 'Difficult to find work'
   numberEmployedChange:
     translation_type: textarea
-    et: 'Hõive muutus'
-    en: 'Employment rate change'
+    et: 'Töökohtade arvu muutus'
+    en: 'Töökohtade arvu muutus'
   incline:
     translation_type: textarea
     et: 'Väike kasv'
@@ -2808,6 +2812,43 @@ oska:
     translation_type: textarea
     et: 'Väike osakaal'
     en: ''
+  fieldNumberEmployed_explanation:
+    translation_type: textarea
+    et: 'Joonis näitab valdkonna töötajate arvu võrreldes teiste valdkondadega.'
+    en: 'Joonis näitab valdkonna töötajate arvu võrreldes teiste valdkondadega.'
+  professions_and_jobs:
+    translation_type: textarea
+    et: 'Ametialad ja ametid'
+    en: 'Ametialad ja ametid'
+  professionNumberEmployed_explanation:
+    translation_type: textarea
+    et: 'Joonis näitab ametiala töötajate arvu võrreldes teiste ametialadega.'
+    en: 'Joonis näitab ametiala töötajate arvu võrreldes teiste ametialadega.'
+  all_professions_and_jobs:
+    translation_type: textarea
+    et: 'Kõik ametialad ja ametid'
+    en: 'Kõik ametialad ja ametid'
+  competition_by_professions:
+    translation_type: textarea
+    et: 'Konkurents tööturul ametialade järgi'
+    en: 'Konkurents tööturul ametialade järgi'
+  professions_data:
+    translation_type: textarea
+    et: 'Ametialade andmed'
+    en: 'Ametialade andmed'
+  professions_description:
+    translation_type: textarea
+    et: 'Ametialad on sarnaste ametite kogumid, mida on analüüsitud OSKA tuleviku-uuringutes.'
+    en: 'Ametialad on sarnaste ametite kogumid, mida on analüüsitud OSKA tuleviku-uuringutes.'
+  profession_job_description:
+    translation_type: textarea
+    et: 'Amet või ametikoht on tööülesannete kogum, mida isik täidab oma töökohal ja mille eest ta saab tasu.'
+    en: 'Amet või ametikoht on tööülesannete kogum, mida isik täidab oma töökohal ja mille eest ta saab tasu.'
+  fieldFurtherInfo:
+    label:
+      translation_type: textarea
+      et: Lisateave
+      en: Lisateave
 oskaProfession:
   view_field_info:
     translation_type: textarea
@@ -3168,7 +3209,7 @@ nodeQuery:
   en: Articles
 fieldContact:
   translation_type: textarea
-  et: Kontakt
+  et: 'Küsi lisainfot'
   en: Contact
 fieldQualificationStandard:
   translation_type: textarea
