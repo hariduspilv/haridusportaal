@@ -486,7 +486,7 @@ class xJsonService implements xJsonServiceInterface {
           }
         }
 
-        if(!$table && (!isset($element['max_size']) || $element['max_size'] > ini_get('upload_max_filesize'))){
+        if(!$table && (!isset($element['max_size']) || $element['max_size'] > ini_get('upload_max_filesize'))) {
           $element['max_size'] = intval(preg_replace('/\D/', '', ini_get('upload_max_filesize')));
         }
         break;
