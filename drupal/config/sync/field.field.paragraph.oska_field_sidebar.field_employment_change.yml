@@ -11,7 +11,7 @@ id: paragraph.oska_field_sidebar.field_employment_change
 field_name: field_employment_change
 entity_type: paragraph
 bundle: oska_field_sidebar
-label: 'Hõive muutus'
+label: 'Töökohtade arvu muutus'
 description: ''
 required: false
 translatable: true

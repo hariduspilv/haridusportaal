@@ -47,12 +47,12 @@ const sidebarOrder = {
   profession: [
     'fillingBar',
     'indicator',
-    'prosCons',
-    'fieldOskaField',
     'fieldLearningOpportunities',
-    'fieldJobOpportunities',
-    'fieldQualificationStandard',
+    'prosCons',
     'fieldJobs',
+    'fieldOskaField',
+    'fieldQualificationStandard',
+    'fieldJobOpportunities',
     'fieldQuickFind',
     'fieldContact'
   ],
@@ -153,7 +153,7 @@ export class SidebarComponent implements OnInit, OnChanges {
         FieldVaryService(this.data),
       );
 
-/*       if (this.type === 'infosystem') {
+      /*       if (this.type === 'infosystem') {
         this.mappedData = parseInfosystemData(this.mappedData);
       } */
 
