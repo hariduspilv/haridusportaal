@@ -1,0 +1,24 @@
+#!/bin/sh
+
+if [ ! -d /app/drupal/web ]; then
+
+  cd /app
+  git init
+  git remote add origin https://github.com/hariduspilv/haridusportaal.git
+  git fetch origin
+  git checkout -b master --track origin/master
+  git reset origin/master
+  if [ ! -d /app/drupal/web/sites ]; then
+    cd /data
+    cp -R web /app/drupal
+  fi
+  if [ -d /app/drupal/config/sync ]; then
+    cd /app/drupal
+    drush cim
+  fi
+fi
+
+chown apache.apache -R /app/drupal/web/sites/default/files
+
+echo "[i] Starting daemon..."
+httpd -D FOREGROUND
