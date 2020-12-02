@@ -13,12 +13,16 @@ import { AuthInterceptor } from './_interceptors';
 import { AmpService } from './_services/ampService';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DeviceDetectorModule } from 'ngx-device-detector';
+import { MainProfessionModule } from './modules/main-profession/main-profession.module';
 // We dont need short month names at all!
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
 });
 
 registerLocaleData(localeEt);
+
+// Maybe add feature modules here instead of direct import to app.routes.ts??
+const featureModules = [];
 
 @NgModule({
   declarations: [
@@ -34,6 +38,7 @@ registerLocaleData(localeEt);
     TranslateModule.forRoot(),
     DeviceDetectorModule.forRoot(),
     ServiceWorkerModule.register('/ngsw-worker.js'),
+    ...featureModules,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'et-EE' },
