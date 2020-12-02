@@ -2113,14 +2113,6 @@ public class MtsysWorker extends Worker {
     }
   }
 
-  private boolean isAcceptableActivityView(ObjectNode jsonNode) {
-    List<String> acceptableActivity = new ArrayList<>();
-    jsonNode.get("header").get("acceptable_activity")
-        .forEach(i -> acceptableActivity.add(i.asText()));
-
-    return acceptableActivity.contains("VIEW");
-  }
-
   private void addAcceptableFormToHeader(ObjectNode jsonNode, Long klOkLiik, Long klStaatus) {
     ArrayNode acceptableFormArrayNode = ((ObjectNode) jsonNode.get("header"))
         .putArray("acceptable_form");
