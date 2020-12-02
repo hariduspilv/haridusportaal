@@ -25,7 +25,7 @@ export class SettingsService {
 
   public url: string = '';
   public ehisUrl: string = '';
-  private urlTemplates = {
+  public urlTemplates = {
     '192.168.6.193': 'https://htm.wiseman.ee',
     'edu.twn.ee': 'https://htm.wiseman.ee',
     'edu.ee': 'https://api.hp.edu.ee',
