@@ -8,6 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { NgPipesModule } from 'ngx-pipes';
+import { HomePageService } from '@app/_services';
 import { HomePageViewComponent } from './homePageView.component';
 import { HomePageArticlesComponent } from './blocks/homePageView.articles.component';
 import { HomePageCareerDevelopmentComponent } from './blocks/homePageView.careerDevelopment.component';
@@ -77,6 +78,7 @@ const routes: Routes = [
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    HomePageService,
   ],
   bootstrap: [],
 })

@@ -12,3 +12,4 @@ export * from './AuthService';
 export * from './UploadService';
 export * from './ScrollRestorationService';
 export * from './AnalyticsService';
+export * from './HomePageService';

@@ -13,7 +13,7 @@
       [title]="'home.services_title' | translate"
       [theme]="theme"></homepage-slides>
     <homepage-topical
-      [data]="newsLink"
+      [article]="news"
       [category]="'home.topical_default' | translate"
       [theme]="theme"></homepage-topical>
     <homepage-study
@@ -41,7 +41,7 @@
       [description]="'home.events_text' | translate"></homepage-events>
     <homepage-topical
       [category]="'home.topical_teachers' | translate"
-      [data]="newsLink" [theme]="theme"></homepage-topical>
+      [article]="news" [theme]="theme"></homepage-topical>
     <homepage-slides
       [data]="services"
       [title]="'home.toolbox' | translate" 
@@ -76,7 +76,7 @@
 
     <homepage-topical
       [category]="'home.topical_career' | translate"
-      [data]="newsLink"
+      [article]="news"
       [line]="4"
       [theme]="theme"></homepage-topical>
 
@@ -111,7 +111,7 @@
       [learnMore]="false"
       [theme]="theme"></homepage-study>
     <homepage-topical
-      [data]="newsLink"
+      [article]="news"
       [category]="'home.topical_default' | translate"
       [theme]="theme"></homepage-topical>
     <homepage-slogan

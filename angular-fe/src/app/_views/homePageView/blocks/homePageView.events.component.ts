@@ -36,21 +36,8 @@ export class HomePageEventsComponent implements OnInit {
     this.getData();
   }
 
-  private assignImages() {
-    let counter = 0;
-    this.data = this.data.map((item, index) => {
-      if (counter >= this.imageList.length) {
-        counter = 0;
-      }
-      const image = `/assets/img/${this.imageList[counter]}`;
-      counter = counter + 1;
-      return {
-        ...item,
-        image: {
-          url: image,
-        },
-      };
-    });
+  public getImage(index: number): string {
+    return `/assets/img/${this.imageList[index % this.imageList.length]}`;
   }
 
   private getAdditional(entities): void {
@@ -64,7 +51,6 @@ export class HomePageEventsComponent implements OnInit {
           ...this.parseEvents(entities),
           ...this.parseEvents(response.data.nodeQuery.entities),
         ].slice(0, this.eventsAmount);
-        this.assignImages();
       } catch (err) {
       }
     });
@@ -84,9 +70,6 @@ export class HomePageEventsComponent implements OnInit {
             path: item.entityUrl.path,
           },
         },
-        image: {
-          url: 'http://htm.wiseman.ee/sites/default/files/2020-02/homepage-slides-1.svg',
-        },
       };
     });
   }
@@ -104,7 +87,6 @@ export class HomePageEventsComponent implements OnInit {
           this.getAdditional(response.data.nodeQuery.entities);
         } else {
           this.data = this.parseEvents(response.data.nodeQuery.entities);
-          this.assignImages();
         }
       } catch (err) {
       }
