@@ -1,9 +1,16 @@
-import {
-  Component,
-  OnInit,
-} from '@angular/core';
-import { HomePageService } from '@app/_services';
+import { Component, OnInit } from '@angular/core';
+import { HomePageService } from './homePage.service';
 import { ActivatedRoute } from '@angular/router';
+import {
+  IContact,
+  IEvent,
+  IFooterData,
+  IService,
+  ISimpleArticle,
+  ISlogan,
+  IStudy,
+  ITopic,
+} from './homePage.model';
 
 @Component({
   selector: 'homepage',
@@ -11,25 +18,32 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['homePageView.styles.scss'],
 })
 export class HomePageViewComponent implements OnInit {
-  public topics: any[] = [];
-  public articles: any[];
-  public services: any[] = [];
-  public contact: any = {};
-  public slogan: any = '';
-  public news: any = {
+  public topics: ITopic[] = [];
+  public articles: ITopic[];
+  public services: IService[] = [];
+  public contact: IFooterData = {};
+  public theme: string = 'default';
+  public careerDevelopment: string;
+  public events: IEvent[] = [];
+  public slogan: ISlogan = {
+    title: '',
+    person: '',
+    company: '',
+  };
+  public study: IStudy = {
+    title: '',
+    intro: '',
+    data: [],
+  };
+  public news: ISimpleArticle = {
     title: '',
     path: '',
   };
-  public theme: string = 'default';
-  public events: any[] = [];
-  public study: any = {};
-  public careerDevelopment: string;
 
   constructor(
     private route: ActivatedRoute,
     private service: HomePageService,
-  ) {
-  }
+  ) {}
 
   ngOnInit() {
     this.route.data.subscribe((response) => {
@@ -55,7 +69,7 @@ export class HomePageViewComponent implements OnInit {
 
     const newsSub = this.service.getNews(data, this.theme);
     if (newsSub) {
-      newsSub.subscribe((news: any) => this.news = news);
+      newsSub.subscribe((news: ISimpleArticle) => this.news = news);
     }
   }
 }

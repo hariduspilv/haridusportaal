@@ -24,7 +24,7 @@
       </ng-container>
 
     </div><!--/contact-->
-    <div class="links" *ngIf="data && data.links">
+    <div class="links" *ngIf="data.links">
       <h2 class="links__title">{{ 'home.external_links' | translate }}</h2>
       <ul>
         <ng-container *ngFor="let item of data.links">
@@ -73,7 +73,7 @@
       </form>
     </div><!--/newsletter-->
   </div><!--/footer-->
-  <div class="logos" *ngIf="data && data.logos">
+  <div class="logos" *ngIf="data.logos">
     <ng-container *ngFor="let item of data.logos">
       <img [src]="item.src" [attr.aria-label]="item.label" />
     </ng-container>

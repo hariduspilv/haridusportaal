@@ -1,12 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { TranslateService } from '@app/_modules/translate/translate.service';
 import { Observable, Subject } from 'rxjs';
-import FieldVaryService from './FieldVaryService';
-import { SettingsService } from './SettingsService';
+import FieldVaryService from '@app/_services/FieldVaryService';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import { SettingsService } from '@app/_services/SettingsService';
+import {
+  ICareerSlide,
+  IContact,
+  IEvent,
+  IFooterData,
+  ILogo,
+  IService,
+  ISimpleArticle,
+  ISlogan,
+  IStudy,
+  ITopic,
+  ITopicArticleUnion,
+} from './homePage.model';
 
 @Injectable()
 export class HomePageService {
+  public eventCount: number = 2;
   public themeQuery = {
     default: 'newFrontPageQuery',
     teachers: 'teachingPage',
@@ -29,7 +43,12 @@ export class HomePageService {
     ],
   };
 
-  public topics: {[key: string]: any[]} = {
+  public eventImages: string[] = [
+    'homePage-events-1.svg',
+    'homePage-events-2.svg',
+  ];
+
+  public topics: {[key: string]: ITopic[]} = {
     career: [
       {
         title: this.translate.get('home.topics_areas'),
@@ -76,7 +95,7 @@ export class HomePageService {
     ],
   };
 
-  public logos: {[key: string]: any[]} = {
+  public logos: {[key: string]: ILogo[]} = {
     teachers: [
       {
         src: '/assets/img/homepage-teachers.svg',
@@ -118,7 +137,6 @@ export class HomePageService {
     return this.http.get(path);
   }
 
-  // Frontpage data query
   public getPageData(theme: string): Observable<any> {
     return this.getResource(this.themeQuery[theme]);
   }
@@ -128,8 +146,12 @@ export class HomePageService {
     return `/assets/img/${images[index % images.length]}`;
   }
 
-  public getCareerDevelopmentSlides(url: string): Observable<any> {
-    const sub: Subject<any> = new Subject<any>();
+  public getEventImage(index: number): string {
+    return `/assets/img/${this.eventImages[index % this.eventImages.length]}`;
+  }
+
+  public getCareerDevelopmentSlides(url: string): Observable<ICareerSlide[]> {
+    const sub: Subject<ICareerSlide[]> = new Subject<ICareerSlide[]>();
     const variables = {
       path: url,
     };
@@ -154,8 +176,8 @@ export class HomePageService {
     return sub;
   }
 
-  public getSingleNews(url: string): Observable<any> {
-    const sub: Subject<any> = new Subject<any>();
+  public getSingleNews(url: string): Observable<ISimpleArticle> {
+    const sub: Subject<ISimpleArticle> = new Subject<ISimpleArticle>();
     const variables = {
       path: url,
     };
@@ -184,7 +206,7 @@ export class HomePageService {
     });
   }
 
-  public getTopicsAndArticles(data: any, theme: string): any {
+  public getTopicsAndArticles(data: any, theme: string): ITopicArticleUnion {
     const source = data.fieldFrontpageTopics ||
       data.fieldTeachingThemes ||
       data.fieldContentPageLink ||
@@ -199,8 +221,8 @@ export class HomePageService {
       items = [items];
     }
 
-    let articles = [];
-    let topics = [];
+    let articles: ITopic[] = [];
+    let topics: ITopic[] = [];
 
     if (['career', 'learning'].indexOf(theme) !== -1) {
       articles = items.map((item: any) => {
@@ -264,8 +286,8 @@ export class HomePageService {
     return { articles, topics };
   }
 
-  public getCarousel(data: any, theme: string): any {
-    let services = [];
+  public getCarousel(data: any, theme: string): IService[] {
+    let services: IService[] = [];
     if (theme === 'default') {
       services = data.fieldFrontpageServices.map((item: any) => {
         const image = item.entity.fieldServiceImage.entity;
@@ -316,11 +338,11 @@ export class HomePageService {
     return services;
   }
 
-  public getLogos(theme: string): any[] {
+  public getLogos(theme: string): ILogo[] {
     return this.logos[theme] || [];
   }
 
-  public getContacts(data: any, theme: string) {
+  public getContacts(data: any, theme: string): IFooterData {
     if (theme === 'default') {
       return {
         email: data.fieldFrontpageContactEmail,
@@ -329,7 +351,7 @@ export class HomePageService {
       };
     }
 
-    const result: {[key: string]: any} = {};
+    const result: IFooterData = {};
 
     const contact = data.fieldContact || data.fieldCareerContact || data.fieldLearningContact;
     if (contact) {
@@ -361,8 +383,8 @@ export class HomePageService {
     return result;
   }
 
-  public getSlogan(data: any, theme: string): any {
-    let slogan: {[key: string]: any} = {};
+  public getSlogan(data: any, theme: string): ISlogan {
+    let slogan: ISlogan;
     if (theme === 'teachers' || theme === 'career') {
       slogan = {
         title: data.fieldQuoteText || false,
@@ -384,8 +406,8 @@ export class HomePageService {
     return slogan;
   }
 
-  public getStudy(data: any, theme: string): any {
-    let study: {[key: string]: any} = {};
+  public getStudy(data: any, theme: string): IStudy {
+    let study: IStudy;
     if (theme === 'default') {
       study = {
         title: this.translate.get('home.study_title'),
@@ -423,8 +445,7 @@ export class HomePageService {
     return study;
   }
 
-  public getNews(data: any, theme: string): any {
-    let newsLink = '';
+  public getNews(data: any, theme: string): Observable<ISimpleArticle> | null {
     const source = data.fieldTeachingNews ||
       data.fieldLearningNews ||
       data.fieldFrontpageNews;
@@ -433,8 +454,48 @@ export class HomePageService {
       return null;
     }
 
-    newsLink = source.entity.entityUrl.path;
+    return this.getSingleNews(source.entity.entityUrl.path);
+  }
 
-    return this.getSingleNews(newsLink);
+  public parseEvents(items: any[]): IEvent[] {
+    return items.map((item) => {
+      return {
+        title: item.entityLabel,
+        author: item.fieldOrganizer,
+        created: item.fieldEventMainDate.unix,
+        content: item.fieldDescriptionSummary,
+        location: item.fieldEventLocation ? item.fieldEventLocation.name : false,
+        link: {
+          title: this.translate.get('button.read_more'),
+          url: {
+            path: item.entityUrl.path,
+          },
+        },
+      };
+    });
+  }
+
+  public getEvents(): Observable<IEvent[]> {
+    const sub: Subject<IEvent[]> = new Subject<IEvent[]>();
+    const variables = {
+      lang: 'ET',
+    };
+
+    const one = this.settings.query('teachingPageEvents', variables);
+    const two = this.settings.query('teachingPageAdditionalEvents', variables);
+    this.http.get(one).subscribe((response: any) => {
+      if (response.data.nodeQuery.entities.length < this.eventCount) {
+        this.http.get(two).subscribe((additional: any) => {
+          sub.next([
+            ...this.parseEvents(response.data.nodeQuery.entities),
+            ...this.parseEvents(additional.data.nodeQuery.entities),
+          ].slice(0, this.eventCount));
+        });
+      } else {
+        sub.next(this.parseEvents(response.data.nodeQuery.entities));
+      }
+    });
+
+    return sub;
   }
 }

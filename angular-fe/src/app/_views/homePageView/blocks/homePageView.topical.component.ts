@@ -1,19 +1,18 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { HomePageService } from '@app/_services';
+import { ISimpleArticle } from '../homePage.model';
 
 @Component({
   selector: 'homepage-topical',
   templateUrl: 'homePageView.topical.html',
 })
 export class HomePageTopicalComponent {
-  @Input() article: any;
+  @Input() article: ISimpleArticle;
+  @Input() image: string;
   @Input() theme: string;
   @Input() line: number = 2;
   @Input() category: string;
 
-  constructor(
-    private service: HomePageService,
-  ) {}
+  constructor() {}
 
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;

@@ -6,6 +6,7 @@ import { Component, Input, HostBinding } from '@angular/core';
 })
 export class HomePageSloganComponent {
   @Input() title: string = '';
+  @Input() image: string = '';
   @Input() person: string;
   @Input() company: string;
   @Input() theme: string;

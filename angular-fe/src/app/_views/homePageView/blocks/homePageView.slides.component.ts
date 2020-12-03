@@ -1,4 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
+import { IService } from '../homePage.model';
 
 @Component({
   selector: 'homepage-slides',
@@ -6,7 +7,7 @@ import { Component, Input, HostBinding } from '@angular/core';
 })
 export class HomePageSlidesComponent {
   @Input() title: string;
-  @Input() data: [] = [];
+  @Input() data: IService[] = [];
   @Input() theme: string;
   @Input() line: number = 2;
 

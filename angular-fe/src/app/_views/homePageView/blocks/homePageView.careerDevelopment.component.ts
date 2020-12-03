@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { HomePageService } from '@app/_services';
+import { ICareerSlide } from '../homePage.model';
+import { HomePageService } from '../homePage.service';
 
 @Component({
   selector: 'homepage-careerDevelopment',
@@ -11,7 +12,7 @@ export class HomePageCareerDevelopmentComponent implements OnInit {
   @Input() url: string;
   @Input() theme: string;
   @Input() line: number = 3;
-  public data: any[] = [];
+  public data: ICareerSlide[] = [];
 
   constructor(
     private service: HomePageService,
@@ -24,7 +25,7 @@ export class HomePageCareerDevelopmentComponent implements OnInit {
   ngOnInit() {
     if (this.url) {
       this.service.getCareerDevelopmentSlides(this.url).subscribe(
-        (data: any) => this.data = data);
+        (data: ICareerSlide[]) => this.data = data);
     }
   }
 }

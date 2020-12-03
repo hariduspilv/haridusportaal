@@ -12,17 +12,14 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService, AlertsService, ModalService } from '@app/_services';
 import { Subscription } from 'rxjs';
+import { IContact, IFooterData } from '../homePage.model';
 
 @Component({
   selector: 'homepage-footer',
   templateUrl: 'homePageView.footer.html',
 })
 export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
-  @Input() data: {
-    links,
-    logos,
-    contacts: [],
-  };
+  @Input() data: IFooterData | null;
   @Input() theme: string;
   @Input() line: number = 4;
   public subscribedStatus: boolean = false;
