@@ -6,8 +6,8 @@ if [ ! -d /app/drupal/web ]; then
   git init
   git remote add origin https://github.com/hariduspilv/haridusportaal.git
   git fetch origin
-  git checkout -b master --track origin/master
-  git reset origin/master
+  git checkout -b develop --track origin/develop
+  git reset origin/develop
   if [ ! -d /app/drupal/web/sites ]; then
     cd /data
     cp -R web /app/drupal
@@ -24,7 +24,7 @@ if [ -d /app/drupal/web ]; then
   git init
   git remote add origin https://github.com/hariduspilv/haridusportaal.git
   git fetch origin
-  git checkout -b master --track origin/master
+  git checkout -b develop --track origin/develop
   git pull
 
 fi
