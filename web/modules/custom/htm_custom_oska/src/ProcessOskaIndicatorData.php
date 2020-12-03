@@ -138,7 +138,7 @@ class ProcessOskaIndicatorData {
             $main_profession_page = \Drupal::entityTypeManager()->getStorage('node')->load($values['oska_main_profession']);
 
             switch($values['oska_indicator']){
-              case 'Hõivatute arv':
+              case 'Töötajate arv':
                 $main_profession_page->set('field_number_of_employees', $values['value']);
               case 'Hõive muutus':
                 $main_profession_page->set('field_change_in_employment', $values['value']);
