@@ -2,15 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { HomePageService } from './homePage.service';
 import { ActivatedRoute } from '@angular/router';
 import {
-  IContact,
   IEvent,
   IFooterData,
+  IGraph,
   IService,
   ISimpleArticle,
   ISlogan,
   IStudy,
   ITopic,
 } from './homePage.model';
+import FieldVaryService from '@app/_services/FieldVaryService';
 
 @Component({
   selector: 'homepage',
@@ -25,7 +26,7 @@ export class HomePageViewComponent implements OnInit {
   public theme: string = 'default';
   public careerDevelopment: string;
   public events: IEvent[] = [];
-  public slogan: ISlogan = {
+  public slogan: ISlogan | string = {
     title: '',
     person: '',
     company: '',
@@ -46,10 +47,10 @@ export class HomePageViewComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.route.data.subscribe((response) => {
+    this.route.data.subscribe((response: { theme?: string; }) => {
       this.theme = response.theme || this.theme;
-      this.service.getPageData(this.theme).subscribe((response) => {
-        this.parseData(response['data']['nodeQuery']['entities'][0]);
+      this.service.getPageData(this.theme).subscribe((response: IGraph) => {
+        this.parseData(FieldVaryService(response.data.nodeQuery.entities[0]));
       });
     });
   }

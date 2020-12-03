@@ -9,6 +9,15 @@ import {
   IContact,
   IEvent,
   IFooterData,
+  IGraph,
+  IGraphContacts,
+  IGraphExternalLinks,
+  IGraphLearningToTeach,
+  IGraphNews,
+  IGraphResponse,
+  IGraphService,
+  IGraphTopic,
+  ILink,
   ILogo,
   IService,
   ISimpleArticle,
@@ -16,6 +25,7 @@ import {
   IStudy,
   ITopic,
   ITopicArticleUnion,
+  IURL,
 } from './homePage.model';
 
 @Injectable()
@@ -206,12 +216,8 @@ export class HomePageService {
     });
   }
 
-  public getTopicsAndArticles(data: any, theme: string): ITopicArticleUnion {
-    const source = data.fieldFrontpageTopics ||
-      data.fieldTeachingThemes ||
-      data.fieldContentPageLink ||
-      data.fieldLearningContentLinks;
-
+  public getTopicsAndArticles(data: IGraphResponse, theme: string): ITopicArticleUnion {
+    const source = data.topics;
     if (!source) {
       return { articles: [], topics: [] };
     }
@@ -225,7 +231,7 @@ export class HomePageService {
     let topics: ITopic[] = [];
 
     if (['career', 'learning'].indexOf(theme) !== -1) {
-      articles = items.map((item: any) => {
+      articles = items.map((item: IGraphTopic) => {
         return {
           title: item.entity.fieldTitle,
           content: item.entity.fieldText,
@@ -240,7 +246,7 @@ export class HomePageService {
       });
       topics = this.topics[theme];
     } else {
-      topics = items.map((item: any) => {
+      topics = items.map((item: IGraphTopic) => {
         let image: any = false;
         let link: any;
         let scrollTo: boolean | string = false;
@@ -263,8 +269,8 @@ export class HomePageService {
           link,
           scrollTo,
           title: item.entity.fieldTopicTitle || item.entity.fieldThemeTitle,
-          content: item.entity.fieldTopicText || false,
-          button: item.entity.fieldTopicButtonText || false,
+          content: item.entity.fieldTopicText,
+          button: item.entity.fieldTopicButtonText,
         };
       });
     }
@@ -286,55 +292,46 @@ export class HomePageService {
     return { articles, topics };
   }
 
-  public getCarousel(data: any, theme: string): IService[] {
+  public getCarousel(data: IGraphResponse, theme: string): IService[] {
     let services: IService[] = [];
-    if (theme === 'default') {
-      services = data.fieldFrontpageServices.map((item: any) => {
-        const image = item.entity.fieldServiceImage.entity;
-        const alt = image ? image.fieldAlt : undefined;
-        const url = image && image.fieldServiceImg.entity ?
-          image.fieldServiceImg.entity.url : undefined;
-        return {
-          title: item.entity.fieldServiceTitle,
-          link: item.entity.fieldServiceLink,
-          image: {
-            alt,
-            url,
-          },
-          content: item.entity.fieldServiceContent,
-        };
-      });
-    } else if (theme === 'learning') {
-      services = data.fieldLearningPath.map((item: any) => {
-        const image = item.entity.fieldLearningCarouselImage.entity.url;
-        return {
-          title: item.entity.fieldLearningCarouselTitle,
-          link: {
-            title: item.entity.fieldLearnCarouselLinkTitle,
-            url: item.entity.fieldLearningCarouselLink.entity.entityUrl,
-          },
-          image: {
-            url: image,
-          },
-          content: item.entity.fieldLearningCarouselContent,
-        };
-      });
-    } else if (theme === 'teachers') {
-      services = data.fieldToolbox.map((item: any) => {
-        const image = item.entity.fieldToolboxImage.entity.url;
-        return {
-          title: item.entity.fieldTitle,
-          link: {
-            title: item.entity.fieldLinkName,
-            url: item.entity.fieldInternalLink.entity.entityUrl,
-          },
-          image: {
-            url: image,
-          },
-          content: item.entity.fieldContent,
-        };
-      });
+
+    if (!data.services) {
+      return services;
     }
+
+    services = data.services.map((item: any) => {
+      const entity = FieldVaryService(item.entity) as IGraphService;
+      const image = entity.image.entity;
+      const alt = image ? image.fieldAlt : undefined;
+
+      let url: string;
+      if (image.fieldServiceImg) {
+        url = image.fieldServiceImg.entity.url;
+      } else {
+        url = image.url;
+      }
+
+      let link: ILink;
+      if ('entity' in entity.link) {
+        link = {
+          title: entity.linkTitle,
+          url: entity.link.entity.entityUrl,
+        };
+      } else {
+        link = entity.link as ILink;
+      }
+
+      return {
+        link,
+        title: entity.title,
+        image: {
+          alt,
+          url,
+        },
+        content: entity.content,
+      };
+    });
+
     return services;
   }
 
@@ -342,38 +339,36 @@ export class HomePageService {
     return this.logos[theme] || [];
   }
 
-  public getContacts(data: any, theme: string): IFooterData {
+  public getContacts(data: IGraphResponse, theme: string): IFooterData {
     if (theme === 'default') {
       return {
-        email: data.fieldFrontpageContactEmail,
-        name: data.fieldFrontpageContactName,
-        phone: data.fieldFrontpageContactPhone,
+        email: data.email,
+        name: data.name,
+        phone: data.phone,
       };
     }
 
     const result: IFooterData = {};
 
-    const contact = data.fieldContact || data.fieldCareerContact || data.fieldLearningContact;
+    const contact = data.contact;
     if (contact) {
-      result.contacts = contact.map((item: any) => {
+      result.contacts = contact.map((item: IGraphContacts) => {
         return {
-          company: item.entity.fieldInstitution || false,
-          name: item.entity.fieldNameOccupation || false,
-          email: item.entity.fieldEmail || false,
-          skype: item.entity.fieldSkype || false,
+          company: item.entity.fieldInstitution,
+          name: item.entity.fieldNameOccupation,
+          email: item.entity.fieldEmail,
+          skype: item.entity.fieldSkype,
         };
       });
     }
 
-    const links = data.fieldExternal || data.fieldExternalLinks || data.fieldLearningExternalLinks;
+    const links = data.externalLinks;
     if (links) {
-      result.links = links.map((item: any) => {
+      result.links = links.map((item: IGraphExternalLinks) => {
         return {
-          url: {
-            title: item.entity.fieldLinkName,
-            path: item.entity.fieldWebpageLink.url.path,
-            routed: false,
-          },
+          title: item.entity.fieldLinkName,
+          path: item.entity.fieldWebpageLink.url.path,
+          routed: false,
         };
       });
     }
@@ -383,30 +378,27 @@ export class HomePageService {
     return result;
   }
 
-  public getSlogan(data: any, theme: string): ISlogan {
-    let slogan: ISlogan;
-    if (theme === 'teachers' || theme === 'career') {
-      slogan = {
-        title: data.fieldQuoteText || false,
-        person: data.fieldQuoteAuthor || false,
-        company: data.fieldQuoteAuthorOccupation || false,
-      };
-    } else if (theme === 'learning') {
-      slogan = {
-        title: data.fieldLearningQuoteText || false,
-        person: data.fieldLearningQuoteAuthor || false,
-        company: data.fieldLearningQuoteWork || false,
-      };
+  public getSlogan(data: IGraphResponse, theme: string): ISlogan | string {
+    if (theme === 'default') {
+      return data.quoteText;
+    }
+
+    const slogan: ISlogan = {
+      title: data.quoteText,
+      person: data.author,
+      company: data.quoteAuthorWork,
+    };
+
+    if (theme === 'learning') {
       if (slogan.title) {
         slogan.title = `<q>${slogan.title}</q>`;
       }
-    } else {
-      slogan = data.fieldFrontpageQuote;
     }
+
     return slogan;
   }
 
-  public getStudy(data: any, theme: string): IStudy {
+  public getStudy(data: IGraphResponse, theme: string): IStudy {
     let study: IStudy;
     if (theme === 'default') {
       study = {
@@ -433,7 +425,7 @@ export class HomePageService {
       study = {
         title: this.translate.get('home.study_teaching'),
         intro: this.translate.get('home.study_teaching_intro'),
-        data: data.fieldLearningToTeach.map((obj: any, i: number) => {
+        data: data.fieldLearningToTeach.map((obj: IGraphLearningToTeach, i: number) => {
           return {
             title: obj.entity.fieldLearningToTeachTitle,
             image: `/assets/img/homepage-learning-${i + 1}.svg`,
@@ -445,10 +437,8 @@ export class HomePageService {
     return study;
   }
 
-  public getNews(data: any, theme: string): Observable<ISimpleArticle> | null {
-    const source = data.fieldTeachingNews ||
-      data.fieldLearningNews ||
-      data.fieldFrontpageNews;
+  public getNews(data: IGraphResponse, theme: string): Observable<ISimpleArticle> | null {
+    const source = data.news;
 
     if (!source) {
       return null;
@@ -457,14 +447,15 @@ export class HomePageService {
     return this.getSingleNews(source.entity.entityUrl.path);
   }
 
-  public parseEvents(items: any[]): IEvent[] {
+  public parseEvents(items: IGraphNews[]): IEvent[] {
     return items.map((item) => {
       return {
         title: item.entityLabel,
         author: item.fieldOrganizer,
         created: item.fieldEventMainDate.unix,
         content: item.fieldDescriptionSummary,
-        location: item.fieldEventLocation ? item.fieldEventLocation.name : false,
+        location: (typeof item.fieldEventLocation !== 'string')
+          ? item.fieldEventLocation.name : item.fieldEventLocation,
         link: {
           title: this.translate.get('button.read_more'),
           url: {
@@ -483,9 +474,9 @@ export class HomePageService {
 
     const one = this.settings.query('teachingPageEvents', variables);
     const two = this.settings.query('teachingPageAdditionalEvents', variables);
-    this.http.get(one).subscribe((response: any) => {
+    this.http.get(one).subscribe((response: IGraph) => {
       if (response.data.nodeQuery.entities.length < this.eventCount) {
-        this.http.get(two).subscribe((additional: any) => {
+        this.http.get(two).subscribe((additional: IGraph) => {
           sub.next([
             ...this.parseEvents(response.data.nodeQuery.entities),
             ...this.parseEvents(additional.data.nodeQuery.entities),
