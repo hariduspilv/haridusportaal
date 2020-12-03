@@ -242,10 +242,12 @@ export class DetailViewComponent {
     setTimeout(() => {
       this.descriptionElement = document.querySelector('.description');
       this.descriptionOverflown = (this.descriptionElement?.clientHeight || 0) >= 110;
-      this.descriptionLinks = document.querySelectorAll('.description a');
-      this.descriptionLinks.forEach((link) => {
-        link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
-      });
+      if (this.type === 'profession') {
+        this.descriptionLinks = document.querySelectorAll('.description a');
+        this.descriptionLinks.forEach((link) => {
+          link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
+        });
+      }
     });
   }
 
