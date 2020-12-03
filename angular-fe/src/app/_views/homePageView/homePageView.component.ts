@@ -5,6 +5,7 @@ import {
   IEvent,
   IFooterData,
   IGraph,
+  IGraphResponse,
   IService,
   ISimpleArticle,
   ISlogan,
@@ -55,7 +56,7 @@ export class HomePageViewComponent implements OnInit {
     });
   }
 
-  private parseData(data: any): void {
+  private parseData(data: IGraphResponse): void {
     if (this.theme === 'career') {
       this.careerDevelopment = data.fieldCareer.entity.entityUrl.path;
     }

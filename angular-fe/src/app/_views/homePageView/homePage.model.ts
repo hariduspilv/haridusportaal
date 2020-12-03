@@ -175,6 +175,7 @@ export interface IGraphResponse {
   news?: IGraphURLEntity;
   topics?: IGraphTopic | IGraphTopic[];
   services?: IGraphService[];
+  fieldCareer?: IGraphURLEntity;
 }
 
 export interface IGraphNews {
