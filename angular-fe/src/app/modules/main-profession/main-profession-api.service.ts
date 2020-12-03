@@ -14,7 +14,7 @@ export class MainProfessionApiService {
     private settingsService: SettingsService) {}
 
   getOskaMainProfessionsList(parameters: {}): Observable<OskaMainProfessionsList> {
-    const path = this.settingsService.query('oskaMainProfessionsListView', parameters);
+    const path = this.settingsService.query('oskaMainProfessionListView', parameters);
     return this.http.get<OskaMainProfessionsList>(path);
   }
 }

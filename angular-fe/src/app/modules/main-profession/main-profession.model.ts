@@ -31,6 +31,24 @@ export interface OskaMainProfession {
   fieldFillingBar: number;
 }
 
+export interface OskaMainProfessionListParameters {
+  titleValue: string;
+  titleEnabled: boolean;
+  oskaFieldValue: string[];
+  oskaFieldEnabled: boolean;
+  fixedLabelValue: string[];
+  fixedLabelEnabled: boolean;
+  fillingBarValues: string[];
+  fillingBarFilterEnabled: boolean;
+  sortField: string;
+  sortDirection: string;
+  indicatorSort: boolean;
+  nidEnabled: boolean;
+  limit: number;
+  offset: number;
+  lang: string;
+}
+
 export interface OskaMainProfessionSidebar {
   entity: {
     fieldPros: string[];
