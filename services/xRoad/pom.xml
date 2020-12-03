@@ -17,7 +17,7 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.0.4.RELEASE</version>
+    <version>2.3.1.RELEASE</version>
     <relativePath/> <!-- lookup parent from repository -->
   </parent>
 
@@ -81,6 +81,13 @@
     <dependency>
       <groupId>ee.htm.portal.services</groupId>
       <artifactId>jRoad_EHIS_Client</artifactId>
+      <version>0.0.1-SNAPSHOT</version>
+    </dependency>
+
+    <!-- JRoad EHIS2 Client-->
+    <dependency>
+      <groupId>ee.htm.portal.services</groupId>
+      <artifactId>jRoad_EHIS2_Client</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
 
