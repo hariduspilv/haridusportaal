@@ -18,7 +18,20 @@ if [ ! -d /app/drupal/web ]; then
   fi
 fi
 
+if [ -d /app/drupal/web ]; then
+  
+  cd /app
+  git init
+  git remote add origin https://github.com/hariduspilv/haridusportaal.git
+  git fetch origin
+  git checkout -b master --track origin/master
+  git pull
+
+fi
+
 chown apache.apache -R /app/drupal/web/sites/default/files
+
+/usr/sbin/crond -l 8
 
 echo "[i] Starting daemon..."
 httpd -D FOREGROUND

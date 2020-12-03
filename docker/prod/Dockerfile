@@ -1,6 +1,9 @@
 FROM alpine:3.7
 MAINTAINER TWN
 
+ENV BUILD_VERSION=${BUILD_VERSION}
+ENV ENVIRONMENT=${ENVIRONMENT}
+
 RUN	BUILD_DEPS=" \
     	gnupg \
     	tar \
@@ -57,14 +60,18 @@ RUN	apk update && \
 	librdkafka \
 	php7-pear \
 	php7-dev \
-	php7-sockets \
-  	php7-memcached \
+	php7-soap \
 	libcrypto1.0 \
 	libssl1.0
 
+# redis
 RUN	apk update && \
 	apk add make g++ python autoconf php7-dev && \
-	pecl install redis && \
+	pecl channel-update pecl.php.net && \
+    printf "\n" | curl 'http://pecl.php.net/get/redis-4.1.1.tgz' -o redis-4.1.1.tgz && \
+    pecl install redis-4.1.1.tgz && \
+    rm -rf redis-4.1.1.tgz && \
+    rm -rf /tmp/pear && \
 	echo "extension=redis.so" > /etc/php7/conf.d/redis.ini
 
 # librdkafka
@@ -100,19 +107,21 @@ RUN	curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 	apk del ${BUILD_DEPS} php7-pear php7-dev && \
 	echo "Success"
 
-ADD httpd.conf /httpd.conf
-RUN mv httpd.conf /etc/apache2/httpd.conf
-
-ADD php.ini /php.ini
-RUN mv php.ini /etc/php7/php.ini
+ADD plumbr-agent-installer /plumbr-agent-installer
 
 ADD run.sh /run.sh
 RUN chmod +x /run.sh
 
+ADD php.ini /php.ini
+RUN mv php.ini /etc/php7/php.ini
+
+ADD auth.conf /auth.conf
+RUN mv auth.conf /etc/apache2/conf.d/auth.conf
+
 ADD crontab.txt /crontab.txt
 RUN /usr/bin/crontab /crontab.txt
 
-EXPOSE 8080
+EXPOSE 80
 
 WORKDIR /app/drupal
 
