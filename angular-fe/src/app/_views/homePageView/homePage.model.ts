@@ -169,7 +169,7 @@ export interface IGraphResponse {
   contact?: IGraphContacts[];
   externalLinks?: IGraphExternalLinks[];
   quoteText?: string;
-  author?: string;
+  quoteAuthor?: string;
   quoteAuthorWork?: string;
   fieldLearningToTeach?: IGraphLearningToTeach[];
   news?: IGraphURLEntity;

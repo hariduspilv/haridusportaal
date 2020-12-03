@@ -385,7 +385,7 @@ export class HomePageService {
 
     const slogan: ISlogan = {
       title: data.quoteText,
-      person: data.author,
+      person: data.quoteAuthor,
       company: data.quoteAuthorWork,
     };
 
