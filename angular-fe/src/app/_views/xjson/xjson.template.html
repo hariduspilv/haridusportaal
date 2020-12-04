@@ -7,8 +7,6 @@
       </block-title>
       <block-content>
         <div class="block padding-block border-blue">
-          {{ data | json }}
-          {{ formLoading | json }}
           <loader *ngIf="!data || formLoading"></loader>
 
           <alerts [class.hidden]="formLoading" small="true" id="upperAlert"></alerts>
