@@ -100,6 +100,20 @@
         }
       }
       sidebar-links {
+        ul li {
+          border-bottom: 1px solid $gray;
+          margin-left: -1.5rem;
+          margin-right: -1.5rem;
+          padding: 1rem 1.5rem;
+          margin-bottom: 0;
+          &:first-child {
+            padding-top: 0;
+          }
+          &:last-child {
+            border: none;
+            padding-bottom: 0;
+          }
+        }
         icon {
           margin-right: 0.5rem;
           .file-text {
@@ -147,16 +161,37 @@
         line-height: 1.375;
       }
       sidebar-events {
-        ul li:hover a {
-          text-decoration: none;
-          span {
-            text-decoration: underline;
+        ul li {
+          border-bottom: 1px solid $gray;
+          margin-left: -1.5rem;
+          margin-right: -1.5rem;
+          padding: 1rem 1.5rem;
+          margin-bottom: 0;
+          &:first-child {
+            padding-top: 0;
+          }
+          &:hover a {
+            text-decoration: none;
+            span {
+              text-decoration: underline;
+            }
           }
         }
         p {
           line-height: 1.375;
           margin-bottom: 0;
           color: $black;
+        }
+        .bottom {
+          margin-top: 1rem;
+          display: flex;
+          justify-content: center;
+          a {
+            text-decoration: underline;
+            &:hover {
+              text-decoration: none;
+            }
+          }
         }
       }
       sidebar-notifications {
