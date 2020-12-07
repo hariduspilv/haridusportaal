@@ -5,7 +5,7 @@
 
 <div class="image-container">
   <div *ngIf="images.length > 1" class="expand-gallery" (click)="openGallery()">
-    Vaata kõiki pilte ({{ images.length}})
+    {{ 'gallery.link-title' | translate }} ({{ images.length }})
   </div>
   <img [src]="images[0].derivative.url" [title]="images[0].title" [alt]="images[0].alt" />
   <div class="image__title" *ngIf="images[0].title">{{ images[0].title }}</div>

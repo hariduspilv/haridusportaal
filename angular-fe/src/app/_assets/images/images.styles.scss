@@ -2,9 +2,23 @@
 @import "typography.scss";
 
 ::ng-deep {
+  .modal__regular {
+    @include break-on(xs, max) {
+      padding: 1.5rem 0 !important;
+    }
+  }
+  .modal__backdrop {
+    @include break-on(xs, max) {
+      margin-top: 0 !important;
+    }
+  }
   .image {
     display: block;
     margin: 1rem 0;
+    @include break-on(xs, max) {
+      width: 100vw;
+      margin-left: -1.5rem;
+    }
     img {
       display: block;
       width: 100%;
@@ -23,6 +37,9 @@
         padding: 0.5rem 0 0 0;
         text-overflow: ellipsis;
       }
+      @include break-on(sm, max) {
+        padding: 0.5rem 1.5rem 0 1.5rem;
+      }
     }
     &__entity {
       display: block;
@@ -33,6 +50,7 @@
     }
   }
 }
+
 .image-container {
   position: relative;
   .expand-gallery {
@@ -52,16 +70,33 @@
 
 .gallery-container {
   display: flex;
+  justify-content: center;
+  @include break-on(xs, max) {
+    display: block;
+    justify-content: unset;
+    position: relative;
+    width: 100vw;
+    overflow: hidden;
+  }
   .flex {
     display: flex;
   }
-  .navigation-next, .navigation-prev {
+  .navigation-next,
+  .navigation-prev {
     margin: 2rem;
+    @include break-on(xs, max) {
+      position: absolute;
+      z-index: 1;
+      margin: 0;
+    }
   }
   .gallery {
     &__items {
       display: flex;
       flex-direction: column;
+      @include break-on(xs, max) {
+        padding-top: 50%;
+      }
       &__index {
         color: white;
         margin-bottom: 1rem;
@@ -69,10 +104,16 @@
       &__picture-container {
         overflow: hidden;
         display: flex;
+        @include break-on(xs, max) {
+          flex-direction: column;
+        }
       }
       &__active-image {
         position: relative;
         height: 70vh;
+        @include break-on(sm, max) {
+          height: unset;
+        }
         &__title {
           bottom: 0;
           width: 100%;
@@ -90,6 +131,10 @@
           height: 70vh;
           width: 65vw;
           object-fit: cover;
+          @include break-on(xs, max) {
+            height: unset;
+            width: 100vw;
+          }
         }
       }
       &__navigation {
@@ -102,6 +147,13 @@
         }
         -ms-overflow-style: none;
         scrollbar-width: none;
+        @include break-on(xs, max) {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          padding: 0 .25rem;
+          overflow-x: auto;
+        }
         .active {
           outline: 2px solid #15adc2;
         }
@@ -111,6 +163,11 @@
           width: 10vw;
           object-fit: cover;
           margin-bottom: 1rem;
+          @include break-on(xs, max) {
+            height: 10vh;
+            width: 25vw;
+            margin: 1.5rem .25rem;
+          }
         }
       }
     }
