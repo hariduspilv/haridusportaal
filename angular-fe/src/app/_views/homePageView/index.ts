@@ -28,7 +28,7 @@ const routes: Routes = [
     component: HomePageViewComponent,
   },
   {
-    path: 'opetaja',
+    path: 'õpetaja',
     component: HomePageViewComponent,
     data: {
       theme: 'teachers',
