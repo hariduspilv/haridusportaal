@@ -4,25 +4,9 @@
 .filter-wrapper {
   padding: 1rem 0;
   background: #fff;
-  @include break-on(sm, max) {
-    margin: 0;
-    padding: 1.5rem;
-    .filter-control{
-        padding: 0 !important;
-        span {
-            margin-right: 1rem;
-        }
-    }
-    &.filtersActive {
-      display: block;
-    }
-  }
   button {
     width: 100%;
     box-sizing: border-box;
-  }
-  .filter-control {
-    padding: 1.5rem 0rem 0.5rem;
   }
   .text-right {
     text-align: right;
