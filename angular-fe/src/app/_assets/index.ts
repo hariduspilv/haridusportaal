@@ -13,7 +13,6 @@ import { ButtonComponent } from './button';
 import { LoaderComponent } from './loader';
 import { SkeletonComponent } from './skeleton';
 import { IconComponent } from './icon';
-import { BreadcrumbsComponent } from './breadcrumbs';
 import { RouterModule } from '@angular/router';
 import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { SchoolTable, StudyProgrammeTable, TableComponent } from './table';
@@ -128,6 +127,9 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ToggletipComponent } from './toggleTip/toggleTip.component';
 import { MainProfessionsSearchResultsComponent } from './mainProfessionsSearchResults/mainProfessionsSearchResults.component';
 import { TagComponent } from './tag/tag.component';
+import { BaseLayoutModule } from './base-layout/base-layout.module';
+import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
+import { IconModule } from './icon/icon.module';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -146,8 +148,6 @@ const declarations = [
   ButtonComponent,
   LoaderComponent,
   SkeletonComponent,
-  IconComponent,
-  BreadcrumbsComponent,
   AccordionComponent,
   AccordionItemComponent,
   TableComponent,
@@ -169,7 +169,6 @@ const declarations = [
   ModalComponent,
   ModalContentComponent,
   MainProfessionsComponent,
-  BaseLayout,
   ArticleLayout,
   SidebarComponent,
   SidebarLinksComponent,
@@ -286,10 +285,16 @@ const imports = [
   A11yModule,
 ];
 
+const assetModules = [
+  BaseLayoutModule,
+  BreadcrumbsModule,
+  IconModule,
+];
+
 @NgModule({
-  imports,
+  imports: [...imports, ...assetModules],
   declarations: [...declarations],
-  exports: [...declarations, ...exports],
+  exports: [...declarations, ...exports, ...assetModules],
 })
 
 export class AssetsModule {

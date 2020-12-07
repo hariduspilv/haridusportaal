@@ -3,12 +3,15 @@ export interface ComparisonPage {
 }
 
 export interface Entity {
-  entity: {
-    entityId?: string;
-    entityLabel?: string;
-    entityUrl?: EntityUrl;
-    nid?: number;
-  };
+  entityId?: string;
+  entityLabel?: string;
+  entityUrl?: EntityUrl;
+  nid?: number;
+  title?: string;
+}
+
+export interface EntityObject {
+  entity: Entity;
 }
 
 export interface EntityUrl {

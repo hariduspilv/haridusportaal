@@ -1,0 +1,36 @@
+@import "typography.scss";
+@import "breakpoints.scss";
+@import "grid.scss";
+
+.filter-wrapper {
+  padding: 1.5rem;
+  background: #fff;
+  @include break-on(sm, min) {
+    margin: 1rem 0 1.5rem;
+    padding: 0.5rem 1.5rem;
+    @include break-on(lg, max) {
+      .inline {
+        margin: 0 -1.5rem;
+      }
+    }
+  }
+  @include break-on(sm, max) {
+    margin-bottom: 0;
+    padding: .75rem 1.5rem;
+    .filter-control{
+        padding: 0 !important;
+        span {
+            margin-right: 0;
+        }
+    }
+    &.filtersActive {
+      display: block;
+    }
+  }
+  .filter-control {
+    padding: 1.5rem 0rem 0.5rem;
+  }
+  .text-right {
+    text-align: right;
+  }
+}

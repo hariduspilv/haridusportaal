@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MainProfessionApiService } from '../../main-profession-api.service';
-import { OskaMainProfessionListParameters, OskaMainProfessionsList } from '../../main-profession.model';
+import { OskaMainProfessionFilter, OskaMainProfessionListParameters, OskaMainProfessionsList } from '../../main-profession.model';
+import { MainProfessionService } from '../../main-profession.service';
 
 @Component({
   selector: 'main-profession-list',
@@ -9,11 +11,25 @@ import { OskaMainProfessionListParameters, OskaMainProfessionsList } from '../..
 })
 export class MainProfessionListComponent implements OnInit {
 
-  constructor(private api: MainProfessionApiService) { }
+  constructor(
+    private api: MainProfessionApiService,
+    private service: MainProfessionService) { }
+
+  breadcrumbs: Record<string, string>[] = [
+    {
+      title: 'Avaleht',
+      link: '/',
+    },
+    {
+      title: 'Ametialad',
+    },
+  ];
 
   mainProfessionList: OskaMainProfessionsList = null;
+  mainProfessionFilter: OskaMainProfessionFilter = null;
+  mainProfessionFilterForm: FormGroup;
 
-  mainProfessionListParameters: OskaMainProfessionListParameters = {
+  listParameters: OskaMainProfessionListParameters = {
     nidEnabled: false,
     titleValue: '',
     titleEnabled: false,
@@ -30,11 +46,18 @@ export class MainProfessionListComponent implements OnInit {
     offset: 0,
     lang: 'ET',
   };
+  filterParameters: Partial<OskaMainProfessionListParameters> = {
+    lang: 'ET',
+    limit: 24,
+  };
 
   ngOnInit(): void {
-    this.api.getOskaMainProfessionsList(this.mainProfessionListParameters).subscribe((response) => {
+    this.api.getOskaMainProfessionsList(this.listParameters).subscribe((response) => {
       this.mainProfessionList = response;
     });
+    this.service.getOskaMainProfessionsFilter(this.filterParameters).subscribe((response) => {
+      console.log(response);
+    });
+    this.mainProfessionFilterForm = this.service.getOskaMainProfessionsFilterForm(null);
   }
-
 }

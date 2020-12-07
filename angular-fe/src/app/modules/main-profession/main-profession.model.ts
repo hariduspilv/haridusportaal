@@ -1,4 +1,4 @@
-import { ComparisonPage, Entity, EntityLink, EntityUrl } from '@app/_core/models/main.model';
+import { ComparisonPage, Entity, EntityLink, EntityObject, EntityUrl } from '@app/_core/models/main.model';
 
 export interface OskaMainProfessionsList {
   data: {
@@ -15,7 +15,7 @@ export interface OskaMainProfession {
   title: string;
   fieldProfession: boolean;
   fieldFurtherInfo: string;
-  fieldFixedLabel: Entity;
+  fieldFixedLabel: EntityObject;
   entityUrl: EntityUrl;
   fieldSidebar: OskaMainProfessionSidebar;
   reverseOskaMainProfessionOskaFillingBarEntity: {
@@ -29,6 +29,25 @@ export interface OskaMainProfession {
   fieldNumberOfEmployees: number;
   fieldChangeInEmployment: number;
   fieldFillingBar: number;
+}
+
+export interface OskaMainProfessionFilter {
+  data: {
+    oskaFields: {
+      entities: Entity[];
+    }
+    oskaIndicators: {
+      entities: OskaIndicator[],
+    },
+    oskaFixedLabels: {
+      entities: Entity[];
+    },
+  };
+}
+
+export interface OskaMainProfessionFilterFields {
+  value: string,
+  key: string,
 }
 
 export interface OskaMainProfessionListParameters {
@@ -64,15 +83,15 @@ export interface OskaMainProfessionSidebar {
     };
     fieldIscedfSearchLink: {
       entity: {
-        iscedf_detailed: Entity[];
-        iscedf_broad: Entity[];
-        iscedf_narrow: Entity[];
-        level: Entity[];
+        iscedf_detailed: EntityObject[];
+        iscedf_broad: EntityObject[];
+        iscedf_narrow: EntityObject[];
+        level: EntityObject[];
       };
     };
     fieldJobOpportunities: EntityLink[];
     fieldJobs: EntityFieldJob[];
-    fieldOskaField: Entity[];
+    fieldOskaField: EntityObject[];
     fieldQualificationStandard: EntityLink[];
     fieldQuickFind: EntityLink[];
   };
@@ -86,8 +105,8 @@ interface EntityFieldJob {
 }
 
 export interface OskaIndicator {
-  oskaId: number;
-  oskaIndicator: string;
-  value: string;
-  icon: number;
+  oskaId?: number;
+  oskaIndicator?: string;
+  value?: string;
+  icon?: number;
 }
