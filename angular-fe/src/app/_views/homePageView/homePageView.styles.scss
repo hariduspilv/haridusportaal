@@ -209,7 +209,7 @@
               padding: 0.5rem;
             }
           }
-          button, a{
+          button, a {
             position: relative;
             background: $white;
             font-size: 1rem;
@@ -246,7 +246,9 @@
               min-height: 0;
               height: 100%;
             }
-
+            @include break-on(md, max) {
+              word-break: break-word;
+            }
             icon {
               position: absolute;
               bottom: 1rem;
@@ -360,6 +362,9 @@
           flex-shrink: 0;
           &:first-child {
             border-radius: 1.25rem 0 0 1.25rem;
+          }
+          @include break-on(sm, max) {
+            flex-shrink: 1;
           }
           @include break-on(xxs, max) {
             border-radius: 1.25rem 1.25rem 0 0 !important;
@@ -734,8 +739,6 @@
 
       &__container {
         position: relative;
-        margin: 0 -2.8125rem;
-        padding: 0 2.9375rem;
         @include break-on(sm, max) {
           margin: 0 -1.7125rem
         }
@@ -1100,6 +1103,9 @@
 
         &__body {
           padding: 1.5rem 1.75rem;
+          @include break-on(sm, max) {
+            word-wrap: break-word;
+          }
         }
 
         &__title {
@@ -1327,7 +1333,6 @@
         .newsletter__col {
           width: 100% !important;
         }
-
       }
     }
 
@@ -1380,11 +1385,7 @@
     .footer {
       display: flex;
       box-sizing: border-box;
-      @include break-on(sm, max) {
-        flex-direction: column;
-        padding-top: 4.5rem;
-      }
-      @include break-on(sm, max) {
+      @include break-on(md, max) {
         flex-direction: column;
         padding-top: 4.5rem;
       }
