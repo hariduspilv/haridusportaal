@@ -2,9 +2,8 @@
 @import "breakpoints.scss";
 
 .filter-wrapper {
-  padding: 1rem 1.5rem;
+  padding: 1rem 0;
   background: #fff;
-  margin: 1rem -1.5rem 1.5rem;
   @include break-on(sm, max) {
     margin: 0;
     padding: 1.5rem;
