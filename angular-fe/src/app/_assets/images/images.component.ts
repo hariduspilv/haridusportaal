@@ -38,7 +38,6 @@ export class ImageComponent implements OnInit {
     } else {
       this.images = [...this.images, ...this.videos];
     }
-    console.log(this.images);
   }
 
   initGalleryImages() {
