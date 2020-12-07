@@ -932,7 +932,7 @@
     .topical {
       display: flex;
       align-items: flex-start;
-      @include break-on(sm, max) {
+      @include break-on(md, max) {
         flex-direction: column;
       }
 
@@ -953,11 +953,11 @@
         margin-top: -3.6875rem;
         position: relative;
         z-index: 4;
-        @include break-on(sm, max) {
+        @include break-on(lg, max) {
           width: 15.6rem;
           align-self: flex-end;
         }
-        @include break-on(xxs, max) {
+        @include break-on(md, max) {
           width: 12rem;
         }
 
