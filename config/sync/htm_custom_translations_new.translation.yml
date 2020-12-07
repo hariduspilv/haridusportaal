@@ -792,6 +792,14 @@ frontpage:
     translation_type: textarea
     et: Lõputunnistused
     en: 'Graduation certificates'
+  dashboard_view_all_notifications:
+    translation_type: textarea
+    et: 'Vaata kõiki teavitusi'
+    en: 'Vaata kõiki teavitusi'
+  dashboard_no_notifications:
+    translation_type: textarea
+    et: 'Sulle ei ole ühtegi teavitust.'
+    en: 'Sulle ei ole ühtegi teavitust.'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
