@@ -30,6 +30,14 @@ interface IMenuData {
   userClosed?: boolean;
 }
 
+interface IMenuResponse {
+  data: {
+    menu: {
+      links: IMenuData[];
+    };
+  };
+}
+
 @Component({
   selector: 'sidemenu-item',
   templateUrl: './sidemenu.item.template.html',
@@ -110,9 +118,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
   }
 
-  private subscribeToAuth():void {
+  private subscribeToAuth(): void {
     this.authSub = this.auth.isAuthenticated.subscribe((val) => {
-      this.getData();
+      this.getData(true);
     });
   }
 
@@ -122,7 +130,7 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getData(init: boolean = false):void {
+  private getData(init: boolean = false): void {
     const variables = {
       language: this.settings.activeLang,
     };
@@ -130,12 +138,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     // force to not use disk cache
     this.http.get(path, {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
-    }).subscribe((response) => {
-      if (response['data'] &&
-          response['data']['menu'] &&
-          response['data']['menu']['links']) {
-        this.data = response['data']['menu']['links'];
-      }
+    }).subscribe((response: IMenuResponse) => {
+      this.data = response.data.menu.links;
       this.cdr.detectChanges();
       if (init) {
         this.makeActive();
