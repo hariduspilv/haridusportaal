@@ -142,13 +142,9 @@ export class HomePageFooterComponent implements OnDestroy, AfterViewInit {
     const path = this.settings.query('newsletterTags', variables);
 
     const subscription = this.http.get(path).subscribe((response) => {
-      try {
-        this.tags = response['data'].taxonomyTermQuery.entities.map((item) => {
-          return item.entityId;
-        }).join(', ');
-      } catch (err) {
-      }
-
+      this.tags = response['data'].taxonomyTermQuery.entities.map((item) => {
+        return item.entityId;
+      }).join(', ');
     });
     this.subscriptions.push(subscription);
   }

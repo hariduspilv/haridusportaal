@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services/SettingsService';
@@ -27,6 +27,7 @@ import {
   ITopicArticleUnion,
   IURL,
 } from './homePage.model';
+import { map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
 export class HomePageService {
@@ -161,14 +162,13 @@ export class HomePageService {
   }
 
   public getCareerDevelopmentSlides(url: string): Observable<ICareerSlide[]> {
-    const sub: Subject<ICareerSlide[]> = new Subject<ICareerSlide[]>();
     const variables = {
       path: url,
     };
     const query = this.settings.query('getArticle', variables);
-    this.http.get(query).subscribe((response: any) => {
+    return this.http.get(query).pipe(map((response: any) => {
       const accordionData = response.data.route.entity.fieldAccordionSection;
-      const data = accordionData.map((item: any) => {
+      return accordionData.map((item: any) => {
         const slug = item.entity.fieldAccordionTitle.toLowerCase()
           .replace(/span/g, '')
           .replace(/<a href=".+?>/g, '')
@@ -181,26 +181,21 @@ export class HomePageService {
           path: url,
         };
       });
-      sub.next(data);
-    });
-    return sub;
+    }));
   }
 
   public getSingleNews(url: string): Observable<ISimpleArticle> {
-    const sub: Subject<ISimpleArticle> = new Subject<ISimpleArticle>();
     const variables = {
       path: url,
     };
     const query = this.settings.query('newsSingel', variables);
-    this.http.get(query).subscribe((response) => {
-      const article = {
+    return this.http.get(query).pipe(map((response) => {
+      return {
         title: '',
         ...FieldVaryService(response['data']['route']['entity']),
         path: url,
       };
-      sub.next(article);
-    });
-    return sub;
+    }));
   }
 
   public alternateMapping(data: any[], theme: string): any[] {
@@ -280,9 +275,16 @@ export class HomePageService {
     }
 
     if (articles.length) {
-      articles = this.alternateMapping(articles, theme).filter((item) => {
-        return item.title !== '-';
-      });
+      articles = this.alternateMapping(articles, theme)
+        .filter((item) => {
+          return item.title !== '-';
+        })
+        .map((topic: ITopic, index: number) => {
+          if (this.articleImages[theme]) {
+            topic.image = this.getArticleImage(theme, index);
+          }
+          return topic;
+        });
     }
 
     if (topics.length) {
@@ -448,7 +450,7 @@ export class HomePageService {
   }
 
   public parseEvents(items: IGraphNews[]): IEvent[] {
-    return items.map((item) => {
+    return items.map((item: IGraphNews, index: number) => {
       return {
         title: item.entityLabel,
         author: item.fieldOrganizer,
@@ -462,31 +464,28 @@ export class HomePageService {
             path: item.entityUrl.path,
           },
         },
+        image: this.getEventImage(index),
       };
     });
   }
 
   public getEvents(): Observable<IEvent[]> {
-    const sub: Subject<IEvent[]> = new Subject<IEvent[]>();
     const variables = {
       lang: 'ET',
     };
 
     const one = this.settings.query('teachingPageEvents', variables);
     const two = this.settings.query('teachingPageAdditionalEvents', variables);
-    this.http.get(one).subscribe((response: IGraph) => {
+    return this.http.get(one).pipe(mergeMap((response: IGraph) => {
       if (response.data.nodeQuery.entities.length < this.eventCount) {
-        this.http.get(two).subscribe((additional: IGraph) => {
-          sub.next([
-            ...this.parseEvents(response.data.nodeQuery.entities),
-            ...this.parseEvents(additional.data.nodeQuery.entities),
+        return this.http.get(two).pipe(map((additional: IGraph) => {
+          return this.parseEvents([
+            ...response.data.nodeQuery.entities,
+            ...additional.data.nodeQuery.entities,
           ].slice(0, this.eventCount));
-        });
-      } else {
-        sub.next(this.parseEvents(response.data.nodeQuery.entities));
+        }));
       }
-    });
-
-    return sub;
+      return of(this.parseEvents(response.data.nodeQuery.entities));
+    }));
   }
 }

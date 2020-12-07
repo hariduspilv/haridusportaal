@@ -24,8 +24,4 @@ export class HomePageEventsComponent implements OnInit {
   ngOnInit() {
     this.servive.getEvents().subscribe(events => this.data = events);
   }
-
-  public getImage(index: number): string {
-    return this.servive.getEventImage(index);
-  }
 }

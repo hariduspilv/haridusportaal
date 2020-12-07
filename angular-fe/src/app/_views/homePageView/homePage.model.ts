@@ -15,6 +15,7 @@ export interface ITopic {
   link: ILink;
   content?: string;
   position?: string;
+  image?: string;
 }
 
 export interface ISimpleArticle {
@@ -88,6 +89,7 @@ export interface IEvent {
   content: string;
   location?: string;
   link: ILink;
+  image?: string;
 }
 
 export interface ICareerSlide {

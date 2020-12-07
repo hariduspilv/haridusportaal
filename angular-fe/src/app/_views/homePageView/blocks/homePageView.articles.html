@@ -4,7 +4,7 @@
 
     <div class="instance" [id]="'scrollTo-' + (item.button | slugify)">
       <div class="instance__image" *ngIf="item.position === 'left'">
-        <img [src]="getImage(i)" />
+        <img [src]="item.image" />
       </div><!--/instance__image-->
       
       <div class="instance__content">
@@ -18,7 +18,7 @@
       </div><!--/instance__content-->
       
       <div class="instance__image" *ngIf="item.position === 'right'">
-        <img [src]="getImage(i)" />
+        <img [src]="item.image" />
       </div><!--/instance__image-->
     </div><!--/instance-->
   </ng-container>

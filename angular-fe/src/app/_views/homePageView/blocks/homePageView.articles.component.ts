@@ -17,8 +17,4 @@ export class HomePageArticlesComponent {
   }
 
   constructor (private service: HomePageService) {}
-
-  public getImage(index: number): string {
-    return this.service.getArticleImage(this.theme, index);
-  }
 }

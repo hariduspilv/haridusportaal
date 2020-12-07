@@ -8,8 +8,8 @@
     <ng-container *ngFor="let item of data; let i = index;">
       <div class="events__elem"  [routerLink]="item.link.url.path">
         <div class="events__elem__image" *ngIf="i % 2 == 1">
-          <div class="events__elem__image__inner" [ngStyle]="{'background-image': 'url('+ getImage(i) +')'}">
-            <img [src]="getImage(i)" [alt]="" />
+          <div class="events__elem__image__inner" [ngStyle]="{'background-image': 'url('+ item.image +')'}">
+            <img [src]="item.image" [alt]="" />
           </div><!--/events__elem__image__inner-->
         </div><!--/events__elem__image-->
 
@@ -26,8 +26,8 @@
         </div><!--/events__elem__body-->
 
         <div class="events__elem__image" *ngIf="i % 2 !== 1">
-          <div class="events__elem__image__inner" [ngStyle]="{'background-image': 'url('+ getImage(i) +')'}">
-            <img [src]="getImage(i)" [alt]="" />
+          <div class="events__elem__image__inner" [ngStyle]="{'background-image': 'url('+ item.image +')'}">
+            <img [src]="item.image" [alt]="" />
           </div><!--/events__elem__image__inner-->
         </div><!--/events__elem__image-->
       </div><!--/events__elem-->
