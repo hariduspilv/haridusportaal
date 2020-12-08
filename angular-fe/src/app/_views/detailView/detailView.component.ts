@@ -211,14 +211,10 @@ export class DetailViewComponent {
       this.data.video = this.data.video[0];
     }
 
-    console.log(this.data.video);
-
     this.data.processedImages =
       this.data.additionalImages ?
         [this.data.image, ...this.data?.additionalImages] :
         this.data.image;
-
-    console.log(this.data.processedImages);
 
     this.data['fieldAccordion'] = this.data.reverseFieldOskaFieldParagraph &&
       this.data.reverseFieldOskaFieldParagraph.entities.length ?
