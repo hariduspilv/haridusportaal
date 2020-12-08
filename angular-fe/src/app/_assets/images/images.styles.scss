@@ -7,6 +7,9 @@
       padding: 1.5rem 0 !important;
     }
   }
+  .video-alt-text {
+    display: none;
+  }
   .modal__backdrop {
     @include break-on(xs, max) {
       margin-top: 0 !important;
@@ -85,9 +88,7 @@
   .navigation-prev {
     margin: 2rem;
     @include break-on(xs, max) {
-      position: absolute;
-      z-index: 1;
-      margin: 0;
+      display: none;
     }
   }
   .gallery {
@@ -100,6 +101,9 @@
       &__index {
         color: white;
         margin-bottom: 1rem;
+        @include break-on(xs, max){
+          padding-left: 2rem;
+        }
       }
       &__picture-container {
         overflow: hidden;
@@ -114,6 +118,24 @@
         @include break-on(sm, max) {
           height: unset;
         }
+        .navigation-next,
+        .navigation-prev {
+          display: none;
+          @include break-on(xs, max) {
+            display: block;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+          }
+        }
+        .navigation-prev {
+          left: .5rem;
+        }
+        .navigation-next {
+          right: .5rem;
+        }
         &__title {
           bottom: 0;
           width: 100%;
@@ -122,10 +144,18 @@
           background-color: rgba(0, 0, 0, 0.6);
           color: white;
           padding: 0.8rem 2rem;
+          @include break-on(xs, max) {
+            display: none;
+          }
         }
         htm-video {
           height: 70vh;
           width: 65vw;
+          @include break-on(xs, max) {
+            height: unset;
+            width: 100vw;
+            margin: 0;
+          }
         }
         img {
           height: 70vh;

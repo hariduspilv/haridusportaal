@@ -22,7 +22,7 @@
       </ng-container>
     </div>
     <div *ngIf="!blockModal" class="modal__regular" cdkTrapFocus #modalContent attr.id="modal-{{id}}">
-      <div class="modal__header" *ngIf="topAction" [ngClass]="{ 'justify-end': topAction }">
+      <div class="modal__header" *ngIf="topAction" [ngClass]="{ 'justify-end': topAction }" >
         <button *ngIf="topAction" class="white" attr.aria-label="{{ 'button.close' | translate }}" htm-button theme="icon"
           (click)="modalService.close(id)">
           <icon glyph="x" size="medium"></icon>
