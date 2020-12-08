@@ -35,7 +35,7 @@
 					<p *ngIf="data.shortDescription"><b>{{ data.shortDescription }}</b></p>
 
 					<htm-video *ngIf="data.video && data.processedImages?.length === 0" [videos]="data.video"></htm-video>
-					<images *ngIf="data.processedImages && data.processedImages?.length > 0" [videos]="data?.video" [image]="data.processedImages"></images>
+					<images *ngIf="data.processedImages || data.video" [videos]="data?.video ? data.video : []" [image]="data?.processedImages ? data.processedImages : []"></images>
 
 					<picto [class.shorterBottom]="type === 'profession' && descriptionOverflown" tabindex="-1" aria-hidden="true" *ngIf="data.fieldPictogram && data.fieldPictogram.entity" [img]="data.fieldPictogram.entity.url"></picto>
 					
@@ -65,8 +65,6 @@
 					<links *ngIf="data.links" [data]="data.links"></links>
 
 					<links *ngIf="data.attachmentFile" type="document" [data]="data.attachmentFile"></links>
-
-					<images *ngIf="(data.video && data.video.length > 0) && data.processedImages" [image]="data.processedImages"></images>
 				
 					<htm-video *ngIf="data.additionalVideos" [videos]="data.additionalVideos"></htm-video>
 
