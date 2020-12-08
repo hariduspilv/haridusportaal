@@ -15,7 +15,7 @@
   <ng-template>
     <div class="gallery-container" tabindex="0" attr.aria-label="{{ 'gallery.title' | translate }}">
       <div class="navigation-prev flex">
-        <button attr.aria-label="{{ 'button.prev' | translate }}" htm-button theme="icon" (click)="handlePrev(activeImage)">
+        <button attr.aria-label="{{ 'gallery.prev' | translate }}" htm-button theme="icon" (click)="handlePrev(activeImage)">
           <icon glyph="chevron-left" size="large" [bg]="true"></icon>
         </button>
       </div>
@@ -56,7 +56,7 @@
         </div>
       </div>
       <div class="navigation-next flex">
-        <button attr.aria-label="{{ 'button.prev' | translate }}" htm-button theme="icon" (click)="handleNext(activeImage)">
+        <button attr.aria-label="{{ 'gallery.next' | translate }}" htm-button theme="icon" (click)="handleNext(activeImage)">
           <icon glyph="chevron-right" size="large" [bg]="true"></icon>
         </button>
       </div>

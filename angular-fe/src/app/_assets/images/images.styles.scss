@@ -5,6 +5,12 @@
   .modal__regular {
     @include break-on(xs, max) {
       padding: 1.5rem 0 !important;
+      height: 100%;
+    }
+  }
+  .modal__header {
+    @include break-on(xs, max) {
+      padding-right: 1rem;
     }
   }
   .video-alt-text {
@@ -64,6 +70,10 @@
     cursor: pointer;
     padding: 0.8rem 2rem;
     text-decoration: underline;
+    @include break-on(xs, max) {
+      width: 100%;
+      text-align: center;
+    }
     &:hover {
       text-decoration: none;
     }
@@ -94,9 +104,6 @@
     &__items {
       display: flex;
       flex-direction: column;
-      @include break-on(xs, max) {
-        padding-top: 50%;
-      }
       &__index {
         color: white;
         margin-bottom: 1rem;

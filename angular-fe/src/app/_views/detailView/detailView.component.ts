@@ -144,6 +144,7 @@ export class DetailViewComponent {
         this.origData = response['data']['route']['entity'];
         this.parseData(response['data']['route']['entity']);
       } catch (err) {
+        console.log(err);
         this.missingData = true;
       }
 
@@ -210,7 +211,10 @@ export class DetailViewComponent {
       this.data.video = this.data.video[0];
     }
 
-    this.data.processedImages = [this.data.image, ...this.data.additionalImages];
+    this.data.processedImages =
+      this.data.additionalImages ?
+        [this.data.image, ...this.data?.additionalImages] :
+        this.data.image;
 
     this.data['fieldAccordion'] = this.data.reverseFieldOskaFieldParagraph &&
       this.data.reverseFieldOskaFieldParagraph.entities.length ?
