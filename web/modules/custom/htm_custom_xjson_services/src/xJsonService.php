@@ -413,6 +413,8 @@ class xJsonService implements xJsonServiceInterface {
       }
     }
 
+    dump($value);
+
     if (is_array($value)) {
       $element_def += $value;
     } else {
