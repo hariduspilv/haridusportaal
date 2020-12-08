@@ -120,6 +120,7 @@
         .navigation-next,
         .navigation-prev {
           display: none;
+          z-index: 1;
           @include break-on(xs, max) {
             display: block;
             margin: 0;
