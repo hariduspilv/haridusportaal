@@ -7,19 +7,25 @@
       [title]="'home.slogan' | translate"></homepage-navblock>
     <homepage-articles
       [data]="articles"
+      [category]="'home.what_to_find' | translate"
       [theme]="theme"></homepage-articles>
     <homepage-slides
       [data]="services"
       [title]="'home.services_title' | translate"
       [theme]="theme"></homepage-slides>
     <homepage-topical
-      [data]="newsLink"
+      [article]="news"
       [category]="'home.topical_default' | translate"
+      [image]="'/assets/img/homepage-topical-1.svg'"
       [theme]="theme"></homepage-topical>
     <homepage-study
+      [title]="study.title"
+      [intro]="study.intro"
+      [data]="study.data"
       [theme]="theme"></homepage-study>
     <homepage-slogan
       [title]="slogan"
+      [image]="'/assets/img/homepage-slogan-1.svg'"
       [theme]="theme"></homepage-slogan>
     <homepage-footer
       [data]="contact"
@@ -38,7 +44,8 @@
       [description]="'home.events_text' | translate"></homepage-events>
     <homepage-topical
       [category]="'home.topical_teachers' | translate"
-      [data]="newsLink" [theme]="theme"></homepage-topical>
+      [image]="'/assets/img/homepage-topical-teachers.svg'"
+      [article]="news" [theme]="theme"></homepage-topical>
     <homepage-slides
       [data]="services"
       [title]="'home.toolbox' | translate" 
@@ -48,6 +55,7 @@
       [title]="slogan.title"
       [person]="slogan.person"
       [company]="slogan.company"
+      [image]="'/assets/img/homepage-slogan-teachers.svg'"
       [theme]="theme"></homepage-slogan>
     <homepage-footer
       [data]="contact"
@@ -63,6 +71,7 @@
 
     <homepage-articles
       [data]="articles"
+      [category]="'home.future_career' | translate"
       [theme]="theme"></homepage-articles>
 
     <homepage-careerDevelopment
@@ -73,19 +82,57 @@
 
     <homepage-topical
       [category]="'home.topical_career' | translate"
-      [data]="newsLink"
+      [article]="news"
       [line]="4"
+      [image]="'/assets/img/homepage-topical-career.svg'"
       [theme]="theme"></homepage-topical>
 
     <homepage-slogan
       [title]="slogan.title"
       [person]="slogan.person"
       [company]="slogan.company"
+      [image]="'/assets/img/homepage-slogan-career.svg'"
       [line]="3"
       [theme]="theme"></homepage-slogan>
 
     <homepage-footer
       [data]="contact"
       [theme]="theme"></homepage-footer>  
+  </ng-container>
+
+  <ng-container *ngSwitchCase="'learning'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'home.learning_slogan' | translate"></homepage-navblock>
+    <homepage-articles
+      [data]="articles"
+      [category]="'home.exam_period' | translate"
+      [theme]="theme"></homepage-articles>
+    <homepage-slides
+      [data]="services"
+      [title]="'home.learning_path_title' | translate"
+      [theme]="theme"></homepage-slides>
+    <homepage-study
+      [title]="study.title"
+      [intro]="study.intro"
+      [data]="study.data"
+      [learnMore]="false"
+      [theme]="theme"></homepage-study>
+    <homepage-topical
+      [article]="news"
+      [category]="'home.topical_default' | translate"
+      [image]="'/assets/img/homepage-topical-learning.svg'"
+      [theme]="theme"></homepage-topical>
+    <homepage-slogan
+      [title]="slogan.title"
+      [person]="slogan.person"
+      [company]="slogan.company"
+      [image]="'/assets/img/homepage-slogan-learning.svg'"
+      [line]="3"
+      [theme]="theme"></homepage-slogan>
+    <homepage-footer
+      [data]="contact"
+      [theme]="theme"></homepage-footer>
   </ng-container>
 </ng-container>

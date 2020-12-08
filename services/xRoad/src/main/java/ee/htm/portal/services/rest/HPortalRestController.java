@@ -3,6 +3,7 @@ package ee.htm.portal.services.rest;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.client.AriregXRoadService;
+import ee.htm.portal.services.client.Ehis2XRoadService;
 import ee.htm.portal.services.client.EhisXRoadService;
 import ee.htm.portal.services.client.EisXRoadService;
 import ee.htm.portal.services.client.KutseregisterXRoadService;
@@ -11,6 +12,7 @@ import ee.htm.portal.services.workers.EeIsikukaartWorker;
 import ee.htm.portal.services.workers.EisWorker;
 import ee.htm.portal.services.workers.KutseregisterWorker;
 import ee.htm.portal.services.workers.MtsysWorker;
+import ee.htm.portal.services.workers.OLTWorker;
 import ee.htm.portal.services.workers.VPTWorker;
 import java.math.BigInteger;
 import javax.annotation.Resource;
@@ -36,6 +38,9 @@ public class HPortalRestController {
 
   @Resource
   private EhisXRoadService ehisXRoadService;
+
+  @Resource
+  private Ehis2XRoadService ehis2XRoadService;
 
   @Resource
   private AriregXRoadService ariregXRoadService;
@@ -73,6 +78,9 @@ public class HPortalRestController {
       VPTWorker vptWorker = new VPTWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
       new Thread(() -> vptWorker.getDocuments(identifier)).start();
+      OLTWorker oltWorker = new OLTWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
+          redisExpire, redisFileExpire, redisKlfExpire);
+      new Thread(() -> oltWorker.getDocuments(identifier)).start();
     }
 
     return new ResponseEntity<>("{\"MESSAGE\":\"WORKING\"}", HttpStatus.OK);
@@ -91,6 +99,10 @@ public class HPortalRestController {
       VPTWorker vptWorker = new VPTWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(vptWorker.getDocument(formName, identifier), HttpStatus.OK);
+    } else if (formName.equalsIgnoreCase("OLT_OTSUS")) {
+      OLTWorker oltWorker = new OLTWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
+          redisExpire, redisFileExpire, redisKlfExpire);
+      return new ResponseEntity<>(oltWorker.getDocument(formName, personalCode, identifier), HttpStatus.OK);
     } else {
       MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
@@ -136,6 +148,10 @@ public class HPortalRestController {
       VPTWorker vptWorker = new VPTWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(vptWorker.postDocument(requestJson), HttpStatus.OK);
+    } else if (formName.equalsIgnoreCase("OLT_TAOTLUS")) {
+      OLTWorker oltWorker = new OLTWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
+          redisExpire, redisFileExpire, redisKlfExpire);
+      return new ResponseEntity<>(oltWorker.postDocument(requestJson), HttpStatus.OK);
     } else {
       MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
@@ -234,6 +250,10 @@ public class HPortalRestController {
           redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(mtsysWorker.getDocumentFile(documentId, Long.valueOf(identifier),
           personalCode), HttpStatus.OK);
+    } else if (documentId.startsWith("OLT_")) {
+      OLTWorker oltWorker = new OLTWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
+          redisExpire, redisFileExpire, redisKlfExpire);
+      return new ResponseEntity<>(oltWorker.getDocumentFile(documentId, personalCode), HttpStatus.OK);
     }
 
     LOGGER.error("Tundmatu request documentId - " + documentId);

@@ -1,0 +1,15 @@
+IMPORTANT LEGAL NOTICE TO ALL USERS: the use of this software is 
+governed by Plumbr Terms of Service ("Terms") that you agreed to 
+prior to registering for Plumbr account.
+
+The Terms constitute a legal agreement between you (either 
+an individual or a single entity) and OÜ Plumbr. By creating a 
+Plumbr account or installing, copying, downloading or otherwise 
+using the related software (for example the Plumbr Java Agent) 
+you have agreed that the Terms are enforceable like any written 
+agreement signed by you. If you do not agree to the Terms, you 
+may not install, copy, download or otherwise use the Software 
+or Plumbr Services.
+
+You can always review the Terms of Service at: 
+http://plumbr.io/terms-of-service

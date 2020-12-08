@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import ee.htm.portal.services.model.LogForDrupal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import org.slf4j.Logger;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -74,5 +76,13 @@ public class Worker {
 
   protected String ehisDateTimeFormat(Calendar cal) {
     return simpleDateTimeFormat.format(cal.getTime());
+  }
+
+  protected boolean isAcceptableActivityView(ObjectNode jsonNode) {
+    List<String> acceptableActivity = new ArrayList<>();
+    jsonNode.get("header").get("acceptable_activity")
+        .forEach(i -> acceptableActivity.add(i.asText()));
+
+    return acceptableActivity.contains("VIEW");
   }
 }
