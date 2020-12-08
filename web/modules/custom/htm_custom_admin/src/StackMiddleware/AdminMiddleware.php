@@ -50,7 +50,8 @@ class AdminMiddleware implements HttpKernelInterface {
       '/graphql',
       '/external-login',
       '/documentFile',
-      '/session'
+      '/session',
+      '/crop_large'
     ];
 
     foreach($request->cookies->keys() as $key) {
