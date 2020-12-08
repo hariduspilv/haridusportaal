@@ -54,14 +54,14 @@ html {
   text-align: justify;
   padding-right: 2rem;
   & .ellipsis {
-    content: '...';
+    user-select: none;
     position: absolute;
     right: 1.1875rem;
     bottom: 0;
     height: $lineHeight;
   }
   & .ellipsis-hide {
-    content: '';
+    user-select: none;
     position: absolute;
     right: 1.1875rem;
     width: 1rem;
