@@ -15,7 +15,14 @@
               <div class="slides__elem__body">
                 <h3 class="slides__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
                 <p class="slides__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content }}</p>
-                <button class="slides__elem__link"  [routerLink]="item.link.url.path" [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</button>
+                <a class="slides__elem__link"
+                  *ngIf="item.link.url.routed"
+                  [routerLink]="item.link.url.path"
+                  [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</a>
+                <a class="slides__elem__link"
+                  *ngIf="!item.link.url.routed"
+                  [href]="item.link.url.path"
+                  [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</a>
               </div><!--/slides__elem__body-->
             </div><!--/slides__elem-->
           </div><!--/slides__instance-->
