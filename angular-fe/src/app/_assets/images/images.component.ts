@@ -1,4 +1,4 @@
-import { HostListener } from '@angular/core';
+import { AfterContentChecked, HostListener } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalService } from '@app/_services';
 
@@ -13,7 +13,7 @@ import { ModalService } from '@app/_services';
 
 export class ImageComponent implements OnInit {
   @Input() image: {} = {};
-  @Input() videos;
+  @Input() videos: {} = {};
   @Input() limit: number = 1;
   public images;
   public activeImage;
