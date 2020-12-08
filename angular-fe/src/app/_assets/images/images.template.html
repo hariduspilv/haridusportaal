@@ -45,7 +45,7 @@
             <ng-container *ngFor="let image of images">
               <a href="javascript:void(0)" attr.aria-current="{{ (!image.videoId && activeImage.derivative?.url === image.derivative?.url) || (image.videoId && activeImage.input === image.input) ? true : false }}">
                 <img *ngIf="!image.videoId"
-                class="{{ activeImage.derivative?.url === image.derivative.url ? 'active' : '' }}" [src]="image.derivative.url"
+                class="{{ activeImage.derivative?.url === image.derivative?.url ? 'active' : '' }}" [src]="image.derivative?.url"
                 [alt]="image.alt" [title]="image.title ? image.title : ''" (click)="activeImage = image" />
                 <img *ngIf="image.videoId"
                 class="{{ activeImage.input === image.input ? 'active' : '' }}" [src]="'https://img.youtube.com/vi/' + image.videoId + '/0.jpg'"
