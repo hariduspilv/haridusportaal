@@ -413,8 +413,6 @@ class xJsonService implements xJsonServiceInterface {
       }
     }
 
-    dump($value);
-
     if (is_array($value)) {
       $element_def += $value;
     } else {
@@ -424,6 +422,8 @@ class xJsonService implements xJsonServiceInterface {
     //Sort table values
     if ($element_type === 'table') $element_def = $this->sortTableValues($element_def);
 
+    dump($element_def);
+    dump($value);
     return ($this->validateDataElement($element_def)) ? $element_def : [];
   }
 
