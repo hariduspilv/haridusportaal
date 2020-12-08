@@ -127,6 +127,7 @@ class EhisConnectorService {
         } else {
           if($redis_response = $this->getValue($params['key'], $params['hash'])){
             $redis_response['redis_hit'] = TRUE;
+            dump($redis_response);
             return $redis_response;
           } else {
             return $this->invoke($service_name, $params);
@@ -148,7 +149,10 @@ class EhisConnectorService {
       /*TODO make post URL configurable*/
       if($type === 'get'){
         if($service_name === 'getDocument' || $service_name === 'changeDocument'){
+          dump($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
           $response = $client->get($this->loime_url.$service_name . '/' . $params['form_name'].'/'.$params['idcode'].'?'. implode($params['url'], '&'));
+          dump($response);
+          die();
         } else {
           $response = $client->get($this->loime_url.$service_name . '/' . implode($params['url'], '/') . '?'. implode($params['params'], '&'));
         }
@@ -359,6 +363,7 @@ class EhisConnectorService {
     if(!$regcode) {
       $params['idcode'] = $this->getCurrentUserIdRegCode();
     }
+    dump($params);
     return $this->invokeWithRedis('getDocument', $params, FALSE);
   }
 
