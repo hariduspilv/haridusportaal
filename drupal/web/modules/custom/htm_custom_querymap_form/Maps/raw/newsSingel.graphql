@@ -37,6 +37,7 @@ query ($path: String!) {
                             url
                         }
                         alt
+                        title
                     }
                     fieldNewsLink {
                         url {
