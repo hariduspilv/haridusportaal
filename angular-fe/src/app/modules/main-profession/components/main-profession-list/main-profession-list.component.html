@@ -1,0 +1,49 @@
+<base-layout>
+	<div class="inline">
+    <breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+  </div><!--/inline-->
+  <form class="filter-wrapper" *ngIf="mainProfessionFilter" [formGroup]="mainProfessionFilterForm">
+    <div class="inline">
+      <ng-container>
+        <div class="row first">
+          <div class="col-4 sm-12">
+            <formItem type="text" formControlName="title" title="{{ 'search.keyword' | translate }}" name="title"></formItem>
+          </div>
+          <div class="col-5 sm-12">
+            <formItem type="multi-select" title="{{ 'oska.title_field' | translate }}" formControlName="oskaField" name="oskaField" [options]="mainProfessionFilter.oskaFields"></formItem>
+          </div>
+          <div class="col-3 align-end text-right sm-12 inline-flex">
+            <div class="button-row">
+              <button htm-button>{{ 'button.search' | translate }}</button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </form>
+	<div class="inline">
+		<block titleBorder="true" tabStyle="default">
+			<block-title>{{ 'oska.professions_and_jobs' | translate }}</block-title>
+			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="/ametialad">
+				<ng-container *ngIf="searchResults && !searchResults.loading && !jobLoading && (typeFilters[0].sum || typeFilters[1].sum)">
+					<div class="search__title__filter">{{ 'search.filter_results' | translate }}:</div>
+					<ng-container *ngFor="let filter of typeFilters; let i = index;">
+						<button tag
+							[ngbTooltip]="filter.tooltipText"
+							[placement]="tooltipPlacement"
+							[triggers]="tooltipTriggerType"
+							(click)="filterListByType(i)"
+							[active]="filter.active"
+							*ngIf="filter.sum"
+							attr.aria-label="Filter: {{filter.name | translate}}, status: {{filter.active ? 'On': 'Off'}}, count: {{ filter.sum }}">
+							{{ filter.name }} ({{ filter.sum }})
+						</button>
+					</ng-container>
+				</ng-container>
+				<mainProfessionsSearchResults limit="24"></mainProfessionsSearchResults>
+			</block-content>
+			<block-content tabLabel="{{ 'oska.professions_data' | translate }}" tabIcon="info"  tabLink="/ametialad/andmed">
+			</block-content>
+		</block>
+	</div><!--/inline-->
+</base-layout>

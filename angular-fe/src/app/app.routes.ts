@@ -95,6 +95,11 @@ const routes: Routes = [
       .then(m => m.MainProfessionListViewModule),
   },
   {
+    path: 'ametialad2',
+    loadChildren: () => import('./modules/main-profession/main-profession.module')
+      .then(module => module.MainProfessionModule),
+  },
+  {
     path: 'ametialad/andmed',
     loadChildren: () => import('./_views/mainProfessionDataView')
       .then(m => m.MainProfessionDataView),
