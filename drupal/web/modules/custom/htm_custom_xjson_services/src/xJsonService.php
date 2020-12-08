@@ -325,8 +325,6 @@ class xJsonService implements xJsonServiceInterface {
     if ($response_header) $return['header'] = $response_header;
     if ($response_messages) $return['messages'] += $response_messages;
 
-    dump($definition_body);
-    die();
     if ($response_body && !empty($response_body['steps'])) {
       foreach ($definition_body['steps'] as $step_key => $step) {
         if (isset($response_body['steps'][$step_key])) {
@@ -424,8 +422,6 @@ class xJsonService implements xJsonServiceInterface {
     //Sort table values
     if ($element_type === 'table') $element_def = $this->sortTableValues($element_def);
 
-    dump($element_def);
-    dump($value);
     return ($this->validateDataElement($element_def)) ? $element_def : [];
   }
 
