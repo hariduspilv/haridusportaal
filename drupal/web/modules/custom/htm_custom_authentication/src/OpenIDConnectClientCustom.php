@@ -56,7 +56,6 @@ class OpenIDConnectClientCustom extends OpenIDConnectClient {
 
 	public function authenticate () {
 		if(!parent::authenticate()){
-			dump('je');
 		}
 	}
 

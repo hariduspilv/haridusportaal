@@ -34,6 +34,7 @@ export class ModalContentComponent {
 export class ModalComponent implements OnInit {
 
   @Input() public id: string;
+  @Input() public blockModal: boolean = true;
   @Input() public modalTitle: string = '';
   public opened: boolean = false;
   @Input() public titleExists: boolean = true;

@@ -23,12 +23,15 @@ query (
       {field:"field_short_description", weight: 2},
       {field:"field_registration_code", weight:5}
     ]}) {
-    ContentType
-    Nid
-    Title
-    EntityPath
-    FieldStudyProgrammeLevel
-    FieldSchoolName
-    FieldDuration
+    entities {
+        ContentType
+        Nid
+        Title
+        EntityPath
+        FieldStudyProgrammeLevel
+        FieldSchoolName
+        FieldDuration
+    }
+    count
   }
 }

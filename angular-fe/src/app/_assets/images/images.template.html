@@ -1,4 +1,65 @@
-<div class="image__entity" *ngFor="let item of images">
+<!-- <div class="image__entity" *ngFor="let item of images">
   <img [src]="item.derivative.url" [title]="item.title" [alt]="item.alt" />
   <div class="image__title" *ngIf="item.title">{{ item.title }}</div>
-</div><!--/image__entity-->
+</div> -->
+
+<div class="image-container">
+  <a href="javascript:void(0)" attr.aria-label="{{ 'gallery.link-title' | translate }}" *ngIf="images.length > 1" class="expand-gallery" (click)="openGallery()">
+    {{ 'gallery.link-title' | translate }} ({{ images.length }})
+  </a>
+  <img [src]="images[0].derivative.url" [title]="images[0].title" [alt]="images[0].alt" />
+  <div class="image__title" *ngIf="images[0].title">{{ images[0].title }}</div>
+</div>
+
+<htm-modal id="gallery" [bottomAction]="false" [blockModal]="false">
+  <ng-template>
+    <div class="gallery-container" tabindex="0" attr.aria-label="{{ 'gallery.title' | translate }}">
+      <div class="navigation-prev flex">
+        <button attr.aria-label="{{ 'gallery.prev' | translate }}" htm-button theme="icon" (click)="handlePrev(activeImage)">
+          <icon glyph="chevron-left" size="large" [bg]="true"></icon>
+        </button>
+      </div>
+      <div class="gallery__items">
+        <div class="gallery__items__index">
+          {{ activeImage.index + 1 }} / {{ images.length }}
+        </div>
+        <div class="gallery__items__picture-container">
+          <div class="gallery__items__active-image">
+            <div class="navigation-prev flex">
+              <button attr.aria-label="{{ 'gallery.prev' | translate }}" htm-button theme="icon" (click)="handlePrev(activeImage)">
+                <icon glyph="chevron-left" size="small" [bg]="true"></icon>
+              </button>
+            </div>
+            <ng-container *ngIf="!activeImage.videoId">
+              <div class="gallery__items__active-image__title" *ngIf="activeImage.title">{{ activeImage.title }}</div>
+              <img [src]="activeImage.derivative.url" [title]="activeImage.title ? activeImage.title : ''" [alt]="activeImage.alt" />
+            </ng-container>
+            <htm-video *ngIf="activeImage.videoId" [videos]="activeImage"></htm-video>
+            <div class="navigation-next flex">
+              <button attr.aria-label="{{ 'gallery.next' | translate }}" htm-button theme="icon" (click)="handleNext(activeImage)">
+                <icon glyph="chevron-right" size="small" [bg]="true"></icon>
+              </button>
+            </div>
+          </div>
+          <div class="gallery__items__navigation">
+            <ng-container *ngFor="let image of images">
+              <a href="javascript:void(0)" attr.aria-current="{{ (!image.videoId && activeImage.derivative?.url === image.derivative?.url) || (image.videoId && activeImage.input === image.input) ? true : false }}">
+                <img *ngIf="!image.videoId"
+                class="{{ activeImage.derivative?.url === image.derivative?.url ? 'active' : '' }}" [src]="image.derivative?.url"
+                [alt]="image.alt" [title]="image.title ? image.title : ''" (click)="activeImage = image" />
+                <img *ngIf="image.videoId"
+                class="{{ activeImage.input === image.input ? 'active' : '' }}" [src]="'https://img.youtube.com/vi/' + image.videoId + '/0.jpg'"
+                [alt]="image.alt" [title]="image.title ? image.title : ''" (click)="activeImage = image" />
+              </a>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="navigation-next flex">
+        <button attr.aria-label="{{ 'gallery.next' | translate }}" htm-button theme="icon" (click)="handleNext(activeImage)">
+          <icon glyph="chevron-right" size="large" [bg]="true"></icon>
+        </button>
+      </div>
+    </div>
+  </ng-template>
+</htm-modal>

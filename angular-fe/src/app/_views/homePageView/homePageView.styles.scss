@@ -59,6 +59,24 @@
         }
       }
     }
+    &.theme--learning {
+      .navBlock {
+        background: url('/assets/img/homepage-1-learning.svg') center bottom no-repeat;
+        background-size: cover;
+        &:before {
+          background: linear-gradient(to bottom, rgba(228, 241, 192, 1), rgba(228, 241, 192, 0));
+        }
+        &__buttons {
+          button, a {
+            color: #58730c;
+            font-size: 1.125rem;
+            @include break-on(xxs, max) {
+              padding-bottom: 4rem;
+            }
+          }
+        }
+      }
+    }
 
     .emblem {
       position: absolute;
@@ -191,7 +209,7 @@
               padding: 0.5rem;
             }
           }
-          button, a{
+          button, a {
             position: relative;
             background: $white;
             font-size: 1rem;
@@ -228,7 +246,9 @@
               min-height: 0;
               height: 100%;
             }
-
+            @include break-on(md, max) {
+              word-break: break-word;
+            }
             icon {
               position: absolute;
               bottom: 1rem;
@@ -342,6 +362,9 @@
           flex-shrink: 0;
           &:first-child {
             border-radius: 1.25rem 0 0 1.25rem;
+          }
+          @include break-on(sm, max) {
+            flex-shrink: 1;
           }
           @include break-on(xxs, max) {
             border-radius: 1.25rem 1.25rem 0 0 !important;
@@ -657,6 +680,12 @@
         }
       }
     }
+
+    &.theme--learning {
+      .instance__category {
+        color: #58730c;
+      }
+    }
   }
 
   homepage-slides {
@@ -676,6 +705,13 @@
         font-size: 1.125rem;
       }
     }
+
+    &.theme--learning {
+      .slides__title {
+        color: #58730c;
+      }
+    }
+
     .st0 {
       fill: $light-gray;
     }
@@ -703,8 +739,6 @@
 
       &__container {
         position: relative;
-        margin: 0 -2.8125rem;
-        padding: 0 2.9375rem;
         @include break-on(sm, max) {
           margin: 0 -1.7125rem
         }
@@ -883,6 +917,15 @@
         color: $black;
       }
     }
+    &.theme--learning {
+      background: #E4F1C0;
+      svg .st0 {
+        fill: #E4F1C0;
+      }
+      .topical__category {
+        color: $black;
+      }
+    }
     svg {
       .st0 {
         fill: $aqua
@@ -892,7 +935,7 @@
     .topical {
       display: flex;
       align-items: flex-start;
-      @include break-on(sm, max) {
+      @include break-on(md, max) {
         flex-direction: column;
       }
 
@@ -913,11 +956,11 @@
         margin-top: -3.6875rem;
         position: relative;
         z-index: 4;
-        @include break-on(sm, max) {
+        @include break-on(lg, max) {
           width: 15.6rem;
           align-self: flex-end;
         }
-        @include break-on(xxs, max) {
+        @include break-on(md, max) {
           width: 12rem;
         }
 
@@ -1060,6 +1103,9 @@
 
         &__body {
           padding: 1.5rem 1.75rem;
+          @include break-on(sm, max) {
+            word-wrap: break-word;
+          }
         }
 
         &__title {
@@ -1102,6 +1148,12 @@
         }
       }
     }
+
+    &.theme--learning {
+      .study__category {
+        color: #58730c;
+      }
+    }
   }
 
   homepage-slogan {
@@ -1142,6 +1194,19 @@
       }
     }
     
+    &.theme--learning {
+      background: $white;
+      padding-top: 4rem;
+      .st0 {
+        fill: $white;
+      }
+      .instance {
+        &__image {
+          width: 14rem;
+          margin-top: 0;
+        }
+      }
+    }
 
     .inner {
       position: relative;
@@ -1268,7 +1333,6 @@
         .newsletter__col {
           width: 100% !important;
         }
-
       }
     }
 
@@ -1321,11 +1385,7 @@
     .footer {
       display: flex;
       box-sizing: border-box;
-      @include break-on(sm, max) {
-        flex-direction: column;
-        padding-top: 4.5rem;
-      }
-      @include break-on(sm, max) {
+      @include break-on(md, max) {
         flex-direction: column;
         padding-top: 4.5rem;
       }

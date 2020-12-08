@@ -34,19 +34,6 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
   polygonLayer: String = 'county';
   polygonData: any = {};
 
-  parameters = [
-    {
-      key: 'mapIndicator',
-      label: 'Näitaja',
-      value: '',
-    },
-    {
-      key: 'OSKAField',
-      label: 'Valdkond',
-      value: '',
-    },
-  ];
-
   mapOptions = {
     polygonType: 'oskaFields',
     centerLat: 58.5822061,
@@ -121,8 +108,6 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     if (this.data && this.data.length) {
       this.loading = true;
       this.polygonData.county = this.data.filter((elem) => {
-        this.parameters[0].value = this.filterFormItems.mapIndicator;
-        this.parameters[1].value = this.filterFormItems.OSKAField;
         if (this.filterFormItems['mapIndicator'] && this.filterFormItems['OSKAField']) {
           return elem.mapIndicator === this.filterFormItems['mapIndicator']
             && elem.OSKAField === this.filterFormItems['OSKAField'];
