@@ -45,6 +45,15 @@
 			position: relative;
 			flex-basis: 100%;
 		}
+		&__regular {
+			outline: none;
+			transition: transform 0.25s;
+			margin: 0 auto; 
+			overflow: auto;
+			padding: 1.5rem;
+			position: relative;
+			flex-basis: 100%;
+		}
 		&__header {
 			padding-bottom: 1.5rem;
 			display: flex;
@@ -68,6 +77,9 @@
 			padding-top: .75rem;
 			display: flex;
 			justify-content: center;
+		}
+		.white {
+			color: #FFFFFF;
 		}
 	}
 	position: fixed;

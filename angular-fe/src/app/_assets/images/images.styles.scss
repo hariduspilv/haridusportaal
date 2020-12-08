@@ -2,15 +2,16 @@
 @import "typography.scss";
 
 ::ng-deep {
-  .image{
+  .image {
     display: block;
     margin: 1rem 0;
-    img{
-      display: block; width: 100%;
+    img {
+      display: block;
+      width: 100%;
     }
 
-    &__title{
-      font-size: .875rem;
+    &__title {
+      font-size: 0.875rem;
       color: $black;
       font-style: italic;
       font-weight: 300;
@@ -23,11 +24,94 @@
         text-overflow: ellipsis;
       }
     }
-    &__entity{
+    &__entity {
       display: block;
       margin-bottom: 1.5rem;
       &:last-child {
         margin-bottom: 0;
+      }
+    }
+  }
+}
+.image-container {
+  position: relative;
+  .expand-gallery {
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    padding: 0.8rem 2rem;
+    text-decoration: underline;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.gallery-container {
+  display: flex;
+  .flex {
+    display: flex;
+  }
+  .navigation-next, .navigation-prev {
+    margin: 2rem;
+  }
+  .gallery {
+    &__items {
+      display: flex;
+      flex-direction: column;
+      &__index {
+        color: white;
+        margin-bottom: 1rem;
+      }
+      &__picture-container {
+        overflow: hidden;
+        display: flex;
+      }
+      &__active-image {
+        position: relative;
+        height: 70vh;
+        &__title {
+          bottom: 0;
+          width: 100%;
+          position: absolute;
+          z-index: 1;
+          background-color: rgba(0, 0, 0, 0.6);
+          color: white;
+          padding: 0.8rem 2rem;
+        }
+        htm-video {
+          height: 70vh;
+          width: 65vw;
+        }
+        img {
+          height: 70vh;
+          width: 65vw;
+          object-fit: cover;
+        }
+      }
+      &__navigation {
+        overflow-y: auto;
+        padding: 2px 2px 2px 1rem;
+        position: relative;
+        height: 70vh;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        .active {
+          outline: 2px solid #15adc2;
+        }
+        img {
+          cursor: pointer;
+          height: 10vh;
+          width: 10vw;
+          object-fit: cover;
+          margin-bottom: 1rem;
+        }
       }
     }
   }
