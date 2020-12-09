@@ -1,0 +1,11 @@
+uuid: 934b3fe4-1229-4866-9c7a-a04313bda49e
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.mingi_content_type
+id: node.mingi_content_type
+target_entity_type_id: node
+target_bundle: mingi_content_type
+default_langcode: site_default
+language_alterable: false
