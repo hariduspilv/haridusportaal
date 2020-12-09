@@ -1,0 +1,46 @@
+<swiper [config]="config" #usefulSwiper>
+  <div class="swiper-wrapper">
+    <ng-container *ngFor="let item of data; let i = index">
+      <a class="swiper-slide slides__instance"
+        *ngIf="item.link.url.routed"
+        [routerLink]="item.link.url.path">
+        <div class="slides__elem">
+          <div class="slides__elem__image">
+            <img [src]="item.image.url" [alt]="" />
+          </div><!--/slides__elem__image-->
+          <div class="slides__elem__body">
+            <h3 class="slides__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
+            <p class="slides__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content }}</p>
+            <a class="slides__elem__link"
+              [routerLink]="item.link.url.path"
+              [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</a>
+          </div><!--/slides__elem__body-->
+        </div><!--/slides__elem-->
+      </a><!--/slides__instance-->
+
+      <a class="swiper-slide slides__instance"
+        *ngIf="!item.link.url.routed"
+        [href]="item.link.url.path">
+        <div class="slides__elem">
+          <div class="slides__elem__image">
+            <img [src]="item.image.url" [alt]="" />
+          </div><!--/slides__elem__image-->
+          <div class="slides__elem__body">
+            <h3 class="slides__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
+            <p class="slides__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content }}</p>
+            <a class="slides__elem__link"
+              [href]="item.link.url.path"
+              [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</a>
+          </div><!--/slides__elem__body-->
+        </div><!--/slides__elem-->
+      </a><!--/slides__instance-->
+    </ng-container>
+  </div>
+  <div class="swiper-pagination"></div>
+</swiper>
+<div class="slides__arrow slides__arrow--right">
+  <icon glyph="chevron-right" size="large"></icon>
+</div>
+<div class="slides__arrow slides__arrow--left">
+  <icon glyph="chevron-left" size="large"></icon>
+</div>
