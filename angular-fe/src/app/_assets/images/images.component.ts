@@ -18,7 +18,9 @@ export class ImageComponent implements OnInit {
   public images;
   public activeImage;
 
-  constructor(private modalService: ModalService) { }
+  constructor(
+    private modalService: ModalService
+    ) { }
 
   ngOnInit() {
     if (!Array.isArray(this.image)) {
@@ -39,6 +41,7 @@ export class ImageComponent implements OnInit {
     } else {
       this.images = [...this.images, ...this.videos];
     }
+    console.log(this.images);
   }
 
   initGalleryImages() {
