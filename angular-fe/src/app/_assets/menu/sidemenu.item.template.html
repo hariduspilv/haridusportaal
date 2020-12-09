@@ -10,6 +10,8 @@
       [attr.aria-expanded]="item.links && item.links.length ? item.expanded : null"
       [attr.aria-controls]="item.links && item.links.length ? (item.label | slugify) : null"
       [class.with-submenu]="item.links && item.links.length"
+      [attr.aria-haspopup]="item.links && item.links.length !== 0"
+      [attr.aria-current]="item.active"
       [class.active]="item.active"
       (mousedown)="animateRipple($event)"
       *ngIf="item.url.path !== '#nolink' && item.url.path !== '#nocategory'">
@@ -24,6 +26,8 @@
       [attr.aria-expanded]="item.links && item.links.length ? item.expanded : null"
       [attr.aria-controls]="item.links && item.links.length ? (item.label | slugify) : null"
       [class.with-submenu]="item.links && item.links.length"
+      [attr.aria-haspopup]="item.links && item.links.length !== 0"
+      [attr.aria-current]="item.active"
       [class.active]="item.active"
       (mousedown)="animateRipple($event)"
       *ngIf="item.url.path === '#nolink' || item.url.path === '#nocategory'">
