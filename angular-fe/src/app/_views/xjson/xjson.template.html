@@ -39,7 +39,7 @@
             </div>
 
             <ng-container *ngIf="!empty_data">
-              <div *ngIf="!viewOnlyStep" class="upper-infotext">
+              <div *ngIf="!viewOnlyStep && data.body.steps[opened_step].editable" class="upper-infotext">
                 <span tabindex="-1"
                   attr.aria-label="{{ 'xjson.required_fields_infotext' | translate }}">{{ 'xjson.required_fields_infotext' | translate }}</span>
                 <hr aria-hidden="true" class="divider">
@@ -204,6 +204,7 @@
 
                         <div class="loaded-files-list">
                           <ng-container *ngIf="data_elements[element].value && !data_elements[element].submit_on_change">
+                            <div class="files-missing" *ngIf="!data_elements[element].value || !data_elements[element].value.length">{{'xjson.data_missing' | translate }}</div>
                             <ng-container *ngFor="let file of data_elements[element].value">
                               <div class="uploaded-file">
                                 <a class="file-icon" [href]="fileDownloadlink(file)"
@@ -489,7 +490,7 @@
                   <div>
                     <button htm-button tabindex="0" role="link" theme="inverted"
                       (click)="numberOfSteps === data.body.steps[opened_step].sequence + 1 || edit_step || activityButtons.length === 0 ? cancelEventHandler() : modalService.toggle('dashboardReturn')">
-                      {{ ((saved && formKey !== 'KUTSE' ) || numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
+                      {{ ((saved && formKey !== 'KUTSE' ) || numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 || !data.body.steps[opened_step].editable ? 'button.return' : 'button.cancel') | translate }}
                     </button>
                   </div>
 
