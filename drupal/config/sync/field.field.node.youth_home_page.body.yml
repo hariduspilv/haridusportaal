@@ -1,0 +1,23 @@
+uuid: 545e15d4-f600-41e4-a8c1-cdb4703dc3aa
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.youth_home_page
+  module:
+    - text
+id: node.youth_home_page.body
+field_name: body
+entity_type: node
+bundle: youth_home_page
+label: Body
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

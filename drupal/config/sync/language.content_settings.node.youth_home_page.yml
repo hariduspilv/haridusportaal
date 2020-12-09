@@ -1,0 +1,11 @@
+uuid: 5a6a3740-0cde-4bdc-bea3-b47103fde8c3
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.youth_home_page
+id: node.youth_home_page
+target_entity_type_id: node
+target_bundle: youth_home_page
+default_langcode: site_default
+language_alterable: false
