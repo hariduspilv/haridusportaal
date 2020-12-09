@@ -1,0 +1,42 @@
+uuid: 1f3650bb-b32b-49a4-a210-e5b8baa1fdf7
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.youth_home_page.field_learning_contact
+    - field.field.node.youth_home_page.field_learning_content_links
+    - field.field.node.youth_home_page.field_learning_external_links
+    - field.field.node.youth_home_page.field_learning_news
+    - field.field.node.youth_home_page.field_learning_path
+    - field.field.node.youth_home_page.field_learning_quote_author
+    - field.field.node.youth_home_page.field_learning_quote_text
+    - field.field.node.youth_home_page.field_quote_author_occupation
+    - field.field.node.youth_home_page.field_youth_content_page
+    - field.field.node.youth_home_page.field_youth_content_page_link
+    - node.type.youth_home_page
+  module:
+    - user
+id: node.youth_home_page.teaser
+targetEntityType: node
+bundle: youth_home_page
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_learning_contact: true
+  field_learning_content_links: true
+  field_learning_external_links: true
+  field_learning_news: true
+  field_learning_path: true
+  field_learning_quote_author: true
+  field_learning_quote_text: true
+  field_quote_author_occupation: true
+  field_youth_content_page: true
+  field_youth_content_page_link: true
+  langcode: true
+  search_api_excerpt: true

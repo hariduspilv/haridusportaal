@@ -1,0 +1,27 @@
+uuid: 774a829a-de1f-4567-88af-ae83fbbf9832
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_learning_carousel_image
+    - paragraphs.paragraphs_type.youth_content_page_link
+  module:
+    - file
+id: paragraph.youth_content_page_link.field_learning_carousel_image
+field_name: field_learning_carousel_image
+entity_type: paragraph
+bundle: youth_content_page_link
+label: Pilt
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: txt
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

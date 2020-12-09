@@ -1,0 +1,28 @@
+uuid: 7f978cef-8bd5-4a2f-b23e-77d103f6d05e
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_learning_news
+    - node.type.news
+    - node.type.youth_home_page
+id: node.youth_home_page.field_learning_news
+field_name: field_learning_news
+entity_type: node
+bundle: youth_home_page
+label: Uudis
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

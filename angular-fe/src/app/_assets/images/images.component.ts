@@ -1,4 +1,4 @@
-import { HostListener } from '@angular/core';
+import { AfterContentChecked, HostListener } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalService } from '@app/_services';
 
@@ -32,6 +32,7 @@ export class ImageComponent implements OnInit {
     if (this.images.length > 0) {
       this.initGalleryImages();
     }
+    console.log(this.images);
   }
 
   mergeVideosToList() {

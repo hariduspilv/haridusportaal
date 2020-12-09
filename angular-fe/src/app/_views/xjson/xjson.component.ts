@@ -125,7 +125,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.queryStrings['educationalInstitutionsId'] = Number(strings['õppeasutus']);
         }
         if (strings['id'] !== undefined) {
-          this.queryStrings['identifier'] = Number(strings['id']);
+          console.log(Number(strings['id']));
+          this.queryStrings['identifier'] = !isNaN(Number(strings['id'])) ? Number(strings['id']) : strings['id'];
         }
       },
     );

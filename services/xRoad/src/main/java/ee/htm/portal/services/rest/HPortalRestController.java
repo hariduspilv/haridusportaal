@@ -152,7 +152,7 @@ public class HPortalRestController {
       OLTWorker oltWorker = new OLTWorker(ehis2XRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
       return new ResponseEntity<>(oltWorker.postDocument(requestJson), HttpStatus.OK);
-    } else {
+    } else if(formName.toUpperCase().startsWith("MTSYS_")) {
       MtsysWorker mtsysWorker = new MtsysWorker(ehisXRoadService, redisTemplate, redisFileTemplate,
           redisExpire, redisFileExpire, redisKlfExpire);
 
