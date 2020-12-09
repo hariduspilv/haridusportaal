@@ -3,7 +3,6 @@ langcode: et
 status: true
 dependencies:
   config:
-    - field.field.node.youth_home_page.body
     - field.field.node.youth_home_page.field_learning_contact
     - field.field.node.youth_home_page.field_learning_content_links
     - field.field.node.youth_home_page.field_learning_external_links
@@ -12,23 +11,17 @@ dependencies:
     - field.field.node.youth_home_page.field_learning_quote_author
     - field.field.node.youth_home_page.field_learning_quote_text
     - field.field.node.youth_home_page.field_quote_author_occupation
+    - field.field.node.youth_home_page.field_youth_content_page
+    - field.field.node.youth_home_page.field_youth_content_page_link
     - node.type.youth_home_page
   module:
     - entity_reference_revisions
-    - text
     - user
 id: node.youth_home_page.default
 targetEntityType: node
 bundle: youth_home_page
 mode: default
 content:
-  body:
-    label: hidden
-    type: text_default
-    weight: 101
-    settings: {  }
-    third_party_settings: {  }
-    region: content
   field_learning_contact:
     weight: 107
     label: above
@@ -95,6 +88,24 @@ content:
       link_to_entity: false
     third_party_settings: {  }
     type: string
+    region: content
+  field_youth_content_page:
+    type: entity_reference_revisions_entity_view
+    weight: 110
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_youth_content_page_link:
+    type: entity_reference_revisions_entity_view
+    weight: 111
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
     region: content
   links:
     weight: 100
