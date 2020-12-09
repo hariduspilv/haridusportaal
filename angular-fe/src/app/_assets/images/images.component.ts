@@ -30,6 +30,7 @@ export class ImageComponent implements OnInit {
     if (this.images.length > 0) {
       this.initGalleryImages();
     }
+    console.log(this.images);
   }
 
   mergeVideosToList() {
