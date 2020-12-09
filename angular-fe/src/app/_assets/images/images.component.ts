@@ -1,4 +1,4 @@
-import { AfterContentChecked, HostListener } from '@angular/core';
+import { HostListener } from '@angular/core';
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalService } from '@app/_services';
 
@@ -18,7 +18,9 @@ export class ImageComponent implements OnInit {
   public images;
   public activeImage;
 
-  constructor(private modalService: ModalService) { }
+  constructor(
+    private modalService: ModalService
+    ) { }
 
   ngOnInit() {
     if (!Array.isArray(this.image)) {
@@ -30,7 +32,6 @@ export class ImageComponent implements OnInit {
     if (this.images.length > 0) {
       this.initGalleryImages();
     }
-    console.log(this.images);
   }
 
   mergeVideosToList() {
@@ -39,6 +40,7 @@ export class ImageComponent implements OnInit {
     } else {
       this.images = [...this.images, ...this.videos];
     }
+    console.log(this.images);
   }
 
   initGalleryImages() {
