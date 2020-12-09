@@ -1,4 +1,4 @@
-uuid: 855f0bf8-7dd3-48cf-a335-a36085a8e560
+uuid: 12de3d07-8213-4d4f-a173-6d9d0068bfa2
 langcode: et
 status: true
 dependencies:
@@ -21,15 +21,15 @@ dependencies:
     - node.type.page
     - node.type.school
     - node.type.teaching_home_page
-    - paragraphs.paragraphs_type.content_page_link
-id: paragraph.content_page_link.field_internal_link
+    - paragraphs.paragraphs_type.youth_content_page_link
+id: paragraph.youth_content_page_link.field_internal_link
 field_name: field_internal_link
 entity_type: paragraph
-bundle: content_page_link
+bundle: youth_content_page_link
 label: Siselink
 description: ''
 required: true
-translatable: false
+translatable: true
 default_value: {  }
 default_value_callback: ''
 settings:
