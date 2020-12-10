@@ -46,7 +46,6 @@ export class VideoComponent implements OnInit, OnChanges {
         return vid;
       });
       this.embedFailed = true;
-      console.log(this.videoArray);
     } catch {}
   }
 }
