@@ -7,5 +7,5 @@ export interface CarouselItem {
   };
   image: {
     url: string;
-  }
+  };
 }
