@@ -28,7 +28,7 @@
           </div>
         </form>
         <loader *ngIf="loading"></loader>
-        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator">
+        <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator">
         </map>
         <!--/map-wrapper-->
       </block-content>
