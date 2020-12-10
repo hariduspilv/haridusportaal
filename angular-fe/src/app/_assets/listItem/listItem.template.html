@@ -8,7 +8,7 @@
                         *ngIf="item.head">
                         {{ returnEntityString(item.head) }}</div>
                     <div class="flex flex-center flex-wrap list__item__titleWrapper">
-                        <a [routerLink]="item.url.path ? item.url.path : item.url" attr.id="listItem-{{ i }}"class="list__item__title">
+                        <a [routerLink]="item?.url?.path ? item.url.path : item.url" attr.id="listItem-{{ i }}"class="list__item__title">
                             <h1>{{ item.title }}</h1>
                         </a>
                         <span
