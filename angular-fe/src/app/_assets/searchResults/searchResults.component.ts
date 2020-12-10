@@ -249,6 +249,8 @@ export class SearchResultsComponent implements AfterViewInit, OnDestroy, OnChang
             try {
               if (response['data']['nodeQuery']) {
                 tmpList = response['data']['nodeQuery']['entities'];
+              } else if (response['data']['CustomElasticQuery'] && this.parsedType === 'school') {
+                tmpList = response['data']['CustomElasticQuery'][0].entities;
               } else if (response['data']['CustomElasticQuery']) {
                 tmpList = response['data']['CustomElasticQuery'];
               }

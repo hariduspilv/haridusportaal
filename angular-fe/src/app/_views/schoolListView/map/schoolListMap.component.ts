@@ -164,7 +164,7 @@ export class SchoolListMapComponent implements AfterViewInit {
 
     const path = this.settings.query('schoolMapQuery', variables);
     this.listSub = this.http.get(path).subscribe((response: any) => {
-      const entities = response['data']['CustomElasticQuery'];
+      const entities = response['data']['CustomElasticQuery'][0]['entities'];
       this.markers = this.fixCoordinates(entities);
     },                                           () => {}, () => {
       this.loading = false;

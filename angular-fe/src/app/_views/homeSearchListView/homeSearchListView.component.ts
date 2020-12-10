@@ -34,16 +34,16 @@ export class HomeSearchListViewComponent {
   };
   public typesByLang: any = {
     et: [
-      { name: 'article.label', sumLabel: 'Sisuleht Artikkel', value: false, sum: 0 },
-      { name: 'news.label', sumLabel: 'Uudis', value: false, sum: 0 },
-      { name: 'event.label', sumLabel: 'Sündmus', value: false, sum: 0 },
-      { name: 'school.label', sumLabel: 'Kool', value: false, sum: 0 },
-      { name: 'studyProgramme.label', sumLabel: 'Õppekava', value: false, sum: 0 },
+      { name: 'article.label', sumLabel: 'article', value: false, sum: 0 },
+      { name: 'news.label', sumLabel: 'news', value: false, sum: 0 },
+      { name: 'event.label', sumLabel: 'event', value: false, sum: 0 },
+      { name: 'school.label', sumLabel: 'school', value: false, sum: 0 },
+      { name: 'studyProgramme.label', sumLabel: 'studyprogramme', value: false, sum: 0 },
       { name: 'oska.future_job_opportunities', sumLabel: 'Oska', value: false, sum: 0 },
     ],
   };
   // tslint:disable-next-line: prefer-array-literal
-  public oskaTypes: Array<string> = ['Sisuleht OSKA Ametiala', 'Sisuleht OSKA Tööjõuprognoos', 'Sisuleht OSKA Valdkond'];
+  public oskaTypes: Array<string> = ['oska_survey_page', 'oska_main_profession_page', 'oska_field_page'];
   // tslint:disable-next-line: prefer-array-literal
   public types: Array<any>;
   public typeArr: any = [];
@@ -96,6 +96,10 @@ export class HomeSearchListViewComponent {
     this.param = e.target.value;
   }
 
+  getContentLabel(contentType: string): string {
+    return contentType.includes('oska') ? 'oska.future_job_opportunities' : `${contentType}.label`;
+  }
+
   getGoogleAnalyticsObject() {
     return {
       category: 'homeSearch',
@@ -125,7 +129,7 @@ export class HomeSearchListViewComponent {
 
     this.dataSubscription = this.http.get(path).subscribe((data) => {
       this.updateParams('type', type.length ? type : null);
-      this.results = this.filteredResults = data['data']['CustomElasticQuery'];
+      this.results = this.filteredResults = data['data']['CustomElasticQuery'][0]['entities'];
 
       this.types.forEach((type) => {
         type.sum = 0; type.value = this.typeArr.includes(type.sumLabel);

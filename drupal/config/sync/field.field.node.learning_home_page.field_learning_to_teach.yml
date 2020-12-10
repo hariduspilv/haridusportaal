@@ -1,0 +1,130 @@
+uuid: 1bda5e27-9593-46f0-8fbf-1ba725656fe6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_learning_to_teach
+    - node.type.learning_home_page
+    - paragraphs.paragraphs_type.learning_to_teach
+  module:
+    - entity_reference_revisions
+id: node.learning_home_page.field_learning_to_teach
+field_name: field_learning_to_teach
+entity_type: node
+bundle: learning_home_page
+label: 'Õpi õpetajaks või noorsootöötajaks'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles:
+      learning_to_teach: learning_to_teach
+    target_bundles_drag_drop:
+      accordion:
+        weight: 35
+        enabled: false
+      additional_section:
+        weight: 36
+        enabled: false
+      block:
+        weight: 37
+        enabled: false
+      career_contact:
+        weight: 38
+        enabled: false
+      contact_section:
+        weight: 39
+        enabled: false
+      content_page_link:
+        weight: 40
+        enabled: false
+      ehis_icon_link:
+        weight: 41
+        enabled: false
+      ehis_links:
+        weight: 42
+        enabled: false
+      event_date:
+        weight: 43
+        enabled: false
+      favorite_item:
+        weight: 44
+        enabled: false
+      file_mandatory_description:
+        weight: 45
+        enabled: false
+      frontpage_service_image:
+        weight: 46
+        enabled: false
+      frontpage_services:
+        weight: 47
+        enabled: false
+      homepage_topics:
+        weight: 48
+        enabled: false
+      homepage_topics_new:
+        weight: 49
+        enabled: false
+      information_system_accordion:
+        weight: 50
+        enabled: false
+      information_system_lower:
+        weight: 51
+        enabled: false
+      information_system_sidebar:
+        weight: 52
+        enabled: false
+      infosystem_support:
+        weight: 53
+        enabled: false
+      iscedf_search:
+        weight: 54
+        enabled: false
+      job:
+        weight: 55
+        enabled: false
+      learning_carousel:
+        weight: 56
+        enabled: false
+      learning_to_teach:
+        enabled: true
+        weight: 57
+      link:
+        weight: 58
+        enabled: false
+      main_profession_accordion:
+        weight: 59
+        enabled: false
+      main_profession_sidebar:
+        weight: 60
+        enabled: false
+      oska_field_sidebar:
+        weight: 61
+        enabled: false
+      registration_period:
+        weight: 62
+        enabled: false
+      right_sidebar_section_info:
+        weight: 63
+        enabled: false
+      school_location:
+        weight: 64
+        enabled: false
+      supernews:
+        weight: 65
+        enabled: false
+      survey_page_accordion:
+        weight: 66
+        enabled: false
+      teaching_themes:
+        weight: 67
+        enabled: false
+      toolbox:
+        weight: 68
+        enabled: false
+field_type: entity_reference_revisions

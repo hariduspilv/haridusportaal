@@ -1,0 +1,34 @@
+uuid: 7060ed31-888e-4948-9a54-0a1ffdff7811
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.mingi_content_type.body
+    - field.field.node.mingi_content_type.field_mingi_field
+    - node.type.mingi_content_type
+  module:
+    - text
+    - user
+id: node.mingi_content_type.teaser
+targetEntityType: node
+bundle: mingi_content_type
+mode: teaser
+content:
+  body:
+    label: hidden
+    type: text_summary_or_trimmed
+    weight: 101
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    region: content
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_mingi_field: true
+  langcode: true
+  search_api_excerpt: true

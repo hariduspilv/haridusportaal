@@ -24,12 +24,12 @@
       </ng-container>
 
     </div><!--/contact-->
-    <div class="links" *ngIf="data && data.links">
+    <div class="links" *ngIf="data.links">
       <h2 class="links__title">{{ 'home.external_links' | translate }}</h2>
       <ul>
         <ng-container *ngFor="let item of data.links">
-          <li *ngIf="item.url.routed"><button [routerLink]="item.url.path">{{ item.url.title }}</button></li>
-          <li *ngIf="!item.url.routed"><a [href]="item.url.path" target="_blank">{{ item.url.title }}<icon glyph="external-link"></icon></a></li>
+          <li *ngIf="item.routed"><button [routerLink]="item.path">{{ item.title }}</button></li>
+          <li *ngIf="!item.routed"><a [href]="item.path" target="_blank">{{ item.title }}<icon glyph="external-link"></icon></a></li>
         </ng-container>
       </ul>
     </div><!--/links-->
@@ -73,7 +73,7 @@
       </form>
     </div><!--/newsletter-->
   </div><!--/footer-->
-  <div class="logos" *ngIf="data && data.logos">
+  <div class="logos" *ngIf="data.logos">
     <ng-container *ngFor="let item of data.logos">
       <img [src]="item.src" [attr.aria-label]="item.label" />
     </ng-container>

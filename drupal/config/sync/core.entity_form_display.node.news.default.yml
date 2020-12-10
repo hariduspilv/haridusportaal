@@ -40,6 +40,7 @@ content:
   field_additional_images:
     weight: 11
     settings:
+      show_crop_area: true
       show_default_crop: true
       warn_multiple_usages: true
       preview_image_style: crop_result_thumb
@@ -47,7 +48,6 @@ content:
       crop_list:
         - 16_9_large
       progress_indicator: throbber
-      show_crop_area: false
       crop_types_required: {  }
     third_party_settings: {  }
     type: image_widget_crop
@@ -75,8 +75,7 @@ content:
         - 16_9_large
       progress_indicator: throbber
       crop_types_required: {  }
-    third_party_settings:
-      conditional_fields: {  }
+    third_party_settings: {  }
     type: image_widget_crop
     region: content
   field_metatags:

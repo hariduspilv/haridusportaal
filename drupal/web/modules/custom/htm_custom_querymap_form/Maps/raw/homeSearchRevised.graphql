@@ -23,12 +23,15 @@ query (
       {field:"field_short_description", weight: 2},
       {field:"field_registration_code", weight:5}
     ]}) {
-    contentType:ContentType
-    nid:Nid
-    title:Title
-    entityPath:EntityPath
-    studyProgrammeLevel:FieldStudyProgrammeLevel
-    fieldSchoolName:FieldSchoolName
-    fieldDuration:FieldDuration
+    entities {
+        contentType:ContentType
+        nid:Nid
+        title:Title
+        entityPath:EntityPath
+        studyProgrammeLevel:FieldStudyProgrammeLevel
+        fieldSchoolName:FieldSchoolName
+        fieldDuration:FieldDuration
+    }
+    count
   }
 }

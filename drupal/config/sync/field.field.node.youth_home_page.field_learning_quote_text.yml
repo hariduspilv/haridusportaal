@@ -1,0 +1,19 @@
+uuid: 8505bf21-999e-4755-9873-7e1e85d854ec
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_learning_quote_text
+    - node.type.youth_home_page
+id: node.youth_home_page.field_learning_quote_text
+field_name: field_learning_quote_text
+entity_type: node
+bundle: youth_home_page
+label: 'Tsitaadi tekst'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

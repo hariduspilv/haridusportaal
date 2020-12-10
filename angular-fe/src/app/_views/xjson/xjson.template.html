@@ -39,14 +39,14 @@
             </div>
 
             <ng-container *ngIf="!empty_data">
-              <div *ngIf="!viewOnlyStep" class="upper-infotext">
+              <div *ngIf="!viewOnlyStep && data.body.steps[opened_step].editable" class="upper-infotext">
                 <span tabindex="-1"
                   attr.aria-label="{{ 'xjson.required_fields_infotext' | translate }}">{{ 'xjson.required_fields_infotext' | translate }}</span>
                 <hr aria-hidden="true" class="divider">
               </div>
 
               <!-- STEP BODY -->
-              <div class="row button-list button-list-top">
+              <div *ngIf="activityButtons && activityButtons['primary']"class="row button-list button-list-top">
                 <ng-container *ngFor="let activity of activityButtons['primary']">
                   <button htm-button *ngIf="activity.action == 'EDIT'" theme="default"
                     (click)="submitForm(activity.action)">
@@ -60,7 +60,7 @@
               </div>
 
               <form [class.disabled-step]="opened_step != this.max_step && !edit_step" (submit)="submitForm()"
-                *ngIf="objectKeys(data_elements).length > 0">
+                *ngIf="data_elements && objectKeys(data_elements).length > 0">
 
                 <ng-container *ngFor="let element of objectKeys(data_elements); let index = index;">
 
@@ -204,6 +204,7 @@
 
                         <div class="loaded-files-list">
                           <ng-container *ngIf="data_elements[element].value && !data_elements[element].submit_on_change">
+                            <div class="files-missing" *ngIf="!data_elements[element].value || !data_elements[element].value.length">{{'xjson.data_missing' | translate }}</div>
                             <ng-container *ngFor="let file of data_elements[element].value">
                               <div class="uploaded-file">
                                 <a class="file-icon" [href]="fileDownloadlink(file)"
@@ -472,7 +473,7 @@
 
               <hr class="divider">
 
-              <div [class]="navigationLinks.length > 0 ? 'row button-list separate' : 'row button-list'">
+              <div *ngIf="navigationLinks" [class]="navigationLinks.length > 0 ? 'row button-list separate' : 'row button-list'">
 
                 <div tabindex="-1" *ngIf="navigationLinks.length > 0" class="secondary-buttons">
                   <ng-container *ngFor="let link of navigationLinks">
@@ -489,7 +490,7 @@
                   <div>
                     <button htm-button tabindex="0" role="link" theme="inverted"
                       (click)="numberOfSteps === data.body.steps[opened_step].sequence + 1 || edit_step || activityButtons.length === 0 ? cancelEventHandler() : modalService.toggle('dashboardReturn')">
-                      {{ ((saved && formKey !== 'KUTSE' ) || numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 ? 'button.return' : 'button.cancel') | translate }}
+                      {{ ((saved && formKey !== 'KUTSE' ) || numberOfSteps === data.body.steps[opened_step].sequence + 1 || activityButtons.length === 0 || !data.body.steps[opened_step].editable ? 'button.return' : 'button.cancel') | translate }}
                     </button>
                   </div>
 

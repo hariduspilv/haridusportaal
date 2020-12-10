@@ -125,7 +125,8 @@ export class XjsonComponent implements OnInit, OnDestroy {
           this.queryStrings['educationalInstitutionsId'] = Number(strings['õppeasutus']);
         }
         if (strings['id'] !== undefined) {
-          this.queryStrings['identifier'] = Number(strings['id']);
+          console.log(Number(strings['id']));
+          this.queryStrings['identifier'] = !isNaN(Number(strings['id'])) ? Number(strings['id']) : strings['id'];
         }
       },
     );
@@ -322,7 +323,7 @@ export class XjsonComponent implements OnInit, OnDestroy {
     this.fileLoading[element] = true;
     const file = files[0];
     const file_size = this.byteToMegabyte(file.size);
-    if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.split('.').pop()))) {
+    if (file_size > size_limit || (model.acceptable_extensions && !model.acceptable_extensions.includes(file.name.split('.').pop().toLowerCase()))) {
       this.error[element] = {
         valid: false,
         message: file_size > size_limit ? this.translate.get('xjson.exceed_file_limit') : this.translate.get('xjson.unacceptable_extension'),
