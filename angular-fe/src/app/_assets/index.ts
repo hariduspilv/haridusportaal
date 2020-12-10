@@ -128,9 +128,11 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ToggletipComponent } from './toggleTip/toggleTip.component';
 import { MainProfessionsSearchResultsComponent } from './mainProfessionsSearchResults/mainProfessionsSearchResults.component';
 import { TagComponent } from './tag/tag.component';
-import { BaseLayoutModule } from './base-layout/base-layout.module';
-import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
-import { IconModule } from './icon/icon.module';
+import { BreadcrumbsComponent } from './breadcrumbs';
+
+// import { BaseLayoutModule } from './base-layout/base-layout.module';
+// import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
+// import { IconModule } from './icon/icon.module';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -230,6 +232,9 @@ const declarations = [
   LabelCountComponent,
   MainProfessionsSearchResultsComponent,
   TagComponent,
+  IconComponent,
+  BreadcrumbsComponent,
+  BaseLayout,
 ];
 
 const exports = [NgbTooltipModule];
@@ -287,16 +292,17 @@ const imports = [
   A11yModule,
 ];
 
-const assetModules = [
-  BaseLayoutModule,
-  BreadcrumbsModule,
-  IconModule,
-];
+// ...assetModules to imports and exports
+// const assetModules = [
+//   BaseLayoutModule,
+//   BreadcrumbsModule,
+//   IconModule,
+// ];
 
 @NgModule({
-  imports: [...imports, ...assetModules],
+  imports,
   declarations: [...declarations],
-  exports: [...declarations, ...exports, ...assetModules],
+  exports: [...declarations, ...exports],
 })
 
 export class AssetsModule {

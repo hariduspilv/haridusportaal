@@ -2,7 +2,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SettingsService } from '@app/_services';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { OskaMainProfessionFilter, OskaMainProfessionsList } from './main-profession.model';
 
 @Injectable({

@@ -50,6 +50,11 @@ const routes: Routes = [
 
   },
   {
+    path: 'search',
+    loadChildren: () => import('./modules/home-search/home-search.module')
+      .then(module => module.HomeSearchModule),
+  },
+  {
     path: 'uudised/:id',
     loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {
@@ -94,11 +99,11 @@ const routes: Routes = [
     loadChildren: () => import('./_views/mainProfessionListView')
       .then(m => m.MainProfessionListViewModule),
   },
-  {
-    path: 'ametialad2',
-    loadChildren: () => import('./modules/main-profession/main-profession.module')
-      .then(module => module.MainProfessionModule),
-  },
+  // {
+  //   path: 'ametialad2',
+  //   loadChildren: () => import('./modules/main-profession/main-profession.module')
+  //     .then(module => module.MainProfessionModule),
+  // },
   {
     path: 'ametialad/andmed',
     loadChildren: () => import('./_views/mainProfessionDataView')
