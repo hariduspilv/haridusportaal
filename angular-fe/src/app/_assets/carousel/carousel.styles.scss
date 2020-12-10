@@ -47,14 +47,15 @@
       cursor: pointer;
       color: $blue;
       width: 4.3125rem;
-
-      icon i {
-        font-size: 2.8125rem !important;
-        border-radius: 3.125rem;
-        width: 3.125rem;
-        height: 3.125rem;
-        line-height: 2.6875rem !important;
-        transition: background 0.25s;
+      ::ng-deep {
+        icon i {
+          font-size: 2.8125rem !important;
+          border-radius: 3.125rem;
+          width: 3.125rem;
+          height: 3.125rem;
+          line-height: 2.6875rem !important;
+          transition: background 0.25s;
+        }
       }
 
       &--left {
