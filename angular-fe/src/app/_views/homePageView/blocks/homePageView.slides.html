@@ -6,27 +6,7 @@
     <div class="slides__container">
       <div class="slides__wrapper">
 
-        <ng-container *ngFor="let item of data; let i = index">
-          <div class="slides__instance" *ngIf="i < 3" [routerLink]="item.link.url.path">
-            <div class="slides__elem">
-              <div class="slides__elem__image">
-                <img [src]="item.image.url" [alt]="" />
-              </div><!--/slides__elem__image-->
-              <div class="slides__elem__body">
-                <h3 class="slides__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
-                <p class="slides__elem__text" [id]="'described-by-' + (item.title | slugify)" >{{ item.content }}</p>
-                <a class="slides__elem__link"
-                  *ngIf="item.link.url.routed"
-                  [routerLink]="item.link.url.path"
-                  [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</a>
-                <a class="slides__elem__link"
-                  *ngIf="!item.link.url.routed"
-                  [href]="item.link.url.path"
-                  [attr.aria-describedby]="'described-by-' + (item.title | slugify)">{{ item.link.title }}</a>
-              </div><!--/slides__elem__body-->
-            </div><!--/slides__elem-->
-          </div><!--/slides__instance-->
-        </ng-container>
+        <carousel [data]="data"></carousel>
         
       </div><!--/slides__wrapper-->
     </div><!--/slides__container-->

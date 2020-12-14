@@ -19,6 +19,7 @@ import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { SchoolTable, StudyProgrammeTable, TableComponent } from './table';
 import { AlertsComponent } from './alerts';
 import { VideoComponent } from './video';
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -128,6 +129,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ToggletipComponent } from './toggleTip/toggleTip.component';
 import { MainProfessionsSearchResultsComponent } from './mainProfessionsSearchResults/mainProfessionsSearchResults.component';
 import { TagComponent } from './tag/tag.component';
+import { CarouselComponent } from './carousel/carousel.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -144,6 +146,7 @@ const declarations = [
   BlockSecondaryTitleSubtextComponent,
   BlockTabsComponent,
   ButtonComponent,
+  CarouselComponent,
   LoaderComponent,
   SkeletonComponent,
   IconComponent,
@@ -284,6 +287,7 @@ const imports = [
   HttpClientModule,
   ReactiveFormsModule,
   A11yModule,
+  NgxUsefulSwiperModule,
 ];
 
 @NgModule({

@@ -1,0 +1,150 @@
+@import 'colors.scss';
+@import 'breakpoints.scss';
+
+:host {
+  width: 100%;
+  ::ng-deep {
+    .swiper-slide {
+      height: auto;
+    }
+    .swiper-pagination-bullet {
+      width: 16px;
+      height: 16px;
+      background: transparent;
+      opacity: 1;
+      border: 0.15rem solid $blue;
+      &-active {
+        background-color: $blue;
+      }
+    }
+    .swiper-container {
+      width: auto !important;
+      margin: 0 4rem;
+    }
+  }
+  .slides {
+    &__instance {
+      width: 100%;
+      padding: 0 0.75rem;
+      margin: 3.75rem 0;
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      @include break-on(sm, max) {
+        width: 50%;
+      }
+      @include break-on(xxs, max) {
+        width: 100%;
+      }
+    }
+
+    &__arrow {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      color: $blue;
+      width: 4.3125rem;
+      ::ng-deep {
+        icon i {
+          font-size: 2.8125rem !important;
+          border-radius: 3.125rem;
+          width: 3.125rem;
+          height: 3.125rem;
+          line-height: 2.6875rem !important;
+          transition: background 0.25s;
+        }
+      }
+
+      &--left {
+        left: 0;
+      }
+
+      &--right {
+        right: 0;
+        text-align: right;
+        justify-content: flex-end;
+      }
+
+      @include break-on(sm, max) {
+        &--left icon {
+          margin-left: 1.25rem;
+        }
+        &--right icon {
+          margin-right: 1.25rem;
+        }
+      }
+    }
+
+    &__elem {
+      background: $white;
+      border-radius: 1.25rem;
+      will-change: transform, box-shadow;
+      transition: transform 0.25s, box-shadow 0.25s;
+      cursor: pointer;
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+
+      &__image {
+        border-radius: 1.25rem 1.25rem 0 0;
+        overflow: hidden;
+        padding-bottom: 100%;
+        position: relative;
+
+        img {
+          display: block;
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+        }
+      }
+
+      &__body {
+        padding: 1.5rem 1.75rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+      }
+
+      &__title {
+        margin: 0 0 0.875rem 0;
+        font-weight: bold;
+        font-size: 1.5rem;
+        line-height: 133%;
+        color: $black;
+      }
+
+      &__text {
+        font-size: 1rem;
+        line-height: 150%;
+        color: $black;
+        flex-grow: 1;
+      }
+
+      &__link {
+        text-align: center;
+        margin: 0.625rem 0;
+        color: $blue;
+        text-decoration: underline;
+        padding: 0;
+        border: none;
+        font-size: 1rem;
+        background: none;
+        display: block;
+        width: 100%;
+      }
+
+      &:hover {
+        transform: scale(1.05);
+
+        .slides__elem__link {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
