@@ -20,9 +20,13 @@
                     <div class="author" *ngIf="item.author || item.created">
                         {{ item.author || item.fieldAuthor }} {{ item.created*1000 | date:"dd.MM.yyyy" }}</div>
                     <div class="tags" *ngIf="item.tags">
-                        <labels [data]="item.tags" type="default"></labels>
+                        <labels [data]="item.tags" type="default" attr.aria-label="{{ 'frontpage.category' | translate }}"></labels>
                     </div>
-                    <div class="description" *ngIf="item.shortDescription">{{ item.shortDescription }}</div>
+                    <div class="description" *ngIf="item.shortDescription">
+                        {{ item.shortDescription | ellipsis:320 }}
+                        <span class="ellipsis" aria-hidden="true">...</span>
+                        <span class="ellipsis-hide" aria-hidden="true"></span>
+                    </div>
 
                     <labels *ngIf="item.fixedLabel && item.fixedLabel.entity" [data]="[item.fixedLabel]" type="orange">
                     </labels>
