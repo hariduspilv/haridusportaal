@@ -7,6 +7,8 @@ import {
   ChangeDetectorRef,
   ViewChildren,
   QueryList,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { RippleService, SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
@@ -46,13 +48,19 @@ interface IMenuResponse {
 export class MenuItemComponent {
   @Input() public items: IMenuData[];
   @Input() public type = 'item';
+  @Output() public hideToggle: EventEmitter<IMenuData> = new EventEmitter<IMenuData>();
 
   constructor(
     private ripple: RippleService,
     private router: Router,
     private location: Location) {}
 
-  // Navigate or expand/hide
+  /**
+   * This function will either navigate to an URL or expand/hide a menu.
+   * Navigation takes precedence.
+   * @param item `IMenuData` object
+   * @param event `any`
+   */
   public clickMenuItem(item: IMenuData, event: any) {
     const path = decodeURI(this.location.path());
     const match = path.replace(/\?.*/, '') === item.url.path;
@@ -69,6 +77,10 @@ export class MenuItemComponent {
           item.userClosed = true;
         } else if (item.userClosed) {
           item.userClosed = false;
+        }
+
+        if (item.expanded) {
+          this.hideToggle.emit(item);
         }
       }
     }
@@ -90,7 +102,9 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
+
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
+
   @Input() public data: IMenuData[];
 
   @HostBinding('class') get hostClasses(): string {
@@ -147,6 +161,13 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * This function is used to extend menus and sub menus according to their URL every time
+   * the route changes or page reloads.
+   * @param items List of menu items, starts from the items from menus in `menus`
+   * @param path Browser URL
+   * @param depth Current menu depth, starts at 0
+   */
   private hasActiveInTree(items: IMenuData[], path: string, depth: number): boolean {
     let hasExpanded = false;
     for (const item of items) {
@@ -183,6 +204,9 @@ export class MenuComponent implements OnInit, OnDestroy {
     return hasExpanded;
   }
 
+  /**
+   * This function simply calls `hasActiveInTree` on all the first level menus.
+   */
   private makeActive(): void {
     const path = decodeURI(this.location.path());
 
@@ -191,6 +215,20 @@ export class MenuComponent implements OnInit, OnDestroy {
     }
 
     this.cdr.detectChanges();
+  }
+
+  /**
+   * Closes all other first-level menus except the one that was opened.
+   * @param $event `IMenuData` that was opened
+   */
+  public hideOthers($event: IMenuData): void {
+    for (const menu of this.menus) {
+      menu.items.forEach((i: IMenuData) => {
+        if (i !== $event && i.expanded) {
+          i.expanded = false;
+        }
+      });
+    }
   }
 
   public ngOnInit(): void {

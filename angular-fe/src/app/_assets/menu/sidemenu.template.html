@@ -11,7 +11,7 @@
 	</div>
 	<nav>
 		<ng-container *ngIf="data && data.length">
-			<sidemenu-item [items]="data" [type]="'category'"></sidemenu-item>
+			<sidemenu-item [items]="data" [type]="'category'" (hideToggle)="hideOthers($event)"></sidemenu-item>
 		</ng-container>
 		<div class="sidemenu__info">
 			<div class="version">{{ 'frontpage.version' | translate }} {{version}}</div>
