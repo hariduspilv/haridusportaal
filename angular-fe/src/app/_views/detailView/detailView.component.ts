@@ -206,10 +206,10 @@ export class DetailViewComponent {
   private parseData(data) {
     this.data = FieldVaryService(data);
 
-    if (Array.isArray(this.data.video) && this.data.video.length > 1) {
+/*     if (Array.isArray(this.data.video) && this.data.video.length > 1) {
       this.data.additionalVideos = this.data.video.slice(1, 10);
       this.data.video = this.data.video[0];
-    }
+    } */
 
     this.data.processedImages =
       this.data.additionalImages ?

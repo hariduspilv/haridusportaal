@@ -123,6 +123,7 @@ public class OLTWorker extends Worker {
     ObjectNode responseNode = nodeFactory.objectNode();
     logForDrupal.setType("EHIS2 - getGrants.v1:getGrant");
     createGrantsXJSON(formName, grantNumber, personalCode, responseNode);
+    ((ObjectNode) responseNode.get("header")).put("current_step", "step_1");
 
     try {
       GetGrantsResponse xteeResponse = ehis2XRoadService
