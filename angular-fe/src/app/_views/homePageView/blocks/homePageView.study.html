@@ -7,17 +7,18 @@
 
       <ng-container *ngFor="let btn of data">
         <div class="study__instance">
-          <div class="study__elem"  routerLink="{{ btn.url.path }}" role="button" >
+          <a class="study__elem" [attr.aria-label]="btn.title" routerLink="{{ btn.url.path }}">
             <div class="study__elem__image">
               <img src="{{ btn.image }}" alt="" />
             </div><!--/study__elem__image-->
             <div class="study__elem__body">
-              <h3 class="study__elem__title" >{{ btn.title }}</h3>
+              <h3 class="study__elem__title">{{ btn.title }}</h3>
               <div class="study__elem__text" *ngIf="learnMore">
-                <button  routerLink="{{ btn.url.path }}" role="button">{{ 'home.view_more' | translate }}</button>
+                <a routerLink="{{ btn.url.path }}" *ngIf="btn.url.routed">{{ 'home.view_more' | translate }}</a>
+                <a href="{{ btn.url.path }}" *ngIf="!btn.url.routed">{{ 'home.view_more' | translate }}</a>
               </div>
             </div><!--/study__elem__body-->
-          </div><!--/study__elem-->
+          </a><!--/study__elem-->
         </div><!--/study__instance-->
       </ng-container><!--/ng-container-->
     </div><!--/study__blocks-->
