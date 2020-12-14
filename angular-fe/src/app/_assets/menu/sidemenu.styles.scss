@@ -2,29 +2,31 @@
 @import "breakpoints.scss";
 
 ::ng-deep .sidemenu {
-	grid-area: sidemenu;
-	-ms-grid-row: 2; 
-	-ms-grid-row-span: 2; 
-	-ms-grid-column: 1;
+	width: 0;
+	max-width: 16.25rem;
+	overflow: hidden;
 	height: calc(100vh - 4rem);
 	min-height: 100%;
 	overflow-y: auto;
-	width: 16.25rem;
 	background: $white;
 	display: inline-block;
 	border-right: 0.0625rem solid $gray;
-	word-wrap: break-word;
 	box-sizing: border-box;
 	position: relative;
+	word-wrap: break-word;
+	white-space: normal;
+	flex-shrink: 0;
 	box-shadow: 0 0.1875rem 0.0625rem -0.125rem rgba(0, 0, 0, 0.2),
 		0 0.125rem 0.125rem 0 rgba(0, 0, 0, 0.14),
 		0 0.0625rem 0.3125rem 0 rgba(0, 0, 0, 0.12);
-	transform: translateX(-16.25rem);
-	will-change: transform;
-	transition: transform .2s cubic-bezier(0.215, 0.61, 0.355, 1);
+	will-change: width;
+	transition: width .2s cubic-bezier(0.215, 0.61, 0.355, 1);
 	&.is-visible {
 		z-index: 10;
-		transform: translateX(0);
+		width: 16.25rem;
+	}
+	@include break-on(sm, max) {
+		position: fixed;
 	}
 	ul,
 	li {
@@ -34,74 +36,115 @@
 	}
 	> aside {
 		height: 100%;
-		overflow-y: scroll;
 	}
-
-	.sidemenu__block {
-		border-bottom: 0.0625rem solid $gray;
-	}
-	.sidemenu__category,
-	.sidemenu__link {
-		display: flex;
-		align-items: center;
-		justify-content: space-between;
-		background-color: $white;
-		color: $dark-gray;
-		border: 0;
-		line-height: 120%;
+	.space {
+    padding: 1rem 1.5rem;
 	}
 	.sidemenu__category {
-		padding: 1.5rem 1.5rem 1rem;
-	}
-	.sidemenu__link {
-		padding: 0.875rem 1.1875rem;
-		border-left: 0.3125rem solid transparent;
-		cursor: pointer;
-		box-sizing: border-box;
-		text-decoration: none;
-		color: $black;
-		width: 100%;
-		text-align: left;
-		font-size: 1rem;
-		font-weight: normal;
-		transition: border-left-color,
-			background-color 0.2s cubic-bezier(0.19, 1, 0.22, 1);
-		overflow: hidden;
-		position: relative;
-		min-height: 3.25rem;
-		+ ul {
-			display: none;
-		}
-		icon {
-			float: right;
-		}
-		&:hover, &--active{
-			background-color: darken($white, 5%);
-			border-left-color: $dark-orange;
-		}
-		&--active{
-			font-weight: 500;
-		}
-	}
-	.sidemenu__link[aria-expanded="true"] {
-		border-left-color: $dark-orange;
-		span {
-			font-weight: bold;
-			color: rgba(0, 0, 0, 0.87);
-		}
-		+ ul {
-			display: block;
-			.sidemenu__link {
-				border-left-color: $dark-orange;
-				span {
-					position: relative;
-					display: block;
-					margin-left: 1rem;
+		&.expanded {
+			border: 0.5px solid $light-gray;
+			box-sizing: border-box;
+			box-shadow: 2px 2px 15px rgba(141, 141, 141, 0.25);
+			border-radius: 4px;
+			.sidemenu__button__category {
+				padding: 1.2rem 1rem;
+				&[aria-expanded=true] .chevron.shrink {
+					display: inline-block;
 				}
 			}
 		}
-		icon {
-			transform: rotateZ(180deg);
+		sidemenu-item {
+			.sidemenu__button {
+				padding: 0.8rem 1rem;
+				&:not(.with-submenu).active {
+					border-left-color: $theme-default-darker;
+					background-color: $theme-default;
+				}
+				&.with-submenu {
+					&[aria-expanded=true] .chevron.expand {
+						transform: rotate(90deg);
+					}
+					.chevron.expand {
+						display: inline-block;
+					}
+				}
+			}
+			.sidemenu__item.active.expanded .sidemenu__button {
+				border-left-color: $theme-default-darker;
+			}
+			sidemenu-item .sidemenu__button {
+				padding: 0.8rem 3rem;
+			}
+			&#-ppimine {
+				.sidemenu__item.active.expanded .sidemenu__button {
+					border-left-color: $theme-learning-darker;
+				}
+				.sidemenu__button:not(.with-submenu).active {
+					border-left-color: $theme-learning-darker;
+					background-color: $theme-learning;
+				}
+			}
+			&#karj-r {
+				.sidemenu__item.active.expanded .sidemenu__button {
+					border-left-color: $theme-career-darker;
+				}
+				.sidemenu__button:not(.with-submenu).active {
+					border-left-color: $theme-career-darker;
+					background-color: $theme-career;
+				}
+			}
+			&#-petamine {
+				.sidemenu__item.active.expanded .sidemenu__button {
+					border-left-color: $theme-teaching-darker;
+				}
+				.sidemenu__button:not(.with-submenu).active {
+					border-left-color: $theme-teaching-darker;
+					background-color: $theme-teaching;
+				}
+			}
+			&#noortevaldkond, &#noored {
+				.sidemenu__item.active.expanded .sidemenu__button {
+					border-left-color: $theme-young-darker;
+				}
+				.sidemenu__button:not(.with-submenu).active {
+					border-left-color: $theme-young-darker;
+					background-color: $theme-young;
+				}
+			}
+		}
+	}
+	& .sidemenu__button {
+		width: 16.25rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		overflow: hidden;
+		padding: 1rem 1.5rem;
+		text-decoration: none;
+		border: none;
+		border-left: 0.35rem solid transparent;
+		cursor: pointer;
+		color: $blue;
+		background: none;
+		font-family: inherit;
+		font-size: 1rem;
+		text-align: left;
+		position: relative;
+		transition: border-left-color,
+			background-color 0.2s cubic-bezier(0.19, 1, 0.22, 1);
+		&:hover {
+			text-decoration: underline;
+		}
+		&.active {
+			font-weight: 500;
+		}
+		.chevron {
+			display: none;
+			transition: transform cubic-bezier(0.4, 0, 0.2, 1) 0.25s;
+		}
+		&__category {
+			text-transform: uppercase;
+			padding: 1.2rem 1.5rem;
 		}
 	}
 	.sidemenu__info {
@@ -116,11 +159,5 @@
 			line-height: 1;
 		}
 	}
-	@include break-on(sm, min) {
-		&{
-			transform: translateX(0);
-		}
-		
-	}
 }
-
+;

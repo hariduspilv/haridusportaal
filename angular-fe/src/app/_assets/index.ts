@@ -40,7 +40,7 @@ import {
   NgbDatepickerModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { MenuComponent, SidemenuItemComponent } from './menu';
+import { MenuComponent, MenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
 import { NgPipesModule } from 'ngx-pipes';
@@ -158,7 +158,7 @@ const declarations = [
   FeedbackComponent,
   ScrollableContentComponent,
   MenuComponent,
-  SidemenuItemComponent,
+  MenuItemComponent,
   HeaderComponent,
   FormItemComponent,
   RippleDirective,
