@@ -171,8 +171,8 @@ export class MenuComponent implements OnInit, OnDestroy {
   private hasActiveInTree(items: IMenuData[], path: string, depth: number): boolean {
     let hasExpanded = false;
     for (const item of items) {
-      const s = path.split('/');
-      const match = (s.length > 2 && item.url.path === `${s[0]}/${s[1]}`) ||
+      const pathSplit = path.split('/');
+      const match = (pathSplit.length > 2 && item.url.path === `${pathSplit[0]}/${pathSplit[1]}`) ||
         path.replace(/\?.*/, '') === item.url.path;
 
       if (item.links && item.links.length) {
