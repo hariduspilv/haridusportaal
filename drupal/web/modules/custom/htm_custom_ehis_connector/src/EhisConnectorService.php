@@ -90,7 +90,6 @@ class EhisConnectorService {
               if($response = $this->getValue($params['key'], $hash)){
                 $redis_hits++;
                 $redis_response = array_merge_recursive($redis_response, $response);
-
               }
             }
             if(!empty($redis_response) && $redis_hits === count($params['hash'])) {
@@ -518,7 +517,7 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
 
     if($this->useReg()) $params['hash'] = 'mtsys';
-    if(!$this->useReg()) $params['hash'] = ['OLT', 'vpTaotlus'];
+    if(!$this->useReg()) $params['hash'] = ['vpTaotlus'];
 
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
