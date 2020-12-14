@@ -5,7 +5,6 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  OnChanges,
   ViewChildren,
   QueryList,
   Output,
@@ -18,34 +17,76 @@ import { Location } from '@angular/common';
 import { NavigationEnd, RouterEvent, Router } from '@angular/router';
 import { environment } from '@env/environment';
 
+interface IMenuURL {
+  path: string;
+  internal: boolean;
+}
+
+interface IMenuData {
+  label: string;
+  description?: string;
+  links: IMenuData[];
+  url: IMenuURL;
+  expanded?: boolean;
+  active?: boolean;
+  userClosed?: boolean;
+}
+
+interface IMenuResponse {
+  data: {
+    menu: {
+      links: IMenuData[];
+    };
+  };
+}
+
 @Component({
   selector: 'sidemenu-item',
+  templateUrl: './sidemenu.item.template.html',
   styleUrls: ['./sidemenu.styles.scss'],
-  templateUrl: 'sidemenu.item.template.html',
 })
-export class SidemenuItemComponent {
-  public isOpen: boolean = false;
-  @Output() openStateChange = new EventEmitter;
-  @Input() item: any = {};
+export class MenuItemComponent {
+  @Input() public items: IMenuData[];
+  @Input() public type = 'item';
+  @Output() public hideToggle: EventEmitter<IMenuData> = new EventEmitter<IMenuData>();
 
-  constructor(private ripple: RippleService, private cdr: ChangeDetectorRef) { }
+  constructor(
+    private ripple: RippleService,
+    private router: Router,
+    private location: Location) {}
 
-  toggle(e) {
-    this.isOpen = !this.isOpen;
-    this.openStateChange.emit(this.item['label']);
-    this.animateRipple(e);
+  /**
+   * This function will either navigate to an URL or expand/hide a menu.
+   * Navigation takes precedence.
+   * @param item `IMenuData` object
+   * @param event `any`
+   */
+  public clickMenuItem(item: IMenuData, event: any) {
+    const path = decodeURI(this.location.path());
+    const match = path.replace(/\?.*/, '') === item.url.path;
+
+    if (!match &&
+        item.url.path !== '#nolink' &&
+        item.url.path !== '#nocategory' &&
+        item.url.path !== '#category') {
+      this.router.navigateByUrl(item.url.path);
+    } else {
+      if (item.links.length) {
+        item.expanded = !item.expanded;
+        if (!item.expanded) {
+          item.userClosed = true;
+        } else if (item.userClosed) {
+          item.userClosed = false;
+        }
+
+        if (item.expanded) {
+          this.hideToggle.emit(item);
+        }
+      }
+    }
   }
 
-  public close() {
-    this.isOpen = false;
-    this.cdr.detectChanges();
-  }
-
-  public open() {
-    this.isOpen = true;
-    this.cdr.detectChanges();
-  }
-  animateRipple(event) {
+  public animateRipple(event: any) {
     this.ripple.animate(event, 'dark');
   }
 }
@@ -55,16 +96,17 @@ export class SidemenuItemComponent {
   templateUrl: './sidemenu.template.html',
   styleUrls: ['./sidemenu.styles.scss'],
 })
-
 export class MenuComponent implements OnInit, OnDestroy {
-
-  public version: any = environment.VERSION;
   public isVisible: boolean;
+  public version: any = environment.VERSION;
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
-  @ViewChildren(SidemenuItemComponent) sidemenuItems: QueryList<SidemenuItemComponent>;
-  @Input() data;
+
+  @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
+
+  @Input() public data: IMenuData[];
+
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
   }
@@ -74,34 +116,35 @@ export class MenuComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private settings: SettingsService,
     private auth: AuthService,
-    private cdr: ChangeDetectorRef,
-    private location: Location,
     private router: Router,
-  ) {}
+    private location: Location,
+    private cdr: ChangeDetectorRef) {}
 
-  subscribeToService():void {
+  public closeSidemenu(): void {
+    this.sidemenuService.close();
+  }
+
+  private subscribeToRouter(): void {
+    this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
+      if (event instanceof NavigationEnd) {
+        this.makeActive();
+      }
+    });
+  }
+
+  private subscribeToAuth(): void {
+    this.authSub = this.auth.isAuthenticated.subscribe((val) => {
+      this.getData(true);
+    });
+  }
+
+  private subscribeToService(): void {
     this.subscription = this.sidemenuService.isVisibleSubscription.subscribe((value) => {
       this.isVisible = value;
     });
   }
 
-  subscribeToAuth():void {
-    this.authSub = this.auth.isAuthenticated.subscribe((val) => {
-      this.getData();
-    });
-  }
-
-  subscribeToRouter(): void {
-    this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
-      if (event instanceof NavigationEnd) {
-        if (this.isVisible) {
-          this.sidemenuService.close();
-        }
-        this.makeActive();
-      }
-    });
-  }
-  getData(init: boolean = false):void {
+  private getData(init: boolean = false): void {
     const variables = {
       language: this.settings.activeLang,
     };
@@ -109,8 +152,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     // force to not use disk cache
     this.http.get(path, {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
-    }).subscribe((response) => {
-      this.data = response['data'];
+    }).subscribe((response: IMenuResponse) => {
+      this.data = response.data.menu.links;
       this.cdr.detectChanges();
       if (init) {
         this.makeActive();
@@ -118,53 +161,86 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
   }
 
-  makeActive() {
-    const path = decodeURI(this.location.path());
-    const categories = this.sidemenuItems.toArray().filter((el) => {
-      if (el.item.links.length > 0) {
-        return true;
+  /**
+   * This function is used to extend menus and sub menus according to their URL every time
+   * the route changes or page reloads.
+   * @param items List of menu items, starts from the items from menus in `menus`
+   * @param path Browser URL
+   * @param depth Current menu depth, starts at 0
+   */
+  private hasActiveInTree(items: IMenuData[], path: string, depth: number): boolean {
+    let hasExpanded = false;
+    for (const item of items) {
+      const pathSplit = path.split('/');
+      const match = (pathSplit.length > 2 && item.url.path === `${pathSplit[0]}/${pathSplit[1]}`) ||
+        path.replace(/\?.*/, '') === item.url.path;
+
+      if (item.links && item.links.length) {
+        const has = this.hasActiveInTree(item.links, path, depth + 1);
+        if (depth === 1) {
+          item.expanded = !item.userClosed;
+          item.active = has;
+          if (!hasExpanded && (match || has)) {
+            hasExpanded = match || has;
+          }
+        } else {
+          if ((match || has) && !item.userClosed) {
+            item.expanded = true;
+            item.active = match || has;
+            hasExpanded = true;
+          } else {
+            item.expanded = false;
+            item.active = false;
+          }
+        }
+      } else if (match) {
+        item.active = true;
+        hasExpanded = true;
+      } else {
+        item.active = false;
       }
-    });
-
-    const activeCategory = categories.find((el) => {
-      return el.item.links.find((link) => {
-        if (link.url.path === path.split('?')[0].split('#')[0]) {
-          return true;
-        }
-        const pathRoot = path.split('/');
-
-        if (link.url.path.includes(`${pathRoot[0]}/${pathRoot[1]}`)) {
-          return true;
-        }
-        return false;
-      });
-    });
-    if (activeCategory) {
-      activeCategory.open();
-    } else {
-      this.closeOthers('');
     }
+
+    return hasExpanded;
+  }
+
+  /**
+   * This function simply calls `hasActiveInTree` on all the first level menus.
+   */
+  private makeActive(): void {
+    const path = decodeURI(this.location.path());
+
+    for (const menu of this.menus) {
+      this.hasActiveInTree(menu.items, path, 0);
+    }
+
     this.cdr.detectChanges();
   }
 
-  closeOthers(item: any = '') {
-    this.sidemenuItems.toArray().map((el: any) => {
-      if (el.item.label !== item) {
-        el.close();
-      }
-    });
+  /**
+   * Closes all other first-level menus except the one that was opened.
+   * @param $event `IMenuData` that was opened
+   */
+  public hideOthers($event: IMenuData): void {
+    for (const menu of this.menus) {
+      menu.items.forEach((i: IMenuData) => {
+        if (i !== $event && i.expanded) {
+          i.expanded = false;
+        }
+      });
+    }
   }
 
-  ngOnInit():void {
+  public ngOnInit(): void {
     this.subscribeToAuth();
     this.subscribeToService();
     this.subscribeToRouter();
     this.getData(true);
   }
 
-  ngOnDestroy():void {
-    this.subscription.unsubscribe();
-    this.authSub.unsubscribe();
+  public ngOnDestroy(): void {
     this.routerSub.unsubscribe();
+    this.authSub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

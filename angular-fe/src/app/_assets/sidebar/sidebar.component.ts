@@ -232,7 +232,7 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
       }
 
       return item;
-    });
+    }).filter((x: any) => (x.entity !== null));
     if (this.data && this.data.length) {
       try {
         const blocks = [];

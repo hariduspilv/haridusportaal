@@ -41,7 +41,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'learning',
+    path: 'õppimine',
     component: HomePageViewComponent,
     data: {
       theme: 'learning',

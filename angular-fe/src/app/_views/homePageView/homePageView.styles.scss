@@ -292,7 +292,10 @@
             &:hover {
               transform: scale(1.05);
               box-shadow: 0 0 2.5rem rgba(44, 43, 43, 0.25);
-              font-weight: 500;
+              
+              a {
+                font-weight: 500;
+              }
 
               icon {
                 transform: translateY(0.3125rem);
@@ -870,8 +873,11 @@
         margin: 1.5rem 0;
         z-index: 5;
         cursor: pointer;
-        &:hover {
-          text-decoration: underline;
+        a {
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
         }
         @include break-on(sm, max) {
           font-size: 1.9rem;
@@ -950,6 +956,7 @@
         will-change: transform, box-shadow;
         transition: transform 0.25s, box-shadow 0.25s;
         cursor: pointer;
+        text-decoration: none;
         min-height: 100%;
 
         &__image {
@@ -1101,13 +1108,16 @@
       &__content {
         width: 100%;
         flex-shrink: 1;
-        font-weight: 300;
-        font-size: 2rem;
-        line-height: 137%;
         color: $black;
         margin-top: -1.25rem;
         @include break-on(sm, max) {
           margin-top: 0;
+        }
+
+        &, h3 {
+          line-height: 137%;
+          font-weight: 300;
+          font-size: 2rem;
         }
 
         &:first-child {
@@ -1181,7 +1191,7 @@
       margin-top: 1rem;
     }
 
-    &.theme--teachers, &.theme--career {
+    &.theme--teachers, &.theme--career, &.theme--learning {
       .newsletter__col:nth-child(2) {
           order: 3;
           text-align: right;
