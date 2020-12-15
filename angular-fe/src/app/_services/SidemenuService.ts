@@ -19,6 +19,11 @@ export class SidemenuService {
   get isVisibleSubscription() {
     return this.subject;
   }
+
+  get isMobileView() {
+    return window.innerWidth <= 1024;
+  }
+
   toggle() {
     this.subject.next(!this.subject.getValue());
   }
