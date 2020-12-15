@@ -55,7 +55,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   closeSidemenu(event: Event) {
-    if (this.sidemenuIsVisible) { this.sidemenuService.toggle(); }
+    if (this.sidemenuIsVisible && this.sidemenuService.isMobileView) {
+      this.sidemenuService.toggle();
+    }
     return;
   }
 
