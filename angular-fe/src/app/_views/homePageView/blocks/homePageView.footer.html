@@ -1,7 +1,7 @@
 <homepage-line [type]="line"></homepage-line>
 <div class="inner">
   <div class="footer">
-    <div class="contact" *ngIf="data">
+    <div class="contact footer__even" *ngIf="data">
       <h2 class="contact__title">{{ 'home.contact' | translate }}</h2>
 
       <ng-container *ngIf="!data.contacts">
@@ -24,7 +24,7 @@
       </ng-container>
 
     </div><!--/contact-->
-    <div class="links" *ngIf="data.links">
+    <div class="links footer__even" *ngIf="data.links">
       <h2 class="links__title">{{ 'home.external_links' | translate }}</h2>
       <ul>
         <ng-container *ngFor="let item of data.links">
@@ -33,7 +33,7 @@
         </ng-container>
       </ul>
     </div><!--/links-->
-    <div class="newsletter">
+    <div class="newsletter footer__even">
       <form [formGroup]="formGroup" (submit)="submit()">
         <h3 class="newsletter__title">{{ 'home.newsletter_subscribe' | translate }}</h3>
         <ng-container *ngIf="loading">

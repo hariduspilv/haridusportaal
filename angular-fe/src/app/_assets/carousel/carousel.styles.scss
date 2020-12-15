@@ -20,6 +20,10 @@
     .swiper-container {
       width: auto !important;
       margin: 0 4rem;
+      @include break-on(xxs, max) {
+        margin: 3rem;
+        margin-top: 0;
+      }
     }
   }
   .slides {
@@ -34,6 +38,7 @@
         width: 50%;
       }
       @include break-on(xxs, max) {
+        margin-top: 1rem;
         width: 100%;
       }
     }
@@ -70,11 +75,12 @@
 
       @include break-on(sm, max) {
         &--left icon {
-          margin-left: 1.25rem;
+          margin-left: 0.5rem;
         }
         &--right icon {
-          margin-right: 1.25rem;
+          margin-right: 0.5rem;
         }
+        width: 4rem;
       }
     }
 

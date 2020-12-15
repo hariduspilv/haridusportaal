@@ -688,6 +688,20 @@
       .instance__category {
         color: #58730c;
       }
+      .instance__image {
+        width: 30%;
+        @include break-on(sm, max) {
+          width: 40%;
+        }
+        @include break-on(xxs, max) {
+          width: 80%;
+        }
+      }
+      @include break-on(xs, min) {
+        &:nth-child(2) .instance__image {
+          margin-right: 4rem;
+        }
+      }
     }
   }
 
@@ -710,6 +724,9 @@
     }
 
     &.theme--learning {
+      @include break-on(xxs, max) {
+        padding-bottom: 1rem;
+      }
       .slides__title {
         color: #58730c;
       }
@@ -827,7 +844,6 @@
         position: relative;
         z-index: 4;
         @include break-on(lg, max) {
-          width: 15.6rem;
           align-self: flex-end;
         }
         @include break-on(md, max) {
@@ -1024,6 +1040,14 @@
     }
 
     &.theme--learning {
+      padding-top: 3rem;
+      padding-bottom: 11rem;
+      @include break-on(sm, max) {
+        padding-bottom: 6rem;
+      }
+      @include break-on(xxs, max) {
+        padding-bottom: 4rem;
+      }
       .study__category {
         color: #58730c;
       }
@@ -1262,21 +1286,19 @@
     .footer {
       display: flex;
       box-sizing: border-box;
-      @include break-on(md, max) {
+      @include break-on(xs, max) {
         flex-direction: column;
         padding-top: 4.5rem;
       }
+      &__even {
+        width: 100%;
+        word-break: break-word;
+      }
       .contact {
-        width: 22.125rem;
-        flex-shrink: 0;
-        flex-grow: 0;
         &+.links {
-          @include break-on(sm, max) {
+          @include break-on(xs, max) {
             margin-top: 2.5rem;
           }
-        }
-        @include break-on(xxs, max) {
-          width: 100%;
         }
 
         &__title {
@@ -1292,7 +1314,6 @@
         }
       }
       .links {
-        padding-right: 4.625rem;
         box-sizing: border-box;
         white-space: nowrap;
         &__title {
@@ -1337,6 +1358,9 @@
           }
         }
         &+.newsletter {
+          @include break-on(sm, max) {
+            display: block;
+          }
           .newsletter__cols{
             flex-wrap: wrap;
           }
@@ -1361,10 +1385,7 @@
         }
       }
       .newsletter {
-        flex-grow: 1;
-        flex-shrink: 1;
-        width: 100%;
-        @include break-on(sm, max) {
+        @include break-on(xs, max) {
           padding-top: 3rem;
         }
 
@@ -1404,7 +1425,7 @@
         &__cols {
           display: flex;
           align-items: center;
-          @include break-on(xxs, max) {
+          @include break-on(sm, max) {
             flex-direction: column;
             align-items: normal;
           }
@@ -1413,7 +1434,7 @@
         &__col {
           flex-grow: 0;
           flex-shrink: 0;
-          @include break-on(xxs, max) {
+          @include break-on(sm, max) {
             width: 100%;
             text-align: center;
           }
@@ -1421,26 +1442,32 @@
           &:first-child {
             flex-grow: 1;
             flex-shrink: 1;
-            @include break-on(xxs, max) {
+            @include break-on(sm, max) {
               width: 100%
             }
           }
 
           a {
             margin-left: 1.5rem;
-            @include break-on(xxs, max) {
+            @include break-on(sm, max) {
               margin-left: auto;
             }
           }
 
           button {
             margin-left: 1rem;
-            @include break-on(xxs, max) {
+            @include break-on(sm, max) {
               margin: 1rem 0;
               width: 100%;
             }
           }
         }
+      }
+    }
+    
+    &.theme--default {
+      .contact {
+        width: 22.125rem;
       }
     }
   }

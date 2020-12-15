@@ -27,7 +27,7 @@ export class CarouselComponent {
       720: {
         slidesPerView: 2,
       },
-      1280: {
+      1024: {
         slidesPerView: 3,
       },
     },
