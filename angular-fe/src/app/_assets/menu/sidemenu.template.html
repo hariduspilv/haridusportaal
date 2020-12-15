@@ -9,6 +9,9 @@
 			</span>
 		</button>
 	</div>
+	<div class="loader" *ngIf="!data || !data.length">
+		<loader></loader>
+	</div>
 	<nav>
 		<ng-container *ngIf="data && data.length">
 			<sidemenu-item [items]="data" [type]="'category'" (hideToggle)="hideOthers($event)"></sidemenu-item>

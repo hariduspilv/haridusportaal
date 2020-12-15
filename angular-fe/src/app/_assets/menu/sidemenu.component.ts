@@ -64,7 +64,6 @@ export class MenuItemComponent {
   public clickMenuItem(item: IMenuData, event: any) {
     const path = decodeURI(this.location.path());
     const match = path.replace(/\?.*/, '') === item.url.path;
-
     if (!match &&
         item.url.path !== '#nolink' &&
         item.url.path !== '#nocategory' &&
@@ -181,12 +180,12 @@ export class MenuComponent implements OnInit, OnDestroy {
           item.expanded = !item.userClosed;
           item.active = has;
           if (!hasExpanded && (match || has)) {
-            hasExpanded = match || has;
+            hasExpanded = true;
           }
         } else {
-          if ((match || has) && !item.userClosed) {
+          if (match || has) {
             item.expanded = true;
-            item.active = match || has;
+            item.active = true;
             hasExpanded = true;
           } else {
             item.expanded = false;
