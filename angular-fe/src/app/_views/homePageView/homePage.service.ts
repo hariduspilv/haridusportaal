@@ -270,7 +270,7 @@ export class HomePageService {
       });
     }
 
-    if (!articles.length && topics.length) {
+    if (!articles.length && topics.length && theme === 'default') {
       articles = topics;
     }
 

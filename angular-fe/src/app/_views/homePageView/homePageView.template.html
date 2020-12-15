@@ -6,6 +6,7 @@
       [theme]="theme"
       [title]="'home.slogan' | translate"></homepage-navblock>
     <homepage-articles
+      *ngIf="articles && articles.length"
       [data]="articles"
       [category]="'home.what_to_find' | translate"
       [theme]="theme"></homepage-articles>
@@ -70,6 +71,7 @@
       [description]="'home.career_slogan_description' | translate"></homepage-navblock>
 
     <homepage-articles
+      *ngIf="articles && articles.length"
       [data]="articles"
       [category]="'home.future_career' | translate"
       [theme]="theme"></homepage-articles>
@@ -106,6 +108,7 @@
       [theme]="theme"
       [title]="'home.learning_slogan' | translate"></homepage-navblock>
     <homepage-articles
+      *ngIf="articles && articles.length"
       [data]="articles"
       [category]="'home.exam_period' | translate"
       [theme]="theme"></homepage-articles>
