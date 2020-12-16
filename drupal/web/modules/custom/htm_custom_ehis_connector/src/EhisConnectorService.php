@@ -543,6 +543,8 @@ class EhisConnectorService {
       foreach($params['hash'] as $hash) {
         $this->getFormDefinitionTitle($workedResponse, $hash);
       }
+    } else {
+      $this->getFormDefinitionTitle($workedResponse, $params['hash']);
     }
     if(isset($params['get_edi_data']) && $params['get_edi_data']){
       $this->addInstitutionData($workedResponse);
