@@ -696,10 +696,11 @@
         @include break-on(xxs, max) {
           width: 80%;
         }
-      }
-      @include break-on(xs, min) {
-        &:nth-child(2) .instance__image {
-          margin-right: 4rem;
+        @include break-on(xs, min) {
+          margin: 0 2rem;
+        }
+        @include break-on(sm, min) {
+          margin: 0 4rem;
         }
       }
     }
@@ -710,9 +711,14 @@
     display: block;
     position: relative;
     background: $light-gray;
-    padding: 1.5rem 0 10.9375rem 0;
+    padding: 1.5rem 0 8rem 0;
+
     @include break-on(sm, max) {
       padding-bottom: 6.5625rem;
+    }
+
+    @include break-on(xxs, max) {
+      padding-bottom: 1rem;
     }
 
     &.theme--teachers {
@@ -724,9 +730,6 @@
     }
 
     &.theme--learning {
-      @include break-on(xxs, max) {
-        padding-bottom: 1rem;
-      }
       .slides__title {
         color: #58730c;
       }
@@ -1042,8 +1045,11 @@
     &.theme--learning {
       padding-top: 3rem;
       padding-bottom: 11rem;
+      @include break-on(lg, max) {
+        padding-bottom: 8rem;
+      }
       @include break-on(sm, max) {
-        padding-bottom: 6rem;
+        padding-bottom: 8rem;
       }
       @include break-on(xxs, max) {
         padding-bottom: 4rem;
@@ -1220,7 +1226,7 @@
           order: 3;
           text-align: right;
       }
-      @include break-on(xxs, max) {
+      @include break-on(xs, max) {
         .rss {
           order: 6;
           margin-top: 1rem;
@@ -1377,9 +1383,6 @@
             @media screen and (min-width: map-get($breakpoints, 'xxs')) and (max-width: map-get($breakpoints, 'sm')){
               width: auto !important;
               padding-bottom: 1rem !important;
-              &+.newsletter__col{
-                padding-left: 1rem;
-              }
             }
           }
         }

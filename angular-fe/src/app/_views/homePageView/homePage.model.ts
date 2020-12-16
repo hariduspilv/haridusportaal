@@ -169,6 +169,7 @@ export interface IGraphResponse {
   phone?: string;
   email?: string;
   contact?: IGraphContacts[];
+  fieldContact?: IGraphContacts[];
   externalLinks?: IGraphExternalLinks[];
   quoteText?: string;
   quoteAuthor?: string;

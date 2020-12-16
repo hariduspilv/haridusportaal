@@ -352,7 +352,7 @@ export class HomePageService {
 
     const result: IFooterData = {};
 
-    const contact = data.contact;
+    const contact = data.contact || data.fieldContact;
     if (contact) {
       result.contacts = contact.map((item: IGraphContacts) => {
         return {
