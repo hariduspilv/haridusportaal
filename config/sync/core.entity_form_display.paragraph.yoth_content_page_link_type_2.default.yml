@@ -1,0 +1,74 @@
+uuid: a7887773-4439-4819-94de-cd53bd87d093
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.yoth_content_page_link_type_2.field_internal_link
+    - field.field.paragraph.yoth_content_page_link_type_2.field_learning_carousel_image
+    - field.field.paragraph.yoth_content_page_link_type_2.field_text
+    - field.field.paragraph.yoth_content_page_link_type_2.field_theme
+    - field.field.paragraph.yoth_content_page_link_type_2.field_title
+    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
+  module:
+    - file
+    - maxlength
+id: paragraph.yoth_content_page_link_type_2.default
+targetEntityType: paragraph
+bundle: yoth_content_page_link_type_2
+mode: default
+content:
+  field_internal_link:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_learning_carousel_image:
+    weight: 1
+    settings:
+      progress_indicator: throbber
+    third_party_settings: {  }
+    type: file_generic
+    region: content
+  field_text:
+    weight: 4
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 150
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+        maxlength_js_enforce: false
+        maxlength_js_truncate_html: false
+    type: string_textarea
+    region: content
+  field_theme:
+    weight: 3
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 25
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true

@@ -1,0 +1,31 @@
+uuid: 8d4a910f-339d-48f8-81ad-8fb3b898676d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.youth_subject_links.field_internal_link
+    - field.field.paragraph.youth_subject_links.field_title
+    - paragraphs.paragraphs_type.youth_subject_links
+id: paragraph.youth_subject_links.default
+targetEntityType: paragraph
+bundle: youth_subject_links
+mode: default
+content:
+  field_internal_link:
+    weight: 1
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  search_api_excerpt: true

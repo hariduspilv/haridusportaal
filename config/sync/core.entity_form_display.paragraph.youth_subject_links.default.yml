@@ -1,0 +1,39 @@
+uuid: 1e7faf64-9ac2-4a5e-bd47-ba5693b4c0c8
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.youth_subject_links.field_internal_link
+    - field.field.paragraph.youth_subject_links.field_title
+    - paragraphs.paragraphs_type.youth_subject_links
+  module:
+    - maxlength
+id: paragraph.youth_subject_links.default
+targetEntityType: paragraph
+bundle: youth_subject_links
+mode: default
+content:
+  field_internal_link:
+    weight: 1
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 30
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
