@@ -53,7 +53,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
       if (event instanceof NavigationEnd) {
-        this.makeActive();
+        this.makeActive(false);
       }
     });
   }
@@ -84,7 +84,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       this.data.forEach((item: IMenuData) => item.firstLevel = true);
       this.cdr.detectChanges();
       if (init) {
-        this.makeActive();
+        this.makeActive(true);
       }
     });
   }
@@ -133,13 +133,25 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This function simply calls `hasActiveInTree` on all the first level menus.
+   * This function simply calls `hasActiveInTree` on all the first level menus and opens
+   * the menu automatically when the page is a content page
+   * and was opened directly (on initialization).
    */
-  private makeActive(): void {
+  private makeActive(init = false): void {
     const path = decodeURI(this.location.path());
+    let opened = false;
 
     for (const menu of this.menus) {
-      this.hasActiveInTree(menu.items, path, 0);
+      if (this.hasActiveInTree(menu.items, path, 0)) {
+        opened = true;
+      }
+    }
+
+    // Open the menu when: 1. the page was just initialized 2. a submenu was opened 3. the menu
+    // is not already visible and 4. the page is not in the list of pages not to open on
+    if (init && opened && !this.sidemenuService.isMobileView && !this.isVisible &&
+      this.sidemenuService.ignoreAutoOpen.indexOf(path) === -1) {
+      this.sidemenuService.toggle();
     }
 
     this.cdr.detectChanges();
