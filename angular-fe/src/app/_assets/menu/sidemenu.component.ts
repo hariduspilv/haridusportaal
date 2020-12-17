@@ -7,89 +7,15 @@ import {
   ChangeDetectorRef,
   ViewChildren,
   QueryList,
-  Output,
-  EventEmitter,
 } from '@angular/core';
-import { RippleService, SidemenuService, SettingsService, AuthService } from '@app/_services';
+import { SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { NavigationEnd, RouterEvent, Router } from '@angular/router';
 import { environment } from '@env/environment';
-
-interface IMenuURL {
-  path: string;
-  internal: boolean;
-}
-
-interface IMenuData {
-  label: string;
-  description?: string;
-  links: IMenuData[];
-  url: IMenuURL;
-  expanded?: boolean;
-  active?: boolean;
-  userClosed?: boolean;
-}
-
-interface IMenuResponse {
-  data: {
-    menu: {
-      links: IMenuData[];
-    };
-  };
-}
-
-@Component({
-  selector: 'sidemenu-item',
-  templateUrl: './sidemenu.item.template.html',
-  styleUrls: ['./sidemenu.styles.scss'],
-})
-export class MenuItemComponent {
-  @Input() public items: IMenuData[];
-  @Input() public type = 'item';
-  @Output() public hideToggle: EventEmitter<IMenuData> = new EventEmitter<IMenuData>();
-
-  constructor(
-    private ripple: RippleService,
-    private router: Router,
-    private location: Location) {}
-
-  /**
-   * This function will either navigate to an URL or expand/hide a menu.
-   * Navigation takes precedence.
-   * @param item `IMenuData` object
-   * @param event `any`
-   */
-  public clickMenuItem(item: IMenuData, event: any) {
-    const path = decodeURI(this.location.path());
-    const match = path.replace(/\?.*/, '') === item.url.path;
-
-    if (!match &&
-        item.url.path !== '#nolink' &&
-        item.url.path !== '#nocategory' &&
-        item.url.path !== '#category') {
-      this.router.navigateByUrl(item.url.path);
-    } else {
-      if (item.links.length) {
-        item.expanded = !item.expanded;
-        if (!item.expanded) {
-          item.userClosed = true;
-        } else if (item.userClosed) {
-          item.userClosed = false;
-        }
-
-        if (item.expanded) {
-          this.hideToggle.emit(item);
-        }
-      }
-    }
-  }
-
-  public animateRipple(event: any) {
-    this.ripple.animate(event, 'dark');
-  }
-}
+import { IMenuData, IMenuResponse } from './sidemenu.model';
+import { MenuItemComponent } from './sidemenu-item.component';
 
 @Component({
   selector: 'sidemenu',
@@ -127,7 +53,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
       if (event instanceof NavigationEnd) {
-        this.makeActive();
+        this.makeActive(false);
       }
     });
   }
@@ -154,9 +80,11 @@ export class MenuComponent implements OnInit, OnDestroy {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
     }).subscribe((response: IMenuResponse) => {
       this.data = response.data.menu.links;
+      // Set all the first level menus as such
+      this.data.forEach((item: IMenuData) => item.firstLevel = true);
       this.cdr.detectChanges();
       if (init) {
-        this.makeActive();
+        this.makeActive(true);
       }
     });
   }
@@ -181,12 +109,12 @@ export class MenuComponent implements OnInit, OnDestroy {
           item.expanded = !item.userClosed;
           item.active = has;
           if (!hasExpanded && (match || has)) {
-            hasExpanded = match || has;
+            hasExpanded = true;
           }
         } else {
-          if ((match || has) && !item.userClosed) {
+          if (match || has) {
             item.expanded = true;
-            item.active = match || has;
+            item.active = true;
             hasExpanded = true;
           } else {
             item.expanded = false;
@@ -205,13 +133,25 @@ export class MenuComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This function simply calls `hasActiveInTree` on all the first level menus.
+   * This function simply calls `hasActiveInTree` on all the first level menus and opens
+   * the menu automatically when the page is a content page
+   * and was opened directly (on initialization).
    */
-  private makeActive(): void {
+  private makeActive(init = false): void {
     const path = decodeURI(this.location.path());
+    let opened = false;
 
     for (const menu of this.menus) {
-      this.hasActiveInTree(menu.items, path, 0);
+      if (this.hasActiveInTree(menu.items, path, 0)) {
+        opened = true;
+      }
+    }
+
+    // Open the menu when: 1. the page was just initialized 2. a submenu was opened 3. the menu
+    // is not already visible and 4. the page is not in the list of pages not to open on
+    if (init && opened && !this.sidemenuService.isMobileView && !this.isVisible &&
+      this.sidemenuService.ignoreAutoOpen.indexOf(path) === -1) {
+      this.sidemenuService.toggle();
     }
 
     this.cdr.detectChanges();

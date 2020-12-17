@@ -9,6 +9,11 @@ export class SidemenuService {
   private subject:BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   private langSwitch = new Subject<any>();
 
+  /**
+   * These paths should not open the menu automatically on load.
+   */
+  public ignoreAutoOpen = ['/', '/õppimine', '/karjäär', '/õpetaja'];
+
   force = false;
   lang: any;
 
@@ -19,6 +24,11 @@ export class SidemenuService {
   get isVisibleSubscription() {
     return this.subject;
   }
+
+  get isMobileView() {
+    return window.innerWidth <= 1024;
+  }
+
   toggle() {
     this.subject.next(!this.subject.getValue());
   }
