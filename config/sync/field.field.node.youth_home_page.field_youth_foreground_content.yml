@@ -1,4 +1,4 @@
-uuid: b20b761f-8238-4888-9901-77509bfa1d15
+uuid: 556ef207-7d29-4873-9860-39a3dcb81e0d
 langcode: et
 status: true
 dependencies:
@@ -6,14 +6,13 @@ dependencies:
     - field.storage.node.field_youth_foreground_content
     - node.type.youth_home_page
     - paragraphs.paragraphs_type.content_page_link
-    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
   module:
     - entity_reference_revisions
 id: node.youth_home_page.field_youth_foreground_content
 field_name: field_youth_foreground_content
 entity_type: node
 bundle: youth_home_page
-label: 'Esile toodud sisuleht '
+label: 'Esile toodud sisuleht'
 description: ''
 required: false
 translatable: false
@@ -25,7 +24,6 @@ settings:
     negate: 0
     target_bundles:
       content_page_link: content_page_link
-      yoth_content_page_link_type_2: yoth_content_page_link_type_2
     target_bundles_drag_drop:
       accordion:
         weight: 38
@@ -130,8 +128,8 @@ settings:
         weight: 71
         enabled: false
       yoth_content_page_link_type_2:
-        enabled: true
         weight: 72
+        enabled: false
       youth_content_page_link:
         weight: 73
         enabled: false
