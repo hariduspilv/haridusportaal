@@ -131,7 +131,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: yoth_content_page_link_type_2
+      default_paragraph_type: ''
     third_party_settings: {  }
     region: content
   field_youth_themes_links:
