@@ -19,9 +19,7 @@ export class CarouselComponent {
       prevEl: '.slides__arrow--left',
     },
     a11y: {
-      prevSlideMessage: this.translate.get('carousel.prev'),
-      nextSlideMessage: this.translate.get('carousel.next'),
-      paginationBulletMessage: this.translate.get('carousel.to_slide'),
+      enabled: false,
     },
     breakpoints: {
       720: {

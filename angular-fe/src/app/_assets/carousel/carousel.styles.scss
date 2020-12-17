@@ -21,7 +21,7 @@
       width: auto !important;
       margin: 0 4rem;
       @include break-on(xxs, max) {
-        margin: 3rem;
+        margin: 2.5rem;
         margin-top: 0;
       }
     }
@@ -82,6 +82,15 @@
         }
         width: 4rem;
       }
+
+      @include break-on(xxs, max) {
+        &--left icon {
+          margin-left: initial;
+        }
+        &--right icon {
+          margin-right: initial;
+        }
+      }
     }
 
     &__elem {
@@ -114,6 +123,9 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
+        @include break-on(xxs, max) {
+          padding: 1.2rem 1.5rem;
+        }
       }
 
       &__title {
@@ -122,6 +134,9 @@
         font-size: 1.5rem;
         line-height: 133%;
         color: $black;
+        @include break-on(xxs, max) {
+          margin: 0;
+        }
       }
 
       &__text {
@@ -142,6 +157,10 @@
         background: none;
         display: block;
         width: 100%;
+        @include break-on(xxs, max) {
+          margin: 0;
+          text-align: left;
+        }
       }
 
       &:hover {
