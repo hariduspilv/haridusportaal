@@ -1,5 +1,5 @@
 <swiper [config]="config" #usefulSwiper>
-  <div class="swiper-wrapper" aria-roledescription="carousel" #carouselContent>
+  <div class="swiper-wrapper" aria-roledescription="carousel" aria-live="polite" id="carousel-content">
     <ng-container *ngFor="let item of data; let i = index; let l = count">
       <a class="swiper-slide slides__instance"
         *ngIf="item.link.url.routed"
@@ -42,11 +42,11 @@
       </a><!--/slides__instance-->
     </ng-container>
   </div>
-  <div class="swiper-pagination" aria-hidden="true"></div>
+  <div class="swiper-pagination" aria-hidden="true" tabindex="-1"></div>
 </swiper>
-<div class="slides__arrow slides__arrow--left" [attr.aria-label]="'carousel.prev' | translate" role="button" tabindex="0" aria-controls="carouselContent">
+<div class="slides__arrow slides__arrow--left" [attr.aria-label]="'carousel.prev' | translate" role="button" tabindex="0" aria-controls="carousel-content">
   <icon glyph="chevron-left" size="large"></icon>
 </div>
-<div class="slides__arrow slides__arrow--right" [attr.aria-label]="'carousel.next' | translate" role="button" tabindex="0" aria-controls="carouselContent">
+<div class="slides__arrow slides__arrow--right" [attr.aria-label]="'carousel.next' | translate" role="button" tabindex="0" aria-controls="carousel-content">
   <icon glyph="chevron-right" size="large"></icon>
 </div>
