@@ -1,21 +1,22 @@
-uuid: 0f6ce36d-2fd9-405f-b5c1-12cb041264a2
+uuid: b20b761f-8238-4888-9901-77509bfa1d15
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_learning_content_links
+    - field.storage.node.field_youth_foreground_content
     - node.type.youth_home_page
     - paragraphs.paragraphs_type.content_page_link
+    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
   module:
     - entity_reference_revisions
-id: node.youth_home_page.field_learning_content_links
-field_name: field_learning_content_links
+id: node.youth_home_page.field_youth_foreground_content
+field_name: field_youth_foreground_content
 entity_type: node
 bundle: youth_home_page
-label: 'Esile toodud sisulehed'
+label: 'Esile toodud sisuleht '
 description: ''
 required: false
-translatable: true
+translatable: false
 default_value: {  }
 default_value_callback: ''
 settings:
@@ -24,107 +25,117 @@ settings:
     negate: 0
     target_bundles:
       content_page_link: content_page_link
+      yoth_content_page_link_type_2: yoth_content_page_link_type_2
     target_bundles_drag_drop:
       accordion:
-        weight: 35
-        enabled: false
-      additional_section:
-        weight: 36
-        enabled: false
-      block:
-        weight: 37
-        enabled: false
-      career_contact:
         weight: 38
         enabled: false
-      contact_section:
+      additional_section:
         weight: 39
+        enabled: false
+      block:
+        weight: 40
+        enabled: false
+      career_contact:
+        weight: 41
+        enabled: false
+      contact_section:
+        weight: 42
         enabled: false
       content_page_link:
         enabled: true
-        weight: 40
-      ehis_icon_link:
-        weight: 41
-        enabled: false
-      ehis_links:
-        weight: 42
-        enabled: false
-      event_date:
         weight: 43
-        enabled: false
-      favorite_item:
+      ehis_icon_link:
         weight: 44
         enabled: false
-      file_mandatory_description:
+      ehis_links:
         weight: 45
         enabled: false
-      frontpage_service_image:
+      event_date:
         weight: 46
         enabled: false
-      frontpage_services:
+      favorite_item:
         weight: 47
         enabled: false
-      homepage_topics:
+      file_mandatory_description:
         weight: 48
         enabled: false
-      homepage_topics_new:
+      frontpage_service_image:
         weight: 49
         enabled: false
-      information_system_accordion:
+      frontpage_services:
         weight: 50
         enabled: false
-      information_system_lower:
+      homepage_topics:
         weight: 51
         enabled: false
-      information_system_sidebar:
+      homepage_topics_new:
         weight: 52
         enabled: false
-      infosystem_support:
+      information_system_accordion:
         weight: 53
         enabled: false
-      iscedf_search:
+      information_system_lower:
         weight: 54
         enabled: false
-      job:
+      information_system_sidebar:
         weight: 55
         enabled: false
-      learning_carousel:
+      infosystem_support:
         weight: 56
         enabled: false
-      learning_to_teach:
+      iscedf_search:
         weight: 57
         enabled: false
-      link:
+      job:
         weight: 58
         enabled: false
-      main_profession_accordion:
+      learning_carousel:
         weight: 59
         enabled: false
-      main_profession_sidebar:
+      learning_to_teach:
         weight: 60
         enabled: false
-      oska_field_sidebar:
+      link:
         weight: 61
         enabled: false
-      registration_period:
+      main_profession_accordion:
         weight: 62
         enabled: false
-      right_sidebar_section_info:
+      main_profession_sidebar:
         weight: 63
         enabled: false
-      school_location:
+      oska_field_sidebar:
         weight: 64
         enabled: false
-      supernews:
+      registration_period:
         weight: 65
         enabled: false
-      survey_page_accordion:
+      right_sidebar_section_info:
         weight: 66
         enabled: false
-      teaching_themes:
+      school_location:
         weight: 67
         enabled: false
-      toolbox:
+      supernews:
         weight: 68
+        enabled: false
+      survey_page_accordion:
+        weight: 69
+        enabled: false
+      teaching_themes:
+        weight: 70
+        enabled: false
+      toolbox:
+        weight: 71
+        enabled: false
+      yoth_content_page_link_type_2:
+        enabled: true
+        weight: 72
+      youth_content_page_link:
+        weight: 73
+        enabled: false
+      youth_subject_links:
+        weight: 74
         enabled: false
 field_type: entity_reference_revisions

@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.youth_home_page.field_learning_contact
-    - field.field.node.youth_home_page.field_learning_content_links
     - field.field.node.youth_home_page.field_learning_external_links
     - field.field.node.youth_home_page.field_learning_news
     - field.field.node.youth_home_page.field_learning_path
@@ -12,7 +11,8 @@ dependencies:
     - field.field.node.youth_home_page.field_learning_quote_text
     - field.field.node.youth_home_page.field_quote_author_occupation
     - field.field.node.youth_home_page.field_youth_content_page
-    - field.field.node.youth_home_page.field_youth_content_page_link
+    - field.field.node.youth_home_page.field_youth_foreground_content
+    - field.field.node.youth_home_page.field_youth_themes_links
     - node.type.youth_home_page
   module:
     - paragraphs
@@ -31,18 +31,6 @@ content:
     third_party_settings: {  }
   field_learning_contact:
     weight: 18
-    settings:
-      title: Paragraph
-      title_plural: Paragraphs
-      edit_mode: open
-      add_mode: dropdown
-      form_display_mode: default
-      default_paragraph_type: ''
-    third_party_settings: {  }
-    type: entity_reference_paragraphs
-    region: content
-  field_learning_content_links:
-    weight: 10
     settings:
       title: Paragraph
       title_plural: Paragraphs
@@ -134,9 +122,21 @@ content:
       default_paragraph_type: ''
     third_party_settings: {  }
     region: content
-  field_youth_content_page_link:
+  field_youth_foreground_content:
     type: entity_reference_paragraphs
     weight: 13
+    settings:
+      title: Paragraph
+      title_plural: Paragraphs
+      edit_mode: open
+      add_mode: dropdown
+      form_display_mode: default
+      default_paragraph_type: yoth_content_page_link_type_2
+    third_party_settings: {  }
+    region: content
+  field_youth_themes_links:
+    type: entity_reference_paragraphs
+    weight: 10
     settings:
       title: Paragraph
       title_plural: Paragraphs

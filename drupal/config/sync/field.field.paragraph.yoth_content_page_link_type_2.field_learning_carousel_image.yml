@@ -1,16 +1,16 @@
-uuid: 774a829a-de1f-4567-88af-ae83fbbf9832
+uuid: 3da5c228-f465-4899-93f3-439a2dac6da5
 langcode: et
 status: true
 dependencies:
   config:
     - field.storage.paragraph.field_learning_carousel_image
-    - paragraphs.paragraphs_type.youth_content_page_link
+    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
   module:
     - file
-id: paragraph.youth_content_page_link.field_learning_carousel_image
+id: paragraph.yoth_content_page_link_type_2.field_learning_carousel_image
 field_name: field_learning_carousel_image
 entity_type: paragraph
-bundle: youth_content_page_link
+bundle: yoth_content_page_link_type_2
 label: Pilt
 description: ''
 required: false

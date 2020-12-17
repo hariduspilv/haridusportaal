@@ -1,0 +1,19 @@
+uuid: 19fc0f9d-eeba-4982-845b-37afda7b17ad
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_theme
+    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
+id: paragraph.yoth_content_page_link_type_2.field_theme
+field_name: field_theme
+entity_type: paragraph
+bundle: yoth_content_page_link_type_2
+label: Teema
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
