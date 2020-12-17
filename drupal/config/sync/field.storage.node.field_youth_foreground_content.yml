@@ -6,8 +6,8 @@ dependencies:
     - entity_reference_revisions
     - node
     - paragraphs
-id: node.field_youth_content_page_link
-field_name: field_youth_content_page_link
+id: node.field_youth_foreground_content
+field_name: field_youth_foreground_content
 entity_type: node
 type: entity_reference_revisions
 settings:

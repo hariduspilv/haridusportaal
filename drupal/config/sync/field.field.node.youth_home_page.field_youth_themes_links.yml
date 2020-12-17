@@ -1,18 +1,18 @@
-uuid: 6ca4cd63-8f11-4d65-9fd5-63c6a2bde231
+uuid: e8d407b2-9622-465e-adde-b22eb4ccf746
 langcode: et
 status: true
 dependencies:
   config:
-    - field.storage.node.field_youth_content_page_link
+    - field.storage.node.field_youth_themes_links
     - node.type.youth_home_page
-    - paragraphs.paragraphs_type.youth_content_page_link
+    - paragraphs.paragraphs_type.youth_subject_links
   module:
     - entity_reference_revisions
-id: node.youth_home_page.field_youth_content_page_link
-field_name: field_youth_content_page_link
+id: node.youth_home_page.field_youth_themes_links
+field_name: field_youth_themes_links
 entity_type: node
 bundle: youth_home_page
-label: 'Esile toodud sisuleht'
+label: Teemad
 description: ''
 required: false
 translatable: false
@@ -23,111 +23,114 @@ settings:
   handler_settings:
     negate: 0
     target_bundles:
-      youth_content_page_link: youth_content_page_link
+      youth_subject_links: youth_subject_links
     target_bundles_drag_drop:
       accordion:
-        weight: 36
-        enabled: false
-      additional_section:
         weight: 37
         enabled: false
-      block:
+      additional_section:
         weight: 38
         enabled: false
-      career_contact:
+      block:
         weight: 39
         enabled: false
-      contact_section:
+      career_contact:
         weight: 40
         enabled: false
-      content_page_link:
+      contact_section:
         weight: 41
         enabled: false
-      ehis_icon_link:
+      content_page_link:
         weight: 42
         enabled: false
-      ehis_links:
+      ehis_icon_link:
         weight: 43
         enabled: false
-      event_date:
+      ehis_links:
         weight: 44
         enabled: false
-      favorite_item:
+      event_date:
         weight: 45
         enabled: false
-      file_mandatory_description:
+      favorite_item:
         weight: 46
         enabled: false
-      frontpage_service_image:
+      file_mandatory_description:
         weight: 47
         enabled: false
-      frontpage_services:
+      frontpage_service_image:
         weight: 48
         enabled: false
-      homepage_topics:
+      frontpage_services:
         weight: 49
         enabled: false
-      homepage_topics_new:
+      homepage_topics:
         weight: 50
         enabled: false
-      information_system_accordion:
+      homepage_topics_new:
         weight: 51
         enabled: false
-      information_system_lower:
+      information_system_accordion:
         weight: 52
         enabled: false
-      information_system_sidebar:
+      information_system_lower:
         weight: 53
         enabled: false
-      infosystem_support:
+      information_system_sidebar:
         weight: 54
         enabled: false
-      iscedf_search:
+      infosystem_support:
         weight: 55
         enabled: false
-      job:
+      iscedf_search:
         weight: 56
         enabled: false
-      learning_carousel:
+      job:
         weight: 57
         enabled: false
-      learning_to_teach:
+      learning_carousel:
         weight: 58
         enabled: false
-      link:
+      learning_to_teach:
         weight: 59
         enabled: false
-      main_profession_accordion:
+      link:
         weight: 60
         enabled: false
-      main_profession_sidebar:
+      main_profession_accordion:
         weight: 61
         enabled: false
-      oska_field_sidebar:
+      main_profession_sidebar:
         weight: 62
         enabled: false
-      registration_period:
+      oska_field_sidebar:
         weight: 63
         enabled: false
-      right_sidebar_section_info:
+      registration_period:
         weight: 64
         enabled: false
-      school_location:
+      right_sidebar_section_info:
         weight: 65
         enabled: false
-      supernews:
+      school_location:
         weight: 66
         enabled: false
-      survey_page_accordion:
+      supernews:
         weight: 67
         enabled: false
-      teaching_themes:
+      survey_page_accordion:
         weight: 68
         enabled: false
-      toolbox:
+      teaching_themes:
         weight: 69
         enabled: false
-      youth_content_page_link:
-        enabled: true
+      toolbox:
         weight: 70
+        enabled: false
+      youth_content_page_link:
+        weight: 71
+        enabled: false
+      youth_subject_links:
+        enabled: true
+        weight: 72
 field_type: entity_reference_revisions

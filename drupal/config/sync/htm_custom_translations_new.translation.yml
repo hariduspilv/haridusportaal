@@ -4113,3 +4113,16 @@ gallery:
     translation_type: textarea
     et: Galerii
     en: ''
+carousel:
+  next:
+    translation_type: textarea
+    et: 'Järgmine slaid'
+    en: 'Next slide'
+  prev:
+    translation_type: textarea
+    et: 'Eelmine slaid'
+    en: 'Previous slide'
+  to_slide:
+    translation_type: textarea
+    et: 'Mine slaidile {{index}}'
+    en: 'Go to slide {{index}}'
