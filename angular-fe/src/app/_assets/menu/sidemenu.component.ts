@@ -7,6 +7,9 @@ import {
   ChangeDetectorRef,
   ViewChildren,
   QueryList,
+  ViewChild,
+  ElementRef,
+  HostListener,
 } from '@angular/core';
 import { SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
@@ -28,8 +31,11 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
+  private initialSub = false;
+  private focusBounce: any;
 
   @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
+  @ViewChild('sidemenuCloser', { static: false, read: ElementRef }) private closeBtn: ElementRef;
 
   @Input() public data: IMenuData[];
 
@@ -45,6 +51,13 @@ export class MenuComponent implements OnInit, OnDestroy {
     private router: Router,
     private location: Location,
     private cdr: ChangeDetectorRef) {}
+
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    if ((event.key === 'Escape' || event.keyCode === 27) && this.isVisible) {
+      this.closeSidemenu();
+    }
+  }
 
   public closeSidemenu(): void {
     this.sidemenuService.close();
@@ -67,6 +80,12 @@ export class MenuComponent implements OnInit, OnDestroy {
   private subscribeToService(): void {
     this.subscription = this.sidemenuService.isVisibleSubscription.subscribe((value) => {
       this.isVisible = value;
+      clearTimeout(this.focusBounce);
+      if (value && this.initialSub) {
+        this.focusBounce = setTimeout(() => this.closeBtn.nativeElement.focus(), 100);
+      }
+      // Ignore the initial state
+      this.initialSub = true;
     });
   }
 
