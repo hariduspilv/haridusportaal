@@ -1,0 +1,19 @@
+uuid: 4e6f14f6-d0f6-41c9-81fa-07a354014d9a
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_learning_carousel_title
+    - paragraphs.paragraphs_type.learning_carousel
+id: paragraph.learning_carousel.field_learning_carousel_title
+field_name: field_learning_carousel_title
+entity_type: paragraph
+bundle: learning_carousel
+label: Pealkiri
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

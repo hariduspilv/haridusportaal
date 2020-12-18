@@ -1,0 +1,19 @@
+uuid: f1dfec3c-bf2f-4120-afab-92dd2e25ab53
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_learn_carousel_link_title
+    - paragraphs.paragraphs_type.learning_carousel
+id: paragraph.learning_carousel.field_learn_carousel_link_title
+field_name: field_learn_carousel_link_title
+entity_type: paragraph
+bundle: learning_carousel
+label: 'Lingi nimetus'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

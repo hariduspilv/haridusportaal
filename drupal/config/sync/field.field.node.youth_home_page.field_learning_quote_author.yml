@@ -1,0 +1,19 @@
+uuid: 04a8c907-b435-4ba9-ad96-1658f0af7e6d
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_learning_quote_author
+    - node.type.youth_home_page
+id: node.youth_home_page.field_learning_quote_author
+field_name: field_learning_quote_author
+entity_type: node
+bundle: youth_home_page
+label: 'Tsitaadi autor'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

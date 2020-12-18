@@ -1,0 +1,19 @@
+uuid: 7781959e-dc7d-4ee8-a86b-66657d9349d2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_mingi_field
+    - node.type.mingi_content_type
+id: node.mingi_content_type.field_mingi_field
+field_name: field_mingi_field
+entity_type: node
+bundle: mingi_content_type
+label: 'mingi field'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

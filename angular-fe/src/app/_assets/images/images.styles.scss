@@ -2,15 +2,39 @@
 @import "typography.scss";
 
 ::ng-deep {
-  .image{
+  .modal__regular {
+    @include break-on(xs, max) {
+      padding: 1.5rem 0 !important;
+      height: 100%;
+    }
+  }
+  .modal__header {
+    @include break-on(xs, max) {
+      padding-right: 1rem;
+    }
+  }
+  .video-alt-text {
+    display: none;
+  }
+  .modal__backdrop {
+    @include break-on(xs, max) {
+      margin-top: 0 !important;
+    }
+  }
+  .image {
     display: block;
     margin: 1rem 0;
-    img{
-      display: block; width: 100%;
+    @include break-on(xs, max) {
+      width: 100vw;
+      margin-left: -1.5rem;
+    }
+    img {
+      display: block;
+      width: 100%;
     }
 
-    &__title{
-      font-size: .875rem;
+    &__title {
+      font-size: 0.875rem;
       color: $black;
       font-style: italic;
       font-weight: 300;
@@ -22,12 +46,166 @@
         padding: 0.5rem 0 0 0;
         text-overflow: ellipsis;
       }
+      @include break-on(sm, max) {
+        padding: 0.5rem 1.5rem 0 1.5rem;
+      }
     }
-    &__entity{
+    &__entity {
       display: block;
       margin-bottom: 1.5rem;
       &:last-child {
         margin-bottom: 0;
+      }
+    }
+  }
+}
+.image-container {
+  position: relative;
+  .expand-gallery {
+    right: 0;
+    position: absolute;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    cursor: pointer;
+    padding: 0.8rem 2rem;
+    text-decoration: underline;
+    @include break-on(xs, max) {
+      width: 100%;
+      text-align: center;
+    }
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+.gallery-container {
+  display: flex;
+  justify-content: center;
+  @include break-on(xs, max) {
+    display: block;
+    justify-content: unset;
+    position: relative;
+    width: 100vw;
+    overflow: hidden;
+  }
+  .flex {
+    display: flex;
+  }
+  .navigation-next,
+  .navigation-prev {
+    margin: 2rem;
+    @include break-on(xs, max) {
+      display: none;
+    }
+  }
+  .gallery {
+    &__items {
+      display: flex;
+      flex-direction: column;
+      &__index {
+        color: white;
+        margin-bottom: 1rem;
+        @include break-on(xs, max){
+          padding-left: 2rem;
+        }
+      }
+      &__picture-container {
+        overflow: hidden;
+        display: flex;
+        @include break-on(xs, max) {
+          flex-direction: column;
+        }
+      }
+      &__active-image {
+        position: relative;
+        height: 70vh;
+        @include break-on(sm, max) {
+          height: unset;
+        }
+        .navigation-next,
+        .navigation-prev {
+          display: none;
+          z-index: 1;
+          @include break-on(xs, max) {
+            display: block;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+          }
+        }
+        .navigation-prev {
+          left: .5rem;
+        }
+        .navigation-next {
+          right: .5rem;
+        }
+        &__title {
+          bottom: 0;
+          width: 100%;
+          position: absolute;
+          z-index: 1;
+          background-color: rgba(0, 0, 0, 0.6);
+          color: white;
+          padding: 0.8rem 2rem;
+          @include break-on(xs, max) {
+            display: none;
+          }
+        }
+        htm-video {
+          height: 70vh;
+          width: 65vw;
+          @include break-on(xs, max) {
+            height: unset;
+            width: 100vw;
+            margin: 0;
+          }
+        }
+        img {
+          height: 70vh;
+          width: 65vw;
+          object-fit: cover;
+          @include break-on(xs, max) {
+            height: unset;
+            width: 100vw;
+          }
+        }
+      }
+      &__navigation {
+        overflow-y: auto;
+        padding: 2px 2px 2px 1rem;
+        position: relative;
+        height: 70vh;
+        &::-webkit-scrollbar {
+          display: none;
+        }
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        @include break-on(xs, max) {
+          display: flex;
+          flex-direction: row;
+          width: 100%;
+          padding: 0 .25rem;
+          overflow-x: auto;
+        }
+        .active {
+          outline: 2px solid #15adc2;
+        }
+        img {
+          cursor: pointer;
+          height: 10vh;
+          width: 10vw;
+          object-fit: cover;
+          margin-bottom: 1rem;
+          @include break-on(xs, max) {
+            height: 10vh;
+            width: 25vw;
+            margin: 1.5rem .25rem;
+          }
+        }
       }
     }
   }

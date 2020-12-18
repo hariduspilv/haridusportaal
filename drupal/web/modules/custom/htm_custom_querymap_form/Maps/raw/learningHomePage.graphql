@@ -1,0 +1,100 @@
+query learningHomePage($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, limit: 1, filter: {conditions: {field: "type", value: "learning_home_page", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeLearningHomePage {
+        fieldLearningContentLinks {
+          entity {
+            ... on ParagraphContentPageLink {
+              fieldTheme
+              fieldTitle
+              fieldText
+              fieldInternalLink {
+                entity {
+                  entityLabel
+                  entityUrl {
+                    path
+                    routed
+                  }
+                }
+              }
+            }
+          }
+        }
+        fieldLearningPath {
+          entity {
+            ... on ParagraphLearningCarousel {
+              fieldLearningCarouselTitle
+              fieldLearningCarouselContent
+              fieldLearningCarouselLink {
+                entity {
+                  entityUrl {
+                    routed
+                    path
+                  }
+                }
+              }
+              fieldLearnCarouselLinkTitle
+              fieldLearningCarouselImage {
+                entity {
+                  ... on File {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+        fieldLearningToTeach {
+          entity {
+            ... on ParagraphLearningToTeach {
+              fieldLearningToTeachTitle
+              fieldLearningToTeachSitelink {
+                entity {
+                  entityUrl {
+                    routed
+                    path
+                  }
+                }
+              }
+            }
+          }
+        }
+        fieldLearningNews {
+          entity {
+            title
+            entityUrl {
+              routed
+              path
+            }
+          }
+        }
+        fieldLearningQuoteText
+        fieldLearningQuoteAuthor
+        fieldLearningQuoteWork
+        fieldLearningContact {
+          entity {
+            ... on ParagraphCareerContact {
+              fieldInstitution
+              fieldNameOccupation
+              fieldEmail
+              fieldSkype
+            }
+          }
+        }
+        fieldLearningExternalLinks {
+          entity {
+            ... on ParagraphLink {
+              fieldWebpageLink {
+                url {
+                  routed
+                  path
+                }
+              }
+              fieldLinkName
+            }
+          }
+        }
+      }
+    }
+  }
+}

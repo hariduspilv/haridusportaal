@@ -1,0 +1,28 @@
+uuid: 7f4badfd-935e-47cf-a88a-446fa226a3a6
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_learning_news
+    - node.type.learning_home_page
+    - node.type.news
+id: node.learning_home_page.field_learning_news
+field_name: field_learning_news
+entity_type: node
+bundle: learning_home_page
+label: Uudis
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      news: news
+    sort:
+      field: _none
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

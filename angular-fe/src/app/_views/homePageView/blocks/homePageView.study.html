@@ -1,38 +1,25 @@
 <homepage-line [type]="line"></homepage-line>
 <div class="inner">
   <div class="study">
-    <h2 class="study__category" [attr.aria-label]="'home.study_title' | translate" >{{ 'home.study_title' | translate }}</h2>
-    <div class="study__intro" [innerHTML]="'home.study_intro' | translate" ></div>
+    <h2 class="study__category" [attr.aria-label]="title" >{{ title }}</h2>
+    <div class="study__intro" [innerHTML]="intro" ></div>
     <div class="study__blocks">
 
-      <div class="study__instance">
-        <div class="study__elem"  routerLink="/ametialad" role="button" >
-          <div class="study__elem__image">
-            <img src="/assets/img/homepage-study-1.svg" alt="" />
-          </div><!--/study__elem__image-->
-          <div class="study__elem__body">
-            <h3 class="study__elem__title" >{{ 'home.profession_compare' | translate }}</h3>
-            <div class="study__elem__text">
-              <button  routerLink="/ametialad" role="button">{{ 'home.view_more' | translate }}</button>
-            </div>
-          </div><!--/study__elem__body-->
-        </div><!--/study__elem-->
-      </div><!--/study__instance-->
-      
-      <div class="study__instance">
-        <div class="study__elem" routerLink="/erialad" role="button" >
-          <div class="study__elem__image">
-            <img src="/assets/img/homepage-study-2.svg" alt="" />
-          </div><!--/study__elem__image-->
-          <div class="study__elem__body">
-            <div class="study__elem__title" >{{ 'home.studyprogramme_compare' | translate }}</div>
-            <div class="study__elem__text">
-              <button routerLink="/ametialad" role="button">{{ 'home.view_more' | translate }}</button>
-            </div>
-          </div><!--/study__elem__body-->
-        </div><!--/study__elem-->
-      </div><!--/study__instance-->
-
+      <ng-container *ngFor="let btn of data">
+        <div class="study__instance">
+          <div class="study__elem"  routerLink="{{ btn.url.path }}" role="button" >
+            <div class="study__elem__image">
+              <img src="{{ btn.image }}" alt="" />
+            </div><!--/study__elem__image-->
+            <div class="study__elem__body">
+              <h3 class="study__elem__title" >{{ btn.title }}</h3>
+              <div class="study__elem__text" *ngIf="learnMore">
+                <button  routerLink="{{ btn.url.path }}" role="button">{{ 'home.view_more' | translate }}</button>
+              </div>
+            </div><!--/study__elem__body-->
+          </div><!--/study__elem-->
+        </div><!--/study__instance-->
+      </ng-container><!--/ng-container-->
     </div><!--/study__blocks-->
   </div><!--/study-->
 </div><!--/inner-->

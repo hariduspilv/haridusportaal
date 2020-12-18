@@ -83,9 +83,24 @@ class EhisConnectorService {
         do {
           $current_time = DateTimePlus::createFromDateTime(new \Datetime());
           $diff_sec = $start_time->diff($current_time, TRUE)->s;
-          if($redis_response = $this->getValue($params['key'], $params['hash'])){
-            $redis_response['redis_hit'] = TRUE;
-            return $redis_response;
+          if(is_array($params['hash'])) {
+            $redis_response = [];
+            $redis_hits = 0;
+            foreach($params['hash'] as $hash) {
+              if($response = $this->getValue($params['key'], $hash)){
+                $redis_hits++;
+                $redis_response = array_merge_recursive($redis_response, $response);
+              }
+            }
+            if(!empty($redis_response) && $redis_hits === count($params['hash'])) {
+              $redis_response['redis_hit'] = TRUE;
+              return $redis_response;
+            }
+          } else {
+            if($redis_response = $this->getValue($params['key'], $params['hash'])){
+              $redis_response['redis_hit'] = TRUE;
+              return $redis_response;
+            }
           }
         } while ($diff_sec < 3 && empty($redis_response));
 
@@ -93,11 +108,28 @@ class EhisConnectorService {
 
         break;
       default:
-        if($redis_response = $this->getValue($params['key'], $params['hash'])){
-          $redis_response['redis_hit'] = TRUE;
-          return $redis_response;
-        }else{
-          return $this->invoke($service_name, $params);
+        if(is_array($params['hash'])) {
+          $redis_response = [];
+          $redis_hits = 0;
+          foreach($params['hash'] as $hash) {
+            if($response = $this->getValue($params['key'], $hash)){
+              $redis_hits++;
+              $redis_response = array_merge_recursive($redis_response, $response);
+            } else {
+              return $this->invoke($service_name, $params);
+            }
+          }
+          if(!empty($redis_response) && $redis_hits === count($params['hash'])) {
+            $redis_response['redis_hit'] = TRUE;
+            return $redis_response;
+          }
+        } else {
+          if($redis_response = $this->getValue($params['key'], $params['hash'])){
+            $redis_response['redis_hit'] = TRUE;
+            return $redis_response;
+          } else {
+            return $this->invoke($service_name, $params);
+          }
         }
         break;
     }
@@ -124,11 +156,14 @@ class EhisConnectorService {
           'Content-Type' => 'application/json'
         ];
         \Drupal::logger('xjson')->notice('<pre><code>Post request: ' . print_r(['url' => $this->loime_url.$service_name, 'params' => $params ], TRUE) . '</code></pre>' );
+        #dump('lõime url', $this->loime_url.$service_name);
+        #dump('parameetrid', $params);
         $response = $client->post($this->loime_url.$service_name, $params);
       }else{
         //TODO throw error
       }
       $response = json_decode($response->getBody()->getContents(), TRUE);
+      #dump('liidese vastus', $response);
       return $response;
     }catch (RequestException $e){
       \Drupal::logger('xjson')->notice('<pre><code>ehis response error' . print_r($e->getMessage(), TRUE) . '</code></pre>' );
@@ -143,8 +178,16 @@ class EhisConnectorService {
    */
   private function getValue($key, $hash){
     $response = [];
-    if($data = $this->client->hGet($key, $hash)){
-      $response = json_decode($data, TRUE);
+    if(is_array($hash)) {
+      foreach($hash as $value) {
+        if($data = $this->client->hGet($key, $value)){
+          $response = array_merge($response, json_decode($data, TRUE));
+        }
+      }
+    } else {
+      if($data = $this->client->hGet($key, $hash)){
+        $response = json_decode($data, TRUE);
+      }
     }
     return $response;
   }
@@ -474,7 +517,7 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
 
     if($this->useReg()) $params['hash'] = 'mtsys';
-    if(!$this->useReg()) $params['hash'] = 'vpTaotlus';
+    if(!$this->useReg()) $params['hash'] = ['vpTaotlus'];
 
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
@@ -495,7 +538,13 @@ class EhisConnectorService {
       }
     }
 
-    $this->getFormDefinitionTitle($workedResponse, $params['hash']);
+    if(is_array($params['hash'])) {
+      foreach($params['hash'] as $hash) {
+        $this->getFormDefinitionTitle($workedResponse, $hash);
+      }
+    } else {
+      $this->getFormDefinitionTitle($workedResponse, $params['hash']);
+    }
     if(isset($params['get_edi_data']) && $params['get_edi_data']){
       $this->addInstitutionData($workedResponse);
     }
@@ -593,6 +642,7 @@ class EhisConnectorService {
         }
         break;
       case 'vpTaotlus':
+      case 'OLT':
         $this->appendFormTitle($response, $form_topics);
         break;
     }

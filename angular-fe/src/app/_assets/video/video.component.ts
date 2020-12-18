@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 export interface VideoItem {
@@ -15,7 +15,7 @@ export interface VideoItem {
   styleUrls: ['video.component.scss'],
 })
 
-export class VideoComponent {
+export class VideoComponent implements OnInit, OnChanges {
 
   @Input() videos;
   public videoArray: VideoItem[] = [];
@@ -26,6 +26,10 @@ export class VideoComponent {
   constructor(
     private sanitizer: DomSanitizer,
   ) {}
+
+  ngOnChanges() {
+    this.ngOnInit();
+  }
 
   ngOnInit() {
 

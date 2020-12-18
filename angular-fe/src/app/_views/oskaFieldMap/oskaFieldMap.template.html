@@ -2,29 +2,6 @@
   <div class="inline">
     <breadcrumbs path="/valdkonnad/kaart"></breadcrumbs>
   </div>
-  <form class="filter-wrapper" filters>
-    <div class="inline">
-      <div class="row">
-        <div class="col-4 sm-12">
-          <formItem type="select" title="{{ 'oskaProfessions.indicator' | translate }}" name="mapIndicator"
-            [(ngModel)]="filterFormItems.mapIndicator" [options]="filterData.mapIndicator"
-            (onChange)="setRelatedFilter('mapIndicator', 'OSKAField')"></formItem>
-        </div>
-        <div class="col-6 sm-12">
-
-          <formItem type="select" title="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.OSKAField"
-            [options]="filterData.OSKAField" name="OSKAField"></formItem>
-        </div>
-
-        <div class="col-2 sm-12 align-end flex-end">
-          <button htm-button role="button" theme="default">{{ 'button.filter' | translate }}</button>
-        </div>
-
-      </div>
-      <!--/row-->
-    </div>
-    <!--/inline-->
-  </form>
   <!--/inline-->
   <div class="inline">
     <block titleBorder="true" tabStyle="default">
@@ -36,6 +13,20 @@
       <block-content tabLabel="{{ 'oskaProfessions.map' | translate }}" tabIcon="map-pin" tabLink="/valdkonnad/kaart"
         [tabActive]="true">
         <h2>{{ 'oska.field_map_introduction' | translate }}</h2>
+        <form class="filter-wrapper row" filters>
+          <div class="col-4 sm-12">
+            <formItem type="select" title="{{ 'oskaProfessions.indicator' | translate }}" name="mapIndicator"
+              [(ngModel)]="filterFormItems.mapIndicator" [options]="filterData.mapIndicator"
+              (onChange)="setRelatedFilter('mapIndicator', 'OSKAField')"></formItem>
+          </div>
+          <div class="col-6 sm-12">
+            <formItem type="select" title="{{ 'oska.title_field' | translate }}" [(ngModel)]="filterFormItems.OSKAField"
+              [options]="filterData.OSKAField" name="OSKAField"></formItem>
+          </div>
+          <div class="col-2 sm-12 align-end flex-end">
+            <button htm-button role="button" theme="default">{{ 'button.filter' | translate }}</button>
+          </div>
+        </form>
         <loader *ngIf="loading"></loader>
         <map *ngIf="!loading" type="polygons" [options]="mapOptions" [polygonData]="polygonData" [parameters]="parameters" [legendLabels]="indicatorLegendLabels" legendKey="mapIndicator">
         </map>

@@ -9,6 +9,7 @@ dependencies:
     - node.type.event
     - node.type.frontpage_new
     - node.type.information_system_page
+    - node.type.learning_home_page
     - node.type.main_profession_comparison_page
     - node.type.news
     - node.type.oska_field_comparison_page
@@ -19,7 +20,7 @@ dependencies:
     - node.type.oska_survey_page
     - node.type.page
     - node.type.school
-    - node.type.study_programme
+    - node.type.teaching_home_page
     - paragraphs.paragraphs_type.content_page_link
 id: paragraph.content_page_link.field_internal_link
 field_name: field_internal_link
@@ -50,7 +51,8 @@ settings:
       oska_front_page: oska_front_page
       event: event
       news: news
-      study_programme: study_programme
+      teaching_home_page: teaching_home_page
+      learning_home_page: learning_home_page
     sort:
       field: _none
     auto_create: false

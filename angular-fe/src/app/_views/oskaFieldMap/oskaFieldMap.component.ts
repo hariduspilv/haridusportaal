@@ -56,7 +56,7 @@ export class OskaFieldMapComponent extends FiltersService implements OnInit, OnD
     minZoom: 7.4,
     draggable: true,
     enableStreetViewControl: false,
-    enableParameters: true,
+    enableParameters: false,
     enablePolygonLegend: true,
   };
 
