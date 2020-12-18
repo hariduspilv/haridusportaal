@@ -173,7 +173,7 @@
 										>{{ form.document_date }}</span
 									>
 								</td>
-								<td><span *ngIf="form.status">{{ form.status }}</span></td>
+								<td><span *ngIf="form.status">{{ form.status | translate }}</span></td>
 								<td class="text-center">
 									<a
 										class="rowspan-btn"
@@ -693,7 +693,7 @@
 													>
 												</td>
 												<td>
-													<span *ngIf="form.status">{{ form.status }}</span>
+													<span *ngIf="form.status">{{ form.status | translate}}</span>
 												</td>
 												<td class="text-center">
 													<a

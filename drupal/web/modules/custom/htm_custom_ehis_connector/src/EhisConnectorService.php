@@ -87,7 +87,7 @@ class EhisConnectorService {
             $redis_response = [];
             $redis_hits = 0;
             foreach($params['hash'] as $hash) {
-              if($response = $this->getValue($params['key'], $hash)){
+              if($response = $this->getValue($params['key'], $hash) && $hash !== 'OLT'){
                 $redis_hits++;
                 $redis_response = array_merge_recursive($redis_response, $response);
               }
@@ -112,7 +112,7 @@ class EhisConnectorService {
           $redis_response = [];
           $redis_hits = 0;
           foreach($params['hash'] as $hash) {
-            if($response = $this->getValue($params['key'], $hash)){
+            if($response = $this->getValue($params['key'], $hash) && $hash !== 'OLT'){
               $redis_hits++;
               $redis_response = array_merge_recursive($redis_response, $response);
             } else {
