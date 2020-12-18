@@ -204,7 +204,7 @@
 
                         <div class="loaded-files-list">
                           <ng-container *ngIf="data_elements[element].value && !data_elements[element].submit_on_change">
-                            <div class="files-missing" *ngIf="!data_elements[element].value || !data_elements[element].value.length">{{'xjson.data_missing' | translate }}</div>
+                            <div class="files-missing" *ngIf="isFieldDisabled(data_elements[element].readonly && (!data_elements[element].value || !data_elements[element].value.length)">{{'xjson.data_missing' | translate }}</div>
                             <ng-container *ngFor="let file of data_elements[element].value">
                               <div class="uploaded-file">
                                 <a class="file-icon" [href]="fileDownloadlink(file)"
