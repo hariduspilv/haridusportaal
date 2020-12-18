@@ -45,8 +45,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
   }
 
-  @HostBinding('style') get readerVisbility(): string {
-    return `visibility: ${this.readerVisible ? 'visible' : 'hidden'}`;
+  @HostBinding('style.visibility') get readerVisbility(): string {
+    return this.readerVisible ? 'visible' : 'hidden';
   }
 
   constructor(
