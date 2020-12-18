@@ -78,4 +78,62 @@
       <alerts small="true" id="certificatesByAccessCode"></alerts>
     </ng-template>
   </accordion-item>
+  <accordion-item title="Avalikustatud lõpudokumentide vaatamine">
+    <ng-template>
+      <more-block id="avalikustatud-tunnistused" content="Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores dolores temporibus rem rerum corporis nihil saepe error fugiat nulla non."></more-block>
+
+      <loader *ngIf="loading.certificatesByDisclosure; else certificatesByDisclosureRef"></loader>
+
+      <ng-template #certificatesByDisclosureRef>
+        <form [formGroup]="disclosureFormGroup" (submit)="getCertificateByDisclosure()" id="disclosureAccordion">
+         <div class="row"> <div class="col-6"><formItem type="text" formControlName="firstName" title="Eesnimi"
+            [error]="disclosureFormGroup.controls.firstName.invalid && disclosureFormGroup.controls.firstName.dirty"
+            [errorMessage]="'errors.field_required' | translate">
+          </formItem>
+        </div>
+        <div class="col-6">
+          <formItem type="text" formControlName="lastName" title="Perenimi"
+            [error]="disclosureFormGroup.controls.lastName.invalid && disclosureFormGroup.controls.lastName.dirty"
+            [errorMessage]="'errors.field_required' | translate">
+          </formItem>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <formItem type="text" formControlName="idCode" title="Isikukood"
+          [error]="disclosureFormGroup.controls.idCode.invalid && disclosureFormGroup.controls.idCode.dirty"
+          [errorMessage]="'errors.field_required' | translate">
+        </formItem>
+      </div>
+      </div>
+          <button htm-button type="submit" theme="default">
+            {{ "button.search" | translate }}
+          </button>
+        </form>
+        <scrollableContent>
+          <table htm-table *ngIf="certificatesByDisclosure && certificatesByDisclosure.length > 0">
+            <thead>
+              <th>Väljaandja</th>
+              <th>Nimi ja isikukood</th>
+              <th>Väljastamise kuupäev</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let certificate of certificatesByDisclosure">
+                <td>{{ certificate.issuerName }}</td>
+                <td><p>{{ certificate.ownerName }}</p><p>{{ certificate.ownerIdCode }}</p></td>
+                <td>{{ certificate.issued | date:"dd.MM.yyyy" }}</td>
+                <td nowrap>
+                  <a [routerLink]="'/tunnistused/lõpudokumendid/' + certificate.id">
+                    {{ 'button.open' | translate }}
+                  </a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </scrollableContent>
+      </ng-template>
+      <alerts small="true" id="certificatesByDisclosure"></alerts>
+    </ng-template>
+  </accordion-item>
 </accordion>

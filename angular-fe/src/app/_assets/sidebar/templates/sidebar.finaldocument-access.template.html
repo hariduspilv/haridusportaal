@@ -40,6 +40,20 @@
 					</ng-container>
 				</div>
 			</ng-container>
+			<ng-container *ngIf="activeAccess.type === 'ACCESS_TYPE:DISCLOSURE'">
+				<icon size="medium" glyph="eye"></icon>
+				<div>
+					<button htm-button theme="link" (click)="openAccess(activeAccess)">
+						Avalikustatud
+					</button>
+					<ng-container *ngIf="activeAccess.endDate">
+						<span>{{'finaldocuments.valid_until' | translate}} {{activeAccess.endDate | date:"dd.MM.yyyy"}}</span>
+					</ng-container>
+					<ng-container *ngIf="!activeAccess.endDate">
+						<span>{{'finaldocuments.valid_indefinitely' | translate}}</span>
+					</ng-container>
+				</div>
+			</ng-container>
 		</li>
 	</ul>
 </div>
@@ -130,7 +144,7 @@
 
 <htm-modal id="finalDocument-access" modalTitle="Ligipääs" [bottomAction]="false">
 	<ng-template>
-		<ng-container *ngTemplateOutlet="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE' ? accessCode : idCode">
+		<ng-container [ngTemplateOutlet]="getAccessTemplate()">
 		</ng-container>
 	</ng-template>
 </htm-modal>
@@ -176,6 +190,9 @@
 			{{('finaldocuments.confirm_invalidate_accessorcode' | translate).replace('%ACCESSORCODE%', addAccessForm.value.accessorCode | idCode)}}
 		</h1>
 		<h1 *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ACCESS_CODE'">
+			{{('finaldocuments.confirm_invalidate_email' | translate).replace('%EMAIL%', addAccessForm.value.emailAddress)}}
+		</h1>
+		<h1 *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:DISCLOSURE'">
 			{{('finaldocuments.confirm_invalidate_email' | translate).replace('%EMAIL%', addAccessForm.value.emailAddress)}}
 		</h1>
 		<div class="button-row" *ngIf="!invalidateLoader">
@@ -227,6 +244,40 @@
 
 <ng-template #idCode>
 	<h1>{{'finaldocument.idcode' | translate}}: <span
+			style="font-weight: normal;">{{addAccessForm.value.accessorCode | idCode }}</span></h1>
+	<div class="line">
+		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
+		<button (click)="modal.toggle('finalDocument-confirmInvalidation')" htm-button theme="link">
+			{{'finaldocuments.invalidate_access' | translate}}
+		</button>
+	</div>
+	<form [formGroup]="addAccessForm">
+		<!-- <p>{{'finaldocuments.issuer' | translate}}</p>
+		<h2>{{data.issuerInstitution}}</h2> -->
+		<p>{{'finaldocuments.idcode_scope' | translate}}</p>
+		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
+		</formItem>
+		<p>{{'finaldocuments.idcode_end_date' | translate}}</p>
+		<div class="split">
+			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true"
+				placeholder="pp.kk.aaaa"></formItem>
+			<formItem type="checkbox" formControlName="noEndDate" [disabled]="true"
+				[label]="'finaldocuments.valid_indefinitely' | translate"></formItem>
+		</div>
+		<h2 *ngIf="addAccessForm.value.provider === 'ACCESS_PROVIDER:ISSUER'">Ligipääsu andis tunnistuse väljaandja</h2>
+	</form>
+	<div class="button-row">
+		<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
+			{{'button.close' | translate}}
+		</button>
+		<button htm-button (click)="changeAccess(openedAccess)">
+			{{'button.edit_data' | translate}}
+		</button>
+	</div>
+</ng-template>
+
+<ng-template #disclosure>
+	<h1>Avalikustatud<span
 			style="font-weight: normal;">{{addAccessForm.value.accessorCode | idCode }}</span></h1>
 	<div class="line">
 		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>

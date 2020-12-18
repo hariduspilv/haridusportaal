@@ -24,11 +24,13 @@ export class FinalDocumentsComponent {
 
   public isLoggedIn = false;
   public certificatesById: any;
+  public certificatesByDisclosure: any;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public loading = {
     certificatesById: true,
     certificatesByAccessCode: false,
+    certificatesByDisclosure: false,
   };
 
   public accessFormGroup = this.fb.group(
@@ -40,6 +42,11 @@ export class FinalDocumentsComponent {
       updateOn: 'submit',
     });
 
+  public disclosureFormGroup = this.fb.group({
+    firstName: [''],
+    lastName: [''],
+    idCode: ['']
+  })
   compareCertificates(a, b) {
     return a.access.issued < b.access.issued || a.issued == null ? 1 : -1;
   }
@@ -92,6 +99,24 @@ export class FinalDocumentsComponent {
         );
         this.loading.certificatesByAccessCode = false;
       });
+  }
+
+  getCertificateByDisclosure() {
+    const { idCode, firstName, lastName } = this.disclosureFormGroup.value;
+    let params = {};
+    if(idCode) {
+      params = { ownerIdCode: idCode };
+    }
+    if (firstName && lastName) {
+      params = { ownerFirstName: firstName, ownerLastName: lastName };
+    }
+    this.loading.certificatesByDisclosure = true;
+    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`, { params: { ...params }}).subscribe((res: any) => {
+      this.certificatesByDisclosure = res.certificates;
+      this.loading.certificatesByDisclosure = false;
+    }, () => {
+      this.loading.certificatesByDisclosure = false;
+    })
   }
 
   logIn(redirectUrl) {

@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { SettingsService } from '@app/_services';
 import { catchError } from 'rxjs/operators';
-import { forkJoin, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, of } from 'rxjs';
 import { FormBuilder } from '@angular/forms';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { CertificatesService } from '@app/_services/certificates/certificate-service.service';
 
 @Component({
   templateUrl: 'finalDocumentDashboardDetailView.template.html',
@@ -14,6 +15,11 @@ import { TranslateService } from '@app/_modules/translate/translate.service';
 })
 
 export class FinalDocumentDashboardDetailViewComponent implements OnInit {
+
+  @ViewChildren('certificate') public certificate: QueryList<any>;
+
+  public loading = true;
+  public isDisclosureAllowed = false;
 
   public documents: any = {};
 
@@ -27,6 +33,8 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       },
       finalDocumentAccess: {
         issuerInstitution: '',
+        typeName: '',
+        document: null,
       },
       finalDocumentHistory: {
         issuerInstitution: '',
@@ -44,9 +52,6 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       link: '/töölaud/tunnistused',
     },
   ];
-  @ViewChildren('certificate') public certificate: QueryList<any>;
-
-  public loading = true;
 
   constructor(
     private location: Location,
@@ -80,35 +85,33 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
   }
 
   private getLatestDocuments(documentsArray) {
-    const documents: any = {};
-
-    const certificates = documentsArray.filter((doc) => {
-      return doc.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' ||
-        doc.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE';
-    });
-
-    const transcriptsOfgrades = documentsArray.filter((doc) => {
-      return doc.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_TRANSCRIPT_OF_GRADES' ||
-        doc.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES';
-    });
+    let documents: any = {};
+    const certificates = documentsArray.filter(
+      (doc) => ((doc.type as string).includes('CERTIFICATE')
+        || (doc.type as string).includes('CERTIFICAT')
+        || (doc.type as string).includes('DIPLOMA'))
+      && !(doc.type as string).includes('SUPPLEMENT')
+    );
+    const transcriptsOfgrades = documentsArray.filter((doc) => doc.type.includes('TRANSCRIPT'));
 
     if (certificates.length > 0) {
-      documents.certificate = certificates.reduce((next, current) => {
-        return next.revision > current.revision ? next : current;
-      });
+      documents = {
+        ...documents,
+        certificates: certificates.reduce((next, current) => (next.revision > current.revision ? next : current)),
+      };
+      this.sidebar.entity.finalDocumentAccess.typeName = documents.certificates.typeName;
     }
 
     if (transcriptsOfgrades.length > 0) {
-      documents.gradesheet = transcriptsOfgrades.reduce((next, current) => {
-        return next.revision > current.revision ? next : current;
-      });
+      documents = {
+        ...documents,
+        transcript: transcriptsOfgrades.reduce((next, current) => (next.revision > current.revision ? next : current)),
+      };
     }
-
     const URL =
       `${this.settings.ehisUrl}/certificates/v1/certificateDocument/{DOCUMENT_ID}`;
-
     const req = [
-      this.http.get(URL.replace('{DOCUMENT_ID}', documents.certificate.id)).pipe(
+      this.http.get(URL.replace('{DOCUMENT_ID}', documents.certificates.id)).pipe(
         catchError(() => of(null)),
       ),
     ];
@@ -123,6 +126,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
 
     forkJoin(req).subscribe((docs) => {
       this.documents.certificate = docs[0].document;
+      this.sidebar.entity.finalDocumentAccess.document = this.documents.certificate;
       this.documents.certificate.content = JSON.parse(this.documents.certificate.content);
       if (docs[1]) {
         this.documents.gradesheet = docs[1].document;
@@ -131,9 +135,7 @@ export class FinalDocumentDashboardDetailViewComponent implements OnInit {
       this.sidebar.entity.finalDocumentDownload.hasGradeSheet = this.documents.gradesheet != null
         && this.documents.gradesheet.status !== 'CERT_DOCUMENT_STATUS:INVALID';
       this.sidebar.entity.finalDocumentHistory.issuerInstitution
-        = this.documents.certificate.content.educationalInstitution.name;
-      this.sidebar.entity.finalDocumentAccess.issuerInstitution
-        = this.documents.certificate.content.educationalInstitution.name;
+        = this.documents.certificate.content.educationalInstitutions[0].name || '';
       this.sidebar.entity.finalDocumentDownload.certificateName =
         `${this.documents.certificate.content.graduate.firstName} /
         ${this.documents.certificate.content.graduate.lastName}`;

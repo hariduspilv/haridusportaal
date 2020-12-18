@@ -6,7 +6,9 @@ import {
   OnChanges,
   OnDestroy,
   OnInit,
+  QueryList,
   ViewChild,
+  ViewChildren,
 } from '@angular/core';
 import { AlertsService, ModalService, SettingsService, SidebarService, AuthService } from '@app/_services';
 import {
@@ -26,6 +28,8 @@ import { saveAs } from 'file-saver';
 import { Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { RecaptchaComponent } from 'ng-recaptcha';
+import { CertificatesService } from '@app/_services/certificates/certificate-service.service';
+import { ClassifiersService } from '@app/_services/classifiers/classifiers.service';
 
 interface SidebarType {
   [key: string]: string;
@@ -698,30 +702,6 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       provider: [],
     },
   );
-  public addAccessOptions = {
-    type: [
-      {
-        key: 'Isikukoodiga',
-        value: 'ACCESS_TYPE:ID_CODE',
-        info: this.translate.get('certificates.id_code_info'),
-      },
-      {
-        key: 'E-postiga',
-        value: 'ACCESS_TYPE:ACCESS_CODE',
-        info: this.translate.get('certificates.access_code_info'),
-      },
-    ],
-    scope: [
-      {
-        key: 'Lõputunnistus',
-        value: 'ACCESS_SCOPE:MAIN_DOCUMENT',
-      },
-      {
-        key: 'Lõputunnistus koos hinnetelehega',
-        value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS',
-      },
-    ],
-  };
   public activeAccesses: any = [];
   public inactiveAccesses: any = [];
   public openedAccess: any = {};
@@ -732,6 +712,11 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   public actionHistory = [];
   public invalidateLoader = false;
   private destroy$: Subject<boolean> = new Subject();
+  public isDisclosureAllowed = false;
+
+  @ViewChildren('idCode') public idCodeTemplate: QueryList<any>;
+  @ViewChildren('disclosure') public disclosureTemplate: QueryList<any>;
+  @ViewChildren('accessCode') public accessCodeTemplate: QueryList<any>;
 
   constructor(
     public modal: ModalService,
@@ -742,17 +727,70 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef,
     private alertsService: AlertsService,
     private translate: TranslateService,
+    private classifiers: ClassifiersService,
+    private certificatesService: CertificatesService,
   ) {
   }
 
+  public addAccessOptions = {
+    type: [],
+    scope: [],
+  } 
+
+  private generateAccessOptions() {
+    this.addAccessOptions = {
+      type: [
+        {
+          key: 'Isikukoodiga',
+          value: 'ACCESS_TYPE:ID_CODE',
+          info: this.translate.get('certificates.id_code_info'),
+          requireAttribute: false,
+        },
+        {
+          key: 'E-postiga',
+          value: 'ACCESS_TYPE:ACCESS_CODE',
+          info: this.translate.get('certificates.access_code_info'),
+          requireAttribute: false,
+        },
+      ],
+      scope: [
+        {
+          key: this.data.typeName,
+          value: 'ACCESS_SCOPE:MAIN_DOCUMENT',
+        },
+        {
+          key: `${this.data.typeName} koos hinnetelehega`,
+          value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS',
+        },
+      ],
+    }
+  }
+
   public ngOnInit(): void {
+    this.generateAccessOptions();
     this.getData();
+    this.fetchIfDisclosureAllowed();
     this.formChanges();
   }
 
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private fetchIfDisclosureAllowed() {
+    this.certificatesService
+    .isDisclosureAllowed(this.data.document.type)
+    .subscribe((disclosureIsAllowed: boolean) => {
+      if(disclosureIsAllowed) {
+        this.addAccessOptions.type = [...this.addAccessOptions.type, {
+          key: 'Avalikustamine',
+          value: 'ACCESS_TYPE:DISCLOSURE',
+          info: this.translate.get('certificates.access_code_info'),
+          requireAttribute: true,
+        }]
+      }
+    });
   }
 
   public formChanges() {
@@ -781,7 +819,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     this.addAccessForm.setValue({
       type: access.type,
       emailAddress: access.emailAddress ? access.emailAddress : null,
-      accessorCode: access.accessorCode,
+      accessorCode: access.accessorCode || null,
       scope: access.scope,
       endDate: access.endDate
         ? access.endDate
@@ -942,6 +980,17 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
           false,
         );
       },                1);
+    }
+  }
+
+  public getAccessTemplate() {
+    switch (this.addAccessForm.value.type) {
+      case 'ACCESS_TYPE:ACCESS_CODE':
+        return this.accessCodeTemplate.first;
+      case 'ACCESS_TYPE:DISCLOSURE':
+        return this.disclosureTemplate.first;
+      default:
+        return this.idCodeTemplate.first;
     }
   }
 
