@@ -5,6 +5,7 @@ import { SettingsService } from '@app/_services';
 import { of, forkJoin } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { TranslateService } from '@app/_modules/translate/translate.service';
+import { CertificatesUtility } from '@app/_utilities/certificates/certificates.utility';
 
 @Component({
   templateUrl: './certificateDetailView.template.html',
@@ -89,41 +90,34 @@ export class CertificateDetailView implements OnInit {
   public getLatestDocuments(documentsArray) {
     const documents: any = {};
 
-    const certificates = documentsArray.filter((doc) => {
-      return doc.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' ||
-        doc.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE';
-    });
+    this.documents = CertificatesUtility.getLatestDocumentData(documentsArray);
+    console.log(this.documents);
 
-    const transcriptsOfgrades = documentsArray.filter((doc) => {
-      return doc.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_TRANSCRIPT_OF_GRADES' ||
-        doc.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES';
-    });
+    // if (Object.keys(this.documents.certificate).length > 0) {
+    //   documents.certificate = this.documents.certificate.reduce((next, current) => {
+    //     return next.revision > current.revision ? next : current;
+    //   });
+    // }
 
-    if (certificates.length > 0) {
-      documents.certificate = certificates.reduce((next, current) => {
-        return next.revision > current.revision ? next : current;
-      });
-    }
-
-    if (transcriptsOfgrades.length > 0) {
-      documents.gradesheet = transcriptsOfgrades.reduce((next, current) => {
-        return next.revision > current.revision ? next : current;
-      });
-    }
+    // if (Object.keys(this.documents.transcript).length > 0) {
+    //   documents.gradesheet = this.documents.transcript.reduce((next, current) => {
+    //     return next.revision > current.revision ? next : current;
+    //   });
+    // }
 
     const URL = this.accessType === 'ACCESS_CODE'
       ? `${this.settings.ehisUrl}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ACCESS_CODE&accessorCode=${this.accessorCode}`
       : `${this.settings.ehisUrl}/certificates/v1/certificateDocument/{DOCUMENT_ID}?accessType=ACCESS_TYPE:ID_CODE`;
 
     const req = [
-      this.http.get(URL.replace('{DOCUMENT_ID}', documents.certificate.id)).pipe(
+      this.http.get(URL.replace('{DOCUMENT_ID}', this.documents.certificate.id)).pipe(
         catchError(() => of(null)),
       ),
     ];
 
-    if (documents.gradesheet) {
+    if (Object.keys(this.documents.transcript).length > 0) {
       req.push(
-        this.http.get(URL.replace('{DOCUMENT_ID}', documents.gradesheet.id)).pipe(
+        this.http.get(URL.replace('{DOCUMENT_ID}', this.documents.transcript.id)).pipe(
           catchError(() => of(null)),
         ),
       );
