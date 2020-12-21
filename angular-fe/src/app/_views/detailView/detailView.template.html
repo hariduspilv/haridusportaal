@@ -48,6 +48,10 @@
 						[attr.aria-label]="!descriptionShown ? parseHTMLValue(data.description?.value || '') : ('messages.body' | translate)"
 						[ngClass]="{ 'overflowExists': type === 'profession' && descriptionOverflown, 'shown': descriptionShown }">
 							<div [attr.aria-hidden]="!descriptionShown" [innerHtml]="data.description.value"></div>
+							<ng-container *ngIf="type === 'profession' && descriptionOverflown && !descriptionShown">
+								<span class="ellipsis" aria-hidden="true">...</span>
+								<span class="ellipsis-hide" aria-hidden="true"></span>
+							</ng-container>
 					</div>
 					<div *ngIf="type === 'profession' && descriptionOverflown && data.description?.value"
 						class="description__actions">
