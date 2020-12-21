@@ -1,0 +1,135 @@
+query youthHomePage($lang: LanguageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "youth_home_page", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeYouthHomePage {
+        fieldYouthThemesLinks {
+          entity {
+            ... on ParagraphYouthSubjectLinks {
+              fieldTitle
+              fieldInternalLink {
+                entity {
+                  entityUrl {
+                    routed
+                    path
+                  }
+                  entityId
+                  entityLabel
+                }
+              }
+            }
+          }
+        }
+        fieldYouthContentPage {
+          entity {
+            ... on ParagraphYouthContentPageLink {
+              fieldText
+              fieldTheme
+              fieldTitle
+              fieldInternalLink {
+                entity {
+                  entityUrl {
+                    routed
+                    path
+                  }
+                  entityId
+                  entityLabel
+                }
+              }
+              fieldLearningCarouselImage {
+                entity {
+                  ... on File {
+                    url
+                  }
+                }
+              }
+            }
+          }
+        }
+        fieldLearningPath {
+          entity {
+            ... on ParagraphLearningCarousel {
+              fieldLearningCarouselLink {
+                entity {
+                  entityUrl {
+                    path
+                  }
+                  entityLabel
+                  entityId
+                }
+              }
+              fieldLearningCarouselImage {
+                entity {
+                  ... on File {
+                    url
+                  }
+                }
+              }
+              fieldLearningCarouselTitle
+              fieldLearnCarouselLinkTitle
+              fieldLearningCarouselContent
+            }
+          }
+        }
+        fieldYouthForegroundContent {
+          entity {
+            ... on ParagraphYothContentPageLinkType2 {
+              fieldText
+              fieldTheme
+              fieldTitle
+              fieldInternalLink {
+                entity {
+                  entityUrl {
+                    routed
+                    path
+                  }
+                  entityLabel
+                  entityId
+                }
+              }
+              fieldLearningCarouselImage {
+                entity {
+                  url
+                }
+              }
+            }
+          }
+        }
+        fieldLearningNews {
+          entity {
+            entityLabel
+            entityUrl {
+              routed
+              path
+            }
+          }
+        }
+        fieldLearningQuoteText
+        fieldLearningQuoteAuthor
+        fieldQuoteAuthorOccupation
+        fieldLearningContact {
+          entity {
+            ... on ParagraphCareerContact {
+              fieldEmail
+              fieldSkype
+              fieldInstitution
+              fieldNameOccupation
+            }
+          }
+        }
+        fieldLearningExternalLinks {
+          entity {
+            ... on ParagraphLink {
+              fieldLinkName
+              fieldWebpageLink {
+                url {
+                  path
+                  routed
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
