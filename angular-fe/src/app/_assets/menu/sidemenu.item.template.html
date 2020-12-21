@@ -14,7 +14,7 @@
       [attr.aria-current]="item.active"
       [class.active]="item.active"
       (mousedown)="animateRipple($event)"
-      *ngIf="item.url.path !== '#nolink' && item.url.path !== '#nocategory'">
+      *ngIf="item.url.path !== '#nolink' && item.url.path !== '#nocategory' && item.url.path !== '#category'">
     <span>
       <icon class="chevron shrink small" glyph="chevron-left" size="small"></icon>
       {{item.label}}
@@ -30,7 +30,7 @@
       [attr.aria-current]="item.active"
       [class.active]="item.active"
       (mousedown)="animateRipple($event)"
-      *ngIf="item.url.path === '#nolink' || item.url.path === '#nocategory'">
+      *ngIf="item.url.path === '#nolink' || item.url.path === '#nocategory' || item.url.path === '#category'">
     <span>
       <icon class="chevron shrink small" glyph="chevron-left" size="small"></icon>
       {{item.label}}
