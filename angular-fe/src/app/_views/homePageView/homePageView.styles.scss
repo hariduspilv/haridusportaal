@@ -76,6 +76,13 @@
           }
         }
       }
+      &+homepage-slides {
+        padding-top: 7rem;
+        @include break-on(md, max) {
+          padding-top: 6rem;
+          margin-top: -2.15rem;
+        }
+      }
     }
 
     .emblem {
@@ -688,6 +695,21 @@
       .instance__category {
         color: #58730c;
       }
+      .instance__image {
+        width: 30%;
+        @include break-on(sm, max) {
+          width: 40%;
+        }
+        @include break-on(xxs, max) {
+          width: 80%;
+        }
+        @include break-on(xs, min) {
+          margin: 0 2rem;
+        }
+        @include break-on(sm, min) {
+          margin: 0 4rem;
+        }
+      }
     }
   }
 
@@ -696,23 +718,14 @@
     display: block;
     position: relative;
     background: $light-gray;
-    padding: 1.5rem 0 10.9375rem 0;
+    padding: 1.5rem 0 8rem 0;
+
     @include break-on(sm, max) {
       padding-bottom: 6.5625rem;
     }
 
-    &.theme--teachers {
-      padding-top: 2.5rem;
-      .slides__title {
-        color: #642BB0;
-        font-size: 1.125rem;
-      }
-    }
-
-    &.theme--learning {
-      .slides__title {
-        color: #58730c;
-      }
+    @include break-on(xxs, max) {
+      padding-bottom: 1rem;
     }
 
     .st0 {
@@ -732,10 +745,10 @@
         letter-spacing: 0.0625rem;
         text-transform: uppercase;
         color: #00747A;
-        margin: 0 0 0 0;
+        margin: 0;
         font-weight: normal;
         @include break-on(xxs, max) {
-          margin: 0 0 2.5rem 0;
+          margin: 0 0 1rem 0;
           word-spacing: 100vw;
         }
       }
@@ -755,6 +768,20 @@
         @include break-on(sm, max) {
           flex-wrap: wrap;
         }
+      }
+    }
+
+    &.theme--teachers {
+      padding-top: 2.5rem;
+      .slides__title {
+        color: #642BB0;
+        font-size: 1.125rem;
+      }
+    }
+
+    &.theme--learning {
+      .slides__title {
+        color: #58730c;
       }
     }
   }
@@ -827,7 +854,6 @@
         position: relative;
         z-index: 4;
         @include break-on(lg, max) {
-          width: 15.6rem;
           align-self: flex-end;
         }
         @include break-on(md, max) {
@@ -1024,6 +1050,17 @@
     }
 
     &.theme--learning {
+      padding-top: 3rem;
+      padding-bottom: 11rem;
+      @include break-on(lg, max) {
+        padding-bottom: 8rem;
+      }
+      @include break-on(sm, max) {
+        padding-bottom: 8rem;
+      }
+      @include break-on(xxs, max) {
+        padding-bottom: 4rem;
+      }
       .study__category {
         color: #58730c;
       }
@@ -1196,7 +1233,7 @@
           order: 3;
           text-align: right;
       }
-      @include break-on(xxs, max) {
+      @include break-on(xs, max) {
         .rss {
           order: 6;
           margin-top: 1rem;
@@ -1262,21 +1299,19 @@
     .footer {
       display: flex;
       box-sizing: border-box;
-      @include break-on(md, max) {
+      @include break-on(xs, max) {
         flex-direction: column;
         padding-top: 4.5rem;
       }
+      &__even {
+        width: 100%;
+        word-break: break-word;
+      }
       .contact {
-        width: 22.125rem;
-        flex-shrink: 0;
-        flex-grow: 0;
         &+.links {
-          @include break-on(sm, max) {
+          @include break-on(xs, max) {
             margin-top: 2.5rem;
           }
-        }
-        @include break-on(xxs, max) {
-          width: 100%;
         }
 
         &__title {
@@ -1292,7 +1327,6 @@
         }
       }
       .links {
-        padding-right: 4.625rem;
         box-sizing: border-box;
         white-space: nowrap;
         &__title {
@@ -1337,6 +1371,9 @@
           }
         }
         &+.newsletter {
+          @include break-on(sm, max) {
+            display: block;
+          }
           .newsletter__cols{
             flex-wrap: wrap;
           }
@@ -1353,18 +1390,12 @@
             @media screen and (min-width: map-get($breakpoints, 'xxs')) and (max-width: map-get($breakpoints, 'sm')){
               width: auto !important;
               padding-bottom: 1rem !important;
-              &+.newsletter__col{
-                padding-left: 1rem;
-              }
             }
           }
         }
       }
       .newsletter {
-        flex-grow: 1;
-        flex-shrink: 1;
-        width: 100%;
-        @include break-on(sm, max) {
+        @include break-on(xs, max) {
           padding-top: 3rem;
         }
 
@@ -1404,7 +1435,7 @@
         &__cols {
           display: flex;
           align-items: center;
-          @include break-on(xxs, max) {
+          @include break-on(sm, max) {
             flex-direction: column;
             align-items: normal;
           }
@@ -1413,7 +1444,7 @@
         &__col {
           flex-grow: 0;
           flex-shrink: 0;
-          @include break-on(xxs, max) {
+          @include break-on(sm, max) {
             width: 100%;
             text-align: center;
           }
@@ -1421,26 +1452,32 @@
           &:first-child {
             flex-grow: 1;
             flex-shrink: 1;
-            @include break-on(xxs, max) {
+            @include break-on(sm, max) {
               width: 100%
             }
           }
 
           a {
             margin-left: 1.5rem;
-            @include break-on(xxs, max) {
+            @include break-on(sm, max) {
               margin-left: auto;
             }
           }
 
           button {
             margin-left: 1rem;
-            @include break-on(xxs, max) {
+            @include break-on(sm, max) {
               margin: 1rem 0;
               width: 100%;
             }
           }
         }
+      }
+    }
+    
+    &.theme--default {
+      .contact {
+        width: 22.125rem;
       }
     }
   }

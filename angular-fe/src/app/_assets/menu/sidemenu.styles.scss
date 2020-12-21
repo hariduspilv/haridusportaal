@@ -43,10 +43,11 @@
 	.sidemenu__category {
 		&.expanded {
 			border: 0.5px solid $light-gray;
+			border-left: 0;
 			box-sizing: border-box;
 			box-shadow: 2px 2px 15px rgba(141, 141, 141, 0.25);
 			border-radius: 4px;
-			margin: 0.8rem 0;
+			margin: 0 0 0.8rem 0;
 			.sidemenu__button__category {
 				padding: 1.2rem 1rem;
 				&[aria-expanded=true] .chevron.shrink {

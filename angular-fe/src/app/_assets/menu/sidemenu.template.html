@@ -3,9 +3,9 @@
 	<div class="space">
 		<button htm-button theme="icon" attr.aria-label="{{ 'button.close' | translate }} {{
 			'frontpage.main_menu' | translate
-    }}" (click)="closeSidemenu()">
+    }}" (click)="closeSidemenu()" #sidemenuCloser>
 			<span class="button--label">
-				<icon class="large" glyph="x" size="large"></icon>
+				<icon class="large" glyph="x" size="large" aria-hidden="true"></icon>
 			</span>
 		</button>
 	</div>
