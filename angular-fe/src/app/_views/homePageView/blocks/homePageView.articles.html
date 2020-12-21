@@ -8,8 +8,10 @@
       </div><!--/instance__image-->
       
       <div class="instance__content">
-        <h2 class="instance__category" [attr.aria-label]="category"  tabindex="-1">{{ category }}</h2>
-        <h3 class="instance__title" [attr.aria-label]="item.title" >{{ item.title }}</h3>
+        <h2 class="instance__category"
+          [attr.aria-label]="item.theme ? item.title : category"  tabindex="-1">{{ item.theme ? item.title : category }}</h2>
+        <h3 class="instance__title"
+          [attr.aria-label]="item.theme ? item.theme : item.title" >{{ item.theme ? item.theme : item.title }}</h3>
         <div class="instance__body">
           <p [innerHTML]="item.content" ></p>
         </div><!--/instance__body-->

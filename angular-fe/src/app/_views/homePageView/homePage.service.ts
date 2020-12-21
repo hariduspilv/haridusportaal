@@ -37,7 +37,7 @@ export class HomePageService {
     teachers: 'teachingPage',
     career: 'careerPage',
     learning: 'learningHomePage',
-    youngth: 'joungthHomePage',
+    youth: 'youthHomePage',
   };
 
   public articleImages: {[key: string]: string[]} = {
@@ -53,9 +53,9 @@ export class HomePageService {
       'homepage-articles-learning-1.svg',
       'homepage-articles-learning-2.svg',
     ],
-    youngth: [
-      'homepage-articles-youngth-1.svg',
-      'homepage-articles-youngth-2.svg',
+    youth: [
+      'homepage-articles-youth-1.svg',
+      'homepage-articles-youth-2.svg',
     ],
   };
 
@@ -109,28 +109,6 @@ export class HomePageService {
         },
       },
     ],
-    youngth: [
-      {
-        title: this.translate.get('home.topics_youngth_center'),
-        link: {
-          title: this.translate.get('home.view_more'),
-          url: {
-            path: '/erialad',
-            routed: true,
-          },
-        },
-      },
-      {
-        title: this.translate.get('home.topics_hobby_education'),
-        link: {
-          title: this.translate.get('home.view_more'),
-          url: {
-            path: '/kool',
-            routed: true,
-          },
-        },
-      },
-    ],
   };
 
   public logos: {[key: string]: ILogo[]} = {
@@ -160,13 +138,13 @@ export class HomePageService {
         label: 'Logo - Innove',
       },
     ],
-    youngth: [
+    youth: [
       {
         src: '/assets/img/haridus-ja-noorteamet-logo.svg',
         label: 'Haridus- ja noorteamet',
       },
       {
-        src: '/assets/teeviit-logo.svg',
+        src: '/assets/img/teeviit-logo.svg',
         label: 'Teeviit',
       },
     ],
@@ -248,6 +226,23 @@ export class HomePageService {
     });
   }
 
+  public cleanTopic(items: IGraphTopic[]): ITopic[] {
+    return items.map((item: IGraphTopic) => {
+      return {
+        title: item.entity.fieldTitle,
+        content: item.entity.fieldText,
+        theme: item.entity.fieldTheme,
+        link: {
+          title: this.translate.get('home.view_more'),
+          url: {
+            routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
+            path: item.entity.fieldInternalLink.entity.entityUrl.path,
+          },
+        },
+      };
+    });
+  }
+
   public getTopicsAndArticles(data: IGraphResponse, theme: string): ITopicArticleUnion {
     const source = data.topics;
     if (!source) {
@@ -261,21 +256,11 @@ export class HomePageService {
 
     let articles: ITopic[] = [];
     let topics: ITopic[] = [];
-
-    if (['career', 'learning', 'youngth'].indexOf(theme) !== -1) {
-      articles = items.map((item: IGraphTopic) => {
-        return {
-          title: item.entity.fieldTitle,
-          content: item.entity.fieldText,
-          link: {
-            title: this.translate.get('home.view_more'),
-            url: {
-              routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
-              path: item.entity.fieldInternalLink.entity.entityUrl.path,
-            },
-          },
-        };
-      });
+    if (theme === 'youth') {
+      topics = this.cleanTopic(items);
+      articles = this.cleanTopic([data.fieldYouthContentPage]);
+    } else if (['career', 'learning'].indexOf(theme) !== -1) {
+      articles = this.cleanTopic(items);
       topics = this.topics[theme];
     } else {
       topics = items.map((item: IGraphTopic) => {

@@ -59,12 +59,12 @@
         }
       }
     }
-    &.theme--youngth {
+    &.theme--youth {
       .navBlock {
-        background: url('/assets/img/homepage-1-youngth.svg') center bottom no-repeat;
+        background: url('/assets/img/homepage-1-youth.svg') center bottom no-repeat;
         background-size: cover;
         &:before {
-          background: linear-gradient(to bottom, #CFDEFB 0%, rgba(207, 222, 251, 0.5) 100%);
+          background: linear-gradient(to bottom, #CFDEFB 0%, rgba(207, 222, 251, 0) 100%);
         }
         &__buttons {
           button, a {
@@ -74,6 +74,9 @@
               padding-bottom: 4rem;
             }
           }
+        }
+        &__title img {
+          max-width: 25rem;
         }
       }
     }
@@ -729,6 +732,23 @@
         }
       }
     }
+    &.theme--youth {
+      .instance__category {
+        color: $black;
+      }
+      .instance__content:first-child {
+        //padding-right: 3rem;
+      }
+      .instance__image {
+        width: 35%;
+        margin: auto;
+        @include break-on(xxs, max) {
+          width: 80%;
+        }
+        @include break-on(sm, min) {
+        }
+      }
+    }
   }
 
   homepage-slides {
@@ -801,7 +821,7 @@
         color: #58730c;
       }
     }
-    &.theme--youngth {
+    &.theme--youth {
       .slides__title {
         color: $black;
       }
@@ -845,7 +865,7 @@
         color: $black;
       }
     }
-    &.theme--youngth {
+    &.theme--youth {
       background: $theme-young;
       svg .st0 {
         fill: $theme-young;
@@ -1111,7 +1131,7 @@
     &.theme--career,
     &.theme--teachers,
     &.theme--learning,
-    &.theme--youngth {
+    &.theme--youth {
       background: $white;
       padding-top: 4rem;
       .st0 {
@@ -1146,7 +1166,7 @@
       }
     }
 
-    &.theme--youngth {
+    &.theme--youth {
       .instance {
         &__image {
           width: 14rem;
@@ -1264,7 +1284,10 @@
       margin-top: 1rem;
     }
 
-    &.theme--teachers, &.theme--career, &.theme--learning {
+    &.theme--teachers,
+    &.theme--career,
+    &.theme--learning,
+    &.theme--youth {
       .newsletter__col:nth-child(2) {
           order: 3;
           text-align: right;

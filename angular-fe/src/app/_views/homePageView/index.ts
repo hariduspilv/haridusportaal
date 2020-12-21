@@ -51,7 +51,7 @@ const routes: Routes = [
     path: 'noored',
     component: HomePageViewComponent,
     data: {
-      theme: 'youngth',
+      theme: 'youth',
     },
   },
   {

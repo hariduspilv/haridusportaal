@@ -11,6 +11,7 @@ export interface ILink {
 }
 
 export interface ITopic {
+  theme?: string;
   title: string;
   link: ILink;
   content?: string;
@@ -133,6 +134,7 @@ export interface IGraphLearningToTeach {
 
 export interface IGraphTopic {
   entity: {
+    fieldTheme?: string;
     fieldTitle: string;
     fieldText: string;
     fieldInternalLink: IGraphURLEntity;
@@ -175,6 +177,7 @@ export interface IGraphResponse {
   quoteAuthor?: string;
   quoteAuthorWork?: string;
   fieldLearningToTeach?: IGraphLearningToTeach[];
+  fieldYouthContentPage?: IGraphTopic;
   news?: IGraphURLEntity;
   topics?: IGraphTopic | IGraphTopic[];
   services?: IGraphService[];
