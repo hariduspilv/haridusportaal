@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SwiperComponent } from 'ngx-useful-swiper';
-import { SwiperOptions } from 'swiper';
+import { Swiper, SwiperOptions } from 'swiper';
 import { CarouselItem } from './carousel.model';
 
 @Component({
@@ -19,21 +19,33 @@ export class CarouselComponent {
       prevEl: '.slides__arrow--left',
     },
     a11y: {
-      prevSlideMessage: this.translate.get('carousel.prev'),
-      nextSlideMessage: this.translate.get('carousel.next'),
-      paginationBulletMessage: this.translate.get('carousel.to_slide'),
+      enabled: false,
     },
     breakpoints: {
       720: {
         slidesPerView: 2,
       },
-      1280: {
+      1024: {
         slidesPerView: 3,
       },
     },
     slidesPerView: 1,
     slidesPerGroup: 1,
     loop: true,
+    on: {
+      init: (sw: Swiper) => {
+        sw.slides.forEach((el) => {
+          if (el.classList.contains('swiper-slide-duplicate')) {
+            el.setAttribute('aria-hidden', 'true');
+            el.setAttribute('tabindex', '-1');
+            el.querySelectorAll('a').forEach((el2) => {
+              el2.setAttribute('aria-hidden', 'true');
+              el2.setAttribute('tabindex', '-1');
+            });
+          }
+        });
+      },
+    },
   };
 
   constructor(public translate: TranslateService) {}

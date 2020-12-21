@@ -1,12 +1,15 @@
 <swiper [config]="config" #usefulSwiper>
-  <div class="swiper-wrapper">
-    <ng-container *ngFor="let item of data; let i = index">
+  <div class="swiper-wrapper" aria-roledescription="carousel" aria-live="polite" id="carousel-content">
+    <ng-container *ngFor="let item of data; let i = index; let l = count">
       <a class="swiper-slide slides__instance"
         *ngIf="item.link.url.routed"
-        [routerLink]="item.link.url.path">
+        [routerLink]="item.link.url.path"
+        role="group"
+        aria-roledescription="slide"
+        [attr.aria-label]="'slide ' + (i + 1) + ' of ' + l">
         <div class="slides__elem">
           <div class="slides__elem__image">
-            <img [src]="item.image.url" [alt]="" />
+            <img [src]="item.image.url" alt="" />
           </div><!--/slides__elem__image-->
           <div class="slides__elem__body">
             <h3 class="slides__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
@@ -20,10 +23,13 @@
 
       <a class="swiper-slide slides__instance"
         *ngIf="!item.link.url.routed"
-        [href]="item.link.url.path">
+        [href]="item.link.url.path"
+        role="group"
+        aria-roledescription="slide"
+        [attr.aria-label]="'slide ' + (i + 1) + ' of ' + l">
         <div class="slides__elem">
           <div class="slides__elem__image">
-            <img [src]="item.image.url" [alt]="" />
+            <img [src]="item.image.url" alt="" />
           </div><!--/slides__elem__image-->
           <div class="slides__elem__body">
             <h3 class="slides__elem__title"  [attr.aria-label]="item.title">{{ item.title }}</h3>
@@ -36,11 +42,11 @@
       </a><!--/slides__instance-->
     </ng-container>
   </div>
-  <div class="swiper-pagination"></div>
+  <div class="swiper-pagination" aria-hidden="true" tabindex="-1"></div>
 </swiper>
-<div class="slides__arrow slides__arrow--right">
-  <icon glyph="chevron-right" size="large"></icon>
-</div>
-<div class="slides__arrow slides__arrow--left">
+<div class="slides__arrow slides__arrow--left" aria-hidden="true" tabindex="-1">
   <icon glyph="chevron-left" size="large"></icon>
+</div>
+<div class="slides__arrow slides__arrow--right" aria-hidden="true" tabindex="-1">
+  <icon glyph="chevron-right" size="large"></icon>
 </div>
