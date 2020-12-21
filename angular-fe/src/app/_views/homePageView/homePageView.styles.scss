@@ -59,6 +59,24 @@
         }
       }
     }
+    &.theme--youngth {
+      .navBlock {
+        background: url('/assets/img/homepage-1-youngth.svg') center bottom no-repeat;
+        background-size: cover;
+        &:before {
+          background: linear-gradient(to bottom, #CFDEFB 0%, rgba(207, 222, 251, 0.5) 100%);
+        }
+        &__buttons {
+          button, a {
+            color: $black;
+            font-size: 1.125rem;
+            @include break-on(xxs, max) {
+              padding-bottom: 4rem;
+            }
+          }
+        }
+      }
+    }
     &.theme--learning {
       .navBlock {
         background: url('/assets/img/homepage-1-learning.svg') center bottom no-repeat;
@@ -778,10 +796,14 @@
         font-size: 1.125rem;
       }
     }
-
     &.theme--learning {
       .slides__title {
         color: #58730c;
+      }
+    }
+    &.theme--youngth {
+      .slides__title {
+        color: $black;
       }
     }
   }
@@ -815,9 +837,18 @@
       }
     }
     &.theme--learning {
-      background: #E4F1C0;
+      background: $theme-learning;
       svg .st0 {
-        fill: #E4F1C0;
+        fill: $theme-learning;
+      }
+      .topical__category {
+        color: $black;
+      }
+    }
+    &.theme--youngth {
+      background: $theme-young;
+      svg .st0 {
+        fill: $theme-young;
       }
       .topical__category {
         color: $black;
@@ -1077,12 +1108,18 @@
       padding-bottom: 2rem;
     }
 
-    &.theme--teachers {
+    &.theme--career,
+    &.theme--teachers,
+    &.theme--learning,
+    &.theme--youngth {
       background: $white;
       padding-top: 4rem;
       .st0 {
         fill: $white;
       }
+    }
+
+    &.theme--teachers {
       .instance {
         &__image {
           width: 13.75rem;
@@ -1092,11 +1129,6 @@
     }
 
     &.theme--career {
-      background: $white;
-      padding-top: 4rem;
-      .st0 {
-        fill: $white;
-      }
       .instance {
         &__image {
           width: 16rem;
@@ -1106,11 +1138,15 @@
     }
     
     &.theme--learning {
-      background: $white;
-      padding-top: 4rem;
-      .st0 {
-        fill: $white;
+      .instance {
+        &__image {
+          width: 14rem;
+          margin-top: 0;
+        }
       }
+    }
+
+    &.theme--youngth {
       .instance {
         &__image {
           width: 14rem;

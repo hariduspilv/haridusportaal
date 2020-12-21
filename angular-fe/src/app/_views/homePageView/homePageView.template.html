@@ -138,4 +138,40 @@
       [data]="contact"
       [theme]="theme"></homepage-footer>
   </ng-container>
+
+  <ng-container *ngSwitchCase="'youngth'">
+    <homepage-navblock
+      [data]="topics"
+      [theme]="theme"
+      [title]="'home.youngth_slogan' | translate"></homepage-navblock>
+    <homepage-articles
+      *ngIf="articles && articles.length"
+      [data]="articles | slice:0:1"
+      [category]="'home.youngth_seasonal' | translate"
+      [theme]="theme"></homepage-articles>
+    <homepage-slides
+      [data]="services"
+      [title]="'home.youngth_path_title' | translate"
+      [theme]="theme"></homepage-slides>
+    <homepage-articles
+      *ngIf="articles && articles.length"
+      [data]="articles | slice:1"
+      [category]="'home.youngth_topic' | translate"
+      [theme]="theme"></homepage-articles>
+    <homepage-topical
+      [article]="news"
+      [category]="'home.topical_default' | translate"
+      [image]="'/assets/img/homepage-topical-youngth.svg'"
+      [theme]="theme"></homepage-topical>
+    <homepage-slogan
+      [title]="slogan.title"
+      [person]="slogan.person"
+      [company]="slogan.company"
+      [image]="'/assets/img/homepage-slogan-youngth.svg'"
+      [line]="3"
+      [theme]="theme"></homepage-slogan>
+    <homepage-footer
+      [data]="contact"
+      [theme]="theme"></homepage-footer>
+  </ng-container>
 </ng-container>

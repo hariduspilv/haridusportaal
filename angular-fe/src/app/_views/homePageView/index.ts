@@ -48,6 +48,13 @@ const routes: Routes = [
     },
   },
   {
+    path: 'noored',
+    component: HomePageViewComponent,
+    data: {
+      theme: 'youngth',
+    },
+  },
+  {
     path: 'oska',
     redirectTo: 'karjäär',
   },
