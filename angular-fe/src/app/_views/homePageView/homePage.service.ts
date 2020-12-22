@@ -456,8 +456,8 @@ export class HomePageService {
         author: item.fieldOrganizer,
         created: item.fieldEventMainDate.unix,
         content: item.fieldDescriptionSummary,
-        location: (typeof item.fieldEventLocation !== 'string')
-          ? item.fieldEventLocation.name : item.fieldEventLocation,
+        location: item.fieldEventLocation ? (typeof item.fieldEventLocation !== 'string')
+          ? item.fieldEventLocation.name : item.fieldEventLocation : null,
         link: {
           title: this.translate.get('button.read_more'),
           url: {

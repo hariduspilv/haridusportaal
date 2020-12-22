@@ -1,0 +1,19 @@
+uuid: fd22d02a-68f0-4ccb-a87d-f8ab6380c796
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
+id: paragraph.yoth_content_page_link_type_2.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: yoth_content_page_link_type_2
+label: Pealkiri
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

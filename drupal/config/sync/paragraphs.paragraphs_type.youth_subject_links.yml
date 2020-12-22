@@ -1,9 +1,9 @@
-uuid: 0278747c-802b-4824-b54c-a06898992834
+uuid: 33dfe839-2a4f-4ba0-816d-fa42669fe4f5
 langcode: et
 status: true
 dependencies: {  }
-id: youth_content_page_link
-label: 'Hooajaline esile toodud sisuleht'
+id: youth_subject_links
+label: 'Noored teemad '
 icon_uuid: null
 icon_default: null
 description: ''
