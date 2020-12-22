@@ -72,7 +72,7 @@ query youthHomePage($lang: LanguageId!) {
         }
         fieldYouthForegroundContent {
           entity {
-            ... on ParagraphYothContentPageLinkType2 {
+            ... on ParagraphContentPageLink {
               fieldText
               fieldTheme
               fieldTitle
@@ -84,11 +84,6 @@ query youthHomePage($lang: LanguageId!) {
                   }
                   entityLabel
                   entityId
-                }
-              }
-              fieldLearningCarouselImage {
-                entity {
-                  url
                 }
               }
             }
