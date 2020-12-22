@@ -8,13 +8,13 @@ import { ClassifiersApi } from '../classifiers/classifiers.api.service';
 import { ClassifierDefinitionCode } from '../classifiers/models/classifier-definition-code.enum';
 import { ClassifierItemsQuery } from '../classifiers/models/classifier-items-query';
 import { CertificatesUtility } from './certificates.utility';
-import { CertificateResponse } from './models/certificate';
-import { CertificateActionResponse } from './models/certificate-action-response';
-import { CertificateDocumentWithClassifier } from './models/certificate-document';
-import { CertificateDocumentResponse } from './models/certificate-document-response';
-import { CertificateIndex } from './models/certificate-index';
-import { CertificateTranscriptParams } from './models/certificate-transcript-params';
-import { GraduationDocumentLanguage } from './models/graduation-document-language.enum';
+import { CertificateResponse } from './models/interfaces/certificate';
+import { CertificateActionResponse } from './models/interfaces/certificate-action-response';
+import { CertificateDocumentWithClassifier } from './models/interfaces/certificate-document';
+import { CertificateDocumentResponse } from './models/interfaces/certificate-document-response';
+import { CertificateIndex } from './models/interfaces/certificate-index';
+import { CertificateTranscriptParams } from './models/interfaces/certificate-transcript-params';
+import { GraduationDocumentLanguage } from './models/enums/graduation-document-language.enum';
 
 @Injectable({
   providedIn: 'root',

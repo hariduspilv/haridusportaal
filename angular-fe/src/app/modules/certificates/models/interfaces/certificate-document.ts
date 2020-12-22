@@ -1,7 +1,6 @@
 import { ClassifierItemsQueryItem } from '@app/modules/classifiers/models/classifier-items-query-item';
-import { ClassifierItemText } from '@app/_core/models/ClassifierItemText';
 import { CertificateDocumentContent } from './certificate-document-content';
-import { GraduationDocumentType } from './graduation-document-type.enum';
+import { GraduationDocumentType } from '../enums/graduation-document-type.enum';
 
 export enum CertificateStatus {
   VALID = 'CERT_DOCUMENT_STATUS:VALID',

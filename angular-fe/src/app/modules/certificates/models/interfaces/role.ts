@@ -1,4 +1,4 @@
-import { AccessScope } from './certificate-access';
+import { AccessScope } from '../enums/access-scope.enum';
 
 export interface Role {
   base: string;

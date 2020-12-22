@@ -1,5 +1,5 @@
-import { AccessScope } from '@app/modules/certificates/models/certificate-access';
-import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/certificate-document';
+import { AccessScope } from '@app/modules/certificates/models/enums/access-scope.enum';
+import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/interfaces/certificate-document';
 
 export interface FinalDocumentDownloadSidebar {
   id: number;

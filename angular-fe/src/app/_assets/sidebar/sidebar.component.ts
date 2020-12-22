@@ -26,9 +26,9 @@ import { Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { RecaptchaComponent } from 'ng-recaptcha';
 import { CertificatesUtility } from '@app/modules/certificates/certificates.utility';
-import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/certificate-document';
 import { CertificatesApi } from '@app/modules/certificates/certificates.api.service';
 import { FinalDocumentDownloadSidebar } from './models/final-document-download-sidebar';
+import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/interfaces/certificate-document';
 
 interface SidebarType {
   [key: string]: string;

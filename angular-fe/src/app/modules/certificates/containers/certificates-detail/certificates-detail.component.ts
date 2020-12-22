@@ -6,11 +6,11 @@ import { SettingsService } from '@app/_services';
 import { forkJoin, Observable } from 'rxjs';
 import { CertificatesApi } from '../../certificates.api.service';
 import { CertificatesUtility } from '../../certificates.utility';
-import { CertificateData } from '../../models/certificate-data';
-import { CertificateDocumentWithClassifier, FormattedCertificateDocumentData } from '../../models/certificate-document';
-import { CertificateDocumentResponse } from '../../models/certificate-document-response';
-import { CertificateIndex } from '../../models/certificate-index';
-import { GraduationDocumentLanguage } from '../../models/graduation-document-language.enum';
+import { CertificateData } from '../../models/interfaces/certificate-data';
+import { CertificateDocumentWithClassifier, FormattedCertificateDocumentData } from '../../models/interfaces/certificate-document';
+import { CertificateDocumentResponse } from '../../models/interfaces/certificate-document-response';
+import { CertificateIndex } from '../../models/interfaces/certificate-index';
+import { GraduationDocumentLanguage } from '../../models/enums/graduation-document-language.enum';
 
 @Component({
   selector: 'certificates-detail',

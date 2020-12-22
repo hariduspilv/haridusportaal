@@ -1,5 +1,5 @@
-import { CertificateTranscriptDocumentScope } from './certificate-transcript-document-scope.enum';
-import { CertificateTranscriptTemplateType } from './certificate-transcript-template-type.enum';
+import { CertificateTranscriptDocumentScope } from '../enums/certificate-transcript-document-scope.enum';
+import { CertificateTranscriptTemplateType } from '../enums/certificate-transcript-template-type.enum';
 
 export type CertificateTranscriptParams = {
   fileFormat: string;

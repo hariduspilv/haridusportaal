@@ -2,17 +2,17 @@ import { FormGroup } from '@angular/forms';
 import { FinalDocumentDownloadSidebar } from '@app/_assets/sidebar/models/final-document-download-sidebar';
 import { SortDirection } from '@app/_core/models/Sorting';
 import { sortByMultipleKeys } from '@app/_core/sortingUtilities';
-import { CertificateData } from './models/certificate-data';
+import { CertificateData } from './models/interfaces/certificate-data';
 import {
   CertificateDocument,
   CertificateDocumentWithClassifier,
   FormattedCertificateDocumentData,
-} from './models/certificate-document';
-import { CertificateIndex } from './models/certificate-index';
-import { CertificateTranscriptParams } from './models/certificate-transcript-params';
-import { CertificateTranscriptTemplateType } from './models/certificate-transcript-template-type.enum';
-import { GraduationDocumentTypeClassification } from './models/graduation-document-type-classification.enum';
-import { GraduationDocumentType } from './models/graduation-document-type.enum';
+} from './models/interfaces/certificate-document';
+import { CertificateIndex } from './models/interfaces/certificate-index';
+import { CertificateTranscriptParams } from './models/interfaces/certificate-transcript-params';
+import { CertificateTranscriptTemplateType } from './models/enums/certificate-transcript-template-type.enum';
+import { GraduationDocumentTypeClassification } from './models/enums/graduation-document-type-classification.enum';
+import { GraduationDocumentType } from './models/enums/graduation-document-type.enum';
 
 export class CertificatesUtility {
 

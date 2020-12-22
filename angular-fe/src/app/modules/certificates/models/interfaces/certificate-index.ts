@@ -1,6 +1,6 @@
 import { CertificateDocument } from './certificate-document';
 import { CertificateDocumentResponse } from './certificate-document-response';
-import { GraduationDocumentType } from './graduation-document-type.enum';
+import { GraduationDocumentType } from '../enums/graduation-document-type.enum';
 import { JointProgrammeEducationalInstitution } from './joint-programme-educational-institution';
 
 enum CertificateStatus {
