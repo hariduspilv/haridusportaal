@@ -36,6 +36,12 @@ export class CertificatesApi {
     return this.http.get<CertificateDocumentResponse>(url);
   }
 
+  fetchDocumentWithParams(documentId: number, params: {}): Observable<CertificateDocumentResponse> {
+    const url = `${this.certificatesUrl}/certificateDocument/${documentId}`;
+
+    return this.http.get<CertificateDocumentResponse>(url, { params });
+  }
+
   downloadTranscript(id: number, params: CertificateTranscriptParams): Observable<Blob> {
     return this.http.get(`${this.certificatesUrl}/certificateTranscript/${id}`,
                          { params, responseType: 'blob' });

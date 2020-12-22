@@ -7,13 +7,14 @@
 <htm-modal id="finalDocument-download" [modalTitle]="'finalDocumentDownload' | translate" [bottomAction]="false">
 	<ng-template>
     <loader *ngIf="loading"></loader>
+    <alerts small id="download"></alerts>
     <ng-container *ngIf="!loading">
       <h1>{{'generic.download' | translate}}</h1>
       <p class="remark">Tärniga (*) tähistatud väljad on kohustuslikud.</p>
       <form [formGroup]="downloadForm">
-        <div class="group" *ngIf="hasAccessToAccompanyingDocuments && data.generalEducationDocumentType">
+        <div class="group" *ngIf="hasAccessToAccompanyingDocuments && data?.generalEducationDocumentType">
           <p>{{ 'certificates.download_choose_content' | translate }}:</p>
-          <formItem type="radio" formControlName="scope" [options]="scope" name="scope"></formItem>
+          <formItem type="radio" formControlName="scope" [options]="downloadOptions.scope" name="scope"></formItem>
         </div>
         <div class="group group__documents" *ngIf="data?.documents && documentsForm?.controls && !data.generalEducationDocumentType" [formGroup]="documentsForm">
           <p>{{ 'certificates.download_choose_content' | translate }}:</p>
@@ -38,6 +39,5 @@
         </div>
       </form>
     </ng-container>
-    <alerts small id="download"></alerts>
 	</ng-template>
 </htm-modal>

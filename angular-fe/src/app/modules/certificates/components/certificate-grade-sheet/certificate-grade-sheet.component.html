@@ -62,7 +62,7 @@
               <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">Kursusi</td>
               <td>Hinne</td>
             </tr>
-            <tr *ngFor="let subject of mandatorySubjects; let last = last" [class.last-cell]="last && !document.content.graduationStudy">
+            <tr *ngFor="let subject of mandatorySubjects; let last = last" [class.last-cell]="last && !document.content?.graduationStudy">
               <td>
                 {{subject.subject}}
                 <ng-container *ngIf="subject.subjectDetail">({{subject.subjectDetail}})</ng-container>
@@ -77,7 +77,7 @@
               </td>
             </tr>
   
-            <tr *ngIf="document.content.graduationStudy" class="last-cell">
+            <tr *ngIf="document?.content?.graduationStudy" class="last-cell">
               <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">{{ document.content.graduationStudy.type }}: {{ document.content.graduationStudy.subject }}</td>
               <td><span *ngIf="document.content.graduationStudy.resultNumeric != null" class="numeric-grade">{{document.content.graduationStudy.resultNumeric}}</span>{{document.content.graduationStudy.resultInWords}}</td>
             </tr>
@@ -105,7 +105,7 @@
               <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">Lõpueksamid</td>
               <td>Hinne</td>
             </tr>
-            <tr *ngFor="let subject of document.content.graduationExaminations; let last = last" [class.last-cell]="last">
+            <tr *ngFor="let subject of document?.content?.graduationExaminations; let last = last" [class.last-cell]="last">
               <td [attr.colspan]="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES' ? 2 : null">
                 {{subject.subject}}
                 <ng-container *ngIf="subject.type === 'koolieksam'">*</ng-container>

@@ -114,7 +114,8 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
         ).subscribe((documentsWithClassifiers: CertificateDocumentWithClassifier[]) => {
           this.transcriptDocuments = CertificatesUtility
             .sortTranscriptDocuments(documentsWithClassifiers);
-          this.sidebar = this.composeSidebarData(this.documents, this.transcriptDocuments);
+          this.sidebar = CertificatesUtility.composeSidebarData(
+            this.documents, this.transcriptDocuments, this.generalEducationDocumentType);
           this.loading = false;
           setTimeout(() => {
             (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
@@ -122,7 +123,8 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
           });
         });
       } else {
-        this.sidebar = this.composeSidebarData(this.documents, null);
+        this.sidebar = CertificatesUtility.composeSidebarData(
+          this.documents, null, this.generalEducationDocumentType);
         this.loading = false;
         setTimeout(() => {
           (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
@@ -130,28 +132,5 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
         });
       }
     });
-  }
-
-  public composeSidebarData(documents: FormattedCertificateDocumentData,
-                            allDocuments: CertificateDocumentWithClassifier[]) {
-    return {
-      entity: {
-        finalDocumentDownload: {
-          certificateName: `${documents.certificate.content['graduate'].firstName} /
-            ${documents.certificate.content['graduate'].lastName}`,
-          certificateNumber: documents.certificate.content['registrationNumber'],
-          hasGradeSheet: documents.transcript?.status !== 'CERT_DOCUMENT_STATUS:INVALID',
-          invalid: documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID',
-          generalEducationDocumentType: this.generalEducationDocumentType,
-          documents: allDocuments,
-        },
-        finalDocumentAccess: {
-          issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
-        },
-        finalDocumentHistory: {
-          issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
-        },
-      },
-    };
   }
 }

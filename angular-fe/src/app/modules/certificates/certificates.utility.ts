@@ -1,6 +1,8 @@
 import { FormGroup } from '@angular/forms';
+import { FinalDocumentDownloadSidebar } from '@app/_assets/sidebar/models/final-document-download-sidebar';
 import { SortDirection } from '@app/_core/models/Sorting';
 import { sortByMultipleKeys } from '@app/_core/sortingUtilities';
+import { CertificateData } from './models/certificate-data';
 import {
   CertificateDocument,
   CertificateDocumentWithClassifier,
@@ -67,14 +69,19 @@ export class CertificatesUtility {
   public static gatherTranscriptRequestParameters(
     transcriptFormGroup: FormGroup,
     transcriptDocumentsFormGroup: FormGroup,
-    generalEducationDocumentType: boolean,
+    sidebarData: FinalDocumentDownloadSidebar,
+    accessorCode?: string,
   ): CertificateTranscriptParams {
     const transcriptDocumentsForm = transcriptDocumentsFormGroup.getRawValue();
     const staticParameters: CertificateTranscriptParams = {
       fileFormat: transcriptFormGroup.value.fileFormat,
       TemplateTypes: CertificateTranscriptTemplateType.WithCoatOfArms,
     };
-    return generalEducationDocumentType ? {
+    if (sidebarData.withAccess && sidebarData.accessType) {
+      staticParameters.accessType = `ACCESS_TYPE:${sidebarData.accessType}`;
+      if (accessorCode) staticParameters.accessorCode = accessorCode;
+    }
+    return sidebarData.generalEducationDocumentType ? {
       ...staticParameters,
       scope: transcriptFormGroup.value.scope,
     } : {
@@ -109,6 +116,38 @@ export class CertificatesUtility {
   private static gatherSelectedDocumentKeys(documentIds: Record<number, string>): string[] {
     if (!documentIds || !Object.keys(documentIds).length) return null;
     return Object.keys(documentIds).filter(key => documentIds[key]);
+  }
+
+  public static composeSidebarData(
+    documents: FormattedCertificateDocumentData,
+    allDocuments: CertificateDocumentWithClassifier[],
+    generalEducationDocumentType: boolean,
+    accessType?: string,
+    certificateData?: CertificateData,
+  ) {
+    return {
+      entity: {
+        finalDocumentDownload: {
+          generalEducationDocumentType,
+          accessType,
+          id: certificateData?.index?.id,
+          withAccess: !!certificateData,
+          accessScope: certificateData?.role?.accessScope,
+          certificateName: `${documents.certificate.content['graduate'].firstName} /
+            ${documents.certificate.content['graduate'].lastName}`,
+          certificateNumber: documents.certificate.content['registrationNumber'],
+          hasGradeSheet: documents.transcript?.status !== 'CERT_DOCUMENT_STATUS:INVALID',
+          invalid: documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID',
+          documents: allDocuments,
+        },
+        finalDocumentAccess: !certificateData ? {
+          issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
+        } : null,
+        finalDocumentHistory: !certificateData ? {
+          issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
+        } : null,
+      },
+    };
   }
 
 }

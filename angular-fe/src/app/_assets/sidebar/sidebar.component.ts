@@ -12,7 +12,6 @@ import { AlertsService, ModalService, SettingsService, SidebarService, AuthServi
 import {
   collection,
   parseFieldData,
-  parseInfosystemData,
   parseProfessionData,
   titleLess,
 } from './helpers/sidebar';
@@ -29,6 +28,7 @@ import { RecaptchaComponent } from 'ng-recaptcha';
 import { CertificatesUtility } from '@app/modules/certificates/certificates.utility';
 import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/certificate-document';
 import { CertificatesApi } from '@app/modules/certificates/certificates.api.service';
+import { FinalDocumentDownloadSidebar } from './models/final-document-download-sidebar';
 
 interface SidebarType {
   [key: string]: string;
@@ -1146,7 +1146,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
   templateUrl: './templates/sidebar.finaldocument-download.template.html',
 })
 export class SidebarFinalDocumentDownloadComponent {
-  @Input() public data: any;
+  @Input() public data: FinalDocumentDownloadSidebar;
 
   public hasAccessToAccompanyingDocuments = false;
   public downloadForm: FormGroup;
@@ -1192,12 +1192,14 @@ export class SidebarFinalDocumentDownloadComponent {
     if (this.downloadForm.invalid) {
       return;
     }
+    this.alertsService.clear('download');
     this.loading = true;
     this.certificatesApi.downloadTranscript(id, {
       ...CertificatesUtility.gatherTranscriptRequestParameters(
         this.downloadForm,
         this.documentsForm,
-        this.data.generalEducationDocumentType,
+        this.data,
+        this.route.snapshot.params.accessorCode,
       ),
     }).subscribe((res: Blob) => {
       saveAs(res, `${this.data.certificateName} ${this.translate.get('finaldocuments.main_document')} ${this.data.certificateNumber}`);
@@ -1206,29 +1208,7 @@ export class SidebarFinalDocumentDownloadComponent {
     },           (err: HttpErrorResponse) => {
       this.loading = false;
       this.dispatchErrorsToAlert(err);
-      // this.modal.close('finalDocument-download');
     });
-
-//     const requestUrl = this.data.accessType === 'ACCESS_CODE' ?
-//     `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${this.data.id}\
-// ?scope=${form.scope}&fileFormat=${form.fileFormat}&accessType=ACCESS_TYPE:ACCESS_CODE\
-// &accessorCode=${this.route.snapshot.params.accessorCode}`
-//     : `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}\
-// ?scope=${form.scope}&fileFormat=${form.fileFormat}${this.data.accessType ? `&accessType=ACCESS_TYPE:${this.data.accessType}` : ''}`;
-
-  //   this.http.get(
-  //     requestUrl,
-  //     {
-  //       headers: { 'Content-Type': 'application/*' },
-  //       responseType: 'blob',
-  //     },
-  //     )
-  //     .subscribe((res: any) => {
-  //       saveAs(
-  //         res,
-  //         `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}.${form.fileFormat.toLowerCase()}`,
-  //       );
-  //     });
   }
 
   dispatchErrorsToAlert(err: HttpErrorResponse): void {
