@@ -3806,6 +3806,22 @@ home:
     translation_type: textarea
     et: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
     en: 'Õpi õpetajaks või noorsootöötajaks, lorem ipsum dolor sit amet, consectetur.'
+  youngth_slogan:
+    translation_type: textarea
+    et: 'Mingisugune <b>slogan</b> noortele'
+    en: 'Mingisugune <b>slogan</b> noortele'
+  youngth_path_title:
+    translation_type: textarea
+    et: 'Noorsootöö võimalused'
+    en: 'Noorsootöö võimalused'
+  topics_youngth_center:
+    translation_type: textarea
+    et: 'Avatud noortekeskused'
+    en: 'Avatud noortekeskused'
+  topics_hobby_education:
+    translation_type: textarea
+    et: 'Huviharidus ja huvitegevus'
+    en: 'Huviharidus ja huvitegevus'
 finalDocumentDownload:
   translation_type: textarea
   et: 'Laadi failid alla'
@@ -4126,3 +4142,40 @@ carousel:
     translation_type: textarea
     et: 'Mine slaidile {{index}}'
     en: 'Go to slide {{index}}'
+'GRANT_STATUS:SUBMITTED':
+  translation_type: textarea
+  et: 'Esitatud (otsustamisel)'
+  en: ''
+labels:
+  tags:
+    translation_type: textarea
+    et: 'Sildid kategooriad'
+    en: 'Labels categories'
+'GRANT_STATUS:REJECTED':
+  translation_type: textarea
+  et: Tagasilükatud
+  en: Rejected
+'GRANT_STATUS:RECOVERY':
+  translation_type: textarea
+  et: 'Tagasi nõutud'
+  en: Recovery
+'GRANT_STATUS:ACTIVENONCOMPLIANCE':
+  translation_type: textarea
+  et: 'Töötamise nõuded täitmata'
+  en: 'Active no compliance'
+'GRANT_STATUS:SUSPENSION':
+  translation_type: textarea
+  et: Peatunud
+  en: Suspension
+'GRANT_STATUS:PAYMENT':
+  translation_type: textarea
+  et: 'Väljamakse tehtud'
+  en: Payment
+'GRANT_STATUS:ACTIVE':
+  translation_type: textarea
+  et: 'Rahuldatud (makse ootel)'
+  en: Payment
+'GRANT_STATUS:UNSUBMITTED':
+  translation_type: textarea
+  et: Esitamata
+  en: Unsubmitted
