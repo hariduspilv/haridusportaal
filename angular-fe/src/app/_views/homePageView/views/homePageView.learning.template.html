@@ -1,0 +1,36 @@
+
+<homepage-navblock
+  [data]="topics"
+  [theme]="theme"
+  [title]="'home.learning_slogan' | translate"
+  [image]="'/assets/img/homePage-navBlock-learning.svg'"></homepage-navblock>
+<homepage-articles
+  *ngIf="articles && articles.length"
+  [data]="articles"
+  [category]="'home.exam_period' | translate"
+  [theme]="theme"></homepage-articles>
+<homepage-slides
+  [data]="services"
+  [title]="'home.learning_path_title' | translate"
+  [theme]="theme"></homepage-slides>
+<homepage-study
+  [title]="study.title"
+  [intro]="study.intro"
+  [data]="study.data"
+  [learnMore]="false"
+  [theme]="theme"></homepage-study>
+<homepage-topical
+  [article]="news"
+  [category]="'home.topical_default' | translate"
+  [image]="'/assets/img/homepage-topical-learning.svg'"
+  [theme]="theme"></homepage-topical>
+<homepage-slogan
+  [title]="slogan.title"
+  [person]="slogan.person"
+  [company]="slogan.company"
+  [image]="'/assets/img/homepage-slogan-learning.svg'"
+  [line]="3"
+  [theme]="theme"></homepage-slogan>
+<homepage-footer
+  [data]="contact"
+  [theme]="theme"></homepage-footer>

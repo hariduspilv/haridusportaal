@@ -8,7 +8,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from '@app/_interceptors';
 import { NgPipesModule } from 'ngx-pipes';
-import { HomePageService } from './homePage.service';
+import { HomePageService } from './homePageView.service';
 import { HomePageViewComponent } from './homePageView.component';
 import { HomePageArticlesComponent } from './blocks/homePageView.articles.component';
 import { HomePageCareerDevelopmentComponent } from './blocks/homePageView.careerDevelopment.component';
@@ -20,6 +20,10 @@ import { HomePageSlidesComponent } from './blocks/homePageView.slides.component'
 import { HomePageSloganComponent } from './blocks/homePageView.slogan.component';
 import { HomePageStudyComponent } from './blocks/homePageView.study.component';
 import { HomePageTopicalComponent } from './blocks/homePageView.topical.component';
+import { HomePageTeachingViewComponent } from './views/homePageView.teaching.component';
+import { HomePageCareerViewComponent } from './views/homePageView.career.component';
+import { HomePageLearningViewComponent } from './views/homePageView.learning.component';
+import { HomePageYouthViewComponent } from './views/homePageView.youth.component';
 
 const routes: Routes = [
   {
@@ -28,28 +32,28 @@ const routes: Routes = [
   },
   {
     path: 'õpetaja',
-    component: HomePageViewComponent,
+    component: HomePageTeachingViewComponent,
     data: {
       theme: 'teachers',
     },
   },
   {
     path: 'karjäär',
-    component: HomePageViewComponent,
+    component: HomePageCareerViewComponent,
     data: {
       theme: 'career',
     },
   },
   {
     path: 'õppimine',
-    component: HomePageViewComponent,
+    component: HomePageLearningViewComponent,
     data: {
       theme: 'learning',
     },
   },
   {
     path: 'noored',
-    component: HomePageViewComponent,
+    component: HomePageYouthViewComponent,
     data: {
       theme: 'youth',
     },
@@ -63,6 +67,10 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     HomePageViewComponent,
+    HomePageTeachingViewComponent,
+    HomePageCareerViewComponent,
+    HomePageLearningViewComponent,
+    HomePageYouthViewComponent,
     HomePageNavBlockComponent,
     HomePageArticlesComponent,
     HomePageSlidesComponent,

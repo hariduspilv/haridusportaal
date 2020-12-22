@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services/SettingsService';
 import {
   ICareerSlide,
-  IContact,
   IEvent,
   IFooterData,
   IGraph,
@@ -25,8 +24,7 @@ import {
   IStudy,
   ITopic,
   ITopicArticleUnion,
-  IURL,
-} from './homePage.model';
+} from './homePageView.model';
 import { map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
@@ -478,8 +476,11 @@ export class HomePageService {
         author: item.fieldOrganizer,
         created: item.fieldEventMainDate.unix,
         content: item.fieldDescriptionSummary,
-        location: (typeof item.fieldEventLocation !== 'string')
-          ? item.fieldEventLocation.name : item.fieldEventLocation,
+        location: item.fieldEventLocation ? (
+          (typeof item.fieldEventLocation !== 'string')
+            ? item.fieldEventLocation.name
+            : item.fieldEventLocation
+          ) : '',
         link: {
           title: this.translate.get('button.read_more'),
           url: {

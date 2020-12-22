@@ -18,7 +18,7 @@
     margin: 0 auto;
   }
 
-  homepage-navblock {
+  homepage-navblock, .navBlock-wrapper {
     display: block;
     position: relative;
     color: $black;
@@ -736,16 +736,11 @@
       .instance__category {
         color: $black;
       }
-      .instance__content:first-child {
-        //padding-right: 3rem;
-      }
       .instance__image {
         width: 35%;
         margin: auto;
         @include break-on(xxs, max) {
           width: 80%;
-        }
-        @include break-on(sm, min) {
         }
       }
     }
