@@ -565,13 +565,34 @@
         }
         .group {
           margin-bottom: 1.5rem;
+          p {
+            font-size: .875rem;
+            line-height: 1rem;
+            margin-bottom: .5rem;
+          }
+        }
+        ::ng-deep .group__documents formItem {
+          margin-bottom: .5rem;
+          &.formItem--disabled .formItem__check {
+            color: $dark-gray;
+            font-weight: 500;
+          }
+          &.inCursive .formItem__check {
+            font-style: italic;
+          }
         }
         li > button {
           width: 100%;
           display: block;
         }
         h1 {
-          margin-bottom: 1.5rem;
+          margin-bottom: .25rem;
+        }
+        p.remark {
+          font-size: .75rem;
+          line-height: .875rem;
+          color: $black;
+          margin: 0 0 1.5rem 0;
         }
       }
       sidebar-finaldocument-history {

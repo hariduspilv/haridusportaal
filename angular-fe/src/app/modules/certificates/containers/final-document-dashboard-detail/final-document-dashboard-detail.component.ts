@@ -1,11 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services';
-import { of, forkJoin } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { forkJoin, Observable } from 'rxjs';
+import { CertificatesApi } from '../../certificates.api.service';
+import { CertificatesUtility } from '../../certificates.utility';
+import { CertificateData } from '../../models/certificate-data';
+import { CertificateDocumentWithClassifier, FormattedCertificateDocumentData } from '../../models/certificate-document';
+import { CertificateDocumentResponse } from '../../models/certificate-document-response';
+import { CertificateIndex } from '../../models/certificate-index';
+import { GraduationDocumentLanguage } from '../../models/graduation-document-language.enum';
 
 @Component({
   selector: 'final-document-dashboard-detail',
@@ -14,7 +19,10 @@ import { catchError } from 'rxjs/operators';
 })
 export class FinalDocumentDashboardDetailComponent implements OnInit {
 
-  public documents: any = {};
+  public documents: FormattedCertificateDocumentData;
+  public transcriptDocuments: CertificateDocumentWithClassifier[];
+  public mainLanguage = GraduationDocumentLanguage.emakeelEt;
+  generalEducationDocumentType = false;
 
   public sidebar = {
     entity: {
@@ -51,8 +59,8 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private http: HttpClient,
     private settings: SettingsService,
-    private formBuilder: FormBuilder,
     private translate: TranslateService,
+    private api: CertificatesApi,
   ) {
   }
 
@@ -70,81 +78,80 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
 
   private getData() {
     const id = this.route.snapshot.params.id;
-    this.http
-      .get(`${this.settings.ehisUrl}/certificates/v1/certificate/${id}`).subscribe((val: any) => {
+    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificate/${id}`)
+      .subscribe((val: CertificateData) => {
         this.path = [...this.path, { title: val.index.typeName, link: '' }];
-        this.getLatestDocuments(val.index.documents);
+        this.generalEducationDocumentType =
+          CertificatesUtility.isGeneralEducationDocumentType(val.index);
+        this.getLatestDocuments(val.index);
       });
   }
 
-  private getLatestDocuments(documentsArray) {
-    const documents: any = {};
-    const certificates = documentsArray.filter((doc) => {
-      return doc.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' ||
-        doc.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE';
-    });
-
-    const transcriptsOfgrades = documentsArray.filter((doc) => {
-      return doc.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_TRANSCRIPT_OF_GRADES' ||
-        doc.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES';
-    });
-
-    if (certificates.length > 0) {
-      documents.certificate = certificates.reduce((next, current) => {
-        return next.revision > current.revision ? next : current;
-      });
-    }
-
-    if (transcriptsOfgrades.length > 0) {
-      documents.gradesheet = transcriptsOfgrades.reduce((next, current) => {
-        return next.revision > current.revision ? next : current;
-      });
-    }
-
-    const URL =
-      `${this.settings.ehisUrl}/certificates/v1/certificateDocument/{DOCUMENT_ID}`;
-
-    const req = [
-      this.http.get(URL.replace('{DOCUMENT_ID}', documents.certificate.id)).pipe(
-        catchError(() => of(null)),
-      ),
-    ];
-
-    if (documents.gradesheet) {
-      req.push(
-        this.http.get(URL.replace('{DOCUMENT_ID}', documents.gradesheet.id)).pipe(
-          catchError(() => of(null)),
-        ),
-      );
-    }
-
-    forkJoin(req).subscribe((docs) => {
-      this.documents.certificate = docs[0].document;
-      this.documents.certificate.content = JSON.parse(this.documents.certificate.content);
-      if (docs[1]) {
-        this.documents.gradesheet = docs[1].document;
-        this.documents.gradesheet.content = JSON.parse(this.documents.gradesheet.content);
+  private getLatestDocuments(index: CertificateIndex) {
+    const { documents } = index;
+    const documentRequests: Observable<CertificateDocumentResponse>[] = [];
+    if (index.documents.length > 0) {
+      this.documents = CertificatesUtility.getLatestDocumentData(documents);
+      if (this.documents.certificate?.id) {
+        documentRequests.push(this.api.fetchDocument(this.documents.certificate.id));
+        if (Object.keys(this.documents.transcript).length) {
+          documentRequests.push(this.api.fetchDocument(this.documents?.transcript.id));
+        }
       }
-      this.sidebar.entity.finalDocumentDownload.hasGradeSheet = this.documents.gradesheet != null
-        && this.documents.gradesheet.status !== 'CERT_DOCUMENT_STATUS:INVALID';
-      this.sidebar.entity.finalDocumentHistory.issuerInstitution
-        = this.documents.certificate.content.educationalInstitution.name;
-      this.sidebar.entity.finalDocumentAccess.issuerInstitution
-        = this.documents.certificate.content.educationalInstitution.name;
-      this.sidebar.entity.finalDocumentDownload.certificateName =
-        `${this.documents.certificate.content.graduate.firstName} /
-        ${this.documents.certificate.content.graduate.lastName}`;
-      this.sidebar.entity.finalDocumentDownload.certificateNumber =
-        this.documents.certificate.content.registrationNumber;
-      this.sidebar.entity.finalDocumentDownload.invalid =
-        this.documents.certificate.status === 'CERT_DOCUMENT_STATUS:INVALID';
-      this.loading = false;
+    }
 
-      setTimeout(() => {
-        (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
-        .focus();
-      });
+    forkJoin(documentRequests).subscribe((docs: CertificateDocumentResponse[]) => {
+      this.documents.certificate = docs[0].document;
+      this.documents.certificate.content = JSON.parse(this.documents.certificate.content as string);
+      if (docs[1]) {
+        this.documents.transcript = docs[1].document;
+        this.documents.transcript.content = JSON.parse(this.documents.transcript.content as string);
+      }
+      if (!this.generalEducationDocumentType) {
+        this.api.getCertificateDocumentsWithClassifiers(
+          index,
+          this.mainLanguage,
+        ).subscribe((documentsWithClassifiers: CertificateDocumentWithClassifier[]) => {
+          this.transcriptDocuments = CertificatesUtility
+            .sortTranscriptDocuments(documentsWithClassifiers);
+          this.sidebar = this.composeSidebarData(this.documents, this.transcriptDocuments);
+          this.loading = false;
+          setTimeout(() => {
+            (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
+            .focus();
+          });
+        });
+      } else {
+        this.sidebar = this.composeSidebarData(this.documents, null);
+        this.loading = false;
+        setTimeout(() => {
+          (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
+          .focus();
+        });
+      }
     });
   }
 
+  public composeSidebarData(documents: FormattedCertificateDocumentData,
+                            allDocuments: CertificateDocumentWithClassifier[]) {
+    return {
+      entity: {
+        finalDocumentDownload: {
+          certificateName: `${documents.certificate.content['graduate'].firstName} /
+            ${documents.certificate.content['graduate'].lastName}`,
+          certificateNumber: documents.certificate.content['registrationNumber'],
+          hasGradeSheet: documents.transcript?.status !== 'CERT_DOCUMENT_STATUS:INVALID',
+          invalid: documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID',
+          generalEducationDocumentType: this.generalEducationDocumentType,
+          documents: allDocuments,
+        },
+        finalDocumentAccess: {
+          issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
+        },
+        finalDocumentHistory: {
+          issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
+        },
+      },
+    };
+  }
 }

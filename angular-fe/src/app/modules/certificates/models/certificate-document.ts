@@ -1,4 +1,6 @@
+import { ClassifierItemsQueryItem } from '@app/modules/classifiers/models/classifier-items-query-item';
 import { ClassifierItemText } from '@app/_core/models/ClassifierItemText';
+import { CertificateDocumentContent } from './certificate-document-content';
 import { GraduationDocumentType } from './graduation-document-type.enum';
 
 export enum CertificateStatus {
@@ -7,21 +9,31 @@ export enum CertificateStatus {
 }
 
 export interface CertificateDocument {
-  id: string;
+  id: number;
   type: GraduationDocumentType;
   typeName: string;
-  revision: number;
-  language: string;
-  status: CertificateStatus;
   number: string;
-  content?: JSON;
+  status: CertificateStatus;
+  revision: string;
+  content?: string | CertificateDocumentContent;
   extendedContent?: JSON;
+  language: string;
   signature_uid?: string;
-  metadata?: ClassifierItemText;
   transcript?: any;
 }
+export interface CertificateDocumentWithClassifier extends CertificateDocument {
+  metadata: ClassifierItemsQueryItem;
+  isMainDocument: boolean;
+  isInMainLanguage: boolean;
+}
 
-export interface CertificateDocumentResponse {
+export interface FormattedCertificateDocumentData {
+  certificate: CertificateDocument;
+  transcript: CertificateDocument;
+  supplement: CertificateDocument;
+}
+
+export interface CertificateDocumentNew {
   id: number;
   type: string;
   typeName: string;

@@ -17,26 +17,26 @@ export class CertificateGradeSheetComponent implements OnInit {
 
   public ngOnInit() {
 
-    if (this.document.content.studies.curriculumCode === 'OPPEKAVA:1010109'
-    || this.document.content.studies.curriculumCode === 'OPPEKAVA:1010107') {
+    if (this.document.content?.studies?.curriculumCode === 'OPPEKAVA:1010109'
+    || this.document.content?.studies?.curriculumCode === 'OPPEKAVA:1010107') {
       this.toimetulekuOpe = true;
     }
 
     this.mandatorySubjects =
-      this.document.content.studySubjects.filter((subject) => {
+      this.document.content?.studySubjects?.filter((subject) => {
         return subject.type === 'kohustuslik';
       });
 
     this.electives =
-      this.document.content.studySubjects.filter((subject) => {
+      this.document.content?.studySubjects?.filter((subject) => {
         return subject.type === 'valikaine';
       });
 
-    this.hasIndividualProgramme = this.document.content.studySubjects.some((subject) => {
+    this.hasIndividualProgramme = this.document.content?.studySubjects?.some((subject) => {
       return subject.studyProgrammeType === 'individuaalne õppekava';
     });
 
-    this.hasSchoolExam = this.document.content.graduationExaminations.some((exam) => {
+    this.hasSchoolExam = this.document.content?.graduationExaminations?.some((exam) => {
       return exam.type === 'koolieksam';
     });
   }

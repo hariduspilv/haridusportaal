@@ -6,22 +6,38 @@
 
 <htm-modal id="finalDocument-download" [modalTitle]="'finalDocumentDownload' | translate" [bottomAction]="false">
 	<ng-template>
-    <h1>{{'generic.download' | translate}}</h1>
-    <form [formGroup]="downloadForm">
-      <div class="group" *ngIf="hasAccessToAccompanyingDocuments">
-        <p>{{ 'certificates.download_choose_content' | translate }}:</p>
-        <formItem type="radio" formControlName="scope" [options]="downloadOptions.scope" name="scope"></formItem>
-      </div>
-      <div class="group">
-        <p>{{ 'certificates.download_choose_type' | translate }}:</p>
-        <formItem type="radio" formControlName="fileFormat" [options]="downloadOptions.fileFormat" name="fileFormat"></formItem>
-      </div>
-      <div class="button-row">
-        <button htm-button (click)="modal.toggle('finalDocument-download')" theme="link">
-          {{'generic.cancel' | translate}}
-        </button>
-        <button htm-button (click)="downloadTranscript()">{{ 'button.download' | translate }}</button>
-      </div>
-    </form>
+    <loader *ngIf="loading"></loader>
+    <ng-container *ngIf="!loading">
+      <h1>{{'generic.download' | translate}}</h1>
+      <p class="remark">Tärniga (*) tähistatud väljad on kohustuslikud.</p>
+      <form [formGroup]="downloadForm">
+        <div class="group" *ngIf="hasAccessToAccompanyingDocuments && data.generalEducationDocumentType">
+          <p>{{ 'certificates.download_choose_content' | translate }}:</p>
+          <formItem type="radio" formControlName="scope" [options]="scope" name="scope"></formItem>
+        </div>
+        <div class="group group__documents" *ngIf="data?.documents && documentsForm?.controls && !data.generalEducationDocumentType" [formGroup]="documentsForm">
+          <p>{{ 'certificates.download_choose_content' | translate }}:</p>
+          <formItem *ngFor="let document of data?.documents; let i = index"
+            type="checkbox"
+            [class.inCursive]="!document.isInMainLanguage"
+            [formControlName]="document.id"
+            [disabled]="documentsForm?.controls[document.id]?.disabled"
+            label="{{ document?.metadata?.shortName || document?.typeName }}"
+            >
+          </formItem>
+        </div>
+        <div class="group">
+          <p>{{ 'certificates.download_choose_type' | translate }}:</p>
+          <formItem type="radio" formControlName="fileFormat" [options]="downloadOptions.fileFormat" name="fileFormat"></formItem>
+        </div>
+        <div class="button-row">
+          <button htm-button (click)="modal.toggle('finalDocument-download')" theme="link">
+            {{'generic.cancel' | translate}}
+          </button>
+          <button htm-button (click)="downloadTranscript()">{{ 'button.download' | translate }}</button>
+        </div>
+      </form>
+    </ng-container>
+    <alerts small id="download"></alerts>
 	</ng-template>
 </htm-modal>

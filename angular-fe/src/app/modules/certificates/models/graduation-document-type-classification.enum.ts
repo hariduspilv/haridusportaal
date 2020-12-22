@@ -1,0 +1,8 @@
+export enum GraduationDocumentTypeClassification {
+  DIPLOMA = 'DIPLOMA',
+  CERTIFICATE = 'CERTIFICATE',
+  CERTIFICAT = 'CERTIFICAT',
+  VOCATION = 'VOCATION',
+  SUPPLEMENT = 'SUPPLEMENT',
+  TRANSCRIPT = 'TRANSCRIPT',
+}

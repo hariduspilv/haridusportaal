@@ -1,31 +1,31 @@
 <div id="grade-sheet" #gradeSheet>
 
-  <section id="duplicate-info" *ngIf="document.content.duplicateCertificateNumber">
-    <p>Lõputunnistuse nr. {{document.content.duplicateCertificateNumber}}</p>
-    <p>duplikaat {{document.content.duplicateIssueDate }}</p>
+  <section id="duplicate-info" *ngIf="document.content?.duplicateCertificateNumber">
+    <p>Lõputunnistuse nr. {{document.content?.duplicateCertificateNumber}}</p>
+    <p>duplikaat {{document.content?.duplicateIssueDate }}</p>
   </section>
 
   <section id="header">
-    <h1 id="grade-sheet-title">{{ document.content.documentName.toUpperCase() }}</h1>
-    <p id="for-certificate">lõputunnistuse nr {{ document.content.registrationNumber }} juurde</p>
+    <h1 id="grade-sheet-title">{{ document.content?.documentName?.toUpperCase() }}</h1>
+    <p id="for-certificate">lõputunnistuse nr {{ document.content?.registrationNumber }} juurde</p>
     <p>
-      <ng-container *ngIf="document.content.graduate.idCode">
+      <ng-container *ngIf="document.content?.graduate?.idCode">
         isikukood
       </ng-container>
-      <ng-container *ngIf="!document.content.graduate.idCode && document.content.graduate.dateOfBirth">
+      <ng-container *ngIf="!document.content?.graduate?.idCode && document.content?.graduate?.dateOfBirth">
         sünnikuupäev
       </ng-container>
       <span class="bold">
-        {{ (document.content.graduate.idCode | idCode) || document.content.graduate.dateOfBirth || '' }}
+        {{ (document.content?.graduate?.idCode | idCode) || document.content?.graduate?.dateOfBirth || '' }}
       </span>
     </p>
   </section>
 
   <section id="info">
     <p class="info-badge" *ngIf="document.status === 'CERT_DOCUMENT_STATUS:INVALID'">Kehtetu</p>
-    <p class="bold">{{ document.content.graduate.firstName }} {{ document.content.graduate.lastName }}</p>
-    <p [class.bold]="toimetulekuOpe">õppis <span class="bold">{{ document.content.studies.curriculumNameToPrintOut }}.</span></p>
-    <p>Õppekeel: {{ document.content.studies.language }}</p>
+    <p class="bold">{{ document.content?.graduate?.firstName }} {{ document.content?.graduate?.lastName }}</p>
+    <p [class.bold]="toimetulekuOpe">õppis <span class="bold">{{ document.content?.studies?.curriculumNameToPrintOut }}.</span></p>
+    <p>Õppekeel: {{ document.content?.studies?.language }}</p>
   </section>
 
   <p class="bold">Õppimise ajal hinnati tema teadmisi ja oskusi järgnevalt:</p>
@@ -35,20 +35,20 @@
       <p class="subject-type">Kohustuslikud ained:</p>
       <div *ngFor="let subject of mandatorySubjects" class="subject-grade">
         <p class="bold">
-          {{subject.subject}}
+          {{subject?.subject}}
         </p>
         <p>
-          {{subject.resultInWords}}
+          {{subject?.resultInWords}}
         </p>
       </div>
 
-      <p class="subject-type" *ngIf="electives.length > 0">Valikained:</p>
+      <p class="subject-type" *ngIf="electives?.length > 0">Valikained:</p>
       <div *ngFor="let subject of electives" class="subject-grade">
         <p class="bold">
-          {{subject.subject}}
+          {{subject?.subject}}
         </p>
         <p>
-          {{subject.resultInWords}}
+          {{subject?.resultInWords}}
         </p>
       </div>
     </ng-container>
@@ -82,7 +82,7 @@
               <td><span *ngIf="document.content.graduationStudy.resultNumeric != null" class="numeric-grade">{{document.content.graduationStudy.resultNumeric}}</span>{{document.content.graduationStudy.resultInWords}}</td>
             </tr>
   
-            <tr class="highlight" *ngIf="electives.length > 0">
+            <tr class="highlight" *ngIf="electives?.length > 0">
               <td>Valikained</td>
               <td *ngIf="document.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES'">Kursusi</td>
               <td>Hinne</td>
@@ -125,13 +125,13 @@
     <p *ngIf="hasSchoolExam">* - koolieksam</p>
   </section>
 
-  <section class="additional-info" *ngIf="document.content.conductGrade?.resultInWords">
-    <p>Tema käitumine oli {{ document.content.conductGrade?.resultInWords }}</p>
+  <section class="additional-info" *ngIf="document.content?.conductGrade?.resultInWords">
+    <p>Tema käitumine oli {{ document.content?.conductGrade?.resultInWords }}</p>
   </section>
 
   <section class="additional-info">
-    <p>Hinneteleht on välja antud <span class="bold">{{ document.content.issuer.nameToPrintOut }}</span></p>
-    <p>õppenõukogu otsusel {{ document.content.councilDecision.issueDateToPrintOut }}. aastal.</p>
+    <p>Hinneteleht on välja antud <span class="bold">{{ document.content?.issuer?.nameToPrintOut }}</span></p>
+    <p>õppenõukogu otsusel {{ document.content?.councilDecision?.issueDateToPrintOut }}. aastal.</p>
   </section>
 
   <section class="additional-info" *ngIf="toimetulekuOpe">
@@ -139,7 +139,7 @@
   </section>
 
   <section class="additional-info">
-    <p>{{ document.content.qualificationToPrintOut }}</p>
+    <p>{{ document.content?.qualificationToPrintOut }}</p>
   </section>
 
   <section id="grade-sheet-number" *ngIf="document.number">

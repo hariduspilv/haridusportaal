@@ -18,11 +18,11 @@
       </block-content
       >
       <block-content
-        *ngIf="documents.gradesheet"
+        *ngIf="documents.transcript?.id"
         [tabLabel]="'certificates.grade_sheet' | translate"
         tabIcon="file-text"
       >
-        <certificate-grade-sheet [document]="documents.gradesheet"></certificate-grade-sheet>
+        <certificate-grade-sheet [document]="documents.transcript"></certificate-grade-sheet>
       </block-content>
     </block>
   </article-layout>
