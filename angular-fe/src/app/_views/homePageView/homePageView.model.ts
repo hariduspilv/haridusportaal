@@ -178,6 +178,7 @@ export interface IGraphResponse {
   quoteAuthorWork?: string;
   fieldLearningToTeach?: IGraphLearningToTeach[];
   fieldYouthContentPage?: IGraphTopic;
+  fieldYouthForegroundContent?: IGraphTopic;
   news?: IGraphURLEntity;
   topics?: IGraphTopic | IGraphTopic[];
   services?: IGraphService[];

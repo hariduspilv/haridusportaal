@@ -139,11 +139,11 @@ export class HomePageService {
     youth: [
       {
         src: '/assets/img/haridus-ja-noorteamet-logo.svg',
-        label: 'Haridus- ja noorteamet',
+        label: 'Logo - Haridus- ja noorteamet',
       },
       {
         src: '/assets/img/teeviit-logo.svg',
-        label: 'Teeviit',
+        label: 'Logo - Teeviit',
       },
     ],
   };
@@ -225,7 +225,10 @@ export class HomePageService {
   }
 
   public cleanTopic(items: IGraphTopic[]): ITopic[] {
-    return items.map((item: IGraphTopic) => {
+    if (!items) {
+      return [];
+    }
+    return items.filter((t: IGraphTopic) => t.entity !== null).map((item: IGraphTopic) => {
       return {
         title: item.entity.fieldTitle,
         content: item.entity.fieldText,
@@ -256,7 +259,10 @@ export class HomePageService {
     let topics: ITopic[] = [];
     if (theme === 'youth') {
       topics = this.cleanTopic(items);
-      articles = this.cleanTopic([data.fieldYouthContentPage]);
+      articles = this.cleanTopic([
+        data.fieldYouthContentPage,
+        data.fieldYouthForegroundContent,
+      ]);
     } else if (['career', 'learning'].indexOf(theme) !== -1) {
       articles = this.cleanTopic(items);
       topics = this.topics[theme];

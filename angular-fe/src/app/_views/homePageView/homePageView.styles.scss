@@ -820,6 +820,23 @@
       .slides__title {
         color: $black;
       }
+      &+homepage-articles {
+        padding: 2rem 0 10rem 0;
+        .instance__content {
+          @include break-on(xs, min) {
+            padding-left: 4rem;
+          }
+          @include break-on(sm, min) {
+            padding-left: 10rem;
+          }
+        }
+        @include break-on(md, max) {
+          padding: 5rem 0 7rem 0;
+        }
+        @include break-on(xxs, max) {
+          padding: 4rem 0 6rem 0;
+        }
+      }
     }
   }
 

@@ -14,6 +14,7 @@
   [theme]="theme"></homepage-slides>
 <homepage-articles
   *ngIf="articles && articles.length > 1"
+  [line]="2"
   [data]="articles | slice:1"
   [theme]="theme"></homepage-articles>
 <homepage-topical
