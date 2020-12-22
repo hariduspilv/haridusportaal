@@ -20,9 +20,11 @@ import ee.htm.portal.services.types.eu.x_road.ehis2.PostGrantsResponseDocument.P
 import ee.htm.portal.services.types.eu.x_road.ehis2.ServiceError;
 import java.net.URLConnection;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import javax.activation.DataHandler;
 import org.apache.commons.io.IOUtils;
@@ -524,19 +526,30 @@ public class OLTWorker extends Worker {
   }
 
   private void setServiceErrors(ObjectNode jsonNode, String step, Collection<ServiceError> errors) {
-    ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+    AtomicBoolean isFatalError = new AtomicBoolean(true);
+    Collection<String> rest400ErrorCodes = Arrays.asList(
+        "patchApplicationGrantNumberBadValue", "patchApplicationNoApplicationData",
+        "patchApplicationIban", "getApplicationOccupationsNotFound",
+        "getApplicationQualificationsNotFound", "getApplicationGrantSubmissionTime",
+        "postFileMaxSizeExceeded", "postFileExtensionForbidden",
+        "postFileExtensionNotFound", "postFileDuplicateFileName",
+        "application.personApplicationEmail.emailValidationFailure",
+        "application.personApplicationBankAccount.notNull",
+        "application.personApplicationBankAccount.notBlank");
     jsonNode.putObject("messages");
 
     if (jsonNode.get("body").get("messages") == null) {
       ((ObjectNode) jsonNode.get("body")).putArray("messages");
     }
-
     if (!StringUtils.isEmpty(step)
         && jsonNode.get("body").get("steps").get(step).get("messages") == null) {
       ((ObjectNode) jsonNode.get("body").get("steps").get(step)).putArray("messages");
     }
 
     errors.forEach(e -> {
+      if (rest400ErrorCodes.contains(e.getCode())) {
+        isFatalError.set(false);
+      }
       if (StringUtils.isEmpty(step)) {
         ((ArrayNode) jsonNode.get("body").get("messages")).add(e.getCode());
       } else {
@@ -546,5 +559,9 @@ public class OLTWorker extends Worker {
           .put("message_type", "ERROR")
           .putObject("message_text").put("et", e.getMessage());
     });
+
+    if (isFatalError.get()) {
+      ((ArrayNode) jsonNode.get("header").get("acceptable_activity")).removeAll().add("VIEW");
+    }
   }
 }
