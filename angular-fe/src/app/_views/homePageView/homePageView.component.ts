@@ -27,7 +27,7 @@ export class HomePageViewComponent implements OnInit {
   public theme: string = 'default';
   public careerDevelopment: string;
   public events: IEvent[] = [];
-  public slogan: ISlogan | string = {
+  public slogan: ISlogan = {
     title: '',
     person: '',
     company: '',

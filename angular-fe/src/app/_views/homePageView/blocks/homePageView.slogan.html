@@ -5,11 +5,11 @@
       <img src="{{ image }}" alt=""/>
     </div><!--/instance__image-->
     <div class="instance__content">
-      <h3 [innerHTML]="title" ></h3>
-      <p class="author" *ngIf="person || company">
-        - <b *ngIf="person">{{ person }}<span *ngIf="company">,</span></b>
-        <ng-container *ngIf="company">
-          {{ company }}
+      <h3 [innerHTML]="data.title" ></h3>
+      <p class="author" *ngIf="data.person || data.company">
+        - <b *ngIf="data.person">{{ data.person }}<span *ngIf="data.company">,</span></b>
+        <ng-container *ngIf="data.company">
+          {{ data.company }}
         </ng-container>
       </p>
     </div><!--/instance__content-->
