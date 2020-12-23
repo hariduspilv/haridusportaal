@@ -263,7 +263,7 @@ export class HomePageService {
         data.fieldYouthContentPage,
         data.fieldYouthForegroundContent,
       ]);
-    } else if (['career', 'learning'].indexOf(theme) !== -1) {
+    } else if (['career', 'learning'].includes(theme)) {
       articles = this.cleanTopic(items);
       topics = this.topics[theme];
     } else {
