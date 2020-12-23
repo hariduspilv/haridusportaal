@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { ISimpleArticle } from '../homePage.model';
+import { Component, Input, HostBinding } from '@angular/core';
+import { ISimpleArticle } from '../homePageView.model';
 
 @Component({
   selector: 'homepage-topical',

@@ -18,7 +18,7 @@
     margin: 0 auto;
   }
 
-  homepage-navblock {
+  homepage-navblock, .navBlock-wrapper {
     display: block;
     position: relative;
     color: $black;
@@ -56,6 +56,27 @@
               padding-bottom: 4rem;
             }
           }
+        }
+      }
+    }
+    &.theme--youth {
+      .navBlock {
+        background: url('/assets/img/homepage-1-youth.svg') center bottom no-repeat;
+        background-size: cover;
+        &:before {
+          background: linear-gradient(to bottom, #CFDEFB 0%, rgba(207, 222, 251, 0) 100%);
+        }
+        &__buttons {
+          button, a {
+            color: $black;
+            font-size: 1.125rem;
+            @include break-on(xxs, max) {
+              padding-bottom: 4rem;
+            }
+          }
+        }
+        &__title img {
+          max-width: 25rem;
         }
       }
     }
@@ -711,6 +732,18 @@
         }
       }
     }
+    &.theme--youth {
+      .instance__category {
+        color: $black;
+      }
+      .instance__image {
+        width: 35%;
+        margin: auto;
+        @include break-on(xxs, max) {
+          width: 80%;
+        }
+      }
+    }
   }
 
   homepage-slides {
@@ -778,10 +811,31 @@
         font-size: 1.125rem;
       }
     }
-
     &.theme--learning {
       .slides__title {
         color: #58730c;
+      }
+    }
+    &.theme--youth {
+      .slides__title {
+        color: $black;
+      }
+      &+homepage-articles {
+        padding: 2rem 0 10rem 0;
+        .instance__content {
+          @include break-on(xs, min) {
+            padding-left: 4rem;
+          }
+          @include break-on(sm, min) {
+            padding-left: 10rem;
+          }
+        }
+        @include break-on(md, max) {
+          padding: 5rem 0 7rem 0;
+        }
+        @include break-on(xxs, max) {
+          padding: 4rem 0 6rem 0;
+        }
       }
     }
   }
@@ -815,9 +869,18 @@
       }
     }
     &.theme--learning {
-      background: #E4F1C0;
+      background: $theme-learning;
       svg .st0 {
-        fill: #E4F1C0;
+        fill: $theme-learning;
+      }
+      .topical__category {
+        color: $black;
+      }
+    }
+    &.theme--youth {
+      background: $theme-young;
+      svg .st0 {
+        fill: $theme-young;
       }
       .topical__category {
         color: $black;
@@ -1077,12 +1140,18 @@
       padding-bottom: 2rem;
     }
 
-    &.theme--teachers {
+    &.theme--career,
+    &.theme--teachers,
+    &.theme--learning,
+    &.theme--youth {
       background: $white;
       padding-top: 4rem;
       .st0 {
         fill: $white;
       }
+    }
+
+    &.theme--teachers {
       .instance {
         &__image {
           width: 13.75rem;
@@ -1092,11 +1161,6 @@
     }
 
     &.theme--career {
-      background: $white;
-      padding-top: 4rem;
-      .st0 {
-        fill: $white;
-      }
       .instance {
         &__image {
           width: 16rem;
@@ -1106,11 +1170,15 @@
     }
     
     &.theme--learning {
-      background: $white;
-      padding-top: 4rem;
-      .st0 {
-        fill: $white;
+      .instance {
+        &__image {
+          width: 14rem;
+          margin-top: 0;
+        }
       }
+    }
+
+    &.theme--youth {
       .instance {
         &__image {
           width: 14rem;
@@ -1228,7 +1296,10 @@
       margin-top: 1rem;
     }
 
-    &.theme--teachers, &.theme--career, &.theme--learning {
+    &.theme--teachers,
+    &.theme--career,
+    &.theme--learning,
+    &.theme--youth {
       .newsletter__col:nth-child(2) {
           order: 3;
           text-align: right;

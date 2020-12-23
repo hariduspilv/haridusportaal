@@ -1,12 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, Subject } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services/SettingsService';
 import {
   ICareerSlide,
-  IContact,
   IEvent,
   IFooterData,
   IGraph,
@@ -25,8 +24,7 @@ import {
   IStudy,
   ITopic,
   ITopicArticleUnion,
-  IURL,
-} from './homePage.model';
+} from './homePageView.model';
 import { map, mergeMap } from 'rxjs/operators';
 
 @Injectable()
@@ -37,6 +35,7 @@ export class HomePageService {
     teachers: 'teachingPage',
     career: 'careerPage',
     learning: 'learningHomePage',
+    youth: 'youthHomePage',
   };
 
   public articleImages: {[key: string]: string[]} = {
@@ -51,6 +50,10 @@ export class HomePageService {
     learning: [
       'homepage-articles-learning-1.svg',
       'homepage-articles-learning-2.svg',
+    ],
+    youth: [
+      'homepage-articles-youth-1.svg',
+      'homepage-articles-youth-2.svg',
     ],
   };
 
@@ -133,6 +136,16 @@ export class HomePageService {
         label: 'Logo - Innove',
       },
     ],
+    youth: [
+      {
+        src: '/assets/img/haridus-ja-noorteamet-logo.svg',
+        label: 'Logo - Haridus- ja noorteamet',
+      },
+      {
+        src: '/assets/img/teeviit-logo.svg',
+        label: 'Logo - Teeviit',
+      },
+    ],
   };
 
   constructor(
@@ -211,6 +224,26 @@ export class HomePageService {
     });
   }
 
+  public cleanTopic(items: IGraphTopic[]): ITopic[] {
+    if (!items) {
+      return [];
+    }
+    return items.filter((t: IGraphTopic) => t.entity !== null).map((item: IGraphTopic) => {
+      return {
+        title: item.entity.fieldTitle,
+        content: item.entity.fieldText,
+        theme: item.entity.fieldTheme,
+        link: {
+          title: this.translate.get('home.view_more'),
+          url: {
+            routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
+            path: item.entity.fieldInternalLink.entity.entityUrl.path,
+          },
+        },
+      };
+    });
+  }
+
   public getTopicsAndArticles(data: IGraphResponse, theme: string): ITopicArticleUnion {
     const source = data.topics;
     if (!source) {
@@ -224,21 +257,14 @@ export class HomePageService {
 
     let articles: ITopic[] = [];
     let topics: ITopic[] = [];
-
-    if (['career', 'learning'].indexOf(theme) !== -1) {
-      articles = items.map((item: IGraphTopic) => {
-        return {
-          title: item.entity.fieldTitle,
-          content: item.entity.fieldText,
-          link: {
-            title: this.translate.get('home.view_more'),
-            url: {
-              routed: item.entity.fieldInternalLink.entity.entityUrl.routed,
-              path: item.entity.fieldInternalLink.entity.entityUrl.path,
-            },
-          },
-        };
-      });
+    if (theme === 'youth') {
+      topics = this.cleanTopic(items);
+      articles = this.cleanTopic([
+        data.fieldYouthContentPage,
+        data.fieldYouthForegroundContent,
+      ]);
+    } else if (['career', 'learning'].includes(theme)) {
+      articles = this.cleanTopic(items);
       topics = this.topics[theme];
     } else {
       topics = items.map((item: IGraphTopic) => {
@@ -456,8 +482,11 @@ export class HomePageService {
         author: item.fieldOrganizer,
         created: item.fieldEventMainDate.unix,
         content: item.fieldDescriptionSummary,
-        location: item.fieldEventLocation ? (typeof item.fieldEventLocation !== 'string')
-          ? item.fieldEventLocation.name : item.fieldEventLocation : null,
+        location: item.fieldEventLocation ? (
+          (typeof item.fieldEventLocation !== 'string')
+            ? item.fieldEventLocation.name
+            : item.fieldEventLocation
+          ) : '',
         link: {
           title: this.translate.get('button.read_more'),
           url: {
