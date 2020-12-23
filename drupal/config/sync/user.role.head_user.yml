@@ -82,6 +82,7 @@ permissions:
   - 'create terms in tags'
   - 'create terms in teaching_language'
   - 'create video media'
+  - 'create youth_home_page content'
   - 'delete all oska entity revisions'
   - 'delete all oska indicator entity revisions'
   - 'delete all revisions'
@@ -376,3 +377,4 @@ permissions:
   - 'view unpublished subsidy project entities'
   - 'view unpublished xjson entity entities'
   - 'view unpublished xjson form entity entities'
+  - 'view youth_home_page revisions'

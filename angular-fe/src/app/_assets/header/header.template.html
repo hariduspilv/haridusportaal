@@ -1,9 +1,9 @@
-<div class="header__hamburger" [class.active]="sidemenuService.isVisible">
-  <button htm-button theme="plain" attr.aria-label="{{ 'button.open' | translate }} {{
+<div class="header__hamburger" [class.active]="active">
+  <button htm-button theme="plain" attr.aria-label="{{ (active ? 'button.close' : 'button.open') | translate }} {{
 			'frontpage.main_menu' | translate
     }}"
-    attr.aria-expanded="{{ active }}" (click)="toggleSidemenu()">
-    <div class="toggle">
+    attr.aria-expanded="{{ active }}" (click)="toggleSidemenu()" #sidemenuToggle>
+    <div class="toggle" aria-hidden="true">
       <div class="bar first"></div>
       <div class="bar middle"></div>
       <div class="bar last"></div>

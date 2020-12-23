@@ -12,7 +12,6 @@ import { AlertsService, ModalService, SettingsService, SidebarService, AuthServi
 import {
   collection,
   parseFieldData,
-  parseInfosystemData,
   parseProfessionData,
   titleLess,
 } from './helpers/sidebar';
@@ -20,12 +19,16 @@ import { arrayOfLength, parseUnixDate } from '@app/_core/utility';
 import FieldVaryService from '@app/_services/FieldVaryService';
 import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { saveAs } from 'file-saver';
 import { Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { RecaptchaComponent } from 'ng-recaptcha';
+import { CertificatesUtility } from '@app/modules/certificates/certificates.utility';
+import { CertificatesApi } from '@app/modules/certificates/certificates.api.service';
+import { FinalDocumentDownloadSidebar } from './models/final-document-download-sidebar';
+import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/interfaces/certificate-document';
 
 interface SidebarType {
   [key: string]: string;
@@ -1143,10 +1146,12 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
   templateUrl: './templates/sidebar.finaldocument-download.template.html',
 })
 export class SidebarFinalDocumentDownloadComponent {
-  public hasAccessToAccompanyingDocuments = false;
-  @Input() public data: any;
+  @Input() public data: FinalDocumentDownloadSidebar;
 
+  public hasAccessToAccompanyingDocuments = false;
   public downloadForm: FormGroup;
+  public documentsForm: FormGroup = this.fb.group({});
+  public loading = false;
   public downloadOptions = {
     fileFormat: [
       {
@@ -1176,6 +1181,9 @@ export class SidebarFinalDocumentDownloadComponent {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     public modal: ModalService,
+    private certificatesApi: CertificatesApi,
+    private translate: TranslateService,
+    private alertsService: AlertsService,
   ) {
   }
 
@@ -1184,46 +1192,63 @@ export class SidebarFinalDocumentDownloadComponent {
     if (this.downloadForm.invalid) {
       return;
     }
+    this.alertsService.clear('download');
+    this.loading = true;
+    this.certificatesApi.downloadTranscript(id, {
+      ...CertificatesUtility.gatherTranscriptRequestParameters(
+        this.downloadForm,
+        this.documentsForm,
+        this.data,
+        this.route.snapshot.params.accessorCode,
+      ),
+    }).subscribe((res: Blob) => {
+      saveAs(res, `${this.data.certificateName} ${this.translate.get('finaldocuments.main_document')} ${this.data.certificateNumber}`);
+      this.loading = false;
+      this.modal.close('finalDocument-download');
+    },           (err: HttpErrorResponse) => {
+      this.loading = false;
+      this.dispatchErrorsToAlert(err);
+    });
+  }
 
-    this.modal.close('finalDocument-download');
-
-    const form = this.downloadForm.value;
-
-    const requestUrl = this.data.accessType === 'ACCESS_CODE' ?
-    `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${this.data.id}\
-?scope=${form.scope}&fileFormat=${form.fileFormat}&accessType=ACCESS_TYPE:ACCESS_CODE\
-&accessorCode=${this.route.snapshot.params.accessorCode}`
-    : `${this.settings.ehisUrl}/certificates/v1/certificateTranscript/${id}\
-?scope=${form.scope}&fileFormat=${form.fileFormat}${this.data.accessType ? `&accessType=ACCESS_TYPE:${this.data.accessType}` : ''}`;
-
-    this.http.get(
-      requestUrl,
-      {
-        headers: { 'Content-Type': 'application/*' },
-        responseType: 'blob',
-      },
-      )
-      .subscribe((res: any) => {
-        saveAs(
-          res,
-          `${this.data.certificateName} lõputunnistus ${this.data.certificateNumber}.${form.fileFormat.toLowerCase()}`,
-        );
-      });
+  dispatchErrorsToAlert(err: HttpErrorResponse): void {
+    const { error: { errors } } = err;
+    errors.forEach((errorObject) => {
+      this.alertsService.error(
+        errorObject.message,
+        'download',
+        false,
+      );
+    });
   }
 
   public ngOnInit() {
     this.hasAccessToAccompanyingDocuments = this.data.hasGradeSheet && (!this.data.withAccess
       || this.data.accessScope === 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS');
-    this.initializeForm();
+    this.initializeForms();
   }
 
-  private initializeForm() {
-
+  private initializeForms() {
     this.downloadForm = this.fb.group(
       {
         scope: [this.hasAccessToAccompanyingDocuments ? 'WITH_ACCOMPANYING_DOCUMENTS' : 'MAIN_DOCUMENT'],
         fileFormat: ['PDF'],
       },
     );
+    if (!this.data.generalEducationDocumentType) {
+      this.constructTranscriptDocumentsFormGroup(this.data.documents);
+    }
+
+  }
+
+  constructTranscriptDocumentsFormGroup(documents: CertificateDocumentWithClassifier[]): void {
+    documents.forEach((document) => {
+      this.documentsForm.addControl(`${document.id}`, new FormControl(
+        document.isMainDocument,
+      ));
+      if (document.isMainDocument) {
+        this.documentsForm.controls[document.id].disable();
+      }
+    });
   }
 }
