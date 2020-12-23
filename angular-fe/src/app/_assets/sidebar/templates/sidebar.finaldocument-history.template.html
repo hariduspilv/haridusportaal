@@ -87,7 +87,7 @@
         *ngIf="documentToShow.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' || documentToShow.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE'; else gradeSheet">
       </certificate>
       <ng-template #gradeSheet>
-        <grade-sheet [document]="documentCache[documentToShow.id]"></grade-sheet>
+        <certificate-grade-sheet [document]="documentCache[documentToShow.id]"></certificate-grade-sheet>
       </ng-template>
     </ng-container>
     <alerts small="true" id="documentAlerts"></alerts>

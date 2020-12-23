@@ -15,17 +15,18 @@ const routes: Routes = [
   },
   {
     path: 'tunnistused/lõpudokumendid',
-    loadChildren: () => import('./_views/certificatesView').then(m => m.CertificatesViewModule),
+    loadChildren: () => import('./modules/certificates/containers/certificates-container/certificates-container.module')
+      .then(m => m.CertificatesContainerModule),
   },
   {
     path: 'tunnistused/lõpudokumendid/:certificateNr/:accessorCode',
-    loadChildren: () => import('./_views/certificateDetailView')
-      .then(m => m.CertificateDetailViewModule),
+    loadChildren: () => import('./modules/certificates/containers/certificates-detail/certificates-detail.module')
+      .then(m => m.CertificatesDetailModule),
   },
   {
     path: 'tunnistused/lõpudokumendid/:id',
-    loadChildren: () => import('./_views/certificateDetailView')
-      .then(m => m.CertificateDetailViewModule),
+    loadChildren: () => import('./modules/certificates/containers/certificates-detail/certificates-detail.module')
+    .then(m => m.CertificatesDetailModule),
   },
   {
     path: 'oska',
@@ -172,13 +173,13 @@ const routes: Routes = [
   },
   {
     path: 'tunnistuse-kehtivuse-kontroll',
-    loadChildren: () => import('./_views/certificateCheckView')
-      .then(m => m.CertificateCheckViewModule),
+    loadChildren: () => import('./modules/certificates/containers/certificates-check-detail/certificates-check-detail.module')
+      .then(m => m.CertificatesCheckDetailModule),
   },
   {
     path: 'lõpudokumentide-kehtivuse-kontroll',
-    loadChildren: () => import('./_views/documentCheckView')
-      .then(m => m.DocumentCheckViewModule),
+    loadChildren: () => import('./modules/certificates/containers/certificates-document-check-detail/certificates-document-check-detail.module')
+      .then(m => m.CertificateDocumentCheckDetailModule),
   },
   {
     path: 'töölaud/taotlused/:id',
@@ -203,8 +204,8 @@ const routes: Routes = [
   {
     path: 'töölaud/tunnistused/lõputunnistused/:id',
     canActivate: [AuthService],
-    loadChildren: () => import('./_views/finalDocumentDashboardDetailView')
-    .then(m => m.FinalDocumentDashboardDetailViewModule),
+    loadChildren: () => import('./modules/certificates/containers/final-document-dashboard-detail/final-documents-dashboard-detail.module')
+    .then(m => m.FinalDocumentsDashboardDetailModule),
   },
   {
     path: 'preview',
