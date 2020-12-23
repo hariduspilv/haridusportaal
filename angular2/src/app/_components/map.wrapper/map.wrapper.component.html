@@ -1,8 +1,0 @@
-<div class="map-wrapper">
-  <agm-map [zoomControl]="false" [streetViewControl]="false" [latitude]="latitude" [longitude]="longitude" [zoom]="15" [styles]="mapStyles">
-    <agm-marker [latitude]="latitude" [longitude]="longitude" [iconUrl]="iconUrl"></agm-marker>
-  </agm-map>
-  <div class="map-link">
-    <a href="http://www.google.com/maps/place/{{ latitude }},{{ longitude }}" target="_blank"><span class="htm-icon">launch</span><span>{{'button.map_closer' | translate}}</span></a>
-  </div>
-</div>
