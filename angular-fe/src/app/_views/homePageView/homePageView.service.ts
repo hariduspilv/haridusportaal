@@ -406,9 +406,13 @@ export class HomePageService {
     return result;
   }
 
-  public getSlogan(data: IGraphResponse, theme: string): ISlogan | string {
+  public getSlogan(data: IGraphResponse, theme: string): ISlogan {
     if (theme === 'default') {
-      return data.quoteText;
+      return {
+        title: data.quoteText,
+        person: '',
+        company: '',
+      };
     }
 
     const slogan: ISlogan = {
