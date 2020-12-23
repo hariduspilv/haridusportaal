@@ -28,5 +28,9 @@
         "environments/*"
       ]
     }
+  },
+  "angularCompilerOptions": {
+    "strictTemplates": false,
+    "strictInjectionParameters": true
   }
 }
