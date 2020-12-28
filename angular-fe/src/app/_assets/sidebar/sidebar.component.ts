@@ -29,6 +29,7 @@ import { CertificatesUtility } from '@app/modules/certificates/certificates.util
 import { CertificatesApi } from '@app/modules/certificates/certificates.api.service';
 import { FinalDocumentDownloadSidebar } from './models/final-document-download-sidebar';
 import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/interfaces/certificate-document';
+import { AccessType } from '@app/modules/certificates/models/enums/access-type.enum';
 
 interface SidebarType {
   [key: string]: string;
@@ -680,6 +681,21 @@ export class SidebarGdprComponent {
 })
 export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   @Input() public data: any;
+  public accessOptions = [
+    {
+      value: AccessType.ACCESS_CODE,
+      label: this.translate.get('certificates.access.type.ACCESS_TYPE:ACCESS_CODE')
+    }
+  ];
+private superUserAccessOptions = [
+    {
+      value: AccessType.ID_CODE,
+      label: this.translate.get('certificates.access.type.ACCESS_TYPE:ID_CODE')
+    },
+  ];
+  private disclosureOptions = [
+    { value: AccessType.DISCLOSURE, label: this.translate.get('certificates.access.disclose') }
+  ];
   public errors = {
     required: 'Väli on kohustuslik',
     idCodeMissing: 'Sisesta isikukood',
@@ -1026,6 +1042,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
         return { invalidDate: true };
       }
       return {};
+    }
+    private addSuperUserOptions(): void {
+      this.accessOptions = [...this.accessOptions, ...this.superUserAccessOptions];
+    }
+  
+    private addDisclosureOptions(): void {
+      this.accessOptions = [...this.accessOptions, ...this.disclosureOptions];
     }
 }
 

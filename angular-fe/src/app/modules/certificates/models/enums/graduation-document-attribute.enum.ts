@@ -1,0 +1,3 @@
+export enum GraduationDocumentAttribute {
+  DISCLOSURE_ALLOWED = 'GRADUATION_DOCUMENT_TYPE_DISCLOSURE_ALLOWED',
+}

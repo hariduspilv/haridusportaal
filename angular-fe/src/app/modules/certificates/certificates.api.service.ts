@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { SettingsService } from '@app/_services';
-import { forkJoin, Observable, of } from 'rxjs';
+import { BehaviorSubject, forkJoin, Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 import { Certificate } from 'tls';
 import { ClassifiersApi } from '../classifiers/classifiers.api.service';
@@ -15,6 +15,11 @@ import { CertificateDocumentResponse } from './models/interfaces/certificate-doc
 import { CertificateIndex } from './models/interfaces/certificate-index';
 import { CertificateTranscriptParams } from './models/interfaces/certificate-transcript-params';
 import { GraduationDocumentLanguage } from './models/enums/graduation-document-language.enum';
+import { GraduationDocumentType } from './models/enums/graduation-document-type.enum';
+import { ClassifierItemsQueryItem } from '../classifiers/models/classifier-items-query-item';
+import { ClassifierAttributeDefinitionCode } from '../classifiers/models/classifier-attribute-definition-code.enum';
+import { GraduationDocumentAttribute } from './models/enums/graduation-document-attribute.enum';
+import { ClassifierAttribute } from '../classifiers/models/ClassifierAttribute';
 
 @Injectable({
   providedIn: 'root',
@@ -90,5 +95,36 @@ export class CertificatesApi {
 
   getLanguageCodeFromString(languageString: string): string {
     return languageString ? languageString.split(':')[1] : null;
+  }
+
+  getDocumentsWithAllowedDisclosure(): Observable<ClassifierItemsQuery> {
+    return this.classifiers
+      .fetchClassifierItemsByDefinitionCodeWithParameters(
+        ClassifierDefinitionCode.GRADUATION_DOCUMENT_TYPE,
+        {
+          attributeDefinitionCode:
+          ClassifierAttributeDefinitionCode.GRADUATION_DOCUMENT_TYPE_DISCLOSURE_ALLOWED
+        }
+      );
+  }
+
+  isDisclosureAllowed(document: GraduationDocumentType): BehaviorSubject<boolean> {
+    const isAllowed = new BehaviorSubject<boolean>(false);
+    this.getDocumentsWithAllowedDisclosure().subscribe((res: ClassifierItemsQuery) => {
+      const items: ClassifierItemsQueryItem[] = res.classifierItems;
+      const item = items.filter((el: ClassifierItemsQueryItem) => el.attributes.find(
+        (attribute: ClassifierAttribute) => attribute.code === GraduationDocumentAttribute
+          .DISCLOSURE_ALLOWED && attribute.value === '1'
+      )).find((el: ClassifierItemsQueryItem) => el.code === document);
+
+      if (item) {
+        const attribute: ClassifierAttribute = item.attributes
+          .find((
+            el: ClassifierAttribute
+          ) => el.code === GraduationDocumentAttribute.DISCLOSURE_ALLOWED);
+        isAllowed.next(!!parseInt(attribute.value, 10));
+      }
+    });
+    return isAllowed;
   }
 }
