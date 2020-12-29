@@ -20,9 +20,9 @@
       <div [class.hidden]="!headerSearchEnabled()" class="header__search">
         <icon (click)="searchClick()" glyph="search" size="default"></icon>
         <form>
-          <label class="hidden-label" for="homeSearch">Sisesta märksõna ja vajuta Enter</label>
+          <label class="hidden-label" for="homeSearch">{{ 'frontpage.enter_keyword_and_search' | translate }}</label>
           <formItem type="autocomplete" query="testAutocomplete" titleDisabled="true" name="homeSearch"
-            placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" domID="homeSearch"
+            placeholder="{{ 'frontpage.enter_keyword_and_search' | translate }}" [(ngModel)]="searchTerm" domID="homeSearch"
             (autoCompleteChanged)="searchRoute($event)">
           </formItem>
         </form>
@@ -37,7 +37,7 @@
           <div class="label--logged" [class.enterprise]="auth.user.role.current_role.type !== 'natural_person'">
             <icon aria-hidden="true" glyph="user" size="medium" class="icon-user medium"></icon>
             <span>
-              Roll:
+              {{ 'button.role' | translate }}:
               <b>
                 <ng-container *ngIf="auth.user.role.current_role.type === 'natural_person';else juridicalPerson">
                   <ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
@@ -55,7 +55,7 @@
         </button>
         <div *ngIf="logoutActive" class="header__logout">
           <button htm-button theme="logout" (click)="logOut()">
-            Logi välja
+            {{ 'button.logout' | translate }}
           </button>
         </div>
         <ng-template #other>
@@ -82,7 +82,7 @@
       (keyup.enter)="searchRoute(searchString); modalService.close('search')"></formItem>
     <button (blur)="modalService.focusLock()" htm-button style="margin: 1rem 0; width: 100%;"
       (click)="searchRoute(searchString); modalService.close('search')">
-      Otsi
+      {{ 'button.search' | translate }}
     </button>
   </ng-template>
 </htm-modal>
