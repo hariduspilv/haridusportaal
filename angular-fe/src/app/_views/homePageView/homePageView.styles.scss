@@ -1359,11 +1359,9 @@
     }
     .logos {
       margin-top:2.5rem;
-      display: flex;
-      justify-content: center;
+      text-align: center;
       img {
         max-height: 90px;
-        display: block;
         margin:0 1.1875rem;
       }
     }
