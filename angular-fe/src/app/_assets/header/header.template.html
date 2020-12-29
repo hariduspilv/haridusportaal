@@ -34,15 +34,20 @@
         </button>
 
         <button *ngIf="loginStatus; else other" theme="plain" (click)="openLogOutDropdown($event)" htm-button>
-          <div class="label--logged">
+          <div class="label--logged" [class.enterprise]="auth.user.role.current_role.type !== 'natural_person'">
             <icon aria-hidden="true" glyph="user" size="medium" class="icon-user medium"></icon>
             <span>
               Roll:
               <b>
-                <ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
-                  {{ auth.user.lastname }}</ng-container>
-                <ng-container *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}
+                <ng-container *ngIf="auth.user.role.current_role.type === 'natural_person';else juridicalPerson">
+                  <ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
+                    {{ auth.user.lastname }}</ng-container>
+                  <ng-container *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}
+                  </ng-container>
                 </ng-container>
+                <ng-template #juridicalPerson>
+                  {{ auth.user.role.current_role.data.nimi }}
+                </ng-template>
               </b>
             </span>
             <icon aria-hidden="true" glyph="chevron-down" size="medium" class="icon-chevron medium"></icon>

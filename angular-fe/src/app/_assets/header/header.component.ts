@@ -148,6 +148,7 @@ export class HeaderComponent implements OnInit {
 
   public subscribeToAuth() {
     this.auth.isAuthenticated.subscribe((val) => {
+      console.log(this.auth, val)
       this.loginStatus = val;
     });
   }
