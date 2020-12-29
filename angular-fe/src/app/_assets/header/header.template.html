@@ -12,7 +12,7 @@
 </div>
 <a routerLink="/" class="header__logo pointer" role="link" aria-label="edu.ee">
   <!-- <icon glyph="logo" size="medium"></icon> -->
-  <img aria-hidden="true" src="/assets/img/logo.svg" alt="edu.ee logo" />
+  <img aria-hidden="true" src="/assets/img/logo_blue.svg" alt="edu.ee logo" />
 </a>
 <div class="header__assets">
   <div class="inline">
@@ -35,13 +35,17 @@
 
         <button *ngIf="loginStatus; else other" theme="plain" (click)="openLogOutDropdown($event)" htm-button>
           <div class="label--logged">
-            <icon aria-hidden="true" glyph="user" size="medium"></icon>
+            <icon aria-hidden="true" glyph="user" size="medium" class="icon-user medium"></icon>
             <span>
-              <ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
-                {{ auth.user.lastname }}</ng-container>
-              <ng-container *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}
-              </ng-container>
+              Roll:
+              <b>
+                <ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
+                  {{ auth.user.lastname }}</ng-container>
+                <ng-container *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}
+                </ng-container>
+              </b>
             </span>
+            <icon aria-hidden="true" glyph="chevron-down" size="medium" class="icon-chevron medium"></icon>
           </div>
         </button>
         <div *ngIf="logoutActive" class="header__logout">
@@ -52,7 +56,7 @@
         <ng-template #other>
           <button id="headerLogin" htm-button [class.active]="modalService.modalOpened['login']"
             (click)="openLoginModal()" theme="plain" attr.aria-label="{{ 'button.login' | translate }}">
-            <icon aria-hidden="true" glyph="user" size="medium"></icon>
+            <icon aria-hidden="true" glyph="user" size="medium" class="icon-user medium"></icon>
             <span>{{ "button.login" | translate }}</span>
             <div *ngIf="loginTooltip === 'enabled'" class="tooltip show bs-tooltip-bottom sm-hide">
               <div class="arrow"></div>
