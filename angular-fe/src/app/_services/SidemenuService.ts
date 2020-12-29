@@ -12,7 +12,7 @@ export class SidemenuService {
   /**
    * These paths should not open the menu automatically on load.
    */
-  public ignoreAutoOpen = ['/', '/õppimine', '/karjäär', '/õpetaja'];
+  public ignoreAutoOpen = ['/', '/õppimine', '/karjäär', '/õpetaja', '/noored'];
 
   force = false;
   lang: any;
