@@ -50,6 +50,7 @@
       display: flex;
       align-items: center;
       cursor: pointer;
+      outline: none;
       color: $blue;
       width: 4.3125rem;
       ::ng-deep {
