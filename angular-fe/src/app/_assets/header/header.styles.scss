@@ -36,10 +36,10 @@
 			}
 		}
 		&--teaching {
-			background: $theme-teaching;
+			background: $theme-teaching-dark;
 			.header__hamburger, .header__assets {
 				> button, .header__actions > button {
-					background: $theme-teaching;
+					background: $theme-teaching-dark;
 				}
 			}
 		}
