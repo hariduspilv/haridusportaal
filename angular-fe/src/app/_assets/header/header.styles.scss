@@ -18,6 +18,40 @@
 		width: auto;
 		height: auto;
 	}
+	&.header {
+		&--learning {
+			background: $theme-learning;
+			.header__hamburger, .header__assets {
+				> button, .header__actions > button {
+					background: $theme-learning;
+				}
+			}
+		}
+		&--career {
+			background: $theme-career;
+			.header__hamburger, .header__assets {
+				> button, .header__actions > button {
+					background: $theme-career;
+				}
+			}
+		}
+		&--teaching {
+			background: $theme-teaching;
+			.header__hamburger, .header__assets {
+				> button, .header__actions > button {
+					background: $theme-teaching;
+				}
+			}
+		}
+		&--youth {
+			background: $theme-young;
+			.header__hamburger, .header__assets {
+				> button, .header__actions > button {
+					background: $theme-young;
+				}
+			}
+		}
+	}
 	.header {
 		&__logo {
 			cursor: pointer;
@@ -258,14 +292,6 @@
 			}
 		}
 	}
-	.header__actions button:first-of-type {
-		.button--label:after {
-			position: absolute;
-			right: 0;
-			height: 1rem;
-			border-right: 0.5rem solid $blue;
-		}
-	}
 
 	@include break-on(xs, min) {
 		.header {
@@ -331,7 +357,7 @@
 					}
 					#headerLogin .button--label {
 						border: 1px solid $blue;
-						padding: 0.5rem 2rem;
+						padding: 0.7rem 2rem;
 					}
 					.label--logged {
 						padding: 0.5rem 0.8rem;
