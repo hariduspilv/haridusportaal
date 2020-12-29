@@ -1362,7 +1362,10 @@
       text-align: center;
       img {
         max-height: 90px;
-        margin:0 1.1875rem;
+        margin: 0 1.1875rem;
+        @include break-on(xs, max) {
+          margin-bottom: 1rem;
+        }
       }
     }
     .footer {
