@@ -851,18 +851,18 @@
     }
 
     &.theme--teachers {
-      background: #C1BEE8;
+      background: $theme-teaching-dark;
       svg .st0 {
-        fill: #C1BEE8;
+        fill: $theme-teaching-dark;
       }
       .topical__category {
         color: $black;
       }
     }
     &.theme--career {
-      background: #BEE8C7;
+      background: $theme-career;
       svg .st0 {
-        fill: #BEE8C7;
+        fill: $theme-career;
       }
       .topical__category {
         color: $black;
