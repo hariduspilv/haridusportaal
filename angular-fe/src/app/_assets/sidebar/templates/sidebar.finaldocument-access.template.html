@@ -164,17 +164,19 @@
 				</tr>
 				<tr *ngFor="let access of inactiveAccesses">
 					<td>
-						<icon [glyph]="access.type === 'ACCESS_TYPE:ID_CODE' ? 'user-filled' : 'key'" size="medium"></icon>
+						<icon *ngIf="access.type === 'ACCESS_TYPE:ACCESS_CODE'" size="medium" glyph="key"></icon>
+						<icon *ngIf="access.type === 'ACCESS_TYPE:ID_CODE'" size="medium" glyph="user-filled"></icon>
+						<icon *ngIf="access.type === 'ACCESS_TYPE:DISCLOSURE'" size="medium" glyph="eye"></icon>
 					</td>
-					<td>{{access.type === 'ACCESS_TYPE:ID_CODE' ? (access.accessorCode | idCode) : access.accessorCode}}</td>
+					<td>{{getAccessType(access)}}</td>
 					<td>{{access.issued | date:"dd.MM.yyyy"}}</td>
 					<td>
 						<ng-container *ngIf="access.endDate">{{access.endDate | date:"dd.MM.yyyy"}}</ng-container>
 						<ng-container *ngIf="!access.endDate">-</ng-container>
 					</td>
 					<td>
-						{{(access.scope === 'ACCESS_SCOPE:MAIN_DOCUMENT') ? ('finaldocuments.main_document' | translate)
-						: ('finaldocuments.main_document_with_grades' | translate)}}
+						{{(access.scope === 'ACCESS_SCOPE:MAIN_DOCUMENT') ? (data?.certificate?.typeName)
+						: (data?.certificate?.typeName + ' ' + ('finaldocuments.with_supplement' | translate))}}
 					</td>
 					<td>{{access.emailAddress || '-'}}</td>
 				</tr>
