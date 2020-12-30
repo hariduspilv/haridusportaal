@@ -157,31 +157,35 @@ public class OLTWorker extends Worker {
         if (grant.getApplicationDecision() != null) {
           decisionValues.addObject()
               .put("decision_number", grant.getApplicationDecision().getDecisionNumber())
-              .put("decision_date",
-                  ehisDateFormat(grant.getApplicationDecision().getDecisionDate()))
+              .put("decision_date", grant.getApplicationDecision().getDecisionDate() != null
+                  ? ehisDateFormat(grant.getApplicationDecision().getDecisionDate()) : null)
               .put("decision", grant.getApplicationDecision().getDecision())
-              .put("payment_sum", grant.getApplicationDecision().getPaymentSum());
+              .put("payment_sum", grant.getApplicationDecision().getPaymentSum() / 100);
         }
 
         grant.getGrantPaymentList().getGrantPaymentList().forEach(payment -> {
           paymentValues.addObject()
-              .put("payment_date", ehisDateFormat(payment.getPaymentDate()))
-              .put("payment_sum", payment.getPaymentSum());
+              .put("payment_date", payment.getPaymentDate() != null
+                  ? ehisDateFormat(payment.getPaymentDate()) : null)
+              .put("payment_sum", payment.getPaymentSum() / 100);
         });
 
         grant.getGrantStatusList().getGrantStatusList().forEach(suspension -> {
           if (suspension.getStatusType().equalsIgnoreCase("GRANT_STATUS:SUSPENSION")) {
             suspensionValues.addObject()
-                .put("valid_from", ehisDateFormat(suspension.getStatusValidFrom()))
-                .put("valid_until", ehisDateFormat(suspension.getStatusValidUntil()))
+                .put("valid_from", suspension.getStatusValidFrom() != null
+                    ? ehisDateFormat(suspension.getStatusValidFrom()) : null)
+                .put("valid_until", suspension.isSetStatusValidUntil()
+                    ? ehisDateFormat(suspension.getStatusValidUntil()) : null)
                 .put("reason", suspension.getReason());
           }
         });
 
         grant.getGrantRecoveryList().getGrantRecoveryList().forEach(recovery -> {
           recoveryValues.addObject().put("decision_number", recovery.getId())
-              .put("recovery_date", ehisDateFormat(recovery.getRecoveryDate()))
-              .put("recovery_sum", recovery.getRecoverySum());
+              .put("recovery_date",recovery.getRecoveryDate() != null
+                  ? ehisDateFormat(recovery.getRecoveryDate()) : null)
+              .put("recovery_sum", recovery.getRecoverySum() / 100);
         });
 
         grant.getGrantFilesList().getGrantFileList().forEach(file -> {
