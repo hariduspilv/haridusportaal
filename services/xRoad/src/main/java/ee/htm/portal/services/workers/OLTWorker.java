@@ -189,16 +189,20 @@ public class OLTWorker extends Worker {
         });
 
         grant.getGrantFilesList().getGrantFileList().forEach(file -> {
+          String filename = file.getFileName();
+          if (StringUtils.isEmpty(file.getFileName())) {
+            filename = grant.getGrantNumber() + "_" + file.getUID();
+          }
           if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_APPLICATION")) {
-            decisionFileValues.addObject().put("file_name", file.getFileName())
+            decisionFileValues.addObject().put("file_name", filename)
                 .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
           } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_RECOVERY")) {
-            recoveryFileValues.addObject().put("file_name", file.getFileName())
+            recoveryFileValues.addObject().put("file_name", filename)
                 .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
           } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:APPLICATION")
 //              || file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:APPLICATION_EXTRA")
           ) {
-            applicationFileValues.addObject().put("file_name", file.getFileName())
+            applicationFileValues.addObject().put("file_name", filename)
                 .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
           }
         });
