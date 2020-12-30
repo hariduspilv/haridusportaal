@@ -44,7 +44,7 @@
 				<icon size="medium" glyph="eye"></icon>
 				<div>
 					<button htm-button theme="link" (click)="openAccess(activeAccess)">
-						Avalikustatud
+						{{ 'certificates.disclosure' | translate }}
 					</button>
 					<ng-container *ngIf="activeAccess.endDate">
 						<span>{{'finaldocuments.valid_until' | translate}} {{activeAccess.endDate | date:"dd.MM.yyyy"}}</span>
@@ -279,7 +279,7 @@
 </ng-template>
 
 <ng-template #disclosure>
-	<h1>Avalikustatud<span
+	<h1>{{'certificates.disclosure' | translate}}<span
 			style="font-weight: normal;">{{addAccessForm.value.accessorCode | idCode }}</span></h1>
 	<div class="line">
 		<labels [type]="openedAccessLabelType" [data]="openedAccessLabel"></labels>
