@@ -20,6 +20,7 @@ import { ClassifierItemsQueryItem } from '../classifiers/models/classifier-items
 import { ClassifierAttributeDefinitionCode } from '../classifiers/models/classifier-attribute-definition-code.enum';
 import { GraduationDocumentAttribute } from './models/enums/graduation-document-attribute.enum';
 import { ClassifierAttribute } from '../classifiers/models/ClassifierAttribute';
+import { AccessType } from './models/enums/access-type.enum';
 
 @Injectable({
   providedIn: 'root',
@@ -126,5 +127,9 @@ export class CertificatesApi {
       }
     });
     return isAllowed;
+  }
+
+  fetchCertificateWithAccess(accessType: AccessType) {
+    return this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates?accessType=${accessType}`);
   }
 }

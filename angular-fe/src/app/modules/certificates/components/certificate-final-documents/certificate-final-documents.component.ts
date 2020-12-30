@@ -5,6 +5,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { CertificatesApi } from '../../certificates.api.service';
+import { AccessType } from '../../models/enums/access-type.enum';
 
 @Component({
   selector: 'certificate-final-documents',
@@ -20,6 +22,7 @@ export class CertificateFinalDocumentsComponent {
     public fb: FormBuilder,
     private router: Router,
     private alertsService: AlertsService,
+    private certificatesApi: CertificatesApi
   ) {}
 
   public isLoggedIn = false;
@@ -67,7 +70,7 @@ export class CertificateFinalDocumentsComponent {
 
   getCertificates() {
     this.loading.certificatesById = true;
-    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates?accessType=ACCESS_TYPE:ID_CODE`).subscribe(
+    this.certificatesApi.fetchCertificateWithAccess(AccessType.ID_CODE).subscribe(
       (res: { certificates: [], responseInfo: {} }) => {
         this.certificatesById = res.certificates.sort(this.compareCertificates);
         this.loading.certificatesById = false;

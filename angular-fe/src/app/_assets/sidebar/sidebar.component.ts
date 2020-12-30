@@ -35,6 +35,7 @@ import { AccessType } from '@app/modules/certificates/models/enums/access-type.e
 import { ClassifiersApi } from '@app/modules/classifiers/classifiers.api.service';
 import { IdCodePipe } from '@app/_pipes/idCode.pipe';
 import { CertificateAccess } from '@app/modules/certificates/models/interfaces/certificate-access';
+import { AccessScope } from '@app/modules/certificates/models/enums/access-scope.enum';
 
 interface SidebarType {
   [key: string]: string;
@@ -748,13 +749,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       type: [
         {
           key: 'Isikukoodiga',
-          value: 'ACCESS_TYPE:ID_CODE',
+          value: AccessType.ID_CODE,
           info: this.translate.get('certificates.id_code_info'),
           requireAttribute: false,
         },
         {
           key: 'E-postiga',
-          value: 'ACCESS_TYPE:ACCESS_CODE',
+          value: AccessType.ACCESS_CODE,
           info: this.translate.get('certificates.access_code_info'),
           requireAttribute: false,
         },
@@ -762,11 +763,11 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
       scope: [
         {
           key: this.data.certificate.typeName,
-          value: 'ACCESS_SCOPE:MAIN_DOCUMENT',
+          value: AccessScope.MAIN_DOCUMENT,
         },
         {
-          key: `${this.data.certificate.typeName} koos hinnetelehega`,
-          value: 'ACCESS_SCOPE:WITH_ACCOMPANYING_DOCUMENTS',
+          key: `${this.data.certificate.typeName} koos lisadega`,
+          value: AccessScope.WITH_ACCOMPANYING_DOCUMENTS,
         },
       ],
     }
@@ -785,14 +786,13 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   }
 
   private fetchIfDisclosureAllowed() {
-    console.log(this.data);
     this.certificatesService
     .isDisclosureAllowed(this.data.certificate.type)
     .subscribe((disclosureIsAllowed: boolean) => {
       if(disclosureIsAllowed) {
         this.addAccessOptions.type = [...this.addAccessOptions.type, {
           key: 'Avalikustamine',
-          value: 'ACCESS_TYPE:DISCLOSURE',
+          value: AccessType.DISCLOSURE,
           info: this.translate.get('certificates.access_code_info'),
           requireAttribute: true,
         }]
