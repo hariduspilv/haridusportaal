@@ -247,14 +247,14 @@
 			background: $theme-default;
 			transition: color 0.25s;
 			border-radius: 0;
-			&.separation-right:after {
+			/*&.separation-right:after {
 				content: "";
 				position: absolute;
 				border-right: 0.05rem solid #2e3374;
 				right: 0;
 				top: 35%;
 				bottom: 35%;
-			}
+			}*/
 			::ng-deep	{
 				.button--label {
 					display: block;
