@@ -140,9 +140,10 @@ export class CertificatesUtility {
           invalid: documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID',
           documents: allDocuments,
         },
-        finalDocumentAccess: !certificateData ? {
+        finalDocumentAccess: {
           issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
-        } : null,
+          certificate: documents.certificate,
+        },
         finalDocumentHistory: !certificateData ? {
           issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
         } : null,

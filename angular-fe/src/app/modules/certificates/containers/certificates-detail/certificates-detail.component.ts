@@ -11,6 +11,7 @@ import { CertificateDocumentWithClassifier, FormattedCertificateDocumentData } f
 import { CertificateDocumentResponse } from '../../models/interfaces/certificate-document-response';
 import { CertificateIndex } from '../../models/interfaces/certificate-index';
 import { GraduationDocumentLanguage } from '../../models/enums/graduation-document-language.enum';
+import { AccessType } from '../../models/enums/access-type.enum';
 
 @Component({
   selector: 'certificates-detail',
@@ -71,9 +72,11 @@ export class CertificatesDetailComponent implements OnInit {
     const params = this.route.snapshot.params;
     this.accessorCode = params.accessorCode;
 
-    const URL = this.accessType === 'ACCESS_CODE'
+    console.log(this.accessType);
+
+    const URL = this.accessType === AccessType.ACCESS_CODE
       ? `${this.settings.ehisUrl}/certificates/v1/certificate/ACCESS_CODE/${params.certificateNr}/${this.accessorCode}`
-      : `${this.settings.ehisUrl}/certificates/v1/certificate/${params.id}?accessType=ACCESS_TYPE:ID_CODE`;
+      : `${this.settings.ehisUrl}/certificates/v1/certificate/${params.id}?accessType=${this.accessType}`;
 
     this.http.get(URL).subscribe(
       (res: CertificateData) => {
@@ -93,9 +96,9 @@ export class CertificatesDetailComponent implements OnInit {
     const { documents } = index;
     const documentRequests: Observable<CertificateDocumentResponse>[] = [];
     if (index.documents.length > 0) {
-      const params = this.accessType === 'ACCESS_CODE'
-      ? { accessType: 'ACCESS_TYPE:ACCESS_CODE', accessorCode: this.accessorCode }
-      : { accessType: 'ACCESS_TYPE:ID_CODE' };
+      const params = this.accessType === AccessType.ACCESS_CODE
+      ? { accessType: AccessType.ACCESS_CODE, accessorCode: this.accessorCode }
+      : { accessType: this.accessType };
       this.documents = CertificatesUtility.getLatestDocumentData(documents);
       if (this.documents.certificate?.id) {
         documentRequests.push(
@@ -154,7 +157,13 @@ export class CertificatesDetailComponent implements OnInit {
   public ngOnInit() {
     this.breadcrumbs = [...this.path];
     const params = this.route.snapshot.params;
-    this.accessType = params.accessorCode && params.certificateNr ? 'ACCESS_CODE' : 'ID_CODE';
+    const queryParams = this.route.snapshot.queryParamMap;
+    console.log(queryParams.get('avalikustatud'));
+    if(queryParams.get('avalikustatud')) {
+      this.accessType = AccessType.DISCLOSURE;
+    } else {
+      this.accessType = params.accessorCode && params.certificateNr ? AccessType.ACCESS_CODE : AccessType.ID_CODE;
+    }
     this.getCertificate();
   }
 }
