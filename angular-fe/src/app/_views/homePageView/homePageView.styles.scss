@@ -68,7 +68,7 @@
         }
         &__buttons {
           button, a {
-            color: $black;
+            color: $bluish-gray;
             font-size: 1.125rem;
             @include break-on(xxs, max) {
               padding-bottom: 4rem;
@@ -734,7 +734,7 @@
     }
     &.theme--youth {
       .instance__category {
-        color: $black;
+        color: $bluish-gray;
       }
       .instance__image {
         width: 35%;
@@ -818,7 +818,7 @@
     }
     &.theme--youth {
       .slides__title {
-        color: $black;
+        color: $bluish-gray;
       }
       &+homepage-articles {
         padding: 2rem 0 10rem 0;
