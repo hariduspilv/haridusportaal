@@ -45,17 +45,20 @@
                     <div *ngIf="!clickedVideos[i]" class="col-4 xs-12 pointer" (click)="clickedVideos[i] = true">
                         <div *ngIf="item.videoThumb && item.videoThumb.derivative.url"
                             class="list__item__video__thumbnail">
-                            <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%"
-                                alt="{{ item.videoThumb.alt }}" />
-                            <i class="icon youtube-play"></i>
-                            <div class="triangle"></div>
+                            <img [class.lastImg]="last" src="{{ item.videoThumb.derivative.url }}" width="100%" alt=""/>
+                            <i class="icon youtube-play" 
+                                attr.aria-label="{{ 'generic.youtube_video' | translate }}: {{ item.video.videoDescription || item.videoThumb.alt }}"
+                                role="button"></i>
+                            <div class="triangle" aria-hidden="true"></div>
                         </div>
                         <div *ngIf="!item.videoThumb" class="list__item__video__thumbnail">
                             <img [class.lastImg]="last"
                                 [src]="'https://img.youtube.com/vi/' + item.video.videoId + '/hqdefault.jpg'"
-                                width="100%" />
-                            <i class="icon youtube-play"></i>
-                            <div class="triangle"></div>
+                                width="100%" alt="" />
+                            <i class="icon youtube-play"
+                                attr.aria-label="{{ 'generic.youtube_video' | translate }}: {{ item.video.videoDescription }}"
+                                role="button"></i>
+                            <div class="triangle" aria-hidden="true"></div>
                         </div>
                     </div>
 
