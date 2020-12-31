@@ -2162,6 +2162,10 @@ button:
     translation_type: textarea
     et: 'Sorteeri ametialasid'
     en: 'Sorteeri ametialasid'
+  role:
+    translation_type: textarea
+    et: Roll
+    en: Role
 tooltip:
   share:
     translation_type: textarea
@@ -3301,6 +3305,10 @@ abitekst:
     translation_type: textarea
     et: 'Sulle välja antud e-tunnistuste nägemiseks pead olema Haridusportaali sisse logitud. LIsaks saad anda ka teistele isikutele e-tunnistuste vaatamiseks vajalikud ligipääsuõiguseid. '
     en: MISSING
+  avalikustatud_tunnistused:
+    translation_type: textarea
+    et: 'Lorem ipsum abitekst'
+    en: 'Lorem ipsum abitekst'
 feedback_add_comment:
   translation_type: textarea
   et: 'Soovi korral lisa kommentaar'
@@ -3653,6 +3661,26 @@ certificates:
     translation_type: textarea
     et: 'Sisesta selle inimese isikukood, kellele soovid ligipääsu jagada'
     en: MISSING
+  disclosed:
+    translation_type: textarea
+    et: 'Avalikustatud lõpudokumentide vaatamine'
+    en: 'Avalikustatud lõpudokumendid - eng'
+  first_name:
+    translation_type: textarea
+    et: Eesnimi
+    en: 'First name'
+  last_name:
+    translation_type: textarea
+    et: Perenimi
+    en: 'Last name'
+  name_and_idcode:
+    translation_type: textarea
+    et: 'Nimi ja isikukood'
+    en: 'Name and ID code'
+  disclosure:
+    translation_type: textarea
+    et: Avalikustatud
+    en: 'Avalikustatud - eng'
 home:
   slogan:
     translation_type: textarea
@@ -4069,6 +4097,10 @@ finaldocuments:
     translation_type: textarea
     et: 'Kehtetud ligipääsud'
     en: 'Inactive accesses'
+  with_supplement:
+    translation_type: textarea
+    et: 'koos lisadega'
+    en: 'with supplements'
 finaldocument:
   idcode:
     translation_type: textarea
@@ -4179,3 +4211,11 @@ labels:
   translation_type: textarea
   et: Esitamata
   en: Unsubmitted
+'GRANT_DECISION_TYPE:POSITIVE':
+  translation_type: textarea
+  et: Positiivne
+  en: Positive
+'GRANT_DECISION_TYPE:NEGATIVE':
+  translation_type: textarea
+  et: Negatiivne
+  en: Negative
