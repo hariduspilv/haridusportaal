@@ -178,11 +178,26 @@ export class MenuComponent implements OnInit, OnDestroy {
       }
     }
 
-    // Open the menu when: 1. the page was just initialized 2. a submenu was opened 3. the menu
-    // is not already visible and 4. the page is not in the list of pages not to open on
-    if (init && opened && !this.sidemenuService.isMobileView && !this.isVisible &&
-      this.sidemenuService.ignoreAutoOpen.indexOf(path) === -1) {
-      this.sidemenuService.toggle();
+    if (opened) {
+      // Determine the theme of the current page
+      for (const menu of this.menus) {
+        for (const item of menu.items) {
+          if (item.firstLevel && item.active) {
+            const themestr = item.label.toLowerCase();
+            const resolved = this.sidemenuService.themes[themestr] || 'default';
+            this.sidemenuService.setTheme(resolved);
+          }
+        }
+      }
+
+      // Open the menu when: 1. the page was just initialized 2. mobile view 3. the menu
+      // is not already visible and 4. the page is not in the list of pages not to open on
+      if (init && !this.sidemenuService.isMobileView && !this.isVisible &&
+        this.sidemenuService.ignoreAutoOpen.indexOf(path) === -1) {
+        this.sidemenuService.toggle();
+      }
+    } else {
+      this.sidemenuService.setTheme('default');
     }
 
     this.cdr.detectChanges();

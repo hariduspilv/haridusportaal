@@ -32,4 +32,12 @@ export class ClassifiersApi {
 
     return this.httpClient.get<ClassifierItemsQuery>(url);
   }
+
+  fetchClassifierItemsByDefinitionCodeWithParameters(
+    definitionCode: ClassifierDefinitionCode, params?: Record<string, string>
+  ): Observable<ClassifierItemsQuery> {
+    const url = `${this.classifiersUrl}classifierItems/${definitionCode}`;
+
+    return this.httpClient.get<ClassifierItemsQuery>(url, { params: { ...params } });
+  }
 }

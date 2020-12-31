@@ -12,47 +12,56 @@
 </div>
 <a routerLink="/" class="header__logo pointer" role="link" aria-label="edu.ee">
   <!-- <icon glyph="logo" size="medium"></icon> -->
-  <img aria-hidden="true" src="/assets/img/logo.svg" alt="edu.ee logo" />
+  <img aria-hidden="true" src="/assets/img/logo_blue.svg" alt="edu.ee logo" />
 </a>
 <div class="header__assets">
   <div class="inline">
     <div class="header__assets--grid">
       <div [class.hidden]="!headerSearchEnabled()" class="header__search">
-        <icon (click)="searchClick()" glyph="search" size="default"></icon>
+        <icon (click)="searchClick()" glyph="search" size="default" [ariaLabel]="'button.search' | translate"></icon>
         <form>
-          <label class="hidden-label" for="homeSearch">Sisesta märksõna ja vajuta Enter</label>
+          <label class="hidden-label" for="homeSearch">{{ 'frontpage.enter_keyword_and_search' | translate }}</label>
           <formItem type="autocomplete" query="testAutocomplete" titleDisabled="true" name="homeSearch"
-            placeholder="Sisesta märksõna ja vajuta Enter" [(ngModel)]="searchTerm" domID="homeSearch"
+            placeholder="{{ 'frontpage.enter_keyword_and_search' | translate }}" [(ngModel)]="searchTerm" domID="homeSearch"
             (autoCompleteChanged)="searchRoute($event)">
           </formItem>
         </form>
       </div>
       <div class="header__actions">
         <button htm-button [class.active]="modalService.modalOpened['search'] || false" (click)="modalService.toggle('search')"
-          theme="plain" attr.aria-label="{{ 'button.search' | translate }}">
+          theme="plain" attr.aria-label="{{ 'search.label' | translate }}" class="separation-right">
           <icon aria-hidden="true" glyph="search" size="medium"></icon>
         </button>
 
         <button *ngIf="loginStatus; else other" theme="plain" (click)="openLogOutDropdown($event)" htm-button>
-          <div class="label--logged">
-            <icon aria-hidden="true" glyph="user" size="medium"></icon>
+          <div class="label--logged" [class.enterprise]="auth.user.role.current_role.type !== 'natural_person'">
+            <icon aria-hidden="true" glyph="user" size="medium" class="icon-user medium"></icon>
             <span>
-              <ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
-                {{ auth.user.lastname }}</ng-container>
-              <ng-container *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}
-              </ng-container>
+              {{ 'button.role' | translate }}:
+              <b>
+                <ng-container *ngIf="auth.user.role.current_role.type === 'natural_person';else juridicalPerson">
+                  <ng-container *ngIf="auth.user.firstname && auth.user.lastname">{{ auth.user.firstname }}
+                    {{ auth.user.lastname }}</ng-container>
+                  <ng-container *ngIf="!auth.user.firstname && !auth.user.lastname">{{ auth.user.username }}
+                  </ng-container>
+                </ng-container>
+                <ng-template #juridicalPerson>
+                  {{ auth.user.role.current_role.data.nimi }}
+                </ng-template>
+              </b>
             </span>
+            <icon aria-hidden="true" glyph="chevron-down" size="medium" class="icon-chevron medium"></icon>
           </div>
         </button>
         <div *ngIf="logoutActive" class="header__logout">
           <button htm-button theme="logout" (click)="logOut()">
-            Logi välja
+            {{ 'button.logout' | translate }}
           </button>
         </div>
         <ng-template #other>
           <button id="headerLogin" htm-button [class.active]="modalService.modalOpened['login']"
             (click)="openLoginModal()" theme="plain" attr.aria-label="{{ 'button.login' | translate }}">
-            <icon aria-hidden="true" glyph="user" size="medium"></icon>
+            <icon aria-hidden="true" glyph="user" size="medium" class="icon-user medium"></icon>
             <span>{{ "button.login" | translate }}</span>
             <div *ngIf="loginTooltip === 'enabled'" class="tooltip show bs-tooltip-bottom sm-hide">
               <div class="arrow"></div>
@@ -73,7 +82,7 @@
       (keyup.enter)="searchRoute(searchString); modalService.close('search')"></formItem>
     <button (blur)="modalService.focusLock()" htm-button style="margin: 1rem 0; width: 100%;"
       (click)="searchRoute(searchString); modalService.close('search')">
-      Otsi
+      {{ 'button.search' | translate }}
     </button>
   </ng-template>
 </htm-modal>

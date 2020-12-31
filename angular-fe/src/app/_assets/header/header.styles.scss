@@ -5,7 +5,7 @@
 	box-sizing: border-box;
 	padding: 0;
 	width: 100%;
-	background: $blue;
+	background: $theme-default;
 	height: 4rem;
 	display: flex;
 	.hidden-label {
@@ -18,10 +18,61 @@
 		width: auto;
 		height: auto;
 	}
+	&.header {
+		&--learning {
+			background: $theme-learning;
+			.header__hamburger, .header__assets {
+				> button, .header__actions > button {
+					background: $theme-learning;
+					.label--logged.enterprise {
+						background-color: darken($theme-learning, 10%);
+					}
+				}
+			}
+		}
+		&--career {
+			background: $theme-career;
+			.header__hamburger, .header__assets {
+				> button, .header__actions > button {
+					background: $theme-career;
+					.label--logged.enterprise {
+						background-color: darken($theme-career, 10%);
+					}
+				}
+			}
+		}
+		&--teaching {
+			background: $theme-teaching-dark;
+			.header__hamburger, .header__assets {
+				> button, .header__actions > button {
+					background: $theme-teaching-dark;
+					.label--logged.enterprise {
+						background-color: darken($theme-teaching-dark, 10%);
+					}
+				}
+			}
+		}
+		&--youth {
+			background: $theme-young;
+			.header__hamburger, .header__assets {
+				> button, .header__actions > button {
+					background: $theme-young;
+					.label--logged.enterprise {
+						background-color: darken($theme-young, 10%);
+					}
+				}
+			}
+		}
+	}
 	.header {
 		&__logo {
 			cursor: pointer;
 			margin-top: 1.125rem;
+			img {
+				width: 7rem;
+				display: block;
+				margin-top: 0.1rem;
+			}
 		}
 		&__actions {
 			display: flex;
@@ -31,7 +82,8 @@
 					z-index: 1;
 					position: absolute;
 					top: 2.5rem;
-					right: -1rem;
+					right: 0;
+					left: 0;
 				}
 			}
 		}
@@ -61,7 +113,7 @@
 				.bar {
 					margin: 0.125rem 0;
 					height: 0.125rem;
-					background: $white;
+					background: $blue;
 					transition: all .225s ease-in-out;
 				}
 			}
@@ -190,10 +242,19 @@
 			height: 4rem;
 			width: 4rem;
 			padding: 0;
-			color: $white;
+			color: $blue;
 			border: none;
-			background: $blue;
+			background: $theme-default;
+			transition: color 0.25s;
 			border-radius: 0;
+			/*&.separation-right:after {
+				content: "";
+				position: absolute;
+				border-right: 0.05rem solid #2e3374;
+				right: 0;
+				top: 35%;
+				bottom: 35%;
+			}*/
 			::ng-deep	{
 				.button--label {
 					display: block;
@@ -202,9 +263,10 @@
 					}
 					.label--logged {
 						display: flex;
-						align-items: center;
+						flex-direction: row;
 						justify-content: center;
-						icon:after {
+						align-items: center;
+						.icon-user:after {
 							content: "";
 							display: block;
 							height: 0.625rem;
@@ -219,6 +281,28 @@
 							@include break-on(sm, min) {
 								left: 1rem;
 							}
+						}
+						span {
+							display: none;
+							font-size: 0.8rem;
+							flex-shrink: 1;
+							flex-grow: 0;
+							text-overflow: ellipsis;
+							overflow: hidden;
+							white-space: nowrap;
+							margin-right: auto;
+							line-height: 2;
+						}
+						.icon-chevron {
+							display: none;
+							margin-top: 0.1rem;
+							margin-right: 0;
+						}
+						&.enterprise {
+							background-color: darken($theme-default, 10%);
+						}
+						@include break-on(xs, max) {
+							background: none !important;
 						}
 					}
 				}
@@ -237,9 +321,10 @@
 		}
 	}
 
-	@include break-on(sm, min) {
+	@include break-on(xs, min) {
 		.header {
-			&__logo { padding: 0 1.5rem;
+			&__logo {
+				padding: 0 1.5rem;
 				width: 16.25rem;
 			}
 			&__search {
@@ -252,7 +337,7 @@
 					display: block;
 					position: absolute;
 					left: 1rem;
-					color: $white;
+					color: $dark-gray;
 					z-index: 20;
 					cursor: pointer;
 					::ng-deep i {
@@ -271,14 +356,13 @@
 					::ng-deep {
 						.formItem__wrapper input {
 							padding-left: 2.5rem;
-							color: $white;
-							background-color: rgba(255,255,255,.1);
-							border: .0625rem solid rgba(255,255,255,0);
+							color: $black !important;
+							background-color:rgba(255, 255, 255, 0.5) !important;
 							&::placeholder {
-								color: $light-purple;
+								color: $dark-gray;
 							}
 							&:-moz-placeholder, &::-moz-placeholder {
-								color: $light-purple;
+								color: $dark-gray;
 								opacity: 1;
 							}
 						}
@@ -292,13 +376,28 @@
 				position: relative;
 				justify-content: flex-end;
 				
-				#headerLogin {
-					.button--label {
-						border: 1px solid $blue;
+				::ng-deep {
+					#headerLogin .button--label, .label--logged {
 						border-radius: 99px;
+						.icon-user {
+							display: none;
+						}
 					}
-					icon {
-						display: none;
+					#headerLogin .button--label {
+						border: 1px solid $blue;
+						padding: 0.7rem 2rem;
+					}
+					.label--logged {
+						padding: 0.5rem 1rem;
+						width: 12rem;
+						color: $black;
+						background-color: $white;
+						span {
+							display: block !important;
+						}
+						.icon-chevron {
+							display: block !important;
+						}
 					}
 				}
 			}
@@ -330,6 +429,24 @@
 					}
 					icon {
 						margin-right: .5rem;
+					}
+				}
+			}
+		}
+	}
+	@include break-on(sm, max) {
+		.header {
+			&__logo {
+				padding: 0;
+				width: initial;
+			}
+			&__search {
+				icon {
+					display: none;
+				}
+				::ng-deep {
+					formItem .formItem__wrapper input {
+						padding-left: 1rem !important;
 					}
 				}
 			}

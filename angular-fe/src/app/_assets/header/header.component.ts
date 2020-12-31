@@ -33,6 +33,7 @@ export class HeaderComponent implements OnInit {
   public searchTerm: any;
   public logoutActive = false;
   public searchString = '';
+  public theme: string = 'default';
   public loading = false;
   public mobileId = {
     challengeId: '',
@@ -71,7 +72,7 @@ export class HeaderComponent implements OnInit {
   }
 
   @HostBinding('class') get hostClasses(): string {
-    return 'header';
+    return `header header--${this.theme}`;
   }
 
   public isNumber(e): boolean {
@@ -159,6 +160,10 @@ export class HeaderComponent implements OnInit {
       }
       // Ignore the initial state
       this.sidemenuInit = true;
+    });
+
+    this.sidemenuService.themeSubscription.subscribe((theme) => {
+      this.theme = theme;
     });
   }
 
