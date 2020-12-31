@@ -517,7 +517,7 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
 
     if($this->useReg()) $params['hash'] = 'mtsys';
-    if(!$this->useReg()) $params['hash'] = ['vpTaotlus'];
+    if(!$this->useReg()) $params['hash'] = ['vpTaotlus', 'OLT'];
 
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
