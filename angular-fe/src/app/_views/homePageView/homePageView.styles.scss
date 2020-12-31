@@ -320,7 +320,7 @@
             &:hover {
               transform: scale(1.05);
               box-shadow: 0 0 2.5rem rgba(44, 43, 43, 0.25);
-              
+
               a {
                 font-weight: 500;
               }
@@ -366,7 +366,7 @@
         p {
           font-size: 1rem;
           line-height: 125%;
-          text-align:center; 
+          text-align:center;
         }
       }
       &__elem {
@@ -402,14 +402,14 @@
             width: 100%;
           }
           &__inner {
-            display: block; 
+            display: block;
             padding-bottom: 80%;
             min-height: 100%;
             overflow: hidden;
             position: relative;
             background: center center no-repeat #2E3374;
             background-size: contain;
-            
+
           }
           img {
             display: block;
@@ -557,7 +557,7 @@
           color: $blue;
         }
       }
-     
+
       li:last-child icon {
         display: none;
       }
@@ -1168,7 +1168,7 @@
         }
       }
     }
-    
+
     &.theme--learning {
       .instance {
         &__image {
@@ -1378,6 +1378,9 @@
       &__even {
         width: 100%;
         word-break: break-word;
+        @include break-on(xs, min) {
+          padding: 1rem;
+        }
       }
       .contact {
         &+.links {
@@ -1546,7 +1549,7 @@
         }
       }
     }
-    
+
     &.theme--default {
       .contact {
         width: 22.125rem;
