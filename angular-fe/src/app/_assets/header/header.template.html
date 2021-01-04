@@ -17,15 +17,16 @@
 <div class="header__assets">
   <div class="inline">
     <div class="header__assets--grid">
-      <div [class.hidden]="!headerSearchEnabled()" class="header__search">
-        <icon (click)="searchClick()" glyph="search" size="default" [ariaLabel]="'button.search' | translate"></icon>
+      <div [class.hidden]="!headerSearchEnabled()" class="header__search" role="search">
         <form>
-          <label class="hidden-label" for="homeSearch">{{ 'frontpage.enter_keyword_and_search' | translate }}</label>
+          <label class="hidden-label" for="homeSearch">{{ 'search.label' | translate }}</label>
           <formItem type="autocomplete" query="testAutocomplete" titleDisabled="true" name="homeSearch"
             placeholder="{{ 'frontpage.enter_keyword_and_search' | translate }}" [(ngModel)]="searchTerm" domID="homeSearch"
             (autoCompleteChanged)="searchRoute($event)">
           </formItem>
         </form>
+        <icon (click)="searchClick()" glyph="search" size="default"
+          [ariaLabel]="'button.search' | translate" role="button"></icon>
       </div>
       <div class="header__actions">
         <button htm-button [class.active]="modalService.modalOpened['search'] || false" (click)="modalService.toggle('search')"
@@ -78,7 +79,7 @@
 
 <htm-modal id="search" modalTitle="{{ 'button.search' | translate }}" [bottomAction]="false">
   <ng-template id="search">
-    <formItem type="text" [(ngModel)]="searchString" title="Märksõna"
+    <formItem type="text" [(ngModel)]="searchString" [title]="'search.keyword' | translate"
       (keyup.enter)="searchRoute(searchString); modalService.close('search')"></formItem>
     <button (blur)="modalService.focusLock()" htm-button style="margin: 1rem 0; width: 100%;"
       (click)="searchRoute(searchString); modalService.close('search')">
