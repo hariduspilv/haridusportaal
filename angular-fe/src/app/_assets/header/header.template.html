@@ -145,12 +145,12 @@
         <ng-template #mobileIdWrapper>
           <div class="mobile-handshake">
             <p>
-              Kontrolli, et näed mobiiltelefoni ekraanil täpselt sama numbrit:
+              {{ 'login.mobile_id_check' | translate }}
             </p>
-            <h1>{{this.mobileId.challengeId}}</h1>
-            <p class="mb-0">Seejärel sisesta PIN1</p>
-            <p class="mt-0">Ootame Mobiil-ID vastust…</p>
-            <button (click)="mobileIdCancel()" htm-button theme="plain">{{"button.cancel" | translate}}</button>
+            <h1>{{ this.mobileId.challengeId }}</h1>
+            <p class="mb-0">{{ 'login.mobile_id_pin1' | translate }}</p>
+            <p class="mt-0">{{ 'login.mobile_id_waiting' | translate }}</p>
+            <button (click)="mobileIdCancel()" htm-button theme="plain">{{ 'button.cancel' | translate }}</button>
           </div>
         </ng-template>
       </div>
