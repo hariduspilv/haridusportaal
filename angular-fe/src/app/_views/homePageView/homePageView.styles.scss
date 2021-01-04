@@ -1300,23 +1300,10 @@
     &.theme--career,
     &.theme--learning,
     &.theme--youth {
-      .newsletter__col:nth-child(2) {
+      @include break-on(sm, min) {
+        .newsletter__col:nth-child(2) {
           order: 3;
           text-align: right;
-      }
-      @include break-on(sm, max) {
-        .rss {
-          order: 6;
-          margin-top: 1rem;
-        }
-        .links a {
-          max-width: 100% !important;
-        }
-        .button--outline-dark{
-          width: 100%;
-        }
-        .newsletter__col {
-          width: 100% !important;
         }
       }
     }
@@ -1380,6 +1367,9 @@
         word-break: break-word;
         @include break-on(sm, min) {
           padding: 1rem;
+          &.newsletter {
+            padding: 1rem 0;
+          }
         }
       }
       .contact {
@@ -1453,18 +1443,15 @@
             flex-wrap: wrap;
           }
           .newsletter__col {
-            width: 50%;
-            &:nth-child(1){
-              width: 100%;
-              padding-bottom: 1rem;
-            }
-            button, a {
-              margin: 0;
-            }
-
-            @media screen and (min-width: map-get($breakpoints, 'xxs')) and (max-width: map-get($breakpoints, 'sm')){
-              width: auto !important;
-              padding-bottom: 1rem !important;
+            @include break-on(sm, min) {
+              width: 50%;
+              &:nth-child(1){
+                width: 100%;
+                padding-bottom: 1rem;
+              }
+              button, a {
+                margin: 0;
+              }
             }
           }
         }
@@ -1510,7 +1497,7 @@
         &__cols {
           display: flex;
           align-items: center;
-          @include break-on(sm, max) {
+          @include break-on(xs, max) {
             flex-direction: column;
             align-items: normal;
           }
@@ -1519,7 +1506,7 @@
         &__col {
           flex-grow: 0;
           flex-shrink: 0;
-          @include break-on(sm, max) {
+          @include break-on(xs, max) {
             width: 100%;
             text-align: center;
           }
@@ -1527,21 +1514,21 @@
           &:first-child {
             flex-grow: 1;
             flex-shrink: 1;
-            @include break-on(sm, max) {
+            @include break-on(xs, max) {
               width: 100%
             }
           }
 
           a {
             margin-left: 1.5rem;
-            @include break-on(sm, max) {
+            @include break-on(xs, max) {
               margin-left: auto;
             }
           }
 
           button {
             margin-left: 1rem;
-            @include break-on(sm, max) {
+            @include break-on(xs, max) {
               margin: 1rem 0;
               width: 100%;
             }
