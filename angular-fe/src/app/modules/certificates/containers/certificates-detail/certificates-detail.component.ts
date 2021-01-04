@@ -72,8 +72,6 @@ export class CertificatesDetailComponent implements OnInit {
     const params = this.route.snapshot.params;
     this.accessorCode = params.accessorCode;
 
-    console.log(this.accessType);
-
     const URL = this.accessType === AccessType.ACCESS_CODE
       ? `${this.settings.ehisUrl}/certificates/v1/certificate/ACCESS_CODE/${params.certificateNr}/${this.accessorCode}`
       : `${this.settings.ehisUrl}/certificates/v1/certificate/${params.id}?accessType=${this.accessType}`;
@@ -158,11 +156,12 @@ export class CertificatesDetailComponent implements OnInit {
     this.breadcrumbs = [...this.path];
     const params = this.route.snapshot.params;
     const queryParams = this.route.snapshot.queryParamMap;
-    console.log(queryParams.get('avalikustatud'));
-    if(queryParams.get('avalikustatud')) {
+    if (queryParams.get('avalikustatud')) {
       this.accessType = AccessType.DISCLOSURE;
     } else {
-      this.accessType = params.accessorCode && params.certificateNr ? AccessType.ACCESS_CODE : AccessType.ID_CODE;
+      this.accessType = params.accessorCode && params.certificateNr
+        ? AccessType.ACCESS_CODE
+        : AccessType.ID_CODE;
     }
     this.getCertificate();
   }
