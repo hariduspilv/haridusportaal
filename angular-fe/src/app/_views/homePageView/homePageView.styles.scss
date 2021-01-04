@@ -1367,6 +1367,9 @@
         word-break: break-word;
         @include break-on(sm, min) {
           padding: 1rem;
+          &.newsletter {
+            padding: 1rem 0;
+          }
         }
       }
       .contact {
@@ -1440,20 +1443,15 @@
             flex-wrap: wrap;
           }
           .newsletter__col {
-            width: 50%;
-            &:nth-child(1){
-              width: 100%;
-              padding-bottom: 1rem;
-            }
             @include break-on(sm, min) {
+              width: 50%;
+              &:nth-child(1){
+                width: 100%;
+                padding-bottom: 1rem;
+              }
               button, a {
                 margin: 0;
               }
-            }
-
-            @media screen and (min-width: map-get($breakpoints, 'xxs')) and (max-width: map-get($breakpoints, 'sm')){
-              width: auto !important;
-              padding-bottom: 1rem !important;
             }
           }
         }
