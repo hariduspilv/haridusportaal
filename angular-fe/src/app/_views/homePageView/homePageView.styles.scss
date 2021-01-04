@@ -1304,7 +1304,7 @@
           order: 3;
           text-align: right;
       }
-      @include break-on(xs, max) {
+      @include break-on(sm, max) {
         .rss {
           order: 6;
           margin-top: 1rem;
@@ -1371,20 +1371,20 @@
     .footer {
       display: flex;
       box-sizing: border-box;
-      @include break-on(xs, max) {
+      @include break-on(sm, max) {
         flex-direction: column;
         padding-top: 4.5rem;
       }
       &__even {
         width: 100%;
         word-break: break-word;
-        @include break-on(xs, min) {
+        @include break-on(sm, min) {
           padding: 1rem;
         }
       }
       .contact {
         &+.links {
-          @include break-on(xs, max) {
+          @include break-on(sm, max) {
             margin-top: 2.5rem;
           }
         }
@@ -1470,7 +1470,7 @@
         }
       }
       .newsletter {
-        @include break-on(xs, max) {
+        @include break-on(sm, max) {
           padding-top: 3rem;
         }
 
