@@ -13,6 +13,7 @@ import { CertificateTranscriptParams } from './models/interfaces/certificate-tra
 import { CertificateTranscriptTemplateType } from './models/enums/certificate-transcript-template-type.enum';
 import { GraduationDocumentTypeClassification } from './models/enums/graduation-document-type-classification.enum';
 import { GraduationDocumentType } from './models/enums/graduation-document-type.enum';
+import { CertificateDocumentContent } from './models/interfaces/certificate-document-content';
 
 export class CertificatesUtility {
 
@@ -151,4 +152,8 @@ export class CertificatesUtility {
     };
   }
 
+  public static getEducationalInstitutions(document: CertificateDocument): string {
+    return (document.content as CertificateDocumentContent)
+      .educationalInstitutions.map(x => x.name).join(', ');
+  }
 }

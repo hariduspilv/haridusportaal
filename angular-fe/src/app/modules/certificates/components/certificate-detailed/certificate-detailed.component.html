@@ -1,3 +1,72 @@
 <div id="certificate" #certificate>
-  
+  <h2>Isikuandmed</h2>
+  <table>
+    <tr>
+      <td>Eesnimi:</td>
+      <td>{{ document.content.graduate.firstName }}</td>
+    </tr>
+    <tr>
+      <td>Perekonnanimi:</td>
+      <td>{{ document.content.graduate.lastName }}</td>
+    </tr>
+    <tr>
+      <td>Isikukood:</td>
+      <td>{{ document.content.graduate.idCode }}</td>
+    </tr>
+  </table>
+  <h2>Lõpudokumendi andmed</h2>
+  <table>
+    <tr>
+      <td>Number:</td>
+      <td>{{ document.number }}</td>
+    </tr>
+    <tr *ngIf="document.content.issued">
+      <td>Väljaandmise kuupäev:</td>
+      <td>{{ document.content.issued.issueDate }}</td>
+    </tr>
+  </table>
+  <ng-container *ngIf="document.content.educationalInstitutions && document.content.educationalInstitutions.length">
+    <h2>Õppeasutuse andmed</h2>
+    <table>
+      <tr>
+        <td>Õppeasutuse nimi:</td>
+        <td>{{ eduInst }}</td>
+      </tr>
+    </table>
+  </ng-container>
+  <h2>Õppekava andmed</h2>
+  <table>
+    <tr>
+      <td>Õppekava nimetus:</td>
+      <td>{{ document.content.studies.curriculumName }}</td>
+    </tr>
+    <tr>
+      <td>Õppekava kood:</td>
+      <td>{{ document.content.studies.curriculumCode }}</td>
+    </tr>
+    <tr *ngIf="document.content.studies.academicDegree">
+      <td>Akadeemilise kraadi nimetus:</td>
+      <td>{{ document.content.studies.academicDegree }}</td>
+    </tr>
+    <tr *ngIf="document.content.studies.levelOfEducation">
+      <td>Õppetaseme nimetus:</td>
+      <td>{{ document.content.studies.levelOfEducation }}</td>
+    </tr>
+    <tr *ngIf="document.content.studies.accreditationDecision">
+      <td>Õppekava akrediteeringu otsus:</td>
+      <td>{{ document.content.studies.accreditationDecision }}</td>
+    </tr>
+    <tr *ngIf="document.content.studies.accreditationEndDate">
+      <td>Õppekava akrediteeringu kehtivuse lõppkuupäev:</td>
+      <td>{{ document.content.studies.accreditationEndDate }}</td>
+    </tr>
+    <tr *ngIf="document.content.studies.rightToProvideEducationDecision">
+      <td>Õppekavagrupis õppe läbiviimise õiguse otsus:</td>
+      <td>{{ document.content.studies.rightToProvideEducationDecision }}</td>
+    </tr>
+    <tr *ngIf="document.content.studies.rightToProvideEducationEndDate">
+      <td>Õppekavagrupis õppe läbiviimise õiguse lõppkuupäev:</td>
+      <td>{{ document.content.studies.rightToProvideEducationEndDate }}</td>
+    </tr>
+  </table>
 </div>

@@ -22,7 +22,7 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
   public documents: FormattedCertificateDocumentData;
   public transcriptDocuments: CertificateDocumentWithClassifier[];
   public mainLanguage = GraduationDocumentLanguage.emakeelEt;
-  generalEducationDocumentType = false;
+  public generalEducationDocumentType = false;
 
   public sidebar = {
     entity: {
@@ -69,7 +69,8 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
   }
 
   public tabChanged(tab) {
-    if (!this.loading && tab === this.translate.get('certificates.graduation_certificate')) {
+    if (!this.loading && tab === this.translate.get('certificates.graduation_certificate') &&
+        this.certificate) {
       setTimeout(() => {
         this.certificate.first.calculateCertificateSize();
       });
@@ -117,10 +118,6 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
           this.sidebar = CertificatesUtility.composeSidebarData(
             this.documents, this.transcriptDocuments, this.generalEducationDocumentType);
           this.loading = false;
-          setTimeout(() => {
-            (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
-            .focus();
-          });
         });
       } else {
         this.sidebar = CertificatesUtility.composeSidebarData(

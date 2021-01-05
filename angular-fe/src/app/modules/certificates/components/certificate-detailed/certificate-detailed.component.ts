@@ -2,8 +2,10 @@ import {
   Component,
   ElementRef,
   Input,
+  OnInit,
   ViewChild,
 } from '@angular/core';
+import { CertificatesUtility } from '../../certificates.utility';
 
 @Component({
   selector: 'certificate-detailed',
@@ -12,9 +14,11 @@ import {
 })
 export class CertificateDetailedComponent {
 
-  constructor() {}
-
   @ViewChild('certificate') certificate: ElementRef;
 
   @Input() document: any = {};
+
+  get eduInst(): string {
+    return CertificatesUtility.getEducationalInstitutions(this.document);
+  }
 }

@@ -125,6 +125,7 @@ import { A11yModule } from '@angular/cdk/a11y';
 import { ToggletipComponent } from './toggleTip/toggleTip.component';
 import { MainProfessionsSearchResultsComponent } from './mainProfessionsSearchResults/mainProfessionsSearchResults.component';
 import { TagComponent } from './tag/tag.component';
+import { CertificateDetailedComponent } from '@app/modules/certificates/components/certificate-detailed/certificate-detailed.component';
 import { CertificateComponent } from '@app/modules/certificates/components/certificate/certificate.component';
 import { CertificatesComponent } from '@app/modules/certificates/components/certificates/certificates.component';
 import { CertificateDocumentCheckComponent } from '@app/modules/certificates/components/certificate-document-check/certificate-document-check.component';
@@ -139,6 +140,7 @@ const pipes = [];
 
 const certificatesModuleDeclarations = [
   CertificatesComponent,
+  CertificateDetailedComponent,
   CertificateComponent,
   CertificateFinalDocumentsComponent,
   CertificateDocumentCheckComponent,
