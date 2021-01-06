@@ -42,11 +42,11 @@
 					</block-title>
         
           <block-secondary-title>
-            {{ typeTranslation | translate }} nr {{ documents.certificate?.content?.registrationNumber }}
-            <ng-container *ngIf="documents.certificate?.content?.duplicateCertificateNumber">
+            {{ typeTranslation | translate }} nr {{ documents?.certificate?.content?.registrationNumber }}
+            <ng-container *ngIf="documents?.certificate?.content?.duplicateCertificateNumber">
               <div class="duplicate duplicate-badge">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</div>
             </ng-container>
-            <ng-container *ngIf="documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID'">
+            <ng-container *ngIf="documents?.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID'">
               <div class="invalid duplicate-badge">{{ 'frontpage.dashboard_tabs_certificates_notvalid' | translate }}</div>
             </ng-container>
             <hr aria-hidden="true">

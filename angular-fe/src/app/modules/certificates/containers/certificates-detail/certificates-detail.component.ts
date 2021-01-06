@@ -161,6 +161,9 @@ export class CertificatesDetailComponent implements OnInit {
   }
   
   public get typeTranslation(): string {
+    if (!this.documents?.certificate) {
+      return 'frontpage.dashboard_tabs_certificate';
+    }
     if (this.documents.certificate.type.indexOf('DIPLOMA') !== -1) {
       return 'finaldocuments.diploma';
     }
