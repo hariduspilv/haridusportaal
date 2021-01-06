@@ -248,7 +248,8 @@
         (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
         (ngModelChange)="field = $event"
         [ngModel]="field | parseInAdds"
-        [attr.aria-label]="ariaLabel"/>
+        [attr.aria-label]="ariaLabel"
+        aria-autocomplete="list"/>
       <autocomplete
         [valueType]="valueType"
         #autocompleteElem

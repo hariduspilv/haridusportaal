@@ -9,9 +9,9 @@
 </ul>
 <ul class="no-messages" *ngIf="data.list.length === 0 && !data.loading">
   <li>
-    Sulle ei ole ühtegi teavitust.
+    {{ 'frontpage.dashboard_no_notifications' | translate }}
   </li>
 </ul>
 <div class="bottom" *ngIf="data.list.length > 0">
-  <a routerLink="/töölaud/teavitused">Vaata kõiki teavitusi</a>
+  <a routerLink="/töölaud/teavitused">{{ 'frontpage.dashboard_view_all_notifications' | translate }}</a>
 </div>

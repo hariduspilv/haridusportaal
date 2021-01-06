@@ -43,6 +43,7 @@ permissions:
   - 'create terms in oska_indicator'
   - 'create terms in oska_main_profession'
   - 'create video media'
+  - 'create youth_home_page content'
   - 'delete all oska entity revisions'
   - 'delete all oska indicator entity revisions'
   - 'delete any audio media'
@@ -202,3 +203,4 @@ permissions:
   - 'view unpublished oska table entity entities'
   - 'view unpublished paragraphs'
   - 'view unpublished subsidy project entities'
+  - 'view youth_home_page revisions'

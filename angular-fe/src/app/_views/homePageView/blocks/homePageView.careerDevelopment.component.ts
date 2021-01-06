@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { ICareerSlide } from '../homePage.model';
-import { HomePageService } from '../homePage.service';
+import { ICareerSlide } from '../homePageView.model';
+import { HomePageService } from '../homePageView.service';
 
 @Component({
   selector: 'homepage-careerDevelopment',

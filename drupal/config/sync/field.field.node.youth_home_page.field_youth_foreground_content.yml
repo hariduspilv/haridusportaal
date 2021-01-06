@@ -6,7 +6,6 @@ dependencies:
     - field.storage.node.field_youth_foreground_content
     - node.type.youth_home_page
     - paragraphs.paragraphs_type.content_page_link
-    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
   module:
     - entity_reference_revisions
 id: node.youth_home_page.field_youth_foreground_content
@@ -25,7 +24,6 @@ settings:
     negate: 0
     target_bundles:
       content_page_link: content_page_link
-      yoth_content_page_link_type_2: yoth_content_page_link_type_2
     target_bundles_drag_drop:
       accordion:
         weight: 38

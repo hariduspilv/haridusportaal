@@ -19,6 +19,7 @@ import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { SchoolTable, StudyProgrammeTable, TableComponent } from './table';
 import { AlertsComponent } from './alerts';
 import { VideoComponent } from './video';
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,7 +41,7 @@ import {
   NgbDatepickerModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { MenuComponent, SidemenuItemComponent } from './menu';
+import { MenuComponent, MenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
 import { NgPipesModule } from 'ngx-pipes';
@@ -121,19 +122,30 @@ import { RelatedEventsComponent } from './relatedEvents';
 import { NotFoundComponent } from './notFound';
 import { SessionExpirationComponent } from './sessionExpiration';
 import { MoreBlockComponent } from './more.block/more.block.component';
-import { CertificateComponent } from './certificate/certificate.component';
-import { GradeSheetComponent } from './grade-sheet/gradeSheet.component';
-import { DocumentCheckComponent } from './document-check/documentCheck.component';
 import { A11yModule } from '@angular/cdk/a11y';
 import { ToggletipComponent } from './toggleTip/toggleTip.component';
 import { MainProfessionsSearchResultsComponent } from './mainProfessionsSearchResults/mainProfessionsSearchResults.component';
 import { TagComponent } from './tag/tag.component';
+import { CarouselComponent } from './carousel/carousel.component';
+import { CertificateComponent } from '@app/modules/certificates/components/certificate/certificate.component';
+import { CertificatesComponent } from '@app/modules/certificates/components/certificates/certificates.component';
+import { CertificateDocumentCheckComponent } from '@app/modules/certificates/components/certificate-document-check/certificate-document-check.component';
+import { CertificateFinalDocumentsComponent } from '@app/modules/certificates/components/certificate-final-documents/certificate-final-documents.component';
+import { CertificateGradeSheetComponent } from '@app/modules/certificates/components/certificate-grade-sheet/certificate-grade-sheet.component';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
 }
 
 const pipes = [];
+
+const certificatesModuleDeclarations = [
+  CertificatesComponent,
+  CertificateComponent,
+  CertificateFinalDocumentsComponent,
+  CertificateDocumentCheckComponent,
+  CertificateGradeSheetComponent,
+];
 
 const declarations = [
   ToggletipComponent,
@@ -144,6 +156,7 @@ const declarations = [
   BlockSecondaryTitleSubtextComponent,
   BlockTabsComponent,
   ButtonComponent,
+  CarouselComponent,
   LoaderComponent,
   SkeletonComponent,
   IconComponent,
@@ -158,7 +171,7 @@ const declarations = [
   FeedbackComponent,
   ScrollableContentComponent,
   MenuComponent,
-  SidemenuItemComponent,
+  MenuItemComponent,
   HeaderComponent,
   FormItemComponent,
   RippleDirective,
@@ -223,12 +236,10 @@ const declarations = [
   NotFoundComponent,
   SessionExpirationComponent,
   MoreBlockComponent,
-  CertificateComponent,
-  GradeSheetComponent,
-  DocumentCheckComponent,
   TooltipComponent,
   MainProfessionsSearchResultsComponent,
   TagComponent,
+  ...certificatesModuleDeclarations,
 ];
 
 const exports = [NgbTooltipModule];
@@ -284,6 +295,7 @@ const imports = [
   HttpClientModule,
   ReactiveFormsModule,
   A11yModule,
+  NgxUsefulSwiperModule,
 ];
 
 @NgModule({

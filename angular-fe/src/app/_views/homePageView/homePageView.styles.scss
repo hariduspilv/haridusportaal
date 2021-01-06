@@ -18,7 +18,7 @@
     margin: 0 auto;
   }
 
-  homepage-navblock {
+  homepage-navblock, .navBlock-wrapper {
     display: block;
     position: relative;
     color: $black;
@@ -59,6 +59,27 @@
         }
       }
     }
+    &.theme--youth {
+      .navBlock {
+        background: url('/assets/img/homepage-1-youth.svg') center bottom no-repeat;
+        background-size: cover;
+        &:before {
+          background: linear-gradient(to bottom, #CFDEFB 0%, rgba(207, 222, 251, 0) 100%);
+        }
+        &__buttons {
+          button, a {
+            color: $bluish-gray;
+            font-size: 1.125rem;
+            @include break-on(xxs, max) {
+              padding-bottom: 4rem;
+            }
+          }
+        }
+        &__title img {
+          max-width: 25rem;
+        }
+      }
+    }
     &.theme--learning {
       .navBlock {
         background: url('/assets/img/homepage-1-learning.svg') center bottom no-repeat;
@@ -74,6 +95,13 @@
               padding-bottom: 4rem;
             }
           }
+        }
+      }
+      &+homepage-slides {
+        padding-top: 7rem;
+        @include break-on(md, max) {
+          padding-top: 6rem;
+          margin-top: -2.15rem;
         }
       }
     }
@@ -292,7 +320,10 @@
             &:hover {
               transform: scale(1.05);
               box-shadow: 0 0 2.5rem rgba(44, 43, 43, 0.25);
-              font-weight: 500;
+
+              a {
+                font-weight: 500;
+              }
 
               icon {
                 transform: translateY(0.3125rem);
@@ -335,7 +366,7 @@
         p {
           font-size: 1rem;
           line-height: 125%;
-          text-align:center; 
+          text-align:center;
         }
       }
       &__elem {
@@ -371,14 +402,14 @@
             width: 100%;
           }
           &__inner {
-            display: block; 
+            display: block;
             padding-bottom: 80%;
             min-height: 100%;
             overflow: hidden;
             position: relative;
             background: center center no-repeat #2E3374;
             background-size: contain;
-            
+
           }
           img {
             display: block;
@@ -526,7 +557,7 @@
           color: $blue;
         }
       }
-     
+
       li:last-child icon {
         display: none;
       }
@@ -685,6 +716,33 @@
       .instance__category {
         color: #58730c;
       }
+      .instance__image {
+        width: 30%;
+        @include break-on(sm, max) {
+          width: 40%;
+        }
+        @include break-on(xxs, max) {
+          width: 80%;
+        }
+        @include break-on(xs, min) {
+          margin: 0 2rem;
+        }
+        @include break-on(sm, min) {
+          margin: 0 4rem;
+        }
+      }
+    }
+    &.theme--youth {
+      .instance__category {
+        color: $bluish-gray;
+      }
+      .instance__image {
+        width: 35%;
+        margin: auto;
+        @include break-on(xxs, max) {
+          width: 80%;
+        }
+      }
     }
   }
 
@@ -693,23 +751,14 @@
     display: block;
     position: relative;
     background: $light-gray;
-    padding: 1.5rem 0 10.9375rem 0;
+    padding: 1.5rem 0 8rem 0;
+
     @include break-on(sm, max) {
       padding-bottom: 6.5625rem;
     }
 
-    &.theme--teachers {
-      padding-top: 2.5rem;
-      .slides__title {
-        color: #642BB0;
-        font-size: 1.125rem;
-      }
-    }
-
-    &.theme--learning {
-      .slides__title {
-        color: #58730c;
-      }
+    @include break-on(xxs, max) {
+      padding-bottom: 1rem;
     }
 
     .st0 {
@@ -729,10 +778,10 @@
         letter-spacing: 0.0625rem;
         text-transform: uppercase;
         color: #00747A;
-        margin: 0 0 3.75rem 0;
+        margin: 0;
         font-weight: normal;
         @include break-on(xxs, max) {
-          margin: 0 0 2.5rem 0;
+          margin: 0 0 1rem 0;
           word-spacing: 100vw;
         }
       }
@@ -753,138 +802,40 @@
           flex-wrap: wrap;
         }
       }
+    }
 
-      &__instance {
-        width: 100%;
-        padding: 0 0.75rem;
-        display: flex;
-        flex-direction: column;
-        text-decoration: none;
-        @include break-on(sm, max) {
-          width: 50%;
+    &.theme--teachers {
+      padding-top: 2.5rem;
+      .slides__title {
+        color: #642BB0;
+        font-size: 1.125rem;
+      }
+    }
+    &.theme--learning {
+      .slides__title {
+        color: #58730c;
+      }
+    }
+    &.theme--youth {
+      .slides__title {
+        color: $bluish-gray;
+      }
+      &+homepage-articles {
+        padding: 2rem 0 10rem 0;
+        .instance__content {
+          @include break-on(xs, min) {
+            padding-left: 4rem;
+          }
+          @include break-on(sm, min) {
+            padding-left: 10rem;
+          }
+        }
+        @include break-on(md, max) {
+          padding: 5rem 0 7rem 0;
         }
         @include break-on(xxs, max) {
-          width: 100%;
+          padding: 4rem 0 6rem 0;
         }
-      }
-
-      &__arrow {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        color: $blue;
-        width: 4.3125rem;
-
-        icon i {
-          font-size: 2.8125rem !important;
-          border-radius: 3.125rem;
-          width: 3.125rem;
-          height: 3.125rem;
-          line-height: 2.6875rem !important;
-          transition: background 0.25s;
-        }
-
-        &--left {
-          left: -0.375rem;
-        }
-
-        &--right {
-          right: 0;
-          text-align: right;
-          justify-content: flex-end;
-        }
-
-        &:hover {
-          icon i {
-            background: rgba(0, 0, 0, 0.1);
-          }
-        }
-      }
-
-      &__elem {
-        background: $white;
-        box-shadow: 0 0 1.25rem rgba(141, 141, 141, 0.25);
-        border-radius: 1.25rem;
-        will-change: transform, box-shadow;
-        transition: transform 0.25s, box-shadow 0.25s;
-        cursor: pointer;
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-
-        &__image {
-          border-radius: 1.25rem 1.25rem 0 0;
-          overflow: hidden;
-          padding-bottom: 100%;
-          position: relative;
-
-          img {
-            display: block;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-          }
-        }
-
-        &__body {
-          padding: 1.5rem 1.75rem;
-          display: flex;
-          flex-direction: column;
-          flex-grow: 1;
-        }
-
-        &__title {
-          margin: 0 0 0.875rem 0;
-          font-weight: bold;
-          font-size: 1.5rem;
-          line-height: 133%;
-          color: $black;
-        }
-
-        &__text {
-          font-size: 1rem;
-          line-height: 150%;
-          color: $black;
-          flex-grow: 1;
-        }
-
-        &__link {
-          text-align: center;
-          margin: 0.625rem 0;
-          color: $blue;
-          text-decoration: underline;
-          padding: 0;
-          border: none;
-          font-size: 1rem;
-          background: none;
-          display: block;
-          width: 100%;
-        }
-
-        &:hover {
-          transform: scale(1.05);
-          box-shadow: 0 0 2.5rem rgba(44, 43, 43, 0.25);
-
-          .slides__elem__link {
-            text-decoration: none;
-          }
-        }
-      }
-    }
-
-    .slides__instance:last-child .slides__elem {
-      @include break-on(sm, max) {
-        display: none;
-      }
-    }
-
-    .slides__instance:not(:first-child) .slides__elem {
-      @include break-on(xxs, max) {
-        display: none;
       }
     }
   }
@@ -900,27 +851,36 @@
     }
 
     &.theme--teachers {
-      background: #C1BEE8;
+      background: $theme-teaching-dark;
       svg .st0 {
-        fill: #C1BEE8;
+        fill: $theme-teaching-dark;
       }
       .topical__category {
         color: $black;
       }
     }
     &.theme--career {
-      background: #BEE8C7;
+      background: $theme-career;
       svg .st0 {
-        fill: #BEE8C7;
+        fill: $theme-career;
       }
       .topical__category {
         color: $black;
       }
     }
     &.theme--learning {
-      background: #E4F1C0;
+      background: $theme-learning;
       svg .st0 {
-        fill: #E4F1C0;
+        fill: $theme-learning;
+      }
+      .topical__category {
+        color: $black;
+      }
+    }
+    &.theme--youth {
+      background: $theme-young;
+      svg .st0 {
+        fill: $theme-young;
       }
       .topical__category {
         color: $black;
@@ -957,7 +917,6 @@
         position: relative;
         z-index: 4;
         @include break-on(lg, max) {
-          width: 15.6rem;
           align-self: flex-end;
         }
         @include break-on(md, max) {
@@ -1003,8 +962,11 @@
         margin: 1.5rem 0;
         z-index: 5;
         cursor: pointer;
-        &:hover {
-          text-decoration: underline;
+        a {
+          text-decoration: none;
+          &:hover {
+            text-decoration: underline;
+          }
         }
         @include break-on(sm, max) {
           font-size: 1.9rem;
@@ -1083,6 +1045,7 @@
         will-change: transform, box-shadow;
         transition: transform 0.25s, box-shadow 0.25s;
         cursor: pointer;
+        text-decoration: none;
         min-height: 100%;
 
         &__image {
@@ -1150,6 +1113,17 @@
     }
 
     &.theme--learning {
+      padding-top: 3rem;
+      padding-bottom: 11rem;
+      @include break-on(lg, max) {
+        padding-bottom: 8rem;
+      }
+      @include break-on(sm, max) {
+        padding-bottom: 8rem;
+      }
+      @include break-on(xxs, max) {
+        padding-bottom: 4rem;
+      }
       .study__category {
         color: #58730c;
       }
@@ -1166,12 +1140,18 @@
       padding-bottom: 2rem;
     }
 
-    &.theme--teachers {
+    &.theme--career,
+    &.theme--teachers,
+    &.theme--learning,
+    &.theme--youth {
       background: $white;
       padding-top: 4rem;
       .st0 {
         fill: $white;
       }
+    }
+
+    &.theme--teachers {
       .instance {
         &__image {
           width: 13.75rem;
@@ -1181,11 +1161,6 @@
     }
 
     &.theme--career {
-      background: $white;
-      padding-top: 4rem;
-      .st0 {
-        fill: $white;
-      }
       .instance {
         &__image {
           width: 16rem;
@@ -1193,13 +1168,17 @@
         }
       }
     }
-    
+
     &.theme--learning {
-      background: $white;
-      padding-top: 4rem;
-      .st0 {
-        fill: $white;
+      .instance {
+        &__image {
+          width: 14rem;
+          margin-top: 0;
+        }
       }
+    }
+
+    &.theme--youth {
       .instance {
         &__image {
           width: 14rem;
@@ -1234,13 +1213,16 @@
       &__content {
         width: 100%;
         flex-shrink: 1;
-        font-weight: 300;
-        font-size: 2rem;
-        line-height: 137%;
         color: $black;
         margin-top: -1.25rem;
         @include break-on(sm, max) {
           margin-top: 0;
+        }
+
+        &, h3 {
+          line-height: 137%;
+          font-weight: 300;
+          font-size: 2rem;
         }
 
         &:first-child {
@@ -1314,24 +1296,14 @@
       margin-top: 1rem;
     }
 
-    &.theme--teachers, &.theme--career {
-      .newsletter__col:nth-child(2) {
+    &.theme--teachers,
+    &.theme--career,
+    &.theme--learning,
+    &.theme--youth {
+      @include break-on(sm, min) {
+        .newsletter__col:nth-child(2) {
           order: 3;
           text-align: right;
-      }
-      @include break-on(xxs, max) {
-        .rss {
-          order: 6;
-          margin-top: 1rem;
-        }
-        .links a {
-          max-width: 100% !important;
-        }
-        .button--outline-dark{
-          width: 100%;
-        }
-        .newsletter__col {
-          width: 100% !important;
         }
       }
     }
@@ -1374,32 +1346,37 @@
     }
     .logos {
       margin-top:2.5rem;
-      display: flex;
-      justify-content: center;
+      text-align: center;
       img {
         max-height: 90px;
-        display: block;
-        margin:0 1.1875rem;
+        margin: 0 1.1875rem;
+        @include break-on(xs, max) {
+          margin-bottom: 1rem;
+        }
       }
     }
     .footer {
       display: flex;
       box-sizing: border-box;
-      @include break-on(md, max) {
+      @include break-on(sm, max) {
         flex-direction: column;
         padding-top: 4.5rem;
       }
+      &__even {
+        width: 100%;
+        word-break: break-word;
+        @include break-on(sm, min) {
+          padding: 1rem;
+          &.newsletter {
+            padding: 1rem 0;
+          }
+        }
+      }
       .contact {
-        width: 22.125rem;
-        flex-shrink: 0;
-        flex-grow: 0;
         &+.links {
           @include break-on(sm, max) {
             margin-top: 2.5rem;
           }
-        }
-        @include break-on(xxs, max) {
-          width: 100%;
         }
 
         &__title {
@@ -1415,7 +1392,6 @@
         }
       }
       .links {
-        padding-right: 4.625rem;
         box-sizing: border-box;
         white-space: nowrap;
         &__title {
@@ -1460,33 +1436,27 @@
           }
         }
         &+.newsletter {
+          @include break-on(sm, max) {
+            display: block;
+          }
           .newsletter__cols{
             flex-wrap: wrap;
           }
           .newsletter__col {
-            width: 50%;
-            &:nth-child(1){
-              width: 100%;
-              padding-bottom: 1rem;
-            }
-            button, a {
-              margin: 0;
-            }
-
-            @media screen and (min-width: map-get($breakpoints, 'xxs')) and (max-width: map-get($breakpoints, 'sm')){
-              width: auto !important;
-              padding-bottom: 1rem !important;
-              &+.newsletter__col{
-                padding-left: 1rem;
+            @include break-on(sm, min) {
+              width: 50%;
+              &:nth-child(1){
+                width: 100%;
+                padding-bottom: 1rem;
+              }
+              button, a {
+                margin: 0;
               }
             }
           }
         }
       }
       .newsletter {
-        flex-grow: 1;
-        flex-shrink: 1;
-        width: 100%;
         @include break-on(sm, max) {
           padding-top: 3rem;
         }
@@ -1527,7 +1497,7 @@
         &__cols {
           display: flex;
           align-items: center;
-          @include break-on(xxs, max) {
+          @include break-on(xs, max) {
             flex-direction: column;
             align-items: normal;
           }
@@ -1536,7 +1506,7 @@
         &__col {
           flex-grow: 0;
           flex-shrink: 0;
-          @include break-on(xxs, max) {
+          @include break-on(xs, max) {
             width: 100%;
             text-align: center;
           }
@@ -1544,26 +1514,32 @@
           &:first-child {
             flex-grow: 1;
             flex-shrink: 1;
-            @include break-on(xxs, max) {
+            @include break-on(xs, max) {
               width: 100%
             }
           }
 
           a {
             margin-left: 1.5rem;
-            @include break-on(xxs, max) {
+            @include break-on(xs, max) {
               margin-left: auto;
             }
           }
 
           button {
             margin-left: 1rem;
-            @include break-on(xxs, max) {
+            @include break-on(xs, max) {
               margin: 1rem 0;
               width: 100%;
             }
           }
         }
+      }
+    }
+
+    &.theme--default {
+      .contact {
+        width: 22.125rem;
       }
     }
   }

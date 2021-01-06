@@ -7,19 +7,13 @@ import { CommonModule } from '@angular/common';
 import { ApplicationsComponent } from '@app/_assets/applications/applications.component';
 import { StudiesComponent } from '@app/_assets/studies/studies.component';
 import { TeachingsComponent } from '@app/_assets/teachings/teachings.component';
-import { CertificatesComponent } from '@app/_assets/certificates/certificates.component';
 import { MoreBlockComponent } from '@app/_assets/more.block/more.block.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from '@app/_interceptors';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { XjsonComponent } from '../xjson/xjson.component';
 import { AppPipes } from '@app/_pipes';
 import { StudiesDetailView } from './studiesDetailView/studiesDetailView.component';
-import { CertificatesDetailView } from './certificatesDetailView/certificatesDetailView.component';
-import { FinalDocumentDashboardDetailViewComponent }
-  from '../finalDocumentDashboardDetailView/finalDocumentDashboardDetailView.component';
 import { A11yModule } from '@angular/cdk/a11y';
-import { FinalDocumentDashboardDetailViewModule } from '../finalDocumentDashboardDetailView';
 
 const routes: Routes = [
   {
@@ -61,7 +55,8 @@ const routes: Routes = [
   },
   {
     path: 'tunnistused/:id',
-    component: CertificatesDetailView,
+    loadChildren: () => import('../../modules/certificates/containers/certificates-dashboard-detail/certificates-dashboard-detail.module')
+      .then(m => m.CertificatesDashboardDetailModule),
   },
 
 ];
@@ -72,9 +67,7 @@ const routes: Routes = [
     ApplicationsComponent,
     StudiesComponent,
     TeachingsComponent,
-    CertificatesComponent,
     StudiesDetailView,
-    CertificatesDetailView,
   ],
   imports: [
     AppPipes,
@@ -93,10 +86,8 @@ const routes: Routes = [
     ApplicationsComponent,
     StudiesComponent,
     TeachingsComponent,
-    CertificatesComponent,
     MoreBlockComponent,
     StudiesDetailView,
-    CertificatesDetailView,
   ],
 })
 

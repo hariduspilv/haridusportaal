@@ -99,7 +99,36 @@
           font-size: 1.25rem;
         }
       }
+      sidebar-links, sidebar-events, sidebar-notifications {
+        ul li {
+          border-bottom: 1px solid $gray;
+          margin-left: -1.5rem;
+          margin-right: -1.5rem;
+          padding: 1rem 1.5rem;
+          margin-bottom: 0;
+          &:first-child {
+            padding-top: 0;
+          }
+        }
+      }
+      sidebar-events, sidebar-notifications {
+        .bottom {
+          margin-top: 1rem;
+          display: flex;
+          justify-content: center;
+          a {
+            text-decoration: underline;
+            &:hover {
+              text-decoration: none;
+            }
+          }
+        }
+      }
       sidebar-links {
+        ul li:last-child {
+          border: none;
+          padding-bottom: 0;
+        }
         icon {
           margin-right: 0.5rem;
           .file-text {
@@ -160,16 +189,6 @@
         }
       }
       sidebar-notifications {
-        ul li {
-          border-bottom: 1px solid $gray;
-          margin-left: -1.5rem;
-          margin-right: -1.5rem;
-          padding: 1rem 1.5rem;
-          margin-bottom: 0;
-          &:first-child {
-            padding-top: 0;
-          }
-        }
         ul li:hover a {
           text-decoration: none;
           span {
@@ -198,18 +217,6 @@
             border-bottom: 0;
             color: $dark-gray;
             padding-bottom: 0;
-          }
-        }
-
-        .bottom {
-          margin-top: 1rem;
-          display: flex;
-          justify-content: center;
-          a {
-            text-decoration: underline;
-            &:hover {
-              text-decoration: none;
-            }
           }
         }
       }
@@ -565,13 +572,34 @@
         }
         .group {
           margin-bottom: 1.5rem;
+          p {
+            font-size: .875rem;
+            line-height: 1rem;
+            margin-bottom: .5rem;
+          }
+        }
+        ::ng-deep .group__documents formItem {
+          margin-bottom: .5rem;
+          &.formItem--disabled .formItem__check {
+            color: $dark-gray;
+            font-weight: 500;
+          }
+          &.inCursive .formItem__check {
+            font-style: italic;
+          }
         }
         li > button {
           width: 100%;
           display: block;
         }
         h1 {
-          margin-bottom: 1.5rem;
+          margin-bottom: .25rem;
+        }
+        p.remark {
+          font-size: .75rem;
+          line-height: .875rem;
+          color: $black;
+          margin: 0 0 1.5rem 0;
         }
       }
       sidebar-finaldocument-history {

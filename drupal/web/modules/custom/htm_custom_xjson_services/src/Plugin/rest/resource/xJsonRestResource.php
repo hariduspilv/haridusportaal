@@ -184,7 +184,9 @@ class xJsonRestResource extends ResourceBase {
       case 'SAVE';
       case 'SUBMIT';
       case 'CHANGE';
-        $this->ehisService->deleteFromRedis($this->ehisService->getCurrentUserIdRegCode(FALSE), 'mtsys');
+      $this->ehisService->deleteFromRedis($this->ehisService->getCurrentUserIdRegCode(FALSE), 'vpTaotlus');
+      $this->ehisService->deleteFromRedis($this->ehisService->getCurrentUserIdRegCode(FALSE), 'OLT');
+      $this->ehisService->deleteFromRedis($this->ehisService->getCurrentUserIdRegCode(FALSE), 'mtsys');
         break;
     }
 

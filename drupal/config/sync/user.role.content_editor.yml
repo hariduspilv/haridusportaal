@@ -31,6 +31,7 @@ permissions:
   - 'create teaching_home_page content'
   - 'create terms in tags'
   - 'create video media'
+  - 'create youth_home_page content'
   - 'delete any audio media'
   - 'delete any career_home_page content'
   - 'delete any crop_images media'
@@ -159,3 +160,4 @@ permissions:
   - 'view the administration theme'
   - 'view unpublished event registration entities'
   - 'view unpublished paragraphs'
+  - 'view youth_home_page revisions'

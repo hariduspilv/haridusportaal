@@ -1,9 +1,13 @@
 @import "typography.scss";
 
 :host {
-	display: flex;
-	flex-wrap: wrap;
-	* {
+	ul {
+		margin: 0;
+		padding: 0;
+		list-style-type: none;
+	}
+	li {
+		display: inline-block;
 		font-size: .875rem;
 		line-height: 1.125rem;
 		border-radius: 1rem;
@@ -20,23 +24,23 @@
 			margin-right: 0;
 		}
 	}
-	&.default * {
+	&.default li {
 		background: $white;
 		border: .0625rem solid $gray;
 	}
-	&.plain * {
+	&.plain li {
 		background: $light-gray;
 		border: .0625rem solid $gray;
 	}
-	&.orange * {
+	&.orange li {
 		background: $light-orange;
 		border: .0625rem solid $white;
 	}
-	&.aqua * {
+	&.aqua li {
 		background: $aqua;
 		border: .0625rem solid $white;
 	}
-	&.green * {
+	&.green li {
 		background: $success-light;
 		color: $success;
 		border: 0;

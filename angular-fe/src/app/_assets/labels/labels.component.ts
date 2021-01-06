@@ -15,7 +15,6 @@ export class LabelsComponent {
     border: `.0675rem solid ${this.border}`,
     background: this.background,
   };
-  @HostBinding('attr.role') role:string = 'group';
   @HostBinding('class') get hostClasses(): string {
     return this.type;
   }

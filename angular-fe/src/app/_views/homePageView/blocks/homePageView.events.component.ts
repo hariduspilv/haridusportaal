@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostBinding } from '@angular/core';
-import { IEvent } from '../homePage.model';
-import { HomePageService } from '../homePage.service';
+import { IEvent } from '../homePageView.model';
+import { HomePageService } from '../homePageView.service';
 
 @Component({
   selector: 'homepage-events',

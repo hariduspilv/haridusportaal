@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HomePageService } from './homePage.service';
+import { HomePageService } from './homePageView.service';
 import { ActivatedRoute } from '@angular/router';
 import {
   IEvent,
@@ -11,7 +11,7 @@ import {
   ISlogan,
   IStudy,
   ITopic,
-} from './homePage.model';
+} from './homePageView.model';
 import FieldVaryService from '@app/_services/FieldVaryService';
 
 @Component({
@@ -27,7 +27,7 @@ export class HomePageViewComponent implements OnInit {
   public theme: string = 'default';
   public careerDevelopment: string;
   public events: IEvent[] = [];
-  public slogan: ISlogan | string = {
+  public slogan: ISlogan = {
     title: '',
     person: '',
     company: '',

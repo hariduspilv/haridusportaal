@@ -47,7 +47,7 @@ const requestMap = {
   quoteText: ['fieldQuoteText', 'fieldLearningQuoteText', 'fieldFrontpageQuote'],
   quoteAuthorWork: ['fieldQuoteAuthorOccupation', 'fieldLearningQuoteWork'],
   contact: ['fieldLearningContact', 'fieldCareerContact'],
-  topics: ['fieldFrontpageTopics', 'fieldTeachingThemes', 'fieldContentPageLink', 'fieldLearningContentLinks'],
+  topics: ['fieldFrontpageTopics', 'fieldTeachingThemes', 'fieldContentPageLink', 'fieldLearningContentLinks', 'fieldYouthThemesLinks'],
   name: ['fieldFrontpageContactName'],
   externalLinks: ['fieldExternalLinks', 'fieldLearningExternalLinks', 'fieldExternal'],
   services: ['fieldFrontpageServices', 'fieldLearningPath', 'fieldToolbox'],

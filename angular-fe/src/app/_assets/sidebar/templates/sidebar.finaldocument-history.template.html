@@ -28,7 +28,7 @@
                 (click)="openDocument(action.document)">{{ 'button.open' | translate }}</button>
             </td>
             <td>{{'finalDocument_' + action.type | translate}}</td>
-            <td>{{'finalDocument_' + action.document.type | translate}}</td>
+            <td>{{action.document.typeName}}</td>
             <td>{{action.added | date:"dd.MM.yyyy HH:mm"}}</td>
             <td>{{action.decisionNumber}} {{action.dateOfDecision | date:"dd.MM.yyyy"}}</td>
             <td>{{action.reason || '-'}}</td>
@@ -87,7 +87,7 @@
         *ngIf="documentToShow.type === 'GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE' || documentToShow.type === 'GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE'; else gradeSheet">
       </certificate>
       <ng-template #gradeSheet>
-        <grade-sheet [document]="documentCache[documentToShow.id]"></grade-sheet>
+        <certificate-grade-sheet [document]="documentCache[documentToShow.id]"></certificate-grade-sheet>
       </ng-template>
     </ng-container>
     <alerts small="true" id="documentAlerts"></alerts>

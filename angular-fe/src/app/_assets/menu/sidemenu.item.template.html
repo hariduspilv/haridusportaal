@@ -1,41 +1,44 @@
-<ng-container *ngIf="item['links'].length === 0; else expandable">
-  <a
-    *ngIf="item.url.path !== '#nolink' && item.url.path !== '/'"
-    (mousedown)="animateRipple($event)"
-    class="sidemenu__link"
-    routerLink="{{ item.url.path }}"
-    routerLinkActive="sidemenu__link--active"
-    ><span>{{ item.label }}</span></a>
-  <a
-    *ngIf="item.url.path === '/'"
-    (mousedown)="animateRipple($event)"
-    class="sidemenu__link"
-    routerLink="{{ item.url.path }}"
-    routerLinkActive="sidemenu__link--active"
-    [routerLinkActiveOptions]="{exact: true}"
-    ><span>{{ item.label }}</span></a>
-</ng-container>
+<ul>
+  <li *ngFor="let item of items" 
+      class="sidemenu__{{ type }}"
+      [class.active]="item.active"
+      [class.expanded]="item.expanded">
+    
+    <a (click)="clickMenuItem(item, $event); false"
+      class="sidemenu__button sidemenu__button__{{ type }}"
+      href="{{ item.url.path }}"
+      [attr.aria-expanded]="item.links && item.links.length ? item.expanded : null"
+      [attr.aria-controls]="item.links && item.links.length ? (item.label | slugify) : null"
+      [class.with-submenu]="item.links && item.links.length"
+      [attr.aria-haspopup]="item.links && item.links.length !== 0"
+      [attr.aria-current]="item.active"
+      [class.active]="item.active"
+      (mousedown)="animateRipple($event)"
+      *ngIf="item.url.path !== '#nolink' && item.url.path !== '#nocategory' && item.url.path !== '#category'">
+    <span>
+      <icon class="chevron shrink small" glyph="chevron-left" size="small"></icon>
+      {{item.label}}
+      <icon class="chevron expand small" glyph="chevron-right" size="small"></icon>
+    </span></a>
 
-<ng-template #expandable>
-  <button
-    class="sidemenu__link"
-    (click)="toggle($event)"
-    [attr.aria-expanded]="isOpen"
-    [attr.aria-controls]="item.label | slugify"
-  >
-    <span>{{ item.label }}</span>
-    <icon glyph="chevron-down" size="medium"></icon>
-  </button>
-  <ul id="{{item.label | slugify}}">
-    <li *ngFor="let item of item['links']" (mousedown)="animateRipple($event)">
-      <a
-        *ngIf="item.url.path !== '#nolink'"
-        class="sidemenu__link"
-        routerLink="{{ item.url.path }}"
-        routerLinkActive="sidemenu__link--active"
-      >
-        <span>{{ item.label }}</span>
-      </a>
-    </li>
-  </ul>
-</ng-template>
+    <button (click)="clickMenuItem(item, $event); false"
+      class="sidemenu__button sidemenu__button__{{ type }}"
+      [attr.aria-expanded]="item.links && item.links.length ? item.expanded : null"
+      [attr.aria-controls]="item.links && item.links.length ? (item.label | slugify) : null"
+      [class.with-submenu]="item.links && item.links.length"
+      [attr.aria-haspopup]="item.links && item.links.length !== 0"
+      [attr.aria-current]="item.active"
+      [class.active]="item.active"
+      (mousedown)="animateRipple($event)"
+      *ngIf="item.url.path === '#nolink' || item.url.path === '#nocategory' || item.url.path === '#category'">
+    <span>
+      <icon class="chevron shrink small" glyph="chevron-left" size="small"></icon>
+      {{item.label}}
+      <icon class="chevron expand small" glyph="chevron-right" size="small"></icon>
+    </span></button>
+
+    <ng-container *ngIf="item.links && item.links.length && item.expanded">
+      <sidemenu-item [items]="item.links" id="{{ item.label | slugify }}"></sidemenu-item>
+    </ng-container>
+  </li>
+</ul>

@@ -1,5 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { IStudy } from '../homePage.model';
+import { IStudy } from '../homePageView.model';
 
 @Component({
   selector: 'homepage-study',

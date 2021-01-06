@@ -28,7 +28,7 @@
             <ng-container *ngFor="let event of eventList[yearKey][monthKey][dayKey]; let first = first; let last = last">
               <div class="events__block">
                 <div class="events__content">
-              <div class="title"><a href="javascript:void();" [routerLink]="event.entityUrl.path"><h1>{{ event.title }}</h1></a></div>
+                  <div class="title"><a href="javascript:void();" [routerLink]="event.entityUrl.path"><h1>{{ event.title }}</h1></a></div>
                   <div class="sm-show info">
                     <span *ngIf="event.firstEventTime">{{ event.firstEventTime | unixToTime }} </span>
                     <span>{{ event.location ? event.location.name : '' }}</span>
@@ -103,7 +103,13 @@
           <th width="14.2%" tabindex="-1">{{ 'time.sunday' | translate }}</th>
         </tr>
         <tr *ngFor="let week of calendarDays; let firstWeek = first; let weekNumber = index">
-          <td *ngFor="let day of week; let last = last; let weekDayIndex = index" [class.today]="day.i == current.day && month == current.month && year == current.year" [class.disableMore]="morePopup === day" [class.firstTwo]="weekDayIndex < 2" [ngClass]="{ 'lastWeek': weekNumber == calendarDays.length-1, 'almostLastWeek' : weekNumber == calendarDays.length-2}">
+          <td
+            *ngFor="let day of week; let last = last; let weekDayIndex = index"
+            [class.today]="day.i == current.day && month == current.month && year == current.year"
+            [class.disableMore]="morePopup === day"
+            [class.firstTwo]="weekDayIndex < 2"
+            [ngClass]="{ 'lastWeek': weekNumber == calendarDays.length-1, 'almostLastWeek' : weekNumber == calendarDays.length-2}"
+            class="calendar__elem">
 
             <div class="cal__day more__hidden" tabindex="0">{{ day.i }}</div>
 
