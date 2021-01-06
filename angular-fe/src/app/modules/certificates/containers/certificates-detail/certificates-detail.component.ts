@@ -81,7 +81,7 @@ export class CertificatesDetailComponent implements OnInit {
         this.certificateData = res;
         this.generalEducationDocumentType =
           CertificatesUtility.isGeneralEducationDocumentType(res.index);
-        this.getLatestDocuments(res.index);
+        this.getLatestDocuments(res);
       },
       (err) => {
         this.loading = false;
@@ -90,36 +90,34 @@ export class CertificatesDetailComponent implements OnInit {
 
   }
 
-  private getLatestDocuments(index: CertificateIndex) {
-    const { documents } = index;
+  private getLatestDocuments(data: CertificateData) {
+    const { documents } = data.index;
     const documentRequests: Observable<CertificateDocumentResponse>[] = [];
-    if (index.documents.length > 0) {
+    if (data.index.documents.length > 0) {
       const params = this.accessType === AccessType.ACCESS_CODE
       ? { accessType: AccessType.ACCESS_CODE, accessorCode: this.accessorCode }
       : { accessType: this.accessType };
       this.documents = CertificatesUtility.getLatestDocumentData(documents);
       if (this.documents.certificate?.id) {
-        documentRequests.push(
-          this.api.fetchDocumentWithParams(this.documents.certificate.id, params),
-        );
+        // Request certificate itself by ID
+        documentRequests.push(this.api.fetchDocumentWithParams(this.documents.certificate.id, params));
+        // Request transcript by ID
         if (Object.keys(this.documents.transcript).length) {
-          documentRequests.push(
-            this.api.fetchDocumentWithParams(this.documents?.transcript.id, params),
-          );
+          documentRequests.push(this.api.fetchDocumentWithParams(this.documents?.transcript.id, params));
+        }
+        // Request supplement by ID
+        if (Object.keys(this.documents.supplement).length) {
+          documentRequests.push(this.api.fetchDocumentWithParams(this.documents?.supplement.id, params));
         }
       }
     }
 
     forkJoin(documentRequests).subscribe((docs: CertificateDocumentResponse[]) => {
-      this.documents.certificate = docs[0].document;
-      this.documents.certificate.content = JSON.parse(this.documents.certificate.content as string);
-      if (docs[1]) {
-        this.documents.transcript = docs[1].document;
-        this.documents.transcript.content = JSON.parse(this.documents.transcript.content as string);
-      }
+      // Clean up certificate, supplement and transcript from response
+      this.documents = CertificatesUtility.parseSupplementaryDocuments(this.documents, docs, data);
       if (!this.generalEducationDocumentType) {
         this.api.getCertificateDocumentsWithClassifiers(
-          index,
+          data.index,
           this.mainLanguage,
         ).subscribe((documentsWithClassifiers: CertificateDocumentWithClassifier[]) => {
           this.transcriptDocuments = CertificatesUtility
@@ -131,10 +129,6 @@ export class CertificatesDetailComponent implements OnInit {
             this.accessType,
             this.certificateData);
           this.loading = false;
-          setTimeout(() => {
-            (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
-            .focus();
-          });
         });
       } else {
         this.sidebar = CertificatesUtility.composeSidebarData(
@@ -164,5 +158,12 @@ export class CertificatesDetailComponent implements OnInit {
         : AccessType.ID_CODE;
     }
     this.getCertificate();
+  }
+  
+  public get typeTranslation(): string {
+    if (this.documents.certificate.type.indexOf('DIPLOMA') !== -1) {
+      return 'finaldocuments.diploma';
+    }
+    return 'certificates.graduation_certificate';
   }
 }

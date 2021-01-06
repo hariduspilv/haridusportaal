@@ -15,18 +15,18 @@ import { CertificateDocument } from '../../models/interfaces/certificate-documen
 })
 export class CertificateDetailedComponent {
 
-  @Input() document: any = {};
+  @Input() documents: any = {};
 
   public get certificate(): CertificateDocument {
-    return this.document.certificate;
+    return this.documents.certificate;
   }
 
   public get transcript(): CertificateDocument {
-    return this.document.transcript;
+    return this.documents.transcript;
   }
 
   public get supplement(): CertificateDocument {
-    return this.document.supplement;
+    return this.documents.supplement;
   }
 
   public get eduInst(): string {

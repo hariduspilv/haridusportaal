@@ -1,43 +1,43 @@
 <div id="certificate" #certificate>
   <h2>{{ 'frontpage.dashboard_tabs_personal_label' | translate }}</h2>
   <table>
-    <ng-container *ngIf="!document.certificate.content.currentOwnerData; else withCurrentOwner">
+    <ng-container *ngIf="!documents.certificate.content.currentOwnerData; else withCurrentOwner">
       <tr>
         <td>{{ 'certificates.first_name' | translate }}:</td>
-        <td>{{ document.certificate.content.graduate.firstName }}</td>
+        <td>{{ documents.certificate.content.graduate.firstName }}</td>
       </tr>
       <tr>
         <td>{{ 'certificates.last_name' | translate }}:</td>
-        <td>{{ document.certificate.content.graduate.lastName }}</td>
+        <td>{{ documents.certificate.content.graduate.lastName }}</td>
       </tr>
       <tr>
         <td>{{ 'finaldocument.idcode' | translate }}:</td>
-        <td>{{ document.certificate.content.graduate.idCode }}</td>
+        <td>{{ documents.certificate.content.graduate.idCode }}</td>
       </tr>
     </ng-container>
     <ng-template #withCurrentOwner>
       <tr>
         <td>{{ 'certificates.first_name' | translate }}:</td>
-        <td>{{ document.certificate.content.graduate.firstName }}
+        <td>{{ documents.certificate.content.graduate.firstName }}
           <span class="current">
             ({{ 'certificates.current_registry' | translate }}
-            {{ document.certificate.content.currentOwnerData.firstName }})</span>
+            {{ documents.certificate.content.currentOwnerData.firstName }})</span>
           </td>
       </tr>
       <tr>
         <td>{{ 'certificates.last_name' | translate }}:</td>
-        <td>{{ document.certificate.content.graduate.lastName }}
+        <td>{{ documents.certificate.content.graduate.lastName }}
           <span class="current">
             ({{ 'certificates.current_registry' | translate }}
-            {{ document.certificate.content.currentOwnerData.lastName }})</span>
+            {{ documents.certificate.content.currentOwnerData.lastName }})</span>
         </td>
       </tr>
       <tr>
         <td>{{ 'finaldocument.idcode' | translate }}:</td>
-        <td>{{ document.certificate.content.graduate.idCode | idCode }}
+        <td>{{ documents.certificate.content.graduate.idCode | idCode }}
           <span class="current">
             ({{ 'certificates.current' | translate }}
-            {{ document.certificate.content.currentOwnerData.idCode | idCode }})</span>
+            {{ documents.certificate.content.currentOwnerData.idCode | idCode }})</span>
         </td>
       </tr>
     </ng-template>
@@ -46,22 +46,22 @@
   <table>
     <tr>
       <td>{{ 'finaldocuments.number' | translate }}:</td>
-      <td>{{ document.certificate.content.registrationNumber }}</td>
+      <td>{{ documents.certificate.content.registrationNumber }}</td>
     </tr>
     <tr>
       <td>{{ 'finaldocuments.date_of' | translate }}:</td>
       <td>{{ issueDate }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.duplicateCertificateNumber">
+    <tr *ngIf="documents.certificate.content.duplicateCertificateNumber">
       <td>{{ 'finaldocuments.duplicate_number' | translate }}:</td>
-      <td>{{ document.certificate.content.duplicateCertificateNumber }}</td>
+      <td>{{ documents.certificate.content.duplicateCertificateNumber }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.duplicateIssueDate">
+    <tr *ngIf="documents.certificate.content.duplicateIssueDate">
       <td>{{ 'finaldocuments.date_of_duplicate' | translate }}:</td>
-      <td>{{ document.certificate.content.duplicateIssueDate }}</td>
+      <td>{{ documents.certificate.content.duplicateIssueDate }}</td>
     </tr>
   </table>
-  <ng-container *ngIf="document.certificate.content.educationalInstitutions?.length">
+  <ng-container *ngIf="documents.certificate.content.educationalInstitutions?.length">
     <h2>{{ 'finaldocuments.institution_data' | translate }}</h2>
     <table>
       <tr>
@@ -74,74 +74,74 @@
   <table>
     <tr>
       <td>{{ 'finaldocuments.curriculum_name' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.curriculumName }}</td>
+      <td>{{ documents.certificate.content.studies.curriculumName }}</td>
     </tr>
     <tr>
       <td>{{ 'finaldocuments.curriculum_code' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.curriculumCode }}</td>
+      <td>{{ documents.certificate.content.studies.curriculumCode }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.studies.academicDegree">
+    <tr *ngIf="documents.certificate.content.studies.academicDegree">
       <td>{{ 'finaldocuments.degree_name' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.academicDegree }}</td>
+      <td>{{ documents.certificate.content.studies.academicDegree }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.studies.levelOfEducation">
+    <tr *ngIf="documents.certificate.content.studies.levelOfEducation">
       <td>{{ 'finaldocuments.level_of_education' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.levelOfEducation }}</td>
+      <td>{{ documents.certificate.content.studies.levelOfEducation }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.studies.accreditationDecision">
+    <tr *ngIf="documents.certificate.content.studies.accreditationDecision">
       <td>{{ 'finaldocuments.accreditation_decision' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.accreditationDecision }}</td>
+      <td>{{ documents.certificate.content.studies.accreditationDecision }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.studies.accreditationEndDate">
+    <tr *ngIf="documents.certificate.content.studies.accreditationEndDate">
       <td>{{ 'finaldocuments.accreditation_end_date' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.accreditationEndDate }}</td>
+      <td>{{ documents.certificate.content.studies.accreditationEndDate }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.studies.rightToProvideEducationDecision">
+    <tr *ngIf="documents.certificate.content.studies.rightToProvideEducationDecision">
       <td>{{ 'finaldocuments.right_to_provide_education_decision' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.rightToProvideEducationDecision }}</td>
+      <td>{{ documents.certificate.content.studies.rightToProvideEducationDecision }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.studies.rightToProvideEducationEndDate">
+    <tr *ngIf="documents.certificate.content.studies.rightToProvideEducationEndDate">
       <td>{{ 'finaldocuments.right_to_provide_education_end_date' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.rightToProvideEducationEndDate }}</td>
+      <td>{{ documents.certificate.content.studies.rightToProvideEducationEndDate }}</td>
     </tr>
-    <tr *ngIf="document.certificate.content.studies.typeOfTraining">
+    <tr *ngIf="documents.certificate.content.studies.typeOfTraining">
       <td>{{ 'finaldocuments.type_of_training' | translate }}:</td>
-      <td>{{ document.certificate.content.studies.typeOfTraining }}</td>
+      <td>{{ documents.certificate.content.studies.typeOfTraining }}</td>
     </tr>
-    <tr *ngIf="document.transcript?.content?.studies?.creditPoint">
+    <tr *ngIf="documents.transcript?.content?.studies?.creditPoint">
       <td>{{ 'finaldocuments.credit_point' | translate }}:</td>
-      <td>{{ document.transcript.content.studies.creditPoint }}EKAP</td>
+      <td>{{ documents.transcript.content.studies.creditPoint }}EKAP</td>
     </tr>
-    <tr *ngIf="document.transcript?.content?.studies?.officialLengthOfProgramme">
+    <tr *ngIf="documents.transcript?.content?.studies?.officialLengthOfProgramme">
       <td>{{ 'finaldocuments.length_of_programme' | translate }}:</td>
-      <td>{{ document.transcript.content.studies.officialLengthOfProgramme }} {{ 'time.duration_year_plural' | translate }}</td>
+      <td>{{ documents.transcript.content.studies.officialLengthOfProgramme }} {{ 'time.duration_year_plural' | translate }}</td>
     </tr>
-    <tr *ngIf="document.supplement?.content?.studies?.creditPoint">
+    <tr *ngIf="documents.supplement?.content?.studies?.creditPoint">
       <td>{{ 'finaldocuments.credit_point' | translate }}:</td>
-      <td>{{ document.supplement.content.studies.creditPoint }}</td>
+      <td>{{ documents.supplement.content.studies.creditPoint }}</td>
     </tr>
-    <tr *ngIf="document.supplement?.content?.studies?.officialLengthOfProgramme">
+    <tr *ngIf="documents.supplement?.content?.studies?.officialLengthOfProgramme">
       <td>{{ 'finaldocuments.length_of_programme' | translate }}:</td>
-      <td>{{ document.supplement.content.studies.officialLengthOfProgramme }}</td>
+      <td>{{ documents.supplement.content.studies.officialLengthOfProgramme }}</td>
     </tr>
-    <tr *ngIf="document.supplement?.content?.levelOfQualification?.levelOfEducation">
+    <tr *ngIf="documents.supplement?.content?.levelOfQualification?.levelOfEducation">
       <td>{{ 'finaldocuments.level_of_qualification' | translate }}:</td>
-      <td>{{ document.supplement.content.levelOfQualification.levelOfEducation }}</td>
+      <td>{{ documents.supplement.content.levelOfQualification.levelOfEducation }}</td>
     </tr>
-    <tr *ngIf="document.supplement?.content?.levelOfQualification?.estonianQualificationFrameworkLevel">
+    <tr *ngIf="documents.supplement?.content?.levelOfQualification?.estonianQualificationFrameworkLevel">
       <td>{{ 'finaldocuments.estonian_qualification_level' | translate }}:</td>
-      <td>{{ document.supplement.content.levelOfQualification.estonianQualificationFrameworkLevel }}</td>
+      <td>{{ documents.supplement.content.levelOfQualification.estonianQualificationFrameworkLevel }}</td>
     </tr>
-    <tr *ngIf="document.supplement?.content?.levelOfQualification?.europeanQualificationFrameworkLevel">
+    <tr *ngIf="documents.supplement?.content?.levelOfQualification?.europeanQualificationFrameworkLevel">
       <td>{{ 'finaldocuments.european_qualification_level' | translate }}:</td>
-      <td>{{ document.supplement.content.levelOfQualification.europeanQualificationFrameworkLevel }}</td>
+      <td>{{ documents.supplement.content.levelOfQualification.europeanQualificationFrameworkLevel }}</td>
     </tr>
   </table>
   <ng-container *ngIf="
-      document.certificate.content.registerOfOccupationalQualifications?.length ||
-      document.certificate.content.partialQualifications?.length">
+      documents.certificate.content.registerOfOccupationalQualifications?.length ||
+      documents.certificate.content.partialQualifications?.length">
     <h2>{{ 'finaldocuments.occupational_qualifications' | translate }}</h2>
-    <table *ngFor="let item of document.certificate.content.registerOfOccupationalQualifications">
+    <table *ngFor="let item of documents.certificate.content.registerOfOccupationalQualifications">
       <tr>
         <td>{{ 'finaldocuments.occupational_qualification' | translate }}:</td>
         <td>{{ item.specializationName }}</td>
@@ -151,8 +151,8 @@
         <td>{{ item.registrationNumber }}</td>
       </tr>
     </table>
-    <ng-container *ngIf="document.certificate.content.partialQualifications">
-      <table *ngFor="let item of document.certificate.content.partialQualifications">
+    <ng-container *ngIf="documents.certificate.content.partialQualifications">
+      <table *ngFor="let item of documents.certificate.content.partialQualifications">
         <tr>
           <td>{{ 'finaldocuments.partial_occupational_qualification' | translate }}:</td>
           <td>{{ item.qualificationName }}</td>
