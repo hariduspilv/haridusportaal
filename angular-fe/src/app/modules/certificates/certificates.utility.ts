@@ -152,8 +152,25 @@ export class CertificatesUtility {
     };
   }
 
+  /**
+   * Return string list of educational institutions from a final document
+   * @param document Certificate Document
+   * @returns String list of institutions, separated by comma
+   */
   public static getEducationalInstitutions(document: CertificateDocument): string {
     return (document.content as CertificateDocumentContent)
       .educationalInstitutions.map(x => x.name).join(', ');
+  }
+
+  /**
+   * Return string issue date from a final document
+   * @param document Certificate Document
+   * @returns Issue date
+   */
+  public static getCertificateIssueDate(document: CertificateDocument): string {
+    const content = document.content as CertificateDocumentContent;
+    return content.headOfSchoolDirective
+      ? content.headOfSchoolDirective.issueDate
+      : (content.issued ? content.issued.issueDate : '');
   }
 }

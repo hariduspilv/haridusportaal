@@ -31,14 +31,20 @@
       </ng-container>
       <ng-template #singleDocument>
         <block [titleBorder]="false">
-          <block-title>{{'certificates.title' | translate }}</block-title>
+          <block-title>{{'certificates.final_document' | translate }}</block-title>
         
           <block-secondary-title>
-            {{ 'certificates.certificate_nr' | translate }} {{documents.certificate?.number}}
+            {{ typeTranslation | translate }} {{ documents.certificate?.number }}
+            <ng-container *ngIf="documents.certificate?.content?.duplicateCertificateNumber">
+              <div class="duplicate duplicate-badge">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</div>
+            </ng-container>
+            <ng-container *ngIf="documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID'">
+              <div class="invalid duplicate-badge">{{ 'frontpage.dashboard_tabs_certificates_notvalid' | translate }}</div>
+            </ng-container>
           </block-secondary-title>
 
           <block-content>
-            <certificate-detailed *ngIf="!loading" [document]="documents.certificate"></certificate-detailed>
+            <certificate-detailed *ngIf="!loading" [document]="documents"></certificate-detailed>
           </block-content>
         </block>
       </ng-template>

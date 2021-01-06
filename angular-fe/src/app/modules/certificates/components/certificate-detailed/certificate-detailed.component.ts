@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CertificatesUtility } from '../../certificates.utility';
+import { CertificateDocument } from '../../models/interfaces/certificate-document';
 
 @Component({
   selector: 'certificate-detailed',
@@ -14,11 +15,25 @@ import { CertificatesUtility } from '../../certificates.utility';
 })
 export class CertificateDetailedComponent {
 
-  @ViewChild('certificate') certificate: ElementRef;
-
   @Input() document: any = {};
 
-  get eduInst(): string {
-    return CertificatesUtility.getEducationalInstitutions(this.document);
+  public get certificate(): CertificateDocument {
+    return this.document.certificate;
+  }
+
+  public get transcript(): CertificateDocument {
+    return this.document.transcript;
+  }
+
+  public get supplement(): CertificateDocument {
+    return this.document.supplement;
+  }
+
+  public get eduInst(): string {
+    return CertificatesUtility.getEducationalInstitutions(this.certificate);
+  }
+
+  public get issueDate(): string {
+    return CertificatesUtility.getCertificateIssueDate(this.certificate);
   }
 }

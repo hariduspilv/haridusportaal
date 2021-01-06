@@ -86,4 +86,18 @@
       text-align: center;
     }
   }
+  ::ng-deep .duplicate-badge {
+    height: 40px;
+    width: 180px;
+    color: $error;
+    background-color: rgba($color: $error, $alpha: 0.1);
+    border-radius: 40px;
+    margin: 0 auto;
+    font-size: initial;
+    font-weight: 200;
+    display: inline-block;
+    line-height: 2.5;
+    text-align: center;
+    margin-left: 2rem;
+  }
 }

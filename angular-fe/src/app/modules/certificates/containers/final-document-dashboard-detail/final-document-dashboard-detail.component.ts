@@ -118,6 +118,7 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
           this.sidebar = CertificatesUtility.composeSidebarData(
             this.documents, this.transcriptDocuments, this.generalEducationDocumentType);
           this.loading = false;
+          console.log(this.documents)
         });
       } else {
         this.sidebar = CertificatesUtility.composeSidebarData(
@@ -129,5 +130,12 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  public get typeTranslation(): string {
+    if (this.documents.certificate.type.indexOf('DIPLOMA') !== -1) {
+      return 'finaldocuments.diploma';
+    }
+    return 'certificates.graduation_certificate';
   }
 }
