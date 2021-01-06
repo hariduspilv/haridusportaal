@@ -1,0 +1,19 @@
+uuid: 4443b043-5ab8-48e3-9dd2-6caf6af8033f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_title
+    - paragraphs.paragraphs_type.youth_subject_links
+id: paragraph.youth_subject_links.field_title
+field_name: field_title
+entity_type: paragraph
+bundle: youth_subject_links
+label: Pealkiri
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

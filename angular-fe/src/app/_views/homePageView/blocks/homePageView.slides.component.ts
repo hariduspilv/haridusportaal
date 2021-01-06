@@ -1,5 +1,5 @@
 import { Component, Input, HostBinding } from '@angular/core';
-import { IService } from '../homePage.model';
+import { IService } from '../homePageView.model';
 
 @Component({
   selector: 'homepage-slides',

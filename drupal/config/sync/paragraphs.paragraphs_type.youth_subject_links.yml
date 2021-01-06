@@ -1,0 +1,10 @@
+uuid: 33dfe839-2a4f-4ba0-816d-fa42669fe4f5
+langcode: et
+status: true
+dependencies: {  }
+id: youth_subject_links
+label: 'Noored teemad '
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

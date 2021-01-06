@@ -1,0 +1,27 @@
+uuid: 3da5c228-f465-4899-93f3-439a2dac6da5
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_learning_carousel_image
+    - paragraphs.paragraphs_type.yoth_content_page_link_type_2
+  module:
+    - file
+id: paragraph.yoth_content_page_link_type_2.field_learning_carousel_image
+field_name: field_learning_carousel_image
+entity_type: paragraph
+bundle: yoth_content_page_link_type_2
+label: Pilt
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: svg
+  max_filesize: ''
+  description_field: false
+  handler: 'default:file'
+  handler_settings: {  }
+field_type: file

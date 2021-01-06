@@ -4,7 +4,6 @@ status: true
 dependencies:
   config:
     - field.field.node.youth_home_page.field_learning_contact
-    - field.field.node.youth_home_page.field_learning_content_links
     - field.field.node.youth_home_page.field_learning_external_links
     - field.field.node.youth_home_page.field_learning_news
     - field.field.node.youth_home_page.field_learning_path
@@ -12,7 +11,8 @@ dependencies:
     - field.field.node.youth_home_page.field_learning_quote_text
     - field.field.node.youth_home_page.field_quote_author_occupation
     - field.field.node.youth_home_page.field_youth_content_page
-    - field.field.node.youth_home_page.field_youth_content_page_link
+    - field.field.node.youth_home_page.field_youth_foreground_content
+    - field.field.node.youth_home_page.field_youth_themes_links
     - node.type.youth_home_page
   module:
     - entity_reference_revisions
@@ -24,15 +24,6 @@ mode: default
 content:
   field_learning_contact:
     weight: 107
-    label: above
-    settings:
-      view_mode: default
-      link: ''
-    third_party_settings: {  }
-    type: entity_reference_revisions_entity_view
-    region: content
-  field_learning_content_links:
-    weight: 109
     label: above
     settings:
       view_mode: default
@@ -98,9 +89,18 @@ content:
       link: ''
     third_party_settings: {  }
     region: content
-  field_youth_content_page_link:
+  field_youth_foreground_content:
     type: entity_reference_revisions_entity_view
-    weight: 111
+    weight: 113
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_youth_themes_links:
+    type: entity_reference_revisions_entity_view
+    weight: 112
     label: above
     settings:
       view_mode: default

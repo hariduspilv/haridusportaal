@@ -1,3 +1,5 @@
-<ng-container *ngFor="let label of data;">
-  <div [ngStyle]="!type && childStyles" *ngIf="label.entityLabel || label.value">{{label.entityLabel || label.value | translate }}</div>
-</ng-container>
+<ul [attr.aria-label]="'labels.tags' | translate" *ngIf="data && data.length">
+  <ng-container *ngFor="let label of data;">
+    <li [ngStyle]="!type && childStyles" *ngIf="label.entityLabel || label.value">{{label.entityLabel || label.value | translate }}</li>
+  </ng-container>
+</ul>

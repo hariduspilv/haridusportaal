@@ -53,15 +53,15 @@ html {
   max-height: $lineHeight * $lineCount; 
   text-align: justify;
   padding-right: 2rem;
-  &:before {
-    content: '...';
+  & .ellipsis {
+    user-select: none;
     position: absolute;
     right: 1.1875rem;
     bottom: 0;
     height: $lineHeight;
   }
-  &:after {
-    content: '';
+  & .ellipsis-hide {
+    user-select: none;
     position: absolute;
     right: 1.1875rem;
     width: 1rem;

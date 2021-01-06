@@ -19,6 +19,7 @@ import { AccordionComponent, AccordionItemComponent } from './accordion';
 import { SchoolTable, StudyProgrammeTable, TableComponent } from './table';
 import { AlertsComponent } from './alerts';
 import { VideoComponent } from './video';
+import { NgxUsefulSwiperModule } from 'ngx-useful-swiper';
 import { TranslateModule } from '@app/_modules/translate';
 import { FeedbackComponent } from './feedback';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -40,7 +41,7 @@ import {
   NgbDatepickerModule,
   NgbTooltipModule,
 } from '@ng-bootstrap/ng-bootstrap';
-import { MenuComponent, SidemenuItemComponent } from './menu';
+import { MenuComponent, MenuItemComponent } from './menu';
 import { HeaderComponent } from './header';
 import { ScrollableContentComponent } from './scrollableContent';
 import { NgPipesModule } from 'ngx-pipes';
@@ -126,6 +127,7 @@ import { ToggletipComponent } from './toggleTip/toggleTip.component';
 import { MainProfessionsSearchResultsComponent } from './mainProfessionsSearchResults/mainProfessionsSearchResults.component';
 import { TagComponent } from './tag/tag.component';
 import { CertificateDetailedComponent } from '@app/modules/certificates/components/certificate-detailed/certificate-detailed.component';
+import { CarouselComponent } from './carousel/carousel.component';
 import { CertificateComponent } from '@app/modules/certificates/components/certificate/certificate.component';
 import { CertificatesComponent } from '@app/modules/certificates/components/certificates/certificates.component';
 import { CertificateDocumentCheckComponent } from '@app/modules/certificates/components/certificate-document-check/certificate-document-check.component';
@@ -156,6 +158,7 @@ const declarations = [
   BlockSecondaryTitleSubtextComponent,
   BlockTabsComponent,
   ButtonComponent,
+  CarouselComponent,
   LoaderComponent,
   SkeletonComponent,
   IconComponent,
@@ -170,7 +173,7 @@ const declarations = [
   FeedbackComponent,
   ScrollableContentComponent,
   MenuComponent,
-  SidemenuItemComponent,
+  MenuItemComponent,
   HeaderComponent,
   FormItemComponent,
   RippleDirective,
@@ -294,6 +297,7 @@ const imports = [
   HttpClientModule,
   ReactiveFormsModule,
   A11yModule,
+  NgxUsefulSwiperModule,
 ];
 
 @NgModule({

@@ -440,7 +440,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       this.field = parseFloat(this.field);
     }
 
-    if (this.options) {
+    if (this.options?.length) {
       try {
         const arrType = this.options[0] ? typeof this.options[0].value : 'string';
         if (arrType === 'string') {
@@ -459,7 +459,7 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
       } catch (err) {
 
       }
-    } else if (this.field && this.field !== '') {
+    } else if (this.field?.length) {
       this.filledField = true;
     }
     this.detectChanges();

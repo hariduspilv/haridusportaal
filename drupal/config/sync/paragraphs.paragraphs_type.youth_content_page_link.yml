@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: youth_content_page_link
-label: 'Noored sisuleht'
+label: 'Hooajaline esile toodud sisuleht'
 icon_uuid: null
 icon_default: null
 description: ''

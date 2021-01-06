@@ -1,14 +1,13 @@
 import { Component, Input, HostBinding } from '@angular/core';
+import { ISlogan } from '../homePageView.model';
 
 @Component({
   selector: 'homepage-slogan',
   templateUrl: 'homePageView.slogan.html',
 })
 export class HomePageSloganComponent {
-  @Input() title: string = '';
+  @Input() data: ISlogan;
   @Input() image: string = '';
-  @Input() person: string;
-  @Input() company: string;
   @Input() theme: string;
   @Input() line: number = 2;
 

@@ -112,7 +112,7 @@ class EhisConnectorService {
           $redis_response = [];
           $redis_hits = 0;
           foreach($params['hash'] as $hash) {
-            if($response = $this->getValue($params['key'], $hash)){
+            if($response = $this->getValue($params['key'], $hash) && $hash !== 'OLT'){
               $redis_hits++;
               $redis_response = array_merge_recursive($redis_response, $response);
             } else {
@@ -517,7 +517,7 @@ class EhisConnectorService {
     $params['key'] = $this->getCurrentUserIdRegCode();
 
     if($this->useReg()) $params['hash'] = 'mtsys';
-    if(!$this->useReg()) $params['hash'] = ['vpTaotlus'];
+    if(!$this->useReg()) $params['hash'] = ['OLT', 'vpTaotlus'];
 
     $response = $this->invokeWithRedis('vpTaotlus', $params);
 
@@ -542,6 +542,8 @@ class EhisConnectorService {
       foreach($params['hash'] as $hash) {
         $this->getFormDefinitionTitle($workedResponse, $hash);
       }
+    } else {
+      $this->getFormDefinitionTitle($workedResponse, $params['hash']);
     }
     if(isset($params['get_edi_data']) && $params['get_edi_data']){
       $this->addInstitutionData($workedResponse);

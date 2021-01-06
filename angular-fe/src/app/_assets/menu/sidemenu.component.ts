@@ -5,68 +5,48 @@ import {
   OnInit,
   OnDestroy,
   ChangeDetectorRef,
-  OnChanges,
   ViewChildren,
   QueryList,
-  Output,
-  EventEmitter,
+  ViewChild,
+  ElementRef,
+  HostListener,
 } from '@angular/core';
-import { RippleService, SidemenuService, SettingsService, AuthService } from '@app/_services';
+import { SidemenuService, SettingsService, AuthService } from '@app/_services';
 import { Subscription } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Location } from '@angular/common';
 import { NavigationEnd, RouterEvent, Router } from '@angular/router';
 import { environment } from '@env/environment';
-
-@Component({
-  selector: 'sidemenu-item',
-  styleUrls: ['./sidemenu.styles.scss'],
-  templateUrl: 'sidemenu.item.template.html',
-})
-export class SidemenuItemComponent {
-  public isOpen: boolean = false;
-  @Output() openStateChange = new EventEmitter;
-  @Input() item: any = {};
-
-  constructor(private ripple: RippleService, private cdr: ChangeDetectorRef) { }
-
-  toggle(e) {
-    this.isOpen = !this.isOpen;
-    this.openStateChange.emit(this.item['label']);
-    this.animateRipple(e);
-  }
-
-  public close() {
-    this.isOpen = false;
-    this.cdr.detectChanges();
-  }
-
-  public open() {
-    this.isOpen = true;
-    this.cdr.detectChanges();
-  }
-  animateRipple(event) {
-    this.ripple.animate(event, 'dark');
-  }
-}
+import { IMenuData, IMenuResponse } from './sidemenu.model';
+import { MenuItemComponent } from './sidemenu-item.component';
 
 @Component({
   selector: 'sidemenu',
   templateUrl: './sidemenu.template.html',
   styleUrls: ['./sidemenu.styles.scss'],
 })
-
 export class MenuComponent implements OnInit, OnDestroy {
-
-  public version: any = environment.VERSION;
   public isVisible: boolean;
+  public readerVisible = false;
+  public version: any = environment.VERSION;
   private subscription: Subscription = new Subscription();
   private authSub: Subscription = new Subscription();
   private routerSub: Subscription = new Subscription();
-  @ViewChildren(SidemenuItemComponent) sidemenuItems: QueryList<SidemenuItemComponent>;
-  @Input() data;
+  private initialSub = false;
+  private focusBounce: any;
+  private visibilityBounce: any;
+
+  @ViewChildren(MenuItemComponent) private menus: QueryList<MenuItemComponent>;
+  @ViewChild('sidemenuCloser', { static: false, read: ElementRef }) private closeBtn: ElementRef;
+
+  @Input() public data: IMenuData[];
+
   @HostBinding('class') get hostClasses(): string {
     return this.isVisible ? 'sidemenu is-visible' : 'sidemenu';
+  }
+
+  @HostBinding('style.visibility') get readerVisbility(): string {
+    return this.readerVisible ? 'visible' : 'hidden';
   }
 
   constructor(
@@ -74,34 +54,54 @@ export class MenuComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private settings: SettingsService,
     private auth: AuthService,
-    private cdr: ChangeDetectorRef,
-    private location: Location,
     private router: Router,
-  ) {}
+    private location: Location,
+    private cdr: ChangeDetectorRef) {}
 
-  subscribeToService():void {
-    this.subscription = this.sidemenuService.isVisibleSubscription.subscribe((value) => {
-      this.isVisible = value;
-    });
+  @HostListener('document:keyup', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent): void {
+    if ((event.key === 'Escape' || event.keyCode === 27) && this.isVisible) {
+      this.closeSidemenu();
+    }
   }
 
-  subscribeToAuth():void {
-    this.authSub = this.auth.isAuthenticated.subscribe((val) => {
-      this.getData();
-    });
+  public closeSidemenu(): void {
+    this.sidemenuService.close();
   }
 
-  subscribeToRouter(): void {
+  private subscribeToRouter(): void {
     this.routerSub = this.router.events.subscribe((event:RouterEvent) => {
       if (event instanceof NavigationEnd) {
-        if (this.isVisible) {
-          this.sidemenuService.close();
-        }
-        this.makeActive();
+        this.makeActive(false);
       }
     });
   }
-  getData(init: boolean = false):void {
+
+  private subscribeToAuth(): void {
+    this.authSub = this.auth.isAuthenticated.subscribe((val) => {
+      this.getData(true);
+    });
+  }
+
+  private subscribeToService(): void {
+    this.subscription = this.sidemenuService.isVisibleSubscription.subscribe((value) => {
+      this.isVisible = value;
+      clearTimeout(this.visibilityBounce);
+      if (value) {
+        this.readerVisible = true;
+        clearTimeout(this.focusBounce);
+        if (this.initialSub) {
+          this.focusBounce = setTimeout(() => this.closeBtn.nativeElement.focus(), 100);
+        }
+      } else {
+        this.visibilityBounce = setTimeout(() => this.readerVisible = false, 200);
+      }
+      // Ignore the initial state
+      this.initialSub = true;
+    });
+  }
+
+  private getData(init: boolean = false): void {
     const variables = {
       language: this.settings.activeLang,
     };
@@ -109,62 +109,124 @@ export class MenuComponent implements OnInit, OnDestroy {
     // force to not use disk cache
     this.http.get(path, {
       headers: new HttpHeaders({ 'Cache-Control': 'no-cache' }),
-    }).subscribe((response) => {
-      this.data = response['data'];
+    }).subscribe((response: IMenuResponse) => {
+      this.data = response.data.menu.links;
+      // Set all the first level menus as such
+      this.data.forEach((item: IMenuData) => item.firstLevel = true);
       this.cdr.detectChanges();
       if (init) {
-        this.makeActive();
+        this.makeActive(true);
       }
     });
   }
 
-  makeActive() {
-    const path = decodeURI(this.location.path());
-    const categories = this.sidemenuItems.toArray().filter((el) => {
-      if (el.item.links.length > 0) {
-        return true;
+  /**
+   * This function is used to extend menus and sub menus according to their URL every time
+   * the route changes or page reloads.
+   * @param items List of menu items, starts from the items from menus in `menus`
+   * @param path Browser URL
+   * @param depth Current menu depth, starts at 0
+   */
+  private hasActiveInTree(items: IMenuData[], path: string, depth: number): boolean {
+    let hasExpanded = false;
+    for (const item of items) {
+      const pathSplit = path.split('/');
+      const match = (pathSplit.length > 2 && item.url.path === `${pathSplit[0]}/${pathSplit[1]}`) ||
+        path.replace(/\?.*/, '') === item.url.path;
+
+      if (item.links && item.links.length) {
+        const has = this.hasActiveInTree(item.links, path, depth + 1);
+        if (depth === 1) {
+          item.expanded = !item.userClosed;
+          item.active = has;
+          if (!hasExpanded && (match || has)) {
+            hasExpanded = true;
+          }
+        } else {
+          if (match || has) {
+            item.expanded = true;
+            item.active = true;
+            hasExpanded = true;
+          } else {
+            item.expanded = false;
+            item.active = false;
+          }
+        }
+      } else if (match) {
+        item.active = true;
+        hasExpanded = true;
+      } else {
+        item.active = false;
       }
-    });
-
-    const activeCategory = categories.find((el) => {
-      return el.item.links.find((link) => {
-        if (link.url.path === path.split('?')[0].split('#')[0]) {
-          return true;
-        }
-        const pathRoot = path.split('/');
-
-        if (link.url.path.includes(`${pathRoot[0]}/${pathRoot[1]}`)) {
-          return true;
-        }
-        return false;
-      });
-    });
-    if (activeCategory) {
-      activeCategory.open();
-    } else {
-      this.closeOthers('');
     }
+
+    return hasExpanded;
+  }
+
+  /**
+   * This function simply calls `hasActiveInTree` on all the first level menus and opens
+   * the menu automatically when the page is a content page
+   * and was opened directly (on initialization).
+   */
+  private makeActive(init = false): void {
+    const path = decodeURI(this.location.path());
+    let opened = false;
+
+    for (const menu of this.menus) {
+      if (this.hasActiveInTree(menu.items, path, 0)) {
+        opened = true;
+      }
+    }
+
+    if (opened) {
+      // Determine the theme of the current page
+      for (const menu of this.menus) {
+        for (const item of menu.items) {
+          if (item.firstLevel && item.active) {
+            const themestr = item.label.toLowerCase();
+            const resolved = this.sidemenuService.themes[themestr] || 'default';
+            this.sidemenuService.setTheme(resolved);
+          }
+        }
+      }
+
+      // Open the menu when: 1. the page was just initialized 2. mobile view 3. the menu
+      // is not already visible and 4. the page is not in the list of pages not to open on
+      if (init && !this.sidemenuService.isMobileView && !this.isVisible &&
+        this.sidemenuService.ignoreAutoOpen.indexOf(path) === -1) {
+        this.sidemenuService.toggle();
+      }
+    } else {
+      this.sidemenuService.setTheme('default');
+    }
+
     this.cdr.detectChanges();
   }
 
-  closeOthers(item: any = '') {
-    this.sidemenuItems.toArray().map((el: any) => {
-      if (el.item.label !== item) {
-        el.close();
-      }
-    });
+  /**
+   * Closes all other first-level menus except the one that was opened.
+   * @param $event `IMenuData` that was opened
+   */
+  public hideOthers($event: IMenuData): void {
+    for (const menu of this.menus) {
+      menu.items.forEach((i: IMenuData) => {
+        if (i !== $event && i.expanded) {
+          i.expanded = false;
+        }
+      });
+    }
   }
 
-  ngOnInit():void {
+  public ngOnInit(): void {
     this.subscribeToAuth();
     this.subscribeToService();
     this.subscribeToRouter();
     this.getData(true);
   }
 
-  ngOnDestroy():void {
-    this.subscription.unsubscribe();
-    this.authSub.unsubscribe();
+  public ngOnDestroy(): void {
     this.routerSub.unsubscribe();
+    this.authSub.unsubscribe();
+    this.subscription.unsubscribe();
   }
 }

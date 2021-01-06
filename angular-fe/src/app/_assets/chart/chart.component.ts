@@ -449,7 +449,8 @@ export class ChartComponent implements OnInit {
           if ((wideCases.includes(i) && options.length > 1 && this.wide)
             || (pieCases.includes(i) && options.length > 1
             && (item.filterValues.graph_type === 'pie'
-            || item.filterValues.graph_type === 'doughnut'))) {
+            || item.filterValues.graph_type === 'doughnut'))
+            || i === 'periood') {
             multipleIndicators = false;
           }
           tmpFilters.push(
@@ -548,17 +549,18 @@ export class ChartComponent implements OnInit {
     for (const i in item.filters) {
       const current = item.filters[i];
       const options = current.options;
-
       if (current.multiple) {
         this.filters[item.id][current.key] = options;
       } else if (options.length > 0) {
-        if (this.initiallyFilledSelects.indexOf(current.key) !== -1) {
+        if (current.key === 'periood') {
+          current.options = options.map((s: string) => parseInt(s, 10));
+          const filter = current.options.sort((a: number, b: number) => b - a)[0];
+          this.filters[item.id][current.key] = filter;
+        } else if (this.initiallyFilledSelects.indexOf(current.key) !== -1) {
           this.filters[item.id][current.key] = current.multiple ? [options[0]] : options[0];
         }
       }
-
     }
-
   }
 
   getGraphData(id) {

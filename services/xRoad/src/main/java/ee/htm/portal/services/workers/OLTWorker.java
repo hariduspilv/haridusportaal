@@ -532,7 +532,10 @@ public class OLTWorker extends Worker {
         "patchApplicationIban", "getApplicationOccupationsNotFound",
         "getApplicationQualificationsNotFound", "getApplicationGrantSubmissionTime",
         "postFileMaxSizeExceeded", "postFileExtensionForbidden",
-        "postFileExtensionNotFound", "postFileDuplicateFileName");
+        "postFileExtensionNotFound", "postFileDuplicateFileName",
+        "application.personApplicationEmail.emailValidationFailure",
+        "application.personApplicationBankAccount.notNull",
+        "application.personApplicationBankAccount.notBlank");
     jsonNode.putObject("messages");
 
     if (jsonNode.get("body").get("messages") == null) {
@@ -544,7 +547,7 @@ public class OLTWorker extends Worker {
     }
 
     errors.forEach(e -> {
-      if (rest400ErrorCodes.contains(e)) {
+      if (rest400ErrorCodes.contains(e.getCode())) {
         isFatalError.set(false);
       }
       if (StringUtils.isEmpty(step)) {

@@ -1,37 +1,21 @@
+
 <aside>
+	<div class="space">
+		<button htm-button theme="icon" attr.aria-label="{{ 'button.close' | translate }} {{
+			'frontpage.main_menu' | translate
+    }}" (click)="closeSidemenu()" #sidemenuCloser>
+			<span class="button--label">
+				<icon class="large" glyph="x" size="large" aria-hidden="true"></icon>
+			</span>
+		</button>
+	</div>
+	<div class="loader" *ngIf="!data || !data.length">
+		<loader></loader>
+	</div>
 	<nav>
-		<ul *ngIf="data && data.menu">
-			<li *ngFor="let item of data.menu.links">
-				<ng-container
-					*ngIf="
-						item.url.path === '#nocategory' || item.url.path === '#nolink';
-						else category">
-					<ul *ngIf="item.url.path === '#nocategory'" class="sidemenu__block">
-						<li *ngFor="let item of item['links']">
-							<sidemenu-item (openStateChange)="closeOthers($event)" [item]="item"></sidemenu-item>
-						</li>
-					</ul>
-					<ul class="sidemenu__block" *ngIf="item.url.path === '#nolink'">
-						<li>
-							<sidemenu-item (openStateChange)="closeOthers($event)" [item]="item"></sidemenu-item>
-						</li>
-					</ul>
-				</ng-container>
-				<ng-template #category>
-					<ng-container *ngIf="item.url.path === '#category'">
-						<ul class="sidemenu__block">
-							<li class="sidemenu__category">{{ item.label | uppercase }}</li>
-							<li *ngFor="let item of item['links']">
-								<sidemenu-item (openStateChange)="closeOthers($event)" [item]="item"></sidemenu-item>
-							</li>
-						</ul>
-					</ng-container>
-					<ng-container *ngIf="item.url.path !== '#category'">
-						<sidemenu-item (openStateChange)="closeOthers($event)" [item]="item"></sidemenu-item>
-					</ng-container>
-				</ng-template>
-			</li>
-		</ul>
+		<ng-container *ngIf="data && data.length">
+			<sidemenu-item [items]="data" [type]="'category'" (hideToggle)="hideOthers($event)"></sidemenu-item>
+		</ng-container>
 		<div class="sidemenu__info">
 			<div class="version">{{ 'frontpage.version' | translate }} {{version}}</div>
 			<div class="support" innerHtml="{{ 'sidemenu.support_text' | translate }}"></div>

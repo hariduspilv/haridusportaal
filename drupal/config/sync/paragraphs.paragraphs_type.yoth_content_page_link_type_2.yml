@@ -1,0 +1,10 @@
+uuid: 191ed43b-8f45-463c-ba8d-cfa554d86fe5
+langcode: et
+status: true
+dependencies: {  }
+id: yoth_content_page_link_type_2
+label: 'Esile toodud sisuleht'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

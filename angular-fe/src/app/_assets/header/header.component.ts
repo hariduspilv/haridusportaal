@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostBinding, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AlertsService,
   AnalyticsService,
@@ -22,15 +22,18 @@ import { TooltipComponent } from '../tooltip';
 })
 
 export class HeaderComponent implements OnInit {
-  public active: boolean;
   @Input() public loginStatus: boolean = false;
   @Input() public user: string = '';
   @HostBinding('attr.aria-label') public ariaLabel: string = this.translate.get('frontpage.header');
   @HostBinding('attr.role') public role: string = 'banner';
+  @ViewChild('sidemenuToggle', { static: false, read: ElementRef }) public toggleBtn: ElementRef;
+  private sidemenuInit = false;
+  private focusBounce: any;
   public loginTooltip = this.settings?.data?.login_tooltip;
   public searchTerm: any;
   public logoutActive = false;
   public searchString = '';
+  public theme: string = 'default';
   public loading = false;
   public mobileId = {
     challengeId: '',
@@ -69,7 +72,7 @@ export class HeaderComponent implements OnInit {
   }
 
   @HostBinding('class') get hostClasses(): string {
-    return 'header';
+    return `header header--${this.theme}`;
   }
 
   public isNumber(e): boolean {
@@ -130,9 +133,12 @@ export class HeaderComponent implements OnInit {
     );
   }
 
+  public get active(): boolean {
+    return this.sidemenuService.isVisible;
+  }
+
   public toggleSidemenu(): void {
     this.sidemenuService.toggle();
-    this.active = this.sidemenuService.isVisible;
   }
 
   public mobileIdCancel() {
@@ -143,6 +149,21 @@ export class HeaderComponent implements OnInit {
   public subscribeToAuth() {
     this.auth.isAuthenticated.subscribe((val) => {
       this.loginStatus = val;
+    });
+  }
+
+  public subscribeToSidemenu(): void {
+    this.sidemenuService.isVisibleSubscription.subscribe((visible) => {
+      clearTimeout(this.focusBounce);
+      if (!visible && this.sidemenuInit) {
+        this.focusBounce = setTimeout(() => this.toggleBtn.nativeElement.focus(), 100);
+      }
+      // Ignore the initial state
+      this.sidemenuInit = true;
+    });
+
+    this.sidemenuService.themeSubscription.subscribe((theme) => {
+      this.theme = theme;
     });
   }
 
@@ -233,9 +254,9 @@ export class HeaderComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.active = this.sidemenuService.isVisible;
     this.loginStatus = this.auth.isAuthenticated.getValue();
     this.subscribeToAuth();
+    this.subscribeToSidemenu();
     this.getAuthMethods();
   }
 }
