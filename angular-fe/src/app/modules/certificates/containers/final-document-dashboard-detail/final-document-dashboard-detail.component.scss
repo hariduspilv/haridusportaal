@@ -2,6 +2,13 @@
 @import 'breakpoints.scss';
 
 :host {
+  ::ng-deep .block__title__secondary__text {
+    margin: 0;
+    hr {
+      border: 0;
+      border-bottom: 1px solid $light-gray;
+    }
+  }
   ::ng-deep .button-row {
     display: flex;
     justify-content: flex-end;
@@ -99,5 +106,8 @@
     line-height: 2.5;
     text-align: center;
     margin-left: 2rem;
+    @include break-on(sm, max) {
+      margin: 0;
+    }
   }
 }

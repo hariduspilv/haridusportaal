@@ -14,6 +14,7 @@ import { CertificateTranscriptTemplateType } from './models/enums/certificate-tr
 import { GraduationDocumentTypeClassification } from './models/enums/graduation-document-type-classification.enum';
 import { GraduationDocumentType } from './models/enums/graduation-document-type.enum';
 import { CertificateDocumentContent } from './models/interfaces/certificate-document-content';
+import { CertificateDocumentResponse } from './models/interfaces/certificate-document-response';
 
 export class CertificatesUtility {
 
@@ -172,5 +173,32 @@ export class CertificatesUtility {
     return content.headOfSchoolDirective
       ? content.headOfSchoolDirective.issueDate
       : (content.issued ? content.issued.issueDate : '');
+  }
+
+  /**
+   * Extract certificate, transcript and supplement from a certificate document response
+   * @param response a certificate document response
+   * @param data certificate data for owner information
+   */
+  public static parseSupplementaryDocuments(
+    initial: FormattedCertificateDocumentData,
+    response: CertificateDocumentResponse[],
+    data: CertificateData,
+  ): FormattedCertificateDocumentData {
+    for (const doc of response) {
+      if (doc.document.type.indexOf('SUPPLEMENT') !== -1) {
+        initial.supplement = doc.document;
+        initial.supplement.content = JSON.parse(doc.document.content as string);
+      } else if (doc.document.type.indexOf('TRANSCRIPT') !== -1) {
+        initial.transcript = doc.document;
+        initial.transcript.content = JSON.parse(doc.document.content as string);
+      } else {
+        initial.certificate = doc.document;
+        initial.certificate.content = JSON.parse(doc.document.content as string);
+        (initial.certificate.content as CertificateDocumentContent)
+          .currentOwnerData = data.currentOwnerData;
+      }
+    }
+    return initial;
   }
 }

@@ -28,4 +28,9 @@
       border-bottom: 0;
     }
   }
+  .current {
+    color: $darker-gray;
+    font-weight: 200;
+    font-style: italic;
+  }
 }
