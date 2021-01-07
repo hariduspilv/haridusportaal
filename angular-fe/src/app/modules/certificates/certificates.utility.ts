@@ -176,6 +176,17 @@ export class CertificatesUtility {
   }
 
   /**
+   * Ensure that the document content is an object and return the document
+   * @param certdoc Document from response
+   */
+  public static parseDocumentContent(certdoc: CertificateDocument): CertificateDocument {
+    certdoc.content = typeof certdoc.content === 'string'
+      ? JSON.parse(certdoc.content)
+      : certdoc.content;
+    return certdoc;
+  }
+
+  /**
    * Extract certificate, transcript and supplement from a certificate document response
    * @param response a certificate document response
    * @param data certificate data for owner information
@@ -187,14 +198,11 @@ export class CertificatesUtility {
   ): FormattedCertificateDocumentData {
     for (const doc of response) {
       if (doc.document.type.indexOf('SUPPLEMENT') !== -1) {
-        initial.supplement = doc.document;
-        initial.supplement.content = JSON.parse(doc.document.content as string);
+        initial.supplement = CertificatesUtility.parseDocumentContent(doc.document);
       } else if (doc.document.type.indexOf('TRANSCRIPT') !== -1) {
-        initial.transcript = doc.document;
-        initial.transcript.content = JSON.parse(doc.document.content as string);
+        initial.transcript = CertificatesUtility.parseDocumentContent(doc.document);
       } else {
-        initial.certificate = doc.document;
-        initial.certificate.content = JSON.parse(doc.document.content as string);
+        initial.certificate = CertificatesUtility.parseDocumentContent(doc.document);
         (initial.certificate.content as CertificateDocumentContent)
           .currentOwnerData = data.currentOwnerData;
       }

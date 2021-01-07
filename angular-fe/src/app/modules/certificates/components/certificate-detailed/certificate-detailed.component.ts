@@ -1,9 +1,6 @@
 import {
   Component,
-  ElementRef,
   Input,
-  OnInit,
-  ViewChild,
 } from '@angular/core';
 import { CertificatesUtility } from '../../certificates.utility';
 import { CertificateDocument } from '../../models/interfaces/certificate-document';
