@@ -1,19 +1,19 @@
 <ng-container *ngIf="active">
 	<ng-container *ngIf="loading">
-		<ul>
+		<ul aria-hidden="true">
 			<li>{{ 'autocomplete.loading' | translate }}</li>
 		</ul>
 	</ng-container>
 	<ng-container *ngIf="!loading && searched && !data.length">
-		<ul>
+		<ul aria-hidden="true">
 			<li>{{ 'autocomplete.no_result' | translate }}</li>
 		</ul>
 	</ng-container>
 	<ng-container *ngIf="!loading && data.length">
-		<ul class="autocomplete__results" role="list">
+		<ul class="autocomplete__results" role="listbox">
 			<ng-container *ngFor="let item of data; let i = index;">
-				<li role="listitem" [attr.aria-label]="activeItem" (click)="onClick(item)" (keypress.enter)="onClick(item)"
-						[class.autocomplete__active]="i == activeItem">
+				<li role="option" (click)="onClick(item)" (keypress.enter)="onClick(item)" attr.id="option-{{i}}"
+						[class.autocomplete__active]="i == activeItem" [attr.aria-selected]="i == activeItem">
 					{{ item | parseInAdds }}
 				</li>
 			</ng-container>
