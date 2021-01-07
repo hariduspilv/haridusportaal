@@ -100,14 +100,20 @@ export class CertificatesDetailComponent implements OnInit {
       this.documents = CertificatesUtility.getLatestDocumentData(documents);
       if (this.documents.certificate?.id) {
         // Request certificate itself by ID
-        documentRequests.push(this.api.fetchDocumentWithParams(this.documents.certificate.id, params));
+        documentRequests.push(
+          this.api.fetchDocumentWithParams(this.documents.certificate.id, params),
+        );
         // Request transcript by ID
         if (Object.keys(this.documents.transcript).length) {
-          documentRequests.push(this.api.fetchDocumentWithParams(this.documents?.transcript.id, params));
+          documentRequests.push(
+            this.api.fetchDocumentWithParams(this.documents?.transcript.id, params),
+          );
         }
         // Request supplement by ID
         if (Object.keys(this.documents.supplement).length) {
-          documentRequests.push(this.api.fetchDocumentWithParams(this.documents?.supplement.id, params));
+          documentRequests.push(
+            this.api.fetchDocumentWithParams(this.documents?.supplement.id, params),
+          );
         }
       }
     }
@@ -159,7 +165,7 @@ export class CertificatesDetailComponent implements OnInit {
     }
     this.getCertificate();
   }
-  
+
   public get typeTranslation(): string {
     if (!this.documents?.certificate) {
       return 'frontpage.dashboard_tabs_certificate';
