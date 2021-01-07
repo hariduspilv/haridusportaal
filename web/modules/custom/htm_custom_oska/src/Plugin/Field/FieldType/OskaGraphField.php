@@ -115,7 +115,6 @@ class OskaGraphField extends FieldItemBase {
             'not null' => FALSE,
         ];
 
-
         return $schema;
     }
 
@@ -139,4 +138,53 @@ class OskaGraphField extends FieldItemBase {
         ];
         return $element;
     }
+
+  /**
+   * Add a new column for fieldType.
+   *
+   * @param string $field_type
+   *   The ID of the field type definition.
+   * @param string $property
+   *   The name of the property whose column to add.
+   *
+   * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+   * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+   * @throws \Drupal\Core\Database\SchemaObjectDoesNotExistException
+   * @throws \Drupal\Core\Database\SchemaObjectExistsException
+   */
+  public static function addProperty($field_type, $property) {
+
+    $manager = Drupal::entityDefinitionUpdateManager();
+    $field_map = Drupal::service('entity_field.manager')
+      ->getFieldMapByFieldType($field_type);
+
+    foreach ($field_map as $entity_type_id => $fields) {
+
+      foreach (array_keys($fields) as $field_name) {
+        $field_storage_definition = $manager->getFieldStorageDefinition($field_name, $entity_type_id);
+        $storage = Drupal::entityTypeManager()->getStorage($entity_type_id);
+
+        if ($storage instanceof SqlContentEntityStorage) {
+          $table_mapping = $storage->getTableMapping([
+            $field_name => $field_storage_definition,
+          ]);
+          $table_names = $table_mapping->getDedicatedTableNames();
+          $columns = $table_mapping->getColumnNames($field_name);
+
+          foreach ($table_names as $table_name) {
+            $field_schema = $field_storage_definition->getSchema();
+            $schema = Drupal::database()->schema();
+            $field_exists = $schema->fieldExists($table_name, $columns[$property]);
+            $table_exists = $schema->tableExists($table_name);
+
+            if (!$field_exists && $table_exists) {
+              $schema->addField($table_name, $columns[$property], $field_schema['columns'][$property]);
+            }
+          }
+        }
+        $manager->updateFieldStorageDefinition($field_storage_definition);
+      }
+    }
+
+  }
 }

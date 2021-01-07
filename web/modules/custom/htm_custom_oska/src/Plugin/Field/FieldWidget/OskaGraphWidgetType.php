@@ -255,6 +255,13 @@ class OskaGraphWidgetType extends WidgetBase {
                 '#maxlength' => 1500,
                 '#default_value' => isset($data['graph_text']) ? $data['graph_text'] : NULL,
             ];
+
+            $element['graph_options']['graph_source'] = [
+              '#title' => $this->t('Graph source'),
+              '#type' => 'textfield',
+              '#maxlength' => 150,
+              '#default_value' => isset($data['graph_source']['value']) ? $data['graph_source']['value'] : NULL,
+            ];
         }
 
         return $element;
