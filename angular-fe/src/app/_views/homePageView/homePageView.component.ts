@@ -20,6 +20,7 @@ import FieldVaryService from '@app/_services/FieldVaryService';
   styleUrls: ['homePageView.styles.scss'],
 })
 export class HomePageViewComponent implements OnInit {
+  public loading = true;
   public topics: ITopic[] = [];
   public articles: ITopic[];
   public services: IService[] = [];
@@ -71,7 +72,12 @@ export class HomePageViewComponent implements OnInit {
 
     const newsSub = this.service.getNews(data, this.theme);
     if (newsSub) {
-      newsSub.subscribe((news: ISimpleArticle) => this.news = news);
+      newsSub.subscribe((news: ISimpleArticle) => {
+        this.news = news;
+        this.loading = false;
+      });
+    } else {
+      this.loading = false;
     }
   }
 }

@@ -1,27 +1,29 @@
-
-<homepage-navblock
-  [data]="topics"
-  [theme]="theme"
-  [title]="'home.teachers_slogan' | translate"
-  [image]="'/assets/img/homePage-navBlock-teachers.svg'"></homepage-navblock>
-<homepage-events
-  [data]="events"
-  [theme]="theme"
-  [title]="'home.events' | translate"
-  [description]="'home.events_text' | translate"></homepage-events>
-<homepage-topical
-  [category]="'home.topical_teachers' | translate"
-  [image]="'/assets/img/homepage-topical-teachers.svg'"
-  [article]="news" [theme]="theme"></homepage-topical>
-<homepage-slides
-  [data]="services"
-  [title]="'home.toolbox' | translate" 
-  [line]="3"
-  [theme]="theme"></homepage-slides>
-<homepage-slogan
-  [data]="slogan"
-  [image]="'/assets/img/homepage-slogan-teachers.svg'"
-  [theme]="theme"></homepage-slogan>
-<homepage-footer
-  [data]="contact"
-  [theme]="theme"></homepage-footer>
+<loader *ngIf="loading"></loader>
+<ng-container *ngIf="!loading">
+  <homepage-navblock
+    [data]="topics"
+    [theme]="theme"
+    [title]="'home.teachers_slogan' | translate"
+    [image]="'/assets/img/homePage-navBlock-teachers.svg'"></homepage-navblock>
+  <homepage-events
+    [data]="events"
+    [theme]="theme"
+    [title]="'home.events' | translate"
+    [description]="'home.events_text' | translate"></homepage-events>
+  <homepage-topical
+    [category]="'home.topical_teachers' | translate"
+    [image]="'/assets/img/homepage-topical-teachers.svg'"
+    [article]="news" [theme]="theme"></homepage-topical>
+  <homepage-slides
+    [data]="services"
+    [title]="'home.toolbox' | translate" 
+    [line]="3"
+    [theme]="theme"></homepage-slides>
+  <homepage-slogan
+    [data]="slogan"
+    [image]="'/assets/img/homepage-slogan-teachers.svg'"
+    [theme]="theme"></homepage-slogan>
+  <homepage-footer
+    [data]="contact"
+    [theme]="theme"></homepage-footer>
+</ng-container>
