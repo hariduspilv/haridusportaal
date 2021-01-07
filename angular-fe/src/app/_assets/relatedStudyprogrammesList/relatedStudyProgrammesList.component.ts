@@ -128,7 +128,8 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
   localFieldVary (data) {
     return data.map((el: any) => {
       let fieldTeachingLanguage = el.FieldTeachingLanguage || el.fieldTeachingLanguage || [];
-      const fieldStudyProgrammeLevel = el.fieldStudyProgrammeLevel || [];
+      const fieldStudyProgrammeLevel = el.FieldStudyProgrammeLevel
+        || el.fieldStudyProgrammeLevel || [];
       if (typeof fieldTeachingLanguage === 'string') {
         fieldTeachingLanguage = fieldTeachingLanguage.split(',')
           .map((el: any) => { return { entity: { entityLabel: el.trim() } }; });
@@ -154,7 +155,12 @@ export class RelatedStudyProgrammesListComponent implements OnInit {
         educationalInstitution: el.FieldSchoolName,
         title: el.Name || el.title,
         head: fieldStudyProgrammeLevel.length
-          ? fieldStudyProgrammeLevel[0].entity.name : null,
+          ? (
+            typeof fieldStudyProgrammeLevel === 'string'
+              ? fieldStudyProgrammeLevel
+              : fieldStudyProgrammeLevel[0].entity.name
+            )
+          : null,
       };
     });
   }
