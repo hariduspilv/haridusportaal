@@ -11,6 +11,9 @@ import { CertificateDocumentWithClassifier, FormattedCertificateDocumentData } f
 import { CertificateDocumentResponse } from '../../models/interfaces/certificate-document-response';
 import { CertificateIndex } from '../../models/interfaces/certificate-index';
 import { GraduationDocumentLanguage } from '../../models/enums/graduation-document-language.enum';
+import { GraduationDocumentType } from '../../models/enums/graduation-document-type.enum';
+import { GraduationDocumentTypeClassification } from '../../models/enums/graduation-document-type-classification.enum';
+import { CertificateDocumentContent } from '../../models/interfaces/certificate-document-content';
 
 @Component({
   selector: 'final-document-dashboard-detail',
@@ -22,7 +25,7 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
   public documents: FormattedCertificateDocumentData;
   public transcriptDocuments: CertificateDocumentWithClassifier[];
   public mainLanguage = GraduationDocumentLanguage.emakeelEt;
-  generalEducationDocumentType = false;
+  public generalEducationDocumentType = false;
 
   public sidebar = {
     entity: {
@@ -69,7 +72,8 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
   }
 
   public tabChanged(tab) {
-    if (!this.loading && tab === this.translate.get('certificates.graduation_certificate')) {
+    if (!this.loading && tab === this.translate.get('certificates.graduation_certificate') &&
+        this.certificate) {
       setTimeout(() => {
         this.certificate.first.calculateCertificateSize();
       });
@@ -83,33 +87,35 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
         this.path = [...this.path, { title: val.index.typeName, link: '' }];
         this.generalEducationDocumentType =
           CertificatesUtility.isGeneralEducationDocumentType(val.index);
-        this.getLatestDocuments(val.index);
+        this.getLatestDocuments(val);
       });
   }
 
-  private getLatestDocuments(index: CertificateIndex) {
-    const { documents } = index;
+  private getLatestDocuments(data: CertificateData) {
+    const { documents } = data.index;
     const documentRequests: Observable<CertificateDocumentResponse>[] = [];
-    if (index.documents.length > 0) {
+    if (data.index.documents.length > 0) {
       this.documents = CertificatesUtility.getLatestDocumentData(documents);
       if (this.documents.certificate?.id) {
+        // Request certificate itself by ID
         documentRequests.push(this.api.fetchDocument(this.documents.certificate.id));
+        // Request transcript by ID
         if (Object.keys(this.documents.transcript).length) {
           documentRequests.push(this.api.fetchDocument(this.documents?.transcript.id));
+        }
+        // Request supplement by ID
+        if (Object.keys(this.documents.supplement).length) {
+          documentRequests.push(this.api.fetchDocument(this.documents?.supplement.id));
         }
       }
     }
 
     forkJoin(documentRequests).subscribe((docs: CertificateDocumentResponse[]) => {
-      this.documents.certificate = docs[0].document;
-      this.documents.certificate.content = JSON.parse(this.documents.certificate.content as string);
-      if (docs[1]) {
-        this.documents.transcript = docs[1].document;
-        this.documents.transcript.content = JSON.parse(this.documents.transcript.content as string);
-      }
+      // Clean up certificate, supplement and transcript from response
+      this.documents = CertificatesUtility.parseSupplementaryDocuments(this.documents, docs, data);
       if (!this.generalEducationDocumentType) {
         this.api.getCertificateDocumentsWithClassifiers(
-          index,
+          data.index,
           this.mainLanguage,
         ).subscribe((documentsWithClassifiers: CertificateDocumentWithClassifier[]) => {
           this.transcriptDocuments = CertificatesUtility
@@ -117,10 +123,6 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
           this.sidebar = CertificatesUtility.composeSidebarData(
             this.documents, this.transcriptDocuments, this.generalEducationDocumentType);
           this.loading = false;
-          setTimeout(() => {
-            (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
-            .focus();
-          });
         });
       } else {
         this.sidebar = CertificatesUtility.composeSidebarData(
@@ -132,5 +134,15 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
         });
       }
     });
+  }
+
+  public get typeTranslation(): string {
+    if (!this.documents?.certificate) {
+      return 'frontpage.dashboard_tabs_certificate';
+    }
+    if (this.documents.certificate.type.indexOf('DIPLOMA') !== -1) {
+      return 'finaldocuments.diploma';
+    }
+    return 'certificates.graduation_certificate';
   }
 }

@@ -1,5 +1,6 @@
 import { CertificateLevelOfQualification } from './certificate-level-of-qualification';
 import { CouncilDecision } from './council-decision';
+import { CurrentOwnerData } from './current-owner-data';
 import { EducationalInstitution } from './educational-institution';
 import { Graduate } from './graduate';
 import { HeadOfSchoolDirective } from './head-of-school-directive';
@@ -16,6 +17,7 @@ export interface CertificateDocumentContent {
   educationalInstitutions?: EducationalInstitution[];
   educationalInstitution?: EducationalInstitution;
   graduate: Graduate;
+  currentOwnerData?: CurrentOwnerData;
   issued?: Issued;
   registrationNumber: string;
   levelOfQualification?: CertificateLevelOfQualification;

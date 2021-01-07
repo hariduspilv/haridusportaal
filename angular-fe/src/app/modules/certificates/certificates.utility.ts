@@ -13,6 +13,8 @@ import { CertificateTranscriptParams } from './models/interfaces/certificate-tra
 import { CertificateTranscriptTemplateType } from './models/enums/certificate-transcript-template-type.enum';
 import { GraduationDocumentTypeClassification } from './models/enums/graduation-document-type-classification.enum';
 import { GraduationDocumentType } from './models/enums/graduation-document-type.enum';
+import { CertificateDocumentContent } from './models/interfaces/certificate-document-content';
+import { CertificateDocumentResponse } from './models/interfaces/certificate-document-response';
 
 export class CertificatesUtility {
 
@@ -151,4 +153,60 @@ export class CertificatesUtility {
     };
   }
 
+  /**
+   * Return string list of educational institutions from a final document
+   * @param document Certificate Document
+   * @returns String list of institutions, separated by comma
+   */
+  public static getEducationalInstitutions(document: CertificateDocument): string {
+    return (document.content as CertificateDocumentContent)
+      .educationalInstitutions.map(x => x.name).join(', ');
+  }
+
+  /**
+   * Return string issue date from a final document
+   * @param document Certificate Document
+   * @returns Issue date
+   */
+  public static getCertificateIssueDate(document: CertificateDocument): string {
+    const content = document.content as CertificateDocumentContent;
+    return content.headOfSchoolDirective
+      ? content.headOfSchoolDirective.issueDate
+      : (content.issued ? content.issued.issueDate : '');
+  }
+
+  /**
+   * Ensure that the document content is an object and return the document
+   * @param certdoc Document from response
+   */
+  public static parseDocumentContent(certdoc: CertificateDocument): CertificateDocument {
+    certdoc.content = typeof certdoc.content === 'string'
+      ? JSON.parse(certdoc.content)
+      : certdoc.content;
+    return certdoc;
+  }
+
+  /**
+   * Extract certificate, transcript and supplement from a certificate document response
+   * @param response a certificate document response
+   * @param data certificate data for owner information
+   */
+  public static parseSupplementaryDocuments(
+    initial: FormattedCertificateDocumentData,
+    response: CertificateDocumentResponse[],
+    data: CertificateData,
+  ): FormattedCertificateDocumentData {
+    for (const doc of response) {
+      if (doc.document.type.indexOf('SUPPLEMENT') !== -1) {
+        initial.supplement = CertificatesUtility.parseDocumentContent(doc.document);
+      } else if (doc.document.type.indexOf('TRANSCRIPT') !== -1) {
+        initial.transcript = CertificatesUtility.parseDocumentContent(doc.document);
+      } else {
+        initial.certificate = CertificatesUtility.parseDocumentContent(doc.document);
+        (initial.certificate.content as CertificateDocumentContent)
+          .currentOwnerData = data.currentOwnerData;
+      }
+    }
+    return initial;
+  }
 }

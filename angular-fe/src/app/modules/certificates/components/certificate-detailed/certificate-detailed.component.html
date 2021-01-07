@@ -1,0 +1,167 @@
+<div id="certificate" #certificate>
+  <h2>{{ 'frontpage.dashboard_tabs_personal_label' | translate }}</h2>
+  <table>
+    <ng-container *ngIf="!documents.certificate.content.currentOwnerData; else withCurrentOwner">
+      <tr>
+        <td>{{ 'certificates.first_name' | translate }}:</td>
+        <td>{{ documents.certificate.content.graduate.firstName }}</td>
+      </tr>
+      <tr>
+        <td>{{ 'certificates.last_name' | translate }}:</td>
+        <td>{{ documents.certificate.content.graduate.lastName }}</td>
+      </tr>
+      <tr>
+        <td>{{ 'finaldocument.idcode' | translate }}:</td>
+        <td>{{ documents.certificate.content.graduate.idCode }}</td>
+      </tr>
+    </ng-container>
+    <ng-template #withCurrentOwner>
+      <tr>
+        <td>{{ 'certificates.first_name' | translate }}:</td>
+        <td>{{ documents.certificate.content.graduate.firstName }}
+          <span class="current">
+            ({{ 'certificates.current_registry' | translate }}
+            {{ documents.certificate.content.currentOwnerData.firstName }})</span>
+          </td>
+      </tr>
+      <tr>
+        <td>{{ 'certificates.last_name' | translate }}:</td>
+        <td>{{ documents.certificate.content.graduate.lastName }}
+          <span class="current">
+            ({{ 'certificates.current_registry' | translate }}
+            {{ documents.certificate.content.currentOwnerData.lastName }})</span>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ 'finaldocument.idcode' | translate }}:</td>
+        <td>{{ documents.certificate.content.graduate.idCode | idCode }}
+          <span class="current">
+            ({{ 'certificates.current' | translate }}
+            {{ documents.certificate.content.currentOwnerData.idCode | idCode }})</span>
+        </td>
+      </tr>
+    </ng-template>
+  </table>
+  <h2>{{ 'finaldocuments.data' | translate }}</h2>
+  <table>
+    <tr>
+      <td>{{ 'finaldocuments.number' | translate }}:</td>
+      <td>{{ documents.certificate.content.registrationNumber }}</td>
+    </tr>
+    <tr>
+      <td>{{ 'finaldocuments.date_of' | translate }}:</td>
+      <td>{{ issueDate }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.duplicateCertificateNumber">
+      <td>{{ 'finaldocuments.duplicate_number' | translate }}:</td>
+      <td>{{ documents.certificate.content.duplicateCertificateNumber }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.duplicateIssueDate">
+      <td>{{ 'finaldocuments.date_of_duplicate' | translate }}:</td>
+      <td>{{ documents.certificate.content.duplicateIssueDate }}</td>
+    </tr>
+  </table>
+  <ng-container *ngIf="documents.certificate.content.educationalInstitutions?.length">
+    <h2>{{ 'finaldocuments.institution_data' | translate }}</h2>
+    <table>
+      <tr>
+        <td>{{ 'finaldocuments.institution_name' | translate }}:</td>
+        <td>{{ eduInst }}</td>
+      </tr>
+    </table>
+  </ng-container>
+  <h2>{{ 'finaldocuments.curriculum_data' | translate }}</h2>
+  <table>
+    <tr>
+      <td>{{ 'finaldocuments.curriculum_name' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.curriculumName }}</td>
+    </tr>
+    <tr>
+      <td>{{ 'finaldocuments.curriculum_code' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.curriculumCode }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.studies.academicDegree">
+      <td>{{ 'finaldocuments.degree_name' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.academicDegree }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.studies.levelOfEducation">
+      <td>{{ 'finaldocuments.level_of_education' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.levelOfEducation }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.studies.accreditationDecision">
+      <td>{{ 'finaldocuments.accreditation_decision' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.accreditationDecision }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.studies.accreditationEndDate">
+      <td>{{ 'finaldocuments.accreditation_end_date' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.accreditationEndDate }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.studies.rightToProvideEducationDecision">
+      <td>{{ 'finaldocuments.right_to_provide_education_decision' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.rightToProvideEducationDecision }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.studies.rightToProvideEducationEndDate">
+      <td>{{ 'finaldocuments.right_to_provide_education_end_date' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.rightToProvideEducationEndDate }}</td>
+    </tr>
+    <tr *ngIf="documents.certificate.content.studies.typeOfTraining">
+      <td>{{ 'finaldocuments.type_of_training' | translate }}:</td>
+      <td>{{ documents.certificate.content.studies.typeOfTraining }}</td>
+    </tr>
+    <tr *ngIf="documents.transcript?.content?.studies?.creditPoint">
+      <td>{{ 'finaldocuments.credit_point' | translate }}:</td>
+      <td>{{ documents.transcript.content.studies.creditPoint }}EKAP</td>
+    </tr>
+    <tr *ngIf="documents.transcript?.content?.studies?.officialLengthOfProgramme">
+      <td>{{ 'finaldocuments.length_of_programme' | translate }}:</td>
+      <td>{{ documents.transcript.content.studies.officialLengthOfProgramme }} {{ 'time.duration_year_plural' | translate }}</td>
+    </tr>
+    <tr *ngIf="documents.supplement?.content?.studies?.creditPoint">
+      <td>{{ 'finaldocuments.credit_point' | translate }}:</td>
+      <td>{{ documents.supplement.content.studies.creditPoint }}</td>
+    </tr>
+    <tr *ngIf="documents.supplement?.content?.studies?.officialLengthOfProgramme">
+      <td>{{ 'finaldocuments.length_of_programme' | translate }}:</td>
+      <td>{{ documents.supplement.content.studies.officialLengthOfProgramme }}</td>
+    </tr>
+    <tr *ngIf="documents.supplement?.content?.levelOfQualification?.levelOfEducation">
+      <td>{{ 'finaldocuments.level_of_qualification' | translate }}:</td>
+      <td>{{ documents.supplement.content.levelOfQualification.levelOfEducation }}</td>
+    </tr>
+    <tr *ngIf="documents.supplement?.content?.levelOfQualification?.estonianQualificationFrameworkLevel">
+      <td>{{ 'finaldocuments.estonian_qualification_level' | translate }}:</td>
+      <td>{{ documents.supplement.content.levelOfQualification.estonianQualificationFrameworkLevel }}</td>
+    </tr>
+    <tr *ngIf="documents.supplement?.content?.levelOfQualification?.europeanQualificationFrameworkLevel">
+      <td>{{ 'finaldocuments.european_qualification_level' | translate }}:</td>
+      <td>{{ documents.supplement.content.levelOfQualification.europeanQualificationFrameworkLevel }}</td>
+    </tr>
+  </table>
+  <ng-container *ngIf="
+      documents.certificate.content.registerOfOccupationalQualifications?.length ||
+      documents.certificate.content.partialQualifications?.length">
+    <h2>{{ 'finaldocuments.occupational_qualifications' | translate }}</h2>
+    <table *ngFor="let item of documents.certificate.content.registerOfOccupationalQualifications">
+      <tr>
+        <td>{{ 'finaldocuments.occupational_qualification' | translate }}:</td>
+        <td>{{ item.specializationName }}</td>
+      </tr>
+      <tr>
+        <td>{{ 'finaldocuments.occupational_qualification_number' | translate }}:</td>
+        <td>{{ item.registrationNumber }}</td>
+      </tr>
+    </table>
+    <ng-container *ngIf="documents.certificate.content.partialQualifications">
+      <table *ngFor="let item of documents.certificate.content.partialQualifications">
+        <tr>
+          <td>{{ 'finaldocuments.partial_occupational_qualification' | translate }}:</td>
+          <td>{{ item.qualificationName }}</td>
+        </tr>
+        <tr>
+          <td>{{ 'finaldocuments.partial_occupational_qualification_number' | translate }}:</td>
+          <td>{{ item.registrationNumber }}</td>
+        </tr>
+      </table>
+    </ng-container>
+  </ng-container>
+</div>

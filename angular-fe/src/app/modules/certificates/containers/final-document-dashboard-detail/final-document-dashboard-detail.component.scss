@@ -2,6 +2,13 @@
 @import 'breakpoints.scss';
 
 :host {
+  ::ng-deep .block__title__secondary__text {
+    margin: 0;
+    hr {
+      border: 0;
+      border-bottom: 1px solid $light-gray;
+    }
+  }
   ::ng-deep .button-row {
     display: flex;
     justify-content: flex-end;
@@ -84,6 +91,23 @@
     min-width: unset;
     h1 {
       text-align: center;
+    }
+  }
+  ::ng-deep .duplicate-badge {
+    height: 40px;
+    width: 180px;
+    color: $error;
+    background-color: rgba($color: $error, $alpha: 0.1);
+    border-radius: 40px;
+    margin: 0 auto;
+    font-size: initial;
+    font-weight: 200;
+    display: inline-block;
+    line-height: 2.5;
+    text-align: center;
+    margin-left: 2rem;
+    @include break-on(sm, max) {
+      margin: 0;
     }
   }
 }
