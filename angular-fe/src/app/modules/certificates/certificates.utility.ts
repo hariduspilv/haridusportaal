@@ -214,10 +214,7 @@ export class CertificatesUtility {
     document: CertificateDocument,
     alldocs: CertificateDocumentWithClassifier[],
   ): string {
-    const filtered = alldocs.filter(xdoc => xdoc.type === document.type);
-    if (!filtered.length || (!filtered[0].metadata && !filtered[0].typeName)) {
-      return 'certificates.graduation_certificate';
-    }
-    return filtered[0].metadata.shortName || filtered[0].typeName;
+    const classifier = alldocs.find(xdoc => xdoc.type === document.type);
+    return classifier.metadata.shortName || classifier.typeName;
   }
 }
