@@ -1341,9 +1341,6 @@
       fill: $black;
     }
 
-    a {
-      color: $white !important;
-    }
     .logos {
       margin-top:2.5rem;
       text-align: center;
@@ -1356,6 +1353,9 @@
       }
     }
     .footer {
+      a {
+        color: $white !important;
+      }
       display: flex;
       box-sizing: border-box;
       @include break-on(sm, max) {
