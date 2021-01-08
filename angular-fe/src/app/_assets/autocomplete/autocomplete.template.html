@@ -10,7 +10,7 @@
 		</ul>
 	</ng-container>
 	<ng-container *ngIf="!loading && data.length">
-		<ul class="autocomplete__results" role="listbox">
+		<ul class="autocomplete__results" role="listbox" id="autocompleteResults">
 			<ng-container *ngFor="let item of data; let i = index;">
 				<li role="option" (click)="onClick(item)" (keypress.enter)="onClick(item)" attr.id="option-{{i}}"
 						[class.autocomplete__active]="i == activeItem" [attr.aria-selected]="i == activeItem">

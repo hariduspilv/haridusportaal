@@ -253,12 +253,11 @@
         [attr.aria-expanded]="autocompleteElem.active"
         aria-autocomplete="list"
         aria-haspopup="listbox"
-        aria-owns="autocompleteElem"
+        aria-owns="autocompleteResults"
         role="combobox"/>
       <autocomplete
         [valueType]="valueType"
         #autocompleteElem
-        id="autocompleteElem"
         [type]="query"
         (onValueSelected)="autocompleteUpdate($event)">
       </autocomplete>
