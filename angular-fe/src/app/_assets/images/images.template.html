@@ -4,12 +4,14 @@
 </div> -->
 
 <div *ngIf="images && images.length" class="image-container">
-  <a href="javascript:void(0)" attr.aria-label="{{ 'gallery.link-title' | translate }}" *ngIf="images.length > 1" class="expand-gallery" (click)="openGallery()">
+  <a href="javascript:void(0)" attr.aria-label="{{ 'gallery.link-title' | translate }}"
+     *ngIf="images.length > 1 && firstImageLoaded" class="expand-gallery" (click)="openGallery()">
     {{ 'gallery.link-title' | translate }} ({{ images.length }})
   </a>
-  <img *ngIf="!images[0].videoId" [src]="images[0].derivative?.url" [title]="images[0].title" [alt]="images[0].alt" />
+  <img *ngIf="!images[0].videoId" [src]="images[0].derivative?.url" [title]="images[0].title"
+       [alt]="images[0].alt" (load)="coverImageLoaded()" />
   <div class="image__title" *ngIf="images[0]?.title">{{ images[0].title }}</div>
-  <htm-video *ngIf="images[0].videoId" [videos]="images[0]"></htm-video>
+  <htm-video *ngIf="images[0].videoId" [videos]="images[0]" (onLoad)="coverImageLoaded()"></htm-video>
   <div class="image__title" *ngIf="images[0]?.videoDescription">{{ images[0].videoDescription }}</div>
 </div>
 
