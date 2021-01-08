@@ -96,16 +96,27 @@ public class EeIsikukaartWorker extends Worker {
             .put("id", oping.isSetId() ? oping.getId() : null)
             .put("oppeasutus", oping.getOppeasutus())
             .put("oppAlgus", oping.isSetOppAlgus() ? oping.getOppAlgus() : null)
-            .put("oppLopp", oping.isSetOppLopp() ? oping.getOppLopp() : null);
+            .put("oppLopp", oping.isSetOppLopp() ? oping.getOppLopp() : null)
+            .put("nomLopp", oping.isSetNomLopp() ? oping.getNomLopp() : null);
 
         ArrayNode oppekavaArrayNode = opingNode.putArray("oppekava");
         oping.getOppekavaList().forEach(oppekava -> oppekavaArrayNode.addObject()
-            .put("klOppekava", oppekava.isSetKlOppekava() ? oppekava.getKlOppekava() : null)
-            .put("oppekavaKood", oppekava.isSetOppekavaKood() ? oppekava.getOppekavaKood() : null)
-            .put("oppekavaNimetus",
-                oppekava.isSetOppekavaNimetus() ? oppekava.getOppekavaNimetus() : null));
+            .put("klOppekava", oppekava.isSetKlOppekava()
+                ? oppekava.getKlOppekava() : null)
+            .put("oppekavaKood", oppekava.isSetOppekavaKood()
+                ? oppekava.getOppekavaKood() : null)
+            .put("oppekavaNimetus", oppekava.isSetOppekavaNimetus()
+                ? oppekava.getOppekavaNimetus() : null)
+            .put("kvalifikatsiooniVastavus", oppekava.isSetKvalifikatsiooniVastavus()
+                ? oppekava.getKvalifikatsiooniVastavus() : null)
+            .put("akadKraad", oppekava.isSetAkadKraad()
+                ? oppekava.getAkadKraad() : null)
+            .put("kvalDokument", oppekava.isSetKvalDokument()
+                ? oppekava.getKvalDokument() : null));
 
-        opingNode.put("oppekeel", oping.isSetOppekeel() ? oping.getOppekeel() : null)
+        opingNode.put("spetsilaiseerumine ", oping.isSetSpetsialiseerumine()
+            ? oping.getSpetsialiseerumine() : null)
+            .put("oppekeel", oping.isSetOppekeel() ? oping.getOppekeel() : null)
             .put("opeklass", oping.isSetOpeKlass() ? oping.getOpeKlass() : null)
             .put("opeParallel", oping.isSetOpeParallel() ? oping.getOpeParallel() : null)
             .put("klassiLiik", oping.isSetKlassiLiik() ? oping.getKlassiLiik() : null)
@@ -131,12 +142,12 @@ public class EeIsikukaartWorker extends Worker {
 
         if (oping.isSetOppekavataitmine()) {
           opingNode.putObject("oppekavataitine")
-              .put("protsent",
-                  oping.getOppekavataitmine().isSetProtsent() ? oping.getOppekavataitmine()
-                      .getProtsent() : null)
-              .put("otsusKp",
-                  oping.getOppekavataitmine().isSetOtsusKp() ? oping.getOppekavataitmine()
-                      .getOtsusKp() : null);
+              .put("protsent", oping.getOppekavataitmine().isSetProtsent()
+                  ? oping.getOppekavataitmine().getProtsent() : null)
+              .put("otsusKp", oping.getOppekavataitmine().isSetOtsusKp()
+                  ? oping.getOppekavataitmine().getOtsusKp() : null)
+              .put("ainePunktid", oping.getOppekavataitmine().isSetAinepunktid()
+                  ? oping.getOppekavataitmine().getAinepunktid() : null);
         } else {
           opingNode.putObject("oppekavataitine");
         }
@@ -144,6 +155,16 @@ public class EeIsikukaartWorker extends Worker {
         opingNode.put("ryhmaLiik", oping.isSetRyhmaLiik() ? oping.getRyhmaLiik() : null)
             .put("nimetus", oping.isSetNimetus() ? oping.getNimetus() : null)
             .put("koht", oping.isSetKoht() ? oping.getKoht() : null);
+
+        ArrayNode okVahetamineArrayNode = opingNode.putArray("okVahetamine");
+        if (oping.isSetOppekavaVahetused()) {
+          oping.getOppekavaVahetused().getOppekavaVahetusList()
+              .forEach(vahetus -> okVahetamineArrayNode.addObject()
+                  .put("nimetus", vahetus.getOppekava())
+                  .put("algusKp", ehisDateFormat(vahetus.getAlgusKp()))
+                  .put("loppKp", vahetus.isSetLoppKp()
+                      ? ehisDateFormat(vahetus.getLoppKp()) : null));
+        }
 
         ArrayNode finAllikasArrayNode = opingNode.putArray("finAllikas");
         oping.getFinAllikasList().forEach(finAllikas -> finAllikasArrayNode.addObject()
@@ -281,6 +302,67 @@ public class EeIsikukaartWorker extends Worker {
               .put("aasta",
                   kvalifikatsioon.isSetAasta() ? kvalifikatsioon.getAasta().intValue() : null)
               .put("riik", kvalifikatsioon.isSetRiik() ? kvalifikatsioon.getRiik() : null));
+
+      ArrayNode valineKvalArrayNode = valueNode.putArray("valineKvalifikatsioon");
+      response.getIsikukaart().getValiskvalifikatsioonList().stream()
+          .filter(s -> s.getTyyp().equalsIgnoreCase("VALISMAA"))
+          .forEach(valisKval -> valineKvalArrayNode.addObject()
+              .put("oppeasutuseNimiMuusKeeles", valisKval.isSetOppeasutuseNimiMuusKeeles()
+                  ? valisKval.getOppeasutuseNimiMuusKeeles() : null)
+              .put("oppeasutuseNimiTranslit", valisKval.isSetOppeasutuseNimiTranslit()
+                  ? valisKval.getOppeasutuseNimiTranslit() : null)
+              .put("riik", valisKval.isSetRiik() ? valisKval.getRiik() : null)
+              .put("oppekavaNimetusOrig", valisKval.isSetOppekavaNimetusOrig()
+                  ? valisKval.getOppekavaNimetusOrig() : null)
+              .put("oppekavaNimetusEesti", valisKval.isSetOppekavaNimetusEesti()
+                  ? valisKval.getOppekavaNimetusEesti() : null)
+              .put("oppekavaNominKestus", valisKval.isSetOppekavaNominKestus()
+                  ? valisKval.getOppekavaNominKestus() : null)
+              .put("lisaKval", valisKval.isSetLisaKval() ? valisKval.getLisaKval() : null)
+              .put("dokument", valisKval.isSetDokument() ? valisKval.getDokument() : null)
+              .put("kvalVastavus", valisKval.isSetKvalVastavus()
+                  ? valisKval.getKvalVastavus() : null)
+              .put("kvalNimetusOrig", valisKval.isSetKvalNimetusOrig()
+                  ? valisKval.getKvalNimetusOrig() : null)
+              .put("eqfTase", valisKval.isSetEqfTase() ? valisKval.getEqfTase() : null)
+              .put("iscedTase", valisKval.isSetIscedTase()
+                  ? valisKval.getIscedTase() : null)
+              .put("valjaandmKp", valisKval.isSetValjaandmKp()
+                  ? ehisDateFormat(valisKval.getValjaandmKp()) : null)
+              .put("dokumendiNumber", valisKval.isSetDokumendiNumber()
+                  ? valisKval.getDokumendiNumber() : null)
+              .put("enicNaricHinnanguKp", valisKval.isSetEnicNaricHinnanguKp()
+                  ? ehisDateFormat(valisKval.getEnicNaricHinnanguKp()) : null)
+              .put("enicNaricHinnanguNumber", valisKval.isSetEnicNaricHinnanguNumber()
+                  ? valisKval.getEnicNaricHinnanguNumber() : null)
+              .put("kommentaar", valisKval.isSetKommentaar()
+                  ? valisKval.getKommentaar() : null)
+
+          );
+
+      ArrayNode enne2004KvalArrayNode = valueNode.putArray("enne2004Kvalifikatsioon");
+      response.getIsikukaart().getValiskvalifikatsioonList().stream()
+          .filter(s -> s.getTyyp().equalsIgnoreCase("ENNE_2004_EESTI"))
+          .forEach(enneKval -> enne2004KvalArrayNode.addObject()
+              .put("riik", enneKval.isSetRiik() ? enneKval.getRiik() : null)
+              .put("oppekavaNimetusEesti", enneKval.isSetOppekavaNimetusEesti()
+                  ? enneKval.getOppekavaNimetusEesti() : null)
+              .put("oppekavaNominKestus", enneKval.isSetOppekavaNominKestus()
+                  ? enneKval.getOppekavaNominKestus() : null)
+              .put("lisaKval", enneKval.isSetLisaKval() ? enneKval.getLisaKval() : null)
+              .put("dokument", enneKval.isSetDokument() ? enneKval.getDokument() : null)
+              .put("kvalVastavus", enneKval.isSetKvalVastavus()
+                  ? enneKval.getKvalVastavus() : null)
+              .put("kvalNimetusOrig", enneKval.isSetKvalNimetusOrig()
+                  ? enneKval.getKvalNimetusOrig() : null)
+              .put("eqfTase", enneKval.isSetEqfTase() ? enneKval.getEqfTase() : null)
+              .put("iscedTase", enneKval.isSetIscedTase() ? enneKval.getIscedTase() : null)
+              .put("valjaandmKp", enneKval.isSetValjaandmKp()
+                  ? ehisDateFormat(enneKval.getValjaandmKp()) : null)
+              .put("dokumendiNumber", enneKval.isSetDokumendiNumber()
+                  ? enneKval.getDokumendiNumber() : null)
+              .put("kommentaar", enneKval.isSetKommentaar()
+                  ? enneKval.getKommentaar() : null));
 
       logForDrupal.setMessage("EHIS - eeIsikukaart.v1 teenuselt andmete pärimine õnnestus.");
     } catch (Exception e) {
