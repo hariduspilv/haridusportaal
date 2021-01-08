@@ -7,14 +7,14 @@
       <ng-container *ngIf="generalEducationDocumentType;else singleDocument">
         <block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
               
-          <block-title>{{'certificates.title' | translate }}</block-title>
+          <block-title>{{'certificates.final_document' | translate }}</block-title>
         
           <block-secondary-title>
-            {{ 'certificates.certificate_nr' | translate }} {{documents.certificate?.number}}
+            {{ typeTranslation }} nr {{documents.certificate?.number}}
           </block-secondary-title>
 
           <block-content
-            [tabLabel]="'certificates.graduation_certificate' | translate"
+            [tabLabel]="typeTranslation"
             tabIcon="columns"
           >
             <certificate [document]="documents.certificate" #certificate></certificate>
@@ -34,7 +34,7 @@
           <block-title>{{'certificates.final_document' | translate }}</block-title>
         
           <block-secondary-title>
-            {{ typeTranslation | translate }} nr {{ documents.certificate?.content?.registrationNumber }}
+            {{ typeTranslation }} nr {{ documents.certificate?.content?.registrationNumber }}
             <ng-container *ngIf="documents.certificate?.content?.duplicateCertificateNumber">
               <div class="duplicate duplicate-badge">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</div>
             </ng-container>

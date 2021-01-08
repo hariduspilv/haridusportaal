@@ -209,4 +209,12 @@ export class CertificatesUtility {
     }
     return initial;
   }
+
+  public static typeTitle(
+    document: CertificateDocument,
+    alldocs: CertificateDocumentWithClassifier[],
+  ): string {
+    const classifier = alldocs.find(xdoc => xdoc.type === document.type);
+    return classifier.metadata.shortName || classifier.typeName;
+  }
 }

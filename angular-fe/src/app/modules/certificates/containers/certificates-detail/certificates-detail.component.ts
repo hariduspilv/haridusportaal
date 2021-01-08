@@ -26,6 +26,7 @@ export class CertificatesDetailComponent implements OnInit {
   public transcriptDocuments: CertificateDocumentWithClassifier[];
   public mainLanguage = GraduationDocumentLanguage.emakeelEt;
   public title = '';
+  public typeTranslation = this.translate.get('certificates.graduation_certificate');
 
   @ViewChildren('certificate') public certificate:QueryList<any>;
   @ViewChildren('gradeSheet') public gradeSheet:QueryList<any>;
@@ -135,6 +136,10 @@ export class CertificatesDetailComponent implements OnInit {
             this.accessType,
             this.certificateData);
           this.loading = false;
+          this.typeTranslation = CertificatesUtility.typeTitle(
+            this.documents.certificate,
+            this.transcriptDocuments,
+          );
         });
       } else {
         this.sidebar = CertificatesUtility.composeSidebarData(
@@ -164,15 +169,5 @@ export class CertificatesDetailComponent implements OnInit {
         : AccessType.ID_CODE;
     }
     this.getCertificate();
-  }
-
-  public get typeTranslation(): string {
-    if (!this.documents?.certificate) {
-      return 'frontpage.dashboard_tabs_certificate';
-    }
-    if (this.documents.certificate.type.indexOf('DIPLOMA') !== -1) {
-      return 'finaldocuments.diploma';
-    }
-    return 'certificates.graduation_certificate';
   }
 }
