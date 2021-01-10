@@ -45,6 +45,8 @@ class ProcessOskaTableData {
             $object['ettepanek'] = mb_strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
             $object['peavastutaja'] = mb_strlen($item['peavastutaja']) <= 100 ? $item['peavastutaja'] : FALSE;
             $object['staatus'] = mb_strlen($item['staatus']) <= 50 ? $item['staatus'] : FALSE;
+            //$object['varv'] = ($item['varv'] < 1 || $item['varv'] > 4) ? $item['varv'] : FALSE;
+            $object['varv'] = TRUE;
             $object['kommentaar'] = mb_strlen($item['kommentaar']) <= 500 ? $item['kommentaar'] : FALSE;
 
             if(
@@ -55,6 +57,8 @@ class ProcessOskaTableData {
                 !$object['peavastutaja']
                 ||
                 !$object['staatus']
+                ||
+                !$object['varv']
                 ||
                 !$object['kommentaar']){
 
@@ -72,6 +76,7 @@ class ProcessOskaTableData {
                     'proposal' => $object['ettepanek'],
                     'responsible' => $object['peavastutaja'],
                     'proposal_status' => $object['staatus'],
+                    'proposal_status_color' => $object['varv'],
                     'expert_commentary' => $object['kommentaar'],
 
                 ];
