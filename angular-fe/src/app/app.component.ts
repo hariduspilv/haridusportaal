@@ -142,6 +142,9 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.sidemenuService.isVisibleSubscription.subscribe((val) => {
       this.sidemenuIsVisible = val;
     });
+    if(!sessionStorage.getItem('ehisToken')) {
+      this.auth.getAnonToken();
+    }
 
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {

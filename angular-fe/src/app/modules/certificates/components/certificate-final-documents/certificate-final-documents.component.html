@@ -81,9 +81,7 @@
   <accordion-item [title]="'certificates.disclosed' | translate">
     <ng-template>
       <more-block id="avalikustatud-tunnistused" content="abitekst.avalikustatud_tunnistused"></more-block>
-      <ng-container *ngIf="isLoggedIn; else logInButton">
       <loader *ngIf="loading.certificatesByDisclosure; else certificatesByDisclosureRef"></loader>
-
       <ng-template #certificatesByDisclosureRef>
         <form [formGroup]="disclosureFormGroup" (submit)="getCertificateByDisclosure()" id="disclosureAccordion">
          <div class="row"> <div class="col-6"><formItem type="text" formControlName="firstName" [title]="'certificates.first_name' | translate"
@@ -133,7 +131,6 @@
           </table>
         </scrollableContent>
       </ng-template>
-      </ng-container>
       <alerts small="true" id="certificatesByDisclosure"></alerts>
     </ng-template>
     <ng-template #logInButton>

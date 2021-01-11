@@ -62,12 +62,14 @@
               <ng-container *ngIf="issue.issueBase === 'ISSUER'">
                 <td>{{'finalDocument_issue_' + issue.issueBase | translate}}</td>
               </ng-container>
-              <ng-container *ngIf="issue.issueBase === 'USER'">
-                <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ID_CODE'">{{'frontpage.isikukood' | translate}}
-                </td>
-                <td *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">
-                  <p>{{'finaldocuments.accessCode' | translate}}</p>
-                  <p>{{issue.certificateAccess.emailAddress}}</p>
+              <ng-container *ngIf="issue.issueBase !== 'ISSUER'">
+                <td>
+                  <p *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ID_CODE'">{{'frontpage.isikukood' | translate}}</p>
+                  <ng-container *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:ACCESS_CODE'">
+                    <p>{{'finaldocuments.accessCode' | translate}}</p>
+                    <p>{{issue.certificateAccess.emailAddress}}</p>
+                  </ng-container>
+                  <p *ngIf="issue.certificateAccess.type === 'ACCESS_TYPE:DISCLOSURE'">{{'certificates.disclosure' | translate}}</p>
                 </td>
               </ng-container>
               <td>{{'finalDocument_issue_' + issue.issueType | translate}}</td>
