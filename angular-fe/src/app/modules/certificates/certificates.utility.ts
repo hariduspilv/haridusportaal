@@ -135,6 +135,7 @@ export class CertificatesUtility {
           accessScope: certificateData?.role?.accessScope,
           certificateName: `${documents.certificate.content['graduate'].firstName} ${documents.certificate.content['graduate'].lastName}`,
           certificateNumber: documents.certificate.content['registrationNumber'],
+          documentNameForTestingPurposes: documents.certificate.content['documentName'],
           documentName: documents.certificate.content['documentName'],
           hasGradeSheet: documents.transcript?.status !== 'CERT_DOCUMENT_STATUS:INVALID',
           invalid: documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID',
