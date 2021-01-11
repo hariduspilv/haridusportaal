@@ -133,9 +133,9 @@ export class CertificatesUtility {
           id: certificateData?.index?.id,
           withAccess: !!certificateData,
           accessScope: certificateData?.role?.accessScope,
-          certificateName: `${documents.certificate.content['graduate'].firstName} /
-            ${documents.certificate.content['graduate'].lastName}`,
+          certificateName: `${documents.certificate.content['graduate'].firstName} ${documents.certificate.content['graduate'].lastName}`,
           certificateNumber: documents.certificate.content['registrationNumber'],
+          documentName: documents.certificate.content['documentName'],
           hasGradeSheet: documents.transcript?.status !== 'CERT_DOCUMENT_STATUS:INVALID',
           invalid: documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID',
           documents: allDocuments,
