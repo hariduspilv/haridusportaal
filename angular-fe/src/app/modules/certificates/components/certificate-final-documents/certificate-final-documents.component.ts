@@ -119,7 +119,7 @@ export class CertificateFinalDocumentsComponent {
     }
     let params = {};
     if(idCode) {
-      params = { ...params, ownerIdCode: idCode };
+      params = { ownerIdCode: idCode };
     }
     if (firstName && lastName) {
       params = { ownerFirstName: firstName, ownerLastName: lastName };
