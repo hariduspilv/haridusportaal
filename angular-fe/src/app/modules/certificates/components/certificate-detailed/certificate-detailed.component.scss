@@ -14,6 +14,7 @@
       td {
         width: 50%;
         padding-bottom: 0.5rem;
+        vertical-align: text-top;
       
         &:first-child {
           font-weight: 400;
@@ -25,7 +26,6 @@
         &:last-child {
           font-weight: 500;
           color: $black;
-          vertical-align: text-top;
         }
       }
     }
