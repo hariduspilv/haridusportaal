@@ -122,6 +122,12 @@ export class AuthService implements CanActivate {
       });
   }
 
+  public getAnonToken() {
+    this.http.get(`${this.settings.ehisUrl}/users/v1/anonymous/jwt`, {responseType: 'text'}).subscribe((res: string) => {
+      sessionStorage.setItem('ehisToken', res);
+    })
+  }
+
   /**
    * Sets ehis token in cookies
    * @param token - JWT token

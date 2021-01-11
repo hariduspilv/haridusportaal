@@ -720,6 +720,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   public invalidateLoader = false;
   private destroy$: Subject<boolean> = new Subject();
   public isDisclosureAllowed = false;
+  public accessType = AccessType;
 
   @ViewChildren('idCode') public idCodeTemplate: QueryList<any>;
   @ViewChildren('disclosure') public disclosureTemplate: QueryList<any>;
@@ -791,9 +792,9 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     .subscribe((disclosureIsAllowed: boolean) => {
       if(disclosureIsAllowed) {
         this.addAccessOptions.type = [...this.addAccessOptions.type, {
-          key: 'Avalikustamine',
+          key: 'Avalikusta',
           value: AccessType.DISCLOSURE,
-          info: this.translate.get('certificates.access_code_info'),
+          info: this.translate.get('certificates.disclosure_info'),
           requireAttribute: true,
         }]
       }

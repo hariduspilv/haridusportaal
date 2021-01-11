@@ -96,7 +96,6 @@
 				<ng-container *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:ID_CODE'">
 					<h3>{{'finaldocuments.access_with_idcode' | translate}}</h3>
 					<p>{{'finaldocuments.insert_id_code' | translate}}</p>
-
 					<formItem
 						*ngIf="accessAction === 'add'"
 						[error]="
@@ -113,10 +112,12 @@
 						[value]="addAccessForm.value.accessorCode | idCode">
 					</formItem>
 				</ng-container>
-				<p>{{'finaldocuments.choose_access_scope' | translate}}</p>
+				<p *ngIf="addAccessForm.value.type === accessType.DISCLOSURE">{{'finaldocuments.choose_access_scope_disclosure' | translate}}</p>
+				<p *ngIf="addAccessForm.value.type !== accessType.DISCLOSURE">{{'finaldocuments.choose_access_scope' | translate}}</p>
 				<formItem
 				 name="scope" formControlName="scope" type="radio" [options]="addAccessOptions.scope"></formItem>
-				<p>{{'finaldocuments.choose_access_end_date' | translate}}</p>
+				<p *ngIf="addAccessForm.value.type === accessType.DISCLOSURE">{{'finaldocuments.choose_disclosure_end_date' | translate}}</p>
+				<p *ngIf="addAccessForm.value.type !== accessType.DISCLOSURE">{{'finaldocuments.choose_access_end_date' | translate}}</p>
 				<div class="split">
 					<formItem forcePlaceholder="true" type="date" [error]="
 					addAccessForm.errors?.invalidDate
@@ -195,7 +196,7 @@
 			{{('finaldocuments.confirm_invalidate_email' | translate).replace('%EMAIL%', addAccessForm.value.emailAddress)}}
 		</h1>
 		<h1 *ngIf="addAccessForm.value.type === 'ACCESS_TYPE:DISCLOSURE'">
-			{{('finaldocuments.confirm_invalidate_email' | translate).replace('%EMAIL%', addAccessForm.value.emailAddress)}}
+			{{('finaldocuments.confirm_invalidate_disclosure' | translate)}}
 		</h1>
 		<div class="button-row" *ngIf="!invalidateLoader">
 			<button htm-button (click)="modal.toggle('finalDocument-access')" theme="link">
@@ -225,7 +226,7 @@
 		<p>{{'finaldocuments.idcode_scope' | translate}}:</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
-		<p>{{'finaldocuments.idcode_end_date' | translate}}:</p>
+		<p *ngIf="addAccessForm.value.type !== accessType.DISCLOSURE">{{'finaldocuments.idcode_end_date' | translate}}:</p>
 		<div class="split">
 			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true"
 				placeholder="pp.kk.aaaa"></formItem>
@@ -290,10 +291,10 @@
 	<form [formGroup]="addAccessForm">
 		<!-- <p>{{'finaldocuments.issuer' | translate}}</p>
 		<h2>{{data.issuerInstitution}}</h2> -->
-		<p>{{'finaldocuments.idcode_scope' | translate}}</p>
+		<p>{{'finaldocuments.disclosure_scope' | translate}}</p>
 		<formItem name="scope" [disabled]="true" formControlName="scope" type="radio" [options]="addAccessOptions.scope">
 		</formItem>
-		<p>{{'finaldocuments.idcode_end_date' | translate}}</p>
+		<p>{{'finaldocuments.disclosure_end_date' | translate}}</p>
 		<div class="split">
 			<formItem forcePlaceholder="true" type="date" formControlName="endDate" [disabled]="true"
 				placeholder="pp.kk.aaaa"></formItem>
