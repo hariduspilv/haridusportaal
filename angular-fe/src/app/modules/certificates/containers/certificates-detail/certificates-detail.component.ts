@@ -168,7 +168,6 @@ export class CertificatesDetailComponent implements OnInit {
         ? AccessType.ACCESS_CODE
         : AccessType.ID_CODE;
     }
-    console.log(this.accessType)
     this.getCertificate();
   }
 }
