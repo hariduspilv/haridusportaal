@@ -32,10 +32,16 @@ class ProcessOskaTableData {
         $object = [
             'valdkond' => false,
         ];
+
         foreach ($items as $index => $item){
 
+
             foreach($item as $key => $value){
-                if(mb_detect_encoding($key) == 'UTF-8'){
+                if($key === 'varv'){
+                  unset($item[$key]);
+                  $item[cleanString($key)] = (int)$value;
+                }
+                elseif(mb_detect_encoding($key) == 'UTF-8'){
                     unset($item[$key]);
                     $item[cleanString($key)] = $value;
                 }
@@ -45,8 +51,7 @@ class ProcessOskaTableData {
             $object['ettepanek'] = mb_strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
             $object['peavastutaja'] = mb_strlen($item['peavastutaja']) <= 100 ? $item['peavastutaja'] : FALSE;
             $object['staatus'] = mb_strlen($item['staatus']) <= 50 ? $item['staatus'] : FALSE;
-            //$object['varv'] = ($item['varv'] < 1 || $item['varv'] > 4) ? $item['varv'] : FALSE;
-            $object['varv'] = TRUE;
+            $object['varv'] = ($item['varv'] >= 1 && $item['varv'] <= 4) ? $item['varv'] : FALSE;
             $object['kommentaar'] = mb_strlen($item['kommentaar']) <= 500 ? $item['kommentaar'] : FALSE;
 
             if(
