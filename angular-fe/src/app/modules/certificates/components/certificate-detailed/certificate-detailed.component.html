@@ -124,6 +124,10 @@
       <td>{{ 'finaldocuments.length_of_programme' | translate }}:</td>
       <td>{{ documents.supplement.content.studies.officialLengthOfProgramme }}</td>
     </tr>
+    <tr *ngIf="documents.certificate?.content?.qualificationWithinCurrentFramework">
+      <td>{{ 'finaldocuments.qualification_within_framework' | translate }}:</td>
+      <td>{{ documents.certificate.content.qualificationWithinCurrentFramework }}</td>
+    </tr>
     <tr *ngIf="documents.supplement?.content?.levelOfQualification?.levelOfEducation">
       <td>{{ 'finaldocuments.level_of_qualification' | translate }}:</td>
       <td>{{ documents.supplement.content.levelOfQualification.levelOfEducation }}</td>
