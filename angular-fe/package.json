@@ -12,7 +12,7 @@
     "build-storybook": "build-storybook -c .storybook -o dist/storybook",
     "deploy-storybook": "build-storybook -c .storybook -o dist/storybook && node scripts/deploy-storybook.js",
     "deploy-app": "ng build --configuration dev && node scripts/deploy-edu.js",
-    "deploy": "npm run deploy-app && npm run deploy-storybook"
+    "build-app-with-storybook": "npm run build && npm run build-storybook"
   },
   "private": true,
   "dependencies": {

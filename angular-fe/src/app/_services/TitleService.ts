@@ -3,7 +3,7 @@ import { Title } from '@angular/platform-browser';
 
 @Injectable()
 export class TitleService {
-  public site = 'Haridusportaal.edu.ee';
+  public site = 'Haridusportaal edu.ee';
   public delimeter = '|';
   public currentTitle: string = '';
 
