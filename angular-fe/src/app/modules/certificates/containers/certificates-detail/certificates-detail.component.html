@@ -6,7 +6,7 @@
       <ng-container *ngIf="generalEducationDocumentType;else singleDocument">
         <block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
           <block-title>
-            {{'certificates.final_document' | translate }} <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ID_CODE'"><icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}</a>
+            {{'certificates.final_document' | translate }} <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ACCESS_TYPE:ID_CODE'"><icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}</a>
           </block-title>
 
           <block-secondary-title>
@@ -38,7 +38,7 @@
       <ng-template #singleDocument>
         <block [titleBorder]="false">
           <block-title>
-            {{'certificates.final_document' | translate }} <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ID_CODE'"><icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}</a>
+            {{'certificates.final_document' | translate }} <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ACCESS_TYPE:ID_CODE'"><icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}</a>
           </block-title>
         
           <block-secondary-title>
