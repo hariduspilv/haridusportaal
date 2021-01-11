@@ -82,7 +82,7 @@ export class CertificatesApi {
       requests.push(
         this.classifiers.fetchClassifierItemByItemCodeWithParameters(
           document.type,
-          { language: this.getLanguageCodeFromString(document.language) }
+          { language: this.getLanguageCodeFromString(document.language) },
         ).pipe(map(graduationType => ({
           ...document,
           metadata: graduationType,
@@ -94,6 +94,12 @@ export class CertificatesApi {
     return forkJoin(requests);
   }
 
+  getQualificationFrameworks(key: string, language: string): Observable<ClassifierItemsQueryItem> {
+    return this.classifiers.fetchClassifierItemByItemCodeWithParameters(key, {
+      language: this.getLanguageCodeFromString(language),
+    });
+  }
+
   getLanguageCodeFromString(languageString: string): string {
     return languageString ? languageString.split(':')[1] : null;
   }
@@ -101,11 +107,10 @@ export class CertificatesApi {
   getDocumentsWithAllowedDisclosure(): Observable<ClassifierItemsQuery> {
     return this.classifiers
       .fetchClassifierItemsByDefinitionCodeWithParameters(
-        ClassifierDefinitionCode.GRADUATION_DOCUMENT_TYPE,
-        {
+        ClassifierDefinitionCode.GRADUATION_DOCUMENT_TYPE, {
           attributeDefinitionCode:
-          ClassifierAttributeDefinitionCode.GRADUATION_DOCUMENT_TYPE_DISCLOSURE_ALLOWED
-        }
+            ClassifierAttributeDefinitionCode.GRADUATION_DOCUMENT_TYPE_DISCLOSURE_ALLOWED,
+        },
       );
   }
 
@@ -121,7 +126,7 @@ export class CertificatesApi {
       if (item) {
         const attribute: ClassifierAttribute = item.attributes
           .find((
-            el: ClassifierAttribute
+            el: ClassifierAttribute,
           ) => el.code === GraduationDocumentAttribute.DISCLOSURE_ALLOWED);
         isAllowed.next(!!parseInt(attribute.value, 10));
       }
