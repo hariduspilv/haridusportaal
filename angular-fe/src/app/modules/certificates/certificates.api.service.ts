@@ -120,7 +120,7 @@ export class CertificatesApi {
       const items: ClassifierItemsQueryItem[] = res.classifierItems;
       const item = items.filter((el: ClassifierItemsQueryItem) => el.attributes.find(
         (attribute: ClassifierAttribute) => attribute.code === GraduationDocumentAttribute
-          .DISCLOSURE_ALLOWED && attribute.value === '1'
+          .DISCLOSURE_ALLOWED && attribute.value === '1',
       )).find((el: ClassifierItemsQueryItem) => el.code === document);
 
       if (item) {
