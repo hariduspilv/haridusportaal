@@ -7,6 +7,7 @@ export interface FinalDocumentDownloadSidebar {
   accessType: string;
   certificateName: string;
   certificateNumber: string;
+  documentName: string;
   documents: CertificateDocumentWithClassifier[];
   generalEducationDocumentType: boolean;
   hasGradeSheet: boolean;
