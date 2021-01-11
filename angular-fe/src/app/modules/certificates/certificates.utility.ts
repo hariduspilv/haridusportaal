@@ -203,13 +203,25 @@ export class CertificatesUtility {
         initial.transcript = CertificatesUtility.parseDocumentContent(doc.document);
       } else {
         initial.certificate = CertificatesUtility.parseDocumentContent(doc.document);
-        (initial.certificate.content as CertificateDocumentContent)
-          .currentOwnerData = data.currentOwnerData;
+        // content as CertificateDocumentContent
+        const content = initial.certificate.content as CertificateDocumentContent;
+        // Pass current owner data to certificate content
+        content.currentOwnerData = data.currentOwnerData;
+        // Pass qualificationWithinCurrentFramework to certificate content, if present
+        if (data.index.qualificationWithinCurrentFramework) {
+          content.qualificationWithinCurrentFramework =
+            data.index.qualificationWithinCurrentFramework;
+        }
       }
     }
     return initial;
   }
 
+  /**
+   * Get short title for document type
+   * @param document Document
+   * @param alldocs Documents with classifiers
+   */
   public static typeTitle(
     document: CertificateDocument,
     alldocs: CertificateDocumentWithClassifier[],

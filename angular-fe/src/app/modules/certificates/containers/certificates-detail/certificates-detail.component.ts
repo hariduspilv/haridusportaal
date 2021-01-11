@@ -12,6 +12,7 @@ import { CertificateDocumentResponse } from '../../models/interfaces/certificate
 import { CertificateIndex } from '../../models/interfaces/certificate-index';
 import { GraduationDocumentLanguage } from '../../models/enums/graduation-document-language.enum';
 import { AccessType } from '../../models/enums/access-type.enum';
+import { CertificateDocumentContent } from '../../models/interfaces/certificate-document-content';
 
 @Component({
   selector: 'certificates-detail',
@@ -135,11 +136,18 @@ export class CertificatesDetailComponent implements OnInit {
             this.generalEducationDocumentType,
             this.accessType,
             this.certificateData);
-          this.loading = false;
           this.typeTranslation = CertificatesUtility.typeTitle(
             this.documents.certificate,
             this.transcriptDocuments,
           );
+          if (data.index.qualificationWithinCurrentFramework) {
+            this.api.getQualificationFrameworks(
+              data.index.qualificationWithinCurrentFramework,
+              this.documents.certificate.language)
+              .subscribe(resp => (this.documents.certificate.content as CertificateDocumentContent)
+                .qualificationWithinCurrentFramework = resp.name);
+          }
+          this.loading = false;
         });
       } else {
         this.sidebar = CertificatesUtility.composeSidebarData(

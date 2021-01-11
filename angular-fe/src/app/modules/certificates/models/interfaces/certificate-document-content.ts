@@ -18,6 +18,7 @@ export interface CertificateDocumentContent {
   educationalInstitution?: EducationalInstitution;
   graduate: Graduate;
   currentOwnerData?: CurrentOwnerData;
+  qualificationWithinCurrentFramework?: string;
   issued?: Issued;
   registrationNumber: string;
   levelOfQualification?: CertificateLevelOfQualification;

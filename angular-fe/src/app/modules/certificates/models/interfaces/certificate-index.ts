@@ -28,6 +28,7 @@ export interface CertificateIndex {
   issuerRegCode: string;
   curriculum: string;
   curriculumName: string;
+  qualificationWithinCurrentFramework?: string;
   documents?: CertificateDocument[];
 }
 

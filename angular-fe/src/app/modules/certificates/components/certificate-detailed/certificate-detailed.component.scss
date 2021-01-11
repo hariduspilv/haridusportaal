@@ -1,4 +1,5 @@
 @import 'colors.scss';
+@import 'breakpoints.scss';
 
 :host {
   table {
@@ -13,10 +14,14 @@
       td {
         width: 50%;
         padding-bottom: 0.5rem;
+        vertical-align: text-top;
       
         &:first-child {
-          font-weight: 200;
+          font-weight: 400;
           color: $dark-gray;
+          @include break-on(xxs, min) {
+            padding-right: 2rem;
+          }
         }
         &:last-child {
           font-weight: 500;
