@@ -36,7 +36,6 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
     if (this.path && this.path.length !== 0) {
       this.getData();
     } else {
-      // tslint:disable-next-line: max-line-length
       this.titleService.setTitle(this.data[this.data.length - 1].title);
     }
   }
