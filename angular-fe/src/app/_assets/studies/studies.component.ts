@@ -4,7 +4,7 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AccordionComponent } from '../accordion';
-import { StudiesResponse } from './studies.model';
+import { Studies, StudiesResponse } from './studies.model';
 
 @Component({
   selector: 'studies',
@@ -14,8 +14,8 @@ import { StudiesResponse } from './studies.model';
 
 export class StudiesComponent implements OnInit {
   @Input() jwt;
-  @ViewChild('sudiesAccordion') accordion: AccordionComponent;
-  content: any = false;
+  @ViewChild('studiesAccordion') accordion: AccordionComponent;
+  content: Studies[];
   loading: boolean = true;
   error: boolean = false;
   requestErr: boolean = false;

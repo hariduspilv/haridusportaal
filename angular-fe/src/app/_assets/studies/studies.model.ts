@@ -18,6 +18,7 @@ export interface Curriculum {
   kvalifikatsiooniVastavus?: string;
   akadKraad?: string;
   kvalDokument?: string;
+  kestus?: string;
 }
 
 export interface StudyType {

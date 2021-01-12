@@ -36,7 +36,7 @@
 
 <loader *ngIf="loading && !error"></loader>
 <alerts id="studies" small="true"></alerts>
-<accordion #sudiesAccordion *ngIf="!loading && !error" (onChange)="accordionChange($event);">
+<accordion #studiesAccordion *ngIf="!loading && !error" (onChange)="accordionChange($event);">
   <accordion-item *ngFor="let item of content; let first = first;let ind = index;"
     [title]="item.oppeasutus + (item.staatus ? ', ' + parseTypeTranslation(item.staatus) : '') + (item.oppLopp ? ' ' + item.oppLopp : '')">
     <ng-template>
@@ -59,13 +59,17 @@
             <td colspan="100%">{{ 'frontpage.oppekava' | translate }}</td>
           </tr>
           <ng-container *ngFor="let elem of item.oppekava; let secondIndex = index;let last = last;">
-            <tr *ngIf="elem.oppekavaKood" [class.extraBottom]="!elem.oppekavaNimetus">
+            <tr *ngIf="elem.oppekavaKood">
               <td class="additional multi--bordered">{{ 'frontpage.oppekavaKood' | translate }} </td>
               <td class="additional multi--bordered">{{ elem.oppekavaKood }}</td>
             </tr>
-            <tr *ngIf="elem.oppekavaNimetus" [class.extraBottom]="!elem.kvalifikatsiooniVastavus">
+            <tr *ngIf="elem.oppekavaNimetus">
               <td class="additional">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
               <td class="additional">{{ parseTypeTranslation(elem.oppekavaNimetus) }}</td>
+            </tr>
+            <tr *ngIf="item.kestus" [class.extraBottom]="!elem.kvalifikatsiooniVastavus">
+              <td class="normal">{{ 'frontpage.kestus' | translate }}</td>
+              <td class="normal">{{ elem.kestus || item.kestus }}</td>
             </tr>
             <tr *ngIf="elem.kvalifikatsiooniVastavus" [class.extraBottom]="!elem.akadKraad">
               <td class="additional">{{ 'frontpage.kvalifikatsiooniVastavus' | translate }} </td>
@@ -102,10 +106,6 @@
           <td class="normal">{{ 'frontpage.klassAste' | translate }}</td>
           <td class="normal">{{ item.klassAste }}</td>
         </tr>
-        <tr *ngIf="item.kestus">
-          <td class="normal">{{ 'frontpage.kestus' | translate }}</td>
-          <td class="normal">{{ item.kestus }}</td>
-        </tr>
         <tr
           *ngIf="item.oppevorm?.length && !item.oppLopp && item.haridustase !== 'YLIKOOL' && item.haridustase !== 'KUTSEKOOL'">
           <!-- Õppevorm -->
@@ -128,6 +128,10 @@
         <tr *ngIf="item.oppLopp">
           <td class="normal">{{ 'frontpage.oppLopp' | translate }}</td>
           <td class="normal">{{ item.oppLopp }}</td>
+        </tr>
+        <tr *ngIf="item.nomLopp && !item.oppLopp">
+          <td class="normal">{{ 'frontpage.nomLopp' | translate }}</td>
+          <td class="normal">{{ item.nomLopp }}</td>
         </tr>
         <tr
           *ngIf="item.oppevorm?.length && !item.oppLopp && (item.haridustase === 'YLIKOOL' || item.haridustase === 'KUTSEKOOL')">
