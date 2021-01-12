@@ -4,6 +4,7 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AccordionComponent } from '../accordion';
+import { StudiesResponse } from './studies.model';
 
 @Component({
   selector: 'studies',
@@ -45,7 +46,7 @@ export class StudiesComponent implements OnInit {
         `${this.settings.url}/dashboard/eeIsikukaart/studies?_format=json`,
       )
       .subscribe(
-        (response: any) => {
+        (response: StudiesResponse) => {
           if (response.error) {
             this.error = true;
             this.requestErr = true;
@@ -53,10 +54,10 @@ export class StudiesComponent implements OnInit {
             this.alertsService
               .info(response.error.message_text[currentLang], 'studies', 'studies', false, false);
           } else {
-            if (response['value'] && response['value']['isikuandmed']) {
-              this.oppelaenOigus = response['value']['isikuandmed']['oppelaenOigus'];
+            if (response.value?.isikuandmed) {
+              this.oppelaenOigus = response.value.isikuandmed.oppelaenOigus;
             }
-            const resultData = response['value']['oping'];
+            const resultData = response.value.oping;
             this.content = resultData.sort((a, b) => {
               const arrA = a.oppAlgus.split('.');
               const valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;

@@ -5,15 +5,15 @@
   <a routerLink="digitempel">{{ 'dashboard.digital_sign.button' | translate }}</a>
   <icon glyph="help-circle" ngbTooltip="{{ 'dashboard.digital_sign.tooltip' | translate }}" placement="bottom"></icon>
 </div>
-<ng-container *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
+<ng-container *ngIf="oppelaenOigus?.length">
   <h2>{{ 'frontpage.oppelaenOigus' | translate }}</h2>
   <table htm-table class="mb">
     <tbody>
-      <tr *ngIf="oppelaenOigus && oppelaenOigus.length !== 0">
+      <tr *ngIf="oppelaenOigus?.length">
         <td colspan="3">{{ 'frontpage.oppelaenOigus' | translate }}</td>
         <td colspan="3">{{ oppelaenOigus.oigus }}</td>
       </tr>
-      <tr *ngIf="oppelaenOigus && oppelaenOigus.pohjus && oppelaenOigus.pohjus.length > 0">
+      <tr *ngIf="oppelaenOigus?.pohjus.length">
         <td class="regular" colspan="100%">
           <ng-container *ngFor="let reason of oppelaenOigus.pohjus; let secondIndex = index; let last = last;">
             <div [class.mb]="!last">{{ parseTypeTranslation(reason) }}</div>
@@ -26,7 +26,7 @@
 
 <h2 class="middleTitle">
   <span>{{ 'frontpage.studies_data' | translate }}</span>
-  <ng-container *ngIf="content && content.length">
+  <ng-container *ngIf="content?.length">
     <a *ngIf="totalAccordions > activeAccordions"
       (click)="openAllAccordions();">{{ 'frontpage.studies.openAll' | translate }}</a>
     <a *ngIf="totalAccordions === activeAccordions"
@@ -53,7 +53,7 @@
           <td class="normal">{{ 'frontpage.haridustase' | translate }}</td>
           <td class="normal">{{ parseTypeTranslation(item.haridustase) }}</td>
         </tr>
-        <ng-container *ngIf="item.oppekava && item.oppekava.length">
+        <ng-container *ngIf="item.oppekava?.length">
           <!--Oppekavad-->
           <tr class="extraRow">
             <td colspan="100%">{{ 'frontpage.oppekava' | translate }}</td>
@@ -63,9 +63,21 @@
               <td class="additional multi--bordered">{{ 'frontpage.oppekavaKood' | translate }} </td>
               <td class="additional multi--bordered">{{ elem.oppekavaKood }}</td>
             </tr>
-            <tr *ngIf="elem.oppekavaNimetus" [class.extraBottom]="elem.oppekavaNimetus">
+            <tr *ngIf="elem.oppekavaNimetus" [class.extraBottom]="!elem.kvalifikatsiooniVastavus">
               <td class="additional">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
               <td class="additional">{{ parseTypeTranslation(elem.oppekavaNimetus) }}</td>
+            </tr>
+            <tr *ngIf="elem.kvalifikatsiooniVastavus" [class.extraBottom]="!elem.akadKraad">
+              <td class="additional">{{ 'frontpage.kvalifikatsiooniVastavus' | translate }} </td>
+              <td class="additional">{{ elem.kvalifikatsiooniVastavus }}</td>
+            </tr>
+            <tr *ngIf="elem.akadKraad" [class.extraBottom]="!elem.kvalDokument">
+              <td class="additional">{{ 'frontpage.akadKraad' | translate }} </td>
+              <td class="additional">{{ elem.akadKraad }}</td>
+            </tr>
+            <tr *ngIf="elem.kvalDokument" [class.extraBottom]="elem.kvalDokument">
+              <td class="additional">{{ 'frontpage.kvalDokument' | translate }} </td>
+              <td class="additional">{{ elem.kvalDokument }}</td>
             </tr>
           </ng-container>
         </ng-container>
@@ -95,7 +107,7 @@
           <td class="normal">{{ item.kestus }}</td>
         </tr>
         <tr
-          *ngIf="item.oppevorm && item.oppevorm.length && !item.oppLopp && item.haridustase !== 'YLIKOOL' && item.haridustase !== 'KUTSEKOOL'">
+          *ngIf="item.oppevorm?.length && !item.oppLopp && item.haridustase !== 'YLIKOOL' && item.haridustase !== 'KUTSEKOOL'">
           <!-- Õppevorm -->
           <td class="normal">{{ 'frontpage.oppevorm' | translate }}</td>
           <td class="normal">
@@ -118,7 +130,7 @@
           <td class="normal">{{ item.oppLopp }}</td>
         </tr>
         <tr
-          *ngIf="item.oppevorm && item.oppevorm.length && !item.oppLopp && (item.haridustase === 'YLIKOOL' || item.haridustase === 'KUTSEKOOL')">
+          *ngIf="item.oppevorm?.length && !item.oppLopp && (item.haridustase === 'YLIKOOL' || item.haridustase === 'KUTSEKOOL')">
           <!-- Õppevorm -->
           <td class="normal">{{ 'frontpage.oppevorm' | translate }}</td>
           <td class="normal">
@@ -132,7 +144,7 @@
             </div>
           </td>
         </tr><!-- Õppevorm -->
-        <tr *ngIf="item.koormus && item.koormus.length && !item.oppLopp">
+        <tr *ngIf="item.koormus?.length && !item.oppLopp">
           <!-- Koormus -->
           <td class="normal">{{ 'frontpage.koormus' | translate }}</td>
           <td class="normal">
@@ -148,7 +160,7 @@
             </ng-container>
           </td>
         </tr><!-- Koormus -->
-        <tr *ngIf="item.oppekavataitine && item.oppekavataitine.length !== 0">
+        <tr *ngIf="item.oppekavataitine?.length !== 0">
           <td class="normal">{{ 'frontpage.oppekavataitmine' | translate }}</td>
           <td class="normal">{{ item.oppekavataitine.protsent }}% ({{ item.oppekavataitine.otsusKp}}
             {{ 'frontpage.seisuga' | translate }})</td>
@@ -173,7 +185,7 @@
           <td class="normal">{{ 'frontpage.koht' | translate }}</td>
           <td class="normal">{{ item.koht }}</td>
         </tr>
-        <ng-container *ngIf="item.finAllikas && item.finAllikas.length">
+        <ng-container *ngIf="item.finAllikas?.length">
           <!--finAllikas-->
           <tr class="extraRow">
             <td colspan="100%">{{ 'frontpage.finAllikas' | translate }}</td>
@@ -198,7 +210,7 @@
           </ng-container>
         </ng-container>
         <!--finAllikas-->
-        <ng-container *ngIf="item.akadPuhkus && item.akadPuhkus.length">
+        <ng-container *ngIf="item.akadPuhkus?.length">
           <!--akadPuhkus-->
           <tr class="extraRow">
             <td colspan="100%">{{ 'frontpage.akadPuhkus' | translate }}</td>
@@ -223,7 +235,7 @@
           </ng-container>
         </ng-container>
         <!--akadPuhkus-->
-        <ng-container *ngIf="item.ennistamine && item.ennistamine.length">
+        <ng-container *ngIf="item.ennistamine?.length">
           <!--ennistamine-->
           <tr class="extraRow">
             <td colspan="100%">{{ 'frontpage.ennistamine' | translate }}</td>
@@ -252,7 +264,7 @@
           <td class="normal">{{ 'frontpage.puudumised' | translate }}</td>
           <td class="normal">{{ item.puudumised }}</td>
         </tr>
-        <ng-container *ngIf="item.kutseKoolitus && item.kutseKoolitus.length">
+        <ng-container *ngIf="item.kutseKoolitus?.length">
           <!--kutseKoolitus-->
           <tr class="extraRow">
             <td colspan="100%">{{ 'frontpage.kutseKoolitus' | translate }}</td>
