@@ -27,26 +27,6 @@ export class AuthInterceptor implements HttpInterceptor{
 
     let headers = request.headers;
 
-    /*if (this.authService.isLoggedIn() && !request.url.match(`${this.settings.url}/ehis/jwt`)) {
-      const token: string = sessionStorage.getItem('token');
-      headers = headers
-        .set('Authorization', `Bearer ${token}`);
-    }
-
-    if (
-      this.authService.isLoggedIn() &&
-      request.url.includes('/messages/messages/receiver')
-    ) {
-      const token = sessionStorage.getItem('ehisToken');
-      headers = headers
-      .set('Authorization', `Bearer ${token}`);
-    }*/
-
-      // if (!this.authService.isLoggedIn() && this.ehisUrls.some(url => request.url.includes(url))) {
-      //   headers = headers
-      //   .set('Authorization', `Bearer ${sessionStorage.getItem('ehisToken')}`);
-      // }
-
     if (
       this.authService.isLoggedIn()
        && !request.url.match(`${this.settings.url}/ehis/jwt`)
