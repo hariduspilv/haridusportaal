@@ -125,7 +125,7 @@ export class CertificateFinalDocumentsComponent {
       params = { ownerFirstName: firstName, ownerLastName: lastName };
     }
     this.loading.certificatesByDisclosure = true;
-    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`, { params: { ...params }}).subscribe((res: any) => {
+    this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`, { params: { ...params, accessType: AccessType.DISCLOSURE }}).subscribe((res: any) => {
       this.certificatesByDisclosure = res.certificates;
       this.loading.certificatesByDisclosure = false;
     }, () => {
