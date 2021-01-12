@@ -121,3 +121,13 @@ $md-break: 1280px;
 		@include break-on(sm, min) {padding-right: 1rem;flex-direction: row;} 
 	}
 }
+
+$sides: left, top, bottom, right;
+
+@for $i from 1 to 4 {
+	@each $side in $sides {
+		.m-#{$side}-#{$i} {
+			margin-#{$side}: #{$i}rem;
+		}
+	}
+}
