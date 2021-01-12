@@ -14,6 +14,7 @@ import { AmpService } from './_services/ampService';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { DeviceDetectorModule } from 'ngx-device-detector';
 import { BlobErrorHttpInterceptor } from './_interceptors/blob-error-interceptor';
+import { TitleService } from './_services/TitleService';
 // We dont need short month names at all!
 localeEt[5][1] = localeEt[5][2].map((item) => {
   return item.charAt(0).toUpperCase() + item.slice(1);
@@ -41,6 +42,7 @@ registerLocaleData(localeEt);
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: BlobErrorHttpInterceptor, multi: true },
     AmpService,
+    TitleService,
     Location,
     { provide: 'googleTagManagerId', useValue: 'GTM-WK8H92C' },
   ],
