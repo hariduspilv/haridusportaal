@@ -84,7 +84,7 @@
       <loader *ngIf="loading.certificatesByDisclosure; else certificatesByDisclosureRef"></loader>
       <ng-template #certificatesByDisclosureRef>
         <form [formGroup]="disclosureFormGroup" (submit)="getCertificateByDisclosure()" id="disclosureAccordion">
-         <div class="row"> <div class="col-6"><formItem type="text" formControlName="firstName" [title]="'certificates.first_name' | translate"
+         <div class="row m-bottom-1"> <div class="col-6"><formItem type="text" formControlName="firstName" [title]="'certificates.first_name' | translate"
             [error]="disclosureFormGroup.controls.firstName.invalid && disclosureFormGroup.controls.firstName.dirty"
             [errorMessage]="'errors.field_required' | translate">
           </formItem>
