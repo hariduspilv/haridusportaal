@@ -175,10 +175,7 @@ export class CertificateFinalDocumentsComponent {
   private cleanDisclosureCertificatesResponse(res) {
     return res.certificates
     .filter((certificate) => {
-      if (certificate.status === CertificateSearchCertificateStatus.INVALID) {
-        return false;
-      }
-      return true;
+      return !(certificate.status === CertificateSearchCertificateStatus.INVALID);
     })
     .sort((a, b) => {
       if (new Date(a.issued) < new Date(b.issued)) { 
