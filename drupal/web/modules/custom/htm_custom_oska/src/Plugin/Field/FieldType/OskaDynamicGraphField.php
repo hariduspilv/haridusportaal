@@ -8,7 +8,7 @@ use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\Field\FieldItemBase;
 
 /**
- * Plugin implementation of the 'oska_graph_field' field type.
+ * Plugin implementation of the 'oska_dynamic_graph_field' field type.
  *
  * @FieldType(
  *   id = "oska_dynamic_graph_field",
@@ -45,6 +45,8 @@ class OskaDynamicGraphField extends FieldItemBase {
             ->setLabel(t('Secondary graph type'));
         $properties['graph_text'] = DataDefinition::create('string')
             ->setLabel(t('Graph info text'));
+        $properties['graph_source'] = DataDefinition::create('string')
+          ->setLabel(t('Graph source'));
 
         return $properties;
 
@@ -88,6 +90,13 @@ class OskaDynamicGraphField extends FieldItemBase {
             'description' => 'Graph info text.',
             'type' => 'varchar',
             'not null' => FALSE,
+        ];
+
+        $schema['columns']['graph_source'] = [
+          'description' => 'Graph source.',
+          'maxlength' => 150,
+          'type' => 'varchar',
+          'not null' => FALSE,
         ];
 
 

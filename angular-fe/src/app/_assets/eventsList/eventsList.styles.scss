@@ -171,7 +171,7 @@
           &:hover{text-decoration: none;}
         }
       }
-      #secondClose{position:absolute; top:0; right:0; right:1rem; top:1rem;}
+      #secondClose{position:absolute; top:0; right:0; right:0; top:0;}
       .disableMore {.more__hiddens {display: none;}}
     }
     .popup {position: relative;display: block;
@@ -196,6 +196,13 @@
             a {color:black;}
           }
           &.event__block__more {padding-bottom: $medium;}
+        }
+        &.additional .event__block .title {
+          display: flex;
+          margin-bottom: 1rem;
+          .header {
+            flex-grow: 1;
+          }
         }
         .event__more {padding-top:$small;padding-bottom: $medium;text-align: center;font-size: $small;font-weight: 400;
           a {text-decoration: underline;

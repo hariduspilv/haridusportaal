@@ -22,6 +22,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { SlugifyPipe } from 'ngx-pipes';
 import { ScrollableContentComponent } from '../scrollableContent';
+import { slugifyTitle } from '@app/_core/utility';
 
 @Component({
   selector: 'accordion-item',
@@ -85,12 +86,7 @@ export class AccordionItemComponent {
       this.change.next();
     }
 
-    const slug = this.title.toLowerCase()
-      .replace(/span/g, '')
-      .replace(/<a href=".+?>/g, '')
-      .replace(/<\/a>/g, '')
-      .replace(/ /g, '-')
-      .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
+    const slug = slugifyTitle(this.title);
     const newUrl = this.router.url.split('#')[0];
     this.statusUpdate.next();
     if (this.active) {

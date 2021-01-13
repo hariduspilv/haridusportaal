@@ -115,7 +115,6 @@ class OskaGraphField extends FieldItemBase {
             'not null' => FALSE,
         ];
 
-
         return $schema;
     }
 
@@ -139,4 +138,5 @@ class OskaGraphField extends FieldItemBase {
         ];
         return $element;
     }
+
 }

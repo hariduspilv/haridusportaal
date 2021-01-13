@@ -1,7 +1,10 @@
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { slugifyTitle } from '@app/_core/utility';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services';
+import { CertificateAccordionSection } from '../../models/interfaces/certificate-accordion-section';
 
 @Component({
   selector: 'certificates',
@@ -12,7 +15,6 @@ export class CertificatesComponent implements OnInit {
 
   @Input() jwt;
 
-  public loading = {};
   public error: boolean = false;
   public professionalCertificates: any;
   public graduationCertificates: any;
@@ -22,20 +24,29 @@ export class CertificatesComponent implements OnInit {
   public errData: boolean;
   public errRequest: boolean;
   public headers: HttpHeaders;
-  public loaded = {
-    'graduation-certificates': false,
-    'professional-certificates': false,
-    'state-exams': false,
-  };
-
-  public accordionSection: {}[] = [
+  public accordionSections: CertificateAccordionSection[] = [
     {
-      _id: 'professional-certificates',
-      label: 'frontpage.dashboard_tabs_certificates_professional',
+      id: 'graduation-certificates',
+      title: this.translate.get('frontpage.dashboard_tabs_certificates_graduation'),
+      dataFunction: (section: CertificateAccordionSection) =>
+        this.getGraduationCertificates(section),
+      loaded: false,
+      loading: false,
     },
     {
-      _id: 'state-exams',
-      label: 'frontpage.dashboard_tabs_certificates_examinations',
+      id: 'professional-certificates',
+      title: this.translate.get('frontpage.dashboard_tabs_certificates_professional'),
+      dataFunction: (section: CertificateAccordionSection) =>
+        this.getProfessionalCertificates(section),
+      loaded: false,
+      loading: false,
+    },
+    {
+      id: 'state-exams',
+      title: this.translate.get('frontpage.dashboard_tabs_certificates_examinations'),
+      dataFunction: (section: CertificateAccordionSection) => this.getExamResults(section),
+      loaded: false,
+      loading: false,
     },
   ];
 
@@ -44,54 +55,46 @@ export class CertificatesComponent implements OnInit {
     private route: ActivatedRoute,
     public http: HttpClient,
     public settings: SettingsService,
+    private translate: TranslateService,
   ) { }
 
   dataController(id: string) {
-    switch (id) {
-      case 'graduation-certificates':
-        this.getGraduationCertificates(id);
-        break;
-      case 'professional-certificates':
-        this.getProfessionalCertificates(id);
-        break;
-      case 'state-exams':
-        this.getExamResults(id);
-        break;
-    }
+    const selectedSection = this.accordionSections.find(section => section.id === id);
+    selectedSection?.dataFunction(selectedSection);
   }
 
   compareCertificates(a, b) {
     return a.issued < b.issued || a.issued == null ? 1 : -1;
   }
 
-  getGraduationCertificates(id) {
+  getGraduationCertificates(selectedSection: CertificateAccordionSection): void {
 
-    this.loading[id] = true;
+    selectedSection.loading = true;
 
-    if (!this.loaded[id]) {
+    if (!selectedSection.loaded) {
       this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`).subscribe(
         (res: any[]) => {
-          this.loading[id] = false;
+          selectedSection.loading = false;
           const resultObject = res['certificates'] ? res['certificates'] : res;
           this.graduationCertificates = resultObject.sort(this.compareCertificates);
         },
         (err) => {
           this.graduationCertificates = [];
-          this.loading[id] = false;
+          selectedSection.loading = false;
         });
-      this.loaded[id] = true;
+      selectedSection.loaded = true;
     }
   }
 
-  getProfessionalCertificates(id) {
+  getProfessionalCertificates(selectedSection: CertificateAccordionSection): void {
 
-    this.loading[id] = true;
+    selectedSection.loading = true;
 
-    if (!this.loaded[id]) {
+    if (!selectedSection.loaded) {
 
       const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getProfessionalCertificate?_format=json`).subscribe(
         (response) => {
-          this.loading[id] = false;
+          selectedSection.loading = false;
 
           if (response['error']) {
             this.certificateErr = (response['error'] &&
@@ -121,17 +124,17 @@ export class CertificatesComponent implements OnInit {
           }
         },
         (err) => {
-          this.loading[id] = false;
+          selectedSection.loading = false;
         });
-      this.loaded[id] = true;
+      selectedSection.loaded = true;
     }
   }
 
-  getExamResults(id) {
+  getExamResults(selectedSection: CertificateAccordionSection): void {
 
-    this.loading[id] = true;
+    selectedSection.loading = true;
 
-    if (!this.loaded[id]) {
+    if (!selectedSection.loaded) {
       const sub = this.http.get(`${this.settings.url}/dashboard/certificates/getTestSessions?_format=json`).subscribe(
         (response) => {
           if ((response['value'] && response['value']['teade']) || (response['error'] && response['error']['message_text'] && response['error']['message_text']['et']) || response['value']['testsessioonid_kod_jada'] === []) {
@@ -141,31 +144,21 @@ export class CertificatesComponent implements OnInit {
             this.examResults = response['value']['testsessioonid_kod_jada']
               .sort((a, b) => b.oppeaasta - a.oppeaasta);
           }
-          this.loading[id] = false;
+          selectedSection.loading = false;
           sub.unsubscribe();
         },
         (err) => {
           this.errRequest = true;
-          this.loading[id] = false;
+          selectedSection.loading = false;
         });
-      this.loaded[id] = true;
+      selectedSection.loaded = true;
     }
   }
 
-  getId() {
-    let initializeId = '';
-    switch (this.route.snapshot.fragment) {
-      case 'lõputunnistused':
-        initializeId = 'graduation-certificates';
-        break;
-      case 'kutsetunnistused':
-        initializeId = 'professional-certificates';
-        break;
-      case 'riigieksamid':
-        initializeId = 'state-exams';
-        break;
-    }
-    return initializeId;
+  getId(): string {
+    return this.accordionSections.find((section) => {
+      return slugifyTitle(section.title) === this.route.snapshot.fragment;
+    })?.id;
   }
 
   ngOnInit() {

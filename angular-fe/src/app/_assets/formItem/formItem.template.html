@@ -248,7 +248,13 @@
         (keyup)="autocompleteElem.search(field, $event); triggerOnUpdate();"
         (ngModelChange)="field = $event"
         [ngModel]="field | parseInAdds"
-        [attr.aria-label]="ariaLabel"/>
+        [attr.aria-label]="ariaLabel"
+        [attr.aria-activedescendant]="autocompleteElem.activeItem > -1 ? 'option-' + autocompleteElem.activeItem : undefined"
+        [attr.aria-expanded]="autocompleteElem.active"
+        aria-autocomplete="list"
+        aria-haspopup="listbox"
+        aria-owns="autocompleteResults"
+        role="combobox"/>
       <autocomplete
         [valueType]="valueType"
         #autocompleteElem

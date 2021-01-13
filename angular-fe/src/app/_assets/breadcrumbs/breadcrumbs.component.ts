@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
-import { Title } from '@angular/platform-browser';
+import { TitleService } from '@app/_services/TitleService';
 
 interface BreadcrumbsItem {
   title: string;
@@ -22,7 +22,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
   constructor(
     private settings: SettingsService,
     private http: HttpClient,
-    private titleService: Title,
+    private titleService: TitleService,
   ) {
   }
 
@@ -37,19 +37,19 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
       this.getData();
     } else {
       // tslint:disable-next-line: max-line-length
-      this.titleService.setTitle(`${this.data[this.data.length - 1].title} | Haridusportaal edu.ee`);
+      this.titleService.setTitle(this.data[this.data.length - 1].title);
     }
   }
 
   public ngOnDestroy(): void {
-    this.titleService.setTitle('Haridusportaal edu.ee');
+    this.titleService.setTitle('');
   }
 
   private parseData(response): void {
     try {
       this.data = response.data.route.breadcrumb.map((item, i, arr) => {
         if (i === arr.length - 1) {
-          this.titleService.setTitle(`${item.text} | Haridusportaal.edu.ee`);
+          this.titleService.setTitle(item.text);
         }
         return {
           title: item.text,
@@ -57,7 +57,7 @@ export class BreadcrumbsComponent implements OnInit, OnChanges, OnDestroy {
         };
       });
     } catch (err) {
-      this.titleService.setTitle('Haridusportaal edu.ee');
+      this.titleService.setTitle('');
     }
   }
 

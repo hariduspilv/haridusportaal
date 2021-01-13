@@ -140,7 +140,7 @@ class ProcessOskaIndicatorData {
             switch($values['oska_indicator']){
               case 'Töötajate arv':
                 $main_profession_page->set('field_number_of_employees', $values['value']);
-              case 'Hõive muutus':
+              case 'Töökohtade arvu muutus':
                 $main_profession_page->set('field_change_in_employment', $values['value']);
               case 'Hariduse pakkumine':
                 $main_profession_page->set('field_education_indicator', $values['value']);

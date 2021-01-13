@@ -1,5 +1,4 @@
-import { AfterContentChecked, HostListener } from '@angular/core';
-import { Component, Input, OnInit } from '@angular/core';
+import { HostListener, Component, Input, OnInit } from '@angular/core';
 import { ModalService } from '@app/_services';
 
 @Component({
@@ -17,9 +16,11 @@ export class ImageComponent implements OnInit {
   @Input() limit: number = 1;
   public images;
   public activeImage;
+  public loadBounce = false;
+  public firstImageLoaded = true;
 
   constructor(
-    private modalService: ModalService
+    private modalService: ModalService,
     ) { }
 
   ngOnInit() {
@@ -31,8 +32,17 @@ export class ImageComponent implements OnInit {
     this.mergeVideosToList();
     if (this.images.length > 0) {
       this.initGalleryImages();
+      // Hide the gallery button unless the first image has already loaded
+      if (!this.loadBounce) {
+        this.firstImageLoaded = false;
+      }
     }
-    console.log(this.images);
+  }
+
+  coverImageLoaded() {
+    // Prevent a hypothetical race condition
+    this.loadBounce = true;
+    this.firstImageLoaded = true;
   }
 
   mergeVideosToList() {
@@ -41,7 +51,6 @@ export class ImageComponent implements OnInit {
     } else {
       this.images = [...this.images, ...this.videos];
     }
-    console.log(this.images);
   }
 
   initGalleryImages() {
@@ -79,6 +88,5 @@ export class ImageComponent implements OnInit {
 
   openGallery() {
     this.modalService.open('gallery');
-
   }
 }

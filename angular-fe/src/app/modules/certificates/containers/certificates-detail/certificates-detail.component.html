@@ -1,37 +1,74 @@
 <div class="inline">
-	<loader *ngIf="loading"></loader>
-	<article-layout [sidebar]="sidebar" *ngIf="!loading">
-		<breadcrumbs [data]="breadcrumbs"></breadcrumbs>
-		<block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
-			<block-title>
-				{{'certificates.title' | translate }} <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ID_CODE'"><icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}</a>
-			</block-title>
+  <loader *ngIf="loading"></loader>
+  <article-layout [sidebar]="sidebar" *ngIf="!loading">
+    <breadcrumbs [data]="breadcrumbs"></breadcrumbs>
+    <ng-container *ngIf="!loading">
+      <ng-container *ngIf="generalEducationDocumentType;else singleDocument">
+        <block [titleBorder]="false" tabStyle="middle" (tabChange)="tabChanged($event)">
+          <block-title>
+            {{'certificates.final_document' | translate }}
+            <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ACCESS_TYPE:ID_CODE'">
+              <icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}
+            </a>
+          </block-title>
 
-			<block-secondary-title>
-				{{ 'certificates.certificate_nr' | translate }} {{documents?.certificate?.number}}
-			</block-secondary-title>
+          <block-secondary-title>
+            {{ typeTranslation }} nr {{documents?.certificate?.number}}
+          </block-secondary-title>
 
-			<block-content
-				[tabLabel]="'certificates.graduation_certificate' | translate"
-				tabIcon="columns"
-			>
-				<loader *ngIf="loading"></loader>
-				<ng-container *ngIf="!loading && !notFound">
-					<certificate [document]="documents?.certificate" #certificate></certificate>
-				</ng-container>
+          <block-content
+            [tabLabel]="typeTranslation"
+            tabIcon="columns"
+          >
+            <ng-container *ngIf="!notFound">
+              <certificate [document]="documents?.certificate" #certificate></certificate>
+            </ng-container>
 
-				<p class="text-center" *ngIf="notFound">
-					{{ 'certificates.no_certificate_or_access' | translate }}
-				</p>
-			</block-content>
+            <p class="text-center" *ngIf="notFound">
+              {{ 'certificates.no_certificate_or_access' | translate }}
+            </p>
+          </block-content>
 
-			<block-content
-				*ngIf="documents?.transcript"
-				[tabLabel]="'certificates.grade_sheet' | translate"
-				tabIcon="file-text"
-			>
-				<certificate-grade-sheet [document]="documents?.transcript" #gradeSheet></certificate-grade-sheet>
-			</block-content>
-		</block>
-	</article-layout>
+          <block-content
+            *ngIf="documents?.transcript"
+            [tabLabel]="'certificates.grade_sheet' | translate"
+            tabIcon="file-text"
+          >
+            <certificate-grade-sheet [document]="documents?.transcript" #gradeSheet></certificate-grade-sheet>
+          </block-content>
+        </block>
+      </ng-container>
+      <ng-template #singleDocument>
+        <block [titleBorder]="false">
+          <block-title>
+            {{'certificates.final_document' | translate }}
+            <a routerLink="/tunnistused/lõpudokumendid" *ngIf="accessType === 'ACCESS_TYPE:ID_CODE'">
+              <icon glyph="chevron-left"></icon>{{'certificates.back_to_search' | translate}}
+            </a>
+          </block-title>
+        
+          <block-secondary-title>
+            {{ typeTranslation }} nr {{ documents?.certificate?.content?.registrationNumber }}
+            <ng-container *ngIf="documents?.certificate?.content?.duplicateCertificateNumber">
+              <div class="duplicate duplicate-badge">{{ 'frontpage.dashboard_tabs_certificates_duplicate' | translate }}</div>
+            </ng-container>
+            <ng-container *ngIf="documents?.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID'">
+              <div class="invalid duplicate-badge">{{ 'frontpage.dashboard_tabs_certificates_notvalid' | translate }}</div>
+            </ng-container>
+            <hr aria-hidden="true">
+          </block-secondary-title>
+
+          <block-content>
+            <ng-container *ngIf="!notFound">
+              <certificate-detailed [documents]="documents"></certificate-detailed>
+            </ng-container>
+            
+            <p class="text-center" *ngIf="notFound">
+              {{ 'certificates.no_certificate_or_access' | translate }}
+            </p>
+          </block-content>
+        </block>
+      </ng-template>
+    </ng-container>
+  </article-layout>
 </div>

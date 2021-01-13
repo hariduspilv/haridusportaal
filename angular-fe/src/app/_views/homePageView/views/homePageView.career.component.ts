@@ -6,4 +6,6 @@ import { HomePageViewComponent } from '../homePageView.component';
   templateUrl: 'homePageView.career.template.html',
   styleUrls: ['../homePageView.styles.scss'],
 })
-export class HomePageCareerViewComponent extends HomePageViewComponent {}
+export class HomePageCareerViewComponent extends HomePageViewComponent {
+  public title = 'frontpage.career';
+}

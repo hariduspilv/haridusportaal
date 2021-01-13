@@ -50,6 +50,10 @@ export class AutocompleteComponent implements OnDestroy {
   }
 
   public search(value: string = '', $event: any = false): void {
+    if ($event.key === 'Escape') {
+      this.active && this.close();
+      return;
+    }
     if (this.active && ($event.key === 'ArrowUp' || $event.key === 'ArrowDown')) {
       this.navigate($event.key);
     } else if ($event.key === 'Enter') {

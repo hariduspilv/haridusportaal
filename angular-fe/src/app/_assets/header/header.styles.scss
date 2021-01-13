@@ -67,7 +67,7 @@
 	.header {
 		&__logo {
 			cursor: pointer;
-			margin-top: 1.125rem;
+			padding-top: 1.125rem;
 			img {
 				width: 7rem;
 				display: block;
@@ -324,8 +324,8 @@
 	@include break-on(xs, min) {
 		.header {
 			&__logo {
-				padding: 0 1.5rem;
-				width: 16.25rem;
+				padding: 1.125rem 1.5rem 0 1.5rem;
+				margin-right: 6.25rem;
 			}
 			&__search {
 				position: relative;
@@ -437,7 +437,8 @@
 	@include break-on(sm, max) {
 		.header {
 			&__logo {
-				padding: 0;
+				padding: 1.125rem 0 0 0;
+				margin-right: 0;
 				width: initial;
 			}
 			&__search {
