@@ -41,18 +41,19 @@
 					
 					<div class="description" *ngIf="type !== 'profession' && data?.description?.value" [innerHtml]="data.description.value"></div>
 
-					<div class="description"
-						id="description"
-						role="content"
+					<div class="description description--clamped"
 						*ngIf="data?.description?.value && type === 'profession'"
+						role="content"
 						[attr.aria-label]="!descriptionShown ? parseHTMLValue(data.description?.value || '') : ('messages.body' | translate)"
-						[ngClass]="{ 'overflowExists': type === 'profession' && descriptionOverflown, 'shown': descriptionShown }">
-							<ng-container *ngIf="type === 'profession' && descriptionOverflown && !descriptionShown; else fullDescription">
-								<div aria-hidden="true" [innerHtml]="data.description.value | ellipsis:380"></div>
-							</ng-container>
-							<ng-template #fullDescription>
-								<div aria-hidden="false" [innerHtml]="data.description.value"></div>
-							</ng-template>
+						[ngClass]="{
+							'overflowExists': type === 'profession' && descriptionOverflown,
+							'shown': descriptionShown
+						}">
+							<div
+								class="description__content"
+								[attr.aria-hidden]="type === 'profession' && descriptionOverflown && !descriptionShown"
+								[innerHtml]="data.description.value">
+							</div>
 					</div>
 					<div *ngIf="type === 'profession' && descriptionOverflown && data.description?.value"
 						class="description__actions">

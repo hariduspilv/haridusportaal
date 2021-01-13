@@ -103,14 +103,9 @@
     .description {
       color: $black;
       font-size: $small;
-      overflow: hidden;
-      position: relative;
       line-height: 1.375rem;
-      max-height: 2.75rem;
-      text-align: justify;
       padding-right: $large;
-      margin-top: .5rem;
-      @include multiLineEllipsis($lineHeight: 1.375rem, $lineCount: 2, $bgColor: $white);
+      @include lineClamp($lines: 2);
       a[target="_blank"]::after {
         -webkit-font-feature-settings: "liga";
         font-feature-settings: "liga";
