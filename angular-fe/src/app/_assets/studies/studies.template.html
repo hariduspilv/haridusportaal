@@ -67,19 +67,23 @@
               <td class="additional">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
               <td class="additional">{{ parseTypeTranslation(elem.oppekavaNimetus) }}</td>
             </tr>
-            <tr *ngIf="item.kestus" [class.extraBottom]="!elem.kvalifikatsiooniVastavus">
+            <tr *ngIf="elem.kestus || item.kestus" class="extraBottom">
               <td class="normal">{{ 'frontpage.kestus' | translate }}</td>
               <td class="normal">{{ elem.kestus || item.kestus }}</td>
             </tr>
-            <tr *ngIf="elem.kvalifikatsiooniVastavus" [class.extraBottom]="!elem.akadKraad">
+            <tr *ngIf="item.spetsilaiseerumine">
+              <td class="normal">{{ 'frontpage.spetsialiseerumine' | translate }}</td>
+              <td class="normal">{{ item.spetsilaiseerumine }}</td>
+            </tr>
+            <tr *ngIf="elem.kvalifikatsiooniVastavus">
               <td class="additional">{{ 'frontpage.kvalifikatsiooniVastavus' | translate }} </td>
               <td class="additional">{{ elem.kvalifikatsiooniVastavus }}</td>
             </tr>
-            <tr *ngIf="elem.akadKraad" [class.extraBottom]="!elem.kvalDokument">
+            <tr *ngIf="elem.akadKraad">
               <td class="additional">{{ 'frontpage.akadKraad' | translate }} </td>
               <td class="additional">{{ elem.akadKraad }}</td>
             </tr>
-            <tr *ngIf="elem.kvalDokument" [class.extraBottom]="elem.kvalDokument">
+            <tr *ngIf="elem.kvalDokument">
               <td class="additional">{{ 'frontpage.kvalDokument' | translate }} </td>
               <td class="additional">{{ elem.kvalDokument }}</td>
             </tr>
@@ -164,7 +168,7 @@
             </ng-container>
           </td>
         </tr><!-- Koormus -->
-        <tr *ngIf="item.oppekavataitine?.length !== 0">
+        <tr *ngIf="item.oppekavataitine?.length">
           <td class="normal">{{ 'frontpage.oppekavataitmine' | translate }}</td>
           <td class="normal">{{ item.oppekavataitine.protsent }}% ({{ item.oppekavataitine.otsusKp}}
             {{ 'frontpage.seisuga' | translate }})</td>

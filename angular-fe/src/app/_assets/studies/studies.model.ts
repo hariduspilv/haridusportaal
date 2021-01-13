@@ -35,7 +35,7 @@ export interface Studies {
   oppLopp: string;
   nomLopp?: string;
   oppekava: Curriculum[];
-  spetsilaiseerumine?: any;
+  spetsilaiseerumine?: string;
   oppekeel?: string;
   opeklass: string;
   opeParallel?: string;
