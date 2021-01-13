@@ -37,12 +37,12 @@ class InfographDeleteCsvForm extends FormBase {
     // If file is already used in some infograph, dont show delete button but tell users that these files are in use
     if(!empty($results)) {
       $host = Drupal::request()->getSchemeAndHttpHost();
-      $output = t('<div><strong>See fail on kasutuses järgnevate lehtede infograafikas: </strong><br><br>');
+      $output = t('<div><p>The file <b>@key</b> cannot be deleted, it is being used in the following pages infographics:</p>', ['@key' => $filename]);
       foreach ($results as $result) {
         $node_path = $host .  Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $result->entity_id);
         $output .= '<a href="' .  $node_path . '" target="_blank">' . $node_path . '</a> </br>';
       }
-      $output .= '</div>';
+      $output .= '<p>If you wish to delete the file, first remove it from where it is being used.</p></div>';
       $form['files_exist']['#markup'] = $output;
 
     }
@@ -53,7 +53,6 @@ class InfographDeleteCsvForm extends FormBase {
         '#type' => 'submit',
         '#value' => $this->t('Save configuration'),
         '#button_type' => 'primary',
-        '#prefix' => t('Faili ei ole kasutuses. Võite faili turvaliselt ära kustutada.<br><br>')
       ];
 
       $form['actions']['submit']['#value'] = $this->t('Delete infograph');
@@ -62,7 +61,8 @@ class InfographDeleteCsvForm extends FormBase {
         '#value' =>  $filename,
       ] ;
       $form['text'] = [
-        '#markup' => $this->t('<p>Are you sure you want to delete <b>@key</b>.csv infograph?</p>', ['@key' => $filename]),
+        '#markup' => $this->t('<p>The file <b>@key</b> is not being used in any infographic, it can be removed.</p>
+        <p>Do you want to delete it?</p><br>', ['@key' => $filename]),
       ];
     }
 		return $form;
