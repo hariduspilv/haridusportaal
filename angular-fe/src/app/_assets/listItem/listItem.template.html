@@ -24,8 +24,6 @@
                     </div>
                     <div class="description" *ngIf="item.shortDescription">
                         {{ item.shortDescription | ellipsis:320 }}
-                        <span class="ellipsis" aria-hidden="true">...</span>
-                        <span class="ellipsis-hide" aria-hidden="true"></span>
                     </div>
 
                     <labels *ngIf="item.fixedLabel && item.fixedLabel.entity" [data]="[item.fixedLabel]" type="orange">

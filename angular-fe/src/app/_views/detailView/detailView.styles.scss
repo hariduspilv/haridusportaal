@@ -23,8 +23,14 @@
       margin-bottom: 1rem;
     }
     .overflowExists {
-      &.description {
+      &.description--clamped {
         outline: none;
+        &:not(.shown) > div.description__content {
+          @include lineClamp($lines: 5);
+          > * {
+            display: contents;
+          }
+        }
       }
     }
     @include break-on(sm, min) {

@@ -14,8 +14,6 @@
 						</labels>
 						<div class="description" *ngIf="filteredJob.fieldIntroduction">
 							{{ filteredJob.fieldIntroduction }}
-							<span class="ellipsis" aria-hidden="true">...</span>
-							<span class="ellipsis-hide" aria-hidden="true"></span>
 						</div>
 						<a class="highlighted__job__footer__link" [class.extra-styles]="filteredJob.fieldIntroduction" *ngIf="filteredJob.path" [routerLink]="filteredJob.path">{{ 'home.view_more' | translate }}</a>
 					</div>
