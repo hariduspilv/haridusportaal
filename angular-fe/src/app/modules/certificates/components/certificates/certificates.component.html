@@ -3,8 +3,8 @@
 </div>
 <h2>{{ 'frontpage.certificates_data' | translate }}</h2>
 <accordion>
-	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_graduation' | translate"
-		(click)="dataController('graduation-certificates')">
+	<accordion-item [title]="accordionSections[0].title"
+		(click)="dataController(accordionSections[0].id)">
 		<ng-template>
 			<loader *ngIf="!error && !graduationCertificates"></loader>
 			<p *ngIf="graduationCertificates && graduationCertificates.length < 1"
@@ -37,8 +37,8 @@
 			</scrollableContent>
 		</ng-template>
 	</accordion-item>
-	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_professional' | translate"
-		(click)="dataController('professional-certificates')">
+	<accordion-item [title]="accordionSections[1].title"
+	(click)="dataController(accordionSections[1].id)">
 		<ng-template>
 			<loader *ngIf="!error && !professionalCertificates"></loader>
 			<p *ngIf="error && !certificateErr" class="text-center text--substrong--head mb-0">
@@ -65,8 +65,8 @@
 			</table>
 		</ng-template>
 	</accordion-item>
-	<accordion-item [title]="'frontpage.dashboard_tabs_certificates_examinations' | translate"
-		(click)="dataController('state-exams')">
+	<accordion-item [title]="accordionSections[2].title"
+	(click)="dataController(accordionSections[2].id)">
 		<ng-template>
 			<loader *ngIf="!examResultsErr && !errRequest && !examResults"></loader>
 			<ng-container *ngIf="examResultsErr || errRequest">
