@@ -158,7 +158,6 @@ export class CertificatesDetailComponent implements OnInit {
     this.breadcrumbs = [...this.path];
     const params = this.route.snapshot.params;
     const queryParams = this.route.snapshot.queryParamMap;
-    console.log(queryParams.get('avalikustatud'));
     if(queryParams.get('avalikustatud')) {
       this.accessType = AccessType.DISCLOSURE;
     } else {
