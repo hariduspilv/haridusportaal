@@ -7,6 +7,9 @@ import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/
 import { Router } from '@angular/router';
 import { CertificatesApi } from '../../certificates.api.service';
 import { AccessType } from '../../models/enums/access-type.enum';
+import { TranslateService } from '@app/_modules/translate/translate.service';
+import { TranslatePipe } from '@app/_modules/translate/translate.pipe';
+import { CertificateSearchCertificateStatus, CertificateStatus } from '../../models/interfaces/certificate-document';
 
 @Component({
   selector: 'certificate-final-documents',
@@ -22,7 +25,8 @@ export class CertificateFinalDocumentsComponent {
     public fb: FormBuilder,
     private router: Router,
     private alertsService: AlertsService,
-    private certificatesApi: CertificatesApi
+    private certificatesApi: CertificatesApi,
+    private translateService: TranslateService
   ) {}
 
   public isLoggedIn = false;
@@ -108,6 +112,7 @@ export class CertificateFinalDocumentsComponent {
   }
 
   getCertificateByDisclosure() {
+    this.alertsService.clear('certificatesByDisclosure');
     const { idCode, firstName, lastName } = this.disclosureFormGroup.value;
     this.disclosureFormGroupValidator();
     if (this.disclosureFormGroup.invalid) {
@@ -126,10 +131,12 @@ export class CertificateFinalDocumentsComponent {
     }
     this.loading.certificatesByDisclosure = true;
     this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`, { params: { ...params, accessType: AccessType.DISCLOSURE }}).subscribe((res: any) => {
-      this.certificatesByDisclosure = res.certificates;
+      this.certificatesByDisclosure = this.cleanDisclosureCertificatesResponse(res);
       this.loading.certificatesByDisclosure = false;
-    }, () => {
+    }, (err) => {
       this.loading.certificatesByDisclosure = false;
+      this.certificatesByDisclosure = [];
+      this.alertsService.error(this.translateService.get('errors.no_disclosed_certificates_found'), 'certificatesByDisclosure');
     })
   }
 
@@ -163,5 +170,24 @@ export class CertificateFinalDocumentsComponent {
       this.disclosureFormGroup.controls[control].updateValueAndValidity();
       this.disclosureFormGroup.controls[control].markAsDirty();
     }
+  }
+
+  private cleanDisclosureCertificatesResponse(res) {
+    return res.certificates
+    .filter((certificate) => {
+      if (certificate.status === CertificateSearchCertificateStatus.INVALID) {
+        return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (new Date(a.issued) < new Date(b.issued)) { 
+        return 1;
+      }
+      if (new Date(a.issued) > new Date(b.issued)) { 
+        return -1;
+      }
+      return 0;
+    });
   }
 }
