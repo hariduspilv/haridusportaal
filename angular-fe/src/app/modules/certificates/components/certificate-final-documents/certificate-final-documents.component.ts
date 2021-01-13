@@ -3,12 +3,12 @@ import { AlertsService, AuthService, SettingsService } from '@app/_services';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CertificatesApi } from '../../certificates.api.service';
 import { AccessType } from '../../models/enums/access-type.enum';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { TranslatePipe } from '@app/_modules/translate/translate.pipe';
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CertificateSearchCertificateStatus, CertificateStatus } from '../../models/interfaces/certificate-document';
 
 @Component({
@@ -26,7 +26,8 @@ export class CertificateFinalDocumentsComponent {
     private router: Router,
     private alertsService: AlertsService,
     private certificatesApi: CertificatesApi,
-    private translateService: TranslateService
+    private translateService: TranslateService,
+    private liveAnnouncer: LiveAnnouncer
   ) {}
 
   public isLoggedIn = false;
@@ -132,6 +133,7 @@ export class CertificateFinalDocumentsComponent {
     this.loading.certificatesByDisclosure = true;
     this.http.get(`${this.settings.ehisUrl}/certificates/v1/certificates`, { params: { ...params, accessType: AccessType.DISCLOSURE }}).subscribe((res: any) => {
       this.certificatesByDisclosure = this.cleanDisclosureCertificatesResponse(res);
+      this.liveAnnouncer.announce(this.translateService.get('liveAnnouncer.found_x_results').replace('%amount%', this.certificatesByDisclosure.length))
       this.loading.certificatesByDisclosure = false;
     }, (err) => {
       this.loading.certificatesByDisclosure = false;
