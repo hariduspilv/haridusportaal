@@ -80,7 +80,7 @@ export class CertificatesUtility {
       TemplateTypes: CertificateTranscriptTemplateType.WithCoatOfArms,
     };
     if (sidebarData.withAccess && sidebarData.accessType) {
-      staticParameters.accessType = `ACCESS_TYPE:${sidebarData.accessType}`;
+      staticParameters.accessType = `${sidebarData.accessType}`;
       if (accessorCode) staticParameters.accessorCode = accessorCode;
     }
     return sidebarData.generalEducationDocumentType ? {
@@ -142,10 +142,10 @@ export class CertificatesUtility {
           invalid: documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID',
           documents: allDocuments,
         },
-        finalDocumentAccess: {
+        finalDocumentAccess: !certificateData ? {
           issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
           certificate: documents.certificate,
-        },
+        } : null,
         finalDocumentHistory: !certificateData ? {
           issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
         } : null,
