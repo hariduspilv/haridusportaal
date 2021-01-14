@@ -1,4 +1,9 @@
 
+export interface OppelaenOigus {
+  oigus: string;
+  pohjus: string[];
+}
+
 export interface PersonalDetails {
   isikukood: string;
   synniKp: string;
@@ -8,7 +13,7 @@ export interface PersonalDetails {
   rrElukoht: string;
   kodakondsus?: string;
   elamisluba?: string;
-  oppelaenOigus: any[];
+  oppelaenOigus: OppelaenOigus;
 }
 
 export interface Curriculum {
@@ -27,6 +32,12 @@ export interface StudyType {
   loppKp?: string;
 }
 
+export interface CurriculumChange {
+  oppekava: string;
+  algusKp: string;
+  loppKp: string;
+}
+
 export interface Studies {
   haridustase: string;
   id: string;
@@ -35,7 +46,7 @@ export interface Studies {
   oppLopp: string;
   nomLopp?: string;
   oppekava: Curriculum[];
-  spetsilaiseerumine?: string;
+  'spetsilaiseerumine '?: string;
   oppekeel?: string;
   opeklass: string;
   opeParallel?: string;
@@ -48,7 +59,7 @@ export interface Studies {
   ryhmaLiik?: string;
   nimetus?: string;
   koht?: string;
-  okVahetamine: any[];
+  okVahetamine: CurriculumChange[];
   finAllikas: StudyType[];
   akadPuhkus: any[];
   ennistamine: any[];

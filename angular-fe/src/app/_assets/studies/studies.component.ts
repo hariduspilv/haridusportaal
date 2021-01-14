@@ -4,7 +4,7 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AccordionComponent } from '../accordion';
-import { Studies, StudiesResponse } from './studies.model';
+import { OppelaenOigus, Studies, StudiesResponse } from './studies.model';
 
 @Component({
   selector: 'studies',
@@ -20,7 +20,7 @@ export class StudiesComponent implements OnInit {
   error: boolean = false;
   requestErr: boolean = false;
   dataErr: boolean = false;
-  oppelaenOigus: any = false;
+  oppelaenOigus: OppelaenOigus;
   totalAccordions: number = 0;
   activeAccordions: number = 0;
   headers: HttpHeaders;
