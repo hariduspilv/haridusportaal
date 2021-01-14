@@ -33,6 +33,7 @@ export class SettingsService {
     '10.0.2.2': 'https://htm.wiseman.ee',
     '192.168.72.253': 'https://htm.wiseman.ee',
     'test.edu.ee': 'https://apitest.hp.edu.ee',
+    'haridusportaal.twn.zone': 'https://apitest.hp.edu.ee',
     localhost: 'https://htm.wiseman.ee',
     otherwise: 'https://api.hp.edu.ee',
   };
@@ -40,6 +41,7 @@ export class SettingsService {
   private ehisUrlTemplates = {
     'edu.twn.ee': 'https://ehis2.twn.zone/api',
     'test.edu.ee': 'https://tehis.edu.ee/api',
+    'haridusportaal.twn.zone': 'https://tehis.edu.ee/api',
     'edu.ee': 'https://ehis.edu.ee/api',
     'www.edu.ee': 'https://ehis.edu.ee/api',
     localhost: 'https://ehis2.twn.zone/api',
