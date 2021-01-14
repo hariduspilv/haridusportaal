@@ -32,10 +32,10 @@ import { CertificatesApi } from '@app/modules/certificates/certificates.api.serv
 import { FinalDocumentDownloadSidebar } from './models/final-document-download-sidebar';
 import { CertificateDocumentWithClassifier } from '@app/modules/certificates/models/interfaces/certificate-document';
 import { AccessType } from '@app/modules/certificates/models/enums/access-type.enum';
-import { ClassifiersApi } from '@app/modules/classifiers/classifiers.api.service';
 import { IdCodePipe } from '@app/_pipes/idCode.pipe';
 import { CertificateAccess } from '@app/modules/certificates/models/interfaces/certificate-access';
 import { AccessScope } from '@app/modules/certificates/models/enums/access-scope.enum';
+import { FileFormat } from '@app/_core/models/file-format.enum';
 
 interface SidebarType {
   [key: string]: string;
@@ -720,6 +720,7 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
   public invalidateLoader = false;
   private destroy$: Subject<boolean> = new Subject();
   public isDisclosureAllowed = false;
+  public accessType = AccessType;
 
   @ViewChildren('idCode') public idCodeTemplate: QueryList<any>;
   @ViewChildren('disclosure') public disclosureTemplate: QueryList<any>;
@@ -791,9 +792,9 @@ export class SidebarFinalDocumentAccessComponent implements OnInit, OnDestroy {
     .subscribe((disclosureIsAllowed: boolean) => {
       if(disclosureIsAllowed) {
         this.addAccessOptions.type = [...this.addAccessOptions.type, {
-          key: 'Avalikustamine',
+          key: 'Avalikusta',
           value: AccessType.DISCLOSURE,
-          info: this.translate.get('certificates.access_code_info'),
+          info: this.translate.get('certificates.disclosure_info'),
           requireAttribute: true,
         }]
       }
@@ -1267,13 +1268,17 @@ export class SidebarFinalDocumentDownloadComponent {
         this.route.snapshot.params.accessorCode,
       ),
     }).subscribe((res: Blob) => {
-      saveAs(res, `${this.data.certificateName} ${this.translate.get('finaldocuments.main_document')} ${this.data.certificateNumber}`);
+      saveAs(res, this.constructCertificateName(this.data, this.downloadForm.value.fileFormat));
       this.loading = false;
       this.modal.close('finalDocument-download');
     },           (err: HttpErrorResponse) => {
       this.loading = false;
       this.dispatchErrorsToAlert(err);
     });
+  }
+
+  constructCertificateName(data: FinalDocumentDownloadSidebar, fileFormat: FileFormat): string {
+    return `${data.certificateName}_${data.documentName}_${data.certificateNumber}.${fileFormat.toLowerCase()}`;
   }
 
   dispatchErrorsToAlert(err: HttpErrorResponse): void {

@@ -46,6 +46,10 @@ html {
   }
 }
 
+
+/**
+  * @Deprecated in favor of lineClamp
+*/
 @mixin multiLineEllipsis($lineHeight: 1.2rem, $lineCount: 1, $bgColor: $white){
   overflow: hidden;
   position: relative;
@@ -77,6 +81,13 @@ html {
       color: $visited !important; 
     }
   }
+}
+
+@mixin lineClamp($lines) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
 }
   
 .text-center{text-align:center;}

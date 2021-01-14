@@ -12,6 +12,7 @@ import { CertificateDocumentResponse } from '../../models/interfaces/certificate
 import { CertificateIndex } from '../../models/interfaces/certificate-index';
 import { GraduationDocumentLanguage } from '../../models/enums/graduation-document-language.enum';
 import { AccessType } from '../../models/enums/access-type.enum';
+import { CertificateDocumentContent } from '../../models/interfaces/certificate-document-content';
 
 @Component({
   selector: 'certificates-detail',
@@ -26,6 +27,7 @@ export class CertificatesDetailComponent implements OnInit {
   public transcriptDocuments: CertificateDocumentWithClassifier[];
   public mainLanguage = GraduationDocumentLanguage.emakeelEt;
   public title = '';
+  public typeTranslation = this.translate.get('certificates.graduation_certificate');
 
   @ViewChildren('certificate') public certificate:QueryList<any>;
   @ViewChildren('gradeSheet') public gradeSheet:QueryList<any>;
@@ -72,8 +74,6 @@ export class CertificatesDetailComponent implements OnInit {
     const params = this.route.snapshot.params;
     this.accessorCode = params.accessorCode;
 
-    console.log(this.accessType);
-
     const URL = this.accessType === AccessType.ACCESS_CODE
       ? `${this.settings.ehisUrl}/certificates/v1/certificate/ACCESS_CODE/${params.certificateNr}/${this.accessorCode}`
       : `${this.settings.ehisUrl}/certificates/v1/certificate/${params.id}?accessType=${this.accessType}`;
@@ -83,7 +83,7 @@ export class CertificatesDetailComponent implements OnInit {
         this.certificateData = res;
         this.generalEducationDocumentType =
           CertificatesUtility.isGeneralEducationDocumentType(res.index);
-        this.getLatestDocuments(res.index);
+        this.getLatestDocuments(res);
       },
       (err) => {
         this.loading = false;
@@ -92,36 +92,40 @@ export class CertificatesDetailComponent implements OnInit {
 
   }
 
-  private getLatestDocuments(index: CertificateIndex) {
-    const { documents } = index;
+  private getLatestDocuments(data: CertificateData) {
+    const { documents } = data.index;
     const documentRequests: Observable<CertificateDocumentResponse>[] = [];
-    if (index.documents.length > 0) {
+    if (data.index.documents.length > 0) {
       const params = this.accessType === AccessType.ACCESS_CODE
       ? { accessType: AccessType.ACCESS_CODE, accessorCode: this.accessorCode }
       : { accessType: this.accessType };
       this.documents = CertificatesUtility.getLatestDocumentData(documents);
       if (this.documents.certificate?.id) {
+        // Request certificate itself by ID
         documentRequests.push(
           this.api.fetchDocumentWithParams(this.documents.certificate.id, params),
         );
+        // Request transcript by ID
         if (Object.keys(this.documents.transcript).length) {
           documentRequests.push(
             this.api.fetchDocumentWithParams(this.documents?.transcript.id, params),
+          );
+        }
+        // Request supplement by ID
+        if (Object.keys(this.documents.supplement).length) {
+          documentRequests.push(
+            this.api.fetchDocumentWithParams(this.documents?.supplement.id, params),
           );
         }
       }
     }
 
     forkJoin(documentRequests).subscribe((docs: CertificateDocumentResponse[]) => {
-      this.documents.certificate = docs[0].document;
-      this.documents.certificate.content = JSON.parse(this.documents.certificate.content as string);
-      if (docs[1]) {
-        this.documents.transcript = docs[1].document;
-        this.documents.transcript.content = JSON.parse(this.documents.transcript.content as string);
-      }
+      // Clean up certificate, supplement and transcript from response
+      this.documents = CertificatesUtility.parseSupplementaryDocuments(this.documents, docs, data);
       if (!this.generalEducationDocumentType) {
         this.api.getCertificateDocumentsWithClassifiers(
-          index,
+          data.index,
           this.mainLanguage,
         ).subscribe((documentsWithClassifiers: CertificateDocumentWithClassifier[]) => {
           this.transcriptDocuments = CertificatesUtility
@@ -132,11 +136,18 @@ export class CertificatesDetailComponent implements OnInit {
             this.generalEducationDocumentType,
             this.accessType,
             this.certificateData);
+          this.typeTranslation = CertificatesUtility.typeTitle(
+            this.documents.certificate,
+            this.transcriptDocuments,
+          );
+          if (data.index.qualificationWithinCurrentFramework) {
+            this.api.getQualificationFrameworks(
+              data.index.qualificationWithinCurrentFramework,
+              this.documents.certificate.language)
+              .subscribe(resp => (this.documents.certificate.content as CertificateDocumentContent)
+                .qualificationWithinCurrentFramework = resp.name);
+          }
           this.loading = false;
-          setTimeout(() => {
-            (<HTMLElement>document.querySelector('.block__title__middle-tabs').firstElementChild)
-            .focus();
-          });
         });
       } else {
         this.sidebar = CertificatesUtility.composeSidebarData(
@@ -158,11 +169,12 @@ export class CertificatesDetailComponent implements OnInit {
     this.breadcrumbs = [...this.path];
     const params = this.route.snapshot.params;
     const queryParams = this.route.snapshot.queryParamMap;
-    console.log(queryParams.get('avalikustatud'));
-    if(queryParams.get('avalikustatud')) {
+    if (queryParams.get('avalikustatud')) {
       this.accessType = AccessType.DISCLOSURE;
     } else {
-      this.accessType = params.accessorCode && params.certificateNr ? AccessType.ACCESS_CODE : AccessType.ID_CODE;
+      this.accessType = params.accessorCode && params.certificateNr
+        ? AccessType.ACCESS_CODE
+        : AccessType.ID_CODE;
     }
     this.getCertificate();
   }

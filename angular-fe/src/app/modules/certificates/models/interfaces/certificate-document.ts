@@ -7,6 +7,11 @@ export enum CertificateStatus {
   INVALID = 'CERT_DOCUMENT_STATUS:INVALID',
 }
 
+export enum CertificateSearchCertificateStatus {
+  VALID = 'CERTIFICATE_STATUS:VALID',
+  INVALID = 'CERTIFICATE_STATUS:INVALID'
+}
+
 export interface CertificateDocument {
   id: number;
   type: GraduationDocumentType;

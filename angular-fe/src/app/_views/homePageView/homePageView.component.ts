@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HomePageService } from './homePageView.service';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -13,13 +13,17 @@ import {
   ITopic,
 } from './homePageView.model';
 import FieldVaryService from '@app/_services/FieldVaryService';
+import { TitleService } from '@app/_services/TitleService';
+import { TranslateService } from '@app/_modules/translate/translate.service';
 
 @Component({
   selector: 'homepage',
   templateUrl: 'homePageView.template.html',
   styleUrls: ['homePageView.styles.scss'],
 })
-export class HomePageViewComponent implements OnInit {
+export class HomePageViewComponent implements OnInit, OnDestroy {
+  public title = '';
+  public loading = true;
   public topics: ITopic[] = [];
   public articles: ITopic[];
   public services: IService[] = [];
@@ -45,6 +49,8 @@ export class HomePageViewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private service: HomePageService,
+    private translate: TranslateService,
+    private titleService: TitleService,
   ) {}
 
   ngOnInit() {
@@ -54,6 +60,13 @@ export class HomePageViewComponent implements OnInit {
         this.parseData(FieldVaryService(response.data.nodeQuery.entities[0]));
       });
     });
+    if (this.title) {
+      this.titleService.setTitle(this.translate.get(this.title));
+    }
+  }
+
+  ngOnDestroy() {
+    this.titleService.setTitle('');
   }
 
   private parseData(data: IGraphResponse): void {
@@ -71,7 +84,12 @@ export class HomePageViewComponent implements OnInit {
 
     const newsSub = this.service.getNews(data, this.theme);
     if (newsSub) {
-      newsSub.subscribe((news: ISimpleArticle) => this.news = news);
+      newsSub.subscribe((news: ISimpleArticle) => {
+        this.news = news;
+        this.loading = false;
+      });
+    } else {
+      this.loading = false;
     }
   }
 }

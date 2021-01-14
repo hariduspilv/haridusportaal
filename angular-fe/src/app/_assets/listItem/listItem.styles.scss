@@ -274,13 +274,9 @@ $grid-columns: 12;
   .description {
     color: $black;
     font-size: $small;
-    overflow: hidden;
-    position: relative;
     line-height: 1.375rem;
-    max-height: 4.125rem;
-    text-align: justify;
     padding-right: $large;
-    @include multiLineEllipsis($lineHeight: 1.375rem, $lineCount: 3, $bgColor: $white);
+    @include lineClamp($lines: 3);
     a[target="_blank"]::after {
       -webkit-font-feature-settings: "liga";
       font-feature-settings: "liga";

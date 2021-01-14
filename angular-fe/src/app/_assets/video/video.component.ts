@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 export interface VideoItem {
@@ -18,6 +18,8 @@ export interface VideoItem {
 export class VideoComponent implements OnInit, OnChanges {
 
   @Input() videos;
+  @Output() onLoad: EventEmitter<void> = new EventEmitter();
+
   public videoArray: VideoItem[] = [];
 
   public embedFailed: boolean = false;

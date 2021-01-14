@@ -15,7 +15,7 @@
         <div class="row" *ngIf="showFilter">
           <div class="col-4 sm-12" [class.col-9]="hasCalendar">
             <formItem type="text" title="{{ 'news.filter_name' | translate }}" name="title"
-             [(ngModel)]="searchTitle"></formItem>
+             [(ngModel)]="searchTitle" [ariaLabel]="'news.filter_name' | translate"></formItem>
           </div>
           <!--/col-4-->
           <div class="col-25 sm-12" *ngIf="!hasCalendar">

@@ -244,16 +244,16 @@ export class DetailViewComponent {
     this.feedbackNid = this.data.nid;
 
     this.getSidebar();
-    setTimeout(() => {
-      this.descriptionElement = document.querySelector('.description');
-      this.descriptionOverflown = (this.descriptionElement?.clientHeight || 0) >= 110;
-      if (this.type === 'profession') {
-        this.descriptionLinks = document.querySelectorAll('.description a');
+    if (this.type === 'profession') {
+      setTimeout(() => {
+        this.descriptionElement = document.querySelector('.description--clamped');
+        this.descriptionOverflown = (this.descriptionElement?.clientHeight || 0) > 110;
+        this.descriptionLinks = document.querySelectorAll('.description--clamped a');
         this.descriptionLinks.forEach((link) => {
           link.setAttribute('style', `visibility: ${this.descriptionShown ? 'visible' : 'hidden'}`);
         });
-      }
-    });
+      });
+    }
   }
 
   private watchParams() {

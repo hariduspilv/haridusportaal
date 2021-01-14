@@ -29,3 +29,12 @@ export function scrollElementIntoView(selector: string): void {
     document.querySelector(selector)?.scrollIntoView({ behavior: 'smooth' });
   });
 }
+
+export function slugifyTitle(title: string): string {
+  return title.toLowerCase()
+      .replace(/span/g, '')
+      .replace(/<a href=".+?>/g, '')
+      .replace(/<\/a>/g, '')
+      .replace(/ /g, '-')
+      .replace(/[^A-Za-z0-9üõöä]+/igm, '-');
+}

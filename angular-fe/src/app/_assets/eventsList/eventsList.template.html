@@ -134,7 +134,7 @@
 
                         <div class="title__close" role="close">
                           <span class="htm-icon">
-                            <icon glyph="x"></icon>
+                            <icon glyph="x" aria-hidden="true"></icon>
                             <button class="btn-hidden pointer" id="firstClose" (click)="closePopup()" attr.aria-label="{{'modal.close' | translate}}"></button>
                           </span>
                         </div>
@@ -171,32 +171,39 @@
               <div class="more more__hidden"><a href="javascript:void(0)" (click)="toggleMore(day)" >{{ day.events.length - maxEntries(day) }} veel</a></div>
             </div>
 
-            <div class="popup" *ngIf="morePopup === day">
-              <div class="popupcontent additional" (keyup.esc)="popup = null">
-                <div class="event__block event__block__more">
-                  <div class="title">
-                    <div class="header">
-                      <div class="header__medium">{{ 'time.' + getDayName(year, month, day.i) | translate }}</div>
+            <ng-container *ngIf="morePopup === day">
+              <div class="popup" attr.aria-label="{{'modal'}}" aria-modal="true" role="dialog" (keyup.esc)="morePopup = null" tabindex="0">
+                <div class="popupcontent additional">
+                  <div class="event__block event__block__more">
+                    <div class="title">
+                      <div class="header">
+                        <div class="header__medium">{{ 'time.' + getDayName(year, month, day.i) | translate }}</div>
 
-                      <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
+                        <div class="header__strong">{{day.i}}. {{ 'time.'+ monthName | lowercase | translate}}</div>
 
+                      </div>
+                      <div class="title__close" role="close">
+                        <span class="htm-icon">
+                          <icon glyph="x" aria-hidden="true"></icon>
+                          <button class="btn-hidden pointer" id="secondClose" (click)="closeMore()" attr.aria-label="{{'modal.close' | translate}}"></button>
+                        </span>
+                      </div>
                     </div>
-                    <span class="close more"><a href="javascript:void(0)" class="pointer" id="secondClose" (click)="closeMore()"><span class="htm-icon">close</span></a></span>
+                    <div class="popup__scroll">
+                      <ng-container *ngFor="let event of parseDay( day ); let i = index; let isLast = last">
+                        <a href="javascript:void(0)" (blur)="isLast && trapFocus('secondClose')" class="cal__event pointer" [routerLink]="event.entityUrl.path">
+                          <div class="content content__more">
+                            <span><div class="marker" aria-hidden="true"></div></span>
+                            <span class="content__medium" *ngIf="event.fieldEventMainStartTime">{{ event.fieldEventMainStartTime | unixToTime }}</span>
+                            <span class="content__strong">{{ event.title }}</span>
+                          </div>
+                        </a>
+                      </ng-container>
+                    </div><!--/popup__scroll-->
                   </div>
-                  <div class="popup__scroll">
-                    <ng-container *ngFor="let event of parseDay( day ); let i = index;">
-                      <a href="javascript:void(0)" (blur)="trapFocus('secondClose')" class="cal__event pointer" [routerLink]="event.entityUrl.path">
-                        <div class="content content__more">
-                          <span><div class="marker"></div></span>
-                          <span class="content__medium" *ngIf="event.fieldEventMainStartTime">{{ event.fieldEventMainStartTime | unixToTime }}</span>
-                          <span class="content__strong">{{ event.title }}</span>
-                        </div>
-                      </a>
-                    </ng-container>
-                  </div><!--/popup__scroll-->
                 </div>
               </div>
-            </div>
+            </ng-container>
 
           </td>
         </tr>

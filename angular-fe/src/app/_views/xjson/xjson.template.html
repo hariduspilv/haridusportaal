@@ -407,7 +407,7 @@
 
                                             <ng-template #readonlyDisplay>
                                               <span
-                                                [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ row[col] !== 'undefined' ? row[col] : '' }}</span>
+                                                [attr.aria-label]="row[col] ? row[col] : 'blank'">{{ ( row[col] !== 'undefined' ? row[col] : '' ) | translate }}</span>
                                             </ng-template>
                                             <ng-template #fileReadonlyDisplay>
                                               <span

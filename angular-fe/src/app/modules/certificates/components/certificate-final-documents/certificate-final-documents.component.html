@@ -1,144 +1,251 @@
 <div class="unpadded">
-  <more-block id="e-tunnistused-main" content="abitekst.tunnistused"></more-block>
+	<more-block
+		id="e-tunnistused-main"
+		content="abitekst.tunnistused"
+	></more-block>
 </div>
 <accordion>
-  <accordion-item [title]="'certificates.view_own_certificates' | translate">
-    <ng-template>
-      <more-block id="enda-tunnistused" content="abitekst.enda_tunnistused"></more-block>
+	<accordion-item [title]="'certificates.view_own_certificates' | translate">
+		<ng-template>
+			<more-block
+				id="enda-tunnistused"
+				content="abitekst.enda_tunnistused"
+			></more-block>
 
-      <button htm-button routerLink="/töölaud/tunnistused" fragment="lõputunnistused"
-        *ngIf="isLoggedIn">{{ 'certificates.manage_certificates' | translate }}</button>
-      <button htm-button (click)="logIn('/töölaud/tunnistused#lõputunnistused')"
-        *ngIf="!isLoggedIn">{{ 'generic.login_to_haridusportaal' | translate }}</button>
-    </ng-template>
-  </accordion-item>
+			<button
+				htm-button
+				routerLink="/töölaud/tunnistused"
+				fragment="lõputunnistused"
+				*ngIf="isLoggedIn"
+			>
+				{{ "certificates.manage_certificates" | translate }}
+			</button>
+			<button
+				htm-button
+				(click)="logIn('/töölaud/tunnistused#lõputunnistused')"
+				*ngIf="!isLoggedIn"
+			>
+				{{ "generic.login_to_haridusportaal" | translate }}
+			</button>
+		</ng-template>
+	</accordion-item>
 
-  <accordion-item [title]="'certificates.access_with_idcode' | translate">
-    <ng-template>
-      <more-block id="sinu-id-tunnistused" content="abitekst.sinu_id_tunnistused"></more-block>
+	<accordion-item [title]="'certificates.access_with_idcode' | translate">
+		<ng-template>
+			<more-block
+				id="sinu-id-tunnistused"
+				content="abitekst.sinu_id_tunnistused"
+			></more-block>
 
-      <ng-container *ngIf="isLoggedIn; else logInButton">
-        <loader *ngIf="loading.certificatesById; else certificatesbyIdRef"></loader>
-        <ng-template #certificatesbyIdRef>
-          <scrollableContent>
-            <table htm-table *ngIf="certificatesById && certificatesById.length > 0">
-              <thead>
-                <th></th>
-                <th>{{ 'certificates.owner_name' | translate }}</th>
-                <th>{{ 'certificates.issuer' | translate }}</th>
-                <th>{{ 'certificates.certificate_type' | translate }}</th>
-              </thead>
-              <tbody>
-                <tr *ngFor="let certificate of certificatesById">
-                  <td nowrap>
-                    <a [routerLink]="'/tunnistused/lõpudokumendid/' + certificate.id">
-                      {{ 'button.open' | translate }}
-                    </a>
-                  </td>
-                  <td>{{ certificate.ownerName }}</td>
-                  <td>{{ certificate.issuerName }}</td>
-                  <td>{{ certificate.typeName }}</td>
-                </tr>
-              </tbody>
-            </table>
-          </scrollableContent>
-          <p *ngIf="!certificatesById || certificatesById.length === 0" class="text-center">
-            {{ 'certificates.no_access' | translate }}</p>
-        </ng-template>
-      </ng-container>
+			<ng-container *ngIf="isLoggedIn; else logInButton">
+				<loader
+					*ngIf="loading.certificatesById; else certificatesbyIdRef"
+				></loader>
+				<ng-template #certificatesbyIdRef>
+					<scrollableContent>
+						<table
+							htm-table
+							*ngIf="certificatesById && certificatesById.length > 0"
+						>
+							<thead>
+								<th></th>
+								<th>{{ "certificates.owner_name" | translate }}</th>
+								<th>{{ "certificates.issuer" | translate }}</th>
+								<th>{{ "certificates.certificate_type" | translate }}</th>
+							</thead>
+							<tbody>
+								<tr *ngFor="let certificate of certificatesById">
+									<td nowrap>
+										<a
+											[routerLink]="
+												'/tunnistused/lõpudokumendid/' + certificate.id
+											"
+										>
+											{{ "button.open" | translate }}
+										</a>
+									</td>
+									<td>{{ certificate.ownerName }}</td>
+									<td>{{ certificate.issuerName }}</td>
+									<td>{{ certificate.typeName }}</td>
+								</tr>
+							</tbody>
+						</table>
+					</scrollableContent>
+					<p
+						*ngIf="!certificatesById || certificatesById.length === 0"
+						class="text-center"
+					>
+						{{ "certificates.no_access" | translate }}
+					</p>
+				</ng-template>
+			</ng-container>
 
-      <ng-template #logInButton>
-        <button htm-button
-          (click)="logIn('/tunnistused/lõpudokumendid')">{{ 'certificates.login_to_view' | translate }}</button>
-      </ng-template>
-    </ng-template>
-  </accordion-item>
-  <accordion-item [title]="'certificates.view_with_accesscode' | translate">
-    <ng-template>
-      <more-block id="ligipääsukoodiga-tunnistused" content="abitekst.ligipääsukoodiga_tunnistused"></more-block>
+			<ng-template #logInButton>
+				<button htm-button (click)="logIn('/tunnistused/lõpudokumendid')">
+					{{ "certificates.login_to_view" | translate }}
+				</button>
+			</ng-template>
+		</ng-template>
+	</accordion-item>
+	<accordion-item [title]="'certificates.view_with_accesscode' | translate">
+		<ng-template>
+			<more-block
+				id="ligipääsukoodiga-tunnistused"
+				content="abitekst.ligipääsukoodiga_tunnistused"
+			></more-block>
 
-      <loader *ngIf="loading.certificatesByAccessCode; else certificatesbyAccessCodeRef"></loader>
+			<loader
+				*ngIf="
+					loading.certificatesByAccessCode;
+					else certificatesbyAccessCodeRef
+				"
+			></loader>
 
-      <ng-template #certificatesbyAccessCodeRef>
-        <form [formGroup]="accessFormGroup" (submit)="getCertificateByAccessCode()">
-          <formItem type="text" formControlName="certificateNr" [title]="'certificates.document_nr_field' | translate"
-            [error]="accessFormGroup.controls.certificateNr.invalid && accessFormGroup.controls.certificateNr.dirty"
-            [errorMessage]="'errors.field_required' | translate">
-          </formItem>
-          <formItem type="text" formControlName="accessCode" [title]="'certificates.access_code_field' | translate"
-            [error]="accessFormGroup.controls.accessCode.invalid && accessFormGroup.controls.accessCode.dirty"
-            [errorMessage]="'errors.field_required' | translate">
-          </formItem>
-          <button htm-button type="submit" theme="default">
-            {{ "button.search" | translate }}
-          </button>
-        </form>
-
-      </ng-template>
-      <alerts small="true" id="certificatesByAccessCode"></alerts>
-    </ng-template>
-  </accordion-item>
-  <accordion-item [title]="'certificates.disclosed' | translate">
-    <ng-template>
-      <more-block id="avalikustatud-tunnistused" content="abitekst.avalikustatud_tunnistused"></more-block>
-      <ng-container *ngIf="isLoggedIn; else logInButton">
-      <loader *ngIf="loading.certificatesByDisclosure; else certificatesByDisclosureRef"></loader>
-
-      <ng-template #certificatesByDisclosureRef>
-        <form [formGroup]="disclosureFormGroup" (submit)="getCertificateByDisclosure()" id="disclosureAccordion">
-         <div class="row"> <div class="col-6"><formItem type="text" formControlName="firstName" [title]="'certificates.first_name' | translate"
-            [error]="disclosureFormGroup.controls.firstName.invalid && disclosureFormGroup.controls.firstName.dirty"
-            [errorMessage]="'errors.field_required' | translate">
-          </formItem>
-        </div>
-        <div class="col-6">
-          <formItem type="text" formControlName="lastName" [title]="'certificates.last_name' | translate"
-            [error]="disclosureFormGroup.controls.lastName.invalid && disclosureFormGroup.controls.lastName.dirty"
-            [errorMessage]="'errors.field_required' | translate">
-          </formItem>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-6">
-          <formItem type="text" formControlName="idCode" [title]="'finaldocument.idcode' | translate" 
-          [error]="disclosureFormGroup.controls.idCode.invalid && disclosureFormGroup.controls.idCode.dirty"
-          [errorMessage]="'errors.field_required' | translate">
-        </formItem>
-      </div>
-      </div>
-          <button htm-button type="submit" theme="default">
-            {{ "button.search" | translate }}
-          </button>
-        </form>
-        <scrollableContent>
-          <table htm-table *ngIf="certificatesByDisclosure && certificatesByDisclosure.length > 0">
-            <thead>
-              <th>{{'certificates.issuer' | translate}}</th>
-              <th>{{'certificates.name_and_idcode' | translate}}</th>
-              <th>{{'certificates.issuing_date' | translate}}</th>
-              <th></th>
-            </thead>
-            <tbody>
-              <tr *ngFor="let certificate of certificatesByDisclosure">
-                <td>{{ certificate.issuerName }}</td>
-                <td><p>{{ certificate.ownerName }}</p><p>{{ certificate.ownerIdCode }}</p></td>
-                <td>{{ certificate.issued | date:"dd.MM.yyyy" }}</td>
-                <td nowrap>
-                  <a [routerLink]="'/tunnistused/lõpudokumendid/' + certificate.id" [queryParams]="{avalikustatud: true}">
-                    {{ 'button.open' | translate }}
-                  </a>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </scrollableContent>
-      </ng-template>
-      </ng-container>
-      <alerts small="true" id="certificatesByDisclosure"></alerts>
-    </ng-template>
-    <ng-template #logInButton>
-      <button htm-button
-        (click)="logIn('/tunnistused/lõpudokumendid')">{{ 'certificates.login_to_view' | translate }}</button>
-    </ng-template>
-  </accordion-item>
+			<ng-template #certificatesbyAccessCodeRef>
+				<form
+					[formGroup]="accessFormGroup"
+					(submit)="getCertificateByAccessCode()"
+				>
+					<formItem
+						type="text"
+						formControlName="certificateNr"
+						[title]="'certificates.document_nr_field' | translate"
+						[error]="
+							accessFormGroup.controls.certificateNr.invalid &&
+							accessFormGroup.controls.certificateNr.dirty
+						"
+						[errorMessage]="'errors.field_required' | translate"
+					>
+					</formItem>
+					<formItem
+						type="text"
+						formControlName="accessCode"
+						[title]="'certificates.access_code_field' | translate"
+						[error]="
+							accessFormGroup.controls.accessCode.invalid &&
+							accessFormGroup.controls.accessCode.dirty
+						"
+						[errorMessage]="'errors.field_required' | translate"
+					>
+					</formItem>
+					<button htm-button type="submit" theme="default">
+						{{ "button.search" | translate }}
+					</button>
+				</form>
+			</ng-template>
+			<alerts small="true" id="certificatesByAccessCode"></alerts>
+		</ng-template>
+	</accordion-item>
+	<accordion-item [title]="'certificates.disclosed' | translate">
+		<ng-template>
+			<more-block
+				id="avalikustatud-tunnistused"
+				content="abitekst.avalikustatud_tunnistused"
+			></more-block>
+			<alerts class="m-bottom-1" small id="certificatesByDisclosure"></alerts>
+			<loader
+				*ngIf="
+					loading.certificatesByDisclosure;
+					else certificatesByDisclosureRef
+				"
+			></loader>
+			<ng-template #certificatesByDisclosureRef>
+				<form
+					[formGroup]="disclosureFormGroup"
+					(submit)="getCertificateByDisclosure()"
+					id="disclosureAccordion"
+				>
+					<div class="row m-bottom-1">
+						<div class="col-6">
+							<formItem
+								type="text"
+								formControlName="firstName"
+								[title]="'certificates.first_name' | translate"
+								[error]="
+									disclosureFormGroup.controls.firstName.invalid &&
+									disclosureFormGroup.controls.firstName.dirty
+								"
+								[errorMessage]="'errors.field_required' | translate"
+								[attr.aria-label]="'certificates.first_name' | translate"
+							>
+							</formItem>
+						</div>
+						<div class="col-6">
+							<formItem
+								type="text"
+								formControlName="lastName"
+								[title]="'certificates.last_name' | translate"
+								[error]="
+									disclosureFormGroup.controls.lastName.invalid &&
+									disclosureFormGroup.controls.lastName.dirty
+								"
+								[errorMessage]="'errors.field_required' | translate"
+								[attr.aria-label]="'certificates.last_name' | translate"
+							>
+							</formItem>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-6">
+							<formItem
+								type="text"
+								formControlName="idCode"
+								[title]="'finaldocument.idcode' | translate"
+								[error]="
+									disclosureFormGroup.controls.idCode.invalid &&
+									disclosureFormGroup.controls.idCode.dirty
+								"
+								[errorMessage]="'errors.field_required' | translate"
+								[attr.aria-label]="'finaldocument.idcode' | translate"
+							>
+							</formItem>
+						</div>
+					</div>
+					<button htm-button type="submit" theme="default">
+						{{ "button.search" | translate }}
+					</button>
+				</form>
+				<scrollableContent>
+					<table
+						htm-table
+						*ngIf="
+							certificatesByDisclosure && certificatesByDisclosure.length > 0
+						"
+					>
+						<thead>
+							<th>{{ "certificates.issuer" | translate }}</th>
+							<th>{{ "certificates.name_and_idcode" | translate }}</th>
+							<th>{{ "certificates.issuing_date" | translate }}</th>
+							<th></th>
+						</thead>
+						<tbody>
+							<tr *ngFor="let certificate of certificatesByDisclosure">
+								<td>{{ certificate.issuerName }}</td>
+								<td>
+									<p>{{ certificate.ownerName }}</p>
+									<p>{{ certificate.ownerIdCode }}</p>
+								</td>
+								<td>{{ certificate.issued | date: "dd.MM.yyyy" }}</td>
+								<td nowrap>
+									<a
+										[routerLink]="
+											'/tunnistused/lõpudokumendid/' + certificate.id
+										"
+										[queryParams]="{ avalikustatud: true }"
+									>
+										{{ "button.open" | translate }}
+									</a>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</scrollableContent>
+			</ng-template>
+		</ng-template>
+		<ng-template #logInButton>
+			<button htm-button (click)="logIn('/tunnistused/lõpudokumendid')">
+				{{ "certificates.login_to_view" | translate }}
+			</button>
+		</ng-template>
+	</accordion-item>
 </accordion>
