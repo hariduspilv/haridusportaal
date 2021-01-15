@@ -71,7 +71,7 @@
               <td class="normal">{{ 'frontpage.kestus' | translate }}</td>
               <td class="normal">{{ elem.kestus || item.kestus }}</td>
             </tr>
-            <ng-container *ngIf="last">
+            <ng-container *ngIf="last && item.oppLopp">
               <tr *ngIf="item['spetsilaiseerumine ']">
                 <td class="normal">{{ 'frontpage.spetsialiseerumine' | translate }}</td>
                 <td class="normal">{{ item['spetsilaiseerumine '] }}</td>
@@ -170,7 +170,7 @@
             </ng-container>
           </td>
         </tr><!-- /Koormus -->
-        <tr *ngIf="item.oppekavataitine?.length">
+        <tr *ngIf="item.oppekavataitine?.protsent">
           <td class="normal">{{ 'frontpage.oppekavataitmine' | translate }}</td>
           <td class="normal">{{ item.oppekavataitine.protsent }}% ({{ item.oppekavataitine.otsusKp}}
             {{ 'frontpage.seisuga' | translate }})</td>
@@ -204,7 +204,7 @@
             <ng-container *ngIf="(item.loppKp && secondIndex === 0) || !item.loppKp">
               <tr [class.extraBottom]="!last && !elem.algusKp && !elem.loppKp">
                 <td class="normal multi--bordered">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
-                <td class="normal multi--bordered">{{ elem.oppekava }}</td>
+                <td class="normal multi--bordered">{{ elem.nimetus }}</td>
               </tr>
               <tr [class.extraBottom]="!last && (elem.algusKp || elem.loppKp)"
                 *ngIf="elem.algusKp || elem.loppKp">
@@ -219,7 +219,7 @@
             </ng-container>
           </ng-container>
         </ng-container>
-        <!--/finAllikas-->
+        <!--/okVahetamine-->
         <ng-container *ngIf="item.finAllikas?.length">
           <!--finAllikas-->
           <tr class="extraRow">
