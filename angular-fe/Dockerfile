@@ -42,4 +42,4 @@ RUN apk del native-deps
 
 EXPOSE 80
 
-ENTRYPOINT node --max-http-header-size 15000 index.js
+ENTRYPOINT node --max-http-header-size 30000 index.js

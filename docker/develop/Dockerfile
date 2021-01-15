@@ -18,15 +18,13 @@ COPY ./node /app/node
 WORKDIR /app/node
 RUN npm ci
 
-COPY --from=build /app/angular-fe/dist /app/node/dist
-# Check if node falters without this clause
 COPY --from=build /app/angular-fe /app/angular-fe
 
 # Remove dependencies after install
 RUN apk del native-deps
 
 EXPOSE 80
-ENTRYPOINT node --max-http-header-size 15000 index.js
+ENTRYPOINT node --max-http-header-size 30000 index.js
 
 
 
