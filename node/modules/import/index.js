@@ -5,7 +5,7 @@ const ncp = require('ncp').ncp;
 module.exports = async () => {
   const angularExists = await fs.existsSync(path.resolve('./', 'dist'));
   if (!angularExists) {
-    const source = path.resolve('./', '../angular-fe/dist/haridusportaal-fe');
+    const source = path.resolve('./', '../angular-fe/dist');
     const destination = path.resolve('./', 'dist');
     const findDist = await fs.existsSync(source);
     if (findDist) {
