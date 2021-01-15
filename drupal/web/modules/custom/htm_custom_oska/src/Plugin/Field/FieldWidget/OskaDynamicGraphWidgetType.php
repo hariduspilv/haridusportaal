@@ -325,6 +325,13 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#maxlength' => 1500,
                 '#default_value' => isset($data['graph_text']['value']) ? $data['graph_text']['value'] : NULL,
             ];
+
+            $element['graph_options']['graph_source'] = [
+              '#title' => $this->t('Graph source'),
+              '#type' => 'textfield',
+              '#maxlength' => 150,
+              '#default_value' => isset($data['graph_source']) ? $data['graph_source'] : NULL,
+            ];
         }
 
         return $element;
@@ -442,6 +449,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 'secondary_graph_type' => isset($value['graph_options']['secondary_graph_type']) ? $value['graph_options']['secondary_graph_type'] : NULL,
                 'graph_text' => $value['graph_options']['graph_text']['value'],
                 'filter_values' => json_encode($value, TRUE),
+                'graph_source' => $value['graph_options']['graph_source'],
             ];
         }
 
