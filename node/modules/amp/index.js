@@ -11,6 +11,7 @@ module.exports.getPrefix = (server) => {
       "edu.ee": "https://api.hp.edu.ee",
       "www.edu.ee": "https://api.hp.edu.ee",
       "test.edu.ee": "https://apitest.hp.edu.ee",
+      "haridusportaal.twn.zone": "https://htm.wiseman.ee",
       "htm.local": "https://htm.wiseman.ee",
       "haridusportaal.edu.ee": "https://api.hp.edu.ee",
       "fallback": "https://htm.wiseman.ee"
