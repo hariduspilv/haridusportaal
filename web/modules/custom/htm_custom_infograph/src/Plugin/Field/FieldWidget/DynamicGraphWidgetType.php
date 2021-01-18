@@ -395,8 +395,16 @@ class DynamicGraphWidgetType extends WidgetBase {
 
   public function extractFormValues(FieldItemListInterface $items, array $form, FormStateInterface $form_state)
   {
-    $field_name = $this->fieldDefinition->getName();
+    // If the .csv file is removed from an infograph, then make the whole graph empty after save & submit.
+    $graph_values = $form_state->getValue('field_infograph');
 
+    foreach ($graph_values as $key => $graph_value){
+      if(($key !== 'add_more') && empty($graph_value['graph_source_file'])) {
+        $form_state->setValue(['field_infograph', $key, 'graph_type'], '');
+      }
+    }
+
+    $field_name = $this->fieldDefinition->getName();
 
     // Extract the values from $form_state->getValues().
     $path = array_merge($form['#parents'], [$field_name]);
