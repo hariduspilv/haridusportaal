@@ -14,7 +14,6 @@ WORKDIR /app/node
 RUN npm ci
 RUN apk del native-deps
 
-EXPOSE 80
 ENTRYPOINT node --max-http-header-size 30000 index.js
 
 
