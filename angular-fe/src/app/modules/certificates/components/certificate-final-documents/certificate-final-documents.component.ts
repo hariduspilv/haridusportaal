@@ -10,6 +10,7 @@ import { AccessType } from '../../models/enums/access-type.enum';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CertificateSearchCertificateStatus, CertificateStatus } from '../../models/interfaces/certificate-document';
+import { link } from 'fs';
 
 @Component({
   selector: 'certificate-final-documents',
@@ -112,6 +113,18 @@ export class CertificateFinalDocumentsComponent {
       });
   }
 
+  focusFirstDisclosure() {
+    const tbl: HTMLElement = document.querySelector('#certificatesByDisclosureTable');
+    if (!tbl) {
+      return;
+    }
+
+    const links = tbl.querySelectorAll('a');
+    if (links.length) {
+      links[0].focus();
+    }
+  }
+
   getCertificateByDisclosure() {
     this.alertsService.clear('certificatesByDisclosure');
     const { idCode, firstName, lastName } = this.disclosureFormGroup.value;
@@ -135,6 +148,7 @@ export class CertificateFinalDocumentsComponent {
       this.certificatesByDisclosure = this.cleanDisclosureCertificatesResponse(res);
       this.liveAnnouncer.announce(this.translateService.get('liveAnnouncer.found_x_results').replace('%amount%', this.certificatesByDisclosure.length))
       this.loading.certificatesByDisclosure = false;
+      setTimeout(x => this.focusFirstDisclosure(), 100);
     }, (err) => {
       this.loading.certificatesByDisclosure = false;
       this.certificatesByDisclosure = [];

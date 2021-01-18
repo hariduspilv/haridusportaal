@@ -45,10 +45,11 @@
 					<scrollableContent>
 						<table
 							htm-table
+							id="certificatesByIdTable"
 							*ngIf="certificatesById && certificatesById.length > 0"
 						>
 							<thead>
-								<th></th>
+								<td></td>
 								<th>{{ "certificates.owner_name" | translate }}</th>
 								<th>{{ "certificates.issuer" | translate }}</th>
 								<th>{{ "certificates.certificate_type" | translate }}</th>
@@ -210,6 +211,7 @@
 				<scrollableContent>
 					<table
 						htm-table
+						id="certificatesByDisclosureTable"
 						*ngIf="
 							certificatesByDisclosure && certificatesByDisclosure.length > 0
 						"
@@ -221,7 +223,7 @@
 							<td></td>
 						</thead>
 						<tbody>
-							<tr *ngFor="let certificate of certificatesByDisclosure">
+							<tr *ngFor="let certificate of certificatesByDisclosure; let inx = index">
 								<td>{{ certificate.issuerName }}</td>
 								<td>
 									<p>{{ certificate.ownerName }}</p>
