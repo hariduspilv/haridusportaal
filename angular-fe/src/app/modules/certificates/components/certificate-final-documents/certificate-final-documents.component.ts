@@ -10,7 +10,6 @@ import { AccessType } from '../../models/enums/access-type.enum';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { CertificateSearchCertificateStatus, CertificateStatus } from '../../models/interfaces/certificate-document';
-import { link } from 'fs';
 
 @Component({
   selector: 'certificate-final-documents',
