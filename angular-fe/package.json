@@ -65,6 +65,7 @@
     "@types/jasminewd2": "^2.0.8",
     "@types/node": "^8.10.61",
     "@types/swiper": "^5.4.0",
+    "autoprefixer": "^10.2.1",
     "babel-loader": "^8.1.0",
     "codelyzer": "^5.2.2",
     "ftp-deploy": "^2.3.7",
