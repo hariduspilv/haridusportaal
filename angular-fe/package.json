@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "storybook": "start-storybook -p 4300",
-    "build-storybook": "build-storybook -c .storybook -o dist/storybook",
+    "build-storybook": "build-storybook --quiet -c .storybook -o dist/storybook",
     "deploy-storybook": "build-storybook -c .storybook -o dist/storybook && node scripts/deploy-storybook.js",
     "deploy-app": "ng build --configuration dev && node scripts/deploy-edu.js",
     "build-app-with-storybook": "npm run build && npm run build-storybook"

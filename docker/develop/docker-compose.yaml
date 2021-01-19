@@ -6,7 +6,8 @@ services:
     hostname: angular
     networks:
       - htm
-    image: harbor.twn.zone/haridusportaal/angular:develop
+    image: hub.wiseman.ee/htm/angular-dev:develop
+    # image: harbor.twn.zone/haridusportaal/angular:develop
     restart: always
     environment:
       PORT: 4200
