@@ -24,9 +24,6 @@ class ProcessOskaTableData {
     public static function ValidateFile($items, &$context){
         $message = t('Validating file');
 
-        //first delete all subsidies
-        self::deleteAllEntities();
-
         #dump(self::$k['EHIS_ID']);
         $results = [];
         $object = [
@@ -137,14 +134,22 @@ class ProcessOskaTableData {
     public static function ProcessOskaTableDataFinishedCallback($success, $results, $operations){
         // The 'success' parameter means no fatal PHP errors were detected. All
         // other error management should be handled using 'results'.
+        $tempstore = \Drupal::service('tempstore.private')->get('oska_table_entity');
         if ($success) {
             if(isset($results['error'])){
+                // If the uploaded oska table data csv file is incorrect, delete the temporary entities but preserve the existing table data
                 $message = [implode(', ', $results['error']), 'error'];
+                $tempstore->delete('entities');
             }else{
                 $message = [\Drupal::translation()->formatPlural(
                     count($results['processed']),
                     'One oska table item processed.', '@count oska table items processed.'
                 ), 'status'];
+                //If the uploaded oska table csv data file is correct, rewrite the table
+                $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_table_entity');
+                $entities = $tempstore->get('entities');
+                $storage_handler->delete($entities);
+                $tempstore->delete('entities');
             }
         }
         else {
@@ -167,10 +172,4 @@ class ProcessOskaTableData {
         return ($entity) ? $entity->id() : FALSE;
     }
 
-    private function deleteAllEntities(){
-        $ids = \Drupal::entityQuery('oska_table_entity')->execute();
-        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_table_entity');
-        $entities = $storage_handler->loadMultiple($ids);
-        $storage_handler->delete($entities);
-    }
 }
