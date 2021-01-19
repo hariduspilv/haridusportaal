@@ -1,0 +1,54 @@
+version: '3.7'
+
+services:
+  angular:
+    container_name: angular
+    hostname: angular
+    networks:
+      - htm
+    image: harbor.twn.zone/haridusportaal/angular:develop
+    restart: always
+    environment:
+      PORT: 4200
+  letsencrypt:
+    container_name: letsencrypt
+    hostname: letsencrypt
+    networks:
+      - htm
+    image: linuxserver/letsencrypt
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+      - URL=haridusportaal.twn.zone
+      - SUBDOMAINS=wildcard,
+      - VALIDATION=dns
+      - DNSPLUGIN=digitalocean
+      - EMAIL=madispold@hotmail.com
+      - DHLEVEL=4096
+    volumes:
+      - ../etc/config:/config
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    networks:
+      - htm
+    image: nginx:1.15
+    restart: always
+    links:
+      - angular
+      - letsencrypt
+    depends_on:
+      - angular
+      - letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx:/etc/nginx
+      - /etc/nginx/certs/fullchain.pem:/etc/ssl/private/fullchain.pem
+      - /etc/nginx/certs/privkey.pem:/etc/ssl/private/privkey.pem
+
+networks:
+  htm:
