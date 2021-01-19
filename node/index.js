@@ -8,7 +8,7 @@ const compression = require('compression')
 const botCheck = require(`${__dirname}/modules/botCheck`);
 const serveStatic = require('serve-static');
 const stats = require(`${__dirname}/modules/stats`);
-const port = 80;
+const port = process.env.PORT || 80;
 
 angularImporter();
 
