@@ -1,5 +1,4 @@
 const express = require('express');
-const router = express.Router();
 const app = express();
 const picto = require(`${__dirname}/modules/picto`);
 const amp = require(`${__dirname}/modules/amp`);
