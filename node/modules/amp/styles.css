@@ -12,7 +12,7 @@ body{
   width: 100%;
   height: 4rem;
   z-index: 10;
-  background:#2e3374;
+  background: #bee3e8;
   display:flex;
 }
 
@@ -41,6 +41,7 @@ body{
   flex-shrink: 0;
 }
 .header .icon img {
+  fill:#2e3374;
   height: 1.25rem;
 }
 
