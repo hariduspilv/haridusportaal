@@ -35,7 +35,6 @@ app.get('/storybook', storybookServer);
 
 app.get('*', botCheck.redirect, (req, res, next) => {
   res.sendFile(`${__dirname}/dist/index.html`);
-  console.log('redirect');
 });
 
 app.listen(port);
