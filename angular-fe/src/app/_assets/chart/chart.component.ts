@@ -27,7 +27,7 @@ export class ChartComponent implements OnInit {
   requestDebounce: Object = {};
   requestSubscription: Object = {};
 
-  initiallyFilledSelects = ['näitaja', 'valdkond'];
+  initiallyFilledSelects = ['näitaja', 'valdkond', 'silt'];
 
   singleIndicatorCharts = ['line', 'pie', 'doughnut'];
 
