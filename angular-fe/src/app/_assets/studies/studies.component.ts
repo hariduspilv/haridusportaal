@@ -4,25 +4,24 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AccordionComponent } from '../accordion';
+import { ExternalQualifications, OppelaenOigus, Studies, StudiesResponse } from './studies.model';
 
 @Component({
   selector: 'studies',
   templateUrl: './studies.template.html',
   styleUrls: ['./studies.styles.scss'],
 })
-
 export class StudiesComponent implements OnInit {
-  @Input() jwt;
-  @ViewChild('sudiesAccordion') accordion: AccordionComponent;
-  content: any = false;
-  loading: boolean = true;
-  error: boolean = false;
-  requestErr: boolean = false;
-  dataErr: boolean = false;
-  oppelaenOigus: any = false;
-  totalAccordions: number = 0;
-  activeAccordions: number = 0;
-  headers: HttpHeaders;
+  @ViewChild('studiesAccordion') accordion: AccordionComponent;
+  public content: (Studies | ExternalQualifications)[];
+  public loading: boolean = true;
+  public error: boolean = false;
+  public requestErr: boolean = false;
+  public dataErr: boolean = false;
+  public oppelaenOigus: OppelaenOigus;
+  public totalAccordions: number = 0;
+  public activeAccordions: number = 0;
+  public headers: HttpHeaders;
   public expandedStates: boolean[] = [];
   public stateChanged: boolean;
 
@@ -34,18 +33,38 @@ export class StudiesComponent implements OnInit {
     private cdr: ChangeDetectorRef,
   ) { }
 
-  ngOnInit() {
+  /**
+   * Get the title for the accordion according to the item
+   * @param item Study or External Qualification
+   */
+  public getAccordionTitle(item: Studies | ExternalQualifications): string {
+    const test1 = item as Studies;
+    if (test1.oppeasutus) {
+      return test1.oppeasutus
+        + (test1.staatus ? ', ' + this.parseTypeTranslation(test1.staatus) : '')
+        + (test1.oppLopp ? ' ' + test1.oppLopp : '');
+    }
+    const test2 = item as ExternalQualifications;
+    return (test2.oppeasutuseNimiTranslit
+      ? test2.oppeasutuseNimiTranslit
+      : test2.oppeasutuseNimiMuusKeeles).trim()
+      + (test2.valjaandmKp
+        ? ', ' + this.parseTypeTranslation('LOPETANUD') + ' ' + test2.valjaandmKp
+        : '');
+  }
+
+  public ngOnInit() {
     this.fetchData();
   }
 
-  fetchData() {
+  private fetchData() {
     this.loading = true;
     const sub = this.http
       .get(
         `${this.settings.url}/dashboard/eeIsikukaart/studies?_format=json`,
       )
       .subscribe(
-        (response: any) => {
+        (response: StudiesResponse) => {
           if (response.error) {
             this.error = true;
             this.requestErr = true;
@@ -53,14 +72,16 @@ export class StudiesComponent implements OnInit {
             this.alertsService
               .info(response.error.message_text[currentLang], 'studies', 'studies', false, false);
           } else {
-            if (response['value'] && response['value']['isikuandmed']) {
-              this.oppelaenOigus = response['value']['isikuandmed']['oppelaenOigus'];
+            if (response.value?.isikuandmed) {
+              this.oppelaenOigus = response.value.isikuandmed.oppelaenOigus;
             }
-            const resultData = response['value']['oping'];
+            const resultData = [...response.value.oping, ...response.value.valineKvalifikatsioon];
             this.content = resultData.sort((a, b) => {
-              const arrA = a.oppAlgus.split('.');
+              const field1 = (a as Studies).oppAlgus || (a as ExternalQualifications).valjaandmKp;
+              const field2 = (b as Studies).oppAlgus || (b as ExternalQualifications).valjaandmKp;
+              const arrA = field1?.split('.');
               const valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
-              const arrB = b.oppAlgus.split('.');
+              const arrB = field2.split('.');
               const valB = `${arrB[2]}-${arrB[1]}-${arrB[0]}`;
               return +new Date(valB) - +new Date(valA);
             });
@@ -85,22 +106,22 @@ export class StudiesComponent implements OnInit {
         });
   }
 
-  openAllAccordions() {
+  public openAllAccordions() {
     this.accordion.openAll();
   }
 
-  closeAllAccordions() {
+  public closeAllAccordions() {
     this.accordion.closeAll();
   }
 
-  accordionChange($event): void {
+  public accordionChange($event): void {
     this.totalAccordions = $event.length;
     this.activeAccordions = $event.filter((item) => {
       return item.isActive ? item : false;
     }).length;
   }
 
-  parseTypeTranslation(type) {
+  public parseTypeTranslation(type) {
     const translation = this.translate.get(`frontpage.${type}`).toString();
     if (translation.includes(`frontpage.${type}`)) {
       return type.toLocaleLowerCase();
@@ -108,16 +129,16 @@ export class StudiesComponent implements OnInit {
     return translation.toLocaleLowerCase();
   }
 
-  initializeAccordionStates(arr: object[]) {
+  public initializeAccordionStates(arr: object[]) {
     arr.forEach(() => this.expandedStates.push(false));
   }
 
-  setAccordionStates(state: boolean) {
+  public setAccordionStates(state: boolean) {
     this.stateChanged = true;
     this.expandedStates = this.expandedStates.map(elem => state);
   }
 
-  closedAccordionsExist(): number {
+  public closedAccordionsExist(): number {
     return this.expandedStates.filter(elem => !elem).length;
   }
 }
