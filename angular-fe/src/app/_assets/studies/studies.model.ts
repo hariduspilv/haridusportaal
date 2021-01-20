@@ -69,8 +69,29 @@ export interface Studies {
   kutseKoolitus?: any;
 }
 
+export interface ExternalQualifications {
+  oppeasutuseNimiMuusKeeles?: string;
+  oppeasutuseNimiTranslit?: string;
+  riik?: string;
+  oppekavaNimetusOrig?: string;
+  oppekavaNimetusEesti?: string;
+  oppekavaNominKestus?: string;
+  lisaKval?: string;
+  dokument?: string;
+  kvalVastavus?: string;
+  kvalNimetusOrig?: string;
+  eqfTase?: string;
+  iscedTase?: string;
+  valjaandmKp?: string;
+  dokumendiNumber?: string;
+  enicNaricHinnanguKp?: string;
+  enicNaricHinnanguNumber?: string;
+  kommentaar?: string;
+}
+
 export interface StudiesValue {
   isikuandmed: PersonalDetails;
+  valineKvalifikatsioon: ExternalQualifications[];
   oping: Studies[];
 }
 
