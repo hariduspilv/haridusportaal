@@ -167,6 +167,7 @@ query oskaFieldDetailView($path: String!) {
             graphType
             secondaryGraphType
             graphText
+            graphSource
           }
         }
         __typename
