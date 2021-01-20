@@ -12,6 +12,7 @@ query oskaFieldComparisonPageQuery($lang: LanguageId!) {
           graphType
           secondaryGraphType
           graphText
+          graphSource
         }
         nid
       }
