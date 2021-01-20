@@ -6,13 +6,14 @@
     </div><!--/map-loader-->
     <agm-map (mapReady)="mapReady($event)"
       (zoomChange)="zoomChange($event)"
-      [zoomControl]="options.enableZoomControl"
-      [streetViewControl]="options.enableStreetViewControl"
       [mapDraggable]="options.draggable"
       [zoom]="options.zoom"
       [minZoom]="options.minZoom"
       [maxZoom]="options.maxZoom"
+      [disableDefaultUI]="true"
       [styles]="defaultMapOptions.styles">
+      <agm-zoom-control *ngIf="options.enableZoomControl"></agm-zoom-control>
+      <agm-street-view-control *ngIf="options.enableStreetViewControl"></agm-street-view-control>
       <agm-marker-cluster *ngIf="type === 'markers' && markers && markers.length" [styles]="defaultMapOptions.clusterStyles">
         <agm-marker *ngFor="let marker of markers"
           [latitude]="marker.lat || marker.Lat"
