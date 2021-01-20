@@ -31,10 +31,7 @@
               "src/assets",
               "src/favicon.ico",
               "src/auth.html",
-              "src/manifest.webmanifest",
-              "src/redirect.php",
-              "src/robots.txt",
-              "src/stats"
+              "src/robots.txt"
             ],
             "serviceWorker": true,
             "styles": [
