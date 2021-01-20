@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Serializer;
 use Symfony\Component\Serializer\Encoder\CsvEncoder;
 /**
- * Class DeleteNodeForm.
+ * Class OskaInfographImportDataForm.
  *
  * @package Drupal\batch_example\Form
  */
