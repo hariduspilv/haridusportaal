@@ -5,7 +5,7 @@
     2. docker push hub.wiseman.ee/htm/angular:prod
 ## Develop (building from current working branch)
 ### SERVER:
-  root@haridusportaal.twn.zone
+  * root@haridusportaal.twn.zone
 
 ### CI:
   https://bamboo.twn.ee/browse/HP-DEVFE

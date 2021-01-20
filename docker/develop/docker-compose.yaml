@@ -6,11 +6,8 @@ services:
     hostname: angular
     networks:
       - htm
-    image: hub.wiseman.ee/htm/angular-dev:develop
-    # image: harbor.twn.zone/haridusportaal/angular:develop
+    image: harbor.twn.zone/haridusportaal/angular:develop
     restart: always
-    environment:
-      PORT: 4200
   letsencrypt:
     container_name: letsencrypt
     hostname: letsencrypt
@@ -19,15 +16,15 @@ services:
     image: linuxserver/letsencrypt
     restart: unless-stopped
     environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/London
-      - URL=haridusportaal.twn.zone
-      - SUBDOMAINS=wildcard,
-      - VALIDATION=dns
-      - DNSPLUGIN=digitalocean
-      - EMAIL=madispold@hotmail.com
-      - DHLEVEL=4096
+      - PUID=${USER_AND_GROUP_ID}
+      - PGID=${USER_AND_GROUP_ID}
+      - TZ=${TZ}
+      - URL=${URL}
+      - SUBDOMAINS=${SUBDOMAINS}
+      - VALIDATION=${VALIDATION}
+      - DNSPLUGIN=${DNSPLUGIN}
+      - EMAIL=${EMAIL}
+      - DHLEVEL=${DHLEVEL}
     volumes:
       - ../etc/config:/config
   nginx:
