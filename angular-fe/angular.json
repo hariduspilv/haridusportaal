@@ -34,7 +34,6 @@
               "src/manifest.webmanifest",
               "src/redirect.php",
               "src/robots.txt",
-              "src/amp-php",
               "src/stats"
             ],
             "serviceWorker": true,
