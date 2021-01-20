@@ -13,6 +13,7 @@
     $data = $FieldVaryService->parse($URL->getData());
     
     if ($data) {
+      console.log('running php amp');
       $template = file_get_contents('./resources/template.mustache');
       $styles = file_get_contents('./resources/styles.css');
       $data->styles = $styles;
