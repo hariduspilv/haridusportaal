@@ -4,11 +4,12 @@ const app = express();
 const picto = require(`${__dirname}/modules/picto`);
 const amp = require(`${__dirname}/modules/amp`);
 const angularImporter = require(`${__dirname}/modules/import`);
+const storybookServer = require(`${__dirname}/modules/storybook`);
 const compression = require('compression')
 const botCheck = require(`${__dirname}/modules/botCheck`);
 const serveStatic = require('serve-static');
 const stats = require(`${__dirname}/modules/stats`);
-const port = 80;
+const port = process.env.PORT || 80;
 
 angularImporter();
 
@@ -31,6 +32,7 @@ app.use('/', express.static(`${__dirname}/dist`, {
 app.get('/amp/*', amp.serve);
 app.get('/picto', picto.serve);
 app.get('/stats', stats);
+app.get('/storybook', storybookServer);
 
 app.get('*', botCheck.redirect, (req, res, next) => {
   res.sendFile(`${__dirname}/dist/index.html`);

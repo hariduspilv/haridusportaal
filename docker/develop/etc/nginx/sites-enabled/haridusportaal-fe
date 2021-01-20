@@ -1,0 +1,23 @@
+upstream angular {
+    server      angular;
+}
+
+server {
+  listen        80;
+  server_name   _;
+
+  return        301 https://$host$request_uri;
+}
+
+server {
+    listen      443 ssl;
+    server_name haridusportaal.twn.zone;
+
+    include     /etc/nginx/common.conf;
+    include     /etc/nginx/ssl.conf;
+
+    location / {
+        proxy_pass  http://angular;
+        include     common_location.conf;
+    }
+}
