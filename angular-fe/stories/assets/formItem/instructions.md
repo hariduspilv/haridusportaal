@@ -123,3 +123,4 @@
 | error | false | true, false | boolean | Form items error theme
 | errorMessage | - | - | string | Error message for 'error' theme
 | success | false | true, false | boolean | Form items success theme
+| ariaLabel | "" | - | text | aria-label for input element

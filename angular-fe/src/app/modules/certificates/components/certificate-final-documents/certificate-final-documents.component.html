@@ -45,10 +45,11 @@
 					<scrollableContent>
 						<table
 							htm-table
+							id="certificatesByIdTable"
 							*ngIf="certificatesById && certificatesById.length > 0"
 						>
 							<thead>
-								<th></th>
+								<td></td>
 								<th>{{ "certificates.owner_name" | translate }}</th>
 								<th>{{ "certificates.issuer" | translate }}</th>
 								<th>{{ "certificates.certificate_type" | translate }}</th>
@@ -110,6 +111,7 @@
 						type="text"
 						formControlName="certificateNr"
 						[title]="'certificates.document_nr_field' | translate"
+						[ariaLabel]="'certificates.document_nr_field' | translate"
 						[error]="
 							accessFormGroup.controls.certificateNr.invalid &&
 							accessFormGroup.controls.certificateNr.dirty
@@ -121,6 +123,7 @@
 						type="text"
 						formControlName="accessCode"
 						[title]="'certificates.access_code_field' | translate"
+						[ariaLabel]="'certificates.access_code_field' | translate"
 						[error]="
 							accessFormGroup.controls.accessCode.invalid &&
 							accessFormGroup.controls.accessCode.dirty
@@ -166,7 +169,7 @@
 									disclosureFormGroup.controls.firstName.dirty
 								"
 								[errorMessage]="'errors.field_required' | translate"
-								[attr.aria-label]="'certificates.first_name' | translate"
+								[ariaLabel]="'certificates.first_name' | translate"
 							>
 							</formItem>
 						</div>
@@ -180,7 +183,7 @@
 									disclosureFormGroup.controls.lastName.dirty
 								"
 								[errorMessage]="'errors.field_required' | translate"
-								[attr.aria-label]="'certificates.last_name' | translate"
+								[ariaLabel]="'certificates.last_name' | translate"
 							>
 							</formItem>
 						</div>
@@ -196,7 +199,7 @@
 									disclosureFormGroup.controls.idCode.dirty
 								"
 								[errorMessage]="'errors.field_required' | translate"
-								[attr.aria-label]="'finaldocument.idcode' | translate"
+								[ariaLabel]="'finaldocument.idcode' | translate"
 							>
 							</formItem>
 						</div>
@@ -208,6 +211,7 @@
 				<scrollableContent>
 					<table
 						htm-table
+						id="certificatesByDisclosureTable"
 						*ngIf="
 							certificatesByDisclosure && certificatesByDisclosure.length > 0
 						"
@@ -216,7 +220,7 @@
 							<th>{{ "certificates.issuer" | translate }}</th>
 							<th>{{ "certificates.name_and_idcode" | translate }}</th>
 							<th>{{ "certificates.issuing_date" | translate }}</th>
-							<th></th>
+							<td></td>
 						</thead>
 						<tbody>
 							<tr *ngFor="let certificate of certificatesByDisclosure">

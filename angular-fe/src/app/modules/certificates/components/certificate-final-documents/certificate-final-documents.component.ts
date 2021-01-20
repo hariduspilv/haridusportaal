@@ -112,6 +112,18 @@ export class CertificateFinalDocumentsComponent {
       });
   }
 
+  focusFirstDisclosure() {
+    const tbl: HTMLElement = document.querySelector('#certificatesByDisclosureTable');
+    if (!tbl) {
+      return;
+    }
+
+    const links = tbl.querySelectorAll('a');
+    if (links.length) {
+      links[0].focus();
+    }
+  }
+
   getCertificateByDisclosure() {
     this.alertsService.clear('certificatesByDisclosure');
     const { idCode, firstName, lastName } = this.disclosureFormGroup.value;
@@ -135,6 +147,7 @@ export class CertificateFinalDocumentsComponent {
       this.certificatesByDisclosure = this.cleanDisclosureCertificatesResponse(res);
       this.liveAnnouncer.announce(this.translateService.get('liveAnnouncer.found_x_results').replace('%amount%', this.certificatesByDisclosure.length))
       this.loading.certificatesByDisclosure = false;
+      setTimeout(x => this.focusFirstDisclosure(), 100);
     }, (err) => {
       this.loading.certificatesByDisclosure = false;
       this.certificatesByDisclosure = [];
