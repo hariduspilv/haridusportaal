@@ -35,6 +35,12 @@ export class OskaResultsView extends FiltersService implements OnInit {
   private activeSortedBy: string = '';
   private alertText: string = '';
   public params: any;
+  public proposalStatusById: Record<number, string> = {
+    1: 'positive',
+    2: 'top',
+    3: 'bottom',
+    4: 'lowest',
+  };
 
   public path: any = this.location.path();
   public filterOptionsKeys = ['field', 'responsible', 'proposalStatus'];

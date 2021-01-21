@@ -312,10 +312,7 @@
 															<div class="flex centered">
 																<div
 																	class="icon-wrapper"
-																	[class.top]="item.proposalStatus == 'Plaanis rakendada'"
-																	[class.bottom]="item.proposalStatus == 'Ei rakenda'"
-																	[class.positive]="item.proposalStatus == 'Tehtud' || item.proposalStatus == 'Töös'"
-																	[class.lowest]="item.proposalStatus == 'Tagasiside kogumisel'"
+																	[ngClass]="[item.proposalStatusColor ? proposalStatusById[item.proposalStatusColor] : '']"
 																>
 																	<span class="icon" aria-hidden="true"></span>
 																</div>
