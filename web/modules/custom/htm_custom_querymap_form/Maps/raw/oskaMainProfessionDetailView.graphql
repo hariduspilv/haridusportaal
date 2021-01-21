@@ -244,6 +244,7 @@ query oskaMainProfessionDetailView($path: String!) {
             graphType
             secondaryGraphType
             graphText
+            graphSource
           }
         }
         __typename

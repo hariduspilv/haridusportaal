@@ -2,6 +2,7 @@
 
 namespace Drupal\htm_custom_infograph\Form;
 
+use Drupal;
 use Drupal\Core\Cache\Cache;
 use Drupal\Core\Form\FormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -25,26 +26,50 @@ class InfographDeleteCsvForm extends FormBase {
 	 */
 	public function buildForm(array $form, FormStateInterface $form_state, $filename = NULL) {
 
-    $form['actions']['#type'] = 'actions';
-    $form['actions']['submit'] = [
-      '#type' => 'submit',
-      '#value' => $this->t('Save configuration'),
-      '#button_type' => 'primary',
-    ];
+    $file_name_parts = explode('.', $filename);
+    $file_name = $file_name_parts[0];
+    $database = Drupal::database();
+    $query = $database->select('node__field_infograph', 'f');
+    $query->fields('f')
+      ->condition('field_infograph_filter_values',  '%' . $database->escapeLike('"graph_source_file":"'.$file_name.'"') . '%', 'LIKE');
+    $results = $query->execute()->fetchAll();
 
-		$form['actions']['submit']['#value'] = $this->t('Delete infograph');
-		$form['file_to_delete'] = [
-			'#type' => 'hidden',
-			'#value' =>  $filename,
-		] ;
-		$form['text'] = [
-			'#markup' => $this->t('<p>Are you sure you want to delete <b>@key</b>.csv infograph?</p>', ['@key' => $filename]),
-		];
+    // If file is already used in some infograph, dont show delete button but tell users that these files are in use
+    if(!empty($results)) {
+      $host = Drupal::request()->getSchemeAndHttpHost();
+      $output = t('<div><p>The file <b>@key</b> cannot be deleted, it is being used in the following pages infographics:</p>', ['@key' => $filename]);
+      foreach ($results as $result) {
+        $node_path = $host .  Drupal::service('path_alias.manager')->getAliasByPath('/node/' . $result->entity_id);
+        $output .= '<a href="' .  $node_path . '" target="_blank">' . $node_path . '</a> </br>';
+      }
+      $output .= '<p>If you wish to delete the file, first remove it from where it is being used.</p></div>';
+      $form['files_exist']['#markup'] = $output;
 
+    }
+    // The file is not being used, so let user to delete the selected file
+    else {
+      $form['actions']['#type'] = 'actions';
+      $form['actions']['submit'] = [
+        '#type' => 'submit',
+        '#value' => $this->t('Save configuration'),
+        '#button_type' => 'primary',
+      ];
+
+      $form['actions']['submit']['#value'] = $this->t('Delete infograph');
+      $form['file_to_delete'] = [
+        '#type' => 'hidden',
+        '#value' =>  $filename,
+      ] ;
+      $form['text'] = [
+        '#markup' => $this->t('<p>The file <b>@key</b> is not being used in any infographic, it can be removed.</p>
+        <p>Do you want to delete it?</p><br>', ['@key' => $filename]),
+      ];
+    }
 		return $form;
 	}
 
-	public function submitForm(array &$form, FormStateInterface $form_state) {
+
+  public function submitForm(array &$form, FormStateInterface $form_state) {
 	  $filename = $form_state->getValue('file_to_delete');
 	  $file_path = '/app/drupal/web/sites/default/files/private/infograph/'.$filename;
 	  $filters_path = '/app/drupal/web/sites/default/files/private/infograph_filters/'.pathinfo($filename, PATHINFO_FILENAME);

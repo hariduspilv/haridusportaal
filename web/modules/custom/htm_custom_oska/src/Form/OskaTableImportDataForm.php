@@ -29,7 +29,7 @@ class OskaTableImportDataForm extends FormBase {
      * {@inheritdoc}
      */
     public function getFormId() {
-        return 'delete_node_form';
+        return 'oska_import_table_form';
     }
     /**
      * {@inheritdoc}
@@ -53,7 +53,7 @@ class OskaTableImportDataForm extends FormBase {
 
     public function validateForm(array &$form, FormStateInterface $form_state){
         $required_headers = [
-            'valdkond', 'ettepanek', 'peavastutaja', 'staatus', 'kommentaar'
+            'valdkond', 'ettepanek', 'peavastutaja', 'staatus', 'varv', 'kommentaar'
         ];
         $all_files = $this->getRequest()->files->get('files', []);
         if (!empty($all_files['file'])) {
@@ -89,9 +89,17 @@ class OskaTableImportDataForm extends FormBase {
      * {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
+
         $encoders = new CsvEncoder();
 
         $file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
+
+        // Get the oska table entities and store them temporarily in tempstore
+        $ids = \Drupal::entityQuery('oska_table_entity')->execute();
+        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_table_entity');
+        $entities = $storage_handler->loadMultiple($ids);
+        $tempstore = \Drupal::service('tempstore.private')->get('oska_table_entity');
+        $tempstore->set('entities', $entities);
 
         $batch = [
             'title' => t('Processing Oska Table data ....--'),
