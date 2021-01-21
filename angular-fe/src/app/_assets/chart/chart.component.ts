@@ -660,6 +660,7 @@ export class ChartComponent implements OnInit {
                 graphType: type,
                 /*graphIndicator: 'Mis ma siia panen? :O',*/
                 graphTitle: current.graphTitle,
+                graphSource: current.graphSource,
                 value: item.ChartValue,
                 secondaryGraphType: variables['secondaryGraphType'],
                 secondaryGraphIndicator: null,
