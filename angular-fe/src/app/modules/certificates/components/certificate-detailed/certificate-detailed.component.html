@@ -1,46 +1,30 @@
 <div id="certificate" #certificate>
   <h2>{{ 'frontpage.dashboard_tabs_personal_label' | translate }}</h2>
   <table>
-    <ng-container *ngIf="!documents.certificate.content.currentOwnerData; else withCurrentOwner">
-      <tr>
-        <td>{{ 'certificates.first_name' | translate }}:</td>
-        <td>{{ documents.certificate.content.graduate.firstName }}</td>
-      </tr>
-      <tr>
-        <td>{{ 'certificates.last_name' | translate }}:</td>
-        <td>{{ documents.certificate.content.graduate.lastName }}</td>
-      </tr>
-      <tr>
-        <td>{{ 'finaldocument.idcode' | translate }}:</td>
-        <td>{{ documents.certificate.content.graduate.idCode }}</td>
-      </tr>
-    </ng-container>
-    <ng-template #withCurrentOwner>
-      <tr>
-        <td>{{ 'certificates.first_name' | translate }}:</td>
-        <td>{{ documents.certificate.content.graduate.firstName }}
-          <span class="current">
-            ({{ 'certificates.current_registry' | translate }}
-            {{ documents.certificate.content.currentOwnerData.firstName }})</span>
-          </td>
-      </tr>
-      <tr>
-        <td>{{ 'certificates.last_name' | translate }}:</td>
-        <td>{{ documents.certificate.content.graduate.lastName }}
-          <span class="current">
-            ({{ 'certificates.current_registry' | translate }}
-            {{ documents.certificate.content.currentOwnerData.lastName }})</span>
+    <tr>
+      <td>{{ 'certificates.first_name' | translate }}:</td>
+      <td>{{ documents.certificate.content.graduate.firstName }}
+        <span class="current" *ngIf="isNewFirstName">
+          ({{ 'certificates.current_registry' | translate }}
+          {{ documents.certificate.content.currentOwnerData.firstName }})</span>
         </td>
-      </tr>
-      <tr>
-        <td>{{ 'finaldocument.idcode' | translate }}:</td>
-        <td>{{ documents.certificate.content.graduate.idCode | idCode }}
-          <span class="current">
-            ({{ 'certificates.current_registry' | translate }}
-            {{ documents.certificate.content.currentOwnerData.idCode | idCode }})</span>
-        </td>
-      </tr>
-    </ng-template>
+    </tr>
+    <tr>
+      <td>{{ 'certificates.last_name' | translate }}:</td>
+      <td>{{ documents.certificate.content.graduate.lastName }}
+        <span class="current" *ngIf="isNewLastName">
+          ({{ 'certificates.current_registry' | translate }}
+          {{ documents.certificate.content.currentOwnerData.lastName }})</span>
+      </td>
+    </tr>
+    <tr>
+      <td>{{ 'finaldocument.idcode' | translate }}:</td>
+      <td>{{ documents.certificate.content.graduate.idCode | idCode }}
+        <span class="current" *ngIf="isNewIDCode">
+          ({{ 'certificates.current_registry' | translate }}
+          {{ documents.certificate.content.currentOwnerData.idCode | idCode }})</span>
+      </td>
+    </tr>
   </table>
   <h2>{{ 'finaldocuments.data' | translate }}</h2>
   <table>

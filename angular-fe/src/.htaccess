@@ -1,3 +1,4 @@
+#DEPRECATED?
 RewriteEngine on
 
 RewriteCond %{HTTPS} off

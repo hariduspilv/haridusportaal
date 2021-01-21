@@ -1,0 +1,52 @@
+version: '3.7'
+
+services:
+  angular:
+    container_name: angular
+    hostname: angular
+    networks:
+      - htm
+    image: harbor.twn.zone/haridusportaal/angular:develop
+    restart: always
+  letsencrypt:
+    container_name: letsencrypt
+    hostname: letsencrypt
+    networks:
+      - htm
+    image: linuxserver/letsencrypt
+    restart: unless-stopped
+    environment:
+      - PUID=${USER_AND_GROUP_ID}
+      - PGID=${USER_AND_GROUP_ID}
+      - TZ=${TZ}
+      - URL=${URL}
+      - SUBDOMAINS=${SUBDOMAINS}
+      - VALIDATION=${VALIDATION}
+      - DNSPLUGIN=${DNSPLUGIN}
+      - EMAIL=${EMAIL}
+      - DHLEVEL=${DHLEVEL}
+    volumes:
+      - ../etc/config:/config
+  nginx:
+    container_name: nginx
+    hostname: nginx
+    networks:
+      - htm
+    image: nginx:1.15
+    restart: always
+    links:
+      - angular
+      - letsencrypt
+    depends_on:
+      - angular
+      - letsencrypt
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - /etc/nginx:/etc/nginx
+      - /etc/nginx/certs/fullchain.pem:/etc/ssl/private/fullchain.pem
+      - /etc/nginx/certs/privkey.pem:/etc/ssl/private/privkey.pem
+
+networks:
+  htm:

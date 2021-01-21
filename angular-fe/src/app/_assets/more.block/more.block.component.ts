@@ -54,7 +54,7 @@ export class MoreBlockComponent implements AfterContentChecked, OnInit {
       const contentElem = this.moreContentElem.nativeElement;
       this.links = document.querySelectorAll(`#moreContent-${this.id} a`);
       this.setInnerLinkStates(this.show);
-      this.screenReaderContent = this.content ? this.content.replace(/<[^>]*>/g, '') : '';
+      this.screenReaderContent = this.translatedContent ? this.translatedContent.replace(/<[^>]*>/g, '') : '';
       if ((this.deviceDetector.isDesktop() || this.deviceDetector.isTablet())
         && contentElem && contentElem.clientHeight >= this.cutoffs['lg']
         ) {

@@ -24,18 +24,21 @@ class ProcessOskaTableData {
     public static function ValidateFile($items, &$context){
         $message = t('Validating file');
 
-        //first delete all subsidies
-        self::deleteAllEntities();
-
         #dump(self::$k['EHIS_ID']);
         $results = [];
         $object = [
             'valdkond' => false,
         ];
+
         foreach ($items as $index => $item){
 
+
             foreach($item as $key => $value){
-                if(mb_detect_encoding($key) == 'UTF-8'){
+                if($key === 'varv'){
+                  unset($item[$key]);
+                  $item[cleanString($key)] = (int)$value;
+                }
+                elseif(mb_detect_encoding($key) == 'UTF-8'){
                     unset($item[$key]);
                     $item[cleanString($key)] = $value;
                 }
@@ -45,6 +48,7 @@ class ProcessOskaTableData {
             $object['ettepanek'] = mb_strlen($item['ettepanek']) <= 500 ? $item['ettepanek'] : FALSE;
             $object['peavastutaja'] = mb_strlen($item['peavastutaja']) <= 100 ? $item['peavastutaja'] : FALSE;
             $object['staatus'] = mb_strlen($item['staatus']) <= 50 ? $item['staatus'] : FALSE;
+            $object['varv'] = ($item['varv'] >= 1 && $item['varv'] <= 4) ? $item['varv'] : FALSE;
             $object['kommentaar'] = mb_strlen($item['kommentaar']) <= 500 ? $item['kommentaar'] : FALSE;
 
             if(
@@ -55,6 +59,8 @@ class ProcessOskaTableData {
                 !$object['peavastutaja']
                 ||
                 !$object['staatus']
+                ||
+                !$object['varv']
                 ||
                 !$object['kommentaar']){
 
@@ -72,6 +78,7 @@ class ProcessOskaTableData {
                     'proposal' => $object['ettepanek'],
                     'responsible' => $object['peavastutaja'],
                     'proposal_status' => $object['staatus'],
+                    'proposal_status_color' => $object['varv'],
                     'expert_commentary' => $object['kommentaar'],
 
                 ];
@@ -127,14 +134,22 @@ class ProcessOskaTableData {
     public static function ProcessOskaTableDataFinishedCallback($success, $results, $operations){
         // The 'success' parameter means no fatal PHP errors were detected. All
         // other error management should be handled using 'results'.
+        $tempstore = \Drupal::service('tempstore.private')->get('oska_table_entity');
         if ($success) {
             if(isset($results['error'])){
+                // If the uploaded oska table data csv file is incorrect, delete the temporary entities but preserve the existing table data
                 $message = [implode(', ', $results['error']), 'error'];
+                $tempstore->delete('entities');
             }else{
                 $message = [\Drupal::translation()->formatPlural(
                     count($results['processed']),
                     'One oska table item processed.', '@count oska table items processed.'
                 ), 'status'];
+                //If the uploaded oska table csv data file is correct, rewrite the table
+                $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_table_entity');
+                $entities = $tempstore->get('entities');
+                $storage_handler->delete($entities);
+                $tempstore->delete('entities');
             }
         }
         else {
@@ -157,10 +172,4 @@ class ProcessOskaTableData {
         return ($entity) ? $entity->id() : FALSE;
     }
 
-    private function deleteAllEntities(){
-        $ids = \Drupal::entityQuery('oska_table_entity')->execute();
-        $storage_handler = \Drupal::entityTypeManager()->getStorage('oska_table_entity');
-        $entities = $storage_handler->loadMultiple($ids);
-        $storage_handler->delete($entities);
-    }
 }

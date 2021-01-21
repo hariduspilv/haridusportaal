@@ -119,6 +119,7 @@ query oskaResultPageDetailView($path: String!) {
             graphType
             secondaryGraphType
             graphText
+            graphSource
           }
         }
       }

@@ -1,8 +1,9 @@
 @import 'breakpoints.scss';
+@import 'typography.scss';
 :host {
   display:block;
   margin-top:3rem;
-  .graphText {
+  .graph__text {
     line-height: 1.375rem;
     margin-bottom: 2rem;
     p:first-child {
@@ -11,6 +12,14 @@
     p:last-child {
       margin-bottom:0;
     }
+  }
+  .graph__source {
+    display: block;
+    font-weight: 400;
+    font-size: .875rem;
+    line-height: 1.375rem;
+    color: $dark-gray;
+    margin-bottom: 2rem;
   }
   hr {
     border: solid 1px #c7c7c9;
@@ -31,6 +40,9 @@
       justify-content: center;
       align-items: center;
       z-index: 10;
+    }
+    &--shorter__bottom {
+      margin-bottom: .75rem;
     }
   }
   .formItems {

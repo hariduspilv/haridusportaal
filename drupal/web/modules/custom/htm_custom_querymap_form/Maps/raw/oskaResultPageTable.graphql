@@ -33,6 +33,7 @@ query oskaResultPageTable($lang: LanguageId!) {
         proposal
         responsible
         proposalStatus
+        proposalStatusColor
         expertCommentary
       }
     }

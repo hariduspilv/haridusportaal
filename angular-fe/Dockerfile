@@ -1,5 +1,4 @@
 FROM node:current-alpine
-MAINTAINER TWN
 
 ARG BUILD_VERSION=${BUILD_VERSION}
 ENV ENVIRONMENT=${ENVIRONMENT}
@@ -42,4 +41,4 @@ RUN apk del native-deps
 
 EXPOSE 80
 
-ENTRYPOINT node --max-http-header-size 30000 index.js
+ENTRYPOINT node --max-http-header-size 80000 index.js

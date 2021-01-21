@@ -276,6 +276,26 @@ class OskaTableEntity extends ContentEntityBase implements OskaTableEntityInterf
             ->setDisplayConfigurable('form', TRUE)
             ->setDisplayConfigurable('view', TRUE);
 
+        // Let admin add status color
+        $fields['proposal_status_color'] = BaseFieldDefinition::create('integer')
+            ->setLabel(t('Proposal status color'))
+            ->setDescription(t('Set the status color: 1- green, 2- light blue, 3- red, 4- gray'))
+            ->setSettings([
+                'min' => 1,
+                'max' => 4,
+                'text_processing' => 0,
+            ])
+            ->setDefaultValue('')
+            ->setDisplayOptions('view', [
+              'label' => 'above',
+              'type' => 'number',
+            ])
+            ->setDisplayOptions('form', [
+              'type' => 'number',
+            ])
+            ->setDisplayConfigurable('form', TRUE)
+            ->setDisplayConfigurable('view', TRUE);
+
         $fields['expert_commentary'] = BaseFieldDefinition::create('string_long')
             ->setLabel(t('Expert body commentary'))
             ->setSettings([

@@ -38,5 +38,13 @@
         "strategy": "freshness"
       }
     }
+  ],
+  "navigationUrls": [
+    "/**",
+    "!/amp/**",
+    "!/stats",
+    "!/stats/**",
+    "!/storybook",
+    "!/storybook/**"
   ]
 }

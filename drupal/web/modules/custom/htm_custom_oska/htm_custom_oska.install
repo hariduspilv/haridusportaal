@@ -1,0 +1,67 @@
+<?php
+
+/**
+ * Add 'graph_source' field to 'oska_dynamic_graph_field' field.
+ */
+function htm_custom_oska_update_8001() {
+  $field_type = 'oska_dynamic_graph_field';
+  $field_name = 'graph_source';
+  $field_spec = [
+    'not null' => FALSE,
+    'type' => 'varchar',
+    'description' => 'graph source',
+  ];
+
+  htm_custom_oska_field_definition_add_helper($field_type, $field_name, $field_spec);
+}
+
+
+/**
+ * Add a new column for field type
+ * Also add necessary fields to all entity field tables
+ *
+ * snippet from https://www.drupal.org/project/drupal/issues/937442#comment-13760432
+ *
+ *
+ * @param string $field_type
+ * @param string $new_property
+ * @param $spec
+ * @throws \Drupal\Component\Plugin\Exception\InvalidPluginDefinitionException
+ * @throws \Drupal\Component\Plugin\Exception\PluginNotFoundException
+ */
+function htm_custom_oska_field_definition_add_helper($field_type, $new_property, $spec) {
+
+  $manager   = \Drupal::entityDefinitionUpdateManager();
+  $field_map = \Drupal::service('entity_field.manager')->getFieldMapByFieldType($field_type);
+
+  foreach ($field_map as $entity_type_id => $fields) {
+
+    foreach (array_keys($fields) as $field_name) {
+      $field_storage_definition = $manager->getFieldStorageDefinition($field_name, $entity_type_id);
+      $storage = \Drupal::entityTypeManager()->getStorage($entity_type_id);
+
+      if ($storage instanceof \Drupal\Core\Entity\Sql\SqlContentEntityStorage) {
+        $table_mapping = $storage->getTableMapping([
+          $field_name => $field_storage_definition,
+        ]);
+        $table_names = $table_mapping->getDedicatedTableNames();
+        $columns = $table_mapping->getColumnNames($field_name);
+
+
+        foreach ($table_names as $table_name) {
+          $schema = \Drupal::database()->schema();
+          $field_exists = $schema->fieldExists($table_name, $columns[$new_property]);
+          $table_exists = $schema->tableExists($table_name);
+
+          if (!$field_exists && $table_exists) {
+            $field_base = explode('__', $table_name);
+            $field_base = $field_base[1];
+            $new_field_name = $field_base . '_' . $new_property;
+            $schema->addField($table_name, $new_field_name, $spec);
+          }
+        }
+      }
+      $manager->updateFieldStorageDefinition($field_storage_definition);
+    }
+  }
+}

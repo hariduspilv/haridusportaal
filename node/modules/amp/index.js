@@ -93,6 +93,7 @@ module.exports.getData = (opts) => {
       try {
         data = JSON.parse(response.body).data.route || {};
       } catch (err) {
+        console.log(err);
       }
       
       resolve(data);

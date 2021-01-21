@@ -27,7 +27,7 @@ export class ChartComponent implements OnInit {
   requestDebounce: Object = {};
   requestSubscription: Object = {};
 
-  initiallyFilledSelects = ['näitaja', 'valdkond'];
+  initiallyFilledSelects = ['näitaja', 'valdkond', 'silt'];
 
   singleIndicatorCharts = ['line', 'pie', 'doughnut'];
 
@@ -660,6 +660,7 @@ export class ChartComponent implements OnInit {
                 graphType: type,
                 /*graphIndicator: 'Mis ma siia panen? :O',*/
                 graphTitle: current.graphTitle,
+                graphSource: current.graphSource,
                 value: item.ChartValue,
                 secondaryGraphType: variables['secondaryGraphType'],
                 secondaryGraphIndicator: null,
