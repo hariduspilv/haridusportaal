@@ -219,8 +219,11 @@ const routes: Routes = [
     component: DummyViewComponent,
   },
   {
-    path: '**',
-    loadChildren: () => import('./_views/notFoundView').then(m => m.NotFoundViewModule),
+    path: ':id',
+    loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
+    data: {
+      type: 'article',
+    },
   },
 ];
 
