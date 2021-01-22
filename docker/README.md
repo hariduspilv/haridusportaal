@@ -22,8 +22,9 @@
 
 #### Connect to server and compose new containers:
   1. ssh root@haridusportaal.twn.zone
-  2. docker-compose down
-  3. docker-compose pull
-  4. docker-compose up -d
+  2. docker image prune
+  3. docker-compose down
+  4. docker-compose pull
+  5. docker-compose up -d
 
   

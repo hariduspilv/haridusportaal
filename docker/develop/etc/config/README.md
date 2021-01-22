@@ -1,4 +1,4 @@
-# Letsencrypt generated config files
+# Letsencrypt (linuxserver/swag) generated config files
 
 ## Symbolic links on server for fullchain.pem and privkey.pem
   1. /etc/nginx/certs -> /etc/config/etc/letsencrypt/live/haridusportaal.twn.zone

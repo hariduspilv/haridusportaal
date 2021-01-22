@@ -8,12 +8,12 @@ services:
       - htm
     image: harbor.twn.zone/haridusportaal/angular:develop
     restart: always
-  letsencrypt:
-    container_name: letsencrypt
-    hostname: letsencrypt
+  swag:
+    container_name: swag
+    hostname: swag
     networks:
       - htm
-    image: linuxserver/letsencrypt
+    image: linuxserver/swag
     restart: unless-stopped
     environment:
       - PUID=${USER_AND_GROUP_ID}
@@ -36,10 +36,10 @@ services:
     restart: always
     links:
       - angular
-      - letsencrypt
+      - swag
     depends_on:
       - angular
-      - letsencrypt
+      - swag
     ports:
       - "80:80"
       - "443:443"
