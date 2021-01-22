@@ -225,6 +225,10 @@ const routes: Routes = [
       type: 'article',
     },
   },
+  {
+    path: '**',
+    loadChildren: () => import('./_views/notFoundView').then(m => m.NotFoundViewModule),
+  },
 ];
 
 @NgModule({
