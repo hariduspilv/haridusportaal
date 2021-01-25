@@ -57,6 +57,19 @@ export class StudiesComponent implements OnInit {
     this.fetchData();
   }
 
+  private dateSortFn(
+    a: Studies | ExternalQualifications,
+    b: Studies | ExternalQualifications,
+  ): number {
+    const field1 = (a as Studies).oppAlgus || (a as ExternalQualifications).valjaandmKp;
+    const field2 = (b as Studies).oppAlgus || (b as ExternalQualifications).valjaandmKp;
+    const arrA = field1.split('.');
+    const valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
+    const arrB = field2.split('.');
+    const valB = `${arrB[2]}-${arrB[1]}-${arrB[0]}`;
+    return +new Date(valB) - +new Date(valA);
+  }
+
   private fetchData() {
     this.loading = true;
     const sub = this.http
@@ -76,15 +89,10 @@ export class StudiesComponent implements OnInit {
               this.oppelaenOigus = response.value.isikuandmed.oppelaenOigus;
             }
             const resultData = [...response.value.oping, ...response.value.valineKvalifikatsioon];
-            this.content = resultData.sort((a, b) => {
-              const field1 = (a as Studies).oppAlgus || (a as ExternalQualifications).valjaandmKp;
-              const field2 = (b as Studies).oppAlgus || (b as ExternalQualifications).valjaandmKp;
-              const arrA = field1?.split('.');
-              const valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
-              const arrB = field2.split('.');
-              const valB = `${arrB[2]}-${arrB[1]}-${arrB[0]}`;
-              return +new Date(valB) - +new Date(valA);
-            });
+            this.content = [
+              ...resultData.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(this.dateSortFn),
+              ...resultData.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort(this.dateSortFn),
+            ]
             if (!this.content.length) {
               this.error = true;
               this.dataErr = true;

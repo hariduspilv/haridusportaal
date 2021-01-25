@@ -120,10 +120,6 @@
 															<td class="normal">{{ 'frontpage.nomLopp' | translate }}</td>
 															<td class="normal">{{ item.nomLopp }}</td>
 														</tr>
-														<tr *ngIf="item.staatus">
-															<td class="normal">{{ 'frontpage.staatus' | translate }}</td>
-															<td class="normal">{{ parseTypeTranslation(item.staatus) }}</td>
-														</tr>
 														<tr *ngIf="item.tunnistusDiplom">
 															<td class="normal">{{ 'frontpage.tunnistusDiplom' | translate }}</td>
 															<td class="normal">{{ item.tunnistusDiplom }}</td>
@@ -186,6 +182,10 @@
 															<td class="normal">{{ 'frontpage.koht' | translate }}</td>
 															<td class="normal">{{ item.koht }}</td>
 														</tr>
+														<tr *ngIf="item.staatus">
+															<td class="normal">{{ 'frontpage.staatus' | translate }}</td>
+															<td class="normal">{{ parseTypeTranslation(item.staatus) }}</td>
+														</tr>
 														<ng-container *ngIf="item.okVahetamine?.length">
 															<!-- okVahetamine -->
 															<tr class="extraRow">
@@ -194,7 +194,7 @@
 															<ng-container *ngFor="let elem of item.okVahetamine; let secondIndex = index; let last = last;">
 																<ng-container *ngIf="(item.loppKp && secondIndex === 0) || !item.loppKp">
 																	<tr [class.extraBottom]="!last && !elem.algusKp && !elem.loppKp">
-																		<td class="normal multi--bordered">{{ 'frontpage.oppekavaNimetus' | translate }} </td>
+																		<td class="normal multi--bordered">{{ 'frontpage.nimetus' | translate }} </td>
 																		<td class="normal multi--bordered">{{ elem.nimetus }}</td>
 																	</tr>
 																	<tr [class.extraBottom]="!last && (elem.algusKp || elem.loppKp)"
