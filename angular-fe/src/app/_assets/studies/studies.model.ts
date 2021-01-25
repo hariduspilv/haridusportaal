@@ -26,6 +26,12 @@ export interface Curriculum {
   kestus?: string;
 }
 
+export interface CurriculumFulfillment {
+  protsent: string;
+  otsusKp: string;
+  ainePunktid?: string;
+}
+
 export interface StudyType {
   nimetus: string;
   algusKp: string;
@@ -55,7 +61,7 @@ export interface Studies {
   oppevorm: StudyType[];
   koormus: StudyType[];
   kestus: string;
-  oppekavataitine: any[];
+  oppekavataitine: CurriculumFulfillment;
   ryhmaLiik?: string;
   nimetus?: string;
   koht?: string;

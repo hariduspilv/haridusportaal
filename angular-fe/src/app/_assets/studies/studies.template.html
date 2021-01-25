@@ -94,8 +94,8 @@
         <!-- /Oppekavad -->
         <tr *ngIf="item.oppekavataitine?.protsent">
           <td class="normal">{{ 'frontpage.oppekavataitmine' | translate }}</td>
-          <td class="normal">{{ item.oppekavataitine.protsent }}% ({{ item.oppekavataitine.otsusKp}}
-            {{ 'frontpage.seisuga' | translate }})</td>
+          <td class="normal">{{ item.oppekavataitine.protsent }}% ({{ item.oppekavataitine.otsusKp }}
+            {{ 'frontpage.seisuga' | translate }}, {{ item.oppekavataitine.ainePunktid }} EAP)</td>
         </tr>
         <!-- Väliskvalifikatsiooni andmed -->
         <tr *ngIf="item.oppeasutuseNimiMuusKeeles">
