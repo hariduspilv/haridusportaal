@@ -100,7 +100,7 @@ public class OLTWorker extends Worker {
             faultMessage -> ((ArrayNode) responseNode.get("messages")).addObject()
                 .put("message_type", "ERROR")
                 .putObject("message_text").put("et", faultMessage.getMessage()));
-      } else {
+      } else if (xteeResponse.isSetGrants()) {
         xteeResponse.getGrants().getGrantList().forEach(s -> {
           ((ArrayNode) responseNode.get("documents")).addObject()
               .put("form_name", "OLT_OTSUS")
@@ -154,58 +154,66 @@ public class OLTWorker extends Worker {
       } else {
         Grant grant = xteeResponse.getGrants().getGrantList().get(0);
 
-        if (grant.getApplicationDecision() != null) {
+        if (grant.isSetApplicationDecision()) {
           decisionValues.addObject()
               .put("decision_number", grant.getApplicationDecision().getDecisionNumber())
               .put("decision_date", grant.getApplicationDecision().getDecisionDate() != null
                   ? ehisDateFormat(grant.getApplicationDecision().getDecisionDate()) : null)
               .put("decision", grant.getApplicationDecision().getDecision())
-              .put("payment_sum", grant.getApplicationDecision().getPaymentSum() / 100);
+              .put("payment_sum", (float) grant.getApplicationDecision().getPaymentSum() / 100);
         }
 
-        grant.getGrantPaymentList().getGrantPaymentList().forEach(payment -> {
-          paymentValues.addObject()
-              .put("payment_date", payment.getPaymentDate() != null
-                  ? ehisDateFormat(payment.getPaymentDate()) : null)
-              .put("payment_sum", payment.getPaymentSum() / 100);
-        });
+        if (grant.isSetGrantPaymentList()) {
+          grant.getGrantPaymentList().getGrantPaymentList().forEach(payment -> {
+            paymentValues.addObject()
+                .put("payment_date", payment.getPaymentDate() != null
+                    ? ehisDateFormat(payment.getPaymentDate()) : null)
+                .put("payment_sum", (float) payment.getPaymentSum() / 100);
+          });
+        }
 
-        grant.getGrantStatusList().getGrantStatusList().forEach(suspension -> {
-          if (suspension.getStatusType().equalsIgnoreCase("GRANT_STATUS:SUSPENSION")) {
-            suspensionValues.addObject()
-                .put("valid_from", suspension.getStatusValidFrom() != null
-                    ? ehisDateFormat(suspension.getStatusValidFrom()) : null)
-                .put("valid_until", suspension.isSetStatusValidUntil()
-                    ? ehisDateFormat(suspension.getStatusValidUntil()) : null)
-                .put("reason", suspension.getReason());
-          }
-        });
+        if (grant.isSetGrantStatusList()) {
+          grant.getGrantStatusList().getGrantStatusList().forEach(suspension -> {
+            if (suspension.getStatusType().equalsIgnoreCase("GRANT_STATUS:SUSPENSION")) {
+              suspensionValues.addObject()
+                  .put("valid_from", suspension.getStatusValidFrom() != null
+                      ? ehisDateFormat(suspension.getStatusValidFrom()) : null)
+                  .put("valid_until", suspension.isSetStatusValidUntil()
+                      ? ehisDateFormat(suspension.getStatusValidUntil()) : null)
+                  .put("reason", suspension.getReason());
+            }
+          });
+        }
 
-        grant.getGrantRecoveryList().getGrantRecoveryList().forEach(recovery -> {
-          recoveryValues.addObject().put("decision_number", recovery.getId())
-              .put("recovery_date",recovery.getRecoveryDate() != null
-                  ? ehisDateFormat(recovery.getRecoveryDate()) : null)
-              .put("recovery_sum", recovery.getRecoverySum() / 100);
-        });
+        if (grant.isSetGrantRecoveryList()) {
+          grant.getGrantRecoveryList().getGrantRecoveryList().forEach(recovery -> {
+            recoveryValues.addObject().put("decision_number", recovery.getId())
+                .put("recovery_date", recovery.getRecoveryDate() != null
+                    ? ehisDateFormat(recovery.getRecoveryDate()) : null)
+                .put("recovery_sum", (float) recovery.getRecoverySum() / 100);
+          });
+        }
 
-        grant.getGrantFilesList().getGrantFileList().forEach(file -> {
-          String filename = file.getFileName();
-          if (StringUtils.isEmpty(file.getFileName())) {
-            filename = grant.getGrantNumber() + "_" + file.getUID();
-          }
-          if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_APPLICATION")) {
-            decisionFileValues.addObject().put("file_name", filename)
-                .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
-          } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_RECOVERY")) {
-            recoveryFileValues.addObject().put("file_name", filename)
-                .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
-          } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:APPLICATION")
+        if (grant.isSetGrantFilesList()) {
+          grant.getGrantFilesList().getGrantFileList().forEach(file -> {
+            String filename = file.getFileName();
+            if (StringUtils.isEmpty(file.getFileName())) {
+              filename = grant.getGrantNumber() + "_" + file.getUID();
+            }
+            if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_APPLICATION")) {
+              decisionFileValues.addObject().put("file_name", filename)
+                  .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
+            } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_RECOVERY")) {
+              recoveryFileValues.addObject().put("file_name", filename)
+                  .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
+            } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:APPLICATION")
 //              || file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:APPLICATION_EXTRA")
-          ) {
-            applicationFileValues.addObject().put("file_name", filename)
-                .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
-          }
-        });
+            ) {
+              applicationFileValues.addObject().put("file_name", filename)
+                  .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
+            }
+          });
+        }
 
         logForDrupal
             .setMessage("EHIS2 - getGrants.v1:getGrant teenuselt andmete pärimine õnnestus.");
