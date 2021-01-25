@@ -47,6 +47,9 @@
     <p *ngIf="professionalCertificates && professionalCertificates.length < 1"
       class="text-center text--substrong--head mb-0">
       {{ 'frontpage.dashboard_tabs_certificates_no_results' | translate }}</p>
+    <p *ngIf="item.oppeasutuseNimiMuusKeeles || item.oppeasutuseNimiTranslit">
+      {{ 'frontpage.dashboard_tabs_certificates_external_qualification' | translate }}
+    </p>
     <table htm-table class="dashboard-table dashboard-table--equalCells" *ngIf="!error && content">
       <tbody>
         <tr *ngIf="item.haridustase">
