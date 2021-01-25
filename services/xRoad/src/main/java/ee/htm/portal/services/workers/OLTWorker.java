@@ -284,52 +284,60 @@ public class OLTWorker extends Worker {
 
           ArrayNode occupationValues = stepApplicationDataElements.putObject("occupation_data")
               .putArray("value");
-          grantApplication.getOccupationDataList().getOccupationDataList()
-              .forEach(occupationData -> occupationValues.addObject()
-                  .put("educational_institute_name", occupationData.getEducationalInstituteName())
-                  .put("applicant_occupation", occupationData.getApplicantOccupation())
-                  .put("applicant_subjects",
-                      occupationData.isSetApplicantSubjects() ?
-                          occupationData.getApplicantSubjects().getApplicantSubjectList().stream()
-                              .map(ApplicantSubject::getSubject).collect(Collectors.joining(", "))
-                          : null)
-                  .put("applicant_workload", occupationData.getApplicantWorkload())
-                  .put("meets_requirement", occupationData.getMeetsRequirement())
-                  .put("contract_begin_date",
-                      ehisDateFormat(occupationData.getContractBeginDate())));
+          if (grantApplication.isSetOccupationDataList()) {
+            grantApplication.getOccupationDataList().getOccupationDataList()
+                .forEach(occupationData -> occupationValues.addObject()
+                    .put("educational_institute_name", occupationData.getEducationalInstituteName())
+                    .put("applicant_occupation", occupationData.getApplicantOccupation())
+                    .put("applicant_subjects",
+                        occupationData.isSetApplicantSubjects() ?
+                            occupationData.getApplicantSubjects().getApplicantSubjectList().stream()
+                                .map(ApplicantSubject::getSubject).collect(Collectors.joining(", "))
+                            : null)
+                    .put("applicant_workload", occupationData.getApplicantWorkload())
+                    .put("meets_requirement", occupationData.getMeetsRequirement())
+                    .put("contract_begin_date",
+                        ehisDateFormat(occupationData.getContractBeginDate())));
+          }
 
           ArrayNode qualificationValues = stepApplicationDataElements
               .putObject("qualification_data")
               .putArray("value");
-          grantApplication.getQualificationDataList().getQualificationDataList()
-              .forEach(qualificationData -> qualificationValues.addObject()
-                  .put("qualification", qualificationData.getQualification())
-                  .put("curriculum_name", qualificationData.getCurriculumName())
-                  .put("educational_institute_name",
-                      qualificationData.getEducationalInstituteName())
-                  .put("language", qualificationData.getLanguage())
-                  .put("qualification_document_number",
-                      qualificationData.getQualificationDocumentNumber())
-                  .put("qualification_date",
-                      ehisDateFormat(qualificationData.getQualificationDate())));
+          if (grantApplication.isSetQualificationDataList()) {
+            grantApplication.getQualificationDataList().getQualificationDataList()
+                .forEach(qualificationData -> qualificationValues.addObject()
+                    .put("qualification", qualificationData.getQualification())
+                    .put("curriculum_name", qualificationData.getCurriculumName())
+                    .put("educational_institute_name",
+                        qualificationData.getEducationalInstituteName())
+                    .put("language", qualificationData.getLanguage())
+                    .put("qualification_document_number",
+                        qualificationData.getQualificationDocumentNumber())
+                    .put("qualification_date",
+                        ehisDateFormat(qualificationData.getQualificationDate())));
+          }
 
           ArrayNode vocationValues = stepApplicationDataElements.putObject("vocation_data")
               .putArray("value");
-          grantApplication.getVocationDataList().getVocationDataList().forEach(
-              vocationData -> vocationValues.addObject()
-                  .put("vocation_name", vocationData.getVocationName())
-                  .put("vocation_date", ehisDateFormat(vocationData.getVocationDate())));
+          if (grantApplication.isSetVocationDataList()) {
+            grantApplication.getVocationDataList().getVocationDataList().forEach(
+                vocationData -> vocationValues.addObject()
+                    .put("vocation_name", vocationData.getVocationName())
+                    .put("vocation_date", ehisDateFormat(vocationData.getVocationDate())));
+          }
 
           ArrayNode extensionsValues = stepApplicationDataElements
               .putObject("application_entry_extensions")
               .putArray("value");
-          grantApplication.getApplicationEntryExtensionsList().getApplicationEntryExtensionsList()
-              .forEach(applicationEntryExtensions -> extensionsValues.addObject()
-                  .put("extension_begin_date",
-                      ehisDateFormat(applicationEntryExtensions.getExtensionBeginDate()))
-                  .put("extension_end_date",
-                      ehisDateFormat(applicationEntryExtensions.getExtensionEndDate()))
-                  .put("extension_type", applicationEntryExtensions.getExtensionType()));
+          if (grantApplication.isSetApplicationEntryExtensionsList()) {
+            grantApplication.getApplicationEntryExtensionsList().getApplicationEntryExtensionsList()
+                .forEach(applicationEntryExtensions -> extensionsValues.addObject()
+                    .put("extension_begin_date",
+                        ehisDateFormat(applicationEntryExtensions.getExtensionBeginDate()))
+                    .put("extension_end_date",
+                        ehisDateFormat(applicationEntryExtensions.getExtensionEndDate()))
+                    .put("extension_type", applicationEntryExtensions.getExtensionType()));
+          }
 
           stepApplicationDataElements.putObject("additional_info_text").putNull("value");
           stepApplicationDataElements.putObject("additional_info_file").putArray("value");
@@ -404,62 +412,72 @@ public class OLTWorker extends Worker {
 
           ArrayNode occupationValues = stepResponseDataElements.putObject("occupation_data")
               .putArray("value");
-          grantApplication.getOccupationDataList().getOccupationDataList()
-              .forEach(occupationData -> occupationValues.addObject()
-                  .put("educational_institute_name", occupationData.getEducationalInstituteName())
-                  .put("applicant_occupation", occupationData.getApplicantOccupation())
-                  .put("applicant_subjects",
-                      occupationData.isSetApplicantSubjects() ?
-                          occupationData.getApplicantSubjects().getApplicantSubjectList().stream()
-                              .map(ApplicantSubject::getSubject).collect(Collectors.joining(", "))
-                          : null)
-                  .put("applicant_workload", occupationData.getApplicantWorkload())
-                  .put("meets_requirement", occupationData.getMeetsRequirement())
-                  .put("contract_begin_date",
-                      ehisDateFormat(occupationData.getContractBeginDate())));
+          if (grantApplication.isSetOccupationDataList()) {
+            grantApplication.getOccupationDataList().getOccupationDataList()
+                .forEach(occupationData -> occupationValues.addObject()
+                    .put("educational_institute_name", occupationData.getEducationalInstituteName())
+                    .put("applicant_occupation", occupationData.getApplicantOccupation())
+                    .put("applicant_subjects",
+                        occupationData.isSetApplicantSubjects() ?
+                            occupationData.getApplicantSubjects().getApplicantSubjectList().stream()
+                                .map(ApplicantSubject::getSubject).collect(Collectors.joining(", "))
+                            : null)
+                    .put("applicant_workload", occupationData.getApplicantWorkload())
+                    .put("meets_requirement", occupationData.getMeetsRequirement())
+                    .put("contract_begin_date",
+                        ehisDateFormat(occupationData.getContractBeginDate())));
+          }
 
           ArrayNode qualificationValues = stepResponseDataElements.putObject("qualification_data")
               .putArray("value");
-          grantApplication.getQualificationDataList().getQualificationDataList()
-              .forEach(qualificationData -> qualificationValues.addObject()
-                  .put("qualification", qualificationData.getQualification())
-                  .put("curriculum_name", qualificationData.getCurriculumName())
-                  .put("educational_institute_name",
-                      qualificationData.getEducationalInstituteName())
-                  .put("language", qualificationData.getLanguage())
-                  .put("qualification_document_number",
-                      qualificationData.getQualificationDocumentNumber())
-                  .put("qualification_date",
-                      ehisDateFormat(qualificationData.getQualificationDate())));
+          if (grantApplication.isSetQualificationDataList()) {
+            grantApplication.getQualificationDataList().getQualificationDataList()
+                .forEach(qualificationData -> qualificationValues.addObject()
+                    .put("qualification", qualificationData.getQualification())
+                    .put("curriculum_name", qualificationData.getCurriculumName())
+                    .put("educational_institute_name",
+                        qualificationData.getEducationalInstituteName())
+                    .put("language", qualificationData.getLanguage())
+                    .put("qualification_document_number",
+                        qualificationData.getQualificationDocumentNumber())
+                    .put("qualification_date",
+                        ehisDateFormat(qualificationData.getQualificationDate())));
+          }
 
           ArrayNode vocationValues = stepResponseDataElements.putObject("vocation_data")
               .putArray("value");
-          grantApplication.getVocationDataList().getVocationDataList().forEach(
-              vocationData -> vocationValues.addObject()
-                  .put("vocation_name", vocationData.getVocationName())
-                  .put("vocation_date", ehisDateFormat(vocationData.getVocationDate())));
+          if (grantApplication.isSetVocationDataList()) {
+            grantApplication.getVocationDataList().getVocationDataList().forEach(
+                vocationData -> vocationValues.addObject()
+                    .put("vocation_name", vocationData.getVocationName())
+                    .put("vocation_date", ehisDateFormat(vocationData.getVocationDate())));
+          }
 
           ArrayNode extensionsValues = stepResponseDataElements
               .putObject("application_entry_extensions")
               .putArray("value");
-          grantApplication.getApplicationEntryExtensionsList().getApplicationEntryExtensionsList()
-              .forEach(applicationEntryExtensions -> extensionsValues.addObject()
-                  .put("extension_begin_date",
-                      ehisDateFormat(applicationEntryExtensions.getExtensionBeginDate()))
-                  .put("extension_end_date",
-                      ehisDateFormat(applicationEntryExtensions.getExtensionEndDate()))
-                  .put("extension_type", applicationEntryExtensions.getExtensionType()));
+          if (grantApplication.isSetApplicationEntryExtensionsList()) {
+            grantApplication.getApplicationEntryExtensionsList().getApplicationEntryExtensionsList()
+                .forEach(applicationEntryExtensions -> extensionsValues.addObject()
+                    .put("extension_begin_date",
+                        ehisDateFormat(applicationEntryExtensions.getExtensionBeginDate()))
+                    .put("extension_end_date",
+                        ehisDateFormat(applicationEntryExtensions.getExtensionEndDate()))
+                    .put("extension_type", applicationEntryExtensions.getExtensionType()));
+          }
 
           stepResponseDataElements.putObject("additional_info_text")
               .put("value", grantApplication.getComment());
 
           ArrayNode filesValues = stepResponseDataElements.putObject("additional_info_file")
               .putArray("value");
-          postGrantsResponse.getGrant().getGrantFilesList().getGrantFileList().forEach(
-              grantFile -> filesValues.addObject().put("file_name", grantFile.getFileName())
-                  .put("file_identifier",
-                      "OLT_" + postGrantsResponse.getGrant().getGrantNumber() + "_" + grantFile
-                          .getUID()));
+          if (postGrantsResponse.getGrant().isSetGrantFilesList()) {
+            postGrantsResponse.getGrant().getGrantFilesList().getGrantFileList().forEach(
+                grantFile -> filesValues.addObject().put("file_name", grantFile.getFileName())
+                    .put("file_identifier",
+                        "OLT_" + postGrantsResponse.getGrant().getGrantNumber() + "_" + grantFile
+                            .getUID()));
+          }
 
           ((ObjectNode) jsonNode.get("body").get("steps").get("step_response"))
               .putArray("messages").add("Done");
