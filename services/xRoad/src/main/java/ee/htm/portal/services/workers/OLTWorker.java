@@ -361,6 +361,10 @@ public class OLTWorker extends Worker {
         Application application = grant.addNewApplication();
         application.setPersonApplicationIdCode(
             requestDataElement.get("person_application_id_code").get("value").asText(null));
+        application.setPersonApplicationFirstName(
+            requestDataElement.get("person_application_first_name").get("value").asText(null));
+        application.setPersonApplicationLastName(
+            requestDataElement.get("person_application_last_name").get("value").asText(null));
         application.setPersonApplicationEmail(
             requestDataElement.get("person_application_email").get("value").asText(null));
         application.setPersonApplicationPhoneNumber(
