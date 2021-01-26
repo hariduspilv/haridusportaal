@@ -100,7 +100,7 @@ public class OLTWorker extends Worker {
             faultMessage -> ((ArrayNode) responseNode.get("messages")).addObject()
                 .put("message_type", "ERROR")
                 .putObject("message_text").put("et", faultMessage.getMessage()));
-      } else {
+      } else if (xteeResponse.isSetGrants()) {
         xteeResponse.getGrants().getGrantList().forEach(s -> {
           ((ArrayNode) responseNode.get("documents")).addObject()
               .put("form_name", "OLT_OTSUS")
@@ -154,58 +154,66 @@ public class OLTWorker extends Worker {
       } else {
         Grant grant = xteeResponse.getGrants().getGrantList().get(0);
 
-        if (grant.getApplicationDecision() != null) {
+        if (grant.isSetApplicationDecision()) {
           decisionValues.addObject()
               .put("decision_number", grant.getApplicationDecision().getDecisionNumber())
               .put("decision_date", grant.getApplicationDecision().getDecisionDate() != null
                   ? ehisDateFormat(grant.getApplicationDecision().getDecisionDate()) : null)
               .put("decision", grant.getApplicationDecision().getDecision())
-              .put("payment_sum", grant.getApplicationDecision().getPaymentSum() / 100);
+              .put("payment_sum", (float) grant.getApplicationDecision().getPaymentSum() / 100);
         }
 
-        grant.getGrantPaymentList().getGrantPaymentList().forEach(payment -> {
-          paymentValues.addObject()
-              .put("payment_date", payment.getPaymentDate() != null
-                  ? ehisDateFormat(payment.getPaymentDate()) : null)
-              .put("payment_sum", payment.getPaymentSum() / 100);
-        });
+        if (grant.isSetGrantPaymentList()) {
+          grant.getGrantPaymentList().getGrantPaymentList().forEach(payment -> {
+            paymentValues.addObject()
+                .put("payment_date", payment.getPaymentDate() != null
+                    ? ehisDateFormat(payment.getPaymentDate()) : null)
+                .put("payment_sum", (float) payment.getPaymentSum() / 100);
+          });
+        }
 
-        grant.getGrantStatusList().getGrantStatusList().forEach(suspension -> {
-          if (suspension.getStatusType().equalsIgnoreCase("GRANT_STATUS:SUSPENSION")) {
-            suspensionValues.addObject()
-                .put("valid_from", suspension.getStatusValidFrom() != null
-                    ? ehisDateFormat(suspension.getStatusValidFrom()) : null)
-                .put("valid_until", suspension.isSetStatusValidUntil()
-                    ? ehisDateFormat(suspension.getStatusValidUntil()) : null)
-                .put("reason", suspension.getReason());
-          }
-        });
+        if (grant.isSetGrantStatusList()) {
+          grant.getGrantStatusList().getGrantStatusList().forEach(suspension -> {
+            if (suspension.getStatusType().equalsIgnoreCase("GRANT_STATUS:SUSPENSION")) {
+              suspensionValues.addObject()
+                  .put("valid_from", suspension.getStatusValidFrom() != null
+                      ? ehisDateFormat(suspension.getStatusValidFrom()) : null)
+                  .put("valid_until", suspension.isSetStatusValidUntil()
+                      ? ehisDateFormat(suspension.getStatusValidUntil()) : null)
+                  .put("reason", suspension.getReason());
+            }
+          });
+        }
 
-        grant.getGrantRecoveryList().getGrantRecoveryList().forEach(recovery -> {
-          recoveryValues.addObject().put("decision_number", recovery.getId())
-              .put("recovery_date",recovery.getRecoveryDate() != null
-                  ? ehisDateFormat(recovery.getRecoveryDate()) : null)
-              .put("recovery_sum", recovery.getRecoverySum() / 100);
-        });
+        if (grant.isSetGrantRecoveryList()) {
+          grant.getGrantRecoveryList().getGrantRecoveryList().forEach(recovery -> {
+            recoveryValues.addObject().put("decision_number", recovery.getId())
+                .put("recovery_date", recovery.getRecoveryDate() != null
+                    ? ehisDateFormat(recovery.getRecoveryDate()) : null)
+                .put("recovery_sum", (float) recovery.getRecoverySum() / 100);
+          });
+        }
 
-        grant.getGrantFilesList().getGrantFileList().forEach(file -> {
-          String filename = file.getFileName();
-          if (StringUtils.isEmpty(file.getFileName())) {
-            filename = grant.getGrantNumber() + "_" + file.getUID();
-          }
-          if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_APPLICATION")) {
-            decisionFileValues.addObject().put("file_name", filename)
-                .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
-          } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_RECOVERY")) {
-            recoveryFileValues.addObject().put("file_name", filename)
-                .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
-          } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:APPLICATION")
+        if (grant.isSetGrantFilesList()) {
+          grant.getGrantFilesList().getGrantFileList().forEach(file -> {
+            String filename = file.getFileName();
+            if (StringUtils.isEmpty(file.getFileName())) {
+              filename = grant.getGrantNumber() + "_" + file.getUID();
+            }
+            if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_APPLICATION")) {
+              decisionFileValues.addObject().put("file_name", filename)
+                  .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
+            } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:DECISION_RECOVERY")) {
+              recoveryFileValues.addObject().put("file_name", filename)
+                  .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
+            } else if (file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:APPLICATION")
 //              || file.getFileType().equalsIgnoreCase("GRANT_FILE_TYPE:APPLICATION_EXTRA")
-          ) {
-            applicationFileValues.addObject().put("file_name", filename)
-                .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
-          }
-        });
+            ) {
+              applicationFileValues.addObject().put("file_name", filename)
+                  .put("file_identifier", "OLT_" + grant.getGrantNumber() + "_" + file.getUID());
+            }
+          });
+        }
 
         logForDrupal
             .setMessage("EHIS2 - getGrants.v1:getGrant teenuselt andmete pärimine õnnestus.");
@@ -276,52 +284,60 @@ public class OLTWorker extends Worker {
 
           ArrayNode occupationValues = stepApplicationDataElements.putObject("occupation_data")
               .putArray("value");
-          grantApplication.getOccupationDataList().getOccupationDataList()
-              .forEach(occupationData -> occupationValues.addObject()
-                  .put("educational_institute_name", occupationData.getEducationalInstituteName())
-                  .put("applicant_occupation", occupationData.getApplicantOccupation())
-                  .put("applicant_subjects",
-                      occupationData.isSetApplicantSubjects() ?
-                          occupationData.getApplicantSubjects().getApplicantSubjectList().stream()
-                              .map(ApplicantSubject::getSubject).collect(Collectors.joining(", "))
-                          : null)
-                  .put("applicant_workload", occupationData.getApplicantWorkload())
-                  .put("meets_requirement", occupationData.getMeetsRequirement())
-                  .put("contract_begin_date",
-                      ehisDateFormat(occupationData.getContractBeginDate())));
+          if (grantApplication.isSetOccupationDataList()) {
+            grantApplication.getOccupationDataList().getOccupationDataList()
+                .forEach(occupationData -> occupationValues.addObject()
+                    .put("educational_institute_name", occupationData.getEducationalInstituteName())
+                    .put("applicant_occupation", occupationData.getApplicantOccupation())
+                    .put("applicant_subjects",
+                        occupationData.isSetApplicantSubjects() ?
+                            occupationData.getApplicantSubjects().getApplicantSubjectList().stream()
+                                .map(ApplicantSubject::getSubject).collect(Collectors.joining(", "))
+                            : null)
+                    .put("applicant_workload", occupationData.getApplicantWorkload())
+                    .put("meets_requirement", occupationData.getMeetsRequirement())
+                    .put("contract_begin_date",
+                        ehisDateFormat(occupationData.getContractBeginDate())));
+          }
 
           ArrayNode qualificationValues = stepApplicationDataElements
               .putObject("qualification_data")
               .putArray("value");
-          grantApplication.getQualificationDataList().getQualificationDataList()
-              .forEach(qualificationData -> qualificationValues.addObject()
-                  .put("qualification", qualificationData.getQualification())
-                  .put("curriculum_name", qualificationData.getCurriculumName())
-                  .put("educational_institute_name",
-                      qualificationData.getEducationalInstituteName())
-                  .put("language", qualificationData.getLanguage())
-                  .put("qualification_document_number",
-                      qualificationData.getQualificationDocumentNumber())
-                  .put("qualification_date",
-                      ehisDateFormat(qualificationData.getQualificationDate())));
+          if (grantApplication.isSetQualificationDataList()) {
+            grantApplication.getQualificationDataList().getQualificationDataList()
+                .forEach(qualificationData -> qualificationValues.addObject()
+                    .put("qualification", qualificationData.getQualification())
+                    .put("curriculum_name", qualificationData.getCurriculumName())
+                    .put("educational_institute_name",
+                        qualificationData.getEducationalInstituteName())
+                    .put("language", qualificationData.getLanguage())
+                    .put("qualification_document_number",
+                        qualificationData.getQualificationDocumentNumber())
+                    .put("qualification_date",
+                        ehisDateFormat(qualificationData.getQualificationDate())));
+          }
 
           ArrayNode vocationValues = stepApplicationDataElements.putObject("vocation_data")
               .putArray("value");
-          grantApplication.getVocationDataList().getVocationDataList().forEach(
-              vocationData -> vocationValues.addObject()
-                  .put("vocation_name", vocationData.getVocationName())
-                  .put("vocation_date", ehisDateFormat(vocationData.getVocationDate())));
+          if (grantApplication.isSetVocationDataList()) {
+            grantApplication.getVocationDataList().getVocationDataList().forEach(
+                vocationData -> vocationValues.addObject()
+                    .put("vocation_name", vocationData.getVocationName())
+                    .put("vocation_date", ehisDateFormat(vocationData.getVocationDate())));
+          }
 
           ArrayNode extensionsValues = stepApplicationDataElements
               .putObject("application_entry_extensions")
               .putArray("value");
-          grantApplication.getApplicationEntryExtensionsList().getApplicationEntryExtensionsList()
-              .forEach(applicationEntryExtensions -> extensionsValues.addObject()
-                  .put("extension_begin_date",
-                      ehisDateFormat(applicationEntryExtensions.getExtensionBeginDate()))
-                  .put("extension_end_date",
-                      ehisDateFormat(applicationEntryExtensions.getExtensionEndDate()))
-                  .put("extension_type", applicationEntryExtensions.getExtensionType()));
+          if (grantApplication.isSetApplicationEntryExtensionsList()) {
+            grantApplication.getApplicationEntryExtensionsList().getApplicationEntryExtensionsList()
+                .forEach(applicationEntryExtensions -> extensionsValues.addObject()
+                    .put("extension_begin_date",
+                        ehisDateFormat(applicationEntryExtensions.getExtensionBeginDate()))
+                    .put("extension_end_date",
+                        ehisDateFormat(applicationEntryExtensions.getExtensionEndDate()))
+                    .put("extension_type", applicationEntryExtensions.getExtensionType()));
+          }
 
           stepApplicationDataElements.putObject("additional_info_text").putNull("value");
           stepApplicationDataElements.putObject("additional_info_file").putArray("value");
@@ -345,6 +361,10 @@ public class OLTWorker extends Worker {
         Application application = grant.addNewApplication();
         application.setPersonApplicationIdCode(
             requestDataElement.get("person_application_id_code").get("value").asText(null));
+        application.setPersonApplicationFirstName(
+            requestDataElement.get("person_application_first_name").get("value").asText(null));
+        application.setPersonApplicationLastName(
+            requestDataElement.get("person_application_last_name").get("value").asText(null));
         application.setPersonApplicationEmail(
             requestDataElement.get("person_application_email").get("value").asText(null));
         application.setPersonApplicationPhoneNumber(
@@ -396,62 +416,72 @@ public class OLTWorker extends Worker {
 
           ArrayNode occupationValues = stepResponseDataElements.putObject("occupation_data")
               .putArray("value");
-          grantApplication.getOccupationDataList().getOccupationDataList()
-              .forEach(occupationData -> occupationValues.addObject()
-                  .put("educational_institute_name", occupationData.getEducationalInstituteName())
-                  .put("applicant_occupation", occupationData.getApplicantOccupation())
-                  .put("applicant_subjects",
-                      occupationData.isSetApplicantSubjects() ?
-                          occupationData.getApplicantSubjects().getApplicantSubjectList().stream()
-                              .map(ApplicantSubject::getSubject).collect(Collectors.joining(", "))
-                          : null)
-                  .put("applicant_workload", occupationData.getApplicantWorkload())
-                  .put("meets_requirement", occupationData.getMeetsRequirement())
-                  .put("contract_begin_date",
-                      ehisDateFormat(occupationData.getContractBeginDate())));
+          if (grantApplication.isSetOccupationDataList()) {
+            grantApplication.getOccupationDataList().getOccupationDataList()
+                .forEach(occupationData -> occupationValues.addObject()
+                    .put("educational_institute_name", occupationData.getEducationalInstituteName())
+                    .put("applicant_occupation", occupationData.getApplicantOccupation())
+                    .put("applicant_subjects",
+                        occupationData.isSetApplicantSubjects() ?
+                            occupationData.getApplicantSubjects().getApplicantSubjectList().stream()
+                                .map(ApplicantSubject::getSubject).collect(Collectors.joining(", "))
+                            : null)
+                    .put("applicant_workload", occupationData.getApplicantWorkload())
+                    .put("meets_requirement", occupationData.getMeetsRequirement())
+                    .put("contract_begin_date",
+                        ehisDateFormat(occupationData.getContractBeginDate())));
+          }
 
           ArrayNode qualificationValues = stepResponseDataElements.putObject("qualification_data")
               .putArray("value");
-          grantApplication.getQualificationDataList().getQualificationDataList()
-              .forEach(qualificationData -> qualificationValues.addObject()
-                  .put("qualification", qualificationData.getQualification())
-                  .put("curriculum_name", qualificationData.getCurriculumName())
-                  .put("educational_institute_name",
-                      qualificationData.getEducationalInstituteName())
-                  .put("language", qualificationData.getLanguage())
-                  .put("qualification_document_number",
-                      qualificationData.getQualificationDocumentNumber())
-                  .put("qualification_date",
-                      ehisDateFormat(qualificationData.getQualificationDate())));
+          if (grantApplication.isSetQualificationDataList()) {
+            grantApplication.getQualificationDataList().getQualificationDataList()
+                .forEach(qualificationData -> qualificationValues.addObject()
+                    .put("qualification", qualificationData.getQualification())
+                    .put("curriculum_name", qualificationData.getCurriculumName())
+                    .put("educational_institute_name",
+                        qualificationData.getEducationalInstituteName())
+                    .put("language", qualificationData.getLanguage())
+                    .put("qualification_document_number",
+                        qualificationData.getQualificationDocumentNumber())
+                    .put("qualification_date",
+                        ehisDateFormat(qualificationData.getQualificationDate())));
+          }
 
           ArrayNode vocationValues = stepResponseDataElements.putObject("vocation_data")
               .putArray("value");
-          grantApplication.getVocationDataList().getVocationDataList().forEach(
-              vocationData -> vocationValues.addObject()
-                  .put("vocation_name", vocationData.getVocationName())
-                  .put("vocation_date", ehisDateFormat(vocationData.getVocationDate())));
+          if (grantApplication.isSetVocationDataList()) {
+            grantApplication.getVocationDataList().getVocationDataList().forEach(
+                vocationData -> vocationValues.addObject()
+                    .put("vocation_name", vocationData.getVocationName())
+                    .put("vocation_date", ehisDateFormat(vocationData.getVocationDate())));
+          }
 
           ArrayNode extensionsValues = stepResponseDataElements
               .putObject("application_entry_extensions")
               .putArray("value");
-          grantApplication.getApplicationEntryExtensionsList().getApplicationEntryExtensionsList()
-              .forEach(applicationEntryExtensions -> extensionsValues.addObject()
-                  .put("extension_begin_date",
-                      ehisDateFormat(applicationEntryExtensions.getExtensionBeginDate()))
-                  .put("extension_end_date",
-                      ehisDateFormat(applicationEntryExtensions.getExtensionEndDate()))
-                  .put("extension_type", applicationEntryExtensions.getExtensionType()));
+          if (grantApplication.isSetApplicationEntryExtensionsList()) {
+            grantApplication.getApplicationEntryExtensionsList().getApplicationEntryExtensionsList()
+                .forEach(applicationEntryExtensions -> extensionsValues.addObject()
+                    .put("extension_begin_date",
+                        ehisDateFormat(applicationEntryExtensions.getExtensionBeginDate()))
+                    .put("extension_end_date",
+                        ehisDateFormat(applicationEntryExtensions.getExtensionEndDate()))
+                    .put("extension_type", applicationEntryExtensions.getExtensionType()));
+          }
 
           stepResponseDataElements.putObject("additional_info_text")
               .put("value", grantApplication.getComment());
 
           ArrayNode filesValues = stepResponseDataElements.putObject("additional_info_file")
               .putArray("value");
-          postGrantsResponse.getGrant().getGrantFilesList().getGrantFileList().forEach(
-              grantFile -> filesValues.addObject().put("file_name", grantFile.getFileName())
-                  .put("file_identifier",
-                      "OLT_" + postGrantsResponse.getGrant().getGrantNumber() + "_" + grantFile
-                          .getUID()));
+          if (postGrantsResponse.getGrant().isSetGrantFilesList()) {
+            postGrantsResponse.getGrant().getGrantFilesList().getGrantFileList().forEach(
+                grantFile -> filesValues.addObject().put("file_name", grantFile.getFileName())
+                    .put("file_identifier",
+                        "OLT_" + postGrantsResponse.getGrant().getGrantNumber() + "_" + grantFile
+                            .getUID()));
+          }
 
           ((ObjectNode) jsonNode.get("body").get("steps").get("step_response"))
               .putArray("messages").add("Done");
