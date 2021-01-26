@@ -19,8 +19,8 @@ class OskaFileEntityListBuilder extends EntityListBuilder {
    */
   public function buildHeader() {
     $header['name'] = $this->t('File name');
-//    $header['file'] = $this->t('File');
-//    $header['action'] = $this->t('Delete');
+    $header['download'] = $this->t('Download');
+    $header['delete'] = $this->t('Delete');
     return $header + parent::buildHeader();
   }
 
@@ -30,14 +30,16 @@ class OskaFileEntityListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $file_entity) {
     /**@var OskaFileEntity $file_entity*/
-      //dump($file_entity);
-      //die();
-      $row['name'] = $file_entity->getFileId();
-//      $row['file'] = $file_entity->label();
-      $row['action'] = Link::createFromRoute(
+    $file_name = $file_entity->getFileId();
+    $download_entity_file  = Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/sites/default/files/private/oska_csv/'.$file_name.'.csv');
+    $entity_download_link = Link::fromTextAndUrl(t('Download'), $download_entity_file);
+
+      $row['name'] = $file_name;
+      $row['download'] = $entity_download_link;
+      $row['delete'] = Link::createFromRoute(
         'Kustuta',
-        'entity.oska_entity.delete_form',
-        ['oska_entity' => $file_entity->id()]
+        'entity.oska_file_entity.delete_form',
+        ['oska_file_entity' => $file_entity->id()]
       );
 
     return $row + parent::buildRow($file_entity);
