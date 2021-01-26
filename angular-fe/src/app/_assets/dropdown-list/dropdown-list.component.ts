@@ -92,9 +92,9 @@ export class DropdownListComponent implements OnInit {
     }
 
     try {
-      const tmpList = this.modal.reverseFieldOskaFieldParagraph.entities.map((item) => {
-        return item.paragraphReference[0];
-      });
+      const tmpList = this.modal.reverseFieldOskaFieldParagraph.entities
+        .filter(item => item.paragraphReference[0])
+        .map(item => item.paragraphReference[0]);
       this.modal.list = this.sortByKey(tmpList, 'entityLabel');
     }catch (err) {}
 
