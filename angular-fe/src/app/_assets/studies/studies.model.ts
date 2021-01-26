@@ -77,6 +77,7 @@ export interface Studies {
 
 export interface ExternalQualifications {
   tyyp: string;
+  oppeasutuseNimi?: string;
   oppeasutuseNimiMuusKeeles?: string;
   oppeasutuseNimiTranslit?: string;
   riik?: string;
@@ -99,6 +100,7 @@ export interface ExternalQualifications {
 export interface StudiesValue {
   isikuandmed: PersonalDetails;
   valineKvalifikatsioon: ExternalQualifications[];
+  enne2004Kvalifikatsioon: ExternalQualifications[];
   oping: Studies[];
 }
 

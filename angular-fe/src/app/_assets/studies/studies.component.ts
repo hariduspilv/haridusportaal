@@ -45,9 +45,10 @@ export class StudiesComponent implements OnInit {
         + (test1.oppLopp ? ' ' + test1.oppLopp : '');
     }
     const test2 = item as ExternalQualifications;
-    return (test2.oppeasutuseNimiTranslit
-      ? test2.oppeasutuseNimiTranslit
-      : test2.oppeasutuseNimiMuusKeeles).trim()
+    return (test2.oppeasutuseNimi
+        || test2.oppeasutuseNimiTranslit
+        || test2.oppeasutuseNimiMuusKeeles
+        || '').trim()
       + (test2.valjaandmKp
         ? ', ' + this.parseTypeTranslation('LOPETANUD') + ' ' + test2.valjaandmKp
         : '');
@@ -88,13 +89,18 @@ export class StudiesComponent implements OnInit {
             if (response.value?.isikuandmed) {
               this.oppelaenOigus = response.value.isikuandmed.oppelaenOigus;
             }
-            // Add type to the external qualifications
-            response.value.valineKvalifikatsioon.map((r) => {
-              r.tyyp = 'VALISMAA';
-              return r;
-            });
-            // Combine results
-            const resultData = [...response.value.oping, ...response.value.valineKvalifikatsioon];
+            // Add type to the external qualifications and combine the results
+            const resultData = [
+              ...response.value.oping,
+              ...response.value.valineKvalifikatsioon.map(r => {
+                r.tyyp = 'VALISMAA';
+                return r;
+              }),
+              ...response.value.enne2004Kvalifikatsioon.map(r => {
+                r.tyyp = 'ENNE_2004_EESTI';
+                return r;
+              }),
+            ];
             // Sort currently studying and finished separately
             this.content = [
               ...resultData.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(this.dateSortFn),
