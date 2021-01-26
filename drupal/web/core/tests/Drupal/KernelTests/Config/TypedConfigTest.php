@@ -38,6 +38,10 @@ class TypedConfigTest extends KernelTestBase {
   public function testTypedDataAPI() {
     /** @var \Drupal\Core\Config\TypedConfigManagerInterface $typed_config_manager */
     $typed_config_manager = \Drupal::service('config.typed');
+
+    // Test not existing data.
+    $typed_config = $typed_config_manager->get('config_test.not_existing');
+
     /** @var \Drupal\Core\Config\Schema\TypedConfigInterface $typed_config */
     $typed_config = $typed_config_manager->get('config_test.validation');
 
