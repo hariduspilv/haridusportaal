@@ -46,7 +46,7 @@ export const requiredFields = [
 export const defaultValues = {
   sortField: 'title',
   sortDirection: 'ASC',
-  limit: 1000,
+  limit: 100,
   offset: 0,
   lang: 'ET',
 };
