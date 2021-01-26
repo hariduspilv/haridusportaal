@@ -222,9 +222,11 @@ export class DetailViewComponent {
 
     if (this.data.fieldAccordion) {
       try {
-        this.data.fieldAccordion = this.data.fieldAccordion.map((item) => {
-          return FieldVaryService(item.paragraphReference[0]);
-        });
+        this.data.fieldAccordion = this.data.fieldAccordion
+          .filter(item => item.paragraphReference[0])
+          .map((item) => {
+            return FieldVaryService(item.paragraphReference[0]);
+          });
         if (!this.data.accordion) {
           this.data.accordion = [];
         }
