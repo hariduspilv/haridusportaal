@@ -378,7 +378,7 @@ public class OLTWorker extends Worker {
           GrantFileList grantFileList = grant.addNewGrantFilesList();
           requestDataElement.get("additional_info_file").get("value").forEach(item -> {
             GrantFile grantFile = grantFileList.addNewGrantFile();
-            grantFile.setFileName(item.get("file_name").asText());
+            grantFile.setFileName(item.get("file_name").asText().replace(" ", "_"));
             grantFile.setContent("cid:" + item.get("file_identifier").asText());
             String guessContentType = URLConnection.guessContentTypeFromName(grantFile.getFileName());
             DataHandler dataHandler = new DataHandler(new ByteArrayDataSource(
