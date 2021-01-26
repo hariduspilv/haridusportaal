@@ -118,7 +118,7 @@ class OskaImportDataForm extends FormBase {
                 ],
                 [
                   '\Drupal\htm_custom_oska\ProcessOskaData::ProcessOskaData',
-                  [$filename, $file_array]
+                  [$file_array]
                 ],
             ],
             'error_message' => t('The migration process has encountered an error.'),
