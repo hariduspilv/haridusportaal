@@ -381,6 +381,9 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
     public function ajax_dependent_graph_set_callback(array &$form, FormStateInterface $form_state){
         $field_name = $this->fieldDefinition->getName();
         $trigger_element = $form_state->getTriggeringElement();
+//        dump($form);
+
+        return $form['field_dynamic_graph'];
 
         return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options'];
     }
