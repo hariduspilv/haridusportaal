@@ -63,17 +63,7 @@ class ProcessOskaData {
 
                 $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
             }else{
-//                $results[] = [
-//                  'oska_indicator' => $object['naitaja'],
-//                  'oska_field' => $object['valdkond'],
-//                  'oska_sub_field' => $object['alavaldkond'],
-//                  'oska_main_profession' => $object['ametiala'],
-//                  'year' => $object['periood'],
-//                  'oska_label' => $object['silt'],
-//                  'value' => $object['vaartus'],
-//                  'file_id' => $filename
-//                ];
-              $results = $object;
+              $results[] = $object;
             }
         }
 
@@ -165,13 +155,13 @@ class ProcessOskaData {
         }
     }
 
-  public static function ProcessOskaData($filename, $items, &$context){
-    $file_values = $context['results']['files'];
-    if($file_values){
-      $files_entity = OskaFileEntity::create($file_values);
+    public static function ProcessOskaData($items, &$context){
+      $file_values = $context['results']['files'];
+      if($file_values){
+        $files_entity = OskaFileEntity::create($file_values);
+      }
+      $files_entity->save();
     }
-    $files_entity->save();
-  }
 
     public static function ProcessOskaDataFinishedCallback($success, $results, $operations){
         // The 'success' parameter means no fatal PHP errors were detected. All
