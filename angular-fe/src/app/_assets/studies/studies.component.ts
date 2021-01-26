@@ -88,7 +88,14 @@ export class StudiesComponent implements OnInit {
             if (response.value?.isikuandmed) {
               this.oppelaenOigus = response.value.isikuandmed.oppelaenOigus;
             }
+            // Add type to the external qualifications
+            response.value.valineKvalifikatsioon.map((r) => {
+              r.tyyp = 'VALISMAA';
+              return r;
+            });
+            // Combine results
             const resultData = [...response.value.oping, ...response.value.valineKvalifikatsioon];
+            // Sort currently studying and finished separately
             this.content = [
               ...resultData.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(this.dateSortFn),
               ...resultData.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort(this.dateSortFn),
