@@ -62,7 +62,16 @@
 
             <p *ngIf="modal.list && modal.list.length > 0"><b>{{ 'oska.professions_and_jobs' | translate }}</b></p>
             <ul>
-              <li *ngFor="let item of modal.list"><a [routerLink]="item.entityUrl.path" [title]="item.entityLabel" role="link" attr.aria-label="{{item.entityLabel}}" tabindex="0">{{ item.entityLabel }}</a></li>
+              <li *ngFor="let item of modal.list">
+                <a *ngIf="item?.entityLabel" 
+                  [routerLink]="item?.entityUrl?.path"
+                  [title]="item?.entityLabel"
+                  role="link"
+                  attr.aria-label="{{item.entityLabel}}"
+                  tabindex="0">
+                  {{ item.entityLabel }}
+                </a>
+              </li>
             </ul>
             <button class="hidden-button" attr.aria-label="{{ 'oskaProfessions.close_modal' | translate }}" (click)="modalClose()" (blur)="resetFocus($event, 'modalTitle')"></button>
           </div><!--/modal__content-->
