@@ -1,1361 +1,2744 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://ehis2.x-road.eu" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ehis2.x-road.eu" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" targetNamespace="http://ehis2.x-road.eu">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:repr="http://x-road.eu/xsd/representation.xsd" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://ehis2.x-road.eu" xmlns:xrd="http://x-road.eu/xsd/xroad.xsd" targetNamespace="http://ehis2.x-road.eu">
   <wsdl:types>
     <schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:ref="http://ws-i.org/profiles/basic/1.1/xsd" targetNamespace="http://ehis2.x-road.eu">
-  <import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
-  <import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
-  <import namespace="http://ws-i.org/profiles/basic/1.1/xsd" schemaLocation="http://ws-i.org/profiles/basic/1.1/swaref.xsd"/>
-
-  <!-- Certificates -->
-  <element name="SendCertificateRequest" type="tns:SendCertificateRequest"/>
-  <element name="SendCertificateResponse">
-    <complexType>
-      <choice>
-        <element name="ServiceErrors" type="tns:ServiceErrors"/>
-        <element name="Certificate" type="tns:PostCertificateIndexResponseBody"/>
-      </choice>
-    </complexType>
-  </element>
-
-  <!-- SendCertificateRequestType -->
-  <complexType name="SendCertificateRequest">
-    <sequence>
-      <element name="ProcessType">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="APPLICATION"/>
-            <enumeration value="SCHEDULER"/>
-            <enumeration value="MIGRATION"/>
-          </restriction>
-        </simpleType>
-      </element>
-      <element name="Action" type="tns:Action"/>
-      <element name="Certificate" type="tns:Certificate"/>
-      <element minOccurs="0" name="TranscriptOfGrades" type="tns:TranscriptOfGrades"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="Action">
-    <sequence>
-      <element name="ActionType">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="ACTION_TYPE:ISSUING"/>
-            <enumeration value="ACTION_TYPE:ISSUING_DUPLICATE"/>
-          </restriction>
-        </simpleType>
-      </element>
-      <element name="DocumentType">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE"/>
-            <enumeration value="GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE"/>
-            <enumeration value="GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_TRANSCRIPT_OF_GRADES"/>
-            <enumeration value="GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES"/>
-          </restriction>
-        </simpleType>
-      </element>
-      <element name="Status">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="ACTION_STATUS:CONFIRMED"/>
-          </restriction>
-        </simpleType>
-      </element>
-      <element minOccurs="0" name="Reason" type="string"/>
-      <element minOccurs="0" name="Explanation" type="string"/>
-      <element minOccurs="0" name="NotificationEmail" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="Certificate">
-    <sequence>
-      <element name="Type">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE"/>
-            <enumeration value="GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE"/>
-          </restriction>
-        </simpleType>
-      </element>
-      <element name="Language" type="string"/>
-      <element name="Number" type="string"/>
-      <element minOccurs="0" name="Qualification" type="string"/>
-      <element minOccurs="0" name="QualificationToPrintOut" type="string"/>
-      <element minOccurs="0" name="OriginalCertificateNumber" type="string"/>
-      <element name="Owner" type="tns:CertificateOwner"/>
-      <element name="Issuer" type="tns:CertificateIssuer"/>
-      <element minOccurs="0" name="Studies" type="tns:CertificateStudies"/>
-      <element name="CouncilDecision" type="tns:CertificateCouncilDecision"/>
-      <element minOccurs="0" name="IssueDate" type="dateTime"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateOwner">
-    <sequence>
-      <element minOccurs="0" name="OwnerId" type="string"/>
-      <element name="OwnerIdCode" type="string"/>
-      <element name="OwnerFirstName" type="string"/>
-      <element name="OwnerLastName" type="string"/>
-      <element minOccurs="0" name="OwnerDateOfBirth" type="date"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateIssuer">
-    <sequence>
-      <element name="IssuerId" type="string"/>
-      <element name="IssuerName" type="string"/>
-      <element name="IssuerNameToPrintout" type="string"/>
-      <element minOccurs="0" name="IssuerLocation" type="string"/>
-      <element minOccurs="0" name="IssuerLocationToPrintout" type="string"/>
-      <element name="IssuerRegCode" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateStudies">
-    <sequence>
-      <element name="Curriculum" type="string"/>
-      <element name="CurriculumName" type="string"/>
-      <element minOccurs="0" name="CurriculumNameToPrintOut" type="string"/>
-      <element minOccurs="0" name="Programme" type="string"/>
-      <element minOccurs="0" name="Honors" type="string"/>
-      <element minOccurs="0" name="Language" type="string"/>
-      <element minOccurs="0" name="ClassStudyGroup" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateCouncilDecision">
-    <sequence>
-      <element name="DecisionNumber" type="string"/>
-      <element name="DateOfDecision" type="date"/>
-      <element name="DateOfDecisionToPrintOut" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="TranscriptOfGrades">
-    <sequence>
-      <element name="Number" type="string"/>
-      <element name="Language" type="string"/>
-      <element name="Issuer" type="tns:TranscriptOfGradesIssuer"/>
-      <element minOccurs="0" name="StudySubjects" type="tns:StudySubjects"/>
-      <element minOccurs="0" name="GraduationStudy" type="tns:GraduationStudy"/>
-      <element minOccurs="0" name="GraduationExaminations" type="tns:GraduationExaminations"/>
-      <element minOccurs="0" name="ConductGrade" type="tns:ConductGrade"/>
-      <element minOccurs="0" name="IssueDate" type="dateTime"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="TranscriptOfGradesIssuer">
-    <sequence>
-      <element name="IssuerNameToPrintout" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="StudySubjects">
-    <sequence>
-      <element maxOccurs="unbounded" name="StudySubject" type="tns:StudySubject"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="StudySubject">
-    <sequence>
-      <element name="Type">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="STUDY_SUBJECT_TYPE:MANDATORY"/>
-            <enumeration value="STUDY_SUBJECT_TYPE:OPTIONAL"/>
-          </restriction>
-        </simpleType>
-      </element>
-      <element name="ItemNumber" type="integer"/>
-      <element name="Subject" type="string"/>
-      <element minOccurs="0" name="SubjectDetail" type="string"/>
-      <element minOccurs="0" name="ResultNumeric" type="integer"/>
-      <element minOccurs="0" name="ResultInWords" type="string"/>
-      <element minOccurs="0" name="Amount" type="integer"/>
-      <element minOccurs="0" name="StudyProgrammeType" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="GraduationStudy">
-    <sequence>
-      <element name="Type">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="GRADUATION_STUDY_TYPE:RESEARCH"/>
-            <enumeration value="GRADUATION_STUDY_TYPE:PRACTICAL_WORK"/>
-            <enumeration value="GRADUATION_STUDY_TYPE:CREATIVE_WORK"/>
-          </restriction>
-        </simpleType>
-      </element>
-      <element minOccurs="0" name="Subject" type="string"/>
-      <element minOccurs="0" name="ResultNumeric" type="integer"/>
-      <element minOccurs="0" name="ResultInWords" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="GraduationExaminations">
-    <sequence>
-      <element maxOccurs="unbounded" name="GraduationExamination" type="tns:GraduationExamination"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="GraduationExamination">
-    <sequence>
-      <element name="ItemNumber" type="integer"/>
-      <element name="Subject" type="string"/>
-      <element minOccurs="0" name="ResultNumeric" type="integer"/>
-      <element minOccurs="0" name="ResultInWords" type="string"/>
-      <element minOccurs="0" name="Type">
-        <simpleType>
-          <restriction base="string">
-            <enumeration value="GRADUATION_EXAMINATION_TYPE:SCHOOL_EXAM"/>
-            <enumeration value="GRADUATION_EXAMINATION_TYPE:FINAL_EXAM"/>
-          </restriction>
-        </simpleType>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="ConductGrade">
-    <sequence>
-      <element name="ResultInWords" type="string"/>
-    </sequence>
-  </complexType>
-
-  <!-- ServiceErrors -->
-  <complexType name="ServiceErrors">
-    <sequence>
-      <element maxOccurs="unbounded" name="ServiceError" type="tns:ServiceError"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="ServiceError">
-    <sequence>
-      <element minOccurs="0" name="Object" type="string"/>
-      <element minOccurs="0" name="Field" type="string"/>
-      <element minOccurs="0" name="Value"/>
-      <element minOccurs="0" name="Code" type="string"/>
-      <element minOccurs="0" name="Message" type="string"/>
-    </sequence>
-  </complexType>
-
-  <!-- PostCertificateIndexResponseBodyType -->
-  <complexType name="PostCertificateIndexResponseBody">
-    <sequence>
-      <element name="Index" type="tns:CertificateIndex"/>
-      <element name="Actions" type="tns:CertificateActions"/>
-      <element name="Documents" type="tns:CertificateDocuments"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateIndex">
-    <sequence>
-      <element name="Id" type="long"/>
-      <element minOccurs="0" name="ValidFrom" type="date"/>
-      <element minOccurs="0" name="ValidUntil" type="date"/>
-      <element minOccurs="0" name="ClassStudyGroup" type="string"/>
-      <element name="Number" type="string"/>
-      <element minOccurs="0" name="OwnerId" type="string"/>
-      <element name="OwnerIdCode" type="string"/>
-      <element name="OwnerName" type="string"/>
-      <element minOccurs="0" name="OwnerDateOfBirth" type="date"/>
-      <element name="Status" type="string"/>
-      <element name="Type" type="string"/>
-      <element name="TypeName" type="string"/>
-      <element name="Issued" type="date"/>
-      <element minOccurs="0" name="IssuerId" type="string"/>
-      <element minOccurs="0" name="IssuerName" type="string"/>
-      <element name="IssuerRegCode" type="string"/>
-      <element minOccurs="0" name="Curriculum" type="string"/>
-      <element minOccurs="0" name="CurriculumName" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateActions">
-    <sequence>
-      <element maxOccurs="unbounded" name="Action" type="tns:CertificateAction"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateAction">
-    <sequence>
-      <element name="Id" type="long"/>
-      <element name="Type" type="string"/>
-      <element minOccurs="0" name="Status" type="string"/>
-      <element minOccurs="0" name="Added" type="dateTime"/>
-      <element minOccurs="0" name="Approved" type="dateTime"/>
-      <element minOccurs="0" name="DecisionNumber" type="string"/>
-      <element minOccurs="0" name="DateOfDecision" type="date"/>
-      <element minOccurs="0" name="Reason" type="string"/>
-      <element minOccurs="0" name="Explanation" type="string"/>
-      <element minOccurs="0" name="NotificationEmail" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateDocuments">
-    <sequence>
-      <element maxOccurs="unbounded" name="Document" type="tns:CertificateDocument"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="CertificateDocument">
-    <sequence>
-      <element name="Id" type="long"/>
-      <element name="Type" type="string"/>
-      <element name="TypeName" type="string"/>
-      <element name="Revision" type="integer"/>
-      <element name="Language" type="string"/>
-      <element name="Status" type="string"/>
-      <element minOccurs="0" name="Number" type="string"/>
-    </sequence>
-  </complexType>
-
-  <!-- Grants -->
-  <element name="getGrantsRequest">
-    <complexType>
-      <sequence>
-        <element name="personIdCode" type="string">
-          <annotation>
-            <appinfo>
-              <xrd:title>Taotleja isikukood</xrd:title>
-            </appinfo>
-          </annotation>
-        </element>
-        <element minOccurs="0" name="grantNumber" type="string">
-          <annotation>
-            <appinfo>
-              <xrd:title>Toetuse number</xrd:title>
-              <xrd:techNotes>Kui täidetud tagastab konkreetse toetuse andmestiku</xrd:techNotes>
-            </appinfo>
-          </annotation>
-        </element>
-        <element minOccurs="0" name="grantType">
-          <annotation>
-            <appinfo>
-              <xrd:title>Toetuse liik</xrd:title>
-              <xrd:techNotes>Lähtetoetuse korral, võtab vastu ühe kahest väärtusest
-                'GRANT_TYPE:STARTING_ALLOWANCE_PEDAGOGUE',
-                'GRANT_TYPE:STARTING_ALLOWANCE_SPECIALIST'.
-              </xrd:techNotes>
-            </appinfo>
-          </annotation>
-          <simpleType>
-            <restriction base="string">
-              <enumeration value="GRANT_TYPE:STARTING_ALLOWANCE_PEDAGOGUE"/>
-              <enumeration value="GRANT_TYPE:STARTING_ALLOWANCE_SPECIALIST"/>
-            </restriction>
-          </simpleType>
-        </element>
-        <element minOccurs="0" name="action">
-          <annotation>
-            <appinfo>
-              <xrd:title>Teenuse tegevused</xrd:title>
-              <xrd:techNotes>nill/puudub - nimekirja päring, 'hasAccessControl' - õiguste
-                kontroll, 'getApplicationData' - alusandmete päring, 'getGrant' - üksikpäring
-              </xrd:techNotes>
-            </appinfo>
-          </annotation>
-          <simpleType>
-            <restriction base="string">
-              <enumeration value="hasAccessControl"/>
-              <enumeration value="getApplicationData"/>
-              <enumeration value="getGrant"/>
-            </restriction>
-          </simpleType>
-        </element>
-      </sequence>
-    </complexType>
-  </element>
-  <element name="getGrantsResponse">
-    <complexType>
-      <sequence>
-        <element minOccurs="0" name="responseInfo" type="tns:responseInfo"/>
-        <element minOccurs="0" name="grants" type="tns:grants"/>
-        <element minOccurs="0" name="fault" type="tns:ServiceErrors"/>
-      </sequence>
-    </complexType>
-  </element>
-
-  <element name="postGrantsRequest">
-    <complexType>
-      <sequence>
-        <element name="grant" type="tns:grant"/>
-      </sequence>
-    </complexType>
-  </element>
-  <element name="postGrantsResponse">
-    <complexType>
-      <sequence>
-        <element minOccurs="0" name="responseInfo" type="tns:responseInfo"/>
-        <element minOccurs="0" name="grant" type="tns:grant"/>
-        <element minOccurs="0" name="fault" type="tns:ServiceErrors"/>
-      </sequence>
-    </complexType>
-  </element>
-
-  <element name="getFileRequest">
-    <complexType>
-      <sequence>
-        <element name="service" type="string">
-          <annotation>
-            <appinfo>
-              <xrd:title>Teenus, kust fail päritakse</xrd:title>
-            </appinfo>
-          </annotation>
-        </element>
-        <element minOccurs="0" name="parentReference" type="string">
-          <annotation>
-            <appinfo>
-              <xrd:title>Faili ülemobjekti viide</xrd:title>
-            </appinfo>
-          </annotation>
-        </element>
-        <element name="fileReference" type="string">
-          <annotation>
-            <appinfo>
-              <xrd:title>Faili viide</xrd:title>
-            </appinfo>
-          </annotation>
-        </element>
-      </sequence>
-    </complexType>
-  </element>
-  <element name="getFileResponse">
-    <complexType>
-      <sequence>
-        <element name="file" type="ref:swaRef"/>
-        <element minOccurs="0" name="fault" type="tns:ServiceErrors"/>
-      </sequence>
-    </complexType>
-  </element>
-
-  <complexType name="responseInfo">
-    <sequence>
-      <element name="resultCount" type="int">
-        <annotation>
-          <appinfo>
-            <xrd:title>Tagastatavate objektide arv</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="hasAccessList" type="tns:hasAccessList"/>
-    </sequence>
-  </complexType>
-  <complexType name="hasAccessList">
-    <sequence>
-      <element maxOccurs="unbounded" name="access" type="string"/>
-    </sequence>
-  </complexType>
-
-  <complexType name="grants">
-    <sequence>
-      <element maxOccurs="unbounded" name="grant" type="tns:grant"/>
-    </sequence>
-  </complexType>
-  <complexType name="grant">
-    <sequence>
-      <element name="grantNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetuse identifikaator</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="grantType" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetuse liik</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="status" type="string"/>
-      <element minOccurs="0" name="personIdCode" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetuse saaja viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="personFirstName" type="string"/>
-      <element minOccurs="0" name="personLastName" type="string"/>
-      <element minOccurs="0" name="submitTime" type="dateTime">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotluse esitamise aeg</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="beginDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetuse alguse aeg</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="estimatedEndDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Eeldatav toetuse lõppemise kuupäev</xrd:title>
-            <xrd:techNotes>Eeldatav viie aastase töötamise perioodi lõpp. Arvutatakse esimesest
-              väljamaksest koos peatamistega.
-            </xrd:techNotes>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="application" type="tns:application">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotluse andmed</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="applicationDecision" type="tns:applicationDecision">
-        <annotation>
-          <appinfo>
-            <xrd:title>Otsuse andmed</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="grantPaymentList" type="tns:grantPaymentList">
-        <annotation>
-          <appinfo>
-            <xrd:title>Väljamaksete andmestik</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="grantRecoveryList" type="tns:grantRecoveryList">
-        <annotation>
-          <appinfo>
-            <xrd:title>Tagasinõuete andmestik</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="grantFilesList" type="tns:grantFileList">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetusega seotud failide viited</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="grantStatusList" type="tns:grantStatusList">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetuse staatuse hoidmiseks</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="application">
-    <sequence>
-      <element name="personApplicationIdCode" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetuse saaja isikukood</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="personApplicationFirstName" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetuse saaja eesnimi taotlemise hetkel</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="personApplicationLastName" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Toetuse saaja perenimi taotlemise hetkel</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="personApplicationEmail" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja e-post</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="personApplicationPhoneNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja telefoninumber</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="personApplicationBankAccount" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja pangakontonumber</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="citizenship" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja kodakondsuse klassifikaatori nimetus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="citizenshipCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja kodakondsuse klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="nativeLanguage" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja emakeele klassifikaatori nimetus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="nativeLanguageCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja emakeele klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="stateLanguageProficiency" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Keeleoskus taseme klassifikaator</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="stateLanguageProficiencyCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Keeleoskus taseme klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="stateLanguageProficiencyDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Keeleoskustaseme omandamise kuupäev</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="comment" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotlusega kaasnev kommentaari väli</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="occupationDataList" type="tns:occupationDataList">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õpetaja lähtetoetuse taotluse töötamise andmed</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="qualificationDataList" type="tns:qualificationDataList">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õpetaja lähtetoetuse taotluse kvalifikatsiooni andmed</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="vocationDataList" type="tns:vocationDataList">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õpetaja lähtetoetuse taotluse kutsestandari andmed</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="applicationEntryExtensionsList" type="tns:applicationEntryExtensionsList">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotlemise perioodi pikendamised (haigekassast)</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="occupationDataList">
-    <sequence>
-      <element maxOccurs="unbounded" name="occupationData" type="tns:occupationData"/>
-    </sequence>
-  </complexType>
-  <complexType name="occupationData">
-    <sequence>
-      <element name="educationalInstituteReference" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Viide õppeasutusele</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteName" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppeasutuse nimi, kus taotleja töötab</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteRegNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppeasutuse registri number</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteCounty" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppeasutuse maakond taotluse esitamise hetke</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteCountyEHAK" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppeasutuse maakonna EHAK taotluse esitamise hetkel</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteCountyCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppeasutuse maakonna klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteLocalGovernment" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppeasutuse omavalitsus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteLocalGovernmentCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Kohaliku omavalitsuse klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="applicantOccupation" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja ametikoht</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="applicantOccupationCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja ametikoha klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="applicantSubjects" type="tns:applicantSubjects">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja õpetamise ained</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="applicantWorkload" type="float">
-        <annotation>
-          <appinfo>
-            <xrd:title>Taotleja töötamise koormus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="meetsRequirement" type="boolean">
-        <annotation>
-          <appinfo>
-            <xrd:title>Kas vastab ametikohale esitatavatele kvalifikatsiooninõuetele</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="contractBeginDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Töötamise lepingu algus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="applicantSubjects">
-    <sequence>
-      <element maxOccurs="unbounded" name="applicantSubject" type="tns:applicantSubject"/>
-    </sequence>
-  </complexType>
-  <complexType name="applicantSubject">
-    <sequence>
-      <element name="subject" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õpetatav aine</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="subjectCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õpetatava aine klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="qualificationDataList">
-    <sequence>
-      <element maxOccurs="unbounded" name="qualificationData" type="tns:qualificationData"/>
-    </sequence>
-  </complexType>
-  <complexType name="qualificationData">
-    <sequence>
-      <element name="qualification" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppekava tase</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="qualificationCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Kvalifikatsiooni klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="qualificationDocumentNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Dokumendi number</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="studyBeginDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppima asumise kuupäev</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="qualificationDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Lõpetamise kuupäev</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteReference" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Viide õppeasutusele</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteName" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppeasutuse nimi, kus taotleja kvalifikatsiooni omandas</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="educationalInstituteRegNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppeasutuse registri number</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="curriculumCode" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppekava kood</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="curriculumName" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppekava nimetus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="language" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppekeel</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="languageCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Õppekeele klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="teacherTraining" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Kas õpetajakoolitus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="vocationDataList">
-    <sequence>
-      <element maxOccurs="unbounded" name="vocationData" type="tns:vocationData"/>
-    </sequence>
-  </complexType>
-  <complexType name="vocationData">
-    <sequence>
-      <element name="vocationName" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Kutse nimetus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="vocationDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Kutse saamise kuupäev</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="applicationEntryExtensionsList">
-    <sequence>
-      <element maxOccurs="unbounded" name="applicationEntryExtensions" type="tns:applicationEntryExtensions"/>
-    </sequence>
-  </complexType>
-  <complexType name="applicationEntryExtensions">
-    <sequence>
-      <element name="extensionBeginDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Perioodi alguskuupäev</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="extensionEndDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Perioodi lõppkuupäev</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="extensionType" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Pikenduse liik</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="extensionTypeCl" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Pikenduse liigi klassifikaatori viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="applicationDecision">
-    <sequence>
-      <element name="applicationNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Viide taotlusele</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="decisionNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Otsuse number</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="decision" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Tehtud otsus, kas positiivne või negatiivne</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="paymentSum" type="int">
-        <annotation>
-          <appinfo>
-            <xrd:title>Väljamakstav summa (sentides)</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="decisionDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Otsuse tegemise aeg</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="grantPaymentList">
-    <sequence>
-      <element maxOccurs="unbounded" name="grantPayment" type="tns:grantPayment"/>
-    </sequence>
-  </complexType>
-  <complexType name="grantPayment">
-    <sequence>
-      <element name="id" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Süsteemi poolt omistatud unikaalne muutumatu andmeobjekti identifikaator.
-            </xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="grantNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Viide toetusele</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="paymentDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Väljamakse kuupäev</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="paymentSum" type="int">
-        <annotation>
-          <appinfo>
-            <xrd:title>Väljamakse summa (sentides)</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="grantRecoveryList">
-    <sequence>
-      <element maxOccurs="unbounded" name="grantRecovery" type="tns:grantRecovery"/>
-    </sequence>
-  </complexType>
-  <complexType name="grantRecovery">
-    <sequence>
-      <element name="id" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Süsteemi poolt omistatud unikaalne muutumatu andmeobjekti identifikaator.
-            </xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="grantNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Viide toetusele</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="recoveryDate" type="date">
-        <annotation>
-          <appinfo>
-            <xrd:title>Tagasinõude kuupäev</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="recoverySum" type="int">
-        <annotation>
-          <appinfo>
-            <xrd:title>Tagasinõude summa</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="grantFileList">
-    <sequence>
-      <element maxOccurs="unbounded" name="grantFile" type="tns:grantFile"/>
-    </sequence>
-  </complexType>
-  <complexType name="grantFile">
-    <sequence>
-      <element name="id" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Süsteemi poolt omistatud unikaalne muutumatu andmeobjekti identifikaator.
-            </xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="grantNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Viide toetusele</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="UID" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Faili viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="fileType" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Faili liik</xrd:title>
-            <xrd:techNotes>Märgib ära millise failiga on tegemist: Taotlus, Otsus, Lisafail,
-              Tagasinõudeotsus
-            </xrd:techNotes>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="fileName" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Faili nimi</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="fileSize" type="int">
-        <annotation>
-          <appinfo>
-            <xrd:title>Suurus baitides</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="mimeType" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Faili tüüp</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="content" type="ref:swaRef">
-        <annotation>
-          <appinfo>
-            <xrd:title>Faili sisu</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="PINALFileReference" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>PINAL-s asuva faili viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="localFileReference" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>EHIS2-s asuva faili viide</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-
-  <complexType name="grantStatusList">
-    <sequence>
-      <element maxOccurs="unbounded" name="grantStatus" type="tns:grantStatus"/>
-    </sequence>
-  </complexType>
-  <complexType name="grantStatus">
-    <sequence>
-      <element name="id" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Süsteemi poolt omistatud unikaalne muutumatu andmeobjekti identifikaator.
-            </xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="grantNumber" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Viide toetusele</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="statusType" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Staatuse liik</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="statusValidFrom" type="dateTime">
-        <annotation>
-          <appinfo>
-            <xrd:title>Staatuse algus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element minOccurs="0" name="statusValidUntil" type="dateTime">
-        <annotation>
-          <appinfo>
-            <xrd:title>Staatuse lõpp, võib ka NULL olla</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="reason" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Täidetakse ainult peatamise korral. Peatamise põhjendus</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-      <element name="source" type="string">
-        <annotation>
-          <appinfo>
-            <xrd:title>Staatuse lisamise allikas</xrd:title>
-          </appinfo>
-        </annotation>
-      </element>
-    </sequence>
-  </complexType>
-</schema>
+      <import namespace="http://x-road.eu/xsd/representation.xsd" schemaLocation="http://x-road.eu/xsd/representation.xsd"/>
+      <import namespace="http://x-road.eu/xsd/xroad.xsd" schemaLocation="http://x-road.eu/xsd/xroad.xsd"/>
+      <import namespace="http://ws-i.org/profiles/basic/1.1/xsd" schemaLocation="http://ws-i.org/profiles/basic/1.1/swaref.xsd"/>
+      <!--   Common  -->
+      <complexType name="Messages">
+        <sequence>
+          <element maxOccurs="unbounded" name="message" type="tns:Message"/>
+        </sequence>
+      </complexType>
+      <complexType name="Message">
+        <sequence>
+          <element name="type" type="string"/>
+          <element name="code" type="string"/>
+          <element minOccurs="0" name="text" type="string"/>
+          <element minOccurs="0" name="field" type="string"/>
+        </sequence>
+      </complexType>
+      <!--  Certificates  -->
+      <element name="SendCertificateRequest" type="tns:SendCertificateRequest"/>
+      <element name="SendCertificateResponse">
+        <complexType>
+          <sequence>
+            <element minOccurs="0" name="serviceErrors" type="tns:ServiceErrors"/>
+            <element minOccurs="0" name="certificate" type="tns:PostCertificateIndexResponseBody"/>
+            <element minOccurs="0" name="messages" type="tns:Messages"/>
+          </sequence>
+        </complexType>
+      </element>
+      <!--  SendCertificateRequestType  -->
+      <complexType name="SendCertificateRequest">
+        <sequence>
+          <element name="processType">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab kas dokumendi andmeid saadetakse EHIS1 rakendusest sünkroonselt või automaatprotsessiga.</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="APPLICATION"/>
+                <enumeration value="SCHEDULER"/>
+                <enumeration value="MIGRATION"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="action" type="tns:Action">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpudokumendiga tehtava toimingu andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="certificate" type="tns:Certificate">
+            <annotation>
+              <appinfo>
+                <xrd:title>Üldhariduse põhidokumendi andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="transcriptOfGrades" type="tns:TranscriptOfGrades">
+            <annotation>
+              <appinfo>
+                <xrd:title>Üldhariduse hinnetelehe andmekomplekt.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="vocationalTrainingCertificate" type="tns:VocationalTrainingCertificate">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutsehariduse lõputunnistuse andmekomplekt.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="vocationalTrainingTranscriptOfGrades" type="tns:VocationalTrainingTranscriptOfGrades">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutsehariduse hinnetelehe andmekomplekt.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="diploma" type="tns:Diploma">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kõrghariduse diplomi andmekomplekt.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="diplomaSupplement" type="tns:DiplomaSupplement">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kõrghariduse eesti või inglise keelse akadeemilise õiendi andmekomplekt.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="repealing" type="tns:CertificateRepealing">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpudokumendi kehtetuks tunnistamise toimingu andmekomplekt.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="Action">
+        <sequence>
+          <element name="actionType">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab lõpudokumendiga tehtava toimingu tüüpi</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="ACTION_TYPE:ISSUING"/>
+                <enumeration value="ACTION_TYPE:ISSUING_DUPLICATE"/>
+                <enumeration value="ACTION_TYPE:REPEALING"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="documentType">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab edastatava lõpudokumendi liiki</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_TRANSCRIPT_OF_GRADES"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_TRANSCRIPT_OF_GRADES"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:BACHELORS_DEGREE_DIPLOMA"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:BACHELORS_DEGREE_DIPLOMA_SUPPLEMENT"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:PROFESSIONAL_HIGHER_EDUCATION_DIPLOMA"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:PROFESSIONAL_HIGHER_EDUCATION_DIPLOMA_SUPPLEMENT"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:MASTERS_DEGREE_DIPLOMA"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:MASTERS_DEGREE_DIPLOMA_SUPPLEMENT"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:DOCTORAL_DEGREE_DIPLOMA"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:DOCTORAL_DEGREE_DIPLOMA_SUPPLEMENT"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_SECONDARY_EDUCATION_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_SECONDARY_EDUCATION_TRANSCRIPT_OF_GRADES"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_TRAINING_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_TRAINING_TRANSCRIPT_OF_GRADES"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_PROFESSIONAL_EDUCATIONAL_STUDY_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_PROFESSIONAL_EDUCATIONAL_STUDY_TRANSCRIPT_OF_GRADES"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:RESIDENCY_COMPLETION_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:RESIDENCY_DIPLOMA_SUPPLEMENT"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="status">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab, kas tunnistus vajab enne välja andmist veel täiendavat kinnitamissammu. Kutse- ja kõrghariduse lõpudokumentide puhul alati "CONFIRMED".</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="ACTION_STATUS:CONFIRMED"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element minOccurs="0" name="reason" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toimingu põhjus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="explanation" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toimingu selgitus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="notificationEmail" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toimingust omanikule teavitamise e-posti aadress</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="Certificate">
+        <sequence>
+          <element name="type">
+            <annotation>
+              <appinfo>
+                <xrd:title>Põhidokumendi liik.</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:BASIC_EDUCATION_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:GENERAL_EDUCATION_CERTIFICATE"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi sisu keel. Klassifikaatori EMAKEEL kood.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="number" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="qualification" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpudokumendiga tõestatava kvalifikatsiooni tase.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="qualificationToPrintOut" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava vastavus kvalifikatsiooni raamistikule.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="originalCertificateNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kui välja antav dokument on duplikaat, siis algdokumendi tunnistuse number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="owner" type="tns:CertificateOwner">
+            <annotation>
+              <appinfo>
+                <xrd:title>Omaniku andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issuer" type="tns:CertificateIssuer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljaandja andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="studies" type="tns:CertificateStudies">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpingute andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="councilDecision" type="tns:CertificateCouncilDecision">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi väljaandmise aluseks oleva otsuse või käskkirja andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="issueDate" type="dateTime">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi välja andmise kuupäev.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateOwner">
+        <sequence>
+          <element minOccurs="0" name="ownerId" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse omaniku identifikaator.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="ownerIdCode" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Omaniku isikukood.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="ownerFirstName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Omaniku eesnimi.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="ownerLastName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Omaniku perekonnanimi.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="ownerDateOfBirth" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Omaniku sünnikuupäev.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateIssuer">
+        <sequence>
+          <element name="issuerId" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljaandva õppeasutuse identifikaator.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issuerName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljaandja nimetus.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issuerNameToPrintout" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljaandja nimetus tunnistusel esitataval kujul.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="issuerLocation" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse asukoht.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="issuerLocationToPrintout" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse asukoht dokumendil esitataval kujul</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issuerRegCode" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljaandja registrikood.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateStudies">
+        <sequence>
+          <element name="curriculum" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava klassifikaatori kood.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="curriculumName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava nimetus.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="curriculumNameToPrintOut" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava nimetus hinnetelehel esitataval kujul.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="programme" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Gümnaasiumi õppesuund.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="honors" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Medaliga või kiitusega lõpetamisel vastav väärtus.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekeel</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="classStudyGroup" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Klassi või õpperühma tunnus.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateCouncilDecision">
+        <sequence>
+          <element name="decisionNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Otsuse või käskkirja number, mis toimingu aluseks, nt õppenõukogu otsuse nr.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="dateOfDecision" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Otsuse või käskkirja kuupäev, mis toimingu aluseks, nt õppenõukogu otsuse kuupäev.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="dateOfDecisionToPrintOut" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Otsuse või käskkirja kuupäev tunnistusel esitataval kujul (kuupäev numbritega, kuu sõnaga alalütlevas käändes, aasta numbritega, nt 01. jaanuaril 2021).</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="TranscriptOfGrades">
+        <sequence>
+          <element name="number" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Hinnetelehe number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi sisu keel. Klassifikaatori EMAKEEL kood.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issuer" type="tns:TranscriptOfGradesIssuer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljaandja andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="studySubjects" type="tns:StudySubjects">
+            <annotation>
+              <appinfo>
+                <xrd:title>Hinnetelehe õppeainete nimistu.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="graduationStudy" type="tns:GraduationStudy">
+            <annotation>
+              <appinfo>
+                <xrd:title>Iseseisva töö andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="graduationExaminations" type="tns:GraduationExaminations">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpueksamite nimistu.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="conductGrade" type="tns:ConductGrade">
+            <annotation>
+              <appinfo>
+                <xrd:title>Käitumishinde andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="issueDate" type="dateTime">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi välja andmise aeg.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="TranscriptOfGradesIssuer">
+        <sequence>
+          <element name="issuerNameToPrintout" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljaandja nimetus hinnetelehel esitataval kujul.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="StudySubjects">
+        <sequence>
+          <element maxOccurs="unbounded" name="studySubject" type="tns:StudySubject">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeaine andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="StudySubject">
+        <sequence>
+          <element name="type">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab, kas õppeaine on kohustuslik või valikaine</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="STUDY_SUBJECT_TYPE:MANDATORY"/>
+                <enumeration value="STUDY_SUBJECT_TYPE:OPTIONAL"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="itemNumber" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab õppeainete kuvamise järjekorda.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="subject" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeaine nimetus. Nt "A-võõrkeel"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="subjectDetail" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeaine täpsustav nimetus. Nt "inglise"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="resultNumeric" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viimane aastahinne numbrina.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="resultInWords" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viimane aastahinne sõnadega</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="amount" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kursuste arv</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="studyProgrammeType" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeainete puhul, mida riiklikust õppekavast tulenevalt ei õpetatud või kui nõustamiskomisjoni soovitusel oli õpilane kooli poolt õppeainest vabastatud, märgitakse „ei olnud õppekavas”. Gümnaasiumis õppeainete puhul, kus nõustamiskomisjoni soovitusel oli kool riiklikus õppekavas sätestatud õpitulemusi vähendanud, tehakse märge „individuaalne õppekava"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="GraduationStudy">
+        <sequence>
+          <element name="type">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab, kas iseseisev töö oli "Õpilasuurimus", "Praktiline töö" või "Loovtöö".</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="GRADUATION_STUDY_TYPE:RESEARCH"/>
+                <enumeration value="GRADUATION_STUDY_TYPE:PRACTICAL_WORK"/>
+                <enumeration value="GRADUATION_STUDY_TYPE:CREATIVE_WORK"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element minOccurs="0" name="subject" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Iseseisva töö teema.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="resultNumeric" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpilasuurimuse või praktilise töö hinne.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="resultInWords" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Iseseisva töö hinne sõnadega.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="GraduationExaminations">
+        <sequence>
+          <element maxOccurs="unbounded" name="graduationExamination" type="tns:GraduationExamination">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpueksami andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="GraduationExamination">
+        <sequence>
+          <element name="itemNumber" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab eksamite kuvamise järjekorda.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="subject" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eksami aine</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="resultNumeric" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eksami hinne numbriliselt.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="resultInWords" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eksami hinne sõnades.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="type">
+            <annotation>
+              <appinfo>
+                <xrd:title>Näitab, kas eksam on lõpueksam või koolieksam (väärtused vastavalt "koolieksam", "lõpueksam").</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="GRADUATION_EXAMINATION_TYPE:SCHOOL_EXAM"/>
+                <enumeration value="GRADUATION_EXAMINATION_TYPE:FINAL_EXAM"/>
+              </restriction>
+            </simpleType>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="ConductGrade">
+        <sequence>
+          <element name="resultInWords" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Käitumishinne sõnades. Uutel e-tunnistustel ei ole, varasemate lõputunnistuste duplikaatide puhul võib olla olemas.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="VocationalTrainingCertificate">
+        <sequence>
+          <element name="type">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutsehariduse lõputunnistuse dokumendi liik.</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_SECONDARY_EDUCATION_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_TRAINING_CERTIFICATE"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:VOCATIONAL_PROFESSIONAL_EDUCATIONAL_STUDY_CERTIFICATE"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi sisu keel.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="number" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi number koos seeriatähisega. Näiteks "K123456"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="originalCertificateNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kui välja antav dokument on duplikaat, siis algdokumendi tunnistuse number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issueDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpudokumendi väljaandmise kuupäev (lõpudokumendile trükitud kuupäev). Duplikaadi puhul originaaldokumendi väljaandmise kuupäev.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="owner" type="tns:HigherEducationOwner">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse saaja andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issuers" type="tns:HigherEducationIssuers">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse välja andnud õppeasutuste nimistu. Tavaliselt üks väljaandja, kuid ühisõppekava korral kõik ühisõppekavas osalenud õppeasutuste nimed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="studies" type="tns:VocationalTrainingCertificateStudies">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistusele kantavad andmed õpingute kohta.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="registerOfOccupationalQualifications" type="tns:RegisterOfOccupationalQualifications">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutsete nimistu.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="partialQualifications" type="tns:PartialQualifications">
+            <annotation>
+              <appinfo>
+                <xrd:title>Osakutsete nimistu</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="headOfSchoolDirective" type="tns:HeadOfSchoolDirective">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpudokumentide väljaandmise aluseks oleva käskkirja andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="graduation" type="tns:Graduation">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse lõpetamise andmed EHISesse õppimise lõpetamise märkimiseks.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="HigherEducationOwner">
+        <sequence>
+          <element minOccurs="0" name="ownerIdCode" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse saaja isikukood vastava riigi riikliku eesliitega (näiteks Eesti isikukoodi puhul EE37605030299)</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="ownerFirstName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse saaja eesnimi.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="ownerLastName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse saaja perekonnanimi.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="ownerDateOfBirth" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse saaja sünnikuupäev.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="HigherEducationIssuers">
+        <sequence>
+          <element maxOccurs="unbounded" name="issuer" type="tns:HigherEducationIssuer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse välja andnud õppeasutuse andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="HigherEducationIssuer">
+        <sequence>
+          <element minOccurs="0" name="issuerId" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse välja andnud õppeasutuse identifikaator EHISes.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issuerName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse välja andnud õppeasutuse nimetus lõpetamise ajal (nimetavas käändes).</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="jointProgrammeRole">
+            <annotation>
+              <appinfo>
+                <xrd:title>Ühisõppekava korral osalenud õppeasutuse roll.</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="JOINT_PROGRAMME_ROLE:RESPONSIBLE_EDUCATIONAL_INSTITUTION"/>
+                <enumeration value="JOINT_PROGRAMME_ROLE:CO_RESPONSIBLE_EDUCATIONAL_INSTITUTION"/>
+              </restriction>
+            </simpleType>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="VocationalTrainingCertificateStudies">
+        <sequence>
+          <element name="curriculumName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava nimetus nimetavas käändes.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="curriculumCode" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava kood EHIS-es</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="typeOfTraining" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava kutseõppe tase, nt "4."</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="honors" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kiitusega lõpetamise korral on väärtus "kiitusega".</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="RegisterOfOccupationalQualifications">
+        <sequence>
+          <element maxOccurs="unbounded" name="registerOfOccupationalQualification" type="tns:RegisterOfOccupationalQualification">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutseregistri andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="RegisterOfOccupationalQualification">
+        <sequence>
+          <element minOccurs="0" name="specializationName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutse nimetus (näiteks "Kujundaja")</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="registrationNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutseregistri kutse number (Näiteks E006435)</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="qualificationLevel" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutse tase</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="PartialQualifications">
+        <sequence>
+          <element maxOccurs="unbounded" name="partialQualification" type="tns:PartialQualification">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kasutusel ainult kutseõppe osakutse mahus lõpetamisel. Muul juhul väärtust ei esitata.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="PartialQualification">
+        <sequence>
+          <element name="qualificationName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Osakutse nimetus.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="registrationNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Osakutse tunnistuse number kutseregistrist.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="qualificationLevel" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Osakutse tase</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="HeadOfSchoolDirective">
+        <sequence>
+          <element name="issueDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse välja andmise aluseks oleva käskkirja kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="registrationNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tunnistuse välja andmise aluseks oleva käskkirja number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="Graduation">
+        <sequence>
+          <element name="graduationDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpetamise aeg.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="examinationInStateLanguage" type="boolean">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tõene kui lõpueksami keel on eesti keel.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="mainDocumentNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Diplomi või tunnistuse number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="honors" type="boolean">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tõene kui lõpetati "cum laude" või "kiitusega".</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="specialization">
+            <annotation>
+              <appinfo>
+                <xrd:title>Spetsialiseerumise andmed</xrd:title>
+              </appinfo>
+            </annotation>
+            <complexType>
+              <choice>
+                <element name="specializationCode" type="string">
+                  <annotation>
+                    <appinfo>
+                      <xrd:title>Spetsialiseerumise klassifikaatori kood.</xrd:title>
+                    </appinfo>
+                  </annotation>
+                </element>
+                <element name="specializationName" type="string">
+                  <annotation>
+                    <appinfo>
+                      <xrd:title>Spetsialiseerumise nimetus.</xrd:title>
+                    </appinfo>
+                  </annotation>
+                </element>
+              </choice>
+            </complexType>
+          </element>
+          <element minOccurs="0" name="additionalDocuments" type="tns:GraduationAdditionalDocuments">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eestikeelse ja inglisekeelse akadeemilise õiendi andmete saatmiseks.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="GraduationAdditionalDocuments">
+        <sequence>
+          <element maxOccurs="unbounded" name="additionalDocument" type="tns:GraduationAdditionalDocument">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eestikeelse või inglisekeelse akadeemilise õiendi andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="GraduationAdditionalDocument">
+        <sequence>
+          <element name="language">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi keel.</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="EMAKEEL:ET"/>
+                <enumeration value="EMAKEEL:EN"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="number" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lisadokumendi number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="extras" type="tns:HigherEducationExtras">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lisalehtede numbrid.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="VocationalTrainingTranscriptOfGrades">
+        <sequence>
+          <element name="number" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Hinnetelehe number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi sisu keel.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="issueDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpudokumendi välja andmise kuupäev.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="extras" type="tns:HigherEducationExtras">
+            <annotation>
+              <appinfo>
+                <xrd:title>Hinnetelehe lisalehed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="studies" type="tns:VocationalTrainingTranscriptOfGradesStudies">
+            <annotation>
+              <appinfo>
+                <xrd:title>Hinnetelehele kantavad andmed õpingute kohta.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="studySubjects" type="tns:VocationalTrainingStudySubjects">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpitulemuste nimistu.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="graduationExaminations" type="tns:VocationalTrainingGraduationExaminations">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutse- või lõpueksami tulemuste nimistu.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="HigherEducationExtras">
+        <sequence>
+          <element maxOccurs="unbounded" name="extra" type="tns:HigherEducationExtra">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lisalehe andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="HigherEducationExtra">
+        <sequence>
+          <element name="number" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lisalehe number</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="VocationalTrainingTranscriptOfGradesStudies">
+        <sequence>
+          <element name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekeel</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="qualificationLevel" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava kutseseaduses kehtestatud kvalifikatsiooniraamistiku tase ja Euroopa kvalifikatsiooniraamistiku tase, nt "4. tase"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="creditPoints" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava maht Eesti kutsehariduse arvestuspunktides</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="officialLengthOfProgramme" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava nominaalkestus. Nt "3 aastat"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="vocationalType" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava liik. Nt "viienda taseme kutseõppe esmaõpe"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="formOfStudy" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppevorm. Nt "statsionaarne õpe - koolipõhine õpe"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="employer" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Töökohapõhist õpet läbi viinud tööandja nimi ja registrikood.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="studyOutput" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpiväljundi kirjeldus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="VocationalTrainingStudySubjects">
+        <sequence>
+          <element maxOccurs="unbounded" name="studySubject" type="tns:VocationalTrainingStudySubject">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpitulemuse andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="VocationalTrainingStudySubject">
+        <sequence>
+          <element name="subject" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Mooduli nimetus. Nt "Karjääri planeerimine ja ettevõtlus"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="volume" type="integer">
+            <annotation>
+              <appinfo>
+                <xrd:title>Mooduli maht arvestuspunktides</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="resultNumeric" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Mooduli hinne numbrina/tähena.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="resultInWords" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Mooduli hinne sõnadega või hinnang. Nt arvestatud, väga hea, hea jne.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="transferred" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kui õpilase varasemate õpingute arvestamisel kanti üle teisel õppekaval või õppeasutuses saadud õpitulemus, lisatakse märge "ülekantud" või "arvestatud VÕTAga"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstitution" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse nimi, kui varasemad õpingud kanti üle teisest õppeasutusest.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="VocationalTrainingGraduationExaminations">
+        <sequence>
+          <element maxOccurs="unbounded" name="graduationExamination" type="tns:VocationalTrainingGraduationExamination">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutse- või lõpueksami tulemuse andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="VocationalTrainingGraduationExamination">
+        <sequence>
+          <element name="subject" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eksami/lõputöö nimetus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="resultNumeric" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eksami hinne</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="resultInWords" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eksami hinne sõnadega.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutse- või lõpueksami keel, kui õppekeel ei olnud eesti keel. Võimalikud väärtused klassifikaatori EMAKEEL elemendid.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="Diploma">
+        <sequence>
+          <element name="type">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kõrghariduse diplomi dokumendi liik.</xrd:title>
+              </appinfo>
+            </annotation>
+            <simpleType>
+              <restriction base="string">
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:BACHELORS_DEGREE_DIPLOMA"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:PROFESSIONAL_HIGHER_EDUCATION_DIPLOMA"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:MASTERS_DEGREE_DIPLOMA"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:DOCTORAL_DEGREE_DIPLOMA"/>
+                <enumeration value="GRADUATION_DOCUMENT_TYPE:RESIDENCY_COMPLETION_CERTIFICATE"/>
+              </restriction>
+            </simpleType>
+          </element>
+          <element name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi sisu keel.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="number" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi number koos seeriatähisega. Näiteks "LA123456"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="originalCertificateNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kui välja antav dokument on duplikaat, siis algdokumendi tunnistuse number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issueDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpudokumendi väljaandmise kuupäev (lõpudokumendile trükitud kuupäev). Duplikaadi puhul originaaldokumendi väljaandmise kuupäev.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="owner" type="tns:HigherEducationOwner">
+            <annotation>
+              <appinfo>
+                <xrd:title>Diplomi saaja andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="issuers" type="tns:HigherEducationIssuers">
+            <annotation>
+              <appinfo>
+                <xrd:title>Diplomi välja andnud õppeasutuste nimistu. Tavaliselt 1, kuid ühisõppekava korral kõik ühisõppekavas osalenud õppeasutuste nimed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="studies" type="tns:DiplomaStudies">
+            <annotation>
+              <appinfo>
+                <xrd:title>Diplomile kantavad andmed õpingute kohta.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="orderToIssue" type="tns:DiplomaOrderToIssue">
+            <annotation>
+              <appinfo>
+                <xrd:title>Diplomi (või duplikaadi) välja andmise korralduse andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="graduation" type="tns:Graduation">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse lõpetamise andmed EHISesse õppimise lõpetamise märkimiseks.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="DiplomaStudies">
+        <sequence>
+          <element name="curriculumName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava nimetus nimetavas käändes. Nt "Sotsioloogia"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="curriculumCode" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava kood EHIS-es, nt "1584"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="levelOfEducation" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppetaseme nimetus, nt "511 bakalaureuseõpe (vv alates 01.06.2002)"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="academicDegree" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Akadeemilise kraadi nimetus eesti keeles, nt "Sotsiaalteaduse bakalaureus"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="honors" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kiitusega lõpetamise korral on väärtus "cum laude".</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="DiplomaOrderToIssue">
+        <sequence>
+          <element name="issueDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Diplomi (või duplikaadi) välja andmise korralduse kinnitamise kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="registrationNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Diplomi (või duplikaadi) välja andmise korralduse number. Nt "2-1.8/P2/1234"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="DiplomaSupplement">
+        <sequence>
+          <element name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi sisu keel.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="number" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi esimese lehe number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="issueDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpudokumendi välja andmise kuupäev. Kui välja antav dokument on duplikaat, siis duplikaadi väljastamise kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="levelOfQualification" type="tns:DiplomaSupplementLevelOfQualification">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kvalifikatsiooni tasemega seotud andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="studies" type="tns:DiplomaSupplementStudies">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpingute andmed.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="extras" type="tns:HigherEducationExtras">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lisalehtede nimistu.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="DiplomaSupplementLevelOfQualification">
+        <sequence>
+          <element name="levelOfEducation" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kvalifikatsiooni taseme haridustaseme aste, nt "kõrghariduse esimene aste"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="estonianQualificationFrameworkLevel" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eesti kvalifikatsiooniraamistiku tase, nt "Eesti kvalifikatsiooniraamistiku 6. tase"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="europeanQualificationFrameworkLevel" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Euroopa kvalifikatsiooniraamistiku tase, nt "Euroopa kvalifikatsiooniraamistiku 6. tase"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="DiplomaSupplementStudies">
+        <sequence>
+          <element name="creditPoints" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeainete maht kokku ainepunktides, nt "180 EAP"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="officialLengthOfProgramme" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava nominaalkestus, nt "3 aastat"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="specialization" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava järgne spetsialiseerumine, nt "Sotsioloogia (peaeriala)"</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateRepealing">
+        <sequence>
+          <element name="certificateUid" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viide kehtetuks muudetavale tunnistusele.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="approved" type="dateTime">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kehtetuks tunnistamise aeg.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="decisionNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kehtetuks tunnistmise aluseks oleva otsuse number.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="dateOfDecision" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kehtetuks tunnistmise aluseks oleva otsuse kuupäev.</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <!--  ServiceErrors  -->
+      <complexType name="ServiceErrors">
+        <sequence>
+          <element maxOccurs="unbounded" name="serviceError" type="tns:ServiceError"/>
+        </sequence>
+      </complexType>
+      <complexType name="ServiceError">
+        <sequence>
+          <element minOccurs="0" name="object" type="string"/>
+          <element minOccurs="0" name="field" type="string"/>
+          <element minOccurs="0" name="value"/>
+          <element minOccurs="0" name="code" type="string"/>
+          <element minOccurs="0" name="message" type="string"/>
+        </sequence>
+      </complexType>
+      <!--  PostCertificateIndexResponseBodyType  -->
+      <complexType name="PostCertificateIndexResponseBody">
+        <sequence>
+          <element name="index" type="tns:CertificateIndex"/>
+          <element name="actions" type="tns:CertificateActions"/>
+          <element minOccurs="0" name="documents" type="tns:CertificateDocuments"/>
+          <element minOccurs="0" name="jointProgrammeEduInstitutions" type="tns:CertificateJointProgrammeEduInstitutions"/>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateIndex">
+        <sequence>
+          <element minOccurs="0" name="certificateUid" type="string"/>
+          <element minOccurs="0" name="validFrom" type="date"/>
+          <element minOccurs="0" name="validUntil" type="date"/>
+          <element minOccurs="0" name="classStudyGroup" type="string"/>
+          <element name="number" type="string"/>
+          <element minOccurs="0" name="ownerId" type="string"/>
+          <element minOccurs="0" name="ownerIdCode" type="string"/>
+          <element name="ownerName" type="string"/>
+          <element minOccurs="0" name="ownerDateOfBirth" type="date"/>
+          <element name="status" type="string"/>
+          <element name="type" type="string"/>
+          <element name="typeName" type="string"/>
+          <element name="issued" type="date"/>
+          <element minOccurs="0" name="issuerId" type="string"/>
+          <element minOccurs="0" name="issuerName" type="string"/>
+          <element name="issuerRegCode" type="string"/>
+          <element minOccurs="0" name="curriculum" type="string"/>
+          <element minOccurs="0" name="curriculumName" type="string"/>
+          <element minOccurs="0" name="curriculumCode" type="string"/>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateActions">
+        <sequence>
+          <element maxOccurs="unbounded" name="action" type="tns:CertificateAction"/>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateAction">
+        <sequence>
+          <element name="type" type="string"/>
+          <element minOccurs="0" name="status" type="string"/>
+          <element minOccurs="0" name="added" type="dateTime"/>
+          <element minOccurs="0" name="approved" type="dateTime"/>
+          <element minOccurs="0" name="decisionNumber" type="string"/>
+          <element minOccurs="0" name="dateOfDecision" type="date"/>
+          <element minOccurs="0" name="reason" type="string"/>
+          <element minOccurs="0" name="explanation" type="string"/>
+          <element minOccurs="0" name="notificationEmail" type="string"/>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateDocuments">
+        <sequence>
+          <element maxOccurs="unbounded" name="document" type="tns:CertificateDocument"/>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateDocument">
+        <sequence>
+          <element name="type" type="string"/>
+          <element name="typeName" type="string"/>
+          <element name="revision" type="integer"/>
+          <element name="language" type="string"/>
+          <element name="status" type="string"/>
+          <element minOccurs="0" name="number" type="string"/>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateJointProgrammeEduInstitutions">
+        <sequence>
+          <element maxOccurs="unbounded" name="jointProgrammeEduInstitution" type="tns:CertificateJointProgrammeEduInstitution"/>
+        </sequence>
+      </complexType>
+      <complexType name="CertificateJointProgrammeEduInstitution">
+        <sequence>
+          <element minOccurs="0" name="role" type="string"/>
+          <element minOccurs="0" name="educationInstitutionUid" type="string"/>
+          <element name="name" type="string"/>
+          <element minOccurs="0" name="regCode" type="string"/>
+        </sequence>
+      </complexType>
+      <!--  Grants  -->
+      <element name="getGrantsRequest">
+        <complexType>
+          <sequence>
+            <element name="personIdCode" type="string">
+              <annotation>
+                <appinfo>
+                  <xrd:title>Taotleja isikukood</xrd:title>
+                </appinfo>
+              </annotation>
+            </element>
+            <element minOccurs="0" name="grantNumber" type="string">
+              <annotation>
+                <appinfo>
+                  <xrd:title>Toetuse number</xrd:title>
+                  <xrd:techNotes>Kui täidetud tagastab konkreetse toetuse andmestiku</xrd:techNotes>
+                </appinfo>
+              </annotation>
+            </element>
+            <element minOccurs="0" name="grantType">
+              <annotation>
+                <appinfo>
+                  <xrd:title>Toetuse liik</xrd:title>
+                  <xrd:techNotes>Lähtetoetuse korral, võtab vastu ühe kahest väärtusest 'GRANT_TYPE:STARTING_ALLOWANCE_PEDAGOGUE', 'GRANT_TYPE:STARTING_ALLOWANCE_SPECIALIST'. </xrd:techNotes>
+                </appinfo>
+              </annotation>
+              <simpleType>
+                <restriction base="string">
+                  <enumeration value="GRANT_TYPE:STARTING_ALLOWANCE_PEDAGOGUE"/>
+                  <enumeration value="GRANT_TYPE:STARTING_ALLOWANCE_SPECIALIST"/>
+                </restriction>
+              </simpleType>
+            </element>
+            <element minOccurs="0" name="action">
+              <annotation>
+                <appinfo>
+                  <xrd:title>Teenuse tegevused</xrd:title>
+                  <xrd:techNotes>nill/puudub - nimekirja päring, 'hasAccessControl' - õiguste kontroll, 'getApplicationData' - alusandmete päring, 'getGrant' - üksikpäring </xrd:techNotes>
+                </appinfo>
+              </annotation>
+              <simpleType>
+                <restriction base="string">
+                  <enumeration value="hasAccessControl"/>
+                  <enumeration value="getApplicationData"/>
+                  <enumeration value="getGrant"/>
+                </restriction>
+              </simpleType>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="getGrantsResponse">
+        <complexType>
+          <sequence>
+            <element minOccurs="0" name="responseInfo" type="tns:responseInfo"/>
+            <element minOccurs="0" name="grants" type="tns:grants"/>
+            <element minOccurs="0" name="fault" type="tns:ServiceErrors"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="postGrantsRequest">
+        <complexType>
+          <sequence>
+            <element name="grant" type="tns:grant"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="postGrantsResponse">
+        <complexType>
+          <sequence>
+            <element minOccurs="0" name="responseInfo" type="tns:responseInfo"/>
+            <element minOccurs="0" name="grant" type="tns:grant"/>
+            <element minOccurs="0" name="fault" type="tns:ServiceErrors"/>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="getFileRequest">
+        <complexType>
+          <sequence>
+            <element name="service" type="string">
+              <annotation>
+                <appinfo>
+                  <xrd:title>Teenus, kust fail päritakse</xrd:title>
+                </appinfo>
+              </annotation>
+            </element>
+            <element minOccurs="0" name="parentReference" type="string">
+              <annotation>
+                <appinfo>
+                  <xrd:title>Faili ülemobjekti viide</xrd:title>
+                </appinfo>
+              </annotation>
+            </element>
+            <element name="fileReference" type="string">
+              <annotation>
+                <appinfo>
+                  <xrd:title>Faili viide</xrd:title>
+                </appinfo>
+              </annotation>
+            </element>
+          </sequence>
+        </complexType>
+      </element>
+      <element name="getFileResponse">
+        <complexType>
+          <sequence>
+            <element minOccurs="0" name="file" type="ref:swaRef"/>
+            <element minOccurs="0" name="fault" type="tns:ServiceErrors"/>
+          </sequence>
+        </complexType>
+      </element>
+      <complexType name="responseInfo">
+        <sequence>
+          <element name="resultCount" type="int">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tagastatavate objektide arv</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="hasAccessList" type="tns:hasAccessList"/>
+        </sequence>
+      </complexType>
+      <complexType name="hasAccessList">
+        <sequence>
+          <element maxOccurs="unbounded" name="access" type="string"/>
+        </sequence>
+      </complexType>
+      <complexType name="grants">
+        <sequence>
+          <element maxOccurs="unbounded" name="grant" type="tns:grant"/>
+        </sequence>
+      </complexType>
+      <complexType name="grant">
+        <sequence>
+          <element name="grantNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse identifikaator</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantType" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse liik</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="status" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse staatus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personIdCode" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja isikukood</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personFirstName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja eesnimi</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personLastName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja perenimi</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="submitTime" type="dateTime">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotluse esitamise aeg</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="beginDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse alguse aeg</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="estimatedEndDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Eeldatav toetuse lõppemise kuupäev</xrd:title>
+                <xrd:techNotes>Eeldatav viie aastase töötamise perioodi lõpp. Arvutatakse esimesest väljamaksest koos peatamistega. </xrd:techNotes>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="application" type="tns:application">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotluse andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="applicationDecision" type="tns:applicationDecision">
+            <annotation>
+              <appinfo>
+                <xrd:title>Otsuse andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantPaymentList" type="tns:grantPaymentList">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljamaksete andmestik</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantRecoveryList" type="tns:grantRecoveryList">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tagasinõuete andmestik</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantFilesList" type="tns:grantFileList">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetusega seotud failide viited</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantStatusList" type="tns:grantStatusList">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse staatuse hoidmiseks</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="application">
+        <sequence>
+          <element name="personApplicationIdCode" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja isikukood</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="personApplicationFirstName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja eesnimi taotlemise hetkel</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element name="personApplicationLastName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja perenimi taotlemise hetkel</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personApplicationDateOfBirth" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja sünni kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personApplicationSex" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja sugu klassifikaatori nimetus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personApplicationSexCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Toetuse saaja sugu klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personApplicationEmail" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja e-post</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personApplicationPhoneNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja telefoninumber</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="personApplicationBankAccount" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja pangakontonumber</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="citizenship" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja kodakondsuse klassifikaatori nimetus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="citizenshipCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja kodakondsuse klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="nativeLanguage" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja emakeele klassifikaatori nimetus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="nativeLanguageCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja emakeele klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="stateLanguageProficiency" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Keeleoskus taseme klassifikaator</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="stateLanguageProficiencyCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Keeleoskus taseme klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="stateLanguageProficiencyDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Keeleoskustaseme omandamise kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="workingWhileStudying" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Töötamine õppimise ajal</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="comment" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotlusega kaasnev kommentaari väli</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="occupationDataList" type="tns:occupationDataList">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpetaja lähtetoetuse taotluse töötamise andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="qualificationDataList" type="tns:qualificationDataList">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpetaja lähtetoetuse taotluse kvalifikatsiooni andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="vocationDataList" type="tns:vocationDataList">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpetaja lähtetoetuse taotluse kutsestandari andmed</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="applicationEntryExtensionsList" type="tns:applicationEntryExtensionsList">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotlemise perioodi pikendamised (haigekassast)</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="occupationDataList">
+        <sequence>
+          <element maxOccurs="unbounded" name="occupationData" type="tns:occupationData"/>
+        </sequence>
+      </complexType>
+      <complexType name="occupationData">
+        <sequence>
+          <element minOccurs="0" name="educationalInstituteReference" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viide õppeasutusele</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse nimi, kus taotleja töötab</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteRegNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse registri number</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteType" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse tüüp</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteTypeCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse tüüpi klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteCounty" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse maakond taotluse esitamise hetke</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteCountyEHAK" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse maakonna EHAK taotluse esitamise hetkel</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteCountyCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse maakonna klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteLocalGovernment" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse omavalitsus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteLocalGovernmentCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kohaliku omavalitsuse klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="applicantOccupation" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja ametikoht</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="applicantOccupationCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja ametikoha klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="applicantSubjects" type="tns:applicantSubjects">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja õpetamise ained</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="applicantWorkload" type="float">
+            <annotation>
+              <appinfo>
+                <xrd:title>Taotleja töötamise koormus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="meetsRequirement" type="boolean">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kas vastab ametikohale esitatavatele kvalifikatsiooninõuetele</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="contractBeginDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Töötamise lepingu algus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="applicantSubjects">
+        <sequence>
+          <element maxOccurs="unbounded" name="applicantSubject" type="tns:applicantSubject"/>
+        </sequence>
+      </complexType>
+      <complexType name="applicantSubject">
+        <sequence>
+          <element minOccurs="0" name="subject" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpetatav aine</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="subjectCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õpetatava aine klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="qualificationDataList">
+        <sequence>
+          <element maxOccurs="unbounded" name="qualificationData" type="tns:qualificationData"/>
+        </sequence>
+      </complexType>
+      <complexType name="qualificationData">
+        <sequence>
+          <element minOccurs="0" name="qualification" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava tase</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="qualificationCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kvalifikatsiooni klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="qualificationDocumentNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Dokumendi number</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="studyBeginDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppima asumise kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="qualificationDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Lõpetamise kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteReference" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viide õppeasutusele</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse nimi, kus taotleja kvalifikatsiooni omandas</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="educationalInstituteRegNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppeasutuse registri number</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="curriculumCode" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava kood</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="curriculumName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekava nimetus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="language" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekeel</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="languageCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Õppekeele klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="teacherTraining" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kas õpetajakoolitus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="vocationDataList">
+        <sequence>
+          <element maxOccurs="unbounded" name="vocationData" type="tns:vocationData"/>
+        </sequence>
+      </complexType>
+      <complexType name="vocationData">
+        <sequence>
+          <element minOccurs="0" name="vocationName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutse nimetus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="vocationDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Kutse saamise kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="applicationEntryExtensionsList">
+        <sequence>
+          <element maxOccurs="unbounded" name="applicationEntryExtensions" type="tns:applicationEntryExtensions"/>
+        </sequence>
+      </complexType>
+      <complexType name="applicationEntryExtensions">
+        <sequence>
+          <element minOccurs="0" name="extensionBeginDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Perioodi alguskuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="extensionEndDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Perioodi lõppkuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="extensionType" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Pikenduse liik</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="extensionTypeCl" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Pikenduse liigi klassifikaatori viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="applicationDecision">
+        <sequence>
+          <element minOccurs="0" name="applicationNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viide taotlusele</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="decisionNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Otsuse number</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="decision" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tehtud otsus, kas positiivne või negatiivne</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="paymentSum" type="int">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljamakstav summa (sentides)</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="decisionDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Otsuse tegemise aeg</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="grantPaymentList">
+        <sequence>
+          <element maxOccurs="unbounded" name="grantPayment" type="tns:grantPayment"/>
+        </sequence>
+      </complexType>
+      <complexType name="grantPayment">
+        <sequence>
+          <element minOccurs="0" name="id" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Süsteemi poolt omistatud unikaalne muutumatu andmeobjekti identifikaator. </xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viide toetusele</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="paymentDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljamakse kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="paymentSum" type="int">
+            <annotation>
+              <appinfo>
+                <xrd:title>Väljamakse summa (sentides)</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="grantRecoveryList">
+        <sequence>
+          <element maxOccurs="unbounded" name="grantRecovery" type="tns:grantRecovery"/>
+        </sequence>
+      </complexType>
+      <complexType name="grantRecovery">
+        <sequence>
+          <element minOccurs="0" name="id" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Süsteemi poolt omistatud unikaalne muutumatu andmeobjekti identifikaator. </xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viide toetusele</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="recoveryDate" type="date">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tagasinõude kuupäev</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="recoverySum" type="int">
+            <annotation>
+              <appinfo>
+                <xrd:title>Tagasinõude summa</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="grantFileList">
+        <sequence>
+          <element maxOccurs="unbounded" name="grantFile" type="tns:grantFile"/>
+        </sequence>
+      </complexType>
+      <complexType name="grantFile">
+        <sequence>
+          <element minOccurs="0" name="id" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Süsteemi poolt omistatud unikaalne muutumatu andmeobjekti identifikaator. </xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viide toetusele</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="UID" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Faili viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="fileType" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Faili liik</xrd:title>
+                <xrd:techNotes>Märgib ära millise failiga on tegemist: Taotlus, Otsus, Lisafail, Tagasinõudeotsus </xrd:techNotes>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="fileName" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Faili nimi</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="fileSize" type="int">
+            <annotation>
+              <appinfo>
+                <xrd:title>Suurus baitides</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="mimeType" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Faili tüüp</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="content" type="ref:swaRef">
+            <annotation>
+              <appinfo>
+                <xrd:title>Faili sisu</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="PINALFileReference" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>PINAL-s asuva faili viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="localFileReference" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>EHIS2-s asuva faili viide</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+      <complexType name="grantStatusList">
+        <sequence>
+          <element maxOccurs="unbounded" name="grantStatus" type="tns:grantStatus"/>
+        </sequence>
+      </complexType>
+      <complexType name="grantStatus">
+        <sequence>
+          <element minOccurs="0" name="id" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Süsteemi poolt omistatud unikaalne muutumatu andmeobjekti identifikaator. </xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="grantNumber" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Viide toetusele</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="statusType" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Staatuse liik</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="statusValidFrom" type="dateTime">
+            <annotation>
+              <appinfo>
+                <xrd:title>Staatuse algus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="statusValidUntil" type="dateTime">
+            <annotation>
+              <appinfo>
+                <xrd:title>Staatuse lõpp, võib ka NULL olla</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="reason" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Täidetakse ainult peatamise korral. Peatamise põhjendus</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+          <element minOccurs="0" name="source" type="string">
+            <annotation>
+              <appinfo>
+                <xrd:title>Staatuse lisamise allikas</xrd:title>
+              </appinfo>
+            </annotation>
+          </element>
+        </sequence>
+      </complexType>
+    </schema>
   </wsdl:types>
   <wsdl:message name="getFileResponse">
-    <wsdl:part element="tns:getFileResponse" name="getFileResponse">
-    </wsdl:part>
+    <wsdl:part element="tns:getFileResponse" name="getFileResponse"> </wsdl:part>
   </wsdl:message>
   <wsdl:message name="postGrantsRequest">
-    <wsdl:part element="tns:postGrantsRequest" name="postGrantsRequest">
-    </wsdl:part>
+    <wsdl:part element="tns:postGrantsRequest" name="postGrantsRequest"> </wsdl:part>
   </wsdl:message>
   <wsdl:message name="SendCertificateRequest">
-    <wsdl:part element="tns:SendCertificateRequest" name="SendCertificateRequest">
-    </wsdl:part>
+    <wsdl:part element="tns:SendCertificateRequest" name="SendCertificateRequest"> </wsdl:part>
   </wsdl:message>
   <wsdl:message name="requestheader">
-    <wsdl:part element="xrd:client" name="client">
-    </wsdl:part>
-    <wsdl:part element="xrd:service" name="service">
-    </wsdl:part>
-    <wsdl:part element="xrd:id" name="id">
-    </wsdl:part>
-    <wsdl:part element="xrd:userId" name="userId">
-    </wsdl:part>
-    <wsdl:part element="xrd:protocolVersion" name="protocolVersion">
-    </wsdl:part>
+    <wsdl:part element="xrd:client" name="client"> </wsdl:part>
+    <wsdl:part element="xrd:service" name="service"> </wsdl:part>
+    <wsdl:part element="repr:representedParty" name="representedParty"> </wsdl:part>
+    <wsdl:part element="xrd:id" name="id"> </wsdl:part>
+    <wsdl:part element="xrd:userId" name="userId"> </wsdl:part>
+    <wsdl:part element="xrd:protocolVersion" name="protocolVersion"> </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getFileRequest">
-    <wsdl:part element="tns:getFileRequest" name="getFileRequest">
-    </wsdl:part>
+    <wsdl:part element="tns:getFileRequest" name="getFileRequest"> </wsdl:part>
   </wsdl:message>
   <wsdl:message name="postGrantsResponse">
-    <wsdl:part element="tns:postGrantsResponse" name="postGrantsResponse">
-    </wsdl:part>
+    <wsdl:part element="tns:postGrantsResponse" name="postGrantsResponse"> </wsdl:part>
   </wsdl:message>
   <wsdl:message name="SendCertificateResponse">
-    <wsdl:part element="tns:SendCertificateResponse" name="SendCertificateResponse">
-    </wsdl:part>
+    <wsdl:part element="tns:SendCertificateResponse" name="SendCertificateResponse"> </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getGrantsResponse">
-    <wsdl:part element="tns:getGrantsResponse" name="getGrantsResponse">
-    </wsdl:part>
+    <wsdl:part element="tns:getGrantsResponse" name="getGrantsResponse"> </wsdl:part>
   </wsdl:message>
   <wsdl:message name="getGrantsRequest">
-    <wsdl:part element="tns:getGrantsRequest" name="getGrantsRequest">
-    </wsdl:part>
+    <wsdl:part element="tns:getGrantsRequest" name="getGrantsRequest"> </wsdl:part>
   </wsdl:message>
   <wsdl:portType name="ehis2Port">
     <wsdl:operation name="getFile">
-<wsdl:documentation><xrd:title>get grants file service</xrd:title></wsdl:documentation>
-      <wsdl:input message="tns:getFileRequest" name="getFileRequest">
-    </wsdl:input>
-      <wsdl:output message="tns:getFileResponse" name="getFileResponse">
-    </wsdl:output>
+      <wsdl:documentation>
+        <xrd:title>get grants file service</xrd:title>
+      </wsdl:documentation>
+      <wsdl:input message="tns:getFileRequest" name="getFileRequest"> </wsdl:input>
+      <wsdl:output message="tns:getFileResponse" name="getFileResponse"> </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="postGrants">
-<wsdl:documentation><xrd:title>post grants service</xrd:title></wsdl:documentation>
-      <wsdl:input message="tns:postGrantsRequest" name="postGrantsRequest">
-    </wsdl:input>
-      <wsdl:output message="tns:postGrantsResponse" name="postGrantsResponse">
-    </wsdl:output>
+      <wsdl:documentation>
+        <xrd:title>post grants service</xrd:title>
+      </wsdl:documentation>
+      <wsdl:input message="tns:postGrantsRequest" name="postGrantsRequest"> </wsdl:input>
+      <wsdl:output message="tns:postGrantsResponse" name="postGrantsResponse"> </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SendCertificate">
-<wsdl:documentation><xrd:title>Send certificate service</xrd:title></wsdl:documentation>
-      <wsdl:input message="tns:SendCertificateRequest" name="SendCertificateRequest">
-    </wsdl:input>
-      <wsdl:output message="tns:SendCertificateResponse" name="SendCertificateResponse">
-    </wsdl:output>
+      <wsdl:documentation>
+        <xrd:title>Send certificate service</xrd:title>
+      </wsdl:documentation>
+      <wsdl:input message="tns:SendCertificateRequest" name="SendCertificateRequest"> </wsdl:input>
+      <wsdl:output message="tns:SendCertificateResponse" name="SendCertificateResponse"> </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getGrants">
-<wsdl:documentation><xrd:title>get grants service</xrd:title></wsdl:documentation>
-      <wsdl:input message="tns:getGrantsRequest" name="getGrantsRequest">
-    </wsdl:input>
-      <wsdl:output message="tns:getGrantsResponse" name="getGrantsResponse">
-    </wsdl:output>
+      <wsdl:documentation>
+        <xrd:title>get grants service</xrd:title>
+      </wsdl:documentation>
+      <wsdl:input message="tns:getGrantsRequest" name="getGrantsRequest"> </wsdl:input>
+      <wsdl:output message="tns:getGrantsResponse" name="getGrantsResponse"> </wsdl:output>
     </wsdl:operation>
   </wsdl:portType>
   <wsdl:binding name="ehis2PortSoap11" type="tns:ehis2Port">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
     <wsdl:operation name="getFile">
       <soap:operation soapAction=""/>
-        <xrd:version>v1</xrd:version>
+      <xrd:version>v1</xrd:version>
       <wsdl:input name="getFileRequest">
-        <soap:header message="tns:requestheader" part="client" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="service" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="userId" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="id" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="protocolVersion" use="literal">
-        </soap:header>
+        <soap:header message="tns:requestheader" part="client" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="service" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="userId" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="id" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="protocolVersion" use="literal"> </soap:header>
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getFileResponse">
-        <soap:header message="tns:requestheader" part="client" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="service" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="userId" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="id" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="protocolVersion" use="literal">
-        </soap:header>
-        <soap:body use="literal"/>
+        <soap:header message="tns:requestheader" part="client" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="service" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="userId" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="id" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="protocolVersion" use="literal"> </soap:header>
+        <mime:multipartRelated>
+          <mime:part name="body">
+            <soap:body use="literal"/>
+          </mime:part>
+        </mime:multipartRelated>
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="postGrants">
       <soap:operation soapAction=""/>
-        <xrd:version>v1</xrd:version>
+      <xrd:version>v1</xrd:version>
       <wsdl:input name="postGrantsRequest">
-        <soap:header message="tns:requestheader" part="client" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="service" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="userId" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="id" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="protocolVersion" use="literal">
-        </soap:header>
+        <soap:header message="tns:requestheader" part="client" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="service" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="userId" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="id" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="protocolVersion" use="literal"> </soap:header>
         <mime:multipartRelated>
           <mime:part name="body">
             <soap:body use="literal"/>
@@ -1363,76 +2746,52 @@
         </mime:multipartRelated>
       </wsdl:input>
       <wsdl:output name="postGrantsResponse">
-        <soap:header message="tns:requestheader" part="client" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="service" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="userId" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="id" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="protocolVersion" use="literal">
-        </soap:header>
+        <soap:header message="tns:requestheader" part="client" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="service" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="userId" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="id" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="protocolVersion" use="literal"> </soap:header>
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="SendCertificate">
       <soap:operation soapAction=""/>
-        <xrd:version>v1</xrd:version>
+      <xrd:version>v1</xrd:version>
       <wsdl:input name="SendCertificateRequest">
-        <soap:header message="tns:requestheader" part="client" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="service" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="userId" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="id" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="protocolVersion" use="literal">
-        </soap:header>
+        <soap:header message="tns:requestheader" part="client" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="service" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="userId" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="id" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="protocolVersion" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="representedParty" use="literal"> </soap:header>
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="SendCertificateResponse">
-        <soap:header message="tns:requestheader" part="client" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="service" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="userId" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="id" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="protocolVersion" use="literal">
-        </soap:header>
+        <soap:header message="tns:requestheader" part="client" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="service" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="userId" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="id" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="protocolVersion" use="literal"> </soap:header>
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
     <wsdl:operation name="getGrants">
       <soap:operation soapAction=""/>
-        <xrd:version>v1</xrd:version>
+      <xrd:version>v1</xrd:version>
       <wsdl:input name="getGrantsRequest">
-        <soap:header message="tns:requestheader" part="client" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="service" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="userId" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="id" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="protocolVersion" use="literal">
-        </soap:header>
+        <soap:header message="tns:requestheader" part="client" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="service" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="userId" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="id" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="protocolVersion" use="literal"> </soap:header>
         <soap:body use="literal"/>
       </wsdl:input>
       <wsdl:output name="getGrantsResponse">
-        <soap:header message="tns:requestheader" part="client" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="service" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="userId" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="id" use="literal">
-        </soap:header>
-        <soap:header message="tns:requestheader" part="protocolVersion" use="literal">
-        </soap:header>
+        <soap:header message="tns:requestheader" part="client" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="service" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="userId" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="id" use="literal"> </soap:header>
+        <soap:header message="tns:requestheader" part="protocolVersion" use="literal"> </soap:header>
         <soap:body use="literal"/>
       </wsdl:output>
     </wsdl:operation>
@@ -1440,7 +2799,7 @@
   <wsdl:service name="ehis2Service">
     <wsdl:port binding="tns:ehis2PortSoap11" name="ehis2PortSoap11">
       <soap:address location="http://xroad-server.app.ehis2.dev.tes.ee:80/cgi-bin/consumer_proxy"/>
-    <xrd:address producer="ehis2"/>
+      <xrd:address producer="ehis2"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>
