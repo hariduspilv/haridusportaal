@@ -29,7 +29,8 @@
     {
       "name": "All requests",
       "urls": [
-        "https://api.edu.ee/*/**",
+        "https://api.hp.edu.ee/*/**",
+        "https://apitest.hp.edu.ee/*/**",
         "https://htm.wiseman.ee/*/**"
       ],
       "cacheConfig": {
@@ -44,6 +45,8 @@
     "!/amp/**",
     "!/stats",
     "!/stats/**",
+    "!/picto",
+    "!/picto/**",
     "!/storybook",
     "!/storybook/**"
   ]
