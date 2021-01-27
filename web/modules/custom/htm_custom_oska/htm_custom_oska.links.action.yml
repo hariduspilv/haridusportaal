@@ -1,9 +1,3 @@
-entity.oska_entity.add_form:
-  route_name: entity.oska_entity.add_form
-  title: 'Add Oska entity'
-  appears_on:
-    - entity.oska_entity.collection
-
 entity.oska_file_entity.import_projects:
   route_name: oska_file_entity.batch_import
   title: 'Import OSKA data'

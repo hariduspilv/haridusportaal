@@ -1,5 +1,5 @@
 
-# Oska entity menu items definition
+# Oska file entity menu items definition
 entity.oska_file_entity.collection:
   title: 'Oska CSV file entity list'
   route_name: entity.oska_file_entity.collection

@@ -147,6 +147,8 @@ class OskaFileEntity extends ContentEntityBase implements OskaFileEntityInterfac
 
   /**
    * {@inheritdoc}
+   *
+   *  Gets the name of the uploaded csv file from OskaFileEntity
    */
   public function getFileId() {
     return $this->get('file_id')->value;

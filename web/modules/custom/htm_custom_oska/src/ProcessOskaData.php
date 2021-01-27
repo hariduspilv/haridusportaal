@@ -12,6 +12,10 @@ use League\Csv\Writer;
 /**
  * Class ProcessOskaData
  * @package Drupal\htm_custom_oska
+ *
+ * Processes both - OskaEntity and OskaFileEntity data:
+ * - OskaEntity - for file content
+ * - OskaFileEntity - for file list
  */
 class ProcessOskaData {
 
@@ -27,7 +31,9 @@ class ProcessOskaData {
     public static function ValidateFile($filename, $items, &$context){
         $message = t('Validating file');
 
+        // array for csv file content
         $results = [];
+        // array for uploaded csv file names
         $file_id = ['file_id' => $filename];
 
 
@@ -41,6 +47,7 @@ class ProcessOskaData {
             'vaartus' => false,
         ];
 
+        // check the csv file content
         foreach ($items as $index => $item){
 
             foreach($item as $key => $value){
@@ -71,6 +78,7 @@ class ProcessOskaData {
         $context['results']['values'] = $results;
         $context['results']['files'] = $file_id;
 
+        //if no errors, then add the uploaded csv file into $logpath
         if(empty($context['results']['error'])){
 
             $logpath = '/app/drupal/web/sites/default/files/private/oska_csv';
@@ -155,6 +163,7 @@ class ProcessOskaData {
         }
     }
 
+    // add csv file names to OskaFileEntity
     public static function ProcessOskaData($items, &$context){
       $file_values = $context['results']['files'];
       if($file_values){
