@@ -63,6 +63,7 @@ class OskaImportDataForm extends FormBase {
         $form_state->setErrorByName('file', $this->t('File name must be unique!'));
       }
 
+        // checking if the headers of the uploaded csv file are correct
         $required_headers = [
             'naitaja', 'valdkond', 'alavaldkond', 'ametiala', 'periood', 'silt', 'vaartus'
         ];
@@ -105,6 +106,7 @@ class OskaImportDataForm extends FormBase {
       $file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
       $filename = $form_state->getValue('filename');
 
+        // sending information to ProcessOskaData
         $batch = [
             'title' => t('Processing Oska data ....--'),
             'operations' => [
