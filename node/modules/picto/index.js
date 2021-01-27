@@ -35,7 +35,7 @@ const getSvgFile = async(url) => {
   return new Promise(async (resolve, reject) => {
     if (!url){resolve(false);}
     const file = request.get(url, async (err, file) => {
-      const body = file.body.replace(/#.+?;/igm, '#2e3374');
+      const body = file.body.replace(/#.+?;/igm, '#2e3374;');
       const $ = cheerio.load(body);
       $('svg').attr({
         width: imageSize,
