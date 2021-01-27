@@ -596,7 +596,7 @@ class EhisConnectorService {
   private function filterPersonalCard($input, $tab){
     switch ($tab){
       case 'studies':
-        $keys = ['oping', 'isikuandmed', 'valineKvalifikatsioon'];
+        $keys = ['oping', 'isikuandmed', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
         break;
       case 'teachings':
         $keys = ['tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon'];
@@ -605,7 +605,7 @@ class EhisConnectorService {
         $keys = ['isikuandmed'];
         break;
       case 'digital_sign_data':
-        $keys = ['oping', 'tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon'];
+        $keys = ['oping', 'tootamine', 'taiendkoolitus', 'tasemeharidus', 'kvalifikatsioon', 'valineKvalifikatsioon', 'enne2004Kvalifikatsioon'];
         break;
       default:
         $keys = [];
