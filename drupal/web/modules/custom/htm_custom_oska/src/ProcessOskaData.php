@@ -165,11 +165,18 @@ class ProcessOskaData {
 
     // add csv file names to OskaFileEntity
     public static function ProcessOskaData($items, &$context){
+      $file_name = $context['results']['files']['file_id'];
+
+      $ids = \Drupal::entityQuery('oska_file_entity')
+        ->condition('file_id', $file_name)
+        ->execute();
+      $files = OskaFileEntity::loadMultiple($ids);
+
       $file_values = $context['results']['files'];
-      if($file_values){
+      if(!$files && $file_values){
         $files_entity = OskaFileEntity::create($file_values);
+        $files_entity->save();
       }
-      $files_entity->save();
     }
 
     public static function ProcessOskaDataFinishedCallback($success, $results, $operations){

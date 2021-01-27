@@ -57,11 +57,6 @@ class OskaImportDataForm extends FormBase {
     }
 
     public function validateForm(array &$form, FormStateInterface $form_state){
-      $filename = $form_state->getValue('filename');
-      $graph_path = '/app/drupal/web/sites/default/files/private/oska_csv';
-      if(file_exists($graph_path) && file_exists($graph_path.'/'.$filename.'.csv')) {
-        $form_state->setErrorByName('file', $this->t('File name must be unique!'));
-      }
 
         // checking if the headers of the uploaded csv file are correct
         $required_headers = [
