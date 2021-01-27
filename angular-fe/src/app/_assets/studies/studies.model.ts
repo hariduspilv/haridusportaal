@@ -26,6 +26,12 @@ export interface Curriculum {
   kestus?: string;
 }
 
+export interface CurriculumFulfillment {
+  protsent: string;
+  otsusKp: string;
+  ainePunktid?: string;
+}
+
 export interface StudyType {
   nimetus: string;
   algusKp: string;
@@ -55,7 +61,7 @@ export interface Studies {
   oppevorm: StudyType[];
   koormus: StudyType[];
   kestus: string;
-  oppekavataitine: any[];
+  oppekavataitine: CurriculumFulfillment;
   ryhmaLiik?: string;
   nimetus?: string;
   koht?: string;
@@ -70,6 +76,8 @@ export interface Studies {
 }
 
 export interface ExternalQualifications {
+  tyyp: string;
+  oppeasutuseNimi?: string;
   oppeasutuseNimiMuusKeeles?: string;
   oppeasutuseNimiTranslit?: string;
   riik?: string;
@@ -92,6 +100,7 @@ export interface ExternalQualifications {
 export interface StudiesValue {
   isikuandmed: PersonalDetails;
   valineKvalifikatsioon: ExternalQualifications[];
+  enne2004Kvalifikatsioon: ExternalQualifications[];
   oping: Studies[];
 }
 
