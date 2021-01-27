@@ -61,9 +61,10 @@ export class StudiesComponent implements OnInit {
   private dateSortFn(
     a: Studies | ExternalQualifications,
     b: Studies | ExternalQualifications,
+    field: string = 'oppAlgus',
   ): number {
-    const field1 = (a as Studies).oppAlgus || (a as ExternalQualifications).valjaandmKp;
-    const field2 = (b as Studies).oppAlgus || (b as ExternalQualifications).valjaandmKp;
+    const field1 = a[field] || (a as ExternalQualifications).valjaandmKp;
+    const field2 = b[field] || (b as ExternalQualifications).valjaandmKp;
     const arrA = field1.split('.');
     const valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
     const arrB = field2.split('.');
@@ -104,7 +105,7 @@ export class StudiesComponent implements OnInit {
             // Sort currently studying and finished separately
             this.content = [
               ...resultData.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(this.dateSortFn),
-              ...resultData.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort(this.dateSortFn),
+              ...resultData.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort((a, b) => this.dateSortFn(a, b, 'oppLopp')),
             ]
             if (!this.content.length) {
               this.error = true;
