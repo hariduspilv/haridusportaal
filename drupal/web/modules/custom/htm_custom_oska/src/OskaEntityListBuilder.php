@@ -5,6 +5,7 @@ namespace Drupal\htm_custom_oska;
 use Drupal\Core\Entity\EntityInterface;
 use Drupal\Core\Entity\EntityListBuilder;
 use Drupal\Core\Link;
+use Drupal\Core\Url;
 
 /**
  * Defines a class to build a listing of Oska entity entities.
@@ -13,13 +14,13 @@ use Drupal\Core\Link;
  */
 class OskaEntityListBuilder extends EntityListBuilder {
 
-
   /**
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('Oska entity ID');
-    $header['name'] = $this->t('Name');
+    $header['name'] = $this->t('File name');
+    $header['file'] = $this->t('File');
+//    $header['action'] = $this->t('Delete');
     return $header + parent::buildHeader();
   }
 
@@ -28,12 +29,15 @@ class OskaEntityListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\htm_custom_oska\Entity\OskaEntity */
-    $row['id'] = $entity->id();
-    $row['name'] = Link::createFromRoute(
-      $entity->label(),
-      'entity.oska_entity.edit_form',
-      ['oska_entity' => $entity->id()]
-    );
+//dump($entity);
+      $row['name'] = $entity->label();
+      $row['file'] = $entity->id();
+//      $row['action'] = Link::createFromRoute(
+//        'Kustuta',
+//        'entity.oska_entity.delete_form',
+//        ['oska_entity' => $entity->id()]
+//      );
+
     return $row + parent::buildRow($entity);
   }
 

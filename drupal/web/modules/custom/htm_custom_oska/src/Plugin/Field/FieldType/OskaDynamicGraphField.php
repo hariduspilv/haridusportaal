@@ -8,7 +8,7 @@ use Drupal\Core\TypedData\DataDefinition;
 use Drupal\Core\Field\FieldItemBase;
 
 /**
- * Plugin implementation of the 'oska_dynamic_graph_field' field type.
+ * Plugin implementation of the 'oska_graph_field' field type.
  *
  * @FieldType(
  *   id = "oska_dynamic_graph_field",
@@ -24,9 +24,7 @@ class OskaDynamicGraphField extends FieldItemBase {
      * {@inheritdoc}
      */
     public static function defaultStorageSettings() {
-        return [
-                'csv_location' => '',
-            ] + parent::defaultStorageSettings();
+        return parent::defaultStorageSettings();
     }
 
     public static function propertyDefinitions(FieldStorageDefinitionInterface $field_definition)
@@ -45,8 +43,6 @@ class OskaDynamicGraphField extends FieldItemBase {
             ->setLabel(t('Secondary graph type'));
         $properties['graph_text'] = DataDefinition::create('string')
             ->setLabel(t('Graph info text'));
-        $properties['graph_source'] = DataDefinition::create('string')
-          ->setLabel(t('Graph source'));
 
         return $properties;
 
@@ -92,33 +88,6 @@ class OskaDynamicGraphField extends FieldItemBase {
             'not null' => FALSE,
         ];
 
-        $schema['columns']['graph_source'] = [
-          'description' => 'Graph source.',
-          'maxlength' => 150,
-          'type' => 'varchar',
-          'not null' => FALSE,
-        ];
-
-
         return $schema;
-    }
-
-    public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data)
-    {
-        $target_type_options = [];
-        $objects = \Drupal::entityTypeManager()->getDefinitions();
-        foreach($objects as $key => $object){
-            if(strpos($key, "_entity")){
-                $target_type_options[$key] = $object->getLabel();
-            }
-        }
-        $element['csv_location'] = [
-            '#title' => $this->t('Location of csv'),
-            '#type' => 'textfield',
-            '#placeholder' => $this->t("Enter location for CSV"),
-            '#default_value' => $this->getSetting('csv_location'),
-            '#maxlength' => 100,
-        ];
-        return $element;
     }
 }

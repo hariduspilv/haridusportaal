@@ -28,7 +28,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
     public function formElement(FieldItemListInterface $items, $delta, array $element, array &$form, FormStateInterface $form_state) {
 
         $field_name = $this->fieldDefinition->getName();
-        $csv_location = $this->fieldDefinition->getSettings()['csv_location'];
         $data = isset($items[$delta]->filter_values) ? json_decode($items[$delta]->filter_values, true)['graph_options'] : FALSE;
         $fields = [];
 
@@ -36,15 +35,39 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             'valdkond', 'alavaldkond', 'ametiala', 'periood', 'silt'
         ];
         $oska_filters_path = '/app/drupal/web/sites/default/files/private/oska_filters/';
+        $files_path = '/app/drupal/web/sites/default/files/private/oska_csv/';
 
-        $basic_graph_types = ['line', 'pie', 'doughnut'];
+      $basic_graph_types = ['line', 'pie', 'doughnut'];
 
         $element += [
             '#type' => 'fieldset',
             '#title' => $this->t('Graph'),
         ];
 
+      $source_file_options = [];
+      $source_files = array_slice(scandir('/app/drupal/web/sites/default/files/private/oska_csv/'), 2);
+      foreach ($source_files as $file) {
+        $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
+      }
+
+      $element['graph_source_file'] = [
+        '#title' => $this->t('Graph source file'),
+        '#size' => 1,
+        '#type' => 'select',
+        '#default_value' => isset($data['graph_source_file']) ? $data['graph_source_file'] : NULL,
+        '#options' => $source_file_options,
+        '#required' => FALSE,
+        '#empty_option' => '-',
+        '#delta' => $delta,
+        '#ajax' => [
+          'callback' => [$this, 'ajax_dependent_graph_set_callback'],
+          'wrapper' => 'secondary_dynamic_graph_set' . $delta
+        ],
+      ];
+
         $element['graph_type'] = [
+            '#prefix' => '<div id="graph_source' . $delta . '">',
+            '#suffix' => '</div>',
             '#title' => $this->t('Graph type'),
             '#type' => 'select',
             '#size' => 1,
@@ -82,6 +105,14 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
             $graph_type = false;
         }
 
+      if (isset($form_state->getUserInput()[$field_name])) {
+        $graph_source = $form_state->getUserInput()[$field_name][$delta]['graph_source_file'];
+      } else if (isset($data['graph_source_file'])) {
+        $graph_source = $data['graph_source_file'];
+      } else {
+        $graph_source = false;
+      }
+
         if($graph_type){
             $element['graph_options']['graph_title'] = [
                 '#title' => $this->t('Graph title'),
@@ -97,7 +128,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 $fields[$field] = $this->t(ucfirst($field));
             }
 
-            $indicator_data = json_decode(file_get_contents($oska_filters_path.'naitaja'), TRUE);
+            $indicator_data = json_decode(file_get_contents($oska_filters_path.$graph_source.'naitaja'), TRUE);
             $indicator_options = [];
 
             if($indicator_data){
@@ -181,6 +212,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                         '#type' => 'select',
                         '#options' => $indicator_options,
                         '#multiple' => TRUE,
+                        '#description' => $this->t('To select multiple values, use CTRL click.'),
                         '#required' => FALSE,
                         '#default_value' => isset($data['indicators'][$i]['indicator_set']['secondary_graph_indicator']) ? $data['indicators'][$i]['indicator_set']['secondary_graph_indicator'] : NULL,
                         '#ajax' => [
@@ -211,6 +243,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
                 '#description' => $this->t('To select multiple values, use CTRL click.'),
                 '#default_value' => isset($data['graph_group_by']) ? $data['graph_group_by'] : NULL,
                 '#options' =>  $group_by_options,
+                '#element_validate' => array(array($this, 'validateChartInput')),
                 '#empty_option'  => '-',
                 '#required' => FALSE,
                 '#delta' => $delta,
@@ -249,7 +282,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
 
             foreach($fields as $key => $field){
 
-                $selection_data = json_decode(file_get_contents($oska_filters_path.$key), TRUE);
+                $selection_data = json_decode(file_get_contents($oska_filters_path.$graph_source.'/'.$key), TRUE);
                 $selection = [];
 
                 foreach($graph_indicator as $value){
@@ -333,7 +366,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
               '#default_value' => isset($data['graph_source']) ? $data['graph_source'] : NULL,
             ];
         }
-
         return $element;
     }
 
@@ -438,11 +470,11 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
      */
     public function massageFormValues(array $values, array $form, FormStateInterface $form_state) {
 
-        $oska_hierarchy_path = '/app/drupal/web/sites/default/files/private/oska_filters/hierarchy';
-        $hierarchy_data = json_decode(file_get_contents($oska_hierarchy_path), TRUE);
+        $oska_hierarchy_path = '/app/drupal/web/sites/default/files/private/oska_filters/';
 
         foreach($values as $key => $value){
-            $value['hierarchy'] = $hierarchy_data;
+            $value['graph_options']['graph_source_file'] = $value['graph_source_file'];
+            $value['hierarchy'] = json_decode(file_get_contents($oska_hierarchy_path.$value['graph_source_file'].'/hierarchy'), TRUE);
             $new_values[$key] = [
                 'graph_type' => $value['graph_type'],
                 'graph_title' => $value['graph_options']['graph_title'],

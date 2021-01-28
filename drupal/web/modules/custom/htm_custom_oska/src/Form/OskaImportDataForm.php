@@ -116,6 +116,10 @@ class OskaImportDataForm extends FormBase {
                     '\Drupal\htm_custom_oska\ProcessOskaData::CreateOskaFilters',
                     [$filename, $file_array]
                 ],
+                [
+                  '\Drupal\htm_custom_oska\ProcessOskaData::ProcessOskaData',
+                  [$filename, $file_array]
+                ],
             ],
             'error_message' => t('The migration process has encountered an error.'),
             'finished' => '\Drupal\htm_custom_oska\ProcessOskaData::ProcessOskaDataFinishedCallback'
@@ -123,7 +127,7 @@ class OskaImportDataForm extends FormBase {
 
         batch_set($batch);
       Cache::invalidateTags([$filename.'_csv']);
-      $form_state->setRedirect('entity.oska_entity.collection');
+      $form_state->setRedirect('entity.oska_file_entity.collection');
     }
 
     public function detectCSVFileDelimiter($csvFile) {
