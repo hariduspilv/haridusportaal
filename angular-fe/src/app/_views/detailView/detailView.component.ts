@@ -62,7 +62,6 @@ export class DetailViewComponent {
     switch (this.type) {
       case 'news': queryKey = 'recentNews'; break;
       case 'event': queryKey = false; break;
-      case 'study_programme':
       case 'studyProgramme': queryKey = false; break;
       default: queryKey = false;
     }
@@ -206,7 +205,7 @@ export class DetailViewComponent {
     const id = this.route.snapshot.params.id;
     let href = `${this.settings.url}/node/${this.data.nid}/edit?uuid=${id}`;
     if (!this.data.nid) {
-      href = `${this.settings.url}/node/add/${this.data.entityBundle}?uuid="+${id}`;
+      href = `${this.settings.url}/node/add/${this.data.entityBundle}?uuid=${id}`;
     }
     window.location.href = href;
   }
