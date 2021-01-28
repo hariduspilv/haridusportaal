@@ -370,6 +370,7 @@ class OskaEntity extends ContentEntityBase implements OskaEntityInterface {
           ->setDisplayConfigurable('form', TRUE)
           ->setDisplayConfigurable('view', TRUE);
 
+
     $fields['status'] = BaseFieldDefinition::create('boolean')
       ->setLabel(t('Publishing status'))
       ->setDescription(t('A boolean indicating whether the Oska entity is published.'))
