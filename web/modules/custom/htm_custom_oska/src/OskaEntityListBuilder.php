@@ -20,7 +20,6 @@ class OskaEntityListBuilder extends EntityListBuilder {
   public function buildHeader() {
     $header['name'] = $this->t('File name');
     $header['file'] = $this->t('File');
-//    $header['action'] = $this->t('Delete');
     return $header + parent::buildHeader();
   }
 
@@ -29,14 +28,8 @@ class OskaEntityListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /* @var $entity \Drupal\htm_custom_oska\Entity\OskaEntity */
-//dump($entity);
       $row['name'] = $entity->label();
       $row['file'] = $entity->id();
-//      $row['action'] = Link::createFromRoute(
-//        'Kustuta',
-//        'entity.oska_entity.delete_form',
-//        ['oska_entity' => $entity->id()]
-//      );
 
     return $row + parent::buildRow($entity);
   }
