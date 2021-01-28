@@ -56,7 +56,6 @@ $fillingBarFilterEnabled: Boolean) {
               fieldOskaField {
                 entity {
                   ... on NodeOskaFieldPage {
-                    status
                     nid
                     title
                     entityUrl {
