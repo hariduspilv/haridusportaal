@@ -142,6 +142,7 @@ query oskaMainProfessionDetailView($path: String!) {
                 fieldOskaField {
                   entity {
                     ... on NodeOskaFieldPage {
+                      status
                       entityLabel
                       entityUrl {
                         routed
