@@ -1,44 +1,43 @@
 version: '3.7'
 
 services:
+  postgres:
+    container_name: postgres
+    image: hub.wiseman.ee/htm/db
+    networks:
+      - htm
+    restart: always
+    env_file:
+      - postgres.env
+    volumes:
+      - /root/data/postgres:/var/lib/postgresql/data
   angular:
     container_name: angular
-    hostname: angular
+    image: harbor.twn.zone/haridusportaal/angular:develop
     networks:
       - htm
-    image: harbor.twn.zone/haridusportaal/angular:develop
     restart: always
+    depends_on:
+      - postgres
   swag:
     container_name: swag
-    hostname: swag
-    networks:
-      - htm
     image: linuxserver/swag
-    restart: unless-stopped
-    environment:
-      - PUID=${USER_AND_GROUP_ID}
-      - PGID=${USER_AND_GROUP_ID}
-      - TZ=${TZ}
-      - URL=${URL}
-      - SUBDOMAINS=${SUBDOMAINS}
-      - VALIDATION=${VALIDATION}
-      - DNSPLUGIN=${DNSPLUGIN}
-      - EMAIL=${EMAIL}
-      - DHLEVEL=${DHLEVEL}
-    volumes:
-      - ../etc/config:/config
-  nginx:
-    container_name: nginx
-    hostname: nginx
     networks:
       - htm
-    image: nginx:1.15
-    restart: always
-    links:
-      - angular
-      - swag
+    restart: unless-stopped
+    env_file:
+      - swag.env
+    volumes:
+      - /etc/config:/config
     depends_on:
       - angular
+  nginx:
+    container_name: nginx
+    image: nginx:1.15
+    networks:
+      - htm
+    restart: always
+    depends_on:
       - swag
     ports:
       - "80:80"
