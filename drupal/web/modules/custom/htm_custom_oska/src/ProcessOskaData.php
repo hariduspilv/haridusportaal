@@ -62,7 +62,7 @@ class ProcessOskaData {
             if(!$object['naitaja']){
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
-                        if($key === 'naitaja' && ($value === FALSE || $value === null) || empty($value)){
+                        if($key === 'naitaja' && ($value === FALSE || $value === null)){
                             return $key;
                         }
                     }
