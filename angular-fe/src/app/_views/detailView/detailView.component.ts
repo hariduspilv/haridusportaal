@@ -144,14 +144,12 @@ export class DetailViewComponent {
         this.origData = response['data']['route']['entity'];
         this.parseData(response['data']['route']['entity']);
       } catch (err) {
-        console.log(err);
         this.missingData = true;
       }
 
       subscription.unsubscribe();
     });
   }
-
 
   public parseHTMLValue(content) {
     return content.length > 250 ?
@@ -196,8 +194,8 @@ export class DetailViewComponent {
 
   editPost() {
     const id = this.route.snapshot.params.id;
-    let href = `${this.settings.url}/node/${this.data.entityId}/edit?uuid=${id}`;
-    if (!this.data.entityId) {
+    let href = `${this.settings.url}/node/${this.data.nid}/edit?uuid=${id}`;
+    if (!this.data.nid) {
       href = `${this.settings.url}/node/add/${this.data.entityBundle}?uuid="+${id}`;
     }
     window.location.href = href;
