@@ -21,7 +21,7 @@ class OskaFileEntityListBuilder extends EntityListBuilder {
     $header['name'] = $this->t('File name');
     $header['download'] = $this->t('Download');
     $header['delete'] = $this->t('Delete');
-    return $header + parent::buildHeader();
+    return $header;
   }
 
   /**
@@ -44,6 +44,6 @@ class OskaFileEntityListBuilder extends EntityListBuilder {
       ['oska_file_entity' => $file_entity->id()]
     );
 
-    return $row + parent::buildRow($file_entity);
+    return $row;
   }
 }
