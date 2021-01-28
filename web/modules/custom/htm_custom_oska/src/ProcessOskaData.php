@@ -2,12 +2,20 @@
 
 namespace Drupal\htm_custom_oska;
 
+use Drupal\file\Entity\File;
+use Drupal\htm_custom_oska\Entity\OskaFileEntity;
+use phpDocumentor\Reflection\Types\Array_;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Drupal\htm_custom_oska\Entity\OskaEntity;
 use League\Csv\Writer;
 
 /**
  * Class ProcessOskaData
  * @package Drupal\htm_custom_oska
+ *
+ * Processes both - OskaEntity and OskaFileEntity data:
+ * - OskaEntity - for file content
+ * - OskaFileEntity - for file list
  */
 class ProcessOskaData {
 
@@ -20,12 +28,16 @@ class ProcessOskaData {
     }
 
 
-    public static function ValidateFile($items, &$context){
+    public static function ValidateFile($filename, $items, &$context){
         $message = t('Validating file');
 
+        // array for csv file content
         $results = [];
+        // array for uploaded csv file names
+        $file_id = ['file_id' => $filename];
 
-        $object = [
+
+      $object = [
             'naitaja' => false,
             'valdkond' => false,
             'alavaldkond' => false,
@@ -35,9 +47,11 @@ class ProcessOskaData {
             'vaartus' => false,
         ];
 
+        // check the csv file content
         foreach ($items as $index => $item){
 
             foreach($item as $key => $value){
+
                 if(mb_detect_encoding($key) == 'UTF-8'){
                     $object[cleanString($key)] = $value;
                 }else{
@@ -46,10 +60,9 @@ class ProcessOskaData {
             }
 
             if(!$object['naitaja']){
-
                 $error_messag_func = function($values) {
                     foreach($values as $key => $value){
-                        if($key === 'naitaja' && $value === FALSE){
+                        if($key === 'naitaja' && ($value === FALSE || $value === null)){
                             return $key;
                         }
                     }
@@ -57,34 +70,28 @@ class ProcessOskaData {
 
                 $context['results']['error'][] = t('Error on line: '. ($index + 2) . ' | column: ' . $error_messag_func($object));
             }else{
-                $results[] = $object;
+              $results[] = $object;
             }
         }
 
         $context['message'] = $message;
         $context['results']['values'] = $results;
+        $context['results']['files'] = $file_id;
 
+        //if no errors, then add the uploaded csv file into $logpath
         if(empty($context['results']['error'])){
 
             $logpath = '/app/drupal/web/sites/default/files/private/oska_csv';
             if(!file_exists($logpath)) mkdir($logpath, 0744, true);
-            $writer = Writer::createFromPath('/app/drupal/web/sites/default/files/private/oska_csv/oska_csv.csv', 'w+');
+            $writer = Writer::createFromPath($logpath.'/'.$filename.'.csv', 'w+');
             $writer->setDelimiter(';');
             $writer->insertOne(['naitaja', 'valdkond', 'alavaldkond', 'ametiala', 'periood', 'silt', 'vaartus']);
             $writer->insertAll($results);
         }
-    }
-
-    public static function DeleteOldData($items, &$context){
-
-        $storage = \Drupal::entityTypeManager()->getStorage('oska_entity');
-        $nids = \Drupal::entityQuery('oska_entity')->execute();
-        $entities = $storage->loadMultiple($nids);
-        $storage->delete($entities);
 
     }
 
-    public static function CreateOskaFilters($items, &$context){
+    public static function CreateOskaFilters($filename, $items, &$context){
 
         $filter_values = [];
         $hierarchy = [];
@@ -116,7 +123,7 @@ class ProcessOskaData {
 
                     if($context['sandbox']['progress']+1 == $context['sandbox']['max']){
                         foreach($filter_values as $key => $values){
-                            $logpath = '/app/drupal/web/sites/default/files/private/oska_filters';
+                            $logpath = '/app/drupal/web/sites/default/files/private/oska_filters/'.$filename;
                             if(!file_exists($logpath)) mkdir($logpath, 0744, true);
                             $logpath .= '/'.$key;
                             $file = fopen($logpath, 'wb');
@@ -127,13 +134,14 @@ class ProcessOskaData {
                         }
 
                         // filter hierarchy for front-end
-                        $logpath = '/app/drupal/web/sites/default/files/private/oska_filters';
+                        $logpath = '/app/drupal/web/sites/default/files/private/oska_filters/'.$filename;
                         if(!file_exists($logpath)) mkdir($logpath, 0744, true);
                         $logpath .= '/hierarchy';
                         $file = fopen($logpath, 'wb');
                         fwrite($file, json_encode($hierarchy, TRUE));
 
                     }
+
                     $context['sandbox']['progress']++;
                     $context['sandbox']['current_id'] = $i;
                     #$context['message'] = t('Processing lines : @limit - @current ', ['@limit' => $limit, '@current' => $context['sandbox']['current_id'] + 1]);
@@ -155,6 +163,22 @@ class ProcessOskaData {
         }
     }
 
+    // add csv file names to OskaFileEntity
+    public static function ProcessOskaData($items, &$context){
+      $file_name = $context['results']['files']['file_id'];
+
+      $ids = \Drupal::entityQuery('oska_file_entity')
+        ->condition('file_id', $file_name)
+        ->execute();
+      $files = OskaFileEntity::loadMultiple($ids);
+
+      $file_values = $context['results']['files'];
+      if(!$files && $file_values){
+        $files_entity = OskaFileEntity::create($file_values);
+        $files_entity->save();
+      }
+    }
+
     public static function ProcessOskaDataFinishedCallback($success, $results, $operations){
         // The 'success' parameter means no fatal PHP errors were detected. All
         // other error management should be handled using 'results'.
@@ -162,27 +186,15 @@ class ProcessOskaData {
             if(isset($results['error'])){
                 $message = [implode(', ', $results['error']), 'error'];
             }else{
-                $message = [t('OSKA CSV imported'), 'status'];
+                $message = [\Drupal::translation()->formatPlural(
+                  count($results['processed']),
+                  'One infograph item processed.', '@count infograph items processed.'
+                ), 'status'];
             }
         }
         else {
             $message = [t('Finished with an error.'), 'error'];
         }
         drupal_set_message($message[0], $message[1]);
-    }
-
-    public static function deleteNodesFinishedCallback($success, $results, $operations) {
-        // The 'success' parameter means no fatal PHP errors were detected. All
-        // other error management should be handled using 'results'.
-        if ($success) {
-            $message = \Drupal::translation()->formatPlural(
-                count($results),
-                'One post processed.', '@count posts processed.'
-            );
-        }
-        else {
-            $message = t('Finished with an error.');
-        }
-        drupal_set_message($message);
     }
 }
