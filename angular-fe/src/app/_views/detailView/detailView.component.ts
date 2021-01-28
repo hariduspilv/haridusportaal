@@ -62,6 +62,7 @@ export class DetailViewComponent {
     switch (this.type) {
       case 'news': queryKey = 'recentNews'; break;
       case 'event': queryKey = false; break;
+      case 'study_programme':
       case 'studyProgramme': queryKey = false; break;
       default: queryKey = false;
     }
@@ -82,7 +83,6 @@ export class DetailViewComponent {
   }
 
   private getValues(): void {
-
     switch (this.type) {
       case 'news': {
         this.queryKey = 'newsSingel';
@@ -94,28 +94,38 @@ export class DetailViewComponent {
         this.title = 'event.label';
         break;
       }
+      case 'study_programme':
       case 'studyProgramme': {
+        this.type = 'studyProgramme';
         this.queryKey = 'studyProgrammeSingle';
         this.title = 'studyProgramme.label';
         this.compareKey = 'studyProgrammeComparison';
         break;
       }
+      case 'oska_main_profession_page':
       case 'profession': {
+        this.type = 'profession';
         this.queryKey = 'oskaMainProfessionDetailView';
         this.title = 'oska.professions_and_jobs';
         break;
       }
+      case 'oska_field_page':
       case 'field': {
+        this.type = 'field';
         this.queryKey = 'oskaFieldDetailView';
         this.title = 'oska.title_field';
         break;
       }
+      case 'oska_survey_page':
       case 'surveyPage': {
+        this.type = 'surveyPage';
         this.queryKey = 'oskaSurveyPageDetailView';
         this.title = 'oska.workforcePrognosis';
         break;
       }
+      case 'oska_result_page':
       case 'resultPage': {
+        this.type = 'resultPage';
         this.queryKey = 'oskaResultPageDetailView';
         this.title = 'oska.results';
         break;
