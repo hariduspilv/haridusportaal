@@ -3,7 +3,7 @@ version: '3.7'
 services:
   postgres:
     container_name: postgres
-    image: hub.wiseman.ee/htm/db
+    image: postgres:10.4
     networks:
       - htm
     restart: always
@@ -17,8 +17,6 @@ services:
     networks:
       - htm
     restart: always
-    depends_on:
-      - postgres
   swag:
     container_name: swag
     image: linuxserver/swag
@@ -29,8 +27,6 @@ services:
       - swag.env
     volumes:
       - /etc/config:/config
-    depends_on:
-      - angular
   nginx:
     container_name: nginx
     image: nginx:1.15
@@ -38,6 +34,7 @@ services:
       - htm
     restart: always
     depends_on:
+      - angular
       - swag
     ports:
       - "80:80"

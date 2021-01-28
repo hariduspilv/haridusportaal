@@ -1,3 +1,11 @@
+#   Builds angular application with storybook and node express server
+#   Uses /node and /angular-fe directories
+#   Node server as entrypoint, which conditionally serves one of the following:
+#     stats page
+#     amp
+#     storybook
+#     angular
+
 FROM node:current-alpine
 
 COPY ./angular-fe /app/angular-fe
