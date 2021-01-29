@@ -221,7 +221,16 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
   }
 
   public parseData() {
-    this.parsedData = this.data.map((item: any) => {
+    this.parsedData = this.data.filter((x: any) => {
+      if (x.entity === null) {
+        return false;
+      }
+      if (x.entity?.status !== undefined) {
+        return x.entity.status;
+      }
+      return true;
+    })
+    .map((item: any) => {
       if (item.entity && item.entity.entityLabel) {
         return {
           title: item.entity.entityLabel,
@@ -242,7 +251,7 @@ export class SidebarLinksComponent implements OnInit, OnChanges {
       }
 
       return item;
-    }).filter((x: any) => (x.entity !== null));
+    });
     if (this.data && this.data.length) {
       try {
         const blocks = [];
