@@ -94,37 +94,37 @@ export class DetailViewComponent {
         break;
       }
       case 'study_programme':
-      case 'studyProgramme': {
         this.type = 'studyProgramme';
+      case 'studyProgramme': {
         this.queryKey = 'studyProgrammeSingle';
         this.title = 'studyProgramme.label';
         this.compareKey = 'studyProgrammeComparison';
         break;
       }
       case 'oska_main_profession_page':
-      case 'profession': {
         this.type = 'profession';
+      case 'profession': {
         this.queryKey = 'oskaMainProfessionDetailView';
         this.title = 'oska.professions_and_jobs';
         break;
       }
       case 'oska_field_page':
-      case 'field': {
         this.type = 'field';
+      case 'field': {
         this.queryKey = 'oskaFieldDetailView';
         this.title = 'oska.title_field';
         break;
       }
       case 'oska_survey_page':
-      case 'surveyPage': {
         this.type = 'surveyPage';
+      case 'surveyPage': {
         this.queryKey = 'oskaSurveyPageDetailView';
         this.title = 'oska.workforcePrognosis';
         break;
       }
       case 'oska_result_page':
-      case 'resultPage': {
         this.type = 'resultPage';
+      case 'resultPage': {
         this.queryKey = 'oskaResultPageDetailView';
         this.title = 'oska.results';
         break;
