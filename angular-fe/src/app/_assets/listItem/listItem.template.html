@@ -96,6 +96,45 @@
                     </ng-container>
                 </div>
             </ng-container>
+            <div *ngIf="type === 'mainProfession'" class="sm-show inline__items">
+                <ng-container *ngIf="item.fillingBar">
+                    <ng-container *ngIf="item.fillingBar.entities && item.fillingBar.entities[0] && item.fillingBar.entities[0].value
+                    && item.fillingBar.entities[0].value > 0 && item.fillingBar.entities[0].value < 6">
+                        <span class="item item--expanded">{{ 'oska.competition' | translate | ucfirst }}:
+                            <span class="dark">{{ getCompetitionLabel(item.fillingBar.entities[0].value) | translate }}</span>
+                        </span>
+                    </ng-container>
+                    <ng-container *ngIf="item.indicator?.entities?.length">
+                        <ng-container *ngFor="let elem of indicatorValues(item.indicator.entities); let ind = index;">
+                            <ng-container *ngIf="elem.oskaId && elem.oskaId === 1">
+                                <span class="item item--expanded">{{ elem.oskaIndicator | ucfirst }}:
+                                    <span class="dark">{{ elem.value | localeNumber }}</span>
+                                </span>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </ng-container>    
+            </div>
+            <div *ngIf="type === 'school'" class="sm-show inline__items inline__items--floating">
+                <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
+                    <ng-container *ngIf="item[fieldName]">
+                        <span role="separator" class="bar" *ngIf="i>0">|</span>
+                        <span class="item" *ngIf="fieldName === 'webpage' && item[fieldName]">
+                            <a attr.aria-label="{{ 'event.webpage' | translate }} {{ item[fieldName] | removeProtocol }}"
+                                href="{{ item[fieldName] | url }}"
+                                target="_blank">{{ item[fieldName] | removeProtocol }}</a>
+                        </span>
+                        <span class="item" *ngIf="fieldName === 'email'">
+                            <a attr.aria-label="{{'event.email' | translate}} {{ item[fieldName] }}"
+                                href="mailto:{{ item[fieldName]}}">{{ item[fieldName]}}</a>
+                        </span>
+                        <span class="item" *ngIf="fieldName === 'phone'">
+                            <a attr.aria-label="{{'event.phone' | translate}} {{ item[fieldName] }}"
+                                href="tel:{{ item[fieldName] }}">{{ item[fieldName] }}</a>
+                        </span>
+                    </ng-container>
+                </ng-container>
+            </div>
             <div *ngIf="type !== 'news'"
                 [class]="type === 'school' || type === 'mainProfession' ? 'inline__items sm-hide' : 'inline__items'">
                 <ng-container *ngFor="let fieldName of footerFields[type]; let i = index">
@@ -114,12 +153,12 @@
                             </ng-container>
                         </span>
                         <span class="item" *ngIf="fieldName === 'webpage' && item[fieldName]">
-                            <a attr.aria-label="{{'event.webpage'}} {{ item[fieldName] | removeProtocol }}"
+                            <a attr.aria-label="{{'event.webpage' | translate}} {{ item[fieldName] | removeProtocol }}"
                                 href="{{ item[fieldName] | url }}"
                                 target="_blank">{{ item[fieldName] | removeProtocol }}</a>
                         </span>
                         <span class="item" *ngIf="fieldName === 'email'">
-                            <a attr.aria-label="{{'E-mail'}} {{ item[fieldName]}}"
+                            <a attr.aria-label="{{'event.email' | translate}} {{ item[fieldName]}}"
                                 href="mailto:{{ item[fieldName]}}">{{ item[fieldName]}}</a>
                         </span>
 
