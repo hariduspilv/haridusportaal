@@ -6,9 +6,6 @@ query newFrontPageQuery($lang: LanguageId!) {
         fieldFrontpageTopics {
           entity {
             ... on ParagraphHomepageTopicsNew {
-              fieldTopicButtonText
-              fieldTopicTitle
-              fieldTopicText
               fieldTopicLink {
                 url {
                   routed
@@ -16,10 +13,21 @@ query newFrontPageQuery($lang: LanguageId!) {
                 }
                 title
               }
-              fieldTopicImage {
-                entity {
-                  url
+            }
+          }
+        }
+        fieldFrontpageReferences {
+          entity {
+            ... on ParagraphHomepageReference {
+              fieldReferenceQuestionTitle
+              fieldReferenceTitle
+              fieldReferenceContent
+              fieldTopicLink {
+                url {
+                  routed
+                  path
                 }
+                title
               }
             }
           }
