@@ -5,6 +5,7 @@ import { AlertsService } from '@app/_services';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { AccordionComponent } from '../accordion';
 import { ExternalQualifications, OppelaenOigus, Studies, StudiesResponse } from './studies.model';
+import { dateSortFn } from './studies.utility';
 
 @Component({
   selector: 'studies',
@@ -58,20 +59,6 @@ export class StudiesComponent implements OnInit {
     this.fetchData();
   }
 
-  private dateSortFn(
-    a: Studies | ExternalQualifications,
-    b: Studies | ExternalQualifications,
-    field: string = 'oppAlgus',
-  ): number {
-    const field1 = a[field] || (a as ExternalQualifications).valjaandmKp;
-    const field2 = b[field] || (b as ExternalQualifications).valjaandmKp;
-    const arrA = field1.split('.');
-    const valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
-    const arrB = field2.split('.');
-    const valB = `${arrB[2]}-${arrB[1]}-${arrB[0]}`;
-    return +new Date(valB) - +new Date(valA);
-  }
-
   private fetchData() {
     this.loading = true;
     const sub = this.http
@@ -104,8 +91,8 @@ export class StudiesComponent implements OnInit {
             ];
             // Sort currently studying and finished separately
             this.content = [
-              ...resultData.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(this.dateSortFn),
-              ...resultData.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort((a, b) => this.dateSortFn(a, b, 'oppLopp')),
+              ...resultData.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(dateSortFn),
+              ...resultData.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort((a, b) => dateSortFn(a, b, 'oppLopp')),
             ]
             if (!this.content.length) {
               this.error = true;

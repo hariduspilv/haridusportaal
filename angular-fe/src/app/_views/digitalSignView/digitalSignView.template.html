@@ -24,7 +24,7 @@
 										<div class="sub-content" *ngFor="let item of data[key]; let i = index">
 											<div class="title-wrapper">
 												<formItem type="checkbox" [formControlName]="item.id"
-													[label]="item.oppeasutus + (item.staatus ? ', ' + parseTypeTranslation(item.staatus) : '') + (item.oppLopp ? ' ' + item.oppLopp : '')">
+													[label]="getAccordionTitle(item)">
 												</formItem>
 												<a href="javascript:void(0)" (click)="toggleCard(key, i)">
 													<ng-container *ngIf="item.selected">
@@ -87,6 +87,83 @@
 															</ng-container>
 														</ng-container>
 														<!-- /Oppekavad -->
+														<!-- Väliskvalifikatsiooni andmed -->
+														<tr *ngIf="item.oppeasutuseNimiMuusKeeles">
+															<td class="normal">{{ 'frontpage.oppeasutuseNimiMuusKeeles' | translate }}</td>
+															<td class="normal">{{ item.oppeasutuseNimiMuusKeeles }}</td>
+														</tr>
+														<tr *ngIf="item.oppeasutuseNimiTranslit">
+															<td class="normal">{{ 'frontpage.oppeasutuseNimiTranslit' | translate }}</td>
+															<td class="normal">{{ item.oppeasutuseNimiTranslit }}</td>
+														</tr>
+														<tr *ngIf="item.riik">
+															<td class="normal">{{ 'frontpage.kvalifikatsiooniRiik' | translate }}</td>
+															<td class="normal">{{ item.riik }}</td>
+														</tr>
+														<!-- Väliskvalifikatsiooni Oppekavad -->
+														<ng-container *ngIf="item.oppekavaNimetusOrig || item.oppekavaNimetusEesti || oppekavaNominKestus">
+															<tr class="extraRow">
+																<td colspan="100%">{{ 'frontpage.oppekava' | translate }}</td>
+															</tr>
+															<tr *ngIf="item.oppekavaNimetusOrig" [class.extraBottom]="!item.oppekavaNimetusEesti && !item.oppekavaNominKestus">
+																<td class="additional multi--bordered">{{ 'frontpage.oppekavaNimetusOrig' | translate }} </td>
+																<td class="additional multi--bordered">{{ item.oppekavaNimetusOrig }}</td>
+															</tr>
+															<tr *ngIf="item.oppekavaNimetusEesti" [class.extraBottom]="!item.oppekavaNominKestus">
+																<td class="additional">{{ 'frontpage.oppekavaNimetusEesti' | translate }} </td>
+																<td class="additional">{{ item.oppekavaNimetusEesti }}</td>
+															</tr>
+															<tr *ngIf="item.oppekavaNominKestus" class="extraBottom">
+																<td class="additional">{{ 'frontpage.kestus' | translate }}</td>
+																<td class="additional">{{ item.oppekavaNominKestus }}</td>
+															</tr>
+														</ng-container>
+														<!-- /Väliskvalifikatsiooni Oppekavad -->
+														<tr *ngIf="item.lisaKval">
+															<td class="normal">{{ 'frontpage.lisaKval' | translate }}</td>
+															<td class="normal">{{ item.lisaKval }}</td>
+														</tr>
+														<tr *ngIf="item.dokument">
+															<td class="normal">{{ 'frontpage.kvalifikatsiooniDokument' | translate }}</td>
+															<td class="normal">{{ item.dokument }}</td>
+														</tr>
+														<tr *ngIf="item.kvalVastavus">
+															<td class="normal">{{ 'frontpage.kvalifikatsiooniVastavusValis' | translate }}</td>
+															<td class="normal">{{ item.kvalVastavus }}</td>
+														</tr>
+														<tr *ngIf="item.kvalNimetusOrig">
+															<td class="normal">{{ 'frontpage.kvalifikatsioonOrig' | translate }}</td>
+															<td class="normal">{{ item.kvalNimetusOrig }}</td>
+														</tr>
+														<tr *ngIf="item.eqfTase">
+															<td class="normal">{{ 'frontpage.eqfTase' | translate }}</td>
+															<td class="normal">{{ item.eqfTase }}</td>
+														</tr>
+														<tr *ngIf="item.iscedTase">
+															<td class="normal">{{ 'frontpage.iscedTase' | translate }}</td>
+															<td class="normal">{{ item.iscedTase }}</td>
+														</tr>
+														<tr *ngIf="item.valjaandmKp">
+															<td class="normal">{{ 'frontpage.valjaandmKp' | translate }}</td>
+															<td class="normal">{{ item.valjaandmKp }}</td>
+														</tr>
+														<tr *ngIf="item.dokumendiNumber">
+															<td class="normal">{{ 'frontpage.dokumentNr' | translate }}</td>
+															<td class="normal">{{ item.dokumendiNumber }}</td>
+														</tr>
+														<tr *ngIf="item.enicNaricHinnanguKp">
+															<td class="normal">{{ 'frontpage.enicNaricHinnanguKp' | translate }}</td>
+															<td class="normal">{{ item.enicNaricHinnanguKp }}</td>
+														</tr>
+														<tr *ngIf="item.enicNaricHinnanguNumber">
+															<td class="normal">{{ 'frontpage.enicNaricHinnanguNumber' | translate }}</td>
+															<td class="normal">{{ item.enicNaricHinnanguNumber }}</td>
+														</tr>
+														<tr *ngIf="item.kommentaar">
+															<td class="normal">{{ 'feedback_comment' | translate }}</td>
+															<td class="normal">{{ item.kommentaar }}</td>
+														</tr>
+														<!-- /Väliskvalifikatsiooni andmed -->
 														<!-- Ülikool õpib hetkel andmed -->
 														<ng-container *ngIf="item.haridustase === 'YLIKOOL' && !item.oppLopp">
 															<tr *ngIf="item.opeklass">
