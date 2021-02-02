@@ -239,6 +239,12 @@ $grid-columns: 12;
       line-height: 1.25rem;
       color: $dark-gray;
       white-space: nowrap;
+      &--expanded {
+        display: block;
+        &+.item--expanded {
+          margin-top: 0.5rem;
+        }
+      }
 
       .dark {
         color: $darker-gray;
@@ -252,6 +258,12 @@ $grid-columns: 12;
       color: $gray;
       font-weight: 300;
       padding: 0 0.375rem;
+    }
+
+    &--floating {
+      .bar, .item {
+        float: left;
+      }
     }
   }
 

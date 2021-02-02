@@ -82,7 +82,6 @@ export class DetailViewComponent {
   }
 
   private getValues(): void {
-
     switch (this.type) {
       case 'news': {
         this.queryKey = 'newsSingel';
@@ -94,27 +93,37 @@ export class DetailViewComponent {
         this.title = 'event.label';
         break;
       }
+      case 'study_programme':
+        this.type = 'studyProgramme';
       case 'studyProgramme': {
         this.queryKey = 'studyProgrammeSingle';
         this.title = 'studyProgramme.label';
         this.compareKey = 'studyProgrammeComparison';
         break;
       }
+      case 'oska_main_profession_page':
+        this.type = 'profession';
       case 'profession': {
         this.queryKey = 'oskaMainProfessionDetailView';
         this.title = 'oska.professions_and_jobs';
         break;
       }
+      case 'oska_field_page':
+        this.type = 'field';
       case 'field': {
         this.queryKey = 'oskaFieldDetailView';
         this.title = 'oska.title_field';
         break;
       }
+      case 'oska_survey_page':
+        this.type = 'surveyPage';
       case 'surveyPage': {
         this.queryKey = 'oskaSurveyPageDetailView';
         this.title = 'oska.workforcePrognosis';
         break;
       }
+      case 'oska_result_page':
+        this.type = 'resultPage';
       case 'resultPage': {
         this.queryKey = 'oskaResultPageDetailView';
         this.title = 'oska.results';
@@ -144,14 +153,12 @@ export class DetailViewComponent {
         this.origData = response['data']['route']['entity'];
         this.parseData(response['data']['route']['entity']);
       } catch (err) {
-        console.log(err);
         this.missingData = true;
       }
 
       subscription.unsubscribe();
     });
   }
-
 
   public parseHTMLValue(content) {
     return content.length > 250 ?
@@ -196,9 +203,9 @@ export class DetailViewComponent {
 
   editPost() {
     const id = this.route.snapshot.params.id;
-    let href = `${this.settings.url}/node/${this.data.entityId}/edit?uuid=${id}`;
-    if (!this.data.entityId) {
-      href = `${this.settings.url}/node/add/${this.data.entityBundle}?uuid="+${id}`;
+    let href = `${this.settings.url}/node/${this.data.nid}/edit?uuid=${id}`;
+    if (!this.data.nid) {
+      href = `${this.settings.url}/node/add/${this.data.entityBundle}?uuid=${id}`;
     }
     window.location.href = href;
   }
