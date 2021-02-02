@@ -11,12 +11,51 @@ services:
       - postgres.env
     volumes:
       - /root/data/postgres:/var/lib/postgresql/data
+  redis:
+    container_name: redis
+    image: redis:3
+    networks:
+      - htm
+  htm-stunnel:
+    container_name: htm-stunnel
+    image: hub.wiseman.ee/htm/stunnel
+    networks:
+      - htm
+    restart: always
+    ports:
+      - "30088:80"
+    volumes:
+      - /root/data/stunnel:/etc/stunnel
+  htm-liides:
+    container_name: htm-liides
+    image: hub.wiseman.ee/htm/liides
+    networks:
+      - htm
+    restart: always
+    ports:
+      - "30080:8080"
+      - "30081:8081"
+    env_file:
+      - liides.env
+    volumes:
+      - /root/data/javaApp:/htmApp
+      - /root/data/javaApp/logs:/logs
   angular:
     container_name: angular
     image: harbor.twn.zone/haridusportaal/angular:develop
     networks:
       - htm
     restart: always
+  drupal:
+    container_name: drupal
+    image: hub.wiseman.ee/htm/drupal-live
+    networks:
+      - htm
+    restart: always
+    env_file:
+      - drupal.env
+    volumes:
+      - /root/data/web/sites:/app/drupal/web/sites
   swag:
     container_name: swag
     image: linuxserver/swag
