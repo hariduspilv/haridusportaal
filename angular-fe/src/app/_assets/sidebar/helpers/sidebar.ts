@@ -118,7 +118,6 @@ export const parseProfessionData = (inputData, translate) => {
       });
       searchParams['level'] = iLevel.join(';');
     } catch (err) { }
-
     if (Object.keys(searchParams).length > 1) {
       mappedData['fieldLearningOpportunities'] = [
         {
@@ -130,7 +129,7 @@ export const parseProfessionData = (inputData, translate) => {
           },
         },
       ];
-    } else {
+    } else if (mappedData['fieldProfession']) {
       mappedData['fieldLearningOpportunities'] = [
         {
           title: translate.get('professions.go_to_subjects'),
