@@ -43,6 +43,7 @@ export class HomePageService {
       'homepage-articles-1.svg',
       'homepage-articles-2.svg',
       'homepage-articles-3.svg',
+      'homepage-articles-4.svg',
     ],
     career: [
       'homepage-articles-career-1.svg',
