@@ -101,7 +101,6 @@ export class DigitalSignViewComponent implements OnInit {
             delete this.data.tasemeharidus;
             delete this.data.valineKvalifikatsioon;
             delete this.data.enne2004Kvalifikatsioon;
-            console.log(this.data)
             this.initFormGroup();
           }
           sub.unsubscribe();
