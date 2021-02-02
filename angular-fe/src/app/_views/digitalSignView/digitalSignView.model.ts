@@ -8,6 +8,8 @@ export interface DSVValue {
   kvalifikatsioon?: any[];
   kvalifikatsioonid?: any[];
   tasemeharidus?: any[];
+  tootamine?: any[];
+  taiendkoolitus?: any[];
 }
 
 export interface DSVResponse {
