@@ -59,7 +59,7 @@ content:
     third_party_settings: {  }
   field_bruto:
     type: readonly_field_widget
-    weight: 26
+    weight: 27
     region: content
     settings:
       label: above
@@ -72,7 +72,7 @@ content:
     third_party_settings: {  }
   field_change_in_employment:
     type: readonly_field_widget
-    weight: 27
+    weight: 28
     region: content
     settings:
       label: above
@@ -91,7 +91,7 @@ content:
     region: content
   field_education_indicator:
     type: readonly_field_widget
-    weight: 28
+    weight: 29
     region: content
     settings:
       label: above
@@ -101,7 +101,7 @@ content:
     third_party_settings: {  }
   field_filling_bar:
     type: readonly_field_widget
-    weight: 29
+    weight: 30
     region: content
     settings:
       label: above
@@ -116,7 +116,7 @@ content:
     type: options_buttons
     region: content
   field_further_info:
-    weight: 25
+    weight: 26
     settings:
       rows: 5
       placeholder: ''
@@ -175,7 +175,7 @@ content:
     region: content
   field_number_of_employees:
     type: readonly_field_widget
-    weight: 30
+    weight: 31
     region: content
     settings:
       label: above
