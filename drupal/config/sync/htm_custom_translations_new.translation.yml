@@ -421,8 +421,8 @@ frontpage:
     en: 'Lõpetamise kuupäev ENG'
   dokumentNr:
     translation_type: textarea
-    et: 'Dokumendi nr.'
-    en: 'Dokumendi nr. ENG'
+    et: 'Dokumendi nr'
+    en: 'Dokumendi nr'
   koolitusNimetus:
     translation_type: textarea
     et: 'Koolituse nimetus'
@@ -790,8 +790,8 @@ frontpage:
     en: 'Kehtivad e-tunnistused puuduvad - eng'
   dashboard_tabs_certificates_graduation:
     translation_type: textarea
-    et: Lõputunnistused
-    en: 'Graduation certificates'
+    et: 'Lõputunnistused ja -diplomid'
+    en: 'Graduation certificates and diplomas'
   dashboard_view_all_notifications:
     translation_type: textarea
     et: 'Vaata kõiki teavitusi'
@@ -800,6 +800,106 @@ frontpage:
     translation_type: textarea
     et: 'Sulle ei ole ühtegi teavitust.'
     en: 'Sulle ei ole ühtegi teavitust.'
+  learning:
+    translation_type: textarea
+    et: Õppimine
+    en: Õppimine
+  career:
+    translation_type: textarea
+    et: Karjäär
+    en: Career
+  teaching:
+    translation_type: textarea
+    et: Õpetamine
+    en: Teaching
+  youth:
+    translation_type: textarea
+    et: Noortevaldkond
+    en: Youth
+  kvalifikatsiooniVastavus:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni vastavus kehtivas raamistikus'
+    en: 'Kvalifikatsiooni vastavus kehtivas raamistikus'
+  akadKraad:
+    translation_type: textarea
+    et: 'Akadeemiline kraad või diplom'
+    en: 'Akadeemiline kraad või diplom'
+  nomLopp:
+    translation_type: textarea
+    et: 'Nominaalse õppeaja lõpu kuupäev'
+    en: 'Nominaalse õppeaja lõpu kuupäev'
+  okVahetamine:
+    translation_type: textarea
+    et: 'Õppekava vahetamine'
+    en: 'Õppekava vahetamine'
+  oppeasutuseNimiMuusKeeles:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi muus keeles'
+    en: 'Õppeasutuse nimi muus keeles'
+  oppeasutuseNimiTranslit:
+    translation_type: textarea
+    et: 'Õppeasutuse nime transliteratsioon'
+    en: 'Õppeasutuse nime transliteratsioon'
+  kvalifikatsiooniRiik:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni välja andnud riik'
+    en: 'Kvalifikatsiooni välja andnud riik'
+  oppekavaNimetusOrig:
+    translation_type: textarea
+    et: 'Õppekava nimetus originaalis'
+    en: 'Õppekava nimetus originaalis'
+  oppekavaNimetusEesti:
+    translation_type: textarea
+    et: 'Õppekava nimetus eesti keeles'
+    en: 'Õppekava nimetus eesti keeles'
+  lisaKval:
+    translation_type: textarea
+    et: 'Tiitel, kutsekvalifikatsioon vm lisakvalifikatsioon'
+    en: 'Tiitel, kutsekvalifikatsioon vm lisakvalifikatsioon'
+  kvalifikatsiooniDokument:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni dokument'
+    en: 'Kvalifikatsiooni dokument'
+  kvalifikatsiooniVastavusValis:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni vastavus'
+    en: 'Kvalifikatsiooni vastavus'
+  kvalifikatsioonOrig:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni nimetus originaalis'
+    en: 'Kvalifikatsiooni nimetus originaalis'
+  eqfTase:
+    translation_type: textarea
+    et: 'EQF tase'
+    en: 'EQF tase'
+  iscedTase:
+    translation_type: textarea
+    et: 'ISCED tase'
+    en: 'ISCED tase'
+  valjaandmKp:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni väljaandmise kuupäev'
+    en: 'Kvalifikatsiooni väljaandmise kuupäev'
+  enicNaricHinnanguKp:
+    translation_type: textarea
+    et: 'ENIC-NARIC hinnangu kuupäev'
+    en: 'ENIC-NARIC hinnangu kuupäev'
+  enicNaricHinnanguNumber:
+    translation_type: textarea
+    et: 'ENIC-NARIC hinnangu nr'
+    en: 'ENIC-NARIC hinnangu nr'
+  spetsialiseerumine:
+    translation_type: textarea
+    et: Spetsialiseerumine
+    en: Spetsialiseerumine
+  dashboard_tabs_certificates_external_qualification:
+    translation_type: textarea
+    et: 'Tekst väliskvalifikatsiooni akordionisse! Tekst väliskvalifikatsiooni akordionisse! Tekst väliskvalifikatsiooni akordionisse! Tekst väliskvalifikatsiooni akordionisse!'
+    en: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam lobortis sed purus sed ullamcorper. Suspendisse rutrum ullamcorper eros a facilisis.'
+  kvalDokumentLiik:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni dokumendi liik'
+    en: 'Kvalifikatsiooni dokumendi liik'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -1035,11 +1135,11 @@ newsletter:
   unsubscribe_content:
     translation_type: text_format
     et:
+      value: "<p>Täname&nbsp;haridusteemade vastu huvi tundmast!</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>Olete loobunud haridusteemalisest uudiskirjast.</p>\r\n\r\n<p>Külastage jätkuvalt veebiaadressi <a href=\"https://haridusportaal.edu.ee/\">www.edu.ee</a></p>\r\n\r\n<p>&nbsp;</p>\r\n"
       format: custom_editor
-      value: '<p>Tänud haridusteemade vastu huvi tundmast.</p><br /><p>Olete loobunud haridusteemalisest uudiskirjast.</p> <span>Külastage jätkuvalt veebiaadressi <a href=''http://www.eduportaal.ee'' target=''_blank''>www.eduportaal.ee</a>.</span>'
     en:
+      value: "<p>Thank you for your interest in education.</p>\r\n\r\n<p>&nbsp;</p>\r\n\r\n<p>You have abandoned the education newsletter.</p>\r\n\r\n<p>Continue to visit the <a target=\" _ blank \"> www.edu.ee</a></p>\r\n\r\n<p>&nbsp;</p>\r\n"
       format: custom_editor
-      value: '<p> Thank you for your interest in education. </ p> <br /> <p> You have abandoned the education newsletter. </ p> <span> Continue to visit the <a href = ''http: // www website. .eduportaal.ee ''target ='' _ blank ''> www.eduportaal.ee </a>. </ span> '
   subscription_thanks_content:
     translation_type: textarea
     et: 'Tänud haridusteemade vastu huvi tundmast!'
@@ -1454,7 +1554,7 @@ studyProgramme:
   label:
     translation_type: textarea
     et: Erialad
-    en: Specialties
+    en: Studyprogrammes
   level:
     translation_type: textarea
     et: 'Õppekava tase'
@@ -1704,6 +1804,18 @@ login:
     translation_type: textarea
     et: '2020 üldhariduse lõpudokumendid'
     en: '2020 üldhariduse lõpudokumendid'
+  mobile_id_check:
+    translation_type: textarea
+    et: 'Kontrolli, et näed mobiiltelefoni ekraanil täpselt sama numbrit:'
+    en: 'Kontrolli, et näed mobiiltelefoni ekraanil täpselt sama numbrit:'
+  mobile_id_pin1:
+    translation_type: textarea
+    et: 'Seejärel sisesta PIN1'
+    en: 'Seejärel sisesta PIN1'
+  mobile_id_waiting:
+    translation_type: textarea
+    et: 'Ootame Mobiil-ID vastust…'
+    en: 'Ootame Mobiil-ID vastust…'
 time:
   january:
     translation_type: textarea
@@ -2293,6 +2405,10 @@ errors:
     translation_type: textarea
     et: 'Sisestage korrektne email'
     en: 'Enter valid email'
+  no_disclosed_certificates_found:
+    translation_type: textarea
+    et: 'Ei leitud ühtegi avalikustatud lõpudokumenti'
+    en: 'Ei leitud ühtegi avalikustatud lõpudokumenti'
 search:
   label:
     translation_type: textarea
@@ -2861,6 +2977,10 @@ oska:
       translation_type: textarea
       et: Lisateave
       en: Lisateave
+  graph_source:
+    translation_type: textarea
+    et: Allikas
+    en: Source
 oskaProfession:
   view_field_info:
     translation_type: textarea
@@ -3671,7 +3791,7 @@ certificates:
     en: 'First name'
   last_name:
     translation_type: textarea
-    et: Perenimi
+    et: Perekonnanimi
     en: 'Last name'
   name_and_idcode:
     translation_type: textarea
@@ -3681,6 +3801,22 @@ certificates:
     translation_type: textarea
     et: Avalikustatud
     en: 'Avalikustatud - eng'
+  final_document:
+    translation_type: textarea
+    et: Lõpudokument
+    en: Lõpudokument
+  current:
+    translation_type: textarea
+    et: praegune
+    en: praegune
+  current_registry:
+    translation_type: textarea
+    et: 'praegune rahvastikuregistri järgi'
+    en: 'praegune rahvastikuregistri järgi'
+  disclosure_info:
+    translation_type: textarea
+    et: 'Avalikustatud dokumenti näevad kõik, kes teavad sellega seotud isikukoodi või nime'
+    en: ''
 home:
   slogan:
     translation_type: textarea
@@ -3764,7 +3900,7 @@ home:
     en: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, lorem ipsum dolor'
   teachers_slogan:
     translation_type: textarea
-    et: 'Õpetajad loovad homse Eesti ja kasvatavad pättidest inimesed'
+    et: 'Õpetajad loovad homse Eesti'
     en: 'Õpetajad loovad<br />homse Eesti'
   career_slogan_description:
     translation_type: textarea
@@ -3926,8 +4062,8 @@ finaldocuments:
     en: 'Muuda ligipääsu - eng'
   add_access:
     translation_type: textarea
-    et: 'Lisa ligipääs'
-    en: 'Lisa ligipääs'
+    et: 'Jaga ligipääsu'
+    en: 'Jaga ligipääsu'
   choose_access_end_date:
     translation_type: textarea
     et: 'Vali ligipääsu kehtivuse lõpp: *'
@@ -4101,6 +4237,142 @@ finaldocuments:
     translation_type: textarea
     et: 'koos lisadega'
     en: 'with supplements'
+  diploma:
+    translation_type: textarea
+    et: Diplom
+    en: Diploma
+  data:
+    translation_type: textarea
+    et: 'Lõpudokumendi andmed'
+    en: 'Lõpudokumendi andmed'
+  number:
+    translation_type: textarea
+    et: Number
+    en: Number
+  date_of:
+    translation_type: textarea
+    et: 'Väljaandmise kuupäev'
+    en: 'Väljaandmise kuupäev'
+  duplicate_number:
+    translation_type: textarea
+    et: 'Duplikaadi algdokumendi number'
+    en: 'Duplikaadi algdokumendi number'
+  date_of_duplicate:
+    translation_type: textarea
+    et: 'Duplikaadi väljaandmise kuupäev'
+    en: 'Duplikaadi väljaandmise kuupäev'
+  institution_data:
+    translation_type: textarea
+    et: 'Õppeasutuse andmed'
+    en: 'Õppeasutuse andmed'
+  institution_name:
+    translation_type: textarea
+    et: 'Õppeasutuse nimi'
+    en: 'Õppeasutuse nimi'
+  curriculum_data:
+    translation_type: textarea
+    et: 'Õppekava andmed'
+    en: 'Õppekava andmed'
+  curriculum_name:
+    translation_type: textarea
+    et: 'Õppekava nimetus'
+    en: 'Õppekava nimetus'
+  curriculum_code:
+    translation_type: textarea
+    et: 'Õppekava kood'
+    en: 'Õppekava kood'
+  degree_name:
+    translation_type: textarea
+    et: 'Akadeemilise kraadi nimetus'
+    en: 'Akadeemilise kraadi nimetus'
+  level_of_education:
+    translation_type: textarea
+    et: 'Õppetaseme nimetus'
+    en: 'Õppetaseme nimetus'
+  accreditation_decision:
+    translation_type: textarea
+    et: 'Õppekava akrediteeringu otsus'
+    en: 'Õppekava akrediteeringu otsus'
+  accreditation_end_date:
+    translation_type: textarea
+    et: 'Õppekava akrediteeringu kehtivuse lõppkuupäev'
+    en: 'Õppekava akrediteeringu kehtivuse lõppkuupäev'
+  right_to_provide_education_decision:
+    translation_type: textarea
+    et: 'Õppekavagrupis õppe läbiviimise õiguse otsus'
+    en: 'Õppekavagrupis õppe läbiviimise õiguse otsus'
+  right_to_provide_education_end_date:
+    translation_type: textarea
+    et: 'Õppekavagrupis õppe läbiviimise õiguse lõppkuupäev'
+    en: 'Õppekavagrupis õppe läbiviimise õiguse lõppkuupäev'
+  type_of_training:
+    translation_type: textarea
+    et: 'Kutseõppe tase'
+    en: 'Kutseõppe tase'
+  credit_point:
+    translation_type: textarea
+    et: 'Õppekava maht'
+    en: 'Õppekava maht'
+  length_of_programme:
+    translation_type: textarea
+    et: 'Õppekava nominaalkestvus'
+    en: 'Õppekava nominaalkestvus'
+  level_of_qualification:
+    translation_type: textarea
+    et: 'Kvalifikatsiooni taseme haridustaseme aste'
+    en: 'Kvalifikatsiooni taseme haridustaseme aste'
+  estonian_qualification_level:
+    translation_type: textarea
+    et: 'Eesti kvalifikatsiooniraamistiku tase'
+    en: 'Eesti kvalifikatsiooniraamistiku tase'
+  european_qualification_level:
+    translation_type: textarea
+    et: 'Euroopa kvalifikatsiooniraamistiku tase'
+    en: 'Euroopa kvalifikatsiooniraamistiku tase'
+  occupational_qualifications:
+    translation_type: textarea
+    et: 'Kutse andmed lõpudokumendilt'
+    en: 'Kutse andmed lõpudokumendilt'
+  occupational_qualification:
+    translation_type: textarea
+    et: 'Kutse nimetus'
+    en: 'Kutse nimetus'
+  occupational_qualification_number:
+    translation_type: textarea
+    et: 'Kutsetunnistuse number kutseregistris'
+    en: 'Kutsetunnistuse number kutseregistris'
+  partial_occupational_qualification:
+    translation_type: textarea
+    et: 'Osakutse nimetus'
+    en: 'Osakutse nimetus'
+  partial_occupational_qualification_number:
+    translation_type: textarea
+    et: 'Osakutse tunnistuse number kutseregistris'
+    en: 'Osakutse tunnistuse number kutseregistris'
+  qualification_within_framework:
+    translation_type: textarea
+    et: 'Kvalifikatsioon kehtivas raamistikus'
+    en: 'Kvalifikatsioon kehtivas raamistikus'
+  choose_access_scope_disclosure:
+    translation_type: textarea
+    et: 'Vali avalikustamise ulatus: *'
+    en: 'Vali avalikustamise ulatus: *'
+  choose_disclosure_end_date:
+    translation_type: textarea
+    et: 'Vali avalikustamise kehtivuse lõpp: *'
+    en: 'Vali avalikustamise kehtivuse lõpp: *'
+  disclosure_end_date:
+    translation_type: textarea
+    et: 'Avalikustamise kehtivuse lõpp:'
+    en: 'Avalikustamise kehtivuse lõpp:'
+  disclosure_scope:
+    translation_type: textarea
+    et: 'Avalikustamise ulatus:'
+    en: 'Avalikustamise ulatus:'
+  confirm_invalidate_disclosure:
+    translation_type: textarea
+    et: 'Kas oled kindel, et soovid avalikustamise lõpetada?'
+    en: 'Kas oled kindel, et soovid avalikustamise lõpetada?'
 finaldocument:
   idcode:
     translation_type: textarea
@@ -4219,3 +4491,17 @@ labels:
   translation_type: textarea
   et: Negatiivne
   en: Negative
+study_programme:
+  label:
+    translation_type: textarea
+    et: Erialad
+    en: Styudyprogammres
+'finalDocument_ACTION_TYPE:REPEALING':
+  translation_type: textarea
+  et: 'Kehtetuks muutmine'
+  en: 'Kehtetuks muutmine'
+liveAnnouncer:
+  found_x_results:
+    translation_type: textarea
+    et: 'Leiti %amount% tulemust'
+    en: 'Leiti %amount% tulemust'
