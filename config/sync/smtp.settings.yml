@@ -4,7 +4,7 @@ smtp_hostbackup: ''
 smtp_port: '587'
 smtp_protocol: tls
 smtp_username: teavitus@twn.ee
-smtp_password: Tarkmeesdru123
+smtp_password: wVQ8BaTRtcAGyB5U
 smtp_from: teavitus@twn.ee
 smtp_fromname: ''
 smtp_client_hostname: ''
@@ -18,3 +18,4 @@ _core:
 langcode: et
 smtp_timeout: 30
 smtp_keepalive: false
+smtp_autotls: false
