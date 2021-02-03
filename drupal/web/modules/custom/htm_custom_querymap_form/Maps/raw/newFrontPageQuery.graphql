@@ -22,7 +22,7 @@ query newFrontPageQuery($lang: LanguageId!) {
               fieldReferenceQuestionTitle
               fieldReferenceTitle
               fieldReferenceContent
-              fieldTopicLink {
+              fieldReferenceLink {
                 url {
                   routed
                   path
