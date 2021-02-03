@@ -245,12 +245,11 @@
 														<!-- /Ülikool lõpetatud andmed -->
 														<!-- Põhi- ja kutseharidus -->
 														<ng-container *ngIf="item.haridustase !== 'YLIKOOL'">
-															<tr *ngIf="item.oppekeel">
-																<td class="normal">{{ 'frontpage.oppekeel' | translate }}</td>
-																<td class="normal">{{ item.oppekeel }}</td>
-															</tr>
 															<tr *ngIf="item.opeklass">
-																<td class="normal">{{ 'frontpage.opeklass' | translate }}</td>
+																<td class="normal"
+																	*ngIf="item.haridustase === 'POHIKOOL'">{{ 'frontpage.opeklass' | translate }}</td>
+																<td class="normal"
+																	*ngIf="item.haridustase !== 'POHIKOOL'">{{ 'frontpage.ope' | translate }}</td>
 																<td class="normal">{{ item.opeklass }} <span
 																		*ngIf="item.opeParallel && item.haridustase === 'POHIKOOL'">{{ item.opeParallel }}</span></td>
 															</tr>
@@ -261,6 +260,18 @@
 															<tr *ngIf="item.klassAste">
 																<td class="normal">{{ 'frontpage.klassAste' | translate }}</td>
 																<td class="normal">{{ item.klassAste }}</td>
+															</tr>
+															<tr *ngIf="item.nomLopp && !item.oppLopp">
+																<td class="normal">{{ 'frontpage.nomLopp' | translate }}</td>
+																<td class="normal">{{ item.nomLopp }}</td>
+															</tr>
+															<tr *ngIf="item.oppAlgus">
+																<td class="normal">{{ 'frontpage.oppAlgus' | translate }}</td>
+																<td class="normal">{{ item.oppAlgus }}</td>
+															</tr>
+															<tr *ngIf="item.oppLopp">
+																<td class="normal">{{ 'frontpage.oppLopp' | translate }}</td>
+																<td class="normal">{{ item.oppLopp }}</td>
 															</tr>
 															<tr
 																*ngIf="item.oppevorm?.length">
@@ -293,18 +304,6 @@
 																	</ng-container>
 																</td>
 															</tr><!-- /Koormus -->
-															<tr *ngIf="item.oppAlgus">
-																<td class="normal">{{ 'frontpage.oppAlgus' | translate }}</td>
-																<td class="normal">{{ item.oppAlgus }}</td>
-															</tr>
-															<tr *ngIf="item.oppLopp">
-																<td class="normal">{{ 'frontpage.oppLopp' | translate }}</td>
-																<td class="normal">{{ item.oppLopp }}</td>
-															</tr>
-															<tr *ngIf="item.nomLopp && !item.oppLopp">
-																<td class="normal">{{ 'frontpage.nomLopp' | translate }}</td>
-																<td class="normal">{{ item.nomLopp }}</td>
-															</tr>
 															<!--<tr *ngIf="item.ryhmaLiik">
 																<td class="normal">{{ 'frontpage.ryhmaLiik' | translate }}</td>
 																<td class="normal">{{ item.ryhmaLiik }}</td>
@@ -317,13 +316,17 @@
 																<td class="normal">{{ 'frontpage.koht' | translate }}</td>
 																<td class="normal">{{ item.koht }}</td>
 															</tr>-->
+															<tr *ngIf="item.oppekeel">
+																<td class="normal">{{ 'frontpage.oppekeel' | translate }}</td>
+																<td class="normal">{{ item.oppekeel }}</td>
+															</tr>
+															<tr *ngIf="item.tunnistusDiplom">
+																<td class="normal">{{ 'frontpage.tunnistusDiplom' | translate }}</td>
+																<td class="normal">{{ item.tunnistusDiplom }}</td>
+															</tr>
 															<tr *ngIf="item.staatus">
 																<td class="normal">{{ 'frontpage.staatus' | translate }}</td>
 																<td class="normal">{{ parseTypeTranslation(item.staatus) }}</td>
-															</tr>
-															<tr *ngIf="item.tunnistusDiplom && item.haridustase !== 'YLIKOOL'">
-																<td class="normal">{{ 'frontpage.tunnistusDiplom' | translate }}</td>
-																<td class="normal">{{ item.tunnistusDiplom }}</td>
 															</tr>
 														</ng-container>
 														<!-- /Põhi- ja kutseharidus -->
