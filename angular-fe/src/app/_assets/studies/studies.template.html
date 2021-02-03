@@ -113,7 +113,7 @@
           <td class="normal">{{ item.riik }}</td>
         </tr>
         <!-- Väliskvalifikatsiooni Oppekavad -->
-        <ng-container *ngIf="item.oppekavaNimetusOrig || item.oppekavaNimetusEesti || oppekavaNominKestus">
+        <ng-container *ngIf="item.oppekavaNimetusOrig || item.oppekavaNimetusEesti || item.oppekavaNominKestus">
           <tr class="extraRow">
             <td colspan="100%">{{ 'frontpage.oppekava' | translate }}</td>
           </tr>
