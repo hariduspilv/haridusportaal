@@ -4,7 +4,7 @@
         <div class="list__item {{ addonClass }}" *ngIf="!manualLimit || (manualLimit && manualLimit > i)">
             <div class="list__item__titlebox">
                 <div [class]="type === 'news' ? 'col-8 xs-hide' : 'col-grow'">
-                    <div [class]="type === 'school' ? 'list__item__head sm-hide' : 'list__item__head'"
+                    <div class="list__item__head"
                         *ngIf="item.head">
                         {{ returnEntityString(item.head) }}</div>
                     <div class="flex flex-center flex-wrap list__item__titleWrapper">
