@@ -1,0 +1,23 @@
+uuid: 520bca76-f1bf-4c6e-9aa7-b900df1b5877
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_reference_link
+    - paragraphs.paragraphs_type.homepage_reference
+  module:
+    - link
+id: paragraph.homepage_reference.field_reference_link
+field_name: field_reference_link
+entity_type: paragraph
+bundle: homepage_reference
+label: 'Viite link'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 1
+  title: 2
+field_type: link

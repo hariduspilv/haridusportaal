@@ -9,6 +9,7 @@ dependencies:
     - field.field.node.frontpage_new.field_frontpage_contact_phone
     - field.field.node.frontpage_new.field_frontpage_news
     - field.field.node.frontpage_new.field_frontpage_quote
+    - field.field.node.frontpage_new.field_frontpage_references
     - field.field.node.frontpage_new.field_frontpage_services
     - field.field.node.frontpage_new.field_frontpage_topics
     - node.type.frontpage_new
@@ -30,6 +31,7 @@ hidden:
   field_frontpage_contact_phone: true
   field_frontpage_news: true
   field_frontpage_quote: true
+  field_frontpage_references: true
   field_frontpage_services: true
   field_frontpage_topics: true
   langcode: true
