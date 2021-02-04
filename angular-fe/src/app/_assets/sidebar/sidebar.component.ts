@@ -1141,7 +1141,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
   public downloadDocument(documentId, data) {
     this.certificatesApi.downloadTranscript(this.route.snapshot.params.id, {
       fileFormat: FileFormat.Pdf,
-      TemplateTypes: CertificateTranscriptTemplateType.WithCoatOfArms,
+      TemplateTypes: CertificateTranscriptTemplateType.WithoutCoatOfArms,
       documentIds: [documentId],
       ...(this.data.accessType ? { accessType: this.data.accessType } : {}),
       ...(this.route.snapshot.params.accessorCode ? {
