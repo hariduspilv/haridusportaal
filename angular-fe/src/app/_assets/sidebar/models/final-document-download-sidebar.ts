@@ -14,3 +14,11 @@ export interface FinalDocumentDownloadSidebar {
   invalid: boolean;
   withAccess: boolean;
 }
+
+export interface FinalDocumentHistorySidebar {
+  issuerInstitution?: string;
+  generalEducationDocumentType: boolean;
+  accessType?: string;
+  accessScope?: string;
+  certificateName: string;
+}

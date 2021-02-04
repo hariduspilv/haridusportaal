@@ -148,6 +148,10 @@ export class CertificatesUtility {
         } : null,
         finalDocumentHistory: !certificateData ? {
           issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
+          generalEducationDocumentType,
+          accessType,
+          accessScope: certificateData?.role?.accessScope,
+          certificateName: `${documents.certificate.content['graduate'].firstName} ${documents.certificate.content['graduate'].lastName}`,
         } : null,
       },
     };
