@@ -1,0 +1,10 @@
+uuid: 2d3d3ebc-df78-4fb1-b0a3-217c2ae490fc
+langcode: et
+status: true
+dependencies: {  }
+id: homepage_reference
+label: 'Avalehe viited vaheavalehele'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
