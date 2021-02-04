@@ -77,6 +77,7 @@ export interface Studies {
 
 export interface ExternalQualifications {
   tyyp: string;
+  id: string;
   oppeasutuseNimi?: string;
   oppeasutuseNimiMuusKeeles?: string;
   oppeasutuseNimiTranslit?: string;

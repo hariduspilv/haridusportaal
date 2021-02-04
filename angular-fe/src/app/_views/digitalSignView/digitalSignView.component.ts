@@ -5,8 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Location } from '@angular/common';
-import * as _moment from 'moment';
-const moment = _moment;
+import * as moment from 'moment';
+import { DSVResponse, DSVValue } from './digitalSignView.model';
+import { dateSortFn } from '@app/_assets/studies/studies.utility';
+import { ExternalQualifications, Studies } from '@app/_assets/studies/studies.model';
 
 @Component({
   selector: 'digitalSignView',
@@ -16,7 +18,7 @@ const moment = _moment;
 
 export class DigitalSignViewComponent implements OnInit {
 
-  data = {};
+  data: DSVValue = {};
   breadcrumbs: any = [
     {
       title: 'Avaleht',
@@ -63,25 +65,42 @@ export class DigitalSignViewComponent implements OnInit {
         `${this.settings.url}/dashboard/eeIsikukaart/digital_sign_data?_format=json`,
       )
       .subscribe(
-        (response: any) => {
+        (response: DSVResponse) => {
           if (response.error) {
             this.error = true;
             const currentLang = 'et';
             this.alertsService
               .info(response.error.message_text[currentLang], 'studies', 'studies', false, false);
           } else {
-            const responseData = response['value'];
+            const responseData = response.value;
+            // Merge all types of study into one
+            responseData.oping = [
+              ...responseData.oping,
+              ...responseData.valineKvalifikatsioon.map(r => {
+                r.tyyp = 'VALISMAA';
+                return r;
+              }),
+              ...responseData.enne2004Kvalifikatsioon.map(r => {
+                r.tyyp = 'ENNE_2004_EESTI';
+                return r;
+              }),
+            ];
+            // Sort values
             Object.entries(responseData).map(([key, val]) => {
               const keyVal: any = val;
               this.data[key] = this.sortValue(key, keyVal);
             });
-            this.data['kvalifikatsioon']
+            this.data.kvalifikatsioon
               .sort((a, b) => b.aasta - a.aasta)
               .map(elem => elem.typeName = 'kvalifikatsioon');
-            this.data['kvalifikatsioonid'] =
-              [...this.data['kvalifikatsioon'], ...this.data['tasemeharidus']];
-            delete this.data['kvalifikatsioon'];
-            delete this.data['tasemeharidus'];
+            // Merge qualifications
+            this.data.kvalifikatsioonid =
+              [...this.data.kvalifikatsioon, ...this.data.tasemeharidus];
+            // Delete unnecessary data
+            delete this.data.kvalifikatsioon;
+            delete this.data.tasemeharidus;
+            delete this.data.valineKvalifikatsioon;
+            delete this.data.enne2004Kvalifikatsioon;
             this.initFormGroup();
           }
           sub.unsubscribe();
@@ -112,13 +131,10 @@ export class DigitalSignViewComponent implements OnInit {
   sortValue(key = '', value = []) {
     switch (key) {
       case 'oping':
-        return value.sort((a, b) => {
-          const arrA = a.oppAlgus.split('.');
-          const valA = `${arrA[2]}-${arrA[1]}-${arrA[0]}`;
-          const arrB = b.oppAlgus.split('.');
-          const valB = `${arrB[2]}-${arrB[1]}-${arrB[0]}`;
-          return +new Date(valB) - +new Date(valA);
-        });
+        return [
+          ...value.filter(x => (x as Studies).staatus === 'OPIB_HETKEL').sort(dateSortFn),
+          ...value.filter(x => (x as Studies).staatus !== 'OPIB_HETKEL').sort((a, b) => dateSortFn(a, b, 'oppLopp')),
+        ]
       case 'tootamine':
         return value.sort((a, b) => {
           const obj = this.convertDates(a.ametikohtAlgus, b.ametikohtAlgus);
@@ -161,6 +177,26 @@ export class DigitalSignViewComponent implements OnInit {
     const dateArr = date.split('.');
     const formattedDate = `${dateArr[1]}/${dateArr[0]}/${dateArr[2]}`;
     return new Date(formattedDate).setHours(0, 0, 0, 0) < this.currentDate.setHours(0, 0, 0, 0);
+  }
+  /**
+   * Get the title for the accordion according to the item
+   * @param item Study or External Qualification
+   */
+  public getAccordionTitle(item: Studies | ExternalQualifications): string {
+    const test1 = item as Studies;
+    if (test1.oppeasutus) {
+      return test1.oppeasutus
+        + (test1.staatus ? ', ' + this.parseTypeTranslation(test1.staatus) : '')
+        + (test1.oppLopp ? ' ' + test1.oppLopp : '');
+    }
+    const test2 = item as ExternalQualifications;
+    return (test2.oppeasutuseNimi
+        || test2.oppeasutuseNimiTranslit
+        || test2.oppeasutuseNimiMuusKeeles
+        || '').trim()
+      + (test2.valjaandmKp
+        ? ', ' + this.parseTypeTranslation('LOPETANUD') + ' ' + test2.valjaandmKp
+        : '');
   }
   parseTypeTranslation(type) {
     const translation = this.translate.get(`frontpage.${type}`).toString();
