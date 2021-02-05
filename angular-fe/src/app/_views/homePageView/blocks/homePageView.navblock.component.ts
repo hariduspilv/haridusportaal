@@ -11,7 +11,6 @@ export class HomePageNavBlockComponent {
   @Input() description: string;
   @Input() theme: string;
   @Input() image: string;
-  @Input() showReadMore: boolean = true;
 
   @HostBinding('class') get hostClasses(): string {
     return `theme--${this.theme}`;

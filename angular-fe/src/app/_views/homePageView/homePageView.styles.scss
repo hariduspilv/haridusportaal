@@ -334,9 +334,27 @@
             }
           }
         }
-        &--centered ul {
+      }
+    }
+    &.theme--default {
+      .navBlock {
+        .inner {
+          max-width: 72.5rem;
+        }
+        &__title {
+          padding: 7.1875rem 4rem 0 4rem;
+          @include break-on(xxs, max) {
+            padding: 4.1875rem 0 0 0;
+          }
+          &__inner {
+            @include break-on(sm, max) {
+              padding-right: 0;
+            }
+          }
+        }
+        &__buttons ul {
           li {
-            width: 25%;
+            width: 20%;
             flex-grow: 1;
             padding: 0 0.75rem;
             @include break-on(sm, max) {
@@ -1565,7 +1583,10 @@
 
     &.theme--default {
       .contact {
-        width: 22.125rem;
+        width: 28rem;
+        @include break-on(sm, max) {
+          width: initial;
+        }
       }
     }
   }
