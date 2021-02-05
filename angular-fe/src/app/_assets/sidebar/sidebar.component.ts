@@ -38,6 +38,7 @@ import { AccessScope } from '@app/modules/certificates/models/enums/access-scope
 import { FileFormat } from '@app/_core/models/file-format.enum';
 import { CertificateTranscriptTemplateType } from '@app/modules/certificates/models/enums/certificate-transcript-template-type.enum';
 import { Certificate } from '@app/modules/certificates/models/interfaces/certificate';
+import { TitleCasePipe } from '@angular/common';
 
 interface SidebarType {
   [key: string]: string;
@@ -1127,6 +1128,7 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
     public modal: ModalService,
     private certificatesApi: CertificatesApi,
     private alertsService: AlertsService,
+    private titleCasePipe: TitleCasePipe,
   ) {
   }
 
@@ -1135,7 +1137,10 @@ export class SidebarFinalDocumentHistoryComponent implements OnInit {
   }
 
   constructDocumentName(data: Certificate, fileFormat: FileFormat): string {
-    return `${this.data.certificateName}_${data.typeName}_${data.number}.${fileFormat.toLowerCase()}`;
+    const ownerName = this.titleCasePipe.transform(
+      CertificatesUtility.constructOwnerName(this.data));
+    return `${ownerName} ${data.typeName} ${data.number}.${fileFormat.toLowerCase()
+    }`;
   }
 
   public downloadDocument(documentId, data) {
@@ -1292,14 +1297,12 @@ export class SidebarFinalDocumentDownloadComponent {
   };
 
   constructor(
-    private http: HttpClient,
-    private settings: SettingsService,
     private route: ActivatedRoute,
     private fb: FormBuilder,
     public modal: ModalService,
     private certificatesApi: CertificatesApi,
-    private translate: TranslateService,
     private alertsService: AlertsService,
+    private titleCasePipe: TitleCasePipe,
   ) {
   }
 
@@ -1328,7 +1331,10 @@ export class SidebarFinalDocumentDownloadComponent {
   }
 
   constructCertificateName(data: FinalDocumentDownloadSidebar, fileFormat: FileFormat): string {
-    return `${data.certificateName}_${data.documentName}_${data.certificateNumber}.${fileFormat.toLowerCase()}`;
+    const ownerName = this.titleCasePipe.transform(
+      CertificatesUtility.constructOwnerName(this.data));
+    const document = `${data.documentName} ${data.certificateNumber}`;
+    return `${ownerName} ${document}.${fileFormat.toLowerCase()}`;
   }
 
   dispatchErrorsToAlert(err: HttpErrorResponse): void {
