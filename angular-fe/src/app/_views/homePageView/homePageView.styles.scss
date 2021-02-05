@@ -336,6 +336,50 @@
         }
       }
     }
+    &.theme--default {
+      .navBlock {
+        .inner {
+          max-width: 72.5rem;
+        }
+        &__title {
+          padding: 7.1875rem 4rem 0 4rem;
+          @include break-on(xxs, max) {
+            padding: 4.1875rem 0 0 0;
+          }
+          &__inner {
+            @include break-on(sm, max) {
+              padding-right: 0;
+            }
+          }
+        }
+        &__buttons ul {
+          li {
+            width: 20%;
+            flex-grow: 1;
+            padding: 0 0.75rem;
+            @include break-on(sm, max) {
+              width: 100%;
+              padding: 0.5rem;
+              margin: 0 5rem 0 5rem;
+            }
+            @include break-on(xs, max) {
+              margin: 0;
+            }
+          }
+          button, a {
+            padding: 1rem 2rem 1rem 2rem;
+            min-height: 8rem;
+            @include break-on(sm, max) {
+              display: block;
+              align-items: normal;
+              padding: 1.5rem 2rem;
+              min-height: 0;
+              height: 100%;
+            }
+          }
+        }
+      }
+    }
   }
 
   homepage-events {
@@ -1539,7 +1583,10 @@
 
     &.theme--default {
       .contact {
-        width: 22.125rem;
+        width: 28rem;
+        @include break-on(sm, max) {
+          width: initial;
+        }
       }
     }
   }
