@@ -1,3 +1,6 @@
+import { FileFormat } from "@app/_core/models/file-format.enum";
+import { FinalDocumentDownloadSidebar } from "../models/final-document-download-sidebar";
+
 // tslint:disable
 export const collection = {
   'nodeQuery': 'articles',
