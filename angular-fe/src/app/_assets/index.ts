@@ -8,7 +8,7 @@ import {
   BlockTitleComponent,
   BlockSecondaryTitleSubtextComponent,
 } from './block';
-import { CommonModule } from '@angular/common';
+import { CommonModule, TitleCasePipe } from '@angular/common';
 import { ButtonComponent } from './button';
 import { LoaderComponent } from './loader';
 import { SkeletonComponent } from './skeleton';
@@ -261,6 +261,7 @@ const providers = [
   QueryParamsService,
   ScrollRestorationService,
   AnalyticsService,
+  TitleCasePipe,
   {
     provide: RECAPTCHA_LANGUAGE,
     useValue: 'et',
