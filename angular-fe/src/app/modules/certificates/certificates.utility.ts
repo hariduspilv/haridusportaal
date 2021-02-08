@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { FinalDocumentDownloadSidebar } from '@app/_assets/sidebar/models/final-document-download-sidebar';
+import { FinalDocumentDownloadSidebar, FinalDocumentHistorySidebar } from '@app/_assets/sidebar/models/final-document-download-sidebar';
 import { SortDirection } from '@app/_core/models/Sorting';
 import { sortByMultipleKeys } from '@app/_core/sortingUtilities';
 import { CertificateData } from './models/interfaces/certificate-data';
@@ -135,22 +135,36 @@ export class CertificatesUtility {
           id: certificateData?.index?.id,
           withAccess: !!certificateData,
           accessScope: certificateData?.role?.accessScope,
-          certificateName: `${documents.certificate.content['graduate'].firstName} ${documents.certificate.content['graduate'].lastName}`,
-          certificateNumber: documents.certificate.content['registrationNumber'],
-          documentName: documents.certificate.content['documentName'],
+          certificateOwner: documents.certificate.content.graduate,
+          currentOwnerData: documents.certificate.content.currentOwnerData,
+          certificateNumber: documents.certificate.content.registrationNumber,
+          documentName: documents.certificate.content.documentName,
           hasGradeSheet: documents.transcript?.status !== 'CERT_DOCUMENT_STATUS:INVALID',
           invalid: documents.certificate?.status === 'CERT_DOCUMENT_STATUS:INVALID',
           documents: allDocuments,
         },
         finalDocumentAccess: !certificateData ? {
-          issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
+          issuerInstitution: documents.certificate.content.educationalInstitution?.name,
           certificate: documents.certificate,
         } : null,
         finalDocumentHistory: !certificateData ? {
-          issuerInstitution: documents.certificate.content['educationalInstitution']?.name,
+          generalEducationDocumentType,
+          accessType,
+          issuerInstitution: documents.certificate.content.educationalInstitution?.name,
+          accessScope: certificateData?.role?.accessScope,
+          certificateOwner: documents.certificate.content.graduate,
+          currentOwnerData: documents.certificate.content.currentOwnerData,
         } : null,
       },
     };
+  }
+
+  public static constructOwnerName(
+    data: FinalDocumentDownloadSidebar | FinalDocumentHistorySidebar): string {
+    const { currentOwnerData, certificateOwner } = data;
+    return currentOwnerData
+      ? `${currentOwnerData.firstName} ${currentOwnerData.lastName}`
+      : `${certificateOwner.firstName} ${certificateOwner.lastName}`;
   }
 
   /**
