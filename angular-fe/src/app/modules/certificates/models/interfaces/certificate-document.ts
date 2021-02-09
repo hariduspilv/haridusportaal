@@ -19,7 +19,7 @@ export interface CertificateDocument {
   number: string;
   status: CertificateStatus;
   revision: string;
-  content?: string | CertificateDocumentContent;
+  content: CertificateDocumentContent;
   extendedContent?: JSON;
   language: string;
   signature_uid?: string;
