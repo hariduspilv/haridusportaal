@@ -2,7 +2,7 @@ import { Component, Input, AfterViewInit, ViewChild, ElementRef } from '@angular
 import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TranslateService } from '@app/_modules/translate/translate.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MainProfessionsSearchResultsComponent } from '@app/_assets/mainProfessionsSearchResults/mainProfessionsSearchResults.component';
 import { DeviceDetectorService } from 'ngx-device-detector';
 
@@ -57,6 +57,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
       tooltipText: this.translateService.get('oska.profession_job_description'),
     },
   ];
+  public activeTypeParameters: Record<string, string> = {};
   sortedBy: object[] = [
     { key: 'Kõik', value: '' },
     { key: 'Töötajate arvu järgi kasvavalt', value: 'field_number_of_employees_asc' },
@@ -70,6 +71,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     private http: HttpClient,
     private translateService: TranslateService,
     private route: ActivatedRoute,
+    private router: Router,
     private deviceService: DeviceDetectorService,
   ) {}
 
@@ -151,42 +153,51 @@ export class MainProfessionListViewComponent implements AfterViewInit {
     }
   }
 
-  private resetFilters() {
-    this.typeFilters = this.typeFilters.map((elem) => {
-      elem['active'] = true;
-      return elem;
-    });
-    this.searchResults.filterListByTypes(this.typeFilters);
-  }
-
-  private setFilterCounts(list: any[]): void {
-    const jobCount: number = list.filter(elem => elem.fieldProfession).length;
-    this.typeFilters[0].sum = list.length - jobCount;
-    this.typeFilters[1].sum = jobCount;
-    this.searchResults.filterListByTypes(this.typeFilters);
-  }
-
-  public filterListByType(index) {
-    if (!(index === 0 && !this.typeFilters[1].active ||
-      index === 1 && !this.typeFilters[0].active) &&
-      !(index === 0 && !this.typeFilters[1].sum && this.typeFilters[0].active) &&
-      !(index === 1 && !this.typeFilters[0].sum && this.typeFilters[1].active)) {
-      this.typeFilters[index].active = !this.typeFilters[index].active;
+  public setTypeFilterStates({ queryParams }): void {
+    const { fieldProfession } = queryParams;
+    if (fieldProfession === '1') {
+      this.typeFilters[0].active = false;
+      this.typeFilters[1].active = true;
+    } else if (fieldProfession === '0') {
+      this.typeFilters[0].active = true;
+      this.typeFilters[1].active = false;
+    } else {
+      this.typeFilters[0].active = true;
+      this.typeFilters[1].active = true;
     }
-    this.searchResults.filterListByTypes(this.typeFilters);
   }
 
-  public selectArbitraryHighlightedJob({ list, highlight, activeFilters }): void {
+  public filterListByType(index: number): void {
+    this.typeFilters[index].active = !this.typeFilters[index].active;
+    if (!this.typeFilters[0].active && !this.typeFilters[1].active) {
+      this.typeFilters.map(filter => filter.active = true);
+    }
+    const fieldProfession = !this.typeFilters[0].active || !this.typeFilters[1].active
+      ? this.typeFilters[1].active && !this.typeFilters[0].active ? '1' : '0'
+      : null;
+    this.activeTypeParameters = {
+      fieldProfession,
+    },
+    this.router.navigate([], {
+      queryParams: {
+        ...this.route.snapshot.queryParams,
+        fieldProfession,
+      },
+    });
+  }
+
+  public selectArbitraryHighlightedJob({
+    list, highlight, listCount, professionCount, generalCount,
+  }): void {
     this.jobLoading = true;
     const filtersExist = Object.keys(this.route.snapshot.queryParams).length;
     if (list && list.length) {
-      this.typeFilters = activeFilters || this.typeFilters;
+      // this.typeFilters[0].sum = generalCount;
+      // this.typeFilters[1].sum = professionCount;
       if (highlight) {
         this.filteredJob = highlight;
-        this.setFilterCounts(list);
         this.jobLoading = false;
       } else {
-        this.setFilterCounts(list);
         if (!this.filteredJob || !filtersExist) {
           const filteredList: Object[] = list.filter(elem =>
             elem.fieldFillingBar === 1 || elem.fieldFillingBar === 2);
@@ -204,7 +215,8 @@ export class MainProfessionListViewComponent implements AfterViewInit {
                   this.competitionLabels[initialFilteredJob['fieldFillingBar'] - 1];
                 this.jobLoading = false;
                 jobSubscription.unsubscribe();
-              }, () => {
+              },
+              () => {
                 this.jobLoading = false;
               });
           } else {
@@ -215,11 +227,7 @@ export class MainProfessionListViewComponent implements AfterViewInit {
         }
       }
     } else {
-      this.setFilterCounts(list);
       this.jobLoading = false;
-    }
-    if (list && filtersExist && !highlight) {
-      this.resetFilters();
     }
   }
 

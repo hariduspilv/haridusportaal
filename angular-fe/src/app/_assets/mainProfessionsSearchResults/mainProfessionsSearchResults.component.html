@@ -1,14 +1,14 @@
-<div class="noResults" *ngIf="!filteredList?.length && !loading && !filteredJobLoading">
+<div class="noResults" *ngIf="!list?.length && !loading && !filteredJobLoading">
   {{ noResultStringByType | translate }}
 </div>
 <listItems
-  *ngIf="filteredList?.length && !filteredJobLoading"
+  *ngIf="list?.length"
   [type]="type"
-  [list]="filteredList"
-  [manualLimit]="manualLimit"
+  [list]="list"
 ></listItems>
-<loader *ngIf="loading || filteredJobLoading"></loader>
-<div class="loadMore" *ngIf="!loading && !filteredJobLoading && canLoadMore">
+<loader *ngIf="loading"></loader>
+<loader class="loadMore" *ngIf="loadingMore"></loader>
+<div class="loadMore" *ngIf="!loading && !loadingMore && canLoadMore">
   <button htm-button (click)="loadMore()">{{ 'button.load_more' | translate }}</button>
 </div><!--/loadMore-->
 
