@@ -101,4 +101,11 @@ $fieldProfessionEnabled: Boolean) {
   comparisonPage:nodeQuery(limit:1,sort: {field: "changed", direction: DESC}, filter: {conditions: [{field: "type", value: "main_profession_comparison_page", language: $lang}, {field: "status", value: "1"}]}) {
     count
   }
+  countProfessionsValue:nodeQuery(filter: {conditions: [{field: "field_profession", value: "1", language: $lang}, {field: "status", value: "1"}]}) {
+    count
+  }
+  countProfessionsValueFalse:nodeQuery(filter: {conditions: [{field: "field_profession", value: "0", language: $lang}, {field: "status", value: "1"}]}) {
+    count
+  }
 }
+
