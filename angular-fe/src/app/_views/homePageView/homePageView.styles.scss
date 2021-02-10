@@ -150,7 +150,7 @@
           flex-direction: column;
         }
         @include break-on(xxs, max) {
-          padding-top: 2rem;
+          padding-top: 1.875rem;
           height: initial;
           min-height: initial;
         }
@@ -350,7 +350,7 @@
           padding-right: 4rem;
           padding-left: 4rem;
           @include break-on(xxs, max) {
-            padding: 2rem 0 0 0;
+            padding: 1.875rem 0 0 0;
           }
           @include break-on(xs, max) {
             height: initial;
