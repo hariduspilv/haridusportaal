@@ -62,7 +62,7 @@
                     <div *ngIf="clickedVideos[i]" class="col-4 xs-12 list__item__video">
                         <div class="aspect">
                             <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}"
-                                [src]="'http://www.youtube.com/embed/' + item.video.videoId +'?autoplay=1&mute=1' | iframe "
+                                [src]="'https://www.youtube.com/embed/' + item.video.videoId +'?autoplay=1&mute=1' | iframe "
                                 frameborder="0"
                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
