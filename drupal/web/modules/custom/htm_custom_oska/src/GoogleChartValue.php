@@ -25,6 +25,7 @@ class GoogleChartValue extends TypedData {
         $target_type = $item->getFieldDefinition()->getSettings()['target_type'];
         $filter_values = $graph_info['graph_options'];
         $graph_info_fields = [
+            'file',
             'graph_title',
             'graph_type',
             'graph_v_axis',
