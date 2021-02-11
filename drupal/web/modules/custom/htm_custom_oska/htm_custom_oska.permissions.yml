@@ -98,23 +98,3 @@ view unpublished oska filling bar entity entities:
 
 import oska csv data:
   title: 'Import OSKA CSV data'
-
-add oska file entity entities:
-  title: 'Create new Oska filling bar entity entities'
-
-administer oska file entity entities:
-  title: 'Administer Oska file entity entities'
-  description: 'Allow to access the administration form to configure Oska file entity entities.'
-  restrict access: true
-
-delete oska file entity entities:
-  title: 'Delete Oska file entity entities'
-
-edit oska file entity entities:
-  title: 'Edit Oska file entity entities'
-
-view published oska file entity entities:
-  title: 'View published Oska file entity entities'
-
-view unpublished oska file entity entities:
-  title: 'View unpublished Oska file entity entities'
