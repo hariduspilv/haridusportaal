@@ -1,11 +1,10 @@
-oska_file_entity.batch_import:
+oska_entity.batch_import:
   path: '/oska-data-import'
   defaults:
     _form: '\Drupal\htm_custom_oska\Form\OskaImportDataForm'
-    _title: 'Import oska and file oska data'
+    _title: 'Import oska data'
   requirements:
     _permission: 'import oska csv data'
-
 oska_indicator_entity.batch_import:
   path: '/oska-indicator-data-import'
   defaults:
@@ -13,7 +12,6 @@ oska_indicator_entity.batch_import:
     _title: 'Import oska indicator data'
   requirements:
     _permission: 'import oska csv data'
-
 oska_table_entity.batch_import:
   path: '/oska-table-data-import'
   defaults:
@@ -21,7 +19,6 @@ oska_table_entity.batch_import:
     _title: 'Import oska table data'
   requirements:
     _permission: 'import oska csv data'
-
 oska_filling_bar_entity.batch_import:
   path: '/oska-filling-bar-data-import'
   defaults:
@@ -29,7 +26,6 @@ oska_filling_bar_entity.batch_import:
     _title: 'Import oska filling bar data'
   requirements:
     _permission: 'import oska csv data'
-
 oska_map_csv.import:
   path: '/oska_map_csv_import'
   defaults:
@@ -37,7 +33,6 @@ oska_map_csv.import:
     _title: 'Import OSKA Map Data CSV'
   requirements:
     _permission: 'import oska csv data'
-
 oska_studies.import:
   path: '/oska_studies_import'
   defaults:

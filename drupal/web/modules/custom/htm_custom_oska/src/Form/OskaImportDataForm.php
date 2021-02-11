@@ -5,9 +5,9 @@ use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Cache\Cache;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Serializer\Serializer;
-use Symfony\Component\Serializer\Encoder\CsvEncoder;
+use League\Csv\Reader;
 /**
- * Class OskaInfographImportDataForm.
+ * Class DeleteNodeForm.
  *
  * @package Drupal\batch_example\Form
  */
@@ -29,7 +29,7 @@ class OskaImportDataForm extends FormBase {
      * {@inheritdoc}
      */
     public function getFormId() {
-        return 'oska_data_form';
+        return 'delete_node_form';
     }
     /**
      * {@inheritdoc}
@@ -43,11 +43,6 @@ class OskaImportDataForm extends FormBase {
             ],
             #'#required' => TRUE,
         ];
-        $form['filename'] = [
-          '#type' => 'textfield',
-          '#title' => $this->t('File name'),
-          '#maxlength' => 180,
-        ];
         $form['submit'] = [
             '#type' => 'submit',
             '#value' => $this->t('Import'),
@@ -57,8 +52,6 @@ class OskaImportDataForm extends FormBase {
     }
 
     public function validateForm(array &$form, FormStateInterface $form_state){
-
-        // checking if the headers of the uploaded csv file are correct
         $required_headers = [
             'naitaja', 'valdkond', 'alavaldkond', 'ametiala', 'periood', 'silt', 'vaartus'
         ];
@@ -67,7 +60,6 @@ class OskaImportDataForm extends FormBase {
             $file_upload = $all_files['file'];
             if ($file_upload->isValid()) {
                 $header_info = $this->detectCSVFileDelimiter($file_upload->getRealPath());
-
                 foreach($header_info['keys'] as $key => $value) {
                     $header_info['keys'][cleanString($key)] = cleanString($value);
                 }
@@ -96,26 +88,31 @@ class OskaImportDataForm extends FormBase {
      * {@inheritdoc}
      */
     public function submitForm(array &$form, FormStateInterface $form_state) {
-      $encoders = new CsvEncoder();
+        $data_items = [];
 
-      $file_array = $encoders->decode(file_get_contents($form_state->getValue('file')), 'csv', ['csv_delimiter' => ';']);
-      $filename = $form_state->getValue('filename');
+        $orig_csv = Reader::createFromPath($form_state->getValue('file'), 'r');
+        $orig_csv->setDelimiter(';');
+        $orig_csv->setHeaderOffset(0);
+        $records = $orig_csv->getRecords();
 
-        // sending information to ProcessOskaData
+        foreach($records as $record){
+            $data_items[] = $record;
+        }
+
         $batch = [
             'title' => t('Processing Oska data ....--'),
             'operations' => [
                 [
                     '\Drupal\htm_custom_oska\ProcessOskaData::ValidateFile',
-                    [$filename, $file_array]
+                    [$data_items]
                 ],
+               #[
+               #     '\Drupal\htm_custom_oska\ProcessOskaData::DeleteOldData',
+               #     [$data_items]
+               # ],
                 [
                     '\Drupal\htm_custom_oska\ProcessOskaData::CreateOskaFilters',
-                    [$filename, $file_array]
-                ],
-                [
-                  '\Drupal\htm_custom_oska\ProcessOskaData::ProcessOskaData',
-                  [$file_array]
+                    [$data_items]
                 ],
             ],
             'error_message' => t('The migration process has encountered an error.'),
@@ -123,10 +120,9 @@ class OskaImportDataForm extends FormBase {
         ];
 
         batch_set($batch);
-      Cache::invalidateTags([$filename.'_csv']);
-      $form_state->setRedirect('entity.oska_file_entity.collection');
-    }
 
+        Cache::invalidateTags(['oska_csv']);
+    }
     public function detectCSVFileDelimiter($csvFile) {
         $delimiters = array(',' => 0, ';' => 0, "\t" => 0, '|' => 0);
         $firstLine = '';
@@ -146,5 +142,4 @@ class OskaImportDataForm extends FormBase {
             return key($delimiters);
         }
     }
-
 }
