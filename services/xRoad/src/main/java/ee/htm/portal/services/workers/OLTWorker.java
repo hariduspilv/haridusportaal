@@ -275,6 +275,10 @@ public class OLTWorker extends Worker {
               .put("value", grantApplication.getPersonApplicationLastName());
           stepApplicationDataElements.putObject("person_application_id_code")
               .put("value", grantApplication.getPersonApplicationIdCode());
+          stepApplicationDataElements.putObject("person_application_native_language")
+              .put("value", grantApplication.getNativeLanguage());
+          stepApplicationDataElements.putObject("person_application_citizenship")
+              .put("value", grantApplication.getCitizenship());
           stepApplicationDataElements.putObject("person_application_email")
               .put("value", grantApplication.getPersonApplicationEmail());
           stepApplicationDataElements.putObject("person_application_phone_number")
@@ -407,6 +411,10 @@ public class OLTWorker extends Worker {
               .put("value", grantApplication.getPersonApplicationLastName());
           stepResponseDataElements.putObject("person_application_id_code")
               .put("value", grantApplication.getPersonApplicationIdCode());
+          stepResponseDataElements.putObject("person_application_native_language")
+              .put("value", grantApplication.getNativeLanguage());
+          stepResponseDataElements.putObject("person_application_citizenship")
+              .put("value", grantApplication.getCitizenship());
           stepResponseDataElements.putObject("person_application_email")
               .put("value", grantApplication.getPersonApplicationEmail());
           stepResponseDataElements.putObject("person_application_phone_number")
