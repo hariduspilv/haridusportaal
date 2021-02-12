@@ -587,8 +587,7 @@ public class OLTWorker extends Worker {
     if (jsonNode.get("body").get("messages") == null) {
       ((ObjectNode) jsonNode.get("body")).putArray("messages");
     }
-    if (!StringUtils.isEmpty(step)
-        && jsonNode.get("body").get("steps").get(step).get("messages") == null) {
+    if (!StringUtils.isEmpty(step)) {
       ((ObjectNode) jsonNode.get("body").get("steps").get(step)).putArray("messages");
     }
 
