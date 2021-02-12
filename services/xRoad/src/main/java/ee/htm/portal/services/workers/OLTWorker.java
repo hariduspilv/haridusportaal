@@ -602,6 +602,7 @@ public class OLTWorker extends Worker {
       }
       ((ObjectNode) jsonNode.get("messages")).putObject(e.getCode())
           .put("message_type", "ERROR")
+          .put("message_code", e.getCode())
           .putObject("message_text").put("et", e.getMessage());
     });
 
