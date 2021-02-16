@@ -1,17 +1,17 @@
 
 # Oska file entity menu items definition
-entity.oska_file_entity.collection:
-  title: 'Oska CSV file entity list'
-  route_name: entity.oska_file_entity.collection
-  description: 'List Oska file entity entities'
-  parent: system.admin_structure
-  weight: 100
-
-oska_file_entity.admin.structure.settings:
-  title: 'Oska file entity settings'
-  description: 'Configure Oska file entity entities'
-  route_name: oska_file_entity.settings
-  parent: system.admin_structure
+#entity.oska_file_entity.collection:
+#  title: 'Oska CSV file entity list'
+#  route_name: entity.oska_file_entity.collection
+#  description: 'List Oska file entity entities'
+#  parent: system.admin_structure
+#  weight: 100
+#
+#oska_file_entity.admin.structure.settings:
+#  title: 'Oska file entity settings'
+#  description: 'Configure Oska file entity entities'
+#  route_name: oska_file_entity.settings
+#  parent: system.admin_structure
 
 # Oska indicator entity menu items definition
 entity.oska_indicator_entity.collection:
@@ -55,3 +55,14 @@ oska_filling_bar_entity.admin.structure.settings:
   route_name: oska_filling_bar_entity.settings
   parent: system.admin_structure
 
+htm_custom_oska.oska_infograph_import_data_form:
+  title: 'Oska Infograph Import'
+  route_name: htm_custom_oska.oska_infograph_import_data_form
+  description: 'Import general oska infograph data'
+  parent: system.admin_structure
+
+htm_custom_oska.oska_infograph_csv_list_form:
+  title: "Oska Infograph CSV list"
+  route_name: htm_custom_oska.oska_infograph_csv_list_form
+  description: 'View and delete oska infograph CSV'
+  parent: system.admin_structure

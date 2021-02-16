@@ -1,10 +1,10 @@
-oska_file_entity.batch_import:
-  path: '/oska-data-import'
-  defaults:
-    _form: '\Drupal\htm_custom_oska\Form\OskaImportDataForm'
-    _title: 'Import oska and file oska data'
-  requirements:
-    _permission: 'import oska csv data'
+#oska_file_entity.batch_import:
+#  path: '/oska-data-import'
+#  defaults:
+#    _form: '\Drupal\htm_custom_oska\Form\OskaImportDataForm'
+#    _title: 'Import oska and file oska data'
+#  requirements:
+#    _permission: 'import oska csv data'
 
 oska_indicator_entity.batch_import:
   path: '/oska-indicator-data-import'
@@ -45,3 +45,27 @@ oska_studies.import:
     _title: 'Import OSKA Main Profession Studies CSV'
   requirements:
     _permission: 'import oska csv data'
+
+htm_custom_oska.oska_infograph_import_data_form:
+  path: '/admin/structure/oska_infograph/import'
+  defaults:
+    _form: '\Drupal\htm_custom_oska\Form\OskaInfographImportDataForm'
+    _title: 'OskaInfographImportDataForm'
+  requirements:
+    _permission: 'access content'
+
+htm_custom_oska.oska_infograph_csv_list_form:
+  path: '/admin/structure/oska_infograph/list'
+  defaults:
+    _form: '\Drupal\htm_custom_oska\Form\OskaInfographCsvListForm'
+    _title: 'OskaInfographCsvListForm'
+  requirements:
+    _permission: 'access content'
+
+htm_custom_oska.oska_delete_infograph:
+  path: '/admin/config/oska_infograph/delete/{filename}'
+  defaults:
+    _form: '\Drupal\htm_custom_oska\Form\OskaInfographDeleteCsvForm'
+    _title: 'Delete oska infograph'
+  requirements:
+    _permission: 'access content'
