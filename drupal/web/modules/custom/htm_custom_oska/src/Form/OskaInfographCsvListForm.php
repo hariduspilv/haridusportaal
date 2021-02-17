@@ -24,7 +24,7 @@ class OskaInfographCsvListForm extends FormBase {
 
   public function buildForm(array $form, FormStateInterface $form_state)
   {
-    $directory = "/app/drupal/web/sites/default/files/private/oska_infograph_csv";
+    $directory = "/app/drupal/web/sites/default/files/private/infograph";
 
     $csv_list = array_diff(scandir($directory), array('.', '..'));
 
@@ -52,7 +52,7 @@ class OskaInfographCsvListForm extends FormBase {
       $form['table'][$key]['file'] = [
         '#type' => 'link',
         '#title' => $this->t('Download'),
-        '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/sites/default/files/private/oska_infograph_csv/'.$csv_name),
+        '#url' => Url::fromUri($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].'/sites/default/files/private/infograph/'.$csv_name),
       ];
 
       $form['table'][$key]['delete'] = [
