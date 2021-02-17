@@ -35,8 +35,8 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
     $graph_filters = [
       'teema', 'aasta', 'silt'
     ];
-    $filters_path = '/app/drupal/web/sites/default/files/private/oska_infograph_filters/';
-    $files_path = '/app/drupal/web/sites/default/files/private/oska_infograph_csv/';
+    $filters_path = '/app/drupal/web/sites/default/files/private/infograph_filters/';
+    $files_path = '/app/drupal/web/sites/default/files/private/infograph/';
 
     $basic_graph_types = ['line', 'pie', 'doughnut'];
 
@@ -46,7 +46,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
     ];
 
     $source_file_options = [];
-    $source_files = array_slice(scandir('/app/drupal/web/sites/default/files/private/oska_infograph_csv/'), 2);
+    $source_files = array_slice(scandir('/app/drupal/web/sites/default/files/private/infograph/'), 2);
     foreach ($source_files as $file) {
       $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
     }

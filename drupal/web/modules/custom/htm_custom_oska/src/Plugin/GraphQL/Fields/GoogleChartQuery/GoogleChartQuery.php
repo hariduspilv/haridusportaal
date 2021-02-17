@@ -32,6 +32,7 @@ class GoogleChartQuery extends FieldPluginBase {
   public function resolveValues($value, array $args, ResolveContext $context, ResolveInfo $info) {
     $value['ChartValue'] = $this->getChartValue($args);
     yield $value;
+    dump($args);
   }
 
   /**
@@ -94,7 +95,7 @@ class GoogleChartQuery extends FieldPluginBase {
     $this->filter_values = $filter_values;
 
     try {
-      $reader = Reader::createFromPath('/app/drupal/web/sites/default/files/private/oska_infograph/'.$graph_info['file'].'.csv', 'r');
+      $reader = Reader::createFromPath('/app/drupal/web/sites/default/files/private/infograph/'.$graph_info['file'].'.csv', 'r');
     } catch (Exception $e) {
       return NULL;
     }

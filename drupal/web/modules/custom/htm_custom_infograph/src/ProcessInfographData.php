@@ -27,6 +27,12 @@ class ProcessInfographData {
     $results = [];
     $object = [
       'naitaja' => false,
+      'valdkond' => false,
+      'alavaldkond' => false,
+      'ametiala' => false,
+      'periood' => false,
+      'silt' => false,
+      'vaartus' => false,
     ];
     foreach ($items as $index => $item){
 
@@ -65,12 +71,14 @@ class ProcessInfographData {
       $writer->insertOne(['naitaja', 'teema', 'aasta', 'silt', 'vaartus']);
       $writer->insertAll($results);
     }
+
   }
 
   public static function CreateGraphFilters($filename, $items, &$context){
 
     $filter_values = [];
     $hierarchy = [];
+
 
     //process only if no errors otherwise nothing
     if(empty($context['results']['error'])){
@@ -135,6 +143,7 @@ class ProcessInfographData {
       }
 
     }
+
   }
 
   public static function ProcessInfographDataFinishedCallback($success, $results, $operations){
@@ -153,6 +162,6 @@ class ProcessInfographData {
     else {
       $message = [t('Finished with an error.'), 'error'];
     }
-    drupal_set_message($message[0], $message[1]);
+    die();
   }
 }
