@@ -63,7 +63,7 @@ class ProcessOskaInfographData {
 
     if(empty($context['results']['error'])){
 
-      $logpath = '/app/drupal/web/sites/default/files/private/oska_infograph_csv';
+      $logpath = '/app/drupal/web/sites/default/files/private/infograph';
       if(!file_exists($logpath)) mkdir($logpath, 0744, true);
       $writer = Writer::createFromPath($logpath.'/'.$filename.'.csv', 'w+');
       $writer->setDelimiter(';');
@@ -104,7 +104,7 @@ class ProcessOskaInfographData {
 
           if($context['sandbox']['progress']+1 == $context['sandbox']['max']){
             foreach($filter_values as $key => $values){
-              $logpath = '/app/drupal/web/sites/default/files/private/oska_infograph_filters/'.$filename;
+              $logpath = '/app/drupal/web/sites/default/files/private/infograph_filters/'.$filename;
               if(!file_exists($logpath)) mkdir($logpath, 0744, true);
               $logpath .= '/'.$key;
               $file = fopen($logpath, 'wb');
@@ -115,7 +115,7 @@ class ProcessOskaInfographData {
             }
 
             // filter hierarchy for front-end
-            $logpath = '/app/drupal/web/sites/default/files/private/oska_infograph_filters/'.$filename;
+            $logpath = '/app/drupal/web/sites/default/files/private/infograph_filters/'.$filename;
             if(!file_exists($logpath)) mkdir($logpath, 0744, true);
             $logpath .= '/hierarchy';
             $file = fopen($logpath, 'wb');

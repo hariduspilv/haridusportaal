@@ -71,8 +71,8 @@ class OskaInfographDeleteCsvForm extends FormBase {
 
   public function submitForm(array &$form, FormStateInterface $form_state) {
 	  $filename = $form_state->getValue('file_to_delete');
-	  $file_path = '/app/drupal/web/sites/default/files/private/oska_infograph_csv/'.$filename;
-	  $filters_path = '/app/drupal/web/sites/default/files/private/oska_infograph_filters/'.pathinfo($filename, PATHINFO_FILENAME);
+	  $file_path = '/app/drupal/web/sites/default/files/private/infograph/'.$filename;
+	  $filters_path = '/app/drupal/web/sites/default/files/private/infograph_filters/'.pathinfo($filename, PATHINFO_FILENAME);
     array_map( 'unlink', array_filter((array) glob($filters_path."/*")));
     rmdir($filters_path);
 	  unlink($file_path);
