@@ -5,11 +5,12 @@ query GoogleChartData(
   $graphVAxis: String!,
   $indicator: [String],
   $secondaryGraphIndicator: [String],
+  $fileName: String!,
   $oskaField: [String],
   $oskaSubField: [String],
   $oskaMainProfession: [String],
   $period: [String],
-  $label: [String]
+  $label: [String],
 ){
   GoogleChartQuery(filters:{
     graph_type: $graphType,
@@ -18,6 +19,7 @@ query GoogleChartData(
     graph_v_axis: $graphVAxis,
     indicator: $indicator,
     secondary_graph_indicator: $secondaryGraphIndicator,
+    file: $fileName,
     valdkond: $oskaField,
     alavaldkond: $oskaSubField,
     ametiala: $oskaMainProfession,
