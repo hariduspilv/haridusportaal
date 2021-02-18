@@ -218,6 +218,7 @@ export class SidebarComponent implements OnInit, OnChanges {
 export class SidebarLinksComponent implements OnInit, OnChanges {
   @Input() public data: Object[];
   public parsedData: Object[];
+  public showAll = false;
   public blocks;
 
   constructor() {
