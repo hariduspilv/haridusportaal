@@ -48,10 +48,19 @@ export class MenuItemComponent {
         }
 
         if (item.expanded) {
+          this.closeOthers(item);
           this.hideToggle.emit(item);
         }
       }
     }
+  }
+
+  public closeOthers(item: IMenuData): void {
+    this.items.forEach(i => {
+      if (i !== item) {
+        i.expanded = false;
+      }
+    });
   }
 
   public animateRipple(event: any) {
