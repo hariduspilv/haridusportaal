@@ -79,7 +79,8 @@
         clear: float;
         background-color: rgba(51,51,51,.2);
       }
-      &:hover{
+      &:hover,
+      &:focus-within{
         background-color: $gray;
         .overlay {
           display: none;

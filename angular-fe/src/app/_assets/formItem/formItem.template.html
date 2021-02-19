@@ -80,8 +80,9 @@
         (blur)="update('blur')"
         (keyup)="triggerOnUpdate()"
         [disabled]="disabled"
+        [attr.aria-label]="ariaLabel"
         [(ngModel)]="dateField" />
-      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [disabled]="disabled">
+      <button class="formItem__icon" (click)="focusField(); d.toggle()" type="button" [disabled]="disabled" attr.aria-label="{{ 'calendar.open' | translate }}">
         <icon glyph="calendar" aria-label="kuupäev"></icon>
       </button>
     </ng-container>
