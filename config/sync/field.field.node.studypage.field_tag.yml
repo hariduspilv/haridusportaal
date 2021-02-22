@@ -1,0 +1,29 @@
+uuid: b615438e-dd93-4526-a629-1d1084f1282b
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_tag
+    - node.type.studypage
+    - taxonomy.vocabulary.studytag
+id: node.studypage.field_tag
+field_name: field_tag
+entity_type: node
+bundle: studypage
+label: 'Esiletõstetud uuringu silt'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      studytag: studytag
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

@@ -1,0 +1,38 @@
+uuid: 4d5dd897-e9f4-4b0a-91bb-621dc2d6ffd2
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.study_page_accordion.field_study_accordion_content
+    - field.field.paragraph.study_page_accordion.field_study_accordion_intro
+    - field.field.paragraph.study_page_accordion.field_study_page_accordion_title
+    - paragraphs.paragraphs_type.study_page_accordion
+id: paragraph.study_page_accordion.default
+targetEntityType: paragraph
+bundle: study_page_accordion
+mode: default
+content:
+  field_study_accordion_content:
+    weight: 2
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_study_accordion_intro:
+    weight: 1
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_study_page_accordion_title:
+    weight: 0
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+hidden:
+  search_api_excerpt: true

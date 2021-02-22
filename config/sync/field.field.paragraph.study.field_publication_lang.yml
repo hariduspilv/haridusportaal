@@ -1,0 +1,29 @@
+uuid: ea6f666b-f1a4-45bc-b4ec-19653d75a98f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_publication_lang
+    - paragraphs.paragraphs_type.study
+    - taxonomy.vocabulary.publicationlanguage
+id: paragraph.study.field_publication_lang
+field_name: field_publication_lang
+entity_type: paragraph
+bundle: study
+label: 'Publikatsiooni keel'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      publicationlanguage: publicationlanguage
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
