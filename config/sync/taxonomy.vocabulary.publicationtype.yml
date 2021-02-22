@@ -2,7 +2,7 @@ uuid: 84c66968-a1c5-4921-8a44-32c72704e95f
 langcode: et
 status: true
 dependencies: {  }
-name: PublicationType
+name: 'Publikatsiooni liik'
 vid: publicationtype
 description: ''
 weight: 0
