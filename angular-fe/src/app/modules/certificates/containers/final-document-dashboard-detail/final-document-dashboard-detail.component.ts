@@ -117,8 +117,9 @@ export class FinalDocumentDashboardDetailComponent implements OnInit {
           data.index,
           this.mainLanguage,
         ).subscribe((documentsWithClassifiers: CertificateDocumentWithClassifier[]) => {
+          const validDocuments = CertificatesUtility.getValidDocuments(documentsWithClassifiers);
           this.transcriptDocuments = CertificatesUtility
-            .sortTranscriptDocuments(documentsWithClassifiers);
+            .sortTranscriptDocuments(validDocuments);
           this.sidebar = CertificatesUtility.composeSidebarData(
             this.documents, this.transcriptDocuments, this.generalEducationDocumentType);
           this.typeTranslation = CertificatesUtility.typeTitle(
