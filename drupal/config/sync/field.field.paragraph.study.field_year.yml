@@ -1,0 +1,23 @@
+uuid: 2788a9e3-6829-4b12-847b-a4abcb1f4a88
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_year
+    - paragraphs.paragraphs_type.study
+id: paragraph.study.field_year
+field_name: field_year
+entity_type: paragraph
+bundle: study
+label: Aasta
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

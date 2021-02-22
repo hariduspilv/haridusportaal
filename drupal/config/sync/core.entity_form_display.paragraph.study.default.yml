@@ -1,0 +1,94 @@
+uuid: 6766f3c6-c1e5-4fcf-9696-ad2ec2ff3d20
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.study.field_author
+    - field.field.paragraph.study.field_author_institution
+    - field.field.paragraph.study.field_orderer
+    - field.field.paragraph.study.field_publication_lang
+    - field.field.paragraph.study.field_publication_type
+    - field.field.paragraph.study.field_publisher
+    - field.field.paragraph.study.field_year
+    - paragraphs.paragraphs_type.study
+  module:
+    - maxlength
+id: paragraph.study.default
+targetEntityType: paragraph
+bundle: study
+mode: default
+content:
+  field_author:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_author_institution:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_orderer:
+    weight: 4
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_publication_lang:
+    weight: 2
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_publication_type:
+    weight: 6
+    settings:
+      match_operator: CONTAINS
+      match_limit: 10
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  field_publisher:
+    weight: 5
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings:
+      maxlength:
+        maxlength_js: 50
+        maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
+    type: string_textfield
+    region: content
+  field_year:
+    weight: 3
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+hidden:
+  created: true
+  status: true

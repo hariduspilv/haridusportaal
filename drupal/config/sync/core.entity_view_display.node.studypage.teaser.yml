@@ -1,0 +1,40 @@
+uuid: 1cc5d023-df5c-41aa-acd0-27faed318216
+langcode: et
+status: true
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.studypage.field_accordion
+    - field.field.node.studypage.field_additional_images
+    - field.field.node.studypage.field_content
+    - field.field.node.studypage.field_introduction
+    - field.field.node.studypage.field_label
+    - field.field.node.studypage.field_person
+    - field.field.node.studypage.field_right_column
+    - field.field.node.studypage.field_study_text
+    - field.field.node.studypage.field_tag
+    - node.type.studypage
+  module:
+    - user
+id: node.studypage.teaser
+targetEntityType: node
+bundle: studypage
+mode: teaser
+content:
+  links:
+    weight: 100
+    settings: {  }
+    third_party_settings: {  }
+    region: content
+hidden:
+  field_accordion: true
+  field_additional_images: true
+  field_content: true
+  field_introduction: true
+  field_label: true
+  field_person: true
+  field_right_column: true
+  field_study_text: true
+  field_tag: true
+  langcode: true
+  search_api_excerpt: true

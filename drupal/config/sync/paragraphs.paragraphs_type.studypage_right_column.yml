@@ -1,0 +1,10 @@
+uuid: b3c086a0-092a-4377-bd6b-1ba88459fa55
+langcode: et
+status: true
+dependencies: {  }
+id: studypage_right_column
+label: 'Parema veeru elemendid'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
