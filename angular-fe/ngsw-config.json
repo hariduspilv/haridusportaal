@@ -42,7 +42,7 @@
   ],
   "navigationUrls": [
     "/**",
-    "!/main*.js",
+    "!/main*.*.js",
     "!/auth.html**",
     "!/amp/**",
     "!/stats",
