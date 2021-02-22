@@ -1,0 +1,8 @@
+uuid: 6e12ee55-394b-4b6a-8245-16a70ca9c07c
+langcode: et
+status: true
+dependencies: {  }
+name: 'Esiletõstetud uuringu silt'
+vid: studytag
+description: ''
+weight: 0
