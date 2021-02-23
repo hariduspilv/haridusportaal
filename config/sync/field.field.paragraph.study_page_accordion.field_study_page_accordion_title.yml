@@ -1,0 +1,19 @@
+uuid: 4531a751-9944-41ca-9d67-d8494c942594
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_study_page_accordion_title
+    - paragraphs.paragraphs_type.study_page_accordion
+id: paragraph.study_page_accordion.field_study_page_accordion_title
+field_name: field_study_page_accordion_title
+entity_type: paragraph
+bundle: study_page_accordion
+label: 'Akordioni pealkiri'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

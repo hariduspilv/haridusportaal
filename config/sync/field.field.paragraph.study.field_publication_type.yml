@@ -1,0 +1,29 @@
+uuid: a0b77b9c-0f9c-4faa-9b7d-789a13a4adcd
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_publication_type
+    - paragraphs.paragraphs_type.study
+    - taxonomy.vocabulary.publicationtype
+id: paragraph.study.field_publication_type
+field_name: field_publication_type
+entity_type: paragraph
+bundle: study
+label: 'Publikatsiooni liik'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      publicationtype: publicationtype
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference
