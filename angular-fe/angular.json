@@ -33,6 +33,7 @@
               "src/auth.html",
               "src/manifest.webmanifest",
               "src/robots.txt",
+              "src/sitemap.xml",
               {
                 "input": "./node_modules/@google/markerclustererplus/images",
                 "glob": "*",
@@ -103,6 +104,8 @@
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
+              "serviceWorker": true,
+              "ngswConfigPath": "ngsw-config.json",
               "budgets": [
                 {
                   "type": "initial",
