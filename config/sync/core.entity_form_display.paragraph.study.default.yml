@@ -25,7 +25,7 @@ content:
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 50
+        maxlength_js: null
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
     type: string_textfield
     region: content
@@ -36,7 +36,7 @@ content:
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 50
+        maxlength_js: null
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
     type: string_textfield
     region: content
@@ -47,7 +47,7 @@ content:
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 50
+        maxlength_js: null
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
     type: string_textfield
     region: content
@@ -78,7 +78,7 @@ content:
       placeholder: ''
     third_party_settings:
       maxlength:
-        maxlength_js: 50
+        maxlength_js: null
         maxlength_js_label: 'Sisu piirang: @limit tähemärki. Järele jäänud: <strong>@remaining</strong>'
     type: string_textfield
     region: content
