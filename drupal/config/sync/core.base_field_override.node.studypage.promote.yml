@@ -1,0 +1,22 @@
+uuid: ff2062c7-c060-4fa2-807b-6cc5c911e0a6
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.studypage
+id: node.studypage.promote
+field_name: promote
+entity_type: node
+bundle: studypage
+label: 'Ülendatud esilehele'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Sees
+  off_label: Väljas
+field_type: boolean
