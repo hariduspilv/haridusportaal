@@ -49,6 +49,8 @@
     "!/picto",
     "!/picto/**",
     "!/storybook",
-    "!/storybook/**"
+    "!/storybook/**",
+    "!/sitemap.xml",
+    "!/robots.txt"
   ]
 }
