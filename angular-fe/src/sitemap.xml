@@ -1510,62 +1510,7 @@
 </url>
 
 <url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2404;2406;2410;2414;2469;2531&iscedf_narrow=2403;2464;2526&iscedf_broad=2402;2463;2525&level=642;2023;641;2024</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2465;2467;2469;2479;2440&iscedf_narrow=2464;2439&iscedf_broad=2463;2438&level=2023;642;641;2024</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2473;2453;2419&iscedf_narrow=2464;2450;2416&iscedf_broad=2463;2438;2402&level=641;642</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2473;2453;2419&iscedf_narrow=2464;2450;2416&iscedf_broad=2463;2438;2402&level=642;641;2023</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2501;2503;2506;2508;2540;2585&iscedf_narrow=2498;2505;2539;2584&iscedf_broad=2490;2538;2576&level=642;2023;641;2024</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2544;2546&iscedf_narrow=2539&iscedf_broad=2538&level=</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2546;2529;2531;2533;2404;2414&iscedf_narrow=2539;2526;2403&iscedf_broad=2538;2525;2402&level=641;642;2023</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2546;2531;2529;2533;2404;2414&iscedf_narrow=2539;2526;2403&iscedf_broad=2538;2525;2402&level=641;642;2023</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2566;2568;2503;2508;2446;2406;2414&iscedf_narrow=2565;2498;2505;2439;2403&iscedf_broad=2538;2490;2438;2402&level=2024;642;641;2021;2023</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2603&iscedf_narrow=2600&iscedf_broad=2599&level=2021;2024</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2607;2546;2492&iscedf_narrow=2600;2539;2491&iscedf_broad=2599;2538;2490&level=2023;642</loc>
-    <changefreq>weekly</changefreq>
-</url>
-
-<url>
-    <loc>https://haridusportaal.edu.ee/erialad?open_admission=true&iscedf_detailed=2620;2469;2479;2440;2444;2389&iscedf_narrow=2617;2464;2439;2388&iscedf_broad=2599;2463;2438;2387&level=642;2023;2024;641</loc>
+    <loc>https://haridusportaal.edu.ee/erialad</loc>
     <changefreq>weekly</changefreq>
 </url>
 
