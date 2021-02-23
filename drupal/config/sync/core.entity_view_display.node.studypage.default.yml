@@ -6,6 +6,7 @@ dependencies:
     - field.field.node.studypage.field_accordion
     - field.field.node.studypage.field_additional_images
     - field.field.node.studypage.field_content
+    - field.field.node.studypage.field_highlighted_study_intro
     - field.field.node.studypage.field_introduction
     - field.field.node.studypage.field_label
     - field.field.node.studypage.field_person
@@ -52,6 +53,13 @@ content:
     settings: {  }
     third_party_settings: {  }
     type: text_default
+    region: content
+  field_highlighted_study_intro:
+    weight: 12
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
     region: content
   field_introduction:
     weight: 3
