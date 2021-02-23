@@ -33,6 +33,7 @@
               "src/auth.html",
               "src/manifest.webmanifest",
               "src/robots.txt",
+              "src/robots-dev.txt",
               "src/sitemap.xml",
               {
                 "input": "./node_modules/@google/markerclustererplus/images",
@@ -128,6 +129,9 @@
           "configurations": {
             "production": {
               "browserTarget": "haridusportaal-fe:build:production"
+            },
+            "dev": {
+              "browserTarget": "haridusportaal-fe:build:dev"
             }
           }
         },

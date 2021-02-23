@@ -52,6 +52,6 @@
     "!/storybook",
     "!/storybook/**",
     "!/sitemap.xml",
-    "!/robots.txt"
+    "!/robots*.txt"
   ]
 }
