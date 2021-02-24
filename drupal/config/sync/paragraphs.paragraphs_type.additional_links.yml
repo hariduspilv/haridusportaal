@@ -3,7 +3,7 @@ langcode: et
 status: true
 dependencies: {  }
 id: additional_links
-label: 'Vaata lisaks (uuring)'
+label: 'Vaata lisaks'
 icon_uuid: null
 icon_default: null
 description: ''
