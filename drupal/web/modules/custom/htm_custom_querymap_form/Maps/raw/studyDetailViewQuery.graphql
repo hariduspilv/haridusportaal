@@ -1,0 +1,98 @@
+query studyDetailViewQuery($lang: languageId!) {
+  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "studypage", language: $lang}}) {
+    entities(language: $lang) {
+      ... on NodeStudypage {
+        title
+        fieldPerson
+        fieldStudyTag {
+          entity {
+            ... on TaxonomyTermStudytag {
+              entityId
+              entityLabel
+            }
+          }
+        }
+        fieldHighlightedStudyIntro
+        fieldIntroduction
+        fieldContent
+        fieldAdditionalImages {
+          derivative(style: CROP_LARGE) {
+            url
+          }
+          alt
+          title
+        }
+        fieldStudyText {
+          url {
+            routed
+            path
+          }
+          title
+        }
+        fieldAccordion {
+          entity {
+            ... on ParagraphStudyPageAccordion {
+              fieldStudyPageAccordionTitle
+              fieldStudyAccordionIntro
+              fieldStudyAccordionContent
+            }
+          }
+        }
+        fieldLabel {
+          entity {
+            ... on TaxonomyTermStudylabel {
+              entityId
+              entityLabel
+            }
+          }
+        }
+        fieldRightColumn {
+          entity {
+            ... on ParagraphStudypageRightColumn {
+              fieldStudy {
+                entity {
+                  ... on study {
+                    fieldAuthor
+                    fieldAuthorInstitution
+                    fieldPublicationLang {
+                      entity {
+                        ... on TaxonomyTermPublicationlanguage {
+                          entityId
+                          entityLabel
+                        }
+                      }
+                    }
+                    fieldYear
+                    fieldOrderer
+                    fieldPublisher
+                    fieldPublicationType {
+                      entity {
+                        ... on TaxonomyTermPublicationtype {
+                          entityId
+                          entityLabel
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+              fieldAdditionalLinks {
+                entity {
+                  ... on ParagraphAdditionalLinks {
+                    fieldLinks {
+                      url {
+                        routed
+                        path
+                      }
+                      title
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
