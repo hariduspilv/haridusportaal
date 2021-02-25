@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { slugifyTitle } from '@app/_core/utility';
 import { TranslateService } from '@app/_modules/translate/translate.service';
 import { SettingsService } from '@app/_services';
+import { CertificatesUtility } from '../../certificates.utility';
 import { CertificateAccordionSection } from '../../models/interfaces/certificate-accordion-section';
 
 @Component({
@@ -76,7 +77,8 @@ export class CertificatesComponent implements OnInit {
         (res: any[]) => {
           selectedSection.loading = false;
           const resultObject = res['certificates'] ? res['certificates'] : res;
-          this.graduationCertificates = resultObject.sort(this.compareCertificates);
+          this.graduationCertificates =
+            CertificatesUtility.sortGraduationCertificates(resultObject);
         },
         (err) => {
           this.graduationCertificates = [];
