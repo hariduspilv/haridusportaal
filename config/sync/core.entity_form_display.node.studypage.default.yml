@@ -16,12 +16,12 @@ dependencies:
     - image.style.thumbnail
     - node.type.studypage
   module:
+    - image_widget_crop
     - link
     - maxlength
     - paragraphs
     - path
     - scheduler
-    - svg_image
     - text
 id: node.studypage.default
 targetEntityType: node
@@ -51,8 +51,14 @@ content:
     settings:
       progress_indicator: throbber
       preview_image_style: thumbnail
+      crop_preview_image_style: crop_thumbnail
+      crop_list: {  }
+      crop_types_required: {  }
+      show_crop_area: false
+      show_default_crop: true
+      warn_multiple_usages: true
     third_party_settings: {  }
-    type: image_image
+    type: image_widget_crop
     region: content
   field_content:
     weight: 14
@@ -122,7 +128,7 @@ content:
       edit_mode: open
       add_mode: dropdown
       form_display_mode: default
-      default_paragraph_type: _none
+      default_paragraph_type: studypage_right_column
     third_party_settings: {  }
     region: content
   field_study_tag:
