@@ -38,12 +38,22 @@
         flex-grow: 1;
         padding: 1.2rem $medium;
         text-transform: uppercase;
+        font-size: $small;
+        font-weight: inherit;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: inherit;
+        letter-spacing: normal;
+        text-align: left;
+        color: inherit;
       }
 
       &__secondary__text {
         color: $black;
         padding: 0rem $medium;
         margin: 1rem 0 0rem 0;
+        font-size: $medium;
+        line-height: 1.33;
       }
 
       &__container {
