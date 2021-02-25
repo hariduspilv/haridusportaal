@@ -122,7 +122,8 @@
             <td class="additional multi--bordered">{{ item.oppekavaNimetusOrig }}</td>
           </tr>
           <tr *ngIf="item.oppekavaNimetusEesti" [class.extraBottom]="!item.oppekavaNominKestus">
-            <td class="additional">{{ 'frontpage.oppekavaNimetusEesti' | translate }} </td>
+            <td class="additional" *ngIf="item.tyyp === 'ENNE_2004_EESTI'">{{ 'frontpage.oppekavaLisaeriala' | translate }} </td>
+            <td class="additional" *ngIf="item.tyyp !== 'ENNE_2004_EESTI'">{{ 'frontpage.oppekavaNimetusEesti' | translate }} </td>
             <td class="additional">{{ item.oppekavaNimetusEesti }}</td>
           </tr>
           <tr *ngIf="item.oppekavaNominKestus" class="extraBottom">

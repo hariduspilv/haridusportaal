@@ -21,7 +21,6 @@ export class CompareViewComponent extends CompareComponent {
   public translations = translationsPerType;
   public compare: String[] = [];
   public deleteText: string = '';
-  private deleteIndicator: number = 1;
   constructor(
     private http: HttpClient,
     private settings: SettingsService,
@@ -99,8 +98,7 @@ export class CompareViewComponent extends CompareComponent {
     }
   }
 
-  setDeleteText() {
-    this.deleteText = this.deleteIndicator.toString();
-    this.deleteIndicator += 1;
+  setDeleteText(profession) {
+    this.deleteText = profession;
   }
 }
