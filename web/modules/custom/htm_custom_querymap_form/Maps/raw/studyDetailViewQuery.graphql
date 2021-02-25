@@ -1,90 +1,107 @@
-query studyDetailViewQuery($lang: languageId!) {
-  nodeQuery(sort: {field: "changed", direction: DESC}, filter: {conditions: {field: "type", value: "studypage", language: $lang}}) {
-    entities(language: $lang) {
-      ... on NodeStudypage {
+query studyDetailViewQuery($path: String!) {
+  route(path: $path) {
+    ... on EntityCanonicalUrl {
+      languageSwitchLinks {
+        active
         title
-        fieldPerson
-        fieldStudyTag {
-          entity {
-            ... on TaxonomyTermStudytag {
-              entityId
-              entityLabel
-            }
-          }
+        language {
+          id
         }
-        fieldHighlightedStudyIntro
-        fieldIntroduction
-        fieldContent
-        fieldAdditionalImages {
-          derivative(style: CROP_LARGE) {
-            url
-          }
-          alt
+        url {
+          path
+          routed
+          pathAlias
+          pathInternal
+        }
+      }
+      entity {
+        ... on NodeStudypage {
           title
-        }
-        fieldStudyText {
-          url {
-            routed
-            path
-          }
-          title
-        }
-        fieldAccordion {
-          entity {
-            ... on ParagraphStudyPageAccordion {
-              fieldStudyPageAccordionTitle
-              fieldStudyAccordionIntro
-              fieldStudyAccordionContent
+          fieldPerson
+          fieldStudyTag {
+            entity {
+              ... on TaxonomyTermStudytag {
+                entityId
+                entityLabel
+              }
             }
           }
-        }
-        fieldLabel {
-          entity {
-            ... on TaxonomyTermStudylabel {
-              entityId
-              entityLabel
+          fieldHighlightedStudyIntro
+          fieldIntroduction
+          fieldContent {
+            value
+          }
+          fieldAdditionalImages {
+            derivative(style: CROP_LARGE) {
+              url
+            }
+            alt
+            title
+          }
+          fieldStudyText {
+            url {
+              routed
+              path
+            }
+            title
+          }
+          fieldAccordion {
+            entity {
+              ... on ParagraphStudyPageAccordion {
+                fieldStudyPageAccordionTitle
+                fieldStudyAccordionIntro
+                fieldStudyAccordionContent
+              }
             }
           }
-        }
-        fieldRightColumn {
-          entity {
-            ... on ParagraphStudypageRightColumn {
-              fieldStudy {
-                entity {
-                  ... on study {
-                    fieldAuthor
-                    fieldAuthorInstitution
-                    fieldPublicationLang {
-                      entity {
-                        ... on TaxonomyTermPublicationlanguage {
-                          entityId
-                          entityLabel
+          fieldLabel {
+            entity {
+              ... on TaxonomyTermStudylabel {
+                entityId
+                entityLabel
+              }
+            }
+          }
+          fieldRightColumn {
+            entity {
+              ... on ParagraphStudypageRightColumn {
+                fieldStudy {
+                  entity {
+                    ... on ParagraphStudy {
+                      fieldAuthor
+                      fieldAuthorInstitution
+                      fieldPublicationLang {
+                        entity {
+                          ... on TaxonomyTermPublicationlanguage {
+                            entityId
+                            entityLabel
+                          }
                         }
                       }
-                    }
-                    fieldYear
-                    fieldOrderer
-                    fieldPublisher
-                    fieldPublicationType {
-                      entity {
-                        ... on TaxonomyTermPublicationtype {
-                          entityId
-                          entityLabel
+                      fieldYear
+                      fieldOrderer
+                      fieldPublisher
+                      fieldPublicationType {
+                        entity {
+                          ... on TaxonomyTermPublicationtype {
+                            entityId
+                            entityLabel
+                          }
                         }
                       }
                     }
                   }
                 }
-              }
-              fieldAdditionalLinks {
-                entity {
-                  ... on ParagraphAdditionalLinks {
-                    fieldLinks {
-                      url {
-                        routed
-                        path
+                fieldAdditionalLinks {
+                  entity {
+                    ... on ParagraphAdditionalLinks {
+                      fieldLinks {
+                        url {
+                          routed
+                          path
+                        }
+                        title
                       }
-                      title
                     }
                   }
                 }
