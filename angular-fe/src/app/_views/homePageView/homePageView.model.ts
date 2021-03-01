@@ -138,12 +138,21 @@ export interface IGraphTopic {
     fieldTitle: string;
     fieldText: string;
     fieldInternalLink: IGraphURLEntity;
-    fieldTopicLink: IGraphURLEntity;
+    fieldTopicLink: IGraphURLEntity | ILink;
     fieldTopicTitle?: string;
     fieldThemeTitle?: string;
     fieldTopicText?: string;
     fieldTopicButtonText?: string;
   };
+}
+
+export interface IGraphReference {
+  entity: {
+    fieldReferenceQuestionTitle: string;
+    fieldReferenceTitle: string;
+    fieldReferenceContent: string;
+    fieldReferenceLink: ILink;
+  }
 }
 
 export interface IGraphServiceImage {
@@ -179,6 +188,7 @@ export interface IGraphResponse {
   fieldLearningToTeach?: IGraphLearningToTeach[];
   fieldYouthContentPage?: IGraphTopic;
   fieldYouthForegroundContent?: IGraphTopic;
+  fieldFrontpageReferences?: IGraphReference[];
   news?: IGraphURLEntity;
   topics?: IGraphTopic | IGraphTopic[];
   services?: IGraphService[];
