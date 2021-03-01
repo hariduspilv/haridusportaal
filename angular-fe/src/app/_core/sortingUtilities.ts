@@ -1,4 +1,4 @@
-import { SortDirection } from './models/Sorting';
+import { SortDirection } from './models/sorting';
 
 export interface MultipleSortKeys {
   key: string;

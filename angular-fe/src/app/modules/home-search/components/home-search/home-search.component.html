@@ -1,53 +1,55 @@
 <base-layout>
 	<div class="inline">
-		<breadcrumbs [data]="breadcrumbs" [ellipsis]="false"></breadcrumbs>
+		<breadcrumbs *ngIf="breadcrumbs" [data]="breadcrumbs" [ellipsis]="false"></breadcrumbs>
 	</div><!--/inline-->
-	<form (submit)="getResults(param, [])" class="filter-wrapper" [eventTracker]="getGoogleAnalyticsObject()">
+	<form (submit)="updateQueryParams('marksona', searchGroup.get('parameter').value)" [formGroup]="searchGroup" class="filter-wrapper">
 		<div class="inline">
 			<div class="main-container">
 				<div class="row">
 					<div class="col-10 sm-12">
-						<formItem type="autocomplete" query="testAutocomplete" [(ngModel)]="param"
-							title="{{'search.keyword' | translate}}" name="title" (change)="updateParam($event)"
-							(autoCompleteChanged)="getResults($event, [])"></formItem>
+            <formItem type="autocomplete" query="testAutocomplete" formControlName="parameter"
+              (autoCompleteChanged)="autoCompleteChanged($event)"
+							title="{{'search.keyword' | translate}}" name="title"></formItem>
 					</div>
 					<div class="col-2 sm-12">
 						<button htm-button>{{ 'button.search' | translate }}</button>
 					</div>
 				</div>
 			</div>
-		</div><!--/inline-->
-	</form>
-	<div class="inline">
+		</div>
+  </form>
+  <div class="inline">
 		<block titleBorder="true">
 			<block-title>{{ 'search.results' | translate }}</block-title>
 			<block-content>
-				<div #content *ngIf="filteredResults && filteredResults.length" class="search__title--filter">
+				<div #content *ngIf="entities?.length" class="search__title--filter">
 					{{ 'search.filter_results' | translate }}:</div>
-				<ng-container *ngIf="filteredResults && filteredResults.length">
+				<ng-container *ngIf="entities?.length && activeContentTypes?.length">
 					<div class="search__chips" role="group" attr.aria-label="Search filter">
-						<a role="alert" id="initial" (keyup.enter)="filterAll()" (click)="filterAll()"
+						<!-- <a role="alert" id="initial" (keyup.enter)="filterAll()" (click)="filterAll()"
 							*ngIf="results && results.length" href="javascript:void(0)"
 							attr.aria-label="{{'button.all' | translate}} {{'search.results' | translate}}, status: {{allFilters ? 'On': 'Off'}}, count: {{ results.length }}"
 							class="search__chips--chip pointer" [class.selected]="allFilters">
 							<span aria-label="">{{'button.all' | translate}} <span>({{results.length}})</span></span>
-						</a>
-						<ng-container *ngFor="let chip of types; let i = index;">
-							<a role="button" *ngIf="chip.sum" href="javascript:void(0)"
-								attr.aria-label="Filter: {{chip.name | translate}}, status: {{chip.value ? 'On': 'Off'}}, count: {{ chip.sum }}"
-								(click)="filterView(i)" class="search__chips--chip pointer"
-								[class.selected]="chip.value">{{chip.name | translate}} <span>({{chip.sum}})</span></a>
+						</a> -->
+						<ng-container *ngFor="let filter of activeContentTypes; let i = index;">
+              <button tag
+                (click)="filterView(i)"
+                [active]="filter[1].active"
+                *ngIf="filter[1].sum"
+                [class.selected]="filter[1].value"
+                attr.aria-label="Filter: {{filter[1].name | translate}}, status: {{filter[1].value ? 'On': 'Off'}}, count: {{ filter[1].sum }}">
+                {{ filter[1].name | translate }} <span>({{filter[1].sum}})</span>
+              </button>
 						</ng-container>
 					</div>
 				</ng-container>
-				<loader *ngIf="loading"></loader>
-				<ng-container *ngIf="filteredResults && filteredResults.length">
+				<!-- <loader *ngIf="loading"></loader> -->
+				<!-- <ng-container *ngIf="filteredResults && filteredResults.length">
 					<ng-container *ngFor="let item of filteredResults;let i = index;">
 						<a tabindex="0" id="{{i}}" *ngIf="i < listLimit"
 							class="search__sub pointer" [routerLink]="item.EntityPath">
-							<div class="search__sub--category" aria-hidden="true">
-								{{ getContentLabel(item.ContentType) | translate }}
-							</div>
+							<div class="search__sub--category" aria-hidden="true">{{ item.ContentType }}</div>
 							<div class="search__sub--title"
 								attr.aria-label="{{ item.ContentType }}{{ item.ContentType !== 'Õppekava' ? ':' : '' }} {{ item.Title }}{{ item.ContentType === 'Õppekava' ? ':' : '' }}">
 								<h1>{{ item.Title }}</h1>
@@ -67,21 +69,17 @@
 									aria-hidden="true">{{ item.FieldDuration | monthsToYears }}</span>
 							</div>
 						</a>
-						<!--ngFor-->
 					</ng-container>
-				</ng-container>
-				<!--/search__body-->
-				<div class="text-center actions__error"
+				</ng-container> -->
+				<!-- <div class="text-center actions__error"
 					*ngIf="!loading && filteredResults !== null && filteredResults.length === 0">
 					<div class="alert text-center" role="alert">{{'search.no_results_start' | translate}} <span
 							*ngIf="route.snapshot.queryParams['term']">"{{route.snapshot.queryParams['term']}}" </span><span
 							innerHtml="{{'search.no_results_end' | translate}}"></span></div>
-				</div>
-				<!--/text-center-->
-				<div class="text-center actions__error" *ngIf="!loading && !filteredResults">
+				</div> -->
+				<!-- <div class="text-center actions__error" *ngIf="!loading && !filteredResults">
 					<div class="alert text-center" role="alert">{{ 'news.no_results' | translate }}</div>
-				</div>
-				<!--/text-center-->
+				</div> -->
 			</block-content>
 		</block>
 		<div class="text-center actions"

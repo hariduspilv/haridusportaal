@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 import { FinalDocumentDownloadSidebar, FinalDocumentHistorySidebar } from '@app/_assets/sidebar/models/final-document-download-sidebar';
-import { SortDirection } from '@app/_core/models/Sorting';
+import { SortDirection } from '@app/_core/models/sorting';
 import { sortByMultipleKeys } from '@app/_core/sortingUtilities';
 import { CertificateData } from './models/interfaces/certificate-data';
 import {
