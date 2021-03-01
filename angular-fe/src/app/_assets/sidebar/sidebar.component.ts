@@ -35,7 +35,7 @@ import { AccessType } from '@app/modules/certificates/models/enums/access-type.e
 import { IdCodePipe } from '@app/_pipes/idCode.pipe';
 import { CertificateAccess } from '@app/modules/certificates/models/interfaces/certificate-access';
 import { AccessScope } from '@app/modules/certificates/models/enums/access-scope.enum';
-import { FileFormat } from '@app/_core/models/file-format.enum';
+import { FileFormat } from '@app/_core/models/enums/file-format.enum';
 import { CertificateTranscriptTemplateType } from '@app/modules/certificates/models/enums/certificate-transcript-template-type.enum';
 import { Certificate } from '@app/modules/certificates/models/interfaces/certificate';
 import { TitleCasePipe } from '@angular/common';

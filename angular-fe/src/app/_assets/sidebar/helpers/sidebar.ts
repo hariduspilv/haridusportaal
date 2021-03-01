@@ -1,5 +1,3 @@
-import { FileFormat } from "@app/_core/models/file-format.enum";
-import { FinalDocumentDownloadSidebar } from "../models/final-document-download-sidebar";
 
 // tslint:disable
 export const collection = {
@@ -190,7 +188,7 @@ export const parseProfessionData = (inputData, translate) => {
 
     if (mappedData['fieldProfession']) additionalData = additionalData.slice(1);
 
-    additionalData.forEach((item, index) => {
+    additionalData.forEach((item) => {
       let match = false;
       mappedData['fieldQuickFind'].forEach((link) => {
         if (link.title === item.title) {
