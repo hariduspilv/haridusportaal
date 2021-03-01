@@ -1,0 +1,10 @@
+uuid: 7d124b6c-006b-4227-a7ef-d5beccda6d17
+langcode: et
+status: true
+dependencies: {  }
+id: study
+label: 'Uuringu andmed'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }
