@@ -1,0 +1,52 @@
+uuid: 1c7da77b-f109-476d-81b6-8ca072af9bb3
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.homepage_reference.field_reference_content
+    - field.field.paragraph.homepage_reference.field_reference_link
+    - field.field.paragraph.homepage_reference.field_reference_question_title
+    - field.field.paragraph.homepage_reference.field_reference_title
+    - paragraphs.paragraphs_type.homepage_reference
+  module:
+    - link
+id: paragraph.homepage_reference.default
+targetEntityType: paragraph
+bundle: homepage_reference
+mode: default
+content:
+  field_reference_content:
+    weight: 2
+    settings:
+      rows: 5
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textarea
+    region: content
+  field_reference_link:
+    weight: 3
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+  field_reference_question_title:
+    weight: 0
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+  field_reference_title:
+    weight: 1
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: string_textfield
+    region: content
+hidden:
+  created: true
+  status: true
