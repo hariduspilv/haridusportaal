@@ -62,7 +62,7 @@
                     <div *ngIf="clickedVideos[i]" class="col-4 xs-12 list__item__video">
                         <div class="aspect">
                             <iframe attr.aria-label="{{ 'generic.youtube_video' | translate }}"
-                                [src]="'http://www.youtube.com/embed/' + item.video.videoId +'?autoplay=1&mute=1' | iframe "
+                                [src]="'https://www.youtube.com/embed/' + item.video.videoId +'?autoplay=1&mute=1' | iframe "
                                 frameborder="0"
                                 allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen></iframe>
@@ -106,7 +106,7 @@
                     <ng-container *ngIf="item.indicator?.entities?.length">
                         <ng-container *ngFor="let elem of indicatorValues(item.indicator.entities); let ind = index;">
                             <ng-container *ngIf="elem.oskaId && elem.oskaId === 1">
-                                <span class="item item--expanded">{{ elem.oskaIndicator | ucfirst }}:
+                                <span class="item item--expanded">{{ 'oska.fieldNumberEmployed' | translate }}:
                                     <span class="dark">{{ elem.value | localeNumber }}</span>
                                 </span>
                             </ng-container>
@@ -176,11 +176,10 @@
                                             <span class="bar"
                                                 *ngIf="(item[fieldName].entities && item[fieldName].entities[0] && item[fieldName].entities[0].value
                                         && item[fieldName].entities[0].value > 0 && item[fieldName].entities[0].value < 6) || ind === 1">|</span>
-                                            <span class="item">{{ elem.oskaIndicator | ucfirst }}: <span
-                                                    *ngIf="elem.oskaId === 1"
-                                                    class="dark">{{ elem.value | localeNumber }} </span> <span
-                                                    *ngIf="elem.oskaId === 3"
-                                                    class="dark">{{ elem.value | currency:"EUR" }} </span></span>
+                                            <span class="item">{{ elem.oskaId === 1 ? ('oska.fieldNumberEmployed' | translate) : (elem.oskaIndicator | ucfirst) }}:
+                                                <span *ngIf="elem.oskaId === 1" class="dark">{{ elem.value | localeNumber }}</span>
+                                                <span *ngIf="elem.oskaId === 3" class="dark">{{ elem.value | currency:"EUR" }} </span>
+                                            </span>
                                         </ng-container>
                                     </ng-container>
                                 </ng-container>

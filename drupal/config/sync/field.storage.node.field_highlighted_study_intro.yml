@@ -1,0 +1,19 @@
+uuid: 0b76b9cf-9e9f-4815-b52b-e010a7f70f95
+langcode: et
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_highlighted_study_intro
+field_name: field_highlighted_study_intro
+entity_type: node
+type: string_long
+settings:
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

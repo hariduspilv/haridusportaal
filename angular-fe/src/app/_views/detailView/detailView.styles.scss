@@ -27,7 +27,7 @@
         outline: none;
         &:not(.shown) > div.description__content {
           @include lineClamp($lines: 5);
-          > * {
+          * {
             display: contents;
           }
         }

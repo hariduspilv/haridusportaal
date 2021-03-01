@@ -1,0 +1,11 @@
+uuid: 49e775c1-8020-4587-afcb-b238b95eeffc
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studytag
+id: taxonomy_term.studytag
+target_entity_type_id: taxonomy_term
+target_bundle: studytag
+default_langcode: site_default
+language_alterable: false
