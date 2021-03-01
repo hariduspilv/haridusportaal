@@ -1,6 +1,7 @@
 <div class="noResults" *ngIf="!list?.length && !loading && !filteredJobLoading">
   {{ noResultStringByType | translate }}
 </div>
+<label-count *ngIf="searchWithParams && listCount && list?.length" [count]="listCount">{{ 'search.results_of' | translate }}: </label-count>
 <listItems
   *ngIf="list?.length"
   [type]="type"
@@ -9,7 +10,8 @@
 <loader *ngIf="loading"></loader>
 <loader class="loadMore" *ngIf="loadingMore"></loader>
 <div class="loadMore" *ngIf="!loading && !loadingMore && canLoadMore">
-  <button htm-button (click)="loadMore()">{{ 'button.load_more' | translate }}</button>
+  <button htm-button (click)="loadMore()">
+    <span>{{ 'button.load_more' | translate }}</span>
+    <span *ngIf="listCount && list?.length && (listCount - list.length > 0)"> ({{ listCount - list.length }})</span>
+  </button>
 </div><!--/loadMore-->
-
-
