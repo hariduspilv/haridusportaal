@@ -1,3 +1,6 @@
+<!--
+	TODO: WIP
+-->
 <base-layout>
 	<div class="inline">
 		<breadcrumbs *ngIf="breadcrumbs" [data]="breadcrumbs" [ellipsis]="false"></breadcrumbs>
@@ -82,12 +85,11 @@
 				</div> -->
 			</block-content>
 		</block>
-		<div class="text-center actions"
-			*ngIf="listLength > listLimit && filteredResults && filteredResults.length">
+		<!-- <div class="text-center actions">
 			<button htm-button (click)="loadMore()">
 				<span>{{ 'button.load_more' | translate }}</span>
 				<span> ({{ filteredResults.length - listLimit }})</span>
 			</button>
-		</div>
+		</div> -->
 	</div><!--/inline-->
 </base-layout>
