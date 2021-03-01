@@ -134,7 +134,9 @@ import { CertificatesComponent } from '@app/modules/certificates/components/cert
 import { CertificateDocumentCheckComponent } from '@app/modules/certificates/components/certificate-document-check/certificate-document-check.component';
 import { CertificateFinalDocumentsComponent } from '@app/modules/certificates/components/certificate-final-documents/certificate-final-documents.component';
 import { CertificateGradeSheetComponent } from '@app/modules/certificates/components/certificate-grade-sheet/certificate-grade-sheet.component';
-import { BreadcrumbsComponent } from './breadcrumbs';
+import { BaseLayoutModule } from './base-layout/base-layout.module';
+import { IconModule } from './icon/icon.module';
+import { BreadcrumbsModule } from './breadcrumbs/breadcrumbs.module';
 
 export function settingsProviderFactory(provider: SettingsService) {
   return () => provider.load();
@@ -242,12 +244,14 @@ const declarations = [
   MainProfessionsSearchResultsComponent,
   TagComponent,
   ...certificatesModuleDeclarations,
-  IconComponent,
-  BreadcrumbsComponent,
-  BaseLayout,
 ];
 
-const exports = [NgbTooltipModule];
+const exports = [
+  NgbTooltipModule,
+  BaseLayoutModule,
+  IconModule,
+  BreadcrumbsModule,
+];
 
 const providers = [
   RippleService,
@@ -302,6 +306,9 @@ const imports = [
   ReactiveFormsModule,
   A11yModule,
   NgxUsefulSwiperModule,
+  BaseLayoutModule,
+  IconModule,
+  BreadcrumbsModule,
 ];
 
 @NgModule({
