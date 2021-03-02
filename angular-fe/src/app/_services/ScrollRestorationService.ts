@@ -10,6 +10,7 @@ export interface ListRestorationType {
   highlight?: Object;
   activeFilters?: any[];
   fullList?: Object[];
+  listItemCount?: number;
 }
 @Injectable({
   providedIn: 'root',

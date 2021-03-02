@@ -51,6 +51,11 @@ const routes: Routes = [
 
   },
   {
+    path: 'search',
+    loadChildren: () => import('./modules/home-search/home-search.module')
+      .then(module => module.HomeSearchModule),
+  },
+  {
     path: 'uudised/:id',
     loadChildren: () => import('./_views/detailView').then(m => m.DetailViewModule),
     data: {

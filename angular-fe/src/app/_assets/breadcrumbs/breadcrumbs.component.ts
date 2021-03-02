@@ -3,9 +3,9 @@ import { SettingsService } from '@app/_services/SettingsService';
 import { HttpClient } from '@angular/common/http';
 import { TitleService } from '@app/_services/TitleService';
 
-interface BreadcrumbsItem {
+export interface BreadcrumbsItem {
   title: string;
-  link: string;
+  link?: string;
 }
 
 @Component({
