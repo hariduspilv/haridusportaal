@@ -50,9 +50,10 @@ content:
   field_content:
     weight: 4
     label: above
-    settings: {  }
+    settings:
+      trim_length: 1200
     third_party_settings: {  }
-    type: text_default
+    type: text_trimmed
     region: content
   field_highlighted_study_intro:
     weight: 12
