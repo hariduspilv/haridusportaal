@@ -1,0 +1,19 @@
+uuid: 132bd8f3-9c10-4878-9400-f707d1ceb3fc
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_reference_question_title
+    - paragraphs.paragraphs_type.homepage_reference
+id: paragraph.homepage_reference.field_reference_question_title
+field_name: field_reference_question_title
+entity_type: paragraph
+bundle: homepage_reference
+label: 'Viite küsimus'
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
