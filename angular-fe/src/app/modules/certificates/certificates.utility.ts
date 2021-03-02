@@ -6,6 +6,7 @@ import { CertificateData } from './models/interfaces/certificate-data';
 import {
   CertificateDocument,
   CertificateDocumentWithClassifier,
+  CertificateStatus,
   FormattedCertificateDocumentData,
 } from './models/interfaces/certificate-document';
 import { CertificateIndex } from './models/interfaces/certificate-index';
@@ -66,6 +67,12 @@ export class CertificatesUtility {
       { key: 'isInMainLanguage', direction: SortDirection.DESC },
       { key: 'isMainDocument', direction: SortDirection.DESC },
     ]);
+  }
+
+  public static getValidDocuments(
+    documents: CertificateDocumentWithClassifier[],
+  ): CertificateDocumentWithClassifier[] {
+    return documents.filter(document => document.status === CertificateStatus.VALID);
   }
 
   public static gatherTranscriptRequestParameters(
@@ -241,6 +248,6 @@ export class CertificatesUtility {
     alldocs: CertificateDocumentWithClassifier[],
   ): string {
     const classifier = alldocs.find(xdoc => xdoc.type === document.type);
-    return classifier.metadata.shortName || classifier.typeName;
+    return classifier?.metadata?.shortName || classifier?.typeName;
   }
 }
