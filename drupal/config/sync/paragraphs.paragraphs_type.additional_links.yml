@@ -1,0 +1,10 @@
+uuid: acf390a9-24f1-4ec1-b92e-beb7aa18ddb9
+langcode: et
+status: true
+dependencies: {  }
+id: additional_links
+label: 'Vaata lisaks'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

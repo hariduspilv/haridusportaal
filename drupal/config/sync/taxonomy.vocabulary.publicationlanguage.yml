@@ -1,0 +1,8 @@
+uuid: 8f6604a5-ccc7-4a77-a09d-c12df4cd7a2d
+langcode: et
+status: true
+dependencies: {  }
+name: 'Publikatsiooni keel'
+vid: publicationlanguage
+description: ''
+weight: 0

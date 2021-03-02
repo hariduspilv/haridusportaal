@@ -1,0 +1,19 @@
+uuid: b99a19b2-d787-4613-a11f-1a6903f8e04f
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_author_institution
+    - paragraphs.paragraphs_type.study
+id: paragraph.study.field_author_institution
+field_name: field_author_institution
+entity_type: paragraph
+bundle: study
+label: 'Autori institutsionaalne kuuluvus'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

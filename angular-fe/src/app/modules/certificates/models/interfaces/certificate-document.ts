@@ -9,7 +9,7 @@ export enum CertificateStatus {
 
 export enum CertificateSearchCertificateStatus {
   VALID = 'CERTIFICATE_STATUS:VALID',
-  INVALID = 'CERTIFICATE_STATUS:INVALID'
+  INVALID = 'CERTIFICATE_STATUS:INVALID',
 }
 
 export interface CertificateDocument {
