@@ -16,6 +16,7 @@ import { GraduationDocumentTypeClassification } from './models/enums/graduation-
 import { GraduationDocumentType } from './models/enums/graduation-document-type.enum';
 import { CertificateDocumentContent } from './models/interfaces/certificate-document-content';
 import { CertificateDocumentResponse } from './models/interfaces/certificate-document-response';
+import { GraduationCertificate } from './models/interfaces/graduation-certificate';
 
 export class CertificatesUtility {
 
@@ -66,6 +67,16 @@ export class CertificatesUtility {
       { key: 'metadata.shortName', direction: SortDirection.DESC },
       { key: 'isInMainLanguage', direction: SortDirection.DESC },
       { key: 'isMainDocument', direction: SortDirection.DESC },
+    ]);
+  }
+
+  public static sortGraduationCertificates(
+    certificates: GraduationCertificate[],
+  ): GraduationCertificate[] {
+    return sortByMultipleKeys(certificates, [
+      { key: 'typeName', direction: SortDirection.ASC },
+      { key: 'issuerName', direction: SortDirection.ASC },
+      { key: 'issued', direction: SortDirection.DESC },
     ]);
   }
 
