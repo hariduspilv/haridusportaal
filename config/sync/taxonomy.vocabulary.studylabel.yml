@@ -1,0 +1,8 @@
+uuid: 1f4b4dba-38ca-40c0-9558-04fb5367c1b9
+langcode: et
+status: true
+dependencies: {  }
+name: 'Uuringu silt'
+vid: studylabel
+description: ''
+weight: 0

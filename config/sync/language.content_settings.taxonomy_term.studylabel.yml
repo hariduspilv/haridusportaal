@@ -1,0 +1,16 @@
+uuid: 21f44dc5-d4d7-45cd-88c0-9c29f5cc834e
+langcode: et
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.studylabel
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: taxonomy_term.studylabel
+target_entity_type_id: taxonomy_term
+target_bundle: studylabel
+default_langcode: site_default
+language_alterable: true
