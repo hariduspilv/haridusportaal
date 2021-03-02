@@ -900,6 +900,10 @@ frontpage:
     translation_type: textarea
     et: 'Kvalifikatsiooni dokumendi liik'
     en: 'Kvalifikatsiooni dokumendi liik'
+  oppekavaLisaeriala:
+    translation_type: textarea
+    et: 'Õppekava või lisaeriala nimetus'
+    en: 'Õppekava või lisaeriala nimetus'
 xjson:
   edit_step_confirm_modal_content:
     translation_type: textarea
@@ -2320,6 +2324,14 @@ notFound:
     en:
       value: "<p>Soovitud teenus nõuab sisse logimist, logi sisse!</p>\r\n"
       format: custom_editor
+  auth_explanation_string:
+    translation_type: textarea
+    et: 'Soovitud teenus nõuab sisse logimist, logi sisse!'
+    en: 'Soovitud teenus nõuab sisse logimist, logi sisse!'
+  explanation_string:
+    translation_type: textarea
+    et: "Tundub, et otsitud lehte ei leitud. Veakood: 404.\r\n"
+    en: "It looks like the page you were looking for was not found. Error code: 404.\r\n"
 errors:
   enter_valid_date:
     translation_type: textarea
@@ -2662,6 +2674,14 @@ oskaProfessions:
     translation_type: textarea
     et: Kaart
     en: Map
+  card_opened:
+    translation_type: textarea
+    et: 'Detailvaade avanes'
+    en: 'Card opened'
+  card_close:
+    translation_type: textarea
+    et: 'Sulge detailvaade'
+    en: 'Close card'
 fieldFixedLabel:
   label:
     translation_type: textarea
@@ -3856,24 +3876,24 @@ home:
     en: 'Haldusvaldkonna e-teenused'
   study_title:
     translation_type: textarea
-    et: 'Õppekavade ja ametialade võrdlus'
-    en: 'Õppekavade ja ametialade võrdlus'
+    et: 'Õppekavad ja ametid'
+    en: 'Õppekavad ja ametid'
   study_intro:
     translation_type: textarea
-    et: 'Võrdle erialasid ja ametialasid, et leida endale sobivaim õpitee'
-    en: 'Võrdle erialasid ja ametialasid, et leida endale <br /> sobivaim õpitee'
+    et: 'Uuri ametialasid ja õppekavasid, et leida endale sobivaim õpitee.'
+    en: 'Uuri ametialasid ja õppekavasid, et leida endale sobivaim õpitee.'
   studyprogramme_compare:
     translation_type: textarea
-    et: 'Õppekavade võrdlus'
-    en: 'Õppekavade võrdlus'
+    et: Õppekavad
+    en: Õppekavad
   view_more:
     translation_type: textarea
     et: 'Uuri lähemalt'
     en: 'Uuri lähemalt'
   profession_compare:
     translation_type: textarea
-    et: 'Ametialade võrdlus'
-    en: 'Ametialade võrdlus'
+    et: 'Ametialad ja ametid'
+    en: 'Ametialad ja ametid'
   topical:
     translation_type: textarea
     et: Päevakajaline
@@ -4505,3 +4525,8 @@ liveAnnouncer:
     translation_type: textarea
     et: 'Leiti %amount% tulemust'
     en: 'Leiti %amount% tulemust'
+calendar:
+  open:
+    translation_type: textarea
+    et: 'Ava kalender'
+    en: 'Open calendar'
