@@ -1,0 +1,19 @@
+uuid: b9487786-a056-43eb-8fcb-0f5713364de5
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.paragraph.field_orderer
+    - paragraphs.paragraphs_type.study
+id: paragraph.study.field_orderer
+field_name: field_orderer
+entity_type: paragraph
+bundle: study
+label: Tellija/rahastaja
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

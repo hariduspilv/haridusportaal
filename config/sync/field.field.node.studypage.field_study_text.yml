@@ -1,0 +1,23 @@
+uuid: 969b14ab-946f-442f-bbde-d9d501d50839
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_study_text
+    - node.type.studypage
+  module:
+    - link
+id: node.studypage.field_study_text
+field_name: field_study_text
+entity_type: node
+bundle: studypage
+label: 'Tutvu täistekstiga'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  link_type: 17
+  title: 1
+field_type: link

@@ -1,0 +1,23 @@
+uuid: 4fade11b-91a0-4b8e-8bf5-ee739bd64a04
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_content
+    - node.type.studypage
+  module:
+    - text
+id: node.studypage.field_content
+field_name: field_content
+entity_type: node
+bundle: studypage
+label: Sisu
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: false
+  required_summary: false
+field_type: text_with_summary
