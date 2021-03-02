@@ -1,0 +1,25 @@
+uuid: ec2eaf1c-fb2e-45b7-b882-46e6bed66893
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.paragraph.additional_links.field_links
+    - paragraphs.paragraphs_type.additional_links
+  module:
+    - link
+id: paragraph.additional_links.default
+targetEntityType: paragraph
+bundle: additional_links
+mode: default
+content:
+  field_links:
+    weight: 0
+    settings:
+      placeholder_url: ''
+      placeholder_title: ''
+    third_party_settings: {  }
+    type: link_default
+    region: content
+hidden:
+  created: true
+  status: true
