@@ -82,6 +82,9 @@
       &:hover,
       &:focus-within{
         background-color: $gray;
+        .sector__wrapper--title {
+          outline: 0;
+        }
         .overlay {
           display: none;
         }

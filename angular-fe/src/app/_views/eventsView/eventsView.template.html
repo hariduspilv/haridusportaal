@@ -28,8 +28,8 @@
 
           <div class="col-3 align-end text-right sm-12 inline-flex" *ngIf="!filterFull">
             <div class="align-center filter-state sm-hide">
-              <a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-                (click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
+              <a #detailed role="button" class="pointer" (keyup.enter)="expandFilters()"
+                (click)="expandFilters()" tabindex="0" aria-expanded="false">
                 <span>{{ 'button.search_detailed' | translate}}</span>
               </a>
             </div>
@@ -54,8 +54,8 @@
 
           <div class="col-3 align-end text-right sm-12 inline-flex brief">
             <div class="align-center filter-state sm-hide">
-              <a role="button" class="pointer" (keyup.enter)="filterFull = !filterFull"
-                (click)="filterFull = !filterFull" tabindex="0" aria-expanded="false">
+              <a role="button" class="pointer" (keyup.enter)="expandFilters()"
+                (click)="expandFilters()" tabindex="0" aria-expanded="false">
                 <span>{{ 'button.search_brief' | translate}}</span>
               </a>
             </div>
