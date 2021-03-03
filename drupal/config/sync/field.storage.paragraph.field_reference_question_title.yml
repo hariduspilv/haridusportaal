@@ -1,0 +1,21 @@
+uuid: 4dc20c0e-aa05-432f-b398-786b12880be9
+langcode: et
+status: true
+dependencies:
+  module:
+    - paragraphs
+id: paragraph.field_reference_question_title
+field_name: field_reference_question_title
+entity_type: paragraph
+type: string
+settings:
+  max_length: 25
+  is_ascii: false
+  case_sensitive: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

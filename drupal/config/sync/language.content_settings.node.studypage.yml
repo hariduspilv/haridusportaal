@@ -1,0 +1,16 @@
+uuid: 2b5ee31e-039f-4943-b971-7301f3e7a07f
+langcode: et
+status: true
+dependencies:
+  config:
+    - node.type.studypage
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+id: node.studypage
+target_entity_type_id: node
+target_bundle: studypage
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,10 @@
+uuid: e4abe1c4-72ad-458b-8037-2c58a6266292
+langcode: et
+status: true
+dependencies: {  }
+id: study_page_accordion
+label: 'Uuringu akordion'
+icon_uuid: null
+icon_default: null
+description: ''
+behavior_plugins: {  }

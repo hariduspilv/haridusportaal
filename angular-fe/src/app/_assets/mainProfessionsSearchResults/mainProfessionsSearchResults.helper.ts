@@ -28,6 +28,10 @@ export const searchResultKeys = {
     key: 'nidEnabled',
     enabled: 'nidEnabled',
   },
+  fieldProfession: {
+    key: 'fieldProfession',
+    enabled: 'fieldProfessionEnabled',
+  },
 };
 
 export const requiredFields = [
@@ -41,12 +45,13 @@ export const requiredFields = [
   'limit',
   'offset',
   'lang',
+  'fieldProfession',
 ];
 
 export const defaultValues = {
   sortField: 'title',
   sortDirection: 'ASC',
-  limit: 100,
+  limit: 24,
   offset: 0,
   lang: 'ET',
 };

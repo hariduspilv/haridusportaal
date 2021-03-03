@@ -30,22 +30,25 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   @Input() filteredJob: Object;
   @Input() filteredJobLoading: boolean = true;
   @Output() listEmitter = new EventEmitter<Object>(null);
+  @Output() filterEmitter = new EventEmitter<Object>(null);
 
   public type: string = 'mainProfession';
   public parsedType: string = 'mainprofession';
   public queryName: string = 'oskaMainProfessionListView';
   public queryId:string = '';
-  public activeTypeFilters: any[];
 
-  public listLimit = 1000;
+  public limitStep = 24;
   public listOffset = 0;
-  public manualLimit: number = 0;
+  public listCount = 0;
+  public professionCount = 0;
+  public generalCount = 0;
 
   private paramsWatcher: Subscription = new Subscription();
   private httpWatcher: Subscription = new Subscription();
 
   public values: object = {};
   public loading: boolean = true;
+  public loadingMore: boolean = false;
   public list: any = [];
   public filteredList: any = [];
   private getDataDebounce;
@@ -62,9 +65,23 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
     private deviceService: DeviceDetectorService,
   ) {}
 
-  private dispatchListEmit(update: boolean, list: Object, highlight?: any, activeFilters?: any) {
-    this.listEmitter.emit({ update, list, highlight, activeFilters });
+  private dispatchListEmit(update: boolean, list: Object, highlight?: any) {
+    this.listEmitter.emit({
+      update,
+      list,
+      highlight,
+      listCount: this.listCount,
+      generalCount: this.generalCount,
+      professionCount: this.professionCount,
+    });
   }
+
+  private dispatchFilterEmit(queryParams: Record<string, string>): void {
+    this.filterEmitter.emit({
+      queryParams,
+    });
+  }
+
   private addRequiredFields(queryParams) {
     requiredFields.forEach((item) => {
       if (!queryParams[item] && queryParams[item] !== 0) {
@@ -78,18 +95,6 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
     let tmpValue = value;
     tmpValue = likeFields.indexOf(key) !== -1 ? `%25${value}%25` : value;
     return tmpValue;
-  }
-
-  public filterListByTypes(typeFilters: any[]): void {
-    if (typeFilters[0].active && typeFilters[1].active) {
-      this.filteredList = this.list;
-    } else if (typeFilters[0].active && !typeFilters[1].active) {
-      this.filteredList = this.list.filter(elem => !elem.fieldProfession);
-    } else if (!typeFilters[0].active && typeFilters[1].active) {
-      this.filteredList = this.list.filter(elem => elem.fieldProfession);
-    }
-    this.activeTypeFilters = typeFilters;
-    this.canLoadMore = !!(this.filteredList.length >= this.manualLimit);
   }
 
   private parseValues(queryParams) {
@@ -146,11 +151,13 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   private watchParams() {
     this.paramsWatcher = this.route.queryParams.subscribe((queryParams) => {
       const paramsValues = this.parseValues({ ... queryParams });
+      this.dispatchFilterEmit(queryParams);
+      this.listOffset = 0;
       const scrollSub = this.scrollRestoration.restorationValues.subscribe((values) => {
         this.scrollRestorationValues = values;
         if (this.scrollRestoration.popstateNavigation && values && values[this.type]) {
           this.getData({ ...values[this.type].values }, false,
-                       values[this.type].list, values[this.type].fullList);
+                       values[this.type].list);
         } else if (!this.scrollRestoration.popstateNavigation && values && values[this.type]) {
           this.scrollRestoration.restorationValues.next({ ...values, [this.type]: null });
           this.getData({ ... paramsValues });
@@ -162,29 +169,30 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
     });
   }
 
-  private getData(values, append?: boolean, listValue?: Object[], fullList?: Object[]): void {
+  private getData(values, append?: boolean, listValue?: Object[]): void {
     clearTimeout(this.getDataDebounce);
     this.httpWatcher.unsubscribe();
     this.getDataDebounce = setTimeout(
       () => {
+        values.offset = this.listOffset;
         let query = `queryName=${this.queryName}`;
         query = `${query}&queryId=${this.queryId}`;
         query = `${query}&variables=${JSON.stringify(values)}`;
         const path = `${this.settings.url}/graphql?${query}`.trim();
 
-        this.loading = true;
+        if (!this.loadingMore) {
+          this.loading = true;
+        }
 
         if (listValue) {
-          this.filteredList = listValue;
-          this.list = fullList;
+          this.list = listValue;
         } else if (!append) {
           this.list = [];
-          this.filteredList = [];
         }
 
         if (listValue) {
           this.loading = false;
-          this.manualLimit = this.scrollRestorationValues[this.type].manualLimit;
+          this.loadingMore = false;
           this.canLoadMore = this.scrollRestorationValues[this.type].canLoadMore;
           const scrollSub = this.scrollRestoration.restorationPosition.subscribe((position) => {
             if (position) {
@@ -195,17 +203,26 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           });
           this.dispatchListEmit(true,
                                 this.list,
-                                this.scrollRestorationValues[this.type].highlight,
-                                this.scrollRestorationValues[this.type].activeFilters);
+                                this.scrollRestorationValues[this.type].highlight);
           scrollSub.unsubscribe();
         } else {
           this.httpWatcher = this.http.get(path).subscribe(
           (response) => {
             this.loading = false;
-            this.list = response['data']['nodeQuery']['entities'];
-            this.filteredList = this.list;
-            this.canLoadMore = !!(this.filteredList.length >= this.manualLimit);
-            this.dispatchListEmit(false, this.filteredList);
+            this.loadingMore = false;
+            // if (response['data']['countProfessionsValueFalse']) {
+            //   this.generalCount = response['data']['countProfessionsValueFalse']['count'];
+            //   this.professionCount = response['data']['countProfessionsValue']['count'];
+            // }
+            this.listCount = response['data']['nodeQuery']['count'];
+            const listData = response['data']['nodeQuery']['entities'];
+            if (append) {
+              this.list = [...this.list, ...listData];
+            } else {
+              this.list = listData;
+            }
+            this.canLoadMore = !!(this.listCount > this.list.length);
+            this.dispatchListEmit(false, this.list);
             this.updateRestorationValues(values);
             if (this.deviceService.isMobile() && paramsExist(this.route)) {
               scrollElementIntoView('block:not([theme="transparent"])');
@@ -213,6 +230,7 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
           },
           (err) => {
             this.loading = false;
+            this.loadingMore = false;
           });
         }
       },
@@ -220,8 +238,11 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
   }
 
   public loadMore(): void {
-    this.manualLimit = +this.manualLimit + +this.limit;
-    this.canLoadMore = !!(this.filteredList.length >= this.manualLimit);
+    this.loadingMore = true;
+    this.listOffset = this.list.length;
+    const params = this.route.snapshot.queryParams;
+    const values = this.parseValues({ ... params });
+    this.getData({ ... values }, true);
   }
 
   public parseParams(): any {
@@ -234,19 +255,15 @@ export class MainProfessionsSearchResultsComponent implements OnDestroy {
       ...this.scrollRestorationValues,
       [this.type]: {
         values,
-        list: this.filteredList,
-        fullList: this.list,
+        list: this.list,
         canLoadMore: this.canLoadMore,
-        manualLimit: this.manualLimit,
         highlight: this.filteredJob,
-        activeFilters: this.activeTypeFilters,
       },
     });
   }
 
   ngOnInit() {
     this.queryId = this.settings.get(`request.${this.queryName}`);
-    this.manualLimit = this.limit;
     this.watchParams();
   }
 

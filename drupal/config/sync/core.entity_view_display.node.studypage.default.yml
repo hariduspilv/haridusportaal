@@ -1,0 +1,124 @@
+uuid: 2578b6af-e85e-441f-9cef-63fa7abd7ff4
+langcode: et
+status: true
+dependencies:
+  config:
+    - field.field.node.studypage.field_accordion
+    - field.field.node.studypage.field_additional_images
+    - field.field.node.studypage.field_content
+    - field.field.node.studypage.field_highlighted_study_intro
+    - field.field.node.studypage.field_introduction
+    - field.field.node.studypage.field_label
+    - field.field.node.studypage.field_person
+    - field.field.node.studypage.field_right_column
+    - field.field.node.studypage.field_study_tag
+    - field.field.node.studypage.field_study_text
+    - node.type.studypage
+  module:
+    - entity_reference_revisions
+    - link
+    - svg_image
+    - text
+    - user
+id: node.studypage.default
+targetEntityType: node
+bundle: studypage
+mode: default
+content:
+  field_accordion:
+    type: entity_reference_revisions_entity_view
+    weight: 7
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_additional_images:
+    weight: 5
+    label: above
+    settings:
+      svg_attributes:
+        width: null
+        height: null
+      svg_render_as_image: true
+      image_style: ''
+      image_link: ''
+    third_party_settings: {  }
+    type: image
+    region: content
+  field_content:
+    weight: 4
+    label: above
+    settings:
+      trim_length: 1200
+    third_party_settings: {  }
+    type: text_trimmed
+    region: content
+  field_highlighted_study_intro:
+    weight: 12
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_introduction:
+    weight: 3
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: basic_string
+    region: content
+  field_label:
+    weight: 8
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_person:
+    weight: 1
+    label: above
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+    type: string
+    region: content
+  field_right_column:
+    type: entity_reference_revisions_entity_view
+    weight: 9
+    label: above
+    settings:
+      view_mode: default
+      link: ''
+    third_party_settings: {  }
+    region: content
+  field_study_tag:
+    weight: 10
+    label: above
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  field_study_text:
+    weight: 11
+    label: above
+    settings:
+      trim_length: 80
+      url_only: false
+      url_plain: false
+      rel: ''
+      target: ''
+    third_party_settings: {  }
+    type: link
+    region: content
+  links:
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  langcode: true
+  search_api_excerpt: true
