@@ -1,0 +1,170 @@
+{
+  "header": {
+    "endpoint": "EHIS",
+    "form_name": "OLT_OTSUS",
+    "number_of_steps": 1
+  },
+  "body": {
+    "title": {
+      "et": "Õpetajate lähtetoetus"
+    },
+    "hide_steps": true,
+    "steps": {
+      "step_1": {
+        "sequence": 1,
+        "editable": false,
+        "title": {
+          "et": "Otsus"
+        },
+        "data_elements": {
+          "application_heading": {
+            "type": "heading",
+            "title": {
+              "et": "Taotlus"
+            }
+          },
+          "application_file": {
+            "type": "file",
+            "title": {
+              "et": "Taotluse fail"
+            }
+          },
+          "application_decision": {
+            "type": "table",
+            "title": {
+              "et": "Otsus"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "decision_number": {
+                "type": "text",
+                "title": {
+                  "et": "Otsuse number"
+                },
+                "readonly": true
+              },
+              "decision_date": {
+                "type": "date",
+                "title": {
+                  "et": "Otsuse kuupäev"
+                },
+                "readonly": true
+              },
+              "decision": {
+                "type": "text",
+                "title": {
+                  "et": "Otsus"
+                },
+                "readonly": true
+              },
+              "payment_sum": {
+                "type": "number",
+                "title": {
+                  "et": "Toetuse summa"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "decision_file": {
+            "type": "file",
+            "title": {
+              "et": "Otsuse fail"
+            },
+            "readonly": true
+          },
+          "grant_payment": {
+            "type": "table",
+            "title": {
+              "et": "Väljamaksed"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "payment_date": {
+                "type": "date",
+                "title": {
+                  "et": "Kuupäev"
+                },
+                "readonly": true
+              },
+              "payment_sum": {
+                "type": "number",
+                "title": {
+                  "et": "Summa"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "grant_status_suspension": {
+            "type": "table",
+            "title": {
+              "et": "Peatumised"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "valid_from": {
+                "type": "date",
+                "title": {
+                  "et": "Alguse kuupäev"
+                },
+                "readonly": true
+              },
+              "valid_until": {
+                "type": "date",
+                "title": {
+                  "et": "Lõpukuupäev"
+                },
+                "readonly": true
+              },
+              "reason": {
+                "type": "text",
+                "title": {
+                  "et": "Põhjus"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "grant_recovery": {
+            "type": "table",
+            "title": {
+              "et": "Tagasi nõudmise otsus"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "decision_number": {
+                "type": "text",
+                "title": {
+                  "et": "Otsuse number"
+                },
+                "readonly": true
+              },
+              "recovery_date": {
+                "type": "date",
+                "title": {
+                  "et": "Tagasinõudmise kuupäev"
+                },
+                "readonly": true
+              },
+              "recovery_sum": {
+                "type": "number",
+                "title": {
+                  "et": "Tagasinõutav summa"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "recovery_file": {
+            "type": "file",
+            "title": {
+              "et": "Tagasi nõudmise otsuse fail"
+            },
+            "readonly": true
+          }
+        }
+      }
+    }
+  }
+}
