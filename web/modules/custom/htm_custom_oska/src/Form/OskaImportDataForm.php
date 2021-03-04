@@ -61,7 +61,7 @@ class OskaImportDataForm extends FormBase {
       if($filename === '') {
         $form_state->setErrorByName('file', $this->t('Please enter a file name'));
       }
-      if($filename === 'oska_map_csv') {
+      else if($filename === 'oska_map_csv') {
         $form_state->setErrorByName('file', $this->t('Please enter a different file name'));
       }
 

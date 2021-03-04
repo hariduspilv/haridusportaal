@@ -47,7 +47,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         $source_file_options = [];
         $source_files = array_slice(scandir('/app/drupal/web/sites/default/files/private/oska_csv/'), 2);
         foreach ($source_files as $file) {
-          if($file !== 'oska_map.csv') {
+          if($file !== 'oska_map_csv') {
             $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
           }
         }
