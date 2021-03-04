@@ -47,50 +47,52 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         $source_file_options = [];
         $source_files = array_slice(scandir('/app/drupal/web/sites/default/files/private/oska_csv/'), 2);
         foreach ($source_files as $file) {
-          $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
+          if($file !== 'oska_map.csv') {
+            $source_file_options[pathinfo($file, PATHINFO_FILENAME)] = $file;
+          }
         }
 
-        $element['graph_source_file'] = [
-          '#title' => $this->t('Graph source file'),
-          '#size' => 1,
-          '#type' => 'select',
-          '#default_value' => isset($data['graph_source_file']) ? $data['graph_source_file'] : NULL,
-          '#options' => $source_file_options,
-          '#required' => FALSE,
-          '#empty_option' => '-',
-          '#delta' => $delta,
-          '#ajax' => [
-            'callback' => [$this, 'ajax_dependent_graph_set_callback'],
-            'wrapper' => 'field-dynamic-graph-add-more-wrapper'
-          ],
-        ];
+    $element['graph_source_file'] = [
+      '#title' => $this->t('Graph source file'),
+      '#size' => 1,
+      '#type' => 'select',
+      '#default_value' => isset($data['graph_source_file']) ? $data['graph_source_file'] : NULL,
+      '#options' => $source_file_options,
+      '#required' => FALSE,
+      '#empty_option' => '-',
+      '#delta' => $delta,
+      '#ajax' => [
+        'callback' => [$this, 'ajax_dependent_graph_set_callback'],
+        'wrapper' => 'secondary_dynamic_graph_set' . $delta
+      ],
+    ];
 
-        $element['graph_type'] = [
-            '#prefix' => '<div id="graph_source' . $delta . '">',
-            '#suffix' => '</div>',
-            '#title' => $this->t('Graph type'),
-            '#size' => 1,
-            '#type' => 'select',
-            '#default_value' => isset($items[$delta]->graph_type) ? $items[$delta]->graph_type : NULL,
-            '#options' => [
-                'line' => $this->t('line'),
-                'pie' => $this->t('pie'),
-                'doughnut' => $this->t('doughnut'),
-                'clustered column' => $this->t('clustered column'),
-                'stacked column' => $this->t('stacked column'),
-                'stacked column 100' => $this->t('stacked column 100%'),
-                'clustered bar' => $this->t('clustered bar'),
-                'stacked bar' => $this->t('stacked bar'),
-                'stacked bar 100' => $this->t('stacked bar 100%'),
-            ],
-            '#required' => FALSE,
-            '#empty_option'  => '-',
-            '#ajax' => [
-                'callback' => [$this,'ajax_dependent_graph_type_set_callback'],
-                'wrapper' => 'secondary_dynamic_graph_set' . $delta
-            ],
-            '#delta' => $delta,
-        ];
+    $element['graph_type'] = [
+      '#prefix' => '<div id="graph_source' . $delta . '">',
+      '#suffix' => '</div>',
+      '#title' => $this->t('Graph type'),
+      '#size' => 1,
+      '#type' => 'select',
+      '#default_value' => isset($items[$delta]->graph_type) ? $items[$delta]->graph_type : NULL,
+      '#options' => [
+        'line' => $this->t('line'),
+        'pie' => $this->t('pie'),
+        'doughnut' => $this->t('doughnut'),
+        'clustered column' => $this->t('clustered column'),
+        'stacked column' => $this->t('stacked column'),
+        'stacked column 100' => $this->t('stacked column 100%'),
+        'clustered bar' => $this->t('clustered bar'),
+        'stacked bar' => $this->t('stacked bar'),
+        'stacked bar 100' => $this->t('stacked bar 100%'),
+      ],
+      '#required' => FALSE,
+      '#empty_option' => '-',
+      '#ajax' => [
+        'callback' => [$this, 'ajax_dependent_graph_set_callback'],
+        'wrapper' => 'secondary_dynamic_graph_set' . $delta
+      ],
+      '#delta' => $delta,
+    ];
 
         $element['graph_options'] = [
             '#prefix' => '<div id="secondary_dynamic_graph_set'.$delta.'">',
@@ -113,7 +115,7 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
         $graph_source = false;
       }
 
-        if($graph_type){
+        if($graph_type && $graph_source){
             $element['graph_options']['graph_title'] = [
                 '#title' => $this->t('Graph title'),
                 '#type' => 'textfield',
@@ -382,23 +384,6 @@ class OskaDynamicGraphWidgetType extends WidgetBase {
     public function ajax_dependent_graph_set_callback(array &$form, FormStateInterface $form_state){
         $field_name = $this->fieldDefinition->getName();
         $trigger_element = $form_state->getTriggeringElement();
-
-      $graph_values = $form_state->getValue('field_dynamic_graph');
-
-      // If there is no graph source file selected, make the graph type field empty as well
-      foreach ($graph_values as $key => $graph_value){
-        if(($key !== 'add_more') && empty($graph_value['graph_source_file'])) {
-          $form['field_dynamic_graph']['widget'][$key]['graph_type']['#value'] = '';
-          $form['field_dynamic_graph']['widget'][$key]['graph_type']['#default_value'] = '';
-        }
-      }
-
-      return $form['field_dynamic_graph'];
-    }
-
-    public function ajax_dependent_graph_type_set_callback(array &$form, FormStateInterface $form_state){
-      $field_name = $this->fieldDefinition->getName();
-      $trigger_element = $form_state->getTriggeringElement();
 
       return $form[$field_name]['widget'][$trigger_element['#delta']]['graph_options'];
     }
