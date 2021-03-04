@@ -1,0 +1,631 @@
+{
+  "header": {
+    "endpoint": "EHIS",
+    "form_name": "VPT_TAOTLUS",
+    "number_of_steps": 5
+  },
+  "body": {
+    "messages": {},
+    "title": {
+      "et": "Vajaduspõhise õppetoetuse taotlus"
+    },
+    "helpertext": {
+      "et": "Kui teil on küsimusi vajaduspõhise õppetoetuse kohta, kirjutage aadressil&nbsp;oppetoetused@rtk.ee.&nbsp;<a href=\"https://www.rtk.ee/vajadusp%C3%B5hine-%C3%B5ppetoetusneeds-based-study-allowance\" target=\"_blank\">Täpsem info.</a>"
+    },
+    "steps": {
+      "step_0": {
+        "editable": true,
+        "sequence": 0,
+        "title": {
+          "et": "Taotlemise õiguse kontroll"
+        },
+        "data_elements": {
+          "studies": {
+            "type": "table",
+            "title": {
+              "et": "Õpingute andmed"
+            },
+            "add_del_rows": false,
+            "vertical": true,
+            "table_columns": {
+              "type": {
+                "type": "text",
+                "title": {
+                  "et": "Õppe liik"
+                },
+                "readonly": true
+              },
+              "start_date": {
+                "type": "date",
+                "title": {
+                  "et": "Alustamise kuupäev"
+                },
+                "readonly": true
+              },
+              "learning_load": {
+                "type": "text",
+                "title": {
+                  "et": "Õppekoormus"
+                },
+                "readonly": true
+              },
+              "completion_rate": {
+                "type": "number",
+                "title": {
+                  "et": "Täitmise protsent"
+                },
+                "readonly": true
+              },
+              "study_programme": {
+                "type": "text",
+                "title": {
+                  "et": "Õppekava"
+                },
+                "readonly": true
+              },
+              "institution_name": {
+                "type": "text",
+                "title": {
+                  "et": "Õppeasutus"
+                },
+                "readonly": true
+              },
+              "first_semester_end": {
+                "type": "date",
+                "title": {
+                  "et": "Esimese semestri lõpp"
+                },
+                "readonly": true
+              },
+              "academic_leave_start": {
+                "type": "date",
+                "title": {
+                  "et": "Akadeemilise puhkuse algus"
+                },
+                "readonly": true
+              },
+              "type_coded": {
+                "type": "text",
+                "title": {
+                  "et": "Õppe tüübi kood"
+                },
+                "hidden": true,
+                "readonly": true
+              },
+              "learning_load_code": {
+                "type": "text",
+                "title": {
+                  "et": "Õppekoormuse kood"
+                },
+                "hidden": true,
+                "readonly": true
+              },
+              "institution_id": {
+                "type": "text",
+                "title": {
+                  "et": "Asutuse id"
+                },
+                "hidden": true,
+                "readonly": true
+              },
+              "study_programme_EHISid": {
+                "type": "text",
+                "title": {
+                  "et": "Õppekavakood"
+                },
+                "readonly": true,
+                "hidden": true
+              }
+            }
+          }
+        }
+      },
+      "step_1": {
+        "editable": true,
+        "sequence": 1,
+        "title": {
+          "et": "Perekonnaliikmed"
+        },
+        "data_elements": {
+          "family_members_population_register": {
+            "type": "table",
+            "title": {
+              "et": "Perekonnaliikmed"
+            },
+            "helpertext": {
+              "et": "Perekonnaliikmete hulka loetakse sõltuvalt peremudelist vanemad, õed, vennad, poolõed ja -vennad või abikaasa ja lapsed"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "first_name": {
+                "type": "text",
+                "title": {
+                  "et": "Eesnimi"
+                },
+                "readonly": true
+              },
+              "last_name": {
+                "type": "text",
+                "title": {
+                  "et": "Perekonnanimi"
+                },
+                "readonly": true
+              },
+              "birth_date": {
+                "type": "date",
+                "title": {
+                  "et": "Sünnikuupäev"
+                },
+                "readonly": true
+              },
+              "personal_id": {
+                "type": "text",
+                "title": {
+                  "et": "Isikukood"
+                },
+                "readonly": true
+              },
+              "relationship": {
+                "type": "selectlist",
+                "title": {
+                  "et": "Sugulusaste"
+                },
+                "options": [
+                  {
+                    "key": "Ema",
+                    "value": "EMA"
+                  },
+                  {
+                    "key": "Isa",
+                    "value": "ISA"
+                  },
+                  {
+                    "key": "Õde",
+                    "value": "ODE"
+                  },
+                  {
+                    "key": "Laps",
+                    "value": "LAPS"
+                  },
+                  {
+                    "key": "Vend",
+                    "value": "VEND"
+                  },
+                  {
+                    "key": "Poolõde",
+                    "value": "POOLODE"
+                  },
+                  {
+                    "key": "Abikaasa",
+                    "value": "ABIKAASA"
+                  },
+                  {
+                    "key": "Poolvend",
+                    "value": "POOLVEND"
+                  }
+                ],
+                "readonly": true
+              },
+              "family_member": {
+                "type": "checkbox",
+                "title": {
+                  "et": "Arvestatud pereliikmeks"
+                },
+                "readonly": true
+              },
+              "studies": {
+                "type": "checkbox",
+                "hidden": true
+              },
+              "data_from_tax_register": {
+                "type": "checkbox",
+                "hidden": true
+              },
+              "data_from_population_register": {
+                "type": "checkbox",
+                "hidden": true
+              },
+              "non_resident": {
+                "type": "checkbox",
+                "hidden": true
+              }
+            }
+          },
+          "family_members_entered": {
+            "type": "table",
+            "title": {
+              "et": "Täiendavate perekonnaliikmete andmed"
+            },
+            "row_label": {
+              "et": "perekonnaliige"
+            },
+            "add_del_rows": true,
+            "table_columns": {
+              "first_name": {
+                "type": "text",
+                "title": {
+                  "et": "Eesnimi"
+                },
+                "required": true
+              },
+              "last_name": {
+                "type": "text",
+                "title": {
+                  "et": "Perekonnanimi"
+                },
+                "required": true
+              },
+              "birth_date": {
+                "type": "date",
+                "title": {
+                  "et": "Sünnikuupäev"
+                },
+                "min": "01.01.1900",
+                "max": "today",
+                "required": true
+              },
+              "personal_id": {
+                "type": "text",
+                "title": {
+                  "et": "Isikukood"
+                },
+                "hidden": true
+              },
+              "non_resident": {
+                "type": "checkbox",
+                "hidden": true
+              },
+              "relationship": {
+                "type": "selectlist",
+                "title": {
+                  "et": "Sugulusaste"
+                },
+                "options": [
+                  {
+                    "key": "Ema",
+                    "value": "EMA"
+                  },
+                  {
+                    "key": "Isa",
+                    "value": "ISA"
+                  },
+                  {
+                    "key": "Õde",
+                    "value": "ODE"
+                  },
+                  {
+                    "key": "Laps",
+                    "value": "LAPS"
+                  },
+                  {
+                    "key": "Vend",
+                    "value": "VEND"
+                  },
+                  {
+                    "key": "Poolõde",
+                    "value": "POOLODE"
+                  },
+                  {
+                    "key": "Abikaasa",
+                    "value": "ABIKAASA"
+                  },
+                  {
+                    "key": "Poolvend",
+                    "value": "POOLVEND"
+                  }
+                ],
+                "required": true
+              },
+              "family_member": {
+                "type": "checkbox",
+                "title": {
+                  "et": "Arvestatud pereliikmeks"
+                },
+                "hidden": true,
+                "default_value": true
+              },
+              "studies": {
+                "type": "checkbox",
+                "hidden": true
+              },
+              "data_from_tax_register": {
+                "type": "checkbox",
+                "hidden": true
+              },
+              "data_from_population_register": {
+                "type": "checkbox",
+                "hidden": true,
+                "default_value": false
+              }
+            }
+          },
+          "family_members_proof": {
+            "required": true,
+            "depend_on": "family_members_entered",
+            "type": "file",
+            "title": {
+              "et": "Perekonnaliikmete andmeid tõendavad dokumendid"
+            },
+            "max_size": 4,
+            "acceptable_extensions": [
+              "asice",
+              "bdoc",
+              "png",
+              "jpg",
+              "pdf",
+              "zip",
+              "txt"
+            ],
+            "multiple": true,
+            "helpertext": {
+              "et": "Kui lisasite taotlusel täiendavad perekonnaliikmed, siis lisage tõendavate dokumentide failid"
+            }
+          },
+          "step1h2": {
+            "type": "heading",
+            "title": {
+              "et": "Eestkoste, asenduskodu või perekonnas hooldamine"
+            }
+          },
+          "custody": {
+            "type": "checkbox",
+            "title": {
+              "et": "Olen kuni täisealiseks saamiseni olnud eestkostel või suunatud asenduskodusse või perekonnas hooldamisele."
+            },
+            "helpertext": {
+              "et": "Kui tegite märke, et olete kuni täisealiseks saamiseni olnud eestkostel või suunatud asenduskodusse või perekonnas hooldamisele, siis lisage seda tõendavate dokumentide failid"
+            }
+          },
+          "custody_proof": {
+            "required": true,
+            "depend_on": "custody",
+            "type": "file",
+            "title": {
+              "et": "Eestkostet või asenduskodus või perekonnas hooldamist tõendavad dokumendid"
+            },
+            "max_size": 4,
+            "acceptable_extensions": [
+              "asice",
+              "bdoc",
+              "png",
+              "jpg",
+              "pdf",
+              "zip",
+              "txt"
+            ],
+            "multiple": true,
+            "helpertext": {
+              "et": "Kui tegite märke, et olete kuni täisealiseks saamiseni olnud eestkostel või suunatud asenduskodusse või perekonnas hooldamisele, siis lisage seda tõendavate dokumentide failid"
+            }
+          }
+        }
+      },
+      "step_2": {
+        "editable": true,
+        "sequence": 2,
+        "title": {
+          "et": "Sissetulekud"
+        },
+        "data_elements": {
+          "family_members_tax_register_data_ok": {
+            "type": "table",
+            "title": {
+              "et": "Perekonnaliikmed, kelle sissetulekute andmed on maksukohuslaste registris"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "family_member_name": {
+                "type": "text",
+                "title": {
+                  "et": "Ees- ja perekonnanimi"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "family_members_tax_register_data_missing": {
+            "type": "table",
+            "title": {
+              "et": "Teised perekonnaliikmed, kelle kohta tuleb esitada sissetulekute andmed"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "family_member_name": {
+                "type": "text",
+                "title": {
+                  "et": "Ees- ja perekonnanimi"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "family_members_income": {
+            "type": "number",
+            "title": {
+              "et": "Teiste pereliikmete eelmise aasta sissetulekute summa (€)"
+            }
+          },
+          "family_members_income_proof": {
+            "depend_on": "family_members_tax_register_data_missing",
+            "type": "file",
+            "max_size": 4,
+            "acceptable_extensions": [
+              "asice",
+              "bdoc",
+              "png",
+              "jpg",
+              "pdf",
+              "zip",
+              "txt"
+            ],
+            "title": {
+              "et": "Teiste pereliikmete sissetulekuid tõendavad dokumendid"
+            },
+            "multiple": true
+          },
+          "family_members_nonresident": {
+            "type": "table",
+            "title": {
+              "et": "Mitteresidentidest perekonnaliikmed, kelle kohta tuleb esitada sissetulekute andmed"
+            },
+            "add_del_rows": false,
+            "table_columns": {
+              "family_member_name": {
+                "type": "text",
+                "title": {
+                  "et": "Ees- ja perekonnanimi"
+                },
+                "readonly": true
+              }
+            }
+          },
+          "family_members_nonresident_income": {
+            "type": "number",
+            "title": {
+              "et": "Mitteresidentidest perekonnaliikmete eelmise aasta sissetulekute kogusumma (€)"
+            }
+          },
+          "family_members_nonresident_income_proof": {
+            "type": "file",
+            "title": {
+              "et": "Mitteresidentidest perekonnaliikmete sissetulekuid tõendavad dokumendid"
+            },
+            "max_size": 4,
+            "acceptable_extensions": [
+              "asice",
+              "bdoc",
+              "png",
+              "jpg",
+              "pdf",
+              "zip",
+              "txt"
+            ],
+            "multiple": true
+          }
+        }
+      },
+      "step_3": {
+        "editable": true,
+        "sequence": 3,
+        "title": {
+          "et": "Panga- ja kontaktandmed"
+        },
+        "data_elements": {
+          "step3h1": {
+            "type": "heading",
+            "title": {
+              "et": "Pangakonto andmed"
+            }
+          },
+          "bank_account_owner": {
+            "type": "text",
+            "title": {
+              "et": "Pangakonto omaniku nimi"
+            },
+            "required": true
+          },
+          "bank_account_number": {
+            "type": "iban",
+            "title": {
+              "et": "Pangakonto number (Eesti IBAN algab EE-ga, millele järgneb 18 numbrit)"
+            },
+            "required": true
+          },
+          "step3h2": {
+            "type": "heading",
+            "title": {
+              "et": "Kontaktandmed"
+            }
+          },
+          "applicant_email": {
+            "type": "email",
+            "title": {
+              "et": "E-posti aadress"
+            },
+            "required": true
+          },
+          "applicant_phone": {
+            "type": "text",
+            "title": {
+              "et": "Telefon:"
+            },
+            "required": true
+          },
+          "step3h3": {
+            "type": "heading",
+            "title": {
+              "et": "Kinnitused"
+            }
+          },
+          "confirmation_1": {
+            "type": "checkbox",
+            "title": {
+              "et": "Kinnitan, et ei saa taotlemise hetkel õppetoetust välisriigi valitsuseselt, rahvusvaheliselt või valitsustevaheliselt organisatsioonilt või koostööprogrammi esindusest."
+            },
+            "required": true
+          },
+          "confirmation_2": {
+            "type": "checkbox",
+            "title": {
+              "et": "Kinnitan andmete ja failidena lisatud dokumentide õigsust"
+            }
+          }
+        }
+      },
+      "step_submit_result": {
+        "editable": false,
+        "sequence": 4,
+        "title": {
+          "et": "Esitamise tulemus"
+        },
+        "data_elements": {
+          "id": {
+            "type": "text",
+            "hidden": true,
+            "readonly": true
+          },
+          "submit_date": {
+            "type": "date",
+            "title": {
+              "et": "Esitamise kuupäev"
+            },
+            "readonly": true
+          },
+          "status": {
+            "type": "text",
+            "title": {
+              "et": "Staatus"
+            },
+            "hidden": true,
+            "readonly": true
+          },
+          "application_file": {
+            "type": "file",
+            "title": {
+              "et": "Taotluse fail"
+            },
+            "acceptable_extensions": [
+              "asice",
+              "bdoc",
+              "zip"
+            ],
+            "readonly": true
+          },
+          "decision_file": {
+            "type": "file",
+            "title": {
+              "et": "Otsuse fail"
+            },
+            "readonly": true,
+            "acceptable_extensions": [
+              "asice",
+              "bdoc",
+              "zip"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "messages": {}
+}
