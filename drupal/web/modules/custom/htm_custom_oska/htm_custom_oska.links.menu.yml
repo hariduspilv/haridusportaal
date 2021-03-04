@@ -7,12 +7,6 @@ entity.oska_file_entity.collection:
   parent: system.admin_structure
   weight: 100
 
-oska_file_entity.admin.structure.settings:
-  title: 'Oska file entity settings'
-  description: 'Configure Oska file entity entities'
-  route_name: oska_file_entity.settings
-  parent: system.admin_structure
-
 # Oska indicator entity menu items definition
 entity.oska_indicator_entity.collection:
   title: 'Oska indicator entity list'
