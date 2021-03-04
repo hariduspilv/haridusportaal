@@ -1,9 +1,9 @@
 
 # Oska file entity menu items definition
 entity.oska_file_entity.collection:
-  title: 'Oska CSV file entity list'
+  title: 'Oska infograph CSV list'
   route_name: entity.oska_file_entity.collection
-  description: 'List Oska file entity entities'
+  description: 'View, add and delete Oska infograph csv files'
   parent: system.admin_structure
   weight: 100
 

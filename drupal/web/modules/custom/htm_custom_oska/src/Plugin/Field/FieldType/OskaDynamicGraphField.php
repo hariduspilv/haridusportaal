@@ -100,23 +100,5 @@ class OskaDynamicGraphField extends FieldItemBase {
 
         return $schema;
     }
-//
-//    public function storageSettingsForm(array &$form, FormStateInterface $form_state, $has_data)
-//    {
-//        $target_type_options = [];
-//        $objects = \Drupal::entityTypeManager()->getDefinitions();
-//        foreach($objects as $key => $object){
-//            if(strpos($key, "_entity")){
-//                $target_type_options[$key] = $object->getLabel();
-//            }
-//        }
-//        $element['csv_location'] = [
-//            '#title' => $this->t('Location of csv'),
-//            '#type' => 'textfield',
-//            '#placeholder' => $this->t("Enter location for CSV"),
-//            '#default_value' => $this->getSetting('csv_location'),
-//            '#maxlength' => 100,
-//        ];
-//        return $element;
-//    }
+
 }
