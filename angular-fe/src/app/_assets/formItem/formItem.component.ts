@@ -11,6 +11,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
+  ViewChild
 } from '@angular/core';
 import * as moment from 'moment';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
@@ -21,7 +22,7 @@ import { TitleCasePipe } from '@app/_pipes/titleCase.pipe';
 import { ParseInAddsPipe } from '@app/_pipes/parseInAdds.pipe';
 import { QueryParamsService } from '@app/_services/QueryParams.service';
 import { AddressService } from '@app/_services/AddressService';
-
+import { NgSelectComponent } from "@ng-select/ng-select";
 export interface NgbDateStruct {
   /**
    * The year, for example 2016
@@ -61,6 +62,7 @@ export interface FormItemOption {
 
 export class FormItemComponent implements ControlValueAccessor, OnInit, OnChanges, OnDestroy {
   @ContentChildren('#inputField') public inputField: ElementRef;
+  @ViewChild(NgSelectComponent, { static: false }) ngSelect: NgSelectComponent;
   @Input() public title: string = '';
   @Input() public placeholder: string = '';
   @Input() public type: string = 'text';
@@ -140,6 +142,29 @@ export class FormItemComponent implements ControlValueAccessor, OnInit, OnChange
   }
 
   public propagateChange = (_: any) => {
+  }
+
+  keydownEvent(e) {
+     
+    if (e.code  === 'Enter' ){
+      return false;
+    }
+
+    if (e.code === "Space") {
+      const keyboardEvent = new KeyboardEvent('keydown', {
+          code: 'Enter',
+          key: 'Enter',
+          keyCode: 13,
+          which: 13, 
+          view: window,
+          bubbles: true
+      });
+
+      if(this.ngSelect) {
+        e.preventDefault();
+        this.ngSelect.handleKeyCode(keyboardEvent)
+      }
+    }
   }
 
   public animateRipple($event) {

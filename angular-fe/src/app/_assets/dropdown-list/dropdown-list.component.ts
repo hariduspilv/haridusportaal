@@ -108,7 +108,7 @@ export class DropdownListComponent implements OnInit {
           window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       } else {
         window.scrollTo({ top, behavior: 'smooth' });
-        document.getElementById('modal').focus();
+        document.getElementById('modalTitle').focus();
       }
     },         0);
 
@@ -129,16 +129,4 @@ export class DropdownListComponent implements OnInit {
       return ((x < y) ? -1 : ((x > y) ? 1 : 0));
     });
   }
-
-  resetFocus($event: Event, id: string) {
-    $event.preventDefault();
-    $event.stopPropagation();
-    const elem = document.getElementById(id);
-    setTimeout(() => {
-      if (this.modal) {
-        elem.focus();
-      }
-    },         60);
-  }
-
 }
