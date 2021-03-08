@@ -187,13 +187,13 @@ export class MainProfessionListViewComponent implements AfterViewInit {
   }
 
   public selectArbitraryHighlightedJob({
-    list, highlight, listCount, professionCount, generalCount,
+    list, highlight, professionCount, nonProfessionCount,
   }): void {
     this.jobLoading = true;
+    this.typeFilters[0].sum = nonProfessionCount;
+    this.typeFilters[1].sum = professionCount;
     const filtersExist = Object.keys(this.route.snapshot.queryParams).length;
     if (list && list.length) {
-      // this.typeFilters[0].sum = generalCount;
-      // this.typeFilters[1].sum = professionCount;
       if (highlight) {
         this.filteredJob = highlight;
         this.jobLoading = false;

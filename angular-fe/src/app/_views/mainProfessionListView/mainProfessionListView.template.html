@@ -98,7 +98,7 @@
 		<block titleBorder="true" tabStyle="default">
 			<block-title>{{ 'oska.professions_and_jobs' | translate }}</block-title>
 			<block-content blank="true" tabLabel="{{ 'oska.professions_and_jobs' | translate }}" tabIcon="grid" tabLink="/ametialad">
-				<ng-container *ngIf="searchResults && !jobLoading">
+				<ng-container *ngIf="searchResults && !jobLoading && (typeFilters[0].sum || typeFilters[1].sum)">
 					<div class="search__title__filter">{{ 'search.filter_results' | translate }}:</div>
 					<ng-container *ngFor="let filter of typeFilters; let i = index;">
 						<button tag
