@@ -43,7 +43,7 @@ export class VideoComponent implements OnInit, OnChanges {
 
     try {
       this.videoArray = this.videoArray.map((vid) => {
-        const url = `${window.location.protocol}//www.youtube.com/embed/${vid.videoId}`;
+        const url = `${window.location.protocol}//www.youtube.com/embed/${vid.videoId}?hl=et`;
         vid.finalUrl = this.sanitizer.bypassSecurityTrustResourceUrl(url);
         return vid;
       });
